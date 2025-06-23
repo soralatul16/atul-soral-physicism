@@ -49,7 +49,9 @@
   <button onclick="location.href='myp-dashboard.html'">🏠 Home</button>
 </div>
 
-<script>
+<script type="module">
+import { generateAIQuestions } from './ai-puzzle-engine.js';
+
 const params = new URLSearchParams(location.search);
 const topic = params.get("topic");
 const type = params.get("type");
@@ -57,24 +59,15 @@ const count = parseInt(params.get("count"));
 
 document.getElementById("puzzleInfo").textContent = `Topic: ${topic}, Type: ${type}, Questions: ${count}`;
 
-// Example bank with more content
 const puzzleBank = {
   "Static electricity": {
     formula: [
       { q: "What is the unit of charge?", choices: ["Coulomb", "Ampere"], answer: "Coulomb" },
-      { q: "Static charge can move freely in conductors.", choices: ["True", "False"], answer: "False" }
+      { q: "What is the symbol for charge?", choices: ["Q", "I", "V"], answer: "Q" }
     ],
     truefalse: [
-      { q: "Electrons are stationary in static electricity.", choices: ["True", "False"], answer: "False" }
-    ]
-  },
-  "Current Voltage Charge": {
-    formula: [
-      { q: "What is Ohm's Law?", choices: ["V=IR", "P=IV"], answer: "V=IR" },
-      { q: "Unit of current?", choices: ["Ampere", "Coulomb"], answer: "Ampere" }
-    ],
-    truefalse: [
-      { q: "Current is the flow of charge per second.", choices: ["True", "False"], answer: "True" }
+      { q: "Static charge accumulates on insulators.", choices: ["True", "False"], answer: "True" },
+      { q: "Static charge moves easily in metals.", choices: ["True", "False"], answer: "False" }
     ]
   }
 };
@@ -84,7 +77,7 @@ let currentQ = 0;
 let score = 0;
 let email = "";
 
-function startPuzzle() {
+async function startPuzzle() {
   email = document.getElementById("emailInput").value.trim();
   if (!email || !email.includes("@")) {
     alert("Please enter a valid email.");
@@ -92,12 +85,17 @@ function startPuzzle() {
   }
 
   const allQs = puzzleBank[topic]?.[type] || [];
-  if (allQs.length === 0) {
-    alert("No questions available for this topic and type yet. Please try another.");
-    return;
+  if (allQs.length >= count) {
+    quiz = shuffle(allQs).slice(0, count);
+  } else {
+    const apiKey = prompt("Local questions insufficient. Enter your OpenAI API key:");
+    quiz = await generateAIQuestions(topic, type, count, apiKey);
+    if (!quiz || quiz.length === 0) {
+      alert("AI could not generate questions. Try again.");
+      return;
+    }
   }
 
-  quiz = shuffle(allQs).slice(0, count);
   document.getElementById("emailPrompt").style.display = "none";
   document.getElementById("quizBox").style.display = "block";
   loadQuestion();
