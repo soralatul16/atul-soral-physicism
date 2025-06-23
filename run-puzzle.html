@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🧩 Run Puzzle | Atul Soral Physicism</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+    .container { max-width: 700px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #007BFF; }
+    #puzzleInfo { text-align: center; margin-bottom: 20px; font-size: 16px; color: #555; }
+    .question { font-size: 20px; margin-bottom: 20px; }
+    .choices { text-align: center; }
+    .choices button { padding: 10px 20px; margin: 5px; font-size: 16px; border: none; border-radius: 5px; background: #007BFF; color: white; cursor: pointer; transition: 0.2s; }
+    .choices button:hover { background: #0056b3; }
+    .feedback { text-align: center; font-weight: bold; margin-top: 10px; }
+    #scoreBox { text-align: center; margin-top: 10px; }
+    input[type="email"] { padding: 10px; font-size: 16px; width: 100%; margin-bottom: 10px; }
+    button.start { background: #28a745; }
+    button.download { background: #6c757d; }
+    .nav-buttons { text-align: center; margin-top: 20px; }
+    .nav-buttons button { padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; background: #343a40; color: white; margin: 5px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🧩 Puzzle</h1>
+  <p id="puzzleInfo"></p>
+
+  <div id="emailPrompt">
+    <p>Please enter your email to start:</p>
+    <input type="email" id="emailInput" placeholder="Enter email">
+    <button class="start" onclick="startPuzzle()">Start Puzzle</button>
+  </div>
+
+  <div id="quizBox" style="display:none;">
+    <div class="question" id="questionBox"></div>
+    <div class="choices" id="choicesBox"></div>
+    <div class="feedback" id="feedbackBox"></div>
+    <button id="nextBtn" onclick="nextQuestion()">Next</button>
+    <div id="scoreBox"></div>
+    <button class="download" onclick="downloadResult()">Download My Result</button>
+  </div>
+</div>
+
+<div class="nav-buttons">
+  <button onclick="location.href='myp-puzzles.html'">🔙 Back to Puzzle Menu</button>
+  <button onclick="location.href='myp-dashboard.html'">🏠 Home</button>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const topic = params.get("topic");
+const type = params.get("type");
+const count = parseInt(params.get("count"));
+
+document.getElementById("puzzleInfo").textContent = `Topic: ${topic}, Type: ${type}, Questions: ${count}`;
+
+// Example bank with more content
+const puzzleBank = {
+  "Static electricity": {
+    formula: [
+      { q: "What is the unit of charge?", choices: ["Coulomb", "Ampere"], answer: "Coulomb" },
+      { q: "Static charge can move freely in conductors.", choices: ["True", "False"], answer: "False" }
+    ],
+    truefalse: [
+      { q: "Electrons are stationary in static electricity.", choices: ["True", "False"], answer: "False" }
+    ]
+  },
+  "Current Voltage Charge": {
+    formula: [
+      { q: "What is Ohm's Law?", choices: ["V=IR", "P=IV"], answer: "V=IR" },
+      { q: "Unit of current?", choices: ["Ampere", "Coulomb"], answer: "Ampere" }
+    ],
+    truefalse: [
+      { q: "Current is the flow of charge per second.", choices: ["True", "False"], answer: "True" }
+    ]
+  }
+};
+
+let quiz = [];
+let currentQ = 0;
+let score = 0;
+let email = "";
+
+function startPuzzle() {
+  email = document.getElementById("emailInput").value.trim();
+  if (!email || !email.includes("@")) {
+    alert("Please enter a valid email.");
+    return;
+  }
+
+  const allQs = puzzleBank[topic]?.[type] || [];
+  if (allQs.length === 0) {
+    alert("No questions available for this topic and type yet. Please try another.");
+    return;
+  }
+
+  quiz = shuffle(allQs).slice(0, count);
+  document.getElementById("emailPrompt").style.display = "none";
+  document.getElementById("quizBox").style.display = "block";
+  loadQuestion();
+}
+
+function loadQuestion() {
+  if (currentQ >= quiz.length) {
+    document.getElementById("questionBox").textContent = "🎉 Puzzle complete!";
+    document.getElementById("choicesBox").innerHTML = "";
+    document.getElementById("feedbackBox").textContent = `Final Score: ${score}/${quiz.length}`;
+    document.getElementById("scoreBox").textContent = `Score: ${score}/${quiz.length}`;
+    document.getElementById("nextBtn").style.display = "none";
+    submitResultToSheet();
+    return;
+  }
+
+  const q = quiz[currentQ];
+  document.getElementById("questionBox").textContent = q.q;
+  document.getElementById("choicesBox").innerHTML = "";
+  q.choices.forEach(c => {
+    const btn = document.createElement("button");
+    btn.textContent = c;
+    btn.onclick = () => submitAnswer(c);
+    document.getElementById("choicesBox").appendChild(btn);
+  });
+  document.getElementById("feedbackBox").textContent = "";
+  document.getElementById("scoreBox").textContent = `Score: ${score}/${quiz.length}`;
+}
+
+function submitAnswer(c) {
+  const correct = quiz[currentQ].answer;
+  if (c === correct) {
+    score++;
+    document.getElementById("feedbackBox").textContent = "✅ Correct!";
+  } else {
+    document.getElementById("feedbackBox").textContent = `❌ Incorrect! Correct: ${correct}`;
+  }
+}
+
+function nextQuestion() {
+  currentQ++;
+  loadQuestion();
+}
+
+function downloadResult() {
+  const data = `Email: ${email}\nTopic: ${topic}\nType: ${type}\nScore: ${score}/${quiz.length}`;
+  const blob = new Blob([data], {type: "text/plain"});
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `${topic}_${type}_result.txt`;
+  link.click();
+}
+
+function submitResultToSheet() {
+  const payload = {
+    email: email,
+    topic: topic,
+    type: type,
+    score: score,
+    total: quiz.length
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbwbSAhIdfoZOgZoSl3SPQoDHLMD-KexUN_vTe59e2dLlgdOQEc_yCwZMpclKWYYxJSquA/exec", {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(data => console.log("Submitted to sheet: ", data))
+  .catch(err => console.error("Error submitting to sheet: ", err));
+}
+
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
+</script>
+
+</body>
+</html>
