@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🧠 MYP Flashcards | Atul Soral Physicism</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .card-flip {
+      perspective: 1000px;
+    }
+    .card-inner {
+      position: relative;
+      width: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .card-flip:hover .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      backface-visibility: hidden;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #fff;
+      min-height: 120px;
+    }
+    .card-back {
+      transform: rotateY(180deg);
+      background: #eef6ff;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+  <h1 class="text-center mb-4">🧠 MYP Flashcards</h1>
+  
+  <div class="mb-3">
+    <select id="topicSelect" class="form-select">
+      <option value="">-- Select Topic --</option>
+      <option>Forces & Motion</option>
+      <option>Newton’s Laws</option>
+      <option>Energy & Work</option>
+      <option>Power & Efficiency</option>
+      <option>Pressure & Density</option>
+      <option>Current & Voltage</option>
+      <option>Resistance & Ohm’s Law</option>
+      <option>Magnetism</option>
+      <option>Waves</option>
+      <option>Heat & Thermal Physics</option>
+      <option>Electricity & Circuits</option>
+      <option>Atomic Physics</option>
+    </select>
+  </div>
+  
+  <div id="cards" class="row g-3"></div>
+</div>
+
+<script src="myp-flashcards.js"></script>
+<script>
+  const topicSelect = document.getElementById("topicSelect");
+  const cardsContainer = document.getElementById("cards");
+
+  topicSelect.addEventListener("change", () => {
+    const selected = topicSelect.value;
+    const filtered = flashcards.filter(fc => fc.topic === selected);
+    cardsContainer.innerHTML = "";
+    filtered.forEach(fc => {
+      const col = document.createElement("div");
+      col.className = "col-12 col-md-4";
+      col.innerHTML = `
+        <div class="card-flip">
+          <div class="card-inner">
+            <div class="card-front">
+              <strong>Q:</strong> ${fc.question}
+            </div>
+            <div class="card-back">
+              <strong>A:</strong> ${fc.answer}
+            </div>
+          </div>
+        </div>`;
+      cardsContainer.appendChild(col);
+    });
+  });
+</script>
+
+</body>
+</html>
