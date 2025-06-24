@@ -21,5 +21,131 @@ const flashcards = [
   { topic: "Newton’s Laws", question: "Which law explains seat belts?", answer: "1st law (inertia)" },
   { topic: "Newton’s Laws", question: "Which law explains walking?", answer: "3rd law (action-reaction)" },
 
+  // Energy & Work (10)
+flashcards.push(
+  { topic: "Energy & Work", question: "What is the formula for work done?", answer: "Work = force × distance × cos θ" },
+  { topic: "Energy & Work", question: "What is the unit of work?", answer: "Joule (J)" },
+  { topic: "Energy & Work", question: "What is kinetic energy formula?", answer: "KE = ½mv²" },
+  { topic: "Energy & Work", question: "What is potential energy formula?", answer: "PE = mgh" },
+  { topic: "Energy & Work", question: "What is energy?", answer: "Ability to do work" },
+  { topic: "Energy & Work", question: "What is the unit of energy?", answer: "Joule (J)" },
+  { topic: "Energy & Work", question: "What is the law of conservation of energy?", answer: "Energy cannot be created or destroyed, only transformed." },
+  { topic: "Energy & Work", question: "Give an example of energy conversion.", answer: "Chemical to kinetic in muscles" },
+  { topic: "Energy & Work", question: "What is mechanical energy?", answer: "Sum of kinetic and potential energy" },
+  { topic: "Energy & Work", question: "What happens to energy in friction?", answer: "Converted to heat" },
+
+  // Power & Efficiency (10)
+  { topic: "Power & Efficiency", question: "What is the formula for power?", answer: "Power = work done / time" },
+  { topic: "Power & Efficiency", question: "Unit of power?", answer: "Watt (W)" },
+  { topic: "Power & Efficiency", question: "What is efficiency formula?", answer: "Efficiency = useful output / input × 100%" },
+  { topic: "Power & Efficiency", question: "Example of a low-efficiency machine?", answer: "Old light bulb (heat loss)" },
+  { topic: "Power & Efficiency", question: "What is input energy?", answer: "Total energy supplied" },
+  { topic: "Power & Efficiency", question: "What is useful energy output?", answer: "Energy in desired form" },
+  { topic: "Power & Efficiency", question: "High power means?", answer: "Large work done in short time" },
+  { topic: "Power & Efficiency", question: "Example of high-power device?", answer: "Electric kettle" },
+  { topic: "Power & Efficiency", question: "Is 100% efficiency possible?", answer: "No (energy losses always occur)" },
+  { topic: "Power & Efficiency", question: "Power formula in circuits?", answer: "Power = VI" },
+
+  // Pressure & Density (10)
+  { topic: "Pressure & Density", question: "What is the formula for pressure?", answer: "Pressure = force / area" },
+  { topic: "Pressure & Density", question: "Unit of pressure?", answer: "Pascal (Pa)" },
+  { topic: "Pressure & Density", question: "Formula for density?", answer: "Density = mass / volume" },
+  { topic: "Pressure & Density", question: "Unit of density?", answer: "kg/m³" },
+  { topic: "Pressure & Density", question: "What happens to pressure if area decreases?", answer: "Pressure increases" },
+  { topic: "Pressure & Density", question: "Example of high pressure application?", answer: "Knife edge" },
+  { topic: "Pressure & Density", question: "Example of low pressure application?", answer: "Snowshoes" },
+  { topic: "Pressure & Density", question: "Why do sharp objects cut easily?", answer: "Small area → higher pressure" },
+  { topic: "Pressure & Density", question: "What affects fluid pressure?", answer: "Depth and density" },
+  { topic: "Pressure & Density", question: "What happens to density if mass constant but volume increases?", answer: "Density decreases" }
+);
+
+  // Current & Voltage (10)
+flashcards.push(
+  { topic: "Current & Voltage", question: "What is the formula for current?", answer: "Current = charge / time (I = Q / t)" },
+  { topic: "Current & Voltage", question: "Unit of current?", answer: "Ampere (A)" },
+  { topic: "Current & Voltage", question: "What is voltage?", answer: "Energy per unit charge" },
+  { topic: "Current & Voltage", question: "Unit of voltage?", answer: "Volt (V)" },
+  { topic: "Current & Voltage", question: "Formula linking voltage, current, resistance?", answer: "V = IR" },
+  { topic: "Current & Voltage", question: "What is charge unit?", answer: "Coulomb (C)" },
+  { topic: "Current & Voltage", question: "What flows in a circuit?", answer: "Electrons" },
+  { topic: "Current & Voltage", question: "How is voltage supplied?", answer: "By a battery or power supply" },
+  { topic: "Current & Voltage", question: "What does a voltmeter measure?", answer: "Potential difference" },
+  { topic: "Current & Voltage", question: "What does an ammeter measure?", answer: "Current" },
+
+  // Resistance & Ohm’s Law (10)
+  { topic: "Resistance & Ohm’s Law", question: "What is Ohm's Law?", answer: "V = IR" },
+  { topic: "Resistance & Ohm’s Law", question: "Unit of resistance?", answer: "Ohm (Ω)" },
+  { topic: "Resistance & Ohm’s Law", question: "What affects resistance of a wire?", answer: "Length, thickness, material" },
+  { topic: "Resistance & Ohm’s Law", question: "What happens to resistance if length increases?", answer: "Resistance increases" },
+  { topic: "Resistance & Ohm’s Law", question: "What happens to resistance if thickness increases?", answer: "Resistance decreases" },
+  { topic: "Resistance & Ohm’s Law", question: "What happens to current if resistance increases (V constant)?", answer: "Current decreases" },
+  { topic: "Resistance & Ohm’s Law", question: "What is a resistor?", answer: "Component that limits current" },
+  { topic: "Resistance & Ohm’s Law", question: "What happens to V if I increases in Ohm's law?", answer: "V increases proportionally" },
+  { topic: "Resistance & Ohm’s Law", question: "What is the graph of V-I for a resistor?", answer: "Straight line" },
+  { topic: "Resistance & Ohm’s Law", question: "What is a variable resistor?", answer: "Resistor whose resistance can be changed" },
+
+  // Magnetism (10)
+  { topic: "Magnetism", question: "What are the magnetic poles?", answer: "North and south" },
+  { topic: "Magnetism", question: "What happens when like poles are near?", answer: "They repel" },
+  { topic: "Magnetism", question: "What happens when unlike poles are near?", answer: "They attract" },
+  { topic: "Magnetism", question: "What is the shape of magnetic field around a bar magnet?", answer: "From N to S outside magnet" },
+  { topic: "Magnetism", question: "What shows magnetic field lines?", answer: "Iron filings or compass" },
+  { topic: "Magnetism", question: "Where is field strongest on a magnet?", answer: "At the poles" },
+  { topic: "Magnetism", question: "What is a magnetic field?", answer: "Region where magnetic force acts" },
+  { topic: "Magnetism", question: "What is used to detect magnetic field?", answer: "Compass" },
+  { topic: "Magnetism", question: "What creates magnetic field in a wire?", answer: "Electric current" },
+  { topic: "Magnetism", question: "What rule predicts direction of field around a wire?", answer: "Right-hand grip rule" },
+
+  // Waves (10)
+  { topic: "Waves", question: "What is wave speed formula?", answer: "v = fλ" },
+  { topic: "Waves", question: "What is frequency formula?", answer: "f = 1 / T" },
+  { topic: "Waves", question: "Unit of frequency?", answer: "Hertz (Hz)" },
+  { topic: "Waves", question: "What is amplitude?", answer: "Maximum displacement from rest position" },
+  { topic: "Waves", question: "What is wavelength?", answer: "Distance between two crests or troughs" },
+  { topic: "Waves", question: "What is a transverse wave?", answer: "Oscillations perpendicular to direction of wave" },
+  { topic: "Waves", question: "What is a longitudinal wave?", answer: "Oscillations parallel to direction of wave" },
+  { topic: "Waves", question: "Example of transverse wave?", answer: "Light" },
+  { topic: "Waves", question: "Example of longitudinal wave?", answer: "Sound" },
+  { topic: "Waves", question: "What is reflection?", answer: "Bouncing back of wave at a surface" }
+);
+
+// Heat & Thermal Physics (10)
+flashcards.push(
+  { topic: "Heat & Thermal Physics", question: "What is the formula for heat energy?", answer: "Q = mcΔT" },
+  { topic: "Heat & Thermal Physics", question: "What does c represent in Q=mcΔT?", answer: "Specific heat capacity" },
+  { topic: "Heat & Thermal Physics", question: "What is latent heat formula?", answer: "Q = mL" },
+  { topic: "Heat & Thermal Physics", question: "What is conduction?", answer: "Transfer of heat through solids" },
+  { topic: "Heat & Thermal Physics", question: "What is convection?", answer: "Transfer of heat by fluid movement" },
+  { topic: "Heat & Thermal Physics", question: "What is radiation?", answer: "Transfer of heat by electromagnetic waves" },
+  { topic: "Heat & Thermal Physics", question: "What surfaces are best emitters?", answer: "Black, matte surfaces" },
+  { topic: "Heat & Thermal Physics", question: "What surfaces are poor absorbers?", answer: "Shiny, white surfaces" },
+  { topic: "Heat & Thermal Physics", question: "What happens to temperature during melting?", answer: "Stays constant" },
+  { topic: "Heat & Thermal Physics", question: "What is specific heat capacity?", answer: "Energy needed to raise 1 kg by 1°C" },
+
+  // Electricity & Circuits (10)
+  { topic: "Electricity & Circuits", question: "What is a series circuit?", answer: "Components connected one after another" },
+  { topic: "Electricity & Circuits", question: "What is a parallel circuit?", answer: "Components connected in branches" },
+  { topic: "Electricity & Circuits", question: "Current in series circuit is?", answer: "Same everywhere" },
+  { topic: "Electricity & Circuits", question: "Voltage in series circuit is?", answer: "Shared between components" },
+  { topic: "Electricity & Circuits", question: "Current in parallel circuit is?", answer: "Shared between branches" },
+  { topic: "Electricity & Circuits", question: "Voltage in parallel circuit is?", answer: "Same across all branches" },
+  { topic: "Electricity & Circuits", question: "What protects circuits?", answer: "Fuse or circuit breaker" },
+  { topic: "Electricity & Circuits", question: "What is a short circuit?", answer: "Path with very low resistance" },
+  { topic: "Electricity & Circuits", question: "Symbol for cell?", answer: "One long, one short line" },
+  { topic: "Electricity & Circuits", question: "Symbol for resistor?", answer: "Rectangle" },
+
+  // Atomic Physics (10)
+  { topic: "Atomic Physics", question: "What is the structure of atom?", answer: "Protons, neutrons in nucleus; electrons orbiting" },
+  { topic: "Atomic Physics", question: "What charge does proton have?", answer: "Positive" },
+  { topic: "Atomic Physics", question: "What charge does neutron have?", answer: "Neutral" },
+  { topic: "Atomic Physics", question: "What charge does electron have?", answer: "Negative" },
+  { topic: "Atomic Physics", question: "What is radioactivity?", answer: "Emission of particles from unstable nuclei" },
+  { topic: "Atomic Physics", question: "What is half-life?", answer: "Time for half nuclei to decay" },
+  { topic: "Atomic Physics", question: "What are alpha particles?", answer: "2 protons + 2 neutrons" },
+  { topic: "Atomic Physics", question: "What are beta particles?", answer: "High-speed electrons" },
+  { topic: "Atomic Physics", question: "What is gamma radiation?", answer: "High energy electromagnetic wave" },
+  { topic: "Atomic Physics", question: "What stops alpha particles?", answer: "Paper" }
+);
+
   // More topics: Energy & Work, Power, Pressure, Current, Voltage, Resistance, Magnetism, Waves, Heat, Atomic
 ];
