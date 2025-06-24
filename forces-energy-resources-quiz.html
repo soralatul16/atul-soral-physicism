@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forces & Energy: Energy Resources Quiz | Atul Soral Physicism</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 60px; }
+    .navbar, .footer { background: #0d1117; color: white; padding: 15px; text-align: center; }
+    .quiz-container { max-width: 700px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .question { font-size: 20px; margin-bottom: 20px; }
+    .choices { list-style: none; padding: 0; }
+    .choices li { margin-bottom: 10px; }
+    .choices button { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #007bff; background: white; border-radius: 6px; cursor: pointer; transition: 0.3s; }
+    .choices button:hover { background: #007bff; color: white; }
+    .feedback { margin-top: 15px; font-weight: bold; }
+    .score { margin-top: 30px; text-align: right; font-size: 16px; color: #444; }
+    .nav-buttons { text-align: center; margin: 20px; }
+    .nav-buttons button { padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; background: #343a40; color: white; margin: 5px; }
+    .email-input { text-align: center; margin: 20px; }
+    input[type="email"] { padding: 10px; font-size: 16px; width: 300px; border-radius: 5px; border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">🧪 Forces & Energy: Energy Resources Quiz</div>
+
+  <div class="email-input">
+    <input type="email" id="emailInput" placeholder="Enter your email to begin" />
+    <button onclick="startQuiz()">Start Quiz</button>
+  </div>
+
+  <div class="quiz-container" id="quizBox" style="display:none;">
+    <div class="question" id="questionText"></div>
+    <ul class="choices" id="choiceList"></ul>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="nextBtn" style="display:none;" onclick="nextQuestion()">Next Question</button>
+    <div class="score" id="scoreBox"></div>
+  </div>
+
+  <div class="nav-buttons">
+    <button onclick="history.back()">🔙 Back</button>
+    <button onclick="location.href='index.html'">🏠 Home</button>
+  </div>
+
+  <div class="footer">&copy; 2025 Atul Soral Physicism</div>
+
+  <script>
+    const quiz = [
+  { q: "What is a renewable energy source?", choices: ["solar", "coal", "oil", "gas"], answer: "solar" },
+  { q: "Which is a non-renewable energy?", choices: ["coal", "wind", "solar", "tidal"], answer: "coal" },
+  { q: "Main fuel for power stations?", choices: ["coal", "wind", "solar", "tidal"], answer: "coal" },
+  { q: "Which energy source causes no pollution?", choices: ["solar", "coal", "oil", "gas"], answer: "solar" },
+  { q: "What is the environmental impact of fossil fuels?", choices: ["air pollution", "water clean-up", "no impact", "absorbs CO2"], answer: "air pollution" },
+  { q: "Which is a clean energy source?", choices: ["wind", "coal", "gas", "oil"], answer: "wind" },
+  { q: "What is a disadvantage of wind energy?", choices: ["unreliable", "causes air pollution", "uses fuel", "non-renewable"], answer: "unreliable" },
+  { q: "What is the main gas causing global warming?", choices: ["CO2", "O2", "N2", "H2"], answer: "CO2" },
+  { q: "Hydroelectric power uses?", choices: ["water", "wind", "coal", "gas"], answer: "water" },
+  { q: "Solar panels convert?", choices: ["light to electricity", "gas to electricity", "coal to electricity", "heat to fuel"], answer: "light to electricity" },
+  { q: "What is biomass?", choices: ["plant material used as fuel", "coal", "oil", "natural gas"], answer: "plant material used as fuel" },
+  { q: "What is a disadvantage of fossil fuels?", choices: ["non-renewable", "renewable", "clean", "free"], answer: "non-renewable" },
+  { q: "Tidal energy depends on?", choices: ["moon", "sun", "coal", "gas"], answer: "moon" },
+  { q: "What is geothermal energy?", choices: ["heat from Earth", "heat from Sun", "heat from coal", "heat from oil"], answer: "heat from Earth" },
+  { q: "Main source of nuclear energy?", choices: ["uranium", "coal", "oil", "gas"], answer: "uranium" }
+];
+
+
+
+    let currentQ = 0, score = 0, email = "";
+
+    function startQuiz() {
+      email = document.getElementById("emailInput").value.trim();
+      if (!email || !email.includes("@")) {
+        alert("Please enter a valid email.");
+        return;
+      }
+      document.getElementById("emailInput").style.display = "none";
+      document.querySelector(".email-input button").style.display = "none";
+      document.getElementById("quizBox").style.display = "block";
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      if (currentQ >= quiz.length) {
+        document.getElementById("questionText").textContent = "🎉 Quiz Completed!";
+        document.getElementById("choiceList").innerHTML = "";
+        document.getElementById("feedback").textContent = `Your score: ${score}/${quiz.length}`;
+        document.getElementById("nextBtn").style.display = "none";
+        sendToSheet();
+        return;
+      }
+      const q = quiz[currentQ];
+      document.getElementById("questionText").textContent = q.q;
+      const list = document.getElementById("choiceList");
+      list.innerHTML = "";
+      q.choices.forEach(c => {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.textContent = c;
+        btn.onclick = () => submitAnswer(c);
+        li.appendChild(btn);
+        list.appendChild(li);
+      });
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("nextBtn").style.display = "none";
+      updateScore();
+    }
+
+    function submitAnswer(selected) {
+      const correct = quiz[currentQ].answer;
+      if (selected === correct) {
+        document.getElementById("feedback").textContent = "✅ Correct!";
+        score++;
+      } else {
+        document.getElementById("feedback").textContent = `❌ Incorrect. Correct: ${correct}`;
+      }
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+      currentQ++;
+      loadQuestion();
+    }
+
+    function updateScore() {
+      document.getElementById("scoreBox").textContent = `Score: ${score}/${quiz.length}`;
+    }
+
+    function sendToSheet() {
+      console.log(`Send result: ${email}, ${score}/${quiz.length}`);
+      // Placeholder for Google Sheets integration
+    }
+  </script>
+</body>
+</html>
