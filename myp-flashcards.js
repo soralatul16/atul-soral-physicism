@@ -142,5 +142,5 @@ const flashcards = [
   { topic: "Atomic Physics", question: "What are beta particles?", answer: "High-speed electrons" },
   { topic: "Atomic Physics", question: "What is gamma radiation?", answer: "High energy electromagnetic wave" },
   { topic: "Atomic Physics", question: "What stops alpha particles?", answer: "Paper" }
-  // More topics: Energy & Work, Power, Pressure, Current, Voltage, Resistance, Magnetism, Waves, Heat, Atomic
+  
 ];
