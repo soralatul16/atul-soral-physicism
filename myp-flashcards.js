@@ -21,6 +21,44 @@ const flashcards = [
   { topic: "Newton’s Laws", question: "Which law explains seat belts?", answer: "1st law (inertia)" },
   { topic: "Newton’s Laws", question: "Which law explains walking?", answer: "3rd law (action-reaction)" },
 
+  // Heat & Thermal Physics (10)
+  { topic: "Heat & Thermal Physics", question: "What is the formula for heat energy?", answer: "Q = mcΔT" },
+  { topic: "Heat & Thermal Physics", question: "What does c represent in Q=mcΔT?", answer: "Specific heat capacity" },
+  { topic: "Heat & Thermal Physics", question: "What is latent heat formula?", answer: "Q = mL" },
+  { topic: "Heat & Thermal Physics", question: "What is conduction?", answer: "Transfer of heat through solids" },
+  { topic: "Heat & Thermal Physics", question: "What is convection?", answer: "Transfer of heat by fluid movement" },
+  { topic: "Heat & Thermal Physics", question: "What is radiation?", answer: "Transfer of heat by electromagnetic waves" },
+  { topic: "Heat & Thermal Physics", question: "What surfaces are best emitters?", answer: "Black, matte surfaces" },
+  { topic: "Heat & Thermal Physics", question: "What surfaces are poor absorbers?", answer: "Shiny, white surfaces" },
+  { topic: "Heat & Thermal Physics", question: "What happens to temperature during melting?", answer: "Stays constant" },
+  { topic: "Heat & Thermal Physics", question: "What is specific heat capacity?", answer: "Energy needed to raise 1 kg by 1°C" },
+
+  // Electricity & Circuits (10)
+  { topic: "Electricity & Circuits", question: "What is a series circuit?", answer: "Components connected one after another" },
+  { topic: "Electricity & Circuits", question: "What is a parallel circuit?", answer: "Components connected in branches" },
+  { topic: "Electricity & Circuits", question: "Current in series circuit is?", answer: "Same everywhere" },
+  { topic: "Electricity & Circuits", question: "Voltage in series circuit is?", answer: "Shared between components" },
+  { topic: "Electricity & Circuits", question: "Current in parallel circuit is?", answer: "Shared between branches" },
+  { topic: "Electricity & Circuits", question: "Voltage in parallel circuit is?", answer: "Same across all branches" },
+  { topic: "Electricity & Circuits", question: "What protects circuits?", answer: "Fuse or circuit breaker" },
+  { topic: "Electricity & Circuits", question: "What is a short circuit?", answer: "Path with very low resistance" },
+  { topic: "Electricity & Circuits", question: "Symbol for cell?", answer: "One long, one short line" },
+  { topic: "Electricity & Circuits", question: "Symbol for resistor?", answer: "Rectangle" },
+
+  // Atomic Physics (10)
+  { topic: "Atomic Physics", question: "What is the structure of atom?", answer: "Protons, neutrons in nucleus; electrons orbiting" },
+  { topic: "Atomic Physics", question: "What charge does proton have?", answer: "Positive" },
+  { topic: "Atomic Physics", question: "What charge does neutron have?", answer: "Neutral" },
+  { topic: "Atomic Physics", question: "What charge does electron have?", answer: "Negative" },
+  { topic: "Atomic Physics", question: "What is radioactivity?", answer: "Emission of particles from unstable nuclei" },
+  { topic: "Atomic Physics", question: "What is half-life?", answer: "Time for half nuclei to decay" },
+  { topic: "Atomic Physics", question: "What are alpha particles?", answer: "2 protons + 2 neutrons" },
+  { topic: "Atomic Physics", question: "What are beta particles?", answer: "High-speed electrons" },
+  { topic: "Atomic Physics", question: "What is gamma radiation?", answer: "High energy electromagnetic wave" },
+  { topic: "Atomic Physics", question: "What stops alpha particles?", answer: "Paper" }
+);
+
+
   // Energy & Work (10)
 flashcards.push(
   { topic: "Energy & Work", question: "What is the formula for work done?", answer: "Work = force × distance × cos θ" },
