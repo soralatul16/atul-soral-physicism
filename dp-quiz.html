@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DP Topic Quiz | Atul Soral Physicism</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding-bottom: 50px;
+    }
+
+    .navbar {
+      background: #660000;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #8B0000, #C71585);
+      color: white;
+      text-align: center;
+      padding: 40px 20px 10px;
+    }
+
+    .selectors {
+      text-align: center;
+      margin: 20px;
+    }
+
+    select, input[type="radio"] {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .quiz-container {
+      max-width: 700px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: none;
+    }
+
+    .question {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .choices {
+      list-style: none;
+      padding: 0;
+    }
+
+    .choices li {
+      margin-bottom: 10px;
+    }
+
+    .choices button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #8B0000;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .choices button:hover {
+      background: #8B0000;
+      color: white;
+    }
+
+    .feedback {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .score {
+      margin-top: 30px;
+      text-align: right;
+      font-size: 16px;
+      color: #444;
+    }
+
+    .next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background: #eee;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">🎯 DP Physics Quiz – Atul Soral Physicism</div>
+
+  <div class="hero">
+    <h1>Topic Quiz – DP Physics</h1>
+    <p>Select your topic and level to begin</p>
+  </div>
+
+  <div class="selectors">
+    <select id="topicSelect">
+      <option value="">-- Select Topic --</option>
+      <option value="A">A. Space, Time and Motion</option>
+      <option value="B">B. Particulate Nature of Matter</option>
+      <option value="C">C. Wave Behaviour</option>
+      <option value="D">D. Fields</option>
+      <option value="E">E. Nuclear and Quantum Physics</option>
+    </select>
+    <label><input type="radio" name="level" value="SL" checked> SL</label>
+    <label><input type="radio" name="level" value="HL"> HL</label>
+  </div>
+
+  <div class="quiz-container" id="quizBox">
+    <div class="question" id="questionText"></div>
+    <ul class="choices" id="choiceList"></ul>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="nextBtn" style="display:none;">Next Question</button>
+    <div class="score" id="scoreBox"></div>
+  </div>
+
+  <div class="footer">&copy; 2025 Atul Soral Physicism</div>
+
+  <script>
+    const quizData = {
+      A: {
+        SL: [
+          { q: "What is the equation of motion for constant acceleration?", choices: ["s = ut + ½at²", "p = mv", "F = ma", "v = fλ"], a: "s = ut + ½at²" },
+          { q: "What is the unit of acceleration?", choices: ["m/s", "m²", "m/s²", "N"], a: "m/s²" }
+        ],
+        HL: [
+          { q: "Define relativistic momentum.", choices: ["mv", "γmv", "mgh", "½mv²"], a: "γmv" },
+          { q: "What is time dilation?", choices: ["Time appears slower at high speed", "Space shrinks", "Mass increases", "None of these"], a: "Time appears slower at high speed" }
+        ]
+      },
+      B: {
+        SL: [
+          { q: "What does the ideal gas law state?", choices: ["pV = nRT", "F = ma", "Q = mcΔT", "E = hf"], a: "pV = nRT" }
+        ],
+        HL: [
+          { q: "What is Avogadro’s constant?", choices: ["6.02×10²³", "3.00×10⁸", "9.81", "1.60×10⁻¹⁹"], a: "6.02×10²³" }
+        ]
+      }
+    };
+
+    let currentSet = [];
+    let currentQuestion = 0;
+    let score = 0;
+
+    const topicSelect = document.getElementById("topicSelect");
+    const levelSelect = document.getElementsByName("level");
+    const quizBox = document.getElementById("quizBox");
+    const questionText = document.getElementById("questionText");
+    const choiceList = document.getElementById("choiceList");
+    const feedback = document.getElementById("feedback");
+    const scoreBox = document.getElementById("scoreBox");
+    const nextBtn = document.getElementById("nextBtn");
+
+    topicSelect.addEventListener("change", startQuiz);
+    levelSelect.forEach(radio => radio.addEventListener("change", startQuiz));
+
+    function startQuiz() {
+      const topic = topicSelect.value;
+      const level = document.querySelector("input[name='level']:checked").value;
+
+      if (!topic) {
+        quizBox.style.display = "none";
+        return;
+      }
+
+      currentSet = quizData[topic]?.[level] || [];
+      if (currentSet.length === 0) {
+        quizBox.innerHTML = "<p style='text-align:center;'>No questions available for this topic/level.</p>";
+        return;
+      }
+
+      currentQuestion = 0;
+      score = 0;
+      quizBox.style.display = "block";
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = currentSet[currentQuestion];
+      questionText.textContent = q.q;
+      choiceList.innerHTML = "";
+      feedback.textContent = "";
+      nextBtn.style.display = "none";
+
+      q.choices.forEach(choice => {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.textContent = choice;
+        btn.onclick = () => handleAnswer(choice);
+        li.appendChild(btn);
+        choiceList.appendChild(li);
+      });
+
+      updateScore();
+    }
+
+    function handleAnswer(choice) {
+      const correct = currentSet[currentQuestion].a;
+      if (choice === correct) {
+        feedback.textContent = "✅ Correct!";
+        score++;
+      } else {
+        feedback.textContent = `❌ Incorrect. Correct: ${correct}`;
+      }
+      nextBtn.style.display = "inline-block";
+    }
+
+    nextBtn.addEventListener("click", () => {
+      currentQuestion++;
+      if (currentQuestion < currentSet.length) {
+        loadQuestion();
+      } else {
+        questionText.textContent = "🎉 Quiz Completed!";
+        choiceList.innerHTML = "";
+        feedback.textContent = `Final Score: ${score} / ${currentSet.length}`;
+        nextBtn.style.display = "none";
+      }
+      updateScore();
+    });
+
+    function updateScore() {
+      scoreBox.textContent = `Score: ${score} / ${currentSet.length}`;
+    }
+  </script>
+</body>
+</html>

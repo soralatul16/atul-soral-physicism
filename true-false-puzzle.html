@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🧩 True/False Physics Puzzle | Atul Soral Physicism</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h1 { text-align: center; }
+    .question { font-size: 18px; margin: 20px 0; text-align: center; }
+    .btn { padding: 10px 20px; font-size: 16px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; }
+    .true { background: #28a745; color: white; }
+    .false { background: #dc3545; color: white; }
+    .result { text-align: center; font-weight: bold; margin-top: 15px; }
+    .score { text-align: center; margin-top: 10px; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+  <h1>🧩 True/False Physics Puzzle</h1>
+  <div class="container">
+    <div class="question" id="questionBox"></div>
+    <div style="text-align:center;">
+      <button class="btn true" onclick="submitAnswer(true)">True</button>
+      <button class="btn false" onclick="submitAnswer(false)">False</button>
+    </div>
+    <div class="result" id="resultBox"></div>
+    <div class="score" id="scoreBox"></div>
+  </div>
+
+  <div style="text-align:center; margin-top: 20px;">
+    <button onclick="location.href='myp-puzzles.html'" 
+            style="padding:10px 20px; font-size:16px; background:#6c757d; color:white; border:none; border-radius:5px; margin:5px;">
+      🔙 Back to Puzzle Menu
+    </button>
+    <button onclick="location.href='myp-dashboard.html'" 
+            style="padding:10px 20px; font-size:16px; background:#343a40; color:white; border:none; border-radius:5px; margin:5px;">
+      🏠 Home
+    </button>
+  </div>
+
+  <script>
+    const questions = [
+      { text: "Force is measured in Newtons.", answer: true },
+      { text: "Voltage is measured in Amperes.", answer: false },
+      { text: "Sound travels faster in air than in water.", answer: false },
+      { text: "The acceleration due to gravity on Earth is about 9.8 m/s².", answer: true },
+      { text: "Ohm’s Law is V = IR.", answer: true }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      if (currentQ < questions.length) {
+        document.getElementById("questionBox").textContent = questions[currentQ].text;
+        document.getElementById("resultBox").textContent = "";
+      } else {
+        document.getElementById("questionBox").textContent = "🎉 Puzzle complete!";
+        document.getElementById("resultBox").textContent = `Final Score: ${score} / ${questions.length}`;
+      }
+      document.getElementById("scoreBox").textContent = `Score: ${score} / ${questions.length}`;
+    }
+
+    function submitAnswer(userAnswer) {
+      if (currentQ >= questions.length) return;
+      if (userAnswer === questions[currentQ].answer) {
+        document.getElementById("resultBox").textContent = "✅ Correct!";
+        score++;
+      } else {
+        document.getElementById("resultBox").textContent = "❌ Incorrect!";
+      }
+      currentQ++;
+      setTimeout(loadQuestion, 1000);
+    }
+
+    loadQuestion();
+  </script>
+
+</body>
+</html>

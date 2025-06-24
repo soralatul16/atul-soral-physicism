@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DP Formula Bank | Atul Soral Physicism</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding-bottom: 60px;
+    }
+
+    .navbar {
+      background: #660000;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 20px 10px;
+      background: linear-gradient(135deg, #8B0000, #C71585);
+      color: white;
+    }
+
+    .search-box {
+      text-align: center;
+      margin: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+
+    .formula-container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h3 {
+      color: #8B0000;
+      border-bottom: 2px solid #8B0000;
+      padding-bottom: 5px;
+    }
+
+    .formula {
+      background: white;
+      margin: 10px 0;
+      padding: 15px;
+      border-left: 5px solid #8B0000;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    }
+
+    .formula strong {
+      font-size: 18px;
+      display: block;
+    }
+
+    .tools {
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .tools button {
+      margin-right: 10px;
+      padding: 4px 10px;
+      border: none;
+      background: #8B0000;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background: #eee;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">📘 DP Formula Bank – Atul Soral Physicism</div>
+
+  <div class="hero">
+    <h1>IB DP Physics Formula Bank</h1>
+    <p>2025–2029 Syllabus | SL & HL | Organized by Theme</p>
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search formula, keyword..." />
+  </div>
+
+  <div class="formula-container" id="formulaBox"></div>
+
+  <div class="footer">&copy; 2025 Atul Soral Physicism</div>
+
+  <script>
+    const formulas = {
+      "A. Space, time and motion": [
+        { f: "s = ut + ½at²", e: "Displacement under constant acceleration" },
+        { f: "F = ma", e: "Newton’s second law" },
+        { f: "p = mv", e: "Linear momentum" },
+        { f: "v² = u² + 2as", e: "Final velocity without time" }
+      ],
+      "B. Particulate nature of matter": [
+        { f: "pV = nRT", e: "Ideal gas law" },
+        { f: "Q = mcΔT", e: "Thermal energy transfer" },
+        { f: "PV = NkT", e: "Microscopic form of ideal gas law" }
+      ],
+      "C. Wave behaviour": [
+        { f: "v = fλ", e: "Wave speed" },
+        { f: "n = sin i / sin r", e: "Snell’s Law" },
+        { f: "I ∝ A²", e: "Intensity proportional to amplitude squared" }
+      ],
+      "D. Fields": [
+        { f: "F = qE", e: "Force in an electric field" },
+        { f: "F = BIL sinθ", e: "Magnetic force on a wire" },
+        { f: "V = kQ/r", e: "Electric potential" }
+      ],
+      "E. Nuclear and quantum physics": [
+        { f: "E = hf", e: "Photon energy" },
+        { f: "λ = h/p", e: "de Broglie wavelength" },
+        { f: "A = λN", e: "Radioactive decay activity" }
+      ]
+    };
+
+    function renderFormulas(filter = "") {
+      const container = document.getElementById("formulaBox");
+      container.innerHTML = "";
+
+      Object.entries(formulas).forEach(([section, list]) => {
+        const match = list.filter(item =>
+          item.f.toLowerCase().includes(filter) || item.e.toLowerCase().includes(filter)
+        );
+        if (match.length === 0) return;
+
+        const div = document.createElement("div");
+        div.className = "section";
+        div.innerHTML = `<h3>${section}</h3>`;
+
+        match.forEach(({ f, e }) => {
+          const id = f.replace(/\W/g, "-");
+          const isLearned = localStorage.getItem(id) === "true";
+
+          const card = document.createElement("div");
+          card.className = "formula";
+          card.innerHTML = `
+            <strong>${f}</strong>
+            <div>${e}</div>
+            <div class="tools">
+              <button onclick="copyFormula('${f}')">📋 Copy</button>
+              <label><input type="checkbox" onchange="markLearned('${id}', this)" ${isLearned ? "checked" : ""}> Learned</label>
+            </div>
+          `;
+          div.appendChild(card);
+        });
+
+        container.appendChild(div);
+      });
+    }
+
+    function copyFormula(text) {
+      navigator.clipboard.writeText(text);
+      alert("Formula copied!");
+    }
+
+    function markLearned(id, checkbox) {
+      localStorage.setItem(id, checkbox.checked);
+    }
+
+    document.getElementById("searchInput").addEventListener("input", e => {
+      renderFormulas(e.target.value.toLowerCase());
+    });
+
+    renderFormulas();
+  </script>
+</body>
+</html>

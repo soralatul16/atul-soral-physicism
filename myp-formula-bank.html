@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+
   <title>📘 MYP Formula Bank | Atul Soral Physicism</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MYP Formula Bank | Atul Soral Physicism</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -59,6 +63,93 @@
       background: #343a40;
       color: white;
       cursor: pointer;
+
+      padding-bottom: 50px;
+    }
+
+    .navbar, .footer {
+      background: #0d1117;
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 20px 20px;
+      background: linear-gradient(135deg, #007bff, #6610f2);
+      color: white;
+    }
+
+    .formula-container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+
+    .search-box {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .formula-section {
+      margin-bottom: 40px;
+    }
+
+    .formula-section h3 {
+      color: #007bff;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 5px;
+    }
+
+    .formula {
+      background: #fff;
+      margin: 10px 0;
+      padding: 15px;
+      border-left: 5px solid #007bff;
+      position: relative;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    }
+
+    .formula strong {
+      font-size: 18px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .explanation {
+      color: #444;
+      font-size: 14px;
+    }
+
+    .tools {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tools button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .tools input[type="checkbox"] {
+      margin-left: 10px;
+
     }
   </style>
 </head>
@@ -113,6 +204,110 @@
 <footer>
   &copy; 2025 Atul Soral Physicism. All rights reserved.
 </footer>
+
+  <div class="navbar">📘 MYP Formula Bank – Atul Soral Physicism</div>
+
+  <div class="hero">
+    <h1>Physics Formula Bank</h1>
+    <p>Search, copy, and track what you’ve mastered</p>
+  </div>
+
+  <div class="formula-container">
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search formulas (e.g., velocity, energy, waves)">
+    </div>
+
+    <div id="formulaOutput"></div>
+
+  </div>
+
+  <div class="footer">&copy; 2025 Atul Soral Physicism</div>
+
+  <script>
+    const formulas = {
+      "Forces and Energy": [
+        { formula: "F = ma", explanation: "Force equals mass times acceleration." },
+        { formula: "W = F × d", explanation: "Work equals force multiplied by distance." },
+        { formula: "P = W / t", explanation: "Power equals work divided by time." },
+        { formula: "p = F / A", explanation: "Pressure equals force per unit area." },
+        { formula: "ρ = m / V", explanation: "Density equals mass divided by volume." },
+        { formula: "KE = ½mv²", explanation: "Kinetic energy = ½ × mass × velocity²." },
+        { formula: "PE = mgh", explanation: "Potential energy = mass × gravity × height." },
+        { formula: "Efficiency = Useful Energy Out / Total Energy In", explanation: "Efficiency as a fraction or percentage." }
+      ],
+      "Electromagnetism": [
+        { formula: "V = IR", explanation: "Ohm's Law: voltage equals current × resistance." },
+        { formula: "P = IV", explanation: "Electric power = current × voltage." },
+        { formula: "Q = It", explanation: "Charge = current × time." },
+        { formula: "E = QV", explanation: "Energy transferred = charge × voltage." }
+      ],
+      "Astrophysics": [
+        { formula: "g = G(M/r²)", explanation: "Gravitational field strength from Newton’s Law of Gravitation." },
+        { formula: "T² ∝ r³", explanation: "Kepler’s 3rd Law: orbital period² ∝ radius³." }
+      ],
+      "Heat, Light and Sound": [
+        { formula: "Q = mcΔT", explanation: "Thermal energy = mass × specific heat × temperature change." },
+        { formula: "P = E / t", explanation: "Power = energy / time." }
+      ],
+      "Waves": [
+        { formula: "v = fλ", explanation: "Wave speed = frequency × wavelength." },
+        { formula: "n = sin i / sin r", explanation: "Refractive index (Snell's Law)." }
+      ],
+      "Atomic Physics": [
+        { formula: "Activity = λN", explanation: "Activity = decay constant × number of nuclei." },
+        { formula: "Half-life = ln(2)/λ", explanation: "Relationship between half-life and decay constant." }
+      ]
+    };
+
+    const output = document.getElementById("formulaOutput");
+
+    function renderFormulas(filter = "") {
+      output.innerHTML = "";
+
+      Object.entries(formulas).forEach(([category, items]) => {
+        const matchingItems = items.filter(item =>
+          item.formula.toLowerCase().includes(filter) ||
+          item.explanation.toLowerCase().includes(filter)
+        );
+        if (matchingItems.length === 0) return;
+
+        const section = document.createElement("div");
+        section.className = "formula-section";
+        section.innerHTML = `<h3>${category}</h3>`;
+
+        matchingItems.forEach(({ formula, explanation }) => {
+          const id = formula.replace(/\W/g, "-").toLowerCase();
+          const isLearned = localStorage.getItem(id) === "true";
+
+          const card = document.createElement("div");
+          card.className = "formula";
+          card.innerHTML = `
+            <strong>${formula}</strong>
+            <div class="explanation">${explanation}</div>
+            <div class="tools">
+              <button onclick="navigator.clipboard.writeText('${formula}')">📋 Copy</button>
+              <label><input type="checkbox" ${isLearned ? "checked" : ""} onchange="toggleLearned('${id}', this)"> Mark as learned</label>
+            </div>
+          `;
+          section.appendChild(card);
+        });
+
+        output.appendChild(section);
+      });
+    }
+
+    function toggleLearned(id, checkbox) {
+      localStorage.setItem(id, checkbox.checked);
+    }
+
+    document.getElementById("searchInput").addEventListener("input", function () {
+      renderFormulas(this.value.trim().toLowerCase());
+    });
+
+    // Initial render
+    renderFormulas();
+  </script>
 
 </body>
 </html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🧩 Physics Formula Match Puzzle | Atul Soral Physicism</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+    h1 { text-align: center; }
+    .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; max-width: 900px; margin: auto; }
+    .draggable, .droppable { padding: 10px 20px; background: white; border: 1px solid #ccc; border-radius: 5px; cursor: move; min-width: 120px; text-align: center; }
+    .droppable { background: #e9ecef; min-height: 40px; }
+    .correct { background: #28a745; color: white; }
+    .incorrect { background: #dc3545; color: white; }
+    .score { text-align: center; margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h1>🧩 Match Formula to Concept</h1>
+
+<p style="text-align:center;">Drag a formula onto the correct physics concept.</p>
+
+<div class="container" id="formulas">
+  <div class="draggable" draggable="true" data-formula="F = ma">F = ma</div>
+  <div class="draggable" draggable="true" data-formula="v = fλ">v = fλ</div>
+  <div class="draggable" draggable="true" data-formula="V = IR">V = IR</div>
+  <div class="draggable" draggable="true" data-formula="KE = ½mv²">KE = ½mv²</div>
+  <div class="draggable" draggable="true" data-formula="P = IV">P = IV</div>
+</div>
+
+<div class="container" id="concepts">
+  <div class="droppable" data-answer="F = ma">Newton's Second Law</div>
+  <div class="droppable" data-answer="v = fλ">Wave speed</div>
+  <div class="droppable" data-answer="V = IR">Ohm's Law</div>
+  <div class="droppable" data-answer="KE = ½mv²">Kinetic energy</div>
+  <div class="droppable" data-answer="P = IV">Electrical power</div>
+</div>
+
+<div class="score" id="scoreBox"></div>
+
+<script>
+let correctMatches = 0;
+
+document.querySelectorAll('.draggable').forEach(item => {
+  item.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text/plain', item.dataset.formula);
+  });
+});
+
+document.querySelectorAll('.droppable').forEach(zone => {
+  zone.addEventListener('dragover', e => e.preventDefault());
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    const formula = e.dataTransfer.getData('text/plain');
+    if (formula === zone.dataset.answer) {
+      zone.textContent += ` ✅ ${formula}`;
+      zone.classList.add('correct');
+      correctMatches++;
+      updateScore();
+    } else {
+      zone.classList.add('incorrect');
+      zone.textContent += ` ❌ ${formula}`;
+    }
+  });
+});
+
+function updateScore() {
+  document.getElementById('scoreBox').textContent = `Score: ${correctMatches} / 5`;
+}
+</script>
+
+</body>
+</html>

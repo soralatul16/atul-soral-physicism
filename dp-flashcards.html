@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DP Flashcards | Atul Soral Physicism</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding-bottom: 50px;
+    }
+
+    .navbar {
+      background: #660000;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #8B0000, #C71585);
+      color: white;
+      text-align: center;
+      padding: 40px 20px 10px;
+    }
+
+    .selectors {
+      text-align: center;
+      margin: 20px;
+    }
+
+    select, input[type="radio"] {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .flashcard-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .flashcard {
+      width: 250px;
+      height: 150px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flashcard-inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+
+    .flashcard.flip .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+
+    .front, .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 16px;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .back {
+      background: #8B0000;
+      color: white;
+      transform: rotateY(180deg);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      background: #eee;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">🧠 DP Flashcards – Atul Soral Physicism</div>
+
+  <div class="hero">
+    <h1>DP Physics Flashcards</h1>
+    <p>Select a topic and level to begin!</p>
+  </div>
+
+  <div class="selectors">
+    <select id="topicSelect">
+      <option value="">-- Select Topic --</option>
+      <option value="A">A. Space, Time and Motion</option>
+      <option value="B">B. Particulate Nature of Matter</option>
+      <option value="C">C. Wave Behaviour</option>
+      <option value="D">D. Fields</option>
+      <option value="E">E. Nuclear and Quantum Physics</option>
+    </select>
+
+    <label><input type="radio" name="level" value="SL" checked /> SL</label>
+    <label><input type="radio" name="level" value="HL" /> HL</label>
+  </div>
+
+  <div class="flashcard-grid" id="flashcardGrid"></div>
+
+  <div class="footer">&copy; 2025 Atul Soral Physicism</div>
+
+  <script>
+    const flashcards = {
+      A: [
+        { q: "What is Newton’s second law?", a: "F = ma", level: "SL" },
+        { q: "Define impulse.", a: "Impulse = change in momentum = Ft", level: "SL" },
+        { q: "State the principle of relativity.", a: "Laws of physics same in all inertial frames", level: "HL" }
+      ],
+      B: [
+        { q: "State the ideal gas law.", a: "pV = nRT", level: "SL" },
+        { q: "What does Brownian motion demonstrate?", a: "Molecular nature of matter", level: "SL" },
+        { q: "What is Avogadro’s number?", a: "6.02 × 10²³ particles/mol", level: "HL" }
+      ],
+      C: [
+        { q: "Wave speed formula?", a: "v = fλ", level: "SL" },
+        { q: "What is diffraction?", a: "Spreading of wave when passing through a gap", level: "SL" },
+        { q: "Explain polarization.", a: "Wave oscillations restricted to one plane", level: "HL" }
+      ],
+      D: [
+        { q: "Formula for electric force?", a: "F = qE", level: "SL" },
+        { q: "Magnetic force on wire?", a: "F = BIL sinθ", level: "SL" },
+        { q: "Define electric potential.", a: "Work done per unit charge", level: "HL" }
+      ],
+      E: [
+        { q: "Photon energy equation?", a: "E = hf", level: "SL" },
+        { q: "What is half-life?", a: "Time for half the nuclei to decay", level: "SL" },
+        { q: "Explain pair production.", a: "Energy → particle-antiparticle pair", level: "HL" }
+      ]
+    };
+
+    const topicSelect = document.getElementById("topicSelect");
+    const flashcardGrid = document.getElementById("flashcardGrid");
+
+    topicSelect.addEventListener("change", loadFlashcards);
+    document.querySelectorAll("input[name='level']").forEach(radio =>
+      radio.addEventListener("change", loadFlashcards)
+    );
+
+    function loadFlashcards() {
+      const topic = topicSelect.value;
+      const level = document.querySelector("input[name='level']:checked").value;
+
+      flashcardGrid.innerHTML = "";
+
+      if (!topic) return;
+
+      const cards = flashcards[topic].filter(card => card.level === level);
+      cards.forEach(card => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "flashcard";
+
+        const inner = document.createElement("div");
+        inner.className = "flashcard-inner";
+
+        const front = document.createElement("div");
+        front.className = "front";
+        front.textContent = card.q;
+
+        const back = document.createElement("div");
+        back.className = "back";
+        back.textContent = card.a;
+
+        inner.appendChild(front);
+        inner.appendChild(back);
+        wrapper.appendChild(inner);
+        flashcardGrid.appendChild(wrapper);
+
+        wrapper.addEventListener("click", () => {
+          wrapper.classList.toggle("flip");
+        });
+      });
+    }
+  </script>
+</body>
+</html>

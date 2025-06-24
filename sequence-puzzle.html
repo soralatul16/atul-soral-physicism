@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🧩 Sequence Steps Puzzle | Atul Soral Physicism</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+    h1 { text-align: center; }
+    .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .step-list { list-style: none; padding: 0; }
+    .step-list li { padding: 10px; margin: 5px 0; background: #e9ecef; border-radius: 5px; cursor: grab; }
+    button { padding: 10px 20px; font-size: 16px; background: #007BFF; color: white; border: none; border-radius: 5px; margin-top: 10px; }
+    .result { text-align: center; font-weight: bold; margin-top: 15px; }
+  </style>
+</head>
+<div style="text-align:center; margin-top: 20px;">
+  <button onclick="location.href='myp-puzzles.html'" 
+          style="padding:10px 20px; font-size:16px; background:#6c757d; color:white; border:none; border-radius:5px; margin:5px;">
+    🔙 Back to Puzzle Menu
+  </button>
+  <button onclick="location.href='myp-dashboard.html'" 
+          style="padding:10px 20px; font-size:16px; background:#343a40; color:white; border:none; border-radius:5px; margin:5px;">
+    🏠 Home
+  </button>
+</div>
+
+<body>
+  <h1>🧩 Sequence Steps Puzzle</h1>
+  <div class="container">
+    <p>Arrange the steps to correctly measure acceleration using ticker tape:</p>
+    <ul class="step-list" id="stepList">
+      <li draggable="true">Mark two points on the tape at known intervals.</li>
+      <li draggable="true">Attach the tape to a moving object and start the ticker timer.</li>
+      <li draggable="true">Measure the distance between points.</li>
+      <li draggable="true">Calculate speed between points.</li>
+      <li draggable="true">Determine acceleration from the change in speed over time.</li>
+    </ul>
+    <button onclick="checkOrder()">✅ Check Order</button>
+    <div class="result" id="resultBox"></div>
+  </div>
+
+  <script>
+    const correctOrder = [
+      "Attach the tape to a moving object and start the ticker timer.",
+      "Mark two points on the tape at known intervals.",
+      "Measure the distance between points.",
+      "Calculate speed between points.",
+      "Determine acceleration from the change in speed over time."
+    ];
+
+    // Drag & drop handlers
+    let draggedItem = null;
+    document.querySelectorAll("#stepList li").forEach(item => {
+      item.addEventListener("dragstart", e => {
+        draggedItem = item;
+        setTimeout(() => item.style.display = "none", 0);
+      });
+      item.addEventListener("dragend", e => {
+        item.style.display = "block";
+        draggedItem = null;
+      });
+    });
+
+    const list = document.getElementById("stepList");
+    list.addEventListener("dragover", e => e.preventDefault());
+    list.addEventListener("drop", e => {
+      e.preventDefault();
+      if (e.target.tagName === "LI" && draggedItem) {
+        list.insertBefore(draggedItem, e.target.nextSibling);
+      }
+    });
+
+    function checkOrder() {
+      const current = Array.from(list.children).map(li => li.textContent);
+      let correct = true;
+      for (let i = 0; i < correctOrder.length; i++) {
+        if (current[i] !== correctOrder[i]) {
+          correct = false;
+          break;
+        }
+      }
+      document.getElementById("resultBox").textContent = correct
+        ? "🎉 Correct sequence!"
+        : "❌ Some steps are out of order. Try again!";
+    }
+  </script>
+</body>
+</html>

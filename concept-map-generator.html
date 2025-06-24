@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🧠 Auto Concept Map Generator | Atul Soral Physicism</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true });
+
+  window.renderDiagram = () => {
+    const selected = Array.from(document.getElementById("termSelect").selectedOptions).map(opt => opt.value);
+    if (selected.length < 2) {
+      alert("Select at least 2 terms.");
+      return;
+    }
+
+    const root = selected[0]; // root node (like "Force")
+    let lines = "graph TD\n";
+
+    // Connect root to all others
+    for (let i = 1; i < selected.length; i++) {
+      lines += `"${root}" --> "${selected[i]}"\n`;
+    }
+
+    document.getElementById("mapCode").textContent = lines;
+    const container = document.getElementById("mapDisplay");
+    container.innerHTML = `<pre class="mermaid">${lines}</pre>`;
+    mermaid.run();
+  };
+  
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; padding: 20px; }
+    .container { max-width: 900px; margin: auto; }
+    select { width: 100%; height: 150px; font-size: 16px; }
+    button { padding: 10px 20px; font-size: 16px; margin: 10px 5px; background: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .map-preview { background: white; margin-top: 20px; padding: 20px; border-radius: 10px; overflow: auto; }
+    textarea { width: 100%; height: 120px; font-family: monospace; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧠 Auto Concept Map Generator</h1>
+    <p>Select terms to auto-generate a concept map:</p>
+
+    <select id="termSelect" multiple>
+  <option value="Force">Force</option>
+  <option value="Mass">Mass</option>
+  <option value="Acceleration">Acceleration</option>
+  <option value="Newton's Laws">Newton's Laws</option>
+  <option value="Friction">Friction</option>
+  <option value="Velocity">Velocity</option>
+  <option value="Kinetic Energy">Kinetic Energy</option>
+  <option value="Potential Energy">Potential Energy</option>
+  <option value="Work">Work</option>
+  <option value="Power">Power</option>
+  <option value="Momentum">Momentum</option>
+  <option value="Impulse">Impulse</option>
+  <option value="Gravitational Field">Gravitational Field</option>
+  <option value="Electric Field">Electric Field</option>
+  <option value="Magnetic Field">Magnetic Field</option>
+  <option value="Charge">Charge</option>
+  <option value="Voltage">Voltage</option>
+  <option value="Resistance">Resistance</option>
+</select>
+
+<input type="text" id="apiKeyInput" placeholder="Enter your OpenAI API Key" 
+ style="width:100%; padding:10px; font-size:16px; margin:10px 0;">
+
+<button onclick="renderDiagram()">⚙️ Generate Map (Manual)</button>
+<button onclick="generateWithGPT()">💡 Suggest + Generate Map (GPT)</button>
+<button onclick="downloadPNG()">📥 Export as PNG</button>
+
+
+
+    <br>
+    <button onclick="renderDiagram()">⚙️ Generate Map</button>
+    <button onclick="downloadPNG()">📥 Export as PNG</button>
+
+    <div class="map-preview" id="mapDisplay"></div>
+    <textarea id="mapCode" readonly></textarea>
+  </div>
+
+  <script>
+    function downloadPNG() {
+      const node = document.getElementById('mapDisplay');
+      html2canvas(node).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'concept-map.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+  </script>
+  
+<script>
+async function getConnectionsFromGPT(concepts) {
+  const apiKey = document.getElementById("apiKeyInput").value.trim();
+  if (!apiKey) {
+    alert("Please enter your OpenAI API Key.");
+    return;
+  }
+
+  const prompt = `Given these physics concepts: [${concepts.join(", ")}], suggest meaningful connections in format A --> B for a concept map.`;
+
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: prompt }]
+    })
+  });
+
+  const data = await response.json();
+  const gptText = data.choices[0].message.content;
+  buildMapFromGPT(gptText);
+}
+
+function buildMapFromGPT(gptText) {
+  const clean = gptText.trim();
+  document.getElementById("mapCode").textContent = `graph TD\n${clean}`;
+  document.getElementById("mapDisplay").innerHTML = `<pre class="mermaid">graph TD\n${clean}</pre>`;
+  mermaid.run();
+}
+
+function generateWithGPT() {
+  const terms = Array.from(document.getElementById("termSelect").selectedOptions).map(opt => opt.value);
+  if (terms.length < 2) {
+    alert("Select at least 2 concepts");
+    return;
+  }
+  getConnectionsFromGPT(terms);
+}
+
+</script>
+
+</body>
+</html>
