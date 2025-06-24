@@ -3,287 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MYP Topic Quiz | Atul Soral Physicism</title>
+  <title>MYP Physics Quiz | Atul Soral Physicism</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding-bottom: 60px;
-    }
-
-    .navbar, .footer {
-      background: #0d1117;
-      color: white;
-      padding: 15px;
-      text-align: center;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 40px 20px 20px;
-      background: linear-gradient(135deg, #28a745, #007bff);
-      color: white;
-    }
-
-    .quiz-container {
-      max-width: 700px;
-      margin: 30px auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    .question {
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
-
-    .choices {
-      list-style: none;
-      padding: 0;
-    }
-
-    .choices li {
-      margin-bottom: 10px;
-    }
-
-    .choices button {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border: 1px solid #007bff;
-      background: white;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .choices button:hover {
-      background: #007bff;
-      color: white;
-    }
-
-    .feedback {
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
-    .score {
-      margin-top: 30px;
-      text-align: right;
-      font-size: 16px;
-      color: #444;
-    }
-
-    .next-btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #28a745;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .topic-select {
-      text-align: center;
-      margin: 20px;
-    }
-
-    select {
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
-    }
-
-    .name-input {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    input[type="text"] {
-      padding: 10px;
-      font-size: 16px;
-      width: 250px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding-bottom: 60px; }
+    .navbar, .footer { background: #0d1117; color: white; padding: 15px; text-align: center; }
+    .hero { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #28a745, #007bff); color: white; }
+    .topic-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; padding: 20px; }
+    .topic-buttons button { padding: 15px 25px; font-size: 16px; border: none; border-radius: 5px; background: #007bff; color: white; cursor: pointer; transition: 0.3s; }
+    .topic-buttons button:hover { background: #0056b3; }
+    .nav-buttons { text-align: center; margin: 20px; }
+    .nav-buttons button { padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; background: #343a40; color: white; margin: 5px; }
   </style>
 </head>
 <body>
 
-  <div class="navbar">🧪 MYP Quiz – Atul Soral Physicism</div>
+  <div class="navbar">🧪 MYP Physics Quiz – Atul Soral Physicism</div>
 
   <div class="hero">
-    <h1>MYP Physics Quiz</h1>
-    <p>Select a topic to begin your quiz!</p>
+    <h1>Select a Main Topic</h1>
   </div>
 
-  <div class="name-input">
-    <input type="text" id="studentName" placeholder="Enter your name" />
+  <div class="topic-buttons">
+    <button onclick="location.href='quiz-forces-energy.html'">Forces and Energy</button>
+    <button onclick="location.href='quiz-electromagnetism.html'">Electromagnetism</button>
+    <button onclick="location.href='quiz-astrophysics.html'">Astrophysics</button>
+    <button onclick="location.href='quiz-heat.html'">Heat</button>
+    <button onclick="location.href='quiz-waves.html'">Waves</button>
+    <button onclick="location.href='quiz-atomic.html'">Atomic Physics</button>
   </div>
 
-  <div class="topic-select">
-    <select id="topicSelector">
-      <option value="">-- Choose Topic --</option>
-      <option value="Forces">Forces & Motion</option>
-      <option value="Waves">Waves</option>
-      <option value="Electricity">Electricity</option>
-      <option value="Energy">Energy</option>
-    </select>
-  </div>
-
-  <div class="quiz-container" id="quizBox" style="display: none;">
-    <div class="question" id="questionText"></div>
-    <ul class="choices" id="choiceList"></ul>
-    <div class="feedback" id="feedback"></div>
-    <button class="next-btn" id="nextBtn" style="display:none;">Next Question</button>
-    <div class="score" id="scoreBox"></div>
-  </div>
-
-  <div style="text-align:center; margin: 30px;">
-    <button onclick="exportScores()" style="padding: 10px 20px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px;">
-      📤 Export All Quiz Scores
-    </button>
+  <div class="nav-buttons">
+    <button onclick="location.href='https://soralatul16.github.io/atul-soral-physicism/'">🏠 Home</button>
+    <button onclick="history.back()">🔙 Back</button>
   </div>
 
   <div class="footer">&copy; 2025 Atul Soral Physicism</div>
-
-  <script>
-    const quizData = {
-      "Forces": [
-        { q: "What is the formula for force?", choices: ["F = ma", "V = IR", "P = IV", "KE = ½mv²"], answer: "F = ma" },
-        { q: "Unit of force?", choices: ["Watt", "Newton", "Pascal", "Joule"], answer: "Newton" }
-      ],
-      "Waves": [
-        { q: "Wave speed formula?", choices: ["v = fλ", "v = d/t", "s = ut + ½at²", "F = ma"], answer: "v = fλ" },
-        { q: "What wave is sound?", choices: ["Transverse", "Longitudinal", "EM wave", "Gamma wave"], answer: "Longitudinal" }
-      ],
-      "Electricity": [
-        { q: "What is Ohm's Law?", choices: ["V = IR", "P = IV", "F = ma", "v = fλ"], answer: "V = IR" },
-        { q: "Unit of current?", choices: ["Ampere", "Volt", "Watt", "Coulomb"], answer: "Ampere" }
-      ],
-      "Energy": [
-        { q: "What is KE formula?", choices: ["PE = mgh", "KE = ½mv²", "F = ma", "P = IV"], answer: "KE = ½mv²" },
-        { q: "What is potential energy?", choices: ["Stored energy", "Energy in motion", "Thermal energy", "Heat loss"], answer: "Stored energy" }
-      ]
-    };
-
-    let currentQuiz = [];
-    let currentQuestion = 0;
-    let score = 0;
-
-    const selector = document.getElementById("topicSelector");
-    const quizBox = document.getElementById("quizBox");
-    const questionText = document.getElementById("questionText");
-    const choiceList = document.getElementById("choiceList");
-    const feedback = document.getElementById("feedback");
-    const scoreBox = document.getElementById("scoreBox");
-    const nextBtn = document.getElementById("nextBtn");
-
-    selector.addEventListener("change", function () {
-      const topic = selector.value;
-      const name = document.getElementById("studentName").value.trim();
-      if (!name) {
-        alert("Please enter your name before starting the quiz.");
-        selector.value = "";
-        return;
-      }
-      currentQuiz = quizData[topic];
-      currentQuestion = 0;
-      score = 0;
-      quizBox.style.display = "block";
-      loadQuestion();
-    });
-
-    function loadQuestion() {
-      const q = currentQuiz[currentQuestion];
-      questionText.textContent = q.q;
-      choiceList.innerHTML = "";
-      feedback.textContent = "";
-      nextBtn.style.display = "none";
-
-      q.choices.forEach(choice => {
-        const li = document.createElement("li");
-        const btn = document.createElement("button");
-        btn.textContent = choice;
-        btn.onclick = () => handleAnswer(choice);
-        li.appendChild(btn);
-        choiceList.appendChild(li);
-      });
-
-      updateScore();
-    }
-
-    function handleAnswer(choice) {
-      const correct = currentQuiz[currentQuestion].answer;
-      if (choice === correct) {
-        feedback.textContent = "✅ Correct!";
-        score++;
-      } else {
-        feedback.textContent = `❌ Incorrect. Correct answer: ${correct}`;
-      }
-      nextBtn.style.display = "inline-block";
-    }
-
-    nextBtn.addEventListener("click", () => {
-      currentQuestion++;
-      if (currentQuestion < currentQuiz.length) {
-        loadQuestion();
-      } else {
-        questionText.textContent = "🎉 Quiz Completed!";
-        choiceList.innerHTML = "";
-        feedback.textContent = `Your score: ${score} / ${currentQuiz.length}`;
-        nextBtn.style.display = "none";
-        saveScore(selector.value, score, currentQuiz.length);
-      }
-      updateScore();
-    });
-
-    function updateScore() {
-      scoreBox.textContent = `Score: ${score} / ${currentQuiz.length}`;
-    }
-
-    function saveScore(topic, score, total) {
-      const name = document.getElementById("studentName").value.trim();
-      if (!name) return;
-
-      const result = {
-        name,
-        topic,
-        score,
-        total,
-        date: new Date().toLocaleString()
-      };
-
-      const existing = JSON.parse(localStorage.getItem("quizResults") || "[]");
-      existing.push(result);
-      localStorage.setItem("quizResults", JSON.stringify(existing));
-    }
-
-    function exportScores() {
-      const data = JSON.parse(localStorage.getItem("quizResults") || "[]");
-      if (data.length === 0) {
-        alert("No quiz results found!");
-        return;
-      }
-
-      const csvRows = [
-        ["Name", "Topic", "Score", "Total", "Date"],
-        ...data.map(row => [row.name, row.topic, row.score, row.total, row.date])
-      ];
-
-      const csvContent = csvRows.map(e => e.join(",")).join("\n");
-      const blob = new Blob([csvContent], { type: "text/csv" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "myp-quiz-results.csv";
-      link.click();
-    }
-  </script>
 
 </body>
 </html>
