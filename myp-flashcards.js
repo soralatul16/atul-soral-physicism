@@ -105,7 +105,7 @@ const flashcards = [
   { topic: "Waves", question: "What is a longitudinal wave?", answer: "Oscillations parallel to direction of wave" },
   { topic: "Waves", question: "Example of transverse wave?", answer: "Light" },
   { topic: "Waves", question: "Example of longitudinal wave?", answer: "Sound" },
-  { topic: "Waves", question: "What is reflection?", answer: "Bouncing back of wave at a surface" }
+  { topic: "Waves", question: "What is reflection?", answer: "Bouncing back of wave at a surface" },
 
 // Heat & Thermal Physics (10)
   { topic: "Heat & Thermal Physics", question: "What is the formula for heat energy?", answer: "Q = mcΔT" },
