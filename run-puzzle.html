@@ -49,7 +49,8 @@
   <button onclick="location.href='myp-dashboard.html'">🏠 Home</button>
 </div>
 
-<script type="module">
+<script src="myp-question-bank.js"></script>
+<script>
 import { generateAIQuestions } from './ai-puzzle-engine.js';
 
 const params = new URLSearchParams(location.search);
@@ -84,7 +85,9 @@ async function startPuzzle() {
     return;
   }
 
-  const allQs = puzzleBank[topic]?.[type] || [];
+  const level = "A";  // default for now
+
+const allQs = puzzleBank[topic]?.[level]?.[type] || [];
   if (allQs.length >= count) {
     quiz = shuffle(allQs).slice(0, count);
   } else {
