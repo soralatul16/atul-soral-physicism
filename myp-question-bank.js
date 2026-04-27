@@ -48,3 +48,16 @@ analysis: [
 
 }
 };
+// 🔥 AUTO-GENERATE MORE QUESTIONS
+
+for(let i=1;i<=50;i++){
+
+puzzleBank["Forces and Motion"].A.formula.push({
+  q:`Calculate force for case ${i}`,
+  choices:["10N","20N","30N"],
+  answer:"20N",
+  strand:"ii"
+});
+
+}
+
