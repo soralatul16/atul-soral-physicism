@@ -1,40 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Puzzle Menu | Atul Soral Physicism</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Puzzle Hub | Atul Soral Physicism</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+background:#0f172a;
+color:white;
+font-family:Segoe UI;
+}
+
+header{
+background:linear-gradient(135deg,#06b6d4,#2563eb);
+padding:40px;
+text-align:center;
+}
+
+.card{
+background:#1e293b;
+border-radius:12px;
+padding:15px;
+transition:0.3s;
+}
+
+.card:hover{ transform:scale(1.05); }
+
+.badge{ font-size:11px; }
+
+.section{
+margin-top:40px;
+}
+
+</style>
 </head>
-<body class="bg-light">
+
+<body>
+
+<header>
+<h1>🧩 Puzzle Hub</h1>
+<p>Learn Physics through Interactive Challenges</p>
+</header>
 
 <div class="container py-4">
-  <h1 class="text-center mb-4">🧩 Puzzle Menu</h1>
-  <div class="row g-3">
-    <div class="col-md-4">
-      <a href="run-puzzle.html" class="btn btn-outline-success w-100">🎯 Run Puzzle</a>
-    </div>
-    <div class="col-md-4">
-      <a href="formula-puzzle.html" class="btn btn-outline-success w-100">📐 Formula Puzzle</a>
-    </div>
-    <div class="col-md-4">
-      <a href="sequence-puzzle.html" class="btn btn-outline-success w-100">🔄 Sequence Puzzle</a>
-    </div>
-    <div class="col-md-4">
-      <a href="true-false-puzzle.html" class="btn btn-outline-success w-100">✅ True/False Puzzle</a>
-    </div>
-  </div>
 
-  <div class="text-center mt-4">
-    <button onclick="location.href='index.html'" class="btn btn-primary">🏠 Home</button>
-  </div>
+<!-- STUDENT NAME -->
+<div class="mb-3">
+<input type="text" id="studentName" class="form-control" placeholder="Enter your name">
 </div>
 
+<!-- SEARCH -->
+<input type="text" id="search" class="form-control mb-3" placeholder="Search puzzles...">
+
+<!-- FILTER -->
+<div class="text-center mb-3">
+<button class="btn btn-outline-info m-1" onclick="filter('all')">All</button>
+<button class="btn btn-outline-info m-1" onclick="filter('forces')">Forces</button>
+<button class="btn btn-outline-info m-1" onclick="filter('energy')">Energy</button>
+<button class="btn btn-outline-info m-1" onclick="filter('waves')">Waves</button>
+<button class="btn btn-outline-info m-1" onclick="filter('logic')">Logic</button>
+</div>
+
+<!-- PUZZLES -->
+<div class="row g-3" id="puzzleContainer"></div>
+
+<!-- LEADERBOARD -->
+<div class="section">
+<h3>🏆 Leaderboard</h3>
+<ul id="leaderboard" class="list-group"></ul>
+</div>
+
+<!-- HOME -->
+<div class="text-center mt-4">
+<a href="index.html" class="btn btn-primary">🏠 Home</a>
+</div>
+
+</div>
+
+<script>
+
+// PUZZLE DATABASE
+const puzzles = [
+{title:"Run Puzzle", link:"run-puzzle.html", topic:"forces", level:10},
+{title:"Formula Matching", link:"formula-puzzle.html", topic:"energy", level:15},
+{title:"Sequence Steps", link:"sequence-puzzle.html", topic:"logic", level:20},
+{title:"True / False", link:"true-false-puzzle.html", topic:"waves", level:10},
+{title:"Graph Challenge", link:"#", topic:"forces", level:25},
+{title:"Numerical Drill", link:"#", topic:"energy", level:30}
+];
+
+// DISPLAY
+function display(data){
+const container=document.getElementById("puzzleContainer");
+container.innerHTML="";
+
+data.forEach(p=>{
+container.innerHTML+=`
+<div class="col-md-4">
+<div class="card text-center">
+<h5>${p.title}</h5>
+<span class="badge bg-secondary">${p.topic}</span>
+<span class="badge bg-warning text-dark">${p.level} pts</span>
+<br><br>
+<button class="btn btn-success" onclick="startPuzzle('${p.title}', '${p.link}', ${p.level})">Start</button>
+</div>
+</div>`;
+});
+}
+
+// START PUZZLE
+function startPuzzle(title, link, score){
+let name=document.getElementById("studentName").value;
+if(!name){ alert("Enter your name"); return; }
+
+// Track attempts
+let attempts=JSON.parse(localStorage.getItem("attempts")||"{}");
+attempts[title]=(attempts[title]||0)+1;
+localStorage.setItem("attempts", JSON.stringify(attempts));
+
+// Save score
+let scores=JSON.parse(localStorage.getItem("scores")||"{}");
+scores[name]=(scores[name]||0)+score;
+localStorage.setItem("scores", JSON.stringify(scores));
+
+// Redirect
+window.location.href=link;
+}
+
+// FILTER
+function filter(topic){
+if(topic==="all") display(puzzles);
+else display(puzzles.filter(p=>p.topic===topic));
+}
+
+// SEARCH
+document.getElementById("search").addEventListener("input",function(){
+let val=this.value.toLowerCase();
+display(puzzles.filter(p=>p.title.toLowerCase().includes(val)));
+});
+
+// LEADERBOARD
+function loadLeaderboard(){
+let scores=JSON.parse(localStorage.getItem("scores")||"{}");
+let list=document.getElementById("leaderboard");
+list.innerHTML="";
+
+Object.entries(scores)
+.sort((a,b)=>b[1]-a[1])
+.slice(0,5)
+.forEach(([name,score])=>{
+list.innerHTML+=`<li class="list-group-item">${name} — ${score} pts</li>`;
+});
+}
+
+// INIT
+display(puzzles);
+loadLeaderboard();
+
+</script>
+
 </body>
-</html>
-<h1>🧩 Choose Puzzle Type</h1>
-<div class="puzzle-menu">
-  <a href="formula-puzzle.html" class="btn">🔗 Drag & Drop Matching</a>
-  <a href="sequence-puzzle.html" class="btn">🔢 Sequence Steps</a>
+</html>  <a href="sequence-puzzle.html" class="btn">🔢 Sequence Steps</a>
   <a href="true-false-puzzle.html" class="btn">✅ True / False</a>
   <a href="crossword-puzzle.html" class="btn">🔠 Crossword</a>
   <a href="label-puzzle.html" class="btn">🏷 Label the Diagram</a>
