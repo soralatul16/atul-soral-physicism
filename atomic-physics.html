@@ -2,16 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H0FWC22D8S"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-H0FWC22D8S');
-</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Atomic Physics</title>
-  <!-- Google Analytics -->
+<title>Atomic Physics | Atul Soral Physicism</title>
+
+<!-- GOOGLE ANALYTICS -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H0FWC22D8S"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -22,211 +16,230 @@ gtag('config', 'G-H0FWC22D8S');
 
 <style>
 body{
-margin:0;
-font-family:Segoe UI;
-background:#0f172a;
-color:white;
+  margin:0;
+  font-family:Arial;
+  background:#0f172a;
+  color:white;
 }
 
+/* NAVBAR */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 30px;
+  background:#020617;
+}
+
+.nav-links a{
+  margin-left:20px;
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.nav-links a:hover{
+  color:#38bdf8;
+}
+
+/* HEADER */
 header{
-background:linear-gradient(135deg,#06b6d4,#2563eb);
-padding:60px;
-text-align:center;
+  background:linear-gradient(135deg,#06b6d4,#2563eb);
+  padding:40px;
+  text-align:center;
 }
 
-nav{
-background:#111827;
-padding:12px;
-text-align:center;
+/* BACK BUTTON */
+.back-btn{
+  display:block;
+  margin:20px auto;
+  padding:10px 20px;
+  background:#334155;
+  border:none;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
 }
 
-nav a{
-color:white;
-margin:0 15px;
-text-decoration:none;
-font-weight:bold;
+.back-btn:hover{
+  background:#475569;
 }
 
-.container{
-max-width:1200px;
-margin:auto;
-padding:20px;
-}
-
+/* GRID */
 .grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:18px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:20px;
+  padding:30px;
 }
 
 .card{
-background:#1e293b;
-border-radius:12px;
-padding:10px;
-text-align:center;
-cursor:pointer;
-transition:0.3s;
+  background:#1e293b;
+  padding:10px;
+  border-radius:12px;
+  text-align:center;
+  transition:0.3s;
 }
 
 .card:hover{
-transform:scale(1.05);
+  transform:scale(1.03);
 }
 
 .card img{
-width:100%;
-height:150px;
-object-fit:contain;
-background:#000;
-border-radius:8px;
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:8px;
+  cursor:pointer;
 }
 
-.title{
-margin-top:8px;
-font-size:14px;
-color:#cbd5f5;
+.card p{
+  font-size:13px;
+  margin-top:8px;
 }
 
-/* LIGHTBOX */
-#viewer{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.95);
-display:none;
-flex-direction:column;
-align-items:center;
-justify-content:center;
+/* VIEWER */
+.viewer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:black;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
 }
 
-#viewer img{
-max-width:90%;
-max-height:80%;
+.viewer img{
+  max-width:90%;
+  max-height:80%;
 }
 
-.controls{
-margin-top:10px;
+.close{
+  position:absolute;
+  top:20px;
+  right:30px;
+  font-size:30px;
+  cursor:pointer;
 }
 
-button{
-margin:5px;
-padding:8px 12px;
-border:none;
-border-radius:6px;
-cursor:pointer;
+/* DOWNLOAD BUTTON */
+.download-btn{
+  margin-top:20px;
+  padding:10px 20px;
+  background:#22c55e;
+  border:none;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
 }
-
-.download{background:#22c55e;}
-.close{background:#ef4444;}
 </style>
 </head>
 
 <body>
 
+<!-- NAVBAR -->
+<div class="navbar">
+  <div><strong>Atul Soral Physicism</strong></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="myp-dashboard.html">MYP</a>
+    <a href="dp-dashboard.html">DP</a>
+  </div>
+</div>
+
+<!-- HEADER -->
 <header>
-<h1>Atomic Physics</h1>
-<p>Visual Notes • Atul Soral Physicism</p>
+<h1>⚛️ Atomic Physics</h1>
+<p>Click any image to enlarge and download</p>
 </header>
 
-<nav>
-<a href="index.html">Home</a>
-<a href="myp.html">MYP</a>
-<a href="dp.html">DP</a>
-</nav>
+<!-- BACK BUTTON -->
+<button class="back-btn" onclick="history.back()">⬅ Back</button>
 
-<div class="container">
+<!-- GRID -->
+<div class="grid" id="grid"></div>
 
-<div class="grid">
-
-<!-- IMAGE TEMPLATE -->
 <script>
 const images = [
-["0a-cover-page.png","Cover Page"],
-["1-atomic-models.png","Atomic Models Overview"],
-["2-daltons-atomic-model.png","Dalton Model"],
-["3-thomsons-atomic-model.png","Thomson Model"],
-["4-rutherfords-atomic-model.png","Rutherford Model"],
-["5-bohrs-atomic-model.png","Bohr Model"],
-["6-structure-of-atom.png","Structure of Atom"],
-["7-isotopes.png","Isotopes"],
-["8-radioactivity-introduction.png","Radioactivity Intro"],
-["9-alpha,-beta,-gamma-decay.png","Alpha Beta Gamma"],
-["10-1-alpha-decay.png","Alpha Decay 1"],
-["10-2-alpha-decay.png","Alpha Decay 2"],
-["11-beta-decay.png","Beta Decay"],
-["12-gamma-decay.png","Gamma Decay"],
-["13-half-life.png","Half Life"],
-["14-half-life-calculations.png","Half Life Calculations"],
-["15-uses-of-radiation.png","Uses of Radiation"],
-["16-dangers-of-radiation.png","Dangers"],
-["17-dangers-of-radiation.png","More Dangers"],
-["18-why-do-atoms-become-unstable.png","Unstable Atoms"],
-["19-ionization-vs-penetration.png","Ionization vs Penetration"],
-["20-randomness-of-decay.png","Randomness"],
-["21-reading-decaying-graphs.png","Decay Graphs"],
-["22-solving-half-life-problems.png","Half Life Problems"],
-["23-nuclear-equation-mastery.png","Nuclear Equations"],
-["24-1-common-mistakes-in-atomic-physics.png","Common Mistakes 1"],
-["24-2-common-mistakes-in-atomic-physics.png","Common Mistakes 2"],
-["25-radiation-myth-vs-reality.png","Myth vs Reality"],
-["26-radiation-in-medicine.png","Radiation in Medicine"],
-["27-carbon-dating-explained.png","Carbon Dating"],
-["28-nuclear-energy-boon-or-risk.png","Nuclear Energy"],
-["29-simulating-radioactive-decay.png","Simulation"],
-["30-design-your-own-experiment.png","Experiment"],
-["31-quick-concept-check-atomic-physics.png","Concept Check"],
-["32-apply-your-knowledge.png","Apply Knowledge"],
-["33-think-like-a-scientist.png","Think Like Scientist"],
-["34-evaluate-and-discuss-crit-d.png","Evaluation"],
-["35-chapter-summary-map.png","Summary Map"],
-["36-formula-&-key-ideas-sheet.png","Formula Sheet"],
-["37---1-liner-rapid-recall.png","Rapid Recall"]
+
+"0a-cover-page.png",
+"1-atomic-models.png",
+"2-daltons-atomic-model.png",
+"3-thomsons-atomic-model.png",
+"4-rutherfords-atomic-model.png",
+"5-bohrs-atomic-model.png",
+"6-structure-of-atom.png",
+"7-isotopes.png",
+"8-radioactivity-introduction.png",
+"9-alpha-beta-gamma-decay.png",
+"10-1-alpha-decay.png",
+"10-2-alpha-decay.png",
+"11-beta-decay.png",
+"12-gamma-decay.png",
+"13-half-life.png",
+"14-half-life-calculations.png",
+"15-uses-of-radiation.png",
+"16-dangers-of-radiation.png",
+"17-dangers-of-radiation.png",
+"18-why-do-atoms-become-unstable.png",
+"19-ionization-vs-penetration.png",
+"20-randomness-of-decay.png",
+"21-reading-decay-graphs.png",
+"22-solving-half-life-problems.png",
+"23-nuclear-equation-mastery.png",
+"24-1-common-mistakes.png",
+"24-2-common-mistakes.png",
+"25-radiation-myth-vs-reality.png",
+"26-radiation-in-medicine.png",
+"27-carbon-dating-explained.png",
+"28-nuclear-energy.png",
+"29-simulating-radioactive-decay.png",
+"30-design-your-own-experiment.png",
+"31-quick-concept-check.png",
+"32-apply-your-knowledge.png",
+"33-think-like-a-scientist.png",
+"34-evaluate-crit-d.png",
+"35-chapter-summary-map.png",
+"36-formula-sheet.png",
+"37-rapid-recall.png"
+
 ];
 
-const container = document.querySelector(".grid");
+const grid = document.getElementById("grid");
 
 images.forEach(img=>{
-let card = document.createElement("div");
-card.className="card";
-card.innerHTML = `
-<img src="Images/${img[0]}" onclick="openImg(this.src)">
-<div class="title">${img[1]}</div>
-`;
-container.appendChild(card);
+  grid.innerHTML += `
+  <div class="card">
+    <img src="Images/${img}" onclick="openViewer(this.src)">
+    <p>${img.replace(/-/g," ").replace(".png","")}</p>
+  </div>`;
 });
 </script>
 
-</div>
-</div>
-
 <!-- VIEWER -->
-<div id="viewer">
-<img id="fullImg">
-<div class="controls">
-<button class="download" onclick="downloadImg()">Download</button>
-<button class="close" onclick="closeImg()">Close</button>
-</div>
+<div class="viewer" id="viewer">
+<span class="close" onclick="closeViewer()">✖</span>
+
+<img id="viewerImg">
+
+<a id="downloadLink" download>
+  <button class="download-btn">⬇ Download</button>
+</a>
+
 </div>
 
 <script>
-let currentImg="";
-
-function openImg(src){
-currentImg = src;
-document.getElementById("viewer").style.display="flex";
-document.getElementById("fullImg").src=src;
+function openViewer(src){
+  document.getElementById("viewer").style.display="flex";
+  document.getElementById("viewerImg").src = src;
+  document.getElementById("downloadLink").href = src;
 }
 
-function closeImg(){
-document.getElementById("viewer").style.display="none";
-}
-
-function downloadImg(){
-let a=document.createElement("a");
-a.href=currentImg;
-a.download="";
-a.click();
+function closeViewer(){
+  document.getElementById("viewer").style.display="none";
 }
 </script>
 
