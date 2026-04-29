@@ -1,63 +1,151 @@
-const puzzleBank = {
+const MYP_QUESTION_BANK = {
 
-"Forces and Motion": {
+"Forces and Motion": [
 
-A: {   // Criterion A (Knowing & Understanding)
-
-formula: [
-{ q:"State Newton’s second law.", choices:["F=ma","v=u+at"], answer:"F=ma", strand:"i" },
-{ q:"Unit of force?", choices:["Newton","Joule"], answer:"Newton", strand:"i" },
-{ q:"Momentum formula?", choices:["p=mv","E=mc²"], answer:"p=mv", strand:"ii" },
-{ q:"Acceleration formula?", choices:["a=(v-u)/t","F=ma"], answer:"a=(v-u)/t", strand:"ii" },
-{ q:"Weight formula?", choices:["W=mg","F=ma"], answer:"W=mg", strand:"ii" }
-],
-
-truefalse: [
-{ q:"Force is a vector.", choices:["True","False"], answer:"True", strand:"i" },
-{ q:"Mass affects inertia.", choices:["True","False"], answer:"True", strand:"ii" }
-]
-
+/* ---------- CRITERION A ---------- */
+{
+criterion:"A",
+strand:"i",
+type:"mcq",
+question:"What is Newton’s Second Law?",
+options:{
+A:"F = ma",
+B:"v = u + at",
+C:"p = mv",
+D:"E = mc²"
+},
+answer:"A"
 },
 
-B: {   // Criterion B (Inquiring & Designing)
-
-logic: [
-{ q:"Which variable must be controlled in acceleration experiment?", choices:["Mass","Time"], answer:"Mass", strand:"i" },
-{ q:"Best method to measure acceleration?", choices:["Ticker tape","Thermometer"], answer:"Ticker tape", strand:"ii" }
-]
-
+{
+criterion:"A",
+strand:"ii",
+type:"mcq",
+question:"Unit of force is:",
+options:{
+A:"Joule",
+B:"Newton",
+C:"Watt",
+D:"Pascal"
+},
+answer:"B"
 },
 
-C: {   // Criterion C (Processing & Evaluating)
-
-calculation: [
-{ q:"Force on 2kg mass with acceleration 3?", choices:["6N","5N"], answer:"6N", strand:"i" },
-{ q:"Momentum of 2kg moving at 4m/s?", choices:["8","6"], answer:"8", strand:"ii" }
-]
-
+{
+criterion:"A",
+strand:"ii",
+type:"mcq",
+question:"Momentum formula is:",
+options:{
+A:"E = mc²",
+B:"F = ma",
+C:"p = mv",
+D:"v = u + at"
+},
+answer:"C"
 },
 
-D: {   // Criterion D (Reflecting on impacts)
+{
+criterion:"A",
+strand:"ii",
+type:"mcq",
+question:"Weight formula is:",
+options:{
+A:"F = ma",
+B:"p = mv",
+C:"W = mg",
+D:"E = mc²"
+},
+answer:"C"
+},
 
-analysis: [
-{ q:"Why are seatbelts important?", choices:["Reduce force","Increase force"], answer:"Reduce force", strand:"i" },
-{ q:"Impact of friction in daily life?", choices:["Useful & harmful","Only harmful"], answer:"Useful & harmful", strand:"ii" }
-]
+/* ---------- CRITERION B ---------- */
+{
+criterion:"B",
+strand:"i",
+type:"mcq",
+question:"What variable should be controlled in acceleration experiment?",
+options:{
+A:"Mass",
+B:"Force",
+C:"Velocity",
+D:"Distance"
+},
+answer:"A"
+},
 
+{
+criterion:"B",
+strand:"ii",
+type:"mcq",
+question:"Best tool to measure acceleration:",
+options:{
+A:"Thermometer",
+B:"Ticker timer",
+C:"Voltmeter",
+D:"Barometer"
+},
+answer:"B"
+},
+
+/* ---------- CRITERION C ---------- */
+{
+criterion:"C",
+strand:"i",
+type:"mcq",
+question:"Force on 2kg with acceleration 3 m/s²:",
+options:{
+A:"5 N",
+B:"6 N",
+C:"7 N",
+D:"8 N"
+},
+answer:"B"
+},
+
+{
+criterion:"C",
+strand:"ii",
+type:"mcq",
+question:"Momentum of 2kg moving at 4 m/s:",
+options:{
+A:"6",
+B:"7",
+C:"8",
+D:"9"
+},
+answer:"C"
+},
+
+/* ---------- CRITERION D ---------- */
+{
+criterion:"D",
+strand:"i",
+type:"mcq",
+question:"Why are seatbelts important?",
+options:{
+A:"Increase force",
+B:"Reduce force",
+C:"Increase mass",
+D:"Reduce velocity"
+},
+answer:"B"
+},
+
+{
+criterion:"D",
+strand:"ii",
+type:"mcq",
+question:"Friction in real life is:",
+options:{
+A:"Always harmful",
+B:"Always useful",
+C:"Useful & harmful",
+D:"Irrelevant"
+},
+answer:"C"
 }
 
-}
+]
+
 };
-// 🔥 AUTO-GENERATE MORE QUESTIONS
-
-for(let i=1;i<=50;i++){
-
-puzzleBank["Forces and Motion"].A.formula.push({
-  q:`Calculate force for case ${i}`,
-  choices:["10N","20N","30N"],
-  answer:"20N",
-  strand:"ii"
-});
-
-}
-
