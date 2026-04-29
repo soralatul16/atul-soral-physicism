@@ -35,7 +35,21 @@ let i=0, score=0;
 
 function load(){
   if(i>=questions.length){
-    document.body.innerHTML = `<h2>Score: ${score}/${questions.length}</h2>`;
+    let summary = `<h2>🎉 Quiz Completed</h2>`;
+summary += `<p>Score: ${score}/${questions.length}</p><hr>`;
+
+questions.forEach((q, idx)=>{
+  summary += `
+    <div style="margin:10px;text-align:left">
+      <b>Q${idx+1}: ${q.question}</b><br>
+      Correct: ${q.answer}<br>
+    </div>
+  `;
+});
+
+summary += `<br><button onclick="location.reload()">🔄 Retry</button>`;
+
+document.body.innerHTML = summary;
     return;
   }
 
