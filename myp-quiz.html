@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MYP Quiz | Atul Soral Physicism</title>
+<title>MYP Physics Quiz | Atul Soral Physicism</title>
 
 <!-- GOOGLE ANALYTICS -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H0FWC22D8S"></script>
@@ -16,6 +16,7 @@ gtag('config', 'G-H0FWC22D8S');
 
 <style>
 body{
+  margin:0;
   font-family:Arial;
   background:#0f172a;
   color:white;
@@ -27,10 +28,6 @@ header{
   padding:30px;
 }
 
-.nav{
-  margin:15px;
-}
-
 .nav button{
   margin:5px;
   padding:10px 15px;
@@ -39,11 +36,11 @@ header{
   cursor:pointer;
 }
 
-.quiz-box{
+.container{
+  max-width:700px;
+  margin:20px auto;
   background:#1e293b;
   padding:20px;
-  margin:20px auto;
-  max-width:600px;
   border-radius:12px;
 }
 
@@ -61,6 +58,10 @@ header{
 .option:hover{
   background:#475569;
 }
+
+button{
+  cursor:pointer;
+}
 </style>
 </head>
 
@@ -68,7 +69,7 @@ header{
 
 <header>
 <h1>🧠 MYP Physics Quiz</h1>
-<p>Select topic to start</p>
+<p>Test your understanding</p>
 </header>
 
 <div class="nav">
@@ -77,22 +78,203 @@ header{
   <button onclick="history.back()">🔙 Back</button>
 </div>
 
-<!-- TOPIC SELECTION -->
-<div id="topicSelect">
+<!-- TOPIC SELECT -->
+<div id="topics">
+  <h2>Select Topic</h2>
   <button onclick="startQuiz('waves')">🌊 Waves</button>
   <button onclick="startQuiz('electricity')">⚡ Electricity</button>
   <button onclick="startQuiz('atomic')">⚛️ Atomic Physics</button>
+  <button onclick="startQuiz('mixed')">🔥 Mixed Challenge</button>
 </div>
 
-<!-- QUIZ AREA -->
-<div class="quiz-box" id="quizBox">
-  <h2 id="questionBox">Click a topic to begin</h2>
-  <div id="optionsBox"></div>
+<!-- QUIZ -->
+<div class="container" id="quizBox" style="display:none;">
+  <h2 id="question"></h2>
+  <div id="options"></div>
   <p id="progress"></p>
+  <h3>⏱ Time: <span id="timer">15</span>s</h3>
 </div>
 
-<script src="myp-question-bank.js"></script>
-<script src="myp-quiz-logic.js"></script>
+<script>
+
+// ================= QUESTION BANK =================
+
+const BANK = {
+  waves: [
+    ["Unit of frequency?", ["Hz","m","J","N"], 0],
+    ["Wave speed formula?", ["v=fλ","v=d/t","F=ma","P=IV"], 0],
+    ["Longitudinal wave?", ["Light","Sound","EM","Water"], 1],
+    ["Amplitude affects?", ["Energy","Speed","Time","Mass"], 0]
+  ],
+
+  electricity: [
+    ["Unit of current?", ["Volt","Ampere","Ohm","Watt"], 1],
+    ["Ohm’s law?", ["V=IR","F=ma","P=IV","E=mc²"], 0],
+    ["Resistance unit?", ["Ohm","Volt","Amp","Joule"], 0],
+    ["Series current?", ["Same","Different","Zero","Infinite"], 0]
+  ],
+
+  atomic: [
+    ["Nuclear model by?", ["Dalton","Thomson","Rutherford","Bohr"], 2],
+    ["Electron charge?", ["+1","-1","0","+2"], 1],
+    ["Alpha particle?", ["Electron","Helium","Photon","Proton"], 1],
+    ["Half-life means?", ["Full decay","Half decay","Double","None"], 1]
+  ]
+};
+
+// ================= VARIABLES =================
+
+let questions = [];
+let current = 0;
+let score = 0;
+let timer;
+let time = 15;
+let topic = "";
+
+// ================= START =================
+
+function startQuiz(t){
+  topic = t;
+
+  let all = t==="mixed"
+    ? Object.values(BANK).flat()
+    : BANK[t];
+
+  questions = shuffleBalanced(all).slice(0,10);
+
+  document.getElementById("topics").style.display="none";
+  document.getElementById("quizBox").style.display="block";
+
+  current = 0;
+  score = 0;
+
+  nextQ();
+
+  gtag("event","quiz_start",{event_label:t});
+}
+
+// ================= BALANCED SHUFFLE =================
+
+function shuffleBalanced(arr){
+  let groups=[[],[],[],[]];
+
+  arr.forEach(q=>{
+    groups[q[2]].push(q);
+  });
+
+  let result=[];
+  let max=Math.max(...groups.map(g=>g.length));
+
+  for(let i=0;i<max;i++){
+    for(let j=0;j<4;j++){
+      if(groups[j][i]) result.push(groups[j][i]);
+    }
+  }
+
+  return result.sort(()=>Math.random()-0.5);
+}
+
+// ================= LOAD QUESTION =================
+
+function nextQ(){
+  if(current>=questions.length){
+    endQuiz();
+    return;
+  }
+
+  clearInterval(timer);
+  time=15;
+
+  let q=questions[current];
+
+  document.getElementById("question").innerText=q[0];
+
+  let optHTML="";
+  q[1].forEach((o,i)=>{
+    optHTML+=`<button class="option" onclick="check(${i})">
+      ${String.fromCharCode(65+i)}. ${o}
+    </button>`;
+  });
+
+  document.getElementById("options").innerHTML=optHTML;
+  document.getElementById("progress").innerText=`Q ${current+1}/${questions.length}`;
+
+  startTimer();
+}
+
+// ================= TIMER =================
+
+function startTimer(){
+  document.getElementById("timer").innerText=time;
+
+  timer=setInterval(()=>{
+    time--;
+    document.getElementById("timer").innerText=time;
+
+    if(time<=0){
+      clearInterval(timer);
+      current++;
+      nextQ();
+    }
+  },1000);
+}
+
+// ================= CHECK =================
+
+function check(i){
+  clearInterval(timer);
+
+  if(i===questions[current][2]) score++;
+
+  current++;
+  nextQ();
+}
+
+// ================= END =================
+
+function endQuiz(){
+
+  saveScore();
+
+  document.getElementById("quizBox").innerHTML=`
+    <h2>🎉 Completed</h2>
+    <h3>Score: ${score}/${questions.length}</h3>
+    <button onclick="location.reload()">🔄 Restart</button>
+    <button onclick="leaderboard()">🏆 Leaderboard</button>
+  `;
+
+  gtag("event","quiz_complete",{event_label:score});
+}
+
+// ================= LEADERBOARD =================
+
+function saveScore(){
+  let data=JSON.parse(localStorage.getItem("quiz")||"[]");
+
+  data.push({
+    topic:topic,
+    score:score,
+    date:new Date().toLocaleDateString()
+  });
+
+  localStorage.setItem("quiz",JSON.stringify(data));
+}
+
+function leaderboard(){
+  let data=JSON.parse(localStorage.getItem("quiz")||"[]");
+
+  let html="<h2>🏆 Leaderboard</h2>";
+
+  data.slice(-10).reverse().forEach(d=>{
+    html+=`<p>${d.topic} - ${d.score}</p>`;
+  });
+
+  html+=`<button onclick="location.reload()">⬅ Back</button>`;
+
+  document.getElementById("quizBox").innerHTML=html;
+}
+
+</script>
 
 </body>
 </html>
