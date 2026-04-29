@@ -1,6 +1,6 @@
-let currentIndex = 0;
+let questions = [];
+let index = 0;
 let score = 0;
-let selectedQuestions = [];
 
 function startQuiz(){
 
@@ -12,29 +12,76 @@ alert("Select topic");
 return;
 }
 
-selectedQuestions = shuffle(MYP_QUESTION_BANK[topic]).slice(0,10);
+questions = MYP_QUESTION_BANK[topic];
 
-document.getElementById("quizBox").style.display="block";
+if(!questions || questions.length === 0){
+alert("No questions found for this topic");
+return;
+}
 
-currentIndex = 0;
+index = 0;
 score = 0;
+
+document.getElementById("quizSection").style.display="block";
+document.getElementById("startSection").style.display="none";
 
 loadQuestion();
 
-gtag('event','quiz_start',{
-topic:topic,
-user:email
-});
-
+gtag('event','quiz_start',{topic:topic,user:email});
 }
 
 function loadQuestion(){
 
-if(currentIndex >= selectedQuestions.length){
-
+if(index >= questions.length){
 document.getElementById("questionText").innerHTML = "🎉 Quiz Completed!";
 document.getElementById("choiceList").innerHTML = "";
-document.getElementById("scoreBox").innerHTML = `Score: ${score}/10`;
+document.getElementById("scoreBox").innerHTML = `Score: ${score}/${questions.length}`;
+return;
+}
+
+const q = questions[index];
+
+document.getElementById("questionText").innerHTML =
+`(${q.criterion}-${q.strand}) ${q.question}`;
+
+let html = "";
+
+for(let key in q.options){
+html += `<li class="list-group-item option" onclick="checkAnswer('${key}', this)">
+${key}. ${q.options[key]}
+</li>`;
+}
+
+document.getElementById("choiceList").innerHTML = html;
+}
+
+function checkAnswer(ans, element){
+
+const correct = questions[index].answer;
+
+if(ans === correct){
+element.classList.add("correct");
+score++;
+}else{
+element.classList.add("wrong");
+}
+
+index++;
+setTimeout(loadQuestion,800);
+}
+
+window.onload = function(){
+
+const select = document.getElementById("mainTopicSelect");
+
+for(let topic in MYP_QUESTION_BANK){
+let opt = document.createElement("option");
+opt.value = topic;
+opt.textContent = topic;
+select.appendChild(opt);
+}
+
+}document.getElementById("scoreBox").innerHTML = `Score: ${score}/10`;
 
 gtag('event','quiz_complete',{
 score:score
