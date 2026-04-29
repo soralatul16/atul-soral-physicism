@@ -1,40 +1,63 @@
-let questions = [];
-let current = 0;
-let score = 0;
-let timer;
-let timeLeft = 15;
-let currentTopic = "";
+const params = new URLSearchParams(window.location.search);
+const topic = params.get("topic") || "waves";
 
-// ================= START QUIZ =================
-function startQuiz(topic) {
-  currentTopic = topic;
+let allQ = questionBank.filter(q => q.topic === topic);
 
-  let allQ = topic === "mixed"
-    ? Object.values(QUESTION_BANK).flat()
-    : QUESTION_BANK[topic];
-
-  questions = shuffleQuestionsBalanced(allQ).slice(0, 10);
-
-  current = 0;
-  score = 0;
-
-  document.getElementById("topicSelect").style.display = "none";
-
-  loadQuestion();
-  trackEvent("quiz_start", topic);
+if(allQ.length === 0){
+  allQ = questionBank;
 }
 
-// ================= LOAD QUESTION =================
-function loadQuestion() {
-  if (current >= questions.length) {
-    endQuiz();
+function shuffle(arr){
+  return arr.sort(()=>0.5-Math.random());
+}
+
+function pickMixed(qs,total=10){
+  const easy = qs.filter(q=>q.level==="easy");
+  const med = qs.filter(q=>q.level==="medium");
+  const hard = qs.filter(q=>q.level==="hard");
+
+  return shuffle([
+    ...easy.slice(0, Math.floor(total*0.25)),
+    ...med.slice(0, Math.floor(total*0.30)),
+    ...hard.slice(0, Math.floor(total*0.45))
+  ]);
+}
+
+function shuffleOptions(q){
+  let opts = [...q.options];
+  opts = shuffle(opts);
+  return {...q, options:opts, answer:opts.indexOf(q.answer)};
+}
+
+let questions = pickMixed(allQ,10).map(q=>shuffleOptions(q));
+
+let i=0, score=0;
+
+function load(){
+  if(i>=questions.length){
+    document.body.innerHTML = `<h2>Score: ${score}/${questions.length}</h2>`;
     return;
   }
 
-  clearInterval(timer);
-  timeLeft = 15;
+  let q = questions[i];
+  document.getElementById("q").innerText = q.question;
 
-  const q = questions[current];
+  let html="";
+  q.options.forEach((o,idx)=>{
+    html += `<button class="option" onclick="check(${idx})">${o}</button>`;
+  });
+
+  document.getElementById("opts").innerHTML = html;
+  document.getElementById("progress").innerText = `Q ${i+1}/${questions.length}`;
+}
+
+function check(ans){
+  if(ans===questions[i].answer) score++;
+  i++;
+  load();
+}
+
+load();  const q = questions[current];
 
   document.getElementById("questionBox").innerText = q.q;
 
