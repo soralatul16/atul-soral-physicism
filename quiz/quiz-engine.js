@@ -1,6 +1,6 @@
 const params = new URLSearchParams(window.location.search);
 const topic = params.get("topic") || "waves";
-
+const image = params.get("image") || "";
 let allQ = questionBank.filter(q => q.topic === topic);
 
 if(allQ.length === 0){
