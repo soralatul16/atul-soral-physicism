@@ -145,7 +145,25 @@ D:"Irrelevant"
 },
 answer:"C"
 }
-
+"Electromagnetism": [
+{
+criterion:"A",
+strand:"i",
+type:"mcq",
+question:"Unit of current is:",
+options:{A:"Volt",B:"Ampere",C:"Ohm",D:"Watt"},
+answer:"B"
+},
+{
+criterion:"A",
+strand:"ii",
+type:"mcq",
+question:"Ohm’s Law is:",
+options:{A:"V = IR",B:"F = ma",C:"p = mv",D:"E = mc²"},
+answer:"A"
+}
+],
 ]
+  
 
 };
