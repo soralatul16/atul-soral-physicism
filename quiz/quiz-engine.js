@@ -124,21 +124,25 @@ function nextQuestion(){
 ========================= */
 function showSummary(){
 
+  // hide quiz
   document.getElementById("quiz-area").style.display = "none";
+
   const box = document.getElementById("summary-area");
   box.style.display = "block";
 
   let total = questions.length;
   let percentage = Math.round((score / total) * 100);
 
-  let html = `
-    <h2>🎉 Quiz Completed</h2>
-    <h3>Total Score: ${score} / ${total}</h3>
-    <h4>Percentage: ${percentage}%</h4>
-    <hr>
-  `;
+  let html = "";
 
+  // ===== SCORE =====
+  html += "<h2>🎉 Quiz Completed</h2>";
+  html += "<h3>Total Score: " + score + " / " + total + "</h3>";
+  html += "<h4>Percentage: " + percentage + "%</h4><hr>";
+
+  // ===== QUESTIONS =====
   userAnswers.forEach((item, i)=>{
+
     const q = item.question;
     const correct = q.options[q.correctIndex];
     const chosen = q.options[item.selected];
@@ -171,6 +175,7 @@ function showSummary(){
     `;
   });
 
+  // ===== BUTTONS =====
   html += `
     <button onclick="location.reload()">🔄 Retry</button>
     <button onclick="window.location.href='../waves.html'">📡 Back to Waves</button>
