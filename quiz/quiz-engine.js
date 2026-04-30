@@ -1,87 +1,132 @@
 const params = new URLSearchParams(window.location.search);
 const topic = params.get("topic") || "waves";
-const image = params.get("image") || "";
-
-function shuffle(arr){
-  return arr.sort(()=>0.5-Math.random());
-}
+const image = params.get("image") || "default";
 
 /* FILTER QUESTIONS */
 let filtered = questionBank.filter(q =>
   q.topic === topic && q.image === image
 );
 
+/* fallback */
 if(filtered.length === 0){
   filtered = questionBank.filter(q => q.topic === topic);
 }
 
-/* MIX DIFFICULTY */
-function mixQuestions(qs, total=10){
-  const easy = qs.filter(q=>q.level==="easy");
-  const medium = qs.filter(q=>q.level==="medium");
-  const hard = qs.filter(q=>q.level==="hard");
+/* SHUFFLE */
+function shuffle(arr){
+  return arr.sort(()=>0.5-Math.random());
+}
+
+/* CRITERIA MIX */
+function pickQuestions(qs, total=10){
+  const A = qs.filter(q=>q.criterion==="A");
+  const B = qs.filter(q=>q.criterion==="B");
+  const C = qs.filter(q=>q.criterion==="C");
+  const D = qs.filter(q=>q.criterion==="D");
+
+  function pick(arr,n){
+    return shuffle(arr).slice(0,n);
+  }
 
   return shuffle([
-    ...easy.slice(0, Math.floor(total*0.25)),
-    ...medium.slice(0, Math.floor(total*0.30)),
-    ...hard.slice(0, Math.floor(total*0.45))
+    ...pick(A,4),
+    ...pick(B,2),
+    ...pick(C,2),
+    ...pick(D,2)
   ]);
 }
 
 /* SHUFFLE OPTIONS */
 function shuffleOptions(q){
   let opts = shuffle([...q.options]);
-  return {...q, options:opts, answer:opts.indexOf(q.answer)};
+  return {
+    ...q,
+    options:opts,
+    answerIndex:opts.indexOf(q.answer)
+  };
 }
 
-let questions = mixQuestions(filtered,10).map(q=>shuffleOptions(q));
+/* FINAL QUESTIONS */
+let questions = pickQuestions(filtered,10).map(q=>shuffleOptions(q));
 
-let i=0, score=0;
+let index = 0;
+let score = 0;
+let userAnswers = [];
 
 /* LOAD QUESTION */
-function load(){
-  if(i>=questions.length){
-    showSummary();
-    return;
-  }
+function loadQuestion(){
+  const q = questions[index];
 
-  let q = questions[i];
+  document.getElementById("question").innerText = q.question;
 
-  document.getElementById("q").innerText = q.question;
-
-  let html="";
-  q.options.forEach((o,idx)=>{
-    html += `<button class="option" onclick="check(${idx})">${o}</button>`;
+  let html = "";
+  q.options.forEach((opt,i)=>{
+    html += `<div class="option" onclick="select(${i})">${opt}</div>`;
   });
 
-  document.getElementById("opts").innerHTML = html;
-  document.getElementById("progress").innerText = `Q ${i+1}/${questions.length}`;
+  document.getElementById("options").innerHTML = html;
+  document.getElementById("progress").innerText =
+    `Question ${index+1} of ${questions.length}`;
 }
 
-/* CHECK ANSWER */
-function check(ans){
-  if(ans===questions[i].answer) score++;
-  i++;
-  load();
+let selected = null;
+
+function select(i){
+  selected = i;
+}
+
+/* NEXT */
+function nextQuestion(){
+  if(selected === null) return;
+
+  if(selected === questions[index].answerIndex){
+    score++;
+  }
+
+  userAnswers.push({
+    question:questions[index],
+    selected:selected
+  });
+
+  selected = null;
+  index++;
+
+  if(index >= questions.length){
+    showSummary();
+  }else{
+    loadQuestion();
+  }
 }
 
 /* SUMMARY */
 function showSummary(){
-  let html = `<h2>🎉 Completed</h2>`;
-  html += `<p>Score: ${score}/${questions.length}</p><hr>`;
 
-  questions.forEach((q, idx)=>{
+  document.getElementById("quiz-area").style.display="none";
+  const box = document.getElementById("summary-area");
+  box.style.display="block";
+
+  let html = `<h2>🎉 Quiz Completed</h2>`;
+  html += `<p><b>Score: ${score} / ${questions.length}</b></p><hr>`;
+
+  userAnswers.forEach((item,i)=>{
+    const q = item.question;
+    const correct = q.options[q.answerIndex];
+    const selected = q.options[item.selected];
+
     html += `
-      <div style="text-align:left;margin:10px">
-      <b>Q${idx+1}: ${q.question}</b><br>
-      Correct Answer: ${q.options[q.answer]}
-      </div>
+    <div style="margin-bottom:15px;">
+      <b>Q${i+1}: ${q.question}</b><br>
+      Your Answer: ${selected}<br>
+      Correct Answer: ${correct}<br>
+      <i>${q.explanation}</i>
+    </div>
     `;
   });
 
-  html += `<br><button onclick="location.reload()">🔄 Retry</button>`;
+  html += `<button class="next-btn" onclick="location.reload()">🔄 Retry</button>`;
 
-  document.body.innerHTML = html;
+  box.innerHTML = html;
 }
 
-load();
+/* START */
+loadQuestion();
