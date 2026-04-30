@@ -40,7 +40,6 @@ function shuffleOptions(q){
 }
 
 /* FINAL */
-let questions = pickQuestions(filtered).map(q=>shuffleOptions(q));
 
 if(questions.length === 0){
   document.body.innerHTML = "<h2 style='color:white;text-align:center;'>❌ No questions found</h2>";
