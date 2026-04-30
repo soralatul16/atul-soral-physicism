@@ -45,22 +45,6 @@ function pickQuestions(qs, total=10){
   // 🔥 FINAL SAFETY
   return shuffle(selected).slice(0,total);
 }
-  const A = qs.filter(q=>q.criterion==="A");
-  const B = qs.filter(q=>q.criterion==="B");
-  const C = qs.filter(q=>q.criterion==="C");
-  const D = qs.filter(q=>q.criterion==="D");
-
-  function pick(arr,n){
-    return shuffle(arr).slice(0,n);
-  }
-
-  return shuffle([
-    ...pick(A,4),
-    ...pick(B,2),
-    ...pick(C,2),
-    ...pick(D,2)
-  ]);
-}
 
 /* SHUFFLE OPTIONS */
 function shuffleOptions(q){
