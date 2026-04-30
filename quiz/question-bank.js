@@ -718,4 +718,338 @@ answer:"They transfer energy",
 explanation:"Core property of waves."
 }
 
+const questionBank = [
+
+/* ===== ATOMIC PHYSICS ===== */
+
+/* ===== IMAGE 1: ATOMIC MODELS ===== */
+{
+topic:"atomic",
+image:"1-atomic-models",
+question:"Who proposed the first atomic theory?",
+options:["Dalton","Thomson","Rutherford","Bohr"],
+answer:"Dalton",
+explanation:"Dalton proposed atoms as indivisible particles."
+},
+{
+topic:"atomic",
+image:"1-atomic-models",
+question:"Which model described atoms as solid spheres?",
+options:["Dalton","Thomson","Rutherford","Bohr"],
+answer:"Dalton",
+explanation:"Dalton’s model treated atoms as solid spheres."
+},
+{
+topic:"atomic",
+image:"1-atomic-models",
+question:"Which scientist discovered the electron?",
+options:["Thomson","Dalton","Rutherford","Bohr"],
+answer:"Thomson",
+explanation:"Thomson discovered the electron using cathode rays."
+},
+{
+topic:"atomic",
+image:"1-atomic-models",
+question:"Which model introduced a nucleus?",
+options:["Rutherford","Dalton","Thomson","Bohr"],
+answer:"Rutherford",
+explanation:"Rutherford discovered the nucleus via gold foil experiment."
+},
+{
+topic:"atomic",
+image:"1-atomic-models",
+question:"Which model has fixed energy levels?",
+options:["Bohr","Dalton","Thomson","Rutherford"],
+answer:"Bohr",
+explanation:"Bohr introduced quantized energy levels."
+},
+{
+topic:"atomic",
+image:"1-atomic-models",
+question:"Which model is called plum pudding?",
+options:["Thomson","Dalton","Rutherford","Bohr"],
+answer:"Thomson",
+explanation:"Electrons embedded in positive sphere."
+},
+{
+topic:"atomic",
+image:"1-atomic-models",
+question:"Which model failed to explain electron stability?",
+options:["Rutherford","Bohr","Dalton","Thomson"],
+answer:"Rutherford",
+explanation:"Electrons should collapse into nucleus in Rutherford model."
+},
+{
+topic:"atomic",
+image:"1-atomic-models",
+question:"Which model uses circular orbits?",
+options:["Bohr","Dalton","Thomson","Rutherford"],
+answer:"Bohr",
+explanation:"Electrons move in fixed circular orbits."
+},
+{
+topic:"atomic",
+image:"1-atomic-models",
+question:"Which model has no internal structure?",
+options:["Dalton","Thomson","Rutherford","Bohr"],
+answer:"Dalton",
+explanation:"Atoms were considered indivisible."
+},
+{
+topic:"atomic",
+image:"1-atomic-models",
+question:"Which model came after Rutherford?",
+options:["Bohr","Dalton","Thomson","Rutherford"],
+answer:"Bohr",
+explanation:"Bohr improved Rutherford model."
+},
+
+/* ===== IMAGE 7: ISOTOPES ===== */
+{
+topic:"atomic",
+image:"7-isotopes",
+question:"Isotopes differ in:",
+options:["Neutrons","Protons","Electrons","Charge"],
+answer:"Neutrons",
+explanation:"Isotopes have same protons but different neutrons."
+},
+{
+topic:"atomic",
+image:"7-isotopes",
+question:"Isotopes have same:",
+options:["Atomic number","Mass number","Neutron number","Energy"],
+answer:"Atomic number",
+explanation:"Atomic number = number of protons."
+},
+{
+topic:"atomic",
+image:"7-isotopes",
+question:"Example of isotopes:",
+options:["C-12 & C-14","H & He","Na & Cl","Fe & Cu"],
+answer:"C-12 & C-14",
+explanation:"Same element, different neutrons."
+},
+{
+topic:"atomic",
+image:"7-isotopes",
+question:"Mass number equals:",
+options:["Protons + Neutrons","Protons only","Neutrons only","Electrons"],
+answer:"Protons + Neutrons",
+explanation:"Mass number is sum of nucleons."
+},
+{
+topic:"atomic",
+image:"7-isotopes",
+question:"Isotopes have similar:",
+options:["Chemical properties","Mass","Neutron count","Decay"],
+answer:"Chemical properties",
+explanation:"Chemical behavior depends on electrons."
+},
+{
+topic:"atomic",
+image:"7-isotopes",
+question:"Radioactive isotopes are called:",
+options:["Radioisotopes","Ions","Atoms","Molecules"],
+answer:"Radioisotopes",
+explanation:"They undergo radioactive decay."
+},
+{
+topic:"atomic",
+image:"7-isotopes",
+question:"Isotopes differ in mass because:",
+options:["Different neutrons","Different electrons","Different protons","Energy"],
+answer:"Different neutrons",
+explanation:"Neutrons contribute to mass."
+},
+{
+topic:"atomic",
+image:"7-isotopes",
+question:"Atomic number determines:",
+options:["Element identity","Mass","Charge","Energy"],
+answer:"Element identity",
+explanation:"Number of protons defines element."
+},
+{
+topic:"atomic",
+image:"7-isotopes",
+question:"Carbon-14 is used for:",
+options:["Dating fossils","Energy","Medicine","Cooling"],
+answer:"Dating fossils",
+explanation:"Used in radiocarbon dating."
+},
+{
+topic:"atomic",
+image:"7-isotopes",
+question:"Isotopes of hydrogen include:",
+options:["Protium, Deuterium, Tritium","Oxygen isotopes","Helium isotopes","Iron isotopes"],
+answer:"Protium, Deuterium, Tritium",
+explanation:"Three isotopes of hydrogen."
+},
+
+/* ===== IMAGE 9: RADIATION ===== */
+{
+topic:"atomic",
+image:"9-alpha-beta-gamma-decay",
+question:"Alpha radiation is:",
+options:["Helium nucleus","Electron","Photon","Neutron"],
+answer:"Helium nucleus",
+explanation:"2 protons + 2 neutrons."
+},
+{
+topic:"atomic",
+image:"9-alpha-beta-gamma-decay",
+question:"Beta radiation is:",
+options:["Electron","Photon","Neutron","Alpha"],
+answer:"Electron",
+explanation:"Fast moving electron."
+},
+{
+topic:"atomic",
+image:"9-alpha-beta-gamma-decay",
+question:"Gamma radiation is:",
+options:["EM wave","Particle","Electron","Neutron"],
+answer:"EM wave",
+explanation:"High energy electromagnetic wave."
+},
+{
+topic:"atomic",
+image:"9-alpha-beta-gamma-decay",
+question:"Most penetrating radiation:",
+options:["Gamma","Alpha","Beta","None"],
+answer:"Gamma",
+explanation:"Gamma penetrates deeply."
+},
+{
+topic:"atomic",
+image:"9-alpha-beta-gamma-decay",
+question:"Least penetrating:",
+options:["Alpha","Beta","Gamma","All equal"],
+answer:"Alpha",
+explanation:"Stopped by paper."
+},
+{
+topic:"atomic",
+image:"9-alpha-beta-gamma-decay",
+question:"Charge of alpha:",
+options:["+2","-1","0","+1"],
+answer:"+2",
+explanation:"Helium nucleus has +2 charge."
+},
+{
+topic:"atomic",
+image:"9-alpha-beta-gamma-decay",
+question:"Charge of beta:",
+options:["-1","+1","0","+2"],
+answer:"-1",
+explanation:"Electron has -1 charge."
+},
+{
+topic:"atomic",
+image:"9-alpha-beta-gamma-decay",
+question:"Gamma has:",
+options:["No charge","+1","-1","+2"],
+answer:"No charge",
+explanation:"It is a wave."
+},
+{
+topic:"atomic",
+image:"9-alpha-beta-gamma-decay",
+question:"Alpha stopped by:",
+options:["Paper","Aluminium","Lead","Water"],
+answer:"Paper",
+explanation:"Very low penetration."
+},
+{
+topic:"atomic",
+image:"9-alpha-beta-gamma-decay",
+question:"Gamma stopped by:",
+options:["Lead","Paper","Air","Plastic"],
+answer:"Lead",
+explanation:"Requires dense material."
+},
+
+/* ===== IMAGE 13: HALF LIFE ===== */
+{
+topic:"atomic",
+image:"13-half-life",
+question:"Half-life is:",
+options:["Time for half nuclei to decay","Time for all decay","Energy lost","Mass gained"],
+answer:"Time for half nuclei to decay",
+explanation:"Definition of half-life."
+},
+{
+topic:"atomic",
+image:"13-half-life",
+question:"After one half-life:",
+options:["50% remains","25% remains","75% remains","0% remains"],
+answer:"50% remains",
+explanation:"Half decays."
+},
+{
+topic:"atomic",
+image:"13-half-life",
+question:"After two half-lives:",
+options:["25% remains","50% remains","75% remains","0%"],
+answer:"25% remains",
+explanation:"Half of half remains."
+},
+{
+topic:"atomic",
+image:"13-half-life",
+question:"Decay is:",
+options:["Random","Predictable","Linear","Constant"],
+answer:"Random",
+explanation:"Individual decay unpredictable."
+},
+{
+topic:"atomic",
+image:"13-half-life",
+question:"Half-life depends on:",
+options:["Material","Temperature","Pressure","Mass"],
+answer:"Material",
+explanation:"Intrinsic property."
+},
+{
+topic:"atomic",
+image:"13-half-life",
+question:"Unit of half-life:",
+options:["Seconds","Joules","Watts","Kelvin"],
+answer:"Seconds",
+explanation:"Time measurement."
+},
+{
+topic:"atomic",
+image:"13-half-life",
+question:"Decay graph is:",
+options:["Exponential","Linear","Circular","Random"],
+answer:"Exponential",
+explanation:"Decay follows exponential law."
+},
+{
+topic:"atomic",
+image:"13-half-life",
+question:"Used in:",
+options:["Dating fossils","Cooking","Cooling","Transport"],
+answer:"Dating fossils",
+explanation:"Radiocarbon dating."
+},
+{
+topic:"atomic",
+image:"13-half-life",
+question:"More half-life means:",
+options:["Slower decay","Faster decay","No decay","Instant decay"],
+answer:"Slower decay",
+explanation:"Takes longer to decay."
+},
+{
+topic:"atomic",
+image:"13-half-life",
+question:"After 3 half-lives:",
+options:["12.5% remains","50%","25%","0%"],
+answer:"12.5% remains",
+explanation:"1/8 remains."
+}
+
+];
+  
 ];
