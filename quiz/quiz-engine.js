@@ -1,65 +1,71 @@
 const params = new URLSearchParams(window.location.search);
 const topic = params.get("topic") || "waves";
-const image = params.get("image") || "default";
+const image = params.get("image") || "";
 
-/* ===== FILTER (image first) ===== */
+/* =========================
+   FILTER QUESTIONS
+========================= */
 let filtered = questionBank.filter(q =>
   q.topic === topic && q.image === image
 );
 
-/* ===== TOP-UP FROM SAME TOPIC ===== */
-let pool = [...filtered];
-
-if (pool.length < 10) {
-  const topicPool = questionBank.filter(q => q.topic === topic);
-  const extra = topicPool.filter(q => !pool.includes(q));
-  pool = [...pool, ...extra];
+if(filtered.length < 10){
+  const extra = questionBank.filter(q => q.topic === topic);
+  filtered = [...filtered, ...extra];
 }
 
-/* ===== SHUFFLE ===== */
+/* =========================
+   SHUFFLE
+========================= */
 function shuffle(arr){
   return arr.sort(()=>0.5-Math.random());
 }
 
-/* ===== ENSURE EXACTLY 10 QUESTIONS ===== */
-function buildTen(qs){
-  let selected = shuffle([...qs]);
-
-  // If still less than 10, allow safe repeats
-  while (selected.length < 10 && qs.length > 0){
-    selected.push(qs[Math.floor(Math.random()*qs.length)]);
+/* =========================
+   BUILD 10 QUESTIONS
+========================= */
+function get10(qs){
+  let arr = shuffle([...qs]);
+  while(arr.length < 10){
+    arr.push(qs[Math.floor(Math.random()*qs.length)]);
   }
-
-  return selected.slice(0,10);
+  return arr.slice(0,10);
 }
 
-/* ===== SHUFFLE OPTIONS ===== */
-function shuffleOptions(q){
+/* =========================
+   SHUFFLE OPTIONS
+========================= */
+function prepare(q){
   let opts = shuffle([...q.options]);
   return {
     ...q,
-    options:opts,
-    answerIndex:opts.indexOf(q.answer)
+    options: opts,
+    correctIndex: opts.indexOf(q.answer)
   };
 }
 
-/* ===== FINAL QUESTIONS ===== */
-let questions = buildTen(pool).map(q => shuffleOptions(q));
+let questions = get10(filtered).map(prepare);
 
+/* =========================
+   VARIABLES
+========================= */
 let index = 0;
 let score = 0;
-let userAnswers = [];
 let selected = null;
+let userAnswers = [];
 
-/* ===== LOAD QUESTION ===== */
+/* =========================
+   LOAD QUESTION
+========================= */
 function loadQuestion(){
-  const q = questions[index];
+  selected = null;
 
+  const q = questions[index];
   document.getElementById("question").innerText = q.question;
 
   let html = "";
-  q.options.forEach((opt,i)=>{
-    html += `<div class="option" onclick="select(${i})">${opt}</div>`;
+  q.options.forEach((opt, i)=>{
+    html += `<div class="option" onclick="selectOption(this, ${i})">${opt}</div>`;
   });
 
   document.getElementById("options").innerHTML = html;
@@ -67,63 +73,89 @@ function loadQuestion(){
     `Question ${index+1} of ${questions.length}`;
 }
 
-/* ===== SELECT ===== */
-function select(i){
+/* =========================
+   SELECT OPTION
+========================= */
+function selectOption(element, i){
+
+  // Remove previous highlight
+  document.querySelectorAll(".option").forEach(opt=>{
+    opt.style.background = "#1e293b";
+  });
+
+  // Highlight selected
+  element.style.background = "#22c55e";
+
   selected = i;
 }
 
-/* ===== NEXT ===== */
+/* =========================
+   NEXT QUESTION
+========================= */
 function nextQuestion(){
-  if(selected === null) return;
 
-  if(selected === questions[index].answerIndex){
+  if(selected === null){
+    alert("Please select an answer!");
+    return;
+  }
+
+  const q = questions[index];
+
+  if(selected === q.correctIndex){
     score++;
   }
 
   userAnswers.push({
-    question:questions[index],
-    selected:selected
+    question: q,
+    selected: selected
   });
 
-  selected = null;
   index++;
 
   if(index >= questions.length){
     showSummary();
-  }else{
+  } else {
     loadQuestion();
   }
 }
 
-/* ===== SUMMARY ===== */
+/* =========================
+   SUMMARY
+========================= */
 function showSummary(){
-  document.getElementById("quiz-area").style.display="none";
+
+  document.getElementById("quiz-area").style.display = "none";
   const box = document.getElementById("summary-area");
-  box.style.display="block";
+  box.style.display = "block";
 
   let html = `<h2>🎉 Quiz Completed</h2>`;
-  html += `<p><b>Score: ${score} / ${questions.length}</b></p><hr>`;
+  html += `<h3>Score: ${score} / ${questions.length}</h3><hr>`;
 
-  userAnswers.forEach((item,i)=>{
+  userAnswers.forEach((item, i)=>{
     const q = item.question;
-    const correct = q.options[q.answerIndex];
-    const selectedAns = q.options[item.selected];
+    const correct = q.options[q.correctIndex];
+    const chosen = q.options[item.selected];
 
     html += `
-    <div style="margin-bottom:15px;">
-      <b>Q${i+1}: ${q.question}</b><br>
-      Your Answer: ${selectedAns}<br>
-      Correct Answer: ${correct}<br>
-      <i>${q.explanation || ""}</i>
-    </div>
+      <div style="margin-bottom:15px;">
+        <b>Q${i+1}: ${q.question}</b><br>
+        Your Answer: ${chosen}<br>
+        Correct Answer: ${correct}<br>
+        <i>${q.explanation || ""}</i>
+      </div>
+      <hr>
     `;
   });
 
-  html += `<button class="next-btn" onclick="location.reload()">🔄 Retry</button>`;
-  html += `<button class="next-btn" onclick="history.back()">⬅ Back to Images</button>`;
+  html += `
+    <button onclick="location.reload()">🔄 Retry</button>
+    <button onclick="window.location.href='../waves.html'">📡 Back to Waves</button>
+  `;
 
   box.innerHTML = html;
 }
 
-/* ===== START ===== */
+/* =========================
+   START
+========================= */
 loadQuestion();
