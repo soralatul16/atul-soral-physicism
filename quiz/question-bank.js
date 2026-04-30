@@ -716,9 +716,8 @@ options:[
 ],
 answer:"They transfer energy",
 explanation:"Core property of waves."
-}
+},
 
-const questionBank = [
 
 /* ===== ATOMIC PHYSICS ===== */
 
