@@ -2,33 +2,34 @@ const params = new URLSearchParams(window.location.search);
 const topic = params.get("topic") || "waves";
 const image = params.get("image") || "";
 
-/* SAFETY FIX */
+/* SAFETY */
 questionBank = questionBank.map(q => ({
   criterion: q.criterion || "A",
   level: q.level || "medium",
   ...q
 }));
 
-/* FILTER QUESTIONS */
+/* FILTER */
 let filtered = questionBank.filter(q =>
   q.topic === topic && q.image === image
 );
 
 /* FALLBACK */
 if(filtered.length < 10){
-  const topicQuestions = questionBank.filter(q => q.topic === topic);
-  filtered = [...filtered, ...topicQuestions];
+  filtered = [
+    ...filtered,
+    ...questionBank.filter(q => q.topic === topic)
+  ];
 }
 
 /* SHUFFLE */
 function shuffle(arr){
-  return arr.sort(() => 0.5 - Math.random());
+  return arr.sort(()=>0.5 - Math.random());
 }
 
-/* FINAL QUESTIONS (ONLY ONE DECLARATION ✅) */
-let questions = shuffle(filtered).slice(0,10).map(q => {
+/* ONLY ONE questions VARIABLE */
+let questions = shuffle(filtered).slice(0,10).map(q=>{
   let opts = shuffle([...q.options]);
-
   return {
     ...q,
     options: opts,
@@ -36,13 +37,12 @@ let questions = shuffle(filtered).slice(0,10).map(q => {
   };
 });
 
-/* STATE */
 let index = 0;
 let score = 0;
 let userAnswers = [];
 let selected = null;
 
-/* LOAD QUESTION */
+/* LOAD */
 function loadQuestion(){
   const q = questions[index];
 
@@ -127,8 +127,6 @@ function showSummary(){
   html += `<button onclick="location.reload()">🔄 Retry</button>`;
 
   box.innerHTML = html;
-  window.scrollTo(0,0);
 }
 
-/* START */
 loadQuestion();
