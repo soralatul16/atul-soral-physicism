@@ -78,13 +78,13 @@ function loadQuestion(){
 ========================= */
 function selectOption(element, i){
 
-  // Remove previous highlight
+  // Remove selection from all
   document.querySelectorAll(".option").forEach(opt=>{
-    opt.style.background = "#1e293b";
+    opt.classList.remove("selected");
   });
 
-  // Highlight selected
-  element.style.background = "#22c55e";
+  // Add selection to clicked one
+  element.classList.add("selected");
 
   selected = i;
 }
