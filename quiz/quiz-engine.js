@@ -2,25 +2,30 @@ const params = new URLSearchParams(window.location.search);
 const topic = params.get("topic") || "waves";
 const image = params.get("image") || "";
 
-/* FILTER QUESTIONS */
+/* DEBUG LOG */
+console.log("Topic:", topic);
+console.log("Image:", image);
+console.log("Total Questions:", questionBank.length);
+
+/* FILTER */
 let filtered = questionBank.filter(q =>
   q.topic === topic && q.image === image
 );
 
-/* FALLBACK (if image has less questions) */
+/* FALLBACK */
 if(filtered.length < 10){
   const topicQuestions = questionBank.filter(q => q.topic === topic);
   filtered = [...filtered, ...topicQuestions];
 }
 
-/* SHUFFLE FUNCTION */
+/* SHUFFLE */
 function shuffle(arr){
-  return arr.sort(() => 0.5 - Math.random());
+  return arr.sort(()=>0.5 - Math.random());
 }
 
-/* PICK EXACTLY 10 QUESTIONS */
-function pickQuestions(qs, total = 10){
-  return shuffle(qs).slice(0, total);
+/* PICK 10 */
+function pickQuestions(qs){
+  return shuffle(qs).slice(0,10);
 }
 
 /* SHUFFLE OPTIONS */
@@ -34,7 +39,109 @@ function shuffleOptions(q){
   };
 }
 
-/* FINAL QUESTIONS */
+/* FINAL */
+let questions = pickQuestions(filtered).map(q=>shuffleOptions(q));
+
+if(questions.length === 0){
+  document.body.innerHTML = "<h2 style='color:white;text-align:center;'>❌ No questions found</h2>";
+}
+
+let index = 0;
+let score = 0;
+let userAnswers = [];
+let selected = null;
+
+/* LOAD */
+function loadQuestion(){
+  const q = questions[index];
+
+  document.getElementById("question").innerText = q.question;
+
+  let html = "";
+  q.options.forEach((opt,i)=>{
+    html += `<div class="option" onclick="select(${i}, this)">${opt}</div>`;
+  });
+
+  document.getElementById("options").innerHTML = html;
+
+  document.getElementById("progress").innerText =
+    `Question ${index+1} of ${questions.length}`;
+}
+
+/* SELECT */
+function select(i, el){
+  selected = i;
+
+  document.querySelectorAll(".option").forEach(o=>{
+    o.classList.remove("selected");
+  });
+
+  el.classList.add("selected");
+}
+
+/* NEXT */
+function nextQuestion(){
+  if(selected === null) return;
+
+  if(selected === questions[index].answerIndex){
+    score++;
+  }
+
+  userAnswers.push({
+    question:questions[index],
+    selected:selected
+  });
+
+  selected = null;
+  index++;
+
+  if(index >= questions.length){
+    showSummary();
+  } else {
+    loadQuestion();
+  }
+}
+
+/* SUMMARY */
+function showSummary(){
+
+  document.getElementById("quiz-area").style.display="none";
+  const box = document.getElementById("summary-area");
+  box.style.display="block";
+
+  let html = `<h2>🎉 Quiz Completed</h2>`;
+  html += `<h3>Total Score: ${score} / ${questions.length}</h3><hr>`;
+
+  userAnswers.forEach((item,i)=>{
+    const q = item.question;
+    const correct = q.options[q.answerIndex];
+    const selectedAns = q.options[item.selected];
+
+    const isCorrect = selectedAns === correct;
+
+    html += `
+    <div style="
+      margin-bottom:15px;
+      padding:10px;
+      border-radius:8px;
+      background:${isCorrect ? '#14532d' : '#7f1d1d'};
+    ">
+      <b>Q${i+1}: ${q.question}</b><br>
+      Your Answer: ${selectedAns}<br>
+      Correct Answer: ${correct}<br>
+      <i>${q.explanation}</i>
+    </div>
+    `;
+  });
+
+  html += `<button class="next-btn" onclick="location.reload()">🔄 Retry</button>`;
+
+  box.innerHTML = html;
+  window.scrollTo(0,0);
+}
+
+/* START */
+loadQuestion();/* FINAL QUESTIONS */
 let questions = pickQuestions(filtered, 10).map(q => shuffleOptions(q));
 
 let index = 0;
