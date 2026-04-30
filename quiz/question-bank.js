@@ -1051,5 +1051,3 @@ explanation:"1/8 remains."
 }
 
 ];
-  
-];
