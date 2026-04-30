@@ -1,80 +1,107 @@
+// ===============================
+// PARAMETERS
+// ===============================
 const params = new URLSearchParams(window.location.search);
 const topic = params.get("topic") || "waves";
 const image = params.get("image") || "";
 
-/* SAFETY */
+// ===============================
+// SAFE COPY (DO NOT MODIFY ORIGINAL)
+// ===============================
 const safeQuestionBank = questionBank.map(q => ({
+  topic: q.topic || "general",
+  image: q.image || "default",
+  question: q.question,
+  options: q.options,
+  answer: q.answer,
+  explanation: q.explanation || "",
   criterion: q.criterion || "A",
-  level: q.level || "medium",
-  ...q
+  level: q.level || "medium"
 }));
 
-/* FILTER */
-let filtered = questionBank.filter(q =>
+// ===============================
+// FILTER QUESTIONS
+// ===============================
+let filtered = safeQuestionBank.filter(q =>
   q.topic === topic && q.image === image
 );
 
-/* FALLBACK */
-if(filtered.length < 10){
+// ===============================
+// FALLBACK (IF LESS QUESTIONS)
+// ===============================
+if (filtered.length < 10) {
   filtered = [
     ...filtered,
-    ...questionBank.filter(q => q.topic === topic)
+    ...safeQuestionBank.filter(q => q.topic === topic)
   ];
 }
 
-/* SHUFFLE */
-function shuffle(arr){
-  return arr.sort(()=>0.5 - Math.random());
+// ===============================
+// SHUFFLE FUNCTION
+// ===============================
+function shuffle(arr) {
+  return [...arr].sort(() => 0.5 - Math.random());
 }
 
-/* ONLY ONE questions VARIABLE */
-let questions = shuffle(filtered).slice(0,10).map(q=>{
-  let opts = shuffle([...q.options]);
+// ===============================
+// PREPARE QUESTIONS
+// ===============================
+let questions = shuffle(filtered).slice(0, 10).map(q => {
+  const shuffledOptions = shuffle(q.options);
   return {
     ...q,
-    options: opts,
-    answerIndex: opts.indexOf(q.answer)
+    options: shuffledOptions,
+    answerIndex: shuffledOptions.indexOf(q.answer)
   };
 });
 
+// ===============================
+// STATE
+// ===============================
 let index = 0;
 let score = 0;
 let userAnswers = [];
 let selected = null;
 
-/* LOAD */
-function loadQuestion(){
+// ===============================
+// LOAD QUESTION
+// ===============================
+function loadQuestion() {
   const q = questions[index];
 
   document.getElementById("question").innerText = q.question;
 
   let html = "";
-  q.options.forEach((opt,i)=>{
-    html += `<div class="option" onclick="select(${i}, this)">${opt}</div>`;
+  q.options.forEach((opt, i) => {
+    html += `<div class="option" onclick="selectOption(${i}, this)">${opt}</div>`;
   });
 
   document.getElementById("options").innerHTML = html;
 
   document.getElementById("progress").innerText =
-    `Question ${index+1} of ${questions.length}`;
+    `Question ${index + 1} of ${questions.length}`;
 }
 
-/* SELECT */
-function select(i, el){
+// ===============================
+// SELECT OPTION
+// ===============================
+function selectOption(i, element) {
   selected = i;
 
-  document.querySelectorAll(".option").forEach(o=>{
-    o.classList.remove("selected");
+  document.querySelectorAll(".option").forEach(opt => {
+    opt.classList.remove("selected");
   });
 
-  el.classList.add("selected");
+  element.classList.add("selected");
 }
 
-/* NEXT */
-function nextQuestion(){
-  if(selected === null) return;
+// ===============================
+// NEXT QUESTION
+// ===============================
+function nextQuestion() {
+  if (selected === null) return;
 
-  if(selected === questions[index].answerIndex){
+  if (selected === questions[index].answerIndex) {
     score++;
   }
 
@@ -86,23 +113,26 @@ function nextQuestion(){
   selected = null;
   index++;
 
-  if(index >= questions.length){
+  if (index >= questions.length) {
     showSummary();
   } else {
     loadQuestion();
   }
 }
 
-/* SUMMARY */
-function showSummary(){
-  document.getElementById("quiz-area").style.display="none";
+// ===============================
+// SHOW SUMMARY
+// ===============================
+function showSummary() {
+  document.getElementById("quiz-area").style.display = "none";
+
   const box = document.getElementById("summary-area");
-  box.style.display="block";
+  box.style.display = "block";
 
   let html = `<h2>🎉 Quiz Completed</h2>`;
   html += `<h3>Total Score: ${score} / ${questions.length}</h3><hr>`;
 
-  userAnswers.forEach((item,i)=>{
+  userAnswers.forEach((item, i) => {
     const q = item.question;
     const correct = q.options[q.answerIndex];
     const selectedAns = q.options[item.selected];
@@ -116,7 +146,7 @@ function showSummary(){
       border-radius:8px;
       background:${isCorrect ? '#14532d' : '#7f1d1d'};
     ">
-      <b>Q${i+1}: ${q.question}</b><br>
+      <b>Q${i + 1}: ${q.question}</b><br>
       Your Answer: ${selectedAns}<br>
       Correct Answer: ${correct}<br>
       <i>${q.explanation}</i>
@@ -124,9 +154,14 @@ function showSummary(){
     `;
   });
 
-  html += `<button onclick="location.reload()">🔄 Retry</button>`;
+  html += `<button class="next-btn" onclick="location.reload()">🔄 Retry</button>`;
 
   box.innerHTML = html;
+
+  window.scrollTo(0, 0);
 }
 
+// ===============================
+// START QUIZ
+// ===============================
 loadQuestion();
