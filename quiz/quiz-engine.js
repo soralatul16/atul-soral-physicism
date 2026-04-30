@@ -182,6 +182,7 @@ function showSummary(){
   `;
 
   box.innerHTML = html;
+window.scrollTo(0,0); // 🔥 ensures score visible
 }
 /* =========================
    START
