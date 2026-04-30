@@ -128,22 +128,46 @@ function showSummary(){
   const box = document.getElementById("summary-area");
   box.style.display = "block";
 
-  let html = `<h2>🎉 Quiz Completed</h2>`;
-  html += `<h3>Score: ${score} / ${questions.length}</h3><hr>`;
+  let total = questions.length;
+  let percentage = Math.round((score / total) * 100);
+
+  let html = `
+    <h2>🎉 Quiz Completed</h2>
+    <h3>Total Score: ${score} / ${total}</h3>
+    <h4>Percentage: ${percentage}%</h4>
+    <hr>
+  `;
 
   userAnswers.forEach((item, i)=>{
     const q = item.question;
     const correct = q.options[q.correctIndex];
     const chosen = q.options[item.selected];
 
+    const isCorrect = item.selected === q.correctIndex;
+
     html += `
-      <div style="margin-bottom:15px;">
-        <b>Q${i+1}: ${q.question}</b><br>
-        Your Answer: ${chosen}<br>
-        Correct Answer: ${correct}<br>
+      <div style="
+        margin-bottom:15px;
+        padding:12px;
+        border-radius:10px;
+        background:${isCorrect ? '#14532d' : '#7f1d1d'};
+      ">
+
+        <b>Q${i+1}: ${q.question}</b><br><br>
+
+        Your Answer: 
+        <span style="color:${isCorrect ? '#4ade80' : '#f87171'};">
+          ${chosen}
+        </span><br>
+
+        Correct Answer: 
+        <span style="color:#4ade80;">
+          ${correct}
+        </span><br><br>
+
         <i>${q.explanation || ""}</i>
+
       </div>
-      <hr>
     `;
   });
 
@@ -154,7 +178,6 @@ function showSummary(){
 
   box.innerHTML = html;
 }
-
 /* =========================
    START
 ========================= */
