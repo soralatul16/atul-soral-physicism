@@ -1,167 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MYP Dashboard | Atul Soral Physicism</title>
 
-  <!-- GOOGLE ANALYTICS -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H0FWC22D8S"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-H0FWC22D8S');
-  </script>
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0f172a;
+  color:white;
+}
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MYP Dashboard | Atul Soral Physicism</title>
+/* NAVBAR */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  padding:15px 30px;
+  background:#020617;
+}
 
-  <style>
-    body {
-      margin:0;
-      font-family:Arial;
-      background:#0f172a;
-      color:white;
-    }
+.nav-links a{
+  margin-left:20px;
+  color:white;
+  text-decoration:none;
+}
 
-    /* NAVBAR */
-    .navbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:15px 30px;
-      background:#020617;
-    }
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#06b6d4,#2563eb);
+  padding:50px;
+  text-align:center;
+}
 
-    .nav-links{
-      list-style:none;
-      display:flex;
-      gap:20px;
-    }
+/* SECTION */
+.section{
+  padding:40px;
+}
 
-    .nav-links a{
-      color:white;
-      text-decoration:none;
-      font-weight:bold;
-    }
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
 
-    .nav-links a:hover{
-      color:#38bdf8;
-    }
+/* CARD */
+.card{
+  background:#1e293b;
+  padding:20px;
+  border-radius:10px;
+  text-align:center;
+  cursor:pointer;
+  transition:0.3s;
+}
 
-    /* HERO */
-    .hero{
-      text-align:center;
-      padding:40px;
-      background:linear-gradient(135deg,#06b6d4,#2563eb);
-    }
+.card:hover{
+  transform:scale(1.05);
+}
 
-    /* SECTIONS */
-    .dashboard-group{
-      padding:30px;
-    }
+/* READY CHAPTER */
+.ready{
+  text-decoration:underline;
+  color:#38bdf8;
+}
 
-    h2{
-      margin-bottom:20px;
-    }
+/* LOCKED */
+.locked{
+  opacity:0.6;
+}
 
-    /* GRID */
-    .card-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-      gap:20px;
-    }
-
-    .card{
-      background:#1e293b;
-      padding:20px;
-      border-radius:12px;
-      text-align:center;
-      cursor:pointer;
-      transition:0.3s;
-      text-decoration:none;
-      color:white;
-      font-weight:bold;
-    }
-
-    .card:hover{
-      transform:scale(1.05);
-      background:#334155;
-    }
-
-    /* FOOTER */
-    .footer{
-      text-align:center;
-      padding:20px;
-      background:#020617;
-      margin-top:40px;
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
-  <!-- NAVBAR -->
-  <header class="navbar">
-    <div class="logo">🔵 MYP Physics</div>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="myp-dashboard.html">MYP</a></li>
-      <li><a href="#">Flashcards</a></li>
-      <li><a href="#">IA Generator</a></li>
-      <li><a href="#">Formula Bank</a></li>
-    </ul>
-  </header>
+<div class="navbar">
+  <div><b>MYP Physics</b></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="#">Flashcards</a>
+    <a href="#">IA Generator</a>
+    <a href="#">Formula Bank</a>
+  </div>
+</div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <h1>IB MYP Physics Dashboard</h1>
-    <p>Everything you need to master MYP Physics, all in one place.</p>
-  </section>
+<div class="hero">
+  <h1>IB MYP Physics Dashboard</h1>
+  <p>Everything you need to master MYP Physics</p>
+</div>
 
-  <!-- QUICK TOOLS -->
-  <section class="dashboard-group">
-    <h2>🛠️ Quick Access Tools</h2>
-    <div class="card-grid">
-      <div class="card">📘 Concept Notes</div>
-      <div class="card">❓ Quiz Practice</div>
-      <div class="card">🧠 Flashcards</div>
-      <div class="card">📊 Formula Bank</div>
-      <div class="card">🧩 Puzzles</div>
-      <div class="card">🧬 IA Topic Helper</div>
-    </div>
-  </section>
+<div class="section">
 
-  <!-- MYP TOPICS -->
-  <section class="dashboard-group">
-    <h2>📚 MYP Physics Topics</h2>
+<h2>📚 MYP Topics</h2>
 
-    <div class="card-grid">
+<div class="grid" id="topics"></div>
 
-      <a href="chapter.html?topic=matter" class="card">🧪 Exploring Matter</a>
+</div>
 
-      <a href="chapter.html?topic=forces" class="card">🌀 Forces and Motion</a>
+<script>
 
-      <a href="chapter.html?topic=workpower" class="card">⚙️ Work, Power & Gravity</a>
+/* ✅ DEFINE YOUR CHAPTER STATUS */
+const chapters = [
+  {name:"Exploring Matter", key:"matter", ready:false},
+  {name:"Forces and Motion", key:"forces", ready:false},
+  {name:"Work, Power & Gravity", key:"workpower", ready:false},
+  {name:"Energy & Environment", key:"energy", ready:false},
+  {name:"The Nature of Waves", key:"waves", ready:true},
+  {name:"Atomic Physics", key:"atomic", ready:true},
+  {name:"Electromagnetism", key:"electromagnetism", ready:true},
+  {name:"Thermal Physics", key:"thermal", ready:false},
+  {name:"Astrophysics", key:"astro", ready:false}
+];
 
-      <a href="chapter.html?topic=energy" class="card">🎯 Energy & Environment</a>
+const container = document.getElementById("topics");
 
-      <a href="chapter.html?topic=waves" class="card">🌊 The Nature of Waves</a>
+chapters.forEach(ch => {
 
-      <a href="chapter.html?topic=atomic" class="card">⚛️ Atomic Physics</a>
+  const div = document.createElement("div");
+  div.className = "card";
 
-      <a href="chapter.html?topic=electromagnetism" class="card">⚡ Electromagnetism</a>
+  if(ch.ready){
+    div.classList.add("ready");
+    div.onclick = () => {
+      window.location.href = `chapter.html?topic=${ch.key}`;
+    };
+  } else {
+    div.classList.add("locked");
+    div.onclick = () => {
+      alert("🚧 This chapter is coming soon!");
+    };
+  }
 
-      <a href="chapter.html?topic=thermal" class="card">🌡️ Thermal Physics</a>
+  div.innerText = ch.name;
+  container.appendChild(div);
+});
 
-      <a href="chapter.html?topic=astro" class="card">🚀 Astrophysics</a>
-
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    &copy; 2025 Atul Soral Physicism. All rights reserved.
-  </footer>
+</script>
 
 </body>
 </html>
