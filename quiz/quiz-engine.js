@@ -3,7 +3,7 @@ const topic = params.get("topic") || "waves";
 const image = params.get("image") || "";
 
 /* SAFETY */
-questionBank = questionBank.map(q => ({
+const safeQuestionBank = questionBank.map(q => ({
   criterion: q.criterion || "A",
   level: q.level || "medium",
   ...q
