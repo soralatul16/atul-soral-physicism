@@ -87,7 +87,7 @@ const chapters = {
 "9-simple-circuits.png",
 "10-voltage-and-resistance.png",
 "11-measuring-current-and-voltage.png",
-"12-resistance-and-ohm's-law.png",
+"12-resistance-and-ohms-law.png",
 "13-circuit-design-and-troubleshooting.png",
 "14-electrical-power-and-energy.png",
 "15-electromagnetic-devices.png",
@@ -111,24 +111,28 @@ const chapters = {
 "33-career-connections.png"    
   ],
 
-  heat: [
-    // ✅ ADD LATER
-  ],
-
-  energy: [
-    // ✅ ADD LATER
+ matter: [
+    // paste Exploring Matter images
   ],
 
   forces: [
-    // ✅ ADD LATER
+    // paste Forces and Motion images
   ],
 
-  motion: [
-    // ✅ ADD LATER
+  workpower: [
+    // paste Work, Power & Gravity images
   ],
 
-  astrophysics: [
-    // ✅ ADD LATER
+  energy: [
+    // paste Energy and Environment images
+  ],
+
+  thermal: [
+    // paste Thermal Physics images
+  ],
+
+  astro: [
+    // paste Astrophysics images
   ]
 
 };
