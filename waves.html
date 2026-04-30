@@ -93,9 +93,22 @@ body{
 <!-- MAIN -->
 <div class="main">
 
-<div class="nav">
-  <button onclick="location.href='index.html'">🏠 Home</button>
-  <button onclick="location.href='myp-dashboard.html'">📘 MYP</button>
+<div class="nav" style="display:flex; justify-content:space-between; align-items:center;">
+
+  <div>
+    <button onclick="location.href='index.html'">🏠 Home</button>
+    <button onclick="location.href='myp-dashboard.html'">📘 MYP</button>
+  </div>
+
+  <!-- SEARCH -->
+  <input 
+    type="text" 
+    id="searchBox" 
+    placeholder="🔍 Search topic..." 
+    style="padding:8px; border-radius:6px; border:none; width:200px;"
+    onkeyup="searchImages()"
+  >
+
 </div>
 
 <div class="viewer">
@@ -156,6 +169,7 @@ function loadImage(img, element){
   element.classList.add("active");
 
   document.getElementById("viewerImg").src = "Images/" + img;
+
   document.getElementById("downloadBtn").onclick = ()=>{
     const link = document.createElement("a");
     link.href = "Images/" + img;
@@ -171,9 +185,25 @@ function startQuiz(){
   window.location.href = `quiz/quiz.html?topic=waves&image=${currentImage}`;
 }
 
-/* LOAD FIRST IMAGE BY DEFAULT */
+/* 🔍 SEARCH FUNCTION (NOW INSIDE SCRIPT ✅) */
+function searchImages(){
+  const input = document.getElementById("searchBox").value.toLowerCase();
+
+  document.querySelectorAll(".sidebar-item").forEach(item=>{
+    const text = item.innerText.toLowerCase();
+
+    if(text.includes(input)){
+      item.style.display = "block";
+    } else {
+      item.style.display = "none";
+    }
+  });
+}
+
+/* LOAD FIRST IMAGE */
 loadImage(images[0], sidebar.children[0]);
 </script>
 
+  
 </body>
 </html>
