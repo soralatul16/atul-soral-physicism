@@ -2,51 +2,38 @@ const params = new URLSearchParams(window.location.search);
 const topic = params.get("topic") || "waves";
 const image = params.get("image") || "default";
 
-/* FILTER QUESTIONS */
+/* ===== FILTER (image first) ===== */
 let filtered = questionBank.filter(q =>
   q.topic === topic && q.image === image
 );
 
-/* fallback */
-if(filtered.length === 0){
-  filtered = questionBank.filter(q => q.topic === topic);
+/* ===== TOP-UP FROM SAME TOPIC ===== */
+let pool = [...filtered];
+
+if (pool.length < 10) {
+  const topicPool = questionBank.filter(q => q.topic === topic);
+  const extra = topicPool.filter(q => !pool.includes(q));
+  pool = [...pool, ...extra];
 }
 
-/* SHUFFLE */
+/* ===== SHUFFLE ===== */
 function shuffle(arr){
   return arr.sort(()=>0.5-Math.random());
 }
 
-/* CRITERIA MIX */
-function pickQuestions(qs, total=10){
+/* ===== ENSURE EXACTLY 10 QUESTIONS ===== */
+function buildTen(qs){
+  let selected = shuffle([...qs]);
 
-  const A = qs.filter(q=>q.criterion==="A");
-  const B = qs.filter(q=>q.criterion==="B");
-  const C = qs.filter(q=>q.criterion==="C");
-  const D = qs.filter(q=>q.criterion==="D");
-
-  function pick(arr,n){
-    return shuffle(arr).slice(0,n);
+  // If still less than 10, allow safe repeats
+  while (selected.length < 10 && qs.length > 0){
+    selected.push(qs[Math.floor(Math.random()*qs.length)]);
   }
 
-  let selected = [
-    ...pick(A,4),
-    ...pick(B,2),
-    ...pick(C,2),
-    ...pick(D,2)
-  ];
-
-  // 🔥 FILL REMAINING QUESTIONS
-  if(selected.length < total){
-    const remaining = qs.filter(q => !selected.includes(q));
-    selected = [...selected, ...shuffle(remaining).slice(0, total - selected.length)];
-  }
-
-  // 🔥 FINAL SAFETY
-  return shuffle(selected).slice(0,total);
+  return selected.slice(0,10);
 }
 
-/* SHUFFLE OPTIONS */
+/* ===== SHUFFLE OPTIONS ===== */
 function shuffleOptions(q){
   let opts = shuffle([...q.options]);
   return {
@@ -56,14 +43,15 @@ function shuffleOptions(q){
   };
 }
 
-/* FINAL QUESTIONS */
-let questions = pickQuestions(filtered,10).map(q=>shuffleOptions(q));
+/* ===== FINAL QUESTIONS ===== */
+let questions = buildTen(pool).map(q => shuffleOptions(q));
 
 let index = 0;
 let score = 0;
 let userAnswers = [];
+let selected = null;
 
-/* LOAD QUESTION */
+/* ===== LOAD QUESTION ===== */
 function loadQuestion(){
   const q = questions[index];
 
@@ -79,13 +67,12 @@ function loadQuestion(){
     `Question ${index+1} of ${questions.length}`;
 }
 
-let selected = null;
-
+/* ===== SELECT ===== */
 function select(i){
   selected = i;
 }
 
-/* NEXT */
+/* ===== NEXT ===== */
 function nextQuestion(){
   if(selected === null) return;
 
@@ -108,9 +95,8 @@ function nextQuestion(){
   }
 }
 
-/* SUMMARY */
+/* ===== SUMMARY ===== */
 function showSummary(){
-
   document.getElementById("quiz-area").style.display="none";
   const box = document.getElementById("summary-area");
   box.style.display="block";
@@ -121,22 +107,23 @@ function showSummary(){
   userAnswers.forEach((item,i)=>{
     const q = item.question;
     const correct = q.options[q.answerIndex];
-    const selected = q.options[item.selected];
+    const selectedAns = q.options[item.selected];
 
     html += `
     <div style="margin-bottom:15px;">
       <b>Q${i+1}: ${q.question}</b><br>
-      Your Answer: ${selected}<br>
+      Your Answer: ${selectedAns}<br>
       Correct Answer: ${correct}<br>
-      <i>${q.explanation}</i>
+      <i>${q.explanation || ""}</i>
     </div>
     `;
   });
 
   html += `<button class="next-btn" onclick="location.reload()">🔄 Retry</button>`;
+  html += `<button class="next-btn" onclick="history.back()">⬅ Back to Images</button>`;
 
   box.innerHTML = html;
 }
 
-/* START */
+/* ===== START ===== */
 loadQuestion();
