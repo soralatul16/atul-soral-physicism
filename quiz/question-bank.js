@@ -1,3 +1,9 @@
+questionBank = questionBank.map(q => ({
+  criterion: q.criterion || "A",
+  level: q.level || "medium",
+  ...q
+}));
+
 const questionBank = [
 
 /* =========================
