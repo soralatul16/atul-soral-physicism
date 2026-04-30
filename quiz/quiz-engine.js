@@ -19,6 +19,32 @@ function shuffle(arr){
 
 /* CRITERIA MIX */
 function pickQuestions(qs, total=10){
+
+  const A = qs.filter(q=>q.criterion==="A");
+  const B = qs.filter(q=>q.criterion==="B");
+  const C = qs.filter(q=>q.criterion==="C");
+  const D = qs.filter(q=>q.criterion==="D");
+
+  function pick(arr,n){
+    return shuffle(arr).slice(0,n);
+  }
+
+  let selected = [
+    ...pick(A,4),
+    ...pick(B,2),
+    ...pick(C,2),
+    ...pick(D,2)
+  ];
+
+  // 🔥 FILL REMAINING QUESTIONS
+  if(selected.length < total){
+    const remaining = qs.filter(q => !selected.includes(q));
+    selected = [...selected, ...shuffle(remaining).slice(0, total - selected.length)];
+  }
+
+  // 🔥 FINAL SAFETY
+  return shuffle(selected).slice(0,total);
+}
   const A = qs.filter(q=>q.criterion==="A");
   const B = qs.filter(q=>q.criterion==="B");
   const C = qs.filter(q=>q.criterion==="C");
