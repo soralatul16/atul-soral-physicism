@@ -1,6 +1,2863 @@
 const questionBank = [
 
 /* =========================
+Forces & Motion
+========================= */
+/* ================= IMAGE 1: WHAT IS A FORCE ================= */
+
+{
+topic:"forces",
+image:"1-what-is-a-force",
+criterion:"A",
+level:"easy",
+question:"A force is defined as:",
+options:["Energy","A push or pull","Motion","Speed"],
+answer:"A push or pull",
+explanation:"Force is a push or pull acting on an object."
+},
+{
+topic:"forces",
+image:"1-what-is-a-force",
+criterion:"A",
+level:"easy",
+question:"A push force moves an object:",
+options:["Towards you","Away from you","Upwards","Downwards"],
+answer:"Away from you",
+explanation:"Push moves objects away."
+},
+{
+topic:"forces",
+image:"1-what-is-a-force",
+criterion:"A",
+level:"easy",
+question:"A pull force moves an object:",
+options:["Away","Towards you","Sideways","Randomly"],
+answer:"Towards you",
+explanation:"Pull brings objects closer."
+},
+{
+topic:"forces",
+image:"1-what-is-a-force",
+criterion:"B",
+level:"medium",
+question:"Which is an effect of force?",
+options:["Changing color","Changing motion","Changing mass","Changing time"],
+answer:"Changing motion",
+explanation:"Force affects motion or shape."
+},
+{
+topic:"forces",
+image:"1-what-is-a-force",
+criterion:"B",
+level:"medium",
+question:"Force can change:",
+options:["Shape","Speed","Direction","All of these"],
+answer:"All of these",
+explanation:"Force affects multiple properties."
+},
+{
+topic:"forces",
+image:"1-what-is-a-force",
+criterion:"B",
+level:"medium",
+question:"Which is a contact force?",
+options:["Gravity","Magnetic force","Friction","Electrostatic force"],
+answer:"Friction",
+explanation:"Friction requires contact."
+},
+{
+topic:"forces",
+image:"1-what-is-a-force",
+criterion:"C",
+level:"hard",
+question:"Which is a non-contact force?",
+options:["Friction","Tension","Gravity","Normal force"],
+answer:"Gravity",
+explanation:"Acts without contact."
+},
+{
+topic:"forces",
+image:"1-what-is-a-force",
+criterion:"C",
+level:"hard",
+question:"Air resistance is:",
+options:["Contact force","Non-contact force","Mixed force","Energy"],
+answer:"Contact force",
+explanation:"It occurs due to interaction with air particles."
+},
+{
+topic:"forces",
+image:"1-what-is-a-force",
+criterion:"D",
+level:"medium",
+question:"Force can start motion in an object that is:",
+options:["Moving","At rest","Falling","Rotating"],
+answer:"At rest",
+explanation:"Force initiates motion."
+},
+{
+topic:"forces",
+image:"1-what-is-a-force",
+criterion:"D",
+level:"hard",
+question:"Force acting opposite to motion is:",
+options:["Gravity","Friction","Magnetism","Tension"],
+answer:"Friction",
+explanation:"Friction opposes motion."
+},
+
+/* ================= IMAGE 2: TYPES OF FORCES ================= */
+
+{
+topic:"forces",
+image:"2-types-of-forces",
+criterion:"A",
+level:"easy",
+question:"Forces can be categorized into:",
+options:["One type","Two types","Three types","Four types"],
+answer:"Three types",
+explanation:"Contact, non-contact, and mixed."
+},
+{
+topic:"forces",
+image:"2-types-of-forces",
+criterion:"A",
+level:"easy",
+question:"Contact forces require:",
+options:["Distance","Energy","Physical touch","Light"],
+answer:"Physical touch",
+explanation:"They act through contact."
+},
+{
+topic:"forces",
+image:"2-types-of-forces",
+criterion:"A",
+level:"easy",
+question:"Non-contact forces act:",
+options:["With touch","Without touch","With pressure","With heat"],
+answer:"Without touch",
+explanation:"They act at a distance."
+},
+{
+topic:"forces",
+image:"2-types-of-forces",
+criterion:"B",
+level:"medium",
+question:"Which is a non-contact force?",
+options:["Friction","Magnetic force","Tension","Normal force"],
+answer:"Magnetic force",
+explanation:"Acts without contact."
+},
+{
+topic:"forces",
+image:"2-types-of-forces",
+criterion:"B",
+level:"medium",
+question:"Which force pulls objects toward Earth?",
+options:["Magnetic","Gravitational","Friction","Tension"],
+answer:"Gravitational",
+explanation:"Gravity attracts objects."
+},
+{
+topic:"forces",
+image:"2-types-of-forces",
+criterion:"B",
+level:"medium",
+question:"Mixed forces mean:",
+options:["No forces","One force","Multiple forces acting together","Weak forces"],
+answer:"Multiple forces acting together",
+explanation:"Real-life situations involve many forces."
+},
+{
+topic:"forces",
+image:"2-types-of-forces",
+criterion:"C",
+level:"hard",
+question:"Which is an example of pull force?",
+options:["Pushing door","Pulling rope","Kicking ball","Pushing cart"],
+answer:"Pulling rope",
+explanation:"Pull moves towards you."
+},
+{
+topic:"forces",
+image:"2-types-of-forces",
+criterion:"C",
+level:"hard",
+question:"Which force changes direction of motion?",
+options:["Friction","Applied force","Gravity","All"],
+answer:"All",
+explanation:"Different forces can change direction."
+},
+{
+topic:"forces",
+image:"2-types-of-forces",
+criterion:"D",
+level:"medium",
+question:"A force can stop motion by:",
+options:["Increasing speed","Reducing speed","Changing mass","Changing energy"],
+answer:"Reducing speed",
+explanation:"It brings object to rest."
+},
+{
+topic:"forces",
+image:"2-types-of-forces",
+criterion:"D",
+level:"hard",
+question:"Applied force is:",
+options:["Natural force","Force by human or object","Only gravity","Only friction"],
+answer:"Force by human or object",
+explanation:"It is externally applied."
+},
+
+/* ================= IMAGE 3: BALANCED VS UNBALANCED ================= */
+
+{
+topic:"forces",
+image:"3-balanced-vs-unbalanced-forces",
+criterion:"A",
+level:"easy",
+question:"Balanced forces have net force:",
+options:["1 N","0 N","10 N","100 N"],
+answer:"0 N",
+explanation:"They cancel out."
+},
+{
+topic:"forces",
+image:"3-balanced-vs-unbalanced-forces",
+criterion:"A",
+level:"easy",
+question:"Balanced forces cause:",
+options:["Acceleration","No change in motion","Rotation","Speed increase"],
+answer:"No change in motion",
+explanation:"Object stays at rest or constant speed."
+},
+{
+topic:"forces",
+image:"3-balanced-vs-unbalanced-forces",
+criterion:"A",
+level:"easy",
+question:"Unbalanced forces have net force:",
+options:["0 N","Not zero","Always 1 N","Always 10 N"],
+answer:"Not zero",
+explanation:"They do not cancel."
+},
+{
+topic:"forces",
+image:"3-balanced-vs-unbalanced-forces",
+criterion:"B",
+level:"medium",
+question:"Unbalanced forces cause:",
+options:["No motion","Change in motion","No effect","Constant rest"],
+answer:"Change in motion",
+explanation:"They cause acceleration."
+},
+{
+topic:"forces",
+image:"3-balanced-vs-unbalanced-forces",
+criterion:"B",
+level:"medium",
+question:"Equal and opposite forces are:",
+options:["Unbalanced","Balanced","Mixed","Weak"],
+answer:"Balanced",
+explanation:"They cancel out."
+},
+{
+topic:"forces",
+image:"3-balanced-vs-unbalanced-forces",
+criterion:"B",
+level:"medium",
+question:"Net force is:",
+options:["Total force acting","One force","Small force","Energy"],
+answer:"Total force acting",
+explanation:"Sum of all forces."
+},
+{
+topic:"forces",
+image:"3-balanced-vs-unbalanced-forces",
+criterion:"C",
+level:"hard",
+question:"A moving object with constant speed has:",
+options:["Unbalanced force","Balanced forces","No forces","Only gravity"],
+answer:"Balanced forces",
+explanation:"Net force is zero."
+},
+{
+topic:"forces",
+image:"3-balanced-vs-unbalanced-forces",
+criterion:"C",
+level:"hard",
+question:"If forces are unequal:",
+options:["Balanced","Unbalanced","Zero","Cancel"],
+answer:"Unbalanced",
+explanation:"Net force exists."
+},
+{
+topic:"forces",
+image:"3-balanced-vs-unbalanced-forces",
+criterion:"D",
+level:"medium",
+question:"Example of balanced force:",
+options:["Kicking ball","Book on table","Car accelerating","Rocket launch"],
+answer:"Book on table",
+explanation:"Forces cancel out."
+},
+{
+topic:"forces",
+image:"3-balanced-vs-unbalanced-forces",
+criterion:"D",
+level:"hard",
+question:"Rocket launching shows:",
+options:["Balanced force","Unbalanced force","No force","Friction only"],
+answer:"Unbalanced force",
+explanation:"Net upward force causes motion."
+},
+
+/* ================= IMAGE 4: MOTION NEEDS FORCE (MYTH) ================= */
+
+{
+topic:"forces",
+image:"4-myth-motion-needs-force",
+criterion:"A",
+level:"easy",
+question:"The myth states motion needs:",
+options:["Energy","Force","Mass","Speed"],
+answer:"Force",
+explanation:"Common misconception."
+},
+{
+topic:"forces",
+image:"4-myth-motion-needs-force",
+criterion:"A",
+level:"easy",
+question:"The correct concept is:",
+options:["Motion stops always","Motion continues unless force acts","Motion needs energy","Motion needs gravity"],
+answer:"Motion continues unless force acts",
+explanation:"Newton's first law."
+},
+{
+topic:"forces",
+image:"4-myth-motion-needs-force",
+criterion:"A",
+level:"easy",
+question:"This law is called:",
+options:["Second law","First law","Third law","Ohm’s law"],
+answer:"First law",
+explanation:"Law of inertia."
+},
+{
+topic:"forces",
+image:"4-myth-motion-needs-force",
+criterion:"B",
+level:"medium",
+question:"Inertia is:",
+options:["Change in motion","Resistance to change","Speed","Energy"],
+answer:"Resistance to change",
+explanation:"Objects resist change in motion."
+},
+{
+topic:"forces",
+image:"4-myth-motion-needs-force",
+criterion:"B",
+level:"medium",
+question:"Object keeps moving due to:",
+options:["Force","Inertia","Energy","Mass"],
+answer:"Inertia",
+explanation:"No force needed to continue motion."
+},
+{
+topic:"forces",
+image:"4-myth-motion-needs-force",
+criterion:"B",
+level:"medium",
+question:"Motion changes only when:",
+options:["Balanced force acts","Unbalanced force acts","Energy increases","Mass changes"],
+answer:"Unbalanced force acts",
+explanation:"Net force changes motion."
+},
+{
+topic:"forces",
+image:"4-myth-motion-needs-force",
+criterion:"C",
+level:"hard",
+question:"In space, objects move continuously because:",
+options:["No gravity","No friction","High speed","High energy"],
+answer:"No friction",
+explanation:"No resisting force."
+},
+{
+topic:"forces",
+image:"4-myth-motion-needs-force",
+criterion:"C",
+level:"hard",
+question:"A hockey puck keeps moving because:",
+options:["Force applied continuously","Inertia","Gravity","Heat"],
+answer:"Inertia",
+explanation:"Very little friction."
+},
+{
+topic:"forces",
+image:"4-myth-motion-needs-force",
+criterion:"D",
+level:"medium",
+question:"Friction causes:",
+options:["Motion continues","Motion slows","Acceleration","Increase energy"],
+answer:"Motion slows",
+explanation:"Opposes motion."
+},
+{
+topic:"forces",
+image:"4-myth-motion-needs-force",
+criterion:"D",
+level:"hard",
+question:"Key takeaway:",
+options:["Force keeps motion","Unbalanced force changes motion","Motion stops always","Energy is constant"],
+answer:"Unbalanced force changes motion",
+explanation:"Correct concept of motion."
+},
+/* ================= IMAGE 5: NEWTON’S FIRST LAW ================= */
+
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"A",
+level:"easy",
+question:"Newton’s First Law is also called:",
+options:["Law of motion","Law of inertia","Law of acceleration","Law of gravity"],
+answer:"Law of inertia"
+},
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"A",
+level:"easy",
+question:"An object at rest will:",
+options:["Move randomly","Stay at rest","Accelerate","Explode"],
+answer:"Stay at rest"
+},
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"B",
+level:"medium",
+question:"Inertia depends on:",
+options:["Speed","Force","Mass","Velocity"],
+answer:"Mass"
+},
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"B",
+level:"medium",
+question:"Which has more inertia?",
+options:["Feather","Book","Truck","Paper"],
+answer:"Truck"
+},
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"C",
+level:"hard",
+question:"A passenger moves forward when a bus stops due to:",
+options:["Friction","Inertia","Gravity","Acceleration"],
+answer:"Inertia"
+},
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"C",
+level:"hard",
+question:"Which situation shows inertia of motion?",
+options:["Ball at rest","Moving car continues","Object falling","Object breaking"],
+answer:"Moving car continues"
+},
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"D",
+level:"hard",
+question:"If no net force acts, an object will:",
+options:["Stop","Accelerate","Maintain velocity","Change direction"],
+answer:"Maintain velocity"
+},
+
+// Numerical
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"C",
+level:"hard",
+question:"A 5 kg object moves at constant velocity. Net force acting is:",
+options:["5 N","10 N","0 N","Depends on speed"],
+answer:"0 N"
+},
+
+// Confusing
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"C",
+level:"hard",
+question:"A moving object stops. This means:",
+options:["No force acted","Balanced force acted","Unbalanced force acted","Mass changed"],
+answer:"Unbalanced force acted"
+},
+
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"A",
+level:"medium",
+question:"Inertia resists:",
+options:["Motion","Change in motion","Force","Energy"],
+answer:"Change in motion"
+},
+
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"D",
+level:"hard",
+question:"Seat belts work because they:",
+options:["Increase inertia","Decrease inertia","Apply force to stop motion","Remove motion"],
+answer:"Apply force to stop motion"
+},
+
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"C",
+level:"hard",
+question:"A heavier object is harder to stop because:",
+options:["More force","More inertia","Less speed","Less gravity"],
+answer:"More inertia"
+},
+
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"B",
+level:"medium",
+question:"Inertia is a property of:",
+options:["Energy","Matter","Force","Velocity"],
+answer:"Matter"
+},
+
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"D",
+level:"hard",
+question:"Which does NOT affect inertia?",
+options:["Mass","Shape","Material (same mass)","Both B and C"],
+answer:"Both B and C"
+},
+
+{
+topic:"inertia",
+image:"5-newtons-first-law",
+criterion:"C",
+level:"hard",
+question:"An astronaut floats because:",
+options:["No gravity","No inertia","No friction","No mass"],
+answer:"No friction"
+},
+
+/* ================= IMAGE 6: INERTIA DEEP DIVE ================= */
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"A",
+level:"easy",
+question:"Inertia is resistance to:",
+options:["Speed","Force","Change in motion","Energy"],
+answer:"Change in motion"
+},
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"B",
+level:"medium",
+question:"More mass means:",
+options:["Less inertia","More inertia","Same inertia","No inertia"],
+answer:"More inertia"
+},
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"C",
+level:"hard",
+question:"Which has greater inertia?",
+options:["Empty cart","Loaded cart","Same","Depends on speed"],
+answer:"Loaded cart"
+},
+
+// Numerical
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"C",
+level:"hard",
+question:"If mass doubles, inertia:",
+options:["Halves","Doubles","Remains same","Becomes zero"],
+answer:"Doubles"
+},
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"D",
+level:"hard",
+question:"Which affects inertia?",
+options:["Mass","Shape","Size","Color"],
+answer:"Mass"
+},
+
+// Confusing
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"C",
+level:"hard",
+question:"Two objects same mass, different shape:",
+options:["Different inertia","Same inertia","Depends on speed","Depends on area"],
+answer:"Same inertia"
+},
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"B",
+level:"medium",
+question:"Inertia is measured in:",
+options:["kg","N","m/s","Not directly measured"],
+answer:"Not directly measured"
+},
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"C",
+level:"hard",
+question:"Which is hardest to stop?",
+options:["Football","Cricket ball","Truck","Bicycle"],
+answer:"Truck"
+},
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"D",
+level:"hard",
+question:"Seat belts reduce injury by:",
+options:["Increasing inertia","Reducing inertia","Applying force over time","Removing motion"],
+answer:"Applying force over time"
+},
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"C",
+level:"hard",
+question:"Inertia depends ONLY on:",
+options:["Speed","Mass","Force","Velocity"],
+answer:"Mass"
+},
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"C",
+level:"hard",
+question:"Which has least inertia?",
+options:["Truck","Ball","Feather","Car"],
+answer:"Feather"
+},
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"D",
+level:"hard",
+question:"A moving truck vs stationary truck:",
+options:["Same inertia","Moving has more","Stationary has more","Depends on speed"],
+answer:"Same inertia"
+},
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"B",
+level:"medium",
+question:"Inertia increases with:",
+options:["Speed","Mass","Force","Time"],
+answer:"Mass"
+},
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"C",
+level:"hard",
+question:"Which situation shows inertia?",
+options:["Dust falling","Book moving","Stopping bus","All"],
+answer:"All"
+},
+
+{
+topic:"inertia",
+image:"6-inertia-deep-dive",
+criterion:"D",
+level:"hard",
+question:"A heavier object requires:",
+options:["Less force","More force","Same force","No force"],
+answer:"More force"
+},
+
+/* ================= IMAGE 7: MOMENTUM ================= */
+
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"A",
+level:"easy",
+question:"Momentum formula is:",
+options:["F=ma","p=mv","E=mc²","v=u+at"],
+answer:"p=mv"
+},
+
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"B",
+level:"medium",
+question:"Momentum depends on:",
+options:["Mass","Velocity","Both","Neither"],
+answer:"Both"
+},
+
+// Numerical
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"C",
+level:"hard",
+question:"Momentum of 2 kg moving at 3 m/s:",
+options:["6","5","3","9"],
+answer:"6"
+},
+
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"C",
+level:"hard",
+question:"If velocity doubles, momentum:",
+options:["Halves","Doubles","Same","Zero"],
+answer:"Doubles"
+},
+
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"D",
+level:"hard",
+question:"Momentum is:",
+options:["Scalar","Vector","Constant","Energy"],
+answer:"Vector"
+},
+
+// Conservation numerical
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"C",
+level:"hard",
+question:"2 kg at 4 m/s hits 2 kg at rest. Final velocity:",
+options:["2 m/s","4 m/s","0","1 m/s"],
+answer:"2 m/s"
+},
+
+// Confusing
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"C",
+level:"hard",
+question:"If no external force acts:",
+options:["Momentum increases","Momentum decreases","Momentum conserved","Momentum zero"],
+answer:"Momentum conserved"
+},
+
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"B",
+level:"medium",
+question:"Impulse equals:",
+options:["Force","Momentum","Change in momentum","Velocity"],
+answer:"Change in momentum"
+},
+
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"C",
+level:"hard",
+question:"Impulse formula:",
+options:["F×t","mv","F/m","v/t"],
+answer:"F×t"
+},
+
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"D",
+level:"hard",
+question:"In elastic collision:",
+options:["Momentum only conserved","Energy only conserved","Both conserved","None conserved"],
+answer:"Both conserved"
+},
+
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"C",
+level:"hard",
+question:"In inelastic collision:",
+options:["Energy conserved","Momentum conserved","Both conserved","None"],
+answer:"Momentum conserved"
+},
+
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"D",
+level:"hard",
+question:"Recoil of gun is due to:",
+options:["Energy","Momentum conservation","Force","Gravity"],
+answer:"Momentum conservation"
+},
+
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"C",
+level:"hard",
+question:"Momentum unit:",
+options:["kg m/s","N","J","m/s"],
+answer:"kg m/s"
+},
+
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"D",
+level:"hard",
+question:"Which has more momentum?",
+options:["Heavy slow object","Light fast object","Depends on mv","Always heavy"],
+answer:"Depends on mv"
+},
+
+{
+topic:"momentum",
+image:"7-momentum",
+criterion:"C",
+level:"hard",
+question:"If mass is zero:",
+options:["Momentum infinite","Momentum zero","Momentum constant","Undefined"],
+answer:"Momentum zero"
+},
+
+/* ================= IMAGE 8: NEWTON’S SECOND LAW ================= */
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"A",
+level:"easy",
+question:"Formula of Newton’s second law:",
+options:["F=ma","p=mv","E=mc²","v=u+at"],
+answer:"F=ma"
+},
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"B",
+level:"medium",
+question:"Acceleration depends on:",
+options:["Force","Mass","Both","None"],
+answer:"Both"
+},
+
+// Numerical
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"C",
+level:"hard",
+question:"Force on 2 kg with acceleration 3 m/s²:",
+options:["6 N","5 N","3 N","9 N"],
+answer:"6 N"
+},
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"C",
+level:"hard",
+question:"Acceleration of 10 N force on 5 kg:",
+options:["2 m/s²","5","10","0.5"],
+answer:"2 m/s²"
+},
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"D",
+level:"hard",
+question:"If mass increases, acceleration:",
+options:["Increases","Decreases","Same","Zero"],
+answer:"Decreases"
+},
+
+// Confusing
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"C",
+level:"hard",
+question:"Doubling force causes acceleration:",
+options:["Half","Double","Same","Zero"],
+answer:"Double"
+},
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"C",
+level:"hard",
+question:"Direction of acceleration depends on:",
+options:["Mass","Force","Velocity","Time"],
+answer:"Force"
+},
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"D",
+level:"hard",
+question:"Net force zero means:",
+options:["Acceleration","No acceleration","Velocity zero","Mass zero"],
+answer:"No acceleration"
+},
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"C",
+level:"hard",
+question:"Which has highest acceleration?",
+options:["Small mass large force","Large mass small force","Equal both","None"],
+answer:"Small mass large force"
+},
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"D",
+level:"hard",
+question:"Seat belts reduce force by:",
+options:["Reducing mass","Increasing time","Reducing speed","Increasing acceleration"],
+answer:"Increasing time"
+},
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"C",
+level:"hard",
+question:"Unit of force:",
+options:["kg","m/s","N","J"],
+answer:"N"
+},
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"B",
+level:"medium",
+question:"1 N equals:",
+options:["1 kg m/s²","1 kg m/s","1 m/s²","1 J"],
+answer:"1 kg m/s²"
+},
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"C",
+level:"hard",
+question:"If acceleration is zero:",
+options:["Force zero","Mass zero","Velocity zero","Time zero"],
+answer:"Force zero"
+},
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"D",
+level:"hard",
+question:"Rocket accelerates because:",
+options:["Mass decreases","Force increases","Both","None"],
+answer:"Both"
+},
+
+{
+topic:"force",
+image:"8-newtons-second-law",
+criterion:"C",
+level:"hard",
+question:"Which is correct?",
+options:["F ∝ a","F ∝ 1/a","F independent","F constant"],
+answer:"F ∝ a"
+},
+/* ================= IMAGE 9: SOLVING FORCE PROBLEMS ================= */
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"A",
+level:"easy",
+question:"The formula used for most force problems is:",
+options:["p=mv","F=ma","E=mc²","v=u+at"],
+answer:"F=ma"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"B",
+level:"medium",
+question:"Which is the correct first step in solving problems?",
+options:["Substitute","Choose formula","Read question","Check answer"],
+answer:"Read question"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"C",
+level:"hard",
+question:"A force of 40 N acts on a 10 kg mass. Acceleration is:",
+options:["2 m/s²","4 m/s²","5 m/s²","0.4 m/s²"],
+answer:"4 m/s²"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"C",
+level:"hard",
+question:"A 2000 kg car accelerates at 3 m/s². Force required:",
+options:["6000 N","3000 N","2000 N","1000 N"],
+answer:"6000 N"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"C",
+level:"hard",
+question:"Mass = 5 kg, acceleration = 0. What is force?",
+options:["5 N","0 N","10 N","Cannot determine"],
+answer:"0 N"
+},
+
+// tricky
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"D",
+level:"hard",
+question:"If force increases but mass doubles, acceleration:",
+options:["Increases","Decreases","Same","Zero"],
+answer:"Same"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"C",
+level:"hard",
+question:"A force of 15 N produces acceleration of 3 m/s². Mass:",
+options:["5 kg","3 kg","45 kg","1 kg"],
+answer:"5 kg"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"D",
+level:"hard",
+question:"Wrong unit for force is:",
+options:["N","kg m/s²","kg","N"],
+answer:"kg"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"B",
+level:"medium",
+question:"Which is NOT part of solving steps?",
+options:["Identify unknown","Guess answer","Substitute","Check"],
+answer:"Guess answer"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"C",
+level:"hard",
+question:"A 50 N force acts on 25 kg mass. Acceleration:",
+options:["2","5","10","0.5"],
+answer:"2"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"D",
+level:"hard",
+question:"If acceleration doubles, force:",
+options:["Halves","Doubles","Same","Zero"],
+answer:"Doubles"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"C",
+level:"hard",
+question:"Force needed to keep constant velocity:",
+options:["Depends","Zero","High","Infinite"],
+answer:"Zero"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"C",
+level:"hard",
+question:"A 1000 kg car increases speed → force must:",
+options:["Decrease","Increase","Zero","Stay same"],
+answer:"Increase"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"D",
+level:"hard",
+question:"Error in solving: forgetting units leads to:",
+options:["Correct answer","Incorrect answer","No effect","Faster solving"],
+answer:"Incorrect answer"
+},
+
+{
+topic:"force",
+image:"9-solving-force",
+criterion:"C",
+level:"hard",
+question:"A 10 kg object needs 20 N force. Acceleration:",
+options:["2","5","10","0.5"],
+answer:"2"
+},
+
+/* ================= IMAGE 10: NEWTON’S THIRD LAW ================= */
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"A",
+level:"easy",
+question:"Newton’s third law states:",
+options:["F=ma","Action = reaction","p=mv","Energy conserved"],
+answer:"Action = reaction"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"B",
+level:"medium",
+question:"Action and reaction forces act on:",
+options:["Same object","Different objects","Same place","Same direction"],
+answer:"Different objects"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"C",
+level:"hard",
+question:"Action-reaction forces are:",
+options:["Equal & same direction","Equal & opposite","Different","Random"],
+answer:"Equal & opposite"
+},
+
+// tricky
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"D",
+level:"hard",
+question:"Do action-reaction forces cancel?",
+options:["Yes","No","Sometimes","Only in motion"],
+answer:"No"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"C",
+level:"hard",
+question:"Rocket moves because:",
+options:["Air pushes it","Gases push it","Gravity pushes","Mass changes"],
+answer:"Gases push it"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"C",
+level:"hard",
+question:"Walking forward is due to:",
+options:["Foot pushes ground","Ground pushes foot","Both","None"],
+answer:"Both"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"D",
+level:"hard",
+question:"If A pushes B with 10 N, B pushes A with:",
+options:["5 N","10 N","0","20 N"],
+answer:"10 N"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"C",
+level:"hard",
+question:"Swimming forward occurs because:",
+options:["Water pushes swimmer","Swimmer pushes water","Both","None"],
+answer:"Both"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"C",
+level:"hard",
+question:"A book on table: action-reaction pair:",
+options:["Book weight & normal","Table push & book push","Gravity & friction","None"],
+answer:"Table push & book push"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"D",
+level:"hard",
+question:"Which is NOT a pair?",
+options:["Hand-wall","Earth-Moon","Book-weight","Foot-ground"],
+answer:"Book-weight"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"C",
+level:"hard",
+question:"Force pair acts:",
+options:["Together","Separately","Randomly","Slowly"],
+answer:"Together"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"C",
+level:"hard",
+question:"If action increases, reaction:",
+options:["Decreases","Increases equally","Same","Zero"],
+answer:"Increases equally"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"D",
+level:"hard",
+question:"Which violates third law?",
+options:["Rocket","Walking","Swimming","None"],
+answer:"None"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"C",
+level:"hard",
+question:"Magnet attracting iron is example of:",
+options:["Third law","First law","Second law","None"],
+answer:"Third law"
+},
+
+{
+topic:"third law",
+image:"10-third-law",
+criterion:"D",
+level:"hard",
+question:"Why don’t they cancel?",
+options:["Different objects","Different time","Different size","Different mass"],
+answer:"Different objects"
+},
+
+/* ================= IMAGE 11: NEWTON’S LAWS SUMMARY ================= */
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"A",
+level:"easy",
+question:"Which law explains inertia?",
+options:["1st","2nd","3rd","None"],
+answer:"1st"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"B",
+level:"medium",
+question:"Second law relates:",
+options:["Force & acceleration","Mass only","Speed","Time"],
+answer:"Force & acceleration"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"C",
+level:"hard",
+question:"Third law explains:",
+options:["Motion","Acceleration","Interaction","Energy"],
+answer:"Interaction"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"D",
+level:"hard",
+question:"If no net force:",
+options:["Acceleration","No motion","Constant motion","Stop"],
+answer:"Constant motion"
+},
+
+// tricky
+{
+topic:"laws",
+image:"11-summary",
+criterion:"C",
+level:"hard",
+question:"Law 2 fails when:",
+options:["Mass zero","Force zero","Never","Speed zero"],
+answer:"Never"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"C",
+level:"hard",
+question:"More force → acceleration:",
+options:["Less","More","Same","Zero"],
+answer:"More"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"D",
+level:"hard",
+question:"Laws apply in:",
+options:["Earth","Space","Both","Neither"],
+answer:"Both"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"C",
+level:"hard",
+question:"Which law explains rocket motion?",
+options:["1","2","3","All"],
+answer:"3"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"C",
+level:"hard",
+question:"Mass increases → acceleration:",
+options:["Increase","Decrease","Same","Zero"],
+answer:"Decrease"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"D",
+level:"hard",
+question:"Which law is default state?",
+options:["1","2","3","None"],
+answer:"1"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"C",
+level:"hard",
+question:"Which law explains change?",
+options:["1","2","3","None"],
+answer:"2"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"C",
+level:"hard",
+question:"Which law explains pairs?",
+options:["1","2","3","All"],
+answer:"3"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"D",
+level:"hard",
+question:"Net force causes:",
+options:["Velocity","Acceleration","Mass","Time"],
+answer:"Acceleration"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"C",
+level:"hard",
+question:"Balanced forces give:",
+options:["Acceleration","No change","Speed increase","Energy"],
+answer:"No change"
+},
+
+{
+topic:"laws",
+image:"11-summary",
+criterion:"D",
+level:"hard",
+question:"Unbalanced forces cause:",
+options:["Rest","Motion change","Energy","Mass change"],
+answer:"Motion change"
+},
+
+/* ================= IMAGE 12: FRICTION ================= */
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"A",
+level:"easy",
+question:"Friction opposes:",
+options:["Force","Motion","Mass","Energy"],
+answer:"Motion"
+},
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"B",
+level:"medium",
+question:"Static friction acts when:",
+options:["Moving","At rest","Falling","Rotating"],
+answer:"At rest"
+},
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"B",
+level:"medium",
+question:"Kinetic friction acts when:",
+options:["Rest","Sliding","Floating","Standing"],
+answer:"Sliding"
+},
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"C",
+level:"hard",
+question:"Which is highest?",
+options:["Static","Kinetic","Fluid","Same"],
+answer:"Static"
+},
+
+// numerical
+{
+topic:"friction",
+image:"12-friction",
+criterion:"C",
+level:"hard",
+question:"Normal force doubles → friction:",
+options:["Halves","Doubles","Same","Zero"],
+answer:"Doubles"
+},
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"C",
+level:"hard",
+question:"Smooth surface has:",
+options:["More friction","Less friction","Same","Zero"],
+answer:"Less friction"
+},
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"D",
+level:"hard",
+question:"Lubrication:",
+options:["Increases friction","Reduces friction","Stops motion","None"],
+answer:"Reduces friction"
+},
+
+// tricky
+{
+topic:"friction",
+image:"12-friction",
+criterion:"C",
+level:"hard",
+question:"Friction direction is:",
+options:["Same as motion","Opposite motion","Random","Upwards"],
+answer:"Opposite motion"
+},
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"C",
+level:"hard",
+question:"Fluid friction depends on:",
+options:["Mass","Speed","Shape","All"],
+answer:"All"
+},
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"D",
+level:"hard",
+question:"Walking requires:",
+options:["Kinetic friction","Static friction","No friction","Fluid friction"],
+answer:"Static friction"
+},
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"C",
+level:"hard",
+question:"Friction is useful in:",
+options:["Walking","Braking","Writing","All"],
+answer:"All"
+},
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"D",
+level:"hard",
+question:"Friction is harmful in:",
+options:["Wear","Heat loss","Energy loss","All"],
+answer:"All"
+},
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"C",
+level:"hard",
+question:"Speed increases → friction:",
+options:["Decreases","Increases (fluid)","Same","Zero"],
+answer:"Increases (fluid)"
+},
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"C",
+level:"hard",
+question:"Maximum static friction is:",
+options:["Constant","Variable","Zero","Infinite"],
+answer:"Variable"
+},
+
+{
+topic:"friction",
+image:"12-friction",
+criterion:"D",
+level:"hard",
+question:"No friction → walking:",
+options:["Easy","Impossible","Same","Fast"],
+answer:"Impossible"
+},
+/* ================= IMAGE 13: FRICTION IN REAL LIFE ================= */
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"A",
+level:"easy",
+question:"Friction between tyres and road provides:",
+options:["Speed","Grip","Mass","Energy"],
+answer:"Grip"
+},
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"B",
+level:"medium",
+question:"Which helps vehicles turn safely?",
+options:["Gravity","Friction","Mass","Velocity"],
+answer:"Friction"
+},
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"C",
+level:"hard",
+question:"Brakes convert kinetic energy into:",
+options:["Light","Heat","Sound","Mass"],
+answer:"Heat"
+},
+
+// numerical thinking
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"C",
+level:"hard",
+question:"If speed doubles, braking distance (due to friction) will:",
+options:["Double","Quadruple","Half","Same"],
+answer:"Quadruple"
+},
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"D",
+level:"hard",
+question:"Wet roads reduce friction because:",
+options:["Increase grip","Decrease contact","Add lubrication","Increase mass"],
+answer:"Add lubrication"
+},
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"C",
+level:"hard",
+question:"Tyre pressure too low leads to:",
+options:["More grip","Less grip","No change","Infinite friction"],
+answer:"Less grip"
+},
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"D",
+level:"hard",
+question:"Why off-road tyres have deep treads?",
+options:["Less friction","More grip","Less weight","Less speed"],
+answer:"More grip"
+},
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"C",
+level:"hard",
+question:"Higher temperature in brakes causes:",
+options:["Better braking","Brake failure","No effect","More speed"],
+answer:"Brake failure"
+},
+
+// tricky
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"D",
+level:"hard",
+question:"Friction always helps motion:",
+options:["True","False","Depends","Only in cars"],
+answer:"False"
+},
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"C",
+level:"hard",
+question:"Rolling resistance reduces:",
+options:["Speed","Fuel efficiency","Mass","Energy"],
+answer:"Fuel efficiency"
+},
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"C",
+level:"hard",
+question:"Braking force depends on:",
+options:["Mass","Speed","Surface","All"],
+answer:"All"
+},
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"D",
+level:"hard",
+question:"ABS system prevents:",
+options:["Acceleration","Skidding","Friction","Motion"],
+answer:"Skidding"
+},
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"C",
+level:"hard",
+question:"Friction is maximum when:",
+options:["Dry surface","Wet surface","Ice","Air"],
+answer:"Dry surface"
+},
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"C",
+level:"hard",
+question:"Tyres lose grip due to:",
+options:["Wear","Heat","Water","All"],
+answer:"All"
+},
+
+{
+topic:"friction",
+image:"13-real-life",
+criterion:"D",
+level:"hard",
+question:"Too much friction causes:",
+options:["Safety","Efficiency","Wear & heat","None"],
+answer:"Wear & heat"
+},
+
+/* ================= IMAGE 14: AIR RESISTANCE & DRAG ================= */
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"A",
+level:"easy",
+question:"Air resistance acts:",
+options:["With motion","Opposite motion","Random","Downward"],
+answer:"Opposite motion"
+},
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"B",
+level:"medium",
+question:"Drag increases with:",
+options:["Speed","Mass","Time","Energy"],
+answer:"Speed"
+},
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"C",
+level:"hard",
+question:"Drag force formula depends on:",
+options:["v","v²","v³","constant"],
+answer:"v²"
+},
+
+// numerical conceptual
+{
+topic:"drag",
+image:"14-drag",
+criterion:"C",
+level:"hard",
+question:"If speed doubles, drag becomes:",
+options:["2x","4x","8x","Same"],
+answer:"4x"
+},
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"C",
+level:"hard",
+question:"Terminal velocity occurs when:",
+options:["Drag = 0","Weight = drag","Acceleration max","Velocity zero"],
+answer:"Weight = drag"
+},
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"D",
+level:"hard",
+question:"Which reduces drag?",
+options:["Increase area","Streamlining","Increase speed","Increase density"],
+answer:"Streamlining"
+},
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"C",
+level:"hard",
+question:"Parachutes work because:",
+options:["Reduce drag","Increase drag","Reduce mass","Increase gravity"],
+answer:"Increase drag"
+},
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"C",
+level:"hard",
+question:"Free fall without air:",
+options:["Constant speed","Accelerating","Zero speed","Decreasing"],
+answer:"Accelerating"
+},
+
+// tricky
+{
+topic:"drag",
+image:"14-drag",
+criterion:"D",
+level:"hard",
+question:"At terminal velocity:",
+options:["Acceleration max","Acceleration zero","Velocity zero","Force zero"],
+answer:"Acceleration zero"
+},
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"C",
+level:"hard",
+question:"Large surface area → drag:",
+options:["Decrease","Increase","Same","Zero"],
+answer:"Increase"
+},
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"C",
+level:"hard",
+question:"Air density increases → drag:",
+options:["Decrease","Increase","Same","Zero"],
+answer:"Increase"
+},
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"D",
+level:"hard",
+question:"Which falls fastest in air?",
+options:["Feather","Stone","Same","Depends"],
+answer:"Depends"
+},
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"C",
+level:"hard",
+question:"Drag is type of:",
+options:["Contact force","Non-contact","Both","None"],
+answer:"Contact force"
+},
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"D",
+level:"hard",
+question:"If drag = weight, motion is:",
+options:["Accelerating","Constant speed","Stopping","Zero"],
+answer:"Constant speed"
+},
+
+{
+topic:"drag",
+image:"14-drag",
+criterion:"C",
+level:"hard",
+question:"Aircraft reduce drag by:",
+options:["Sharp edges","Smooth design","Heavy mass","Slow speed"],
+answer:"Smooth design"
+},
+
+/* ================= IMAGE 15: MISCONCEPTION PAGE ================= */
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"A",
+level:"easy",
+question:"Heavier objects fall faster is:",
+options:["True","False","Sometimes","Depends"],
+answer:"False"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"B",
+level:"medium",
+question:"Without air resistance:",
+options:["Heavier faster","Same acceleration","Lighter faster","Stop"],
+answer:"Same acceleration"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"C",
+level:"hard",
+question:"Difference in falling speed is due to:",
+options:["Mass","Drag","Gravity","Time"],
+answer:"Drag"
+},
+
+// tricky
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"D",
+level:"hard",
+question:"In vacuum, feather and stone:",
+options:["Different speeds","Same speed","Stop","Float"],
+answer:"Same speed"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"C",
+level:"hard",
+question:"Terminal velocity depends on:",
+options:["Mass","Shape","Area","All"],
+answer:"All"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"C",
+level:"hard",
+question:"Friction always stops motion:",
+options:["True","False","Sometimes","Depends"],
+answer:"False"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"D",
+level:"hard",
+question:"More friction always better:",
+options:["True","False","Depends","Only cars"],
+answer:"Depends"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"C",
+level:"hard",
+question:"Drag increases with:",
+options:["Speed","Area","Density","All"],
+answer:"All"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"D",
+level:"hard",
+question:"Feather falls slower because:",
+options:["Less gravity","More drag","Less mass","Less speed"],
+answer:"More drag"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"C",
+level:"hard",
+question:"In air, heavier object falls faster because:",
+options:["Less drag effect","More gravity","More speed","None"],
+answer:"Less drag effect"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"D",
+level:"hard",
+question:"Terminal velocity means:",
+options:["Stops moving","Constant speed","Zero force","Zero gravity"],
+answer:"Constant speed"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"C",
+level:"hard",
+question:"Net force at terminal velocity:",
+options:["Zero","Max","Min","Infinite"],
+answer:"Zero"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"D",
+level:"hard",
+question:"Acceleration at terminal velocity:",
+options:["Max","Zero","Constant","Infinite"],
+answer:"Zero"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"C",
+level:"hard",
+question:"Which falls slowest?",
+options:["Large area","Small area","Dense","Heavy"],
+answer:"Large area"
+},
+
+{
+topic:"misconception",
+image:"15-misconception2",
+criterion:"D",
+level:"hard",
+question:"Correct statement:",
+options:["Mass decides fall","Drag decides fall","Both","None"],
+answer:"Both"
+},
+
+/* ================= IMAGE 16: TERMINAL VELOCITY ================= */
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"A",
+level:"easy",
+question:"Terminal velocity is when:",
+options:["Speed zero","Acceleration zero","Force zero","Mass zero"],
+answer:"Acceleration zero"
+},
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"B",
+level:"medium",
+question:"At terminal velocity, net force:",
+options:["Zero","Max","Min","Constant"],
+answer:"Zero"
+},
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"C",
+level:"hard",
+question:"Drag force depends on:",
+options:["v","v²","v³","constant"],
+answer:"v²"
+},
+
+// numerical
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"C",
+level:"hard",
+question:"If speed doubles, drag becomes:",
+options:["2x","4x","Same","Half"],
+answer:"4x"
+},
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"C",
+level:"hard",
+question:"At terminal velocity:",
+options:["Drag > weight","Weight > drag","Drag = weight","No force"],
+answer:"Drag = weight"
+},
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"D",
+level:"hard",
+question:"Acceleration during fall:",
+options:["Constant","Decreases","Increases","Zero always"],
+answer:"Decreases"
+},
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"C",
+level:"hard",
+question:"Large parachute → terminal velocity:",
+options:["Increase","Decrease","Same","Zero"],
+answer:"Decrease"
+},
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"C",
+level:"hard",
+question:"Heavier object → terminal velocity:",
+options:["Higher","Lower","Same","Zero"],
+answer:"Higher"
+},
+
+// tricky
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"D",
+level:"hard",
+question:"Terminal velocity means:",
+options:["Max speed always","Constant speed","Stop","Zero"],
+answer:"Constant speed"
+},
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"C",
+level:"hard",
+question:"In vacuum terminal velocity:",
+options:["Exists","Does not exist","Same","Zero"],
+answer:"Does not exist"
+},
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"C",
+level:"hard",
+question:"Acceleration becomes zero because:",
+options:["Velocity constant","Forces balance","Mass zero","Gravity zero"],
+answer:"Forces balance"
+},
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"D",
+level:"hard",
+question:"Shape affects terminal velocity:",
+options:["Yes","No","Sometimes","Rarely"],
+answer:"Yes"
+},
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"C",
+level:"hard",
+question:"Velocity-time graph becomes:",
+options:["Straight line","Curve flattening","Downward","Zero"],
+answer:"Curve flattening"
+},
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"D",
+level:"hard",
+question:"If drag suddenly increases:",
+options:["Speed increases","Speed decreases","No change","Stops"],
+answer:"Speed decreases"
+},
+
+{
+topic:"terminal velocity",
+image:"16-terminal",
+criterion:"C",
+level:"hard",
+question:"At start of fall:",
+options:["Drag max","Drag zero","Equal forces","No gravity"],
+answer:"Drag zero"
+},
+/* ================= IMAGE 17: GRAVITY & WEIGHT ================= */
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"A",
+level:"easy",
+question:"Weight depends on:",
+options:["Mass","Gravity","Both","None"],
+answer:"Both"
+},
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"B",
+level:"medium",
+question:"Mass is:",
+options:["Vector","Scalar","Force","Energy"],
+answer:"Scalar"
+},
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"C",
+level:"hard",
+question:"Weight is:",
+options:["Scalar","Vector","Mass","Density"],
+answer:"Vector"
+},
+
+// numerical
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"C",
+level:"hard",
+question:"A 10 kg object on Earth has weight:",
+options:["98 N","10 N","9.8 N","100 N"],
+answer:"98 N"
+},
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"C",
+level:"hard",
+question:"Same object on Moon (g = 1.6):",
+options:["16 N","160 N","9.8 N","98 N"],
+answer:"16 N"
+},
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"D",
+level:"hard",
+question:"Mass changes when taken to Moon:",
+options:["Yes","No","Depends","Sometimes"],
+answer:"No"
+},
+
+// tricky
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"D",
+level:"hard",
+question:"Weight becomes zero in space:",
+options:["True","False","Depends","Only astronauts"],
+answer:"False"
+},
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"C",
+level:"hard",
+question:"Unit of gravitational field strength:",
+options:["N","N/kg","kg","m/s"],
+answer:"N/kg"
+},
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"C",
+level:"hard",
+question:"If g doubles, weight:",
+options:["Doubles","Halves","Same","Zero"],
+answer:"Doubles"
+},
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"C",
+level:"hard",
+question:"Weight formula:",
+options:["F=ma","W=mg","p=mv","P=F/A"],
+answer:"W=mg"
+},
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"D",
+level:"hard",
+question:"On Jupiter, weight is:",
+options:["Less","More","Same","Zero"],
+answer:"More"
+},
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"C",
+level:"hard",
+question:"Mass unit:",
+options:["kg","N","Pa","m/s"],
+answer:"kg"
+},
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"D",
+level:"hard",
+question:"Weight direction:",
+options:["Upward","Downward","Random","Horizontal"],
+answer:"Downward"
+},
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"C",
+level:"hard",
+question:"If mass = 0:",
+options:["Weight exists","Weight zero","Force infinite","None"],
+answer:"Weight zero"
+},
+
+{
+topic:"gravity",
+image:"17-gravity",
+criterion:"D",
+level:"hard",
+question:"Weight depends on:",
+options:["Location","Mass","g","All"],
+answer:"All"
+},
+
+/* ================= IMAGE 18: GRAVITATIONAL FORCE ================= */
+
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"A",
+level:"easy",
+question:"Gravitational force is:",
+options:["Repulsive","Attractive","Neutral","Variable"],
+answer:"Attractive"
+},
+
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"B",
+level:"medium",
+question:"Force acts along:",
+options:["Surface","Center line","Random","Edges"],
+answer:"Center line"
+},
+
+// conceptual + numerical
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"C",
+level:"hard",
+question:"If distance doubles, force becomes:",
+options:["1/2","1/4","2","4"],
+answer:"1/4"
+},
+
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"C",
+level:"hard",
+question:"If mass doubles, force:",
+options:["Half","Double","Same","Zero"],
+answer:"Double"
+},
+
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"D",
+level:"hard",
+question:"Gravitational force exists:",
+options:["Only Earth","Only planets","Everywhere","Nowhere"],
+answer:"Everywhere"
+},
+
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"C",
+level:"hard",
+question:"Force depends on:",
+options:["Mass","Distance","Both","None"],
+answer:"Both"
+},
+
+// tricky
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"D",
+level:"hard",
+question:"Gravity becomes zero far away:",
+options:["True","False","Almost zero","Depends"],
+answer:"Almost zero"
+},
+
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"C",
+level:"hard",
+question:"Force between objects increases if:",
+options:["Mass increases","Distance increases","Speed increases","Time increases"],
+answer:"Mass increases"
+},
+
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"C",
+level:"hard",
+question:"Earth pulls object and object pulls Earth:",
+options:["True","False","Depends","Sometimes"],
+answer:"True"
+},
+
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"D",
+level:"hard",
+question:"Which has strongest gravity?",
+options:["Moon","Earth","Jupiter","Small rock"],
+answer:"Jupiter"
+},
+
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"C",
+level:"hard",
+question:"Gravitational force is:",
+options:["Contact","Non-contact","Friction","Magnetic"],
+answer:"Non-contact"
+},
+
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"D",
+level:"hard",
+question:"If distance → very large:",
+options:["Force increases","Force zero","Force decreases","Constant"],
+answer:"Force decreases"
+},
+
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"C",
+level:"hard",
+question:"Gravity responsible for:",
+options:["Orbits","Falling","Weight","All"],
+answer:"All"
+},
+
+{
+topic:"gravitation",
+image:"18-grav-force",
+criterion:"D",
+level:"hard",
+question:"Stronger pull occurs when:",
+options:["More mass","Less distance","Both","None"],
+answer:"Both"
+},
+
+/* ================= IMAGE 19: PRESSURE IN SOLIDS ================= */
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"A",
+level:"easy",
+question:"Pressure =",
+options:["F/A","A/F","m/g","F×A"],
+answer:"F/A"
+},
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"B",
+level:"medium",
+question:"Unit of pressure:",
+options:["N","Pa","kg","m/s"],
+answer:"Pa"
+},
+
+// numerical
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"C",
+level:"hard",
+question:"Force 100 N on 2 m² → pressure:",
+options:["50 Pa","200 Pa","100 Pa","20 Pa"],
+answer:"50 Pa"
+},
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"C",
+level:"hard",
+question:"Area decreases → pressure:",
+options:["Increase","Decrease","Same","Zero"],
+answer:"Increase"
+},
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"D",
+level:"hard",
+question:"Sharp knife cuts because:",
+options:["More force","Less area","Less pressure","More mass"],
+answer:"Less area"
+},
+
+// tricky
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"D",
+level:"hard",
+question:"Wide tyres reduce pressure:",
+options:["True","False","Depends","Sometimes"],
+answer:"True"
+},
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"C",
+level:"hard",
+question:"Pressure depends on:",
+options:["Force","Area","Both","None"],
+answer:"Both"
+},
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"C",
+level:"hard",
+question:"If force doubles, pressure:",
+options:["Double","Half","Same","Zero"],
+answer:"Double"
+},
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"C",
+level:"hard",
+question:"High heels sink because:",
+options:["Low pressure","High pressure","Low force","High area"],
+answer:"High pressure"
+},
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"D",
+level:"hard",
+question:"Snow shoes work because:",
+options:["Less force","More area","Less mass","More gravity"],
+answer:"More area"
+},
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"C",
+level:"hard",
+question:"Pressure increases when:",
+options:["Area increases","Force increases","Mass decreases","Time increases"],
+answer:"Force increases"
+},
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"D",
+level:"hard",
+question:"If both force and area double:",
+options:["Pressure doubles","Same","Half","Zero"],
+answer:"Same"
+},
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"C",
+level:"hard",
+question:"Bulldozer has large tracks to:",
+options:["Increase pressure","Decrease pressure","Increase force","Decrease mass"],
+answer:"Decrease pressure"
+},
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"D",
+level:"hard",
+question:"Pressure is highest when:",
+options:["Small area","Large area","Less force","More mass"],
+answer:"Small area"
+},
+
+{
+topic:"pressure",
+image:"19-solids",
+criterion:"C",
+level:"hard",
+question:"Pressure is:",
+options:["Scalar","Vector","Force","Mass"],
+answer:"Scalar"
+},
+
+/* ================= IMAGE 20: PRESSURE IN FLUIDS ================= */
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"A",
+level:"easy",
+question:"Pressure formula:",
+options:["ρgh","mg","F/A","mv"],
+answer:"ρgh"
+},
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"B",
+level:"medium",
+question:"Pressure increases with:",
+options:["Depth","Density","Both","None"],
+answer:"Both"
+},
+
+// numerical
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"C",
+level:"hard",
+question:"At 10 m depth (ρ=1000, g=10), pressure:",
+options:["10000 Pa","100000 Pa","1000 Pa","100 Pa"],
+answer:"100000 Pa"
+},
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"C",
+level:"hard",
+question:"If depth doubles, pressure:",
+options:["Double","Half","Same","Zero"],
+answer:"Double"
+},
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"D",
+level:"hard",
+question:"Pressure acts:",
+options:["Up only","Down only","All directions","Horizontal only"],
+answer:"All directions"
+},
+
+// tricky
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"D",
+level:"hard",
+question:"Pressure depends on container shape:",
+options:["Yes","No","Sometimes","Depends"],
+answer:"No"
+},
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"C",
+level:"hard",
+question:"Denser liquid gives:",
+options:["Less pressure","More pressure","Same","Zero"],
+answer:"More pressure"
+},
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"C",
+level:"hard",
+question:"Pressure unit:",
+options:["Pa","N","kg","m"],
+answer:"Pa"
+},
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"D",
+level:"hard",
+question:"Why dams thicker at bottom?",
+options:["Less pressure","More pressure","Less density","More gravity"],
+answer:"More pressure"
+},
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"C",
+level:"hard",
+question:"Submarines need strong body due to:",
+options:["Low pressure","High pressure","Zero pressure","Air"],
+answer:"High pressure"
+},
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"D",
+level:"hard",
+question:"Pressure at same depth:",
+options:["Different","Same","Depends","Random"],
+answer:"Same"
+},
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"C",
+level:"hard",
+question:"If density doubles:",
+options:["Pressure doubles","Half","Same","Zero"],
+answer:"Pressure doubles"
+},
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"D",
+level:"hard",
+question:"Pressure graph vs depth:",
+options:["Linear","Curve","Constant","Zero"],
+answer:"Linear"
+},
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"C",
+level:"hard",
+question:"Ear pain underwater due to:",
+options:["Low pressure","High pressure","No force","Temperature"],
+answer:"High pressure"
+},
+
+{
+topic:"fluid pressure",
+image:"20-fluids",
+criterion:"D",
+level:"hard",
+question:"Pressure depends on:",
+options:["Depth","Density","g","All"],
+answer:"All"
+},
+  
+  
+/* =========================
 ELECTROMAGNETISM
 ========================= */
   
