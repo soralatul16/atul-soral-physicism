@@ -171,7 +171,17 @@ const timeTaken = Math.floor((endTime - startTime)/1000);
 
 alert(`Score: ${score} \nTime: ${timeTaken} sec`);
 }
+let msVisible = false;
 
+function toggleMarkscheme(){
+
+msVisible = !msVisible;
+
+document.querySelectorAll(".markscheme").forEach(el=>{
+el.style.display = msVisible ? "block" : "none";
+});
+
+}
 function downloadPDF(){
 
 window.print(); // simple PDF for now
