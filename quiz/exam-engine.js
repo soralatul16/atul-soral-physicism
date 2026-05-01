@@ -155,24 +155,52 @@ localStorage.setItem("exam-progress", JSON.stringify(data));
 }
 function submitExam(){
 
-let score=0;
+let score = 0;
 
+/* ===== CHECK EACH QUESTION ===== */
 filtered.forEach((q,i)=>{
+
+/* ===== MCQ ===== */
 if(q.type==="mcq"){
-const selected=document.querySelector(`input[name="q${i}"]:checked`);
-if(selected && selected.value===q.answer){
-score+=q.marks;
+
+const selected = document.querySelector(`input[name="q${i}"]:checked`);
+
+if(selected && selected.value === q.answer){
+score += q.marks;
 }
+
 }
+
+/* ===== DRAG ===== */
+if(q.type==="drag"){
+
+let correct = 0;
+
+q.pairs.forEach((p,index)=>{
+
+const val = document.getElementById(`drag-${i}-${index}`).value;
+
+if(val === p.right){
+correct++;
+}
+
 });
 
+/* proportional marking */
+score += (correct / q.pairs.length) * q.marks;
+
+}
+
+});
+
+/* ===== TIME CALCULATION ===== */
 const endTime = new Date();
 const timeTaken = Math.floor((endTime - startTime)/1000);
 
-alert(`Score: ${score} \nTime: ${timeTaken} sec`);
-}
-let msVisible = false;
+/* ===== OUTPUT ===== */
+alert(`Your Score: ${score}\nTime Taken: ${timeTaken} seconds`);
 
+}
 function toggleMarkscheme(){
 
 msVisible = !msVisible;
