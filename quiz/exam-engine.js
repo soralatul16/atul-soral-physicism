@@ -15,8 +15,6 @@ alert("Enter your name");
 return;
 }
 
-localStorage.setItem("studentName", studentName);
-
 startTime = new Date();
 
 const topic = document.getElementById("topic").value;
@@ -32,7 +30,7 @@ filtered = examData.filter(q =>
 );
 
 if(filtered.length===0){
-document.getElementById("quiz").innerHTML="<h2 style='text-align:center;'>🚧 Coming Soon</h2>";
+document.getElementById("quiz").innerHTML="<h2>🚧 Coming Soon</h2>";
 return;
 }
 
@@ -47,62 +45,64 @@ document.getElementById("timer").innerText = `⏱ ${sec}s`;
 
 }
 
-/* RENDER (IB SECTIONS) */
+/* RENDER (FIXED INDEXING) */
 function render(){
 
-let sections = {A:[],B:[],C:[],D:[]};
+let html = "";
 
-filtered.forEach(q=>{
-if(!sections[q.section]) sections[q.section]=[];
+/* GROUP BY SECTION */
+const sections = {A:[],B:[],C:[],D:[]};
+
+filtered.forEach((q,i)=>{
+q._index = i; // ✅ FIX: store index directly
 sections[q.section].push(q);
 });
-
-let html="";
 
 Object.keys(sections).forEach(sec=>{
 
 if(sections[sec].length===0) return;
 
-html+=`<div class="section-title">Part ${sec}</div>`;
+html += `<div class="section-title">Part ${sec}</div>`;
 
-sections[sec].forEach((q,i)=>{
+sections[sec].forEach(q=>{
 
-const index = filtered.indexOf(q);
+const i = q._index; // ✅ SAFE INDEX
 
-html+=`<div class="question-box">
-<b>Q${index+1} (${q.marks} marks)</b><br>
+html += `<div class="question-box">
+<b>Q${i+1} (${q.marks} marks)</b><br>
 ${q.question}<br>`;
 
 /* IMAGE */
-if(q.type==="image"){
-html+=`<img src="${q.image}" class="q-image">`;
+if(q.type==="image" && q.image){
+html += `<img src="${q.image}" class="q-image">`;
 }
 
 /* VIDEO */
-if(q.type==="video"){
-html+=`<iframe class="q-video" src="${q.video}"></iframe>`;
+if(q.type==="video" && q.video){
+html += `<iframe class="q-video" src="${q.video}" allowfullscreen></iframe>`;
 }
 
 /* MCQ */
 if(q.type==="mcq"){
 q.options.forEach(opt=>{
-html+=`<label class="option">
-<input type="radio" name="q${index}" value="${opt}"> ${opt}
+html += `<label class="option">
+<input type="radio" name="q${i}" value="${opt}">
+${opt}
 </label>`;
 });
 }
 
 /* TEXT */
 if(q.type==="text"){
-html+=`<textarea id="q${index}"></textarea>`;
+html += `<textarea id="q${i}"></textarea>`;
 }
 
 /* DRAG */
 if(q.type==="drag"){
 q.pairs.forEach((p,j)=>{
-html+=`<div class="drag-row">
+html += `<div class="drag-row">
 <span>${p.left}</span>
-<select id="drag-${index}-${j}">
+<select id="drag-${i}-${j}">
 <option value="">Select</option>
 <option>+1</option>
 <option>-1</option>
@@ -112,7 +112,12 @@ html+=`<div class="drag-row">
 });
 }
 
-html+=`<div class="markscheme">${q.markscheme || ""}</div></div>`;
+/* MARKSCHEME */
+html += `<div class="markscheme" id="ms-${i}">
+<b>Markscheme:</b> ${q.markscheme || "Not available"}
+</div>`;
+
+html += `</div>`;
 
 });
 
@@ -130,11 +135,13 @@ let score=0;
 
 filtered.forEach((q,i)=>{
 
+/* MCQ */
 if(q.type==="mcq"){
 const sel=document.querySelector(`input[name="q${i}"]:checked`);
 if(sel && sel.value===q.answer) score+=q.marks;
 }
 
+/* DRAG */
 if(q.type==="drag"){
 let c=0;
 q.pairs.forEach((p,j)=>{
@@ -149,29 +156,18 @@ const timeTaken=Math.floor((new Date()-startTime)/1000);
 
 alert(`Score: ${score}\nTime: ${timeTaken}s`);
 
-sendToSheet(score,timeTaken);
-
 }
 
-/* MARKSCHEME */
+/* MARKSCHEME FIX */
 function toggleMarkscheme(){
-msVisible=!msVisible;
-document.querySelectorAll(".markscheme").forEach(el=>{
-el.style.display = msVisible ? "block":"none";
-});
+
+msVisible = !msVisible;
+
+filtered.forEach((q,i)=>{
+const el = document.getElementById(`ms-${i}`);
+if(el){
+el.style.display = msVisible ? "block" : "none";
 }
-
-/* GOOGLE SHEETS */
-function sendToSheet(score,time){
-
-fetch("YOUR_SCRIPT_URL",{
-method:"POST",
-body: JSON.stringify({
-name: studentName,
-topic: currentTopic,
-score: score,
-time: time
-})
 });
 
 }
@@ -182,7 +178,7 @@ function downloadPDF(){
 let content = `<h2>${studentName}</h2><p>${currentTopic}</p><hr>`;
 
 filtered.forEach((q,i)=>{
-content+=`<p><b>Q${i+1}</b>: ${q.question}</p><hr>`;
+content += `<p><b>Q${i+1}</b>: ${q.question}</p><br>`;
 });
 
 const win=window.open("");
