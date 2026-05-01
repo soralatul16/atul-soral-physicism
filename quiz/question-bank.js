@@ -1,6 +1,1353 @@
 const questionBank = [
 
 /* =========================
+ELECTROMAGNETISM
+========================= */
+  
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "A",
+level: "easy",
+question: "Static electricity is the buildup of:",
+options: ["Heat on an object", "Electric charges on a surface", "Magnetic poles inside matter", "Light energy in atoms"],
+answer: "Electric charges on a surface",
+explanation: "Static electricity occurs when electric charges build up on the surface of objects instead of flowing continuously."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "A",
+level: "easy",
+question: "Which particle moves from one object to another during charging?",
+options: ["Proton", "Neutron", "Electron", "Nucleus"],
+answer: "Electron",
+explanation: "Only electrons move during charging. Protons remain locked inside the nucleus."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "A",
+level: "easy",
+question: "An object becomes negatively charged when it has:",
+options: ["More protons than electrons", "More electrons than protons", "Equal protons and electrons", "No electrons"],
+answer: "More electrons than protons",
+explanation: "A negative charge means the object has gained extra electrons."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "A",
+level: "easy",
+question: "An object is neutral when it has:",
+options: ["Only protons", "Only electrons", "Equal protons and electrons", "More neutrons than electrons"],
+answer: "Equal protons and electrons",
+explanation: "Neutral matter has equal numbers of positive protons and negative electrons."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "B",
+level: "medium",
+question: "A balloon rubbed with wool becomes negatively charged. This means the balloon:",
+options: ["Lost electrons", "Gained electrons", "Gained protons", "Lost neutrons"],
+answer: "Gained electrons",
+explanation: "A negative charge forms when electrons are transferred onto the object."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "A",
+level: "easy",
+question: "Like charges:",
+options: ["Attract", "Repel", "Become neutral", "Disappear"],
+answer: "Repel",
+explanation: "Charges of the same type push away from each other."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "A",
+level: "easy",
+question: "Opposite charges:",
+options: ["Repel", "Attract", "Cancel gravity", "Stop moving"],
+answer: "Attract",
+explanation: "Positive and negative charges pull toward each other."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "B",
+level: "medium",
+question: "Charging by conduction requires:",
+options: ["Direct contact", "No contact", "Only light", "Only heat"],
+answer: "Direct contact",
+explanation: "Conduction occurs when charge is transferred through direct touching."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "B",
+level: "medium",
+question: "Charging by induction happens when:",
+options: ["Objects must rub together", "A charged object causes charge separation without touching", "Electrons disappear", "Protons leave the nucleus"],
+answer: "A charged object causes charge separation without touching",
+explanation: "Induction occurs when a nearby charged object rearranges charges in another object without contact."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "C",
+level: "medium",
+question: "Why does hair stand up after being charged?",
+options: ["Hair strands gain mass", "Like charges on hair strands repel each other", "Gravity becomes stronger", "The hair becomes magnetic"],
+answer: "Like charges on hair strands repel each other",
+explanation: "When hair strands gain the same type of charge, they repel and spread apart."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "C",
+level: "medium",
+question: "Why is lightning considered a static discharge?",
+options: ["Charges flow suddenly after building up", "Charges remain still forever", "Only neutrons move", "The cloud becomes neutral without current"],
+answer: "Charges flow suddenly after building up",
+explanation: "Lightning occurs when built-up static charge suddenly discharges through air."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "B",
+level: "medium",
+question: "If an object has 12 protons and 12 electrons, it is:",
+options: ["Positive", "Negative", "Neutral", "Magnetic"],
+answer: "Neutral",
+explanation: "Equal numbers of protons and electrons give zero net charge."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "B",
+level: "medium",
+question: "If an object has 10 protons and 13 electrons, its net charge is:",
+options: ["Positive", "Negative", "Neutral", "Zero"],
+answer: "Negative",
+explanation: "The object has 3 extra electrons, so it has a net negative charge."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "B",
+level: "hard",
+question: "An object loses 5 electrons. What happens to its charge?",
+options: ["It becomes more negative", "It becomes more positive", "It becomes neutral always", "It loses all charge"],
+answer: "It becomes more positive",
+explanation: "Losing negative electrons leaves the object with a greater positive charge."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "B",
+level: "hard",
+question: "If one electron has charge −1.6 × 10⁻¹⁹ C, what charge is gained by an object that gains 4 electrons?",
+options: ["−6.4 × 10⁻¹⁹ C", "+6.4 × 10⁻¹⁹ C", "−4.0 × 10⁻¹⁹ C", "+4.0 × 10⁻¹⁹ C"],
+answer: "−6.4 × 10⁻¹⁹ C",
+explanation: "Charge gained = 4 × (−1.6 × 10⁻¹⁹ C) = −6.4 × 10⁻¹⁹ C."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "D",
+level: "hard",
+question: "Which statement best explains why protons do not transfer during ordinary static charging?",
+options: ["Protons are locked in the nucleus", "Protons are lighter than electrons", "Protons have no charge", "Protons move faster than electrons"],
+answer: "Protons are locked in the nucleus",
+explanation: "Protons are bound inside the nucleus, while outer electrons can transfer between objects."
+},
+{
+topic: "electromagnetism",
+image: "1-introduction-to-static-electricity",
+criterion: "D",
+level: "hard",
+question: "A neutral object is attracted to a charged object during induction because:",
+options: ["Its charges separate and the opposite charge becomes nearer", "It becomes permanently charged immediately", "Its protons leave the nucleus", "Its neutrons become negative"],
+answer: "Its charges separate and the opposite charge becomes nearer",
+explanation: "Induction causes charge separation. The nearer opposite charge creates a net attractive force."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "A",
+level: "easy",
+question: "Charging by friction occurs when:",
+options: ["Two objects are rubbed together", "Two objects are cooled", "Light passes through glass", "A magnet touches metal"],
+answer: "Two objects are rubbed together",
+explanation: "Friction transfers electrons when two materials are rubbed together."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "A",
+level: "easy",
+question: "When a balloon is rubbed on hair, the balloon usually:",
+options: ["Gains electrons", "Loses electrons", "Gains protons", "Loses neutrons"],
+answer: "Gains electrons",
+explanation: "The image shows the balloon gaining electrons and becoming negatively charged."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "A",
+level: "easy",
+question: "When a balloon gains electrons, the hair becomes:",
+options: ["Negative", "Positive", "Neutral", "Uncharged forever"],
+answer: "Positive",
+explanation: "If electrons move from hair to the balloon, the hair loses negative charge and becomes positive."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "A",
+level: "easy",
+question: "Charging by induction requires:",
+options: ["Touching", "Rubbing", "No contact", "Melting"],
+answer: "No contact",
+explanation: "Induction charges or separates charges without direct contact."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "B",
+level: "medium",
+question: "A negatively charged rod brought near a neutral metal ball pushes electrons in the ball:",
+options: ["Toward the rod", "To the far side", "Into the nucleus", "Out of existence"],
+answer: "To the far side",
+explanation: "Negative charges repel, so electrons in the metal ball move away from the negative rod."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "B",
+level: "medium",
+question: "In induction, grounding allows:",
+options: ["Extra electrons to flow into Earth", "Protons to leave the nucleus", "Neutrons to become charged", "The rod to disappear"],
+answer: "Extra electrons to flow into Earth",
+explanation: "Grounding provides a path for excess electrons to move into or from Earth."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "A",
+level: "easy",
+question: "Dry air usually causes:",
+options: ["More static charge build-up", "Less static charge build-up", "No static electricity", "Only magnetic effects"],
+answer: "More static charge build-up",
+explanation: "Dry air allows static charges to remain on surfaces more easily."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "A",
+level: "easy",
+question: "Humid air usually causes:",
+options: ["More static build-up", "Less static build-up", "More lightning always", "No charge movement ever"],
+answer: "Less static build-up",
+explanation: "Moist air helps charges leak away, reducing static build-up."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "B",
+level: "medium",
+question: "A small spark from a car door after sliding out of a seat is caused by:",
+options: ["Static discharge", "Nuclear decay", "Sound reflection", "Thermal expansion"],
+answer: "Static discharge",
+explanation: "Friction can build charge on the body, which discharges as a spark when touching metal."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "B",
+level: "medium",
+question: "Photocopiers use static electricity mainly to:",
+options: ["Make paper heavier", "Place toner on paper", "Cool the machine", "Remove light"],
+answer: "Place toner on paper",
+explanation: "Photocopiers use electrostatic attraction to place charged toner particles onto paper."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "C",
+level: "medium",
+question: "Why can clothes stick together after a dryer cycle?",
+options: ["Friction transfers electrons between clothes", "The clothes become magnetic", "Gravity becomes stronger", "The dryer removes all charges"],
+answer: "Friction transfers electrons between clothes",
+explanation: "Rubbing in the dryer transfers electrons, creating static charges that attract clothes."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "C",
+level: "medium",
+question: "Why does electrostatic spray painting help paint stick to a surface?",
+options: ["Paint particles are charged and attracted to the object", "Paint particles become neutral and disappear", "The object melts slightly", "Air pressure removes charge"],
+answer: "Paint particles are charged and attracted to the object",
+explanation: "Charged paint particles are attracted to the surface, improving coverage and reducing waste."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "B",
+level: "hard",
+question: "A neutral object gains 2.0 × 10⁶ electrons. What is its charge? Use e = 1.6 × 10⁻¹⁹ C.",
+options: ["−3.2 × 10⁻¹³ C", "+3.2 × 10⁻¹³ C", "−1.25 × 10²⁵ C", "+1.25 × 10²⁵ C"],
+answer: "−3.2 × 10⁻¹³ C",
+explanation: "Q = ne = 2.0 × 10⁶ × (−1.6 × 10⁻¹⁹) = −3.2 × 10⁻¹³ C."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "B",
+level: "hard",
+question: "An object has charge +8.0 × 10⁻¹⁹ C. How many electrons has it lost? Use e = 1.6 × 10⁻¹⁹ C.",
+options: ["2 electrons", "4 electrons", "5 electrons", "8 electrons"],
+answer: "5 electrons",
+explanation: "Number of electrons lost = Q/e = 8.0 × 10⁻¹⁹ ÷ 1.6 × 10⁻¹⁹ = 5."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "C",
+level: "hard",
+question: "Why does a grounded metal ball become negatively charged after induction by a negatively charged rod, according to the image sequence?",
+options: ["Extra electrons flow from Earth into the ball", "Protons move from the rod into the ball", "Electrons are destroyed inside the ball", "The ball absorbs neutrons"],
+answer: "Extra electrons flow from Earth into the ball",
+explanation: "The image shows the grounded ball receiving extra electrons from Earth before the ground is removed."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "D",
+level: "hard",
+question: "Which method is best for charging an object without touching it?",
+options: ["Friction", "Conduction", "Induction", "Combustion"],
+answer: "Induction",
+explanation: "Induction uses the electric effect of a nearby charged object without contact."
+},
+{
+topic: "electromagnetism",
+image: "2-methods-of-charging",
+criterion: "D",
+level: "hard",
+question: "Why can large static discharges like lightning be dangerous even though small static charges are usually harmless?",
+options: ["Large discharges transfer much more energy", "Large discharges contain no charge", "Small charges are always magnetic", "Lightning travels only through solids"],
+answer: "Large discharges transfer much more energy",
+explanation: "Large static discharges release a large amount of electrical energy suddenly, which can damage objects and harm living things."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "A",
+level: "easy",
+question: "Charging by friction occurs when:",
+options: ["Two objects are rubbed together", "Two objects are kept apart", "A charged object is grounded", "A magnetic field is removed"],
+answer: "Two objects are rubbed together",
+explanation: "Charging by friction happens when two different materials are rubbed and electrons transfer from one surface to another."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "A",
+level: "easy",
+question: "During charging by friction, which particles move?",
+options: ["Protons", "Neutrons", "Electrons", "Nuclei"],
+answer: "Electrons",
+explanation: "Electrons are mobile and can transfer between materials during rubbing."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "A",
+level: "easy",
+question: "In the balloon and cloth example, electrons move:",
+options: ["From balloon to cloth", "From cloth to balloon", "From protons to neutrons", "From air to Earth"],
+answer: "From cloth to balloon",
+explanation: "The image shows electrons moving from the cloth to the balloon."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "A",
+level: "easy",
+question: "After rubbing with cloth, the balloon becomes:",
+options: ["Positively charged", "Negatively charged", "Neutral", "Uncharged forever"],
+answer: "Negatively charged",
+explanation: "The balloon gains electrons, so it becomes negatively charged."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "A",
+level: "easy",
+question: "After losing electrons, the cloth becomes:",
+options: ["Negatively charged", "Positively charged", "Neutral", "Magnetic"],
+answer: "Positively charged",
+explanation: "Losing electrons leaves the cloth with a net positive charge."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "B",
+level: "medium",
+question: "A charged balloon attracts small bits of paper because:",
+options: ["The paper becomes heavier", "Charges in the paper rearrange and attraction occurs", "The balloon becomes magnetic", "The paper loses all protons"],
+answer: "Charges in the paper rearrange and attraction occurs",
+explanation: "A charged balloon polarizes nearby neutral paper, causing attraction."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "B",
+level: "medium",
+question: "According to the triboelectric series, materials higher on the list tend to:",
+options: ["Gain electrons", "Lose electrons", "Lose protons", "Become neutral always"],
+answer: "Lose electrons",
+explanation: "The image states that materials higher in the triboelectric series are more likely to lose electrons and become positively charged."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "B",
+level: "medium",
+question: "According to the triboelectric series, materials lower on the list tend to:",
+options: ["Gain electrons", "Lose electrons", "Lose neutrons", "Become positive always"],
+answer: "Gain electrons",
+explanation: "Materials lower in the triboelectric series are more likely to gain electrons and become negatively charged."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "C",
+level: "medium",
+question: "Why does friction create opposite charges on two objects?",
+options: ["Electrons transfer from one object to the other", "Both objects gain protons", "Both objects lose neutrons", "Charge is destroyed"],
+answer: "Electrons transfer from one object to the other",
+explanation: "One object loses electrons and becomes positive, while the other gains electrons and becomes negative."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "C",
+level: "medium",
+question: "Why does hair stand up when a charged balloon is near it?",
+options: ["The balloon heats the hair", "The charged balloon attracts the hair", "The hair becomes heavier", "The hair becomes invisible"],
+answer: "The charged balloon attracts the hair",
+explanation: "Static charge on the balloon attracts nearby hair strands, making them rise."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "B",
+level: "hard",
+question: "A cloth loses 3.0 × 10⁶ electrons to a balloon. What is the charge on the cloth? Use e = 1.6 × 10⁻¹⁹ C.",
+options: ["+4.8 × 10⁻¹³ C", "−4.8 × 10⁻¹³ C", "+1.9 × 10²⁵ C", "−1.9 × 10²⁵ C"],
+answer: "+4.8 × 10⁻¹³ C",
+explanation: "Losing electrons gives positive charge. Q = ne = 3.0 × 10⁶ × 1.6 × 10⁻¹⁹ = 4.8 × 10⁻¹³ C."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "B",
+level: "hard",
+question: "A balloon gains 5.0 × 10⁷ electrons. What is its charge? Use e = 1.6 × 10⁻¹⁹ C.",
+options: ["−8.0 × 10⁻¹² C", "+8.0 × 10⁻¹² C", "−3.1 × 10²⁶ C", "+3.1 × 10²⁶ C"],
+answer: "−8.0 × 10⁻¹² C",
+explanation: "Gaining electrons gives negative charge. Q = 5.0 × 10⁷ × (−1.6 × 10⁻¹⁹) = −8.0 × 10⁻¹² C."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "D",
+level: "hard",
+question: "Which explanation best describes lightning as shown in the image?",
+options: ["Friction in clouds builds large charge differences that discharge suddenly", "Clouds become magnetic and pull light from the ground", "Rainwater turns into electrons", "Lightning is caused by sound waves reflecting"],
+answer: "Friction in clouds builds large charge differences that discharge suddenly",
+explanation: "The image shows ice particles and droplets rubbing in clouds, building charge until a large spark occurs."
+},
+{
+topic: "electromagnetism",
+image: "3-charging-by-friction",
+criterion: "D",
+level: "hard",
+question: "Why can sparks near fuel vapors be dangerous?",
+options: ["Static discharge can ignite flammable vapors", "Static charge removes oxygen", "Friction always cools gases", "Electrons become neutrons"],
+answer: "Static discharge can ignite flammable vapors",
+explanation: "A static spark can release enough energy to ignite flammable vapors."
+},
+{
+topic: "electromagnetism",
+image: "4-charging-by-induction",
+criterion: "A",
+level: "easy",
+question: "Charging by induction means charging an object:",
+options: ["By rubbing only", "By direct touch only", "Without touching it", "By heating it"],
+answer: "Without touching it",
+explanation: "Induction can charge or separate charges in an object without contact."
+},
+{
+topic: "electromagnetism",
+image: "4-charging-by-induction",
+criterion: "A",
+level: "easy",
+question: "When a negatively charged rod is brought near a neutral metal ball, electrons in the ball move:",
+options: ["Toward the rod", "To the far side", "Into the protons", "Out of existence"],
+answer: "To the far side",
+explanation: "The negative rod repels electrons in the metal ball to the far side."
+},
+{
+topic: "electromagnetism",
+image: "4-charging-by-induction",
+criterion: "A",
+level: "easy",
+question: "In induction, the near side of the metal ball becomes:",
+options: ["Positive", "Negative", "Neutral only", "Magnetic"],
+answer: "Positive",
+explanation: "Electrons are pushed away, leaving the near side relatively positive."
+},
+{
+topic: "electromagnetism",
+image: "4-charging-by-induction",
+criterion: "B",
+level: "medium",
+question: "In the image sequence, grounding the ball allows electrons to:",
+options: ["Flow out of the ball into Earth", "Turn into protons", "Stay fixed forever", "Move into the rod"],
+answer: "Flow out of the ball into Earth",
+explanation: "With the negative rod still near, extra electrons flow from the metal ball into the Earth through the ground connection."
+},
+{
+topic: "electromagnetism",
+image: "4-charging-by-induction",
+criterion: "B",
+level: "medium",
+question: "After the ground is removed and then the rod is taken away, the ball is left:",
+options: ["Negatively charged", "Positively charged", "Neutral", "Without electrons"],
+answer: "Positively charged",
+explanation: "Electrons have flowed away through grounding, so the ball is left with a net positive charge."
+},
+{
+topic: "electromagnetism",
+image: "4-charging-by-induction",
+criterion: "B",
+level: "medium",
+question: "Which step traps the charge during induction?",
+options: ["Removing the ground before removing the rod", "Removing the rod before grounding", "Touching the rod to the ball", "Heating the ball"],
+answer: "Removing the ground before removing the rod",
+explanation: "The image notes that removing the ground first traps the charge while the charged rod still influences the ball."
+},
+{
+topic: "electromagnetism",
+image: "4-charging-by-induction",
+criterion: "C",
+level: "medium",
+question: "Why is induction especially effective in conductors?",
+options: ["Charges can move inside conductors", "Conductors have no electrons", "Conductors block all electric fields", "Protons move freely through conductors"],
+answer: "Charges can move inside conductors",
+explanation: "The image states that charges move inside a conductor even when there is no contact."
+},
+{
+topic: "electromagnetism",
+image: "4-charging-by-induction",
+criterion: "C",
+level: "medium",
+question: "Why can an aluminum can roll toward a charged balloon?",
+options: ["Charges separate inside the can, causing attraction", "The balloon creates gravity", "The can becomes lighter", "The can loses all protons"],
+answer: "Charges separate inside the can, causing attraction",
+explanation: "Induction separates charge in the metal can, producing attraction to the charged balloon."
+},
+{
+topic: "electromagnetism",
+image: "4-charging-by-induction",
+criterion: "D",
+level: "hard",
+question: "Which real-world device uses induction to remove tiny charged particles from smoke?",
+options: ["Electrostatic precipitator", "Thermometer", "Microphone", "Simple battery"],
+answer: "Electrostatic precipitator",
+explanation: "The image explains that electrostatic precipitators use induction to remove charged smoke particles and clean air."
+},
+{
+topic: "electromagnetism",
+image: "4-charging-by-induction",
+criterion: "B",
+level: "hard",
+question: "During induction, a metal ball loses 2.5 × 10⁸ electrons to Earth. What is its final charge? Use e = 1.6 × 10⁻¹⁹ C.",
+options: ["+4.0 × 10⁻¹¹ C", "−4.0 × 10⁻¹¹ C", "+1.6 × 10⁻²⁷ C", "−1.6 × 10⁻²⁷ C"],
+answer: "+4.0 × 10⁻¹¹ C",
+explanation: "Losing electrons gives positive charge. Q = 2.5 × 10⁸ × 1.6 × 10⁻¹⁹ = 4.0 × 10⁻¹¹ C."
+},
+{
+topic: "electromagnetism",
+image: "4-charging-by-induction",
+criterion: "D",
+level: "hard",
+question: "What would happen if the negative rod were removed before the ground connection?",
+options: ["The charge separation would reduce and the object may not remain charged", "The ball would gain infinite charge", "The ball would become radioactive", "The ground would become an insulator"],
+answer: "The charge separation would reduce and the object may not remain charged",
+explanation: "The charged rod must remain nearby while the ground is removed so the separated charge is trapped."
+},
+{
+topic: "electromagnetism",
+image: "5-charging-by-conduction",
+criterion: "A",
+level: "easy",
+question: "Charging by conduction requires:",
+options: ["Direct contact", "No contact", "Only light", "Only sound"],
+answer: "Direct contact",
+explanation: "Conduction transfers charge when objects touch."
+},
+{
+topic: "electromagnetism",
+image: "5-charging-by-conduction",
+criterion: "A",
+level: "easy",
+question: "In the image, the negatively charged rod has:",
+options: ["Extra electrons", "Extra protons", "No electrons", "Only neutrons"],
+answer: "Extra electrons",
+explanation: "The rod is shown as negatively charged because it has extra electrons."
+},
+{
+topic: "electromagnetism",
+image: "5-charging-by-conduction",
+criterion: "A",
+level: "easy",
+question: "In charging by conduction, electrons move from:",
+options: ["The object with extra electrons to the one with fewer electrons", "The nucleus to the air", "Neutrons to protons", "The neutral object to nothing"],
+answer: "The object with extra electrons to the one with fewer electrons",
+explanation: "The image explains that electrons flow from the object with extra electrons to the object that has fewer."
+},
+{
+topic: "electromagnetism",
+image: "5-charging-by-conduction",
+criterion: "A",
+level: "easy",
+question: "After a negatively charged rod touches a neutral metal sphere, both objects become:",
+options: ["Positively charged", "Negatively charged", "Neutral", "Uncharged"],
+answer: "Negatively charged",
+explanation: "Electrons move onto the sphere, so both the rod and sphere end up with extra electrons."
+},
+{
+topic: "electromagnetism",
+image: "5-charging-by-conduction",
+criterion: "B",
+level: "medium",
+question: "Charging by conduction works best with:",
+options: ["Conductors such as metals", "Insulators such as rubber", "Only gases", "Only vacuum"],
+answer: "Conductors such as metals",
+explanation: "Metals have free electrons that can move easily during contact."
+},
+{
+topic: "electromagnetism",
+image: "5-charging-by-conduction",
+criterion: "C",
+level: "medium",
+question: "Why does conduction not work well through plastic, rubber, or glass?",
+options: ["They are insulators with electrons that cannot move freely", "They contain no atoms", "They have no protons", "They turn charge into heat instantly"],
+answer: "They are insulators with electrons that cannot move freely",
+explanation: "Insulators do not allow electrons to flow easily, so charge transfer by conduction is limited."
+},
+{
+topic: "electromagnetism",
+image: "5-charging-by-conduction",
+criterion: "B",
+level: "medium",
+question: "Touching a charged object and then a metal doorknob can transfer charge by:",
+options: ["Diffraction", "Conduction", "Induction only", "Refraction"],
+answer: "Conduction",
+explanation: "Touching allows charge to move directly between objects."
+},
+{
+topic: "electromagnetism",
+image: "5-charging-by-conduction",
+criterion: "C",
+level: "medium",
+question: "Why do two similar conducting objects share charge more equally?",
+options: ["Their similar properties allow charge to distribute more evenly", "They repel all electrons away", "They destroy charge", "Their protons move freely"],
+answer: "Their similar properties allow charge to distribute more evenly",
+explanation: "The image notes that more similar objects share charge more equally."
+},
+{
+topic: "electromagnetism",
+image: "5-charging-by-conduction",
+criterion: "B",
+level: "hard",
+question: "A rod transfers 6.0 × 10⁹ electrons to a neutral sphere by conduction. What charge does the sphere gain? Use e = 1.6 × 10⁻¹⁹ C.",
+options: ["−9.6 × 10⁻¹⁰ C", "+9.6 × 10⁻¹⁰ C", "−3.75 × 10²⁸ C", "+3.75 × 10²⁸ C"],
+answer: "−9.6 × 10⁻¹⁰ C",
+explanation: "The sphere gains electrons, so Q = 6.0 × 10⁹ × (−1.6 × 10⁻¹⁹) = −9.6 × 10⁻¹⁰ C."
+},
+{
+topic: "electromagnetism",
+image: "5-charging-by-conduction",
+criterion: "B",
+level: "hard",
+question: "A neutral metal sphere gains charge −4.8 × 10⁻¹⁵ C by conduction. How many electrons were transferred? Use e = 1.6 × 10⁻¹⁹ C.",
+options: ["3.0 × 10⁴ electrons", "4.8 × 10⁴ electrons", "7.7 × 10⁻³⁴ electrons", "1.6 × 10⁴ electrons"],
+answer: "3.0 × 10⁴ electrons",
+explanation: "n = |Q|/e = 4.8 × 10⁻¹⁵ ÷ 1.6 × 10⁻¹⁹ = 3.0 × 10⁴ electrons."
+},
+{
+topic: "electromagnetism",
+image: "5-charging-by-conduction",
+criterion: "D",
+level: "hard",
+question: "Which statement best evaluates conduction as a charging method?",
+options: ["It is direct and effective for conductors but requires contact", "It works without any contact", "It only works in vacuum", "It transfers protons between nuclei"],
+answer: "It is direct and effective for conductors but requires contact",
+explanation: "Conduction is useful because charge moves through contact, especially in conductors, but contact is necessary."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "A",
+level: "easy",
+question: "An electric field is a region where:",
+options: ["A charge experiences a force", "Mass disappears", "Only sound travels", "Gravity becomes zero"],
+answer: "A charge experiences a force",
+explanation: "An electric field is the region around a charged object where another charge would experience a force."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "A",
+level: "easy",
+question: "Electric field direction is defined as the direction of force on:",
+options: ["A positive test charge", "A neutron", "A negative test charge", "An uncharged atom"],
+answer: "A positive test charge",
+explanation: "By convention, the electric field vector points in the direction of the force on a positive test charge."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "A",
+level: "easy",
+question: "Electric field lines begin on:",
+options: ["Negative charges", "Positive charges", "Neutrons", "Neutral atoms"],
+answer: "Positive charges",
+explanation: "Field lines start on positive charges and end on negative charges."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "A",
+level: "easy",
+question: "Electric field lines end on:",
+options: ["Positive charges", "Negative charges", "Neutrons", "Empty space only"],
+answer: "Negative charges",
+explanation: "Electric field lines point from positive to negative charges."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "A",
+level: "easy",
+question: "Electric field strength is measured in:",
+options: ["N/C", "J", "kg", "m/s"],
+answer: "N/C",
+explanation: "Electric field strength is force per unit charge, measured in newtons per coulomb."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "B",
+level: "medium",
+question: "Which equation defines electric field strength?",
+options: ["E = F/q₀", "E = mc²", "E = IR", "E = fλ"],
+answer: "E = F/q₀",
+explanation: "The image gives electric field strength as E = F/q₀."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "B",
+level: "medium",
+question: "If a force of 6 N acts on a test charge of 2 C, what is the electric field strength?",
+options: ["3 N/C", "8 N/C", "12 N/C", "4 N/C"],
+answer: "3 N/C",
+explanation: "E = F/q = 6 ÷ 2 = 3 N/C."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "B",
+level: "medium",
+question: "If the electric field is 50 N/C and the test charge is 0.20 C, what force acts on it?",
+options: ["10 N", "250 N", "50.2 N", "0.004 N"],
+answer: "10 N",
+explanation: "F = Eq = 50 × 0.20 = 10 N."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "C",
+level: "medium",
+question: "Closer electric field lines represent:",
+options: ["A stronger electric field", "A weaker electric field", "No electric field", "A neutral region only"],
+answer: "A stronger electric field",
+explanation: "The image states that closer field lines mean a stronger field."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "C",
+level: "medium",
+question: "Why do electric field lines never cross?",
+options: ["A field cannot have two directions at the same point", "Charges disappear at crossing points", "Crossing lines create gravity", "Only magnetic fields cross"],
+answer: "A field cannot have two directions at the same point",
+explanation: "If field lines crossed, one point would have two field directions, which is impossible."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "C",
+level: "medium",
+question: "In a uniform electric field between parallel plates, field lines are:",
+options: ["Nearly parallel and equally spaced", "Circular", "Random", "Crossing"],
+answer: "Nearly parallel and equally spaced",
+explanation: "Between large oppositely charged plates, the electric field is nearly uniform."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "B",
+level: "hard",
+question: "A charge of 4.0 × 10⁻⁶ C experiences a force of 0.020 N. What is the electric field strength?",
+options: ["5.0 × 10³ N/C", "8.0 × 10⁻⁸ N/C", "2.0 × 10⁻⁴ N/C", "1.6 × 10⁻⁷ N/C"],
+answer: "5.0 × 10³ N/C",
+explanation: "E = F/q = 0.020 ÷ (4.0 × 10⁻⁶) = 5.0 × 10³ N/C."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "D",
+level: "hard",
+question: "A negative charge placed in an electric field experiences force:",
+options: ["In the direction of the field", "Opposite to the direction of the field", "Always upward", "Only if field lines cross"],
+answer: "Opposite to the direction of the field",
+explanation: "Electric field direction is defined for a positive test charge, so a negative charge feels force in the opposite direction."
+},
+{
+topic: "electromagnetism",
+image: "6-electric-fields-intro",
+criterion: "D",
+level: "hard",
+question: "Which conclusion best describes electric fields?",
+options: ["They allow charges to exert forces without touching", "They exist only inside metal objects", "They are visible lines painted in space", "They require sound waves to form"],
+answer: "They allow charges to exert forces without touching",
+explanation: "Electric fields explain how charges influence other charges through the space around them."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "A",
+level: "easy",
+question: "A capacitor stores electrical energy in:",
+options: ["A magnetic core", "An electric field", "A sound wave", "A chemical flame"],
+answer: "An electric field",
+explanation: "A capacitor stores electrical energy in the electric field between two conductive plates."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "A",
+level: "easy",
+question: "The insulating material between capacitor plates is called a:",
+options: ["Conductor", "Dielectric", "Fuse", "Switch"],
+answer: "Dielectric",
+explanation: "A dielectric is the insulating material placed between capacitor plates."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "A",
+level: "easy",
+question: "Electrostatic shielding protects objects by:",
+options: ["Blocking external electric fields", "Increasing current", "Creating heat", "Removing gravity"],
+answer: "Blocking external electric fields",
+explanation: "Conductors can block external electric fields, protecting what is inside."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "B",
+level: "medium",
+question: "Inside an ideal electrostatic shield, the electric field is:",
+options: ["Maximum", "Zero", "Always negative", "Infinite"],
+answer: "Zero",
+explanation: "Free electrons in the conductor rearrange to cancel the field inside the shield."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "A",
+level: "easy",
+question: "Electrostatic precipitators are used to:",
+options: ["Clean air", "Store water", "Measure temperature", "Create sound"],
+answer: "Clean air",
+explanation: "Electrostatic precipitators attract charged smoke particles and remove them from air."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "A",
+level: "easy",
+question: "Touchscreens use electric fields to detect:",
+options: ["Temperature", "Touch position", "Mass", "Sound level"],
+answer: "Touch position",
+explanation: "Electric fields help touchscreens detect the position of a finger with high precision."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "B",
+level: "medium",
+question: "Photocopiers and laser printers use electric fields to attract:",
+options: ["Toner particles", "Water droplets", "Air molecules only", "Neutrons"],
+answer: "Toner particles",
+explanation: "Electric fields attract charged toner particles to form images on paper."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "B",
+level: "medium",
+question: "Particle accelerators use electric fields to:",
+options: ["Slow charged particles", "Speed up charged particles", "Freeze particles", "Make particles neutral"],
+answer: "Speed up charged particles",
+explanation: "Electric fields accelerate charged particles so scientists can study matter."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "C",
+level: "medium",
+question: "Why are MRI rooms shielded?",
+options: ["To reduce room temperature", "To improve sound quality", "To protect safety and sensitive equipment", "To increase humidity"],
+answer: "To protect safety and sensitive equipment",
+explanation: "Shielding helps block unwanted electric fields and protects sensitive medical equipment."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "B",
+level: "hard",
+question: "A capacitor has capacitance 4 F and voltage 3 V. How much energy is stored? Use U = 1/2 CV².",
+options: ["6 J", "12 J", "18 J", "24 J"],
+answer: "18 J",
+explanation: "U = 1/2 × 4 × 3² = 2 × 9 = 18 J."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "B",
+level: "hard",
+question: "A capacitor stores 50 J at 5 V. What is its capacitance? Use U = 1/2 CV².",
+options: ["2 F", "4 F", "5 F", "10 F"],
+answer: "4 F",
+explanation: "C = 2U/V² = 2 × 50 / 25 = 4 F."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "D",
+level: "hard",
+question: "Which application best shows electric fields being used for environmental protection?",
+options: ["Electrostatic precipitators", "Touchscreens", "Camera flashes", "Capacitor timers"],
+answer: "Electrostatic precipitators",
+explanation: "Electrostatic precipitators remove charged pollution particles from air, directly protecting the environment."
+},
+{
+topic: "electromagnetism",
+image: "7-electrica-field-applications",
+criterion: "D",
+level: "hard",
+question: "Why are capacitors useful in electronic devices?",
+options: ["They store energy and smooth voltage fluctuations", "They remove all resistance", "They stop charge from existing", "They only produce sound"],
+answer: "They store energy and smooth voltage fluctuations",
+explanation: "Capacitors store energy in electric fields and help stabilize voltage in circuits."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "A",
+level: "easy",
+question: "Electric current is the flow of:",
+options: ["Electric charge", "Heat only", "Mass", "Sound"],
+answer: "Electric charge",
+explanation: "Electric current is the flow of electric charge through a conductor."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "A",
+level: "easy",
+question: "Current is measured in:",
+options: ["Volts", "Ohms", "Amperes", "Joules"],
+answer: "Amperes",
+explanation: "Electric current is measured in amperes (A)."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "A",
+level: "easy",
+question: "One ampere means:",
+options: ["One joule per second", "One coulomb per second", "One volt per coulomb", "One ohm per volt"],
+answer: "One coulomb per second",
+explanation: "1 A = 1 C of charge passing a point per second."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "A",
+level: "easy",
+question: "Electron flow is from:",
+options: ["Positive terminal to negative terminal", "Negative terminal to positive terminal", "Ground to sky", "Lamp to battery only"],
+answer: "Negative terminal to positive terminal",
+explanation: "Electrons are negatively charged and move from the negative terminal to the positive terminal."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "A",
+level: "easy",
+question: "Conventional current is defined from:",
+options: ["Positive to negative", "Negative to positive", "North to south", "Earth to battery"],
+answer: "Positive to negative",
+explanation: "Conventional current is defined opposite to electron flow, from positive to negative."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "A",
+level: "easy",
+question: "Current can flow only in a:",
+options: ["Broken circuit", "Complete circuit", "Plastic rod", "Neutral atom"],
+answer: "Complete circuit",
+explanation: "A complete loop is needed for charge to flow continuously."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "B",
+level: "medium",
+question: "What causes electrons to drift in one direction inside a conductor?",
+options: ["A voltage creating an electric field", "A sound wave", "A change in color", "A decrease in mass"],
+answer: "A voltage creating an electric field",
+explanation: "A source of voltage creates an electric field inside the conductor, causing electrons to drift."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "B",
+level: "medium",
+question: "Which material allows current to flow using electrons as charge carriers?",
+options: ["Metal", "Glass", "Plastic", "Dry air only"],
+answer: "Metal",
+explanation: "Metals such as copper and aluminum conduct using mobile electrons."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "B",
+level: "medium",
+question: "Which material conducts using positive and negative ions?",
+options: ["Salt solution", "Glass", "Plastic", "Dry wood only"],
+answer: "Salt solution",
+explanation: "Salt solutions conduct because positive and negative ions can move."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "C",
+level: "medium",
+question: "Why does current stop when a switch opens?",
+options: ["The complete path is broken", "Electrons become protons", "The battery loses mass", "The wire becomes invisible"],
+answer: "The complete path is broken",
+explanation: "Opening a switch breaks the circuit, so charge can no longer flow continuously."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "B",
+level: "hard",
+question: "If 6 C of charge passes a point in 3 s, what is the current?",
+options: ["2 A", "3 A", "9 A", "18 A"],
+answer: "2 A",
+explanation: "I = Q/t = 6 ÷ 3 = 2 A."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "B",
+level: "hard",
+question: "A current of 0.5 A flows for 10 s. How much charge passes a point?",
+options: ["0.05 C", "5 C", "10.5 C", "20 C"],
+answer: "5 C",
+explanation: "Q = It = 0.5 × 10 = 5 C."
+},
+{
+topic: "electromagnetism",
+image: "8-introduction-to-current",
+criterion: "D",
+level: "hard",
+question: "Why can a tiny current still be felt by the human body?",
+options: ["The body responds to small electrical signals", "Current has no effect on tissues", "Only voltage matters and current does not", "Electrons stop at the skin"],
+answer: "The body responds to small electrical signals",
+explanation: "The image notes that even currents less than 0.01 A can be felt, so electrical safety matters."
+},
+{
+topic: "electromagnetism",
+image: "9-simple-circuits",
+criterion: "A",
+level: "easy",
+question: "A simple circuit is a:",
+options: ["Closed loop path for current", "Broken wire only", "Magnet without charge", "Single atom"],
+answer: "Closed loop path for current",
+explanation: "A simple circuit is a closed loop path that allows electric current to flow."
+},
+{
+topic: "electromagnetism",
+image: "9-simple-circuits",
+criterion: "A",
+level: "easy",
+question: "If a circuit path is broken, the bulb:",
+options: ["Glows brighter", "Does not glow", "Becomes a battery", "Produces current by itself"],
+answer: "Does not glow",
+explanation: "If the path is broken, current stops and the bulb does not glow."
+},
+{
+topic: "electromagnetism",
+image: "9-simple-circuits",
+criterion: "A",
+level: "easy",
+question: "In a series circuit, components are connected:",
+options: ["One after another", "Across separate branches", "Without wires", "Only to ground"],
+answer: "One after another",
+explanation: "Series components are connected one after another in a single path."
+},
+{
+topic: "electromagnetism",
+image: "9-simple-circuits",
+criterion: "A",
+level: "easy",
+question: "In a series circuit, the current through each component is:",
+options: ["The same", "Zero always", "Different at every bulb", "Only in the battery"],
+answer: "The same",
+explanation: "The same current flows through every component in a series circuit."
+},
+{
+topic: "electromagnetism",
+image: "9-simple-circuits",
+criterion: "B",
+level: "medium",
+question: "If one bulb burns out in a series circuit with two bulbs, what happens?",
+options: ["Only that bulb goes out", "Both bulbs go out", "The battery becomes stronger", "Current doubles"],
+answer: "Both bulbs go out",
+explanation: "A failed bulb breaks the single path, so current stops through the whole series circuit."
+},
+{
+topic: "electromagnetism",
+image: "9-simple-circuits",
+criterion: "B",
+level: "medium",
+question: "Adding more bulbs in series usually makes each bulb:",
+options: ["Brighter", "Dimmer", "Turn into a switch", "Glow without current"],
+answer: "Dimmer",
+explanation: "More series bulbs increase total opposition, so bulbs become dimmer."
+},
+{
+topic: "electromagnetism",
+image: "9-simple-circuits",
+criterion: "A",
+level: "easy",
+question: "Which symbol represents a lamp in circuit diagrams?",
+options: ["Circle with a cross", "Straight line only", "Zigzag line", "Open gap only"],
+answer: "Circle with a cross",
+explanation: "The image shows the bulb or lamp symbol as a circle with a cross inside."
+},
+{
+topic: "electromagnetism",
+image: "9-simple-circuits",
+criterion: "B",
+level: "medium",
+question: "Which real-life example commonly uses cells in series?",
+options: ["Flashlight", "Open switch", "Single wire only", "Glass rod"],
+answer: "Flashlight",
+explanation: "Flashlights often use multiple cells in series to provide enough voltage."
+},
+{
+topic: "electromagnetism",
+image: "9-simple-circuits",
+criterion: "B",
+level: "hard",
+question: "A battery provides 9 V to three identical bulbs in series. If voltage is shared equally, what voltage is across each bulb?",
+options: ["1 V", "3 V", "6 V", "9 V"],
+answer: "3 V",
+explanation: "In a simple equal-sharing model, 9 V ÷ 3 bulbs = 3 V per bulb."
+},
+{
+topic: "electromagnetism",
+image: "9-simple-circuits",
+criterion: "D",
+level: "hard",
+question: "Why are series circuits less suitable when each appliance must work independently?",
+options: ["A break in one component stops current through all components", "They use no current", "They cannot contain batteries", "They always have zero resistance"],
+answer: "A break in one component stops current through all components",
+explanation: "Series circuits have only one path, so one failure can stop the entire circuit."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "A",
+level: "easy",
+question: "Voltage is electric potential difference that:",
+options: ["Pushes charges through a circuit", "Stops all current", "Removes resistance", "Creates mass"],
+answer: "Pushes charges through a circuit",
+explanation: "Voltage provides the electrical push or energy per charge in a circuit."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "A",
+level: "easy",
+question: "Resistance opposes the flow of:",
+options: ["Current", "Mass", "Light only", "Sound only"],
+answer: "Current",
+explanation: "Resistance is the opposition to electric current in a circuit."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "A",
+level: "easy",
+question: "Resistance is measured in:",
+options: ["Volts", "Amperes", "Ohms", "Coulombs"],
+answer: "Ohms",
+explanation: "Resistance is measured in ohms (Ω)."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "A",
+level: "easy",
+question: "Ohm’s law is:",
+options: ["V = IR", "F = ma", "E = mc²", "v = fλ"],
+answer: "V = IR",
+explanation: "Ohm’s law connects voltage, current, and resistance: V = IR."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "B",
+level: "medium",
+question: "If resistance is constant and voltage increases, current:",
+options: ["Increases", "Decreases", "Becomes zero", "Never changes"],
+answer: "Increases",
+explanation: "From V = IR, current is directly proportional to voltage when resistance is constant."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "B",
+level: "medium",
+question: "If voltage is constant and resistance increases, current:",
+options: ["Increases", "Decreases", "Doubles always", "Becomes infinite"],
+answer: "Decreases",
+explanation: "For fixed voltage, I = V/R, so increasing resistance decreases current."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "B",
+level: "medium",
+question: "A circuit has V = 12 V and R = 3 Ω. What is the current?",
+options: ["3 A", "4 A", "9 A", "36 A"],
+answer: "4 A",
+explanation: "I = V/R = 12 ÷ 3 = 4 A."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "B",
+level: "medium",
+question: "If V = 6 V and I = 2 A, what is resistance?",
+options: ["2 Ω", "3 Ω", "8 Ω", "12 Ω"],
+answer: "3 Ω",
+explanation: "R = V/I = 6 ÷ 2 = 3 Ω."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "C",
+level: "medium",
+question: "For an ohmic conductor, the V-I graph is:",
+options: ["A straight line through the origin", "A circle", "A curve that never starts at zero", "A random shape"],
+answer: "A straight line through the origin",
+explanation: "At constant temperature, an ohmic conductor has a linear V-I relationship through the origin."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "C",
+level: "medium",
+question: "The slope of a V-I graph for an ohmic conductor equals:",
+options: ["Resistance", "Current", "Charge", "Time"],
+answer: "Resistance",
+explanation: "Since R = V/I, the slope of a V-I graph gives resistance."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "B",
+level: "hard",
+question: "A resistor has current 0.25 A when connected to 10 V. What is its resistance?",
+options: ["2.5 Ω", "10.25 Ω", "25 Ω", "40 Ω"],
+answer: "40 Ω",
+explanation: "R = V/I = 10 ÷ 0.25 = 40 Ω."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "B",
+level: "hard",
+question: "A 5 Ω resistor carries 0.8 A. What voltage is across it?",
+options: ["4 V", "5.8 V", "6.25 V", "0.16 V"],
+answer: "4 V",
+explanation: "V = IR = 0.8 × 5 = 4 V."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "D",
+level: "hard",
+question: "Why is a copper wire considered low resistance compared with a bulb filament?",
+options: ["It allows current to flow more easily", "It stops all current", "It has no atoms", "It changes voltage into mass"],
+answer: "It allows current to flow more easily",
+explanation: "Copper wire has low resistance, so it allows current to flow easily."
+},
+{
+topic: "electromagnetism",
+image: "10-voltage-and-resistance",
+criterion: "D",
+level: "hard",
+question: "Which conclusion best summarizes voltage and resistance?",
+options: ["Voltage pushes charge, while resistance opposes current", "Voltage opposes charge, while resistance creates charge", "Both voltage and resistance stop current", "Resistance is measured in volts"],
+answer: "Voltage pushes charge, while resistance opposes current",
+explanation: "Voltage provides the push for current, while resistance limits the current."
+},
+  
+
+  
+/* =========================
 WAVES INTRODUCTION
 ========================= */
 {
