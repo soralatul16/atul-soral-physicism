@@ -2855,7 +2855,2351 @@ question:"Pressure depends on:",
 options:["Depth","Density","g","All"],
 answer:"All"
 },
-  
+/* ================= IMAGE 21: BUOYANCY & UPTHRUST ================= */
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"A",
+level:"easy",
+question:"Upthrust acts in which direction?",
+options:["Downward","Upward","Sideways","Random"],
+answer:"Upward"
+},
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"B",
+level:"medium",
+question:"Upthrust equals:",
+options:["Weight of object","Weight of fluid displaced","Mass of fluid","Volume of object"],
+answer:"Weight of fluid displaced"
+},
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"C",
+level:"hard",
+question:"If upthrust > weight:",
+options:["Object sinks","Object floats","Object stops","Object explodes"],
+answer:"Object floats"
+},
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"C",
+level:"hard",
+question:"If upthrust = weight:",
+options:["Floats","Sinks","Suspended","Accelerates"],
+answer:"Suspended"
+},
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"C",
+level:"hard",
+question:"If upthrust < weight:",
+options:["Floats","Sinks","Suspended","Moves up"],
+answer:"Sinks"
+},
+
+// numerical
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"C",
+level:"hard",
+question:"Water displaced weighs 50 N → upthrust:",
+options:["50 N","5 N","500 N","0"],
+answer:"50 N"
+},
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"C",
+level:"hard",
+question:"ρ = 1000 kg/m³, V = 0.01 m³ → U ≈ (g=10):",
+options:["100 N","10 N","1 N","1000 N"],
+answer:"100 N"
+},
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"D",
+level:"hard",
+question:"Ship floats because:",
+options:["Less mass","Less density overall","More weight","No gravity"],
+answer:"Less density overall"
+},
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"D",
+level:"hard",
+question:"Stone sinks because:",
+options:["Low density","High upthrust","High density","Low weight"],
+answer:"High density"
+},
+
+// tricky
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"D",
+level:"hard",
+question:"Heavier object always sinks:",
+options:["True","False","Depends","Sometimes"],
+answer:"False"
+},
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"C",
+level:"hard",
+question:"Upthrust depends on:",
+options:["Density","Volume displaced","g","All"],
+answer:"All"
+},
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"D",
+level:"hard",
+question:"Hydrometer works based on:",
+options:["Pressure","Density","Friction","Speed"],
+answer:"Density"
+},
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"C",
+level:"hard",
+question:"If fluid density increases:",
+options:["Upthrust increases","Decreases","Same","Zero"],
+answer:"Upthrust increases"
+},
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"D",
+level:"hard",
+question:"Hot air balloon rises because:",
+options:["Less volume","Less density","More gravity","Less pressure"],
+answer:"Less density"
+},
+
+{
+topic:"buoyancy",
+image:"21-buoyancy",
+criterion:"C",
+level:"hard",
+question:"Submarine sinks by:",
+options:["Reducing mass","Reducing volume","Increasing density","Increasing upthrust"],
+answer:"Increasing density"
+},
+
+/* ================= IMAGE 22: FREE BODY DIAGRAM ================= */
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"A",
+level:"easy",
+question:"FBD shows:",
+options:["Internal forces","External forces","Energy","Heat"],
+answer:"External forces"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"B",
+level:"medium",
+question:"Weight is represented as:",
+options:["Up arrow","Down arrow","Side arrow","None"],
+answer:"Down arrow"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"C",
+level:"hard",
+question:"Normal force acts:",
+options:["Parallel","Perpendicular","Downward","Random"],
+answer:"Perpendicular"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"C",
+level:"hard",
+question:"Friction acts:",
+options:["Along surface","Upward","Downward","None"],
+answer:"Along surface"
+},
+
+// tricky
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"D",
+level:"hard",
+question:"Include forces acting BY object:",
+options:["Yes","No","Sometimes","Depends"],
+answer:"No"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"C",
+level:"hard",
+question:"Tension acts:",
+options:["Push","Pull","Random","None"],
+answer:"Pull"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"C",
+level:"hard",
+question:"In free fall (no air):",
+options:["Only weight","Weight + air","Normal + weight","None"],
+answer:"Only weight"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"D",
+level:"hard",
+question:"Balanced forces mean:",
+options:["No motion","Constant velocity","Acceleration","Rest only"],
+answer:"Constant velocity"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"C",
+level:"hard",
+question:"Net force zero:",
+options:["a=0","v=0","F=ma false","No forces"],
+answer:"a=0"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"D",
+level:"hard",
+question:"Air resistance acts:",
+options:["With motion","Opposite motion","Random","None"],
+answer:"Opposite motion"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"C",
+level:"hard",
+question:"For object on table:",
+options:["Only W","Only N","W & N","None"],
+answer:"W & N"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"D",
+level:"hard",
+question:"Incorrect FBD includes:",
+options:["All forces","Extra forces","Correct labels","Vectors"],
+answer:"Extra forces"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"C",
+level:"hard",
+question:"FBD simplifies:",
+options:["Energy","Motion","Forces","Mass"],
+answer:"Forces"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"D",
+level:"hard",
+question:"Best axes choice:",
+options:["Random","Simplifies problem","Always horizontal","Always vertical"],
+answer:"Simplifies problem"
+},
+
+{
+topic:"fbd",
+image:"22-fbd",
+criterion:"C",
+level:"hard",
+question:"Vector arrows represent:",
+options:["Mass","Force","Energy","Time"],
+answer:"Force"
+},
+
+/* ================= IMAGE 23: SYSTEMS & MOTION ================= */
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"A",
+level:"easy",
+question:"Resultant force is:",
+options:["Sum of forces","Single force","Mass","Energy"],
+answer:"Sum of forces"
+},
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"B",
+level:"medium",
+question:"Fnet = 0 →",
+options:["Accelerates","Constant velocity","Stops","Explodes"],
+answer:"Constant velocity"
+},
+
+// numerical
+{
+topic:"systems",
+image:"23-systems",
+criterion:"C",
+level:"hard",
+question:"F=1000 N, m=1000 kg → a:",
+options:["1","10","0.1","100"],
+answer:"1"
+},
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"C",
+level:"hard",
+question:"2500 N forward, 1500 N backward → Fnet:",
+options:["1000 N","4000 N","-1000 N","0"],
+answer:"1000 N"
+},
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"C",
+level:"hard",
+question:"Net force opposite motion →",
+options:["Speed increases","Speed decreases","Same speed","No motion"],
+answer:"Speed decreases"
+},
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"D",
+level:"hard",
+question:"Acceleration direction:",
+options:["Velocity","Force","Mass","Time"],
+answer:"Force"
+},
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"C",
+level:"hard",
+question:"Fnet = ΣF means:",
+options:["Multiply","Add vectors","Divide","Subtract always"],
+answer:"Add vectors"
+},
+
+// tricky
+{
+topic:"systems",
+image:"23-systems",
+criterion:"D",
+level:"hard",
+question:"Balanced forces → object at rest only:",
+options:["True","False","Depends","Sometimes"],
+answer:"False"
+},
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"C",
+level:"hard",
+question:"If mass doubles:",
+options:["a doubles","a halves","Same","Zero"],
+answer:"a halves"
+},
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"C",
+level:"hard",
+question:"Force causes:",
+options:["Speed","Acceleration","Mass","Energy"],
+answer:"Acceleration"
+},
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"D",
+level:"hard",
+question:"If forces equal opposite:",
+options:["Net zero","Acceleration","Speed increases","Random"],
+answer:"Net zero"
+},
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"C",
+level:"hard",
+question:"Velocity change formula:",
+options:["v=u+at","F=ma","P=F/A","W=mg"],
+answer:"v=u+at"
+},
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"D",
+level:"hard",
+question:"In tug of war:",
+options:["Equal forces move","Stronger wins","No motion always","Mass matters only"],
+answer:"Stronger wins"
+},
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"C",
+level:"hard",
+question:"Net force direction:",
+options:["Velocity","Acceleration","Mass","None"],
+answer:"Acceleration"
+},
+
+{
+topic:"systems",
+image:"23-systems",
+criterion:"D",
+level:"hard",
+question:"Object accelerates when:",
+options:["Fnet=0","Fnet≠0","Mass zero","Speed zero"],
+answer:"Fnet≠0"
+},
+
+/* ================= IMAGE 24: DISTANCE-TIME GRAPHS ================= */
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"A",
+level:"easy",
+question:"Slope of graph gives:",
+options:["Speed","Time","Distance","Acceleration"],
+answer:"Speed"
+},
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"B",
+level:"medium",
+question:"Horizontal line means:",
+options:["Constant speed","At rest","Accelerating","Negative motion"],
+answer:"At rest"
+},
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"C",
+level:"hard",
+question:"Steeper slope means:",
+options:["Less speed","More speed","Zero speed","Negative"],
+answer:"More speed"
+},
+
+// numerical
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"C",
+level:"hard",
+question:"Distance 100 m in 10 s → speed:",
+options:["10 m/s","100 m/s","1 m/s","5 m/s"],
+answer:"10 m/s"
+},
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"C",
+level:"hard",
+question:"Distance change 50 m in 5 s:",
+options:["10 m/s","5 m/s","50 m/s","1 m/s"],
+answer:"10 m/s"
+},
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"D",
+level:"hard",
+question:"Curved graph means:",
+options:["Constant speed","Changing speed","Zero speed","Negative"],
+answer:"Changing speed"
+},
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"D",
+level:"hard",
+question:"Negative slope means:",
+options:["Forward motion","Backward motion","No motion","Acceleration"],
+answer:"Backward motion"
+},
+
+// tricky
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"D",
+level:"hard",
+question:"Straight line always constant velocity:",
+options:["True","False","Depends","Sometimes"],
+answer:"True"
+},
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"C",
+level:"hard",
+question:"Slope = Δs/Δt is:",
+options:["Speed","Acceleration","Force","Mass"],
+answer:"Speed"
+},
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"D",
+level:"hard",
+question:"Instantaneous speed from:",
+options:["Average slope","Tangent","Area","Intercept"],
+answer:"Tangent"
+},
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"C",
+level:"hard",
+question:"Zero slope:",
+options:["Rest","Acceleration","Speed max","Negative"],
+answer:"Rest"
+},
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"D",
+level:"hard",
+question:"Increasing slope:",
+options:["Slowing","Speeding up","Constant","Backward"],
+answer:"Speeding up"
+},
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"C",
+level:"hard",
+question:"Area under graph:",
+options:["Distance","Speed","Time","None"],
+answer:"None"
+},
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"D",
+level:"hard",
+question:"Graph with decreasing slope:",
+options:["Accelerating","Decelerating","Constant","Rest"],
+answer:"Decelerating"
+},
+
+{
+topic:"graphs",
+image:"24-distance",
+criterion:"C",
+level:"hard",
+question:"Units of slope:",
+options:["m/s","m","s","kg"],
+answer:"m/s"
+},
+/* ================= IMAGE 25: VELOCITY-TIME GRAPH ================= */
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"A",
+level:"easy",
+question:"Slope of velocity-time graph gives:",
+options:["Speed","Acceleration","Distance","Time"],
+answer:"Acceleration"
+},
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"B",
+level:"medium",
+question:"Area under v-t graph gives:",
+options:["Acceleration","Speed","Displacement","Force"],
+answer:"Displacement"
+},
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"C",
+level:"hard",
+question:"Horizontal line on v-t graph means:",
+options:["Acceleration","Constant velocity","Zero velocity","Decreasing velocity"],
+answer:"Constant velocity"
+},
+
+// numerical
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"C",
+level:"hard",
+question:"Velocity = 10 m/s for 5 s → displacement:",
+options:["50 m","5 m","10 m","100 m"],
+answer:"50 m"
+},
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"C",
+level:"hard",
+question:"Velocity increases from 0 to 20 m/s in 4 s → acceleration:",
+options:["5 m/s²","10 m/s²","4 m/s²","2 m/s²"],
+answer:"5 m/s²"
+},
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"D",
+level:"hard",
+question:"Negative slope indicates:",
+options:["Positive acceleration","Zero acceleration","Negative acceleration","Constant speed"],
+answer:"Negative acceleration"
+},
+
+// tricky
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"D",
+level:"hard",
+question:"Area below time axis gives:",
+options:["Positive displacement","Negative displacement","Zero","Speed"],
+answer:"Negative displacement"
+},
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"C",
+level:"hard",
+question:"Triangle area = ½ × base × height represents:",
+options:["Speed","Acceleration","Displacement","Force"],
+answer:"Displacement"
+},
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"D",
+level:"hard",
+question:"Steeper slope means:",
+options:["Less acceleration","More acceleration","Zero acceleration","Constant velocity"],
+answer:"More acceleration"
+},
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"C",
+level:"hard",
+question:"Flat line at v = 0:",
+options:["Rest","Acceleration","Negative motion","Speeding"],
+answer:"Rest"
+},
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"D",
+level:"hard",
+question:"Curved v-t graph means:",
+options:["Constant acceleration","Changing acceleration","Zero acceleration","Constant speed"],
+answer:"Changing acceleration"
+},
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"C",
+level:"hard",
+question:"Units of area under graph:",
+options:["m","m/s","m/s²","N"],
+answer:"m"
+},
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"D",
+level:"hard",
+question:"If velocity decreases linearly:",
+options:["Constant positive a","Constant negative a","Zero a","Variable a"],
+answer:"Constant negative a"
+},
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"C",
+level:"hard",
+question:"Acceleration is:",
+options:["Δt/Δv","Δv/Δt","v×t","s/t"],
+answer:"Δv/Δt"
+},
+
+{
+topic:"vt_graph",
+image:"25-vt",
+criterion:"D",
+level:"hard",
+question:"If slope = 0:",
+options:["a=0","v=0","F=0","All"],
+answer:"a=0"
+},
+
+/* ================= IMAGE 26: ACCELERATION ================= */
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"A",
+level:"easy",
+question:"Acceleration is:",
+options:["Speed","Change in velocity","Distance","Force"],
+answer:"Change in velocity"
+},
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"B",
+level:"medium",
+question:"Unit of acceleration:",
+options:["m","m/s","m/s²","N"],
+answer:"m/s²"
+},
+
+// numerical
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"C",
+level:"hard",
+question:"u=10 m/s, v=30 m/s, t=5 s → a:",
+options:["4 m/s²","5 m/s²","3 m/s²","2 m/s²"],
+answer:"4 m/s²"
+},
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"C",
+level:"hard",
+question:"u=20, v=0, t=4 s → a:",
+options:["-5 m/s²","5 m/s²","0","10"],
+answer:"-5 m/s²"
+},
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"C",
+level:"hard",
+question:"If velocity constant:",
+options:["a>0","a<0","a=0","a infinite"],
+answer:"a=0"
+},
+
+// tricky
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"D",
+level:"hard",
+question:"Acceleration can be zero when object moves:",
+options:["True","False","Sometimes","Never"],
+answer:"True"
+},
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"C",
+level:"hard",
+question:"Negative acceleration means:",
+options:["Speed up","Slow down","Stop","Zero"],
+answer:"Slow down"
+},
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"D",
+level:"hard",
+question:"Acceleration depends on:",
+options:["Velocity change","Time","Both","None"],
+answer:"Both"
+},
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"C",
+level:"hard",
+question:"Formula:",
+options:["v=u+at","a=(v-u)/t","s=ut","F=ma"],
+answer:"a=(v-u)/t"
+},
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"D",
+level:"hard",
+question:"If v<u:",
+options:["a positive","a negative","a zero","None"],
+answer:"a negative"
+},
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"C",
+level:"hard",
+question:"Acceleration is vector:",
+options:["True","False","Scalar","Depends"],
+answer:"True"
+},
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"D",
+level:"hard",
+question:"Car slowing → acceleration:",
+options:["Positive","Negative","Zero","Random"],
+answer:"Negative"
+},
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"C",
+level:"hard",
+question:"If Δv = 0:",
+options:["a=0","a>0","a<0","None"],
+answer:"a=0"
+},
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"D",
+level:"hard",
+question:"Acceleration changes direction:",
+options:["Yes","No","Sometimes","Rare"],
+answer:"Yes"
+},
+
+{
+topic:"acceleration",
+image:"26-acceleration",
+criterion:"C",
+level:"hard",
+question:"If time increases but Δv same:",
+options:["a increases","a decreases","Same","Zero"],
+answer:"a decreases"
+},
+
+/* ================= IMAGE 27: GRAPH INTERPRETATION ================= */
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"A",
+level:"easy",
+question:"Slope of d-t graph:",
+options:["Speed","Acceleration","Force","Mass"],
+answer:"Speed"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"B",
+level:"medium",
+question:"Slope of v-t graph:",
+options:["Speed","Acceleration","Distance","Time"],
+answer:"Acceleration"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"C",
+level:"hard",
+question:"Area under v-t:",
+options:["Distance","Displacement","Acceleration","Speed"],
+answer:"Displacement"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"D",
+level:"hard",
+question:"Curve in d-t graph:",
+options:["Constant speed","Acceleration","Rest","Backward"],
+answer:"Acceleration"
+},
+
+// tricky
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"D",
+level:"hard",
+question:"Negative area in v-t:",
+options:["Negative speed","Negative displacement","Zero","Acceleration"],
+answer:"Negative displacement"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"C",
+level:"hard",
+question:"Horizontal d-t:",
+options:["Rest","Constant speed","Acceleration","Backward"],
+answer:"Rest"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"D",
+level:"hard",
+question:"Steeper d-t:",
+options:["More speed","Less speed","Same","Zero"],
+answer:"More speed"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"C",
+level:"hard",
+question:"Flat v-t:",
+options:["Acceleration","Constant velocity","Rest","Negative"],
+answer:"Constant velocity"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"D",
+level:"hard",
+question:"Triangle area in v-t:",
+options:["Acceleration","Displacement","Speed","Time"],
+answer:"Displacement"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"C",
+level:"hard",
+question:"Units of slope in d-t:",
+options:["m/s","m/s²","N","kg"],
+answer:"m/s"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"D",
+level:"hard",
+question:"Curved v-t:",
+options:["Constant a","Changing a","Zero a","Constant v"],
+answer:"Changing a"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"C",
+level:"hard",
+question:"Negative slope d-t:",
+options:["Forward","Backward","Rest","Acceleration"],
+answer:"Backward"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"D",
+level:"hard",
+question:"Area gives displacement not distance:",
+options:["True","False","Sometimes","Depends"],
+answer:"True"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"C",
+level:"hard",
+question:"Instant speed from d-t:",
+options:["Slope","Area","Intercept","None"],
+answer:"Slope"
+},
+
+{
+topic:"graph_mastery",
+image:"27-graph",
+criterion:"D",
+level:"hard",
+question:"Graph below axis:",
+options:["Positive motion","Negative motion","Rest","Acceleration"],
+answer:"Negative motion"
+},
+
+/* ================= IMAGE 28: PROBLEM SOLVING ================= */
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"A",
+level:"easy",
+question:"First step:",
+options:["Solve","Understand","Check","Plan"],
+answer:"Understand"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"B",
+level:"medium",
+question:"After understanding:",
+options:["Solve","Analyze","Check","Guess"],
+answer:"Analyze"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"C",
+level:"hard",
+question:"Why check units?",
+options:["Marks","Accuracy","Habit","All"],
+answer:"All"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"D",
+level:"hard",
+question:"Skipping steps leads to:",
+options:["Accuracy","Errors","Speed","Marks"],
+answer:"Errors"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"D",
+level:"hard",
+question:"Best problem solving approach:",
+options:["Random","Stepwise","Guess","Skip"],
+answer:"Stepwise"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"C",
+level:"hard",
+question:"Verification helps:",
+options:["Confidence","Accuracy","Marks","All"],
+answer:"All"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"D",
+level:"hard",
+question:"Common mistake:",
+options:["Reading carefully","Wrong formula","Checking units","Planning"],
+answer:"Wrong formula"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"C",
+level:"hard",
+question:"Identify unknowns means:",
+options:["Find answer","List variables","Guess","Ignore"],
+answer:"List variables"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"D",
+level:"hard",
+question:"Best habit:",
+options:["Skip","Check","Guess","Copy"],
+answer:"Check"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"C",
+level:"hard",
+question:"Plan step includes:",
+options:["Formula","Steps","Units","All"],
+answer:"All"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"D",
+level:"hard",
+question:"Learning stage includes:",
+options:["Ignore","Reflect","Skip","Guess"],
+answer:"Reflect"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"C",
+level:"hard",
+question:"Analyze means:",
+options:["Break problem","Solve","Check","Ignore"],
+answer:"Break problem"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"D",
+level:"hard",
+question:"Best exam strategy:",
+options:["Speed only","Accuracy only","Balance","Guess"],
+answer:"Balance"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"C",
+level:"hard",
+question:"Checking answer ensures:",
+options:["Units","Logic","Reason","All"],
+answer:"All"
+},
+
+{
+topic:"strategy",
+image:"28-strategy",
+criterion:"D",
+level:"hard",
+question:"Good strategy leads to:",
+options:["Confusion","Success","Errors","Delay"],
+answer:"Success"
+},
+/* ================= IMAGE 29: INQUIRY LAB GUIDE ================= */
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"A",
+level:"easy",
+question:"A testable question must be:",
+options:["General","Measurable","Opinion-based","Random"],
+answer:"Measurable"
+},
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"B",
+level:"medium",
+question:"Hypothesis is:",
+options:["Observation","Prediction","Result","Error"],
+answer:"Prediction"
+},
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"C",
+level:"hard",
+question:"Independent variable is:",
+options:["Measured","Changed","Constant","Ignored"],
+answer:"Changed"
+},
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"C",
+level:"hard",
+question:"Dependent variable is:",
+options:["Changed","Measured","Constant","Ignored"],
+answer:"Measured"
+},
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"C",
+level:"hard",
+question:"Why repeat trials?",
+options:["Fun","Accuracy","Speed","Marks"],
+answer:"Accuracy"
+},
+
+// numerical-style reasoning
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"D",
+level:"hard",
+question:"If times: 1.2, 1.3, 1.1 → average:",
+options:["1.2","1.1","1.3","1.25"],
+answer:"1.2"
+},
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"D",
+level:"hard",
+question:"Increasing ramp height decreases time → relationship:",
+options:["Direct","Inverse","No relation","Random"],
+answer:"Inverse"
+},
+
+// tricky
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"D",
+level:"hard",
+question:"Changing 2 variables makes experiment:",
+options:["Accurate","Invalid","Precise","Reliable"],
+answer:"Invalid"
+},
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"C",
+level:"hard",
+question:"Control variable example:",
+options:["Time","Mass","Height","Speed"],
+answer:"Mass"
+},
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"D",
+level:"hard",
+question:"Conclusion must be based on:",
+options:["Guess","Data","Opinion","Theory"],
+answer:"Data"
+},
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"C",
+level:"hard",
+question:"Graph helps to:",
+options:["Decorate","Find patterns","Confuse","Measure"],
+answer:"Find patterns"
+},
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"D",
+level:"hard",
+question:"Hypothesis must be:",
+options:["Testable","Random","Complex","Long"],
+answer:"Testable"
+},
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"C",
+level:"hard",
+question:"Systematic error affects:",
+options:["Precision","Accuracy","Units","Graphs"],
+answer:"Accuracy"
+},
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"D",
+level:"hard",
+question:"Random error affects:",
+options:["Accuracy","Precision","Units","None"],
+answer:"Precision"
+},
+
+{
+topic:"inquiry",
+image:"29-lab",
+criterion:"D",
+level:"hard",
+question:"Best data is:",
+options:["Neat","Accurate","Complete","All"],
+answer:"All"
+},
+
+/* ================= IMAGE 30: DESIGNING EXPERIMENTS ================= */
+
+{
+topic:"design",
+image:"30-design",
+criterion:"A",
+level:"easy",
+question:"Fair test changes:",
+options:["All variables","One variable","None","Random"],
+answer:"One variable"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"B",
+level:"medium",
+question:"Controlled variables are:",
+options:["Changed","Measured","Constant","Ignored"],
+answer:"Constant"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"C",
+level:"hard",
+question:"Changing mass and height together:",
+options:["Fair","Unfair","Accurate","Precise"],
+answer:"Unfair"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"D",
+level:"hard",
+question:"Not repeating trials leads to:",
+options:["Precision","Random error","Systematic error","Accuracy"],
+answer:"Random error"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"C",
+level:"hard",
+question:"Dependent variable in pendulum experiment:",
+options:["Length","Time","Mass","Angle"],
+answer:"Time"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"C",
+level:"hard",
+question:"Independent variable:",
+options:["Time","Length","Mass","Force"],
+answer:"Length"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"D",
+level:"hard",
+question:"Using different timers causes:",
+options:["Accuracy","Error","Precision","None"],
+answer:"Error"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"D",
+level:"hard",
+question:"Starting position must be:",
+options:["Different","Same","Random","Ignored"],
+answer:"Same"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"C",
+level:"hard",
+question:"Constants are:",
+options:["Variables","Fixed values","Results","Errors"],
+answer:"Fixed values"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"D",
+level:"hard",
+question:"Good experiment is:",
+options:["Fast","Accurate","Repeatable","All"],
+answer:"All"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"D",
+level:"hard",
+question:"Hypothesis is based on:",
+options:["Data","Guess","Prior knowledge","Random"],
+answer:"Prior knowledge"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"C",
+level:"hard",
+question:"Voltage experiment dependent variable:",
+options:["Voltage","Brightness","Time","Mass"],
+answer:"Brightness"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"D",
+level:"hard",
+question:"Multiple variables →",
+options:["Good","Invalid","Better","Accurate"],
+answer:"Invalid"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"C",
+level:"hard",
+question:"Measurement error reduces by:",
+options:["Repeating","Guessing","Ignoring","Skipping"],
+answer:"Repeating"
+},
+
+{
+topic:"design",
+image:"30-design",
+criterion:"D",
+level:"hard",
+question:"Fair test shows:",
+options:["Correlation","Cause-effect","Randomness","Noise"],
+answer:"Cause-effect"
+},
+
+/* ================= IMAGE 31: FORCES IN ACTION ================= */
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"A",
+level:"easy",
+question:"Force can change:",
+options:["Speed","Direction","Shape","All"],
+answer:"All"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"B",
+level:"medium",
+question:"Drag force acts:",
+options:["Forward","Backward","Up","Down"],
+answer:"Backward"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"C",
+level:"hard",
+question:"Magnus effect causes:",
+options:["Straight motion","Curved path","Stop","Acceleration"],
+answer:"Curved path"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"C",
+level:"hard",
+question:"Cycling friction:",
+options:["Always bad","Provides grip","Zero","Constant"],
+answer:"Provides grip"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"D",
+level:"hard",
+question:"If driving force > friction:",
+options:["Stops","Accelerates","Constant","Reverse"],
+answer:"Accelerates"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"D",
+level:"hard",
+question:"Braking force acts:",
+options:["Forward","Backward","Up","None"],
+answer:"Backward"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"C",
+level:"hard",
+question:"Centripetal force provided by:",
+options:["Gravity","Friction","Air","Normal"],
+answer:"Friction"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"D",
+level:"hard",
+question:"Rocket thrust must:",
+options:["< gravity","> gravity","= gravity","0"],
+answer:"> gravity"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"C",
+level:"hard",
+question:"Parachute slows due to:",
+options:["Gravity","Drag","Lift","Thrust"],
+answer:"Drag"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"D",
+level:"hard",
+question:"Swimming forward due to:",
+options:["Gravity","Drag","Thrust","Friction"],
+answer:"Thrust"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"C",
+level:"hard",
+question:"Elevator motion depends on:",
+options:["Tension & gravity","Drag","Lift","Friction"],
+answer:"Tension & gravity"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"D",
+level:"hard",
+question:"Balanced forces →",
+options:["Acceleration","No change","Speed increase","Turn"],
+answer:"No change"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"C",
+level:"hard",
+question:"Unbalanced force →",
+options:["Rest","Acceleration","Stop","None"],
+answer:"Acceleration"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"D",
+level:"hard",
+question:"More friction in curve:",
+options:["Needed","Not needed","Zero","Bad"],
+answer:"Needed"
+},
+
+{
+topic:"real_forces",
+image:"31-forces",
+criterion:"D",
+level:"hard",
+question:"Air resistance always:",
+options:["Helps","Opposes","Zero","Random"],
+answer:"Opposes"
+},
+
+/* ================= IMAGE 32: ENGINEERING APPLICATIONS ================= */
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"A",
+level:"easy",
+question:"Factor of safety means:",
+options:["Strength/Load","Load/Strength","Force/Area","Mass/Weight"],
+answer:"Strength/Load"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"B",
+level:"medium",
+question:"Compression acts:",
+options:["Pull","Push","Twist","Slide"],
+answer:"Push"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"B",
+level:"medium",
+question:"Tension acts:",
+options:["Push","Pull","Rotate","Slide"],
+answer:"Pull"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"C",
+level:"hard",
+question:"Steel is used because:",
+options:["Weak","Strong","Heavy","Cheap"],
+answer:"Strong"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"C",
+level:"hard",
+question:"Concrete is strong in:",
+options:["Tension","Compression","Both","None"],
+answer:"Compression"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"D",
+level:"hard",
+question:"Reinforced concrete combines:",
+options:["Strength","Compression","Tension","Both"],
+answer:"Both"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"D",
+level:"hard",
+question:"Higher FoS means:",
+options:["Unsafe","Safer","Weak","Cheap"],
+answer:"Safer"
+},
+
+// numerical
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"C",
+level:"hard",
+question:"If strength=100kN, load=20kN → FoS:",
+options:["2","3","5","10"],
+answer:"5"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"D",
+level:"hard",
+question:"Wind causes building:",
+options:["Fall","Sway","Break","Stop"],
+answer:"Sway"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"C",
+level:"hard",
+question:"Triangular truss helps:",
+options:["Weight","Force distribution","Speed","Height"],
+answer:"Force distribution"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"D",
+level:"hard",
+question:"Cable bridges use:",
+options:["Compression","Tension","Friction","Drag"],
+answer:"Tension"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"C",
+level:"hard",
+question:"Aluminum used for:",
+options:["Heavy load","Lightweight","Cheap","Weak"],
+answer:"Lightweight"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"D",
+level:"hard",
+question:"Base isolation protects from:",
+options:["Wind","Earthquake","Heat","Rain"],
+answer:"Earthquake"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"C",
+level:"hard",
+question:"Design process includes:",
+options:["Test","Build","Analyze","All"],
+answer:"All"
+},
+
+{
+topic:"engineering",
+image:"32-engineering",
+criterion:"D",
+level:"hard",
+question:"Good engineering ensures:",
+options:["Safety","Efficiency","Strength","All"],
+answer:"All"
+},
+/* ================= IMAGE 33: FORCES & TECHNOLOGY ================= */
+
+{
+topic:"technology",
+image:"33-tech",
+criterion:"A",
+level:"easy",
+question:"Lift in airplanes acts:",
+options:["Downward","Upward","Forward","Backward"],
+answer:"Upward"
+},
+
+{
+topic:"technology",
+image:"33-tech",
+criterion:"B",
+level:"medium",
+question:"If thrust = drag in airplane:",
+options:["Accelerates","Slows","Constant speed","Stops"],
+answer:"Constant speed"
+},
+
+{
+topic:"technology",
+image:"33-tech",
+criterion:"C",
+level:"hard",
+question:"Rocket launches when:",
+options:["Thrust < weight","Thrust = weight","Thrust > weight","No drag"],
+answer:"Thrust > weight"
+},
+
+{
+topic:"technology",
+image:"33-tech",
+criterion:"D",
+level:"hard",
+question:"Satellite remains in orbit due to:",
+options:["Only gravity","Only velocity","Balance of forces","No forces"],
+answer:"Balance of forces"
+},
+
+{
+topic:"technology",
+image:"33-tech",
+criterion:"C",
+level:"hard",
+question:"Train efficiency increases when:",
+options:["More friction","Less friction","More drag","More weight"],
+answer:"Less friction"
+},
+
+{
+topic:"technology",
+image:"33-tech",
+criterion:"D",
+level:"hard",
+question:"Drone stability requires:",
+options:["Unbalanced forces","Balanced forces","No forces","Gravity only"],
+answer:"Balanced forces"
+},
+
+{
+topic:"technology",
+image:"33-tech",
+criterion:"C",
+level:"hard",
+question:"Elevator moving up at constant speed:",
+options:["T > W","T < W","T = W","No tension"],
+answer:"T = W"
+},
+
+{
+topic:"technology",
+image:"33-tech",
+criterion:"D",
+level:"hard",
+question:"Re-entry heating due to:",
+options:["Gravity","Friction/drag","Lift","Thrust"],
+answer:"Friction/drag"
+},
+
+{
+topic:"technology",
+image:"33-tech",
+criterion:"C",
+level:"hard",
+question:"If drag increases, speed:",
+options:["Increases","Decreases","Constant","Random"],
+answer:"Decreases"
+},
+
+{
+topic:"technology",
+image:"33-tech",
+criterion:"D",
+level:"hard",
+question:"Best design for speed:",
+options:["High drag","Low drag","High friction","Heavy mass"],
+answer:"Low drag"
+},
+
+/* ================= IMAGE 34: FULL MIND MAP ================= */
+
+{
+topic:"integration",
+image:"34-mindmap",
+criterion:"A",
+level:"easy",
+question:"Net force formula:",
+options:["F=ma","F=mv","F=mg","F=vt"],
+answer:"F=ma"
+},
+
+{
+topic:"integration",
+image:"34-mindmap",
+criterion:"B",
+level:"medium",
+question:"Slope of velocity-time graph:",
+options:["Speed","Acceleration","Distance","Force"],
+answer:"Acceleration"
+},
+
+{
+topic:"integration",
+image:"34-mindmap",
+criterion:"C",
+level:"hard",
+question:"Area under velocity-time graph:",
+options:["Speed","Distance","Displacement","Acceleration"],
+answer:"Displacement"
+},
+
+{
+topic:"integration",
+image:"34-mindmap",
+criterion:"D",
+level:"hard",
+question:"If net force = 0:",
+options:["Acceleration","Constant velocity","Stops","Speeds up"],
+answer:"Constant velocity"
+},
+
+{
+topic:"integration",
+image:"34-mindmap",
+criterion:"C",
+level:"hard",
+question:"Increasing mass (same force):",
+options:["Increase a","Decrease a","No change","Random"],
+answer:"Decrease a"
+},
+
+{
+topic:"integration",
+image:"34-mindmap",
+criterion:"D",
+level:"hard",
+question:"Graphs help to:",
+options:["Decorate","Analyze motion","Confuse","Memorize"],
+answer:"Analyze motion"
+},
+
+{
+topic:"integration",
+image:"34-mindmap",
+criterion:"C",
+level:"hard",
+question:"Engineering uses physics to:",
+options:["Decorate","Solve problems","Slow systems","Confuse"],
+answer:"Solve problems"
+},
+
+{
+topic:"integration",
+image:"34-mindmap",
+criterion:"D",
+level:"hard",
+question:"Unbalanced force causes:",
+options:["Rest","Acceleration","Stop","Zero motion"],
+answer:"Acceleration"
+},
+
+{
+topic:"integration",
+image:"34-mindmap",
+criterion:"C",
+level:"hard",
+question:"Balanced forces →",
+options:["Acceleration","No motion change","Speed increase","Turn"],
+answer:"No motion change"
+},
+
+{
+topic:"integration",
+image:"34-mindmap",
+criterion:"D",
+level:"hard",
+question:"Physics connects:",
+options:["Math","Engineering","Real world","All"],
+answer:"All"
+},
+
+/* ================= IMAGE 35: FORMULA SHEET ================= */
+
+{
+topic:"numerical",
+image:"35-formula",
+criterion:"C",
+level:"hard",
+question:"v = 20 m/s, t = 4 s → displacement:",
+options:["5","80","40","10"],
+answer:"80"
+},
+
+{
+topic:"numerical",
+image:"35-formula",
+criterion:"C",
+level:"hard",
+question:"F = ma, m=2 kg, a=5 → F:",
+options:["2","5","10","20"],
+answer:"10"
+},
+
+{
+topic:"numerical",
+image:"35-formula",
+criterion:"C",
+level:"hard",
+question:"Work done if θ=90°:",
+options:["Max","Zero","Half","Negative"],
+answer:"Zero"
+},
+
+{
+topic:"numerical",
+image:"35-formula",
+criterion:"C",
+level:"hard",
+question:"KE ∝:",
+options:["v","v²","v³","1/v"],
+answer:"v²"
+},
+
+{
+topic:"numerical",
+image:"35-formula",
+criterion:"D",
+level:"hard",
+question:"If velocity doubles, KE:",
+options:["2x","3x","4x","Half"],
+answer:"4x"
+},
+
+{
+topic:"numerical",
+image:"35-formula",
+criterion:"C",
+level:"hard",
+question:"Density formula:",
+options:["m/v","v/m","F/A","A/v"],
+answer:"m/v"
+},
+
+{
+topic:"numerical",
+image:"35-formula",
+criterion:"D",
+level:"hard",
+question:"Terminal velocity occurs when:",
+options:["Fnet >0","Fnet <0","Fnet =0","No gravity"],
+answer:"Fnet =0"
+},
+
+{
+topic:"numerical",
+image:"35-formula",
+criterion:"C",
+level:"hard",
+question:"Momentum depends on:",
+options:["Mass","Velocity","Both","None"],
+answer:"Both"
+},
+
+{
+topic:"numerical",
+image:"35-formula",
+criterion:"D",
+level:"hard",
+question:"Impulse equals:",
+options:["Force/time","Force×time","Mass×velocity","Work"],
+answer:"Force×time"
+},
+
+{
+topic:"numerical",
+image:"35-formula",
+criterion:"D",
+level:"hard",
+question:"Power increases if:",
+options:["Time ↑","Work ↑","Both","None"],
+answer:"Work ↑"
+},
+
+/* ================= IMAGE 36: ASSESSMENT CHALLENGE ================= */
+
+{
+topic:"exam",
+image:"36-exam",
+criterion:"C",
+level:"hard",
+question:"Car: 0→25 m/s in 10 s → a:",
+options:["2.5","5","10","25"],
+answer:"2.5"
+},
+
+{
+topic:"exam",
+image:"36-exam",
+criterion:"C",
+level:"hard",
+question:"m=800 kg, a=40 m/s² → F:",
+options:["32000","20000","8000","40000"],
+answer:"32000"
+},
+
+{
+topic:"exam",
+image:"36-exam",
+criterion:"D",
+level:"hard",
+question:"Balanced forces example:",
+options:["Falling ball","Accelerating car","Book on table","Rocket"],
+answer:"Book on table"
+},
+
+{
+topic:"exam",
+image:"36-exam",
+criterion:"C",
+level:"hard",
+question:"Unit of force:",
+options:["kg","N","J","Pa"],
+answer:"N"
+},
+
+{
+topic:"exam",
+image:"36-exam",
+criterion:"D",
+level:"hard",
+question:"Seat belts relate to:",
+options:["1st law","2nd law","3rd law","Energy"],
+answer:"1st law"
+},
+
+{
+topic:"exam",
+image:"36-exam",
+criterion:"C",
+level:"hard",
+question:"Velocity-time graph slope:",
+options:["Speed","Acceleration","Force","Distance"],
+answer:"Acceleration"
+},
+
+{
+topic:"exam",
+image:"36-exam",
+criterion:"D",
+level:"hard",
+question:"If force stops, object:",
+options:["Stops","Keeps moving","Accelerates","Reverses"],
+answer:"Keeps moving"
+},
+
+{
+topic:"exam",
+image:"36-exam",
+criterion:"C",
+level:"hard",
+question:"Distance from v-t graph:",
+options:["Slope","Area","Height","Width"],
+answer:"Area"
+},
+
+{
+topic:"exam",
+image:"36-exam",
+criterion:"D",
+level:"hard",
+question:"More mass trolley → acceleration:",
+options:["Increase","Decrease","Same","Random"],
+answer:"Decrease"
+},
+
+{
+topic:"exam",
+image:"36-exam",
+criterion:"D",
+level:"hard",
+question:"Satellite path is curved due to:",
+options:["Velocity","Gravity","Both","None"],
+answer:"Both"
+},
+
+/* ================= IMAGE 37: PROJECT SHOWCASE ================= */
+
+{
+topic:"project",
+image:"37-project",
+criterion:"B",
+level:"medium",
+question:"Static friction acts when:",
+options:["Moving","At rest","Falling","Rotating"],
+answer:"At rest"
+},
+
+{
+topic:"project",
+image:"37-project",
+criterion:"B",
+level:"medium",
+question:"Kinetic friction acts when:",
+options:["Rest","Moving","Floating","Falling"],
+answer:"Moving"
+},
+
+{
+topic:"project",
+image:"37-project",
+criterion:"C",
+level:"hard",
+question:"Fluid friction depends on:",
+options:["Density","Speed","Area","All"],
+answer:"All"
+},
+
+{
+topic:"project",
+image:"37-project",
+criterion:"D",
+level:"hard",
+question:"Parachute increases:",
+options:["Weight","Drag","Mass","Gravity"],
+answer:"Drag"
+},
+
+{
+topic:"project",
+image:"37-project",
+criterion:"C",
+level:"hard",
+question:"Terminal velocity when:",
+options:["Drag > weight","Weight > drag","Equal","No force"],
+answer:"Equal"
+},
+
+{
+topic:"project",
+image:"37-project",
+criterion:"D",
+level:"hard",
+question:"Increasing area of parachute:",
+options:["Less drag","More drag","Same","Random"],
+answer:"More drag"
+},
+
+{
+topic:"project",
+image:"37-project",
+criterion:"C",
+level:"hard",
+question:"Better friction gives:",
+options:["Slip","Grip","Stop","Fall"],
+answer:"Grip"
+},
+
+{
+topic:"project",
+image:"37-project",
+criterion:"D",
+level:"hard",
+question:"Friction disadvantage:",
+options:["Grip","Heat","Control","Walk"],
+answer:"Heat"
+},
+
+{
+topic:"project",
+image:"37-project",
+criterion:"C",
+level:"hard",
+question:"Wind tunnel tests:",
+options:["Gravity","Drag","Friction","Mass"],
+answer:"Drag"
+},
+
+{
+topic:"project",
+image:"37-project",
+criterion:"D",
+level:"hard",
+question:"Best project approach:",
+options:["Copy","Observe","Test","All"],
+answer:"All"
+},  
   
 /* =========================
 ELECTROMAGNETISM
