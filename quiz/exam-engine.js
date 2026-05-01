@@ -57,7 +57,39 @@ html+=`<iframe width="300" src="${q.video}"></iframe><br>
 <textarea id="q${i}" rows="4" style="width:100%"></textarea>`;
 }
 
-html+="</div>";
+if(q.type==="video"){
+html+=`<iframe width="300" src="${q.video}"></iframe><br>
+<textarea id="q${i}" rows="4" style="width:100%"></textarea>`;
+}
+
+/* ✅ ADD HERE — EXACTLY HERE */
+if(q.type==="drag"){
+
+html+=`<div id="drag-${i}">`;
+
+q.pairs.forEach((p,index)=>{
+html+=`
+<div style="display:flex;justify-content:space-between;margin:10px 0;">
+<span>${p.left}</span>
+
+<select id="drag-${i}-${index}">
+<option value="">Select</option>
+<option>+1</option>
+<option>-1</option>
+<option>0</option>
+</select>
+
+</div>`;
+});
+
+html+=`</div>`;
+}
+  
+html+=`
+<div class="markscheme" id="ms-${i}" style="display:none;color:#38bdf8;">
+<b>Markscheme:</b> ${q.markscheme || "Not available"}
+</div>
+</div>`;
 });
 
 document.getElementById("quiz").innerHTML = html;
