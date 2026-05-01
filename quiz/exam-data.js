@@ -16,7 +16,22 @@ options:[
 answer:"Same protons different neutrons",
 marks:1
 },
+{
+topic:"atomic",
+section:"B",
+difficulty:"medium",
+type:"drag",
+question:"Match particle to charge",
 
+pairs:[
+{left:"Proton", right:"+1"},
+{left:"Electron", right:"-1"},
+{left:"Neutron", right:"0"}
+],
+
+marks:3,
+markscheme:"Proton +1, Electron -1, Neutron 0"
+},
 {
 topic:"atomic",
 section:"B",
