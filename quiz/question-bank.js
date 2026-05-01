@@ -1344,6 +1344,246 @@ options: ["Voltage pushes charge, while resistance opposes current", "Voltage op
 answer: "Voltage pushes charge, while resistance opposes current",
 explanation: "Voltage provides the push for current, while resistance limits the current."
 },
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "A",
+level: "easy",
+question: "What does a voltmeter measure?",
+options: ["Current through a component", "Voltage between two points", "Resistance of a wire", "Power used by a lamp"],
+answer: "Voltage between two points",
+explanation: "A voltmeter measures the electric potential difference between two points in a circuit."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "A",
+level: "easy",
+question: "What does an ammeter measure?",
+options: ["Voltage across a component", "Current through a path", "Energy stored in a battery", "Resistance across a switch"],
+answer: "Current through a path",
+explanation: "An ammeter measures the rate of flow of electric charge through a circuit path."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "A",
+level: "easy",
+question: "Voltage is measured in:",
+options: ["Amperes", "Ohms", "Volts", "Watts"],
+answer: "Volts",
+explanation: "Voltage, or potential difference, is measured in volts."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "A",
+level: "easy",
+question: "Current is measured in:",
+options: ["Volts", "Amperes", "Ohms", "Joules"],
+answer: "Amperes",
+explanation: "Current is measured in amperes, symbol A."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "A",
+level: "easy",
+question: "A voltmeter should be connected:",
+options: ["In series", "In parallel", "Across the battery only", "Instead of the switch"],
+answer: "In parallel",
+explanation: "A voltmeter is connected in parallel across the component or points whose voltage is being measured."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "A",
+level: "easy",
+question: "An ammeter should be connected:",
+options: ["In parallel", "In series", "Across the battery", "Across the resistor"],
+answer: "In series",
+explanation: "An ammeter is connected in series so that all the current being measured flows through it."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "A",
+level: "medium",
+question: "Which instrument has very high internal resistance?",
+options: ["Ammeter", "Voltmeter", "Switch", "Battery"],
+answer: "Voltmeter",
+explanation: "A voltmeter has high resistance so that very little current flows through it."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "A",
+level: "medium",
+question: "Which instrument has very low internal resistance?",
+options: ["Voltmeter", "Ammeter", "Lamp", "Resistor"],
+answer: "Ammeter",
+explanation: "An ammeter has very low resistance so it does not significantly reduce the current it is measuring."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "B",
+level: "medium",
+question: "A voltmeter reads 5.00 V across a resistor. What voltage is across the resistor?",
+options: ["0.50 V", "2.35 V", "5.00 V", "12.00 V"],
+answer: "5.00 V",
+explanation: "The voltmeter directly measures the potential difference across the resistor."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "B",
+level: "medium",
+question: "An ammeter reads 2.35 A in series with a resistor. What current flows through the resistor?",
+options: ["0.235 A", "2.35 A", "5.00 A", "12.00 A"],
+answer: "2.35 A",
+explanation: "An ammeter in series measures the current through that circuit path."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "B",
+level: "medium",
+question: "A 12 V battery is connected to 5 Ω and 10 Ω resistors in series. What is the total resistance?",
+options: ["5 Ω", "10 Ω", "15 Ω", "50 Ω"],
+answer: "15 Ω",
+explanation: "Series resistances add directly: R = 5 Ω + 10 Ω = 15 Ω."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "B",
+level: "medium",
+question: "A 12 V battery is connected to a total resistance of 15 Ω. What is the current?",
+options: ["0.4 A", "0.8 A", "1.25 A", "15 A"],
+answer: "0.8 A",
+explanation: "Using I = V/R, I = 12/15 = 0.8 A."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "B",
+level: "medium",
+question: "A current of 0.8 A flows through a 10 Ω resistor. What voltage is across it?",
+options: ["0.08 V", "8 V", "10.8 V", "80 V"],
+answer: "8 V",
+explanation: "Using V = IR, V = 0.8 × 10 = 8 V."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "B",
+level: "medium",
+question: "An 18 V battery is connected to 6 Ω and 3 Ω resistors in series. What is the total resistance?",
+options: ["2 Ω", "3 Ω", "9 Ω", "18 Ω"],
+answer: "9 Ω",
+explanation: "In series, resistances add: R = 6 Ω + 3 Ω = 9 Ω."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "B",
+level: "medium",
+question: "An 18 V battery is connected to a total resistance of 9 Ω. What should the ammeter read?",
+options: ["0.5 A", "2 A", "9 A", "18 A"],
+answer: "2 A",
+explanation: "Using I = V/R, I = 18/9 = 2 A."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "C",
+level: "medium",
+question: "Why can connecting a voltmeter in series give a wrong result?",
+options: ["It increases the battery voltage", "It changes the circuit operation", "It makes current infinite", "It removes all resistance"],
+answer: "It changes the circuit operation",
+explanation: "A voltmeter has high resistance, so placing it in series can greatly reduce current and disturb the circuit."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "C",
+level: "medium",
+question: "Why is connecting an ammeter in parallel dangerous?",
+options: ["It creates a short circuit", "It increases resistance too much", "It blocks all current", "It measures voltage safely"],
+answer: "It creates a short circuit",
+explanation: "An ammeter has very low resistance, so connecting it in parallel can allow excessive current to flow."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "C",
+level: "medium",
+question: "Why should the highest meter range be selected first?",
+options: ["To avoid overloading the meter", "To increase circuit voltage", "To reduce battery resistance", "To make readings always zero"],
+answer: "To avoid overloading the meter",
+explanation: "Starting with the highest range protects the meter if the current or voltage is larger than expected."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "C",
+level: "hard",
+question: "A voltmeter shows no reading across a resistor. Which is a possible cause?",
+options: ["Correct parallel connection", "Blown fuse or open circuit", "Perfect circuit operation", "Current is too high"],
+answer: "Blown fuse or open circuit",
+explanation: "No voltage reading can be caused by wrong connection, blown fuse, an open circuit, or incorrect meter mode."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "C",
+level: "hard",
+question: "A fuse blows immediately when measuring current. What is the most likely mistake?",
+options: ["Ammeter connected in parallel", "Voltmeter connected in parallel", "Red probe connected to positive", "Highest range selected"],
+answer: "Ammeter connected in parallel",
+explanation: "Connecting an ammeter in parallel creates a low-resistance path, causing excessive current and blowing the fuse."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "D",
+level: "hard",
+question: "Which setup is safest for measuring current through a resistor?",
+options: ["Place ammeter in series with the resistor", "Place ammeter across the battery", "Place voltmeter in series with the resistor", "Touch bare wire with probes"],
+answer: "Place ammeter in series with the resistor",
+explanation: "Current must be measured by inserting the ammeter in series so the circuit current passes through it safely."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "D",
+level: "hard",
+question: "Which setup is safest for measuring voltage across a lamp?",
+options: ["Connect voltmeter in parallel across the lamp", "Connect ammeter in parallel across the lamp", "Connect voltmeter in series before the lamp", "Disconnect the battery while measuring"],
+answer: "Connect voltmeter in parallel across the lamp",
+explanation: "Voltage is measured across two points, so the voltmeter must be connected in parallel with the lamp."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "D",
+level: "hard",
+question: "A meter reading is very high and unstable. What is the best first action?",
+options: ["Tighten and check all connections", "Remove all resistors", "Short the battery terminals", "Use a lower current range immediately"],
+answer: "Tighten and check all connections",
+explanation: "Unstable readings may be caused by loose connections, wrong range, or electrical noise, so connections should be checked first."
+},
+{
+topic: "electromagnetism",
+image: "11-measuring-current-and-voltage",
+criterion: "D",
+level: "hard",
+question: "Why are correct meter connections important?",
+options: ["They make circuits look neater only", "They ensure accurate results and circuit safety", "They increase battery energy", "They remove the need for resistance"],
+answer: "They ensure accurate results and circuit safety",
+explanation: "Incorrect meter connections can damage meters, change circuit behavior, or cause short circuits."
+},
   
 
   
