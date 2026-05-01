@@ -15,6 +15,8 @@ alert("Enter your name");
 return;
 }
 
+localStorage.setItem("studentName", studentName);
+
 startTime = new Date();
 
 const topic = document.getElementById("topic").value;
@@ -30,7 +32,7 @@ filtered = examData.filter(q =>
 );
 
 if(filtered.length===0){
-document.getElementById("quiz").innerHTML="<h2>🚧 Coming Soon</h2>";
+document.getElementById("quiz").innerHTML="<h2 style='text-align:center;'>🚧 Coming Soon</h2>";
 return;
 }
 
@@ -45,46 +47,75 @@ document.getElementById("timer").innerText = `⏱ ${sec}s`;
 
 }
 
-/* RENDER */
+/* RENDER (IB SECTIONS) */
 function render(){
+
+let sections = {A:[],B:[],C:[],D:[]};
+
+filtered.forEach(q=>{
+if(!sections[q.section]) sections[q.section]=[];
+sections[q.section].push(q);
+});
 
 let html="";
 
-filtered.forEach((q,i)=>{
+Object.keys(sections).forEach(sec=>{
+
+if(sections[sec].length===0) return;
+
+html+=`<div class="section-title">Part ${sec}</div>`;
+
+sections[sec].forEach((q,i)=>{
+
+const index = filtered.indexOf(q);
 
 html+=`<div class="question-box">
-<b>Q${i+1} (${q.marks} marks)</b><br>
-${q.question}<br><br>`;
+<b>Q${index+1} (${q.marks} marks)</b><br>
+${q.question}<br>`;
 
+/* IMAGE */
+if(q.type==="image"){
+html+=`<img src="${q.image}" class="q-image">`;
+}
+
+/* VIDEO */
+if(q.type==="video"){
+html+=`<iframe class="q-video" src="${q.video}"></iframe>`;
+}
+
+/* MCQ */
 if(q.type==="mcq"){
 q.options.forEach(opt=>{
-html+=`<label>
-<input type="radio" name="q${i}" value="${opt}">
-${opt}
-</label><br>`;
+html+=`<label class="option">
+<input type="radio" name="q${index}" value="${opt}"> ${opt}
+</label>`;
 });
 }
 
+/* TEXT */
 if(q.type==="text"){
-html+=`<textarea id="q${i}" rows="4" style="width:100%"></textarea>`;
+html+=`<textarea id="q${index}"></textarea>`;
 }
 
+/* DRAG */
 if(q.type==="drag"){
-q.pairs.forEach((p,index)=>{
-html+=`${p.left}
-<select id="drag-${i}-${index}">
+q.pairs.forEach((p,j)=>{
+html+=`<div class="drag-row">
+<span>${p.left}</span>
+<select id="drag-${index}-${j}">
 <option value="">Select</option>
 <option>+1</option>
 <option>-1</option>
 <option>0</option>
-</select><br>`;
+</select>
+</div>`;
 });
 }
 
-html+=`
-<div class="markscheme" style="display:none;color:#38bdf8;">
-${q.markscheme || ""}
-</div></div>`;
+html+=`<div class="markscheme">${q.markscheme || ""}</div></div>`;
+
+});
+
 });
 
 document.getElementById("quiz").innerHTML = html;
@@ -106,8 +137,8 @@ if(sel && sel.value===q.answer) score+=q.marks;
 
 if(q.type==="drag"){
 let c=0;
-q.pairs.forEach((p,index)=>{
-if(document.getElementById(`drag-${i}-${index}`).value===p.right) c++;
+q.pairs.forEach((p,j)=>{
+if(document.getElementById(`drag-${i}-${j}`).value===p.right) c++;
 });
 score+=(c/q.pairs.length)*q.marks;
 }
@@ -118,33 +149,40 @@ const timeTaken=Math.floor((new Date()-startTime)/1000);
 
 alert(`Score: ${score}\nTime: ${timeTaken}s`);
 
-saveProgress();
+sendToSheet(score,timeTaken);
 
 }
 
 /* MARKSCHEME */
 function toggleMarkscheme(){
-
 msVisible=!msVisible;
-
 document.querySelectorAll(".markscheme").forEach(el=>{
 el.style.display = msVisible ? "block":"none";
 });
-
 }
 
-/* SAVE */
-function saveProgress(){
-localStorage.setItem("progress","saved");
+/* GOOGLE SHEETS */
+function sendToSheet(score,time){
+
+fetch("YOUR_SCRIPT_URL",{
+method:"POST",
+body: JSON.stringify({
+name: studentName,
+topic: currentTopic,
+score: score,
+time: time
+})
+});
+
 }
 
 /* PDF */
 function downloadPDF(){
 
-let content = `<h2>${studentName}</h2><hr>`;
+let content = `<h2>${studentName}</h2><p>${currentTopic}</p><hr>`;
 
 filtered.forEach((q,i)=>{
-content+=`<p>${q.question}</p><hr>`;
+content+=`<p><b>Q${i+1}</b>: ${q.question}</p><hr>`;
 });
 
 const win=window.open("");
