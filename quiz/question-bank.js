@@ -2386,7 +2386,7 @@ topic: "atomic",
 image: "14-half-life-calculations",
 criterion: "A",
 level: "easy",
-question: "What does "n" represent?",
+question: 'What does "n" represent?',
 options: ["Number of atoms", "Number of half-lives", "Time in seconds", "Energy level"],
 answer: "Number of half-lives",
 explanation: "n is the number of half-lives that have passed."
