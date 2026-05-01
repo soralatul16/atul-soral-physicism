@@ -1584,7 +1584,812 @@ options: ["They make circuits look neater only", "They ensure accurate results a
 answer: "They ensure accurate results and circuit safety",
 explanation: "Incorrect meter connections can damage meters, change circuit behavior, or cause short circuits."
 },
-  
+{
+  topic: "atomic",
+  image: "12-resistance-and-ohm's-law",
+  criterion: "A",
+  level: "easy",
+  question: "What is the SI unit of resistance?",
+  options: ["Volt", "Ampere", "Ohm", "Watt"],
+  answer: "Ohm",
+  explanation: "Resistance is measured in ohms (Ω)."
+},
+{
+  topic: "atomic",
+  image: "12-resistance-and-ohm's-law",
+  criterion: "A",
+  level: "easy",
+  question: "Which law relates voltage, current, and resistance?",
+  options: ["Newton's Law", "Ohm's Law", "Faraday's Law", "Hooke's Law"],
+  answer: "Ohm's Law",
+  explanation: "Ohm’s Law states V = I × R."
+},
+{
+  topic: "atomic",
+  image: "12-resistance-and-ohm's-law",
+  criterion: "B",
+  level: "medium",
+  question: "Which factor does NOT affect resistance?",
+  options: ["Length", "Area", "Material", "Voltage"],
+  answer: "Voltage",
+  explanation: "Resistance depends on material, length, and area, not voltage."
+},
+{
+  topic: "atomic",
+  image: "12-resistance-and-ohm's-law",
+  criterion: "C",
+  level: "medium",
+  question: "A 10 V battery is connected to a 5 Ω resistor. What is the current?",
+  options: ["1 A", "2 A", "5 A", "10 A"],
+  answer: "2 A",
+  explanation: "I = V/R = 10/5 = 2 A."
+},
+{
+  topic: "atomic",
+  image: "12-resistance-and-ohm's-law",
+  criterion: "C",
+  level: "hard",
+  question: "A 12 V battery produces 3 A current. What is resistance?",
+  options: ["2 Ω", "3 Ω", "4 Ω", "6 Ω"],
+  answer: "4 Ω",
+  explanation: "R = V/I = 12/3 = 4 Ω."
+},
+{
+  topic: "atomic",
+  image: "12-resistance-and-ohm's-law",
+  criterion: "C",
+  level: "hard",
+  question: "A wire has resistivity 1.6×10⁻⁸ Ωm, length 2 m, area 1×10⁻⁶ m². Find resistance.",
+  options: ["0.016 Ω", "0.032 Ω", "0.064 Ω", "0.008 Ω"],
+  answer: "0.032 Ω",
+  explanation: "R = ρL/A = (1.6×10⁻⁸ × 2)/(1×10⁻⁶) = 0.032 Ω."
+},
+{
+  topic: "atomic",
+  image: "12-resistance-and-ohm's-law",
+  criterion: "A",
+  level: "medium",
+  question: "If resistance increases, what happens to current (constant voltage)?",
+  options: ["Increases", "Decreases", "Remains same", "Becomes zero"],
+  answer: "Decreases",
+  explanation: "Current is inversely proportional to resistance."
+},
+{
+  topic: "atomic",
+  image: "12-resistance-and-ohm's-law",
+  criterion: "D",
+  level: "medium",
+  question: "Why are heating elements made of high resistance materials?",
+  options: ["To reduce heat", "To increase current", "To produce more heat", "To reduce voltage"],
+  answer: "To produce more heat",
+  explanation: "Higher resistance leads to more heat production."
+},
+{
+  topic: "atomic",
+  image: "12-resistance-and-ohm's-law",
+  criterion: "C",
+  level: "hard",
+  question: "Three resistors 2 Ω, 3 Ω, and 5 Ω are in series. Find total resistance.",
+  options: ["5 Ω", "10 Ω", "15 Ω", "1 Ω"],
+  answer: "10 Ω",
+  explanation: "Series resistance adds directly."
+},
+{
+  topic: "atomic",
+  image: "12-resistance-and-ohm's-law",
+  criterion: "C",
+  level: "hard",
+  question: "Two resistors 6 Ω and 3 Ω are in parallel. Find equivalent resistance.",
+  options: ["2 Ω", "3 Ω", "9 Ω", "1 Ω"],
+  answer: "2 Ω",
+  explanation: "R = (6×3)/(6+3) = 2 Ω."
+},
+
+{
+  topic: "atomic",
+  image: "13-circuit-design-and-troubleshooting",
+  criterion: "A",
+  level: "easy",
+  question: "What does a circuit need to allow current flow?",
+  options: ["Open path", "Closed path", "High resistance", "Battery only"],
+  answer: "Closed path",
+  explanation: "A closed circuit allows current to flow."
+},
+{
+  topic: "atomic",
+  image: "13-circuit-design-and-troubleshooting",
+  criterion: "A",
+  level: "easy",
+  question: "Which device measures voltage?",
+  options: ["Ammeter", "Voltmeter", "Resistor", "Battery"],
+  answer: "Voltmeter",
+  explanation: "A voltmeter measures potential difference."
+},
+{
+  topic: "atomic",
+  image: "13-circuit-design-and-troubleshooting",
+  criterion: "B",
+  level: "medium",
+  question: "Why is a fuse used?",
+  options: ["Increase current", "Reduce voltage", "Protect circuit", "Store energy"],
+  answer: "Protect circuit",
+  explanation: "A fuse protects from excess current."
+},
+{
+  topic: "atomic",
+  image: "13-circuit-design-and-troubleshooting",
+  criterion: "C",
+  level: "medium",
+  question: "Total resistance of 4 Ω and 6 Ω in series?",
+  options: ["2 Ω", "10 Ω", "24 Ω", "5 Ω"],
+  answer: "10 Ω",
+  explanation: "Series resistances add."
+},
+{
+  topic: "atomic",
+  image: "13-circuit-design-and-troubleshooting",
+  criterion: "C",
+  level: "hard",
+  question: "Total resistance of 4 Ω and 6 Ω in parallel?",
+  options: ["2.4 Ω", "10 Ω", "5 Ω", "1 Ω"],
+  answer: "2.4 Ω",
+  explanation: "R = (4×6)/(4+6) = 2.4 Ω."
+},
+{
+  topic: "atomic",
+  image: "13-circuit-design-and-troubleshooting",
+  criterion: "C",
+  level: "hard",
+  question: "A 20 V battery across 10 Ω gives what current?",
+  options: ["1 A", "2 A", "5 A", "10 A"],
+  answer: "2 A",
+  explanation: "I = V/R = 20/10 = 2 A."
+},
+{
+  topic: "atomic",
+  image: "13-circuit-design-and-troubleshooting",
+  criterion: "D",
+  level: "medium",
+  question: "First step in troubleshooting?",
+  options: ["Replace parts", "Check power source", "Break circuit", "Increase current"],
+  answer: "Check power source",
+  explanation: "Always check supply first."
+},
+{
+  topic: "atomic",
+  image: "13-circuit-design-and-troubleshooting",
+  criterion: "D",
+  level: "hard",
+  question: "Loose connections cause what issue?",
+  options: ["No effect", "Heat loss", "Voltage drop", "More current"],
+  answer: "Voltage drop",
+  explanation: "Loose connections increase resistance and drop voltage."
+},
+{
+  topic: "atomic",
+  image: "13-circuit-design-and-troubleshooting",
+  criterion: "B",
+  level: "medium",
+  question: "Why use parallel circuits in homes?",
+  options: ["Same current", "Independent operation", "Less voltage", "Less resistance"],
+  answer: "Independent operation",
+  explanation: "Each device works independently."
+},
+{
+  topic: "atomic",
+  image: "13-circuit-design-and-troubleshooting",
+  criterion: "C",
+  level: "hard",
+  question: "Three lamps in parallel draw 2 A each. Total current?",
+  options: ["2 A", "4 A", "6 A", "8 A"],
+  answer: "6 A",
+  explanation: "Currents add in parallel."
+},
+
+{
+  topic: "atomic",
+  image: "14-electrical-power-and-energy",
+  criterion: "A",
+  level: "easy",
+  question: "Unit of power?",
+  options: ["Joule", "Watt", "Volt", "Ampere"],
+  answer: "Watt",
+  explanation: "Power is measured in watts."
+},
+{
+  topic: "atomic",
+  image: "14-electrical-power-and-energy",
+  criterion: "A",
+  level: "easy",
+  question: "What is energy measured in?",
+  options: ["Watt", "Joule", "Volt", "Ohm"],
+  answer: "Joule",
+  explanation: "Energy is measured in joules."
+},
+{
+  topic: "atomic",
+  image: "14-electrical-power-and-energy",
+  criterion: "C",
+  level: "medium",
+  question: "Power if 200 J used in 10 s?",
+  options: ["10 W", "20 W", "30 W", "40 W"],
+  answer: "20 W",
+  explanation: "P = E/t = 200/10 = 20 W."
+},
+{
+  topic: "atomic",
+  image: "14-electrical-power-and-energy",
+  criterion: "C",
+  level: "medium",
+  question: "A device operates at 10 V and 2 A. Power?",
+  options: ["5 W", "10 W", "20 W", "30 W"],
+  answer: "20 W",
+  explanation: "P = VI = 10×2 = 20 W."
+},
+{
+  topic: "atomic",
+  image: "14-electrical-power-and-energy",
+  criterion: "C",
+  level: "hard",
+  question: "Energy used by 100 W device in 3 hours?",
+  options: ["100 Wh", "200 Wh", "300 Wh", "400 Wh"],
+  answer: "300 Wh",
+  explanation: "E = P×t = 100×3 = 300 Wh."
+},
+{
+  topic: "atomic",
+  image: "14-electrical-power-and-energy",
+  criterion: "C",
+  level: "hard",
+  question: "Convert 1 kWh to joules.",
+  options: ["3.6×10⁶ J", "3.6×10³ J", "360 J", "36 J"],
+  answer: "3.6×10⁶ J",
+  explanation: "1 kWh = 3.6×10⁶ J."
+},
+{
+  topic: "atomic",
+  image: "14-electrical-power-and-energy",
+  criterion: "D",
+  level: "medium",
+  question: "Which device consumes most power?",
+  options: ["LED", "Fan", "Laptop", "AC"],
+  answer: "AC",
+  explanation: "AC has highest watt rating."
+},
+{
+  topic: "atomic",
+  image: "14-electrical-power-and-energy",
+  criterion: "B",
+  level: "medium",
+  question: "Why use LED bulbs?",
+  options: ["More heat", "Less efficiency", "Energy saving", "High resistance"],
+  answer: "Energy saving",
+  explanation: "LEDs use less power."
+},
+{
+  topic: "atomic",
+  image: "14-electrical-power-and-energy",
+  criterion: "C",
+  level: "hard",
+  question: "Find current if power = 60 W and voltage = 12 V.",
+  options: ["2 A", "3 A", "4 A", "5 A"],
+  answer: "5 A",
+  explanation: "I = P/V = 60/12 = 5 A."
+},
+{
+  topic: "atomic",
+  image: "14-electrical-power-and-energy",
+  criterion: "C",
+  level: "hard",
+  question: "Find resistance if power = 100 W and voltage = 10 V.",
+  options: ["1 Ω", "2 Ω", "10 Ω", "5 Ω"],
+  answer: "1 Ω",
+  explanation: "P = V²/R → R = 100/100 = 1 Ω."
+},
+
+{
+  topic: "atomic",
+  image: "15-electromagnetic-devices",
+  criterion: "A",
+  level: "easy",
+  question: "What creates a magnetic field?",
+  options: ["Voltage", "Electric current", "Resistance", "Energy"],
+  answer: "Electric current",
+  explanation: "Current produces magnetic field."
+},
+{
+  topic: "atomic",
+  image: "15-electromagnetic-devices",
+  criterion: "A",
+  level: "easy",
+  question: "Which device converts electrical energy to mechanical?",
+  options: ["Generator", "Motor", "Transformer", "Relay"],
+  answer: "Motor",
+  explanation: "Motor converts electrical to mechanical."
+},
+{
+  topic: "atomic",
+  image: "15-electromagnetic-devices",
+  criterion: "B",
+  level: "medium",
+  question: "What does a generator do?",
+  options: ["Mechanical to electrical", "Electrical to mechanical", "Store energy", "Reduce voltage"],
+  answer: "Mechanical to electrical",
+  explanation: "Generator converts motion to electricity."
+},
+{
+  topic: "atomic",
+  image: "15-electromagnetic-devices",
+  criterion: "B",
+  level: "medium",
+  question: "Transformer is used for?",
+  options: ["Increase resistance", "Change voltage", "Store charge", "Measure current"],
+  answer: "Change voltage",
+  explanation: "Transformer changes voltage levels."
+},
+{
+  topic: "atomic",
+  image: "15-electromagnetic-devices",
+  criterion: "C",
+  level: "medium",
+  question: "If current doubles, magnetic field becomes?",
+  options: ["Half", "Same", "Double", "Zero"],
+  answer: "Double",
+  explanation: "Magnetic field ∝ current."
+},
+{
+  topic: "atomic",
+  image: "15-electromagnetic-devices",
+  criterion: "D",
+  level: "medium",
+  question: "Why use electromagnets?",
+  options: ["Permanent", "Weak", "Controllable", "No current needed"],
+  answer: "Controllable",
+  explanation: "They can be switched on/off."
+},
+{
+  topic: "atomic",
+  image: "15-electromagnetic-devices",
+  criterion: "C",
+  level: "hard",
+  question: "If turns in coil double, magnetic strength becomes?",
+  options: ["Half", "Same", "Double", "Zero"],
+  answer: "Double",
+  explanation: "Magnetic field ∝ number of turns."
+},
+{
+  topic: "atomic",
+  image: "15-electromagnetic-devices",
+  criterion: "A",
+  level: "medium",
+  question: "Relay works using?",
+  options: ["Heat", "Light", "Electromagnet", "Gravity"],
+  answer: "Electromagnet",
+  explanation: "Relay uses electromagnet."
+},
+{
+  topic: "atomic",
+  image: "15-electromagnetic-devices",
+  criterion: "B",
+  level: "medium",
+  question: "Speaker converts electrical signals into?",
+  options: ["Light", "Sound", "Heat", "Motion"],
+  answer: "Sound",
+  explanation: "Speakers produce sound."
+},
+{
+  topic: "atomic",
+  image: "15-electromagnetic-devices",
+  criterion: "D",
+  level: "hard",
+  question: "Why transformers use AC?",
+  options: ["Less resistance", "More power", "Changing magnetic field needed", "Direct current better"],
+  answer: "Changing magnetic field needed",
+  explanation: "Transformers require changing magnetic field."
+},
+{
+  topic: "atomic",
+  image: "16-parallel-circuits",
+  criterion: "A",
+  level: "easy",
+  question: "How many paths does a parallel circuit have?",
+  options: ["One", "Two", "Multiple", "None"],
+  answer: "Multiple",
+  explanation: "Parallel circuits have multiple paths for current."
+},
+{
+  topic: "atomic",
+  image: "16-parallel-circuits",
+  criterion: "A",
+  level: "easy",
+  question: "In a parallel circuit, voltage across branches is:",
+  options: ["Different", "Same", "Zero", "Infinite"],
+  answer: "Same",
+  explanation: "Voltage is same across all branches."
+},
+{
+  topic: "atomic",
+  image: "16-parallel-circuits",
+  criterion: "A",
+  level: "medium",
+  question: "In a series circuit, current is:",
+  options: ["Different everywhere", "Same everywhere", "Zero", "Infinite"],
+  answer: "Same everywhere",
+  explanation: "Series circuit has same current through all components."
+},
+{
+  topic: "atomic",
+  image: "16-parallel-circuits",
+  criterion: "C",
+  level: "hard",
+  question: "Two resistors 2 Ω and 4 Ω are in parallel. Find equivalent resistance.",
+  options: ["1.33 Ω", "2 Ω", "6 Ω", "0.5 Ω"],
+  answer: "1.33 Ω",
+  explanation: "R = (2×4)/(2+4)=8/6=1.33 Ω."
+},
+{
+  topic: "atomic",
+  image: "16-parallel-circuits",
+  criterion: "C",
+  level: "hard",
+  question: "Total current is 3 A, branch currents are 2 A and 1 A. This shows:",
+  options: ["Voltage divides", "Current adds", "Resistance adds", "Power divides"],
+  answer: "Current adds",
+  explanation: "In parallel, total current is sum of branch currents."
+},
+{
+  topic: "atomic",
+  image: "16-parallel-circuits",
+  criterion: "B",
+  level: "medium",
+  question: "Why are homes wired in parallel?",
+  options: ["Same current", "Independent operation", "Higher resistance", "Lower voltage"],
+  answer: "Independent operation",
+  explanation: "Devices work independently in parallel circuits."
+},
+{
+  topic: "atomic",
+  image: "16-parallel-circuits",
+  criterion: "C",
+  level: "hard",
+  question: "If one bulb fails in parallel circuit, what happens?",
+  options: ["All stop", "Others work", "Voltage becomes zero", "Current stops"],
+  answer: "Others work",
+  explanation: "Parallel allows independent operation."
+},
+{
+  topic: "atomic",
+  image: "16-parallel-circuits",
+  criterion: "A",
+  level: "medium",
+  question: "Equivalent resistance in parallel is:",
+  options: ["Higher", "Lower", "Same", "Zero"],
+  answer: "Lower",
+  explanation: "Parallel reduces total resistance."
+},
+{
+  topic: "atomic",
+  image: "16-parallel-circuits",
+  criterion: "C",
+  level: "hard",
+  question: "Three resistors 3 Ω each in parallel. Find total resistance.",
+  options: ["1 Ω", "3 Ω", "9 Ω", "0.33 Ω"],
+  answer: "1 Ω",
+  explanation: "R = 1/(1/3+1/3+1/3)=1 Ω."
+},
+{
+  topic: "atomic",
+  image: "16-parallel-circuits",
+  criterion: "C",
+  level: "hard",
+  question: "If voltage is 6 V and resistance is 2 Ω, find current.",
+  options: ["1 A", "2 A", "3 A", "4 A"],
+  answer: "3 A",
+  explanation: "I = V/R = 6/2 = 3 A."
+},
+
+{
+  topic: "atomic",
+  image: "17-current-types-ac-vs-dc",
+  criterion: "A",
+  level: "easy",
+  question: "DC current flows in:",
+  options: ["Both directions", "One direction", "Random direction", "No direction"],
+  answer: "One direction",
+  explanation: "DC flows in a single direction."
+},
+{
+  topic: "atomic",
+  image: "17-current-types-ac-vs-dc",
+  criterion: "A",
+  level: "easy",
+  question: "AC current changes:",
+  options: ["Magnitude only", "Direction only", "Both magnitude and direction", "Neither"],
+  answer: "Both magnitude and direction",
+  explanation: "AC varies in magnitude and direction."
+},
+{
+  topic: "atomic",
+  image: "17-current-types-ac-vs-dc",
+  criterion: "B",
+  level: "medium",
+  question: "Which source provides DC?",
+  options: ["Battery", "Generator", "Transformer", "Motor"],
+  answer: "Battery",
+  explanation: "Batteries supply DC."
+},
+{
+  topic: "atomic",
+  image: "17-current-types-ac-vs-dc",
+  criterion: "B",
+  level: "medium",
+  question: "Which is advantage of AC?",
+  options: ["Hard to transmit", "Easily stepped up/down", "Low power", "Not useful"],
+  answer: "Easily stepped up/down",
+  explanation: "AC voltage can be transformed easily."
+},
+{
+  topic: "atomic",
+  image: "17-current-types-ac-vs-dc",
+  criterion: "C",
+  level: "hard",
+  question: "Frequency of AC if time period is 0.02 s?",
+  options: ["25 Hz", "50 Hz", "100 Hz", "10 Hz"],
+  answer: "50 Hz",
+  explanation: "f = 1/T = 1/0.02 = 50 Hz."
+},
+{
+  topic: "atomic",
+  image: "17-current-types-ac-vs-dc",
+  criterion: "C",
+  level: "hard",
+  question: "If peak voltage is 10 V, RMS voltage approximately?",
+  options: ["5 V", "7 V", "10 V", "14 V"],
+  answer: "7 V",
+  explanation: "Vrms = Vmax/√2 ≈ 7 V."
+},
+{
+  topic: "atomic",
+  image: "17-current-types-ac-vs-dc",
+  criterion: "A",
+  level: "medium",
+  question: "AC waveform is:",
+  options: ["Square", "Triangle", "Sine wave", "Straight line"],
+  answer: "Sine wave",
+  explanation: "AC is typically sinusoidal."
+},
+{
+  topic: "atomic",
+  image: "17-current-types-ac-vs-dc",
+  criterion: "D",
+  level: "medium",
+  question: "Why AC is used in transmission?",
+  options: ["More heat", "Less efficiency", "Less power loss", "Higher resistance"],
+  answer: "Less power loss",
+  explanation: "High voltage AC reduces losses."
+},
+{
+  topic: "atomic",
+  image: "17-current-types-ac-vs-dc",
+  criterion: "C",
+  level: "hard",
+  question: "If AC frequency doubles, time period becomes:",
+  options: ["Double", "Half", "Same", "Zero"],
+  answer: "Half",
+  explanation: "T = 1/f, so doubling f halves T."
+},
+{
+  topic: "atomic",
+  image: "17-current-types-ac-vs-dc",
+  criterion: "B",
+  level: "medium",
+  question: "Which is example of AC source?",
+  options: ["Battery", "Power outlet", "Cell", "USB"],
+  answer: "Power outlet",
+  explanation: "Wall sockets supply AC."
+},
+
+{
+  topic: "atomic",
+  image: "18-electrical-safety-and-energy",
+  criterion: "A",
+  level: "easy",
+  question: "What does a fuse do?",
+  options: ["Increase current", "Break circuit on excess current", "Store energy", "Increase voltage"],
+  answer: "Break circuit on excess current",
+  explanation: "Fuse melts and breaks circuit."
+},
+{
+  topic: "atomic",
+  image: "18-electrical-safety-and-energy",
+  criterion: "A",
+  level: "easy",
+  question: "Electric shock occurs due to:",
+  options: ["Low current", "High resistance", "Electric current", "Voltage only"],
+  answer: "Electric current",
+  explanation: "Shock occurs when current flows through body."
+},
+{
+  topic: "atomic",
+  image: "18-electrical-safety-and-energy",
+  criterion: "B",
+  level: "medium",
+  question: "Why should hands be dry when using switches?",
+  options: ["Better grip", "Avoid shock", "Reduce voltage", "Increase resistance"],
+  answer: "Avoid shock",
+  explanation: "Water conducts electricity."
+},
+{
+  topic: "atomic",
+  image: "18-electrical-safety-and-energy",
+  criterion: "C",
+  level: "hard",
+  question: "Power = 60 W, voltage = 12 V. Current?",
+  options: ["2 A", "3 A", "5 A", "6 A"],
+  answer: "5 A",
+  explanation: "I = P/V = 60/12 = 5 A."
+},
+{
+  topic: "atomic",
+  image: "18-electrical-safety-and-energy",
+  criterion: "C",
+  level: "hard",
+  question: "Energy used in 10 s at 50 W?",
+  options: ["500 J", "100 J", "50 J", "5 J"],
+  answer: "500 J",
+  explanation: "E = P×t = 50×10 = 500 J."
+},
+{
+  topic: "atomic",
+  image: "18-electrical-safety-and-energy",
+  criterion: "D",
+  level: "medium",
+  question: "Overloading causes:",
+  options: ["Cooling", "Short circuit", "Heating", "No effect"],
+  answer: "Heating",
+  explanation: "Excess current causes heat."
+},
+{
+  topic: "atomic",
+  image: "18-electrical-safety-and-energy",
+  criterion: "D",
+  level: "medium",
+  question: "Which is safest practice?",
+  options: ["Wet hands", "Damaged wires", "Proper insulation", "Overloading"],
+  answer: "Proper insulation",
+  explanation: "Insulation prevents shocks."
+},
+{
+  topic: "atomic",
+  image: "18-electrical-safety-and-energy",
+  criterion: "B",
+  level: "medium",
+  question: "Why use MCB?",
+  options: ["Increase voltage", "Automatic protection", "Store current", "Reduce energy"],
+  answer: "Automatic protection",
+  explanation: "MCB trips automatically."
+},
+{
+  topic: "atomic",
+  image: "18-electrical-safety-and-energy",
+  criterion: "A",
+  level: "medium",
+  question: "Electrical energy converts into:",
+  options: ["Light", "Heat", "Motion", "All of these"],
+  answer: "All of these",
+  explanation: "Electrical energy converts into multiple forms."
+},
+{
+  topic: "atomic",
+  image: "18-electrical-safety-and-energy",
+  criterion: "D",
+  level: "hard",
+  question: "Why unplug devices?",
+  options: ["Increase power", "Reduce voltage", "Save energy", "Increase current"],
+  answer: "Save energy",
+  explanation: "Unplugging saves electricity."
+},
+
+{
+  topic: "atomic",
+  image: "19-electrical-safety-and-energy-application",
+  criterion: "A",
+  level: "easy",
+  question: "Fuse protects against:",
+  options: ["Low voltage", "High current", "Low current", "No current"],
+  answer: "High current",
+  explanation: "Fuse melts on excess current."
+},
+{
+  topic: "atomic",
+  image: "19-electrical-safety-and-energy-application",
+  criterion: "A",
+  level: "easy",
+  question: "Short circuit occurs when:",
+  options: ["High resistance", "Live and neutral touch", "Low voltage", "Battery removed"],
+  answer: "Live and neutral touch",
+  explanation: "Short circuit happens when wires touch."
+},
+{
+  topic: "atomic",
+  image: "19-electrical-safety-and-energy-application",
+  criterion: "B",
+  level: "medium",
+  question: "MCB stands for:",
+  options: ["Main Circuit Breaker", "Mini Circuit Board", "Miniature Circuit Breaker", "Main Current Box"],
+  answer: "Miniature Circuit Breaker",
+  explanation: "MCB = Miniature Circuit Breaker."
+},
+{
+  topic: "atomic",
+  image: "19-electrical-safety-and-energy-application",
+  criterion: "B",
+  level: "medium",
+  question: "RCCB protects against:",
+  options: ["Overload", "Leakage current", "High voltage", "Resistance"],
+  answer: "Leakage current",
+  explanation: "RCCB detects leakage."
+},
+{
+  topic: "atomic",
+  image: "19-electrical-safety-and-energy-application",
+  criterion: "C",
+  level: "hard",
+  question: "A fuse rated 5 A carries 10 A. What happens?",
+  options: ["Nothing", "Fuse melts", "Voltage increases", "Resistance decreases"],
+  answer: "Fuse melts",
+  explanation: "Excess current melts fuse."
+},
+{
+  topic: "atomic",
+  image: "19-electrical-safety-and-energy-application",
+  criterion: "D",
+  level: "medium",
+  question: "Why avoid overloading sockets?",
+  options: ["Less current", "Prevent fire", "Increase voltage", "Save power"],
+  answer: "Prevent fire",
+  explanation: "Overload causes overheating."
+},
+{
+  topic: "atomic",
+  image: "19-electrical-safety-and-energy-application",
+  criterion: "D",
+  level: "medium",
+  question: "Water near electricity is dangerous because:",
+  options: ["Insulator", "Conductor", "Neutral", "Battery"],
+  answer: "Conductor",
+  explanation: "Water conducts electricity."
+},
+{
+  topic: "atomic",
+  image: "19-electrical-safety-and-energy-application",
+  criterion: "A",
+  level: "medium",
+  question: "Distribution board contains:",
+  options: ["Motor", "MCB", "Battery", "Transformer"],
+  answer: "MCB",
+  explanation: "DB includes MCBs."
+},
+{
+  topic: "atomic",
+  image: "19-electrical-safety-and-energy-application",
+  criterion: "C",
+  level: "hard",
+  question: "If appliance draws 2 A at 220 V, power?",
+  options: ["220 W", "440 W", "110 W", "660 W"],
+  answer: "440 W",
+  explanation: "P = VI = 220×2 = 440 W."
+},
+{
+  topic: "atomic",
+  image: "19-electrical-safety-and-energy-application",
+  criterion: "D",
+  level: "hard",
+  question: "Why proper fuse rating is important?",
+  options: ["Increase power", "Prevent overheating", "Reduce voltage", "Increase resistance"],
+  answer: "Prevent overheating",
+  explanation: "Correct fuse protects safely."
+},  
 
   
 /* =========================
