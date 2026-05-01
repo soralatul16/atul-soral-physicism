@@ -3,20 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>MYP Dashboard | Atul Soral Physicism</title>
 
 <style>
+
+/* ===== BASE ===== */
 body{
   margin:0;
-  font-family:Arial;
+  font-family:Arial, sans-serif;
   background:#0f172a;
   color:white;
 }
 
-/* NAVBAR */
+/* ===== NAVBAR ===== */
 .navbar{
   display:flex;
   justify-content:space-between;
+  align-items:center;
   padding:15px 30px;
   background:#020617;
 }
@@ -25,93 +29,124 @@ body{
   margin-left:20px;
   color:white;
   text-decoration:none;
+  font-size:14px;
 }
 
-/* HERO */
+.nav-links a:hover{
+  color:#38bdf8;
+}
+
+/* ===== HERO ===== */
 .hero{
   background:linear-gradient(135deg,#06b6d4,#2563eb);
-  padding:50px;
+  padding:60px 20px;
   text-align:center;
 }
 
-/* SECTION */
+.hero h1{
+  margin:0;
+  font-size:32px;
+}
+
+.hero p{
+  margin-top:10px;
+  opacity:0.9;
+}
+
+/* ===== SECTION ===== */
 .section{
   padding:40px;
 }
 
-/* GRID */
+/* ===== GRID ===== */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:20px;
 }
 
-/* CARD */
+/* ===== CARD ===== */
 .card{
   background:#1e293b;
   padding:20px;
-  border-radius:10px;
+  border-radius:12px;
   text-align:center;
   cursor:pointer;
   transition:0.3s;
+  font-size:16px;
 }
 
 .card:hover{
   transform:scale(1.05);
+  background:#334155;
 }
 
-/* READY CHAPTER */
+/* ===== READY ===== */
 .ready{
   text-decoration:underline;
   color:#38bdf8;
+  font-weight:bold;
 }
 
-/* LOCKED */
+/* ===== LOCKED ===== */
 .locked{
-  opacity:0.6;
+  opacity:0.5;
 }
+
+/* ===== TITLE ===== */
+h2{
+  margin-bottom:20px;
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- ===== NAVBAR ===== -->
 <div class="navbar">
-  <div><b>MYP Physics</b></div>
+  <div><b>🔵 MYP Physics</b></div>
+
   <div class="nav-links">
-    <a href="index.html">Home</a>
+    <a href="./index.html">Home</a>
     <a href="#">Flashcards</a>
     <a href="#">IA Generator</a>
     <a href="#">Formula Bank</a>
   </div>
 </div>
 
+<!-- ===== HERO ===== -->
 <div class="hero">
   <h1>IB MYP Physics Dashboard</h1>
   <p>Everything you need to master MYP Physics</p>
 </div>
 
-<!-- 🧠 QUIZ SECTION -->
+<!-- ===== PRACTICE SECTION ===== -->
 <div class="section">
+
 <h2>🧠 Practice</h2>
 
 <div class="grid">
 
-<div class="card ready" onclick="location.href='./exam-practice.html'">
-📝 Exam Practice
+  <!-- ✅ EXAM PRACTICE -->
+  <div class="card ready" onclick="openExam()">
+    📝 Exam Practice
+  </div>
+
+  <!-- LOCKED -->
+  <div class="card locked" onclick="comingSoon()">
+    🧠 Flashcards
+  </div>
+
+  <div class="card locked" onclick="comingSoon()">
+    📊 Formula Bank
+  </div>
+
 </div>
 
-<div class="card locked" onclick="alert('🚧 Flashcards coming soon!')">
-🧠 Flashcards
 </div>
 
-<div class="card locked" onclick="alert('🚧 Formula bank coming soon!')">
-📊 Formula Bank
-</div>
-
-</div>
-</div>
-
-<!-- 📚 TOPICS -->
+<!-- ===== TOPICS ===== -->
 <div class="section">
 
 <h2>📚 MYP Topics</h2>
@@ -122,7 +157,16 @@ body{
 
 <script>
 
-/* CHAPTER STATUS */
+/* ===== SAFE NAVIGATION ===== */
+function openExam(){
+  window.location.href = "./exam-practice.html";
+}
+
+function comingSoon(){
+  alert("🚧 Coming soon!");
+}
+
+/* ===== CHAPTER DATA ===== */
 const chapters = [
   {name:"Exploring Matter", key:"matter", ready:false},
   {name:"Forces and Motion", key:"forces", ready:false},
@@ -137,6 +181,7 @@ const chapters = [
 
 const container = document.getElementById("topics");
 
+/* ===== RENDER CARDS ===== */
 chapters.forEach(ch => {
 
   const div = document.createElement("div");
@@ -144,11 +189,14 @@ chapters.forEach(ch => {
 
   if(ch.ready){
     div.classList.add("ready");
+
     div.onclick = () => {
-      window.location.href = `chapter.html?topic=${ch.key}`;
+      window.location.href = `./chapter.html?topic=${ch.key}`;
     };
+
   } else {
     div.classList.add("locked");
+
     div.onclick = () => {
       alert("🚧 This chapter is coming soon!");
     };
@@ -156,6 +204,7 @@ chapters.forEach(ch => {
 
   div.innerText = ch.name;
   container.appendChild(div);
+
 });
 
 </script>
