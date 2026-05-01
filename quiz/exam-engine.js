@@ -5,7 +5,7 @@ let studentName = "";
 let currentTopic = "";
 let msVisible = false;
 
-/* START */
+/* ================= START ================= */
 function startExam(){
 
 studentName = document.getElementById("studentName").value;
@@ -45,7 +45,7 @@ document.getElementById("timer").innerText = `⏱ ${sec}s`;
 
 }
 
-/* RENDER (FIXED INDEXING) */
+/* ================= RENDER ================= */
 function render(){
 
 let html = "";
@@ -54,10 +54,11 @@ let html = "";
 const sections = {A:[],B:[],C:[],D:[]};
 
 filtered.forEach((q,i)=>{
-q._index = i; // ✅ FIX: store index directly
+q._index = i;
 sections[q.section].push(q);
 });
 
+/* LOOP SECTIONS */
 Object.keys(sections).forEach(sec=>{
 
 if(sections[sec].length===0) return;
@@ -66,11 +67,15 @@ html += `<div class="section-title">Part ${sec}</div>`;
 
 sections[sec].forEach(q=>{
 
-const i = q._index; // ✅ SAFE INDEX
+const i = q._index;
 
 html += `<div class="question-box">
-<b>Q${i+1} (${q.marks} marks)</b><br>
-${q.question}<br>`;
+<div class="q-header">
+<span>Q${i+1}</span>
+<span>${q.marks} marks</span>
+</div>
+
+<div class="q-text">${highlightCommand(q.question)}</div>`;
 
 /* IMAGE */
 if(q.type==="image" && q.image){
@@ -94,7 +99,7 @@ ${opt}
 
 /* TEXT */
 if(q.type==="text"){
-html += `<textarea id="q${i}"></textarea>`;
+html += `<textarea id="q${i}" placeholder="Write your answer..."></textarea>`;
 }
 
 /* DRAG */
@@ -114,7 +119,8 @@ html += `<div class="drag-row">
 
 /* MARKSCHEME */
 html += `<div class="markscheme" id="ms-${i}">
-<b>Markscheme:</b> ${q.markscheme || "Not available"}
+<b>Markscheme:</b><br>
+${q.markscheme || "❌ No markscheme available for this question"}
 </div>`;
 
 html += `</div>`;
@@ -126,22 +132,35 @@ html += `</div>`;
 document.getElementById("quiz").innerHTML = html;
 }
 
-/* SUBMIT */
+/* ================= COMMAND TERMS ================= */
+function highlightCommand(text){
+
+const commands = [
+"Define","Explain","Describe","Evaluate","State","Calculate","Suggest"
+];
+
+commands.forEach(cmd=>{
+const regex = new RegExp(`\\b${cmd}\\b`, "g");
+text = text.replace(regex, `<span class="command">${cmd}</span>`);
+});
+
+return text;
+}
+
+/* ================= SUBMIT ================= */
 function submitExam(){
 
 clearInterval(timerInterval);
 
-let score=0;
+let score = 0;
 
 filtered.forEach((q,i)=>{
 
-/* MCQ */
 if(q.type==="mcq"){
 const sel=document.querySelector(`input[name="q${i}"]:checked`);
 if(sel && sel.value===q.answer) score+=q.marks;
 }
 
-/* DRAG */
 if(q.type==="drag"){
 let c=0;
 q.pairs.forEach((p,j)=>{
@@ -158,7 +177,7 @@ alert(`Score: ${score}\nTime: ${timeTaken}s`);
 
 }
 
-/* MARKSCHEME FIX */
+/* ================= MARKSCHEME ================= */
 function toggleMarkscheme(){
 
 msVisible = !msVisible;
@@ -172,17 +191,33 @@ el.style.display = msVisible ? "block" : "none";
 
 }
 
-/* PDF */
+/* ================= PDF ================= */
 function downloadPDF(){
 
-let content = `<h2>${studentName}</h2><p>${currentTopic}</p><hr>`;
+const endTime = new Date();
+const timeTaken = Math.floor((endTime - startTime)/1000);
+
+let html = `
+<h1>${studentName}</h1>
+<h3>Topic: ${currentTopic}</h3>
+<p>Time: ${timeTaken} seconds</p>
+<hr>
+`;
 
 filtered.forEach((q,i)=>{
-content += `<p><b>Q${i+1}</b>: ${q.question}</p><br>`;
+
+html += `<p><b>Q${i+1}</b>: ${q.question}</p>`;
+
+const text = document.getElementById(`q${i}`);
+if(text){
+html += `<p><b>Answer:</b> ${text.value}</p>`;
+}
+
+html += `<hr>`;
 });
 
-const win=window.open("");
-win.document.write(content);
+const win = window.open("");
+win.document.write(html);
 win.print();
 
 }
