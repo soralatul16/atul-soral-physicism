@@ -1,59 +1,149 @@
+let currentExam = [];
+let startTime;
+let totalMarks = 0;
 
-const params = new URLSearchParams(window.location.search);
+/* START */
+function startExam(){
 
-const topic = params.get("topic");
-const criterion = params.get("criterion");
-const difficulty = params.get("difficulty");
+  const topic = document.getElementById("chapter").value;
 
-let startTime = Date.now();
+  currentExam = examData.filter(q =>
+    !topic || q.topic === topic
+  );
 
-/* TIMER */
-setInterval(()=>{
-  let t = Math.floor((Date.now() - startTime)/1000);
-  document.getElementById("timer").innerText = "⏱ Time: " + t + "s";
-},1000);
+  if(currentExam.length === 0){
+    alert("🚧 Coming soon!");
+    return;
+  }
 
-/* FILTER QUESTIONS */
-let questions = examData.filter(q =>
-  q.topic === topic &&
-  q.criterion === criterion &&
-  q.level === difficulty
-);
+  startTime = new Date();
+  renderExam();
+}
 
-/* LOAD */
-let html = "";
+/* RENDER */
+function renderExam(){
 
-questions.forEach((q,i)=>{
-  html += `
-    <div class="question">
-      <b>Q${i+1}</b><br><br>
-      ${q.question}
-      <textarea id="ans${i}" rows="4"></textarea>
-    </div>
-  `;
-});
+  const container = document.getElementById("quiz");
+  container.innerHTML = "";
 
-document.getElementById("examBox").innerHTML = html;
+  let sectionMap = {};
+  totalMarks = 0;
 
-/* DOWNLOAD */
-function downloadPDF(){
-
-  let content = "Exam Answers\n\n";
-
-  questions.forEach((q,i)=>{
-    const ans = document.getElementById("ans"+i).value;
-
-    content += `Q${i+1}: ${q.question}\n`;
-    content += `Answer: ${ans}\n\n`;
+  currentExam.forEach(q=>{
+    totalMarks += q.marks;
+    if(!sectionMap[q.section]) sectionMap[q.section] = [];
+    sectionMap[q.section].push(q);
   });
 
-  let timeTaken = Math.floor((Date.now()-startTime)/1000);
-  content += `Time Taken: ${timeTaken} seconds`;
+  Object.keys(sectionMap).forEach(sec=>{
 
-  const blob = new Blob([content], {type: "text/plain"});
-  const link = document.createElement("a");
+    container.innerHTML += `<h2>Section ${sec}</h2>`;
 
-  link.href = URL.createObjectURL(blob);
-  link.download = "exam.txt";
-  link.click();
+    sectionMap[sec].forEach((q,i)=>{
+
+      let html = `
+      <div class="question">
+        <b>(${q.marks} marks)</b>
+        <span class="command">${q.command.toUpperCase()}</span>:
+        ${q.question}
+      `;
+
+      /* IMAGE */
+      if(q.type === "image"){
+        html += `<br><img src="${q.image}" width="100%">`;
+      }
+
+      /* VIDEO */
+      if(q.type === "video"){
+        html += `<br><iframe width="100%" height="200" src="${q.video}" frameborder="0"></iframe>`;
+      }
+
+      /* MCQ */
+      if(q.type === "mcq"){
+        q.options.forEach(opt=>{
+          html += `
+          <label>
+            <input type="radio" name="q${i}" value="${opt}">
+            ${opt}
+          </label><br>`;
+        });
+      } else {
+        html += `<textarea id="ans${i}" placeholder="Write answer..."></textarea>`;
+      }
+
+      html += `</div>`;
+      container.innerHTML += html;
+
+    });
+
+  });
+
+  document.getElementById("submitBtn").style.display = "block";
+}
+
+/* SUBMIT */
+function submitExam(){
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let y = 10;
+  let score = 0;
+
+  const endTime = new Date();
+  const duration = Math.round((endTime - startTime)/1000);
+
+  doc.text("IB MYP Physics Exam",10,y); y+=10;
+  doc.text(`Time: ${duration} sec`,10,y); y+=10;
+
+  currentExam.forEach((q,i)=>{
+
+    let userAns = "";
+
+    if(q.type === "mcq"){
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      userAns = selected ? selected.value : "Not answered";
+
+      if(userAns === q.answer) score += q.marks;
+
+    } else {
+      userAns = document.getElementById(`ans${i}`).value;
+    }
+
+    doc.text(`Q${i+1}: ${q.question}`,10,y); y+=8;
+    doc.text(`Answer: ${userAns}`,10,y); y+=10;
+
+    if(y>270){ doc.addPage(); y=10; }
+
+  });
+
+  doc.text(`Score (MCQ only): ${score}/${totalMarks}`,10,y);
+
+  doc.save("Exam-Answers.pdf");
+
+  if(confirm("Download Markscheme?")){
+    downloadMarkscheme();
+  }
+}
+
+/* MARKSCHEME */
+function downloadMarkscheme(){
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let y = 10;
+
+  doc.text("Markscheme",10,y); y+=10;
+
+  currentExam.forEach((q,i)=>{
+
+    doc.text(`Q${i+1}: ${q.question}`,10,y); y+=8;
+    doc.text(`Answer: ${q.markscheme}`,10,y); y+=10;
+
+    if(y>270){ doc.addPage(); y=10; }
+
+  });
+
+  doc.save("Markscheme.pdf");
 }
