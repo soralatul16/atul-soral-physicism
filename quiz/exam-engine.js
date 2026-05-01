@@ -129,7 +129,30 @@ const timeTaken = Math.floor((endTime - startTime)/1000);
 
 alert(`Score: ${score}\nTime: ${timeTaken} sec`);
 }
+function saveProgress(){
 
+const data = [];
+
+filtered.forEach((q,i)=>{
+
+if(q.type==="mcq"){
+const selected = document.querySelector(`input[name="q${i}"]:checked`);
+data[i] = selected ? selected.value : null;
+}
+
+else if(q.type==="drag"){
+data[i] = "drag"; // optional
+}
+
+else{
+const el = document.getElementById(`q${i}`);
+if(el) data[i] = el.value;
+}
+
+});
+
+localStorage.setItem("exam-progress", JSON.stringify(data));
+}
 function submitExam(){
 
 let score=0;
