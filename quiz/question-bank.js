@@ -3,720 +3,2527 @@ const questionBank = [
 /* =========================
 WAVES INTRODUCTION
 ========================= */
-
 {
-topic:"waves",
-image:"2-waves-introduction",
-criterion:"A",
-level:"medium",
-question:"Which statement best defines a wave based on the diagram?",
-options:[
-"Transfer of matter from one place to another",
-"Transfer of energy without permanent movement of matter",
-"Movement of particles in a straight line",
-"Oscillation that stops after a short time"
-],
-answer:"Transfer of energy without permanent movement of matter",
-explanation:"Waves transfer energy without transporting matter."
+topic: "waves",
+image: "2-waves-introduction",
+criterion: "A",
+level: "easy",
+question: "A wave transfers:",
+options: ["Matter", "Energy", "Mass", "Charge"],
+answer: "Energy",
+explanation: "Waves transfer energy without transferring matter permanently."
 },
-
 {
-topic:"waves",
-image:"2-waves-introduction",
-criterion:"C",
-level:"hard",
-question:"A student observes ripples spreading outward on water. A leaf oscillates up and down. What can be concluded?",
-options:[
-"Energy is not being transferred",
-"Matter is moving with the wave",
-"Energy travels while particles oscillate about equilibrium",
-"The wave is longitudinal"
-],
-answer:"Energy travels while particles oscillate about equilibrium",
-explanation:"Particles oscillate, energy moves."
+topic: "waves",
+image: "2-waves-introduction",
+criterion: "A",
+level: "easy",
+question: "A wave is best described as:",
+options: ["A particle", "A disturbance", "A force", "A solid"],
+answer: "A disturbance",
+explanation: "A wave is a disturbance that travels through a medium or space."
 },
-
 {
-topic:"waves",
-image:"2-waves-introduction",
-criterion:"D",
-level:"medium",
-question:"Why can light travel through space but sound cannot?",
-options:[
-"Light has higher energy",
-"Sound requires a medium",
-"Light travels slower",
-"Sound has zero frequency"
-],
-answer:"Sound requires a medium",
-explanation:"Sound is mechanical; light is electromagnetic."
+topic: "waves",
+image: "2-waves-introduction",
+criterion: "B",
+level: "medium",
+question: "In a wave, particles:",
+options: ["Travel with the wave", "Stay fixed", "Vibrate about a position", "Disappear"],
+answer: "Vibrate about a position",
+explanation: "Particles oscillate around their equilibrium position."
 },
-
-/* =========================
-TRANSVERSE VS LONGITUDINAL
-========================= */
-
 {
-topic:"waves",
-image:"3-transverse-vs-longitudinal-wave",
-criterion:"A",
-level:"medium",
-question:"Particles move perpendicular to wave direction. Type?",
-options:[
-"Longitudinal",
-"Transverse",
-"Standing",
-"Mechanical only"
-],
-answer:"Transverse",
-explanation:"Perpendicular motion = transverse."
+topic: "waves",
+image: "2-waves-introduction",
+criterion: "A",
+level: "easy",
+question: "Transverse waves have motion:",
+options: ["Parallel", "Random", "Circular", "Perpendicular"],
+answer: "Perpendicular",
+explanation: "Particles vibrate perpendicular to wave direction."
 },
-
 {
-topic:"waves",
-image:"3-transverse-vs-longitudinal-wave",
-criterion:"C",
-level:"hard",
-question:"Regions of compression and rarefaction indicate:",
-options:[
-"Transverse wave",
-"Longitudinal wave",
-"No energy transfer",
-"Standing wave"
-],
-answer:"Longitudinal wave",
-explanation:"Compression is characteristic of longitudinal waves."
+topic: "waves",
+image: "2-waves-introduction",
+criterion: "A",
+level: "easy",
+question: "Longitudinal waves involve:",
+options: ["Up-down motion", "Circular motion", "Parallel vibration", "No motion"],
+answer: "Parallel vibration",
+explanation: "Particles move parallel to the direction of propagation."
 },
-
-/* =========================
-WAVE PROPERTIES
-========================= */
-
 {
-topic:"waves",
-image:"4-basic-properties-of-waves",
-criterion:"A",
-level:"easy",
-question:"Amplitude represents:",
-options:[
-"Distance between crests",
-"Maximum displacement",
-"Speed",
-"Period"
-],
-answer:"Maximum displacement",
-explanation:"Amplitude = maximum displacement."
+topic: "waves",
+image: "2-waves-introduction",
+criterion: "B",
+level: "medium",
+question: "Mechanical waves require:",
+options: ["Vacuum", "Medium", "Light", "Electricity"],
+answer: "Medium",
+explanation: "They need a material medium to travel."
 },
-
 {
-topic:"waves",
-image:"4-basic-properties-of-waves",
-criterion:"C",
-level:"hard",
-question:"If amplitude increases, what changes?",
-options:[
-"Speed",
-"Energy",
-"Frequency",
-"Wavelength"
-],
-answer:"Energy",
-explanation:"Energy ∝ amplitude²."
+topic: "waves",
+image: "2-waves-introduction",
+criterion: "A",
+level: "easy",
+question: "Electromagnetic waves:",
+options: ["Need medium", "Travel only in solids", "Cannot travel in vacuum", "Do not need medium"],
+answer: "Do not need medium",
+explanation: "EM waves can travel through vacuum."
 },
-
-/* =========================
-WAVE EQUATION
-========================= */
-
 {
-topic:"waves",
-image:"5-wave-equation",
-criterion:"A",
-level:"medium",
-question:"Correct wave equation:",
-options:[
-"v = fλ",
-"v = f/λ",
-"v = λ/f",
-"v = f²λ"
-],
-answer:"v = fλ",
-explanation:"Fundamental relation."
+topic: "waves",
+image: "2-waves-introduction",
+criterion: "B",
+level: "medium",
+question: "Ripples on water are:",
+options: ["1D", "2D", "3D", "Zero"],
+answer: "2D",
+explanation: "They spread on a surface → 2D waves."
 },
-
 {
-topic:"waves",
-image:"5-wave-equation",
-criterion:"C",
-level:"hard",
-question:"If frequency increases and speed constant, wavelength:",
-options:[
-"Increases",
-"Decreases",
-"Same",
-"Zero"
-],
-answer:"Decreases",
-explanation:"Inverse relationship."
+topic: "waves",
+image: "2-waves-introduction",
+criterion: "B",
+level: "medium",
+question: "Frequency is measured in:",
+options: ["m", "s", "Hz", "N"],
+answer: "Hz",
+explanation: "Frequency = cycles per second → Hertz."
 },
-
-/* =========================
-REFLECTION
-========================= */
-
 {
-topic:"waves",
-image:"6-reflection-of-waves",
-criterion:"A",
-level:"medium",
-question:"Law of reflection:",
-options:[
-"θi > θr",
-"θi = θr",
-"θi < θr",
-"θi = 2θr"
-],
-answer:"θi = θr",
-explanation:"Angle of incidence equals angle of reflection."
+topic: "waves",
+image: "2-waves-introduction",
+criterion: "B",
+level: "medium",
+question: "Wave speed depends on:",
+options: ["v = fλ", "v = ma", "v = IR", "v = pV"],
+answer: "v = fλ",
+explanation: "Wave speed = frequency × wavelength."
 },
-
 {
-topic:"waves",
-image:"6-reflection-of-waves",
-criterion:"C",
-level:"hard",
-question:"A pulse reflects inverted. Boundary?",
-options:[
-"Free end",
-"Fixed end",
-"No reflection",
-"Longitudinal wave"
-],
-answer:"Fixed end",
-explanation:"Fixed boundary causes inversion."
-}
-
-/* =========================
-REFRACTION
-========================= */
-
-,
-{
-topic:"waves",
-image:"6-refraction-of-waves",
-criterion:"A",
-level:"medium",
-question:"Refraction occurs when:",
-options:[
-"A wave changes direction due to change in speed",
-"A wave reflects back",
-"A wave stops moving",
-"A wave disappears"
-],
-answer:"A wave changes direction due to change in speed",
-explanation:"Refraction is caused by a change in wave speed."
+topic: "waves",
+image: "3-transverse-vs-longitudinal-wave",
+criterion: "A",
+level: "easy",
+question: "Transverse waves have particle motion:",
+options: ["Parallel", "Perpendicular", "Circular", "Random"],
+answer: "Perpendicular",
+explanation: "Motion is perpendicular to wave direction."
 },
-
 {
-topic:"waves",
-image:"6-refraction-of-waves",
-criterion:"C",
-level:"hard",
-question:"During refraction, which property remains constant?",
-options:[
-"Speed",
-"Wavelength",
-"Frequency",
-"Direction"
-],
-answer:"Frequency",
-explanation:"Frequency does not change when entering a new medium."
+topic: "waves",
+image: "3-transverse-vs-longitudinal-wave",
+criterion: "A",
+level: "easy",
+question: "Longitudinal waves show:",
+options: ["Crests", "Troughs", "Compression and rarefaction", "Nodes"],
+answer: "Compression and rarefaction",
+explanation: "They consist of compressions and rarefactions."
 },
-
 {
-topic:"waves",
-image:"6-refraction-of-waves",
-criterion:"D",
-level:"medium",
-question:"Why does light bend towards the normal when entering glass from air?",
-options:[
-"Speed increases",
-"Speed decreases",
-"Frequency increases",
-"Energy increases"
-],
-answer:"Speed decreases",
-explanation:"Light slows down in denser medium causing bending towards normal."
+topic: "waves",
+image: "3-transverse-vs-longitudinal-wave",
+criterion: "B",
+level: "medium",
+question: "If particles move up-down while wave moves forward:",
+options: ["Longitudinal", "Stationary", "Transverse", "Circular"],
+answer: "Transverse",
+explanation: "Perpendicular motion → transverse wave."
 },
-
-/* =========================
-DIFFRACTION
-========================= */
-
 {
-topic:"waves",
-image:"7-diffraction-of-waves",
-criterion:"A",
-level:"medium",
-question:"Diffraction is:",
-options:[
-"Reflection of waves",
-"Spreading of waves",
-"Absorption of waves",
-"Loss of energy"
-],
-answer:"Spreading of waves",
-explanation:"Diffraction is spreading when waves pass through gaps."
+topic: "waves",
+image: "3-transverse-vs-longitudinal-wave",
+criterion: "A",
+level: "easy",
+question: "Sound waves are:",
+options: ["Transverse", "Longitudinal", "EM waves", "Standing waves"],
+answer: "Longitudinal",
+explanation: "Sound travels as longitudinal waves."
 },
-
 {
-topic:"waves",
-image:"7-diffraction-of-waves",
-criterion:"C",
-level:"hard",
-question:"Diffraction is most significant when:",
-options:[
-"Wavelength << gap",
-"Wavelength ≈ gap",
-"Gap is very large",
-"No gap present"
-],
-answer:"Wavelength ≈ gap",
-explanation:"Maximum diffraction occurs when wavelength is comparable to gap."
+topic: "waves",
+image: "3-transverse-vs-longitudinal-wave",
+criterion: "A",
+level: "easy",
+question: "Light waves are:",
+options: ["Longitudinal", "Mechanical", "Transverse", "Stationary"],
+answer: "Transverse",
+explanation: "Light is a transverse EM wave."
 },
-
 {
-topic:"waves",
-image:"7-diffraction-of-waves",
-criterion:"D",
-level:"medium",
-question:"Why can sound be heard around corners but light cannot?",
-options:[
-"Sound has higher energy",
-"Sound has longer wavelength",
-"Light travels slower",
-"Light has zero frequency"
-],
-answer:"Sound has longer wavelength",
-explanation:"Longer wavelength causes more diffraction."
+topic: "waves",
+image: "3-transverse-vs-longitudinal-wave",
+criterion: "B",
+level: "medium",
+question: "Which can travel in vacuum?",
+options: ["Sound", "Water waves", "String waves", "Light"],
+answer: "Light",
+explanation: "Only electromagnetic waves travel in vacuum."
 },
-
-/* =========================
-TOTAL INTERNAL REFLECTION
-========================= */
-
 {
-topic:"waves",
-image:"8-total-internal-reflection",
-criterion:"A",
-level:"medium",
-question:"Total internal reflection occurs when:",
-options:[
-"Light travels from dense to rare medium and angle > critical angle",
-"Light travels from rare to dense medium",
-"Light is absorbed",
-"Angle is zero"
-],
-answer:"Light travels from dense to rare medium and angle > critical angle",
-explanation:"TIR requires angle greater than critical angle."
+topic: "waves",
+image: "3-transverse-vs-longitudinal-wave",
+criterion: "C",
+level: "medium",
+question: "Crests and troughs belong to:",
+options: ["Longitudinal waves", "Transverse waves", "Both", "None"],
+answer: "Transverse waves",
+explanation: "These are features of transverse waves."
 },
-
 {
-topic:"waves",
-image:"8-total-internal-reflection",
-criterion:"C",
-level:"hard",
-question:"At the critical angle, the refracted ray:",
-options:[
-"Reflects back",
-"Travels along boundary",
-"Stops",
-"Changes frequency"
-],
-answer:"Travels along boundary",
-explanation:"This defines the critical angle."
+topic: "waves",
+image: "3-transverse-vs-longitudinal-wave",
+criterion: "C",
+level: "medium",
+question: "Compression means:",
+options: ["Particles spread out", "Particles disappear", "Particles crowd together", "Particles stop"],
+answer: "Particles crowd together",
+explanation: "Compression = high-density region."
 },
-
 {
-topic:"waves",
-image:"8-total-internal-reflection",
-criterion:"D",
-level:"medium",
-question:"Why is optical fiber useful in communication?",
-options:[
-"Uses reflection",
-"Uses diffraction",
-"Uses total internal reflection",
-"Uses absorption"
-],
-answer:"Uses total internal reflection",
-explanation:"TIR keeps light inside fiber."
+topic: "waves",
+image: "3-transverse-vs-longitudinal-wave",
+criterion: "B",
+level: "medium",
+question: "Seismic P-waves are:",
+options: ["Transverse", "Longitudinal", "EM", "Standing"],
+answer: "Longitudinal",
+explanation: "P-waves are longitudinal waves."
 },
-
-/* =========================
-SUPERPOSITION
-========================= */
-
 {
-topic:"waves",
-image:"9-superposition-of-waves",
-criterion:"A",
-level:"medium",
-question:"Superposition principle states:",
-options:[
-"Energy is lost",
-"Displacements add",
-"Waves cancel permanently",
-"Waves stop"
-],
-answer:"Displacements add",
-explanation:"Waves combine algebraically."
+topic: "waves",
+image: "3-transverse-vs-longitudinal-wave",
+criterion: "D",
+level: "hard",
+question: "Wave type is determined by:",
+options: ["Shape", "Speed", "Medium", "Particle motion"],
+answer: "Particle motion",
+explanation: "Motion of particles defines wave type."
 },
-
 {
-topic:"waves",
-image:"9-superposition-of-waves",
-criterion:"C",
-level:"hard",
-question:"Constructive interference occurs when:",
-options:[
-"Crest meets trough",
-"Crest meets crest",
-"Trough meets crest",
-"No overlap"
-],
-answer:"Crest meets crest",
-explanation:"Amplitudes add to give larger wave."
+topic: "waves",
+image: "4-basic-properties-of-waves",
+criterion: "A",
+level: "easy",
+question: "Amplitude is defined as:",
+options: ["Distance between crests", "Maximum displacement from equilibrium", "Speed of wave", "Number of cycles"],
+answer: "Maximum displacement from equilibrium",
+explanation: "Amplitude is the maximum displacement from the equilibrium position."
 },
-
 {
-topic:"waves",
-image:"9-superposition-of-waves",
-criterion:"D",
-level:"medium",
-question:"Why do noise-cancelling headphones work?",
-options:[
-"Increase sound",
-"Use constructive interference",
-"Use destructive interference",
-"Absorb energy"
-],
-answer:"Use destructive interference",
-explanation:"They cancel sound waves."
+topic: "waves",
+image: "4-basic-properties-of-waves",
+criterion: "A",
+level: "easy",
+question: "Wavelength is:",
+options: ["Distance between two identical points", "Time for one cycle", "Speed of wave", "Energy of wave"],
+answer: "Distance between two identical points",
+explanation: "It is the distance between two successive crests or troughs."
 },
-
-/* =========================
-STANDING WAVES
-========================= */
-
 {
-topic:"waves",
-image:"10-standing-waves",
-criterion:"A",
-level:"medium",
-question:"Standing waves are formed by:",
-options:[
-"Single wave",
-"Two waves moving in opposite directions",
-"Refraction",
-"Diffraction"
-],
-answer:"Two waves moving in opposite directions",
-explanation:"Interference of opposite waves."
+topic: "waves",
+image: "4-basic-properties-of-waves",
+criterion: "A",
+level: "easy",
+question: "Frequency measures:",
+options: ["Energy", "Distance", "Number of cycles per second", "Time taken"],
+answer: "Number of cycles per second",
+explanation: "Frequency is measured in Hz (cycles per second)."
 },
-
 {
-topic:"waves",
-image:"10-standing-waves",
-criterion:"C",
-level:"hard",
-question:"Nodes are points of:",
-options:[
-"Maximum displacement",
-"Zero displacement",
-"Maximum speed",
-"Maximum energy"
-],
-answer:"Zero displacement",
-explanation:"Nodes do not move."
+topic: "waves",
+image: "4-basic-properties-of-waves",
+criterion: "A",
+level: "easy",
+question: "Period is:",
+options: ["Time for one wave", "Distance between waves", "Speed", "Height of wave"],
+answer: "Time for one wave",
+explanation: "Period is time taken for one complete oscillation."
 },
-
 {
-topic:"waves",
-image:"10-standing-waves",
-criterion:"D",
-level:"medium",
-question:"Why do musical instruments use standing waves?",
-options:[
-"To stop sound",
-"To produce specific frequencies",
-"To absorb waves",
-"To reduce energy"
-],
-answer:"To produce specific frequencies",
-explanation:"Standing waves define pitch."
-}
-
-/* =========================
-SOUND WAVES
-========================= */
-
-,
-{
-topic:"waves",
-image:"11-sound-waves",
-criterion:"A",
-level:"medium",
-question:"Sound waves are:",
-options:[
-"Transverse",
-"Longitudinal",
-"Electromagnetic",
-"Standing"
-],
-answer:"Longitudinal",
-explanation:"Sound waves travel as compressions and rarefactions."
+topic: "waves",
+image: "4-basic-properties-of-waves",
+criterion: "B",
+level: "medium",
+question: "If frequency increases, wavelength:",
+options: ["Increases", "Decreases", "Remains same", "Becomes zero"],
+answer: "Decreases",
+explanation: "For constant speed, wavelength decreases as frequency increases."
 },
-
 {
-topic:"waves",
-image:"11-sound-waves",
-criterion:"C",
-level:"hard",
-question:"Which region represents high pressure in a sound wave?",
-options:[
-"Rarefaction",
-"Compression",
-"Node",
-"Crest"
-],
-answer:"Compression",
-explanation:"Compression = high pressure region."
+topic: "waves",
+image: "4-basic-properties-of-waves",
+criterion: "B",
+level: "medium",
+question: "Greater amplitude means:",
+options: ["Less energy", "No energy", "More energy", "Constant energy"],
+answer: "More energy",
+explanation: "Energy carried by a wave is proportional to amplitude."
 },
-
 {
-topic:"waves",
-image:"11-sound-waves",
-criterion:"D",
-level:"medium",
-question:"Why cannot sound travel in space?",
-options:[
-"Low energy",
-"No medium",
-"Zero frequency",
-"Too fast"
-],
-answer:"No medium",
-explanation:"Sound requires particles to travel."
+topic: "waves",
+image: "4-basic-properties-of-waves",
+criterion: "B",
+level: "medium",
+question: "Wave speed is given by:",
+options: ["v = fλ", "v = at", "v = IR", "v = pV"],
+answer: "v = fλ",
+explanation: "Speed = frequency × wavelength."
 },
-
-/* =========================
-SPEED OF SOUND
-========================= */
-
 {
-topic:"waves",
-image:"12-speed-of-sound",
-criterion:"A",
-level:"medium",
-question:"Sound travels fastest in:",
-options:[
-"Gases",
-"Liquids",
-"Solids",
-"Vacuum"
-],
-answer:"Solids",
-explanation:"Particles are closely packed."
+topic: "waves",
+image: "4-basic-properties-of-waves",
+criterion: "C",
+level: "medium",
+question: "A trough is:",
+options: ["Highest point", "Lowest point", "Middle point", "Starting point"],
+answer: "Lowest point",
+explanation: "Trough is the lowest point of a wave."
 },
-
 {
-topic:"waves",
-image:"12-speed-of-sound",
-criterion:"C",
-level:"hard",
-question:"If temperature increases, speed of sound:",
-options:[
-"Decreases",
-"Increases",
-"Remains same",
-"Becomes zero"
-],
-answer:"Increases",
-explanation:"Higher temperature → higher kinetic energy."
+topic: "waves",
+image: "4-basic-properties-of-waves",
+criterion: "B",
+level: "medium",
+question: "High frequency sound is:",
+options: ["Low pitch", "Medium pitch", "No pitch", "High pitch"],
+answer: "High pitch",
+explanation: "Higher frequency corresponds to higher pitch."
 },
-
 {
-topic:"waves",
-image:"12-speed-of-sound",
-criterion:"D",
-level:"medium",
-question:"Why does sound travel slower in air than in steel?",
-options:[
-"Steel has more energy",
-"Particles in steel are closer",
-"Air has no particles",
-"Steel absorbs sound"
-],
-answer:"Particles in steel are closer",
-explanation:"Closer particles → faster transmission."
+topic: "waves",
+image: "4-basic-properties-of-waves",
+criterion: "D",
+level: "hard",
+question: "If wavelength doubles and speed is constant, frequency:",
+options: ["Doubles", "Halves", "Remains same", "Becomes zero"],
+answer: "Halves",
+explanation: "Since v = fλ, increasing λ decreases f."
 },
-
-/* =========================
-ELECTROMAGNETIC WAVES
-========================= */
-
 {
-topic:"waves",
-image:"14-electromagnetic-waves",
-criterion:"A",
-level:"medium",
-question:"Electromagnetic waves are:",
-options:[
-"Mechanical",
-"Transverse",
-"Longitudinal",
-"Stationary"
-],
-answer:"Transverse",
-explanation:"EM waves are transverse."
+topic: "waves",
+image: "5-wave-equation",
+criterion: "A",
+level: "easy",
+question: "The wave equation is:",
+options: ["v = fλ", "v = at", "v = IR", "v = mc²"],
+answer: "v = fλ",
+explanation: "Wave speed = frequency × wavelength."
 },
-
 {
-topic:"waves",
-image:"14-electromagnetic-waves",
-criterion:"C",
-level:"hard",
-question:"Which property is same for all EM waves in vacuum?",
-options:[
-"Wavelength",
-"Frequency",
-"Speed",
-"Energy"
-],
-answer:"Speed",
-explanation:"All EM waves travel at same speed in vacuum."
+topic: "waves",
+image: "5-wave-equation",
+criterion: "A",
+level: "easy",
+question: "Frequency is:",
+options: ["Time per cycle", "Cycles per second", "Distance per cycle", "Energy"],
+answer: "Cycles per second",
+explanation: "Frequency is number of waves per second."
 },
-
 {
-topic:"waves",
-image:"14-electromagnetic-waves",
-criterion:"D",
-level:"medium",
-question:"Why are EM waves useful in communication?",
-options:[
-"They need medium",
-"They travel in vacuum",
-"They are slow",
-"They lose energy quickly"
-],
-answer:"They travel in vacuum",
-explanation:"Can travel through space."
+topic: "waves",
+image: "5-wave-equation",
+criterion: "A",
+level: "easy",
+question: "Wavelength is measured in:",
+options: ["Hz", "m", "s", "N"],
+answer: "m",
+explanation: "Wavelength is a distance → meters."
 },
-
-/* =========================
-APPLICATION & REAL WORLD
-========================= */
-
 {
-topic:"waves",
-image:"19-light-and-communication",
-criterion:"B",
-level:"medium",
-question:"Which investigation would best test wave speed?",
-options:[
-"Measure time and distance",
-"Measure mass",
-"Measure color",
-"Measure temperature only"
-],
-answer:"Measure time and distance",
-explanation:"Speed = distance/time."
+topic: "waves",
+image: "5-wave-equation",
+criterion: "B",
+level: "medium",
+question: "For constant wavelength, increasing frequency:",
+options: ["Decreases speed", "Keeps speed same", "Increases speed", "Stops wave"],
+answer: "Increases speed",
+explanation: "v ∝ f when λ is constant."
 },
-
 {
-topic:"waves",
-image:"19-light-and-communication",
-criterion:"C",
-level:"hard",
-question:"A graph shows wave speed constant but frequency increases. What happens?",
-options:[
-"Wavelength increases",
-"Wavelength decreases",
-"Speed increases",
-"Energy zero"
-],
-answer:"Wavelength decreases",
-explanation:"v = fλ."
+topic: "waves",
+image: "5-wave-equation",
+criterion: "B",
+level: "medium",
+question: "For constant frequency, increasing wavelength:",
+options: ["Decreases speed", "Increases speed", "No change", "Stops wave"],
+answer: "Increases speed",
+explanation: "v ∝ λ when frequency is constant."
 },
-
 {
-topic:"waves",
-image:"19-light-and-communication",
-criterion:"D",
-level:"medium",
-question:"Why are waves important in communication?",
-options:[
-"They carry energy and information",
-"They stop signals",
-"They absorb data",
-"They reduce speed"
-],
-answer:"They carry energy and information",
-explanation:"Waves transmit signals."
+topic: "waves",
+image: "5-wave-equation",
+criterion: "B",
+level: "medium",
+question: "If wavelength increases, frequency:",
+options: ["Increases", "Decreases", "Same", "Zero"],
+answer: "Decreases",
+explanation: "f ∝ 1/λ when speed is constant."
 },
-
-/* =========================
-FINAL FALLBACK (VERY IMPORTANT)
-========================= */
-
 {
-topic:"waves",
-image:"default",
-criterion:"A",
-level:"easy",
-question:"Unit of frequency is:",
-options:[
-"Hertz",
-"Meter",
-"Newton",
-"Joule"
-],
-answer:"Hertz",
-explanation:"Standard SI unit."
+topic: "waves",
+image: "5-wave-equation",
+criterion: "C",
+level: "medium",
+question: "Wave speed depends on:",
+options: ["Amplitude", "Frequency", "Medium", "Time"],
+answer: "Medium",
+explanation: "Different media change wave speed."
 },
-
 {
-topic:"waves",
-image:"default",
-criterion:"C",
-level:"medium",
-question:"Wave speed depends on:",
-options:[
-"Medium",
-"Color",
-"Time",
-"Shape"
-],
-answer:"Medium",
-explanation:"Medium determines speed."
+topic: "waves",
+image: "5-wave-equation",
+criterion: "B",
+level: "medium",
+question: "Sound travels faster in:",
+options: ["Air", "Vacuum", "Steel", "Water"],
+answer: "Steel",
+explanation: "Sound travels fastest in solids."
 },
-
 {
-topic:"waves",
-image:"default",
-criterion:"D",
-level:"medium",
-question:"Why are waves useful?",
-options:[
-"They transfer energy",
-"They destroy matter",
-"They reduce motion",
-"They stop energy"
-],
-answer:"They transfer energy",
-explanation:"Core property of waves."
+topic: "waves",
+image: "5-wave-equation",
+criterion: "A",
+level: "easy",
+question: "Speed of light is approximately:",
+options: ["3 × 10⁶ m/s", "3 × 10⁸ m/s", "3 × 10⁴ m/s", "3 × 10² m/s"],
+answer: "3 × 10⁸ m/s",
+explanation: "EM waves travel at 3 × 10⁸ m/s in vacuum."
 },
+{
+topic: "waves",
+image: "5-wave-equation",
+criterion: "D",
+level: "hard",
+question: "If frequency doubles and wavelength halves, speed:",
+options: ["Doubles", "Halves", "Same", "Zero"],
+answer: "Same",
+explanation: "v = fλ → (2f)(λ/2) = fλ → unchanged."
+},
+{
+topic: "waves",
+image: "6-reflection-of-waves",
+criterion: "A",
+level: "easy",
+question: "Reflection occurs when a wave:",
+options: ["Stops", "Changes medium", "Bounces back", "Disappears"],
+answer: "Bounces back",
+explanation: "Reflection is the bouncing back of a wave when it hits a boundary."
+},
+{
+topic: "waves",
+image: "6-reflection-of-waves",
+criterion: "A",
+level: "easy",
+question: "The law of reflection states:",
+options: ["θi > θr", "θi = θr", "θi < θr", "θi = 0"],
+answer: "θi = θr",
+explanation: "Angle of incidence equals angle of reflection."
+},
+{
+topic: "waves",
+image: "6-reflection-of-waves",
+criterion: "B",
+level: "medium",
+question: "If angle of incidence is 30°, angle of reflection is:",
+options: ["60°", "45°", "30°", "15°"],
+answer: "30°",
+explanation: "By law of reflection, θi = θr."
+},
+{
+topic: "waves",
+image: "6-reflection-of-waves",
+criterion: "B",
+level: "medium",
+question: "During reflection, the wave:",
+options: ["Changes medium", "Remains in same medium", "Disappears", "Gains mass"],
+answer: "Remains in same medium",
+explanation: "Reflection occurs in the same medium."
+},
+{
+topic: "waves",
+image: "6-reflection-of-waves",
+criterion: "C",
+level: "medium",
+question: "At a fixed end, reflected wave is:",
+options: ["Upright", "Inverted", "Faster", "Slower"],
+answer: "Inverted",
+explanation: "Reflection at a fixed end produces inversion."
+},
+{
+topic: "waves",
+image: "6-reflection-of-waves",
+criterion: "C",
+level: "medium",
+question: "At a free end, reflected wave is:",
+options: ["Inverted", "Absorbed", "Upright", "Stopped"],
+answer: "Upright",
+explanation: "No inversion occurs at a free boundary."
+},
+{
+topic: "waves",
+image: "6-reflection-of-waves",
+criterion: "A",
+level: "easy",
+question: "Smooth surfaces produce:",
+options: ["Diffuse reflection", "No reflection", "Absorption", "Specular reflection"],
+answer: "Specular reflection",
+explanation: "Smooth surfaces give regular (specular) reflection."
+},
+{
+topic: "waves",
+image: "6-reflection-of-waves",
+criterion: "A",
+level: "easy",
+question: "Rough surfaces produce:",
+options: ["Specular reflection", "Diffuse reflection", "No reflection", "Total reflection"],
+answer: "Diffuse reflection",
+explanation: "Rough surfaces scatter waves in many directions."
+},
+{
+topic: "waves",
+image: "6-reflection-of-waves",
+criterion: "B",
+level: "medium",
+question: "Echo is an example of:",
+options: ["Refraction", "Diffraction", "Reflection", "Interference"],
+answer: "Reflection",
+explanation: "Sound waves reflect and return as echoes."
+},
+{
+topic: "waves",
+image: "6-reflection-of-waves",
+criterion: "D",
+level: "hard",
+question: "A sound wave hits a wall perpendicular to it. The angle of reflection is:",
+options: ["90°", "0°", "45°", "180°"],
+answer: "0°",
+explanation: "Perpendicular incidence → θi = 0°, so θr = 0°."
+},
+{
+topic: "waves",
+image: "6-reflection-of-waves",
+criterion: "B",
+level: "medium",
+question: "RADAR works using:",
+options: ["Absorption", "Refraction", "Reflection", "Diffusion"],
+answer: "Reflection",
+explanation: "Radio waves reflect from objects to detect them."
+},
+{
+topic: "waves",
+image: "6-reflection-of-waves",
+criterion: "D",
+level: "hard",
+question: "Why does a mirror form clear images?",
+options: ["Absorption", "Diffuse reflection", "Refraction", "Specular reflection"],
+answer: "Specular reflection",
+explanation: "Smooth surface → ordered reflection → clear image."
+},  
+{
+topic: "waves",
+image: "7-diffraction-of-waves",
+criterion: "A",
+level: "easy",
+question: "Diffraction is the bending of waves when they:",
+options: ["Speed up", "Hit a boundary or pass through an opening", "Change frequency", "Stop moving"],
+answer: "Hit a boundary or pass through an opening",
+explanation: "Diffraction occurs when waves encounter obstacles or pass through gaps, causing them to spread."
+},
+{
+topic: "waves",
+image: "7-diffraction-of-waves",
+criterion: "A",
+level: "easy",
+question: "Diffraction is most significant when:",
+options: ["Wavelength is very small", "Gap size is very large", "Gap size is comparable to wavelength", "Wave speed is high"],
+answer: "Gap size is comparable to wavelength",
+explanation: "Maximum diffraction occurs when opening size ≈ wavelength."
+},
+{
+topic: "waves",
+image: "7-diffraction-of-waves",
+criterion: "B",
+level: "medium",
+question: "Which wave diffracts more?",
+options: ["Short wavelength", "Long wavelength", "High frequency", "Low amplitude"],
+answer: "Long wavelength",
+explanation: "Longer wavelengths spread more around obstacles."
+},
+{
+topic: "waves",
+image: "7-diffraction-of-waves",
+criterion: "B",
+level: "medium",
+question: "Why can you hear sound around a corner?",
+options: ["Reflection", "Refraction", "Diffraction", "Absorption"],
+answer: "Diffraction",
+explanation: "Sound waves bend around obstacles due to diffraction."
+},
+{
+topic: "waves",
+image: "7-diffraction-of-waves",
+criterion: "C",
+level: "medium",
+question: "Light shows noticeable diffraction only when:",
+options: ["Intensity is high", "Gap is very large", "Gap is comparable to wavelength", "Speed changes"],
+answer: "Gap is comparable to wavelength",
+explanation: "Light has small wavelength, so diffraction is seen only in very small openings."
+},
+{
+topic: "waves",
+image: "7-diffraction-of-waves",
+criterion: "B",
+level: "medium",
+question: "If gap size increases, diffraction:",
+options: ["Increases", "Decreases", "Remains same", "Becomes zero"],
+answer: "Decreases",
+explanation: "Larger gaps → less spreading."
+},
+{
+topic: "waves",
+image: "7-diffraction-of-waves",
+criterion: "A",
+level: "easy",
+question: "After passing through a gap, wavefronts become:",
+options: ["Straight", "Circular", "Square", "Random"],
+answer: "Circular",
+explanation: "Diffraction produces circular wavefronts."
+},
+{
+topic: "waves",
+image: "7-diffraction-of-waves",
+criterion: "B",
+level: "medium",
+question: "Wi-Fi signals reach behind walls due to:",
+options: ["Reflection", "Refraction", "Diffraction", "Interference"],
+answer: "Diffraction",
+explanation: "Radio waves diffract around obstacles."
+},
+{
+topic: "waves",
+image: "7-diffraction-of-waves",
+criterion: "C",
+level: "medium",
+question: "Diffraction depends on:",
+options: ["Only frequency", "Only amplitude", "Wavelength and gap size", "Only speed"],
+answer: "Wavelength and gap size",
+explanation: "Both wavelength and opening size determine diffraction."
+},
+{
+topic: "waves",
+image: "7-diffraction-of-waves",
+criterion: "D",
+level: "hard",
+question: "If wavelength doubles and gap remains same, diffraction:",
+options: ["Decreases", "Increases", "Stays same", "Stops"],
+answer: "Increases",
+explanation: "Larger wavelength → more spreading → more diffraction."
+},
+{
+topic: "waves",
+image: "8-total-internal-reflection",
+criterion: "A",
+level: "easy",
+question: "Total internal reflection occurs when light:",
+options: ["Moves from rare to dense medium", "Moves from dense to rare medium", "Stops completely", "Speeds up infinitely"],
+answer: "Moves from dense to rare medium",
+explanation: "TIR occurs when light travels from denser to rarer medium."
+},
+{
+topic: "waves",
+image: "8-total-internal-reflection",
+criterion: "A",
+level: "easy",
+question: "Critical angle is when refracted ray:",
+options: ["Stops", "Reflects back", "Travels along boundary", "Disappears"],
+answer: "Travels along boundary",
+explanation: "At critical angle, angle of refraction = 90°."
+},
+{
+topic: "waves",
+image: "8-total-internal-reflection",
+criterion: "B",
+level: "medium",
+question: "TIR occurs when angle of incidence is:",
+options: ["Less than critical angle", "Equal to 0", "Greater than critical angle", "Equal to 90°"],
+answer: "Greater than critical angle",
+explanation: "Only when θi > θc does total internal reflection occur."
+},
+{
+topic: "waves",
+image: "8-total-internal-reflection",
+criterion: "B",
+level: "medium",
+question: "Critical angle depends on:",
+options: ["Speed only", "Refractive indices", "Frequency only", "Amplitude"],
+answer: "Refractive indices",
+explanation: "sin θc = n₂ / n₁ → depends on refractive indices."
+},
+{
+topic: "waves",
+image: "8-total-internal-reflection",
+criterion: "A",
+level: "easy",
+question: "Optical fibers work on:",
+options: ["Refraction", "Diffraction", "TIR", "Interference"],
+answer: "TIR",
+explanation: "Light reflects internally within fiber repeatedly."
+},
+{
+topic: "waves",
+image: "8-total-internal-reflection",
+criterion: "C",
+level: "medium",
+question: "In TIR, energy:",
+options: ["Is lost", "Is absorbed", "Is fully reflected", "Is converted"],
+answer: "Is fully reflected",
+explanation: "All energy is reflected back into the medium."
+},
+{
+topic: "waves",
+image: "8-total-internal-reflection",
+criterion: "B",
+level: "medium",
+question: "If n₁ increases, critical angle:",
+options: ["Increases", "Decreases", "Stays same", "Becomes zero"],
+answer: "Decreases",
+explanation: "Higher refractive index → smaller critical angle."
+},
+{
+topic: "waves",
+image: "8-total-internal-reflection",
+criterion: "B",
+level: "medium",
+question: "Diamonds sparkle due to:",
+options: ["Diffraction", "Refraction only", "Total internal reflection", "Absorption"],
+answer: "Total internal reflection",
+explanation: "Multiple TIR inside diamond enhances brilliance."
+},
+{
+topic: "waves",
+image: "8-total-internal-reflection",
+criterion: "C",
+level: "medium",
+question: "Why no refraction occurs during TIR?",
+options: ["Angle too small", "Medium disappears", "Angle exceeds critical angle", "Frequency changes"],
+answer: "Angle exceeds critical angle",
+explanation: "At θi > θc, refraction is not possible → full reflection."
+},
+{
+topic: "waves",
+image: "8-total-internal-reflection",
+criterion: "D",
+level: "hard",
+question: "If light goes from air to glass, TIR:",
+options: ["Always occurs", "Never occurs", "Sometimes occurs", "Depends on wavelength"],
+answer: "Never occurs",
+explanation: "TIR requires dense → rare transition, not air → glass."
+},
+{
+topic: "waves",
+image: "9-superposition-of-waves",
+criterion: "A",
+level: "easy",
+question: "The principle of superposition states that:",
+options: ["Waves cancel permanently", "Waves combine algebraically", "Waves stop on meeting", "Waves change speed"],
+answer: "Waves combine algebraically",
+explanation: "Superposition means the net displacement is the algebraic sum of individual displacements."
+},
+{
+topic: "waves",
+image: "9-superposition-of-waves",
+criterion: "A",
+level: "easy",
+question: "Constructive interference occurs when waves:",
+options: ["Are out of phase", "Have different speeds", "Are in phase", "Cancel completely"],
+answer: "Are in phase",
+explanation: "In-phase waves add up to produce a larger amplitude."
+},
+{
+topic: "waves",
+image: "9-superposition-of-waves",
+criterion: "A",
+level: "easy",
+question: "Destructive interference results in:",
+options: ["Larger amplitude", "No change", "Zero or reduced amplitude", "Increased frequency"],
+answer: "Zero or reduced amplitude",
+explanation: "Out-of-phase waves cancel partially or completely."
+},
+{
+topic: "waves",
+image: "9-superposition-of-waves",
+criterion: "B",
+level: "medium",
+question: "Complete destructive interference occurs when phase difference is:",
+options: ["0", "π", "2π", "π/2"],
+answer: "π",
+explanation: "Phase difference of π (180°) causes complete cancellation."
+},
+{
+topic: "waves",
+image: "9-superposition-of-waves",
+criterion: "B",
+level: "medium",
+question: "Constructive interference occurs when path difference is:",
+options: ["λ/2", "λ/4", "λ", "3λ/2"],
+answer: "λ",
+explanation: "Constructive interference occurs at nλ (0, λ, 2λ...)."
+},
+{
+topic: "waves",
+image: "9-superposition-of-waves",
+criterion: "B",
+level: "medium",
+question: "Noise-cancelling headphones work using:",
+options: ["Reflection", "Diffraction", "Destructive interference", "Refraction"],
+answer: "Destructive interference",
+explanation: "They produce waves out of phase to cancel sound."
+},
+{
+topic: "waves",
+image: "9-superposition-of-waves",
+criterion: "C",
+level: "medium",
+question: "Bright fringes in interference correspond to:",
+options: ["Destructive interference", "No waves", "Constructive interference", "Random motion"],
+answer: "Constructive interference",
+explanation: "Bright fringes form where waves reinforce each other."
+},
+{
+topic: "waves",
+image: "9-superposition-of-waves",
+criterion: "B",
+level: "medium",
+question: "After overlapping, waves:",
+options: ["Disappear", "Continue unchanged", "Stop", "Merge permanently"],
+answer: "Continue unchanged",
+explanation: "Waves pass through each other and continue as before."
+},
+{
+topic: "waves",
+image: "9-superposition-of-waves",
+criterion: "C",
+level: "medium",
+question: "Partial destructive interference occurs when path difference is:",
+options: ["λ", "λ/2", "λ/4", "2λ"],
+answer: "λ/4",
+explanation: "λ/4 gives partial cancellation."
+},
+{
+topic: "waves",
+image: "9-superposition-of-waves",
+criterion: "D",
+level: "hard",
+question: "If two identical waves meet exactly out of phase, the resultant amplitude is:",
+options: ["Double", "Same", "Zero", "Half"],
+answer: "Zero",
+explanation: "Equal and opposite displacements cancel → zero amplitude."
+},
+{
+topic: "waves",
+image: "10-standing-waves",
+criterion: "A",
+level: "easy",
+question: "Standing waves are formed by:",
+options: ["One wave", "Two waves travelling in opposite directions", "Two waves of different frequency", "Random vibrations"],
+answer: "Two waves travelling in opposite directions",
+explanation: "Standing waves form due to interference of two identical opposite waves."
+},
+{
+topic: "waves",
+image: "10-standing-waves",
+criterion: "A",
+level: "easy",
+question: "A node is a point where:",
+options: ["Amplitude is maximum", "Motion is zero", "Speed is highest", "Energy is lost"],
+answer: "Motion is zero",
+explanation: "Nodes are points of zero displacement."
+},
+{
+topic: "waves",
+image: "10-standing-waves",
+criterion: "A",
+level: "easy",
+question: "An antinode is where:",
+options: ["No motion", "Minimum energy", "Maximum amplitude", "No wave"],
+answer: "Maximum amplitude",
+explanation: "Antinodes have maximum oscillation."
+},
+{
+topic: "waves",
+image: "10-standing-waves",
+criterion: "B",
+level: "medium",
+question: "In the first harmonic, wavelength is:",
+options: ["L", "2L", "L/2", "4L"],
+answer: "2L",
+explanation: "λ₁ = 2L for string fixed at both ends."
+},
+{
+topic: "waves",
+image: "10-standing-waves",
+criterion: "B",
+level: "medium",
+question: "Second harmonic frequency is:",
+options: ["f₁", "2f₁", "3f₁", "f₁/2"],
+answer: "2f₁",
+explanation: "f₂ = 2f₁."
+},
+{
+topic: "waves",
+image: "10-standing-waves",
+criterion: "B",
+level: "medium",
+question: "Wave speed on a string depends on:",
+options: ["Frequency", "Tension and mass per length", "Amplitude", "Wavelength"],
+answer: "Tension and mass per length",
+explanation: "v = √(T/μ)."
+},
+{
+topic: "waves",
+image: "10-standing-waves",
+criterion: "C",
+level: "medium",
+question: "For a string fixed at both ends:",
+options: ["Antinodes at ends", "Nodes at ends", "No nodes", "Only one node"],
+answer: "Nodes at ends",
+explanation: "Fixed ends cannot move → nodes."
+},
+{
+topic: "waves",
+image: "10-standing-waves",
+criterion: "C",
+level: "medium",
+question: "Energy in standing waves:",
+options: ["Is lost", "Is constant but oscillates between KE and PE", "Is zero", "Increases continuously"],
+answer: "Is constant but oscillates between KE and PE",
+explanation: "Energy shifts between kinetic and potential forms."
+},
+{
+topic: "waves",
+image: "10-standing-waves",
+criterion: "B",
+level: "medium",
+question: "Musical instruments produce sound using:",
+options: ["Diffraction", "Standing waves", "Reflection only", "Refraction"],
+answer: "Standing waves",
+explanation: "Strings and air columns form standing waves."
+},
+{
+topic: "waves",
+image: "10-standing-waves",
+criterion: "D",
+level: "hard",
+question: "If string length doubles, fundamental frequency:",
+options: ["Doubles", "Halves", "Remains same", "Becomes zero"],
+answer: "Halves",
+explanation: "f₁ ∝ 1/L → doubling L halves frequency."
+},
+{
+topic: "waves",
+image: "11-sound-waves",
+criterion: "A",
+level: "easy",
+question: "Sound waves are:",
+options: ["Transverse waves", "Longitudinal waves", "Stationary waves", "Electromagnetic waves"],
+answer: "Longitudinal waves",
+explanation: "Sound waves are longitudinal waves where particles oscillate parallel to the direction of wave travel."
+},
+{
+topic: "waves",
+image: "11-sound-waves",
+criterion: "A",
+level: "easy",
+question: "Sound requires a medium because:",
+options: ["It needs gravity", "It needs particles to vibrate", "It needs light", "It needs electricity"],
+answer: "It needs particles to vibrate",
+explanation: "Sound propagates via vibrations of particles in a medium."
+},
+{
+topic: "waves",
+image: "11-sound-waves",
+criterion: "A",
+level: "easy",
+question: "Compression is a region of:",
+options: ["Low pressure", "High pressure", "No pressure", "Constant pressure"],
+answer: "High pressure",
+explanation: "Compression is where particles are close together, resulting in high pressure."
+},
+{
+topic: "waves",
+image: "11-sound-waves",
+criterion: "A",
+level: "easy",
+question: "Rarefaction is a region of:",
+options: ["High pressure", "No pressure", "Low pressure", "Equal pressure"],
+answer: "Low pressure",
+explanation: "Rarefaction occurs where particles are spread apart, leading to low pressure."
+},
+{
+topic: "waves",
+image: "11-sound-waves",
+criterion: "B",
+level: "medium",
+question: "Wavelength in a sound wave is the distance between:",
+options: ["Two compressions", "Two particles", "Two amplitudes", "Two nodes"],
+answer: "Two compressions",
+explanation: "Wavelength is measured between successive compressions (or rarefactions)."
+},
+{
+topic: "waves",
+image: "11-sound-waves",
+criterion: "B",
+level: "medium",
+question: "Frequency determines:",
+options: ["Loudness", "Speed", "Pitch", "Energy"],
+answer: "Pitch",
+explanation: "Higher frequency corresponds to higher pitch."
+},
+{
+topic: "waves",
+image: "11-sound-waves",
+criterion: "B",
+level: "medium",
+question: "Amplitude of a sound wave determines:",
+options: ["Speed", "Loudness", "Wavelength", "Frequency"],
+answer: "Loudness",
+explanation: "Greater amplitude means louder sound."
+},
+{
+topic: "waves",
+image: "11-sound-waves",
+criterion: "B",
+level: "medium",
+question: "Sound travels fastest in:",
+options: ["Gases", "Liquids", "Solids", "Vacuum"],
+answer: "Solids",
+explanation: "Particles are closest in solids, allowing faster transmission of vibrations."
+},
+{
+topic: "waves",
+image: "11-sound-waves",
+criterion: "C",
+level: "medium",
+question: "Ultrasound imaging works because:",
+options: ["Sound reflects from tissues", "Light reflects from tissues", "Heat is produced", "Waves stop"],
+answer: "Sound reflects from tissues",
+explanation: "Ultrasound waves reflect differently from tissues, forming images."
+},
+{
+topic: "waves",
+image: "11-sound-waves",
+criterion: "D",
+level: "hard",
+question: "Why can’t sound travel in vacuum?",
+options: ["No gravity", "No medium particles", "Too much energy", "Too much pressure"],
+answer: "No medium particles",
+explanation: "Sound needs particles to transfer vibrations; vacuum has none."
+},
+{
+topic: "waves",
+image: "12-speed-of-sound",
+criterion: "A",
+level: "easy",
+question: "Speed of sound depends mainly on:",
+options: ["Color", "Medium and temperature", "Frequency", "Amplitude"],
+answer: "Medium and temperature",
+explanation: "Speed depends on properties of medium and temperature."
+},
+{
+topic: "waves",
+image: "12-speed-of-sound",
+criterion: "A",
+level: "easy",
+question: "Sound travels slowest in:",
+options: ["Solids", "Liquids", "Gases", "Metals"],
+answer: "Gases",
+explanation: "Particles are far apart in gases → slower transmission."
+},
+{
+topic: "waves",
+image: "12-speed-of-sound",
+criterion: "B",
+level: "medium",
+question: "As temperature increases, speed of sound:",
+options: ["Decreases", "Remains constant", "Increases", "Becomes zero"],
+answer: "Increases",
+explanation: "Higher temperature → faster particle motion → faster sound."
+},
+{
+topic: "waves",
+image: "12-speed-of-sound",
+criterion: "B",
+level: "medium",
+question: "Speed of sound in gases is proportional to:",
+options: ["T²", "√T", "1/T", "T³"],
+answer: "√T",
+explanation: "v ∝ √T (absolute temperature)."
+},
+{
+topic: "waves",
+image: "12-speed-of-sound",
+criterion: "B",
+level: "medium",
+question: "Higher elasticity leads to:",
+options: ["Lower speed", "Higher speed", "No change", "Zero speed"],
+answer: "Higher speed",
+explanation: "More elastic materials transmit sound faster."
+},
+{
+topic: "waves",
+image: "12-speed-of-sound",
+criterion: "B",
+level: "medium",
+question: "Increasing density (generally) in solids leads to:",
+options: ["Faster sound", "Slower sound", "No change", "Stops sound"],
+answer: "Faster sound",
+explanation: "Closely packed particles transmit vibrations quickly."
+},
+{
+topic: "waves",
+image: "12-speed-of-sound",
+criterion: "C",
+level: "medium",
+question: "Why is thunder heard after lightning?",
+options: ["Light is slower", "Sound is slower", "Air blocks sound", "Light stops"],
+answer: "Sound is slower",
+explanation: "Light travels much faster than sound."
+},
+{
+topic: "waves",
+image: "12-speed-of-sound",
+criterion: "B",
+level: "medium",
+question: "Correct wave relation is:",
+options: ["v = f/λ", "v = fλ", "v = λ/f", "v = f²λ"],
+answer: "v = fλ",
+explanation: "Wave speed equals frequency × wavelength."
+},
+{
+topic: "waves",
+image: "12-speed-of-sound",
+criterion: "D",
+level: "hard",
+question: "If frequency increases but speed remains constant, wavelength:",
+options: ["Increases", "Decreases", "Remains same", "Becomes zero"],
+answer: "Decreases",
+explanation: "From v = fλ, λ decreases when f increases."
+},
+{
+topic: "waves",
+image: "12-speed-of-sound",
+criterion: "D",
+level: "hard",
+question: "Why does sound travel faster in steel than in air?",
+options: ["Steel is lighter", "Steel particles are closer and interact strongly", "Steel has less energy", "Air blocks sound"],
+answer: "Steel particles are closer and interact strongly",
+explanation: "Stronger intermolecular forces and closer spacing allow faster energy transfer."
+},
+{
+topic: "waves",
+image: "13-musical-applications",
+criterion: "A",
+level: "easy",
+question: "Pitch of a sound depends on:",
+options: ["Amplitude", "Frequency", "Speed", "Medium"],
+answer: "Frequency",
+explanation: "Pitch is directly related to frequency. Higher frequency → higher pitch."
+},
+{
+topic: "waves",
+image: "13-musical-applications",
+criterion: "A",
+level: "easy",
+question: "Loudness depends on:",
+options: ["Frequency", "Wavelength", "Amplitude", "Speed"],
+answer: "Amplitude",
+explanation: "Greater amplitude means louder sound."
+},
+{
+topic: "waves",
+image: "13-musical-applications",
+criterion: "A",
+level: "easy",
+question: "Timbre refers to:",
+options: ["Pitch", "Loudness", "Tone quality", "Speed"],
+answer: "Tone quality",
+explanation: "Timbre distinguishes sounds from different instruments even at the same pitch."
+},
+{
+topic: "waves",
+image: "13-musical-applications",
+criterion: "B",
+level: "medium",
+question: "Shorter strings produce:",
+options: ["Lower pitch", "Same pitch", "Higher pitch", "No sound"],
+answer: "Higher pitch",
+explanation: "Shorter strings vibrate faster → higher frequency → higher pitch."
+},
+{
+topic: "waves",
+image: "13-musical-applications",
+criterion: "B",
+level: "medium",
+question: "Increasing the length of an air column:",
+options: ["Increases pitch", "Decreases pitch", "No effect", "Stops sound"],
+answer: "Decreases pitch",
+explanation: "Longer air column → lower frequency → lower pitch."
+},
+{
+topic: "waves",
+image: "13-musical-applications",
+criterion: "B",
+level: "medium",
+question: "Resonance occurs when:",
+options: ["Frequency is zero", "External frequency matches natural frequency", "Sound stops", "Energy disappears"],
+answer: "External frequency matches natural frequency",
+explanation: "Resonance increases amplitude when frequencies match."
+},
+{
+topic: "waves",
+image: "13-musical-applications",
+criterion: "B",
+level: "medium",
+question: "Harmonics are:",
+options: ["Random waves", "Multiples of fundamental frequency", "Noise", "Reflections"],
+answer: "Multiples of fundamental frequency",
+explanation: "Harmonics are integer multiples of the fundamental frequency."
+},
+{
+topic: "waves",
+image: "13-musical-applications",
+criterion: "B",
+level: "medium",
+question: "Percussion instruments produce sound by:",
+options: ["Air vibration only", "String vibration", "Whole body vibration", "Light emission"],
+answer: "Whole body vibration",
+explanation: "The entire instrument vibrates when struck."
+},
+{
+topic: "waves",
+image: "13-musical-applications",
+criterion: "C",
+level: "medium",
+question: "Why do two instruments sound different at the same note?",
+options: ["Same waveform", "Different amplitude", "Different timbre", "Same frequency"],
+answer: "Different timbre",
+explanation: "Different harmonics and waveforms create unique timbre."
+},
+{
+topic: "waves",
+image: "13-musical-applications",
+criterion: "D",
+level: "hard",
+question: "Why is resonance important in musical instruments?",
+options: ["Reduces sound", "Amplifies sound", "Stops vibration", "Changes color"],
+answer: "Amplifies sound",
+explanation: "Resonance increases amplitude, making sound louder and richer."
+},
+{
+topic: "waves",
+image: "14-electromagnetic-waves",
+criterion: "A",
+level: "easy",
+question: "Electromagnetic waves are:",
+options: ["Longitudinal", "Transverse", "Stationary", "Mechanical"],
+answer: "Transverse",
+explanation: "EM waves are transverse waves with perpendicular electric and magnetic fields."
+},
+{
+topic: "waves",
+image: "14-electromagnetic-waves",
+criterion: "A",
+level: "easy",
+question: "EM waves can travel in:",
+options: ["Solids only", "Liquids only", "Vacuum", "Gases only"],
+answer: "Vacuum",
+explanation: "EM waves do not require a medium."
+},
+{
+topic: "waves",
+image: "14-electromagnetic-waves",
+criterion: "A",
+level: "easy",
+question: "Speed of EM waves in vacuum is:",
+options: ["3 × 10⁶ m/s", "3 × 10⁸ m/s", "3 × 10¹⁰ m/s", "300 m/s"],
+answer: "3 × 10⁸ m/s",
+explanation: "All EM waves travel at speed of light in vacuum."
+},
+{
+topic: "waves",
+image: "14-electromagnetic-waves",
+criterion: "B",
+level: "medium",
+question: "Electric and magnetic fields are:",
+options: ["Parallel", "Perpendicular", "Same", "Opposite"],
+answer: "Perpendicular",
+explanation: "E and B fields are perpendicular to each other and direction of propagation."
+},
+{
+topic: "waves",
+image: "14-electromagnetic-waves",
+criterion: "B",
+level: "medium",
+question: "Which has highest frequency?",
+options: ["Radio waves", "Microwaves", "Visible light", "Gamma rays"],
+answer: "Gamma rays",
+explanation: "Gamma rays have highest frequency and energy."
+},
+{
+topic: "waves",
+image: "14-electromagnetic-waves",
+criterion: "B",
+level: "medium",
+question: "Relationship between speed, frequency and wavelength:",
+options: ["c = fλ", "c = f/λ", "c = λ/f", "c = f²λ"],
+answer: "c = fλ",
+explanation: "Speed of light equals frequency × wavelength."
+},
+{
+topic: "waves",
+image: "14-electromagnetic-waves",
+criterion: "C",
+level: "medium",
+question: "EM waves carry:",
+options: ["Mass", "Energy", "Charge", "Matter"],
+answer: "Energy",
+explanation: "They transfer energy without transporting matter."
+},
+{
+topic: "waves",
+image: "14-electromagnetic-waves",
+criterion: "C",
+level: "medium",
+question: "EM waves can:",
+options: ["Only reflect", "Only refract", "Reflect, refract, diffract", "Only absorb"],
+answer: "Reflect, refract, diffract",
+explanation: "EM waves show multiple wave behaviors."
+},
+{
+topic: "waves",
+image: "14-electromagnetic-waves",
+criterion: "D",
+level: "hard",
+question: "If wavelength increases, frequency:",
+options: ["Increases", "Decreases", "Remains same", "Doubles"],
+answer: "Decreases",
+explanation: "Since c = fλ, f is inversely proportional to λ."
+},
+{
+topic: "waves",
+image: "14-electromagnetic-waves",
+criterion: "D",
+level: "hard",
+question: "Why can EM waves travel in space but sound cannot?",
+options: ["EM waves need air", "Sound needs medium", "EM waves are slower", "Sound is faster"],
+answer: "Sound needs medium",
+explanation: "Sound requires particles; EM waves do not."
+},
+{
+topic: "waves",
+image: "15-radio-and-microwaves",
+criterion: "A",
+level: "easy",
+question: "Radio waves are part of:",
+options: ["Sound waves", "Electromagnetic spectrum", "Mechanical waves", "Nuclear radiation"],
+answer: "Electromagnetic spectrum",
+explanation: "Radio waves are electromagnetic waves used for communication."
+},
+{
+topic: "waves",
+image: "15-radio-and-microwaves",
+criterion: "A",
+level: "easy",
+question: "Radio waves have:",
+options: ["Short wavelength", "Medium wavelength", "Long wavelength", "Zero wavelength"],
+answer: "Long wavelength",
+explanation: "Radio waves have the longest wavelengths in the EM spectrum."
+},
+{
+topic: "waves",
+image: "15-radio-and-microwaves",
+criterion: "A",
+level: "easy",
+question: "Microwaves have:",
+options: ["Lower frequency than radio waves", "Higher frequency than radio waves", "Same frequency", "No frequency"],
+answer: "Higher frequency than radio waves",
+explanation: "Microwaves have higher frequency and shorter wavelength than radio waves."
+},
+{
+topic: "waves",
+image: "15-radio-and-microwaves",
+criterion: "B",
+level: "medium",
+question: "Microwaves are used in satellite communication because they:",
+options: ["Travel slowly", "Are easily absorbed", "Travel in straight lines", "Need a medium"],
+answer: "Travel in straight lines",
+explanation: "Microwaves are directional and ideal for line-of-sight communication."
+},
+{
+topic: "waves",
+image: "15-radio-and-microwaves",
+criterion: "B",
+level: "medium",
+question: "In communication systems, modulation is used to:",
+options: ["Stop waves", "Convert information into signals", "Increase mass", "Reduce energy"],
+answer: "Convert information into signals",
+explanation: "Modulation encodes information onto a carrier wave."
+},
+{
+topic: "waves",
+image: "15-radio-and-microwaves",
+criterion: "B",
+level: "medium",
+question: "Satellites act as:",
+options: ["Sources of sound", "Reflectors/repeaters", "Absorbers", "Insulators"],
+answer: "Reflectors/repeaters",
+explanation: "Satellites receive and retransmit signals over long distances."
+},
+{
+topic: "waves",
+image: "15-radio-and-microwaves",
+criterion: "B",
+level: "medium",
+question: "Higher frequency microwaves can:",
+options: ["Carry less data", "Carry more data", "Stop transmission", "Reduce speed"],
+answer: "Carry more data",
+explanation: "Higher frequency allows higher data transfer rates."
+},
+{
+topic: "waves",
+image: "15-radio-and-microwaves",
+criterion: "C",
+level: "medium",
+question: "Why do microwaves require line-of-sight communication?",
+options: ["They bend easily", "They scatter strongly", "They travel straight", "They are slow"],
+answer: "They travel straight",
+explanation: "Microwaves do not diffract much due to shorter wavelength."
+},
+{
+topic: "waves",
+image: "15-radio-and-microwaves",
+criterion: "D",
+level: "hard",
+question: "Why are radio waves used for long-distance communication?",
+options: ["High absorption", "Long wavelength diffraction", "Low energy only", "Short wavelength"],
+answer: "Long wavelength diffraction",
+explanation: "Long wavelengths allow diffraction around obstacles and Earth curvature."
+},
+{
+topic: "waves",
+image: "15-radio-and-microwaves",
+criterion: "D",
+level: "hard",
+question: "Which is best suited for GPS communication?",
+options: ["Sound waves", "Radio waves", "Mechanical waves", "Water waves"],
+answer: "Radio waves",
+explanation: "Radio waves travel through space and are used in GPS systems."
+},
+{
+topic: "waves",
+image: "16-infrared-visible-ultraviolet",
+criterion: "A",
+level: "easy",
+question: "Infrared radiation is mainly associated with:",
+options: ["Vision", "Heat", "Sound", "Pressure"],
+answer: "Heat",
+explanation: "Infrared radiation is emitted by warm objects and felt as heat."
+},
+{
+topic: "waves",
+image: "16-infrared-visible-ultraviolet",
+criterion: "A",
+level: "easy",
+question: "Visible light range is approximately:",
+options: ["10–100 nm", "400–700 nm", "700–1000 nm", "1–10 mm"],
+answer: "400–700 nm",
+explanation: "Human eyes detect wavelengths between 400–700 nm."
+},
+{
+topic: "waves",
+image: "16-infrared-visible-ultraviolet",
+criterion: "A",
+level: "easy",
+question: "Ultraviolet waves have:",
+options: ["Lower energy than visible", "Same energy", "Higher energy than visible", "No energy"],
+answer: "Higher energy than visible",
+explanation: "UV has shorter wavelength → higher energy."
+},
+{
+topic: "waves",
+image: "16-infrared-visible-ultraviolet",
+criterion: "B",
+level: "medium",
+question: "Which has the longest wavelength?",
+options: ["UV", "Visible", "Infrared", "X-rays"],
+answer: "Infrared",
+explanation: "Infrared has longer wavelengths than visible and UV."
+},
+{
+topic: "waves",
+image: "16-infrared-visible-ultraviolet",
+criterion: "B",
+level: "medium",
+question: "As wavelength decreases, energy:",
+options: ["Decreases", "Increases", "Remains same", "Becomes zero"],
+answer: "Increases",
+explanation: "Energy is inversely proportional to wavelength."
+},
+{
+topic: "waves",
+image: "16-infrared-visible-ultraviolet",
+criterion: "B",
+level: "medium",
+question: "Thermal imaging uses:",
+options: ["UV", "Visible light", "Infrared", "Radio waves"],
+answer: "Infrared",
+explanation: "Infrared detects heat radiation."
+},
+{
+topic: "waves",
+image: "16-infrared-visible-ultraviolet",
+criterion: "C",
+level: "medium",
+question: "Why can humans not see infrared?",
+options: ["No energy", "Eyes not sensitive to those wavelengths", "Too fast", "Too loud"],
+answer: "Eyes not sensitive to those wavelengths",
+explanation: "Human eyes are only sensitive to visible range."
+},
+{
+topic: "waves",
+image: "16-infrared-visible-ultraviolet",
+criterion: "C",
+level: "medium",
+question: "Why is UV radiation harmful?",
+options: ["Low energy", "Causes ionization", "No interaction", "Invisible"],
+answer: "Causes ionization",
+explanation: "High energy UV can damage cells and DNA."
+},
+{
+topic: "waves",
+image: "16-infrared-visible-ultraviolet",
+criterion: "D",
+level: "hard",
+question: "Which wave is best for sterilization?",
+options: ["Infrared", "Visible", "Ultraviolet", "Radio"],
+answer: "Ultraviolet",
+explanation: "UV kills bacteria and viruses."
+},
+{
+topic: "waves",
+image: "16-infrared-visible-ultraviolet",
+criterion: "D",
+level: "hard",
+question: "Why is visible light important for life?",
+options: ["Produces heat", "Enables vision and photosynthesis", "Causes radiation", "Stops energy"],
+answer: "Enables vision and photosynthesis",
+explanation: "Visible light supports vision and energy transfer in ecosystems."
+},
+{
+topic: "waves",
+image: "17-x-rays-and-gamma-rays",
+criterion: "A",
+level: "easy",
+question: "X-rays and gamma rays are:",
+options: ["Mechanical waves", "Electromagnetic waves", "Sound waves", "Water waves"],
+answer: "Electromagnetic waves",
+explanation: "Both X-rays and gamma rays are high-energy electromagnetic waves."
+},
+{
+topic: "waves",
+image: "17-x-rays-and-gamma-rays",
+criterion: "A",
+level: "easy",
+question: "Gamma rays have:",
+options: ["Long wavelength", "Medium wavelength", "Shortest wavelength", "No wavelength"],
+answer: "Shortest wavelength",
+explanation: "Gamma rays have the shortest wavelength and highest energy."
+},
+{
+topic: "waves",
+image: "17-x-rays-and-gamma-rays",
+criterion: "A",
+level: "easy",
+question: "Which has higher energy?",
+options: ["X-rays", "Gamma rays", "Visible light", "Infrared"],
+answer: "Gamma rays",
+explanation: "Gamma rays have higher frequency → higher energy than X-rays."
+},
+{
+topic: "waves",
+image: "17-x-rays-and-gamma-rays",
+criterion: "B",
+level: "medium",
+question: "X-rays are useful in medical imaging because they:",
+options: ["Reflect completely", "Penetrate soft tissues", "Cannot pass materials", "Are slow"],
+answer: "Penetrate soft tissues",
+explanation: "X-rays pass through soft tissue but are absorbed by bones."
+},
+{
+topic: "waves",
+image: "17-x-rays-and-gamma-rays",
+criterion: "B",
+level: "medium",
+question: "X-rays are produced when:",
+options: ["Electrons accelerate", "Electrons slow down rapidly", "Protons collide", "Neutrons decay"],
+answer: "Electrons slow down rapidly",
+explanation: "X-rays are produced by deceleration of high-speed electrons."
+},
+{
+topic: "waves",
+image: "17-x-rays-and-gamma-rays",
+criterion: "B",
+level: "medium",
+question: "Gamma rays originate from:",
+options: ["Electron transitions", "Nucleus of atoms", "Surface reflections", "Air particles"],
+answer: "Nucleus of atoms",
+explanation: "Gamma rays are emitted during nuclear transitions."
+},
+{
+topic: "waves",
+image: "17-x-rays-and-gamma-rays",
+criterion: "B",
+level: "medium",
+question: "Which is used in cancer treatment?",
+options: ["Infrared", "Visible light", "Gamma rays", "Radio waves"],
+answer: "Gamma rays",
+explanation: "Gamma rays destroy cancer cells in radiotherapy."
+},
+{
+topic: "waves",
+image: "17-x-rays-and-gamma-rays",
+criterion: "C",
+level: "medium",
+question: "Why are X-rays dangerous in high doses?",
+options: ["Low energy", "Ionization of cells", "No interaction", "Low frequency"],
+answer: "Ionization of cells",
+explanation: "X-rays can ionize atoms, damaging DNA and tissues."
+},
+{
+topic: "waves",
+image: "17-x-rays-and-gamma-rays",
+criterion: "D",
+level: "hard",
+question: "Why is lead used for shielding?",
+options: ["Low density", "High absorption of radiation", "Reflects sound", "Low melting point"],
+answer: "High absorption of radiation",
+explanation: "Lead absorbs high-energy radiation effectively."
+},
+{
+topic: "waves",
+image: "17-x-rays-and-gamma-rays",
+criterion: "D",
+level: "hard",
+question: "Why must radiation exposure be controlled?",
+options: ["To increase energy", "To prevent biological damage", "To improve waves", "To reduce frequency"],
+answer: "To prevent biological damage",
+explanation: "High exposure can cause serious health risks like cancer."
+},
+{
+topic: "waves",
+image: "18-reflection-and-refraction-of-light",
+criterion: "A",
+level: "easy",
+question: "The law of reflection states:",
+options: ["i = 2r", "i = r", "i > r", "i < r"],
+answer: "i = r",
+explanation: "Angle of incidence equals angle of reflection."
+},
+{
+topic: "waves",
+image: "18-reflection-and-refraction-of-light",
+criterion: "A",
+level: "easy",
+question: "Refraction occurs when light:",
+options: ["Reflects", "Changes direction in new medium", "Stops", "Disappears"],
+answer: "Changes direction in new medium",
+explanation: "Refraction is bending due to speed change in a medium."
+},
+{
+topic: "waves",
+image: "18-reflection-and-refraction-of-light",
+criterion: "A",
+level: "easy",
+question: "Snell’s law is:",
+options: ["n₁ sin i = n₂ sin r", "v = fλ", "E = mc²", "F = ma"],
+answer: "n₁ sin i = n₂ sin r",
+explanation: "Snell’s law relates angles and refractive indices."
+},
+{
+topic: "waves",
+image: "18-reflection-and-refraction-of-light",
+criterion: "B",
+level: "medium",
+question: "Refractive index depends on:",
+options: ["Color only", "Medium", "Shape", "Size"],
+answer: "Medium",
+explanation: "Different media have different refractive indices."
+},
+{
+topic: "waves",
+image: "18-reflection-and-refraction-of-light",
+criterion: "B",
+level: "medium",
+question: "Convex lenses:",
+options: ["Diverge rays", "Converge rays", "Reflect rays", "Stop rays"],
+answer: "Converge rays",
+explanation: "Convex lenses bring parallel rays to a focus."
+},
+{
+topic: "waves",
+image: "18-reflection-and-refraction-of-light",
+criterion: "B",
+level: "medium",
+question: "Plane mirrors form images that are:",
+options: ["Real", "Inverted", "Virtual and upright", "Smaller"],
+answer: "Virtual and upright",
+explanation: "Plane mirror images are virtual, upright, and same size."
+},
+{
+topic: "waves",
+image: "18-reflection-and-refraction-of-light",
+criterion: "C",
+level: "medium",
+question: "Why does light bend toward normal in denser medium?",
+options: ["Speed increases", "Speed decreases", "Energy increases", "Frequency changes"],
+answer: "Speed decreases",
+explanation: "Light slows down → bends toward the normal."
+},
+{
+topic: "waves",
+image: "18-reflection-and-refraction-of-light",
+criterion: "C",
+level: "medium",
+question: "Real images are:",
+options: ["Not formed", "Formed by actual convergence", "Always upright", "Invisible"],
+answer: "Formed by actual convergence",
+explanation: "Real images form where rays actually meet."
+},
+{
+topic: "waves",
+image: "18-reflection-and-refraction-of-light",
+criterion: "D",
+level: "hard",
+question: "Why do lenses form images?",
+options: ["Reflection", "Refraction", "Absorption", "Diffraction"],
+answer: "Refraction",
+explanation: "Lenses bend light through refraction."
+},
+{
+topic: "waves",
+image: "18-reflection-and-refraction-of-light",
+criterion: "D",
+level: "hard",
+question: "Which device uses refraction?",
+options: ["Mirror", "Prism", "Loudspeaker", "Battery"],
+answer: "Prism",
+explanation: "Prisms use refraction to split light into colors."
+},
+{
+topic: "waves",
+image: "19-light-and-communication",
+criterion: "A",
+level: "easy",
+question: "Light carries information using:",
+options: ["Mass", "Waves", "Heat", "Force"],
+answer: "Waves",
+explanation: "Light is an electromagnetic wave used to transmit information."
+},
+{
+topic: "waves",
+image: "19-light-and-communication",
+criterion: "A",
+level: "easy",
+question: "Information in light can be encoded by changing:",
+options: ["Color only", "Amplitude and frequency", "Shape only", "Size"],
+answer: "Amplitude and frequency",
+explanation: "Light signals vary amplitude, frequency, or digital pulses to carry data."
+},
+{
+topic: "waves",
+image: "19-light-and-communication",
+criterion: "A",
+level: "easy",
+question: "Fiber optics work on:",
+options: ["Reflection", "Total internal reflection", "Refraction only", "Diffraction"],
+answer: "Total internal reflection",
+explanation: "Light is trapped inside the fiber by total internal reflection."
+},
+{
+topic: "waves",
+image: "19-light-and-communication",
+criterion: "B",
+level: "medium",
+question: "Total internal reflection occurs when:",
+options: ["Light enters denser medium", "Angle < critical angle", "Angle > critical angle", "Speed increases"],
+answer: "Angle > critical angle",
+explanation: "TIR happens when angle of incidence exceeds critical angle."
+},
+{
+topic: "waves",
+image: "19-light-and-communication",
+criterion: "B",
+level: "medium",
+question: "Fiber optics have high bandwidth because:",
+options: ["They use electricity", "Light carries more data", "They are heavy", "They reflect sound"],
+answer: "Light carries more data",
+explanation: "Light waves can carry large amounts of data quickly."
+},
+{
+topic: "waves",
+image: "19-light-and-communication",
+criterion: "B",
+level: "medium",
+question: "In fiber optics, a detector converts:",
+options: ["Light to electrical signals", "Sound to light", "Heat to energy", "Data to sound"],
+answer: "Light to electrical signals",
+explanation: "The photodetector converts received light into electrical signals."
+},
+{
+topic: "waves",
+image: "19-light-and-communication",
+criterion: "B",
+level: "medium",
+question: "Which uses fiber optics?",
+options: ["Internet", "Chalkboard", "Book", "Pencil"],
+answer: "Internet",
+explanation: "Fiber optics are widely used in internet communication."
+},
+{
+topic: "waves",
+image: "19-light-and-communication",
+criterion: "C",
+level: "medium",
+question: "Why is fiber optic communication faster?",
+options: ["Light travels slowly", "Less signal loss", "More resistance", "Higher mass"],
+answer: "Less signal loss",
+explanation: "Fiber optics have low attenuation → signals travel longer distances."
+},
+{
+topic: "waves",
+image: "19-light-and-communication",
+criterion: "D",
+level: "hard",
+question: "Why are optical fibers preferred over copper wires?",
+options: ["Heavier", "More interference", "Faster and reliable", "Cheaper always"],
+answer: "Faster and reliable",
+explanation: "Fiber optics are faster, lighter, and immune to electromagnetic interference."
+},
+{
+topic: "waves",
+image: "19-light-and-communication",
+criterion: "D",
+level: "hard",
+question: "Visible light communication uses:",
+options: ["LEDs", "Magnets", "Batteries", "Heat"],
+answer: "LEDs",
+explanation: "LEDs rapidly switch on/off to transmit data using light."
+},
+{
+topic: "waves",
+image: "20-waves-and-culture",
+criterion: "A",
+level: "easy",
+question: "Sound waves carry:",
+options: ["Matter", "Energy", "Light", "Heat"],
+answer: "Energy",
+explanation: "Sound waves transfer energy through vibrations."
+},
+{
+topic: "waves",
+image: "20-waves-and-culture",
+criterion: "A",
+level: "easy",
+question: "Pitch depends on:",
+options: ["Amplitude", "Frequency", "Speed", "Time"],
+answer: "Frequency",
+explanation: "Higher frequency produces higher pitch."
+},
+{
+topic: "waves",
+image: "20-waves-and-culture",
+criterion: "A",
+level: "easy",
+question: "Loudness depends on:",
+options: ["Frequency", "Amplitude", "Wavelength", "Speed"],
+answer: "Amplitude",
+explanation: "Greater amplitude → louder sound."
+},
+{
+topic: "waves",
+image: "20-waves-and-culture",
+criterion: "A",
+level: "easy",
+question: "Timbre depends on:",
+options: ["Frequency", "Waveform", "Speed", "Medium"],
+answer: "Waveform",
+explanation: "Different waveforms create different sound qualities."
+},
+{
+topic: "waves",
+image: "20-waves-and-culture",
+criterion: "B",
+level: "medium",
+question: "Radio broadcasting uses:",
+options: ["Sound waves", "Radio waves", "Water waves", "Heat"],
+answer: "Radio waves",
+explanation: "Radio waves carry signals over long distances."
+},
+{
+topic: "waves",
+image: "20-waves-and-culture",
+criterion: "B",
+level: "medium",
+question: "Mobile communication uses:",
+options: ["Mechanical waves", "Radio and microwaves", "Heat waves", "Sound waves only"],
+answer: "Radio and microwaves",
+explanation: "Phones use electromagnetic waves like microwaves."
+},
+{
+topic: "waves",
+image: "20-waves-and-culture",
+criterion: "B",
+level: "medium",
+question: "Ultrasound is used for:",
+options: ["Cooking", "Imaging inside body", "Lighting", "Communication"],
+answer: "Imaging inside body",
+explanation: "Ultrasound helps doctors view internal organs."
+},
+{
+topic: "waves",
+image: "20-waves-and-culture",
+criterion: "C",
+level: "medium",
+question: "Why do different instruments sound different?",
+options: ["Same frequency", "Different timbre", "Same amplitude", "Same waveform"],
+answer: "Different timbre",
+explanation: "Different waveforms and harmonics create unique timbre."
+},
+{
+topic: "waves",
+image: "20-waves-and-culture",
+criterion: "C",
+level: "medium",
+question: "How do waves connect people globally?",
+options: ["Through transport", "Through communication systems", "Through gravity", "Through heat"],
+answer: "Through communication systems",
+explanation: "Waves enable communication technologies like internet and broadcasting."
+},
+{
+topic: "waves",
+image: "20-waves-and-culture",
+criterion: "D",
+level: "hard",
+question: "Why are waves important in culture?",
+options: ["Only for physics", "They carry music and communication", "Only for light", "Only for energy"],
+answer: "They carry music and communication",
+explanation: "Waves carry sound, music, and information shaping culture and society."
+},
+{
+topic: "waves",
+image: "21-Design_investigation",
+criterion: "A",
+level: "easy",
+question: "A design investigation begins with:",
+options: ["Conclusion", "Hypothesis", "Identifying a problem", "Data analysis"],
+answer: "Identifying a problem",
+explanation: "The first step is to identify and define the problem."
+},
+{
+topic: "waves",
+image: "21-Design_investigation",
+criterion: "A",
+level: "easy",
+question: "After identifying a problem, the next step is:",
+options: ["Analyze data", "Research information", "Draw conclusion", "Repeat experiment"],
+answer: "Research information",
+explanation: "Research helps gather background knowledge."
+},
+{
+topic: "waves",
+image: "21-Design_investigation",
+criterion: "A",
+level: "easy",
+question: "A hypothesis is:",
+options: ["A final answer", "A tested conclusion", "An educated prediction", "A graph"],
+answer: "An educated prediction",
+explanation: "A hypothesis predicts an outcome based on knowledge."
+},
+{
+topic: "waves",
+image: "21-Design_investigation",
+criterion: "A",
+level: "easy",
+question: "The independent variable is:",
+options: ["Measured", "Controlled", "Changed", "Ignored"],
+answer: "Changed",
+explanation: "It is the variable you manipulate."
+},
+{
+topic: "waves",
+image: "21-Design_investigation",
+criterion: "A",
+level: "easy",
+question: "The dependent variable is:",
+options: ["Changed", "Measured", "Controlled", "Removed"],
+answer: "Measured",
+explanation: "It is the outcome you observe or measure."
+},
+{
+topic: "waves",
+image: "21-Design_investigation",
+criterion: "B",
+level: "medium",
+question: "Controlled variables are used to:",
+options: ["Change results", "Ensure fair test", "Increase speed", "Reduce data"],
+answer: "Ensure fair test",
+explanation: "They are kept constant to ensure reliability."
+},
+{
+topic: "waves",
+image: "21-Design_investigation",
+criterion: "B",
+level: "medium",
+question: "Why should experiments be repeated?",
+options: ["Save time", "Increase error", "Improve reliability", "Reduce variables"],
+answer: "Improve reliability",
+explanation: "Repeating improves consistency and reliability."
+},
+{
+topic: "waves",
+image: "21-Design_investigation",
+criterion: "B",
+level: "medium",
+question: "After collecting data, the next step is:",
+options: ["Hypothesis", "Analyze data", "Stop experiment", "Change variables"],
+answer: "Analyze data",
+explanation: "Data must be analyzed to identify patterns."
+},
+{
+topic: "waves",
+image: "21-Design_investigation",
+criterion: "C",
+level: "medium",
+question: "A conclusion should:",
+options: ["Ignore data", "Support or reject hypothesis", "Change variables", "Add new experiment"],
+answer: "Support or reject hypothesis",
+explanation: "Conclusion evaluates whether hypothesis was correct."
+},
+{
+topic: "waves",
+image: "21-Design_investigation",
+criterion: "D",
+level: "hard",
+question: "A good investigation must be:",
+options: ["Fast", "Complex", "Fair, reliable, and accurate", "Expensive"],
+answer: "Fair, reliable, and accurate",
+explanation: "Scientific investigations must be fair, reliable, safe, and accurate."
+},
+{
+topic: "waves",
+image: "22-data-processing",
+criterion: "A",
+level: "easy",
+question: "Data processing helps to:",
+options: ["Destroy data", "Find patterns", "Ignore results", "Reduce accuracy"],
+answer: "Find patterns",
+explanation: "Processing helps identify patterns and conclusions."
+},
+{
+topic: "waves",
+image: "22-data-processing",
+criterion: "A",
+level: "easy",
+question: "First step of data processing cycle:",
+options: ["Analyze", "Collect", "Conclude", "Represent"],
+answer: "Collect",
+explanation: "Data must first be collected."
+},
+{
+topic: "waves",
+image: "22-data-processing",
+criterion: "A",
+level: "easy",
+question: "Qualitative data is:",
+options: ["Numerical", "Descriptive", "Calculated", "Graphical"],
+answer: "Descriptive",
+explanation: "Qualitative data describes qualities (e.g., color)."
+},
+{
+topic: "waves",
+image: "22-data-processing",
+criterion: "A",
+level: "easy",
+question: "Quantitative data is:",
+options: ["Words", "Numbers", "Images", "Colors"],
+answer: "Numbers",
+explanation: "Quantitative data involves measurements or counts."
+},
+{
+topic: "waves",
+image: "22-data-processing",
+criterion: "B",
+level: "medium",
+question: "Line graphs are best for:",
+options: ["Categories", "Continuous data", "Pictures", "Labels"],
+answer: "Continuous data",
+explanation: "Line graphs show relationships between continuous variables."
+},
+{
+topic: "waves",
+image: "22-data-processing",
+criterion: "B",
+level: "medium",
+question: "Bar graphs are used for:",
+options: ["Continuous data", "Categories", "Trends only", "Time graphs"],
+answer: "Categories",
+explanation: "Bar graphs compare different categories."
+},
+{
+topic: "waves",
+image: "22-data-processing",
+criterion: "B",
+level: "medium",
+question: "Measurement uncertainty means:",
+options: ["No error", "Exact value", "Possible range of values", "Wrong result"],
+answer: "Possible range of values",
+explanation: "All measurements have a range of uncertainty."
+},
+{
+topic: "waves",
+image: "22-data-processing",
+criterion: "C",
+level: "medium",
+question: "Mean is calculated by:",
+options: ["Multiply values", "Add and divide", "Subtract values", "Ignore data"],
+answer: "Add and divide",
+explanation: "Mean = sum of values ÷ number of values."
+},
+{
+topic: "waves",
+image: "22-data-processing",
+criterion: "C",
+level: "medium",
+question: "Outliers are:",
+options: ["Average values", "Extreme values", "Missing data", "Normal values"],
+answer: "Extreme values",
+explanation: "Outliers are unusual data points."
+},
+{
+topic: "waves",
+image: "22-data-processing",
+criterion: "D",
+level: "hard",
+question: "Good data habits include:",
+options: ["Guessing", "Ignoring errors", "Accurate recording and repetition", "Skipping steps"],
+answer: "Accurate recording and repetition",
+explanation: "Good practice ensures reliable and valid results."
+},
+{
+topic: "waves",
+image: "23-wave-technology",
+criterion: "A",
+level: "easy",
+question: "Waves transfer:",
+options: ["Matter", "Energy", "Mass", "Force"],
+answer: "Energy",
+explanation: "Waves transfer energy without transferring matter."
+},
+{
+topic: "waves",
+image: "23-wave-technology",
+criterion: "A",
+level: "easy",
+question: "Electromagnetic waves can travel:",
+options: ["Only in solids", "Only in liquids", "In vacuum", "Only in gases"],
+answer: "In vacuum",
+explanation: "EM waves do not require a medium."
+},
+{
+topic: "waves",
+image: "23-wave-technology",
+criterion: "A",
+level: "easy",
+question: "Radio waves are used for:",
+options: ["Cooking", "Broadcasting", "Heating", "Lighting"],
+answer: "Broadcasting",
+explanation: "Radio waves are used in communication systems like broadcasting."
+},
+{
+topic: "waves",
+image: "23-wave-technology",
+criterion: "A",
+level: "easy",
+question: "Microwaves are used in:",
+options: ["Radio", "Cooking", "Sound", "Reflection"],
+answer: "Cooking",
+explanation: "Microwaves heat food by exciting water molecules."
+},
+{
+topic: "waves",
+image: "23-wave-technology",
+criterion: "A",
+level: "easy",
+question: "Infrared waves are mainly associated with:",
+options: ["Sound", "Heat", "Light", "Motion"],
+answer: "Heat",
+explanation: "Infrared radiation is heat radiation."
+},
+{
+topic: "waves",
+image: "23-wave-technology",
+criterion: "B",
+level: "medium",
+question: "X-rays are used in:",
+options: ["Cooking", "Medical imaging", "Sound waves", "Light bulbs"],
+answer: "Medical imaging",
+explanation: "X-rays help image bones and internal structures."
+},
+{
+topic: "waves",
+image: "23-wave-technology",
+criterion: "B",
+level: "medium",
+question: "Wi-Fi uses:",
+options: ["Sound waves", "Radio waves", "Water waves", "Heat"],
+answer: "Radio waves",
+explanation: "Wi-Fi operates using radio frequency waves."
+},
+{
+topic: "waves",
+image: "23-wave-technology",
+criterion: "B",
+level: "medium",
+question: "MRI machines use:",
+options: ["Radio waves", "Sound waves", "Heat", "Visible light"],
+answer: "Radio waves",
+explanation: "MRI uses radio waves and magnetic fields."
+},
+{
+topic: "waves",
+image: "23-wave-technology",
+criterion: "C",
+level: "medium",
+question: "Why are waves important in technology?",
+options: ["They create matter", "They carry energy and information", "They reduce energy", "They stop motion"],
+answer: "They carry energy and information",
+explanation: "Waves enable communication, imaging, and energy transfer."
+},
+{
+topic: "waves",
+image: "23-wave-technology",
+criterion: "D",
+level: "hard",
+question: "Wave technology impacts society by:",
+options: ["Reducing communication", "Improving connectivity and innovation", "Increasing errors", "Stopping development"],
+answer: "Improving connectivity and innovation",
+explanation: "Wave-based technologies drive communication, healthcare, and research."
+},
+{
+topic: "waves",
+image: "24-unit-project-showcase",
+criterion: "A",
+level: "easy",
+question: "The project integrates:",
+options: ["Only physics", "Multiple concepts", "Only math", "Only theory"],
+answer: "Multiple concepts",
+explanation: "It combines concepts like waves, optics, and data."
+},
+{
+topic: "waves",
+image: "24-unit-project-showcase",
+criterion: "A",
+level: "easy",
+question: "Reflection of light involves:",
+options: ["Bending", "Bouncing back", "Absorption", "Emission"],
+answer: "Bouncing back",
+explanation: "Reflection is when light bounces off surfaces."
+},
+{
+topic: "waves",
+image: "24-unit-project-showcase",
+criterion: "A",
+level: "easy",
+question: "Refraction is:",
+options: ["Reflection", "Bending of light", "Absorption", "Emission"],
+answer: "Bending of light",
+explanation: "Refraction occurs when light changes medium."
+},
+{
+topic: "waves",
+image: "24-unit-project-showcase",
+criterion: "B",
+level: "medium",
+question: "Fiber optics use:",
+options: ["Sound", "Total internal reflection", "Heat", "Gravity"],
+answer: "Total internal reflection",
+explanation: "Light is guided through fibers by TIR."
+},
+{
+topic: "waves",
+image: "24-unit-project-showcase",
+criterion: "B",
+level: "medium",
+question: "A hypothesis is tested by:",
+options: ["Reading", "Experiment", "Guessing", "Ignoring"],
+answer: "Experiment",
+explanation: "Experiments test predictions."
+},
+{
+topic: "waves",
+image: "24-unit-project-showcase",
+criterion: "B",
+level: "medium",
+question: "Data analysis helps to:",
+options: ["Ignore results", "Find patterns", "Delete data", "Stop experiment"],
+answer: "Find patterns",
+explanation: "Analysis helps identify trends and conclusions."
+},
+{
+topic: "waves",
+image: "24-unit-project-showcase",
+criterion: "C",
+level: "medium",
+question: "Why is integration important in projects?",
+options: ["Reduces knowledge", "Connects concepts", "Avoids learning", "Simplifies everything"],
+answer: "Connects concepts",
+explanation: "Integration helps apply multiple concepts together."
+},
+{
+topic: "waves",
+image: "24-unit-project-showcase",
+criterion: "C",
+level: "medium",
+question: "Projects promote innovation by:",
+options: ["Memorization", "Applying concepts", "Ignoring ideas", "Reducing thinking"],
+answer: "Applying concepts",
+explanation: "Application leads to creativity and innovation."
+},
+{
+topic: "waves",
+image: "24-unit-project-showcase",
+criterion: "D",
+level: "hard",
+question: "Real-world projects improve learning by:",
+options: ["Limiting thinking", "Connecting theory to practice", "Avoiding experiments", "Reducing understanding"],
+answer: "Connecting theory to practice",
+explanation: "Application enhances deeper understanding."
+},
+{
+topic: "waves",
+image: "24-unit-project-showcase",
+criterion: "D",
+level: "hard",
+question: "Science projects help society by:",
+options: ["Increasing problems", "Providing solutions", "Ignoring issues", "Reducing innovation"],
+answer: "Providing solutions",
+explanation: "Projects solve real-world problems and improve life."
+},
+{
+topic: "waves",
+image: "25-explore-waves-at-home-lab",
+criterion: "A",
+level: "easy",
+question: "The aim of the string experiment is to study:",
+options: ["Wave speed", "Frequency and wave speed", "Heat transfer", "Light intensity"],
+answer: "Frequency and wave speed",
+explanation: "The experiment investigates how frequency affects wave speed."
+},
+{
+topic: "waves",
+image: "25-explore-waves-at-home-lab",
+criterion: "A",
+level: "easy",
+question: "In the string experiment, frequency is the:",
+options: ["Dependent variable", "Independent variable", "Controlled variable", "Constant"],
+answer: "Independent variable",
+explanation: "Frequency is varied by the student."
+},
+{
+topic: "waves",
+image: "25-explore-waves-at-home-lab",
+criterion: "A",
+level: "easy",
+question: "Wavelength is calculated using:",
+options: ["λ = L", "λ = 2L/n", "λ = f/v", "λ = vt"],
+answer: "λ = 2L/n",
+explanation: "For standing waves, wavelength = 2L divided by number of loops."
+},
+{
+topic: "waves",
+image: "25-explore-waves-at-home-lab",
+criterion: "B",
+level: "medium",
+question: "Wave speed is given by:",
+options: ["v = fλ", "v = f + λ", "v = λ/f", "v = ft"],
+answer: "v = fλ",
+explanation: "Wave speed equals frequency × wavelength."
+},
+{
+topic: "waves",
+image: "25-explore-waves-at-home-lab",
+criterion: "B",
+level: "medium",
+question: "Why must tension be kept constant?",
+options: ["To change speed", "To ensure fair test", "To increase frequency", "To reduce wavelength"],
+answer: "To ensure fair test",
+explanation: "Keeping variables constant ensures a fair investigation."
+},
+{
+topic: "waves",
+image: "25-explore-waves-at-home-lab",
+criterion: "B",
+level: "medium",
+question: "In ripple tank experiment, wave speed is calculated by:",
+options: ["v = t/x", "v = x/t", "v = f/t", "v = λ/t"],
+answer: "v = x/t",
+explanation: "Speed = distance ÷ time."
+},
+{
+topic: "waves",
+image: "25-explore-waves-at-home-lab",
+criterion: "B",
+level: "medium",
+question: "Pitch of sound depends on:",
+options: ["Amplitude", "Frequency", "Speed", "Time"],
+answer: "Frequency",
+explanation: "Higher frequency → higher pitch."
+},
+{
+topic: "waves",
+image: "25-explore-waves-at-home-lab",
+criterion: "C",
+level: "medium",
+question: "What happens to wavelength if frequency increases (constant speed)?",
+options: ["Increases", "Decreases", "Stays same", "Becomes zero"],
+answer: "Decreases",
+explanation: "Since v = fλ, if f increases, λ decreases."
+},
+{
+topic: "waves",
+image: "25-explore-waves-at-home-lab",
+criterion: "C",
+level: "medium",
+question: "Graph of speed vs frequency shows:",
+options: ["Constant value", "Increasing trend", "Decreasing trend", "Random"],
+answer: "Constant value",
+explanation: "Wave speed remains constant in same medium."
+},
+{
+topic: "waves",
+image: "25-explore-waves-at-home-lab",
+criterion: "D",
+level: "hard",
+question: "Which improves experiment accuracy?",
+options: ["One trial", "Estimation", "Repeated measurements", "Ignoring errors"],
+answer: "Repeated measurements",
+explanation: "Repeating measurements improves reliability and accuracy."
+},
+{
+topic: "waves",
+image: "26-waves-connect-the-world",
+criterion: "A",
+level: "easy",
+question: "Fiber optics use:",
+options: ["Refraction", "Total internal reflection", "Diffraction", "Absorption"],
+answer: "Total internal reflection",
+explanation: "Light is guided through fibers using total internal reflection."
+},
+{
+topic: "waves",
+image: "26-waves-connect-the-world",
+criterion: "A",
+level: "easy",
+question: "Light remains inside the fiber because:",
+options: ["It slows down", "It reflects internally", "It absorbs", "It stops"],
+answer: "It reflects internally",
+explanation: "Light reflects repeatedly within the core."
+},
+{
+topic: "waves",
+image: "26-waves-connect-the-world",
+criterion: "A",
+level: "easy",
+question: "Which is part of fiber optic system?",
+options: ["Heater", "Detector", "Battery only", "Lens only"],
+answer: "Detector",
+explanation: "Detector converts light signals into electrical signals."
+},
+{
+topic: "waves",
+image: "26-waves-connect-the-world",
+criterion: "B",
+level: "medium",
+question: "Fiber optics are preferred because:",
+options: ["Heavy", "High data capacity", "Slow", "Weak"],
+answer: "High data capacity",
+explanation: "They can carry large amounts of data quickly."
+},
+{
+topic: "waves",
+image: "26-waves-connect-the-world",
+criterion: "B",
+level: "medium",
+question: "Low signal loss means:",
+options: ["More energy loss", "Less energy loss", "No transmission", "Weak signals"],
+answer: "Less energy loss",
+explanation: "Signals remain strong over long distances."
+},
+{
+topic: "waves",
+image: "26-waves-connect-the-world",
+criterion: "B",
+level: "medium",
+question: "Fiber optics are used in:",
+options: ["Internet", "Cooking", "Painting", "Writing"],
+answer: "Internet",
+explanation: "They power modern internet communication."
+},
+{
+topic: "waves",
+image: "26-waves-connect-the-world",
+criterion: "C",
+level: "medium",
+question: "Why can light travel long distances in fibers?",
+options: ["It slows", "Low loss and reflection", "High mass", "Weak signal"],
+answer: "Low loss and reflection",
+explanation: "Internal reflection minimizes energy loss."
+},
+{
+topic: "waves",
+image: "26-waves-connect-the-world",
+criterion: "C",
+level: "medium",
+question: "A limitation of fiber optics is:",
+options: ["High speed", "Expensive installation", "High bandwidth", "Low loss"],
+answer: "Expensive installation",
+explanation: "Fiber installation and repair can be costly."
+},
+{
+topic: "waves",
+image: "26-waves-connect-the-world",
+criterion: "D",
+level: "hard",
+question: "Why is fiber optics better than electrical signals?",
+options: ["Slower", "Less data", "Faster and less interference", "Heavier"],
+answer: "Faster and less interference",
+explanation: "Light signals are faster and immune to electromagnetic interference."
+},
+{
+topic: "waves",
+image: "26-waves-connect-the-world",
+criterion: "D",
+level: "hard",
+question: "Future of fiber optics includes:",
+options: ["Reduced use", "Faster communication systems", "No development", "Only local use"],
+answer: "Faster communication systems",
+explanation: "Fiber optics will support faster global communication and technology."
+},  
+
 
 
 /* ===== ATOMIC PHYSICS ===== */
