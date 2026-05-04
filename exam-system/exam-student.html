@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IB Exam Practice</title>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
 body{
   margin:0;
@@ -13,7 +15,6 @@ body{
   color:white;
 }
 
-/* HEADER */
 .header{
   text-align:center;
   padding:25px;
@@ -21,7 +22,6 @@ body{
   color:#38bdf8;
 }
 
-/* SELECT */
 .select-box{
   text-align:center;
   margin:20px;
@@ -32,9 +32,239 @@ select, button{
   border-radius:8px;
   border:none;
   margin:5px;
+  cursor:pointer;
 }
 
-/* PAPER */
+.paper{
+  width:90%;
+  max-width:900px;
+  margin:auto;
+  background:#020617;
+  padding:25px;
+  border-radius:15px;
+}
+
+.section-title{
+  color:#38bdf8;
+  margin-top:25px;
+}
+
+.question{
+  margin-top:15px;
+  padding:15px;
+  background:#1e293b;
+  border-radius:10px;
+}
+
+textarea{
+  width:100%;
+  height:120px;
+  border-radius:8px;
+  border:none;
+  padding:10px;
+  margin-top:10px;
+}
+
+.timer{
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:#020617;
+  padding:10px;
+  border-radius:10px;
+}
+
+.markscheme{
+  display:none;
+  margin-top:10px;
+  color:#38bdf8;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">🎓 IB Exam Practice</div>
+
+<div class="select-box">
+<select id="paperSelect"></select>
+<button onclick="loadPaper()">Start</button>
+<button onclick="toggleMS()">Markscheme</button>
+<button onclick="downloadPDF()">Download PDF</button>
+</div>
+
+<div id="timer" class="timer">⏱ 0s</div>
+<div id="examArea"></div>
+
+<script>
+
+/* LOAD DATA */
+let papers = JSON.parse(localStorage.getItem("examPapers")||[]);
+const select = document.getElementById("paperSelect");
+
+papers.forEach((p,i)=>{
+select.innerHTML += `<option value="${i}">${p.title}</option>`;
+});
+
+/* TIMER */
+let startTime, timer;
+
+function startTimer(){
+startTime = new Date();
+timer = setInterval(()=>{
+let t = Math.floor((new Date()-startTime)/1000);
+document.getElementById("timer").innerText = "⏱ "+t+"s";
+},1000);
+}
+
+/* COMMAND TERMS */
+function highlight(text){
+["define","state","describe","explain","calculate","determine","suggest","evaluate"]
+.forEach(w=>{
+text = text.replace(new RegExp(w,"gi"), `<span style="color:#f87171">${w.toUpperCase()}</span>`);
+});
+return text;
+}
+
+/* LOAD PAPER */
+function loadPaper(){
+
+clearInterval(timer);
+startTimer();
+
+const p = papers[select.value];
+
+let sections = {A:[],B:[],C:[],D:[]};
+
+p.questions.forEach((q,i)=>{
+q.i=i;
+sections[q.section||"A"].push(q);
+});
+
+let html = `<div class="paper">
+<h2>${p.title}</h2>
+<p><i>${p.scenario}</i></p>`;
+
+/* CONTENT */
+p.content.forEach(c=>{
+if(c.includes("youtube")){
+html+=`<iframe src="${c}" width="100%" height="300"></iframe>`;
+}else{
+html+=`<img src="${c}" style="width:100%;max-width:500px">`;
+}
+});
+
+/* SECTIONS */
+for(let s in sections){
+
+if(sections[s].length===0) continue;
+
+html+=`<h3 class="section-title">Section ${s}</h3>`;
+
+sections[s].forEach(q=>{
+
+html+=`<div class="question">
+<b>Q${q.i+1}</b> (${q.marks})<br>
+${highlight(q.text)}
+`;
+
+/* MCQ */
+if(q.type==="mcq"){
+q.options.forEach(o=>{
+html+=`<br><label><input type="radio" name="q${q.i}" value="${o}"> ${o}</label>`;
+});
+}
+
+/* TEXT */
+if(q.type==="text"){
+html+=`<textarea id="q${q.i}"></textarea>`;
+}
+
+/* MARKSCHEME */
+html+=`<div class="markscheme" id="ms-${q.i}">
+<b>Markscheme:</b> ${q.markscheme || "Not available"}
+</div>`;
+
+html+=`</div>`;
+});
+}
+
+html+=`<br><button onclick="submitExam()">Submit</button></div>`;
+
+document.getElementById("examArea").innerHTML = html;
+}
+
+/* MARKSCHEME TOGGLE */
+let showMS=false;
+
+function toggleMS(){
+showMS=!showMS;
+document.querySelectorAll(".markscheme").forEach(el=>{
+el.style.display = showMS ? "block":"none";
+});
+}
+
+/* SUBMIT */
+function submitExam(){
+
+clearInterval(timer);
+
+let score=0;
+let p = papers[select.value];
+
+p.questions.forEach((q,i)=>{
+if(q.type==="mcq"){
+let sel=document.querySelector(`input[name="q${i}"]:checked`);
+if(sel && sel.value===q.answer){
+score += Number(q.marks);
+}
+}
+});
+
+alert("Score: "+score+"\n"+document.getElementById("timer").innerText);
+}
+
+/* PDF */
+function downloadPDF(){
+
+const { jsPDF } = window.jspdf;
+let doc = new jsPDF();
+
+let y=10;
+
+doc.text("IB Exam Attempt",10,y); y+=10;
+
+let p = papers[select.value];
+
+doc.text("Paper: "+p.title,10,y); y+=10;
+doc.text("Time: "+document.getElementById("timer").innerText,10,y); y+=10;
+
+p.questions.forEach((q,i)=>{
+
+doc.text(`Q${i+1}: ${q.text}`,10,y);
+y+=10;
+
+let ans = document.getElementById(`q${i}`)?.value || "";
+
+if(ans){
+doc.text("Ans: "+ans,10,y);
+y+=10;
+}
+
+if(y>270){
+doc.addPage();
+y=10;
+}
+});
+
+doc.save("exam.pdf");
+}
+
+</script>
+
+</body>
+</html>/* PAPER */
 .paper{
   width:90%;
   max-width:900px;
