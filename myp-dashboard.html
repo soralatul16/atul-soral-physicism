@@ -1,6 +1,3 @@
-
-MYP DashBoard
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +13,7 @@ body{
   font-family:'Segoe UI', sans-serif;
 
   background:
-    linear-gradient(rgba(0,0,0,0.7), rgba(20,0,0,0.85)),
+    linear-gradient(rgba(0,0,0,0.6), rgba(20,0,0,0.75)),
     url('./exam-system/assets/myp-background-image.png');
 
   background-size: cover;
@@ -30,8 +27,9 @@ body{
 .navbar{
   display:flex;
   justify-content:space-between;
+  align-items:center;
   padding:15px 30px;
-  background:#1a0f0f;
+  background:#0a0a0a;
 }
 
 .nav-links a{
@@ -55,60 +53,52 @@ body{
 /* ===== GRID ===== */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
   gap:20px;
 }
 
 /* ===== CARD ===== */
 .card{
-  background:#1f2937;
+  background:rgba(20,20,20,0.8);
   padding:20px;
   border-radius:12px;
   text-align:center;
   cursor:pointer;
   transition:0.3s;
+  backdrop-filter: blur(6px);
 }
 
-.topic-card:hover{
-  background:#ef4444;
+.card:hover{
   transform:scale(1.05);
+  background:rgba(40,40,40,0.9);
 }
 
 /* ===== TOPICS ===== */
 .topic-card{
-  background:#111827;
+  background:rgba(30,30,30,0.85);
   padding:15px;
   border-radius:10px;
   text-align:center;
   cursor:pointer;
   color:white;
+  transition:0.3s;
 }
 
-.locked{ opacity:0.4; }
+.topic-card:hover{
+  background:#ef4444;
+}
+
+.locked{
+  opacity:0.4;
+}
 
 /* ===== ANALYTICS ===== */
 .analytics{
-  background:#02706b;
+  background:rgba(0,0,0,0.7);
   padding:20px;
   border-radius:12px;
   margin-top:20px;
-}
-
-/* ===== FILTER ===== */
-select{
-  padding:10px;
-  margin:10px;
-  border-radius:8px;
-}
-
-/* ===== TAG BADGE ===== */
-.tag{
-  display:inline-block;
-  background:#ef4444;
-  padding:4px 8px;
-  border-radius:6px;
-  margin:3px;
-  font-size:12px;
+  backdrop-filter: blur(5px);
 }
 
 </style>
@@ -138,16 +128,18 @@ select{
 
 <div class="grid">
 
-<div class="card" onclick="openStudent()">📝 Student Practice</div>
+<div class="card" onclick="openStudent()">
+📝 Student Practice
+</div>
 
-<div class="card" id="teacherCard" style="display:none;" onclick="openTeacher()">👨‍🏫 Teacher Panel</div>
-
-<div class="card" onclick="openAnalytics()">📊 Analytics</div>
+<div class="card" onclick="openAnalytics()">
+📊 Analytics
+</div>
 
 </div>
 </div>
 
-<!-- TOPICS -->
+<!-- TOPICS (UNCHANGED SYSTEM) -->
 <div class="section">
 <h2>📚 MYP Topics</h2>
 <div class="grid" id="topics"></div>
@@ -171,25 +163,26 @@ select{
 const BASE = "./exam-system";
 
 /* ===== NAVIGATION ===== */
-function openStudent(){ window.location.href = BASE + "/students.html"; }
+function openStudent(){
+  window.location.href = BASE + "/exam-student.html";
+}
 
-function openTeacher(){
-  let p = prompt("Enter Teacher Password:");
-  if(p && p.trim() === "atul123"){
-    sessionStorage.setItem("teacherAccess","true");
-    document.getElementById("teacherCard").style.display="block";
-    window.location.href = BASE + "/teacher.html";
+function openAnalytics(){
+  window.location.href = BASE + "/exam-dashboard.html";
+}
+
+/* ===== SECRET TEACHER ACCESS (HIDDEN) ===== */
+/* press T key */
+document.addEventListener("keydown", function(e){
+  if(e.key === "T"){
+    let p = prompt("Enter Teacher Password:");
+    if(p === "atul123"){
+      window.location.href = BASE + "/exam-teacher.html";
+    }
   }
-}
+});
 
-function openAnalytics(){ window.location.href = BASE + "/dashboard.html"; }
-
-/* ===== TEACHER VISIBILITY ===== */
-if(sessionStorage.getItem("teacherAccess")==="true"){
-  document.getElementById("teacherCard").style.display="block";
-}
-
-/* ===== TOPICS ===== */
+/* ===== TOPICS (DO NOT TOUCH — SAME SYSTEM) ===== */
 const chapters = [
   {name:"Exploring Matter", key:"matter", ready:false},
   {name:"Forces and Motion", key:"forces", ready:true},
@@ -202,47 +195,50 @@ const chapters = [
   {name:"Astrophysics", key:"astro", ready:false}
 ];
 
-const topicContainer = document.getElementById("topics");
-const topicFilter = document.getElementById("topicFilter");
+const container = document.getElementById("topics");
 
-chapters.forEach(ch=>{
-  const div=document.createElement("div");
-  div.className="topic-card";
-  div.innerText=ch.name;
+chapters.forEach(ch => {
+
+  const div = document.createElement("div");
+  div.className = "topic-card";
 
   if(ch.ready){
-    div.onclick=()=>window.location.href=`./chapter.html?topic=${ch.key}`;
-    topicFilter.innerHTML+=`<option value="${ch.key}">${ch.name}</option>`;
+    div.onclick = () => {
+      window.location.href = `./chapter.html?topic=${ch.key}`;
+    };
   } else {
     div.classList.add("locked");
+    div.onclick = () => alert("Coming soon");
   }
 
-  topicContainer.appendChild(div);
+  div.innerText = ch.name;
+  container.appendChild(div);
+
 });
 
-/* ===== LOAD DATA ===== */
+/* ===== ANALYTICS ===== */
 let attempts = JSON.parse(localStorage.getItem("attempts")||[]);
 
-/* ===== SUMMARY ===== */
-let total=attempts.length;
-let avg=0;
-attempts.forEach(a=>avg+=a.score);
-avg=total?(avg/total).toFixed(1):0;
+let total = attempts.length;
+let avg = 0;
 
-document.getElementById("summary").innerHTML=
+attempts.forEach(a=>avg+=a.score);
+avg = total ? (avg/total).toFixed(1) : 0;
+
+document.getElementById("summary").innerHTML =
 `Total Attempts: ${total} | Avg Score: ${avg}`;
 
-
-/* ===== WEAK AREAS ===== */
+/* WEAK AREAS */
 let weakHTML="";
 attempts.forEach(a=>{
-  if(a.score<5){
-    weakHTML+=`<p>⚠ Weak: ${a.topic||"General"}</p>`;
+  if(a.score < 5){
+    weakHTML += `<p>⚠ Weak: ${a.topic || "General"}</p>`;
   }
 });
-document.getElementById("weak").innerHTML=weakHTML;
 
-/* ===== IB CRITERIA ===== */
+document.getElementById("weak").innerHTML = weakHTML;
+
+/* IB CRITERIA */
 let crit={A:0,B:0,C:0,D:0};
 
 attempts.forEach(a=>{
@@ -250,9 +246,11 @@ attempts.forEach(a=>{
 });
 
 let chtml="<h3>IB Criteria Performance</h3>";
+
 for(let c in crit){
   chtml+=`<p>${c}: ${crit[c]}</p>`;
 }
+
 document.getElementById("criteria").innerHTML=chtml;
 
 </script>
