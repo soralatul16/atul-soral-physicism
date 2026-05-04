@@ -19,7 +19,6 @@ body{
 .navbar{
   display:flex;
   justify-content:space-between;
-  align-items:center;
   padding:15px 30px;
   background:#2b0d0d;
 }
@@ -36,9 +35,6 @@ body{
   padding:60px;
   text-align:center;
 }
-
-.hero h1{ margin:0; }
-.hero p{ opacity:0.8; }
 
 /* ===== SECTION ===== */
 .section{
@@ -60,7 +56,6 @@ body{
   text-align:center;
   cursor:pointer;
   transition:0.3s;
-  font-size:16px;
 }
 
 .card:hover{
@@ -75,17 +70,10 @@ body{
   border-radius:10px;
   text-align:center;
   cursor:pointer;
-  transition:0.3s;
   color:white;
 }
 
-.topic-card:hover{
-  background:#3b1111;
-}
-
-.locked{
-  opacity:0.4;
-}
+.locked{ opacity:0.4; }
 
 /* ===== ANALYTICS ===== */
 .analytics{
@@ -95,10 +83,21 @@ body{
   margin-top:20px;
 }
 
-canvas{
-  margin-top:20px;
-  background:#020617;
-  border-radius:10px;
+/* ===== FILTER ===== */
+select{
+  padding:10px;
+  margin:10px;
+  border-radius:8px;
+}
+
+/* ===== TAG BADGE ===== */
+.tag{
+  display:inline-block;
+  background:#ef4444;
+  padding:4px 8px;
+  border-radius:6px;
+  margin:3px;
+  font-size:12px;
 }
 
 </style>
@@ -128,17 +127,11 @@ canvas{
 
 <div class="grid">
 
-<div class="card" onclick="openStudent()">
-📝 Student Practice
-</div>
+<div class="card" onclick="openStudent()">📝 Student Practice</div>
 
-<div class="card" onclick="openTeacher()">
-👨‍🏫 Teacher Panel
-</div>
+<div class="card" id="teacherCard" style="display:none;" onclick="openTeacher()">👨‍🏫 Teacher Panel</div>
 
-<div class="card" onclick="openAnalytics()">
-📊 Analytics
-</div>
+<div class="card" onclick="openAnalytics()">📊 Analytics</div>
 
 </div>
 </div>
@@ -146,8 +139,37 @@ canvas{
 <!-- TOPICS -->
 <div class="section">
 <h2>📚 MYP Topics</h2>
-
 <div class="grid" id="topics"></div>
+</div>
+
+<!-- FILTERS -->
+<div class="section">
+<h2>🔍 Smart Filters</h2>
+
+<select id="topicFilter">
+<option value="">All Topics</option>
+</select>
+
+<select id="gcFilter">
+<option value="">All GC</option>
+<option>A</option>
+<option>B</option>
+<option>C</option>
+<option>D</option>
+</select>
+
+<select id="atlFilter">
+<option value="">All ATL</option>
+<option>Thinking</option>
+<option>Communication</option>
+<option>Research</option>
+<option>Self-Management</option>
+</select>
+
+<button onclick="applyFilter()">Apply Filter</button>
+
+<div id="filteredResults"></div>
+
 </div>
 
 <!-- ANALYTICS -->
@@ -156,35 +178,37 @@ canvas{
 
 <div class="analytics">
 <p id="summary"></p>
-
-<canvas id="scoreChart" width="400" height="200"></canvas>
-
 <div id="weak"></div>
+<div id="criteria"></div>
 </div>
 
 </div>
 
 <script>
 
+/* ===== BASE PATH ===== */
+const BASE = "./exam-system";
+
 /* ===== NAVIGATION ===== */
-function openStudent(){
-  window.location.href="./exam-system/students.html";
-}
+function openStudent(){ window.location.href = BASE + "/students.html"; }
 
 function openTeacher(){
-  let p=prompt("Teacher Password:");
-  if(p==="atul123"){
-    window.location.href="./exam-system/teacher.html";
-  } else {
-    alert("Access denied");
+  let p = prompt("Enter Teacher Password:");
+  if(p && p.trim() === "atul123"){
+    sessionStorage.setItem("teacherAccess","true");
+    document.getElementById("teacherCard").style.display="block";
+    window.location.href = BASE + "/teacher.html";
   }
 }
 
-function openAnalytics(){
-  window.location.href="./exam-system/dashboard.html";
+function openAnalytics(){ window.location.href = BASE + "/dashboard.html"; }
+
+/* ===== TEACHER VISIBILITY ===== */
+if(sessionStorage.getItem("teacherAccess")==="true"){
+  document.getElementById("teacherCard").style.display="block";
 }
 
-/* ===== TOPICS (UNCHANGED SYSTEM) ===== */
+/* ===== TOPICS ===== */
 const chapters = [
   {name:"Exploring Matter", key:"matter", ready:false},
   {name:"Forces and Motion", key:"forces", ready:true},
@@ -197,59 +221,86 @@ const chapters = [
   {name:"Astrophysics", key:"astro", ready:false}
 ];
 
-const container = document.getElementById("topics");
+const topicContainer = document.getElementById("topics");
+const topicFilter = document.getElementById("topicFilter");
 
-chapters.forEach(ch => {
-
-  const div = document.createElement("div");
-  div.className = "topic-card";
+chapters.forEach(ch=>{
+  const div=document.createElement("div");
+  div.className="topic-card";
+  div.innerText=ch.name;
 
   if(ch.ready){
-    div.onclick = () => {
-      window.location.href = `./chapter.html?topic=${ch.key}`;
-    };
+    div.onclick=()=>window.location.href=`./chapter.html?topic=${ch.key}`;
+    topicFilter.innerHTML+=`<option value="${ch.key}">${ch.name}</option>`;
   } else {
     div.classList.add("locked");
-    div.onclick = () => alert("Coming soon");
   }
 
-  div.innerText = ch.name;
-  container.appendChild(div);
+  topicContainer.appendChild(div);
 });
 
-/* ===== ANALYTICS ===== */
+/* ===== LOAD DATA ===== */
 let attempts = JSON.parse(localStorage.getItem("attempts")||[]);
 
-let total = attempts.length;
-let avg = 0;
-
+/* ===== SUMMARY ===== */
+let total=attempts.length;
+let avg=0;
 attempts.forEach(a=>avg+=a.score);
-avg = total ? (avg/total).toFixed(1) : 0;
+avg=total?(avg/total).toFixed(1):0;
 
-document.getElementById("summary").innerHTML =
+document.getElementById("summary").innerHTML=
 `Total Attempts: ${total} | Avg Score: ${avg}`;
 
-/* GRAPH */
-let ctx = document.getElementById("scoreChart").getContext("2d");
+/* ===== FILTER SYSTEM ===== */
+function applyFilter(){
 
-ctx.strokeStyle="red";
-ctx.beginPath();
+  let t = topicFilter.value;
+  let gc = document.getElementById("gcFilter").value;
+  let atl = document.getElementById("atlFilter").value;
 
-attempts.forEach((a,i)=>{
-  ctx.lineTo(i*40,200-a.score*2);
-});
+  let res = attempts.filter(a=>{
+    return (!t || a.topic===t) &&
+           (!gc || a.gc===gc) &&
+           (!atl || a.atl===atl);
+  });
 
-ctx.stroke();
+  let html="";
 
-/* WEAK AREAS */
+  res.forEach(r=>{
+    html+=`
+    <div class="card">
+      <b>${r.name}</b><br>
+      Score: ${r.score}/${r.total}<br>
+      <span class="tag">${r.topic||"General"}</span>
+      <span class="tag">GC: ${r.gc||"-"}</span>
+      <span class="tag">ATL: ${r.atl||"-"}</span>
+    </div>`;
+  });
+
+  document.getElementById("filteredResults").innerHTML=html;
+}
+
+/* ===== WEAK AREAS ===== */
 let weakHTML="";
 attempts.forEach(a=>{
-  if(a.score < 5){
-    weakHTML += `<p>⚠ Weak Attempt: ${a.topic || "General"}</p>`;
+  if(a.score<5){
+    weakHTML+=`<p>⚠ Weak: ${a.topic||"General"}</p>`;
   }
 });
+document.getElementById("weak").innerHTML=weakHTML;
 
-document.getElementById("weak").innerHTML = weakHTML;
+/* ===== IB CRITERIA ===== */
+let crit={A:0,B:0,C:0,D:0};
+
+attempts.forEach(a=>{
+  if(a.gc) crit[a.gc]+=a.score;
+});
+
+let chtml="<h3>IB Criteria Performance</h3>";
+for(let c in crit){
+  chtml+=`<p>${c}: ${crit[c]}</p>`;
+}
+document.getElementById("criteria").innerHTML=chtml;
 
 </script>
 
