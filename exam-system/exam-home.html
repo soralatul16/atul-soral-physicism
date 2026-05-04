@@ -1,35 +1,178 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Exam Practice</title>
-<link rel="stylesheet" href="exam-style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exam Practice | Physicism</title>
+
+<style>
+/* ===== GLOBAL ===== */
+body{
+  margin:0;
+  font-family:'Segoe UI', sans-serif;
+  background:linear-gradient(135deg,#0f172a,#1e3a8a);
+  color:white;
+  overflow-x:hidden;
+}
+
+/* ===== HEADER ===== */
+.header{
+  text-align:center;
+  padding:60px 20px 20px;
+}
+
+.header h1{
+  font-size:40px;
+  margin:0;
+  color:#38bdf8;
+  text-shadow:0 0 15px #38bdf8;
+}
+
+.header p{
+  opacity:0.8;
+}
+
+/* ===== BUTTON AREA ===== */
+.container{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  flex-wrap:wrap;
+  margin-top:50px;
+}
+
+/* ===== CARDS ===== */
+.card{
+  background:rgba(2,6,23,0.9);
+  border-radius:20px;
+  padding:40px;
+  width:260px;
+  text-align:center;
+  cursor:pointer;
+  transition:0.3s;
+  box-shadow:0 0 30px rgba(0,0,0,0.6);
+}
+
+.card:hover{
+  transform:translateY(-10px) scale(1.05);
+  box-shadow:0 0 40px rgba(56,189,248,0.7);
+}
+
+/* ICON */
+.icon{
+  font-size:50px;
+  margin-bottom:15px;
+}
+
+/* BUTTON TEXT */
+.card h2{
+  margin:10px 0;
+}
+
+.card p{
+  font-size:14px;
+  opacity:0.7;
+}
+
+/* ===== MUSIC BUTTON ===== */
+.music-btn{
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:#020617;
+  border:none;
+  color:white;
+  font-size:18px;
+  padding:12px;
+  border-radius:50%;
+  cursor:pointer;
+  box-shadow:0 0 15px rgba(0,0,0,0.5);
+}
+
+/* ===== FOOTER ===== */
+.footer{
+  text-align:center;
+  margin-top:60px;
+  opacity:0.5;
+  font-size:14px;
+}
+</style>
+
 </head>
 
 <body>
 
-<div class="header glow">📘 IB Exam Practice</div>
+<!-- 🎵 MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="assets/audio/bg-music.mp3" type="audio/mpeg">
+</audio>
 
-<div class="card" style="text-align:center">
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
 
-<button onclick="goStudent()">🎓 Student Mode</button>
-<br><br>
-<button onclick="goTeacher()">👨‍🏫 Teacher Mode</button>
+<!-- HEADER -->
+<div class="header">
+  <h1>📘 IB Exam Practice</h1>
+  <p>Practice like real MYP eAssessment</p>
+</div>
+
+<!-- MAIN OPTIONS -->
+<div class="container">
+
+  <!-- STUDENT -->
+  <div class="card" onclick="goStudent()">
+    <div class="icon">🎓</div>
+    <h2>Student Mode</h2>
+    <p>Attempt exam papers, practice questions, and test yourself</p>
+  </div>
+
+  <!-- TEACHER -->
+  <div class="card" onclick="goTeacher()">
+    <div class="icon">👨‍🏫</div>
+    <h2>Teacher Mode</h2>
+    <p>Create IB-style papers with scenario, media, and questions</p>
+  </div>
 
 </div>
 
+<!-- FOOTER -->
+<div class="footer">
+  Atul Soral Physicism ©
+</div>
+
 <script>
+
+/* ===== NAVIGATION ===== */
 function goStudent(){
-  location.href="exam-student.html";
+  window.location.href = "exam-student.html";
 }
 
 function goTeacher(){
-  const pass = prompt("Enter teacher password:");
-  if(pass==="atul123"){
-    location.href="exam-teacher.html";
+  const pass = prompt("Enter Teacher Password:");
+  if(pass === "atul123"){
+    window.location.href = "exam-teacher.html";
   }else{
     alert("Access denied");
   }
 }
+
+/* ===== MUSIC ===== */
+const music = document.getElementById("bgMusic");
+
+function toggleMusic(){
+  if(music.paused){
+    music.play();
+  }else{
+    music.pause();
+  }
+}
+
+/* Auto-start after first click */
+document.body.addEventListener("click", function(){
+  if(music.paused){
+    music.play();
+  }
+},{ once:true });
+
 </script>
 
 </body>
