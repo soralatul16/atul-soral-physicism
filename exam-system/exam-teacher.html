@@ -1,94 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Teacher Builder</title>
-<style>
-body{background:#0f172a;color:white;font-family:sans-serif;}
-.card{background:#020617;padding:20px;margin:20px;border-radius:10px;}
-input,textarea,select{width:100%;margin:10px 0;padding:10px;}
-button{padding:10px;margin:10px;background:#2563eb;color:white;border:none;}
-</style>
+<title>Teacher Panel</title>
+<link rel="stylesheet" href="exam-style.css">
 </head>
 
 <body>
 
-<div class="card">
-<h2>Create Paper</h2>
-<input id="title" placeholder="Title">
-<textarea id="scenario" placeholder="Scenario"></textarea>
-</div>
+<h2>👨‍🏫 Teacher Panel</h2>
 
 <div class="card">
-<h3>Add Question</h3>
 
-<select id="section">
-<option value="A">Section A</option>
-<option value="B">Section B</option>
-<option value="C">Section C</option>
-<option value="D">Section D</option>
+<select id="topic">
+<option>Exploring Matter</option>
+<option>Forces and Motion</option>
+<option>Work, Power & Gravity</option>
+<option>Energy & Environment</option>
+<option>The Nature of Waves</option>
+<option>Atomic Physics</option>
+<option>Electromagnetism</option>
+<option>Thermal Physics</option>
+<option>Astrophysics</option>
 </select>
 
-<select id="type">
-<option value="mcq">MCQ</option>
-<option value="text">Long</option>
+<select id="gc">
+<option>Identities and Relationships</option>
+<option>Orientation in Space and Time</option>
+<option>Personal and Cultural Expression</option>
+<option>Scientific and Technical Innovation</option>
+<option>Globalization and Sustainability</option>
+<option>Fairness and Development</option>
 </select>
 
-<textarea id="q" placeholder="Question"></textarea>
+<select id="atl">
+<option>Thinking</option>
+<option>Communication</option>
+<option>Research</option>
+<option>Self Management</option>
+</select>
+
+<textarea id="question" placeholder="Enter Question"></textarea>
+<input id="answer" placeholder="Answer">
 <input id="marks" placeholder="Marks">
-<input id="ms" placeholder="Markscheme">
 
-<input id="optA" placeholder="Option A">
-<input id="optB" placeholder="Option B">
-<input id="optC" placeholder="Option C">
-<input id="optD" placeholder="Option D">
-<input id="ans" placeholder="Correct">
+<button onclick="saveQ()">Save Question</button>
 
-<button onclick="addQ()">Add</button>
-
-<div id="preview"></div>
 </div>
 
-<button onclick="save()">SAVE PAPER</button>
-
+<script src="exam-storage.js"></script>
 <script>
 
-let paper={title:"",scenario:"",questions:[]};
+function saveQ(){
 
-function addQ(){
+addQuestion({
+topic:topic.value,
+gc:gc.value,
+atl:atl.value,
+question:question.value,
+answer:answer.value,
+marks:marks.value
+});
 
-let q={
-section:document.getElementById("section").value,
-type:document.getElementById("type").value,
-text:document.getElementById("q").value,
-marks:Number(document.getElementById("marks").value),
-markscheme:document.getElementById("ms").value
-};
-
-if(q.type==="mcq"){
-q.options=[
-optA.value,optB.value,optC.value,optD.value
-];
-q.answer=ans.value;
+alert("Saved!");
 }
 
-paper.questions.push(q);
-
-document.getElementById("preview").innerHTML+=
-`<p>${q.text} (${q.section})</p>`;
-}
-
-function save(){
-
-paper.title=title.value;
-paper.scenario=scenario.value;
-
-let db=JSON.parse(localStorage.getItem("papers")||"[]");
-db.push(paper);
-
-localStorage.setItem("papers",JSON.stringify(db));
-
-alert("Saved");
-}
 </script>
 
 </body>
