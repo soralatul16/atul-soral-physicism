@@ -1,7 +1,15 @@
-function saveToDB(data){
-  localStorage.setItem("examPapers", JSON.stringify(data));
+const STORAGE_KEY = "examQuestionBank";
+
+function getDB(){
+  return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 }
 
-function loadFromDB(){
-  return JSON.parse(localStorage.getItem("examPapers")||"[]");
+function saveDB(db){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+}
+
+function addQuestion(q){
+  let db = getDB();
+  db.push(q);
+  saveDB(db);
 }
