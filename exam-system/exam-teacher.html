@@ -1,228 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teacher Builder</title>
-
 <style>
-body{
-  margin:0;
-  font-family:'Segoe UI', sans-serif;
-  background:linear-gradient(135deg,#0f172a,#1e3a8a);
-  color:white;
-}
-
-/* HEADER */
-.header{
-  text-align:center;
-  padding:30px;
-  font-size:28px;
-  color:#38bdf8;
-  text-shadow:0 0 10px #38bdf8;
-}
-
-/* CONTAINER */
-.container{
-  width:90%;
-  max-width:900px;
-  margin:auto;
-}
-
-/* CARD */
-.card{
-  background:#020617;
-  padding:20px;
-  border-radius:15px;
-  margin:20px 0;
-  box-shadow:0 0 25px rgba(0,0,0,0.5);
-}
-
-/* INPUT */
-input, textarea, select{
-  width:100%;
-  padding:10px;
-  margin:10px 0;
-  border-radius:8px;
-  border:none;
-}
-
-/* BUTTON */
-button{
-  padding:10px 20px;
-  margin:10px 5px;
-  border:none;
-  border-radius:8px;
-  background:#2563eb;
-  color:white;
-  cursor:pointer;
-}
-
-/* MEDIA */
-.media{
-  width:100%;
-  max-width:400px;
-  margin-top:10px;
-  border-radius:10px;
-}
+body{background:#0f172a;color:white;font-family:sans-serif;}
+.card{background:#020617;padding:20px;margin:20px;border-radius:10px;}
+input,textarea,select{width:100%;margin:10px 0;padding:10px;}
+button{padding:10px;margin:10px;background:#2563eb;color:white;border:none;}
 </style>
-
 </head>
 
 <body>
 
-<div class="header">👨‍🏫 Create IB Exam Paper</div>
-
-<div class="container">
-
-<!-- BASIC -->
 <div class="card">
-<h3>Paper Details</h3>
-
-<input id="title" placeholder="Paper Title">
-<textarea id="scenario" placeholder="Scenario / Context"></textarea>
+<h2>Create Paper</h2>
+<input id="title" placeholder="Title">
+<textarea id="scenario" placeholder="Scenario"></textarea>
 </div>
 
-<!-- CONTENT -->
-<div class="card">
-<h3>Add Content</h3>
-
-<input type="file" id="fileInput">
-<input id="urlInput" placeholder="Paste Image / Video / PDF URL">
-
-<button onclick="addContent()">Add Content</button>
-
-<div id="contentPreview"></div>
-</div>
-
-<!-- QUESTIONS -->
 <div class="card">
 <h3>Add Question</h3>
 
-<select id="qType">
-<option value="mcq">MCQ</option>
-<option value="text">Long Answer</option>
+<select id="section">
+<option value="A">Section A</option>
+<option value="B">Section B</option>
+<option value="C">Section C</option>
+<option value="D">Section D</option>
 </select>
 
-<textarea id="qText" placeholder="Question"></textarea>
+<select id="type">
+<option value="mcq">MCQ</option>
+<option value="text">Long</option>
+</select>
+
+<textarea id="q" placeholder="Question"></textarea>
 <input id="marks" placeholder="Marks">
+<input id="ms" placeholder="Markscheme">
 
-<!-- MCQ Options -->
-<div id="mcqOptions" style="display:none;">
-<input placeholder="Option A" id="optA">
-<input placeholder="Option B" id="optB">
-<input placeholder="Option C" id="optC">
-<input placeholder="Option D" id="optD">
-<input placeholder="Correct Answer" id="correct">
+<input id="optA" placeholder="Option A">
+<input id="optB" placeholder="Option B">
+<input id="optC" placeholder="Option C">
+<input id="optD" placeholder="Option D">
+<input id="ans" placeholder="Correct">
+
+<button onclick="addQ()">Add</button>
+
+<div id="preview"></div>
 </div>
 
-<button onclick="addQuestion()">Add Question</button>
-
-<div id="questionPreview"></div>
-</div>
-
-<!-- SAVE -->
-<div class="card">
-<button onclick="savePaper()">💾 Save Paper</button>
-</div>
-
-</div>
+<button onclick="save()">SAVE PAPER</button>
 
 <script>
 
-/* ===== TEMP STORAGE ===== */
-let paper = {
-title:"",
-scenario:"",
-content:[],
-questions:[]
+let paper={title:"",scenario:"",questions:[]};
+
+function addQ(){
+
+let q={
+section:document.getElementById("section").value,
+type:document.getElementById("type").value,
+text:document.getElementById("q").value,
+marks:Number(document.getElementById("marks").value),
+markscheme:document.getElementById("ms").value
 };
 
-/* ===== SHOW MCQ OPTIONS ===== */
-document.getElementById("qType").addEventListener("change",()=>{
-  const type = document.getElementById("qType").value;
-  document.getElementById("mcqOptions").style.display =
-    (type==="mcq") ? "block" : "none";
-});
-
-/* ===== ADD CONTENT ===== */
-function addContent(){
-
-const file = document.getElementById("fileInput").files[0];
-const url = document.getElementById("urlInput").value;
-
-if(file){
-  const reader = new FileReader();
-  reader.onload = function(e){
-    paper.content.push(e.target.result);
-    renderContent();
-  }
-  reader.readAsDataURL(file);
-}
-
-if(url){
-  paper.content.push(url);
-  renderContent();
-}
-}
-
-function renderContent(){
-let html="";
-paper.content.forEach(c=>{
-html+=`<img src="${c}" class="media">`;
-});
-document.getElementById("contentPreview").innerHTML=html;
-}
-
-/* ===== ADD QUESTION ===== */
-function addQuestion(){
-
-const type = document.getElementById("qType").value;
-
-let q = {
-type:type,
-text:document.getElementById("qText").value,
-marks:document.getElementById("marks").value
-};
-
-if(type==="mcq"){
-q.options = [
-document.getElementById("optA").value,
-document.getElementById("optB").value,
-document.getElementById("optC").value,
-document.getElementById("optD").value
+if(q.type==="mcq"){
+q.options=[
+optA.value,optB.value,optC.value,optD.value
 ];
-q.answer = document.getElementById("correct").value;
+q.answer=ans.value;
 }
 
 paper.questions.push(q);
-renderQuestions();
+
+document.getElementById("preview").innerHTML+=
+`<p>${q.text} (${q.section})</p>`;
 }
 
-function renderQuestions(){
-let html="";
-paper.questions.forEach((q,i)=>{
-html+=`<p><b>Q${i+1}</b> ${q.text} (${q.marks})</p>`;
-});
-document.getElementById("questionPreview").innerHTML=html;
-}
+function save(){
 
-/* ===== SAVE ===== */
-function savePaper(){
+paper.title=title.value;
+paper.scenario=scenario.value;
 
-paper.title = document.getElementById("title").value;
-paper.scenario = document.getElementById("scenario").value;
-
-let db = JSON.parse(localStorage.getItem("examPapers")||"[]");
+let db=JSON.parse(localStorage.getItem("papers")||"[]");
 db.push(paper);
 
-localStorage.setItem("examPapers", JSON.stringify(db));
+localStorage.setItem("papers",JSON.stringify(db));
 
-alert("Saved Successfully!");
-
-paper = {title:"",scenario:"",content:[],questions:[]};
+alert("Saved");
 }
-
 </script>
 
 </body>
