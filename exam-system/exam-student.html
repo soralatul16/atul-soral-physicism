@@ -1,179 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Exam</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>
-body{background:#0f172a;color:white;font-family:sans-serif;}
-.card{background:#020617;padding:20px;margin:20px;border-radius:10px;}
-</style>
+<title>Student Practice</title>
+<link rel="stylesheet" href="exam-style.css">
 </head>
 
 <body>
 
-<input id="name" placeholder="Name">
+<h2>📝 Student Practice</h2>
 
-<select id="topicFilter"><option value="">All Topics</option></select>
-<select id="gcFilter"><option value="">All GC</option></select>
-<select id="atlFilter"><option value="">All ATL</option></select>
+<select id="topicFilter"></select>
+<select id="gcFilter"></select>
+<select id="atlFilter"></select>
 
-<button onclick="load()">Load</button>
-<button onclick="toggleMS()">Markscheme</button>
-<button onclick="downloadPDF()">PDF</button>
+<button onclick="load()">Apply Filter</button>
 
-<div id="exam"></div>
+<div id="questions"></div>
 
+<script src="exam-storage.js"></script>
 <script>
 
-let papers=JSON.parse(localStorage.getItem("papers")||[]);
-let attempts=JSON.parse(localStorage.getItem("attempts")||[]);
+let db = getDB();
 
-let showMS=false;
+/* UNIQUE VALUES */
+function fillFilters(){
 
-/* FILTER OPTIONS */
-let topics=[...new Set(papers.map(p=>p.topic))];
+let topics=[...new Set(db.map(q=>q.topic))];
 topics.forEach(t=>topicFilter.innerHTML+=`<option>${t}</option>`);
 
-let gcs=[...new Set(papers.map(p=>p.gc))];
+let gcs=[...new Set(db.map(q=>q.gc))];
 gcs.forEach(g=>gcFilter.innerHTML+=`<option>${g}</option>`);
 
-let atls=[...new Set(papers.map(p=>p.atl))];
+let atls=[...new Set(db.map(q=>q.atl))];
 atls.forEach(a=>atlFilter.innerHTML+=`<option>${a}</option>`);
 
+}
+
+fillFilters();
+
+/* LOAD QUESTIONS */
 function load(){
 
-let topic=topicFilter.value;
-let gc=gcFilter.value;
-let atl=atlFilter.value;
+let t=topicFilter.value;
+let g=gcFilter.value;
+let a=atlFilter.value;
 
 let html="";
 
-papers.forEach(p=>{
+db.filter(q=>
+(!t || q.topic===t) &&
+(!g || q.gc===g) &&
+(!a || q.atl===a)
+).forEach(q=>{
 
-if(topic && p.topic!==topic) return;
-if(gc && p.gc!==gc) return;
-if(atl && p.atl!==atl) return;
-
-html+=`<div class="card"><h2>${p.title}</h2><p>${p.scenario}</p>`;
-
-let sec={A:[],B:[],C:[],D:[]};
-
-p.questions.forEach((q,i)=>{
-q.i=i;
-sec[q.section].push(q);
-});
-
-for(let s in sec){
-
-if(sec[s].length===0) continue;
-
-html+=`<h3>Section ${s}</h3>`;
-
-sec[s].forEach(q=>{
-
-html+=`<p>Q${q.i+1} (${q.marks}) ${q.text}</p>`;
-
-/* MCQ */
-if(q.type==="mcq"){
-q.options.forEach(o=>{
-html+=`<br><input type="radio" name="q${q.i}" value="${o}">${o}`;
-});
-}
-
-/* TEXT */
-if(q.type==="text"){
-html+=`<textarea id="q${q.i}"></textarea>`;
-}
-
-/* DRAG */
-if(q.type==="drag"){
-q.pairs.forEach((p,j)=>{
-html+=`${p.left}
-<select id="d-${q.i}-${j}">
-<option value="+1">+1</option>
-<option value="-1">-1</option>
-<option value="0">0</option>
-</select><br>`;
-});
-}
-
-/* MS */
-html+=`<p id="ms-${q.i}" style="display:${showMS?"block":"none"}">
-${q.markscheme||"No markscheme"}
-</p>`;
-});
-
-}
-
-html+=`<button onclick="submit('${p.title}')">Submit</button></div>`;
-});
-
-exam.innerHTML=html;
-}
-
-function toggleMS(){
-showMS=!showMS;
-document.querySelectorAll("[id^='ms-']").forEach(el=>{
-el.style.display=showMS?"block":"none";
-});
-}
-
-function submit(title){
-
-let score=0,total=0;
-
-papers.forEach(p=>{
-if(p.title!==title) return;
-
-p.questions.forEach((q,i)=>{
-total+=q.marks;
-
-/* MCQ */
-if(q.type==="mcq"){
-let sel=document.querySelector(`input[name="q${i}"]:checked`);
-if(sel && sel.value===q.answer) score+=q.marks;
-}
-
-/* DRAG */
-if(q.type==="drag"){
-let correct=0;
-q.pairs.forEach((pair,j)=>{
-let val=document.getElementById(`d-${i}-${j}`)?.value;
-if(val===pair.right) correct++;
-});
-score += (correct/q.pairs.length)*q.marks;
-}
+html+=`
+<div class="card">
+<b>${q.question}</b><br>
+GC: ${q.gc} | ATL: ${q.atl}<br>
+Marks: ${q.marks}
+</div>
+`;
 
 });
-});
 
-let level=Math.ceil((score/total)*8);
+questions.innerHTML=html;
 
-alert(`Score ${score}/${total}\nLevel ${level}`);
-
-attempts.push({name:name.value,score,total,level,date:new Date().toLocaleString()});
-localStorage.setItem("attempts",JSON.stringify(attempts));
-
-sendToGoogle(score,level);
-}
-
-/* GOOGLE */
-function sendToGoogle(score,level){
-fetch("YOUR_WEB_APP_URL",{method:"POST",body:JSON.stringify({
-name:name.value,score,level,date:new Date().toLocaleString()
-})});
-}
-
-/* PDF */
-function downloadPDF(){
-
-const { jsPDF } = window.jspdf;
-let doc=new jsPDF();
-doc.text("IB Exam",10,10);
-doc.text("Name: "+name.value,10,20);
-doc.save("exam.pdf");
 }
 
 </script>
+
 </body>
 </html>
