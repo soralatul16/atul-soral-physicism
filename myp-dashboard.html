@@ -1,24 +1,24 @@
+
+MYP DashBoard
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MYP Dashboard</title>
+<title>MYP Dashboard | Physicism</title>
 
 <style>
+
+/* ===== BASE ===== */
 body{
   margin:0;
-  font-family:'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', sans-serif;
+  background:#140808;
   color:white;
-
-  /* 🔥 BACKGROUND IMAGE */
-  background:linear-gradient(rgba(20,8,8,0.9), rgba(20,8,8,0.95)),
-  url("YOUR-IMAGE.jpg");
-  background-size:cover;
-  background-attachment:fixed;
 }
 
-/* NAVBAR */
+/* ===== NAVBAR ===== */
 .navbar{
   display:flex;
   justify-content:space-between;
@@ -26,120 +26,284 @@ body{
   background:#2b0d0d;
 }
 
-/* HERO */
+.nav-links a{
+  margin-left:20px;
+  color:white;
+  text-decoration:none;
+}
+
+/* ===== HERO ===== */
 .hero{
   background:linear-gradient(135deg,#ef4444,#7f1d1d);
   padding:60px;
   text-align:center;
 }
 
-/* GRID */
+/* ===== SECTION ===== */
+.section{
+  padding:40px;
+}
+
+/* ===== GRID ===== */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:20px;
-  padding:40px;
 }
 
-/* CARD */
+/* ===== CARD ===== */
 .card{
   background:#2b0d0d;
   padding:20px;
   border-radius:12px;
   text-align:center;
   cursor:pointer;
+  transition:0.3s;
 }
 
-/* TOPICS */
-.topic{
+.card:hover{
+  transform:scale(1.05);
+  background:#3b1111;
+}
+
+/* ===== TOPICS ===== */
+.topic-card{
   background:#2b0d0d;
   padding:15px;
   border-radius:10px;
   text-align:center;
-  color:white;
   cursor:pointer;
+  color:white;
 }
 
-.locked{opacity:0.4;}
+.locked{ opacity:0.4; }
+
+/* ===== ANALYTICS ===== */
+.analytics{
+  background:#020617;
+  padding:20px;
+  border-radius:12px;
+  margin-top:20px;
+}
+
+/* ===== FILTER ===== */
+select{
+  padding:10px;
+  margin:10px;
+  border-radius:8px;
+}
+
+/* ===== TAG BADGE ===== */
+.tag{
+  display:inline-block;
+  background:#ef4444;
+  padding:4px 8px;
+  border-radius:6px;
+  margin:3px;
+  font-size:12px;
+}
 
 </style>
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <div class="navbar">
-<b>🔴 MYP Physics</b>
-<div>
-<a href="index.html" style="color:white">Home</a>
-</div>
+  <b>🔴 MYP Physics</b>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="#">Flashcards</a>
+    <a href="#">Formula Bank</a>
+  </div>
 </div>
 
+<!-- HERO -->
 <div class="hero">
-<h1>IB MYP Physics Dashboard</h1>
-<p>Practice • Performance • Progress</p>
+  <h1>IB MYP Physics Dashboard</h1>
+  <p>Practice • Performance • Progress</p>
 </div>
 
 <!-- PRACTICE -->
+<div class="section">
+<h2>🧠 Practice</h2>
+
 <div class="grid">
 
-<div class="card" onclick="location.href='./exam-system/students.html'">
-📝 Student Practice
-</div>
+<div class="card" onclick="openStudent()">📝 Student Practice</div>
 
-<div class="card" onclick="location.href='./exam-system/dashboard.html'">
-📊 Analytics
-</div>
+<div class="card" id="teacherCard" style="display:none;" onclick="openTeacher()">👨‍🏫 Teacher Panel</div>
 
-<!-- 🔐 TEACHER ACCESS -->
-<div class="card" onclick="openTeacher()">
-👨‍🏫 Teacher Panel
-</div>
+<div class="card" onclick="openAnalytics()">📊 Analytics</div>
 
 </div>
+</div>
 
-<!-- TOPICS (UNCHANGED) -->
+<!-- TOPICS -->
+<div class="section">
+<h2>📚 MYP Topics</h2>
 <div class="grid" id="topics"></div>
+</div>
+
+<!-- FILTERS -->
+<div class="section">
+<h2>🔍 Smart Filters</h2>
+
+<select id="topicFilter">
+<option value="">All Topics</option>
+</select>
+
+<select id="gcFilter">
+<option value="">All GC</option>
+<option>A</option>
+<option>B</option>
+<option>C</option>
+<option>D</option>
+</select>
+
+<select id="atlFilter">
+<option value="">All ATL</option>
+<option>Thinking</option>
+<option>Communication</option>
+<option>Research</option>
+<option>Self-Management</option>
+</select>
+
+<button onclick="applyFilter()">Apply Filter</button>
+
+<div id="filteredResults"></div>
+
+</div>
+
+<!-- ANALYTICS -->
+<div class="section">
+<h2>📊 Performance Analytics</h2>
+
+<div class="analytics">
+<p id="summary"></p>
+<div id="weak"></div>
+<div id="criteria"></div>
+</div>
+
+</div>
 
 <script>
 
-/* TEACHER ACCESS */
+/* ===== BASE PATH ===== */
+const BASE = "./exam-system";
+
+/* ===== NAVIGATION ===== */
+function openStudent(){ window.location.href = BASE + "/students.html"; }
+
 function openTeacher(){
-let p=prompt("Enter Teacher Password:");
-if(p==="atul123"){
-window.location.href="./exam-system/teacher.html";
-}else{
-alert("Wrong password");
-}
+  let p = prompt("Enter Teacher Password:");
+  if(p && p.trim() === "atul123"){
+    sessionStorage.setItem("teacherAccess","true");
+    document.getElementById("teacherCard").style.display="block";
+    window.location.href = BASE + "/teacher.html";
+  }
 }
 
-/* TOPICS (UNCHANGED SYSTEM) */
-const chapters=[
-{name:"Exploring Matter",key:"matter",ready:false},
-{name:"Forces and Motion",key:"forces",ready:true},
-{name:"Work, Power & Gravity",key:"workpower",ready:false},
-{name:"Energy & Environment",key:"energy",ready:false},
-{name:"The Nature of Waves",key:"waves",ready:true},
-{name:"Atomic Physics",key:"atomic",ready:true},
-{name:"Electromagnetism",key:"electromagnetism",ready:true},
-{name:"Thermal Physics",key:"thermal",ready:false},
-{name:"Astrophysics",key:"astro",ready:false}
+function openAnalytics(){ window.location.href = BASE + "/dashboard.html"; }
+
+/* ===== TEACHER VISIBILITY ===== */
+if(sessionStorage.getItem("teacherAccess")==="true"){
+  document.getElementById("teacherCard").style.display="block";
+}
+
+/* ===== TOPICS ===== */
+const chapters = [
+  {name:"Exploring Matter", key:"matter", ready:false},
+  {name:"Forces and Motion", key:"forces", ready:true},
+  {name:"Work, Power & Gravity", key:"workpower", ready:false},
+  {name:"Energy & Environment", key:"energy", ready:false},
+  {name:"The Nature of Waves", key:"waves", ready:true},
+  {name:"Atomic Physics", key:"atomic", ready:true},
+  {name:"Electromagnetism", key:"electromagnetism", ready:true},
+  {name:"Thermal Physics", key:"thermal", ready:false},
+  {name:"Astrophysics", key:"astro", ready:false}
 ];
 
-const container=document.getElementById("topics");
+const topicContainer = document.getElementById("topics");
+const topicFilter = document.getElementById("topicFilter");
 
 chapters.forEach(ch=>{
-let div=document.createElement("div");
-div.className="topic";
-div.innerText=ch.name;
+  const div=document.createElement("div");
+  div.className="topic-card";
+  div.innerText=ch.name;
 
-if(ch.ready){
-div.onclick=()=>window.location.href=`./chapter.html?topic=${ch.key}`;
-}else{
-div.classList.add("locked");
+  if(ch.ready){
+    div.onclick=()=>window.location.href=`./chapter.html?topic=${ch.key}`;
+    topicFilter.innerHTML+=`<option value="${ch.key}">${ch.name}</option>`;
+  } else {
+    div.classList.add("locked");
+  }
+
+  topicContainer.appendChild(div);
+});
+
+/* ===== LOAD DATA ===== */
+let attempts = JSON.parse(localStorage.getItem("attempts")||[]);
+
+/* ===== SUMMARY ===== */
+let total=attempts.length;
+let avg=0;
+attempts.forEach(a=>avg+=a.score);
+avg=total?(avg/total).toFixed(1):0;
+
+document.getElementById("summary").innerHTML=
+`Total Attempts: ${total} | Avg Score: ${avg}`;
+
+/* ===== FILTER SYSTEM ===== */
+function applyFilter(){
+
+  let t = topicFilter.value;
+  let gc = document.getElementById("gcFilter").value;
+  let atl = document.getElementById("atlFilter").value;
+
+  let res = attempts.filter(a=>{
+    return (!t || a.topic===t) &&
+           (!gc || a.gc===gc) &&
+           (!atl || a.atl===atl);
+  });
+
+  let html="";
+
+  res.forEach(r=>{
+    html+=`
+    <div class="card">
+      <b>${r.name}</b><br>
+      Score: ${r.score}/${r.total}<br>
+      <span class="tag">${r.topic||"General"}</span>
+      <span class="tag">GC: ${r.gc||"-"}</span>
+      <span class="tag">ATL: ${r.atl||"-"}</span>
+    </div>`;
+  });
+
+  document.getElementById("filteredResults").innerHTML=html;
 }
 
-container.appendChild(div);
+/* ===== WEAK AREAS ===== */
+let weakHTML="";
+attempts.forEach(a=>{
+  if(a.score<5){
+    weakHTML+=`<p>⚠ Weak: ${a.topic||"General"}</p>`;
+  }
 });
+document.getElementById("weak").innerHTML=weakHTML;
+
+/* ===== IB CRITERIA ===== */
+let crit={A:0,B:0,C:0,D:0};
+
+attempts.forEach(a=>{
+  if(a.gc) crit[a.gc]+=a.score;
+});
+
+let chtml="<h3>IB Criteria Performance</h3>";
+for(let c in crit){
+  chtml+=`<p>${c}: ${crit[c]}</p>`;
+}
+document.getElementById("criteria").innerHTML=chtml;
 
 </script>
 
