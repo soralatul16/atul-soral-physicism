@@ -1,103 +1,121 @@
-let paper = {
-  scenario:"",
-  images:[],
-  videos:[],
-  questions:[]
+let tempPaper = {
+  content: [],
+  questions: []
 };
 
-/* ADD IMAGE */
-function addImage(){
-const url = document.getElementById("imageUrl").value;
-
-if(!url) return;
-
-/* 🔥 Save URL */
-paper.images.push(url);
-
-/* Preview */
-document.getElementById("imagePreview").innerHTML +=
-`<img src="${url}" width="200">`;
-
+function switchMode(mode){
+  document.getElementById("teacherPanel").style.display =
+    mode==="teacher" ? "block" : "none";
 }
 
-/* ADD VIDEO */
-function addVideo(){
-const url = document.getElementById("videoUrl").value;
+/* CONTENT */
+function addContent(type){
 
-paper.videos.push(url);
-
-document.getElementById("videoPreview").innerHTML +=
-`<iframe width="300" src="${url}"></iframe>`;
+if(type==="text"){
+tempPaper.content.push({type:"text", value:""});
 }
 
-/* ADD QUESTION */
-function addQuestion(type){
+if(type==="image"){
+const url = prompt("Paste Image URL");
+tempPaper.content.push({type:"image", src:url});
+}
+
+if(type==="video"){
+const url = prompt("Paste YouTube Embed URL");
+tempPaper.content.push({type:"video", src:url});
+}
+
+renderContent();
+}
+
+function renderContent(){
+let html="";
+tempPaper.content.forEach(c=>{
+if(c.type==="image"){
+html+=`<img src="${c.src}" width="200">`;
+}
+if(c.type==="video"){
+html+=`<iframe src="${c.src}" width="300"></iframe>`;
+}
+if(c.type==="text"){
+html+=`<textarea placeholder="Text"></textarea>`;
+}
+});
+document.getElementById("contentBox").innerHTML=html;
+}
+
+/* QUESTIONS */
+function addQ(type){
 
 const q = {
 type:type,
 question:"",
-options:[],
-answer:"",
-marks:1
+marks:1,
+criteria:"A"
 };
 
-paper.questions.push(q);
-
-renderQuestions();
+if(type==="mcq"){
+q.options=["","","",""];
+q.answer="";
 }
 
-/* RENDER QUESTIONS */
-function renderQuestions(){
+tempPaper.questions.push(q);
+renderQ();
+}
+
+function renderQ(){
 
 let html="";
 
-paper.questions.forEach((q,i)=>{
+tempPaper.questions.forEach((q,i)=>{
 
 html+=`<div class="question-box">
 
-<input placeholder="Question" 
-oninput="paper.questions[${i}].question=this.value">
+<input placeholder="Question"
+oninput="tempPaper.questions[${i}].question=this.value">
 
-<br>
+<select onchange="tempPaper.questions[${i}].criteria=this.value">
+<option>A</option><option>B</option><option>C</option><option>D</option>
+</select>
 
-Marks:
 <input type="number" value="1"
-oninput="paper.questions[${i}].marks=this.value">
-
+oninput="tempPaper.questions[${i}].marks=this.value">
 `;
 
 if(q.type==="mcq"){
+q.options.forEach((o,j)=>{
+html+=`
+<input placeholder="Option"
+oninput="tempPaper.questions[${i}].options[${j}]=this.value">`;
+});
 
 html+=`
-<input placeholder="Option 1" oninput="updateOption(${i},0,this.value)">
-<input placeholder="Option 2" oninput="updateOption(${i},1,this.value)">
-<input placeholder="Option 3" oninput="updateOption(${i},2,this.value)">
-<input placeholder="Option 4" oninput="updateOption(${i},3,this.value)">
-
-<input placeholder="Correct Answer"
-oninput="paper.questions[${i}].answer=this.value">
-`;
-
+<input placeholder="Answer"
+oninput="tempPaper.questions[${i}].answer=this.value">`;
 }
 
 html+=`</div>`;
 });
 
-document.getElementById("questions").innerHTML = html;
+document.getElementById("questionBox").innerHTML=html;
 }
 
-/* UPDATE OPTION */
-function updateOption(i,index,value){
-paper.questions[i].options[index]=value;
-}
-
-/* SAVE PAPER */
+/* SAVE */
 function savePaper(){
 
-paper.scenario = document.getElementById("scenario").value;
+const paper = {
+id: Date.now().toString(),
+unit: document.getElementById("unit").value,
+topic: document.getElementById("topic").value,
+title: document.getElementById("paperTitle").value,
+scenario: document.getElementById("scenario").value,
+content: tempPaper.content,
+questions: tempPaper.questions
+};
 
-/* 🔥 SAVE LOCALLY */
-localStorage.setItem("ib-paper", JSON.stringify(paper));
+let db = JSON.parse(localStorage.getItem("papers") || "[]");
+db.push(paper);
+localStorage.setItem("papers", JSON.stringify(db));
 
-alert("Paper Saved!");
+alert("Saved!");
 }
