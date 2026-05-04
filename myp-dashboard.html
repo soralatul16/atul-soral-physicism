@@ -13,8 +13,16 @@ MYP DashBoard
 /* ===== BASE ===== */
 body{
   margin:0;
-  font-family: 'Segoe UI', sans-serif;
-  background:#452020;
+  font-family:'Segoe UI', sans-serif;
+
+  background: 
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)),
+    url('./exam-system/assets/bg.jpg');
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
   color:white;
 }
 
@@ -23,7 +31,7 @@ body{
   display:flex;
   justify-content:space-between;
   padding:15px 30px;
-  background:#520303;
+  background:#1a0f0f;
 }
 
 .nav-links a{
@@ -34,7 +42,7 @@ body{
 
 /* ===== HERO ===== */
 .hero{
-  background:linear-gradient(135deg,#ef4444,#7f1d1d);
+  background:linear-gradient(135deg,#ef4444,#991b1b);
   padding:60px;
   text-align:center;
 }
@@ -53,7 +61,7 @@ body{
 
 /* ===== CARD ===== */
 .card{
-  background:#421e1e;
+  background:#1f2937;
   padding:20px;
   border-radius:12px;
   text-align:center;
@@ -61,14 +69,14 @@ body{
   transition:0.3s;
 }
 
-.card:hover{
+.topic-card:hover{
+  background:#ef4444;
   transform:scale(1.05);
-  background:#3b1111;
 }
 
 /* ===== TOPICS ===== */
 .topic-card{
-  background:#613838;
+  background:#111827;
   padding:15px;
   border-radius:10px;
   text-align:center;
@@ -143,36 +151,6 @@ select{
 <div class="section">
 <h2>📚 MYP Topics</h2>
 <div class="grid" id="topics"></div>
-</div>
-
-<!-- FILTERS -->
-<div class="section">
-<h2>🔍 Smart Filters</h2>
-
-<select id="topicFilter">
-<option value="">All Topics</option>
-</select>
-
-<select id="gcFilter">
-<option value="">All GC</option>
-<option>A</option>
-<option>B</option>
-<option>C</option>
-<option>D</option>
-</select>
-
-<select id="atlFilter">
-<option value="">All ATL</option>
-<option>Thinking</option>
-<option>Communication</option>
-<option>Research</option>
-<option>Self-Management</option>
-</select>
-
-<button onclick="applyFilter()">Apply Filter</button>
-
-<div id="filteredResults"></div>
-
 </div>
 
 <!-- ANALYTICS -->
@@ -254,34 +232,6 @@ avg=total?(avg/total).toFixed(1):0;
 document.getElementById("summary").innerHTML=
 `Total Attempts: ${total} | Avg Score: ${avg}`;
 
-/* ===== FILTER SYSTEM ===== */
-function applyFilter(){
-
-  let t = topicFilter.value;
-  let gc = document.getElementById("gcFilter").value;
-  let atl = document.getElementById("atlFilter").value;
-
-  let res = attempts.filter(a=>{
-    return (!t || a.topic===t) &&
-           (!gc || a.gc===gc) &&
-           (!atl || a.atl===atl);
-  });
-
-  let html="";
-
-  res.forEach(r=>{
-    html+=`
-    <div class="card">
-      <b>${r.name}</b><br>
-      Score: ${r.score}/${r.total}<br>
-      <span class="tag">${r.topic||"General"}</span>
-      <span class="tag">GC: ${r.gc||"-"}</span>
-      <span class="tag">ATL: ${r.atl||"-"}</span>
-    </div>`;
-  });
-
-  document.getElementById("filteredResults").innerHTML=html;
-}
 
 /* ===== WEAK AREAS ===== */
 let weakHTML="";
