@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Analytics</title>
+<title>Dashboard</title>
 <style>
 body{background:#0f172a;color:white;font-family:sans-serif;}
 .card{background:#020617;padding:20px;margin:20px;}
@@ -10,22 +10,27 @@ body{background:#0f172a;color:white;font-family:sans-serif;}
 
 <body>
 
-<h2>📊 Analytics</h2>
-
+<h2>📊 Dashboard</h2>
 <div id="data"></div>
 
 <script>
 
 let attempts=JSON.parse(localStorage.getItem("attempts")||[]);
 
-let html="";
+let total=attempts.length;
+let avg=0;
+
+attempts.forEach(a=>avg+=a.score);
+avg=total?(avg/total).toFixed(1):0;
+
+let html=`<div class="card">
+Total Attempts: ${total}<br>
+Average Score: ${avg}
+</div>`;
 
 attempts.forEach(a=>{
 html+=`<div class="card">
-<b>${a.name}</b><br>
-Score: ${a.score}/${a.total}<br>
-Level: ${a.level}<br>
-${a.date}
+${a.name} | ${a.score}/${a.total} | Level ${a.level}<br>${a.date}
 </div>`;
 });
 
