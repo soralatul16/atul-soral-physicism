@@ -3,7 +3,6 @@
 <head>
 <title>Exam</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
 body{background:#0f172a;color:white;font-family:sans-serif;}
 .card{background:#020617;padding:20px;margin:20px;border-radius:10px;}
@@ -14,27 +13,48 @@ body{background:#0f172a;color:white;font-family:sans-serif;}
 
 <input id="name" placeholder="Name">
 
-<select id="paper"></select>
-<button onclick="start()">Start</button>
+<select id="topicFilter"><option value="">All Topics</option></select>
+<select id="gcFilter"><option value="">All GC</option></select>
+<select id="atlFilter"><option value="">All ATL</option></select>
+
+<button onclick="load()">Load</button>
+<button onclick="toggleMS()">Markscheme</button>
+<button onclick="downloadPDF()">PDF</button>
 
 <div id="exam"></div>
 
 <script>
 
 let papers=JSON.parse(localStorage.getItem("papers")||[]);
-let attempts=JSON.parse(localStorage.getItem("attempts")||"[]");
+let attempts=JSON.parse(localStorage.getItem("attempts")||[]);
 
-papers.forEach((p,i)=>{
-paper.innerHTML+=`<option value="${i}">${p.title}</option>`;
-});
+let showMS=false;
 
-let startTime;
+/* FILTER OPTIONS */
+let topics=[...new Set(papers.map(p=>p.topic))];
+topics.forEach(t=>topicFilter.innerHTML+=`<option>${t}</option>`);
 
-function start(){
+let gcs=[...new Set(papers.map(p=>p.gc))];
+gcs.forEach(g=>gcFilter.innerHTML+=`<option>${g}</option>`);
 
-startTime=new Date();
+let atls=[...new Set(papers.map(p=>p.atl))];
+atls.forEach(a=>atlFilter.innerHTML+=`<option>${a}</option>`);
 
-let p=papers[paper.value];
+function load(){
+
+let topic=topicFilter.value;
+let gc=gcFilter.value;
+let atl=atlFilter.value;
+
+let html="";
+
+papers.forEach(p=>{
+
+if(topic && p.topic!==topic) return;
+if(gc && p.gc!==gc) return;
+if(atl && p.atl!==atl) return;
+
+html+=`<div class="card"><h2>${p.title}</h2><p>${p.scenario}</p>`;
 
 let sec={A:[],B:[],C:[],D:[]};
 
@@ -42,8 +62,6 @@ p.questions.forEach((q,i)=>{
 q.i=i;
 sec[q.section].push(q);
 });
-
-let html=`<div class="card"><h2>${p.title}</h2><p>${p.scenario}</p>`;
 
 for(let s in sec){
 
@@ -55,82 +73,107 @@ sec[s].forEach(q=>{
 
 html+=`<p>Q${q.i+1} (${q.marks}) ${q.text}</p>`;
 
+/* MCQ */
 if(q.type==="mcq"){
 q.options.forEach(o=>{
 html+=`<br><input type="radio" name="q${q.i}" value="${o}">${o}`;
 });
 }
 
+/* TEXT */
 if(q.type==="text"){
 html+=`<textarea id="q${q.i}"></textarea>`;
 }
 
-html+=`<p style="display:none" id="ms-${q.i}">
-${q.markscheme||"No markscheme"}
-</p>`;
+/* DRAG */
+if(q.type==="drag"){
+q.pairs.forEach((p,j)=>{
+html+=`${p.left}
+<select id="d-${q.i}-${j}">
+<option value="+1">+1</option>
+<option value="-1">-1</option>
+<option value="0">0</option>
+</select><br>`;
 });
 }
 
-html+=`<button onclick="submit()">Submit</button>`;
+/* MS */
+html+=`<p id="ms-${q.i}" style="display:${showMS?"block":"none"}">
+${q.markscheme||"No markscheme"}
+</p>`;
+});
+
+}
+
+html+=`<button onclick="submit('${p.title}')">Submit</button></div>`;
+});
 
 exam.innerHTML=html;
 }
 
-function submit(){
+function toggleMS(){
+showMS=!showMS;
+document.querySelectorAll("[id^='ms-']").forEach(el=>{
+el.style.display=showMS?"block":"none";
+});
+}
 
-let score=0;
-let total=0;
-let p=papers[paper.value];
+function submit(title){
+
+let score=0,total=0;
+
+papers.forEach(p=>{
+if(p.title!==title) return;
 
 p.questions.forEach((q,i)=>{
 total+=q.marks;
 
+/* MCQ */
 if(q.type==="mcq"){
 let sel=document.querySelector(`input[name="q${i}"]:checked`);
-if(sel && sel.value===q.answer){
-score+=q.marks;
+if(sel && sel.value===q.answer) score+=q.marks;
 }
+
+/* DRAG */
+if(q.type==="drag"){
+let correct=0;
+q.pairs.forEach((pair,j)=>{
+let val=document.getElementById(`d-${i}-${j}`)?.value;
+if(val===pair.right) correct++;
+});
+score += (correct/q.pairs.length)*q.marks;
 }
+
+});
 });
 
-let percent=(score/total)*100;
-let level=Math.ceil(percent/12.5);
-if(level>8) level=8;
+let level=Math.ceil((score/total)*8);
 
-alert(`Score ${score}/${total}\nIB Level ${level}`);
+alert(`Score ${score}/${total}\nLevel ${level}`);
 
-saveAttempt(score,level,total);
+attempts.push({name:name.value,score,total,level,date:new Date().toLocaleString()});
+localStorage.setItem("attempts",JSON.stringify(attempts));
+
 sendToGoogle(score,level);
 }
 
-function saveAttempt(score,level,total){
-
-attempts.push({
-name:name.value,
-score,
-level,
-total,
-date:new Date().toLocaleString()
-});
-
-localStorage.setItem("attempts",JSON.stringify(attempts));
+/* GOOGLE */
+function sendToGoogle(score,level){
+fetch("YOUR_WEB_APP_URL",{method:"POST",body:JSON.stringify({
+name:name.value,score,level,date:new Date().toLocaleString()
+})});
 }
 
-/* GOOGLE SHEETS */
-function sendToGoogle(score,level){
+/* PDF */
+function downloadPDF(){
 
-fetch("YOUR_WEB_APP_URL",{
-method:"POST",
-body:JSON.stringify({
-name:name.value,
-score,
-level,
-date:new Date().toLocaleString()
-})
-});
+const { jsPDF } = window.jspdf;
+let doc=new jsPDF();
+doc.text("IB Exam",10,10);
+doc.text("Name: "+name.value,10,20);
+doc.save("exam.pdf");
 }
 
 </script>
-
 </body>
 </html>
