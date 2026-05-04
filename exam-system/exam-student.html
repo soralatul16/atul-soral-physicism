@@ -1,135 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>IB Exam Practice</title>
-
+<title>Exam</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-body{
-  margin:0;
-  font-family:'Segoe UI';
-  background:linear-gradient(135deg,#0f172a,#1e3a8a);
-  color:white;
-}
-
-.header{
-  text-align:center;
-  padding:20px;
-  color:#38bdf8;
-}
-
-.card{
-  width:90%;
-  max-width:900px;
-  margin:auto;
-  background:#020617;
-  padding:20px;
-  border-radius:15px;
-  margin-top:20px;
-}
-
-.question{
-  margin-top:15px;
-  padding:15px;
-  background:#1e293b;
-  border-radius:10px;
-}
-
-textarea{
-  width:100%;
-  height:100px;
-  margin-top:10px;
-}
-
-.timer{
-  position:fixed;
-  top:10px;
-  right:10px;
-  background:#020617;
-  padding:10px;
-  border-radius:10px;
-}
-
-button{
-  padding:10px;
-  margin:5px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-}
+body{background:#0f172a;color:white;font-family:sans-serif;}
+.card{background:#020617;padding:20px;margin:20px;border-radius:10px;}
 </style>
 </head>
 
 <body>
 
-<div class="header">🎓 IB Exam Practice</div>
+<input id="name" placeholder="Name">
 
-<div class="card">
+<select id="paper"></select>
+<button onclick="start()">Start</button>
 
-<input id="studentName" placeholder="Enter your name">
-
-<select id="paperSelect"></select>
-
-<br>
-
-<button onclick="startExam()">Start</button>
-<button onclick="saveProgress()">Save</button>
-<button onclick="toggleMS()">Markscheme</button>
-<button onclick="downloadPDF()">PDF</button>
-
-</div>
-
-<div id="timer" class="timer">⏱ 0s</div>
-<div id="examArea"></div>
+<div id="exam"></div>
 
 <script>
 
-/* LOAD DATA */
-let papers = JSON.parse(localStorage.getItem("examPapers")||[]);
-let progress = JSON.parse(localStorage.getItem("progress")||"{}");
-
-const select = document.getElementById("paperSelect");
+let papers=JSON.parse(localStorage.getItem("papers")||[]);
+let attempts=JSON.parse(localStorage.getItem("attempts")||"[]");
 
 papers.forEach((p,i)=>{
-select.innerHTML += `<option value="${i}">${p.title}</option>`;
+paper.innerHTML+=`<option value="${i}">${p.title}</option>`;
 });
 
-let startTime, timer, showMS=false;
+let startTime;
 
-/* TIMER */
-function startTimer(){
+function start(){
+
 startTime=new Date();
-timer=setInterval(()=>{
-let t=Math.floor((new Date()-startTime)/1000);
-document.getElementById("timer").innerText="⏱ "+t+"s";
-},1000);
-}
 
-/* START */
-function startExam(){
-
-let name=document.getElementById("studentName").value;
-if(!name){ alert("Enter name"); return; }
-
-startTimer();
-
-let p=papers[select.value];
+let p=papers[paper.value];
 
 let sec={A:[],B:[],C:[],D:[]};
 
 p.questions.forEach((q,i)=>{
 q.i=i;
-sec[q.section||"A"].push(q);
+sec[q.section].push(q);
 });
 
 let html=`<div class="card"><h2>${p.title}</h2><p>${p.scenario}</p>`;
-
-p.content.forEach(c=>{
-html+= c.includes("youtube") ?
-`<iframe src="${c}" width="100%" height="250"></iframe>` :
-`<img src="${c}" style="width:100%">`;
-});
 
 for(let s in sec){
 
@@ -139,8 +53,7 @@ html+=`<h3>Section ${s}</h3>`;
 
 sec[s].forEach(q=>{
 
-html+=`<div class="question">
-<b>Q${q.i+1}</b> (${q.marks})<br>${q.text}`;
+html+=`<p>Q${q.i+1} (${q.marks}) ${q.text}</p>`;
 
 if(q.type==="mcq"){
 q.options.forEach(o=>{
@@ -152,136 +65,69 @@ if(q.type==="text"){
 html+=`<textarea id="q${q.i}"></textarea>`;
 }
 
-html+=`<div class="ms" id="ms-${q.i}" style="display:none;color:#38bdf8;">
+html+=`<p style="display:none" id="ms-${q.i}">
 ${q.markscheme||"No markscheme"}
-</div></div>`;
-});
-
-}
-
-html+=`<button onclick="submitExam()">Submit</button></div>`;
-
-document.getElementById("examArea").innerHTML=html;
-
-loadProgress();
-}
-
-/* SAVE */
-function saveProgress(){
-
-let data={};
-
-papers[select.value].questions.forEach((q,i)=>{
-
-if(q.type==="mcq"){
-let sel=document.querySelector(`input[name="q${i}"]:checked`);
-data[i]=sel?sel.value:null;
-}else{
-data[i]=document.getElementById(`q${i}`)?.value;
-}
-
-});
-
-localStorage.setItem("progress", JSON.stringify(data));
-alert("Saved!");
-}
-
-/* LOAD */
-function loadProgress(){
-
-let data=JSON.parse(localStorage.getItem("progress")||"{}");
-
-for(let i in data){
-
-let q=data[i];
-
-let radio=document.querySelector(`input[name="q${i}"][value="${q}"]`);
-if(radio) radio.checked=true;
-
-let txt=document.getElementById(`q${i}`);
-if(txt) txt.value=q;
-
-}
-}
-
-/* MARKSCHEME */
-function toggleMS(){
-showMS=!showMS;
-document.querySelectorAll(".ms").forEach(el=>{
-el.style.display=showMS?"block":"none";
+</p>`;
 });
 }
 
-/* SUBMIT */
-function submitExam(){
+html+=`<button onclick="submit()">Submit</button>`;
 
-clearInterval(timer);
+exam.innerHTML=html;
+}
+
+function submit(){
 
 let score=0;
-let p=papers[select.value];
+let total=0;
+let p=papers[paper.value];
 
 p.questions.forEach((q,i)=>{
+total+=q.marks;
 
 if(q.type==="mcq"){
 let sel=document.querySelector(`input[name="q${i}"]:checked`);
 if(sel && sel.value===q.answer){
-score+=Number(q.marks);
+score+=q.marks;
 }
 }
-
 });
 
-/* IB LEVEL */
-let percent=(score/100)*100;
+let percent=(score/total)*100;
 let level=Math.ceil(percent/12.5);
 if(level>8) level=8;
 
-alert(`Score: ${score}\nIB Level: ${level}`);
+alert(`Score ${score}/${total}\nIB Level ${level}`);
 
-sendToGoogle(score);
+saveAttempt(score,level,total);
+sendToGoogle(score,level);
+}
+
+function saveAttempt(score,level,total){
+
+attempts.push({
+name:name.value,
+score,
+level,
+total,
+date:new Date().toLocaleString()
+});
+
+localStorage.setItem("attempts",JSON.stringify(attempts));
 }
 
 /* GOOGLE SHEETS */
-function sendToGoogle(score){
+function sendToGoogle(score,level){
 
 fetch("YOUR_WEB_APP_URL",{
 method:"POST",
 body:JSON.stringify({
-name:document.getElementById("studentName").value,
-score:score,
-time:document.getElementById("timer").innerText
+name:name.value,
+score,
+level,
+date:new Date().toLocaleString()
 })
 });
-}
-
-/* PDF */
-function downloadPDF(){
-
-const { jsPDF } = window.jspdf;
-let doc=new jsPDF();
-
-let y=10;
-
-doc.text("IB Exam",10,y); y+=10;
-
-doc.text("Name: "+document.getElementById("studentName").value,10,y); y+=10;
-
-doc.text("Time: "+document.getElementById("timer").innerText,10,y); y+=10;
-
-papers[select.value].questions.forEach((q,i)=>{
-
-doc.text(`Q${i+1}: ${q.text}`,10,y); y+=10;
-
-let ans=document.getElementById(`q${i}`)?.value||"";
-if(ans){
-doc.text("Ans: "+ans,10,y); y+=10;
-}
-
-if(y>270){ doc.addPage(); y=10; }
-
-});
-
-doc.save("exam.pdf");
 }
 
 </script>
