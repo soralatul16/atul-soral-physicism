@@ -135,11 +135,21 @@ startTimer();
 
 const p = papers[select.value];
 
-let html = `<div class="paper">
-<h2>${p.title}</h2>
-<p>${p.scenario}</p>`;
+/* GROUP QUESTIONS BY SECTION */
+const sections = {A:[],B:[],C:[],D:[]};
 
-/* CONTENT */
+p.questions.forEach((q,i)=>{
+q.index = i;
+sections[q.section || "A"].push(q);
+});
+
+let html = `<div class="paper">
+
+<h2>${p.title}</h2>
+<p><i>${p.scenario}</i></p>
+<hr>`;
+
+/* CONTENT (SCENARIO MEDIA) */
 p.content.forEach(c=>{
 if(c.includes("youtube")){
 html+=`<iframe src="${c}" allowfullscreen></iframe>`;
@@ -148,11 +158,26 @@ html+=`<img src="${c}">`;
 }
 });
 
-/* QUESTIONS */
-p.questions.forEach((q,i)=>{
+/* RENDER EACH SECTION */
+Object.keys(sections).forEach(sec=>{
+
+if(sections[sec].length===0) return;
+
+html+=`<h3 style="color:#38bdf8;margin-top:30px;">
+Section ${sec}
+</h3>`;
+
+sections[sec].forEach(q=>{
+
+const i = q.index;
 
 html+=`<div class="question">
-<b>Q${i+1}</b> ${q.text} (${q.marks} marks)`;
+
+<b>Q${i+1}</b> 
+<span style="color:#38bdf8;">(${q.marks} marks)</span><br>
+
+<b style="color:#facc15;">${highlightCommand(q.text)}</b>
+`;
 
 /* MCQ */
 if(q.type==="mcq"){
@@ -167,10 +192,13 @@ ${opt}
 
 /* TEXT */
 if(q.type==="text"){
-html+=`<textarea id="q${i}" placeholder="Write your answer..."></textarea>`;
+html+=`<textarea id="q${i}"></textarea>`;
 }
 
 html+=`</div>`;
+
+});
+
 });
 
 html+=`
