@@ -1,38 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashboard</title>
-<style>
-body{background:#0f172a;color:white;font-family:sans-serif;}
-.card{background:#020617;padding:20px;margin:20px;}
-</style>
+<title>Analytics</title>
+<link rel="stylesheet" href="exam-style.css">
 </head>
 
 <body>
 
-<h2>📊 Dashboard</h2>
+<h2>📊 Analytics</h2>
+
 <div id="data"></div>
 
+<script src="exam-storage.js"></script>
 <script>
 
-let attempts=JSON.parse(localStorage.getItem("attempts")||[]);
+let db = getDB();
 
-let total=attempts.length;
-let avg=0;
+let topicMap = {};
 
-attempts.forEach(a=>avg+=a.score);
-avg=total?(avg/total).toFixed(1):0;
-
-let html=`<div class="card">
-Total Attempts: ${total}<br>
-Average Score: ${avg}
-</div>`;
-
-attempts.forEach(a=>{
-html+=`<div class="card">
-${a.name} | ${a.score}/${a.total} | Level ${a.level}<br>${a.date}
-</div>`;
+db.forEach(q=>{
+topicMap[q.topic]=(topicMap[q.topic]||0)+1;
 });
+
+let html="";
+
+for(let t in topicMap){
+html+=`<div class="card">${t}: ${topicMap[t]} questions</div>`;
+}
 
 data.innerHTML=html;
 
