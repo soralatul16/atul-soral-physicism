@@ -605,9 +605,78 @@ function filterLib(f, btn) {
 }
  
 function renderQsets(topic) {
-  document.getElementById('qsetList').innerHTML = `
-    <h3 style="margin-bottom:16px;font-size:15px;">${topic} — Question Sets</h3>
-    <p style="color:var(--text2);font-size:13px;">No saved sets yet for this topic. Use <strong style="color:var(--accent)">Create New Question Set</strong> to add one.</p>`;
+  const LIBRARY_KEY = "MYP_LIBRARY";
+  const library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
+  const sets = library.filter(s =>
+    s.chapter === selChapter &&
+    s.topic.toLowerCase() === topic.toLowerCase()
+  );
+ 
+  if(sets.length === 0){
+    document.getElementById('qsetList').innerHTML = `
+      <h3 style="margin-bottom:16px;font-size:15px;">${topic} — Question Sets</h3>
+      <p style="color:var(--text2);font-size:13px;">No saved sets yet for this topic. Use <strong style="color:var(--accent)">Create New Question Set</strong> to add one.</p>`;
+    return;
+  }
+ 
+  const statusColor = {Draft:'var(--yellow)', Published:'var(--green)', Archived:'var(--text2)'};
+  let html = `<h3 style="margin-bottom:16px;font-size:15px;">${topic} — ${sets.length} Set(s)</h3>`;
+  sets.forEach(s => {
+    const date = new Date(s.updatedAt||s.createdAt||Date.now()).toLocaleDateString();
+    const qCount = (s.blocks||[]).filter(b=>b.saved&&b.mode==='question').length;
+    html += `
+    <div class="qset-card" id="qcard-${s.id}">
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:6px;">${s.heading}</div>
+        <div class="qset-meta">
+          <span class="badge">${s.criterion||'No criterion'}</span>
+          <span class="badge">${qCount} question${qCount!==1?'s':''}</span>
+          <span class="badge">${s.totalMarks||0} marks</span>
+          <span class="badge">v${s.version||1}</span>
+          <span class="badge" style="border-color:${statusColor[s.status]||'var(--border)'};color:${statusColor[s.status]||'var(--text2)'};">● ${s.status||'Draft'}</span>
+          <span class="badge">${date}</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-direction:column;align-items:flex-end;min-width:120px;">
+        ${s.status!=='Published' ? `<button class="sm-btn primary" onclick="publishSet('${s.id}')">✅ Publish</button>` : `<button class="sm-btn" onclick="archiveSet('${s.id}')">📦 Archive</button>`}
+        <button class="sm-btn danger" onclick="deleteSet('${s.id}')">🗑 Delete</button>
+      </div>
+    </div>`;
+  });
+  document.getElementById('qsetList').innerHTML = html;
+}
+ 
+function publishSet(id){
+  const LIBRARY_KEY = "MYP_LIBRARY";
+  let lib = JSON.parse(localStorage.getItem(LIBRARY_KEY)||"[]");
+  const idx = lib.findIndex(s=>s.id===id);
+  if(idx===-1) return;
+  lib[idx].status = "Published";
+  lib[idx].version = (lib[idx].version||1) + 1;
+  lib[idx].updatedAt = Date.now();
+  localStorage.setItem(LIBRARY_KEY, JSON.stringify(lib));
+  viewTopicSets();
+  alert("✅ Published! Students can now see this set.");
+}
+ 
+function archiveSet(id){
+  const LIBRARY_KEY = "MYP_LIBRARY";
+  let lib = JSON.parse(localStorage.getItem(LIBRARY_KEY)||"[]");
+  const idx = lib.findIndex(s=>s.id===id);
+  if(idx===-1) return;
+  lib[idx].status = "Archived";
+  lib[idx].updatedAt = Date.now();
+  localStorage.setItem(LIBRARY_KEY, JSON.stringify(lib));
+  viewTopicSets();
+}
+ 
+function deleteSet(id){
+  if(!confirm("Delete this question set permanently?")) return;
+  const LIBRARY_KEY = "MYP_LIBRARY";
+  let lib = JSON.parse(localStorage.getItem(LIBRARY_KEY)||"[]");
+  lib = lib.filter(s=>s.id!==id);
+  localStorage.setItem(LIBRARY_KEY, JSON.stringify(lib));
+  viewTopicSets();
 }
  
 /* ── Create flow ── */
