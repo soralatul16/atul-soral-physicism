@@ -1,70 +1,140 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Student Practice</title>
-<link rel="stylesheet" href="exam-style.css">
+  <title>Student Panel</title>
+  <style>
+    body { display: flex; font-family: Arial; }
+    #sidebar { width: 200px; background: #eee; padding: 10px; }
+    #main { flex: 1; padding: 10px; }
+    .card { border: 1px solid #ccc; margin: 10px; padding: 10px; }
+  </style>
 </head>
-
 <body>
 
-<h2>📝 Student Practice</h2>
+<div id="sidebar">
+  <h3>Topics</h3>
+  <button onclick="loadTopic('Kinematics')">Kinematics</button>
+  <button onclick="loadTopic('Forces')">Forces</button>
+</div>
 
-<select id="topicFilter"></select>
-<select id="gcFilter"></select>
-<select id="atlFilter"></select>
+<div id="main">
 
-<button onclick="load()">Apply Filter</button>
+  <h2>Filters</h2>
+  <input id="search" placeholder="Search..." oninput="searchSets()">
 
-<div id="questions"></div>
+  <div id="sets"></div>
 
-<script src="exam-storage.js"></script>
+  <div id="exam"></div>
+
+</div>
+
 <script>
 
-let db = getDB();
+let questionSets = JSON.parse(localStorage.getItem("questionSets")) || [];
+let currentSet = null;
+let answers = {};
+let startTime = null;
 
-/* UNIQUE VALUES */
-function fillFilters(){
-
-let topics=[...new Set(db.map(q=>q.topic))];
-topics.forEach(t=>topicFilter.innerHTML+=`<option>${t}</option>`);
-
-let gcs=[...new Set(db.map(q=>q.gc))];
-gcs.forEach(g=>gcFilter.innerHTML+=`<option>${g}</option>`);
-
-let atls=[...new Set(db.map(q=>q.atl))];
-atls.forEach(a=>atlFilter.innerHTML+=`<option>${a}</option>`);
-
+// LOAD TOPIC
+function loadTopic(topic) {
+  const sets = questionSets.filter(q => q.topic === topic);
+  renderSets(sets);
 }
 
-fillFilters();
+// RENDER SETS
+function renderSets(sets) {
+  const container = document.getElementById("sets");
+  container.innerHTML = "";
 
-/* LOAD QUESTIONS */
-function load(){
+  sets.forEach(set => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <h3>${set.title}</h3>
+      <button onclick="startExam('${set.id}')">Start</button>
+    `;
+    container.appendChild(div);
+  });
+}
 
-let t=topicFilter.value;
-let g=gcFilter.value;
-let a=atlFilter.value;
+// SEARCH
+function searchSets() {
+  const val = document.getElementById("search").value.toLowerCase();
+  const filtered = questionSets.filter(q => q.title.toLowerCase().includes(val));
+  renderSets(filtered);
+}
 
-let html="";
+// START EXAM
+function startExam(id) {
+  currentSet = questionSets.find(q => q.id === id);
+  answers = {};
+  startTime = Date.now();
 
-db.filter(q=>
-(!t || q.topic===t) &&
-(!g || q.gc===g) &&
-(!a || q.atl===a)
-).forEach(q=>{
+  renderExam();
+}
 
-html+=`
-<div class="card">
-<b>${q.question}</b><br>
-GC: ${q.gc} | ATL: ${q.atl}<br>
-Marks: ${q.marks}
-</div>
-`;
+// RENDER EXAM
+function renderExam() {
+  const container = document.getElementById("exam");
+  container.innerHTML = "";
 
-});
+  currentSet.content.forEach((item, index) => {
+    if (item.type === "question") {
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <p>${item.data.question}</p>
+        <input onchange="saveAnswer(${index}, this.value)">
+      `;
+      container.appendChild(div);
+    }
+  });
 
-questions.innerHTML=html;
+  const btn = document.createElement("button");
+  btn.innerText = "Submit";
+  btn.onclick = submitExam;
+  container.appendChild(btn);
+}
 
+// SAVE ANSWER (AUTO SAVE)
+function saveAnswer(qIndex, value) {
+  answers[qIndex] = value;
+  localStorage.setItem("tempAnswers", JSON.stringify(answers));
+}
+
+// SUBMIT
+function submitExam() {
+  const duration = (Date.now() - startTime) / 1000;
+
+  const attempt = {
+    student: JSON.parse(localStorage.getItem("session")).email,
+    set: currentSet.id,
+    answers,
+    duration,
+    date: new Date().toISOString()
+  };
+
+  let attempts = JSON.parse(localStorage.getItem("attempts")) || [];
+  attempts.push(attempt);
+  localStorage.setItem("attempts", JSON.stringify(attempts));
+
+  alert("Submitted!");
+
+  generatePDF(attempt);
+}
+
+// PDF (simple)
+function generatePDF(attempt) {
+  const text = `
+  Student: ${attempt.student}
+  Duration: ${attempt.duration}s
+  Answers: ${JSON.stringify(attempt.answers)}
+  `;
+
+  const blob = new Blob([text], { type: "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "result.txt";
+  a.click();
 }
 
 </script>
