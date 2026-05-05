@@ -23,11 +23,14 @@ function render(){
     html += `
     <div class="block">
 
-      <b>Block ${i+1}</b>
+      <div style="display:flex;justify-content:space-between">
+        <b>Block ${i+1}</b>
+        <button onclick="deleteBlock(${i})">✕</button>
+      </div>
 
-      <div class="mode-bar">
-        <button class="mode-btn ${b.mode==='content'?'active':''}" onclick="setMode(${i},'content')">Content</button>
-        <button class="mode-btn ${b.mode==='question'?'active':''}" onclick="setMode(${i},'question')">Question</button>
+      <div class="mode-tabs">
+        <div class="tab ${b.mode==='content'?'active':''}" onclick="setMode(${i},'content')">Content</div>
+        <div class="tab ${b.mode==='question'?'active':''}" onclick="setMode(${i},'question')">Question</div>
       </div>
 
       <div id="inner-${i}"></div>
