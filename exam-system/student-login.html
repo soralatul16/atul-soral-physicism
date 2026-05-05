@@ -1,82 +1,626 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Student Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Login | Physicism MYP</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08090f;
+  --surface: rgba(255,255,255,0.04);
+  --surface2: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.1);
+  --accent: #e03030;
+  --accent2: #ff6b6b;
+  --glow: rgba(224,48,48,0.18);
+  --text: #f0eeee;
+  --text2: #8a8898;
+  --green: #27ae60;
+  --yellow: #f39c12;
+  --radius: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+ 
+/* ── Background Rings ── */
+.bg-rings {
+  position: fixed; inset: 0; pointer-events: none; overflow: hidden;
+}
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(224,48,48,0.08);
+  animation: pulse 6s ease-in-out infinite;
+}
+.ring:nth-child(1){ width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%); animation-delay:0s;}
+.ring:nth-child(2){ width:650px;height:650px;top:50%;left:50%;transform:translate(-50%,-50%); animation-delay:1s;}
+.ring:nth-child(3){ width:900px;height:900px;top:50%;left:50%;transform:translate(-50%,-50%); animation-delay:2s;}
+@keyframes pulse {
+  0%,100%{ opacity:0.3; transform:translate(-50%,-50%) scale(1); }
+  50%{ opacity:0.6; transform:translate(-50%,-50%) scale(1.02); }
+}
+ 
+/* ── Card ── */
+.card {
+  background: rgba(12,8,8,0.92);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  width: 420px;
+  max-width: 95vw;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0 0 60px rgba(224,48,48,0.08), 0 20px 60px rgba(0,0,0,0.5);
+  backdrop-filter: blur(20px);
+  animation: slideUp 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(30px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+ 
+.logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: blink 2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+ 
+.card-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.card-sub {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 28px;
+}
+ 
+/* ── Tabs ── */
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 24px;
+}
+.tab-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--text2);
+  font-family: 'Sora', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tab-btn.active {
+  background: var(--accent);
+  color: white;
+}
+ 
+/* ── Form ── */
+.form-group {
+  margin-bottom: 16px;
+}
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.form-group input, .form-group select {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 11px 14px;
+  color: var(--text);
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus, .form-group select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--glow);
+}
+.form-group select option { background: #1a0a0a; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.input-wrap { position: relative; }
+.input-wrap input { padding-right: 42px; }
+.eye-btn {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: var(--text2); cursor: pointer;
+  font-size: 16px; padding: 4px;
+}
+ 
+/* ── Buttons ── */
+.btn-primary {
+  width: 100%;
+  padding: 13px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+  letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary:hover { background: #c0392b; box-shadow: 0 6px 20px rgba(224,48,48,0.4); }
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary.loading { pointer-events: none; }
+.btn-primary .btn-text { transition: opacity 0.2s; }
+.btn-primary.loading .btn-text { opacity: 0; }
+.spinner {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 20px; height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  display: none;
+  animation: spin 0.7s linear infinite;
+}
+.btn-primary.loading .spinner { display: block; }
+@keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+ 
+.btn-link {
+  background: none; border: none; color: var(--accent);
+  font-family: 'Sora', sans-serif; font-size: 12px;
+  cursor: pointer; padding: 0; text-decoration: underline;
+}
+.forgot-row { text-align: right; margin-top: -8px; margin-bottom: 16px; }
+ 
+/* ── Messages ── */
+.msg {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  display: none;
+}
+.msg.error { background: rgba(224,48,48,0.12); border: 1px solid rgba(224,48,48,0.4); color: #ff8080; display: block; }
+.msg.success { background: rgba(39,174,96,0.12); border: 1px solid rgba(39,174,96,0.4); color: #5edd8a; display: block; }
+ 
+/* ── Strength bar ── */
+.strength-wrap { margin-top: 6px; display: none; }
+.strength-wrap.visible { display: block; }
+.strength-bar { height: 3px; border-radius: 2px; background: var(--border); overflow: hidden; }
+.strength-fill { height: 100%; border-radius: 2px; transition: width 0.3s, background 0.3s; }
+.strength-label { font-size: 10px; color: var(--text2); margin-top: 4px; }
+ 
+/* ── Divider ── */
+.divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+.divider::before, .divider::after { content:''; flex:1; height:1px; background: var(--border); }
+.divider span { font-size: 11px; color: var(--text2); white-space: nowrap; }
+ 
+/* ── Screen sections ── */
+.screen { display: none; }
+.screen.active { display: block; }
+</style>
 </head>
 <body>
-
-<h2>Login</h2>
-<input id="login-email" placeholder="Email"><br>
-<input id="login-pass" type="password" placeholder="Password"><br>
-<button onclick="login()">Login</button>
-
-<h2>Register</h2>
-<input id="reg-email" placeholder="Email"><br>
-<input id="reg-pass" type="password" placeholder="Password"><br>
-<button onclick="register()">Register</button>
-
-<h2>Forgot Password</h2>
-<input id="forgot-email" placeholder="Email"><br>
-<button onclick="resetPassword()">Reset</button>
-
+ 
+<div class="bg-rings">
+  <div class="ring"></div>
+  <div class="ring"></div>
+  <div class="ring"></div>
+</div>
+ 
+<div class="card">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    Physicism · MYP
+  </div>
+ 
+  <!-- LOGIN -->
+  <div class="screen active" id="screenLogin">
+    <h1 class="card-title">Student Portal</h1>
+    <p class="card-sub">Sign in to access your practice sets &amp; results.</p>
+ 
+    <div class="tabs">
+      <button class="tab-btn active" onclick="setTab('login')">Sign In</button>
+      <button class="tab-btn" onclick="setTab('register')">Register</button>
+    </div>
+ 
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <div id="loginMsg" class="msg"></div>
+      <div class="form-group">
+        <label>Email / Student ID</label>
+        <input type="text" id="loginId" placeholder="you@school.com or STUD001" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-wrap">
+          <input type="password" id="loginPwd" placeholder="••••••••" autocomplete="current-password">
+          <button class="eye-btn" onclick="togglePwd('loginPwd',this)" type="button">👁</button>
+        </div>
+      </div>
+      <div class="forgot-row">
+        <button class="btn-link" onclick="showScreen('screenForgot')">Forgot password?</button>
+      </div>
+      <button class="btn-primary" id="btnLogin" onclick="doLogin()">
+        <span class="btn-text">Sign In →</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+ 
+    <!-- REGISTER FORM -->
+    <div id="registerForm" style="display:none;">
+      <div id="registerMsg" class="msg"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="regFirst" placeholder="Arjun">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="regLast" placeholder="Sharma">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="regEmail" placeholder="you@school.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Student ID <span style="color:var(--text2);font-weight:400;">(optional)</span></label>
+        <input type="text" id="regStudId" placeholder="STUD001">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Grade</label>
+          <select id="regGrade">
+            <option value="">Select</option>
+            <option>Grade 6</option><option>Grade 7</option><option>Grade 8</option>
+            <option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Section</label>
+          <input type="text" id="regSection" placeholder="A / B / Falcon">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-wrap">
+          <input type="password" id="regPwd" placeholder="Min 8 characters" autocomplete="new-password"
+            oninput="checkStrength(this.value)">
+          <button class="eye-btn" onclick="togglePwd('regPwd',this)" type="button">👁</button>
+        </div>
+        <div class="strength-wrap" id="strengthWrap">
+          <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+          <div class="strength-label" id="strengthLabel"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <div class="input-wrap">
+          <input type="password" id="regPwd2" placeholder="Repeat password" autocomplete="new-password">
+          <button class="eye-btn" onclick="togglePwd('regPwd2',this)" type="button">👁</button>
+        </div>
+      </div>
+      <button class="btn-primary" id="btnRegister" onclick="doRegister()">
+        <span class="btn-text">Create Account →</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+  </div>
+ 
+  <!-- FORGOT PASSWORD -->
+  <div class="screen" id="screenForgot">
+    <h1 class="card-title">Reset Password</h1>
+    <p class="card-sub">Enter your email and we'll send a reset code.</p>
+    <div id="forgotMsg" class="msg"></div>
+    <div id="forgotStep1">
+      <div class="form-group">
+        <label>Email / Student ID</label>
+        <input type="text" id="forgotEmail" placeholder="you@school.com">
+      </div>
+      <button class="btn-primary" onclick="doForgotSend()">
+        <span class="btn-text">Send Reset Code →</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+    <div id="forgotStep2" style="display:none;">
+      <div class="form-group">
+        <label>Reset Code (check your email / note below)</label>
+        <input type="text" id="resetCode" placeholder="6-digit code" maxlength="6">
+      </div>
+      <div class="form-group">
+        <label>New Password</label>
+        <div class="input-wrap">
+          <input type="password" id="newPwd" placeholder="Min 8 characters">
+          <button class="eye-btn" onclick="togglePwd('newPwd',this)" type="button">👁</button>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="doPasswordReset()">
+        <span class="btn-text">Reset Password →</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+    <div class="divider"><span>OR</span></div>
+    <button class="btn-link" onclick="showScreen('screenLogin')">← Back to Sign In</button>
+  </div>
+</div>
+ 
 <script>
-let users = JSON.parse(localStorage.getItem("users")) || [];
-
-// REGISTER
-function register() {
-  const email = document.getElementById("reg-email").value;
-  const pass = document.getElementById("reg-pass").value;
-
-  users.push({ email, pass });
-  localStorage.setItem("users", JSON.stringify(users));
-
-  alert("Registered!");
+/* ════════════════════════════════════════
+   Physicism Student Auth System
+   Storage: localStorage (no backend needed for GitHub Pages)
+   Session: 5-day persistence
+════════════════════════════════════════ */
+ 
+const AUTH_KEY    = "PHYS_STUDENTS";
+const SESSION_KEY = "PHYS_SESSION";
+const SESSION_DAYS = 5;
+ 
+/* ── Check existing session on load ── */
+window.addEventListener("DOMContentLoaded", () => {
+  const sess = getSession();
+  if(sess) {
+    // Valid session → go straight to student panel
+    window.location.href = "exam-student.html";
+  }
+});
+ 
+function getSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if(!raw) return null;
+    const s = JSON.parse(raw);
+    if(!s || !s.expiry) return null;
+    if(Date.now() > s.expiry) {
+      localStorage.removeItem(SESSION_KEY);
+      return null;
+    }
+    return s;
+  } catch(e) { return null; }
 }
-
-// LOGIN
-function login() {
-  const email = document.getElementById("login-email").value;
-  const pass = document.getElementById("login-pass").value;
-
-  const user = users.find(u => u.email === email && u.pass === pass);
-
-  if (user) {
-    const session = {
-      email,
-      expiry: Date.now() + (5 * 24 * 60 * 60 * 1000)
+ 
+function setSession(student) {
+  const expiry = Date.now() + (SESSION_DAYS * 24 * 60 * 60 * 1000);
+  localStorage.setItem(SESSION_KEY, JSON.stringify({
+    studentId: student.id,
+    email: student.email,
+    name: student.firstName + " " + student.lastName,
+    grade: student.grade,
+    section: student.section,
+    expiry
+  }));
+}
+ 
+function getStudents() {
+  return JSON.parse(localStorage.getItem(AUTH_KEY) || "[]");
+}
+function saveStudents(arr) {
+  localStorage.setItem(AUTH_KEY, JSON.stringify(arr));
+}
+ 
+/* ── UI Helpers ── */
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+ 
+function setTab(tab) {
+  document.querySelectorAll(".tab-btn").forEach((b,i) => {
+    b.classList.toggle("active", (i===0&&tab==="login")||(i===1&&tab==="register"));
+  });
+  document.getElementById("loginForm").style.display    = tab==="login"    ? "block" : "none";
+  document.getElementById("registerForm").style.display = tab==="register" ? "block" : "none";
+  clearMsg("loginMsg"); clearMsg("registerMsg");
+}
+ 
+function showMsg(id, msg, type="error") {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = "msg " + type;
+}
+function clearMsg(id) {
+  const el = document.getElementById(id);
+  el.className = "msg";
+}
+ 
+function togglePwd(id, btn) {
+  const inp = document.getElementById(id);
+  inp.type = inp.type === "password" ? "text" : "password";
+  btn.textContent = inp.type === "password" ? "👁" : "🙈";
+}
+ 
+function loadingBtn(id, on) {
+  const btn = document.getElementById(id);
+  if(!btn) return;
+  btn.classList.toggle("loading", on);
+}
+ 
+/* ── Password Strength ── */
+function checkStrength(val) {
+  const wrap = document.getElementById("strengthWrap");
+  const fill = document.getElementById("strengthFill");
+  const label = document.getElementById("strengthLabel");
+  if(!val) { wrap.classList.remove("visible"); return; }
+  wrap.classList.add("visible");
+  let score = 0;
+  if(val.length >= 8) score++;
+  if(val.length >= 12) score++;
+  if(/[A-Z]/.test(val)) score++;
+  if(/[0-9]/.test(val)) score++;
+  if(/[^A-Za-z0-9]/.test(val)) score++;
+  const levels = [
+    { pct:"20%", color:"#e03030", text:"Very Weak" },
+    { pct:"40%", color:"#e07730", text:"Weak" },
+    { pct:"60%", color:"#d29922", text:"Fair" },
+    { pct:"80%", color:"#2ecc71", text:"Strong" },
+    { pct:"100%", color:"#27ae60", text:"Very Strong" }
+  ];
+  const l = levels[Math.min(score-1, 4)] || levels[0];
+  fill.style.width = l.pct;
+  fill.style.background = l.color;
+  label.textContent = l.text;
+}
+ 
+/* ── Hash (simple, for localStorage demo) ── */
+function hashPwd(pwd) {
+  // Simple deterministic hash for demo (no backend)
+  let h = 0;
+  for(let i=0;i<pwd.length;i++) h = ((h<<5)-h) + pwd.charCodeAt(i) | 0;
+  return "h" + Math.abs(h).toString(16) + pwd.length;
+}
+ 
+/* ── LOGIN ── */
+function doLogin() {
+  const id  = document.getElementById("loginId").value.trim();
+  const pwd = document.getElementById("loginPwd").value;
+  if(!id || !pwd) { showMsg("loginMsg", "Please fill all fields."); return; }
+ 
+  loadingBtn("btnLogin", true);
+  setTimeout(() => {
+    const students = getStudents();
+    const student = students.find(s =>
+      s.email.toLowerCase() === id.toLowerCase() ||
+      (s.studentId && s.studentId.toLowerCase() === id.toLowerCase())
+    );
+    if(!student) {
+      showMsg("loginMsg", "❌ Account not found. Please register first.");
+      loadingBtn("btnLogin", false); return;
+    }
+    if(student.pwdHash !== hashPwd(pwd)) {
+      showMsg("loginMsg", "❌ Incorrect password. Try again or reset it.");
+      loadingBtn("btnLogin", false); return;
+    }
+    setSession(student);
+    showMsg("loginMsg", "✅ Welcome back, " + student.firstName + "! Redirecting…", "success");
+    setTimeout(() => { window.location.href = "exam-student.html"; }, 900);
+  }, 600);
+}
+ 
+/* ── REGISTER ── */
+function doRegister() {
+  const first   = document.getElementById("regFirst").value.trim();
+  const last    = document.getElementById("regLast").value.trim();
+  const email   = document.getElementById("regEmail").value.trim().toLowerCase();
+  const studId  = document.getElementById("regStudId").value.trim();
+  const grade   = document.getElementById("regGrade").value;
+  const section = document.getElementById("regSection").value.trim();
+  const pwd     = document.getElementById("regPwd").value;
+  const pwd2    = document.getElementById("regPwd2").value;
+ 
+  if(!first||!last||!email||!grade||!pwd) { showMsg("registerMsg","Please fill all required fields."); return; }
+  if(!/\S+@\S+\.\S+/.test(email))         { showMsg("registerMsg","Please enter a valid email."); return; }
+  if(pwd.length < 8)                       { showMsg("registerMsg","Password must be at least 8 characters."); return; }
+  if(pwd !== pwd2)                         { showMsg("registerMsg","Passwords do not match."); return; }
+ 
+  loadingBtn("btnRegister", true);
+  setTimeout(() => {
+    let students = getStudents();
+    if(students.find(s => s.email === email)) {
+      showMsg("registerMsg","❌ This email is already registered. Please sign in.");
+      loadingBtn("btnRegister", false); return;
+    }
+    const newStudent = {
+      id: "s_" + Date.now(),
+      firstName: first, lastName: last,
+      email, studentId: studId,
+      grade, section,
+      pwdHash: hashPwd(pwd),
+      createdAt: Date.now()
     };
-
-    localStorage.setItem("session", JSON.stringify(session));
-    window.location.href = "exam-student.html";
-  } else {
-    alert("Invalid credentials");
-  }
+    students.push(newStudent);
+    saveStudents(students);
+    setSession(newStudent);
+    showMsg("registerMsg", `✅ Account created! Welcome, ${first}! Redirecting…`, "success");
+    setTimeout(() => { window.location.href = "exam-student.html"; }, 900);
+  }, 600);
 }
-
-// SESSION CHECK
-function checkSession() {
-  const session = JSON.parse(localStorage.getItem("session"));
-  if (session && session.expiry > Date.now()) {
-    window.location.href = "exam-student.html";
-  }
+ 
+/* ── FORGOT PASSWORD ── */
+let _resetTarget = null;
+let _resetCode = null;
+ 
+function doForgotSend() {
+  const id = document.getElementById("forgotEmail").value.trim();
+  if(!id) { showMsg("forgotMsg","Enter your email or student ID."); return; }
+  const students = getStudents();
+  const student = students.find(s =>
+    s.email.toLowerCase() === id.toLowerCase() ||
+    (s.studentId && s.studentId.toLowerCase() === id.toLowerCase())
+  );
+  if(!student) { showMsg("forgotMsg","❌ No account found with that email/ID."); return; }
+  _resetTarget = student;
+  _resetCode = String(Math.floor(100000 + Math.random() * 900000));
+  // In production this would email the code. For GitHub Pages demo, show it.
+  showMsg("forgotMsg",
+    `✅ Reset code generated for ${student.email}.\n\n` +
+    `(Demo mode — no email server) Your code is: ${_resetCode}\n\nEnter it below to reset your password.`,
+    "success");
+  document.getElementById("forgotStep1").style.display = "none";
+  document.getElementById("forgotStep2").style.display = "block";
 }
-checkSession();
-
-// RESET PASSWORD
-function resetPassword() {
-  const email = document.getElementById("forgot-email").value;
-  const user = users.find(u => u.email === email);
-
-  if (user) {
-    const newPass = prompt("Enter new password:");
-    user.pass = newPass;
-    localStorage.setItem("users", JSON.stringify(users));
-    alert("Password reset!");
-  } else {
-    alert("Email not found");
-  }
+ 
+function doPasswordReset() {
+  const code = document.getElementById("resetCode").value.trim();
+  const newp = document.getElementById("newPwd").value;
+  if(!code || !newp) { showMsg("forgotMsg","Fill in the code and new password."); return; }
+  if(code !== _resetCode) { showMsg("forgotMsg","❌ Incorrect reset code."); return; }
+  if(newp.length < 8)     { showMsg("forgotMsg","Password must be at least 8 characters."); return; }
+ 
+  let students = getStudents();
+  const idx = students.findIndex(s => s.id === _resetTarget.id);
+  if(idx === -1) { showMsg("forgotMsg","Error: account not found."); return; }
+  students[idx].pwdHash = hashPwd(newp);
+  saveStudents(students);
+  showMsg("forgotMsg","✅ Password reset! Redirecting to login…","success");
+  setTimeout(() => {
+    showScreen("screenLogin");
+    setTab("login");
+    document.getElementById("loginId").value = _resetTarget.email;
+    _resetTarget = null; _resetCode = null;
+  }, 1500);
 }
+ 
+/* Enter key triggers login */
+document.addEventListener("keydown", e => {
+  if(e.key === "Enter") {
+    const loginForm = document.getElementById("loginForm");
+    if(loginForm.style.display !== "none" || !loginForm.parentElement?.classList.contains("screen")) {
+      if(document.activeElement && ["loginId","loginPwd"].includes(document.activeElement.id)) doLogin();
+    }
+  }
+});
 </script>
-
 </body>
 </html>
