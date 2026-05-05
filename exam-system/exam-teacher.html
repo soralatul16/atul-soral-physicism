@@ -2,15 +2,41 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>IB Exam Builder</title>
+<title>MYP Teacher Panel</title>
 
-<!-- Sortable (Drag & Drop) -->
+<!-- External Libraries -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-
-<!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
+body{
+  font-family: Arial;
+  margin:0;
+  background:url('./exam-system/assets/myp-background-image.png') no-repeat center/cover;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 20px;
+  background:rgba(0,0,0,0.7);
+  color:white;
+}
+
+.nav-btn{
+  margin-right:10px;
+  padding:6px 12px;
+  background:#2563eb;
+  border:none;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.container{
+  padding:20px;
+}
+
 .block{
   background:white;
   padding:20px;
@@ -50,341 +76,61 @@
   border-radius:10px;
   text-align:center;
   cursor:pointer;
-}  
+}
+</style>
+</head>
+
 <body>
+
+<!-- 🔷 NAVIGATION -->
+<div class="topbar">
+  <div>
+    <button class="nav-btn" onclick="goBack()">⬅ Back</button>
+    <button class="nav-btn" onclick="goHome()">🏠 Home</button>
+    <button class="nav-btn" onclick="goMYP()">📘 MYP</button>
+  </div>
+
+  <div>Teacher Panel</div>
+</div>
 
 <div class="container">
 
 <h2>📘 MYP Teacher Panel</h2>
 
-<input id="title" placeholder="Set Title">
+<input id="title" placeholder="Set Title"><br><br>
 
 <select id="chapter">
 <option>Exploring Matter</option>
 <option>Forces and Motion</option>
-<option>Work, Power & Gravity</option>
-<option>Energy & Environment</option>
-<option>The Nature of Waves</option>
-<option>Atomic Physics</option>
-<option>Electromagnetism</option>
 <option>Thermal Physics</option>
-<option>Astrophysics</option>
 </select>
 
 <select id="gc">
 <option>Identities and Relationships</option>
-<option>Orientation in Space and Time</option>
-<option>Personal and Cultural Expression</option>
-<option>Scientific and Technical Innovation</option>
-<option>Globalization and Sustainability</option>
-<option>Fairness and Development</option>
+<option>Scientific Innovation</option>
 </select>
+
+<br><br>
 
 <div id="builder"></div>
 
 <button onclick="addBlock()">+ Add Block</button>
 
-</div>
+<br><br>
 
-<script src="exam-builder.js"></script>
-
-</body>
-
-<div class="container">
-
-<h2>📘 IB Teacher Panel</h2>
-
-<input id="title" placeholder="Set Title">
-
-<select id="chapter">
-<option>Exploring Matter</option>
-<option>Forces and Motion</option>
-<option>Work, Power & Gravity</option>
-<option>Energy & Environment</option>
-<option>The Nature of Waves</option>
-<option>Atomic Physics</option>
-<option>Electromagnetism</option>
-<option>Thermal Physics</option>
-<option>Astrophysics</option>
-</select>
-
-<select id="gc">
-<option>Identities and Relationships</option>
-<option>Orientation in Space and Time</option>
-<option>Personal and Cultural Expression</option>
-<option>Scientific and Technical Innovation</option>
-<option>Globalization and Sustainability</option>
-<option>Fairness and Development</option>
-</select>
-
-<div id="builder"></div>
-
-<button onclick="addBlock()">+ Add Block</button>
-<button onclick="saveSet()">Save</button>
+<button onclick="saveSet()">💾 Save</button>
 <button onclick="previewStudent()">👁 Student View</button>
 <button onclick="exportPDF()">📄 Export PDF</button>
-<button onclick="addBlock()">+ Add Block</button>  
 
-<hr>
-
-<h2>📱 Student Exam Interface</h2>
-<div id="studentView"></div>
 
 </div>
 
-<script>
-
-/* ================= DATA ================= */
-let blocks = [];
-let DB = [];
-
-/* ================= ADD BLOCK ================= */
-function addBlock(){
-  blocks.push({type:"question", data:{}});
-  render();
-}
-
-/* ================= RENDER ================= */
-function render(){
-  let html="";
-
-  blocks.forEach((b,i)=>{
-
-    html+=`
-    <div class="block">
-
-      <b>Block ${i+1}</b>
-
-      <!-- MODE SWITCH -->
-      <div class="mode-bar">
-        <button class="mode-btn ${b.mode==='content'?'active':''}" onclick="setMode(${i},'content')">Content</button>
-        <button class="mode-btn ${b.mode==='question'?'active':''}" onclick="setMode(${i},'question')">Question</button>
-        <button class="mode-btn">Library</button>
-        <button class="mode-btn">AI</button>
-      </div>
-
-      <div id="inner-${i}"></div>
-
-    </div>
-    `;
-  });
-
-  document.getElementById("builder").innerHTML = html;
-
-  blocks.forEach((b,i)=>{
-    renderInner(i);
-  });
-}
-
-function setMode(i,mode){
-  blocks[i].mode = mode;
-  render();
-}
-
-function renderInner(i){
-  let b = blocks[i];
-
-  if(!b.mode){
-    document.getElementById(`inner-${i}`).innerHTML = "<p>Select Content or Question</p>";
-    return;
-  }
-
-  if(b.mode==="content"){
-    document.getElementById(`inner-${i}`).innerHTML = contentUI(i);
-  }
-
-  if(b.mode==="question"){
-    document.getElementById(`inner-${i}`).innerHTML = questionUI(i);
-  }
-}
-
-function contentUI(i){
-  return `
-  <div class="grid">
-
-    <div class="card" onclick="openContent(${i},'Text')">Text</div>
-    <div class="card" onclick="openContent(${i},'Image')">Image</div>
-    <div class="card" onclick="openContent(${i},'PDF')">PDF</div>
-    <div class="card" onclick="openContent(${i},'Video')">Video</div>
-    <div class="card" onclick="openContent(${i},'Audio')">Audio</div>
-    <div class="card" onclick="openContent(${i},'Simulation')">Simulation</div>
-    <div class="card" onclick="openContent(${i},'Document')">Document</div>
-    <div class="card" onclick="openContent(${i},'PPT')">PPT</div>
-
-  </div>
-  `;
-}
-
-function questionUI(i){
-  return `
-  <div class="grid">
-
-    <div class="card" onclick="openQuestion(${i},'Long Answer')">Long Answer</div>
-    <div class="card" onclick="openQuestion(${i},'MCQ')">MCQ</div>
-    <div class="card" onclick="openQuestion(${i},'Multi MCQ')">MCQ Multiple</div>
-    <div class="card" onclick="openQuestion(${i},'True/False')">True/False</div>
-    <div class="card" onclick="openQuestion(${i},'Fill Text')">Fill Text</div>
-    <div class="card" onclick="openQuestion(${i},'Match')">Match</div>
-    <div class="card" onclick="openQuestion(${i},'Sort')">Sort</div>
-    <div class="card" onclick="openQuestion(${i},'Classify')">Classify</div>
-    <div class="card" onclick="openQuestion(${i},'Graph')">Graph</div>
-
-  </div>
-  `;
-}
-
-function openContent(i,type){
-  document.getElementById(`inner-${i}`).innerHTML = `
-    <h4>${type}</h4>
-
-    <textarea placeholder="Enter content"></textarea>
-    <input placeholder="Upload / URL">
-
-    <button onclick="render()">Save</button>
-  `;
-}
-
-function openQuestion(i,type){
-  document.getElementById(`inner-${i}`).innerHTML = `
-    <h4>${type}</h4>
-
-    <textarea placeholder="Question"></textarea>
-
-    ${type==="MCQ" ? `
-      <input placeholder="Option A">
-      <input placeholder="Option B">
-      <input placeholder="Option C">
-      <input placeholder="Option D">
-      <input placeholder="Correct Answer">
-    `:""}
-
-    <textarea placeholder="Markscheme"></textarea>
-
-    <button onclick="render()">Save</button>
-  `;
-}  
-
-/* ================= META ================= */
-function metaHTML(i){
-  return `
-  <select id="diff-${i}">
-    <option>Easy</option>
-    <option>Medium</option>
-    <option>Hard</option>
-  </select>
-
-  <input id="marks-${i}" placeholder="Marks">
-
-  <select id="criterion-${i}">
-    <option>A.i</option><option>A.ii</option><option>B.i</option>
-  </select>
-
-  <input id="cmd-${i}" placeholder="Command Term">
-  `;
-}
-
-/* ================= TOOLS ================= */
-function toolsHTML(i){
-  return `
-  <input id="img-${i}" placeholder="Image URL">
-  <input id="latex-${i}" placeholder="LaTeX">
-  <textarea id="hint-${i}" placeholder="Hint"></textarea>
-  `;
-}
-
-/* ================= TYPES ================= */
-function typeHTML(i){
-  return `
-  <select id="type-${i}">
-    <option>Long Answer</option>
-    <option>MCQ</option>
-  </select>
-  `;
-}
-
-/* ================= AI MARKSCHEME ================= */
-function generateAI(i){
-  let q = document.getElementById(`q-${i}`).value;
-
-  let ms = "Auto-generated:\n";
-
-  if(q.includes("explain")) ms += "- Clear explanation\n- Logical steps\n";
-  if(q.includes("calculate")) ms += "- Correct formula\n- Correct answer\n";
-
-  document.getElementById(`ms-${i}`).value = ms;
-}
-
-/* ================= GRAPH ================= */
-function initGraph(i){
-  let elt = document.getElementById(`graph-${i}`);
-  let calc = Desmos.GraphingCalculator(elt);
-  calc.setExpression({id:'1', latex:'y=x^2'});
-}
-
-/* ================= SAVE ================= */
-function saveSet(){
-  let set = [];
-
-  blocks.forEach((b,i)=>{
-    set.push({
-      question: val(`q-${i}`),
-      marks: val(`marks-${i}`),
-      type: val(`type-${i}`),
-      ms: val(`ms-${i}`)
-    });
-  });
-
-  DB = set;
-  alert("Saved");
-}
-
-/* ================= STUDENT VIEW ================= */
-function previewStudent(){
-  let html="";
-
-  DB.forEach((q,i)=>{
-    html+=`
-    <div class="block">
-      <b>Q${i+1}</b>
-      <p>${q.question}</p>
-
-      ${q.type==="MCQ" ? `
-        <input placeholder="Your answer">
-      ` : `
-        <textarea placeholder="Write answer"></textarea>
-      `}
-    </div>
-    `;
-  });
-
-  document.getElementById("studentView").style.display="block";
-  document.getElementById("studentView").innerHTML = html;
-}
-
-/* ================= PDF ================= */
-async function exportPDF(){
-  const { jsPDF } = window.jspdf;
-  let doc = new jsPDF();
-
-  let y=10;
-
-  DB.forEach((q,i)=>{
-    doc.text(`Q${i+1}: ${q.question}`,10,y);
-    y+=10;
-  });
-
-  doc.save("exam.pdf");
-}
-
-/* ================= UTILS ================= */
-function val(id){
-  return document.getElementById(id)?.value || "";
-}
-
-/* INIT */
-addBlock();
-
 <script src="./exam-builder.js"></script>
+
+<script>
+function goBack(){ history.back(); }
+function goHome(){ window.location.href="exam-home.html"; }
+function goMYP(){ window.location.href="exam-dashboard.html"; }
 </script>
 
 </body>
