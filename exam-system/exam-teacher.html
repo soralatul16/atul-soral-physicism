@@ -1,67 +1,341 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teacher Panel</title>
-<link rel="stylesheet" href="exam-style.css">
+
+<style>
+
+/* ===== BASE ===== */
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:#0b0f1a;
+  color:white;
+}
+
+/* ===== TOP BAR ===== */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  padding:15px 30px;
+  background:#111;
+}
+
+.topbar button{
+  margin-left:10px;
+}
+
+/* ===== MAIN BUTTONS ===== */
+.main-actions{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  padding:40px;
+}
+
+.main-actions button{
+  padding:15px 30px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* ===== LAYOUT ===== */
+.layout{
+  display:flex;
+  height:80vh;
+}
+
+/* LEFT PANEL */
+.left{
+  width:20%;
+  border-right:1px solid #333;
+  overflow:auto;
+}
+
+/* RIGHT PANEL */
+.right{
+  width:80%;
+  padding:20px;
+}
+
+/* LIST BUTTON */
+.list-btn{
+  display:block;
+  padding:10px;
+  border-bottom:1px solid #222;
+  cursor:pointer;
+}
+
+.list-btn:hover{
+  background:#1f2937;
+}
+
+/* FILTER BAR */
+.filters{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+/* BUILDER */
+.builder{
+  background:#111827;
+  padding:20px;
+  border-radius:10px;
+}
+
+/* BLOCK */
+.block{
+  border:1px solid #333;
+  padding:10px;
+  margin:10px 0;
+}
+
+/* BUTTONS */
+button{
+  background:#ef4444;
+  border:none;
+  padding:8px 12px;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.secondary{
+  background:#374151;
+}
+
+</style>
 </head>
 
 <body>
 
-<h2>👨‍🏫 Teacher Panel</h2>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div>
+    <button onclick="goHome()">Home</button>
+    <button onclick="goMYP()">MYP</button>
+    <button onclick="goBack()">Back</button>
+  </div>
+</div>
 
-<div class="card">
+<!-- MAIN ACTIONS -->
+<div class="main-actions">
+  <button onclick="openCreate()">➕ Create New Question Set</button>
+  <button onclick="openLibrary()">📚 Library</button>
+</div>
+
+<!-- MAIN AREA -->
+<div id="main"></div>
+
+<script>
+
+/* ===== DATA ===== */
+const chapters = {
+  "Forces and Motion":["Kinematics","Dynamics"],
+  "Atomic Physics":["Structure","Radiation"]
+};
+
+let DB = JSON.parse(localStorage.getItem("questionBank")||"[]");
+
+/* ===== NAV ===== */
+function goHome(){ location.href="../index.html"; }
+function goMYP(){ location.href="../myp-dashboard.html"; }
+function goBack(){ history.back(); }
+
+/* ===== LIBRARY ===== */
+function openLibrary(){
+
+let html = `
+<div class="layout">
+
+<div class="left" id="chapterList"></div>
+
+<div class="right">
+  <div class="filters">
+    <select id="filterTopic"><option>All Topics</option></select>
+    <select id="filterCriterion"><option>All Criteria</option></select>
+    <select id="filterGC"><option>All GC</option></select>
+  </div>
+
+  <div id="sets"></div>
+</div>
+
+</div>
+`;
+
+document.getElementById("main").innerHTML = html;
+
+renderChapters();
+
+}
+
+function renderChapters(){
+let html="";
+for(let ch in chapters){
+  html+=`<div class="list-btn" onclick="loadTopics('${ch}')">${ch}</div>`;
+}
+document.getElementById("chapterList").innerHTML=html;
+}
+
+function loadTopics(ch){
+
+let topics = chapters[ch];
+let html="";
+
+topics.forEach(t=>{
+  html+=`<div class="list-btn" onclick="loadSets('${t}')">${t}</div>`;
+});
+
+document.getElementById("chapterList").innerHTML=html;
+}
+
+function loadSets(topic){
+
+let filtered = DB.filter(s=>s.topic===topic);
+
+let html="";
+filtered.forEach(s=>{
+  html+=`<div class="block">${s.title}</div>`;
+});
+
+document.getElementById("sets").innerHTML=html;
+}
+
+/* ===== CREATE ===== */
+function openCreate(){
+
+document.getElementById("main").innerHTML = `
+
+<div style="padding:20px">
+
+<select id="chapter">
+<option>Forces and Motion</option>
+<option>Atomic Physics</option>
+</select>
 
 <select id="topic">
-<option>Exploring Matter</option>
-<option>Forces and Motion</option>
-<option>Work, Power & Gravity</option>
-<option>Energy & Environment</option>
-<option>The Nature of Waves</option>
-<option>Atomic Physics</option>
-<option>Electromagnetism</option>
-<option>Thermal Physics</option>
-<option>Astrophysics</option>
+<option>Kinematics</option>
+<option>Dynamics</option>
+</select>
+
+<select id="criterion">
+<option>A</option>
+<option>B</option>
+<option>C</option>
+<option>D</option>
 </select>
 
 <select id="gc">
-<option>Identities and Relationships</option>
-<option>Orientation in Space and Time</option>
-<option>Personal and Cultural Expression</option>
-<option>Scientific and Technical Innovation</option>
-<option>Globalization and Sustainability</option>
-<option>Fairness and Development</option>
+<option>Optional GC</option>
 </select>
 
 <select id="atl">
-<option>Thinking</option>
-<option>Communication</option>
-<option>Research</option>
-<option>Self Management</option>
+<option>Optional ATL</option>
 </select>
 
-<textarea id="question" placeholder="Enter Question"></textarea>
-<input id="answer" placeholder="Answer">
-<input id="marks" placeholder="Marks">
+<input id="title" placeholder="Question Set Title">
 
-<button onclick="saveQ()">Save Question</button>
+<div class="builder" id="builder"></div>
+
+<button onclick="addBlock()">➕ Add Block</button>
+<button onclick="saveSet()">💾 Save</button>
 
 </div>
 
-<script src="exam-storage.js"></script>
-<script>
+`;
 
-function saveQ(){
+addBlock();
 
-addQuestion({
-topic:topic.value,
-gc:gc.value,
-atl:atl.value,
-question:question.value,
-answer:answer.value,
-marks:marks.value
+}
+
+/* ===== BUILDER ===== */
+let blocks=[];
+
+function addBlock(){
+
+blocks.push({type:null,data:null});
+renderBuilder();
+
+}
+
+function renderBuilder(){
+
+let html="";
+
+blocks.forEach((b,i)=>{
+
+html+=`
+<div class="block">
+
+<button onclick="selectType(${i},'content')">Content</button>
+<button onclick="selectType(${i},'question')">Question</button>
+
+<div id="block-${i}"></div>
+
+<button onclick="deleteBlock(${i})" class="secondary">Delete</button>
+
+</div>
+`;
+
 });
 
+document.getElementById("builder").innerHTML=html;
+
+}
+
+/* ===== TYPE SELECT ===== */
+function selectType(i,type){
+
+if(type==="content"){
+document.getElementById(`block-${i}`).innerHTML=`
+<textarea placeholder="Add content"></textarea>
+<button onclick="saveBlock(${i})">Save</button>
+`;
+}
+
+if(type==="question"){
+document.getElementById(`block-${i}`).innerHTML=`
+<select>
+<option>Long Answer</option>
+<option>MCQ</option>
+</select>
+<textarea placeholder="Question"></textarea>
+<input placeholder="Markscheme">
+<button onclick="saveBlock(${i})">Save</button>
+`;
+}
+
+}
+
+/* ===== SAVE BLOCK ===== */
+function saveBlock(i){
+alert("Saved block");
+}
+
+/* ===== DELETE ===== */
+function deleteBlock(i){
+if(confirm("Delete?")){
+blocks.splice(i,1);
+renderBuilder();
+}
+}
+
+/* ===== SAVE SET ===== */
+function saveSet(){
+
+let set = {
+title:document.getElementById("title").value,
+topic:document.getElementById("topic").value
+};
+
+DB.push(set);
+localStorage.setItem("questionBank", JSON.stringify(DB));
+
 alert("Saved!");
+
 }
 
 </script>
