@@ -686,12 +686,26 @@ function editorClickAway(e, i) {
 }
 
 /* ─── Save all ─── */
-function saveAll() {
-  const unsaved = blocks.filter(b => !b.saved && b.mode);
-  if (unsaved.length) {
-    if (!confirm(`${unsaved.length} block(s) are unsaved. Save anyway?`)) return;
-  }
-  alert('✅ Question set saved successfully!');
+function saveAll(){
+
+  let set = {
+    id: Date.now(),
+    heading: document.getElementById("ms-heading").value,
+    chapter: document.getElementById("ms-chapter").value,
+    topic: document.getElementById("ms-topic").value,
+    criterion: document.getElementById("ms-criterion").value,
+    gc: document.getElementById("ms-gc").value,
+    atl: document.getElementById("ms-atl").value,
+    blocks: blocks
+  };
+
+  let DB = JSON.parse(localStorage.getItem("MYP_DB") || "[]");
+
+  DB.push(set);
+
+  localStorage.setItem("MYP_DB", JSON.stringify(DB));
+
+  alert("✅ Question Set Saved Successfully");
 }
 
 /* ─── Preview ─── */
