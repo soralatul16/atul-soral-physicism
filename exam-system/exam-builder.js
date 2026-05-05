@@ -2,6 +2,7 @@
    MYP EXAM BUILDER — Full Featured
    ═══════════════════════════════════════════════════ */
 
+let DB = JSON.parse(localStorage.getItem("MYP_DB")) || [];
 let blocks = [];
 let idCounter = 0;
 let history = [];
@@ -690,22 +691,22 @@ function saveAll(){
 
   let set = {
     id: Date.now(),
-    heading: document.getElementById("heading")?.value || "Untitled",
-    chapter: document.getElementById("chapter")?.value || "",
-    topic: document.getElementById("topic")?.value || "",
-    criterion: document.getElementById("criterion")?.value || "",
+    heading: document.getElementById("ms-heading")?.value || "Untitled",
+    chapter: document.getElementById("ms-chapter")?.value || "",
+    topic: document.getElementById("ms-topic")?.value || "",
+    criterion: document.getElementById("ms-criterion")?.value || "",
     blocks: blocks
   };
 
-  console.log("SAVING SET:", set);   // 👈 ADD THIS
+  console.log("Saving:", set);   // DEBUG
 
   DB.push(set);
 
   localStorage.setItem("MYP_DB", JSON.stringify(DB));
 
-  console.log("LOCAL STORAGE:", localStorage.getItem("MYP_DB")); // 👈 ADD THIS
+  console.log("After Save:", localStorage.getItem("MYP_DB")); // DEBUG
 
-  alert("Saved!");
+  alert("Saved successfully!");
 }
 
 /* ─── Preview ─── */
