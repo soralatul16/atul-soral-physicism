@@ -690,22 +690,22 @@ function saveAll(){
 
   let set = {
     id: Date.now(),
-    heading: document.getElementById("ms-heading").value,
-    chapter: document.getElementById("ms-chapter").value,
-    topic: document.getElementById("ms-topic").value,
-    criterion: document.getElementById("ms-criterion").value,
-    gc: document.getElementById("ms-gc").value,
-    atl: document.getElementById("ms-atl").value,
+    heading: document.getElementById("heading")?.value || "Untitled",
+    chapter: document.getElementById("chapter")?.value || "",
+    topic: document.getElementById("topic")?.value || "",
+    criterion: document.getElementById("criterion")?.value || "",
     blocks: blocks
   };
 
-  let DB = JSON.parse(localStorage.getItem("MYP_DB") || "[]");
+  console.log("SAVING SET:", set);   // 👈 ADD THIS
 
   DB.push(set);
 
   localStorage.setItem("MYP_DB", JSON.stringify(DB));
 
-  alert("✅ Question Set Saved Successfully");
+  console.log("LOCAL STORAGE:", localStorage.getItem("MYP_DB")); // 👈 ADD THIS
+
+  alert("Saved!");
 }
 
 /* ─── Preview ─── */
