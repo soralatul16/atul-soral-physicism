@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Login</title>
+</head>
+<body>
+
+<h2>Login</h2>
+<input id="login-email" placeholder="Email"><br>
+<input id="login-pass" type="password" placeholder="Password"><br>
+<button onclick="login()">Login</button>
+
+<h2>Register</h2>
+<input id="reg-email" placeholder="Email"><br>
+<input id="reg-pass" type="password" placeholder="Password"><br>
+<button onclick="register()">Register</button>
+
+<h2>Forgot Password</h2>
+<input id="forgot-email" placeholder="Email"><br>
+<button onclick="resetPassword()">Reset</button>
+
+<script>
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+// REGISTER
+function register() {
+  const email = document.getElementById("reg-email").value;
+  const pass = document.getElementById("reg-pass").value;
+
+  users.push({ email, pass });
+  localStorage.setItem("users", JSON.stringify(users));
+
+  alert("Registered!");
+}
+
+// LOGIN
+function login() {
+  const email = document.getElementById("login-email").value;
+  const pass = document.getElementById("login-pass").value;
+
+  const user = users.find(u => u.email === email && u.pass === pass);
+
+  if (user) {
+    const session = {
+      email,
+      expiry: Date.now() + (5 * 24 * 60 * 60 * 1000)
+    };
+
+    localStorage.setItem("session", JSON.stringify(session));
+    window.location.href = "exam-student.html";
+  } else {
+    alert("Invalid credentials");
+  }
+}
+
+// SESSION CHECK
+function checkSession() {
+  const session = JSON.parse(localStorage.getItem("session"));
+  if (session && session.expiry > Date.now()) {
+    window.location.href = "exam-student.html";
+  }
+}
+checkSession();
+
+// RESET PASSWORD
+function resetPassword() {
+  const email = document.getElementById("forgot-email").value;
+  const user = users.find(u => u.email === email);
+
+  if (user) {
+    const newPass = prompt("Enter new password:");
+    user.pass = newPass;
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Password reset!");
+  } else {
+    alert("Email not found");
+  }
+}
+</script>
+
+</body>
+</html>
