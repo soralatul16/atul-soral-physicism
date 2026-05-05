@@ -4,25 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MYP Dashboard | Physicism</title>
-
+ 
 <style>
-
+ 
 /* ===== BASE ===== */
 body{
   margin:0;
   font-family:'Segoe UI', sans-serif;
-
+ 
   background:
     linear-gradient(rgba(0,0,0,0.6), rgba(20,0,0,0.75)),
     url('./exam-system/assets/myp-background-image.png');
-
+ 
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-
+ 
   color:white;
 }
-
+ 
 /* ===== NAVBAR ===== */
 .navbar{
   display:flex;
@@ -31,32 +31,32 @@ body{
   padding:15px 30px;
   background:#0a0a0a;
 }
-
+ 
 .nav-links a{
   margin-left:20px;
   color:white;
   text-decoration:none;
 }
-
+ 
 /* ===== HERO ===== */
 .hero{
   background:linear-gradient(135deg,#ef4444,#991b1b);
   padding:60px;
   text-align:center;
 }
-
+ 
 /* ===== SECTION ===== */
 .section{
   padding:40px;
 }
-
+ 
 /* ===== GRID ===== */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
   gap:20px;
 }
-
+ 
 /* ===== CARD ===== */
 .card{
   background:rgba(20,20,20,0.8);
@@ -67,12 +67,12 @@ body{
   transition:0.3s;
   backdrop-filter: blur(6px);
 }
-
+ 
 .card:hover{
   transform:scale(1.05);
   background:rgba(40,40,40,0.9);
 }
-
+ 
 /* ===== TOPICS ===== */
 .topic-card{
   background:rgba(30,30,30,0.85);
@@ -83,15 +83,15 @@ body{
   color:white;
   transition:0.3s;
 }
-
+ 
 .topic-card:hover{
   background:#ef4444;
 }
-
+ 
 .locked{
   opacity:0.4;
 }
-
+ 
 /* ===== ANALYTICS ===== */
 .analytics{
   background:rgba(0,0,0,0.7);
@@ -100,12 +100,12 @@ body{
   margin-top:20px;
   backdrop-filter: blur(5px);
 }
-
+ 
 </style>
 </head>
-
+ 
 <body>
-
+ 
 <!-- NAVBAR -->
 <div class="navbar">
   <b>🔴 MYP Physics</b>
@@ -115,62 +115,62 @@ body{
     <a href="#">Formula Bank</a>
   </div>
 </div>
-
+ 
 <!-- HERO -->
 <div class="hero">
   <h1>IB MYP Physics Dashboard</h1>
   <p>Practice • Performance • Progress</p>
 </div>
-
+ 
 <!-- PRACTICE -->
 <div class="section">
 <h2>🧠 Practice</h2>
-
+ 
 <div class="grid">
-
+ 
 <div class="card" onclick="openStudent()">
 📝 Student Practice
 </div>
-
+ 
 <div class="card" onclick="openAnalytics()">
 📊 Analytics
 </div>
-
+ 
 </div>
 </div>
-
+ 
 <!-- TOPICS (UNCHANGED SYSTEM) -->
 <div class="section">
 <h2>📚 MYP Topics</h2>
 <div class="grid" id="topics"></div>
 </div>
-
+ 
 <!-- ANALYTICS -->
 <div class="section">
 <h2>📊 Performance Analytics</h2>
-
+ 
 <div class="analytics">
 <p id="summary"></p>
 <div id="weak"></div>
 <div id="criteria"></div>
 </div>
-
+ 
 </div>
-
+ 
 <script>
-
+ 
 /* ===== BASE PATH ===== */
 const BASE = "./exam-system";
-
+ 
 /* ===== NAVIGATION ===== */
 function openStudent(){
-  window.location.href = BASE + "/exam-student.html";
+  window.location.href = BASE + "/student-login.html";
 }
-
+ 
 function openAnalytics(){
   window.location.href = BASE + "/exam-dashboard.html";
 }
-
+ 
 /* ===== SECRET TEACHER ACCESS (HIDDEN) ===== */
 /* press T key */
 document.addEventListener("keydown", function(e){
@@ -181,7 +181,7 @@ document.addEventListener("keydown", function(e){
     }
   }
 });
-
+ 
 /* ===== TOPICS (DO NOT TOUCH — SAME SYSTEM) ===== */
 const chapters = [
   {name:"Exploring Matter", key:"matter", ready:false},
@@ -194,14 +194,14 @@ const chapters = [
   {name:"Thermal Physics", key:"thermal", ready:false},
   {name:"Astrophysics", key:"astro", ready:false}
 ];
-
+ 
 const container = document.getElementById("topics");
-
+ 
 chapters.forEach(ch => {
-
+ 
   const div = document.createElement("div");
   div.className = "topic-card";
-
+ 
   if(ch.ready){
     div.onclick = () => {
       window.location.href = `./chapter.html?topic=${ch.key}`;
@@ -210,24 +210,24 @@ chapters.forEach(ch => {
     div.classList.add("locked");
     div.onclick = () => alert("Coming soon");
   }
-
+ 
   div.innerText = ch.name;
   container.appendChild(div);
-
+ 
 });
-
+ 
 /* ===== ANALYTICS ===== */
 let attempts = JSON.parse(localStorage.getItem("attempts")||[]);
-
+ 
 let total = attempts.length;
 let avg = 0;
-
+ 
 attempts.forEach(a=>avg+=a.score);
 avg = total ? (avg/total).toFixed(1) : 0;
-
+ 
 document.getElementById("summary").innerHTML =
 `Total Attempts: ${total} | Avg Score: ${avg}`;
-
+ 
 /* WEAK AREAS */
 let weakHTML="";
 attempts.forEach(a=>{
@@ -235,25 +235,25 @@ attempts.forEach(a=>{
     weakHTML += `<p>⚠ Weak: ${a.topic || "General"}</p>`;
   }
 });
-
+ 
 document.getElementById("weak").innerHTML = weakHTML;
-
+ 
 /* IB CRITERIA */
 let crit={A:0,B:0,C:0,D:0};
-
+ 
 attempts.forEach(a=>{
   if(a.gc) crit[a.gc]+=a.score;
 });
-
+ 
 let chtml="<h3>IB Criteria Performance</h3>";
-
+ 
 for(let c in crit){
   chtml+=`<p>${c}: ${crit[c]}</p>`;
 }
-
+ 
 document.getElementById("criteria").innerHTML=chtml;
-
+ 
 </script>
-
+ 
 </body>
 </html>
