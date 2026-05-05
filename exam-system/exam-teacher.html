@@ -1,305 +1,300 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Teacher Builder - Advanced</title>
-
-<style>
-
-/* ===== BASE ===== */
-body{
-  margin:0;
-  font-family:'Segoe UI', sans-serif;
-
-  background:
-    linear-gradient(rgba(0,0,0,0.6), rgba(20,0,0,0.75)),
-    url('./exam-system/assets/myp-background-image.png');
-
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-
-  color:white;
-}  
-  
-/* TOP */
-.top{
-  display:flex;
-  justify-content:space-between;
-  padding:15px;
-  background:#111;
-}
-
-/* MAIN */
-.container{
-  padding:20px;
-}
-
-/* BUILDER */
-.builder{
-  background:#111827;
-  padding:20px;
-  border-radius:10px;
-}
-
-/* BLOCK */
-.block{
-  border:1px solid #333;
-  padding:15px;
-  margin:10px 0;
-}
-
-/* INPUT */
-input, select, textarea{
-  width:100%;
-  margin:6px 0;
-  padding:8px;
-  border-radius:6px;
-  border:none;
-}
-
-/* BUTTON */
-button{
-  background:#ef4444;
-  border:none;
-  padding:8px 12px;
-  color:white;
-  border-radius:6px;
-  cursor:pointer;
-  margin:5px;
-}
-
-.secondary{
-  background:#374151;
-}
-
-/* STRUCTURE VIEW */
-.structure{
-  background:#020617;
-  padding:10px;
-  margin-top:20px;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="top">
-<div>
-<button onclick="goHome()">Home</button>
-<button onclick="goBack()">Back</button>
-</div>
-</div>
-
-<div class="container">
-
-<h2>Create Question Set</h2>
-
-<!-- META -->
-<input id="title" placeholder="Set Title">
-
-<select id="chapter">
-<option>Forces and Motion</option>
-<option>Atomic Physics</option>
-</select>
-
-<select id="topic">
-<option>Kinematics</option>
-<option>Dynamics</option>
-</select>
-
-<select id="criterion">
-<option>A</option>
-<option>B</option>
-<option>C</option>
-<option>D</option>
-</select>
-
-<select id="difficulty">
-<option>Easy</option>
-<option>Medium</option>
-<option>Hard</option>
-</select>
-
-<!-- BUILDER -->
-<div class="builder" id="builder"></div>
-
-<button onclick="addBlock()">➕ Add Block</button>
-<button onclick="saveSet()">💾 Save Set</button>
-
-<!-- STRUCTURE VIEW -->
-<div class="structure" id="structure"></div>
-
-</div>
-
 <script>
 
-/* NAV */
+/* ================= NAV ================= */
 function goHome(){ location.href="../index.html"; }
 function goBack(){ history.back(); }
 
-/* DATA */
+/* ================= DATA ================= */
 let blocks = [];
 let DB = JSON.parse(localStorage.getItem("questionBank")||"[]");
 
-/* ADD BLOCK */
+/* ================= HELPERS ================= */
+const COMMAND_TERMS = ["Define","Describe","Explain","Compare","Evaluate","Justify","Calculate","Analyse"];
+const CRITERIA = ["A.i","A.ii","A.iii","B.i","B.ii","C.i","C.ii","D.i","D.ii"];
+
+/* ================= ADD BLOCK ================= */
 function addBlock(){
-blocks.push({type:null,data:{}});
-render();
+  blocks.push({ type:null, data:{}, meta:{} });
+  render();
 }
 
-/* RENDER */
+/* ================= RENDER ================= */
 function render(){
+  let html="";
+  let structure="";
 
-let html="";
-let structure="";
+  blocks.forEach((b,i)=>{
+    html+=`
+    <div class="block">
+      <div>
+        <button onclick="setType(${i},'content')">Content</button>
+        <button onclick="setType(${i},'question')">Question</button>
+        <button class="secondary" onclick="deleteBlock(${i})">Delete</button>
+      </div>
 
-blocks.forEach((b,i)=>{
+      <div id="block-${i}" style="margin-top:10px"></div>
+    </div>
+    `;
 
-html+=`
-<div class="block">
+    if(b.type==="content") structure += `[Content] `;
+    if(b.type==="question") structure += `[Q:${b.data?.qtype||''}] `;
+  });
 
-<button onclick="setType(${i},'content')">Content</button>
-<button onclick="setType(${i},'question')">Question</button>
-
-<div id="block-${i}"></div>
-
-<button class="secondary" onclick="deleteBlock(${i})">Delete</button>
-
-</div>
-`;
-
-if(b.type==="content") structure+=`[Content] `;
-if(b.type==="question") structure+=`[Q] `;
-
-});
-
-document.getElementById("builder").innerHTML=html;
-document.getElementById("structure").innerHTML=structure;
-
+  document.getElementById("builder").innerHTML = html;
+  document.getElementById("structure").innerHTML = "<b>Structure:</b> "+structure;
 }
 
-/* TYPE SELECT */
+/* ================= TYPE SELECT ================= */
 function setType(i,type){
+  blocks[i].type = type;
 
-blocks[i].type=type;
+  if(type==="content"){
+    document.getElementById(`block-${i}`).innerHTML = renderContentEditor(i);
+  }
 
-if(type==="content"){
-document.getElementById(`block-${i}`).innerHTML=`
-<textarea placeholder="Add text / insert link"></textarea>
-<button onclick="saveContent(${i})">Save</button>
-`;
+  if(type==="question"){
+    document.getElementById(`block-${i}`).innerHTML = renderQuestionShell(i);
+  }
 }
 
-if(type==="question"){
-document.getElementById(`block-${i}`).innerHTML=`
-<select id="qtype-${i}">
-<option>Long Answer</option>
-<option>MCQ</option>
-<option>Multi MCQ</option>
-<option>True/False</option>
-</select>
+/* ================= CONTENT EDITOR ================= */
+function renderContentEditor(i){
+  return `
+    <textarea id="ctext-${i}" placeholder="Rich text / scenario"></textarea>
 
-<textarea id="q-${i}" placeholder="Question"></textarea>
-<input id="marks-${i}" placeholder="Marks">
+    <input id="cimg-${i}" placeholder="Image URL (optional)">
+    <input id="clatex-${i}" placeholder="LaTeX (optional)">
+    
+    <textarea id="ctable-${i}" placeholder="Table (CSV or simple rows, optional)"></textarea>
 
-<div id="extra-${i}"></div>
+    <input id="chint-${i}" placeholder="Hint (optional)">
 
-<textarea id="ms-${i}" placeholder="Markscheme (optional)"></textarea>
-
-<button onclick="loadExtra(${i})">Load Fields</button>
-<button onclick="saveQuestion(${i})">Save</button>
-`;
+    <button onclick="saveContent(${i})">Save</button>
+  `;
 }
 
-}
-
-/* LOAD EXTRA BASED ON TYPE */
-function loadExtra(i){
-
-let type = document.getElementById(`qtype-${i}`).value;
-let html="";
-
-if(type==="MCQ"){
-html=`
-<input placeholder="Option A" id="a-${i}">
-<input placeholder="Option B" id="b-${i}">
-<input placeholder="Option C" id="c-${i}">
-<input placeholder="Option D" id="d-${i}">
-<input placeholder="Correct Answer" id="ans-${i}">
-`;
-}
-
-if(type==="Multi MCQ"){
-html=`
-<input placeholder="Option A">
-<input placeholder="Option B">
-<input placeholder="Option C">
-<input placeholder="Correct Answers (comma separated)">
-`;
-}
-
-if(type==="True/False"){
-html=`<select><option>True</option><option>False</option></select>`;
-}
-
-document.getElementById(`extra-${i}`).innerHTML=html;
-
-}
-
-/* SAVE CONTENT */
 function saveContent(i){
-
-blocks[i].data={
-text:document.querySelector(`#block-${i} textarea`).value
-};
-
-alert("Content saved");
-
+  blocks[i].data = {
+    text: val(`ctext-${i}`),
+    image: val(`cimg-${i}`),
+    latex: val(`clatex-${i}`),
+    table: val(`ctable-${i}`),
+    hint: val(`chint-${i}`)
+  };
+  alert("Content saved");
 }
 
-/* SAVE QUESTION */
+/* ================= QUESTION SHELL ================= */
+function renderQuestionShell(i){
+  return `
+    <select id="qtype-${i}" onchange="loadQFields(${i})">
+      <option value="">Select Type</option>
+      <option>Long Answer</option>
+      <option>MCQ</option>
+      <option>Multi MCQ</option>
+      <option>True/False</option>
+      <option>Fill Text</option>
+      <option>Match</option>
+      <option>Sort</option>
+      <option>Classify</option>
+      <option>Table</option>
+      <option>Graph</option>
+    </select>
+
+    <div id="meta-${i}"></div>
+    <div id="qfields-${i}"></div>
+
+    <button onclick="saveQuestion(${i})">Save Question</button>
+  `;
+}
+
+/* ================= META (COMMON BACKBONE) ================= */
+function renderMeta(i){
+  return `
+    <h4>Metadata</h4>
+
+    <select id="diff-${i}">
+      <option>Easy</option><option>Medium</option><option>Hard</option>
+    </select>
+
+    <input id="marks-${i}" placeholder="Marks">
+    <input id="time-${i}" placeholder="Suggested time (min)">
+
+    <select id="criterion-${i}">
+      ${CRITERIA.map(c=>`<option>${c}</option>`).join("")}
+    </select>
+
+    <select id="cmd-${i}">
+      ${COMMAND_TERMS.map(c=>`<option>${c}</option>`).join("")}
+    </select>
+
+    <input id="keywords-${i}" placeholder="Keywords (comma)">
+    <textarea id="notes-${i}" placeholder="Internal notes (teacher only)"></textarea>
+  `;
+}
+
+/* ================= LOAD FIELDS ================= */
+function loadQFields(i){
+  let type = val(`qtype-${i}`);
+  document.getElementById(`meta-${i}`).innerHTML = renderMeta(i);
+
+  let html = `
+    <textarea id="q-${i}" placeholder="Question text"></textarea>
+  `;
+
+  if(type==="Long Answer"){
+    html += `
+      <input id="word-${i}" placeholder="Word limit (optional)">
+      <select id="structure-${i}">
+        <option>Paragraph</option>
+        <option>Bullet</option>
+        <option>Steps</option>
+      </select>
+
+      <textarea id="rubric-${i}" placeholder="Rubric"></textarea>
+      <textarea id="expected-${i}" placeholder="Expected points checklist"></textarea>
+      <textarea id="model-${i}" placeholder="Model answer"></textarea>
+    `;
+  }
+
+  if(type==="MCQ"){
+    html += `
+      <input id="a-${i}" placeholder="Option A">
+      <input id="b-${i}" placeholder="Option B">
+      <input id="c-${i}" placeholder="Option C">
+      <input id="d-${i}" placeholder="Option D">
+      <input id="ans-${i}" placeholder="Correct answer">
+
+      <label><input type="checkbox" id="rand-${i}"> Randomize</label>
+      <label><input type="checkbox" id="neg-${i}"> Negative marking</label>
+    `;
+  }
+
+  if(type==="Multi MCQ"){
+    html += `
+      <input id="opts-${i}" placeholder="Options (comma separated)">
+      <input id="ansm-${i}" placeholder="Correct (comma)">
+      <label><input type="checkbox" id="partial-${i}"> Partial marking</label>
+    `;
+  }
+
+  if(type==="True/False"){
+    html += `
+      <select id="tf-${i}">
+        <option>True</option><option>False</option>
+      </select>
+      <input id="exp-${i}" placeholder="Explanation">
+      <label><input type="checkbox" id="justify-${i}"> Require justification</label>
+    `;
+  }
+
+  if(type==="Fill Text"){
+    html += `
+      <input id="blank-${i}" placeholder="Correct answers (comma)">
+      <label><input type="checkbox" id="case-${i}"> Case sensitive</label>
+    `;
+  }
+
+  // placeholders for future types
+  if(["Match","Sort","Classify","Table","Graph"].includes(type)){
+    html += `<p>Advanced builder coming next phase</p>`;
+  }
+
+  html += `<textarea id="ms-${i}" placeholder="Markscheme"></textarea>`;
+
+  document.getElementById(`qfields-${i}`).innerHTML = html;
+}
+
+/* ================= SAVE QUESTION ================= */
 function saveQuestion(i){
+  let type = val(`qtype-${i}`);
 
-blocks[i].data={
-type:document.getElementById(`qtype-${i}`).value,
-question:document.getElementById(`q-${i}`).value,
-marks:document.getElementById(`marks-${i}`).value,
-markscheme:document.getElementById(`ms-${i}`).value
-};
+  blocks[i].data = {
+    qtype: type,
+    question: val(`q-${i}`),
+    meta: {
+      difficulty: val(`diff-${i}`),
+      marks: val(`marks-${i}`),
+      time: val(`time-${i}`),
+      criterion: val(`criterion-${i}`),
+      command: val(`cmd-${i}`),
+      keywords: val(`keywords-${i}`),
+      notes: val(`notes-${i}`)
+    },
+    extra: collectExtras(i,type),
+    markscheme: val(`ms-${i}`)
+  };
 
-alert("Question saved");
-
+  alert("Question saved");
 }
 
-/* DELETE */
-function deleteBlock(i){
-if(confirm("Delete block?")){
-blocks.splice(i,1);
-render();
-}
+/* ================= COLLECT EXTRA ================= */
+function collectExtras(i,type){
+  if(type==="Long Answer"){
+    return {
+      word: val(`word-${i}`),
+      structure: val(`structure-${i}`),
+      rubric: val(`rubric-${i}`),
+      expected: val(`expected-${i}`),
+      model: val(`model-${i}`)
+    };
+  }
+
+  if(type==="MCQ"){
+    return {
+      options: [val(`a-${i}`),val(`b-${i}`),val(`c-${i}`),val(`d-${i}`)],
+      answer: val(`ans-${i}`),
+      randomize: chk(`rand-${i}`),
+      negative: chk(`neg-${i}`)
+    };
+  }
+
+  if(type==="Multi MCQ"){
+    return {
+      options: val(`opts-${i}`),
+      answers: val(`ansm-${i}`),
+      partial: chk(`partial-${i}`)
+    };
+  }
+
+  if(type==="True/False"){
+    return {
+      answer: val(`tf-${i}`),
+      explanation: val(`exp-${i}`),
+      justify: chk(`justify-${i}`)
+    };
+  }
+
+  if(type==="Fill Text"){
+    return {
+      answers: val(`blank-${i}`),
+      case: chk(`case-${i}`)
+    };
+  }
+
+  return {};
 }
 
-/* SAVE SET */
+/* ================= SAVE SET ================= */
 function saveSet(){
+  let set = {
+    title: document.getElementById("title").value,
+    topic: document.getElementById("topic").value,
+    criterion: document.getElementById("criterion").value,
+    blocks: blocks
+  };
 
-let set={
-title:document.getElementById("title").value,
-topic:document.getElementById("topic").value,
-criterion:document.getElementById("criterion").value,
-difficulty:document.getElementById("difficulty").value,
-blocks:blocks
-};
+  DB.push(set);
+  localStorage.setItem("questionBank", JSON.stringify(DB));
 
-DB.push(set);
-localStorage.setItem("questionBank", JSON.stringify(DB));
-
-alert("Saved successfully!");
-
+  alert("Set saved!");
 }
+
+/* ================= UTILS ================= */
+function val(id){ return document.getElementById(id)?.value || ""; }
+function chk(id){ return document.getElementById(id)?.checked || false; }
+
+/* INIT */
+addBlock();
 
 </script>
-
-</body>
-</html>
