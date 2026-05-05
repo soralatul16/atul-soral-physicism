@@ -1,222 +1,275 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Exam Builder Pro</title>
+<title>IB Exam Builder</title>
+
+<!-- Desmos -->
+<script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=desmos"></script>
+
+<!-- Sortable (Drag & Drop) -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <style>
 body{
   margin:0;
-  font-family:'Segoe UI', sans-serif;
+  font-family:'Segoe UI';
+
   background:
-    linear-gradient(rgba(0,0,0,0.65), rgba(20,0,0,0.8)),
-    url('./exam-system/assets/myp-background-image.png') no-repeat center center;
-  background-size: cover;
-  background-attachment: fixed;
+    linear-gradient(rgba(0,0,0,0.7), rgba(20,0,0,0.8)),
+    url('./exam-system/assets/myp-background-image.png');
+
+  background-size:cover;
   color:white;
 }
-header{padding:15px;font-size:20px;background:#111}
-.container{padding:20px}
-.block{background:#1c1c1c;margin:10px 0;padding:15px;border-radius:10px}
-button{margin:5px;padding:6px 10px}
-textarea,input,select{width:100%;margin:5px 0;padding:6px}
-.flex{display:flex;gap:10px;flex-wrap:wrap}
-#structure{background:#111;padding:10px;margin-top:10px}
+
+.container{ padding:20px; }
+
+.block{
+  background:rgba(255,255,255,0.08);
+  padding:15px;
+  margin:10px 0;
+  border-radius:10px;
+  cursor:grab;
+}
+
+input,select,textarea,button{
+  width:100%;
+  margin:5px 0;
+  padding:8px;
+  border-radius:6px;
+  border:none;
+}
+
+button{ background:#ff4d4d; color:white; }
+
+#studentView{ display:none; }
+
+.graph{
+  height:300px;
+  background:white;
+}
 </style>
 </head>
+
 <body>
-<header>Exam Builder Pro</header>
+
 <div class="container">
 
-<h3>Set Info</h3>
-<input id="title" placeholder="Title">
-<input id="topic" placeholder="Topic">
+<h2>📘 IB Teacher Panel</h2>
 
-<div class="flex">
-<button onclick="addBlock()">+ Block</button>
-<button onclick="createGroup('case')">+ Case</button>
-<button onclick="createGroup('passage')">+ Passage</button>
-<button onclick="createGroup('experiment')">+ Experiment</button>
-<button onclick="preview()">Preview</button>
-<button onclick="saveSet()">Save</button>
-<button onclick="exportJSON()">Export</button>
-<input type="file" onchange="importJSON(event)">
-</div>
+<input id="title" placeholder="Set Title">
 
-<input id="search" placeholder="Search">
-<button onclick="searchQuestions()">Search</button>
+<select id="chapter">
+<option>Exploring Matter</option>
+<option>Forces and Motion</option>
+<option>Work, Power & Gravity</option>
+<option>Energy & Environment</option>
+<option>The Nature of Waves</option>
+<option>Atomic Physics</option>
+<option>Electromagnetism</option>
+<option>Thermal Physics</option>
+<option>Astrophysics</option>
+</select>
+
+<select id="gc">
+<option>Identities and Relationships</option>
+<option>Orientation in Space and Time</option>
+<option>Personal and Cultural Expression</option>
+<option>Scientific and Technical Innovation</option>
+<option>Globalization and Sustainability</option>
+<option>Fairness and Development</option>
+</select>
 
 <div id="builder"></div>
-<div id="structure"></div>
+
+<button onclick="addBlock()">+ Add Block</button>
+<button onclick="saveSet()">Save</button>
+<button onclick="previewStudent()">👁 Student View</button>
+<button onclick="exportPDF()">📄 Export PDF</button>
+
+<hr>
+
+<h2>📱 Student Exam Interface</h2>
+<div id="studentView"></div>
 
 </div>
 
 <script>
-let blocks = JSON.parse(localStorage.getItem("draftBlocks")||"[]");
-let DB = JSON.parse(localStorage.getItem("questionBank")||"[]");
-let groups = [];
 
+/* ================= DATA ================= */
+let blocks = [];
+let DB = [];
+
+/* ================= ADD BLOCK ================= */
 function addBlock(){
-  blocks.push({
-    id: Date.now(),
-    type:null,
-    data:{},
-    versions:[],
-    adaptive:{},
-    analytics:{views:0}
-  });
+  blocks.push({type:"question", data:{}});
   render();
 }
 
+/* ================= RENDER ================= */
 function render(){
   let html="";
+
   blocks.forEach((b,i)=>{
-    html+=`<div class='block'>
-    <button onclick="setType(${i},'content')">Content</button>
-    <button onclick="setType(${i},'question')">Question</button>
-    <button onclick="deleteBlock(${i})">Delete</button>
-    <div id='block-${i}'></div>
-    </div>`;
-  });
-  document.getElementById("builder").innerHTML = html;
-  renderStructure();
-}
-
-function setType(i,type){
-  blocks[i].type = type;
-
-  if(type==='content'){
-    document.getElementById(`block-${i}`).innerHTML = `
-      <textarea id='ct-${i}' placeholder='Content'></textarea>
-      <input id='img-${i}' placeholder='Image URL'>
-      <button onclick='saveContent(${i})'>Save</button>`;
-  }
-
-  if(type==='question'){
-    document.getElementById(`block-${i}`).innerHTML = `
-      <select id='qt-${i}' onchange='loadQ(${i})'>
-        <option>MCQ</option>
-        <option>Long</option>
-        <option>Experiment</option>
-      </select>
-      <div id='qf-${i}'></div>`;
-  }
-}
-
-function saveContent(i){
-  blocks[i].data={
-    text:val(`ct-${i}`),
-    image:val(`img-${i}`)
-  };
-}
-
-function loadQ(i){
-  let t = val(`qt-${i}`);
-  let html = `<textarea id='q-${i}' placeholder='Question'></textarea>`;
-
-  if(t==='MCQ'){
-    html+=`<input id='a-${i}' placeholder='A'>
-    <input id='b-${i}' placeholder='B'>
-    <input id='c-${i}' placeholder='C'>
-    <input id='d-${i}' placeholder='D'>
-    <input id='ans-${i}' placeholder='Answer'>`;
-  }
-
-  if(t==='Experiment'){
     html+=`
-    <input id='ind-${i}' placeholder='Independent'>
-    <input id='dep-${i}' placeholder='Dependent'>
-    <input id='ctrl-${i}' placeholder='Controlled'>
-    <textarea id='table-${i}' placeholder='Col1,Col2'></textarea>
-    <button onclick='genTable(${i})'>Generate Table</button>
-    <div id='tp-${i}'></div>`;
-  }
+    <div class="block">
+      <b>Question ${i+1}</b>
 
-  html+=`<button onclick='saveQ(${i})'>Save</button>`;
-  document.getElementById(`qf-${i}`).innerHTML = html;
-}
+      <textarea id="q-${i}" placeholder="Question"></textarea>
 
-function genTable(i){
-  let cols = val(`table-${i}`).split(',');
-  let h='<table border=1><tr>';
-  cols.forEach(c=>h+=`<th>${c}</th>`);
-  h+='</tr>';
-  for(let r=0;r<4;r++){
-    h+='<tr>';
-    cols.forEach(()=>h+='<td></td>');
-    h+='</tr>';
-  }
-  h+='</table>';
-  document.getElementById(`tp-${i}`).innerHTML=h;
-}
+      ${metaHTML(i)}
 
-function saveQ(i){
-  let snap = JSON.parse(JSON.stringify(blocks[i].data));
-  blocks[i].versions.push({time:Date.now(),data:snap});
+      ${toolsHTML(i)}
 
-  blocks[i].data={
-    q:val(`q-${i}`),
-    type:val(`qt-${i}`)
-  };
-}
+      ${typeHTML(i)}
 
-function createGroup(type){
-  groups.push({id:Date.now(),type,blocks:[]});
-}
+      <button onclick="generateAI(${i})">🧠 Generate Markscheme</button>
+      <textarea id="ms-${i}" placeholder="Markscheme"></textarea>
 
-function preview(){
-  let w = window.open();
-  let h='';
-  blocks.forEach(b=>{
-    if(b.type==='content') h+=`<p>${b.data.text}</p>`;
-    if(b.type==='question') h+=`<p><b>${b.data.q}</b></p>`;
+      <div id="graph-${i}" class="graph"></div>
+      <button onclick="initGraph(${i})">📊 Add Graph</button>
+    </div>
+    `;
   });
-  w.document.body.innerHTML=h;
+
+  document.getElementById("builder").innerHTML = html;
+
+  /* Drag reorder */
+  new Sortable(builder,{
+    animation:150,
+    onEnd:(evt)=>{
+      let moved = blocks.splice(evt.oldIndex,1)[0];
+      blocks.splice(evt.newIndex,0,moved);
+      render();
+    }
+  });
 }
 
+/* ================= META ================= */
+function metaHTML(i){
+  return `
+  <select id="diff-${i}">
+    <option>Easy</option>
+    <option>Medium</option>
+    <option>Hard</option>
+  </select>
+
+  <input id="marks-${i}" placeholder="Marks">
+
+  <select id="criterion-${i}">
+    <option>A.i</option><option>A.ii</option><option>B.i</option>
+  </select>
+
+  <input id="cmd-${i}" placeholder="Command Term">
+  `;
+}
+
+/* ================= TOOLS ================= */
+function toolsHTML(i){
+  return `
+  <input id="img-${i}" placeholder="Image URL">
+  <input id="latex-${i}" placeholder="LaTeX">
+  <textarea id="hint-${i}" placeholder="Hint"></textarea>
+  `;
+}
+
+/* ================= TYPES ================= */
+function typeHTML(i){
+  return `
+  <select id="type-${i}">
+    <option>Long Answer</option>
+    <option>MCQ</option>
+  </select>
+  `;
+}
+
+/* ================= AI MARKSCHEME ================= */
+function generateAI(i){
+  let q = document.getElementById(`q-${i}`).value;
+
+  let ms = "Auto-generated:\n";
+
+  if(q.includes("explain")) ms += "- Clear explanation\n- Logical steps\n";
+  if(q.includes("calculate")) ms += "- Correct formula\n- Correct answer\n";
+
+  document.getElementById(`ms-${i}`).value = ms;
+}
+
+/* ================= GRAPH ================= */
+function initGraph(i){
+  let elt = document.getElementById(`graph-${i}`);
+  let calc = Desmos.GraphingCalculator(elt);
+  calc.setExpression({id:'1', latex:'y=x^2'});
+}
+
+/* ================= SAVE ================= */
 function saveSet(){
-  DB.push({title:val('title'),topic:val('topic'),blocks});
-  localStorage.setItem('questionBank',JSON.stringify(DB));
-}
+  let set = [];
 
-function exportJSON(){
-  let blob=new Blob([JSON.stringify(DB)],{type:'application/json'});
-  let a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download='data.json';
-  a.click();
-}
-
-function importJSON(e){
-  let f=e.target.files[0];
-  let r=new FileReader();
-  r.onload=()=>{
-    DB=JSON.parse(r.result);
-    localStorage.setItem('questionBank',JSON.stringify(DB));
-  };
-  r.readAsText(f);
-}
-
-function searchQuestions(){
-  let k=val('search').toLowerCase();
-  console.log(DB.filter(x=>JSON.stringify(x).toLowerCase().includes(k)));
-}
-
-function renderStructure(){
-  let h='<h3>Structure</h3>';
-  blocks.forEach(b=>{
-    if(b.type==='content') h+='📘 Content<br>';
-    if(b.type==='question') h+='❓ Question<br>';
+  blocks.forEach((b,i)=>{
+    set.push({
+      question: val(`q-${i}`),
+      marks: val(`marks-${i}`),
+      type: val(`type-${i}`),
+      ms: val(`ms-${i}`)
+    });
   });
-  document.getElementById('structure').innerHTML=h;
+
+  DB = set;
+  alert("Saved");
 }
 
-function val(id){return document.getElementById(id)?.value||''}
+/* ================= STUDENT VIEW ================= */
+function previewStudent(){
+  let html="";
 
-setInterval(()=>{
-  localStorage.setItem('draftBlocks',JSON.stringify(blocks));
-},2000);
+  DB.forEach((q,i)=>{
+    html+=`
+    <div class="block">
+      <b>Q${i+1}</b>
+      <p>${q.question}</p>
 
-render();
+      ${q.type==="MCQ" ? `
+        <input placeholder="Your answer">
+      ` : `
+        <textarea placeholder="Write answer"></textarea>
+      `}
+    </div>
+    `;
+  });
+
+  document.getElementById("studentView").style.display="block";
+  document.getElementById("studentView").innerHTML = html;
+}
+
+/* ================= PDF ================= */
+async function exportPDF(){
+  const { jsPDF } = window.jspdf;
+  let doc = new jsPDF();
+
+  let y=10;
+
+  DB.forEach((q,i)=>{
+    doc.text(`Q${i+1}: ${q.question}`,10,y);
+    y+=10;
+  });
+
+  doc.save("exam.pdf");
+}
+
+/* ================= UTILS ================= */
+function val(id){
+  return document.getElementById(id)?.value || "";
+}
+
+/* INIT */
+addBlock();
+
 </script>
+
 </body>
 </html>
