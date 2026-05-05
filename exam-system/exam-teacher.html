@@ -1,196 +1,887 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>MYP Teacher Panel</title>
-
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-
 <style>
-
-/* ===== GLOBAL ===== */
-body{
-  margin:0;
-  font-family: Inter, sans-serif;
-  background:#f6f8fb;
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface2: #21262d;
+  --border: #30363d;
+  --accent: #2563eb;
+  --accent2: #7c3aed;
+  --text: #e6edf3;
+  --text2: #8b949e;
+  --green: #238636;
+  --red: #da3633;
+  --yellow: #d29922;
+  --radius: 10px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
 }
 
-/* ===== TOP NAV ===== */
-.topbar{
-  height:60px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 20px;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ─── TOPBAR ─── */
+.topbar {
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  flex-shrink: 0;
+  z-index: 100;
+}
+.topbar-left { display: flex; gap: 6px; align-items: center; }
+.topbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--accent);
+  margin-right: 16px;
+}
+.nav-btn {
+  background: none;
+  border: 1px solid transparent;
+  padding: 6px 14px;
+  border-radius: 6px;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.nav-btn:hover { color: var(--text); background: var(--surface2); }
+.nav-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(37,99,235,0.1); }
+.topbar-right { display: flex; gap: 8px; }
+.icon-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+.icon-btn:hover { background: var(--border); }
+
+/* ─── LAYOUT ─── */
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ─── HOME SCREEN ─── */
+#homeScreen {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+.home-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px 50px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 220px;
+}
+.home-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(37,99,235,0.2);
+}
+.home-card .icon { font-size: 40px; margin-bottom: 16px; }
+.home-card h3 { font-size: 18px; margin-bottom: 8px; }
+.home-card p { color: var(--text2); font-size: 13px; }
+
+/* ─── LIBRARY PANEL ─── */
+#libraryScreen {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+.lib-col {
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 16px;
+  background: var(--surface);
+}
+.lib-col:first-child { width: 200px; }
+.lib-col:nth-child(2) { width: 220px; }
+.lib-col-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text2);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.lib-item {
+  padding: 8px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s;
+  margin-bottom: 4px;
+}
+.lib-item:hover { background: var(--surface2); }
+.lib-item.active { background: rgba(37,99,235,0.15); color: var(--accent); }
+
+/* Library main area */
+.lib-main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+.lib-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.filter-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.15s;
+}
+.filter-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(37,99,235,0.1);
+}
+.qset-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.qset-card:hover { border-color: var(--accent); }
+.qset-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text2);
+}
+.badge.blue { background: rgba(37,99,235,0.15); border-color: var(--accent); color: var(--accent); }
+.badge.purple { background: rgba(124,58,237,0.15); border-color: var(--accent2); color: var(--accent2); }
+
+/* ─── CREATE FLOW ─── */
+#createScreen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Step 1: metadata selection */
+#metaStep {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+}
+#metaStep h2 { font-size: 22px; margin-bottom: 24px; }
+.meta-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group label { font-size: 12px; color: var(--text2); margin-bottom: 6px; display: block; font-weight: 500; }
+.form-group select, .form-group input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 9px 12px;
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.form-group select:focus, .form-group input:focus { border-color: var(--accent); }
+.form-group select option { background: var(--surface2); }
+.form-actions { display: flex; gap: 10px; margin-top: 8px; }
+
+/* Step 2: Builder */
+#builderStep {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+.builder-sidebar {
+  width: 230px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow-y: auto;
+}
+.builder-sidebar h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); margin-bottom: 12px; }
+.structure-item {
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 4px;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.structure-item:hover { background: var(--surface2); color: var(--text); }
+.structure-item.content-type { border-left-color: var(--green); }
+.structure-item.question-type { border-left-color: var(--accent); }
+
+.builder-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 28px;
+}
+.builder-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.builder-topbar h2 { font-size: 18px; }
+.builder-actions { display: flex; gap: 8px; }
+
+/* ─── BLOCKS ─── */
+.block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  position: relative;
+  transition: border-color 0.15s;
+}
+.block:hover { border-color: #444d56; }
+.block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.block-label { font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
+.block-actions { display: flex; gap: 6px; }
+.sm-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sm-btn:hover { background: var(--border); color: var(--text); }
+.sm-btn.danger:hover { background: rgba(218,54,51,0.15); border-color: var(--red); color: var(--red); }
+.sm-btn.primary { background: rgba(37,99,235,0.1); border-color: var(--accent); color: var(--accent); }
+
+/* Mode tabs */
+.mode-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+.tab {
+  padding: 5px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+.tab:hover { background: var(--surface2); }
+.tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+/* Type grids */
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+}
+.type-card {
+  padding: 14px 10px;
+  border-radius: 9px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  text-align: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.15s;
+  color: var(--text);
+}
+.type-card:hover {
+  border-color: var(--accent);
+  background: rgba(37,99,235,0.1);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+.type-card .tc-icon { font-size: 20px; margin-bottom: 6px; }
+
+/* Editor area */
+.editor-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.editor-area textarea, .editor-area input[type="text"], .editor-area input[type="url"], .editor-area input[type="number"] {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.15s;
+}
+.editor-area textarea:focus, .editor-area input:focus { border-color: var(--accent); }
+.editor-area textarea { min-height: 80px; }
+
+.row { display: flex; gap: 10px; align-items: flex-end; }
+.row > * { flex: 1; }
+
+/* Metadata strip inside question */
+.meta-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.meta-strip label { font-size: 11px; color: var(--text2); margin-bottom: 4px; display: block; }
+.meta-strip select, .meta-strip input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 5px 8px;
+  color: var(--text);
+  font-size: 12px;
+  outline: none;
+}
+
+/* MCQ options */
+.mcq-options { display: flex; flex-direction: column; gap: 8px; }
+.mcq-option-row { display: flex; gap: 8px; align-items: center; }
+.mcq-option-row input[type="radio"], .mcq-option-row input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px; flex-shrink: 0; }
+.mcq-option-row input[type="text"] { flex: 1; }
+.remove-btn { background: none; border: none; color: var(--text2); cursor: pointer; font-size: 16px; padding: 0 4px; }
+.remove-btn:hover { color: var(--red); }
+
+/* TF */
+.tf-options { display: flex; gap: 12px; }
+.tf-opt {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+.tf-opt.selected.true-opt { border-color: var(--green); background: rgba(35,134,54,0.15); color: #3fb950; }
+.tf-opt.selected.false-opt { border-color: var(--red); background: rgba(218,54,51,0.15); color: #f85149; }
+.tf-opt:hover { border-color: var(--text2); }
+
+/* Match */
+.match-pairs { display: flex; flex-direction: column; gap: 8px; }
+.match-pair { display: grid; grid-template-columns: 1fr 30px 1fr; gap: 8px; align-items: center; }
+.match-pair .arrow { text-align: center; color: var(--text2); }
+
+/* Upload chooser */
+.upload-chooser { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.upload-opt {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.15s;
+}
+.upload-opt.active { border-color: var(--accent); color: var(--accent); background: rgba(37,99,235,0.1); }
+
+/* Save / cancel bar */
+.action-bar {
+  display: flex;
+  gap: 8px;
+  padding-top: 4px;
+}
+.btn-save {
+  padding: 8px 20px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.btn-save:hover { background: #1d4ed8; }
+.btn-cancel {
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+.btn-cancel:hover { background: var(--surface2); color: var(--text); }
+
+/* Saved preview */
+.saved-preview {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--text2);
+}
+.saved-preview strong { color: var(--text); display: block; margin-bottom: 4px; }
+
+/* Add block */
+.add-block-row {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 16px;
+}
+.add-block-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: 7px;
+  border: 1px dashed var(--border);
+  background: transparent;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+.add-block-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(37,99,235,0.05); }
+
+/* Hints toggle */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--text2);
+}
+.toggle {
+  width: 36px; height: 18px;
+  background: var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.toggle.on { background: var(--accent); }
+.toggle::after {
+  content:'';
+  position:absolute;
+  top:2px; left:2px;
+  width:14px; height:14px;
+  border-radius:50%;
   background:white;
-  border-bottom:1px solid #eee;
+  transition: left 0.15s;
+}
+.toggle.on::after { left:20px; }
+
+/* Hint box */
+.hint-box {
+  background: rgba(210,153,34,0.1);
+  border: 1px solid var(--yellow);
+  border-radius: 7px;
+  padding: 10px 12px;
+}
+.hint-box textarea { background: transparent; border: none; color: var(--text); font-size: 12px; min-height: 50px; }
+.hint-box textarea:focus { border: none; }
+
+/* Markscheme */
+.mark-scheme {
+  background: rgba(35,134,54,0.08);
+  border: 1px solid rgba(35,134,54,0.3);
+  border-radius: 7px;
+  padding: 10px 12px;
+}
+.mark-scheme label { font-size: 11px; color: #3fb950; margin-bottom: 6px; display: block; }
+.mark-scheme textarea { background: transparent; border: none; color: var(--text); font-size: 12px; min-height: 60px; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #444d56; }
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  max-width: 400px;
+  width: 90%;
+}
+.modal h3 { margin-bottom: 12px; }
+.modal p { color: var(--text2); font-size: 14px; margin-bottom: 20px; }
+.modal-btns { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* Section label small */
+.section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text2);
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
 }
 
-.nav-left{
-  display:flex;
-  gap:15px;
-}
-
-.nav-btn{
-  background:none;
-  border:none;
-  font-weight:500;
-  cursor:pointer;
-  color:#444;
-}
-
-.nav-btn.active{
-  color:#2563eb;
-}
-
-/* ===== LAYOUT ===== */
-.layout{
-  display:flex;
-  height:calc(100vh - 60px);
-}
-
-/* ===== SIDEBAR ===== */
-.sidebar{
-  width:250px;
-  background:white;
-  border-right:1px solid #eee;
-  padding:20px;
-}
-
-.section{
-  padding:10px;
-  border-radius:8px;
-  margin-bottom:10px;
-  cursor:pointer;
-}
-
-.section:hover{
-  background:#f1f5ff;
-}
-
-/* ===== MAIN ===== */
-.main{
-  flex:1;
-  padding:20px;
-  overflow:auto;
-}
-
-/* ===== BUILDER HEADER ===== */
-.builder-header{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:20px;
-}
-
-/* ===== BLOCK ===== */
-.block{
-  background:white;
-  border-radius:14px;
-  padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.05);
-}
-
-/* ===== MODE TABS ===== */
-.mode-tabs{
-  display:flex;
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.tab{
-  padding:6px 14px;
-  border-radius:20px;
-  background:#eee;
-  cursor:pointer;
-}
-
-.tab.active{
-  background:#2563eb;
-  color:white;
-}
-
-/* ===== GRID ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-}
-
-/* ===== CARD ===== */
-.card{
-  padding:20px;
-  border-radius:12px;
-  background:#f9fafc;
-  text-align:center;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-.card:hover{
-  transform:translateY(-3px);
-  background:#eef3ff;
-}
-
-/* ===== BUTTON ===== */
-.primary-btn{
-  padding:10px 16px;
-  background:#2563eb;
-  color:white;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-}
-
+.divider { height: 1px; background: var(--border); margin: 12px 0; }
 </style>
 </head>
-
 <body>
 
-<!-- TOP BAR -->
+<!-- ═══ TOP BAR ═══ -->
 <div class="topbar">
-  <div class="nav-left">
-    <button class="nav-btn active">Create</button>
-    <button class="nav-btn">Deliver</button>
-    <button class="nav-btn">Monitor</button>
-    <button class="nav-btn">Grade</button>
+  <div class="topbar-left">
+    <span class="topbar-brand">MYP·Builder</span>
+    <button class="nav-btn active" onclick="showTab('create',this)">✏️ Create</button>
+    <button class="nav-btn" onclick="showTab('deliver',this)">🚀 Deliver</button>
+    <button class="nav-btn" onclick="showTab('monitor',this)">📊 Monitor</button>
+    <button class="nav-btn" onclick="showTab('grade',this)">🎯 Grade</button>
   </div>
-
-  <div>
-    <button class="nav-btn" onclick="goHome()">Home</button>
+  <div class="topbar-right">
+    <button class="icon-btn" onclick="goHome()">🏠 Home</button>
+    <button class="icon-btn" onclick="goBack()">← Back</button>
+    <button class="icon-btn" onclick="goNext()">Next →</button>
+    <button class="icon-btn" onclick="previewStudent()">👁 Preview</button>
   </div>
 </div>
 
-<div class="layout">
-
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <h3>Sections</h3>
-    <div class="section">Section 1</div>
-    <button class="primary-btn" onclick="addBlock()">+ Add Section</button>
+<div class="app-body">
+  <!-- ═══ HOME SCREEN ═══ -->
+  <div id="homeScreen">
+    <div class="home-card" onclick="openCreate()">
+      <div class="icon">✏️</div>
+      <h3>Create New Question Set</h3>
+      <p>Build a new set of questions with content blocks and rich media</p>
+    </div>
+    <div class="home-card" onclick="openLibrary()">
+      <div class="icon">📚</div>
+      <h3>Library</h3>
+      <p>Browse, filter and manage your existing question sets by chapter and topic</p>
+    </div>
   </div>
 
-  <!-- MAIN -->
-  <div class="main">
+  <!-- ═══ LIBRARY SCREEN ═══ -->
+  <div id="libraryScreen" style="display:none;flex:1;">
+    <!-- Chapter column -->
+    <div class="lib-col">
+      <div class="lib-col-title">Chapters</div>
+      <div id="chapterList"></div>
+    </div>
+    <!-- Topic column -->
+    <div class="lib-col" id="topicCol" style="display:none;">
+      <div class="lib-col-title">Topics</div>
+      <div id="topicList"></div>
+    </div>
+    <!-- Main area -->
+    <div class="lib-main">
+      <div class="lib-filters">
+        <button class="filter-btn active" onclick="filterLib('all',this)">All</button>
+        <button class="filter-btn" onclick="filterLib('criterion',this)">Criterion</button>
+        <button class="filter-btn" onclick="filterLib('gc',this)">Global Context</button>
+        <button class="filter-btn" onclick="filterLib('atl',this)">ATL Skill</button>
+        <button class="filter-btn" onclick="filterLib('difficulty',this)">Difficulty</button>
+        <button class="filter-btn" onclick="filterLib('type',this)">Question Type</button>
+      </div>
+      <div id="qsetList">
+        <p style="color:var(--text2);font-size:13px;">Select a chapter and topic to view question sets.</p>
+      </div>
+    </div>
+  </div>
 
-    <div class="builder-header">
-      <h2>Builder</h2>
-      <button class="primary-btn" onclick="addBlock()">+ Add Block</button>
+  <!-- ═══ CREATE SCREEN ═══ -->
+  <div id="createScreen" style="display:none;flex:1;flex-direction:column;overflow:hidden;">
+
+    <!-- Step 1: Metadata -->
+    <div id="metaStep" style="display:block;">
+      <h2>📋 New Question Set</h2>
+      <div class="meta-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Chapter *</label>
+            <select id="ms-chapter">
+              <option value="">Select Chapter</option>
+              <option>Chapter 1: Number</option>
+              <option>Chapter 2: Algebra</option>
+              <option>Chapter 3: Geometry</option>
+              <option>Chapter 4: Statistics</option>
+              <option>Chapter 5: Probability</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Topic *</label>
+            <select id="ms-topic">
+              <option value="">Select Topic</option>
+              <option>Integers & Fractions</option>
+              <option>Linear Equations</option>
+              <option>Quadratic Equations</option>
+              <option>Trigonometry</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Criterion *</label>
+            <select id="ms-criterion">
+              <option value="">Select Criterion</option>
+              <option>A – Knowing & Understanding</option>
+              <option>B – Investigating Patterns</option>
+              <option>C – Communicating</option>
+              <option>D – Applying Mathematics</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Criterion Strand</label>
+            <select id="ms-strand">
+              <option value="">Select Strand</option>
+              <option>i</option><option>ii</option><option>iii</option><option>iv</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Global Context <span style="color:var(--text2)">(optional)</span></label>
+            <select id="ms-gc">
+              <option value="">Select GC</option>
+              <option>Identities & Relationships</option>
+              <option>Orientation in Space & Time</option>
+              <option>Personal & Cultural Expression</option>
+              <option>Scientific & Technical Innovation</option>
+              <option>Globalization & Sustainability</option>
+              <option>Fairness & Development</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ATL Skill <span style="color:var(--text2)">(optional)</span></label>
+            <select id="ms-atl">
+              <option value="">Select ATL</option>
+              <option>Communication</option>
+              <option>Social</option>
+              <option>Self-Management</option>
+              <option>Research</option>
+              <option>Thinking</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Question Set Heading *</label>
+          <input type="text" id="ms-heading" placeholder="Enter a descriptive title for this question set…">
+        </div>
+        <div class="form-actions">
+          <button class="btn-save" onclick="proceedToBuilder()">Continue to Builder →</button>
+          <button class="btn-cancel" onclick="goHome()">Cancel</button>
+        </div>
+      </div>
     </div>
 
-    <div id="builder"></div>
-
+    <!-- Step 2: Builder -->
+    <div id="builderStep" style="display:none;flex:1;overflow:hidden;">
+      <div class="builder-sidebar">
+        <h4>Structure View</h4>
+        <div id="structureView"></div>
+        <div style="margin-top:auto;padding-top:16px;">
+          <button class="btn-save" style="width:100%;margin-bottom:8px;" onclick="saveAll()">💾 Save Set</button>
+          <button class="icon-btn" style="width:100%;" onclick="previewStudent()">👁 Student Preview</button>
+        </div>
+      </div>
+      <div class="builder-main" id="builderMain">
+        <div class="builder-topbar">
+          <div>
+            <h2 id="setHeadingDisplay">Question Set</h2>
+            <div style="font-size:12px;color:var(--text2);margin-top:2px;" id="setMetaDisplay"></div>
+          </div>
+          <div class="builder-actions">
+            <button class="icon-btn" onclick="undoAction()">↩ Undo</button>
+            <button class="icon-btn" onclick="exportPDF()">📄 Export PDF</button>
+          </div>
+        </div>
+        <div id="builder"></div>
+        <div class="add-block-row">
+          <button class="add-block-btn" onclick="addBlock()">＋ Add Block</button>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 
+<!-- ═══ CONFIRM MODAL ═══ -->
+<div class="modal-overlay" id="confirmModal" style="display:none;">
+  <div class="modal">
+    <h3>⚠️ Confirm Delete</h3>
+    <p id="confirmMsg">Are you sure you want to delete this? This cannot be undone.</p>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" style="background:var(--red);" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
 </div>
 
 <script src="exam-builder.js"></script>
-
 <script>
-function goHome(){
-  window.location.href="exam-home.html";
+/* ─ Navigation ─ */
+function showTab(tab, btn) {
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function goHome() {
+  document.getElementById('homeScreen').style.display='flex';
+  document.getElementById('libraryScreen').style.display='none';
+  document.getElementById('createScreen').style.display='none';
+}
+function goBack() { history.back(); }
+function goNext() {}
+function openCreate() {
+  document.getElementById('homeScreen').style.display='none';
+  document.getElementById('createScreen').style.display='flex';
+  document.getElementById('metaStep').style.display='block';
+  document.getElementById('builderStep').style.display='none';
+}
+function openLibrary() {
+  document.getElementById('homeScreen').style.display='none';
+  document.getElementById('libraryScreen').style.display='flex';
+  buildChapterList();
+}
+
+/* ─ Library ─ */
+const chapters = ['Chapter 1: Number','Chapter 2: Algebra','Chapter 3: Geometry','Chapter 4: Statistics'];
+const topics = {
+  'Chapter 1: Number': ['Integers','Fractions','Decimals','Surds'],
+  'Chapter 2: Algebra': ['Linear Equations','Quadratic Equations','Sequences','Functions'],
+  'Chapter 3: Geometry': ['Angles','Trigonometry','Vectors','Transformations'],
+  'Chapter 4: Statistics': ['Data Display','Averages','Probability','Bivariate Data']
+};
+let selChapter=null, selTopic=null, libFilter='all';
+
+function buildChapterList(){
+  const el=document.getElementById('chapterList');
+  el.innerHTML=chapters.map(c=>`<div class="lib-item ${selChapter===c?'active':''}" onclick="selectChapter('${c}')">${c}</div>`).join('');
+}
+function selectChapter(c){
+  selChapter=c; selTopic=null;
+  buildChapterList();
+  const tc=document.getElementById('topicCol');
+  tc.style.display='block';
+  const tl=document.getElementById('topicList');
+  tl.innerHTML=(topics[c]||[]).map(t=>`<div class="lib-item" onclick="selectTopic('${t}')">${t}</div>`).join('');
+  document.getElementById('qsetList').innerHTML='<p style="color:var(--text2);font-size:13px;">Select a topic to view question sets.</p>';
+}
+function selectTopic(t){
+  selTopic=t;
+  document.querySelectorAll('#topicList .lib-item').forEach(el=>{
+    el.classList.toggle('active', el.textContent===t);
+  });
+  renderQsets();
+}
+function filterLib(f, btn){
+  libFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderQsets();
+}
+function renderQsets(){
+  const el=document.getElementById('qsetList');
+  if(!selTopic){el.innerHTML='<p style="color:var(--text2);font-size:13px;">Select a topic.</p>';return;}
+  el.innerHTML=`
+    <h3 style="margin-bottom:16px;font-size:15px;">${selTopic} — Question Sets</h3>
+    ${[{h:'Solving Linear Equations – Practice Set',c:'A',gc:'Scientific & Technical Innovation',d:'Medium',marks:10},
+       {h:'Equations from Word Problems',c:'D',gc:'Fairness & Development',d:'Hard',marks:16},
+       {h:'Equations Quick Check',c:'A',gc:'',d:'Easy',marks:4}]
+      .map(q=>`
+      <div class="qset-card" onclick="loadSet('${q.h}')">
+        <div>
+          <div style="font-size:14px;font-weight:500;">${q.h}</div>
+          <div class="qset-meta">
+            <span class="badge blue">Criterion ${q.c}</span>
+            ${q.gc?`<span class="badge purple">${q.gc}</span>`:''}
+            <span class="badge">${q.d}</span>
+            <span class="badge">${q.marks} marks</span>
+          </div>
+        </div>
+        <div style="font-size:20px;color:var(--text2)">›</div>
+      </div>`).join('')}
+  `;
+}
+function loadSet(name){ alert('Loading: '+name); }
+
+/* ─ Create flow ─ */
+function proceedToBuilder(){
+  const h=document.getElementById('ms-heading').value.trim();
+  if(!h){alert('Please enter a heading for the question set.');return;}
+  document.getElementById('metaStep').style.display='none';
+  document.getElementById('builderStep').style.display='flex';
+  document.getElementById('setHeadingDisplay').textContent=h;
+  const cr=document.getElementById('ms-criterion').value;
+  const tp=document.getElementById('ms-topic').value;
+  document.getElementById('setMetaDisplay').textContent=[tp,cr].filter(Boolean).join(' · ');
+  blocks=[];idCounter=0;
+  addBlock();
 }
 </script>
-
 </body>
 </html>
