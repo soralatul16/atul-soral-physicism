@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teacher Panel</title>
+<title>Teacher Builder - Advanced</title>
 
 <style>
 
@@ -21,70 +20,19 @@ body{
   background-attachment: fixed;
 
   color:white;
-}
-
-/* ===== TOP BAR ===== */
-.topbar{
+}  
+  
+/* TOP */
+.top{
   display:flex;
   justify-content:space-between;
-  padding:15px 30px;
+  padding:15px;
   background:#111;
 }
 
-.topbar button{
-  margin-left:10px;
-}
-
-/* ===== MAIN BUTTONS ===== */
-.main-actions{
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  padding:40px;
-}
-
-.main-actions button{
-  padding:15px 30px;
-  font-size:16px;
-  cursor:pointer;
-}
-
-/* ===== LAYOUT ===== */
-.layout{
-  display:flex;
-  height:80vh;
-}
-
-/* LEFT PANEL */
-.left{
-  width:20%;
-  border-right:1px solid #333;
-  overflow:auto;
-}
-
-/* RIGHT PANEL */
-.right{
-  width:80%;
+/* MAIN */
+.container{
   padding:20px;
-}
-
-/* LIST BUTTON */
-.list-btn{
-  display:block;
-  padding:10px;
-  border-bottom:1px solid #222;
-  cursor:pointer;
-}
-
-.list-btn:hover{
-  background:#1f2937;
-}
-
-/* FILTER BAR */
-.filters{
-  display:flex;
-  gap:10px;
-  margin-bottom:20px;
 }
 
 /* BUILDER */
@@ -97,11 +45,20 @@ body{
 /* BLOCK */
 .block{
   border:1px solid #333;
-  padding:10px;
+  padding:15px;
   margin:10px 0;
 }
 
-/* BUTTONS */
+/* INPUT */
+input, select, textarea{
+  width:100%;
+  margin:6px 0;
+  padding:8px;
+  border-radius:6px;
+  border:none;
+}
+
+/* BUTTON */
 button{
   background:#ef4444;
   border:none;
@@ -109,10 +66,18 @@ button{
   color:white;
   border-radius:6px;
   cursor:pointer;
+  margin:5px;
 }
 
 .secondary{
   background:#374151;
+}
+
+/* STRUCTURE VIEW */
+.structure{
+  background:#020617;
+  padding:10px;
+  margin-top:20px;
 }
 
 </style>
@@ -120,104 +85,19 @@ button{
 
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div>
-    <button onclick="goHome()">Home</button>
-    <button onclick="goMYP()">MYP</button>
-    <button onclick="goBack()">Back</button>
-  </div>
+<div class="top">
+<div>
+<button onclick="goHome()">Home</button>
+<button onclick="goBack()">Back</button>
+</div>
 </div>
 
-<!-- MAIN ACTIONS -->
-<div class="main-actions">
-  <button onclick="openCreate()">➕ Create New Question Set</button>
-  <button onclick="openLibrary()">📚 Library</button>
-</div>
+<div class="container">
 
-<!-- MAIN AREA -->
-<div id="main"></div>
+<h2>Create Question Set</h2>
 
-<script>
-
-/* ===== DATA ===== */
-const chapters = {
-  "Forces and Motion":["Kinematics","Dynamics"],
-  "Atomic Physics":["Structure","Radiation"]
-};
-
-let DB = JSON.parse(localStorage.getItem("questionBank")||"[]");
-
-/* ===== NAV ===== */
-function goHome(){ location.href="../index.html"; }
-function goMYP(){ location.href="../myp-dashboard.html"; }
-function goBack(){ history.back(); }
-
-/* ===== LIBRARY ===== */
-function openLibrary(){
-
-let html = `
-<div class="layout">
-
-<div class="left" id="chapterList"></div>
-
-<div class="right">
-  <div class="filters">
-    <select id="filterTopic"><option>All Topics</option></select>
-    <select id="filterCriterion"><option>All Criteria</option></select>
-    <select id="filterGC"><option>All GC</option></select>
-  </div>
-
-  <div id="sets"></div>
-</div>
-
-</div>
-`;
-
-document.getElementById("main").innerHTML = html;
-
-renderChapters();
-
-}
-
-function renderChapters(){
-let html="";
-for(let ch in chapters){
-  html+=`<div class="list-btn" onclick="loadTopics('${ch}')">${ch}</div>`;
-}
-document.getElementById("chapterList").innerHTML=html;
-}
-
-function loadTopics(ch){
-
-let topics = chapters[ch];
-let html="";
-
-topics.forEach(t=>{
-  html+=`<div class="list-btn" onclick="loadSets('${t}')">${t}</div>`;
-});
-
-document.getElementById("chapterList").innerHTML=html;
-}
-
-function loadSets(topic){
-
-let filtered = DB.filter(s=>s.topic===topic);
-
-let html="";
-filtered.forEach(s=>{
-  html+=`<div class="block">${s.title}</div>`;
-});
-
-document.getElementById("sets").innerHTML=html;
-}
-
-/* ===== CREATE ===== */
-function openCreate(){
-
-document.getElementById("main").innerHTML = `
-
-<div style="padding:20px">
+<!-- META -->
+<input id="title" placeholder="Set Title">
 
 <select id="chapter">
 <option>Forces and Motion</option>
@@ -236,113 +116,186 @@ document.getElementById("main").innerHTML = `
 <option>D</option>
 </select>
 
-<select id="gc">
-<option>Optional GC</option>
+<select id="difficulty">
+<option>Easy</option>
+<option>Medium</option>
+<option>Hard</option>
 </select>
 
-<select id="atl">
-<option>Optional ATL</option>
-</select>
-
-<input id="title" placeholder="Question Set Title">
-
+<!-- BUILDER -->
 <div class="builder" id="builder"></div>
 
 <button onclick="addBlock()">➕ Add Block</button>
-<button onclick="saveSet()">💾 Save</button>
+<button onclick="saveSet()">💾 Save Set</button>
+
+<!-- STRUCTURE VIEW -->
+<div class="structure" id="structure"></div>
 
 </div>
 
-`;
+<script>
 
-addBlock();
+/* NAV */
+function goHome(){ location.href="../index.html"; }
+function goBack(){ history.back(); }
 
-}
+/* DATA */
+let blocks = [];
+let DB = JSON.parse(localStorage.getItem("questionBank")||"[]");
 
-/* ===== BUILDER ===== */
-let blocks=[];
-
+/* ADD BLOCK */
 function addBlock(){
-
-blocks.push({type:null,data:null});
-renderBuilder();
-
+blocks.push({type:null,data:{}});
+render();
 }
 
-function renderBuilder(){
+/* RENDER */
+function render(){
 
 let html="";
+let structure="";
 
 blocks.forEach((b,i)=>{
 
 html+=`
 <div class="block">
 
-<button onclick="selectType(${i},'content')">Content</button>
-<button onclick="selectType(${i},'question')">Question</button>
+<button onclick="setType(${i},'content')">Content</button>
+<button onclick="setType(${i},'question')">Question</button>
 
 <div id="block-${i}"></div>
 
-<button onclick="deleteBlock(${i})" class="secondary">Delete</button>
+<button class="secondary" onclick="deleteBlock(${i})">Delete</button>
 
 </div>
 `;
 
+if(b.type==="content") structure+=`[Content] `;
+if(b.type==="question") structure+=`[Q] `;
+
 });
 
 document.getElementById("builder").innerHTML=html;
+document.getElementById("structure").innerHTML=structure;
 
 }
 
-/* ===== TYPE SELECT ===== */
-function selectType(i,type){
+/* TYPE SELECT */
+function setType(i,type){
+
+blocks[i].type=type;
 
 if(type==="content"){
 document.getElementById(`block-${i}`).innerHTML=`
-<textarea placeholder="Add content"></textarea>
-<button onclick="saveBlock(${i})">Save</button>
+<textarea placeholder="Add text / insert link"></textarea>
+<button onclick="saveContent(${i})">Save</button>
 `;
 }
 
 if(type==="question"){
 document.getElementById(`block-${i}`).innerHTML=`
-<select>
+<select id="qtype-${i}">
 <option>Long Answer</option>
 <option>MCQ</option>
+<option>Multi MCQ</option>
+<option>True/False</option>
 </select>
-<textarea placeholder="Question"></textarea>
-<input placeholder="Markscheme">
-<button onclick="saveBlock(${i})">Save</button>
+
+<textarea id="q-${i}" placeholder="Question"></textarea>
+<input id="marks-${i}" placeholder="Marks">
+
+<div id="extra-${i}"></div>
+
+<textarea id="ms-${i}" placeholder="Markscheme (optional)"></textarea>
+
+<button onclick="loadExtra(${i})">Load Fields</button>
+<button onclick="saveQuestion(${i})">Save</button>
 `;
 }
 
 }
 
-/* ===== SAVE BLOCK ===== */
-function saveBlock(i){
-alert("Saved block");
+/* LOAD EXTRA BASED ON TYPE */
+function loadExtra(i){
+
+let type = document.getElementById(`qtype-${i}`).value;
+let html="";
+
+if(type==="MCQ"){
+html=`
+<input placeholder="Option A" id="a-${i}">
+<input placeholder="Option B" id="b-${i}">
+<input placeholder="Option C" id="c-${i}">
+<input placeholder="Option D" id="d-${i}">
+<input placeholder="Correct Answer" id="ans-${i}">
+`;
 }
 
-/* ===== DELETE ===== */
+if(type==="Multi MCQ"){
+html=`
+<input placeholder="Option A">
+<input placeholder="Option B">
+<input placeholder="Option C">
+<input placeholder="Correct Answers (comma separated)">
+`;
+}
+
+if(type==="True/False"){
+html=`<select><option>True</option><option>False</option></select>`;
+}
+
+document.getElementById(`extra-${i}`).innerHTML=html;
+
+}
+
+/* SAVE CONTENT */
+function saveContent(i){
+
+blocks[i].data={
+text:document.querySelector(`#block-${i} textarea`).value
+};
+
+alert("Content saved");
+
+}
+
+/* SAVE QUESTION */
+function saveQuestion(i){
+
+blocks[i].data={
+type:document.getElementById(`qtype-${i}`).value,
+question:document.getElementById(`q-${i}`).value,
+marks:document.getElementById(`marks-${i}`).value,
+markscheme:document.getElementById(`ms-${i}`).value
+};
+
+alert("Question saved");
+
+}
+
+/* DELETE */
 function deleteBlock(i){
-if(confirm("Delete?")){
+if(confirm("Delete block?")){
 blocks.splice(i,1);
-renderBuilder();
+render();
 }
 }
 
-/* ===== SAVE SET ===== */
+/* SAVE SET */
 function saveSet(){
 
-let set = {
+let set={
 title:document.getElementById("title").value,
-topic:document.getElementById("topic").value
+topic:document.getElementById("topic").value,
+criterion:document.getElementById("criterion").value,
+difficulty:document.getElementById("difficulty").value,
+blocks:blocks
 };
 
 DB.push(set);
 localStorage.setItem("questionBank", JSON.stringify(DB));
 
-alert("Saved!");
+alert("Saved successfully!");
 
 }
 
