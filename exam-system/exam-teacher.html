@@ -17,40 +17,92 @@
 body{
   margin:0;
   font-family:'Segoe UI';
-
   background:
-    linear-gradient(rgba(0,0,0,0.7), rgba(20,0,0,0.8)),
+    linear-gradient(rgba(0,0,0,0.7), rgba(20,0,0,0.85)),
     url('./exam-system/assets/myp-background-image.png');
-
   background-size:cover;
   color:white;
 }
 
-.container{ padding:20px; }
+/* HEADER */
+h2{
+  margin-bottom:15px;
+}
 
+/* BLOCK */
 .block{
-  background:rgba(255,255,255,0.08);
-  padding:15px;
-  margin:10px 0;
-  border-radius:10px;
-  cursor:grab;
+  background:rgba(255,255,255,0.05);
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:20px;
+  backdrop-filter:blur(10px);
 }
 
-input,select,textarea,button{
-  width:100%;
-  margin:5px 0;
-  padding:8px;
-  border-radius:6px;
+/* TOP BUTTONS */
+.mode-bar{
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.mode-btn{
+  flex:1;
+  padding:10px;
+  border-radius:8px;
   border:none;
+  cursor:pointer;
+  background:#2b0d0d;
+  color:white;
 }
 
-button{ background:#ff4d4d; color:white; }
+.mode-btn.active{
+  background:#ef4444;
+}
 
-#studentView{ display:none; }
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:15px;
+}
 
-.graph{
-  height:300px;
+/* CARDS */
+.card{
   background:white;
+  color:#111;
+  padding:20px;
+  border-radius:10px;
+  text-align:center;
+  cursor:pointer;
+  transition:0.2s;
+  font-size:14px;
+}
+
+.card:hover{
+  transform:scale(1.05);
+}
+
+/* INPUTS */
+input,select,textarea{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:none;
+  margin:6px 0;
+}
+
+textarea{
+  min-height:80px;
+}
+
+/* BUTTON */
+button{
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#ef4444;
+  color:white;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -115,39 +167,120 @@ function render(){
   let html="";
 
   blocks.forEach((b,i)=>{
+
     html+=`
     <div class="block">
-      <b>Question ${i+1}</b>
 
-      <textarea id="q-${i}" placeholder="Question"></textarea>
+      <b>Block ${i+1}</b>
 
-      ${metaHTML(i)}
+      <!-- MODE SWITCH -->
+      <div class="mode-bar">
+        <button class="mode-btn ${b.mode==='content'?'active':''}" onclick="setMode(${i},'content')">Content</button>
+        <button class="mode-btn ${b.mode==='question'?'active':''}" onclick="setMode(${i},'question')">Question</button>
+        <button class="mode-btn">Library</button>
+        <button class="mode-btn">AI</button>
+      </div>
 
-      ${toolsHTML(i)}
+      <div id="inner-${i}"></div>
 
-      ${typeHTML(i)}
-
-      <button onclick="generateAI(${i})">🧠 Generate Markscheme</button>
-      <textarea id="ms-${i}" placeholder="Markscheme"></textarea>
-
-      <div id="graph-${i}" class="graph"></div>
-      <button onclick="initGraph(${i})">📊 Add Graph</button>
     </div>
     `;
   });
 
   document.getElementById("builder").innerHTML = html;
 
-  /* Drag reorder */
-  new Sortable(builder,{
-    animation:150,
-    onEnd:(evt)=>{
-      let moved = blocks.splice(evt.oldIndex,1)[0];
-      blocks.splice(evt.newIndex,0,moved);
-      render();
-    }
+  blocks.forEach((b,i)=>{
+    renderInner(i);
   });
 }
+
+function setMode(i,mode){
+  blocks[i].mode = mode;
+  render();
+}
+
+function renderInner(i){
+  let b = blocks[i];
+
+  if(!b.mode){
+    document.getElementById(`inner-${i}`).innerHTML = "<p>Select Content or Question</p>";
+    return;
+  }
+
+  if(b.mode==="content"){
+    document.getElementById(`inner-${i}`).innerHTML = contentUI(i);
+  }
+
+  if(b.mode==="question"){
+    document.getElementById(`inner-${i}`).innerHTML = questionUI(i);
+  }
+}
+
+function contentUI(i){
+  return `
+  <div class="grid">
+
+    <div class="card" onclick="openContent(${i},'Text')">Text</div>
+    <div class="card" onclick="openContent(${i},'Image')">Image</div>
+    <div class="card" onclick="openContent(${i},'PDF')">PDF</div>
+    <div class="card" onclick="openContent(${i},'Video')">Video</div>
+    <div class="card" onclick="openContent(${i},'Audio')">Audio</div>
+    <div class="card" onclick="openContent(${i},'Simulation')">Simulation</div>
+    <div class="card" onclick="openContent(${i},'Document')">Document</div>
+    <div class="card" onclick="openContent(${i},'PPT')">PPT</div>
+
+  </div>
+  `;
+}
+
+function questionUI(i){
+  return `
+  <div class="grid">
+
+    <div class="card" onclick="openQuestion(${i},'Long Answer')">Long Answer</div>
+    <div class="card" onclick="openQuestion(${i},'MCQ')">MCQ</div>
+    <div class="card" onclick="openQuestion(${i},'Multi MCQ')">MCQ Multiple</div>
+    <div class="card" onclick="openQuestion(${i},'True/False')">True/False</div>
+    <div class="card" onclick="openQuestion(${i},'Fill Text')">Fill Text</div>
+    <div class="card" onclick="openQuestion(${i},'Match')">Match</div>
+    <div class="card" onclick="openQuestion(${i},'Sort')">Sort</div>
+    <div class="card" onclick="openQuestion(${i},'Classify')">Classify</div>
+    <div class="card" onclick="openQuestion(${i},'Graph')">Graph</div>
+
+  </div>
+  `;
+}
+
+function openContent(i,type){
+  document.getElementById(`inner-${i}`).innerHTML = `
+    <h4>${type}</h4>
+
+    <textarea placeholder="Enter content"></textarea>
+    <input placeholder="Upload / URL">
+
+    <button onclick="render()">Save</button>
+  `;
+}
+
+function openQuestion(i,type){
+  document.getElementById(`inner-${i}`).innerHTML = `
+    <h4>${type}</h4>
+
+    <textarea placeholder="Question"></textarea>
+
+    ${type==="MCQ" ? `
+      <input placeholder="Option A">
+      <input placeholder="Option B">
+      <input placeholder="Option C">
+      <input placeholder="Option D">
+      <input placeholder="Correct Answer">
+    `:""}
+
+    <textarea placeholder="Markscheme"></textarea>
+
+    <button onclick="render()">Save</button>
+  `;
+}  
 
 /* ================= META ================= */
 function metaHTML(i){
