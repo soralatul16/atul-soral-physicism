@@ -1,300 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exam Builder Pro</title>
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI', sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.65), rgba(20,0,0,0.8)),
+    url('./exam-system/assets/myp-background-image.png') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  color:white;
+}
+header{padding:15px;font-size:20px;background:#111}
+.container{padding:20px}
+.block{background:#1c1c1c;margin:10px 0;padding:15px;border-radius:10px}
+button{margin:5px;padding:6px 10px}
+textarea,input,select{width:100%;margin:5px 0;padding:6px}
+.flex{display:flex;gap:10px;flex-wrap:wrap}
+#structure{background:#111;padding:10px;margin-top:10px}
+</style>
+</head>
+<body>
+<header>Exam Builder Pro</header>
+<div class="container">
+
+<h3>Set Info</h3>
+<input id="title" placeholder="Title">
+<input id="topic" placeholder="Topic">
+
+<div class="flex">
+<button onclick="addBlock()">+ Block</button>
+<button onclick="createGroup('case')">+ Case</button>
+<button onclick="createGroup('passage')">+ Passage</button>
+<button onclick="createGroup('experiment')">+ Experiment</button>
+<button onclick="preview()">Preview</button>
+<button onclick="saveSet()">Save</button>
+<button onclick="exportJSON()">Export</button>
+<input type="file" onchange="importJSON(event)">
+</div>
+
+<input id="search" placeholder="Search">
+<button onclick="searchQuestions()">Search</button>
+
+<div id="builder"></div>
+<div id="structure"></div>
+
+</div>
+
 <script>
-
-/* ================= NAV ================= */
-function goHome(){ location.href="../index.html"; }
-function goBack(){ history.back(); }
-
-/* ================= DATA ================= */
-let blocks = [];
+let blocks = JSON.parse(localStorage.getItem("draftBlocks")||"[]");
 let DB = JSON.parse(localStorage.getItem("questionBank")||"[]");
+let groups = [];
 
-/* ================= HELPERS ================= */
-const COMMAND_TERMS = ["Define","Describe","Explain","Compare","Evaluate","Justify","Calculate","Analyse"];
-const CRITERIA = ["A.i","A.ii","A.iii","B.i","B.ii","C.i","C.ii","D.i","D.ii"];
-
-/* ================= ADD BLOCK ================= */
 function addBlock(){
-  blocks.push({ type:null, data:{}, meta:{} });
+  blocks.push({
+    id: Date.now(),
+    type:null,
+    data:{},
+    versions:[],
+    adaptive:{},
+    analytics:{views:0}
+  });
   render();
 }
 
-/* ================= RENDER ================= */
 function render(){
   let html="";
-  let structure="";
-
   blocks.forEach((b,i)=>{
-    html+=`
-    <div class="block">
-      <div>
-        <button onclick="setType(${i},'content')">Content</button>
-        <button onclick="setType(${i},'question')">Question</button>
-        <button class="secondary" onclick="deleteBlock(${i})">Delete</button>
-      </div>
-
-      <div id="block-${i}" style="margin-top:10px"></div>
-    </div>
-    `;
-
-    if(b.type==="content") structure += `[Content] `;
-    if(b.type==="question") structure += `[Q:${b.data?.qtype||''}] `;
+    html+=`<div class='block'>
+    <button onclick="setType(${i},'content')">Content</button>
+    <button onclick="setType(${i},'question')">Question</button>
+    <button onclick="deleteBlock(${i})">Delete</button>
+    <div id='block-${i}'></div>
+    </div>`;
   });
-
   document.getElementById("builder").innerHTML = html;
-  document.getElementById("structure").innerHTML = "<b>Structure:</b> "+structure;
+  renderStructure();
 }
 
-/* ================= TYPE SELECT ================= */
 function setType(i,type){
   blocks[i].type = type;
 
-  if(type==="content"){
-    document.getElementById(`block-${i}`).innerHTML = renderContentEditor(i);
+  if(type==='content'){
+    document.getElementById(`block-${i}`).innerHTML = `
+      <textarea id='ct-${i}' placeholder='Content'></textarea>
+      <input id='img-${i}' placeholder='Image URL'>
+      <button onclick='saveContent(${i})'>Save</button>`;
   }
 
-  if(type==="question"){
-    document.getElementById(`block-${i}`).innerHTML = renderQuestionShell(i);
+  if(type==='question'){
+    document.getElementById(`block-${i}`).innerHTML = `
+      <select id='qt-${i}' onchange='loadQ(${i})'>
+        <option>MCQ</option>
+        <option>Long</option>
+        <option>Experiment</option>
+      </select>
+      <div id='qf-${i}'></div>`;
   }
-}
-
-/* ================= CONTENT EDITOR ================= */
-function renderContentEditor(i){
-  return `
-    <textarea id="ctext-${i}" placeholder="Rich text / scenario"></textarea>
-
-    <input id="cimg-${i}" placeholder="Image URL (optional)">
-    <input id="clatex-${i}" placeholder="LaTeX (optional)">
-    
-    <textarea id="ctable-${i}" placeholder="Table (CSV or simple rows, optional)"></textarea>
-
-    <input id="chint-${i}" placeholder="Hint (optional)">
-
-    <button onclick="saveContent(${i})">Save</button>
-  `;
 }
 
 function saveContent(i){
-  blocks[i].data = {
-    text: val(`ctext-${i}`),
-    image: val(`cimg-${i}`),
-    latex: val(`clatex-${i}`),
-    table: val(`ctable-${i}`),
-    hint: val(`chint-${i}`)
+  blocks[i].data={
+    text:val(`ct-${i}`),
+    image:val(`img-${i}`)
   };
-  alert("Content saved");
 }
 
-/* ================= QUESTION SHELL ================= */
-function renderQuestionShell(i){
-  return `
-    <select id="qtype-${i}" onchange="loadQFields(${i})">
-      <option value="">Select Type</option>
-      <option>Long Answer</option>
-      <option>MCQ</option>
-      <option>Multi MCQ</option>
-      <option>True/False</option>
-      <option>Fill Text</option>
-      <option>Match</option>
-      <option>Sort</option>
-      <option>Classify</option>
-      <option>Table</option>
-      <option>Graph</option>
-    </select>
+function loadQ(i){
+  let t = val(`qt-${i}`);
+  let html = `<textarea id='q-${i}' placeholder='Question'></textarea>`;
 
-    <div id="meta-${i}"></div>
-    <div id="qfields-${i}"></div>
+  if(t==='MCQ'){
+    html+=`<input id='a-${i}' placeholder='A'>
+    <input id='b-${i}' placeholder='B'>
+    <input id='c-${i}' placeholder='C'>
+    <input id='d-${i}' placeholder='D'>
+    <input id='ans-${i}' placeholder='Answer'>`;
+  }
 
-    <button onclick="saveQuestion(${i})">Save Question</button>
-  `;
+  if(t==='Experiment'){
+    html+=`
+    <input id='ind-${i}' placeholder='Independent'>
+    <input id='dep-${i}' placeholder='Dependent'>
+    <input id='ctrl-${i}' placeholder='Controlled'>
+    <textarea id='table-${i}' placeholder='Col1,Col2'></textarea>
+    <button onclick='genTable(${i})'>Generate Table</button>
+    <div id='tp-${i}'></div>`;
+  }
+
+  html+=`<button onclick='saveQ(${i})'>Save</button>`;
+  document.getElementById(`qf-${i}`).innerHTML = html;
 }
 
-/* ================= META (COMMON BACKBONE) ================= */
-function renderMeta(i){
-  return `
-    <h4>Metadata</h4>
-
-    <select id="diff-${i}">
-      <option>Easy</option><option>Medium</option><option>Hard</option>
-    </select>
-
-    <input id="marks-${i}" placeholder="Marks">
-    <input id="time-${i}" placeholder="Suggested time (min)">
-
-    <select id="criterion-${i}">
-      ${CRITERIA.map(c=>`<option>${c}</option>`).join("")}
-    </select>
-
-    <select id="cmd-${i}">
-      ${COMMAND_TERMS.map(c=>`<option>${c}</option>`).join("")}
-    </select>
-
-    <input id="keywords-${i}" placeholder="Keywords (comma)">
-    <textarea id="notes-${i}" placeholder="Internal notes (teacher only)"></textarea>
-  `;
+function genTable(i){
+  let cols = val(`table-${i}`).split(',');
+  let h='<table border=1><tr>';
+  cols.forEach(c=>h+=`<th>${c}</th>`);
+  h+='</tr>';
+  for(let r=0;r<4;r++){
+    h+='<tr>';
+    cols.forEach(()=>h+='<td></td>');
+    h+='</tr>';
+  }
+  h+='</table>';
+  document.getElementById(`tp-${i}`).innerHTML=h;
 }
 
-/* ================= LOAD FIELDS ================= */
-function loadQFields(i){
-  let type = val(`qtype-${i}`);
-  document.getElementById(`meta-${i}`).innerHTML = renderMeta(i);
+function saveQ(i){
+  let snap = JSON.parse(JSON.stringify(blocks[i].data));
+  blocks[i].versions.push({time:Date.now(),data:snap});
 
-  let html = `
-    <textarea id="q-${i}" placeholder="Question text"></textarea>
-  `;
-
-  if(type==="Long Answer"){
-    html += `
-      <input id="word-${i}" placeholder="Word limit (optional)">
-      <select id="structure-${i}">
-        <option>Paragraph</option>
-        <option>Bullet</option>
-        <option>Steps</option>
-      </select>
-
-      <textarea id="rubric-${i}" placeholder="Rubric"></textarea>
-      <textarea id="expected-${i}" placeholder="Expected points checklist"></textarea>
-      <textarea id="model-${i}" placeholder="Model answer"></textarea>
-    `;
-  }
-
-  if(type==="MCQ"){
-    html += `
-      <input id="a-${i}" placeholder="Option A">
-      <input id="b-${i}" placeholder="Option B">
-      <input id="c-${i}" placeholder="Option C">
-      <input id="d-${i}" placeholder="Option D">
-      <input id="ans-${i}" placeholder="Correct answer">
-
-      <label><input type="checkbox" id="rand-${i}"> Randomize</label>
-      <label><input type="checkbox" id="neg-${i}"> Negative marking</label>
-    `;
-  }
-
-  if(type==="Multi MCQ"){
-    html += `
-      <input id="opts-${i}" placeholder="Options (comma separated)">
-      <input id="ansm-${i}" placeholder="Correct (comma)">
-      <label><input type="checkbox" id="partial-${i}"> Partial marking</label>
-    `;
-  }
-
-  if(type==="True/False"){
-    html += `
-      <select id="tf-${i}">
-        <option>True</option><option>False</option>
-      </select>
-      <input id="exp-${i}" placeholder="Explanation">
-      <label><input type="checkbox" id="justify-${i}"> Require justification</label>
-    `;
-  }
-
-  if(type==="Fill Text"){
-    html += `
-      <input id="blank-${i}" placeholder="Correct answers (comma)">
-      <label><input type="checkbox" id="case-${i}"> Case sensitive</label>
-    `;
-  }
-
-  // placeholders for future types
-  if(["Match","Sort","Classify","Table","Graph"].includes(type)){
-    html += `<p>Advanced builder coming next phase</p>`;
-  }
-
-  html += `<textarea id="ms-${i}" placeholder="Markscheme"></textarea>`;
-
-  document.getElementById(`qfields-${i}`).innerHTML = html;
-}
-
-/* ================= SAVE QUESTION ================= */
-function saveQuestion(i){
-  let type = val(`qtype-${i}`);
-
-  blocks[i].data = {
-    qtype: type,
-    question: val(`q-${i}`),
-    meta: {
-      difficulty: val(`diff-${i}`),
-      marks: val(`marks-${i}`),
-      time: val(`time-${i}`),
-      criterion: val(`criterion-${i}`),
-      command: val(`cmd-${i}`),
-      keywords: val(`keywords-${i}`),
-      notes: val(`notes-${i}`)
-    },
-    extra: collectExtras(i,type),
-    markscheme: val(`ms-${i}`)
+  blocks[i].data={
+    q:val(`q-${i}`),
+    type:val(`qt-${i}`)
   };
-
-  alert("Question saved");
 }
 
-/* ================= COLLECT EXTRA ================= */
-function collectExtras(i,type){
-  if(type==="Long Answer"){
-    return {
-      word: val(`word-${i}`),
-      structure: val(`structure-${i}`),
-      rubric: val(`rubric-${i}`),
-      expected: val(`expected-${i}`),
-      model: val(`model-${i}`)
-    };
-  }
-
-  if(type==="MCQ"){
-    return {
-      options: [val(`a-${i}`),val(`b-${i}`),val(`c-${i}`),val(`d-${i}`)],
-      answer: val(`ans-${i}`),
-      randomize: chk(`rand-${i}`),
-      negative: chk(`neg-${i}`)
-    };
-  }
-
-  if(type==="Multi MCQ"){
-    return {
-      options: val(`opts-${i}`),
-      answers: val(`ansm-${i}`),
-      partial: chk(`partial-${i}`)
-    };
-  }
-
-  if(type==="True/False"){
-    return {
-      answer: val(`tf-${i}`),
-      explanation: val(`exp-${i}`),
-      justify: chk(`justify-${i}`)
-    };
-  }
-
-  if(type==="Fill Text"){
-    return {
-      answers: val(`blank-${i}`),
-      case: chk(`case-${i}`)
-    };
-  }
-
-  return {};
+function createGroup(type){
+  groups.push({id:Date.now(),type,blocks:[]});
 }
 
-/* ================= SAVE SET ================= */
+function preview(){
+  let w = window.open();
+  let h='';
+  blocks.forEach(b=>{
+    if(b.type==='content') h+=`<p>${b.data.text}</p>`;
+    if(b.type==='question') h+=`<p><b>${b.data.q}</b></p>`;
+  });
+  w.document.body.innerHTML=h;
+}
+
 function saveSet(){
-  let set = {
-    title: document.getElementById("title").value,
-    topic: document.getElementById("topic").value,
-    criterion: document.getElementById("criterion").value,
-    blocks: blocks
-  };
-
-  DB.push(set);
-  localStorage.setItem("questionBank", JSON.stringify(DB));
-
-  alert("Set saved!");
+  DB.push({title:val('title'),topic:val('topic'),blocks});
+  localStorage.setItem('questionBank',JSON.stringify(DB));
 }
 
-/* ================= UTILS ================= */
-function val(id){ return document.getElementById(id)?.value || ""; }
-function chk(id){ return document.getElementById(id)?.checked || false; }
+function exportJSON(){
+  let blob=new Blob([JSON.stringify(DB)],{type:'application/json'});
+  let a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='data.json';
+  a.click();
+}
 
-/* INIT */
-addBlock();
+function importJSON(e){
+  let f=e.target.files[0];
+  let r=new FileReader();
+  r.onload=()=>{
+    DB=JSON.parse(r.result);
+    localStorage.setItem('questionBank',JSON.stringify(DB));
+  };
+  r.readAsText(f);
+}
 
+function searchQuestions(){
+  let k=val('search').toLowerCase();
+  console.log(DB.filter(x=>JSON.stringify(x).toLowerCase().includes(k)));
+}
+
+function renderStructure(){
+  let h='<h3>Structure</h3>';
+  blocks.forEach(b=>{
+    if(b.type==='content') h+='📘 Content<br>';
+    if(b.type==='question') h+='❓ Question<br>';
+  });
+  document.getElementById('structure').innerHTML=h;
+}
+
+function val(id){return document.getElementById(id)?.value||''}
+
+setInterval(()=>{
+  localStorage.setItem('draftBlocks',JSON.stringify(blocks));
+},2000);
+
+render();
 </script>
+</body>
+</html>
