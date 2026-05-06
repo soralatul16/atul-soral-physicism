@@ -299,6 +299,91 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(224,48,48,0.3); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+ 
+/* ── Rich Text Editor ── */
+.rich-toolbar {
+  display: flex; flex-wrap: wrap; gap: 2px; padding: 6px 8px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-bottom: none; border-radius: 7px 7px 0 0;
+}
+.rich-toolbar button {
+  background: none; border: none; color: var(--text2); cursor: pointer;
+  padding: 3px 7px; border-radius: 4px; font-size: 12px;
+  transition: all 0.12s; font-family: inherit;
+}
+.rich-toolbar button:hover { background: var(--accent-glow); color: var(--accent); }
+.rtb-sep { width: 1px; background: var(--border); margin: 2px 4px; }
+.rich-editor {
+  width: 100%; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 0 0 7px 7px; padding: 10px 12px; color: var(--text);
+  font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none;
+  min-height: 80px; line-height: 1.6; transition: border-color 0.15s;
+}
+.rich-editor:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
+.rich-editor:empty::before { content: attr(data-placeholder); color: var(--text2); pointer-events: none; }
+ 
+/* ── Sections in Builder ── */
+.section-wrapper { margin-bottom: 20px; }
+.section-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 14px; background: rgba(224,48,48,0.08);
+  border: 1px solid rgba(224,48,48,0.25); border-radius: 8px 8px 0 0;
+  margin-bottom: 0;
+}
+.section-name {
+  font-size: 13px; font-weight: 600; color: var(--accent);
+  cursor: pointer; user-select: none;
+}
+.section-name:hover { text-decoration: underline; }
+.section-blocks { border: 1px solid rgba(224,48,48,0.15); border-top: none; border-radius: 0 0 8px 8px; padding: 12px; }
+ 
+/* ── Structure section label ── */
+.structure-section-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--accent); font-weight: 700; padding: 8px 4px 4px; cursor: pointer;
+}
+.structure-section-label:hover { text-decoration: underline; }
+ 
+/* ── Per-question criteria strip (like image 3) ── */
+.q-criteria-strip {
+  display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap;
+  padding: 12px; background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(224,48,48,0.2); border-radius: 8px;
+  margin: 12px 0;
+}
+.crit-strip-item { display: flex; flex-direction: column; gap: 4px; min-width: 80px; }
+.crit-strip-item label { font-size: 10px; color: var(--text2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.crit-sel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 8px; color: var(--text);
+  font-size: 12px; outline: none; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; transition: border-color 0.15s;
+}
+.crit-sel:focus { border-color: var(--accent); }
+.crit-sel option { background: #1a0303; }
+.crit-marks {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 8px; color: var(--text);
+  font-size: 12px; outline: none; font-family: 'DM Sans', sans-serif;
+  width: 60px; text-align: center; transition: border-color 0.15s;
+}
+.crit-marks:focus { border-color: var(--accent); }
+ 
+/* ── Toast animation ── */
+@keyframes toastIn {
+  from { opacity:0; transform:translateX(-50%) translateY(-20px); }
+  to   { opacity:1; transform:translateX(-50%) translateY(0); }
+}
+ 
+/* ── Add Section button in builder ── */
+.add-section-btn {
+  display: flex; align-items: center; gap: 6px; padding: 9px 24px;
+  border-radius: 7px; border: 1px dashed rgba(224,48,48,0.4);
+  background: transparent; color: var(--accent); cursor: pointer;
+  font-size: 13px; transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+  margin: 12px auto; width: fit-content;
+}
+.add-section-btn:hover { border-color: var(--accent); background: var(--accent-glow); }
 </style>
 </head>
 <body>
@@ -391,26 +476,6 @@ body {
  
         <div class="form-row">
           <div class="form-group">
-            <label>Criterion *</label>
-            <select id="ms-criterion">
-              <option value="">Select Criterion</option>
-              <option>A – Knowing &amp; Understanding</option>
-              <option>B – Inquiring &amp; Designing</option>
-              <option>C – Processing &amp; Evaluating</option>
-              <option>D – Reflecting on the Impacts</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Criterion Strand</label>
-            <select id="ms-strand">
-              <option value="">Select Strand</option>
-              <option>i</option><option>ii</option><option>iii</option><option>iv</option>
-            </select>
-          </div>
-        </div>
- 
-        <div class="form-row">
-          <div class="form-group">
             <label>Global Context <span style="font-weight:400;color:var(--text2)">(optional)</span></label>
             <select id="ms-gc">
               <option value="">Select GC</option>
@@ -469,8 +534,9 @@ body {
           </div>
         </div>
         <div id="builder"></div>
-        <div class="add-block-row">
-          <button class="add-block-btn" onclick="addBlock()">＋ Add Block</button>
+        <div style="display:flex;gap:10px;justify-content:center;margin:8px 0 24px;">
+          <button class="add-block-btn" onclick="addBlock()">＋ Add Block to Last Section</button>
+          <button class="add-section-btn" onclick="addSection()">＋ Add Section</button>
         </div>
       </div>
     </div>
@@ -565,7 +631,7 @@ const chaptersLib = [
   'Energy & Environment','The Nature of Waves','Atomic Physics',
   'Electromagnetism','Thermal Physics','Astrophysics'
 ];
-let selChapter = null, libFilter = 'all';
+let selChapter = null;
  
 function buildChapterList() {
   document.getElementById('chapterList').innerHTML = chaptersLib.map(c =>
@@ -578,8 +644,22 @@ function selectChapter(el, c) {
   selChapter = c;
   document.querySelectorAll('#chapterList .lib-item').forEach(x => x.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('topicCol').style.display = 'block';
-  document.getElementById('topicPanel').innerHTML = `
+ 
+  // Show topics from library for this chapter
+  const LIBRARY_KEY = "MYP_LIBRARY";
+  const library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
+  const topics = [...new Set(library.filter(s => s.chapter === c).map(s => s.topic))].filter(Boolean);
+ 
+  let topicHTML = '';
+  if (topics.length > 0) {
+    topicHTML = `<div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:8px;font-weight:600;">Saved Topics</div>`;
+    topicHTML += topics.map(tp =>
+      `<div class="lib-item" onclick="selectTopic('${tp.replace(/'/g,"\\'")}',this)">${tp}</div>`
+    ).join('');
+    topicHTML += `<div style="border-top:1px solid var(--border);margin:10px 0;"></div>`;
+  }
+  topicHTML += `
+    <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:6px;font-weight:600;">Or Type Topic</div>
     <input type="text" id="lib-topic-input"
       placeholder="Type topic name…"
       style="width:100%;background:var(--surface2);border:1px solid var(--border);
@@ -589,33 +669,62 @@ function selectChapter(el, c) {
       onblur="this.style.borderColor='var(--border)'"
     >
     <button class="btn-save" style="width:100%;margin-top:10px;font-size:12px;padding:7px;" onclick="viewTopicSets()">View Sets →</button>`;
-  document.getElementById('qsetList').innerHTML = '<p style="color:var(--text2);font-size:13px;">Enter a topic and click View Sets.</p>';
+ 
+  document.getElementById('topicCol').style.display = 'block';
+  document.getElementById('topicPanel').innerHTML = topicHTML;
+  document.getElementById('qsetList').innerHTML = '<p style="color:var(--text2);font-size:13px;">Select a topic above to view its question sets.</p>';
+}
+ 
+function selectTopic(tp, el) {
+  document.querySelectorAll('#topicPanel .lib-item').forEach(x => x.classList.remove('active'));
+  el.classList.add('active');
+  const input = document.getElementById('lib-topic-input');
+  if (input) input.value = tp;
+  renderQsets(tp);
 }
  
 function viewTopicSets() {
   const val = (document.getElementById('lib-topic-input') || {}).value;
-  if (!val || !val.trim()) { alert('Please type a topic name.'); return; }
+  if (!val || !val.trim()) { alert('Please type or select a topic name.'); return; }
   renderQsets(val.trim());
 }
+ 
+let libFilter = 'all';
+let libFilterValue = '';
  
 function filterLib(f, btn) {
   libFilter = f;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  // Re-render current topic sets with new filter
+  const input = document.getElementById('lib-topic-input');
+  const topic = input ? input.value.trim() : '';
+  if (topic) renderQsets(topic);
 }
  
 function renderQsets(topic) {
   const LIBRARY_KEY = "MYP_LIBRARY";
   const library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
-  const sets = library.filter(s =>
+  let sets = library.filter(s =>
     s.chapter === selChapter &&
     s.topic.toLowerCase() === topic.toLowerCase()
   );
  
-  if(sets.length === 0){
+  // Apply filter
+  if (libFilter === 'criterion') sets = sets.filter(s => s.criterion);
+  if (libFilter === 'gc')        sets = sets.filter(s => s.gc);
+  if (libFilter === 'atl')       sets = sets.filter(s => s.atl);
+  if (libFilter === 'difficulty'){
+    sets = sets.filter(s => (s.blocks||[]).some(b => b.meta?.difficulty));
+  }
+  if (libFilter === 'type') {
+    // group by question type
+  }
+ 
+  if (sets.length === 0) {
     document.getElementById('qsetList').innerHTML = `
       <h3 style="margin-bottom:16px;font-size:15px;">${topic} — Question Sets</h3>
-      <p style="color:var(--text2);font-size:13px;">No saved sets yet for this topic. Use <strong style="color:var(--accent)">Create New Question Set</strong> to add one.</p>`;
+      <p style="color:var(--text2);font-size:13px;">No saved sets for this topic${libFilter!=='all'?' matching this filter':''}. Use <strong style="color:var(--accent)">Create New Question Set</strong> to add one.</p>`;
     return;
   }
  
@@ -623,27 +732,100 @@ function renderQsets(topic) {
   let html = `<h3 style="margin-bottom:16px;font-size:15px;">${topic} — ${sets.length} Set(s)</h3>`;
   sets.forEach(s => {
     const date = new Date(s.updatedAt||s.createdAt||Date.now()).toLocaleDateString();
-    const qCount = (s.blocks||[]).filter(b=>b.saved&&b.mode==='question').length;
+    const qBlocks = (s.blocks||[]).filter(b=>b.saved&&b.mode==='question');
+    const qCount = qBlocks.length;
+    const totalMarks = qBlocks.reduce((sum,b)=>sum+Number(b.meta?.marks||0),0);
+    const criteria = [...new Set(qBlocks.map(b=>b.meta?.criterion).filter(Boolean))].join(', ');
     html += `
     <div class="qset-card" id="qcard-${s.id}">
-      <div style="flex:1;">
+      <div style="flex:1;cursor:pointer;" onclick="openSetInBuilder('${s.id}')">
         <div style="font-size:14px;font-weight:600;margin-bottom:6px;">${s.heading}</div>
         <div class="qset-meta">
-          <span class="badge">${s.criterion||'No criterion'}</span>
+          ${criteria ? `<span class="badge red">${criteria}</span>` : ''}
           <span class="badge">${qCount} question${qCount!==1?'s':''}</span>
-          <span class="badge">${s.totalMarks||0} marks</span>
+          <span class="badge">${totalMarks} marks</span>
           <span class="badge">v${s.version||1}</span>
           <span class="badge" style="border-color:${statusColor[s.status]||'var(--border)'};color:${statusColor[s.status]||'var(--text2)'};">● ${s.status||'Draft'}</span>
           <span class="badge">${date}</span>
+          ${s.gc?`<span class="badge purple">${s.gc}</span>`:''}
         </div>
       </div>
-      <div style="display:flex;gap:6px;flex-direction:column;align-items:flex-end;min-width:120px;">
+      <div style="display:flex;gap:6px;flex-direction:column;align-items:flex-end;min-width:130px;">
+        <button class="sm-btn" style="font-size:11px;" onclick="openSetInBuilder('${s.id}')">✏️ Edit</button>
         ${s.status!=='Published' ? `<button class="sm-btn primary" onclick="publishSet('${s.id}')">✅ Publish</button>` : `<button class="sm-btn" onclick="archiveSet('${s.id}')">📦 Archive</button>`}
+        <button class="sm-btn" style="font-size:11px;" onclick="downloadSetPDF('${s.id}')">📄 Download</button>
         <button class="sm-btn danger" onclick="deleteSet('${s.id}')">🗑 Delete</button>
       </div>
     </div>`;
   });
   document.getElementById('qsetList').innerHTML = html;
+}
+ 
+function openSetInBuilder(id) {
+  const LIBRARY_KEY = "MYP_LIBRARY";
+  const library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
+  const set = library.find(s => s.id === id);
+  if (!set) { alert('Set not found.'); return; }
+ 
+  // Populate meta fields
+  showPage('create');
+  document.getElementById('metaStep').style.display = 'none';
+  document.getElementById('builderStep').style.display = 'flex';
+ 
+  // Restore meta
+  const safe = (id, val) => { const el = document.getElementById(id); if(el) el.value = val||''; };
+  safe('ms-chapter', set.chapter);
+  safe('ms-topic', set.topic);
+  safe('ms-gc', set.gc);
+  safe('ms-atl', set.atl);
+  safe('ms-heading', set.heading);
+ 
+  document.getElementById('setHeadingDisplay').textContent = set.heading;
+  document.getElementById('setMetaDisplay').textContent = [set.chapter, set.topic].filter(Boolean).join(' · ');
+ 
+  // Restore blocks
+  blocks = JSON.parse(JSON.stringify(set.blocks || []));
+  idCounter = blocks.length;
+  window._editingSetId = set.id;
+  render();
+  alert(`✏️ Editing: "${set.heading}" — Make changes and click 💾 Save Set to update.`);
+}
+ 
+function downloadSetPDF(id) {
+  const LIBRARY_KEY = "MYP_LIBRARY";
+  const library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
+  const set = library.find(s => s.id === id);
+  if (!set) return;
+ 
+  const win = window.open('', '_blank');
+  const qBlocks = (set.blocks||[]).filter(b=>b.saved&&b.mode==='question');
+  let html = `<html><head><title>${set.heading}</title>
+  <style>body{font-family:Arial,sans-serif;padding:40px;max-width:800px;margin:auto;}
+  h1{font-size:20px;} h2{font-size:15px;border-bottom:2px solid #e03030;padding-bottom:6px;}
+  .q{margin-bottom:20px;} .meta{font-size:11px;color:#666;margin-bottom:6px;}
+  .opt{padding:4px 0;font-size:13px;} .marks{display:inline-block;background:#fee;border:1px solid #e03030;padding:2px 8px;border-radius:4px;font-size:11px;color:#c00;font-weight:bold;}</style>
+  </head><body>
+  <h1>${set.heading}</h1>
+  <p style="font-size:12px;color:#666;">Chapter: ${set.chapter} | Topic: ${set.topic} | Version: ${set.version||1} | Status: ${set.status}</p>
+  <hr style="border-color:#e03030;">`;
+ 
+  qBlocks.forEach((b, i) => {
+    const marks = b.meta?.marks ? `<span class="marks">${b.meta.marks} marks</span>` : '';
+    const crit = b.meta?.criterion ? `<span style="font-size:11px;color:#888;margin-left:8px;">Criterion ${b.meta.criterion}</span>` : '';
+    html += `<div class="q"><h2>Question ${i+1} ${marks}${crit}</h2>
+    <p>${b.data?.question || b.data?.text || '(No question text)'}</p>`;
+    if (b.type === 'MCQ' || b.type === 'Multiple Select MCQ') {
+      (b.ui?.mcqOptions||[]).forEach((o,oi) => {
+        if(o.trim()) html += `<div class="opt">${String.fromCharCode(65+oi)}. ${o}</div>`;
+      });
+    }
+    if (b.meta?.markScheme) html += `<p style="font-size:12px;color:#27ae60;border-left:3px solid #27ae60;padding-left:8px;margin-top:8px;"><strong>Mark Scheme:</strong> ${b.meta.markScheme}</p>`;
+    html += `</div>`;
+  });
+  html += `</body></html>`;
+  win.document.write(html);
+  win.document.close();
+  setTimeout(() => win.print(), 500);
 }
  
 function publishSet(id){
@@ -684,10 +866,10 @@ function proceedToBuilder() {
   const h  = (document.getElementById('ms-heading')  || {}).value || '';
   const ch = (document.getElementById('ms-chapter')  || {}).value || '';
   const tp = (document.getElementById('ms-topic')    || {}).value || '';
-  const cr = (document.getElementById('ms-criterion')|| {}).value || '';
  
   if (!h.trim())  { alert('Please enter a Question Set Heading.'); return; }
   if (!ch)        { alert('Please select a Chapter.');             return; }
+  if (!tp.trim()) { alert('Please enter a Topic name.');           return; }
  
   /* Hide metadata, show builder */
   document.getElementById('metaStep').style.display    = 'none';
@@ -695,10 +877,11 @@ function proceedToBuilder() {
  
   /* Populate header */
   document.getElementById('setHeadingDisplay').textContent = h.trim();
-  document.getElementById('setMetaDisplay').textContent    = [ch, tp, cr].filter(Boolean).join(' · ');
+  document.getElementById('setMetaDisplay').textContent    = [ch, tp].filter(Boolean).join(' · ');
  
   /* Reset blocks and render first one */
-  blocks = []; idCounter = 0;
+  window._editingSetId = null;
+  blocks = []; idCounter = 0; sections = [{id:1, name:'Section 1'}];
   render();
   addBlock();
 }
