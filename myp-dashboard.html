@@ -175,11 +175,7 @@ body {
   border-top:1px solid rgba(255,255,255,.07); font-size:.76rem; color:rgba(255,255,255,.38); align-items:center;
 }
 
-/* =============================================
-   FEEDBACK WIDGET — inlined for all pages
-   ============================================= */
-
-/* Trigger button */
+/* ===== FEEDBACK WIDGET ===== */
 #fb-trigger {
   position: fixed; bottom: 28px; right: 28px; z-index: 9000;
   width: 52px; height: 52px; border-radius: 50%;
@@ -193,7 +189,6 @@ body {
 #fb-trigger:hover { transform:scale(1.12); box-shadow:0 6px 28px rgba(239,68,68,.7); }
 #fb-trigger.spinning { transform:rotate(90deg) scale(1.05); }
 
-/* Panel */
 #fb-panel {
   position: fixed; bottom: 92px; right: 28px; z-index: 9000;
   width: 310px;
@@ -206,7 +201,6 @@ body {
   transition: transform .28s cubic-bezier(.22,.68,0,1.2), opacity .2s;
 }
 #fb-panel.open { transform:translateY(0) scale(1); opacity:1; pointer-events:all; }
-
 #fb-panel .fb-head {
   background: linear-gradient(135deg,#ef4444,#7f1d1d);
   padding: 13px 18px;
@@ -214,15 +208,12 @@ body {
   font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
   color: white; display:flex; align-items:center; gap:8px;
 }
-
 #fb-panel .fb-body { padding:16px; display:flex; flex-direction:column; gap:11px; }
-
 #fb-panel .fb-page {
   font-size:.7rem; color:rgba(255,255,255,.32); font-family:'Space Mono',monospace;
   background:rgba(255,255,255,.05); padding:5px 10px; border-radius:6px;
   word-break:break-all; line-height:1.4;
 }
-
 #fb-panel input, #fb-panel textarea {
   width:100%; background:rgba(255,255,255,.06);
   border:1px solid rgba(255,255,255,.12); border-radius:8px;
@@ -233,7 +224,6 @@ body {
 #fb-panel input::placeholder, #fb-panel textarea::placeholder { color:rgba(255,255,255,.26); }
 #fb-panel input:focus, #fb-panel textarea:focus { border-color:rgba(239,68,68,.55); }
 #fb-panel textarea { height:88px; }
-
 #fb-panel .fb-send {
   background:linear-gradient(135deg,#ef4444,#991b1b);
   border:none; color:white; font-family:'DM Sans',sans-serif;
@@ -243,7 +233,6 @@ body {
 #fb-panel .fb-send:hover   { opacity:.88; transform:translateY(-1px); }
 #fb-panel .fb-send:active  { transform:translateY(0); }
 #fb-panel .fb-send:disabled { opacity:.4; cursor:not-allowed; transform:none; }
-
 #fb-panel .fb-status {
   font-size:.78rem; text-align:center; min-height:16px; color:rgba(255,255,255,.45);
 }
@@ -293,7 +282,6 @@ body {
   <div class="grid" id="topics"></div>
 </div>
 
-
 <!-- FORMULA MODAL -->
 <div class="modal-overlay" id="formulaModal">
   <div class="modal">
@@ -302,7 +290,6 @@ body {
       <button class="modal-close" onclick="closeFormulas()">✕</button>
     </div>
     <div class="modal-body">
-
       <div class="tab-nav">
         <button class="tab-btn active" onclick="switchTab('mechanics',this)">Mechanics</button>
         <button class="tab-btn" onclick="switchTab('energy',this)">Energy &amp; Power</button>
@@ -311,7 +298,6 @@ body {
         <button class="tab-btn" onclick="switchTab('metric',this)">Metric Prefixes</button>
       </div>
 
-      <!-- MECHANICS -->
       <div class="formula-section active" id="tab-mechanics">
         <table class="formula-table">
           <tr><td>Density</td><td>density = mass ÷ volume</td><td><a class="flink" href="./infographics/density.html">ρ = m / V</a></td></tr>
@@ -326,7 +312,6 @@ body {
         </table>
       </div>
 
-      <!-- ENERGY & POWER -->
       <div class="formula-section" id="tab-energy">
         <table class="formula-table">
           <tr><td>Kinetic Energy</td><td>KE = ½ × mass × velocity²</td><td><a class="flink" href="./infographics/kinetic.html">Eₖ = ½mv²</a></td></tr>
@@ -337,7 +322,6 @@ body {
         </table>
       </div>
 
-      <!-- ELECTRICITY -->
       <div class="formula-section" id="tab-electricity">
         <table class="formula-table">
           <tr><td>Current</td><td>current = charge ÷ time</td><td><a class="flink" href="./infographics/current.html">I = ΔQ / t</a></td></tr>
@@ -347,7 +331,6 @@ body {
         </table>
       </div>
 
-      <!-- WAVES -->
       <div class="formula-section" id="tab-waves">
         <table class="formula-table">
           <tr><td>Wave Speed</td><td>wave speed = frequency × wavelength</td><td><a class="flink" href="./infographics/wave-speed.html">v = fλ</a></td></tr>
@@ -355,7 +338,6 @@ body {
         </table>
       </div>
 
-      <!-- METRIC -->
       <div class="formula-section" id="tab-metric">
         <table class="metric-table">
           <tr><th>Prefix</th><th>Abbreviation</th><th>Value</th></tr>
@@ -375,19 +357,12 @@ body {
       <div class="formula-legend">
         <span>🔗 Click any formula pill → opens its infographic page</span>
       </div>
-
     </div>
   </div>
 </div>
 
-
-<!-- =============================================
-     FEEDBACK WIDGET HTML — paste on every page
-     (same block, adjust path for feedback.css/js
-      OR keep it fully inlined like this)
-     ============================================= -->
+<!-- FEEDBACK WIDGET -->
 <button id="fb-trigger" title="Send feedback or report an error">💬</button>
-
 <div id="fb-panel">
   <div class="fb-head">📬 &nbsp;Feedback / Correction</div>
   <div class="fb-body">
@@ -399,13 +374,25 @@ body {
   </div>
 </div>
 
-
 <script>
 
-/* ===== MAIN DASHBOARD ===== */
+/* ===== BASE PATH ===== */
 const BASE = "./exam-system";
+
+/* ===== NAVIGATION ===== */
 function openStudent() { window.location.href = BASE + "/student-login.html"; }
 
+/* ===== SECRET TEACHER ACCESS — press T ===== */
+document.addEventListener("keydown", function(e){
+  if(e.key === "T"){
+    let p = prompt("Enter Teacher Password:");
+    if(p === "atul123"){
+      window.location.href = BASE + "/exam-teacher.html";
+    }
+  }
+});
+
+/* ===== FORMULA MODAL ===== */
 function openFormulas() {
   document.getElementById("formulaModal").classList.add("open");
   document.body.style.overflow = "hidden";
@@ -426,7 +413,7 @@ function switchTab(tab, btn){
   btn.classList.add("active");
 }
 
-/* Topics */
+/* ===== TOPICS ===== */
 const chapters = [
   {name:"Exploring Matter",      key:"matter",           ready:false},
   {name:"Forces and Motion",     key:"forces",           ready:true},
@@ -449,23 +436,16 @@ chapters.forEach(ch => {
   container.appendChild(div);
 });
 
-
-/* =============================================
-   FEEDBACK WIDGET LOGIC
-   ★ FILL IN YOUR EMAILJS DETAILS BELOW ★
-   Get them free at https://www.emailjs.com
-   ============================================= */
+/* ===== FEEDBACK WIDGET ===== */
 const FB = {
-  publicKey:  "YOUR_PUBLIC_KEY",   // Account → Public Key
-  serviceID:  "YOUR_SERVICE_ID",   // Email Services → Service ID
-  templateID: "YOUR_TEMPLATE_ID",  // Email Templates → Template ID
+  publicKey:  "YOUR_PUBLIC_KEY",
+  serviceID:  "YOUR_SERVICE_ID",
+  templateID: "YOUR_TEMPLATE_ID",
 };
 
-/* Show current page path in the widget */
 document.getElementById("fb-page-url").textContent =
   "📄 " + window.location.pathname + (window.location.search || "");
 
-/* Toggle open/close */
 const fbTrigger = document.getElementById("fb-trigger");
 const fbPanel   = document.getElementById("fb-panel");
 
@@ -477,7 +457,6 @@ fbTrigger.addEventListener("click", e => {
   if(isOpen) setTimeout(()=>document.getElementById("fb-message").focus(), 250);
 });
 
-/* Close when clicking outside */
 document.addEventListener("click", e => {
   if(!fbPanel.contains(e.target) && e.target !== fbTrigger){
     fbPanel.classList.remove("open");
@@ -486,7 +465,6 @@ document.addEventListener("click", e => {
   }
 });
 
-/* Send via EmailJS */
 document.getElementById("fb-send-btn").addEventListener("click", async () => {
   const msg    = document.getElementById("fb-message").value.trim();
   const email  = document.getElementById("fb-email").value.trim();
@@ -512,7 +490,6 @@ document.getElementById("fb-send-btn").addEventListener("click", async () => {
   };
 
   try {
-    /* EmailJS must be loaded — the CDN script tag is just below */
     await emailjs.send(FB.serviceID, FB.templateID, params);
     status.textContent = "✓ Sent! Thank you.";
     status.className = "fb-status ok";
@@ -538,7 +515,7 @@ document.getElementById("fb-send-btn").addEventListener("click", async () => {
 
 </script>
 
-<!-- EmailJS SDK — keep this AFTER the FB config object above -->
+<!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
         onload="emailjs.init({publicKey: FB.publicKey})"></script>
 
