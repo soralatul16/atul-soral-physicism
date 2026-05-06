@@ -1,57 +1,196 @@
 /* ═══════════════════════════════════════════════════
-   MYP EXAM BUILDER — Full Featured
+   MYP EXAM BUILDER — v2 with Sections + Per-Q Criteria
    ═══════════════════════════════════════════════════ */
  
 let DB = JSON.parse(localStorage.getItem("MYP_DB")) || [];
 let blocks = [];
+let sections = [{ id: 1, name: 'Section 1' }];
 let idCounter = 0;
+let sectionCounter = 1;
 let history = [];
 let pendingDeleteIdx = null;
+let pendingDeleteSectionId = null;
+ 
+/* ─── Quill-style simple rich text toolbar ─── */
+function richTextToolbar(id) {
+  return `
+  <div class="rich-toolbar">
+    <button type="button" onclick="fmt('bold')" title="Bold"><b>B</b></button>
+    <button type="button" onclick="fmt('italic')" title="Italic"><i>I</i></button>
+    <button type="button" onclick="fmt('underline')" title="Underline"><u>U</u></button>
+    <button type="button" onclick="fmtSup()" title="Superscript">x²</button>
+    <button type="button" onclick="fmtSub()" title="Subscript">x₂</button>
+    <span class="rtb-sep"></span>
+    <button type="button" onclick="insertSymbol('√')" title="Square root">√</button>
+    <button type="button" onclick="insertSymbol('π')" title="Pi">π</button>
+    <button type="button" onclick="insertSymbol('Δ')" title="Delta">Δ</button>
+    <button type="button" onclick="insertSymbol('°')" title="Degree">°</button>
+    <button type="button" onclick="insertSymbol('×')" title="Times">×</button>
+    <button type="button" onclick="insertSymbol('÷')" title="Divide">÷</button>
+    <button type="button" onclick="insertSymbol('≈')" title="Approx">≈</button>
+    <button type="button" onclick="insertSymbol('≠')" title="Not equal">≠</button>
+    <button type="button" onclick="insertSymbol('≤')" title="Less or equal">≤</button>
+    <button type="button" onclick="insertSymbol('≥')" title="Greater or equal">≥</button>
+    <span class="rtb-sep"></span>
+    <button type="button" onclick="insertSymbol('α')" title="Alpha">α</button>
+    <button type="button" onclick="insertSymbol('β')" title="Beta">β</button>
+    <button type="button" onclick="insertSymbol('γ')" title="Gamma">γ</button>
+    <button type="button" onclick="insertSymbol('λ')" title="Lambda">λ</button>
+    <button type="button" onclick="insertSymbol('μ')" title="Mu">μ</button>
+    <button type="button" onclick="insertSymbol('Ω')" title="Omega">Ω</button>
+    <button type="button" onclick="insertSymbol('θ')" title="Theta">θ</button>
+  </div>
+  <div class="rich-editor" id="${id}" contenteditable="true" data-placeholder="Write here…"></div>`;
+}
+ 
+let _lastFocusedEditor = null;
+document.addEventListener('focusin', e => {
+  if (e.target.classList.contains('rich-editor')) _lastFocusedEditor = e.target;
+});
+ 
+function fmt(cmd) {
+  if (_lastFocusedEditor) { _lastFocusedEditor.focus(); document.execCommand(cmd, false, null); }
+}
+function fmtSup() { if (_lastFocusedEditor) { _lastFocusedEditor.focus(); document.execCommand('superscript', false, null); } }
+function fmtSub() { if (_lastFocusedEditor) { _lastFocusedEditor.focus(); document.execCommand('subscript', false, null); } }
+function insertSymbol(sym) {
+  if (_lastFocusedEditor) {
+    _lastFocusedEditor.focus();
+    document.execCommand('insertText', false, sym);
+  }
+}
+ 
+function getRichContent(id) {
+  const el = document.getElementById(id);
+  return el ? el.innerHTML : '';
+}
+function setRichContent(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = val || '';
+}
+ 
+/* ─── Per-question criteria strip ─── */
+function criteriaMarksStrip(i) {
+  const b = blocks[i];
+  return `
+  <div class="q-criteria-strip">
+    <div class="crit-strip-item">
+      <label>Criterion</label>
+      <select id="qcrit-${i}" class="crit-sel">
+        <option value="">—</option>
+        <option ${b.meta.criterion==='A'?'selected':''}>A</option>
+        <option ${b.meta.criterion==='B'?'selected':''}>B</option>
+        <option ${b.meta.criterion==='C'?'selected':''}>C</option>
+        <option ${b.meta.criterion==='D'?'selected':''}>D</option>
+      </select>
+    </div>
+    <div class="crit-strip-item">
+      <label>Strand</label>
+      <select id="qstrand-${i}" class="crit-sel">
+        <option value="">—</option>
+        <option ${b.meta.strand==='i'?'selected':''}>i</option>
+        <option ${b.meta.strand==='ii'?'selected':''}>ii</option>
+        <option ${b.meta.strand==='iii'?'selected':''}>iii</option>
+        <option ${b.meta.strand==='iv'?'selected':''}>iv</option>
+      </select>
+    </div>
+    <div class="crit-strip-item">
+      <label>Marks</label>
+      <input type="number" id="qmarks-${i}" class="crit-marks" value="${b.meta.marks||''}" placeholder="pts" min="1">
+    </div>
+    <div class="crit-strip-item" style="flex:1;">
+      <label>Type</label>
+      <select id="qtype-${i}" class="crit-sel">
+        <option value="Long answer" ${!b.meta.answerType||b.meta.answerType==='Long answer'?'selected':''}>Long answer</option>
+        <option ${b.meta.answerType==='Short answer'?'selected':''}>Short answer</option>
+        <option ${b.meta.answerType==='MCQ'?'selected':''}>MCQ</option>
+        <option ${b.meta.answerType==='True/False'?'selected':''}>True/False</option>
+      </select>
+    </div>
+  </div>`;
+}
  
 /* ─── Block factory ─── */
-function newBlock() {
+function newBlock(sectionId) {
   return {
     id: ++idCounter,
-    mode: null,
-    type: null,
-    data: {},
+    sectionId: sectionId || sections[0].id,
+    mode: null, type: null, data: {},
     meta: {
-      marks: '', difficulty: '', commandTerm: '', strand: '', keywords: '', notes: '',
+      marks: '', difficulty: '', commandTerm: '', criterion: '', strand: '',
+      answerType: 'Long answer', keywords: '', notes: '',
       hint: '', hintOn: false, markScheme: '', timeMin: ''
     },
     saved: false,
-    ui: { state: 'select', uploadMode: 'url', tfAnswer: null, mcqOptions: ['','','',''], mcqMulti: [],
-          matchPairs: [{a:'',b:''},{a:'',b:''}], sortItems: ['','',''],
-          classifyCategories: ['',''], classifyItems: ['','',''], fillBlanks: ''
+    ui: {
+      state: 'select', uploadMode: 'url', tfAnswer: null,
+      mcqOptions: ['','','',''], mcqMulti: [],
+      matchPairs: [{a:'',b:''},{a:'',b:''}],
+      sortItems: ['','',''],
+      classifyCategories: ['',''], classifyItems: ['','',''], fillBlanks: ''
     }
   };
 }
  
 function pushHistory() {
-  history.push(JSON.parse(JSON.stringify(blocks)));
+  history.push({ blocks: JSON.parse(JSON.stringify(blocks)), sections: JSON.parse(JSON.stringify(sections)) });
   if (history.length > 30) history.shift();
 }
  
 function undoAction() {
   if (history.length === 0) return;
-  blocks = history.pop();
+  const h = history.pop();
+  blocks = h.blocks;
+  sections = h.sections;
+  render();
+}
+ 
+/* ─── Section management ─── */
+function addSection() {
+  pushHistory();
+  sectionCounter++;
+  const newId = sectionCounter;
+  sections.push({ id: newId, name: 'Section ' + sections.length + 1 });
+  addBlock(newId);
+}
+ 
+function renameSection(sectionId) {
+  const sec = sections.find(s => s.id === sectionId);
+  if (!sec) return;
+  const name = prompt('Enter section name:', sec.name);
+  if (name && name.trim()) {
+    pushHistory();
+    sec.name = name.trim();
+    render();
+  }
+}
+ 
+function deleteSectionConfirm(sectionId) {
+  const sec = sections.find(s => s.id === sectionId);
+  const bCount = blocks.filter(b => b.sectionId === sectionId).length;
+  if (!confirm(`Delete "${sec?.name}" and its ${bCount} block(s)?`)) return;
+  pushHistory();
+  blocks = blocks.filter(b => b.sectionId !== sectionId);
+  sections = sections.filter(s => s.id !== sectionId);
+  if (sections.length === 0) sections = [{ id: ++sectionCounter, name: 'Section 1' }];
   render();
 }
  
 /* ─── Block management ─── */
-function addBlock() {
+function addBlock(sectionId) {
   pushHistory();
-  blocks.push(newBlock());
+  const sid = sectionId || (sections.length ? sections[sections.length - 1].id : 1);
+  blocks.push(newBlock(sid));
   render();
   setTimeout(() => {
     const all = document.querySelectorAll('.block');
     if (all.length) all[all.length - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 50);
+  }, 60);
 }
  
 function deleteBlock(i) {
   pendingDeleteIdx = i;
-  document.getElementById('confirmMsg').textContent = `Delete Block ${i + 1}? This cannot be undone.`;
+  document.getElementById('confirmMsg').textContent = `Delete this block? This cannot be undone.`;
   document.getElementById('confirmModal').style.display = 'flex';
 }
  
@@ -78,38 +217,74 @@ function setMode(i, mode) {
   render();
 }
  
+/* ─── Question numbering helper ─── */
+function getQuestionLabel(blockIndex) {
+  const b = blocks[blockIndex];
+  if (b.mode !== 'question') return null;
+  const sec = sections.find(s => s.id === b.sectionId);
+  const secIdx = sections.indexOf(sec) + 1;
+  const qInSection = blocks.filter((blk, j) => blk.mode === 'question' && blk.sectionId === b.sectionId && j <= blockIndex).length;
+  const letters = ['a','b','c','d','e','f','g','h','i','j','k','l'];
+  return `${secIdx}(${letters[qInSection - 1] || qInSection})`;
+}
+ 
 /* ─── Main render ─── */
 function render() {
   let html = '';
-  blocks.forEach((b, i) => {
-    const modeLabel = b.saved
-      ? `<span class="badge ${b.mode === 'content' ? 'blue' : ''}" style="margin-right:6px;">${b.mode === 'content' ? '📄 Content' : '❓ Question'}: ${b.type || ''}</span>`
-      : `Block ${i + 1}`;
+  sections.forEach(sec => {
+    const secBlocks = blocks.filter(b => b.sectionId === sec.id);
     html += `
-    <div class="block" id="block-${i}">
-      <div class="block-header">
-        <span class="block-label">${modeLabel}</span>
-        <div class="block-actions">
-          ${b.saved ? `<button class="sm-btn primary" onclick="editBlock(${i})">✏️ Edit</button>` : ''}
-          <button class="sm-btn danger" onclick="deleteBlock(${i})">✕ Delete</button>
+    <div class="section-wrapper" id="section-${sec.id}">
+      <div class="section-header">
+        <span class="section-name" onclick="renameSection(${sec.id})">✏️ ${sec.name}</span>
+        <div style="display:flex;gap:6px;">
+          <button class="sm-btn" onclick="addBlock(${sec.id})" style="font-size:11px;">+ Add Block</button>
+          ${sections.length > 1 ? `<button class="sm-btn danger" onclick="deleteSectionConfirm(${sec.id})" style="font-size:11px;">✕ Section</button>` : ''}
         </div>
       </div>
-      ${!b.saved ? `
-      <div class="mode-tabs">
-        <button class="tab ${b.mode === 'content' ? 'active' : ''}" onclick="setMode(${i},'content')">📄 Content</button>
-        <button class="tab ${b.mode === 'question' ? 'active' : ''}" onclick="setMode(${i},'question')">❓ Question</button>
-      </div>` : ''}
-      <div id="inner-${i}"></div>
-    </div>`;
+      <div class="section-blocks" id="section-blocks-${sec.id}">`;
+ 
+    secBlocks.forEach((b) => {
+      const i = blocks.indexOf(b);
+      const qLabel = getQuestionLabel(i);
+      const label = b.saved
+        ? (b.mode === 'content'
+            ? `📄 Content: ${b.type}`
+            : `❓ Q${qLabel} · ${b.type}`)
+        : (qLabel ? `Q${qLabel}` : `Block`);
+ 
+      html += `
+      <div class="block" id="block-${i}">
+        <div class="block-header">
+          <span class="block-label">${label}</span>
+          <div class="block-actions">
+            ${b.saved ? `<button class="sm-btn primary" onclick="editBlock(${i})">✏️ Edit</button>` : ''}
+            <button class="sm-btn danger" onclick="deleteBlock(${i})">✕</button>
+          </div>
+        </div>
+        ${!b.saved ? `
+        <div class="mode-tabs">
+          <button class="tab ${b.mode==='content'?'active':''}" onclick="setMode(${i},'content')">📄 Content</button>
+          <button class="tab ${b.mode==='question'?'active':''}" onclick="setMode(${i},'question')">❓ Question</button>
+        </div>` : ''}
+        <div id="inner-${i}"></div>
+      </div>`;
+    });
+ 
+    html += `</div></div>`;
   });
  
   document.getElementById('builder').innerHTML = html;
   blocks.forEach((b, i) => renderInner(i));
   updateStructureView();
  
-  // Re-init sortable
   try {
-    Sortable.create(document.getElementById('builder'), { animation: 150, handle: '.block-header', ghostClass: 'sortable-ghost' });
+    sections.forEach(sec => {
+      const el = document.getElementById('section-blocks-' + sec.id);
+      if (el) Sortable.create(el, { animation: 150, handle: '.block-header', ghostClass: 'sortable-ghost',
+        onEnd: () => { /* re-sync order if needed */ }
+      });
+    });
   } catch(e) {}
 }
  
@@ -126,23 +301,14 @@ function renderInner(i) {
   const el = document.getElementById(`inner-${i}`);
   if (!el) return;
  
-  if (b.saved) {
-    el.innerHTML = renderSavedPreview(i);
-    return;
-  }
+  if (b.saved) { el.innerHTML = renderSavedPreview(i); return; }
+  if (!b.mode) { el.innerHTML = `<p style="color:var(--text2);font-size:13px;">Select Content or Question above.</p>`; return; }
+  if (b.ui.state === 'select') { el.innerHTML = b.mode === 'content' ? contentGrid(i) : questionGrid(i); return; }
+  if (b.ui.state === 'edit')   { el.innerHTML = b.mode === 'content' ? contentEditorHTML(i) : questionEditorHTML(i); }
  
-  if (!b.mode) {
-    el.innerHTML = `<p style="color:var(--text2);font-size:13px;">Select Content or Question above.</p>`;
-    return;
-  }
- 
-  if (b.ui.state === 'select') {
-    el.innerHTML = b.mode === 'content' ? contentGrid(i) : questionGrid(i);
-    return;
-  }
- 
-  if (b.ui.state === 'edit') {
-    el.innerHTML = b.mode === 'content' ? contentEditorHTML(i) : questionEditorHTML(i);
+  // Restore rich editor content after render
+  if (b.ui.state === 'edit' && b.mode === 'question') {
+    setTimeout(() => { setRichContent(`qprompt-${i}`, b.data.question || ''); }, 10);
   }
 }
  
@@ -153,64 +319,73 @@ function renderSavedPreview(i) {
   let preview = '';
  
   if (b.mode === 'content') {
-    if (b.type === 'Text') preview = `<div style="font-size:13px;">${d.text || '(No text entered)'}</div>`;
+    if (b.type === 'Text') preview = `<div style="font-size:13px;line-height:1.6;">${d.text || '(No text)'}</div>`;
     else if (b.type === 'Image') preview = d.url ? `<img src="${d.url}" style="max-width:100%;max-height:200px;border-radius:8px;" onerror="this.style.display='none'">` : `<div style="color:var(--text2);font-size:13px;">Image uploaded</div>`;
     else preview = `<div style="color:var(--text2);font-size:13px;">${b.type} content saved.</div>`;
   } else {
+    const qLabel = getQuestionLabel(i);
+    const qText = d.question ? d.question.replace(/<[^>]+>/g,'') : '(No question)';
+    preview = `<div style="font-size:13px;margin-bottom:8px;"><strong>Q${qLabel}:</strong> ${qText.substring(0,120)}${qText.length>120?'…':''}</div>`;
     if (b.type === 'MCQ' || b.type === 'Multiple Select MCQ') {
       const opts = b.ui.mcqOptions.filter(o => o.trim());
-      preview = `<div style="font-size:13px;margin-bottom:8px;">${d.question || '(No question)'}</div>` +
-        opts.map((o, oi) => `<div style="padding:6px 10px;background:var(--surface2);border-radius:5px;margin-bottom:4px;font-size:12px;">${String.fromCharCode(65+oi)}. ${o}</div>`).join('');
+      preview += opts.map((o, oi) => `<div style="padding:4px 10px;background:var(--surface2);border-radius:5px;margin-bottom:3px;font-size:12px;">${String.fromCharCode(65+oi)}. ${o}</div>`).join('');
     } else if (b.type === 'True / False') {
-      preview = `<div style="font-size:13px;margin-bottom:8px;">${d.question || '(No question)'}</div>
-        <div style="font-size:12px;color:var(--text2);">Answer: <strong style="color:var(--text);">${b.ui.tfAnswer || 'Not set'}</strong></div>`;
-    } else {
-      preview = `<div style="font-size:13px;">${d.question || d.text || '(Saved)'}</div>`;
+      preview += `<div style="font-size:12px;color:var(--text2);">Answer: <strong style="color:var(--text);">${b.ui.tfAnswer || 'Not set'}</strong></div>`;
     }
-    if (b.meta.marks) preview += `<div style="margin-top:6px;"><span class="badge">${b.meta.marks} marks</span> <span class="badge">${b.meta.difficulty || 'Difficulty not set'}</span></div>`;
+    preview += `<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">`;
+    if (b.meta.criterion) preview += `<span class="badge red">Crit ${b.meta.criterion}${b.meta.strand?'-'+b.meta.strand:''}</span>`;
+    if (b.meta.marks)     preview += `<span class="badge">${b.meta.marks} marks</span>`;
+    if (b.meta.difficulty)preview += `<span class="badge">${b.meta.difficulty}</span>`;
+    preview += `</div>`;
   }
  
   return `<div class="saved-preview"><strong>${b.mode === 'content' ? '📄' : '❓'} ${b.type}</strong>${preview}</div>`;
 }
  
-/* ─── Structure View ─── */
+/* ─── Structure View with Sections ─── */
 function updateStructureView() {
   const el = document.getElementById('structureView');
   if (!el) return;
   if (blocks.length === 0) { el.innerHTML = '<div style="color:var(--text2);font-size:12px;">No blocks yet.</div>'; return; }
-  el.innerHTML = blocks.map((b, i) =>
-    `<div class="structure-item ${b.mode === 'content' ? 'content-type' : 'question-type'}" onclick="document.getElementById('block-${i}').scrollIntoView({behavior:'smooth'})">
-      ${b.mode === 'content' ? '📄' : '❓'} ${b.type || (b.mode || 'New Block')}
-    </div>`
-  ).join('');
+ 
+  let html = '';
+  sections.forEach(sec => {
+    const secBlocks = blocks.filter(b => b.sectionId === sec.id);
+    if (secBlocks.length === 0) return;
+    html += `<div class="structure-section-label" onclick="renameSection(${sec.id})">📋 ${sec.name}</div>`;
+    secBlocks.forEach(b => {
+      const i = blocks.indexOf(b);
+      const qLabel = getQuestionLabel(i);
+      html += `<div class="structure-item ${b.mode==='content'?'content-type':'question-type'}"
+        onclick="document.getElementById('block-${i}').scrollIntoView({behavior:'smooth'})">
+        ${b.mode==='content' ? '📄' : `❓ Q${qLabel||''}`} ${b.type || (b.mode || 'New')}
+      </div>`;
+    });
+  });
+  el.innerHTML = html;
 }
  
-/* ══════════════════════════════════
-   CONTENT GRID
-══════════════════════════════════ */
+/* ── Content & Question grids ── */
 function contentGrid(i) {
   const types = [
-    {icon:'📝',label:'Text'},    {icon:'🖼️',label:'Image'},   {icon:'🎬',label:'Video'},
-    {icon:'📄',label:'PDF'},     {icon:'🎵',label:'Audio'},    {icon:'🔬',label:'Simulation'},
-    {icon:'📊',label:'Docs'},    {icon:'📑',label:'PPT'},      {icon:'🗂️',label:'Accordion'}
+    {icon:'📝',label:'Text'},{icon:'🖼️',label:'Image'},{icon:'🎬',label:'Video'},
+    {icon:'📄',label:'PDF'},{icon:'🎵',label:'Audio'},{icon:'🔬',label:'Simulation'},
+    {icon:'📊',label:'Docs'},{icon:'📑',label:'PPT'},{icon:'🗂️',label:'Accordion'}
   ];
   return `<div class="type-grid">${types.map(t =>
     `<div class="type-card" onclick="selectType(${i},'${t.label}','content')"><div class="tc-icon">${t.icon}</div>${t.label}</div>`
   ).join('')}</div>`;
 }
  
-/* ══════════════════════════════════
-   QUESTION GRID
-══════════════════════════════════ */
 function questionGrid(i) {
   const types = [
-    {icon:'✍️',label:'Long Answer'},   {icon:'🔘',label:'MCQ'},
-    {icon:'☑️',label:'Multiple Select MCQ'}, {icon:'✔️',label:'True / False'},
-    {icon:'📝',label:'Fill Text'},      {icon:'🔽',label:'Fill Drop Down'},
+    {icon:'✍️',label:'Long Answer'},{icon:'🔘',label:'MCQ'},
+    {icon:'☑️',label:'Multiple Select MCQ'},{icon:'✔️',label:'True / False'},
+    {icon:'📝',label:'Fill Text'},{icon:'🔽',label:'Fill Drop Down'},
     {icon:'🔗',label:'Match the Following'},{icon:'🔄',label:'Sort'},
-    {icon:'🗂️',label:'Classify'},       {icon:'📊',label:'Table'},
-    {icon:'✏️',label:'Drawing'},         {icon:'🏷️',label:'Label Drag'},
-    {icon:'🏷️',label:'Label Fill'},      {icon:'📈',label:'Desmos Graph'},
+    {icon:'🗂️',label:'Classify'},{icon:'📊',label:'Table'},
+    {icon:'✏️',label:'Drawing'},{icon:'🏷️',label:'Label Drag'},
+    {icon:'🏷️',label:'Label Fill'},{icon:'📈',label:'Desmos Graph'},
     {icon:'📐',label:'GeoGebra Graph'}
   ];
   return `<div class="type-grid">${types.map(t =>
@@ -224,11 +399,12 @@ function selectType(i, type, mode) {
   blocks[i].mode = mode;
   blocks[i].ui.state = 'edit';
   render();
+  if (mode === 'question') {
+    setTimeout(() => { setRichContent(`qprompt-${i}`, blocks[i].data.question || ''); }, 20);
+  }
 }
  
-/* ══════════════════════════════════
-   CONTENT EDITOR
-══════════════════════════════════ */
+/* ── Content Editor ── */
 function contentEditorHTML(i) {
   const b = blocks[i];
   const t = b.type;
@@ -240,67 +416,54 @@ function contentEditorHTML(i) {
       <div class="upload-opt ${um==='file'?'active':''}" onclick="setUploadMode(${i},'file')">💻 Upload</div>
       <div class="upload-opt ${um==='drive'?'active':''}" onclick="setUploadMode(${i},'drive')">☁️ Drive</div>
     </div>
-    ${um==='url'?`<input type="url" id="cu-url-${i}" placeholder="Paste ${t} URL here…" value="${b.data.url||''}">`:''}
-    ${um==='file'?`<input type="file" id="cu-file-${i}" style="background:var(--surface2);border:1px solid var(--border);padding:8px;border-radius:7px;width:100%;color:var(--text);">`:''}
-    ${um==='drive'?`<input type="url" id="cu-drive-${i}" placeholder="Paste Google Drive share link…" value="${b.data.driveUrl||''}">`:''}
-  `;
+    ${um==='url'?`<input type="url" id="cu-url-${i}" placeholder="Paste ${t} URL here…" value="${b.data.url||''}">`:''} 
+    ${um==='file'?`<input type="file" id="cu-file-${i}" style="background:var(--surface2);border:1px solid var(--border);padding:8px;border-radius:7px;width:100%;color:var(--text);">`:''} 
+    ${um==='drive'?`<input type="url" id="cu-drive-${i}" placeholder="Paste Google Drive share link…" value="${b.data.driveUrl||''}">`:''} `;
  
   let inner = '';
   if (t === 'Text') {
-    inner = `<textarea id="ct-${i}" placeholder="Enter text content… (supports rich text)" style="min-height:120px;">${b.data.text||''}</textarea>`;
+    inner = `<textarea id="ct-${i}" placeholder="Enter text content…" style="min-height:120px;">${b.data.text||''}</textarea>`;
   } else if (t === 'Accordion') {
-    inner = `
-      <input type="text" id="ca-title-${i}" placeholder="Accordion title…" value="${b.data.title||''}">
-      <textarea id="ca-body-${i}" placeholder="Accordion body content…">${b.data.body||''}</textarea>
-    `;
+    inner = `<input type="text" id="ca-title-${i}" placeholder="Accordion title…" value="${b.data.title||''}">
+      <textarea id="ca-body-${i}" placeholder="Accordion body…">${b.data.body||''}</textarea>`;
   } else {
     inner = uploadChooser;
-    if (t === 'Video' || t === 'Simulation') {
-      inner += `<div style="color:var(--text2);font-size:12px;margin-top:4px;">💡 Supports YouTube, Vimeo, or direct embed links</div>`;
-    }
   }
  
-  return `
-    <div class="editor-area">
-      <span class="section-label">📄 ${t} Content</span>
-      ${inner}
-      <div class="action-bar">
-        <button class="btn-save" onclick="saveBlock(${i})">💾 Save</button>
-        <button class="btn-cancel" onclick="cancelEdit(${i})">Cancel</button>
-      </div>
-    </div>`;
+  return `<div class="editor-area">
+    <span class="section-label">📄 ${t} Content</span>
+    ${inner}
+    <div class="action-bar">
+      <button class="btn-save" onclick="saveBlock(${i})">💾 Save</button>
+      <button class="btn-cancel" onclick="cancelEdit(${i})">Cancel</button>
+    </div>
+  </div>`;
 }
  
-function setUploadMode(i, mode) {
-  blocks[i].ui.uploadMode = mode;
-  renderInner(i);
-}
+function setUploadMode(i, mode) { blocks[i].ui.uploadMode = mode; renderInner(i); }
  
-/* ══════════════════════════════════
-   QUESTION EDITOR
-══════════════════════════════════ */
+/* ── Question Editor ── */
 function questionEditorHTML(i) {
   const b = blocks[i];
   const t = b.type;
-  let body = '';
+  const qLabel = getQuestionLabel(i) || '?';
  
-  /* ── Shared question prompt ── */
+  /* Rich question prompt */
   const qPrompt = `
-    <textarea id="qprompt-${i}" placeholder="Enter your question here. You can include text, equations (LaTeX), or describe the context…" style="min-height:100px;">${b.data.question||''}</textarea>
-    <div class="toggle-row">
+    <div style="margin-bottom:4px;font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Question Q${qLabel}</div>
+    ${richTextToolbar(`qprompt-${i}`)}
+    <div class="toggle-row" style="margin-top:8px;">
       <div class="toggle ${b.ui.hintOn?'on':''}" onclick="toggleHint(${i})"></div>
       <span>Add Hint (optional)</span>
     </div>
-    ${b.ui.hintOn?`<div class="hint-box"><textarea id="hint-${i}" placeholder="Hint for students…">${b.meta.hint||''}</textarea></div>`:''}
-  `;
+    ${b.ui.hintOn?`<div class="hint-box"><textarea id="hint-${i}" placeholder="Hint for students…">${b.meta.hint||''}</textarea></div>`:''}`;
  
-  /* ── Metadata strip ── */
+  /* Criteria + marks strip */
+  const critStrip = criteriaMarksStrip(i);
+ 
+  /* Meta strip (secondary details) */
   const metaStrip = `
     <div class="meta-strip">
-      <div>
-        <label>Marks</label>
-        <input type="number" id="meta-marks-${i}" value="${b.meta.marks}" placeholder="e.g. 4" min="1">
-      </div>
       <div>
         <label>Difficulty</label>
         <select id="meta-diff-${i}">
@@ -313,13 +476,6 @@ function questionEditorHTML(i) {
         <select id="meta-cmd-${i}">
           <option value="">Select</option>
           ${['Define','State','Describe','Explain','Justify','Analyse','Evaluate','Discuss','Compare','Calculate','Derive','Show','Sketch'].map(d=>`<option ${b.meta.commandTerm===d?'selected':''}>${d}</option>`).join('')}
-        </select>
-      </div>
-      <div>
-        <label>Criterion Strand</label>
-        <select id="meta-strand-${i}">
-          <option value="">Select</option>
-          ${['i','ii','iii','iv'].map(s=>`<option ${b.meta.strand===s?'selected':''}>${s}</option>`).join('')}
         </select>
       </div>
       <div>
@@ -336,17 +492,16 @@ function questionEditorHTML(i) {
       </div>
     </div>`;
  
-  /* ── Mark Scheme ── */
   const markScheme = `
     <div class="mark-scheme">
       <label>📗 Mark Scheme <span style="font-weight:normal;color:var(--text2)">(optional)</span></label>
-      <textarea id="ms-${i}" placeholder="Expected answer points, rubric, model solution…">${b.meta.markScheme||''}</textarea>
+      <textarea id="ms-${i}" placeholder="Expected answer, rubric, model solution…">${b.meta.markScheme||''}</textarea>
     </div>`;
  
-  /* ── Question type bodies ── */
+  let body = '';
+ 
   if (t === 'Long Answer') {
-    body = `
-      ${qPrompt}
+    body = `${qPrompt}
       <div class="row">
         <div class="form-group" style="flex:1">
           <label style="font-size:11px;color:var(--text2)">Word Limit (optional)</label>
@@ -359,15 +514,10 @@ function questionEditorHTML(i) {
           </select>
         </div>
       </div>
-      <div class="toggle-row">
-        <input type="checkbox" id="la-rubric-${i}" ${b.data.hasRubric?'checked':''} style="accent-color:var(--accent)">
-        <span>Attach Rubric</span>
-      </div>
-      ${metaStrip}${markScheme}
-    `;
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else if (t === 'MCQ') {
-    body = `
-      ${qPrompt}
+    body = `${qPrompt}
       <div class="mcq-options" id="mcq-opts-${i}">
         ${b.ui.mcqOptions.map((o, oi) => `
           <div class="mcq-option-row">
@@ -380,14 +530,12 @@ function questionEditorHTML(i) {
       <div class="toggle-row" style="margin-top:8px;">
         <input type="checkbox" id="mcq-rand-${i}" ${b.data.randomize?'checked':''} style="accent-color:var(--accent)">
         <span>Randomise options</span>
-        <input type="checkbox" id="mcq-neg-${i}" ${b.data.negMark?'checked':''} style="accent-color:var(--red);margin-left:16px;">
-        <span>Negative marking</span>
       </div>
-      <textarea id="mcq-exp-${i}" placeholder="Explanation / answer rationale (shown after submission)…">${b.data.explanation||''}</textarea>
-      ${metaStrip}${markScheme}`;
+      <textarea id="mcq-exp-${i}" placeholder="Explanation shown after submission…">${b.data.explanation||''}</textarea>
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else if (t === 'Multiple Select MCQ') {
-    body = `
-      ${qPrompt}
+    body = `${qPrompt}
       <div class="mcq-options" id="mmcq-opts-${i}">
         ${b.ui.mcqOptions.map((o, oi) => `
           <div class="mcq-option-row">
@@ -397,61 +545,35 @@ function questionEditorHTML(i) {
           </div>`).join('')}
       </div>
       <button class="sm-btn" onclick="addOption(${i})" style="margin-top:4px;">+ Add Option</button>
-      <div class="row" style="margin-top:8px;">
-        <div>
-          <label style="font-size:11px;color:var(--text2)">Partial Marking</label>
-          <select id="mmcq-pm-${i}">
-            ${['All-or-nothing','Partial credit','Negative marking'].map(p=>`<option>${p}</option>`).join('')}
-          </select>
-        </div>
-        <div>
-          <label style="font-size:11px;color:var(--text2)">Min. selections required</label>
-          <input type="number" id="mmcq-min-${i}" placeholder="e.g. 2" value="${b.data.minSelect||''}">
-        </div>
-      </div>
-      ${metaStrip}${markScheme}`;
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else if (t === 'True / False') {
     const ans = b.ui.tfAnswer;
-    body = `
-      ${qPrompt}
+    body = `${qPrompt}
       <div class="tf-options">
         <div class="tf-opt true-opt ${ans==='True'?'selected':''}" onclick="setTF(${i},'True')">✅ True</div>
         <div class="tf-opt false-opt ${ans==='False'?'selected':''}" onclick="setTF(${i},'False')">❌ False</div>
       </div>
-      <div class="toggle-row" style="margin-top:8px;">
-        <input type="checkbox" id="tf-justify-${i}" ${b.data.justify?'checked':''} style="accent-color:var(--accent)">
-        <span>Require justification (hybrid question)</span>
-      </div>
       <textarea id="tf-exp-${i}" placeholder="Explanation…">${b.data.explanation||''}</textarea>
-      ${metaStrip}${markScheme}`;
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else if (t === 'Fill Text') {
     body = `
-      <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Use [blank] to mark blank positions in your text.</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Use [blank] to mark blank positions.</div>
       <textarea id="ft-text-${i}" placeholder="e.g. The [blank] of a triangle is 180°." style="min-height:80px;">${b.data.fillText||''}</textarea>
-      <input type="text" id="ft-ans-${i}" placeholder="Correct answers (comma separated, e.g. sum, total)" value="${b.data.answers||''}">
-      <div class="toggle-row">
-        <input type="checkbox" id="ft-case-${i}" ${b.data.caseSensitive?'checked':''} style="accent-color:var(--accent)">
-        <span>Case sensitive</span>
-        <input type="checkbox" id="ft-syn-${i}" ${b.data.synonyms?'checked':''} style="accent-color:var(--accent);margin-left:16px;">
-        <span>Accept synonyms</span>
-        <input type="checkbox" id="ft-manual-${i}" ${b.data.manualGrade?'checked':''} style="accent-color:var(--yellow);margin-left:16px;">
-        <span>Manual grading</span>
-      </div>
-      ${metaStrip}${markScheme}`;
+      <input type="text" id="ft-ans-${i}" placeholder="Correct answers (comma separated)" value="${b.data.answers||''}">
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else if (t === 'Fill Drop Down') {
     body = `
-      <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Use [blank] in the text. Provide options as comma-separated values.</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Use [blank] in text. Provide comma-separated options.</div>
       <textarea id="fdd-text-${i}" placeholder="e.g. Water boils at [blank] degrees." style="min-height:80px;">${b.data.fillText||''}</textarea>
-      <input type="text" id="fdd-opts-${i}" placeholder="Dropdown options (e.g. 50, 75, 100, 150)" value="${b.data.options||''}">
+      <input type="text" id="fdd-opts-${i}" placeholder="Options (e.g. 50, 75, 100, 150)" value="${b.data.options||''}">
       <input type="text" id="fdd-ans-${i}" placeholder="Correct answer(s)" value="${b.data.answers||''}">
-      <div class="toggle-row">
-        <input type="checkbox" id="fdd-shuffle-${i}" ${b.data.shuffle?'checked':''} style="accent-color:var(--accent)">
-        <span>Shuffle options</span>
-      </div>
-      ${metaStrip}${markScheme}`;
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else if (t === 'Match the Following') {
-    body = `
-      ${qPrompt}
+    body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Enter matching pairs:</div>
       <div class="match-pairs" id="match-pairs-${i}">
         ${b.ui.matchPairs.map((p, pi) => `
@@ -462,10 +584,10 @@ function questionEditorHTML(i) {
           </div>`).join('')}
       </div>
       <button class="sm-btn" onclick="addMatchPair(${i})" style="margin-top:4px;">+ Add Pair</button>
-      ${metaStrip}${markScheme}`;
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else if (t === 'Sort') {
-    body = `
-      ${qPrompt}
+    body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Enter items in correct order:</div>
       <div id="sort-items-${i}">
         ${b.ui.sortItems.map((item, si) => `
@@ -476,14 +598,10 @@ function questionEditorHTML(i) {
           </div>`).join('')}
       </div>
       <button class="sm-btn" onclick="addSortItem(${i})" style="margin-top:4px;">+ Add Item</button>
-      <div class="toggle-row" style="margin-top:8px;">
-        <input type="checkbox" id="sort-sb-${i}" ${b.data.stepBased?'checked':''} style="accent-color:var(--accent)">
-        <span>Step-based marking</span>
-      </div>
-      ${metaStrip}${markScheme}`;
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else if (t === 'Classify') {
-    body = `
-      ${qPrompt}
+    body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Categories:</div>
       <div id="classify-cats-${i}">
         ${b.ui.classifyCategories.map((c, ci) => `
@@ -502,141 +620,94 @@ function questionEditorHTML(i) {
           </div>`).join('')}
       </div>
       <button class="sm-btn" onclick="addClassifyItem(${i})">+ Add Item</button>
-      ${metaStrip}${markScheme}`;
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else if (t === 'Table') {
-    body = `
-      ${qPrompt}
-      <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Table (editable by student):</div>
-      <table style="width:100%;border-collapse:collapse;">
-        <tr>
-          ${['Header 1','Header 2','Header 3'].map(h=>`<th style="border:1px solid var(--border);padding:6px;background:var(--surface2);">${h}</th>`).join('')}
-        </tr>
-        ${[0,1,2].map(r=>`<tr>${[0,1,2].map(c=>`<td style="border:1px solid var(--border);padding:4px;"><input type="text" placeholder="" style="background:transparent;border:none;width:100%;color:var(--text);padding:2px;font-size:12px;"></td>`).join('')}</tr>`).join('')}
-      </table>
-      <div style="font-size:11px;color:var(--text2);margin-top:4px;">💡 Full table builder with dynamic rows/columns coming soon.</div>
-      ${metaStrip}${markScheme}`;
+    body = `${qPrompt}
+      <div style="font-size:11px;color:var(--text2);margin-top:4px;">📊 Full table editor coming soon.</div>
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else if (t === 'Drawing') {
-    body = `
-      ${qPrompt}
-      <div style="border:1px dashed var(--border);border-radius:8px;height:200px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:13px;background:var(--surface2);">
-        🖊️ Drawing canvas will appear here (canvas tool with free draw, ruler, vectors)
+    body = `${qPrompt}
+      <div style="border:1px dashed var(--border);border-radius:8px;height:160px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:13px;background:var(--surface2);">
+        🖊️ Drawing canvas (coming soon)
       </div>
-      <div class="toggle-row" style="margin-top:8px;">
-        <input type="checkbox" id="draw-upload-${i}" style="accent-color:var(--accent)">
-        <span>Allow upload + annotate</span>
-        <input type="checkbox" id="draw-physics-${i}" style="accent-color:var(--accent);margin-left:16px;">
-        <span>Physics mode (vectors, rays)</span>
-      </div>
-      ${metaStrip}${markScheme}`;
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else if (t === 'Label Drag' || t === 'Label Fill') {
     const isDrag = t === 'Label Drag';
-    body = `
-      ${qPrompt}
+    body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Upload or link a diagram image:</div>
       <input type="url" id="ld-img-${i}" placeholder="Image URL for diagram…" value="${b.data.imageUrl||''}">
-      <input type="text" id="ld-labels-${i}" placeholder="Labels (comma separated): e.g. Nucleus, Cell Wall, Vacuole" value="${b.data.labels||''}">
-      ${isDrag ? `<div style="font-size:11px;color:var(--text2);margin-top:4px;">💡 Drag-and-drop zones will be mapped visually in the full editor.</div>` :
-        `<div class="toggle-row" style="margin-top:6px;"><input type="checkbox" id="lf-suggest-${i}" style="accent-color:var(--accent)"><span>Auto-suggestion for students</span></div>`}
-      ${metaStrip}${markScheme}`;
+      <input type="text" id="ld-labels-${i}" placeholder="Labels (comma separated): e.g. Nucleus, Cell Wall" value="${b.data.labels||''}">
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else if (t === 'Desmos Graph' || t === 'GeoGebra Graph') {
-    const isDes = t === 'Desmos Graph';
-    body = `
-      ${qPrompt}
-      <div style="border:1px solid var(--border);border-radius:8px;height:300px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:13px;background:var(--surface2);">
-        📈 ${isDes ? 'Desmos' : 'GeoGebra'} graph will be embedded here
+    body = `${qPrompt}
+      <div style="border:1px solid var(--border);border-radius:8px;height:200px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:13px;background:var(--surface2);">
+        📈 ${t} embed (coming soon)
       </div>
       <input type="text" id="graph-prefill-${i}" placeholder="Pre-loaded expression / file URL (optional)" value="${b.data.prefill||''}">
-      <div class="toggle-row" style="margin-top:6px;">
-        <input type="checkbox" id="graph-plot-${i}" ${b.data.studentPlot?'checked':''} style="accent-color:var(--accent)">
-        <span>Allow student plotting</span>
-        <input type="checkbox" id="graph-auto-${i}" ${b.data.autoCheck?'checked':''} style="accent-color:var(--green);margin-left:16px;">
-        <span>Auto-check graph accuracy</span>
-        ${!isDes?`<input type="checkbox" id="graph-phys-${i}" ${b.data.physMode?'checked':''} style="accent-color:var(--yellow);margin-left:16px;"><span>Physics mode</span>`:''}
-      </div>
-      ${metaStrip}${markScheme}`;
+      ${critStrip}${metaStrip}${markScheme}`;
+ 
   } else {
-    body = `
-      ${qPrompt}
-      ${metaStrip}${markScheme}`;
+    body = `${qPrompt}${critStrip}${metaStrip}${markScheme}`;
   }
  
-  return `
-    <div class="editor-area" onclick="editorClickAway(event,${i})">
-      <span class="section-label">❓ ${t}</span>
-      ${body}
-      <div class="action-bar">
-        <button class="btn-save" onclick="saveBlock(${i})">💾 Save Question</button>
-        <button class="btn-cancel" onclick="cancelEdit(${i})">Cancel</button>
-      </div>
-    </div>`;
+  return `<div class="editor-area">
+    <span class="section-label">❓ ${t}</span>
+    ${body}
+    <div class="action-bar">
+      <button class="btn-save" onclick="saveBlock(${i})">💾 Save Question</button>
+      <button class="btn-cancel" onclick="cancelEdit(${i})">Cancel</button>
+    </div>
+  </div>`;
 }
  
 /* ─── MCQ helpers ─── */
-function addOption(i) {
-  if (blocks[i].ui.mcqOptions.length >= 8) return;
-  blocks[i].ui.mcqOptions.push('');
-  renderInner(i);
-}
-function removeOption(i, oi) {
-  blocks[i].ui.mcqOptions.splice(oi, 1);
-  renderInner(i);
-}
- 
-/* ─── TF helper ─── */
-function setTF(i, val) {
-  blocks[i].ui.tfAnswer = val;
-  renderInner(i);
-}
- 
-/* ─── Match helper ─── */
-function addMatchPair(i) {
-  blocks[i].ui.matchPairs.push({ a: '', b: '' });
-  renderInner(i);
-}
- 
-/* ─── Sort helpers ─── */
-function addSortItem(i) { blocks[i].ui.sortItems.push(''); renderInner(i); }
-function removeSortItem(i, si) { blocks[i].ui.sortItems.splice(si, 1); renderInner(i); }
- 
-/* ─── Classify helpers ─── */
+function addOption(i) { if (blocks[i].ui.mcqOptions.length >= 8) return; blocks[i].ui.mcqOptions.push(''); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
+function removeOption(i, oi) { blocks[i].ui.mcqOptions.splice(oi, 1); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
+function setTF(i, val) { blocks[i].ui.tfAnswer = val; renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
+function addMatchPair(i) { blocks[i].ui.matchPairs.push({a:'',b:''}); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
+function addSortItem(i) { blocks[i].ui.sortItems.push(''); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
+function removeSortItem(i, si) { blocks[i].ui.sortItems.splice(si, 1); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
 function addCat(i) { blocks[i].ui.classifyCategories.push(''); renderInner(i); }
 function removeCat(i, ci) { blocks[i].ui.classifyCategories.splice(ci, 1); renderInner(i); }
 function addClassifyItem(i) { blocks[i].ui.classifyItems.push(''); renderInner(i); }
 function removeClassifyItem(i, ii2) { blocks[i].ui.classifyItems.splice(ii2, 1); renderInner(i); }
- 
-/* ─── Hint toggle ─── */
-function toggleHint(i) {
-  blocks[i].ui.hintOn = !blocks[i].ui.hintOn;
-  renderInner(i);
-}
+function toggleHint(i) { blocks[i].ui.hintOn = !blocks[i].ui.hintOn; const q = getRichContent(`qprompt-${i}`); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,q),10); }
  
 /* ─── Save block ─── */
 function saveBlock(i) {
   const b = blocks[i];
   pushHistory();
  
-  // Collect meta
   const pick = (id) => { const el = document.getElementById(id); return el ? el.value : ''; };
-  b.meta.marks = pick(`meta-marks-${i}`);
-  b.meta.difficulty = pick(`meta-diff-${i}`);
-  b.meta.commandTerm = pick(`meta-cmd-${i}`);
-  b.meta.strand = pick(`meta-strand-${i}`);
-  b.meta.timeMin = pick(`meta-time-${i}`);
-  b.meta.keywords = pick(`meta-kw-${i}`);
-  b.meta.notes = pick(`meta-notes-${i}`);
-  b.meta.markScheme = pick(`ms-${i}`);
-  b.meta.hint = pick(`hint-${i}`);
  
-  // Collect data by type
+  // Criteria + marks from new strip
+  b.meta.criterion  = pick(`qcrit-${i}`);
+  b.meta.strand     = pick(`qstrand-${i}`);
+  b.meta.marks      = pick(`qmarks-${i}`);
+  b.meta.answerType = pick(`qtype-${i}`);
+ 
+  // Secondary meta
+  b.meta.difficulty  = pick(`meta-diff-${i}`);
+  b.meta.commandTerm = pick(`meta-cmd-${i}`);
+  b.meta.timeMin     = pick(`meta-time-${i}`);
+  b.meta.keywords    = pick(`meta-kw-${i}`);
+  b.meta.notes       = pick(`meta-notes-${i}`);
+  b.meta.markScheme  = pick(`ms-${i}`);
+  b.meta.hint        = pick(`hint-${i}`);
+ 
   const t = b.type;
   if (b.mode === 'content') {
     if (t === 'Text') b.data.text = pick(`ct-${i}`);
     else if (t === 'Accordion') { b.data.title = pick(`ca-title-${i}`); b.data.body = pick(`ca-body-${i}`); }
-    else {
-      b.data.url = pick(`cu-url-${i}`) || pick(`cu-drive-${i}`);
-    }
+    else { b.data.url = pick(`cu-url-${i}`) || pick(`cu-drive-${i}`); }
   } else {
-    b.data.question = pick(`qprompt-${i}`);
+    // Get rich text content
+    b.data.question = getRichContent(`qprompt-${i}`);
+ 
     if (t === 'MCQ') {
       b.ui.mcqOptions = b.ui.mcqOptions.map((_, oi) => pick(`mcq-o-${i}-${oi}`));
       const radio = document.querySelector(`input[name="mcq-correct-${i}"]:checked`);
@@ -644,7 +715,7 @@ function saveBlock(i) {
       b.data.explanation = pick(`mcq-exp-${i}`);
     } else if (t === 'Multiple Select MCQ') {
       b.ui.mcqOptions = b.ui.mcqOptions.map((_, oi) => pick(`mmcq-o-${i}-${oi}`));
-      b.data.correct = Array.from(document.querySelectorAll(`input[name="mmcq-correct-${i}"]:checked`)).map(c => parseInt(c.value));
+      b.data.correct = Array.from(document.querySelectorAll(`input[name="mmcq-correct-${i}"]:checked`)).map(c=>parseInt(c.value));
     } else if (t === 'Fill Text') {
       b.data.fillText = pick(`ft-text-${i}`);
       b.data.answers = pick(`ft-ans-${i}`);
@@ -666,6 +737,8 @@ function saveBlock(i) {
       b.data.labels = pick(`ld-labels-${i}`);
     } else if (t === 'Sort') {
       b.ui.sortItems = b.ui.sortItems.map((_, si) => pick(`sort-${i}-${si}`));
+    } else if (t === 'True / False') {
+      b.data.explanation = pick(`tf-exp-${i}`);
     }
   }
  
@@ -681,83 +754,145 @@ function cancelEdit(i) {
   render();
 }
  
-function editorClickAway(e, i) {
-  // Only go back if clicking the overlay itself, not child inputs
-  // (prevented intentionally — keeping full editor open)
-}
- 
 /* ─── Save all ─── */
-function saveAll(){
+function saveAll() {
   const unsaved = blocks.filter(b => !b.saved);
-  if(unsaved.length > 0){
-    if(!confirm(`${unsaved.length} block(s) are unsaved (not clicked Save). Save the set anyway?`)) return;
+  if (unsaved.length > 0) {
+    if (!confirm(`${unsaved.length} block(s) have unsaved edits. Save the set anyway?`)) return;
   }
  
   const LIBRARY_KEY = "MYP_LIBRARY";
   let library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
  
-  const heading  = document.getElementById("ms-heading")?.value  || "Untitled";
-  const chapter  = document.getElementById("ms-chapter")?.value  || "";
-  const topic    = document.getElementById("ms-topic")?.value    || "";
-  const criterion= document.getElementById("ms-criterion")?.value|| "";
-  const strand   = document.getElementById("ms-strand")?.value   || "";
-  const gc       = document.getElementById("ms-gc")?.value       || "";
-  const atl      = document.getElementById("ms-atl")?.value      || "";
+  const pick = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+  const heading   = pick('ms-heading')  || 'Untitled';
+  const chapter   = pick('ms-chapter')  || '';
+  const topic     = pick('ms-topic')    || '';
+  const gc        = pick('ms-gc')       || '';
+  const atl       = pick('ms-atl')      || '';
  
-  // Check if we are editing an existing set (editing mode stores editingId)
+  const savedBlocks = JSON.parse(JSON.stringify(blocks));
+  const savedSections = JSON.parse(JSON.stringify(sections));
+  const totalMarks = savedBlocks
+    .filter(b => b.saved && b.mode === 'question')
+    .reduce((sum, b) => sum + Number(b.meta.marks || 0), 0);
+ 
   const editingId = window._editingSetId || null;
   let existingIdx = editingId ? library.findIndex(s => s.id === editingId) : -1;
  
-  if(existingIdx !== -1){
-    // Update existing — bump version
+  if (existingIdx !== -1) {
     const old = library[existingIdx];
     library[existingIdx] = {
       ...old,
-      heading, chapter, topic, criterion, strand, gc, atl,
-      blocks: JSON.parse(JSON.stringify(blocks)),
+      heading, chapter, topic, gc, atl,
+      blocks: savedBlocks,
+      sections: savedSections,
+      totalMarks,
       version: (old.version || 1) + 1,
       updatedAt: Date.now(),
-      status: old.status || "Draft"
+      status: old.status || 'Draft'
     };
-    alert(`✅ Question set updated! (Version ${library[existingIdx].version})`);
+    // Show styled success popup
+    showSaveSuccess(`✅ Question set updated in Library! (Version ${library[existingIdx].version})\n\nSet: "${heading}"\nStatus: ${library[existingIdx].status}`, library[existingIdx].status);
   } else {
-    // New set
     const newSet = {
-      id: "qs_" + Date.now(),
-      version: 1,
-      status: "Draft",
-      heading, chapter, topic, criterion, strand, gc, atl,
-      blocks: JSON.parse(JSON.stringify(blocks)),
-      totalMarks: blocks.filter(b=>b.saved && b.mode==="question" && b.meta.marks)
-                        .reduce((sum,b)=>sum+Number(b.meta.marks||0),0),
+      id: 'qs_' + Date.now(),
+      version: 1, status: 'Draft',
+      heading, chapter, topic, gc, atl,
+      blocks: savedBlocks,
+      sections: savedSections,
+      totalMarks,
       createdAt: Date.now(),
       updatedAt: Date.now()
     };
     library.push(newSet);
     window._editingSetId = newSet.id;
-    alert(`✅ Saved to Library as Draft! (ID: ${newSet.id})\n\nOpen Library → find your set → click Publish when ready for students.`);
+    showSaveSuccess(`✅ Question set saved to Library as Draft!\n\nSet: "${heading}"\nChapter: ${chapter} → ${topic}\n\nGo to Library → select this set → click Publish to make it visible to students.`, 'Draft');
   }
  
   localStorage.setItem(LIBRARY_KEY, JSON.stringify(library));
- 
-  // Also keep legacy MYP_DB in sync for backward compat
   DB = library;
-  localStorage.setItem("MYP_DB", JSON.stringify(DB));
+  localStorage.setItem('MYP_DB', JSON.stringify(DB));
+}
+ 
+function showSaveSuccess(msg, status) {
+  // Create a styled notification instead of plain alert
+  const existing = document.getElementById('save-toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.id = 'save-toast';
+  toast.style.cssText = `
+    position:fixed;top:70px;left:50%;transform:translateX(-50%);
+    background:rgba(10,4,4,0.97);border:1px solid #27ae60;
+    border-radius:14px;padding:20px 28px;max-width:480px;width:90%;
+    z-index:9999;box-shadow:0 8px 40px rgba(0,0,0,0.6);
+    font-family:'DM Sans',sans-serif;color:#f0e6e6;animation:toastIn 0.3s ease;
+    text-align:center;`;
+  const statusColor = status === 'Published' ? '#27ae60' : '#d29922';
+  toast.innerHTML = `
+    <div style="font-size:28px;margin-bottom:10px;">📚</div>
+    <div style="font-size:16px;font-weight:700;color:#27ae60;margin-bottom:8px;">Saved to Library!</div>
+    <div style="font-size:13px;color:#b08888;line-height:1.7;white-space:pre-line;">${msg.replace(/✅ /g,'')}</div>
+    <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;">
+      <button onclick="this.closest('#save-toast').remove()" style="background:#27ae60;border:none;color:white;padding:8px 20px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;">✓ Got it</button>
+      <button onclick="openLibrary();this.closest('#save-toast').remove();" style="background:transparent;border:1px solid rgba(200,60,60,0.4);color:#e03030;padding:8px 20px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;">View in Library</button>
+    </div>`;
+  document.body.appendChild(toast);
+  setTimeout(() => { if (toast.parentNode) toast.remove(); }, 8000);
 }
  
 /* ─── Preview ─── */
 function previewStudent() {
   const win = window.open('', '_blank');
-  win.document.write(`<html><head><title>Student Preview</title><style>body{font-family:sans-serif;padding:30px;background:#f6f8fb;} .block{background:white;border-radius:10px;padding:20px;margin-bottom:16px;}</style></head><body><h2>Student Preview</h2>`);
-  blocks.filter(b => b.saved).forEach((b, i) => {
-    win.document.write(`<div class="block"><b>${b.type}</b><p>${b.data.question || b.data.text || b.data.title || ''}</p></div>`);
+  let html = `<html><head><title>Student Preview</title>
+  <style>body{font-family:'Segoe UI',sans-serif;padding:30px;background:#f6f8fb;max-width:800px;margin:auto;}
+  .section{margin-bottom:30px;} .section-title{font-size:18px;font-weight:700;border-bottom:2px solid #e03030;padding-bottom:6px;margin-bottom:16px;}
+  .block{background:white;border-radius:10px;padding:20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.08);}
+  .q-label{font-size:11px;color:#888;font-weight:600;text-transform:uppercase;margin-bottom:6px;}
+  .marks-badge{display:inline-block;background:#fee;border:1px solid #e03030;padding:1px 8px;border-radius:10px;font-size:11px;color:#c00;font-weight:bold;margin-left:8px;}
+  .crit-badge{display:inline-block;background:#e8f4e8;border:1px solid #27ae60;padding:1px 8px;border-radius:10px;font-size:11px;color:#155724;}
+  .opt{padding:8px 12px;background:#f8f9fa;border-radius:6px;margin-bottom:4px;font-size:13px;}
+  </style></head><body>`;
+  html += `<h1 style="font-size:22px;margin-bottom:4px;">${document.getElementById('setHeadingDisplay').textContent}</h1>`;
+  html += `<p style="font-size:13px;color:#666;margin-bottom:24px;">${document.getElementById('setMetaDisplay').textContent}</p>`;
+ 
+  sections.forEach(sec => {
+    const secBlocks = blocks.filter(b => b.sectionId === sec.id && b.saved);
+    if (!secBlocks.length) return;
+    html += `<div class="section"><div class="section-title">${sec.name}</div>`;
+    secBlocks.forEach(b => {
+      const i = blocks.indexOf(b);
+      const qLabel = getQuestionLabel(i);
+      if (b.mode === 'content') {
+        html += `<div class="block">${b.data.text || b.data.url || '(Content block)'}</div>`;
+      } else {
+        html += `<div class="block">
+          <div class="q-label">Q${qLabel} · ${b.type}
+            ${b.meta.marks?`<span class="marks-badge">${b.meta.marks} marks</span>`:''}
+            ${b.meta.criterion?`<span class="crit-badge">Crit ${b.meta.criterion}${b.meta.strand?'-'+b.meta.strand:''}</span>`:''}
+          </div>
+          <div style="font-size:14px;line-height:1.6;margin-bottom:12px;">${b.data.question||'(No question)'}</div>`;
+        if (b.type === 'MCQ' || b.type === 'Multiple Select MCQ') {
+          (b.ui.mcqOptions||[]).filter(o=>o.trim()).forEach((o,oi) => {
+            html += `<div class="opt">${String.fromCharCode(65+oi)}. ${o}</div>`;
+          });
+        } else if (b.type === 'True / False') {
+          html += `<div class="opt">A. True</div><div class="opt">B. False</div>`;
+        } else {
+          html += `<div style="border:1px dashed #ccc;border-radius:6px;padding:40px 16px;text-align:center;color:#999;font-size:12px;">Student answer area</div>`;
+        }
+        html += `</div>`;
+      }
+    });
+    html += `</div>`;
   });
-  win.document.write(`</body></html>`);
+ 
+  html += `</body></html>`;
+  win.document.write(html);
   win.document.close();
 }
  
-/* ─── Export ─── */
-function exportPDF() { alert('PDF export: integration with print/PDF library coming soon.'); }
+function exportPDF() { previewStudent(); }
  
 /* ─── Init ─── */
-// addBlock() is called from HTML after proceedToBuilder()
+// Called from HTML after proceedToBuilder()
