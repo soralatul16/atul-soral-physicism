@@ -19,7 +19,7 @@
    Get these from https://www.emailjs.com/
    ────────────────────────────────────────── */
 const FB_CONFIG = {
-  publicKey:   "YOUR_PUBLIC_KEY",      // EmailJS → Account → Public Key
+  publicKey:   "jhfWQKIKtye-3eVpn",      // EmailJS → Account → Public Key
   serviceID:   "service_ni72akl",      // EmailJS → Email Services → Service ID
   templateID:  "template_xr522or",     // EmailJS → Email Templates → Template ID
 };
