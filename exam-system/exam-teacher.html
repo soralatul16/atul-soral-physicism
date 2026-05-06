@@ -299,7 +299,7 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(224,48,48,0.3); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
- 
+
 /* ── Rich Text Editor ── */
 .rich-toolbar {
   display: flex; flex-wrap: wrap; gap: 2px; padding: 6px 8px;
@@ -321,7 +321,7 @@ body {
 }
 .rich-editor:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
 .rich-editor:empty::before { content: attr(data-placeholder); color: var(--text2); pointer-events: none; }
- 
+
 /* ── Sections in Builder ── */
 .section-wrapper { margin-bottom: 20px; }
 .section-header {
@@ -336,14 +336,14 @@ body {
 }
 .section-name:hover { text-decoration: underline; }
 .section-blocks { border: 1px solid rgba(224,48,48,0.15); border-top: none; border-radius: 0 0 8px 8px; padding: 12px; }
- 
+
 /* ── Structure section label ── */
 .structure-section-label {
   font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
   color: var(--accent); font-weight: 700; padding: 8px 4px 4px; cursor: pointer;
 }
 .structure-section-label:hover { text-decoration: underline; }
- 
+
 /* ── Per-question criteria strip (like image 3) ── */
 .q-criteria-strip {
   display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap;
@@ -368,13 +368,13 @@ body {
   width: 60px; text-align: center; transition: border-color 0.15s;
 }
 .crit-marks:focus { border-color: var(--accent); }
- 
+
 /* ── Toast animation ── */
 @keyframes toastIn {
   from { opacity:0; transform:translateX(-50%) translateY(-20px); }
   to   { opacity:1; transform:translateX(-50%) translateY(0); }
 }
- 
+
 /* ── Add Section button in builder ── */
 .add-section-btn {
   display: flex; align-items: center; gap: 6px; padding: 9px 24px;
@@ -639,17 +639,17 @@ function buildChapterList() {
       onclick="selectChapter(this,'${c.replace(/'/g,"\\'").replace(/&/g,"&amp;")}')">${c}</div>`
   ).join('');
 }
- 
+
 function selectChapter(el, c) {
   selChapter = c;
   document.querySelectorAll('#chapterList .lib-item').forEach(x => x.classList.remove('active'));
   el.classList.add('active');
- 
+
   // Show topics from library for this chapter
   const LIBRARY_KEY = "MYP_LIBRARY";
   const library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
   const topics = [...new Set(library.filter(s => s.chapter === c).map(s => s.topic))].filter(Boolean);
- 
+
   let topicHTML = '';
   if (topics.length > 0) {
     topicHTML = `<div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:8px;font-weight:600;">Saved Topics</div>`;
@@ -669,12 +669,12 @@ function selectChapter(el, c) {
       onblur="this.style.borderColor='var(--border)'"
     >
     <button class="btn-save" style="width:100%;margin-top:10px;font-size:12px;padding:7px;" onclick="viewTopicSets()">View Sets →</button>`;
- 
+
   document.getElementById('topicCol').style.display = 'block';
   document.getElementById('topicPanel').innerHTML = topicHTML;
   document.getElementById('qsetList').innerHTML = '<p style="color:var(--text2);font-size:13px;">Select a topic above to view its question sets.</p>';
 }
- 
+
 function selectTopic(tp, el) {
   document.querySelectorAll('#topicPanel .lib-item').forEach(x => x.classList.remove('active'));
   el.classList.add('active');
@@ -682,16 +682,16 @@ function selectTopic(tp, el) {
   if (input) input.value = tp;
   renderQsets(tp);
 }
- 
+
 function viewTopicSets() {
   const val = (document.getElementById('lib-topic-input') || {}).value;
   if (!val || !val.trim()) { alert('Please type or select a topic name.'); return; }
   renderQsets(val.trim());
 }
- 
+
 let libFilter = 'all';
 let libFilterValue = '';
- 
+
 function filterLib(f, btn) {
   libFilter = f;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -701,7 +701,7 @@ function filterLib(f, btn) {
   const topic = input ? input.value.trim() : '';
   if (topic) renderQsets(topic);
 }
- 
+
 function renderQsets(topic) {
   const LIBRARY_KEY = "MYP_LIBRARY";
   const library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
@@ -709,7 +709,7 @@ function renderQsets(topic) {
     s.chapter === selChapter &&
     s.topic.toLowerCase() === topic.toLowerCase()
   );
- 
+
   // Apply filter
   if (libFilter === 'criterion') sets = sets.filter(s => s.criterion);
   if (libFilter === 'gc')        sets = sets.filter(s => s.gc);
@@ -720,14 +720,14 @@ function renderQsets(topic) {
   if (libFilter === 'type') {
     // group by question type
   }
- 
+
   if (sets.length === 0) {
     document.getElementById('qsetList').innerHTML = `
       <h3 style="margin-bottom:16px;font-size:15px;">${topic} — Question Sets</h3>
       <p style="color:var(--text2);font-size:13px;">No saved sets for this topic${libFilter!=='all'?' matching this filter':''}. Use <strong style="color:var(--accent)">Create New Question Set</strong> to add one.</p>`;
     return;
   }
- 
+
   const statusColor = {Draft:'var(--yellow)', Published:'var(--green)', Archived:'var(--text2)'};
   let html = `<h3 style="margin-bottom:16px;font-size:15px;">${topic} — ${sets.length} Set(s)</h3>`;
   sets.forEach(s => {
@@ -760,18 +760,18 @@ function renderQsets(topic) {
   });
   document.getElementById('qsetList').innerHTML = html;
 }
- 
+
 function openSetInBuilder(id) {
   const LIBRARY_KEY = "MYP_LIBRARY";
   const library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
   const set = library.find(s => s.id === id);
   if (!set) { alert('Set not found.'); return; }
- 
+
   // Populate meta fields
   showPage('create');
   document.getElementById('metaStep').style.display = 'none';
   document.getElementById('builderStep').style.display = 'flex';
- 
+
   // Restore meta
   const safe = (id, val) => { const el = document.getElementById(id); if(el) el.value = val||''; };
   safe('ms-chapter', set.chapter);
@@ -779,10 +779,10 @@ function openSetInBuilder(id) {
   safe('ms-gc', set.gc);
   safe('ms-atl', set.atl);
   safe('ms-heading', set.heading);
- 
+
   document.getElementById('setHeadingDisplay').textContent = set.heading;
   document.getElementById('setMetaDisplay').textContent = [set.chapter, set.topic].filter(Boolean).join(' · ');
- 
+
   // Restore blocks
   blocks = JSON.parse(JSON.stringify(set.blocks || []));
   idCounter = blocks.length;
@@ -790,13 +790,13 @@ function openSetInBuilder(id) {
   render();
   alert(`✏️ Editing: "${set.heading}" — Make changes and click 💾 Save Set to update.`);
 }
- 
+
 function downloadSetPDF(id) {
   const LIBRARY_KEY = "MYP_LIBRARY";
   const library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
   const set = library.find(s => s.id === id);
   if (!set) return;
- 
+
   const win = window.open('', '_blank');
   const qBlocks = (set.blocks||[]).filter(b=>b.saved&&b.mode==='question');
   let html = `<html><head><title>${set.heading}</title>
@@ -808,7 +808,7 @@ function downloadSetPDF(id) {
   <h1>${set.heading}</h1>
   <p style="font-size:12px;color:#666;">Chapter: ${set.chapter} | Topic: ${set.topic} | Version: ${set.version||1} | Status: ${set.status}</p>
   <hr style="border-color:#e03030;">`;
- 
+
   qBlocks.forEach((b, i) => {
     const marks = b.meta?.marks ? `<span class="marks">${b.meta.marks} marks</span>` : '';
     const crit = b.meta?.criterion ? `<span style="font-size:11px;color:#888;margin-left:8px;">Criterion ${b.meta.criterion}</span>` : '';
@@ -827,7 +827,7 @@ function downloadSetPDF(id) {
   win.document.close();
   setTimeout(() => win.print(), 500);
 }
- 
+
 function publishSet(id){
   const LIBRARY_KEY = "MYP_LIBRARY";
   let lib = JSON.parse(localStorage.getItem(LIBRARY_KEY)||"[]");
@@ -840,7 +840,7 @@ function publishSet(id){
   viewTopicSets();
   alert("✅ Published! Students can now see this set.");
 }
- 
+
 function archiveSet(id){
   const LIBRARY_KEY = "MYP_LIBRARY";
   let lib = JSON.parse(localStorage.getItem(LIBRARY_KEY)||"[]");
@@ -851,7 +851,7 @@ function archiveSet(id){
   localStorage.setItem(LIBRARY_KEY, JSON.stringify(lib));
   viewTopicSets();
 }
- 
+
 function deleteSet(id){
   if(!confirm("Delete this question set permanently?")) return;
   const LIBRARY_KEY = "MYP_LIBRARY";
