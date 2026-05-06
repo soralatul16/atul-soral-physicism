@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Report | Physicism MYP</title>
+<style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: #f4f4f8;
+  color: #1a1a2e;
+  line-height: 1.6;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* PRINT BUTTON — hidden on print */
+.no-print { text-align: center; padding: 20px; background: #1a1a2e; }
+.no-print button {
+  padding: 10px 28px; border: none; border-radius: 8px;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  font-family: inherit; margin: 0 6px; transition: all 0.15s;
+}
+.btn-print { background: #e03030; color: white; }
+.btn-print:hover { background: #c0392b; }
+.btn-back { background: transparent; color: #aaa; border: 1px solid #444 !important; }
+.btn-back:hover { color: white; border-color: #888 !important; }
+@media print { .no-print { display: none; } }
+
+/* REPORT CONTAINER */
+.report {
+  max-width: 800px; margin: 0 auto; background: white;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+}
+@media print { .report { box-shadow: none; max-width: 100%; } }
+
+/* HEADER */
+.report-header {
+  background: linear-gradient(135deg, #e03030, #7f1d1d);
+  color: white; padding: 32px 36px; position: relative; overflow: hidden;
+}
+.report-header::before {
+  content:''; position:absolute; inset:0;
+  background: repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,.04) 40px,rgba(255,255,255,.04) 80px);
+}
+.rh-top { display: flex; justify-content: space-between; align-items: flex-start; position: relative; }
+.rh-brand { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; margin-bottom: 16px; }
+.rh-title { font-size: 22px; font-weight: 700; position: relative; margin-bottom: 4px; }
+.rh-subtitle { font-size: 13px; opacity: 0.75; position: relative; }
+.rh-score-box {
+  background: rgba(255,255,255,0.15); border-radius: 12px;
+  padding: 16px 24px; text-align: center; position: relative;
+  backdrop-filter: blur(4px); min-width: 120px;
+}
+.rh-score { font-size: 32px; font-weight: 700; }
+.rh-score-label { font-size: 11px; opacity: 0.7; }
+
+/* STUDENT INFO BAR */
+.info-bar {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid #eee; font-size: 12px;
+}
+.info-item { padding: 12px 16px; border-right: 1px solid #eee; }
+.info-item:last-child { border-right: none; }
+.info-label { color: #888; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10px; margin-bottom: 2px; }
+.info-value { font-weight: 600; color: #1a1a2e; }
+
+/* SECTIONS */
+.report-section { padding: 24px 36px; }
+.report-section + .report-section { border-top: 1px solid #eee; }
+.section-title {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: #e03030; margin-bottom: 16px;
+  padding-bottom: 8px; border-bottom: 2px solid #e03030;
+}
+
+/* OVERALL FEEDBACK */
+.feedback-box {
+  background: #fef9f9; border: 1px solid #f0d0d0; border-radius: 8px;
+  padding: 16px 20px; margin-bottom: 16px;
+}
+.feedback-box .fb-label { font-size: 11px; color: #c0392b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.feedback-box p { font-size: 13px; color: #333; line-height: 1.7; }
+
+/* CRITERION TABLE */
+.crit-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+.crit-table th {
+  text-align: left; padding: 8px 12px; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.8px; color: #888;
+  border-bottom: 2px solid #e03030; font-weight: 600;
+}
+.crit-table td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid #eee; }
+.crit-table tr:last-child td { border-bottom: none; }
+.crit-table .crit-letter { font-weight: 700; color: #e03030; font-size: 15px; width: 30px; }
+.crit-table .crit-name { color: #555; }
+.crit-table .crit-score { font-weight: 700; text-align: right; }
+.crit-table .crit-bar-cell { width: 120px; }
+.crit-bar { height: 6px; background: #f0f0f0; border-radius: 3px; overflow: hidden; }
+.crit-bar-fill { height: 100%; background: #e03030; border-radius: 3px; }
+.crit-total { background: #fafafa; font-weight: 700; }
+
+/* QUESTION CARDS */
+.q-card { margin-bottom: 14px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; page-break-inside: avoid; }
+.q-card-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 16px; background: #fafafa; border-bottom: 1px solid #eee;
+  font-size: 11px; color: #666;
+}
+.q-card-header .q-num { font-weight: 700; color: #1a1a2e; text-transform: uppercase; letter-spacing: 0.5px; }
+.q-card-header .q-meta { display: flex; gap: 8px; align-items: center; }
+.q-badge {
+  font-size: 10px; padding: 2px 8px; border-radius: 10px;
+  font-weight: 600;
+}
+.q-badge.marks { background: #fef2f2; color: #e03030; border: 1px solid #fcd5d5; }
+.q-badge.crit { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+.q-badge.scored { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+.q-badge.pending { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+
+.q-card-body { padding: 14px 16px; }
+.q-question { font-size: 13px; margin-bottom: 10px; line-height: 1.6; }
+.q-answer-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; font-weight: 600; }
+.q-answer {
+  background: #f8f9fa; border: 1px solid #eee; border-radius: 6px;
+  padding: 10px 12px; font-size: 12px; line-height: 1.6;
+  color: #333; white-space: pre-wrap; margin-bottom: 8px;
+}
+.q-answer.correct { background: #f0fdf4; border-color: #bbf7d0; }
+.q-answer.incorrect { background: #fef2f2; border-color: #fcd5d5; }
+
+.q-teacher-fb {
+  background: #fef9f9; border-left: 3px solid #e03030;
+  padding: 8px 12px; margin-top: 8px; border-radius: 0 6px 6px 0;
+}
+.q-teacher-fb .tfb-label { font-size: 10px; color: #c0392b; font-weight: 600; margin-bottom: 2px; }
+.q-teacher-fb p { font-size: 12px; color: #555; }
+
+/* FOOTER */
+.report-footer {
+  padding: 20px 36px; background: #fafafa; border-top: 1px solid #eee;
+  display: flex; justify-content: space-between; font-size: 11px; color: #999;
+}
+</style>
+</head>
+<body>
+
+<!-- PRINT BAR -->
+<div class="no-print">
+  <button class="btn-back" onclick="window.close()">← Close</button>
+  <button class="btn-print" onclick="window.print()">🖨 Print / Save as PDF</button>
+</div>
+
+<!-- REPORT -->
+<div class="report" id="report">
+  <div style="padding:60px;text-align:center;color:#888;">Loading report…</div>
+</div>
+
+<script>
+const LIBRARY_KEY  = "MYP_LIBRARY";
+const ATTEMPTS_KEY = "PHYS_ATTEMPTS";
+
+function getLibrary()  { return JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]"); }
+function getAttempts() { return JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || "[]"); }
+
+window.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+  const attemptId = params.get("id");
+  if (!attemptId) { document.getElementById("report").innerHTML = "<p style='padding:40px;text-align:center;'>No attempt ID provided.</p>"; return; }
+
+  const a = getAttempts().find(x => x.id === attemptId);
+  if (!a) { document.getElementById("report").innerHTML = "<p style='padding:40px;text-align:center;'>Attempt not found.</p>"; return; }
+
+  const lib = getLibrary();
+  const set = lib.find(s => s.id === a.setId);
+  if (!set) { document.getElementById("report").innerHTML = "<p style='padding:40px;text-align:center;'>Question set no longer exists.</p>"; return; }
+
+  const qBlocks = (set.blocks || []).filter(b => b.saved && b.mode === "question");
+  const savedSections = set.sections || [{ id: 1, name: "Section 1" }];
+  const isGraded = a.gradingStatus === "graded";
+  const date = new Date(a.endTime || a.startTime).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+  const duration = `${Math.floor((a.duration || 0) / 60)}m ${(a.duration || 0) % 60}s`;
+
+  // Criterion calculations
+  const critData = { A: { scored: 0, total: 0 }, B: { scored: 0, total: 0 }, C: { scored: 0, total: 0 }, D: { scored: 0, total: 0 } };
+  const critNames = { A: "Knowing & Understanding", B: "Inquiring & Designing", C: "Processing & Evaluating", D: "Reflecting on Impacts" };
+  qBlocks.forEach((q, i) => {
+    const k = (q.meta?.criterion || "").charAt(0);
+    const marks = Number(q.meta?.marks || 0);
+    if (!critData[k]) return;
+    critData[k].total += marks;
+    if (a.grades && a.grades[i] !== undefined) {
+      critData[k].scored += Number(a.grades[i]);
+    } else {
+      if (q.type === "True / False" && q.ui?.tfAnswer && a.answers?.[i] === q.ui.tfAnswer) critData[k].scored += marks;
+      else if (q.type === "MCQ" && q.data?.correct !== null && q.data?.correct !== undefined && a.answers?.[i] === q.data.correct) critData[k].scored += marks;
+    }
+  });
+
+  let html = "";
+
+  // ── HEADER ──
+  html += `
+  <div class="report-header">
+    <div class="rh-brand">Physicism · IB MYP Physics</div>
+    <div class="rh-top">
+      <div>
+        <div class="rh-title">${set.heading || "Assessment Report"}</div>
+        <div class="rh-subtitle">${[set.chapter, set.topic].filter(Boolean).join(" · ")}</div>
+      </div>
+      <div class="rh-score-box">
+        <div class="rh-score">${a.percentScore || 0}%</div>
+        <div class="rh-score-label">${a.earnedMarks || 0} / ${a.totalMarks || 0} marks</div>
+      </div>
+    </div>
+  </div>`;
+
+  // ── INFO BAR ──
+  html += `
+  <div class="info-bar">
+    <div class="info-item"><div class="info-label">Student</div><div class="info-value">${a.studentName || "—"}</div></div>
+    <div class="info-item"><div class="info-label">Date</div><div class="info-value">${date}</div></div>
+    <div class="info-item"><div class="info-label">Duration</div><div class="info-value">${duration}</div></div>
+    <div class="info-item"><div class="info-label">Status</div><div class="info-value">${isGraded ? "✓ Graded" : "Auto-scored"}</div></div>
+  </div>`;
+
+  // ── OVERALL TEACHER FEEDBACK ──
+  if (a.overallFeedback) {
+    html += `
+    <div class="report-section">
+      <div class="feedback-box">
+        <div class="fb-label">👨‍🏫 Teacher Feedback</div>
+        <p>${a.overallFeedback}</p>
+      </div>
+    </div>`;
+  }
+
+  // ── CRITERION BREAKDOWN ──
+  html += `
+  <div class="report-section">
+    <div class="section-title">Criterion Breakdown</div>
+    <table class="crit-table">
+      <thead><tr><th></th><th>Criterion</th><th class="crit-bar-cell">Performance</th><th style="text-align:right;">Score</th></tr></thead>
+      <tbody>`;
+
+  let totalScored = 0, totalMax = 0;
+  ["A", "B", "C", "D"].forEach(c => {
+    const d = critData[c];
+    const pct = d.total > 0 ? Math.round(d.scored / d.total * 100) : 0;
+    totalScored += d.scored;
+    totalMax += d.total;
+    html += `
+      <tr>
+        <td class="crit-letter">${c}</td>
+        <td class="crit-name">${critNames[c]}</td>
+        <td class="crit-bar-cell"><div class="crit-bar"><div class="crit-bar-fill" style="width:${pct}%"></div></div></td>
+        <td class="crit-score">${d.total > 0 ? d.scored + " / " + d.total : "—"}</td>
+      </tr>`;
+  });
+  html += `
+      <tr class="crit-total">
+        <td></td>
+        <td>Total</td>
+        <td></td>
+        <td class="crit-score">${totalScored} / ${totalMax}</td>
+      </tr>
+      </tbody></table>
+  </div>`;
+
+  // ── QUESTION REVIEW ──
+  html += `<div class="report-section"><div class="section-title">Question Review</div>`;
+
+  qBlocks.forEach((q, i) => {
+    const secId = q.sectionId || (savedSections[0]?.id || 1);
+    const sec = savedSections.find(s => s.id === secId) || savedSections[0];
+    const secIdx = savedSections.indexOf(sec) + 1;
+    const qInSec = qBlocks.slice(0, i + 1).filter(bk => bk.sectionId === secId).length;
+    const letters = ["a","b","c","d","e","f","g","h","i","j","k","l"];
+    const qLabel = `${secIdx}(${letters[qInSec - 1] || qInSec})`;
+
+    const maxMarks = Number(q.meta?.marks || 0);
+    const crit = q.meta?.criterion || "";
+    const teacherGrade = a.grades?.[i];
+    const teacherFb = a.teacherFeedback?.[i];
+    const hasGrade = teacherGrade !== undefined && teacherGrade !== null && teacherGrade !== "";
+    const ans = a.answers?.[i];
+
+    // Determine answer display and correctness
+    let ansDisplay = "";
+    let ansClass = "";
+    if (q.type === "MCQ" || q.type === "Multiple Select MCQ") {
+      const opts = (q.ui?.mcqOptions || []).filter(o => o.trim());
+      if (ans === undefined || ans === "" || (Array.isArray(ans) && ans.length === 0)) {
+        ansDisplay = "(Not answered)";
+      } else {
+        const picks = Array.isArray(ans) ? ans : [ans];
+        ansDisplay = picks.map(n => `${String.fromCharCode(65 + n)}. ${opts[n] || ""}`).join("\n");
+        const correctIdx = q.data?.correct;
+        const isCorrect = Array.isArray(correctIdx)
+          ? JSON.stringify([...picks].sort()) === JSON.stringify([...correctIdx].sort())
+          : ans === correctIdx;
+        ansClass = isCorrect ? "correct" : "incorrect";
+      }
+    } else if (q.type === "True / False") {
+      ansDisplay = ans || "(Not answered)";
+      if (ans && q.ui?.tfAnswer) ansClass = ans === q.ui.tfAnswer ? "correct" : "incorrect";
+    } else {
+      ansDisplay = ans || "(Not answered)";
+    }
+
+    // Score badge
+    let scoreBadge = "";
+    if (hasGrade) {
+      scoreBadge = `<span class="q-badge scored">✓ ${teacherGrade}/${maxMarks}</span>`;
+    } else if (q.type === "MCQ" || q.type === "True / False") {
+      let auto = 0;
+      if (q.type === "MCQ" && q.data?.correct !== undefined && ans === q.data.correct) auto = maxMarks;
+      if (q.type === "True / False" && q.ui?.tfAnswer && ans === q.ui.tfAnswer) auto = maxMarks;
+      scoreBadge = `<span class="q-badge scored">${auto}/${maxMarks}</span>`;
+    } else {
+      scoreBadge = hasGrade ? "" : `<span class="q-badge pending">Pending</span>`;
+    }
+
+    html += `
+    <div class="q-card">
+      <div class="q-card-header">
+        <span class="q-num">Q${qLabel} · ${q.type}</span>
+        <div class="q-meta">
+          ${crit ? `<span class="q-badge crit">Crit ${crit}</span>` : ""}
+          <span class="q-badge marks">${maxMarks} marks</span>
+          ${scoreBadge}
+        </div>
+      </div>
+      <div class="q-card-body">
+        <div class="q-question">${q.data?.question || q.data?.text || "(No question text)"}</div>
+        <div class="q-answer-label">Student Answer</div>
+        <div class="q-answer ${ansClass}">${ansDisplay || "(Not answered)"}</div>
+        ${teacherFb ? `<div class="q-teacher-fb"><div class="tfb-label">Teacher Feedback</div><p>${teacherFb}</p></div>` : ""}
+      </div>
+    </div>`;
+  });
+
+  html += `</div>`;
+
+  // ── FOOTER ──
+  html += `
+  <div class="report-footer">
+    <span>Physicism · Atul Soral · IB MYP Physics</span>
+    <span>Generated: ${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</span>
+  </div>`;
+
+  document.getElementById("report").innerHTML = html;
+  document.title = `Report — ${a.studentName} — ${set.heading}`;
+});
+</script>
+</body>
+</html>
