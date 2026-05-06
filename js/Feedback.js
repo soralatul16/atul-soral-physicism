@@ -20,7 +20,7 @@
    ────────────────────────────────────────── */
 const FB_CONFIG = {
   publicKey:   "YOUR_PUBLIC_KEY",      // EmailJS → Account → Public Key
-  serviceID:   "YOUR_SERVICE_ID",      // EmailJS → Email Services → Service ID
+  serviceID:   "service_ni72akl",      // EmailJS → Email Services → Service ID
   templateID:  "YOUR_TEMPLATE_ID",     // EmailJS → Email Templates → Template ID
 };
 
