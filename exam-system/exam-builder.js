@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════
    MYP EXAM BUILDER — v2 with Sections + Per-Q Criteria
    ═══════════════════════════════════════════════════ */
- 
+
 let DB = JSON.parse(localStorage.getItem("MYP_DB")) || [];
 let blocks = [];
 let sections = [{ id: 1, name: 'Section 1' }];
@@ -10,7 +10,7 @@ let sectionCounter = 1;
 let history = [];
 let pendingDeleteIdx = null;
 let pendingDeleteSectionId = null;
- 
+
 /* ─── Quill-style simple rich text toolbar ─── */
 function richTextToolbar(id) {
   return `
@@ -42,12 +42,12 @@ function richTextToolbar(id) {
   </div>
   <div class="rich-editor" id="${id}" contenteditable="true" data-placeholder="Write here…"></div>`;
 }
- 
+
 let _lastFocusedEditor = null;
 document.addEventListener('focusin', e => {
   if (e.target.classList.contains('rich-editor')) _lastFocusedEditor = e.target;
 });
- 
+
 function fmt(cmd) {
   if (_lastFocusedEditor) { _lastFocusedEditor.focus(); document.execCommand(cmd, false, null); }
 }
@@ -59,7 +59,7 @@ function insertSymbol(sym) {
     document.execCommand('insertText', false, sym);
   }
 }
- 
+
 function getRichContent(id) {
   const el = document.getElementById(id);
   return el ? el.innerHTML : '';
@@ -68,7 +68,7 @@ function setRichContent(id, val) {
   const el = document.getElementById(id);
   if (el) el.innerHTML = val || '';
 }
- 
+
 /* ─── Per-question criteria strip ─── */
 function criteriaMarksStrip(i) {
   const b = blocks[i];
@@ -109,7 +109,7 @@ function criteriaMarksStrip(i) {
     </div>
   </div>`;
 }
- 
+
 /* ─── Block factory ─── */
 function newBlock(sectionId) {
   return {
@@ -131,12 +131,12 @@ function newBlock(sectionId) {
     }
   };
 }
- 
+
 function pushHistory() {
   history.push({ blocks: JSON.parse(JSON.stringify(blocks)), sections: JSON.parse(JSON.stringify(sections)) });
   if (history.length > 30) history.shift();
 }
- 
+
 function undoAction() {
   if (history.length === 0) return;
   const h = history.pop();
@@ -144,7 +144,7 @@ function undoAction() {
   sections = h.sections;
   render();
 }
- 
+
 /* ─── Section management ─── */
 function addSection() {
   pushHistory();
@@ -153,7 +153,7 @@ function addSection() {
   sections.push({ id: newId, name: 'Section ' + sections.length + 1 });
   addBlock(newId);
 }
- 
+
 function renameSection(sectionId) {
   const sec = sections.find(s => s.id === sectionId);
   if (!sec) return;
@@ -164,7 +164,7 @@ function renameSection(sectionId) {
     render();
   }
 }
- 
+
 function deleteSectionConfirm(sectionId) {
   const sec = sections.find(s => s.id === sectionId);
   const bCount = blocks.filter(b => b.sectionId === sectionId).length;
@@ -175,7 +175,7 @@ function deleteSectionConfirm(sectionId) {
   if (sections.length === 0) sections = [{ id: ++sectionCounter, name: 'Section 1' }];
   render();
 }
- 
+
 /* ─── Block management ─── */
 function addBlock(sectionId) {
   pushHistory();
@@ -187,13 +187,13 @@ function addBlock(sectionId) {
     if (all.length) all[all.length - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 60);
 }
- 
+
 function deleteBlock(i) {
   pendingDeleteIdx = i;
   document.getElementById('confirmMsg').textContent = `Delete this block? This cannot be undone.`;
   document.getElementById('confirmModal').style.display = 'flex';
 }
- 
+
 function confirmDelete() {
   if (pendingDeleteIdx !== null) {
     pushHistory();
@@ -203,12 +203,12 @@ function confirmDelete() {
   }
   closeModal();
 }
- 
+
 function closeModal() {
   document.getElementById('confirmModal').style.display = 'none';
   pendingDeleteIdx = null;
 }
- 
+
 function setMode(i, mode) {
   blocks[i].mode = mode;
   blocks[i].type = null;
@@ -216,7 +216,7 @@ function setMode(i, mode) {
   blocks[i].ui.state = 'select';
   render();
 }
- 
+
 /* ─── Question numbering helper ─── */
 function getQuestionLabel(blockIndex) {
   const b = blocks[blockIndex];
@@ -227,7 +227,7 @@ function getQuestionLabel(blockIndex) {
   const letters = ['a','b','c','d','e','f','g','h','i','j','k','l'];
   return `${secIdx}(${letters[qInSection - 1] || qInSection})`;
 }
- 
+
 /* ─── Main render ─── */
 function render() {
   let html = '';
@@ -243,7 +243,7 @@ function render() {
         </div>
       </div>
       <div class="section-blocks" id="section-blocks-${sec.id}">`;
- 
+
     secBlocks.forEach((b) => {
       const i = blocks.indexOf(b);
       const qLabel = getQuestionLabel(i);
@@ -252,7 +252,7 @@ function render() {
             ? `📄 Content: ${b.type}`
             : `❓ Q${qLabel} · ${b.type}`)
         : (qLabel ? `Q${qLabel}` : `Block`);
- 
+
       html += `
       <div class="block" id="block-${i}">
         <div class="block-header">
@@ -270,14 +270,14 @@ function render() {
         <div id="inner-${i}"></div>
       </div>`;
     });
- 
+
     html += `</div></div>`;
   });
- 
+
   document.getElementById('builder').innerHTML = html;
   blocks.forEach((b, i) => renderInner(i));
   updateStructureView();
- 
+
   try {
     sections.forEach(sec => {
       const el = document.getElementById('section-blocks-' + sec.id);
@@ -287,37 +287,37 @@ function render() {
     });
   } catch(e) {}
 }
- 
+
 function editBlock(i) {
   pushHistory();
   blocks[i].saved = false;
   blocks[i].ui.state = 'select';
   render();
 }
- 
+
 /* ─── Inner render ─── */
 function renderInner(i) {
   const b = blocks[i];
   const el = document.getElementById(`inner-${i}`);
   if (!el) return;
- 
+
   if (b.saved) { el.innerHTML = renderSavedPreview(i); return; }
   if (!b.mode) { el.innerHTML = `<p style="color:var(--text2);font-size:13px;">Select Content or Question above.</p>`; return; }
   if (b.ui.state === 'select') { el.innerHTML = b.mode === 'content' ? contentGrid(i) : questionGrid(i); return; }
   if (b.ui.state === 'edit')   { el.innerHTML = b.mode === 'content' ? contentEditorHTML(i) : questionEditorHTML(i); }
- 
+
   // Restore rich editor content after render
   if (b.ui.state === 'edit' && b.mode === 'question') {
     setTimeout(() => { setRichContent(`qprompt-${i}`, b.data.question || ''); }, 10);
   }
 }
- 
+
 /* ─── Saved preview ─── */
 function renderSavedPreview(i) {
   const b = blocks[i];
   const d = b.data;
   let preview = '';
- 
+
   if (b.mode === 'content') {
     if (b.type === 'Text') preview = `<div style="font-size:13px;line-height:1.6;">${d.text || '(No text)'}</div>`;
     else if (b.type === 'Image') preview = d.url ? `<img src="${d.url}" style="max-width:100%;max-height:200px;border-radius:8px;" onerror="this.style.display='none'">` : `<div style="color:var(--text2);font-size:13px;">Image uploaded</div>`;
@@ -338,16 +338,16 @@ function renderSavedPreview(i) {
     if (b.meta.difficulty)preview += `<span class="badge">${b.meta.difficulty}</span>`;
     preview += `</div>`;
   }
- 
+
   return `<div class="saved-preview"><strong>${b.mode === 'content' ? '📄' : '❓'} ${b.type}</strong>${preview}</div>`;
 }
- 
+
 /* ─── Structure View with Sections ─── */
 function updateStructureView() {
   const el = document.getElementById('structureView');
   if (!el) return;
   if (blocks.length === 0) { el.innerHTML = '<div style="color:var(--text2);font-size:12px;">No blocks yet.</div>'; return; }
- 
+
   let html = '';
   sections.forEach(sec => {
     const secBlocks = blocks.filter(b => b.sectionId === sec.id);
@@ -364,7 +364,7 @@ function updateStructureView() {
   });
   el.innerHTML = html;
 }
- 
+
 /* ── Content & Question grids ── */
 function contentGrid(i) {
   const types = [
@@ -376,7 +376,7 @@ function contentGrid(i) {
     `<div class="type-card" onclick="selectType(${i},'${t.label}','content')"><div class="tc-icon">${t.icon}</div>${t.label}</div>`
   ).join('')}</div>`;
 }
- 
+
 function questionGrid(i) {
   const types = [
     {icon:'✍️',label:'Long Answer'},{icon:'🔘',label:'MCQ'},
@@ -392,7 +392,7 @@ function questionGrid(i) {
     `<div class="type-card" onclick="selectType(${i},'${t.label}','question')"><div class="tc-icon">${t.icon}</div>${t.label}</div>`
   ).join('')}</div>`;
 }
- 
+
 function selectType(i, type, mode) {
   pushHistory();
   blocks[i].type = type;
@@ -403,13 +403,13 @@ function selectType(i, type, mode) {
     setTimeout(() => { setRichContent(`qprompt-${i}`, blocks[i].data.question || ''); }, 20);
   }
 }
- 
+
 /* ── Content Editor ── */
 function contentEditorHTML(i) {
   const b = blocks[i];
   const t = b.type;
   const um = b.ui.uploadMode;
- 
+
   let uploadChooser = `
     <div class="upload-chooser">
       <div class="upload-opt ${um==='url'?'active':''}" onclick="setUploadMode(${i},'url')">🔗 URL</div>
@@ -419,7 +419,7 @@ function contentEditorHTML(i) {
     ${um==='url'?`<input type="url" id="cu-url-${i}" placeholder="Paste ${t} URL here…" value="${b.data.url||''}">`:''} 
     ${um==='file'?`<input type="file" id="cu-file-${i}" style="background:var(--surface2);border:1px solid var(--border);padding:8px;border-radius:7px;width:100%;color:var(--text);">`:''} 
     ${um==='drive'?`<input type="url" id="cu-drive-${i}" placeholder="Paste Google Drive share link…" value="${b.data.driveUrl||''}">`:''} `;
- 
+
   let inner = '';
   if (t === 'Text') {
     inner = `<textarea id="ct-${i}" placeholder="Enter text content…" style="min-height:120px;">${b.data.text||''}</textarea>`;
@@ -429,7 +429,7 @@ function contentEditorHTML(i) {
   } else {
     inner = uploadChooser;
   }
- 
+
   return `<div class="editor-area">
     <span class="section-label">📄 ${t} Content</span>
     ${inner}
@@ -439,15 +439,15 @@ function contentEditorHTML(i) {
     </div>
   </div>`;
 }
- 
+
 function setUploadMode(i, mode) { blocks[i].ui.uploadMode = mode; renderInner(i); }
- 
+
 /* ── Question Editor ── */
 function questionEditorHTML(i) {
   const b = blocks[i];
   const t = b.type;
   const qLabel = getQuestionLabel(i) || '?';
- 
+
   /* Rich question prompt */
   const qPrompt = `
     <div style="margin-bottom:4px;font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Question Q${qLabel}</div>
@@ -457,10 +457,10 @@ function questionEditorHTML(i) {
       <span>Add Hint (optional)</span>
     </div>
     ${b.ui.hintOn?`<div class="hint-box"><textarea id="hint-${i}" placeholder="Hint for students…">${b.meta.hint||''}</textarea></div>`:''}`;
- 
+
   /* Criteria + marks strip */
   const critStrip = criteriaMarksStrip(i);
- 
+
   /* Meta strip (secondary details) */
   const metaStrip = `
     <div class="meta-strip">
@@ -491,15 +491,15 @@ function questionEditorHTML(i) {
         <input type="text" id="meta-notes-${i}" value="${b.meta.notes}" placeholder="Not shown to students">
       </div>
     </div>`;
- 
+
   const markScheme = `
     <div class="mark-scheme">
       <label>📗 Mark Scheme <span style="font-weight:normal;color:var(--text2)">(optional)</span></label>
       <textarea id="ms-${i}" placeholder="Expected answer, rubric, model solution…">${b.meta.markScheme||''}</textarea>
     </div>`;
- 
+
   let body = '';
- 
+
   if (t === 'Long Answer') {
     body = `${qPrompt}
       <div class="row">
@@ -515,7 +515,7 @@ function questionEditorHTML(i) {
         </div>
       </div>
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else if (t === 'MCQ') {
     body = `${qPrompt}
       <div class="mcq-options" id="mcq-opts-${i}">
@@ -533,7 +533,7 @@ function questionEditorHTML(i) {
       </div>
       <textarea id="mcq-exp-${i}" placeholder="Explanation shown after submission…">${b.data.explanation||''}</textarea>
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else if (t === 'Multiple Select MCQ') {
     body = `${qPrompt}
       <div class="mcq-options" id="mmcq-opts-${i}">
@@ -546,7 +546,7 @@ function questionEditorHTML(i) {
       </div>
       <button class="sm-btn" onclick="addOption(${i})" style="margin-top:4px;">+ Add Option</button>
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else if (t === 'True / False') {
     const ans = b.ui.tfAnswer;
     body = `${qPrompt}
@@ -556,14 +556,14 @@ function questionEditorHTML(i) {
       </div>
       <textarea id="tf-exp-${i}" placeholder="Explanation…">${b.data.explanation||''}</textarea>
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else if (t === 'Fill Text') {
     body = `
       <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Use [blank] to mark blank positions.</div>
       <textarea id="ft-text-${i}" placeholder="e.g. The [blank] of a triangle is 180°." style="min-height:80px;">${b.data.fillText||''}</textarea>
       <input type="text" id="ft-ans-${i}" placeholder="Correct answers (comma separated)" value="${b.data.answers||''}">
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else if (t === 'Fill Drop Down') {
     body = `
       <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Use [blank] in text. Provide comma-separated options.</div>
@@ -571,7 +571,7 @@ function questionEditorHTML(i) {
       <input type="text" id="fdd-opts-${i}" placeholder="Options (e.g. 50, 75, 100, 150)" value="${b.data.options||''}">
       <input type="text" id="fdd-ans-${i}" placeholder="Correct answer(s)" value="${b.data.answers||''}">
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else if (t === 'Match the Following') {
     body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Enter matching pairs:</div>
@@ -585,7 +585,7 @@ function questionEditorHTML(i) {
       </div>
       <button class="sm-btn" onclick="addMatchPair(${i})" style="margin-top:4px;">+ Add Pair</button>
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else if (t === 'Sort') {
     body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Enter items in correct order:</div>
@@ -599,7 +599,7 @@ function questionEditorHTML(i) {
       </div>
       <button class="sm-btn" onclick="addSortItem(${i})" style="margin-top:4px;">+ Add Item</button>
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else if (t === 'Classify') {
     body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Categories:</div>
@@ -621,19 +621,19 @@ function questionEditorHTML(i) {
       </div>
       <button class="sm-btn" onclick="addClassifyItem(${i})">+ Add Item</button>
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else if (t === 'Table') {
     body = `${qPrompt}
       <div style="font-size:11px;color:var(--text2);margin-top:4px;">📊 Full table editor coming soon.</div>
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else if (t === 'Drawing') {
     body = `${qPrompt}
       <div style="border:1px dashed var(--border);border-radius:8px;height:160px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:13px;background:var(--surface2);">
         🖊️ Drawing canvas (coming soon)
       </div>
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else if (t === 'Label Drag' || t === 'Label Fill') {
     const isDrag = t === 'Label Drag';
     body = `${qPrompt}
@@ -641,7 +641,7 @@ function questionEditorHTML(i) {
       <input type="url" id="ld-img-${i}" placeholder="Image URL for diagram…" value="${b.data.imageUrl||''}">
       <input type="text" id="ld-labels-${i}" placeholder="Labels (comma separated): e.g. Nucleus, Cell Wall" value="${b.data.labels||''}">
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else if (t === 'Desmos Graph' || t === 'GeoGebra Graph') {
     body = `${qPrompt}
       <div style="border:1px solid var(--border);border-radius:8px;height:200px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:13px;background:var(--surface2);">
@@ -649,11 +649,11 @@ function questionEditorHTML(i) {
       </div>
       <input type="text" id="graph-prefill-${i}" placeholder="Pre-loaded expression / file URL (optional)" value="${b.data.prefill||''}">
       ${critStrip}${metaStrip}${markScheme}`;
- 
+
   } else {
     body = `${qPrompt}${critStrip}${metaStrip}${markScheme}`;
   }
- 
+
   return `<div class="editor-area">
     <span class="section-label">❓ ${t}</span>
     ${body}
@@ -663,7 +663,7 @@ function questionEditorHTML(i) {
     </div>
   </div>`;
 }
- 
+
 /* ─── MCQ helpers ─── */
 function addOption(i) { if (blocks[i].ui.mcqOptions.length >= 8) return; blocks[i].ui.mcqOptions.push(''); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
 function removeOption(i, oi) { blocks[i].ui.mcqOptions.splice(oi, 1); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
@@ -676,20 +676,20 @@ function removeCat(i, ci) { blocks[i].ui.classifyCategories.splice(ci, 1); rende
 function addClassifyItem(i) { blocks[i].ui.classifyItems.push(''); renderInner(i); }
 function removeClassifyItem(i, ii2) { blocks[i].ui.classifyItems.splice(ii2, 1); renderInner(i); }
 function toggleHint(i) { blocks[i].ui.hintOn = !blocks[i].ui.hintOn; const q = getRichContent(`qprompt-${i}`); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,q),10); }
- 
+
 /* ─── Save block ─── */
 function saveBlock(i) {
   const b = blocks[i];
   pushHistory();
- 
+
   const pick = (id) => { const el = document.getElementById(id); return el ? el.value : ''; };
- 
+
   // Criteria + marks from new strip
   b.meta.criterion  = pick(`qcrit-${i}`);
   b.meta.strand     = pick(`qstrand-${i}`);
   b.meta.marks      = pick(`qmarks-${i}`);
   b.meta.answerType = pick(`qtype-${i}`);
- 
+
   // Secondary meta
   b.meta.difficulty  = pick(`meta-diff-${i}`);
   b.meta.commandTerm = pick(`meta-cmd-${i}`);
@@ -698,7 +698,7 @@ function saveBlock(i) {
   b.meta.notes       = pick(`meta-notes-${i}`);
   b.meta.markScheme  = pick(`ms-${i}`);
   b.meta.hint        = pick(`hint-${i}`);
- 
+
   const t = b.type;
   if (b.mode === 'content') {
     if (t === 'Text') b.data.text = pick(`ct-${i}`);
@@ -707,7 +707,7 @@ function saveBlock(i) {
   } else {
     // Get rich text content
     b.data.question = getRichContent(`qprompt-${i}`);
- 
+
     if (t === 'MCQ') {
       b.ui.mcqOptions = b.ui.mcqOptions.map((_, oi) => pick(`mcq-o-${i}-${oi}`));
       const radio = document.querySelector(`input[name="mcq-correct-${i}"]:checked`);
@@ -741,45 +741,45 @@ function saveBlock(i) {
       b.data.explanation = pick(`tf-exp-${i}`);
     }
   }
- 
+
   b.saved = true;
   b.ui.state = 'saved';
   render();
 }
- 
+
 function cancelEdit(i) {
   blocks[i].ui.state = 'select';
   blocks[i].type = null;
   blocks[i].saved = false;
   render();
 }
- 
+
 /* ─── Save all ─── */
 function saveAll() {
   const unsaved = blocks.filter(b => !b.saved);
   if (unsaved.length > 0) {
     if (!confirm(`${unsaved.length} block(s) have unsaved edits. Save the set anyway?`)) return;
   }
- 
+
   const LIBRARY_KEY = "MYP_LIBRARY";
   let library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
- 
+
   const pick = id => { const el = document.getElementById(id); return el ? el.value : ''; };
   const heading   = pick('ms-heading')  || 'Untitled';
   const chapter   = pick('ms-chapter')  || '';
   const topic     = pick('ms-topic')    || '';
   const gc        = pick('ms-gc')       || '';
   const atl       = pick('ms-atl')      || '';
- 
+
   const savedBlocks = JSON.parse(JSON.stringify(blocks));
   const savedSections = JSON.parse(JSON.stringify(sections));
   const totalMarks = savedBlocks
     .filter(b => b.saved && b.mode === 'question')
     .reduce((sum, b) => sum + Number(b.meta.marks || 0), 0);
- 
+
   const editingId = window._editingSetId || null;
   let existingIdx = editingId ? library.findIndex(s => s.id === editingId) : -1;
- 
+
   if (existingIdx !== -1) {
     const old = library[existingIdx];
     library[existingIdx] = {
@@ -809,12 +809,12 @@ function saveAll() {
     window._editingSetId = newSet.id;
     showSaveSuccess(`✅ Question set saved to Library as Draft!\n\nSet: "${heading}"\nChapter: ${chapter} → ${topic}\n\nGo to Library → select this set → click Publish to make it visible to students.`, 'Draft');
   }
- 
+
   localStorage.setItem(LIBRARY_KEY, JSON.stringify(library));
   DB = library;
   localStorage.setItem('MYP_DB', JSON.stringify(DB));
 }
- 
+
 function showSaveSuccess(msg, status) {
   // Create a styled notification instead of plain alert
   const existing = document.getElementById('save-toast');
@@ -840,7 +840,7 @@ function showSaveSuccess(msg, status) {
   document.body.appendChild(toast);
   setTimeout(() => { if (toast.parentNode) toast.remove(); }, 8000);
 }
- 
+
 /* ─── Preview ─── */
 function previewStudent() {
   const win = window.open('', '_blank');
@@ -855,7 +855,7 @@ function previewStudent() {
   </style></head><body>`;
   html += `<h1 style="font-size:22px;margin-bottom:4px;">${document.getElementById('setHeadingDisplay').textContent}</h1>`;
   html += `<p style="font-size:13px;color:#666;margin-bottom:24px;">${document.getElementById('setMetaDisplay').textContent}</p>`;
- 
+
   sections.forEach(sec => {
     const secBlocks = blocks.filter(b => b.sectionId === sec.id && b.saved);
     if (!secBlocks.length) return;
@@ -886,13 +886,13 @@ function previewStudent() {
     });
     html += `</div>`;
   });
- 
+
   html += `</body></html>`;
   win.document.write(html);
   win.document.close();
 }
- 
+
 function exportPDF() { previewStudent(); }
- 
+
 /* ─── Init ─── */
 // Called from HTML after proceedToBuilder()
