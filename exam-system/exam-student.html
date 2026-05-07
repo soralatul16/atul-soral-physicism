@@ -9,7 +9,11 @@
 <style>
 :root{--bg:#08090f;--surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);--border:rgba(255,255,255,0.09);--accent:#e03030;--glow:rgba(224,48,48,0.16);--text:#eeedf0;--text2:#7a7888;--text3:#b0aec0;--green:#27ae60;--yellow:#f39c12;--blue:#2980b9;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+body{font-family:'Sora',sans-serif;
+  background: linear-gradient(rgba(0,0,0,0.58), rgba(8,9,15,0.85)),
+    url('./assets/myp-background-image.png') no-repeat center center fixed;
+  background-size: cover;
+  color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;}
 /* Topbar */
 .topbar{height:52px;background:rgba(8,8,14,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 18px;flex-shrink:0;z-index:200;backdrop-filter:blur(12px);}
 .brand{font-family:'Space Mono',monospace;font-size:13px;color:var(--accent);letter-spacing:1px;margin-right:14px;}
@@ -175,7 +179,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
 </style>
 </head>
 <body>
- 
+
 <div class="topbar">
   <div style="display:flex;align-items:center;gap:6px;">
     <span class="brand">MYP·Student</span>
@@ -189,7 +193,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
     <button class="icon-btn" onclick="doLogout()">Logout</button>
   </div>
 </div>
- 
+
 <div class="app-body">
   <div class="left-sidebar">
     <div class="sidebar-inner">
@@ -197,9 +201,9 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
       <div id="chapterTree"></div>
     </div>
   </div>
- 
+
   <div class="main-panel" id="mainPanel">
- 
+
     <!-- DASHBOARD -->
     <div class="screen active" id="dashboardScreen">
       <div class="welcome-banner">
@@ -225,7 +229,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
         <div class="stat-card"><div class="stat-num" style="font-size:18px;" id="critD">—</div><div class="stat-label">Criterion D<br><span style="font-size:10px;">Reflecting on Impacts</span></div></div>
       </div>
     </div>
- 
+
     <!-- LIBRARY -->
     <div class="screen" id="libraryScreen">
       <div class="filter-bar">
@@ -253,7 +257,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
       </div>
       <div id="setsGrid"></div>
     </div>
- 
+
     <!-- ATTEMPT -->
     <div id="attemptScreen">
       <div class="attempt-header">
@@ -292,7 +296,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
         </div>
       </div>
     </div>
- 
+
     <!-- RESULTS -->
     <div class="screen" id="resultsScreen">
       <div class="results-banner">
@@ -306,12 +310,13 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
       <div class="section-title">Question Review</div>
       <div id="qReviewList"></div>
       <div class="results-actions">
-        <button class="btn-result btn-download" onclick="downloadPDF()">⬇ Download PDF</button>
+        <button class="btn-result btn-download" onclick="openReport()">📊 View Full Report</button>
+        <button class="btn-result" onclick="downloadPDF()" style="background:var(--surface2);color:var(--text3);border:1px solid var(--border);">⬇ Quick PDF</button>
         <button class="btn-result btn-retry" onclick="retrySet()">🔁 Retry Set</button>
         <button class="btn-result btn-home" onclick="showScreen('dashboard')">← Dashboard</button>
       </div>
     </div>
- 
+
     <!-- ANALYTICS -->
     <div class="screen" id="analyticsScreen">
       <div class="section-title">Your Performance Analytics</div>
@@ -327,10 +332,10 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
       </div>
       <div style="margin-top:28px;"><div class="section-title">Topic Performance</div><div id="topicBars"></div></div>
     </div>
- 
+
   </div>
 </div>
- 
+
 <!-- Submit Modal -->
 <div class="modal-overlay" id="submitModal">
   <div class="modal">
@@ -343,18 +348,16 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);height
     </div>
   </div>
 </div>
- 
+
+<script src="exam-storage.js"></script>
 <script>
 /* ═══════════════════════════════════════════════════
    Physicism Student Panel — Full Implementation
    WITH Teacher Grading Feedback Integration
    Storage: localStorage (GitHub Pages compatible)
+   Uses shared exam-storage.js for keys
 ═══════════════════════════════════════════════════ */
- 
-const LIBRARY_KEY  = "MYP_LIBRARY";
-const ATTEMPTS_KEY = "PHYS_ATTEMPTS";
-const SESSION_KEY  = "PHYS_SESSION";
- 
+
 let currentStudent = null;
 let currentSet = null;
 let currentAttempt = null;
@@ -364,14 +367,12 @@ let timerInterval = null;
 let autoSaveInterval = null;
 let qBlocks = [];
 let allBlocks = [];
- 
+
 /* ══════════ Session ══════════ */
 function checkSession() {
   try {
-    const raw = localStorage.getItem(SESSION_KEY);
-    if(!raw) return redirect();
-    const s = JSON.parse(raw);
-    if(!s || Date.now() > s.expiry) { localStorage.removeItem(SESSION_KEY); return redirect(); }
+    const s = getSession();
+    if(!s) return redirect();
     currentStudent = s;
     document.getElementById("topbarName").textContent = "👤 " + s.name;
     document.getElementById("welcomeMsg").textContent = "Welcome back, " + (s.name||"").split(" ")[0] + "! 👋";
@@ -380,26 +381,23 @@ function checkSession() {
 }
 function redirect() { window.location.href = "student-login.html"; return false; }
 function doLogout() { if(confirm("Log out?")) { localStorage.removeItem(SESSION_KEY); redirect(); } }
- 
+
 /* ══════════ Data helpers ══════════ */
-function getLibrary()    { return JSON.parse(localStorage.getItem(LIBRARY_KEY)||"[]"); }
-function getPublished()  { return getLibrary().filter(s => s.status === "Published"); }
-function getAttempts()   { return JSON.parse(localStorage.getItem(ATTEMPTS_KEY)||"[]"); }
-function myAttempts()    { return getAttempts().filter(a => a.studentEmail === currentStudent.email); }
-function saveAttempt(a)  {
+function myAttempts() { return getAttempts().filter(a => a.studentEmail === currentStudent.email); }
+function saveAttempt(a) {
   const arr = getAttempts();
   const idx = arr.findIndex(x => x.id === a.id);
   if(idx !== -1) arr[idx] = a; else arr.push(a);
-  localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(arr));
+  saveAttempts(arr);
 }
- 
+
 /* ══════════ Chapter tree ══════════ */
 const CHAPTERS = [
   "Exploring Matter","Forces & Motion","Work, Power & Gravity",
   "Energy & Environment","The Nature of Waves","Atomic Physics",
   "Electromagnetism","Thermal Physics","Astrophysics"
 ];
- 
+
 function buildChapterTree() {
   const lib = getPublished();
   const tree = document.getElementById("chapterTree");
@@ -432,7 +430,7 @@ function filterByTopic(ch, tp) {
   document.getElementById("searchInput").value = tp;
   applyFilters();
 }
- 
+
 /* ══════════ Screen nav ══════════ */
 function showScreen(name) {
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
@@ -450,36 +448,36 @@ function showAttemptScreen() {
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("attemptScreen").classList.add("active");
 }
- 
+
 /* ══════════ Dashboard ══════════ */
 function loadDashboard() {
   const sets     = getPublished();
   const attempts = myAttempts();
   const completed= attempts.filter(a=>a.status==="completed");
   const avg = completed.length ? Math.round(completed.reduce((s,a)=>s+(a.percentScore||0),0)/completed.length) : null;
- 
+
   document.getElementById("statTotal").textContent = attempts.length;
   document.getElementById("statDone").textContent  = completed.length;
   document.getElementById("statAvg").textContent   = avg!==null ? avg+"%" : "—";
   document.getElementById("statStreak").textContent= calcStreak(completed);
- 
+
   const cm={A:[],B:[],C:[],D:[]};
   completed.forEach(a=>{ const k=(a.criterion||"").charAt(0); if(cm[k]) cm[k].push(a.percentScore||0); });
   ["A","B","C","D"].forEach(c => {
     const el=document.getElementById("crit"+c);
     el.textContent=cm[c].length?Math.round(cm[c].reduce((s,v)=>s+v,0)/cm[c].length)+"%":"—";
   });
- 
+
   const inProg = attempts.find(a=>a.status==="in_progress");
   const btn=document.getElementById("resumeBtn");
   if(inProg){ btn.style.display="inline-flex"; btn.onclick=()=>resumeAttemptById(inProg.id); }
   else btn.style.display="none";
- 
+
   const el=document.getElementById("dashSets");
   if(!sets.length){ el.innerHTML=`<p style="color:var(--text2);font-size:13px;">No published sets yet.</p>`; return; }
   el.innerHTML = sets.map(s=>setCardHTML(s,attempts)).join("");
 }
- 
+
 function calcStreak(completed) {
   if(!completed.length) return 0;
   const days=[...new Set(completed.map(a=>new Date(a.endTime||a.startTime).toDateString()))];
@@ -491,7 +489,7 @@ function calcStreak(completed) {
   }
   return streak;
 }
- 
+
 function setCardHTML(s, attempts) {
   const mine=(attempts||[]).filter(a=>a.setId===s.id);
   const last=mine.sort((a,b)=>b.startTime-a.startTime)[0];
@@ -525,7 +523,7 @@ function setCardHTML(s, attempts) {
     <div class="set-action">${actionBtn}</div>
   </div>`;
 }
- 
+
 /* ══════════ Library ══════════ */
 function loadLibrary() { applyFilters(); }
 function applyFilters() {
@@ -534,7 +532,7 @@ function applyFilters() {
   const gc  = document.getElementById("filterGC")?.value||"";
   const st  = document.getElementById("filterSt")?.value||"";
   const attempts=myAttempts();
- 
+
   let sets=getPublished().filter(s=>{
     if(q && !s.heading?.toLowerCase().includes(q) && !s.topic?.toLowerCase().includes(q) && !s.chapter?.toLowerCase().includes(q)) return false;
     if(crit && s.criterion!==crit) return false;
@@ -548,12 +546,12 @@ function applyFilters() {
     }
     return true;
   });
- 
+
   const grid=document.getElementById("setsGrid");
   if(!sets.length){ grid.innerHTML=`<p style="color:var(--text2);font-size:13px;padding:20px;">No sets match your filters.</p>`; return; }
   grid.innerHTML=sets.map(s=>setCardHTML(s,attempts)).join("");
 }
- 
+
 /* ══════════ Attempt ══════════ */
 function startAttempt(setId) {
   const lib=getLibrary();
@@ -575,7 +573,7 @@ function startAttempt(setId) {
   startTimer(); startAutoSave();
   initAttemptUI(); showAttemptScreen();
 }
- 
+
 function resumeAttemptById(id) {
   const a=getAttempts().find(x=>x.id===id);
   if(!a){ alert("Attempt not found."); return; }
@@ -593,13 +591,13 @@ function resumeLastAttempt() {
   const a=myAttempts().find(x=>x.status==="in_progress");
   if(a) resumeAttemptById(a.id);
 }
- 
+
 function initAttemptUI() {
   document.getElementById("attemptTitle").textContent=currentSet.heading;
   document.getElementById("attemptMeta").textContent=[currentSet.chapter,currentSet.topic,currentSet.criterion].filter(Boolean).join(" · ");
   renderQ(0);
 }
- 
+
 function renderQ(idx) {
   if(!qBlocks.length){ document.getElementById("attemptContent").innerHTML="<p>No questions.</p>"; return; }
   currentQIdx=Math.max(0,Math.min(idx,qBlocks.length-1));
@@ -626,7 +624,7 @@ function renderQ(idx) {
     </div>`;
   renderQNav();
 }
- 
+
 function buildInput(q,idx){
   const saved=currentAttempt.answers[idx];
   const t=q.type||"Long Answer";
@@ -645,10 +643,10 @@ function buildInput(q,idx){
       <div class="tf-opt ${saved==="False"?"selected-false":""}" onclick="pickTF(${idx},'False')">✗ False</div>
     </div>`;
   }
-  if(t==="Fill in the Blank"){
+  if(t==="Fill in the Blank"||t==="Fill Text"){
     return `<input class="fill-input" type="text" placeholder="Type your answer…" value="${saved||""}" oninput="saveAnsText(${idx},this.value)">`;
   }
-   if(t==="Desmos Graph"){
+  if(t==="Desmos Graph"){
     const expr = q.data?.prefill || '';
     const instr = q.data?.graphInstructions || '';
     const src = expr
@@ -680,14 +678,34 @@ function buildInput(q,idx){
       </div>
     </div>`;
   }
-
+  if(t==="Match the Following"){
+    const pairs = q.ui?.matchPairs || [];
+    return `<div style="display:flex;flex-direction:column;gap:8px;">
+      ${pairs.map((p,pi) => `<div style="display:flex;gap:8px;align-items:center;">
+        <div style="flex:1;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;font-size:13px;">${p.a}</div>
+        <span style="color:var(--text2);">→</span>
+        <input class="fill-input" style="flex:1;" placeholder="Match for: ${p.a}" value="${(saved && saved[pi]) || ''}" oninput="saveMatchAns(${idx},${pi},this.value)">
+      </div>`).join('')}
+    </div>`;
+  }
+  if(t==="Sort"){
+    const items = q.ui?.sortItems || [];
+    return `<div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:8px;">Arrange in the correct order (type numbers 1, 2, 3…):</p>
+      ${items.map((item,si) => `<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
+        <input class="fill-input" style="width:50px;text-align:center;" placeholder="#" value="${(saved && saved[si]) || ''}" oninput="saveSortAns(${idx},${si},this.value)">
+        <span style="font-size:13px;">${item}</span>
+      </div>`).join('')}
+    </div>`;
+  }
+  // Default: Long Answer / any other type
   const wc=(saved||"").split(/\s+/).filter(Boolean).length;
   return `<div class="long-answer-wrap">
     <textarea placeholder="Type your answer here…" oninput="saveAnsText(${idx},this.value)">${saved||""}</textarea>
     <div class="word-count">${wc} words</div>
   </div>`;
 }
- 
+
 function pickMCQ(qi,oi,multi){
   if(multi){
     let arr=Array.isArray(currentAttempt.answers[qi])?[...currentAttempt.answers[qi]]:[];
@@ -703,6 +721,16 @@ function saveAnsText(qi,v){
   const el=document.querySelector(".word-count"); if(el) el.textContent=wc+" words";
   renderQNav();
 }
+function saveMatchAns(qi,pi,v){
+  if(!currentAttempt.answers[qi]) currentAttempt.answers[qi]={};
+  currentAttempt.answers[qi][pi]=v;
+  renderQNav();
+}
+function saveSortAns(qi,si,v){
+  if(!Array.isArray(currentAttempt.answers[qi])) currentAttempt.answers[qi]=[];
+  currentAttempt.answers[qi][si]=v;
+  renderQNav();
+}
 function saveNote(qi,v){ currentAttempt.notes[qi]=v; }
 function clearAns(){ currentAttempt.answers[currentQIdx]=undefined; renderQ(currentQIdx); }
 function flagQ(){
@@ -711,17 +739,17 @@ function flagQ(){
 }
 function prevQ(){ if(currentQIdx>0) renderQ(currentQIdx-1); }
 function nextQ(){ if(currentQIdx<qBlocks.length-1) renderQ(currentQIdx+1); }
- 
+
 function renderQNav(){
   const grid=document.getElementById("qNavGrid");
   grid.innerHTML=qBlocks.map((q,i)=>{
     const ans=currentAttempt.answers[i];
-    const answered=ans!==undefined&&ans!==""&&!(Array.isArray(ans)&&ans.length===0);
+    const answered=ans!==undefined&&ans!==""&&!(Array.isArray(ans)&&ans.length===0)&&!(typeof ans==='object'&&! Array.isArray(ans)&&Object.keys(ans).length===0);
     let cls=i===currentQIdx?"current":currentAttempt.flags[i]?"flagged":answered?"answered":"";
     return `<button class="q-nav-btn ${cls}" onclick="renderQ(${i})">${i+1}</button>`;
   }).join("");
 }
- 
+
 /* Timer */
 function startTimer(){
   clearInterval(timerInterval);
@@ -736,7 +764,7 @@ function startAutoSave(){
   clearInterval(autoSaveInterval);
   autoSaveInterval=setInterval(()=>{ currentAttempt.duration=timerSecs; saveAttempt(currentAttempt); },8000);
 }
- 
+
 /* Submit */
 function confirmSubmit(){
   const answered=qBlocks.filter((q,i)=>{const a=currentAttempt.answers[i];return a!==undefined&&a!==""&&!(Array.isArray(a)&&a.length===0);}).length;
@@ -770,7 +798,7 @@ function doSubmit(){
   saveAttempt(currentAttempt);
   showResults(currentAttempt.id);
 }
- 
+
 /* ══════════ Results — WITH TEACHER GRADING ══════════ */
 function showResults(attemptId){
   const a=getAttempts().find(x=>x.id===attemptId);
@@ -778,17 +806,17 @@ function showResults(attemptId){
   currentAttempt=a;
   const lib=getLibrary(); currentSet=lib.find(s=>s.id===a.setId);
   qBlocks=currentSet?(currentSet.blocks||[]).filter(b=>b.saved&&b.mode==="question"):[];
- 
+
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("attemptScreen").classList.remove("active");
   document.getElementById("resultsScreen").classList.add("active");
- 
+
   const isGraded = a.gradingStatus === 'graded';
- 
+
   document.getElementById("resTitleEl").textContent = (a.setTitle||"Results") + (isGraded ? " — ✓ Graded" : "");
   document.getElementById("resScore").textContent=(a.earnedMarks||0)+" / "+(a.totalMarks||0);
   document.getElementById("resOutOf").textContent=`${a.percentScore||0}% · ${Math.floor((a.duration||0)/60)}m ${(a.duration||0)%60}s`;
- 
+
   // ── OVERALL TEACHER FEEDBACK ──
   const ofArea = document.getElementById("overallFeedbackArea");
   if(a.overallFeedback){
@@ -799,14 +827,13 @@ function showResults(attemptId){
   } else {
     ofArea.innerHTML = "";
   }
- 
+
   // ── CRITERION BREAKDOWN — uses teacher grades when available ──
   const cm={A:[],B:[],C:[],D:[]};
   qBlocks.forEach((q,i)=>{
     const k=(q.meta?.criterion||"").charAt(0);
     const marks=Number(q.meta?.marks||0);
     let scored=0;
-    // Use teacher grade if available, otherwise auto-score
     if(a.grades && a.grades[i] !== undefined){
       scored = Number(a.grades[i]);
     } else {
@@ -825,20 +852,20 @@ function showResults(attemptId){
       <div class="crit-score">${t>0?s+" / "+t:"—"}</div>
     </div>`;
   }).join("");
- 
+
   const savedSections=currentSet?.sections||[{id:1,name:"Section 1"}];
- 
+
   // ── QUESTION REVIEW — WITH TEACHER GRADES + FEEDBACK ──
   document.getElementById("qReviewList").innerHTML=qBlocks.map((q,i)=>{
     const ans=a.answers?.[i];
     const teacherGrade = a.grades?.[i];
     const teacherFb = a.teacherFeedback?.[i];
     const hasTeacherGrade = teacherGrade !== undefined && teacherGrade !== null && teacherGrade !== '';
- 
+
     let studentAnsHTML="";
     let statusColor="#8a8898"; let statusText="Not answered";
     let isCorrect=null;
- 
+
     if(q.type==="MCQ"||q.type==="Multiple Select MCQ"){
       const opts=q.ui?.mcqOptions||[];
       studentAnsHTML=`<div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">`;
@@ -864,7 +891,7 @@ function showResults(attemptId){
         statusText=correct?"✅ Correct":"❌ Incorrect";
         statusColor=correct?"#5edd8a":"#ff7070";
       } else { statusText="Answered"; statusColor="#5edd8a"; }
- 
+
     } else if(q.type==="True / False"){
       const correct=q.ui?.tfAnswer;
       const student=a.answers?.[i];
@@ -884,7 +911,7 @@ function showResults(attemptId){
           ${correct==="False"&&student!=="False"?'<span style="font-size:10px;color:#5edd8a;float:right;">← correct</span>':""}
         </div>
       </div>`;
- 
+
     } else {
       const ansText=a.answers?.[i];
       if(!ansText){statusText="Not answered";statusColor="#8a8898";}
@@ -892,25 +919,24 @@ function showResults(attemptId){
       else{statusText="Answered — awaiting teacher marking";statusColor="#f7c66e";}
       studentAnsHTML=`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:12px;margin-top:8px;font-size:13px;line-height:1.6;color:var(--text3);white-space:pre-wrap;">${ansText||"(Not answered)"}</div>`;
     }
- 
-    // Override status if teacher graded (for MCQ/TF too)
+
     if(hasTeacherGrade && q.type!=="MCQ" && q.type!=="Multiple Select MCQ" && q.type!=="True / False"){
       statusText=`Graded: ${teacherGrade}/${q.meta?.marks||0}`;
       statusColor="#5edd8a";
     }
- 
+
     const secId=q.sectionId||(savedSections[0]?.id||1);
     const sec=savedSections.find(s=>s.id===secId)||savedSections[0]||{name:"Section 1"};
     const secIdx=savedSections.indexOf(sec)+1;
     const qInSec=qBlocks.slice(0,i+1).filter(bk=>bk.sectionId===secId).length;
     const letters=["a","b","c","d","e","f","g","h","i","j"];
     const qLabel=`${secIdx}(${letters[qInSec-1]||qInSec})`;
- 
+
     const marks=q.meta?.marks||0;
     const crit=q.meta?.criterion;
     const markScheme=q.meta?.markScheme;
     const explanation=q.data?.explanation;
- 
+
     return `<div class="q-review-item" style="border-left:3px solid ${statusColor};">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
         <div>
@@ -921,34 +947,40 @@ function showResults(attemptId){
         </div>
         <span style="font-size:12px;font-weight:700;color:${statusColor};">${statusText}</span>
       </div>
- 
+
       <div style="font-size:14px;line-height:1.7;margin-bottom:10px;">${q.data?.question||"(No question text)"}</div>
- 
+
       <div style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Your Answer</div>
       ${studentAnsHTML}
- 
+
       ${teacherFb?`<div style="margin-top:14px;padding:12px;background:rgba(224,48,48,0.07);border:1px solid rgba(224,48,48,0.2);border-radius:7px;">
         <div style="font-size:11px;color:#ff7070;font-weight:600;margin-bottom:4px;">👨‍🏫 Teacher Feedback</div>
         <div style="font-size:13px;color:var(--text3);line-height:1.6;">${teacherFb}</div>
       </div>`:""}
- 
+
       ${markScheme?`<div style="margin-top:14px;padding:12px;background:rgba(39,174,96,0.07);border:1px solid rgba(39,174,96,0.2);border-radius:7px;">
         <div style="font-size:11px;color:#5edd8a;font-weight:600;margin-bottom:4px;">📗 Mark Scheme</div>
         <div style="font-size:13px;color:var(--text3);line-height:1.6;">${markScheme}</div>
       </div>`:""}
- 
+
       ${explanation?`<div style="margin-top:10px;padding:12px;background:rgba(41,128,185,0.07);border:1px solid rgba(41,128,185,0.2);border-radius:7px;">
         <div style="font-size:11px;color:#76b4de;font-weight:600;margin-bottom:4px;">💡 Explanation</div>
         <div style="font-size:13px;color:var(--text3);line-height:1.6;">${explanation}</div>
       </div>`:""}
- 
+
       ${a.notes?.[i]?`<div style="margin-top:10px;font-size:12px;color:var(--yellow);">📝 Your note: ${a.notes[i]}</div>`:""}
     </div>`;
   }).join("")||`<p style="color:var(--text2);font-size:13px;">Set details unavailable.</p>`;
 }
- 
+
 function retrySet(){ if(currentSet) startAttempt(currentSet.id); }
- 
+
+/* ══════════ Open Report Page ══════════ */
+function openReport() {
+  if (!currentAttempt) return;
+  window.open('exam-report.html?id=' + currentAttempt.id, '_blank');
+}
+
 /* ══════════ PDF — WITH TEACHER GRADES ══════════ */
 function downloadPDF(){
   try{
@@ -968,8 +1000,7 @@ function downloadPDF(){
     }
     y+=4;
     doc.setDrawColor(224,48,48);doc.line(20,y,190,y);y+=6;
- 
-    // Overall teacher feedback
+
     if(a.overallFeedback){
       doc.setFont("helvetica","bold");doc.setFontSize(11);
       doc.text("Teacher Feedback:",20,y);y+=5;
@@ -978,7 +1009,7 @@ function downloadPDF(){
       doc.text(fbLines,20,y);y+=fbLines.length*5+4;
       doc.line(20,y,190,y);y+=6;
     }
- 
+
     qBlocks.forEach((q,i)=>{
       if(y>250){doc.addPage();y=20;}
       doc.setFont("helvetica","bold");doc.setFontSize(11);
@@ -993,8 +1024,7 @@ function downloadPDF(){
                   typeof ans==="number"?String.fromCharCode(65+ans):(ans||"(Not answered)");
       doc.setFont("helvetica","italic");
       doc.text("Answer: "+disp.substring(0,120),20,y);y+=5;
- 
-      // Teacher feedback per question
+
       if(a.teacherFeedback?.[i]){
         doc.setFont("helvetica","normal");
         doc.setTextColor(39,174,96);
@@ -1007,7 +1037,7 @@ function downloadPDF(){
     doc.save(`Physicism_${(a.setTitle||"exam").replace(/\s/g,"_")}.pdf`);
   }catch(e){ alert("PDF download failed. Make sure jsPDF loaded correctly."); console.error(e); }
 }
- 
+
 /* Analytics */
 function loadAnalytics(){
   const completed=myAttempts().filter(a=>a.status==="completed");
@@ -1017,7 +1047,7 @@ function loadAnalytics(){
   document.getElementById("aTot").textContent=total;
   document.getElementById("aAvg").textContent=avgScore!==null?avgScore+"%":"—";
   document.getElementById("aTime").textContent=Math.round(totalSecs/60)+"m";
- 
+
   const cm={A:[],B:[],C:[],D:[]};
   completed.forEach(a=>{const k=(a.criterion||"").charAt(0);if(cm[k])cm[k].push(a.percentScore||0);});
   let best="—",bestV=-1;
@@ -1025,7 +1055,7 @@ function loadAnalytics(){
     if(arr.length){const avg=arr.reduce((s,v)=>s+v,0)/arr.length;if(avg>bestV){bestV=avg;best=c;}}
   });
   document.getElementById("aBest").textContent=best;
- 
+
   document.getElementById("critBars").innerHTML=Object.entries(cm).map(([c,arr])=>{
     const avg=arr.length?Math.round(arr.reduce((s,v)=>s+v,0)/arr.length):0;
     return `<div style="margin-bottom:12px;">
@@ -1033,7 +1063,7 @@ function loadAnalytics(){
       <div style="background:var(--surface2);border-radius:4px;height:7px;overflow:hidden;"><div style="height:100%;width:${avg}%;background:var(--accent);border-radius:4px;transition:width 0.6s;"></div></div>
     </div>`;
   }).join("");
- 
+
   const topicMap={};
   completed.forEach(a=>{
     const lib=getLibrary(); const set=lib.find(s=>s.id===a.setId);
@@ -1047,7 +1077,7 @@ function loadAnalytics(){
       <div style="background:var(--surface2);border-radius:4px;height:6px;overflow:hidden;"><div style="height:100%;width:${avg}%;background:var(--blue);border-radius:4px;"></div></div>
     </div>`;
   }).join("")||`<p style="color:var(--text2);font-size:13px;">No completed attempts yet.</p>`;
- 
+
   document.getElementById("recentList").innerHTML=completed.slice(-8).reverse().map(a=>`
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
       <div>
@@ -1057,21 +1087,19 @@ function loadAnalytics(){
       <div style="font-size:14px;font-weight:700;color:${(a.percentScore||0)>=70?"#5edd8a":"#ff7070"};">${a.percentScore||0}%</div>
     </div>`).join("")||`<p style="color:var(--text2);font-size:13px;">No attempts yet.</p>`;
 }
- 
+
 /* Init */
 window.addEventListener("DOMContentLoaded",()=>{
   if(!checkSession()) return;
   buildChapterTree();
   loadDashboard();
 });
-
-function openReport() {
-  if (!currentAttempt) return;
-  window.open('exam-report.html?id=' + currentAttempt.id, '_blank');
-}
- 
 </script>
 
+<!-- Feedback widget -->
+<link rel="stylesheet" href="../../feedback.css">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="../../feedback.js"></script>
 
 </body>
 </html>
