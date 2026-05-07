@@ -647,22 +647,21 @@ function buildInput(q,idx){
   if(t==="Fill in the Blank"||t==="Fill Text"){
     return `<input class="fill-input" type="text" placeholder="Type your answer…" value="${saved||""}" oninput="saveAnsText(${idx},this.value)">`;
   }
-  if(t==="Desmos Graph"){
+    if(t==="Desmos Graph"){
     const expr = q.data?.prefill || '';
     const instr = q.data?.graphInstructions || '';
-    const src = expr
-      ? `https://www.desmos.com/calculator?lang=en&expressions=${encodeURIComponent(expr)}`
-      : `https://www.desmos.com/calculator`;
     return `<div>
       ${instr ? `<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>` : ''}
       <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;height:400px;">
-        <iframe src="${src}" style="width:100%;height:100%;border:none;" id="desmos-${idx}"></iframe>
+        <iframe src="https://www.desmos.com/calculator?lang=en" style="width:100%;height:100%;border:none;" allow="clipboard-write"></iframe>
       </div>
+      <p style="font-size:11px;color:var(--text2);margin-top:4px;">Tip: Close the sign-in popup (click X) to use the calculator without logging in.</p>
       <div class="long-answer-wrap" style="margin-top:10px;">
-        <textarea placeholder="Write your answer / observations here…" oninput="saveAnsText(${idx},this.value)">${saved||""}</textarea>
+        <textarea placeholder="Write your answer / observations about the graph here…" oninput="saveAnsText(${idx},this.value)">${saved||""}</textarea>
       </div>
     </div>`;
   }
+
   if(t==="GeoGebra Graph"){
     const matId = q.data?.prefill || '';
     const instr = q.data?.graphInstructions || '';
