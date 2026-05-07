@@ -720,7 +720,7 @@ answer:"More force"
 
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"A",
 level:"easy",
 question:"Momentum formula is:",
@@ -730,7 +730,7 @@ answer:"p=mv"
 
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"B",
 level:"medium",
 question:"Momentum depends on:",
@@ -741,7 +741,7 @@ answer:"Both"
 // Numerical
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"C",
 level:"hard",
 question:"Momentum of 2 kg moving at 3 m/s:",
@@ -751,7 +751,7 @@ answer:"6"
 
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"C",
 level:"hard",
 question:"If velocity doubles, momentum:",
@@ -761,7 +761,7 @@ answer:"Doubles"
 
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"D",
 level:"hard",
 question:"Momentum is:",
@@ -772,7 +772,7 @@ answer:"Vector"
 // Conservation numerical
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"C",
 level:"hard",
 question:"2 kg at 4 m/s hits 2 kg at rest. Final velocity:",
@@ -783,7 +783,7 @@ answer:"2 m/s"
 // Confusing
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"C",
 level:"hard",
 question:"If no external force acts:",
@@ -793,7 +793,7 @@ answer:"Momentum conserved"
 
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"B",
 level:"medium",
 question:"Impulse equals:",
@@ -803,7 +803,7 @@ answer:"Change in momentum"
 
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"C",
 level:"hard",
 question:"Impulse formula:",
@@ -813,7 +813,7 @@ answer:"F×t"
 
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"D",
 level:"hard",
 question:"In elastic collision:",
@@ -823,7 +823,7 @@ answer:"Both conserved"
 
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"C",
 level:"hard",
 question:"In inelastic collision:",
@@ -833,7 +833,7 @@ answer:"Momentum conserved"
 
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"D",
 level:"hard",
 question:"Recoil of gun is due to:",
@@ -843,7 +843,7 @@ answer:"Momentum conservation"
 
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"C",
 level:"hard",
 question:"Momentum unit:",
@@ -853,7 +853,7 @@ answer:"kg m/s"
 
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"D",
 level:"hard",
 question:"Which has more momentum?",
@@ -863,7 +863,7 @@ answer:"Depends on mv"
 
 {
 topic:"momentum",
-image:"7-momentum",
+image:"7-momentum-and-conservation-of-momentum",
 criterion:"C",
 level:"hard",
 question:"If mass is zero:",
@@ -1028,7 +1028,7 @@ answer:"F ∝ a"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"A",
 level:"easy",
 question:"The formula used for most force problems is:",
@@ -1038,7 +1038,7 @@ answer:"F=ma"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"B",
 level:"medium",
 question:"Which is the correct first step in solving problems?",
@@ -1048,7 +1048,7 @@ answer:"Read question"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"C",
 level:"hard",
 question:"A force of 40 N acts on a 10 kg mass. Acceleration is:",
@@ -1058,7 +1058,7 @@ answer:"4 m/s²"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"C",
 level:"hard",
 question:"A 2000 kg car accelerates at 3 m/s². Force required:",
@@ -1068,7 +1068,7 @@ answer:"6000 N"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"C",
 level:"hard",
 question:"Mass = 5 kg, acceleration = 0. What is force?",
@@ -1079,7 +1079,7 @@ answer:"0 N"
 // tricky
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"D",
 level:"hard",
 question:"If force increases but mass doubles, acceleration:",
@@ -1089,7 +1089,7 @@ answer:"Same"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"C",
 level:"hard",
 question:"A force of 15 N produces acceleration of 3 m/s². Mass:",
@@ -1099,7 +1099,7 @@ answer:"5 kg"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"D",
 level:"hard",
 question:"Wrong unit for force is:",
@@ -1109,7 +1109,7 @@ answer:"kg"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"B",
 level:"medium",
 question:"Which is NOT part of solving steps?",
@@ -1119,7 +1119,7 @@ answer:"Guess answer"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"C",
 level:"hard",
 question:"A 50 N force acts on 25 kg mass. Acceleration:",
@@ -1129,7 +1129,7 @@ answer:"2"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"D",
 level:"hard",
 question:"If acceleration doubles, force:",
@@ -1139,7 +1139,7 @@ answer:"Doubles"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"C",
 level:"hard",
 question:"Force needed to keep constant velocity:",
@@ -1149,7 +1149,7 @@ answer:"Zero"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"C",
 level:"hard",
 question:"A 1000 kg car increases speed → force must:",
@@ -1159,7 +1159,7 @@ answer:"Increase"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"D",
 level:"hard",
 question:"Error in solving: forgetting units leads to:",
@@ -1169,7 +1169,7 @@ answer:"Incorrect answer"
 
 {
 topic:"force",
-image:"9-solving-force",
+image:"9-solving-force-problems",
 criterion:"C",
 level:"hard",
 question:"A 10 kg object needs 20 N force. Acceleration:",
@@ -1181,7 +1181,7 @@ answer:"2"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"A",
 level:"easy",
 question:"Newton’s third law states:",
@@ -1191,7 +1191,7 @@ answer:"Action = reaction"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"B",
 level:"medium",
 question:"Action and reaction forces act on:",
@@ -1201,7 +1201,7 @@ answer:"Different objects"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"C",
 level:"hard",
 question:"Action-reaction forces are:",
@@ -1212,7 +1212,7 @@ answer:"Equal & opposite"
 // tricky
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"D",
 level:"hard",
 question:"Do action-reaction forces cancel?",
@@ -1222,7 +1222,7 @@ answer:"No"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"C",
 level:"hard",
 question:"Rocket moves because:",
@@ -1232,7 +1232,7 @@ answer:"Gases push it"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"C",
 level:"hard",
 question:"Walking forward is due to:",
@@ -1242,7 +1242,7 @@ answer:"Both"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"D",
 level:"hard",
 question:"If A pushes B with 10 N, B pushes A with:",
@@ -1252,7 +1252,7 @@ answer:"10 N"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"C",
 level:"hard",
 question:"Swimming forward occurs because:",
@@ -1262,7 +1262,7 @@ answer:"Both"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"C",
 level:"hard",
 question:"A book on table: action-reaction pair:",
@@ -1272,7 +1272,7 @@ answer:"Table push & book push"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"D",
 level:"hard",
 question:"Which is NOT a pair?",
@@ -1282,7 +1282,7 @@ answer:"Book-weight"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"C",
 level:"hard",
 question:"Force pair acts:",
@@ -1292,7 +1292,7 @@ answer:"Together"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"C",
 level:"hard",
 question:"If action increases, reaction:",
@@ -1302,7 +1302,7 @@ answer:"Increases equally"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"D",
 level:"hard",
 question:"Which violates third law?",
@@ -1312,7 +1312,7 @@ answer:"None"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"C",
 level:"hard",
 question:"Magnet attracting iron is example of:",
@@ -1322,7 +1322,7 @@ answer:"Third law"
 
 {
 topic:"third law",
-image:"10-third-law",
+image:"10-newtons-third-law",
 criterion:"D",
 level:"hard",
 question:"Why don’t they cancel?",
@@ -1334,7 +1334,7 @@ answer:"Different objects"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"A",
 level:"easy",
 question:"Which law explains inertia?",
@@ -1344,7 +1344,7 @@ answer:"1st"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"B",
 level:"medium",
 question:"Second law relates:",
@@ -1354,7 +1354,7 @@ answer:"Force & acceleration"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"C",
 level:"hard",
 question:"Third law explains:",
@@ -1364,7 +1364,7 @@ answer:"Interaction"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"D",
 level:"hard",
 question:"If no net force:",
@@ -1375,7 +1375,7 @@ answer:"Constant motion"
 // tricky
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"C",
 level:"hard",
 question:"Law 2 fails when:",
@@ -1385,7 +1385,7 @@ answer:"Never"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"C",
 level:"hard",
 question:"More force → acceleration:",
@@ -1395,7 +1395,7 @@ answer:"More"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"D",
 level:"hard",
 question:"Laws apply in:",
@@ -1405,7 +1405,7 @@ answer:"Both"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"C",
 level:"hard",
 question:"Which law explains rocket motion?",
@@ -1415,7 +1415,7 @@ answer:"3"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"C",
 level:"hard",
 question:"Mass increases → acceleration:",
@@ -1425,7 +1425,7 @@ answer:"Decrease"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"D",
 level:"hard",
 question:"Which law is default state?",
@@ -1435,7 +1435,7 @@ answer:"1"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"C",
 level:"hard",
 question:"Which law explains change?",
@@ -1445,7 +1445,7 @@ answer:"2"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"C",
 level:"hard",
 question:"Which law explains pairs?",
@@ -1455,7 +1455,7 @@ answer:"3"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"D",
 level:"hard",
 question:"Net force causes:",
@@ -1465,7 +1465,7 @@ answer:"Acceleration"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"C",
 level:"hard",
 question:"Balanced forces give:",
@@ -1475,7 +1475,7 @@ answer:"No change"
 
 {
 topic:"laws",
-image:"11-summary",
+image:"11-newtons-laws-summary-map",
 criterion:"D",
 level:"hard",
 question:"Unbalanced forces cause:",
@@ -1487,7 +1487,7 @@ answer:"Motion change"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"A",
 level:"easy",
 question:"Friction opposes:",
@@ -1497,7 +1497,7 @@ answer:"Motion"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"B",
 level:"medium",
 question:"Static friction acts when:",
@@ -1507,7 +1507,7 @@ answer:"At rest"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"B",
 level:"medium",
 question:"Kinetic friction acts when:",
@@ -1517,7 +1517,7 @@ answer:"Sliding"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"C",
 level:"hard",
 question:"Which is highest?",
@@ -1528,7 +1528,7 @@ answer:"Static"
 // numerical
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"C",
 level:"hard",
 question:"Normal force doubles → friction:",
@@ -1538,7 +1538,7 @@ answer:"Doubles"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"C",
 level:"hard",
 question:"Smooth surface has:",
@@ -1548,7 +1548,7 @@ answer:"Less friction"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"D",
 level:"hard",
 question:"Lubrication:",
@@ -1559,7 +1559,7 @@ answer:"Reduces friction"
 // tricky
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"C",
 level:"hard",
 question:"Friction direction is:",
@@ -1569,7 +1569,7 @@ answer:"Opposite motion"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"C",
 level:"hard",
 question:"Fluid friction depends on:",
@@ -1579,7 +1579,7 @@ answer:"All"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"D",
 level:"hard",
 question:"Walking requires:",
@@ -1589,7 +1589,7 @@ answer:"Static friction"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"C",
 level:"hard",
 question:"Friction is useful in:",
@@ -1599,7 +1599,7 @@ answer:"All"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"D",
 level:"hard",
 question:"Friction is harmful in:",
@@ -1609,7 +1609,7 @@ answer:"All"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"C",
 level:"hard",
 question:"Speed increases → friction:",
@@ -1619,7 +1619,7 @@ answer:"Increases (fluid)"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"C",
 level:"hard",
 question:"Maximum static friction is:",
@@ -1629,7 +1629,7 @@ answer:"Variable"
 
 {
 topic:"friction",
-image:"12-friction",
+image:"12-types-of-friction",
 criterion:"D",
 level:"hard",
 question:"No friction → walking:",
@@ -1640,7 +1640,7 @@ answer:"Impossible"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"A",
 level:"easy",
 question:"Friction between tyres and road provides:",
@@ -1650,7 +1650,7 @@ answer:"Grip"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"B",
 level:"medium",
 question:"Which helps vehicles turn safely?",
@@ -1660,7 +1660,7 @@ answer:"Friction"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"C",
 level:"hard",
 question:"Brakes convert kinetic energy into:",
@@ -1671,7 +1671,7 @@ answer:"Heat"
 // numerical thinking
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"C",
 level:"hard",
 question:"If speed doubles, braking distance (due to friction) will:",
@@ -1681,7 +1681,7 @@ answer:"Quadruple"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"D",
 level:"hard",
 question:"Wet roads reduce friction because:",
@@ -1691,7 +1691,7 @@ answer:"Add lubrication"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"C",
 level:"hard",
 question:"Tyre pressure too low leads to:",
@@ -1701,7 +1701,7 @@ answer:"Less grip"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"D",
 level:"hard",
 question:"Why off-road tyres have deep treads?",
@@ -1711,7 +1711,7 @@ answer:"More grip"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"C",
 level:"hard",
 question:"Higher temperature in brakes causes:",
@@ -1722,7 +1722,7 @@ answer:"Brake failure"
 // tricky
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"D",
 level:"hard",
 question:"Friction always helps motion:",
@@ -1732,7 +1732,7 @@ answer:"False"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"C",
 level:"hard",
 question:"Rolling resistance reduces:",
@@ -1742,7 +1742,7 @@ answer:"Fuel efficiency"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"C",
 level:"hard",
 question:"Braking force depends on:",
@@ -1752,7 +1752,7 @@ answer:"All"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"D",
 level:"hard",
 question:"ABS system prevents:",
@@ -1762,7 +1762,7 @@ answer:"Skidding"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"C",
 level:"hard",
 question:"Friction is maximum when:",
@@ -1772,7 +1772,7 @@ answer:"Dry surface"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"C",
 level:"hard",
 question:"Tyres lose grip due to:",
@@ -1782,7 +1782,7 @@ answer:"All"
 
 {
 topic:"friction",
-image:"13-real-life",
+image:"13-friction-in-real-life",
 criterion:"D",
 level:"hard",
 question:"Too much friction causes:",
@@ -1794,7 +1794,7 @@ answer:"Wear & heat"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"A",
 level:"easy",
 question:"Air resistance acts:",
@@ -1804,7 +1804,7 @@ answer:"Opposite motion"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"B",
 level:"medium",
 question:"Drag increases with:",
@@ -1814,7 +1814,7 @@ answer:"Speed"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"C",
 level:"hard",
 question:"Drag force formula depends on:",
@@ -1825,7 +1825,7 @@ answer:"v²"
 // numerical conceptual
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"C",
 level:"hard",
 question:"If speed doubles, drag becomes:",
@@ -1835,7 +1835,7 @@ answer:"4x"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"C",
 level:"hard",
 question:"Terminal velocity occurs when:",
@@ -1845,7 +1845,7 @@ answer:"Weight = drag"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"D",
 level:"hard",
 question:"Which reduces drag?",
@@ -1855,7 +1855,7 @@ answer:"Streamlining"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"C",
 level:"hard",
 question:"Parachutes work because:",
@@ -1865,7 +1865,7 @@ answer:"Increase drag"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"C",
 level:"hard",
 question:"Free fall without air:",
@@ -1876,7 +1876,7 @@ answer:"Accelerating"
 // tricky
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"D",
 level:"hard",
 question:"At terminal velocity:",
@@ -1886,7 +1886,7 @@ answer:"Acceleration zero"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"C",
 level:"hard",
 question:"Large surface area → drag:",
@@ -1896,7 +1896,7 @@ answer:"Increase"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"C",
 level:"hard",
 question:"Air density increases → drag:",
@@ -1906,7 +1906,7 @@ answer:"Increase"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"D",
 level:"hard",
 question:"Which falls fastest in air?",
@@ -1916,7 +1916,7 @@ answer:"Depends"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"C",
 level:"hard",
 question:"Drag is type of:",
@@ -1926,7 +1926,7 @@ answer:"Contact force"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"D",
 level:"hard",
 question:"If drag = weight, motion is:",
@@ -1936,7 +1936,7 @@ answer:"Constant speed"
 
 {
 topic:"drag",
-image:"14-drag",
+image:"14-air-resistance-and-drag",
 criterion:"C",
 level:"hard",
 question:"Aircraft reduce drag by:",
@@ -1948,7 +1948,7 @@ answer:"Smooth design"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"A",
 level:"easy",
 question:"Heavier objects fall faster is:",
@@ -1958,7 +1958,7 @@ answer:"False"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"B",
 level:"medium",
 question:"Without air resistance:",
@@ -1968,7 +1968,7 @@ answer:"Same acceleration"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"C",
 level:"hard",
 question:"Difference in falling speed is due to:",
@@ -1979,7 +1979,7 @@ answer:"Drag"
 // tricky
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"D",
 level:"hard",
 question:"In vacuum, feather and stone:",
@@ -1989,7 +1989,7 @@ answer:"Same speed"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"C",
 level:"hard",
 question:"Terminal velocity depends on:",
@@ -1999,7 +1999,7 @@ answer:"All"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"C",
 level:"hard",
 question:"Friction always stops motion:",
@@ -2009,7 +2009,7 @@ answer:"False"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"D",
 level:"hard",
 question:"More friction always better:",
@@ -2019,7 +2019,7 @@ answer:"Depends"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"C",
 level:"hard",
 question:"Drag increases with:",
@@ -2029,7 +2029,7 @@ answer:"All"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"D",
 level:"hard",
 question:"Feather falls slower because:",
@@ -2039,7 +2039,7 @@ answer:"More drag"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"C",
 level:"hard",
 question:"In air, heavier object falls faster because:",
@@ -2049,7 +2049,7 @@ answer:"Less drag effect"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"D",
 level:"hard",
 question:"Terminal velocity means:",
@@ -2059,7 +2059,7 @@ answer:"Constant speed"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"C",
 level:"hard",
 question:"Net force at terminal velocity:",
@@ -2069,7 +2069,7 @@ answer:"Zero"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"D",
 level:"hard",
 question:"Acceleration at terminal velocity:",
@@ -2079,7 +2079,7 @@ answer:"Zero"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"C",
 level:"hard",
 question:"Which falls slowest?",
@@ -2089,7 +2089,7 @@ answer:"Large area"
 
 {
 topic:"misconception",
-image:"15-misconception2",
+image:"15-misconception-2",
 criterion:"D",
 level:"hard",
 question:"Correct statement:",
@@ -2101,7 +2101,7 @@ answer:"Both"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"A",
 level:"easy",
 question:"Terminal velocity is when:",
@@ -2111,7 +2111,7 @@ answer:"Acceleration zero"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"B",
 level:"medium",
 question:"At terminal velocity, net force:",
@@ -2121,7 +2121,7 @@ answer:"Zero"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"C",
 level:"hard",
 question:"Drag force depends on:",
@@ -2132,7 +2132,7 @@ answer:"v²"
 // numerical
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"C",
 level:"hard",
 question:"If speed doubles, drag becomes:",
@@ -2142,7 +2142,7 @@ answer:"4x"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"C",
 level:"hard",
 question:"At terminal velocity:",
@@ -2152,7 +2152,7 @@ answer:"Drag = weight"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"D",
 level:"hard",
 question:"Acceleration during fall:",
@@ -2162,7 +2162,7 @@ answer:"Decreases"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"C",
 level:"hard",
 question:"Large parachute → terminal velocity:",
@@ -2172,7 +2172,7 @@ answer:"Decrease"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"C",
 level:"hard",
 question:"Heavier object → terminal velocity:",
@@ -2183,7 +2183,7 @@ answer:"Higher"
 // tricky
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"D",
 level:"hard",
 question:"Terminal velocity means:",
@@ -2193,7 +2193,7 @@ answer:"Constant speed"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"C",
 level:"hard",
 question:"In vacuum terminal velocity:",
@@ -2203,7 +2203,7 @@ answer:"Does not exist"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"C",
 level:"hard",
 question:"Acceleration becomes zero because:",
@@ -2213,7 +2213,7 @@ answer:"Forces balance"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"D",
 level:"hard",
 question:"Shape affects terminal velocity:",
@@ -2223,7 +2223,7 @@ answer:"Yes"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"C",
 level:"hard",
 question:"Velocity-time graph becomes:",
@@ -2233,7 +2233,7 @@ answer:"Curve flattening"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"D",
 level:"hard",
 question:"If drag suddenly increases:",
@@ -2243,7 +2243,7 @@ answer:"Speed decreases"
 
 {
 topic:"terminal velocity",
-image:"16-terminal",
+image:"16-terminal-velocity",
 criterion:"C",
 level:"hard",
 question:"At start of fall:",
@@ -2254,7 +2254,7 @@ answer:"Drag zero"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"A",
 level:"easy",
 question:"Weight depends on:",
@@ -2264,7 +2264,7 @@ answer:"Both"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"B",
 level:"medium",
 question:"Mass is:",
@@ -2274,7 +2274,7 @@ answer:"Scalar"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"C",
 level:"hard",
 question:"Weight is:",
@@ -2285,7 +2285,7 @@ answer:"Vector"
 // numerical
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"C",
 level:"hard",
 question:"A 10 kg object on Earth has weight:",
@@ -2295,7 +2295,7 @@ answer:"98 N"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"C",
 level:"hard",
 question:"Same object on Moon (g = 1.6):",
@@ -2305,7 +2305,7 @@ answer:"16 N"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"D",
 level:"hard",
 question:"Mass changes when taken to Moon:",
@@ -2316,7 +2316,7 @@ answer:"No"
 // tricky
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"D",
 level:"hard",
 question:"Weight becomes zero in space:",
@@ -2326,7 +2326,7 @@ answer:"False"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"C",
 level:"hard",
 question:"Unit of gravitational field strength:",
@@ -2336,7 +2336,7 @@ answer:"N/kg"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"C",
 level:"hard",
 question:"If g doubles, weight:",
@@ -2346,7 +2346,7 @@ answer:"Doubles"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"C",
 level:"hard",
 question:"Weight formula:",
@@ -2356,7 +2356,7 @@ answer:"W=mg"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"D",
 level:"hard",
 question:"On Jupiter, weight is:",
@@ -2366,7 +2366,7 @@ answer:"More"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"C",
 level:"hard",
 question:"Mass unit:",
@@ -2376,7 +2376,7 @@ answer:"kg"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"D",
 level:"hard",
 question:"Weight direction:",
@@ -2386,7 +2386,7 @@ answer:"Downward"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"C",
 level:"hard",
 question:"If mass = 0:",
@@ -2396,7 +2396,7 @@ answer:"Weight zero"
 
 {
 topic:"gravity",
-image:"17-gravity",
+image:"17-gravity-and-weight",
 criterion:"D",
 level:"hard",
 question:"Weight depends on:",
@@ -2408,7 +2408,7 @@ answer:"All"
 
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"A",
 level:"easy",
 question:"Gravitational force is:",
@@ -2418,7 +2418,7 @@ answer:"Attractive"
 
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"B",
 level:"medium",
 question:"Force acts along:",
@@ -2429,7 +2429,7 @@ answer:"Center line"
 // conceptual + numerical
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"C",
 level:"hard",
 question:"If distance doubles, force becomes:",
@@ -2439,7 +2439,7 @@ answer:"1/4"
 
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"C",
 level:"hard",
 question:"If mass doubles, force:",
@@ -2449,7 +2449,7 @@ answer:"Double"
 
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"D",
 level:"hard",
 question:"Gravitational force exists:",
@@ -2459,7 +2459,7 @@ answer:"Everywhere"
 
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"C",
 level:"hard",
 question:"Force depends on:",
@@ -2470,7 +2470,7 @@ answer:"Both"
 // tricky
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"D",
 level:"hard",
 question:"Gravity becomes zero far away:",
@@ -2480,7 +2480,7 @@ answer:"Almost zero"
 
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"C",
 level:"hard",
 question:"Force between objects increases if:",
@@ -2490,7 +2490,7 @@ answer:"Mass increases"
 
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"C",
 level:"hard",
 question:"Earth pulls object and object pulls Earth:",
@@ -2500,7 +2500,7 @@ answer:"True"
 
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"D",
 level:"hard",
 question:"Which has strongest gravity?",
@@ -2510,7 +2510,7 @@ answer:"Jupiter"
 
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"C",
 level:"hard",
 question:"Gravitational force is:",
@@ -2520,7 +2520,7 @@ answer:"Non-contact"
 
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"D",
 level:"hard",
 question:"If distance → very large:",
@@ -2530,7 +2530,7 @@ answer:"Force decreases"
 
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"C",
 level:"hard",
 question:"Gravity responsible for:",
@@ -2540,7 +2540,7 @@ answer:"All"
 
 {
 topic:"gravitation",
-image:"18-grav-force",
+image:"18-gravitational-force",
 criterion:"D",
 level:"hard",
 question:"Stronger pull occurs when:",
@@ -2552,7 +2552,7 @@ answer:"Both"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"A",
 level:"easy",
 question:"Pressure =",
@@ -2562,7 +2562,7 @@ answer:"F/A"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"B",
 level:"medium",
 question:"Unit of pressure:",
@@ -2573,7 +2573,7 @@ answer:"Pa"
 // numerical
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"C",
 level:"hard",
 question:"Force 100 N on 2 m² → pressure:",
@@ -2583,7 +2583,7 @@ answer:"50 Pa"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"C",
 level:"hard",
 question:"Area decreases → pressure:",
@@ -2593,7 +2593,7 @@ answer:"Increase"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"D",
 level:"hard",
 question:"Sharp knife cuts because:",
@@ -2604,7 +2604,7 @@ answer:"Less area"
 // tricky
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"D",
 level:"hard",
 question:"Wide tyres reduce pressure:",
@@ -2614,7 +2614,7 @@ answer:"True"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"C",
 level:"hard",
 question:"Pressure depends on:",
@@ -2624,7 +2624,7 @@ answer:"Both"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"C",
 level:"hard",
 question:"If force doubles, pressure:",
@@ -2634,7 +2634,7 @@ answer:"Double"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"C",
 level:"hard",
 question:"High heels sink because:",
@@ -2644,7 +2644,7 @@ answer:"High pressure"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"D",
 level:"hard",
 question:"Snow shoes work because:",
@@ -2654,7 +2654,7 @@ answer:"More area"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"C",
 level:"hard",
 question:"Pressure increases when:",
@@ -2664,7 +2664,7 @@ answer:"Force increases"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"D",
 level:"hard",
 question:"If both force and area double:",
@@ -2674,7 +2674,7 @@ answer:"Same"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"C",
 level:"hard",
 question:"Bulldozer has large tracks to:",
@@ -2684,7 +2684,7 @@ answer:"Decrease pressure"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"D",
 level:"hard",
 question:"Pressure is highest when:",
@@ -2694,7 +2694,7 @@ answer:"Small area"
 
 {
 topic:"pressure",
-image:"19-solids",
+image:"19-pressure-in-solids",
 criterion:"C",
 level:"hard",
 question:"Pressure is:",
