@@ -28,7 +28,7 @@ if (image) {
   // First: try exact match on both topic AND image
   filtered = safeQuestionBank.filter(q => q.topic === topic && q.image === image);
 
-  // If nothing found, match by image ONLY (image names are unique across bank)
+  // If nothing found, match by image ONLY (image names are unique)
   if (filtered.length === 0) {
     filtered = safeQuestionBank.filter(q => q.image === image);
   }
@@ -38,12 +38,12 @@ if (image) {
 }
 
 // ===============================
-// UPDATE TITLE
+// UPDATE TITLE WITH IMAGE NAME
 // ===============================
 const titleEl = document.getElementById("title");
 if (titleEl && image) {
   const prettyName = image.replace(/^\d+-/, '').replace(/-/g, ' ');
-  titleEl.textContent = "\u{1F9E0} " + prettyName.charAt(0).toUpperCase() + prettyName.slice(1);
+  titleEl.textContent = "🧠 " + prettyName.charAt(0).toUpperCase() + prettyName.slice(1);
 }
 
 // ===============================
@@ -54,7 +54,7 @@ function shuffle(arr) {
 }
 
 // ===============================
-// PREPARE QUESTIONS (up to 10, or however many exist)
+// PREPARE QUESTIONS (up to 10, or however many exist for this image)
 // ===============================
 let questions = shuffle(filtered).slice(0, 10).map(q => {
   const shuffledOptions = shuffle(q.options);
@@ -141,7 +141,7 @@ function showSummary() {
   box.style.display = "block";
 
   const pct = Math.round(score / questions.length * 100);
-  const emoji = pct >= 80 ? "\u{1F3C6}" : pct >= 60 ? "\u{1F44F}" : pct >= 40 ? "\u{1F4AA}" : "\u{1F4D6}";
+  const emoji = pct >= 80 ? "🏆" : pct >= 60 ? "👏" : pct >= 40 ? "💪" : "📖";
 
   let html = `<h2>${emoji} Quiz Completed</h2>`;
   html += `<h3 style="text-align:center;margin-bottom:20px;">Score: ${score} / ${questions.length} (${pct}%)</h3>`;
