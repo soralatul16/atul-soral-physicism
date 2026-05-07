@@ -6,7 +6,7 @@ const topic = params.get("topic") || "waves";
 const image = params.get("image") || "";
 
 // ===============================
-// SAFE COPY (DO NOT MODIFY ORIGINAL)
+// SAFE COPY
 // ===============================
 const safeQuestionBank = questionBank.map(q => ({
   topic: q.topic || "general",
@@ -20,20 +20,25 @@ const safeQuestionBank = questionBank.map(q => ({
 }));
 
 // ===============================
-// FILTER QUESTIONS
+// FILTER QUESTIONS — IMAGE-SPECIFIC ONLY
 // ===============================
-let filtered = safeQuestionBank.filter(q =>
-  q.topic === topic && q.image === image
-);
+let filtered;
+
+if (image) {
+  // If an image is specified, ONLY use questions tagged to that image
+  filtered = safeQuestionBank.filter(q => q.topic === topic && q.image === image);
+} else {
+  // No image specified — use all questions from the topic
+  filtered = safeQuestionBank.filter(q => q.topic === topic);
+}
 
 // ===============================
-// FALLBACK (IF LESS QUESTIONS)
+// UPDATE TITLE
 // ===============================
-if (filtered.length < 10) {
-  filtered = [
-    ...filtered,
-    ...safeQuestionBank.filter(q => q.topic === topic)
-  ];
+const titleEl = document.getElementById("title");
+if (titleEl && image) {
+  const prettyName = image.replace(/^\d+-/, '').replace(/-/g, ' ');
+  titleEl.textContent = "🧠 " + prettyName.charAt(0).toUpperCase() + prettyName.slice(1);
 }
 
 // ===============================
@@ -44,7 +49,7 @@ function shuffle(arr) {
 }
 
 // ===============================
-// PREPARE QUESTIONS
+// PREPARE QUESTIONS (up to 10, or however many exist)
 // ===============================
 let questions = shuffle(filtered).slice(0, 10).map(q => {
   const shuffledOptions = shuffle(q.options);
@@ -67,8 +72,12 @@ let selected = null;
 // LOAD QUESTION
 // ===============================
 function loadQuestion() {
+  if (questions.length === 0) {
+    document.getElementById("quiz-area").innerHTML =
+      '<div style="text-align:center;padding:30px;color:#cbd5f5;">No questions available for this infographic yet.</div>';
+    return;
+  }
   const q = questions[index];
-
   document.getElementById("question").innerText = q.question;
 
   let html = "";
@@ -77,7 +86,6 @@ function loadQuestion() {
   });
 
   document.getElementById("options").innerHTML = html;
-
   document.getElementById("progress").innerText =
     `Question ${index + 1} of ${questions.length}`;
 }
@@ -87,11 +95,9 @@ function loadQuestion() {
 // ===============================
 function selectOption(i, element) {
   selected = i;
-
   document.querySelectorAll(".option").forEach(opt => {
     opt.classList.remove("selected");
   });
-
   element.classList.add("selected");
 }
 
@@ -129,35 +135,57 @@ function showSummary() {
   const box = document.getElementById("summary-area");
   box.style.display = "block";
 
-  let html = `<h2>🎉 Quiz Completed</h2>`;
-  html += `<h3>Total Score: ${score} / ${questions.length}</h3><hr>`;
+  const pct = Math.round(score / questions.length * 100);
+  const emoji = pct >= 80 ? "🏆" : pct >= 60 ? "👏" : pct >= 40 ? "💪" : "📖";
+
+  let html = `<h2>${emoji} Quiz Completed</h2>`;
+  html += `<h3 style="text-align:center;margin-bottom:20px;">Score: ${score} / ${questions.length} (${pct}%)</h3>`;
+
+  // Progress bar
+  html += `<div style="background:#1e293b;border-radius:8px;height:12px;margin-bottom:20px;overflow:hidden;">
+    <div style="background:${pct>=70?'#22c55e':pct>=40?'#f59e0b':'#ef4444'};height:100%;width:${pct}%;border-radius:8px;transition:width 0.6s;"></div>
+  </div>`;
+
+  // Criterion breakdown
+  const critScore = {A:0,B:0,C:0,D:0};
+  const critTotal = {A:0,B:0,C:0,D:0};
+  userAnswers.forEach(item => {
+    const c = item.question.criterion || "A";
+    critTotal[c]++;
+    if (item.question.options[item.selected] === item.question.answer) critScore[c]++;
+  });
+  html += `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;">`;
+  ["A","B","C","D"].forEach(c => {
+    const cp = critTotal[c] > 0 ? Math.round(critScore[c]/critTotal[c]*100) : 0;
+    html += `<div style="background:#1e293b;border-radius:8px;padding:10px;text-align:center;">
+      <div style="font-size:18px;font-weight:bold;color:#ef4444;">Crit ${c}</div>
+      <div style="font-size:14px;color:#cbd5f5;">${critScore[c]}/${critTotal[c]}</div>
+      <div style="font-size:12px;color:#94a3b8;">${cp}%</div>
+    </div>`;
+  });
+  html += `</div><hr style="border-color:#334155;margin:16px 0;">`;
 
   userAnswers.forEach((item, i) => {
     const q = item.question;
-    const correct = q.options[q.answerIndex];
+    const correct = q.answer;
     const selectedAns = q.options[item.selected];
-
     const isCorrect = selectedAns === correct;
 
     html += `
-    <div style="
-      margin-bottom:15px;
-      padding:10px;
-      border-radius:8px;
+    <div style="margin-bottom:15px;padding:14px;border-radius:8px;
       background:${isCorrect ? '#14532d' : '#7f1d1d'};
-    ">
+      border-left:3px solid ${isCorrect ? '#22c55e' : '#ef4444'};">
       <b>Q${i + 1}: ${q.question}</b><br>
-      Your Answer: ${selectedAns}<br>
-      Correct Answer: ${correct}<br>
-      <i>${q.explanation}</i>
-    </div>
-    `;
+      <span style="color:${isCorrect ? '#86efac' : '#fca5a5'};">Your Answer: ${selectedAns}</span><br>
+      ${!isCorrect ? `<span style="color:#86efac;">Correct: ${correct}</span><br>` : ''}
+      ${q.explanation ? `<i style="color:#94a3b8;font-size:13px;">${q.explanation}</i>` : ''}
+    </div>`;
   });
 
-  html += `<button class="next-btn" onclick="location.reload()">🔄 Retry</button>`;
+  html += `<button class="next-btn" onclick="location.reload()">🔄 Retry This Quiz</button>`;
+  html += `<button class="next-btn" onclick="history.back()" style="background:#334155;margin-top:10px;">← Back to Infographics</button>`;
 
   box.innerHTML = html;
-
   window.scrollTo(0, 0);
 }
 
