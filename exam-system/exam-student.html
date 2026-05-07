@@ -604,13 +604,40 @@ function renderQ(idx) {
   currentQIdx=Math.max(0,Math.min(idx,qBlocks.length-1));
   document.getElementById("qProgress").textContent=`Q${currentQIdx+1} of ${qBlocks.length}`;
   const q=qBlocks[currentQIdx];
-  document.getElementById("attemptContent").innerHTML=`
+
+  // Find content blocks in the same section that come before this question
+  let contentHTML = '';
+  if(currentSet){
+    const allSavedBlocks = (currentSet.blocks||[]).filter(b=>b.saved);
+    const qGlobalIdx = allSavedBlocks.indexOf(allSavedBlocks.filter(b=>b.mode==='question')[currentQIdx]);
+    // Look backwards for content blocks in same section
+    for(let ci=qGlobalIdx-1; ci>=0; ci--){
+      const cb = allSavedBlocks[ci];
+      if(!cb || cb.mode==='question') break; // stop at previous question
+      if(cb.mode==='content' && cb.sectionId===q.sectionId){
+        if(cb.type==='Text' && cb.data?.text){
+          contentHTML = `<div class="content-block"><div class="content-text">${cb.data.text}</div></div>` + contentHTML;
+        } else if(cb.type==='Image' && cb.data?.url){
+          contentHTML = `<div class="content-block"><img src="${cb.data.url}" style="max-width:100%;border-radius:8px;" onerror="this.style.display='none'"></div>` + contentHTML;
+        } else if(cb.type==='Video' && cb.data?.url){
+          const ytMatch = cb.data.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
+          if(ytMatch){
+            contentHTML = `<div class="content-block"><iframe width="100%" height="350" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen style="border-radius:8px;"></iframe></div>` + contentHTML;
+          } else {
+            contentHTML = `<div class="content-block"><video src="${cb.data.url}" controls style="max-width:100%;border-radius:8px;"></video></div>` + contentHTML;
+          }
+        }
+      }
+    }
+  }
+
+  document.getElementById("attemptContent").innerHTML= contentHTML + `
     <div class="question-block">
       <div class="q-header">
         <span class="q-label">Question ${currentQIdx+1} · ${q.type||"Open"}</span>
         <span class="q-marks">${q.meta?.marks?q.meta.marks+" marks":""}</span>
       </div>
-            <div class="q-text">${q.data?.question||q.data?.text||q.data?.fillText||"(No question text)"}</div>
+      <div class="q-text">${q.data?.question||q.data?.text||q.data?.fillText||"(No question text)"}</div>
       ${buildInput(q,currentQIdx)}
       <div class="q-controls">
         <button class="q-ctrl-btn ${currentAttempt.flags[currentQIdx]?"flagged":""}" onclick="flagQ()">
@@ -625,6 +652,7 @@ function renderQ(idx) {
     </div>`;
   renderQNav();
 }
+
 
 function buildInput(q,idx){
   const saved=currentAttempt.answers[idx];
