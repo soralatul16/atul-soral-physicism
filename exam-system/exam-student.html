@@ -728,16 +728,17 @@ function buildInput(q,idx){
     return tableHTML;
   }
 
-  if(t==="Fill Drop Down"){
+    if(t==="Fill Drop Down"){
     const fillText = q.data?.fillText || '';
     const options = (q.data?.options || '').split(',').map(o=>o.trim()).filter(Boolean);
+    if(!fillText) return `<p style="color:var(--text2);font-size:13px;">No fill text configured for this question.</p>`;
     const parts = fillText.split('[blank]');
-    let html = '<div style="font-size:14px;line-height:2;color:var(--text3);">';
+    let html = '<div style="font-size:14px;line-height:2.2;color:var(--text);padding:8px 0;">';
     parts.forEach((part,pi)=>{
       html += part;
       if(pi < parts.length-1){
-        html += `<select onchange="saveFillAns(${idx},${pi},this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:13px;margin:0 4px;">
-          <option value="">Select...</option>
+        html += `<select onchange="saveFillAns(${idx},${pi},this.value)" style="background:var(--surface2);border:1px solid var(--accent);border-radius:6px;padding:5px 10px;color:var(--text);font-size:13px;margin:0 4px;min-width:120px;">
+          <option value="">▼ Select</option>
           ${options.map(o=>`<option value="${o}" ${(saved&&saved[pi])===o?'selected':''}>${o}</option>`).join('')}
         </select>`;
       }
@@ -745,6 +746,7 @@ function buildInput(q,idx){
     html += '</div>';
     return html;
   }
+
   if(t==="Classify"){
     const cats = q.ui?.classifyCategories || [];
     const items = q.ui?.classifyItems || [];
