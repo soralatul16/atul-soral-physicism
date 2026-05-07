@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   MYP EXAM BUILDER — v2 with Sections + Per-Q Criteria
+   MYP EXAM BUILDER — v3 with All Question Types
    ═══════════════════════════════════════════════════ */
 
 let DB = JSON.parse(localStorage.getItem("MYP_DB")) || [];
@@ -11,7 +11,7 @@ let history = [];
 let pendingDeleteIdx = null;
 let pendingDeleteSectionId = null;
 
-/* ─── Quill-style simple rich text toolbar ─── */
+/* ─── Rich text toolbar ─── */
 function richTextToolbar(id) {
   return `
   <div class="rich-toolbar">
@@ -150,7 +150,7 @@ function addSection() {
   pushHistory();
   sectionCounter++;
   const newId = sectionCounter;
-  sections.push({ id: newId, name: 'Section ' + sections.length + 1 });
+  sections.push({ id: newId, name: 'Section ' + (sections.length + 1) });
   addBlock(newId);
 }
 
@@ -282,7 +282,7 @@ function render() {
     sections.forEach(sec => {
       const el = document.getElementById('section-blocks-' + sec.id);
       if (el) Sortable.create(el, { animation: 150, handle: '.block-header', ghostClass: 'sortable-ghost',
-        onEnd: () => { /* re-sync order if needed */ }
+        onEnd: () => {}
       });
     });
   } catch(e) {}
@@ -306,7 +306,6 @@ function renderInner(i) {
   if (b.ui.state === 'select') { el.innerHTML = b.mode === 'content' ? contentGrid(i) : questionGrid(i); return; }
   if (b.ui.state === 'edit')   { el.innerHTML = b.mode === 'content' ? contentEditorHTML(i) : questionEditorHTML(i); }
 
-  // Restore rich editor content after render
   if (b.ui.state === 'edit' && b.mode === 'question') {
     setTimeout(() => { setRichContent(`qprompt-${i}`, b.data.question || ''); }, 10);
   }
@@ -342,7 +341,7 @@ function renderSavedPreview(i) {
   return `<div class="saved-preview"><strong>${b.mode === 'content' ? '📄' : '❓'} ${b.type}</strong>${preview}</div>`;
 }
 
-/* ─── Structure View with Sections ─── */
+/* ─── Structure View ─── */
 function updateStructureView() {
   const el = document.getElementById('structureView');
   if (!el) return;
@@ -448,7 +447,6 @@ function questionEditorHTML(i) {
   const t = b.type;
   const qLabel = getQuestionLabel(i) || '?';
 
-  /* Rich question prompt */
   const qPrompt = `
     <div style="margin-bottom:4px;font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Question Q${qLabel}</div>
     ${richTextToolbar(`qprompt-${i}`)}
@@ -458,10 +456,8 @@ function questionEditorHTML(i) {
     </div>
     ${b.ui.hintOn?`<div class="hint-box"><textarea id="hint-${i}" placeholder="Hint for students…">${b.meta.hint||''}</textarea></div>`:''}`;
 
-  /* Criteria + marks strip */
   const critStrip = criteriaMarksStrip(i);
 
-  /* Meta strip (secondary details) */
   const metaStrip = `
     <div class="meta-strip">
       <div>
@@ -622,11 +618,9 @@ function questionEditorHTML(i) {
       <button class="sm-btn" onclick="addClassifyItem(${i})">+ Add Item</button>
       ${critStrip}${metaStrip}${markScheme}`;
 
-    } else if (t === 'Table') {
+  } else if (t === 'Table') {
     const rows = b.data.tableRows || 3;
     const cols = b.data.tableCols || 3;
-    const headers = b.data.tableHeaders || [];
-    const prefill = b.data.tablePrefill || [];
     body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Set up the table. Leave cells blank for students to fill in.</div>
       <div style="display:flex;gap:10px;margin-bottom:10px;">
@@ -639,7 +633,6 @@ function questionEditorHTML(i) {
       </div>
       <div id="tbl-preview-${i}" style="overflow-x:auto;"></div>
       ${critStrip}${metaStrip}${markScheme}`;
-    // Render table after DOM update
     setTimeout(() => updateTablePreview(i), 20);
 
   } else if (t === 'Drawing') {
@@ -650,14 +643,13 @@ function questionEditorHTML(i) {
       ${critStrip}${metaStrip}${markScheme}`;
 
   } else if (t === 'Label Drag' || t === 'Label Fill') {
-    const isDrag = t === 'Label Drag';
     body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Upload or link a diagram image:</div>
       <input type="url" id="ld-img-${i}" placeholder="Image URL for diagram…" value="${b.data.imageUrl||''}">
       <input type="text" id="ld-labels-${i}" placeholder="Labels (comma separated): e.g. Nucleus, Cell Wall" value="${b.data.labels||''}">
       ${critStrip}${metaStrip}${markScheme}`;
 
-    } else if (t === 'Desmos Graph') {
+  } else if (t === 'Desmos Graph') {
     body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Students will see a live Desmos calculator. Optionally pre-load an expression:</div>
       <input type="text" id="graph-prefill-${i}" placeholder="Default expression e.g. y=x^2 (optional)" value="${b.data.prefill||''}">
@@ -677,7 +669,6 @@ function questionEditorHTML(i) {
       </div>
       ${critStrip}${metaStrip}${markScheme}`;
 
-
   } else {
     body = `${qPrompt}${critStrip}${metaStrip}${markScheme}`;
   }
@@ -692,7 +683,7 @@ function questionEditorHTML(i) {
   </div>`;
 }
 
-/* ─── MCQ helpers ─── */
+/* ─── Helpers ─── */
 function addOption(i) { if (blocks[i].ui.mcqOptions.length >= 8) return; blocks[i].ui.mcqOptions.push(''); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
 function removeOption(i, oi) { blocks[i].ui.mcqOptions.splice(oi, 1); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
 function setTF(i, val) { blocks[i].ui.tfAnswer = val; renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
@@ -701,6 +692,11 @@ function addSortItem(i) { blocks[i].ui.sortItems.push(''); renderInner(i); setTi
 function removeSortItem(i, si) { blocks[i].ui.sortItems.splice(si, 1); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
 function addCat(i) { blocks[i].ui.classifyCategories.push(''); renderInner(i); }
 function removeCat(i, ci) { blocks[i].ui.classifyCategories.splice(ci, 1); renderInner(i); }
+function addClassifyItem(i) { blocks[i].ui.classifyItems.push(''); renderInner(i); }
+function removeClassifyItem(i, ii2) { blocks[i].ui.classifyItems.splice(ii2, 1); renderInner(i); }
+function toggleHint(i) { blocks[i].ui.hintOn = !blocks[i].ui.hintOn; const q = getRichContent(`qprompt-${i}`); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,q),10); }
+
+/* ─── Table helper ─── */
 function updateTablePreview(i) {
   const rows = Number(document.getElementById('tbl-rows-' + i)?.value || 3);
   const cols = Number(document.getElementById('tbl-cols-' + i)?.value || 3);
@@ -708,7 +704,6 @@ function updateTablePreview(i) {
   const headers = b.data.tableHeaders || [];
   const prefill = b.data.tablePrefill || [];
   let html = '<table style="width:100%;border-collapse:collapse;">';
-  // Header row
   html += '<tr>';
   for (let c = 0; c < cols; c++) {
     html += `<th style="border:1px solid var(--border);padding:6px 8px;background:rgba(224,48,48,0.08);">
@@ -717,7 +712,6 @@ function updateTablePreview(i) {
     </th>`;
   }
   html += '</tr>';
-  // Data rows
   for (let r = 0; r < rows; r++) {
     html += '<tr>';
     for (let c = 0; c < cols; c++) {
@@ -734,10 +728,6 @@ function updateTablePreview(i) {
   if (el) el.innerHTML = html;
 }
 
-function addClassifyItem(i) { blocks[i].ui.classifyItems.push(''); renderInner(i); }
-function removeClassifyItem(i, ii2) { blocks[i].ui.classifyItems.splice(ii2, 1); renderInner(i); }
-function toggleHint(i) { blocks[i].ui.hintOn = !blocks[i].ui.hintOn; const q = getRichContent(`qprompt-${i}`); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,q),10); }
-
 /* ─── Save block ─── */
 function saveBlock(i) {
   const b = blocks[i];
@@ -745,7 +735,7 @@ function saveBlock(i) {
 
   const pick = (id) => { const el = document.getElementById(id); return el ? el.value : ''; };
 
-  // Criteria + marks from new strip
+  // Criteria + marks
   b.meta.criterion  = pick(`qcrit-${i}`);
   b.meta.strand     = pick(`qstrand-${i}`);
   b.meta.marks      = pick(`qmarks-${i}`);
@@ -766,7 +756,6 @@ function saveBlock(i) {
     else if (t === 'Accordion') { b.data.title = pick(`ca-title-${i}`); b.data.body = pick(`ca-body-${i}`); }
     else { b.data.url = pick(`cu-url-${i}`) || pick(`cu-drive-${i}`); }
   } else {
-    // Get rich text content
     b.data.question = getRichContent(`qprompt-${i}`);
 
     if (t === 'MCQ') {
@@ -791,10 +780,9 @@ function saveBlock(i) {
     } else if (t === 'Long Answer') {
       b.data.wordLimit = pick(`la-wl-${i}`);
       b.data.format = pick(`la-fmt-${i}`);
-        } else if (t === 'Desmos Graph' || t === 'GeoGebra Graph') {
+    } else if (t === 'Desmos Graph' || t === 'GeoGebra Graph') {
       b.data.prefill = pick(`graph-prefill-${i}`);
       b.data.graphInstructions = pick(`graph-instructions-${i}`);
-
     } else if (t === 'Label Drag' || t === 'Label Fill') {
       b.data.imageUrl = pick(`ld-img-${i}`);
       b.data.labels = pick(`ld-labels-${i}`);
@@ -802,20 +790,6 @@ function saveBlock(i) {
       b.ui.sortItems = b.ui.sortItems.map((_, si) => pick(`sort-${i}-${si}`));
     } else if (t === 'True / False') {
       b.data.explanation = pick(`tf-exp-${i}`);
-    }
-  }
-
-  b.saved = true;
-  b.ui.state = 'saved';
-  render();
-}
-
-function cancelEdit(i) {
-  blocks[i].ui.state = 'select';
-  blocks[i].type = null;
-  blocks[i].saved = false;
-  render();
-}
     } else if (t === 'Table') {
       const rows = Number(pick(`tbl-rows-${i}`) || 3);
       const cols = Number(pick(`tbl-cols-${i}`) || 3);
@@ -832,7 +806,20 @@ function cancelEdit(i) {
           b.data.tablePrefill[r].push(pick(`td-${i}-${r}-${c}`));
         }
       }
+    }
+  }
 
+  b.saved = true;
+  b.ui.state = 'saved';
+  render();
+}
+
+function cancelEdit(i) {
+  blocks[i].ui.state = 'select';
+  blocks[i].type = null;
+  blocks[i].saved = false;
+  render();
+}
 
 /* ─── Save all ─── */
 function saveAll() {
@@ -845,11 +832,13 @@ function saveAll() {
   let library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
 
   const pick = id => { const el = document.getElementById(id); return el ? el.value : ''; };
-  const heading   = pick('ms-heading')  || 'Untitled';
-  const chapter   = pick('ms-chapter')  || '';
-  const topic     = pick('ms-topic')    || '';
-  const gc        = pick('ms-gc')       || '';
-  const atl       = pick('ms-atl')      || '';
+  const heading    = pick('ms-heading')  || 'Untitled';
+  const chapter    = pick('ms-chapter')  || '';
+  const topic      = pick('ms-topic')    || '';
+  const gc         = pick('ms-gc')       || '';
+  const atl        = pick('ms-atl')      || '';
+  const timeLimit  = Number(pick('ms-timelimit')) || 0;
+  const autoSubmit = pick('ms-autosubmit') || 'yes';
 
   const savedBlocks = JSON.parse(JSON.stringify(blocks));
   const savedSections = JSON.parse(JSON.stringify(sections));
@@ -864,7 +853,7 @@ function saveAll() {
     const old = library[existingIdx];
     library[existingIdx] = {
       ...old,
-      heading, chapter, topic, gc, atl,
+      heading, chapter, topic, gc, atl, timeLimit, autoSubmit,
       blocks: savedBlocks,
       sections: savedSections,
       totalMarks,
@@ -872,13 +861,12 @@ function saveAll() {
       updatedAt: Date.now(),
       status: old.status || 'Draft'
     };
-    // Show styled success popup
     showSaveSuccess(`✅ Question set updated in Library! (Version ${library[existingIdx].version})\n\nSet: "${heading}"\nStatus: ${library[existingIdx].status}`, library[existingIdx].status);
   } else {
     const newSet = {
       id: 'qs_' + Date.now(),
       version: 1, status: 'Draft',
-      heading, chapter, topic, gc, atl,
+      heading, chapter, topic, gc, atl, timeLimit, autoSubmit,
       blocks: savedBlocks,
       sections: savedSections,
       totalMarks,
@@ -896,7 +884,6 @@ function saveAll() {
 }
 
 function showSaveSuccess(msg, status) {
-  // Create a styled notification instead of plain alert
   const existing = document.getElementById('save-toast');
   if (existing) existing.remove();
   const toast = document.createElement('div');
@@ -908,7 +895,6 @@ function showSaveSuccess(msg, status) {
     z-index:9999;box-shadow:0 8px 40px rgba(0,0,0,0.6);
     font-family:'DM Sans',sans-serif;color:#f0e6e6;animation:toastIn 0.3s ease;
     text-align:center;`;
-  const statusColor = status === 'Published' ? '#27ae60' : '#d29922';
   toast.innerHTML = `
     <div style="font-size:28px;margin-bottom:10px;">📚</div>
     <div style="font-size:16px;font-weight:700;color:#27ae60;margin-bottom:8px;">Saved to Library!</div>
