@@ -7,7 +7,7 @@
 <style>
 body{
   margin:0;
-  font-family:Arial;
+  font-family:Arial,sans-serif;
   background: linear-gradient(rgba(0,0,0,0.58), rgba(15,23,42,0.85)),
     url('../exam-system/assets/myp-background-image.png') center/cover fixed;
   color:#ffffff;
@@ -94,6 +94,69 @@ h2{
   font-size:14px;
   color:#cbd5f5;
 }
+
+/* ===== FEEDBACK WIDGET ===== */
+#fb-trigger {
+  position: fixed; bottom: 28px; right: 28px; z-index: 9000;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg,#ef4444,#7f1d1d);
+  border: none; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(239,68,68,.5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  transition: transform .2s, box-shadow .2s;
+}
+#fb-trigger:hover { transform:scale(1.12); box-shadow:0 6px 28px rgba(239,68,68,.7); }
+#fb-trigger.spinning { transform:rotate(90deg) scale(1.05); }
+
+#fb-panel {
+  position: fixed; bottom: 92px; right: 28px; z-index: 9000;
+  width: 310px;
+  background: #111;
+  border: 1px solid rgba(239,68,68,.3);
+  border-radius: 16px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.7);
+  transform: translateY(20px) scale(.96);
+  opacity: 0; pointer-events: none;
+  transition: transform .28s cubic-bezier(.22,.68,0,1.2), opacity .2s;
+}
+#fb-panel.open { transform:translateY(0) scale(1); opacity:1; pointer-events:all; }
+#fb-panel .fb-head {
+  background: linear-gradient(135deg,#ef4444,#7f1d1d);
+  padding: 13px 18px;
+  font-family: Arial, sans-serif;
+  font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+  color: white; display:flex; align-items:center; gap:8px;
+}
+#fb-panel .fb-body { padding:16px; display:flex; flex-direction:column; gap:11px; }
+#fb-panel .fb-page {
+  font-size:.7rem; color:rgba(255,255,255,.32);
+  background:rgba(255,255,255,.05); padding:5px 10px; border-radius:6px;
+  word-break:break-all; line-height:1.4;
+}
+#fb-panel input, #fb-panel textarea {
+  width:100%; background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12); border-radius:8px;
+  color:white; font-family:Arial,sans-serif; font-size:.86rem;
+  padding:9px 12px; resize:none; outline:none; transition:border-color .2s;
+  box-sizing:border-box;
+}
+#fb-panel input::placeholder, #fb-panel textarea::placeholder { color:rgba(255,255,255,.26); }
+#fb-panel input:focus, #fb-panel textarea:focus { border-color:rgba(239,68,68,.55); }
+#fb-panel textarea { height:88px; }
+#fb-panel .fb-send {
+  background:linear-gradient(135deg,#ef4444,#991b1b);
+  border:none; color:white; font-family:Arial,sans-serif;
+  font-size:.88rem; font-weight:600; padding:10px; border-radius:8px;
+  cursor:pointer; transition:opacity .2s,transform .15s;
+}
+#fb-panel .fb-send:hover { opacity:.88; transform:translateY(-1px); }
+#fb-panel .fb-send:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+#fb-panel .fb-status {
+  font-size:.78rem; text-align:center; min-height:16px; color:rgba(255,255,255,.45);
+}
+#fb-panel .fb-status.ok  { color:#4ade80; }
+#fb-panel .fb-status.err { color:#f87171; }
 </style>
 </head>
 <body>
@@ -115,13 +178,105 @@ h2{
   <div id="summary-area" style="display:none;margin-top:20px;"></div>
 </div>
 
+<!-- FEEDBACK WIDGET -->
+<button id="fb-trigger" title="Send feedback or report an error">💬</button>
+<div id="fb-panel">
+  <div class="fb-head">📬 &nbsp;Feedback / Correction</div>
+  <div class="fb-body">
+    <div class="fb-page" id="fb-page-url"></div>
+    <input id="fb-email" type="email" placeholder="Your email (optional — so I can reply)" autocomplete="email">
+    <textarea id="fb-message" placeholder="Found a mistake? Suggestion? Tell me here…"></textarea>
+    <button class="fb-send" id="fb-send-btn">Send Feedback</button>
+    <div class="fb-status" id="fb-status"></div>
+  </div>
+</div>
+
 <script src="./question-bank.js"></script>
 <script src="./quiz-engine.js"></script>
 
-<!-- Feedback widget -->
-<link rel="stylesheet" href="../../feedback.css">
+<!-- EmailJS SDK + Feedback Logic -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script src="../../feedback.js"></script>
+<script>
+/* ===== FEEDBACK WIDGET ===== */
+const FB = {
+  publicKey:  "YOUR_PUBLIC_KEY",
+  serviceID:  "YOUR_SERVICE_ID",
+  templateID: "YOUR_TEMPLATE_ID",
+};
+
+// Init EmailJS
+emailjs.init({ publicKey: FB.publicKey });
+
+document.getElementById("fb-page-url").textContent =
+  "📄 " + window.location.pathname + (window.location.search || "");
+
+const fbTrigger = document.getElementById("fb-trigger");
+const fbPanel   = document.getElementById("fb-panel");
+
+fbTrigger.addEventListener("click", e => {
+  e.stopPropagation();
+  const isOpen = fbPanel.classList.toggle("open");
+  fbTrigger.classList.toggle("spinning", isOpen);
+  fbTrigger.textContent = isOpen ? "✕" : "💬";
+  if(isOpen) setTimeout(()=>document.getElementById("fb-message").focus(), 250);
+});
+
+document.addEventListener("click", e => {
+  if(!fbPanel.contains(e.target) && e.target !== fbTrigger){
+    fbPanel.classList.remove("open");
+    fbTrigger.classList.remove("spinning");
+    fbTrigger.textContent = "💬";
+  }
+});
+
+document.getElementById("fb-send-btn").addEventListener("click", async () => {
+  const msg    = document.getElementById("fb-message").value.trim();
+  const email  = document.getElementById("fb-email").value.trim();
+  const status = document.getElementById("fb-status");
+  const btn    = document.getElementById("fb-send-btn");
+
+  if(!msg){
+    status.textContent = "Please write something first.";
+    status.className = "fb-status err";
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Sending…";
+  status.className = "fb-status";
+  status.textContent = "";
+
+  const params = {
+    page:    window.location.href,
+    message: msg,
+    email:   email || "(not provided)",
+    sent_at: new Date().toLocaleString("en-IN", {timeZone:"Asia/Kolkata"}),
+  };
+
+  try {
+    await emailjs.send(FB.serviceID, FB.templateID, params);
+    status.textContent = "✓ Sent! Thank you.";
+    status.className = "fb-status ok";
+    document.getElementById("fb-message").value = "";
+    document.getElementById("fb-email").value = "";
+    setTimeout(()=>{
+      fbPanel.classList.remove("open");
+      fbTrigger.classList.remove("spinning");
+      fbTrigger.textContent = "💬";
+      btn.disabled = false;
+      btn.textContent = "Send Feedback";
+      status.textContent = "";
+      status.className = "fb-status";
+    }, 2200);
+  } catch(err){
+    console.error(err);
+    status.textContent = "❌ Could not send — check your EmailJS config.";
+    status.className = "fb-status err";
+    btn.disabled = false;
+    btn.textContent = "Send Feedback";
+  }
+});
+</script>
 
 </body>
 </html>
