@@ -773,7 +773,7 @@ function buildInput(q,idx){
     </div>`;
   }
 
-    if(t==="Drawing"){
+      if(t==="Drawing"){
     const imgUrl = q.data?.drawingImage || '';
     const instr = q.data?.drawingInstructions || '';
     return `<div>
@@ -784,23 +784,36 @@ function buildInput(q,idx){
           onmousedown="startDraw(event,${idx})" onmousemove="draw(event,${idx})" onmouseup="endDraw(${idx})" onmouseleave="endDraw(${idx})"
           ontouchstart="startDrawTouch(event,${idx})" ontouchmove="drawTouch(event,${idx})" ontouchend="endDraw(${idx})"></canvas>
       </div>
-      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-        <button class="q-ctrl-btn" onclick="clearCanvas(${idx})">🗑 Clear</button>
-        <button class="q-ctrl-btn" onclick="undoCanvas(${idx})">↩ Undo</button>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center;">
+        <select onchange="setDrawTool(this.value)" id="drawToolSelect" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;">
+          <option value="pen">✏️ Pen</option>
+          <option value="line">📏 Line</option>
+          <option value="arrow">➡️ Arrow</option>
+          <option value="rect">⬜ Rectangle</option>
+          <option value="circle">⭕ Circle</option>
+          <option value="text">🔤 Text</option>
+        </select>
         <select onchange="setDrawColor(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;">
           <option value="#e03030">🔴 Red</option>
           <option value="#000000">⚫ Black</option>
           <option value="#2980b9">🔵 Blue</option>
           <option value="#27ae60">🟢 Green</option>
+          <option value="#8e44ad">🟣 Purple</option>
+          <option value="#ffffff">⚪ White</option>
         </select>
         <select onchange="setDrawSize(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;">
+          <option value="1">Fine</option>
           <option value="2">Thin</option>
           <option value="3" selected>Medium</option>
           <option value="5">Thick</option>
+          <option value="8">Bold</option>
         </select>
+        <button class="q-ctrl-btn" onclick="undoCanvas(${idx})">↩ Undo</button>
+        <button class="q-ctrl-btn" onclick="clearCanvas(${idx})">🗑 Clear</button>
       </div>
     </div>`;
   }
+
 
   // Default: Long Answer / any other type
   const wc=(saved||"").split(/\s+/).filter(Boolean).length;
@@ -1429,10 +1442,16 @@ function saveLabelAns(qi,li,v){
   renderQNav();
 }
 
-/* ══════════ Drawing Canvas ══════════ */
+/* ══════════ Drawing Canvas — Enhanced ══════════ */
 let drawState = {};
 let drawColor = '#e03030';
 let drawSize = 3;
+let drawTool = 'pen';
+let drawStartPos = null;
+
+function setDrawTool(t) { drawTool = t; }
+function setDrawColor(c) { drawColor = c; }
+function setDrawSize(s) { drawSize = Number(s); }
 
 function getCanvasCtx(idx) {
   const canvas = document.getElementById('draw-canvas-' + idx);
@@ -1449,6 +1468,153 @@ function getCanvasCtx(idx) {
     }
   }
   return { canvas, ctx: canvas.getContext('2d') };
+}
+
+function getScaledPos(e, canvas) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: (e.clientX - rect.left) * (canvas.width / rect.width),
+    y: (e.clientY - rect.top) * (canvas.height / rect.height)
+  };
+}
+
+function startDraw(e, idx) {
+  const d = getCanvasCtx(idx); if (!d) return;
+  drawState[idx].drawing = true;
+  const pos = getScaledPos(e, d.canvas);
+  drawStartPos = pos;
+
+  if (drawTool === 'pen') {
+    d.ctx.beginPath();
+    d.ctx.moveTo(pos.x, pos.y);
+    d.ctx.strokeStyle = drawColor;
+    d.ctx.lineWidth = drawSize;
+    d.ctx.lineCap = 'round';
+    d.ctx.lineJoin = 'round';
+  } else if (drawTool === 'text') {
+    const text = prompt('Enter text:');
+    if (text) {
+      // Save state for undo
+      drawState[idx].history.push(d.ctx.getImageData(0, 0, d.canvas.width, d.canvas.height));
+      d.ctx.font = `${Math.max(14, drawSize * 5)}px Arial`;
+      d.ctx.fillStyle = drawColor;
+      d.ctx.fillText(text, pos.x, pos.y);
+      drawState[idx].drawing = false;
+      saveDrawingAnswer(idx);
+    }
+  } else {
+    // For shapes, save current canvas state to restore during preview
+    drawState[idx]._shapeBase = d.ctx.getImageData(0, 0, d.canvas.width, d.canvas.height);
+  }
+}
+
+function draw(e, idx) {
+  if (!drawState[idx]?.drawing) return;
+  const d = getCanvasCtx(idx); if (!d) return;
+  const pos = getScaledPos(e, d.canvas);
+
+  if (drawTool === 'pen') {
+    d.ctx.lineTo(pos.x, pos.y);
+    d.ctx.stroke();
+  } else if (drawTool === 'line' || drawTool === 'arrow' || drawTool === 'rect' || drawTool === 'circle') {
+    // Restore base and draw preview
+    if (drawState[idx]._shapeBase) {
+      d.ctx.putImageData(drawState[idx]._shapeBase, 0, 0);
+    }
+    d.ctx.strokeStyle = drawColor;
+    d.ctx.lineWidth = drawSize;
+    d.ctx.lineCap = 'round';
+
+    if (drawTool === 'line') {
+      d.ctx.beginPath();
+      d.ctx.moveTo(drawStartPos.x, drawStartPos.y);
+      d.ctx.lineTo(pos.x, pos.y);
+      d.ctx.stroke();
+    } else if (drawTool === 'arrow') {
+      drawArrow(d.ctx, drawStartPos.x, drawStartPos.y, pos.x, pos.y);
+    } else if (drawTool === 'rect') {
+      d.ctx.beginPath();
+      d.ctx.strokeRect(drawStartPos.x, drawStartPos.y, pos.x - drawStartPos.x, pos.y - drawStartPos.y);
+    } else if (drawTool === 'circle') {
+      const rx = Math.abs(pos.x - drawStartPos.x) / 2;
+      const ry = Math.abs(pos.y - drawStartPos.y) / 2;
+      const cx = (drawStartPos.x + pos.x) / 2;
+      const cy = (drawStartPos.y + pos.y) / 2;
+      d.ctx.beginPath();
+      d.ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+      d.ctx.stroke();
+    }
+  }
+}
+
+function drawArrow(ctx, x1, y1, x2, y2) {
+  const headLen = 15;
+  const angle = Math.atan2(y2 - y1, x2 - x1);
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+  // Arrowhead
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - headLen * Math.cos(angle - Math.PI / 6), y2 - headLen * Math.sin(angle - Math.PI / 6));
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - headLen * Math.cos(angle + Math.PI / 6), y2 - headLen * Math.sin(angle + Math.PI / 6));
+  ctx.stroke();
+}
+
+function endDraw(idx) {
+  if (!drawState[idx]?.drawing) return;
+  drawState[idx].drawing = false;
+  delete drawState[idx]._shapeBase;
+  const d = getCanvasCtx(idx); if (!d) return;
+  drawState[idx].history.push(d.ctx.getImageData(0, 0, d.canvas.width, d.canvas.height));
+  saveDrawingAnswer(idx);
+}
+
+function saveDrawingAnswer(idx) {
+  const d = getCanvasCtx(idx); if (!d) return;
+  const bgImg = document.getElementById('draw-bg-' + idx);
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = d.canvas.width;
+  tempCanvas.height = d.canvas.height;
+  const tempCtx = tempCanvas.getContext('2d');
+  if (bgImg && bgImg.complete) tempCtx.drawImage(bgImg, 0, 0, d.canvas.width, d.canvas.height);
+  tempCtx.drawImage(d.canvas, 0, 0);
+  currentAttempt.answers[currentQIdx] = tempCanvas.toDataURL();
+  renderQNav();
+}
+
+function startDrawTouch(e, idx) {
+  e.preventDefault();
+  startDraw({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }, idx);
+}
+
+function drawTouch(e, idx) {
+  e.preventDefault();
+  draw({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }, idx);
+}
+
+function clearCanvas(idx) {
+  const d = getCanvasCtx(idx); if (!d) return;
+  d.ctx.clearRect(0, 0, d.canvas.width, d.canvas.height);
+  if (drawState[idx]) drawState[idx].history = [];
+  currentAttempt.answers[currentQIdx] = undefined;
+  renderQNav();
+}
+
+function undoCanvas(idx) {
+  if (!drawState[idx]?.history?.length) return;
+  drawState[idx].history.pop();
+  const d = getCanvasCtx(idx); if (!d) return;
+  d.ctx.clearRect(0, 0, d.canvas.width, d.canvas.height);
+  if (drawState[idx].history.length > 0) {
+    d.ctx.putImageData(drawState[idx].history[drawState[idx].history.length - 1], 0, 0);
+    saveDrawingAnswer(idx);
+  } else {
+    currentAttempt.answers[currentQIdx] = undefined;
+    renderQNav();
+  }
 }
 
 function startDraw(e, idx) {
