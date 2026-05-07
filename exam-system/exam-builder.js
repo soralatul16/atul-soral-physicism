@@ -944,7 +944,18 @@ function previewStudent() {
       const i = blocks.indexOf(b);
       const qLabel = getQuestionLabel(i);
       if (b.mode === 'content') {
-        html += `<div class="block">${b.data.text || b.data.url || '(Content block)'}</div>`;
+  if (b.type === 'Image' && b.data.url) {
+    html += `<div class="block"><img src="${b.data.url}" style="max-width:100%;border-radius:8px;" onerror="this.outerHTML='<p>Image failed to load: ${b.data.url}</p>'"></div>`;
+  } else if (b.type === 'Video' && b.data.url) {
+    const ytMatch = b.data.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
+    if (ytMatch) {
+      html += `<div class="block"><iframe width="100%" height="400" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen></iframe></div>`;
+    } else {
+      html += `<div class="block"><video src="${b.data.url}" controls style="max-width:100%;"></video></div>`;
+    }
+  } else {
+    html += `<div class="block">${b.data.text || b.data.url || '(Content block)'}</div>`;
+  }
       } else {
         html += `<div class="block">
           <div class="q-label">Q${qLabel} · ${b.type}
