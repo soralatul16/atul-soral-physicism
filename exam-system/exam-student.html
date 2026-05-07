@@ -1216,6 +1216,33 @@ function downloadPDF(){
     // ── QUESTIONS ──
     doc.setTextColor(...DARK);
     doc.setFontSize(11);doc.setFont("helvetica","bold");
+        // ── CONTENT BLOCKS ──
+    const contentBlocks = currentSet ? (currentSet.blocks||[]).filter(b=>b.saved&&b.mode==="content") : [];
+    if(contentBlocks.length > 0){
+      doc.setFontSize(11);doc.setFont("helvetica","bold");
+      doc.setTextColor(... DARK);
+      doc.text("Reference Materials", lm, y); y+=7;
+      contentBlocks.forEach(cb=>{
+        if(y>260){doc.addPage();y=15;}
+        doc.setFillColor(245,245,245);
+        doc.roundedRect(lm,y,pw,12,2,2,'F');
+        doc.setFontSize(8);doc.setFont("helvetica","normal");doc.setTextColor(...GRAY);
+        if(cb.type==='Text'){
+          const txt=(cb.data?.text||'').replace(/<[^>]+>/g,'').substring(0,120);
+          doc.text(`📄 ${cb.type}: ${txt}`,lm+4,y+7);
+        } else if(cb.type==='Image'&&cb.data?.url){
+          doc.text(`🖼️ Image: ${cb.data.url.substring(0,100)}`,lm+4,y+7);
+        } else if(cb.type==='Video'&&cb.data?.url){
+          doc.text(`🎬 Video: ${cb.data.url.substring(0,100)}`,lm+4,y+7);
+        } else {
+          doc.text(`📄 ${cb.type} content`,lm+4,y+7);
+        }
+        y+=15;
+      });
+      y+=4;
+    }
+
+
     doc.text("Question-by-Question Review", lm, y); y+=7;
 
     qBlocks.forEach((q,i)=>{
