@@ -641,14 +641,18 @@ function downloadPDF(){
     doc.setDrawColor(...RED);doc.setLineWidth(0.5);doc.line(lm,y,lm+pw,y);y+=6;
     // Content blocks
     doc.setTextColor(...DARK);doc.setFontSize(11);doc.setFont("helvetica","bold");
-    const contentBlocks=currentSet?(currentSet.blocks||[]).filter(b=>b.saved&&b.mode==="content"):[];
+       const contentBlocks=currentSet?(currentSet.blocks||[]).filter(b=>b.saved&&b.mode==="content"):[];
     if(contentBlocks.length>0){doc.text("Reference Materials",lm,y);y+=7;
-      contentBlocks.forEach(cb=>{if(y>260){doc.addPage();y=15;}doc.setFillColor(245,245,245);doc.roundedRect(lm,y,pw,12,2,2,'F');
-        doc.setFontSize(8);doc.setFont("helvetica","normal");doc.setTextColor(...GRAY);
-        if(cb.type==='Text'){doc.text('Text: '+(cb.data?.text||'').replace(/<[^>]+>/g,'').substring(0,120),lm+4,y+7);}
-        else if(cb.type==='Image'&&cb.data?.url){doc.text('Image: '+cb.data.url.substring(0,100),lm+4,y+7);}
-        else if(cb.type==='Video'&&cb.data?.url){doc.text('Video: '+cb.data.url.substring(0,100),lm+4,y+7);}
-        else{doc.text(cb.type+' content',lm+4,y+7);}y+=15;});y+=4;}
+      contentBlocks.forEach(cb=>{if(y>260){doc.addPage();y=15;}doc.setFillColor(245,245,245);doc.roundedRect(lm,y,pw,16,2,2,'F');
+        doc.setFontSize(9);doc.setFont("helvetica","normal");doc.setTextColor(...GRAY);
+        let label='';let url='';
+        if(cb.type==='Text'){label='📄 Text Content: '+(cb.data?.text||'').replace(/<[^>]+>/g,'').substring(0,100);}
+        else if(cb.type==='Image'&&cb.data?.url){label='🖼️ Reference Image';url=cb.data.url;}
+        else if(cb.type==='Video'&&cb.data?.url){label='🎬 Reference Video';url=cb.data.url;}
+        else{label=cb.type+' content';}
+        doc.text(label,lm+4,y+6);
+        if(url){doc.setTextColor(...BLUE);doc.setFontSize(7);doc.textWithLink(url.substring(0,90),lm+4,y+12,{url:url});}
+        y+=19;});y+=4;}
     // Questions
     doc.setTextColor(...DARK);doc.setFontSize(11);doc.setFont("helvetica","bold");doc.text("Question-by-Question Review",lm,y);y+=7;
     qBlocks.forEach((q,i)=>{
