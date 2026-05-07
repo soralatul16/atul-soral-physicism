@@ -1491,11 +1491,28 @@ function importLibrary() {
   
   
 /* Init */
-window.addEventListener("DOMContentLoaded",()=>{
+window.addEventListener("DOMContentLoaded", async ()=>{
   if(!checkSession()) return;
+
+  // Auto-load question sets if library is empty
+  const lib = JSON.parse(localStorage.getItem('MYP_LIBRARY') || '[]');
+  if(lib.length === 0){
+    try {
+      const resp = await fetch('physicism-data.json');
+      if(resp.ok){
+        const data = await resp.json();
+        if(data.library && data.library.length > 0){
+          localStorage.setItem('MYP_LIBRARY', JSON.stringify(data.library));
+          console.log('✅ Loaded ' + data.library.length + ' question sets from server.');
+        }
+      }
+    } catch(e){ console.log('No remote data file found.'); }
+  }
+
   buildChapterTree();
   loadDashboard();
 });
+
 /* ══════════ Table, Fill, Classify, Label answer helpers ══════════ */
 function saveTableAns(qi,r,c,v){
   if(!currentAttempt.answers[qi]) currentAttempt.answers[qi]={};
