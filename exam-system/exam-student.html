@@ -1011,64 +1011,272 @@ function openReport() {
   window.open('exam-report.html?id=' + currentAttempt.id, '_blank');
 }
 
-/* ══════════ PDF — WITH TEACHER GRADES ══════════ */
+/* ══════════ PDF — POLISHED WITH COLORS & GRADING ══════════ */
 function downloadPDF(){
   try{
     const {jsPDF}=window.jspdf;
-    const doc=new jsPDF(); const a=currentAttempt;
-    let y=18;
-    doc.setFontSize(16);doc.setFont("helvetica","bold");
-    doc.text("Atul Soral Physicism — MYP Physics",20,y);y+=8;
-    doc.setFontSize(10);doc.setFont("helvetica","normal");
-    doc.text(`Student: ${a.studentName}   Set: ${a.setTitle||""}`,20,y);y+=6;
-    doc.text(`Date: ${new Date(a.endTime||Date.now()).toLocaleString()}   Duration: ${Math.floor((a.duration||0)/60)}m ${(a.duration||0)%60}s`,20,y);y+=6;
-    doc.text(`Score: ${a.earnedMarks||0} / ${a.totalMarks||0} (${a.percentScore||0}%)`,20,y);y+=4;
-    if(a.gradingStatus==='graded'){
-      doc.setTextColor(39,174,96);
-      doc.text("✓ Graded by Teacher",20,y+4);y+=4;
-      doc.setTextColor(0,0,0);
-    }
-    y+=4;
-    doc.setDrawColor(224,48,48);doc.line(20,y,190,y);y+=6;
+    const doc=new jsPDF();
+    const a=currentAttempt;
+    const pw=190; // page width usable
+    const lm=15; // left margin
+    let y=15;
 
-    if(a.overallFeedback){
-      doc.setFont("helvetica","bold");doc.setFontSize(11);
-      doc.text("Teacher Feedback:",20,y);y+=5;
-      doc.setFont("helvetica","normal");doc.setFontSize(10);
-      const fbLines=doc.splitTextToSize(a.overallFeedback,165);
-      doc.text(fbLines,20,y);y+=fbLines.length*5+4;
-      doc.line(20,y,190,y);y+=6;
+    // ── COLORS ──
+    const RED=[224,48,48];
+    const GREEN=[39,174,96];
+    const BLUE=[41,128,185];
+    const DARK=[30,30,30];
+    const GRAY=[120,120,120];
+    const WHITE=[255,255,255];
+    const LIGHTRED=[255,230,230];
+    const LIGHTGREEN=[230,255,240];
+    const LIGHTYELLOW=[255,248,230];
+    const LIGHTBLUE=[230,242,255];
+
+    // ── HEADER BANNER ──
+    doc.setFillColor(...RED);
+    doc.rect(0, 0, 210, 38, 'F');
+    doc.setTextColor(...WHITE);
+    doc.setFontSize(18);doc.setFont("helvetica","bold");
+    doc.text("ATUL SORAL PHYSICISM", 105, 14, {align:"center"});
+    doc.setFontSize(10);doc.setFont("helvetica","normal");
+    doc.text("IB MYP Physics — Student Performance Report", 105, 21, {align:"center"});
+    doc.setFontSize(9);
+    doc.text(`Student: ${a.studentName || 'Student'}  |  Set: ${a.setTitle || 'Assessment'}`, 105, 28, {align:"center"});
+    doc.text(`Date: ${new Date(a.endTime||Date.now()).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}  |  Duration: ${Math.floor((a.duration||0)/60)}m ${(a.duration||0)%60}s`, 105, 34, {align:"center"});
+    y = 45;
+
+    // ── SCORE BOX ──
+    const pct = a.percentScore || 0;
+    const scoreColor = pct >= 70 ? GREEN : pct >= 40 ? [210,153,34] : RED;
+    doc.setFillColor(...LIGHTYELLOW);
+    doc.roundedRect(lm, y, pw, 22, 3, 3, 'F');
+    doc.setDrawColor(...scoreColor);
+    doc.roundedRect(lm, y, pw, 22, 3, 3, 'S');
+    doc.setTextColor(...DARK);
+    doc.setFontSize(14);doc.setFont("helvetica","bold");
+    doc.text(`Score: ${a.earnedMarks||0} / ${a.totalMarks||0}`, lm+8, y+9);
+    doc.setFontSize(20);
+    doc.setTextColor(...scoreColor);
+    doc.text(`${pct}%`, lm+pw-8, y+10, {align:"right"});
+    doc.setFontSize(9);doc.setFont("helvetica","normal");
+    doc.setTextColor(...GRAY);
+    const gradeLabel = pct>=80?'Excellent':pct>=70?'Good':pct>=50?'Satisfactory':pct>=30?'Needs Improvement':'Below Expectations';
+    doc.text(`Grade: ${gradeLabel}`, lm+8, y+18);
+    if(a.gradingStatus==='graded'){
+      doc.setTextColor(...GREEN);
+      doc.text("✓ Graded by Teacher", lm+pw-8, y+18, {align:"right"});
     }
+    y += 30;
+
+    // ── CRITERION BREAKDOWN ──
+    doc.setTextColor(...DARK);
+    doc.setFontSize(11);doc.setFont("helvetica","bold");
+    doc.text("Criterion Breakdown", lm, y); y+=7;
+
+    const cm={A:{s:0,t:0},B:{s:0,t:0},C:{s:0,t:0},D:{s:0,t:0}};
+    qBlocks.forEach((q,i)=>{
+      const k=(q.meta?.criterion||"").charAt(0);
+      const marks=Number(q.meta?.marks||0);
+      let scored=0;
+      if(a.grades&&a.grades[i]!==undefined) scored=Number(a.grades[i]);
+      else{
+        if(q.type==="True / False"&&q.ui?.tfAnswer&&a.answers?.[i]===q.ui.tfAnswer) scored=marks;
+        else if(q.type==="MCQ"&&q.data?.correct!==null&&q.data?.correct!==undefined&&a.answers?.[i]===q.data.correct) scored=marks;
+      }
+      if(cm[k]){cm[k].s+=scored;cm[k].t+=marks;}
+    });
+
+    const critNames={A:"Knowing & Understanding",B:"Inquiring & Designing",C:"Processing & Evaluating",D:"Reflecting on Impacts"};
+    const critColors={A:RED,B:BLUE,C:GREEN,D:[210,153,34]};
+    const barW=42;
+    ["A","B","C","D"].forEach((c,ci)=>{
+      const x=lm+(ci*barW)+(ci*5);
+      const cpct=cm[c].t>0?Math.round(cm[c].s/cm[c].t*100):0;
+      doc.setFillColor(240,240,240);
+      doc.roundedRect(x,y,barW,18,2,2,'F');
+      doc.setDrawColor(200,200,200);
+      doc.roundedRect(x,y,barW,18,2,2,'S');
+      doc.setTextColor(...critColors[c]);
+      doc.setFontSize(12);doc.setFont("helvetica","bold");
+      doc.text(`${c}`,x+barW/2,y+7,{align:"center"});
+      doc.setFontSize(8);doc.setFont("helvetica","normal");
+      doc.setTextColor(...GRAY);
+      doc.text(`${cm[c].s}/${cm[c].t} (${cpct}%)`,x+barW/2,y+14,{align:"center"});
+    });
+    y+=26;
+
+    // ── OVERALL TEACHER FEEDBACK ──
+    if(a.overallFeedback){
+      doc.setFillColor(...LIGHTBLUE);
+      doc.roundedRect(lm,y,pw,6+Math.ceil(a.overallFeedback.length/80)*5,2,2,'F');
+      doc.setTextColor(...BLUE);
+      doc.setFontSize(9);doc.setFont("helvetica","bold");
+      doc.text("Teacher Feedback:",lm+4,y+5);
+      doc.setFont("helvetica","normal");
+      doc.setTextColor(...DARK);
+      const fbLines=doc.splitTextToSize(a.overallFeedback,pw-10);
+      doc.text(fbLines,lm+4,y+10);
+      y+=14+fbLines.length*4;
+    }
+
+    // ── SEPARATOR ──
+    doc.setDrawColor(...RED);
+    doc.setLineWidth(0.5);
+    doc.line(lm,y,lm+pw,y);
+    y+=6;
+
+    // ── QUESTIONS ──
+    doc.setTextColor(...DARK);
+    doc.setFontSize(11);doc.setFont("helvetica","bold");
+    doc.text("Question-by-Question Review", lm, y); y+=7;
 
     qBlocks.forEach((q,i)=>{
-      if(y>250){doc.addPage();y=20;}
-      doc.setFont("helvetica","bold");doc.setFontSize(11);
-      const gradeText = a.grades?.[i] !== undefined ? ` — Scored: ${a.grades[i]}/${q.meta?.marks||0}` : '';
-      doc.text(`Q${i+1}. [${q.meta?.marks||0} marks]${gradeText}`,20,y);y+=5;
-      doc.setFont("helvetica","normal");doc.setFontSize(10);
-      const qText = (q.data?.question||q.data?.text||"").replace(/<[^>]+>/g,'');
-      const lines=doc.splitTextToSize(qText,165);
-      doc.text(lines,20,y);y+=lines.length*5+2;
-      const ans=a.answers?.[i];
-      const disp=Array.isArray(ans)?ans.map(n=>String.fromCharCode(65+n)).join(", "):
-                  typeof ans==="number"?String.fromCharCode(65+ans):(ans||"(Not answered)");
-      doc.setFont("helvetica","italic");
-      doc.text("Answer: "+disp.substring(0,120),20,y);y+=5;
+      // Check if we need a new page
+      if(y>245){doc.addPage();y=15;}
 
-      if(a.teacherFeedback?.[i]){
-        doc.setFont("helvetica","normal");
-        doc.setTextColor(39,174,96);
-        const tfbLines=doc.splitTextToSize("Teacher: "+a.teacherFeedback[i],165);
-        doc.text(tfbLines,20,y);y+=tfbLines.length*5;
-        doc.setTextColor(0,0,0);
+      const ans=a.answers?.[i];
+      const marks=Number(q.meta?.marks||0);
+      const crit=q.meta?.criterion||"";
+      const teacherGrade=a.grades?.[i];
+      const teacherFb=a.teacherFeedback?.[i];
+      const hasGrade=teacherGrade!==undefined&&teacherGrade!==null&&teacherGrade!=='';
+
+      // Determine if correct
+      let isCorrect=null;
+      let correctAnswer="";
+      if(q.type==="MCQ"&&q.data?.correct!==null&&q.data?.correct!==undefined){
+        isCorrect=ans===q.data.correct;
+        const opts=(q.ui?.mcqOptions||[]).filter(o=>o.trim());
+        correctAnswer=opts[q.data.correct]?String.fromCharCode(65+q.data.correct)+". "+opts[q.data.correct]:"";
+      } else if(q.type==="Multiple Select MCQ"&&q.data?.correct){
+        const correct=q.data.correct;
+        isCorrect=Array.isArray(ans)&&JSON.stringify([...ans].sort())===JSON.stringify([...correct].sort());
+        const opts=(q.ui?.mcqOptions||[]).filter(o=>o.trim());
+        correctAnswer=correct.map(ci=>String.fromCharCode(65+ci)+". "+opts[ci]).join(", ");
+      } else if(q.type==="True / False"&&q.ui?.tfAnswer){
+        isCorrect=ans===q.ui.tfAnswer;
+        correctAnswer=q.ui.tfAnswer;
       }
-      y+=4;
+
+      // Question background
+      const bgColor=isCorrect===true? LIGHTGREEN:isCorrect===false?LIGHTRED:LIGHTYELLOW;
+      const borderColor=isCorrect===true?GREEN:isCorrect===false?RED:[200,200,200];
+
+      // Calculate height needed
+      const qText=(q.data?.question||q.data?.text||"(No question text)").replace(/<[^>]+>/g,'');
+      const qLines=doc.splitTextToSize(qText,pw-20);
+      let blockH=28+qLines.length*4;
+      if(correctAnswer) blockH+=6;
+      if(teacherFb) blockH+=10;
+      if(hasGrade) blockH+=5;
+
+      if(y+blockH>270){doc.addPage();y=15;}
+
+      // Draw question box
+      doc.setFillColor(...bgColor);
+      doc.roundedRect(lm,y,pw,blockH,2,2,'F');
+      doc.setDrawColor(...borderColor);
+      doc.setLineWidth(0.3);
+      doc.roundedRect(lm,y,pw,blockH,2,2,'S');
+      // Left border accent
+      doc.setFillColor(...borderColor);
+      doc.rect(lm,y,2,blockH,'F');
+
+      let qy=y+5;
+
+      // Question header
+      doc.setFontSize(9);doc.setFont("helvetica","bold");
+      doc.setTextColor(...RED);
+      doc.text(`Q${i+1}`,lm+6,qy);
+      doc.setTextColor(...GRAY);
+      doc.setFont("helvetica","normal");
+      doc.text(`${q.type} · ${marks} marks${crit?' · Crit '+crit:''}`,lm+18,qy);
+
+      // Status on right
+      if(isCorrect===true){
+        doc.setTextColor(...GREEN);doc.setFont("helvetica","bold");
+        doc.text("✓ CORRECT",lm+pw-5,qy,{align:"right"});
+      } else if(isCorrect===false){
+        doc.setTextColor(...RED);doc.setFont("helvetica","bold");
+        doc.text("✗ INCORRECT",lm+pw-5,qy,{align:"right"});
+      } else if(hasGrade){
+        doc.setTextColor(...GREEN);doc.setFont("helvetica","bold");
+        doc.text(`Graded: ${teacherGrade}/${marks}`,lm+pw-5,qy,{align:"right"});
+      } else if(ans){
+        doc.setTextColor([210,153,34]);doc.setFont("helvetica","bold");
+        doc.text("Pending",lm+pw-5,qy,{align:"right"});
+      } else {
+        doc.setTextColor(...GRAY);doc.setFont("helvetica","normal");
+        doc.text("Not answered",lm+pw-5,qy,{align:"right"});
+      }
+      qy+=5;
+
+      // Question text
+      doc.setTextColor(...DARK);doc.setFontSize(9);doc.setFont("helvetica","normal");
+      doc.text(qLines,lm+6,qy);
+      qy+=qLines.length*4+2;
+
+      // Student answer
+      doc.setFontSize(8);
+      doc.setTextColor(...BLUE);doc.setFont("helvetica","bold");
+      doc.text("Your Answer: ",lm+6,qy);
+      doc.setFont("helvetica","normal");
+      doc.setTextColor(...DARK);
+      let dispAns="(Not answered)";
+      if(ans!==undefined&&ans!==null&&ans!==""){
+        if(Array.isArray(ans)) dispAns=ans.map(n=>typeof n==='number'?String.fromCharCode(65+n):n).join(", ");
+        else if(typeof ans==="number") dispAns=String.fromCharCode(65+ans);
+        else if(typeof ans==="string"&&ans.startsWith("data:image")) dispAns="[Drawing submitted]";
+        else dispAns=String(ans).substring(0,100);
+      }
+      doc.text(dispAns,lm+32,qy);
+      qy+=5;
+
+      // Correct answer
+      if(correctAnswer){
+        doc.setTextColor(...GREEN);doc.setFont("helvetica","bold");
+        doc.text("Correct Answer: ",lm+6,qy);
+        doc.setFont("helvetica","normal");
+        doc.text(correctAnswer.substring(0,80),lm+36,qy);
+        qy+=5;
+      }
+
+      // Teacher feedback
+      if(teacherFb){
+        doc.setTextColor(140,60,60);doc.setFont("helvetica","italic");
+        const tfLines=doc.splitTextToSize("Teacher: "+teacherFb,pw-16);
+        doc.text(tfLines,lm+6,qy);
+        qy+=tfLines.length*4;
+      }
+
+      y+=blockH+4;
     });
-    doc.save(`Physicism_${(a.setTitle||"exam").replace(/\s/g,"_")}.pdf`);
-  }catch(e){ alert("PDF download failed. Make sure jsPDF loaded correctly."); console.error(e); }
+
+    // ── FOOTER ──
+    const totalPages=doc.internal.getNumberOfPages();
+    for(let p=1;p<=totalPages;p++){
+      doc.setPage(p);
+      doc.setFillColor(240,240,240);
+      doc.rect(0,287,210,10,'F');
+      doc.setFontSize(7);doc.setTextColor(...GRAY);
+      doc.text(`Atul Soral Physicism · ${a.setTitle||'Assessment'} · ${a.studentName||'Student'} · Page ${p}/${totalPages}`,105,292,{align:"center"});
+    }
+    
+
+    // ── SAVE WITH PROPER FILENAME ──
+    const safeName=(a.studentName||'Student').replace(/[^a-zA-Z0-9 ]/g,'').replace(/\s+/g,'_');
+    const safeTopic=(a.setTitle||'Assessment').replace(/[^a-zA-Z0-9 ]/g,'').replace(/\s+/g,'_');
+    doc.save(`Physicism_${safeName}_${safeTopic}.pdf`);
+
+  }catch(e){
+    alert("PDF download failed. Check console.");
+    console.error(e);
+  }
 }
 
-/* Analytics */
+  
+  /* Analytics */
 function loadAnalytics(){
   const completed=myAttempts().filter(a=>a.status==="completed");
   const total=completed.length;
