@@ -6,7 +6,7 @@ const topic = params.get("topic") || "waves";
 const image = params.get("image") || "";
 
 // ===============================
-// SAFE COPY
+// SAFE COPY (DO NOT MODIFY ORIGINAL)
 // ===============================
 const safeQuestionBank = questionBank.map(q => ({
   topic: q.topic || "general",
@@ -20,15 +20,20 @@ const safeQuestionBank = questionBank.map(q => ({
 }));
 
 // ===============================
-// FILTER QUESTIONS — IMAGE-SPECIFIC ONLY
+// FILTER QUESTIONS — IMAGE-SPECIFIC FIX
 // ===============================
 let filtered;
 
 if (image) {
-  // If an image is specified, ONLY use questions tagged to that image
+  // First: try exact match on both topic AND image
   filtered = safeQuestionBank.filter(q => q.topic === topic && q.image === image);
+
+  // If nothing found, match by image ONLY (image names are unique across bank)
+  if (filtered.length === 0) {
+    filtered = safeQuestionBank.filter(q => q.image === image);
+  }
 } else {
-  // No image specified — use all questions from the topic
+  // No image specified — get all questions from topic
   filtered = safeQuestionBank.filter(q => q.topic === topic);
 }
 
@@ -38,7 +43,7 @@ if (image) {
 const titleEl = document.getElementById("title");
 if (titleEl && image) {
   const prettyName = image.replace(/^\d+-/, '').replace(/-/g, ' ');
-  titleEl.textContent = "🧠 " + prettyName.charAt(0).toUpperCase() + prettyName.slice(1);
+  titleEl.textContent = "\u{1F9E0} " + prettyName.charAt(0).toUpperCase() + prettyName.slice(1);
 }
 
 // ===============================
@@ -136,7 +141,7 @@ function showSummary() {
   box.style.display = "block";
 
   const pct = Math.round(score / questions.length * 100);
-  const emoji = pct >= 80 ? "🏆" : pct >= 60 ? "👏" : pct >= 40 ? "💪" : "📖";
+  const emoji = pct >= 80 ? "\u{1F3C6}" : pct >= 60 ? "\u{1F44F}" : pct >= 40 ? "\u{1F4AA}" : "\u{1F4D6}";
 
   let html = `<h2>${emoji} Quiz Completed</h2>`;
   html += `<h3 style="text-align:center;margin-bottom:20px;">Score: ${score} / ${questions.length} (${pct}%)</h3>`;
