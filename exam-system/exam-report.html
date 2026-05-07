@@ -4,157 +4,356 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Student Report | Physicism MYP</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="../../feedback.css">
 <style>
-@page { size: A4; margin: 18mm 16mm; }
+:root {
+  --surface: rgba(18,4,4,0.88);
+  --surface2: rgba(38,8,8,0.9);
+  --border: rgba(200,60,60,0.3);
+  --accent: #e03030;
+  --accent2: #c0392b;
+  --accent-glow: rgba(224,48,48,0.15);
+  --text: #f0e6e6;
+  --text2: #b08888;
+  --green: #27ae60;
+  --red: #e03030;
+  --yellow: #d29922;
+  --blue: #2980b9;
+  --radius: 10px;
+}
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  background: #f4f4f8;
-  color: #1a1a2e;
-  line-height: 1.6;
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
+  font-family: 'DM Sans', sans-serif;
+  background: linear-gradient(rgba(0,0,0,0.58), rgba(18,0,0,0.78)),
+    url('./assets/myp-background-image.png') no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text);
+  min-height: 100vh;
+  padding: 0;
 }
 
-/* PRINT BUTTON — hidden on print */
-.no-print { text-align: center; padding: 20px; background: #1a1a2e; }
-.no-print button {
-  padding: 10px 28px; border: none; border-radius: 8px;
-  font-size: 14px; font-weight: 600; cursor: pointer;
-  font-family: inherit; margin: 0 6px; transition: all 0.15s;
+/* TOPBAR */
+.topbar {
+  height: 56px;
+  background: rgba(12,2,2,0.95);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; flex-shrink: 0; z-index: 100;
+  backdrop-filter: blur(10px);
+  position: sticky; top: 0;
 }
-.btn-print { background: #e03030; color: white; }
-.btn-print:hover { background: #c0392b; }
-.btn-back { background: transparent; color: #aaa; border: 1px solid #444 !important; }
-.btn-back:hover { color: white; border-color: #888 !important; }
-@media print { .no-print { display: none; } }
+.topbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; color: var(--accent); margin-right: 16px;
+  text-shadow: 0 0 14px rgba(224,48,48,0.6);
+}
+.icon-btn {
+  background: rgba(38,8,8,0.8); border: 1px solid var(--border);
+  padding: 6px 13px; border-radius: 6px; color: var(--text);
+  cursor: pointer; font-size: 13px; transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.icon-btn:hover { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
 
 /* REPORT CONTAINER */
-.report {
-  max-width: 800px; margin: 0 auto; background: white;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+.report-container {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 0 20px 60px;
 }
-@media print { .report { box-shadow: none; max-width: 100%; } }
 
-/* HEADER */
+/* REPORT HEADER */
 .report-header {
-  background: linear-gradient(135deg, #e03030, #7f1d1d);
-  color: white; padding: 32px 36px; position: relative; overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(10px);
+  text-align: center;
 }
-.report-header::before {
-  content:''; position:absolute; inset:0;
-  background: repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,.04) 40px,rgba(255,255,255,.04) 80px);
+.report-header .brand-line {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--accent);
+  text-shadow: 0 0 14px rgba(224,48,48,0.4);
+  margin-bottom: 4px;
 }
-.rh-top { display: flex; justify-content: space-between; align-items: flex-start; position: relative; }
-.rh-brand { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; margin-bottom: 16px; }
-.rh-title { font-size: 22px; font-weight: 700; position: relative; margin-bottom: 4px; }
-.rh-subtitle { font-size: 13px; opacity: 0.75; position: relative; }
-.rh-score-box {
-  background: rgba(255,255,255,0.15); border-radius: 12px;
-  padding: 16px 24px; text-align: center; position: relative;
-  backdrop-filter: blur(4px); min-width: 120px;
+.report-header .brand-sub {
+  font-size: 12px;
+  color: var(--text2);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
 }
-.rh-score { font-size: 32px; font-weight: 700; }
-.rh-score-label { font-size: 11px; opacity: 0.7; }
-
-/* STUDENT INFO BAR */
-.info-bar {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  border-bottom: 1px solid #eee; font-size: 12px;
+.report-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
 }
-.info-item { padding: 12px 16px; border-right: 1px solid #eee; }
-.info-item:last-child { border-right: none; }
-.info-label { color: #888; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10px; margin-bottom: 2px; }
-.info-value { font-weight: 600; color: #1a1a2e; }
-
-/* SECTIONS */
-.report-section { padding: 24px 36px; }
-.report-section + .report-section { border-top: 1px solid #eee; }
-.section-title {
-  font-size: 12px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 1px; color: #e03030; margin-bottom: 16px;
-  padding-bottom: 8px; border-bottom: 2px solid #e03030;
+.report-header .meta-line {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 4px;
 }
-
-/* OVERALL FEEDBACK */
-.feedback-box {
-  background: #fef9f9; border: 1px solid #f0d0d0; border-radius: 8px;
-  padding: 16px 20px; margin-bottom: 16px;
+.report-header .score-display {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
 }
-.feedback-box .fb-label { font-size: 11px; color: #c0392b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-.feedback-box p { font-size: 13px; color: #333; line-height: 1.7; }
-
-/* CRITERION TABLE */
-.crit-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
-.crit-table th {
-  text-align: left; padding: 8px 12px; font-size: 10px;
-  text-transform: uppercase; letter-spacing: 0.8px; color: #888;
-  border-bottom: 2px solid #e03030; font-weight: 600;
+.score-ring {
+  width: 100px; height: 100px;
+  position: relative;
 }
-.crit-table td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid #eee; }
-.crit-table tr:last-child td { border-bottom: none; }
-.crit-table .crit-letter { font-weight: 700; color: #e03030; font-size: 15px; width: 30px; }
-.crit-table .crit-name { color: #555; }
-.crit-table .crit-score { font-weight: 700; text-align: right; }
-.crit-table .crit-bar-cell { width: 120px; }
-.crit-bar { height: 6px; background: #f0f0f0; border-radius: 3px; overflow: hidden; }
-.crit-bar-fill { height: 100%; background: #e03030; border-radius: 3px; }
-.crit-total { background: #fafafa; font-weight: 700; }
-
-/* QUESTION CARDS */
-.q-card { margin-bottom: 14px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; page-break-inside: avoid; }
-.q-card-header {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 16px; background: #fafafa; border-bottom: 1px solid #eee;
-  font-size: 11px; color: #666;
+.score-ring canvas { width: 100px; height: 100px; }
+.score-ring .score-text {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 700;
 }
-.q-card-header .q-num { font-weight: 700; color: #1a1a2e; text-transform: uppercase; letter-spacing: 0.5px; }
-.q-card-header .q-meta { display: flex; gap: 8px; align-items: center; }
-.q-badge {
-  font-size: 10px; padding: 2px 8px; border-radius: 10px;
+.score-ring .score-sub { font-size: 11px; color: var(--text2); font-weight: 400; }
+.score-details { text-align: left; }
+.score-details div { font-size: 13px; margin-bottom: 3px; color: var(--text2); }
+.score-details span { color: var(--text); font-weight: 600; }
+.graded-badge {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 12px;
   font-weight: 600;
 }
-.q-badge.marks { background: #fef2f2; color: #e03030; border: 1px solid #fcd5d5; }
-.q-badge.crit { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
-.q-badge.scored { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
-.q-badge.pending { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.graded-badge.yes { background: rgba(39,174,96,0.15); border: 1px solid rgba(39,174,96,0.4); color: #5edd8a; }
+.graded-badge.no { background: rgba(210,153,34,0.12); border: 1px solid rgba(210,153,34,0.4); color: #f7c66e; }
 
-.q-card-body { padding: 14px 16px; }
-.q-question { font-size: 13px; margin-bottom: 10px; line-height: 1.6; }
-.q-answer-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; font-weight: 600; }
-.q-answer {
-  background: #f8f9fa; border: 1px solid #eee; border-radius: 6px;
-  padding: 10px 12px; font-size: 12px; line-height: 1.6;
-  color: #333; white-space: pre-wrap; margin-bottom: 8px;
+/* CARDS */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(8px);
 }
-.q-answer.correct { background: #f0fdf4; border-color: #bbf7d0; }
-.q-answer.incorrect { background: #fef2f2; border-color: #fcd5d5; }
-
-.q-teacher-fb {
-  background: #fef9f9; border-left: 3px solid #e03030;
-  padding: 8px 12px; margin-top: 8px; border-radius: 0 6px 6px 0;
+.card-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text2);
+  font-weight: 600;
+  margin-bottom: 14px;
 }
-.q-teacher-fb .tfb-label { font-size: 10px; color: #c0392b; font-weight: 600; margin-bottom: 2px; }
-.q-teacher-fb p { font-size: 12px; color: #555; }
 
-/* FOOTER */
-.report-footer {
-  padding: 20px 36px; background: #fafafa; border-top: 1px solid #eee;
-  display: flex; justify-content: space-between; font-size: 11px; color: #999;
+/* CRITERION GRID */
+.crit-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.crit-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+.crit-box .letter {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+  font-family: 'Playfair Display', serif;
+}
+.crit-box .name { font-size: 10px; color: var(--text2); margin: 4px 0; }
+.crit-box .score { font-size: 15px; font-weight: 600; }
+.crit-box .bar-wrap {
+  height: 4px; background: rgba(255,255,255,0.06);
+  border-radius: 2px; margin-top: 8px; overflow: hidden;
+}
+.crit-box .bar-fill {
+  height: 100%; background: var(--accent);
+  border-radius: 2px; transition: width 0.6s;
+}
+
+/* CHART CARD */
+.chart-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  backdrop-filter: blur(8px);
+}
+.chart-card canvas { max-height: 220px; }
+
+/* TEACHER FEEDBACK */
+.feedback-card {
+  background: var(--surface);
+  border: 1px solid rgba(224,48,48,0.25);
+  border-radius: 12px;
+  padding: 22px;
+  margin-bottom: 20px;
+}
+.feedback-card .fb-label {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.feedback-card .fb-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* QUESTION REVIEW */
+.q-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 14px;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.15s;
+}
+.q-item:hover { border-color: rgba(224,48,48,0.5); }
+.q-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.q-label-tags { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.tag {
+  font-size: 10px; padding: 2px 8px;
+  border-radius: 10px; border: 1px solid var(--border);
+  background: var(--surface2); color: var(--text2);
+}
+.tag.red { background: var(--accent-glow); border-color: rgba(224,48,48,0.4); color: #ff7070; }
+.tag.green { background: rgba(39,174,96,0.12); border-color: rgba(39,174,96,0.4); color: #5edd8a; }
+.tag.blue { background: rgba(41,128,185,0.12); border-color: rgba(41,128,185,0.4); color: #76b4de; }
+.tag.yellow { background: rgba(210,153,34,0.12); border-color: rgba(210,153,34,0.4); color: #f7c66e; }
+.q-status { font-size: 12px; font-weight: 700; }
+.q-text { font-size: 14px; line-height: 1.7; margin-bottom: 10px; }
+.answer-box {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px; font-size: 13px;
+  color: var(--text2); line-height: 1.6; white-space: pre-wrap;
+  margin-bottom: 10px;
+}
+.teacher-fb {
+  margin-top: 10px; padding: 12px;
+  background: rgba(224,48,48,0.07);
+  border: 1px solid rgba(224,48,48,0.2);
+  border-radius: 7px;
+}
+.teacher-fb .tfb-label { font-size: 11px; color: #ff7070; font-weight: 600; margin-bottom: 4px; }
+.teacher-fb .tfb-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.ms-box {
+  margin-top: 10px; padding: 12px;
+  background: rgba(39,174,96,0.07);
+  border: 1px solid rgba(39,174,96,0.2);
+  border-radius: 7px;
+}
+.ms-box .ms-label { font-size: 11px; color: #5edd8a; font-weight: 600; margin-bottom: 4px; }
+.ms-box .ms-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+/* MCQ OPTIONS */
+.opt-display {
+  padding: 8px 12px; border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  margin-bottom: 6px; font-size: 13px;
+  display: flex; align-items: center; gap: 10px;
+}
+.opt-display.correct { border-color: rgba(39,174,96,0.5); background: rgba(39,174,96,0.1); }
+.opt-display.wrong { border-color: rgba(224,48,48,0.4); background: rgba(224,48,48,0.08); }
+.opt-letter {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+
+/* PROGRESS SECTION */
+.progress-list { display: flex; flex-direction: column; gap: 8px; }
+.progress-item {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px;
+}
+.progress-item .pi-title { font-size: 13px; font-weight: 600; }
+.progress-item .pi-meta { font-size: 11px; color: var(--text2); }
+.progress-item .pi-score { font-size: 14px; font-weight: 700; }
+
+/* ACTIONS */
+.actions-bar {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-top: 24px;
+}
+.btn {
+  padding: 10px 20px; border-radius: 9px; border: none;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 600; transition: all 0.18s;
+}
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: var(--accent2); box-shadow: 0 4px 16px rgba(224,48,48,0.4); }
+.btn-secondary { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
+.btn-secondary:hover { color: var(--text); }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(224,48,48,0.3); border-radius: 3px; }
+
+/* PRINT */
+@media print {
+  body { background: white !important; color: #222 !important; }
+  .topbar, .actions-bar, .icon-btn { display: none !important; }
+  .report-container { max-width: 100%; padding: 0; margin: 0; }
+  .card, .chart-card, .feedback-card, .q-item, .report-header {
+    background: white !important; border-color: #ddd !important;
+    break-inside: avoid;
+  }
+  .crit-box { background: #f8f8f8 !important; }
+  * { color: #222 !important; }
 }
 </style>
 </head>
 <body>
 
-<!-- PRINT BAR -->
-<div class="no-print">
-  <button class="btn-back" onclick="window.close()">← Close</button>
-  <button class="btn-print" onclick="window.print()">🖨 Print / Save as PDF</button>
+<!-- TOPBAR -->
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span class="topbar-brand">Physicism</span>
+    <span style="font-size:13px;color:var(--text2);">Student Report</span>
+  </div>
+  <div style="display:flex;gap:8px;">
+    <button class="icon-btn" onclick="window.print()">🖨️ Print</button>
+    <button class="icon-btn" onclick="downloadPDF()">⬇ PDF</button>
+    <button class="icon-btn" onclick="window.location.href='exam-student.html'">← Back</button>
+    <button class="icon-btn" onclick="window.location.href='https://soralatul16.github.io/atul-soral-physicism/index.html'">🏠 Home</button>
+  </div>
 </div>
 
-<!-- REPORT -->
-<div class="report" id="report">
-  <div style="padding:60px;text-align:center;color:#888;">Loading report…</div>
+<div class="report-container" id="reportContainer">
+  <div id="reportContent"><p style="color:var(--text2);text-align:center;margin-top:100px;">Loading report…</p></div>
 </div>
 
 <script>
@@ -164,195 +363,438 @@ const ATTEMPTS_KEY = "PHYS_ATTEMPTS";
 function getLibrary()  { return JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]"); }
 function getAttempts() { return JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || "[]"); }
 
-window.addEventListener("DOMContentLoaded", () => {
-  const params = new URLSearchParams(window.location.search);
-  const attemptId = params.get("id");
-  if (!attemptId) { document.getElementById("report").innerHTML = "<p style='padding:40px;text-align:center;'>No attempt ID provided.</p>"; return; }
+const params = new URLSearchParams(window.location.search);
+const attemptId = params.get('id');
 
-  const a = getAttempts().find(x => x.id === attemptId);
-  if (!a) { document.getElementById("report").innerHTML = "<p style='padding:40px;text-align:center;'>Attempt not found.</p>"; return; }
+window.addEventListener('DOMContentLoaded', () => {
+  if (!attemptId) {
+    document.getElementById('reportContent').innerHTML = '<p style="color:var(--text2);text-align:center;margin-top:100px;">No attempt ID provided.</p>';
+    return;
+  }
+  buildReport();
+});
+
+function buildReport() {
+  const attempts = getAttempts();
+  const a = attempts.find(x => x.id === attemptId);
+  if (!a) { document.getElementById('reportContent').innerHTML = '<p style="color:var(--text2);text-align:center;">Attempt not found.</p>'; return; }
 
   const lib = getLibrary();
   const set = lib.find(s => s.id === a.setId);
-  if (!set) { document.getElementById("report").innerHTML = "<p style='padding:40px;text-align:center;'>Question set no longer exists.</p>"; return; }
+  const qBlocks = set ? (set.blocks || []).filter(b => b.saved && b.mode === 'question') : [];
+  const savedSections = set?.sections || [{ id: 1, name: 'Section 1' }];
+  const isGraded = a.gradingStatus === 'graded';
+  const myAttempts = attempts.filter(x => x.studentEmail === a.studentEmail && x.status === 'completed');
+  const sameSetAttempts = myAttempts.filter(x => x.setId === a.setId).sort((x, y) => x.endTime - y.endTime);
 
-  const qBlocks = (set.blocks || []).filter(b => b.saved && b.mode === "question");
-  const savedSections = set.sections || [{ id: 1, name: "Section 1" }];
-  const isGraded = a.gradingStatus === "graded";
-  const date = new Date(a.endTime || a.startTime).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
-  const duration = `${Math.floor((a.duration || 0) / 60)}m ${(a.duration || 0) % 60}s`;
-
-  // Criterion calculations
-  const critData = { A: { scored: 0, total: 0 }, B: { scored: 0, total: 0 }, C: { scored: 0, total: 0 }, D: { scored: 0, total: 0 } };
-  const critNames = { A: "Knowing & Understanding", B: "Inquiring & Designing", C: "Processing & Evaluating", D: "Reflecting on Impacts" };
+  // Criterion breakdown
+  const cm = { A: { earned: 0, total: 0 }, B: { earned: 0, total: 0 }, C: { earned: 0, total: 0 }, D: { earned: 0, total: 0 } };
   qBlocks.forEach((q, i) => {
-    const k = (q.meta?.criterion || "").charAt(0);
+    const k = (q.meta?.criterion || '').charAt(0);
     const marks = Number(q.meta?.marks || 0);
-    if (!critData[k]) return;
-    critData[k].total += marks;
+    let scored = 0;
     if (a.grades && a.grades[i] !== undefined) {
-      critData[k].scored += Number(a.grades[i]);
+      scored = Number(a.grades[i]);
     } else {
-      if (q.type === "True / False" && q.ui?.tfAnswer && a.answers?.[i] === q.ui.tfAnswer) critData[k].scored += marks;
-      else if (q.type === "MCQ" && q.data?.correct !== null && q.data?.correct !== undefined && a.answers?.[i] === q.data.correct) critData[k].scored += marks;
+      if (q.type === 'True / False' && q.ui?.tfAnswer && a.answers?.[i] === q.ui.tfAnswer) scored = marks;
+      else if (q.type === 'MCQ' && q.data?.correct !== null && q.data?.correct !== undefined && a.answers?.[i] === q.data.correct) scored = marks;
     }
+    if (cm[k]) { cm[k].earned += scored; cm[k].total += marks; }
   });
 
-  let html = "";
+  let html = '';
 
-  // ── HEADER ──
+  // ─── HEADER ───
   html += `
   <div class="report-header">
-    <div class="rh-brand">Physicism · IB MYP Physics</div>
-    <div class="rh-top">
-      <div>
-        <div class="rh-title">${set.heading || "Assessment Report"}</div>
-        <div class="rh-subtitle">${[set.chapter, set.topic].filter(Boolean).join(" · ")}</div>
+    <div class="brand-line">Atul Soral · Physicism</div>
+    <div class="brand-sub">IB MYP Sciences — Student Performance Report</div>
+    <h1>${a.setTitle || 'Assessment Report'}</h1>
+    <div class="meta-line">Student: <strong>${a.studentName || 'Unknown'}</strong></div>
+    <div class="meta-line">${set?.chapter || ''} · ${set?.topic || ''} · ${new Date(a.endTime || a.startTime).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+    <div class="meta-line">Duration: ${Math.floor((a.duration || 0) / 60)}m ${(a.duration || 0) % 60}s</div>
+    <div class="score-display">
+      <div class="score-ring">
+        <canvas id="scoreRing" width="100" height="100"></canvas>
+        <div class="score-text">
+          <span>${a.percentScore || 0}%</span>
+          <span class="score-sub">Score</span>
+        </div>
       </div>
-      <div class="rh-score-box">
-        <div class="rh-score">${a.percentScore || 0}%</div>
-        <div class="rh-score-label">${a.earnedMarks || 0} / ${a.totalMarks || 0} marks</div>
+      <div class="score-details">
+        <div>Marks: <span>${a.earnedMarks || 0} / ${a.totalMarks || 0}</span></div>
+        <div>Questions: <span>${qBlocks.length}</span></div>
+        <div>Attempt: <span>#${sameSetAttempts.indexOf(a) + 1} of ${sameSetAttempts.length}</span></div>
       </div>
+    </div>
+    <div class="graded-badge ${isGraded ? 'yes' : 'no'}">${isGraded ? '✓ Graded by Teacher' : '⏳ Awaiting Teacher Grading'}</div>
+  </div>`;
+
+  // ─── OVERALL TEACHER FEEDBACK ───
+  if (a.overallFeedback) {
+    html += `
+    <div class="feedback-card">
+      <div class="fb-label">👨‍🏫 Overall Teacher Feedback</div>
+      <div class="fb-text">${a.overallFeedback}</div>
+    </div>`;
+  }
+
+  // ─── CRITERION BREAKDOWN ───
+  html += `
+  <div class="card">
+    <div class="card-title">📊 Criterion Breakdown</div>
+    <div class="crit-grid">
+      ${['A', 'B', 'C', 'D'].map(c => {
+        const d = cm[c];
+        const pct = d.total > 0 ? Math.round(d.earned / d.total * 100) : 0;
+        const names = { A: 'Knowing & Understanding', B: 'Inquiring & Designing', C: 'Processing & Evaluating', D: 'Reflecting on Impacts' };
+        return `<div class="crit-box">
+          <div class="letter">${c}</div>
+          <div class="name">${names[c]}</div>
+          <div class="score">${d.total > 0 ? d.earned + ' / ' + d.total : '—'}</div>
+          <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%"></div></div>
+        </div>`;
+      }).join('')}
     </div>
   </div>`;
 
-  // ── INFO BAR ──
+  // ─── CHARTS ───
   html += `
-  <div class="info-bar">
-    <div class="info-item"><div class="info-label">Student</div><div class="info-value">${a.studentName || "—"}</div></div>
-    <div class="info-item"><div class="info-label">Date</div><div class="info-value">${date}</div></div>
-    <div class="info-item"><div class="info-label">Duration</div><div class="info-value">${duration}</div></div>
-    <div class="info-item"><div class="info-label">Status</div><div class="info-value">${isGraded ? "✓ Graded" : "Auto-scored"}</div></div>
+  <div class="chart-row">
+    <div class="chart-card">
+      <div class="card-title">📈 Criterion Radar</div>
+      <canvas id="critRadar" height="220"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="card-title">📉 Progress Over Attempts</div>
+      <canvas id="progressLine" height="220"></canvas>
+    </div>
   </div>`;
 
-  // ── OVERALL TEACHER FEEDBACK ──
-  if (a.overallFeedback) {
+  // ─── QUESTION REVIEW ───
+  html += `<div class="card"><div class="card-title">📝 Question-by-Question Review</div></div>`;
+
+  qBlocks.forEach((q, i) => {
+    const ans = a.answers?.[i];
+    const teacherGrade = a.grades?.[i];
+    const teacherFb = a.teacherFeedback?.[i];
+    const hasTeacherGrade = teacherGrade !== undefined && teacherGrade !== null && teacherGrade !== '';
+    const marks = Number(q.meta?.marks || 0);
+    const crit = q.meta?.criterion;
+    const markScheme = q.meta?.markScheme;
+
+    // Status
+    let statusColor = '#8a8898', statusText = 'Not answered';
+    if (q.type === 'MCQ' || q.type === 'Multiple Select MCQ') {
+      if (ans === undefined || ans === '' || (Array.isArray(ans) && ans.length === 0)) {
+        statusText = 'Not answered';
+      } else if (q.data?.correct !== undefined && q.data?.correct !== null) {
+        const correct = Array.isArray(q.data.correct)
+          ? JSON.stringify([...(Array.isArray(ans) ? ans : [])].sort()) === JSON.stringify([...q.data.correct].sort())
+          : ans === q.data.correct;
+        statusText = correct ? '✅ Correct' : '❌ Incorrect';
+        statusColor = correct ? '#5edd8a' : '#ff7070';
+      }
+    } else if (q.type === 'True / False') {
+      if (!ans) { statusText = 'Not answered'; }
+      else {
+        const correct = ans === q.ui?.tfAnswer;
+        statusText = correct ? '✅ Correct' : '❌ Incorrect';
+        statusColor = correct ? '#5edd8a' : '#ff7070';
+      }
+    } else {
+      if (!ans) { statusText = 'Not answered'; }
+      else if (hasTeacherGrade) { statusText = `Graded: ${teacherGrade}/${marks}`; statusColor = '#5edd8a'; }
+      else { statusText = 'Awaiting marking'; statusColor = '#f7c66e'; }
+    }
+
+    // Question label
+    const secId = q.sectionId || (savedSections[0]?.id || 1);
+    const sec = savedSections.find(s => s.id === secId) || savedSections[0] || { name: 'Section 1' };
+    const secIdx = savedSections.indexOf(sec) + 1;
+    const qInSec = qBlocks.slice(0, i + 1).filter(bk => bk.sectionId === secId).length;
+    const letters = ['a','b','c','d','e','f','g','h','i','j'];
+    const qLabel = `${secIdx}(${letters[qInSec - 1] || qInSec})`;
+
+    // Answer display
+    let ansHTML = '';
+    if (q.type === 'MCQ' || q.type === 'Multiple Select MCQ') {
+      const opts = (q.ui?.mcqOptions || []).filter(o => o.trim());
+      const multi = q.type === 'Multiple Select MCQ';
+      ansHTML = opts.map((o, oi) => {
+        const isStudentPick = multi ? (Array.isArray(ans) && ans.includes(oi)) : ans === oi;
+        const isCorrect = multi ? (Array.isArray(q.data?.correct) && q.data.correct.includes(oi)) : q.data?.correct === oi;
+        let cls = '';
+        if (isStudentPick && isCorrect) cls = 'correct';
+        else if (isStudentPick && !isCorrect) cls = 'wrong';
+        else if (!isStudentPick && isCorrect) cls = 'correct';
+        return `<div class="opt-display ${cls}">
+          <div class="opt-letter">${String.fromCharCode(65 + oi)}</div>
+          <span>${o}</span>
+          ${isStudentPick ? '<span style="margin-left:auto;font-size:11px;">👈 Your answer</span>' : ''}
+          ${isCorrect ? '<span style="margin-left:auto;font-size:11px;">✓ Correct</span>' : ''}
+        </div>`;
+      }).join('');
+    } else if (q.type === 'True / False') {
+      const correct = q.ui?.tfAnswer;
+      ansHTML = `<div style="display:flex;gap:10px;">
+        <div class="opt-display ${ans === 'True' ? (correct === 'True' ? 'correct' : 'wrong') : ''}" style="flex:1;justify-content:center;">
+          ✓ True ${ans === 'True' ? '👈' : ''} ${correct === 'True' ? '✓' : ''}
+        </div>
+        <div class="opt-display ${ans === 'False' ? (correct === 'False' ? 'correct' : 'wrong') : ''}" style="flex:1;justify-content:center;">
+          ✗ False ${ans === 'False' ? '👈' : ''} ${correct === 'False' ? '✓' : ''}
+        </div>
+      </div>`;
+    } else {
+      ansHTML = `<div class="answer-box">${ans || '(Not answered)'}</div>`;
+    }
+
     html += `
-    <div class="report-section">
-      <div class="feedback-box">
-        <div class="fb-label">👨‍🏫 Teacher Feedback</div>
-        <p>${a.overallFeedback}</p>
+    <div class="q-item" style="border-left:3px solid ${statusColor};">
+      <div class="q-item-header">
+        <div class="q-label-tags">
+          <span style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Q${qLabel} · ${q.type}</span>
+          ${marks ? `<span class="tag red">${marks} marks</span>` : ''}
+          ${crit ? `<span class="tag blue">Crit ${crit}</span>` : ''}
+          ${hasTeacherGrade ? `<span class="tag green">✓ ${teacherGrade}/${marks}</span>` : ''}
+        </div>
+        <span class="q-status" style="color:${statusColor};">${statusText}</span>
+      </div>
+      <div class="q-text">${q.data?.question || '(No question text)'}</div>
+      <div style="font-size:10px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Your Answer</div>
+      ${ansHTML}
+      ${teacherFb ? `<div class="teacher-fb"><div class="tfb-label">👨‍🏫 Teacher Feedback</div><div class="tfb-text">${teacherFb}</div></div>` : ''}
+      ${markScheme ? `<div class="ms-box"><div class="ms-label">📗 Mark Scheme</div><div class="ms-text">${markScheme}</div></div>` : ''}
+    </div>`;
+  });
+
+  // ─── PROGRESS HISTORY ───
+  if (sameSetAttempts.length > 1) {
+    html += `
+    <div class="card">
+      <div class="card-title">📈 Attempt History for This Set</div>
+      <div class="progress-list">
+        ${sameSetAttempts.map((att, idx) => `
+          <div class="progress-item" ${att.id === a.id ? 'style="border-color:var(--accent);"' : ''}>
+            <div>
+              <div class="pi-title">Attempt #${idx + 1} ${att.id === a.id ? '← This attempt' : ''}</div>
+              <div class="pi-meta">${new Date(att.endTime || att.startTime).toLocaleDateString('en-IN')} · ${Math.floor((att.duration || 0) / 60)}m</div>
+            </div>
+            <div class="pi-score" style="color:${(att.percentScore || 0) >= 70 ? '#5edd8a' : (att.percentScore || 0) >= 40 ? '#f7c66e' : '#ff7070'};">${att.percentScore || 0}%</div>
+          </div>`).join('')}
       </div>
     </div>`;
   }
 
-  // ── CRITERION BREAKDOWN ──
+  // ─── ACTIONS ───
   html += `
-  <div class="report-section">
-    <div class="section-title">Criterion Breakdown</div>
-    <table class="crit-table">
-      <thead><tr><th></th><th>Criterion</th><th class="crit-bar-cell">Performance</th><th style="text-align:right;">Score</th></tr></thead>
-      <tbody>`;
-
-  let totalScored = 0, totalMax = 0;
-  ["A", "B", "C", "D"].forEach(c => {
-    const d = critData[c];
-    const pct = d.total > 0 ? Math.round(d.scored / d.total * 100) : 0;
-    totalScored += d.scored;
-    totalMax += d.total;
-    html += `
-      <tr>
-        <td class="crit-letter">${c}</td>
-        <td class="crit-name">${critNames[c]}</td>
-        <td class="crit-bar-cell"><div class="crit-bar"><div class="crit-bar-fill" style="width:${pct}%"></div></div></td>
-        <td class="crit-score">${d.total > 0 ? d.scored + " / " + d.total : "—"}</td>
-      </tr>`;
-  });
-  html += `
-      <tr class="crit-total">
-        <td></td>
-        <td>Total</td>
-        <td></td>
-        <td class="crit-score">${totalScored} / ${totalMax}</td>
-      </tr>
-      </tbody></table>
+  <div class="actions-bar">
+    <button class="btn btn-primary" onclick="downloadPDF()">⬇ Download PDF</button>
+    <button class="btn btn-secondary" onclick="window.print()">🖨️ Print Report</button>
+    <button class="btn btn-secondary" onclick="window.location.href='exam-student.html'">← Back to Dashboard</button>
   </div>`;
 
-  // ── QUESTION REVIEW ──
-  html += `<div class="report-section"><div class="section-title">Question Review</div>`;
+  document.getElementById('reportContent').innerHTML = html;
 
-  qBlocks.forEach((q, i) => {
-    const secId = q.sectionId || (savedSections[0]?.id || 1);
-    const sec = savedSections.find(s => s.id === secId) || savedSections[0];
-    const secIdx = savedSections.indexOf(sec) + 1;
-    const qInSec = qBlocks.slice(0, i + 1).filter(bk => bk.sectionId === secId).length;
-    const letters = ["a","b","c","d","e","f","g","h","i","j","k","l"];
-    const qLabel = `${secIdx}(${letters[qInSec - 1] || qInSec})`;
+  // ─── RENDER CHARTS ───
+  setTimeout(() => {
+    renderScoreRing(a.percentScore || 0);
+    renderCritRadar(cm);
+    renderProgressLine(sameSetAttempts);
+  }, 100);
+}
 
-    const maxMarks = Number(q.meta?.marks || 0);
-    const crit = q.meta?.criterion || "";
-    const teacherGrade = a.grades?.[i];
-    const teacherFb = a.teacherFeedback?.[i];
-    const hasGrade = teacherGrade !== undefined && teacherGrade !== null && teacherGrade !== "";
-    const ans = a.answers?.[i];
+// ─── Score Ring ───
+function renderScoreRing(pct) {
+  const canvas = document.getElementById('scoreRing');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const cx = 50, cy = 50, r = 38, lw = 6;
+  ctx.clearRect(0, 0, 100, 100);
+  // Background ring
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = lw; ctx.stroke();
+  // Score arc
+  const angle = (pct / 100) * Math.PI * 2;
+  ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + angle);
+  ctx.strokeStyle = pct >= 70 ? '#27ae60' : pct >= 40 ? '#d29922' : '#e03030';
+  ctx.lineWidth = lw; ctx.lineCap = 'round'; ctx.stroke();
+}
 
-    // Determine answer display and correctness
-    let ansDisplay = "";
-    let ansClass = "";
-    if (q.type === "MCQ" || q.type === "Multiple Select MCQ") {
-      const opts = (q.ui?.mcqOptions || []).filter(o => o.trim());
-      if (ans === undefined || ans === "" || (Array.isArray(ans) && ans.length === 0)) {
-        ansDisplay = "(Not answered)";
-      } else {
-        const picks = Array.isArray(ans) ? ans : [ans];
-        ansDisplay = picks.map(n => `${String.fromCharCode(65 + n)}. ${opts[n] || ""}`).join("\n");
-        const correctIdx = q.data?.correct;
-        const isCorrect = Array.isArray(correctIdx)
-          ? JSON.stringify([...picks].sort()) === JSON.stringify([...correctIdx].sort())
-          : ans === correctIdx;
-        ansClass = isCorrect ? "correct" : "incorrect";
+// ─── Criterion Radar Chart ───
+function renderCritRadar(cm) {
+  const canvas = document.getElementById('critRadar');
+  if (!canvas) return;
+  const pcts = ['A', 'B', 'C', 'D'].map(c => cm[c].total > 0 ? Math.round(cm[c].earned / cm[c].total * 100) : 0);
+  new Chart(canvas, {
+    type: 'radar',
+    data: {
+      labels: ['Criterion A', 'Criterion B', 'Criterion C', 'Criterion D'],
+      datasets: [{
+        data: pcts,
+        backgroundColor: 'rgba(224,48,48,0.15)',
+        borderColor: 'rgba(224,48,48,0.7)',
+        borderWidth: 2,
+        pointBackgroundColor: '#e03030',
+        pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          beginAtZero: true, max: 100,
+          ticks: { display: false },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          pointLabels: { color: '#b08888', font: { size: 11 } },
+          angleLines: { color: 'rgba(255,255,255,0.06)' }
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+// ─── Progress Line Chart ───
+function renderProgressLine(attempts) {
+  const canvas = document.getElementById('progressLine');
+  if (!canvas) return;
+  if (attempts.length < 2) {
+    canvas.parentElement.innerHTML += '<p style="font-size:12px;color:var(--text2);text-align:center;margin-top:10px;">Complete more attempts to see progress.</p>';
+  }
+  new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: attempts.map((_, i) => 'Attempt ' + (i + 1)),
+      datasets: [{
+        data: attempts.map(a => a.percentScore || 0),
+        borderColor: '#e03030',
+        backgroundColor: 'rgba(224,48,48,0.1)',
+        fill: true,
+        tension: 0.3,
+        borderWidth: 2,
+        pointBackgroundColor: '#e03030',
+        pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: { beginAtZero: true, max: 100, ticks: { color: '#b08888' }, grid: { color: 'rgba(255,255,255,0.06)' } },
+        x: { ticks: { color: '#b08888' }, grid: { color: 'rgba(255,255,255,0.06)' } }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+// ─── PDF Download ───
+function downloadPDF() {
+  try {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const attempts = getAttempts();
+    const a = attempts.find(x => x.id === attemptId);
+    if (!a) return;
+    const lib = getLibrary();
+    const set = lib.find(s => s.id === a.setId);
+    const qBlocks = set ? (set.blocks || []).filter(b => b.saved && b.mode === 'question') : [];
+
+    let y = 18;
+    doc.setFontSize(18); doc.setFont('helvetica', 'bold');
+    doc.setTextColor(224, 48, 48);
+    doc.text('Atul Soral Physicism', 20, y); y += 7;
+    doc.setFontSize(10); doc.setFont('helvetica', 'normal');
+    doc.setTextColor(100, 100, 100);
+    doc.text('IB MYP Sciences — Student Performance Report', 20, y); y += 10;
+
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(14); doc.setFont('helvetica', 'bold');
+    doc.text(a.setTitle || 'Assessment Report', 20, y); y += 7;
+    doc.setFontSize(10); doc.setFont('helvetica', 'normal');
+    doc.text(`Student: ${a.studentName}`, 20, y); y += 5;
+    doc.text(`Date: ${new Date(a.endTime || Date.now()).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}`, 20, y); y += 5;
+    doc.text(`Score: ${a.earnedMarks || 0} / ${a.totalMarks || 0} (${a.percentScore || 0}%)   Duration: ${Math.floor((a.duration || 0) / 60)}m ${(a.duration || 0) % 60}s`, 20, y); y += 5;
+
+    if (a.gradingStatus === 'graded') {
+      doc.setTextColor(39, 174, 96);
+      doc.text('✓ Graded by Teacher', 20, y); y += 5;
+      doc.setTextColor(0, 0, 0);
+    }
+    y += 3;
+    doc.setDrawColor(224, 48, 48); doc.line(20, y, 190, y); y += 8;
+
+    // Criterion breakdown
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+    doc.text('Criterion Breakdown', 20, y); y += 6;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+    const cm = { A: { e: 0, t: 0 }, B: { e: 0, t: 0 }, C: { e: 0, t: 0 }, D: { e: 0, t: 0 } };
+    qBlocks.forEach((q, i) => {
+      const k = (q.meta?.criterion || '').charAt(0);
+      const marks = Number(q.meta?.marks || 0);
+      let scored = 0;
+      if (a.grades && a.grades[i] !== undefined) scored = Number(a.grades[i]);
+      else {
+        if (q.type === 'True / False' && q.ui?.tfAnswer && a.answers?.[i] === q.ui.tfAnswer) scored = marks;
+        else if (q.type === 'MCQ' && q.data?.correct !== null && q.data?.correct !== undefined && a.answers?.[i] === q.data.correct) scored = marks;
       }
-    } else if (q.type === "True / False") {
-      ansDisplay = ans || "(Not answered)";
-      if (ans && q.ui?.tfAnswer) ansClass = ans === q.ui.tfAnswer ? "correct" : "incorrect";
-    } else {
-      ansDisplay = ans || "(Not answered)";
+      if (cm[k]) { cm[k].e += scored; cm[k].t += marks; }
+    });
+    const critNames = { A: 'Knowing', B: 'Inquiring', C: 'Processing', D: 'Reflecting' };
+    ['A', 'B', 'C', 'D'].forEach(c => {
+      const d = cm[c];
+      doc.text(`Criterion ${c} (${critNames[c]}): ${d.t > 0 ? d.e + ' / ' + d.t + ' (' + Math.round(d.e / d.t * 100) + '%)' : '—'}`, 24, y);
+      y += 5;
+    });
+    y += 3; doc.line(20, y, 190, y); y += 8;
+
+    // Overall feedback
+    if (a.overallFeedback) {
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+      doc.text('Teacher Feedback:', 20, y); y += 6;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+      const fbLines = doc.splitTextToSize(a.overallFeedback, 165);
+      doc.text(fbLines, 20, y); y += fbLines.length * 5 + 4;
+      doc.line(20, y, 190, y); y += 8;
     }
 
-    // Score badge
-    let scoreBadge = "";
-    if (hasGrade) {
-      scoreBadge = `<span class="q-badge scored">✓ ${teacherGrade}/${maxMarks}</span>`;
-    } else if (q.type === "MCQ" || q.type === "True / False") {
-      let auto = 0;
-      if (q.type === "MCQ" && q.data?.correct !== undefined && ans === q.data.correct) auto = maxMarks;
-      if (q.type === "True / False" && q.ui?.tfAnswer && ans === q.ui.tfAnswer) auto = maxMarks;
-      scoreBadge = `<span class="q-badge scored">${auto}/${maxMarks}</span>`;
-    } else {
-      scoreBadge = hasGrade ? "" : `<span class="q-badge pending">Pending</span>`;
-    }
+    // Questions
+    qBlocks.forEach((q, i) => {
+      if (y > 250) { doc.addPage(); y = 20; }
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+      const gradeText = a.grades?.[i] !== undefined ? ` — Scored: ${a.grades[i]}/${q.meta?.marks || 0}` : '';
+      doc.text(`Q${i + 1}. [${q.meta?.marks || 0} marks]${gradeText}`, 20, y); y += 5;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+      const qText = (q.data?.question || '').replace(/<[^>]+>/g, '');
+      const lines = doc.splitTextToSize(qText, 165);
+      doc.text(lines, 20, y); y += lines.length * 5 + 2;
 
-    html += `
-    <div class="q-card">
-      <div class="q-card-header">
-        <span class="q-num">Q${qLabel} · ${q.type}</span>
-        <div class="q-meta">
-          ${crit ? `<span class="q-badge crit">Crit ${crit}</span>` : ""}
-          <span class="q-badge marks">${maxMarks} marks</span>
-          ${scoreBadge}
-        </div>
-      </div>
-      <div class="q-card-body">
-        <div class="q-question">${q.data?.question || q.data?.text || "(No question text)"}</div>
-        <div class="q-answer-label">Student Answer</div>
-        <div class="q-answer ${ansClass}">${ansDisplay || "(Not answered)"}</div>
-        ${teacherFb ? `<div class="q-teacher-fb"><div class="tfb-label">Teacher Feedback</div><p>${teacherFb}</p></div>` : ""}
-      </div>
-    </div>`;
-  });
+      const ans = a.answers?.[i];
+      const disp = Array.isArray(ans) ? ans.map(n => String.fromCharCode(65 + n)).join(', ') :
+        typeof ans === 'number' ? String.fromCharCode(65 + ans) : (ans || '(Not answered)');
+      doc.setFont('helvetica', 'italic');
+      const ansLines = doc.splitTextToSize('Answer: ' + disp.substring(0, 500), 165);
+      doc.text(ansLines, 20, y); y += ansLines.length * 5;
 
-  html += `</div>`;
+      if (a.teacherFeedback?.[i]) {
+        doc.setFont('helvetica', 'normal'); doc.setTextColor(39, 174, 96);
+        const tfbLines = doc.splitTextToSize('Teacher: ' + a.teacherFeedback[i], 165);
+        doc.text(tfbLines, 20, y); y += tfbLines.length * 5;
+        doc.setTextColor(0, 0, 0);
+      }
+      y += 5;
+    });
 
-  // ── FOOTER ──
-  html += `
-  <div class="report-footer">
-    <span>Physicism · Atul Soral · IB MYP Physics</span>
-    <span>Generated: ${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</span>
-  </div>`;
-
-  document.getElementById("report").innerHTML = html;
-  document.title = `Report — ${a.studentName} — ${set.heading}`;
-});
+    doc.save(`Physicism_Report_${(a.setTitle || 'exam').replace(/\s/g, '_')}.pdf`);
+  } catch (e) { alert('PDF download failed.'); console.error(e); }
+}
 </script>
+
+<!-- Feedback widget -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="../../feedback.js"></script>
+
 </body>
 </html>
