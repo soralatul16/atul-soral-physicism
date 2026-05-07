@@ -537,13 +537,14 @@ function applyFilters() {
     if(q && !s.heading?.toLowerCase().includes(q) && !s.topic?.toLowerCase().includes(q) && !s.chapter?.toLowerCase().includes(q)) return false;
     if(crit && s.criterion!==crit) return false;
     if(gc && s.gc!==gc) return false;
-    if(st){
+        if(st){
       const mine=attempts.filter(a=>a.setId===s.id);
       const last=mine.sort((a,b)=>b.startTime-a.startTime)[0];
-      if(st==="not_attempted"&&last) return false;
-      if(st==="in_progress"&&(!last||last.status!=="in_progress")) return false;
-      if(st==="completed"&&(!last||last.status!=="completed")) return false;
+      if(st==="not_attempted" && last) return false;
+      if(st==="in_progress" && (!last || last.status!=="in_progress")) return false;
+      if(st==="completed" && (!last || last.status!=="completed")) return false;
     }
+
     return true;
   });
 
