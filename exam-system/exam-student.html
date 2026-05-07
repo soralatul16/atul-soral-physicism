@@ -644,23 +644,27 @@ function buildInput(q,idx){
       <div class="tf-opt ${saved==="False"?"selected-false":""}" onclick="pickTF(${idx},'False')">✗ False</div>
     </div>`;
   }
-  if(t==="Fill in the Blank"||t==="Fill Text"){
+    if(t==="Fill in the Blank"||t==="Fill Text"){
+    const fillText = q.data?.fillText || '';
+    if(fillText && fillText.includes('[blank]')){
+      // Render as fill-in-the-blank sentence
+      const parts = fillText.split('[blank]');
+      let html = '<div style="font-size:14px;line-height:2.2;color:var(--text);padding:8px 0;">';
+      parts.forEach((part,pi)=>{
+        html += part;
+        if(pi < parts.length-1){
+          html += `<input type="text" class="fill-input" style="display:inline;width:150px;margin:0 4px;border-color:var(--accent);"
+            placeholder="fill in" value="${(saved&&typeof saved==='object'?saved[pi]:'')||''}"
+            oninput="saveFillAns(${idx},${pi},this.value)">`;
+        }
+      });
+      html += '</div>';
+      return html;
+    }
+    // Fallback: simple text input
     return `<input class="fill-input" type="text" placeholder="Type your answer…" value="${saved||""}" oninput="saveAnsText(${idx},this.value)">`;
   }
-    if(t==="Desmos Graph"){
-    const expr = q.data?.prefill || '';
-    const instr = q.data?.graphInstructions || '';
-    return `<div>
-      ${instr ? `<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>` : ''}
-      <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;height:400px;">
-        <iframe src="https://www.desmos.com/calculator?lang=en" style="width:100%;height:100%;border:none;" allow="clipboard-write"></iframe>
-      </div>
-      <p style="font-size:11px;color:var(--text2);margin-top:4px;">Tip: Close the sign-in popup (click X) to use the calculator without logging in.</p>
-      <div class="long-answer-wrap" style="margin-top:10px;">
-        <textarea placeholder="Write your answer / observations about the graph here…" oninput="saveAnsText(${idx},this.value)">${saved||""}</textarea>
-      </div>
-    </div>`;
-  }
+
 
   if(t==="GeoGebra Graph"){
     const matId = q.data?.prefill || '';
@@ -747,23 +751,24 @@ function buildInput(q,idx){
     return html;
   }
 
-  if(t==="Classify"){
+    if(t==="Classify"){
     const cats = q.ui?.classifyCategories || [];
     const items = q.ui?.classifyItems || [];
     return `<div>
-      <p style="font-size:12px;color:var(--text2);margin-bottom:8px;">Drag or type the category name for each item:</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
-        ${cats.map(c=>`<span style="padding:4px 12px;background:rgba(224,48,48,0.1);border:1px solid rgba(224,48,48,0.3);border-radius:6px;font-size:12px;color:var(--accent);">${c}</span>`).join('')}
+      <p style="font-size:12px;color:var(--text2);margin-bottom:8px;">Assign each item to a category:</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+        ${cats.filter(c=>c.trim()).map(c=>`<span style="padding:6px 14px;background:rgba(224,48,48,0.12);border:1px solid rgba(224,48,48,0.3);border-radius:8px;font-size:12px;color:var(--accent);font-weight:600;">${c}</span>`).join('')}
       </div>
-      ${items.map((item,ii)=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
-        <span style="font-size:13px;min-width:120px;">${item}</span>
-        <select onchange="saveClassifyAns(${idx},${ii},this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:12px;flex:1;">
+      ${items.filter(item=>item.trim()).map((item,ii)=>`<div style="display:flex;gap:10px;align-items:center;margin-bottom:8px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+        <span style="font-size:13px;flex:1;">${item}</span>
+        <select onchange="saveClassifyAns(${idx},${ii},this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 12px;color:var(--text);font-size:12px;min-width:140px;">
           <option value="">Select category...</option>
-          ${cats.map(c=>`<option value="${c}" ${(saved&&saved[ii])===c?'selected':''}>${c}</option>`).join('')}
+          ${cats.filter(c=>c.trim()).map(c=>`<option value="${c}" ${(saved&&saved[ii])===c?'selected':''}>${c}</option>`).join('')}
         </select>
       </div>`).join('')}
     </div>`;
   }
+
   if(t==="Label Drag"||t==="Label Fill"){
     const imgUrl = q.data?.imageUrl || '';
     const labels = (q.data?.labels || '').split(',').map(l=>l.trim()).filter(Boolean);
