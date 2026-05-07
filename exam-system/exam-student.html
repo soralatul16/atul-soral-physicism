@@ -699,6 +699,80 @@ function buildInput(q,idx){
       </div>`).join('')}
     </div>`;
   }
+    if(t==="Table"){
+    const rows = q.data?.tableRows || 3;
+    const cols = q.data?.tableCols || 3;
+    const headers = q.data?.tableHeaders || [];
+    const prefill = q.data?.tablePrefill || [];
+    let tableHTML = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;background:var(--surface2);border-radius:8px;overflow:hidden;">';
+    tableHTML += '<tr>';
+    for(let c=0;c<cols;c++){
+      tableHTML += `<th style="border:1px solid var(--border);padding:8px 10px;font-size:12px;color:var(--accent);text-align:center;background:rgba(224,48,48,0.08);">${headers[c]||'Col '+(c+1)}</th>`;
+    }
+    tableHTML += '</tr>';
+    for(let r=0;r<rows;r++){
+      tableHTML += '<tr>';
+      for(let c=0;c<cols;c++){
+        const pre = (prefill[r]&&prefill[r][c]) || '';
+        const val = (saved && saved[r] && saved[r][c]) || '';
+        if(pre){
+          tableHTML += `<td style="border:1px solid var(--border);padding:8px;text-align:center;font-size:13px;color:var(--text3);">${pre}</td>`;
+        } else {
+          tableHTML += `<td style="border:1px solid var(--border);padding:4px;"><input type="text" value="${val}" placeholder="—" oninput="saveTableAns(${idx},${r},${c},this.value)" style="width:100%;background:transparent;border:none;color:var(--text);font-size:13px;text-align:center;outline:none;font-family:'Sora',sans-serif;"></td>`;
+        }
+      }
+      tableHTML += '</tr>';
+    }
+    tableHTML += '</table></div>';
+    return tableHTML;
+  }
+  if(t==="Fill Drop Down"){
+    const fillText = q.data?.fillText || '';
+    const options = (q.data?.options || '').split(',').map(o=>o.trim()).filter(Boolean);
+    const parts = fillText.split('[blank]');
+    let html = '<div style="font-size:14px;line-height:2;color:var(--text3);">';
+    parts.forEach((part,pi)=>{
+      html += part;
+      if(pi < parts.length-1){
+        html += `<select onchange="saveFillAns(${idx},${pi},this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:13px;margin:0 4px;">
+          <option value="">Select...</option>
+          ${options.map(o=>`<option value="${o}" ${(saved&&saved[pi])===o?'selected':''}>${o}</option>`).join('')}
+        </select>`;
+      }
+    });
+    html += '</div>';
+    return html;
+  }
+  if(t==="Classify"){
+    const cats = q.ui?.classifyCategories || [];
+    const items = q.ui?.classifyItems || [];
+    return `<div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:8px;">Drag or type the category name for each item:</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+        ${cats.map(c=>`<span style="padding:4px 12px;background:rgba(224,48,48,0.1);border:1px solid rgba(224,48,48,0.3);border-radius:6px;font-size:12px;color:var(--accent);">${c}</span>`).join('')}
+      </div>
+      ${items.map((item,ii)=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
+        <span style="font-size:13px;min-width:120px;">${item}</span>
+        <select onchange="saveClassifyAns(${idx},${ii},this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-size:12px;flex:1;">
+          <option value="">Select category...</option>
+          ${cats.map(c=>`<option value="${c}" ${(saved&&saved[ii])===c?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>`).join('')}
+    </div>`;
+  }
+  if(t==="Label Drag"||t==="Label Fill"){
+    const imgUrl = q.data?.imageUrl || '';
+    const labels = (q.data?.labels || '').split(',').map(l=>l.trim()).filter(Boolean);
+    return `<div>
+      ${imgUrl ? `<div style="margin-bottom:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden;"><img src="${imgUrl}" style="width:100%;display:block;"></div>` : ''}
+      <p style="font-size:12px;color:var(--text2);margin-bottom:8px;">Fill in the labels:</p>
+      ${labels.map((l,li)=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
+        <span style="font-size:12px;color:var(--text2);min-width:20px;">${li+1}.</span>
+        <input class="fill-input" type="text" placeholder="Label ${li+1}" value="${(saved&&saved[li])||''}" oninput="saveLabelAns(${idx},${li},this.value)">
+      </div>`).join('')}
+    </div>`;
+  }
+
     if(t==="Drawing"){
     const imgUrl = q.data?.drawingImage || '';
     const instr = q.data?.drawingInstructions || '';
@@ -1332,6 +1406,28 @@ window.addEventListener("DOMContentLoaded",()=>{
   buildChapterTree();
   loadDashboard();
 });
+/* ══════════ Table, Fill, Classify, Label answer helpers ══════════ */
+function saveTableAns(qi,r,c,v){
+  if(!currentAttempt.answers[qi]) currentAttempt.answers[qi]={};
+  if(!currentAttempt.answers[qi][r]) currentAttempt.answers[qi][r]={};
+  currentAttempt.answers[qi][r][c]=v;
+  renderQNav();
+}
+function saveFillAns(qi,pi,v){
+  if(!currentAttempt.answers[qi]) currentAttempt.answers[qi]={};
+  currentAttempt.answers[qi][pi]=v;
+  renderQNav();
+}
+function saveClassifyAns(qi,ii,v){
+  if(!currentAttempt.answers[qi]) currentAttempt.answers[qi]={};
+  currentAttempt.answers[qi][ii]=v;
+  renderQNav();
+}
+function saveLabelAns(qi,li,v){
+  if(!currentAttempt.answers[qi]) currentAttempt.answers[qi]={};
+  currentAttempt.answers[qi][li]=v;
+  renderQNav();
+}
 
 /* ══════════ Drawing Canvas ══════════ */
 let drawState = {};
