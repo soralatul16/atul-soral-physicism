@@ -698,6 +698,35 @@ function buildInput(q,idx){
       </div>`).join('')}
     </div>`;
   }
+    if(t==="Drawing"){
+    const imgUrl = q.data?.drawingImage || '';
+    const instr = q.data?.drawingInstructions || '';
+    return `<div>
+      ${instr ? `<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>` : ''}
+      <div style="position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:white;">
+        ${imgUrl ? `<img src="${imgUrl}" style="width:100%;display:block;pointer-events:none;user-select:none;" alt="Reference diagram" id="draw-bg-${idx}">` : ''}
+        <canvas id="draw-canvas-${idx}" style="position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;touch-action:none;"
+          onmousedown="startDraw(event,${idx})" onmousemove="draw(event,${idx})" onmouseup="endDraw(${idx})" onmouseleave="endDraw(${idx})"
+          ontouchstart="startDrawTouch(event,${idx})" ontouchmove="drawTouch(event,${idx})" ontouchend="endDraw(${idx})"></canvas>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+        <button class="q-ctrl-btn" onclick="clearCanvas(${idx})">🗑 Clear</button>
+        <button class="q-ctrl-btn" onclick="undoCanvas(${idx})">↩ Undo</button>
+        <select onchange="setDrawColor(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;">
+          <option value="#e03030">🔴 Red</option>
+          <option value="#000000">⚫ Black</option>
+          <option value="#2980b9">🔵 Blue</option>
+          <option value="#27ae60">🟢 Green</option>
+        </select>
+        <select onchange="setDrawSize(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;">
+          <option value="2">Thin</option>
+          <option value="3" selected>Medium</option>
+          <option value="5">Thick</option>
+        </select>
+      </div>
+    </div>`;
+  }
+
   // Default: Long Answer / any other type
   const wc=(saved||"").split(/\s+/).filter(Boolean).length;
   return `<div class="long-answer-wrap">
@@ -1094,6 +1123,104 @@ window.addEventListener("DOMContentLoaded",()=>{
   buildChapterTree();
   loadDashboard();
 });
+
+/* ══════════ Drawing Canvas ══════════ */
+let drawState = {};
+let drawColor = '#e03030';
+let drawSize = 3;
+
+function getCanvasCtx(idx) {
+  const canvas = document.getElementById('draw-canvas-' + idx);
+  if (!canvas) return null;
+  if (!drawState[idx]) drawState[idx] = { drawing: false, history: [] };
+  const bgImg = document.getElementById('draw-bg-' + idx);
+  if (canvas.width === 0 || canvas.width === 300) {
+    if (bgImg && bgImg.naturalWidth) {
+      canvas.width = bgImg.naturalWidth;
+      canvas.height = bgImg.naturalHeight;
+    } else {
+      canvas.width = 700;
+      canvas.height = 400;
+    }
+  }
+  return { canvas, ctx: canvas.getContext('2d') };
+}
+
+function startDraw(e, idx) {
+  const d = getCanvasCtx(idx); if (!d) return;
+  drawState[idx].drawing = true;
+  const rect = d.canvas.getBoundingClientRect();
+  const scaleX = d.canvas.width / rect.width;
+  const scaleY = d.canvas.height / rect.height;
+  d.ctx.beginPath();
+  d.ctx.moveTo((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
+  d.ctx.strokeStyle = drawColor;
+  d.ctx.lineWidth = drawSize;
+  d.ctx.lineCap = 'round';
+  d.ctx.lineJoin = 'round';
+}
+
+function draw(e, idx) {
+  if (!drawState[idx]?.drawing) return;
+  const d = getCanvasCtx(idx); if (!d) return;
+  const rect = d.canvas.getBoundingClientRect();
+  const scaleX = d.canvas.width / rect.width;
+  const scaleY = d.canvas.height / rect.height;
+  d.ctx.lineTo((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
+  d.ctx.stroke();
+}
+
+function endDraw(idx) {
+  if (!drawState[idx]) return;
+  drawState[idx].drawing = false;
+  const d = getCanvasCtx(idx); if (!d) return;
+  drawState[idx].history.push(d.ctx.getImageData(0, 0, d.canvas.width, d.canvas.height));
+  const bgImg = document.getElementById('draw-bg-' + idx);
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = d.canvas.width;
+  tempCanvas.height = d.canvas.height;
+  const tempCtx = tempCanvas.getContext('2d');
+  if (bgImg && bgImg.complete) tempCtx.drawImage(bgImg, 0, 0, d.canvas.width, d.canvas.height);
+  tempCtx.drawImage(d.canvas, 0, 0);
+  currentAttempt.answers[currentQIdx] = tempCanvas.toDataURL();
+  renderQNav();
+}
+
+function startDrawTouch(e, idx) {
+  e.preventDefault();
+  startDraw({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }, idx);
+}
+
+function drawTouch(e, idx) {
+  e.preventDefault();
+  draw({ clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }, idx);
+}
+
+function clearCanvas(idx) {
+  const d = getCanvasCtx(idx); if (!d) return;
+  d.ctx.clearRect(0, 0, d.canvas.width, d.canvas.height);
+  if (drawState[idx]) drawState[idx].history = [];
+  currentAttempt.answers[currentQIdx] = undefined;
+  renderQNav();
+}
+
+function undoCanvas(idx) {
+  if (!drawState[idx]?.history?.length) return;
+  drawState[idx].history.pop();
+  const d = getCanvasCtx(idx); if (!d) return;
+  d.ctx.clearRect(0, 0, d.canvas.width, d.canvas.height);
+  if (drawState[idx].history.length > 0) {
+    d.ctx.putImageData(drawState[idx].history[drawState[idx].history.length - 1], 0, 0);
+  } else {
+    currentAttempt.answers[currentQIdx] = undefined;
+  }
+  renderQNav();
+}
+
+function setDrawColor(c) { drawColor = c; }
+function setDrawSize(s) { drawSize = Number(s); }
+
+  
 </script>
 
 <!-- Feedback widget -->
