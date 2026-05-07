@@ -1449,6 +1449,47 @@ function loadAnalytics(){
     </div>`).join("")||`<p style="color:var(--text2);font-size:13px;">No attempts yet.</p>`;
 }
 
+/* ══════════ Import/Export Library ══════════ */
+function exportLibrary() {
+  const data = {
+    library: JSON.parse(localStorage.getItem('MYP_LIBRARY') || '[]'),
+    students: JSON.parse(localStorage.getItem('PHYS_STUDENTS') || '[]')
+  };
+  const blob = new Blob([JSON.stringify(data)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'physicism-data.json'; a.click();
+}
+
+function importLibrary() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (data.library) localStorage.setItem('MYP_LIBRARY', JSON.stringify(data.library));
+        if (data.students) {
+          const existing = JSON.parse(localStorage.getItem('PHYS_STUDENTS') || '[]');
+          const merged = [...existing];
+          data.students.forEach(s => {
+            if (!merged.find(x => x.email === s.email)) merged.push(s);
+          });
+          localStorage.setItem('PHYS_STUDENTS', JSON.stringify(merged));
+        }
+        alert('✅ Data imported! Refreshing...');
+        location.reload();
+      } catch(err) { alert('❌ Invalid file.'); }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+  
+  
 /* Init */
 window.addEventListener("DOMContentLoaded",()=>{
   if(!checkSession()) return;
