@@ -1038,13 +1038,33 @@ function showResults(attemptId){
         </div>
       </div>`;
 
-    } else {
-      const ansText=a.answers?.[i];
-      if(!ansText){statusText="Not answered";statusColor="#8a8898";}
+        } else {
+      const rawAns=a.answers?.[i];
+      let ansDisplay="(Not answered)";
+      let hasAnswer=false;
+      if(rawAns && typeof rawAns === 'string' && rawAns.startsWith('data:image')){
+        ansDisplay='[Drawing]'; hasAnswer=true;
+        studentAnsHTML=`<div style="margin-top:8px;"><img src="${rawAns}" style="max-width:100%;border-radius:7px;border:1px solid var(--border);"></div>`;
+      } else if(rawAns && typeof rawAns === 'object' && !Array.isArray(rawAns)){
+        hasAnswer=true;
+        let parts=[];
+        Object.entries(rawAns).forEach(([k,v])=>{
+          if(typeof v==='object'&&v!==null){ Object.entries(v).forEach(([k2,v2])=>{ if(v2) parts.push(v2); }); }
+          else if(v){ parts.push(String(v)); }
+        });
+        ansDisplay=parts.join(', ')||'(Answered)';
+        studentAnsHTML=`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:12px;margin-top:8px;font-size:13px;line-height:1.6;color:var(--text3);">${ansDisplay}</div>`;
+      } else if(rawAns){
+        hasAnswer=true; ansDisplay=String(rawAns);
+        studentAnsHTML=`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:12px;margin-top:8px;font-size:13px;line-height:1.6;color:var(--text3);white-space:pre-wrap;">${ansDisplay}</div>`;
+      } else {
+        studentAnsHTML=`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:12px;margin-top:8px;font-size:13px;color:var(--text2);">(Not answered)</div>`;
+      }
+      if(!hasAnswer){statusText="Not answered";statusColor="#8a8898";}
       else if(hasTeacherGrade){statusText=`Graded: ${teacherGrade}/${q.meta?.marks||0}`;statusColor="#5edd8a";}
       else{statusText="Answered — awaiting teacher marking";statusColor="#f7c66e";}
-      studentAnsHTML=`<div style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:12px;margin-top:8px;font-size:13px;line-height:1.6;color:var(--text3);white-space:pre-wrap;">${ansText||"(Not answered)"}</div>`;
     }
+
 
     if(hasTeacherGrade && q.type!=="MCQ" && q.type!=="Multiple Select MCQ" && q.type!=="True / False"){
       statusText=`Graded: ${teacherGrade}/${q.meta?.marks||0}`;
