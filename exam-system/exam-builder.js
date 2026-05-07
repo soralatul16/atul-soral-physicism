@@ -642,13 +642,26 @@ function questionEditorHTML(i) {
       <input type="text" id="ld-labels-${i}" placeholder="Labels (comma separated): e.g. Nucleus, Cell Wall" value="${b.data.labels||''}">
       ${critStrip}${metaStrip}${markScheme}`;
 
-  } else if (t === 'Desmos Graph' || t === 'GeoGebra Graph') {
+    } else if (t === 'Desmos Graph') {
     body = `${qPrompt}
-      <div style="border:1px solid var(--border);border-radius:8px;height:200px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:13px;background:var(--surface2);">
-        📈 ${t} embed (coming soon)
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Students will see a live Desmos calculator. Optionally pre-load an expression:</div>
+      <input type="text" id="graph-prefill-${i}" placeholder="Default expression e.g. y=x^2 (optional)" value="${b.data.prefill||''}">
+      <input type="text" id="graph-instructions-${i}" placeholder="Instructions e.g. 'Graph the function f(x)=2x+3'" value="${b.data.graphInstructions||''}">
+      <div style="margin-top:10px;border:1px solid var(--border);border-radius:8px;overflow:hidden;height:300px;">
+        <iframe src="https://www.desmos.com/calculator" style="width:100%;height:100%;border:none;"></iframe>
       </div>
-      <input type="text" id="graph-prefill-${i}" placeholder="Pre-loaded expression / file URL (optional)" value="${b.data.prefill||''}">
       ${critStrip}${metaStrip}${markScheme}`;
+
+  } else if (t === 'GeoGebra Graph') {
+    body = `${qPrompt}
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Students will see a live GeoGebra applet. Optionally provide a material ID:</div>
+      <input type="text" id="graph-prefill-${i}" placeholder="GeoGebra Material ID (optional, e.g. abc123)" value="${b.data.prefill||''}">
+      <input type="text" id="graph-instructions-${i}" placeholder="Instructions for the student" value="${b.data.graphInstructions||''}">
+      <div style="margin-top:10px;border:1px solid var(--border);border-radius:8px;overflow:hidden;height:300px;">
+        <iframe src="https://www.geogebra.org/graphing" style="width:100%;height:100%;border:none;"></iframe>
+      </div>
+      ${critStrip}${metaStrip}${markScheme}`;
+
 
   } else {
     body = `${qPrompt}${critStrip}${metaStrip}${markScheme}`;
