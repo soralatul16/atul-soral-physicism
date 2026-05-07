@@ -622,10 +622,25 @@ function questionEditorHTML(i) {
       <button class="sm-btn" onclick="addClassifyItem(${i})">+ Add Item</button>
       ${critStrip}${metaStrip}${markScheme}`;
 
-  } else if (t === 'Table') {
+    } else if (t === 'Table') {
+    const rows = b.data.tableRows || 3;
+    const cols = b.data.tableCols || 3;
+    const headers = b.data.tableHeaders || [];
+    const prefill = b.data.tablePrefill || [];
     body = `${qPrompt}
-      <div style="font-size:11px;color:var(--text2);margin-top:4px;">📊 Full table editor coming soon.</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Set up the table. Leave cells blank for students to fill in.</div>
+      <div style="display:flex;gap:10px;margin-bottom:10px;">
+        <div class="grade-field"><label>Rows</label>
+          <input type="number" class="grade-input" id="tbl-rows-${i}" value="${rows}" min="1" max="20" onchange="updateTablePreview(${i})">
+        </div>
+        <div class="grade-field"><label>Columns</label>
+          <input type="number" class="grade-input" id="tbl-cols-${i}" value="${cols}" min="1" max="10" onchange="updateTablePreview(${i})">
+        </div>
+      </div>
+      <div id="tbl-preview-${i}" style="overflow-x:auto;"></div>
       ${critStrip}${metaStrip}${markScheme}`;
+    // Render table after DOM update
+    setTimeout(() => updateTablePreview(i), 20);
 
   } else if (t === 'Drawing') {
     body = `${qPrompt}
@@ -686,6 +701,39 @@ function addSortItem(i) { blocks[i].ui.sortItems.push(''); renderInner(i); setTi
 function removeSortItem(i, si) { blocks[i].ui.sortItems.splice(si, 1); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
 function addCat(i) { blocks[i].ui.classifyCategories.push(''); renderInner(i); }
 function removeCat(i, ci) { blocks[i].ui.classifyCategories.splice(ci, 1); renderInner(i); }
+function updateTablePreview(i) {
+  const rows = Number(document.getElementById('tbl-rows-' + i)?.value || 3);
+  const cols = Number(document.getElementById('tbl-cols-' + i)?.value || 3);
+  const b = blocks[i];
+  const headers = b.data.tableHeaders || [];
+  const prefill = b.data.tablePrefill || [];
+  let html = '<table style="width:100%;border-collapse:collapse;">';
+  // Header row
+  html += '<tr>';
+  for (let c = 0; c < cols; c++) {
+    html += `<th style="border:1px solid var(--border);padding:6px 8px;background:rgba(224,48,48,0.08);">
+      <input type="text" id="th-${i}-${c}" value="${headers[c]||''}" placeholder="Header ${c+1}"
+        style="background:transparent;border:none;color:var(--text);width:100%;font-size:12px;font-weight:600;outline:none;text-align:center;">
+    </th>`;
+  }
+  html += '</tr>';
+  // Data rows
+  for (let r = 0; r < rows; r++) {
+    html += '<tr>';
+    for (let c = 0; c < cols; c++) {
+      const val = (prefill[r] && prefill[r][c]) || '';
+      html += `<td style="border:1px solid var(--border);padding:4px;">
+        <input type="text" id="td-${i}-${r}-${c}" value="${val}" placeholder="—"
+          style="background:transparent;border:none;color:var(--text);width:100%;font-size:12px;outline:none;text-align:center;">
+      </td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</table>';
+  const el = document.getElementById('tbl-preview-' + i);
+  if (el) el.innerHTML = html;
+}
+
 function addClassifyItem(i) { blocks[i].ui.classifyItems.push(''); renderInner(i); }
 function removeClassifyItem(i, ii2) { blocks[i].ui.classifyItems.splice(ii2, 1); renderInner(i); }
 function toggleHint(i) { blocks[i].ui.hintOn = !blocks[i].ui.hintOn; const q = getRichContent(`qprompt-${i}`); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,q),10); }
@@ -768,6 +816,23 @@ function cancelEdit(i) {
   blocks[i].saved = false;
   render();
 }
+    } else if (t === 'Table') {
+      const rows = Number(pick(`tbl-rows-${i}`) || 3);
+      const cols = Number(pick(`tbl-cols-${i}`) || 3);
+      b.data.tableRows = rows;
+      b.data.tableCols = cols;
+      b.data.tableHeaders = [];
+      b.data.tablePrefill = [];
+      for (let c = 0; c < cols; c++) {
+        b.data.tableHeaders.push(pick(`th-${i}-${c}`));
+      }
+      for (let r = 0; r < rows; r++) {
+        b.data.tablePrefill[r] = [];
+        for (let c = 0; c < cols; c++) {
+          b.data.tablePrefill[r].push(pick(`td-${i}-${r}-${c}`));
+        }
+      }
+
 
 /* ─── Save all ─── */
 function saveAll() {
