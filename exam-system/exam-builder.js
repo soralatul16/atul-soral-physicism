@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   MYP EXAM BUILDER — v3 with All Question Types
+   MYP EXAM BUILDER — v4 with All Question Types + Drawing
    ═══════════════════════════════════════════════════ */
 
 let DB = JSON.parse(localStorage.getItem("MYP_DB")) || [];
@@ -97,15 +97,6 @@ function criteriaMarksStrip(i) {
     <div class="crit-strip-item">
       <label>Marks</label>
       <input type="number" id="qmarks-${i}" class="crit-marks" value="${b.meta.marks||''}" placeholder="pts" min="1">
-    </div>
-    <div class="crit-strip-item" style="flex:1;">
-      <label>Type</label>
-      <select id="qtype-${i}" class="crit-sel">
-        <option value="Long answer" ${!b.meta.answerType||b.meta.answerType==='Long answer'?'selected':''}>Long answer</option>
-        <option ${b.meta.answerType==='Short answer'?'selected':''}>Short answer</option>
-        <option ${b.meta.answerType==='MCQ'?'selected':''}>MCQ</option>
-        <option ${b.meta.answerType==='True/False'?'selected':''}>True/False</option>
-      </select>
     </div>
   </div>`;
 }
@@ -330,6 +321,9 @@ function renderSavedPreview(i) {
       preview += opts.map((o, oi) => `<div style="padding:4px 10px;background:var(--surface2);border-radius:5px;margin-bottom:3px;font-size:12px;">${String.fromCharCode(65+oi)}. ${o}</div>`).join('');
     } else if (b.type === 'True / False') {
       preview += `<div style="font-size:12px;color:var(--text2);">Answer: <strong style="color:var(--text);">${b.ui.tfAnswer || 'Not set'}</strong></div>`;
+    } else if (b.type === 'Drawing') {
+      if (d.drawingImage) preview += `<div style="margin-top:6px;"><img src="${d.drawingImage}" style="max-width:100%;max-height:150px;border-radius:6px;border:1px solid var(--border);"></div>`;
+      if (d.drawingInstructions) preview += `<div style="font-size:12px;color:var(--text2);margin-top:4px;">${d.drawingInstructions}</div>`;
     }
     preview += `<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">`;
     if (b.meta.criterion) preview += `<span class="badge red">Crit ${b.meta.criterion}${b.meta.strand?'-'+b.meta.strand:''}</span>`;
@@ -471,7 +465,7 @@ function questionEditorHTML(i) {
         <label>Command Term</label>
         <select id="meta-cmd-${i}">
           <option value="">Select</option>
-          ${['Define','State','Describe','Explain','Justify','Analyse','Evaluate','Discuss','Compare','Calculate','Derive','Show','Sketch'].map(d=>`<option ${b.meta.commandTerm===d?'selected':''}>${d}</option>`).join('')}
+          ${['Define','State','Describe','Explain','Justify','Analyse','Evaluate','Discuss','Compare','Calculate','Derive','Show','Sketch','Draw'].map(d=>`<option ${b.meta.commandTerm===d?'selected':''}>${d}</option>`).join('')}
         </select>
       </div>
       <div>
@@ -637,9 +631,14 @@ function questionEditorHTML(i) {
 
   } else if (t === 'Drawing') {
     body = `${qPrompt}
-      <div style="border:1px dashed var(--border);border-radius:8px;height:160px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:13px;background:var(--surface2);">
-        🖊️ Drawing canvas (coming soon)
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Upload a reference/diagram image for students to draw on:</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <input type="url" id="draw-img-${i}" placeholder="Image URL (diagram, prism, circuit…)" value="${b.data.drawingImage||''}" style="flex:1;">
+        <input type="file" id="draw-file-${i}" accept="image/*" onchange="handleDrawingUpload(${i},this)" style="width:200px;background:var(--surface2);border:1px solid var(--border);padding:6px;border-radius:7px;color:var(--text);font-size:12px;">
       </div>
+      ${b.data.drawingImage ? `<div style="margin-bottom:10px;"><img src="${b.data.drawingImage}" style="max-width:100%;max-height:300px;border-radius:8px;border:1px solid var(--border);"></div>` : ''}
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Drawing instructions for students:</div>
+      <textarea id="draw-instr-${i}" placeholder="e.g. Draw the path of the ray through the prism. Include normals and label angles (i, r).">${b.data.drawingInstructions||''}</textarea>
       ${critStrip}${metaStrip}${markScheme}`;
 
   } else if (t === 'Label Drag' || t === 'Label Fill') {
@@ -696,6 +695,19 @@ function addClassifyItem(i) { blocks[i].ui.classifyItems.push(''); renderInner(i
 function removeClassifyItem(i, ii2) { blocks[i].ui.classifyItems.splice(ii2, 1); renderInner(i); }
 function toggleHint(i) { blocks[i].ui.hintOn = !blocks[i].ui.hintOn; const q = getRichContent(`qprompt-${i}`); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,q),10); }
 
+/* ─── Drawing upload helper ─── */
+function handleDrawingUpload(i, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    blocks[i].data.drawingImage = e.target.result;
+    renderInner(i);
+    setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10);
+  };
+  reader.readAsDataURL(file);
+}
+
 /* ─── Table helper ─── */
 function updateTablePreview(i) {
   const rows = Number(document.getElementById('tbl-rows-' + i)?.value || 3);
@@ -739,7 +751,6 @@ function saveBlock(i) {
   b.meta.criterion  = pick(`qcrit-${i}`);
   b.meta.strand     = pick(`qstrand-${i}`);
   b.meta.marks      = pick(`qmarks-${i}`);
-  b.meta.answerType = pick(`qtype-${i}`);
 
   // Secondary meta
   b.meta.difficulty  = pick(`meta-diff-${i}`);
@@ -780,6 +791,9 @@ function saveBlock(i) {
     } else if (t === 'Long Answer') {
       b.data.wordLimit = pick(`la-wl-${i}`);
       b.data.format = pick(`la-fmt-${i}`);
+    } else if (t === 'Drawing') {
+      b.data.drawingImage = pick(`draw-img-${i}`) || b.data.drawingImage || '';
+      b.data.drawingInstructions = pick(`draw-instr-${i}`);
     } else if (t === 'Desmos Graph' || t === 'GeoGebra Graph') {
       b.data.prefill = pick(`graph-prefill-${i}`);
       b.data.graphInstructions = pick(`graph-instructions-${i}`);
@@ -861,7 +875,7 @@ function saveAll() {
       updatedAt: Date.now(),
       status: old.status || 'Draft'
     };
-    showSaveSuccess(`✅ Question set updated in Library! (Version ${library[existingIdx].version})\n\nSet: "${heading}"\nStatus: ${library[existingIdx].status}`, library[existingIdx].status);
+    showSaveSuccess(`Question set updated in Library! (Version ${library[existingIdx].version})\n\nSet: "${heading}"\nStatus: ${library[existingIdx].status}`, library[existingIdx].status);
   } else {
     const newSet = {
       id: 'qs_' + Date.now(),
@@ -875,7 +889,7 @@ function saveAll() {
     };
     library.push(newSet);
     window._editingSetId = newSet.id;
-    showSaveSuccess(`✅ Question set saved to Library as Draft!\n\nSet: "${heading}"\nChapter: ${chapter} → ${topic}\n\nGo to Library → select this set → click Publish to make it visible to students.`, 'Draft');
+    showSaveSuccess(`Question set saved to Library as Draft!\n\nSet: "${heading}"\nChapter: ${chapter} → ${topic}\n\nGo to Library → click Publish to make it visible to students.`, 'Draft');
   }
 
   localStorage.setItem(LIBRARY_KEY, JSON.stringify(library));
@@ -898,7 +912,7 @@ function showSaveSuccess(msg, status) {
   toast.innerHTML = `
     <div style="font-size:28px;margin-bottom:10px;">📚</div>
     <div style="font-size:16px;font-weight:700;color:#27ae60;margin-bottom:8px;">Saved to Library!</div>
-    <div style="font-size:13px;color:#b08888;line-height:1.7;white-space:pre-line;">${msg.replace(/✅ /g,'')}</div>
+    <div style="font-size:13px;color:#b08888;line-height:1.7;white-space:pre-line;">${msg}</div>
     <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;">
       <button onclick="this.closest('#save-toast').remove()" style="background:#27ae60;border:none;color:white;padding:8px 20px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;">✓ Got it</button>
       <button onclick="openLibrary();this.closest('#save-toast').remove();" style="background:transparent;border:1px solid rgba(200,60,60,0.4);color:#e03030;padding:8px 20px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;">View in Library</button>
@@ -944,6 +958,10 @@ function previewStudent() {
           });
         } else if (b.type === 'True / False') {
           html += `<div class="opt">A. True</div><div class="opt">B. False</div>`;
+        } else if (b.type === 'Drawing' && b.data.drawingImage) {
+          html += `<img src="${b.data.drawingImage}" style="max-width:100%;border-radius:8px;margin-bottom:8px;">`;
+          if (b.data.drawingInstructions) html += `<p style="font-size:13px;color:#666;">${b.data.drawingInstructions}</p>`;
+          html += `<div style="border:2px dashed #ccc;border-radius:8px;height:300px;display:flex;align-items:center;justify-content:center;color:#999;font-size:13px;">Student drawing area</div>`;
         } else {
           html += `<div style="border:1px dashed #ccc;border-radius:6px;padding:40px 16px;text-align:center;color:#999;font-size:12px;">Student answer area</div>`;
         }
