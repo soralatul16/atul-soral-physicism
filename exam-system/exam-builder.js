@@ -743,8 +743,10 @@ function saveBlock(i) {
     } else if (t === 'Long Answer') {
       b.data.wordLimit = pick(`la-wl-${i}`);
       b.data.format = pick(`la-fmt-${i}`);
-    } else if (t === 'Desmos Graph' || t === 'GeoGebra Graph') {
+        } else if (t === 'Desmos Graph' || t === 'GeoGebra Graph') {
       b.data.prefill = pick(`graph-prefill-${i}`);
+      b.data.graphInstructions = pick(`graph-instructions-${i}`);
+
     } else if (t === 'Label Drag' || t === 'Label Fill') {
       b.data.imageUrl = pick(`ld-img-${i}`);
       b.data.labels = pick(`ld-labels-${i}`);
