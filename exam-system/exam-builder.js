@@ -688,7 +688,17 @@ function questionEditorHTML(i) {
 function addOption(i) { if (blocks[i].ui.mcqOptions.length >= 8) return; blocks[i].ui.mcqOptions.push(''); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
 function removeOption(i, oi) { blocks[i].ui.mcqOptions.splice(oi, 1); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
 function setTF(i, val) { blocks[i].ui.tfAnswer = val; renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
-function addMatchPair(i) { blocks[i].ui.matchPairs.push({a:'',b:''}); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
+function addMatchPair(i) {
+  blocks[i].ui.matchPairs = blocks[i].ui.matchPairs.map((_, pi) => ({
+    a: document.getElementById(`ma-a-${i}-${pi}`)?.value || '',
+    b: document.getElementById(`ma-b-${i}-${pi}`)?.value || ''
+  }));
+  blocks[i].data.question = getRichContent(`qprompt-${i}`);
+  blocks[i].ui.matchPairs.push({a:'',b:''});
+  renderInner(i);
+  setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10);
+}
+
 function addSortItem(i) { blocks[i].ui.sortItems.push(''); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
 function removeSortItem(i, si) { blocks[i].ui.sortItems.splice(si, 1); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
 function addCat(i) { blocks[i].ui.classifyCategories.push(''); renderInner(i); }
@@ -831,11 +841,21 @@ function saveBlock(i) {
 }
 
 function cancelEdit(i) {
-  blocks[i].ui.state = 'select';
-  blocks[i].type = null;
-  blocks[i].saved = false;
+  if (blocks[i]._savedBackup) {
+    // Restore the saved state
+    const backup = blocks[i]._savedBackup;
+    blocks[i] = backup;
+    blocks[i].saved = true;
+    blocks[i].ui.state = 'saved';
+    delete blocks[i]._savedBackup;
+  } else {
+    blocks[i].ui.state = 'select';
+    blocks[i].type = null;
+    blocks[i].saved = false;
+  }
   render();
 }
+
 
 /* ─── Save all ─── */
 function saveAll() {
