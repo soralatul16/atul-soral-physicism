@@ -281,10 +281,12 @@ function render() {
 
 function editBlock(i) {
   pushHistory();
+  blocks[i]._savedBackup = JSON.parse(JSON.stringify(blocks[i]));
   blocks[i].saved = false;
   blocks[i].ui.state = 'select';
   render();
 }
+
 
 /* ─── Inner render ─── */
 function renderInner(i) {
