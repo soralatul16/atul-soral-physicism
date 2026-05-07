@@ -698,33 +698,36 @@ function buildInput(q,idx){
       </div>`).join('')}
     </div>`;
   }
-    if(t==="Table"){
+      if(t==="Table"){
     const rows = q.data?.tableRows || 3;
     const cols = q.data?.tableCols || 3;
     const headers = q.data?.tableHeaders || [];
     const prefill = q.data?.tablePrefill || [];
-    let tableHTML = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;background:var(--surface2);border-radius:8px;overflow:hidden;">';
+    let tableHTML = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden;">';
+    // Headers row — read-only, styled
     tableHTML += '<tr>';
     for(let c=0;c<cols;c++){
-      tableHTML += `<th style="border:1px solid var(--border);padding:8px 10px;font-size:12px;color:var(--accent);text-align:center;background:rgba(224,48,48,0.08);">${headers[c]||'Col '+(c+1)}</th>`;
+      tableHTML += `<th style="border:1px solid var(--border);padding:10px;font-size:13px;color:var(--accent);text-align:center;background:rgba(224,48,48,0.1);font-weight:600;">${headers[c]||'Column '+(c+1)}</th>`;
     }
     tableHTML += '</tr>';
+    // Data rows — editable cells (unless prefilled by teacher)
     for(let r=0;r<rows;r++){
       tableHTML += '<tr>';
       for(let c=0;c<cols;c++){
         const pre = (prefill[r]&&prefill[r][c]) || '';
-        const val = (saved && saved[r] && saved[r][c]) || '';
-        if(pre){
-          tableHTML += `<td style="border:1px solid var(--border);padding:8px;text-align:center;font-size:13px;color:var(--text3);">${pre}</td>`;
-        } else {
-          tableHTML += `<td style="border:1px solid var(--border);padding:4px;"><input type="text" value="${val}" placeholder="—" oninput="saveTableAns(${idx},${r},${c},this.value)" style="width:100%;background:transparent;border:none;color:var(--text);font-size:13px;text-align:center;outline:none;font-family:'Sora',sans-serif;"></td>`;
-        }
+        const val = (saved&&saved[r]&&saved[r][c]) || pre || '';
+        tableHTML += `<td style="border:1px solid var(--border);padding:4px;">
+          <input type="text" value="${val}" placeholder="—"
+            oninput="saveTableAns(${idx},${r},${c},this.value)"
+            style="width:100%;background:transparent;border:none;color:var(--text);font-size:13px;text-align:center;outline:none;font-family:'Sora',sans-serif;padding:6px;">
+        </td>`;
       }
       tableHTML += '</tr>';
     }
     tableHTML += '</table></div>';
     return tableHTML;
   }
+
   if(t==="Fill Drop Down"){
     const fillText = q.data?.fillText || '';
     const options = (q.data?.options || '').split(',').map(o=>o.trim()).filter(Boolean);
