@@ -38,9 +38,13 @@ function richTextToolbar(id) {
     <button type="button" onclick="insertSymbol('λ')" title="Lambda">λ</button>
     <button type="button" onclick="insertSymbol('μ')" title="Mu">μ</button>
     <button type="button" onclick="insertSymbol('Ω')" title="Omega">Ω</button>
-    <button type="button" onclick="insertSymbol('θ')" title="Theta">θ</button>
-        <span class="rtb-sep"></span>
-    <button type="button" onclick="insertImageInEditor()" title="Insert Image">🖼️</button>
+        <button type="button" onclick="insertSymbol('θ')" title="Theta">θ</button>
+    <span class="rtb-sep"></span>
+    <button type="button" onclick="insertImageInEditor()" title="Insert Image URL">🖼️</button>
+    <button type="button" onclick="insertImageFileInEditor()" title="Upload Image">📁</button>
+    <button type="button" onclick="insertTableInEditor()" title="Insert Table">📊</button>
+  </div>
+  <div class="rich-editor" id="${id}" contenteditable="true" data-placeholder="Write here…"></div>`;
     <button type="button" onclick="insertImageFileInEditor()" title="Upload Image">📁</button>
   </div>
   <div class="rich-editor" id="${id}" contenteditable="true" data-placeholder="Write here…"></div>`;
@@ -1051,5 +1055,63 @@ function insertImageFileInEditor() {
     reader.readAsDataURL(file);
   };
   input.click();
+}
+/* ─── Insert image via URL ─── */
+function insertImageInEditor() {
+  var url = prompt('Paste image URL:');
+  if (url && url.trim() && _lastFocusedEditor) {
+    _lastFocusedEditor.focus();
+    document.execCommand('insertHTML', false, '<img src="' + url.trim() + '" style="max-width:100%;border-radius:6px;margin:8px 0;display:block;">');
+  }
+}
+
+/* ─── Upload image from computer ─── */
+function insertImageFileInEditor() {
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      if (_lastFocusedEditor) {
+        _lastFocusedEditor.focus();
+        document.execCommand('insertHTML', false, '<img src="' + ev.target.result + '" style="max-width:100%;border-radius:6px;margin:8px 0;display:block;">');
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+/* ─── Insert table in editor ─── */
+function insertTableInEditor() {
+  var rows = prompt('Number of rows:', '3');
+  var cols = prompt('Number of columns:', '3');
+  if (!rows || !cols) return;
+  rows = parseInt(rows) || 3;
+  cols = parseInt(cols) || 3;
+  if (rows < 1 || rows > 20 || cols < 1 || cols > 10) { alert('Rows: 1-20, Columns: 1-10'); return; }
+  var html = '<table style="width:100%;border-collapse:collapse;margin:10px 0;">';
+  // Header row
+  html += '<tr>';
+  for (var c = 0; c < cols; c++) {
+    html += '<th style="border:1px solid #666;padding:8px;background:rgba(224,48,48,0.1);color:#f0e6e6;font-size:13px;text-align:center;" contenteditable="true">Header ' + (c + 1) + '</th>';
+  }
+  html += '</tr>';
+  // Data rows
+  for (var r = 0; r < rows; r++) {
+    html += '<tr>';
+    for (var c2 = 0; c2 < cols; c2++) {
+      html += '<td style="border:1px solid #666;padding:8px;color:#f0e6e6;font-size:13px;text-align:center;" contenteditable="true"></td>';
+    }
+    html += '</tr>';
+  }
+  html += '</table><p></p>';
+  if (_lastFocusedEditor) {
+    _lastFocusedEditor.focus();
+    document.execCommand('insertHTML', false, html);
+  }
 }
 
