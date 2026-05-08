@@ -386,7 +386,6 @@ function questionGrid(i) {
     {icon:'🔗',label:'Match the Following'},{icon:'🔄',label:'Sort'},
     {icon:'🗂️',label:'Classify'},{icon:'📊',label:'Table'},
     {icon:'✏️',label:'Drawing'},{icon:'🏷️',label:'Label Drag'},
-    {icon:'🏷️',label:'Label Fill'},{icon:'📈',label:'Desmos Graph'},
     {icon:'📐',label:'GeoGebra Graph'}
   ];
   return `<div class="type-grid">${types.map(t =>
