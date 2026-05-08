@@ -601,6 +601,19 @@ function downloadPDF(){
   try{
     const{jsPDF}=window.jspdf;const doc=new jsPDF();const a=currentAttempt;
     const pw=190,lm=15;let y=15;
+        // Pre-load content images for embedding in PDF
+    const contentBlocks=currentSet?(currentSet.blocks||[]).filter(b=>b.saved&&b.mode==="content"):[];
+    const imagePromises=[];
+    contentBlocks.forEach(cb=>{
+      if(cb.type==='Image'&&cb.data?.url&&!cb.data.url.startsWith('data:')){
+        imagePromises.push(new Promise(resolve=>{
+          const img=new Image();img.crossOrigin="anonymous";
+          img.onload=function(){try{const c=document.createElement('canvas');c.width=img.width;c.height=img.height;c.getContext('2d').drawImage(img,0,0);resolve({url:cb.data.url,data:c.toDataURL('image/jpeg',0.7),w:img.width,h:img.height});}catch(e){resolve({url:cb.data.url,data:null});}};
+          img.onerror=function(){resolve({url:cb.data.url,data:null});};
+          img.src=cb.data.url;
+        }));
+      }
+    });
     const RED=[224,48,48],GREEN=[39,174,96],BLUE=[41,128,185],DARK=[30,30,30],GRAY=[120,120,120],WHITE=[255,255,255];
     const LIGHTRED=[255,230,230],LIGHTGREEN=[230,255,240],LIGHTYELLOW=[255,248,230],LIGHTBLUE=[230,242,255];
     // Header banner
