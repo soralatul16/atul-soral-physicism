@@ -659,10 +659,10 @@ async function downloadPDF(){
       contentBlocks.forEach(cb=>{if(y>260){doc.addPage();y=15;}doc.setFillColor(245,245,245);doc.roundedRect(lm,y,pw,16,2,2,'F');
         doc.setFontSize(9);doc.setFont("helvetica","normal");doc.setTextColor(...GRAY);
         let label='';let url='';
-        if(cb.type==='Text'){label='📄 Text Content: '+(cb.data?.text||'').replace(/<[^>]+>/g,'').substring(0,100);}
-        else if(cb.type==='Image'&&cb.data?.url){label='🖼️ Reference Image';url=cb.data.url;}
-        else if(cb.type==='Video'&&cb.data?.url){label='🎬 Reference Video';url=cb.data.url;}
-        else{label=cb.type+' content';}
+        if(cb.type==='Text'){label='[Text] '+(cb.data?.text||'').replace(/<[^>]+>/g,'').substring(0,100);}
+        else if(cb.type==='Image'&&cb.data?.url){label='[Image] Reference Image';url=cb.data.url;}
+        else if(cb.type==='Video'&&cb.data?.url){label='[Video] Reference Video';url=cb.data.url;}
+        else{label='['+cb.type+'] content';}
         doc.text(label,lm+4,y+6);
         if(url){doc.setTextColor(...BLUE);doc.setFontSize(7);doc.textWithLink(url.substring(0,90),lm+4,y+12,{url:url});}
         y+=19;});y+=4;}
