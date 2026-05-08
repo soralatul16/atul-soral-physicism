@@ -39,10 +39,12 @@ function richTextToolbar(id) {
     <button type="button" onclick="insertSymbol('μ')" title="Mu">μ</button>
     <button type="button" onclick="insertSymbol('Ω')" title="Omega">Ω</button>
     <button type="button" onclick="insertSymbol('θ')" title="Theta">θ</button>
+        <span class="rtb-sep"></span>
+    <button type="button" onclick="insertImageInEditor()" title="Insert Image">🖼️</button>
+    <button type="button" onclick="insertImageFileInEditor()" title="Upload Image">📁</button>
   </div>
   <div class="rich-editor" id="${id}" contenteditable="true" data-placeholder="Write here…"></div>`;
 }
-
 let _lastFocusedEditor = null;
 document.addEventListener('focusin', e => {
   if (e.target.classList.contains('rich-editor')) _lastFocusedEditor = e.target;
@@ -1023,3 +1025,31 @@ function exportPDF() { previewStudent(); }
 
 /* ─── Init ─── */
 // Called from HTML after proceedToBuilder()
+/* ─── Insert image in rich text editor ─── */
+function insertImageInEditor() {
+  var url = prompt('Paste image URL:');
+  if (url && url.trim() && _lastFocusedEditor) {
+    _lastFocusedEditor.focus();
+    document.execCommand('insertHTML', false, '<img src="' + url.trim() + '" style="max-width:100%;border-radius:6px;margin:8px 0;display:block;">');
+  }
+}
+
+function insertImageFileInEditor() {
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      if (_lastFocusedEditor) {
+        _lastFocusedEditor.focus();
+        document.execCommand('insertHTML', false, '<img src="' + ev.target.result + '" style="max-width:100%;border-radius:6px;margin:8px 0;display:block;">');
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
