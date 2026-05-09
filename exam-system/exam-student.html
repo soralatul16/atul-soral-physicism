@@ -376,7 +376,7 @@ function renderQ(idx){
     const allSaved=(currentSet.blocks||[]).filter(b=>b.saved&&b.mode==='content');
     allSaved.forEach(cb=>{
       if(cb.type==='Text'&&cb.data?.text)contentHTML+=`<div class="content-block"><div class="content-text">${cb.data.text}</div></div>`;
-      else if(cb.type==='Image'&&cb.data?.url)contentHTML+=`<div class="content-block"><img src="${cb.data.url}" style="max-width:100%;border-radius:8px;" onerror="this.outerHTML='<p style=color:var(--text2);font-size:12px;>Image could not load</p>'"></div>`;
+      else if(cb.type==='Image'&&cb.data?.url)contentHTML+=`<div class="content-block"><img src="${cb.data.url}" style="max-width:100%;border-radius:8px;" onerror="this.outerHTML='<p style=&quot;color:var(--text2);font-size:12px;&quot;>Image could not load</p>'"></div>`;
       else if(cb.type==='Video'&&cb.data?.url){const yt=cb.data.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
         if(yt)contentHTML+=`<div class="content-block"><iframe width="100%" height="350" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen style="border-radius:8px;"></iframe></div>`;
         else contentHTML+=`<div class="content-block"><video src="${cb.data.url}" controls style="max-width:100%;border-radius:8px;"></video></div>`;}
@@ -463,7 +463,7 @@ function buildInput(q,idx){
   // Desmos Graph
     if(t==="Desmos Graph"){
     const instr=q.data?.graphInstructions||'';
-    return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;height:400px;"><iframe src="https://www.geogebra.org/graphing" style="width:100%;height:100%;border:none;"></iframe></div><div class="long-answer-wrap" style="margin-top:10px;"><textarea placeholder="Write your answer / observations here…" oninput="saveAnsText(${idx},this.value)">${saved||""}</textarea></div></div>`;
+    return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;height:400px;"><iframe src="https://www.desmos.com/calculator" style="width:100%;height:100%;border:none;"></iframe></div><div class="long-answer-wrap" style="margin-top:10px;"><textarea placeholder="Write your answer / observations here…" oninput="saveAnsText(${idx},this.value)">${saved||""}</textarea></div></div>`;
   }
   // GeoGebra Graph
   if(t==="GeoGebra Graph"){
@@ -474,7 +474,7 @@ function buildInput(q,idx){
   // Drawing
   if(t==="Drawing"){
     const imgUrl=q.data?.drawingImage||'';const instr=q.data?.drawingInstructions||'';
-    return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}<div style="position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:white;">${imgUrl?`<img src="${imgUrl}" style="width:100%;display:block;pointer-events:none;user-select:none;" alt="Reference diagram" id="draw-bg-${idx}">`:''}<canvas id="draw-canvas-${idx}" style="position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;touch-action:none;" onmousedown="startDraw(event,${idx})" onmousemove="draw(event,${idx})" onmouseup="endDraw(${idx})" onmouseleave="endDraw(${idx})" ontouchstart="startDrawTouch(event,${idx})" ontouchmove="drawTouch(event,${idx})" ontouchend="endDraw(${idx})"></canvas></div><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center;"><select onchange="setDrawTool(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="pen">✏️ Pen</option><option value="line">📏 Line</option><option value="arrow">➡️ Arrow</option><option value="rect">⬜ Rectangle</option><option value="circle">⭕ Circle</option><option value="text">🔤 Text</option></select><select onchange="setDrawColor(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="#e03030">🔴 Red</option><option value="#000000">⚫ Black</option><option value="#2980b9">🔵 Blue</option><option value="#27ae60">🟢 Green</option><option value="#8e44ad">🟣 Purple</option><option value="#ffffff">⚪ White</option></select><select onchange="setDrawSize(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="1">Fine</option><option value="2">Thin</option><option value="3" selected>Medium</option><option value="5">Thick</option><option value="8">Bold</option></select><button class="q-ctrl-btn" onclick="undoCanvas(${idx})">↩ Undo</button><button class="q-ctrl-btn" onclick="clearCanvas(${idx})">🗑 Clear</button></div></div>`;
+    return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}<div style="position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:white;min-height:350px;">${imgUrl?`<img src="${imgUrl}" style="width:100%;display:block;pointer-events:none;user-select:none;" alt="Reference diagram" id="draw-bg-${idx}">`:''}<canvas id="draw-canvas-${idx}" style="position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;touch-action:none;" onmousedown="startDraw(event,${idx})" onmousemove="draw(event,${idx})" onmouseup="endDraw(${idx})" onmouseleave="endDraw(${idx})" ontouchstart="startDrawTouch(event,${idx})" ontouchmove="drawTouch(event,${idx})" ontouchend="endDraw(${idx})"></canvas></div><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center;"><select onchange="setDrawTool(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="pen">✏️ Pen</option><option value="line">📏 Line</option><option value="arrow">➡️ Arrow</option><option value="rect">⬜ Rectangle</option><option value="circle">⭕ Circle</option><option value="text">🔤 Text</option></select><select onchange="setDrawColor(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="#e03030">🔴 Red</option><option value="#000000">⚫ Black</option><option value="#2980b9">🔵 Blue</option><option value="#27ae60">🟢 Green</option><option value="#8e44ad">🟣 Purple</option><option value="#ffffff">⚪ White</option></select><select onchange="setDrawSize(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="1">Fine</option><option value="2">Thin</option><option value="3" selected>Medium</option><option value="5">Thick</option><option value="8">Bold</option></select><button class="q-ctrl-btn" onclick="undoCanvas(${idx})">↩ Undo</button><button class="q-ctrl-btn" onclick="clearCanvas(${idx})">🗑 Clear</button></div></div>`;
   }
   // Default: Long Answer
   const wc=(typeof saved==='string'?saved:'').split(/\s+/).filter(Boolean).length;
@@ -524,6 +524,7 @@ function doSubmit(){
   qBlocks.forEach((q,i)=>{const marks=Number(q.meta?.marks||0);total+=marks;
     if(q.type==="True / False"&&q.ui?.tfAnswer&&currentAttempt.answers[i]===q.ui.tfAnswer)earned+=marks;
     else if(q.type==="MCQ"&&q.data?.correct!==null&&q.data?.correct!==undefined&&currentAttempt.answers[i]===q.data.correct)earned+=marks;
+    else if(q.type==="Multiple Select MCQ"&&Array.isArray(q.data?.correct)&&Array.isArray(currentAttempt.answers[i])&&JSON.stringify([...currentAttempt.answers[i]].sort())===JSON.stringify([...q.data.correct].sort()))earned+=marks;
   });
   currentAttempt.earnedMarks=earned;currentAttempt.totalMarks=total||currentSet.totalMarks||0;
   currentAttempt.percentScore=total>0?Math.round(earned/total*100):0;
@@ -614,6 +615,8 @@ async function downloadPDF(){
         }));
       }
     });
+    const loadedImgs=await Promise.all(imagePromises);
+    const imgMap={};loadedImgs.forEach(li=>{if(li&&li.data)imgMap[li.url]=li;});
     const RED=[224,48,48],GREEN=[39,174,96],BLUE=[41,128,185],DARK=[30,30,30],GRAY=[120,120,120],WHITE=[255,255,255];
     const LIGHTRED=[255,230,230],LIGHTGREEN=[230,255,240],LIGHTYELLOW=[255,248,230],LIGHTBLUE=[230,242,255];
     // Header banner
@@ -652,20 +655,36 @@ async function downloadPDF(){
       doc.setTextColor(...BLUE);doc.setFontSize(9);doc.setFont("helvetica","bold");doc.text("Teacher Feedback:",lm+4,y+5);doc.setFont("helvetica","normal");doc.setTextColor(...DARK);doc.text(fbl,lm+4,y+10);y+=14+fbl.length*4;}
     // Separator
     doc.setDrawColor(...RED);doc.setLineWidth(0.5);doc.line(lm,y,lm+pw,y);y+=6;
-    // Content blocks
+    // Content blocks (reuse contentBlocks declared above)
     doc.setTextColor(...DARK);doc.setFontSize(11);doc.setFont("helvetica","bold");
-       var contentBlocks=currentSet?(currentSet.blocks||[]).filter(b=>b.saved&&b.mode==="content"):[];
     if(contentBlocks.length>0){doc.text("Reference Materials",lm,y);y+=7;
-      contentBlocks.forEach(cb=>{if(y>260){doc.addPage();y=15;}doc.setFillColor(245,245,245);doc.roundedRect(lm,y,pw,16,2,2,'F');
-        doc.setFontSize(9);doc.setFont("helvetica","normal");doc.setTextColor(...GRAY);
-        let label='';let url='';
-        if(cb.type==='Text'){label='[Text] '+(cb.data?.text||'').replace(/<[^>]+>/g,'').substring(0,100);}
-        else if(cb.type==='Image'&&cb.data?.url){label='[Image] Reference Image';url=cb.data.url;}
-        else if(cb.type==='Video'&&cb.data?.url){label='[Video] Reference Video';url=cb.data.url;}
-        else{label='['+cb.type+'] content';}
-        doc.text(label,lm+4,y+6);
-        if(url){doc.setTextColor(...BLUE);doc.setFontSize(7);doc.textWithLink(url.substring(0,90),lm+4,y+12,{url:url});}
-        y+=19;});y+=4;}
+      contentBlocks.forEach(cb=>{if(y>260){doc.addPage();y=15;}
+        if(cb.type==='Image'&&cb.data?.url){
+          const li=imgMap[cb.data.url];
+          if(li&&li.data){
+            const maxW=pw,maxH=120;const ratio=Math.min(maxW/li.w,maxH/li.h,1);const iw=li.w*ratio,ih=li.h*ratio;
+            if(y+ih+5>270){doc.addPage();y=15;}
+            try{doc.addImage(li.data,'JPEG',lm,y,iw,ih);}catch(e){}
+            y+=ih+5;
+          } else {
+            doc.setFillColor(245,245,245);doc.roundedRect(lm,y,pw,16,2,2,'F');
+            doc.setFontSize(9);doc.setFont("helvetica","normal");doc.setTextColor(...GRAY);
+            doc.text('[Image] Reference Image',lm+4,y+6);
+            if(cb.data.url){doc.setTextColor(...BLUE);doc.setFontSize(7);doc.textWithLink(cb.data.url.substring(0,90),lm+4,y+12,{url:cb.data.url});}
+            y+=19;
+          }
+        } else {
+          doc.setFillColor(245,245,245);doc.roundedRect(lm,y,pw,16,2,2,'F');
+          doc.setFontSize(9);doc.setFont("helvetica","normal");doc.setTextColor(...GRAY);
+          let label='';
+          if(cb.type==='Text'){label='[Text] '+(cb.data?.text||'').replace(/<[^>]+>/g,'').substring(0,100);}
+          else if(cb.type==='Video'&&cb.data?.url){label='[Video] Reference Video';}
+          else{label='['+cb.type+'] content';}
+          doc.text(label,lm+4,y+6);
+          if(cb.type==='Video'&&cb.data?.url){doc.setTextColor(...BLUE);doc.setFontSize(7);doc.textWithLink(cb.data.url.substring(0,90),lm+4,y+12,{url:cb.data.url});}
+          y+=19;
+        }
+      });y+=4;}
     // Questions
     doc.setTextColor(...DARK);doc.setFontSize(11);doc.setFont("helvetica","bold");doc.text("Question-by-Question Review",lm,y);y+=7;
     qBlocks.forEach((q,i)=>{
