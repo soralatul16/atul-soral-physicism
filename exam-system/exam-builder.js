@@ -81,25 +81,25 @@ function criteriaMarksStrip(i) {
       <label>Criterion</label>
       <select id="qcrit-${i}" class="crit-sel">
         <option value="">—</option>
-        <option ${b.meta.criterion==='A'?'selected':''}>A</option>
-        <option ${b.meta.criterion==='B'?'selected':''}>B</option>
-        <option ${b.meta.criterion==='C'?'selected':''}>C</option>
-        <option ${b.meta.criterion==='D'?'selected':''}>D</option>
+        <option ${b.meta.criterion === 'A' ? 'selected' : ''}>A</option>
+        <option ${b.meta.criterion === 'B' ? 'selected' : ''}>B</option>
+        <option ${b.meta.criterion === 'C' ? 'selected' : ''}>C</option>
+        <option ${b.meta.criterion === 'D' ? 'selected' : ''}>D</option>
       </select>
     </div>
     <div class="crit-strip-item">
       <label>Strand</label>
       <select id="qstrand-${i}" class="crit-sel">
         <option value="">—</option>
-        <option ${b.meta.strand==='i'?'selected':''}>i</option>
-        <option ${b.meta.strand==='ii'?'selected':''}>ii</option>
-        <option ${b.meta.strand==='iii'?'selected':''}>iii</option>
-        <option ${b.meta.strand==='iv'?'selected':''}>iv</option>
+        <option ${b.meta.strand === 'i' ? 'selected' : ''}>i</option>
+        <option ${b.meta.strand === 'ii' ? 'selected' : ''}>ii</option>
+        <option ${b.meta.strand === 'iii' ? 'selected' : ''}>iii</option>
+        <option ${b.meta.strand === 'iv' ? 'selected' : ''}>iv</option>
       </select>
     </div>
     <div class="crit-strip-item">
       <label>Marks</label>
-      <input type="number" id="qmarks-${i}" class="crit-marks" value="${b.meta.marks||''}" placeholder="pts" min="1">
+      <input type="number" id="qmarks-${i}" class="crit-marks" value="${b.meta.marks || ''}" placeholder="pts" min="1">
     </div>
   </div>`;
 }
@@ -118,10 +118,10 @@ function newBlock(sectionId) {
     saved: false,
     ui: {
       state: 'select', uploadMode: 'url', tfAnswer: null,
-      mcqOptions: ['','','',''], mcqMulti: [],
-      matchPairs: [{a:'',b:''},{a:'',b:''}],
-      sortItems: ['','',''],
-      classifyCategories: ['',''], classifyItems: ['','',''], fillBlanks: ''
+      mcqOptions: ['', '', '', ''], mcqMulti: [],
+      matchPairs: [{ a: '', b: '' }, { a: '', b: '' }],
+      sortItems: ['', '', ''],
+      classifyCategories: ['', ''], classifyItems: ['', '', ''], fillBlanks: ''
     }
   };
 }
@@ -218,7 +218,7 @@ function getQuestionLabel(blockIndex) {
   const sec = sections.find(s => s.id === b.sectionId);
   const secIdx = sections.indexOf(sec) + 1;
   const qInSection = blocks.filter((blk, j) => blk.mode === 'question' && blk.sectionId === b.sectionId && j <= blockIndex).length;
-  const letters = ['a','b','c','d','e','f','g','h','i','j','k','l'];
+  const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'];
   return `${secIdx}(${letters[qInSection - 1] || qInSection})`;
 }
 
@@ -243,8 +243,8 @@ function render() {
       const qLabel = getQuestionLabel(i);
       const label = b.saved
         ? (b.mode === 'content'
-            ? `📄 Content: ${b.type}`
-            : `❓ Q${qLabel} · ${b.type}`)
+          ? `📄 Content: ${b.type}`
+          : `❓ Q${qLabel} · ${b.type}`)
         : (qLabel ? `Q${qLabel}` : `Block`);
 
       html += `
@@ -258,8 +258,8 @@ function render() {
         </div>
         ${!b.saved ? `
         <div class="mode-tabs">
-          <button class="tab ${b.mode==='content'?'active':''}" onclick="setMode(${i},'content')">📄 Content</button>
-          <button class="tab ${b.mode==='question'?'active':''}" onclick="setMode(${i},'question')">❓ Question</button>
+          <button class="tab ${b.mode === 'content' ? 'active' : ''}" onclick="setMode(${i},'content')">📄 Content</button>
+          <button class="tab ${b.mode === 'question' ? 'active' : ''}" onclick="setMode(${i},'question')">❓ Question</button>
         </div>` : ''}
         <div id="inner-${i}"></div>
       </div>`;
@@ -275,11 +275,12 @@ function render() {
   try {
     sections.forEach(sec => {
       const el = document.getElementById('section-blocks-' + sec.id);
-      if (el) Sortable.create(el, { animation: 150, handle: '.block-header', ghostClass: 'sortable-ghost',
-        onEnd: () => {}
+      if (el) Sortable.create(el, {
+        animation: 150, handle: '.block-header', ghostClass: 'sortable-ghost',
+        onEnd: () => { }
       });
     });
-  } catch(e) {}
+  } catch (e) { }
 }
 
 function editBlock(i) {
@@ -300,7 +301,7 @@ function renderInner(i) {
   if (b.saved) { el.innerHTML = renderSavedPreview(i); return; }
   if (!b.mode) { el.innerHTML = `<p style="color:var(--text2);font-size:13px;">Select Content or Question above.</p>`; return; }
   if (b.ui.state === 'select') { el.innerHTML = b.mode === 'content' ? contentGrid(i) : questionGrid(i); return; }
-  if (b.ui.state === 'edit')   { el.innerHTML = b.mode === 'content' ? contentEditorHTML(i) : questionEditorHTML(i); }
+  if (b.ui.state === 'edit') { el.innerHTML = b.mode === 'content' ? contentEditorHTML(i) : questionEditorHTML(i); }
 
   if (b.ui.state === 'edit' && b.mode === 'question') {
     setTimeout(() => { setRichContent(`qprompt-${i}`, b.data.question || ''); }, 10);
@@ -319,11 +320,11 @@ function renderSavedPreview(i) {
     else preview = `<div style="color:var(--text2);font-size:13px;">${b.type} content saved.</div>`;
   } else {
     const qLabel = getQuestionLabel(i);
-    const qText = d.question ? d.question.replace(/<[^>]+>/g,'') : '(No question)';
-    preview = `<div style="font-size:13px;margin-bottom:8px;"><strong>Q${qLabel}:</strong> ${qText.substring(0,120)}${qText.length>120?'…':''}</div>`;
+    const qText = d.question ? d.question.replace(/<[^>]+>/g, '') : '(No question)';
+    preview = `<div style="font-size:13px;margin-bottom:8px;"><strong>Q${qLabel}:</strong> ${qText.substring(0, 120)}${qText.length > 120 ? '…' : ''}</div>`;
     if (b.type === 'MCQ' || b.type === 'Multiple Select MCQ') {
       const opts = b.ui.mcqOptions.filter(o => o.trim());
-      preview += opts.map((o, oi) => `<div style="padding:4px 10px;background:var(--surface2);border-radius:5px;margin-bottom:3px;font-size:12px;">${String.fromCharCode(65+oi)}. ${o}</div>`).join('');
+      preview += opts.map((o, oi) => `<div style="padding:4px 10px;background:var(--surface2);border-radius:5px;margin-bottom:3px;font-size:12px;">${String.fromCharCode(65 + oi)}. ${o}</div>`).join('');
     } else if (b.type === 'True / False') {
       preview += `<div style="font-size:12px;color:var(--text2);">Answer: <strong style="color:var(--text);">${b.ui.tfAnswer || 'Not set'}</strong></div>`;
     } else if (b.type === 'Drawing') {
@@ -331,9 +332,9 @@ function renderSavedPreview(i) {
       if (d.drawingInstructions) preview += `<div style="font-size:12px;color:var(--text2);margin-top:4px;">${d.drawingInstructions}</div>`;
     }
     preview += `<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">`;
-    if (b.meta.criterion) preview += `<span class="badge red">Crit ${b.meta.criterion}${b.meta.strand?'-'+b.meta.strand:''}</span>`;
-    if (b.meta.marks)     preview += `<span class="badge">${b.meta.marks} marks</span>`;
-    if (b.meta.difficulty)preview += `<span class="badge">${b.meta.difficulty}</span>`;
+    if (b.meta.criterion) preview += `<span class="badge red">Crit ${b.meta.criterion}${b.meta.strand ? '-' + b.meta.strand : ''}</span>`;
+    if (b.meta.marks) preview += `<span class="badge">${b.meta.marks} marks</span>`;
+    if (b.meta.difficulty) preview += `<span class="badge">${b.meta.difficulty}</span>`;
     preview += `</div>`;
   }
 
@@ -354,9 +355,9 @@ function updateStructureView() {
     secBlocks.forEach(b => {
       const i = blocks.indexOf(b);
       const qLabel = getQuestionLabel(i);
-      html += `<div class="structure-item ${b.mode==='content'?'content-type':'question-type'}"
+      html += `<div class="structure-item ${b.mode === 'content' ? 'content-type' : 'question-type'}"
         onclick="document.getElementById('block-${i}').scrollIntoView({behavior:'smooth'})">
-        ${b.mode==='content' ? '📄' : `❓ Q${qLabel||''}`} ${b.type || (b.mode || 'New')}
+        ${b.mode === 'content' ? '📄' : `❓ Q${qLabel || ''}`} ${b.type || (b.mode || 'New')}
       </div>`;
     });
   });
@@ -366,9 +367,9 @@ function updateStructureView() {
 /* ── Content & Question grids ── */
 function contentGrid(i) {
   const types = [
-    {icon:'📝',label:'Text'},{icon:'🖼️',label:'Image'},{icon:'🎬',label:'Video'},
-    {icon:'📄',label:'PDF'},{icon:'🎵',label:'Audio'},{icon:'🔬',label:'Simulation'},
-    {icon:'📊',label:'Docs'},{icon:'📑',label:'PPT'},{icon:'🗂️',label:'Accordion'}
+    { icon: '📝', label: 'Text' }, { icon: '🖼️', label: 'Image' }, { icon: '🎬', label: 'Video' },
+    { icon: '📄', label: 'PDF' }, { icon: '🎵', label: 'Audio' }, { icon: '🔬', label: 'Simulation' },
+    { icon: '📊', label: 'Docs' }, { icon: '📑', label: 'PPT' }, { icon: '🗂️', label: 'Accordion' }
   ];
   return `<div class="type-grid">${types.map(t =>
     `<div class="type-card" onclick="selectType(${i},'${t.label}','content')"><div class="tc-icon">${t.icon}</div>${t.label}</div>`
@@ -377,13 +378,13 @@ function contentGrid(i) {
 
 function questionGrid(i) {
   const types = [
-    {icon:'✍️',label:'Long Answer'},{icon:'🔘',label:'MCQ'},
-    {icon:'☑️',label:'Multiple Select MCQ'},{icon:'✔️',label:'True / False'},
-    {icon:'📝',label:'Fill Text'},{icon:'🔽',label:'Fill Drop Down'},
-    {icon:'🔗',label:'Match the Following'},{icon:'🔄',label:'Sort'},
-    {icon:'🗂️',label:'Classify'},{icon:'📊',label:'Table'},
-    {icon:'✏️',label:'Drawing'},{icon:'🏷️',label:'Label Drag'},
-    {icon:'📐',label:'GeoGebra Graph'}
+    { icon: '✍️', label: 'Long Answer' }, { icon: '🔘', label: 'MCQ' },
+    { icon: '☑️', label: 'Multiple Select MCQ' }, { icon: '✔️', label: 'True / False' },
+    { icon: '📝', label: 'Fill Text' }, { icon: '🔽', label: 'Fill Drop Down' },
+    { icon: '🔗', label: 'Match the Following' }, { icon: '🔄', label: 'Sort' },
+    { icon: '🗂️', label: 'Classify' }, { icon: '📊', label: 'Table' },
+    { icon: '✏️', label: 'Drawing' }, { icon: '🏷️', label: 'Label Drag' },
+    { icon: '📐', label: 'GeoGebra Graph' }
   ];
   return `<div class="type-grid">${types.map(t =>
     `<div class="type-card" onclick="selectType(${i},'${t.label}','question')"><div class="tc-icon">${t.icon}</div>${t.label}</div>`
@@ -409,20 +410,20 @@ function contentEditorHTML(i) {
 
   let uploadChooser = `
     <div class="upload-chooser">
-      <div class="upload-opt ${um==='url'?'active':''}" onclick="setUploadMode(${i},'url')">🔗 URL</div>
-      <div class="upload-opt ${um==='file'?'active':''}" onclick="setUploadMode(${i},'file')">💻 Upload</div>
-      <div class="upload-opt ${um==='drive'?'active':''}" onclick="setUploadMode(${i},'drive')">☁️ Drive</div>
+      <div class="upload-opt ${um === 'url' ? 'active' : ''}" onclick="setUploadMode(${i},'url')">🔗 URL</div>
+      <div class="upload-opt ${um === 'file' ? 'active' : ''}" onclick="setUploadMode(${i},'file')">💻 Upload</div>
+      <div class="upload-opt ${um === 'drive' ? 'active' : ''}" onclick="setUploadMode(${i},'drive')">☁️ Drive</div>
     </div>
-    ${um==='url'?`<input type="url" id="cu-url-${i}" placeholder="Paste ${t} URL here…" value="${b.data.url||''}">`:''} 
-    ${um==='file'?`<input type="file" id="cu-file-${i}" style="background:var(--surface2);border:1px solid var(--border);padding:8px;border-radius:7px;width:100%;color:var(--text);">`:''} 
-    ${um==='drive'?`<input type="url" id="cu-drive-${i}" placeholder="Paste Google Drive share link…" value="${b.data.driveUrl||''}">`:''} `;
+    ${um === 'url' ? `<input type="url" id="cu-url-${i}" placeholder="Paste ${t} URL here…" value="${b.data.url || ''}">` : ''} 
+    ${um === 'file' ? `<input type="file" id="cu-file-${i}" style="background:var(--surface2);border:1px solid var(--border);padding:8px;border-radius:7px;width:100%;color:var(--text);">` : ''} 
+    ${um === 'drive' ? `<input type="url" id="cu-drive-${i}" placeholder="Paste Google Drive share link…" value="${b.data.driveUrl || ''}">` : ''} `;
 
   let inner = '';
   if (t === 'Text') {
-    inner = `<textarea id="ct-${i}" placeholder="Enter text content…" style="min-height:120px;">${b.data.text||''}</textarea>`;
+    inner = `<textarea id="ct-${i}" placeholder="Enter text content…" style="min-height:120px;">${b.data.text || ''}</textarea>`;
   } else if (t === 'Accordion') {
-    inner = `<input type="text" id="ca-title-${i}" placeholder="Accordion title…" value="${b.data.title||''}">
-      <textarea id="ca-body-${i}" placeholder="Accordion body…">${b.data.body||''}</textarea>`;
+    inner = `<input type="text" id="ca-title-${i}" placeholder="Accordion title…" value="${b.data.title || ''}">
+      <textarea id="ca-body-${i}" placeholder="Accordion body…">${b.data.body || ''}</textarea>`;
   } else {
     inner = uploadChooser;
   }
@@ -449,10 +450,10 @@ function questionEditorHTML(i) {
     <div style="margin-bottom:4px;font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Question Q${qLabel}</div>
     ${richTextToolbar(`qprompt-${i}`)}
     <div class="toggle-row" style="margin-top:8px;">
-      <div class="toggle ${b.ui.hintOn?'on':''}" onclick="toggleHint(${i})"></div>
+      <div class="toggle ${b.ui.hintOn ? 'on' : ''}" onclick="toggleHint(${i})"></div>
       <span>Add Hint (optional)</span>
     </div>
-    ${b.ui.hintOn?`<div class="hint-box"><textarea id="hint-${i}" placeholder="Hint for students…">${b.meta.hint||''}</textarea></div>`:''}`;
+    ${b.ui.hintOn ? `<div class="hint-box"><textarea id="hint-${i}" placeholder="Hint for students…">${b.meta.hint || ''}</textarea></div>` : ''}`;
 
   const critStrip = criteriaMarksStrip(i);
 
@@ -461,15 +462,15 @@ function questionEditorHTML(i) {
       <div>
         <label>Difficulty</label>
         <select id="meta-diff-${i}">
-          <option value="" ${!b.meta.difficulty?'selected':''}>Select</option>
-          ${['Easy','Medium','Hard'].map(d=>`<option ${b.meta.difficulty===d?'selected':''}>${d}</option>`).join('')}
+          <option value="" ${!b.meta.difficulty ? 'selected' : ''}>Select</option>
+          ${['Easy', 'Medium', 'Hard'].map(d => `<option ${b.meta.difficulty === d ? 'selected' : ''}>${d}</option>`).join('')}
         </select>
       </div>
       <div>
         <label>Command Term</label>
         <select id="meta-cmd-${i}">
           <option value="">Select</option>
-          ${['Define','State','Describe','Explain','Justify','Analyse','Evaluate','Discuss','Compare','Calculate','Derive','Show','Sketch','Draw'].map(d=>`<option ${b.meta.commandTerm===d?'selected':''}>${d}</option>`).join('')}
+          ${['Define', 'State', 'Describe', 'Explain', 'Justify', 'Analyse', 'Evaluate', 'Discuss', 'Compare', 'Calculate', 'Derive', 'Show', 'Sketch', 'Draw'].map(d => `<option ${b.meta.commandTerm === d ? 'selected' : ''}>${d}</option>`).join('')}
         </select>
       </div>
       <div>
@@ -489,7 +490,7 @@ function questionEditorHTML(i) {
   const markScheme = `
     <div class="mark-scheme">
       <label>📗 Mark Scheme <span style="font-weight:normal;color:var(--text2)">(optional)</span></label>
-      <textarea id="ms-${i}" placeholder="Expected answer, rubric, model solution…">${b.meta.markScheme||''}</textarea>
+      <textarea id="ms-${i}" placeholder="Expected answer, rubric, model solution…">${b.meta.markScheme || ''}</textarea>
     </div>`;
 
   let body = '';
@@ -499,12 +500,12 @@ function questionEditorHTML(i) {
       <div class="row">
         <div class="form-group" style="flex:1">
           <label style="font-size:11px;color:var(--text2)">Word Limit (optional)</label>
-          <input type="number" id="la-wl-${i}" placeholder="e.g. 200" value="${b.data.wordLimit||''}">
+          <input type="number" id="la-wl-${i}" placeholder="e.g. 200" value="${b.data.wordLimit || ''}">
         </div>
         <div class="form-group" style="flex:1">
           <label style="font-size:11px;color:var(--text2)">Response Format</label>
           <select id="la-fmt-${i}">
-            ${['Free Text','Paragraph','Bullet Points','Step-wise'].map(f=>`<option ${b.data.format===f?'selected':''}>${f}</option>`).join('')}
+            ${['Free Text', 'Paragraph', 'Bullet Points', 'Step-wise'].map(f => `<option ${b.data.format === f ? 'selected' : ''}>${f}</option>`).join('')}
           </select>
         </div>
       </div>
@@ -515,17 +516,17 @@ function questionEditorHTML(i) {
       <div class="mcq-options" id="mcq-opts-${i}">
         ${b.ui.mcqOptions.map((o, oi) => `
           <div class="mcq-option-row">
-            <input type="radio" name="mcq-correct-${i}" value="${oi}" ${b.data.correct==oi?'checked':''}>
-            <input type="text" id="mcq-o-${i}-${oi}" placeholder="Option ${String.fromCharCode(65+oi)}" value="${o}">
+            <input type="radio" name="mcq-correct-${i}" value="${oi}" ${b.data.correct == oi ? 'checked' : ''}>
+            <input type="text" id="mcq-o-${i}-${oi}" placeholder="Option ${String.fromCharCode(65 + oi)}" value="${o}">
             <button class="remove-btn" onclick="removeOption(${i},${oi})">✕</button>
           </div>`).join('')}
       </div>
       <button class="sm-btn" onclick="addOption(${i})" style="margin-top:4px;">+ Add Option</button>
       <div class="toggle-row" style="margin-top:8px;">
-        <input type="checkbox" id="mcq-rand-${i}" ${b.data.randomize?'checked':''} style="accent-color:var(--accent)">
+        <input type="checkbox" id="mcq-rand-${i}" ${b.data.randomize ? 'checked' : ''} style="accent-color:var(--accent)">
         <span>Randomise options</span>
       </div>
-      <textarea id="mcq-exp-${i}" placeholder="Explanation shown after submission…">${b.data.explanation||''}</textarea>
+      <textarea id="mcq-exp-${i}" placeholder="Explanation shown after submission…">${b.data.explanation || ''}</textarea>
       ${critStrip}${metaStrip}${markScheme}`;
 
   } else if (t === 'Multiple Select MCQ') {
@@ -533,8 +534,8 @@ function questionEditorHTML(i) {
       <div class="mcq-options" id="mmcq-opts-${i}">
         ${b.ui.mcqOptions.map((o, oi) => `
           <div class="mcq-option-row">
-            <input type="checkbox" name="mmcq-correct-${i}" value="${oi}" ${(b.data.correct||[]).includes(oi)?'checked':''}>
-            <input type="text" id="mmcq-o-${i}-${oi}" placeholder="Option ${String.fromCharCode(65+oi)}" value="${o}">
+            <input type="checkbox" name="mmcq-correct-${i}" value="${oi}" ${(b.data.correct || []).includes(oi) ? 'checked' : ''}>
+            <input type="text" id="mmcq-o-${i}-${oi}" placeholder="Option ${String.fromCharCode(65 + oi)}" value="${o}">
             <button class="remove-btn" onclick="removeOption(${i},${oi})">✕</button>
           </div>`).join('')}
       </div>
@@ -545,25 +546,25 @@ function questionEditorHTML(i) {
     const ans = b.ui.tfAnswer;
     body = `${qPrompt}
       <div class="tf-options">
-        <div class="tf-opt true-opt ${ans==='True'?'selected':''}" onclick="setTF(${i},'True')">✅ True</div>
-        <div class="tf-opt false-opt ${ans==='False'?'selected':''}" onclick="setTF(${i},'False')">❌ False</div>
+        <div class="tf-opt true-opt ${ans === 'True' ? 'selected' : ''}" onclick="setTF(${i},'True')">✅ True</div>
+        <div class="tf-opt false-opt ${ans === 'False' ? 'selected' : ''}" onclick="setTF(${i},'False')">❌ False</div>
       </div>
-      <textarea id="tf-exp-${i}" placeholder="Explanation…">${b.data.explanation||''}</textarea>
+      <textarea id="tf-exp-${i}" placeholder="Explanation…">${b.data.explanation || ''}</textarea>
       ${critStrip}${metaStrip}${markScheme}`;
 
   } else if (t === 'Fill Text') {
     body = `
       <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Use [blank] to mark blank positions.</div>
-      <textarea id="ft-text-${i}" placeholder="e.g. The [blank] of a triangle is 180°." style="min-height:80px;">${b.data.fillText||''}</textarea>
-      <input type="text" id="ft-ans-${i}" placeholder="Correct answers (comma separated)" value="${b.data.answers||''}">
+      <textarea id="ft-text-${i}" placeholder="e.g. The [blank] of a triangle is 180°." style="min-height:80px;">${b.data.fillText || ''}</textarea>
+      <input type="text" id="ft-ans-${i}" placeholder="Correct answers (comma separated)" value="${b.data.answers || ''}">
       ${critStrip}${metaStrip}${markScheme}`;
 
   } else if (t === 'Fill Drop Down') {
     body = `
       <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Use [blank] in text. Provide comma-separated options.</div>
-      <textarea id="fdd-text-${i}" placeholder="e.g. Water boils at [blank] degrees." style="min-height:80px;">${b.data.fillText||''}</textarea>
-      <input type="text" id="fdd-opts-${i}" placeholder="Options (e.g. 50, 75, 100, 150)" value="${b.data.options||''}">
-      <input type="text" id="fdd-ans-${i}" placeholder="Correct answer(s)" value="${b.data.answers||''}">
+      <textarea id="fdd-text-${i}" placeholder="e.g. Water boils at [blank] degrees." style="min-height:80px;">${b.data.fillText || ''}</textarea>
+      <input type="text" id="fdd-opts-${i}" placeholder="Options (e.g. 50, 75, 100, 150)" value="${b.data.options || ''}">
+      <input type="text" id="fdd-ans-${i}" placeholder="Correct answer(s)" value="${b.data.answers || ''}">
       ${critStrip}${metaStrip}${markScheme}`;
 
   } else if (t === 'Match the Following') {
@@ -586,8 +587,8 @@ function questionEditorHTML(i) {
       <div id="sort-items-${i}">
         ${b.ui.sortItems.map((item, si) => `
           <div style="display:flex;gap:8px;margin-bottom:6px;align-items:center;">
-            <span style="color:var(--text2);font-size:12px;width:16px;">${si+1}.</span>
-            <input type="text" id="sort-${i}-${si}" placeholder="Item ${si+1}" value="${item}" style="flex:1;">
+            <span style="color:var(--text2);font-size:12px;width:16px;">${si + 1}.</span>
+            <input type="text" id="sort-${i}-${si}" placeholder="Item ${si + 1}" value="${item}" style="flex:1;">
             <button class="remove-btn" onclick="removeSortItem(${i},${si})">✕</button>
           </div>`).join('')}
       </div>
@@ -600,7 +601,7 @@ function questionEditorHTML(i) {
       <div id="classify-cats-${i}">
         ${b.ui.classifyCategories.map((c, ci) => `
           <div style="display:flex;gap:8px;margin-bottom:6px;">
-            <input type="text" id="cc-${i}-${ci}" placeholder="Category ${ci+1}" value="${c}" style="flex:1;">
+            <input type="text" id="cc-${i}-${ci}" placeholder="Category ${ci + 1}" value="${c}" style="flex:1;">
             <button class="remove-btn" onclick="removeCat(${i},${ci})">✕</button>
           </div>`).join('')}
       </div>
@@ -609,7 +610,7 @@ function questionEditorHTML(i) {
       <div id="classify-items-${i}">
         ${b.ui.classifyItems.map((item, ii2) => `
           <div style="display:flex;gap:8px;margin-bottom:6px;">
-            <input type="text" id="ci-${i}-${ii2}" placeholder="Item ${ii2+1}" value="${item}" style="flex:1;">
+            <input type="text" id="ci-${i}-${ii2}" placeholder="Item ${ii2 + 1}" value="${item}" style="flex:1;">
             <button class="remove-btn" onclick="removeClassifyItem(${i},${ii2})">✕</button>
           </div>`).join('')}
       </div>
@@ -637,26 +638,26 @@ function questionEditorHTML(i) {
     body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Upload a reference/diagram image for students to draw on:</div>
       <div style="display:flex;gap:8px;margin-bottom:10px;">
-        <input type="url" id="draw-img-${i}" placeholder="Image URL (diagram, prism, circuit…)" value="${b.data.drawingImage||''}" style="flex:1;">
+        <input type="url" id="draw-img-${i}" placeholder="Image URL (diagram, prism, circuit…)" value="${b.data.drawingImage || ''}" style="flex:1;">
         <input type="file" id="draw-file-${i}" accept="image/*" onchange="handleDrawingUpload(${i},this)" style="width:200px;background:var(--surface2);border:1px solid var(--border);padding:6px;border-radius:7px;color:var(--text);font-size:12px;">
       </div>
       ${b.data.drawingImage ? `<div style="margin-bottom:10px;"><img src="${b.data.drawingImage}" style="max-width:100%;max-height:300px;border-radius:8px;border:1px solid var(--border);"></div>` : ''}
       <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Drawing instructions for students:</div>
-      <textarea id="draw-instr-${i}" placeholder="e.g. Draw the path of the ray through the prism. Include normals and label angles (i, r).">${b.data.drawingInstructions||''}</textarea>
+      <textarea id="draw-instr-${i}" placeholder="e.g. Draw the path of the ray through the prism. Include normals and label angles (i, r).">${b.data.drawingInstructions || ''}</textarea>
       ${critStrip}${metaStrip}${markScheme}`;
 
   } else if (t === 'Label Drag' || t === 'Label Fill') {
     body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Upload or link a diagram image:</div>
-      <input type="url" id="ld-img-${i}" placeholder="Image URL for diagram…" value="${b.data.imageUrl||''}">
-      <input type="text" id="ld-labels-${i}" placeholder="Labels (comma separated): e.g. Nucleus, Cell Wall" value="${b.data.labels||''}">
+      <input type="url" id="ld-img-${i}" placeholder="Image URL for diagram…" value="${b.data.imageUrl || ''}">
+      <input type="text" id="ld-labels-${i}" placeholder="Labels (comma separated): e.g. Nucleus, Cell Wall" value="${b.data.labels || ''}">
       ${critStrip}${metaStrip}${markScheme}`;
 
   } else if (t === 'GeoGebra Graph') {
     body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Students will see a live GeoGebra applet. Optionally provide a material ID:</div>
-      <input type="text" id="graph-prefill-${i}" placeholder="GeoGebra Material ID (optional, e.g. abc123)" value="${b.data.prefill||''}">
-      <input type="text" id="graph-instructions-${i}" placeholder="Instructions for the student" value="${b.data.graphInstructions||''}">
+      <input type="text" id="graph-prefill-${i}" placeholder="GeoGebra Material ID (optional, e.g. abc123)" value="${b.data.prefill || ''}">
+      <input type="text" id="graph-instructions-${i}" placeholder="Instructions for the student" value="${b.data.graphInstructions || ''}">
       <div style="margin-top:10px;border:1px solid var(--border);border-radius:8px;overflow:hidden;height:300px;">
         <iframe src="https://www.geogebra.org/graphing" style="width:100%;height:100%;border:none;"></iframe>
       </div>
@@ -677,34 +678,34 @@ function questionEditorHTML(i) {
 }
 
 /* ─── Helpers ─── */
-function addOption(i) { if (blocks[i].ui.mcqOptions.length >= 8) return; blocks[i].ui.mcqOptions.push(''); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
-function removeOption(i, oi) { blocks[i].ui.mcqOptions.splice(oi, 1); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
-function setTF(i, val) { blocks[i].ui.tfAnswer = val; renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
+function addOption(i) { if (blocks[i].ui.mcqOptions.length >= 8) return; blocks[i].ui.mcqOptions.push(''); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10); }
+function removeOption(i, oi) { blocks[i].ui.mcqOptions.splice(oi, 1); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10); }
+function setTF(i, val) { blocks[i].ui.tfAnswer = val; renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10); }
 function addMatchPair(i) {
   blocks[i].ui.matchPairs = blocks[i].ui.matchPairs.map((_, pi) => ({
     a: document.getElementById(`ma-a-${i}-${pi}`)?.value || '',
     b: document.getElementById(`ma-b-${i}-${pi}`)?.value || ''
   }));
   blocks[i].data.question = getRichContent(`qprompt-${i}`);
-  blocks[i].ui.matchPairs.push({a:'',b:''});
+  blocks[i].ui.matchPairs.push({ a: '', b: '' });
   renderInner(i);
-  setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10);
+  setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10);
 }
 
-function addSortItem(i) { blocks[i].ui.sortItems.push(''); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
-function removeSortItem(i, si) { blocks[i].ui.sortItems.splice(si, 1); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,blocks[i].data.question||''),10); }
+function addSortItem(i) { blocks[i].ui.sortItems.push(''); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10); }
+function removeSortItem(i, si) { blocks[i].ui.sortItems.splice(si, 1); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10); }
 function addCat(i) { blocks[i].ui.classifyCategories.push(''); renderInner(i); }
 function removeCat(i, ci) { blocks[i].ui.classifyCategories.splice(ci, 1); renderInner(i); }
 function addClassifyItem(i) { blocks[i].ui.classifyItems.push(''); renderInner(i); }
 function removeClassifyItem(i, ii2) { blocks[i].ui.classifyItems.splice(ii2, 1); renderInner(i); }
-function toggleHint(i) { blocks[i].ui.hintOn = !blocks[i].ui.hintOn; const q = getRichContent(`qprompt-${i}`); renderInner(i); setTimeout(()=>setRichContent(`qprompt-${i}`,q),10); }
+function toggleHint(i) { blocks[i].ui.hintOn = !blocks[i].ui.hintOn; const q = getRichContent(`qprompt-${i}`); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, q), 10); }
 
 /* ─── Drawing upload helper ─── */
 function handleDrawingUpload(i, input) {
   const file = input.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = function(e) {
+  reader.onload = function (e) {
     blocks[i].data.drawingImage = e.target.result;
     renderInner(i);
     setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10);
@@ -723,7 +724,7 @@ function updateTablePreview(i) {
   html += '<tr>';
   for (let c = 0; c < cols; c++) {
     html += `<th style="border:1px solid var(--border);padding:6px 8px;background:rgba(224,48,48,0.08);">
-      <input type="text" id="th-${i}-${c}" value="${headers[c]||''}" placeholder="Header ${c+1}"
+      <input type="text" id="th-${i}-${c}" value="${headers[c] || ''}" placeholder="Header ${c + 1}"
         style="background:transparent;border:none;color:var(--text);width:100%;font-size:12px;font-weight:600;outline:none;text-align:center;">
     </th>`;
   }
@@ -752,18 +753,18 @@ function saveBlock(i) {
   const pick = (id) => { const el = document.getElementById(id); return el ? el.value : ''; };
 
   // Criteria + marks
-  b.meta.criterion  = pick(`qcrit-${i}`);
-  b.meta.strand     = pick(`qstrand-${i}`);
-  b.meta.marks      = pick(`qmarks-${i}`);
+  b.meta.criterion = pick(`qcrit-${i}`);
+  b.meta.strand = pick(`qstrand-${i}`);
+  b.meta.marks = pick(`qmarks-${i}`);
 
   // Secondary meta
-  b.meta.difficulty  = pick(`meta-diff-${i}`);
+  b.meta.difficulty = pick(`meta-diff-${i}`);
   b.meta.commandTerm = pick(`meta-cmd-${i}`);
-  b.meta.timeMin     = pick(`meta-time-${i}`);
-  b.meta.keywords    = pick(`meta-kw-${i}`);
-  b.meta.notes       = pick(`meta-notes-${i}`);
-  b.meta.markScheme  = pick(`ms-${i}`);
-  b.meta.hint        = pick(`hint-${i}`);
+  b.meta.timeMin = pick(`meta-time-${i}`);
+  b.meta.keywords = pick(`meta-kw-${i}`);
+  b.meta.notes = pick(`meta-notes-${i}`);
+  b.meta.markScheme = pick(`ms-${i}`);
+  b.meta.hint = pick(`hint-${i}`);
 
   const t = b.type;
   if (b.mode === 'content') {
@@ -780,7 +781,7 @@ function saveBlock(i) {
       b.data.explanation = pick(`mcq-exp-${i}`);
     } else if (t === 'Multiple Select MCQ') {
       b.ui.mcqOptions = b.ui.mcqOptions.map((_, oi) => pick(`mmcq-o-${i}-${oi}`));
-      b.data.correct = Array.from(document.querySelectorAll(`input[name="mmcq-correct-${i}"]:checked`)).map(c=>parseInt(c.value));
+      b.data.correct = Array.from(document.querySelectorAll(`input[name="mmcq-correct-${i}"]:checked`)).map(c => parseInt(c.value));
     } else if (t === 'Fill Text') {
       b.data.fillText = pick(`ft-text-${i}`);
       b.data.answers = pick(`ft-ans-${i}`);
@@ -798,7 +799,7 @@ function saveBlock(i) {
     } else if (t === 'Drawing') {
       b.data.drawingImage = pick(`draw-img-${i}`) || b.data.drawingImage || '';
       b.data.drawingInstructions = pick(`draw-instr-${i}`);
-      } else if (t === 'GeoGebra Graph') {
+    } else if (t === 'GeoGebra Graph') {
       b.data.prefill = pick(`graph-prefill-${i}`);
       b.data.graphInstructions = pick(`graph-instructions-${i}`);
     } else if (t === 'Label Drag' || t === 'Label Fill') {
@@ -860,12 +861,12 @@ function saveAll() {
   let library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
 
   const pick = id => { const el = document.getElementById(id); return el ? el.value : ''; };
-  const heading    = pick('ms-heading')  || 'Untitled';
-  const chapter    = pick('ms-chapter')  || '';
-  const topic      = pick('ms-topic')    || '';
-  const gc         = pick('ms-gc')       || '';
-  const atl        = pick('ms-atl')      || '';
-  const timeLimit  = Number(pick('ms-timelimit')) || 0;
+  const heading = pick('ms-heading') || 'Untitled';
+  const chapter = pick('ms-chapter') || '';
+  const topic = pick('ms-topic') || '';
+  const gc = pick('ms-gc') || '';
+  const atl = pick('ms-atl') || '';
+  const timeLimit = Number(pick('ms-timelimit')) || 0;
   const autoSubmit = pick('ms-autosubmit') || 'yes';
 
   const savedBlocks = JSON.parse(JSON.stringify(blocks));
@@ -958,29 +959,29 @@ function previewStudent() {
       const i = blocks.indexOf(b);
       const qLabel = getQuestionLabel(i);
       if (b.mode === 'content') {
-  if (b.type === 'Image' && b.data.url) {
-    html += `<div class="block"><img src="${b.data.url}" style="max-width:100%;border-radius:8px;" onerror="this.outerHTML='<p>Image failed to load</p>'"></div>`;
-  } else if (b.type === 'Video' && b.data.url) {
-    const ytMatch = b.data.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
-    if (ytMatch) {
-      html += `<div class="block"><iframe width="100%" height="400" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen style="border-radius:8px;"></iframe></div>`;
-    } else {
-      html += `<div class="block"><video src="${b.data.url}" controls style="max-width:100%;border-radius:8px;"></video></div>`;
-    }
-  } else {
-    html += `<div class="block">${b.data.text || b.data.url || '(Content block)'}</div>`;
-  }
+        if (b.type === 'Image' && b.data.url) {
+          html += `<div class="block"><img src="${b.data.url}" style="max-width:100%;border-radius:8px;" onerror="this.outerHTML='<p>Image failed to load</p>'"></div>`;
+        } else if (b.type === 'Video' && b.data.url) {
+          const ytMatch = b.data.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
+          if (ytMatch) {
+            html += `<div class="block"><iframe width="100%" height="400" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen style="border-radius:8px;"></iframe></div>`;
+          } else {
+            html += `<div class="block"><video src="${b.data.url}" controls style="max-width:100%;border-radius:8px;"></video></div>`;
+          }
+        } else {
+          html += `<div class="block">${b.data.text || b.data.url || '(Content block)'}</div>`;
+        }
 
       } else {
         html += `<div class="block">
           <div class="q-label">Q${qLabel} · ${b.type}
-            ${b.meta.marks?`<span class="marks-badge">${b.meta.marks} marks</span>`:''}
-            ${b.meta.criterion?`<span class="crit-badge">Crit ${b.meta.criterion}${b.meta.strand?'-'+b.meta.strand:''}</span>`:''}
+            ${b.meta.marks ? `<span class="marks-badge">${b.meta.marks} marks</span>` : ''}
+            ${b.meta.criterion ? `<span class="crit-badge">Crit ${b.meta.criterion}${b.meta.strand ? '-' + b.meta.strand : ''}</span>` : ''}
           </div>
-          <div style="font-size:14px;line-height:1.6;margin-bottom:12px;">${b.data.question||'(No question)'}</div>`;
+          <div style="font-size:14px;line-height:1.6;margin-bottom:12px;">${b.data.question || '(No question)'}</div>`;
         if (b.type === 'MCQ' || b.type === 'Multiple Select MCQ') {
-          (b.ui.mcqOptions||[]).filter(o=>o.trim()).forEach((o,oi) => {
-            html += `<div class="opt">${String.fromCharCode(65+oi)}. ${o}</div>`;
+          (b.ui.mcqOptions || []).filter(o => o.trim()).forEach((o, oi) => {
+            html += `<div class="opt">${String.fromCharCode(65 + oi)}. ${o}</div>`;
           });
         } else if (b.type === 'True / False') {
           html += `<div class="opt">A. True</div><div class="opt">B. False</div>`;
@@ -1019,11 +1020,11 @@ function insertImageFileInEditor() {
   var input = document.createElement('input');
   input.type = 'file';
   input.accept = 'image/*';
-  input.onchange = function(e) {
+  input.onchange = function (e) {
     var file = e.target.files[0];
     if (!file) return;
     var reader = new FileReader();
-    reader.onload = function(ev) {
+    reader.onload = function (ev) {
       if (_lastFocusedEditor) {
         _lastFocusedEditor.focus();
         document.execCommand('insertHTML', false, '<img src="' + ev.target.result + '" style="max-width:100%;border-radius:6px;margin:8px 0;display:block;">');
