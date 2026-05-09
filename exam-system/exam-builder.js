@@ -928,8 +928,9 @@ function showSaveSuccess(msg, status) {
     <div style="font-size:28px;margin-bottom:10px;">📚</div>
     <div style="font-size:16px;font-weight:700;color:#27ae60;margin-bottom:8px;">Saved to Library!</div>
     <div style="font-size:13px;color:#b08888;line-height:1.7;white-space:pre-line;">${msg}</div>
-    <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;">
+    <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
       <button onclick="this.closest('#save-toast').remove()" style="background:#27ae60;border:none;color:white;padding:8px 20px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;">✓ Got it</button>
+      <button onclick="window.open('exam-student.html','_blank');this.closest('#save-toast').remove();" style="background:var(--accent,#e03030);border:none;color:white;padding:8px 20px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;">👁 Preview as Student →</button>
       <button onclick="openLibrary();this.closest('#save-toast').remove();" style="background:transparent;border:1px solid rgba(200,60,60,0.4);color:#e03030;padding:8px 20px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;">View in Library</button>
     </div>`;
   document.body.appendChild(toast);
