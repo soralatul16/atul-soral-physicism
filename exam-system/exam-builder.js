@@ -45,9 +45,6 @@ function richTextToolbar(id) {
     <button type="button" onclick="insertTableInEditor()" title="Insert Table">📊</button>
   </div>
   <div class="rich-editor" id="${id}" contenteditable="true" data-placeholder="Write here…"></div>`;
-    <button type="button" onclick="insertImageFileInEditor()" title="Upload Image">📁</button>
-  </div>
-  <div class="rich-editor" id="${id}" contenteditable="true" data-placeholder="Write here…"></div>`;
 }
 let _lastFocusedEditor = null;
 document.addEventListener('focusin', e => {
@@ -962,26 +959,17 @@ function previewStudent() {
       const qLabel = getQuestionLabel(i);
       if (b.mode === 'content') {
   if (b.type === 'Image' && b.data.url) {
-    html += `<div class="block"><img src="${b.data.url}" style="max-width:100%;border-radius:8px;" onerror="this.outerHTML='<p>Image failed to load: ${b.data.url}</p>'"></div>`;
+    html += `<div class="block"><img src="${b.data.url}" style="max-width:100%;border-radius:8px;" onerror="this.outerHTML='<p>Image failed to load</p>'"></div>`;
   } else if (b.type === 'Video' && b.data.url) {
     const ytMatch = b.data.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
     if (ytMatch) {
-      html += `<div class="block"><iframe width="100%" height="400" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen></iframe></div>`;
+      html += `<div class="block"><iframe width="100%" height="400" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen style="border-radius:8px;"></iframe></div>`;
     } else {
-      html += `<div class="block"><video src="${b.data.url}" controls style="max-width:100%;"></video></div>`;
+      html += `<div class="block"><video src="${b.data.url}" controls style="max-width:100%;border-radius:8px;"></video></div>`;
     }
-  } else if (b.type === 'Video' && b.data.url) {
-  const ytMatch = b.data.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
-  if (ytMatch) {
-    html += `<div class="block"><iframe width="100%" height="400" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allowfullscreen style="border-radius:8px;"></iframe></div>`;
   } else {
-    html += `<div class="block"><video src="${b.data.url}" controls style="max-width:100%;border-radius:8px;"></video></div>`;
+    html += `<div class="block">${b.data.text || b.data.url || '(Content block)'}</div>`;
   }
-} else if (b.type === 'Image' && b.data.url) {
-  html += `<div class="block"><img src="${b.data.url}" style="max-width:100%;border-radius:8px;"></div>`;
-} else {
-  html += `<div class="block">${b.data.text || b.data.url || '(Content block)'}</div>`;
-}
 
       } else {
         html += `<div class="block">
@@ -1045,34 +1033,7 @@ function insertImageFileInEditor() {
   };
   input.click();
 }
-/* ─── Insert image via URL ─── */
-function insertImageInEditor() {
-  var url = prompt('Paste image URL:');
-  if (url && url.trim() && _lastFocusedEditor) {
-    _lastFocusedEditor.focus();
-    document.execCommand('insertHTML', false, '<img src="' + url.trim() + '" style="max-width:100%;border-radius:6px;margin:8px 0;display:block;">');
-  }
-}
-
-/* ─── Upload image from computer ─── */
-function insertImageFileInEditor() {
-  var input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
-  input.onchange = function(e) {
-    var file = e.target.files[0];
-    if (!file) return;
-    var reader = new FileReader();
-    reader.onload = function(ev) {
-      if (_lastFocusedEditor) {
-        _lastFocusedEditor.focus();
-        document.execCommand('insertHTML', false, '<img src="' + ev.target.result + '" style="max-width:100%;border-radius:6px;margin:8px 0;display:block;">');
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-  input.click();
-}
+/* Duplicate insertImageInEditor / insertImageFileInEditor removed — already defined above */
 
 /* ─── Insert table in editor ─── */
 function insertTableInEditor() {
