@@ -478,15 +478,19 @@ function buildInput(q,idx){
       parts.forEach((part,pi)=>{h+=part;if(pi<parts.length-1)h+=`<select onchange="saveFillAns(${idx},${pi},this.value)" style="background:var(--surface2);border:1px solid var(--accent);border-radius:6px;padding:5px 10px;color:var(--text);font-size:13px;margin:0 4px;min-width:120px;"><option value="">▼ Select</option>${options.map(o=>`<option value="${o}" ${(saved&&saved[pi])===o?'selected':''}>${o}</option>`).join('')}</select>`;});
       h+='</div>';return h;
     }
-    // Case 2: No [blank] tokens — show question text + single dropdown below
-    return `<div style="margin-top:10px;">${ft?`<div style="font-size:14px;color:var(--text);margin-bottom:10px;line-height:1.7;">${ft}</div>`:''}<select onchange="saveAnsText(${idx},this.value)" style="width:100%;background:var(--surface2);border:1px solid var(--accent);border-radius:8px;padding:10px 14px;color:var(--text);font-size:14px;min-width:200px;cursor:pointer;"><option value="">▼ Select your answer...</option>${options.map(o=>`<option value="${o}" ${saved===o?'selected':''}>${o}</option>`).join('')}</select></div>`;
+    // Case 2: No [blank] tokens — just show a single dropdown (question text is already shown above by renderQ)
+    return `<div style="margin-top:10px;"><select onchange="saveAnsText(${idx},this.value)" style="width:100%;background:var(--surface2);border:1px solid var(--accent);border-radius:8px;padding:10px 14px;color:var(--text);font-size:14px;min-width:200px;cursor:pointer;"><option value="">▼ Select your answer...</option>${options.map(o=>`<option value="${o}" ${saved===o?'selected':''}>${o}</option>`).join('')}</select></div>`;
   }
   // Match the Following
   if(t==="Match the Following"){
     const pairs=q.ui?.matchPairs||[];
     if(!pairs.length) return '<p style="color:var(--text2);font-size:13px;">No matching pairs configured.</p>';
     const colB=pairs.map(p=>p.b).filter(Boolean);
-    const shuffledB=[...colB].sort(()=>Math.random()-0.5);
+    // Seeded shuffle — consistent order per question, always jumbled
+    const shuffledB=[...colB];
+    let seed=idx*2654435761;for(let i=shuffledB.length-1;i>0;i--){seed=(seed*16807+12345)&0x7fffffff;const j=seed%(i+1);[shuffledB[i],shuffledB[j]]=[shuffledB[j],shuffledB[i]];}
+    // If shuffle accidentally left them in original order, reverse
+    if(shuffledB.length>1&&shuffledB.every((b,i)=>b===colB[i]))shuffledB.reverse();
     return `<div style="margin-top:4px;"><div style="display:flex;gap:8px;margin-bottom:8px;padding:6px 10px;"><div style="flex:1;font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;">Column A</div><div style="width:24px;"></div><div style="flex:1;font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;">Your Match</div></div>${pairs.map((p,pi)=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;"><div style="flex:1;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:13px;">${p.a}</div><span style="color:var(--text2);font-size:16px;">→</span><select onchange="saveMatchAns(${idx},${pi},this.value)" style="flex:1;background:var(--surface2);border:1px solid var(--accent);border-radius:8px;padding:10px 14px;color:var(--text);font-size:13px;cursor:pointer;"><option value="">▼ Select match...</option>${shuffledB.map(b=>`<option value="${b}" ${(saved&&typeof saved==='object'&&saved[pi])===b?'selected':''}>${b}</option>`).join('')}</select></div>`).join('')}</div>`;
   }
   // Sort
@@ -498,33 +502,71 @@ function buildInput(q,idx){
   if(t==="Table"){
     const rows=q.data?.tableRows||3,cols=q.data?.tableCols||3,headers=q.data?.tableHeaders||[],prefill=q.data?.tablePrefill||[];
     let h='<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden;"><tr>';
-    for(let c=0;c<cols;c++)h+=`<th style="border:1px solid var(--border);padding:10px;font-size:13px;color:var(--accent);text-align:center;background:rgba(224,48,48,0.1);font-weight:600;">${headers[c]||'Column '+(c+1)}</th>`;
+    for(let c=0;c<cols;c++){const hdrVal=(saved&&saved['h']&&saved['h'][c])||headers[c]||'Column '+(c+1);
+      h+=`<th style="border:1px solid var(--border);padding:0;background:rgba(224,48,48,0.1);"><input type="text" value="${hdrVal}" placeholder="Header ${c+1}" oninput="saveTableHeader(${idx},${c},this.value)" style="width:100%;background:transparent;border:none;color:var(--accent);font-size:13px;text-align:center;outline:none;font-family:'Sora',sans-serif;padding:10px;font-weight:600;"></th>`;}
     h+='</tr>';
     for(let r=0;r<rows;r++){h+='<tr>';for(let c=0;c<cols;c++){const pre=(prefill[r]&&prefill[r][c])||'';const val=(saved&&saved[r]&&saved[r][c])||pre||'';
       h+=`<td style="border:1px solid var(--border);padding:4px;"><input type="text" value="${val}" placeholder="—" oninput="saveTableAns(${idx},${r},${c},this.value)" style="width:100%;background:transparent;border:none;color:var(--text);font-size:13px;text-align:center;outline:none;font-family:'Sora',sans-serif;padding:6px;"></td>`;}h+='</tr>';}
     h+='</table></div>';return h;
   }
-  // Classify
+  // Classify — Drag-and-Drop Category Buckets
   if(t==="Classify"){
-    const cats=(q.ui?.classifyCategories||[]).filter(c=>c&&c.trim()),items=(q.ui?.classifyItems||[]).filter(i=>i&&i.trim());
-    if(!cats.length||!items.length)return '<p style="color:var(--text2);font-size:13px;">Classification not configured.</p>';
-    return `<div><p style="font-size:12px;color:var(--text2);margin-bottom:8px;">Assign each item to a category:</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">${cats.map(c=>`<span style="padding:6px 14px;background:rgba(224,48,48,0.12);border:1px solid rgba(224,48,48,0.3);border-radius:8px;font-size:12px;color:var(--accent);font-weight:600;">${c}</span>`).join('')}</div>${items.map((item,ii)=>`<div style="display:flex;gap:10px;align-items:center;margin-bottom:8px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;"><span style="font-size:13px;flex:1;">${item}</span><select onchange="saveClassifyAns(${idx},${ii},this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 12px;color:var(--text);font-size:12px;min-width:140px;"><option value="">Select category...</option>${cats.map(c=>`<option value="${c}" ${(saved&&saved[ii])===c?'selected':''}>${c}</option>`).join('')}</select></div>`).join('')}</div>`;
+    let cats=(q.ui?.classifyCategories||[]).filter(c=>c&&c.trim()),items=(q.ui?.classifyItems||[]).filter(i=>i&&i.trim());
+    if(!cats.length||!items.length)return `<div style="padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;text-align:center;"><div style="font-size:24px;margin-bottom:8px;">⚠️</div><div style="font-size:13px;color:var(--text2);line-height:1.6;">This Classify question needs to be re-saved by the teacher.<br><span style="font-size:11px;color:var(--text3);">The teacher should open this question in the builder, click Edit, then Save again to fix the data.</span></div></div>`;
+    const catColors=['rgba(224,48,48,0.15)','rgba(41,128,185,0.15)','rgba(39,174,96,0.15)','rgba(243,156,18,0.15)','rgba(142,68,173,0.15)','rgba(22,160,133,0.15)'];
+    const catBorders=['rgba(224,48,48,0.5)','rgba(41,128,185,0.5)','rgba(39,174,96,0.5)','rgba(243,156,18,0.5)','rgba(142,68,173,0.5)','rgba(22,160,133,0.5)'];
+    const catTextColors=['#e03030','#2980b9','#27ae60','#f39c12','#8e44ad','#16a085'];
+    // Determine which items are assigned and which are unassigned
+    const assigned=saved&&typeof saved==='object'?saved:{};
+    const assignedItems=new Set();
+    cats.forEach(c=>{(assigned[c]||[]).forEach(it=>assignedItems.add(it));});
+    const unassigned=items.filter(it=>!assignedItems.has(it));
+    let h=`<div id="classify-zone-${idx}" style="margin-top:4px;">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:10px;">Drag items into the correct category, or click an item then click a category.</div>
+      <div style="background:var(--surface);border:1px dashed var(--border);border-radius:10px;padding:10px;margin-bottom:14px;min-height:44px;" id="classify-pool-${idx}" ondragover="event.preventDefault();this.style.borderColor='var(--accent)'" ondragleave="this.style.borderColor='var(--border)'" ondrop="classifyDrop(event,${idx},'__pool__');this.style.borderColor='var(--border)'">
+        <div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;font-weight:600;">\ud83d\udce6 Unassigned Items</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;" id="classify-pool-items-${idx}">`;
+    unassigned.forEach(it=>{
+      h+=`<div class="classify-chip" draggable="true" ondragstart="classifyDragStart(event,'${it.replace(/'/g,"\\'")}')" onclick="classifyChipClick(event,${idx},'${it.replace(/'/g,"\\'")}')" style="padding:6px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-size:12px;color:var(--text);cursor:grab;user-select:none;transition:all 0.2s;">${it}</div>`;
+    });
+    h+=`</div></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">`;
+    cats.forEach((cat,ci)=>{
+      const color=catColors[ci%catColors.length];const border=catBorders[ci%catBorders.length];const textColor=catTextColors[ci%catTextColors.length];
+      const catItems=assigned[cat]||[];
+      h+=`<div class="classify-bucket" style="background:${color};border:2px dashed ${border};border-radius:10px;padding:10px;min-height:100px;transition:all 0.2s;" ondragover="event.preventDefault();this.style.borderStyle='solid';this.style.transform='scale(1.02)'" ondragleave="this.style.borderStyle='dashed';this.style.transform='scale(1)'" ondrop="classifyDrop(event,${idx},'${cat.replace(/'/g,"\\'")}');this.style.borderStyle='dashed';this.style.transform='scale(1)'" onclick="classifyBucketClick(event,${idx},'${cat.replace(/'/g,"\\'")}')">
+        <div style="font-size:12px;font-weight:700;color:${textColor};text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;text-align:center;">${cat}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;" id="classify-bucket-${idx}-${ci}">`;
+      catItems.forEach(it=>{
+        h+=`<div class="classify-chip" draggable="true" ondragstart="classifyDragStart(event,'${it.replace(/'/g,"\\'")}')" onclick="classifyChipClick(event,${idx},'${it.replace(/'/g,"\\'")}')" style="padding:6px 14px;background:rgba(255,255,255,0.08);border:1px solid ${border};border-radius:20px;font-size:12px;color:var(--text);cursor:grab;user-select:none;transition:all 0.2s;">${it}</div>`;
+      });
+      h+=`</div></div>`;
+    });
+    h+=`</div></div>`;
+    return h;
   }
   // Label Drag / Label Fill
   if(t==="Label Drag"||t==="Label Fill"){
     const imgUrl=q.data?.imageUrl||'';const labels=(q.data?.labels||'').split(',').map(l=>l.trim()).filter(Boolean);
     return `<div>${imgUrl?`<div style="margin-bottom:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden;"><img src="${imgUrl}" style="width:100%;display:block;"></div>`:''}<p style="font-size:12px;color:var(--text2);margin-bottom:8px;">Fill in the labels:</p>${labels.map((l,li)=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;"><span style="font-size:12px;color:var(--text2);min-width:20px;">${li+1}.</span><input class="fill-input" type="text" placeholder="Label ${li+1}" value="${(saved&&saved[li])||''}" oninput="saveLabelAns(${idx},${li},this.value)"></div>`).join('')}</div>`;
   }
-  // Desmos Graph
-    if(t==="Desmos Graph"){
-    const instr=q.data?.graphInstructions||'';
-    return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;height:400px;"><iframe src="https://www.geogebra.org/graphing" style="width:100%;height:100%;border:none;" allowfullscreen></iframe></div><div class="long-answer-wrap" style="margin-top:10px;"><textarea placeholder="Write your answer / observations here…" oninput="saveAnsText(${idx},this.value)">${saved||""}</textarea></div></div>`;
-  }
-  // GeoGebra Graph
-  if(t==="GeoGebra Graph"){
+  // Desmos Graph / GeoGebra Graph
+  if(t==="Desmos Graph"||t==="GeoGebra Graph"){
     const matId=q.data?.prefill||'';const instr=q.data?.graphInstructions||'';
     const src=matId?`https://www.geogebra.org/material/iframe/id/${matId}`:`https://www.geogebra.org/graphing`;
-    return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;height:400px;"><iframe src="${src}" style="width:100%;height:100%;border:none;"></iframe></div><div class="long-answer-wrap" style="margin-top:10px;"><textarea placeholder="Write your answer / observations here…" oninput="saveAnsText(${idx},this.value)">${saved||""}</textarea></div></div>`;
+    // Get data from previous question (table/fill) for reference
+    const prevData=getPrevQuestionData(currentQIdx);
+    return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}
+      ${prevData?`<details style="margin-bottom:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;" open>
+        <summary style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:6px;">📋 Data from previous question (click to copy)</summary>
+        <div style="font-size:12px;color:var(--text3);line-height:1.6;user-select:all;font-family:'Space Mono',monospace;white-space:pre-wrap;background:var(--surface2);padding:10px;border-radius:6px;">${prevData}</div>
+        <button onclick="copyPrevData(this)" style="margin-top:6px;background:var(--accent);border:none;color:white;padding:5px 14px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Sora',sans-serif;">📋 Copy Data</button>
+      </details>`:''}
+      <div style="position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;height:400px;" id="graph-container-${idx}">
+        <iframe src="${src}" style="width:100%;height:100%;border:none;" allowfullscreen id="graph-iframe-${idx}"></iframe>
+        <button onclick="openGraphFullscreen(${idx})" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.2);color:white;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;z-index:10;backdrop-filter:blur(4px);">⛶ Fullscreen</button>
+      </div>
+      <div class="long-answer-wrap" style="margin-top:10px;"><textarea placeholder="Write your answer / observations here…" oninput="saveAnsText(${idx},this.value)">${saved||""}</textarea></div></div>`;
   }
   // Drawing
   if(t==="Drawing"){
@@ -545,7 +587,76 @@ function saveSortAns(qi,si,v){if(!Array.isArray(currentAttempt.answers[qi]))curr
 function saveTableAns(qi,r,c,v){if(!currentAttempt.answers[qi])currentAttempt.answers[qi]={};if(!currentAttempt.answers[qi][r])currentAttempt.answers[qi][r]={};currentAttempt.answers[qi][r][c]=v;renderQNav();}
 function saveFillAns(qi,pi,v){if(!currentAttempt.answers[qi])currentAttempt.answers[qi]={};currentAttempt.answers[qi][pi]=v;renderQNav();}
 function saveClassifyAns(qi,ii,v){if(!currentAttempt.answers[qi])currentAttempt.answers[qi]={};currentAttempt.answers[qi][ii]=v;renderQNav();}
+/* ══════ Classify Drag-and-Drop Engine ══════ */
+let _classifyDragItem=null;
+let _classifySelectedItem=null;
+function classifyDragStart(e,item){_classifyDragItem=item;e.dataTransfer.setData('text/plain',item);e.dataTransfer.effectAllowed='move';}
+function classifyDrop(e,qi,cat){
+  e.preventDefault();e.stopPropagation();
+  const item=_classifyDragItem||e.dataTransfer.getData('text/plain');if(!item)return;
+  _classifyDragItem=null;_classifySelectedItem=null;
+  const ans=currentAttempt.answers[qi]&&typeof currentAttempt.answers[qi]==='object'?{...currentAttempt.answers[qi]}:{};
+  // Remove item from all categories
+  Object.keys(ans).forEach(k=>{if(Array.isArray(ans[k]))ans[k]=ans[k].filter(i=>i!==item);});
+  // Add to target category (unless pool)
+  if(cat!=='__pool__'){if(!Array.isArray(ans[cat]))ans[cat]=[];if(!ans[cat].includes(item))ans[cat].push(item);}
+  // Clean empty arrays
+  Object.keys(ans).forEach(k=>{if(Array.isArray(ans[k])&&ans[k].length===0)delete ans[k];});
+  currentAttempt.answers[qi]=ans;
+  renderQ(currentQIdx);
+}
+function classifyChipClick(e,qi,item){
+  e.stopPropagation();
+  // Toggle selection
+  document.querySelectorAll('.classify-chip').forEach(c=>c.style.outline='none');
+  if(_classifySelectedItem===item){_classifySelectedItem=null;return;}
+  _classifySelectedItem=item;
+  e.target.style.outline='2px solid var(--accent)';e.target.style.outlineOffset='2px';
+}
+function classifyBucketClick(e,qi,cat){
+  if(!_classifySelectedItem)return;
+  if(e.target.classList.contains('classify-chip'))return;
+  classifyDrop(e,qi,cat);
+}
 function saveLabelAns(qi,li,v){if(!currentAttempt.answers[qi])currentAttempt.answers[qi]={};currentAttempt.answers[qi][li]=v;renderQNav();}
+function saveTableHeader(qi,c,v){if(!currentAttempt.answers[qi])currentAttempt.answers[qi]={};if(!currentAttempt.answers[qi]['h'])currentAttempt.answers[qi]['h']={};currentAttempt.answers[qi]['h'][c]=v;renderQNav();}
+function getPrevQuestionData(qIdx){
+  if(qIdx<=0||!qBlocks.length)return null;
+  // Look at previous question(s) for table data
+  for(let pi=qIdx-1;pi>=Math.max(0,qIdx-3);pi--){
+    const pq=qBlocks[pi];const pAns=currentAttempt.answers[pi];
+    if(pq.type==='Table'&&pAns&&typeof pAns==='object'){
+      const headers=pq.data?.tableHeaders||[];const cols=pq.data?.tableCols||2;const rows=pq.data?.tableRows||3;
+      let txt=headers.slice(0,cols).map((h,i)=>(pAns['h']&&pAns['h'][i])||h||'Col '+(i+1)).join('\t')+'\n';
+      for(let r=0;r<rows;r++){let row=[];for(let c=0;c<cols;c++)row.push((pAns[r]&&pAns[r][c])||'');txt+=row.join('\t')+'\n';}
+      return txt.trim();
+    }
+  }
+  return null;
+}
+function copyPrevData(btn){
+  const dataEl=btn.parentElement.querySelector('div[style*="monospace"]');
+  if(dataEl){navigator.clipboard.writeText(dataEl.textContent).then(()=>{btn.textContent='\u2705 Copied!';setTimeout(()=>{btn.textContent='\ud83d\udccb Copy Data';},1500);}).catch(()=>{const r=document.createRange();r.selectNodeContents(dataEl);window.getSelection().removeAllRanges();window.getSelection().addRange(r);document.execCommand('copy');btn.textContent='\u2705 Copied!';setTimeout(()=>{btn.textContent='\ud83d\udccb Copy Data';},1500);});}
+}
+function openGraphFullscreen(idx){
+  const iframe=document.getElementById('graph-iframe-'+idx);if(!iframe)return;
+  const src=iframe.src;const prevData=getPrevQuestionData(currentQIdx);
+  const overlay=document.createElement('div');overlay.id='graph-fullscreen-overlay';
+  overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.95);z-index:99999;display:flex;flex-direction:column;';
+  overlay.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:rgba(224,48,48,0.1);border-bottom:1px solid var(--border,#333);">
+    <span style="font-size:13px;font-weight:600;color:#eee;">\ud83d\udcc8 GeoGebra Graph — Fullscreen</span>
+    <button onclick="this.closest('#graph-fullscreen-overlay').remove()" style="background:#e03030;border:none;color:white;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;">\u2715 Close</button>
+  </div>
+  <div style="flex:1;display:flex;overflow:hidden;">
+    ${prevData?`<div style="width:260px;background:rgba(255,255,255,0.03);border-right:1px solid #333;padding:12px;overflow-y:auto;flex-shrink:0;">
+      <div style="font-size:11px;font-weight:600;color:#e03030;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">\ud83d\udccb Reference Data</div>
+      <pre style="font-size:11px;color:#ccc;line-height:1.7;font-family:'Space Mono',monospace;white-space:pre-wrap;background:rgba(255,255,255,0.05);padding:10px;border-radius:6px;user-select:all;">${prevData}</pre>
+      <button onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent);this.textContent='\u2705 Copied!';setTimeout(()=>this.textContent='\ud83d\udccb Copy',1500);" style="margin-top:6px;width:100%;background:#e03030;border:none;color:white;padding:6px;border-radius:6px;font-size:11px;cursor:pointer;">\ud83d\udccb Copy</button>
+    </div>`:''}<iframe src="${src}" style="flex:1;border:none;" allowfullscreen></iframe>
+  </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('keydown',e=>{if(e.key==='Escape')overlay.remove();});
+}
 function saveNote(qi,v){currentAttempt.notes[qi]=v;}
 function clearAns(){currentAttempt.answers[currentQIdx]=undefined;renderQ(currentQIdx);}
 function flagQ(){currentAttempt.flags[currentQIdx]=!currentAttempt.flags[currentQIdx];renderQ(currentQIdx);}

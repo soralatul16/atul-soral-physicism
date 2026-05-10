@@ -596,6 +596,7 @@ function questionEditorHTML(i) {
       ${critStrip}${metaStrip}${markScheme}`;
 
   } else if (t === 'Classify') {
+    const correctMap = b.data.classifyCorrect || {};
     body = `${qPrompt}
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">Categories:</div>
       <div id="classify-cats-${i}">
@@ -606,11 +607,15 @@ function questionEditorHTML(i) {
           </div>`).join('')}
       </div>
       <button class="sm-btn" onclick="addCat(${i})">+ Add Category</button>
-      <div style="font-size:12px;color:var(--text2);margin:10px 0 6px;">Items to classify:</div>
+      <div style="font-size:12px;color:var(--text2);margin:10px 0 6px;">Items to classify (assign correct category):</div>
       <div id="classify-items-${i}">
         ${b.ui.classifyItems.map((item, ii2) => `
-          <div style="display:flex;gap:8px;margin-bottom:6px;">
+          <div style="display:flex;gap:8px;margin-bottom:6px;align-items:center;">
             <input type="text" id="ci-${i}-${ii2}" placeholder="Item ${ii2 + 1}" value="${item}" style="flex:1;">
+            <select id="ci-cat-${i}-${ii2}" style="min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;">
+              <option value="">Correct cat…</option>
+              ${b.ui.classifyCategories.filter(c=>c.trim()).map(c => `<option value="${c}" ${correctMap[ii2]===c?'selected':''}>${c}</option>`).join('')}
+            </select>
             <button class="remove-btn" onclick="removeClassifyItem(${i},${ii2})">✕</button>
           </div>`).join('')}
       </div>
@@ -807,6 +812,11 @@ function saveBlock(i) {
       b.data.labels = pick(`ld-labels-${i}`);
     } else if (t === 'Sort') {
       b.ui.sortItems = b.ui.sortItems.map((_, si) => pick(`sort-${i}-${si}`));
+    } else if (t === 'Classify') {
+      b.ui.classifyCategories = b.ui.classifyCategories.map((_, ci) => pick(`cc-${i}-${ci}`));
+      b.ui.classifyItems = b.ui.classifyItems.map((_, ii2) => pick(`ci-${i}-${ii2}`));
+      b.data.classifyCorrect = {};
+      b.ui.classifyItems.forEach((_, ii2) => { const v = pick(`ci-cat-${i}-${ii2}`); if(v) b.data.classifyCorrect[ii2] = v; });
     } else if (t === 'True / False') {
       b.data.explanation = pick(`tf-exp-${i}`);
     } else if (t === 'Table') {
