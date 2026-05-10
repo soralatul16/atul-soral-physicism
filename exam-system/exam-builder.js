@@ -775,6 +775,7 @@ function updateTablePreview(i) {
 
 /* ─── Save block ─── */
 function saveBlock(i) {
+  try {
   const b = blocks[i];
   pushHistory();
 
@@ -863,7 +864,9 @@ function saveBlock(i) {
 
   b.saved = true;
   b.ui.state = 'saved';
+  console.log('saveBlock OK:', i, b.type, JSON.stringify({cats: b.ui.classifyCategories, items: b.ui.classifyItems}));
   render();
+  } catch(err) { console.error('saveBlock ERROR:', err); alert('Save failed: ' + err.message); }
 }
 
 function cancelEdit(i) {
