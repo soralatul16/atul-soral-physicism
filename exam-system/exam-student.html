@@ -699,23 +699,36 @@ function copyPrevData(btn){
 }
 function openGraphFullscreen(idx){
   const iframe=document.getElementById('graph-iframe-'+idx);if(!iframe)return;
-  const src=iframe.src;const prevData=getPrevQuestionData(currentQIdx);
+  const originalParent=iframe.parentElement;
   const prevTable=getPrevQuestionTable(currentQIdx);
   const overlay=document.createElement('div');overlay.id='graph-fullscreen-overlay';
   overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.95);z-index:99999;display:flex;flex-direction:column;';
+  // Build overlay HTML (iframe placeholder will be filled)
   overlay.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:rgba(224,48,48,0.1);border-bottom:1px solid var(--border,#333);">
     <span style="font-size:13px;font-weight:600;color:#eee;">\ud83d\udcc8 GeoGebra Graph — Fullscreen</span>
-    <button onclick="this.closest('#graph-fullscreen-overlay').remove()" style="background:#e03030;border:none;color:white;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;">\u2715 Close</button>
+    <button id="graph-fs-close-btn" style="background:#e03030;border:none;color:white;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;">\u2715 Close</button>
   </div>
   <div style="flex:1;display:flex;overflow:hidden;">
     ${prevTable?`<div style="width:260px;background:rgba(255,255,255,0.03);border-right:1px solid #333;padding:12px;overflow-y:auto;flex-shrink:0;">
       <div style="font-size:11px;font-weight:600;color:#e03030;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">\ud83d\udccb Reference Data</div>
       <div style="margin-bottom:6px;">${prevTable}</div>
       <button onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent);this.textContent='\u2705 Copied!';setTimeout(()=>this.textContent='\ud83d\udccb Copy',1500);" style="margin-top:6px;width:100%;background:#e03030;border:none;color:white;padding:6px;border-radius:6px;font-size:11px;cursor:pointer;">\ud83d\udccb Copy</button>
-    </div>`:''}<iframe src="${src}" style="flex:1;border:none;" allowfullscreen></iframe>
+    </div>`:''}<div id="graph-fs-iframe-slot" style="flex:1;display:flex;"></div>
   </div>`;
   document.body.appendChild(overlay);
-  overlay.addEventListener('keydown',e=>{if(e.key==='Escape')overlay.remove();});
+  // Move the ACTUAL iframe into fullscreen (preserves GeoGebra state)
+  const slot=document.getElementById('graph-fs-iframe-slot');
+  const origWidth=iframe.style.width;const origHeight=iframe.style.height;
+  iframe.style.width='100%';iframe.style.height='100%';iframe.style.flex='1';
+  slot.appendChild(iframe);
+  // Close handler — move iframe back
+  function closeFullscreen(){
+    iframe.style.width=origWidth;iframe.style.height=origHeight;iframe.style.flex='';
+    originalParent.appendChild(iframe);
+    overlay.remove();
+  }
+  document.getElementById('graph-fs-close-btn').addEventListener('click', closeFullscreen);
+  overlay.addEventListener('keydown',e=>{if(e.key==='Escape')closeFullscreen();});
 }
 function saveNote(qi,v){currentAttempt.notes[qi]=v;}
 function clearAns(){currentAttempt.answers[currentQIdx]=undefined;renderQ(currentQIdx);}

@@ -16,12 +16,14 @@ let _dbReady = false;
 async function initFirebaseDB() {
   try {
     // Load question sets
-    const libSnap = await db.collection('questionSets').orderBy('updatedAt', 'desc').get();
+    const libSnap = await db.collection('questionSets').get();
     _libraryCache = libSnap.docs.map(doc => {
       const data = doc.data();
       data._docId = doc.id;
       return data;
     });
+    // Sort by updatedAt client-side
+    _libraryCache.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
     console.log(`📚 Loaded ${_libraryCache.length} question sets from Firestore`);
 
     // Load attempts for current user
@@ -29,13 +31,14 @@ async function initFirebaseDB() {
     if (user) {
       const attSnap = await db.collection('attempts')
         .where('studentEmail', '==', user.email.toLowerCase())
-        .orderBy('startedAt', 'desc')
         .get();
       _attemptsCache = attSnap.docs.map(doc => {
         const data = doc.data();
         data._docId = doc.id;
         return data;
       });
+      // Sort by startedAt client-side
+      _attemptsCache.sort((a, b) => (b.startedAt || 0) - (a.startedAt || 0));
       console.log(`📝 Loaded ${_attemptsCache.length} attempts for ${user.email}`);
     }
 
@@ -53,8 +56,10 @@ async function initFirebaseDB() {
 /* ── Load ALL attempts (for teacher analytics) ── */
 async function loadAllAttempts() {
   try {
-    const snap = await db.collection('attempts').orderBy('startedAt', 'desc').get();
-    return snap.docs.map(doc => ({ ...doc.data(), _docId: doc.id }));
+    const snap = await db.collection('attempts').get();
+    const results = snap.docs.map(doc => ({ ...doc.data(), _docId: doc.id }));
+    results.sort((a, b) => (b.startedAt || 0) - (a.startedAt || 0));
+    return results;
   } catch (err) {
     console.error('loadAllAttempts error:', err);
     return [];
