@@ -470,16 +470,24 @@ function buildInput(q,idx){
   }
   // Fill Drop Down
   if(t==="Fill Drop Down"){
-    const ft=q.data?.fillText||'';const options=(q.data?.options||'').split(',').map(o=>o.trim()).filter(Boolean);
-    if(!ft||!ft.includes('[blank]'))return '<p style="color:var(--text2);font-size:13px;">No fill text configured.</p>';
-    const parts=ft.split('[blank]');let h='<div style="font-size:14px;line-height:2.2;color:var(--text);padding:8px 0;">';
-    parts.forEach((part,pi)=>{h+=part;if(pi<parts.length-1)h+=`<select onchange="saveFillAns(${idx},${pi},this.value)" style="background:var(--surface2);border:1px solid var(--accent);border-radius:6px;padding:5px 10px;color:var(--text);font-size:13px;margin:0 4px;min-width:120px;"><option value="">▼ Select</option>${options.map(o=>`<option value="${o}" ${(saved&&saved[pi])===o?'selected':''}>${o}</option>`).join('')}</select>`;});
-    h+='</div>';return h;
+    const ft=q.data?.fillText||q.data?.question||'';const options=(q.data?.options||'').split(',').map(o=>o.trim()).filter(Boolean);
+    if(!options.length) return '<p style="color:var(--text2);font-size:13px;">No dropdown options configured.</p>';
+    // Case 1: fillText contains [blank] tokens — inline dropdowns
+    if(ft&&ft.includes('[blank]')){
+      const parts=ft.split('[blank]');let h='<div style="font-size:14px;line-height:2.2;color:var(--text);padding:8px 0;">';
+      parts.forEach((part,pi)=>{h+=part;if(pi<parts.length-1)h+=`<select onchange="saveFillAns(${idx},${pi},this.value)" style="background:var(--surface2);border:1px solid var(--accent);border-radius:6px;padding:5px 10px;color:var(--text);font-size:13px;margin:0 4px;min-width:120px;"><option value="">▼ Select</option>${options.map(o=>`<option value="${o}" ${(saved&&saved[pi])===o?'selected':''}>${o}</option>`).join('')}</select>`;});
+      h+='</div>';return h;
+    }
+    // Case 2: No [blank] tokens — show question text + single dropdown below
+    return `<div style="margin-top:10px;">${ft?`<div style="font-size:14px;color:var(--text);margin-bottom:10px;line-height:1.7;">${ft}</div>`:''}<select onchange="saveAnsText(${idx},this.value)" style="width:100%;background:var(--surface2);border:1px solid var(--accent);border-radius:8px;padding:10px 14px;color:var(--text);font-size:14px;min-width:200px;cursor:pointer;"><option value="">▼ Select your answer...</option>${options.map(o=>`<option value="${o}" ${saved===o?'selected':''}>${o}</option>`).join('')}</select></div>`;
   }
   // Match the Following
   if(t==="Match the Following"){
     const pairs=q.ui?.matchPairs||[];
-    return `<div style="display:flex;flex-direction:column;gap:8px;">${pairs.map((p,pi)=>`<div style="display:flex;gap:8px;align-items:center;"><div style="flex:1;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;font-size:13px;">${p.a}</div><span style="color:var(--text2);">→</span><input class="fill-input" style="flex:1;" placeholder="Match for: ${p.a}" value="${(saved&&typeof saved==='object'&&saved[pi])||''}" oninput="saveMatchAns(${idx},${pi},this.value)"></div>`).join('')}</div>`;
+    if(!pairs.length) return '<p style="color:var(--text2);font-size:13px;">No matching pairs configured.</p>';
+    const colB=pairs.map(p=>p.b).filter(Boolean);
+    const shuffledB=[...colB].sort(()=>Math.random()-0.5);
+    return `<div style="margin-top:4px;"><div style="display:flex;gap:8px;margin-bottom:8px;padding:6px 10px;"><div style="flex:1;font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;">Column A</div><div style="width:24px;"></div><div style="flex:1;font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;">Your Match</div></div>${pairs.map((p,pi)=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;"><div style="flex:1;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:13px;">${p.a}</div><span style="color:var(--text2);font-size:16px;">→</span><select onchange="saveMatchAns(${idx},${pi},this.value)" style="flex:1;background:var(--surface2);border:1px solid var(--accent);border-radius:8px;padding:10px 14px;color:var(--text);font-size:13px;cursor:pointer;"><option value="">▼ Select match...</option>${shuffledB.map(b=>`<option value="${b}" ${(saved&&typeof saved==='object'&&saved[pi])===b?'selected':''}>${b}</option>`).join('')}</select></div>`).join('')}</div>`;
   }
   // Sort
   if(t==="Sort"){
