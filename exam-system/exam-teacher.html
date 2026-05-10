@@ -778,8 +778,7 @@ function filterLib(f, btn) {
 }
 
 function renderAllSets() {
-  const LIBRARY_KEY = "MYP_LIBRARY";
-  const library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
+  const library = getLibrary();
 
   let sets = [...library];
 
@@ -836,8 +835,7 @@ function renderAllSets() {
 }
 
 function openSetInBuilder(id) {
-  const LIBRARY_KEY = "MYP_LIBRARY";
-  const library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
+  const library = getLibrary();
   const set = library.find(s => s.id === id);
   if (!set) { alert('Set not found.'); return; }
 
@@ -865,8 +863,7 @@ function openSetInBuilder(id) {
 }
 
 function downloadSetPDF(id) {
-  const LIBRARY_KEY = "MYP_LIBRARY";
-  const library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
+  const library = getLibrary();
   const set = library.find(s => s.id === id);
   if (!set) return;
 
@@ -906,35 +903,45 @@ function downloadSetPDF(id) {
 }
 
 function publishSet(id){
-  const LIBRARY_KEY = "MYP_LIBRARY";
-  let lib = JSON.parse(localStorage.getItem(LIBRARY_KEY)||"[]");
+  let lib = getLibrary();
   const idx = lib.findIndex(s=>s.id===id);
   if(idx===-1) return;
   lib[idx].status = "Published";
   lib[idx].version = (lib[idx].version||1) + 1;
   lib[idx].updatedAt = Date.now();
-  localStorage.setItem(LIBRARY_KEY, JSON.stringify(lib));
+  saveLibrary(lib);
+  // Also sync this specific set to Firestore immediately
+  if (typeof saveQuestionSetToFirestore === 'function') {
+    saveQuestionSetToFirestore(lib[idx])
+      .then(() => console.log('✅ Published to Firestore:', id))
+      .catch(err => console.error('Publish sync error:', err));
+  }
   renderAllSets();
   alert("✅ Published! Students can now see this set.");
 }
 
 function archiveSet(id){
-  const LIBRARY_KEY = "MYP_LIBRARY";
-  let lib = JSON.parse(localStorage.getItem(LIBRARY_KEY)||"[]");
+  let lib = getLibrary();
   const idx = lib.findIndex(s=>s.id===id);
   if(idx===-1) return;
   lib[idx].status = "Archived";
   lib[idx].updatedAt = Date.now();
-  localStorage.setItem(LIBRARY_KEY, JSON.stringify(lib));
+  saveLibrary(lib);
+  if (typeof saveQuestionSetToFirestore === 'function') {
+    saveQuestionSetToFirestore(lib[idx]).catch(err => console.error('Archive sync error:', err));
+  }
   renderAllSets();
 }
 
 function deleteSet(id){
   if(!confirm("Delete this question set permanently?")) return;
-  const LIBRARY_KEY = "MYP_LIBRARY";
-  let lib = JSON.parse(localStorage.getItem(LIBRARY_KEY)||"[]");
+  let lib = getLibrary();
   lib = lib.filter(s=>s.id!==id);
-  localStorage.setItem(LIBRARY_KEY, JSON.stringify(lib));
+  saveLibrary(lib);
+  // Also delete from Firestore
+  if (typeof deleteQuestionSetFromFirestore === 'function') {
+    deleteQuestionSetFromFirestore(id).catch(err => console.error('Delete sync error:', err));
+  }
   renderAllSets();
 }
 
