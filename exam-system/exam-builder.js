@@ -2,7 +2,7 @@
    MYP EXAM BUILDER — v4 with All Question Types + Drawing
    ═══════════════════════════════════════════════════ */
 
-let DB = JSON.parse(localStorage.getItem("MYP_DB")) || [];
+let DB = (typeof getLibrary === 'function') ? getLibrary() : JSON.parse(localStorage.getItem("MYP_DB") || "[]");
 let blocks = [];
 let sections = [{ id: 1, name: 'Section 1' }];
 let idCounter = 0;
@@ -893,8 +893,7 @@ function saveAll() {
     if (!confirm(`${unsaved.length} block(s) have unsaved edits. Save the set anyway?`)) return;
   }
 
-  const LIBRARY_KEY = "MYP_LIBRARY";
-  let library = JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]");
+  let library = (typeof getLibrary === 'function') ? getLibrary() : JSON.parse(localStorage.getItem('MYP_LIBRARY') || '[]');
 
   const pick = id => { const el = document.getElementById(id); return el ? el.value : ''; };
   const heading = pick('ms-heading') || 'Untitled';
@@ -911,9 +910,13 @@ function saveAll() {
     .filter(b => b.saved && b.mode === 'question')
     .reduce((sum, b) => sum + Number(b.meta.marks || 0), 0);
 
+  // Get teacher info if available
+  const teacherEmail = (typeof auth !== 'undefined' && auth.currentUser) ? auth.currentUser.email : '';
+
   const editingId = window._editingSetId || null;
   let existingIdx = editingId ? library.findIndex(s => s.id === editingId) : -1;
 
+  let savedSet;
   if (existingIdx !== -1) {
     const old = library[existingIdx];
     library[existingIdx] = {
@@ -922,11 +925,13 @@ function saveAll() {
       blocks: savedBlocks,
       sections: savedSections,
       totalMarks,
+      teacherId: teacherEmail || old.teacherId || '',
       version: (old.version || 1) + 1,
       updatedAt: Date.now(),
       status: old.status || 'Draft'
     };
-    showSaveSuccess(`Question set updated in Library! (Version ${library[existingIdx].version})\n\nSet: "${heading}"\nStatus: ${library[existingIdx].status}`, library[existingIdx].status);
+    savedSet = library[existingIdx];
+    showSaveSuccess(`Question set updated in Library! (Version ${savedSet.version})\n\nSet: "${heading}"\nStatus: ${savedSet.status}`, savedSet.status);
   } else {
     const newSet = {
       id: 'qs_' + Date.now(),
@@ -935,17 +940,26 @@ function saveAll() {
       blocks: savedBlocks,
       sections: savedSections,
       totalMarks,
+      teacherId: teacherEmail,
       createdAt: Date.now(),
       updatedAt: Date.now()
     };
     library.push(newSet);
     window._editingSetId = newSet.id;
+    savedSet = newSet;
     showSaveSuccess(`Question set saved to Library as Draft!\n\nSet: "${heading}"\nChapter: ${chapter} → ${topic}\n\nGo to Library → click Publish to make it visible to students.`, 'Draft');
   }
-
-  localStorage.setItem(LIBRARY_KEY, JSON.stringify(library));
+  // Save to localStorage (local backup)
+  try { localStorage.setItem('MYP_LIBRARY', JSON.stringify(library)); } catch(e) {}
   DB = library;
-  localStorage.setItem('MYP_DB', JSON.stringify(DB));
+  try { localStorage.setItem('MYP_DB', JSON.stringify(DB)); } catch(e) {}
+
+  // Save to Firestore (cloud sync)
+  if (typeof saveQuestionSetToFirestore === 'function' && savedSet) {
+    saveQuestionSetToFirestore(savedSet)
+      .then(() => console.log('✅ Saved to Firestore:', savedSet.id))
+      .catch(err => console.error('Firestore save error:', err));
+  }
 }
 
 function showSaveSuccess(msg, status) {

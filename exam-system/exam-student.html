@@ -230,7 +230,13 @@ body{font-family:'Sora',sans-serif;background:linear-gradient(rgba(0,0,0,0.58),r
   </div>
 </div>
 <div class="modal-overlay" id="submitModal"><div class="modal"><h3>📝 Submit Test?</h3><div class="summary-grid" id="submitSummary"></div><p id="submitWarning" style="color:var(--yellow);font-size:12px;margin-bottom:16px;display:none;"></p><div class="modal-btns"><button class="btn-modal-cancel" onclick="closeModal()">Continue</button><button class="btn-modal-ok" onclick="doSubmit()">Submit Now</button></div></div></div>
-<script src="exam-storage.js"></script>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="firebase-auth.js"></script>
+<script src="firebase-db.js"></script>
 <script>
 /* ═══════════════════════════════════════════════════
    Physicism Student Panel v5 — Clean Build
@@ -243,13 +249,20 @@ let qBlocks=[],allBlocks=[];
 
 /* ══════ Session ══════ */
 function checkSession(){
-  try{const s=getSession();if(!s)return redirect();currentStudent=s;
-  document.getElementById("topbarName").textContent="👤 "+s.name;
-  document.getElementById("welcomeMsg").textContent="Welcome back, "+(s.name||"").split(" ")[0]+"! 👋";
-  return true;}catch(e){return redirect();}
+  const user = auth.currentUser;
+  if (!user) return redirect();
+  currentStudent = {
+    uid: user.uid,
+    email: user.email,
+    name: user.displayName || user.email.split('@')[0],
+    firstName: (user.displayName || '').split(' ')[0] || 'Student'
+  };
+  document.getElementById('topbarName').textContent = '👤 ' + currentStudent.name;
+  document.getElementById('welcomeMsg').textContent = 'Welcome back, ' + currentStudent.firstName + '! 👋';
+  return true;
 }
-function redirect(){window.location.href="student-login.html";return false;}
-function doLogout(){if(confirm("Log out?")){localStorage.removeItem(SESSION_KEY);redirect();}}
+function redirect(){window.location.href='student-login.html';return false;}
+function doLogout(){if(confirm('Log out?')){firebaseLogout().then(()=>redirect());}}  
 
 /* ══════ Data ══════ */
 function myAttempts(){return getAttempts().filter(a=>a.studentEmail===currentStudent.email);}
@@ -903,11 +916,15 @@ function loadAnalytics(){
 }
 
 /* ══════════ Init ══════════ */
-window.addEventListener("DOMContentLoaded",async()=>{
-  if(!checkSession())return;
-  const lib=JSON.parse(localStorage.getItem('MYP_LIBRARY')||'[]');
-  if(lib.length===0){try{const resp=await fetch('physicism-data.json');if(resp.ok){const data=await resp.json();if(data.library&&data.library.length>0){localStorage.setItem('MYP_LIBRARY',JSON.stringify(data.library));}}}catch(e){}}
-  buildChapterTree();loadDashboard();
+// Wait for Firebase Auth, then initialize
+auth.onAuthStateChanged(async (user) => {
+  if (!user) { redirect(); return; }
+  if (!checkSession()) return;
+  // Load data from Firestore
+  await initFirebaseDB();
+  // Log student activity
+  logStudentActivity('page_load', { page: 'student_panel' });
+  buildChapterTree(); loadDashboard();
 });
 
 /* ══════════ Drawing Canvas ══════════ */

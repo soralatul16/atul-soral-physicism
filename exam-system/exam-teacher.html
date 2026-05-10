@@ -613,6 +613,64 @@ body {
   </div>
 </div>
 
+<!-- Teacher Auth Gate Overlay -->
+<div id="teacherAuthGate" style="position:fixed;inset:0;background:rgba(8,0,0,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;">
+  <div style="background:rgba(18,4,4,0.95);border:1px solid rgba(200,60,60,0.3);border-radius:20px;padding:40px;max-width:400px;width:90%;text-align:center;">
+    <div style="font-size:28px;margin-bottom:12px;">🔐</div>
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:20px;color:#f0e6e6;margin-bottom:6px;">Teacher Access Only</h2>
+    <p style="font-size:13px;color:#b08888;margin-bottom:24px;">Sign in with your authorized Google account to access the builder.</p>
+    <div id="teacherAuthMsg" style="font-size:13px;margin-bottom:16px;display:none;padding:10px;border-radius:8px;"></div>
+    <button onclick="doTeacherGoogleLogin()" style="background:#4285f4;color:white;border:none;padding:12px 24px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;width:100%;transition:all 0.2s;">
+      🔵 Sign in with Google
+    </button>
+    <p style="font-size:11px;color:#664444;margin-top:16px;">First-time setup: the first Google account to sign in becomes the admin teacher.</p>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="firebase-auth.js"></script>
+<script src="firebase-db.js"></script>
+<script>
+// Teacher auth check
+async function doTeacherGoogleLogin() {
+  const msg = document.getElementById('teacherAuthMsg');
+  try {
+    await firebaseTeacherGoogleLogin();
+    msg.style.display = 'block';
+    msg.style.background = 'rgba(39,174,96,0.15)';
+    msg.style.color = '#5edd8a';
+    msg.textContent = '✅ Authenticated! Loading builder…';
+    // Init Firestore data
+    await initFirebaseDB();
+    setTimeout(() => {
+      document.getElementById('teacherAuthGate').style.display = 'none';
+    }, 600);
+  } catch(err) {
+    msg.style.display = 'block';
+    msg.style.background = 'rgba(224,48,48,0.15)';
+    msg.style.color = '#ff8080';
+    if (err.message === 'NOT_TEACHER') {
+      msg.textContent = '❌ This Google account is not authorized as a teacher.';
+    } else {
+      msg.textContent = '❌ ' + (err.message || 'Sign-in failed');
+    }
+  }
+}
+// Auto-check if already authenticated
+auth.onAuthStateChanged(async (user) => {
+  if (user) {
+    const teacher = await isTeacher();
+    if (teacher) {
+      await initFirebaseDB();
+      document.getElementById('teacherAuthGate').style.display = 'none';
+    }
+  }
+});
+</script>
 <script src="exam-builder.js"></script>
 <script>
 /* ── Page navigation ── */
