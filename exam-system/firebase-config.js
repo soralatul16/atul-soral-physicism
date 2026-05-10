@@ -21,13 +21,4 @@ if (!firebase.apps.length) {
 const auth = firebase.auth();
 const db   = firebase.firestore();
 
-// Enable offline persistence for Firestore (works offline too)
-db.enablePersistence({ synchronizeTabs: true }).catch(err => {
-  if (err.code === 'failed-precondition') {
-    console.warn('Firestore persistence: multiple tabs open');
-  } else if (err.code === 'unimplemented') {
-    console.warn('Firestore persistence: browser not supported');
-  }
-});
-
 console.log('🔥 Firebase initialized — project:', firebaseConfig.projectId);
