@@ -12,25 +12,37 @@ let _libraryCache = null;
 let _attemptsCache = null;
 let _dbReady = false;
 
-/* ── Helpers: Firestore doesn't support nested arrays, so we serialize complex fields ── */
+/* ── Helpers: Firestore doesn't support nested arrays, so we serialize the entire payload ── */
 function _prepareSetForFirestore(set) {
-  const doc = JSON.parse(JSON.stringify(set));
-  delete doc._docId;
-  // Stringify complex nested arrays so Firestore accepts them
-  if (doc.blocks && Array.isArray(doc.blocks)) {
-    doc.blocksJson = JSON.stringify(doc.blocks);
-    delete doc.blocks;
-  }
-  if (doc.sections && Array.isArray(doc.sections)) {
-    doc.sectionsJson = JSON.stringify(doc.sections);
-    delete doc.sections;
-  }
-  doc.updatedAt = Date.now();
-  return doc;
+  const raw = JSON.parse(JSON.stringify(set));
+  delete raw._docId;
+  // Store the ENTIRE set as a JSON string to avoid ALL nested array issues
+  // Keep only searchable/filterable fields at the top level
+  return {
+    id: raw.id || '',
+    heading: raw.heading || '',
+    chapter: raw.chapter || '',
+    topic: raw.topic || '',
+    status: raw.status || 'Draft',
+    totalMarks: raw.totalMarks || 0,
+    teacherId: raw.teacherId || '',
+    version: raw.version || 1,
+    createdAt: raw.createdAt || Date.now(),
+    updatedAt: Date.now(),
+    dataJson: JSON.stringify(raw)  // everything serialized as one string
+  };
 }
 
 function _parseSetFromFirestore(data) {
-  // Deserialize blocks/sections from JSON strings
+  // If stored as dataJson (new format), parse it
+  if (data.dataJson && typeof data.dataJson === 'string') {
+    try {
+      const parsed = JSON.parse(data.dataJson);
+      parsed._docId = data._docId;
+      return parsed;
+    } catch(e) { console.error('Parse error:', e); }
+  }
+  // Legacy: blocksJson/sectionsJson format
   if (data.blocksJson && typeof data.blocksJson === 'string') {
     try { data.blocks = JSON.parse(data.blocksJson); } catch(e) { data.blocks = []; }
     delete data.blocksJson;
@@ -43,29 +55,35 @@ function _parseSetFromFirestore(data) {
 }
 
 function _prepareAttemptForFirestore(att) {
-  const doc = JSON.parse(JSON.stringify(att));
-  delete doc._docId;
-  // Stringify answers (may contain nested arrays)
-  if (doc.answers) {
-    doc.answersJson = JSON.stringify(doc.answers);
-    delete doc.answers;
-  }
-  if (doc.flags) {
-    doc.flagsJson = JSON.stringify(doc.flags);
-    delete doc.flags;
-  }
-  if (doc.notes) {
-    doc.notesJson = JSON.stringify(doc.notes);
-    delete doc.notes;
-  }
-  if (doc.grades) {
-    doc.gradesJson = JSON.stringify(doc.grades);
-    delete doc.grades;
-  }
-  return doc;
+  const raw = JSON.parse(JSON.stringify(att));
+  delete raw._docId;
+  // Store the ENTIRE attempt as a JSON string
+  return {
+    id: raw.id || '',
+    studentEmail: raw.studentEmail || '',
+    studentName: raw.studentName || '',
+    setId: raw.setId || '',
+    setTitle: raw.setTitle || '',
+    status: raw.status || '',
+    startedAt: raw.startedAt || Date.now(),
+    endTime: raw.endTime || null,
+    duration: raw.duration || 0,
+    earnedMarks: raw.earnedMarks || 0,
+    totalMarks: raw.totalMarks || 0,
+    percentScore: raw.percentScore || 0,
+    dataJson: JSON.stringify(raw)
+  };
 }
 
 function _parseAttemptFromFirestore(data) {
+  if (data.dataJson && typeof data.dataJson === 'string') {
+    try {
+      const parsed = JSON.parse(data.dataJson);
+      parsed._docId = data._docId;
+      return parsed;
+    } catch(e) { console.error('Attempt parse error:', e); }
+  }
+  // Legacy format fallback
   if (data.answersJson && typeof data.answersJson === 'string') {
     try { data.answers = JSON.parse(data.answersJson); } catch(e) { data.answers = {}; }
     delete data.answersJson;
