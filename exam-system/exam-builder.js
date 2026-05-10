@@ -602,7 +602,7 @@ function questionEditorHTML(i) {
       <div id="classify-cats-${i}">
         ${b.ui.classifyCategories.map((c, ci) => `
           <div style="display:flex;gap:8px;margin-bottom:6px;">
-            <input type="text" id="cc-${i}-${ci}" placeholder="Category ${ci + 1}" value="${c}" style="flex:1;">
+            <input type="text" id="cc-${i}-${ci}" placeholder="Category ${ci + 1}" value="${c}" style="flex:1;" oninput="syncCatOptions(${i})">
             <button class="remove-btn" onclick="removeCat(${i},${ci})">✕</button>
           </div>`).join('')}
       </div>
@@ -711,6 +711,21 @@ function addCat(i) { const q = _syncClassifyInputs(i); blocks[i].ui.classifyCate
 function removeCat(i, ci) { const q = _syncClassifyInputs(i); blocks[i].ui.classifyCategories.splice(ci, 1); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, q), 10); }
 function addClassifyItem(i) { const q = _syncClassifyInputs(i); blocks[i].ui.classifyItems.push(''); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, q), 10); }
 function removeClassifyItem(i, ii2) { const q = _syncClassifyInputs(i); blocks[i].ui.classifyItems.splice(ii2, 1); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, q), 10); }
+function syncCatOptions(i) {
+  const b = blocks[i];
+  // Read current category values from DOM
+  const cats = b.ui.classifyCategories.map((_, ci) => {
+    const el = document.getElementById(`cc-${i}-${ci}`);
+    return el ? el.value : '';
+  }).filter(c => c.trim());
+  // Update all correct-cat dropdowns
+  b.ui.classifyItems.forEach((_, ii2) => {
+    const sel = document.getElementById(`ci-cat-${i}-${ii2}`);
+    if (!sel) return;
+    const current = sel.value;
+    sel.innerHTML = '<option value="">Correct cat\u2026</option>' + cats.map(c => `<option value="${c}" ${current===c?'selected':''}>${c}</option>`).join('');
+  });
+}
 function toggleHint(i) { blocks[i].ui.hintOn = !blocks[i].ui.hintOn; const q = getRichContent(`qprompt-${i}`); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, q), 10); }
 
 /* ─── Drawing upload helper ─── */
