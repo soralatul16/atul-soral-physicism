@@ -501,13 +501,15 @@ function buildInput(q,idx){
   // Table
   if(t==="Table"){
     const rows=q.data?.tableRows||3,cols=q.data?.tableCols||3,headers=q.data?.tableHeaders||[],prefill=q.data?.tablePrefill||[];
-    let h='<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden;"><tr>';
+    let h=`<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden;" id="table-q-${idx}"><tr>`;
     for(let c=0;c<cols;c++){const hdrVal=(saved&&saved['h']&&saved['h'][c])||headers[c]||'Column '+(c+1);
-      h+=`<th style="border:1px solid var(--border);padding:0;background:rgba(224,48,48,0.1);"><input type="text" value="${hdrVal}" placeholder="Header ${c+1}" oninput="saveTableHeader(${idx},${c},this.value)" style="width:100%;background:transparent;border:none;color:var(--accent);font-size:13px;text-align:center;outline:none;font-family:'Sora',sans-serif;padding:10px;font-weight:600;"></th>`;}
+      h+=`<th style="border:1px solid var(--border);padding:0;background:rgba(224,48,48,0.1);position:relative;"><input type="text" value="${hdrVal}" placeholder="Type header…" oninput="saveTableHeader(${idx},${c},this.value)" onfocus="this.style.background='rgba(224,48,48,0.15)';this.style.borderBottom='2px solid var(--accent)'" onblur="this.style.background='transparent';this.style.borderBottom='none'" style="width:100%;background:transparent;border:none;color:var(--accent);font-size:13px;text-align:center;outline:none;font-family:'Sora',sans-serif;padding:10px;font-weight:600;cursor:text;"><span style="position:absolute;top:2px;right:4px;font-size:8px;color:var(--text3);opacity:0.5;">✏️</span></th>`;}
     h+='</tr>';
     for(let r=0;r<rows;r++){h+='<tr>';for(let c=0;c<cols;c++){const pre=(prefill[r]&&prefill[r][c])||'';const val=(saved&&saved[r]&&saved[r][c])||pre||'';
       h+=`<td style="border:1px solid var(--border);padding:4px;"><input type="text" value="${val}" placeholder="—" oninput="saveTableAns(${idx},${r},${c},this.value)" style="width:100%;background:transparent;border:none;color:var(--text);font-size:13px;text-align:center;outline:none;font-family:'Sora',sans-serif;padding:6px;"></td>`;}h+='</tr>';}
-    h+='</table></div>';return h;
+    h+='</table></div>';
+    h+=`<div style="display:flex;gap:8px;margin-top:8px;"><button onclick="copyTableData(${idx},${rows},${cols})" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Sora',sans-serif;display:flex;align-items:center;gap:4px;">📋 Copy Table Data</button></div>`;
+    return h;
   }
   // Classify — Drag-and-Drop Category Buckets
   if(t==="Classify"){
@@ -585,6 +587,22 @@ function saveAnsText(qi,v){currentAttempt.answers[qi]=v;const wc=v.split(/\s+/).
 function saveMatchAns(qi,pi,v){if(!currentAttempt.answers[qi])currentAttempt.answers[qi]={};currentAttempt.answers[qi][pi]=v;renderQNav();}
 function saveSortAns(qi,si,v){if(!Array.isArray(currentAttempt.answers[qi]))currentAttempt.answers[qi]=[];currentAttempt.answers[qi][si]=v;renderQNav();}
 function saveTableAns(qi,r,c,v){if(!currentAttempt.answers[qi])currentAttempt.answers[qi]={};if(!currentAttempt.answers[qi][r])currentAttempt.answers[qi][r]={};currentAttempt.answers[qi][r][c]=v;renderQNav();}
+function copyTableData(qi,rows,cols){
+  const ans=currentAttempt.answers[qi]||{};const q=qBlocks[qi];const headers=q?.data?.tableHeaders||[];
+  let txt='';
+  // Headers
+  let hRow=[];for(let c=0;c<cols;c++)hRow.push((ans['h']&&ans['h'][c])||headers[c]||'Column '+(c+1));
+  txt+=hRow.join('\t')+'\n';
+  // Data rows
+  for(let r=0;r<rows;r++){let row=[];for(let c=0;c<cols;c++)row.push((ans[r]&&ans[r][c])||'');txt+=row.join('\t')+'\n';}
+  txt=txt.trim();
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=event.target.closest('button');if(btn){btn.innerHTML='✅ Copied!';setTimeout(()=>{btn.innerHTML='📋 Copy Table Data';},1500);}
+  }).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    const btn=event.target.closest('button');if(btn){btn.innerHTML='✅ Copied!';setTimeout(()=>{btn.innerHTML='📋 Copy Table Data';},1500);}
+  });
+}
 function saveFillAns(qi,pi,v){if(!currentAttempt.answers[qi])currentAttempt.answers[qi]={};currentAttempt.answers[qi][pi]=v;renderQNav();}
 function saveClassifyAns(qi,ii,v){if(!currentAttempt.answers[qi])currentAttempt.answers[qi]={};currentAttempt.answers[qi][ii]=v;renderQNav();}
 /* ══════ Classify Drag-and-Drop Engine ══════ */
