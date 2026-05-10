@@ -588,7 +588,7 @@ function buildInput(q,idx){
   // Drawing
   if(t==="Drawing"){
     const imgUrl=q.data?.drawingImage||'';const instr=q.data?.drawingInstructions||'';
-    return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}<div style="position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:white;min-height:350px;">${imgUrl?`<img src="${imgUrl}" style="width:100%;display:block;pointer-events:none;user-select:none;" alt="Reference diagram" id="draw-bg-${idx}">`:''}<canvas id="draw-canvas-${idx}" style="position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;touch-action:none;" onmousedown="startDraw(event,${idx})" onmousemove="draw(event,${idx})" onmouseup="endDraw(${idx})" onmouseleave="endDraw(${idx})" ontouchstart="startDrawTouch(event,${idx})" ontouchmove="drawTouch(event,${idx})" ontouchend="endDraw(${idx})"></canvas></div><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center;"><select onchange="setDrawTool(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="pen">✏️ Pen</option><option value="line">📏 Line</option><option value="arrow">➡️ Arrow</option><option value="rect">⬜ Rectangle</option><option value="circle">⭕ Circle</option><option value="text">🔤 Text</option></select><select onchange="setDrawColor(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="#e03030">🔴 Red</option><option value="#000000">⚫ Black</option><option value="#2980b9">🔵 Blue</option><option value="#27ae60">🟢 Green</option><option value="#8e44ad">🟣 Purple</option><option value="#ffffff">⚪ White</option></select><select onchange="setDrawSize(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="1">Fine</option><option value="2">Thin</option><option value="3" selected>Medium</option><option value="5">Thick</option><option value="8">Bold</option></select><button class="q-ctrl-btn" onclick="undoCanvas(${idx})">↩ Undo</button><button class="q-ctrl-btn" onclick="clearCanvas(${idx})">🗑 Clear</button></div></div>`;
+    return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}<div style="position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:white;min-height:350px;">${imgUrl?`<img src="${imgUrl}" crossorigin="anonymous" style="width:100%;display:block;pointer-events:none;user-select:none;" alt="Reference diagram" id="draw-bg-${idx}" onerror="this.removeAttribute('crossorigin');this.src='${imgUrl}';">`:''}<canvas id="draw-canvas-${idx}" style="position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;touch-action:none;" onmousedown="startDraw(event,${idx})" onmousemove="draw(event,${idx})" onmouseup="endDraw(${idx})" onmouseleave="endDraw(${idx})" ontouchstart="startDrawTouch(event,${idx})" ontouchmove="drawTouch(event,${idx})" ontouchend="endDraw(${idx})"></canvas></div><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center;"><select onchange="setDrawTool(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="pen">✏️ Pen</option><option value="line">📏 Line</option><option value="arrow">➡️ Arrow</option><option value="rect">⬜ Rectangle</option><option value="circle">⭕ Circle</option><option value="text">🔤 Text</option></select><select onchange="setDrawColor(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="#e03030">🔴 Red</option><option value="#000000">⚫ Black</option><option value="#2980b9">🔵 Blue</option><option value="#27ae60">🟢 Green</option><option value="#8e44ad">🟣 Purple</option><option value="#ffffff">⚪ White</option></select><select onchange="setDrawSize(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="1">Fine</option><option value="2">Thin</option><option value="3" selected>Medium</option><option value="5">Thick</option><option value="8">Bold</option></select><button class="q-ctrl-btn" onclick="undoCanvas(${idx})">↩ Undo</button><button class="q-ctrl-btn" onclick="clearCanvas(${idx})">🗑 Clear</button></div></div>`;
   }
   // Default: Long Answer
   const wc=(typeof saved==='string'?saved:'').split(/\s+/).filter(Boolean).length;
@@ -882,7 +882,7 @@ async function downloadPDF(){
         else if(typeof ans==='number')dispAns=String.fromCharCode(65+ans);
         else if(typeof ans==='string'&&ans.startsWith('data:image'))dispAns='[Drawing]';
         else if(typeof ans==='object'){let parts=[];Object.entries(ans).forEach(([k,v])=>{if(typeof v==='object'&&v!==null)Object.values(v).forEach(x=>{if(x)parts.push(String(x));});else if(v)parts.push(String(v));});dispAns=parts.join(', ')||'(Answered)';}
-        else dispAns=String(ans).substring(0,120);
+        else dispAns=String(ans||'').substring(0,120);
       }
       const qText=(q.data?.question||q.data?.text||q.data?.fillText||'(No question text)').replace(/<[^>]+>/g,'');
       const hg=tg!==undefined&&tg!==null&&tg!=='';
@@ -962,7 +962,22 @@ function draw(e,idx){if(!drawState[idx]?.drawing)return;const d=getCanvasCtx(idx
 }
 function drawArrow(ctx,x1,y1,x2,y2){const hl=15,angle=Math.atan2(y2-y1,x2-x1);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-hl*Math.cos(angle-Math.PI/6),y2-hl*Math.sin(angle-Math.PI/6));ctx.moveTo(x2,y2);ctx.lineTo(x2-hl*Math.cos(angle+Math.PI/6),y2-hl*Math.sin(angle+Math.PI/6));ctx.stroke();}
 function endDraw(idx){if(!drawState[idx]?.drawing)return;drawState[idx].drawing=false;delete drawState[idx]._shapeBase;const d=getCanvasCtx(idx);if(!d)return;drawState[idx].history.push(d.ctx.getImageData(0,0,d.canvas.width,d.canvas.height));saveDrawingAnswer(idx);}
-function saveDrawingAnswer(idx){const d=getCanvasCtx(idx);if(!d)return;const bgImg=document.getElementById('draw-bg-'+idx);const tc=document.createElement('canvas');tc.width=d.canvas.width;tc.height=d.canvas.height;const tctx=tc.getContext('2d');if(bgImg&&bgImg.complete)tctx.drawImage(bgImg,0,0,d.canvas.width,d.canvas.height);tctx.drawImage(d.canvas,0,0);currentAttempt.answers[currentQIdx]=tc.toDataURL();renderQNav();}
+function saveDrawingAnswer(idx){
+  const d=getCanvasCtx(idx);if(!d)return;
+  try {
+    // Try to include background image
+    const bgImg=document.getElementById('draw-bg-'+idx);
+    const tc=document.createElement('canvas');tc.width=d.canvas.width;tc.height=d.canvas.height;const tctx=tc.getContext('2d');
+    if(bgImg&&bgImg.complete) { try { tctx.drawImage(bgImg,0,0,d.canvas.width,d.canvas.height); } catch(e) {} }
+    tctx.drawImage(d.canvas,0,0);
+    currentAttempt.answers[currentQIdx]=tc.toDataURL();
+  } catch(e) {
+    // Fallback: save drawing only (without background) if cross-origin blocks toDataURL
+    try { currentAttempt.answers[currentQIdx]=d.canvas.toDataURL(); } 
+    catch(e2) { currentAttempt.answers[currentQIdx]='[Drawing saved]'; }
+  }
+  renderQNav();
+}
 function startDrawTouch(e,idx){e.preventDefault();startDraw({clientX:e.touches[0].clientX,clientY:e.touches[0].clientY},idx);}
 function drawTouch(e,idx){e.preventDefault();draw({clientX:e.touches[0].clientX,clientY:e.touches[0].clientY},idx);}
 function clearCanvas(idx){const d=getCanvasCtx(idx);if(!d)return;d.ctx.clearRect(0,0,d.canvas.width,d.canvas.height);if(drawState[idx])drawState[idx].history=[];currentAttempt.answers[currentQIdx]=undefined;renderQNav();}
