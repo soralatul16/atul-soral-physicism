@@ -869,37 +869,148 @@ function downloadSetPDF(id) {
 
   const win = window.open('', '_blank');
   const qBlocks = (set.blocks||[]).filter(b=>b.saved&&b.mode==='question');
+  const contentBlocks = (set.blocks||[]).filter(b=>b.saved&&b.mode==='content');
+  
   let html = `<html><head><title>${set.heading}</title>
-  <style>body{font-family:Arial,sans-serif;padding:40px;max-width:800px;margin:auto;}
-  h1{font-size:20px;} h2{font-size:15px;border-bottom:2px solid #e03030;padding-bottom:6px;}
-  .q{margin-bottom:20px;} .meta{font-size:11px;color:#666;margin-bottom:6px;}
-  .opt{padding:4px 0;font-size:13px;} .marks{display:inline-block;background:#fee;border:1px solid #e03030;padding:2px 8px;border-radius:4px;font-size:11px;color:#c00;font-weight:bold;}</style>
-  </head><body>
-  <h1>${set.heading}</h1>
-  <p style="font-size:12px;color:#666;">Chapter: ${set.chapter} | Topic: ${set.topic} | Version: ${set.version||1} | Status: ${set.status}</p>
-  <hr style="border-color:#e03030;">`;
+  <style>
+    @page { margin: 20mm 15mm; }
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; padding: 0; margin: 0; color: #1e1e1e; font-size: 13px; line-height: 1.6; }
+    .header { background: linear-gradient(135deg, #e03030, #8c1414); color: white; padding: 24px 30px; margin-bottom: 20px; }
+    .header h1 { margin: 0; font-size: 22px; } .header .sub { font-size: 11px; opacity: 0.85; margin-top: 4px; }
+    .header .meta { font-size: 10px; opacity: 0.7; margin-top: 8px; }
+    .info-bar { display: flex; gap: 20px; padding: 12px 16px; background: #f8f8f8; border: 1px solid #ddd; border-radius: 8px; margin: 0 20px 20px; font-size: 11px; }
+    .info-bar div { flex: 1; }
+    .q-block { page-break-inside: avoid; border: 1px solid #ddd; border-radius: 8px; margin: 0 20px 16px; padding: 16px 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #eee; }
+    .q-num { font-weight: 700; color: #e03030; font-size: 13px; }
+    .q-marks { background: #fee; border: 1px solid #e03030; padding: 2px 10px; border-radius: 12px; font-size: 10px; color: #c00; font-weight: 700; }
+    .q-text { font-size: 13px; line-height: 1.7; margin-bottom: 12px; }
+    .q-text img { max-width: 100%; border-radius: 6px; margin: 8px 0; }
+    .opt { padding: 6px 12px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 4px; font-size: 12px; display: flex; align-items: center; gap: 8px; }
+    .opt-circle { width: 16px; height: 16px; border: 2px solid #999; border-radius: 50%; flex-shrink: 0; }
+    .opt-square { width: 16px; height: 16px; border: 2px solid #999; border-radius: 3px; flex-shrink: 0; }
+    .tf-row { display: flex; gap: 16px; margin-bottom: 12px; }
+    .tf-box { flex: 1; padding: 10px; border: 2px solid #ddd; border-radius: 8px; text-align: center; font-weight: 600; font-size: 14px; }
+    .write-space { border: 1px solid #ccc; border-radius: 6px; min-height: 80px; margin-top: 8px; background: repeating-linear-gradient(transparent, transparent 23px, #e8e8e8 23px, #e8e8e8 24px); }
+    .write-space.tall { min-height: 160px; }
+    .write-label { font-size: 10px; color: #999; font-style: italic; margin-bottom: 4px; }
+    .match-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .match-table td, .match-table th { border: 1px solid #ddd; padding: 8px 12px; }
+    .match-table th { background: #f5f5f5; font-weight: 600; text-align: left; }
+    .draw-area { border: 2px dashed #ccc; border-radius: 8px; min-height: 200px; margin-top: 8px; position: relative; }
+    .draw-area img { width: 100%; border-radius: 6px; }
+    .mark-scheme { font-size: 11px; color: #27ae60; border-left: 3px solid #27ae60; padding: 8px 12px; margin-top: 10px; background: #f0faf0; border-radius: 0 6px 6px 0; }
+    .footer { text-align: center; font-size: 9px; color: #aaa; margin-top: 30px; padding: 12px 20px; border-top: 1px solid #eee; }
+    @media print { .q-block { break-inside: avoid; } }
+  </style></head><body>
+  <div class="header">
+    <h1>ATUL SORAL PHYSICISM</h1>
+    <div class="sub">${set.heading}</div>
+    <div class="meta">Chapter: ${set.chapter||'—'} · Topic: ${set.topic||'—'} · Total Marks: ${set.totalMarks||'—'} · Questions: ${qBlocks.length}</div>
+  </div>
+  <div class="info-bar">
+    <div><strong>Student Name:</strong> ___________________________</div>
+    <div><strong>Date:</strong> _______________</div>
+    <div><strong>Time Limit:</strong> ${set.timeLimit? set.timeLimit+' min' : 'None'}</div>
+  </div>`;
 
   qBlocks.forEach((b, i) => {
-    const marks = b.meta?.marks ? `<span class="marks">${b.meta.marks} marks</span>` : '';
-    const crit = b.meta?.criterion ? `<span style="font-size:11px;color:#888;margin-left:8px;">Criterion ${b.meta.criterion}</span>` : '';
-    html += `<div class="q"><h2>Question ${i+1} ${marks}${crit}</h2>
-    <p>${b.data?.question || b.data?.text || '(No question text)'}</p>`;
-    if (b.type === 'MCQ' || b.type === 'Multiple Select MCQ') {
+    const marks = b.meta?.marks || 0;
+    const crit = b.meta?.criterion || '';
+    const qText = b.data?.question || b.data?.text || b.data?.fillText || '';
+    
+    html += `<div class="q-block">
+      <div class="q-header">
+        <span class="q-num">Question ${i+1} — ${b.type}${crit ? ' · Criterion ' + crit : ''}</span>
+        ${marks ? `<span class="q-marks">${marks} marks</span>` : ''}
+      </div>
+      <div class="q-text">${qText}</div>`;
+    
+    // MCQ
+    if (b.type === 'MCQ') {
       (b.ui?.mcqOptions||[]).forEach((o,oi) => {
-        if(o.trim()) html += `<div class="opt">${String.fromCharCode(65+oi)}. ${o}</div>`;
+        if(o.trim()) html += `<div class="opt"><div class="opt-circle"></div>${String.fromCharCode(65+oi)}. ${o}</div>`;
       });
     }
-    if (b.type === 'Drawing' && b.data?.drawingImage) {
-      html += `<img src="${b.data.drawingImage}" style="max-width:100%;margin:10px 0;">`;
-      if (b.data.drawingInstructions) html += `<p style="font-size:12px;color:#666;">${b.data.drawingInstructions}</p>`;
+    // Multiple Select MCQ
+    else if (b.type === 'Multiple Select MCQ') {
+      html += `<div style="font-size:10px;color:#666;margin-bottom:6px;font-style:italic;">Select all that apply</div>`;
+      (b.ui?.mcqOptions||[]).forEach((o,oi) => {
+        if(o.trim()) html += `<div class="opt"><div class="opt-square"></div>${String.fromCharCode(65+oi)}. ${o}</div>`;
+      });
     }
-    if (b.meta?.markScheme) html += `<p style="font-size:12px;color:#27ae60;border-left:3px solid #27ae60;padding-left:8px;margin-top:8px;"><strong>Mark Scheme:</strong> ${b.meta.markScheme}</p>`;
+    // True / False
+    else if (b.type === 'True / False') {
+      html += `<div class="tf-row"><div class="tf-box">☐ True</div><div class="tf-box">☐ False</div></div>`;
+    }
+    // Match the Following
+    else if (b.type === 'Match the Following') {
+      const pairs = b.data?.pairs || [];
+      if (pairs.length) {
+        html += `<table class="match-table"><tr><th>Left</th><th>Right (write matching answer)</th></tr>`;
+        pairs.forEach(p => { html += `<tr><td>${p.left||''}</td><td style="min-width:200px;"></td></tr>`; });
+        html += `</table>`;
+      }
+    }
+    // Table
+    else if (b.type === 'Table') {
+      const headers = b.data?.tableHeaders || [];
+      const rows = b.data?.tableRows || 3;
+      const cols = b.data?.tableCols || 2;
+      html += `<table class="match-table"><tr>`;
+      for(let c=0;c<cols;c++) html += `<th>${headers[c]||'Column '+(c+1)}</th>`;
+      html += `</tr>`;
+      for(let r=0;r<rows;r++) { html += `<tr>`; for(let c=0;c<cols;c++) html += `<td style="height:28px;"></td>`; html += `</tr>`; }
+      html += `</table>`;
+    }
+    // Drawing
+    else if (b.type === 'Drawing') {
+      if (b.data?.drawingImage) html += `<div class="draw-area"><img src="${b.data.drawingImage}"></div>`;
+      else html += `<div class="draw-area"></div>`;
+      if (b.data?.drawingInstructions) html += `<div style="font-size:11px;color:#666;margin-top:4px;">${b.data.drawingInstructions}</div>`;
+    }
+    // Fill Text
+    else if (b.type === 'Fill Text') {
+      const labels = (b.data?.labels||'').split(',').map(l=>l.trim()).filter(Boolean);
+      labels.forEach((l,li) => { html += `<div style="margin-bottom:6px;font-size:12px;">${li+1}. ________________________________</div>`; });
+    }
+    // GeoGebra Graph / Desmos Graph
+    else if (b.type === 'GeoGebra Graph' || b.type === 'Desmos Graph') {
+      html += `<div class="draw-area" style="min-height:250px;background:repeating-linear-gradient(0deg,transparent,transparent 19px,#e0e0e0 19px,#e0e0e0 20px),repeating-linear-gradient(90deg,transparent,transparent 19px,#e0e0e0 19px,#e0e0e0 20px);"></div>`;
+      html += `<div class="write-label">Write your observations below:</div><div class="write-space"></div>`;
+    }
+    // Long Answer
+    else if (b.type === 'Long Answer') {
+      html += `<div class="write-label">Answer:</div><div class="write-space tall"></div>`;
+    }
+    // Classify
+    else if (b.type === 'Classify') {
+      const cats = b.data?.cats || [];
+      if (cats.length) {
+        html += `<table class="match-table"><tr>`;
+        cats.forEach(c => html += `<th>${c}</th>`);
+        html += `</tr><tr>`;
+        cats.forEach(() => html += `<td style="min-height:80px;vertical-align:top;"></td>`);
+        html += `</tr></table>`;
+      }
+    }
+    // Default: add writing space
+    else {
+      html += `<div class="write-label">Answer:</div><div class="write-space"></div>`;
+    }
+
+    // Mark scheme (teacher only)
+    if (b.meta?.markScheme) html += `<div class="mark-scheme"><strong>Mark Scheme:</strong> ${b.meta.markScheme}</div>`;
+    
     html += `</div>`;
   });
+  
+  html += `<div class="footer">Atul Soral Physicism · ${set.heading} · ${set.chapter||''} · Generated ${new Date().toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'})}</div>`;
   html += `</body></html>`;
   win.document.write(html);
   win.document.close();
-  setTimeout(() => win.print(), 500);
+  setTimeout(() => win.print(), 600);
 }
 
 function publishSet(id){
