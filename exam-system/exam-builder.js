@@ -699,10 +699,18 @@ function addMatchPair(i) {
 
 function addSortItem(i) { blocks[i].ui.sortItems.push(''); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10); }
 function removeSortItem(i, si) { blocks[i].ui.sortItems.splice(si, 1); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10); }
-function addCat(i) { blocks[i].ui.classifyCategories.push(''); renderInner(i); }
-function removeCat(i, ci) { blocks[i].ui.classifyCategories.splice(ci, 1); renderInner(i); }
-function addClassifyItem(i) { blocks[i].ui.classifyItems.push(''); renderInner(i); }
-function removeClassifyItem(i, ii2) { blocks[i].ui.classifyItems.splice(ii2, 1); renderInner(i); }
+function _syncClassifyInputs(i) {
+  const b = blocks[i]; const pick = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+  b.ui.classifyCategories = b.ui.classifyCategories.map((_, ci) => pick(`cc-${i}-${ci}`) || '');
+  b.ui.classifyItems = b.ui.classifyItems.map((_, ii2) => pick(`ci-${i}-${ii2}`) || '');
+  // Also preserve the question text
+  const q = getRichContent(`qprompt-${i}`);
+  return q;
+}
+function addCat(i) { const q = _syncClassifyInputs(i); blocks[i].ui.classifyCategories.push(''); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, q), 10); }
+function removeCat(i, ci) { const q = _syncClassifyInputs(i); blocks[i].ui.classifyCategories.splice(ci, 1); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, q), 10); }
+function addClassifyItem(i) { const q = _syncClassifyInputs(i); blocks[i].ui.classifyItems.push(''); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, q), 10); }
+function removeClassifyItem(i, ii2) { const q = _syncClassifyInputs(i); blocks[i].ui.classifyItems.splice(ii2, 1); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, q), 10); }
 function toggleHint(i) { blocks[i].ui.hintOn = !blocks[i].ui.hintOn; const q = getRichContent(`qprompt-${i}`); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, q), 10); }
 
 /* ─── Drawing upload helper ─── */

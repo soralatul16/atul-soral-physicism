@@ -514,7 +514,7 @@ function buildInput(q,idx){
   // Classify — Drag-and-Drop Category Buckets
   if(t==="Classify"){
     let cats=(q.ui?.classifyCategories||[]).filter(c=>c&&c.trim()),items=(q.ui?.classifyItems||[]).filter(i=>i&&i.trim());
-    if(!cats.length||!items.length)return `<div style="padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;text-align:center;"><div style="font-size:24px;margin-bottom:8px;">⚠️</div><div style="font-size:13px;color:var(--text2);line-height:1.6;">This Classify question needs to be re-saved by the teacher.<br><span style="font-size:11px;color:var(--text3);">The teacher should open this question in the builder, click Edit, then Save again to fix the data.</span></div></div>`;
+    if(!cats.length||!items.length)return `<div style="padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;text-align:center;"><div style="font-size:24px;margin-bottom:8px;">⚠️</div><div style="font-size:13px;color:var(--text2);line-height:1.6;">This Classify question needs to be re-saved by the teacher.<br><span style="font-size:11px;color:var(--text3);">Teacher: open <strong>exam-teacher.html</strong> → Edit this Classify question → re-enter categories & items → Save.</span></div></div>`;
     const catColors=['rgba(224,48,48,0.15)','rgba(41,128,185,0.15)','rgba(39,174,96,0.15)','rgba(243,156,18,0.15)','rgba(142,68,173,0.15)','rgba(22,160,133,0.15)'];
     const catBorders=['rgba(224,48,48,0.5)','rgba(41,128,185,0.5)','rgba(39,174,96,0.5)','rgba(243,156,18,0.5)','rgba(142,68,173,0.5)','rgba(22,160,133,0.5)'];
     const catTextColors=['#e03030','#2980b9','#27ae60','#f39c12','#8e44ad','#16a085'];
@@ -558,11 +558,13 @@ function buildInput(q,idx){
     const src=matId?`https://www.geogebra.org/material/iframe/id/${matId}`:`https://www.geogebra.org/graphing`;
     // Get data from previous question (table/fill) for reference
     const prevData=getPrevQuestionData(currentQIdx);
+    const prevTable=getPrevQuestionTable(currentQIdx);
     return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}
-      ${prevData?`<details style="margin-bottom:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;" open>
-        <summary style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:6px;">📋 Data from previous question (click to copy)</summary>
-        <div style="font-size:12px;color:var(--text3);line-height:1.6;user-select:all;font-family:'Space Mono',monospace;white-space:pre-wrap;background:var(--surface2);padding:10px;border-radius:6px;">${prevData}</div>
-        <button onclick="copyPrevData(this)" style="margin-top:6px;background:var(--accent);border:none;color:white;padding:5px 14px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Sora',sans-serif;">📋 Copy Data</button>
+      ${prevTable?`<details style="margin-bottom:10px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;" open>
+        <summary style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:6px;">📋 Reference Data from Previous Question</summary>
+        <div style="margin-bottom:6px;">${prevTable}</div>
+        <div style="display:none;" id="prev-clip-data-${idx}">${prevData||''}</div>
+        <button onclick="copyPrevClip(${idx})" style="margin-top:4px;background:var(--accent);border:none;color:white;padding:5px 14px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Sora',sans-serif;">📋 Copy Data for Pasting</button>
       </details>`:''}
       <div style="position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;height:400px;" id="graph-container-${idx}">
         <iframe src="${src}" style="width:100%;height:100%;border:none;" allowfullscreen id="graph-iframe-${idx}"></iframe>
@@ -640,17 +642,43 @@ function saveLabelAns(qi,li,v){if(!currentAttempt.answers[qi])currentAttempt.ans
 function saveTableHeader(qi,c,v){if(!currentAttempt.answers[qi])currentAttempt.answers[qi]={};if(!currentAttempt.answers[qi]['h'])currentAttempt.answers[qi]['h']={};currentAttempt.answers[qi]['h'][c]=v;renderQNav();}
 function getPrevQuestionData(qIdx){
   if(qIdx<=0||!qBlocks.length)return null;
-  // Look at previous question(s) for table data
   for(let pi=qIdx-1;pi>=Math.max(0,qIdx-3);pi--){
     const pq=qBlocks[pi];const pAns=currentAttempt.answers[pi];
     if(pq.type==='Table'&&pAns&&typeof pAns==='object'){
       const headers=pq.data?.tableHeaders||[];const cols=pq.data?.tableCols||2;const rows=pq.data?.tableRows||3;
-      let txt=headers.slice(0,cols).map((h,i)=>(pAns['h']&&pAns['h'][i])||h||'Col '+(i+1)).join('\t')+'\n';
-      for(let r=0;r<rows;r++){let row=[];for(let c=0;c<cols;c++)row.push((pAns[r]&&pAns[r][c])||'');txt+=row.join('\t')+'\n';}
-      return txt.trim();
+      // Build tab-separated for clipboard
+      let clipTxt=headers.slice(0,cols).map((h,i)=>(pAns['h']&&pAns['h'][i])||h||'Col '+(i+1)).join('\t')+'\n';
+      for(let r=0;r<rows;r++){let row=[];for(let c=0;c<cols;c++)row.push((pAns[r]&&pAns[r][c])||'');clipTxt+=row.join('\t')+'\n';}
+      return clipTxt.trim();
     }
   }
   return null;
+}
+function getPrevQuestionTable(qIdx){
+  if(qIdx<=0||!qBlocks.length)return '';
+  for(let pi=qIdx-1;pi>=Math.max(0,qIdx-3);pi--){
+    const pq=qBlocks[pi];const pAns=currentAttempt.answers[pi];
+    if(pq.type==='Table'&&pAns&&typeof pAns==='object'){
+      const headers=pq.data?.tableHeaders||[];const cols=pq.data?.tableCols||2;const rows=pq.data?.tableRows||3;
+      let t='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
+      t+='<tr>';for(let c=0;c<cols;c++){const h=(pAns['h']&&pAns['h'][c])||headers[c]||'Col '+(c+1);t+=`<th style="border:1px solid #444;padding:4px 6px;color:#e03030;background:rgba(224,48,48,0.1);text-align:center;">${h}</th>`;}
+      t+='</tr>';
+      for(let r=0;r<rows;r++){t+='<tr>';for(let c=0;c<cols;c++){const v=(pAns[r]&&pAns[r][c])||'';t+=`<td style="border:1px solid #444;padding:3px 6px;text-align:center;color:#ccc;">${v}</td>`;}t+='</tr>';}
+      t+='</table>';return t;
+    }
+  }
+  return '';
+}
+function copyPrevClip(idx){
+  const el=document.getElementById('prev-clip-data-'+idx);
+  if(!el)return;
+  const txt=el.textContent;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=event.target.closest('button');if(btn){btn.innerHTML='✅ Copied!';setTimeout(()=>{btn.innerHTML='📋 Copy Data for Pasting';},1500);}
+  }).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    const btn=event.target.closest('button');if(btn){btn.innerHTML='✅ Copied!';setTimeout(()=>{btn.innerHTML='📋 Copy Data for Pasting';},1500);}
+  });
 }
 function copyPrevData(btn){
   const dataEl=btn.parentElement.querySelector('div[style*="monospace"]');
@@ -659,6 +687,7 @@ function copyPrevData(btn){
 function openGraphFullscreen(idx){
   const iframe=document.getElementById('graph-iframe-'+idx);if(!iframe)return;
   const src=iframe.src;const prevData=getPrevQuestionData(currentQIdx);
+  const prevTable=getPrevQuestionTable(currentQIdx);
   const overlay=document.createElement('div');overlay.id='graph-fullscreen-overlay';
   overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.95);z-index:99999;display:flex;flex-direction:column;';
   overlay.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:rgba(224,48,48,0.1);border-bottom:1px solid var(--border,#333);">
@@ -666,9 +695,9 @@ function openGraphFullscreen(idx){
     <button onclick="this.closest('#graph-fullscreen-overlay').remove()" style="background:#e03030;border:none;color:white;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;">\u2715 Close</button>
   </div>
   <div style="flex:1;display:flex;overflow:hidden;">
-    ${prevData?`<div style="width:260px;background:rgba(255,255,255,0.03);border-right:1px solid #333;padding:12px;overflow-y:auto;flex-shrink:0;">
+    ${prevTable?`<div style="width:260px;background:rgba(255,255,255,0.03);border-right:1px solid #333;padding:12px;overflow-y:auto;flex-shrink:0;">
       <div style="font-size:11px;font-weight:600;color:#e03030;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">\ud83d\udccb Reference Data</div>
-      <pre style="font-size:11px;color:#ccc;line-height:1.7;font-family:'Space Mono',monospace;white-space:pre-wrap;background:rgba(255,255,255,0.05);padding:10px;border-radius:6px;user-select:all;">${prevData}</pre>
+      <div style="margin-bottom:6px;">${prevTable}</div>
       <button onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent);this.textContent='\u2705 Copied!';setTimeout(()=>this.textContent='\ud83d\udccb Copy',1500);" style="margin-top:6px;width:100%;background:#e03030;border:none;color:white;padding:6px;border-radius:6px;font-size:11px;cursor:pointer;">\ud83d\udccb Copy</button>
     </div>`:''}<iframe src="${src}" style="flex:1;border:none;" allowfullscreen></iframe>
   </div>`;
