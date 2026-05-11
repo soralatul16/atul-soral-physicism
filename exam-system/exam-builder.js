@@ -351,7 +351,10 @@ function updateStructureView() {
   sections.forEach(sec => {
     const secBlocks = blocks.filter(b => b.sectionId === sec.id);
     if (secBlocks.length === 0) return;
-    html += `<div class="structure-section-label" onclick="renameSection(${sec.id})">📋 ${sec.name}</div>`;
+    const secQBlocks = secBlocks.filter(b => b.saved && b.mode === 'question');
+    const secMarks = secQBlocks.reduce((sum, b) => sum + Number(b.meta?.marks || 0), 0);
+    const secInfo = secQBlocks.length ? ` — ${secQBlocks.length}Q, ${secMarks}m` : '';
+    html += `<div class="structure-section-label" onclick="renameSection(${sec.id})">📋 ${sec.name}${secInfo}</div>`;
     secBlocks.forEach(b => {
       const i = blocks.indexOf(b);
       const qLabel = getQuestionLabel(i);
@@ -362,6 +365,7 @@ function updateStructureView() {
     });
   });
   el.innerHTML = html;
+  if (typeof updateLiveMarks === 'function') updateLiveMarks();
 }
 
 /* ── Content & Question grids ── */
@@ -384,7 +388,8 @@ function questionGrid(i) {
     { icon: '🔗', label: 'Match the Following' }, { icon: '🔄', label: 'Sort' },
     { icon: '🗂️', label: 'Classify' }, { icon: '📊', label: 'Table' },
     { icon: '✏️', label: 'Drawing' }, { icon: '🏷️', label: 'Label Drag' },
-    { icon: '📐', label: 'GeoGebra Graph' }
+    { icon: '📐', label: 'GeoGebra Graph' },
+    { icon: '🔽', label: 'Multi-Dropdown' }, { icon: '📋', label: 'Split Answer' }
   ];
   return `<div class="type-grid">${types.map(t =>
     `<div class="type-card" onclick="selectType(${i},'${t.label}','question')"><div class="tc-icon">${t.icon}</div>${t.label}</div>`
@@ -668,6 +673,47 @@ function questionEditorHTML(i) {
       </div>
       ${critStrip}${metaStrip}${markScheme}`;
 
+  } else if (t === 'Multi-Dropdown') {
+    const rows = b.data.mdRows || [{label:'',correct:''}];
+    const opts = b.data.mdOptions || '';
+    body = qPrompt + `
+      <div style="font-size:12px;color:var(--text2);margin:6px 0;">Shared dropdown options (comma-separated, same for all rows):</div>
+      <input type="text" id="md-opts-${i}" value="${opts}" placeholder="e.g. Positive, Negative, Neutral"
+        style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-size:12px;outline:none;margin-bottom:12px;">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">Rows (label + correct answer):</div>
+      <div id="md-rows-${i}">
+        ${rows.map((r,ri) => `<div style="display:flex;gap:8px;margin-bottom:6px;align-items:center;">
+          <input type="text" id="md-label-${i}-${ri}" value="${r.label||''}" placeholder="Label (e.g. Proton)"
+            style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-size:12px;outline:none;">
+          <span style="color:var(--text2);font-size:12px;">Correct:</span>
+          <input type="text" id="md-correct-${i}-${ri}" value="${r.correct||''}" placeholder="Correct answer"
+            style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-size:12px;outline:none;">
+          <button class="remove-btn" onclick="removeMDRow(${i},${ri})">✕</button>
+        </div>`).join('')}
+      </div>
+      <button class="sm-btn" onclick="addMDRow(${i})" style="margin-top:4px;">+ Add Row</button>
+      ${critStrip}${metaStrip}${markScheme}`;
+  } else if (t === 'Split Answer') {
+    const numBoxes = b.data.splitCount || 2;
+    const labels = b.data.splitLabels || Array(numBoxes).fill('').map((_,i2) => 'Answer ' + (i2+1));
+    body = qPrompt + `
+      <div style="display:flex;gap:10px;align-items:center;margin:8px 0;">
+        <label style="font-size:12px;color:var(--text2);">Number of boxes:</label>
+        <select id="split-count-${i}" onchange="updateSplitCount(${i},this.value)"
+          style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:5px 10px;color:var(--text);font-size:12px;outline:none;">
+          <option ${numBoxes==2?'selected':''}>2</option>
+          <option ${numBoxes==3?'selected':''}>3</option>
+          <option ${numBoxes==4?'selected':''}>4</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:8px;" id="split-labels-${i}">
+        ${labels.slice(0,numBoxes).map((lbl,li) => `<div>
+          <label style="font-size:11px;color:var(--text2);">Box ${li+1} Label</label>
+          <input type="text" id="split-label-${i}-${li}" value="${lbl}" placeholder="e.g. Sodium"
+            style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-size:12px;outline:none;margin-top:4px;">
+        </div>`).join('')}
+      </div>
+      ${critStrip}${metaStrip}${markScheme}`;
   } else {
     body = `${qPrompt}${critStrip}${metaStrip}${markScheme}`;
   }
@@ -698,6 +744,29 @@ function addMatchPair(i) {
 }
 
 function addSortItem(i) { blocks[i].ui.sortItems.push(''); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10); }
+
+/* MOD-B14 & B15 Helpers */
+function _reRenderQ(i) {
+  blocks[i].data.question = getRichContent(`qprompt-${i}`);
+  renderInner(i);
+  setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10);
+}
+function addMDRow(i) {
+  if (!blocks[i].data.mdRows) blocks[i].data.mdRows = [];
+  blocks[i].data.mdRows.push({label:'',correct:''});
+  _reRenderQ(i);
+}
+function removeMDRow(i, ri) {
+  if (blocks[i].data.mdRows) blocks[i].data.mdRows.splice(ri, 1);
+  _reRenderQ(i);
+}
+function updateSplitCount(i, count) {
+  const n = parseInt(count);
+  const existing = blocks[i].data.splitLabels || [];
+  blocks[i].data.splitCount = n;
+  blocks[i].data.splitLabels = Array(n).fill('').map((_,li) => existing[li] || 'Answer ' + (li+1));
+  _reRenderQ(i);
+}
 function removeSortItem(i, si) { blocks[i].ui.sortItems.splice(si, 1); renderInner(i); setTimeout(() => setRichContent(`qprompt-${i}`, blocks[i].data.question || ''), 10); }
 function _syncClassifyInputs(i) {
   const b = blocks[i]; const pick = id => { const el = document.getElementById(id); return el ? el.value : ''; };
@@ -844,6 +913,17 @@ function saveBlock(i) {
       b.data.labels = pick(`ld-labels-${i}`);
     } else if (t === 'Sort') {
       b.ui.sortItems = b.ui.sortItems.map((_, si) => pick(`sort-${i}-${si}`));
+    } else if (t === 'Multi-Dropdown') {
+      b.data.mdOptions = pick('md-opts-' + i);
+      const rows = b.data.mdRows || [];
+      b.data.mdRows = rows.map((r, ri) => ({
+        label: pick('md-label-' + i + '-' + ri),
+        correct: pick('md-correct-' + i + '-' + ri)
+      }));
+    } else if (t === 'Split Answer') {
+      const n = parseInt(pick('split-count-' + i)) || 2;
+      b.data.splitCount = n;
+      b.data.splitLabels = Array(n).fill('').map((_,li) => pick('split-label-' + i + '-' + li) || 'Answer ' + (li+1));
     } else if (t === 'Classify') {
       b.ui.classifyCategories = b.ui.classifyCategories.map((_, ci) => pick(`cc-${i}-${ci}`));
       b.ui.classifyItems = b.ui.classifyItems.map((_, ii2) => pick(`ci-${i}-${ii2}`));
