@@ -482,6 +482,7 @@ body::after {
     <span class="topbar-brand">MYP·Builder</span>
     <button class="nav-btn active" onclick="switchTab(this); openCreate()">✏️ Create</button>
     <button class="nav-btn" onclick="switchTab(this); openLibrary()">📚 Library</button>
+    <button class="nav-btn" onclick="switchTab(this); openGenerator()">⚡ Generate</button>
     <button class="nav-btn" onclick="switchTab(this); openUsers()">👥 Users</button>
     <button class="icon-btn" onclick="window.location.href='exam-grading.html'">📝 Grade</button>
   </div>
@@ -507,8 +508,163 @@ body::after {
       <h3>Library</h3>
       <p>Browse and filter your existing question sets by chapter and topic</p>
     </div>
+    <div class="home-card" onclick="openGenerator()" style="border:1.5px solid rgba(224,48,48,0.15);">
+      <div class="icon">⚡</div>
+      <h3>Generate with AI</h3>
+      <p>Auto-generate a complete question set using AI. Review and edit before publishing.</p>
+    </div>
     <div style="position:absolute;bottom:40px;text-align:center;width:100%;">
       <div id="recentEditHint" style="font-size:12px;color:var(--text3);"></div>
+    </div>
+  </div>
+
+  <!-- AI GENERATOR -->
+  <div id="generatorScreen" style="display:none;flex:1;overflow-y:auto;padding:28px;flex-direction:column;gap:20px;background:var(--cream);">
+
+    <!-- API Key Setup -->
+    <div id="gen-key-setup" style="display:none;max-width:500px;margin:60px auto;text-align:center;">
+      <div style="background:var(--white);border:1.5px solid var(--border);border-radius:20px;padding:36px;box-shadow:var(--shadow-md);">
+        <div style="font-size:36px;margin-bottom:12px;">🔑</div>
+        <h3 style="margin-bottom:8px;color:var(--text);">Gemini API Key Required</h3>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">To use AI generation, enter your free Google Gemini API key.</p>
+        <a href="https://aistudio.google.com/apikey" target="_blank" style="display:inline-block;font-size:12px;color:var(--accent);margin-bottom:16px;">🔗 Get a free key at aistudio.google.com</a>
+        <input type="text" id="gen-api-key-input" placeholder="Paste your Gemini API key..." style="width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--text);margin-bottom:12px;outline:none;font-family:'DM Sans',sans-serif;">
+        <button class="btn-save" onclick="saveGeminiKey()" style="width:100%;">💾 Save Key</button>
+      </div>
+    </div>
+
+    <!-- Main Generator Form -->
+    <div id="gen-main-form" style="display:none;max-width:680px;margin:0 auto;width:100%;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h2 style="font-size:20px;color:var(--text);">⚡ AI Question Generator</h2>
+        <button class="sm-btn" onclick="resetGeminiKey()" style="font-size:11px;">🔑 Change API Key</button>
+      </div>
+
+      <!-- Section 1: Metadata -->
+      <div class="block" style="margin-bottom:16px;">
+        <div class="block-label" style="margin-bottom:14px;">📋 Set Metadata</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group"><label>Chapter *</label>
+            <select id="gen-chapter">
+              <option value="">Select Chapter</option>
+              <option>Exploring Matter</option><option>Forces &amp; Motion</option>
+              <option>Work, Power &amp; Gravity</option><option>Energy &amp; Environment</option>
+              <option>The Nature of Waves</option><option>Atomic Physics</option>
+              <option>Electromagnetism</option><option>Thermal Physics</option>
+              <option>Astrophysics</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Topic *</label>
+            <input type="text" id="gen-topic" placeholder="e.g. Newton's Laws">
+          </div>
+          <div class="form-group"><label>Criterion *</label>
+            <select id="gen-criterion">
+              <option value="">Select Criterion</option>
+              <option value="A – Knowing &amp; Understanding">A – Knowing &amp; Understanding</option>
+              <option value="B – Inquiring &amp; Designing">B – Inquiring &amp; Designing</option>
+              <option value="C – Processing &amp; Evaluating">C – Processing &amp; Evaluating</option>
+              <option value="D – Reflecting on Impacts">D – Reflecting on Impacts</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Difficulty</label>
+            <select id="gen-difficulty">
+              <option>Mixed</option><option>Easy</option><option>Medium</option><option>Hard</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Global Context</label>
+            <select id="gen-gc">
+              <option value="">Select GC (optional)</option>
+              <option>Identities &amp; Relationships</option>
+              <option>Orientation in Space &amp; Time</option>
+              <option>Personal &amp; Cultural Expression</option>
+              <option>Scientific &amp; Technical Innovation</option>
+              <option>Globalization &amp; Sustainability</option>
+              <option>Fairness &amp; Development</option>
+            </select>
+          </div>
+          <div class="form-group"><label>ATL Skill</label>
+            <select id="gen-atl">
+              <option value="">Select ATL (optional)</option>
+              <option>Communication</option><option>Social</option>
+              <option>Self-Management</option><option>Research</option><option>Thinking</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:12px;"><label>Question Set Heading</label>
+          <input type="text" id="gen-heading" placeholder="Auto-filled from topic + criterion">
+        </div>
+      </div>
+
+      <!-- Section 2: Question Mix -->
+      <div class="block" style="margin-bottom:16px;">
+        <div class="block-label" style="margin-bottom:14px;">🎯 Question Mix</div>
+        <div style="display:grid;grid-template-columns:2fr 50px 60px 60px;gap:8px;align-items:center;font-size:12px;color:var(--text3);font-weight:600;margin-bottom:8px;">
+          <span>Type</span><span>Use</span><span>Count</span><span>Marks</span>
+        </div>
+        <div class="gen-type-row" data-type="MCQ" style="display:grid;grid-template-columns:2fr 50px 60px 60px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:13px;color:var(--text);">🔘 MCQ</span>
+          <input type="checkbox" class="gen-type-cb" checked onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-count" value="3" min="0" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-marks" value="1" min="1" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+        </div>
+        <div class="gen-type-row" data-type="True / False" style="display:grid;grid-template-columns:2fr 50px 60px 60px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:13px;color:var(--text);">✔️ True / False</span>
+          <input type="checkbox" class="gen-type-cb" checked onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-count" value="2" min="0" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-marks" value="1" min="1" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+        </div>
+        <div class="gen-type-row" data-type="Long Answer" style="display:grid;grid-template-columns:2fr 50px 60px 60px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:13px;color:var(--text);">✍️ Long Answer</span>
+          <input type="checkbox" class="gen-type-cb" checked onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-count" value="2" min="0" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-marks" value="4" min="1" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+        </div>
+        <div class="gen-type-row" data-type="Fill Text" style="display:grid;grid-template-columns:2fr 50px 60px 60px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:13px;color:var(--text);">📝 Fill in the Blank</span>
+          <input type="checkbox" class="gen-type-cb" onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-count" value="2" min="0" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-marks" value="1" min="1" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+        </div>
+        <div class="gen-type-row" data-type="Match the Following" style="display:grid;grid-template-columns:2fr 50px 60px 60px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:13px;color:var(--text);">🔗 Match the Following</span>
+          <input type="checkbox" class="gen-type-cb" onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-count" value="1" min="0" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-marks" value="2" min="1" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+        </div>
+        <div class="gen-type-row" data-type="Table" style="display:grid;grid-template-columns:2fr 50px 60px 60px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">
+          <span style="font-size:13px;color:var(--text);">📊 Table</span>
+          <input type="checkbox" class="gen-type-cb" onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-count" value="1" min="0" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-marks" value="3" min="1" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+        </div>
+        <div class="gen-type-row" data-type="Multi-Dropdown" style="display:grid;grid-template-columns:2fr 50px 60px 60px;gap:8px;align-items:center;padding:6px 0;">
+          <span style="font-size:13px;color:var(--text);">🔽 Multi-Dropdown</span>
+          <input type="checkbox" class="gen-type-cb" onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-count" value="1" min="0" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+          <input type="number" class="gen-type-marks" value="2" min="1" max="10" style="width:50px;padding:5px;border:1px solid var(--border);border-radius:6px;text-align:center;font-size:12px;" onchange="updateGenTotalMarks()">
+        </div>
+      </div>
+
+      <!-- Section 3: Options -->
+      <div class="block" style="margin-bottom:16px;">
+        <div class="block-label" style="margin-bottom:14px;">⚙️ Options</div>
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px;">
+          <label style="font-size:13px;color:var(--text2);font-weight:500;">Total Marks:</label>
+          <input type="number" id="gen-total-marks" value="13" min="1" max="100" style="width:70px;padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;text-align:center;color:var(--accent);font-weight:700;">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <label style="font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px;"><input type="checkbox" id="gen-opt-content" checked> Include content/stimulus blocks</label>
+          <label style="font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px;"><input type="checkbox" id="gen-opt-markscheme" checked> Include mark schemes</label>
+          <label style="font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px;"><input type="checkbox" id="gen-opt-explanations" checked> Include explanations</label>
+          <label style="font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px;"><input type="checkbox" id="gen-opt-hints"> Include hints</label>
+        </div>
+      </div>
+
+      <!-- Section 4: Generate -->
+      <div style="text-align:center;padding:12px 0 40px;">
+        <button id="gen-run-btn" class="btn-save" onclick="runGeneration()" style="padding:14px 40px;font-size:15px;">⚡ Generate Question Set</button>
+        <div id="gen-status" style="margin-top:12px;font-size:13px;color:var(--text2);min-height:20px;"></div>
+      </div>
     </div>
   </div>
 
@@ -747,11 +903,14 @@ function showPage(name) {
   document.getElementById('createScreen').style.display  = 'none';
   const uScreen = document.getElementById('usersScreen');
   if (uScreen) uScreen.style.display = 'none';
+  const gScreen = document.getElementById('generatorScreen');
+  if (gScreen) gScreen.style.display = 'none';
 
-  if (name === 'home')    { document.getElementById('homeScreen').style.display = 'flex'; }
-  if (name === 'library') { document.getElementById('libraryScreen').style.display = 'flex'; }
-  if (name === 'create')  { document.getElementById('createScreen').style.display = 'flex'; }
-  if (name === 'users')   { if (uScreen) uScreen.style.display = 'flex'; }
+  if (name === 'home')      { document.getElementById('homeScreen').style.display = 'flex'; }
+  if (name === 'library')   { document.getElementById('libraryScreen').style.display = 'flex'; }
+  if (name === 'create')    { document.getElementById('createScreen').style.display = 'flex'; }
+  if (name === 'users')     { if (uScreen) uScreen.style.display = 'flex'; }
+  if (name === 'generator') { if (gScreen) gScreen.style.display = 'flex'; }
 
   if (name !== currentPage) pageStack.push(currentPage);
   currentPage = name;
@@ -977,6 +1136,7 @@ function renderAllSets() {
           <span class="badge" style="background:${ss.bg};border-color:${ss.border};color:${ss.color};font-weight:600;">${ss.dot} ${s.status||'Draft'}</span>
           <span class="badge">${date}</span>
           ${s.gc?`<span class="badge purple">${s.gc}</span>`:''}
+          ${s.generatedBy==='gemini-ai'?`<span class="badge" style="background:var(--accent-glow);border-color:rgba(224,48,48,0.2);color:var(--accent);">⚡ AI</span>`:''}
         </div>
       </div>
       <div style="display:flex;gap:6px;flex-direction:column;align-items:flex-end;min-width:130px;">
@@ -1345,6 +1505,8 @@ document.getElementById("fb-send-btn").addEventListener("click", async () => {
 <!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
         onload="emailjs.init({publicKey: FB.publicKey})"></script>
+
+<script src="exam-generator.js?v=1"></script>
 
 </body>
 </html>
