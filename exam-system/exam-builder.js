@@ -777,9 +777,17 @@ function updateTablePreview(i) {
 function saveBlock(i) {
   try {
   const b = blocks[i];
-  pushHistory();
-
   const pick = (id) => { const el = document.getElementById(id); return el ? el.value : ''; };
+
+  if (b.mode === 'question') {
+    const marksStr = pick(`qmarks-${i}`);
+    if (!marksStr || Number(marksStr) <= 0) {
+      alert("⚠️ Please fill in the maximum marks for this question before saving.");
+      return;
+    }
+  }
+
+  pushHistory();
 
   // Criteria + marks
   b.meta.criterion = pick(`qcrit-${i}`);

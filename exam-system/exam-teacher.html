@@ -7,14 +7,14 @@
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <style>
 :root {
-  --surface: rgba(18,4,4,0.88);
-  --surface2: rgba(38,8,8,0.9);
-  --border: rgba(200,60,60,0.3);
+  --surface: rgba(15, 23, 42, 0.88); /* slate-900 */
+  --surface2: rgba(30, 41, 59, 0.9); /* slate-800 */
+  --border: rgba(224, 48, 48, 0.3); /* keep red tint for brand */
   --accent: #e03030;
   --accent2: #c0392b;
-  --accent-glow: rgba(224,48,48,0.15);
-  --text: #f0e6e6;
-  --text2: #b08888;
+  --accent-glow: rgba(224, 48, 48, 0.15);
+  --text: #f8fafc;
+  --text2: #cbd5e1;
   --green: #27ae60;
   --red: #e03030;
   --yellow: #d29922;
@@ -25,7 +25,7 @@
 body {
   font-family: 'DM Sans', sans-serif;
   background:
-    linear-gradient(rgba(0,0,0,0.58), rgba(18,0,0,0.78)),
+    linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)),
     url('./assets/myp-background-image.png') no-repeat center center fixed;
   background-size: cover;
   color: var(--text);
@@ -447,10 +447,11 @@ body {
 <div class="topbar">
   <div class="topbar-left">
     <span class="topbar-brand">MYP·Builder</span>
-    <button class="nav-btn active" onclick="openCreate()">✏️ Create</button>
-    <button class="nav-btn" onclick="openLibrary()">📚 Library</button>
+    <button class="nav-btn active" onclick="switchTab(this); openCreate()">✏️ Create</button>
+    <button class="nav-btn" onclick="switchTab(this); openLibrary()">📚 Library</button>
+    <button class="nav-btn" onclick="switchTab(this); openUsers()">👥 Users</button>
     <button class="icon-btn" onclick="window.location.href='exam-grading.html'">📝 Grade</button>
-</div>
+  </div>
   <div class="topbar-right">
     <button class="icon-btn" onclick="goHome()">🏠 Home</button>
     <button class="icon-btn" onclick="goBack()">← Back</button>
@@ -586,6 +587,32 @@ body {
     </div>
 
   </div>
+
+  <!-- USERS LOG -->
+  <div id="usersScreen" style="display:none;flex:1;overflow:hidden;flex-direction:column;padding:30px;">
+    <h2>👥 Registered Students</h2>
+    <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+      <input type="text" id="userSearch" placeholder="Search by name or email..." style="background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;color:var(--text);font-size:13px;width:300px;" oninput="renderUsersList()">
+      <button class="btn-save" onclick="broadcastMessage()">📢 Broadcast Email (BCC)</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;background:var(--surface);border:1px solid var(--border);border-radius:12px;">
+      <table style="width:100%;border-collapse:collapse;text-align:left;font-size:13px;">
+        <thead>
+          <tr style="background:rgba(224,48,48,0.1);border-bottom:1px solid var(--border);">
+            <th style="padding:12px;color:var(--text2);">Name</th>
+            <th style="padding:12px;color:var(--text2);">Email</th>
+            <th style="padding:12px;color:var(--text2);">Grade & Sec</th>
+            <th style="padding:12px;color:var(--text2);">Registered</th>
+            <th style="padding:12px;color:var(--text2);text-align:right;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="usersList">
+           <tr><td colspan="5" style="padding:20px;text-align:center;color:var(--text2);">Loading users...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 <!-- CONFIRM MODAL -->
@@ -681,10 +708,13 @@ function showPage(name) {
   document.getElementById('homeScreen').style.display    = 'none';
   document.getElementById('libraryScreen').style.display = 'none';
   document.getElementById('createScreen').style.display  = 'none';
+  const uScreen = document.getElementById('usersScreen');
+  if (uScreen) uScreen.style.display = 'none';
 
   if (name === 'home')    { document.getElementById('homeScreen').style.display = 'flex'; }
   if (name === 'library') { document.getElementById('libraryScreen').style.display = 'flex'; }
   if (name === 'create')  { document.getElementById('createScreen').style.display = 'flex'; }
+  if (name === 'users')   { if (uScreen) uScreen.style.display = 'flex'; }
 
   if (name !== currentPage) pageStack.push(currentPage);
   currentPage = name;
@@ -745,6 +775,69 @@ function openLibrary() {
   buildChapterList();
   selChapter = null;
   renderAllSets();
+}
+
+let allUsersCache = [];
+
+async function openUsers() {
+  showPage('users');
+  document.getElementById('usersList').innerHTML = '<tr><td colspan="5" style="padding:20px;text-align:center;color:var(--text2);">Loading users from database...</td></tr>';
+  
+  if (!window.db) {
+    document.getElementById('usersList').innerHTML = '<tr><td colspan="5" style="padding:20px;text-align:center;color:#ff7070;">Firebase not connected. Please login.</td></tr>';
+    return;
+  }
+  
+  try {
+    const snap = await db.collection('students').orderBy('createdAt', 'desc').get();
+    allUsersCache = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    renderUsersList();
+  } catch (err) {
+    console.error('Error fetching users:', err);
+    document.getElementById('usersList').innerHTML = `<tr><td colspan="5" style="padding:20px;text-align:center;color:#ff7070;">Failed to load users: ${err.message}</td></tr>`;
+  }
+}
+
+function renderUsersList() {
+  const q = (document.getElementById('userSearch')?.value || '').toLowerCase();
+  const listEl = document.getElementById('usersList');
+  
+  const filtered = allUsersCache.filter(u => {
+    const name = ((u.firstName||'') + ' ' + (u.lastName||'')).toLowerCase();
+    const email = (u.email||'').toLowerCase();
+    return name.includes(q) || email.includes(q);
+  });
+  
+  if (!filtered.length) {
+    listEl.innerHTML = '<tr><td colspan="5" style="padding:20px;text-align:center;color:var(--text2);">No users found.</td></tr>';
+    return;
+  }
+  
+  listEl.innerHTML = filtered.map(u => {
+    const name = (u.firstName||'') + ' ' + (u.lastName||'');
+    let dateStr = 'Unknown';
+    if (u.createdAt && u.createdAt.toDate) {
+      dateStr = u.createdAt.toDate().toLocaleDateString();
+    } else if (u.createdAt) {
+      dateStr = new Date(u.createdAt).toLocaleDateString();
+    }
+    
+    return `<tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+      <td style="padding:12px;font-weight:500;">${name || 'Unnamed Student'}</td>
+      <td style="padding:12px;color:var(--text2);">${u.email}</td>
+      <td style="padding:12px;color:var(--text2);">${u.grade||'N/A'} - ${u.section||'N/A'}</td>
+      <td style="padding:12px;color:var(--text2);">${dateStr}</td>
+      <td style="padding:12px;text-align:right;">
+        <button class="btn-sm" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:4px 10px;border-radius:6px;cursor:pointer;" onclick="location.href='mailto:${u.email}?subject=Physicism Platform'">✉️ Email</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function broadcastMessage() {
+  if (!allUsersCache.length) return;
+  const emails = allUsersCache.map(u => u.email).filter(e => e).join(',');
+  window.location.href = `mailto:?bcc=${emails}&subject=Update from Physicism Learning Platform`;
 }
 
 function buildChapterList() {

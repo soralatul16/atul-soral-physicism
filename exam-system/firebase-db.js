@@ -247,6 +247,16 @@ async function saveAttemptToFirestore(attempt) {
   });
 }
 
+/* ── Delete a single attempt ── */
+async function deleteAttemptFromFirestore(docId) {
+  if (!docId) return;
+  try {
+    await db.collection('attempts').doc(docId).delete();
+  } catch (err) {
+    console.error('Attempt delete error:', err);
+  }
+}
+
 /* ══════ Analytics ══════ */
 
 async function logAnalyticsEvent(eventType, data) {

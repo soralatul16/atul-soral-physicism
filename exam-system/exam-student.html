@@ -7,9 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-:root{--bg:#08090f;--surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);--border:rgba(255,255,255,0.09);--accent:#e03030;--glow:rgba(224,48,48,0.16);--text:#eeedf0;--text2:#7a7888;--text3:#b0aec0;--green:#27ae60;--yellow:#f39c12;--blue:#2980b9;}
+:root{--bg:#0f172a;--surface:rgba(255,255,255,0.06);--surface2:rgba(255,255,255,0.1);--border:rgba(255,255,255,0.12);--accent:#e03030;--glow:rgba(224,48,48,0.16);--text:#f8fafc;--text2:#94a3b8;--text3:#cbd5e1;--green:#27ae60;--yellow:#f39c12;--blue:#2980b9;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Sora',sans-serif;background:linear-gradient(rgba(0,0,0,0.58),rgba(8,9,15,0.85)),url('./assets/myp-background-image.png') no-repeat center center fixed;background-size:cover;color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+body{font-family:'Sora',sans-serif;background:linear-gradient(rgba(15,23,42,0.7),rgba(15,23,42,0.9)),url('./assets/myp-background-image.png') no-repeat center center fixed;background-size:cover;color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;}
 .topbar{height:52px;background:rgba(8,8,14,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 18px;flex-shrink:0;z-index:200;backdrop-filter:blur(12px);}
 .brand{font-family:'Space Mono',monospace;font-size:13px;color:var(--accent);letter-spacing:1px;margin-right:14px;}
 .nav-btn{background:none;border:1px solid transparent;padding:5px 12px;border-radius:6px;color:var(--text2);cursor:pointer;font-size:12px;font-weight:500;font-family:'Sora',sans-serif;transition:all 0.15s;}
@@ -229,7 +229,7 @@ body{font-family:'Sora',sans-serif;background:linear-gradient(rgba(0,0,0,0.58),r
     </div>
   </div>
 </div>
-<div class="modal-overlay" id="submitModal"><div class="modal"><h3>📝 Submit Test?</h3><div class="summary-grid" id="submitSummary"></div><p id="submitWarning" style="color:var(--yellow);font-size:12px;margin-bottom:16px;display:none;"></p><div class="modal-btns"><button class="btn-modal-cancel" onclick="closeModal()">Continue</button><button class="btn-modal-ok" onclick="doSubmit()">Submit Now</button></div></div></div>
+<div class="modal-overlay" id="submitModal"><div class="modal"><h3>📝 Submit Test?</h3><div class="summary-grid" id="submitSummary"></div><p id="submitWarning" style="color:var(--yellow);font-size:12px;margin-bottom:16px;display:none;"></p><div style="margin-bottom:20px; display:flex; align-items:center; gap:10px;"><input type="checkbox" id="wantsGrading" checked style="accent-color:var(--accent); width:18px; height:18px; cursor:pointer;"><label for="wantsGrading" style="font-size:13px; color:var(--text); cursor:pointer; user-select:none;">I want this test to be graded by my teacher</label></div><div class="modal-btns"><button class="btn-modal-cancel" onclick="closeModal()">Continue</button><button class="btn-modal-ok" onclick="doSubmit()">Submit Now</button></div></div></div>
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
@@ -332,7 +332,14 @@ function setCardHTML(s,attempts){
   let actionBtn=`<button class="btn-sm btn-start" onclick="startAttempt('${s.id}')">Start →</button>`;
   if(last){
     if(last.status==="in_progress"){statusBadge='<span class="badge blue">▶ In Progress</span>';actionBtn=`<button class="btn-sm btn-resume" onclick="resumeAttemptById('${last.id}')">Resume</button>`;}
-    else{const gl=last.gradingStatus==='graded'?' · ✓ Graded':'';statusBadge=`<span class="badge green">✓ Done — ${last.percentScore||0}%${gl}</span>`;actionBtn=`<button class="btn-sm btn-review" onclick="showResults('${last.id}')">View</button><button class="btn-sm btn-start" onclick="startAttempt('${s.id}')">Retry</button>`;}
+    else {
+      let gl = '';
+      if (last.wantsGrading === false) gl = ' · Do Not Grade';
+      else if (last.gradingStatus === 'graded') gl = ' · ✓ Graded';
+      else gl = ' · ⏳ Pending Grading';
+      statusBadge=`<span class="badge green">✓ Done — ${last.percentScore||0}%${gl}</span>`;
+      actionBtn=`<button class="btn-sm btn-review" onclick="showResults('${last.id}')">View</button><button class="btn-sm btn-start" onclick="startAttempt('${s.id}')">Retry</button>`;
+    }
   }
   return `<div class="set-card"><div class="set-info"><h4>${s.heading||"Untitled"}</h4><div class="badges"><span class="badge">${s.chapter||""}</span><span class="badge">${s.topic||""}</span><span class="badge">${qCount} Q</span><span class="badge">${s.totalMarks||"?"} marks</span>${s.criterion?`<span class="badge red">${(s.criterion||"").charAt(0)}</span>`:""}${statusBadge}</div></div><div class="set-action">${actionBtn}</div></div>`;
 }
@@ -365,7 +372,7 @@ function startAttempt(setId){
   const lib=getLibrary();currentSet=lib.find(s=>s.id===setId);
   if(!currentSet){alert("Set not found.");return;}
   allBlocks=(currentSet.blocks||[]).filter(b=>b.saved);qBlocks=allBlocks.filter(b=>b.mode==="question");
-  currentAttempt={id:"att_"+Date.now(),setId,setVersion:currentSet.version||1,studentEmail:currentStudent.email,studentName:currentStudent.name,criterion:currentSet.criterion,startTime:Date.now(),endTime:null,status:"in_progress",answers:{},flags:{},notes:{},duration:0,totalMarks:currentSet.totalMarks||0,earnedMarks:0,percentScore:0,setTitle:currentSet.heading};
+  currentAttempt={id:"att_"+Date.now(),setId,setVersion:currentSet.version||1,studentEmail:currentStudent.email,studentName:currentStudent.name,criterion:currentSet.criterion,startTime:Date.now(),endTime:null,status:"in_progress",answers:{},flags:{},notes:{},duration:0,totalMarks:currentSet.totalMarks||0,earnedMarks:0,percentScore:0,setTitle:currentSet.heading,wantsGrading:true};
   currentQIdx=0;timerSecs=0;saveAttempt(currentAttempt);startTimer();startAutoSave();initAttemptUI();showAttemptScreen();
 }
 function resumeAttemptById(id){
@@ -759,6 +766,7 @@ function closeModal(){document.getElementById("submitModal").classList.remove("o
 function doSubmit(){
   closeModal();clearInterval(timerInterval);clearInterval(autoSaveInterval);
   currentAttempt.status="completed";currentAttempt.endTime=Date.now();currentAttempt.duration=timerSecs;
+  currentAttempt.wantsGrading=document.getElementById("wantsGrading").checked;
   let earned=0,total=0;
   qBlocks.forEach((q,i)=>{const marks=Number(q.meta?.marks||0);total+=marks;
     if(q.type==="True / False"&&q.ui?.tfAnswer&&currentAttempt.answers[i]===q.ui.tfAnswer)earned+=marks;
@@ -777,8 +785,13 @@ function showResults(attemptId){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("attemptScreen").classList.remove("active");
   document.getElementById("resultsScreen").classList.add("active");
-  const isGraded=a.gradingStatus==='graded';
-  document.getElementById("resTitleEl").textContent=(a.setTitle||"Results")+(isGraded?" — ✓ Graded":"");
+  
+  let headerGl = '';
+  if (a.wantsGrading === false) headerGl = ' — Do Not Grade';
+  else if (a.gradingStatus === 'graded') headerGl = ' — ✓ Graded';
+  else headerGl = ' — ⏳ Pending Grading';
+
+  document.getElementById("resTitleEl").textContent=(a.setTitle||"Results") + headerGl;
   document.getElementById("resScore").textContent=(a.earnedMarks||0)+" / "+(a.totalMarks||0);
   document.getElementById("resOutOf").textContent=`${a.percentScore||0}% · ${Math.floor((a.duration||0)/60)}m ${(a.duration||0)%60}s`;
   // Overall teacher feedback
@@ -921,7 +934,13 @@ function loadAnalytics(){
   document.getElementById("critBars").innerHTML=Object.entries(cm).map(([c,arr])=>{const avg=arr.length?Math.round(arr.reduce((s,v)=>s+v,0)/arr.length):0;return `<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:4px;"><span>Criterion ${c}</span><span>${arr.length?avg+"%":"—"}</span></div><div style="background:var(--surface2);border-radius:4px;height:7px;overflow:hidden;"><div style="height:100%;width:${avg}%;background:var(--accent);border-radius:4px;transition:width 0.6s;"></div></div></div>`;}).join("");
   const topicMap={};completed.forEach(a=>{const lib=getLibrary();const set=lib.find(s=>s.id===a.setId);const t=set?.topic||"Unknown";if(!topicMap[t])topicMap[t]=[];topicMap[t].push(a.percentScore||0);});
   document.getElementById("topicBars").innerHTML=Object.entries(topicMap).map(([t,arr])=>{const avg=Math.round(arr.reduce((s,v)=>s+v,0)/arr.length);return `<div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:3px;"><span>${t}</span><span>${avg}% (${arr.length} attempt${arr.length!==1?"s":""})</span></div><div style="background:var(--surface2);border-radius:4px;height:6px;overflow:hidden;"><div style="height:100%;width:${avg}%;background:var(--blue);border-radius:4px;"></div></div></div>`;}).join("")||'<p style="color:var(--text2);font-size:13px;">No completed attempts yet.</p>';
-  document.getElementById("recentList").innerHTML=completed.slice(-8).reverse().map(a=>`<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div><div style="font-size:13px;font-weight:600;">${a.setTitle||"Unknown"}</div><div style="font-size:11px;color:var(--text2);">${new Date(a.endTime||a.startTime).toLocaleDateString()}${a.gradingStatus==='graded'?' · ✓ Graded':''}</div></div><div style="font-size:14px;font-weight:700;color:${(a.percentScore||0)>=70?"#5edd8a":"#ff7070"};">${a.percentScore||0}%</div></div>`).join("")||'<p style="color:var(--text2);font-size:13px;">No attempts yet.</p>';
+  document.getElementById("recentList").innerHTML=completed.slice(-8).reverse().map(a=>{
+    let gl = '';
+    if (a.wantsGrading === false) gl = ' · Do Not Grade';
+    else if (a.gradingStatus === 'graded') gl = ' · ✓ Graded';
+    else gl = ' · ⏳ Pending Grading';
+    return `<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div><div style="font-size:13px;font-weight:600;">${a.setTitle||"Unknown"}</div><div style="font-size:11px;color:var(--text2);">${new Date(a.endTime||a.startTime).toLocaleDateString()}${gl}</div></div><div style="font-size:14px;font-weight:700;color:${(a.percentScore||0)>=70?"#5edd8a":"#ff7070"};">${a.percentScore||0}%</div></div>`;
+  }).join("")||'<p style="color:var(--text2);font-size:13px;">No attempts yet.</p>';
 }
 
 /* ══════════ Init ══════════ */

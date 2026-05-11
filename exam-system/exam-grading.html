@@ -7,14 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --surface: rgba(18,4,4,0.88);
-  --surface2: rgba(38,8,8,0.9);
-  --border: rgba(200,60,60,0.3);
+  --surface: rgba(15, 23, 42, 0.88); /* slate-900 */
+  --surface2: rgba(30, 41, 59, 0.9); /* slate-800 */
+  --border: rgba(224, 48, 48, 0.3); /* keep red tint for brand */
   --accent: #e03030;
   --accent2: #c0392b;
-  --accent-glow: rgba(224,48,48,0.15);
-  --text: #f0e6e6;
-  --text2: #b08888;
+  --accent-glow: rgba(224, 48, 48, 0.15);
+  --text: #f8fafc;
+  --text2: #cbd5e1;
   --green: #27ae60;
   --red: #e03030;
   --yellow: #d29922;
@@ -25,7 +25,7 @@
 
 body {
   font-family: 'DM Sans', sans-serif;
-  background: linear-gradient(rgba(0,0,0,0.58), rgba(18,0,0,0.78)),
+  background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)),
     url('./assets/myp-background-image.png') no-repeat center center fixed;
   background-size: cover;
   color: var(--text);
@@ -306,9 +306,9 @@ body {
     <button class="nav-btn active">📝 Grade</button>
   </div>
   <div class="topbar-right">
-    <button class="icon-btn" onclick="window.location.href='exam-teacher.html'">← Back</button>
-<button class="icon-btn" onclick="window.location.href='exam-teacher.html'">✏️ Builder</button>
-<button class="icon-btn" onclick="window.location.href='https://soralatul16.github.io/atul-soral-physicism/index.html'">🏠 Home</button>
+    <button class="icon-btn" onclick="window.history.back()">← Back</button>
+    <button class="icon-btn" onclick="window.location.href='exam-teacher.html'">✏️ Builder</button>
+    <button class="icon-btn" onclick="window.location.href='https://soralatul16.github.io/atul-soral-physicism/index.html'">🏠 Home</button>
   </div>
 </div>
 
@@ -343,6 +343,14 @@ body {
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js?v=2"></script>
+<script src="firebase-auth.js?v=2"></script>
+<script src="firebase-db.js?v=2"></script>
+
 <script>
 /* ═══════════════════════════════════════════════════
    TEACHER GRADING PANEL
@@ -358,22 +366,43 @@ let currentFilter = 'all';
 let activeAttemptId = null;
 
 /* ── Data helpers ── */
-function getLibrary()  { return JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]"); }
-function getAttempts() { return JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || "[]"); }
-function saveAttempts(arr) { localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(arr)); }
+// Use window.getLibrary, window.getAttempts from firebase-db.js, else fallback to localStorage
+function fetchLibrary()  { return typeof getLibrary === 'function' ? getLibrary() : JSON.parse(localStorage.getItem(LIBRARY_KEY) || "[]"); }
+function fetchAttempts() { return typeof getAttempts === 'function' ? getAttempts() : JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || "[]"); }
+function storeAttempts(arr) {
+  if (typeof saveAttempts === 'function') saveAttempts(arr);
+  else localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(arr));
+}
 
 function getSetForAttempt(a) {
-  return getLibrary().find(s => s.id === a.setId);
+  return fetchLibrary().find(s => s.id === a.setId);
 }
 
 /* ── Init ── */
-window.addEventListener("DOMContentLoaded", () => {
-  loadAttempts();
-  renderSidebar();
+// Ensure we wait for Firebase if present
+window.addEventListener("DOMContentLoaded", async () => {
+  if (typeof auth !== 'undefined') {
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        if (typeof initFirebaseDB === 'function') await initFirebaseDB();
+        // For teacher, we need ALL attempts to grade them. initFirebaseDB only loads user's attempts by default if not teacher, but let's load all attempts.
+        if (typeof loadAllAttempts === 'function') {
+          const all = await loadAllAttempts();
+          // Update cache with all attempts for teacher
+          if (typeof _attemptsCache !== 'undefined') window._attemptsCache = all;
+        }
+      }
+      loadAttempts();
+      renderSidebar();
+    });
+  } else {
+    loadAttempts();
+    renderSidebar();
+  }
 });
 
 function loadAttempts() {
-  allAttempts = getAttempts().filter(a => a.status === "completed").sort((a, b) => (b.endTime || b.startTime) - (a.endTime || a.startTime));
+  allAttempts = fetchAttempts().filter(a => a.status === "completed").sort((a, b) => (b.endTime || b.startTime) - (a.endTime || a.startTime));
 }
 
 /* ── Sidebar ── */
@@ -410,18 +439,62 @@ function renderSidebar() {
     const isGraded = a.gradingStatus === 'graded';
     const date = new Date(a.endTime || a.startTime).toLocaleDateString('en-IN', { day:'numeric', month:'short' });
     const duration = a.duration ? `${Math.floor(a.duration/60)}m` : '';
+    let statusBadge = '';
+    if (a.wantsGrading === false) {
+      statusBadge = '<span class="badge red">Do Not Grade</span>';
+    } else if (isGraded) {
+      statusBadge = '<span class="badge green">✓ Graded</span>';
+    } else {
+      statusBadge = '<span class="badge yellow">Pending</span>';
+    }
+    
     return `
     <div class="attempt-card ${activeAttemptId === a.id ? 'active' : ''}" onclick="openAttempt('${a.id}')">
-      <div class="ac-name">${a.studentName || 'Unknown Student'}</div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div class="ac-name">${a.studentName || 'Unknown Student'}</div>
+        <button onclick="deleteAttempt(event, '${a.id}')" title="Delete Submission" style="background:transparent; border:none; color:var(--text2); cursor:pointer; font-size:12px; padding:2px;">🗑️</button>
+      </div>
       <div class="ac-set">${a.setTitle || 'Untitled Set'}</div>
       <div class="ac-meta">
         <span class="badge">${date}</span>
         ${duration ? `<span class="badge">${duration}</span>` : ''}
         <span class="badge ${a.percentScore >= 70 ? 'green' : a.percentScore >= 40 ? 'yellow' : 'red'}">${a.percentScore || 0}%</span>
-        ${isGraded ? '<span class="badge green">✓ Graded</span>' : '<span class="badge yellow">Pending</span>'}
+        ${statusBadge}
       </div>
     </div>`;
   }).join('');
+}
+
+/* ── Delete attempt ── */
+async function deleteAttempt(e, attemptId) {
+  e.stopPropagation();
+  if (!confirm('Are you sure you want to delete this submission? This cannot be undone.')) return;
+  
+  const attempts = fetchAttempts();
+  const idx = attempts.findIndex(x => x.id === attemptId);
+  if (idx !== -1) {
+    const a = attempts[idx];
+    attempts.splice(idx, 1);
+    
+    // Save locally
+    if (typeof _attemptsCache !== 'undefined') window._attemptsCache = attempts;
+    try { localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(attempts)); } catch(e) {}
+    
+    // Delete from Firestore
+    if (typeof deleteAttemptFromFirestore === 'function') {
+      await deleteAttemptFromFirestore(a._docId || a.id);
+    }
+  }
+
+  if (activeAttemptId === attemptId) {
+    activeAttemptId = null;
+    document.getElementById('emptyState').style.display = 'flex';
+    document.getElementById('gradingArea').style.display = 'none';
+  }
+  
+  loadAttempts();
+  renderSidebar();
+  showToast('Submission deleted.');
 }
 
 /* ── Open attempt for grading ── */
@@ -429,7 +502,7 @@ function openAttempt(attemptId) {
   activeAttemptId = attemptId;
   renderSidebar();
 
-  const attempts = getAttempts();
+  const attempts = fetchAttempts();
   const a = attempts.find(x => x.id === attemptId);
   if (!a) { alert('Attempt not found.'); return; }
 
@@ -456,6 +529,15 @@ function openAttempt(attemptId) {
   let html = '';
 
   // HEADER
+  let headerStatusBadge = '';
+  if (a.wantsGrading === false) {
+    headerStatusBadge = '<span class="badge red" style="font-size:12px;padding:4px 12px;">Do Not Grade</span>';
+  } else if (a.gradingStatus === 'graded') {
+    headerStatusBadge = '<span class="badge green" style="font-size:12px;padding:4px 12px;">✓ Graded</span>';
+  } else {
+    headerStatusBadge = '<span class="badge yellow" style="font-size:12px;padding:4px 12px;">Pending</span>';
+  }
+
   html += `
   <div class="grading-header">
     <div class="gh-top">
@@ -465,7 +547,7 @@ function openAttempt(attemptId) {
         <div class="gh-subtitle">Submitted: ${new Date(a.endTime || a.startTime).toLocaleString('en-IN')} · Duration: ${Math.floor((a.duration||0)/60)}m ${(a.duration||0)%60}s</div>
       </div>
       <div style="display:flex;gap:8px;">
-        ${a.gradingStatus === 'graded' ? '<span class="badge green" style="font-size:12px;padding:4px 12px;">✓ Graded</span>' : '<span class="badge yellow" style="font-size:12px;padding:4px 12px;">Pending</span>'}
+        ${headerStatusBadge}
       </div>
     </div>
     <div class="gh-stats">
@@ -540,8 +622,44 @@ function openAttempt(attemptId) {
           ✗ False ${studentAns === 'False' ? '👈' : ''} ${correct === 'False' ? '✓' : ''}
         </div>
       </div>`;
+    } else if (q.type === 'Match the Following') {
+      const pairs = q.ui?.matchPairs || [];
+      responseHTML = '<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">';
+      pairs.forEach((p, pi) => {
+        const sAns = (studentAns && typeof studentAns === 'object') ? studentAns[pi] : undefined;
+        const isCorrect = sAns === p.b;
+        let border = isCorrect ? 'var(--green)' : 'var(--red)';
+        let bg = isCorrect ? 'rgba(39,174,96,0.1)' : 'rgba(224,48,48,0.1)';
+        responseHTML += `
+          <div style="display:flex;gap:10px;align-items:center;">
+            <div style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:13px;">${p.a}</div>
+            <span style="color:var(--text2);">→</span>
+            <div style="flex:1;background:${bg};border:1px solid ${border};border-radius:6px;padding:8px 12px;font-size:13px;display:flex;justify-content:space-between;align-items:center;">
+              <span>${sAns || '(No selection)'}</span>
+              <span style="font-size:16px;">${isCorrect ? '✅' : '❌'}</span>
+            </div>
+          </div>`;
+        if (!isCorrect && p.b) {
+          responseHTML += `<div style="font-size:11px;color:var(--green);text-align:right;margin-top:-4px;margin-bottom:4px;">Correct: ${p.b}</div>`;
+        }
+      });
+      responseHTML += '</div>';
     } else {
-      const text = studentAns || '';
+      let text = studentAns;
+      if (typeof text === 'object' && text !== null) {
+        if (Array.isArray(text)) text = text.join(', ');
+        else {
+          let parts = [];
+          Object.entries(text).forEach(([k, v]) => {
+            if (typeof v === 'object' && v !== null) {
+              Object.values(v).forEach(val => { if (val) parts.push(String(val)); });
+            } else if (v) {
+              parts.push(String(v));
+            }
+          });
+          text = parts.join(', ');
+        }
+      }
       responseHTML = `<div class="sr-content ${!text ? 'empty' : ''}">${text || '(Not answered)'}</div>`;
     }
 
@@ -602,7 +720,7 @@ function toggleMS(i) {
 
 /* ── Auto-score MCQ and T/F ── */
 function autoScoreAll() {
-  const attempts = getAttempts();
+  const attempts = fetchAttempts();
   const a = attempts.find(x => x.id === activeAttemptId);
   if (!a) return;
   const set = getSetForAttempt(a);
@@ -621,6 +739,18 @@ function autoScoreAll() {
       const correct = ans === q.ui.tfAnswer;
       const el = document.getElementById('grade-' + i);
       if (el) el.value = correct ? maxMarks : 0;
+    } else if (q.type === 'Match the Following') {
+      const pairs = q.ui?.matchPairs || [];
+      if (pairs.length > 0) {
+        let correctCount = 0;
+        pairs.forEach((p, pi) => {
+          if (ans && typeof ans === 'object' && ans[pi] === p.b) correctCount++;
+        });
+        const proportion = correctCount / pairs.length;
+        const autoMarks = Math.round(proportion * maxMarks);
+        const el = document.getElementById('grade-' + i);
+        if (el) el.value = autoMarks;
+      }
     }
   });
 
@@ -630,7 +760,7 @@ function autoScoreAll() {
 
 /* ── Live marks update ── */
 function onGradeChange() {
-  const attempts = getAttempts();
+  const attempts = fetchAttempts();
   const a = attempts.find(x => x.id === activeAttemptId);
   if (!a) return;
   const set = getSetForAttempt(a);
@@ -655,7 +785,7 @@ function onGradeChange() {
 
 /* ── Save grades ── */
 function saveGrades() {
-  const attempts = getAttempts();
+  const attempts = fetchAttempts();
   const idx = attempts.findIndex(x => x.id === activeAttemptId);
   if (idx === -1) { alert('Attempt not found.'); return; }
 
@@ -695,7 +825,7 @@ function saveGrades() {
   a.gradedAt = Date.now();
 
   attempts[idx] = a;
-  saveAttempts(attempts);
+  storeAttempts(attempts);
 
   loadAttempts();
   renderSidebar();
