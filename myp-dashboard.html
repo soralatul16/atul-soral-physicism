@@ -1,526 +1,613 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MYP Dashboard | Physicism</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+:root{
+  --cream:#f7f3ed;--cream-2:#f0ebe2;--white:#fff;
+  --ink:#1a1a2e;--ink-2:#2d2d44;--ink-3:#555570;--ink-4:#8888a0;--ink-5:#b0b0c4;
+  --red:#ef4444;--red-dark:#991b1b;--red-pale:#fde8e6;--red-soft:#f7c5c0;
+  --teal:#4ecdc4;--teal-pale:#e0f7f5;--teal-soft:#b2ece6;
+  --blue:#5b9bd5;--blue-pale:#deeaf6;
+  --purple:#b39ddb;--purple-pale:#ede7f6;
+  --amber:#ffd54f;--amber-pale:#fff8e1;
+  --green:#81c784;--green-pale:#e8f5e9;
+  --glass:rgba(255,255,255,0.5);--glass-border:rgba(255,255,255,0.65);
+  --shadow-sm:0 2px 12px rgba(26,26,46,0.06);
+  --shadow-md:0 8px 28px rgba(26,26,46,0.08);
+  --shadow-lg:0 16px 48px rgba(26,26,46,0.1);
+  --r:16px;--r-lg:24px;
+  --font-display:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif;
+  --font-body:'Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;
+  --font-mono:'SF Mono','Cascadia Code','Consolas',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden;font-size:15px;line-height:1.6;}
 
-/* ===== BASE ===== */
-:root {
-  --red: #ef4444;
-  --red-dark: #991b1b;
-  --surface: rgba(20,20,20,0.82);
-  --surface-hover: rgba(40,40,40,0.92);
+/* ── BG ── */
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.bg-image{position:fixed;inset:0;z-index:0;pointer-events:none;background:url('./exam-system/assets/myp-background-image.png') center/cover no-repeat fixed;opacity:0.1;}
+.physics-grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.02;
+  background:linear-gradient(rgba(239,68,68,0.3) 1px,transparent 1px),linear-gradient(90deg,rgba(239,68,68,0.3) 1px,transparent 1px);
+  background-size:80px 80px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black 10%,transparent 80%);}
+
+/* ── NAVBAR ── */
+.navbar{
+  position:sticky;top:0;z-index:100;
+  background:var(--glass);backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5);
+  border-bottom:1px solid var(--glass-border);
+  padding:0 36px;height:64px;display:flex;align-items:center;gap:16px;
 }
-*, *::before, *::after { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: 'DM Sans', sans-serif;
-  background: linear-gradient(rgba(0,0,0,0.62), rgba(20,0,0,0.78)),
-              url('./exam-system/assets/myp-background-image.png') center/cover fixed;
-  color: white;
-  min-height: 100vh;
+.nav-brand{
+  font-family:var(--font-display);font-size:18px;font-weight:600;
+  color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px;
+}
+.nav-dot{
+  width:10px;height:10px;background:var(--red);border-radius:50%;
+  box-shadow:0 0 8px var(--red);animation:navPulse 2s infinite;flex-shrink:0;
+}
+@keyframes navPulse{0%,100%{opacity:1;box-shadow:0 0 8px var(--red)}50%{opacity:.6;box-shadow:0 0 16px var(--red)}}
+.nav-brand span{color:var(--red);}
+.nav-spacer{flex:1;}
+.nav-links{display:flex;align-items:center;gap:6px;}
+.nav-link{
+  padding:8px 18px;border-radius:50px;font-size:13px;font-weight:600;
+  color:var(--ink-3);text-decoration:none;transition:all .25s;cursor:pointer;
+}
+.nav-link:hover{background:var(--red-pale);color:var(--red);}
+
+/* ── HERO BANNER ── */
+.hero{
+  max-width:1100px;margin:0 auto;padding:28px 36px 0;position:relative;z-index:1;
+}
+.hero-banner{
+  background:linear-gradient(135deg,#ef4444 0%,#b91c1c 60%,#7f1d1d 100%);
+  border-radius:var(--r-lg);padding:36px 40px;position:relative;overflow:hidden;
+  display:flex;align-items:center;gap:32px;color:white;
+}
+.hero-banner::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,.03) 40px,rgba(255,255,255,.03) 80px);
+}
+.hero-banner::after{
+  content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%);pointer-events:none;
+}
+.hero-content{flex:1;position:relative;z-index:1;}
+.hero-eyebrow{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;opacity:.7;margin-bottom:8px;
+}
+.hero-banner h1{
+  font-family:var(--font-display);font-size:32px;font-weight:600;
+  line-height:1.15;letter-spacing:-.01em;margin-bottom:8px;
+}
+.hero-tagline{font-size:14px;opacity:.7;letter-spacing:.15em;text-transform:uppercase;}
+.hero-visual{
+  position:relative;z-index:1;width:160px;flex-shrink:0;text-align:center;
+}
+.hero-eq{
+  font-family:var(--font-mono);font-size:13px;color:rgba(255,255,255,0.5);
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
+  border-radius:10px;padding:6px 12px;display:inline-block;
+  animation:eqBob 3.5s ease-in-out infinite;
+}
+.hero-eq:nth-child(2){animation-delay:.8s;margin-top:8px;}
+.hero-eq:nth-child(3){animation-delay:1.6s;margin-top:8px;}
+@keyframes eqBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* ── MAIN LAYOUT ── */
+.main{max-width:1100px;margin:0 auto;padding:24px 36px 80px;position:relative;z-index:1;}
+
+/* ── PRACTICE CARDS ── */
+.practice-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;}
+.practice-card{
+  background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1.5px solid var(--glass-border);border-radius:var(--r-lg);
+  padding:28px;cursor:pointer;transition:all .3s;text-decoration:none;color:var(--ink);
+  display:flex;align-items:center;gap:20px;position:relative;overflow:hidden;
+  box-shadow:var(--shadow-sm),inset 0 1px 0 rgba(255,255,255,0.4);
+}
+.practice-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(255,255,255,0.5);border-color:var(--red-soft);}
+.practice-card:hover .pc-icon{transform:scale(1.1) rotate(-5deg);}
+.pc-icon{
+  width:56px;height:56px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+  flex-shrink:0;transition:transform .3s;
+}
+.pc-icon-red{background:var(--red-pale);}
+.pc-icon-teal{background:var(--teal-pale);}
+.pc-info{flex:1;}
+.pc-label{font-family:var(--font-display);font-size:18px;font-weight:600;margin-bottom:4px;}
+.pc-desc{font-size:13px;color:var(--ink-4);}
+.pc-arrow{
+  width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.6);
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+  color:var(--ink-4);transition:all .3s;opacity:.5;
+}
+.practice-card:hover .pc-arrow{opacity:1;transform:translateX(3px);}
+
+/* ── SECTION HEADER ── */
+.section-hdr{display:flex;align-items:center;gap:12px;margin:32px 0 18px;}
+.section-hdr-dot{width:10px;height:10px;border-radius:50%;position:relative;}
+.section-hdr-dot::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1.5px dashed currentColor;opacity:.3;animation:spinSlow 8s linear infinite;}
+@keyframes spinSlow{to{transform:rotate(360deg);}}
+.section-hdr h2{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--ink);}
+.section-hdr-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(26,26,46,0.1),transparent);}
+.section-hdr-eq{font-family:var(--font-mono);font-size:11px;color:rgba(26,26,46,0.08);}
+
+/* ── TOPIC GRID ── */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
+.topic-card{
+  background:var(--white);border:1.5px solid rgba(26,26,46,0.06);
+  border-radius:var(--r);padding:20px;cursor:pointer;
+  transition:all .3s;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:10px;
+}
+.topic-card:hover:not(.locked){transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--red-soft);}
+.topic-card:hover:not(.locked) .tc-arrow{opacity:1;transform:translateX(3px);}
+.topic-card.locked{opacity:.45;cursor:not-allowed;}
+.topic-card.locked::after{
+  content:'Coming Soon';position:absolute;top:10px;right:10px;
+  font-family:var(--font-mono);font-size:9px;font-weight:600;
+  color:var(--ink-5);background:rgba(26,26,46,0.04);
+  padding:2px 8px;border-radius:50px;letter-spacing:.06em;
+}
+.tc-top{display:flex;align-items:center;justify-content:space-between;}
+.tc-emoji{font-size:24px;}
+.tc-arrow{
+  font-size:12px;color:var(--ink-5);opacity:.3;transition:all .3s;
+}
+.tc-name{font-size:14px;font-weight:600;color:var(--ink);}
+.tc-status{
+  font-family:var(--font-mono);font-size:10px;font-weight:600;
+  padding:3px 8px;border-radius:50px;display:inline-flex;align-items:center;gap:4px;
+  width:fit-content;
+}
+.tc-ready{background:var(--green-pale);color:#2e7d32;}
+.tc-locked-pill{background:rgba(26,26,46,0.04);color:var(--ink-5);}
+
+/* ── FORMULA MODAL — restyled ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(26,26,46,0.4);z-index:200;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  overflow-y:auto;padding:32px 16px;
+}
+.modal-overlay.open{display:flex;justify-content:center;align-items:flex-start;}
+.modal{
+  background:var(--cream);border-radius:var(--r-lg);width:100%;max-width:880px;
+  border:1.5px solid rgba(26,26,46,0.08);overflow:hidden;
+  animation:modalUp .3s ease;box-shadow:var(--shadow-lg);
+}
+@keyframes modalUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-header{
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  padding:22px 28px;display:flex;justify-content:space-between;align-items:center;color:white;
+}
+.modal-header h2{font-family:var(--font-display);margin:0;font-size:18px;font-weight:600;}
+.modal-close{
+  background:rgba(255,255,255,.15);border:none;color:white;
+  width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;transition:background .2s;
+}
+.modal-close:hover{background:rgba(255,255,255,.28);}
+.modal-body{padding:28px;}
+
+.tab-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.tab-btn{
+  padding:8px 16px;border-radius:50px;
+  border:1.5px solid rgba(26,26,46,0.1);background:var(--white);
+  color:var(--ink-3);font-family:var(--font-body);
+  font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;
+}
+.tab-btn:hover{border-color:var(--red-soft);color:var(--red);}
+.tab-btn.active{background:var(--red);border-color:var(--red);color:white;}
+.formula-section{display:none;}
+.formula-section.active{display:block;}
+
+.formula-table{width:100%;border-collapse:collapse;}
+.formula-table tr{border-bottom:1px solid rgba(26,26,46,0.06);transition:background .2s;}
+.formula-table tr:hover{background:rgba(239,68,68,0.03);}
+.formula-table td{padding:14px 12px;font-size:14px;vertical-align:middle;color:var(--ink-2);}
+.formula-table td:first-child{color:var(--ink-4);font-size:12px;width:140px;font-weight:600;}
+.formula-table td:last-child{text-align:right;white-space:nowrap;}
+
+.flink{
+  color:var(--red);font-family:var(--font-mono);font-size:13px;
+  text-decoration:none;padding:5px 12px;border-radius:50px;
+  border:1.5px solid var(--red-soft);display:inline-block;
+  transition:all .2s;background:var(--red-pale);
+}
+.flink:hover{background:var(--red);color:white;border-color:var(--red);transform:scale(1.05);}
+
+.metric-table{width:100%;border-collapse:collapse;}
+.metric-table th{
+  text-align:left;padding:10px 14px;font-size:11px;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-4);border-bottom:1px solid rgba(26,26,46,0.08);
+}
+.metric-table td{padding:12px 14px;font-size:14px;border-bottom:1px solid rgba(26,26,46,0.04);color:var(--ink-2);}
+.metric-table tr:hover td{background:rgba(239,68,68,0.02);}
+.metric-table td:last-child{font-family:var(--font-mono);color:var(--red);font-size:13px;}
+
+.formula-legend{
+  display:flex;gap:18px;flex-wrap:wrap;margin-top:20px;padding-top:16px;
+  border-top:1px solid rgba(26,26,46,0.06);font-size:12px;color:var(--ink-4);
 }
 
-/* ===== NAVBAR ===== */
-.navbar {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 16px 36px;
-  background: rgba(8,8,8,0.95);
-  border-bottom: 1px solid rgba(239,68,68,0.18);
-  backdrop-filter: blur(10px);
-  position: sticky; top: 0; z-index: 100;
+/* ── FEEDBACK WIDGET ── */
+#fb-trigger{
+  position:fixed;bottom:28px;right:28px;z-index:9000;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  border:none;cursor:pointer;
+  box-shadow:0 4px 20px rgba(239,68,68,.4);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  transition:transform .2s,box-shadow .2s;color:white;
 }
-.nav-brand {
-  font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700;
-  letter-spacing: .04em; display: flex; align-items: center; gap: 8px;
-}
-.nav-dot {
-  width: 10px; height: 10px; background: var(--red);
-  border-radius: 50%; box-shadow: 0 0 8px var(--red);
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0%,100% { opacity:1; box-shadow:0 0 8px var(--red); }
-  50%      { opacity:.6; box-shadow:0 0 16px var(--red); }
-}
-.nav-links a {
-  margin-left: 24px; color: rgba(255,255,255,.7);
-  text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .2s;
-}
-.nav-links a:hover { color: white; }
+#fb-trigger:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(239,68,68,.5);}
+#fb-trigger.spinning{transform:rotate(90deg) scale(1.05);}
 
-/* ===== HERO ===== */
-.hero {
-  background: linear-gradient(135deg,#ef4444,#7f1d1d);
-  padding: 64px 40px; text-align: center;
-  position: relative; overflow: hidden;
+#fb-panel{
+  position:fixed;bottom:92px;right:28px;z-index:9000;width:320px;
+  background:var(--cream);border:1.5px solid rgba(26,26,46,0.1);
+  border-radius:var(--r-lg);overflow:hidden;
+  box-shadow:var(--shadow-lg);
+  transform:translateY(20px) scale(.96);opacity:0;pointer-events:none;
+  transition:transform .28s cubic-bezier(.22,.68,0,1.2),opacity .2s;
 }
-.hero::before {
-  content:''; position:absolute; inset:0;
-  background: repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,.03) 40px,rgba(255,255,255,.03) 80px);
+#fb-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+#fb-panel .fb-head{
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  padding:14px 18px;font-family:var(--font-display);
+  font-size:14px;font-weight:600;color:white;display:flex;align-items:center;gap:8px;
 }
-.hero h1 {
-  font-family: 'Space Mono', monospace;
-  font-size: clamp(1.6rem,4vw,2.6rem);
-  margin: 0 0 12px; position: relative; letter-spacing: -.01em;
+#fb-panel .fb-body{padding:16px;display:flex;flex-direction:column;gap:11px;}
+#fb-panel .fb-page{
+  font-size:11px;color:var(--ink-4);font-family:var(--font-mono);
+  background:rgba(26,26,46,0.03);padding:6px 10px;border-radius:8px;
+  word-break:break-all;line-height:1.4;
 }
-.hero p { font-size:1rem; opacity:.75; letter-spacing:.2em; text-transform:uppercase; margin:0; position:relative; }
+#fb-panel input,#fb-panel textarea{
+  width:100%;background:var(--white);
+  border:1.5px solid rgba(26,26,46,0.08);border-radius:10px;
+  color:var(--ink);font-family:var(--font-body);font-size:14px;
+  padding:10px 14px;resize:none;outline:none;transition:border-color .2s;
+}
+#fb-panel input::placeholder,#fb-panel textarea::placeholder{color:var(--ink-5);}
+#fb-panel input:focus,#fb-panel textarea:focus{border-color:var(--red-soft);}
+#fb-panel textarea{height:88px;}
+#fb-panel .fb-send{
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  border:none;color:white;font-family:var(--font-body);
+  font-size:14px;font-weight:600;padding:11px;border-radius:10px;
+  cursor:pointer;transition:opacity .2s,transform .15s;
+}
+#fb-panel .fb-send:hover{opacity:.9;transform:translateY(-1px);}
+#fb-panel .fb-send:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+#fb-panel .fb-status{font-size:12px;text-align:center;min-height:16px;color:var(--ink-4);}
+#fb-panel .fb-status.ok{color:#2e7d32;}
+#fb-panel .fb-status.err{color:var(--red);}
 
-/* ===== SECTION ===== */
-.section { padding: 44px 40px; }
-.section h2 {
-  font-family:'Space Mono',monospace; font-size:1rem;
-  letter-spacing:.12em; text-transform:uppercase;
-  opacity:.55; margin:0 0 24px; font-weight:400;
-}
+/* ── ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s cubic-bezier(.4,0,.2,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.stagger-1{transition-delay:.05s;}.stagger-2{transition-delay:.12s;}
 
-/* ===== GRID ===== */
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
-
-/* ===== CARD ===== */
-.card {
-  background:var(--surface); padding:28px 24px; border-radius:14px;
-  text-align:center; cursor:pointer;
-  transition:transform .25s,background .25s,box-shadow .25s;
-  backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.07);
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .navbar{padding:0 16px;}
+  .hero{padding:20px 16px 0;}
+  .hero-banner{padding:28px 24px;flex-direction:column;text-align:center;}
+  .hero-banner h1{font-size:24px;}
+  .hero-visual{display:none;}
+  .main{padding:20px 16px 80px;}
+  .practice-row{grid-template-columns:1fr;}
+  .topic-grid{grid-template-columns:1fr 1fr;}
+  .modal-body{padding:16px;}
+  .tab-btn{font-size:12px;padding:6px 12px;}
 }
-.card:hover {
-  transform:translateY(-4px) scale(1.02); background:var(--surface-hover);
-  box-shadow:0 12px 36px rgba(239,68,68,.18); border-color:rgba(239,68,68,.3);
+@media(max-width:480px){
+  .topic-grid{grid-template-columns:1fr;}
+  .formula-table td:first-child{width:auto;}
 }
-.card-icon { font-size:2rem; display:block; margin-bottom:12px; }
-.card-label { font-family:'Space Mono',monospace; font-size:.85rem; letter-spacing:.04em; }
-
-/* ===== TOPICS ===== */
-.topic-card {
-  background:rgba(30,30,30,.88); padding:18px 14px; border-radius:10px;
-  text-align:center; cursor:pointer; color:white; transition:all .25s;
-  border:1px solid rgba(255,255,255,.06); font-size:.9rem; font-weight:500;
-  backdrop-filter:blur(6px);
-}
-.topic-card:hover:not(.locked) { background:var(--red); border-color:var(--red); transform:translateY(-2px); }
-.locked { opacity:.35; cursor:not-allowed; }
-
-.divider { border:none; border-top:1px solid rgba(255,255,255,.08); margin:0 40px; }
-
-/* ===== FORMULA MODAL ===== */
-.modal-overlay {
-  display:none; position:fixed; inset:0;
-  background:rgba(0,0,0,.82); z-index:200;
-  backdrop-filter:blur(6px); overflow-y:auto; padding:32px 16px;
-}
-.modal-overlay.open { display:flex; justify-content:center; align-items:flex-start; }
-.modal {
-  background:#111; border-radius:16px; width:100%; max-width:880px;
-  border:1px solid rgba(239,68,68,.25); overflow:hidden;
-  animation:slideUp .3s ease;
-}
-@keyframes slideUp { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
-.modal-header {
-  background:linear-gradient(135deg,#ef4444,#7f1d1d);
-  padding:24px 28px; display:flex; justify-content:space-between; align-items:center;
-}
-.modal-header h2 { font-family:'Space Mono',monospace; margin:0; font-size:1.1rem; letter-spacing:.04em; }
-.modal-close {
-  background:rgba(255,255,255,.15); border:none; color:white;
-  width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1.1rem;
-  display:flex; align-items:center; justify-content:center; transition:background .2s;
-}
-.modal-close:hover { background:rgba(255,255,255,.28); }
-.modal-body { padding:28px; }
-
-.tab-nav { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px; }
-.tab-btn {
-  padding:7px 16px; border-radius:20px;
-  border:1px solid rgba(255,255,255,.15); background:transparent;
-  color:rgba(255,255,255,.6); font-family:'DM Sans',sans-serif;
-  font-size:.82rem; cursor:pointer; transition:all .2s;
-}
-.tab-btn:hover { border-color:var(--red); color:white; }
-.tab-btn.active { background:var(--red); border-color:var(--red); color:white; }
-.formula-section { display:none; }
-.formula-section.active { display:block; }
-
-.formula-table { width:100%; border-collapse:collapse; }
-.formula-table tr { border-bottom:1px solid rgba(255,255,255,.07); transition:background .2s; }
-.formula-table tr:hover { background:rgba(255,255,255,.04); }
-.formula-table td { padding:14px 12px; font-size:.88rem; vertical-align:middle; }
-.formula-table td:first-child { color:rgba(255,255,255,.45); font-size:.76rem; width:150px; font-weight:500; }
-.formula-table td:nth-child(2) { color:rgba(255,255,255,.8); line-height:1.5; }
-.formula-table td:last-child { text-align:right; white-space:nowrap; }
-
-.flink {
-  color:var(--red); font-family:'Space Mono',monospace; font-size:.82rem;
-  text-decoration:none; padding:4px 10px; border-radius:6px;
-  border:1px solid rgba(239,68,68,.35); display:inline-block;
-  transition:background .2s,color .2s,border-color .2s,transform .15s;
-}
-.flink:hover { background:var(--red); color:white; border-color:var(--red); transform:scale(1.05); }
-
-.metric-table { width:100%; border-collapse:collapse; }
-.metric-table th {
-  text-align:left; padding:10px 14px; font-size:.78rem;
-  letter-spacing:.1em; text-transform:uppercase;
-  color:rgba(255,255,255,.4); border-bottom:1px solid rgba(255,255,255,.1);
-}
-.metric-table td { padding:11px 14px; font-size:.88rem; border-bottom:1px solid rgba(255,255,255,.06); transition:background .2s; }
-.metric-table tr:hover td { background:rgba(255,255,255,.04); }
-.metric-table td:last-child { font-family:'Space Mono',monospace; color:var(--red); font-size:.8rem; }
-
-.formula-legend {
-  display:flex; gap:18px; flex-wrap:wrap; margin-top:20px; padding-top:16px;
-  border-top:1px solid rgba(255,255,255,.07); font-size:.76rem; color:rgba(255,255,255,.38); align-items:center;
-}
-
-/* ===== FEEDBACK WIDGET ===== */
-#fb-trigger {
-  position: fixed; bottom: 28px; right: 28px; z-index: 9000;
-  width: 52px; height: 52px; border-radius: 50%;
-  background: linear-gradient(135deg,#ef4444,#7f1d1d);
-  border: none; cursor: pointer;
-  box-shadow: 0 4px 20px rgba(239,68,68,.5);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem;
-  transition: transform .2s, box-shadow .2s;
-}
-#fb-trigger:hover { transform:scale(1.12); box-shadow:0 6px 28px rgba(239,68,68,.7); }
-#fb-trigger.spinning { transform:rotate(90deg) scale(1.05); }
-
-#fb-panel {
-  position: fixed; bottom: 92px; right: 28px; z-index: 9000;
-  width: 310px;
-  background: #111;
-  border: 1px solid rgba(239,68,68,.3);
-  border-radius: 16px; overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,.7);
-  transform: translateY(20px) scale(.96);
-  opacity: 0; pointer-events: none;
-  transition: transform .28s cubic-bezier(.22,.68,0,1.2), opacity .2s;
-}
-#fb-panel.open { transform:translateY(0) scale(1); opacity:1; pointer-events:all; }
-#fb-panel .fb-head {
-  background: linear-gradient(135deg,#ef4444,#7f1d1d);
-  padding: 13px 18px;
-  font-family: 'Space Mono', monospace;
-  font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
-  color: white; display:flex; align-items:center; gap:8px;
-}
-#fb-panel .fb-body { padding:16px; display:flex; flex-direction:column; gap:11px; }
-#fb-panel .fb-page {
-  font-size:.7rem; color:rgba(255,255,255,.32); font-family:'Space Mono',monospace;
-  background:rgba(255,255,255,.05); padding:5px 10px; border-radius:6px;
-  word-break:break-all; line-height:1.4;
-}
-#fb-panel input, #fb-panel textarea {
-  width:100%; background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12); border-radius:8px;
-  color:white; font-family:'DM Sans',sans-serif; font-size:.86rem;
-  padding:9px 12px; resize:none; outline:none; transition:border-color .2s;
-  box-sizing:border-box;
-}
-#fb-panel input::placeholder, #fb-panel textarea::placeholder { color:rgba(255,255,255,.26); }
-#fb-panel input:focus, #fb-panel textarea:focus { border-color:rgba(239,68,68,.55); }
-#fb-panel textarea { height:88px; }
-#fb-panel .fb-send {
-  background:linear-gradient(135deg,#ef4444,#991b1b);
-  border:none; color:white; font-family:'DM Sans',sans-serif;
-  font-size:.88rem; font-weight:600; padding:10px; border-radius:8px;
-  cursor:pointer; transition:opacity .2s,transform .15s;
-}
-#fb-panel .fb-send:hover   { opacity:.88; transform:translateY(-1px); }
-#fb-panel .fb-send:active  { transform:translateY(0); }
-#fb-panel .fb-send:disabled { opacity:.4; cursor:not-allowed; transform:none; }
-#fb-panel .fb-status {
-  font-size:.78rem; text-align:center; min-height:16px; color:rgba(255,255,255,.45);
-}
-#fb-panel .fb-status.ok  { color:#4ade80; }
-#fb-panel .fb-status.err { color:#f87171; }
-
 </style>
 </head>
 <body>
 
+<!-- BG -->
+<canvas id="bgCanvas"></canvas>
+<div class="bg-image"></div>
+<div class="physics-grid"></div>
+
 <!-- NAVBAR -->
 <div class="navbar">
-  <div class="nav-brand"><span class="nav-dot"></span>MYP Physics</div>
+  <a class="nav-brand" href="index.html">
+    <span class="nav-dot"></span>
+    MYP <span>Physics</span>
+  </a>
+  <div class="nav-spacer"></div>
   <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="#" onclick="openFormulas();return false;">Formula Bank</a>
-    <a href="#">Flashcards</a>
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="#" onclick="openFormulas();return false;">Formula Bank</a>
+    <a class="nav-link" href="myp-flashcards.html">Flashcards</a>
   </div>
 </div>
 
 <!-- HERO -->
-<div class="hero">
-  <h1>IB MYP Physics Dashboard</h1>
-  <p>Practice &bull; Progress &bull; Physics</p>
-</div>
-
-<!-- PRACTICE -->
-<div class="section">
-  <h2>🧠 Practice</h2>
-  <div class="grid">
-    <div class="card" onclick="openStudent()">
-      <span class="card-icon">📝</span>
-      <span class="card-label">Student Practice</span>
+<div class="hero reveal">
+  <div class="hero-banner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">// PHYSICISM &middot; MYP PLATFORM</div>
+      <h1>IB MYP Physics Dashboard</h1>
+      <div class="hero-tagline">Practice &bull; Progress &bull; Physics</div>
     </div>
-    <div class="card" onclick="openFormulas()">
-      <span class="card-icon">📐</span>
-      <span class="card-label">Formula Bank</span>
+    <div class="hero-visual">
+      <div class="hero-eq">F = ma</div>
+      <div class="hero-eq">E = mc&sup2;</div>
+      <div class="hero-eq">v = f&lambda;</div>
     </div>
   </div>
 </div>
 
-<hr class="divider">
+<!-- MAIN -->
+<div class="main">
 
-<!-- TOPICS -->
-<div class="section">
-  <h2>📚 MYP Topics</h2>
-  <div class="grid" id="topics"></div>
+  <!-- PRACTICE -->
+  <div class="section-hdr reveal">
+    <div class="section-hdr-dot" style="background:var(--red);color:var(--red)"></div>
+    <h2>&#129504; Practice</h2>
+    <div class="section-hdr-line"></div>
+  </div>
+  <div class="practice-row">
+    <div class="practice-card reveal stagger-1" onclick="openStudent()">
+      <div class="pc-icon pc-icon-red">&#128221;</div>
+      <div class="pc-info">
+        <div class="pc-label">Student Practice</div>
+        <div class="pc-desc">Criterion-based question sets with instant feedback</div>
+      </div>
+      <div class="pc-arrow">&#8594;</div>
+    </div>
+    <div class="practice-card reveal stagger-2" onclick="openFormulas()">
+      <div class="pc-icon pc-icon-teal">&#128208;</div>
+      <div class="pc-info">
+        <div class="pc-label">Formula Bank</div>
+        <div class="pc-desc">All MYP Physics formulas with infographic links</div>
+      </div>
+      <div class="pc-arrow">&#8594;</div>
+    </div>
+  </div>
+
+  <!-- TOPICS -->
+  <div class="section-hdr reveal">
+    <div class="section-hdr-dot" style="background:var(--purple);color:var(--purple)"></div>
+    <h2>&#128218; MYP Topics</h2>
+    <div class="section-hdr-line"></div>
+    <span class="section-hdr-eq">9 chapters</span>
+  </div>
+  <div class="topic-grid" id="topics"></div>
+
 </div>
 
 <!-- FORMULA MODAL -->
 <div class="modal-overlay" id="formulaModal">
   <div class="modal">
     <div class="modal-header">
-      <h2>📐 IB MYP Formula Bank</h2>
-      <button class="modal-close" onclick="closeFormulas()">✕</button>
+      <h2>&#128208; IB MYP Formula Bank</h2>
+      <button class="modal-close" onclick="closeFormulas()">&#10005;</button>
     </div>
     <div class="modal-body">
       <div class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('mechanics',this)">Mechanics</button>
-  <button class="tab-btn" onclick="switchTab('energy',this)">Energy &amp; Power</button>
-  <button class="tab-btn" onclick="switchTab('electricity',this)">Electricity</button>
-  <button class="tab-btn" onclick="switchTab('waves',this)">Waves</button>
-  <button class="tab-btn" onclick="switchTab('metric',this)">Metric Prefixes</button>
-  <button class="tab-btn" onclick="switchTab('skills',this)">🧠 Skills</button>
-</div>
-
-
-            <div class="formula-section active" id="tab-mechanics">
+        <button class="tab-btn active" onclick="switchTab('mechanics',this)">Mechanics</button>
+        <button class="tab-btn" onclick="switchTab('energy',this)">Energy &amp; Power</button>
+        <button class="tab-btn" onclick="switchTab('electricity',this)">Electricity</button>
+        <button class="tab-btn" onclick="switchTab('waves',this)">Waves</button>
+        <button class="tab-btn" onclick="switchTab('metric',this)">Metric Prefixes</button>
+        <button class="tab-btn" onclick="switchTab('skills',this)">&#129504; Skills</button>
+      </div>
+      <div class="formula-section active" id="tab-mechanics">
         <table class="formula-table">
-          <tr><td>Speed</td><td>speed = distance ÷ time</td><td><a class="flink" href="./Images/1-speed.png" target="_blank">v = s / t</a></td></tr>
-          <tr><td>Acceleration</td><td>acceleration = change in velocity ÷ time</td><td><a class="flink" href="./Images/2-acceleration.png" target="_blank">a = Δv / t</a></td></tr>
-          <tr><td>Force</td><td>force = mass × acceleration</td><td><a class="flink" href="./Images/3-force=ma.png" target="_blank">F = ma</a></td></tr>
-          <tr><td>Momentum</td><td>momentum = mass × velocity</td><td><a class="flink" href="./Images/4-momentum.png" target="_blank">p = mv</a></td></tr>
-          <tr><td>Pressure</td><td>pressure = force ÷ area</td><td><a class="flink" href="./Images/9-pressure.png" target="_blank">p = F / A</a></td></tr>
-          <tr><td>Density</td><td>density = mass ÷ volume</td><td><a class="flink" href="./Images/10-density.png" target="_blank">ρ = m / V</a></td></tr>
+          <tr><td>Speed</td><td>speed = distance &divide; time</td><td><a class="flink" href="./Images/1-speed.png" target="_blank">v = s / t</a></td></tr>
+          <tr><td>Acceleration</td><td>acceleration = change in velocity &divide; time</td><td><a class="flink" href="./Images/2-acceleration.png" target="_blank">a = &Delta;v / t</a></td></tr>
+          <tr><td>Force</td><td>force = mass &times; acceleration</td><td><a class="flink" href="./Images/3-force=ma.png" target="_blank">F = ma</a></td></tr>
+          <tr><td>Momentum</td><td>momentum = mass &times; velocity</td><td><a class="flink" href="./Images/4-momentum.png" target="_blank">p = mv</a></td></tr>
+          <tr><td>Pressure</td><td>pressure = force &divide; area</td><td><a class="flink" href="./Images/9-pressure.png" target="_blank">p = F / A</a></td></tr>
+          <tr><td>Density</td><td>density = mass &divide; volume</td><td><a class="flink" href="./Images/10-density.png" target="_blank">&rho; = m / V</a></td></tr>
         </table>
       </div>
-
       <div class="formula-section" id="tab-energy">
         <table class="formula-table">
-          <tr><td>Work Done</td><td>work = force × distance</td><td><a class="flink" href="./Images/5-work-done.png" target="_blank">W = Fs</a></td></tr>
-          <tr><td>Power</td><td>power = work ÷ time</td><td><a class="flink" href="./Images/6-power.png" target="_blank">P = W / t</a></td></tr>
-          <tr><td>Kinetic Energy</td><td>KE = ½ × mass × velocity²</td><td><a class="flink" href="./Images/7-kinetic-energy.png" target="_blank">Eₖ = ½mv²</a></td></tr>
-          <tr><td>GPE</td><td>ΔGPE = mass × g × Δheight</td><td><a class="flink" href="./Images/8-gravitational-potential-energy.png" target="_blank">ΔEₚ = mgΔh</a></td></tr>
-          <tr><td>Efficiency</td><td>efficiency = (useful output ÷ total input) × 100</td><td><a class="flink" href="./Images/17-efficiency.png" target="_blank">η = (Eout/Ein)×100</a></td></tr>
+          <tr><td>Work Done</td><td>work = force &times; distance</td><td><a class="flink" href="./Images/5-work-done.png" target="_blank">W = Fs</a></td></tr>
+          <tr><td>Power</td><td>power = work &divide; time</td><td><a class="flink" href="./Images/6-power.png" target="_blank">P = W / t</a></td></tr>
+          <tr><td>Kinetic Energy</td><td>KE = &frac12; &times; mass &times; velocity&sup2;</td><td><a class="flink" href="./Images/7-kinetic-energy.png" target="_blank">E&#8342; = &frac12;mv&sup2;</a></td></tr>
+          <tr><td>GPE</td><td>&Delta;GPE = mass &times; g &times; &Delta;height</td><td><a class="flink" href="./Images/8-gravitational-potential-energy.png" target="_blank">&Delta;E&#8346; = mg&Delta;h</a></td></tr>
+          <tr><td>Efficiency</td><td>efficiency = (useful output &divide; total input) &times; 100</td><td><a class="flink" href="./Images/17-efficiency.png" target="_blank">&eta; = (Eout/Ein)&times;100</a></td></tr>
         </table>
       </div>
-
       <div class="formula-section" id="tab-electricity">
         <table class="formula-table">
-          <tr><td>Current</td><td>current = charge ÷ time</td><td><a class="flink" href="./Images/11-electric-current.png" target="_blank">I = ΔQ / t</a></td></tr>
-          <tr><td>Voltage &amp; Resistance</td><td>voltage = current × resistance</td><td><a class="flink" href="./Images/12-voltage-and-resistance.png" target="_blank">V = IR</a></td></tr>
-          <tr><td>Electrical Power</td><td>power = voltage × current</td><td><a class="flink" href="./Images/13-electrical-power.png" target="_blank">P = IV</a></td></tr>
-          <tr><td>Transformer</td><td>Vp / Vs = primary turns / secondary turns</td><td><a class="flink" href="./Images/16-transformers.png" target="_blank">Vₚ/Vₛ = Nₚ/Nₛ</a></td></tr>
+          <tr><td>Current</td><td>current = charge &divide; time</td><td><a class="flink" href="./Images/11-electric-current.png" target="_blank">I = &Delta;Q / t</a></td></tr>
+          <tr><td>Voltage &amp; Resistance</td><td>voltage = current &times; resistance</td><td><a class="flink" href="./Images/12-voltage-and-resistance.png" target="_blank">V = IR</a></td></tr>
+          <tr><td>Electrical Power</td><td>power = voltage &times; current</td><td><a class="flink" href="./Images/13-electrical-power.png" target="_blank">P = IV</a></td></tr>
+          <tr><td>Transformer</td><td>Vp / Vs = primary turns / secondary turns</td><td><a class="flink" href="./Images/16-transformers.png" target="_blank">V&#8346;/V&#8347; = N&#8346;/N&#8347;</a></td></tr>
         </table>
       </div>
-
       <div class="formula-section" id="tab-waves">
         <table class="formula-table">
-          <tr><td>Wave Speed</td><td>wave speed = frequency × wavelength</td><td><a class="flink" href="./Images/14-wave-speed.png" target="_blank">v = fλ</a></td></tr>
-          <tr><td>Time Period</td><td>time period = 1 ÷ frequency</td><td><a class="flink" href="./Images/15-time-period.png" target="_blank">T = 1 / f</a></td></tr>
+          <tr><td>Wave Speed</td><td>wave speed = frequency &times; wavelength</td><td><a class="flink" href="./Images/14-wave-speed.png" target="_blank">v = f&lambda;</a></td></tr>
+          <tr><td>Time Period</td><td>time period = 1 &divide; frequency</td><td><a class="flink" href="./Images/15-time-period.png" target="_blank">T = 1 / f</a></td></tr>
         </table>
       </div>
-
       <div class="formula-section" id="tab-metric">
         <table class="metric-table">
           <tr><th>Prefix</th><th>Abbreviation</th><th>Value</th></tr>
-          <tr><td>tera</td><td>T</td><td>10¹²</td></tr>
-          <tr><td>giga</td><td>G</td><td>10⁹</td></tr>
-          <tr><td>mega</td><td>M</td><td>10⁶</td></tr>
-          <tr><td>kilo</td><td>k</td><td>10³</td></tr>
-          <tr><td>deci</td><td>d</td><td>10⁻¹</td></tr>
-          <tr><td>centi</td><td>c</td><td>10⁻²</td></tr>
-          <tr><td>milli</td><td>m</td><td>10⁻³</td></tr>
-          <tr><td>micro</td><td>μ</td><td>10⁻⁶</td></tr>
-          <tr><td>nano</td><td>n</td><td>10⁻⁹</td></tr>
-          <tr><td>pico</td><td>p</td><td>10⁻¹²</td></tr>
+          <tr><td>tera</td><td>T</td><td>10&sup1;&sup2;</td></tr>
+          <tr><td>giga</td><td>G</td><td>10&sup9;</td></tr>
+          <tr><td>mega</td><td>M</td><td>10&sup6;</td></tr>
+          <tr><td>kilo</td><td>k</td><td>10&sup3;</td></tr>
+          <tr><td>deci</td><td>d</td><td>10&supmin;&sup1;</td></tr>
+          <tr><td>centi</td><td>c</td><td>10&supmin;&sup2;</td></tr>
+          <tr><td>milli</td><td>m</td><td>10&supmin;&sup3;</td></tr>
+          <tr><td>micro</td><td>&mu;</td><td>10&supmin;&sup6;</td></tr>
+          <tr><td>nano</td><td>n</td><td>10&supmin;&sup9;</td></tr>
+          <tr><td>pico</td><td>p</td><td>10&supmin;&sup1;&sup2;</td></tr>
         </table>
       </div>
-
       <div class="formula-section" id="tab-skills">
         <table class="formula-table">
-          <tr><td>Multi-Step Problems</td><td>Combining formulas to solve complex questions step by step</td><td><a class="flink" href="./Images/18-multi-step-problem-solving.png" target="_blank">📝 Guide</a></td></tr>
-          <tr><td>Unit Conversions</td><td>Converting between metric units using prefixes and powers of 10</td><td><a class="flink" href="./Images/19-unit-conversion-mastery.png" target="_blank">📐 Guide</a></td></tr>
-          <tr><td>Formula Rearrangement</td><td>Rearranging equations to isolate the unknown variable</td><td><a class="flink" href="./Images/20-formula-rearrangement.png" target="_blank">🔄 Guide</a></td></tr>
+          <tr><td>Multi-Step Problems</td><td>Combining formulas to solve complex questions step by step</td><td><a class="flink" href="./Images/18-multi-step-problem-solving.png" target="_blank">&#128221; Guide</a></td></tr>
+          <tr><td>Unit Conversions</td><td>Converting between metric units using prefixes and powers of 10</td><td><a class="flink" href="./Images/19-unit-conversion-mastery.png" target="_blank">&#128208; Guide</a></td></tr>
+          <tr><td>Formula Rearrangement</td><td>Rearranging equations to isolate the unknown variable</td><td><a class="flink" href="./Images/20-formula-rearrangement.png" target="_blank">&#128260; Guide</a></td></tr>
         </table>
       </div>
-
       <div class="formula-legend">
-        <span>🔗 Click any formula pill → opens its infographic image</span>
+        <span>&#128279; Click any formula pill &rarr; opens its infographic image</span>
       </div>
-
     </div>
   </div>
 </div>
 
 <!-- FEEDBACK WIDGET -->
-<button id="fb-trigger" title="Send feedback or report an error">💬</button>
+<button id="fb-trigger" title="Send feedback or report an error">&#128172;</button>
 <div id="fb-panel">
-  <div class="fb-head">📬 &nbsp;Feedback / Correction</div>
+  <div class="fb-head">&#128236; Feedback / Correction</div>
   <div class="fb-body">
     <div class="fb-page" id="fb-page-url"></div>
-    <input id="fb-email" type="email" placeholder="Your email (optional — so I can reply)" autocomplete="email">
-    <textarea id="fb-message" placeholder="Found a mistake? Suggestion? Tell me here…"></textarea>
+    <input id="fb-email" type="email" placeholder="Your email (optional)" autocomplete="email">
+    <textarea id="fb-message" placeholder="Found a mistake? Suggestion? Tell me here..."></textarea>
     <button class="fb-send" id="fb-send-btn">Send Feedback</button>
     <div class="fb-status" id="fb-status"></div>
   </div>
 </div>
 
 <script>
+/* ── BG CANVAS ── */
+(function(){
+  var canvas=document.getElementById('bgCanvas');
+  var ctx=canvas.getContext('2d');
+  var orbs=[],w,h;
+  function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  var colors=[{r:239,g:68,b:68},{r:78,g:205,b:196},{r:179,g:157,b:219},{r:91,g:155,b:213},{r:129,g:199,b:132},{r:255,g:213,b:79}];
+  for(var i=0;i<12;i++){var c=colors[i%colors.length];
+    orbs.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*100+50,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.18,color:c,alpha:Math.random()*.03+.015,phase:Math.random()*Math.PI*2});}
+  function draw(){ctx.clearRect(0,0,w,h);ctx.fillStyle='#f7f3ed';ctx.fillRect(0,0,w,h);
+    var t=Date.now()*.0003;
+    for(var i=0;i<orbs.length;i++){var o=orbs[i];
+      o.x+=o.vx+Math.sin(t+o.phase)*.12;o.y+=o.vy+Math.cos(t+o.phase*.7)*.08;
+      if(o.x<-o.r)o.x=w+o.r;if(o.x>w+o.r)o.x=-o.r;if(o.y<-o.r)o.y=h+o.r;if(o.y>h+o.r)o.y=-o.r;
+      var a=o.alpha+Math.sin(t*1.5+o.phase)*.008;
+      var g=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+      g.addColorStop(0,'rgba('+o.color.r+','+o.color.g+','+o.color.b+','+(a*2)+')');
+      g.addColorStop(.5,'rgba('+o.color.r+','+o.color.g+','+o.color.b+','+a+')');
+      g.addColorStop(1,'rgba('+o.color.r+','+o.color.g+','+o.color.b+',0)');
+      ctx.fillStyle=g;ctx.fillRect(o.x-o.r,o.y-o.r,o.r*2,o.r*2);}
+    requestAnimationFrame(draw);}
+  draw();
+})();
 
-/* ===== BASE PATH ===== */
-const BASE = "./exam-system";
+/* ── SCROLL REVEAL ── */
+(function(){var els=document.querySelectorAll('.reveal');
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+  els.forEach(function(el){obs.observe(el);});
+})();
 
-/* ===== NAVIGATION ===== */
-function openStudent() { window.location.href = BASE + "/student-login.html"; }
+/* ── BASE PATH ── */
+var BASE="./exam-system";
 
-/* ===== SECRET TEACHER ACCESS — press T ===== */
-document.addEventListener("keydown", function(e){
-  if(e.key === "T"){
-    let p = prompt("Enter Teacher Password:");
-    if(p === "atul123"){
-      window.location.href = BASE + "/exam-teacher.html";
-    }
-  }
+/* ── NAVIGATION ── */
+function openStudent(){window.location.href=BASE+"/student-login.html";}
+
+/* ── SECRET TEACHER ACCESS ── */
+document.addEventListener("keydown",function(e){
+  if(e.key==="T"){var p=prompt("Enter Teacher Password:");if(p==="atul123"){window.location.href=BASE+"/exam-teacher.html";}}
 });
 
-/* ===== FORMULA MODAL ===== */
-function openFormulas() {
-  document.getElementById("formulaModal").classList.add("open");
-  document.body.style.overflow = "hidden";
-}
-function closeFormulas() {
-  document.getElementById("formulaModal").classList.remove("open");
-  document.body.style.overflow = "";
-}
-document.getElementById("formulaModal").addEventListener("click", function(e){
-  if(e.target === this) closeFormulas();
-});
-document.addEventListener("keydown", e => { if(e.key==="Escape") closeFormulas(); });
+/* ── FORMULA MODAL ── */
+function openFormulas(){document.getElementById("formulaModal").classList.add("open");document.body.style.overflow="hidden";}
+function closeFormulas(){document.getElementById("formulaModal").classList.remove("open");document.body.style.overflow="";}
+document.getElementById("formulaModal").addEventListener("click",function(e){if(e.target===this)closeFormulas();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeFormulas();});
 
-function switchTab(tab, btn){
-  document.querySelectorAll(".formula-section").forEach(s => s.classList.remove("active"));
-  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+function switchTab(tab,btn){
+  document.querySelectorAll(".formula-section").forEach(function(s){s.classList.remove("active");});
+  document.querySelectorAll(".tab-btn").forEach(function(b){b.classList.remove("active");});
   document.getElementById("tab-"+tab).classList.add("active");
   btn.classList.add("active");
 }
 
-/* ===== TOPICS ===== */
-const chapters = [
-  {name:"Exploring Matter",      key:"matter",           ready:false},
-  {name:"Forces and Motion",     key:"forces",           ready:true},
-  {name:"Work, Power & Gravity", key:"workpower",        ready:false},
-  {name:"Energy & Environment",  key:"energy",           ready:false},
-  {name:"The Nature of Waves",   key:"waves",            ready:true},
-  {name:"Atomic Physics",        key:"atomic",           ready:true},
-  {name:"Electromagnetism",      key:"electromagnetism", ready:true},
-  {name:"Thermal Physics",       key:"thermal",          ready:false},
-  {name:"Astrophysics",          key:"astro",            ready:false}
+/* ── TOPICS ── */
+var chapters=[
+  {name:"Exploring Matter",emoji:"&#9883;",key:"matter",ready:false},
+  {name:"Forces and Motion",emoji:"&#9889;",key:"forces",ready:true},
+  {name:"Work, Power & Gravity",emoji:"&#128170;",key:"workpower",ready:false},
+  {name:"Energy & Environment",emoji:"&#128267;",key:"energy",ready:false},
+  {name:"The Nature of Waves",emoji:"&#127754;",key:"waves",ready:true},
+  {name:"Atomic Physics",emoji:"&#9883;&#65039;",key:"atomic",ready:true},
+  {name:"Electromagnetism",emoji:"&#129522;",key:"electromagnetism",ready:true},
+  {name:"Thermal Physics",emoji:"&#127777;&#65039;",key:"thermal",ready:false},
+  {name:"Astrophysics",emoji:"&#127756;",key:"astro",ready:false}
 ];
-const container = document.getElementById("topics");
-chapters.forEach(ch => {
-  const div = document.createElement("div");
-  div.className = "topic-card" + (ch.ready ? "" : " locked");
-  div.textContent = ch.name;
-  div.onclick = ch.ready
-    ? () => { window.location.href = `./chapter.html?topic=${ch.key}`; }
-    : () => alert("Coming soon!");
+var container=document.getElementById("topics");
+chapters.forEach(function(ch,i){
+  var div=document.createElement("div");
+  div.className="topic-card reveal"+(ch.ready?"":" locked");
+  div.style.transitionDelay=(i*0.04)+'s';
+  div.innerHTML='<div class="tc-top"><span class="tc-emoji">'+ch.emoji+'</span><span class="tc-arrow">&#8594;</span></div>'
+    +'<div class="tc-name">'+ch.name+'</div>'
+    +'<div class="tc-status '+(ch.ready?'tc-ready':'tc-locked-pill')+'">'+(ch.ready?'&#9679; Available':'&#128274; Locked')+'</div>';
+  div.onclick=ch.ready
+    ?function(){window.location.href='./chapter.html?topic='+ch.key;}
+    :function(){alert("Coming soon!");};
   container.appendChild(div);
 });
 
-/* ===== FEEDBACK WIDGET ===== */
-const FB = {
-  publicKey:  "jhfWQKIKtye-3eVpn",
-  serviceID:  "service_ni72akl",
-  templateID: "template_xr522or",
-};
+// re-observe new topic cards
+setTimeout(function(){
+  var els=document.querySelectorAll('.topic-card.reveal:not(.visible)');
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08});
+  els.forEach(function(el){obs.observe(el);});
+},50);
 
-document.getElementById("fb-page-url").textContent =
-  "📄 " + window.location.pathname + (window.location.search || "");
-
-const fbTrigger = document.getElementById("fb-trigger");
-const fbPanel   = document.getElementById("fb-panel");
-
-fbTrigger.addEventListener("click", e => {
+/* ── FEEDBACK WIDGET ── */
+var FB={publicKey:"jhfWQKIKtye-3eVpn",serviceID:"service_ni72akl",templateID:"template_xr522or"};
+document.getElementById("fb-page-url").textContent="\u{1F4C4} "+window.location.pathname+(window.location.search||"");
+var fbTrigger=document.getElementById("fb-trigger");
+var fbPanel=document.getElementById("fb-panel");
+fbTrigger.addEventListener("click",function(e){
   e.stopPropagation();
-  const isOpen = fbPanel.classList.toggle("open");
-  fbTrigger.classList.toggle("spinning", isOpen);
-  fbTrigger.textContent = isOpen ? "✕" : "💬";
-  if(isOpen) setTimeout(()=>document.getElementById("fb-message").focus(), 250);
+  var isOpen=fbPanel.classList.toggle("open");
+  fbTrigger.classList.toggle("spinning",isOpen);
+  fbTrigger.innerHTML=isOpen?'&#10005;':'&#128172;';
+  if(isOpen)setTimeout(function(){document.getElementById("fb-message").focus();},250);
 });
-
-document.addEventListener("click", e => {
-  if(!fbPanel.contains(e.target) && e.target !== fbTrigger){
-    fbPanel.classList.remove("open");
-    fbTrigger.classList.remove("spinning");
-    fbTrigger.textContent = "💬";
+document.addEventListener("click",function(e){
+  if(!fbPanel.contains(e.target)&&e.target!==fbTrigger){
+    fbPanel.classList.remove("open");fbTrigger.classList.remove("spinning");fbTrigger.innerHTML='&#128172;';
   }
 });
-
-document.getElementById("fb-send-btn").addEventListener("click", async () => {
-  const msg    = document.getElementById("fb-message").value.trim();
-  const email  = document.getElementById("fb-email").value.trim();
-  const status = document.getElementById("fb-status");
-  const btn    = document.getElementById("fb-send-btn");
-
-  if(!msg){
-    status.textContent = "Please write something first.";
-    status.className = "fb-status err";
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = "Sending…";
-  status.className = "fb-status";
-  status.textContent = "";
-
-  const params = {
-    page:    window.location.href,
-    message: msg,
-    email:   email || "(not provided)",
-    sent_at: new Date().toLocaleString("en-IN", {timeZone:"Asia/Kolkata"}),
-  };
-
-  try {
-    await emailjs.send(FB.serviceID, FB.templateID, params);
-    status.textContent = "✓ Sent! Thank you.";
-    status.className = "fb-status ok";
-    document.getElementById("fb-message").value = "";
-    document.getElementById("fb-email").value = "";
-    setTimeout(()=>{
-      fbPanel.classList.remove("open");
-      fbTrigger.classList.remove("spinning");
-      fbTrigger.textContent = "💬";
-      btn.disabled = false;
-      btn.textContent = "Send Feedback";
-      status.textContent = "";
-      status.className = "fb-status";
-    }, 2200);
-  } catch(err){
-    console.error(err);
-    status.textContent = "❌ Could not send — check your EmailJS config.";
-    status.className = "fb-status err";
-    btn.disabled = false;
-    btn.textContent = "Send Feedback";
+document.getElementById("fb-send-btn").addEventListener("click",async function(){
+  var msg=document.getElementById("fb-message").value.trim();
+  var email=document.getElementById("fb-email").value.trim();
+  var status=document.getElementById("fb-status");
+  var btn=document.getElementById("fb-send-btn");
+  if(!msg){status.textContent="Please write something first.";status.className="fb-status err";return;}
+  btn.disabled=true;btn.textContent="Sending\u2026";status.className="fb-status";status.textContent="";
+  var params={page:window.location.href,message:msg,email:email||"(not provided)",sent_at:new Date().toLocaleString("en-IN",{timeZone:"Asia/Kolkata"})};
+  try{
+    await emailjs.send(FB.serviceID,FB.templateID,params);
+    status.textContent="\u2713 Sent! Thank you.";status.className="fb-status ok";
+    document.getElementById("fb-message").value="";document.getElementById("fb-email").value="";
+    setTimeout(function(){fbPanel.classList.remove("open");fbTrigger.classList.remove("spinning");fbTrigger.innerHTML='&#128172;';btn.disabled=false;btn.textContent="Send Feedback";status.textContent="";status.className="fb-status";},2200);
+  }catch(err){
+    console.error(err);status.textContent="\u274C Could not send \u2014 check your EmailJS config.";status.className="fb-status err";btn.disabled=false;btn.textContent="Send Feedback";
   }
 });
-
 </script>
 
 <!-- EmailJS SDK -->
