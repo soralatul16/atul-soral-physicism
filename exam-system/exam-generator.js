@@ -165,14 +165,16 @@ IMPORTANT:
 - Total marks across all questions should equal ${config.totalMarks}`;
 }
 
-/* ── Gemini API Call ── */
+/* ── Gemini API Call with 429 retry ── */
 async function callGemini(prompt) {
   const key = localStorage.getItem('gemini_api_key');
   if (!key) { alert('No API key found. Please enter one.'); return null; }
 
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
-    {
+  const statusEl = document.getElementById('gen-status');
+  const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=';
+
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const response = await fetch(API_URL + key, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -183,25 +185,29 @@ async function callGemini(prompt) {
           responseMimeType: "application/json"
         }
       })
-    }
-  );
+    });
 
-  if (!response.ok) {
-    const err = await response.text();
-    if (response.status === 400 || response.status === 403) {
-      throw new Error('Invalid API key or quota exceeded. Check your key at aistudio.google.com');
+    if (response.status === 429 && attempt === 0) {
+      if (statusEl) statusEl.textContent = '⏳ Rate limited — retrying in 5 seconds...';
+      await new Promise(r => setTimeout(r, 5000));
+      continue;
     }
-    throw new Error('Gemini API error: ' + response.status);
+
+    if (!response.ok) {
+      if (response.status === 400 || response.status === 403) {
+        throw new Error('Invalid API key or quota exceeded. Check your key at aistudio.google.com');
+      }
+      throw new Error('Gemini API error: ' + response.status);
+    }
+
+    const data = await response.json();
+    let text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) throw new Error('Empty response from Gemini');
+
+    // Clean common issues
+    text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+    return JSON.parse(text);
   }
-
-  const data = await response.json();
-  let text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error('Empty response from Gemini');
-
-  // Clean common issues
-  text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
-
-  return JSON.parse(text);
 }
 
 /* ── Collect Config from Form ── */
