@@ -73,10 +73,12 @@ CONTEXT:
 - Subject: IB MYP Physics
 - Chapter: ${config.chapter}
 - Topic: ${config.topic}
-- Criterion: ${config.criterion}
+- Criteria: ${config.criterion}
 - Global Context: ${config.globalContext || 'Not specified'}
 - Difficulty: ${config.difficulty}
 - Target audience: Grade 9-10 students (ages 14-16)
+${config.context ? `\nTEACHER-PROVIDED CONTEXT (use this as stimulus material in questions):\n${config.context}` : ''}
+${config.mediaUrls && config.mediaUrls.length > 0 ? `\nMEDIA URLS (embed these as <img> tags in content blocks or questions):\n${config.mediaUrls.map(u => '- ' + u).join('\n')}\nFor each media URL, create a content block with: "text": "<img src=\\"URL\\" style=\\"max-width:100%;border-radius:8px;\\" /><br>Description of what the image shows"` : ''}
 
 TASK:
 Generate a complete question set with the following structure:
@@ -271,15 +273,24 @@ async function callGeminiAPI(prompt, key, statusEl) {
 function collectGenConfig() {
   const chapter = document.getElementById('gen-chapter').value;
   const topic = document.getElementById('gen-topic').value.trim();
-  const criterion = document.getElementById('gen-criterion').value;
   const gc = document.getElementById('gen-gc').value;
   const atl = document.getElementById('gen-atl').value;
   const difficulty = document.getElementById('gen-difficulty').value;
-  const heading = document.getElementById('gen-heading').value.trim() || (topic + ' — Criterion ' + criterion.charAt(0));
+
+  // Multi-criteria
+  const criteria = [];
+  document.querySelectorAll('.gen-crit-cb:checked').forEach(cb => criteria.push(cb.value));
+  const criterion = criteria.join(', ');
+
+  const heading = document.getElementById('gen-heading').value.trim() || (topic + ' — Criterion ' + criteria.map(c => c.charAt(0)).join(','));
 
   if (!chapter) { alert('Please select a Chapter.'); return null; }
   if (!topic) { alert('Please enter a Topic.'); return null; }
-  if (!criterion) { alert('Please select a Criterion.'); return null; }
+  if (criteria.length === 0) { alert('Please select at least one Criterion.'); return null; }
+
+  // Context & media
+  const context = (document.getElementById('gen-context')?.value || '').trim();
+  const mediaUrls = (document.getElementById('gen-media-urls')?.value || '').trim().split('\n').filter(u => u.trim());
 
   const questions = [];
   document.querySelectorAll('.gen-type-row').forEach(row => {
@@ -297,7 +308,8 @@ function collectGenConfig() {
   const totalMarks = Number(document.getElementById('gen-total-marks').value || 0);
 
   return {
-    chapter, topic, criterion, globalContext: gc, atl, difficulty, heading, questions, totalMarks,
+    chapter, topic, criterion, criteria, globalContext: gc, atl, difficulty, heading, questions, totalMarks,
+    context, mediaUrls,
     includeContent: document.getElementById('gen-opt-content').checked,
     includeMarkSchemes: document.getElementById('gen-opt-markscheme').checked,
     includeExplanations: document.getElementById('gen-opt-explanations').checked,
