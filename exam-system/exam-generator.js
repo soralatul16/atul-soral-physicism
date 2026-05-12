@@ -236,9 +236,6 @@ ${config.questions.map(q => '- '+q.count+'× '+q.type+' ('+q.marks+' marks each)
 RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands progress i→ii→iii 6)Total marks=${config.totalMarks} 7)Realistic numerical values 8)Mark schemes use IB format: "Award X marks","Accept","Do not accept","WTTE","ECF","Seen or implied" 9)For holistic grids store in meta.gradingGrid 10)Stimulus must be SPECIFIC with named locations, technologies, numerical values`;
 }
 
-CRITICAL: criterion="${crit}" for ALL questions. Strand must be one of: ${critData.strands.map(s => '"' + s.id + '"').join(', ')}. Total marks = ${config.totalMarks}. Every question text starts with its command term.`;
-}
-
 /* ── AI API Call (Groq primary, Gemini fallback) ── */
 async function callGemini(prompt) {
   const groqKey = localStorage.getItem('groq_api_key');
@@ -463,6 +460,8 @@ async function runGeneration() {
 
     status.textContent = '✅ Generated! Saving to library...';
     status.style.color = 'var(--green)';
+
+    let validatedResult = validateGeneratedSet(result, config);
 
     // Build set object matching existing schema
     const setId = 'set_' + Date.now();
