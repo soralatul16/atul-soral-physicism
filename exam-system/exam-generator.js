@@ -171,7 +171,7 @@ async function callGemini(prompt) {
   if (!key) { alert('No API key found. Please enter one.'); return null; }
 
   const statusEl = document.getElementById('gen-status');
-  const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=';
+  const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=';
 
   for (let attempt = 0; attempt < 2; attempt++) {
     const response = await fetch(API_URL + key, {
@@ -188,8 +188,8 @@ async function callGemini(prompt) {
     });
 
     if (response.status === 429 && attempt === 0) {
-      if (statusEl) statusEl.textContent = '⏳ Rate limited — retrying in 5 seconds...';
-      await new Promise(r => setTimeout(r, 5000));
+      if (statusEl) statusEl.textContent = '⏳ Rate limited — retrying in 10 seconds...';
+      await new Promise(r => setTimeout(r, 10000));
       continue;
     }
 
