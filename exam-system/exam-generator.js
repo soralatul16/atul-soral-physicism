@@ -65,117 +65,72 @@ function updateGenTotalMarks() {
   if (el) el.value = total;
 }
 
-/* ── Build Prompt ── */
+/* ── Build Prompt (IB MYP Sciences Guide, April 2023) ── */
 function buildGeneratorPrompt(config) {
-  return `You are an expert IB MYP Physics teacher creating an assessment question set.
+  const yearData = {
+    "1": { label: "Year 1 (Grade 6-7, ages 11-12)", A: { strands: [{id:"i",text:"Outline scientific knowledge",verbs:["Outline","State","Recall","Select"]},{id:"ii",text:"Apply scientific knowledge to solve problems in familiar situations and suggest solutions in unfamiliar situations",verbs:["Apply","Calculate","Determine","Suggest"]},{id:"iii",text:"Interpret information to make scientifically supported judgments",verbs:["Interpret","Comment","Identify"]}] }, B: { strands: [{id:"i",text:"Outline an appropriate problem or research question",verbs:["Outline","State"]},{id:"ii",text:"Outline a testable prediction using scientific reasoning",verbs:["Outline","State","Predict"]},{id:"iii",text:"Outline how to manipulate variables and collect data",verbs:["Outline","State","Identify"]},{id:"iv",text:"Design scientific investigations",verbs:["Design"]}] }, C: { strands: [{id:"i",text:"Present collected and transformed data",verbs:["Present","Collect","Organize"]},{id:"ii",text:"Interpret data and outline results using scientific reasoning",verbs:["Interpret","Outline"]},{id:"iii",text:"Discuss the validity of a prediction",verbs:["Discuss","Outline"]},{id:"iv",text:"Discuss the validity of the method",verbs:["Discuss","Outline"]},{id:"v",text:"Describe improvements or extensions to the method",verbs:["Describe","Outline"]}] }, D: { strands: [{id:"i",text:"Summarize the ways in which science is applied to address a specific problem",verbs:["Summarize","Outline"]},{id:"ii",text:"Describe and summarize implications of using science",verbs:["Describe","Summarize"]},{id:"iii",text:"Apply scientific language effectively",verbs:["Apply","Use"]},{id:"iv",text:"Document the work of others and sources",verbs:["Document"]}] } },
+    "3": { label: "Year 3 (Grade 8-9, ages 13-14)", A: { strands: [{id:"i",text:"Describe scientific knowledge",verbs:["Describe","Outline","State"]},{id:"ii",text:"Apply scientific knowledge to solve problems in familiar and unfamiliar situations",verbs:["Apply","Calculate","Determine","Solve"]},{id:"iii",text:"Analyse information to make scientifically supported judgments",verbs:["Analyse","Interpret","Comment"]}] }, B: { strands: [{id:"i",text:"Describe a problem or question to be tested",verbs:["Describe","Outline"]},{id:"ii",text:"Outline a testable hypothesis and explain it using scientific reasoning",verbs:["Outline","Explain","Formulate"]},{id:"iii",text:"Describe how to manipulate variables and collect data",verbs:["Describe","Outline"]},{id:"iv",text:"Design scientific investigations",verbs:["Design"]}] }, C: { strands: [{id:"i",text:"Present collected and transformed data",verbs:["Present","Collect","Organize"]},{id:"ii",text:"Interpret data and describe results using scientific reasoning",verbs:["Interpret","Describe"]},{id:"iii",text:"Discuss the validity of a hypothesis",verbs:["Discuss","Outline"]},{id:"iv",text:"Discuss the validity of the method",verbs:["Discuss","Outline"]},{id:"v",text:"Describe improvements or extensions to the method",verbs:["Describe","Outline"]}] }, D: { strands: [{id:"i",text:"Describe the ways in which science is applied",verbs:["Describe","Summarize"]},{id:"ii",text:"Discuss and analyse implications of using science",verbs:["Discuss","Analyse","Describe"]},{id:"iii",text:"Apply scientific language effectively",verbs:["Apply","Use"]},{id:"iv",text:"Document the work of others and sources",verbs:["Document"]}] } },
+    "5": { label: "Year 5 (Grade 9-10, ages 14-16)", A: { strands: [{id:"i",text:"Explain scientific knowledge",verbs:["Explain","Describe","Define","Outline"]},{id:"ii",text:"Apply scientific knowledge to solve problems in familiar and unfamiliar situations",verbs:["Apply","Calculate","Determine","Solve","Show","Derive"]},{id:"iii",text:"Analyse and evaluate information to make scientifically supported judgments",verbs:["Analyse","Evaluate","Discuss","Compare","Justify"]}] }, B: { strands: [{id:"i",text:"Explain a problem or question to be tested",verbs:["Explain","Describe"]},{id:"ii",text:"Formulate a testable hypothesis and explain it using scientific reasoning",verbs:["Formulate","Explain","Predict","Justify"]},{id:"iii",text:"Explain how to manipulate variables and collect data",verbs:["Explain","Describe"]},{id:"iv",text:"Design scientific investigations",verbs:["Design"]}] }, C: { strands: [{id:"i",text:"Present collected and transformed data",verbs:["Present","Construct","Plot","Draw"]},{id:"ii",text:"Interpret data and explain results using scientific reasoning",verbs:["Interpret","Explain"]},{id:"iii",text:"Evaluate the validity of a hypothesis",verbs:["Evaluate","Discuss"]},{id:"iv",text:"Evaluate the validity of the method",verbs:["Evaluate","Discuss"]},{id:"v",text:"Explain improvements or extensions to the method",verbs:["Explain","Describe","Suggest"]}] }, D: { strands: [{id:"i",text:"Explain the ways in which science is applied",verbs:["Explain","Describe"]},{id:"ii",text:"Discuss and evaluate implications of using science",verbs:["Discuss","Evaluate","Analyse"]},{id:"iii",text:"Apply scientific language effectively",verbs:["Apply","Use","Explain"]},{id:"iv",text:"Document the work of others and sources",verbs:["Document"]}] } }
+  };
+  const yl = yearData[config.yearLevel || "5"];
+  const crit = (config.criteria && config.criteria[0]) ? config.criteria[0].charAt(0) : "A";
+  const critData = yl[crit];
+  const critNames = {A:"Knowing and Understanding",B:"Inquiring and Designing",C:"Processing and Evaluating",D:"Reflecting on the Impacts of Science"};
+  const strandDetails = critData.strands.map(s => `  Strand ${s.id}: "${s.text}" — Command terms: ${s.verbs.join(', ')}`).join('\n');
 
-CONTEXT:
-- Subject: IB MYP Physics
-- Chapter: ${config.chapter}
-- Topic: ${config.topic}
-- Criteria: ${config.criterion}
-- Global Context: ${config.globalContext || 'Not specified'}
-- Difficulty: ${config.difficulty}
-- Target audience: Grade 9-10 students (ages 14-16)
-${config.context ? `\nTEACHER-PROVIDED CONTEXT (use this as stimulus material in questions):\n${config.context}` : ''}
-${config.mediaUrls && config.mediaUrls.length > 0 ? `\nMEDIA URLS (embed these as <img> tags in content blocks or questions):\n${config.mediaUrls.map(u => '- ' + u).join('\n')}\nFor each media URL, create a content block with: "text": "<img src=\\"URL\\" style=\\"max-width:100%;border-radius:8px;\\" /><br>Description of what the image shows"` : ''}
+  const dFactor = crit === 'D' ? `\nCRITERION D REFLECTION FACTOR: ${config.dFactor || 'Environmental'}\nEvery Criterion D question must explicitly require students to interact with the "${config.dFactor || 'Environmental'}" factor (moral, ethical, social, economic, political, cultural, or environmental implications).` : '';
 
-TASK:
-Generate a complete question set with the following structure:
+  const formulas = `OFFICIAL MYP PHYSICS FORMULAS: ρ=m/V, F=ma, v=u+at, s=ut+½at², v²=u²+2as, p=mv, p=F/A, W=Fs, Eₖ=½mv², g=F/m, ΔEₚ=mgΔh, efficiency=(useful out/total in)×100, P=W/t, I=ΔQ/t, P=IV, V=IR, Vₚ/Vₛ=Nₚ/Nₛ, v=fλ, T=1/f`;
 
-${config.questions.map(q => `- ${q.count}x ${q.type} questions (${q.marks} marks each)`).join('\n')}
+  return `You are an expert IB MYP Physics teacher using the official IB MYP Sciences Guide (April 2023).
 
-Total marks target: ${config.totalMarks}
+═══ ASSESSMENT CONTEXT ═══
+Subject: IB MYP Physics | Year Level: ${yl.label}
+Chapter: ${config.chapter} | Topic: ${config.topic}
+Criterion: ${crit} — ${critNames[crit]}
+Global Context: ${config.globalContext || 'Scientific and Technical Innovation'}
+Difficulty: ${config.difficulty || 'Mixed'}
+${config.context ? '\nTEACHER-PROVIDED CONTEXT:\n' + config.context : ''}
+${config.mediaUrls && config.mediaUrls.length > 0 ? '\nMEDIA URLS (embed as <img> tags in content blocks):\n' + config.mediaUrls.map(u => '- ' + u).join('\n') : ''}
 
-REQUIREMENTS:
-${config.includeContent ? '- Include 1-2 stimulus/content text blocks before questions where appropriate (e.g., a scenario, experiment description, or data)' : '- Do NOT include content blocks'}
-${config.includeMarkSchemes ? '- Include a mark scheme for every question' : ''}
-${config.includeExplanations ? '- Include an explanation for every question' : ''}
-${config.includeHints ? '- Include a hint for every question' : ''}
+═══ CRITERION ${crit} STRANDS FOR ${yl.label.toUpperCase()} ═══
+${strandDetails}
+${dFactor}
 
-IB MYP CRITERIA ALIGNMENT:
-- Criterion A (Knowing & Understanding): factual recall, concept application, formula use
-- Criterion B (Inquiring & Designing): experimental design, hypothesis, variables
-- Criterion C (Processing & Evaluating): data analysis, graph interpretation, conclusions
-- Criterion D (Reflecting on Impacts): real-world applications, ethics, sustainability
+═══ COMMAND TERM RULES ═══
+Every question MUST start with an official IB command term appropriate for the strand and year level.
+Mark allocation guide: 1 mark: State/List/Identify/Select | 2 marks: Outline/Describe/Apply/Calculate | 3 marks: Explain/Interpret/Analyse | 4+ marks: Evaluate/Justify/Discuss/Formulate/Design
+${formulas}
 
-QUESTION TYPE SPECIFICATIONS:
-- MCQ: Exactly 4 options. Specify correct answer index (0-3). Distractors must be plausible.
-- True / False: Clear statement. Specify correct answer as "True" or "False".
-- Long Answer: Multi-paragraph response. Structured mark scheme with point allocation.
-- Fill Text: Use [blank] marker in the sentence. Provide correct fill text in "answers" field.
-- Match the Following: 4-6 pairs. Column A and Column B items.
-- Table: Specify headers array, number of rows, cols.
-- Multi-Dropdown: 3-5 rows with labels and shared dropdown options. Specify correct per row.
+═══ MANDATORY RULES ═══
+1. STIMULUS-THEN-QUESTIONS: Every section must have a content block (real-world scenario, 3-6 sentences with specific data) BEFORE its questions. Questions must reference the stimulus.
+2. STRAND PROGRESSION: Questions progress strand i→ii→iii within each section.
+3. MARK SCHEMES: Every question must have detailed mark allocation ("Award 1 mark for..."). For MCQ: explain why each distractor is wrong.
+4. PHYSICS ACCURACY: Use correct SI units, realistic numerical values, Unicode symbols (× ² ³ Δ λ ρ θ π μ Ω).
+5. YEAR-LEVEL APPROPRIATE: ${config.yearLevel === '1' ? 'Year 1: simpler terms (outline, state, recall). Familiar situations. Predictions not hypotheses.' : config.yearLevel === '3' ? 'Year 3: intermediate terms (describe, analyse). Familiar and unfamiliar situations. Hypotheses used.' : 'Year 5: advanced terms (explain, evaluate, formulate). Both familiar and unfamiliar. Sophisticated reasoning expected.'}
+${crit === 'D' ? '6. CRITERION D: Do NOT use MCQ/TF for strand ii. Use extended written responses requiring students to weigh benefits and limitations.' : ''}
 
-OUTPUT FORMAT — Return a JSON object with this EXACT structure:
+═══ GENERATE ═══
+${config.questions.map(q => `- ${q.count}× ${q.type} (${q.marks} marks each)`).join('\n')}
+Total marks: ${config.totalMarks}
+
+═══ OUTPUT JSON FORMAT ═══
+Return ONLY valid JSON (no markdown, no code fences):
 {
-  "heading": "string — the question set title",
-  "sections": [{"id": 1, "name": "Section 1"}],
+  "heading": "descriptive title",
+  "sections": [{"id":1,"name":"Section 1"}],
   "blocks": [
-    {
-      "mode": "content",
-      "type": "Text",
-      "sectionId": 1,
-      "data": {"text": "HTML string — stimulus text"}
-    },
-    {
-      "mode": "question",
-      "type": "MCQ",
-      "sectionId": 1,
-      "data": {"question": "HTML question text", "correct": 0, "explanation": "string"},
-      "ui": {"mcqOptions": ["Option A", "Option B", "Option C", "Option D"]},
-      "meta": {"marks": 1, "criterion": "A – Knowing & Understanding", "markScheme": "Award 1 mark for correct answer.", "hint": "", "difficulty": "medium"}
-    },
-    {
-      "mode": "question",
-      "type": "True / False",
-      "sectionId": 1,
-      "data": {"question": "Statement text", "explanation": "string"},
-      "ui": {"tfAnswer": "True"},
-      "meta": {"marks": 1, "criterion": "A – Knowing & Understanding", "markScheme": "Award 1 mark.", "difficulty": "easy"}
-    },
-    {
-      "mode": "question",
-      "type": "Long Answer",
-      "sectionId": 1,
-      "data": {"question": "Question text", "explanation": "string"},
-      "meta": {"marks": 4, "criterion": "A – Knowing & Understanding", "markScheme": "1 mark for X, 1 mark for Y...", "difficulty": "hard"}
-    },
-    {
-      "mode": "question",
-      "type": "Fill Text",
-      "sectionId": 1,
-      "data": {"fillText": "Sentence with [blank] marker.", "answers": "correct answer", "explanation": "string"},
-      "meta": {"marks": 1, "criterion": "A – Knowing & Understanding", "markScheme": "Accept answer.", "difficulty": "easy"}
-    },
-    {
-      "mode": "question",
-      "type": "Match the Following",
-      "sectionId": 1,
-      "data": {"question": "Match prompt"},
-      "ui": {"matchPairs": [{"a": "Left item", "b": "Right item"}]},
-      "meta": {"marks": 2, "criterion": "A – Knowing & Understanding", "markScheme": "0.5 marks per match", "difficulty": "medium"}
-    },
-    {
-      "mode": "question",
-      "type": "Multi-Dropdown",
-      "sectionId": 1,
-      "data": {"question": "Question text", "explanation": "string"},
-      "ui": {"mdOptions": "Option1, Option2, Option3", "mdRows": [{"label": "Row label", "correct": "Option1"}]},
-      "meta": {"marks": 2, "criterion": "A – Knowing & Understanding", "markScheme": "1 mark per correct", "difficulty": "medium"}
-    }
+    {"mode":"content","type":"Text","sectionId":1,"data":{"text":"HTML stimulus text (3-6 sentences, specific data, real-world context)"}},
+    {"mode":"question","type":"MCQ","sectionId":1,"data":{"question":"Command term + question","correct":0,"explanation":"why correct + why distractors wrong"},"ui":{"mcqOptions":["A","B","C","D"]},"meta":{"marks":1,"criterion":"${crit}","strand":"i","commandTerm":"State","difficulty":"easy","markScheme":"Award 1 mark for A. B wrong because... C wrong because... D wrong because..."}},
+    {"mode":"question","type":"True / False","sectionId":1,"data":{"question":"statement","explanation":"why true/false"},"ui":{"tfAnswer":"True"},"meta":{"marks":1,"criterion":"${crit}","strand":"i","commandTerm":"State","difficulty":"easy","markScheme":"Award 1 mark. True because..."}},
+    {"mode":"question","type":"Long Answer","sectionId":1,"data":{"question":"Command term + extended question","explanation":"model answer"},"meta":{"marks":4,"criterion":"${crit}","strand":"iii","commandTerm":"Evaluate","difficulty":"hard","markScheme":"Award 1 mark for... Award 1 mark for..."}},
+    {"mode":"question","type":"Fill in the Blank","sectionId":1,"data":{"fillText":"Sentence with [blank]","answers":"answer1, answer2","explanation":"why"},"meta":{"marks":1,"criterion":"${crit}","strand":"i","commandTerm":"State","difficulty":"easy","markScheme":"Accept: answer"}},
+    {"mode":"question","type":"Match the Following","sectionId":1,"data":{"question":"Match prompt"},"ui":{"matchPairs":[{"a":"Left","b":"Right"}]},"meta":{"marks":2,"criterion":"${crit}","strand":"i","commandTerm":"Identify","difficulty":"easy","markScheme":"0.5 marks per match"}},
+    {"mode":"question","type":"Table","sectionId":1,"data":{"question":"Complete the table","tableHeaders":["Col1","Col2"],"tableRows":3,"tableCols":2,"tablePrefill":[["val",""],["","val"]],"explanation":"solutions"},"meta":{"marks":2,"criterion":"${crit}","strand":"ii","commandTerm":"Calculate","difficulty":"medium","markScheme":"1 mark per correct value"}}
   ]
 }
 
-IMPORTANT:
-- Generate ONLY valid JSON, no markdown, no code fences
-- Every block must have mode, type, sectionId, data, and meta (for questions)
-- Question text can use basic HTML: <b>, <i>, <br>, <sub>, <sup>
-- For formulas use Unicode: × ÷ ² ³ Δ λ ρ θ π
-- Make questions curriculum-appropriate for IB MYP Grade 9-10
-- Ensure mark schemes are detailed enough for consistent grading
-- Total marks across all questions should equal ${config.totalMarks}`;
+CRITICAL: criterion="${crit}" for ALL questions. Strand must be one of: ${critData.strands.map(s => '"' + s.id + '"').join(', ')}. Total marks = ${config.totalMarks}. Every question text starts with its command term.`;
 }
 
 /* ── AI API Call (Groq primary, Gemini fallback) ── */
@@ -276,6 +231,8 @@ function collectGenConfig() {
   const gc = document.getElementById('gen-gc').value;
   const atl = document.getElementById('gen-atl').value;
   const difficulty = document.getElementById('gen-difficulty').value;
+  const yearLevel = document.getElementById('gen-year-level')?.value || '5';
+  const dFactor = document.getElementById('gen-dfactor')?.value || 'Environmental';
 
   // Multi-criteria
   const criteria = [];
@@ -308,7 +265,7 @@ function collectGenConfig() {
   const totalMarks = Number(document.getElementById('gen-total-marks').value || 0);
 
   return {
-    chapter, topic, criterion, criteria, globalContext: gc, atl, difficulty, heading, questions, totalMarks,
+    chapter, topic, criterion, criteria, globalContext: gc, atl, difficulty, yearLevel, dFactor, heading, questions, totalMarks,
     context, mediaUrls,
     includeContent: document.getElementById('gen-opt-content').checked,
     includeMarkSchemes: document.getElementById('gen-opt-markscheme').checked,
