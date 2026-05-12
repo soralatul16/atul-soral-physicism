@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════════════════════════
-   PHYSICISM — AI Question Set Generator (Gemini)
-   Note: API key stored client-side in localStorage.
+   PHYSICISM — AI Question Set Generator (Groq + Gemini)
+   Supports Groq (default, free 30RPM) and Gemini as fallback.
+   API key stored client-side in localStorage.
    This is acceptable since the tool is behind Google Auth
    and only accessible to the authenticated teacher.
    ═══════════════════════════════════════════════════════════ */
@@ -14,8 +15,8 @@ function openGenerator() {
   if (!screen) return;
   screen.style.display = 'flex';
   
-  // Check for API key
-  const key = localStorage.getItem('gemini_api_key');
+  // Check for API key (Groq or Gemini)
+  const key = localStorage.getItem('groq_api_key') || localStorage.getItem('gemini_api_key');
   document.getElementById('gen-key-setup').style.display = key ? 'none' : 'block';
   document.getElementById('gen-main-form').style.display = key ? 'block' : 'none';
   updateGenTotalMarks();
@@ -26,15 +27,25 @@ function saveGeminiKey() {
   const input = document.getElementById('gen-api-key-input');
   const key = (input.value || '').trim();
   if (!key) { alert('Please enter an API key.'); return; }
-  localStorage.setItem('gemini_api_key', key);
+  
+  // Detect key type: Groq keys start with 'gsk_'
+  if (key.startsWith('gsk_')) {
+    localStorage.setItem('groq_api_key', key);
+    localStorage.removeItem('gemini_api_key');
+  } else {
+    localStorage.setItem('gemini_api_key', key);
+    localStorage.removeItem('groq_api_key');
+  }
+  
   document.getElementById('gen-key-setup').style.display = 'none';
   document.getElementById('gen-main-form').style.display = 'block';
-  alert('✅ API key saved!');
+  alert('✅ API key saved! Provider: ' + (key.startsWith('gsk_') ? 'Groq' : 'Gemini'));
 }
 
 function resetGeminiKey() {
   if (!confirm('Remove saved API key?')) return;
   localStorage.removeItem('gemini_api_key');
+  localStorage.removeItem('groq_api_key');
   document.getElementById('gen-key-setup').style.display = 'block';
   document.getElementById('gen-main-form').style.display = 'none';
 }
@@ -165,25 +176,39 @@ IMPORTANT:
 - Total marks across all questions should equal ${config.totalMarks}`;
 }
 
-/* ── Gemini API Call with 429 retry ── */
+/* ── AI API Call (Groq primary, Gemini fallback) ── */
 async function callGemini(prompt) {
-  const key = localStorage.getItem('gemini_api_key');
-  if (!key) { alert('No API key found. Please enter one.'); return null; }
-
+  const groqKey = localStorage.getItem('groq_api_key');
+  const geminiKey = localStorage.getItem('gemini_api_key');
   const statusEl = document.getElementById('gen-status');
-  const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=';
+  
+  if (!groqKey && !geminiKey) { alert('No API key found. Please enter one.'); return null; }
 
+  // Use Groq if available
+  if (groqKey) {
+    return await callGroq(prompt, groqKey, statusEl);
+  } else {
+    return await callGeminiAPI(prompt, geminiKey, statusEl);
+  }
+}
+
+async function callGroq(prompt, key, statusEl) {
   for (let attempt = 0; attempt < 2; attempt++) {
-    const response = await fetch(API_URL + key, {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + key
+      },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 8192,
-          responseMimeType: "application/json"
-        }
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+          { role: 'system', content: 'You are an expert IB MYP Physics teacher. You MUST respond with valid JSON only. No markdown, no code fences, no extra text.' },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 8192,
+        response_format: { type: 'json_object' }
       })
     });
 
@@ -194,17 +219,49 @@ async function callGemini(prompt) {
     }
 
     if (!response.ok) {
-      if (response.status === 400 || response.status === 403) {
-        throw new Error('Invalid API key or quota exceeded. Check your key at aistudio.google.com');
-      }
-      throw new Error('Gemini API error: ' + response.status);
+      const err = await response.text();
+      throw new Error('Groq API error: ' + response.status + ' — ' + err.substring(0, 100));
     }
+
+    const data = await response.json();
+    let text = data.choices?.[0]?.message?.content;
+    if (!text) throw new Error('Empty response from Groq');
+
+    text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+    return JSON.parse(text);
+  }
+}
+
+async function callGeminiAPI(prompt, key, statusEl) {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const response = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 8192,
+            responseMimeType: "application/json"
+          }
+        })
+      }
+    );
+
+    if (response.status === 429 && attempt === 0) {
+      if (statusEl) statusEl.textContent = '⏳ Rate limited — retrying in 10 seconds...';
+      await new Promise(r => setTimeout(r, 10000));
+      continue;
+    }
+
+    if (!response.ok) throw new Error('Gemini API error: ' + response.status);
 
     const data = await response.json();
     let text = data.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!text) throw new Error('Empty response from Gemini');
 
-    // Clean common issues
     text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
     return JSON.parse(text);
   }
