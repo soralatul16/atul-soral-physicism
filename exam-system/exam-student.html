@@ -713,10 +713,11 @@ body {
   display:grid; grid-template-columns:repeat(4,1fr); gap:6px; padding:12px;
 }
 .calc-btn {
-  background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:10px 0; text-align:center; cursor:pointer; font-family:'Sora',sans-serif; font-size:14px; transition:all 0.1s; color:var(--text);
+  background:var(--white); border:1px solid var(--border); border-radius:6px; padding:10px 0; text-align:center; cursor:pointer; font-family:'Sora',sans-serif; font-size:14px; transition:all 0.1s; color:var(--text);
 }
 .calc-btn:hover { background:var(--border); }
-.calc-btn.op { background:var(--accent-light); color:var(--accent); border-color:var(--accent); font-weight:700; }
+.calc-btn.op { background:var(--red-pale); color:var(--red); border-color:var(--red-soft); font-weight:700; }
+.calc-btn.func { background:var(--blue-pale); color:var(--blue); border-color:rgba(26,111,181,0.3); font-size:11px; font-weight:600; }
 #siContent {
   padding:12px; font-size:12px; max-height:400px; overflow-y:auto; line-height:1.6; color:var(--text);
 }
@@ -788,13 +789,15 @@ body {
     </div>
     <div id="attemptScreen">
       <div class="attempt-header"><div><div class="attempt-title" id="attemptTitle">Question Set</div><div class="attempt-meta" id="attemptMeta"></div></div><div style="display:flex;gap:12px;align-items:center;">
-        <!-- MOD-B10: Highlighter -->
-        <button id="highlighterBtn" onclick="toggleHighlighter()" class="icon-btn" title="Highlighter (select text)" style="font-weight:700;">H</button>
-        <!-- MOD-B6: SI button -->
-        <button onclick="openSI()" class="icon-btn" title="SI Units Reference" style="font-size:12px;font-weight:700;">SI</button>
         <!-- MOD-B13: Save indicator -->
         <span id="saveIndicator">✓ Saved</span>
         <div class="timer-display" id="timerDisplay">00:00</div>
+        <!-- MOD-B5: Calc button -->
+        <button onclick="document.getElementById('calcTool').style.display='flex'" class="icon-btn" title="Calculator" style="font-size:14px;">🧮</button>
+        <!-- MOD-B6: SI button -->
+        <button onclick="openSI()" class="icon-btn" title="SI Units Reference" style="font-size:12px;font-weight:700;">SI</button>
+        <!-- MOD-B10: Highlighter -->
+        <button id="highlighterBtn" onclick="toggleHighlighter()" class="icon-btn" title="Highlighter — select text to highlight" style="font-size:14px;">🖍️</button>
         <button class="btn-sm btn-start" style="font-size:12px;" onclick="confirmSubmit()">Submit</button>
       </div></div>
       <div class="attempt-body">
@@ -838,15 +841,18 @@ body {
 </div>
 <div class="modal-overlay" id="submitModal"><div class="modal"><h3>📝 Submit Test?</h3><div class="summary-grid" id="submitSummary"></div><p id="submitWarning" style="color:var(--yellow);font-size:12px;margin-bottom:16px;display:none;"></p><div style="margin-bottom:20px; display:flex; align-items:center; gap:10px;"><input type="checkbox" id="wantsGrading" checked style="accent-color:var(--accent); width:18px; height:18px; cursor:pointer;"><label for="wantsGrading" style="font-size:13px; color:var(--text); cursor:pointer; user-select:none;">I want this test to be graded by my teacher</label></div><div class="modal-btns"><button class="btn-modal-cancel" onclick="closeModal()">Continue</button><button class="btn-modal-ok" onclick="doSubmit()">Submit Now</button></div></div></div>
 <!-- MOD-B5: Calculator -->
-<div id="calcTool" class="floating-tool" style="width:240px;top:100px;right:20px;">
+<div id="calcTool" class="floating-tool" style="width:320px;top:100px;right:20px;">
   <div class="tool-header" id="calcHeader"><span>🧮 Calculator</span><button class="tool-close" onclick="document.getElementById('calcTool').style.display='none'">✕</button></div>
   <input type="text" id="calcDisplay" disabled style="background:var(--bg);border:none;border-bottom:1px solid var(--border);padding:14px;font-family:'Space Mono',monospace;font-size:18px;text-align:right;color:var(--text);">
   <div class="calc-grid">
-    <button class="calc-btn" onclick="calcPress('7')">7</button><button class="calc-btn" onclick="calcPress('8')">8</button><button class="calc-btn" onclick="calcPress('9')">9</button><button class="calc-btn op" onclick="calcPress('/')">÷</button>
-    <button class="calc-btn" onclick="calcPress('4')">4</button><button class="calc-btn" onclick="calcPress('5')">5</button><button class="calc-btn" onclick="calcPress('6')">6</button><button class="calc-btn op" onclick="calcPress('*')">×</button>
-    <button class="calc-btn" onclick="calcPress('1')">1</button><button class="calc-btn" onclick="calcPress('2')">2</button><button class="calc-btn" onclick="calcPress('3')">3</button><button class="calc-btn op" onclick="calcPress('-')">-</button>
+    <button class="calc-btn func" onclick="calcPress('sin(')">sin</button><button class="calc-btn func" onclick="calcPress('cos(')">cos</button><button class="calc-btn func" onclick="calcPress('tan(')">tan</button><button class="calc-btn func" onclick="calcPress('log(')">log</button>
+    <button class="calc-btn func" onclick="calcPress('√(')">√</button><button class="calc-btn func" onclick="calcPress('²')">x²</button><button class="calc-btn func" onclick="calcPress('^')">xⁿ</button><button class="calc-btn func" onclick="calcPress('π')">π</button>
+    <button class="calc-btn func" onclick="calcPress('(')">(</button><button class="calc-btn func" onclick="calcPress(')')">)</button><button class="calc-btn func" onclick="calcPress('±')">±</button><button class="calc-btn func" onclick="calcPress('e')">EXP</button>
+    <button class="calc-btn" onclick="calcPress('7')">7</button><button class="calc-btn" onclick="calcPress('8')">8</button><button class="calc-btn" onclick="calcPress('9')">9</button><button class="calc-btn op" onclick="calcPress('÷')">÷</button>
+    <button class="calc-btn" onclick="calcPress('4')">4</button><button class="calc-btn" onclick="calcPress('5')">5</button><button class="calc-btn" onclick="calcPress('6')">6</button><button class="calc-btn op" onclick="calcPress('×')">×</button>
+    <button class="calc-btn" onclick="calcPress('1')">1</button><button class="calc-btn" onclick="calcPress('2')">2</button><button class="calc-btn" onclick="calcPress('3')">3</button><button class="calc-btn op" onclick="calcPress('−')">−</button>
     <button class="calc-btn" onclick="calcPress('0')">0</button><button class="calc-btn" onclick="calcPress('.')">.</button><button class="calc-btn op" onclick="calcPress('C')">C</button><button class="calc-btn op" onclick="calcPress('+')">+</button>
-    <button class="calc-btn op" style="grid-column:span 4;" onclick="calcPress('=')">=</button>
+    <button class="calc-btn op" onclick="calcPress('⌫')">⌫</button><button class="calc-btn op" style="grid-column:span 3;" onclick="calcPress('=')">=</button>
   </div>
 </div>
 
@@ -1822,10 +1828,37 @@ function undoCanvas(idx){if(!drawState[idx]?.history?.length)return;drawState[id
 
 /* MOD-B5: Calculator & Tool Drag Logic */
 let calcVal='0';
+function safeCalc(expr) {
+  expr = expr.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-').replace(/π/g, Math.PI);
+  expr = expr.replace(/sin\(([^)]+)\)/g, (m, a) => Math.sin(a * Math.PI / 180));
+  expr = expr.replace(/cos\(([^)]+)\)/g, (m, a) => Math.cos(a * Math.PI / 180));
+  expr = expr.replace(/tan\(([^)]+)\)/g, (m, a) => Math.tan(a * Math.PI / 180));
+  expr = expr.replace(/log\(([^)]+)\)/g, (m, a) => Math.log10(a));
+  expr = expr.replace(/√\(([^)]+)\)/g, (m, a) => Math.sqrt(a));
+  expr = expr.replace(/(\d+(?:\.\d+)?|\([^)]+\))\^(\d+(?:\.\d+)?|\([^)]+\))/g, 'Math.pow($1, $2)');
+  expr = expr.replace(/(\d+(?:\.\d+)?)²/g, 'Math.pow($1, 2)');
+  try { return Function('"use strict"; return (' + expr + ')')(); }
+  catch(e) { return 'Error'; }
+}
 function calcPress(k){
   if(k==='C'){calcVal='0';}
-  else if(k==='='){try{calcVal=String(eval(calcVal));}catch(e){calcVal='Err';}}
-  else{if(calcVal==='0'&&k!=='.')calcVal=k;else calcVal+=k;}
+  else if(k==='⌫'){calcVal=calcVal.length>1?calcVal.slice(0,-1):'0';}
+  else if(k==='±'){
+    let m = calcVal.match(/(-?\d+(?:\.\d+)?)$/);
+    if(m) calcVal = calcVal.slice(0, -m[0].length) + (m[0].startsWith('-') ? m[0].slice(1) : '-' + m[0]);
+    else if (calcVal === '0') calcVal = '-';
+  }
+  else if(k==='='){
+    let openBrackets = (calcVal.match(/\(/g) || []).length;
+    let closeBrackets = (calcVal.match(/\)/g) || []).length;
+    for(let i=0; i < openBrackets - closeBrackets; i++) calcVal += ')';
+    let res = safeCalc(calcVal);
+    calcVal = res !== undefined ? String(res) : 'Error';
+  }
+  else{
+    if(calcVal==='0' && k!=='.' && k!=='²' && k!=='^' && k!=='e') calcVal=k;
+    else calcVal+=k;
+  }
   document.getElementById('calcDisplay').value=calcVal;
 }
 function makeDraggable(elId, headId){
@@ -1891,6 +1924,19 @@ function openImageLightbox(src) {
 
 // MOD-B10: Highlighter tool
 let highlighterActive = false;
+function showHighlightToast(msg) {
+  let toast = document.getElementById('highlighterToast');
+  if(!toast){
+    toast = document.createElement('div');
+    toast.id = 'highlighterToast';
+    toast.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:white;padding:12px 24px;border-radius:24px;font-size:13px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.15);transition:opacity 0.3s;pointer-events:none;opacity:0;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(()=>toast.style.opacity='0', 3000);
+}
 function toggleHighlighter() {
   highlighterActive = !highlighterActive;
   const btn = document.getElementById('highlighterBtn');
@@ -1898,9 +1944,10 @@ function toggleHighlighter() {
     btn.style.background = highlighterActive ? '#ffe066' : '';
     btn.style.color = highlighterActive ? '#1a1a1a' : '';
     btn.style.borderColor = highlighterActive ? '#d4a017' : '';
-    btn.title = highlighterActive ? 'Highlighter ON — select text to highlight' : 'Highlighter (select text)';
+    btn.title = highlighterActive ? 'Highlighter ON — select text to highlight' : 'Highlighter — select text to highlight';
   }
   document.body.style.cursor = highlighterActive ? 'crosshair' : '';
+  if (highlighterActive) showHighlightToast('Highlighter ON — select any text to highlight it');
 }
 document.addEventListener('mouseup', function(e) {
   if (!highlighterActive) return;

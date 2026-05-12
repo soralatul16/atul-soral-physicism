@@ -485,6 +485,67 @@ async function runGeneration() {
       ui: block.ui || {}
     }));
 
+    // Fix empty Multi-Dropdown questions
+    processedBlocks.forEach(block => {
+      if (block.type === 'Multi-Dropdown' && block.mode === 'question') {
+        if (!block.data.mdRows || !block.data.mdRows.length) {
+          block.data.mdRows = [{label: 'Item 1', correct: ''}, {label: 'Item 2', correct: ''}];
+          console.warn('Multi-Dropdown Q missing mdRows — placeholder added, needs manual edit');
+        }
+        if (!block.data.mdOptions || !block.data.mdOptions.trim()) {
+          block.data.mdOptions = 'Option A, Option B, Option C';
+          console.warn('Multi-Dropdown Q missing mdOptions — placeholder added, needs manual edit');
+        }
+        block.data.mdRows = block.data.mdRows.map(row => ({
+          label: row.label || row.a || row.item || 'Unnamed',
+          correct: row.correct || row.answer || ''
+        }));
+      }
+    });
+
+    // Fix Match the Following
+    processedBlocks.forEach(block => {
+      if (block.type === 'Match the Following' && block.mode === 'question') {
+        if (!block.ui) block.ui = {};
+        if (!block.ui.matchPairs || !block.ui.matchPairs.length) {
+          if (block.data.pairs && block.data.pairs.length) {
+            block.ui.matchPairs = block.data.pairs.map(p => ({a: p.left || p.a || '', b: p.right || p.b || ''}));
+          } else if (block.data.matchPairs && block.data.matchPairs.length) {
+            block.ui.matchPairs = block.data.matchPairs;
+          } else {
+            block.ui.matchPairs = [{a: 'Item A', b: 'Match A'}, {a: 'Item B', b: 'Match B'}];
+            console.warn('Match the Following Q missing pairs — placeholder added');
+          }
+        }
+      }
+    });
+
+    // Fix MCQ options location
+    processedBlocks.forEach(block => {
+      if ((block.type === 'MCQ' || block.type === 'Multiple Select MCQ') && block.mode === 'question') {
+        if (!block.ui) block.ui = {};
+        if (!block.ui.mcqOptions || !block.ui.mcqOptions.length || !block.ui.mcqOptions.some(o => o.trim())) {
+          if (block.data.options && Array.isArray(block.data.options)) {
+            block.ui.mcqOptions = block.data.options;
+          } else {
+            console.warn('MCQ Q missing options');
+          }
+        }
+      }
+    });
+
+    // Fix True/False answer location
+    processedBlocks.forEach(block => {
+      if (block.type === 'True / False' && block.mode === 'question') {
+        if (!block.ui) block.ui = {};
+        if (!block.ui.tfAnswer) {
+          if (block.data.correct === true || block.data.correct === 'True') block.ui.tfAnswer = 'True';
+          else if (block.data.correct === false || block.data.correct === 'False') block.ui.tfAnswer = 'False';
+          else if (block.data.answer) block.ui.tfAnswer = block.data.answer;
+        }
+      }
+    });
+
     // Validate MCQ blocks
     processedBlocks.forEach((b, i) => {
       if (b.type === 'MCQ' && (!b.ui.mcqOptions || b.ui.mcqOptions.length < 2)) {
