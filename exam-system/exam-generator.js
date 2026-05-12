@@ -461,8 +461,6 @@ async function runGeneration() {
     status.textContent = '✅ Generated! Saving to library...';
     status.style.color = 'var(--green)';
 
-    let validatedResult = validateGeneratedSet(result, config);
-
     // Build set object matching existing schema
     const setId = 'set_' + Date.now();
     const now = Date.now();
