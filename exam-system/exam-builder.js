@@ -1010,6 +1010,7 @@ function saveAll() {
     library[existingIdx] = {
       ...old,
       heading, chapter, topic, gc, atl, timeLimit, autoSubmit,
+      grade: pick('ms-grade') || old.grade || '',
       blocks: savedBlocks,
       sections: savedSections,
       totalMarks,
@@ -1025,6 +1026,7 @@ function saveAll() {
       id: 'qs_' + Date.now(),
       version: 1, status: 'Draft',
       heading, chapter, topic, gc, atl, timeLimit, autoSubmit,
+      grade: pick('ms-grade') || '',
       blocks: savedBlocks,
       sections: savedSections,
       totalMarks,
