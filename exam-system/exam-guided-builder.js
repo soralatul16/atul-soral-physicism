@@ -152,7 +152,7 @@ function guidedRenderTree() {
         else if(block.source === 'data_table') label = `📊 Table ${block.data.tableNumber}`;
         else label = `📝 Content (${block.source})`;
       } else {
-        label = `❓ Q${sIdx+1}(${String.fromCharCode(97+bIdx)}) · ${block.type} · ${block.meta.marks}m`;
+        label = `❓ Q${sIdx+1}(${String.fromCharCode(97+bIdx)}) · ${block.type} · ${block.meta.marks}m · ${block.meta.strand || 'i'}`;
       }
       
       const isSelected = guidedActiveBlock && guidedActiveBlock.block.id === block.id;
@@ -204,7 +204,17 @@ const commandTermsByStrand = {
 function getCommandTerms(criterion, strand, grade) {
   const yl = parseInt(grade) <= 7 ? "1" : parseInt(grade) <= 9 ? "3" : "5";
   const crit = criterion.charAt(0);
-  return commandTermsByStrand[crit]?.[strand]?.[yl] || ["State"];
+  const strands = (strand || 'i').split(',');
+  
+  let allTerms = [];
+  strands.forEach(s => {
+    const terms = commandTermsByStrand[crit]?.[s.trim()]?.[yl] || [];
+    allTerms = allTerms.concat(terms);
+  });
+  
+  // Return unique terms, fallback to ["State"]
+  const uniqueTerms = Array.from(new Set(allTerms));
+  return uniqueTerms.length > 0 ? uniqueTerms : ["State"];
 }
 
 function updateCommandTerms() {
@@ -324,14 +334,10 @@ function guidedEditBlock(sectionId, blockId) {
           <option value="D" ${block.meta.criterion==='D'?'selected':''}>D</option>
         </select>
       </div>
-      <div class="form-group"><label>Strand</label>
-        <select onchange="guidedActiveBlock.block.meta.strand = this.value; updateCommandTerms();" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;">
-          <option value="i" ${block.meta.strand==='i'?'selected':''}>i</option>
-          <option value="ii" ${block.meta.strand==='ii'?'selected':''}>ii</option>
-          <option value="iii" ${block.meta.strand==='iii'?'selected':''}>iii</option>
-          <option value="iv" ${block.meta.strand==='iv'?'selected':''}>iv</option>
-          <option value="v" ${block.meta.strand==='v'?'selected':''}>v</option>
-        </select>
+      <div class="form-group"><label>Strand(s)</label>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;" id="strand-select-${block.id}">
+          <!-- Populated by JS -->
+        </div>
       </div>
     </div>`;
     
@@ -367,7 +373,36 @@ function guidedEditBlock(sectionId, blockId) {
   
   html += `</div>`;
   editor.innerHTML = html;
-  if(block.mode === 'question') updateCommandTerms();
+  if(block.mode === 'question') {
+    updateStrandOptions(block.id, block.meta.criterion);
+    updateCommandTerms();
+  }
+}
+
+function updateStrandOptions(blockId, criterion) {
+  var container = document.getElementById('strand-select-' + blockId);
+  if (!container) return;
+  var strands = { 'A': ['i', 'ii', 'iii'], 'B': ['i', 'ii', 'iii', 'iv'], 'C': ['i', 'ii', 'iii', 'iv', 'v'], 'D': ['i', 'ii', 'iii', 'iv'] };
+  var options = strands[criterion.charAt(0)] || ['i', 'ii', 'iii'];
+  var currentStrands = (guidedActiveBlock.block.meta.strand || 'i').split(',');
+  
+  container.innerHTML = options.map(function(s) {
+    var checked = currentStrands.includes(s) ? 'checked' : '';
+    return '<label style="display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:50px;border:1.5px solid rgba(0,0,0,0.06);background:white;font-size:11px;cursor:pointer;transition:all .15s;">' +
+      '<input type="checkbox" value="' + s + '" ' + checked + ' style="accent-color:#c0392b;width:14px;height:14px;" onchange="updateStrandSelection(\'' + blockId + '\')">' +
+      ' ' + s + '</label>';
+  }).join('');
+}
+
+function updateStrandSelection(blockId) {
+  var container = document.getElementById('strand-select-' + blockId);
+  if (!container) return;
+  var checks = container.querySelectorAll('input:checked');
+  var selected = Array.from(checks).map(function(c) { return c.value; });
+  if (selected.length === 0) selected = ['i'];
+  guidedActiveBlock.block.meta.strand = selected.join(',');
+  updateCommandTerms();
+  guidedRenderTree();
 }
 
 function buildGuidedPrompt(config, structure) {
@@ -408,7 +443,7 @@ STRUCTURE:
         if (block.data.figureNumber) prompt += `(This is Figure ${block.data.figureNumber})\n`;
         if (block.data.tableNumber) prompt += `(This is Table ${block.data.tableNumber})\n`;
       } else if (block.mode === 'question') {
-        prompt += `[GENERATE QUESTION]: Type=${block.type}, Marks=${block.meta.marks}, Criterion=${block.meta.criterion}, Strand=${block.meta.strand}, Difficulty=${block.meta.difficulty}, CommandTerm=${block.meta.commandTerm}`;
+        prompt += `[GENERATE QUESTION]: Type=${block.type}, Marks=${block.meta.marks}, Criterion=${block.meta.criterion}, Strands=${block.meta.strand}, Difficulty=${block.meta.difficulty}, CommandTerm=${block.meta.commandTerm}`;
         if (block.prompt) prompt += `, TeacherPrompt="${block.prompt}"`;
         if (block.references) prompt += `, References="${block.references}"`;
         prompt += `\n`;
@@ -431,7 +466,7 @@ async function guidedGenerateAll() {
     topics: document.getElementById('shared-topics').value,
     criteria: getMultiSelectValues('shared-criteria'),
     gc: document.getElementById('shared-gc').value,
-    dFactor: document.getElementById('shared-dfactor').value,
+    dFactor: getMultiSelectValues('shared-dfactor').join(', '),
     totalMarks: document.getElementById('shared-total-marks').value,
     timeLimit: document.getElementById('shared-time-limit').value,
     heading: document.getElementById('shared-heading').value
@@ -513,18 +548,50 @@ async function guidedGenerateAll() {
       });
     }
     
-    // Pass it to openSetInBuilder
-    parsedData.chapter = config.chapters.join(', ');
-    parsedData.topic = config.topics;
-    parsedData.heading = config.heading || (config.topics + " — " + config.criteria.join(', '));
+    // ═══ CREATE NEW SET ═══
+    const setId = 'qs_' + Date.now();
+    const now = Date.now();
+    const newSet = {
+      ...parsedData,
+      id: setId,
+      chapter: config.chapters.join(', '),
+      topic: config.topics,
+      heading: config.heading || (config.topics + " — " + config.criteria.join(', ')),
+      status: 'Draft',
+      version: 1,
+      createdAt: now,
+      updatedAt: now,
+      totalMarks: config.totalMarks,
+      grade: config.grade,
+      generatedBy: 'ai-guided'
+    };
+
+    // Save to local library cache
+    var lib = (typeof getLibrary === 'function') ? getLibrary() : JSON.parse(localStorage.getItem('MYP_LIBRARY') || '[]');
+    lib.push(newSet);
+    try { localStorage.setItem('MYP_LIBRARY', JSON.stringify(lib)); } catch(e) {}
+    
+    // Update in-memory DB if it exists
+    if (typeof DB !== 'undefined') DB = lib;
+    try { localStorage.setItem('MYP_DB', JSON.stringify(lib)); } catch(e) {}
+
+    // Sync to Firestore
+    if (typeof saveQuestionSetToFirestore === 'function') {
+      saveQuestionSetToFirestore(newSet).catch(function(err) { console.error('Firestore sync error:', err); });
+    }
     
     status.textContent = "Success! Opening in Builder...";
     setTimeout(() => {
-      openSetInBuilder(parsedData);
+      if (typeof openSetInBuilder === 'function') {
+        openSetInBuilder(setId);
+      } else {
+        alert("Success! Set saved. Please go to Library to open it.");
+      }
       btn.disabled = false;
       btn.textContent = "⚡ Generate All Questions";
       status.textContent = "";
-    }, 1000);
+    }, 300);
+    
     
   } catch(e) {
     status.innerHTML = `<span style="color:red;">Error: ${e.message}</span>`;

@@ -478,7 +478,7 @@ function collectGenConfig() {
   const topic = document.getElementById('shared-topics')?.value.trim() || '';
   const grade = document.getElementById('shared-grade')?.value || '9';
   const criterion = getMultiSelectValues('shared-criteria').join(', ') || 'A';
-  const dFactor = document.getElementById('shared-dfactor')?.value || 'Environmental';
+  const dFactor = getMultiSelectValues('shared-dfactor').join(', ') || 'Environmental';
   const gc = document.getElementById('shared-gc')?.value || '';
   const difficulty = 'Mixed';
   const includeDiagrams = true;
