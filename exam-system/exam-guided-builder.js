@@ -445,13 +445,19 @@ async function guidedGenerateAll() {
   
   try {
     const promptText = buildGuidedPrompt(config, { sections: guidedSections });
-    const result = await callAI(promptText); // Assumes callAI is globally available from exam-generator.js
+    let result = await callAI(promptText); // Assumes callAI is globally available from exam-generator.js
     
-    // We get a JSON result with { sections: [...] }. 
-    // Wait, callAI returns raw text, we need to parse it? 
-    // In exam-generator.js runGeneration handles parsing.
+    // Ensure result is a string before processing
+    if (typeof result !== 'string') {
+      if (result && result.choices && result.choices[0]) {
+        result = result.choices[0].message.content;
+      } else if (result && typeof result === 'object') {
+        result = JSON.stringify(result);
+      } else {
+        throw new Error('Invalid AI response format');
+      }
+    }
     
-    // We should parse the JSON from callAI result
     let jsonStr = result.trim();
     if (jsonStr.startsWith('```json')) {
       jsonStr = jsonStr.substring(7, jsonStr.length - 3);
