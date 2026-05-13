@@ -312,13 +312,16 @@ ${config.questions.map(q => '- '+q.count+'× '+q.type+' ('+q.marks+' marks each)
     {"mode":"content","type":"Text","sectionId":1,"data":{"text":"HTML stimulus"}},
     {"mode":"content","type":"Image","sectionId":1,"data":{"url":"./Images/file.png","caption":"Figure 1: desc"}},
     {"mode":"question","type":"MCQ|Long Answer|True / False|Fill in the Blank|Match the Following|Table","sectionId":1,
-      "data":{"question":"Command term + question","correct":0,"explanation":"model answer"},
+      "data":{"question":"Command term + question","correct":0,"explanation":"model answer",
+        "tableHeaders": ["Column 1 / unit", "Column 2 / unit", "Column 3 / unit"],
+        "tableRows": 5, "tableCols": 3,
+        "tablePrefill": [["value","value",""], ["value","","value"]]},
       "ui":{"mcqOptions":["A","B","C","D"],"tfAnswer":"True","matchPairs":[{"a":"","b":""}]},
       "meta":{"marks":1,"criterion":"${crit}","strand":"i","commandTerm":"State","difficulty":"easy","markScheme":"Award 1 mark for...","gradingGrid":null}}
   ]
 }
 
-RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands progress i→ii→iii 6)Total marks=${config.totalMarks} 7)Realistic numerical values 8)Mark schemes use IB format: "Award X marks","Accept","Do not accept","WTTE","ECF","Seen or implied" 9)For holistic grids store in meta.gradingGrid 10)Stimulus must be SPECIFIC with named locations, technologies, numerical values`;
+RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands progress i→ii→iii 6)Total marks=${config.totalMarks} 7)Realistic numerical values 8)Mark schemes use IB format: "Award X marks","Accept","Do not accept","WTTE","ECF","Seen or implied" 9)For holistic grids store in meta.gradingGrid 10)Stimulus must be SPECIFIC with named locations, technologies, numerical values 11)IMPORTANT FOR TABLE QUESTIONS: You MUST include "tableHeaders", "tableRows", "tableCols", and "tablePrefill" in data. A Table question WITHOUT these is broken. Always include them.`;
 }
 
 /* ── AI API Call (Groq primary, Gemini fallback) ── */
@@ -629,6 +632,50 @@ async function runGeneration() {
           else if (block.data.correct === false || block.data.correct === 'False') block.ui.tfAnswer = 'False';
           else if (block.data.answer) block.ui.tfAnswer = block.data.answer;
         }
+      }
+    });
+
+    // ═══ FIX: Populate empty Table questions ═══
+    processedBlocks.forEach(function(block) {
+      if (block.type === 'Table' && block.mode === 'question') {
+        if (!block.data.tableHeaders || !block.data.tableHeaders.length || !block.data.tableHeaders.some(function(h) { return h && h.trim(); })) {
+          var qText = block.data.question || '';
+          if (qText.toLowerCase().includes('angle of incidence') && qText.toLowerCase().includes('angle of reflection')) {
+            block.data.tableHeaders = ['Angle of Incidence / °', 'Angle of Reflection / °'];
+            block.data.tableCols = 2; block.data.tableRows = 5;
+            block.data.tablePrefill = [['10',''],['20',''],['30',''],['45',''],['60','']];
+          } else if (qText.toLowerCase().includes('force') && qText.toLowerCase().includes('acceleration')) {
+            block.data.tableHeaders = ['Force / N', 'Mass / kg', 'Acceleration / m/s²'];
+            block.data.tableCols = 3; block.data.tableRows = 5;
+            block.data.tablePrefill = [['5','2',''],['10','2',''],['15','2',''],['20','2',''],['25','2','']];
+          } else if (qText.toLowerCase().includes('voltage') && qText.toLowerCase().includes('current')) {
+            block.data.tableHeaders = ['Voltage / V', 'Current / A', 'Resistance / Ω'];
+            block.data.tableCols = 3; block.data.tableRows = 5;
+            block.data.tablePrefill = [['2','0.1',''],['4','0.2',''],['6','0.3',''],['8','0.4',''],['10','0.5','']];
+          } else if (qText.toLowerCase().includes('wavelength') || qText.toLowerCase().includes('frequency')) {
+            block.data.tableHeaders = ['Wavelength / m', 'Frequency / Hz', 'Wave Speed / m/s'];
+            block.data.tableCols = 3; block.data.tableRows = 4;
+            block.data.tablePrefill = [['0.5','','340'],['1.0','','340'],['1.5','','340'],['2.0','','340']];
+          } else if (qText.toLowerCase().includes('distance') && qText.toLowerCase().includes('time')) {
+            block.data.tableHeaders = ['Time / s', 'Distance / m', 'Speed / m/s'];
+            block.data.tableCols = 3; block.data.tableRows = 5;
+            block.data.tablePrefill = [['0','0',''],['2','8',''],['4','20',''],['6','36',''],['8','56','']];
+          } else {
+            block.data.tableHeaders = ['Variable 1', 'Variable 2', 'Calculated Value'];
+            block.data.tableCols = 3; block.data.tableRows = 5;
+            block.data.tablePrefill = [['','',''],['','',''],['','',''],['','',''],['','','']];
+          }
+        }
+        if (block.data.tableHeaders && block.data.tableHeaders.length) block.data.tableCols = block.data.tableHeaders.length;
+        if (!block.data.tableRows || block.data.tableRows < 2) block.data.tableRows = 5;
+        if (!block.data.tablePrefill || !block.data.tablePrefill.length) {
+          block.data.tablePrefill = [];
+          for (var r2 = 0; r2 < block.data.tableRows; r2++) {
+            block.data.tablePrefill[r2] = [];
+            for (var c = 0; c < block.data.tableCols; c++) block.data.tablePrefill[r2][c] = '';
+          }
+        }
+        console.log('Table question fixed:', block.data.tableHeaders, block.data.tableRows + 'x' + block.data.tableCols);
       }
     });
 
