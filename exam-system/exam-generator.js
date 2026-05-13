@@ -15,6 +15,16 @@ function openGenerator() {
   if (!screen) return;
   screen.style.display = 'flex';
   
+  // Move shared meta form
+  const metaForm = document.getElementById('shared-meta-form');
+  const placeholder = document.getElementById('gen-meta-placeholder');
+  if(metaForm && placeholder) {
+    placeholder.appendChild(metaForm);
+    metaForm.style.display = 'block';
+  }
+  
+  renderTemplates();
+  
   // Check for API key (Groq or Gemini)
   const key = localStorage.getItem('groq_api_key') || localStorage.getItem('gemini_api_key');
   document.getElementById('gen-key-setup').style.display = key ? 'none' : 'block';
@@ -61,8 +71,83 @@ function updateGenTotalMarks() {
       total += Number(count.value || 0) * Number(marks.value || 0);
     }
   });
-  const el = document.getElementById('gen-total-marks');
+  const el = document.getElementById('shared-total-marks');
   if (el) el.value = total;
+}
+
+/* ── Templates Logic ── */
+const PRESET_TEMPLATES = [
+  {
+    name: "Criterion A Test (25 marks)",
+    criteria: ["A"],
+    mix: [ {t:"MCQ", c:5, m:1}, {t:"Long Answer", c:3, m:4}, {t:"Table", c:1, m:4}, {t:"Fill Text", c:4, m:1} ],
+    marks: 25
+  },
+  {
+    name: "Criterion B+C Investigation",
+    criteria: ["B", "C"],
+    mix: [ {t:"Long Answer", c:5, m:4}, {t:"Table", c:1, m:5}, {t:"Graph Plot", c:1, m:4} ],
+    marks: 50
+  },
+  {
+    name: "Criterion D Reflection",
+    criteria: ["D"],
+    mix: [ {t:"Long Answer", c:2, m:6}, {t:"Table", c:1, m:3}, {t:"True / False", c:5, m:1} ],
+    marks: 25
+  },
+  {
+    name: "Full Mock Exam",
+    criteria: ["A", "B", "C", "D"],
+    mix: [ {t:"MCQ", c:10, m:1}, {t:"Long Answer", c:10, m:5}, {t:"Table", c:3, m:4}, {t:"Graph Plot", c:1, m:4} ],
+    marks: 100
+  },
+  {
+    name: "Quick Quiz",
+    criteria: ["A"],
+    mix: [ {t:"MCQ", c:5, m:1}, {t:"Long Answer", c:2, m:2}, {t:"Fill Text", c:2, m:1}, {t:"Table", c:1, m:4} ],
+    marks: 15
+  }
+];
+
+function renderTemplates() {
+  const container = document.getElementById('template-cards-container');
+  if(!container) return;
+  container.innerHTML = PRESET_TEMPLATES.map((tpl, i) => `
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:12px;min-width:160px;cursor:pointer;" onclick="applyTemplate(${i})">
+      <div style="font-weight:600;font-size:13px;color:var(--text);margin-bottom:6px;">${tpl.name}</div>
+      <div style="font-size:11px;color:var(--text3);">${tpl.marks} marks · Crit ${tpl.criteria.join('+')}</div>
+    </div>
+  `).join('');
+}
+
+function applyTemplate(idx) {
+  const tpl = PRESET_TEMPLATES[idx];
+  
+  // Set Criteria (requires clicking checkboxes in DOM)
+  const cPanel = document.getElementById('shared-criteria-panel');
+  if(cPanel) {
+    cPanel.querySelectorAll('input').forEach(cb => {
+      cb.checked = tpl.criteria.includes(cb.value);
+    });
+    updateMultiSelect('shared-criteria');
+    checkDFactor();
+  }
+  
+  // Reset and apply mix
+  document.querySelectorAll('.gen-type-row').forEach(row => {
+    row.querySelector('.gen-type-cb').checked = false;
+  });
+  
+  tpl.mix.forEach(m => {
+    const row = document.querySelector(`.gen-type-row[data-type="${m.t}"]`);
+    if(row) {
+      row.querySelector('.gen-type-cb').checked = true;
+      row.querySelector('.gen-type-count').value = m.c;
+      row.querySelector('.gen-type-marks').value = m.m;
+    }
+  });
+  
+  updateGenTotalMarks();
 }
 
 /* ── Build Prompt (IB MYP Sciences Guide April 2023 + Real Papers M23-M25) ── */
@@ -384,21 +469,20 @@ function validateGeneratedSet(result, config) {
 }
 
 function collectGenConfig() {
-  const chapter = document.getElementById('gen-chapter').value;
-  const topic = document.getElementById('gen-topic').value.trim();
-  const gc = document.getElementById('gen-gc').value;
-  const atl = document.getElementById('gen-atl').value;
-  const difficulty = document.getElementById('gen-difficulty').value;
-  const grade = document.getElementById('gen-grade')?.value || '9';
+  const chapter = document.getElementById('shared-assessment-type')?.value || '';
+  const topic = document.getElementById('shared-topics')?.value.trim() || '';
+  const grade = document.getElementById('shared-grade')?.value || '9';
+  const criterion = getMultiSelectValues('shared-criteria').join(', ') || 'A';
+  const dFactor = document.getElementById('shared-dfactor')?.value || 'Environmental';
+  const gc = document.getElementById('shared-gc')?.value || '';
+  const difficulty = 'Mixed';
+  const includeDiagrams = true;
+  const includeDataTables = true;
+  const atl = '';
   const yearLevel = gradeToYearLevel(grade);
-  const criterion = document.getElementById('gen-criterion-select')?.value || 'A';
-  const dFactor = document.getElementById('gen-dfactor')?.value || 'Environmental';
-  const includeDiagrams = document.getElementById('gen-opt-diagrams')?.checked ?? true;
-  const includeDataTables = document.getElementById('gen-opt-datatables')?.checked ?? true;
+  const heading = document.getElementById('shared-heading')?.value.trim() || (topic + ' — Criterion ' + criterion);
 
-  const heading = document.getElementById('gen-heading').value.trim() || (topic + ' — Criterion ' + criterion);
-
-  if (!chapter) { alert('Please select a Chapter.'); return null; }
+  if (!chapter) { alert('Please select an Assessment Type.'); return null; }
   if (!topic) { alert('Please enter a Topic.'); return null; }
 
   // Context & media
@@ -418,7 +502,7 @@ function collectGenConfig() {
 
   if (questions.length === 0) { alert('Please select at least one question type.'); return null; }
 
-  const totalMarks = Number(document.getElementById('gen-total-marks').value || 0);
+  const totalMarks = Number(document.getElementById('shared-total-marks').value || 0);
 
   return {
     chapter, topic, criterion, globalContext: gc, atl, difficulty, grade, yearLevel, dFactor, includeDiagrams, includeDataTables, heading, questions, totalMarks,
