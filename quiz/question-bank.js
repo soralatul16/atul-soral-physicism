@@ -8,7 +8,8 @@ Forces & Motion
 {
 topic:"forces",
 image:"1-what-is-a-force",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"A force is defined as:",
 options:["Energy","A push or pull","Motion","Speed"],
@@ -18,7 +19,8 @@ explanation:"Force is a push or pull acting on an object."
 {
 topic:"forces",
 image:"1-what-is-a-force",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"A push force moves an object:",
 options:["Towards you","Away from you","Upwards","Downwards"],
@@ -28,7 +30,8 @@ explanation:"Push moves objects away."
 {
 topic:"forces",
 image:"1-what-is-a-force",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"A pull force moves an object:",
 options:["Away","Towards you","Sideways","Randomly"],
@@ -38,7 +41,8 @@ explanation:"Pull brings objects closer."
 {
 topic:"forces",
 image:"1-what-is-a-force",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Which is an effect of force?",
 options:["Changing color","Changing motion","Changing mass","Changing time"],
@@ -48,7 +52,8 @@ explanation:"Force affects motion or shape."
 {
 topic:"forces",
 image:"1-what-is-a-force",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Force can change:",
 options:["Shape","Speed","Direction","All of these"],
@@ -58,7 +63,8 @@ explanation:"Force affects multiple properties."
 {
 topic:"forces",
 image:"1-what-is-a-force",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Which is a contact force?",
 options:["Gravity","Magnetic force","Friction","Electrostatic force"],
@@ -68,7 +74,8 @@ explanation:"Friction requires contact."
 {
 topic:"forces",
 image:"1-what-is-a-force",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which is a non-contact force?",
 options:["Friction","Tension","Gravity","Normal force"],
@@ -78,7 +85,8 @@ explanation:"Acts without contact."
 {
 topic:"forces",
 image:"1-what-is-a-force",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Air resistance is:",
 options:["Contact force","Non-contact force","Mixed force","Energy"],
@@ -88,7 +96,8 @@ explanation:"It occurs due to interaction with air particles."
 {
 topic:"forces",
 image:"1-what-is-a-force",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Force can start motion in an object that is:",
 options:["Moving","At rest","Falling","Rotating"],
@@ -98,7 +107,8 @@ explanation:"Force initiates motion."
 {
 topic:"forces",
 image:"1-what-is-a-force",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Force acting opposite to motion is:",
 options:["Gravity","Friction","Magnetism","Tension"],
@@ -111,7 +121,8 @@ explanation:"Friction opposes motion."
 {
 topic:"forces",
 image:"2-types-of-forces",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Forces can be categorized into:",
 options:["One type","Two types","Three types","Four types"],
@@ -121,7 +132,8 @@ explanation:"Contact, non-contact, and mixed."
 {
 topic:"forces",
 image:"2-types-of-forces",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Contact forces require:",
 options:["Distance","Energy","Physical touch","Light"],
@@ -131,7 +143,8 @@ explanation:"They act through contact."
 {
 topic:"forces",
 image:"2-types-of-forces",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Non-contact forces act:",
 options:["With touch","Without touch","With pressure","With heat"],
@@ -141,7 +154,8 @@ explanation:"They act at a distance."
 {
 topic:"forces",
 image:"2-types-of-forces",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Which is a non-contact force?",
 options:["Friction","Magnetic force","Tension","Normal force"],
@@ -151,7 +165,8 @@ explanation:"Acts without contact."
 {
 topic:"forces",
 image:"2-types-of-forces",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Which force pulls objects toward Earth?",
 options:["Magnetic","Gravitational","Friction","Tension"],
@@ -161,7 +176,8 @@ explanation:"Gravity attracts objects."
 {
 topic:"forces",
 image:"2-types-of-forces",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Mixed forces mean:",
 options:["No forces","One force","Multiple forces acting together","Weak forces"],
@@ -171,7 +187,8 @@ explanation:"Real-life situations involve many forces."
 {
 topic:"forces",
 image:"2-types-of-forces",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which is an example of pull force?",
 options:["Pushing door","Pulling rope","Kicking ball","Pushing cart"],
@@ -181,7 +198,8 @@ explanation:"Pull moves towards you."
 {
 topic:"forces",
 image:"2-types-of-forces",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which force changes direction of motion?",
 options:["Friction","Applied force","Gravity","All"],
@@ -191,7 +209,8 @@ explanation:"Different forces can change direction."
 {
 topic:"forces",
 image:"2-types-of-forces",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"A force can stop motion by:",
 options:["Increasing speed","Reducing speed","Changing mass","Changing energy"],
@@ -201,7 +220,8 @@ explanation:"It brings object to rest."
 {
 topic:"forces",
 image:"2-types-of-forces",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Applied force is:",
 options:["Natural force","Force by human or object","Only gravity","Only friction"],
@@ -214,7 +234,8 @@ explanation:"It is externally applied."
 {
 topic:"forces",
 image:"3-balanced-vs-unbalanced-forces",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Balanced forces have net force:",
 options:["1 N","0 N","10 N","100 N"],
@@ -224,7 +245,8 @@ explanation:"They cancel out."
 {
 topic:"forces",
 image:"3-balanced-vs-unbalanced-forces",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Balanced forces cause:",
 options:["Acceleration","No change in motion","Rotation","Speed increase"],
@@ -234,7 +256,8 @@ explanation:"Object stays at rest or constant speed."
 {
 topic:"forces",
 image:"3-balanced-vs-unbalanced-forces",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Unbalanced forces have net force:",
 options:["0 N","Not zero","Always 1 N","Always 10 N"],
@@ -244,7 +267,8 @@ explanation:"They do not cancel."
 {
 topic:"forces",
 image:"3-balanced-vs-unbalanced-forces",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Unbalanced forces cause:",
 options:["No motion","Change in motion","No effect","Constant rest"],
@@ -254,7 +278,8 @@ explanation:"They cause acceleration."
 {
 topic:"forces",
 image:"3-balanced-vs-unbalanced-forces",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Equal and opposite forces are:",
 options:["Unbalanced","Balanced","Mixed","Weak"],
@@ -264,7 +289,8 @@ explanation:"They cancel out."
 {
 topic:"forces",
 image:"3-balanced-vs-unbalanced-forces",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Net force is:",
 options:["Total force acting","One force","Small force","Energy"],
@@ -274,7 +300,8 @@ explanation:"Sum of all forces."
 {
 topic:"forces",
 image:"3-balanced-vs-unbalanced-forces",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A moving object with constant speed has:",
 options:["Unbalanced force","Balanced forces","No forces","Only gravity"],
@@ -284,7 +311,8 @@ explanation:"Net force is zero."
 {
 topic:"forces",
 image:"3-balanced-vs-unbalanced-forces",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If forces are unequal:",
 options:["Balanced","Unbalanced","Zero","Cancel"],
@@ -294,7 +322,8 @@ explanation:"Net force exists."
 {
 topic:"forces",
 image:"3-balanced-vs-unbalanced-forces",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Example of balanced force:",
 options:["Kicking ball","Book on table","Car accelerating","Rocket launch"],
@@ -304,7 +333,8 @@ explanation:"Forces cancel out."
 {
 topic:"forces",
 image:"3-balanced-vs-unbalanced-forces",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Rocket launching shows:",
 options:["Balanced force","Unbalanced force","No force","Friction only"],
@@ -317,7 +347,8 @@ explanation:"Net upward force causes motion."
 {
 topic:"forces",
 image:"4-myth-motion-needs-force",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"The myth states motion needs:",
 options:["Energy","Force","Mass","Speed"],
@@ -327,7 +358,8 @@ explanation:"Common misconception."
 {
 topic:"forces",
 image:"4-myth-motion-needs-force",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"The correct concept is:",
 options:["Motion stops always","Motion continues unless force acts","Motion needs energy","Motion needs gravity"],
@@ -337,7 +369,8 @@ explanation:"Newton's first law."
 {
 topic:"forces",
 image:"4-myth-motion-needs-force",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"This law is called:",
 options:["Second law","First law","Third law","Ohm’s law"],
@@ -347,7 +380,8 @@ explanation:"Law of inertia."
 {
 topic:"forces",
 image:"4-myth-motion-needs-force",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Inertia is:",
 options:["Change in motion","Resistance to change","Speed","Energy"],
@@ -357,7 +391,8 @@ explanation:"Objects resist change in motion."
 {
 topic:"forces",
 image:"4-myth-motion-needs-force",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Object keeps moving due to:",
 options:["Force","Inertia","Energy","Mass"],
@@ -367,7 +402,8 @@ explanation:"No force needed to continue motion."
 {
 topic:"forces",
 image:"4-myth-motion-needs-force",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Motion changes only when:",
 options:["Balanced force acts","Unbalanced force acts","Energy increases","Mass changes"],
@@ -377,7 +413,8 @@ explanation:"Net force changes motion."
 {
 topic:"forces",
 image:"4-myth-motion-needs-force",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"In space, objects move continuously because:",
 options:["No gravity","No friction","High speed","High energy"],
@@ -387,7 +424,8 @@ explanation:"No resisting force."
 {
 topic:"forces",
 image:"4-myth-motion-needs-force",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A hockey puck keeps moving because:",
 options:["Force applied continuously","Inertia","Gravity","Heat"],
@@ -397,7 +435,8 @@ explanation:"Very little friction."
 {
 topic:"forces",
 image:"4-myth-motion-needs-force",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Friction causes:",
 options:["Motion continues","Motion slows","Acceleration","Increase energy"],
@@ -407,7 +446,8 @@ explanation:"Opposes motion."
 {
 topic:"forces",
 image:"4-myth-motion-needs-force",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Key takeaway:",
 options:["Force keeps motion","Unbalanced force changes motion","Motion stops always","Energy is constant"],
@@ -419,147 +459,177 @@ explanation:"Correct concept of motion."
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Newton’s First Law is also called:",
 options:["Law of motion","Law of inertia","Law of acceleration","Law of gravity"],
 answer:"Law of inertia"
+    explanation: "This is true because the physics supports Law of inertia.",
 },
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"An object at rest will:",
 options:["Move randomly","Stay at rest","Accelerate","Explode"],
 answer:"Stay at rest"
+    explanation: "This is true because the physics supports Stay at rest.",
 },
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"B",
+criterion: "A",
+    strand: "iii",
 level:"medium",
 question:"Inertia depends on:",
 options:["Speed","Force","Mass","Velocity"],
 answer:"Mass"
+    explanation: "This is true because the physics supports Mass.",
 },
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Which has more inertia?",
 options:["Feather","Book","Truck","Paper"],
 answer:"Truck"
+    explanation: "This is true because the physics supports Truck.",
 },
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A passenger moves forward when a bus stops due to:",
 options:["Friction","Inertia","Gravity","Acceleration"],
 answer:"Inertia"
+    explanation: "This is true because the physics supports Inertia.",
 },
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which situation shows inertia of motion?",
 options:["Ball at rest","Moving car continues","Object falling","Object breaking"],
 answer:"Moving car continues"
+    explanation: "This is true because the physics supports Moving car continues.",
 },
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If no net force acts, an object will:",
 options:["Stop","Accelerate","Maintain velocity","Change direction"],
 answer:"Maintain velocity"
+    explanation: "This is true because the physics supports Maintain velocity.",
 },
 
 // Numerical
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A 5 kg object moves at constant velocity. Net force acting is:",
 options:["5 N","10 N","0 N","Depends on speed"],
 answer:"0 N"
+    explanation: "This is true because the physics supports 0 N.",
 },
 
 // Confusing
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A moving object stops. This means:",
 options:["No force acted","Balanced force acted","Unbalanced force acted","Mass changed"],
 answer:"Unbalanced force acted"
+    explanation: "This is true because the physics supports the correct principle.",
 },
 
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Inertia resists:",
 options:["Motion","Change in motion","Force","Energy"],
 answer:"Change in motion"
+    explanation: "This is true because the physics supports Change in motion.",
 },
 
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Seat belts work because they:",
 options:["Increase inertia","Decrease inertia","Apply force to stop motion","Remove motion"],
 answer:"Apply force to stop motion"
+    explanation: "This is true because the physics supports the correct principle.",
 },
 
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A heavier object is harder to stop because:",
 options:["More force","More inertia","Less speed","Less gravity"],
 answer:"More inertia"
+    explanation: "This is true because the physics supports More inertia.",
 },
 
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Inertia is a property of:",
 options:["Energy","Matter","Force","Velocity"],
 answer:"Matter"
+    explanation: "This is true because the physics supports Matter.",
 },
 
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which does NOT affect inertia?",
 options:["Mass","Shape","Material (same mass)","Both B and C"],
 answer:"Both B and C"
+    explanation: "This is true because the physics supports Both B and C.",
 },
 
 {
 topic:"inertia",
 image:"5-newtons-first-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"An astronaut floats because:",
 options:["No gravity","No inertia","No friction","No mass"],
 answer:"No friction"
+    explanation: "This is true because the physics supports No friction.",
 },
 
 /* ================= IMAGE 6: INERTIA DEEP DIVE ================= */
@@ -567,153 +637,183 @@ answer:"No friction"
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Inertia is resistance to:",
 options:["Speed","Force","Change in motion","Energy"],
 answer:"Change in motion"
+    explanation: "This is true because the physics supports Change in motion.",
 },
 
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"More mass means:",
 options:["Less inertia","More inertia","Same inertia","No inertia"],
 answer:"More inertia"
+    explanation: "This is true because the physics supports More inertia.",
 },
 
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which has greater inertia?",
 options:["Empty cart","Loaded cart","Same","Depends on speed"],
 answer:"Loaded cart"
+    explanation: "This is true because the physics supports Loaded cart.",
 },
 
 // Numerical
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If mass doubles, inertia:",
 options:["Halves","Doubles","Remains same","Becomes zero"],
 answer:"Doubles"
+    explanation: "This is true because the physics supports Doubles.",
 },
 
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which affects inertia?",
 options:["Mass","Shape","Size","Color"],
 answer:"Mass"
+    explanation: "This is true because the physics supports Mass.",
 },
 
 // Confusing
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Two objects same mass, different shape:",
 options:["Different inertia","Same inertia","Depends on speed","Depends on area"],
 answer:"Same inertia"
+    explanation: "This is true because the physics supports Same inertia.",
 },
 
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Inertia is measured in:",
 options:["kg","N","m/s","Not directly measured"],
 answer:"Not directly measured"
+    explanation: "This is true because the physics supports the correct principle.",
 },
 
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which is hardest to stop?",
 options:["Football","Cricket ball","Truck","Bicycle"],
 answer:"Truck"
+    explanation: "This is true because the physics supports Truck.",
 },
 
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Seat belts reduce injury by:",
 options:["Increasing inertia","Reducing inertia","Applying force over time","Removing motion"],
 answer:"Applying force over time"
+    explanation: "This is true because the physics supports the correct principle.",
 },
 
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Inertia depends ONLY on:",
 options:["Speed","Mass","Force","Velocity"],
 answer:"Mass"
+    explanation: "This is true because the physics supports Mass.",
 },
 
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which has least inertia?",
 options:["Truck","Ball","Feather","Car"],
 answer:"Feather"
+    explanation: "This is true because the physics supports Feather.",
 },
 
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A moving truck vs stationary truck:",
 options:["Same inertia","Moving has more","Stationary has more","Depends on speed"],
 answer:"Same inertia"
+    explanation: "This is true because the physics supports Same inertia.",
 },
 
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Inertia increases with:",
 options:["Speed","Mass","Force","Time"],
 answer:"Mass"
+    explanation: "This is true because the physics supports Mass.",
 },
 
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which situation shows inertia?",
 options:["Dust falling","Book moving","Stopping bus","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"inertia",
 image:"6-inertia-deep-dive",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A heavier object requires:",
 options:["Less force","More force","Same force","No force"],
 answer:"More force"
+    explanation: "This is true because the physics supports More force.",
 },
 
 /* ================= IMAGE 7: MOMENTUM ================= */
@@ -721,154 +821,184 @@ answer:"More force"
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Momentum formula is:",
 options:["F=ma","p=mv","E=mc²","v=u+at"],
 answer:"p=mv"
+    explanation: "This is true because the physics supports p=mv.",
 },
 
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"B",
+criterion: "A",
+    strand: "iii",
 level:"medium",
 question:"Momentum depends on:",
 options:["Mass","Velocity","Both","Neither"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 // Numerical
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Momentum of 2 kg moving at 3 m/s:",
 options:["6","5","3","9"],
 answer:"6"
+    explanation: "This is true because the physics supports 6.",
 },
 
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If velocity doubles, momentum:",
 options:["Halves","Doubles","Same","Zero"],
 answer:"Doubles"
+    explanation: "This is true because the physics supports Doubles.",
 },
 
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Momentum is:",
 options:["Scalar","Vector","Constant","Energy"],
 answer:"Vector"
+    explanation: "This is true because the physics supports Vector.",
 },
 
 // Conservation numerical
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"2 kg at 4 m/s hits 2 kg at rest. Final velocity:",
 options:["2 m/s","4 m/s","0","1 m/s"],
 answer:"2 m/s"
+    explanation: "This is true because the physics supports 2 m/s.",
 },
 
 // Confusing
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If no external force acts:",
 options:["Momentum increases","Momentum decreases","Momentum conserved","Momentum zero"],
 answer:"Momentum conserved"
+    explanation: "This is true because the physics supports Momentum conserved.",
 },
 
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Impulse equals:",
 options:["Force","Momentum","Change in momentum","Velocity"],
 answer:"Change in momentum"
+    explanation: "This is true because the physics supports Change in momentum.",
 },
 
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Impulse formula:",
 options:["F×t","mv","F/m","v/t"],
 answer:"F×t"
+    explanation: "This is true because the physics supports F×t.",
 },
 
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"In elastic collision:",
 options:["Momentum only conserved","Energy only conserved","Both conserved","None conserved"],
 answer:"Both conserved"
+    explanation: "This is true because the physics supports Both conserved.",
 },
 
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"In inelastic collision:",
 options:["Energy conserved","Momentum conserved","Both conserved","None"],
 answer:"Momentum conserved"
+    explanation: "This is true because the physics supports Momentum conserved.",
 },
 
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Recoil of gun is due to:",
 options:["Energy","Momentum conservation","Force","Gravity"],
 answer:"Momentum conservation"
+    explanation: "This is true because the physics supports the correct principle.",
 },
 
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Momentum unit:",
 options:["kg m/s","N","J","m/s"],
 answer:"kg m/s"
+    explanation: "This is true because the physics supports kg m/s.",
 },
 
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which has more momentum?",
 options:["Heavy slow object","Light fast object","Depends on mv","Always heavy"],
 answer:"Depends on mv"
+    explanation: "This is true because the physics supports Depends on mv.",
 },
 
 {
 topic:"momentum",
 image:"7-momentum-and-conservation-of-momentum",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If mass is zero:",
 options:["Momentum infinite","Momentum zero","Momentum constant","Undefined"],
 answer:"Momentum zero"
+    explanation: "This is true because the physics supports Momentum zero.",
 },
 
 /* ================= IMAGE 8: NEWTON’S SECOND LAW ================= */
@@ -876,305 +1006,365 @@ answer:"Momentum zero"
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Formula of Newton’s second law:",
 options:["F=ma","p=mv","E=mc²","v=u+at"],
 answer:"F=ma"
+    explanation: "This is true because the physics supports F=ma.",
 },
 
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"B",
+criterion: "A",
+    strand: "iii",
 level:"medium",
 question:"Acceleration depends on:",
 options:["Force","Mass","Both","None"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 // Numerical
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"C",
+criterion: "A",
+    strand: "ii",
 level:"hard",
 question:"Force on 2 kg with acceleration 3 m/s²:",
 options:["6 N","5 N","3 N","9 N"],
 answer:"6 N"
+    explanation: "This is true because the physics supports 6 N.",
 },
 
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"C",
+criterion: "A",
+    strand: "ii",
 level:"hard",
 question:"Acceleration of 10 N force on 5 kg:",
 options:["2 m/s²","5","10","0.5"],
 answer:"2 m/s²"
+    explanation: "This is true because the physics supports 2 m/s².",
 },
 
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If mass increases, acceleration:",
 options:["Increases","Decreases","Same","Zero"],
 answer:"Decreases"
+    explanation: "This is true because the physics supports Decreases.",
 },
 
 // Confusing
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Doubling force causes acceleration:",
 options:["Half","Double","Same","Zero"],
 answer:"Double"
+    explanation: "This is true because the physics supports Double.",
 },
 
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Direction of acceleration depends on:",
 options:["Mass","Force","Velocity","Time"],
 answer:"Force"
+    explanation: "This is true because the physics supports Force.",
 },
 
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Net force zero means:",
 options:["Acceleration","No acceleration","Velocity zero","Mass zero"],
 answer:"No acceleration"
+    explanation: "This is true because the physics supports No acceleration.",
 },
 
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which has highest acceleration?",
 options:["Small mass large force","Large mass small force","Equal both","None"],
 answer:"Small mass large force"
+    explanation: "This is true because the physics supports the correct principle.",
 },
 
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Seat belts reduce force by:",
 options:["Reducing mass","Increasing time","Reducing speed","Increasing acceleration"],
 answer:"Increasing time"
+    explanation: "This is true because the physics supports Increasing time.",
 },
 
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Unit of force:",
 options:["kg","m/s","N","J"],
 answer:"N"
+    explanation: "This is true because the physics supports N.",
 },
 
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"1 N equals:",
 options:["1 kg m/s²","1 kg m/s","1 m/s²","1 J"],
 answer:"1 kg m/s²"
+    explanation: "This is true because the physics supports 1 kg m/s².",
 },
 
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If acceleration is zero:",
 options:["Force zero","Mass zero","Velocity zero","Time zero"],
 answer:"Force zero"
+    explanation: "This is true because the physics supports Force zero.",
 },
 
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Rocket accelerates because:",
 options:["Mass decreases","Force increases","Both","None"],
 answer:"Both"
+    explanation: "As fuel burns, mass decreases while thrust can increase, both increasing acceleration via F=ma.",
 },
 
 {
 topic:"force",
 image:"8-newtons-second-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which is correct?",
 options:["F ∝ a","F ∝ 1/a","F independent","F constant"],
 answer:"F ∝ a"
+    explanation: "This is true because the physics supports F ∝ a.",
 },
 /* ================= IMAGE 9: SOLVING FORCE PROBLEMS ================= */
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"The formula used for most force problems is:",
 options:["p=mv","F=ma","E=mc²","v=u+at"],
 answer:"F=ma"
+    explanation: "This is true because the physics supports F=ma.",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Which is the correct first step in solving problems?",
 options:["Substitute","Choose formula","Read question","Check answer"],
 answer:"Read question"
+    explanation: "This is true because the physics supports Read question.",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A force of 40 N acts on a 10 kg mass. Acceleration is:",
 options:["2 m/s²","4 m/s²","5 m/s²","0.4 m/s²"],
 answer:"4 m/s²"
+    explanation: "This is true because the physics supports 4 m/s².",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A 2000 kg car accelerates at 3 m/s². Force required:",
 options:["6000 N","3000 N","2000 N","1000 N"],
 answer:"6000 N"
+    explanation: "This is true because the physics supports 6000 N.",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Mass = 5 kg, acceleration = 0. What is force?",
 options:["5 N","0 N","10 N","Cannot determine"],
 answer:"0 N"
+    explanation: "This is true because the physics supports 0 N.",
 },
 
 // tricky
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
-question:"If force increases but mass doubles, acceleration:",
+question: "If force doubles and mass doubles, acceleration:",
 options:["Increases","Decreases","Same","Zero"],
 answer:"Same"
+    explanation: "This is true because the physics supports Same.",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A force of 15 N produces acceleration of 3 m/s². Mass:",
 options:["5 kg","3 kg","45 kg","1 kg"],
 answer:"5 kg"
+    explanation: "This is true because the physics supports 5 kg.",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Wrong unit for force is:",
 options:["N","kg m/s²","kg","N"],
 answer:"kg"
+    explanation: "This is true because the physics supports kg.",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Which is NOT part of solving steps?",
 options:["Identify unknown","Guess answer","Substitute","Check"],
 answer:"Guess answer"
+    explanation: "This is true because the physics supports Guess answer.",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A 50 N force acts on 25 kg mass. Acceleration:",
 options:["2","5","10","0.5"],
 answer:"2"
+    explanation: "This is true because the physics supports 2.",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If acceleration doubles, force:",
 options:["Halves","Doubles","Same","Zero"],
 answer:"Doubles"
+    explanation: "This is true because the physics supports Doubles.",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Force needed to keep constant velocity:",
 options:["Depends","Zero","High","Infinite"],
 answer:"Zero"
+    explanation: "This is true because the physics supports Zero.",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A 1000 kg car increases speed → force must:",
 options:["Decrease","Increase","Zero","Stay same"],
 answer:"Increase"
+    explanation: "This is true because the physics supports Increase.",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Error in solving: forgetting units leads to:",
 options:["Correct answer","Incorrect answer","No effect","Faster solving"],
 answer:"Incorrect answer"
+    explanation: "This is true because the physics supports Incorrect answer.",
 },
 
 {
 topic:"force",
 image:"9-solving-force-problems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A 10 kg object needs 20 N force. Acceleration:",
 options:["2","5","10","0.5"],
 answer:"2"
+    explanation: "This is true because the physics supports 2.",
 },
 
 /* ================= IMAGE 10: NEWTON’S THIRD LAW ================= */
@@ -1182,152 +1372,182 @@ answer:"2"
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Newton’s third law states:",
 options:["F=ma","Action = reaction","p=mv","Energy conserved"],
 answer:"Action = reaction"
+    explanation: "This is true because the physics supports Action = reaction.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Action and reaction forces act on:",
 options:["Same object","Different objects","Same place","Same direction"],
 answer:"Different objects"
+    explanation: "This is true because the physics supports Different objects.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Action-reaction forces are:",
 options:["Equal & same direction","Equal & opposite","Different","Random"],
 answer:"Equal & opposite"
+    explanation: "This is true because the physics supports Equal & opposite.",
 },
 
 // tricky
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Do action-reaction forces cancel?",
 options:["Yes","No","Sometimes","Only in motion"],
 answer:"No"
+    explanation: "This is true because the physics supports No.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Rocket moves because:",
 options:["Air pushes it","Gases push it","Gravity pushes","Mass changes"],
 answer:"Gases push it"
+    explanation: "This is true because the physics supports Gases push it.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Walking forward is due to:",
 options:["Foot pushes ground","Ground pushes foot","Both","None"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If A pushes B with 10 N, B pushes A with:",
 options:["5 N","10 N","0","20 N"],
 answer:"10 N"
+    explanation: "This is true because the physics supports 10 N.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Swimming forward occurs because:",
 options:["Water pushes swimmer","Swimmer pushes water","Both","None"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"A book on table: action-reaction pair:",
 options:["Book weight & normal","Table push & book push","Gravity & friction","None"],
 answer:"Table push & book push"
+    explanation: "This is true because the physics supports the correct principle.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which is NOT a pair?",
 options:["Hand-wall","Earth-Moon","Book-weight","Foot-ground"],
 answer:"Book-weight"
+    explanation: "This is true because the physics supports Book-weight.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Force pair acts:",
 options:["Together","Separately","Randomly","Slowly"],
 answer:"Together"
+    explanation: "This is true because the physics supports Together.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If action increases, reaction:",
 options:["Decreases","Increases equally","Same","Zero"],
 answer:"Increases equally"
+    explanation: "This is true because the physics supports Increases equally.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which violates third law?",
 options:["Rocket","Walking","Swimming","None"],
 answer:"None"
+    explanation: "This is true because the physics supports None.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Magnet attracting iron is example of:",
 options:["Third law","First law","Second law","None"],
 answer:"Third law"
+    explanation: "This is true because the physics supports Third law.",
 },
 
 {
 topic:"third law",
 image:"10-newtons-third-law",
-criterion:"D",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Why don’t they cancel?",
 options:["Different objects","Different time","Different size","Different mass"],
 answer:"Different objects"
+    explanation: "This is true because the physics supports Different objects.",
 },
 
 /* ================= IMAGE 11: NEWTON’S LAWS SUMMARY ================= */
@@ -1335,152 +1555,182 @@ answer:"Different objects"
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Which law explains inertia?",
 options:["1st","2nd","3rd","None"],
 answer:"1st"
+    explanation: "This is true because the physics supports 1st.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Second law relates:",
 options:["Force & acceleration","Mass only","Speed","Time"],
 answer:"Force & acceleration"
+    explanation: "This is true because the physics supports Force & acceleration.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Third law explains:",
 options:["Motion","Acceleration","Interaction","Energy"],
 answer:"Interaction"
+    explanation: "This is true because the physics supports Interaction.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If no net force:",
 options:["Acceleration","No motion","Constant motion","Stop"],
 answer:"Constant motion"
+    explanation: "This is true because the physics supports Constant motion.",
 },
 
 // tricky
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Law 2 fails when:",
 options:["Mass zero","Force zero","Never","Speed zero"],
 answer:"Never"
+    explanation: "This is true because the physics supports Never.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"More force → acceleration:",
 options:["Less","More","Same","Zero"],
 answer:"More"
+    explanation: "This is true because the physics supports More.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"D",
+criterion: "A",
+    strand: "ii",
 level:"hard",
 question:"Laws apply in:",
 options:["Earth","Space","Both","Neither"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which law explains rocket motion?",
 options:["1","2","3","All"],
 answer:"3"
+    explanation: "This is true because the physics supports 3.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Mass increases → acceleration:",
 options:["Increase","Decrease","Same","Zero"],
 answer:"Decrease"
+    explanation: "This is true because the physics supports Decrease.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which law is default state?",
 options:["1","2","3","None"],
 answer:"1"
+    explanation: "This is true because the physics supports 1.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which law explains change?",
 options:["1","2","3","None"],
 answer:"2"
+    explanation: "This is true because the physics supports 2.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which law explains pairs?",
 options:["1","2","3","All"],
 answer:"3"
+    explanation: "This is true because the physics supports 3.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Net force causes:",
 options:["Velocity","Acceleration","Mass","Time"],
 answer:"Acceleration"
+    explanation: "This is true because the physics supports Acceleration.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Balanced forces give:",
 options:["Acceleration","No change","Speed increase","Energy"],
 answer:"No change"
+    explanation: "This is true because the physics supports No change.",
 },
 
 {
 topic:"laws",
 image:"11-newtons-laws-summary-map",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Unbalanced forces cause:",
 options:["Rest","Motion change","Energy","Mass change"],
 answer:"Motion change"
+    explanation: "This is true because the physics supports Motion change.",
 },
 
 /* ================= IMAGE 12: FRICTION ================= */
@@ -1488,306 +1738,366 @@ answer:"Motion change"
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Friction opposes:",
 options:["Force","Motion","Mass","Energy"],
 answer:"Motion"
+    explanation: "This is true because the physics supports Motion.",
 },
 
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Static friction acts when:",
 options:["Moving","At rest","Falling","Rotating"],
 answer:"At rest"
+    explanation: "This is true because the physics supports At rest.",
 },
 
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Kinetic friction acts when:",
 options:["Rest","Sliding","Floating","Standing"],
 answer:"Sliding"
+    explanation: "This is true because the physics supports Sliding.",
 },
 
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which is highest?",
 options:["Static","Kinetic","Fluid","Same"],
 answer:"Static"
+    explanation: "This is true because the physics supports Static.",
 },
 
 // numerical
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Normal force doubles → friction:",
 options:["Halves","Doubles","Same","Zero"],
 answer:"Doubles"
+    explanation: "This is true because the physics supports Doubles.",
 },
 
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Smooth surface has:",
 options:["More friction","Less friction","Same","Zero"],
 answer:"Less friction"
+    explanation: "This is true because the physics supports Less friction.",
 },
 
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Lubrication:",
 options:["Increases friction","Reduces friction","Stops motion","None"],
 answer:"Reduces friction"
+    explanation: "This is true because the physics supports Reduces friction.",
 },
 
 // tricky
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Friction direction is:",
 options:["Same as motion","Opposite motion","Random","Upwards"],
 answer:"Opposite motion"
+    explanation: "This is true because the physics supports Opposite motion.",
 },
 
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Fluid friction depends on:",
 options:["Mass","Speed","Shape","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Walking requires:",
 options:["Kinetic friction","Static friction","No friction","Fluid friction"],
 answer:"Static friction"
+    explanation: "This is true because the physics supports Static friction.",
 },
 
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Friction is useful in:",
 options:["Walking","Braking","Writing","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Friction is harmful in:",
 options:["Wear","Heat loss","Energy loss","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Speed increases → friction:",
 options:["Decreases","Increases (fluid)","Same","Zero"],
 answer:"Increases (fluid)"
+    explanation: "This is true because the physics supports Increases (fluid).",
 },
 
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Maximum static friction is:",
 options:["Constant","Variable","Zero","Infinite"],
 answer:"Variable"
+    explanation: "This is true because the physics supports Variable.",
 },
 
 {
 topic:"friction",
 image:"12-types-of-friction",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"No friction → walking:",
 options:["Easy","Impossible","Same","Fast"],
 answer:"Impossible"
+    explanation: "This is true because the physics supports Impossible.",
 },
 /* ================= IMAGE 13: FRICTION IN REAL LIFE ================= */
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Friction between tyres and road provides:",
 options:["Speed","Grip","Mass","Energy"],
 answer:"Grip"
+    explanation: "This is true because the physics supports Grip.",
 },
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Which helps vehicles turn safely?",
 options:["Gravity","Friction","Mass","Velocity"],
 answer:"Friction"
+    explanation: "This is true because the physics supports Friction.",
 },
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Brakes convert kinetic energy into:",
 options:["Light","Heat","Sound","Mass"],
 answer:"Heat"
+    explanation: "This is true because the physics supports Heat.",
 },
 
 // numerical thinking
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If speed doubles, braking distance (due to friction) will:",
 options:["Double","Quadruple","Half","Same"],
 answer:"Quadruple"
+    explanation: "This is true because the physics supports Quadruple.",
 },
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Wet roads reduce friction because:",
 options:["Increase grip","Decrease contact","Add lubrication","Increase mass"],
 answer:"Add lubrication"
+    explanation: "This is true because the physics supports Add lubrication.",
 },
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Tyre pressure too low leads to:",
 options:["More grip","Less grip","No change","Infinite friction"],
 answer:"Less grip"
+    explanation: "This is true because the physics supports Less grip.",
 },
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"D",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Why off-road tyres have deep treads?",
 options:["Less friction","More grip","Less weight","Less speed"],
 answer:"More grip"
+    explanation: "This is true because the physics supports More grip.",
 },
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Higher temperature in brakes causes:",
 options:["Better braking","Brake failure","No effect","More speed"],
 answer:"Brake failure"
+    explanation: "This is true because the physics supports Brake failure.",
 },
 
 // tricky
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Friction always helps motion:",
 options:["True","False","Depends","Only in cars"],
 answer:"False"
+    explanation: "This is true because the physics supports False.",
 },
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Rolling resistance reduces:",
 options:["Speed","Fuel efficiency","Mass","Energy"],
 answer:"Fuel efficiency"
+    explanation: "This is true because the physics supports Fuel efficiency.",
 },
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Braking force depends on:",
 options:["Mass","Speed","Surface","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"ABS system prevents:",
 options:["Acceleration","Skidding","Friction","Motion"],
 answer:"Skidding"
+    explanation: "This is true because the physics supports Skidding.",
 },
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Friction is maximum when:",
 options:["Dry surface","Wet surface","Ice","Air"],
 answer:"Dry surface"
+    explanation: "This is true because the physics supports Dry surface.",
 },
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Tyres lose grip due to:",
 options:["Wear","Heat","Water","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"friction",
 image:"13-friction-in-real-life",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Too much friction causes:",
 options:["Safety","Efficiency","Wear & heat","None"],
 answer:"Wear & heat"
+    explanation: "This is true because the physics supports Wear & heat.",
 },
 
 /* ================= IMAGE 14: AIR RESISTANCE & DRAG ================= */
@@ -1795,153 +2105,183 @@ answer:"Wear & heat"
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Air resistance acts:",
 options:["With motion","Opposite motion","Random","Downward"],
 answer:"Opposite motion"
+    explanation: "This is true because the physics supports Opposite motion.",
 },
 
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Drag increases with:",
 options:["Speed","Mass","Time","Energy"],
 answer:"Speed"
+    explanation: "This is true because the physics supports Speed.",
 },
 
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Drag force formula depends on:",
 options:["v","v²","v³","constant"],
 answer:"v²"
+    explanation: "This is true because the physics supports v².",
 },
 
 // numerical conceptual
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If speed doubles, drag becomes:",
 options:["2x","4x","8x","Same"],
 answer:"4x"
+    explanation: "This is true because the physics supports 4x.",
 },
 
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Terminal velocity occurs when:",
 options:["Drag = 0","Weight = drag","Acceleration max","Velocity zero"],
 answer:"Weight = drag"
+    explanation: "This is true because the physics supports Weight = drag.",
 },
 
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which reduces drag?",
 options:["Increase area","Streamlining","Increase speed","Increase density"],
 answer:"Streamlining"
+    explanation: "This is true because the physics supports Streamlining.",
 },
 
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Parachutes work because:",
 options:["Reduce drag","Increase drag","Reduce mass","Increase gravity"],
 answer:"Increase drag"
+    explanation: "This is true because the physics supports Increase drag.",
 },
 
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Free fall without air:",
 options:["Constant speed","Accelerating","Zero speed","Decreasing"],
 answer:"Accelerating"
+    explanation: "This is true because the physics supports Accelerating.",
 },
 
 // tricky
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"At terminal velocity:",
 options:["Acceleration max","Acceleration zero","Velocity zero","Force zero"],
 answer:"Acceleration zero"
+    explanation: "This is true because the physics supports Acceleration zero.",
 },
 
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Large surface area → drag:",
 options:["Decrease","Increase","Same","Zero"],
 answer:"Increase"
+    explanation: "This is true because the physics supports Increase.",
 },
 
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Air density increases → drag:",
 options:["Decrease","Increase","Same","Zero"],
 answer:"Increase"
+    explanation: "This is true because the physics supports Increase.",
 },
 
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which falls fastest in air?",
 options:["Feather","Stone","Same","Depends"],
 answer:"Depends"
+    explanation: "This is true because the physics supports Depends.",
 },
 
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Drag is type of:",
 options:["Contact force","Non-contact","Both","None"],
 answer:"Contact force"
+    explanation: "This is true because the physics supports Contact force.",
 },
 
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If drag = weight, motion is:",
 options:["Accelerating","Constant speed","Stopping","Zero"],
 answer:"Constant speed"
+    explanation: "This is true because the physics supports Constant speed.",
 },
 
 {
 topic:"drag",
 image:"14-air-resistance-and-drag",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Aircraft reduce drag by:",
 options:["Sharp edges","Smooth design","Heavy mass","Slow speed"],
 answer:"Smooth design"
+    explanation: "This is true because the physics supports Smooth design.",
 },
 
 /* ================= IMAGE 15: MISCONCEPTION PAGE ================= */
@@ -1949,152 +2289,182 @@ answer:"Smooth design"
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Heavier objects fall faster is:",
 options:["True","False","Sometimes","Depends"],
 answer:"False"
+    explanation: "This is true because the physics supports False.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Without air resistance:",
 options:["Heavier faster","Same acceleration","Lighter faster","Stop"],
 answer:"Same acceleration"
+    explanation: "This is true because the physics supports Same acceleration.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Difference in falling speed is due to:",
 options:["Mass","Drag","Gravity","Time"],
 answer:"Drag"
+    explanation: "This is true because the physics supports Drag.",
 },
 
 // tricky
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"In vacuum, feather and stone:",
 options:["Different speeds","Same speed","Stop","Float"],
 answer:"Same speed"
+    explanation: "This is true because the physics supports Same speed.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Terminal velocity depends on:",
 options:["Mass","Shape","Area","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
-question:"Friction always stops motion:",
-options:["True","False","Sometimes","Depends"],
-answer:"False"
+question: "Friction always opposes motion:",
+options: ["True", "False"],
+answer: "True"
+    explanation: "Friction opposes relative motion but doesn't always stop it — it can also enable motion like walking.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"More friction always better:",
 options:["True","False","Depends","Only cars"],
 answer:"Depends"
+    explanation: "This is true because the physics supports Depends.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Drag increases with:",
 options:["Speed","Area","Density","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Feather falls slower because:",
 options:["Less gravity","More drag","Less mass","Less speed"],
 answer:"More drag"
+    explanation: "This is true because the physics supports More drag.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"In air, heavier object falls faster because:",
 options:["Less drag effect","More gravity","More speed","None"],
 answer:"Less drag effect"
+    explanation: "This is true because the physics supports Less drag effect.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Terminal velocity means:",
 options:["Stops moving","Constant speed","Zero force","Zero gravity"],
 answer:"Constant speed"
+    explanation: "This is true because the physics supports Constant speed.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Net force at terminal velocity:",
 options:["Zero","Max","Min","Infinite"],
 answer:"Zero"
+    explanation: "This is true because the physics supports Zero.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Acceleration at terminal velocity:",
 options:["Max","Zero","Constant","Infinite"],
 answer:"Zero"
+    explanation: "This is true because the physics supports Zero.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which falls slowest?",
 options:["Large area","Small area","Dense","Heavy"],
 answer:"Large area"
+    explanation: "This is true because the physics supports Large area.",
 },
 
 {
 topic:"misconception",
 image:"15-misconception-2",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Correct statement:",
 options:["Mass decides fall","Drag decides fall","Both","None"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 /* ================= IMAGE 16: TERMINAL VELOCITY ================= */
@@ -2102,306 +2472,366 @@ answer:"Both"
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Terminal velocity is when:",
 options:["Speed zero","Acceleration zero","Force zero","Mass zero"],
 answer:"Acceleration zero"
+    explanation: "This is true because the physics supports Acceleration zero.",
 },
 
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"At terminal velocity, net force:",
 options:["Zero","Max","Min","Constant"],
 answer:"Zero"
+    explanation: "This is true because the physics supports Zero.",
 },
 
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Drag force depends on:",
 options:["v","v²","v³","constant"],
 answer:"v²"
+    explanation: "This is true because the physics supports v².",
 },
 
 // numerical
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If speed doubles, drag becomes:",
 options:["2x","4x","Same","Half"],
 answer:"4x"
+    explanation: "This is true because the physics supports 4x.",
 },
 
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"At terminal velocity:",
 options:["Drag > weight","Weight > drag","Drag = weight","No force"],
 answer:"Drag = weight"
+    explanation: "This is true because the physics supports Drag = weight.",
 },
 
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Acceleration during fall:",
 options:["Constant","Decreases","Increases","Zero always"],
 answer:"Decreases"
+    explanation: "This is true because the physics supports Decreases.",
 },
 
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Large parachute → terminal velocity:",
 options:["Increase","Decrease","Same","Zero"],
 answer:"Decrease"
+    explanation: "This is true because the physics supports Decrease.",
 },
 
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Heavier object → terminal velocity:",
 options:["Higher","Lower","Same","Zero"],
 answer:"Higher"
+    explanation: "This is true because the physics supports Higher.",
 },
 
 // tricky
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Terminal velocity means:",
 options:["Max speed always","Constant speed","Stop","Zero"],
 answer:"Constant speed"
+    explanation: "This is true because the physics supports Constant speed.",
 },
 
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"In vacuum terminal velocity:",
 options:["Exists","Does not exist","Same","Zero"],
 answer:"Does not exist"
+    explanation: "This is true because the physics supports Does not exist.",
 },
 
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Acceleration becomes zero because:",
 options:["Velocity constant","Forces balance","Mass zero","Gravity zero"],
 answer:"Forces balance"
+    explanation: "This is true because the physics supports Forces balance.",
 },
 
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Shape affects terminal velocity:",
 options:["Yes","No","Sometimes","Rarely"],
 answer:"Yes"
+    explanation: "This is true because the physics supports Yes.",
 },
 
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Velocity-time graph becomes:",
 options:["Straight line","Curve flattening","Downward","Zero"],
 answer:"Curve flattening"
+    explanation: "This is true because the physics supports Curve flattening.",
 },
 
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If drag suddenly increases:",
 options:["Speed increases","Speed decreases","No change","Stops"],
 answer:"Speed decreases"
+    explanation: "This is true because the physics supports Speed decreases.",
 },
 
 {
 topic:"terminal velocity",
 image:"16-terminal-velocity",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"At start of fall:",
 options:["Drag max","Drag zero","Equal forces","No gravity"],
 answer:"Drag zero"
+    explanation: "This is true because the physics supports Drag zero.",
 },
 /* ================= IMAGE 17: GRAVITY & WEIGHT ================= */
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"A",
+criterion: "A",
+    strand: "iii",
 level:"easy",
 question:"Weight depends on:",
 options:["Mass","Gravity","Both","None"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Mass is:",
 options:["Vector","Scalar","Force","Energy"],
 answer:"Scalar"
+    explanation: "This is true because the physics supports Scalar.",
 },
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Weight is:",
 options:["Scalar","Vector","Mass","Density"],
 answer:"Vector"
+    explanation: "This is true because the physics supports Vector.",
 },
 
 // numerical
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"C",
+criterion: "A",
+    strand: "ii",
 level:"hard",
 question:"A 10 kg object on Earth has weight:",
 options:["98 N","10 N","9.8 N","100 N"],
 answer:"98 N"
+    explanation: "This is true because the physics supports 98 N.",
 },
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Same object on Moon (g = 1.6):",
 options:["16 N","160 N","9.8 N","98 N"],
 answer:"16 N"
+    explanation: "This is true because the physics supports 16 N.",
 },
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Mass changes when taken to Moon:",
 options:["Yes","No","Depends","Sometimes"],
 answer:"No"
+    explanation: "This is true because the physics supports No.",
 },
 
 // tricky
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Weight becomes zero in space:",
 options:["True","False","Depends","Only astronauts"],
 answer:"False"
+    explanation: "Weight only becomes zero at infinite distance from all masses. Astronauts in orbit still have weight.",
 },
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Unit of gravitational field strength:",
 options:["N","N/kg","kg","m/s"],
 answer:"N/kg"
+    explanation: "This is true because the physics supports N/kg.",
 },
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If g doubles, weight:",
 options:["Doubles","Halves","Same","Zero"],
 answer:"Doubles"
+    explanation: "This is true because the physics supports Doubles.",
 },
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Weight formula:",
 options:["F=ma","W=mg","p=mv","P=F/A"],
 answer:"W=mg"
+    explanation: "This is true because the physics supports W=mg.",
 },
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"On Jupiter, weight is:",
 options:["Less","More","Same","Zero"],
 answer:"More"
+    explanation: "This is true because the physics supports More.",
 },
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Mass unit:",
 options:["kg","N","Pa","m/s"],
 answer:"kg"
+    explanation: "This is true because the physics supports kg.",
 },
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Weight direction:",
 options:["Upward","Downward","Random","Horizontal"],
 answer:"Downward"
+    explanation: "This is true because the physics supports Downward.",
 },
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If mass = 0:",
 options:["Weight exists","Weight zero","Force infinite","None"],
 answer:"Weight zero"
+    explanation: "This is true because the physics supports Weight zero.",
 },
 
 {
 topic:"gravity",
 image:"17-gravity-and-weight",
-criterion:"D",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Weight depends on:",
 options:["Location","Mass","g","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 /* ================= IMAGE 18: GRAVITATIONAL FORCE ================= */
@@ -2409,143 +2839,171 @@ answer:"All"
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Gravitational force is:",
 options:["Repulsive","Attractive","Neutral","Variable"],
 answer:"Attractive"
+    explanation: "This is true because the physics supports Attractive.",
 },
 
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Force acts along:",
 options:["Surface","Center line","Random","Edges"],
 answer:"Center line"
+    explanation: "This is true because the physics supports Center line.",
 },
 
 // conceptual + numerical
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If distance doubles, force becomes:",
 options:["1/2","1/4","2","4"],
 answer:"1/4"
+    explanation: "This is true because the physics supports 1/4.",
 },
 
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If mass doubles, force:",
 options:["Half","Double","Same","Zero"],
 answer:"Double"
+    explanation: "This is true because the physics supports Double.",
 },
 
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Gravitational force exists:",
 options:["Only Earth","Only planets","Everywhere","Nowhere"],
 answer:"Everywhere"
+    explanation: "This is true because the physics supports Everywhere.",
 },
 
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Force depends on:",
 options:["Mass","Distance","Both","None"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 // tricky
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Gravity becomes zero far away:",
 options:["True","False","Almost zero","Depends"],
 answer:"Almost zero"
+    explanation: "This is true because the physics supports Almost zero.",
 },
 
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Force between objects increases if:",
 options:["Mass increases","Distance increases","Speed increases","Time increases"],
 answer:"Mass increases"
+    explanation: "This is true because the physics supports Mass increases.",
 },
 
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Earth pulls object and object pulls Earth:",
 options:["True","False","Depends","Sometimes"],
 answer:"True"
+    explanation: "This is true because the physics supports True.",
 },
 
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Which has strongest gravity?",
 options:["Moon","Earth","Jupiter","Small rock"],
 answer:"Jupiter"
+    explanation: "This is true because the physics supports Jupiter.",
 },
 
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Gravitational force is:",
 options:["Contact","Non-contact","Friction","Magnetic"],
 answer:"Non-contact"
+    explanation: "This is true because the physics supports Non-contact.",
 },
 
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If distance → very large:",
 options:["Force increases","Force zero","Force decreases","Constant"],
 answer:"Force decreases"
+    explanation: "This is true because the physics supports Force decreases.",
 },
 
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Gravity responsible for:",
 options:["Orbits","Falling","Weight","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"gravitation",
 image:"18-gravitational-force",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Stronger pull occurs when:",
 options:["More mass","Less distance","Both","None"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 /* ================= IMAGE 19: PRESSURE IN SOLIDS ================= */
@@ -2553,153 +3011,183 @@ answer:"Both"
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Pressure =",
 options:["F/A","A/F","m/g","F×A"],
 answer:"F/A"
+    explanation: "This is true because the physics supports F/A.",
 },
 
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Unit of pressure:",
 options:["N","Pa","kg","m/s"],
 answer:"Pa"
+    explanation: "This is true because the physics supports Pa.",
 },
 
 // numerical
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Force 100 N on 2 m² → pressure:",
 options:["50 Pa","200 Pa","100 Pa","20 Pa"],
 answer:"50 Pa"
+    explanation: "This is true because the physics supports 50 Pa.",
 },
 
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Area decreases → pressure:",
 options:["Increase","Decrease","Same","Zero"],
 answer:"Increase"
+    explanation: "This is true because the physics supports Increase.",
 },
 
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Sharp knife cuts because:",
 options:["More force","Less area","Less pressure","More mass"],
 answer:"Less area"
+    explanation: "This is true because the physics supports Less area.",
 },
 
 // tricky
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Wide tyres reduce pressure:",
 options:["True","False","Depends","Sometimes"],
 answer:"True"
+    explanation: "This is true because the physics supports True.",
 },
 
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Pressure depends on:",
 options:["Force","Area","Both","None"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"If force doubles, pressure:",
 options:["Double","Half","Same","Zero"],
 answer:"Double"
+    explanation: "This is true because the physics supports Double.",
 },
 
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"High heels sink because:",
 options:["Low pressure","High pressure","Low force","High area"],
 answer:"High pressure"
+    explanation: "This is true because the physics supports High pressure.",
 },
 
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Snow shoes work because:",
 options:["Less force","More area","Less mass","More gravity"],
 answer:"More area"
+    explanation: "This is true because the physics supports More area.",
 },
 
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Pressure increases when:",
 options:["Area increases","Force increases","Mass decreases","Time increases"],
 answer:"Force increases"
+    explanation: "This is true because the physics supports Force increases.",
 },
 
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If both force and area double:",
 options:["Pressure doubles","Same","Half","Zero"],
 answer:"Same"
+    explanation: "This is true because the physics supports Same.",
 },
 
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Bulldozer has large tracks to:",
 options:["Increase pressure","Decrease pressure","Increase force","Decrease mass"],
 answer:"Decrease pressure"
+    explanation: "This is true because the physics supports Decrease pressure.",
 },
 
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Pressure is highest when:",
 options:["Small area","Large area","Less force","More mass"],
 answer:"Small area"
+    explanation: "This is true because the physics supports Small area.",
 },
 
 {
 topic:"pressure",
 image:"19-pressure-in-solids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Pressure is:",
 options:["Scalar","Vector","Force","Mass"],
 answer:"Scalar"
+    explanation: "This is true because the physics supports Scalar.",
 },
 
 /* ================= IMAGE 20: PRESSURE IN FLUIDS ================= */
@@ -2707,306 +3195,366 @@ answer:"Scalar"
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Pressure formula:",
 options:["ρgh","mg","F/A","mv"],
 answer:"ρgh"
+    explanation: "This is true because the physics supports ρgh.",
 },
 
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Pressure increases with:",
 options:["Depth","Density","Both","None"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 // numerical
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"At 10 m depth (ρ=1000, g=10), pressure:",
 options:["10000 Pa","100000 Pa","1000 Pa","100 Pa"],
 answer:"100000 Pa"
+    explanation: "This is true because the physics supports 100000 Pa.",
 },
 
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If depth doubles, pressure:",
 options:["Double","Half","Same","Zero"],
 answer:"Double"
+    explanation: "This is true because the physics supports Double.",
 },
 
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Pressure acts:",
 options:["Up only","Down only","All directions","Horizontal only"],
 answer:"All directions"
+    explanation: "This is true because the physics supports All directions.",
 },
 
 // tricky
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"D",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Pressure depends on container shape:",
 options:["Yes","No","Sometimes","Depends"],
 answer:"No"
+    explanation: "This is true because the physics supports No.",
 },
 
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Denser liquid gives:",
 options:["Less pressure","More pressure","Same","Zero"],
 answer:"More pressure"
+    explanation: "This is true because the physics supports More pressure.",
 },
 
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Pressure unit:",
 options:["Pa","N","kg","m"],
 answer:"Pa"
+    explanation: "This is true because the physics supports Pa.",
 },
 
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"D",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Why dams thicker at bottom?",
 options:["Less pressure","More pressure","Less density","More gravity"],
 answer:"More pressure"
+    explanation: "This is true because the physics supports More pressure.",
 },
 
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Submarines need strong body due to:",
 options:["Low pressure","High pressure","Zero pressure","Air"],
 answer:"High pressure"
+    explanation: "This is true because the physics supports High pressure.",
 },
 
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Pressure at same depth:",
 options:["Different","Same","Depends","Random"],
 answer:"Same"
+    explanation: "This is true because the physics supports Same.",
 },
 
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If density doubles:",
 options:["Pressure doubles","Half","Same","Zero"],
 answer:"Pressure doubles"
+    explanation: "This is true because the physics supports Pressure doubles.",
 },
 
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Pressure graph vs depth:",
 options:["Linear","Curve","Constant","Zero"],
 answer:"Linear"
+    explanation: "This is true because the physics supports Linear.",
 },
 
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Ear pain underwater due to:",
 options:["Low pressure","High pressure","No force","Temperature"],
 answer:"High pressure"
+    explanation: "This is true because the physics supports High pressure.",
 },
 
 {
 topic:"fluid pressure",
 image:"20-fluids",
-criterion:"D",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Pressure depends on:",
 options:["Depth","Density","g","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 /* ================= IMAGE 21: BUOYANCY & UPTHRUST ================= */
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Upthrust acts in which direction?",
 options:["Downward","Upward","Sideways","Random"],
 answer:"Upward"
+    explanation: "This is true because the physics supports Upward.",
 },
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Upthrust equals:",
 options:["Weight of object","Weight of fluid displaced","Mass of fluid","Volume of object"],
 answer:"Weight of fluid displaced"
+    explanation: "This is true because the physics supports the correct principle.",
 },
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If upthrust > weight:",
 options:["Object sinks","Object floats","Object stops","Object explodes"],
 answer:"Object floats"
+    explanation: "This is true because the physics supports Object floats.",
 },
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If upthrust = weight:",
 options:["Floats","Sinks","Suspended","Accelerates"],
 answer:"Suspended"
+    explanation: "This is true because the physics supports Suspended.",
 },
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If upthrust < weight:",
 options:["Floats","Sinks","Suspended","Moves up"],
 answer:"Sinks"
+    explanation: "This is true because the physics supports Sinks.",
 },
 
 // numerical
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Water displaced weighs 50 N → upthrust:",
 options:["50 N","5 N","500 N","0"],
 answer:"50 N"
+    explanation: "This is true because the physics supports 50 N.",
 },
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"ρ = 1000 kg/m³, V = 0.01 m³ → U ≈ (g=10):",
 options:["100 N","10 N","1 N","1000 N"],
 answer:"100 N"
+    explanation: "This is true because the physics supports 100 N.",
 },
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Ship floats because:",
 options:["Less mass","Less density overall","More weight","No gravity"],
 answer:"Less density overall"
+    explanation: "This is true because the physics supports Less density overall.",
 },
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Stone sinks because:",
 options:["Low density","High upthrust","High density","Low weight"],
 answer:"High density"
+    explanation: "This is true because the physics supports High density.",
 },
 
 // tricky
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Heavier object always sinks:",
 options:["True","False","Depends","Sometimes"],
 answer:"False"
+    explanation: "This is true because the physics supports False.",
 },
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Upthrust depends on:",
 options:["Density","Volume displaced","g","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Hydrometer works based on:",
 options:["Pressure","Density","Friction","Speed"],
 answer:"Density"
+    explanation: "This is true because the physics supports Density.",
 },
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If fluid density increases:",
 options:["Upthrust increases","Decreases","Same","Zero"],
 answer:"Upthrust increases"
+    explanation: "This is true because the physics supports Upthrust increases.",
 },
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Hot air balloon rises because:",
 options:["Less volume","Less density","More gravity","Less pressure"],
 answer:"Less density"
+    explanation: "This is true because the physics supports Less density.",
 },
 
 {
 topic:"buoyancy",
 image:"21-buoyancy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Submarine sinks by:",
 options:["Reducing mass","Reducing volume","Increasing density","Increasing upthrust"],
 answer:"Increasing density"
+    explanation: "This is true because the physics supports Increasing density.",
 },
 
 /* ================= IMAGE 22: FREE BODY DIAGRAM ================= */
@@ -3014,152 +3562,182 @@ answer:"Increasing density"
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"FBD shows:",
 options:["Internal forces","External forces","Energy","Heat"],
 answer:"External forces"
+    explanation: "This is true because the physics supports External forces.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Weight is represented as:",
 options:["Up arrow","Down arrow","Side arrow","None"],
 answer:"Down arrow"
+    explanation: "This is true because the physics supports Down arrow.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Normal force acts:",
 options:["Parallel","Perpendicular","Downward","Random"],
 answer:"Perpendicular"
+    explanation: "This is true because the physics supports Perpendicular.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Friction acts:",
 options:["Along surface","Upward","Downward","None"],
 answer:"Along surface"
+    explanation: "This is true because the physics supports Along surface.",
 },
 
 // tricky
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Include forces acting BY object:",
 options:["Yes","No","Sometimes","Depends"],
 answer:"No"
+    explanation: "This is true because the physics supports No.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Tension acts:",
 options:["Push","Pull","Random","None"],
 answer:"Pull"
+    explanation: "This is true because the physics supports Pull.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"In free fall (no air):",
 options:["Only weight","Weight + air","Normal + weight","None"],
 answer:"Only weight"
+    explanation: "This is true because the physics supports Only weight.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Balanced forces mean:",
 options:["No motion","Constant velocity","Acceleration","Rest only"],
 answer:"Constant velocity"
+    explanation: "This is true because the physics supports Constant velocity.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Net force zero:",
 options:["a=0","v=0","F=ma false","No forces"],
 answer:"a=0"
+    explanation: "This is true because the physics supports a=0.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Air resistance acts:",
 options:["With motion","Opposite motion","Random","None"],
 answer:"Opposite motion"
+    explanation: "This is true because the physics supports Opposite motion.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"For object on table:",
 options:["Only W","Only N","W & N","None"],
 answer:"W & N"
+    explanation: "This is true because the physics supports W & N.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Incorrect FBD includes:",
 options:["All forces","Extra forces","Correct labels","Vectors"],
 answer:"Extra forces"
+    explanation: "This is true because the physics supports Extra forces.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"FBD simplifies:",
 options:["Energy","Motion","Forces","Mass"],
 answer:"Forces"
+    explanation: "This is true because the physics supports Forces.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Best axes choice:",
 options:["Random","Simplifies problem","Always horizontal","Always vertical"],
 answer:"Simplifies problem"
+    explanation: "This is true because the physics supports Simplifies problem.",
 },
 
 {
 topic:"fbd",
 image:"22-fbd",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Vector arrows represent:",
 options:["Mass","Force","Energy","Time"],
 answer:"Force"
+    explanation: "This is true because the physics supports Force.",
 },
 
 /* ================= IMAGE 23: SYSTEMS & MOTION ================= */
@@ -3167,153 +3745,183 @@ answer:"Force"
 {
 topic:"systems",
 image:"23-systems",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Resultant force is:",
 options:["Sum of forces","Single force","Mass","Energy"],
 answer:"Sum of forces"
+    explanation: "This is true because the physics supports Sum of forces.",
 },
 
 {
 topic:"systems",
 image:"23-systems",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Fnet = 0 →",
 options:["Accelerates","Constant velocity","Stops","Explodes"],
 answer:"Constant velocity"
+    explanation: "This is true because the physics supports Constant velocity.",
 },
 
 // numerical
 {
 topic:"systems",
 image:"23-systems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"F=1000 N, m=1000 kg → a:",
 options:["1","10","0.1","100"],
 answer:"1"
+    explanation: "This is true because the physics supports 1.",
 },
 
 {
 topic:"systems",
 image:"23-systems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"2500 N forward, 1500 N backward → Fnet:",
 options:["1000 N","4000 N","-1000 N","0"],
 answer:"1000 N"
+    explanation: "This is true because the physics supports 1000 N.",
 },
 
 {
 topic:"systems",
 image:"23-systems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Net force opposite motion →",
 options:["Speed increases","Speed decreases","Same speed","No motion"],
 answer:"Speed decreases"
+    explanation: "This is true because the physics supports Speed decreases.",
 },
 
 {
 topic:"systems",
 image:"23-systems",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Acceleration direction:",
 options:["Velocity","Force","Mass","Time"],
 answer:"Force"
+    explanation: "This is true because the physics supports Force.",
 },
 
 {
 topic:"systems",
 image:"23-systems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Fnet = ΣF means:",
 options:["Multiply","Add vectors","Divide","Subtract always"],
 answer:"Add vectors"
+    explanation: "This is true because the physics supports Add vectors.",
 },
 
 // tricky
 {
 topic:"systems",
 image:"23-systems",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Balanced forces → object at rest only:",
 options:["True","False","Depends","Sometimes"],
 answer:"False"
+    explanation: "This is true because the physics supports False.",
 },
 
 {
 topic:"systems",
 image:"23-systems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If mass doubles:",
 options:["a doubles","a halves","Same","Zero"],
 answer:"a halves"
+    explanation: "This is true because the physics supports a halves.",
 },
 
 {
 topic:"systems",
 image:"23-systems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Force causes:",
 options:["Speed","Acceleration","Mass","Energy"],
 answer:"Acceleration"
+    explanation: "This is true because the physics supports Acceleration.",
 },
 
 {
 topic:"systems",
 image:"23-systems",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If forces equal opposite:",
 options:["Net zero","Acceleration","Speed increases","Random"],
 answer:"Net zero"
+    explanation: "This is true because the physics supports Net zero.",
 },
 
 {
 topic:"systems",
 image:"23-systems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Velocity change formula:",
 options:["v=u+at","F=ma","P=F/A","W=mg"],
 answer:"v=u+at"
+    explanation: "This is true because the physics supports v=u+at.",
 },
 
 {
 topic:"systems",
 image:"23-systems",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"In tug of war:",
 options:["Equal forces move","Stronger wins","No motion always","Mass matters only"],
 answer:"Stronger wins"
+    explanation: "This is true because the physics supports Stronger wins.",
 },
 
 {
 topic:"systems",
 image:"23-systems",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Net force direction:",
 options:["Velocity","Acceleration","Mass","None"],
 answer:"Acceleration"
+    explanation: "This is true because the physics supports Acceleration.",
 },
 
 {
 topic:"systems",
 image:"23-systems",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Object accelerates when:",
 options:["Fnet=0","Fnet≠0","Mass zero","Speed zero"],
 answer:"Fnet≠0"
+    explanation: "This is true because the physics supports Fnet≠0.",
 },
 
 /* ================= IMAGE 24: DISTANCE-TIME GRAPHS ================= */
@@ -3321,306 +3929,366 @@ answer:"Fnet≠0"
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Slope of graph gives:",
 options:["Speed","Time","Distance","Acceleration"],
 answer:"Speed"
+    explanation: "This is true because the physics supports Speed.",
 },
 
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Horizontal line means:",
 options:["Constant speed","At rest","Accelerating","Negative motion"],
 answer:"At rest"
+    explanation: "This is true because the physics supports At rest.",
 },
 
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Steeper slope means:",
 options:["Less speed","More speed","Zero speed","Negative"],
 answer:"More speed"
+    explanation: "This is true because the physics supports More speed.",
 },
 
 // numerical
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Distance 100 m in 10 s → speed:",
 options:["10 m/s","100 m/s","1 m/s","5 m/s"],
 answer:"10 m/s"
+    explanation: "This is true because the physics supports 10 m/s.",
 },
 
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Distance change 50 m in 5 s:",
 options:["10 m/s","5 m/s","50 m/s","1 m/s"],
 answer:"10 m/s"
+    explanation: "This is true because the physics supports 10 m/s.",
 },
 
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Curved graph means:",
 options:["Constant speed","Changing speed","Zero speed","Negative"],
 answer:"Changing speed"
+    explanation: "This is true because the physics supports Changing speed.",
 },
 
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Negative slope means:",
 options:["Forward motion","Backward motion","No motion","Acceleration"],
 answer:"Backward motion"
+    explanation: "This is true because the physics supports Backward motion.",
 },
 
 // tricky
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
-question:"Straight line always constant velocity:",
-options:["True","False","Depends","Sometimes"],
-answer:"True"
+question: "On a distance-time graph, a straight line means constant velocity:",
+options: ["True", "False"],
+answer: "True"
+    explanation: "This is true because the physics supports True.",
 },
 
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Slope = Δs/Δt is:",
 options:["Speed","Acceleration","Force","Mass"],
 answer:"Speed"
+    explanation: "This is true because the physics supports Speed.",
 },
 
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Instantaneous speed from:",
 options:["Average slope","Tangent","Area","Intercept"],
 answer:"Tangent"
+    explanation: "This is true because the physics supports Tangent.",
 },
 
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Zero slope:",
 options:["Rest","Acceleration","Speed max","Negative"],
 answer:"Rest"
+    explanation: "This is true because the physics supports Rest.",
 },
 
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Increasing slope:",
 options:["Slowing","Speeding up","Constant","Backward"],
 answer:"Speeding up"
+    explanation: "This is true because the physics supports Speeding up.",
 },
 
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Area under graph:",
 options:["Distance","Speed","Time","None"],
 answer:"None"
+    explanation: "This is true because the physics supports None.",
 },
 
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Graph with decreasing slope:",
 options:["Accelerating","Decelerating","Constant","Rest"],
 answer:"Decelerating"
+    explanation: "This is true because the physics supports Decelerating.",
 },
 
 {
 topic:"graphs",
 image:"24-distance",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Units of slope:",
 options:["m/s","m","s","kg"],
 answer:"m/s"
+    explanation: "This is true because the physics supports m/s.",
 },
 /* ================= IMAGE 25: VELOCITY-TIME GRAPH ================= */
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Slope of velocity-time graph gives:",
 options:["Speed","Acceleration","Distance","Time"],
 answer:"Acceleration"
+    explanation: "This is true because the physics supports Acceleration.",
 },
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Area under v-t graph gives:",
 options:["Acceleration","Speed","Displacement","Force"],
 answer:"Displacement"
+    explanation: "This is true because the physics supports Displacement.",
 },
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Horizontal line on v-t graph means:",
 options:["Acceleration","Constant velocity","Zero velocity","Decreasing velocity"],
 answer:"Constant velocity"
+    explanation: "This is true because the physics supports Constant velocity.",
 },
 
 // numerical
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Velocity = 10 m/s for 5 s → displacement:",
 options:["50 m","5 m","10 m","100 m"],
 answer:"50 m"
+    explanation: "This is true because the physics supports 50 m.",
 },
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Velocity increases from 0 to 20 m/s in 4 s → acceleration:",
 options:["5 m/s²","10 m/s²","4 m/s²","2 m/s²"],
 answer:"5 m/s²"
+    explanation: "This is true because the physics supports 5 m/s².",
 },
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Negative slope indicates:",
 options:["Positive acceleration","Zero acceleration","Negative acceleration","Constant speed"],
 answer:"Negative acceleration"
+    explanation: "This is true because the physics supports the correct principle.",
 },
 
 // tricky
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Area below time axis gives:",
 options:["Positive displacement","Negative displacement","Zero","Speed"],
 answer:"Negative displacement"
+    explanation: "This is true because the physics supports the correct principle.",
 },
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Triangle area = ½ × base × height represents:",
 options:["Speed","Acceleration","Displacement","Force"],
 answer:"Displacement"
+    explanation: "This is true because the physics supports Displacement.",
 },
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Steeper slope means:",
 options:["Less acceleration","More acceleration","Zero acceleration","Constant velocity"],
 answer:"More acceleration"
+    explanation: "This is true because the physics supports More acceleration.",
 },
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Flat line at v = 0:",
 options:["Rest","Acceleration","Negative motion","Speeding"],
 answer:"Rest"
+    explanation: "This is true because the physics supports Rest.",
 },
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Curved v-t graph means:",
 options:["Constant acceleration","Changing acceleration","Zero acceleration","Constant speed"],
 answer:"Changing acceleration"
+    explanation: "This is true because the physics supports the correct principle.",
 },
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Units of area under graph:",
 options:["m","m/s","m/s²","N"],
 answer:"m"
+    explanation: "This is true because the physics supports m.",
 },
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If velocity decreases linearly:",
 options:["Constant positive a","Constant negative a","Zero a","Variable a"],
 answer:"Constant negative a"
+    explanation: "This is true because the physics supports Constant negative a.",
 },
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Acceleration is:",
 options:["Δt/Δv","Δv/Δt","v×t","s/t"],
 answer:"Δv/Δt"
+    explanation: "This is true because the physics supports Δv/Δt.",
 },
 
 {
 topic:"vt_graph",
 image:"25-vt",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If slope = 0:",
 options:["a=0","v=0","F=0","All"],
 answer:"a=0"
+    explanation: "This is true because the physics supports a=0.",
 },
 
 /* ================= IMAGE 26: ACCELERATION ================= */
@@ -3628,153 +4296,183 @@ answer:"a=0"
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Acceleration is:",
 options:["Speed","Change in velocity","Distance","Force"],
 answer:"Change in velocity"
+    explanation: "This is true because the physics supports Change in velocity.",
 },
 
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Unit of acceleration:",
 options:["m","m/s","m/s²","N"],
 answer:"m/s²"
+    explanation: "This is true because the physics supports m/s².",
 },
 
 // numerical
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"u=10 m/s, v=30 m/s, t=5 s → a:",
 options:["4 m/s²","5 m/s²","3 m/s²","2 m/s²"],
 answer:"4 m/s²"
+    explanation: "This is true because the physics supports 4 m/s².",
 },
 
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"u=20, v=0, t=4 s → a:",
 options:["-5 m/s²","5 m/s²","0","10"],
 answer:"-5 m/s²"
+    explanation: "This is true because the physics supports -5 m/s².",
 },
 
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If velocity constant:",
 options:["a>0","a<0","a=0","a infinite"],
 answer:"a=0"
+    explanation: "This is true because the physics supports a=0.",
 },
 
 // tricky
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Acceleration can be zero when object moves:",
 options:["True","False","Sometimes","Never"],
 answer:"True"
+    explanation: "This is true because the physics supports True.",
 },
 
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Negative acceleration means:",
 options:["Speed up","Slow down","Stop","Zero"],
 answer:"Slow down"
+    explanation: "This is true because the physics supports Slow down.",
 },
 
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"D",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Acceleration depends on:",
 options:["Velocity change","Time","Both","None"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Formula:",
 options:["v=u+at","a=(v-u)/t","s=ut","F=ma"],
 answer:"a=(v-u)/t"
+    explanation: "This is true because the physics supports a=(v-u)/t.",
 },
 
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If v<u:",
 options:["a positive","a negative","a zero","None"],
 answer:"a negative"
+    explanation: "This is true because the physics supports a negative.",
 },
 
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Acceleration is vector:",
 options:["True","False","Scalar","Depends"],
 answer:"True"
+    explanation: "This is true because the physics supports True.",
 },
 
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Car slowing → acceleration:",
 options:["Positive","Negative","Zero","Random"],
 answer:"Negative"
+    explanation: "This is true because the physics supports Negative.",
 },
 
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If Δv = 0:",
 options:["a=0","a>0","a<0","None"],
 answer:"a=0"
+    explanation: "This is true because the physics supports a=0.",
 },
 
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Acceleration changes direction:",
 options:["Yes","No","Sometimes","Rare"],
 answer:"Yes"
+    explanation: "This is true because the physics supports Yes.",
 },
 
 {
 topic:"acceleration",
 image:"26-acceleration",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If time increases but Δv same:",
 options:["a increases","a decreases","Same","Zero"],
 answer:"a decreases"
+    explanation: "This is true because the physics supports a decreases.",
 },
 
 /* ================= IMAGE 27: GRAPH INTERPRETATION ================= */
@@ -3782,152 +4480,182 @@ answer:"a decreases"
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Slope of d-t graph:",
 options:["Speed","Acceleration","Force","Mass"],
 answer:"Speed"
+    explanation: "This is true because the physics supports Speed.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Slope of v-t graph:",
 options:["Speed","Acceleration","Distance","Time"],
 answer:"Acceleration"
+    explanation: "This is true because the physics supports Acceleration.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Area under v-t:",
 options:["Distance","Displacement","Acceleration","Speed"],
 answer:"Displacement"
+    explanation: "This is true because the physics supports Displacement.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Curve in d-t graph:",
 options:["Constant speed","Acceleration","Rest","Backward"],
 answer:"Acceleration"
+    explanation: "This is true because the physics supports Acceleration.",
 },
 
 // tricky
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Negative area in v-t:",
 options:["Negative speed","Negative displacement","Zero","Acceleration"],
 answer:"Negative displacement"
+    explanation: "This is true because the physics supports the correct principle.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Horizontal d-t:",
 options:["Rest","Constant speed","Acceleration","Backward"],
 answer:"Rest"
+    explanation: "This is true because the physics supports Rest.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Steeper d-t:",
 options:["More speed","Less speed","Same","Zero"],
 answer:"More speed"
+    explanation: "This is true because the physics supports More speed.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Flat v-t:",
 options:["Acceleration","Constant velocity","Rest","Negative"],
 answer:"Constant velocity"
+    explanation: "This is true because the physics supports Constant velocity.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Triangle area in v-t:",
 options:["Acceleration","Displacement","Speed","Time"],
 answer:"Displacement"
+    explanation: "This is true because the physics supports Displacement.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Units of slope in d-t:",
 options:["m/s","m/s²","N","kg"],
 answer:"m/s"
+    explanation: "This is true because the physics supports m/s.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Curved v-t:",
 options:["Constant a","Changing a","Zero a","Constant v"],
 answer:"Changing a"
+    explanation: "This is true because the physics supports Changing a.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Negative slope d-t:",
 options:["Forward","Backward","Rest","Acceleration"],
 answer:"Backward"
+    explanation: "This is true because the physics supports Backward.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Area gives displacement not distance:",
 options:["True","False","Sometimes","Depends"],
 answer:"True"
+    explanation: "This is true because the physics supports True.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Instant speed from d-t:",
 options:["Slope","Area","Intercept","None"],
 answer:"Slope"
+    explanation: "This is true because the physics supports Slope.",
 },
 
 {
 topic:"graph_mastery",
 image:"27-graph",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Graph below axis:",
 options:["Positive motion","Negative motion","Rest","Acceleration"],
 answer:"Negative motion"
+    explanation: "This is true because the physics supports Negative motion.",
 },
 
 /* ================= IMAGE 28: PROBLEM SOLVING ================= */
@@ -3935,304 +4663,364 @@ answer:"Negative motion"
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"First step:",
 options:["Solve","Understand","Check","Plan"],
 answer:"Understand"
+    explanation: "This is true because the physics supports Understand.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"After understanding:",
 options:["Solve","Analyze","Check","Guess"],
 answer:"Analyze"
+    explanation: "This is true because the physics supports Analyze.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Why check units?",
 options:["Marks","Accuracy","Habit","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Skipping steps leads to:",
 options:["Accuracy","Errors","Speed","Marks"],
 answer:"Errors"
+    explanation: "This is true because the physics supports Errors.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Best problem solving approach:",
 options:["Random","Stepwise","Guess","Skip"],
 answer:"Stepwise"
+    explanation: "This is true because the physics supports Stepwise.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Verification helps:",
 options:["Confidence","Accuracy","Marks","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Common mistake:",
 options:["Reading carefully","Wrong formula","Checking units","Planning"],
 answer:"Wrong formula"
+    explanation: "This is true because the physics supports Wrong formula.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Identify unknowns means:",
 options:["Find answer","List variables","Guess","Ignore"],
 answer:"List variables"
+    explanation: "This is true because the physics supports List variables.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Best habit:",
 options:["Skip","Check","Guess","Copy"],
 answer:"Check"
+    explanation: "This is true because the physics supports Check.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Plan step includes:",
 options:["Formula","Steps","Units","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Learning stage includes:",
 options:["Ignore","Reflect","Skip","Guess"],
 answer:"Reflect"
+    explanation: "This is true because the physics supports Reflect.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Analyze means:",
 options:["Break problem","Solve","Check","Ignore"],
 answer:"Break problem"
+    explanation: "This is true because the physics supports Break problem.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Best exam strategy:",
 options:["Speed only","Accuracy only","Balance","Guess"],
 answer:"Balance"
+    explanation: "This is true because the physics supports Balance.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Checking answer ensures:",
 options:["Units","Logic","Reason","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"strategy",
 image:"28-strategy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Good strategy leads to:",
 options:["Confusion","Success","Errors","Delay"],
 answer:"Success"
+    explanation: "This is true because the physics supports Success.",
 },
 /* ================= IMAGE 29: INQUIRY LAB GUIDE ================= */
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"A testable question must be:",
 options:["General","Measurable","Opinion-based","Random"],
 answer:"Measurable"
+    explanation: "This is true because the physics supports Measurable.",
 },
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Hypothesis is:",
 options:["Observation","Prediction","Result","Error"],
 answer:"Prediction"
+    explanation: "This is true because the physics supports Prediction.",
 },
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Independent variable is:",
 options:["Measured","Changed","Constant","Ignored"],
 answer:"Changed"
+    explanation: "This is true because the physics supports Changed.",
 },
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Dependent variable is:",
 options:["Changed","Measured","Constant","Ignored"],
 answer:"Measured"
+    explanation: "This is true because the physics supports Measured.",
 },
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Why repeat trials?",
 options:["Fun","Accuracy","Speed","Marks"],
 answer:"Accuracy"
+    explanation: "This is true because the physics supports Accuracy.",
 },
 
 // numerical-style reasoning
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If times: 1.2, 1.3, 1.1 → average:",
 options:["1.2","1.1","1.3","1.25"],
 answer:"1.2"
+    explanation: "This is true because the physics supports 1.2.",
 },
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Increasing ramp height decreases time → relationship:",
 options:["Direct","Inverse","No relation","Random"],
 answer:"Inverse"
+    explanation: "This is true because the physics supports Inverse.",
 },
 
 // tricky
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Changing 2 variables makes experiment:",
 options:["Accurate","Invalid","Precise","Reliable"],
 answer:"Invalid"
+    explanation: "This is true because the physics supports Invalid.",
 },
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Control variable example:",
 options:["Time","Mass","Height","Speed"],
 answer:"Mass"
+    explanation: "This is true because the physics supports Mass.",
 },
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Conclusion must be based on:",
 options:["Guess","Data","Opinion","Theory"],
 answer:"Data"
+    explanation: "This is true because the physics supports Data.",
 },
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Graph helps to:",
 options:["Decorate","Find patterns","Confuse","Measure"],
 answer:"Find patterns"
+    explanation: "This is true because the physics supports Find patterns.",
 },
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Hypothesis must be:",
 options:["Testable","Random","Complex","Long"],
 answer:"Testable"
+    explanation: "This is true because the physics supports Testable.",
 },
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Systematic error affects:",
 options:["Precision","Accuracy","Units","Graphs"],
 answer:"Accuracy"
+    explanation: "This is true because the physics supports Accuracy.",
 },
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Random error affects:",
 options:["Accuracy","Precision","Units","None"],
 answer:"Precision"
+    explanation: "This is true because the physics supports Precision.",
 },
 
 {
 topic:"inquiry",
 image:"29-lab",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Best data is:",
 options:["Neat","Accurate","Complete","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 /* ================= IMAGE 30: DESIGNING EXPERIMENTS ================= */
@@ -4240,151 +5028,181 @@ answer:"All"
 {
 topic:"design",
 image:"30-design",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Fair test changes:",
 options:["All variables","One variable","None","Random"],
 answer:"One variable"
+    explanation: "This is true because the physics supports One variable.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Controlled variables are:",
 options:["Changed","Measured","Constant","Ignored"],
 answer:"Constant"
+    explanation: "This is true because the physics supports Constant.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Changing mass and height together:",
 options:["Fair","Unfair","Accurate","Precise"],
 answer:"Unfair"
+    explanation: "This is true because the physics supports Unfair.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Not repeating trials leads to:",
 options:["Precision","Random error","Systematic error","Accuracy"],
 answer:"Random error"
+    explanation: "This is true because the physics supports Random error.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Dependent variable in pendulum experiment:",
 options:["Length","Time","Mass","Angle"],
 answer:"Time"
+    explanation: "This is true because the physics supports Time.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Independent variable:",
 options:["Time","Length","Mass","Force"],
 answer:"Length"
+    explanation: "This is true because the physics supports Length.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Using different timers causes:",
 options:["Accuracy","Error","Precision","None"],
 answer:"Error"
+    explanation: "This is true because the physics supports Error.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Starting position must be:",
 options:["Different","Same","Random","Ignored"],
 answer:"Same"
+    explanation: "This is true because the physics supports Same.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Constants are:",
 options:["Variables","Fixed values","Results","Errors"],
 answer:"Fixed values"
+    explanation: "This is true because the physics supports Fixed values.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Good experiment is:",
 options:["Fast","Accurate","Repeatable","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Hypothesis is based on:",
 options:["Data","Guess","Prior knowledge","Random"],
 answer:"Prior knowledge"
+    explanation: "This is true because the physics supports Prior knowledge.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Voltage experiment dependent variable:",
 options:["Voltage","Brightness","Time","Mass"],
 answer:"Brightness"
+    explanation: "This is true because the physics supports Brightness.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Multiple variables →",
 options:["Good","Invalid","Better","Accurate"],
 answer:"Invalid"
+    explanation: "This is true because the physics supports Invalid.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Measurement error reduces by:",
 options:["Repeating","Guessing","Ignoring","Skipping"],
 answer:"Repeating"
+    explanation: "This is true because the physics supports Repeating.",
 },
 
 {
 topic:"design",
 image:"30-design",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Fair test shows:",
 options:["Correlation","Cause-effect","Randomness","Noise"],
 answer:"Cause-effect"
+    explanation: "This is true because the physics supports Cause-effect.",
 },
 
 /* ================= IMAGE 31: FORCES IN ACTION ================= */
@@ -4392,151 +5210,181 @@ answer:"Cause-effect"
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Force can change:",
 options:["Speed","Direction","Shape","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Drag force acts:",
 options:["Forward","Backward","Up","Down"],
 answer:"Backward"
+    explanation: "This is true because the physics supports Backward.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Magnus effect causes:",
 options:["Straight motion","Curved path","Stop","Acceleration"],
 answer:"Curved path"
+    explanation: "This is true because the physics supports Curved path.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Cycling friction:",
 options:["Always bad","Provides grip","Zero","Constant"],
 answer:"Provides grip"
+    explanation: "This is true because the physics supports Provides grip.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If driving force > friction:",
 options:["Stops","Accelerates","Constant","Reverse"],
 answer:"Accelerates"
+    explanation: "This is true because the physics supports Accelerates.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Braking force acts:",
 options:["Forward","Backward","Up","None"],
 answer:"Backward"
+    explanation: "This is true because the physics supports Backward.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Centripetal force provided by:",
 options:["Gravity","Friction","Air","Normal"],
 answer:"Friction"
+    explanation: "This is true because the physics supports Friction.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Rocket thrust must:",
 options:["< gravity","> gravity","= gravity","0"],
 answer:"> gravity"
+    explanation: "This is true because the physics supports > gravity.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Parachute slows due to:",
 options:["Gravity","Drag","Lift","Thrust"],
 answer:"Drag"
+    explanation: "This is true because the physics supports Drag.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Swimming forward due to:",
 options:["Gravity","Drag","Thrust","Friction"],
 answer:"Thrust"
+    explanation: "This is true because the physics supports Thrust.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Elevator motion depends on:",
 options:["Tension & gravity","Drag","Lift","Friction"],
 answer:"Tension & gravity"
+    explanation: "This is true because the physics supports Tension & gravity.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Balanced forces →",
 options:["Acceleration","No change","Speed increase","Turn"],
 answer:"No change"
+    explanation: "This is true because the physics supports No change.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Unbalanced force →",
 options:["Rest","Acceleration","Stop","None"],
 answer:"Acceleration"
+    explanation: "This is true because the physics supports Acceleration.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"More friction in curve:",
 options:["Needed","Not needed","Zero","Bad"],
 answer:"Needed"
+    explanation: "This is true because the physics supports Needed.",
 },
 
 {
 topic:"real_forces",
 image:"31-forces",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Air resistance always:",
 options:["Helps","Opposes","Zero","Random"],
 answer:"Opposes"
+    explanation: "This is true because the physics supports Opposes.",
 },
 
 /* ================= IMAGE 32: ENGINEERING APPLICATIONS ================= */
@@ -4544,253 +5392,303 @@ answer:"Opposes"
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Factor of safety means:",
 options:["Strength/Load","Load/Strength","Force/Area","Mass/Weight"],
 answer:"Strength/Load"
+    explanation: "This is true because the physics supports Strength/Load.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Compression acts:",
 options:["Pull","Push","Twist","Slide"],
 answer:"Push"
+    explanation: "This is true because the physics supports Push.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Tension acts:",
 options:["Push","Pull","Rotate","Slide"],
 answer:"Pull"
+    explanation: "This is true because the physics supports Pull.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Steel is used because:",
 options:["Weak","Strong","Heavy","Cheap"],
 answer:"Strong"
+    explanation: "This is true because the physics supports Strong.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Concrete is strong in:",
 options:["Tension","Compression","Both","None"],
 answer:"Compression"
+    explanation: "This is true because the physics supports Compression.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Reinforced concrete combines:",
 options:["Strength","Compression","Tension","Both"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Higher FoS means:",
 options:["Unsafe","Safer","Weak","Cheap"],
 answer:"Safer"
+    explanation: "This is true because the physics supports Safer.",
 },
 
 // numerical
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If strength=100kN, load=20kN → FoS:",
 options:["2","3","5","10"],
 answer:"5"
+    explanation: "This is true because the physics supports 5.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Wind causes building:",
 options:["Fall","Sway","Break","Stop"],
 answer:"Sway"
+    explanation: "This is true because the physics supports Sway.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Triangular truss helps:",
 options:["Weight","Force distribution","Speed","Height"],
 answer:"Force distribution"
+    explanation: "This is true because the physics supports Force distribution.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Cable bridges use:",
 options:["Compression","Tension","Friction","Drag"],
 answer:"Tension"
+    explanation: "This is true because the physics supports Tension.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Aluminum used for:",
 options:["Heavy load","Lightweight","Cheap","Weak"],
 answer:"Lightweight"
+    explanation: "This is true because the physics supports Lightweight.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Base isolation protects from:",
 options:["Wind","Earthquake","Heat","Rain"],
 answer:"Earthquake"
+    explanation: "This is true because the physics supports Earthquake.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Design process includes:",
 options:["Test","Build","Analyze","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"engineering",
 image:"32-engineering",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Good engineering ensures:",
 options:["Safety","Efficiency","Strength","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 /* ================= IMAGE 33: FORCES & TECHNOLOGY ================= */
 
 {
 topic:"technology",
 image:"33-tech",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Lift in airplanes acts:",
 options:["Downward","Upward","Forward","Backward"],
 answer:"Upward"
+    explanation: "This is true because the physics supports Upward.",
 },
 
 {
 topic:"technology",
 image:"33-tech",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"If thrust = drag in airplane:",
 options:["Accelerates","Slows","Constant speed","Stops"],
 answer:"Constant speed"
+    explanation: "This is true because the physics supports Constant speed.",
 },
 
 {
 topic:"technology",
 image:"33-tech",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Rocket launches when:",
 options:["Thrust < weight","Thrust = weight","Thrust > weight","No drag"],
 answer:"Thrust > weight"
+    explanation: "This is true because the physics supports Thrust > weight.",
 },
 
 {
 topic:"technology",
 image:"33-tech",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Satellite remains in orbit due to:",
 options:["Only gravity","Only velocity","Balance of forces","No forces"],
 answer:"Balance of forces"
+    explanation: "This is true because the physics supports Balance of forces.",
 },
 
 {
 topic:"technology",
 image:"33-tech",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Train efficiency increases when:",
 options:["More friction","Less friction","More drag","More weight"],
 answer:"Less friction"
+    explanation: "This is true because the physics supports Less friction.",
 },
 
 {
 topic:"technology",
 image:"33-tech",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Drone stability requires:",
 options:["Unbalanced forces","Balanced forces","No forces","Gravity only"],
 answer:"Balanced forces"
+    explanation: "This is true because the physics supports Balanced forces.",
 },
 
 {
 topic:"technology",
 image:"33-tech",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Elevator moving up at constant speed:",
 options:["T > W","T < W","T = W","No tension"],
 answer:"T = W"
+    explanation: "This is true because the physics supports T = W.",
 },
 
 {
 topic:"technology",
 image:"33-tech",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Re-entry heating due to:",
 options:["Gravity","Friction/drag","Lift","Thrust"],
 answer:"Friction/drag"
+    explanation: "This is true because the physics supports Friction/drag.",
 },
 
 {
 topic:"technology",
 image:"33-tech",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If drag increases, speed:",
 options:["Increases","Decreases","Constant","Random"],
 answer:"Decreases"
+    explanation: "This is true because the physics supports Decreases.",
 },
 
 {
 topic:"technology",
 image:"33-tech",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Best design for speed:",
 options:["High drag","Low drag","High friction","Heavy mass"],
 answer:"Low drag"
+    explanation: "This is true because the physics supports Low drag.",
 },
 
 /* ================= IMAGE 34: FULL MIND MAP ================= */
@@ -4798,101 +5696,121 @@ answer:"Low drag"
 {
 topic:"integration",
 image:"34-mindmap",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Net force formula:",
 options:["F=ma","F=mv","F=mg","F=vt"],
 answer:"F=ma"
+    explanation: "This is true because the physics supports F=ma.",
 },
 
 {
 topic:"integration",
 image:"34-mindmap",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Slope of velocity-time graph:",
 options:["Speed","Acceleration","Distance","Force"],
 answer:"Acceleration"
+    explanation: "This is true because the physics supports Acceleration.",
 },
 
 {
 topic:"integration",
 image:"34-mindmap",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Area under velocity-time graph:",
 options:["Speed","Distance","Displacement","Acceleration"],
 answer:"Displacement"
+    explanation: "This is true because the physics supports Displacement.",
 },
 
 {
 topic:"integration",
 image:"34-mindmap",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If net force = 0:",
 options:["Acceleration","Constant velocity","Stops","Speeds up"],
 answer:"Constant velocity"
+    explanation: "This is true because the physics supports Constant velocity.",
 },
 
 {
 topic:"integration",
 image:"34-mindmap",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Increasing mass (same force):",
 options:["Increase a","Decrease a","No change","Random"],
 answer:"Decrease a"
+    explanation: "This is true because the physics supports Decrease a.",
 },
 
 {
 topic:"integration",
 image:"34-mindmap",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Graphs help to:",
 options:["Decorate","Analyze motion","Confuse","Memorize"],
 answer:"Analyze motion"
+    explanation: "This is true because the physics supports Analyze motion.",
 },
 
 {
 topic:"integration",
 image:"34-mindmap",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Engineering uses physics to:",
 options:["Decorate","Solve problems","Slow systems","Confuse"],
 answer:"Solve problems"
+    explanation: "This is true because the physics supports Solve problems.",
 },
 
 {
 topic:"integration",
 image:"34-mindmap",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Unbalanced force causes:",
 options:["Rest","Acceleration","Stop","Zero motion"],
 answer:"Acceleration"
+    explanation: "This is true because the physics supports Acceleration.",
 },
 
 {
 topic:"integration",
 image:"34-mindmap",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Balanced forces →",
 options:["Acceleration","No motion change","Speed increase","Turn"],
 answer:"No motion change"
+    explanation: "This is true because the physics supports No motion change.",
 },
 
 {
 topic:"integration",
 image:"34-mindmap",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Physics connects:",
 options:["Math","Engineering","Real world","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 /* ================= IMAGE 35: FORMULA SHEET ================= */
@@ -4900,101 +5818,121 @@ answer:"All"
 {
 topic:"numerical",
 image:"35-formula",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"v = 20 m/s, t = 4 s → displacement:",
 options:["5","80","40","10"],
 answer:"80"
+    explanation: "This is true because the physics supports 80.",
 },
 
 {
 topic:"numerical",
 image:"35-formula",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"F = ma, m=2 kg, a=5 → F:",
 options:["2","5","10","20"],
 answer:"10"
+    explanation: "This is true because the physics supports 10.",
 },
 
 {
 topic:"numerical",
 image:"35-formula",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Work done if θ=90°:",
 options:["Max","Zero","Half","Negative"],
 answer:"Zero"
+    explanation: "This is true because the physics supports Zero.",
 },
 
 {
 topic:"numerical",
 image:"35-formula",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"KE ∝:",
 options:["v","v²","v³","1/v"],
 answer:"v²"
+    explanation: "This is true because the physics supports v².",
 },
 
 {
 topic:"numerical",
 image:"35-formula",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If velocity doubles, KE:",
 options:["2x","3x","4x","Half"],
 answer:"4x"
+    explanation: "This is true because the physics supports 4x.",
 },
 
 {
 topic:"numerical",
 image:"35-formula",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Density formula:",
 options:["m/v","v/m","F/A","A/v"],
 answer:"m/v"
+    explanation: "This is true because the physics supports m/v.",
 },
 
 {
 topic:"numerical",
 image:"35-formula",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Terminal velocity occurs when:",
 options:["Fnet >0","Fnet <0","Fnet =0","No gravity"],
 answer:"Fnet =0"
+    explanation: "This is true because the physics supports Fnet =0.",
 },
 
 {
 topic:"numerical",
 image:"35-formula",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Momentum depends on:",
 options:["Mass","Velocity","Both","None"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 {
 topic:"numerical",
 image:"35-formula",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Impulse equals:",
 options:["Force/time","Force×time","Mass×velocity","Work"],
 answer:"Force×time"
+    explanation: "This is true because the physics supports Force×time.",
 },
 
 {
 topic:"numerical",
 image:"35-formula",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Power increases if:",
 options:["Time ↑","Work ↑","Both","None"],
 answer:"Work ↑"
+    explanation: "This is true because the physics supports Work ↑.",
 },
 
 /* ================= IMAGE 36: ASSESSMENT CHALLENGE ================= */
@@ -5002,101 +5940,121 @@ answer:"Work ↑"
 {
 topic:"exam",
 image:"36-exam",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Car: 0→25 m/s in 10 s → a:",
 options:["2.5","5","10","25"],
 answer:"2.5"
+    explanation: "This is true because the physics supports 2.5.",
 },
 
 {
 topic:"exam",
 image:"36-exam",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"m=800 kg, a=40 m/s² → F:",
 options:["32000","20000","8000","40000"],
 answer:"32000"
+    explanation: "This is true because the physics supports 32000.",
 },
 
 {
 topic:"exam",
 image:"36-exam",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Balanced forces example:",
 options:["Falling ball","Accelerating car","Book on table","Rocket"],
 answer:"Book on table"
+    explanation: "This is true because the physics supports Book on table.",
 },
 
 {
 topic:"exam",
 image:"36-exam",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Unit of force:",
 options:["kg","N","J","Pa"],
 answer:"N"
+    explanation: "This is true because the physics supports N.",
 },
 
 {
 topic:"exam",
 image:"36-exam",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Seat belts relate to:",
 options:["1st law","2nd law","3rd law","Energy"],
 answer:"1st law"
+    explanation: "This is true because the physics supports 1st law.",
 },
 
 {
 topic:"exam",
 image:"36-exam",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Velocity-time graph slope:",
 options:["Speed","Acceleration","Force","Distance"],
 answer:"Acceleration"
+    explanation: "This is true because the physics supports Acceleration.",
 },
 
 {
 topic:"exam",
 image:"36-exam",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If force stops, object:",
 options:["Stops","Keeps moving","Accelerates","Reverses"],
 answer:"Keeps moving"
+    explanation: "This is true because the physics supports Keeps moving.",
 },
 
 {
 topic:"exam",
 image:"36-exam",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Distance from v-t graph:",
 options:["Slope","Area","Height","Width"],
 answer:"Area"
+    explanation: "This is true because the physics supports Area.",
 },
 
 {
 topic:"exam",
 image:"36-exam",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"More mass trolley → acceleration:",
 options:["Increase","Decrease","Same","Random"],
 answer:"Decrease"
+    explanation: "This is true because the physics supports Decrease.",
 },
 
 {
 topic:"exam",
 image:"36-exam",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Satellite path is curved due to:",
 options:["Velocity","Gravity","Both","None"],
 answer:"Both"
+    explanation: "This is true because the physics supports Both.",
 },
 
 /* ================= IMAGE 37: PROJECT SHOWCASE ================= */
@@ -5104,101 +6062,121 @@ answer:"Both"
 {
 topic:"project",
 image:"37-project",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Static friction acts when:",
 options:["Moving","At rest","Falling","Rotating"],
 answer:"At rest"
+    explanation: "This is true because the physics supports At rest.",
 },
 
 {
 topic:"project",
 image:"37-project",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Kinetic friction acts when:",
 options:["Rest","Moving","Floating","Falling"],
 answer:"Moving"
+    explanation: "This is true because the physics supports Moving.",
 },
 
 {
 topic:"project",
 image:"37-project",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Fluid friction depends on:",
 options:["Density","Speed","Area","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },
 
 {
 topic:"project",
 image:"37-project",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Parachute increases:",
 options:["Weight","Drag","Mass","Gravity"],
 answer:"Drag"
+    explanation: "This is true because the physics supports Drag.",
 },
 
 {
 topic:"project",
 image:"37-project",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Terminal velocity when:",
 options:["Drag > weight","Weight > drag","Equal","No force"],
 answer:"Equal"
+    explanation: "This is true because the physics supports Equal.",
 },
 
 {
 topic:"project",
 image:"37-project",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Increasing area of parachute:",
 options:["Less drag","More drag","Same","Random"],
 answer:"More drag"
+    explanation: "This is true because the physics supports More drag.",
 },
 
 {
 topic:"project",
 image:"37-project",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Better friction gives:",
 options:["Slip","Grip","Stop","Fall"],
 answer:"Grip"
+    explanation: "This is true because the physics supports Grip.",
 },
 
 {
 topic:"project",
 image:"37-project",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Friction disadvantage:",
 options:["Grip","Heat","Control","Walk"],
 answer:"Heat"
+    explanation: "This is true because the physics supports Heat.",
 },
 
 {
 topic:"project",
 image:"37-project",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Wind tunnel tests:",
 options:["Gravity","Drag","Friction","Mass"],
 answer:"Drag"
+    explanation: "This is true because the physics supports Drag.",
 },
 
 {
 topic:"project",
 image:"37-project",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Best project approach:",
 options:["Copy","Observe","Test","All"],
 answer:"All"
+    explanation: "This is true because the physics supports All.",
 },  
   
 /* =========================
@@ -5209,6 +6187,7 @@ ELECTROMAGNETISM
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Static electricity is the buildup of:",
 options: ["Heat on an object", "Electric charges on a surface", "Magnetic poles inside matter", "Light energy in atoms"],
@@ -5219,6 +6198,7 @@ explanation: "Static electricity occurs when electric charges build up on the su
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Which particle moves from one object to another during charging?",
 options: ["Proton", "Neutron", "Electron", "Nucleus"],
@@ -5229,6 +6209,7 @@ explanation: "Only electrons move during charging. Protons remain locked inside 
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "An object becomes negatively charged when it has:",
 options: ["More protons than electrons", "More electrons than protons", "Equal protons and electrons", "No electrons"],
@@ -5239,6 +6220,7 @@ explanation: "A negative charge means the object has gained extra electrons."
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "An object is neutral when it has:",
 options: ["Only protons", "Only electrons", "Equal protons and electrons", "More neutrons than electrons"],
@@ -5248,7 +6230,8 @@ explanation: "Neutral matter has equal numbers of positive protons and negative 
 {
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A balloon rubbed with wool becomes negatively charged. This means the balloon:",
 options: ["Lost electrons", "Gained electrons", "Gained protons", "Lost neutrons"],
@@ -5259,6 +6242,7 @@ explanation: "A negative charge forms when electrons are transferred onto the ob
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Like charges:",
 options: ["Attract", "Repel", "Become neutral", "Disappear"],
@@ -5269,6 +6253,7 @@ explanation: "Charges of the same type push away from each other."
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Opposite charges:",
 options: ["Repel", "Attract", "Cancel gravity", "Stop moving"],
@@ -5278,7 +6263,8 @@ explanation: "Positive and negative charges pull toward each other."
 {
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Charging by conduction requires:",
 options: ["Direct contact", "No contact", "Only light", "Only heat"],
@@ -5288,7 +6274,8 @@ explanation: "Conduction occurs when charge is transferred through direct touchi
 {
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Charging by induction happens when:",
 options: ["Objects must rub together", "A charged object causes charge separation without touching", "Electrons disappear", "Protons leave the nucleus"],
@@ -5298,7 +6285,8 @@ explanation: "Induction occurs when a nearby charged object rearranges charges i
 {
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why does hair stand up after being charged?",
 options: ["Hair strands gain mass", "Like charges on hair strands repel each other", "Gravity becomes stronger", "The hair becomes magnetic"],
@@ -5308,7 +6296,8 @@ explanation: "When hair strands gain the same type of charge, they repel and spr
 {
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is lightning considered a static discharge?",
 options: ["Charges flow suddenly after building up", "Charges remain still forever", "Only neutrons move", "The cloud becomes neutral without current"],
@@ -5318,7 +6307,8 @@ explanation: "Lightning occurs when built-up static charge suddenly discharges t
 {
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If an object has 12 protons and 12 electrons, it is:",
 options: ["Positive", "Negative", "Neutral", "Magnetic"],
@@ -5328,7 +6318,8 @@ explanation: "Equal numbers of protons and electrons give zero net charge."
 {
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If an object has 10 protons and 13 electrons, its net charge is:",
 options: ["Positive", "Negative", "Neutral", "Zero"],
@@ -5338,7 +6329,8 @@ explanation: "The object has 3 extra electrons, so it has a net negative charge.
 {
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "An object loses 5 electrons. What happens to its charge?",
 options: ["It becomes more negative", "It becomes more positive", "It becomes neutral always", "It loses all charge"],
@@ -5348,7 +6340,8 @@ explanation: "Losing negative electrons leaves the object with a greater positiv
 {
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If one electron has charge −1.6 × 10⁻¹⁹ C, what charge is gained by an object that gains 4 electrons?",
 options: ["−6.4 × 10⁻¹⁹ C", "+6.4 × 10⁻¹⁹ C", "−4.0 × 10⁻¹⁹ C", "+4.0 × 10⁻¹⁹ C"],
@@ -5358,7 +6351,8 @@ explanation: "Charge gained = 4 × (−1.6 × 10⁻¹⁹ C) = −6.4 × 10⁻¹�
 {
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Which statement best explains why protons do not transfer during ordinary static charging?",
 options: ["Protons are locked in the nucleus", "Protons are lighter than electrons", "Protons have no charge", "Protons move faster than electrons"],
@@ -5368,7 +6362,8 @@ explanation: "Protons are bound inside the nucleus, while outer electrons can tr
 {
 topic: "electromagnetism",
 image: "1-introduction-to-static-electricity",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A neutral object is attracted to a charged object during induction because:",
 options: ["Its charges separate and the opposite charge becomes nearer", "It becomes permanently charged immediately", "Its protons leave the nucleus", "Its neutrons become negative"],
@@ -5379,6 +6374,7 @@ explanation: "Induction causes charge separation. The nearer opposite charge cre
 topic: "electromagnetism",
 image: "2-methods-of-charging",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Charging by friction occurs when:",
 options: ["Two objects are rubbed together", "Two objects are cooled", "Light passes through glass", "A magnet touches metal"],
@@ -5389,6 +6385,7 @@ explanation: "Friction transfers electrons when two materials are rubbed togethe
 topic: "electromagnetism",
 image: "2-methods-of-charging",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "When a balloon is rubbed on hair, the balloon usually:",
 options: ["Gains electrons", "Loses electrons", "Gains protons", "Loses neutrons"],
@@ -5399,6 +6396,7 @@ explanation: "The image shows the balloon gaining electrons and becoming negativ
 topic: "electromagnetism",
 image: "2-methods-of-charging",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "When a balloon gains electrons, the hair becomes:",
 options: ["Negative", "Positive", "Neutral", "Uncharged forever"],
@@ -5409,6 +6407,7 @@ explanation: "If electrons move from hair to the balloon, the hair loses negativ
 topic: "electromagnetism",
 image: "2-methods-of-charging",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Charging by induction requires:",
 options: ["Touching", "Rubbing", "No contact", "Melting"],
@@ -5418,7 +6417,8 @@ explanation: "Induction charges or separates charges without direct contact."
 {
 topic: "electromagnetism",
 image: "2-methods-of-charging",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A negatively charged rod brought near a neutral metal ball pushes electrons in the ball:",
 options: ["Toward the rod", "To the far side", "Into the nucleus", "Out of existence"],
@@ -5428,7 +6428,8 @@ explanation: "Negative charges repel, so electrons in the metal ball move away f
 {
 topic: "electromagnetism",
 image: "2-methods-of-charging",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In induction, grounding allows:",
 options: ["Extra electrons to flow into Earth", "Protons to leave the nucleus", "Neutrons to become charged", "The rod to disappear"],
@@ -5439,6 +6440,7 @@ explanation: "Grounding provides a path for excess electrons to move into or fro
 topic: "electromagnetism",
 image: "2-methods-of-charging",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Dry air usually causes:",
 options: ["More static charge build-up", "Less static charge build-up", "No static electricity", "Only magnetic effects"],
@@ -5449,6 +6451,7 @@ explanation: "Dry air allows static charges to remain on surfaces more easily."
 topic: "electromagnetism",
 image: "2-methods-of-charging",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Humid air usually causes:",
 options: ["More static build-up", "Less static build-up", "More lightning always", "No charge movement ever"],
@@ -5458,7 +6461,8 @@ explanation: "Moist air helps charges leak away, reducing static build-up."
 {
 topic: "electromagnetism",
 image: "2-methods-of-charging",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A small spark from a car door after sliding out of a seat is caused by:",
 options: ["Static discharge", "Nuclear decay", "Sound reflection", "Thermal expansion"],
@@ -5468,7 +6472,8 @@ explanation: "Friction can build charge on the body, which discharges as a spark
 {
 topic: "electromagnetism",
 image: "2-methods-of-charging",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Photocopiers use static electricity mainly to:",
 options: ["Make paper heavier", "Place toner on paper", "Cool the machine", "Remove light"],
@@ -5478,7 +6483,8 @@ explanation: "Photocopiers use electrostatic attraction to place charged toner p
 {
 topic: "electromagnetism",
 image: "2-methods-of-charging",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why can clothes stick together after a dryer cycle?",
 options: ["Friction transfers electrons between clothes", "The clothes become magnetic", "Gravity becomes stronger", "The dryer removes all charges"],
@@ -5488,7 +6494,8 @@ explanation: "Rubbing in the dryer transfers electrons, creating static charges 
 {
 topic: "electromagnetism",
 image: "2-methods-of-charging",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why does electrostatic spray painting help paint stick to a surface?",
 options: ["Paint particles are charged and attracted to the object", "Paint particles become neutral and disappear", "The object melts slightly", "Air pressure removes charge"],
@@ -5498,7 +6505,8 @@ explanation: "Charged paint particles are attracted to the surface, improving co
 {
 topic: "electromagnetism",
 image: "2-methods-of-charging",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A neutral object gains 2.0 × 10⁶ electrons. What is its charge? Use e = 1.6 × 10⁻¹⁹ C.",
 options: ["−3.2 × 10⁻¹³ C", "+3.2 × 10⁻¹³ C", "−1.25 × 10²⁵ C", "+1.25 × 10²⁵ C"],
@@ -5508,7 +6516,8 @@ explanation: "Q = ne = 2.0 × 10⁶ × (−1.6 × 10⁻¹⁹) = −3.2 × 10⁻�
 {
 topic: "electromagnetism",
 image: "2-methods-of-charging",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "An object has charge +8.0 × 10⁻¹⁹ C. How many electrons has it lost? Use e = 1.6 × 10⁻¹⁹ C.",
 options: ["2 electrons", "4 electrons", "5 electrons", "8 electrons"],
@@ -5518,7 +6527,8 @@ explanation: "Number of electrons lost = Q/e = 8.0 × 10⁻¹⁹ ÷ 1.6 × 10⁻
 {
 topic: "electromagnetism",
 image: "2-methods-of-charging",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why does a grounded metal ball become negatively charged after induction by a negatively charged rod, according to the image sequence?",
 options: ["Extra electrons flow from Earth into the ball", "Protons move from the rod into the ball", "Electrons are destroyed inside the ball", "The ball absorbs neutrons"],
@@ -5528,7 +6538,8 @@ explanation: "The image shows the grounded ball receiving extra electrons from E
 {
 topic: "electromagnetism",
 image: "2-methods-of-charging",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which method is best for charging an object without touching it?",
 options: ["Friction", "Conduction", "Induction", "Combustion"],
@@ -5538,7 +6549,8 @@ explanation: "Induction uses the electric effect of a nearby charged object with
 {
 topic: "electromagnetism",
 image: "2-methods-of-charging",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why can large static discharges like lightning be dangerous even though small static charges are usually harmless?",
 options: ["Large discharges transfer much more energy", "Large discharges contain no charge", "Small charges are always magnetic", "Lightning travels only through solids"],
@@ -5549,6 +6561,7 @@ explanation: "Large static discharges release a large amount of electrical energ
 topic: "electromagnetism",
 image: "3-charging-by-friction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Charging by friction occurs when:",
 options: ["Two objects are rubbed together", "Two objects are kept apart", "A charged object is grounded", "A magnetic field is removed"],
@@ -5559,6 +6572,7 @@ explanation: "Charging by friction happens when two different materials are rubb
 topic: "electromagnetism",
 image: "3-charging-by-friction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "During charging by friction, which particles move?",
 options: ["Protons", "Neutrons", "Electrons", "Nuclei"],
@@ -5569,6 +6583,7 @@ explanation: "Electrons are mobile and can transfer between materials during rub
 topic: "electromagnetism",
 image: "3-charging-by-friction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "In the balloon and cloth example, electrons move:",
 options: ["From balloon to cloth", "From cloth to balloon", "From protons to neutrons", "From air to Earth"],
@@ -5579,6 +6594,7 @@ explanation: "The image shows electrons moving from the cloth to the balloon."
 topic: "electromagnetism",
 image: "3-charging-by-friction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "After rubbing with cloth, the balloon becomes:",
 options: ["Positively charged", "Negatively charged", "Neutral", "Uncharged forever"],
@@ -5589,6 +6605,7 @@ explanation: "The balloon gains electrons, so it becomes negatively charged."
 topic: "electromagnetism",
 image: "3-charging-by-friction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "After losing electrons, the cloth becomes:",
 options: ["Negatively charged", "Positively charged", "Neutral", "Magnetic"],
@@ -5598,7 +6615,8 @@ explanation: "Losing electrons leaves the cloth with a net positive charge."
 {
 topic: "electromagnetism",
 image: "3-charging-by-friction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A charged balloon attracts small bits of paper because:",
 options: ["The paper becomes heavier", "Charges in the paper rearrange and attraction occurs", "The balloon becomes magnetic", "The paper loses all protons"],
@@ -5608,7 +6626,8 @@ explanation: "A charged balloon polarizes nearby neutral paper, causing attracti
 {
 topic: "electromagnetism",
 image: "3-charging-by-friction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "According to the triboelectric series, materials higher on the list tend to:",
 options: ["Gain electrons", "Lose electrons", "Lose protons", "Become neutral always"],
@@ -5618,7 +6637,8 @@ explanation: "The image states that materials higher in the triboelectric series
 {
 topic: "electromagnetism",
 image: "3-charging-by-friction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "According to the triboelectric series, materials lower on the list tend to:",
 options: ["Gain electrons", "Lose electrons", "Lose neutrons", "Become positive always"],
@@ -5628,7 +6648,8 @@ explanation: "Materials lower in the triboelectric series are more likely to gai
 {
 topic: "electromagnetism",
 image: "3-charging-by-friction",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why does friction create opposite charges on two objects?",
 options: ["Electrons transfer from one object to the other", "Both objects gain protons", "Both objects lose neutrons", "Charge is destroyed"],
@@ -5638,7 +6659,8 @@ explanation: "One object loses electrons and becomes positive, while the other g
 {
 topic: "electromagnetism",
 image: "3-charging-by-friction",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why does hair stand up when a charged balloon is near it?",
 options: ["The balloon heats the hair", "The charged balloon attracts the hair", "The hair becomes heavier", "The hair becomes invisible"],
@@ -5648,7 +6670,8 @@ explanation: "Static charge on the balloon attracts nearby hair strands, making 
 {
 topic: "electromagnetism",
 image: "3-charging-by-friction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A cloth loses 3.0 × 10⁶ electrons to a balloon. What is the charge on the cloth? Use e = 1.6 × 10⁻¹⁹ C.",
 options: ["+4.8 × 10⁻¹³ C", "−4.8 × 10⁻¹³ C", "+1.9 × 10²⁵ C", "−1.9 × 10²⁵ C"],
@@ -5658,7 +6681,8 @@ explanation: "Losing electrons gives positive charge. Q = ne = 3.0 × 10⁶ × 1
 {
 topic: "electromagnetism",
 image: "3-charging-by-friction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A balloon gains 5.0 × 10⁷ electrons. What is its charge? Use e = 1.6 × 10⁻¹⁹ C.",
 options: ["−8.0 × 10⁻¹² C", "+8.0 × 10⁻¹² C", "−3.1 × 10²⁶ C", "+3.1 × 10²⁶ C"],
@@ -5668,7 +6692,8 @@ explanation: "Gaining electrons gives negative charge. Q = 5.0 × 10⁷ × (−1
 {
 topic: "electromagnetism",
 image: "3-charging-by-friction",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which explanation best describes lightning as shown in the image?",
 options: ["Friction in clouds builds large charge differences that discharge suddenly", "Clouds become magnetic and pull light from the ground", "Rainwater turns into electrons", "Lightning is caused by sound waves reflecting"],
@@ -5678,7 +6703,8 @@ explanation: "The image shows ice particles and droplets rubbing in clouds, buil
 {
 topic: "electromagnetism",
 image: "3-charging-by-friction",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why can sparks near fuel vapors be dangerous?",
 options: ["Static discharge can ignite flammable vapors", "Static charge removes oxygen", "Friction always cools gases", "Electrons become neutrons"],
@@ -5689,6 +6715,7 @@ explanation: "A static spark can release enough energy to ignite flammable vapor
 topic: "electromagnetism",
 image: "4-charging-by-induction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Charging by induction means charging an object:",
 options: ["By rubbing only", "By direct touch only", "Without touching it", "By heating it"],
@@ -5699,6 +6726,7 @@ explanation: "Induction can charge or separate charges in an object without cont
 topic: "electromagnetism",
 image: "4-charging-by-induction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "When a negatively charged rod is brought near a neutral metal ball, electrons in the ball move:",
 options: ["Toward the rod", "To the far side", "Into the protons", "Out of existence"],
@@ -5709,6 +6737,7 @@ explanation: "The negative rod repels electrons in the metal ball to the far sid
 topic: "electromagnetism",
 image: "4-charging-by-induction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "In induction, the near side of the metal ball becomes:",
 options: ["Positive", "Negative", "Neutral only", "Magnetic"],
@@ -5718,7 +6747,8 @@ explanation: "Electrons are pushed away, leaving the near side relatively positi
 {
 topic: "electromagnetism",
 image: "4-charging-by-induction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In the image sequence, grounding the ball allows electrons to:",
 options: ["Flow out of the ball into Earth", "Turn into protons", "Stay fixed forever", "Move into the rod"],
@@ -5728,7 +6758,8 @@ explanation: "With the negative rod still near, extra electrons flow from the me
 {
 topic: "electromagnetism",
 image: "4-charging-by-induction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "After the ground is removed and then the rod is taken away, the ball is left:",
 options: ["Negatively charged", "Positively charged", "Neutral", "Without electrons"],
@@ -5738,7 +6769,8 @@ explanation: "Electrons have flowed away through grounding, so the ball is left 
 {
 topic: "electromagnetism",
 image: "4-charging-by-induction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which step traps the charge during induction?",
 options: ["Removing the ground before removing the rod", "Removing the rod before grounding", "Touching the rod to the ball", "Heating the ball"],
@@ -5748,7 +6780,8 @@ explanation: "The image notes that removing the ground first traps the charge wh
 {
 topic: "electromagnetism",
 image: "4-charging-by-induction",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is induction especially effective in conductors?",
 options: ["Charges can move inside conductors", "Conductors have no electrons", "Conductors block all electric fields", "Protons move freely through conductors"],
@@ -5758,7 +6791,8 @@ explanation: "The image states that charges move inside a conductor even when th
 {
 topic: "electromagnetism",
 image: "4-charging-by-induction",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why can an aluminum can roll toward a charged balloon?",
 options: ["Charges separate inside the can, causing attraction", "The balloon creates gravity", "The can becomes lighter", "The can loses all protons"],
@@ -5768,7 +6802,8 @@ explanation: "Induction separates charge in the metal can, producing attraction 
 {
 topic: "electromagnetism",
 image: "4-charging-by-induction",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which real-world device uses induction to remove tiny charged particles from smoke?",
 options: ["Electrostatic precipitator", "Thermometer", "Microphone", "Simple battery"],
@@ -5778,7 +6813,8 @@ explanation: "The image explains that electrostatic precipitators use induction 
 {
 topic: "electromagnetism",
 image: "4-charging-by-induction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "During induction, a metal ball loses 2.5 × 10⁸ electrons to Earth. What is its final charge? Use e = 1.6 × 10⁻¹⁹ C.",
 options: ["+4.0 × 10⁻¹¹ C", "−4.0 × 10⁻¹¹ C", "+1.6 × 10⁻²⁷ C", "−1.6 × 10⁻²⁷ C"],
@@ -5788,7 +6824,8 @@ explanation: "Losing electrons gives positive charge. Q = 2.5 × 10⁸ × 1.6 ×
 {
 topic: "electromagnetism",
 image: "4-charging-by-induction",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "What would happen if the negative rod were removed before the ground connection?",
 options: ["The charge separation would reduce and the object may not remain charged", "The ball would gain infinite charge", "The ball would become radioactive", "The ground would become an insulator"],
@@ -5799,6 +6836,7 @@ explanation: "The charged rod must remain nearby while the ground is removed so 
 topic: "electromagnetism",
 image: "5-charging-by-conduction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Charging by conduction requires:",
 options: ["Direct contact", "No contact", "Only light", "Only sound"],
@@ -5809,6 +6847,7 @@ explanation: "Conduction transfers charge when objects touch."
 topic: "electromagnetism",
 image: "5-charging-by-conduction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "In the image, the negatively charged rod has:",
 options: ["Extra electrons", "Extra protons", "No electrons", "Only neutrons"],
@@ -5819,6 +6858,7 @@ explanation: "The rod is shown as negatively charged because it has extra electr
 topic: "electromagnetism",
 image: "5-charging-by-conduction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "In charging by conduction, electrons move from:",
 options: ["The object with extra electrons to the one with fewer electrons", "The nucleus to the air", "Neutrons to protons", "The neutral object to nothing"],
@@ -5829,6 +6869,7 @@ explanation: "The image explains that electrons flow from the object with extra 
 topic: "electromagnetism",
 image: "5-charging-by-conduction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "After a negatively charged rod touches a neutral metal sphere, both objects become:",
 options: ["Positively charged", "Negatively charged", "Neutral", "Uncharged"],
@@ -5838,7 +6879,8 @@ explanation: "Electrons move onto the sphere, so both the rod and sphere end up 
 {
 topic: "electromagnetism",
 image: "5-charging-by-conduction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Charging by conduction works best with:",
 options: ["Conductors such as metals", "Insulators such as rubber", "Only gases", "Only vacuum"],
@@ -5848,7 +6890,8 @@ explanation: "Metals have free electrons that can move easily during contact."
 {
 topic: "electromagnetism",
 image: "5-charging-by-conduction",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why does conduction not work well through plastic, rubber, or glass?",
 options: ["They are insulators with electrons that cannot move freely", "They contain no atoms", "They have no protons", "They turn charge into heat instantly"],
@@ -5858,7 +6901,8 @@ explanation: "Insulators do not allow electrons to flow easily, so charge transf
 {
 topic: "electromagnetism",
 image: "5-charging-by-conduction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Touching a charged object and then a metal doorknob can transfer charge by:",
 options: ["Diffraction", "Conduction", "Induction only", "Refraction"],
@@ -5868,7 +6912,8 @@ explanation: "Touching allows charge to move directly between objects."
 {
 topic: "electromagnetism",
 image: "5-charging-by-conduction",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do two similar conducting objects share charge more equally?",
 options: ["Their similar properties allow charge to distribute more evenly", "They repel all electrons away", "They destroy charge", "Their protons move freely"],
@@ -5878,7 +6923,8 @@ explanation: "The image notes that more similar objects share charge more equall
 {
 topic: "electromagnetism",
 image: "5-charging-by-conduction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A rod transfers 6.0 × 10⁹ electrons to a neutral sphere by conduction. What charge does the sphere gain? Use e = 1.6 × 10⁻¹⁹ C.",
 options: ["−9.6 × 10⁻¹⁰ C", "+9.6 × 10⁻¹⁰ C", "−3.75 × 10²⁸ C", "+3.75 × 10²⁸ C"],
@@ -5888,7 +6934,8 @@ explanation: "The sphere gains electrons, so Q = 6.0 × 10⁹ × (−1.6 × 10�
 {
 topic: "electromagnetism",
 image: "5-charging-by-conduction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A neutral metal sphere gains charge −4.8 × 10⁻¹⁵ C by conduction. How many electrons were transferred? Use e = 1.6 × 10⁻¹⁹ C.",
 options: ["3.0 × 10⁴ electrons", "4.8 × 10⁴ electrons", "7.7 × 10⁻³⁴ electrons", "1.6 × 10⁴ electrons"],
@@ -5898,7 +6945,8 @@ explanation: "n = |Q|/e = 4.8 × 10⁻¹⁵ ÷ 1.6 × 10⁻¹⁹ = 3.0 × 10⁴ 
 {
 topic: "electromagnetism",
 image: "5-charging-by-conduction",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Which statement best evaluates conduction as a charging method?",
 options: ["It is direct and effective for conductors but requires contact", "It works without any contact", "It only works in vacuum", "It transfers protons between nuclei"],
@@ -5909,6 +6957,7 @@ explanation: "Conduction is useful because charge moves through contact, especia
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "An electric field is a region where:",
 options: ["A charge experiences a force", "Mass disappears", "Only sound travels", "Gravity becomes zero"],
@@ -5919,6 +6968,7 @@ explanation: "An electric field is the region around a charged object where anot
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
 criterion: "A",
+    strand: "ii",
 level: "easy",
 question: "Electric field direction is defined as the direction of force on:",
 options: ["A positive test charge", "A neutron", "A negative test charge", "An uncharged atom"],
@@ -5929,6 +6979,7 @@ explanation: "By convention, the electric field vector points in the direction o
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electric field lines begin on:",
 options: ["Negative charges", "Positive charges", "Neutrons", "Neutral atoms"],
@@ -5939,6 +6990,7 @@ explanation: "Field lines start on positive charges and end on negative charges.
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electric field lines end on:",
 options: ["Positive charges", "Negative charges", "Neutrons", "Empty space only"],
@@ -5949,6 +7001,7 @@ explanation: "Electric field lines point from positive to negative charges."
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electric field strength is measured in:",
 options: ["N/C", "J", "kg", "m/s"],
@@ -5958,7 +7011,8 @@ explanation: "Electric field strength is force per unit charge, measured in newt
 {
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which equation defines electric field strength?",
 options: ["E = F/q₀", "E = mc²", "E = IR", "E = fλ"],
@@ -5968,7 +7022,8 @@ explanation: "The image gives electric field strength as E = F/q₀."
 {
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If a force of 6 N acts on a test charge of 2 C, what is the electric field strength?",
 options: ["3 N/C", "8 N/C", "12 N/C", "4 N/C"],
@@ -5978,7 +7033,8 @@ explanation: "E = F/q = 6 ÷ 2 = 3 N/C."
 {
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If the electric field is 50 N/C and the test charge is 0.20 C, what force acts on it?",
 options: ["10 N", "250 N", "50.2 N", "0.004 N"],
@@ -5988,7 +7044,8 @@ explanation: "F = Eq = 50 × 0.20 = 10 N."
 {
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Closer electric field lines represent:",
 options: ["A stronger electric field", "A weaker electric field", "No electric field", "A neutral region only"],
@@ -5998,7 +7055,8 @@ explanation: "The image states that closer field lines mean a stronger field."
 {
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do electric field lines never cross?",
 options: ["A field cannot have two directions at the same point", "Charges disappear at crossing points", "Crossing lines create gravity", "Only magnetic fields cross"],
@@ -6008,7 +7066,8 @@ explanation: "If field lines crossed, one point would have two field directions,
 {
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In a uniform electric field between parallel plates, field lines are:",
 options: ["Nearly parallel and equally spaced", "Circular", "Random", "Crossing"],
@@ -6018,7 +7077,8 @@ explanation: "Between large oppositely charged plates, the electric field is nea
 {
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A charge of 4.0 × 10⁻⁶ C experiences a force of 0.020 N. What is the electric field strength?",
 options: ["5.0 × 10³ N/C", "8.0 × 10⁻⁸ N/C", "2.0 × 10⁻⁴ N/C", "1.6 × 10⁻⁷ N/C"],
@@ -6028,7 +7088,8 @@ explanation: "E = F/q = 0.020 ÷ (4.0 × 10⁻⁶) = 5.0 × 10³ N/C."
 {
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A negative charge placed in an electric field experiences force:",
 options: ["In the direction of the field", "Opposite to the direction of the field", "Always upward", "Only if field lines cross"],
@@ -6038,7 +7099,8 @@ explanation: "Electric field direction is defined for a positive test charge, so
 {
 topic: "electromagnetism",
 image: "6-electric-fields-intro",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which conclusion best describes electric fields?",
 options: ["They allow charges to exert forces without touching", "They exist only inside metal objects", "They are visible lines painted in space", "They require sound waves to form"],
@@ -6049,6 +7111,7 @@ explanation: "Electric fields explain how charges influence other charges throug
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "A capacitor stores electrical energy in:",
 options: ["A magnetic core", "An electric field", "A sound wave", "A chemical flame"],
@@ -6059,6 +7122,7 @@ explanation: "A capacitor stores electrical energy in the electric field between
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The insulating material between capacitor plates is called a:",
 options: ["Conductor", "Dielectric", "Fuse", "Switch"],
@@ -6069,6 +7133,7 @@ explanation: "A dielectric is the insulating material placed between capacitor p
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electrostatic shielding protects objects by:",
 options: ["Blocking external electric fields", "Increasing current", "Creating heat", "Removing gravity"],
@@ -6078,7 +7143,8 @@ explanation: "Conductors can block external electric fields, protecting what is 
 {
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Inside an ideal electrostatic shield, the electric field is:",
 options: ["Maximum", "Zero", "Always negative", "Infinite"],
@@ -6089,6 +7155,7 @@ explanation: "Free electrons in the conductor rearrange to cancel the field insi
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electrostatic precipitators are used to:",
 options: ["Clean air", "Store water", "Measure temperature", "Create sound"],
@@ -6099,6 +7166,7 @@ explanation: "Electrostatic precipitators attract charged smoke particles and re
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Touchscreens use electric fields to detect:",
 options: ["Temperature", "Touch position", "Mass", "Sound level"],
@@ -6108,7 +7176,8 @@ explanation: "Electric fields help touchscreens detect the position of a finger 
 {
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Photocopiers and laser printers use electric fields to attract:",
 options: ["Toner particles", "Water droplets", "Air molecules only", "Neutrons"],
@@ -6118,7 +7187,8 @@ explanation: "Electric fields attract charged toner particles to form images on 
 {
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Particle accelerators use electric fields to:",
 options: ["Slow charged particles", "Speed up charged particles", "Freeze particles", "Make particles neutral"],
@@ -6128,7 +7198,8 @@ explanation: "Electric fields accelerate charged particles so scientists can stu
 {
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why are MRI rooms shielded?",
 options: ["To reduce room temperature", "To improve sound quality", "To protect safety and sensitive equipment", "To increase humidity"],
@@ -6138,7 +7209,8 @@ explanation: "Shielding helps block unwanted electric fields and protects sensit
 {
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
-criterion: "B",
+criterion: "A",
+    strand: "ii",
 level: "hard",
 question: "A capacitor has capacitance 4 F and voltage 3 V. How much energy is stored? Use U = 1/2 CV².",
 options: ["6 J", "12 J", "18 J", "24 J"],
@@ -6148,7 +7220,8 @@ explanation: "U = 1/2 × 4 × 3² = 2 × 9 = 18 J."
 {
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A capacitor stores 50 J at 5 V. What is its capacitance? Use U = 1/2 CV².",
 options: ["2 F", "4 F", "5 F", "10 F"],
@@ -6158,7 +7231,8 @@ explanation: "C = 2U/V² = 2 × 50 / 25 = 4 F."
 {
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which application best shows electric fields being used for environmental protection?",
 options: ["Electrostatic precipitators", "Touchscreens", "Camera flashes", "Capacitor timers"],
@@ -6168,7 +7242,8 @@ explanation: "Electrostatic precipitators remove charged pollution particles fro
 {
 topic: "electromagnetism",
 image: "7-electrica-field-applications",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why are capacitors useful in electronic devices?",
 options: ["They store energy and smooth voltage fluctuations", "They remove all resistance", "They stop charge from existing", "They only produce sound"],
@@ -6179,6 +7254,7 @@ explanation: "Capacitors store energy in electric fields and help stabilize volt
 topic: "electromagnetism",
 image: "8-introduction-to-current",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electric current is the flow of:",
 options: ["Electric charge", "Heat only", "Mass", "Sound"],
@@ -6189,6 +7265,7 @@ explanation: "Electric current is the flow of electric charge through a conducto
 topic: "electromagnetism",
 image: "8-introduction-to-current",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Current is measured in:",
 options: ["Volts", "Ohms", "Amperes", "Joules"],
@@ -6199,6 +7276,7 @@ explanation: "Electric current is measured in amperes (A)."
 topic: "electromagnetism",
 image: "8-introduction-to-current",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "One ampere means:",
 options: ["One joule per second", "One coulomb per second", "One volt per coulomb", "One ohm per volt"],
@@ -6209,6 +7287,7 @@ explanation: "1 A = 1 C of charge passing a point per second."
 topic: "electromagnetism",
 image: "8-introduction-to-current",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electron flow is from:",
 options: ["Positive terminal to negative terminal", "Negative terminal to positive terminal", "Ground to sky", "Lamp to battery only"],
@@ -6219,6 +7298,7 @@ explanation: "Electrons are negatively charged and move from the negative termin
 topic: "electromagnetism",
 image: "8-introduction-to-current",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Conventional current is defined from:",
 options: ["Positive to negative", "Negative to positive", "North to south", "Earth to battery"],
@@ -6229,6 +7309,7 @@ explanation: "Conventional current is defined opposite to electron flow, from po
 topic: "electromagnetism",
 image: "8-introduction-to-current",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Current can flow only in a:",
 options: ["Broken circuit", "Complete circuit", "Plastic rod", "Neutral atom"],
@@ -6238,7 +7319,8 @@ explanation: "A complete loop is needed for charge to flow continuously."
 {
 topic: "electromagnetism",
 image: "8-introduction-to-current",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What causes electrons to drift in one direction inside a conductor?",
 options: ["A voltage creating an electric field", "A sound wave", "A change in color", "A decrease in mass"],
@@ -6248,7 +7330,8 @@ explanation: "A source of voltage creates an electric field inside the conductor
 {
 topic: "electromagnetism",
 image: "8-introduction-to-current",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which material allows current to flow using electrons as charge carriers?",
 options: ["Metal", "Glass", "Plastic", "Dry air only"],
@@ -6258,7 +7341,8 @@ explanation: "Metals such as copper and aluminum conduct using mobile electrons.
 {
 topic: "electromagnetism",
 image: "8-introduction-to-current",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which material conducts using positive and negative ions?",
 options: ["Salt solution", "Glass", "Plastic", "Dry wood only"],
@@ -6268,7 +7352,8 @@ explanation: "Salt solutions conduct because positive and negative ions can move
 {
 topic: "electromagnetism",
 image: "8-introduction-to-current",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why does current stop when a switch opens?",
 options: ["The complete path is broken", "Electrons become protons", "The battery loses mass", "The wire becomes invisible"],
@@ -6278,7 +7363,8 @@ explanation: "Opening a switch breaks the circuit, so charge can no longer flow 
 {
 topic: "electromagnetism",
 image: "8-introduction-to-current",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If 6 C of charge passes a point in 3 s, what is the current?",
 options: ["2 A", "3 A", "9 A", "18 A"],
@@ -6288,7 +7374,8 @@ explanation: "I = Q/t = 6 ÷ 3 = 2 A."
 {
 topic: "electromagnetism",
 image: "8-introduction-to-current",
-criterion: "B",
+criterion: "A",
+    strand: "ii",
 level: "hard",
 question: "A current of 0.5 A flows for 10 s. How much charge passes a point?",
 options: ["0.05 C", "5 C", "10.5 C", "20 C"],
@@ -6298,7 +7385,8 @@ explanation: "Q = It = 0.5 × 10 = 5 C."
 {
 topic: "electromagnetism",
 image: "8-introduction-to-current",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why can a tiny current still be felt by the human body?",
 options: ["The body responds to small electrical signals", "Current has no effect on tissues", "Only voltage matters and current does not", "Electrons stop at the skin"],
@@ -6309,6 +7397,7 @@ explanation: "The image notes that even currents less than 0.01 A can be felt, s
 topic: "electromagnetism",
 image: "9-simple-circuits",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "A simple circuit is a:",
 options: ["Closed loop path for current", "Broken wire only", "Magnet without charge", "Single atom"],
@@ -6319,6 +7408,7 @@ explanation: "A simple circuit is a closed loop path that allows electric curren
 topic: "electromagnetism",
 image: "9-simple-circuits",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "If a circuit path is broken, the bulb:",
 options: ["Glows brighter", "Does not glow", "Becomes a battery", "Produces current by itself"],
@@ -6329,6 +7419,7 @@ explanation: "If the path is broken, current stops and the bulb does not glow."
 topic: "electromagnetism",
 image: "9-simple-circuits",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "In a series circuit, components are connected:",
 options: ["One after another", "Across separate branches", "Without wires", "Only to ground"],
@@ -6339,6 +7430,7 @@ explanation: "Series components are connected one after another in a single path
 topic: "electromagnetism",
 image: "9-simple-circuits",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "In a series circuit, the current through each component is:",
 options: ["The same", "Zero always", "Different at every bulb", "Only in the battery"],
@@ -6348,7 +7440,8 @@ explanation: "The same current flows through every component in a series circuit
 {
 topic: "electromagnetism",
 image: "9-simple-circuits",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If one bulb burns out in a series circuit with two bulbs, what happens?",
 options: ["Only that bulb goes out", "Both bulbs go out", "The battery becomes stronger", "Current doubles"],
@@ -6358,7 +7451,8 @@ explanation: "A failed bulb breaks the single path, so current stops through the
 {
 topic: "electromagnetism",
 image: "9-simple-circuits",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Adding more bulbs in series usually makes each bulb:",
 options: ["Brighter", "Dimmer", "Turn into a switch", "Glow without current"],
@@ -6369,6 +7463,7 @@ explanation: "More series bulbs increase total opposition, so bulbs become dimme
 topic: "electromagnetism",
 image: "9-simple-circuits",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Which symbol represents a lamp in circuit diagrams?",
 options: ["Circle with a cross", "Straight line only", "Zigzag line", "Open gap only"],
@@ -6378,7 +7473,8 @@ explanation: "The image shows the bulb or lamp symbol as a circle with a cross i
 {
 topic: "electromagnetism",
 image: "9-simple-circuits",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which real-life example commonly uses cells in series?",
 options: ["Flashlight", "Open switch", "Single wire only", "Glass rod"],
@@ -6388,7 +7484,8 @@ explanation: "Flashlights often use multiple cells in series to provide enough v
 {
 topic: "electromagnetism",
 image: "9-simple-circuits",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A battery provides 9 V to three identical bulbs in series. If voltage is shared equally, what voltage is across each bulb?",
 options: ["1 V", "3 V", "6 V", "9 V"],
@@ -6398,7 +7495,8 @@ explanation: "In a simple equal-sharing model, 9 V ÷ 3 bulbs = 3 V per bulb."
 {
 topic: "electromagnetism",
 image: "9-simple-circuits",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why are series circuits less suitable when each appliance must work independently?",
 options: ["A break in one component stops current through all components", "They use no current", "They cannot contain batteries", "They always have zero resistance"],
@@ -6409,6 +7507,7 @@ explanation: "Series circuits have only one path, so one failure can stop the en
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Voltage is electric potential difference that:",
 options: ["Pushes charges through a circuit", "Stops all current", "Removes resistance", "Creates mass"],
@@ -6419,6 +7518,7 @@ explanation: "Voltage provides the electrical push or energy per charge in a cir
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Resistance opposes the flow of:",
 options: ["Current", "Mass", "Light only", "Sound only"],
@@ -6429,6 +7529,7 @@ explanation: "Resistance is the opposition to electric current in a circuit."
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Resistance is measured in:",
 options: ["Volts", "Amperes", "Ohms", "Coulombs"],
@@ -6439,6 +7540,7 @@ explanation: "Resistance is measured in ohms (Ω)."
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Ohm’s law is:",
 options: ["V = IR", "F = ma", "E = mc²", "v = fλ"],
@@ -6448,7 +7550,8 @@ explanation: "Ohm’s law connects voltage, current, and resistance: V = IR."
 {
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If resistance is constant and voltage increases, current:",
 options: ["Increases", "Decreases", "Becomes zero", "Never changes"],
@@ -6458,7 +7561,8 @@ explanation: "From V = IR, current is directly proportional to voltage when resi
 {
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If voltage is constant and resistance increases, current:",
 options: ["Increases", "Decreases", "Doubles always", "Becomes infinite"],
@@ -6468,7 +7572,8 @@ explanation: "For fixed voltage, I = V/R, so increasing resistance decreases cur
 {
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A circuit has V = 12 V and R = 3 Ω. What is the current?",
 options: ["3 A", "4 A", "9 A", "36 A"],
@@ -6478,7 +7583,8 @@ explanation: "I = V/R = 12 ÷ 3 = 4 A."
 {
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If V = 6 V and I = 2 A, what is resistance?",
 options: ["2 Ω", "3 Ω", "8 Ω", "12 Ω"],
@@ -6488,7 +7594,8 @@ explanation: "R = V/I = 6 ÷ 2 = 3 Ω."
 {
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "For an ohmic conductor, the V-I graph is:",
 options: ["A straight line through the origin", "A circle", "A curve that never starts at zero", "A random shape"],
@@ -6498,7 +7605,8 @@ explanation: "At constant temperature, an ohmic conductor has a linear V-I relat
 {
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "The slope of a V-I graph for an ohmic conductor equals:",
 options: ["Resistance", "Current", "Charge", "Time"],
@@ -6508,7 +7616,8 @@ explanation: "Since R = V/I, the slope of a V-I graph gives resistance."
 {
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A resistor has current 0.25 A when connected to 10 V. What is its resistance?",
 options: ["2.5 Ω", "10.25 Ω", "25 Ω", "40 Ω"],
@@ -6518,7 +7627,8 @@ explanation: "R = V/I = 10 ÷ 0.25 = 40 Ω."
 {
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A 5 Ω resistor carries 0.8 A. What voltage is across it?",
 options: ["4 V", "5.8 V", "6.25 V", "0.16 V"],
@@ -6528,7 +7638,8 @@ explanation: "V = IR = 0.8 × 5 = 4 V."
 {
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is a copper wire considered low resistance compared with a bulb filament?",
 options: ["It allows current to flow more easily", "It stops all current", "It has no atoms", "It changes voltage into mass"],
@@ -6538,7 +7649,8 @@ explanation: "Copper wire has low resistance, so it allows current to flow easil
 {
 topic: "electromagnetism",
 image: "10-voltage-and-resistance",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which conclusion best summarizes voltage and resistance?",
 options: ["Voltage pushes charge, while resistance opposes current", "Voltage opposes charge, while resistance creates charge", "Both voltage and resistance stop current", "Resistance is measured in volts"],
@@ -6549,6 +7661,7 @@ explanation: "Voltage provides the push for current, while resistance limits the
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What does a voltmeter measure?",
 options: ["Current through a component", "Voltage between two points", "Resistance of a wire", "Power used by a lamp"],
@@ -6559,6 +7672,7 @@ explanation: "A voltmeter measures the electric potential difference between two
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What does an ammeter measure?",
 options: ["Voltage across a component", "Current through a path", "Energy stored in a battery", "Resistance across a switch"],
@@ -6569,6 +7683,7 @@ explanation: "An ammeter measures the rate of flow of electric charge through a 
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Voltage is measured in:",
 options: ["Amperes", "Ohms", "Volts", "Watts"],
@@ -6579,6 +7694,7 @@ explanation: "Voltage, or potential difference, is measured in volts."
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Current is measured in:",
 options: ["Volts", "Amperes", "Ohms", "Joules"],
@@ -6589,6 +7705,7 @@ explanation: "Current is measured in amperes, symbol A."
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "A voltmeter should be connected:",
 options: ["In series", "In parallel", "Across the battery only", "Instead of the switch"],
@@ -6599,6 +7716,7 @@ explanation: "A voltmeter is connected in parallel across the component or point
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "An ammeter should be connected:",
 options: ["In parallel", "In series", "Across the battery", "Across the resistor"],
@@ -6609,6 +7727,7 @@ explanation: "An ammeter is connected in series so that all the current being me
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which instrument has very high internal resistance?",
 options: ["Ammeter", "Voltmeter", "Switch", "Battery"],
@@ -6619,6 +7738,7 @@ explanation: "A voltmeter has high resistance so that very little current flows 
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which instrument has very low internal resistance?",
 options: ["Voltmeter", "Ammeter", "Lamp", "Resistor"],
@@ -6628,7 +7748,8 @@ explanation: "An ammeter has very low resistance so it does not significantly re
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A voltmeter reads 5.00 V across a resistor. What voltage is across the resistor?",
 options: ["0.50 V", "2.35 V", "5.00 V", "12.00 V"],
@@ -6638,7 +7759,8 @@ explanation: "The voltmeter directly measures the potential difference across th
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "An ammeter reads 2.35 A in series with a resistor. What current flows through the resistor?",
 options: ["0.235 A", "2.35 A", "5.00 A", "12.00 A"],
@@ -6648,7 +7770,8 @@ explanation: "An ammeter in series measures the current through that circuit pat
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A 12 V battery is connected to 5 Ω and 10 Ω resistors in series. What is the total resistance?",
 options: ["5 Ω", "10 Ω", "15 Ω", "50 Ω"],
@@ -6658,7 +7781,8 @@ explanation: "Series resistances add directly: R = 5 Ω + 10 Ω = 15 Ω."
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A 12 V battery is connected to a total resistance of 15 Ω. What is the current?",
 options: ["0.4 A", "0.8 A", "1.25 A", "15 A"],
@@ -6668,7 +7792,8 @@ explanation: "Using I = V/R, I = 12/15 = 0.8 A."
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A current of 0.8 A flows through a 10 Ω resistor. What voltage is across it?",
 options: ["0.08 V", "8 V", "10.8 V", "80 V"],
@@ -6678,7 +7803,8 @@ explanation: "Using V = IR, V = 0.8 × 10 = 8 V."
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "An 18 V battery is connected to 6 Ω and 3 Ω resistors in series. What is the total resistance?",
 options: ["2 Ω", "3 Ω", "9 Ω", "18 Ω"],
@@ -6688,7 +7814,8 @@ explanation: "In series, resistances add: R = 6 Ω + 3 Ω = 9 Ω."
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "An 18 V battery is connected to a total resistance of 9 Ω. What should the ammeter read?",
 options: ["0.5 A", "2 A", "9 A", "18 A"],
@@ -6698,7 +7825,8 @@ explanation: "Using I = V/R, I = 18/9 = 2 A."
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why can connecting a voltmeter in series give a wrong result?",
 options: ["It increases the battery voltage", "It changes the circuit operation", "It makes current infinite", "It removes all resistance"],
@@ -6708,7 +7836,8 @@ explanation: "A voltmeter has high resistance, so placing it in series can great
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is connecting an ammeter in parallel dangerous?",
 options: ["It creates a short circuit", "It increases resistance too much", "It blocks all current", "It measures voltage safely"],
@@ -6718,7 +7847,8 @@ explanation: "An ammeter has very low resistance, so connecting it in parallel c
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why should the highest meter range be selected first?",
 options: ["To avoid overloading the meter", "To increase circuit voltage", "To reduce battery resistance", "To make readings always zero"],
@@ -6728,7 +7858,8 @@ explanation: "Starting with the highest range protects the meter if the current 
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A voltmeter shows no reading across a resistor. Which is a possible cause?",
 options: ["Correct parallel connection", "Blown fuse or open circuit", "Perfect circuit operation", "Current is too high"],
@@ -6738,7 +7869,8 @@ explanation: "No voltage reading can be caused by wrong connection, blown fuse, 
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A fuse blows immediately when measuring current. What is the most likely mistake?",
 options: ["Ammeter connected in parallel", "Voltmeter connected in parallel", "Red probe connected to positive", "Highest range selected"],
@@ -6748,7 +7880,8 @@ explanation: "Connecting an ammeter in parallel creates a low-resistance path, c
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which setup is safest for measuring current through a resistor?",
 options: ["Place ammeter in series with the resistor", "Place ammeter across the battery", "Place voltmeter in series with the resistor", "Touch bare wire with probes"],
@@ -6758,7 +7891,8 @@ explanation: "Current must be measured by inserting the ammeter in series so the
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which setup is safest for measuring voltage across a lamp?",
 options: ["Connect voltmeter in parallel across the lamp", "Connect ammeter in parallel across the lamp", "Connect voltmeter in series before the lamp", "Disconnect the battery while measuring"],
@@ -6768,7 +7902,8 @@ explanation: "Voltage is measured across two points, so the voltmeter must be co
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A meter reading is very high and unstable. What is the best first action?",
 options: ["Tighten and check all connections", "Remove all resistors", "Short the battery terminals", "Use a lower current range immediately"],
@@ -6778,7 +7913,8 @@ explanation: "Unstable readings may be caused by loose connections, wrong range,
 {
 topic: "electromagnetism",
 image: "11-measuring-current-and-voltage",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why are correct meter connections important?",
 options: ["They make circuits look neater only", "They ensure accurate results and circuit safety", "They increase battery energy", "They remove the need for resistance"],
@@ -6789,6 +7925,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "12-resistance-and-ohm's-law",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "What is the SI unit of resistance?",
   options: ["Volt", "Ampere", "Ohm", "Watt"],
@@ -6799,6 +7936,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "12-resistance-and-ohm's-law",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Which law relates voltage, current, and resistance?",
   options: ["Newton's Law", "Ohm's Law", "Faraday's Law", "Hooke's Law"],
@@ -6808,7 +7946,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "12-resistance-and-ohm's-law",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Which factor does NOT affect resistance?",
   options: ["Length", "Area", "Material", "Voltage"],
@@ -6818,7 +7957,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "12-resistance-and-ohm's-law",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "A 10 V battery is connected to a 5 Ω resistor. What is the current?",
   options: ["1 A", "2 A", "5 A", "10 A"],
@@ -6828,7 +7968,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "12-resistance-and-ohm's-law",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "A 12 V battery produces 3 A current. What is resistance?",
   options: ["2 Ω", "3 Ω", "4 Ω", "6 Ω"],
@@ -6838,7 +7979,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "12-resistance-and-ohm's-law",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "A wire has resistivity 1.6×10⁻⁸ Ωm, length 2 m, area 1×10⁻⁶ m². Find resistance.",
   options: ["0.016 Ω", "0.032 Ω", "0.064 Ω", "0.008 Ω"],
@@ -6849,6 +7991,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "12-resistance-and-ohm's-law",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "If resistance increases, what happens to current (constant voltage)?",
   options: ["Increases", "Decreases", "Remains same", "Becomes zero"],
@@ -6858,7 +8001,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "12-resistance-and-ohm's-law",
-  criterion: "D",
+  criterion: "A",
+    strand: "iii",
   level: "medium",
   question: "Why are heating elements made of high resistance materials?",
   options: ["To reduce heat", "To increase current", "To produce more heat", "To reduce voltage"],
@@ -6868,7 +8012,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "12-resistance-and-ohm's-law",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Three resistors 2 Ω, 3 Ω, and 5 Ω are in series. Find total resistance.",
   options: ["5 Ω", "10 Ω", "15 Ω", "1 Ω"],
@@ -6878,7 +8023,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "12-resistance-and-ohm's-law",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Two resistors 6 Ω and 3 Ω are in parallel. Find equivalent resistance.",
   options: ["2 Ω", "3 Ω", "9 Ω", "1 Ω"],
@@ -6890,6 +8036,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "13-circuit-design-and-troubleshooting",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "What does a circuit need to allow current flow?",
   options: ["Open path", "Closed path", "High resistance", "Battery only"],
@@ -6900,6 +8047,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "13-circuit-design-and-troubleshooting",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Which device measures voltage?",
   options: ["Ammeter", "Voltmeter", "Resistor", "Battery"],
@@ -6909,7 +8057,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "13-circuit-design-and-troubleshooting",
-  criterion: "B",
+  criterion: "A",
+    strand: "iii",
   level: "medium",
   question: "Why is a fuse used?",
   options: ["Increase current", "Reduce voltage", "Protect circuit", "Store energy"],
@@ -6919,7 +8068,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "13-circuit-design-and-troubleshooting",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Total resistance of 4 Ω and 6 Ω in series?",
   options: ["2 Ω", "10 Ω", "24 Ω", "5 Ω"],
@@ -6929,7 +8079,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "13-circuit-design-and-troubleshooting",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Total resistance of 4 Ω and 6 Ω in parallel?",
   options: ["2.4 Ω", "10 Ω", "5 Ω", "1 Ω"],
@@ -6939,7 +8090,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "13-circuit-design-and-troubleshooting",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "A 20 V battery across 10 Ω gives what current?",
   options: ["1 A", "2 A", "5 A", "10 A"],
@@ -6949,7 +8101,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "13-circuit-design-and-troubleshooting",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "First step in troubleshooting?",
   options: ["Replace parts", "Check power source", "Break circuit", "Increase current"],
@@ -6959,7 +8112,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "13-circuit-design-and-troubleshooting",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Loose connections cause what issue?",
   options: ["No effect", "Heat loss", "Voltage drop", "More current"],
@@ -6969,7 +8123,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "13-circuit-design-and-troubleshooting",
-  criterion: "B",
+  criterion: "A",
+    strand: "iii",
   level: "medium",
   question: "Why use parallel circuits in homes?",
   options: ["Same current", "Independent operation", "Less voltage", "Less resistance"],
@@ -6979,7 +8134,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "13-circuit-design-and-troubleshooting",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Three lamps in parallel draw 2 A each. Total current?",
   options: ["2 A", "4 A", "6 A", "8 A"],
@@ -6991,6 +8147,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "14-electrical-power-and-energy",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Unit of power?",
   options: ["Joule", "Watt", "Volt", "Ampere"],
@@ -7001,6 +8158,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "14-electrical-power-and-energy",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "What is energy measured in?",
   options: ["Watt", "Joule", "Volt", "Ohm"],
@@ -7010,7 +8168,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "14-electrical-power-and-energy",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Power if 200 J used in 10 s?",
   options: ["10 W", "20 W", "30 W", "40 W"],
@@ -7020,7 +8179,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "14-electrical-power-and-energy",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "A device operates at 10 V and 2 A. Power?",
   options: ["5 W", "10 W", "20 W", "30 W"],
@@ -7030,7 +8190,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "14-electrical-power-and-energy",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Energy used by 100 W device in 3 hours?",
   options: ["100 Wh", "200 Wh", "300 Wh", "400 Wh"],
@@ -7040,7 +8201,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "14-electrical-power-and-energy",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Convert 1 kWh to joules.",
   options: ["3.6×10⁶ J", "3.6×10³ J", "360 J", "36 J"],
@@ -7050,7 +8212,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "14-electrical-power-and-energy",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Which device consumes most power?",
   options: ["LED", "Fan", "Laptop", "AC"],
@@ -7060,7 +8223,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "14-electrical-power-and-energy",
-  criterion: "B",
+  criterion: "A",
+    strand: "iii",
   level: "medium",
   question: "Why use LED bulbs?",
   options: ["More heat", "Less efficiency", "Energy saving", "High resistance"],
@@ -7070,7 +8234,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "14-electrical-power-and-energy",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Find current if power = 60 W and voltage = 12 V.",
   options: ["2 A", "3 A", "4 A", "5 A"],
@@ -7080,7 +8245,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "14-electrical-power-and-energy",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Find resistance if power = 100 W and voltage = 10 V.",
   options: ["1 Ω", "2 Ω", "10 Ω", "5 Ω"],
@@ -7092,6 +8258,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "15-electromagnetic-devices",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "What creates a magnetic field?",
   options: ["Voltage", "Electric current", "Resistance", "Energy"],
@@ -7102,6 +8269,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "15-electromagnetic-devices",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Which device converts electrical energy to mechanical?",
   options: ["Generator", "Motor", "Transformer", "Relay"],
@@ -7111,7 +8279,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "15-electromagnetic-devices",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "What does a generator do?",
   options: ["Mechanical to electrical", "Electrical to mechanical", "Store energy", "Reduce voltage"],
@@ -7121,7 +8290,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "15-electromagnetic-devices",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Transformer is used for?",
   options: ["Increase resistance", "Change voltage", "Store charge", "Measure current"],
@@ -7131,7 +8301,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "15-electromagnetic-devices",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "If current doubles, magnetic field becomes?",
   options: ["Half", "Same", "Double", "Zero"],
@@ -7141,7 +8312,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "15-electromagnetic-devices",
-  criterion: "D",
+  criterion: "A",
+    strand: "iii",
   level: "medium",
   question: "Why use electromagnets?",
   options: ["Permanent", "Weak", "Controllable", "No current needed"],
@@ -7151,7 +8323,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "15-electromagnetic-devices",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If turns in coil double, magnetic strength becomes?",
   options: ["Half", "Same", "Double", "Zero"],
@@ -7162,6 +8335,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "15-electromagnetic-devices",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Relay works using?",
   options: ["Heat", "Light", "Electromagnet", "Gravity"],
@@ -7171,7 +8345,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "15-electromagnetic-devices",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Speaker converts electrical signals into?",
   options: ["Light", "Sound", "Heat", "Motion"],
@@ -7181,7 +8356,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "15-electromagnetic-devices",
-  criterion: "D",
+  criterion: "A",
+    strand: "iii",
   level: "hard",
   question: "Why transformers use AC?",
   options: ["Less resistance", "More power", "Changing magnetic field needed", "Direct current better"],
@@ -7192,6 +8368,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "16-parallel-circuits",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "How many paths does a parallel circuit have?",
   options: ["One", "Two", "Multiple", "None"],
@@ -7202,6 +8379,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "16-parallel-circuits",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "In a parallel circuit, voltage across branches is:",
   options: ["Different", "Same", "Zero", "Infinite"],
@@ -7212,6 +8390,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "16-parallel-circuits",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "In a series circuit, current is:",
   options: ["Different everywhere", "Same everywhere", "Zero", "Infinite"],
@@ -7221,7 +8400,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "16-parallel-circuits",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Two resistors 2 Ω and 4 Ω are in parallel. Find equivalent resistance.",
   options: ["1.33 Ω", "2 Ω", "6 Ω", "0.5 Ω"],
@@ -7231,7 +8411,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "16-parallel-circuits",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Total current is 3 A, branch currents are 2 A and 1 A. This shows:",
   options: ["Voltage divides", "Current adds", "Resistance adds", "Power divides"],
@@ -7241,7 +8422,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "16-parallel-circuits",
-  criterion: "B",
+  criterion: "A",
+    strand: "iii",
   level: "medium",
   question: "Why are homes wired in parallel?",
   options: ["Same current", "Independent operation", "Higher resistance", "Lower voltage"],
@@ -7251,7 +8433,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "16-parallel-circuits",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If one bulb fails in parallel circuit, what happens?",
   options: ["All stop", "Others work", "Voltage becomes zero", "Current stops"],
@@ -7262,6 +8445,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "16-parallel-circuits",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Equivalent resistance in parallel is:",
   options: ["Higher", "Lower", "Same", "Zero"],
@@ -7271,7 +8455,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "16-parallel-circuits",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Three resistors 3 Ω each in parallel. Find total resistance.",
   options: ["1 Ω", "3 Ω", "9 Ω", "0.33 Ω"],
@@ -7281,7 +8466,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "16-parallel-circuits",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If voltage is 6 V and resistance is 2 Ω, find current.",
   options: ["1 A", "2 A", "3 A", "4 A"],
@@ -7293,6 +8479,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "17-current-types-ac-vs-dc",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "DC current flows in:",
   options: ["Both directions", "One direction", "Random direction", "No direction"],
@@ -7303,6 +8490,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "17-current-types-ac-vs-dc",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "AC current changes:",
   options: ["Magnitude only", "Direction only", "Both magnitude and direction", "Neither"],
@@ -7312,7 +8500,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "17-current-types-ac-vs-dc",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Which source provides DC?",
   options: ["Battery", "Generator", "Transformer", "Motor"],
@@ -7322,7 +8511,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "17-current-types-ac-vs-dc",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Which is advantage of AC?",
   options: ["Hard to transmit", "Easily stepped up/down", "Low power", "Not useful"],
@@ -7332,7 +8522,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "17-current-types-ac-vs-dc",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Frequency of AC if time period is 0.02 s?",
   options: ["25 Hz", "50 Hz", "100 Hz", "10 Hz"],
@@ -7342,7 +8533,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "17-current-types-ac-vs-dc",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If peak voltage is 10 V, RMS voltage approximately?",
   options: ["5 V", "7 V", "10 V", "14 V"],
@@ -7353,6 +8545,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "17-current-types-ac-vs-dc",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "AC waveform is:",
   options: ["Square", "Triangle", "Sine wave", "Straight line"],
@@ -7362,7 +8555,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "17-current-types-ac-vs-dc",
-  criterion: "D",
+  criterion: "A",
+    strand: "iii",
   level: "medium",
   question: "Why AC is used in transmission?",
   options: ["More heat", "Less efficiency", "Less power loss", "Higher resistance"],
@@ -7372,7 +8566,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "17-current-types-ac-vs-dc",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If AC frequency doubles, time period becomes:",
   options: ["Double", "Half", "Same", "Zero"],
@@ -7382,7 +8577,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "17-current-types-ac-vs-dc",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Which is example of AC source?",
   options: ["Battery", "Power outlet", "Cell", "USB"],
@@ -7394,6 +8590,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "18-electrical-safety-and-energy",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "What does a fuse do?",
   options: ["Increase current", "Break circuit on excess current", "Store energy", "Increase voltage"],
@@ -7404,6 +8601,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "18-electrical-safety-and-energy",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Electric shock occurs due to:",
   options: ["Low current", "High resistance", "Electric current", "Voltage only"],
@@ -7413,7 +8611,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "18-electrical-safety-and-energy",
-  criterion: "B",
+  criterion: "A",
+    strand: "iii",
   level: "medium",
   question: "Why should hands be dry when using switches?",
   options: ["Better grip", "Avoid shock", "Reduce voltage", "Increase resistance"],
@@ -7423,7 +8622,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "18-electrical-safety-and-energy",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Power = 60 W, voltage = 12 V. Current?",
   options: ["2 A", "3 A", "5 A", "6 A"],
@@ -7433,7 +8633,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "18-electrical-safety-and-energy",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Energy used in 10 s at 50 W?",
   options: ["500 J", "100 J", "50 J", "5 J"],
@@ -7443,7 +8644,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "18-electrical-safety-and-energy",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Overloading causes:",
   options: ["Cooling", "Short circuit", "Heating", "No effect"],
@@ -7453,7 +8655,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "18-electrical-safety-and-energy",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Which is safest practice?",
   options: ["Wet hands", "Damaged wires", "Proper insulation", "Overloading"],
@@ -7463,7 +8666,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "18-electrical-safety-and-energy",
-  criterion: "B",
+  criterion: "A",
+    strand: "iii",
   level: "medium",
   question: "Why use MCB?",
   options: ["Increase voltage", "Automatic protection", "Store current", "Reduce energy"],
@@ -7474,6 +8678,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "18-electrical-safety-and-energy",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Electrical energy converts into:",
   options: ["Light", "Heat", "Motion", "All of these"],
@@ -7483,7 +8688,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "18-electrical-safety-and-energy",
-  criterion: "D",
+  criterion: "A",
+    strand: "iii",
   level: "hard",
   question: "Why unplug devices?",
   options: ["Increase power", "Reduce voltage", "Save energy", "Increase current"],
@@ -7495,6 +8701,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "19-electrical-safety-and-energy-application",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Fuse protects against:",
   options: ["Low voltage", "High current", "Low current", "No current"],
@@ -7505,6 +8712,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "19-electrical-safety-and-energy-application",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Short circuit occurs when:",
   options: ["High resistance", "Live and neutral touch", "Low voltage", "Battery removed"],
@@ -7514,7 +8722,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "19-electrical-safety-and-energy-application",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "MCB stands for:",
   options: ["Main Circuit Breaker", "Mini Circuit Board", "Miniature Circuit Breaker", "Main Current Box"],
@@ -7524,7 +8733,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "19-electrical-safety-and-energy-application",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "RCCB protects against:",
   options: ["Overload", "Leakage current", "High voltage", "Resistance"],
@@ -7534,7 +8744,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "19-electrical-safety-and-energy-application",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "A fuse rated 5 A carries 10 A. What happens?",
   options: ["Nothing", "Fuse melts", "Voltage increases", "Resistance decreases"],
@@ -7544,7 +8755,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "19-electrical-safety-and-energy-application",
-  criterion: "D",
+  criterion: "A",
+    strand: "iii",
   level: "medium",
   question: "Why avoid overloading sockets?",
   options: ["Less current", "Prevent fire", "Increase voltage", "Save power"],
@@ -7554,7 +8766,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "19-electrical-safety-and-energy-application",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Water near electricity is dangerous because:",
   options: ["Insulator", "Conductor", "Neutral", "Battery"],
@@ -7565,6 +8778,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "19-electrical-safety-and-energy-application",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Distribution board contains:",
   options: ["Motor", "MCB", "Battery", "Transformer"],
@@ -7574,7 +8788,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "19-electrical-safety-and-energy-application",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If appliance draws 2 A at 220 V, power?",
   options: ["220 W", "440 W", "110 W", "660 W"],
@@ -7584,7 +8799,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "19-electrical-safety-and-energy-application",
-  criterion: "D",
+  criterion: "A",
+    strand: "iii",
   level: "hard",
   question: "Why proper fuse rating is important?",
   options: ["Increase power", "Prevent overheating", "Reduce voltage", "Increase resistance"],
@@ -7595,6 +8811,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "20-magnetic-fields",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "What is a magnetic field?",
   options: ["Force inside a wire", "Region where magnetic forces act", "Electric current", "Voltage area"],
@@ -7605,6 +8822,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "20-magnetic-fields",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Magnetic field lines form:",
   options: ["Straight lines", "Closed loops", "Broken paths", "Random shapes"],
@@ -7615,6 +8833,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "20-magnetic-fields",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Outside a magnet, field lines go from:",
   options: ["South to North", "North to South", "East to West", "Random"],
@@ -7625,6 +8844,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "20-magnetic-fields",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Inside a magnet, field lines go from:",
   options: ["North to South", "South to North", "Both ways", "None"],
@@ -7634,7 +8854,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "20-magnetic-fields",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Field lines never:",
   options: ["Curve", "Intersect", "Close", "Extend"],
@@ -7644,7 +8865,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "20-magnetic-fields",
-  criterion: "C",
+  criterion: "A",
+    strand: "ii",
   level: "hard",
   question: "If magnetic field strength doubles, force on a moving charge becomes:",
   options: ["Half", "Double", "Same", "Zero"],
@@ -7654,7 +8876,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "20-magnetic-fields",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Where is magnetic field strongest?",
   options: ["Center", "Edges", "Poles", "Far away"],
@@ -7664,7 +8887,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "20-magnetic-fields",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If distance from magnet increases, field strength:",
   options: ["Increases", "Decreases", "Remains same", "Becomes zero instantly"],
@@ -7675,6 +8899,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "20-magnetic-fields",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Like poles:",
   options: ["Attract", "Repel", "Neutral", "Cancel"],
@@ -7685,6 +8910,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "20-magnetic-fields",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Unlike poles:",
   options: ["Repel", "Attract", "Neutral", "Disappear"],
@@ -7696,6 +8922,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "21-earth's-magnetism",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Earth behaves like a:",
   options: ["Battery", "Magnet", "Resistor", "Wire"],
@@ -7706,6 +8933,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "21-earth's-magnetism",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Compass works because of:",
   options: ["Gravity", "Electricity", "Magnetic field", "Heat"],
@@ -7715,7 +8943,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "21-earth's-magnetism",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Magnetic field protects Earth from:",
   options: ["Rain", "Wind", "Solar radiation", "Gravity"],
@@ -7725,7 +8954,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "21-earth's-magnetism",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Auroras are caused by:",
   options: ["Rain", "Sun particles", "Wind", "Heat"],
@@ -7735,7 +8965,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "21-earth's-magnetism",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Earth’s magnetic field is generated by:",
   options: ["Air motion", "Core currents", "Ocean waves", "Sunlight"],
@@ -7746,6 +8977,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "21-earth's-magnetism",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Magnetic field lines form:",
   options: ["Open paths", "Closed loops", "Straight lines", "Random"],
@@ -7755,7 +8987,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "21-earth's-magnetism",
-  criterion: "D",
+  criterion: "A",
+    strand: "iii",
   level: "medium",
   question: "Why is Earth's magnetic field important?",
   options: ["Increase gravity", "Protect life", "Create heat", "Reduce light"],
@@ -7765,7 +8998,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "21-earth's-magnetism",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Animals navigate using:",
   options: ["Light", "Magnetic field", "Sound", "Heat"],
@@ -7775,7 +9009,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "21-earth's-magnetism",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If Earth’s field disappeared, effect would be:",
   options: ["No change", "More radiation", "Less gravity", "Less heat"],
@@ -7786,6 +9021,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "21-earth's-magnetism",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Magnetic poles of Earth:",
   options: ["Fixed", "Move slowly", "Disappear", "Are equal"],
@@ -7797,6 +9033,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "22-electromagnetism-basics",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Electric current produces:",
   options: ["Heat only", "Magnetic field", "Light only", "Resistance"],
@@ -7807,6 +9044,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "22-electromagnetism-basics",
   criterion: "A",
+    strand: "iii",
   level: "easy",
   question: "Direction of magnetic field depends on:",
   options: ["Voltage", "Current direction", "Resistance", "Power"],
@@ -7816,7 +9054,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "22-electromagnetism-basics",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Right-hand thumb rule shows:",
   options: ["Voltage", "Field direction", "Resistance", "Power"],
@@ -7826,7 +9065,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "22-electromagnetism-basics",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If current doubles, magnetic field:",
   options: ["Halves", "Doubles", "Same", "Zero"],
@@ -7836,7 +9076,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "22-electromagnetism-basics",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If distance from wire doubles, field strength:",
   options: ["Double", "Half", "Same", "Zero"],
@@ -7846,7 +9087,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "22-electromagnetism-basics",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Stronger current results in:",
   options: ["Weak field", "Strong field", "No field", "Random field"],
@@ -7857,6 +9099,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "22-electromagnetism-basics",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Field lines around wire are:",
   options: ["Straight", "Circular", "Random", "Parallel"],
@@ -7866,7 +9109,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "22-electromagnetism-basics",
-  criterion: "D",
+  criterion: "A",
+    strand: "iii",
   level: "medium",
   question: "Electromagnet strength depends on:",
   options: ["Color", "Current", "Shape", "Time"],
@@ -7876,7 +9120,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "22-electromagnetism-basics",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Electromagnet can be:",
   options: ["Permanent", "Controlled", "Weak only", "Fixed"],
@@ -7886,7 +9131,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "22-electromagnetism-basics",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If current direction reverses, magnetic field:",
   options: ["Same", "Reverses", "Stops", "Doubles"],
@@ -7898,6 +9144,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "23-electromagnetic-induction",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Electromagnetic induction produces:",
   options: ["Heat", "Current", "Light", "Voltage only"],
@@ -7908,6 +9155,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "23-electromagnetic-induction",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Who discovered electromagnetic induction?",
   options: ["Newton", "Faraday", "Tesla", "Einstein"],
@@ -7917,7 +9165,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "23-electromagnetic-induction",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Induced current occurs when:",
   options: ["Field constant", "Field changes", "No magnet", "Wire broken"],
@@ -7927,7 +9176,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "23-electromagnetic-induction",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "If magnet is stationary, induced current:",
   options: ["High", "Zero", "Low", "Infinite"],
@@ -7937,7 +9187,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "23-electromagnetic-induction",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If number of turns doubles, induced EMF:",
   options: ["Halves", "Doubles", "Same", "Zero"],
@@ -7947,7 +9198,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "23-electromagnetic-induction",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If rate of flux change increases, EMF:",
   options: ["Decreases", "Increases", "Same", "Zero"],
@@ -7957,7 +9209,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "23-electromagnetic-induction",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Direction of induced current is given by:",
   options: ["Newton’s law", "Lenz’s law", "Ohm’s law", "Faraday law"],
@@ -7968,6 +9221,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "23-electromagnetic-induction",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Generators work on:",
   options: ["Resistance", "Induction", "Voltage", "Current"],
@@ -7977,7 +9231,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "23-electromagnetic-induction",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If magnetic field strength increases, EMF:",
   options: ["Decreases", "Increases", "Same", "Zero"],
@@ -7987,7 +9242,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "23-electromagnetic-induction",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Induced current opposes change due to:",
   options: ["Newton", "Faraday", "Lenz", "Ampere"],
@@ -7998,6 +9254,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "24-introduction-to-magnetism",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "What is magnetism?",
   options: ["Force due to gravity", "Force due to moving charges", "Energy of light", "Type of heat"],
@@ -8008,6 +9265,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "24-introduction-to-magnetism",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "A magnet has how many poles?",
   options: ["One", "Two", "Three", "None"],
@@ -8018,6 +9276,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "24-introduction-to-magnetism",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Magnetic field lines emerge from:",
   options: ["South pole", "North pole", "Center", "Random"],
@@ -8028,6 +9287,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "24-introduction-to-magnetism",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Like poles:",
   options: ["Attract", "Repel", "Neutral", "Disappear"],
@@ -8038,6 +9298,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "24-introduction-to-magnetism",
   criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Unlike poles:",
   options: ["Repel", "Attract", "Neutral", "Cancel"],
@@ -8047,7 +9308,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "24-introduction-to-magnetism",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Can a single magnetic pole exist independently?",
   options: ["Yes", "No", "Sometimes", "Only in vacuum"],
@@ -8057,7 +9319,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "24-introduction-to-magnetism",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Compass aligns with:",
   options: ["Gravity", "Electric field", "Magnetic field", "Heat"],
@@ -8067,7 +9330,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "24-introduction-to-magnetism",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If a magnet is cut into two, each piece will have:",
   options: ["Only North", "Only South", "Both poles", "No poles"],
@@ -8077,7 +9341,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "24-introduction-to-magnetism",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If distance from magnet doubles, force becomes:",
   options: ["Double", "Half", "Less", "Same"],
@@ -8087,7 +9352,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "24-introduction-to-magnetism",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Magnets are used in:",
   options: ["Speakers", "Motors", "MRI", "All of these"],
@@ -8099,6 +9365,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "25-simple-electric-motor",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Electric motor converts:",
   options: ["Mechanical to electrical", "Electrical to mechanical", "Heat to light", "Light to energy"],
@@ -8109,6 +9376,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "25-simple-electric-motor",
   criterion: "A",
+    strand: "iii",
   level: "easy",
   question: "Force on a current-carrying conductor depends on:",
   options: ["Voltage", "Magnetic field", "Resistance", "Power"],
@@ -8118,7 +9386,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "25-simple-electric-motor",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Which rule gives direction of force?",
   options: ["Right-hand rule", "Fleming's Left Hand Rule", "Ohm’s law", "Newton’s law"],
@@ -8128,7 +9397,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "25-simple-electric-motor",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Commutator reverses:",
   options: ["Voltage", "Current direction", "Resistance", "Power"],
@@ -8138,7 +9408,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "25-simple-electric-motor",
-  criterion: "C",
+  criterion: "A",
+    strand: "ii",
   level: "hard",
   question: "If current doubles, force on conductor becomes:",
   options: ["Half", "Double", "Same", "Zero"],
@@ -8148,7 +9419,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "25-simple-electric-motor",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If magnetic field doubles, torque becomes:",
   options: ["Half", "Double", "Same", "Zero"],
@@ -8158,7 +9430,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "25-simple-electric-motor",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Rotor is:",
   options: ["Stationary part", "Moving part", "Wire", "Battery"],
@@ -8168,7 +9441,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "25-simple-electric-motor",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Stator provides:",
   options: ["Current", "Magnetic field", "Voltage", "Power"],
@@ -8178,7 +9452,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "25-simple-electric-motor",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If length of conductor increases, force:",
   options: ["Decreases", "Increases", "Same", "Zero"],
@@ -8188,7 +9463,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "25-simple-electric-motor",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Motor is used in:",
   options: ["Fans", "Vehicles", "Robots", "All of these"],
@@ -8200,6 +9476,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "26-electromagnetic-applications",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Electric motor converts energy into:",
   options: ["Heat", "Mechanical motion", "Light", "Sound"],
@@ -8210,6 +9487,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "26-electromagnetic-applications",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Generator converts:",
   options: ["Electrical to mechanical", "Mechanical to electrical", "Heat to light", "Sound to energy"],
@@ -8219,7 +9497,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "26-electromagnetic-applications",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "MRI machines use:",
   options: ["Weak magnets", "Strong magnets", "No magnets", "Electric wires only"],
@@ -8229,7 +9508,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "26-electromagnetic-applications",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Relay acts as:",
   options: ["Motor", "Switch", "Battery", "Resistor"],
@@ -8239,7 +9519,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "26-electromagnetic-applications",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If current in relay coil increases, magnetic field:",
   options: ["Decreases", "Increases", "Same", "Zero"],
@@ -8249,7 +9530,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "26-electromagnetic-applications",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Induction cooktops use:",
   options: ["Direct heat", "Magnetic induction", "Light", "Sound"],
@@ -8259,7 +9541,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "26-electromagnetic-applications",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Speakers convert:",
   options: ["Light to sound", "Electrical to sound", "Heat to sound", "Motion to sound"],
@@ -8269,7 +9552,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "26-electromagnetic-applications",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If magnetic field in generator increases, EMF:",
   options: ["Decreases", "Increases", "Same", "Zero"],
@@ -8279,7 +9563,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "26-electromagnetic-applications",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Electromagnet is used in:",
   options: ["Cranes", "Relays", "Motors", "All of these"],
@@ -8289,7 +9574,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "26-electromagnetic-applications",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If turns in coil increase, strength of electromagnet:",
   options: ["Decreases", "Increases", "Same", "Zero"],
@@ -8301,6 +9587,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "27-simple-transformers",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Transformer works on:",
   options: ["Resistance", "Induction", "Voltage", "Current"],
@@ -8311,6 +9598,7 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
   topic: "atomic",
   image: "27-simple-transformers",
   criterion: "A",
+    strand: "i",
   level: "easy",
   question: "Transformer works with:",
   options: ["DC", "AC", "Battery only", "Solar only"],
@@ -8320,7 +9608,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "27-simple-transformers",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Step-up transformer increases:",
   options: ["Current", "Voltage", "Resistance", "Power"],
@@ -8330,7 +9619,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "27-simple-transformers",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Step-down transformer decreases:",
   options: ["Voltage", "Current", "Resistance", "Power"],
@@ -8340,7 +9630,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "27-simple-transformers",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If N2 > N1, transformer is:",
   options: ["Step-down", "Step-up", "Same", "Open"],
@@ -8350,7 +9641,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "27-simple-transformers",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If V1/V2 = 2, then N1/N2 equals:",
   options: ["2", "1/2", "4", "1"],
@@ -8360,7 +9652,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "27-simple-transformers",
-  criterion: "C",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "If voltage doubles, current:",
   options: ["Doubles", "Halves", "Same", "Zero"],
@@ -8370,7 +9663,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "27-simple-transformers",
-  criterion: "B",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Transformer core is made of:",
   options: ["Wood", "Iron", "Plastic", "Glass"],
@@ -8380,7 +9674,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "27-simple-transformers",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "medium",
   question: "Transformer used in:",
   options: ["Transmission", "Adapters", "Distribution", "All of these"],
@@ -8390,7 +9685,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
   topic: "atomic",
   image: "27-simple-transformers",
-  criterion: "D",
+  criterion: "A",
+    strand: "i",
   level: "hard",
   question: "Transformer frequency:",
   options: ["Changes", "Remains same", "Doubles", "Halves"],
@@ -8402,7 +9698,8 @@ explanation: "Incorrect meter connections can damage meters, change circuit beha
 {
 topic:"em",
 image:"28-technology-and-safety",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Radiation is energy that travels in the form of:",
 options:["Heat only","Waves or particles","Sound","Light only"],
@@ -8412,7 +9709,8 @@ explanation:"Radiation travels as waves or particles."
 {
 topic:"em",
 image:"28-technology-and-safety",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Alpha radiation can be stopped by:",
 options:["Paper","Lead","Concrete","Steel"],
@@ -8422,7 +9720,8 @@ explanation:"Alpha particles have low penetration."
 {
 topic:"em",
 image:"28-technology-and-safety",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Gamma radiation requires shielding of:",
 options:["Plastic","Paper","Lead or concrete","Wood"],
@@ -8432,7 +9731,8 @@ explanation:"Gamma rays have high penetration."
 {
 topic:"em",
 image:"28-technology-and-safety",
-criterion:"B",
+criterion: "A",
+    strand: "iii",
 level:"medium",
 question:"Radiation exposure risk depends on:",
 options:["Time only","Distance only","Shielding only","All of these"],
@@ -8442,7 +9742,8 @@ explanation:"All factors affect risk."
 {
 topic:"em",
 image:"28-technology-and-safety",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Increasing distance from a source will:",
 options:["Increase intensity","Decrease intensity","No effect","Double intensity"],
@@ -8452,7 +9753,8 @@ explanation:"Intensity decreases with distance."
 {
 topic:"em",
 image:"28-technology-and-safety",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Radiation intensity follows:",
 options:["Direct relation","Inverse square law","Linear increase","No relation"],
@@ -8462,7 +9764,8 @@ explanation:"Intensity ∝ 1/d²."
 {
 topic:"em",
 image:"28-technology-and-safety",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If distance doubles, intensity becomes:",
 options:["Same","Double","One-fourth","Half"],
@@ -8472,7 +9775,8 @@ explanation:"Inverse square law."
 {
 topic:"em",
 image:"28-technology-and-safety",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Long-term radiation exposure may cause:",
 options:["Cold","Cancer","Headache","Sleep"],
@@ -8482,7 +9786,8 @@ explanation:"Radiation damages DNA."
 {
 topic:"em",
 image:"28-technology-and-safety",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Best protection strategy is:",
 options:["Time only","Distance only","Shielding only","All combined"],
@@ -8492,7 +9797,8 @@ explanation:"All three reduce risk."
 {
 topic:"em",
 image:"28-technology-and-safety",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Dosimeter is used to:",
 options:["Produce radiation","Measure radiation","Block radiation","Convert radiation"],
@@ -8505,7 +9811,8 @@ explanation:"Used for monitoring exposure."
 {
 topic:"em",
 image:"29-renewable-energy",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Wind turbines convert energy into:",
 options:["Heat","Electrical","Sound","Light"],
@@ -8515,7 +9822,8 @@ explanation:"Wind → mechanical → electrical."
 {
 topic:"em",
 image:"29-renewable-energy",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Solar panels work using:",
 options:["Magnetism","Photovoltaic effect","Heat only","Sound"],
@@ -8525,7 +9833,8 @@ explanation:"Sunlight generates electricity."
 {
 topic:"em",
 image:"29-renewable-energy",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Electromagnetic induction produces:",
 options:["Heat","Light","EMF","Sound"],
@@ -8535,7 +9844,8 @@ explanation:"Induced voltage."
 {
 topic:"em",
 image:"29-renewable-energy",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Generator works on:",
 options:["Resistance","Induction","Voltage","Current"],
@@ -8545,7 +9855,8 @@ explanation:"Based on Faraday's law."
 {
 topic:"em",
 image:"29-renewable-energy",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Lorentz force acts on:",
 options:["Stationary charge","Moving charge","Neutral object","Heat"],
@@ -8555,7 +9866,8 @@ explanation:"Force on moving charges."
 {
 topic:"em",
 image:"29-renewable-energy",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Increasing magnetic flux change increases:",
 options:["Current","Voltage","EMF","Resistance"],
@@ -8565,7 +9877,8 @@ explanation:"Directly proportional."
 {
 topic:"em",
 image:"29-renewable-energy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If turns in coil double, EMF becomes:",
 options:["Half","Same","Double","Zero"],
@@ -8575,7 +9888,8 @@ explanation:"EMF ∝ turns."
 {
 topic:"em",
 image:"29-renewable-energy",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Solar panels produce:",
 options:["AC","DC","Heat","Sound"],
@@ -8585,7 +9899,8 @@ explanation:"Direct current generated."
 {
 topic:"em",
 image:"29-renewable-energy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Renewable energy helps:",
 options:["Pollution increase","Reduce emissions","No change","Waste energy"],
@@ -8595,7 +9910,8 @@ explanation:"Cleaner energy source."
 {
 topic:"em",
 image:"29-renewable-energy",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Wind generator needs:",
 options:["Magnet & coil","Only battery","Only wire","Only resistor"],
@@ -8608,7 +9924,8 @@ explanation:"Induction requires both."
 {
 topic:"em",
 image:"30-power-in-transmission",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Power formula is:",
 options:["P=IR","P=VI","P=V/R","P=I²"],
@@ -8618,7 +9935,8 @@ explanation:"Power = voltage × current."
 {
 topic:"em",
 image:"30-power-in-transmission",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"High voltage transmission reduces:",
 options:["Voltage","Current","Resistance","Energy"],
@@ -8628,7 +9946,8 @@ explanation:"Same power, higher V → lower I."
 {
 topic:"em",
 image:"30-power-in-transmission",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Power loss formula is:",
 options:["I²R","V²R","IR","VR"],
@@ -8638,7 +9957,8 @@ explanation:"Heat loss in wires."
 {
 topic:"em",
 image:"30-power-in-transmission",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Reducing current reduces:",
 options:["Voltage","Loss","Power","Resistance"],
@@ -8648,7 +9968,8 @@ explanation:"Loss ∝ I²."
 {
 topic:"em",
 image:"30-power-in-transmission",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Step-up transformer:",
 options:["Increases current","Decreases voltage","Increases voltage","Stops current"],
@@ -8658,7 +9979,8 @@ explanation:"Used before transmission."
 {
 topic:"em",
 image:"30-power-in-transmission",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Step-down transformer:",
 options:["Increases voltage","Decreases voltage","Stops current","Increases resistance"],
@@ -8668,7 +9990,8 @@ explanation:"Used near homes."
 {
 topic:"em",
 image:"30-power-in-transmission",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If current halves, power loss becomes:",
 options:["Half","One-fourth","Double","Same"],
@@ -8678,7 +10001,8 @@ explanation:"Loss ∝ I²."
 {
 topic:"em",
 image:"30-power-in-transmission",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"High voltage leads to:",
 options:["High current","Low current","Same current","Zero current"],
@@ -8688,7 +10012,8 @@ explanation:"Power constant."
 {
 topic:"em",
 image:"30-power-in-transmission",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Transmission lines use:",
 options:["Low voltage","High voltage","No voltage","Battery"],
@@ -8698,7 +10023,8 @@ explanation:"For efficiency."
 {
 topic:"em",
 image:"30-power-in-transmission",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Efficiency improves when:",
 options:["Current increases","Voltage decreases","Current decreases","Resistance increases"],
@@ -8711,7 +10037,8 @@ explanation:"Less heat loss."
 {
 topic:"em",
 image:"31-assessment-challenge",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Electromagnet is created using:",
 options:["Heat","Electric current","Light","Sound"],
@@ -8721,7 +10048,8 @@ explanation:"Current creates magnetic field."
 {
 topic:"em",
 image:"31-assessment-challenge",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Generator converts:",
 options:["Electrical to mechanical","Mechanical to electrical","Heat to light","Sound to energy"],
@@ -8731,7 +10059,8 @@ explanation:"Uses induction."
 {
 topic:"em",
 image:"31-assessment-challenge",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Motor converts:",
 options:["Mechanical to electrical","Electrical to mechanical","Heat to light","Sound to motion"],
@@ -8741,7 +10070,8 @@ explanation:"Motor produces motion."
 {
 topic:"em",
 image:"31-assessment-challenge",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"MRI uses:",
 options:["Weak magnets","Strong magnets","No magnets","Heat"],
@@ -8751,7 +10081,8 @@ explanation:"For imaging."
 {
 topic:"em",
 image:"31-assessment-challenge",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Wireless charging uses:",
 options:["Conduction","Induction","Radiation","Heat"],
@@ -8761,7 +10092,8 @@ explanation:"Magnetic field transfer."
 {
 topic:"em",
 image:"31-assessment-challenge",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Maglev train works using:",
 options:["Gravity","Magnetism","Friction","Heat"],
@@ -8771,7 +10103,8 @@ explanation:"Magnetic levitation."
 {
 topic:"em",
 image:"31-assessment-challenge",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If turns increase, electromagnet strength:",
 options:["Decreases","Increases","Same","Zero"],
@@ -8781,7 +10114,8 @@ explanation:"More turns → stronger field."
 {
 topic:"em",
 image:"31-assessment-challenge",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"If current stops, electromagnet:",
 options:["Stronger","Weaker","Stops working","Explodes"],
@@ -8791,7 +10125,8 @@ explanation:"No current → no field."
 {
 topic:"em",
 image:"31-assessment-challenge",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Best application of EM is:",
 options:["Motors","Generators","Transformers","All"],
@@ -8801,7 +10136,8 @@ explanation:"All rely on EM."
 {
 topic:"em",
 image:"31-assessment-challenge",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Electromagnetism is important because:",
 options:["Creates heat","Drives technology","Produces sound only","Stores energy"],
@@ -8813,7 +10149,8 @@ explanation:"Core of modern systems."
 {
 topic:"em",
 image:"32-common-misconceptions-in-electromagnetism",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Electrical energy in a circuit is:",
 options:["Used up completely","Destroyed","Conserved and transformed","Stored permanently"],
@@ -8823,7 +10160,8 @@ explanation:"Energy changes form but is conserved."
 {
 topic:"em",
 image:"32-common-misconceptions-in-electromagnetism",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Conventional current flows from:",
 options:["Negative to positive","Positive to negative","Random direction","No direction"],
@@ -8833,7 +10171,8 @@ explanation:"Defined opposite to electron flow."
 {
 topic:"em",
 image:"32-common-misconceptions-in-electromagnetism",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Magnets interact with:",
 options:["Only iron","Only steel","Many materials and charges","Only metals"],
@@ -8843,7 +10182,8 @@ explanation:"Magnetic fields affect charges and other magnets."
 {
 topic:"em",
 image:"32-common-misconceptions-in-electromagnetism",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"A battery provides:",
 options:["Force","Push","Voltage","Resistance"],
@@ -8853,7 +10193,8 @@ explanation:"It creates potential difference."
 {
 topic:"em",
 image:"32-common-misconceptions-in-electromagnetism",
-criterion:"B",
+criterion: "A",
+    strand: "iii",
 level:"medium",
 question:"Magnetic field strength depends on:",
 options:["Turns only","Current only","Multiple factors","Nothing"],
@@ -8863,7 +10204,8 @@ explanation:"Depends on current, turns, core, design."
 {
 topic:"em",
 image:"32-common-misconceptions-in-electromagnetism",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Induced current requires:",
 options:["Battery","Magnet only","Changing magnetic flux","Wire only"],
@@ -8873,7 +10215,8 @@ explanation:"No battery required."
 {
 topic:"em",
 image:"32-common-misconceptions-in-electromagnetism",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Electromagnetic waves can travel through:",
 options:["Air only","Water only","Vacuum","Solid only"],
@@ -8883,7 +10226,8 @@ explanation:"They do not need a medium."
 {
 topic:"em",
 image:"32-common-misconceptions-in-electromagnetism",
-criterion:"C",
+criterion: "A",
+    strand: "iii",
 level:"hard",
 question:"Magnetic force depends on:",
 options:["Distance","Alignment","Material","All of these"],
@@ -8893,7 +10237,8 @@ explanation:"Multiple influencing factors."
 {
 topic:"em",
 image:"32-common-misconceptions-in-electromagnetism",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Solar panels:",
 options:["Store energy","Convert light to electricity","Produce heat only","Store charge"],
@@ -8903,7 +10248,8 @@ explanation:"They generate electrical energy."
 {
 topic:"em",
 image:"32-common-misconceptions-in-electromagnetism",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Ideal transformer changes:",
 options:["Power","Energy","Voltage and current","Frequency"],
@@ -8916,7 +10262,8 @@ explanation:"Power remains constant ideally."
 {
 topic:"em",
 image:"33-career-connections",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Electromagnetism is important because it:",
 options:["Only produces heat","Drives modern technology","Only creates sound","Only works in labs"],
@@ -8926,7 +10273,8 @@ explanation:"It powers devices and systems."
 {
 topic:"em",
 image:"33-career-connections",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Electrical engineers work on:",
 options:["Only magnets","Circuits and systems","Only biology","Only chemistry"],
@@ -8936,7 +10284,8 @@ explanation:"They design electrical systems."
 {
 topic:"em",
 image:"33-career-connections",
-criterion:"A",
+criterion: "A",
+    strand: "i",
 level:"easy",
 question:"Renewable energy engineers focus on:",
 options:["Fossil fuels","Clean energy","Sound waves","Heat transfer"],
@@ -8946,7 +10295,8 @@ explanation:"They develop sustainable energy."
 {
 topic:"em",
 image:"33-career-connections",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Electronics engineers design:",
 options:["Buildings","Microchips and devices","Cars only","Engines only"],
@@ -8956,7 +10306,8 @@ explanation:"They work on electronic components."
 {
 topic:"em",
 image:"33-career-connections",
-criterion:"B",
+criterion: "A",
+    strand: "ii",
 level:"medium",
 question:"Biomedical engineers apply EM in:",
 options:["Agriculture","Medicine","Transport","Mining"],
@@ -8966,7 +10317,8 @@ explanation:"Used in imaging and devices."
 {
 topic:"em",
 image:"33-career-connections",
-criterion:"B",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Mechatronics combines:",
 options:["Physics only","Electronics + mechanics","Biology","Chemistry"],
@@ -8976,7 +10328,8 @@ explanation:"It integrates multiple fields."
 {
 topic:"em",
 image:"33-career-connections",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Key skill for EM careers:",
 options:["Memorization","Problem solving","Ignoring data","Guessing"],
@@ -8986,7 +10339,8 @@ explanation:"Critical for engineering tasks."
 {
 topic:"em",
 image:"33-career-connections",
-criterion:"C",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Industries using EM include:",
 options:["Energy","Telecom","Healthcare","All of these"],
@@ -8996,7 +10350,8 @@ explanation:"Widely applied."
 {
 topic:"em",
 image:"33-career-connections",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"medium",
 question:"Future EM applications include:",
 options:["Clean energy","Smart cities","Space tech","All of these"],
@@ -9006,7 +10361,8 @@ explanation:"EM drives future innovations."
 {
 topic:"em",
 image:"33-career-connections",
-criterion:"D",
+criterion: "A",
+    strand: "i",
 level:"hard",
 question:"Best way to start EM career:",
 options:["Ignore basics","Learn physics & math","Avoid practice","Skip concepts"],
@@ -9022,6 +10378,7 @@ WAVES INTRODUCTION
 topic: "waves",
 image: "2-waves-introduction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "A wave transfers:",
 options: ["Matter", "Energy", "Mass", "Charge"],
@@ -9032,6 +10389,7 @@ explanation: "Waves transfer energy without transferring matter permanently."
 topic: "waves",
 image: "2-waves-introduction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "A wave is best described as:",
 options: ["A particle", "A disturbance", "A force", "A solid"],
@@ -9041,7 +10399,8 @@ explanation: "A wave is a disturbance that travels through a medium or space."
 {
 topic: "waves",
 image: "2-waves-introduction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In a wave, particles:",
 options: ["Travel with the wave", "Stay fixed", "Vibrate about a position", "Disappear"],
@@ -9052,6 +10411,7 @@ explanation: "Particles oscillate around their equilibrium position."
 topic: "waves",
 image: "2-waves-introduction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Transverse waves have motion:",
 options: ["Parallel", "Random", "Circular", "Perpendicular"],
@@ -9062,6 +10422,7 @@ explanation: "Particles vibrate perpendicular to wave direction."
 topic: "waves",
 image: "2-waves-introduction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Longitudinal waves involve:",
 options: ["Up-down motion", "Circular motion", "Parallel vibration", "No motion"],
@@ -9071,7 +10432,8 @@ explanation: "Particles move parallel to the direction of propagation."
 {
 topic: "waves",
 image: "2-waves-introduction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Mechanical waves require:",
 options: ["Vacuum", "Medium", "Light", "Electricity"],
@@ -9082,6 +10444,7 @@ explanation: "They need a material medium to travel."
 topic: "waves",
 image: "2-waves-introduction",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electromagnetic waves:",
 options: ["Need medium", "Travel only in solids", "Cannot travel in vacuum", "Do not need medium"],
@@ -9091,7 +10454,8 @@ explanation: "EM waves can travel through vacuum."
 {
 topic: "waves",
 image: "2-waves-introduction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Ripples on water are:",
 options: ["1D", "2D", "3D", "Zero"],
@@ -9101,7 +10465,8 @@ explanation: "They spread on a surface → 2D waves."
 {
 topic: "waves",
 image: "2-waves-introduction",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Frequency is measured in:",
 options: ["m", "s", "Hz", "N"],
@@ -9111,7 +10476,8 @@ explanation: "Frequency = cycles per second → Hertz."
 {
 topic: "waves",
 image: "2-waves-introduction",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Wave speed depends on:",
 options: ["v = fλ", "v = ma", "v = IR", "v = pV"],
@@ -9122,6 +10488,7 @@ explanation: "Wave speed = frequency × wavelength."
 topic: "waves",
 image: "3-transverse-vs-longitudinal-wave",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Transverse waves have particle motion:",
 options: ["Parallel", "Perpendicular", "Circular", "Random"],
@@ -9132,6 +10499,7 @@ explanation: "Motion is perpendicular to wave direction."
 topic: "waves",
 image: "3-transverse-vs-longitudinal-wave",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Longitudinal waves show:",
 options: ["Crests", "Troughs", "Compression and rarefaction", "Nodes"],
@@ -9141,7 +10509,8 @@ explanation: "They consist of compressions and rarefactions."
 {
 topic: "waves",
 image: "3-transverse-vs-longitudinal-wave",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If particles move up-down while wave moves forward:",
 options: ["Longitudinal", "Stationary", "Transverse", "Circular"],
@@ -9152,6 +10521,7 @@ explanation: "Perpendicular motion → transverse wave."
 topic: "waves",
 image: "3-transverse-vs-longitudinal-wave",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Sound waves are:",
 options: ["Transverse", "Longitudinal", "EM waves", "Standing waves"],
@@ -9162,6 +10532,7 @@ explanation: "Sound travels as longitudinal waves."
 topic: "waves",
 image: "3-transverse-vs-longitudinal-wave",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Light waves are:",
 options: ["Longitudinal", "Mechanical", "Transverse", "Stationary"],
@@ -9171,7 +10542,8 @@ explanation: "Light is a transverse EM wave."
 {
 topic: "waves",
 image: "3-transverse-vs-longitudinal-wave",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which can travel in vacuum?",
 options: ["Sound", "Water waves", "String waves", "Light"],
@@ -9181,7 +10553,8 @@ explanation: "Only electromagnetic waves travel in vacuum."
 {
 topic: "waves",
 image: "3-transverse-vs-longitudinal-wave",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Crests and troughs belong to:",
 options: ["Longitudinal waves", "Transverse waves", "Both", "None"],
@@ -9191,7 +10564,8 @@ explanation: "These are features of transverse waves."
 {
 topic: "waves",
 image: "3-transverse-vs-longitudinal-wave",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Compression means:",
 options: ["Particles spread out", "Particles disappear", "Particles crowd together", "Particles stop"],
@@ -9201,7 +10575,8 @@ explanation: "Compression = high-density region."
 {
 topic: "waves",
 image: "3-transverse-vs-longitudinal-wave",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Seismic P-waves are:",
 options: ["Transverse", "Longitudinal", "EM", "Standing"],
@@ -9211,7 +10586,8 @@ explanation: "P-waves are longitudinal waves."
 {
 topic: "waves",
 image: "3-transverse-vs-longitudinal-wave",
-criterion: "D",
+criterion: "A",
+    strand: "ii",
 level: "hard",
 question: "Wave type is determined by:",
 options: ["Shape", "Speed", "Medium", "Particle motion"],
@@ -9222,6 +10598,7 @@ explanation: "Motion of particles defines wave type."
 topic: "waves",
 image: "4-basic-properties-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Amplitude is defined as:",
 options: ["Distance between crests", "Maximum displacement from equilibrium", "Speed of wave", "Number of cycles"],
@@ -9232,6 +10609,7 @@ explanation: "Amplitude is the maximum displacement from the equilibrium positio
 topic: "waves",
 image: "4-basic-properties-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Wavelength is:",
 options: ["Distance between two identical points", "Time for one cycle", "Speed of wave", "Energy of wave"],
@@ -9242,6 +10620,7 @@ explanation: "It is the distance between two successive crests or troughs."
 topic: "waves",
 image: "4-basic-properties-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Frequency measures:",
 options: ["Energy", "Distance", "Number of cycles per second", "Time taken"],
@@ -9252,6 +10631,7 @@ explanation: "Frequency is measured in Hz (cycles per second)."
 topic: "waves",
 image: "4-basic-properties-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Period is:",
 options: ["Time for one wave", "Distance between waves", "Speed", "Height of wave"],
@@ -9261,7 +10641,8 @@ explanation: "Period is time taken for one complete oscillation."
 {
 topic: "waves",
 image: "4-basic-properties-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If frequency increases, wavelength:",
 options: ["Increases", "Decreases", "Remains same", "Becomes zero"],
@@ -9271,7 +10652,8 @@ explanation: "For constant speed, wavelength decreases as frequency increases."
 {
 topic: "waves",
 image: "4-basic-properties-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Greater amplitude means:",
 options: ["Less energy", "No energy", "More energy", "Constant energy"],
@@ -9281,7 +10663,8 @@ explanation: "Energy carried by a wave is proportional to amplitude."
 {
 topic: "waves",
 image: "4-basic-properties-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Wave speed is given by:",
 options: ["v = fλ", "v = at", "v = IR", "v = pV"],
@@ -9291,7 +10674,8 @@ explanation: "Speed = frequency × wavelength."
 {
 topic: "waves",
 image: "4-basic-properties-of-waves",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A trough is:",
 options: ["Highest point", "Lowest point", "Middle point", "Starting point"],
@@ -9301,7 +10685,8 @@ explanation: "Trough is the lowest point of a wave."
 {
 topic: "waves",
 image: "4-basic-properties-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "High frequency sound is:",
 options: ["Low pitch", "Medium pitch", "No pitch", "High pitch"],
@@ -9311,7 +10696,8 @@ explanation: "Higher frequency corresponds to higher pitch."
 {
 topic: "waves",
 image: "4-basic-properties-of-waves",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If wavelength doubles and speed is constant, frequency:",
 options: ["Doubles", "Halves", "Remains same", "Becomes zero"],
@@ -9322,6 +10708,7 @@ explanation: "Since v = fλ, increasing λ decreases f."
 topic: "waves",
 image: "5-wave-equation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The wave equation is:",
 options: ["v = fλ", "v = at", "v = IR", "v = mc²"],
@@ -9332,6 +10719,7 @@ explanation: "Wave speed = frequency × wavelength."
 topic: "waves",
 image: "5-wave-equation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Frequency is:",
 options: ["Time per cycle", "Cycles per second", "Distance per cycle", "Energy"],
@@ -9342,6 +10730,7 @@ explanation: "Frequency is number of waves per second."
 topic: "waves",
 image: "5-wave-equation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Wavelength is measured in:",
 options: ["Hz", "m", "s", "N"],
@@ -9351,7 +10740,8 @@ explanation: "Wavelength is a distance → meters."
 {
 topic: "waves",
 image: "5-wave-equation",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "For constant wavelength, increasing frequency:",
 options: ["Decreases speed", "Keeps speed same", "Increases speed", "Stops wave"],
@@ -9361,7 +10751,8 @@ explanation: "v ∝ f when λ is constant."
 {
 topic: "waves",
 image: "5-wave-equation",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "For constant frequency, increasing wavelength:",
 options: ["Decreases speed", "Increases speed", "No change", "Stops wave"],
@@ -9371,7 +10762,8 @@ explanation: "v ∝ λ when frequency is constant."
 {
 topic: "waves",
 image: "5-wave-equation",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If wavelength increases, frequency:",
 options: ["Increases", "Decreases", "Same", "Zero"],
@@ -9381,7 +10773,8 @@ explanation: "f ∝ 1/λ when speed is constant."
 {
 topic: "waves",
 image: "5-wave-equation",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Wave speed depends on:",
 options: ["Amplitude", "Frequency", "Medium", "Time"],
@@ -9391,7 +10784,8 @@ explanation: "Different media change wave speed."
 {
 topic: "waves",
 image: "5-wave-equation",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Sound travels faster in:",
 options: ["Air", "Vacuum", "Steel", "Water"],
@@ -9402,6 +10796,7 @@ explanation: "Sound travels fastest in solids."
 topic: "waves",
 image: "5-wave-equation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Speed of light is approximately:",
 options: ["3 × 10⁶ m/s", "3 × 10⁸ m/s", "3 × 10⁴ m/s", "3 × 10² m/s"],
@@ -9411,7 +10806,8 @@ explanation: "EM waves travel at 3 × 10⁸ m/s in vacuum."
 {
 topic: "waves",
 image: "5-wave-equation",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If frequency doubles and wavelength halves, speed:",
 options: ["Doubles", "Halves", "Same", "Zero"],
@@ -9422,6 +10818,7 @@ explanation: "v = fλ → (2f)(λ/2) = fλ → unchanged."
 topic: "waves",
 image: "6-reflection-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Reflection occurs when a wave:",
 options: ["Stops", "Changes medium", "Bounces back", "Disappears"],
@@ -9432,6 +10829,7 @@ explanation: "Reflection is the bouncing back of a wave when it hits a boundary.
 topic: "waves",
 image: "6-reflection-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The law of reflection states:",
 options: ["θi > θr", "θi = θr", "θi < θr", "θi = 0"],
@@ -9441,7 +10839,8 @@ explanation: "Angle of incidence equals angle of reflection."
 {
 topic: "waves",
 image: "6-reflection-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If angle of incidence is 30°, angle of reflection is:",
 options: ["60°", "45°", "30°", "15°"],
@@ -9451,7 +10850,8 @@ explanation: "By law of reflection, θi = θr."
 {
 topic: "waves",
 image: "6-reflection-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "During reflection, the wave:",
 options: ["Changes medium", "Remains in same medium", "Disappears", "Gains mass"],
@@ -9461,7 +10861,8 @@ explanation: "Reflection occurs in the same medium."
 {
 topic: "waves",
 image: "6-reflection-of-waves",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "At a fixed end, reflected wave is:",
 options: ["Upright", "Inverted", "Faster", "Slower"],
@@ -9471,7 +10872,8 @@ explanation: "Reflection at a fixed end produces inversion."
 {
 topic: "waves",
 image: "6-reflection-of-waves",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "At a free end, reflected wave is:",
 options: ["Inverted", "Absorbed", "Upright", "Stopped"],
@@ -9482,6 +10884,7 @@ explanation: "No inversion occurs at a free boundary."
 topic: "waves",
 image: "6-reflection-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Smooth surfaces produce:",
 options: ["Diffuse reflection", "No reflection", "Absorption", "Specular reflection"],
@@ -9492,6 +10895,7 @@ explanation: "Smooth surfaces give regular (specular) reflection."
 topic: "waves",
 image: "6-reflection-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Rough surfaces produce:",
 options: ["Specular reflection", "Diffuse reflection", "No reflection", "Total reflection"],
@@ -9501,7 +10905,8 @@ explanation: "Rough surfaces scatter waves in many directions."
 {
 topic: "waves",
 image: "6-reflection-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Echo is an example of:",
 options: ["Refraction", "Diffraction", "Reflection", "Interference"],
@@ -9511,7 +10916,8 @@ explanation: "Sound waves reflect and return as echoes."
 {
 topic: "waves",
 image: "6-reflection-of-waves",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A sound wave hits a wall perpendicular to it. The angle of reflection is:",
 options: ["90°", "0°", "45°", "180°"],
@@ -9521,7 +10927,8 @@ explanation: "Perpendicular incidence → θi = 0°, so θr = 0°."
 {
 topic: "waves",
 image: "6-reflection-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "RADAR works using:",
 options: ["Absorption", "Refraction", "Reflection", "Diffusion"],
@@ -9531,7 +10938,8 @@ explanation: "Radio waves reflect from objects to detect them."
 {
 topic: "waves",
 image: "6-reflection-of-waves",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why does a mirror form clear images?",
 options: ["Absorption", "Diffuse reflection", "Refraction", "Specular reflection"],
@@ -9542,6 +10950,7 @@ explanation: "Smooth surface → ordered reflection → clear image."
 topic: "waves",
 image: "7-diffraction-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Diffraction is the bending of waves when they:",
 options: ["Speed up", "Hit a boundary or pass through an opening", "Change frequency", "Stop moving"],
@@ -9552,6 +10961,7 @@ explanation: "Diffraction occurs when waves encounter obstacles or pass through 
 topic: "waves",
 image: "7-diffraction-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Diffraction is most significant when:",
 options: ["Wavelength is very small", "Gap size is very large", "Gap size is comparable to wavelength", "Wave speed is high"],
@@ -9561,7 +10971,8 @@ explanation: "Maximum diffraction occurs when opening size ≈ wavelength."
 {
 topic: "waves",
 image: "7-diffraction-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which wave diffracts more?",
 options: ["Short wavelength", "Long wavelength", "High frequency", "Low amplitude"],
@@ -9571,7 +10982,8 @@ explanation: "Longer wavelengths spread more around obstacles."
 {
 topic: "waves",
 image: "7-diffraction-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why can you hear sound around a corner?",
 options: ["Reflection", "Refraction", "Diffraction", "Absorption"],
@@ -9581,7 +10993,8 @@ explanation: "Sound waves bend around obstacles due to diffraction."
 {
 topic: "waves",
 image: "7-diffraction-of-waves",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Light shows noticeable diffraction only when:",
 options: ["Intensity is high", "Gap is very large", "Gap is comparable to wavelength", "Speed changes"],
@@ -9591,7 +11004,8 @@ explanation: "Light has small wavelength, so diffraction is seen only in very sm
 {
 topic: "waves",
 image: "7-diffraction-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If gap size increases, diffraction:",
 options: ["Increases", "Decreases", "Remains same", "Becomes zero"],
@@ -9602,6 +11016,7 @@ explanation: "Larger gaps → less spreading."
 topic: "waves",
 image: "7-diffraction-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "After passing through a gap, wavefronts become:",
 options: ["Straight", "Circular", "Square", "Random"],
@@ -9611,7 +11026,8 @@ explanation: "Diffraction produces circular wavefronts."
 {
 topic: "waves",
 image: "7-diffraction-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Wi-Fi signals reach behind walls due to:",
 options: ["Reflection", "Refraction", "Diffraction", "Interference"],
@@ -9621,7 +11037,8 @@ explanation: "Radio waves diffract around obstacles."
 {
 topic: "waves",
 image: "7-diffraction-of-waves",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Diffraction depends on:",
 options: ["Only frequency", "Only amplitude", "Wavelength and gap size", "Only speed"],
@@ -9631,7 +11048,8 @@ explanation: "Both wavelength and opening size determine diffraction."
 {
 topic: "waves",
 image: "7-diffraction-of-waves",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If wavelength doubles and gap remains same, diffraction:",
 options: ["Decreases", "Increases", "Stays same", "Stops"],
@@ -9642,6 +11060,7 @@ explanation: "Larger wavelength → more spreading → more diffraction."
 topic: "waves",
 image: "8-total-internal-reflection",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Total internal reflection occurs when light:",
 options: ["Moves from rare to dense medium", "Moves from dense to rare medium", "Stops completely", "Speeds up infinitely"],
@@ -9652,6 +11071,7 @@ explanation: "TIR occurs when light travels from denser to rarer medium."
 topic: "waves",
 image: "8-total-internal-reflection",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Critical angle is when refracted ray:",
 options: ["Stops", "Reflects back", "Travels along boundary", "Disappears"],
@@ -9661,7 +11081,8 @@ explanation: "At critical angle, angle of refraction = 90°."
 {
 topic: "waves",
 image: "8-total-internal-reflection",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "TIR occurs when angle of incidence is:",
 options: ["Less than critical angle", "Equal to 0", "Greater than critical angle", "Equal to 90°"],
@@ -9671,7 +11092,8 @@ explanation: "Only when θi > θc does total internal reflection occur."
 {
 topic: "waves",
 image: "8-total-internal-reflection",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Critical angle depends on:",
 options: ["Speed only", "Refractive indices", "Frequency only", "Amplitude"],
@@ -9682,6 +11104,7 @@ explanation: "sin θc = n₂ / n₁ → depends on refractive indices."
 topic: "waves",
 image: "8-total-internal-reflection",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Optical fibers work on:",
 options: ["Refraction", "Diffraction", "TIR", "Interference"],
@@ -9691,7 +11114,8 @@ explanation: "Light reflects internally within fiber repeatedly."
 {
 topic: "waves",
 image: "8-total-internal-reflection",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In TIR, energy:",
 options: ["Is lost", "Is absorbed", "Is fully reflected", "Is converted"],
@@ -9701,7 +11125,8 @@ explanation: "All energy is reflected back into the medium."
 {
 topic: "waves",
 image: "8-total-internal-reflection",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If n₁ increases, critical angle:",
 options: ["Increases", "Decreases", "Stays same", "Becomes zero"],
@@ -9711,7 +11136,8 @@ explanation: "Higher refractive index → smaller critical angle."
 {
 topic: "waves",
 image: "8-total-internal-reflection",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Diamonds sparkle due to:",
 options: ["Diffraction", "Refraction only", "Total internal reflection", "Absorption"],
@@ -9721,7 +11147,8 @@ explanation: "Multiple TIR inside diamond enhances brilliance."
 {
 topic: "waves",
 image: "8-total-internal-reflection",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why no refraction occurs during TIR?",
 options: ["Angle too small", "Medium disappears", "Angle exceeds critical angle", "Frequency changes"],
@@ -9731,7 +11158,8 @@ explanation: "At θi > θc, refraction is not possible → full reflection."
 {
 topic: "waves",
 image: "8-total-internal-reflection",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If light goes from air to glass, TIR:",
 options: ["Always occurs", "Never occurs", "Sometimes occurs", "Depends on wavelength"],
@@ -9742,6 +11170,7 @@ explanation: "TIR requires dense → rare transition, not air → glass."
 topic: "waves",
 image: "9-superposition-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The principle of superposition states that:",
 options: ["Waves cancel permanently", "Waves combine algebraically", "Waves stop on meeting", "Waves change speed"],
@@ -9752,6 +11181,7 @@ explanation: "Superposition means the net displacement is the algebraic sum of i
 topic: "waves",
 image: "9-superposition-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Constructive interference occurs when waves:",
 options: ["Are out of phase", "Have different speeds", "Are in phase", "Cancel completely"],
@@ -9762,6 +11192,7 @@ explanation: "In-phase waves add up to produce a larger amplitude."
 topic: "waves",
 image: "9-superposition-of-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Destructive interference results in:",
 options: ["Larger amplitude", "No change", "Zero or reduced amplitude", "Increased frequency"],
@@ -9771,7 +11202,8 @@ explanation: "Out-of-phase waves cancel partially or completely."
 {
 topic: "waves",
 image: "9-superposition-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Complete destructive interference occurs when phase difference is:",
 options: ["0", "π", "2π", "π/2"],
@@ -9781,7 +11213,8 @@ explanation: "Phase difference of π (180°) causes complete cancellation."
 {
 topic: "waves",
 image: "9-superposition-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Constructive interference occurs when path difference is:",
 options: ["λ/2", "λ/4", "λ", "3λ/2"],
@@ -9791,7 +11224,8 @@ explanation: "Constructive interference occurs at nλ (0, λ, 2λ...)."
 {
 topic: "waves",
 image: "9-superposition-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Noise-cancelling headphones work using:",
 options: ["Reflection", "Diffraction", "Destructive interference", "Refraction"],
@@ -9801,7 +11235,8 @@ explanation: "They produce waves out of phase to cancel sound."
 {
 topic: "waves",
 image: "9-superposition-of-waves",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Bright fringes in interference correspond to:",
 options: ["Destructive interference", "No waves", "Constructive interference", "Random motion"],
@@ -9811,7 +11246,8 @@ explanation: "Bright fringes form where waves reinforce each other."
 {
 topic: "waves",
 image: "9-superposition-of-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "After overlapping, waves:",
 options: ["Disappear", "Continue unchanged", "Stop", "Merge permanently"],
@@ -9821,7 +11257,8 @@ explanation: "Waves pass through each other and continue as before."
 {
 topic: "waves",
 image: "9-superposition-of-waves",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Partial destructive interference occurs when path difference is:",
 options: ["λ", "λ/2", "λ/4", "2λ"],
@@ -9831,7 +11268,8 @@ explanation: "λ/4 gives partial cancellation."
 {
 topic: "waves",
 image: "9-superposition-of-waves",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If two identical waves meet exactly out of phase, the resultant amplitude is:",
 options: ["Double", "Same", "Zero", "Half"],
@@ -9842,6 +11280,7 @@ explanation: "Equal and opposite displacements cancel → zero amplitude."
 topic: "waves",
 image: "10-standing-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Standing waves are formed by:",
 options: ["One wave", "Two waves travelling in opposite directions", "Two waves of different frequency", "Random vibrations"],
@@ -9852,6 +11291,7 @@ explanation: "Standing waves form due to interference of two identical opposite 
 topic: "waves",
 image: "10-standing-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "A node is a point where:",
 options: ["Amplitude is maximum", "Motion is zero", "Speed is highest", "Energy is lost"],
@@ -9862,6 +11302,7 @@ explanation: "Nodes are points of zero displacement."
 topic: "waves",
 image: "10-standing-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "An antinode is where:",
 options: ["No motion", "Minimum energy", "Maximum amplitude", "No wave"],
@@ -9871,7 +11312,8 @@ explanation: "Antinodes have maximum oscillation."
 {
 topic: "waves",
 image: "10-standing-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In the first harmonic, wavelength is:",
 options: ["L", "2L", "L/2", "4L"],
@@ -9881,7 +11323,8 @@ explanation: "λ₁ = 2L for string fixed at both ends."
 {
 topic: "waves",
 image: "10-standing-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Second harmonic frequency is:",
 options: ["f₁", "2f₁", "3f₁", "f₁/2"],
@@ -9891,7 +11334,8 @@ explanation: "f₂ = 2f₁."
 {
 topic: "waves",
 image: "10-standing-waves",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Wave speed on a string depends on:",
 options: ["Frequency", "Tension and mass per length", "Amplitude", "Wavelength"],
@@ -9901,7 +11345,8 @@ explanation: "v = √(T/μ)."
 {
 topic: "waves",
 image: "10-standing-waves",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "For a string fixed at both ends:",
 options: ["Antinodes at ends", "Nodes at ends", "No nodes", "Only one node"],
@@ -9911,7 +11356,8 @@ explanation: "Fixed ends cannot move → nodes."
 {
 topic: "waves",
 image: "10-standing-waves",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Energy in standing waves:",
 options: ["Is lost", "Is constant but oscillates between KE and PE", "Is zero", "Increases continuously"],
@@ -9921,7 +11367,8 @@ explanation: "Energy shifts between kinetic and potential forms."
 {
 topic: "waves",
 image: "10-standing-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Musical instruments produce sound using:",
 options: ["Diffraction", "Standing waves", "Reflection only", "Refraction"],
@@ -9931,7 +11378,8 @@ explanation: "Strings and air columns form standing waves."
 {
 topic: "waves",
 image: "10-standing-waves",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If string length doubles, fundamental frequency:",
 options: ["Doubles", "Halves", "Remains same", "Becomes zero"],
@@ -9942,6 +11390,7 @@ explanation: "f₁ ∝ 1/L → doubling L halves frequency."
 topic: "waves",
 image: "11-sound-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Sound waves are:",
 options: ["Transverse waves", "Longitudinal waves", "Stationary waves", "Electromagnetic waves"],
@@ -9952,6 +11401,7 @@ explanation: "Sound waves are longitudinal waves where particles oscillate paral
 topic: "waves",
 image: "11-sound-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Sound requires a medium because:",
 options: ["It needs gravity", "It needs particles to vibrate", "It needs light", "It needs electricity"],
@@ -9962,6 +11412,7 @@ explanation: "Sound propagates via vibrations of particles in a medium."
 topic: "waves",
 image: "11-sound-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Compression is a region of:",
 options: ["Low pressure", "High pressure", "No pressure", "Constant pressure"],
@@ -9972,6 +11423,7 @@ explanation: "Compression is where particles are close together, resulting in hi
 topic: "waves",
 image: "11-sound-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Rarefaction is a region of:",
 options: ["High pressure", "No pressure", "Low pressure", "Equal pressure"],
@@ -9981,7 +11433,8 @@ explanation: "Rarefaction occurs where particles are spread apart, leading to lo
 {
 topic: "waves",
 image: "11-sound-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Wavelength in a sound wave is the distance between:",
 options: ["Two compressions", "Two particles", "Two amplitudes", "Two nodes"],
@@ -9991,7 +11444,8 @@ explanation: "Wavelength is measured between successive compressions (or rarefac
 {
 topic: "waves",
 image: "11-sound-waves",
-criterion: "B",
+criterion: "A",
+    strand: "ii",
 level: "medium",
 question: "Frequency determines:",
 options: ["Loudness", "Speed", "Pitch", "Energy"],
@@ -10001,7 +11455,8 @@ explanation: "Higher frequency corresponds to higher pitch."
 {
 topic: "waves",
 image: "11-sound-waves",
-criterion: "B",
+criterion: "A",
+    strand: "ii",
 level: "medium",
 question: "Amplitude of a sound wave determines:",
 options: ["Speed", "Loudness", "Wavelength", "Frequency"],
@@ -10011,7 +11466,8 @@ explanation: "Greater amplitude means louder sound."
 {
 topic: "waves",
 image: "11-sound-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Sound travels fastest in:",
 options: ["Gases", "Liquids", "Solids", "Vacuum"],
@@ -10021,7 +11477,8 @@ explanation: "Particles are closest in solids, allowing faster transmission of v
 {
 topic: "waves",
 image: "11-sound-waves",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Ultrasound imaging works because:",
 options: ["Sound reflects from tissues", "Light reflects from tissues", "Heat is produced", "Waves stop"],
@@ -10031,7 +11488,8 @@ explanation: "Ultrasound waves reflect differently from tissues, forming images.
 {
 topic: "waves",
 image: "11-sound-waves",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why can’t sound travel in vacuum?",
 options: ["No gravity", "No medium particles", "Too much energy", "Too much pressure"],
@@ -10042,6 +11500,7 @@ explanation: "Sound needs particles to transfer vibrations; vacuum has none."
 topic: "waves",
 image: "12-speed-of-sound",
 criterion: "A",
+    strand: "iii",
 level: "easy",
 question: "Speed of sound depends mainly on:",
 options: ["Color", "Medium and temperature", "Frequency", "Amplitude"],
@@ -10052,6 +11511,7 @@ explanation: "Speed depends on properties of medium and temperature."
 topic: "waves",
 image: "12-speed-of-sound",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Sound travels slowest in:",
 options: ["Solids", "Liquids", "Gases", "Metals"],
@@ -10061,7 +11521,8 @@ explanation: "Particles are far apart in gases → slower transmission."
 {
 topic: "waves",
 image: "12-speed-of-sound",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "As temperature increases, speed of sound:",
 options: ["Decreases", "Remains constant", "Increases", "Becomes zero"],
@@ -10071,7 +11532,8 @@ explanation: "Higher temperature → faster particle motion → faster sound."
 {
 topic: "waves",
 image: "12-speed-of-sound",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Speed of sound in gases is proportional to:",
 options: ["T²", "√T", "1/T", "T³"],
@@ -10081,7 +11543,8 @@ explanation: "v ∝ √T (absolute temperature)."
 {
 topic: "waves",
 image: "12-speed-of-sound",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Higher elasticity leads to:",
 options: ["Lower speed", "Higher speed", "No change", "Zero speed"],
@@ -10091,7 +11554,8 @@ explanation: "More elastic materials transmit sound faster."
 {
 topic: "waves",
 image: "12-speed-of-sound",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Increasing density (generally) in solids leads to:",
 options: ["Faster sound", "Slower sound", "No change", "Stops sound"],
@@ -10101,7 +11565,8 @@ explanation: "Closely packed particles transmit vibrations quickly."
 {
 topic: "waves",
 image: "12-speed-of-sound",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is thunder heard after lightning?",
 options: ["Light is slower", "Sound is slower", "Air blocks sound", "Light stops"],
@@ -10111,7 +11576,8 @@ explanation: "Light travels much faster than sound."
 {
 topic: "waves",
 image: "12-speed-of-sound",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Correct wave relation is:",
 options: ["v = f/λ", "v = fλ", "v = λ/f", "v = f²λ"],
@@ -10121,7 +11587,8 @@ explanation: "Wave speed equals frequency × wavelength."
 {
 topic: "waves",
 image: "12-speed-of-sound",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If frequency increases but speed remains constant, wavelength:",
 options: ["Increases", "Decreases", "Remains same", "Becomes zero"],
@@ -10131,7 +11598,8 @@ explanation: "From v = fλ, λ decreases when f increases."
 {
 topic: "waves",
 image: "12-speed-of-sound",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why does sound travel faster in steel than in air?",
 options: ["Steel is lighter", "Steel particles are closer and interact strongly", "Steel has less energy", "Air blocks sound"],
@@ -10142,6 +11610,7 @@ explanation: "Stronger intermolecular forces and closer spacing allow faster ene
 topic: "waves",
 image: "13-musical-applications",
 criterion: "A",
+    strand: "iii",
 level: "easy",
 question: "Pitch of a sound depends on:",
 options: ["Amplitude", "Frequency", "Speed", "Medium"],
@@ -10152,6 +11621,7 @@ explanation: "Pitch is directly related to frequency. Higher frequency → highe
 topic: "waves",
 image: "13-musical-applications",
 criterion: "A",
+    strand: "iii",
 level: "easy",
 question: "Loudness depends on:",
 options: ["Frequency", "Wavelength", "Amplitude", "Speed"],
@@ -10162,6 +11632,7 @@ explanation: "Greater amplitude means louder sound."
 topic: "waves",
 image: "13-musical-applications",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Timbre refers to:",
 options: ["Pitch", "Loudness", "Tone quality", "Speed"],
@@ -10171,7 +11642,8 @@ explanation: "Timbre distinguishes sounds from different instruments even at the
 {
 topic: "waves",
 image: "13-musical-applications",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Shorter strings produce:",
 options: ["Lower pitch", "Same pitch", "Higher pitch", "No sound"],
@@ -10181,7 +11653,8 @@ explanation: "Shorter strings vibrate faster → higher frequency → higher pit
 {
 topic: "waves",
 image: "13-musical-applications",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Increasing the length of an air column:",
 options: ["Increases pitch", "Decreases pitch", "No effect", "Stops sound"],
@@ -10191,7 +11664,8 @@ explanation: "Longer air column → lower frequency → lower pitch."
 {
 topic: "waves",
 image: "13-musical-applications",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Resonance occurs when:",
 options: ["Frequency is zero", "External frequency matches natural frequency", "Sound stops", "Energy disappears"],
@@ -10201,7 +11675,8 @@ explanation: "Resonance increases amplitude when frequencies match."
 {
 topic: "waves",
 image: "13-musical-applications",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Harmonics are:",
 options: ["Random waves", "Multiples of fundamental frequency", "Noise", "Reflections"],
@@ -10211,7 +11686,8 @@ explanation: "Harmonics are integer multiples of the fundamental frequency."
 {
 topic: "waves",
 image: "13-musical-applications",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Percussion instruments produce sound by:",
 options: ["Air vibration only", "String vibration", "Whole body vibration", "Light emission"],
@@ -10221,7 +11697,8 @@ explanation: "The entire instrument vibrates when struck."
 {
 topic: "waves",
 image: "13-musical-applications",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do two instruments sound different at the same note?",
 options: ["Same waveform", "Different amplitude", "Different timbre", "Same frequency"],
@@ -10231,7 +11708,8 @@ explanation: "Different harmonics and waveforms create unique timbre."
 {
 topic: "waves",
 image: "13-musical-applications",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is resonance important in musical instruments?",
 options: ["Reduces sound", "Amplifies sound", "Stops vibration", "Changes color"],
@@ -10242,6 +11720,7 @@ explanation: "Resonance increases amplitude, making sound louder and richer."
 topic: "waves",
 image: "14-electromagnetic-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electromagnetic waves are:",
 options: ["Longitudinal", "Transverse", "Stationary", "Mechanical"],
@@ -10252,6 +11731,7 @@ explanation: "EM waves are transverse waves with perpendicular electric and magn
 topic: "waves",
 image: "14-electromagnetic-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "EM waves can travel in:",
 options: ["Solids only", "Liquids only", "Vacuum", "Gases only"],
@@ -10262,6 +11742,7 @@ explanation: "EM waves do not require a medium."
 topic: "waves",
 image: "14-electromagnetic-waves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Speed of EM waves in vacuum is:",
 options: ["3 × 10⁶ m/s", "3 × 10⁸ m/s", "3 × 10¹⁰ m/s", "300 m/s"],
@@ -10271,7 +11752,8 @@ explanation: "All EM waves travel at speed of light in vacuum."
 {
 topic: "waves",
 image: "14-electromagnetic-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Electric and magnetic fields are:",
 options: ["Parallel", "Perpendicular", "Same", "Opposite"],
@@ -10281,7 +11763,8 @@ explanation: "E and B fields are perpendicular to each other and direction of pr
 {
 topic: "waves",
 image: "14-electromagnetic-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which has highest frequency?",
 options: ["Radio waves", "Microwaves", "Visible light", "Gamma rays"],
@@ -10291,7 +11774,8 @@ explanation: "Gamma rays have highest frequency and energy."
 {
 topic: "waves",
 image: "14-electromagnetic-waves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Relationship between speed, frequency and wavelength:",
 options: ["c = fλ", "c = f/λ", "c = λ/f", "c = f²λ"],
@@ -10301,7 +11785,8 @@ explanation: "Speed of light equals frequency × wavelength."
 {
 topic: "waves",
 image: "14-electromagnetic-waves",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "EM waves carry:",
 options: ["Mass", "Energy", "Charge", "Matter"],
@@ -10311,7 +11796,8 @@ explanation: "They transfer energy without transporting matter."
 {
 topic: "waves",
 image: "14-electromagnetic-waves",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "EM waves can:",
 options: ["Only reflect", "Only refract", "Reflect, refract, diffract", "Only absorb"],
@@ -10321,7 +11807,8 @@ explanation: "EM waves show multiple wave behaviors."
 {
 topic: "waves",
 image: "14-electromagnetic-waves",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If wavelength increases, frequency:",
 options: ["Increases", "Decreases", "Remains same", "Doubles"],
@@ -10331,7 +11818,8 @@ explanation: "Since c = fλ, f is inversely proportional to λ."
 {
 topic: "waves",
 image: "14-electromagnetic-waves",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why can EM waves travel in space but sound cannot?",
 options: ["EM waves need air", "Sound needs medium", "EM waves are slower", "Sound is faster"],
@@ -10342,6 +11830,7 @@ explanation: "Sound requires particles; EM waves do not."
 topic: "waves",
 image: "15-radio-and-microwaves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radio waves are part of:",
 options: ["Sound waves", "Electromagnetic spectrum", "Mechanical waves", "Nuclear radiation"],
@@ -10352,6 +11841,7 @@ explanation: "Radio waves are electromagnetic waves used for communication."
 topic: "waves",
 image: "15-radio-and-microwaves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radio waves have:",
 options: ["Short wavelength", "Medium wavelength", "Long wavelength", "Zero wavelength"],
@@ -10362,6 +11852,7 @@ explanation: "Radio waves have the longest wavelengths in the EM spectrum."
 topic: "waves",
 image: "15-radio-and-microwaves",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Microwaves have:",
 options: ["Lower frequency than radio waves", "Higher frequency than radio waves", "Same frequency", "No frequency"],
@@ -10371,7 +11862,8 @@ explanation: "Microwaves have higher frequency and shorter wavelength than radio
 {
 topic: "waves",
 image: "15-radio-and-microwaves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Microwaves are used in satellite communication because they:",
 options: ["Travel slowly", "Are easily absorbed", "Travel in straight lines", "Need a medium"],
@@ -10381,7 +11873,8 @@ explanation: "Microwaves are directional and ideal for line-of-sight communicati
 {
 topic: "waves",
 image: "15-radio-and-microwaves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In communication systems, modulation is used to:",
 options: ["Stop waves", "Convert information into signals", "Increase mass", "Reduce energy"],
@@ -10391,7 +11884,8 @@ explanation: "Modulation encodes information onto a carrier wave."
 {
 topic: "waves",
 image: "15-radio-and-microwaves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Satellites act as:",
 options: ["Sources of sound", "Reflectors/repeaters", "Absorbers", "Insulators"],
@@ -10401,7 +11895,8 @@ explanation: "Satellites receive and retransmit signals over long distances."
 {
 topic: "waves",
 image: "15-radio-and-microwaves",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Higher frequency microwaves can:",
 options: ["Carry less data", "Carry more data", "Stop transmission", "Reduce speed"],
@@ -10411,7 +11906,8 @@ explanation: "Higher frequency allows higher data transfer rates."
 {
 topic: "waves",
 image: "15-radio-and-microwaves",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do microwaves require line-of-sight communication?",
 options: ["They bend easily", "They scatter strongly", "They travel straight", "They are slow"],
@@ -10421,7 +11917,8 @@ explanation: "Microwaves do not diffract much due to shorter wavelength."
 {
 topic: "waves",
 image: "15-radio-and-microwaves",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why are radio waves used for long-distance communication?",
 options: ["High absorption", "Long wavelength diffraction", "Low energy only", "Short wavelength"],
@@ -10431,7 +11928,8 @@ explanation: "Long wavelengths allow diffraction around obstacles and Earth curv
 {
 topic: "waves",
 image: "15-radio-and-microwaves",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which is best suited for GPS communication?",
 options: ["Sound waves", "Radio waves", "Mechanical waves", "Water waves"],
@@ -10442,6 +11940,7 @@ explanation: "Radio waves travel through space and are used in GPS systems."
 topic: "waves",
 image: "16-infrared-visible-ultraviolet",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Infrared radiation is mainly associated with:",
 options: ["Vision", "Heat", "Sound", "Pressure"],
@@ -10452,6 +11951,7 @@ explanation: "Infrared radiation is emitted by warm objects and felt as heat."
 topic: "waves",
 image: "16-infrared-visible-ultraviolet",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Visible light range is approximately:",
 options: ["10–100 nm", "400–700 nm", "700–1000 nm", "1–10 mm"],
@@ -10462,6 +11962,7 @@ explanation: "Human eyes detect wavelengths between 400–700 nm."
 topic: "waves",
 image: "16-infrared-visible-ultraviolet",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Ultraviolet waves have:",
 options: ["Lower energy than visible", "Same energy", "Higher energy than visible", "No energy"],
@@ -10471,7 +11972,8 @@ explanation: "UV has shorter wavelength → higher energy."
 {
 topic: "waves",
 image: "16-infrared-visible-ultraviolet",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which has the longest wavelength?",
 options: ["UV", "Visible", "Infrared", "X-rays"],
@@ -10481,7 +11983,8 @@ explanation: "Infrared has longer wavelengths than visible and UV."
 {
 topic: "waves",
 image: "16-infrared-visible-ultraviolet",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "As wavelength decreases, energy:",
 options: ["Decreases", "Increases", "Remains same", "Becomes zero"],
@@ -10491,7 +11994,8 @@ explanation: "Energy is inversely proportional to wavelength."
 {
 topic: "waves",
 image: "16-infrared-visible-ultraviolet",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Thermal imaging uses:",
 options: ["UV", "Visible light", "Infrared", "Radio waves"],
@@ -10501,7 +12005,8 @@ explanation: "Infrared detects heat radiation."
 {
 topic: "waves",
 image: "16-infrared-visible-ultraviolet",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why can humans not see infrared?",
 options: ["No energy", "Eyes not sensitive to those wavelengths", "Too fast", "Too loud"],
@@ -10511,7 +12016,8 @@ explanation: "Human eyes are only sensitive to visible range."
 {
 topic: "waves",
 image: "16-infrared-visible-ultraviolet",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is UV radiation harmful?",
 options: ["Low energy", "Causes ionization", "No interaction", "Invisible"],
@@ -10521,7 +12027,8 @@ explanation: "High energy UV can damage cells and DNA."
 {
 topic: "waves",
 image: "16-infrared-visible-ultraviolet",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which wave is best for sterilization?",
 options: ["Infrared", "Visible", "Ultraviolet", "Radio"],
@@ -10531,7 +12038,8 @@ explanation: "UV kills bacteria and viruses."
 {
 topic: "waves",
 image: "16-infrared-visible-ultraviolet",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is visible light important for life?",
 options: ["Produces heat", "Enables vision and photosynthesis", "Causes radiation", "Stops energy"],
@@ -10542,6 +12050,7 @@ explanation: "Visible light supports vision and energy transfer in ecosystems."
 topic: "waves",
 image: "17-x-rays-and-gamma-rays",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "X-rays and gamma rays are:",
 options: ["Mechanical waves", "Electromagnetic waves", "Sound waves", "Water waves"],
@@ -10552,6 +12061,7 @@ explanation: "Both X-rays and gamma rays are high-energy electromagnetic waves."
 topic: "waves",
 image: "17-x-rays-and-gamma-rays",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Gamma rays have:",
 options: ["Long wavelength", "Medium wavelength", "Shortest wavelength", "No wavelength"],
@@ -10562,6 +12072,7 @@ explanation: "Gamma rays have the shortest wavelength and highest energy."
 topic: "waves",
 image: "17-x-rays-and-gamma-rays",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Which has higher energy?",
 options: ["X-rays", "Gamma rays", "Visible light", "Infrared"],
@@ -10571,7 +12082,8 @@ explanation: "Gamma rays have higher frequency → higher energy than X-rays."
 {
 topic: "waves",
 image: "17-x-rays-and-gamma-rays",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "X-rays are useful in medical imaging because they:",
 options: ["Reflect completely", "Penetrate soft tissues", "Cannot pass materials", "Are slow"],
@@ -10581,7 +12093,8 @@ explanation: "X-rays pass through soft tissue but are absorbed by bones."
 {
 topic: "waves",
 image: "17-x-rays-and-gamma-rays",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "X-rays are produced when:",
 options: ["Electrons accelerate", "Electrons slow down rapidly", "Protons collide", "Neutrons decay"],
@@ -10591,7 +12104,8 @@ explanation: "X-rays are produced by deceleration of high-speed electrons."
 {
 topic: "waves",
 image: "17-x-rays-and-gamma-rays",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma rays originate from:",
 options: ["Electron transitions", "Nucleus of atoms", "Surface reflections", "Air particles"],
@@ -10601,7 +12115,8 @@ explanation: "Gamma rays are emitted during nuclear transitions."
 {
 topic: "waves",
 image: "17-x-rays-and-gamma-rays",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which is used in cancer treatment?",
 options: ["Infrared", "Visible light", "Gamma rays", "Radio waves"],
@@ -10611,7 +12126,8 @@ explanation: "Gamma rays destroy cancer cells in radiotherapy."
 {
 topic: "waves",
 image: "17-x-rays-and-gamma-rays",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why are X-rays dangerous in high doses?",
 options: ["Low energy", "Ionization of cells", "No interaction", "Low frequency"],
@@ -10621,7 +12137,8 @@ explanation: "X-rays can ionize atoms, damaging DNA and tissues."
 {
 topic: "waves",
 image: "17-x-rays-and-gamma-rays",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is lead used for shielding?",
 options: ["Low density", "High absorption of radiation", "Reflects sound", "Low melting point"],
@@ -10631,7 +12148,8 @@ explanation: "Lead absorbs high-energy radiation effectively."
 {
 topic: "waves",
 image: "17-x-rays-and-gamma-rays",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why must radiation exposure be controlled?",
 options: ["To increase energy", "To prevent biological damage", "To improve waves", "To reduce frequency"],
@@ -10642,6 +12160,7 @@ explanation: "High exposure can cause serious health risks like cancer."
 topic: "waves",
 image: "18-reflection-and-refraction-of-light",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The law of reflection states:",
 options: ["i = 2r", "i = r", "i > r", "i < r"],
@@ -10652,6 +12171,7 @@ explanation: "Angle of incidence equals angle of reflection."
 topic: "waves",
 image: "18-reflection-and-refraction-of-light",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Refraction occurs when light:",
 options: ["Reflects", "Changes direction in new medium", "Stops", "Disappears"],
@@ -10662,6 +12182,7 @@ explanation: "Refraction is bending due to speed change in a medium."
 topic: "waves",
 image: "18-reflection-and-refraction-of-light",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Snell’s law is:",
 options: ["n₁ sin i = n₂ sin r", "v = fλ", "E = mc²", "F = ma"],
@@ -10671,7 +12192,8 @@ explanation: "Snell’s law relates angles and refractive indices."
 {
 topic: "waves",
 image: "18-reflection-and-refraction-of-light",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Refractive index depends on:",
 options: ["Color only", "Medium", "Shape", "Size"],
@@ -10681,7 +12203,8 @@ explanation: "Different media have different refractive indices."
 {
 topic: "waves",
 image: "18-reflection-and-refraction-of-light",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Convex lenses:",
 options: ["Diverge rays", "Converge rays", "Reflect rays", "Stop rays"],
@@ -10691,7 +12214,8 @@ explanation: "Convex lenses bring parallel rays to a focus."
 {
 topic: "waves",
 image: "18-reflection-and-refraction-of-light",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Plane mirrors form images that are:",
 options: ["Real", "Inverted", "Virtual and upright", "Smaller"],
@@ -10701,7 +12225,8 @@ explanation: "Plane mirror images are virtual, upright, and same size."
 {
 topic: "waves",
 image: "18-reflection-and-refraction-of-light",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why does light bend toward normal in denser medium?",
 options: ["Speed increases", "Speed decreases", "Energy increases", "Frequency changes"],
@@ -10711,7 +12236,8 @@ explanation: "Light slows down → bends toward the normal."
 {
 topic: "waves",
 image: "18-reflection-and-refraction-of-light",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Real images are:",
 options: ["Not formed", "Formed by actual convergence", "Always upright", "Invisible"],
@@ -10721,7 +12247,8 @@ explanation: "Real images form where rays actually meet."
 {
 topic: "waves",
 image: "18-reflection-and-refraction-of-light",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why do lenses form images?",
 options: ["Reflection", "Refraction", "Absorption", "Diffraction"],
@@ -10731,7 +12258,8 @@ explanation: "Lenses bend light through refraction."
 {
 topic: "waves",
 image: "18-reflection-and-refraction-of-light",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which device uses refraction?",
 options: ["Mirror", "Prism", "Loudspeaker", "Battery"],
@@ -10742,6 +12270,7 @@ explanation: "Prisms use refraction to split light into colors."
 topic: "waves",
 image: "19-light-and-communication",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Light carries information using:",
 options: ["Mass", "Waves", "Heat", "Force"],
@@ -10752,6 +12281,7 @@ explanation: "Light is an electromagnetic wave used to transmit information."
 topic: "waves",
 image: "19-light-and-communication",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Information in light can be encoded by changing:",
 options: ["Color only", "Amplitude and frequency", "Shape only", "Size"],
@@ -10762,6 +12292,7 @@ explanation: "Light signals vary amplitude, frequency, or digital pulses to carr
 topic: "waves",
 image: "19-light-and-communication",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Fiber optics work on:",
 options: ["Reflection", "Total internal reflection", "Refraction only", "Diffraction"],
@@ -10771,7 +12302,8 @@ explanation: "Light is trapped inside the fiber by total internal reflection."
 {
 topic: "waves",
 image: "19-light-and-communication",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Total internal reflection occurs when:",
 options: ["Light enters denser medium", "Angle < critical angle", "Angle > critical angle", "Speed increases"],
@@ -10781,7 +12313,8 @@ explanation: "TIR happens when angle of incidence exceeds critical angle."
 {
 topic: "waves",
 image: "19-light-and-communication",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Fiber optics have high bandwidth because:",
 options: ["They use electricity", "Light carries more data", "They are heavy", "They reflect sound"],
@@ -10791,7 +12324,8 @@ explanation: "Light waves can carry large amounts of data quickly."
 {
 topic: "waves",
 image: "19-light-and-communication",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In fiber optics, a detector converts:",
 options: ["Light to electrical signals", "Sound to light", "Heat to energy", "Data to sound"],
@@ -10801,7 +12335,8 @@ explanation: "The photodetector converts received light into electrical signals.
 {
 topic: "waves",
 image: "19-light-and-communication",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which uses fiber optics?",
 options: ["Internet", "Chalkboard", "Book", "Pencil"],
@@ -10811,7 +12346,8 @@ explanation: "Fiber optics are widely used in internet communication."
 {
 topic: "waves",
 image: "19-light-and-communication",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is fiber optic communication faster?",
 options: ["Light travels slowly", "Less signal loss", "More resistance", "Higher mass"],
@@ -10821,7 +12357,8 @@ explanation: "Fiber optics have low attenuation → signals travel longer distan
 {
 topic: "waves",
 image: "19-light-and-communication",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why are optical fibers preferred over copper wires?",
 options: ["Heavier", "More interference", "Faster and reliable", "Cheaper always"],
@@ -10831,7 +12368,8 @@ explanation: "Fiber optics are faster, lighter, and immune to electromagnetic in
 {
 topic: "waves",
 image: "19-light-and-communication",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Visible light communication uses:",
 options: ["LEDs", "Magnets", "Batteries", "Heat"],
@@ -10842,6 +12380,7 @@ explanation: "LEDs rapidly switch on/off to transmit data using light."
 topic: "waves",
 image: "20-waves-and-culture",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Sound waves carry:",
 options: ["Matter", "Energy", "Light", "Heat"],
@@ -10852,6 +12391,7 @@ explanation: "Sound waves transfer energy through vibrations."
 topic: "waves",
 image: "20-waves-and-culture",
 criterion: "A",
+    strand: "iii",
 level: "easy",
 question: "Pitch depends on:",
 options: ["Amplitude", "Frequency", "Speed", "Time"],
@@ -10862,6 +12402,7 @@ explanation: "Higher frequency produces higher pitch."
 topic: "waves",
 image: "20-waves-and-culture",
 criterion: "A",
+    strand: "iii",
 level: "easy",
 question: "Loudness depends on:",
 options: ["Frequency", "Amplitude", "Wavelength", "Speed"],
@@ -10872,6 +12413,7 @@ explanation: "Greater amplitude → louder sound."
 topic: "waves",
 image: "20-waves-and-culture",
 criterion: "A",
+    strand: "iii",
 level: "easy",
 question: "Timbre depends on:",
 options: ["Frequency", "Waveform", "Speed", "Medium"],
@@ -10881,7 +12423,8 @@ explanation: "Different waveforms create different sound qualities."
 {
 topic: "waves",
 image: "20-waves-and-culture",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radio broadcasting uses:",
 options: ["Sound waves", "Radio waves", "Water waves", "Heat"],
@@ -10891,7 +12434,8 @@ explanation: "Radio waves carry signals over long distances."
 {
 topic: "waves",
 image: "20-waves-and-culture",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Mobile communication uses:",
 options: ["Mechanical waves", "Radio and microwaves", "Heat waves", "Sound waves only"],
@@ -10901,7 +12445,8 @@ explanation: "Phones use electromagnetic waves like microwaves."
 {
 topic: "waves",
 image: "20-waves-and-culture",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Ultrasound is used for:",
 options: ["Cooking", "Imaging inside body", "Lighting", "Communication"],
@@ -10911,7 +12456,8 @@ explanation: "Ultrasound helps doctors view internal organs."
 {
 topic: "waves",
 image: "20-waves-and-culture",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do different instruments sound different?",
 options: ["Same frequency", "Different timbre", "Same amplitude", "Same waveform"],
@@ -10921,7 +12467,8 @@ explanation: "Different waveforms and harmonics create unique timbre."
 {
 topic: "waves",
 image: "20-waves-and-culture",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "How do waves connect people globally?",
 options: ["Through transport", "Through communication systems", "Through gravity", "Through heat"],
@@ -10931,7 +12478,8 @@ explanation: "Waves enable communication technologies like internet and broadcas
 {
 topic: "waves",
 image: "20-waves-and-culture",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why are waves important in culture?",
 options: ["Only for physics", "They carry music and communication", "Only for light", "Only for energy"],
@@ -10942,6 +12490,7 @@ explanation: "Waves carry sound, music, and information shaping culture and soci
 topic: "waves",
 image: "21-Design_investigation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "A design investigation begins with:",
 options: ["Conclusion", "Hypothesis", "Identifying a problem", "Data analysis"],
@@ -10952,6 +12501,7 @@ explanation: "The first step is to identify and define the problem."
 topic: "waves",
 image: "21-Design_investigation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "After identifying a problem, the next step is:",
 options: ["Analyze data", "Research information", "Draw conclusion", "Repeat experiment"],
@@ -10962,6 +12512,7 @@ explanation: "Research helps gather background knowledge."
 topic: "waves",
 image: "21-Design_investigation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "A hypothesis is:",
 options: ["A final answer", "A tested conclusion", "An educated prediction", "A graph"],
@@ -10972,6 +12523,7 @@ explanation: "A hypothesis predicts an outcome based on knowledge."
 topic: "waves",
 image: "21-Design_investigation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The independent variable is:",
 options: ["Measured", "Controlled", "Changed", "Ignored"],
@@ -10982,6 +12534,7 @@ explanation: "It is the variable you manipulate."
 topic: "waves",
 image: "21-Design_investigation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The dependent variable is:",
 options: ["Changed", "Measured", "Controlled", "Removed"],
@@ -10991,7 +12544,8 @@ explanation: "It is the outcome you observe or measure."
 {
 topic: "waves",
 image: "21-Design_investigation",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Controlled variables are used to:",
 options: ["Change results", "Ensure fair test", "Increase speed", "Reduce data"],
@@ -11001,7 +12555,8 @@ explanation: "They are kept constant to ensure reliability."
 {
 topic: "waves",
 image: "21-Design_investigation",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why should experiments be repeated?",
 options: ["Save time", "Increase error", "Improve reliability", "Reduce variables"],
@@ -11011,7 +12566,8 @@ explanation: "Repeating improves consistency and reliability."
 {
 topic: "waves",
 image: "21-Design_investigation",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "After collecting data, the next step is:",
 options: ["Hypothesis", "Analyze data", "Stop experiment", "Change variables"],
@@ -11021,7 +12577,8 @@ explanation: "Data must be analyzed to identify patterns."
 {
 topic: "waves",
 image: "21-Design_investigation",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A conclusion should:",
 options: ["Ignore data", "Support or reject hypothesis", "Change variables", "Add new experiment"],
@@ -11031,7 +12588,8 @@ explanation: "Conclusion evaluates whether hypothesis was correct."
 {
 topic: "waves",
 image: "21-Design_investigation",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A good investigation must be:",
 options: ["Fast", "Complex", "Fair, reliable, and accurate", "Expensive"],
@@ -11042,6 +12600,7 @@ explanation: "Scientific investigations must be fair, reliable, safe, and accura
 topic: "waves",
 image: "22-data-processing",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Data processing helps to:",
 options: ["Destroy data", "Find patterns", "Ignore results", "Reduce accuracy"],
@@ -11052,6 +12611,7 @@ explanation: "Processing helps identify patterns and conclusions."
 topic: "waves",
 image: "22-data-processing",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "First step of data processing cycle:",
 options: ["Analyze", "Collect", "Conclude", "Represent"],
@@ -11062,6 +12622,7 @@ explanation: "Data must first be collected."
 topic: "waves",
 image: "22-data-processing",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Qualitative data is:",
 options: ["Numerical", "Descriptive", "Calculated", "Graphical"],
@@ -11072,6 +12633,7 @@ explanation: "Qualitative data describes qualities (e.g., color)."
 topic: "waves",
 image: "22-data-processing",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Quantitative data is:",
 options: ["Words", "Numbers", "Images", "Colors"],
@@ -11081,7 +12643,8 @@ explanation: "Quantitative data involves measurements or counts."
 {
 topic: "waves",
 image: "22-data-processing",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Line graphs are best for:",
 options: ["Categories", "Continuous data", "Pictures", "Labels"],
@@ -11091,7 +12654,8 @@ explanation: "Line graphs show relationships between continuous variables."
 {
 topic: "waves",
 image: "22-data-processing",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Bar graphs are used for:",
 options: ["Continuous data", "Categories", "Trends only", "Time graphs"],
@@ -11101,7 +12665,8 @@ explanation: "Bar graphs compare different categories."
 {
 topic: "waves",
 image: "22-data-processing",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Measurement uncertainty means:",
 options: ["No error", "Exact value", "Possible range of values", "Wrong result"],
@@ -11111,7 +12676,8 @@ explanation: "All measurements have a range of uncertainty."
 {
 topic: "waves",
 image: "22-data-processing",
-criterion: "C",
+criterion: "A",
+    strand: "ii",
 level: "medium",
 question: "Mean is calculated by:",
 options: ["Multiply values", "Add and divide", "Subtract values", "Ignore data"],
@@ -11121,7 +12687,8 @@ explanation: "Mean = sum of values ÷ number of values."
 {
 topic: "waves",
 image: "22-data-processing",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Outliers are:",
 options: ["Average values", "Extreme values", "Missing data", "Normal values"],
@@ -11131,7 +12698,8 @@ explanation: "Outliers are unusual data points."
 {
 topic: "waves",
 image: "22-data-processing",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Good data habits include:",
 options: ["Guessing", "Ignoring errors", "Accurate recording and repetition", "Skipping steps"],
@@ -11142,6 +12710,7 @@ explanation: "Good practice ensures reliable and valid results."
 topic: "waves",
 image: "23-wave-technology",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Waves transfer:",
 options: ["Matter", "Energy", "Mass", "Force"],
@@ -11152,6 +12721,7 @@ explanation: "Waves transfer energy without transferring matter."
 topic: "waves",
 image: "23-wave-technology",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electromagnetic waves can travel:",
 options: ["Only in solids", "Only in liquids", "In vacuum", "Only in gases"],
@@ -11162,6 +12732,7 @@ explanation: "EM waves do not require a medium."
 topic: "waves",
 image: "23-wave-technology",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radio waves are used for:",
 options: ["Cooking", "Broadcasting", "Heating", "Lighting"],
@@ -11172,6 +12743,7 @@ explanation: "Radio waves are used in communication systems like broadcasting."
 topic: "waves",
 image: "23-wave-technology",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Microwaves are used in:",
 options: ["Radio", "Cooking", "Sound", "Reflection"],
@@ -11182,6 +12754,7 @@ explanation: "Microwaves heat food by exciting water molecules."
 topic: "waves",
 image: "23-wave-technology",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Infrared waves are mainly associated with:",
 options: ["Sound", "Heat", "Light", "Motion"],
@@ -11191,7 +12764,8 @@ explanation: "Infrared radiation is heat radiation."
 {
 topic: "waves",
 image: "23-wave-technology",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "X-rays are used in:",
 options: ["Cooking", "Medical imaging", "Sound waves", "Light bulbs"],
@@ -11201,7 +12775,8 @@ explanation: "X-rays help image bones and internal structures."
 {
 topic: "waves",
 image: "23-wave-technology",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Wi-Fi uses:",
 options: ["Sound waves", "Radio waves", "Water waves", "Heat"],
@@ -11211,7 +12786,8 @@ explanation: "Wi-Fi operates using radio frequency waves."
 {
 topic: "waves",
 image: "23-wave-technology",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "MRI machines use:",
 options: ["Radio waves", "Sound waves", "Heat", "Visible light"],
@@ -11221,7 +12797,8 @@ explanation: "MRI uses radio waves and magnetic fields."
 {
 topic: "waves",
 image: "23-wave-technology",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why are waves important in technology?",
 options: ["They create matter", "They carry energy and information", "They reduce energy", "They stop motion"],
@@ -11231,7 +12808,8 @@ explanation: "Waves enable communication, imaging, and energy transfer."
 {
 topic: "waves",
 image: "23-wave-technology",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Wave technology impacts society by:",
 options: ["Reducing communication", "Improving connectivity and innovation", "Increasing errors", "Stopping development"],
@@ -11242,6 +12820,7 @@ explanation: "Wave-based technologies drive communication, healthcare, and resea
 topic: "waves",
 image: "24-unit-project-showcase",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The project integrates:",
 options: ["Only physics", "Multiple concepts", "Only math", "Only theory"],
@@ -11252,6 +12831,7 @@ explanation: "It combines concepts like waves, optics, and data."
 topic: "waves",
 image: "24-unit-project-showcase",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Reflection of light involves:",
 options: ["Bending", "Bouncing back", "Absorption", "Emission"],
@@ -11262,6 +12842,7 @@ explanation: "Reflection is when light bounces off surfaces."
 topic: "waves",
 image: "24-unit-project-showcase",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Refraction is:",
 options: ["Reflection", "Bending of light", "Absorption", "Emission"],
@@ -11271,7 +12852,8 @@ explanation: "Refraction occurs when light changes medium."
 {
 topic: "waves",
 image: "24-unit-project-showcase",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Fiber optics use:",
 options: ["Sound", "Total internal reflection", "Heat", "Gravity"],
@@ -11281,7 +12863,8 @@ explanation: "Light is guided through fibers by TIR."
 {
 topic: "waves",
 image: "24-unit-project-showcase",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A hypothesis is tested by:",
 options: ["Reading", "Experiment", "Guessing", "Ignoring"],
@@ -11291,7 +12874,8 @@ explanation: "Experiments test predictions."
 {
 topic: "waves",
 image: "24-unit-project-showcase",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Data analysis helps to:",
 options: ["Ignore results", "Find patterns", "Delete data", "Stop experiment"],
@@ -11301,7 +12885,8 @@ explanation: "Analysis helps identify trends and conclusions."
 {
 topic: "waves",
 image: "24-unit-project-showcase",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is integration important in projects?",
 options: ["Reduces knowledge", "Connects concepts", "Avoids learning", "Simplifies everything"],
@@ -11311,7 +12896,8 @@ explanation: "Integration helps apply multiple concepts together."
 {
 topic: "waves",
 image: "24-unit-project-showcase",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Projects promote innovation by:",
 options: ["Memorization", "Applying concepts", "Ignoring ideas", "Reducing thinking"],
@@ -11321,7 +12907,8 @@ explanation: "Application leads to creativity and innovation."
 {
 topic: "waves",
 image: "24-unit-project-showcase",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Real-world projects improve learning by:",
 options: ["Limiting thinking", "Connecting theory to practice", "Avoiding experiments", "Reducing understanding"],
@@ -11331,7 +12918,8 @@ explanation: "Application enhances deeper understanding."
 {
 topic: "waves",
 image: "24-unit-project-showcase",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Science projects help society by:",
 options: ["Increasing problems", "Providing solutions", "Ignoring issues", "Reducing innovation"],
@@ -11342,6 +12930,7 @@ explanation: "Projects solve real-world problems and improve life."
 topic: "waves",
 image: "25-explore-waves-at-home-lab",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The aim of the string experiment is to study:",
 options: ["Wave speed", "Frequency and wave speed", "Heat transfer", "Light intensity"],
@@ -11352,6 +12941,7 @@ explanation: "The experiment investigates how frequency affects wave speed."
 topic: "waves",
 image: "25-explore-waves-at-home-lab",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "In the string experiment, frequency is the:",
 options: ["Dependent variable", "Independent variable", "Controlled variable", "Constant"],
@@ -11362,6 +12952,7 @@ explanation: "Frequency is varied by the student."
 topic: "waves",
 image: "25-explore-waves-at-home-lab",
 criterion: "A",
+    strand: "ii",
 level: "easy",
 question: "Wavelength is calculated using:",
 options: ["λ = L", "λ = 2L/n", "λ = f/v", "λ = vt"],
@@ -11371,7 +12962,8 @@ explanation: "For standing waves, wavelength = 2L divided by number of loops."
 {
 topic: "waves",
 image: "25-explore-waves-at-home-lab",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Wave speed is given by:",
 options: ["v = fλ", "v = f + λ", "v = λ/f", "v = ft"],
@@ -11381,7 +12973,8 @@ explanation: "Wave speed equals frequency × wavelength."
 {
 topic: "waves",
 image: "25-explore-waves-at-home-lab",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why must tension be kept constant?",
 options: ["To change speed", "To ensure fair test", "To increase frequency", "To reduce wavelength"],
@@ -11391,7 +12984,8 @@ explanation: "Keeping variables constant ensures a fair investigation."
 {
 topic: "waves",
 image: "25-explore-waves-at-home-lab",
-criterion: "B",
+criterion: "A",
+    strand: "ii",
 level: "medium",
 question: "In ripple tank experiment, wave speed is calculated by:",
 options: ["v = t/x", "v = x/t", "v = f/t", "v = λ/t"],
@@ -11401,7 +12995,8 @@ explanation: "Speed = distance ÷ time."
 {
 topic: "waves",
 image: "25-explore-waves-at-home-lab",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Pitch of sound depends on:",
 options: ["Amplitude", "Frequency", "Speed", "Time"],
@@ -11411,7 +13006,8 @@ explanation: "Higher frequency → higher pitch."
 {
 topic: "waves",
 image: "25-explore-waves-at-home-lab",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What happens to wavelength if frequency increases (constant speed)?",
 options: ["Increases", "Decreases", "Stays same", "Becomes zero"],
@@ -11421,7 +13017,8 @@ explanation: "Since v = fλ, if f increases, λ decreases."
 {
 topic: "waves",
 image: "25-explore-waves-at-home-lab",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Graph of speed vs frequency shows:",
 options: ["Constant value", "Increasing trend", "Decreasing trend", "Random"],
@@ -11431,7 +13028,8 @@ explanation: "Wave speed remains constant in same medium."
 {
 topic: "waves",
 image: "25-explore-waves-at-home-lab",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which improves experiment accuracy?",
 options: ["One trial", "Estimation", "Repeated measurements", "Ignoring errors"],
@@ -11442,6 +13040,7 @@ explanation: "Repeating measurements improves reliability and accuracy."
 topic: "waves",
 image: "26-waves-connect-the-world",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Fiber optics use:",
 options: ["Refraction", "Total internal reflection", "Diffraction", "Absorption"],
@@ -11452,6 +13051,7 @@ explanation: "Light is guided through fibers using total internal reflection."
 topic: "waves",
 image: "26-waves-connect-the-world",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Light remains inside the fiber because:",
 options: ["It slows down", "It reflects internally", "It absorbs", "It stops"],
@@ -11462,6 +13062,7 @@ explanation: "Light reflects repeatedly within the core."
 topic: "waves",
 image: "26-waves-connect-the-world",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Which is part of fiber optic system?",
 options: ["Heater", "Detector", "Battery only", "Lens only"],
@@ -11471,7 +13072,8 @@ explanation: "Detector converts light signals into electrical signals."
 {
 topic: "waves",
 image: "26-waves-connect-the-world",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Fiber optics are preferred because:",
 options: ["Heavy", "High data capacity", "Slow", "Weak"],
@@ -11481,7 +13083,8 @@ explanation: "They can carry large amounts of data quickly."
 {
 topic: "waves",
 image: "26-waves-connect-the-world",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Low signal loss means:",
 options: ["More energy loss", "Less energy loss", "No transmission", "Weak signals"],
@@ -11491,7 +13094,8 @@ explanation: "Signals remain strong over long distances."
 {
 topic: "waves",
 image: "26-waves-connect-the-world",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Fiber optics are used in:",
 options: ["Internet", "Cooking", "Painting", "Writing"],
@@ -11501,7 +13105,8 @@ explanation: "They power modern internet communication."
 {
 topic: "waves",
 image: "26-waves-connect-the-world",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why can light travel long distances in fibers?",
 options: ["It slows", "Low loss and reflection", "High mass", "Weak signal"],
@@ -11511,7 +13116,8 @@ explanation: "Internal reflection minimizes energy loss."
 {
 topic: "waves",
 image: "26-waves-connect-the-world",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A limitation of fiber optics is:",
 options: ["High speed", "Expensive installation", "High bandwidth", "Low loss"],
@@ -11521,7 +13127,8 @@ explanation: "Fiber installation and repair can be costly."
 {
 topic: "waves",
 image: "26-waves-connect-the-world",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is fiber optics better than electrical signals?",
 options: ["Slower", "Less data", "Faster and less interference", "Heavier"],
@@ -11531,7 +13138,8 @@ explanation: "Light signals are faster and immune to electromagnetic interferenc
 {
 topic: "waves",
 image: "26-waves-connect-the-world",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Future of fiber optics includes:",
 options: ["Reduced use", "Faster communication systems", "No development", "Only local use"],
@@ -11547,6 +13155,7 @@ explanation: "Fiber optics will support faster global communication and technolo
 topic: "atomic",
 image: "1-atomic-models",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Who proposed the first atomic model?",
 options: ["Thomson", "Rutherford", "Dalton", "Bohr"],
@@ -11557,6 +13166,7 @@ explanation: "Dalton (1803) proposed the first scientific atomic model, describi
 topic: "atomic",
 image: "1-atomic-models",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What did Thomson discover?",
 options: ["Protons", "Electrons", "Neutrons", "Nucleus"],
@@ -11567,6 +13177,7 @@ explanation: "Thomson discovered electrons through cathode ray experiments."
 topic: "atomic",
 image: "1-atomic-models",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What did Rutherford conclude from his experiment?",
 options: ["Atom is solid", "Atom is mostly empty space", "Electrons are positive", "No nucleus"],
@@ -11577,6 +13188,7 @@ explanation: "Most alpha particles passed through, showing atoms are mostly empt
 topic: "atomic",
 image: "1-atomic-models",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In Bohr’s model, electrons move in:",
 options: ["Random paths", "Fixed orbits", "Straight lines", "Clouds"],
@@ -11587,6 +13199,7 @@ explanation: "Bohr proposed electrons move in fixed energy levels (orbits)."
 topic: "atomic",
 image: "1-atomic-models",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Modern atomic theory describes electrons as:",
 options: ["Fixed particles", "Waves and particles", "Only particles", "Only waves"],
@@ -11596,7 +13209,8 @@ explanation: "Electrons show wave-particle duality in the quantum model."
 {
 topic: "atomic",
 image: "1-atomic-models",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why did some particles deflect in Rutherford’s experiment?",
 options: ["Due to electrons", "Due to nucleus", "Due to vacuum", "Due to energy loss"],
@@ -11606,7 +13220,8 @@ explanation: "Deflection occurred due to the dense, positively charged nucleus."
 {
 topic: "atomic",
 image: "1-atomic-models",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do atomic models change over time?",
 options: ["Scientists guess randomly", "New evidence improves models", "Old models are deleted", "Technology has no role"],
@@ -11617,6 +13232,7 @@ explanation: "Scientific models evolve as new experiments provide better evidenc
 topic: "atomic",
 image: "1-atomic-models",
 criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which model introduced the nucleus?",
 options: ["Dalton", "Thomson", "Rutherford", "Bohr"],
@@ -11626,7 +13242,8 @@ explanation: "Rutherford’s gold foil experiment led to the discovery of the nu
 {
 topic: "atomic",
 image: "1-atomic-models",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do electrons jump between energy levels?",
 options: ["Due to gravity", "Due to energy absorption/emission", "Due to pressure", "Due to collisions"],
@@ -11636,7 +13253,8 @@ explanation: "Electrons absorb or emit energy to move between energy levels."
 {
 topic: "atomic",
 image: "1-atomic-models",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is the modern model more accurate?",
 options: ["It is simpler", "It uses probability and experiments", "It ignores electrons", "It is older"],
@@ -11647,6 +13265,7 @@ explanation: "Modern models use quantum mechanics and probability, making them m
 topic: "atomic",
 image: "2-daltons-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Dalton described atoms as:",
 options: ["Divisible", "Indivisible", "Charged", "Empty"],
@@ -11657,6 +13276,7 @@ explanation: "Dalton considered atoms as indivisible solid particles."
 topic: "atomic",
 image: "2-daltons-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Atoms of the same element are:",
 options: ["Different", "Identical", "Charged", "Moving"],
@@ -11667,6 +13287,7 @@ explanation: "Dalton stated atoms of the same element have identical properties.
 topic: "atomic",
 image: "2-daltons-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In reactions, atoms are:",
 options: ["Created", "Destroyed", "Rearranged", "Removed"],
@@ -11677,6 +13298,7 @@ explanation: "Atoms rearrange during reactions but are not created or destroyed.
 topic: "atomic",
 image: "2-daltons-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Compounds form in:",
 options: ["Random ratios", "Simple ratios", "Infinite ratios", "Complex ratios"],
@@ -11686,7 +13308,8 @@ explanation: "Dalton proposed compounds form in simple whole-number ratios."
 {
 topic: "atomic",
 image: "2-daltons-atomic-model",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is Dalton’s model incorrect today?",
 options: ["Atoms are divisible", "Atoms do not exist", "Elements are same", "No compounds exist"],
@@ -11696,7 +13319,8 @@ explanation: "Modern science shows atoms have subatomic particles."
 {
 topic: "atomic",
 image: "2-daltons-atomic-model",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why did Dalton’s model support conservation of mass?",
 options: ["Atoms disappear", "Atoms rearrange only", "Atoms split", "Atoms change type"],
@@ -11707,6 +13331,7 @@ explanation: "If atoms are conserved and only rearranged, total mass remains con
 topic: "atomic",
 image: "2-daltons-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Dalton imagined atoms as:",
 options: ["Clouds", "Spheres", "Rings", "Waves"],
@@ -11716,7 +13341,8 @@ explanation: "He visualized atoms as solid spheres."
 {
 topic: "atomic",
 image: "2-daltons-atomic-model",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why can atoms of same element differ today?",
 options: ["Isotopes", "Charges", "Motion", "Size"],
@@ -11726,7 +13352,8 @@ explanation: "Isotopes have same element but different masses."
 {
 topic: "atomic",
 image: "2-daltons-atomic-model",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What was Dalton’s biggest contribution?",
 options: ["Discovering nucleus", "First scientific atomic theory", "Electron discovery", "Quantum theory"],
@@ -11736,7 +13363,8 @@ explanation: "Dalton gave the first structured scientific explanation of atoms."
 {
 topic: "atomic",
 image: "2-daltons-atomic-model",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is Dalton’s model still important?",
 options: ["It is fully correct", "It started atomic theory", "It replaced modern physics", "It explains electrons"],
@@ -11747,6 +13375,7 @@ explanation: "It laid the foundation for future atomic models."
 topic: "atomic",
 image: "3-thomsons-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What particle did J.J. Thomson discover?",
 options: ["Proton", "Electron", "Neutron", "Nucleus"],
@@ -11757,6 +13386,7 @@ explanation: "Thomson discovered electrons through cathode ray experiments, prov
 topic: "atomic",
 image: "3-thomsons-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "According to Thomson, the atom is:",
 options: ["Empty space", "A solid indivisible sphere", "A positively charged sphere with embedded electrons", "A nucleus with orbiting electrons"],
@@ -11767,6 +13397,7 @@ explanation: "Thomson’s “plum pudding model” describes the atom as a posit
 topic: "atomic",
 image: "3-thomsons-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Cathode rays are deflected by:",
 options: ["Gravity", "Electric and magnetic fields", "Heat", "Sound waves"],
@@ -11777,6 +13408,7 @@ explanation: "The deflection shows cathode rays carry charge, proving they are n
 topic: "atomic",
 image: "3-thomsons-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Electrons have:",
 options: ["Positive charge", "No charge", "Negative charge", "Variable charge"],
@@ -11786,7 +13418,8 @@ explanation: "Electrons are negatively charged, as shown by their movement in el
 {
 topic: "atomic",
 image: "3-thomsons-atomic-model",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is the atom neutral in Thomson’s model?",
 options: ["No charges exist", "Only positive charges exist", "Positive and negative charges cancel", "Electrons are neutral"],
@@ -11796,7 +13429,8 @@ explanation: "The positive sphere balances the negative electrons, making the at
 {
 topic: "atomic",
 image: "3-thomsons-atomic-model",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why did cathode rays travel in straight lines?",
 options: ["They are waves", "They are particles", "They are light", "They are neutral"],
@@ -11807,6 +13441,7 @@ explanation: "Particles travel in straight lines unless acted upon by a force, s
 topic: "atomic",
 image: "3-thomsons-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Cathode rays were found to be the same regardless of:",
 options: ["Temperature", "Pressure", "Type of metal used", "Size of tube"],
@@ -11816,7 +13451,8 @@ explanation: "This showed electrons are present in all atoms, not just specific 
 {
 topic: "atomic",
 image: "3-thomsons-atomic-model",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is Thomson’s model called the “plum pudding model”?",
 options: ["It looks like fruit", "Electrons are embedded like plums in pudding", "It was discovered in food", "It is spherical"],
@@ -11826,7 +13462,8 @@ explanation: "Electrons are scattered inside a positive sphere, like raisins in 
 {
 topic: "atomic",
 image: "3-thomsons-atomic-model",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why did Thomson’s model fail?",
 options: ["Could not explain electrons", "Could not explain nucleus", "Could not explain compounds", "Could not explain atoms"],
@@ -11836,7 +13473,8 @@ explanation: "Rutherford’s experiment showed a dense nucleus, which Thomson’
 {
 topic: "atomic",
 image: "3-thomsons-atomic-model",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is Thomson’s model still important?",
 options: ["It is fully correct", "It introduced subatomic particles", "It explains nucleus", "It explains quantum theory"],
@@ -11847,6 +13485,7 @@ explanation: "It was the first model to show atoms are divisible and contain ele
 topic: "atomic",
 image: "3-thomsons-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Where is most of the mass in Thomson’s model?",
 options: ["In electrons", "In nucleus", "Spread in positive sphere", "Outside atom"],
@@ -11856,7 +13495,8 @@ explanation: "Thomson assumed mass was distributed throughout the positively cha
 {
 topic: "atomic",
 image: "3-thomsons-atomic-model",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "How is Thomson’s model different from Dalton’s?",
 options: ["Atoms are indivisible", "Atoms have internal structure", "Atoms are empty", "Atoms have nucleus"],
@@ -11867,6 +13507,7 @@ explanation: "Dalton said atoms are indivisible; Thomson showed they contain ele
 topic: "atomic",
 image: "4-rutherfords-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Which experiment led Rutherford to propose his atomic model?",
 options: ["Cathode ray experiment", "Gold foil experiment", "Photoelectric effect", "Oil drop experiment"],
@@ -11877,6 +13518,7 @@ explanation: "Rutherford’s gold foil experiment provided evidence that atoms h
 topic: "atomic",
 image: "4-rutherfords-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What particle was used in the gold foil experiment?",
 options: ["Electrons", "Protons", "Alpha particles", "Neutrons"],
@@ -11887,6 +13529,7 @@ explanation: "Alpha particles (positively charged helium nuclei) were fired at t
 topic: "atomic",
 image: "4-rutherfords-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What happened to most alpha particles in the experiment?",
 options: ["Reflected back", "Absorbed", "Passed straight through", "Got stuck"],
@@ -11897,6 +13540,7 @@ explanation: "Most alpha particles passed through, showing that atoms are mostly
 topic: "atomic",
 image: "4-rutherfords-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A small number of alpha particles were:",
 options: ["Destroyed", "Deflected at large angles", "Turned into electrons", "Absorbed completely"],
@@ -11906,7 +13550,8 @@ explanation: "Some alpha particles were strongly deflected, indicating a concent
 {
 topic: "atomic",
 image: "4-rutherfords-atomic-model",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why did some alpha particles bounce back?",
 options: ["Due to empty space", "Due to collisions with electrons", "Due to a dense, positively charged nucleus", "Due to gravity"],
@@ -11917,6 +13562,7 @@ explanation: "The strong repulsion came from a tiny, dense, positively charged n
 topic: "atomic",
 image: "4-rutherfords-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Where is most of the mass of the atom located according to Rutherford?",
 options: ["In electrons", "In the nucleus", "In empty space", "Evenly spread"],
@@ -11926,7 +13572,8 @@ explanation: "The nucleus contains almost all the mass of the atom."
 {
 topic: "atomic",
 image: "4-rutherfords-atomic-model",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why did Rutherford conclude that atoms are mostly empty space?",
 options: ["Because particles slowed down", "Because most particles passed through", "Because particles disappeared", "Because particles changed charge"],
@@ -11937,6 +13584,7 @@ explanation: "Since most alpha particles passed through without deflection, the 
 topic: "atomic",
 image: "4-rutherfords-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What is the charge of the nucleus?",
 options: ["Negative", "Neutral", "Positive", "Variable"],
@@ -11946,7 +13594,8 @@ explanation: "The nucleus is positively charged, which repels alpha particles."
 {
 topic: "atomic",
 image: "4-rutherfords-atomic-model",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is Rutherford’s model unstable according to classical physics?",
 options: ["Electrons are too heavy", "Electrons should spiral into the nucleus", "Nucleus is too large", "No empty space"],
@@ -11956,7 +13605,8 @@ explanation: "Moving electrons should lose energy and collapse into the nucleus,
 {
 topic: "atomic",
 image: "4-rutherfords-atomic-model",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What was Rutherford’s biggest contribution?",
 options: ["Discovery of electrons", "Discovery of nucleus", "Discovery of neutrons", "Discovery of energy levels"],
@@ -11966,7 +13616,8 @@ explanation: "Rutherford discovered the nucleus, revolutionizing atomic theory."
 {
 topic: "atomic",
 image: "4-rutherfords-atomic-model",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "How did Rutherford’s model differ from Thomson’s?",
 options: ["No electrons", "Positive charge spread out", "Positive charge concentrated in nucleus", "No charge"],
@@ -11976,7 +13627,8 @@ explanation: "Thomson spread positive charge; Rutherford concentrated it in the 
 {
 topic: "atomic",
 image: "4-rutherfords-atomic-model",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If the nucleus were not dense, what would happen?",
 options: ["More deflections", "No deflections", "More reflections", "All particles stop"],
@@ -11987,6 +13639,7 @@ explanation: "Without a dense nucleus, alpha particles would not experience stro
 topic: "atomic",
 image: "5-bohrs-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Who proposed the quantized model of the atom?",
 options: ["Dalton", "Thomson", "Rutherford", "Bohr"],
@@ -11997,6 +13650,7 @@ explanation: "Niels Bohr proposed the atomic model with quantized energy levels 
 topic: "atomic",
 image: "5-bohrs-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electrons in Bohr’s model move in:",
 options: ["Random paths", "Fixed energy levels", "Straight lines", "Clouds only"],
@@ -12007,6 +13661,7 @@ explanation: "Bohr proposed that electrons exist in fixed energy levels (orbits)
 topic: "atomic",
 image: "5-bohrs-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What happens when an electron absorbs energy?",
 options: ["Moves closer to nucleus", "Moves to higher energy level", "Stops moving", "Gets destroyed"],
@@ -12017,6 +13672,7 @@ explanation: "Absorbing energy causes electrons to jump to higher energy levels.
 topic: "atomic",
 image: "5-bohrs-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What happens when an electron emits energy?",
 options: ["Moves outward", "Moves inward", "Disappears", "Splits"],
@@ -12026,7 +13682,8 @@ explanation: "When electrons emit energy, they fall to lower energy levels close
 {
 topic: "atomic",
 image: "5-bohrs-atomic-model",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do atoms produce line spectra?",
 options: ["Continuous energy", "Random transitions", "Quantized energy levels", "No energy change"],
@@ -12036,7 +13693,8 @@ explanation: "Electrons transition between fixed energy levels, emitting specifi
 {
 topic: "atomic",
 image: "5-bohrs-atomic-model",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which equation represents photon energy?",
 options: ["E = mc²", "ΔE = hv", "F = ma", "v = u + at"],
@@ -12046,7 +13704,8 @@ explanation: "Energy of emitted/absorbed photon depends on frequency (Planck’s
 {
 topic: "atomic",
 image: "5-bohrs-atomic-model",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do electrons not spiral into the nucleus in Bohr’s model?",
 options: ["No forces", "Fixed energy levels prevent energy loss", "Gravity balances", "Electrons are stationary"],
@@ -12056,7 +13715,8 @@ explanation: "Electrons in fixed orbits do not radiate energy → stable atom."
 {
 topic: "atomic",
 image: "5-bohrs-atomic-model",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why does Bohr’s model fail for multi-electron atoms?",
 options: ["Too many nuclei", "Electron interactions ignored", "No electrons", "No energy levels"],
@@ -12067,6 +13727,7 @@ explanation: "Bohr model cannot account for electron-electron interactions in co
 topic: "atomic",
 image: "5-bohrs-atomic-model",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Which level has the lowest energy?",
 options: ["n = 1", "n = 2", "n = 3", "n = 4"],
@@ -12076,7 +13737,8 @@ explanation: "Energy increases with distance from nucleus, so n=1 is lowest."
 {
 topic: "atomic",
 image: "5-bohrs-atomic-model",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What was Bohr’s major contribution?",
 options: ["Discovery of electrons", "Discovery of nucleus", "Quantization of energy levels", "Discovery of neutrons"],
@@ -12086,7 +13748,8 @@ explanation: "Bohr introduced quantized energy levels—key foundation for quant
 {
 topic: "atomic",
 image: "5-bohrs-atomic-model",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If an electron drops from n=3 to n=1, what happens?",
 options: ["Absorbs energy", "Emits energy", "No change", "Atom disappears"],
@@ -12096,7 +13759,8 @@ explanation: "Energy is released when moving to a lower energy level."
 {
 topic: "atomic",
 image: "5-bohrs-atomic-model",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "How is Bohr’s model better than Rutherford’s?",
 options: ["No nucleus", "Explains spectra", "No electrons", "No energy"],
@@ -12107,6 +13771,7 @@ explanation: "Bohr successfully explained hydrogen emission spectra."
 topic: "atomic",
 image: "6-structure-of-atom",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What is the smallest unit of matter?",
 options: ["Molecule", "Atom", "Cell", "Electron"],
@@ -12117,6 +13782,7 @@ explanation: "An atom is the smallest unit that retains chemical properties."
 topic: "atomic",
 image: "6-structure-of-atom",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Which particle has a positive charge?",
 options: ["Electron", "Neutron", "Proton", "Photon"],
@@ -12127,6 +13793,7 @@ explanation: "Protons carry a +1 charge and are located in the nucleus."
 topic: "atomic",
 image: "6-structure-of-atom",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Where are electrons found?",
 options: ["Nucleus", "Orbitals/shells", "Inside protons", "Outside atom"],
@@ -12137,6 +13804,7 @@ explanation: "Electrons occupy shells or orbitals around the nucleus."
 topic: "atomic",
 image: "6-structure-of-atom",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What is present in the nucleus?",
 options: ["Electrons only", "Protons and neutrons", "Only neutrons", "Only protons"],
@@ -12146,7 +13814,8 @@ explanation: "The nucleus contains protons and neutrons."
 {
 topic: "atomic",
 image: "6-structure-of-atom",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is most of the mass concentrated in the nucleus?",
 options: ["Electrons are heavy", "Protons and neutrons are massive", "Shells are dense", "Atom is solid"],
@@ -12156,7 +13825,8 @@ explanation: "Protons and neutrons have significant mass compared to electrons."
 {
 topic: "atomic",
 image: "6-structure-of-atom",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In a neutral atom, number of electrons equals:",
 options: ["Neutrons", "Protons", "Mass number", "Orbitals"],
@@ -12167,6 +13837,7 @@ explanation: "Neutral atom has equal positive and negative charges."
 topic: "atomic",
 image: "6-structure-of-atom",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What is the maximum number of electrons in first shell?",
 options: ["1", "2", "8", "18"],
@@ -12176,7 +13847,8 @@ explanation: "First shell (n=1) can hold maximum 2 electrons."
 {
 topic: "atomic",
 image: "6-structure-of-atom",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why are atoms mostly empty space?",
 options: ["Large electrons", "Tiny nucleus", "No particles", "Solid structure"],
@@ -12186,7 +13858,8 @@ explanation: "Nucleus is extremely small compared to atom size → mostly empty 
 {
 topic: "atomic",
 image: "6-structure-of-atom",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Carbon (Z=6) has how many electrons?",
 options: ["4", "6", "8", "12"],
@@ -12196,7 +13869,8 @@ explanation: "Atomic number equals number of protons and electrons."
 {
 topic: "atomic",
 image: "6-structure-of-atom",
-criterion: "C",
+criterion: "A",
+    strand: "ii",
 level: "medium",
 question: "Which particles determine chemical properties?",
 options: ["Protons", "Neutrons", "Electrons", "Nucleus"],
@@ -12207,6 +13881,7 @@ explanation: "Electrons (especially valence electrons) control chemical reaction
 topic: "atomic",
 image: "6-structure-of-atom",
 criterion: "A",
+    strand: "ii",
 level: "medium",
 question: "What determines the identity of an element?",
 options: ["Neutrons", "Electrons", "Protons", "Mass"],
@@ -12216,7 +13891,8 @@ explanation: "Atomic number (protons) defines the element."
 {
 topic: "atomic",
 image: "6-structure-of-atom",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "How did atomic models evolve?",
 options: ["Stayed same", "Became simpler", "Became more accurate with evidence", "Ignored experiments"],
@@ -12227,6 +13903,7 @@ explanation: "New experiments improved models from Dalton → Quantum."
 topic: "atomic",
 image: "7-isotopes",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What are isotopes?",
 options: ["Atoms of different elements", "Atoms with same protons but different neutrons", "Atoms with same mass", "Atoms without electrons"],
@@ -12237,6 +13914,7 @@ explanation: "Isotopes are atoms of the same element (same protons) but with dif
 topic: "atomic",
 image: "7-isotopes",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Atomic number represents:",
 options: ["Neutrons", "Protons", "Electrons + neutrons", "Mass"],
@@ -12247,6 +13925,7 @@ explanation: "Atomic number (Z) is the number of protons in an atom."
 topic: "atomic",
 image: "7-isotopes",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Mass number is:",
 options: ["Protons only", "Neutrons only", "Protons + neutrons", "Electrons only"],
@@ -12257,6 +13936,7 @@ explanation: "Mass number (A) = protons + neutrons."
 topic: "atomic",
 image: "7-isotopes",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which isotope of hydrogen has 1 proton and 2 neutrons?",
 options: ["Protium", "Deuterium", "Tritium", "Helium"],
@@ -12266,7 +13946,8 @@ explanation: "Tritium (³H) has 1 proton and 2 neutrons."
 {
 topic: "atomic",
 image: "7-isotopes",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do isotopes have similar chemical properties?",
 options: ["Same neutrons", "Same electrons", "Same protons only", "Same mass"],
@@ -12276,7 +13957,8 @@ explanation: "Chemical properties depend on electron arrangement, which is the s
 {
 topic: "atomic",
 image: "7-isotopes",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do isotopes have different masses?",
 options: ["Different electrons", "Different neutrons", "Different protons", "Different shells"],
@@ -12286,7 +13968,8 @@ explanation: "Mass changes due to different numbers of neutrons."
 {
 topic: "atomic",
 image: "7-isotopes",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Carbon-14 has how many neutrons? (Z = 6)",
 options: ["6", "8", "14", "10"],
@@ -12296,7 +13979,8 @@ explanation: "Neutrons = Mass number − atomic number = 14 − 6 = 8."
 {
 topic: "atomic",
 image: "7-isotopes",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which property differs in isotopes of the same element?",
 options: ["Chemical properties", "Proton number", "Neutron number", "Electron arrangement"],
@@ -12307,6 +13991,7 @@ explanation: "Isotopes differ in neutron number, not protons or electrons."
 topic: "atomic",
 image: "7-isotopes",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which isotope is used in radiocarbon dating?",
 options: ["Carbon-12", "Carbon-13", "Carbon-14", "Carbon-16"],
@@ -12317,6 +14002,7 @@ explanation: "Carbon-14 is radioactive and used to determine age of fossils."
 topic: "atomic",
 image: "7-isotopes",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which field uses isotopes in medicine?",
 options: ["Agriculture", "Diagnosis and treatment", "Construction", "Transportation"],
@@ -12326,7 +14012,8 @@ explanation: "Isotopes are used in scans and cancer treatments."
 {
 topic: "atomic",
 image: "7-isotopes",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why are isotopes of the same element classified as the same element?",
 options: ["Same neutrons", "Same mass", "Same proton number", "Same size"],
@@ -12336,7 +14023,8 @@ explanation: "Element identity depends only on number of protons."
 {
 topic: "atomic",
 image: "7-isotopes",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why do isotopes show slightly different physical properties?",
 options: ["Different electrons", "Different neutron mass", "Different charges", "Different shells"],
@@ -12347,6 +14035,7 @@ explanation: "Mass differences affect physical properties like density and diffu
 topic: "atomic",
 image: "8-radioactivity",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What is radioactivity?",
 options: ["Chemical reaction", "Emission from unstable nucleus", "Electron movement", "Heat transfer"],
@@ -12357,6 +14046,7 @@ explanation: "Radioactivity is the spontaneous emission of particles/energy from
 topic: "atomic",
 image: "8-radioactivity",
 criterion: "A",
+    strand: "iii",
 level: "easy",
 question: "Why do nuclei become unstable?",
 options: ["Too many electrons", "Imbalance of protons and neutrons", "Lack of energy", "Too small"],
@@ -12367,6 +14057,7 @@ explanation: "Instability occurs when proton-neutron ratio is unbalanced."
 topic: "atomic",
 image: "8-radioactivity",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Which radiation is a helium nucleus?",
 options: ["Alpha", "Beta", "Gamma", "Electron"],
@@ -12377,6 +14068,7 @@ explanation: "Alpha particles are helium nuclei (2 protons + 2 neutrons)."
 topic: "atomic",
 image: "8-radioactivity",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Beta radiation consists of:",
 options: ["Protons", "Neutrons", "Electrons", "Photons"],
@@ -12387,6 +14079,7 @@ explanation: "Beta particles are high-speed electrons emitted from nucleus."
 topic: "atomic",
 image: "8-radioactivity",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma radiation is:",
 options: ["Charged particle", "Electromagnetic wave", "Proton beam", "Neutron"],
@@ -12396,7 +14089,8 @@ explanation: "Gamma rays are high-energy electromagnetic waves."
 {
 topic: "atomic",
 image: "8-radioactivity",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is radioactive decay random?",
 options: ["Controlled externally", "Depends on temperature", "Cannot predict individual decay", "Follows pattern exactly"],
@@ -12406,7 +14100,8 @@ explanation: "Decay of a single nucleus cannot be predicted, only probabilities 
 {
 topic: "atomic",
 image: "8-radioactivity",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What happens during a decay chain?",
 options: ["Atom disappears", "Series of transformations", "No change", "Gains electrons"],
@@ -12416,7 +14111,8 @@ explanation: "Unstable nuclei decay step by step until stable."
 {
 topic: "atomic",
 image: "8-radioactivity",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why does decay occur?",
 options: ["To gain electrons", "To become stable", "To increase mass", "To cool down"],
@@ -12426,7 +14122,8 @@ explanation: "Decay helps nucleus reach a more stable configuration."
 {
 topic: "atomic",
 image: "8-radioactivity",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What happens to number of undecayed nuclei over time?",
 options: ["Increases", "Decreases", "Constant", "Fluctuates randomly"],
@@ -12436,7 +14133,8 @@ explanation: "Radioactive decay reduces number of nuclei over time."
 {
 topic: "atomic",
 image: "8-radioactivity",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which radiation has no mass and no charge?",
 options: ["Alpha", "Beta", "Gamma", "Proton"],
@@ -12446,7 +14144,8 @@ explanation: "Gamma rays are pure energy waves with no mass or charge."
 {
 topic: "atomic",
 image: "8-radioactivity",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why can we predict decay for large samples but not individual atoms?",
 options: ["Atoms interact", "Statistical behavior", "Same energy", "Fixed timing"],
@@ -12456,7 +14155,8 @@ explanation: "Large groups follow statistical laws, individual atoms behave rand
 {
 topic: "atomic",
 image: "8-radioactivity",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is radioactivity important?",
 options: ["Only harmful", "No use", "Used in medicine, energy, research", "Only in labs"],
@@ -12467,6 +14167,7 @@ explanation: "Radioactivity has major applications in medicine, power generation
 topic: "atomic",
 image: "9-alpha-beta-gamma",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Which radiation consists of a helium nucleus?",
 options: ["Alpha", "Beta", "Gamma", "Neutron"],
@@ -12477,6 +14178,7 @@ explanation: "Alpha particles contain 2 protons and 2 neutrons, forming a helium
 topic: "atomic",
 image: "9-alpha-beta-gamma",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Beta radiation consists of:",
 options: ["Photons", "Electrons", "Protons", "Neutrons"],
@@ -12487,6 +14189,7 @@ explanation: "Beta particles are high-speed electrons emitted from the nucleus."
 topic: "atomic",
 image: "9-alpha-beta-gamma",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Gamma radiation is best described as:",
 options: ["A proton", "A neutron", "An electromagnetic wave", "A nucleus"],
@@ -12497,6 +14200,7 @@ explanation: "Gamma rays are high-energy electromagnetic waves with no mass or c
 topic: "atomic",
 image: "9-alpha-beta-gamma",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which radiation has the highest penetrating power?",
 options: ["Alpha", "Beta", "Gamma", "All equal"],
@@ -12507,6 +14211,7 @@ explanation: "Gamma rays can pass through thick materials like lead and concrete
 topic: "atomic",
 image: "9-alpha-beta-gamma",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which radiation has the highest ionizing power?",
 options: ["Alpha", "Beta", "Gamma", "None"],
@@ -12517,6 +14222,7 @@ explanation: "Alpha particles strongly ionize matter because of their large mass
 topic: "atomic",
 image: "9-alpha-beta-gamma",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which radiation travels at the speed of light?",
 options: ["Alpha", "Beta", "Gamma", "Proton"],
@@ -12526,7 +14232,8 @@ explanation: "Gamma rays are electromagnetic waves and travel at the speed of li
 {
 topic: "atomic",
 image: "9-alpha-beta-gamma",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which material can stop alpha radiation?",
 options: ["Lead", "Paper", "Aluminum", "Concrete"],
@@ -12536,7 +14243,8 @@ explanation: "Alpha particles are easily stopped by paper or even skin."
 {
 topic: "atomic",
 image: "9-alpha-beta-gamma",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which material is most effective against gamma radiation?",
 options: ["Paper", "Plastic", "Aluminum", "Lead"],
@@ -12546,7 +14254,8 @@ explanation: "Dense materials like lead are required to block gamma radiation."
 {
 topic: "atomic",
 image: "9-alpha-beta-gamma",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which radiation has no charge?",
 options: ["Alpha", "Beta", "Gamma", "All"],
@@ -12556,7 +14265,8 @@ explanation: "Gamma radiation has no charge, while alpha (+2) and beta (-1) are 
 {
 topic: "atomic",
 image: "9-alpha-beta-gamma",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Beta radiation originates from:",
 options: ["Electron shells", "Nuclear transformation", "Chemical reaction", "External source"],
@@ -12566,7 +14276,8 @@ explanation: "Beta particles are produced when neutrons convert into protons (or
 {
 topic: "atomic",
 image: "9-alpha-beta-gamma",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is alpha radiation less penetrating?",
 options: ["No charge", "Low mass", "Large size and charge", "High speed"],
@@ -12576,7 +14287,8 @@ explanation: "Alpha particles are large and highly charged, so they lose energy 
 {
 topic: "atomic",
 image: "9-alpha-beta-gamma",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which radiation is most dangerous inside the body?",
 options: ["Alpha", "Beta", "Gamma", "All equal"],
@@ -12587,6 +14299,7 @@ explanation: "Alpha radiation causes severe damage if ingested because of high i
 topic: "atomic",
 image: "10-1-alpha-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What is emitted during alpha decay?",
 options: ["Electron", "Proton", "Helium nucleus", "Photon"],
@@ -12597,6 +14310,7 @@ explanation: "Alpha decay emits a helium nucleus (2 protons + 2 neutrons)."
 topic: "atomic",
 image: "10-1-alpha-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What is the charge of an alpha particle?",
 options: ["+2", "-1", "0", "+1"],
@@ -12607,6 +14321,7 @@ explanation: "Alpha particles carry a +2 charge due to 2 protons."
 topic: "atomic",
 image: "10-1-alpha-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What is the approximate mass of an alpha particle?",
 options: ["1 amu", "2 amu", "4 amu", "0 amu"],
@@ -12616,7 +14331,8 @@ explanation: "Alpha particles have a mass of about 4 atomic mass units."
 {
 topic: "atomic",
 image: "10-1-alpha-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In alpha decay, atomic number changes by:",
 options: ["+2", "-2", "+4", "0"],
@@ -12626,7 +14342,8 @@ explanation: "Two protons are lost, so atomic number decreases by 2."
 {
 topic: "atomic",
 image: "10-1-alpha-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Mass number decreases by:",
 options: ["2", "1", "4", "0"],
@@ -12636,7 +14353,8 @@ explanation: "Alpha particle removes 2 protons + 2 neutrons → total 4."
 {
 topic: "atomic",
 image: "10-1-alpha-decay",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why does alpha decay occur?",
 options: ["To gain electrons", "To become stable", "To increase mass", "To emit light"],
@@ -12647,6 +14365,7 @@ explanation: "Unstable nuclei emit alpha particles to reach stability."
 topic: "atomic",
 image: "10-1-alpha-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Alpha particles are stopped by:",
 options: ["Lead", "Concrete", "Paper", "Steel"],
@@ -12657,6 +14376,7 @@ explanation: "Alpha particles have very low penetration and are blocked easily."
 topic: "atomic",
 image: "10-1-alpha-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Alpha particles have:",
 options: ["Low ionization", "Medium ionization", "High ionization", "No ionization"],
@@ -12667,6 +14387,7 @@ explanation: "They strongly ionize atoms due to large charge and mass."
 topic: "atomic",
 image: "10-1-alpha-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which device uses alpha radiation?",
 options: ["X-ray machine", "Smoke detector", "MRI scanner", "Battery"],
@@ -12676,7 +14397,8 @@ explanation: "Smoke detectors use alpha emitters like Americium-241."
 {
 topic: "atomic",
 image: "10-1-alpha-decay",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do alpha particles travel only short distances?",
 options: ["No charge", "High speed", "High ionization causes energy loss", "No mass"],
@@ -12686,7 +14408,8 @@ explanation: "They lose energy quickly by ionizing atoms along their path."
 {
 topic: "atomic",
 image: "10-1-alpha-decay",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "After alpha decay, the element:",
 options: ["Remains same", "Gains electrons", "Changes to new element", "Becomes neutral"],
@@ -12696,7 +14419,8 @@ explanation: "Loss of protons changes atomic number → new element formed."
 {
 topic: "atomic",
 image: "10-1-alpha-decay",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is alpha radiation useful in smoke detectors?",
 options: ["High penetration", "No ionization", "Safe outside but detectable", "Emits light"],
@@ -12707,6 +14431,7 @@ explanation: "Alpha radiation is easily contained but effective for detecting sm
 topic: "atomic",
 image: "10-2-alpha-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "In alpha decay, what particle is emitted?",
 options: ["Electron", "Photon", "Helium nucleus", "Neutrino"],
@@ -12717,6 +14442,7 @@ explanation: "Alpha decay emits a helium nucleus (2 protons + 2 neutrons)."
 topic: "atomic",
 image: "10-2-alpha-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What happens to the atomic number during alpha decay?",
 options: ["Increases by 2", "Decreases by 2", "Remains same", "Increases by 1"],
@@ -12727,6 +14453,7 @@ explanation: "The atom loses 2 protons, so atomic number decreases by 2."
 topic: "atomic",
 image: "10-2-alpha-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Mass number changes by:",
 options: ["+2", "-1", "-4", "0"],
@@ -12736,7 +14463,8 @@ explanation: "The emission of 2 protons and 2 neutrons reduces mass by 4."
 {
 topic: "atomic",
 image: "10-2-alpha-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Uranium-238 decays into Thorium-234. What is emitted?",
 options: ["Beta particle", "Gamma ray", "Alpha particle", "Neutron"],
@@ -12746,7 +14474,8 @@ explanation: "This is a classic alpha decay reaction: 238U → 234Th + α"
 {
 topic: "atomic",
 image: "10-2-alpha-decay",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why do heavy nuclei undergo alpha decay?",
 options: ["To increase energy", "To gain electrons", "To become more stable", "To emit light"],
@@ -12757,6 +14486,7 @@ explanation: "Heavy nuclei are unstable and emit alpha particles to reduce size 
 topic: "atomic",
 image: "10-2-alpha-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Alpha particles have:",
 options: ["No ionization", "Low ionization", "Moderate ionization", "Very high ionization"],
@@ -12767,6 +14497,7 @@ explanation: "Due to large charge and mass, alpha particles ionize strongly."
 topic: "atomic",
 image: "10-2-alpha-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Alpha particles are stopped by:",
 options: ["Aluminum", "Paper", "Lead", "Glass"],
@@ -12776,7 +14507,8 @@ explanation: "They have very low penetration and can be stopped easily."
 {
 topic: "atomic",
 image: "10-2-alpha-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What happens first in alpha decay?",
 options: ["Electron emission", "Strong force overcomes instability", "Proton absorption", "Photon emission"],
@@ -12786,7 +14518,8 @@ explanation: "The strong nuclear force causes the nucleus to eject an alpha part
 {
 topic: "atomic",
 image: "10-2-alpha-decay",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why does alpha decay reduce nuclear size?",
 options: ["Loss of electrons", "Loss of neutrons only", "Loss of 2 protons and 2 neutrons", "Gain of energy"],
@@ -12797,6 +14530,7 @@ explanation: "The nucleus loses 4 nucleons, reducing its size."
 topic: "atomic",
 image: "10-2-alpha-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Alpha decay is used in:",
 options: ["Wireless communication", "Nuclear power plants", "Smoke detectors", "Solar panels"],
@@ -12806,7 +14540,8 @@ explanation: "Alpha emitters like Americium are used in smoke detectors."
 {
 topic: "atomic",
 image: "10-2-alpha-decay",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is alpha radiation dangerous inside the body?",
 options: ["High penetration", "Low ionization", "High ionization damage", "No energy"],
@@ -12816,7 +14551,8 @@ explanation: "Alpha particles cause intense damage if inside the body due to str
 {
 topic: "atomic",
 image: "10-2-alpha-decay",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why does alpha decay release energy?",
 options: ["Chemical reaction", "Nuclear rearrangement", "Electron loss", "Heat transfer"],
@@ -12827,6 +14563,7 @@ explanation: "Energy is released due to nuclear instability and rearrangement."
 topic: "atomic",
 image: "11-beta-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What is emitted in β⁻ decay?",
 options: ["Proton", "Electron", "Alpha particle", "Photon"],
@@ -12837,6 +14574,7 @@ explanation: "β⁻ decay emits an electron from the nucleus."
 topic: "atomic",
 image: "11-beta-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What is emitted in β⁺ decay?",
 options: ["Electron", "Proton", "Positron", "Neutron"],
@@ -12847,6 +14585,7 @@ explanation: "β⁺ decay emits a positron (positive electron)."
 topic: "atomic",
 image: "11-beta-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "In β⁻ decay, what happens?",
 options: ["Proton → neutron", "Neutron → proton", "Electron → proton", "Proton → electron"],
@@ -12857,6 +14596,7 @@ explanation: "A neutron converts into a proton, emitting an electron."
 topic: "atomic",
 image: "11-beta-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "In β⁺ decay:",
 options: ["Neutron → proton", "Proton → neutron", "Electron → proton", "Photon → electron"],
@@ -12866,7 +14606,8 @@ explanation: "A proton converts into a neutron, emitting a positron."
 {
 topic: "atomic",
 image: "11-beta-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In β⁻ decay, atomic number:",
 options: ["Decreases by 1", "Increases by 1", "Remains same", "Increases by 2"],
@@ -12876,7 +14617,8 @@ explanation: "Neutron → proton increases atomic number by 1."
 {
 topic: "atomic",
 image: "11-beta-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In β⁺ decay, atomic number:",
 options: ["Increases by 1", "Decreases by 1", "Remains same", "Doubles"],
@@ -12887,6 +14629,7 @@ explanation: "Proton → neutron reduces atomic number by 1."
 topic: "atomic",
 image: "11-beta-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Mass number in beta decay:",
 options: ["Increases", "Decreases", "Remains same", "Doubles"],
@@ -12897,6 +14640,7 @@ explanation: "No nucleons are lost; only type changes."
 topic: "atomic",
 image: "11-beta-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Beta radiation is stopped by:",
 options: ["Paper", "Plastic or aluminum", "Lead", "Air"],
@@ -12907,6 +14651,7 @@ explanation: "Beta particles penetrate more than alpha but are stopped by thin m
 topic: "atomic",
 image: "11-beta-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Beta particles have:",
 options: ["High ionization", "Moderate ionization", "No ionization", "Extremely high ionization"],
@@ -12916,7 +14661,8 @@ explanation: "Beta particles have moderate ionizing ability."
 {
 topic: "atomic",
 image: "11-beta-decay",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is beta decay important?",
 options: ["Produces light", "Changes element identity", "Increases mass", "Stops reactions"],
@@ -12927,6 +14673,7 @@ explanation: "Change in proton number creates a new element."
 topic: "atomic",
 image: "11-beta-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Beta decay is used in:",
 options: ["X-rays", "PET scans", "Microscopes", "Batteries"],
@@ -12936,7 +14683,8 @@ explanation: "Positron emission (β⁺) is used in PET scans."
 {
 topic: "atomic",
 image: "11-beta-decay",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why are neutrinos important in beta decay?",
 options: ["Carry charge", "Carry mass", "Carry energy away", "Stop decay"],
@@ -12947,6 +14695,7 @@ explanation: "Neutrinos carry away energy and ensure conservation laws are satis
 topic: "atomic",
 image: "12-gamma-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What is emitted during gamma decay?",
 options: ["Proton", "Electron", "Photon", "Neutron"],
@@ -12957,6 +14706,7 @@ explanation: "Gamma decay emits a high-energy photon (gamma ray), not particles.
 topic: "atomic",
 image: "12-gamma-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "During gamma decay, what happens to atomic number?",
 options: ["Increases", "Decreases", "Doubles", "Remains same"],
@@ -12967,6 +14717,7 @@ explanation: "Gamma decay only releases energy—no change in atomic number."
 topic: "atomic",
 image: "12-gamma-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Mass number in gamma decay:",
 options: ["Increases", "Decreases", "Remains same", "Becomes zero"],
@@ -12976,7 +14727,8 @@ explanation: "No particles are emitted, so mass number remains unchanged."
 {
 topic: "atomic",
 image: "12-gamma-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma decay occurs when a nucleus:",
 options: ["Gains protons", "Becomes unstable chemically", "Is in an excited state", "Loses electrons"],
@@ -12987,6 +14739,7 @@ explanation: "Gamma emission happens when a nucleus drops from a high-energy (ex
 topic: "atomic",
 image: "12-gamma-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma rays have:",
 options: ["Mass and charge", "Mass but no charge", "Charge but no mass", "No mass and no charge"],
@@ -12997,6 +14750,7 @@ explanation: "Gamma rays are electromagnetic waves with no mass or charge."
 topic: "atomic",
 image: "12-gamma-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma rays travel at:",
 options: ["Speed of sound", "Speed of electrons", "Speed of light", "Half the speed of light"],
@@ -13007,6 +14761,7 @@ explanation: "They are electromagnetic waves, so they travel at the speed of lig
 topic: "atomic",
 image: "12-gamma-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma rays are stopped by:",
 options: ["Paper", "Plastic", "Thick lead or concrete", "Air"],
@@ -13017,6 +14772,7 @@ explanation: "Due to very high penetration, dense materials are needed."
 topic: "atomic",
 image: "12-gamma-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma radiation has:",
 options: ["Very high ionization", "Moderate ionization", "Very low ionization", "No ionization"],
@@ -13026,7 +14782,8 @@ explanation: "Gamma rays ionize weakly compared to alpha and beta."
 {
 topic: "atomic",
 image: "12-gamma-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma rays are often emitted:",
 options: ["Before alpha decay", "After alpha or beta decay", "During chemical reactions", "Only in stars"],
@@ -13036,7 +14793,8 @@ explanation: "They are commonly released after other decays when the nucleus de-
 {
 topic: "atomic",
 image: "12-gamma-decay",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why does gamma decay not change element identity?",
 options: ["No electrons lost", "Only energy is released", "Mass increases", "Protons change"],
@@ -13047,6 +14805,7 @@ explanation: "Since only energy is emitted, proton number remains unchanged."
 topic: "atomic",
 image: "12-gamma-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma rays are used in:",
 options: ["Cooking", "Sterilization", "Cooling systems", "Batteries"],
@@ -13056,7 +14815,8 @@ explanation: "Gamma rays kill bacteria and are used for sterilization."
 {
 topic: "atomic",
 image: "12-gamma-decay",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why are gamma rays dangerous?",
 options: ["They heat objects", "They slow down atoms", "They penetrate deeply into tissues", "They reflect easily"],
@@ -13067,6 +14827,7 @@ explanation: "Their high penetration allows them to damage internal organs."
 topic: "atomic",
 image: "13-half-life",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Half-life is defined as:",
 options: ["Time for all nuclei to decay", "Time for half the nuclei to decay", "Time for one nucleus to decay", "Time for energy to release"],
@@ -13077,6 +14838,7 @@ explanation: "Half-life is the time taken for half of the radioactive nuclei to 
 topic: "atomic",
 image: "13-half-life",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "After 1 half-life, remaining nuclei:",
 options: ["100%", "75%", "50%", "25%"],
@@ -13087,6 +14849,7 @@ explanation: "Half of the nuclei remain after one half-life."
 topic: "atomic",
 image: "13-half-life",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "After 2 half-lives, remaining nuclei:",
 options: ["1/2", "1/3", "1/4", "1/8"],
@@ -13096,7 +14859,8 @@ explanation: "After two half-lives: (1/2)² = 1/4 remains."
 {
 topic: "atomic",
 image: "13-half-life",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radioactive decay follows:",
 options: ["Linear law", "Circular law", "Exponential law", "Constant law"],
@@ -13107,6 +14871,7 @@ explanation: "Decay is exponential in nature."
 topic: "atomic",
 image: "13-half-life",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Decay of nuclei is:",
 options: ["Deterministic", "Random", "Periodic", "Fixed"],
@@ -13116,7 +14881,8 @@ explanation: "Decay is random but follows statistical patterns."
 {
 topic: "atomic",
 image: "13-half-life",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "The decay curve is:",
 options: ["Straight line", "Upward curve", "Exponential decrease", "Constant"],
@@ -13127,6 +14893,7 @@ explanation: "The number of nuclei decreases exponentially over time."
 topic: "atomic",
 image: "13-half-life",
 criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Half-life depends on:",
 options: ["Temperature", "Pressure", "Chemical state", "Nature of isotope"],
@@ -13136,7 +14903,8 @@ explanation: "Half-life is a fixed property of each isotope."
 {
 topic: "atomic",
 image: "13-half-life",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Activity decreases because:",
 options: ["Energy increases", "Nuclei decrease", "Mass increases", "Temperature rises"],
@@ -13147,6 +14915,7 @@ explanation: "Fewer nuclei remain to decay."
 topic: "atomic",
 image: "13-half-life",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which formula represents decay?",
 options: ["N = N₀(2ⁿ)", "N = N₀ + t", "N = N₀(1/2)ⁿ", "N = N₀/t"],
@@ -13157,6 +14926,7 @@ explanation: "This is the standard decay equation."
 topic: "atomic",
 image: "13-half-life",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Half-life is used in:",
 options: ["Cooking", "Carbon dating", "Lighting", "Heating"],
@@ -13166,7 +14936,8 @@ explanation: "Carbon-14 dating uses half-life to determine age."
 {
 topic: "atomic",
 image: "13-half-life",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why does decay never reach zero?",
 options: ["Energy stops", "Some nuclei always remain", "Mass increases", "Atoms regenerate"],
@@ -13176,7 +14947,8 @@ explanation: "Decay is exponential—approaches zero but never fully reaches it.
 {
 topic: "atomic",
 image: "13-half-life",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is half-life important in medicine?",
 options: ["Determines color", "Controls radiation exposure time", "Increases temperature", "Changes mass"],
@@ -13187,6 +14959,7 @@ explanation: "Doctors use half-life to control dosage and safety."
 topic: "atomic",
 image: "14-half-life-calculations",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What does N₀ represent in decay equations?",
 options: ["Final number of nuclei", "Initial number of nuclei", "Half-life", "Time elapsed"],
@@ -13197,6 +14970,7 @@ explanation: "N₀ is the starting number of radioactive nuclei before decay beg
 topic: "atomic",
 image: "14-half-life-calculations",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Which is the correct decay formula?",
 options: ["N = N₀(2)ⁿ", "N = N₀(n/2)", "N = N₀(1/2)ⁿ", "N = N₀ × n"],
@@ -13207,6 +14981,7 @@ explanation: "The number of nuclei decreases exponentially using (1/2)ⁿ."
 topic: "atomic",
 image: "14-half-life-calculations",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: 'What does "n" represent?',
 options: ["Number of atoms", "Number of half-lives", "Time in seconds", "Energy level"],
@@ -13216,7 +14991,8 @@ explanation: "n is the number of half-lives that have passed."
 {
 topic: "atomic",
 image: "14-half-life-calculations",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "After 3 half-lives, what fraction remains?",
 options: ["1/2", "1/4", "1/6", "1/8"],
@@ -13226,7 +15002,8 @@ explanation: "(1/2)³ = 1/8 remains."
 {
 topic: "atomic",
 image: "14-half-life-calculations",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If t = 9 hours and half-life = 3 hours, n = ?",
 options: ["2", "3", "4", "6"],
@@ -13236,7 +15013,8 @@ explanation: "n = t / t₁/₂ = 9 / 3 = 3."
 {
 topic: "atomic",
 image: "14-half-life-calculations",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If N₀ = 800 and n = 2, N = ?",
 options: ["400", "200", "100", "50"],
@@ -13247,6 +15025,7 @@ explanation: "N = 800 × (1/2)² = 800 × 1/4 = 200."
 topic: "atomic",
 image: "14-half-life-calculations",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Half-life is:",
 options: ["Variable", "Constant for an isotope", "Increasing", "Random value"],
@@ -13256,7 +15035,8 @@ explanation: "Each radioactive isotope has a fixed half-life."
 {
 topic: "atomic",
 image: "14-half-life-calculations",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Time must be expressed in:",
 options: ["Different units", "Random units", "Same units as half-life", "Energy units"],
@@ -13267,6 +15047,7 @@ explanation: "Consistency of units is necessary for correct calculations."
 topic: "atomic",
 image: "14-half-life-calculations",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Decay graph shape is:",
 options: ["Linear", "Circular", "Exponential", "Zigzag"],
@@ -13276,7 +15057,8 @@ explanation: "Radioactive decay follows an exponential curve."
 {
 topic: "atomic",
 image: "14-half-life-calculations",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why do we convert time into half-lives?",
 options: ["To simplify calculations", "To increase energy", "To change atoms", "To reduce mass"],
@@ -13286,7 +15068,8 @@ explanation: "Using number of half-lives makes calculations easier and standardi
 {
 topic: "atomic",
 image: "14-half-life-calculations",
-criterion: "D",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is exponential decay important?",
 options: ["It increases atoms", "It predicts decay behavior", "It creates energy", "It stops decay"],
@@ -13296,7 +15079,8 @@ explanation: "It helps predict how much radioactive material remains over time."
 {
 topic: "atomic",
 image: "14-half-life-calculations",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If N₀ = 6400 and n = 3, N = ?",
 options: ["3200", "1600", "800", "400"],
@@ -13307,6 +15091,7 @@ explanation: "6400 × (1/2)³ = 6400 × 1/8 = 800."
 topic: "atomic",
 image: "15-uses-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radiation is used in medicine for:",
 options: ["Cooking", "Cancer treatment", "Cooling", "Painting"],
@@ -13317,6 +15102,7 @@ explanation: "Radiation therapy is used to destroy cancer cells."
 topic: "atomic",
 image: "15-uses-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "X-rays are used for:",
 options: ["Farming", "Imaging bones", "Heating metals", "Cooling systems"],
@@ -13327,6 +15113,7 @@ explanation: "X-rays help visualize bones and internal structures."
 topic: "atomic",
 image: "15-uses-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radiation in industry is used for:",
 options: ["Music", "Welding", "Detecting defects", "Lighting"],
@@ -13337,6 +15124,7 @@ explanation: "Gamma rays detect flaws in materials."
 topic: "atomic",
 image: "15-uses-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radiation helps crops by:",
 options: ["Heating soil", "Mutation breeding", "Cooling plants", "Removing sunlight"],
@@ -13347,6 +15135,7 @@ explanation: "Radiation induces useful mutations in crops."
 topic: "atomic",
 image: "15-uses-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Food irradiation is used to:",
 options: ["Add flavor", "Kill bacteria", "Freeze food", "Color food"],
@@ -13357,6 +15146,7 @@ explanation: "Radiation kills harmful microorganisms."
 topic: "atomic",
 image: "15-uses-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Nuclear power plants produce:",
 options: ["Sound", "Heat only", "Electricity", "Light only"],
@@ -13367,6 +15157,7 @@ explanation: "Nuclear reactions generate electricity."
 topic: "atomic",
 image: "15-uses-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "RTGs are used in:",
 options: ["Cars", "Space missions", "Homes", "Schools"],
@@ -13376,7 +15167,8 @@ explanation: "Radioisotope generators power spacecraft."
 {
 topic: "atomic",
 image: "15-uses-of-radiation",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radiation helps environmental studies by:",
 options: ["Heating oceans", "Tracking pollution", "Changing climate", "Cooling air"],
@@ -13386,7 +15178,8 @@ explanation: "Isotopes are used as tracers to track environmental changes."
 {
 topic: "atomic",
 image: "15-uses-of-radiation",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why is radiation useful despite risks?",
 options: ["It is free", "It is colorful", "It has many applications", "It is always safe"],
@@ -13396,7 +15189,8 @@ explanation: "Controlled use provides benefits in medicine, industry, and resear
 {
 topic: "atomic",
 image: "15-uses-of-radiation",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why must radiation be controlled?",
 options: ["It reduces light", "It damages materials", "It can harm living tissues", "It increases temperature"],
@@ -13406,7 +15200,8 @@ explanation: "Excess radiation can damage cells and cause diseases."
 {
 topic: "atomic",
 image: "15-uses-of-radiation",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Which is the most beneficial use?",
 options: ["Decoration", "Imaging and treatment", "Lighting", "Cooling"],
@@ -13416,7 +15211,8 @@ explanation: "Medical applications have the highest societal benefit."
 {
 topic: "atomic",
 image: "15-uses-of-radiation",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best conclusion about radiation:",
 options: ["Always harmful", "Always safe", "Useless", "Useful but must be controlled"],
@@ -13427,6 +15223,7 @@ explanation: "Radiation has great benefits but requires careful handling."
 topic: "atomic",
 image: "16-dangers-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What type of radiation can damage DNA?",
 options: ["Non-ionizing radiation", "Ionizing radiation", "Sound waves", "Heat energy"],
@@ -13437,6 +15234,7 @@ explanation: "Ionizing radiation has enough energy to remove electrons and damag
 topic: "atomic",
 image: "16-dangers-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Direct radiation damage causes:",
 options: ["Heating", "DNA strand breaks", "Sound production", "Color change"],
@@ -13447,6 +15245,7 @@ explanation: "Direct interaction of radiation breaks DNA strands, leading to mut
 topic: "atomic",
 image: "16-dangers-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Indirect damage is caused by:",
 options: ["Light reflection", "Water ionization", "Sound waves", "Pressure"],
@@ -13456,7 +15255,8 @@ explanation: "Radiation ionizes water, producing free radicals that damage DNA."
 {
 topic: "atomic",
 image: "16-dangers-of-radiation",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Risk increases with:",
 options: ["Lower exposure", "Shorter time", "Greater distance", "Longer exposure"],
@@ -13467,6 +15267,7 @@ explanation: "The longer the exposure duration, the greater the radiation dose."
 topic: "atomic",
 image: "16-dangers-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radiation entering the body through inhalation is:",
 options: ["External exposure", "Internal exposure", "Surface exposure", "Thermal exposure"],
@@ -13477,6 +15278,7 @@ explanation: "Internal exposure occurs when radioactive material enters the body
 topic: "atomic",
 image: "16-dangers-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Alpha radiation is stopped by:",
 options: ["Lead", "Concrete", "Paper", "Aluminum"],
@@ -13487,6 +15289,7 @@ explanation: "Alpha particles have very low penetration and can be stopped by pa
 topic: "atomic",
 image: "16-dangers-of-radiation",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which reduces radiation risk?",
 options: ["Increasing time", "Reducing distance", "Using shielding", "Removing protection"],
@@ -13496,7 +15299,8 @@ explanation: "Shielding blocks or reduces radiation exposure."
 {
 topic: "atomic",
 image: "16-dangers-of-radiation",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which organ system can be affected by radiation?",
 options: ["Only bones", "Only skin", "Only brain", "Multiple systems"],
@@ -13506,7 +15310,8 @@ explanation: "Radiation can affect multiple organs including brain, lungs, and b
 {
 topic: "atomic",
 image: "16-dangers-of-radiation",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "High radiation dose can cause:",
 options: ["Cooling", "Increased strength", "Radiation sickness", "Improved immunity"],
@@ -13516,7 +15321,8 @@ explanation: "High doses damage tissues and can cause radiation sickness or deat
 {
 topic: "atomic",
 image: "16-dangers-of-radiation",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is shielding important?",
 options: ["It increases energy", "It blocks radiation", "It creates radiation", "It increases exposure"],
@@ -13526,7 +15332,8 @@ explanation: "Shielding materials absorb or block radiation, reducing exposure."
 {
 topic: "atomic",
 image: "16-dangers-of-radiation",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best safety strategy is:",
 options: ["Ignore radiation", "Increase exposure", "Combine time, distance, shielding", "Stay close to source"],
@@ -13536,7 +15343,8 @@ explanation: "The three golden rules ensure maximum protection."
 {
 topic: "atomic",
 image: "16-dangers-of-radiation",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Radiation is:",
 options: ["Always harmful", "Always safe", "Useless", "Useful but risky"],
@@ -13547,6 +15355,7 @@ explanation: "Radiation has benefits but must be handled carefully."
 topic: "atomic",
 image: "17-dangers-of-radiation-2",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radiation damages the body by:",
 options: ["Cooling cells", "Ionizing atoms", "Adding electrons", "Increasing pressure"],
@@ -13557,6 +15366,7 @@ explanation: "Ionization disrupts atoms and molecules in cells."
 topic: "atomic",
 image: "17-dangers-of-radiation-2",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Damaged DNA leads to:",
 options: ["Growth only", "Mutations", "Cooling", "Stability"],
@@ -13567,6 +15377,7 @@ explanation: "DNA damage can cause mutations and abnormal cell behavior."
 topic: "atomic",
 image: "17-dangers-of-radiation-2",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which is an acute effect?",
 options: ["Cancer", "Skin burns", "Aging", "Cataracts"],
@@ -13577,6 +15388,7 @@ explanation: "Acute effects occur quickly, like burns or nausea."
 topic: "atomic",
 image: "17-dangers-of-radiation-2",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which is a chronic effect?",
 options: ["Vomiting", "Burns", "Cancer", "Fatigue"],
@@ -13587,6 +15399,7 @@ explanation: "Chronic effects develop over long periods."
 topic: "atomic",
 image: "17-dangers-of-radiation-2",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Natural radiation source:",
 options: ["X-ray", "Radon gas", "CT scan", "Nuclear reactor"],
@@ -13596,7 +15409,8 @@ explanation: "Radon gas is a natural radioactive source."
 {
 topic: "atomic",
 image: "17-dangers-of-radiation-2",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Repeated exposure leads to:",
 options: ["Reduced risk", "No change", "Increased cumulative risk", "Instant healing"],
@@ -13607,6 +15421,7 @@ explanation: "Radiation effects build up over time."
 topic: "atomic",
 image: "17-dangers-of-radiation-2",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Lead is used to stop:",
 options: ["Alpha", "Beta", "Gamma", "Sound"],
@@ -13616,7 +15431,8 @@ explanation: "Gamma radiation requires dense shielding like lead."
 {
 topic: "atomic",
 image: "17-dangers-of-radiation-2",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Higher dose results in:",
 options: ["Lower risk", "No effect", "Higher risk", "Less energy"],
@@ -13626,7 +15442,8 @@ explanation: "Risk increases with radiation dose."
 {
 topic: "atomic",
 image: "17-dangers-of-radiation-2",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why increase distance from source?",
 options: ["To increase radiation", "To reduce exposure", "To heat body", "To block light"],
@@ -13636,7 +15453,8 @@ explanation: "Radiation intensity decreases with distance."
 {
 topic: "atomic",
 image: "17-dangers-of-radiation-2",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why use dosimeters?",
 options: ["To produce radiation", "To measure exposure", "To block radiation", "To increase energy"],
@@ -13646,7 +15464,8 @@ explanation: "Dosimeters track how much radiation a person receives."
 {
 topic: "atomic",
 image: "17-dangers-of-radiation-2",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best conclusion:",
 options: ["Radiation is harmless", "Radiation is always deadly", "Radiation is controllable risk", "Radiation is useless"],
@@ -13656,7 +15475,8 @@ explanation: "Proper precautions make radiation safe to use."
 {
 topic: "atomic",
 image: "17-dangers-of-radiation-2",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Most important factor:",
 options: ["Ignoring safety", "Knowledge and caution", "Speed", "Size"],
@@ -13667,6 +15487,7 @@ explanation: "Understanding radiation ensures safe usage."
 topic: "atomic",
 image: "18-why-atoms-become-unstable",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Atoms become unstable when:",
 options: ["Forces are balanced", "Forces are equal", "Forces are disturbed", "Forces disappear"],
@@ -13677,6 +15498,7 @@ explanation: "Instability occurs when the balance between nuclear and repulsive 
 topic: "atomic",
 image: "18-why-atoms-become-unstable",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Which force holds the nucleus together?",
 options: ["Gravitational force", "Strong nuclear force", "Magnetic force", "Friction"],
@@ -13687,6 +15509,7 @@ explanation: "The strong nuclear force binds protons and neutrons in the nucleus
 topic: "atomic",
 image: "18-why-atoms-become-unstable",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "What causes repulsion inside the nucleus?",
 options: ["Neutrons", "Protons", "Electrons", "Photons"],
@@ -13696,7 +15519,8 @@ explanation: "Protons repel each other due to positive charge (electrostatic rep
 {
 topic: "atomic",
 image: "18-why-atoms-become-unstable",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Neutrons help stability by:",
 options: ["Increasing repulsion", "Reducing nuclear force", "Adding attraction without repulsion", "Removing protons"],
@@ -13707,6 +15531,7 @@ explanation: "Neutrons contribute to strong force without adding electrostatic r
 topic: "atomic",
 image: "18-why-atoms-become-unstable",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which causes instability?",
 options: ["Balanced neutrons", "Too many protons", "Low energy", "Small nucleus"],
@@ -13716,7 +15541,8 @@ explanation: "Too many protons increase repulsive forces, making nucleus unstabl
 {
 topic: "atomic",
 image: "18-why-atoms-become-unstable",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Instability occurs when:",
 options: ["N/Z ratio is optimal", "N/Z ratio is balanced", "N/Z ratio is imbalanced", "N/Z ratio is zero"],
@@ -13727,6 +15553,7 @@ explanation: "An improper neutron-to-proton ratio leads to instability."
 topic: "atomic",
 image: "18-why-atoms-become-unstable",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Large nuclei are unstable because:",
 options: ["Weak gravity", "Weak nuclear force over distance", "Too few electrons", "Too cold"],
@@ -13736,7 +15563,8 @@ explanation: "Strong force acts over short range, so large nuclei become unstabl
 {
 topic: "atomic",
 image: "18-why-atoms-become-unstable",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Extra energy in nucleus leads to:",
 options: ["Stability", "Decay", "Cooling", "Expansion"],
@@ -13746,7 +15574,8 @@ explanation: "Nuclei release excess energy via radioactive decay."
 {
 topic: "atomic",
 image: "18-why-atoms-become-unstable",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Stable nuclei have:",
 options: ["High energy", "Balanced forces", "High repulsion", "No neutrons"],
@@ -13756,7 +15585,8 @@ explanation: "Stable nuclei maintain balance between attractive and repulsive fo
 {
 topic: "atomic",
 image: "18-why-atoms-become-unstable",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Unstable atoms become stable by:",
 options: ["Absorbing energy", "Gaining electrons", "Emitting radiation", "Expanding nucleus"],
@@ -13766,7 +15596,8 @@ explanation: "They emit alpha, beta, or gamma radiation to achieve stability."
 {
 topic: "atomic",
 image: "18-why-atoms-become-unstable",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best condition for stability:",
 options: ["Maximum protons", "Minimum neutrons", "Balanced N/Z ratio", "High energy"],
@@ -13776,7 +15607,8 @@ explanation: "Proper neutron-proton balance ensures nuclear stability."
 {
 topic: "atomic",
 image: "18-why-atoms-become-unstable",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Nature prefers:",
 options: ["High energy", "Instability", "Balance and low energy", "Large nuclei"],
@@ -13787,6 +15619,7 @@ explanation: "Stable systems have lower energy and balanced forces."
 topic: "atomic",
 image: "19-ionization-vs-penetration",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Ionization means:",
 options: ["Adding protons", "Removing electrons", "Increasing mass", "Splitting nucleus"],
@@ -13797,6 +15630,7 @@ explanation: "Ionization occurs when electrons are removed from atoms."
 topic: "atomic",
 image: "19-ionization-vs-penetration",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Penetration refers to:",
 options: ["Energy production", "Electron flow", "Ability to pass through matter", "Nuclear decay"],
@@ -13807,6 +15641,7 @@ explanation: "Penetration is how far radiation can travel through materials."
 topic: "atomic",
 image: "19-ionization-vs-penetration",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Alpha particles have:",
 options: ["Low ionization", "High ionization", "No ionization", "Medium ionization"],
@@ -13817,6 +15652,7 @@ explanation: "Alpha particles strongly ionize matter."
 topic: "atomic",
 image: "19-ionization-vs-penetration",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Alpha radiation penetration is:",
 options: ["Very high", "High", "Medium", "Very low"],
@@ -13826,7 +15662,8 @@ explanation: "Alpha particles are easily stopped by paper or skin."
 {
 topic: "atomic",
 image: "19-ionization-vs-penetration",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Beta particles have:",
 options: ["High ionization", "Medium ionization", "Zero ionization", "Very high ionization"],
@@ -13837,6 +15674,7 @@ explanation: "Beta particles have moderate ionizing ability."
 topic: "atomic",
 image: "19-ionization-vs-penetration",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma rays have:",
 options: ["High ionization", "Medium ionization", "Low ionization", "No ionization"],
@@ -13846,7 +15684,8 @@ explanation: "Gamma rays ionize weakly but penetrate deeply."
 {
 topic: "atomic",
 image: "19-ionization-vs-penetration",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Most penetrating radiation:",
 options: ["Alpha", "Beta", "Gamma", "Neutron"],
@@ -13857,6 +15696,7 @@ explanation: "Gamma rays have the highest penetration power."
 topic: "atomic",
 image: "19-ionization-vs-penetration",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Beta radiation is stopped by:",
 options: ["Paper", "Aluminum", "Lead only", "Air"],
@@ -13866,7 +15706,8 @@ explanation: "Thin aluminum sheets can stop beta particles."
 {
 topic: "atomic",
 image: "19-ionization-vs-penetration",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why alpha is dangerous inside body?",
 options: ["High penetration", "High ionization", "No energy", "Low charge"],
@@ -13876,7 +15717,8 @@ explanation: "Alpha particles cause severe damage due to strong ionization in ti
 {
 topic: "atomic",
 image: "19-ionization-vs-penetration",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Gamma rays are dangerous because:",
 options: ["Low energy", "Low speed", "High penetration", "No interaction"],
@@ -13886,7 +15728,8 @@ explanation: "Gamma rays penetrate deeply into tissues, making them dangerous."
 {
 topic: "atomic",
 image: "19-ionization-vs-penetration",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best radiation for cancer therapy:",
 options: ["Alpha", "Beta", "Gamma", "None"],
@@ -13896,7 +15739,8 @@ explanation: "Gamma rays can reach deep tumors, making them useful in treatment.
 {
 topic: "atomic",
 image: "19-ionization-vs-penetration",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Correct trend:",
 options: ["α < β < γ (ionization)", "α > β > γ (ionization)", "γ > β > α (penetration)", "β > γ > α (penetration)"],
@@ -13907,6 +15751,7 @@ explanation: "Ionization: Alpha > Beta > Gamma Penetration: Gamma > Beta > Alpha
 topic: "atomic",
 image: "20-randomness-of-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radioactive decay is:",
 options: ["Completely predictable", "Completely random", "Periodic", "Constant"],
@@ -13917,6 +15762,7 @@ explanation: "Decay of a single nucleus is random and cannot be predicted."
 topic: "atomic",
 image: "20-randomness-of-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Each nucleus has:",
 options: ["Fixed decay time", "No chance of decay", "Independent chance of decay", "Same decay moment"],
@@ -13926,7 +15772,8 @@ explanation: "Each nucleus behaves independently with its own probability of dec
 {
 topic: "atomic",
 image: "20-randomness-of-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "We can predict:",
 options: ["Exact nucleus decay", "Exact time of decay", "Number of decays over time", "Which atom decays next"],
@@ -13937,6 +15784,7 @@ explanation: "While individual decay is random, large numbers follow predictable
 topic: "atomic",
 image: "20-randomness-of-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In the dice analogy, decay occurs when:",
 options: ["Number 1 appears", "Number 3 appears", "Number 6 appears", "Number 2 appears"],
@@ -13947,6 +15795,7 @@ explanation: "Rolling a 6 represents decay in the analogy."
 topic: "atomic",
 image: "20-randomness-of-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In coin analogy, decay is represented by:",
 options: ["Tails", "Heads", "Edge", "Spin"],
@@ -13956,7 +15805,8 @@ explanation: "Heads represents decay; tails means no decay."
 {
 topic: "atomic",
 image: "20-randomness-of-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "At microscopic level, decay is:",
 options: ["Predictable", "Random", "Constant", "Linear"],
@@ -13966,7 +15816,8 @@ explanation: "Individual decay events are random."
 {
 topic: "atomic",
 image: "20-randomness-of-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "At macroscopic level, decay is:",
 options: ["Random", "Unstable", "Predictable", "Chaotic"],
@@ -13976,7 +15827,8 @@ explanation: "Large numbers show predictable exponential decay patterns."
 {
 topic: "atomic",
 image: "20-randomness-of-decay",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why does a smooth curve appear?",
 options: ["Individual events are fixed", "Randomness cancels out", "Energy increases", "Time stops"],
@@ -13987,6 +15839,7 @@ explanation: "Large sample size averages out randomness, producing a smooth curv
 topic: "atomic",
 image: "20-randomness-of-decay",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Half-life is:",
 options: ["Variable", "Random", "Constant for a substance", "Increasing"],
@@ -13996,7 +15849,8 @@ explanation: "Each radioactive substance has a fixed half-life."
 {
 topic: "atomic",
 image: "20-randomness-of-decay",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "We cannot stop decay because:",
 options: ["It depends on temperature", "It depends on pressure", "It is a natural random process", "It depends on light"],
@@ -14006,7 +15860,8 @@ explanation: "Decay is governed by nuclear properties, not external conditions."
 {
 topic: "atomic",
 image: "20-randomness-of-decay",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best statement:",
 options: ["Decay is chaotic", "Decay is fully predictable", "Decay is random but predictable in bulk", "Decay is linear"],
@@ -14016,7 +15871,8 @@ explanation: "This captures the key idea: randomness at micro, predictability at
 {
 topic: "atomic",
 image: "20-randomness-of-decay",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Randomness means:",
 options: ["No pattern exists", "Everything is predictable", "No control over individual events", "No decay happens"],
@@ -14027,6 +15883,7 @@ explanation: "Randomness means individual events cannot be predicted."
 topic: "atomic",
 image: "21-reading-decay-graphs",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Decay graphs show:",
 options: ["Linear trend", "Exponential decrease", "Circular motion", "Constant value"],
@@ -14037,6 +15894,7 @@ explanation: "Radioactive decay follows an exponential curve."
 topic: "atomic",
 image: "21-reading-decay-graphs",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Decay is fastest:",
 options: ["At the end", "In middle", "At the beginning", "Constant"],
@@ -14046,7 +15904,8 @@ explanation: "More nuclei exist initially, so decay rate is highest."
 {
 topic: "atomic",
 image: "21-reading-decay-graphs",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Half-life is:",
 options: ["Time to double", "Time to halve", "Time to stop", "Time to increase"],
@@ -14056,7 +15915,8 @@ explanation: "Half-life is the time taken for quantity to reduce to half."
 {
 topic: "atomic",
 image: "21-reading-decay-graphs",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "To find half-life:",
 options: ["Start from zero", "Take maximum value", "Find half of initial value", "Use slope"],
@@ -14067,6 +15927,7 @@ explanation: "Half-life is found by locating half of the initial value on graph.
 topic: "atomic",
 image: "21-reading-decay-graphs",
 criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Decay curve never:",
 options: ["Increases", "Decreases", "Reaches zero", "Changes"],
@@ -14076,7 +15937,8 @@ explanation: "The curve approaches zero but never touches it."
 {
 topic: "atomic",
 image: "21-reading-decay-graphs",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Equal time intervals result in:",
 options: ["Equal loss", "Equal fraction decay", "Equal increase", "No change"],
@@ -14086,7 +15948,8 @@ explanation: "Decay removes equal fractions, not equal amounts."
 {
 topic: "atomic",
 image: "21-reading-decay-graphs",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Activity is proportional to:",
 options: ["Mass", "Volume", "Number of nuclei", "Temperature"],
@@ -14096,7 +15959,8 @@ explanation: "Activity depends on number of undecayed nuclei."
 {
 topic: "atomic",
 image: "21-reading-decay-graphs",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If N halves every 10 days, half-life is:",
 options: ["5 days", "10 days", "20 days", "40 days"],
@@ -14106,7 +15970,8 @@ explanation: "Half-life is directly given as 10 days."
 {
 topic: "atomic",
 image: "21-reading-decay-graphs",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why slope decreases over time?",
 options: ["Energy increases", "Fewer nuclei remain", "Time slows", "Mass increases"],
@@ -14116,7 +15981,8 @@ explanation: "Less nuclei → fewer decays → slower rate."
 {
 topic: "atomic",
 image: "21-reading-decay-graphs",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Graph helps to:",
 options: ["Predict exact decay", "Find half-life", "Stop decay", "Change atoms"],
@@ -14126,7 +15992,8 @@ explanation: "Graphs help determine half-life and trends."
 {
 topic: "atomic",
 image: "21-reading-decay-graphs",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Incorrect statement:",
 options: ["Decay is exponential", "Half-life is constant", "Curve reaches zero", "Decay slows down"],
@@ -14136,7 +16003,8 @@ explanation: "Curve approaches but never reaches zero."
 {
 topic: "atomic",
 image: "21-reading-decay-graphs",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best conclusion:",
 options: ["Decay is linear", "Decay is random only", "Decay is predictable using graphs", "Decay stops"],
@@ -14147,6 +16015,7 @@ explanation: "Graphs allow prediction of decay behavior over time."
 topic: "atomic",
 image: "22-solving-half-life-problems",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "After one half-life, the amount becomes:",
 options: ["Double", "Half", "Same", "Zero"],
@@ -14157,6 +16026,7 @@ explanation: "By definition, half-life reduces the quantity to half its original
 topic: "atomic",
 image: "22-solving-half-life-problems",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The correct formula is:",
 options: ["N = N₀(2)ⁿ", "N = N₀(1/2)ⁿ", "N = N₀n", "N = N₀ + n"],
@@ -14167,6 +16037,7 @@ explanation: "The exponential decay formula uses (1/2)^n."
 topic: "atomic",
 image: "22-solving-half-life-problems",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "n represents:",
 options: ["Initial nuclei", "Time", "Number of half-lives", "Energy"],
@@ -14176,7 +16047,8 @@ explanation: "n is the number of half-lives elapsed."
 {
 topic: "atomic",
 image: "22-solving-half-life-problems",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If N₀ = 100, after 1 half-life:",
 options: ["25", "100", "75", "50"],
@@ -14186,7 +16058,8 @@ explanation: "After one half-life: 100 → 50."
 {
 topic: "atomic",
 image: "22-solving-half-life-problems",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "After 2 half-lives, fraction remaining is:",
 options: ["1/2", "1/4", "1/8", "1/16"],
@@ -14196,7 +16069,8 @@ explanation: "(1/2)² = 1/4 remains."
 {
 topic: "atomic",
 image: "22-solving-half-life-problems",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If t = 12 hrs and t₁/₂ = 4 hrs, n = ?",
 options: ["2", "3", "4", "6"],
@@ -14206,7 +16080,8 @@ explanation: "n = t / t₁/₂ = 12/4 = 3."
 {
 topic: "atomic",
 image: "22-solving-half-life-problems",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "If N₀ = 800 and n = 3:",
 options: ["100", "200", "400", "50"],
@@ -14216,7 +16091,8 @@ explanation: "N = 800 × (1/2)³ = 800 × 1/8 = 100."
 {
 topic: "atomic",
 image: "22-solving-half-life-problems",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why is decay exponential?",
 options: ["Constant loss", "Equal fractions decay", "Energy increases", "Linear relation"],
@@ -14226,7 +16102,8 @@ explanation: "Each interval removes the same fraction, not the same amount."
 {
 topic: "atomic",
 image: "22-solving-half-life-problems",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best first step in solving:",
 options: ["Guess answer", "Find n", "Use formula directly", "Ignore units"],
@@ -14236,7 +16113,8 @@ explanation: "Finding number of half-lives simplifies all problems."
 {
 topic: "atomic",
 image: "22-solving-half-life-problems",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Common mistake:",
 options: ["Using powers", "Ignoring units", "Using calculator", "Writing formula"],
@@ -14246,7 +16124,8 @@ explanation: "Units must match (time especially)."
 {
 topic: "atomic",
 image: "22-solving-half-life-problems",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Incorrect statement:",
 options: ["Half-life is constant", "Decay depends on temperature", "Uses exponential formula", "n can be calculated"],
@@ -14256,7 +16135,8 @@ explanation: "Half-life does NOT depend on temperature or pressure."
 {
 topic: "atomic",
 image: "22-solving-half-life-problems",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best approach:",
 options: ["Memorize answers", "Skip steps", "Follow structured method", "Approximate"],
@@ -14267,6 +16147,7 @@ explanation: "Systematic steps ensure accuracy in IB-style problems."
 topic: "atomic",
 image: "23-nuclear-equations-mastery",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Balanced equation means:",
 options: ["Equal mass only", "Equal charge only", "Equal A and Z", "Equal energy"],
@@ -14277,6 +16158,7 @@ explanation: "Both mass number (A) and atomic number (Z) must balance."
 topic: "atomic",
 image: "23-nuclear-equations-mastery",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Mass number represents:",
 options: ["Electrons", "Protons only", "Protons + neutrons", "Energy"],
@@ -14287,6 +16169,7 @@ explanation: "Mass number is total nucleons."
 topic: "atomic",
 image: "23-nuclear-equations-mastery",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Atomic number represents:",
 options: ["Neutrons", "Protons", "Electrons only", "Mass"],
@@ -14296,7 +16179,8 @@ explanation: "Atomic number = number of protons."
 {
 topic: "atomic",
 image: "23-nuclear-equations-mastery",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Alpha particle has:",
 options: ["A=1, Z=1", "A=0, Z=0", "A=4, Z=2", "A=2, Z=1"],
@@ -14306,7 +16190,8 @@ explanation: "Alpha particle is helium nucleus (2p + 2n)."
 {
 topic: "atomic",
 image: "23-nuclear-equations-mastery",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In β⁻ decay:",
 options: ["Z decreases", "Z increases by 1", "A increases", "A decreases"],
@@ -14316,7 +16201,8 @@ explanation: "Neutron → proton, so atomic number increases."
 {
 topic: "atomic",
 image: "23-nuclear-equations-mastery",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma decay changes:",
 options: ["A and Z", "Only A", "Only Z", "Neither A nor Z"],
@@ -14326,7 +16212,8 @@ explanation: "Gamma emission only releases energy."
 {
 topic: "atomic",
 image: "23-nuclear-equations-mastery",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Balance first:",
 options: ["Z", "A", "Energy", "Charge"],
@@ -14336,7 +16223,8 @@ explanation: "Always balance mass number first."
 {
 topic: "atomic",
 image: "23-nuclear-equations-mastery",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "β⁻ particle is:",
 options: ["Proton", "Neutron", "Electron", "Photon"],
@@ -14346,7 +16234,8 @@ explanation: "Beta minus is an electron emitted from nucleus."
 {
 topic: "atomic",
 image: "23-nuclear-equations-mastery",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why must Z balance?",
 options: ["Energy conservation", "Charge conservation", "Mass conservation", "Time conservation"],
@@ -14356,7 +16245,8 @@ explanation: "Atomic number represents charge."
 {
 topic: "atomic",
 image: "23-nuclear-equations-mastery",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Why include γ in equation?",
 options: ["Adds mass", "Adds charge", "Shows energy release", "Changes element"],
@@ -14366,7 +16256,8 @@ explanation: "Gamma indicates energy emission."
 {
 topic: "atomic",
 image: "23-nuclear-equations-mastery",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Incorrect statement:",
 options: ["A conserved", "Z conserved", "Gamma changes element", "Alpha reduces mass"],
@@ -14376,7 +16267,8 @@ explanation: "Gamma does NOT change element identity."
 {
 topic: "atomic",
 image: "23-nuclear-equations-mastery",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best summary:",
 options: ["Only mass matters", "Only charge matters", "Both A and Z must balance", "Energy ignored"],
@@ -14387,6 +16279,7 @@ explanation: "Both mass and atomic number must balance for valid equations."
 topic: "atomic",
 image: "24-common-mistakes-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electrons move:",
 options: ["In fixed circular orbits", "Randomly anywhere", "In specific energy levels", "Inside nucleus"],
@@ -14397,6 +16290,7 @@ explanation: "Electrons exist in quantized energy levels, not fixed planetary or
 topic: "atomic",
 image: "24-common-mistakes-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Atoms of same element differ in:",
 options: ["Protons", "Neutrons", "Electrons always", "Charge"],
@@ -14407,6 +16301,7 @@ explanation: "Isotopes have same protons but different neutrons."
 topic: "atomic",
 image: "24-common-mistakes-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radioactive decay is:",
 options: ["Controlled", "Random", "Planned", "Chemical"],
@@ -14416,7 +16311,8 @@ explanation: "Decay is spontaneous and random."
 {
 topic: "atomic",
 image: "24-common-mistakes-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Which has highest penetration?",
 options: ["Alpha", "Beta", "Gamma", "Proton"],
@@ -14426,7 +16322,8 @@ explanation: "Gamma rays penetrate most deeply."
 {
 topic: "atomic",
 image: "24-common-mistakes-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Stability depends mainly on:",
 options: ["Mass only", "Neutron-proton ratio", "Electron count", "Temperature"],
@@ -14436,7 +16333,8 @@ explanation: "Balance between neutrons and protons determines stability."
 {
 topic: "atomic",
 image: "24-common-mistakes-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "In β⁻ decay:",
 options: ["Proton → neutron", "Neutron → proton", "Electron → proton", "Nucleus splits"],
@@ -14446,7 +16344,8 @@ explanation: "A neutron converts into a proton and emits an electron."
 {
 topic: "atomic",
 image: "24-common-mistakes-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Gamma rays are:",
 options: ["Massive particles", "Electrons", "Photons", "Protons"],
@@ -14456,7 +16355,8 @@ explanation: "Gamma rays are electromagnetic waves (photons)."
 {
 topic: "atomic",
 image: "24-common-mistakes-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Half-life means:",
 options: ["All atoms decay", "Half atoms decay", "Energy halves", "Time doubles"],
@@ -14466,7 +16366,8 @@ explanation: "It is the time for half of nuclei to decay."
 {
 topic: "atomic",
 image: "24-common-mistakes-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "hard",
 question: "Radiation depends on temperature:",
 options: ["Always", "Sometimes", "Never", "Only in stars"],
@@ -14476,7 +16377,8 @@ explanation: "Radioactive decay is independent of temperature."
 {
 topic: "atomic",
 image: "24-common-mistakes-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Correct statement:",
 options: ["Invisible = safe", "Radiation harmless", "Protection needed", "No risk"],
@@ -14486,7 +16388,8 @@ explanation: "Radiation is invisible but can be harmful → protection is essent
 {
 topic: "atomic",
 image: "24-common-mistakes-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "In β decay:",
 options: ["A changes", "Z stays same", "Z changes", "Nothing changes"],
@@ -14496,7 +16399,8 @@ explanation: "Atomic number changes, mass number remains same."
 {
 topic: "atomic",
 image: "24-common-mistakes-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Nuclear reactions are:",
 options: ["Easy to control", "Always safe", "Hard to control", "Chemical"],
@@ -14507,6 +16411,7 @@ explanation: "They involve huge energy and require strict control."
 topic: "atomic",
 image: "25-radiation-myths-vs-reality",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radiation is:",
 options: ["Only man-made", "Only from reactors", "Natural and artificial", "Only harmful"],
@@ -14517,6 +16422,7 @@ explanation: "Radiation exists naturally and artificially."
 topic: "atomic",
 image: "25-radiation-myths-vs-reality",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radiation is:",
 options: ["Visible", "Smellable", "Tastable", "Invisible"],
@@ -14527,6 +16433,7 @@ explanation: "Radiation cannot be seen, smelled, or tasted."
 topic: "atomic",
 image: "25-radiation-myths-vs-reality",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radiation comes from:",
 options: ["Only accidents", "Everyday sources also", "Only nuclear bombs", "Only space"],
@@ -14536,7 +16443,8 @@ explanation: "Small radiation exists in daily life (medical, environment)."
 {
 topic: "atomic",
 image: "25-radiation-myths-vs-reality",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "X-rays are:",
 options: ["Not radiation", "Same as alpha", "A type of radiation", "Chemical"],
@@ -14546,7 +16454,8 @@ explanation: "X-rays are electromagnetic radiation."
 {
 topic: "atomic",
 image: "25-radiation-myths-vs-reality",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radiation is harmful when:",
 options: ["Always", "Never", "High dose", "Low dose"],
@@ -14556,7 +16465,8 @@ explanation: "High doses cause damage; low doses may be safe/useful."
 {
 topic: "atomic",
 image: "25-radiation-myths-vs-reality",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Microwaves are:",
 options: ["Ionizing", "Non-ionizing", "Alpha particles", "Nuclear radiation"],
@@ -14566,7 +16476,8 @@ explanation: "Microwaves do not have enough energy to ionize atoms."
 {
 topic: "atomic",
 image: "25-radiation-myths-vs-reality",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Radiation causes cancer:",
 options: ["Always", "Never", "Depends on dose", "Only instantly"],
@@ -14576,7 +16487,8 @@ explanation: "Risk depends on dose and exposure duration."
 {
 topic: "atomic",
 image: "25-radiation-myths-vs-reality",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Lead blocks:",
 options: ["All radiation", "Only alpha", "Mainly gamma/X-rays", "None"],
@@ -14586,7 +16498,8 @@ explanation: "Lead is effective for high-penetration radiation."
 {
 topic: "atomic",
 image: "25-radiation-myths-vs-reality",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "High natural radiation area:",
 options: ["Unsafe always", "Always deadly", "Can be safe", "No radiation"],
@@ -14596,7 +16509,8 @@ explanation: "Some places have higher natural radiation but are safe."
 {
 topic: "atomic",
 image: "25-radiation-myths-vs-reality",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Nuclear energy:",
 options: ["Runs out immediately", "Unlimited", "Abundant and recyclable", "Impossible"],
@@ -14606,7 +16520,8 @@ explanation: "Nuclear fuel is efficient and can be reused."
 {
 topic: "atomic",
 image: "25-radiation-myths-vs-reality",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best statement:",
 options: ["Radiation always bad", "Radiation always good", "Depends on use and dose", "No effect"],
@@ -14616,7 +16531,8 @@ explanation: "Radiation impact depends on application and exposure."
 {
 topic: "atomic",
 image: "25-radiation-myths-vs-reality",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Key takeaway:",
 options: ["Fear radiation", "Ignore radiation", "Understand and use safely", "Avoid science"],
@@ -14627,6 +16543,7 @@ explanation: "Knowledge and safe practices are essential."
 topic: "atomic",
 image: "26-radiation-in-medicine",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radiation in medicine is mainly used to:",
 options: ["Destroy all cells", "Diagnose and treat diseases", "Heat the body", "Increase mass"],
@@ -14637,6 +16554,7 @@ explanation: "Radiation helps in both imaging (diagnosis) and treatment (like ca
 topic: "atomic",
 image: "26-radiation-in-medicine",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "X-rays are used to:",
 options: ["Detect bones", "Measure temperature", "Increase energy", "Produce sound"],
@@ -14647,6 +16565,7 @@ explanation: "X-rays pass through soft tissue but are absorbed by bones, creatin
 topic: "atomic",
 image: "26-radiation-in-medicine",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "PET scans use:",
 options: ["Alpha radiation", "Beta radiation", "Gamma radiation", "Neutrons"],
@@ -14656,7 +16575,8 @@ explanation: "PET scans detect gamma rays emitted from radioactive tracers."
 {
 topic: "atomic",
 image: "26-radiation-in-medicine",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "CT scan provides:",
 options: ["2D images only", "Cross-sectional images", "Temperature data", "Energy levels"],
@@ -14666,7 +16586,8 @@ explanation: "CT scans combine multiple X-ray images to create cross-sectional v
 {
 topic: "atomic",
 image: "26-radiation-in-medicine",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "MRI uses:",
 options: ["X-rays", "Gamma rays", "Magnetic fields", "Alpha particles"],
@@ -14676,7 +16597,8 @@ explanation: "MRI works using strong magnetic fields, not ionizing radiation."
 {
 topic: "atomic",
 image: "26-radiation-in-medicine",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radiotherapy works by:",
 options: ["Cooling cells", "Damaging DNA of cancer cells", "Increasing pressure", "Adding neutrons"],
@@ -14686,7 +16608,8 @@ explanation: "Radiation damages DNA, preventing cancer cells from dividing."
 {
 topic: "atomic",
 image: "26-radiation-in-medicine",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Brachytherapy involves:",
 options: ["External radiation", "Internal radiation source", "No radiation", "Only imaging"],
@@ -14696,7 +16619,8 @@ explanation: "Radioactive sources are placed inside or near the tumor."
 {
 topic: "atomic",
 image: "26-radiation-in-medicine",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Radioactive tracers are used to:",
 options: ["Heat tissues", "Destroy bones", "Track organ function", "Increase charge"],
@@ -14706,7 +16630,8 @@ explanation: "Tracers travel in the body and help detect organ activity."
 {
 topic: "atomic",
 image: "26-radiation-in-medicine",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Justification means:",
 options: ["Use radiation always", "Avoid radiation", "Use only when needed", "Use maximum dose"],
@@ -14716,7 +16641,8 @@ explanation: "Radiation should only be used when benefits outweigh risks."
 {
 topic: "atomic",
 image: "26-radiation-in-medicine",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Optimization ensures:",
 options: ["Highest dose", "Lowest effective dose", "No radiation", "Maximum energy"],
@@ -14726,7 +16652,8 @@ explanation: "Dose is kept as low as possible while achieving results."
 {
 topic: "atomic",
 image: "26-radiation-in-medicine",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Protection refers to:",
 options: ["Ignoring risks", "Increasing exposure", "Protecting patients and staff", "Avoiding treatment"],
@@ -14736,7 +16663,8 @@ explanation: "Safety measures protect both patients and healthcare workers."
 {
 topic: "atomic",
 image: "26-radiation-in-medicine",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Correct statement:",
 options: ["Radiation always harmful", "Radiation always safe", "Proper dose is beneficial", "No medical use"],
@@ -14747,6 +16675,7 @@ explanation: "Radiation is useful when applied correctly with controlled doses."
 topic: "atomic",
 image: "27-atomic-physics-revision-mistakes",
 criterion: "A",
+    strand: "iii",
 level: "easy",
 question: "Half-life depends on:",
 options: ["Initial amount", "Temperature", "Substance", "Pressure"],
@@ -14757,6 +16686,7 @@ explanation: "Half-life is a property of the radioactive substance."
 topic: "atomic",
 image: "27-atomic-physics-revision-mistakes",
 criterion: "A",
+    strand: "iii",
 level: "easy",
 question: "Stability depends on:",
 options: ["Mass only", "Neutron-proton ratio", "Energy only", "Electrons"],
@@ -14767,6 +16697,7 @@ explanation: "Correct neutron-to-proton ratio ensures stability."
 topic: "atomic",
 image: "27-atomic-physics-revision-mistakes",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electrons exist:",
 options: ["Anywhere", "Only nucleus", "Fixed energy levels", "Outside universe"],
@@ -14776,7 +16707,8 @@ explanation: "Electrons occupy discrete energy levels (shells)."
 {
 topic: "atomic",
 image: "27-atomic-physics-revision-mistakes",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "More penetrating:",
 options: ["Alpha > Beta", "Beta > Alpha", "Same", "None"],
@@ -14786,7 +16718,8 @@ explanation: "Beta particles penetrate more than alpha."
 {
 topic: "atomic",
 image: "27-atomic-physics-revision-mistakes",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma rays have:",
 options: ["Mass and charge", "Mass only", "Charge only", "No mass, no charge"],
@@ -14796,7 +16729,8 @@ explanation: "Gamma rays are photons."
 {
 topic: "atomic",
 image: "27-atomic-physics-revision-mistakes",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Decay depends on:",
 options: ["Environment", "External pressure", "Internal nuclear instability", "Temperature"],
@@ -14806,7 +16740,8 @@ explanation: "Decay is due to instability inside nucleus."
 {
 topic: "atomic",
 image: "27-atomic-physics-revision-mistakes",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Decay is:",
 options: ["Predictable exactly", "Controlled", "Random", "Linear"],
@@ -14816,7 +16751,8 @@ explanation: "Individual decay events cannot be predicted."
 {
 topic: "atomic",
 image: "27-atomic-physics-revision-mistakes",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Atoms decay:",
 options: ["Together", "One triggers others", "Independently", "Sequentially"],
@@ -14826,7 +16762,8 @@ explanation: "Each nucleus behaves independently."
 {
 topic: "atomic",
 image: "27-atomic-physics-revision-mistakes",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Wrong idea:",
 options: ["Decay random", "Half-life constant", "Nucleus decides decay", "Independent decay"],
@@ -14836,7 +16773,8 @@ explanation: "Nucleus does not “decide”; decay is random."
 {
 topic: "atomic",
 image: "27-atomic-physics-revision-mistakes",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Correct conclusion:",
 options: ["Mass decides everything", "Radiation same", "Proper concepts matter", "Ignore models"],
@@ -14846,7 +16784,8 @@ explanation: "Understanding correct concepts avoids misconceptions."
 {
 topic: "atomic",
 image: "27-atomic-physics-revision-mistakes",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Incorrect statement:",
 options: ["Gamma penetrates most", "Alpha ionizes most", "Beta strongest ionizing", "Beta moderate"],
@@ -14856,7 +16795,8 @@ explanation: "Alpha has highest ionizing power, not beta."
 {
 topic: "atomic",
 image: "27-atomic-physics-revision-mistakes",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best learning approach:",
 options: ["Memorize only", "Ignore errors", "Identify misconceptions", "Skip practice"],
@@ -14867,6 +16807,7 @@ explanation: "Correcting misconceptions builds strong conceptual understanding."
 topic: "atomic",
 image: "28-nuclear-energy-boon-or-risk",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Nuclear energy produces large energy from:",
 options: ["Large fuel", "Small amount of fuel", "No fuel", "Only sunlight"],
@@ -14877,6 +16818,7 @@ explanation: "Nuclear reactions release huge energy from a very small amount of 
 topic: "atomic",
 image: "28-nuclear-energy-boon-or-risk",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Nuclear power plants produce:",
 options: ["High CO₂ emissions", "No electricity", "Low carbon emissions", "Only heat"],
@@ -14887,6 +16829,7 @@ explanation: "They generate electricity without emitting greenhouse gases during
 topic: "atomic",
 image: "28-nuclear-energy-boon-or-risk",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Nuclear energy is reliable because:",
 options: ["Depends on wind", "Works only day", "Works 24/7", "Needs sunlight"],
@@ -14896,7 +16839,8 @@ explanation: "Unlike renewables like solar, nuclear plants run continuously."
 {
 topic: "atomic",
 image: "28-nuclear-energy-boon-or-risk",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "High energy density means:",
 options: ["More fuel needed", "Less energy produced", "Small fuel gives large energy", "No reaction"],
@@ -14906,7 +16850,8 @@ explanation: "Nuclear fuel releases large energy from small mass."
 {
 topic: "atomic",
 image: "28-nuclear-energy-boon-or-risk",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A major risk of nuclear energy is:",
 options: ["Noise pollution", "Nuclear accidents", "Light emission", "Cooling failure"],
@@ -14916,7 +16861,8 @@ explanation: "Accidents like Chernobyl and Fukushima cause serious damage."
 {
 topic: "atomic",
 image: "28-nuclear-energy-boon-or-risk",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radioactive waste is dangerous because:",
 options: ["It glows", "It heats water", "It remains radioactive for long", "It smells"],
@@ -14926,7 +16872,8 @@ explanation: "Waste remains hazardous for thousands of years."
 {
 topic: "atomic",
 image: "28-nuclear-energy-boon-or-risk",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Nuclear plants are expensive because:",
 options: ["Cheap materials", "Simple design", "High construction and maintenance cost", "No safety systems"],
@@ -14936,7 +16883,8 @@ explanation: "Safety systems and infrastructure make nuclear plants costly."
 {
 topic: "atomic",
 image: "28-nuclear-energy-boon-or-risk",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Water is used in nuclear plants for:",
 options: ["Fuel", "Cooling", "Radiation", "Energy"],
@@ -14946,7 +16894,8 @@ explanation: "Large amounts of water are needed to cool reactors."
 {
 topic: "atomic",
 image: "28-nuclear-energy-boon-or-risk",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Security threat refers to:",
 options: ["Energy loss", "Theft or misuse of nuclear material", "Heat emission", "Light radiation"],
@@ -14956,7 +16905,8 @@ explanation: "Nuclear materials can be misused for harmful purposes."
 {
 topic: "atomic",
 image: "28-nuclear-energy-boon-or-risk",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Nuclear energy is best described as:",
 options: ["Always safe", "Always dangerous", "Only harmful", "Depends on usage"],
@@ -14966,7 +16916,8 @@ explanation: "Its impact depends on safety, management, and control."
 {
 topic: "atomic",
 image: "28-nuclear-energy-boon-or-risk",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "When is nuclear energy beneficial?",
 options: ["No regulation", "Poor waste management", "Strict safety measures", "Weapon use"],
@@ -14976,7 +16927,8 @@ explanation: "Proper safety ensures benefits outweigh risks."
 {
 topic: "atomic",
 image: "28-nuclear-energy-boon-or-risk",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best future approach:",
 options: ["Stop all nuclear energy", "Ignore risks", "Improve safety and combine renewables", "Increase waste"],
@@ -14987,6 +16939,7 @@ explanation: "Balanced approach ensures sustainable use."
 topic: "atomic",
 image: "29-simulating-radioactive-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Each dice represents:",
 options: ["Atom", "Proton", "Electron", "Photon"],
@@ -14997,6 +16950,7 @@ explanation: "Each dice models one radioactive nucleus."
 topic: "atomic",
 image: "29-simulating-radioactive-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "In dice simulation, decay occurs when:",
 options: ["Roll 6", "Roll 1", "Roll 2", "Roll 5"],
@@ -15007,6 +16961,7 @@ explanation: "A roll of 1 represents decay."
 topic: "atomic",
 image: "29-simulating-radioactive-decay",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "After decay, dice are:",
 options: ["Added", "Ignored", "Removed", "Multiplied"],
@@ -15016,7 +16971,8 @@ explanation: "Decayed atoms are removed from the system."
 {
 topic: "atomic",
 image: "29-simulating-radioactive-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Simulation continues by:",
 options: ["Stopping", "Re-rolling remaining dice", "Changing rules", "Adding dice"],
@@ -15026,7 +16982,8 @@ explanation: "Remaining dice are rolled again each round."
 {
 topic: "atomic",
 image: "29-simulating-radioactive-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Half-life is:",
 options: ["Time for all to decay", "Time for half to decay", "Time for none", "Time for increase"],
@@ -15036,7 +16993,8 @@ explanation: "Half-life is the time taken for half the atoms to decay."
 {
 topic: "atomic",
 image: "29-simulating-radioactive-decay",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Decay curve is:",
 options: ["Linear", "Circular", "Exponential", "Constant"],
@@ -15046,7 +17004,8 @@ explanation: "Decay follows an exponential trend."
 {
 topic: "atomic",
 image: "29-simulating-radioactive-decay",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Each decay event is:",
 options: ["Predictable", "Controlled", "Random", "Fixed"],
@@ -15056,7 +17015,8 @@ explanation: "Individual decay cannot be predicted."
 {
 topic: "atomic",
 image: "29-simulating-radioactive-decay",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "At large scale, decay is:",
 options: ["Random", "Chaotic", "Predictable", "Impossible"],
@@ -15066,7 +17026,8 @@ explanation: "Large numbers produce predictable patterns."
 {
 topic: "atomic",
 image: "29-simulating-radioactive-decay",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "In coin method, decay occurs when:",
 options: ["Heads", "Tails", "Both", "None"],
@@ -15076,7 +17037,8 @@ explanation: "Tails represents decay (removed)."
 {
 topic: "atomic",
 image: "29-simulating-radioactive-decay",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best way to improve accuracy:",
 options: ["One trial", "No data", "Repeat experiment", "Guess"],
@@ -15086,7 +17048,8 @@ explanation: "Multiple trials reduce random error."
 {
 topic: "atomic",
 image: "29-simulating-radioactive-decay",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "What should be plotted?",
 options: ["Time vs temperature", "Fraction remaining vs time", "Energy vs distance", "Force vs mass"],
@@ -15096,7 +17059,8 @@ explanation: "Decay curve shows fraction remaining over time."
 {
 topic: "atomic",
 image: "29-simulating-radioactive-decay",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Key takeaway:",
 options: ["Decay is controlled", "Decay is reversible", "Decay is random but predictable overall", "Decay stops"],
@@ -15106,7 +17070,8 @@ explanation: "Random at micro level, predictable at macro level."
 {
 topic: "atomic",
 image: "30-design-your-own-experiment",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What is the first step in designing an experiment?",
 options: ["Collect data", "Define the question", "Analyze results", "Draw conclusion"],
@@ -15116,7 +17081,8 @@ explanation: "A clear and focused research question is essential before starting
 {
 topic: "atomic",
 image: "30-design-your-own-experiment",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The independent variable is:",
 options: ["What you measure", "What you change", "What you calculate", "What you conclude"],
@@ -15126,7 +17092,8 @@ explanation: "The independent variable is the factor that is deliberately change
 {
 topic: "atomic",
 image: "30-design-your-own-experiment",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The dependent variable is:",
 options: ["What you change", "What you keep constant", "What you measure", "What you ignore"],
@@ -15136,7 +17103,8 @@ explanation: "The dependent variable is the outcome that is measured."
 {
 topic: "atomic",
 image: "30-design-your-own-experiment",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Controlled variables should be:",
 options: ["Changed constantly", "Removed", "Kept the same", "Measured"],
@@ -15146,7 +17114,8 @@ explanation: "Controlled variables are kept constant to ensure a fair test."
 {
 topic: "atomic",
 image: "30-design-your-own-experiment",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "A good method should be:",
 options: ["Vague", "Step-by-step", "Short only", "Random"],
@@ -15156,7 +17125,8 @@ explanation: "A clear step-by-step method ensures reproducibility."
 {
 topic: "atomic",
 image: "30-design-your-own-experiment",
-criterion: "C",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Why repeat measurements?",
 options: ["Waste time", "Increase error", "Improve reliability", "Avoid results"],
@@ -15166,7 +17136,8 @@ explanation: "Repeating trials increases reliability and reduces random errors."
 {
 topic: "atomic",
 image: "30-design-your-own-experiment",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radiation safety includes:",
 options: ["Increasing exposure", "Ignoring shielding", "Minimizing time near source", "Touching source"],
@@ -15176,7 +17147,8 @@ explanation: "Reducing time near radiation sources lowers exposure risk."
 {
 topic: "atomic",
 image: "30-design-your-own-experiment",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Increasing distance from source will:",
 options: ["Increase exposure", "Have no effect", "Reduce exposure", "Stop decay"],
@@ -15186,7 +17158,8 @@ explanation: "Radiation intensity decreases with distance."
 {
 topic: "atomic",
 image: "30-design-your-own-experiment",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best way to analyze data:",
 options: ["Ignore values", "Only guess", "Plot graph", "Delete results"],
@@ -15196,7 +17169,8 @@ explanation: "Graphs help visualize trends and relationships."
 {
 topic: "atomic",
 image: "30-design-your-own-experiment",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A good conclusion should:",
 options: ["Ignore results", "Answer the research question", "Be random", "Copy method"],
@@ -15206,7 +17180,8 @@ explanation: "Conclusion must directly answer the original question based on evi
 {
 topic: "atomic",
 image: "30-design-your-own-experiment",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Improving an experiment involves:",
 options: ["Removing data", "Ignoring errors", "Identifying limitations", "Avoiding repeats"],
@@ -15216,7 +17191,8 @@ explanation: "Evaluating limitations helps improve future investigations."
 {
 topic: "atomic",
 image: "30-design-your-own-experiment",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Results should be presented using:",
 options: ["Only text", "No data", "Tables and graphs", "Random notes"],
@@ -15227,6 +17203,7 @@ explanation: "Clear presentation includes tables, graphs, and structured data."
 topic: "atomic",
 image: "31-quick-concept-check-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "What is the charge of a neutron?",
 options: ["+1", "−1", "0", "+2"],
@@ -15237,6 +17214,7 @@ explanation: "Neutrons have no charge."
 topic: "atomic",
 image: "31-quick-concept-check-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Isotopes have:",
 options: ["Same neutrons", "Same protons", "Same electrons only", "Same mass"],
@@ -15247,6 +17225,7 @@ explanation: "Isotopes have the same number of protons but different neutrons."
 topic: "atomic",
 image: "31-quick-concept-check-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Which particle is NOT in the nucleus?",
 options: ["Proton", "Neutron", "Electron", "Nucleon"],
@@ -15256,7 +17235,8 @@ explanation: "Electrons are outside the nucleus."
 {
 topic: "atomic",
 image: "31-quick-concept-check-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Highest energy photon is emitted when:",
 options: ["Small drop in level", "Large drop in level", "No transition", "Same level"],
@@ -15266,7 +17246,8 @@ explanation: "Greater energy difference → higher energy photon."
 {
 topic: "atomic",
 image: "31-quick-concept-check-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radioactive decay is:",
 options: ["Controlled", "Spontaneous", "Forced", "Reversible"],
@@ -15276,7 +17257,8 @@ explanation: "Decay occurs naturally without external influence."
 {
 topic: "atomic",
 image: "31-quick-concept-check-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Mass number equals:",
 options: ["Protons only", "Electrons only", "Neutrons only", "Protons + neutrons"],
@@ -15286,7 +17268,8 @@ explanation: "Mass number = total nucleons."
 {
 topic: "atomic",
 image: "31-quick-concept-check-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Alpha decay emits:",
 options: ["Electron", "Proton", "Helium nucleus", "Photon"],
@@ -15296,7 +17279,8 @@ explanation: "Alpha particle is a helium nucleus (2p + 2n)."
 {
 topic: "atomic",
 image: "31-quick-concept-check-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "After 3 half-lives, remaining fraction is:",
 options: ["1/2", "1/4", "1/6", "1/8"],
@@ -15306,7 +17290,8 @@ explanation: "(1/2)³ = 1/8 remains."
 {
 topic: "atomic",
 image: "31-quick-concept-check-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Decay graph shape is:",
 options: ["Straight line", "Parabolic", "Exponential", "Circular"],
@@ -15317,6 +17302,7 @@ explanation: "Radioactive decay follows exponential decrease."
 topic: "atomic",
 image: "31-quick-concept-check-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "SI unit of activity is:",
 options: ["Joule", "Watt", "Becquerel", "Volt"],
@@ -15326,7 +17312,8 @@ explanation: "Activity is measured in becquerels (decays per second)."
 {
 topic: "atomic",
 image: "31-quick-concept-check-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Gamma radiation is:",
 options: ["Particle", "Nucleus", "Electromagnetic wave", "Electron"],
@@ -15336,7 +17323,8 @@ explanation: "Gamma rays are high-energy photons."
 {
 topic: "atomic",
 image: "31-quick-concept-check-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best description of atomic physics:",
 options: ["Study of heat", "Study of motion", "Study of nuclei and radiation", "Study of light only"],
@@ -15347,6 +17335,7 @@ explanation: "Atomic physics focuses on structure of atoms, nuclei, and radiatio
 topic: "atomic",
 image: "32-apply-your-knowledge-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "An electron falling from n=3 to n=1 emits:",
 options: ["Photon", "Proton", "Neutron", "Electron"],
@@ -15356,7 +17345,8 @@ explanation: "Energy difference between levels is emitted as a photon."
 {
 topic: "atomic",
 image: "32-apply-your-knowledge-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Energy of emitted photon depends on:",
 options: ["Nuclear size", "Energy level difference", "Temperature", "Mass"],
@@ -15366,7 +17356,8 @@ explanation: "Photon energy equals the difference between energy levels."
 {
 topic: "atomic",
 image: "32-apply-your-knowledge-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "de Broglie wavelength depends on:",
 options: ["Charge", "Velocity", "Shape", "Color"],
@@ -15376,7 +17367,8 @@ explanation: "λ = h/p, and momentum depends on velocity."
 {
 topic: "atomic",
 image: "32-apply-your-knowledge-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Heisenberg principle states:",
 options: ["Exact position and momentum known", "Only energy known", "Cannot know both exactly", "Only speed matters"],
@@ -15386,7 +17378,8 @@ explanation: "Position and momentum cannot both be precisely known."
 {
 topic: "atomic",
 image: "32-apply-your-knowledge-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "After 3 half-lives, activity becomes:",
 options: ["1/2", "1/3", "1/6", "1/8"],
@@ -15396,7 +17389,8 @@ explanation: "(1/2)³ = 1/8 remains."
 {
 topic: "atomic",
 image: "32-apply-your-knowledge-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Mass defect leads to:",
 options: ["Energy release", "Heat loss only", "No change", "Electron emission"],
@@ -15406,7 +17400,8 @@ explanation: "Mass converts to energy using E = mc²."
 {
 topic: "atomic",
 image: "32-apply-your-knowledge-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "X-rays are produced when:",
 options: ["Neutrons collide", "Electrons hit metal target", "Protons decay", "Atoms expand"],
@@ -15416,7 +17411,8 @@ explanation: "High-speed electrons striking metal produce X-rays."
 {
 topic: "atomic",
 image: "32-apply-your-knowledge-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Balmer series corresponds to:",
 options: ["n → 1", "n → 2", "n → 3", "n → ∞"],
@@ -15426,7 +17422,8 @@ explanation: "Balmer transitions end at n = 2."
 {
 topic: "atomic",
 image: "32-apply-your-knowledge-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Higher energy photon means:",
 options: ["Longer wavelength", "Lower frequency", "Higher frequency", "No change"],
@@ -15436,7 +17433,8 @@ explanation: "E = hf → higher energy = higher frequency."
 {
 topic: "atomic",
 image: "32-apply-your-knowledge-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Decay curve shape is:",
 options: ["Linear", "Constant", "Exponential", "Circular"],
@@ -15447,6 +17445,7 @@ explanation: "Radioactive decay follows exponential behavior."
 topic: "atomic",
 image: "32-apply-your-knowledge-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Planck’s constant relates:",
 options: ["Energy and frequency", "Mass and force", "Charge and voltage", "Speed and time"],
@@ -15456,7 +17455,8 @@ explanation: "E = hf connects energy and frequency."
 {
 topic: "atomic",
 image: "32-apply-your-knowledge-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Most important idea in atomic numericals:",
 options: ["Memorizing answers", "Ignoring units", "Following steps and concepts", "Guessing"],
@@ -15466,7 +17466,8 @@ explanation: "Systematic problem-solving ensures correct results."
 {
 topic: "atomic",
 image: "33-think-like-a-scientist-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Carbon dating is based on:",
 options: ["Stable isotopes", "Radioactive decay", "Heat transfer", "Pressure"],
@@ -15476,7 +17477,8 @@ explanation: "It uses decay of Carbon-14."
 {
 topic: "atomic",
 image: "33-think-like-a-scientist-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "If 1/8 of C-14 remains, number of half-lives is:",
 options: ["1", "2", "3", "4"],
@@ -15486,7 +17488,8 @@ explanation: "(1/2)³ = 1/8."
 {
 topic: "atomic",
 image: "33-think-like-a-scientist-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Main advantage of nuclear energy:",
 options: ["Low energy output", "High carbon emission", "High energy density", "Unstable supply"],
@@ -15496,7 +17499,8 @@ explanation: "Nuclear energy produces large energy from small fuel."
 {
 topic: "atomic",
 image: "33-think-like-a-scientist-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Major concern of nuclear energy:",
 options: ["No energy", "Waste disposal", "Low efficiency", "No applications"],
@@ -15506,7 +17510,8 @@ explanation: "Radioactive waste remains hazardous."
 {
 topic: "atomic",
 image: "33-think-like-a-scientist-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Half-life represents:",
 options: ["Time for full decay", "Time for half to decay", "Time for doubling", "Time for stability"],
@@ -15516,7 +17521,8 @@ explanation: "Half-life is time taken for half the nuclei to decay."
 {
 topic: "atomic",
 image: "33-think-like-a-scientist-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Dice model represents:",
 options: ["Deterministic process", "Random decay", "Constant motion", "Energy transfer"],
@@ -15526,7 +17532,8 @@ explanation: "Decay is random at atomic level."
 {
 topic: "atomic",
 image: "33-think-like-a-scientist-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Changing decay probability will:",
 options: ["Not affect graph", "Change decay rate", "Stop decay", "Make linear graph"],
@@ -15536,7 +17543,8 @@ explanation: "Higher probability → faster decay."
 {
 topic: "atomic",
 image: "33-think-like-a-scientist-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Independent variable in distance experiment:",
 options: ["Count rate", "Time", "Distance", "Radiation type"],
@@ -15546,7 +17554,8 @@ explanation: "Distance is changed deliberately."
 {
 topic: "atomic",
 image: "33-think-like-a-scientist-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Best safety method:",
 options: ["Increase exposure", "Reduce shielding", "Increase distance", "Ignore rules"],
@@ -15556,7 +17565,8 @@ explanation: "Distance reduces radiation exposure."
 {
 topic: "atomic",
 image: "33-think-like-a-scientist-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Higher transition energy gives:",
 options: ["Longer wavelength", "Lower frequency", "Higher frequency", "No emission"],
@@ -15566,7 +17576,8 @@ explanation: "Higher energy → higher frequency photon."
 {
 topic: "atomic",
 image: "33-think-like-a-scientist-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best use of radioisotopes:",
 options: ["Decoration", "Medicine", "Noise production", "Heating only"],
@@ -15576,7 +17587,8 @@ explanation: "Radioisotopes are widely used in medical diagnosis and treatment."
 {
 topic: "atomic",
 image: "33-think-like-a-scientist-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Ethical consideration includes:",
 options: ["Ignoring risks", "Maximizing exposure", "Minimizing harm", "Avoiding science"],
@@ -15586,7 +17598,8 @@ explanation: "Ethics focuses on reducing harm and ensuring safety."
 {
 topic: "atomic",
 image: "34-evaluate-and-discuss-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A key advantage of nuclear energy is:",
 options: ["High greenhouse emissions", "Low energy output", "High energy density", "Short lifespan"],
@@ -15596,7 +17609,8 @@ explanation: "Nuclear energy produces large amounts of energy from small fuel ma
 {
 topic: "atomic",
 image: "34-evaluate-and-discuss-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "A major environmental concern of nuclear energy is:",
 options: ["Noise pollution", "Radioactive waste", "Low efficiency", "Oxygen depletion"],
@@ -15606,7 +17620,8 @@ explanation: "Radioactive waste remains hazardous for long periods."
 {
 topic: "atomic",
 image: "34-evaluate-and-discuss-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radiation in medicine is beneficial because:",
 options: ["It increases pollution", "It diagnoses and treats diseases", "It replaces all medicines", "It produces electricity"],
@@ -15616,7 +17631,8 @@ explanation: "Used in imaging and cancer treatment."
 {
 topic: "atomic",
 image: "34-evaluate-and-discuss-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "The main risk to healthcare workers is:",
 options: ["Mechanical injury", "Overheating", "Radiation exposure", "Sound waves"],
@@ -15626,7 +17642,8 @@ explanation: "Repeated exposure increases long-term risk."
 {
 topic: "atomic",
 image: "34-evaluate-and-discuss-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Deep geological storage is used because:",
 options: ["It increases radiation", "It isolates waste safely", "It speeds decay", "It reduces energy"],
@@ -15636,7 +17653,8 @@ explanation: "It prevents leakage into environment."
 {
 topic: "atomic",
 image: "34-evaluate-and-discuss-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Reprocessing nuclear waste:",
 options: ["Eliminates radiation", "Reuses useful material", "Stops decay", "Increases instability"],
@@ -15646,7 +17664,8 @@ explanation: "Some materials can be recycled for fuel."
 {
 topic: "atomic",
 image: "34-evaluate-and-discuss-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Nuclear weapons are dangerous due to:",
 options: ["Low energy", "Controlled reactions", "Massive destruction", "No radiation"],
@@ -15656,7 +17675,8 @@ explanation: "They release enormous energy causing destruction."
 {
 topic: "atomic",
 image: "34-evaluate-and-discuss-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Deterrence theory suggests:",
 options: ["Weapons increase safety by preventing war", "Weapons eliminate energy", "Weapons reduce power", "Weapons stop decay"],
@@ -15666,7 +17686,8 @@ explanation: "Fear of mutual destruction prevents conflict."
 {
 topic: "atomic",
 image: "34-evaluate-and-discuss-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Carbon dating measures:",
 options: ["Oxygen levels", "Carbon-14 decay", "Temperature", "Pressure"],
@@ -15676,7 +17697,8 @@ explanation: "Used to determine age of organic material."
 {
 topic: "atomic",
 image: "34-evaluate-and-discuss-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Limitation of carbon dating:",
 options: ["Works for metals", "Works forever", "Limited time range", "No decay involved"],
@@ -15686,7 +17708,8 @@ explanation: "Effective only up to ~50,000 years."
 {
 topic: "atomic",
 image: "34-evaluate-and-discuss-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Nuclear accidents impact:",
 options: ["Only machines", "Only animals", "Humans and environment", "Only air"],
@@ -15696,7 +17719,8 @@ explanation: "Radiation affects ecosystems and health."
 {
 topic: "atomic",
 image: "34-evaluate-and-discuss-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Best way to prevent accidents:",
 options: ["Ignore safety", "Increase fuel", "Use strict regulations", "Reduce knowledge"],
@@ -15707,6 +17731,7 @@ explanation: "Strong safety systems reduce risk."
 topic: "atomic",
 image: "35-chapter-summary-map-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The nucleus is:",
 options: ["Negative and large", "Positive and dense", "Neutral and empty", "Hollow"],
@@ -15717,6 +17742,7 @@ explanation: "Nucleus is small, dense and positively charged."
 topic: "atomic",
 image: "35-chapter-summary-map-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Bohr model explains:",
 options: ["Chemical bonding", "Spectral lines", "Heat transfer", "Pressure"],
@@ -15726,7 +17752,8 @@ explanation: "Bohr model explains hydrogen emission spectrum."
 {
 topic: "atomic",
 image: "35-chapter-summary-map-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Electrons occupy:",
 options: ["Random paths", "Fixed shells", "Nucleus", "Empty space only"],
@@ -15736,7 +17763,8 @@ explanation: "Electrons exist in quantized energy levels."
 {
 topic: "atomic",
 image: "35-chapter-summary-map-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Photon emission occurs when:",
 options: ["Electron moves up", "Electron moves down", "Proton moves", "Neutron moves"],
@@ -15747,6 +17775,7 @@ explanation: "Energy is released when electron drops levels."
 topic: "atomic",
 image: "35-chapter-summary-map-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Gamma radiation is:",
 options: ["Particle", "Wave", "Atom", "Molecule"],
@@ -15756,7 +17785,8 @@ explanation: "Gamma rays are electromagnetic waves."
 {
 topic: "atomic",
 image: "35-chapter-summary-map-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Half-life is:",
 options: ["Full decay time", "Time for half decay", "Time for doubling", "Time for stability"],
@@ -15767,6 +17797,7 @@ explanation: "Definition of half-life."
 topic: "atomic",
 image: "35-chapter-summary-map-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Liquid drop model describes nucleus as:",
 options: ["Solid ball", "Liquid drop", "Gas", "Plasma"],
@@ -15776,7 +17807,8 @@ explanation: "It behaves like a drop of liquid."
 {
 topic: "atomic",
 image: "35-chapter-summary-map-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Energy release comes from:",
 options: ["Electron motion", "Mass defect", "Heat only", "Pressure"],
@@ -15786,7 +17818,8 @@ explanation: "Mass converts to energy."
 {
 topic: "atomic",
 image: "35-chapter-summary-map-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Alpha particles have:",
 options: ["High penetration", "Low ionization", "High ionization", "No charge"],
@@ -15796,7 +17829,8 @@ explanation: "Alpha strongly ionizes but low penetration."
 {
 topic: "atomic",
 image: "35-chapter-summary-map-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radiation is used in:",
 options: ["Medicine", "Industry", "Archaeology", "All of the above"],
@@ -15807,6 +17841,7 @@ explanation: "All listed fields use radiation."
 topic: "atomic",
 image: "35-chapter-summary-map-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Speed of light is:",
 options: ["3×10⁶ m/s", "3×10⁸ m/s", "3×10¹⁰ m/s", "3×10⁴ m/s"],
@@ -15816,7 +17851,8 @@ explanation: "Standard constant value."
 {
 topic: "atomic",
 image: "35-chapter-summary-map-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Atomic physics connects:",
 options: ["Only atoms", "Only energy", "Micro to macro world", "Only light"],
@@ -15827,6 +17863,7 @@ explanation: "It links microscopic particles to real-world applications."
 topic: "atomic",
 image: "36-formula-key-ideas-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "The charge of a proton is:",
 options: ["Negative", "Zero", "Positive", "Variable"],
@@ -15837,6 +17874,7 @@ explanation: "Protons carry a positive charge."
 topic: "atomic",
 image: "36-formula-key-ideas-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Rutherford’s model showed that:",
 options: ["Atom is solid", "Atom is mostly empty space", "Electrons are fixed", "Nucleus is negative"],
@@ -15846,7 +17884,8 @@ explanation: "Most of the atom is empty space with a dense nucleus."
 {
 topic: "atomic",
 image: "36-formula-key-ideas-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Energy levels in Bohr model are:",
 options: ["Continuous", "Random", "Quantized", "Infinite"],
@@ -15856,7 +17895,8 @@ explanation: "Electrons occupy discrete energy levels."
 {
 topic: "atomic",
 image: "36-formula-key-ideas-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "iii",
 level: "medium",
 question: "Photon energy depends on:",
 options: ["Mass", "Frequency", "Volume", "Density"],
@@ -15867,6 +17907,7 @@ explanation: "E = hf → depends on frequency."
 topic: "atomic",
 image: "36-formula-key-ideas-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Gamma radiation is:",
 options: ["Charged particle", "Neutral wave", "Heavy particle", "Atom"],
@@ -15876,7 +17917,8 @@ explanation: "Gamma rays are electromagnetic waves."
 {
 topic: "atomic",
 image: "36-formula-key-ideas-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Half-life formula includes:",
 options: ["ln2", "sinθ", "log10", "π"],
@@ -15886,7 +17928,8 @@ explanation: "t₁/₂ = ln2 / λ."
 {
 topic: "atomic",
 image: "36-formula-key-ideas-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Shell model explains:",
 options: ["Electron motion", "Proton charge", "Nucleon arrangement", "Energy emission"],
@@ -15896,7 +17939,8 @@ explanation: "Protons and neutrons occupy shells."
 {
 topic: "atomic",
 image: "36-formula-key-ideas-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "ii",
 level: "medium",
 question: "Energy from mass defect is calculated using:",
 options: ["F = ma", "V = IR", "E = mc²", "p = mv"],
@@ -15906,7 +17950,8 @@ explanation: "Mass converts to energy via Einstein’s equation."
 {
 topic: "atomic",
 image: "36-formula-key-ideas-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Beta radiation has:",
 options: ["High ionization", "Medium penetration", "No penetration", "Infinite mass"],
@@ -15917,6 +17962,7 @@ explanation: "Beta particles have moderate penetration."
 topic: "atomic",
 image: "36-formula-key-ideas-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Geiger counter is used to:",
 options: ["Produce radiation", "Measure radiation", "Stop decay", "Create atoms"],
@@ -15926,7 +17972,8 @@ explanation: "It detects and measures radiation."
 {
 topic: "atomic",
 image: "36-formula-key-ideas-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Radiation is used in:",
 options: ["Medicine", "Industry", "Space", "All of the above"],
@@ -15936,7 +17983,8 @@ explanation: "It has applications in all listed fields."
 {
 topic: "atomic",
 image: "36-formula-key-ideas-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Atomic physics is important because it:",
 options: ["Only studies atoms", "Has no applications", "Connects theory to real-world applications", "Is outdated"],
@@ -15947,6 +17995,7 @@ explanation: "It explains modern technologies and natural phenomena."
 topic: "atomic",
 image: "37-rapid-recall-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "An atom has:",
 options: ["Large nucleus", "Dense positive nucleus", "Negative nucleus", "No nucleus"],
@@ -15957,6 +18006,7 @@ explanation: "The nucleus is small, dense, and positively charged."
 topic: "atomic",
 image: "37-rapid-recall-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Electrons move in:",
 options: ["Random paths", "Discrete energy levels", "Straight lines", "Waves only"],
@@ -15967,6 +18017,7 @@ explanation: "Electrons occupy quantized energy levels."
 topic: "atomic",
 image: "37-rapid-recall-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Thomson model is called:",
 options: ["Planet model", "Nuclear model", "Plum pudding model", "Shell model"],
@@ -15977,6 +18028,7 @@ explanation: "Electrons embedded in positive sphere."
 topic: "atomic",
 image: "37-rapid-recall-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Rutherford concluded atom is:",
 options: ["Solid", "Mostly empty", "Fully charged", "Dense"],
@@ -15986,7 +18038,8 @@ explanation: "Gold foil experiment showed empty space."
 {
 topic: "atomic",
 image: "37-rapid-recall-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Electron emits energy when:",
 options: ["Moving up", "Moving down", "Staying constant", "Rotating"],
@@ -15996,7 +18049,8 @@ explanation: "Energy released when falling to lower level."
 {
 topic: "atomic",
 image: "37-rapid-recall-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Photon energy is:",
 options: ["Independent of frequency", "Proportional to frequency", "Constant", "Zero"],
@@ -16006,7 +18060,8 @@ explanation: "E = hf."
 {
 topic: "atomic",
 image: "37-rapid-recall-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Each element has:",
 options: ["Same spectrum", "Unique spectrum", "No spectrum", "Continuous spectrum only"],
@@ -16017,6 +18072,7 @@ explanation: "Used to identify elements."
 topic: "atomic",
 image: "37-rapid-recall-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Radioactive decay is:",
 options: ["Forced", "Random", "Controlled", "Artificial"],
@@ -16026,7 +18082,8 @@ explanation: "Decay is spontaneous and random."
 {
 topic: "atomic",
 image: "37-rapid-recall-atomic-physics",
-criterion: "B",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Half-life refers to:",
 options: ["Full decay", "Half remaining", "Doubling", "Growth"],
@@ -16037,6 +18094,7 @@ explanation: "Time for quantity to reduce to half."
 topic: "atomic",
 image: "37-rapid-recall-atomic-physics",
 criterion: "A",
+    strand: "i",
 level: "easy",
 question: "Nuclear density is:",
 options: ["Variable", "Nearly constant", "Zero", "Infinite"],
@@ -16046,7 +18104,8 @@ explanation: "Density remains nearly constant for nuclei."
 {
 topic: "atomic",
 image: "37-rapid-recall-atomic-physics",
-criterion: "C",
+criterion: "A",
+    strand: "i",
 level: "medium",
 question: "Gamma rays have:",
 options: ["High ionization", "Low penetration", "High penetration", "Mass"],
@@ -16056,7 +18115,8 @@ explanation: "Gamma rays penetrate deeply."
 {
 topic: "atomic",
 image: "37-rapid-recall-atomic-physics",
-criterion: "D",
+criterion: "A",
+    strand: "i",
 level: "hard",
 question: "Atomic physics is applied in:",
 options: ["Medicine only", "Industry only", "Space only", "Multiple fields"],

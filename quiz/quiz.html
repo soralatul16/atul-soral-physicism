@@ -5,158 +5,164 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Physics Quiz | Atul Soral Physicism</title>
 <style>
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background: linear-gradient(rgba(0,0,0,0.58), rgba(15,23,42,0.85)),
-    url('../exam-system/assets/myp-background-image.png') center/cover fixed;
-  color:#ffffff;
-  overflow-y:auto;
-  padding:40px 0 80px;
+body {
+  margin: 0;
+  font-family: Georgia, 'Palatino Linotype', serif;
+  background: #f5f0e8;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  color: #1a1a2e;
+  overflow-y: auto;
+  padding: 40px 0 80px;
 }
-.nav{
-  position:absolute;
-  top:15px;
-  left:20px;
+.quiz-box {
+  width: 640px;
+  max-width: 92%;
+  margin: auto;
+  background: rgba(255,255,255,0.7);
+  padding: 32px;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(0,0,0,0.06);
+  color: #1a1a2e;
 }
-.nav button{
-  margin-right:10px;
-  padding:8px 12px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  background:#334155;
-  color:white;
-  font-size:13px;
-  transition:all 0.15s;
+h2 { color: #1a1a2e; text-align: center; margin-bottom: 20px; }
+.question {
+  font-size: 18px;
+  color: #1a1a2e;
+  font-weight: 500;
+  line-height: 1.7;
+  margin-bottom: 20px;
 }
-.nav button:hover{background:#475569;}
-.quiz-box{
-  width:600px;
-  max-width:90%;
-  margin:auto;
-  background:rgba(2,6,23,0.92);
-  padding:30px;
-  border-radius:12px;
-  box-shadow:0 0 25px rgba(0,0,0,0.5);
-  backdrop-filter:blur(8px);
-  border:1px solid rgba(255,255,255,0.08);
-  color:#ffffff;
+.option {
+  display: block;
+  background: #f9f6f1;
+  color: #1a1a2e;
+  margin: 10px 0;
+  padding: 14px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1.5px solid rgba(0,0,0,0.06);
+  font-size: 15px;
 }
-h2{
-  text-align:center;
-  margin-bottom:20px;
-  color:#ffffff;
+.option:hover {
+  background: #f0ede6;
+  border-color: rgba(0,0,0,0.1);
+  transform: translateX(4px);
 }
-.question{
-  font-size:20px;
-  margin-bottom:20px;
-  color:#ffffff;
-  font-weight:500;
+.option.selected {
+  background: #e8f5e9 !important;
+  color: #2e7d32;
+  font-weight: 600;
+  border-color: rgba(46,125,50,0.3);
 }
-.option{
-  display:block;
-  background:#334155;
-  color:#ffffff;
-  margin:10px 0;
-  padding:14px;
-  border-radius:8px;
-  cursor:pointer;
-  transition:0.2s;
-  border:1px solid rgba(255,255,255,0.2);
+.next-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  background: #c0392b;
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  font-family: -apple-system, system-ui, sans-serif;
 }
-.option:hover{
-  background:#475569;
+.next-btn:hover { background: #a93226; transform: translateY(-1px); }
+.progress {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  font-family: -apple-system, system-ui, sans-serif;
 }
-.option.selected{
-  background:#22c55e !important;
-  color:white;
-  font-weight:bold;
-  border-color:#22c55e;
+.nav {
+  position: absolute;
+  top: 15px;
+  left: 20px;
 }
-.next-btn{
-  margin-top:20px;
-  width:100%;
-  padding:14px;
-  background:#22c55e;
-  border:none;
-  border-radius:8px;
-  color:white;
-  font-size:16px;
-  cursor:pointer;
-  font-weight:bold;
-  transition:background 0.15s;
+.nav button {
+  margin-right: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.7);
+  color: #1a1a2e;
+  border: 1.5px solid rgba(0,0,0,0.08);
+  border-radius: 50px;
+  backdrop-filter: blur(8px);
+  font-family: -apple-system, system-ui, sans-serif;
+  font-size: 13px;
+  transition: all 0.15s;
 }
-.next-btn:hover{background:#16a34a;}
-.progress{
-  margin-top:10px;
-  text-align:center;
-  font-size:14px;
-  color:#cbd5f5;
-}
+.nav button:hover { background: rgba(255,255,255,0.9); }
 
 /* ===== FEEDBACK WIDGET ===== */
-#fb-trigger {
-  position: fixed; bottom: 28px; right: 28px; z-index: 9000;
-  width: 52px; height: 52px; border-radius: 50%;
-  background: linear-gradient(135deg,#ef4444,#7f1d1d);
-  border: none; cursor: pointer;
-  box-shadow: 0 4px 20px rgba(239,68,68,.5);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem;
-  transition: transform .2s, box-shadow .2s;
+#fb-trigger{
+  position:fixed;bottom:28px;right:28px;z-index:9000;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  border:none;cursor:pointer;
+  box-shadow:0 4px 20px rgba(239,68,68,.4);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  transition:transform .2s,box-shadow .2s;color:white;
 }
-#fb-trigger:hover { transform:scale(1.12); box-shadow:0 6px 28px rgba(239,68,68,.7); }
-#fb-trigger.spinning { transform:rotate(90deg) scale(1.05); }
+#fb-trigger:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(239,68,68,.5);}
+#fb-trigger.spinning{transform:rotate(90deg) scale(1.05);}
 
-#fb-panel {
-  position: fixed; bottom: 92px; right: 28px; z-index: 9000;
-  width: 310px;
-  background: #111;
-  border: 1px solid rgba(239,68,68,.3);
-  border-radius: 16px; overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,.7);
-  transform: translateY(20px) scale(.96);
-  opacity: 0; pointer-events: none;
-  transition: transform .28s cubic-bezier(.22,.68,0,1.2), opacity .2s;
+#fb-panel{
+  position:fixed;bottom:92px;right:28px;z-index:9000;width:320px;
+  background:#f7f3ed;border:1.5px solid rgba(26,26,46,0.1);
+  border-radius:24px;overflow:hidden;
+  box-shadow:0 16px 48px rgba(26,26,46,0.1);
+  transform:translateY(20px) scale(.96);opacity:0;pointer-events:none;
+  transition:transform .28s cubic-bezier(.22,.68,0,1.2),opacity .2s;
 }
-#fb-panel.open { transform:translateY(0) scale(1); opacity:1; pointer-events:all; }
-#fb-panel .fb-head {
-  background: linear-gradient(135deg,#ef4444,#7f1d1d);
-  padding: 13px 18px;
-  font-family: Arial, sans-serif;
-  font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
-  color: white; display:flex; align-items:center; gap:8px;
+#fb-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+#fb-panel .fb-head{
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  padding:14px 18px;font-family:Georgia,'Palatino Linotype',serif;
+  font-size:14px;font-weight:600;color:white;display:flex;align-items:center;gap:8px;
 }
-#fb-panel .fb-body { padding:16px; display:flex; flex-direction:column; gap:11px; }
-#fb-panel .fb-page {
-  font-size:.7rem; color:rgba(255,255,255,.32);
-  background:rgba(255,255,255,.05); padding:5px 10px; border-radius:6px;
-  word-break:break-all; line-height:1.4;
+#fb-panel .fb-body{padding:16px;display:flex;flex-direction:column;gap:11px;}
+#fb-panel .fb-page{
+  font-size:11px;color:#8888a0;font-family:monospace;
+  background:rgba(26,26,46,0.03);padding:6px 10px;border-radius:8px;
+  word-break:break-all;line-height:1.4;
 }
-#fb-panel input, #fb-panel textarea {
-  width:100%; background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12); border-radius:8px;
-  color:white; font-family:Arial,sans-serif; font-size:.86rem;
-  padding:9px 12px; resize:none; outline:none; transition:border-color .2s;
+#fb-panel input,#fb-panel textarea{
+  width:100%;background:#fff;
+  border:1.5px solid rgba(26,26,46,0.08);border-radius:10px;
+  color:#1a1a2e;font-family:-apple-system,system-ui,sans-serif;font-size:14px;
+  padding:10px 14px;resize:none;outline:none;transition:border-color .2s;
   box-sizing:border-box;
 }
-#fb-panel input::placeholder, #fb-panel textarea::placeholder { color:rgba(255,255,255,.26); }
-#fb-panel input:focus, #fb-panel textarea:focus { border-color:rgba(239,68,68,.55); }
-#fb-panel textarea { height:88px; }
-#fb-panel .fb-send {
-  background:linear-gradient(135deg,#ef4444,#991b1b);
-  border:none; color:white; font-family:Arial,sans-serif;
-  font-size:.88rem; font-weight:600; padding:10px; border-radius:8px;
-  cursor:pointer; transition:opacity .2s,transform .15s;
+#fb-panel input::placeholder,#fb-panel textarea::placeholder{color:#b0b0c4;}
+#fb-panel input:focus,#fb-panel textarea:focus{border-color:#f7c5c0;}
+#fb-panel textarea{height:88px;}
+#fb-panel .fb-send{
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  border:none;color:white;font-family:-apple-system,system-ui,sans-serif;
+  font-size:14px;font-weight:600;padding:11px;border-radius:10px;
+  cursor:pointer;transition:opacity .2s,transform .15s;
 }
-#fb-panel .fb-send:hover { opacity:.88; transform:translateY(-1px); }
-#fb-panel .fb-send:disabled { opacity:.4; cursor:not-allowed; transform:none; }
-#fb-panel .fb-status {
-  font-size:.78rem; text-align:center; min-height:16px; color:rgba(255,255,255,.45);
+#fb-panel .fb-send:hover{opacity:.9;transform:translateY(-1px);}
+#fb-panel .fb-send:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+#fb-panel .fb-status{font-size:12px;text-align:center;min-height:16px;color:#8888a0;}
+#fb-panel .fb-status.ok{color:#2e7d32;}
+#fb-panel .fb-status.err{color:#ef4444;}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 500px) {
+  .quiz-box { padding: 20px 16px; border-radius: 16px; }
+  .question { font-size: 16px; }
+  .option { padding: 12px 14px; font-size: 14px; }
+  .nav { position: relative; top: 0; left: 0; margin-bottom: 16px; display: flex; gap: 6px; justify-content: center; }
+  .nav button { font-size: 12px; padding: 6px 10px; }
+  h2 { font-size: 20px; }
 }
-#fb-panel .fb-status.ok  { color:#4ade80; }
-#fb-panel .fb-status.err { color:#f87171; }
 </style>
 </head>
 <body>
@@ -170,6 +176,10 @@ h2{
 <div class="quiz-box">
   <h2 id="title">🧠 Physics Quiz</h2>
   <div id="quiz-area">
+    <div id="timer-bar" style="height:4px;background:#f0ede6;border-radius:99px;margin-bottom:16px;overflow:hidden;">
+      <div id="timer-fill" style="height:100%;background:#c0392b;width:100%;transition:width 0.1s linear;border-radius:99px;"></div>
+    </div>
+    <div id="timer-text" style="text-align:right;font-size:12px;color:#888;margin-bottom:8px;font-family:-apple-system,system-ui,sans-serif;">20s</div>
     <div class="question" id="question"></div>
     <div id="options"></div>
     <button class="next-btn" onclick="nextQuestion()">Next</button>

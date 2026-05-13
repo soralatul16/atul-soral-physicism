@@ -54,9 +54,24 @@ function shuffle(arr) {
 }
 
 // ===============================
-// PREPARE QUESTIONS (up to 10, or however many exist for this image)
+// PREPARE QUESTIONS (up to 10, progressive difficulty)
 // ===============================
-let questions = shuffle(filtered).slice(0, 10).map(q => {
+const difficultyOrder = { easy: 0, medium: 1, hard: 2 };
+let sortedQuestions = filtered.sort((a, b) => {
+  return (difficultyOrder[a.level] || 1) - (difficultyOrder[b.level] || 1);
+});
+
+const easy = sortedQuestions.filter(q => q.level === 'easy');
+const medium = sortedQuestions.filter(q => q.level === 'medium');
+const hard = sortedQuestions.filter(q => q.level === 'hard');
+
+let questions = [
+  ...shuffle(easy).slice(0, 3),
+  ...shuffle(medium).slice(0, 4),
+  ...shuffle(hard).slice(0, 3)
+].slice(0, 10);
+
+questions = questions.map(q => {
   const shuffledOptions = shuffle(q.options);
   return {
     ...q,
@@ -72,6 +87,38 @@ let index = 0;
 let score = 0;
 let userAnswers = [];
 let selected = null;
+let timerInterval = null;
+let timeLeft = 20;
+const TIME_PER_QUESTION = 20;
+
+function startTimer() {
+  timeLeft = TIME_PER_QUESTION;
+  updateTimerDisplay();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft -= 0.1;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      if (selected === null) {
+        userAnswers.push({ question: questions[index], selected: -1 });
+        index++;
+        selected = null;
+        if (index >= questions.length) showSummary();
+        else loadQuestion();
+      }
+    }
+  }, 100);
+}
+
+function updateTimerDisplay() {
+  const fill = document.getElementById('timer-fill');
+  const text = document.getElementById('timer-text');
+  if (fill) fill.style.width = Math.max(0, (timeLeft / TIME_PER_QUESTION) * 100) + '%';
+  if (text) text.textContent = Math.ceil(Math.max(0, timeLeft)) + 's';
+  if (fill && timeLeft <= 5) fill.style.background = '#e74c3c';
+  else if (fill) fill.style.background = '#c0392b';
+}
 
 // ===============================
 // LOAD QUESTION
@@ -79,7 +126,7 @@ let selected = null;
 function loadQuestion() {
   if (questions.length === 0) {
     document.getElementById("quiz-area").innerHTML =
-      '<div style="text-align:center;padding:30px;color:#cbd5f5;">No questions available for this infographic yet.</div>';
+      '<div style="text-align:center;padding:30px;color:#888;">No questions available for this infographic yet.</div>';
     return;
   }
   const q = questions[index];
@@ -93,12 +140,15 @@ function loadQuestion() {
   document.getElementById("options").innerHTML = html;
   document.getElementById("progress").innerText =
     `Question ${index + 1} of ${questions.length}`;
+  
+  startTimer();
 }
 
 // ===============================
 // SELECT OPTION
 // ===============================
 function selectOption(i, element) {
+  if (element.style.pointerEvents === 'none') return;
   selected = i;
   document.querySelectorAll(".option").forEach(opt => {
     opt.classList.remove("selected");
@@ -111,30 +161,43 @@ function selectOption(i, element) {
 // ===============================
 function nextQuestion() {
   if (selected === null) return;
+  clearInterval(timerInterval);
 
-  if (selected === questions[index].answerIndex) {
-    score++;
-  }
-
-  userAnswers.push({
-    question: questions[index],
-    selected: selected
+  const q = questions[index];
+  const isCorrect = selected === q.answerIndex;
+  
+  const optionEls = document.querySelectorAll('.option');
+  optionEls.forEach((el, i) => {
+    el.style.pointerEvents = 'none';
+    if (i === q.answerIndex) {
+      el.style.background = '#e8f5e9';
+      el.style.borderColor = 'rgba(46,125,50,0.4)';
+      el.style.color = '#2e7d32';
+    }
+    if (i === selected && !isCorrect) {
+      el.style.background = '#fde8e6';
+      el.style.borderColor = 'rgba(192,57,43,0.3)';
+      el.style.color = '#c0392b';
+      el.style.textDecoration = 'line-through';
+    }
   });
 
-  selected = null;
-  index++;
+  if (isCorrect) score++;
+  userAnswers.push({ question: q, selected: selected });
 
-  if (index >= questions.length) {
-    showSummary();
-  } else {
-    loadQuestion();
-  }
+  setTimeout(() => {
+    selected = null;
+    index++;
+    if (index >= questions.length) showSummary();
+    else loadQuestion();
+  }, 800);
 }
 
 // ===============================
 // SHOW SUMMARY
 // ===============================
 function showSummary() {
+  clearInterval(timerInterval);
   document.getElementById("quiz-area").style.display = "none";
 
   const box = document.getElementById("summary-area");
@@ -143,55 +206,93 @@ function showSummary() {
   const pct = Math.round(score / questions.length * 100);
   const emoji = pct >= 80 ? "🏆" : pct >= 60 ? "👏" : pct >= 40 ? "💪" : "📖";
 
-  let html = `<h2>${emoji} Quiz Completed</h2>`;
-  html += `<h3 style="text-align:center;margin-bottom:20px;">Score: ${score} / ${questions.length} (${pct}%)</h3>`;
+  const history = JSON.parse(localStorage.getItem('PHYS_QUIZ_HISTORY') || '[]');
+  const prevAttempts = history.filter(h => h.image === image || (!image && h.topic === topic));
+  const prevBest = prevAttempts.length ? Math.max(...prevAttempts.map(h => h.pct)) : null;
 
-  // Progress bar
-  html += `<div style="background:#1e293b;border-radius:8px;height:12px;margin-bottom:20px;overflow:hidden;">
-    <div style="background:${pct>=70?'#22c55e':pct>=40?'#f59e0b':'#ef4444'};height:100%;width:${pct}%;border-radius:8px;transition:width 0.6s;"></div>
+  let histText = "";
+  if (prevBest !== null && prevBest < pct) histText = `<div style="font-size:14px;color:#2e7d32;font-weight:600;margin-top:6px;">🎉 New personal best! Previous: ${prevBest}%</div>`;
+  else if (prevBest !== null && prevBest >= pct) histText = `<div style="font-size:14px;color:#888;margin-top:6px;">Personal best: ${prevBest}%</div>`;
+  else histText = `<div style="font-size:14px;color:#c0392b;font-weight:600;margin-top:6px;">First attempt!</div>`;
+
+  let html = `<h2>${emoji} Quiz Completed</h2>`;
+  html += `<h3 style="text-align:center;margin-bottom:8px;color:#1a1a2e;">Score: ${score} / ${questions.length} (${pct}%)</h3>`;
+  html += `<div style="text-align:center;margin-bottom:20px;font-family:-apple-system,system-ui,sans-serif;">
+    <div style="font-size:12px;color:#888;text-transform:uppercase;letter-spacing:1px;">Attempt #${prevAttempts.length + 1}</div>
+    ${histText}
   </div>`;
 
-  // Criterion breakdown
-  const critScore = {A:0,B:0,C:0,D:0};
-  const critTotal = {A:0,B:0,C:0,D:0};
+  // Progress bar
+  html += `<div style="background:#f0ede6;border-radius:8px;height:12px;margin-bottom:20px;overflow:hidden;border:1px solid rgba(0,0,0,0.06);">
+    <div style="background:${pct>=70?'#2e7d32':pct>=40?'#f59e0b':'#c0392b'};height:100%;width:${pct}%;border-radius:8px;transition:width 0.6s;"></div>
+  </div>`;
+
+  // Strand breakdown
+  const strandScore = {i:0, ii:0, iii:0};
+  const strandTotal = {i:0, ii:0, iii:0};
+  const strandNames = {i:'Recall', ii:'Application', iii:'Analysis'};
+
   userAnswers.forEach(item => {
-    const c = item.question.criterion || "A";
-    critTotal[c]++;
-    if (item.question.options[item.selected] === item.question.answer) critScore[c]++;
+    const s = item.question.strand || 'i';
+    strandTotal[s]++;
+    if (item.selected >= 0 && item.question.options[item.selected] === item.question.answer) strandScore[s]++;
   });
-  html += `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;">`;
-  ["A","B","C","D"].forEach(c => {
-    const cp = critTotal[c] > 0 ? Math.round(critScore[c]/critTotal[c]*100) : 0;
-    html += `<div style="background:#1e293b;border-radius:8px;padding:10px;text-align:center;">
-      <div style="font-size:18px;font-weight:bold;color:#ef4444;">Crit ${c}</div>
-      <div style="font-size:14px;color:#cbd5f5;">${critScore[c]}/${critTotal[c]}</div>
-      <div style="font-size:12px;color:#94a3b8;">${cp}%</div>
-    </div>`;
+
+  html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">';
+  ['i','ii','iii'].forEach(s => {
+    const sp = strandTotal[s] > 0 ? Math.round(strandScore[s]/strandTotal[s]*100) : 0;
+    html += '<div style="background:#f0ede6;border-radius:12px;padding:14px;text-align:center;border:1px solid rgba(0,0,0,0.06);">' +
+      '<div style="font-size:16px;font-weight:600;color:#c0392b;">Strand ' + s + '</div>' +
+      '<div style="font-size:11px;color:#888;margin:2px 0;">' + strandNames[s] + '</div>' +
+      '<div style="font-size:14px;color:#1a1a2e;">' + strandScore[s] + '/' + strandTotal[s] + '</div>' +
+      '<div style="font-size:11px;color:#888;">' + sp + '%</div></div>';
   });
-  html += `</div><hr style="border-color:#334155;margin:16px 0;">`;
+  html += '</div><hr style="border-color:rgba(0,0,0,0.08);margin:16px 0;">';
 
   userAnswers.forEach((item, i) => {
     const q = item.question;
     const correct = q.answer;
-    const selectedAns = q.options[item.selected];
-    const isCorrect = selectedAns === correct;
+    let selectedAns = "⏱ Timed out";
+    let isCorrect = false;
+    
+    if (item.selected !== -1) {
+      selectedAns = q.options[item.selected];
+      isCorrect = selectedAns === correct;
+    }
 
     html += `
-    <div style="margin-bottom:15px;padding:14px;border-radius:8px;
-      background:${isCorrect ? '#14532d' : '#7f1d1d'};
-      border-left:3px solid ${isCorrect ? '#22c55e' : '#ef4444'};">
-      <b>Q${i + 1}: ${q.question}</b><br>
-      <span style="color:${isCorrect ? '#86efac' : '#fca5a5'};">Your Answer: ${selectedAns}</span><br>
-      ${!isCorrect ? `<span style="color:#86efac;">Correct: ${correct}</span><br>` : ''}
-      ${q.explanation ? `<i style="color:#94a3b8;font-size:13px;">${q.explanation}</i>` : ''}
+    <div style="margin-bottom:15px;padding:14px;border-radius:12px;
+      background:${isCorrect ? 'rgba(46,125,50,0.06)' : 'rgba(192,57,43,0.06)'};
+      border:1.5px solid ${isCorrect ? '#2e7d32' : '#c0392b'};">
+      <b style="color:#1a1a2e;">Q${i + 1}: ${q.question}</b><br>
+      <span style="color:${isCorrect ? '#2e7d32' : '#c0392b'};display:inline-block;margin-top:6px;font-size:14px;">Your Answer: ${selectedAns}</span><br>
+      ${!isCorrect ? `<span style="color:#2e7d32;display:inline-block;margin-top:2px;font-size:14px;">Correct: ${correct}</span><br>` : ''}
+      ${q.explanation ? `<div style="color:#555;font-size:13px;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(0,0,0,0.1);"><i>${q.explanation}</i></div>` : ''}
     </div>`;
   });
 
   html += `<button class="next-btn" onclick="location.reload()">🔄 Retry This Quiz</button>`;
-  html += `<button class="next-btn" onclick="history.back()" style="background:#334155;margin-top:10px;">← Back to Infographics</button>`;
+  html += `<button class="next-btn" onclick="history.back()" style="background:#f0ede6;color:#1a1a2e;margin-top:10px;border:1px solid rgba(0,0,0,0.1);">← Back to Infographics</button>`;
 
   box.innerHTML = html;
   window.scrollTo(0, 0);
+
+  saveQuizAttempt(topic, image, score, questions.length, pct);
+}
+
+function saveQuizAttempt(topic, image, score, total, pct) {
+  const key = 'PHYS_QUIZ_HISTORY';
+  let history = JSON.parse(localStorage.getItem(key) || '[]');
+  history.push({
+    topic: topic,
+    image: image,
+    score: score,
+    total: total,
+    pct: pct,
+    date: Date.now()
+  });
+  if (history.length > 50) history = history.slice(-50);
+  localStorage.setItem(key, JSON.stringify(history));
 }
 
 // ===============================
