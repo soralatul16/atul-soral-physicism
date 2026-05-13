@@ -295,10 +295,45 @@ function gen(i){
     if(!result){btn.disabled=false;btn.textContent='Generate '+SN[i];return;}
     result=result.replace(/```html/g,'').replace(/```/g,'').trim();
     GEN[i]=result;
-    out.innerHTML='<div class="out-card"><div class="out-top"><span class="out-label">'+SN[i]+'</span><div class="out-actions"><button class="btn btn-out" onclick="copyS('+i+')">Copy</button><button class="btn btn-out" onclick="gen('+i+')">Redo</button></div></div><div class="out-body" contenteditable="true" id="e'+i+'">'+result+'</div></div>';
-    document.getElementById('b'+i).textContent='Done';
-    document.getElementById('b'+i).className='sec-badge badge-done';
-    document.getElementById('t'+i).classList.add('done');
+
+    // For RQ section, add select buttons
+    if (i === 0) {
+      var rqContainer = '<div class="out-card"><div class="out-top"><span class="out-label">Choose a Research Question</span><div class="out-actions"><button class="btn btn-out" onclick="gen(0)">Regenerate</button></div></div>';
+      
+      // Extract RQs from the result — look for patterns like "Research Question 1", numbered items, or table rows
+      var rqBlocks = result.split(/(?=<h[34]|<b>Research Question|<tr>(?=.*?<td)|\d+\.\s*<b>|\*\s*<b>)/gi).filter(function(block) {
+        return block.trim().length > 50; 
+      });
+      
+      if (rqBlocks.length < 2) {
+        rqContainer += '<div class="out-body" id="e0">' + result + '</div>';
+        rqContainer += '<div style="margin-top:14px;"><div class="fg"><label>Manually type or paste your chosen RQ</label><input type="text" id="manual-rq-select" placeholder="Type your chosen RQ here..." style="margin-bottom:8px;"><button class="btn btn-red" onclick="manualSelectRQ()">Confirm RQ</button></div></div>';
+      } else {
+        rqContainer += '<div id="rq-options">';
+        rqBlocks.forEach(function(block, bi) {
+          var rqMatch = block.match(/How does.*?\?|What is.*?\?|What effect.*?\?|To what extent.*?\?|Is there.*?\?/i);
+          var rqText = rqMatch ? rqMatch[0] : '';
+          
+          rqContainer += '<div class="rq-option" style="background:white;border:1.5px solid rgba(0,0,0,0.06);border-radius:12px;padding:16px;margin-bottom:10px;transition:all .2s;cursor:pointer;" onmouseenter="this.style.borderColor=\'rgba(192,57,43,0.3)\'" onmouseleave="this.style.borderColor=\'rgba(0,0,0,0.06)\'">';
+          rqContainer += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">';
+          rqContainer += '<div style="flex:1;font-size:14px;line-height:1.7;color:#1a1a2e;">' + block + '</div>';
+          rqContainer += '<button class="btn btn-red" style="flex-shrink:0;font-size:11px;padding:6px 16px;" onclick="selectRQ(this, ' + bi + ', `' + rqText.replace(/`/g, "'") + '`)">Select</button>';
+          rqContainer += '</div></div>';
+        });
+        rqContainer += '</div>';
+      }
+      
+      rqContainer += '<div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(0,0,0,0.06);"><div class="fg"><label>Or type your own Research Question</label><input type="text" id="manual-rq-select" placeholder="Type a custom RQ..." style="margin-bottom:8px;"><button class="btn btn-out" onclick="manualSelectRQ()">Use Custom RQ</button></div></div>';
+      rqContainer += '</div>';
+      out.innerHTML = rqContainer;
+      
+    } else {
+      out.innerHTML = '<div class="out-card"><div class="out-top"><span class="out-label">' + SN[i] + '</span><div class="out-actions"><button class="btn btn-out" onclick="copyS(' + i + ')">Copy</button><button class="btn btn-out" onclick="gen(' + i + ')">Redo</button></div></div><div class="out-body" contenteditable="true" id="e' + i + '">' + result + '</div></div>';
+      document.getElementById('b'+i).textContent='Done';
+      document.getElementById('b'+i).className='sec-badge badge-done';
+      document.getElementById('t'+i).classList.add('done');
+    }
+    
     btn.textContent='✓ Generated';btn.disabled=false;
   }).catch(function(err){
     out.innerHTML='<div style="color:#c0392b;padding:10px;font-size:12px;">Error: '+err.message+'</div>';
@@ -321,6 +356,56 @@ function exportHTML(){var w=window.open('','_blank');w.document.write(buildHTML(
 function exportPrint(){var w=window.open('','_blank');w.document.write(buildHTML());w.document.close();setTimeout(function(){w.print();},600);}
 function exportWord(){var h=buildHTML();var blob=new Blob(['\ufeff'+h],{type:'application/msword'});var u=URL.createObjectURL(blob);var a=document.createElement('a');a.href=u;var c=gc();a.download='IB_IA_'+(c.subtopic||c.topic).replace(/\s+/g,'_')+'.doc';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);}
 function copyAll(){var t='';for(var i=0;i<15;i++){if(GEN[i]){var el=document.getElementById('e'+i);t+=(i+1)+'. '+SN[i]+'\n\n'+(el?el.innerText:'')+'\n\n';}}if(!t){alert('Generate sections first.');return;}navigator.clipboard.writeText(t).then(function(){alert('All sections copied!');});}
+
+function selectRQ(btn, index, rqText) {
+  if (!rqText) {
+    var card = btn.closest('.rq-option');
+    var text = card ? card.textContent : '';
+    var match = text.match(/How does.*?\?|What is.*?\?|What effect.*?\?|To what extent.*?\?|Is there.*?\?/i);
+    rqText = match ? match[0].trim() : text.substring(0, 200).trim();
+  }
+  var card = btn.closest('.rq-option');
+  var fullDetails = card ? card.querySelector('div[style*="flex:1"]').innerHTML : '';
+  var rqInput = document.getElementById('intro-rq');
+  if (rqInput) rqInput.value = rqText;
+  var selectedHTML = '<div class="out-card">';
+  selectedHTML += '<div class="out-top"><span class="out-label">Selected Research Question</span>';
+  selectedHTML += '<div class="out-actions"><button class="btn btn-out" onclick="gen(0)">Change RQ</button></div></div>';
+  selectedHTML += '<div style="font-size:16px;font-weight:600;color:#1a1a2e;line-height:1.6;padding:8px 0;" id="selected-rq-text">' + rqText + '</div>';
+  selectedHTML += '<details style="margin-top:10px;"><summary style="font-size:12px;color:#888;cursor:pointer;font-family:-apple-system,system-ui,sans-serif;padding:6px 0;">View details (IV, DV, CV, suitability...)</summary>';
+  selectedHTML += '<div style="padding:10px 14px;background:#f9f6f1;border-radius:8px;margin-top:6px;font-size:13px;line-height:1.7;color:#555;">' + fullDetails + '</div>';
+  selectedHTML += '</details>';
+  selectedHTML += '</div>';
+  document.getElementById('o0').innerHTML = selectedHTML;
+  GEN[0] = '<p><strong>Research Question:</strong> ' + rqText + '</p>';
+  document.getElementById('b0').textContent = 'Done';
+  document.getElementById('b0').className = 'sec-badge badge-done';
+  document.getElementById('t0').classList.add('done');
+  setTimeout(function() {
+    document.getElementById('s1').scrollIntoView({behavior: 'smooth'});
+  }, 300);
+}
+
+function manualSelectRQ() {
+  var input = document.getElementById('manual-rq-select');
+  if (!input || !input.value.trim()) { alert('Please type a Research Question first.'); return; }
+  var rqText = input.value.trim();
+  var rqInput = document.getElementById('intro-rq');
+  if (rqInput) rqInput.value = rqText;
+  var selectedHTML = '<div class="out-card">';
+  selectedHTML += '<div class="out-top"><span class="out-label">Selected Research Question</span>';
+  selectedHTML += '<div class="out-actions"><button class="btn btn-out" onclick="gen(0)">Change RQ</button></div></div>';
+  selectedHTML += '<div style="font-size:16px;font-weight:600;color:#1a1a2e;line-height:1.6;padding:8px 0;" id="selected-rq-text">' + rqText + '</div>';
+  selectedHTML += '</div>';
+  document.getElementById('o0').innerHTML = selectedHTML;
+  GEN[0] = '<p><strong>Research Question:</strong> ' + rqText + '</p>';
+  document.getElementById('b0').textContent = 'Done';
+  document.getElementById('b0').className = 'sec-badge badge-done';
+  document.getElementById('t0').classList.add('done');
+  setTimeout(function() {
+    document.getElementById('s1').scrollIntoView({behavior: 'smooth'});
+  }, 300);
+}
 </script>
 
 </body>

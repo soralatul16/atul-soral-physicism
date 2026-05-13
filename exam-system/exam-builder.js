@@ -315,7 +315,9 @@ function renderSavedPreview(i) {
   let preview = '';
 
   if (b.mode === 'content') {
-    if (b.type === 'Text') preview = `<div style="font-size:13px;line-height:1.6;">${d.text || '(No text)'}</div>`;
+    if (b.type === 'Text') {
+      preview = `<div style="font-size:14px;line-height:1.8;color:#333;padding:12px 16px;background:#f9f6f1;border-radius:10px;border-left:3px solid #c0392b;margin:8px 0;">${d.text || '(No text)'}</div>`;
+    }
     else if (b.type === 'Image') preview = d.url ? `<img src="${d.url}" style="max-width:100%;max-height:200px;border-radius:8px;" onerror="this.style.display='none'">` : `<div style="color:var(--text2);font-size:13px;">Image uploaded</div>`;
     else preview = `<div style="color:var(--text2);font-size:13px;">${b.type} content saved.</div>`;
   } else {
@@ -1109,6 +1111,8 @@ function previewStudent() {
           } else {
             html += `<div class="block"><video src="${b.data.url}" controls style="max-width:100%;border-radius:8px;"></video></div>`;
           }
+        } else if (b.type === 'Text') {
+          html += `<div class="block" style="font-size:14px;line-height:1.8;color:#333;padding:16px 20px;background:#f9f6f1;border-left:3px solid #c0392b;border-radius:8px;">${b.data.text || '(No text)'}</div>`;
         } else {
           html += `<div class="block">${b.data.text || b.data.url || '(Content block)'}</div>`;
         }
