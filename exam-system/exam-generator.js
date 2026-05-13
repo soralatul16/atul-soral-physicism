@@ -339,6 +339,8 @@ async function callAI(prompt) {
 
 async function callGroq(prompt, key, statusEl) {
   for (let attempt = 0; attempt < 2; attempt++) {
+    const model = attempt === 0 ? 'llama-3.3-70b-versatile' : 'llama-3.3-8b-instant';
+    
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -346,7 +348,7 @@ async function callGroq(prompt, key, statusEl) {
         'Authorization': 'Bearer ' + key
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
+        model: model,
         messages: [
           { role: 'system', content: 'You are an expert IB MYP Physics teacher. You MUST respond with valid JSON only. No markdown, no code fences, no extra text.' },
           { role: 'user', content: prompt }
@@ -358,8 +360,8 @@ async function callGroq(prompt, key, statusEl) {
     });
 
     if (response.status === 429 && attempt === 0) {
-      if (statusEl) statusEl.textContent = '⏳ Rate limited — retrying in 10 seconds...';
-      await new Promise(r => setTimeout(r, 10000));
+      if (statusEl) statusEl.textContent = '⏳ Rate limited — retrying with faster model...';
+      await new Promise(r => setTimeout(r, 2000)); // Shorter wait for faster model
       continue;
     }
 
