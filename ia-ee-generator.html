@@ -88,6 +88,42 @@ body::before{content:'Atul Soral Physicism';position:fixed;top:50%;left:50%;tran
 </style>
 </head>
 <body>
+<div id="authGate" style="position:fixed;inset:0;background:rgba(245,240,232,0.98);z-index:99999;display:flex;align-items:center;justify-content:center;">
+  <div style="background:white;border:1.5px solid rgba(0,0,0,0.06);border-radius:20px;padding:40px;max-width:380px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.08);">
+    <div style="font-size:36px;margin-bottom:12px;">🔐</div>
+    <h2 style="font-family:Georgia,serif;font-size:20px;color:#1a1a2e;margin-bottom:6px;">Restricted Access</h2>
+    <p style="font-size:13px;color:#888;margin-bottom:20px;">Enter password to continue.</p>
+    <div id="authMsg" style="font-size:12px;margin-bottom:12px;display:none;padding:8px;border-radius:8px;"></div>
+    <input type="password" id="authPass" placeholder="Password..." 
+      style="width:100%;padding:11px 14px;border:1.5px solid rgba(0,0,0,0.08);border-radius:10px;font-size:14px;outline:none;margin-bottom:12px;text-align:center;"
+      onkeydown="if(event.key==='Enter')checkAuth()">
+    <button onclick="checkAuth()" 
+      style="width:100%;padding:11px;background:#c0392b;color:white;border:none;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;">
+      Unlock
+    </button>
+  </div>
+</div>
+
+<script>
+function checkAuth() {
+  var pass = document.getElementById('authPass').value;
+  var msg = document.getElementById('authMsg');
+  if (pass === 'atul123') {
+    sessionStorage.setItem('ia_auth', 'true');
+    document.getElementById('authGate').style.display = 'none';
+  } else {
+    msg.style.display = 'block';
+    msg.style.background = 'rgba(192,57,43,0.06)';
+    msg.style.color = '#c0392b';
+    msg.textContent = 'Incorrect password.';
+    document.getElementById('authPass').value = '';
+    document.getElementById('authPass').focus();
+  }
+}
+if (sessionStorage.getItem('ia_auth') === 'true') {
+  document.getElementById('authGate').style.display = 'none';
+}
+</script>
 
 <nav class="navbar">
   <a class="nav-brand" href="index.html">Atul Soral <span>Physicism</span></a>
