@@ -86,7 +86,7 @@ questions = questions.map(q => {
 let index = 0;
 let score = 0;
 let userAnswers = [];
-let selected = null;
+let selectedOption = null;
 let timerInterval = null;
 let timeLeft = 20;
 const TIME_PER_QUESTION = 20;
@@ -100,10 +100,10 @@ function startTimer() {
     updateTimerDisplay();
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
-      if (selected === null) {
+      if (selectedOption === null) {
         userAnswers.push({ question: questions[index], selected: -1 });
         index++;
-        selected = null;
+        selectedOption = null;
         if (index >= questions.length) showSummary();
         else loadQuestion();
       }
@@ -149,7 +149,7 @@ function loadQuestion() {
 // ===============================
 function selectOption(i, element) {
   if (element.style.pointerEvents === 'none') return;
-  selected = i;
+  selectedOption = i;
   document.querySelectorAll(".option").forEach(opt => {
     opt.classList.remove("selected");
   });
@@ -160,11 +160,11 @@ function selectOption(i, element) {
 // NEXT QUESTION
 // ===============================
 function nextQuestion() {
-  if (selected === null) return;
+  if (selectedOption === null) return;
   clearInterval(timerInterval);
 
   const q = questions[index];
-  const isCorrect = selected === q.answerIndex;
+  const isCorrect = selectedOption === q.answerIndex;
   
   const optionEls = document.querySelectorAll('.option');
   optionEls.forEach((el, i) => {
@@ -174,7 +174,7 @@ function nextQuestion() {
       el.style.borderColor = 'rgba(46,125,50,0.4)';
       el.style.color = '#2e7d32';
     }
-    if (i === selected && !isCorrect) {
+    if (i === selectedOption && !isCorrect) {
       el.style.background = '#fde8e6';
       el.style.borderColor = 'rgba(192,57,43,0.3)';
       el.style.color = '#c0392b';
@@ -183,10 +183,10 @@ function nextQuestion() {
   });
 
   if (isCorrect) score++;
-  userAnswers.push({ question: q, selected: selected });
+  userAnswers.push({ question: q, selected: selectedOption });
 
   setTimeout(() => {
-    selected = null;
+    selectedOption = null;
     index++;
     if (index >= questions.length) showSummary();
     else loadQuestion();

@@ -322,7 +322,7 @@ RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTe
 }
 
 /* ── AI API Call (Groq primary, Gemini fallback) ── */
-async function callGemini(prompt) {
+async function callAI(prompt) {
   const groqKey = localStorage.getItem('groq_api_key');
   const geminiKey = localStorage.getItem('gemini_api_key');
   const statusEl = document.getElementById('gen-status');
@@ -534,7 +534,7 @@ async function runGeneration() {
 
   try {
     const prompt = buildGeneratorPrompt(config);
-    const result = await callGemini(prompt);
+    const result = await callAI(prompt);
 
     if (!result || !result.blocks || !Array.isArray(result.blocks)) {
       throw new Error('Invalid response format — missing blocks array');

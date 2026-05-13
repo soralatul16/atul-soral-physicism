@@ -464,7 +464,7 @@ criterion: "A",
 level:"easy",
 question:"Newton’s First Law is also called:",
 options:["Law of motion","Law of inertia","Law of acceleration","Law of gravity"],
-answer:"Law of inertia"
+answer:"Law of inertia",
     explanation: "This is true because the physics supports Law of inertia.",
 },
 {
@@ -475,7 +475,7 @@ criterion: "A",
 level:"easy",
 question:"An object at rest will:",
 options:["Move randomly","Stay at rest","Accelerate","Explode"],
-answer:"Stay at rest"
+answer:"Stay at rest",
     explanation: "This is true because the physics supports Stay at rest.",
 },
 {
@@ -486,7 +486,7 @@ criterion: "A",
 level:"medium",
 question:"Inertia depends on:",
 options:["Speed","Force","Mass","Velocity"],
-answer:"Mass"
+answer:"Mass",
     explanation: "This is true because the physics supports Mass.",
 },
 {
@@ -497,7 +497,7 @@ criterion: "A",
 level:"medium",
 question:"Which has more inertia?",
 options:["Feather","Book","Truck","Paper"],
-answer:"Truck"
+answer:"Truck",
     explanation: "This is true because the physics supports Truck.",
 },
 {
@@ -508,7 +508,7 @@ criterion: "A",
 level:"hard",
 question:"A passenger moves forward when a bus stops due to:",
 options:["Friction","Inertia","Gravity","Acceleration"],
-answer:"Inertia"
+answer:"Inertia",
     explanation: "This is true because the physics supports Inertia.",
 },
 {
@@ -519,7 +519,7 @@ criterion: "A",
 level:"hard",
 question:"Which situation shows inertia of motion?",
 options:["Ball at rest","Moving car continues","Object falling","Object breaking"],
-answer:"Moving car continues"
+answer:"Moving car continues",
     explanation: "This is true because the physics supports Moving car continues.",
 },
 {
@@ -530,7 +530,7 @@ criterion: "A",
 level:"hard",
 question:"If no net force acts, an object will:",
 options:["Stop","Accelerate","Maintain velocity","Change direction"],
-answer:"Maintain velocity"
+answer:"Maintain velocity",
     explanation: "This is true because the physics supports Maintain velocity.",
 },
 
@@ -543,7 +543,7 @@ criterion: "A",
 level:"hard",
 question:"A 5 kg object moves at constant velocity. Net force acting is:",
 options:["5 N","10 N","0 N","Depends on speed"],
-answer:"0 N"
+answer:"0 N",
     explanation: "This is true because the physics supports 0 N.",
 },
 
@@ -556,7 +556,7 @@ criterion: "A",
 level:"hard",
 question:"A moving object stops. This means:",
 options:["No force acted","Balanced force acted","Unbalanced force acted","Mass changed"],
-answer:"Unbalanced force acted"
+answer:"Unbalanced force acted",
     explanation: "This is true because the physics supports the correct principle.",
 },
 
@@ -568,7 +568,7 @@ criterion: "A",
 level:"medium",
 question:"Inertia resists:",
 options:["Motion","Change in motion","Force","Energy"],
-answer:"Change in motion"
+answer:"Change in motion",
     explanation: "This is true because the physics supports Change in motion.",
 },
 
@@ -580,7 +580,7 @@ criterion: "A",
 level:"hard",
 question:"Seat belts work because they:",
 options:["Increase inertia","Decrease inertia","Apply force to stop motion","Remove motion"],
-answer:"Apply force to stop motion"
+answer:"Apply force to stop motion",
     explanation: "This is true because the physics supports the correct principle.",
 },
 
@@ -592,7 +592,7 @@ criterion: "A",
 level:"hard",
 question:"A heavier object is harder to stop because:",
 options:["More force","More inertia","Less speed","Less gravity"],
-answer:"More inertia"
+answer:"More inertia",
     explanation: "This is true because the physics supports More inertia.",
 },
 
@@ -604,7 +604,7 @@ criterion: "A",
 level:"medium",
 question:"Inertia is a property of:",
 options:["Energy","Matter","Force","Velocity"],
-answer:"Matter"
+answer:"Matter",
     explanation: "This is true because the physics supports Matter.",
 },
 
@@ -616,7 +616,7 @@ criterion: "A",
 level:"hard",
 question:"Which does NOT affect inertia?",
 options:["Mass","Shape","Material (same mass)","Both B and C"],
-answer:"Both B and C"
+answer:"Both B and C",
     explanation: "This is true because the physics supports Both B and C.",
 },
 
@@ -628,7 +628,7 @@ criterion: "A",
 level:"hard",
 question:"An astronaut floats because:",
 options:["No gravity","No inertia","No friction","No mass"],
-answer:"No friction"
+answer:"No friction",
     explanation: "This is true because the physics supports No friction.",
 },
 
@@ -642,7 +642,7 @@ criterion: "A",
 level:"easy",
 question:"Inertia is resistance to:",
 options:["Speed","Force","Change in motion","Energy"],
-answer:"Change in motion"
+answer:"Change in motion",
     explanation: "This is true because the physics supports Change in motion.",
 },
 
@@ -654,7 +654,7 @@ criterion: "A",
 level:"medium",
 question:"More mass means:",
 options:["Less inertia","More inertia","Same inertia","No inertia"],
-answer:"More inertia"
+answer:"More inertia",
     explanation: "This is true because the physics supports More inertia.",
 },
 
@@ -666,7 +666,7 @@ criterion: "A",
 level:"hard",
 question:"Which has greater inertia?",
 options:["Empty cart","Loaded cart","Same","Depends on speed"],
-answer:"Loaded cart"
+answer:"Loaded cart",
     explanation: "This is true because the physics supports Loaded cart.",
 },
 
@@ -679,7 +679,7 @@ criterion: "A",
 level:"hard",
 question:"If mass doubles, inertia:",
 options:["Halves","Doubles","Remains same","Becomes zero"],
-answer:"Doubles"
+answer:"Doubles",
     explanation: "This is true because the physics supports Doubles.",
 },
 
@@ -691,7 +691,7 @@ criterion: "A",
 level:"hard",
 question:"Which affects inertia?",
 options:["Mass","Shape","Size","Color"],
-answer:"Mass"
+answer:"Mass",
     explanation: "This is true because the physics supports Mass.",
 },
 
@@ -704,7 +704,7 @@ criterion: "A",
 level:"hard",
 question:"Two objects same mass, different shape:",
 options:["Different inertia","Same inertia","Depends on speed","Depends on area"],
-answer:"Same inertia"
+answer:"Same inertia",
     explanation: "This is true because the physics supports Same inertia.",
 },
 
@@ -716,7 +716,7 @@ criterion: "A",
 level:"medium",
 question:"Inertia is measured in:",
 options:["kg","N","m/s","Not directly measured"],
-answer:"Not directly measured"
+answer:"Not directly measured",
     explanation: "This is true because the physics supports the correct principle.",
 },
 
@@ -728,7 +728,7 @@ criterion: "A",
 level:"hard",
 question:"Which is hardest to stop?",
 options:["Football","Cricket ball","Truck","Bicycle"],
-answer:"Truck"
+answer:"Truck",
     explanation: "This is true because the physics supports Truck.",
 },
 
@@ -740,7 +740,7 @@ criterion: "A",
 level:"hard",
 question:"Seat belts reduce injury by:",
 options:["Increasing inertia","Reducing inertia","Applying force over time","Removing motion"],
-answer:"Applying force over time"
+answer:"Applying force over time",
     explanation: "This is true because the physics supports the correct principle.",
 },
 
@@ -752,7 +752,7 @@ criterion: "A",
 level:"hard",
 question:"Inertia depends ONLY on:",
 options:["Speed","Mass","Force","Velocity"],
-answer:"Mass"
+answer:"Mass",
     explanation: "This is true because the physics supports Mass.",
 },
 
@@ -764,7 +764,7 @@ criterion: "A",
 level:"hard",
 question:"Which has least inertia?",
 options:["Truck","Ball","Feather","Car"],
-answer:"Feather"
+answer:"Feather",
     explanation: "This is true because the physics supports Feather.",
 },
 
@@ -776,7 +776,7 @@ criterion: "A",
 level:"hard",
 question:"A moving truck vs stationary truck:",
 options:["Same inertia","Moving has more","Stationary has more","Depends on speed"],
-answer:"Same inertia"
+answer:"Same inertia",
     explanation: "This is true because the physics supports Same inertia.",
 },
 
@@ -788,7 +788,7 @@ criterion: "A",
 level:"medium",
 question:"Inertia increases with:",
 options:["Speed","Mass","Force","Time"],
-answer:"Mass"
+answer:"Mass",
     explanation: "This is true because the physics supports Mass.",
 },
 
@@ -800,7 +800,7 @@ criterion: "A",
 level:"hard",
 question:"Which situation shows inertia?",
 options:["Dust falling","Book moving","Stopping bus","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -812,7 +812,7 @@ criterion: "A",
 level:"hard",
 question:"A heavier object requires:",
 options:["Less force","More force","Same force","No force"],
-answer:"More force"
+answer:"More force",
     explanation: "This is true because the physics supports More force.",
 },
 
@@ -826,7 +826,7 @@ criterion: "A",
 level:"easy",
 question:"Momentum formula is:",
 options:["F=ma","p=mv","E=mc²","v=u+at"],
-answer:"p=mv"
+answer:"p=mv",
     explanation: "This is true because the physics supports p=mv.",
 },
 
@@ -838,7 +838,7 @@ criterion: "A",
 level:"medium",
 question:"Momentum depends on:",
 options:["Mass","Velocity","Both","Neither"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -851,7 +851,7 @@ criterion: "A",
 level:"hard",
 question:"Momentum of 2 kg moving at 3 m/s:",
 options:["6","5","3","9"],
-answer:"6"
+answer:"6",
     explanation: "This is true because the physics supports 6.",
 },
 
@@ -863,7 +863,7 @@ criterion: "A",
 level:"hard",
 question:"If velocity doubles, momentum:",
 options:["Halves","Doubles","Same","Zero"],
-answer:"Doubles"
+answer:"Doubles",
     explanation: "This is true because the physics supports Doubles.",
 },
 
@@ -875,7 +875,7 @@ criterion: "A",
 level:"hard",
 question:"Momentum is:",
 options:["Scalar","Vector","Constant","Energy"],
-answer:"Vector"
+answer:"Vector",
     explanation: "This is true because the physics supports Vector.",
 },
 
@@ -888,7 +888,7 @@ criterion: "A",
 level:"hard",
 question:"2 kg at 4 m/s hits 2 kg at rest. Final velocity:",
 options:["2 m/s","4 m/s","0","1 m/s"],
-answer:"2 m/s"
+answer:"2 m/s",
     explanation: "This is true because the physics supports 2 m/s.",
 },
 
@@ -901,7 +901,7 @@ criterion: "A",
 level:"hard",
 question:"If no external force acts:",
 options:["Momentum increases","Momentum decreases","Momentum conserved","Momentum zero"],
-answer:"Momentum conserved"
+answer:"Momentum conserved",
     explanation: "This is true because the physics supports Momentum conserved.",
 },
 
@@ -913,7 +913,7 @@ criterion: "A",
 level:"medium",
 question:"Impulse equals:",
 options:["Force","Momentum","Change in momentum","Velocity"],
-answer:"Change in momentum"
+answer:"Change in momentum",
     explanation: "This is true because the physics supports Change in momentum.",
 },
 
@@ -925,7 +925,7 @@ criterion: "A",
 level:"hard",
 question:"Impulse formula:",
 options:["F×t","mv","F/m","v/t"],
-answer:"F×t"
+answer:"F×t",
     explanation: "This is true because the physics supports F×t.",
 },
 
@@ -937,7 +937,7 @@ criterion: "A",
 level:"hard",
 question:"In elastic collision:",
 options:["Momentum only conserved","Energy only conserved","Both conserved","None conserved"],
-answer:"Both conserved"
+answer:"Both conserved",
     explanation: "This is true because the physics supports Both conserved.",
 },
 
@@ -949,7 +949,7 @@ criterion: "A",
 level:"hard",
 question:"In inelastic collision:",
 options:["Energy conserved","Momentum conserved","Both conserved","None"],
-answer:"Momentum conserved"
+answer:"Momentum conserved",
     explanation: "This is true because the physics supports Momentum conserved.",
 },
 
@@ -961,7 +961,7 @@ criterion: "A",
 level:"hard",
 question:"Recoil of gun is due to:",
 options:["Energy","Momentum conservation","Force","Gravity"],
-answer:"Momentum conservation"
+answer:"Momentum conservation",
     explanation: "This is true because the physics supports the correct principle.",
 },
 
@@ -973,7 +973,7 @@ criterion: "A",
 level:"hard",
 question:"Momentum unit:",
 options:["kg m/s","N","J","m/s"],
-answer:"kg m/s"
+answer:"kg m/s",
     explanation: "This is true because the physics supports kg m/s.",
 },
 
@@ -985,7 +985,7 @@ criterion: "A",
 level:"hard",
 question:"Which has more momentum?",
 options:["Heavy slow object","Light fast object","Depends on mv","Always heavy"],
-answer:"Depends on mv"
+answer:"Depends on mv",
     explanation: "This is true because the physics supports Depends on mv.",
 },
 
@@ -997,7 +997,7 @@ criterion: "A",
 level:"hard",
 question:"If mass is zero:",
 options:["Momentum infinite","Momentum zero","Momentum constant","Undefined"],
-answer:"Momentum zero"
+answer:"Momentum zero",
     explanation: "This is true because the physics supports Momentum zero.",
 },
 
@@ -1011,7 +1011,7 @@ criterion: "A",
 level:"easy",
 question:"Formula of Newton’s second law:",
 options:["F=ma","p=mv","E=mc²","v=u+at"],
-answer:"F=ma"
+answer:"F=ma",
     explanation: "This is true because the physics supports F=ma.",
 },
 
@@ -1023,7 +1023,7 @@ criterion: "A",
 level:"medium",
 question:"Acceleration depends on:",
 options:["Force","Mass","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -1036,7 +1036,7 @@ criterion: "A",
 level:"hard",
 question:"Force on 2 kg with acceleration 3 m/s²:",
 options:["6 N","5 N","3 N","9 N"],
-answer:"6 N"
+answer:"6 N",
     explanation: "This is true because the physics supports 6 N.",
 },
 
@@ -1048,7 +1048,7 @@ criterion: "A",
 level:"hard",
 question:"Acceleration of 10 N force on 5 kg:",
 options:["2 m/s²","5","10","0.5"],
-answer:"2 m/s²"
+answer:"2 m/s²",
     explanation: "This is true because the physics supports 2 m/s².",
 },
 
@@ -1060,7 +1060,7 @@ criterion: "A",
 level:"hard",
 question:"If mass increases, acceleration:",
 options:["Increases","Decreases","Same","Zero"],
-answer:"Decreases"
+answer:"Decreases",
     explanation: "This is true because the physics supports Decreases.",
 },
 
@@ -1073,7 +1073,7 @@ criterion: "A",
 level:"hard",
 question:"Doubling force causes acceleration:",
 options:["Half","Double","Same","Zero"],
-answer:"Double"
+answer:"Double",
     explanation: "This is true because the physics supports Double.",
 },
 
@@ -1085,7 +1085,7 @@ criterion: "A",
 level:"hard",
 question:"Direction of acceleration depends on:",
 options:["Mass","Force","Velocity","Time"],
-answer:"Force"
+answer:"Force",
     explanation: "This is true because the physics supports Force.",
 },
 
@@ -1097,7 +1097,7 @@ criterion: "A",
 level:"hard",
 question:"Net force zero means:",
 options:["Acceleration","No acceleration","Velocity zero","Mass zero"],
-answer:"No acceleration"
+answer:"No acceleration",
     explanation: "This is true because the physics supports No acceleration.",
 },
 
@@ -1109,7 +1109,7 @@ criterion: "A",
 level:"hard",
 question:"Which has highest acceleration?",
 options:["Small mass large force","Large mass small force","Equal both","None"],
-answer:"Small mass large force"
+answer:"Small mass large force",
     explanation: "This is true because the physics supports the correct principle.",
 },
 
@@ -1121,7 +1121,7 @@ criterion: "A",
 level:"hard",
 question:"Seat belts reduce force by:",
 options:["Reducing mass","Increasing time","Reducing speed","Increasing acceleration"],
-answer:"Increasing time"
+answer:"Increasing time",
     explanation: "This is true because the physics supports Increasing time.",
 },
 
@@ -1133,7 +1133,7 @@ criterion: "A",
 level:"hard",
 question:"Unit of force:",
 options:["kg","m/s","N","J"],
-answer:"N"
+answer:"N",
     explanation: "This is true because the physics supports N.",
 },
 
@@ -1145,7 +1145,7 @@ criterion: "A",
 level:"medium",
 question:"1 N equals:",
 options:["1 kg m/s²","1 kg m/s","1 m/s²","1 J"],
-answer:"1 kg m/s²"
+answer:"1 kg m/s²",
     explanation: "This is true because the physics supports 1 kg m/s².",
 },
 
@@ -1157,7 +1157,7 @@ criterion: "A",
 level:"hard",
 question:"If acceleration is zero:",
 options:["Force zero","Mass zero","Velocity zero","Time zero"],
-answer:"Force zero"
+answer:"Force zero",
     explanation: "This is true because the physics supports Force zero.",
 },
 
@@ -1169,7 +1169,7 @@ criterion: "A",
 level:"hard",
 question:"Rocket accelerates because:",
 options:["Mass decreases","Force increases","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "As fuel burns, mass decreases while thrust can increase, both increasing acceleration via F=ma.",
 },
 
@@ -1181,7 +1181,7 @@ criterion: "A",
 level:"hard",
 question:"Which is correct?",
 options:["F ∝ a","F ∝ 1/a","F independent","F constant"],
-answer:"F ∝ a"
+answer:"F ∝ a",
     explanation: "This is true because the physics supports F ∝ a.",
 },
 /* ================= IMAGE 9: SOLVING FORCE PROBLEMS ================= */
@@ -1194,7 +1194,7 @@ criterion: "A",
 level:"easy",
 question:"The formula used for most force problems is:",
 options:["p=mv","F=ma","E=mc²","v=u+at"],
-answer:"F=ma"
+answer:"F=ma",
     explanation: "This is true because the physics supports F=ma.",
 },
 
@@ -1206,7 +1206,7 @@ criterion: "A",
 level:"medium",
 question:"Which is the correct first step in solving problems?",
 options:["Substitute","Choose formula","Read question","Check answer"],
-answer:"Read question"
+answer:"Read question",
     explanation: "This is true because the physics supports Read question.",
 },
 
@@ -1218,7 +1218,7 @@ criterion: "A",
 level:"hard",
 question:"A force of 40 N acts on a 10 kg mass. Acceleration is:",
 options:["2 m/s²","4 m/s²","5 m/s²","0.4 m/s²"],
-answer:"4 m/s²"
+answer:"4 m/s²",
     explanation: "This is true because the physics supports 4 m/s².",
 },
 
@@ -1230,7 +1230,7 @@ criterion: "A",
 level:"hard",
 question:"A 2000 kg car accelerates at 3 m/s². Force required:",
 options:["6000 N","3000 N","2000 N","1000 N"],
-answer:"6000 N"
+answer:"6000 N",
     explanation: "This is true because the physics supports 6000 N.",
 },
 
@@ -1242,7 +1242,7 @@ criterion: "A",
 level:"hard",
 question:"Mass = 5 kg, acceleration = 0. What is force?",
 options:["5 N","0 N","10 N","Cannot determine"],
-answer:"0 N"
+answer:"0 N",
     explanation: "This is true because the physics supports 0 N.",
 },
 
@@ -1255,7 +1255,7 @@ criterion: "A",
 level:"hard",
 question: "If force doubles and mass doubles, acceleration:",
 options:["Increases","Decreases","Same","Zero"],
-answer:"Same"
+answer:"Same",
     explanation: "This is true because the physics supports Same.",
 },
 
@@ -1267,7 +1267,7 @@ criterion: "A",
 level:"hard",
 question:"A force of 15 N produces acceleration of 3 m/s². Mass:",
 options:["5 kg","3 kg","45 kg","1 kg"],
-answer:"5 kg"
+answer:"5 kg",
     explanation: "This is true because the physics supports 5 kg.",
 },
 
@@ -1279,7 +1279,7 @@ criterion: "A",
 level:"hard",
 question:"Wrong unit for force is:",
 options:["N","kg m/s²","kg","N"],
-answer:"kg"
+answer:"kg",
     explanation: "This is true because the physics supports kg.",
 },
 
@@ -1291,7 +1291,7 @@ criterion: "A",
 level:"medium",
 question:"Which is NOT part of solving steps?",
 options:["Identify unknown","Guess answer","Substitute","Check"],
-answer:"Guess answer"
+answer:"Guess answer",
     explanation: "This is true because the physics supports Guess answer.",
 },
 
@@ -1303,7 +1303,7 @@ criterion: "A",
 level:"hard",
 question:"A 50 N force acts on 25 kg mass. Acceleration:",
 options:["2","5","10","0.5"],
-answer:"2"
+answer:"2",
     explanation: "This is true because the physics supports 2.",
 },
 
@@ -1315,7 +1315,7 @@ criterion: "A",
 level:"hard",
 question:"If acceleration doubles, force:",
 options:["Halves","Doubles","Same","Zero"],
-answer:"Doubles"
+answer:"Doubles",
     explanation: "This is true because the physics supports Doubles.",
 },
 
@@ -1327,7 +1327,7 @@ criterion: "A",
 level:"hard",
 question:"Force needed to keep constant velocity:",
 options:["Depends","Zero","High","Infinite"],
-answer:"Zero"
+answer:"Zero",
     explanation: "This is true because the physics supports Zero.",
 },
 
@@ -1339,7 +1339,7 @@ criterion: "A",
 level:"hard",
 question:"A 1000 kg car increases speed → force must:",
 options:["Decrease","Increase","Zero","Stay same"],
-answer:"Increase"
+answer:"Increase",
     explanation: "This is true because the physics supports Increase.",
 },
 
@@ -1351,7 +1351,7 @@ criterion: "A",
 level:"hard",
 question:"Error in solving: forgetting units leads to:",
 options:["Correct answer","Incorrect answer","No effect","Faster solving"],
-answer:"Incorrect answer"
+answer:"Incorrect answer",
     explanation: "This is true because the physics supports Incorrect answer.",
 },
 
@@ -1363,7 +1363,7 @@ criterion: "A",
 level:"hard",
 question:"A 10 kg object needs 20 N force. Acceleration:",
 options:["2","5","10","0.5"],
-answer:"2"
+answer:"2",
     explanation: "This is true because the physics supports 2.",
 },
 
@@ -1377,7 +1377,7 @@ criterion: "A",
 level:"easy",
 question:"Newton’s third law states:",
 options:["F=ma","Action = reaction","p=mv","Energy conserved"],
-answer:"Action = reaction"
+answer:"Action = reaction",
     explanation: "This is true because the physics supports Action = reaction.",
 },
 
@@ -1389,7 +1389,7 @@ criterion: "A",
 level:"medium",
 question:"Action and reaction forces act on:",
 options:["Same object","Different objects","Same place","Same direction"],
-answer:"Different objects"
+answer:"Different objects",
     explanation: "This is true because the physics supports Different objects.",
 },
 
@@ -1401,7 +1401,7 @@ criterion: "A",
 level:"hard",
 question:"Action-reaction forces are:",
 options:["Equal & same direction","Equal & opposite","Different","Random"],
-answer:"Equal & opposite"
+answer:"Equal & opposite",
     explanation: "This is true because the physics supports Equal & opposite.",
 },
 
@@ -1414,7 +1414,7 @@ criterion: "A",
 level:"hard",
 question:"Do action-reaction forces cancel?",
 options:["Yes","No","Sometimes","Only in motion"],
-answer:"No"
+answer:"No",
     explanation: "This is true because the physics supports No.",
 },
 
@@ -1426,7 +1426,7 @@ criterion: "A",
 level:"hard",
 question:"Rocket moves because:",
 options:["Air pushes it","Gases push it","Gravity pushes","Mass changes"],
-answer:"Gases push it"
+answer:"Gases push it",
     explanation: "This is true because the physics supports Gases push it.",
 },
 
@@ -1438,7 +1438,7 @@ criterion: "A",
 level:"hard",
 question:"Walking forward is due to:",
 options:["Foot pushes ground","Ground pushes foot","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -1450,7 +1450,7 @@ criterion: "A",
 level:"hard",
 question:"If A pushes B with 10 N, B pushes A with:",
 options:["5 N","10 N","0","20 N"],
-answer:"10 N"
+answer:"10 N",
     explanation: "This is true because the physics supports 10 N.",
 },
 
@@ -1462,7 +1462,7 @@ criterion: "A",
 level:"hard",
 question:"Swimming forward occurs because:",
 options:["Water pushes swimmer","Swimmer pushes water","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -1474,7 +1474,7 @@ criterion: "A",
 level:"hard",
 question:"A book on table: action-reaction pair:",
 options:["Book weight & normal","Table push & book push","Gravity & friction","None"],
-answer:"Table push & book push"
+answer:"Table push & book push",
     explanation: "This is true because the physics supports the correct principle.",
 },
 
@@ -1486,7 +1486,7 @@ criterion: "A",
 level:"hard",
 question:"Which is NOT a pair?",
 options:["Hand-wall","Earth-Moon","Book-weight","Foot-ground"],
-answer:"Book-weight"
+answer:"Book-weight",
     explanation: "This is true because the physics supports Book-weight.",
 },
 
@@ -1498,7 +1498,7 @@ criterion: "A",
 level:"hard",
 question:"Force pair acts:",
 options:["Together","Separately","Randomly","Slowly"],
-answer:"Together"
+answer:"Together",
     explanation: "This is true because the physics supports Together.",
 },
 
@@ -1510,7 +1510,7 @@ criterion: "A",
 level:"hard",
 question:"If action increases, reaction:",
 options:["Decreases","Increases equally","Same","Zero"],
-answer:"Increases equally"
+answer:"Increases equally",
     explanation: "This is true because the physics supports Increases equally.",
 },
 
@@ -1522,7 +1522,7 @@ criterion: "A",
 level:"hard",
 question:"Which violates third law?",
 options:["Rocket","Walking","Swimming","None"],
-answer:"None"
+answer:"None",
     explanation: "This is true because the physics supports None.",
 },
 
@@ -1534,7 +1534,7 @@ criterion: "A",
 level:"hard",
 question:"Magnet attracting iron is example of:",
 options:["Third law","First law","Second law","None"],
-answer:"Third law"
+answer:"Third law",
     explanation: "This is true because the physics supports Third law.",
 },
 
@@ -1546,7 +1546,7 @@ criterion: "A",
 level:"hard",
 question:"Why don’t they cancel?",
 options:["Different objects","Different time","Different size","Different mass"],
-answer:"Different objects"
+answer:"Different objects",
     explanation: "This is true because the physics supports Different objects.",
 },
 
@@ -1560,7 +1560,7 @@ criterion: "A",
 level:"easy",
 question:"Which law explains inertia?",
 options:["1st","2nd","3rd","None"],
-answer:"1st"
+answer:"1st",
     explanation: "This is true because the physics supports 1st.",
 },
 
@@ -1572,7 +1572,7 @@ criterion: "A",
 level:"medium",
 question:"Second law relates:",
 options:["Force & acceleration","Mass only","Speed","Time"],
-answer:"Force & acceleration"
+answer:"Force & acceleration",
     explanation: "This is true because the physics supports Force & acceleration.",
 },
 
@@ -1584,7 +1584,7 @@ criterion: "A",
 level:"hard",
 question:"Third law explains:",
 options:["Motion","Acceleration","Interaction","Energy"],
-answer:"Interaction"
+answer:"Interaction",
     explanation: "This is true because the physics supports Interaction.",
 },
 
@@ -1596,7 +1596,7 @@ criterion: "A",
 level:"hard",
 question:"If no net force:",
 options:["Acceleration","No motion","Constant motion","Stop"],
-answer:"Constant motion"
+answer:"Constant motion",
     explanation: "This is true because the physics supports Constant motion.",
 },
 
@@ -1609,7 +1609,7 @@ criterion: "A",
 level:"hard",
 question:"Law 2 fails when:",
 options:["Mass zero","Force zero","Never","Speed zero"],
-answer:"Never"
+answer:"Never",
     explanation: "This is true because the physics supports Never.",
 },
 
@@ -1621,7 +1621,7 @@ criterion: "A",
 level:"hard",
 question:"More force → acceleration:",
 options:["Less","More","Same","Zero"],
-answer:"More"
+answer:"More",
     explanation: "This is true because the physics supports More.",
 },
 
@@ -1633,7 +1633,7 @@ criterion: "A",
 level:"hard",
 question:"Laws apply in:",
 options:["Earth","Space","Both","Neither"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -1645,7 +1645,7 @@ criterion: "A",
 level:"hard",
 question:"Which law explains rocket motion?",
 options:["1","2","3","All"],
-answer:"3"
+answer:"3",
     explanation: "This is true because the physics supports 3.",
 },
 
@@ -1657,7 +1657,7 @@ criterion: "A",
 level:"hard",
 question:"Mass increases → acceleration:",
 options:["Increase","Decrease","Same","Zero"],
-answer:"Decrease"
+answer:"Decrease",
     explanation: "This is true because the physics supports Decrease.",
 },
 
@@ -1669,7 +1669,7 @@ criterion: "A",
 level:"hard",
 question:"Which law is default state?",
 options:["1","2","3","None"],
-answer:"1"
+answer:"1",
     explanation: "This is true because the physics supports 1.",
 },
 
@@ -1681,7 +1681,7 @@ criterion: "A",
 level:"hard",
 question:"Which law explains change?",
 options:["1","2","3","None"],
-answer:"2"
+answer:"2",
     explanation: "This is true because the physics supports 2.",
 },
 
@@ -1693,7 +1693,7 @@ criterion: "A",
 level:"hard",
 question:"Which law explains pairs?",
 options:["1","2","3","All"],
-answer:"3"
+answer:"3",
     explanation: "This is true because the physics supports 3.",
 },
 
@@ -1705,7 +1705,7 @@ criterion: "A",
 level:"hard",
 question:"Net force causes:",
 options:["Velocity","Acceleration","Mass","Time"],
-answer:"Acceleration"
+answer:"Acceleration",
     explanation: "This is true because the physics supports Acceleration.",
 },
 
@@ -1717,7 +1717,7 @@ criterion: "A",
 level:"hard",
 question:"Balanced forces give:",
 options:["Acceleration","No change","Speed increase","Energy"],
-answer:"No change"
+answer:"No change",
     explanation: "This is true because the physics supports No change.",
 },
 
@@ -1729,7 +1729,7 @@ criterion: "A",
 level:"hard",
 question:"Unbalanced forces cause:",
 options:["Rest","Motion change","Energy","Mass change"],
-answer:"Motion change"
+answer:"Motion change",
     explanation: "This is true because the physics supports Motion change.",
 },
 
@@ -1743,7 +1743,7 @@ criterion: "A",
 level:"easy",
 question:"Friction opposes:",
 options:["Force","Motion","Mass","Energy"],
-answer:"Motion"
+answer:"Motion",
     explanation: "This is true because the physics supports Motion.",
 },
 
@@ -1755,7 +1755,7 @@ criterion: "A",
 level:"medium",
 question:"Static friction acts when:",
 options:["Moving","At rest","Falling","Rotating"],
-answer:"At rest"
+answer:"At rest",
     explanation: "This is true because the physics supports At rest.",
 },
 
@@ -1767,7 +1767,7 @@ criterion: "A",
 level:"medium",
 question:"Kinetic friction acts when:",
 options:["Rest","Sliding","Floating","Standing"],
-answer:"Sliding"
+answer:"Sliding",
     explanation: "This is true because the physics supports Sliding.",
 },
 
@@ -1779,7 +1779,7 @@ criterion: "A",
 level:"hard",
 question:"Which is highest?",
 options:["Static","Kinetic","Fluid","Same"],
-answer:"Static"
+answer:"Static",
     explanation: "This is true because the physics supports Static.",
 },
 
@@ -1792,7 +1792,7 @@ criterion: "A",
 level:"hard",
 question:"Normal force doubles → friction:",
 options:["Halves","Doubles","Same","Zero"],
-answer:"Doubles"
+answer:"Doubles",
     explanation: "This is true because the physics supports Doubles.",
 },
 
@@ -1804,7 +1804,7 @@ criterion: "A",
 level:"hard",
 question:"Smooth surface has:",
 options:["More friction","Less friction","Same","Zero"],
-answer:"Less friction"
+answer:"Less friction",
     explanation: "This is true because the physics supports Less friction.",
 },
 
@@ -1816,7 +1816,7 @@ criterion: "A",
 level:"hard",
 question:"Lubrication:",
 options:["Increases friction","Reduces friction","Stops motion","None"],
-answer:"Reduces friction"
+answer:"Reduces friction",
     explanation: "This is true because the physics supports Reduces friction.",
 },
 
@@ -1829,7 +1829,7 @@ criterion: "A",
 level:"hard",
 question:"Friction direction is:",
 options:["Same as motion","Opposite motion","Random","Upwards"],
-answer:"Opposite motion"
+answer:"Opposite motion",
     explanation: "This is true because the physics supports Opposite motion.",
 },
 
@@ -1841,7 +1841,7 @@ criterion: "A",
 level:"hard",
 question:"Fluid friction depends on:",
 options:["Mass","Speed","Shape","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -1853,7 +1853,7 @@ criterion: "A",
 level:"hard",
 question:"Walking requires:",
 options:["Kinetic friction","Static friction","No friction","Fluid friction"],
-answer:"Static friction"
+answer:"Static friction",
     explanation: "This is true because the physics supports Static friction.",
 },
 
@@ -1865,7 +1865,7 @@ criterion: "A",
 level:"hard",
 question:"Friction is useful in:",
 options:["Walking","Braking","Writing","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -1877,7 +1877,7 @@ criterion: "A",
 level:"hard",
 question:"Friction is harmful in:",
 options:["Wear","Heat loss","Energy loss","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -1889,7 +1889,7 @@ criterion: "A",
 level:"hard",
 question:"Speed increases → friction:",
 options:["Decreases","Increases (fluid)","Same","Zero"],
-answer:"Increases (fluid)"
+answer:"Increases (fluid)",
     explanation: "This is true because the physics supports Increases (fluid).",
 },
 
@@ -1901,7 +1901,7 @@ criterion: "A",
 level:"hard",
 question:"Maximum static friction is:",
 options:["Constant","Variable","Zero","Infinite"],
-answer:"Variable"
+answer:"Variable",
     explanation: "This is true because the physics supports Variable.",
 },
 
@@ -1913,7 +1913,7 @@ criterion: "A",
 level:"hard",
 question:"No friction → walking:",
 options:["Easy","Impossible","Same","Fast"],
-answer:"Impossible"
+answer:"Impossible",
     explanation: "This is true because the physics supports Impossible.",
 },
 /* ================= IMAGE 13: FRICTION IN REAL LIFE ================= */
@@ -1926,7 +1926,7 @@ criterion: "A",
 level:"easy",
 question:"Friction between tyres and road provides:",
 options:["Speed","Grip","Mass","Energy"],
-answer:"Grip"
+answer:"Grip",
     explanation: "This is true because the physics supports Grip.",
 },
 
@@ -1938,7 +1938,7 @@ criterion: "A",
 level:"medium",
 question:"Which helps vehicles turn safely?",
 options:["Gravity","Friction","Mass","Velocity"],
-answer:"Friction"
+answer:"Friction",
     explanation: "This is true because the physics supports Friction.",
 },
 
@@ -1950,7 +1950,7 @@ criterion: "A",
 level:"hard",
 question:"Brakes convert kinetic energy into:",
 options:["Light","Heat","Sound","Mass"],
-answer:"Heat"
+answer:"Heat",
     explanation: "This is true because the physics supports Heat.",
 },
 
@@ -1963,7 +1963,7 @@ criterion: "A",
 level:"hard",
 question:"If speed doubles, braking distance (due to friction) will:",
 options:["Double","Quadruple","Half","Same"],
-answer:"Quadruple"
+answer:"Quadruple",
     explanation: "This is true because the physics supports Quadruple.",
 },
 
@@ -1975,7 +1975,7 @@ criterion: "A",
 level:"hard",
 question:"Wet roads reduce friction because:",
 options:["Increase grip","Decrease contact","Add lubrication","Increase mass"],
-answer:"Add lubrication"
+answer:"Add lubrication",
     explanation: "This is true because the physics supports Add lubrication.",
 },
 
@@ -1987,7 +1987,7 @@ criterion: "A",
 level:"hard",
 question:"Tyre pressure too low leads to:",
 options:["More grip","Less grip","No change","Infinite friction"],
-answer:"Less grip"
+answer:"Less grip",
     explanation: "This is true because the physics supports Less grip.",
 },
 
@@ -1999,7 +1999,7 @@ criterion: "A",
 level:"hard",
 question:"Why off-road tyres have deep treads?",
 options:["Less friction","More grip","Less weight","Less speed"],
-answer:"More grip"
+answer:"More grip",
     explanation: "This is true because the physics supports More grip.",
 },
 
@@ -2011,7 +2011,7 @@ criterion: "A",
 level:"hard",
 question:"Higher temperature in brakes causes:",
 options:["Better braking","Brake failure","No effect","More speed"],
-answer:"Brake failure"
+answer:"Brake failure",
     explanation: "This is true because the physics supports Brake failure.",
 },
 
@@ -2024,7 +2024,7 @@ criterion: "A",
 level:"hard",
 question:"Friction always helps motion:",
 options:["True","False","Depends","Only in cars"],
-answer:"False"
+answer:"False",
     explanation: "This is true because the physics supports False.",
 },
 
@@ -2036,7 +2036,7 @@ criterion: "A",
 level:"hard",
 question:"Rolling resistance reduces:",
 options:["Speed","Fuel efficiency","Mass","Energy"],
-answer:"Fuel efficiency"
+answer:"Fuel efficiency",
     explanation: "This is true because the physics supports Fuel efficiency.",
 },
 
@@ -2048,7 +2048,7 @@ criterion: "A",
 level:"hard",
 question:"Braking force depends on:",
 options:["Mass","Speed","Surface","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -2060,7 +2060,7 @@ criterion: "A",
 level:"hard",
 question:"ABS system prevents:",
 options:["Acceleration","Skidding","Friction","Motion"],
-answer:"Skidding"
+answer:"Skidding",
     explanation: "This is true because the physics supports Skidding.",
 },
 
@@ -2072,7 +2072,7 @@ criterion: "A",
 level:"hard",
 question:"Friction is maximum when:",
 options:["Dry surface","Wet surface","Ice","Air"],
-answer:"Dry surface"
+answer:"Dry surface",
     explanation: "This is true because the physics supports Dry surface.",
 },
 
@@ -2084,7 +2084,7 @@ criterion: "A",
 level:"hard",
 question:"Tyres lose grip due to:",
 options:["Wear","Heat","Water","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -2096,7 +2096,7 @@ criterion: "A",
 level:"hard",
 question:"Too much friction causes:",
 options:["Safety","Efficiency","Wear & heat","None"],
-answer:"Wear & heat"
+answer:"Wear & heat",
     explanation: "This is true because the physics supports Wear & heat.",
 },
 
@@ -2110,7 +2110,7 @@ criterion: "A",
 level:"easy",
 question:"Air resistance acts:",
 options:["With motion","Opposite motion","Random","Downward"],
-answer:"Opposite motion"
+answer:"Opposite motion",
     explanation: "This is true because the physics supports Opposite motion.",
 },
 
@@ -2122,7 +2122,7 @@ criterion: "A",
 level:"medium",
 question:"Drag increases with:",
 options:["Speed","Mass","Time","Energy"],
-answer:"Speed"
+answer:"Speed",
     explanation: "This is true because the physics supports Speed.",
 },
 
@@ -2134,7 +2134,7 @@ criterion: "A",
 level:"hard",
 question:"Drag force formula depends on:",
 options:["v","v²","v³","constant"],
-answer:"v²"
+answer:"v²",
     explanation: "This is true because the physics supports v².",
 },
 
@@ -2147,7 +2147,7 @@ criterion: "A",
 level:"hard",
 question:"If speed doubles, drag becomes:",
 options:["2x","4x","8x","Same"],
-answer:"4x"
+answer:"4x",
     explanation: "This is true because the physics supports 4x.",
 },
 
@@ -2159,7 +2159,7 @@ criterion: "A",
 level:"hard",
 question:"Terminal velocity occurs when:",
 options:["Drag = 0","Weight = drag","Acceleration max","Velocity zero"],
-answer:"Weight = drag"
+answer:"Weight = drag",
     explanation: "This is true because the physics supports Weight = drag.",
 },
 
@@ -2171,7 +2171,7 @@ criterion: "A",
 level:"hard",
 question:"Which reduces drag?",
 options:["Increase area","Streamlining","Increase speed","Increase density"],
-answer:"Streamlining"
+answer:"Streamlining",
     explanation: "This is true because the physics supports Streamlining.",
 },
 
@@ -2183,7 +2183,7 @@ criterion: "A",
 level:"hard",
 question:"Parachutes work because:",
 options:["Reduce drag","Increase drag","Reduce mass","Increase gravity"],
-answer:"Increase drag"
+answer:"Increase drag",
     explanation: "This is true because the physics supports Increase drag.",
 },
 
@@ -2195,7 +2195,7 @@ criterion: "A",
 level:"hard",
 question:"Free fall without air:",
 options:["Constant speed","Accelerating","Zero speed","Decreasing"],
-answer:"Accelerating"
+answer:"Accelerating",
     explanation: "This is true because the physics supports Accelerating.",
 },
 
@@ -2208,7 +2208,7 @@ criterion: "A",
 level:"hard",
 question:"At terminal velocity:",
 options:["Acceleration max","Acceleration zero","Velocity zero","Force zero"],
-answer:"Acceleration zero"
+answer:"Acceleration zero",
     explanation: "This is true because the physics supports Acceleration zero.",
 },
 
@@ -2220,7 +2220,7 @@ criterion: "A",
 level:"hard",
 question:"Large surface area → drag:",
 options:["Decrease","Increase","Same","Zero"],
-answer:"Increase"
+answer:"Increase",
     explanation: "This is true because the physics supports Increase.",
 },
 
@@ -2232,7 +2232,7 @@ criterion: "A",
 level:"hard",
 question:"Air density increases → drag:",
 options:["Decrease","Increase","Same","Zero"],
-answer:"Increase"
+answer:"Increase",
     explanation: "This is true because the physics supports Increase.",
 },
 
@@ -2244,7 +2244,7 @@ criterion: "A",
 level:"hard",
 question:"Which falls fastest in air?",
 options:["Feather","Stone","Same","Depends"],
-answer:"Depends"
+answer:"Depends",
     explanation: "This is true because the physics supports Depends.",
 },
 
@@ -2256,7 +2256,7 @@ criterion: "A",
 level:"hard",
 question:"Drag is type of:",
 options:["Contact force","Non-contact","Both","None"],
-answer:"Contact force"
+answer:"Contact force",
     explanation: "This is true because the physics supports Contact force.",
 },
 
@@ -2268,7 +2268,7 @@ criterion: "A",
 level:"hard",
 question:"If drag = weight, motion is:",
 options:["Accelerating","Constant speed","Stopping","Zero"],
-answer:"Constant speed"
+answer:"Constant speed",
     explanation: "This is true because the physics supports Constant speed.",
 },
 
@@ -2280,7 +2280,7 @@ criterion: "A",
 level:"hard",
 question:"Aircraft reduce drag by:",
 options:["Sharp edges","Smooth design","Heavy mass","Slow speed"],
-answer:"Smooth design"
+answer:"Smooth design",
     explanation: "This is true because the physics supports Smooth design.",
 },
 
@@ -2294,7 +2294,7 @@ criterion: "A",
 level:"easy",
 question:"Heavier objects fall faster is:",
 options:["True","False","Sometimes","Depends"],
-answer:"False"
+answer:"False",
     explanation: "This is true because the physics supports False.",
 },
 
@@ -2306,7 +2306,7 @@ criterion: "A",
 level:"medium",
 question:"Without air resistance:",
 options:["Heavier faster","Same acceleration","Lighter faster","Stop"],
-answer:"Same acceleration"
+answer:"Same acceleration",
     explanation: "This is true because the physics supports Same acceleration.",
 },
 
@@ -2318,7 +2318,7 @@ criterion: "A",
 level:"hard",
 question:"Difference in falling speed is due to:",
 options:["Mass","Drag","Gravity","Time"],
-answer:"Drag"
+answer:"Drag",
     explanation: "This is true because the physics supports Drag.",
 },
 
@@ -2331,7 +2331,7 @@ criterion: "A",
 level:"hard",
 question:"In vacuum, feather and stone:",
 options:["Different speeds","Same speed","Stop","Float"],
-answer:"Same speed"
+answer:"Same speed",
     explanation: "This is true because the physics supports Same speed.",
 },
 
@@ -2343,7 +2343,7 @@ criterion: "A",
 level:"hard",
 question:"Terminal velocity depends on:",
 options:["Mass","Shape","Area","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -2355,7 +2355,7 @@ criterion: "A",
 level:"hard",
 question: "Friction always opposes motion:",
 options: ["True", "False"],
-answer: "True"
+answer: "True",
     explanation: "Friction opposes relative motion but doesn't always stop it — it can also enable motion like walking.",
 },
 
@@ -2367,7 +2367,7 @@ criterion: "A",
 level:"hard",
 question:"More friction always better:",
 options:["True","False","Depends","Only cars"],
-answer:"Depends"
+answer:"Depends",
     explanation: "This is true because the physics supports Depends.",
 },
 
@@ -2379,7 +2379,7 @@ criterion: "A",
 level:"hard",
 question:"Drag increases with:",
 options:["Speed","Area","Density","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -2391,7 +2391,7 @@ criterion: "A",
 level:"hard",
 question:"Feather falls slower because:",
 options:["Less gravity","More drag","Less mass","Less speed"],
-answer:"More drag"
+answer:"More drag",
     explanation: "This is true because the physics supports More drag.",
 },
 
@@ -2403,7 +2403,7 @@ criterion: "A",
 level:"hard",
 question:"In air, heavier object falls faster because:",
 options:["Less drag effect","More gravity","More speed","None"],
-answer:"Less drag effect"
+answer:"Less drag effect",
     explanation: "This is true because the physics supports Less drag effect.",
 },
 
@@ -2415,7 +2415,7 @@ criterion: "A",
 level:"hard",
 question:"Terminal velocity means:",
 options:["Stops moving","Constant speed","Zero force","Zero gravity"],
-answer:"Constant speed"
+answer:"Constant speed",
     explanation: "This is true because the physics supports Constant speed.",
 },
 
@@ -2427,7 +2427,7 @@ criterion: "A",
 level:"hard",
 question:"Net force at terminal velocity:",
 options:["Zero","Max","Min","Infinite"],
-answer:"Zero"
+answer:"Zero",
     explanation: "This is true because the physics supports Zero.",
 },
 
@@ -2439,7 +2439,7 @@ criterion: "A",
 level:"hard",
 question:"Acceleration at terminal velocity:",
 options:["Max","Zero","Constant","Infinite"],
-answer:"Zero"
+answer:"Zero",
     explanation: "This is true because the physics supports Zero.",
 },
 
@@ -2451,7 +2451,7 @@ criterion: "A",
 level:"hard",
 question:"Which falls slowest?",
 options:["Large area","Small area","Dense","Heavy"],
-answer:"Large area"
+answer:"Large area",
     explanation: "This is true because the physics supports Large area.",
 },
 
@@ -2463,7 +2463,7 @@ criterion: "A",
 level:"hard",
 question:"Correct statement:",
 options:["Mass decides fall","Drag decides fall","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -2477,7 +2477,7 @@ criterion: "A",
 level:"easy",
 question:"Terminal velocity is when:",
 options:["Speed zero","Acceleration zero","Force zero","Mass zero"],
-answer:"Acceleration zero"
+answer:"Acceleration zero",
     explanation: "This is true because the physics supports Acceleration zero.",
 },
 
@@ -2489,7 +2489,7 @@ criterion: "A",
 level:"medium",
 question:"At terminal velocity, net force:",
 options:["Zero","Max","Min","Constant"],
-answer:"Zero"
+answer:"Zero",
     explanation: "This is true because the physics supports Zero.",
 },
 
@@ -2501,7 +2501,7 @@ criterion: "A",
 level:"hard",
 question:"Drag force depends on:",
 options:["v","v²","v³","constant"],
-answer:"v²"
+answer:"v²",
     explanation: "This is true because the physics supports v².",
 },
 
@@ -2514,7 +2514,7 @@ criterion: "A",
 level:"hard",
 question:"If speed doubles, drag becomes:",
 options:["2x","4x","Same","Half"],
-answer:"4x"
+answer:"4x",
     explanation: "This is true because the physics supports 4x.",
 },
 
@@ -2526,7 +2526,7 @@ criterion: "A",
 level:"hard",
 question:"At terminal velocity:",
 options:["Drag > weight","Weight > drag","Drag = weight","No force"],
-answer:"Drag = weight"
+answer:"Drag = weight",
     explanation: "This is true because the physics supports Drag = weight.",
 },
 
@@ -2538,7 +2538,7 @@ criterion: "A",
 level:"hard",
 question:"Acceleration during fall:",
 options:["Constant","Decreases","Increases","Zero always"],
-answer:"Decreases"
+answer:"Decreases",
     explanation: "This is true because the physics supports Decreases.",
 },
 
@@ -2550,7 +2550,7 @@ criterion: "A",
 level:"hard",
 question:"Large parachute → terminal velocity:",
 options:["Increase","Decrease","Same","Zero"],
-answer:"Decrease"
+answer:"Decrease",
     explanation: "This is true because the physics supports Decrease.",
 },
 
@@ -2562,7 +2562,7 @@ criterion: "A",
 level:"hard",
 question:"Heavier object → terminal velocity:",
 options:["Higher","Lower","Same","Zero"],
-answer:"Higher"
+answer:"Higher",
     explanation: "This is true because the physics supports Higher.",
 },
 
@@ -2575,7 +2575,7 @@ criterion: "A",
 level:"hard",
 question:"Terminal velocity means:",
 options:["Max speed always","Constant speed","Stop","Zero"],
-answer:"Constant speed"
+answer:"Constant speed",
     explanation: "This is true because the physics supports Constant speed.",
 },
 
@@ -2587,7 +2587,7 @@ criterion: "A",
 level:"hard",
 question:"In vacuum terminal velocity:",
 options:["Exists","Does not exist","Same","Zero"],
-answer:"Does not exist"
+answer:"Does not exist",
     explanation: "This is true because the physics supports Does not exist.",
 },
 
@@ -2599,7 +2599,7 @@ criterion: "A",
 level:"hard",
 question:"Acceleration becomes zero because:",
 options:["Velocity constant","Forces balance","Mass zero","Gravity zero"],
-answer:"Forces balance"
+answer:"Forces balance",
     explanation: "This is true because the physics supports Forces balance.",
 },
 
@@ -2611,7 +2611,7 @@ criterion: "A",
 level:"hard",
 question:"Shape affects terminal velocity:",
 options:["Yes","No","Sometimes","Rarely"],
-answer:"Yes"
+answer:"Yes",
     explanation: "This is true because the physics supports Yes.",
 },
 
@@ -2623,7 +2623,7 @@ criterion: "A",
 level:"hard",
 question:"Velocity-time graph becomes:",
 options:["Straight line","Curve flattening","Downward","Zero"],
-answer:"Curve flattening"
+answer:"Curve flattening",
     explanation: "This is true because the physics supports Curve flattening.",
 },
 
@@ -2635,7 +2635,7 @@ criterion: "A",
 level:"hard",
 question:"If drag suddenly increases:",
 options:["Speed increases","Speed decreases","No change","Stops"],
-answer:"Speed decreases"
+answer:"Speed decreases",
     explanation: "This is true because the physics supports Speed decreases.",
 },
 
@@ -2647,7 +2647,7 @@ criterion: "A",
 level:"hard",
 question:"At start of fall:",
 options:["Drag max","Drag zero","Equal forces","No gravity"],
-answer:"Drag zero"
+answer:"Drag zero",
     explanation: "This is true because the physics supports Drag zero.",
 },
 /* ================= IMAGE 17: GRAVITY & WEIGHT ================= */
@@ -2660,7 +2660,7 @@ criterion: "A",
 level:"easy",
 question:"Weight depends on:",
 options:["Mass","Gravity","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -2672,7 +2672,7 @@ criterion: "A",
 level:"medium",
 question:"Mass is:",
 options:["Vector","Scalar","Force","Energy"],
-answer:"Scalar"
+answer:"Scalar",
     explanation: "This is true because the physics supports Scalar.",
 },
 
@@ -2684,7 +2684,7 @@ criterion: "A",
 level:"hard",
 question:"Weight is:",
 options:["Scalar","Vector","Mass","Density"],
-answer:"Vector"
+answer:"Vector",
     explanation: "This is true because the physics supports Vector.",
 },
 
@@ -2697,7 +2697,7 @@ criterion: "A",
 level:"hard",
 question:"A 10 kg object on Earth has weight:",
 options:["98 N","10 N","9.8 N","100 N"],
-answer:"98 N"
+answer:"98 N",
     explanation: "This is true because the physics supports 98 N.",
 },
 
@@ -2709,7 +2709,7 @@ criterion: "A",
 level:"hard",
 question:"Same object on Moon (g = 1.6):",
 options:["16 N","160 N","9.8 N","98 N"],
-answer:"16 N"
+answer:"16 N",
     explanation: "This is true because the physics supports 16 N.",
 },
 
@@ -2721,7 +2721,7 @@ criterion: "A",
 level:"hard",
 question:"Mass changes when taken to Moon:",
 options:["Yes","No","Depends","Sometimes"],
-answer:"No"
+answer:"No",
     explanation: "This is true because the physics supports No.",
 },
 
@@ -2734,7 +2734,7 @@ criterion: "A",
 level:"hard",
 question:"Weight becomes zero in space:",
 options:["True","False","Depends","Only astronauts"],
-answer:"False"
+answer:"False",
     explanation: "Weight only becomes zero at infinite distance from all masses. Astronauts in orbit still have weight.",
 },
 
@@ -2746,7 +2746,7 @@ criterion: "A",
 level:"hard",
 question:"Unit of gravitational field strength:",
 options:["N","N/kg","kg","m/s"],
-answer:"N/kg"
+answer:"N/kg",
     explanation: "This is true because the physics supports N/kg.",
 },
 
@@ -2758,7 +2758,7 @@ criterion: "A",
 level:"hard",
 question:"If g doubles, weight:",
 options:["Doubles","Halves","Same","Zero"],
-answer:"Doubles"
+answer:"Doubles",
     explanation: "This is true because the physics supports Doubles.",
 },
 
@@ -2770,7 +2770,7 @@ criterion: "A",
 level:"hard",
 question:"Weight formula:",
 options:["F=ma","W=mg","p=mv","P=F/A"],
-answer:"W=mg"
+answer:"W=mg",
     explanation: "This is true because the physics supports W=mg.",
 },
 
@@ -2782,7 +2782,7 @@ criterion: "A",
 level:"hard",
 question:"On Jupiter, weight is:",
 options:["Less","More","Same","Zero"],
-answer:"More"
+answer:"More",
     explanation: "This is true because the physics supports More.",
 },
 
@@ -2794,7 +2794,7 @@ criterion: "A",
 level:"hard",
 question:"Mass unit:",
 options:["kg","N","Pa","m/s"],
-answer:"kg"
+answer:"kg",
     explanation: "This is true because the physics supports kg.",
 },
 
@@ -2806,7 +2806,7 @@ criterion: "A",
 level:"hard",
 question:"Weight direction:",
 options:["Upward","Downward","Random","Horizontal"],
-answer:"Downward"
+answer:"Downward",
     explanation: "This is true because the physics supports Downward.",
 },
 
@@ -2818,7 +2818,7 @@ criterion: "A",
 level:"hard",
 question:"If mass = 0:",
 options:["Weight exists","Weight zero","Force infinite","None"],
-answer:"Weight zero"
+answer:"Weight zero",
     explanation: "This is true because the physics supports Weight zero.",
 },
 
@@ -2830,7 +2830,7 @@ criterion: "A",
 level:"hard",
 question:"Weight depends on:",
 options:["Location","Mass","g","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -2844,7 +2844,7 @@ criterion: "A",
 level:"easy",
 question:"Gravitational force is:",
 options:["Repulsive","Attractive","Neutral","Variable"],
-answer:"Attractive"
+answer:"Attractive",
     explanation: "This is true because the physics supports Attractive.",
 },
 
@@ -2856,7 +2856,7 @@ criterion: "A",
 level:"medium",
 question:"Force acts along:",
 options:["Surface","Center line","Random","Edges"],
-answer:"Center line"
+answer:"Center line",
     explanation: "This is true because the physics supports Center line.",
 },
 
@@ -2869,7 +2869,7 @@ criterion: "A",
 level:"hard",
 question:"If distance doubles, force becomes:",
 options:["1/2","1/4","2","4"],
-answer:"1/4"
+answer:"1/4",
     explanation: "This is true because the physics supports 1/4.",
 },
 
@@ -2881,7 +2881,7 @@ criterion: "A",
 level:"hard",
 question:"If mass doubles, force:",
 options:["Half","Double","Same","Zero"],
-answer:"Double"
+answer:"Double",
     explanation: "This is true because the physics supports Double.",
 },
 
@@ -2893,7 +2893,7 @@ criterion: "A",
 level:"hard",
 question:"Gravitational force exists:",
 options:["Only Earth","Only planets","Everywhere","Nowhere"],
-answer:"Everywhere"
+answer:"Everywhere",
     explanation: "This is true because the physics supports Everywhere.",
 },
 
@@ -2905,7 +2905,7 @@ criterion: "A",
 level:"hard",
 question:"Force depends on:",
 options:["Mass","Distance","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -2918,7 +2918,7 @@ criterion: "A",
 level:"hard",
 question:"Gravity becomes zero far away:",
 options:["True","False","Almost zero","Depends"],
-answer:"Almost zero"
+answer:"Almost zero",
     explanation: "This is true because the physics supports Almost zero.",
 },
 
@@ -2930,7 +2930,7 @@ criterion: "A",
 level:"hard",
 question:"Force between objects increases if:",
 options:["Mass increases","Distance increases","Speed increases","Time increases"],
-answer:"Mass increases"
+answer:"Mass increases",
     explanation: "This is true because the physics supports Mass increases.",
 },
 
@@ -2942,7 +2942,7 @@ criterion: "A",
 level:"hard",
 question:"Earth pulls object and object pulls Earth:",
 options:["True","False","Depends","Sometimes"],
-answer:"True"
+answer:"True",
     explanation: "This is true because the physics supports True.",
 },
 
@@ -2954,7 +2954,7 @@ criterion: "A",
 level:"hard",
 question:"Which has strongest gravity?",
 options:["Moon","Earth","Jupiter","Small rock"],
-answer:"Jupiter"
+answer:"Jupiter",
     explanation: "This is true because the physics supports Jupiter.",
 },
 
@@ -2966,7 +2966,7 @@ criterion: "A",
 level:"hard",
 question:"Gravitational force is:",
 options:["Contact","Non-contact","Friction","Magnetic"],
-answer:"Non-contact"
+answer:"Non-contact",
     explanation: "This is true because the physics supports Non-contact.",
 },
 
@@ -2978,7 +2978,7 @@ criterion: "A",
 level:"hard",
 question:"If distance → very large:",
 options:["Force increases","Force zero","Force decreases","Constant"],
-answer:"Force decreases"
+answer:"Force decreases",
     explanation: "This is true because the physics supports Force decreases.",
 },
 
@@ -2990,7 +2990,7 @@ criterion: "A",
 level:"hard",
 question:"Gravity responsible for:",
 options:["Orbits","Falling","Weight","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -3002,7 +3002,7 @@ criterion: "A",
 level:"hard",
 question:"Stronger pull occurs when:",
 options:["More mass","Less distance","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -3016,7 +3016,7 @@ criterion: "A",
 level:"easy",
 question:"Pressure =",
 options:["F/A","A/F","m/g","F×A"],
-answer:"F/A"
+answer:"F/A",
     explanation: "This is true because the physics supports F/A.",
 },
 
@@ -3028,7 +3028,7 @@ criterion: "A",
 level:"medium",
 question:"Unit of pressure:",
 options:["N","Pa","kg","m/s"],
-answer:"Pa"
+answer:"Pa",
     explanation: "This is true because the physics supports Pa.",
 },
 
@@ -3041,7 +3041,7 @@ criterion: "A",
 level:"hard",
 question:"Force 100 N on 2 m² → pressure:",
 options:["50 Pa","200 Pa","100 Pa","20 Pa"],
-answer:"50 Pa"
+answer:"50 Pa",
     explanation: "This is true because the physics supports 50 Pa.",
 },
 
@@ -3053,7 +3053,7 @@ criterion: "A",
 level:"hard",
 question:"Area decreases → pressure:",
 options:["Increase","Decrease","Same","Zero"],
-answer:"Increase"
+answer:"Increase",
     explanation: "This is true because the physics supports Increase.",
 },
 
@@ -3065,7 +3065,7 @@ criterion: "A",
 level:"hard",
 question:"Sharp knife cuts because:",
 options:["More force","Less area","Less pressure","More mass"],
-answer:"Less area"
+answer:"Less area",
     explanation: "This is true because the physics supports Less area.",
 },
 
@@ -3078,7 +3078,7 @@ criterion: "A",
 level:"hard",
 question:"Wide tyres reduce pressure:",
 options:["True","False","Depends","Sometimes"],
-answer:"True"
+answer:"True",
     explanation: "This is true because the physics supports True.",
 },
 
@@ -3090,7 +3090,7 @@ criterion: "A",
 level:"hard",
 question:"Pressure depends on:",
 options:["Force","Area","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -3102,7 +3102,7 @@ criterion: "A",
 level:"hard",
 question:"If force doubles, pressure:",
 options:["Double","Half","Same","Zero"],
-answer:"Double"
+answer:"Double",
     explanation: "This is true because the physics supports Double.",
 },
 
@@ -3114,7 +3114,7 @@ criterion: "A",
 level:"hard",
 question:"High heels sink because:",
 options:["Low pressure","High pressure","Low force","High area"],
-answer:"High pressure"
+answer:"High pressure",
     explanation: "This is true because the physics supports High pressure.",
 },
 
@@ -3126,7 +3126,7 @@ criterion: "A",
 level:"hard",
 question:"Snow shoes work because:",
 options:["Less force","More area","Less mass","More gravity"],
-answer:"More area"
+answer:"More area",
     explanation: "This is true because the physics supports More area.",
 },
 
@@ -3138,7 +3138,7 @@ criterion: "A",
 level:"hard",
 question:"Pressure increases when:",
 options:["Area increases","Force increases","Mass decreases","Time increases"],
-answer:"Force increases"
+answer:"Force increases",
     explanation: "This is true because the physics supports Force increases.",
 },
 
@@ -3150,7 +3150,7 @@ criterion: "A",
 level:"hard",
 question:"If both force and area double:",
 options:["Pressure doubles","Same","Half","Zero"],
-answer:"Same"
+answer:"Same",
     explanation: "This is true because the physics supports Same.",
 },
 
@@ -3162,7 +3162,7 @@ criterion: "A",
 level:"hard",
 question:"Bulldozer has large tracks to:",
 options:["Increase pressure","Decrease pressure","Increase force","Decrease mass"],
-answer:"Decrease pressure"
+answer:"Decrease pressure",
     explanation: "This is true because the physics supports Decrease pressure.",
 },
 
@@ -3174,7 +3174,7 @@ criterion: "A",
 level:"hard",
 question:"Pressure is highest when:",
 options:["Small area","Large area","Less force","More mass"],
-answer:"Small area"
+answer:"Small area",
     explanation: "This is true because the physics supports Small area.",
 },
 
@@ -3186,7 +3186,7 @@ criterion: "A",
 level:"hard",
 question:"Pressure is:",
 options:["Scalar","Vector","Force","Mass"],
-answer:"Scalar"
+answer:"Scalar",
     explanation: "This is true because the physics supports Scalar.",
 },
 
@@ -3200,7 +3200,7 @@ criterion: "A",
 level:"easy",
 question:"Pressure formula:",
 options:["ρgh","mg","F/A","mv"],
-answer:"ρgh"
+answer:"ρgh",
     explanation: "This is true because the physics supports ρgh.",
 },
 
@@ -3212,7 +3212,7 @@ criterion: "A",
 level:"medium",
 question:"Pressure increases with:",
 options:["Depth","Density","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -3225,7 +3225,7 @@ criterion: "A",
 level:"hard",
 question:"At 10 m depth (ρ=1000, g=10), pressure:",
 options:["10000 Pa","100000 Pa","1000 Pa","100 Pa"],
-answer:"100000 Pa"
+answer:"100000 Pa",
     explanation: "This is true because the physics supports 100000 Pa.",
 },
 
@@ -3237,7 +3237,7 @@ criterion: "A",
 level:"hard",
 question:"If depth doubles, pressure:",
 options:["Double","Half","Same","Zero"],
-answer:"Double"
+answer:"Double",
     explanation: "This is true because the physics supports Double.",
 },
 
@@ -3249,7 +3249,7 @@ criterion: "A",
 level:"hard",
 question:"Pressure acts:",
 options:["Up only","Down only","All directions","Horizontal only"],
-answer:"All directions"
+answer:"All directions",
     explanation: "This is true because the physics supports All directions.",
 },
 
@@ -3262,7 +3262,7 @@ criterion: "A",
 level:"hard",
 question:"Pressure depends on container shape:",
 options:["Yes","No","Sometimes","Depends"],
-answer:"No"
+answer:"No",
     explanation: "This is true because the physics supports No.",
 },
 
@@ -3274,7 +3274,7 @@ criterion: "A",
 level:"hard",
 question:"Denser liquid gives:",
 options:["Less pressure","More pressure","Same","Zero"],
-answer:"More pressure"
+answer:"More pressure",
     explanation: "This is true because the physics supports More pressure.",
 },
 
@@ -3286,7 +3286,7 @@ criterion: "A",
 level:"hard",
 question:"Pressure unit:",
 options:["Pa","N","kg","m"],
-answer:"Pa"
+answer:"Pa",
     explanation: "This is true because the physics supports Pa.",
 },
 
@@ -3298,7 +3298,7 @@ criterion: "A",
 level:"hard",
 question:"Why dams thicker at bottom?",
 options:["Less pressure","More pressure","Less density","More gravity"],
-answer:"More pressure"
+answer:"More pressure",
     explanation: "This is true because the physics supports More pressure.",
 },
 
@@ -3310,7 +3310,7 @@ criterion: "A",
 level:"hard",
 question:"Submarines need strong body due to:",
 options:["Low pressure","High pressure","Zero pressure","Air"],
-answer:"High pressure"
+answer:"High pressure",
     explanation: "This is true because the physics supports High pressure.",
 },
 
@@ -3322,7 +3322,7 @@ criterion: "A",
 level:"hard",
 question:"Pressure at same depth:",
 options:["Different","Same","Depends","Random"],
-answer:"Same"
+answer:"Same",
     explanation: "This is true because the physics supports Same.",
 },
 
@@ -3334,7 +3334,7 @@ criterion: "A",
 level:"hard",
 question:"If density doubles:",
 options:["Pressure doubles","Half","Same","Zero"],
-answer:"Pressure doubles"
+answer:"Pressure doubles",
     explanation: "This is true because the physics supports Pressure doubles.",
 },
 
@@ -3346,7 +3346,7 @@ criterion: "A",
 level:"hard",
 question:"Pressure graph vs depth:",
 options:["Linear","Curve","Constant","Zero"],
-answer:"Linear"
+answer:"Linear",
     explanation: "This is true because the physics supports Linear.",
 },
 
@@ -3358,7 +3358,7 @@ criterion: "A",
 level:"hard",
 question:"Ear pain underwater due to:",
 options:["Low pressure","High pressure","No force","Temperature"],
-answer:"High pressure"
+answer:"High pressure",
     explanation: "This is true because the physics supports High pressure.",
 },
 
@@ -3370,7 +3370,7 @@ criterion: "A",
 level:"hard",
 question:"Pressure depends on:",
 options:["Depth","Density","g","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 /* ================= IMAGE 21: BUOYANCY & UPTHRUST ================= */
@@ -3383,7 +3383,7 @@ criterion: "A",
 level:"easy",
 question:"Upthrust acts in which direction?",
 options:["Downward","Upward","Sideways","Random"],
-answer:"Upward"
+answer:"Upward",
     explanation: "This is true because the physics supports Upward.",
 },
 
@@ -3395,7 +3395,7 @@ criterion: "A",
 level:"medium",
 question:"Upthrust equals:",
 options:["Weight of object","Weight of fluid displaced","Mass of fluid","Volume of object"],
-answer:"Weight of fluid displaced"
+answer:"Weight of fluid displaced",
     explanation: "This is true because the physics supports the correct principle.",
 },
 
@@ -3407,7 +3407,7 @@ criterion: "A",
 level:"hard",
 question:"If upthrust > weight:",
 options:["Object sinks","Object floats","Object stops","Object explodes"],
-answer:"Object floats"
+answer:"Object floats",
     explanation: "This is true because the physics supports Object floats.",
 },
 
@@ -3419,7 +3419,7 @@ criterion: "A",
 level:"hard",
 question:"If upthrust = weight:",
 options:["Floats","Sinks","Suspended","Accelerates"],
-answer:"Suspended"
+answer:"Suspended",
     explanation: "This is true because the physics supports Suspended.",
 },
 
@@ -3431,7 +3431,7 @@ criterion: "A",
 level:"hard",
 question:"If upthrust < weight:",
 options:["Floats","Sinks","Suspended","Moves up"],
-answer:"Sinks"
+answer:"Sinks",
     explanation: "This is true because the physics supports Sinks.",
 },
 
@@ -3444,7 +3444,7 @@ criterion: "A",
 level:"hard",
 question:"Water displaced weighs 50 N → upthrust:",
 options:["50 N","5 N","500 N","0"],
-answer:"50 N"
+answer:"50 N",
     explanation: "This is true because the physics supports 50 N.",
 },
 
@@ -3456,7 +3456,7 @@ criterion: "A",
 level:"hard",
 question:"ρ = 1000 kg/m³, V = 0.01 m³ → U ≈ (g=10):",
 options:["100 N","10 N","1 N","1000 N"],
-answer:"100 N"
+answer:"100 N",
     explanation: "This is true because the physics supports 100 N.",
 },
 
@@ -3468,7 +3468,7 @@ criterion: "A",
 level:"hard",
 question:"Ship floats because:",
 options:["Less mass","Less density overall","More weight","No gravity"],
-answer:"Less density overall"
+answer:"Less density overall",
     explanation: "This is true because the physics supports Less density overall.",
 },
 
@@ -3480,7 +3480,7 @@ criterion: "A",
 level:"hard",
 question:"Stone sinks because:",
 options:["Low density","High upthrust","High density","Low weight"],
-answer:"High density"
+answer:"High density",
     explanation: "This is true because the physics supports High density.",
 },
 
@@ -3493,7 +3493,7 @@ criterion: "A",
 level:"hard",
 question:"Heavier object always sinks:",
 options:["True","False","Depends","Sometimes"],
-answer:"False"
+answer:"False",
     explanation: "This is true because the physics supports False.",
 },
 
@@ -3505,7 +3505,7 @@ criterion: "A",
 level:"hard",
 question:"Upthrust depends on:",
 options:["Density","Volume displaced","g","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -3517,7 +3517,7 @@ criterion: "A",
 level:"hard",
 question:"Hydrometer works based on:",
 options:["Pressure","Density","Friction","Speed"],
-answer:"Density"
+answer:"Density",
     explanation: "This is true because the physics supports Density.",
 },
 
@@ -3529,7 +3529,7 @@ criterion: "A",
 level:"hard",
 question:"If fluid density increases:",
 options:["Upthrust increases","Decreases","Same","Zero"],
-answer:"Upthrust increases"
+answer:"Upthrust increases",
     explanation: "This is true because the physics supports Upthrust increases.",
 },
 
@@ -3541,7 +3541,7 @@ criterion: "A",
 level:"hard",
 question:"Hot air balloon rises because:",
 options:["Less volume","Less density","More gravity","Less pressure"],
-answer:"Less density"
+answer:"Less density",
     explanation: "This is true because the physics supports Less density.",
 },
 
@@ -3553,7 +3553,7 @@ criterion: "A",
 level:"hard",
 question:"Submarine sinks by:",
 options:["Reducing mass","Reducing volume","Increasing density","Increasing upthrust"],
-answer:"Increasing density"
+answer:"Increasing density",
     explanation: "This is true because the physics supports Increasing density.",
 },
 
@@ -3567,7 +3567,7 @@ criterion: "A",
 level:"easy",
 question:"FBD shows:",
 options:["Internal forces","External forces","Energy","Heat"],
-answer:"External forces"
+answer:"External forces",
     explanation: "This is true because the physics supports External forces.",
 },
 
@@ -3579,7 +3579,7 @@ criterion: "A",
 level:"medium",
 question:"Weight is represented as:",
 options:["Up arrow","Down arrow","Side arrow","None"],
-answer:"Down arrow"
+answer:"Down arrow",
     explanation: "This is true because the physics supports Down arrow.",
 },
 
@@ -3591,7 +3591,7 @@ criterion: "A",
 level:"hard",
 question:"Normal force acts:",
 options:["Parallel","Perpendicular","Downward","Random"],
-answer:"Perpendicular"
+answer:"Perpendicular",
     explanation: "This is true because the physics supports Perpendicular.",
 },
 
@@ -3603,7 +3603,7 @@ criterion: "A",
 level:"hard",
 question:"Friction acts:",
 options:["Along surface","Upward","Downward","None"],
-answer:"Along surface"
+answer:"Along surface",
     explanation: "This is true because the physics supports Along surface.",
 },
 
@@ -3616,7 +3616,7 @@ criterion: "A",
 level:"hard",
 question:"Include forces acting BY object:",
 options:["Yes","No","Sometimes","Depends"],
-answer:"No"
+answer:"No",
     explanation: "This is true because the physics supports No.",
 },
 
@@ -3628,7 +3628,7 @@ criterion: "A",
 level:"hard",
 question:"Tension acts:",
 options:["Push","Pull","Random","None"],
-answer:"Pull"
+answer:"Pull",
     explanation: "This is true because the physics supports Pull.",
 },
 
@@ -3640,7 +3640,7 @@ criterion: "A",
 level:"hard",
 question:"In free fall (no air):",
 options:["Only weight","Weight + air","Normal + weight","None"],
-answer:"Only weight"
+answer:"Only weight",
     explanation: "This is true because the physics supports Only weight.",
 },
 
@@ -3652,7 +3652,7 @@ criterion: "A",
 level:"hard",
 question:"Balanced forces mean:",
 options:["No motion","Constant velocity","Acceleration","Rest only"],
-answer:"Constant velocity"
+answer:"Constant velocity",
     explanation: "This is true because the physics supports Constant velocity.",
 },
 
@@ -3664,7 +3664,7 @@ criterion: "A",
 level:"hard",
 question:"Net force zero:",
 options:["a=0","v=0","F=ma false","No forces"],
-answer:"a=0"
+answer:"a=0",
     explanation: "This is true because the physics supports a=0.",
 },
 
@@ -3676,7 +3676,7 @@ criterion: "A",
 level:"hard",
 question:"Air resistance acts:",
 options:["With motion","Opposite motion","Random","None"],
-answer:"Opposite motion"
+answer:"Opposite motion",
     explanation: "This is true because the physics supports Opposite motion.",
 },
 
@@ -3688,7 +3688,7 @@ criterion: "A",
 level:"hard",
 question:"For object on table:",
 options:["Only W","Only N","W & N","None"],
-answer:"W & N"
+answer:"W & N",
     explanation: "This is true because the physics supports W & N.",
 },
 
@@ -3700,7 +3700,7 @@ criterion: "A",
 level:"hard",
 question:"Incorrect FBD includes:",
 options:["All forces","Extra forces","Correct labels","Vectors"],
-answer:"Extra forces"
+answer:"Extra forces",
     explanation: "This is true because the physics supports Extra forces.",
 },
 
@@ -3712,7 +3712,7 @@ criterion: "A",
 level:"hard",
 question:"FBD simplifies:",
 options:["Energy","Motion","Forces","Mass"],
-answer:"Forces"
+answer:"Forces",
     explanation: "This is true because the physics supports Forces.",
 },
 
@@ -3724,7 +3724,7 @@ criterion: "A",
 level:"hard",
 question:"Best axes choice:",
 options:["Random","Simplifies problem","Always horizontal","Always vertical"],
-answer:"Simplifies problem"
+answer:"Simplifies problem",
     explanation: "This is true because the physics supports Simplifies problem.",
 },
 
@@ -3736,7 +3736,7 @@ criterion: "A",
 level:"hard",
 question:"Vector arrows represent:",
 options:["Mass","Force","Energy","Time"],
-answer:"Force"
+answer:"Force",
     explanation: "This is true because the physics supports Force.",
 },
 
@@ -3750,7 +3750,7 @@ criterion: "A",
 level:"easy",
 question:"Resultant force is:",
 options:["Sum of forces","Single force","Mass","Energy"],
-answer:"Sum of forces"
+answer:"Sum of forces",
     explanation: "This is true because the physics supports Sum of forces.",
 },
 
@@ -3762,7 +3762,7 @@ criterion: "A",
 level:"medium",
 question:"Fnet = 0 →",
 options:["Accelerates","Constant velocity","Stops","Explodes"],
-answer:"Constant velocity"
+answer:"Constant velocity",
     explanation: "This is true because the physics supports Constant velocity.",
 },
 
@@ -3775,7 +3775,7 @@ criterion: "A",
 level:"hard",
 question:"F=1000 N, m=1000 kg → a:",
 options:["1","10","0.1","100"],
-answer:"1"
+answer:"1",
     explanation: "This is true because the physics supports 1.",
 },
 
@@ -3787,7 +3787,7 @@ criterion: "A",
 level:"hard",
 question:"2500 N forward, 1500 N backward → Fnet:",
 options:["1000 N","4000 N","-1000 N","0"],
-answer:"1000 N"
+answer:"1000 N",
     explanation: "This is true because the physics supports 1000 N.",
 },
 
@@ -3799,7 +3799,7 @@ criterion: "A",
 level:"hard",
 question:"Net force opposite motion →",
 options:["Speed increases","Speed decreases","Same speed","No motion"],
-answer:"Speed decreases"
+answer:"Speed decreases",
     explanation: "This is true because the physics supports Speed decreases.",
 },
 
@@ -3811,7 +3811,7 @@ criterion: "A",
 level:"hard",
 question:"Acceleration direction:",
 options:["Velocity","Force","Mass","Time"],
-answer:"Force"
+answer:"Force",
     explanation: "This is true because the physics supports Force.",
 },
 
@@ -3823,7 +3823,7 @@ criterion: "A",
 level:"hard",
 question:"Fnet = ΣF means:",
 options:["Multiply","Add vectors","Divide","Subtract always"],
-answer:"Add vectors"
+answer:"Add vectors",
     explanation: "This is true because the physics supports Add vectors.",
 },
 
@@ -3836,7 +3836,7 @@ criterion: "A",
 level:"hard",
 question:"Balanced forces → object at rest only:",
 options:["True","False","Depends","Sometimes"],
-answer:"False"
+answer:"False",
     explanation: "This is true because the physics supports False.",
 },
 
@@ -3848,7 +3848,7 @@ criterion: "A",
 level:"hard",
 question:"If mass doubles:",
 options:["a doubles","a halves","Same","Zero"],
-answer:"a halves"
+answer:"a halves",
     explanation: "This is true because the physics supports a halves.",
 },
 
@@ -3860,7 +3860,7 @@ criterion: "A",
 level:"hard",
 question:"Force causes:",
 options:["Speed","Acceleration","Mass","Energy"],
-answer:"Acceleration"
+answer:"Acceleration",
     explanation: "This is true because the physics supports Acceleration.",
 },
 
@@ -3872,7 +3872,7 @@ criterion: "A",
 level:"hard",
 question:"If forces equal opposite:",
 options:["Net zero","Acceleration","Speed increases","Random"],
-answer:"Net zero"
+answer:"Net zero",
     explanation: "This is true because the physics supports Net zero.",
 },
 
@@ -3884,7 +3884,7 @@ criterion: "A",
 level:"hard",
 question:"Velocity change formula:",
 options:["v=u+at","F=ma","P=F/A","W=mg"],
-answer:"v=u+at"
+answer:"v=u+at",
     explanation: "This is true because the physics supports v=u+at.",
 },
 
@@ -3896,7 +3896,7 @@ criterion: "A",
 level:"hard",
 question:"In tug of war:",
 options:["Equal forces move","Stronger wins","No motion always","Mass matters only"],
-answer:"Stronger wins"
+answer:"Stronger wins",
     explanation: "This is true because the physics supports Stronger wins.",
 },
 
@@ -3908,7 +3908,7 @@ criterion: "A",
 level:"hard",
 question:"Net force direction:",
 options:["Velocity","Acceleration","Mass","None"],
-answer:"Acceleration"
+answer:"Acceleration",
     explanation: "This is true because the physics supports Acceleration.",
 },
 
@@ -3920,7 +3920,7 @@ criterion: "A",
 level:"hard",
 question:"Object accelerates when:",
 options:["Fnet=0","Fnet≠0","Mass zero","Speed zero"],
-answer:"Fnet≠0"
+answer:"Fnet≠0",
     explanation: "This is true because the physics supports Fnet≠0.",
 },
 
@@ -3934,7 +3934,7 @@ criterion: "A",
 level:"easy",
 question:"Slope of graph gives:",
 options:["Speed","Time","Distance","Acceleration"],
-answer:"Speed"
+answer:"Speed",
     explanation: "This is true because the physics supports Speed.",
 },
 
@@ -3946,7 +3946,7 @@ criterion: "A",
 level:"medium",
 question:"Horizontal line means:",
 options:["Constant speed","At rest","Accelerating","Negative motion"],
-answer:"At rest"
+answer:"At rest",
     explanation: "This is true because the physics supports At rest.",
 },
 
@@ -3958,7 +3958,7 @@ criterion: "A",
 level:"hard",
 question:"Steeper slope means:",
 options:["Less speed","More speed","Zero speed","Negative"],
-answer:"More speed"
+answer:"More speed",
     explanation: "This is true because the physics supports More speed.",
 },
 
@@ -3971,7 +3971,7 @@ criterion: "A",
 level:"hard",
 question:"Distance 100 m in 10 s → speed:",
 options:["10 m/s","100 m/s","1 m/s","5 m/s"],
-answer:"10 m/s"
+answer:"10 m/s",
     explanation: "This is true because the physics supports 10 m/s.",
 },
 
@@ -3983,7 +3983,7 @@ criterion: "A",
 level:"hard",
 question:"Distance change 50 m in 5 s:",
 options:["10 m/s","5 m/s","50 m/s","1 m/s"],
-answer:"10 m/s"
+answer:"10 m/s",
     explanation: "This is true because the physics supports 10 m/s.",
 },
 
@@ -3995,7 +3995,7 @@ criterion: "A",
 level:"hard",
 question:"Curved graph means:",
 options:["Constant speed","Changing speed","Zero speed","Negative"],
-answer:"Changing speed"
+answer:"Changing speed",
     explanation: "This is true because the physics supports Changing speed.",
 },
 
@@ -4007,7 +4007,7 @@ criterion: "A",
 level:"hard",
 question:"Negative slope means:",
 options:["Forward motion","Backward motion","No motion","Acceleration"],
-answer:"Backward motion"
+answer:"Backward motion",
     explanation: "This is true because the physics supports Backward motion.",
 },
 
@@ -4020,7 +4020,7 @@ criterion: "A",
 level:"hard",
 question: "On a distance-time graph, a straight line means constant velocity:",
 options: ["True", "False"],
-answer: "True"
+answer: "True",
     explanation: "This is true because the physics supports True.",
 },
 
@@ -4032,7 +4032,7 @@ criterion: "A",
 level:"hard",
 question:"Slope = Δs/Δt is:",
 options:["Speed","Acceleration","Force","Mass"],
-answer:"Speed"
+answer:"Speed",
     explanation: "This is true because the physics supports Speed.",
 },
 
@@ -4044,7 +4044,7 @@ criterion: "A",
 level:"hard",
 question:"Instantaneous speed from:",
 options:["Average slope","Tangent","Area","Intercept"],
-answer:"Tangent"
+answer:"Tangent",
     explanation: "This is true because the physics supports Tangent.",
 },
 
@@ -4056,7 +4056,7 @@ criterion: "A",
 level:"hard",
 question:"Zero slope:",
 options:["Rest","Acceleration","Speed max","Negative"],
-answer:"Rest"
+answer:"Rest",
     explanation: "This is true because the physics supports Rest.",
 },
 
@@ -4068,7 +4068,7 @@ criterion: "A",
 level:"hard",
 question:"Increasing slope:",
 options:["Slowing","Speeding up","Constant","Backward"],
-answer:"Speeding up"
+answer:"Speeding up",
     explanation: "This is true because the physics supports Speeding up.",
 },
 
@@ -4080,7 +4080,7 @@ criterion: "A",
 level:"hard",
 question:"Area under graph:",
 options:["Distance","Speed","Time","None"],
-answer:"None"
+answer:"None",
     explanation: "This is true because the physics supports None.",
 },
 
@@ -4092,7 +4092,7 @@ criterion: "A",
 level:"hard",
 question:"Graph with decreasing slope:",
 options:["Accelerating","Decelerating","Constant","Rest"],
-answer:"Decelerating"
+answer:"Decelerating",
     explanation: "This is true because the physics supports Decelerating.",
 },
 
@@ -4104,7 +4104,7 @@ criterion: "A",
 level:"hard",
 question:"Units of slope:",
 options:["m/s","m","s","kg"],
-answer:"m/s"
+answer:"m/s",
     explanation: "This is true because the physics supports m/s.",
 },
 /* ================= IMAGE 25: VELOCITY-TIME GRAPH ================= */
@@ -4117,7 +4117,7 @@ criterion: "A",
 level:"easy",
 question:"Slope of velocity-time graph gives:",
 options:["Speed","Acceleration","Distance","Time"],
-answer:"Acceleration"
+answer:"Acceleration",
     explanation: "This is true because the physics supports Acceleration.",
 },
 
@@ -4129,7 +4129,7 @@ criterion: "A",
 level:"medium",
 question:"Area under v-t graph gives:",
 options:["Acceleration","Speed","Displacement","Force"],
-answer:"Displacement"
+answer:"Displacement",
     explanation: "This is true because the physics supports Displacement.",
 },
 
@@ -4141,7 +4141,7 @@ criterion: "A",
 level:"hard",
 question:"Horizontal line on v-t graph means:",
 options:["Acceleration","Constant velocity","Zero velocity","Decreasing velocity"],
-answer:"Constant velocity"
+answer:"Constant velocity",
     explanation: "This is true because the physics supports Constant velocity.",
 },
 
@@ -4154,7 +4154,7 @@ criterion: "A",
 level:"hard",
 question:"Velocity = 10 m/s for 5 s → displacement:",
 options:["50 m","5 m","10 m","100 m"],
-answer:"50 m"
+answer:"50 m",
     explanation: "This is true because the physics supports 50 m.",
 },
 
@@ -4166,7 +4166,7 @@ criterion: "A",
 level:"hard",
 question:"Velocity increases from 0 to 20 m/s in 4 s → acceleration:",
 options:["5 m/s²","10 m/s²","4 m/s²","2 m/s²"],
-answer:"5 m/s²"
+answer:"5 m/s²",
     explanation: "This is true because the physics supports 5 m/s².",
 },
 
@@ -4178,7 +4178,7 @@ criterion: "A",
 level:"hard",
 question:"Negative slope indicates:",
 options:["Positive acceleration","Zero acceleration","Negative acceleration","Constant speed"],
-answer:"Negative acceleration"
+answer:"Negative acceleration",
     explanation: "This is true because the physics supports the correct principle.",
 },
 
@@ -4191,7 +4191,7 @@ criterion: "A",
 level:"hard",
 question:"Area below time axis gives:",
 options:["Positive displacement","Negative displacement","Zero","Speed"],
-answer:"Negative displacement"
+answer:"Negative displacement",
     explanation: "This is true because the physics supports the correct principle.",
 },
 
@@ -4203,7 +4203,7 @@ criterion: "A",
 level:"hard",
 question:"Triangle area = ½ × base × height represents:",
 options:["Speed","Acceleration","Displacement","Force"],
-answer:"Displacement"
+answer:"Displacement",
     explanation: "This is true because the physics supports Displacement.",
 },
 
@@ -4215,7 +4215,7 @@ criterion: "A",
 level:"hard",
 question:"Steeper slope means:",
 options:["Less acceleration","More acceleration","Zero acceleration","Constant velocity"],
-answer:"More acceleration"
+answer:"More acceleration",
     explanation: "This is true because the physics supports More acceleration.",
 },
 
@@ -4227,7 +4227,7 @@ criterion: "A",
 level:"hard",
 question:"Flat line at v = 0:",
 options:["Rest","Acceleration","Negative motion","Speeding"],
-answer:"Rest"
+answer:"Rest",
     explanation: "This is true because the physics supports Rest.",
 },
 
@@ -4239,7 +4239,7 @@ criterion: "A",
 level:"hard",
 question:"Curved v-t graph means:",
 options:["Constant acceleration","Changing acceleration","Zero acceleration","Constant speed"],
-answer:"Changing acceleration"
+answer:"Changing acceleration",
     explanation: "This is true because the physics supports the correct principle.",
 },
 
@@ -4251,7 +4251,7 @@ criterion: "A",
 level:"hard",
 question:"Units of area under graph:",
 options:["m","m/s","m/s²","N"],
-answer:"m"
+answer:"m",
     explanation: "This is true because the physics supports m.",
 },
 
@@ -4263,7 +4263,7 @@ criterion: "A",
 level:"hard",
 question:"If velocity decreases linearly:",
 options:["Constant positive a","Constant negative a","Zero a","Variable a"],
-answer:"Constant negative a"
+answer:"Constant negative a",
     explanation: "This is true because the physics supports Constant negative a.",
 },
 
@@ -4275,7 +4275,7 @@ criterion: "A",
 level:"hard",
 question:"Acceleration is:",
 options:["Δt/Δv","Δv/Δt","v×t","s/t"],
-answer:"Δv/Δt"
+answer:"Δv/Δt",
     explanation: "This is true because the physics supports Δv/Δt.",
 },
 
@@ -4287,7 +4287,7 @@ criterion: "A",
 level:"hard",
 question:"If slope = 0:",
 options:["a=0","v=0","F=0","All"],
-answer:"a=0"
+answer:"a=0",
     explanation: "This is true because the physics supports a=0.",
 },
 
@@ -4301,7 +4301,7 @@ criterion: "A",
 level:"easy",
 question:"Acceleration is:",
 options:["Speed","Change in velocity","Distance","Force"],
-answer:"Change in velocity"
+answer:"Change in velocity",
     explanation: "This is true because the physics supports Change in velocity.",
 },
 
@@ -4313,7 +4313,7 @@ criterion: "A",
 level:"medium",
 question:"Unit of acceleration:",
 options:["m","m/s","m/s²","N"],
-answer:"m/s²"
+answer:"m/s²",
     explanation: "This is true because the physics supports m/s².",
 },
 
@@ -4326,7 +4326,7 @@ criterion: "A",
 level:"hard",
 question:"u=10 m/s, v=30 m/s, t=5 s → a:",
 options:["4 m/s²","5 m/s²","3 m/s²","2 m/s²"],
-answer:"4 m/s²"
+answer:"4 m/s²",
     explanation: "This is true because the physics supports 4 m/s².",
 },
 
@@ -4338,7 +4338,7 @@ criterion: "A",
 level:"hard",
 question:"u=20, v=0, t=4 s → a:",
 options:["-5 m/s²","5 m/s²","0","10"],
-answer:"-5 m/s²"
+answer:"-5 m/s²",
     explanation: "This is true because the physics supports -5 m/s².",
 },
 
@@ -4350,7 +4350,7 @@ criterion: "A",
 level:"hard",
 question:"If velocity constant:",
 options:["a>0","a<0","a=0","a infinite"],
-answer:"a=0"
+answer:"a=0",
     explanation: "This is true because the physics supports a=0.",
 },
 
@@ -4363,7 +4363,7 @@ criterion: "A",
 level:"hard",
 question:"Acceleration can be zero when object moves:",
 options:["True","False","Sometimes","Never"],
-answer:"True"
+answer:"True",
     explanation: "This is true because the physics supports True.",
 },
 
@@ -4375,7 +4375,7 @@ criterion: "A",
 level:"hard",
 question:"Negative acceleration means:",
 options:["Speed up","Slow down","Stop","Zero"],
-answer:"Slow down"
+answer:"Slow down",
     explanation: "This is true because the physics supports Slow down.",
 },
 
@@ -4387,7 +4387,7 @@ criterion: "A",
 level:"hard",
 question:"Acceleration depends on:",
 options:["Velocity change","Time","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -4399,7 +4399,7 @@ criterion: "A",
 level:"hard",
 question:"Formula:",
 options:["v=u+at","a=(v-u)/t","s=ut","F=ma"],
-answer:"a=(v-u)/t"
+answer:"a=(v-u)/t",
     explanation: "This is true because the physics supports a=(v-u)/t.",
 },
 
@@ -4411,7 +4411,7 @@ criterion: "A",
 level:"hard",
 question:"If v<u:",
 options:["a positive","a negative","a zero","None"],
-answer:"a negative"
+answer:"a negative",
     explanation: "This is true because the physics supports a negative.",
 },
 
@@ -4423,7 +4423,7 @@ criterion: "A",
 level:"hard",
 question:"Acceleration is vector:",
 options:["True","False","Scalar","Depends"],
-answer:"True"
+answer:"True",
     explanation: "This is true because the physics supports True.",
 },
 
@@ -4435,7 +4435,7 @@ criterion: "A",
 level:"hard",
 question:"Car slowing → acceleration:",
 options:["Positive","Negative","Zero","Random"],
-answer:"Negative"
+answer:"Negative",
     explanation: "This is true because the physics supports Negative.",
 },
 
@@ -4447,7 +4447,7 @@ criterion: "A",
 level:"hard",
 question:"If Δv = 0:",
 options:["a=0","a>0","a<0","None"],
-answer:"a=0"
+answer:"a=0",
     explanation: "This is true because the physics supports a=0.",
 },
 
@@ -4459,7 +4459,7 @@ criterion: "A",
 level:"hard",
 question:"Acceleration changes direction:",
 options:["Yes","No","Sometimes","Rare"],
-answer:"Yes"
+answer:"Yes",
     explanation: "This is true because the physics supports Yes.",
 },
 
@@ -4471,7 +4471,7 @@ criterion: "A",
 level:"hard",
 question:"If time increases but Δv same:",
 options:["a increases","a decreases","Same","Zero"],
-answer:"a decreases"
+answer:"a decreases",
     explanation: "This is true because the physics supports a decreases.",
 },
 
@@ -4485,7 +4485,7 @@ criterion: "A",
 level:"easy",
 question:"Slope of d-t graph:",
 options:["Speed","Acceleration","Force","Mass"],
-answer:"Speed"
+answer:"Speed",
     explanation: "This is true because the physics supports Speed.",
 },
 
@@ -4497,7 +4497,7 @@ criterion: "A",
 level:"medium",
 question:"Slope of v-t graph:",
 options:["Speed","Acceleration","Distance","Time"],
-answer:"Acceleration"
+answer:"Acceleration",
     explanation: "This is true because the physics supports Acceleration.",
 },
 
@@ -4509,7 +4509,7 @@ criterion: "A",
 level:"hard",
 question:"Area under v-t:",
 options:["Distance","Displacement","Acceleration","Speed"],
-answer:"Displacement"
+answer:"Displacement",
     explanation: "This is true because the physics supports Displacement.",
 },
 
@@ -4521,7 +4521,7 @@ criterion: "A",
 level:"hard",
 question:"Curve in d-t graph:",
 options:["Constant speed","Acceleration","Rest","Backward"],
-answer:"Acceleration"
+answer:"Acceleration",
     explanation: "This is true because the physics supports Acceleration.",
 },
 
@@ -4534,7 +4534,7 @@ criterion: "A",
 level:"hard",
 question:"Negative area in v-t:",
 options:["Negative speed","Negative displacement","Zero","Acceleration"],
-answer:"Negative displacement"
+answer:"Negative displacement",
     explanation: "This is true because the physics supports the correct principle.",
 },
 
@@ -4546,7 +4546,7 @@ criterion: "A",
 level:"hard",
 question:"Horizontal d-t:",
 options:["Rest","Constant speed","Acceleration","Backward"],
-answer:"Rest"
+answer:"Rest",
     explanation: "This is true because the physics supports Rest.",
 },
 
@@ -4558,7 +4558,7 @@ criterion: "A",
 level:"hard",
 question:"Steeper d-t:",
 options:["More speed","Less speed","Same","Zero"],
-answer:"More speed"
+answer:"More speed",
     explanation: "This is true because the physics supports More speed.",
 },
 
@@ -4570,7 +4570,7 @@ criterion: "A",
 level:"hard",
 question:"Flat v-t:",
 options:["Acceleration","Constant velocity","Rest","Negative"],
-answer:"Constant velocity"
+answer:"Constant velocity",
     explanation: "This is true because the physics supports Constant velocity.",
 },
 
@@ -4582,7 +4582,7 @@ criterion: "A",
 level:"hard",
 question:"Triangle area in v-t:",
 options:["Acceleration","Displacement","Speed","Time"],
-answer:"Displacement"
+answer:"Displacement",
     explanation: "This is true because the physics supports Displacement.",
 },
 
@@ -4594,7 +4594,7 @@ criterion: "A",
 level:"hard",
 question:"Units of slope in d-t:",
 options:["m/s","m/s²","N","kg"],
-answer:"m/s"
+answer:"m/s",
     explanation: "This is true because the physics supports m/s.",
 },
 
@@ -4606,7 +4606,7 @@ criterion: "A",
 level:"hard",
 question:"Curved v-t:",
 options:["Constant a","Changing a","Zero a","Constant v"],
-answer:"Changing a"
+answer:"Changing a",
     explanation: "This is true because the physics supports Changing a.",
 },
 
@@ -4618,7 +4618,7 @@ criterion: "A",
 level:"hard",
 question:"Negative slope d-t:",
 options:["Forward","Backward","Rest","Acceleration"],
-answer:"Backward"
+answer:"Backward",
     explanation: "This is true because the physics supports Backward.",
 },
 
@@ -4630,7 +4630,7 @@ criterion: "A",
 level:"hard",
 question:"Area gives displacement not distance:",
 options:["True","False","Sometimes","Depends"],
-answer:"True"
+answer:"True",
     explanation: "This is true because the physics supports True.",
 },
 
@@ -4642,7 +4642,7 @@ criterion: "A",
 level:"hard",
 question:"Instant speed from d-t:",
 options:["Slope","Area","Intercept","None"],
-answer:"Slope"
+answer:"Slope",
     explanation: "This is true because the physics supports Slope.",
 },
 
@@ -4654,7 +4654,7 @@ criterion: "A",
 level:"hard",
 question:"Graph below axis:",
 options:["Positive motion","Negative motion","Rest","Acceleration"],
-answer:"Negative motion"
+answer:"Negative motion",
     explanation: "This is true because the physics supports Negative motion.",
 },
 
@@ -4668,7 +4668,7 @@ criterion: "A",
 level:"easy",
 question:"First step:",
 options:["Solve","Understand","Check","Plan"],
-answer:"Understand"
+answer:"Understand",
     explanation: "This is true because the physics supports Understand.",
 },
 
@@ -4680,7 +4680,7 @@ criterion: "A",
 level:"medium",
 question:"After understanding:",
 options:["Solve","Analyze","Check","Guess"],
-answer:"Analyze"
+answer:"Analyze",
     explanation: "This is true because the physics supports Analyze.",
 },
 
@@ -4692,7 +4692,7 @@ criterion: "A",
 level:"hard",
 question:"Why check units?",
 options:["Marks","Accuracy","Habit","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -4704,7 +4704,7 @@ criterion: "A",
 level:"hard",
 question:"Skipping steps leads to:",
 options:["Accuracy","Errors","Speed","Marks"],
-answer:"Errors"
+answer:"Errors",
     explanation: "This is true because the physics supports Errors.",
 },
 
@@ -4716,7 +4716,7 @@ criterion: "A",
 level:"hard",
 question:"Best problem solving approach:",
 options:["Random","Stepwise","Guess","Skip"],
-answer:"Stepwise"
+answer:"Stepwise",
     explanation: "This is true because the physics supports Stepwise.",
 },
 
@@ -4728,7 +4728,7 @@ criterion: "A",
 level:"hard",
 question:"Verification helps:",
 options:["Confidence","Accuracy","Marks","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -4740,7 +4740,7 @@ criterion: "A",
 level:"hard",
 question:"Common mistake:",
 options:["Reading carefully","Wrong formula","Checking units","Planning"],
-answer:"Wrong formula"
+answer:"Wrong formula",
     explanation: "This is true because the physics supports Wrong formula.",
 },
 
@@ -4752,7 +4752,7 @@ criterion: "A",
 level:"hard",
 question:"Identify unknowns means:",
 options:["Find answer","List variables","Guess","Ignore"],
-answer:"List variables"
+answer:"List variables",
     explanation: "This is true because the physics supports List variables.",
 },
 
@@ -4764,7 +4764,7 @@ criterion: "A",
 level:"hard",
 question:"Best habit:",
 options:["Skip","Check","Guess","Copy"],
-answer:"Check"
+answer:"Check",
     explanation: "This is true because the physics supports Check.",
 },
 
@@ -4776,7 +4776,7 @@ criterion: "A",
 level:"hard",
 question:"Plan step includes:",
 options:["Formula","Steps","Units","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -4788,7 +4788,7 @@ criterion: "A",
 level:"hard",
 question:"Learning stage includes:",
 options:["Ignore","Reflect","Skip","Guess"],
-answer:"Reflect"
+answer:"Reflect",
     explanation: "This is true because the physics supports Reflect.",
 },
 
@@ -4800,7 +4800,7 @@ criterion: "A",
 level:"hard",
 question:"Analyze means:",
 options:["Break problem","Solve","Check","Ignore"],
-answer:"Break problem"
+answer:"Break problem",
     explanation: "This is true because the physics supports Break problem.",
 },
 
@@ -4812,7 +4812,7 @@ criterion: "A",
 level:"hard",
 question:"Best exam strategy:",
 options:["Speed only","Accuracy only","Balance","Guess"],
-answer:"Balance"
+answer:"Balance",
     explanation: "This is true because the physics supports Balance.",
 },
 
@@ -4824,7 +4824,7 @@ criterion: "A",
 level:"hard",
 question:"Checking answer ensures:",
 options:["Units","Logic","Reason","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -4836,7 +4836,7 @@ criterion: "A",
 level:"hard",
 question:"Good strategy leads to:",
 options:["Confusion","Success","Errors","Delay"],
-answer:"Success"
+answer:"Success",
     explanation: "This is true because the physics supports Success.",
 },
 /* ================= IMAGE 29: INQUIRY LAB GUIDE ================= */
@@ -4849,7 +4849,7 @@ criterion: "A",
 level:"easy",
 question:"A testable question must be:",
 options:["General","Measurable","Opinion-based","Random"],
-answer:"Measurable"
+answer:"Measurable",
     explanation: "This is true because the physics supports Measurable.",
 },
 
@@ -4861,7 +4861,7 @@ criterion: "A",
 level:"medium",
 question:"Hypothesis is:",
 options:["Observation","Prediction","Result","Error"],
-answer:"Prediction"
+answer:"Prediction",
     explanation: "This is true because the physics supports Prediction.",
 },
 
@@ -4873,7 +4873,7 @@ criterion: "A",
 level:"hard",
 question:"Independent variable is:",
 options:["Measured","Changed","Constant","Ignored"],
-answer:"Changed"
+answer:"Changed",
     explanation: "This is true because the physics supports Changed.",
 },
 
@@ -4885,7 +4885,7 @@ criterion: "A",
 level:"hard",
 question:"Dependent variable is:",
 options:["Changed","Measured","Constant","Ignored"],
-answer:"Measured"
+answer:"Measured",
     explanation: "This is true because the physics supports Measured.",
 },
 
@@ -4897,7 +4897,7 @@ criterion: "A",
 level:"hard",
 question:"Why repeat trials?",
 options:["Fun","Accuracy","Speed","Marks"],
-answer:"Accuracy"
+answer:"Accuracy",
     explanation: "This is true because the physics supports Accuracy.",
 },
 
@@ -4910,7 +4910,7 @@ criterion: "A",
 level:"hard",
 question:"If times: 1.2, 1.3, 1.1 → average:",
 options:["1.2","1.1","1.3","1.25"],
-answer:"1.2"
+answer:"1.2",
     explanation: "This is true because the physics supports 1.2.",
 },
 
@@ -4922,7 +4922,7 @@ criterion: "A",
 level:"hard",
 question:"Increasing ramp height decreases time → relationship:",
 options:["Direct","Inverse","No relation","Random"],
-answer:"Inverse"
+answer:"Inverse",
     explanation: "This is true because the physics supports Inverse.",
 },
 
@@ -4935,7 +4935,7 @@ criterion: "A",
 level:"hard",
 question:"Changing 2 variables makes experiment:",
 options:["Accurate","Invalid","Precise","Reliable"],
-answer:"Invalid"
+answer:"Invalid",
     explanation: "This is true because the physics supports Invalid.",
 },
 
@@ -4947,7 +4947,7 @@ criterion: "A",
 level:"hard",
 question:"Control variable example:",
 options:["Time","Mass","Height","Speed"],
-answer:"Mass"
+answer:"Mass",
     explanation: "This is true because the physics supports Mass.",
 },
 
@@ -4959,7 +4959,7 @@ criterion: "A",
 level:"hard",
 question:"Conclusion must be based on:",
 options:["Guess","Data","Opinion","Theory"],
-answer:"Data"
+answer:"Data",
     explanation: "This is true because the physics supports Data.",
 },
 
@@ -4971,7 +4971,7 @@ criterion: "A",
 level:"hard",
 question:"Graph helps to:",
 options:["Decorate","Find patterns","Confuse","Measure"],
-answer:"Find patterns"
+answer:"Find patterns",
     explanation: "This is true because the physics supports Find patterns.",
 },
 
@@ -4983,7 +4983,7 @@ criterion: "A",
 level:"hard",
 question:"Hypothesis must be:",
 options:["Testable","Random","Complex","Long"],
-answer:"Testable"
+answer:"Testable",
     explanation: "This is true because the physics supports Testable.",
 },
 
@@ -4995,7 +4995,7 @@ criterion: "A",
 level:"hard",
 question:"Systematic error affects:",
 options:["Precision","Accuracy","Units","Graphs"],
-answer:"Accuracy"
+answer:"Accuracy",
     explanation: "This is true because the physics supports Accuracy.",
 },
 
@@ -5007,7 +5007,7 @@ criterion: "A",
 level:"hard",
 question:"Random error affects:",
 options:["Accuracy","Precision","Units","None"],
-answer:"Precision"
+answer:"Precision",
     explanation: "This is true because the physics supports Precision.",
 },
 
@@ -5019,7 +5019,7 @@ criterion: "A",
 level:"hard",
 question:"Best data is:",
 options:["Neat","Accurate","Complete","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -5033,7 +5033,7 @@ criterion: "A",
 level:"easy",
 question:"Fair test changes:",
 options:["All variables","One variable","None","Random"],
-answer:"One variable"
+answer:"One variable",
     explanation: "This is true because the physics supports One variable.",
 },
 
@@ -5045,7 +5045,7 @@ criterion: "A",
 level:"medium",
 question:"Controlled variables are:",
 options:["Changed","Measured","Constant","Ignored"],
-answer:"Constant"
+answer:"Constant",
     explanation: "This is true because the physics supports Constant.",
 },
 
@@ -5057,7 +5057,7 @@ criterion: "A",
 level:"hard",
 question:"Changing mass and height together:",
 options:["Fair","Unfair","Accurate","Precise"],
-answer:"Unfair"
+answer:"Unfair",
     explanation: "This is true because the physics supports Unfair.",
 },
 
@@ -5069,7 +5069,7 @@ criterion: "A",
 level:"hard",
 question:"Not repeating trials leads to:",
 options:["Precision","Random error","Systematic error","Accuracy"],
-answer:"Random error"
+answer:"Random error",
     explanation: "This is true because the physics supports Random error.",
 },
 
@@ -5081,7 +5081,7 @@ criterion: "A",
 level:"hard",
 question:"Dependent variable in pendulum experiment:",
 options:["Length","Time","Mass","Angle"],
-answer:"Time"
+answer:"Time",
     explanation: "This is true because the physics supports Time.",
 },
 
@@ -5093,7 +5093,7 @@ criterion: "A",
 level:"hard",
 question:"Independent variable:",
 options:["Time","Length","Mass","Force"],
-answer:"Length"
+answer:"Length",
     explanation: "This is true because the physics supports Length.",
 },
 
@@ -5105,7 +5105,7 @@ criterion: "A",
 level:"hard",
 question:"Using different timers causes:",
 options:["Accuracy","Error","Precision","None"],
-answer:"Error"
+answer:"Error",
     explanation: "This is true because the physics supports Error.",
 },
 
@@ -5117,7 +5117,7 @@ criterion: "A",
 level:"hard",
 question:"Starting position must be:",
 options:["Different","Same","Random","Ignored"],
-answer:"Same"
+answer:"Same",
     explanation: "This is true because the physics supports Same.",
 },
 
@@ -5129,7 +5129,7 @@ criterion: "A",
 level:"hard",
 question:"Constants are:",
 options:["Variables","Fixed values","Results","Errors"],
-answer:"Fixed values"
+answer:"Fixed values",
     explanation: "This is true because the physics supports Fixed values.",
 },
 
@@ -5141,7 +5141,7 @@ criterion: "A",
 level:"hard",
 question:"Good experiment is:",
 options:["Fast","Accurate","Repeatable","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -5153,7 +5153,7 @@ criterion: "A",
 level:"hard",
 question:"Hypothesis is based on:",
 options:["Data","Guess","Prior knowledge","Random"],
-answer:"Prior knowledge"
+answer:"Prior knowledge",
     explanation: "This is true because the physics supports Prior knowledge.",
 },
 
@@ -5165,7 +5165,7 @@ criterion: "A",
 level:"hard",
 question:"Voltage experiment dependent variable:",
 options:["Voltage","Brightness","Time","Mass"],
-answer:"Brightness"
+answer:"Brightness",
     explanation: "This is true because the physics supports Brightness.",
 },
 
@@ -5177,7 +5177,7 @@ criterion: "A",
 level:"hard",
 question:"Multiple variables →",
 options:["Good","Invalid","Better","Accurate"],
-answer:"Invalid"
+answer:"Invalid",
     explanation: "This is true because the physics supports Invalid.",
 },
 
@@ -5189,7 +5189,7 @@ criterion: "A",
 level:"hard",
 question:"Measurement error reduces by:",
 options:["Repeating","Guessing","Ignoring","Skipping"],
-answer:"Repeating"
+answer:"Repeating",
     explanation: "This is true because the physics supports Repeating.",
 },
 
@@ -5201,7 +5201,7 @@ criterion: "A",
 level:"hard",
 question:"Fair test shows:",
 options:["Correlation","Cause-effect","Randomness","Noise"],
-answer:"Cause-effect"
+answer:"Cause-effect",
     explanation: "This is true because the physics supports Cause-effect.",
 },
 
@@ -5215,7 +5215,7 @@ criterion: "A",
 level:"easy",
 question:"Force can change:",
 options:["Speed","Direction","Shape","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -5227,7 +5227,7 @@ criterion: "A",
 level:"medium",
 question:"Drag force acts:",
 options:["Forward","Backward","Up","Down"],
-answer:"Backward"
+answer:"Backward",
     explanation: "This is true because the physics supports Backward.",
 },
 
@@ -5239,7 +5239,7 @@ criterion: "A",
 level:"hard",
 question:"Magnus effect causes:",
 options:["Straight motion","Curved path","Stop","Acceleration"],
-answer:"Curved path"
+answer:"Curved path",
     explanation: "This is true because the physics supports Curved path.",
 },
 
@@ -5251,7 +5251,7 @@ criterion: "A",
 level:"hard",
 question:"Cycling friction:",
 options:["Always bad","Provides grip","Zero","Constant"],
-answer:"Provides grip"
+answer:"Provides grip",
     explanation: "This is true because the physics supports Provides grip.",
 },
 
@@ -5263,7 +5263,7 @@ criterion: "A",
 level:"hard",
 question:"If driving force > friction:",
 options:["Stops","Accelerates","Constant","Reverse"],
-answer:"Accelerates"
+answer:"Accelerates",
     explanation: "This is true because the physics supports Accelerates.",
 },
 
@@ -5275,7 +5275,7 @@ criterion: "A",
 level:"hard",
 question:"Braking force acts:",
 options:["Forward","Backward","Up","None"],
-answer:"Backward"
+answer:"Backward",
     explanation: "This is true because the physics supports Backward.",
 },
 
@@ -5287,7 +5287,7 @@ criterion: "A",
 level:"hard",
 question:"Centripetal force provided by:",
 options:["Gravity","Friction","Air","Normal"],
-answer:"Friction"
+answer:"Friction",
     explanation: "This is true because the physics supports Friction.",
 },
 
@@ -5299,7 +5299,7 @@ criterion: "A",
 level:"hard",
 question:"Rocket thrust must:",
 options:["< gravity","> gravity","= gravity","0"],
-answer:"> gravity"
+answer:"> gravity",
     explanation: "This is true because the physics supports > gravity.",
 },
 
@@ -5311,7 +5311,7 @@ criterion: "A",
 level:"hard",
 question:"Parachute slows due to:",
 options:["Gravity","Drag","Lift","Thrust"],
-answer:"Drag"
+answer:"Drag",
     explanation: "This is true because the physics supports Drag.",
 },
 
@@ -5323,7 +5323,7 @@ criterion: "A",
 level:"hard",
 question:"Swimming forward due to:",
 options:["Gravity","Drag","Thrust","Friction"],
-answer:"Thrust"
+answer:"Thrust",
     explanation: "This is true because the physics supports Thrust.",
 },
 
@@ -5335,7 +5335,7 @@ criterion: "A",
 level:"hard",
 question:"Elevator motion depends on:",
 options:["Tension & gravity","Drag","Lift","Friction"],
-answer:"Tension & gravity"
+answer:"Tension & gravity",
     explanation: "This is true because the physics supports Tension & gravity.",
 },
 
@@ -5347,7 +5347,7 @@ criterion: "A",
 level:"hard",
 question:"Balanced forces →",
 options:["Acceleration","No change","Speed increase","Turn"],
-answer:"No change"
+answer:"No change",
     explanation: "This is true because the physics supports No change.",
 },
 
@@ -5359,7 +5359,7 @@ criterion: "A",
 level:"hard",
 question:"Unbalanced force →",
 options:["Rest","Acceleration","Stop","None"],
-answer:"Acceleration"
+answer:"Acceleration",
     explanation: "This is true because the physics supports Acceleration.",
 },
 
@@ -5371,7 +5371,7 @@ criterion: "A",
 level:"hard",
 question:"More friction in curve:",
 options:["Needed","Not needed","Zero","Bad"],
-answer:"Needed"
+answer:"Needed",
     explanation: "This is true because the physics supports Needed.",
 },
 
@@ -5383,7 +5383,7 @@ criterion: "A",
 level:"hard",
 question:"Air resistance always:",
 options:["Helps","Opposes","Zero","Random"],
-answer:"Opposes"
+answer:"Opposes",
     explanation: "This is true because the physics supports Opposes.",
 },
 
@@ -5397,7 +5397,7 @@ criterion: "A",
 level:"easy",
 question:"Factor of safety means:",
 options:["Strength/Load","Load/Strength","Force/Area","Mass/Weight"],
-answer:"Strength/Load"
+answer:"Strength/Load",
     explanation: "This is true because the physics supports Strength/Load.",
 },
 
@@ -5409,7 +5409,7 @@ criterion: "A",
 level:"medium",
 question:"Compression acts:",
 options:["Pull","Push","Twist","Slide"],
-answer:"Push"
+answer:"Push",
     explanation: "This is true because the physics supports Push.",
 },
 
@@ -5421,7 +5421,7 @@ criterion: "A",
 level:"medium",
 question:"Tension acts:",
 options:["Push","Pull","Rotate","Slide"],
-answer:"Pull"
+answer:"Pull",
     explanation: "This is true because the physics supports Pull.",
 },
 
@@ -5433,7 +5433,7 @@ criterion: "A",
 level:"hard",
 question:"Steel is used because:",
 options:["Weak","Strong","Heavy","Cheap"],
-answer:"Strong"
+answer:"Strong",
     explanation: "This is true because the physics supports Strong.",
 },
 
@@ -5445,7 +5445,7 @@ criterion: "A",
 level:"hard",
 question:"Concrete is strong in:",
 options:["Tension","Compression","Both","None"],
-answer:"Compression"
+answer:"Compression",
     explanation: "This is true because the physics supports Compression.",
 },
 
@@ -5457,7 +5457,7 @@ criterion: "A",
 level:"hard",
 question:"Reinforced concrete combines:",
 options:["Strength","Compression","Tension","Both"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -5469,7 +5469,7 @@ criterion: "A",
 level:"hard",
 question:"Higher FoS means:",
 options:["Unsafe","Safer","Weak","Cheap"],
-answer:"Safer"
+answer:"Safer",
     explanation: "This is true because the physics supports Safer.",
 },
 
@@ -5482,7 +5482,7 @@ criterion: "A",
 level:"hard",
 question:"If strength=100kN, load=20kN → FoS:",
 options:["2","3","5","10"],
-answer:"5"
+answer:"5",
     explanation: "This is true because the physics supports 5.",
 },
 
@@ -5494,7 +5494,7 @@ criterion: "A",
 level:"hard",
 question:"Wind causes building:",
 options:["Fall","Sway","Break","Stop"],
-answer:"Sway"
+answer:"Sway",
     explanation: "This is true because the physics supports Sway.",
 },
 
@@ -5506,7 +5506,7 @@ criterion: "A",
 level:"hard",
 question:"Triangular truss helps:",
 options:["Weight","Force distribution","Speed","Height"],
-answer:"Force distribution"
+answer:"Force distribution",
     explanation: "This is true because the physics supports Force distribution.",
 },
 
@@ -5518,7 +5518,7 @@ criterion: "A",
 level:"hard",
 question:"Cable bridges use:",
 options:["Compression","Tension","Friction","Drag"],
-answer:"Tension"
+answer:"Tension",
     explanation: "This is true because the physics supports Tension.",
 },
 
@@ -5530,7 +5530,7 @@ criterion: "A",
 level:"hard",
 question:"Aluminum used for:",
 options:["Heavy load","Lightweight","Cheap","Weak"],
-answer:"Lightweight"
+answer:"Lightweight",
     explanation: "This is true because the physics supports Lightweight.",
 },
 
@@ -5542,7 +5542,7 @@ criterion: "A",
 level:"hard",
 question:"Base isolation protects from:",
 options:["Wind","Earthquake","Heat","Rain"],
-answer:"Earthquake"
+answer:"Earthquake",
     explanation: "This is true because the physics supports Earthquake.",
 },
 
@@ -5554,7 +5554,7 @@ criterion: "A",
 level:"hard",
 question:"Design process includes:",
 options:["Test","Build","Analyze","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -5566,7 +5566,7 @@ criterion: "A",
 level:"hard",
 question:"Good engineering ensures:",
 options:["Safety","Efficiency","Strength","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 /* ================= IMAGE 33: FORCES & TECHNOLOGY ================= */
@@ -5579,7 +5579,7 @@ criterion: "A",
 level:"easy",
 question:"Lift in airplanes acts:",
 options:["Downward","Upward","Forward","Backward"],
-answer:"Upward"
+answer:"Upward",
     explanation: "This is true because the physics supports Upward.",
 },
 
@@ -5591,7 +5591,7 @@ criterion: "A",
 level:"medium",
 question:"If thrust = drag in airplane:",
 options:["Accelerates","Slows","Constant speed","Stops"],
-answer:"Constant speed"
+answer:"Constant speed",
     explanation: "This is true because the physics supports Constant speed.",
 },
 
@@ -5603,7 +5603,7 @@ criterion: "A",
 level:"hard",
 question:"Rocket launches when:",
 options:["Thrust < weight","Thrust = weight","Thrust > weight","No drag"],
-answer:"Thrust > weight"
+answer:"Thrust > weight",
     explanation: "This is true because the physics supports Thrust > weight.",
 },
 
@@ -5615,7 +5615,7 @@ criterion: "A",
 level:"hard",
 question:"Satellite remains in orbit due to:",
 options:["Only gravity","Only velocity","Balance of forces","No forces"],
-answer:"Balance of forces"
+answer:"Balance of forces",
     explanation: "This is true because the physics supports Balance of forces.",
 },
 
@@ -5627,7 +5627,7 @@ criterion: "A",
 level:"hard",
 question:"Train efficiency increases when:",
 options:["More friction","Less friction","More drag","More weight"],
-answer:"Less friction"
+answer:"Less friction",
     explanation: "This is true because the physics supports Less friction.",
 },
 
@@ -5639,7 +5639,7 @@ criterion: "A",
 level:"hard",
 question:"Drone stability requires:",
 options:["Unbalanced forces","Balanced forces","No forces","Gravity only"],
-answer:"Balanced forces"
+answer:"Balanced forces",
     explanation: "This is true because the physics supports Balanced forces.",
 },
 
@@ -5651,7 +5651,7 @@ criterion: "A",
 level:"hard",
 question:"Elevator moving up at constant speed:",
 options:["T > W","T < W","T = W","No tension"],
-answer:"T = W"
+answer:"T = W",
     explanation: "This is true because the physics supports T = W.",
 },
 
@@ -5663,7 +5663,7 @@ criterion: "A",
 level:"hard",
 question:"Re-entry heating due to:",
 options:["Gravity","Friction/drag","Lift","Thrust"],
-answer:"Friction/drag"
+answer:"Friction/drag",
     explanation: "This is true because the physics supports Friction/drag.",
 },
 
@@ -5675,7 +5675,7 @@ criterion: "A",
 level:"hard",
 question:"If drag increases, speed:",
 options:["Increases","Decreases","Constant","Random"],
-answer:"Decreases"
+answer:"Decreases",
     explanation: "This is true because the physics supports Decreases.",
 },
 
@@ -5687,7 +5687,7 @@ criterion: "A",
 level:"hard",
 question:"Best design for speed:",
 options:["High drag","Low drag","High friction","Heavy mass"],
-answer:"Low drag"
+answer:"Low drag",
     explanation: "This is true because the physics supports Low drag.",
 },
 
@@ -5701,7 +5701,7 @@ criterion: "A",
 level:"easy",
 question:"Net force formula:",
 options:["F=ma","F=mv","F=mg","F=vt"],
-answer:"F=ma"
+answer:"F=ma",
     explanation: "This is true because the physics supports F=ma.",
 },
 
@@ -5713,7 +5713,7 @@ criterion: "A",
 level:"medium",
 question:"Slope of velocity-time graph:",
 options:["Speed","Acceleration","Distance","Force"],
-answer:"Acceleration"
+answer:"Acceleration",
     explanation: "This is true because the physics supports Acceleration.",
 },
 
@@ -5725,7 +5725,7 @@ criterion: "A",
 level:"hard",
 question:"Area under velocity-time graph:",
 options:["Speed","Distance","Displacement","Acceleration"],
-answer:"Displacement"
+answer:"Displacement",
     explanation: "This is true because the physics supports Displacement.",
 },
 
@@ -5737,7 +5737,7 @@ criterion: "A",
 level:"hard",
 question:"If net force = 0:",
 options:["Acceleration","Constant velocity","Stops","Speeds up"],
-answer:"Constant velocity"
+answer:"Constant velocity",
     explanation: "This is true because the physics supports Constant velocity.",
 },
 
@@ -5749,7 +5749,7 @@ criterion: "A",
 level:"hard",
 question:"Increasing mass (same force):",
 options:["Increase a","Decrease a","No change","Random"],
-answer:"Decrease a"
+answer:"Decrease a",
     explanation: "This is true because the physics supports Decrease a.",
 },
 
@@ -5761,7 +5761,7 @@ criterion: "A",
 level:"hard",
 question:"Graphs help to:",
 options:["Decorate","Analyze motion","Confuse","Memorize"],
-answer:"Analyze motion"
+answer:"Analyze motion",
     explanation: "This is true because the physics supports Analyze motion.",
 },
 
@@ -5773,7 +5773,7 @@ criterion: "A",
 level:"hard",
 question:"Engineering uses physics to:",
 options:["Decorate","Solve problems","Slow systems","Confuse"],
-answer:"Solve problems"
+answer:"Solve problems",
     explanation: "This is true because the physics supports Solve problems.",
 },
 
@@ -5785,7 +5785,7 @@ criterion: "A",
 level:"hard",
 question:"Unbalanced force causes:",
 options:["Rest","Acceleration","Stop","Zero motion"],
-answer:"Acceleration"
+answer:"Acceleration",
     explanation: "This is true because the physics supports Acceleration.",
 },
 
@@ -5797,7 +5797,7 @@ criterion: "A",
 level:"hard",
 question:"Balanced forces →",
 options:["Acceleration","No motion change","Speed increase","Turn"],
-answer:"No motion change"
+answer:"No motion change",
     explanation: "This is true because the physics supports No motion change.",
 },
 
@@ -5809,7 +5809,7 @@ criterion: "A",
 level:"hard",
 question:"Physics connects:",
 options:["Math","Engineering","Real world","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -5823,7 +5823,7 @@ criterion: "A",
 level:"hard",
 question:"v = 20 m/s, t = 4 s → displacement:",
 options:["5","80","40","10"],
-answer:"80"
+answer:"80",
     explanation: "This is true because the physics supports 80.",
 },
 
@@ -5835,7 +5835,7 @@ criterion: "A",
 level:"hard",
 question:"F = ma, m=2 kg, a=5 → F:",
 options:["2","5","10","20"],
-answer:"10"
+answer:"10",
     explanation: "This is true because the physics supports 10.",
 },
 
@@ -5847,7 +5847,7 @@ criterion: "A",
 level:"hard",
 question:"Work done if θ=90°:",
 options:["Max","Zero","Half","Negative"],
-answer:"Zero"
+answer:"Zero",
     explanation: "This is true because the physics supports Zero.",
 },
 
@@ -5859,7 +5859,7 @@ criterion: "A",
 level:"hard",
 question:"KE ∝:",
 options:["v","v²","v³","1/v"],
-answer:"v²"
+answer:"v²",
     explanation: "This is true because the physics supports v².",
 },
 
@@ -5871,7 +5871,7 @@ criterion: "A",
 level:"hard",
 question:"If velocity doubles, KE:",
 options:["2x","3x","4x","Half"],
-answer:"4x"
+answer:"4x",
     explanation: "This is true because the physics supports 4x.",
 },
 
@@ -5883,7 +5883,7 @@ criterion: "A",
 level:"hard",
 question:"Density formula:",
 options:["m/v","v/m","F/A","A/v"],
-answer:"m/v"
+answer:"m/v",
     explanation: "This is true because the physics supports m/v.",
 },
 
@@ -5895,7 +5895,7 @@ criterion: "A",
 level:"hard",
 question:"Terminal velocity occurs when:",
 options:["Fnet >0","Fnet <0","Fnet =0","No gravity"],
-answer:"Fnet =0"
+answer:"Fnet =0",
     explanation: "This is true because the physics supports Fnet =0.",
 },
 
@@ -5907,7 +5907,7 @@ criterion: "A",
 level:"hard",
 question:"Momentum depends on:",
 options:["Mass","Velocity","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -5919,7 +5919,7 @@ criterion: "A",
 level:"hard",
 question:"Impulse equals:",
 options:["Force/time","Force×time","Mass×velocity","Work"],
-answer:"Force×time"
+answer:"Force×time",
     explanation: "This is true because the physics supports Force×time.",
 },
 
@@ -5931,7 +5931,7 @@ criterion: "A",
 level:"hard",
 question:"Power increases if:",
 options:["Time ↑","Work ↑","Both","None"],
-answer:"Work ↑"
+answer:"Work ↑",
     explanation: "This is true because the physics supports Work ↑.",
 },
 
@@ -5945,7 +5945,7 @@ criterion: "A",
 level:"hard",
 question:"Car: 0→25 m/s in 10 s → a:",
 options:["2.5","5","10","25"],
-answer:"2.5"
+answer:"2.5",
     explanation: "This is true because the physics supports 2.5.",
 },
 
@@ -5957,7 +5957,7 @@ criterion: "A",
 level:"hard",
 question:"m=800 kg, a=40 m/s² → F:",
 options:["32000","20000","8000","40000"],
-answer:"32000"
+answer:"32000",
     explanation: "This is true because the physics supports 32000.",
 },
 
@@ -5969,7 +5969,7 @@ criterion: "A",
 level:"hard",
 question:"Balanced forces example:",
 options:["Falling ball","Accelerating car","Book on table","Rocket"],
-answer:"Book on table"
+answer:"Book on table",
     explanation: "This is true because the physics supports Book on table.",
 },
 
@@ -5981,7 +5981,7 @@ criterion: "A",
 level:"hard",
 question:"Unit of force:",
 options:["kg","N","J","Pa"],
-answer:"N"
+answer:"N",
     explanation: "This is true because the physics supports N.",
 },
 
@@ -5993,7 +5993,7 @@ criterion: "A",
 level:"hard",
 question:"Seat belts relate to:",
 options:["1st law","2nd law","3rd law","Energy"],
-answer:"1st law"
+answer:"1st law",
     explanation: "This is true because the physics supports 1st law.",
 },
 
@@ -6005,7 +6005,7 @@ criterion: "A",
 level:"hard",
 question:"Velocity-time graph slope:",
 options:["Speed","Acceleration","Force","Distance"],
-answer:"Acceleration"
+answer:"Acceleration",
     explanation: "This is true because the physics supports Acceleration.",
 },
 
@@ -6017,7 +6017,7 @@ criterion: "A",
 level:"hard",
 question:"If force stops, object:",
 options:["Stops","Keeps moving","Accelerates","Reverses"],
-answer:"Keeps moving"
+answer:"Keeps moving",
     explanation: "This is true because the physics supports Keeps moving.",
 },
 
@@ -6029,7 +6029,7 @@ criterion: "A",
 level:"hard",
 question:"Distance from v-t graph:",
 options:["Slope","Area","Height","Width"],
-answer:"Area"
+answer:"Area",
     explanation: "This is true because the physics supports Area.",
 },
 
@@ -6041,7 +6041,7 @@ criterion: "A",
 level:"hard",
 question:"More mass trolley → acceleration:",
 options:["Increase","Decrease","Same","Random"],
-answer:"Decrease"
+answer:"Decrease",
     explanation: "This is true because the physics supports Decrease.",
 },
 
@@ -6053,7 +6053,7 @@ criterion: "A",
 level:"hard",
 question:"Satellite path is curved due to:",
 options:["Velocity","Gravity","Both","None"],
-answer:"Both"
+answer:"Both",
     explanation: "This is true because the physics supports Both.",
 },
 
@@ -6067,7 +6067,7 @@ criterion: "A",
 level:"medium",
 question:"Static friction acts when:",
 options:["Moving","At rest","Falling","Rotating"],
-answer:"At rest"
+answer:"At rest",
     explanation: "This is true because the physics supports At rest.",
 },
 
@@ -6079,7 +6079,7 @@ criterion: "A",
 level:"medium",
 question:"Kinetic friction acts when:",
 options:["Rest","Moving","Floating","Falling"],
-answer:"Moving"
+answer:"Moving",
     explanation: "This is true because the physics supports Moving.",
 },
 
@@ -6091,7 +6091,7 @@ criterion: "A",
 level:"hard",
 question:"Fluid friction depends on:",
 options:["Density","Speed","Area","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },
 
@@ -6103,7 +6103,7 @@ criterion: "A",
 level:"hard",
 question:"Parachute increases:",
 options:["Weight","Drag","Mass","Gravity"],
-answer:"Drag"
+answer:"Drag",
     explanation: "This is true because the physics supports Drag.",
 },
 
@@ -6115,7 +6115,7 @@ criterion: "A",
 level:"hard",
 question:"Terminal velocity when:",
 options:["Drag > weight","Weight > drag","Equal","No force"],
-answer:"Equal"
+answer:"Equal",
     explanation: "This is true because the physics supports Equal.",
 },
 
@@ -6127,7 +6127,7 @@ criterion: "A",
 level:"hard",
 question:"Increasing area of parachute:",
 options:["Less drag","More drag","Same","Random"],
-answer:"More drag"
+answer:"More drag",
     explanation: "This is true because the physics supports More drag.",
 },
 
@@ -6139,7 +6139,7 @@ criterion: "A",
 level:"hard",
 question:"Better friction gives:",
 options:["Slip","Grip","Stop","Fall"],
-answer:"Grip"
+answer:"Grip",
     explanation: "This is true because the physics supports Grip.",
 },
 
@@ -6151,7 +6151,7 @@ criterion: "A",
 level:"hard",
 question:"Friction disadvantage:",
 options:["Grip","Heat","Control","Walk"],
-answer:"Heat"
+answer:"Heat",
     explanation: "This is true because the physics supports Heat.",
 },
 
@@ -6163,7 +6163,7 @@ criterion: "A",
 level:"hard",
 question:"Wind tunnel tests:",
 options:["Gravity","Drag","Friction","Mass"],
-answer:"Drag"
+answer:"Drag",
     explanation: "This is true because the physics supports Drag.",
 },
 
@@ -6175,7 +6175,7 @@ criterion: "A",
 level:"hard",
 question:"Best project approach:",
 options:["Copy","Observe","Test","All"],
-answer:"All"
+answer:"All",
     explanation: "This is true because the physics supports All.",
 },  
   
