@@ -253,23 +253,155 @@ checkApiKey();
 function gc(){return{subject:document.getElementById('ia-subject').value,level:document.getElementById('ia-level').value,topic:document.getElementById('ia-topic').value,subtopic:document.getElementById('ia-subtopic').value,draft:document.getElementById('ia-draft').value,tone:document.getElementById('ia-tone').value,rqVars:(document.getElementById('rq-vars')||{}).value||'',chosenRQ:(document.getElementById('intro-rq')||{}).value||'',ivCount:(document.getElementById('data-ivcount')||{}).value||'7',trials:(document.getElementById('data-trials')||{}).value||'3'};}
 
 function gp(i,c){
-  var b='You are an expert IB '+c.level+' Physics IA assistant. Topic: '+c.topic+' — '+c.subtopic+'. Draft: '+c.draft+'. Tone: '+c.tone+'. RQ: "'+(c.chosenRQ||'not yet selected')+'". Write naturally. NO robotic phrases. Return HTML only — no markdown, no code fences.';
+  var studentTone = 'CRITICAL WRITING RULES:\n- First person ("I", "my")\n- No "Furthermore", "Moreover", "It can be concluded", "This demonstrates"\n- Sound like a real student, not a textbook\n- Short sentences (12-18 words average)\n- Start sentences differently — don\'t begin 3 sentences in a row with "The"\n- Use "I think", "I noticed", "I expected" — not "It was observed", "It is hypothesized"\n- Include small human touches: "which surprised me", "this made more sense after I plotted the graph", "I wasn\'t sure if this was an error or not"\n\n';
+  
   var P=[
-    b+'\n\nGenerate 7 Research Questions for '+c.topic+' — '+c.subtopic+'. '+(c.rqVars?'Variables: '+c.rqVars:'')+'\nEach: RQ, IV, DV, CV, suitability /10, difficulty, comment. HTML cards.',
-    b+'\n\nIntroduction (150-250 words): real-world context, why chosen, IV/DV, physics, end with RQ. HTML. Word count.',
-    b+'\n\nBackground Theory (400-700 words): physics, numbered equations, derivations, graph relationship, proportionality. HTML. Word count.',
-    b+'\n\nHypothesis (100-180 words): IV→DV direction, relationship type, link to equation. Predictive tone. HTML.',
-    b+'\n\nVariables table: Type|Variable|Value/Range|Uncertainty|Reason. 1 IV, 1 DV, 5-7 CVs, 1-2 confounding. HTML table.',
-    b+'\n\nApparatus table: Sr|Apparatus|Qty|Unit|Least Count|Reason. School-lab, realistic uncertainties. HTML table.',
-    b+'\n\nProcedure (250-450 words): imperative tone, setup, IV variation, DV measurement, '+c.trials+' trials, precautions, safety. [INSERT DIAGRAM]. Numbered steps. Word count.',
-    b+'\n\nRaw data table: '+c.ivCount+' IV values, '+c.trials+' trials. Title, units in headers, uncertainties, realistic data with scatter. HTML table.',
-    b+'\n\nSample calculation: formula, substitution, result with units/sig figs, uncertainty propagation. Step-by-step. HTML.',
-    b+'\n\nProcessed data: averages, propagated uncertainties, percentage uncertainties, sig figs, processed table. HTML.',
-    b+'\n\nGraph guidance: type, axes, linearization, shape, title, caption, error bars, best/worst fit, gradient. [INSERT GRAPH]. HTML.',
-    b+'\n\nAnalysis (250-450 words): gradient meaning, intercept, theory comparison, % error, uncertainty. Explain PHYSICS. HTML. Word count.',
-    b+'\n\nConclusion (200-350 words): answer RQ numerically, compare theory, % error, uncertainty, hypothesis. HTML. Word count.',
-    b+'\n\nEvaluation (350-600 words): table Limitation|Error Type|Effect|Improvement (5-6). Then paragraphs on major limitations. No "human error". HTML. Word count.',
-    b+'\n\nBibliography: 5-8 APA. Tsokos, Homer, IB resources, educational sites. HTML ordered list.'
+    // 0: Research Question
+    `You are helping an IB ${c.level} Physics student find a Research Question for their IA.
+
+TOPIC: ${c.topic} — ${c.subtopic}
+${c.rqVars ? 'The student wants to explore: ' + c.rqVars : ''}
+
+Generate exactly 7 Research Questions. For each one, provide:
+
+1. The RQ itself (18-35 words, structured as: "How does [IV] affect [DV] when [CV] is kept constant?")
+2. Independent Variable (what changes)
+3. Dependent Variable (what is measured)
+4. Key Controlled Variable
+5. Expected relationship (linear, inverse, proportional, square, exponential)
+6. Graph type (line graph, scatter, curve)
+7. Equipment needed (school lab only — rulers, stopwatches, multimeters, springs, masses, etc.)
+8. Suitability score (/10)
+9. Difficulty (Low / Medium / High)
+10. One sentence: why this RQ works well (or doesn't)
+
+RANKING ORDER — present them in this order:
+- RQ 1-2: SAFEST options (easy to do, reliable data, straightforward analysis)
+- RQ 3-4: BEST SCORING options (clear physics, strong analysis potential, good graphs)
+- RQ 5-6: MOST ANALYTICAL options (require linearization, interesting relationships)
+- RQ 7: CREATIVE option (unusual angle on the topic, still feasible)
+
+RULES FOR EVERY RQ:
+- The DV must be measurable with school equipment (ruler, stopwatch, multimeter, balance, thermometer, protractor, force meter)
+- The IV must be changeable in at least 5 increments
+- Must support: 5+ data points, 3 trials each, uncertainty analysis, line of best fit
+- Must NOT be: "Does X affect Y?" (yes/no), "Why does X happen?" (descriptive), "To what extent..." (too formal), "Investigating..." (incomplete)
+- Must sound like a student wrote it, not a professor
+
+BAD EXAMPLES (never generate these patterns):
+- "To what extent does the proportionality between oscillatory frequency and tensile modulus..." (too academic)
+- "Does force affect motion?" (too vague, yes/no)
+- "How do pendulums work?" (descriptive, not measurable)
+- "What is the effect of beam length and cross-sectional area on the relationship between applied load and vertical deflection..." (too many variables — max 1 IV)
+
+GOOD EXAMPLES:
+- "How does the length of a pendulum affect its time period when the release angle is kept at 10°?"
+- "How does the resistance of a wire change with its length when the diameter and material are constant?"
+- "How does the mass attached to a spring affect its extension when the spring constant is kept the same?"
+
+CRITICAL: Each RQ must have exactly ONE Independent Variable. Not two. Not three. ONE thing changes, ONE thing is measured, everything else is controlled.
+
+Return as an HTML table with columns: RQ, IV, DV, CV, Relationship, Graph, Equipment, Score, Difficulty, Comment.
+Each row should be clearly separated. Make each RQ row a distinct block so they can be selected individually.`,
+
+    // 1: Introduction
+    `Write my IB ${c.level} Physics IA Introduction.
+
+My Research Question is: "${c.chosenRQ}"
+Topic: ${c.topic} — ${c.subtopic}
+Draft: ${c.draft}
+${c.draft === 'first' ? 'This is my first draft — keep it natural and slightly rough around the edges. Don\'t over-polish.' : 'This is my final draft — tighten the writing but keep it sounding like me, not like a textbook.'}
+
+STRUCTURE (follow this exact order):
+Paragraph 1 (3-4 sentences): Start with a real-world observation that made me curious about this topic. NOT "Physics is all around us" or "Since the beginning of time..." — something specific and personal. Then connect it to the physics concept.
+
+Paragraph 2 (2-3 sentences): Briefly introduce what the IV and DV are in simple terms. What am I actually going to change and measure? Why is the relationship between them interesting?
+
+Paragraph 3 (2-3 sentences): End with my research question. Say why I chose this particular angle. Keep it genuine — "I chose this because..." not "This investigation was selected due to..."
+
+WORD LIMIT: 150-250 words. Show the count at the end.
+
+WRITING STYLE:
+- First person throughout ("I", "my", "me")
+- Sound like a 16-year-old who's smart but writes naturally
+- Short sentences mixed with medium ones. No sentence longer than 25 words.
+- Start the FIRST sentence with something specific, not generic:
+  GOOD: "Last summer, I noticed that the swing at my grandmother's house..."
+  GOOD: "During a lab session, I accidentally dropped a mass onto a spring and..."
+  GOOD: "I've always wondered why guitar strings produce different notes when..."
+  BAD: "Physics plays an important role in our daily lives."
+  BAD: "The study of mechanics has fascinated scientists for centuries."
+  BAD: "This investigation explores the relationship between..."
+- Do NOT use: "This investigation aims to", "The purpose of", "It is well known that", "Furthermore", "Moreover", "In conclusion"
+- DO use: "I wanted to find out", "I was curious about", "this made me wonder", "I decided to test"
+
+Return as HTML paragraphs. Show word count at the end as: <p style="font-size:11px;color:#888;">Word count: XXX</p>`,
+
+    // 2: Background Theory
+    `Write the Background Theory section of my IB ${c.level} Physics IA.
+
+My RQ: "${c.chosenRQ}"
+Topic: ${c.topic} — ${c.subtopic}
+
+STRUCTURE:
+1. Start simple — explain the basic concept as if telling a friend. Then build up.
+2. Introduce the relevant physics law or principle. Name it.
+3. Show the key equation(s) — number them. Explain what each symbol means.
+4. Derive or rearrange to show how IV relates to DV mathematically.
+5. State the expected relationship: "Based on this equation, if I increase [IV], then [DV] should [increase/decrease] in a [linear/inverse/square] way."
+6. Say what shape the graph should be and why.
+
+EQUATIONS:
+- Number each equation: (1), (2), (3)
+- After each equation, list what the symbols mean
+- Only include equations directly relevant to MY experiment — don't dump the whole textbook chapter
+- If I need to rearrange, show the rearrangement step by step
+
+WORD LIMIT: 400-700 words.
+
+WRITING STYLE:
+- Mix "I" statements with objective physics: "The equation F = ma tells us that..." then "In my experiment, this means that..."
+- Don't just list facts — connect each point to MY specific experiment
+- When introducing a concept, use phrases like: "The key idea here is..." or "What matters for my experiment is..." — not "It is imperative to understand that..."
+- Avoid: "Furthermore", "Moreover", "It should be noted", "It is evident that"
+
+Return as HTML. Number equations clearly. Show word count at end.`,
+
+    // 3: Hypothesis
+    studentTone + `Hypothesis (100-180 words): IV→DV direction, relationship type, link to equation. Predictive tone. HTML.`,
+    
+    // 4: Variables
+    studentTone + `Variables table: Type|Variable|Value/Range|Uncertainty|Reason. 1 IV, 1 DV, 5-7 CVs, 1-2 confounding. HTML table.`,
+    
+    // 5: Apparatus
+    studentTone + `Apparatus table: Sr|Apparatus|Qty|Unit|Least Count|Reason. School-lab, realistic uncertainties. HTML table.`,
+    
+    // 6: Procedure
+    studentTone + `Procedure (250-450 words): setup, IV variation, DV measurement, ${c.trials} trials, precautions, safety. [INSERT DIAGRAM]. Numbered steps. Word count. HTML.`,
+    
+    // 7: Raw Data
+    studentTone + `Raw data table: ${c.ivCount} IV values, ${c.trials} trials. Title, units in headers, uncertainties, realistic data with scatter. HTML table.`,
+    
+    // 8: Sample Calculation
+    studentTone + `Sample calculation: formula, substitution, result with units/sig figs, uncertainty propagation. Step-by-step. HTML.`,
+    
+    // 9: Processed Data
+    studentTone + `Processed data: averages, propagated uncertainties, percentage uncertainties, sig figs, processed table. HTML.`,
+    
+    // 10: Graph Guidance
+    studentTone + `Graph guidance: type, axes, linearization, shape, title, caption, error bars, best/worst fit, gradient. [INSERT GRAPH]. HTML.`,
+    
+    // 11: Analysis
+    studentTone + `Analysis (250-450 words): gradient meaning, intercept, theory comparison, % error, uncertainty. Explain PHYSICS. HTML. Word count.`,
+    
+    // 12: Conclusion
+    studentTone + `Conclusion (200-350 words): answer RQ numerically, compare theory, % error, uncertainty, hypothesis. HTML. Word count.`,
+    
+    // 13: Evaluation
+    studentTone + `Evaluation (350-600 words): table Limitation|Error Type|Effect|Improvement (5-6). Then paragraphs on major limitations. No "human error". HTML. Word count.`,
+    
+    // 14: Bibliography
+    studentTone + `Bibliography: 5-8 APA. Tsokos, Homer, IB resources, educational sites. HTML ordered list.`
   ];
   return P[i]||'';
 }
@@ -277,8 +409,8 @@ function gp(i,c){
 function callAI(prompt){
   var key=localStorage.getItem('ia_api_key');
   if(!key){document.getElementById('apiSetup').style.display='block';return Promise.resolve(null);}
-  return fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:'IB Physics IA expert. Return HTML only. h4, p, ul, table. No markdown.'},{role:'user',content:prompt}],temperature:0.7,max_tokens:4096})}).then(function(r){
-    if(r.status===429){return new Promise(function(res){setTimeout(res,5000);}).then(function(){return fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'llama-3.3-8b-instant',messages:[{role:'system',content:'IB Physics IA expert. HTML only.'},{role:'user',content:prompt}],temperature:0.7,max_tokens:4096})});}).then(function(r2){if(!r2.ok)throw new Error('API '+r2.status);return r2.json();}).then(function(d){return d.choices[0].message.content;});}
+  return fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:'You are a real IB Physics student writing your Internal Assessment. You are 16-17 years old. You write the way a smart but normal teenager writes — not like a textbook, not like a professor, not like an AI.\n\nWRITING RULES:\n- Use first person: "I chose this topic because...", "I measured the...", "I noticed that..."\n- Use simple, direct sentences. Average sentence length: 12-18 words.\n- NEVER use these phrases: "This demonstrates", "It can therefore be concluded", "This confirms", "It is evident that", "Furthermore", "Moreover", "In conclusion", "It should be noted", "This investigation aims to", "The purpose of this investigation is"\n- NEVER start a sentence with "The" more than twice in a row\n- Use contractions occasionally: "didn\'t", "wasn\'t", "it\'s"\n- Make small natural observations: "The readings were quite consistent" not "The data exhibited remarkable consistency"\n- When uncertain, say "I think" or "This might be because" — not "It can be hypothesized that"\n- Vary your sentence starters. Start with: "I", "The", "When", "After", "My", "This", "One", "During" — mix them up\n- Include one or two slightly informal moments per section: "which was interesting" or "this made sense because" or "I wasn\'t sure about this at first"\n- AVOID: semicolons, em-dashes, "thus", "hence", "whereby", "aforementioned", "utilize" (use "use"), "commence" (use "start"), "sufficient" (use "enough"), "approximately" (use "about" or "around")\n\nReturn well-formatted HTML. Use h4, p, ul, table tags. No markdown. No code fences.'},{role:'user',content:prompt}],temperature:0.7,max_tokens:4096})}).then(function(r){
+    if(r.status===429){return new Promise(function(res){setTimeout(res,5000);}).then(function(){return fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'llama-3.3-8b-instant',messages:[{role:'system',content:'You are a real IB Physics student writing your Internal Assessment. You are 16-17 years old. You write the way a smart but normal teenager writes — not like a textbook, not like a professor, not like an AI.\n\nWRITING RULES:\n- Use first person: "I chose this topic because...", "I measured the...", "I noticed that..."\n- Use simple, direct sentences. Average sentence length: 12-18 words.\n- NEVER use these phrases: "This demonstrates", "It can therefore be concluded", "This confirms", "It is evident that", "Furthermore", "Moreover", "In conclusion", "It should be noted", "This investigation aims to", "The purpose of this investigation is"\n- NEVER start a sentence with "The" more than twice in a row\n- Use contractions occasionally: "didn\'t", "wasn\'t", "it\'s"\n- Make small natural observations: "The readings were quite consistent" not "The data exhibited remarkable consistency"\n- When uncertain, say "I think" or "This might be because" — not "It can be hypothesized that"\n- Vary your sentence starters. Start with: "I", "The", "When", "After", "My", "This", "One", "During" — mix them up\n- Include one or two slightly informal moments per section: "which was interesting" or "this made sense because" or "I wasn\'t sure about this at first"\n- AVOID: semicolons, em-dashes, "thus", "hence", "whereby", "aforementioned", "utilize" (use "use"), "commence" (use "start"), "sufficient" (use "enough"), "approximately" (use "about" or "around")\n\nReturn well-formatted HTML. Use h4, p, ul, table tags. No markdown. No code fences.'},{role:'user',content:prompt}],temperature:0.7,max_tokens:4096})});}).then(function(r2){if(!r2.ok)throw new Error('API '+r2.status);return r2.json();}).then(function(d){return d.choices[0].message.content;});}
     if(!r.ok)throw new Error('API '+r.status);
     return r.json().then(function(d){return d.choices[0].message.content;});
   });
