@@ -73,6 +73,8 @@ function updateGenTotalMarks() {
   });
   const el = document.getElementById('shared-total-marks');
   if (el) el.value = total;
+  const genTotal = document.getElementById('gen-total-marks');
+  if (genTotal) genTotal.value = total;
 }
 
 /* ── Templates Logic ── */
@@ -215,10 +217,14 @@ DATA TABLES: For Criterion C and calculation questions, include HTML data tables
     }
   }[yl];
 
-  const crit = config.criterion?.charAt(0) || "A";
+  const criteriaStr = config.criterion || "A";
+  const hasA = criteriaStr.includes('A') || criteriaStr.includes('Full Exam');
+  const hasB = criteriaStr.includes('B') || criteriaStr.includes('B+C') || criteriaStr.includes('Full Exam');
+  const hasC = criteriaStr.includes('C') || criteriaStr.includes('B+C') || criteriaStr.includes('Full Exam');
+  const hasD = criteriaStr.includes('D') || criteriaStr.includes('Full Exam');
   let taskStructure = '';
 
-  if (crit === 'A' || config.criterion === 'Full Exam') {
+  if (hasA) {
     taskStructure += `
 TASK: CRITERION A — KNOWING AND UNDERSTANDING (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'})
 Generate 2-3 main questions with sub-parts. Each opens with a STIMULUS (real-world scenario, 3-6 sentences, specific data).
@@ -231,7 +237,7 @@ Sub-part pattern:
 Mark scheme format: "Award N marks", "Seen or implied", "Accept...", "Do not accept...", "WTTE", "ECF"`;
   }
 
-  if (crit === 'B' || config.criterion === 'B+C' || config.criterion === 'Full Exam') {
+  if (hasB) {
     taskStructure += `
 TASK: CRITERION B — INQUIRING AND DESIGNING (${config.criterion === 'Full Exam' ? '~16-18 marks' : '~14-16 marks'})
 Stimulus: Describe a phenomenon to investigate with equipment available.
@@ -247,7 +253,7 @@ Grade with HOLISTIC GRID stored in meta.gradingGrid:
 "S":{"label":"Safety","levels":{"1":"Relevant precaution linked to hazard"}}}`;
   }
 
-  if (crit === 'C' || config.criterion === 'B+C' || config.criterion === 'Full Exam') {
+  if (hasC) {
     taskStructure += `
 TASK: CRITERION C — PROCESSING AND EVALUATING (${config.criterion === 'Full Exam' ? '~20-25 marks' : config.totalMarks + ' marks'})
 Stimulus: Provide ACTUAL experimental data table (5-7 rows, units in headers, realistic values).
@@ -260,7 +266,7 @@ Stimulus: Provide ACTUAL experimental data table (5-7 rows, units in headers, re
 (g) 2-3 marks, strand v: "${ye.C_verbs.v[0]} an improvement or extension"`;
   }
 
-  if (crit === 'D' || config.criterion === 'Full Exam') {
+  if (hasD) {
     taskStructure += `
 TASK: CRITERION D — REFLECTING ON IMPACTS (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'})
 Factor: ${config.dFactor || 'Environmental'}
@@ -311,13 +317,13 @@ ${config.questions.map(q => '- '+q.count+'× '+q.type+' ('+q.marks+' marks each)
   "blocks":[
     {"mode":"content","type":"Text","sectionId":1,"data":{"text":"HTML stimulus"}},
     {"mode":"content","type":"Image","sectionId":1,"data":{"url":"./Images/file.png","caption":"Figure 1: desc"}},
-    {"mode":"question","type":"MCQ|Long Answer|True / False|Fill in the Blank|Match the Following|Table","sectionId":1,
+    {"mode":"question","type":"MCQ|Long Answer|True / False|Fill Text|Match the Following|Table|Multi-Dropdown","sectionId":1,
       "data":{"question":"Command term + question","correct":0,"explanation":"model answer",
         "tableHeaders": ["Column 1 / unit", "Column 2 / unit", "Column 3 / unit"],
         "tableRows": 5, "tableCols": 3,
         "tablePrefill": [["value","value",""], ["value","","value"]]},
       "ui":{"mcqOptions":["A","B","C","D"],"tfAnswer":"True","matchPairs":[{"a":"","b":""}]},
-      "meta":{"marks":1,"criterion":"${crit}","strand":"i","commandTerm":"State","difficulty":"easy","markScheme":"Award 1 mark for...","gradingGrid":null}}
+      "meta":{"marks":1,"criterion":"${criteriaStr.charAt(0)}","strand":"i","commandTerm":"State","difficulty":"easy","markScheme":"Award 1 mark for...","gradingGrid":null}}
   ]
 }
 
@@ -539,7 +545,9 @@ async function runGeneration() {
 
   try {
     const prompt = buildGeneratorPrompt(config);
+    console.log('--- GENERATOR PROMPT ---', prompt);
     const result = await callAI(prompt);
+    console.log('--- AI PARSED RESULT ---', result);
 
     if (!result || !result.blocks || !Array.isArray(result.blocks)) {
       throw new Error('Invalid response format — missing blocks array');
@@ -555,24 +563,35 @@ async function runGeneration() {
     const now = Date.now();
     let blockId = 0;
 
-    const processedBlocks = validatedResult.blocks.map(block => ({
-      ...block,
-      id: blockId++,
-      saved: true,
-      sectionId: block.sectionId || 1,
-      media: block.media || [],
-      data: block.data || {},
-      meta: {
-        marks: block.meta?.marks || 1,
-        criterion: block.meta?.criterion || config.criterion,
-        markScheme: block.meta?.markScheme || '',
-        hint: block.meta?.hint || '',
-        difficulty: block.meta?.difficulty || config.difficulty,
-        gradingGrid: block.meta?.gradingGrid || null,
-        ...(block.meta || {})
-      },
-      ui: block.ui || {}
-    }));
+    const processedBlocks = validatedResult.blocks.map(block => {
+      // Robust type mapping
+      let type = block.type;
+      if (type === 'Multiple Choice' || type === 'Multiple Choice Question') type = 'MCQ';
+      if (type === 'Short Answer' || type === 'Fill in the Blank' || type === 'Fill in the blanks' || type === 'Fill-in-the-blank') type = 'Fill Text';
+      if (type === 'Dropdown' || type === 'Select') type = 'Fill Drop Down';
+      if (type === 'Multiple Select') type = 'Multiple Select MCQ';
+
+      return {
+        ...block,
+        id: blockId++,
+        type: type,
+        saved: true,
+        sectionId: block.sectionId || 1,
+        media: block.media || [],
+        data: block.data || {},
+        meta: {
+          marks: block.meta?.marks || block.marks || 1,
+          criterion: block.meta?.criterion || block.criterion || config.criterion?.charAt(0) || 'A',
+          markScheme: block.meta?.markScheme || block.markScheme || '',
+          hint: block.meta?.hint || block.hint || '',
+          difficulty: block.meta?.difficulty || block.difficulty || config.difficulty || 'Medium',
+          commandTerm: block.meta?.commandTerm || block.commandTerm || 'Explain',
+          gradingGrid: block.meta?.gradingGrid || null,
+          ...(block.meta || {})
+        },
+        ui: block.ui || {}
+      };
+    });
 
     // Fix empty Multi-Dropdown questions
     processedBlocks.forEach(block => {
