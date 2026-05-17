@@ -459,6 +459,13 @@ async function guidedGenerateAll() {
   const btn = document.querySelector('#guided-tree-panel .btn-save');
   const status = document.getElementById('guided-status');
   
+  let totalBlocks = 0;
+  guidedSections.forEach(sec => totalBlocks += (sec.blocks || []).length);
+  if (totalBlocks === 0) {
+    alert('Your Structure Tree is empty! Please click "+ Content" or "+ Question" under your sections to add content/question placeholders before generating.');
+    return;
+  }
+  
   const config = {
     assessmentType: document.getElementById('shared-assessment-type').value,
     grade: document.getElementById('shared-grade').value,
