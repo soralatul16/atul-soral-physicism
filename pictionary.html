@@ -6,212 +6,712 @@
 <title>Physics Pictionary | Atul Soral Physicism</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:#f5f0e8;color:#1a1a2e;height:100vh;overflow:hidden;display:flex;flex-direction:column;user-select:none;-webkit-user-select:none}
+  :root {
+    --book-width: 520px;
+    --book-height: 700px;
+    --sidebar-width: 62px;
+    --page-turn-duration: 0.55s;
+    --bg: #f5f0e8;
+    --bg-deep: #f0ebe2;
+    --accent: #c0392b;
+    --accent-glow: rgba(192,57,43,0.2);
+    --text: #1a1a2e;
+    --text-muted: #888;
+    --shadow-color: rgba(0,0,0,0.12);
+    --surface: rgba(255,255,255,0.75);
+  }
 
-/* TOPBAR */
-.topbar{height:54px;background:rgba(255,255,255,0.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);display:flex;align-items:center;padding:0 20px;flex-shrink:0;z-index:100}
-.topbar-brand{font-family:'Playfair Display',serif;font-size:17px;color:#c0392b;margin-right:16px;text-decoration:none}
-.topbar-title{font-size:14px;font-weight:600;color:#1a1a2e;margin-right:auto}
-.nav-btn{padding:6px 16px;border-radius:50px;border:1.5px solid rgba(0,0,0,0.06);background:white;color:#555;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;text-decoration:none;font-family:'DM Sans',sans-serif;margin-left:8px}
-.nav-btn:hover{border-color:rgba(192,57,43,0.3);color:#c0392b}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* MAIN LAYOUT */
-.main{flex:1;display:flex;overflow:hidden}
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+  }
 
-/* SIDEBAR */
-.sidebar{width:68px;background:white;border-right:1px solid rgba(0,0,0,0.06);display:flex;flex-direction:column;align-items:center;padding:10px 0;overflow-y:auto;flex-shrink:0}
-.sidebar::-webkit-scrollbar{width:3px}
-.sidebar::-webkit-scrollbar-thumb{background:rgba(192,57,43,0.15);border-radius:2px}
-.sidebar-label{font-size:8px;color:#aaa;letter-spacing:1.5px;text-transform:uppercase;padding:4px 0 8px;font-weight:600}
-.letter-btn{width:44px;height:44px;border-radius:12px;border:1.5px solid transparent;background:transparent;color:#888;font-size:17px;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:3px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif}
-.letter-btn:hover{background:rgba(192,57,43,0.06);color:#c0392b;border-color:rgba(192,57,43,0.15)}
-.letter-btn.active{background:#c0392b;color:white;border-color:#c0392b;box-shadow:0 4px 16px rgba(192,57,43,0.25)}
+  img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+  }
 
-/* BOOK AREA */
-.book-area{flex:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#f0ebe2}
-.book-area::before{content:'Atul Soral Physicism';position:fixed;top:50%;left:55%;transform:translate(-50%,-50%) rotate(-35deg);font-family:'Playfair Display',serif;font-size:60px;color:rgba(0,0,0,0.015);white-space:nowrap;pointer-events:none;z-index:0}
+  /* TOPBAR */
+  .topbar {
+    height: 54px;
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    flex-shrink: 0;
+    z-index: 100;
+  }
+  .topbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--accent);
+    margin-right: 16px;
+    text-decoration: none;
+  }
+  .topbar-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-right: auto;
+  }
+  .top-btn {
+    padding: 6px 16px;
+    border-radius: 50px;
+    border: 1.5px solid rgba(0,0,0,0.06);
+    background: white;
+    color: #555;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    margin-left: 8px;
+  }
+  .top-btn:hover {
+    border-color: rgba(192,57,43,0.3);
+    color: var(--accent);
+  }
 
-/* BOOK CONTAINER */
-.book{position:relative;width:min(88%,1100px);height:min(92%,800px);perspective:2000px}
+  /* MAIN LAYOUT */
+  .main-layout {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .main-layout::before {
+    content: 'Atul Soral Physicism';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) rotate(-35deg);
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    color: rgba(0,0,0,0.015);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+  }
 
-/* COVER */
-.cover{position:absolute;inset:0;background:linear-gradient(145deg,#c0392b 0%,#922b21 40%,#7f1d1d 100%);border-radius:4px 18px 18px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;transition:transform .9s cubic-bezier(.4,0,.2,1),opacity .7s;transform-origin:left center;box-shadow:0 20px 60px rgba(0,0,0,0.15),inset 0 1px 0 rgba(255,255,255,0.1);cursor:pointer}
-.cover.open{transform:rotateY(-170deg);opacity:0;pointer-events:none}
-.cover-line{width:100px;height:1.5px;background:rgba(255,255,255,0.25);margin:14px 0}
-.cover h1{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,44px);color:white;text-align:center;line-height:1.25;letter-spacing:0.5px}
-.cover h2{font-size:clamp(13px,2vw,18px);color:rgba(255,255,255,0.7);font-weight:400;margin-top:4px;font-style:italic;font-family:'Playfair Display',serif}
-.cover .tag{font-size:10px;color:rgba(255,255,255,0.35);margin-top:20px;letter-spacing:3px;text-transform:uppercase}
-.cover .open-btn{margin-top:28px;padding:11px 32px;background:white;color:#c0392b;border:none;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:0.5px;transition:all .3s;font-family:'DM Sans',sans-serif;box-shadow:0 4px 20px rgba(0,0,0,0.15)}
-.cover .open-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.2)}
+  .app {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
+    z-index: 10;
+    max-height: calc(100vh - 54px);
+  }
 
-/* PAGES */
-.page{position:absolute;inset:0;border-radius:2px 16px 16px 2px;overflow:hidden;backface-visibility:hidden;transition:transform .65s cubic-bezier(.4,0,.2,1),opacity .45s;transform-origin:left center;opacity:0;pointer-events:none;z-index:1;background:#f5f0e8;box-shadow:0 4px 24px rgba(0,0,0,0.08)}
-.page.active{opacity:1;transform:rotateY(0deg);pointer-events:all;z-index:5}
-.page.flip-left{opacity:0;transform:rotateY(-130deg);z-index:4}
-.page.waiting{opacity:0;transform:rotateY(20deg);z-index:1}
+  /* LEFT SIDEBAR */
+  .sidebar {
+    width: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 6px 0;
+    margin-right: 18px;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    background: white;
+    border-radius: 14px;
+    border: 1.5px solid rgba(0,0,0,0.06);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .sidebar::-webkit-scrollbar { display: none; }
 
-.page-inner{width:100%;height:100%;position:relative;display:flex;align-items:center;justify-content:center;background:#f5f0e8}
-.page-inner img{max-width:100%;max-height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
+  .sidebar-brand {
+    font-size: 7px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 4px;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
 
-/* Coming soon */
-.coming-soon{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%}
-.coming-soon .big-letter{font-family:'Playfair Display',serif;font-size:clamp(100px,18vw,180px);color:rgba(192,57,43,0.08);font-weight:700;line-height:1}
-.coming-soon h3{font-size:18px;color:#1a1a2e;font-weight:600;margin-top:8px}
-.coming-soon p{font-size:12px;color:#aaa;margin-top:4px}
+  .idx-btn {
+    width: 38px;
+    height: 30px;
+    border: 1px solid rgba(192,57,43,0.08);
+    background: transparent;
+    color: var(--text-muted);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s;
+  }
+  .idx-btn:hover {
+    background: rgba(192,57,43,0.06);
+    color: var(--accent);
+    border-color: rgba(192,57,43,0.2);
+  }
+  .idx-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    font-weight: bold;
+    box-shadow: 0 4px 16px var(--accent-glow);
+  }
+  .idx-btn.cover-btn {
+    font-size: 9px;
+    letter-spacing: 1px;
+    height: 26px;
+    margin-bottom: 2px;
+    font-family: 'DM Sans', sans-serif;
+  }
 
-/* Page nav */
-.page-nav{position:absolute;bottom:14px;right:16px;display:flex;gap:6px;z-index:20}
-.page-nav button{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(0,0,0,0.08);background:rgba(255,255,255,0.85);backdrop-filter:blur(8px);color:#555;font-size:15px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
-.page-nav button:hover{background:#c0392b;color:white;border-color:#c0392b}
-.page-counter{position:absolute;bottom:18px;left:16px;font-size:10px;color:#aaa;z-index:20;letter-spacing:1px}
+  /* CENTER */
+  .center-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-/* Spine */
-.book::before{content:'';position:absolute;left:-2px;top:3%;bottom:3%;width:6px;background:linear-gradient(90deg,rgba(0,0,0,0.06),transparent);border-radius:3px 0 0 3px;z-index:30;pointer-events:none}
+  .title-bar {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .brand-name {
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .title-bar h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .title-bar .subtitle {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--text-muted);
+    margin-top: 3px;
+    text-transform: uppercase;
+  }
 
-@media(max-width:768px){
-  .sidebar{width:50px;padding:6px 0}
-  .letter-btn{width:36px;height:36px;font-size:14px;margin-bottom:2px}
-  .sidebar-label{font-size:6px;padding:2px 0 4px}
-  .topbar-title{font-size:12px}
-}
-@media(max-width:480px){
-  .sidebar{width:40px}
-  .letter-btn{width:30px;height:30px;font-size:12px;border-radius:8px}
-}
+  /* BOOK */
+  .book-scene { perspective: 1800px; }
+
+  .book {
+    width: var(--book-width);
+    height: var(--book-height);
+    position: relative;
+    transform-style: preserve-3d;
+  }
+
+  .leaf {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transform-origin: left center;
+    transition: transform var(--page-turn-duration) cubic-bezier(0.645, 0.045, 0.355, 1);
+    cursor: pointer;
+  }
+  .leaf.flipped { transform: rotateY(-180deg); }
+  .leaf.stagger-1 { transition-delay: 0s; }
+  .leaf.stagger-2 { transition-delay: 0.08s; }
+  .leaf.stagger-3 { transition-delay: 0.16s; }
+  .leaf.stagger-4 { transition-delay: 0.24s; }
+  .leaf.stagger-5 { transition-delay: 0.32s; }
+  .leaf.stagger-6 { transition-delay: 0.40s; }
+  .leaf.stagger-7 { transition-delay: 0.48s; }
+  .leaf.stagger-8 { transition-delay: 0.56s; }
+  .leaf.stagger-9 { transition-delay: 0.64s; }
+  .leaf.stagger-10 { transition-delay: 0.72s; }
+  .leaf.stagger-11 { transition-delay: 0.80s; }
+  .leaf.stagger-12 { transition-delay: 0.88s; }
+  .leaf.stagger-13 { transition-delay: 0.96s; }
+  .leaf.stagger-14 { transition-delay: 1.04s; }
+
+  .page {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    backface-visibility: hidden;
+    overflow: hidden;
+    border-radius: 2px 12px 12px 2px;
+    box-shadow: 2px 2px 16px var(--shadow-color);
+  }
+  .page-front { background: var(--bg-deep); }
+  .page-back { background: var(--bg-deep); transform: rotateY(180deg); }
+  .page img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    display: block;
+    background: var(--bg-deep);
+  }
+
+  .page-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: var(--bg-deep);
+    padding: 40px;
+  }
+  .page-placeholder .big-letter {
+    font-size: 160px;
+    font-weight: 700;
+    color: rgba(192,57,43,0.08);
+    line-height: 1;
+    font-family: 'Playfair Display', serif;
+  }
+  .page-placeholder .placeholder-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 12px;
+    letter-spacing: 2px;
+  }
+
+  /* Cover page content */
+  .cover-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: linear-gradient(145deg, #c0392b 0%, #922b21 40%, #7f1d1d 100%);
+    padding: 40px;
+    border-radius: 2px 12px 12px 2px;
+  }
+  .cover-content .cover-line {
+    width: 80px;
+    height: 1.5px;
+    background: rgba(255,255,255,0.25);
+    margin: 14px 0;
+  }
+  .cover-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: white;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .cover-content h3 {
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 400;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+    margin-top: 4px;
+  }
+  .cover-content .cover-tag {
+    font-size: 9px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 20px;
+  }
+
+  /* Page edge shadow */
+  .leaf::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 12px; height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.08), transparent);
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .leaf.flipped::after { opacity: 1; }
+
+  /* CONTROLS */
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 14px;
+  }
+  .nav-btn {
+    width: 40px; height: 40px;
+    border: 1.5px solid rgba(192,57,43,0.2);
+    background: white;
+    color: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .nav-btn:hover:not(:disabled) {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: scale(1.08);
+  }
+  .nav-btn:disabled { opacity: 0.25; cursor: default; }
+  .nav-btn svg {
+    width: 18px; height: 18px;
+    fill: none; stroke: currentColor;
+    stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .page-info {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    min-width: 90px;
+    text-align: center;
+  }
+  .instructions {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    text-align: center;
+    opacity: 0.5;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 700px) {
+    .app { flex-direction: column; gap: 10px; }
+    .sidebar {
+      flex-direction: row;
+      width: auto;
+      max-height: none;
+      max-width: 96vw;
+      overflow-x: auto;
+      overflow-y: hidden;
+      margin-right: 0;
+      gap: 3px;
+      padding: 4px 8px;
+      border-radius: 10px;
+    }
+    .sidebar-brand { display: none; }
+    .idx-btn { width: 32px; height: 28px; font-size: 12px; flex-shrink: 0; }
+    .idx-btn.cover-btn { width: 42px; height: 28px; }
+    .title-bar h1 { font-size: 16px; }
+    .title-bar { margin-bottom: 6px; }
+    .controls { gap: 14px; margin-top: 8px; }
+    .nav-btn { width: 36px; height: 36px; }
+  }
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <a class="topbar-brand" href="index.html">Physicism</a>
-  <span class="topbar-title">Physics Pictionary — A to Z</span>
-  <a class="nav-btn" href="myp-dashboard.html">MYP Dashboard</a>
-  <a class="nav-btn" href="index.html">Home</a>
+  <span class="topbar-title">Physics Pictionary</span>
+  <a class="top-btn" href="myp-dashboard.html">MYP Dashboard</a>
+  <a class="top-btn" href="index.html">Home</a>
 </div>
 
-<div class="main">
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-label">Index</div>
-  </div>
+<div class="main-layout">
+<div class="app">
 
-  <div class="book-area">
-    <div class="book" id="book">
-      <div class="cover" id="cover" onclick="openBook()">
-        <div class="cover-line"></div>
-        <h1>Physics<br>Pictionary</h1>
-        <h2>A to Z</h2>
-        <div class="cover-line"></div>
-        <div class="tag">Atul Soral Physicism</div>
-        <button class="open-btn">Open Book</button>
-      </div>
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">A–Z<br>Index</div>
+  </nav>
 
-      <div id="pagesContainer"></div>
-
-      <div class="page-nav" id="pageNav" style="display:none">
-        <button onclick="prevPage()" title="Previous">&#8249;</button>
-        <button onclick="nextPage()" title="Next">&#8250;</button>
-      </div>
-      <div class="page-counter" id="pageCounter" style="display:none"></div>
+  <div class="center-col">
+    <div class="title-bar">
+      <div class="brand-name">Atul Soral Physicism</div>
+      <h1>My Physics Pictionary</h1>
+      <div class="subtitle">A to Z of Key Physics Concepts</div>
     </div>
+
+    <div class="book-scene">
+      <div class="book" id="book"></div>
+    </div>
+
+    <div class="controls">
+      <button class="nav-btn" id="prevBtn" aria-label="Previous page">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="page-info" id="pageInfo">Cover</div>
+      <button class="nav-btn" id="nextBtn" aria-label="Next page">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="instructions">Click pages or use ← → arrow keys</div>
   </div>
+
+</div>
 </div>
 
 <script>
-var LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-var WORDS = {A:'Amazing',B:'Bewitching',C:'Captivating',D:'Divine',E:'Enchanting',F:'Fascinating',G:'Glorious',H:'Harmonious',I:'Incredible',J:'Joyful',K:'Kinetic',L:'Luminous',M:'Magnificent',N:'Noble',O:'Outstanding',P:'Powerful',Q:'Quantum',R:'Radiant',S:'Spectacular',T:'Thrilling',U:'Universal',V:'Vibrant',W:'Wonderful',X:'Xenial',Y:'Youthful',Z:'Zealous'};
-var currentPage = -1;
-var bookOpen = false;
+(function() {
+  var WORDS = {A:'Amazing',B:'Bewitching',C:'Captivating',D:'Divine',E:'Enchanting',F:'Fascinating',G:'Glorious',H:'Harmonious',I:'Incredible',J:'Joyful',K:'Kinetic',L:'Luminous',M:'Magnificent',N:'Noble',O:'Outstanding',P:'Powerful',Q:'Quantum',R:'Radiant',S:'Spectacular',T:'Thrilling',U:'Universal',V:'Vibrant',W:'Wonderful',X:'Xenial',Y:'Youthful',Z:'Zealous'};
 
-// Build sidebar buttons
-var sb = document.getElementById('sidebar');
-LETTERS.forEach(function(l, i) {
-  var b = document.createElement('button');
-  b.className = 'letter-btn';
-  b.textContent = l;
-  b.id = 'btn-' + l;
-  b.onclick = function() { goToLetter(i); };
-  sb.appendChild(b);
-});
+  var pages = [
+    { type: 'cover', label: 'Cover' },
+    { type: 'image', src: 'Images/pictionary/A1-pictionary.png', label: 'A' },
+    { type: 'image', src: 'Images/pictionary/B1-pictionary.png', label: 'B' },
+    { type: 'image', src: 'Images/pictionary/C1-pictionary.png', label: 'C' },
+    { type: 'image', src: 'Images/pictionary/D1-pictionary.png', label: 'D' },
+    { type: 'image', src: 'Images/pictionary/E1-pictionary.png', label: 'E' },
+    { type: 'image', src: 'Images/pictionary/F1-pictionary.png', label: 'F' },
+    { type: 'image', src: 'Images/pictionary/G1-pictionary.png', label: 'G' },
+    { type: 'image', src: 'Images/pictionary/H1-pictionary.png', label: 'H' },
+    { type: 'image', src: 'Images/pictionary/I1-pictionary.png', label: 'I' },
+    { type: 'image', src: 'Images/pictionary/J1-pictionary.png', label: 'J' },
+    { type: 'image', src: 'Images/pictionary/K1-pictionary.png', label: 'K' },
+    { type: 'image', src: 'Images/pictionary/L1-pictionary.png', label: 'L' },
+    { type: 'image', src: 'Images/pictionary/M1-pictionary.png', label: 'M' },
+    { type: 'image', src: 'Images/pictionary/N1-pictionary.png', label: 'N' },
+    { type: 'image', src: 'Images/pictionary/O1-pictionary.png', label: 'O' },
+    { type: 'image', src: 'Images/pictionary/P1-pictionary.png', label: 'P' },
+    { type: 'image', src: 'Images/pictionary/Q1-pictionary.png', label: 'Q' },
+    { type: 'image', src: 'Images/pictionary/R1-pictionary.png', label: 'R' },
+    { type: 'image', src: 'Images/pictionary/S1-pictionary.png', label: 'S' },
+    { type: 'image', src: 'Images/pictionary/T1-pictionary.png', label: 'T' },
+    { type: 'image', src: 'Images/pictionary/U1-pictionary.png', label: 'U' },
+    { type: 'image', src: 'Images/pictionary/V1-pictionary.png', label: 'V' },
+    { type: 'image', src: 'Images/pictionary/W1-pictionary.png', label: 'W' },
+    { type: 'image', src: 'Images/pictionary/X1-pictionary.png', label: 'X' },
+    { type: 'image', src: 'Images/pictionary/Y1-pictionary.png', label: 'Y' },
+    { type: 'image', src: 'Images/pictionary/Z1-pictionary.png', label: 'Z' }
+  ];
 
-// Build pages
-var pc = document.getElementById('pagesContainer');
-LETTERS.forEach(function(l, i) {
-  var pg = document.createElement('div');
-  pg.className = 'page';
-  pg.id = 'page-' + i;
+  var ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var labelToPage = {};
+  pages.forEach(function(p, i) { labelToPage[p.label] = i; });
 
-  var inner = document.createElement('div');
-  inner.className = 'page-inner';
+  var book = document.getElementById('book');
+  var totalLeaves = Math.ceil(pages.length / 2);
+  var leaves = [];
 
-  // All 26 letters have images
-  var img = document.createElement('img');
-  img.src = 'images/pictionary/' + l + '1-pictionary.png';
-  img.alt = l + ' is for ' + WORDS[l] + ' Physics';
-  img.draggable = false;
-  img.oncontextmenu = function(e) { e.preventDefault(); };
-  // If image fails to load, show coming soon
-  img.onerror = function() {
-    inner.innerHTML = '<div class="coming-soon"><div class="big-letter">' + l + '</div><h3>' + l + ' is for ' + WORDS[l] + ' Physics</h3><p>Coming soon</p></div>';
-  };
-  inner.appendChild(img);
+  for (var i = 0; i < totalLeaves; i++) {
+    var frontIdx = i * 2;
+    var backIdx = i * 2 + 1;
 
-  pg.appendChild(inner);
-  pc.appendChild(pg);
-});
+    var leaf = document.createElement('div');
+    leaf.className = 'leaf';
+    leaf.style.zIndex = totalLeaves - i;
 
-function openBook() {
-  bookOpen = true;
-  document.getElementById('cover').classList.add('open');
-  document.getElementById('pageNav').style.display = 'flex';
-  document.getElementById('pageCounter').style.display = 'block';
-  setTimeout(function() { showPage(0); }, 350);
-}
+    var front = document.createElement('div');
+    front.className = 'page page-front';
+    front.appendChild(buildPageContent(pages[frontIdx]));
 
-function showPage(idx) {
-  if (idx < 0 || idx >= 26) return;
-  currentPage = idx;
+    var back = document.createElement('div');
+    back.className = 'page page-back';
+    if (backIdx < pages.length) {
+      back.appendChild(buildPageContent(pages[backIdx]));
+    } else {
+      var blank = document.createElement('div');
+      blank.className = 'page-placeholder';
+      blank.innerHTML = '<div style="color:rgba(192,57,43,0.15);font-size:13px;letter-spacing:3px;font-family:Playfair Display,serif;">ATUL SORAL PHYSICISM</div>';
+      back.appendChild(blank);
+    }
 
-  LETTERS.forEach(function(l, i) {
-    var pg = document.getElementById('page-' + i);
-    var btn = document.getElementById('btn-' + l);
-    pg.className = 'page';
-    btn.classList.remove('active');
-    if (i === idx) { pg.classList.add('active'); btn.classList.add('active'); }
-    else if (i < idx) { pg.classList.add('flip-left'); }
-    else { pg.classList.add('waiting'); }
+    leaf.appendChild(front);
+    leaf.appendChild(back);
+    book.appendChild(leaf);
+    leaves.push(leaf);
+  }
+
+  function buildPageContent(pageData) {
+    if (pageData.type === 'cover') {
+      var div = document.createElement('div');
+      div.className = 'cover-content';
+      div.innerHTML = '<div class="cover-line"></div><h2>Physics<br>Pictionary</h2><h3>A to Z</h3><div class="cover-line"></div><div class="cover-tag">Atul Soral Physicism</div>';
+      return div;
+    } else if (pageData.type === 'image') {
+      var img = document.createElement('img');
+      img.src = pageData.src;
+      img.alt = pageData.label + ' is for ' + (WORDS[pageData.label] || '') + ' Physics';
+      img.draggable = false;
+      img.setAttribute('oncontextmenu', 'return false');
+      img.onerror = function() {
+        var parent = this.parentNode;
+        parent.innerHTML = '<div class="page-placeholder"><div class="big-letter">' + pageData.label + '</div><div class="placeholder-text">' + pageData.label + ' is for ' + (WORDS[pageData.label] || '') + ' Physics</div></div>';
+      };
+      return img;
+    }
+  }
+
+  // SIDEBAR
+  var sidebar = document.getElementById('sidebar');
+  var idxButtons = [];
+
+  var coverBtn = document.createElement('button');
+  coverBtn.className = 'idx-btn cover-btn active';
+  coverBtn.textContent = '\u2302';
+  coverBtn.title = 'Cover';
+  coverBtn.addEventListener('click', function() { goToPage(0); });
+  sidebar.appendChild(coverBtn);
+  idxButtons.push({ btn: coverBtn, label: 'Cover' });
+
+  for (var i = 0; i < 26; i++) {
+    (function(idx) {
+      var letter = ALPHABET[idx];
+      var btn = document.createElement('button');
+      btn.className = 'idx-btn';
+      btn.textContent = letter;
+      btn.title = letter + ' is for ' + (WORDS[letter] || '');
+      btn.addEventListener('click', function() {
+        var pageIdx = labelToPage[letter];
+        if (pageIdx !== undefined) goToPage(pageIdx);
+      });
+      sidebar.appendChild(btn);
+      idxButtons.push({ btn: btn, label: letter });
+    })(i);
+  }
+
+  // STATE
+  var currentPage = 0;
+  var isAnimating = false;
+
+  function getVisibleLabel() {
+    return pages[currentPage] ? pages[currentPage].label : 'Cover';
+  }
+
+  function updateState() {
+    var currentLeaf = Math.floor(currentPage / 2);
+    leaves.forEach(function(leaf, i) {
+      leaf.style.zIndex = i < currentLeaf ? i + 1 : totalLeaves - i;
+    });
+
+    document.getElementById('prevBtn').disabled = currentPage === 0;
+    document.getElementById('nextBtn').disabled = currentPage >= pages.length - 1;
+
+    var lbl = getVisibleLabel();
+    var info = document.getElementById('pageInfo');
+    info.textContent = currentPage === 0 ? 'Cover' : lbl + '  \u00b7  ' + currentPage + ' / ' + (pages.length - 1);
+
+    idxButtons.forEach(function(item) {
+      item.btn.classList.toggle('active', item.label === lbl);
+    });
+  }
+
+  function clearStaggerClasses() {
+    leaves.forEach(function(leaf) {
+      for (var s = 1; s <= 14; s++) leaf.classList.remove('stagger-' + s);
+    });
+  }
+
+  function goToPage(targetPageIdx) {
+    if (isAnimating) return;
+    var targetLeaf = Math.floor(targetPageIdx / 2);
+    var currentLeaf = Math.floor(currentPage / 2);
+    if (targetLeaf === currentLeaf) return;
+
+    isAnimating = true;
+    clearStaggerClasses();
+
+    var diff = Math.abs(targetLeaf - currentLeaf);
+    var maxDelay = Math.min(diff, 14);
+
+    if (targetLeaf > currentLeaf) {
+      for (var i = currentLeaf; i < targetLeaf; i++) {
+        var stagger = Math.min(i - currentLeaf + 1, maxDelay);
+        leaves[i].classList.add('stagger-' + stagger);
+        leaves[i].classList.add('flipped');
+      }
+    } else {
+      for (var i = currentLeaf - 1; i >= targetLeaf; i--) {
+        var stagger = Math.min(currentLeaf - 1 - i + 1, maxDelay);
+        leaves[i].classList.add('stagger-' + stagger);
+        leaves[i].classList.remove('flipped');
+      }
+    }
+
+    currentPage = targetPageIdx;
+    if (currentPage >= pages.length) currentPage = pages.length - 1;
+
+    var totalDuration = (Math.min(diff, 14) * 80) + 550 + 50;
+    setTimeout(function() {
+      clearStaggerClasses();
+      isAnimating = false;
+      updateState();
+    }, totalDuration);
+
+    updateState();
+  }
+
+  function flipForward() {
+    if (currentPage >= pages.length - 1 || isAnimating) return;
+    var leafIdx = Math.floor(currentPage / 2);
+    clearStaggerClasses();
+    leaves[leafIdx].classList.add('flipped');
+    currentPage = Math.min((leafIdx + 1) * 2, pages.length - 1);
+    updateState();
+  }
+
+  function flipBackward() {
+    if (currentPage === 0 || isAnimating) return;
+    var leafIdx = Math.floor(currentPage / 2) - 1;
+    if (leafIdx < 0) return;
+    clearStaggerClasses();
+    leaves[leafIdx].classList.remove('flipped');
+    currentPage = leafIdx * 2;
+    updateState();
+  }
+
+  leaves.forEach(function(leaf) {
+    leaf.addEventListener('click', function() {
+      if (leaf.classList.contains('flipped')) flipBackward();
+      else flipForward();
+    });
   });
 
-  document.getElementById('pageCounter').textContent = LETTERS[idx] + ' \u00b7 ' + (idx + 1) + ' / 26';
-  var ab = document.getElementById('btn-' + LETTERS[idx]);
-  if (ab) ab.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
+  document.getElementById('nextBtn').addEventListener('click', flipForward);
+  document.getElementById('prevBtn').addEventListener('click', flipBackward);
 
-function nextPage() { if (currentPage < 25) showPage(currentPage + 1); }
-function prevPage() { if (currentPage > 0) showPage(currentPage - 1); }
-function goToLetter(i) {
-  if (!bookOpen) { openBook(); setTimeout(function() { showPage(i); }, 500); }
-  else showPage(i);
-}
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); flipForward(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); flipBackward(); }
+  });
 
-// Keyboard nav
-document.addEventListener('keydown', function(e) {
-  if (!bookOpen) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openBook(); } return; }
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); nextPage(); }
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prevPage(); }
-});
+  var touchStartX = 0;
+  book.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+  book.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) { dx < 0 ? flipForward() : flipBackward(); }
+  }, { passive: true });
 
-// Disable right-click globally
-document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+  function autoSizeBook() {
+    var sidebarW = window.innerWidth > 700 ? 80 : 0;
+    var maxH = window.innerHeight - 180;
+    var maxW = window.innerWidth - sidebarW - 60;
+    var ratio = 0.74;
+    var h = maxH;
+    var w = h * ratio;
+    if (w > maxW) { w = maxW; h = w / ratio; }
+    document.documentElement.style.setProperty('--book-width', w + 'px');
+    document.documentElement.style.setProperty('--book-height', h + 'px');
+  }
+  autoSizeBook();
+  window.addEventListener('resize', autoSizeBook);
 
-// Touch swipe support
-var touchStartX = 0;
-document.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; });
-document.addEventListener('touchend', function(e) {
-  if (!bookOpen) return;
-  var diff = e.changedTouches[0].clientX - touchStartX;
-  if (Math.abs(diff) > 50) { if (diff < 0) nextPage(); else prevPage(); }
-});
+  document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+  document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+
+  updateState();
+})();
 </script>
 
 </body>
