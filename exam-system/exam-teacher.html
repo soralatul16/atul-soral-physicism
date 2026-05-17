@@ -1480,6 +1480,20 @@ function downloadSetPDF(id) {
     // Mark scheme (teacher only)
     if (b.meta?.markScheme) html += `<div class="mark-scheme"><strong>Mark Scheme:</strong> ${b.meta.markScheme}</div>`;
     
+    if (b.meta?.gradingGrid) {
+      html += `<div style="margin-top:10px;padding:10px;background:#f5f0e8;border-radius:8px;font-size:11px;color:#5c4033;line-height:1.4;page-break-inside:avoid;">`;
+      html += `<strong>Holistic Marking Grid:</strong><br>`;
+      var grid = b.meta.gradingGrid;
+      for (var rowKey in grid) {
+        html += `<div style="margin-top:6px;"><strong>${grid[rowKey].label || rowKey}:</strong>`;
+        for (var level in grid[rowKey].levels) {
+          html += `<br>&nbsp;&nbsp;${level} mark(s): ${grid[rowKey].levels[level]}`;
+        }
+        html += `</div>`;
+      }
+      html += `</div>`;
+    }
+    
     html += `</div>`;
   });
   

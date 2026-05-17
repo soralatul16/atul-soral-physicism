@@ -251,7 +251,8 @@ Grade with HOLISTIC GRID stored in meta.gradingGrid:
 "E":{"label":"Equipment","levels":{"1":"Equipment to measure IV or DV","2":"Equipment to measure IV and DV"}},
 "M":{"label":"Method","levels":{"1":"Attempt at method","2":"Method linked to IV and DV","3":"Complete method","4":"Complete method with CV control"}},
 "D":{"label":"Data collection","levels":{"1":"Reference to IV values","2":"5 increments or 3 trials","3":"5 increments and 3 trials","4":"5 increments, 3 trials, calculates average"}},
-"S":{"label":"Safety","levels":{"1":"Relevant precaution linked to hazard"}}}`;
+"S":{"label":"Safety","levels":{"1":"Relevant precaution linked to hazard"}}}
+IMPORTANT: Criterion B is a SINGLE extended question with a holistic marking grid. Do NOT split it into multiple small questions. Generate ONE stimulus, ONE design task, and ONE holistic grid with rows V, H, E, M, D, S. The total marks come from the grid, not from individual sub-parts.`;
   }
 
   if (hasC) {
@@ -278,7 +279,8 @@ Stimulus: 6-10 sentences describing a REAL physics application (e.g. James Webb 
 {"theme1":{"label":"${config.dFactor||'Environmental'} implications","levels":{"1":"A statement","2":"Two statements or one with support","3":"Two with support for one","4":"Two with support for both"}},
 "theme2":{"label":"Second factor implications","levels":{"1":"A statement","2":"Two statements or one with support","3":"Two with support for one","4":"Two with support for both"}},
 "conclusion":{"label":"Concluding appraisal","levels":{"1":"A concluding opinion","2":"Justified appraisal linking to arguments"}}}
-Do NOT use MCQ/TF for this — requires extended writing. Both benefits AND limitations required.`;
+Do NOT use MCQ/TF for this — requires extended writing. Both benefits AND limitations required.
+IMPORTANT: Criterion D is a SINGLE extended reflection question with a holistic marking grid. Do NOT split it into MCQs or short answers. Generate ONE real-world stimulus (6-10 sentences), then ONE extended writing task asking students to discuss 2-3 themes (based on the D-factor). Include a holistic grid with rows for each theme plus a concluding appraisal row. Each theme row has 1-4 mark levels. The concluding appraisal has 1-2 mark levels.`;
   }
 
   const formulas = `FORMULAS: ρ=m/V, F=ma, v=u+at, s=ut+½at², v²=u²+2as, p=mv, p=F/A, W=Fs, Eₖ=½mv², g=F/m, ΔEₚ=mgΔh, efficiency=(useful/total)×100, P=W/t, I=ΔQ/t, P=IV, V=IR, Vₚ/Vₛ=Nₚ/Nₛ, v=fλ, T=1/f`;
@@ -306,6 +308,30 @@ ${formulas}
 COMMAND TERMS: Define(precise meaning), State(brief, no explanation), Outline(brief account), Describe(detailed account), Explain(with reasons/causes), Calculate(numerical+working), Determine(only possible answer), Analyse(break down), Evaluate(weigh strengths/limitations), Discuss(balanced review+evidence), Justify(valid reasons), Formulate(express precisely), Suggest(propose), Compare(similarities/differences), Design(produce plan), Plot(mark points), Interpret(trends+conclusions)
 ${diagramInstr}
 ${dataTableInstr}
+
+VISUAL ELEMENTS — generate these as HTML within content blocks:
+
+1. DATA TABLES: When a question requires students to read or complete a table, generate a full HTML table with headers, units, and some pre-filled values. Leave blank cells where students need to fill in answers. Use the Table question type with tableHeaders, tableRows, tableCols, and tablePrefill.
+
+2. GRAPHS: When a question involves reading a graph or plotting data, generate a content block with type "Text" containing an HTML description of the graph AND the raw data points. Format like:
+   "<p><strong>Graph: Velocity against Time</strong></p><table><tr><th>Time / s</th><th>Velocity / m s⁻¹</th></tr><tr><td>0.0</td><td>0.0</td></tr><tr><td>2.0</td><td>4.0</td></tr>...</table><p>[The graph shows these data points plotted with a line of best fit. The y-intercept is 0.0 and the gradient is 2.0 m s⁻².]</p>"
+   This gives students the data to work with even without a visual graph.
+
+3. DIAGRAMS: When a question references an experimental setup, circuit, or force diagram, generate a content block with:
+   "<p><strong>[DIAGRAM: Description of what the diagram shows]</strong></p><p>The diagram shows [detailed description including all labels, measurements, and components].</p>"
+   Be specific enough that a student could draw the diagram from your description.
+
+4. STIMULUS IMAGES: Reference images from the DIAGRAM_BANK when relevant. Use Image content blocks with URLs from the available diagrams list.
+
+5. EQUATIONS: When showing equations in stimulus text, use HTML formatting:
+   "<p>The equation for kinetic energy is: E<sub>k</sub> = ½mv²</p>"
+   Use <sub> for subscripts, <sup> for superscripts.
+
+EVERY question set MUST include at least:
+- 1 data table (either as a Table question or as stimulus data in a Text block)
+- 1 graph description with data points
+- 1 diagram description
+These are NOT optional. Real eAssessment papers always have visual elements.
 
 ${taskStructure}
 
@@ -628,7 +654,7 @@ Every question must include a mark scheme. Follow these EXACT conventions from r
   ]
 }
 
-RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands progress i→ii→iii 6)Total marks=${config.totalMarks} 7)Realistic numerical values 8)Mark schemes use IB format: "Award X marks","Accept","Do not accept","WTTE","ECF","Seen or implied" 9)For holistic grids store in meta.gradingGrid 10)Stimulus must be SPECIFIC with named locations, technologies, numerical values 11)IMPORTANT FOR TABLE QUESTIONS: You MUST include "tableHeaders", "tableRows", "tableCols", and "tablePrefill" in data. A Table question WITHOUT these is broken. Always include them.`;
+RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands progress i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks}. This is NOT optional. Count every question's marks and verify the sum before responding. If you generate fewer marks, ADD more questions. If you generate more, REMOVE or reduce questions. 7)Realistic numerical values 8)Mark schemes use IB format: "Award X marks","Accept","Do not accept","WTTE","ECF","Seen or implied" 9)For holistic grids store in meta.gradingGrid 10)Stimulus must be SPECIFIC with named locations, technologies, numerical values 11)IMPORTANT FOR TABLE QUESTIONS: You MUST include "tableHeaders", "tableRows", "tableCols", and "tablePrefill" in data. A Table question WITHOUT these is broken. Always include them. 12)The TOTAL marks across ALL questions MUST equal exactly ${config.totalMarks}. Count the marks as you generate. If you have generated 10 marks worth of questions and the target is 25, you MUST generate more questions until you reach exactly 25 marks. 13)For a 25-mark Criterion A test, generate at LEAST 3 main stimulus blocks with 2-4 sub-parts each. A typical 25-mark paper has: 2-3 MCQ questions (1 mark each) = 2-3 marks, 3-4 short answer / fill-in questions (1-2 marks each) = 4-8 marks, 2-3 calculation questions (2-3 marks each) = 4-9 marks, 1-2 explanation questions (3-4 marks each) = 3-8 marks. Total MUST equal ${config.totalMarks} marks exactly. 14)Before outputting JSON, verify your total: add up all meta.marks values. If the sum does not equal ${config.totalMarks}, adjust by adding or removing questions until it matches exactly.`;
 }
 
 /* ── AI API Call (Groq primary, Gemini fallback) ── */
@@ -835,6 +861,39 @@ async function runGeneration() {
 
   const config = collectGenConfig();
   if (!config) return;
+
+  // AUTO-GENERATE QUESTION MIX if no question types are selected
+  if (config.questions.length === 0 || config.questions.every(q => q.count === 0)) {
+    var totalMarks = config.totalMarks || 25;
+    var crit = (config.criterion || 'A').charAt(0);
+    
+    if (crit === 'A') {
+      config.questions = [
+        {type: 'MCQ', count: Math.ceil(totalMarks * 0.15), marks: 1},
+        {type: 'Long Answer', count: Math.ceil(totalMarks * 0.25), marks: 2},
+        {type: 'Fill Text', count: Math.ceil(totalMarks * 0.1), marks: 1},
+        {type: 'Table', count: 1, marks: Math.ceil(totalMarks * 0.15)},
+        {type: 'Long Answer', count: 1, marks: Math.ceil(totalMarks * 0.2)}
+      ];
+    } else if (crit === 'B' || config.criterion === 'B+C') {
+      // Criterion B is ONE big design question with holistic grid
+      config.questions = [
+        {type: 'Long Answer', count: 1, marks: totalMarks}
+      ];
+    } else if (crit === 'C') {
+      config.questions = [
+        {type: 'Table', count: 1, marks: Math.ceil(totalMarks * 0.2)},
+        {type: 'Long Answer', count: Math.ceil(totalMarks * 0.3), marks: 2},
+        {type: 'Fill Text', count: Math.ceil(totalMarks * 0.15), marks: 1},
+        {type: 'Long Answer', count: 1, marks: Math.ceil(totalMarks * 0.2)}
+      ];
+    } else if (crit === 'D') {
+      // Criterion D is ONE big reflection question with holistic grid
+      config.questions = [
+        {type: 'Long Answer', count: 1, marks: totalMarks}
+      ];
+    }
+  }
 
   const btn = document.getElementById('gen-run-btn');
   const status = document.getElementById('gen-status');

@@ -338,6 +338,25 @@ function renderSavedPreview(i) {
     if (b.meta.marks) preview += `<span class="badge">${b.meta.marks} marks</span>`;
     if (b.meta.difficulty) preview += `<span class="badge">${b.meta.difficulty}</span>`;
     preview += `</div>`;
+
+    if (b.meta && b.meta.markScheme) {
+      preview += `<div style="margin-top:10px;padding:10px 12px;background:#ebf7ee;border-left:3px solid #2ecc71;border-radius:0 6px 6px 0;font-size:12px;color:#27ae60;">`;
+      preview += `<strong>Mark Scheme:</strong> ${b.meta.markScheme}`;
+      preview += `</div>`;
+    }
+    if (b.meta && b.meta.gradingGrid) {
+      preview += `<div style="margin-top:10px;padding:10px;background:#f5f0e8;border-radius:8px;font-size:11px;color:#5c4033;line-height:1.4;">`;
+      preview += `<strong>Holistic Marking Grid:</strong><br>`;
+      var grid = b.meta.gradingGrid;
+      for (var rowKey in grid) {
+        preview += `<div style="margin-top:6px;"><strong>${grid[rowKey].label || rowKey}:</strong>`;
+        for (var level in grid[rowKey].levels) {
+          preview += `<br>&nbsp;&nbsp;${level} mark(s): ${grid[rowKey].levels[level]}`;
+        }
+        preview += `</div>`;
+      }
+      preview += `</div>`;
+    }
   }
 
   return `<div class="saved-preview"><strong>${b.mode === 'content' ? '📄' : '❓'} ${b.type}</strong>${preview}</div>`;
