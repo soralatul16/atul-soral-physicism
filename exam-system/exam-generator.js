@@ -218,6 +218,7 @@ DATA TABLES: For Criterion C and calculation questions, include HTML data tables
   }[yl];
 
   const criteriaStr = config.criterion || "A";
+  const crit = criteriaStr;
   const hasA = criteriaStr.includes('A') || criteriaStr.includes('Full Exam');
   const hasB = criteriaStr.includes('B') || criteriaStr.includes('B+C') || criteriaStr.includes('Full Exam');
   const hasC = criteriaStr.includes('C') || criteriaStr.includes('B+C') || criteriaStr.includes('Full Exam');
@@ -289,7 +290,7 @@ Grade: ${config.grade} | ${ye.label} | Chapter: ${config.chapter} | Topic: ${con
 Criterion: ${config.criterion} (${critFullNames[crit] || 'Combined'})
 Global Context: ${config.globalContext || 'Scientific and Technical Innovation'} | Difficulty: ${config.difficulty || 'Mixed'}
 Total Marks: ${config.totalMarks}
-${config.dFactor && (crit==='D'||config.criterion==='Full Exam') ? 'D-Factor: '+config.dFactor : ''}
+${config.dFactor && hasD ? 'D-Factor: '+config.dFactor : ''}
 ${config.context ? 'TEACHER CONTEXT:\n'+config.context : ''}
 ${config.mediaUrls&&config.mediaUrls.length>0 ? 'MEDIA: '+config.mediaUrls.join(', ') : ''}
 
