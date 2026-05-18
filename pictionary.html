@@ -210,6 +210,55 @@
       8px 8px 0 rgba(0,0,0,0.02);
   }
 
+  /* SPIRAL BINDING ON LEFT EDGE */
+  .cover-spiral {
+    position: absolute;
+    left: 0;
+    top: 3%;
+    bottom: 3%;
+    width: 22px;
+    z-index: 10;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 5px,
+      #d1c9bc 5px,
+      #d1c9bc 7px,
+      #9e968a 7px,
+      #9e968a 10px,
+      #d1c9bc 10px,
+      #d1c9bc 12px,
+      transparent 12px,
+      transparent 22px
+    );
+    border-right: 1px solid rgba(0,0,0,0.06);
+  }
+
+  /* Small circular ring holes effect */
+  .cover-spiral::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 6px;
+    width: 10px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 7px,
+      rgba(120,112,100,0.5) 7px,
+      rgba(120,112,100,0.5) 9px,
+      rgba(90,84,74,0.7) 9px,
+      rgba(90,84,74,0.7) 13px,
+      rgba(120,112,100,0.5) 13px,
+      rgba(120,112,100,0.5) 15px,
+      transparent 15px,
+      transparent 22px
+    );
+    border-radius: 5px;
+  }
+
+  /* Push the cover content right to make room for spiral */
   .closed-book-front {
     width: 100%;
     height: 100%;
@@ -217,12 +266,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-left: 22px;
   }
   .closed-book-front .cover-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     pointer-events: none;
+    border-radius: 0 12px 12px 0; /* rounded only on right side */
   }
   .closed-book-front .cover-fallback {
     flex-direction: column;
@@ -312,6 +363,7 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.6s ease, transform 0.6s ease;
+    padding-left: 22px; /* Push content right to make room for left spiral */
   }
   .book-spread.opened {
     opacity: 1;
@@ -351,38 +403,20 @@
     cursor: pointer;
   }
   .left-page {
-    border-right: 1px solid rgba(0,0,0,0.05);
-    padding-right: 12px;
-    box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+    border-right: none;
+    padding-right: 0;
+    margin-right: 0;
+    box-shadow: none;
   }
   .right-page {
-    border-left: 1px solid rgba(0,0,0,0.05);
-    padding-left: 12px;
-    box-shadow: -2px 0 8px rgba(0,0,0,0.04);
+    border-left: none;
+    padding-left: 0;
+    margin-left: 2px; /* hairline gap */
+    box-shadow: none;
   }
 
-  .left-page:hover { box-shadow: inset 6px 0 20px rgba(0,0,0,0.04), 2px 0 8px rgba(0,0,0,0.04); }
-  .right-page:hover { box-shadow: inset -6px 0 20px rgba(0,0,0,0.04), -2px 0 8px rgba(0,0,0,0.04); }
-
-  /* Page Curl Shadow near Spine */
-  .left-page::after {
-    content: '';
-    position: absolute;
-    top: 0; right: 0;
-    width: 32px; height: 100%;
-    background: linear-gradient(to left, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.01) 60%, transparent 100%);
-    pointer-events: none;
-    z-index: 8;
-  }
-  .right-page::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 32px; height: 100%;
-    background: linear-gradient(to right, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.01) 60%, transparent 100%);
-    pointer-events: none;
-    z-index: 8;
-  }
+  .left-page:hover { box-shadow: inset 6px 0 20px rgba(0,0,0,0.04); }
+  .right-page:hover { box-shadow: inset -6px 0 20px rgba(0,0,0,0.04); }
 
   /* Page turn shadow overlay — shows during transition */
   .page-turn-shadow {
@@ -521,13 +555,14 @@
   }
   .cover-left-side {
     background: linear-gradient(135deg, #c0392b 0%, #922b21 60%, #761c12 100%);
-    border-radius: 4px 0 0 4px;
+    border-radius: 0; /* flat center split */
     padding-right: 20px;
   }
   .cover-right-side {
     background: linear-gradient(225deg, #c0392b 0%, #922b21 60%, #761c12 100%);
     border-radius: 0 4px 4px 0;
     padding-left: 20px;
+    margin-left: 2px; /* hairline gap */
   }
   .cover-left-side:hover { box-shadow: inset 6px 0 20px rgba(0,0,0,0.04); }
   .cover-right-side:hover { box-shadow: inset -6px 0 20px rgba(0,0,0,0.04); }
@@ -565,62 +600,9 @@
     bottom: 40px;
   }
 
-  /* SPINE / CENTER SPIRAL BINDING */
+  /* NO CENTER BINDING SPINE */
   .spine {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 24px;
-    z-index: 20;
-    background: #e8e0d4; /* paper-colored background to hide image edges */
-    box-shadow: -2px 0 4px rgba(0,0,0,0.06), 2px 0 4px rgba(0,0,0,0.06);
-  }
-
-  /* Spiral rings */
-  .spine::before {
-    content: '';
-    position: absolute;
-    top: 12px;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 12px;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent 0px,
-      transparent 3px,
-      #b8b0a4 3px,
-      #b8b0a4 5px,
-      transparent 5px,
-      transparent 8px,
-      #c0392b 8px,
-      #c0392b 12px,
-      transparent 12px,
-      transparent 18px
-    );
-    border-radius: 6px;
-  }
-
-  /* Ring holes */
-  .spine::after {
-    content: '';
-    position: absolute;
-    top: 14px;
-    bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 18px;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent 0px,
-      transparent 6px,
-      rgba(0,0,0,0.04) 6px,
-      rgba(0,0,0,0.04) 12px,
-      transparent 12px,
-      transparent 18px
-    );
+    display: none;
   }
 
   /* CONTROLS & BOTTOM BAR */
@@ -794,6 +776,10 @@
       min-height: 480px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       border-radius: 6px;
+      padding-left: 0; /* Remove spiral padding on mobile */
+    }
+    .cover-spiral {
+      display: none; /* Hide spiral on mobile to save screen width */
     }
     .page {
       width: 100%;
@@ -806,6 +792,7 @@
     .right-page {
       display: none;
       padding-left: 0 !important;
+      margin-left: 0 !important;
     }
     .book-spread.show-right-only .page-left {
       display: none;
@@ -865,6 +852,7 @@
   <!-- CLOSED BOOK COVER — shown on first load -->
   <div id="closed-cover" class="closed-cover">
     <div class="closed-book" onclick="openTheBook()">
+      <div class="cover-spiral"></div>
       <div class="closed-book-front">
         <img src="Images/pictionary/cover-pictionary.png" alt="Physics Pictionary Cover" class="cover-img"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -884,6 +872,7 @@
   <!-- END BOOK COVER — shown past Y+Z or clicking End Button -->
   <div id="end-cover" class="closed-cover hidden" style="opacity:0;">
     <div class="closed-book" onclick="closeBookToStart()">
+      <div class="cover-spiral"></div>
       <div class="closed-book-front">
         <img src="Images/pictionary/end-pictionary.png" alt="End — Atul Soral Physicism" class="cover-img"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -902,8 +891,9 @@
   
   <div class="book-viewport" id="bookViewport">
     <div class="book-spread book-container spread-container" id="bookSpread">
+      <div class="cover-spiral"></div>
       
-      <!-- COVER TEMPLATE -->
+      <!-- COVER SPREAD TEMPLATE -->
       <div class="cover-spread" id="coverContainer">
         <div class="cover-half cover-left-side left-page" onclick="flipBackward()">
           <h2>Physics Pictionary</h2>
@@ -1069,7 +1059,7 @@ coverPill.addEventListener('click', function() {
     return;
   }
   if (bookOpened) {
-    currentSpread = 1;
+    currentSpread = 0; // Go to the cover spread!
     renderSpread();
     updateIndexHighlight();
   } else {
@@ -1272,13 +1262,13 @@ function renderSpread() {
     leftPageEl.style.display = 'none';
     rightPageEl.style.display = 'none';
     coverContainerEl.style.display = 'flex';
-    spineEl.style.display = 'block';
+    spineEl.style.display = 'none';
     document.getElementById('pageInfo').textContent = 'Cover';
   } else {
     leftPageEl.style.display = 'flex';
     rightPageEl.style.display = 'flex';
     coverContainerEl.style.display = 'none';
-    spineEl.style.display = 'block';
+    spineEl.style.display = 'none';
 
     var leftIdx = (currentSpread - 1) * 2;
     var rightIdx = leftIdx + 1;
@@ -1419,7 +1409,7 @@ window.navigateForward = navigateForward;
 
 function navigateBackward() {
   if (isAnimating) return;
-  if (currentSpread <= 0) return;
+  if (currentSpread <= 0) return; // Already on cover spread, do nothing
   
   isAnimating = true;
   var container = document.querySelector('.spread-container');
