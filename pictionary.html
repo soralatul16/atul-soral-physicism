@@ -210,77 +210,110 @@
       8px 8px 0 rgba(0,0,0,0.02);
   }
 
-  /* SPIRAL BINDING ON LEFT EDGE */
-  .cover-spiral {
+  /* FIX 1: CLOSED FRONT COVER - SPIRAL ON LEFT */
+  .cover-spiral-left {
     position: absolute;
     left: 0;
-    top: 3%;
-    bottom: 3%;
-    width: 22px;
+    top: 2%;
+    bottom: 2%;
+    width: 20px;
     z-index: 10;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent 0px,
-      transparent 5px,
-      #d1c9bc 5px,
-      #d1c9bc 7px,
-      #9e968a 7px,
-      #9e968a 10px,
-      #d1c9bc 10px,
-      #d1c9bc 12px,
-      transparent 12px,
-      transparent 22px
-    );
-    border-right: 1px solid rgba(0,0,0,0.06);
+    background: linear-gradient(90deg, #c9c1b4 0%, #e0d9cf 40%, #c9c1b4 100%);
+    border-right: 1px solid rgba(0,0,0,0.05);
   }
-
-  /* Small circular ring holes effect */
-  .cover-spiral::after {
+  .cover-spiral-left::before {
     content: '';
     position: absolute;
-    top: 4px;
-    bottom: 4px;
-    left: 6px;
-    width: 10px;
+    top: 6px;
+    bottom: 6px;
+    left: 4px;
+    width: 12px;
     background: repeating-linear-gradient(
       to bottom,
       transparent 0px,
-      transparent 7px,
-      rgba(120,112,100,0.5) 7px,
-      rgba(120,112,100,0.5) 9px,
-      rgba(90,84,74,0.7) 9px,
-      rgba(90,84,74,0.7) 13px,
-      rgba(120,112,100,0.5) 13px,
-      rgba(120,112,100,0.5) 15px,
-      transparent 15px,
-      transparent 22px
+      transparent 4px,
+      #a09888 4px,
+      #a09888 5.5px,
+      #7a7060 5.5px,
+      #7a7060 8px,
+      #a09888 8px,
+      #a09888 9.5px,
+      transparent 9.5px,
+      transparent 18px
     );
-    border-radius: 5px;
+    border-radius: 6px;
   }
 
-  /* Push the cover content right to make room for spiral */
-  .closed-book-front {
+  /* FIX 2: CLOSED END COVER - SPIRAL ON RIGHT */
+  .cover-spiral-right {
+    position: absolute;
+    right: 0;
+    top: 2%;
+    bottom: 2%;
+    width: 20px;
+    z-index: 10;
+    background: linear-gradient(90deg, #c9c1b4 0%, #e0d9cf 40%, #c9c1b4 100%);
+    border-left: 1px solid rgba(0,0,0,0.05);
+  }
+  .cover-spiral-right::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    right: 4px;
+    width: 12px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 4px,
+      #a09888 4px,
+      #a09888 5.5px,
+      #7a7060 5.5px,
+      #7a7060 8px,
+      #a09888 8px,
+      #a09888 9.5px,
+      transparent 9.5px,
+      transparent 18px
+    );
+    border-radius: 6px;
+  }
+
+  /* Clip closed front cover images and round right edge */
+  #closed-cover .closed-book-front {
     width: 100%;
     height: 100%;
     background: linear-gradient(145deg, #c0392b 0%, #922b21 40%, #7f1d1d 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-left: 22px;
+    padding-left: 20px;
+    padding-right: 0;
   }
-  .closed-book-front .cover-img {
+  #closed-cover .closed-book-front .cover-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     pointer-events: none;
-    border-radius: 0 12px 12px 0; /* rounded only on right side */
+    border-radius: 0 12px 12px 0;
   }
-  .closed-book-front .cover-fallback {
-    flex-direction: column;
+
+  /* Clip closed end cover images and round left edge */
+  #end-cover .closed-book-front {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #c0392b 0%, #922b21 40%, #7f1d1d 100%);
+    display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 40px;
+    padding-right: 20px;
+    padding-left: 0;
+  }
+  #end-cover .closed-book-front .cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    border-radius: 12px 0 0 12px;
   }
 
   /* Book edge — visible on right side to give thickness */
@@ -297,6 +330,15 @@
     border-radius: 0 3px 3px 0;
     box-shadow: 2px 0 4px rgba(0,0,0,0.08);
   }
+  
+  /* Physical reverse layout for End Cover (back of notebook) */
+  #end-cover .closed-book-edge {
+    left: -6px;
+    right: auto;
+    border-radius: 3px 0 0 3px;
+    box-shadow: -2px 0 4px rgba(0,0,0,0.08);
+  }
+
   /* Bottom edge for depth */
   .closed-book::after {
     content: '';
@@ -308,6 +350,10 @@
     background: linear-gradient(90deg, #d4ccc0, #e8e0d4, #d4ccc0);
     border-radius: 0 0 3px 3px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  }
+  #end-cover .closed-book::after {
+    left: 0;
+    right: 4px;
   }
 
   .open-book-btn {
@@ -363,7 +409,6 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.6s ease, transform 0.6s ease;
-    padding-left: 22px; /* Push content right to make room for left spiral */
   }
   .book-spread.opened {
     opacity: 1;
@@ -403,20 +448,40 @@
     cursor: pointer;
   }
   .left-page {
-    border-right: none;
-    padding-right: 0;
+    border-right: 1px solid rgba(0,0,0,0.05);
+    padding-right: 10px;
     margin-right: 0;
-    box-shadow: none;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.04);
   }
   .right-page {
-    border-left: none;
-    padding-left: 0;
-    margin-left: 2px; /* hairline gap */
-    box-shadow: none;
+    border-left: 1px solid rgba(0,0,0,0.05);
+    padding-left: 10px;
+    margin-left: 0;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.04);
   }
 
-  .left-page:hover { box-shadow: inset 6px 0 20px rgba(0,0,0,0.04); }
-  .right-page:hover { box-shadow: inset -6px 0 20px rgba(0,0,0,0.04); }
+  .left-page:hover { box-shadow: inset 6px 0 20px rgba(0,0,0,0.04), 2px 0 8px rgba(0,0,0,0.04); }
+  .right-page:hover { box-shadow: inset -6px 0 20px rgba(0,0,0,0.04), -2px 0 8px rgba(0,0,0,0.04); }
+
+  /* Page Curl Shadow near Spine */
+  .left-page::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 32px; height: 100%;
+    background: linear-gradient(to left, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.01) 60%, transparent 100%);
+    pointer-events: none;
+    z-index: 8;
+  }
+  .right-page::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 32px; height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.01) 60%, transparent 100%);
+    pointer-events: none;
+    z-index: 8;
+  }
 
   /* Page turn shadow overlay — shows during transition */
   .page-turn-shadow {
@@ -489,7 +554,7 @@
   .page img, .page-img {
     width: 100%;
     height: 100%;
-    object-fit: fill; /* Stretches to completely cover the page area with zero margins/padding */
+    object-fit: fill;
     display: block;
     background: var(--bg-paper);
   }
@@ -540,7 +605,7 @@
     text-transform: uppercase;
   }
 
-  /* COVER STYLING */
+  /* COVER SPREAD STYLING */
   .cover-half {
     flex: 1;
     height: 100%;
@@ -555,14 +620,13 @@
   }
   .cover-left-side {
     background: linear-gradient(135deg, #c0392b 0%, #922b21 60%, #761c12 100%);
-    border-radius: 0; /* flat center split */
+    border-radius: 4px 0 0 4px;
     padding-right: 20px;
   }
   .cover-right-side {
     background: linear-gradient(225deg, #c0392b 0%, #922b21 60%, #761c12 100%);
     border-radius: 0 4px 4px 0;
     padding-left: 20px;
-    margin-left: 2px; /* hairline gap */
   }
   .cover-left-side:hover { box-shadow: inset 6px 0 20px rgba(0,0,0,0.04); }
   .cover-right-side:hover { box-shadow: inset -6px 0 20px rgba(0,0,0,0.04); }
@@ -600,9 +664,64 @@
     bottom: 40px;
   }
 
-  /* NO CENTER BINDING SPINE */
+  /* PREMIUM WIRE-O CENTER SPIRAL BINDING */
   .spine {
-    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    z-index: 20;
+    background: #eae5dc;
+    box-shadow: -1px 0 3px rgba(0,0,0,0.04), 1px 0 3px rgba(0,0,0,0.04);
+  }
+
+  /* Wire rings — looks like actual coiled wire */
+  .spine::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 3px,
+      #b0a898 3px,
+      #b0a898 4px,
+      #8c8478 4px,
+      #8c8478 6px,
+      #b0a898 6px,
+      #b0a898 7px,
+      transparent 7px,
+      transparent 9px,
+      #706860 9px,
+      #706860 11px,
+      transparent 11px,
+      transparent 16px
+    );
+    border-radius: 7px;
+  }
+
+  /* Subtle shadow inside the spine groove */
+  .spine::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(0,0,0,0.05) 0%,
+      transparent 25%,
+      transparent 75%,
+      rgba(0,0,0,0.05) 100%
+    );
+    pointer-events: none;
   }
 
   /* CONTROLS & BOTTOM BAR */
@@ -767,7 +886,7 @@
     .book-viewport {
       height: auto;
       align-items: flex-start;
-      transform: none !important; /* Force scale 1 on mobile */
+      transform: none !important;
     }
     .book-spread {
       flex-direction: column;
@@ -776,10 +895,6 @@
       min-height: 480px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       border-radius: 6px;
-      padding-left: 0; /* Remove spiral padding on mobile */
-    }
-    .cover-spiral {
-      display: none; /* Hide spiral on mobile to save screen width */
     }
     .page {
       width: 100%;
@@ -826,7 +941,7 @@
       padding: 0 12px;
     }
     .zoom-container {
-      display: none; /* Hide zoom on mobile */
+      display: none;
     }
   }
 </style>
@@ -852,7 +967,7 @@
   <!-- CLOSED BOOK COVER — shown on first load -->
   <div id="closed-cover" class="closed-cover">
     <div class="closed-book" onclick="openTheBook()">
-      <div class="cover-spiral"></div>
+      <div class="cover-spiral-left"></div>
       <div class="closed-book-front">
         <img src="Images/pictionary/cover-pictionary.png" alt="Physics Pictionary Cover" class="cover-img"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -872,7 +987,7 @@
   <!-- END BOOK COVER — shown past Y+Z or clicking End Button -->
   <div id="end-cover" class="closed-cover hidden" style="opacity:0;">
     <div class="closed-book" onclick="closeBookToStart()">
-      <div class="cover-spiral"></div>
+      <div class="cover-spiral-right"></div>
       <div class="closed-book-front">
         <img src="Images/pictionary/end-pictionary.png" alt="End — Atul Soral Physicism" class="cover-img"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -891,7 +1006,6 @@
   
   <div class="book-viewport" id="bookViewport">
     <div class="book-spread book-container spread-container" id="bookSpread">
-      <div class="cover-spiral"></div>
       
       <!-- COVER SPREAD TEMPLATE -->
       <div class="cover-spread" id="coverContainer">
@@ -1262,13 +1376,13 @@ function renderSpread() {
     leftPageEl.style.display = 'none';
     rightPageEl.style.display = 'none';
     coverContainerEl.style.display = 'flex';
-    spineEl.style.display = 'none';
+    spineEl.style.display = 'block';
     document.getElementById('pageInfo').textContent = 'Cover';
   } else {
     leftPageEl.style.display = 'flex';
     rightPageEl.style.display = 'flex';
     coverContainerEl.style.display = 'none';
-    spineEl.style.display = 'none';
+    spineEl.style.display = 'block';
 
     var leftIdx = (currentSpread - 1) * 2;
     var rightIdx = leftIdx + 1;
