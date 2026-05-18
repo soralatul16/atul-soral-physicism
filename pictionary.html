@@ -166,6 +166,127 @@
     z-index: 0;
   }
 
+  /* CLOSED COVER PAGE VIEW */
+  .closed-cover {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .closed-cover.opening {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(10deg) scale(0.95);
+    pointer-events: none;
+  }
+  .closed-cover.hidden {
+    display: none;
+  }
+
+  .closed-book {
+    position: relative;
+    width: min(70vw, 600px);
+    max-width: 600px;
+    aspect-ratio: 1.5 / 1;
+    border-radius: 4px 12px 12px 4px;
+    overflow: hidden;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.15),
+      0 8px 20px rgba(0,0,0,0.1),
+      4px 4px 0 rgba(0,0,0,0.03),
+      8px 8px 0 rgba(0,0,0,0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  .closed-book:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow:
+      0 28px 70px rgba(0,0,0,0.18),
+      0 12px 30px rgba(0,0,0,0.12),
+      4px 4px 0 rgba(0,0,0,0.03),
+      8px 8px 0 rgba(0,0,0,0.02);
+  }
+
+  .closed-book-front {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #c0392b 0%, #922b21 40%, #7f1d1d 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .closed-book-front .cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+  .closed-book-front .cover-fallback {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+  }
+
+  /* Book edge — visible on right side to give thickness */
+  .closed-book-edge {
+    position: absolute;
+    right: -6px;
+    top: 4px;
+    bottom: 4px;
+    width: 6px;
+    background: linear-gradient(180deg,
+      #e8e0d4 0%, #d4ccc0 20%, #e8e0d4 40%,
+      #d4ccc0 60%, #e8e0d4 80%, #d4ccc0 100%
+    );
+    border-radius: 0 3px 3px 0;
+    box-shadow: 2px 0 4px rgba(0,0,0,0.08);
+  }
+  /* Bottom edge for depth */
+  .closed-book::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 4px;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #d4ccc0, #e8e0d4, #d4ccc0);
+    border-radius: 0 0 3px 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  }
+
+  .open-book-btn {
+    margin-top: 24px;
+    padding: 12px 36px;
+    background: linear-gradient(135deg, #c0392b, #922b21);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(192,57,43,0.25);
+    z-index: 10;
+  }
+  .open-book-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(192,57,43,0.35);
+  }
+
+  .open-hint {
+    margin-top: 10px;
+    font-size: 11px;
+    color: #aaa;
+    letter-spacing: 1px;
+  }
+
   /* VIEWPORT & ZOOM WRAPPER */
   .book-viewport {
     display: flex;
@@ -188,7 +309,13 @@
     box-shadow: 0 24px 70px rgba(0,0,0,0.15), 0 4px 15px rgba(0,0,0,0.06);
     position: relative;
     overflow: hidden;
-    transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .book-spread.opened {
+    opacity: 1;
+    pointer-events: all;
   }
   .book-spread.exit-left {
     opacity: 0;
@@ -508,6 +635,13 @@
     max-width: 600px;
     margin-top: 12px;
     flex-shrink: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  .controls-bar.opened {
+    opacity: 1;
+    pointer-events: all;
   }
   .ctrl-btn {
     width: 40px;
@@ -603,6 +737,13 @@
     color: var(--text-muted);
     opacity: 0.6;
     margin-top: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  .tips.opened {
+    opacity: 0.6;
+    pointer-events: all;
   }
 
   /* FEEDBACK PANEL STYLING */
@@ -720,6 +861,25 @@
 
 <!-- WORKSPACE DESK AREA -->
 <div class="workspace">
+
+  <!-- CLOSED BOOK COVER — shown on first load -->
+  <div id="closed-cover" class="closed-cover">
+    <div class="closed-book" onclick="openTheBook()">
+      <div class="closed-book-front">
+        <img src="images/pictionary/cover-pictionary.png" alt="Physics Pictionary Cover" class="cover-img"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="cover-fallback" style="display:none;">
+          <h2 style="font-family:'Playfair Display',serif;color:white;font-size:32px;">Physics<br>Pictionary</h2>
+          <p style="color:rgba(255,255,255,0.6);font-style:italic;margin-top:8px;">A to Z Glossary</p>
+          <div style="width:60px;height:1px;background:rgba(255,255,255,0.25);margin:16px auto;"></div>
+          <p style="color:rgba(255,255,255,0.3);font-size:10px;letter-spacing:3px;text-transform:uppercase;">Atul Soral Physicism</p>
+        </div>
+      </div>
+      <div class="closed-book-edge"></div>
+    </div>
+    <button class="open-book-btn" onclick="openTheBook()">Open Book</button>
+    <p class="open-hint">Click to open or press any letter above</p>
+  </div>
   
   <div class="book-viewport" id="bookViewport">
     <div class="book-spread book-container spread-container" id="bookSpread">
@@ -869,9 +1029,10 @@ var WORDS = {A:'Amazing',B:'Bewitching',C:'Captivating',D:'Divine',E:'Enchanting
 
 var currentSpread = 0;
 var currentPage = 0; // 0 = Cover, 1 = A, 2 = B ... 26 = Z
-var totalSpreads = 14; 
+var totalSpreads = 15; 
 var zoomLevel = 1.0;
 var isAnimating = false;
+var bookOpened = false;
 
 // BUILD INDEX HORIZONTAL PILLS
 var idxContainer = document.getElementById('indexContainer');
@@ -881,7 +1042,14 @@ coverPill.className = 'idx-pill index-letter active';
 coverPill.textContent = 'Cover';
 coverPill.setAttribute('data-letter', 'Cover');
 coverPill.setAttribute('id', 'idx-Cover');
-coverPill.addEventListener('click', function() { navigateToSpread(0, 0); });
+coverPill.addEventListener('click', function() { 
+  if (!bookOpened) {
+    openTheBook();
+    setTimeout(function() { navigateToSpread(0, 0); }, 700);
+    return;
+  }
+  navigateToSpread(0, 0); 
+});
 idxContainer.appendChild(coverPill);
 
 LETTERS.forEach(function(letter) {
@@ -890,9 +1058,38 @@ LETTERS.forEach(function(letter) {
   pill.textContent = letter;
   pill.setAttribute('data-letter', letter);
   pill.setAttribute('id', 'idx-' + letter);
-  pill.addEventListener('click', function() { goToLetter(letter); });
+  pill.addEventListener('click', function() { 
+    if (!bookOpened) {
+      openTheBook();
+      setTimeout(function() { goToLetter(letter); }, 700);
+      return;
+    }
+    goToLetter(letter); 
+  });
   idxContainer.appendChild(pill);
 });
+
+// Append End Button after Z
+var endBtn = document.createElement('button');
+endBtn.className = 'idx-pill index-letter';
+endBtn.textContent = '✦';
+endBtn.title = 'End Page';
+endBtn.id = 'idx-end';
+endBtn.addEventListener('click', function() {
+  if (!bookOpened) {
+    openTheBook();
+    setTimeout(function() {
+      currentSpread = totalSpreads - 1;
+      renderSpread();
+      updateIndexHighlight();
+    }, 700);
+    return;
+  }
+  currentSpread = totalSpreads - 1;
+  renderSpread();
+  updateIndexHighlight();
+});
+idxContainer.appendChild(endBtn);
 
 function goToLetter(letter) {
   var idx = LETTERS.indexOf(letter);
@@ -900,6 +1097,30 @@ function goToLetter(letter) {
   var targetSpread = Math.floor(idx / 2) + 1; 
   navigateToSpread(targetSpread, targetPage);
 }
+
+function openTheBook() {
+  if (bookOpened) return;
+  bookOpened = true;
+  var cover = document.getElementById('closed-cover');
+  cover.classList.add('opening');
+
+  var spreadEl = document.getElementById('bookSpread');
+  spreadEl.classList.add('opened');
+
+  // Fade in control bars
+  document.querySelector('.controls-bar').classList.add('opened');
+  document.querySelector('.tips').classList.add('opened');
+
+  setTimeout(function() {
+    cover.classList.add('hidden');
+    currentSpread = 1; // Opens to Spread 1 (A+B) as requested
+    renderSpread();
+    updateIndexHighlight();
+  }, 600);
+}
+
+// Expose openTheBook globally
+window.openTheBook = openTheBook;
 
 function navigateToSpread(targetSpread, targetPageForce) {
   if (isAnimating) return;
@@ -949,7 +1170,7 @@ function renderSpread() {
 
   // Mobile single page view classes
   spreadEl.classList.remove('show-left-only', 'show-right-only');
-  if (currentPage > 0) {
+  if (currentPage > 0 && currentSpread < totalSpreads - 1) {
     if (currentPage % 2 !== 0) {
       spreadEl.classList.add('show-left-only');
     } else {
@@ -962,12 +1183,45 @@ function renderSpread() {
     rightPageEl.style.display = 'none';
     coverContainerEl.style.display = 'flex';
     spineEl.style.display = 'block';
+    leftPageEl.style.width = '';
+    leftPageEl.style.padding = '';
+    rightPageEl.style.width = '';
+    rightPageEl.style.padding = '';
     document.getElementById('pageInfo').textContent = 'Cover';
+  } else if (currentSpread === totalSpreads - 1) {
+    // END PAGE — full bleed image across both pages
+    if (spineEl) spineEl.style.display = 'none';
+    leftPageEl.innerHTML = '';
+    leftPageEl.style.display = 'none';
+    leftPageEl.style.width = '0';
+    leftPageEl.style.padding = '0';
+    
+    rightPageEl.style.display = 'flex';
+    rightPageEl.style.width = '100%';
+    rightPageEl.style.padding = '0';
+    coverContainerEl.style.display = 'none';
+
+    var endImg = document.createElement('img');
+    endImg.src = 'images/pictionary/end-pictionary.png';
+    endImg.alt = 'Thank you — Atul Soral Physicism';
+    endImg.className = 'page-img';
+    endImg.draggable = false;
+    endImg.setAttribute('oncontextmenu', 'return false');
+    endImg.onerror = function() {
+      rightPageEl.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:#f5f0e8;padding:40px;text-align:center;width:100%;"><h2 style="font-family:Playfair Display,serif;color:#c0392b;font-size:28px;">Thank You</h2><p style="color:#888;margin-top:12px;font-style:italic;">Keep exploring, keep questioning, keep understanding.</p><div style="width:60px;height:1px;background:rgba(192,57,43,0.2);margin:20px auto;"></div><p style="color:#aaa;font-size:11px;letter-spacing:2px;">ATUL SORAL PHYSICISM</p></div>';
+    };
+    rightPageEl.appendChild(endImg);
+    document.getElementById('pageInfo').textContent = 'END';
   } else {
     leftPageEl.style.display = 'flex';
     rightPageEl.style.display = 'flex';
     coverContainerEl.style.display = 'none';
     spineEl.style.display = 'block';
+
+    leftPageEl.style.width = '';
+    leftPageEl.style.padding = '';
+    rightPageEl.style.width = '';
+    rightPageEl.style.padding = '';
 
     var leftIdx = (currentSpread - 1) * 2;
     var rightIdx = leftIdx + 1;
@@ -988,7 +1242,7 @@ function renderSpread() {
 
   // Update controls disabled state
   document.getElementById('prevBtn').disabled = (window.innerWidth <= 900) ? (currentPage === 0) : (currentSpread === 0);
-  document.getElementById('nextBtn').disabled = (window.innerWidth <= 900) ? (currentPage >= 26) : (currentSpread >= 13);
+  document.getElementById('nextBtn').disabled = (window.innerWidth <= 900) ? (currentPage >= 26) : (currentSpread >= totalSpreads - 1);
 
   updateIndexHighlight();
 }
@@ -1036,9 +1290,17 @@ function updateIndexHighlight() {
     btn.classList.remove('active');
   });
 
+  if (!bookOpened) return;
+
   if (currentSpread === 0) {
     var cb = document.getElementById('idx-Cover');
     if (cb) cb.classList.add('active');
+    return;
+  }
+
+  if (currentSpread === totalSpreads - 1) {
+    var eb = document.getElementById('idx-end');
+    if (eb) eb.classList.add('active');
     return;
   }
 
