@@ -188,15 +188,19 @@
     box-shadow: 0 24px 70px rgba(0,0,0,0.15), 0 4px 15px rgba(0,0,0,0.06);
     position: relative;
     overflow: hidden;
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    transition: opacity 0.35s ease-out, transform 0.35s ease-out;
   }
-  .book-spread.turning-left {
+  .book-spread.exit-left {
     opacity: 0;
-    transform: perspective(1200px) rotateY(12deg) scale(0.98);
+    transform: translateX(-30px);
   }
-  .book-spread.turning-right {
+  .book-spread.exit-right {
     opacity: 0;
-    transform: perspective(1200px) rotateY(-12deg) scale(0.98);
+    transform: translateX(30px);
+  }
+  .book-spread.enter {
+    opacity: 0;
+    transform: translateX(0);
   }
 
   /* COVER SPREAD TEMPLATE */
@@ -218,9 +222,11 @@
   }
   .page-left {
     border-right: 1px solid rgba(0,0,0,0.05);
+    padding-right: 12px;
   }
   .page-right {
     border-left: 1px solid rgba(0,0,0,0.05);
+    padding-left: 12px;
   }
 
   /* Page Curl Shadow near Spine */
@@ -252,7 +258,7 @@
     align-items: center;
     justify-content: center;
   }
-  .page img {
+  .page img, .page-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -321,10 +327,12 @@
   .cover-left-side {
     background: linear-gradient(135deg, #c0392b 0%, #922b21 60%, #761c12 100%);
     border-radius: 4px 0 0 4px;
+    padding-right: 20px;
   }
   .cover-right-side {
     background: linear-gradient(225deg, #c0392b 0%, #922b21 60%, #761c12 100%);
     border-radius: 0 4px 4px 0;
+    padding-left: 20px;
   }
   .cover-half h2 {
     font-family: 'Playfair Display', serif;
@@ -366,52 +374,55 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 20px;
-    z-index: 10;
-    background: linear-gradient(90deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.02) 30%, rgba(0,0,0,0.02) 70%, rgba(0,0,0,0.06) 100%);
+    width: 24px;
+    z-index: 20;
+    background: #e8e0d4; /* paper-colored background to hide image edges */
+    box-shadow: -2px 0 4px rgba(0,0,0,0.06), 2px 0 4px rgba(0,0,0,0.06);
   }
 
+  /* Spiral rings */
   .spine::before {
     content: '';
     position: absolute;
-    top: 8px;
-    bottom: 8px;
+    top: 12px;
+    bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
-    width: 4px;
+    width: 12px;
     background: repeating-linear-gradient(
-      180deg,
-      #922b21 0px,
-      #922b21 3px,
+      to bottom,
+      transparent 0px,
       transparent 3px,
+      #b8b0a4 3px,
+      #b8b0a4 5px,
       transparent 5px,
-      #c0392b 5px,
-      #c0392b 8px,
       transparent 8px,
-      transparent 14px
+      #c0392b 8px,
+      #c0392b 12px,
+      transparent 12px,
+      transparent 18px
     );
-    border-radius: 2px;
+    border-radius: 6px;
   }
 
-  /* Ring holes on each side of spine */
+  /* Ring holes */
   .spine::after {
     content: '';
     position: absolute;
-    top: 10px;
-    bottom: 10px;
+    top: 14px;
+    bottom: 14px;
     left: 50%;
     transform: translateX(-50%);
-    width: 16px;
+    width: 18px;
     background: repeating-linear-gradient(
-      180deg,
+      to bottom,
       transparent 0px,
-      transparent 4px,
-      rgba(192,57,43,0.12) 4px,
-      rgba(192,57,43,0.12) 10px,
-      transparent 10px,
-      transparent 14px
+      transparent 6px,
+      rgba(0,0,0,0.04) 6px,
+      rgba(0,0,0,0.04) 12px,
+      transparent 12px,
+      transparent 18px
     );
-    border-radius: 1px;
   }
 
   /* CONTROLS & BOTTOM BAR */
@@ -551,8 +562,12 @@
       height: 460px;
       border: none !important;
     }
+    .page-left {
+      padding-right: 0 !important;
+    }
     .page-right {
       display: none;
+      padding-left: 0 !important;
     }
     .book-spread.show-right-only .page-left {
       display: none;
@@ -610,7 +625,7 @@
 <div class="workspace">
   
   <div class="book-viewport" id="bookViewport">
-    <div class="book-spread" id="bookSpread">
+    <div class="book-spread book-container" id="bookSpread">
       
       <!-- COVER TEMPLATE -->
       <div class="cover-spread" id="coverContainer">
@@ -717,242 +732,292 @@ document.addEventListener('click', function(e) {
 </script>
 
 <script>
-(function() {
-  var LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  var WORDS = {A:'Amazing',B:'Bewitching',C:'Captivating',D:'Divine',E:'Enchanting',F:'Fascinating',G:'Glorious',H:'Harmonious',I:'Incredible',J:'Joyful',K:'Kinetic',L:'Luminous',M:'Magnificent',N:'Noble',O:'Outstanding',P:'Powerful',Q:'Quantum',R:'Radiant',S:'Spectacular',T:'Thrilling',U:'Universal',V:'Vibrant',W:'Wonderful',X:'Xenial',Y:'Youthful',Z:'Zealous'};
+var LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+var WORDS = {A:'Amazing',B:'Bewitching',C:'Captivating',D:'Divine',E:'Enchanting',F:'Fascinating',G:'Glorious',H:'Harmonious',I:'Incredible',J:'Joyful',K:'Kinetic',L:'Luminous',M:'Magnificent',N:'Noble',O:'Outstanding',P:'Powerful',Q:'Quantum',R:'Radiant',S:'Spectacular',T:'Thrilling',U:'Universal',V:'Vibrant',W:'Wonderful',X:'Xenial',Y:'Youthful',Z:'Zealous'};
 
-  var currentSpread = 0;
-  var currentPage = 0; // 0 = Cover, 1 = A, 2 = B ... 26 = Z
-  var totalSpreads = 14; 
-  var zoomLevel = 1.0;
-  var isAnimating = false;
+var currentSpread = 0;
+var currentPage = 0; // 0 = Cover, 1 = A, 2 = B ... 26 = Z
+var zoomLevel = 1.0;
+var isAnimating = false;
 
-  // BUILD INDEX HORIZONTAL PILLS
-  var idxContainer = document.getElementById('indexContainer');
+// BUILD INDEX HORIZONTAL PILLS
+var idxContainer = document.getElementById('indexContainer');
+
+var coverPill = document.createElement('button');
+coverPill.className = 'idx-pill index-letter active';
+coverPill.textContent = 'Cover';
+coverPill.setAttribute('data-letter', 'Cover');
+coverPill.setAttribute('id', 'idx-Cover');
+coverPill.addEventListener('click', function() { navigateToSpread(0, 0); });
+idxContainer.appendChild(coverPill);
+
+LETTERS.forEach(function(letter) {
+  var pill = document.createElement('button');
+  pill.className = 'idx-pill index-letter';
+  pill.textContent = letter;
+  pill.setAttribute('data-letter', letter);
+  pill.setAttribute('id', 'idx-' + letter);
+  pill.addEventListener('click', function() { goToLetter(letter); });
+  idxContainer.appendChild(pill);
+});
+
+function goToLetter(letter) {
+  var idx = LETTERS.indexOf(letter);
+  var targetPage = idx + 1; 
+  var targetSpread = Math.floor(idx / 2) + 1; 
+  navigateToSpread(targetSpread, targetPage);
+}
+
+function navigateToSpread(targetSpread, targetPageForce) {
+  if (isAnimating) return;
+  if (targetSpread === currentSpread && targetPageForce === undefined) return;
+
+  isAnimating = true;
+
+  var isNext = targetSpread > currentSpread;
+  var exitClass = isNext ? 'exit-left' : 'exit-right';
+
+  var spreadEl = document.getElementById('bookSpread');
   
-  var coverPill = document.createElement('button');
-  coverPill.className = 'idx-pill cover-pill active';
-  coverPill.textContent = 'Cover';
-  coverPill.setAttribute('data-letter', 'Cover');
-  coverPill.addEventListener('click', function() { navigateToSpread(0, 0); });
-  idxContainer.appendChild(coverPill);
+  // Phase 1: Exit slide out
+  spreadEl.classList.add(exitClass);
 
-  LETTERS.forEach(function(letter) {
-    var pill = document.createElement('button');
-    pill.className = 'idx-pill';
-    pill.textContent = letter;
-    pill.setAttribute('data-letter', letter);
-    pill.addEventListener('click', function() { goToLetter(letter); });
-    idxContainer.appendChild(pill);
-  });
-
-  function goToLetter(letter) {
-    var idx = LETTERS.indexOf(letter);
-    var targetPage = idx + 1; 
-    var targetSpread = Math.floor(idx / 2) + 1; 
-    navigateToSpread(targetSpread, targetPage);
-  }
-
-  function navigateToSpread(targetSpread, targetPageForce) {
-    if (isAnimating) return;
-    if (targetSpread === currentSpread && targetPageForce === undefined) return;
-
-    isAnimating = true;
-
-    // Determine swipe direction
-    var isNext = targetSpread > currentSpread;
-    var turnClass = isNext ? 'turning-left' : 'turning-right';
-
-    var spreadEl = document.getElementById('bookSpread');
-    spreadEl.classList.add(turnClass);
-
-    setTimeout(function() {
-      currentSpread = targetSpread;
-      if (targetPageForce !== undefined) {
-        currentPage = targetPageForce;
-      } else {
-        currentPage = (currentSpread === 0) ? 0 : (currentSpread - 1) * 2 + 1;
-      }
-
-      renderSpread();
-      spreadEl.classList.remove(turnClass);
-      isAnimating = false;
-    }, 400);
-  }
-
-  function renderSpread() {
-    var spreadEl = document.getElementById('bookSpread');
-    var leftPageEl = document.getElementById('leftPage');
-    var rightPageEl = document.getElementById('rightPage');
-    var coverContainerEl = document.getElementById('coverContainer');
-    var spineEl = document.getElementById('spine');
-
-    // Mobile display viewport matching
-    spreadEl.classList.remove('show-left-only', 'show-right-only');
-    if (currentPage > 0) {
-      if (currentPage % 2 !== 0) {
-        spreadEl.classList.add('show-left-only');
-      } else {
-        spreadEl.classList.add('show-right-only');
-      }
-    }
-
-    if (currentSpread === 0) {
-      leftPageEl.style.display = 'none';
-      rightPageEl.style.display = 'none';
-      coverContainerEl.style.display = 'flex';
-      spineEl.style.display = 'block';
-      document.getElementById('pageInfo').textContent = 'Cover';
+  setTimeout(function() {
+    // Phase 2: Update variables
+    currentSpread = targetSpread;
+    if (targetPageForce !== undefined) {
+      currentPage = targetPageForce;
     } else {
-      leftPageEl.style.display = 'flex';
-      rightPageEl.style.display = 'flex';
-      coverContainerEl.style.display = 'none';
-      spineEl.style.display = 'block';
-
-      var leftIdx = (currentSpread - 1) * 2;
-      var rightIdx = leftIdx + 1;
-
-      loadPageContent(leftPageEl, leftIdx);
-      loadPageContent(rightPageEl, rightIdx);
-
-      // Pagination matching viewport type
-      if (window.innerWidth <= 900) {
-        var activeLetter = LETTERS[currentPage - 1];
-        document.getElementById('pageInfo').textContent = activeLetter + ' · ' + currentPage + ' / 26';
-      } else {
-        var lLetter = LETTERS[leftIdx];
-        var rLetter = LETTERS[rightIdx];
-        document.getElementById('pageInfo').textContent = lLetter + ' + ' + rLetter + ' · Spread ' + currentSpread + ' / 13';
-      }
+      currentPage = (currentSpread === 0) ? 0 : (currentSpread - 1) * 2 + 1;
     }
 
-    document.getElementById('prevBtn').disabled = (window.innerWidth <= 900) ? (currentPage === 0) : (currentSpread === 0);
-    document.getElementById('nextBtn').disabled = (window.innerWidth <= 900) ? (currentPage >= 26) : (currentSpread >= 13);
+    renderSpread();
 
-    updateIndexButtons();
-  }
+    // Prepare enter from the opposite side
+    spreadEl.classList.remove(exitClass);
+    var enterClass = isNext ? 'exit-right' : 'exit-left';
+    spreadEl.classList.add(enterClass);
+    
+    // Force DOM reflow
+    spreadEl.offsetHeight;
 
-  function loadPageContent(pageEl, letterIdx) {
-    var letter = LETTERS[letterIdx];
-    var word = WORDS[letter] || '';
-    var src = 'Images/pictionary/' + letter + '1-pictionary.png';
+    // Phase 3: Slide back in
+    spreadEl.classList.remove(enterClass);
+    isAnimating = false;
+  }, 350);
+}
 
-    pageEl.innerHTML = '';
+function renderSpread() {
+  var spreadEl = document.getElementById('bookSpread');
+  var leftPageEl = document.getElementById('leftPage');
+  var rightPageEl = document.getElementById('rightPage');
+  var coverContainerEl = document.getElementById('coverContainer');
+  var spineEl = document.getElementById('spine');
 
-    var wrapper = document.createElement('div');
-    wrapper.className = 'image-wrapper';
-
-    var img = document.createElement('img');
-    img.src = src;
-    img.alt = letter + ' is for ' + word + ' Physics';
-    img.draggable = false;
-    img.setAttribute('oncontextmenu', 'return false');
-
-    var overlay = document.createElement('div');
-    overlay.className = 'image-overlay';
-
-    img.onerror = function() {
-      wrapper.innerHTML = `
-        <div class="coming-soon">
-          <div class="cs-letter">${letter}</div>
-          <div class="cs-title">${letter} is for ${word} Physics</div>
-          <div class="cs-subtitle">Infographic Coming Soon</div>
-        </div>
-      `;
-    };
-
-    wrapper.appendChild(img);
-    wrapper.appendChild(overlay);
-    pageEl.appendChild(wrapper);
-  }
-
-  function updateIndexButtons() {
-    var pills = document.querySelectorAll('.idx-pill');
-    pills.forEach(function(pill) {
-      var pillLetter = pill.getAttribute('data-letter');
-      if (pillLetter === 'Cover') {
-        pill.classList.toggle('active', currentSpread === 0);
-      } else {
-        if (window.innerWidth <= 900) {
-          var activeLetter = LETTERS[currentPage - 1];
-          pill.classList.toggle('active', pillLetter === activeLetter);
-        } else {
-          var leftIdx = (currentSpread - 1) * 2;
-          var rightIdx = leftIdx + 1;
-          var lLetter = LETTERS[leftIdx];
-          var rLetter = LETTERS[rightIdx];
-          pill.classList.toggle('active', pillLetter === lLetter || pillLetter === rLetter);
-        }
-      }
-    });
-
-    var activePill = document.querySelector('.idx-pill.active');
-    if (activePill && window.innerWidth <= 900) {
-      activePill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  // Mobile single page view classes
+  spreadEl.classList.remove('show-left-only', 'show-right-only');
+  if (currentPage > 0) {
+    if (currentPage % 2 !== 0) {
+      spreadEl.classList.add('show-left-only');
+    } else {
+      spreadEl.classList.add('show-right-only');
     }
   }
 
-  function flipForward() {
-    if (isAnimating) return;
+  if (currentSpread === 0) {
+    leftPageEl.style.display = 'none';
+    rightPageEl.style.display = 'none';
+    coverContainerEl.style.display = 'flex';
+    spineEl.style.display = 'block';
+    document.getElementById('pageInfo').textContent = 'Cover';
+  } else {
+    leftPageEl.style.display = 'flex';
+    rightPageEl.style.display = 'flex';
+    coverContainerEl.style.display = 'none';
+    spineEl.style.display = 'block';
+
+    var leftIdx = (currentSpread - 1) * 2;
+    var rightIdx = leftIdx + 1;
+
+    loadPageContent(leftPageEl, leftIdx);
+    loadPageContent(rightPageEl, rightIdx);
+
+    // Responsive pagination text
     if (window.innerWidth <= 900) {
-      if (currentPage >= 26) return;
-      var nextPage = currentPage + 1;
-      var nextSpread = Math.floor((nextPage - 1) / 2) + 1;
-      navigateToSpread(nextSpread, nextPage);
+      var activeLetter = LETTERS[currentPage - 1];
+      document.getElementById('pageInfo').textContent = activeLetter + ' · ' + currentPage + ' / 26';
     } else {
-      if (currentSpread >= 13) return;
-      navigateToSpread(currentSpread + 1);
+      var lLetter = LETTERS[leftIdx];
+      var rLetter = LETTERS[rightIdx];
+      document.getElementById('pageInfo').textContent = lLetter + ' + ' + rLetter + ' · Spread ' + currentSpread + ' / 13';
     }
   }
 
-  function flipBackward() {
-    if (isAnimating) return;
-    if (window.innerWidth <= 900) {
-      if (currentPage <= 0) return;
-      var prevPage = currentPage - 1;
-      var prevSpread = (prevPage === 0) ? 0 : Math.floor((prevPage - 1) / 2) + 1;
-      navigateToSpread(prevSpread, prevPage);
-    } else {
-      if (currentSpread <= 0) return;
-      navigateToSpread(currentSpread - 1);
-    }
-  }
+  // Update controls disabled state
+  document.getElementById('prevBtn').disabled = (window.innerWidth <= 900) ? (currentPage === 0) : (currentSpread === 0);
+  document.getElementById('nextBtn').disabled = (window.innerWidth <= 900) ? (currentPage >= 26) : (currentSpread >= 13);
 
-  window.adjustZoom = function(amount) {
-    zoomLevel = Math.max(0.6, Math.min(1.5, zoomLevel + amount));
-    var wrapper = document.getElementById('bookViewport');
-    wrapper.style.transform = 'scale(' + zoomLevel + ')';
-    document.getElementById('zoomVal').textContent = Math.round(zoomLevel * 100) + '%';
+  updateIndexHighlight();
+}
+
+function loadPageContent(pageEl, letterIdx) {
+  var letter = LETTERS[letterIdx];
+  var word = WORDS[letter] || '';
+  var src = 'Images/pictionary/' + letter + '1-pictionary.png';
+
+  pageEl.innerHTML = '';
+
+  var wrapper = document.createElement('div');
+  wrapper.className = 'image-wrapper';
+
+  var img = document.createElement('img');
+  img.src = src;
+  img.className = 'page-img';
+  img.alt = letter + ' is for ' + word + ' Physics';
+  img.draggable = false;
+  img.setAttribute('oncontextmenu', 'return false');
+
+  var overlay = document.createElement('div');
+  overlay.className = 'image-overlay';
+
+  img.onerror = function() {
+    wrapper.innerHTML = `
+      <div class="coming-soon">
+        <div class="cs-letter">${letter}</div>
+        <div class="cs-title">${letter} is for ${word} Physics</div>
+        <div class="cs-subtitle">Infographic Coming Soon</div>
+      </div>
+    `;
   };
 
-  // Keyboard navigation
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); flipForward(); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); flipBackward(); }
+  wrapper.appendChild(img);
+  wrapper.appendChild(overlay);
+  pageEl.appendChild(wrapper);
+}
+
+function updateIndexHighlight() {
+  document.querySelectorAll('.index-letter').forEach(function(btn) {
+    btn.classList.remove('active');
   });
 
-  // Swipe Support
-  var touchStartX = 0;
-  var spreadEl = document.getElementById('bookSpread');
-  spreadEl.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; }, { passive: true });
-  spreadEl.addEventListener('touchend', function(e) {
-    var dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 60) { dx < 0 ? flipForward() : flipBackward(); }
-  }, { passive: true });
+  if (currentSpread === 0) {
+    var cb = document.getElementById('idx-Cover');
+    if (cb) cb.classList.add('active');
+    return;
+  }
 
-  // Right-Click and drag protection
-  document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-  document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+  if (window.innerWidth <= 900) {
+    var activeLetter = LETTERS[currentPage - 1];
+    var activeBtn = document.getElementById('idx-' + activeLetter);
+    if (activeBtn) activeBtn.classList.add('active');
+  } else {
+    var leftIdx = (currentSpread - 1) * 2;
+    var rightIdx = leftIdx + 1;
+    var leftLetter = LETTERS[leftIdx];
+    var rightLetter = LETTERS[rightIdx];
+    
+    if (leftLetter) {
+      var lb = document.getElementById('idx-' + leftLetter);
+      if (lb) lb.classList.add('active');
+    }
+    if (rightLetter) {
+      var rb = document.getElementById('idx-' + rightLetter);
+      if (rb) rb.classList.add('active');
+    }
+  }
 
-  // Handle window resizing
-  window.addEventListener('resize', function() {
-    renderSpread();
-  });
+  // Smooth scroll highlighted index item into view on mobile
+  var activePill = document.querySelector('.idx-pill.active');
+  if (activePill && window.innerWidth <= 900) {
+    activePill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+}
 
-  // Init
+function flipForward() {
+  if (isAnimating) return;
+  if (window.innerWidth <= 900) {
+    if (currentPage >= 26) return;
+    var nextPage = currentPage + 1;
+    var nextSpread = Math.floor((nextPage - 1) / 2) + 1;
+    navigateToSpread(nextSpread, nextPage);
+  } else {
+    if (currentSpread >= 13) return;
+    navigateToSpread(currentSpread + 1);
+  }
+}
+
+function flipBackward() {
+  if (isAnimating) return;
+  if (window.innerWidth <= 900) {
+    if (currentPage <= 0) return;
+    var prevPage = currentPage - 1;
+    var prevSpread = (prevPage === 0) ? 0 : Math.floor((prevPage - 1) / 2) + 1;
+    navigateToSpread(prevSpread, prevPage);
+  } else {
+    if (currentSpread <= 0) return;
+    navigateToSpread(currentSpread - 1);
+  }
+}
+
+window.adjustZoom = function(amount) {
+  zoomLevel = Math.max(0.6, Math.min(1.5, zoomLevel + amount));
+  var wrapper = document.getElementById('bookViewport');
+  wrapper.style.transform = 'scale(' + zoomLevel + ')';
+  document.getElementById('zoomVal').textContent = Math.round(zoomLevel * 100) + '%';
+};
+
+function autoSizeBook() {
+  var bookEl = document.querySelector('.book-container');
+  if (!bookEl) return;
+
+  if (window.innerWidth <= 900) {
+    bookEl.style.width = '';
+    bookEl.style.height = '';
+    return;
+  }
+
+  var maxW = window.innerWidth - 40;
+  var maxH = window.innerHeight - 200; // room for top index and navbars
+  var spreadRatio = 2.6; // width / height
+  var w = maxW;
+  var h = w / spreadRatio;
+  if (h > maxH) {
+    h = maxH;
+    w = h * spreadRatio;
+  }
+  bookEl.style.width = w + 'px';
+  bookEl.style.height = h + 'px';
+}
+
+// Keyboard navigation listeners
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); flipForward(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); flipBackward(); }
+});
+
+// Touch swipe navigation
+var touchStartX = 0;
+var spreadEl = document.getElementById('bookSpread');
+spreadEl.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+spreadEl.addEventListener('touchend', function(e) {
+  var dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 60) { dx < 0 ? flipForward() : flipBackward(); }
+}, { passive: true });
+
+// Copy and save protection
+document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+
+// Layout updates on resize
+window.addEventListener('resize', function() {
+  autoSizeBook();
   renderSpread();
+});
 
-})();
+// Initialization
+autoSizeBook();
+renderSpread();
+
 </script>
 
 </body>
