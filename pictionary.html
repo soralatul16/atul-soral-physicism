@@ -880,6 +880,25 @@
     <button class="open-book-btn" onclick="openTheBook()">Open Book</button>
     <p class="open-hint">Click to open or press any letter above</p>
   </div>
+
+  <!-- END BOOK COVER — shown past Y+Z or clicking End Button -->
+  <div id="end-cover" class="closed-cover hidden" style="opacity:0;">
+    <div class="closed-book" onclick="closeBookToStart()">
+      <div class="closed-book-front">
+        <img src="images/pictionary/end-pictionary.png" alt="End — Atul Soral Physicism" class="cover-img"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="cover-fallback" style="display:none;">
+          <h2 style="font-family:'Playfair Display',serif;color:white;font-size:28px;">Thank You</h2>
+          <p style="color:rgba(255,255,255,0.6);font-style:italic;margin-top:8px;">Keep exploring, keep questioning.</p>
+          <div style="width:60px;height:1px;background:rgba(255,255,255,0.25);margin:16px auto;"></div>
+          <p style="color:rgba(255,255,255,0.3);font-size:10px;letter-spacing:3px;text-transform:uppercase;">Atul Soral Physicism</p>
+        </div>
+      </div>
+      <div class="closed-book-edge"></div>
+    </div>
+    <button class="open-book-btn" onclick="closeBookToStart()">Back to Cover</button>
+    <p class="open-hint">Click to return to the beginning</p>
+  </div>
   
   <div class="book-viewport" id="bookViewport">
     <div class="book-spread book-container spread-container" id="bookSpread">
@@ -1029,7 +1048,7 @@ var WORDS = {A:'Amazing',B:'Bewitching',C:'Captivating',D:'Divine',E:'Enchanting
 
 var currentSpread = 0;
 var currentPage = 0; // 0 = Cover, 1 = A, 2 = B ... 26 = Z
-var totalSpreads = 15; 
+var totalSpreads = 14; 
 var zoomLevel = 1.0;
 var isAnimating = false;
 var bookOpened = false;
@@ -1043,12 +1062,19 @@ coverPill.textContent = 'Cover';
 coverPill.setAttribute('data-letter', 'Cover');
 coverPill.setAttribute('id', 'idx-Cover');
 coverPill.addEventListener('click', function() { 
-  if (!bookOpened) {
-    openTheBook();
-    setTimeout(function() { navigateToSpread(0, 0); }, 700);
+  // If end cover is showing, close it
+  var endCover = document.getElementById('end-cover');
+  if (endCover && !endCover.classList.contains('hidden')) {
+    closeBookToStart();
     return;
   }
-  navigateToSpread(0, 0); 
+  if (bookOpened) {
+    currentSpread = 1;
+    renderSpread();
+    updateIndexHighlight();
+  } else {
+    openTheBook();
+  }
 });
 idxContainer.appendChild(coverPill);
 
@@ -1059,6 +1085,20 @@ LETTERS.forEach(function(letter) {
   pill.setAttribute('data-letter', letter);
   pill.setAttribute('id', 'idx-' + letter);
   pill.addEventListener('click', function() { 
+    // Make sure end cover is hidden if they jump
+    var endCover = document.getElementById('end-cover');
+    if (endCover && !endCover.classList.contains('hidden')) {
+      endCover.classList.add('hidden');
+      endCover.style.opacity = '0';
+      
+      var startCover = document.getElementById('closed-cover');
+      startCover.classList.add('hidden');
+      
+      var bookContainer = document.querySelector('.book-container');
+      bookContainer.style.display = '';
+      bookContainer.style.opacity = '';
+    }
+
     if (!bookOpened) {
       openTheBook();
       setTimeout(function() { goToLetter(letter); }, 700);
@@ -1076,18 +1116,8 @@ endBtn.textContent = '✦';
 endBtn.title = 'End Page';
 endBtn.id = 'idx-end';
 endBtn.addEventListener('click', function() {
-  if (!bookOpened) {
-    openTheBook();
-    setTimeout(function() {
-      currentSpread = totalSpreads - 1;
-      renderSpread();
-      updateIndexHighlight();
-    }, 700);
-    return;
-  }
-  currentSpread = totalSpreads - 1;
-  renderSpread();
-  updateIndexHighlight();
+  if (!bookOpened) return;
+  showEndCover();
 });
 idxContainer.appendChild(endBtn);
 
@@ -1119,8 +1149,68 @@ function openTheBook() {
   }, 600);
 }
 
-// Expose openTheBook globally
+// Global exposure for onclick handlers
 window.openTheBook = openTheBook;
+
+function showEndCover() {
+  if (isAnimating) return;
+  
+  // Hide open book viewport
+  var spreadEl = document.getElementById('bookSpread');
+  spreadEl.classList.remove('opened');
+  
+  // Hide control bars
+  document.querySelector('.controls-bar').classList.remove('opened');
+  document.querySelector('.tips').classList.remove('opened');
+
+  setTimeout(function() {
+    // Show the end cover (reuse the closed-cover structure)
+    var endCover = document.getElementById('end-cover');
+    endCover.classList.remove('hidden', 'opening');
+    // Force reflow
+    endCover.offsetHeight;
+    endCover.style.opacity = '1';
+    
+    updateIndexHighlight();
+  }, 500);
+}
+
+// Global exposure
+window.showEndCover = showEndCover;
+
+function closeBookToStart() {
+  var endCover = document.getElementById('end-cover');
+  endCover.style.opacity = '0';
+  endCover.classList.add('opening');
+  
+  setTimeout(function() {
+    endCover.classList.add('hidden');
+    endCover.classList.remove('opening');
+    // Reset to start
+    bookOpened = false;
+    currentSpread = 0;
+    currentPage = 0;
+    
+    var startCover = document.getElementById('closed-cover');
+    startCover.classList.remove('hidden', 'opening');
+    // Force reflow
+    startCover.offsetHeight;
+    startCover.style.opacity = '1';
+
+    var spreadEl = document.getElementById('bookSpread');
+    spreadEl.classList.remove('opened');
+    
+    // Make sure controls are hidden
+    document.querySelector('.controls-bar').classList.remove('opened');
+    document.querySelector('.tips').classList.remove('opened');
+    
+    renderSpread();
+    updateIndexHighlight();
+  }, 600);
+}
+
+// Global exposure
+window.closeBookToStart = closeBookToStart;
 
 function navigateToSpread(targetSpread, targetPageForce) {
   if (isAnimating) return;
@@ -1170,7 +1260,7 @@ function renderSpread() {
 
   // Mobile single page view classes
   spreadEl.classList.remove('show-left-only', 'show-right-only');
-  if (currentPage > 0 && currentSpread < totalSpreads - 1) {
+  if (currentPage > 0) {
     if (currentPage % 2 !== 0) {
       spreadEl.classList.add('show-left-only');
     } else {
@@ -1183,45 +1273,12 @@ function renderSpread() {
     rightPageEl.style.display = 'none';
     coverContainerEl.style.display = 'flex';
     spineEl.style.display = 'block';
-    leftPageEl.style.width = '';
-    leftPageEl.style.padding = '';
-    rightPageEl.style.width = '';
-    rightPageEl.style.padding = '';
     document.getElementById('pageInfo').textContent = 'Cover';
-  } else if (currentSpread === totalSpreads - 1) {
-    // END PAGE — full bleed image across both pages
-    if (spineEl) spineEl.style.display = 'none';
-    leftPageEl.innerHTML = '';
-    leftPageEl.style.display = 'none';
-    leftPageEl.style.width = '0';
-    leftPageEl.style.padding = '0';
-    
-    rightPageEl.style.display = 'flex';
-    rightPageEl.style.width = '100%';
-    rightPageEl.style.padding = '0';
-    coverContainerEl.style.display = 'none';
-
-    var endImg = document.createElement('img');
-    endImg.src = 'images/pictionary/end-pictionary.png';
-    endImg.alt = 'Thank you — Atul Soral Physicism';
-    endImg.className = 'page-img';
-    endImg.draggable = false;
-    endImg.setAttribute('oncontextmenu', 'return false');
-    endImg.onerror = function() {
-      rightPageEl.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:#f5f0e8;padding:40px;text-align:center;width:100%;"><h2 style="font-family:Playfair Display,serif;color:#c0392b;font-size:28px;">Thank You</h2><p style="color:#888;margin-top:12px;font-style:italic;">Keep exploring, keep questioning, keep understanding.</p><div style="width:60px;height:1px;background:rgba(192,57,43,0.2);margin:20px auto;"></div><p style="color:#aaa;font-size:11px;letter-spacing:2px;">ATUL SORAL PHYSICISM</p></div>';
-    };
-    rightPageEl.appendChild(endImg);
-    document.getElementById('pageInfo').textContent = 'END';
   } else {
     leftPageEl.style.display = 'flex';
     rightPageEl.style.display = 'flex';
     coverContainerEl.style.display = 'none';
     spineEl.style.display = 'block';
-
-    leftPageEl.style.width = '';
-    leftPageEl.style.padding = '';
-    rightPageEl.style.width = '';
-    rightPageEl.style.padding = '';
 
     var leftIdx = (currentSpread - 1) * 2;
     var rightIdx = leftIdx + 1;
@@ -1242,7 +1299,7 @@ function renderSpread() {
 
   // Update controls disabled state
   document.getElementById('prevBtn').disabled = (window.innerWidth <= 900) ? (currentPage === 0) : (currentSpread === 0);
-  document.getElementById('nextBtn').disabled = (window.innerWidth <= 900) ? (currentPage >= 26) : (currentSpread >= totalSpreads - 1);
+  document.getElementById('nextBtn').disabled = (window.innerWidth <= 900) ? (currentPage >= 26) : (currentSpread >= 13);
 
   updateIndexHighlight();
 }
@@ -1250,7 +1307,7 @@ function renderSpread() {
 function loadPageContent(pageEl, letterIdx) {
   var letter = LETTERS[letterIdx];
   var word = WORDS[letter] || '';
-  var src = 'Images/pictionary/' + letter + '1-pictionary.png';
+  var src = 'images/pictionary/' + letter + '1-pictionary.png';
 
   // Clear but keep or recreate page-turn-shadow!
   pageEl.innerHTML = '<div class="page-turn-shadow"></div>';
@@ -1290,17 +1347,22 @@ function updateIndexHighlight() {
     btn.classList.remove('active');
   });
 
-  if (!bookOpened) return;
+  var endCover = document.getElementById('end-cover');
+  if (endCover && !endCover.classList.contains('hidden')) {
+    var eb = document.getElementById('idx-end');
+    if (eb) eb.classList.add('active');
+    return;
+  }
 
-  if (currentSpread === 0) {
+  if (!bookOpened) {
     var cb = document.getElementById('idx-Cover');
     if (cb) cb.classList.add('active');
     return;
   }
 
-  if (currentSpread === totalSpreads - 1) {
-    var eb = document.getElementById('idx-end');
-    if (eb) eb.classList.add('active');
+  if (currentSpread === 0) {
+    var cb = document.getElementById('idx-Cover');
+    if (cb) cb.classList.add('active');
     return;
   }
 
@@ -1333,7 +1395,10 @@ function updateIndexHighlight() {
 
 function navigateForward() {
   if (isAnimating) return;
-  if (currentSpread >= totalSpreads - 1) return;
+  if (currentSpread >= 13) {
+    showEndCover();
+    return;
+  }
   
   isAnimating = true;
   var container = document.querySelector('.spread-container');
@@ -1376,7 +1441,10 @@ window.navigateBackward = navigateBackward;
 function flipForward() {
   if (isAnimating) return;
   if (window.innerWidth <= 900) {
-    if (currentPage >= 26) return;
+    if (currentPage >= 26) {
+      showEndCover();
+      return;
+    }
     isAnimating = true;
     var container = document.querySelector('.spread-container');
     container.classList.add('turning', 'turning-forward');
