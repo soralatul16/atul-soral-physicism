@@ -711,8 +711,12 @@ function gen(i){
   var btn=document.getElementById('g'+i);
   btn.disabled=true;btn.textContent='Generating...';
   out.innerHTML='<div class="loading">Generating '+SN[i]+'...</div>';
+
+  // Read custom instructions if available
   var customEl = document.getElementById('custom-prompt-' + i);
   var customInstructions = customEl ? customEl.value.trim() : '';
+
+  // Read graph description if available (for sections 10+)
   var graphDesc = '';
   var graphEl = document.getElementById('user-graph-desc');
   if (graphEl && graphEl.value.trim() && i >= 10) {
@@ -722,9 +726,12 @@ function gen(i){
       graphDesc += '\nCalculated intercept: ' + window._iaGraphIntercept.toFixed(6);
     }
   }
+
+  // Build full prompt with custom instructions and graph data
   var fullPrompt = gp(i, c);
   if (customInstructions) fullPrompt += '\n\nADDITIONAL TEACHER INSTRUCTIONS:\n' + customInstructions;
   if (graphDesc) fullPrompt += graphDesc;
+
   callAI(fullPrompt).then(function(result){
     if(!result){btn.disabled=false;btn.textContent='Generate '+SN[i];return;}
     result=result.replace(/```html/g,'').replace(/```/g,'').trim();
