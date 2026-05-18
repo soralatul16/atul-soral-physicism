@@ -390,33 +390,6 @@ checkApiKey();
 
 function gc(){return{subject:document.getElementById('ia-subject').value,level:document.getElementById('ia-level').value,topic:document.getElementById('ia-topic').value,subtopic:document.getElementById('ia-subtopic').value,draft:document.getElementById('ia-draft').value,tone:document.getElementById('ia-tone').value,rqVars:(document.getElementById('rq-vars')||{}).value||'',chosenRQ:(document.getElementById('intro-rq')||{}).value||'',ivCount:(document.getElementById('data-ivcount')||{}).value||'7',trials:(document.getElementById('data-trials')||{}).value||'3'};}
 
-function getPreviousContext(sectionIndex) {
-  var ctx = '';
-  var rq = document.getElementById('intro-rq');
-  if (rq && rq.value.trim()) {
-    ctx += 'MY CHOSEN RESEARCH QUESTION: "' + rq.value.trim() + '"\n\n';
-  }
-  var chains = {
-    1: [0], 2: [0, 1], 3: [0, 2], 4: [0, 2, 3], 5: [4], 6: [4, 5], 7: [4, 6],
-    8: [7], 9: [7, 8], 10: [9], 11: [9, 10], 12: [2, 9, 11], 13: [7, 9, 11, 12], 14: [2]
-  };
-  var deps = chains[sectionIndex] || [];
-  deps.forEach(function(depIdx) {
-    if (GEN[depIdx]) {
-      var tempDiv = document.createElement('div');
-      tempDiv.innerHTML = GEN[depIdx];
-      var textContent = tempDiv.textContent || tempDiv.innerText || '';
-      if (textContent.length > 1500) textContent = textContent.substring(0, 1500) + '...';
-      ctx += '=== PREVIOUSLY GENERATED: ' + SN[depIdx].toUpperCase() + ' ===\n' + textContent + '\n\n';
-    }
-  });
-  var userRawData = document.getElementById('user-raw-data');
-  if (userRawData && userRawData.value.trim() && sectionIndex >= 8) {
-    ctx += '=== MY ACTUAL RAW DATA (USE THESE EXACT VALUES) ===\n' + userRawData.value.trim() + '\n\n';
-  }
-  return ctx;
-}
-
 function generateGraphFromData() {
   var container = document.getElementById('auto-graph-container');
   container.style.display = 'block';
@@ -478,6 +451,33 @@ function generateGraphFromData() {
   ctx2d.fillText('Gradient = ' + gradient.toFixed(4) + ', Intercept = ' + intercept.toFixed(4), W / 2, pad.t - 10);
   window._iaGraphGradient = gradient;
   window._iaGraphIntercept = intercept;
+}
+
+function getPreviousContext(sectionIndex) {
+  var ctx = '';
+  var rq = document.getElementById('intro-rq');
+  if (rq && rq.value.trim()) {
+    ctx += 'MY CHOSEN RESEARCH QUESTION: "' + rq.value.trim() + '"\n\n';
+  }
+  var chains = {
+    1: [0], 2: [0, 1], 3: [0, 2], 4: [0, 2, 3], 5: [4], 6: [4, 5], 7: [4, 6],
+    8: [7], 9: [7, 8], 10: [9], 11: [9, 10], 12: [2, 9, 11], 13: [7, 9, 11, 12], 14: [2]
+  };
+  var deps = chains[sectionIndex] || [];
+  deps.forEach(function(depIdx) {
+    if (GEN[depIdx]) {
+      var tempDiv = document.createElement('div');
+      tempDiv.innerHTML = GEN[depIdx];
+      var textContent = tempDiv.textContent || tempDiv.innerText || '';
+      if (textContent.length > 1500) textContent = textContent.substring(0, 1500) + '...';
+      ctx += '=== PREVIOUSLY GENERATED: ' + SN[depIdx].toUpperCase() + ' ===\n' + textContent + '\n\n';
+    }
+  });
+  var userRawData = document.getElementById('user-raw-data');
+  if (userRawData && userRawData.value.trim() && sectionIndex >= 8) {
+    ctx += '=== MY ACTUAL RAW DATA (USE THESE EXACT VALUES) ===\n' + userRawData.value.trim() + '\n\n';
+  }
+  return ctx;
 }
 
 function gp(i, c) {
@@ -686,7 +686,7 @@ function gp(i, c) {
 
   ];
 
-  // CONTEXT CHAINING
+  // Context chaining — inject previous sections' data
   if (i > 0 && P[i]) {
     var prevCtx = getPreviousContext(i);
     if (prevCtx) {
