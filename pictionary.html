@@ -219,18 +219,26 @@
     background: var(--bg-paper);
     display: flex;
     flex-direction: column;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
   }
-  .page-left {
+  .left-page {
     border-right: 1px solid rgba(0,0,0,0.05);
     padding-right: 12px;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.04);
   }
-  .page-right {
+  .right-page {
     border-left: 1px solid rgba(0,0,0,0.05);
     padding-left: 12px;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.04);
   }
 
+  .left-page:hover { box-shadow: inset 6px 0 20px rgba(0,0,0,0.04), 2px 0 8px rgba(0,0,0,0.04); }
+  .right-page:hover { box-shadow: inset -6px 0 20px rgba(0,0,0,0.04), -2px 0 8px rgba(0,0,0,0.04); }
+
   /* Page Curl Shadow near Spine */
-  .page-left::after {
+  .left-page::after {
     content: '';
     position: absolute;
     top: 0; right: 0;
@@ -239,7 +247,7 @@
     pointer-events: none;
     z-index: 8;
   }
-  .page-right::after {
+  .right-page::after {
     content: '';
     position: absolute;
     top: 0; left: 0;
@@ -247,6 +255,65 @@
     background: linear-gradient(to right, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.01) 60%, transparent 100%);
     pointer-events: none;
     z-index: 8;
+  }
+
+  /* Page turn shadow overlay — shows during transition */
+  .page-turn-shadow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    z-index: 15;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  /* Shadow on right edge of left page when going forward */
+  .left-page .page-turn-shadow {
+    right: 0;
+    background: linear-gradient(to left,
+      rgba(0,0,0,0.15) 0%,
+      rgba(0,0,0,0.06) 30%,
+      transparent 100%
+    );
+  }
+
+  /* Shadow on left edge of right page when going backward */
+  .right-page .page-turn-shadow {
+    left: 0;
+    background: linear-gradient(to right,
+      rgba(0,0,0,0.15) 0%,
+      rgba(0,0,0,0.06) 30%,
+      transparent 100%
+    );
+  }
+
+  /* Active during page turn */
+  .turning .page-turn-shadow {
+    opacity: 1;
+  }
+
+  /* Page lift effect during transition */
+  .spread-container.turning-forward .right-page {
+    transform-origin: left center;
+    animation: pageLiftRight 0.5s ease-in-out;
+  }
+  .spread-container.turning-backward .left-page {
+    transform-origin: right center;
+    animation: pageLiftLeft 0.5s ease-in-out;
+  }
+
+  @keyframes pageLiftRight {
+    0% { transform: perspective(1200px) rotateY(0deg); box-shadow: 0 0 0 rgba(0,0,0,0); }
+    30% { transform: perspective(1200px) rotateY(-8deg); box-shadow: -10px 0 30px rgba(0,0,0,0.15); }
+    100% { transform: perspective(1200px) rotateY(0deg); box-shadow: 0 0 0 rgba(0,0,0,0); }
+  }
+
+  @keyframes pageLiftLeft {
+    0% { transform: perspective(1200px) rotateY(0deg); box-shadow: 0 0 0 rgba(0,0,0,0); }
+    30% { transform: perspective(1200px) rotateY(8deg); box-shadow: 10px 0 30px rgba(0,0,0,0.15); }
+    100% { transform: perspective(1200px) rotateY(0deg); box-shadow: 0 0 0 rgba(0,0,0,0); }
   }
 
   /* IMAGE HOLDER */
@@ -261,7 +328,7 @@
   .page img, .page-img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: fill; /* Stretches to completely cover the page area with zero margins/padding */
     display: block;
     background: var(--bg-paper);
   }
@@ -323,6 +390,7 @@
     padding: 60px;
     color: white;
     position: relative;
+    cursor: pointer;
   }
   .cover-left-side {
     background: linear-gradient(135deg, #c0392b 0%, #922b21 60%, #761c12 100%);
@@ -334,6 +402,9 @@
     border-radius: 0 4px 4px 0;
     padding-left: 20px;
   }
+  .cover-left-side:hover { box-shadow: inset 6px 0 20px rgba(0,0,0,0.04); }
+  .cover-right-side:hover { box-shadow: inset -6px 0 20px rgba(0,0,0,0.04); }
+
   .cover-half h2 {
     font-family: 'Playfair Display', serif;
     font-size: 46px;
@@ -534,6 +605,32 @@
     margin-top: 4px;
   }
 
+  /* FEEDBACK PANEL STYLING */
+  #fb-panel {
+    position: fixed;
+    bottom: 92px;
+    right: 28px;
+    z-index: 9000;
+    width: 310px;
+    background: #f5f0e8;
+    border: 1.5px solid rgba(0,0,0,0.06);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+    transform: translateY(20px) scale(.96);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .28s cubic-bezier(.22,.68,0,1.2), opacity .2s;
+  }
+  #fb-panel.open{
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: all;
+    z-index: 9500;
+  }
+  #fb-trigger.spinning{transform:rotate(90deg) scale(1.05);}
+  #fb-trigger:hover{transform:scale(1.12);box-shadow:0 6px 28px rgba(239,68,68,.7);}
+
   /* RESPONSIVE MOBILE MODIFICATIONS */
   @media (max-width: 900px) {
     body {
@@ -562,10 +659,10 @@
       height: 460px;
       border: none !important;
     }
-    .page-left {
+    .left-page {
       padding-right: 0 !important;
     }
-    .page-right {
+    .right-page {
       display: none;
       padding-left: 0 !important;
     }
@@ -625,17 +722,17 @@
 <div class="workspace">
   
   <div class="book-viewport" id="bookViewport">
-    <div class="book-spread book-container" id="bookSpread">
+    <div class="book-spread book-container spread-container" id="bookSpread">
       
       <!-- COVER TEMPLATE -->
       <div class="cover-spread" id="coverContainer">
-        <div class="cover-half cover-left-side">
+        <div class="cover-half cover-left-side left-page" onclick="flipBackward()">
           <h2>Physics Pictionary</h2>
           <h3>A to Z Glossary</h3>
           <div class="cover-line"></div>
           <div class="tag">Atul Soral Physicism</div>
         </div>
-        <div class="cover-half cover-right-side">
+        <div class="cover-half cover-right-side right-page" onclick="flipForward()">
           <h2 style="font-size:24px;">Explore Core Physics</h2>
           <p style="font-size:12px;opacity:0.8;text-align:center;line-height:1.6;max-width:320px;">Click any letter in the top bar to immediately flip to that concept's infographic revision poster.</p>
           <div class="cover-line"></div>
@@ -644,8 +741,12 @@
       </div>
 
       <!-- SPREAD PAGES -->
-      <div class="page page-left" id="leftPage" style="display:none;"></div>
-      <div class="page page-right" id="rightPage" style="display:none;"></div>
+      <div class="page left-page" id="leftPage" style="display:none;" onclick="flipBackward()">
+        <div class="page-turn-shadow"></div>
+      </div>
+      <div class="page right-page" id="rightPage" style="display:none;" onclick="flipForward()">
+        <div class="page-turn-shadow"></div>
+      </div>
 
       <!-- CENTER SPINE / SPIRAL BINDING -->
       <div class="spine" id="spine"></div>
@@ -676,9 +777,9 @@
 
 </div>
 
-<!-- FEEDBACK WIDGET -->
-<button id="fb-trigger" title="Send feedback or report an error" style="position:fixed;bottom:28px;right:28px;z-index:9000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#ef4444,#7f1d1d);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(239,68,68,.5);display:flex;align-items:center;justify-content:center;font-size:1.3rem;transition:transform .2s,box-shadow .2s;color:white;" onclick="document.getElementById('fb-panel').classList.toggle('open');this.classList.toggle('spinning');">💬</button>
-<div id="fb-panel" style="position:fixed;bottom:92px;right:28px;z-index:9000;width:310px;background:#f5f0e8;border:1.5px solid rgba(0,0,0,0.06);border-radius:20px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.1);transform:translateY(20px) scale(.96);opacity:0;pointer-events:none;transition:transform .28s cubic-bezier(.22,.68,0,1.2),opacity .2s;">
+<!-- FEEDBACK WIDGET HTML -->
+<button id="fb-trigger" title="Send feedback or report an error" style="position:fixed;bottom:28px;right:28px;z-index:9000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#ef4444,#7f1d1d);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(239,68,68,.5);display:flex;align-items:center;justify-content:center;font-size:1.3rem;transition:transform .2s,box-shadow .2s;color:white;">💬</button>
+<div id="fb-panel">
   <div style="background:linear-gradient(135deg,#ef4444,#7f1d1d);padding:13px 18px;font-family:'DM Sans',sans-serif;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:white;display:flex;align-items:center;gap:8px;">📬 Feedback / Correction</div>
   <div style="padding:16px;display:flex;flex-direction:column;gap:11px;">
     <div style="font-size:.7rem;color:#888;background:#f0ebe2;padding:5px 10px;border-radius:6px;word-break:break-all;" id="fb-page-url"></div>
@@ -688,45 +789,76 @@
     <div id="fb-status" style="font-size:.78rem;text-align:center;min-height:16px;color:#888;"></div>
   </div>
 </div>
-<style>
-#fb-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
-#fb-trigger.spinning{transform:rotate(90deg) scale(1.05);}
-#fb-trigger:hover{transform:scale(1.12);box-shadow:0 6px 28px rgba(239,68,68,.7);}
-</style>
+
+<!-- EmailJS SDK — must load BEFORE the feedback script -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <script>
+// Initialize EmailJS
+emailjs.init({ publicKey: 'jhfWQKIKtye-3eVpn' });
+
+// Set page URL display
 document.getElementById('fb-page-url').textContent = '📄 ' + window.location.pathname;
-emailjs.init({publicKey: 'jhfWQKIKtye-3eVpn'});
+
+// Feedback toggle
+var fbTrigger = document.getElementById('fb-trigger');
+var fbPanel = document.getElementById('fb-panel');
+
+fbTrigger.addEventListener('click', function(e) {
+  e.stopPropagation();
+  var isOpen = fbPanel.classList.toggle('open');
+  fbTrigger.textContent = isOpen ? '✕' : '💬';
+  if (isOpen) setTimeout(function() { document.getElementById('fb-message').focus(); }, 250);
+});
+
+document.addEventListener('click', function(e) {
+  if (!fbPanel.contains(e.target) && e.target !== fbTrigger) {
+    fbPanel.classList.remove('open');
+    fbTrigger.textContent = '💬';
+  }
+});
+
+// Send feedback
 document.getElementById('fb-send-btn').addEventListener('click', async function() {
   var msg = document.getElementById('fb-message').value.trim();
   var email = document.getElementById('fb-email').value.trim();
   var status = document.getElementById('fb-status');
-  var btn = this;
-  if (!msg) { status.textContent = 'Please write something first.'; status.style.color = '#c0392b'; return; }
-  btn.disabled = true; btn.textContent = 'Sending…';
+  var btn = document.getElementById('fb-send-btn');
+
+  if (!msg) {
+    status.textContent = 'Please write something first.';
+    status.style.color = '#c0392b';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  status.textContent = '';
+
   try {
     await emailjs.send('service_ni72akl', 'template_xr522or', {
-      page: window.location.href, message: msg,
+      page: window.location.href,
+      message: msg,
       email: email || '(not provided)',
-      sent_at: new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'})
+      sent_at: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
     });
-    status.textContent = '✓ Sent! Thank you.'; status.style.color = '#2e7d32';
+    status.textContent = '✓ Sent! Thank you.';
+    status.style.color = '#2e7d32';
     document.getElementById('fb-message').value = '';
+    document.getElementById('fb-email').value = '';
     setTimeout(function() {
-      document.getElementById('fb-panel').classList.remove('open');
-      document.getElementById('fb-trigger').classList.remove('spinning');
-      btn.disabled = false; btn.textContent = 'Send Feedback';
+      fbPanel.classList.remove('open');
+      fbTrigger.textContent = '💬';
+      btn.disabled = false;
+      btn.textContent = 'Send Feedback';
       status.textContent = '';
     }, 2200);
   } catch(err) {
-    status.textContent = '❌ Could not send.'; status.style.color = '#c0392b';
-    btn.disabled = false; btn.textContent = 'Send Feedback';
-  }
-});
-document.addEventListener('click', function(e) {
-  if (!document.getElementById('fb-panel').contains(e.target) && e.target !== document.getElementById('fb-trigger')) {
-    document.getElementById('fb-panel').classList.remove('open');
-    document.getElementById('fb-trigger').classList.remove('spinning');
+    console.error('Feedback error:', err);
+    status.textContent = '❌ Could not send. Check console.';
+    status.style.color = '#c0392b';
+    btn.disabled = false;
+    btn.textContent = 'Send Feedback';
   }
 });
 </script>
@@ -737,6 +869,7 @@ var WORDS = {A:'Amazing',B:'Bewitching',C:'Captivating',D:'Divine',E:'Enchanting
 
 var currentSpread = 0;
 var currentPage = 0; // 0 = Cover, 1 = A, 2 = B ... 26 = Z
+var totalSpreads = 14; 
 var zoomLevel = 1.0;
 var isAnimating = false;
 
@@ -865,10 +998,13 @@ function loadPageContent(pageEl, letterIdx) {
   var word = WORDS[letter] || '';
   var src = 'Images/pictionary/' + letter + '1-pictionary.png';
 
-  pageEl.innerHTML = '';
+  // Clear but keep or recreate page-turn-shadow!
+  pageEl.innerHTML = '<div class="page-turn-shadow"></div>';
 
   var wrapper = document.createElement('div');
   wrapper.className = 'image-wrapper';
+  wrapper.style.width = '100%';
+  wrapper.style.height = '100%';
 
   var img = document.createElement('img');
   img.src = src;
@@ -933,31 +1069,91 @@ function updateIndexHighlight() {
   }
 }
 
+function navigateForward() {
+  if (isAnimating) return;
+  if (currentSpread >= totalSpreads - 1) return;
+  
+  isAnimating = true;
+  var container = document.querySelector('.spread-container');
+  container.classList.add('turning', 'turning-forward');
+  
+  setTimeout(function() {
+    currentSpread++;
+    currentPage = (currentSpread === 0) ? 0 : (currentSpread - 1) * 2 + 1;
+
+    renderSpread();
+    container.classList.remove('turning', 'turning-forward');
+    isAnimating = false;
+  }, 450);
+}
+
+// Global exposure for onclick handlers
+window.navigateForward = navigateForward;
+
+function navigateBackward() {
+  if (isAnimating) return;
+  if (currentSpread <= 0) return;
+  
+  isAnimating = true;
+  var container = document.querySelector('.spread-container');
+  container.classList.add('turning', 'turning-backward');
+  
+  setTimeout(function() {
+    currentSpread--;
+    currentPage = (currentSpread === 0) ? 0 : (currentSpread - 1) * 2 + 1;
+
+    renderSpread();
+    container.classList.remove('turning', 'turning-backward');
+    isAnimating = false;
+  }, 450);
+}
+
+// Global exposure for onclick handlers
+window.navigateBackward = navigateBackward;
+
 function flipForward() {
   if (isAnimating) return;
   if (window.innerWidth <= 900) {
     if (currentPage >= 26) return;
-    var nextPage = currentPage + 1;
-    var nextSpread = Math.floor((nextPage - 1) / 2) + 1;
-    navigateToSpread(nextSpread, nextPage);
+    isAnimating = true;
+    var container = document.querySelector('.spread-container');
+    container.classList.add('turning', 'turning-forward');
+    setTimeout(function() {
+      currentPage++;
+      currentSpread = Math.floor((currentPage - 1) / 2) + 1;
+      renderSpread();
+      container.classList.remove('turning', 'turning-forward');
+      isAnimating = false;
+    }, 450);
   } else {
-    if (currentSpread >= 13) return;
-    navigateToSpread(currentSpread + 1);
+    navigateForward();
   }
 }
+
+// Global exposure for onclick handlers
+window.flipForward = flipForward;
 
 function flipBackward() {
   if (isAnimating) return;
   if (window.innerWidth <= 900) {
     if (currentPage <= 0) return;
-    var prevPage = currentPage - 1;
-    var prevSpread = (prevPage === 0) ? 0 : Math.floor((prevPage - 1) / 2) + 1;
-    navigateToSpread(prevSpread, prevPage);
+    isAnimating = true;
+    var container = document.querySelector('.spread-container');
+    container.classList.add('turning', 'turning-backward');
+    setTimeout(function() {
+      currentPage--;
+      currentSpread = (currentPage === 0) ? 0 : Math.floor((currentPage - 1) / 2) + 1;
+      renderSpread();
+      container.classList.remove('turning', 'turning-backward');
+      isAnimating = false;
+    }, 450);
   } else {
-    if (currentSpread <= 0) return;
-    navigateToSpread(currentSpread - 1);
+    navigateBackward();
   }
 }
+
+// Global exposure for onclick handlers
+window.flipBackward = flipBackward;
 
 window.adjustZoom = function(amount) {
   zoomLevel = Math.max(0.6, Math.min(1.5, zoomLevel + amount));
