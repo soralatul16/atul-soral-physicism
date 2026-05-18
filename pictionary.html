@@ -875,50 +875,91 @@
 
   /* RESPONSIVE MOBILE MODIFICATIONS */
   @media (max-width: 900px) {
-    body {
-      overflow-y: auto;
+    /* On mobile: show only ONE page at a time, full width */
+    .left-page { display: none !important; }
+    .spine { display: none !important; }
+    
+    .right-page {
+      width: 100% !important;
+      height: auto !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border-radius: 8px !important;
+      overflow: visible !important;
+      display: flex !important; /* Make sure right page is visible! */
     }
-    .workspace {
-      padding: 12px;
-      justify-content: flex-start;
-      overflow-y: auto;
-    }
-    .book-viewport {
-      height: auto;
-      align-items: flex-start;
-      transform: none !important;
-    }
-    .book-spread {
-      flex-direction: column;
-      width: 100%;
-      height: auto;
-      min-height: 480px;
+    
+    /* Let the book fill the width and the image dictate the height */
+    .book-spread, .book-container {
+      width: 95vw !important;
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      min-height: auto !important;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       border-radius: 6px;
+      flex-direction: column;
     }
-    .page {
-      width: 100%;
-      height: 460px;
-      border: none !important;
+    
+    /* Image should be full width, natural height — NOT squeezed */
+    .page-img {
+      width: 100% !important;
+      height: auto !important;
+      object-fit: contain !important;
     }
-    .left-page {
-      padding-right: 0 !important;
+    
+    .image-wrapper {
+      width: 100% !important;
+      height: auto !important;
+      display: block !important;
     }
-    .right-page {
+    
+    /* Allow the page to scroll vertically to see full image */
+    .workspace, body {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      height: auto !important;
+      min-height: 100vh;
+    }
+    
+    /* Compact nav */
+    .navbar { padding: 0 10px; height: 44px; flex-wrap: wrap; }
+    .navbar-title { font-size: 11px; }
+    .nav-btn { font-size: 10px; padding: 4px 8px; }
+    
+    /* Letter index horizontal scroll */
+    .index-bar {
+      overflow-x: auto !important;
+      flex-wrap: nowrap !important;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 4px 8px;
+      gap: 3px;
+      height: 40px !important;
+      justify-content: flex-start !important;
+    }
+    .index-bar::-webkit-scrollbar { display: none; }
+    .index-container {
+      flex-wrap: nowrap !important;
+      gap: 3px !important;
+    }
+    .idx-pill {
+      min-width: 26px;
+      height: 26px;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+    .idx-pill.cover-pill {
+      width: 48px;
+    }
+    
+    /* Bottom controls */
+    .controls-bar { margin-top: 8px; gap: 10px; height: 50px !important; }
+
+    .zoom-container {
       display: none;
-      padding-left: 0 !important;
-      margin-left: 0 !important;
     }
-    .book-spread.show-right-only .page-left {
-      display: none;
-    }
-    .book-spread.show-right-only .page-right {
-      display: flex;
-      width: 100%;
-    }
-    .spine {
-      display: none;
-    }
+
     .cover-spread {
       flex-direction: column;
     }
@@ -926,22 +967,28 @@
       padding: 30px;
       height: auto;
       min-height: 230px;
+      width: 100% !important;
     }
     .cover-half .tag {
       position: static;
       margin-top: 24px;
     }
-    .index-bar {
-      justify-content: flex-start;
-      padding: 0 12px;
+
+    /* Keep closed covers responsive and beautiful */
+    .closed-cover {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      padding: 12px;
     }
-    .controls-bar {
-      margin-top: 16px;
-      width: 100%;
-      padding: 0 12px;
-    }
-    .zoom-container {
-      display: none;
+    .closed-book {
+      width: 95vw !important;
+      height: auto !important;
+      aspect-ratio: 1.5 / 1 !important;
     }
   }
 </style>
@@ -1248,6 +1295,7 @@ function openTheBook() {
   setTimeout(function() {
     cover.classList.add('hidden');
     currentSpread = 1; // Opens to Spread 1 (A+B) as requested
+    currentPage = 1;   // Initialize active letter to A (1) on opening
     renderSpread();
     updateIndexHighlight();
   }, 600);
@@ -1379,16 +1427,30 @@ function renderSpread() {
     spineEl.style.display = 'block';
     document.getElementById('pageInfo').textContent = 'Cover';
   } else {
-    leftPageEl.style.display = 'flex';
-    rightPageEl.style.display = 'flex';
-    coverContainerEl.style.display = 'none';
-    spineEl.style.display = 'block';
+    if (currentPage === 0) {
+      currentPage = 1;
+    }
+    if (window.innerWidth <= 900) {
+      leftPageEl.style.display = 'none';
+      rightPageEl.style.display = 'flex';
+      coverContainerEl.style.display = 'none';
+      spineEl.style.display = 'none';
 
-    var leftIdx = (currentSpread - 1) * 2;
-    var rightIdx = leftIdx + 1;
+      var mobileIdx = currentPage - 1;
+      if (mobileIdx < 0) mobileIdx = 0;
+      loadPageContent(rightPageEl, mobileIdx);
+    } else {
+      leftPageEl.style.display = 'flex';
+      rightPageEl.style.display = 'flex';
+      coverContainerEl.style.display = 'none';
+      spineEl.style.display = 'block';
 
-    loadPageContent(leftPageEl, leftIdx);
-    loadPageContent(rightPageEl, rightIdx);
+      var leftIdx = (currentSpread - 1) * 2;
+      var rightIdx = leftIdx + 1;
+
+      loadPageContent(leftPageEl, leftIdx);
+      loadPageContent(rightPageEl, rightIdx);
+    }
 
     // Responsive pagination text
     if (window.innerWidth <= 900) {
