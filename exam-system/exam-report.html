@@ -186,24 +186,89 @@ body {
   <div id="reportBody"><p style="color:var(--text2);text-align:center;padding:60px;">Loading report…</p></div>
 </div>
 
+<!-- Firebase Compat SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js?v=2"></script>
 <script src="exam-storage.js"></script>
 <script>
 /* ═══════════════════════════════════════════════════
    STUDENT REPORT — Polished view with charts
    Opens via: exam-report.html?id=ATTEMPT_ID
-═══════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════ */
 
-window.addEventListener("DOMContentLoaded", () => {
+let currentAttempt = null;
+let currentQuestionSet = null;
+
+window.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const attemptId = params.get("id");
   if (!attemptId) { document.getElementById("reportBody").innerHTML = '<p style="color:var(--text2);text-align:center;padding:60px;">No attempt ID provided.</p>'; return; }
 
-  const attempts = getAttempts();
-  const a = attempts.find(x => x.id === attemptId);
-  if (!a) { document.getElementById("reportBody").innerHTML = '<p style="color:var(--text2);text-align:center;padding:60px;">Attempt not found.</p>'; return; }
+  document.getElementById("reportBody").innerHTML = '<p style="color:var(--text2);text-align:center;padding:60px;">Loading report from cloud...</p>';
 
-  const library = getLibrary();
-  const set = library.find(s => s.id === a.setId);
+  let a = null;
+  let set = null;
+
+  try {
+    if (window.db) {
+      const doc = await db.collection("attempts").doc(attemptId).get();
+      if (doc.exists) {
+        a = doc.data();
+        a.id = doc.id;
+      }
+    }
+  } catch (err) {
+    console.error("Firestore attempt load error:", err);
+  }
+
+  if (!a) {
+    const attempts = getAttempts();
+    a = attempts.find(x => x.id === attemptId);
+  }
+
+  if (!a) {
+    document.getElementById("reportBody").innerHTML = '<p style="color:var(--text2);text-align:center;padding:60px;">Attempt not found.</p>';
+    return;
+  }
+
+  try {
+    if (window.db && a.setId) {
+      const doc = await db.collection("questionSets").doc(a.setId).get();
+      if (doc.exists) {
+        const rawSet = doc.data();
+        if (rawSet.dataJson) {
+          try {
+            set = JSON.parse(rawSet.dataJson);
+            set._docId = doc.id;
+          } catch (e) {
+            console.error("Error parsing question set JSON:", e);
+          }
+        }
+        if (!set) {
+          if (rawSet.blocksJson) {
+            try { rawSet.blocks = JSON.parse(rawSet.blocksJson); } catch(e) { rawSet.blocks = []; }
+          }
+          if (rawSet.sectionsJson) {
+            try { rawSet.sections = JSON.parse(rawSet.sectionsJson); } catch(e) { rawSet.sections = []; }
+          }
+          set = rawSet;
+        }
+      }
+    }
+  } catch (err) {
+    console.error("Firestore question set load error:", err);
+  }
+
+  if (!set) {
+    const library = getLibrary();
+    set = library.find(s => s.id === a.setId);
+  }
+
+  currentAttempt = a;
+  currentQuestionSet = set;
+
   const qBlocks = set ? (set.blocks || []).filter(b => b.saved && b.mode === "question") : [];
   const savedSections = set?.sections || [{ id: 1, name: "Section 1" }];
   const isGraded = a.gradingStatus === "graded";
@@ -490,14 +555,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
 /* ── PDF Download ── */
 function downloadPDF() {
-  const params = new URLSearchParams(window.location.search);
-  const attemptId = params.get("id");
-  const attempts = getAttempts();
-  const a = attempts.find(x => x.id === attemptId);
-  if (!a) { alert("Attempt not found."); return; }
+  const a = currentAttempt;
+  const set = currentQuestionSet;
+  if (!a) { alert("Attempt not loaded yet. Please wait."); return; }
 
-  const library = getLibrary();
-  const set = library.find(s => s.id === a.setId);
   const qBlocks = set ? (set.blocks || []).filter(b => b.saved && b.mode === "question") : [];
 
   try {

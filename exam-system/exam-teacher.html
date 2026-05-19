@@ -930,6 +930,20 @@ body::after {
         </tbody>
       </table>
     </div>
+    
+    <!-- 🔧 Cloud Database Diagnostics -->
+    <div style="margin-top:20px;padding:15px;background:var(--cream-deep);border:1.5px dashed var(--border);border-radius:12px;">
+      <h4 style="margin:0 0 10px 0;font-size:13px;text-transform:uppercase;color:var(--text2);letter-spacing:0.5px;display:flex;align-items:center;gap:6px;">🔧 Cloud Database Diagnostics</h4>
+      <div style="font-size:12px;color:var(--text);line-height:1.6;display:grid;grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));gap:10px;margin-bottom:10px;">
+        <div style="background:var(--white);padding:8px 12px;border-radius:8px;border:1px solid var(--border);"><strong>Connected Project:</strong> <span id="diagProject">Loading...</span></div>
+        <div style="background:var(--white);padding:8px 12px;border-radius:8px;border:1px solid var(--border);"><strong>Your Account:</strong> <span id="diagUser">Loading...</span></div>
+        <div style="background:var(--white);padding:8px 12px;border-radius:8px;border:1px solid var(--border);"><strong>Students Collection:</strong> <span id="diagStudentsCount">Loading...</span></div>
+        <div style="background:var(--white);padding:8px 12px;border-radius:8px;border:1px solid var(--border);"><strong>Attempts Collection:</strong> <span id="diagAttemptsCount">Loading...</span></div>
+        <div style="background:var(--white);padding:8px 12px;border-radius:8px;border:1px solid var(--border);"><strong>Teachers Collection:</strong> <span id="diagTeachersCount">Loading...</span></div>
+      </div>
+      <div id="diagError" style="color:var(--accent);background:var(--red-pale);padding:10px 12px;border-radius:8px;border:1px solid var(--border);margin-bottom:10px;font-weight:600;font-size:12px;display:none;word-break:break-all;"></div>
+      <button onclick="runDiag()" class="btn-sm" style="background:var(--accent);color:white;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;">🔄 Run Diagnostic Scan</button>
+    </div>
   </div>
 
 </div>
@@ -1253,9 +1267,17 @@ async function openUsers() {
     return;
   }
   
+  // Auto-run diagnostics to check Firestore health
+  runDiag().catch(() => {});
+  
   try {
-    const snap = await db.collection('students').orderBy('createdAt', 'desc').get();
+    const snap = await db.collection('students').get();
     allUsersCache = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    allUsersCache.sort((a, b) => {
+      const timeA = a.createdAt && typeof a.createdAt.toDate === 'function' ? a.createdAt.toDate().getTime() : (a.createdAt || 0);
+      const timeB = b.createdAt && typeof b.createdAt.toDate === 'function' ? b.createdAt.toDate().getTime() : (b.createdAt || 0);
+      return timeB - timeA;
+    });
     renderUsersList();
   } catch (err) {
     console.error('Error fetching users:', err);
@@ -1785,6 +1807,55 @@ document.getElementById("fb-send-btn").addEventListener("click", async () => {
     btn.disabled = false; btn.textContent = "Send Feedback";
   }
 });
+
+async function runDiag() {
+  if (typeof firebaseConfig === 'undefined') return;
+  document.getElementById('diagProject').textContent = firebaseConfig.projectId;
+  const user = auth.currentUser;
+  document.getElementById('diagUser').textContent = user ? `${user.email} (${user.uid})` : 'Not logged in';
+  
+  document.getElementById('diagStudentsCount').textContent = 'Scanning...';
+  document.getElementById('diagAttemptsCount').textContent = 'Scanning...';
+  document.getElementById('diagTeachersCount').textContent = 'Scanning...';
+  
+  const errDiv = document.getElementById('diagError');
+  errDiv.style.display = 'none';
+  errDiv.textContent = '';
+  
+  let errors = [];
+  
+  try {
+    const snap = await db.collection('students').get();
+    document.getElementById('diagStudentsCount').textContent = `${snap.docs.length} docs`;
+  } catch (e) {
+    console.error("Diag: students count failed", e);
+    document.getElementById('diagStudentsCount').textContent = 'Error';
+    errors.push(`students: ${e.message}`);
+  }
+  
+  try {
+    const snap = await db.collection('attempts').get();
+    document.getElementById('diagAttemptsCount').textContent = `${snap.docs.length} docs`;
+  } catch (e) {
+    console.error("Diag: attempts count failed", e);
+    document.getElementById('diagAttemptsCount').textContent = 'Error';
+    errors.push(`attempts: ${e.message}`);
+  }
+  
+  try {
+    const snap = await db.collection('teachers').get();
+    document.getElementById('diagTeachersCount').textContent = `${snap.docs.length} docs`;
+  } catch (e) {
+    console.error("Diag: teachers count failed", e);
+    document.getElementById('diagTeachersCount').textContent = 'Error';
+    errors.push(`teachers: ${e.message}`);
+  }
+  
+  if (errors.length > 0) {
+    errDiv.innerHTML = `⚠️ <strong>Database Warnings/Errors:</strong><br>${errors.join('<br>')}`;
+    errDiv.style.display = 'block';
+  }
+}
 </script>
 
 <!-- EmailJS SDK -->
