@@ -20,5 +20,7 @@ if (!firebase.apps.length) {
 // Global references
 const auth = firebase.auth();
 const db   = firebase.firestore();
+window.auth = auth;
+window.db   = db;
 
 console.log('🔥 Firebase initialized — project:', firebaseConfig.projectId);

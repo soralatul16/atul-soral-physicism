@@ -532,7 +532,7 @@ function downloadPDF() {
       if (a.grades && a.grades[i] !== undefined) scored = Number(a.grades[i]);
       else {
         if (q.type === "True / False" && q.ui?.tfAnswer && a.answers?.[i] === q.ui.tfAnswer) scored = marks;
-        else if (q.type === "MCQ" && q.data?.correct !== null && a.answers?.[i] === q.data.correct) scored = marks;
+        else if (q.type === "MCQ" && q.data?.correct !== null && q.data?.correct !== undefined && a.answers?.[i] === q.data.correct) scored = marks;
       }
       if (cm2[k]) { cm2[k].s += scored; cm2[k].t += marks; }
     });
@@ -564,8 +564,28 @@ function downloadPDF() {
       const lines = doc.splitTextToSize(qText, 165);
       doc.text(lines, 20, y); y += lines.length * 5 + 2;
       const ans = a.answers?.[i];
-      const disp = Array.isArray(ans) ? ans.map(n => String.fromCharCode(65 + n)).join(", ") :
-        typeof ans === "number" ? String.fromCharCode(65 + ans) : (ans || "(Not answered)");
+      let disp = "(Not answered)";
+      if (ans !== undefined && ans !== null && ans !== '') {
+        if (typeof ans === 'string' && ans.startsWith('data:image')) {
+          disp = '[Drawing]';
+        } else if (Array.isArray(ans)) {
+          disp = ans.map(n => typeof n === 'number' ? String.fromCharCode(65 + n) : String(n)).join(', ');
+        } else if (typeof ans === 'number') {
+          disp = String.fromCharCode(65 + ans);
+        } else if (typeof ans === 'object') {
+          let parts = [];
+          Object.entries(ans).forEach(([k, v]) => {
+            if (typeof v === 'object' && v !== null) {
+              Object.values(v).forEach(x => { if (x) parts.push(String(x)); });
+            } else if (v) {
+              parts.push(String(v));
+            }
+          });
+          disp = parts.join(', ') || '(Answered)';
+        } else {
+          disp = String(ans);
+        }
+      }
       doc.setFont("helvetica", "italic");
       doc.text("Answer: " + disp.substring(0, 120), 20, y); y += 5;
       if (a.teacherFeedback?.[i]) {
