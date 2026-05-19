@@ -62,18 +62,24 @@ function resetGeminiKey() {
 
 /* ── Total Marks Calculator ── */
 function updateGenTotalMarks() {
-  let total = 0;
-  document.querySelectorAll('.gen-type-row').forEach(row => {
-    const cb = row.querySelector('.gen-type-cb');
-    const count = row.querySelector('.gen-type-count');
-    const marks = row.querySelector('.gen-type-marks');
-    if (cb && cb.checked && count && marks) {
-      total += Number(count.value || 0) * Number(marks.value || 0);
+  var total = 0;
+  document.querySelectorAll('.gen-type-row').forEach(function(row) {
+    var cb = row.querySelector('.gen-type-cb');
+    var countEl = row.querySelector('.gen-type-count');
+    var marksEl = row.querySelector('.gen-type-marks');
+    if (cb && cb.checked && marksEl) {
+      var marksVal = marksEl.value || '0';
+      if (marksVal.indexOf(',') !== -1) {
+        var parts = marksVal.split(',');
+        parts.forEach(function(p) { total += Number(p.trim()) || 0; });
+      } else {
+        total += Number(countEl.value || 0) * Number(marksVal || 0);
+      }
     }
   });
-  const el = document.getElementById('shared-total-marks');
+  var el = document.getElementById('shared-total-marks');
   if (el) el.value = total;
-  const genTotal = document.getElementById('gen-total-marks');
+  var genTotal = document.getElementById('gen-total-marks');
   if (genTotal) genTotal.value = total;
 }
 
@@ -294,11 +300,18 @@ VISUALS: Include at least 1 image block. Format: {"mode":"content","type":"Image
 ${taskStructure}
 
 ═══ QUESTION MIX ═══
-${config.questions.map(q => '- '+q.count+'× '+q.type+' ('+q.marks+' marks each)').join('\n')}
+${config.questions.map(function(q) {
+  if (q.marksList && q.marksList.length > 0) {
+    return q.marksList.map(function(m) {
+      return '- 1× ' + q.type + ' (' + m + ' marks)';
+    }).join('\n');
+  }
+  return '- ' + q.count + '× ' + q.type + ' (' + q.marks + ' marks each)';
+}).join('\n')}
 
 ═══ OUTPUT: VALID JSON ONLY ═══
 {
-  "heading":"string","sections":[{"id":1,"name":"Section 1"}],
+  "heading":"string","sections":[{"id":1,"name":"Section 1"},{"id":2,"name":"Section 2"},{"id":3,"name":"Section 3"}],
   "blocks":[
     {"mode":"content","type":"Text","sectionId":1,"data":{"text":"HTML stimulus"}},
     {"mode":"content","type":"Image","sectionId":1,"data":{"url":"./Images/file.png","caption":"Figure 1: desc"}},
@@ -312,7 +325,7 @@ ${config.questions.map(q => '- '+q.count+'× '+q.type+' ('+q.marks+' marks each)
   ]
 }
 
-RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks} 7)Realistic values 8)Mark schemes: "Award X marks","Accept","Do not accept","WTTE","ECF" 9)Holistic grids in meta.gradingGrid 10)Specific stimuli with names,places,numbers 11)At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions 12)Table questions MUST have tableHeaders,tableRows,tableCols,tablePrefill 13)Count marks as you generate — must reach exactly ${config.totalMarks} 14)Verify total before outputting.`;
+RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks} 7)Realistic values 8)Mark schemes: "Award X marks","Accept","Do not accept","WTTE","ECF" 9)Holistic grids in meta.gradingGrid 10)Specific stimuli with names,places,numbers 11)At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions 12)Table questions MUST have tableHeaders,tableRows,tableCols,tablePrefill 13)Count marks as you generate — must reach exactly ${config.totalMarks} 14)Verify total before outputting 15)Generate at LEAST 2 different stimulus blocks using different real-world scenarios. Assign questions to different sectionIds (1, 2, or 3).`;
 }
 
 /* ── AI API Call (Groq primary, Gemini fallback) ── */
@@ -348,7 +361,7 @@ async function callGroq(prompt, key, statusEl) {
           { role: 'user', content: prompt }
         ],
         temperature: 0.7,
-        max_tokens: 4096,
+        max_tokens: 6144,
         response_format: { type: 'json_object' }
       })
     });
@@ -491,11 +504,21 @@ function collectGenConfig() {
   const questions = [];
   document.querySelectorAll('.gen-type-row').forEach(row => {
     const cb = row.querySelector('.gen-type-cb');
-    const count = Number(row.querySelector('.gen-type-count').value || 0);
-    const marks = Number(row.querySelector('.gen-type-marks').value || 1);
     const type = row.dataset.type;
-    if (cb.checked && count > 0) {
-      questions.push({ type, count, marks });
+    const marksInput = row.querySelector('.gen-type-marks').value || '1';
+
+    if (cb && cb.checked) {
+      // Check if marks is comma-separated (individual marks per question)
+      if (marksInput.indexOf(',') !== -1) {
+        var marksList = marksInput.split(',').map(function(m) { return Number(m.trim()) || 1; });
+        questions.push({ type: type, count: marksList.length, marks: marksList[0], marksList: marksList });
+      } else {
+        const count = Number(row.querySelector('.gen-type-count').value || 0);
+        const marks = Number(marksInput) || 1;
+        if (count > 0) {
+          questions.push({ type, count, marks });
+        }
+      }
     }
   });
 
@@ -576,8 +599,26 @@ async function runGeneration() {
     
     let validatedResult = validateGeneratedSet(result, config);
 
-    status.textContent = '✅ Generated! Saving to library...';
-    status.style.color = 'var(--green)';
+    // ═══ MARK PADDING: If AI generated fewer marks than requested, add MCQs to fill ═══
+    var currentTotal = validatedResult.blocks
+      .filter(function(b) { return b.mode === 'question'; })
+      .reduce(function(sum, b) { return sum + Number(b.meta?.marks || 0); }, 0);
+    var deficit = config.totalMarks - currentTotal;
+    if (deficit > 0 && deficit <= 10) {
+      for (var pad = 0; pad < deficit; pad++) {
+        validatedResult.blocks.push({
+          mode: 'question', type: 'MCQ', sectionId: 1,
+          data: { question: '[EDIT THIS: Add a question about ' + config.topic + ']', correct: 0, explanation: 'Edit in builder.' },
+          ui: { mcqOptions: ['Option A', 'Option B', 'Option C', 'Option D'] },
+          meta: { marks: 1, criterion: config.criterion?.charAt(0) || 'A', strand: 'i', commandTerm: 'State', difficulty: 'easy', markScheme: 'Award 1 mark.', gradingGrid: null }
+        });
+      }
+      status.textContent = '⚠️ AI generated ' + currentTotal + '/' + config.totalMarks + ' marks. Added ' + deficit + ' placeholder MCQs — edit them in builder.';
+      status.style.color = 'var(--yellow)';
+    }
+
+    status.textContent = status.textContent.startsWith('⚠️') ? status.textContent : '✅ Generated! Saving to library...';
+    status.style.color = status.style.color === 'var(--yellow)' ? 'var(--yellow)' : 'var(--green)';
 
     // Build set object matching existing schema
     const setId = 'set_' + Date.now();
