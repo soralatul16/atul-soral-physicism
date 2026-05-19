@@ -287,15 +287,20 @@ COMMAND TERMS: Define(precise meaning), State(brief, no explanation), Outline(br
 ${diagramInstr}
 ${dataTableInstr}
 
-VISUAL ELEMENTS: Use HTML tables for data, HTML descriptions for graphs/diagrams, <sub>/<sup> for equations. Include at least 1 data table, 1 graph description, 1 diagram description.
+IMAGES AND DIAGRAMS:
+When a question needs a visual (diagram, photograph, experimental setup, graph), include an Image content block with a REAL publicly accessible URL from the internet.
+SOURCES: Wikimedia Commons (upload.wikimedia.org), OpenStax (openstax.org), HyperPhysics (hyperphysics.phy-astr.gsu.edu).
+FORMAT: {"mode":"content","type":"Image","sectionId":1,"data":{"url":"REAL_HTTPS_URL","caption":"Figure N: Description","editable":true,"altImages":["ALT_URL_1","ALT_URL_2"]}}
+The "altImages" array should contain 2-3 alternative image URLs for the same concept so the teacher can pick the best one.
+IF NO REAL URL: use a styled placeholder Text block instead:
+{"mode":"content","type":"Text","sectionId":1,"data":{"text":"<div style='padding:16px;background:#f9f6f1;border:2px dashed rgba(192,57,43,0.15);border-radius:10px;text-align:center;margin:10px 0;'><p style='font-size:13px;color:#c0392b;font-weight:600;'>[DIAGRAM NEEDED: Description]</p><p style='font-size:12px;color:#555;margin-top:6px;'>Detailed description including labels, arrows, and measurements.</p></div>"}}
+EVERY question set MUST include at least 2 image or diagram blocks.
 
 eASSESSMENT STYLE GUIDE:
 - Criterion A: Stimulus (3-6 sentences) → sub-parts i→ii→iii. "Award N marks", "Seen or implied", "Accept/Do not accept".
 - Criterion B: ONE design question with holistic grid V(1-4), H(1-3), E(1-2), M(1-4), D(1-4), S(1).
 - Criterion C: Data table → read→calculate→graph→interpret→evaluate.
 - Criterion D: ONE reflection with holistic grid + concluding appraisal.
-
-VISUALS: Include at least 1 image block. Format: {"mode":"content","type":"Image","sectionId":1,"data":{"url":"","caption":"[IMAGE NEEDED: description]","editable":true}}.
 
 ${taskStructure}
 
@@ -314,8 +319,8 @@ ${config.questions.map(function(q) {
   "heading":"string","sections":[{"id":1,"name":"Section 1"},{"id":2,"name":"Section 2"},{"id":3,"name":"Section 3"}],
   "blocks":[
     {"mode":"content","type":"Text","sectionId":1,"data":{"text":"HTML stimulus"}},
-    {"mode":"content","type":"Image","sectionId":1,"data":{"url":"./Images/file.png","caption":"Figure 1: desc"}},
-    {"mode":"question","type":"MCQ|Long Answer|True / False|Fill Text|Match the Following|Table|Multi-Dropdown","sectionId":1,
+    {"mode":"content","type":"Image","sectionId":1,"data":{"url":"https://upload.wikimedia.org/...","caption":"Figure 1: desc","altImages":["url2","url3"]}},
+    {"mode":"question","type":"MCQ|Long Answer|True / False|Fill Text|Match the Following|Table|Multi-Dropdown|Drawing|Graph Plot|Drag and Drop","sectionId":1,
       "data":{"question":"Command term + question","correct":0,"explanation":"model answer",
         "tableHeaders": ["Column 1 / unit", "Column 2 / unit", "Column 3 / unit"],
         "tableRows": 5, "tableCols": 3,
@@ -325,7 +330,15 @@ ${config.questions.map(function(q) {
   ]
 }
 
-RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks} 7)Realistic values 8)Mark schemes: "Award X marks","Accept","Do not accept","WTTE","ECF" 9)Holistic grids in meta.gradingGrid 10)Specific stimuli with names,places,numbers 11)At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions 12)Table questions MUST have tableHeaders,tableRows,tableCols,tablePrefill 13)Count marks as you generate — must reach exactly ${config.totalMarks} 14)Verify total before outputting 15)Generate at LEAST 2 different stimulus blocks using different real-world scenarios. Assign questions to different sectionIds (1, 2, or 3).`;
+RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks} 7)Realistic values 8)Mark schemes: "Award X marks","Accept","Do not accept","WTTE","ECF" 9)Holistic grids in meta.gradingGrid 10)Specific stimuli with names,places,numbers 11)At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions 12)Table questions MUST have tableHeaders,tableRows,tableCols,tablePrefill 13)Count marks as you generate — must reach exactly ${config.totalMarks} 14)Verify total before outputting 15)Generate at LEAST 2 different stimulus blocks using different real-world scenarios. Assign questions to different sectionIds (1, 2, or 3).
+
+DRAWING QUESTIONS: Use type "Drawing" when students need to draw (free body diagram, circuit, ray diagram). Include: data.question (instruction), data.drawingInstructions (what to draw), data.drawingImage (optional base image URL to draw on top of). Mark scheme should list each element.
+
+DRAG AND DROP QUESTIONS: Use type "Drag and Drop" for classify/sort tasks. Include: data.question, data.dragItems (array of items), data.dropZones (array of {label, accepts:[items]}). Award 1 mark per correct placement.
+
+GRAPH PLOT QUESTIONS: Use type "Graph Plot" when students plot data. Include: data.question, data.graphAxes ({x,y,xRange,yRange}), data.dataPoints ([[x,y],...]).
+
+Use HTML tables for data, <sub>/<sup> for equations.`;
 }
 
 /* ── AI API Call (Groq primary, Gemini fallback) ── */

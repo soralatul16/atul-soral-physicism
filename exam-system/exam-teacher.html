@@ -984,6 +984,10 @@ window.renderSavedPreview = function(i) {
         html += '<div style="padding:16px;background:var(--cream-deep);border:2px dashed rgba(224,48,48,0.2);border-radius:10px;text-align:center;font-size:12px;color:var(--text2);">' + caption + '</div>';
       }
       html += '<button class="sm-btn" style="position:absolute;top:6px;right:6px;font-size:10px;" onclick="editBlockImage(' + block.id + ')">Change Image</button>';
+      // Show altImages picker button if alternatives exist
+      if (block.data && block.data.altImages && block.data.altImages.length > 0) {
+        html += '<button class="sm-btn" style="position:absolute;top:6px;right:110px;font-size:10px;background:var(--accent-glow);border-color:rgba(224,48,48,0.3);color:var(--accent);" onclick="showImageSelector(' + block.id + ')">🖼️ ' + (block.data.altImages.length + 1) + ' options</button>';
+      }
       html += '<p style="font-size:11px;color:var(--text3);margin-top:4px;font-style:italic;">' + caption + '</p>';
       html += '</div>';
       return '<div class="saved-preview"><strong>📄 Image</strong>' + html + '</div>';
@@ -1034,6 +1038,41 @@ function editBlockVideo(blockId) {
     block.data.url = newUrl.trim();
     var newCaption = prompt('Edit caption:', block.data?.caption || '');
     if (newCaption !== null) block.data.caption = newCaption.trim();
+    render();
+  }
+}
+
+function showImageSelector(blockId) {
+  var block = blocks.find(function(b) { return b.id === blockId; });
+  if (!block || !block.data) return;
+  var altImages = block.data.altImages || [];
+  var currentUrl = block.data.url || '';
+  var html = '<div id="imgSelectorOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:9999;display:flex;align-items:center;justify-content:center;" onclick="if(event.target===this)this.remove()">';
+  html += '<div style="background:var(--cream,#fff);border-radius:16px;padding:24px;max-width:700px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">';
+  html += '<h3 style="margin-bottom:16px;font-size:16px;color:var(--text,#333);">🖼️ Choose the best image</h3>';
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
+  // Current image
+  html += '<div style="border:2px solid #c0392b;border-radius:10px;padding:8px;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform=\'scale(1.02)\'" onmouseout="this.style.transform=\'scale(1)\'" onclick="selectBlockImage(' + blockId + ',\'' + currentUrl.replace(/'/g, "\\'") + '\');document.getElementById(\'imgSelectorOverlay\').remove()">';
+  html += '<img src="' + currentUrl + '" style="width:100%;border-radius:6px;min-height:80px;background:var(--cream-deep,#f5f5f5);" onerror="this.style.display=\'none\'">';
+  html += '<p style="font-size:10px;color:#c0392b;margin-top:4px;font-weight:600;">✓ Current</p></div>';
+  // Alt images
+  for (var ai = 0; ai < altImages.length; ai++) {
+    var aUrl = altImages[ai].replace(/'/g, "\\'");
+    html += '<div style="border:1.5px solid rgba(0,0,0,0.1);border-radius:10px;padding:8px;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform=\'scale(1.02)\'" onmouseout="this.style.transform=\'scale(1)\'" onclick="selectBlockImage(' + blockId + ',\'' + aUrl + '\');document.getElementById(\'imgSelectorOverlay\').remove()">';
+    html += '<img src="' + altImages[ai] + '" style="width:100%;border-radius:6px;min-height:80px;background:var(--cream-deep,#f5f5f5);" onerror="this.parentElement.style.display=\'none\'">';
+    html += '<p style="font-size:10px;color:#888;margin-top:4px;">Option ' + (ai + 1) + '</p></div>';
+  }
+  html += '</div>';
+  html += '<div style="margin-top:16px;"><input type="text" id="customImgUrl" placeholder="Or paste a custom image URL..." style="width:100%;padding:8px 12px;border:1.5px solid var(--border,rgba(0,0,0,0.08));border-radius:8px;font-size:13px;box-sizing:border-box;">';
+  html += '<button class="btn-save" style="margin-top:8px;width:100%;" onclick="var u=document.getElementById(\'customImgUrl\').value.trim();if(u){selectBlockImage(' + blockId + ',u);document.getElementById(\'imgSelectorOverlay\').remove();}">Use Custom URL</button></div>';
+  html += '</div></div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function selectBlockImage(blockId, url) {
+  var block = blocks.find(function(b) { return b.id === blockId; });
+  if (block && block.data) {
+    block.data.url = url;
     render();
   }
 }

@@ -1359,6 +1359,56 @@ function buildInput(q,idx){
     const imgUrl=q.data?.drawingImage||'';const instr=q.data?.drawingInstructions||'';
     return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}<div style="position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:white;min-height:350px;">${imgUrl?`<img src="${imgUrl}" crossorigin="anonymous" style="width:100%;display:block;pointer-events:none;user-select:none;" alt="Reference diagram" id="draw-bg-${idx}" onerror="this.removeAttribute('crossorigin');this.src='${imgUrl}';">`:''}<canvas id="draw-canvas-${idx}" style="position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;touch-action:none;" onmousedown="startDraw(event,${idx})" onmousemove="draw(event,${idx})" onmouseup="endDraw(${idx})" onmouseleave="endDraw(${idx})" ontouchstart="startDrawTouch(event,${idx})" ontouchmove="drawTouch(event,${idx})" ontouchend="endDraw(${idx})"></canvas></div><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center;"><select onchange="setDrawTool(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="pen">✏️ Pen</option><option value="line">📏 Line</option><option value="arrow">➡️ Arrow</option><option value="rect">⬜ Rectangle</option><option value="circle">⭕ Circle</option><option value="text">🔤 Text</option></select><select onchange="setDrawColor(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="#e03030">🔴 Red</option><option value="#000000">⚫ Black</option><option value="#2980b9">🔵 Blue</option><option value="#27ae60">🟢 Green</option><option value="#8e44ad">🟣 Purple</option><option value="#ffffff">⚪ White</option></select><select onchange="setDrawSize(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="1">Fine</option><option value="2">Thin</option><option value="3" selected>Medium</option><option value="5">Thick</option><option value="8">Bold</option></select><button class="q-ctrl-btn" onclick="undoCanvas(${idx})">↩ Undo</button><button class="q-ctrl-btn" onclick="clearCanvas(${idx})">🗑 Clear</button></div></div>`;
   }
+  // Drag and Drop
+  if(t==="Drag and Drop"){
+    const items=q.data?.dragItems||[];const zones=q.data?.dropZones||[];
+    let h='<div style="margin:10px 0;">';
+    h+='<div style="font-size:12px;color:var(--text2);margin-bottom:10px;">Drag items into the correct category, or use the dropdowns below.</div>';
+    h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;padding:10px;background:var(--surface);border:1px dashed var(--border);border-radius:10px;">';
+    h+='<div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;width:100%;font-weight:600;">📦 Items to classify</div>';
+    items.forEach(function(item){
+      h+='<span style="padding:6px 14px;background:var(--surface2);border:1.5px solid var(--border);border-radius:20px;font-size:12px;color:var(--text);cursor:grab;user-select:none;transition:all 0.2s;">'+item+'</span>';
+    });
+    h+='</div>';
+    zones.forEach(function(zone,zi){
+      const catColors=['rgba(224,48,48,0.1)','rgba(41,128,185,0.1)','rgba(39,174,96,0.1)','rgba(243,156,18,0.1)'];
+      const catBorders=['rgba(224,48,48,0.4)','rgba(41,128,185,0.4)','rgba(39,174,96,0.4)','rgba(243,156,18,0.4)'];
+      h+='<div style="border:2px dashed '+catBorders[zi%4]+';background:'+catColors[zi%4]+';border-radius:10px;min-height:80px;padding:12px;margin-bottom:8px;">';
+      h+='<div style="font-size:12px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">'+zone.label+'</div>';
+      // Use dropdowns for each accepted item slot
+      const accepts=zone.accepts||[];
+      accepts.forEach(function(a,ai){
+        h+='<select onchange="saveDnDAns('+idx+','+zi+','+ai+',this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-size:12px;margin:3px;cursor:pointer;"><option value="">▼ Select...</option>';
+        items.forEach(function(item){ h+='<option value="'+item+'" '+((saved&&saved[zi]&&saved[zi][ai])===item?'selected':'')+'>'+item+'</option>'; });
+        h+='</select>';
+      });
+      h+='</div>';
+    });
+    h+='</div>';
+    return h;
+  }
+  // Graph Plot
+  if(t==="Graph Plot"){
+    const axes=q.data?.graphAxes||{x:'X',y:'Y',xRange:[0,10],yRange:[0,10]};
+    const points=q.data?.dataPoints||[];
+    let h='<div style="margin:10px 0;">';
+    h+='<div style="font-size:12px;color:var(--text2);margin-bottom:10px;">Plot the following data points on the graph. Axes: <strong>'+axes.x+'</strong> vs <strong>'+axes.y+'</strong></div>';
+    if(points.length>0){
+      h+='<table style="width:auto;border-collapse:collapse;margin-bottom:12px;font-size:13px;">';
+      h+='<tr><th style="border:1px solid var(--border);padding:6px 12px;background:rgba(224,48,48,0.1);color:var(--accent);font-size:11px;">'+axes.x+'</th><th style="border:1px solid var(--border);padding:6px 12px;background:rgba(224,48,48,0.1);color:var(--accent);font-size:11px;">'+axes.y+'</th></tr>';
+      points.forEach(function(p){
+        h+='<tr><td style="border:1px solid var(--border);padding:6px 12px;text-align:center;">'+p[0]+'</td><td style="border:1px solid var(--border);padding:6px 12px;text-align:center;">'+p[1]+'</td></tr>';
+      });
+      h+='</table>';
+    }
+    h+='<div style="border:2px dashed rgba(0,0,0,0.1);border-radius:10px;min-height:300px;display:flex;align-items:center;justify-content:center;background:#fafaf7;flex-direction:column;padding:20px;">';
+    h+='<div style="font-size:13px;color:var(--text2);margin-bottom:8px;">📊 Draw your graph on paper, or use the GeoGebra tool below.</div>';
+    h+='<a href="https://www.geogebra.org/graphing" target="_blank" style="padding:8px 18px;background:var(--accent);color:white;border-radius:8px;font-size:12px;text-decoration:none;font-weight:600;">Open GeoGebra Graphing</a>';
+    h+='</div>';
+    h+='<div class="long-answer-wrap" style="margin-top:10px;"><textarea placeholder="Describe your graph: axes labels, scale, line of best fit, gradient..." oninput="saveAnsText('+idx+',this.value)">'+(saved||'')+'</textarea></div>';
+    h+='</div>';
+    return h;
+  }
   // Default: Long Answer
   const wc=(typeof saved==='string'?saved:'').split(/\s+/).filter(Boolean).length;
   return `<div class="long-answer-wrap"><textarea placeholder="Type your answer here…" oninput="saveAnsText(${idx},this.value)">${saved||""}</textarea><div class="word-count">${wc} words</div></div>`;
@@ -1374,6 +1424,7 @@ function saveTableAns(qi,r,c,v){if(!currentAttempt.answers[qi])currentAttempt.an
 
 function saveMDAns(qi, ri, v) { if(!currentAttempt.answers[qi]) currentAttempt.answers[qi] = {}; currentAttempt.answers[qi][ri] = v; renderQNav(); }
 function saveSplitAns(qi, si, v) { if(!currentAttempt.answers[qi]) currentAttempt.answers[qi] = {}; currentAttempt.answers[qi][si] = v; renderQNav(); }
+function saveDnDAns(qi, zi, ai, v) { if(!currentAttempt.answers[qi]) currentAttempt.answers[qi] = {}; if(!currentAttempt.answers[qi][zi]) currentAttempt.answers[qi][zi] = {}; currentAttempt.answers[qi][zi][ai] = v; renderQNav(); }
 function resetTable(qi, rows, cols) {
   if(!confirm("Are you sure you want to clear your table answers?")) return;
   if(currentAttempt.answers[qi]) {
