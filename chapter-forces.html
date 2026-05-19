@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forces & Motion | Atul Soral Physicism</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+<!-- Feedback CSS -->
+<link rel="stylesheet" href="Feedback·css">
+
+<style>
+:root {
+  --bg: #f5f0e8;
+  --bg-paper: #faf8f5;
+  --white: #ffffff;
+  --ink: #1a1a2e;
+  --ink-muted: #555570;
+  --ink-light: #8888a0;
+  --accent: #c0392b;
+  --accent-dark: #962d22;
+  --accent-pale: #fcf1f0;
+  --green: #2ecc71;
+  --green-pale: #e8f8f0;
+  --glass: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --border: rgba(26, 26, 46, 0.08);
+  --border-strong: rgba(26, 26, 46, 0.15);
+  --shadow-sm: 0 4px 16px rgba(26, 26, 46, 0.03);
+  --shadow-md: 0 8px 24px rgba(26, 26, 46, 0.05);
+  --shadow-lg: 0 16px 40px rgba(26, 26, 46, 0.08);
+  
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.6;
+  padding-bottom: 80px;
+}
+
+/* Background grid */
+.physics-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background: 
+    linear-gradient(var(--accent) 1px, transparent 1px),
+    linear-gradient(90deg, var(--accent) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 65% 55% at 50% 45%, black 20%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 45%, black 20%, transparent 85%);
+}
+
+/* NAVBAR */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--glass);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-dot {
+  width: 9px;
+  height: 9px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent);
+  animation: navPulse 2.5s infinite;
+}
+
+@keyframes navPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.15); }
+}
+
+.nav-brand span {
+  color: var(--accent);
+}
+
+.nav-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border-left: 1.5px solid var(--border-strong);
+  padding-left: 14px;
+}
+
+.nav-spacer {
+  flex: 1;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+}
+
+.nav-link:hover {
+  background: var(--accent-pale);
+  color: var(--accent);
+  border-color: rgba(192, 57, 43, 0.15);
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* BACK LINK */
+.back-link-container {
+  padding: 20px 0 10px 0;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ink-muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s, transform 0.2s;
+  font-family: var(--font-body);
+}
+
+.back-link:hover {
+  color: var(--accent);
+  transform: translateX(-3px);
+}
+
+/* UNIT OVERVIEW CARD */
+.unit-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.unit-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: var(--accent);
+}
+
+.unit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.unit-title-group h2 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.unit-title-group h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.unit-meta-badge {
+  background: var(--accent-pale);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 50px;
+  border: 1px solid rgba(192, 57, 43, 0.12);
+}
+
+.unit-concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.concept-box {
+  background: var(--bg-paper);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.concept-label {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  color: var(--ink-light);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.concept-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+
+.soi-box {
+  background: var(--bg-paper);
+  border-left: 3px solid var(--border-strong);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.soi-label {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.soi-text {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* PROGRESS BAR */
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.progress-track {
+  height: 8px;
+  background: var(--bg);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 16%; /* 4 / 25 available */
+  background: linear-gradient(90deg, var(--accent) 0%, var(--green) 100%);
+  border-radius: 100px;
+  transition: width 1s ease-in-out;
+}
+
+/* SECTIONS & LESSONS */
+.section-wrapper {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.section-badge {
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.section-header h2 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-strong), transparent);
+}
+
+/* LESSON CARD GRID */
+.lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .lesson-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lesson-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  gap: 16px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.lesson-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(192, 57, 43, 0.18);
+}
+
+.lesson-card.coming-soon:hover {
+  border-color: var(--border-strong);
+}
+
+.lesson-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  background: var(--bg-paper);
+  border: 1px solid var(--border);
+  transition: background 0.3s;
+}
+
+.lesson-card:hover .lesson-icon-wrapper {
+  background: var(--accent-pale);
+}
+
+.lesson-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.lesson-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.status-available {
+  color: var(--green);
+}
+
+.status-available .status-dot {
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+}
+
+.status-soon {
+  color: var(--ink-light);
+}
+
+.lesson-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 750;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.inquiry-box {
+  font-size: 12.5px;
+  color: var(--ink-muted);
+  font-style: italic;
+  margin-bottom: 12px;
+  line-height: 1.4;
+  position: relative;
+  padding-left: 10px;
+}
+
+.inquiry-box::before {
+  content: '“';
+  position: absolute;
+  left: 0;
+  top: -2px;
+  font-size: 18px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--bg-paper);
+  border: 1px solid var(--border);
+  color: var(--ink-muted);
+}
+
+/* FORMULA QUICK REFERENCE */
+.formula-card {
+  background: var(--white);
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  margin-top: 40px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s;
+}
+
+.formula-card[open] {
+  box-shadow: var(--shadow-md);
+}
+
+.formula-summary {
+  list-style: none;
+  outline: none;
+  cursor: pointer;
+  padding: 18px 24px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  background: var(--white);
+}
+
+.formula-summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary-arrow {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.formula-card[open] .summary-arrow {
+  transform: rotate(180deg);
+}
+
+.formula-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  padding: 24px;
+  background: var(--bg-paper);
+  border-top: 1px solid var(--border);
+}
+
+.formula-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.2s;
+}
+
+.formula-item:hover {
+  transform: translateY(-2px);
+}
+
+.formula-math {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-pale);
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  align-self: flex-start;
+  border: 1px solid rgba(192, 57, 43, 0.08);
+}
+
+.formula-desc {
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+/* CUSTOM ALERT POPUP */
+.toast-overlay {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--ink);
+  color: var(--white);
+  padding: 12px 24px;
+  border-radius: 50px;
+  box-shadow: var(--shadow-lg);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+  pointer-events: none;
+}
+
+.toast-overlay.active {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.toast-icon {
+  color: var(--accent);
+  font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="physics-grid"></div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-dot"></div>Physicism<span>.</span>
+  </a>
+  <div class="nav-title">Forces & Motion</div>
+  <div class="nav-spacer"></div>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="myp-dashboard.html" class="nav-link">MYP Dashboard</a>
+  </div>
+</div>
+
+<div class="container">
+  
+  <!-- BACK LINK -->
+  <div class="back-link-container">
+    <a href="myp-dashboard.html" class="back-link">← Back to MYP Dashboard</a>
+  </div>
+
+  <!-- UNIT PLAN CARD -->
+  <div class="unit-card">
+    <div class="unit-header">
+      <div class="unit-title-group">
+        <h2>IB Middle Years Programme (MYP 5)</h2>
+        <h1>Unit 2: Forces & Motion</h1>
+      </div>
+      <div class="unit-meta-badge">Physics Chapter Overview</div>
+    </div>
+
+    <!-- Concept Details -->
+    <div class="unit-concept-grid">
+      <div class="concept-box">
+        <div class="concept-label">Key Concept</div>
+        <div class="concept-value">🔄 Change</div>
+      </div>
+      <div class="concept-box">
+        <div class="concept-label">Related Concepts</div>
+        <div class="concept-value">⚓ Forces, Movement</div>
+      </div>
+      <div class="concept-box">
+        <div class="concept-label">Global Context</div>
+        <div class="concept-value">🌍 Orientation in Space & Time</div>
+      </div>
+      <div class="concept-box">
+        <div class="concept-label">MYP Objectives</div>
+        <div class="concept-value">🎯 Criteria A, B, C</div>
+      </div>
+    </div>
+
+    <!-- SOI -->
+    <div class="soi-box">
+      <div class="soi-label">Statement of Inquiry</div>
+      <div class="soi-text">"The application of forces leads to predictable changes in motion and understanding our place in a dynamic world."</div>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="progress-container">
+      <div class="progress-header">
+        <span>Unit Progress</span>
+        <span>4 / 25 Lessons Available</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section-wrapper">
+    <div class="section-header">
+      <span class="section-badge">Sec 1</span>
+      <h2>Forces Fundamentals</h2>
+      <div class="section-line"></div>
+    </div>
+    
+    <div class="lesson-grid">
+      <!-- Lesson 1 -->
+      <a href="chapter.html?topic=forces&image=1-what-is-a-force.png" class="lesson-card">
+        <div class="lesson-icon-wrapper">⚖️</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 1</span>
+            <span class="status-indicator status-available">
+              <span class="status-dot"></span> Available
+            </span>
+          </div>
+          <div class="lesson-title">Introduction to Forces</div>
+          <div class="inquiry-box">How can we represent invisible forces acting on an object?</div>
+          <div class="tag-list">
+            <span class="tag">Types of Forces</span>
+            <span class="tag">Force Diagrams</span>
+            <span class="tag">Vector Quantities</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Lesson 2 -->
+      <a href="chapter.html?topic=forces&image=3-balanced-vs-unbalanced-forces.png" class="lesson-card">
+        <div class="lesson-icon-wrapper">🔄</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 2</span>
+            <span class="status-indicator status-available">
+              <span class="status-dot"></span> Available
+            </span>
+          </div>
+          <div class="lesson-title">Balanced and Unbalanced Forces</div>
+          <div class="inquiry-box">What happens when forces are perfectly in balance vs. when one dominates?</div>
+          <div class="tag-list">
+            <span class="tag">Net Force</span>
+            <span class="tag">Equilibrium</span>
+            <span class="tag">Resultant Force</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Lesson 3 -->
+      <a href="chapter.html?topic=forces&image=5-newtons-first-law.png" class="lesson-card">
+        <div class="lesson-icon-wrapper">⏳</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 3</span>
+            <span class="status-indicator status-available">
+              <span class="status-dot"></span> Available
+            </span>
+          </div>
+          <div class="lesson-title">Newton’s First Law</div>
+          <div class="inquiry-box">Why do objects persist in their state of rest or motion without external intervention?</div>
+          <div class="tag-list">
+            <span class="tag">Inertia</span>
+            <span class="tag">Galileo's Ramp</span>
+            <span class="tag">State of Motion</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Lesson 4 -->
+      <a href="chapter.html?topic=forces&image=6-inertia-deep-dive.png" class="lesson-card">
+        <div class="lesson-icon-wrapper">🚗</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 4</span>
+            <span class="status-indicator status-available">
+              <span class="status-dot"></span> Available
+            </span>
+          </div>
+          <div class="lesson-title">Newton’s First Law Applications</div>
+          <div class="inquiry-box">How can engineering mitigate the dangerous consequences of inertia in transport?</div>
+          <div class="tag-list">
+            <span class="tag">Seatbelts</span>
+            <span class="tag">Car Crashes</span>
+            <span class="tag">Inertia in Action</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section-wrapper">
+    <div class="section-header">
+      <span class="section-badge">Sec 2</span>
+      <h2>Newton’s Laws</h2>
+      <div class="section-line"></div>
+    </div>
+    
+    <div class="lesson-grid">
+      <!-- Lesson 5 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Newton’s Second Law')">
+        <div class="lesson-icon-wrapper">🚀</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 5</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Newton’s Second Law — F=ma</div>
+          <div class="inquiry-box">How does the rate of change of momentum relate to the net force applied?</div>
+          <div class="tag-list">
+            <span class="tag">Acceleration</span>
+            <span class="tag">Derivation</span>
+            <span class="tag">Calculations</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 6 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('F=ma Calculations')">
+        <div class="lesson-icon-wrapper">🧮</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 6</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Calculations using F=ma</div>
+          <div class="inquiry-box">How can we mathematically predict acceleration when multiple forces act on a body?</div>
+          <div class="tag-list">
+            <span class="tag">F=ma Practice</span>
+            <span class="tag">Unit Analysis</span>
+            <span class="tag">Problem Solving</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 7 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Newton’s Third Law')">
+        <div class="lesson-icon-wrapper">💥</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 7</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Newton’s Third Law</div>
+          <div class="inquiry-box">Why can a force never exist in isolation, and how do bodies interact mutually?</div>
+          <div class="tag-list">
+            <span class="tag">Action-Reaction</span>
+            <span class="tag">Force Pairs</span>
+            <span class="tag">Interactions</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 8 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Third Law Applications')">
+        <div class="lesson-icon-wrapper">🛸</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 8</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Third Law Applications</div>
+          <div class="inquiry-box">How does action-reaction pair mechanics enable space exploration and locomotion?</div>
+          <div class="tag-list">
+            <span class="tag">Recoil</span>
+            <span class="tag">Rockets</span>
+            <span class="tag">Jet Propulsion</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section-wrapper">
+    <div class="section-header">
+      <span class="section-badge">Sec 3</span>
+      <h2>Friction and Resistance</h2>
+      <div class="section-line"></div>
+    </div>
+    
+    <div class="lesson-grid">
+      <!-- Lesson 9 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Friction Introduction')">
+        <div class="lesson-icon-wrapper">🛷</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 9</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Friction Introduction</div>
+          <div class="inquiry-box">What molecular-level interactions oppose the relative motion of surfaces?</div>
+          <div class="tag-list">
+            <span class="tag">Static Friction</span>
+            <span class="tag">Kinetic Friction</span>
+            <span class="tag">Rolling Friction</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 10 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Friction Applications')">
+        <div class="lesson-icon-wrapper">📐</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 10</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Friction Applications</div>
+          <div class="inquiry-box">How do we experimentally determine the coefficient of friction for interfaces?</div>
+          <div class="tag-list">
+            <span class="tag">Coefficient μ</span>
+            <span class="tag">Ramp Labs</span>
+            <span class="tag">Surface Material</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 11 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Air Resistance')">
+        <div class="lesson-icon-wrapper">🪂</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 11</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Air Resistance</div>
+          <div class="inquiry-box">How does air act as a fluid medium to resist and slow down moving objects?</div>
+          <div class="tag-list">
+            <span class="tag">Fluid Drag</span>
+            <span class="tag">Surface Area</span>
+            <span class="tag">Drag Force</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 12 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Terminal Velocity')">
+        <div class="lesson-icon-wrapper">🦅</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 12</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Terminal Velocity</div>
+          <div class="inquiry-box">What conditions lead to a state where a falling object stops accelerating?</div>
+          <div class="tag-list">
+            <span class="tag">Balanced Forces</span>
+            <span class="tag">Skydiver Physics</span>
+            <span class="tag">Parachutes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section-wrapper">
+    <div class="section-header">
+      <span class="section-badge">Sec 4</span>
+      <h2>Gravity and Pressure</h2>
+      <div class="section-line"></div>
+    </div>
+    
+    <div class="lesson-grid">
+      <!-- Lesson 13 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Gravity and Weight')">
+        <div class="lesson-icon-wrapper">🪐</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 13</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Gravity and Weight</div>
+          <div class="inquiry-box">What is the fundamental difference between an object's matter and gravitational pull?</div>
+          <div class="tag-list">
+            <span class="tag">Mass vs Weight</span>
+            <span class="tag">Field Strength g</span>
+            <span class="tag">g = 10 m/s²</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 14 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Pressure in Solids')">
+        <div class="lesson-icon-wrapper">🧱</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 14</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Pressure in Solids</div>
+          <div class="inquiry-box">How can the exact same force produce widely different structural outcomes depending on area?</div>
+          <div class="tag-list">
+            <span class="tag">P = F/A</span>
+            <span class="tag">Distribution</span>
+            <span class="tag">Area Factor</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 15 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Pressure in Fluids')">
+        <div class="lesson-icon-wrapper">🌊</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 15</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Pressure in Fluids</div>
+          <div class="inquiry-box">Why does pressure increase with depth in fluids, and how do we design dams for it?</div>
+          <div class="tag-list">
+            <span class="tag">Depth Relation</span>
+            <span class="tag">Liquid Pressure</span>
+            <span class="tag">Dam Design</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 16 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Buoyancy')">
+        <div class="lesson-icon-wrapper">⛵</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 16</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Buoyancy</div>
+          <div class="inquiry-box">How does a fluid exert an upward buoyant force, and what dictates floating?</div>
+          <div class="tag-list">
+            <span class="tag">Archimedes Principle</span>
+            <span class="tag">Upthrust</span>
+            <span class="tag">Float vs Sink</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section-wrapper">
+    <div class="section-header">
+      <span class="section-badge">Sec 5</span>
+      <h2>Motion Analysis</h2>
+      <div class="section-line"></div>
+    </div>
+    
+    <div class="lesson-grid">
+      <!-- Lesson 17 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Free-body Diagrams')">
+        <div class="lesson-icon-wrapper">🏹</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 17</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Free-body Diagrams</div>
+          <div class="inquiry-box">How do we isolate a physical system to systematically sum all external forces?</div>
+          <div class="tag-list">
+            <span class="tag">Force Arrows</span>
+            <span class="tag">Net Force</span>
+            <span class="tag">Vector Sums</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 18 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Distance-Time Graphs')">
+        <div class="lesson-icon-wrapper">📈</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 18</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Distance-Time Graphs</div>
+          <div class="inquiry-box">How can the geometric slope of a distance-time plot represent speed?</div>
+          <div class="tag-list">
+            <span class="tag">Slope & Speed</span>
+            <span class="tag">Gradient</span>
+            <span class="tag">Uniform Motion</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 19 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Velocity-Time Graphs')">
+        <div class="lesson-icon-wrapper">📉</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 19</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Velocity-Time Graphs</div>
+          <div class="inquiry-box">How can a single graph represent both the change in speed and the total distance?</div>
+          <div class="tag-list">
+            <span class="tag">Slope & Acceleration</span>
+            <span class="tag">Area & Distance</span>
+            <span class="tag">Kinematics</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 20 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Acceleration')">
+        <div class="lesson-icon-wrapper">🏎️</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 20</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Acceleration</div>
+          <div class="inquiry-box">What does it mean for an object's velocity to change, and how do we quantify that rate?</div>
+          <div class="tag-list">
+            <span class="tag">a = Δv/t</span>
+            <span class="tag">Calculations</span>
+            <span class="tag">Rates</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 21 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Problem-solving')">
+        <div class="lesson-icon-wrapper">🧩</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 21</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Problem-solving</div>
+          <div class="inquiry-box">How do we break down complex, multi-stage physics scenarios into solvable algebraic steps?</div>
+          <div class="tag-list">
+            <span class="tag">Multi-step Problems</span>
+            <span class="tag">Combined Concepts</span>
+            <span class="tag">Synthesis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section-wrapper">
+    <div class="section-header">
+      <span class="section-badge">Sec 6</span>
+      <h2>Investigation and Assessment</h2>
+      <div class="section-line"></div>
+    </div>
+    
+    <div class="lesson-grid">
+      <!-- Lesson 22 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Inquiry Lab')">
+        <div class="lesson-icon-wrapper">🔬</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 22</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Inquiry Lab: Friction Investigation</div>
+          <div class="inquiry-box">How do we design a scientifically rigorous and reproducible experiment to test friction?</div>
+          <div class="tag-list">
+            <span class="tag">Criterion B</span>
+            <span class="tag">Methodology</span>
+            <span class="tag">Variables</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 23 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Investigation Day')">
+        <div class="lesson-icon-wrapper">📊</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 23</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Investigation Day</div>
+          <div class="inquiry-box">How do we minimize measurement error and collect highly precise experimental data?</div>
+          <div class="tag-list">
+            <span class="tag">Data Collection</span>
+            <span class="tag">Repeat Trials</span>
+            <span class="tag">Uncertainties</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 24 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Consolidation and Revision')">
+        <div class="lesson-icon-wrapper">📚</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 24</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Consolidation and Revision</div>
+          <div class="inquiry-box">How do the concepts of forces, friction, and motion synthesize into a unified physical model?</div>
+          <div class="tag-list">
+            <span class="tag">Revision Map</span>
+            <span class="tag">Practice Problems</span>
+            <span class="tag">Synthesizing</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lesson 25 -->
+      <div class="lesson-card coming-soon" onclick="showSoonToast('Summative Assessment')">
+        <div class="lesson-icon-wrapper">📝</div>
+        <div class="lesson-info">
+          <div class="lesson-meta">
+            <span class="lesson-num">Lesson 25</span>
+            <span class="status-indicator status-soon">🔒 Coming Soon</span>
+          </div>
+          <div class="lesson-title">Summative Assessment</div>
+          <div class="inquiry-box">How effectively can we apply Newton's Laws and kinematic calculations to novel situations?</div>
+          <div class="tag-list">
+            <span class="tag">Criterion A Test</span>
+            <span class="tag">Cognitive Challenge</span>
+            <span class="tag">Knowledge Application</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMULA COLLAPSIBLE REFERENCE -->
+  <details class="formula-card">
+    <summary class="formula-summary">
+      <span>📐 Formula Quick-Reference</span>
+      <span class="summary-arrow">▼</span>
+    </summary>
+    <div class="formula-grid">
+      <div class="formula-item">
+        <div class="formula-math">F = ma</div>
+        <div class="formula-desc">Newton's Second Law: Net Force = mass × acceleration</div>
+      </div>
+      <div class="formula-item">
+        <div class="formula-math">W = mg</div>
+        <div class="formula-desc">Weight: Gravitational Pull = mass × gravitational field strength</div>
+      </div>
+      <div class="formula-item">
+        <div class="formula-math">P = F / A</div>
+        <div class="formula-desc">Solid Pressure: Pressure = perpendicular force / contact area</div>
+      </div>
+      <div class="formula-item">
+        <div class="formula-math">a = (v - u) / t</div>
+        <div class="formula-desc">Acceleration: Rate of change of velocity over time</div>
+      </div>
+      <div class="formula-item">
+        <div class="formula-math">v = u + at</div>
+        <div class="formula-desc">Kinematic Equation: Final velocity under uniform acceleration</div>
+      </div>
+      <div class="formula-item">
+        <div class="formula-math">s = ½(u + v)t</div>
+        <div class="formula-desc">Displacement: Distance covered under uniform acceleration</div>
+      </div>
+    </div>
+  </details>
+
+</div>
+
+<!-- TOAST ALERT -->
+<div class="toast-overlay" id="soonToast">
+  <span class="toast-icon">🔒</span>
+  <span id="toastMessage">Coming Soon! We're adding lessons progressively.</span>
+</div>
+
+<!-- EMAILJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- Feedback Widget JS -->
+<script src="js/Feedback.js"></script>
+
+<script>
+// Custom Toast alert for Coming Soon lessons
+function showSoonToast(lessonTitle) {
+  const toast = document.getElementById('soonToast');
+  const msgEl = document.getElementById('toastMessage');
+  msgEl.innerHTML = `<strong>${lessonTitle}</strong> is Coming Soon! We're releasing lessons progressively.`;
+  
+  toast.classList.add('active');
+  
+  setTimeout(() => {
+    toast.classList.remove('active');
+  }, 3500);
+}
+</script>
+
+</body>
+</html>

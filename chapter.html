@@ -7,101 +7,481 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Physics Chapter | Atul Soral Physicism</title>
 
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
 <style>
-body{
-  margin:0;
-  font-family:Arial;
-  display:flex;
-  background:#0f172a;
-  color:white;
+:root {
+  --bg: #f5f0e8;
+  --bg-paper: #ffffff;
+  --accent: #c0392b;
+  --accent-hover: #962d22;
+  --accent-pale: rgba(192, 57, 43, 0.06);
+  --text: #1a1a2e;
+  --text-muted: #555570;
+  --text-light: #8888a0;
+  --border: rgba(0, 0, 0, 0.06);
+  --shadow: rgba(0, 0, 0, 0.06);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  display: flex;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow: hidden;
 }
 
 /* SIDEBAR */
-.sidebar{
-  width:260px;
-  background:#020617;
-  height:100vh;
-  overflow-y:auto;
-  padding:10px;
+.sidebar {
+  width: 260px;
+  background: var(--bg-paper);
+  height: 100vh;
+  overflow-y: auto;
+  padding: 20px 16px;
+  border-right: 1px solid var(--border);
+  box-shadow: 2px 0 12px var(--shadow);
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 999;
 }
 
-.sidebar-item{
-  padding:10px;
-  margin:5px 0;
-  background:#1e293b;
-  border-radius:6px;
-  cursor:pointer;
+.sidebar-item {
+  padding: 10px 14px;
+  margin: 6px 0;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 13.5px;
 }
 
-.sidebar-item:hover{
-  background:#334155;
+.sidebar-item:hover {
+  background: var(--accent-pale);
+  color: var(--accent);
 }
 
-.active{
-  background:#22c55e !important;
+.active {
+  background: var(--accent) !important;
+  color: white !important;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(192, 57, 43, 0.2);
+}
+
+/* Scrollbar styling */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(192, 57, 43, 0.12);
+  border-radius: 3px;
 }
 
 /* MAIN */
-.main{
-  flex:1;
-  display:flex;
-  flex-direction:column;
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: relative;
 }
 
 /* NAV */
-.nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px;
-  background:#020617;
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+  flex-shrink: 0;
 }
 
-.nav-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.nav-left {
+  display: flex;
+  align-items: center;
 }
 
-.nav-title{
-  font-weight:bold;
-  margin-left:10px;
-  color:#38bdf8;
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* VIEWER */
-.viewer{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+.nav-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--accent);
 }
 
-.viewer img{
-  max-width:900px;
-  max-height:80vh;
-  object-fit:contain;
-  border-radius:10px;
+.brand-dot {
+  color: var(--accent);
 }
 
-/* BUTTONS */
-.btn{
-  margin:10px;
-  padding:10px 20px;
-  background:#22c55e;
-  border:none;
-  border-radius:6px;
-  color:white;
-  cursor:pointer;
+.nav-title {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-light);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  border-left: 1.5px solid var(--border);
+  padding-left: 14px;
+  margin-left: 12px;
+}
+
+.nav-spacer {
+  flex: 1;
+}
+
+.nav-links-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-btn-link {
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+}
+
+.nav-btn-link:hover {
+  background: var(--accent-pale);
+  color: var(--accent);
+  border-color: rgba(192, 57, 43, 0.12);
 }
 
 /* SEARCH */
-#searchBox{
-  padding:8px;
-  border-radius:6px;
-  border:none;
-  width:200px;
+#searchBox {
+  padding: 8px 16px;
+  border-radius: 50px;
+  border: 1.5px solid var(--border);
+  background: white;
+  width: 180px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-right: 16px;
+}
+
+#searchBox:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px rgba(192, 57, 43, 0.08);
+}
+
+/* HAMBURGER FOR MOBILE */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 20px;
+  height: 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1000;
+  margin-right: 16px;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* VIEWER */
+.viewer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg);
+  padding: 32px;
+  overflow-y: auto;
+}
+
+.viewer img {
+  max-width: 90%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 12px 36px var(--shadow);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  background: white;
+  padding: 8px;
+}
+
+.viewer-controls {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+/* BUTTONS */
+.btn {
+  padding: 10px 24px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+#downloadBtn {
+  background: var(--accent);
+  color: white;
+  border: 1.5px solid var(--accent);
+}
+
+#downloadBtn:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(192, 57, 43, 0.2);
+}
+
+#quizBtn {
+  background: white;
+  border: 1.5px solid var(--border);
+  color: var(--text);
+}
+
+#quizBtn:hover {
+  background: var(--accent-pale);
+  color: var(--accent);
+  border-color: rgba(192, 57, 43, 0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px var(--shadow);
+}
+
+/* ============================================================
+   EMBEDDED PHYSICISM — Feedback Widget CSS
+   Ensures robust local rendering bypassing file:// middle dot issues
+   ============================================================ */
+#fb-trigger {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9000;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ef4444, #7f1d1d);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(239,68,68,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-size: 1.25rem;
+  color: white;
+  outline: none;
+}
+
+#fb-trigger:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(239,68,68,0.65);
+}
+
+#fb-trigger.open {
+  transform: rotate(45deg) scale(1.05);
+}
+
+#fb-panel {
+  position: fixed;
+  bottom: 92px;
+  right: 28px;
+  z-index: 9000;
+  width: 320px;
+  background: #ffffff;
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+  transform: translateY(16px) scale(0.97);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.25s cubic-bezier(.22,.68,0,1.2),
+              opacity   0.2s ease;
+}
+
+#fb-panel.open {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: all;
+}
+
+#fb-panel .fb-header {
+  background: linear-gradient(135deg, #ef4444, #7f1d1d);
+  padding: 14px 18px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#fb-panel .fb-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#fb-panel .fb-page-tag {
+  font-size: 11px;
+  color: var(--text-light);
+  font-family: monospace;
+  background: rgba(0,0,0,0.03);
+  padding: 5px 10px;
+  border-radius: 6px;
+  word-break: break-all;
+}
+
+#fb-panel input,
+#fb-panel textarea {
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 10px 12px;
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+#fb-panel input::placeholder,
+#fb-panel textarea::placeholder {
+  color: var(--text-light);
+}
+
+#fb-panel input:focus,
+#fb-panel textarea:focus {
+  border-color: var(--accent);
+}
+
+#fb-panel textarea {
+  height: 90px;
+}
+
+#fb-panel .fb-submit {
+  background: linear-gradient(135deg, #ef4444, #991b1b);
+  border: none;
+  color: white;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+#fb-panel .fb-submit:hover   { opacity: 0.88; transform: translateY(-1px); }
+#fb-panel .fb-submit:active  { transform: translateY(0); }
+#fb-panel .fb-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+
+#fb-panel .fb-status {
+  font-size: 12px;
+  text-align: center;
+  min-height: 18px;
+  color: var(--text-muted);
+}
+
+#fb-panel .fb-status.success { color: #2e7d32; }
+#fb-panel .fb-status.error   { color: #c62828; }
+
+/* MOBILE RESPONSIVE styles */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    height: 100vh;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+  }
+  
+  .sidebar.open {
+    transform: translateX(260px);
+  }
+  
+  .nav {
+    padding: 0 16px;
+  }
+  
+  .nav-links-right {
+    display: none;
+  }
+  
+  #searchBox {
+    width: 120px;
+  }
+  
+  /* Hamburger Open State */
+  .hamburger.open span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  
+  .hamburger.open span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger.open span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
 }
 </style>
 </head>
@@ -113,12 +493,20 @@ body{
 <div class="main">
 
 <div class="nav">
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar(event)">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 
   <div class="nav-left">
-    <button onclick="location.href='index.html'">🏠 Home</button>
-    <button onclick="location.href='myp-dashboard.html'">📘 MYP</button>
+    <a href="index.html" class="nav-brand">
+      <div class="nav-dot"></div>Physicism<span class="brand-dot">.</span>
+    </a>
     <span class="nav-title" id="chapterTitle"></span>
   </div>
+
+  <div class="nav-spacer"></div>
 
   <input 
     type="text"
@@ -127,19 +515,49 @@ body{
     onkeyup="searchImages()"
   >
 
+  <div class="nav-links-right">
+    <a href="index.html" class="nav-btn-link">Home</a>
+    <a href="myp-dashboard.html" class="nav-btn-link">MYP Dashboard</a>
+  </div>
 </div>
 
 <div class="viewer">
   <img id="viewerImg">
-  <div>
+  <div class="viewer-controls">
     <button class="btn" id="downloadBtn">⬇ Download</button>
-    <button class="btn" onclick="startQuiz()">🧠 Start Quiz</button>
+    <button class="btn" id="quizBtn" onclick="startQuiz()">🧠 Start Quiz</button>
   </div>
 </div>
 
 </div>
 
+<!-- EMAILJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- Feedback Widget JS -->
+<script src="js/Feedback.js"></script>
+
 <script src="js/chapters.js"></script>
+
+<script>
+// Sidebar Toggle functionality for Mobile
+function toggleSidebar(e) {
+  e.stopPropagation();
+  const sidebar = document.getElementById('sidebar');
+  const hamburger = document.getElementById('hamburgerBtn');
+  sidebar.classList.toggle('open');
+  hamburger.classList.toggle('open');
+}
+
+// Close sidebar on body click if open on mobile
+document.addEventListener('click', function(e) {
+  const sidebar = document.getElementById('sidebar');
+  const hamburger = document.getElementById('hamburgerBtn');
+  if (window.innerWidth <= 768 && !sidebar.contains(e.target) && e.target !== hamburger && !hamburger.contains(e.target)) {
+    sidebar.classList.remove('open');
+    hamburger.classList.remove('open');
+  }
+});
+</script>
 
 <script>
 const params = new URLSearchParams(window.location.search);

@@ -966,6 +966,79 @@ body::after {
 <script src="exam-guided-builder.js"></script>
 
 <script>
+// Image and Video content block inline edit functionality
+var originalRenderSavedPreview = window.renderSavedPreview || renderSavedPreview;
+window.renderSavedPreview = function(i) {
+  var block = blocks[i];
+  if (!block) return '';
+  if (block.mode === 'content') {
+    if (block.type === 'Image') {
+      var imgUrl = block.data?.url || '';
+      var caption = block.data?.caption || '';
+      var html = '<div style="position:relative;margin:8px 0;">';
+      if (imgUrl) {
+        html += '<img src="' + imgUrl + '" alt="' + caption + '" style="max-width:100%;border-radius:8px;border:1px solid var(--border);" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\';">';
+        html += '<div style="display:none;padding:12px;background:var(--cream-deep);border-radius:8px;font-size:12px;color:var(--text2);">' + caption + '</div>';
+      } else {
+        html += '<div style="padding:16px;background:var(--cream-deep);border:2px dashed rgba(224,48,48,0.2);border-radius:10px;text-align:center;font-size:12px;color:var(--text2);">' + caption + '</div>';
+      }
+      html += '<button class="sm-btn" style="position:absolute;top:6px;right:6px;font-size:10px;" onclick="editBlockImage(' + block.id + ')">Change Image</button>';
+      html += '<p style="font-size:11px;color:var(--text3);margin-top:4px;font-style:italic;">' + caption + '</p>';
+      html += '</div>';
+      return '<div class="saved-preview"><strong>📄 Image</strong>' + html + '</div>';
+    }
+    if (block.type === 'Video') {
+      var videoUrl = block.data?.url || '';
+      var caption = block.data?.caption || '';
+      var html = '<div style="position:relative;margin:8px 0;">';
+      if (videoUrl) {
+        var embedUrl = videoUrl;
+        if (videoUrl.includes('youtube.com/watch?v=')) {
+          var videoId = videoUrl.split('v=')[1].split('&')[0];
+          embedUrl = 'https://www.youtube.com/embed/' + videoId;
+        } else if (videoUrl.includes('youtu.be/')) {
+          var videoId = videoUrl.split('youtu.be/')[1].split('?')[0];
+          embedUrl = 'https://www.youtube.com/embed/' + videoId;
+        }
+        html += '<iframe src="' + embedUrl + '" style="width:100%;height:200px;border-radius:8px;border:1px solid var(--border);" frameborder="0" allowfullscreen></iframe>';
+      } else {
+        html += '<div style="padding:16px;background:var(--cream-deep);border:2px dashed rgba(224,48,48,0.2);border-radius:10px;text-align:center;font-size:12px;color:var(--text2);">[Video Placeholder - Click Change to set URL]</div>';
+      }
+      html += '<button class="sm-btn" style="position:absolute;top:6px;right:6px;font-size:10px;" onclick="editBlockVideo(' + block.id + ')">Change Video</button>';
+      html += '<p style="font-size:11px;color:var(--text3);margin-top:4px;font-style:italic;">' + caption + '</p>';
+      html += '</div>';
+      return '<div class="saved-preview"><strong>📄 Video</strong>' + html + '</div>';
+    }
+  }
+  return originalRenderSavedPreview(i);
+};
+
+function editBlockImage(blockId) {
+  var block = blocks.find(function(b) { return b.id === blockId; });
+  if (!block) return;
+  var newUrl = prompt('Enter new image URL (or leave empty for placeholder):', block.data?.url || '');
+  if (newUrl !== null) {
+    block.data.url = newUrl.trim();
+    var newCaption = prompt('Edit caption:', block.data?.caption || '');
+    if (newCaption !== null) block.data.caption = newCaption.trim();
+    render();
+  }
+}
+
+function editBlockVideo(blockId) {
+  var block = blocks.find(function(b) { return b.id === blockId; });
+  if (!block) return;
+  var newUrl = prompt('Enter new video URL (YouTube link):', block.data?.url || '');
+  if (newUrl !== null) {
+    block.data.url = newUrl.trim();
+    var newCaption = prompt('Edit caption:', block.data?.caption || '');
+    if (newCaption !== null) block.data.caption = newCaption.trim();
+    render();
+  }
+}
+</script>
+
+<script>
 // Teacher auth check
 async function doTeacherGoogleLogin() {
   const msg = document.getElementById('teacherAuthMsg');

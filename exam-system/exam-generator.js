@@ -167,6 +167,7 @@ const DIAGRAM_BANK = {
 
 function buildGeneratorPrompt(config) {
   const gradeToYear = {"6":"1","7":"1","8":"3","9":"3","10":"5"};
+  const crit = config.criterion?.charAt(0) || "A";
   const yl = gradeToYear[config.grade] || "5";
   const critFullNames = {A:"Knowing and Understanding",B:"Inquiring and Designing",C:"Processing and Evaluating",D:"Reflecting on the Impacts of Science"};
 
@@ -218,7 +219,6 @@ DATA TABLES: For Criterion C and calculation questions, include HTML data tables
   }[yl];
 
   const criteriaStr = config.criterion || "A";
-  const crit = criteriaStr;
   const hasA = criteriaStr.includes('A') || criteriaStr.includes('Full Exam');
   const hasB = criteriaStr.includes('B') || criteriaStr.includes('B+C') || criteriaStr.includes('Full Exam');
   const hasC = criteriaStr.includes('C') || criteriaStr.includes('B+C') || criteriaStr.includes('Full Exam');
@@ -638,6 +638,27 @@ Every question must include a mark scheme. Follow these EXACT conventions from r
 
 - For holistic grids: provide the full grid with 1-4 mark descriptors for each row, plus examples and notes
 
+IMAGES AND VIDEOS FROM THE INTERNET:
+Where a question benefits from a visual stimulus, include an Image content block with a real, publicly accessible URL.
+
+APPROVED IMAGE SOURCES (use real URLs only):
+- Wikimedia Commons: https://upload.wikimedia.org/wikipedia/commons/...
+- OpenStax Physics: https://openstax.org/...
+- HyperPhysics: http://hyperphysics.phy-astr.gsu.edu/hbase/...
+
+APPROVED VIDEO SOURCES:
+- YouTube educational channels (embed links)
+- PhET Simulations: https://phet.colorado.edu/sims/html/...
+
+HOW TO INCLUDE:
+For images: {"mode":"content","type":"Image","sectionId":1,"data":{"url":"REAL_URL","caption":"Figure N: Description","editable":true}}
+For videos: {"mode":"content","type":"Video","sectionId":1,"data":{"url":"https://www.youtube.com/embed/VIDEO_ID","caption":"Video: Description","editable":true}}
+
+If no real URL found, use: {"mode":"content","type":"Image","sectionId":1,"data":{"url":"","caption":"[IMAGE NEEDED: description of what image should show]","editable":true}}
+
+EVERY question set MUST include at least 1 image or diagram content block.
+Include images for: circuit diagrams, free body diagrams, experimental setups, graphs, ray diagrams, wave diagrams.
+
 ═══ OUTPUT: VALID JSON ONLY ═══
 {
   "heading":"string","sections":[{"id":1,"name":"Section 1"}],
@@ -654,7 +675,7 @@ Every question must include a mark scheme. Follow these EXACT conventions from r
   ]
 }
 
-RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands progress i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks}. This is NOT optional. Count every question's marks and verify the sum before responding. If you generate fewer marks, ADD more questions. If you generate more, REMOVE or reduce questions. 7)Realistic numerical values 8)Mark schemes use IB format: "Award X marks","Accept","Do not accept","WTTE","ECF","Seen or implied" 9)For holistic grids store in meta.gradingGrid 10)Stimulus must be SPECIFIC with named locations, technologies, numerical values 11)IMPORTANT FOR TABLE QUESTIONS: You MUST include "tableHeaders", "tableRows", "tableCols", and "tablePrefill" in data. A Table question WITHOUT these is broken. Always include them. 12)The TOTAL marks across ALL questions MUST equal exactly ${config.totalMarks}. Count the marks as you generate. If you have generated 10 marks worth of questions and the target is 25, you MUST generate more questions until you reach exactly 25 marks. 13)For a 25-mark Criterion A test, generate at LEAST 3 main stimulus blocks with 2-4 sub-parts each. A typical 25-mark paper has: 2-3 MCQ questions (1 mark each) = 2-3 marks, 3-4 short answer / fill-in questions (1-2 marks each) = 4-8 marks, 2-3 calculation questions (2-3 marks each) = 4-9 marks, 1-2 explanation questions (3-4 marks each) = 3-8 marks. Total MUST equal ${config.totalMarks} marks exactly. 14)Before outputting JSON, verify your total: add up all meta.marks values. If the sum does not equal ${config.totalMarks}, adjust by adding or removing questions until it matches exactly.`;
+RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands progress i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks}. This is NOT optional. Count every question's marks before responding. If the sum is less than ${config.totalMarks}, ADD more questions. If more, REMOVE questions. EXACTLY ${config.totalMarks} marks total. 7)Realistic numerical values 8)Mark schemes use IB format: "Award X marks","Accept","Do not accept","WTTE","ECF","Seen or implied" 9)For holistic grids store in meta.gradingGrid 10)Stimulus must be SPECIFIC with named locations, technologies, numerical values 11)MINIMUM QUESTION COUNT: For ${config.totalMarks} marks, generate AT LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions. Spread marks across many questions with escalating difficulty (strand i then ii then iii). Do NOT generate only 3-4 high-mark questions. 12)IMPORTANT FOR TABLE QUESTIONS: You MUST include "tableHeaders", "tableRows", "tableCols", and "tablePrefill" in data. A Table question WITHOUT these is broken. Always include them. 13)The TOTAL marks across ALL questions MUST equal exactly ${config.totalMarks}. Count the marks as you generate. If you have generated 10 marks worth of questions and the target is 25, you MUST generate more questions until you reach exactly 25 marks. 14)For a 25-mark Criterion A test, generate at LEAST 3 main stimulus blocks with 2-4 sub-parts each. A typical 25-mark paper has: 2-3 MCQ questions (1 mark each) = 2-3 marks, 3-4 short answer / fill-in questions (1-2 marks each) = 4-8 marks, 2-3 calculation questions (2-3 marks each) = 4-9 marks, 1-2 explanation questions (3-4 marks each) = 3-8 marks. Total MUST equal ${config.totalMarks} marks exactly. 15)Before outputting JSON, verify your total: add up all meta.marks values. If the sum does not equal ${config.totalMarks}, adjust by adding or removing questions until it matches exactly.`;
 }
 
 /* ── AI API Call (Groq primary, Gemini fallback) ── */
