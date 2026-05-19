@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Question Bank Explanations Editor</title>
+</head>
+<body>
+<h2>Processing Question Bank...</h2>
+<textarea id="output" style="width:100%;height:80vh;font-family:monospace;font-size:11px;"></textarea>
+
+<script src="question-bank.js"></script>
+<script>
+function generateExplanation(q) {
+  const strand = q.strand || "i";
+  const level = q.level || "easy";
+  const topic = (q.topic || "").toLowerCase();
+  const question = q.question || "";
+  const answer = q.answer || "";
+
+  // ── STRAND I (RECALL) EXPLANATIONS ──
+  if (strand === "i") {
+    if (topic === "forces" || topic === "force" || topic === "laws" || topic === "third law") {
+      if (question.includes("defined as") || question.includes("definition of force")) {
+        return "A force is defined as any push or pull that acts on an object. Forces are vector quantities, having both magnitude and direction, and are measured in newtons (N).";
+      }
+      if (question.includes("push")) {
+        return "A push is a contact force that acts in the direction away from the person or source applying it. Examples include pushing a door open or pushing a shopping cart.";
+      }
+      if (question.includes("pull")) {
+        return "A pull is a contact force that acts in the direction toward the person or source applying it. Examples include pulling a sled or pulling open a drawer.";
+      }
+      if (question.includes("contact force")) {
+        if (answer.toLowerCase().includes("friction")) {
+          return "Friction is a contact force because it arises directly from the physical interaction and microscopic interlocking between two surfaces in contact.";
+        }
+        return "Contact forces require physical touch between interacting objects to exert a force. Examples include friction, tension, air resistance, and normal force.";
+      }
+      if (question.includes("non-contact")) {
+        return "Non-contact forces act over a distance without physical touch between the interacting objects. Examples include gravity, electrostatic attraction, and magnetism.";
+      }
+      if (question.includes("balanced")) {
+        return "Balanced forces act on an object with equal magnitude but opposite directions. This results in a net force of zero (0 N), meaning the object's motion does not change.";
+      }
+      if (question.includes("unbalanced")) {
+        return "Unbalanced forces have a non-zero net force acting on an object. This causes the object to accelerate in the direction of the net force.";
+      }
+      if (question.includes("gravity") || question.includes("gravitational")) {
+        return "Gravitational force is a non-contact attractive force that pulls objects toward the center of the Earth. It acts on all matter with mass.";
+      }
+      if (question.includes("friction")) {
+        return "Friction is a contact force that acts between two surfaces in contact and always opposes relative motion. It allows us to walk without slipping.";
+      }
+      if (question.includes("air resistance")) {
+        return "Air resistance is a frictional contact force exerted by air molecules opposing an object's motion. It increases as the object moves faster through the air.";
+      }
+      if (question.includes("equal and opposite")) {
+        return "Equal and opposite forces that cancel each other out are balanced forces. They result in zero acceleration, keeping the object's velocity constant.";
+      }
+    }
+    if (topic === "inertia") {
+      if (question.includes("inertia is") || question.includes("defined as")) {
+        return "Inertia is the inherent property of matter by which it resists any change in its state of rest or uniform motion. It is directly proportional to the object's mass.";
+      }
+      if (question.includes("depends on") || question.includes("measure of")) {
+        return "An object's inertia depends solely on its mass. A more massive object has a greater resistance to changes in its state of motion than a lighter object.";
+      }
+      if (question.includes("truck") || question.includes("heavier") || question.includes("hardest to stop")) {
+        return "Using the principle of inertia, objects with greater mass (like a heavy truck) possess more inertia. This makes them significantly harder to accelerate or decelerate.";
+      }
+      if (question.includes("seat belt") || question.includes("passenger")) {
+        return "When a vehicle decelerates suddenly, passengers continue moving forward due to their inertia of motion. Seat belts apply a safety force to safely stop this forward motion.";
+      }
+      if (question.includes("rest will")) {
+        return "According to Newton's First Law, an object at rest will remain at rest unless acted upon by an unbalanced external force due to its inertia.";
+      }
+      if (question.includes("constant velocity") || question.includes("no net force")) {
+        return "According to Newton's First Law, an object in motion will maintain its velocity in a straight line if the net external force is zero, resisting stopping due to its inertia.";
+      }
+    }
+    if (topic === "momentum") {
+      if (question.includes("formula")) {
+        return "Momentum (p) is calculated using the formula p = mv, where m represents the mass of the object and v represents its velocity. It is a vector quantity.";
+      }
+      if (question.includes("conservation") || question.includes("conserved")) {
+        return "The Law of Conservation of Momentum states that in the absence of external forces, the total momentum of a closed system remains constant before and after a collision.";
+      }
+      if (question.includes("elastic")) {
+        return "In a perfectly elastic collision, both the total momentum and the total kinetic energy of the system are fully conserved during the interaction.";
+      }
+      if (question.includes("inelastic")) {
+        return "In an inelastic collision, the total momentum of the system is conserved, but some kinetic energy is converted into other forms of energy like heat or sound.";
+      }
+      if (question.includes("impulse")) {
+        return "Impulse is defined as the product of the net force acting on an object and the time interval of action (J = FΔt), which equals the change in the object's momentum.";
+      }
+      if (question.includes("unit")) {
+        return "The SI unit of momentum is the kilogram meter per second (kg m/s), which is derived directly from the product of mass (kg) and velocity (m/s).";
+      }
+      if (question.includes("velocity doubles") || question.includes("doubles")) {
+        return "Since momentum is directly proportional to velocity (p = mv), doubling the velocity of a constant mass will directly double its momentum.";
+      }
+    }
+    if (topic === "friction") {
+      if (question.includes("static")) {
+        return "Static friction is the force that opposes the initial relative motion of two stationary surfaces. It matches the applied force up to a maximum limit.";
+      }
+      if (question.includes("kinetic") || question.includes("sliding")) {
+        return "Kinetic (sliding) friction is the force that opposes the motion of surfaces already sliding relative to each other. It is generally weaker than static friction.";
+      }
+      if (question.includes("lubricant") || question.includes("reduce")) {
+        return "Lubricants reduce friction by introducing a smooth liquid layer between contact surfaces, preventing direct microscopic interlocking of surface roughness.";
+      }
+      if (question.includes("increase")) {
+        return "Increasing surface roughness or the normal force pushing the surfaces together increases the interlocking friction, which is helpful for grip and traction.";
+      }
+    }
+    if (topic === "atomic") {
+      if (question.includes("half-life") || question.includes("decay")) {
+        if (question.includes("formula")) {
+          return "The half-life equation incorporates the natural logarithm of 2 (ln 2) to relate the decay constant (λ) to half-life: t_1/2 = ln(2) / λ.";
+        }
+        return "Half-life is the constant time required for a radioactive sample's quantity or activity to decay to exactly half of its initial value, reflecting a random statistical process.";
+      }
+      if (question.includes("nucleus") || question.includes("dense")) {
+        return "The atomic nucleus is an extremely dense, positively charged central region of the atom containing protons and neutrons held together by the strong nuclear force.";
+      }
+      if (question.includes("rutherford") || question.includes("empty space")) {
+        return "Rutherford's gold foil experiment proved that the atom is mostly empty space, with almost all its positive charge and mass concentrated in a tiny central nucleus.";
+      }
+      if (question.includes("bohr") || question.includes("shells") || question.includes("energy levels")) {
+        return "The Bohr model describes electrons revolving around the nucleus only in specific, quantized energy levels (or orbits) without radiating energy.";
+      }
+      if (question.includes("photon") || question.includes("emission") || question.includes("absorb")) {
+        return "A photon is emitted or absorbed when an electron transitions between quantized energy levels. The energy of the photon is directly proportional to its frequency (E = hf).";
+      }
+      if (question.includes("alpha")) {
+        return "An alpha particle consists of two protons and two neutrons (helium nucleus). It is highly ionizing due to its large double-positive charge, but has low penetration depth.";
+      }
+      if (question.includes("beta")) {
+        return "Beta particles are high-energy, high-speed electrons or positrons emitted during nuclear decay. They possess moderate penetration power and ionization capability.";
+      }
+      if (question.includes("gamma")) {
+        return "Gamma rays are high-energy electromagnetic waves emitted during nuclear transitions. Lacking charge and mass, they possess exceptionally high penetration depth.";
+      }
+      if (question.includes("E = mc") || question.includes("mc²") || question.includes("defect")) {
+        return "Mass defect represents the difference between the mass of a nucleus and the sum of its nucleons. This mass is converted into binding energy via Einstein's equation E = mc².";
+      }
+      if (question.includes("waste") || question.includes("geological")) {
+        return "Nuclear power plants produce highly radioactive waste that remains hazardous for thousands of years. Deep geological storage isolates this waste from the biosphere.";
+      }
+    }
+  }
+
+  // ── STRAND II (APPLICATION) EXPLANATIONS ──
+  if (strand === "ii") {
+    if (topic === "forces" || topic === "force" || topic === "laws" || topic === "third law") {
+      if (question.includes("F=ma") || question.includes("F = ma") || question.includes("second law")) {
+        return "According to Newton's Second Law (F = ma), the net force acting on an object is directly proportional to its mass and its acceleration. A larger mass requires a larger force to accelerate at the same rate.";
+      }
+      if (question.includes("action") || question.includes("reaction") || question.includes("third law")) {
+        return "Under Newton's Third Law, action-reaction pairs act on different objects. When you kick a ball, the force on the ball accelerates it forward, while the equal reaction on your foot is felt opposite.";
+      }
+      if (question.includes("calculate") || question.includes("numerical") || question.includes("acceleration")) {
+        return `Using Newton's Second Law (F = ma), we can calculate the unknown value. Substituting the mass and net force reveals that the acceleration is exactly ${answer}.`;
+      }
+      if (question.includes("change shape") || question.includes("deform")) {
+        return "Applying a force to an object can also cause deformation rather than acceleration. Stretching a spring or compressing clay are clear examples of forces altering shapes.";
+      }
+    }
+    if (topic === "inertia") {
+      return "Using the formula F = ma, we see that mass resists acceleration. An object's inertia is a direct measure of this resistance; larger masses require significantly larger forces to change their velocities.";
+    }
+    if (topic === "momentum") {
+      if (question.includes("calculate") || question.includes("numerical")) {
+        return `Applying the formula p = mv allows us to compute momentum. Multiplying the object's mass by its velocity shows the momentum to be ${answer} kg m/s.`;
+      }
+      if (question.includes("impulse") || question.includes("seat belt")) {
+        return "Impulse equals the change in momentum (FΔt = Δp). Increasing the duration of a collision decreases the net force acting on the object, which is how seat belts prevent severe injuries.";
+      }
+      return `Using the formula p = mv, we find that the momentum equals ${answer}. Momentum is directly proportional to both mass and velocity, meaning a change in either affects the total momentum directly.`;
+    }
+    if (topic === "atomic") {
+      if (question.includes("E=mc²") || question.includes("E = mc²") || question.includes("mass defect")) {
+        return "Applying Einstein's mass-energy equivalence equation (E = mc²), the mass defect inside a nucleus is converted into enormous binding energy holding the nucleons together.";
+      }
+      if (question.includes("half-life") || question.includes("calculate")) {
+        return `Using the radioactive decay formula, the sample size decreases by half every half-life. After the given intervals, exactly ${answer} of the original isotope remains active.`;
+      }
+    }
+  }
+
+  // ── STRAND III (ANALYSIS) EXPLANATIONS ──
+  if (strand === "iii") {
+    if (topic === "forces" || topic === "force" || topic === "laws" || topic === "third law") {
+      if (question.includes("cancel")) {
+        return "Action and reaction forces do not cancel each other out because they always act on two completely different objects. Only forces acting on the same object can cancel.";
+      }
+      if (question.includes("friction")) {
+        return "Friction always opposes attempted relative motion between surfaces. This arises because microscopic imperfections on even smooth-looking surfaces interlock, resisting sliding.";
+      }
+      return `Analyzing the balanced or unbalanced states of the forces shows that the net force equals ${answer}. A non-zero net force causes acceleration, while zero net force keeps the velocity constant.`;
+    }
+    if (topic === "inertia") {
+      return "Inertia represents an object's resistance to any change in its velocity. Since mass is the sole qualitative measure of inertia, altering an object's shape, volume, or temperature has no effect on its inertia.";
+    }
+    if (topic === "momentum") {
+      if (question.includes("conservation") || question.includes("collision")) {
+        return "Analyzing the collision using the Law of Conservation of Momentum proves that the total momentum before the impact equals the total momentum after. No momentum is lost to the surroundings.";
+      }
+    }
+  }
+
+  // ── GENERIC FALLBACKS BY TOPIC & KEYWORDS ──
+  if (topic === "forces" || topic === "force" || topic === "laws" || topic === "third law") {
+    if (answer.includes("N") || answer.includes("newton")) {
+      return "The newton (N) is the SI unit of force. By definition, one newton is the force required to accelerate a one kilogram mass at a rate of one meter per second squared (1 kg m/s²).";
+    }
+    if (question.includes("F=ma") || question.includes("F = ma")) {
+      return "According to Newton's Second Law, force is the product of mass and acceleration (F = ma). For a constant mass, acceleration increases linearly with the applied net force.";
+    }
+    return `In physics, ${answer} represents the correct outcome under these force interactions. This demonstrates how applied forces, whether balanced or unbalanced, govern the physical motion of the system.`;
+  }
+
+  if (topic === "inertia") {
+    return `Inertia is the property of an object to resist changes in its motion, which depends entirely on its mass. Under Newton's First Law, ${answer} reflects this tendency to maintain the current state of rest or constant velocity.`;
+  }
+
+  if (topic === "momentum") {
+    return `Using the formula p = mv, we find that the momentum of the system equals ${answer}. This vector quantity is conserved in closed systems during collisions, as described by conservation laws.`;
+  }
+
+  if (topic === "friction") {
+    return `Friction is a resistive contact force that opposes sliding. Analyzing the contact surfaces reveals that ${answer} is the correct behavior, showing how static or kinetic friction opposes relative motion.`;
+  }
+
+  if (topic === "atomic" || topic === "nuclear") {
+    if (answer.toLowerCase().includes("half-life") || answer.toLowerCase().includes("decay")) {
+      return "Radioactive decay is a random and spontaneous process at the single-atom level. Half-life provides a statistical measure of the rate at which the parent nuclei decay into daughter isotopes.";
+    }
+    return `Analyzing the atomic structure or nuclear reaction confirms that ${answer} is correct. This is governed by mass-energy equivalence (E = mc²) and conservation laws for charge and nucleon numbers.`;
+  }
+
+  // Default beautiful backup based on standard terms
+  let capTopic = topic.charAt(0).toUpperCase() + topic.slice(1);
+  if (strand === "i") {
+    return `For ${capTopic}, ${answer} is the correct conceptual definition. This serves as a key identifying property of the physical system, supporting proper recall of basic terminology.`;
+  } else if (strand === "ii") {
+    return `Applying the appropriate formulas within ${capTopic} shows why ${answer} is correct. This application connects physical equations directly to experimental conditions.`;
+  } else {
+    return `Analyzing the physical variables in ${capTopic} confirms that ${answer} is the only logically consistent outcome. This links multiple principles together to explain the behavior.`;
+  }
+}
+
+// Map over all questions and update their explanation field
+const updatedBank = questionBank.map(q => {
+  const newExp = generateExplanation(q);
+  // Keep all original fields intact, only update the explanation field
+  return Object.assign({}, q, { explanation: newExp });
+});
+
+// Format the array into a beautiful Javascript string assignment
+let jsContent = "const questionBank = [\n\n";
+
+updatedBank.forEach((q, index) => {
+  jsContent += "{\n";
+  jsContent += `topic: ${JSON.stringify(q.topic)},\n`;
+  jsContent += `image: ${JSON.stringify(q.image)},\n`;
+  jsContent += `criterion: ${JSON.stringify(q.criterion)},\n`;
+  jsContent += `    strand: ${JSON.stringify(q.strand)},\n`;
+  jsContent += `level: ${JSON.stringify(q.level)},\n`;
+  jsContent += `question: ${JSON.stringify(q.question)},\n`;
+  jsContent += `options: ${JSON.stringify(q.options)},\n`;
+  jsContent += `answer: ${JSON.stringify(q.answer)},\n`;
+  jsContent += `explanation: ${JSON.stringify(q.explanation)}\n`;
+  jsContent += (index === updatedBank.length - 1) ? "}\n" : "},\n";
+});
+
+jsContent += "\n];\n";
+
+document.getElementById('output').value = jsContent;
+console.log("Finished generating updated question bank!");
+</script>
+</body>
+</html>
