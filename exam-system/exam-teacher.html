@@ -1271,13 +1271,54 @@ async function openUsers() {
   runDiag().catch(() => {});
   
   try {
+    // 1. Fetch registered students
     const snap = await db.collection('students').get();
-    allUsersCache = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const students = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    
+    // 2. Fetch attempts to reconstruct missing student records from test logs
+    const attSnap = await db.collection('attempts').get();
+    const attempts = attSnap.docs.map(doc => doc.data());
+    
+    // Map existing students by email (lowercased)
+    const studentMap = {};
+    students.forEach(s => {
+      if (s.email) {
+        studentMap[s.email.toLowerCase()] = s;
+      }
+    });
+    
+    // Reconstruct students from attempts if they are not in the students collection
+    attempts.forEach(a => {
+      if (a.studentEmail) {
+        const emailLower = a.studentEmail.toLowerCase();
+        if (!studentMap[emailLower]) {
+          const fullName = a.studentName || 'Student';
+          const parts = fullName.split(' ');
+          const firstName = parts[0] || 'Student';
+          const lastName = parts.slice(1).join(' ') || '';
+          
+          studentMap[emailLower] = {
+            id: 'reconstructed_' + emailLower,
+            email: a.studentEmail,
+            firstName: firstName,
+            lastName: lastName,
+            grade: '—',
+            section: '—',
+            createdAt: a.startedAt || Date.now(),
+            isReconstructed: true
+          };
+        }
+      }
+    });
+    
+    allUsersCache = Object.values(studentMap);
+    
     allUsersCache.sort((a, b) => {
       const timeA = a.createdAt && typeof a.createdAt.toDate === 'function' ? a.createdAt.toDate().getTime() : (a.createdAt || 0);
       const timeB = b.createdAt && typeof b.createdAt.toDate === 'function' ? b.createdAt.toDate().getTime() : (b.createdAt || 0);
       return timeB - timeA;
     });
+    
     renderUsersList();
   } catch (err) {
     console.error('Error fetching users:', err);

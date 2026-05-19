@@ -1875,12 +1875,46 @@ function loadAnalytics(){
 }
 
 /* ══════════ Init ══════════ */
-// Wait for Firebase Auth, then initialize
 auth.onAuthStateChanged(async (user) => {
   if (!user) { redirect(); return; }
   if (!checkSession()) return;
   // Load data from Firestore
   await initFirebaseDB();
+  
+  // Self-healing student profile write
+  if (user && window.db) {
+    try {
+      const studentDocRef = db.collection('students').doc(user.uid);
+      const doc = await studentDocRef.get();
+      if (!doc.exists) {
+        console.log("Self-healing: Creating student profile in Firestore for", user.email);
+        const name = currentStudent.name || '';
+        const parts = name.split(' ');
+        const first = parts[0] || 'Student';
+        const last = parts.slice(1).join(' ') || '';
+        await studentDocRef.set({
+          uid: user.uid,
+          email: user.email.toLowerCase(),
+          firstName: first,
+          lastName: last,
+          studentId: '',
+          grade: '',
+          section: '',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+          selfHealed: true
+        });
+        console.log("Self-healing student profile successfully created.");
+      } else {
+        await studentDocRef.update({
+          lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(() => {});
+      }
+    } catch (err) {
+      console.error("Self-healing student profile write failed:", err);
+    }
+  }
+
   // Log student activity
   logStudentActivity('page_load', { page: 'student_panel' });
   buildChapterTree(); loadDashboard();
