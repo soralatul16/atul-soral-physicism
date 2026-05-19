@@ -227,60 +227,32 @@ DATA TABLES: For Criterion C and calculation questions, include HTML data tables
 
   if (hasA) {
     taskStructure += `
-TASK: CRITERION A — KNOWING AND UNDERSTANDING (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'})
-Generate 2-3 main questions with sub-parts. Each opens with a STIMULUS (real-world scenario, 3-6 sentences, specific data).
-Sub-part pattern:
-(a) 1 mark, strand i: "${ye.A_verbs.i[0]} [fact]" — MCQ or short answer
-(b) 1-2 marks, strand i: "${ye.A_verbs.i[0]} [concept]" — short answer or table
-(c) 2 marks, strand ii: "${ye.A_verbs.ii[0]} [formula to solve problem]" — calculation with formula→substitution→answer+units
-(d) 2-3 marks, strand ii: Multi-step calculation — "Use of [formula] seen or implied (1), correct intermediate value (1), correct answer to 2+ sig figs with units (1)"
-(e) 2-3 marks, strand iii: "${ye.A_verbs.iii[0]} [data/claim to judge]" — requires scientific reasoning
-Mark scheme format: "Award N marks", "Seen or implied", "Accept...", "Do not accept...", "WTTE", "ECF"`;
+CRITERION A (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'}): 2-3 stimuli with sub-parts.
+(a) 1mk strand i: "${ye.A_verbs.i[0]}" — recall. (b) 1-2mk strand i: short answer. (c) 2mk strand ii: "${ye.A_verbs.ii[0]}" — formula→sub→answer+units. (d) 2-3mk strand ii: multi-step calc. (e) 2-3mk strand iii: "${ye.A_verbs.iii[0]}" — reasoning.
+Mark scheme: "Award N marks", "Seen or implied", "Accept/Do not accept", "WTTE", "ECF", "2+ sig figs".`;
   }
 
   if (hasB) {
     taskStructure += `
-TASK: CRITERION B — INQUIRING AND DESIGNING (${config.criterion === 'Full Exam' ? '~16-18 marks' : '~14-16 marks'})
-Stimulus: Describe a phenomenon to investigate with equipment available.
-(a) 1 mark, strand i: "${ye.B_verbs.i[0]} a research question"
-(b) 2-3 marks, strand ii: "${ye.B_verbs.ii[0]} a testable ${yl==='1'?'prediction':'hypothesis'} using scientific reasoning"
-(c) MAIN DESIGN (14-16 marks, strand iv): "${ye.B_verbs.iv[0]} a complete scientific investigation"
-Grade with HOLISTIC GRID stored in meta.gradingGrid:
-{"V":{"label":"Variables","levels":{"1":"IV or DV identified","2":"IV and DV stated","3":"IV, DV and one CV stated","4":"IV, DV and one CV stated and justified"}},
-"H":{"label":"${yl==='1'?'Prediction':'Hypothesis'}","levels":{"1":"Attempt linked to one variable","2":"Testable, links IV and DV","3":"Links IV and DV with attempted explanation","4":"Links IV and DV with scientific reasoning"}},
-"E":{"label":"Equipment","levels":{"1":"Equipment to measure IV or DV","2":"Equipment to measure IV and DV"}},
-"M":{"label":"Method","levels":{"1":"Attempt at method","2":"Method linked to IV and DV","3":"Complete method","4":"Complete method with CV control"}},
-"D":{"label":"Data collection","levels":{"1":"Reference to IV values","2":"5 increments or 3 trials","3":"5 increments and 3 trials","4":"5 increments, 3 trials, calculates average"}},
-"S":{"label":"Safety","levels":{"1":"Relevant precaution linked to hazard"}}}
-IMPORTANT: Criterion B is a SINGLE extended question with a holistic marking grid. Do NOT split it into multiple small questions. Generate ONE stimulus, ONE design task, and ONE holistic grid with rows V, H, E, M, D, S. The total marks come from the grid, not from individual sub-parts.`;
+CRITERION B (${config.criterion === 'Full Exam' ? '~16-18 marks' : '~14-16 marks'}): ONE design question. Stimulus describes phenomenon+equipment.
+(a) 1mk: "${ye.B_verbs.i[0]} a research question". (b) 2-3mk: "${ye.B_verbs.ii[0]} a testable ${yl==='1'?'prediction':'hypothesis'}".
+(c) MAIN DESIGN (14-16mk): Holistic grid in meta.gradingGrid:
+{"V":{"label":"Variables","levels":{"1":"IV or DV","2":"IV and DV","3":"IV,DV,CV","4":"IV,DV,CV justified"}},"H":{"label":"${yl==='1'?'Prediction':'Hypothesis'}","levels":{"1":"Links one var","2":"Links IV+DV","3":"IV+DV+explanation"}},"E":{"label":"Equipment","levels":{"1":"Measures IV or DV","2":"Measures IV and DV"}},"M":{"label":"Method","levels":{"1":"Attempt","2":"Links IV+DV","3":"Complete","4":"Complete+CV control"}},"D":{"label":"Data","levels":{"1":"IV values","2":"5 increments or 3 trials","3":"5+3","4":"5+3+average"}},"S":{"label":"Safety","levels":{"1":"Precaution+hazard"}}}
+Do NOT split into multiple questions. ONE stimulus, ONE design task, ONE grid.`;
   }
 
   if (hasC) {
     taskStructure += `
-TASK: CRITERION C — PROCESSING AND EVALUATING (${config.criterion === 'Full Exam' ? '~20-25 marks' : config.totalMarks + ' marks'})
-Stimulus: Provide ACTUAL experimental data table (5-7 rows, units in headers, realistic values).
-(a) 1-2 marks, strand i: Read/calculate a value from data
-(b) 2-3 marks, strand i: Calculate missing value using formula
-(c) 4 marks, strand i: Present data in table or plot graph — "Headers with units(1), ascending order(1), consistent decimals(1), correct values(1)"
-(d) 2-3 marks, strand ii: "${ye.C_verbs.ii[0]} the data — trend(1), relationship type(1), scientific reasoning(1)"
-(e) 3 marks, strand iii: "${ye.C_verbs.iii[0]} whether data supports ${yl==='1'?'prediction':'hypothesis'} — specific data ref(1), correct conclusion(1), reasoning(1)"
-(f) 2 marks, strand iv: "${ye.C_verbs.iv[0]} a source of error and its effect"
-(g) 2-3 marks, strand v: "${ye.C_verbs.v[0]} an improvement or extension"`;
+CRITERION C (${config.criterion === 'Full Exam' ? '~20-25 marks' : config.totalMarks + ' marks'}): Provide data table (5-7 rows, units in headers).
+(a) 1-2mk: Read/calculate from data. (b) 2-3mk: Calculate using formula. (c) 4mk: Present/plot data. (d) 2-3mk: "${ye.C_verbs.ii[0]}" trend+relationship. (e) 3mk: "${ye.C_verbs.iii[0]}" whether data supports ${yl==='1'?'prediction':'hypothesis'}. (f) 2mk: Error+effect. (g) 2-3mk: Improvement.`;
   }
 
   if (hasD) {
     taskStructure += `
-TASK: CRITERION D — REFLECTING ON IMPACTS (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'})
-Factor: ${config.dFactor || 'Environmental'}
-Stimulus: 6-10 sentences describing a REAL physics application (e.g. James Webb Telescope, SODIS, defibrillators, passive houses).
-(a) 1 mark: Factual recall related to application
-(b) 1-2 marks, strand i: "${ye.D_verbs.i[0]} how the physics is used to address the problem"
-(c) MAIN REFLECTION (9-15 marks, strands i-iv): Holistic grid in meta.gradingGrid:
-{"theme1":{"label":"${config.dFactor||'Environmental'} implications","levels":{"1":"A statement","2":"Two statements or one with support","3":"Two with support for one","4":"Two with support for both"}},
-"theme2":{"label":"Second factor implications","levels":{"1":"A statement","2":"Two statements or one with support","3":"Two with support for one","4":"Two with support for both"}},
-"conclusion":{"label":"Concluding appraisal","levels":{"1":"A concluding opinion","2":"Justified appraisal linking to arguments"}}}
-Do NOT use MCQ/TF for this — requires extended writing. Both benefits AND limitations required.
-IMPORTANT: Criterion D is a SINGLE extended reflection question with a holistic marking grid. Do NOT split it into MCQs or short answers. Generate ONE real-world stimulus (6-10 sentences), then ONE extended writing task asking students to discuss 2-3 themes (based on the D-factor). Include a holistic grid with rows for each theme plus a concluding appraisal row. Each theme row has 1-4 mark levels. The concluding appraisal has 1-2 mark levels.`;
+CRITERION D (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'}): Factor: ${config.dFactor || 'Environmental'}. ONE reflection, extended writing.
+Stimulus: 6-10 sentences, REAL physics application. Holistic grid in meta.gradingGrid:
+{"theme1":{"label":"${config.dFactor||'Environmental'} implications","levels":{"1":"Statement","2":"Statement+support","3":"Two+support for one","4":"Two+support for both"}},"theme2":{"label":"Second factor","levels":{"1":"Statement","2":"Statement+support","3":"Two+support for one","4":"Two+support for both"}},"conclusion":{"label":"Appraisal","levels":{"1":"Opinion","2":"Justified appraisal"}}}
+Both benefits AND limitations required. Do NOT use MCQ/TF.`;
   }
 
   const formulas = `FORMULAS: ρ=m/V, F=ma, v=u+at, s=ut+½at², v²=u²+2as, p=mv, p=F/A, W=Fs, Eₖ=½mv², g=F/m, ΔEₚ=mgΔh, efficiency=(useful/total)×100, P=W/t, I=ΔQ/t, P=IV, V=IR, Vₚ/Vₛ=Nₚ/Nₛ, v=fλ, T=1/f`;
@@ -309,31 +281,15 @@ COMMAND TERMS: Define(precise meaning), State(brief, no explanation), Outline(br
 ${diagramInstr}
 ${dataTableInstr}
 
-VISUAL ELEMENTS — generate these as HTML within content blocks:
-
-1. DATA TABLES: When a question requires students to read or complete a table, generate a full HTML table with headers, units, and some pre-filled values. Leave blank cells where students need to fill in answers. Use the Table question type with tableHeaders, tableRows, tableCols, and tablePrefill.
-
-2. GRAPHS: When a question involves reading a graph or plotting data, generate a content block with type "Text" containing an HTML description of the graph AND the raw data points. Format like:
-   "<p><strong>Graph: Velocity against Time</strong></p><table><tr><th>Time / s</th><th>Velocity / m s⁻¹</th></tr><tr><td>0.0</td><td>0.0</td></tr><tr><td>2.0</td><td>4.0</td></tr>...</table><p>[The graph shows these data points plotted with a line of best fit. The y-intercept is 0.0 and the gradient is 2.0 m s⁻².]</p>"
-   This gives students the data to work with even without a visual graph.
-
-3. DIAGRAMS: When a question references an experimental setup, circuit, or force diagram, generate a content block with:
-   "<p><strong>[DIAGRAM: Description of what the diagram shows]</strong></p><p>The diagram shows [detailed description including all labels, measurements, and components].</p>"
-   Be specific enough that a student could draw the diagram from your description.
-
-4. STIMULUS IMAGES: Reference images from the DIAGRAM_BANK when relevant. Use Image content blocks with URLs from the available diagrams list.
-
-5. EQUATIONS: When showing equations in stimulus text, use HTML formatting:
-   "<p>The equation for kinetic energy is: E<sub>k</sub> = ½mv²</p>"
-   Use <sub> for subscripts, <sup> for superscripts.
+VISUAL ELEMENTS: Use HTML tables for data, HTML descriptions for graphs/diagrams, <sub>/<sup> for equations. Include at least 1 data table, 1 graph description, 1 diagram description.
 
 eASSESSMENT STYLE GUIDE:
-- Criterion A: Stimulus (3-6 sentences, real-world, specific numbers) → sub-parts escalating strand i→ii→iii. Mark scheme: "Award N marks", "Seen or implied", "Accept/Do not accept", "WTTE", "ECF", "2+ sig figs".
-- Criterion B: ONE design question with holistic grid rows V(variables 1-4), H(hypothesis 1-3), E(equipment 1-2), M(method 1-4), D(data 1-4), S(safety 1).
-- Criterion C: Provide data table → read→calculate→graph→interpret→evaluate. "Reference to the graph must be made."
-- Criterion D: ONE reflection with holistic grid: 2-3 theme rows (1=statement, 2=statement+support, 3=two+support for one, 4=two+support for both) + concluding appraisal (1=opinion, 2=justified appraisal).
+- Criterion A: Stimulus (3-6 sentences) → sub-parts i→ii→iii. "Award N marks", "Seen or implied", "Accept/Do not accept".
+- Criterion B: ONE design question with holistic grid V(1-4), H(1-3), E(1-2), M(1-4), D(1-4), S(1).
+- Criterion C: Data table → read→calculate→graph→interpret→evaluate.
+- Criterion D: ONE reflection with holistic grid + concluding appraisal.
 
-VISUALS: Include at least 1 image block. Use real URLs from Wikimedia Commons or HyperPhysics. Format: {"mode":"content","type":"Image","sectionId":1,"data":{"url":"URL_HERE","caption":"Figure N: description","editable":true}}. If no URL found, use empty url with caption "[IMAGE NEEDED: description]".
+VISUALS: Include at least 1 image block. Format: {"mode":"content","type":"Image","sectionId":1,"data":{"url":"","caption":"[IMAGE NEEDED: description]","editable":true}}.
 
 ${taskStructure}
 
@@ -356,7 +312,7 @@ ${config.questions.map(q => '- '+q.count+'× '+q.type+' ('+q.marks+' marks each)
   ]
 }
 
-RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands progress i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks}. This is NOT optional. Count every question's marks before responding. If the sum is less than ${config.totalMarks}, ADD more questions. If more, REMOVE questions. EXACTLY ${config.totalMarks} marks total. 7)Realistic numerical values 8)Mark schemes use IB format: "Award X marks","Accept","Do not accept","WTTE","ECF","Seen or implied" 9)For holistic grids store in meta.gradingGrid 10)Stimulus must be SPECIFIC with named locations, technologies, numerical values 11)MINIMUM QUESTION COUNT: For ${config.totalMarks} marks, generate AT LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions. Spread marks across many questions with escalating difficulty (strand i then ii then iii). Do NOT generate only 3-4 high-mark questions. 12)IMPORTANT FOR TABLE QUESTIONS: You MUST include "tableHeaders", "tableRows", "tableCols", and "tablePrefill" in data. A Table question WITHOUT these is broken. Always include them. 13)The TOTAL marks across ALL questions MUST equal exactly ${config.totalMarks}. Count the marks as you generate. If you have generated 10 marks worth of questions and the target is 25, you MUST generate more questions until you reach exactly 25 marks. 14)For a 25-mark Criterion A test, generate at LEAST 3 main stimulus blocks with 2-4 sub-parts each. A typical 25-mark paper has: 2-3 MCQ questions (1 mark each) = 2-3 marks, 3-4 short answer / fill-in questions (1-2 marks each) = 4-8 marks, 2-3 calculation questions (2-3 marks each) = 4-9 marks, 1-2 explanation questions (3-4 marks each) = 3-8 marks. Total MUST equal ${config.totalMarks} marks exactly. 15)Before outputting JSON, verify your total: add up all meta.marks values. If the sum does not equal ${config.totalMarks}, adjust by adding or removing questions until it matches exactly.`;
+RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks} 7)Realistic values 8)Mark schemes: "Award X marks","Accept","Do not accept","WTTE","ECF" 9)Holistic grids in meta.gradingGrid 10)Specific stimuli with names,places,numbers 11)At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions 12)Table questions MUST have tableHeaders,tableRows,tableCols,tablePrefill 13)Count marks as you generate — must reach exactly ${config.totalMarks} 14)Verify total before outputting.`;
 }
 
 /* ── AI API Call (Groq primary, Gemini fallback) ── */
