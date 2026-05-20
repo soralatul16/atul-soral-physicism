@@ -311,7 +311,7 @@ The mark scheme for this question should say: "Assess holistically using the gri
 Both benefits AND limitations required.`;
   }
 
-  const formulas = `FORMULAS: ρ=m/V, F=ma, v=u+at, s=ut+½at², v²=u²+2as, p=mv, p=F/A, W=Fs, Eₖ=½mv², g=F/m, ΔEₚ=mgΔh, efficiency=(useful/total)×100, P=W/t, I=ΔQ/t, P=IV, V=IR, Vₚ/Vₛ=Nₚ/Nₛ, v=fλ, T=1/f`;
+  const formulas = `Use relevant physics formulas for the topic. Show formulas in questions where calculations are needed.`;
 
   var critOnlyInstruction = 'CRITICAL: This generation is for Criterion ' + crit + ' ONLY. Every question MUST be Criterion ' + crit + '. Do NOT generate questions for any other criterion.\n\n';
 
@@ -370,7 +370,7 @@ C verbs: i:${ye.C_verbs.i.join('/')}, ii:${ye.C_verbs.ii.join('/')}, iii:${ye.C_
 D verbs: i:${ye.D_verbs.i.join('/')}, ii:${ye.D_verbs.ii.join('/')}, iii:${ye.D_verbs.iii.join('/')}, iv:${ye.D_verbs.iv.join('/')}
 
 ${formulas}
-COMMAND TERMS: Define(precise meaning), State(brief, no explanation), Outline(brief account), Describe(detailed account), Explain(with reasons/causes), Calculate(numerical+working), Determine(only possible answer), Analyse(break down), Evaluate(weigh strengths/limitations), Discuss(balanced review+evidence), Justify(valid reasons), Formulate(express precisely), Suggest(propose), Compare(similarities/differences), Design(produce plan), Plot(mark points), Interpret(trends+conclusions)
+COMMAND TERMS: State(1 mark, MCQ/Fill), Define(1 mark, MCQ/Fill), Describe(2-3 marks, Long Answer), Explain(2-4 marks, Long Answer), Calculate(2-3 marks, Long Answer), Apply(2-3 marks, Long Answer), Analyse(3-4 marks, Long Answer), Evaluate(3-4 marks, Long Answer), Discuss(3-4 marks, Long Answer), Justify(3-4 marks, Long Answer)
 ${diagramInstr}
 ${dataTableInstr}
 
@@ -408,6 +408,34 @@ ${config.questions.map(function(q) {
 }
 
 RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks} 7)Realistic values 8)Mark schemes: "Award X marks","Accept","Do not accept","WTTE","ECF" 9)Holistic grids in meta.gradingGrid 10)Specific stimuli with names,places,numbers 11)At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions 12)Table questions MUST have tableHeaders,tableRows,tableCols,tablePrefill 13)Count marks as you generate — must reach exactly ${config.totalMarks} 14)Verify total before outputting 15)Generate at LEAST 2 different stimulus blocks using different real-world scenarios. Assign questions to different sectionIds (1, 2, or 3). 17)VARIETY: Each section MUST have at least 2 different question types. Never a section of all MCQs or all True/False. 18)STRAND MIX: Within each section, progress through strands. Start with strand i, then ii, then iii. Each section should cover at least 2 strands. 19)QUESTION INDEPENDENCE: Each question must be standalone. Do not make one question's answer depend on another question's answer.
+20)COMMAND TERM TO QUESTION TYPE MATCHING — follow these strictly:
+- "State" or "Define" → MCQ or Fill Text (1 mark, strand i)
+- "Describe" or "Outline" → Long Answer (2-3 marks, strand i-ii)
+- "Calculate" or "Determine" or "Solve" → Long Answer with working shown (2-3 marks, strand ii)
+- "Apply" → Long Answer or Table (2-3 marks, strand ii)
+- "Explain" → Long Answer (2-4 marks, strand ii-iii)
+- "Analyse" or "Evaluate" or "Discuss" or "Compare" or "Justify" → Long Answer ONLY (3-4 marks, strand iii)
+NEVER use "Evaluate", "Analyse", "Discuss", "Compare", or "Justify" for MCQ or Fill Text questions. These command terms require extended writing.
+NEVER use "State" or "Define" for Long Answer questions worth more than 2 marks.
+21)MCQ QUALITY RULES:
+- Every MCQ must have ONE clearly correct answer and THREE plausible distractors
+- Distractors must be scientifically plausible wrong answers, not obviously silly
+- BAD distractors: "Newton's laws are not important" / "Force has no effect" — too obviously wrong
+- GOOD distractors: Common misconceptions like "heavier objects fall faster" or "action-reaction forces act on the same object"
+- All four options should be similar in length and structure
+- Do NOT use "All of the above" or "None of the above"
+- MCQs should test KNOWLEDGE (strand i), not OPINION
+22)FILL TEXT RULES:
+- Fill Text is for single-word or short-phrase answers ONLY
+- "The unit of force is ______" → correct (single word: newton)
+- "Justify why an object remains at rest..." → WRONG for Fill Text, use Long Answer
+- Fill Text questions must have a clear, unambiguous single correct answer
+23)STRAND TO COMMAND TERM MATCHING:
+- Strand i: State, Define, Outline, List, Identify, Name, Label
+- Strand ii: Describe, Apply, Calculate, Determine, Solve, Show, Construct, Plot
+- Strand iii: Explain, Analyse, Evaluate, Discuss, Compare, Justify, Suggest, Predict
+- Do NOT assign strand i to questions using "Evaluate" or "Analyse"
+- Do NOT assign strand iii to questions using "State" or "Define"
 
 DRAWING QUESTIONS: Use type "Drawing" when students need to draw (free body diagram, circuit, ray diagram). Include: data.question (instruction), data.drawingInstructions (what to draw). Do NOT include data.drawingImage — image URLs break. Mark scheme should list each element.
 
@@ -451,7 +479,7 @@ async function callGroq(prompt, key, statusEl) {
           { role: 'user', content: prompt }
         ],
         temperature: 0.7,
-        max_tokens: 6144,
+        max_tokens: 8000,
         response_format: { type: 'json_object' }
       })
     });
@@ -776,21 +804,51 @@ async function runGeneration() {
     
     var validatedResult = validateGeneratedSet(combinedResult, config);
 
-    // ═══ MARK PADDING: If AI generated fewer marks than requested, add MCQs to fill ═══
+    // ═══ SMART MARK PADDING ═══
     var currentTotal = validatedResult.blocks
       .filter(function(b) { return b.mode === 'question'; })
       .reduce(function(sum, b) { return sum + Number(b.meta?.marks || 0); }, 0);
+
     var deficit = config.totalMarks - currentTotal;
-    if (deficit > 0 && deficit <= 10) {
-      for (var pad = 0; pad < deficit; pad++) {
+
+    if (deficit > 0 && deficit <= 15) {
+      // Generate simple fill-in-the-blank questions to pad marks
+      var padQuestions = [
+        {q: 'The SI unit of force is _______.', a: 'newton (N)'},
+        {q: 'According to Newton\\'s First Law, an object at rest will _______ at rest unless acted upon by an unbalanced force.', a: 'remain'},
+        {q: 'The formula F = ma relates force, _______ and acceleration.', a: 'mass'},
+        {q: 'Newton\\'s Third Law states that every action has an equal and opposite _______.', a: 'reaction'},
+        {q: 'The unit of acceleration is _______.', a: 'm/s²'},
+        {q: 'Friction is a force that _______ motion.', a: 'opposes'},
+        {q: 'Weight is calculated using the formula W = _______.', a: 'mg'},
+        {q: 'The rate of change of velocity is called _______.', a: 'acceleration'},
+        {q: 'Momentum is the product of mass and _______.', a: 'velocity'},
+        {q: 'Pressure is defined as force per unit _______.', a: 'area'}
+      ];
+      
+      for (var pad = 0; pad < deficit && pad < padQuestions.length; pad++) {
+        var pq = padQuestions[pad];
         validatedResult.blocks.push({
-          mode: 'question', type: 'MCQ', sectionId: 1,
-          data: { question: '[EDIT THIS: Add a question about ' + config.topic + ']', correct: 0, explanation: 'Edit in builder.' },
-          ui: { mcqOptions: ['Option A', 'Option B', 'Option C', 'Option D'] },
-          meta: { marks: 1, criterion: config.criterion?.charAt(0) || 'A', strand: 'i', commandTerm: 'State', difficulty: 'easy', markScheme: 'Award 1 mark.', gradingGrid: null }
+          mode: 'question', type: 'Fill Text', sectionId: 1,
+          data: { question: pq.q, labels: pq.a, correct: pq.a, explanation: 'The correct answer is: ' + pq.a },
+          ui: {},
+          meta: { marks: 1, criterion: config.criterion?.charAt(0) || 'A', strand: 'i', commandTerm: 'State', difficulty: 'easy', markScheme: 'Award 1 mark for correct answer: ' + pq.a + '. Accept equivalent answers.', gradingGrid: null }
         });
       }
-      status.textContent = '⚠️ AI generated ' + currentTotal + '/' + config.totalMarks + ' marks. Added ' + deficit + ' placeholder MCQs — edit them in builder.';
+      
+      if (deficit > padQuestions.length) {
+        // Still short — add generic placeholders for remaining
+        for (var xp = 0; xp < deficit - padQuestions.length; xp++) {
+          validatedResult.blocks.push({
+            mode: 'question', type: 'MCQ', sectionId: 1,
+            data: { question: '[EDIT: Add question about ' + config.topic + ']', correct: 0 },
+            ui: { mcqOptions: ['Option A', 'Option B', 'Option C', 'Option D'] },
+            meta: { marks: 1, criterion: config.criterion?.charAt(0) || 'A', strand: 'i', commandTerm: 'State', difficulty: 'easy', markScheme: 'Award 1 mark.', gradingGrid: null }
+          });
+        }
+      }
+      
+      status.textContent = '⚠️ AI generated ' + currentTotal + '/' + config.totalMarks + ' marks. Added ' + deficit + ' supplementary questions.';
       status.style.color = 'var(--yellow)';
     }
 
@@ -946,30 +1004,42 @@ async function runGeneration() {
     });
     const validBlocks = processedBlocks.filter(b => !b._invalid);
 
-    // ═══ HIGHLIGHT COMMAND TERMS ═══
-    var commandTerms = ['State','Define','Outline','Describe','Explain','Calculate','Apply','Determine','Solve','Show','Derive','Analyse','Analyze','Evaluate','Discuss','Compare','Justify','Formulate','Suggest','Design','Plot','Interpret','Predict'];
+    // ═══ HIGHLIGHT COMMAND TERMS IN QUESTIONS ═══
+    var commandTermsList = ['State','Define','Outline','Describe','Explain','Calculate','Apply','Determine','Solve','Show','Derive','Analyse','Analyze','Evaluate','Discuss','Compare','Justify','Formulate','Suggest','Design','Plot','Interpret','Predict','Identify','List','Name','Label','Construct'];
 
     validBlocks.forEach(function(block) {
       if (block.mode === 'question' && block.data && block.data.question) {
         var q = block.data.question;
-        commandTerms.forEach(function(term) {
-          // Match the command term at the START of the question or after a period/newline
-          var regex = new RegExp('(^|\\. |\\n)(' + term + ')\\b', 'g');
-          q = q.replace(regex, '$1<strong style="color:#c0392b;text-decoration:underline;">' + term + '</strong>');
+        commandTermsList.forEach(function(term) {
+          // Match at start of question or after period/newline — case sensitive
+          var regex = new RegExp('(^|\\. |\\n|<br>)(' + term + ')(\\s)', 'g');
+          q = q.replace(regex, '$1<span style="color:#c0392b;font-weight:700;text-decoration:underline;text-underline-offset:3px;">' + term + '</span>$3');
+          
+          // Also match if it's the very first word
+          if (q.indexOf(term) === 0) {
+            q = '<span style="color:#c0392b;font-weight:700;text-decoration:underline;text-underline-offset:3px;">' + term + '</span>' + q.substring(term.length);
+          }
         });
         block.data.question = q;
       }
     });
 
+    // ═══ ADD COMMAND TERM + STRAND LABELS TO MARK SCHEMES ═══
     validBlocks.forEach(function(block) {
-      if (block.meta && block.meta.commandTerm) {
-        // Add the command term and strand as visible tags in the mark scheme
+      if (block.mode === 'question' && block.meta) {
         var ct = block.meta.commandTerm || '';
         var strand = block.meta.strand || '';
+        var criterion = block.meta.criterion || '';
         var existingScheme = block.meta.markScheme || '';
         
+        // Only add if not already present
         if (existingScheme && existingScheme.indexOf('Command term:') === -1) {
-          block.meta.markScheme = '<strong style="color:#c0392b;">Command term: ' + ct + '</strong> | <strong>Strand: ' + (block.meta.criterion || '') + '.' + strand + '</strong>\n' + existingScheme;
+          var label = '<div style="margin-bottom:6px;padding:4px 8px;background:rgba(192,57,43,0.04);border-radius:4px;font-size:11px;">'
+            + '<strong style="color:#c0392b;">Command term: <span style="text-decoration:underline;">' + ct + '</span></strong>'
+            + ' &nbsp;|&nbsp; '
+            + '<strong>Strand: ' + criterion + '.' + strand + '</strong>'
+            + '</div>';
+          block.meta.markScheme = label + existingScheme;
         }
       }
     });
