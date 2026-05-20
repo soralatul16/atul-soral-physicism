@@ -1940,7 +1940,26 @@ async function gradeSubmissionWithAI(submissionId, submission) {
       continue;
     }
     
-    // For Long Answer, Table, Drawing, Extended Response — use AI grading
+    var studentAnsStr = studentAnswer;
+    if (typeof studentAnswer === 'string' && studentAnswer.startsWith('data:image')) {
+      // Don't send base64 image data to the text AI, flag for manual review
+      gradingResults.push({
+        questionIndex: qi,
+        type: qBlock.type,
+        marksAwarded: -1,
+        maxMarks: maxMarks,
+        feedback: 'Drawing requires manual teacher review.',
+        marksGained: [],
+        marksLost: []
+      });
+      continue;
+    } else if (typeof studentAnswer === 'object') {
+      studentAnsStr = JSON.stringify(studentAnswer);
+    } else if (!studentAnswer) {
+      studentAnsStr = '[No answer provided]';
+    }
+    
+    // For Long Answer, Table, Extended Response — use AI grading
     var gradingPrompt = 'You are a strict IB MYP Physics examiner. Grade this student answer.\\n\\n'
       + 'QUESTION: ' + (qBlock.data?.question || '') + '\\n'
       + 'MAXIMUM MARKS: ' + maxMarks + '\\n'
@@ -1949,12 +1968,11 @@ async function gradeSubmissionWithAI(submissionId, submission) {
       + 'COMMAND TERM: ' + (qBlock.meta?.commandTerm || 'State') + '\\n'
       + 'MARK SCHEME: ' + (qBlock.meta?.markScheme || 'Award marks based on quality of response.') + '\\n';
     
-    // Add holistic grid if present
     if (qBlock.meta?.gradingGrid) {
       gradingPrompt += 'HOLISTIC MARKING GRID:\\n' + JSON.stringify(qBlock.meta.gradingGrid, null, 2) + '\\n';
     }
     
-    gradingPrompt += '\\nSTUDENT ANSWER: ' + (typeof studentAnswer === 'object' ? JSON.stringify(studentAnswer) : studentAnswer || '[No answer provided]') + '\\n\\n'
+    gradingPrompt += '\\nSTUDENT ANSWER: ' + studentAnsStr + '\\n\\n'
       + 'GRADE THIS ANSWER. Respond with ONLY valid JSON in this exact format:\\n'
       + '{"marksAwarded":N,"marksGained":["point 1","point 2"],"marksLost":["point 1","point 2"],"feedback":"One sentence summary of performance."}\\n\\n'
       + 'GRADING RULES:\\n'
@@ -1968,28 +1986,54 @@ async function gradeSubmissionWithAI(submissionId, submission) {
       + '- Do NOT be generous. This is IB standard marking — hard but fair.\\n'
       + '- "feedback" should be constructive: what was good and what to improve.';
     
-    try {
-      var response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key},
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          messages: [
-            {role: 'system', content: 'You are a strict IB MYP Physics examiner. Respond with valid JSON only. No markdown, no code fences.'},
-            {role: 'user', content: gradingPrompt}
-          ],
-          temperature: 0.3,
-          max_tokens: 500,
-          response_format: {type: 'json_object'}
-        })
-      });
-      
-      if (response.ok) {
-        var data = await response.json();
-        var gradeText = data.choices?.[0]?.message?.content || '{}';
+    var gradeText = '';
+    var aiError = null;
+    var modelToUse = 'llama-3.3-70b-versatile';
+    var retryCount = 0;
+    
+    while (retryCount < 3) {
+      try {
+        var response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key},
+          body: JSON.stringify({
+            model: modelToUse,
+            messages: [
+              {role: 'system', content: 'You are a strict IB MYP Physics examiner. Respond with valid JSON only. No markdown.'},
+              {role: 'user', content: gradingPrompt}
+            ],
+            temperature: 0.3,
+            max_tokens: 500,
+            response_format: {type: 'json_object'}
+          })
+        });
+        
+        if (response.ok) {
+          var data = await response.json();
+          gradeText = data.choices?.[0]?.message?.content || '{}';
+          aiError = null;
+          break; // Success
+        } else {
+          if (response.status === 429) {
+            modelToUse = 'llama-3.1-8b-instant';
+            retryCount++;
+            await new Promise(function(r) { setTimeout(r, 2000 * retryCount); });
+          } else {
+            aiError = 'API Error ' + response.status;
+            break;
+          }
+        }
+      } catch(err) {
+        aiError = err.message;
+        retryCount++;
+        await new Promise(function(r) { setTimeout(r, 1000); });
+      }
+    }
+    
+    if (!aiError && gradeText) {
+      try {
         gradeText = gradeText.replace(/\`\`\`json/g, '').replace(/\`\`\`/g, '').trim();
         var grade = JSON.parse(gradeText);
-        
         var awarded = Math.min(Number(grade.marksAwarded || 0), maxMarks);
         totalMarksAwarded += awarded;
         
@@ -2002,33 +2046,25 @@ async function gradeSubmissionWithAI(submissionId, submission) {
           marksGained: grade.marksGained || [],
           marksLost: grade.marksLost || []
         });
-      } else {
-        // API error — mark as pending manual review
-        gradingResults.push({
-          questionIndex: qi,
-          type: qBlock.type,
-          marksAwarded: -1,
-          maxMarks: maxMarks,
-          feedback: 'Could not auto-grade. Pending teacher review.',
-          marksGained: [],
-          marksLost: []
-        });
+      } catch (parseErr) {
+        aiError = 'JSON Parse Error';
       }
-      
-      // Rate limit delay
-      await new Promise(function(r) { setTimeout(r, 1500); });
-      
-    } catch(err) {
+    }
+    
+    if (aiError) {
       gradingResults.push({
         questionIndex: qi,
         type: qBlock.type,
         marksAwarded: -1,
         maxMarks: maxMarks,
-        feedback: 'Grading error: ' + err.message,
+        feedback: 'Could not auto-grade (' + aiError + '). Pending teacher review.',
         marksGained: [],
         marksLost: []
       });
     }
+    
+    // Default rate limit delay between successful questions
+    await new Promise(function(r) { setTimeout(r, 1500); });
   }
   
   // Save grading results to Firestore

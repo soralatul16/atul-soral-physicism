@@ -208,6 +208,7 @@ function loadAttempts() {
         ...sub,
         id: sub.id, // Use submission doc id
         status: "completed",
+        submissionId: sub.id, // Explicitly store submission ID
         endTime: sub.submittedAt?.toDate ? sub.submittedAt.toDate().getTime() : Date.now(),
         percentScore: sub.aiGrading ? sub.aiGrading.percentage : 0,
         earnedMarks: sub.aiGrading ? sub.aiGrading.totalMarksAwarded : 0,
@@ -338,8 +339,13 @@ async function deleteAttempt(e, attemptId) {
     try { localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(attempts)); } catch(e) {}
     
     // Delete from Firestore
-    if (typeof deleteAttemptFromFirestore === 'function') {
-      await deleteAttemptFromFirestore(a._docId || a.id);
+    const subId = a.submissionId || a._docId || (a.id.startsWith('att_') ? null : a.id);
+    if (window.db && subId) {
+      try {
+        await window.db.collection('submissions').doc(subId).delete();
+      } catch(err) {
+        console.error('Failed to delete from Firestore:', err);
+      }
     }
   }
 
