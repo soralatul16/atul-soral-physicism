@@ -179,57 +179,17 @@ function buildGeneratorPrompt(config) {
 
 
   const diagramInstr = config.includeDiagrams ? `
-DIAGRAMS AND IMAGES — TWO METHODS:
+DIAGRAMS: When a visual is needed, generate a Text content block with a styled HTML placeholder box. Do NOT use Image blocks — they break. Use this format:
 
-METHOD 1 — INLINE SVG DIAGRAMS (use for physics diagrams):
-For force diagrams, ray diagrams, circuit diagrams, wave diagrams, and experimental setups, generate inline SVG code inside a Text content block. This renders perfectly with no external dependencies.
+{"mode":"content","type":"Text","sectionId":1,"data":{"text":"<div style='padding:16px;background:#f9f6f1;border:2px dashed rgba(192,57,43,0.15);border-radius:10px;text-align:center;margin:10px 0;'><p style='font-size:13px;color:#c0392b;font-weight:600;'>[DIAGRAM: Description of what diagram shows]</p><p style='font-size:12px;color:#555;margin-top:6px;'>Detailed description with labels, arrows, and measurements</p></div>"}}
 
-Example — Free Body Diagram:
-{"mode":"content","type":"Text","sectionId":1,"data":{"text":"<div style='text-align:center;margin:12px 0;'><svg width='300' height='250' viewBox='0 0 300 250' xmlns='http://www.w3.org/2000/svg' style='background:#f9f6f1;border-radius:10px;border:1px solid rgba(0,0,0,0.06);'><rect x='120' y='100' width='60' height='40' fill='#c0392b' rx='4'/><text x='150' y='125' text-anchor='middle' fill='white' font-size='12'>5 kg</text><line x1='150' y1='140' x2='150' y2='210' stroke='#333' stroke-width='2' marker-end='url(#arrow)'/><text x='160' y='200' fill='#333' font-size='11'>W = 50 N</text><line x1='150' y1='100' x2='150' y2='30' stroke='#2e7d32' stroke-width='2' marker-end='url(#arrow)'/><text x='160' y='50' fill='#2e7d32' font-size='11'>N = 50 N</text><line x1='120' y1='120' x2='50' y2='120' stroke='#e67e22' stroke-width='2' marker-end='url(#arrow)'/><text x='60' y='112' fill='#e67e22' font-size='11'>f = 10 N</text><line x1='180' y1='120' x2='250' y2='120' stroke='#c0392b' stroke-width='2' marker-end='url(#arrow)'/><text x='200' y='112' fill='#c0392b' font-size='11'>F = 30 N</text><defs><marker id='arrow' markerWidth='8' markerHeight='6' refX='8' refY='3' orient='auto'><path d='M0,0 L8,3 L0,6 Z' fill='currentColor'/></marker></defs></svg><p style='font-size:11px;color:#888;margin-top:4px;'>Figure 1: Free body diagram of a 5 kg block on a horizontal surface</p></div>"}}
-
-Example — Transverse Wave:
-{"mode":"content","type":"Text","sectionId":1,"data":{"text":"<div style='text-align:center;margin:12px 0;'><svg width='400' height='160' viewBox='0 0 400 160' xmlns='http://www.w3.org/2000/svg' style='background:#f9f6f1;border-radius:10px;border:1px solid rgba(0,0,0,0.06);padding:10px;'><path d='M20,80 Q60,20 100,80 Q140,140 180,80 Q220,20 260,80 Q300,140 340,80 Q360,40 380,80' fill='none' stroke='#c0392b' stroke-width='2.5'/><line x1='20' y1='80' x2='380' y2='80' stroke='#aaa' stroke-width='1' stroke-dasharray='4'/><line x1='100' y1='80' x2='100' y2='20' stroke='#333' stroke-width='1.5' marker-end='url(#arr)'/><text x='108' y='50' fill='#333' font-size='11'>A</text><line x1='100' y1='80' x2='260' y2='80' stroke='#2e7d32' stroke-width='1.5'/><text x='170' y='95' fill='#2e7d32' font-size='11'>λ</text><defs><marker id='arr' markerWidth='6' markerHeight='5' refX='6' refY='2.5' orient='auto'><path d='M0,0 L6,2.5 L0,5 Z' fill='#333'/></marker></defs></svg><p style='font-size:11px;color:#888;margin-top:4px;'>Figure 2: Transverse wave showing amplitude (A) and wavelength (λ)</p></div>"}}
-
-USE INLINE SVG FOR:
-- Free body diagrams (forces with arrows, labels, object)
-- Ray diagrams (incident ray, reflected ray, normal line, angles)
-- Wave diagrams (transverse and longitudinal)
-- Simple circuit diagrams (battery, resistor, ammeter, voltmeter)
-- EM spectrum bar (radio → gamma with labels)
-- Projectile motion paths
-- Spring extension diagrams
-- Pressure diagrams
-
-Generate the SVG based on the SPECIFIC question content. Use these colors:
-- Objects/blocks: #c0392b (red)
-- Force arrows: different colors for different forces (#333, #2e7d32, #e67e22, #c0392b)
-- Labels: #333 (dark)
-- Background: #f9f6f1 (cream)
-- Border: rgba(0,0,0,0.06)
-
-METHOD 2 — PROXIED INTERNET IMAGES (use for real-world photos only):
-For real-world photographs needed in Criterion D questions (e.g., power stations, X-ray machines, fibre optic cables), use this proxy URL format that bypasses CORS:
-
-https://images.weserv.nl/?url=ORIGINAL_URL_WITHOUT_HTTPS
-
-Example: To show an image from Wikipedia:
-Original: https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Electromagnetic_spectrum.svg/800px-Electromagnetic_spectrum.svg.png
-Proxied: https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Electromagnetic_spectrum.svg/800px-Electromagnetic_spectrum.svg.png
-
-Format:
-{"mode":"content","type":"Image","sectionId":1,"data":{"url":"https://images.weserv.nl/?url=PROXIED_URL","caption":"Figure N: Description","editable":true}}
-
-USE PROXIED IMAGES FOR:
-- Real-world photos (power stations, medical equipment, vehicles)
-- Complex diagrams that can't be drawn as simple SVG
-- Criterion D stimulus images showing real scenarios
+For Criterion D, describe the real-world scenario with specific details in the stimulus text instead of requiring an image. The text description IS the visual — no image needed.
 
 RULES:
-- EVERY question set MUST include at least 2 visual elements (SVG diagrams or proxied images)
-- Prefer SVG for physics diagrams — they're sharper, faster, and always work
-- Only use proxied images for photos that SVG can't represent
-- Always include a figure caption below each visual
-- Make SVG diagrams clear and properly labelled with units
+- NEVER generate blocks with "type":"Image" — they will break and show nothing
+- Use the placeholder div format above for all diagram references
+- Include detailed descriptions so the teacher can add their own image later
+- Make descriptions specific: mention exact labels, values, directions, and components
 ` : '';
 
   const dataTableInstr = config.includeDataTables ? `
@@ -383,7 +343,6 @@ ${config.questions.map(function(q) {
   "heading":"string","sections":[{"id":1,"name":"Section 1"},{"id":2,"name":"Section 2"},{"id":3,"name":"Section 3"}],
   "blocks":[
     {"mode":"content","type":"Text","sectionId":1,"data":{"text":"HTML stimulus"}},
-    {"mode":"content","type":"Image","sectionId":1,"data":{"url":"https://upload.wikimedia.org/...","caption":"Figure 1: desc","altImages":["url2","url3"]}},
     {"mode":"question","type":"MCQ|Long Answer|True / False|Fill Text|Match the Following|Table|Multi-Dropdown|Drawing|Graph Plot|Drag and Drop","sectionId":1,
       "data":{"question":"Command term + question","correct":0,"explanation":"model answer",
         "tableHeaders": ["Column 1 / unit", "Column 2 / unit", "Column 3 / unit"],
@@ -396,7 +355,7 @@ ${config.questions.map(function(q) {
 
 RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks} 7)Realistic values 8)Mark schemes: "Award X marks","Accept","Do not accept","WTTE","ECF" 9)Holistic grids in meta.gradingGrid 10)Specific stimuli with names,places,numbers 11)At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions 12)Table questions MUST have tableHeaders,tableRows,tableCols,tablePrefill 13)Count marks as you generate — must reach exactly ${config.totalMarks} 14)Verify total before outputting 15)Generate at LEAST 2 different stimulus blocks using different real-world scenarios. Assign questions to different sectionIds (1, 2, or 3). 17)VARIETY: Each section MUST have at least 2 different question types. Never a section of all MCQs or all True/False. 18)STRAND MIX: Within each section, progress through strands. Start with strand i, then ii, then iii. Each section should cover at least 2 strands. 19)QUESTION INDEPENDENCE: Each question must be standalone. Do not make one question's answer depend on another question's answer.
 
-DRAWING QUESTIONS: Use type "Drawing" when students need to draw (free body diagram, circuit, ray diagram). Include: data.question (instruction), data.drawingInstructions (what to draw), data.drawingImage (optional base image URL to draw on top of). Mark scheme should list each element.
+DRAWING QUESTIONS: Use type "Drawing" when students need to draw (free body diagram, circuit, ray diagram). Include: data.question (instruction), data.drawingInstructions (what to draw). Do NOT include data.drawingImage — image URLs break. Mark scheme should list each element.
 
 DRAG AND DROP QUESTIONS: Use type "Drag and Drop" for classify/sort tasks. Include: data.question, data.dragItems (array of items), data.dropZones (array of {label, accepts:[items]}). Award 1 mark per correct placement.
 
