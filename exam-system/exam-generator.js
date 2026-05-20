@@ -804,7 +804,7 @@ async function runGeneration() {
     
     var validatedResult = validateGeneratedSet(combinedResult, config);
 
-    // ═══ SMART MARK PADDING ═══
+    // ═══ SMART MARK PADDING — topic-aware ═══
     var currentTotal = validatedResult.blocks
       .filter(function(b) { return b.mode === 'question'; })
       .reduce(function(sum, b) { return sum + Number(b.meta?.marks || 0); }, 0);
@@ -812,38 +812,49 @@ async function runGeneration() {
     var deficit = config.totalMarks - currentTotal;
 
     if (deficit > 0 && deficit <= 15) {
-      // Generate simple fill-in-the-blank questions to pad marks
-      var padQuestions = [
-        {q: 'The SI unit of force is _______.', a: 'newton (N)'},
-        {q: 'According to Newton\'s First Law, an object at rest will _______ at rest unless acted upon by an unbalanced force.', a: 'remain'},
-        {q: 'The formula F = ma relates force, _______ and acceleration.', a: 'mass'},
-        {q: 'Newton\'s Third Law states that every action has an equal and opposite _______.', a: 'reaction'},
-        {q: 'The unit of acceleration is _______.', a: 'm/s²'},
-        {q: 'Friction is a force that _______ motion.', a: 'opposes'},
-        {q: 'Weight is calculated using the formula W = _______.', a: 'mg'},
-        {q: 'The rate of change of velocity is called _______.', a: 'acceleration'},
-        {q: 'Momentum is the product of mass and _______.', a: 'velocity'},
-        {q: 'Pressure is defined as force per unit _______.', a: 'area'}
-      ];
+      // Generate topic-specific padding questions using a quick AI call
+      var padPrompt = 'Generate exactly ' + deficit + ' simple fill-in-the-blank physics questions about "' + config.topic + '". Each question is 1 mark, strand i (recall). Return ONLY a JSON array of objects with "q" (question with one blank shown as _______) and "a" (correct answer). No other text. Example: [{"q":"The SI unit of energy is _______.","a":"joule (J)"}]';
       
-      for (var pad = 0; pad < deficit && pad < padQuestions.length; pad++) {
-        var pq = padQuestions[pad];
-        validatedResult.blocks.push({
-          mode: 'question', type: 'Fill Text', sectionId: 1,
-          data: { question: pq.q, labels: pq.a, correct: pq.a, explanation: 'The correct answer is: ' + pq.a },
-          ui: {},
-          meta: { marks: 1, criterion: config.criterion?.charAt(0) || 'A', strand: 'i', commandTerm: 'State', difficulty: 'easy', markScheme: 'Award 1 mark for correct answer: ' + pq.a + '. Accept equivalent answers.', gradingGrid: null }
-        });
-      }
-      
-      if (deficit > padQuestions.length) {
-        // Still short — add generic placeholders for remaining
-        for (var xp = 0; xp < deficit - padQuestions.length; xp++) {
+      try {
+        await new Promise(function(r) { setTimeout(r, 2000); });
+        var padResult = await callAI(padPrompt);
+        
+        // callAI may return {questions:[...]} or [...] depending on model
+        var padArray = Array.isArray(padResult) ? padResult : (padResult && Array.isArray(padResult.questions) ? padResult.questions : null);
+        
+        if (padArray && padArray.length > 0) {
+          padArray.forEach(function(pq) {
+            if (pq.q && pq.a) {
+              validatedResult.blocks.push({
+                mode: 'question', type: 'Fill Text', sectionId: 1,
+                data: { question: pq.q, labels: pq.a, correct: pq.a, explanation: 'The correct answer is: ' + pq.a },
+                ui: {},
+                meta: { marks: 1, criterion: config.criterion?.charAt(0) || 'A', strand: 'i', commandTerm: 'State', difficulty: 'easy', markScheme: 'Award 1 mark for: ' + pq.a + '. Accept equivalent answers.', gradingGrid: null }
+              });
+            }
+          });
+        } else {
+          throw new Error('AI returned no usable padding questions');
+        }
+      } catch(padErr) {
+        console.warn('AI padding failed, using generic questions:', padErr);
+        // Fallback to generic questions if AI call fails
+        var genericPad = [
+          {q: 'The SI unit of energy is _______.', a: 'joule (J)'},
+          {q: 'Energy cannot be created or _______.', a: 'destroyed'},
+          {q: 'The formula for kinetic energy is KE = _______.', a: '½mv²'},
+          {q: 'Potential energy depends on height, mass, and _______.', a: 'gravity (g)'},
+          {q: 'Power is the rate of doing _______.', a: 'work'},
+          {q: 'Work done is calculated as force multiplied by _______.', a: 'distance'},
+          {q: 'Efficiency is always less than or equal to _______ percent.', a: '100'},
+          {q: 'The unit of power is the _______.', a: 'watt (W)'}
+        ];
+        for (var gp = 0; gp < deficit && gp < genericPad.length; gp++) {
           validatedResult.blocks.push({
-            mode: 'question', type: 'MCQ', sectionId: 1,
-            data: { question: '[EDIT: Add question about ' + config.topic + ']', correct: 0 },
-            ui: { mcqOptions: ['Option A', 'Option B', 'Option C', 'Option D'] },
-            meta: { marks: 1, criterion: config.criterion?.charAt(0) || 'A', strand: 'i', commandTerm: 'State', difficulty: 'easy', markScheme: 'Award 1 mark.', gradingGrid: null }
+            mode: 'question', type: 'Fill Text', sectionId: 1,
+            data: { question: genericPad[gp].q, labels: genericPad[gp].a, correct: genericPad[gp].a, explanation: 'The correct answer is: ' + genericPad[gp].a },
+            ui: {},
+            meta: { marks: 1, criterion: config.criterion?.charAt(0) || 'A', strand: 'i', commandTerm: 'State', difficulty: 'easy', markScheme: 'Award 1 mark for: ' + genericPad[gp].a, gradingGrid: null }
           });
         }
       }
