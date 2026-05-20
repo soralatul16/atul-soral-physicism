@@ -259,56 +259,29 @@ CRITERION C (${config.criterion === 'Full Exam' ? '~20-25 marks' : config.totalM
 TASK: CRITERION D — REFLECTING ON THE IMPACTS (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'})
 D-Factor: ${config.dFactor || 'Environmental, Economic'}
 
-Generate the Criterion D section as follows:
+Generate Criterion D questions using the EXACT question types specified in the QUESTION MIX section below. Adapt each question type to the D criterion theme:
 
-PART 1 — CONTEXT QUESTIONS (${Math.min(5, Math.floor(config.totalMarks * 0.3))} marks):
-Generate 2-3 short questions (MCQ, Fill Text, or 1-2 mark Long Answer) that test factual understanding of the real-world context.
-- Strand D.i: "State one use of..." or "Identify the technology..."
-- These are warm-up questions before the extended response.
+CONTENT THEME:
+- Provide a real-world stimulus (6-10 sentences) about a specific technology or application related to "${config.topic}"
+- Include specific data (names, numbers, locations, statistics)
+- The stimulus should enable questions about implications, benefits, limitations
 
-PART 2 — EXTENDED RESPONSE (${Math.max(8, Math.floor(config.totalMarks * 0.7))} marks):
-Generate ONE extended writing question with a holistic marking grid.
+QUESTION ADAPTATION FOR CRITERION D:
+- MCQ / True False: Test factual understanding of the real-world context (strand D-i)
+- Match the Following: Match technologies to their implications, benefits to limitations, etc. (strand D-i/ii)
+- Drag and Drop: Classify items as benefits/limitations, environmental/economic impacts, etc. (strand D-i/ii)
+- Long Answer: Discuss implications, evaluate impact, write concluding appraisal (strand D-ii/iii)
+- Fill Text: "One environmental benefit of solar panels is _______" (strand D-i)
+- Table: Compare benefits vs limitations across different factors (strand D-ii)
 
-The question MUST:
-- Have a 6-10 sentence stimulus describing a REAL technology or application with specific data (names, numbers, locations)
-- Ask students to discuss implications across 2-3 themes based on the D-factor
-- End with "Write a concluding appraisal giving your opinion..."
+For the HIGHEST-MARK Long Answer question (if included in mix), use a holistic marking grid in meta.gradingGrid:
+${JSON.stringify({
+  "theme1": {"label": "[Based on D-factor, e.g. Environmental implications]", "levels": {"1": "A statement", "2": "A statement with support OR two statements", "3": "Two statements with support for one", "4": "Two statements with support for both"}},
+  "theme2": {"label": "[Second theme from D-factor]", "levels": {"1": "A positive or negative implication", "2": "A positive AND negative", "3": "Positive and negative with support for one", "4": "Positive and negative with support for both"}},
+  "conclusion": {"label": "Concluding appraisal", "levels": {"1": "A concluding opinion", "2": "A concluding appraisal with justification"}}
+}, null, 2)}
 
-The holistic grid MUST be stored in meta.gradingGrid with this EXACT structure:
-
-"gradingGrid": {
-  "theme1": {
-    "label": "[First theme, e.g. Environmental implications]",
-    "levels": {
-      "1": "A statement",
-      "2": "A statement with further support OR two statements",
-      "3": "Two statements with further support for one",
-      "4": "Two statements with further support for both"
-    }
-  },
-  "theme2": {
-    "label": "[Second theme, e.g. Economic implications]",
-    "levels": {
-      "1": "A positive or negative implication",
-      "2": "A positive AND a negative implication",
-      "3": "A positive and negative with support for one",
-      "4": "A positive and negative with support for both"
-    }
-  },
-  "conclusion": {
-    "label": "Concluding appraisal",
-    "levels": {
-      "1": "A concluding opinion",
-      "2": "A concluding appraisal with justification linked to points made earlier"
-    }
-  }
-}
-
-The total marks for the extended response = sum of max levels across all rows.
-Example: theme1(4) + theme2(4) + conclusion(2) = 10 marks
-
-The mark scheme for this question should say: "Assess holistically using the grid. Award marks per row independently."
-Both benefits AND limitations required.`;
+Both benefits AND limitations required in extended responses.`;
   }
 
   const formulas = `Use relevant physics formulas for the topic. Show formulas in questions where calculations are needed.`;
@@ -382,7 +355,9 @@ eASSESSMENT STYLE GUIDE:
 
 ${taskStructure}
 
-═══ QUESTION MIX ═══
+═══ QUESTION MIX — MANDATORY (follow EXACTLY, do NOT change types or counts) ═══
+The teacher has explicitly selected these question types, counts, and marks. You MUST generate EXACTLY these types and quantities. Do NOT substitute, skip, or replace any type with another. This overrides any criterion-specific type suggestions above.
+
 ${config.questions.map(function(q) {
   if (q.marksList && q.marksList.length > 0) {
     return q.marksList.map(function(m) {
@@ -391,6 +366,18 @@ ${config.questions.map(function(q) {
   }
   return '- ' + q.count + '× ' + q.type + ' (' + q.marks + ' marks each)';
 }).join('\n')}
+
+QUESTION TYPE DATA FORMATS — follow these for each type:
+- MCQ: ui.mcqOptions (4 strings), data.correct (index 0-3), data.explanation
+- True / False: ui.tfAnswer ("True" or "False"), data.explanation
+- Long Answer: data.question (text), data.explanation (model answer), meta.markScheme
+- Fill Text: data.question (with _______ blank), data.labels (correct answer), data.correct (answer)
+- Match the Following: data.question, ui.matchPairs (array of {a:"left item", b:"right item"}, minimum 4 pairs). Marks = number of pairs.
+- Table: data.question, data.tableHeaders (array with units), data.tableRows (int), data.tableCols (int), data.tablePrefill (2D array, use "" for blanks students fill)
+- Drawing: data.question, data.drawingInstructions (what to draw). NO image URLs.
+- Drag and Drop: data.question, data.dragItems (array of strings to drag), data.dropZones (array of {label:"zone name", accepts:["item1","item2"]}). 1 mark per correct placement.
+- Graph Plot: data.question, data.graphAxes ({x:"label",y:"label",xRange:[min,max],yRange:[min,max]}), data.dataPoints ([[x,y],...])
+- Multi-Dropdown: data.question (with [DROPDOWN] placeholders), data.dropdownOptions (array of arrays), data.correct (array of correct indices)
 
 ═══ OUTPUT: VALID JSON ONLY ═══
 {
@@ -407,7 +394,7 @@ ${config.questions.map(function(q) {
   ]
 }
 
-RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks} 7)Realistic values 8)Mark schemes: "Award X marks","Accept","Do not accept","WTTE","ECF" 9)Holistic grids in meta.gradingGrid 10)Specific stimuli with names,places,numbers 11)At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions 12)Table questions MUST have tableHeaders,tableRows,tableCols,tablePrefill 13)Count marks as you generate — must reach exactly ${config.totalMarks} 14)Verify total before outputting 15)Generate at LEAST 2 different stimulus blocks using different real-world scenarios. Assign questions to different sectionIds (1, 2, or 3). 17)VARIETY: Each section MUST have at least 2 different question types. Never a section of all MCQs or all True/False. 18)STRAND MIX: Within each section, progress through strands. Start with strand i, then ii, then iii. Each section should cover at least 2 strands. 19)QUESTION INDEPENDENCE: Each question must be standalone. Do not make one question's answer depend on another question's answer.
+RULES: 0)HIGHEST PRIORITY: Generate EXACTLY the question types and counts listed in the QUESTION MIX. If the mix says 1× Match the Following, you MUST generate 1 Match the Following question. Do NOT substitute types. 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks} 7)Realistic values 8)Mark schemes: \"Award X marks\",\"Accept\",\"Do not accept\",\"WTTE\",\"ECF\" 9)Holistic grids in meta.gradingGrid 10)Specific stimuli with names,places,numbers 11)At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions 12)Table questions MUST have tableHeaders,tableRows,tableCols,tablePrefill 13)Count marks as you generate — must reach exactly ${config.totalMarks} 14)Verify total before outputting 15)Generate at LEAST 2 different stimulus blocks using different real-world scenarios. Assign questions to different sectionIds (1, 2, or 3). 17)VARIETY: Each section MUST have at least 2 different question types. Never a section of all MCQs or all True/False. 18)STRAND MIX: Within each section, progress through strands. Start with strand i, then ii, then iii. Each section should cover at least 2 strands. 19)QUESTION INDEPENDENCE: Each question must be standalone. Do not make one question's answer depend on another question's answer.
 20)COMMAND TERM TO QUESTION TYPE MATCHING — follow these strictly:
 - "State" or "Define" → MCQ or Fill Text (1 mark, strand i)
 - "Describe" or "Outline" → Long Answer (2-3 marks, strand i-ii)
@@ -872,12 +859,17 @@ async function runGeneration() {
     let blockId = 0;
 
     const processedBlocks = validatedResult.blocks.map(block => {
-      // Robust type mapping
+      // Robust type mapping — AI may use different names
       let type = block.type;
       if (type === 'Multiple Choice' || type === 'Multiple Choice Question') type = 'MCQ';
-      if (type === 'Short Answer' || type === 'Fill in the Blank' || type === 'Fill in the blanks' || type === 'Fill-in-the-blank') type = 'Fill Text';
+      if (type === 'Short Answer' || type === 'Fill in the Blank' || type === 'Fill in the blanks' || type === 'Fill-in-the-blank' || type === 'Fill in the Blank') type = 'Fill Text';
       if (type === 'Dropdown' || type === 'Select') type = 'Fill Drop Down';
       if (type === 'Multiple Select') type = 'Multiple Select MCQ';
+      if (type === 'Matching' || type === 'Match' || type === 'Match The Following') type = 'Match the Following';
+      if (type === 'DnD' || type === 'Drag-and-Drop' || type === 'DragAndDrop' || type === 'Drag & Drop') type = 'Drag and Drop';
+      if (type === 'Graph' || type === 'GraphPlot' || type === 'Graph plot') type = 'Graph Plot';
+      if (type === 'Draw' || type === 'Diagram') type = 'Drawing';
+      if (type === 'TrueFalse' || type === 'True/False' || type === 'True or False') type = 'True / False';
 
       return {
         ...block,
