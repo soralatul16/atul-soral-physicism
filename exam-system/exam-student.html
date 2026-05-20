@@ -1158,8 +1158,12 @@ function startAttempt(setId){
   allBlocks=(currentSet.blocks||[]).filter(b=>b.saved);qBlocks=allBlocks.filter(b=>b.mode==="question");
   currentAttempt={id:"att_"+Date.now(),setId,setVersion:currentSet.version||1,studentEmail:currentStudent.email,studentName:currentStudent.name,criterion:currentSet.criterion,startTime:Date.now(),endTime:null,status:"in_progress",answers:{},flags:{},notes:{},duration:0,totalMarks:currentSet.totalMarks||0,earnedMarks:0,percentScore:0,setTitle:currentSet.heading,wantsGrading:true};
   currentQIdx=0;timerSecs=0;saveAttempt(currentAttempt);startTimer();startAutoSave();initAttemptUI();showAttemptScreen();
-  if (currentSet && currentSet.timeLimit) {
+  if (currentSet && currentSet.timeLimit && currentSet.timeLimit > 0) {
     startExamTimer(currentSet.timeLimit);
+  } else {
+    // Check if time limit was set in metadata
+    var timeLimit = currentSet.timeLimit || currentSet.time || 0;
+    if (timeLimit > 0) startExamTimer(timeLimit);
   }
 }
 function resumeAttemptById(id){
@@ -1314,12 +1318,37 @@ function renderQ(idx){
     document.getElementById("attemptContent").innerHTML=contentHTML+sectionIntroHTML+`<div class="question-block">${questionBody}</div>`;
   }
   renderQNav();
+  // Initialize all drawing canvases after page loads
+  document.querySelectorAll('.draw-canvas').forEach(function(c) { 
+    if (!c._drawCtx) initDrawingCanvas(c); 
+  });
 }
 
 /* ══════ Build Input — ALL Question Types ══════ */
 function buildInput(q,idx){
   const saved=currentAttempt.answers[idx];
   const t=q.type||"Long Answer";
+  const richToolbar = `<div class="rich-toolbar" style="display:flex;flex-wrap:wrap;gap:2px;padding:6px 8px;background:var(--cream,#f9f6f1);border:1px solid rgba(0,0,0,0.06);border-bottom:none;border-radius:8px 8px 0 0;">
+  <button type="button" onclick="richFormat('bold')" style="background:none;border:none;cursor:pointer;padding:3px 6px;border-radius:4px;font-size:13px;font-weight:700;" title="Bold">B</button>
+  <button type="button" onclick="richFormat('italic')" style="background:none;border:none;cursor:pointer;padding:3px 6px;border-radius:4px;font-size:13px;font-style:italic;" title="Italic">I</button>
+  <button type="button" onclick="richFormat('underline')" style="background:none;border:none;cursor:pointer;padding:3px 6px;border-radius:4px;font-size:13px;text-decoration:underline;" title="Underline">U</button>
+  <span style="width:1px;background:rgba(0,0,0,0.08);margin:2px 4px;"></span>
+  <button type="button" onclick="richInsert('²')" style="background:none;border:none;cursor:pointer;padding:3px 6px;border-radius:4px;font-size:11px;" title="Superscript">x²</button>
+  <button type="button" onclick="richInsert('₂')" style="background:none;border:none;cursor:pointer;padding:3px 6px;border-radius:4px;font-size:11px;" title="Subscript">x₂</button>
+  <span style="width:1px;background:rgba(0,0,0,0.08);margin:2px 4px;"></span>
+  <button type="button" onclick="richInsert('√')" style="background:none;border:none;cursor:pointer;padding:3px 5px;font-size:13px;">√</button>
+  <button type="button" onclick="richInsert('π')" style="background:none;border:none;cursor:pointer;padding:3px 5px;font-size:13px;">π</button>
+  <button type="button" onclick="richInsert('Δ')" style="background:none;border:none;cursor:pointer;padding:3px 5px;font-size:13px;">Δ</button>
+  <button type="button" onclick="richInsert('°')" style="background:none;border:none;cursor:pointer;padding:3px 5px;font-size:13px;">°</button>
+  <button type="button" onclick="richInsert('×')" style="background:none;border:none;cursor:pointer;padding:3px 5px;font-size:13px;">×</button>
+  <button type="button" onclick="richInsert('÷')" style="background:none;border:none;cursor:pointer;padding:3px 5px;font-size:13px;">÷</button>
+  <button type="button" onclick="richInsert('≈')" style="background:none;border:none;cursor:pointer;padding:3px 5px;font-size:13px;">≈</button>
+  <span style="width:1px;background:rgba(0,0,0,0.08);margin:2px 4px;"></span>
+  <button type="button" onclick="richInsert('θ')" style="background:none;border:none;cursor:pointer;padding:3px 5px;font-size:13px;">θ</button>
+  <button type="button" onclick="richInsert('λ')" style="background:none;border:none;cursor:pointer;padding:3px 5px;font-size:13px;">λ</button>
+  <button type="button" onclick="richInsert('μ')" style="background:none;border:none;cursor:pointer;padding:3px 5px;font-size:13px;">μ</button>
+  <button type="button" onclick="richInsert('Ω')" style="background:none;border:none;cursor:pointer;padding:3px 5px;font-size:13px;">Ω</button>
+</div>`;
 
   // MCQ
   if(t==="MCQ"||t==="Multiple Select MCQ"){
@@ -1475,12 +1504,41 @@ function buildInput(q,idx){
         <iframe src="${src}" style="width:100%;height:100%;border:none;" allowfullscreen id="graph-iframe-${idx}"></iframe>
         <button onclick="openGraphFullscreen(${idx})" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.2);color:white;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;z-index:10;backdrop-filter:blur(4px);">⛶ Fullscreen</button>
       </div>
-      <div class="long-answer-wrap" style="margin-top:10px;"><textarea placeholder="Write your answer / observations here…" oninput="saveAnsText(${idx},this.value)">${saved||""}</textarea></div></div>`;
+      <div class="long-answer-wrap" style="margin-top:10px;">${richToolbar}<textarea placeholder="Write your answer / observations here…" oninput="saveAnsText(${idx},this.value)" style="border-top-left-radius:0;border-top-right-radius:0;border-top:none;">${saved||""}</textarea></div></div>`;
   }
   // Drawing
   if(t==="Drawing"){
-    const imgUrl=q.data?.drawingImage||'';const instr=q.data?.drawingInstructions||'';
-    return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}<div style="position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:white;min-height:350px;">${imgUrl?`<img src="${imgUrl}" crossorigin="anonymous" style="width:100%;display:block;pointer-events:none;user-select:none;" alt="Reference diagram" id="draw-bg-${idx}" onerror="this.removeAttribute('crossorigin');this.src='${imgUrl}';">`:''}<canvas id="draw-canvas-${idx}" style="position:absolute;top:0;left:0;width:100%;height:100%;cursor:crosshair;touch-action:none;" onmousedown="startDraw(event,${idx})" onmousemove="draw(event,${idx})" onmouseup="endDraw(${idx})" onmouseleave="endDraw(${idx})" ontouchstart="startDrawTouch(event,${idx})" ontouchmove="drawTouch(event,${idx})" ontouchend="endDraw(${idx})"></canvas></div><div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center;"><select onchange="setDrawTool(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="pen">✏️ Pen</option><option value="line">📏 Line</option><option value="arrow">➡️ Arrow</option><option value="rect">⬜ Rectangle</option><option value="circle">⭕ Circle</option><option value="text">🔤 Text</option></select><select onchange="setDrawColor(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="#e03030">🔴 Red</option><option value="#000000">⚫ Black</option><option value="#2980b9">🔵 Blue</option><option value="#27ae60">🟢 Green</option><option value="#8e44ad">🟣 Purple</option><option value="#ffffff">⚪ White</option></select><select onchange="setDrawSize(this.value)" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;"><option value="1">Fine</option><option value="2">Thin</option><option value="3" selected>Medium</option><option value="5">Thick</option><option value="8">Bold</option></select><button class="q-ctrl-btn" onclick="undoCanvas(${idx})">↩ Undo</button><button class="q-ctrl-btn" onclick="clearCanvas(${idx})">🗑 Clear</button></div></div>`;
+    const instr=q.data?.drawingInstructions||'';
+    return `<div>${instr?`<p style="font-size:13px;color:var(--text3);margin-bottom:10px;">${instr}</p>`:''}<div class="drawing-area" id="drawing-${idx}">
+  <canvas class="draw-canvas" width="600" height="350" style="width:100%;border:1.5px solid rgba(0,0,0,0.08);border-radius:10px;cursor:crosshair;background:white;touch-action:none;"></canvas>
+  <div class="draw-tools" style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center;">
+    <select class="draw-tool-select" onchange="setDrawTool(this)" style="padding:4px 8px;border:1px solid rgba(0,0,0,0.08);border-radius:6px;font-size:11px;">
+      <option value="pen">✏️ Pen</option>
+      <option value="arrow">➡️ Arrow</option>
+      <option value="line">📏 Line</option>
+      <option value="text">Aa Text</option>
+    </select>
+    <select class="draw-color-select" onchange="setDrawColor(this)" style="padding:4px 8px;border:1px solid rgba(0,0,0,0.08);border-radius:6px;font-size:11px;">
+      <option value="#333">⚫ Black</option>
+      <option value="#c0392b">🔴 Red</option>
+      <option value="#2e7d32">🟢 Green</option>
+      <option value="#1a6fb5">🔵 Blue</option>
+      <option value="#e67e22">🟠 Orange</option>
+      <option value="#8e44ad">🟣 Purple</option>
+    </select>
+    <select class="draw-size-select" onchange="setDrawSize(this)" style="padding:4px 8px;border:1px solid rgba(0,0,0,0.08);border-radius:6px;font-size:11px;">
+      <option value="2">Thin</option>
+      <option value="3" selected>Medium</option>
+      <option value="5">Thick</option>
+    </select>
+    <button onclick="undoDraw(this)" style="padding:4px 10px;border:1px solid rgba(0,0,0,0.08);border-radius:6px;background:white;cursor:pointer;font-size:11px;">↩ Undo</button>
+    <button onclick="clearDraw(this)" style="padding:4px 10px;border:1px solid rgba(0,0,0,0.08);border-radius:6px;background:white;cursor:pointer;font-size:11px;">🗑 Clear</button>
+  </div>
+  <!-- Text label input for labelling parts of the diagram -->
+  <div style="margin-top:8px;">
+    <input type="text" class="draw-label-input" placeholder="Type a label, then click on the canvas to place it..." style="width:100%;padding:8px 12px;border:1.5px solid rgba(0,0,0,0.06);border-radius:8px;font-size:12px;outline:none;">
+  </div>
+</div></div>`;
   }
   // Drag and Drop
   if(t==="Drag and Drop"){
@@ -1528,13 +1586,13 @@ function buildInput(q,idx){
     h+='<div style="font-size:13px;color:var(--text2);margin-bottom:8px;">📊 Draw your graph on paper, or use the GeoGebra tool below.</div>';
     h+='<a href="https://www.geogebra.org/graphing" target="_blank" style="padding:8px 18px;background:var(--accent);color:white;border-radius:8px;font-size:12px;text-decoration:none;font-weight:600;">Open GeoGebra Graphing</a>';
     h+='</div>';
-    h+='<div class="long-answer-wrap" style="margin-top:10px;"><textarea placeholder="Describe your graph: axes labels, scale, line of best fit, gradient..." oninput="saveAnsText('+idx+',this.value)">'+(saved||'')+'</textarea></div>';
+    h+='<div class="long-answer-wrap" style="margin-top:10px;">'+richToolbar+'<textarea placeholder="Describe your graph: axes labels, scale, line of best fit, gradient..." oninput="saveAnsText('+idx+',this.value)" style="border-top-left-radius:0;border-top-right-radius:0;border-top:none;">'+(saved||'')+'</textarea></div>';
     h+='</div>';
     return h;
   }
   // Default: Long Answer
   const wc=(typeof saved==='string'?saved:'').split(/\s+/).filter(Boolean).length;
-  return `<div class="long-answer-wrap"><textarea placeholder="Type your answer here…" oninput="saveAnsText(${idx},this.value)">${saved||""}</textarea><div class="word-count">${wc} words</div></div>`;
+  return `<div class="long-answer-wrap">${richToolbar}<textarea placeholder="Type your answer here…" oninput="saveAnsText(${idx},this.value)" style="border-top-left-radius:0;border-top-right-radius:0;border-top:none;">${saved||""}</textarea><div class="word-count">${wc} words</div></div>`;
 }
 
 /* ══════ Answer Handlers ══════ */
@@ -1800,7 +1858,7 @@ async function doSubmit(){
       const docRef = await db.collection('submissions').add(submission);
       currentAttempt.firebaseSubmissionId = docRef.id;
       if (requestGrading) {
-        alert('✅ Your answers have been submitted! They will be graded by AI and reviewed by your teacher. Check back later for your results.');
+        alert('Your answers have been submitted! They will be graded by your teacher within 24 hours. Check back later for your results. You will be notified once the grading is done.');
         // Trigger AI grading in background
         gradeSubmissionWithAI(docRef.id, submission);
       } else {
@@ -2208,47 +2266,186 @@ auth.onAuthStateChanged(async (user) => {
 });
 
 /* ══════════ Drawing Canvas ══════════ */
-let drawState={},drawColor='#e03030',drawSize=3,drawTool='pen',drawStartPos=null;
-function setDrawTool(t){drawTool=t;}function setDrawColor(c){drawColor=c;}function setDrawSize(s){drawSize=Number(s);}
-function getCanvasCtx(idx){const canvas=document.getElementById('draw-canvas-'+idx);if(!canvas)return null;if(!drawState[idx])drawState[idx]={drawing:false,history:[]};const bgImg=document.getElementById('draw-bg-'+idx);if(canvas.width===0||canvas.width===300){if(bgImg&&bgImg.naturalWidth){canvas.width=bgImg.naturalWidth;canvas.height=bgImg.naturalHeight;}else{canvas.width=700;canvas.height=400;}}return{canvas,ctx:canvas.getContext('2d')};}
-function getScaledPos(e,canvas){const rect=canvas.getBoundingClientRect();return{x:(e.clientX-rect.left)*(canvas.width/rect.width),y:(e.clientY-rect.top)*(canvas.height/rect.height)};}
-function startDraw(e,idx){const d=getCanvasCtx(idx);if(!d)return;drawState[idx].drawing=true;const pos=getScaledPos(e,d.canvas);drawStartPos=pos;
-  if(drawTool==='pen'){d.ctx.beginPath();d.ctx.moveTo(pos.x,pos.y);d.ctx.strokeStyle=drawColor;d.ctx.lineWidth=drawSize;d.ctx.lineCap='round';d.ctx.lineJoin='round';}
-  else if(drawTool==='text'){const text=prompt('Enter text:');if(text){drawState[idx].history.push(d.ctx.getImageData(0,0,d.canvas.width,d.canvas.height));d.ctx.font=`${Math.max(14,drawSize*5)}px Arial`;d.ctx.fillStyle=drawColor;d.ctx.fillText(text,pos.x,pos.y);drawState[idx].drawing=false;saveDrawingAnswer(idx);}}
-  else{drawState[idx]._shapeBase=d.ctx.getImageData(0,0,d.canvas.width,d.canvas.height);}
+// Drawing system for student canvas
+function initDrawingCanvas(canvasEl) {
+  var ctx = canvasEl.getContext('2d');
+  var drawing = false;
+  var tool = 'pen';
+  var color = '#333';
+  var lineWidth = 3;
+  var history = [];
+  
+  function triggerSave() {
+    if (typeof currentAttempt !== 'undefined' && typeof currentQIdx !== 'undefined') {
+      currentAttempt.answers[currentQIdx] = canvasEl.toDataURL();
+    }
+  }
+
+  function saveState() {
+    history.push(canvasEl.toDataURL());
+    if (history.length > 30) history.shift();
+    triggerSave();
+  }
+
+  // Load existing saved drawing if returning to question
+  if (typeof currentAttempt !== 'undefined' && currentAttempt.answers[currentQIdx] && currentAttempt.answers[currentQIdx].startsWith('data:image')) {
+    var img = new Image();
+    img.onload = function() {
+      ctx.drawImage(img, 0, 0, canvasEl.width, canvasEl.height);
+      history.push(canvasEl.toDataURL());
+    };
+    img.src = currentAttempt.answers[currentQIdx];
+  }
+  
+  function getPos(e) {
+    var rect = canvasEl.getBoundingClientRect();
+    var x = (e.clientX || e.touches[0].clientX) - rect.left;
+    var y = (e.clientY || e.touches[0].clientY) - rect.top;
+    // Scale for high-DPI
+    x = x * (canvasEl.width / rect.width);
+    y = y * (canvasEl.height / rect.height);
+    return {x: x, y: y};
+  }
+  
+  canvasEl.addEventListener('mousedown', function(e) {
+    var pos = getPos(e);
+    if (tool === 'text') {
+      var labelInput = canvasEl.parentElement.querySelector('.draw-label-input');
+      var text = labelInput ? labelInput.value.trim() : '';
+      if (text) {
+        saveState();
+        ctx.font = '14px -apple-system, system-ui, sans-serif';
+        ctx.fillStyle = color;
+        ctx.fillText(text, pos.x, pos.y);
+        labelInput.value = '';
+        triggerSave();
+      }
+      return;
+    }
+    drawing = true;
+    saveState();
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+    canvasEl._startPos = pos;
+  });
+  
+  canvasEl.addEventListener('mousemove', function(e) {
+    if (!drawing || tool !== 'pen') return;
+    var pos = getPos(e);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+  });
+  
+  canvasEl.addEventListener('mouseup', function(e) {
+    if (!drawing) return;
+    drawing = false;
+    var pos = getPos(e);
+    
+    if (tool === 'line' || tool === 'arrow') {
+      var start = canvasEl._startPos;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lineWidth;
+      ctx.beginPath();
+      ctx.moveTo(start.x, start.y);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      
+      if (tool === 'arrow') {
+        // Draw arrowhead
+        var angle = Math.atan2(pos.y - start.y, pos.x - start.x);
+        var headLen = 12;
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+        ctx.lineTo(pos.x - headLen * Math.cos(angle - Math.PI/6), pos.y - headLen * Math.sin(angle - Math.PI/6));
+        ctx.moveTo(pos.x, pos.y);
+        ctx.lineTo(pos.x - headLen * Math.cos(angle + Math.PI/6), pos.y - headLen * Math.sin(angle + Math.PI/6));
+        ctx.stroke();
+      }
+    }
+    triggerSave();
+  });
+  
+  // Touch support
+  canvasEl.addEventListener('touchstart', function(e) { e.preventDefault(); canvasEl.dispatchEvent(new MouseEvent('mousedown', {clientX: e.touches[0].clientX, clientY: e.touches[0].clientY})); }, {passive: false});
+  canvasEl.addEventListener('touchmove', function(e) { e.preventDefault(); canvasEl.dispatchEvent(new MouseEvent('mousemove', {clientX: e.touches[0].clientX, clientY: e.touches[0].clientY})); }, {passive: false});
+  canvasEl.addEventListener('touchend', function(e) { e.preventDefault(); canvasEl.dispatchEvent(new MouseEvent('mouseup', {clientX: e.changedTouches[0].clientX, clientY: e.changedTouches[0].clientY})); }, {passive: false});
+  
+  canvasEl._drawCtx = ctx;
+  canvasEl._drawHistory = history;
+  canvasEl._drawTool = function(t) { tool = t; };
+  canvasEl._drawColor = function(c) { color = c; };
+  canvasEl._drawSize = function(s) { lineWidth = s; };
 }
-function draw(e,idx){if(!drawState[idx]?.drawing)return;const d=getCanvasCtx(idx);if(!d)return;const pos=getScaledPos(e,d.canvas);
-  if(drawTool==='pen'){d.ctx.lineTo(pos.x,pos.y);d.ctx.stroke();}
-  else if(drawTool==='line'||drawTool==='arrow'||drawTool==='rect'||drawTool==='circle'){
-    if(drawState[idx]._shapeBase)d.ctx.putImageData(drawState[idx]._shapeBase,0,0);d.ctx.strokeStyle=drawColor;d.ctx.lineWidth=drawSize;d.ctx.lineCap='round';
-    if(drawTool==='line'){d.ctx.beginPath();d.ctx.moveTo(drawStartPos.x,drawStartPos.y);d.ctx.lineTo(pos.x,pos.y);d.ctx.stroke();}
-    else if(drawTool==='arrow'){drawArrow(d.ctx,drawStartPos.x,drawStartPos.y,pos.x,pos.y);}
-    else if(drawTool==='rect'){d.ctx.beginPath();d.ctx.strokeRect(drawStartPos.x,drawStartPos.y,pos.x-drawStartPos.x,pos.y-drawStartPos.y);}
-    else if(drawTool==='circle'){const rx=Math.abs(pos.x-drawStartPos.x)/2,ry=Math.abs(pos.y-drawStartPos.y)/2;d.ctx.beginPath();d.ctx.ellipse((drawStartPos.x+pos.x)/2,(drawStartPos.y+pos.y)/2,rx,ry,0,0,Math.PI*2);d.ctx.stroke();}
+
+function setDrawTool(select) {
+  var canvas = select.closest('.drawing-area').querySelector('canvas');
+  if (canvas._drawTool) canvas._drawTool(select.value);
+  canvas.style.cursor = select.value === 'text' ? 'text' : 'crosshair';
+}
+function setDrawColor(select) {
+  var canvas = select.closest('.drawing-area').querySelector('canvas');
+  if (canvas._drawColor) canvas._drawColor(select.value);
+}
+function setDrawSize(select) {
+  var canvas = select.closest('.drawing-area').querySelector('canvas');
+  if (canvas._drawSize) canvas._drawSize(Number(select.value));
+}
+function undoDraw(btn) {
+  var canvas = btn.closest('.drawing-area').querySelector('canvas');
+  var hist = canvas._drawHistory;
+  if (hist && hist.length > 0) {
+    var img = new Image();
+    img.onload = function() {
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+      canvas.getContext('2d').drawImage(img, 0, 0);
+      if (typeof currentAttempt !== 'undefined') currentAttempt.answers[currentQIdx] = canvas.toDataURL();
+    };
+    img.src = hist.pop();
   }
 }
-function drawArrow(ctx,x1,y1,x2,y2){const hl=15,angle=Math.atan2(y2-y1,x2-x1);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-hl*Math.cos(angle-Math.PI/6),y2-hl*Math.sin(angle-Math.PI/6));ctx.moveTo(x2,y2);ctx.lineTo(x2-hl*Math.cos(angle+Math.PI/6),y2-hl*Math.sin(angle+Math.PI/6));ctx.stroke();}
-function endDraw(idx){if(!drawState[idx]?.drawing)return;drawState[idx].drawing=false;delete drawState[idx]._shapeBase;const d=getCanvasCtx(idx);if(!d)return;drawState[idx].history.push(d.ctx.getImageData(0,0,d.canvas.width,d.canvas.height));saveDrawingAnswer(idx);}
-function saveDrawingAnswer(idx){
-  const d=getCanvasCtx(idx);if(!d)return;
-  try {
-    // Try to include background image
-    const bgImg=document.getElementById('draw-bg-'+idx);
-    const tc=document.createElement('canvas');tc.width=d.canvas.width;tc.height=d.canvas.height;const tctx=tc.getContext('2d');
-    if(bgImg&&bgImg.complete) { try { tctx.drawImage(bgImg,0,0,d.canvas.width,d.canvas.height); } catch(e) {} }
-    tctx.drawImage(d.canvas,0,0);
-    currentAttempt.answers[currentQIdx]=tc.toDataURL();
-  } catch(e) {
-    // Fallback: save drawing only (without background) if cross-origin blocks toDataURL
-    try { currentAttempt.answers[currentQIdx]=d.canvas.toDataURL(); } 
-    catch(e2) { currentAttempt.answers[currentQIdx]='[Drawing saved]'; }
-  }
-  renderQNav();
+function clearDraw(btn) {
+  var canvas = btn.closest('.drawing-area').querySelector('canvas');
+  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+  canvas._drawHistory = [];
+  if (typeof currentAttempt !== 'undefined') currentAttempt.answers[currentQIdx] = undefined;
 }
-function startDrawTouch(e,idx){e.preventDefault();startDraw({clientX:e.touches[0].clientX,clientY:e.touches[0].clientY},idx);}
-function drawTouch(e,idx){e.preventDefault();draw({clientX:e.touches[0].clientX,clientY:e.touches[0].clientY},idx);}
-function clearCanvas(idx){const d=getCanvasCtx(idx);if(!d)return;d.ctx.clearRect(0,0,d.canvas.width,d.canvas.height);if(drawState[idx])drawState[idx].history=[];currentAttempt.answers[currentQIdx]=undefined;renderQNav();}
-function undoCanvas(idx){if(!drawState[idx]?.history?.length)return;drawState[idx].history.pop();const d=getCanvasCtx(idx);if(!d)return;d.ctx.clearRect(0,0,d.canvas.width,d.canvas.height);if(drawState[idx].history.length>0){d.ctx.putImageData(drawState[idx].history[drawState[idx].history.length-1],0,0);saveDrawingAnswer(idx);}else{currentAttempt.answers[currentQIdx]=undefined;renderQNav();}}
+
+function richInsert(char) {
+  // Find the currently focused textarea
+  var el = document.activeElement;
+  if (el && el.tagName === 'TEXTAREA') {
+    var start = el.selectionStart;
+    var end = el.selectionEnd;
+    el.value = el.value.substring(0, start) + char + el.value.substring(end);
+    el.selectionStart = el.selectionEnd = start + char.length;
+    el.focus();
+    // Trigger oninput
+    var event = new Event('input', { bubbles: true });
+    el.dispatchEvent(event);
+  }
+}
+
+function richFormat(type) {
+  var el = document.activeElement;
+  if (el && el.tagName === 'TEXTAREA') {
+    var start = el.selectionStart;
+    var end = el.selectionEnd;
+    var selected = el.value.substring(start, end);
+    var wrapped = '';
+    if (type === 'bold') wrapped = '**' + selected + '**';
+    else if (type === 'italic') wrapped = '_' + selected + '_';
+    else if (type === 'underline') wrapped = '__' + selected + '__';
+    el.value = el.value.substring(0, start) + wrapped + el.value.substring(end);
+    el.focus();
+    // Trigger oninput
+    var event = new Event('input', { bubbles: true });
+    el.dispatchEvent(event);
+  }
+}
 
 /* MOD-B5: Calculator & Tool Drag Logic */
 var calcDisplay = '';
