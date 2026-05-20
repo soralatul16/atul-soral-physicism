@@ -256,10 +256,59 @@ CRITERION C (${config.criterion === 'Full Exam' ? '~20-25 marks' : config.totalM
 
   if (hasD) {
     taskStructure += `
-CRITERION D (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'}): Factor: ${config.dFactor || 'Environmental'}. ONE reflection, extended writing.
-Stimulus: 6-10 sentences, REAL physics application. Holistic grid in meta.gradingGrid:
-{"theme1":{"label":"${config.dFactor||'Environmental'} implications","levels":{"1":"Statement","2":"Statement+support","3":"Two+support for one","4":"Two+support for both"}},"theme2":{"label":"Second factor","levels":{"1":"Statement","2":"Statement+support","3":"Two+support for one","4":"Two+support for both"}},"conclusion":{"label":"Appraisal","levels":{"1":"Opinion","2":"Justified appraisal"}}}
-Both benefits AND limitations required. Do NOT use MCQ/TF.`;
+TASK: CRITERION D — REFLECTING ON THE IMPACTS (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'})
+D-Factor: ${config.dFactor || 'Environmental, Economic'}
+
+Generate the Criterion D section as follows:
+
+PART 1 — CONTEXT QUESTIONS (${Math.min(5, Math.floor(config.totalMarks * 0.3))} marks):
+Generate 2-3 short questions (MCQ, Fill Text, or 1-2 mark Long Answer) that test factual understanding of the real-world context.
+- Strand D.i: "State one use of..." or "Identify the technology..."
+- These are warm-up questions before the extended response.
+
+PART 2 — EXTENDED RESPONSE (${Math.max(8, Math.floor(config.totalMarks * 0.7))} marks):
+Generate ONE extended writing question with a holistic marking grid.
+
+The question MUST:
+- Have a 6-10 sentence stimulus describing a REAL technology or application with specific data (names, numbers, locations)
+- Ask students to discuss implications across 2-3 themes based on the D-factor
+- End with "Write a concluding appraisal giving your opinion..."
+
+The holistic grid MUST be stored in meta.gradingGrid with this EXACT structure:
+
+"gradingGrid": {
+  "theme1": {
+    "label": "[First theme, e.g. Environmental implications]",
+    "levels": {
+      "1": "A statement",
+      "2": "A statement with further support OR two statements",
+      "3": "Two statements with further support for one",
+      "4": "Two statements with further support for both"
+    }
+  },
+  "theme2": {
+    "label": "[Second theme, e.g. Economic implications]",
+    "levels": {
+      "1": "A positive or negative implication",
+      "2": "A positive AND a negative implication",
+      "3": "A positive and negative with support for one",
+      "4": "A positive and negative with support for both"
+    }
+  },
+  "conclusion": {
+    "label": "Concluding appraisal",
+    "levels": {
+      "1": "A concluding opinion",
+      "2": "A concluding appraisal with justification linked to points made earlier"
+    }
+  }
+}
+
+The total marks for the extended response = sum of max levels across all rows.
+Example: theme1(4) + theme2(4) + conclusion(2) = 10 marks
+
+The mark scheme for this question should say: "Assess holistically using the grid. Award marks per row independently."
+Both benefits AND limitations required.`;
   }
 
   const formulas = `FORMULAS: ρ=m/V, F=ma, v=u+at, s=ut+½at², v²=u²+2as, p=mv, p=F/A, W=Fs, Eₖ=½mv², g=F/m, ΔEₚ=mgΔh, efficiency=(useful/total)×100, P=W/t, I=ΔQ/t, P=IV, V=IR, Vₚ/Vₛ=Nₚ/Nₛ, v=fλ, T=1/f`;
@@ -293,7 +342,12 @@ Both benefits AND limitations required. Do NOT use MCQ/TF.`;
       + 'The main question MUST be an EXTENDED RESPONSE with a holistic marking grid.\n'
       + 'Grid rows: theme1 (e.g. environmental), theme2 (e.g. ethical/economic), concluding appraisal.\n'
       + 'Do NOT generate MCQs as the primary Criterion D question. Use extended writing.\n'
-      + 'The stimulus MUST be a real-world scenario (6-10 sentences) about a specific technology or application.\n\n';
+      + 'The stimulus MUST be a real-world scenario (6-10 sentences) about a specific technology or application.\n\n'
+      + 'CRITICAL FOR CRITERION D:\n'
+      + '- The extended response question MUST include meta.gradingGrid with the holistic grid\n'
+      + '- Do NOT use a flat markScheme for extended D questions — use the grid\n'
+      + '- Short context questions (Part 1) can use flat markSchemes\n'
+      + '- Theme labels must match the D-factor selected by the teacher\n\n';
   }
 
   return critOnlyInstruction + `You are an expert IB MYP Physics teacher creating an eAssessment-style question set based on the IB MYP Sciences Guide (April 2023) and real papers (M23-M25).
