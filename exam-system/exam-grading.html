@@ -209,18 +209,30 @@ function loadAttempts() {
         id: sub.id, // Use submission doc id
         status: "completed",
         submissionId: sub.id, // Explicitly store submission ID
+        setTitle: sub.setTitle || sub.heading || '',
+        chapter: sub.chapter || '',
+        topic: sub.topic || '',
         endTime: sub.submittedAt?.toDate ? sub.submittedAt.toDate().getTime() : Date.now(),
-        percentScore: sub.aiGrading ? sub.aiGrading.percentage : 0,
-        earnedMarks: sub.aiGrading ? sub.aiGrading.totalMarksAwarded : 0,
-        totalMarks: sub.aiGrading ? sub.aiGrading.totalMarksPossible : 0
+        percentScore: sub.percentScore || (sub.aiGrading ? sub.aiGrading.percentage : 0),
+        earnedMarks: sub.earnedMarks || (sub.aiGrading ? sub.aiGrading.totalMarksAwarded : 0),
+        totalMarks: sub.totalMarks || (sub.aiGrading ? sub.aiGrading.totalMarksPossible : 0)
       });
     } else {
-      // If found, update it with AI grading data
+      // If found, update it with AI grading data and metadata
       let existing = allAttempts.find(a => a.id === sub.attemptId || a.id === sub.id);
       if (existing) {
         existing.aiGrading = sub.aiGrading;
         existing.gradingStatus = sub.gradingStatus;
         existing.submissionId = sub.id;
+        if (!existing.setTitle && sub.setTitle) existing.setTitle = sub.setTitle;
+        if (!existing.chapter && sub.chapter) existing.chapter = sub.chapter;
+        if (!existing.topic && sub.topic) existing.topic = sub.topic;
+        if (sub.grades) existing.grades = sub.grades;
+        if (sub.teacherFeedback) existing.teacherFeedback = sub.teacherFeedback;
+        if (sub.overallFeedback) existing.overallFeedback = sub.overallFeedback;
+        if (sub.earnedMarks) existing.earnedMarks = sub.earnedMarks;
+        if (sub.totalMarks) existing.totalMarks = sub.totalMarks;
+        if (sub.percentScore) existing.percentScore = sub.percentScore;
       }
     }
   });
@@ -389,8 +401,8 @@ function openAttempt(attemptId) {
   activeAttemptId = attemptId;
   renderSidebar();
 
-  const attempts = fetchAttempts();
-  const a = attempts.find(x => x.id === attemptId);
+  // Search allAttempts (includes Firestore submissions), fallback to fetchAttempts
+  const a = allAttempts.find(x => x.id === attemptId) || fetchAttempts().find(x => x.id === attemptId);
   if (!a) { alert('Attempt not found.'); return; }
 
   const set = getSetForAttempt(a);
@@ -674,8 +686,7 @@ function toggleMS(i) {
 
 /* ── Auto-score MCQ and T/F ── */
 function autoScoreAll() {
-  const attempts = fetchAttempts();
-  const a = attempts.find(x => x.id === activeAttemptId);
+  const a = allAttempts.find(x => x.id === activeAttemptId);
   if (!a) return;
   const set = getSetForAttempt(a);
   if (!set) return;
@@ -720,8 +731,7 @@ function autoScoreAll() {
 
 /* ── Live marks update ── */
 function onGradeChange() {
-  const attempts = fetchAttempts();
-  const a = attempts.find(x => x.id === activeAttemptId);
+  const a = allAttempts.find(x => x.id === activeAttemptId);
   if (!a) return;
   const set = getSetForAttempt(a);
   if (!set) return;
@@ -752,11 +762,10 @@ function onGradeChange() {
 
 /* ── Save grades ── */
 function saveGrades() {
-  const attempts = fetchAttempts();
-  const idx = attempts.findIndex(x => x.id === activeAttemptId);
+  const idx = allAttempts.findIndex(x => x.id === activeAttemptId);
   if (idx === -1) { alert('Attempt not found.'); return; }
 
-  const a = attempts[idx];
+  const a = allAttempts[idx];
   const set = getSetForAttempt(a);
   if (!set) return;
   const qBlocks = (set.blocks || []).filter(b => b.saved && b.mode === 'question');
@@ -799,8 +808,14 @@ function saveGrades() {
   a.teacherApproved = true;
   a.gradedAt = Date.now();
 
-  attempts[idx] = a;
-  storeAttempts(attempts);
+  allAttempts[idx] = a;
+  // Also save to local attempts cache if present there
+  const localAttempts = fetchAttempts();
+  const localIdx = localAttempts.findIndex(x => x.id === activeAttemptId);
+  if (localIdx !== -1) {
+    localAttempts[localIdx] = a;
+    storeAttempts(localAttempts);
+  }
   
   if (a.submissionId && window.db) {
     db.collection('submissions').doc(a.submissionId).update({

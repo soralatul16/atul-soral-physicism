@@ -1843,6 +1843,13 @@ async function doSubmit(){
     const requestGrading = currentAttempt.wantsGrading;
     const submission = {
       setId: currentSet.id,
+      setTitle: currentSet.heading || '',
+      chapter: currentSet.chapter || '',
+      topic: currentSet.topic || '',
+      totalMarks: currentAttempt.totalMarks || 0,
+      earnedMarks: currentAttempt.earnedMarks || 0,
+      percentScore: currentAttempt.percentScore || 0,
+      duration: timerSecs || 0,
       studentId: user.uid,
       studentEmail: user.email,
       studentName: user.displayName || user.email,
@@ -1874,7 +1881,7 @@ async function doSubmit(){
 }
 
 async function gradeSubmissionWithAI(submissionId, submission) {
-  var key = localStorage.getItem('groq_api_key') || localStorage.getItem('ia_api_key');
+  var key = localStorage.getItem('groq_api_key') || localStorage.getItem('gemini_api_key') || localStorage.getItem('ia_api_key');
   if (!key) {
     console.error('No API key for grading');
     return;
@@ -1883,10 +1890,15 @@ async function gradeSubmissionWithAI(submissionId, submission) {
   // Load the question set to get mark schemes
   var setDoc = await db.collection('questionSets').doc(submission.setId).get();
   if (!setDoc.exists) {
-    console.error('Question set not found');
+    console.error('Question set not found in Firestore:', submission.setId);
     return;
   }
-  var questionSet = setDoc.data();
+  var rawData = setDoc.data();
+  // Parse dataJson format used by firebase-db.js
+  var questionSet = rawData;
+  if (rawData.dataJson && typeof rawData.dataJson === 'string') {
+    try { questionSet = JSON.parse(rawData.dataJson); } catch(e) { console.error('dataJson parse error:', e); }
+  }
   var blocks = questionSet.blocks || [];
   var questionBlocks = blocks.filter(function(b) { return b.mode === 'question' && b.saved; });
   
