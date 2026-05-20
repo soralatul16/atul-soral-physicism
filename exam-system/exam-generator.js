@@ -423,7 +423,7 @@ async function callAI(prompt) {
 
 async function callGroq(prompt, key, statusEl) {
   for (let attempt = 0; attempt < 2; attempt++) {
-    const model = attempt === 0 ? 'llama-3.3-70b-versatile' : 'llama-3.3-8b-instant';
+    const model = attempt === 0 ? 'llama-3.3-70b-versatile' : 'llama-3.1-8b-instant';
     
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
