@@ -304,7 +304,39 @@ Both benefits AND limitations required. Do NOT use MCQ/TF.`;
 
   const formulas = `FORMULAS: ρ=m/V, F=ma, v=u+at, s=ut+½at², v²=u²+2as, p=mv, p=F/A, W=Fs, Eₖ=½mv², g=F/m, ΔEₚ=mgΔh, efficiency=(useful/total)×100, P=W/t, I=ΔQ/t, P=IV, V=IR, Vₚ/Vₛ=Nₚ/Nₛ, v=fλ, T=1/f`;
 
-  return `You are an expert IB MYP Physics teacher creating an eAssessment-style question set based on the IB MYP Sciences Guide (April 2023) and real papers (M23-M25).
+  var critOnlyInstruction = 'CRITICAL: This generation is for Criterion ' + crit + ' ONLY. Every question MUST be Criterion ' + crit + '. Do NOT generate questions for any other criterion.\n\n';
+
+  if (crit === 'A') {
+    critOnlyInstruction += 'STRAND DISTRIBUTION for Criterion A:\n'
+      + '- 40% of marks on strand i (recall): Use command terms State, Define, Outline, Describe\n'
+      + '- 35% of marks on strand ii (application): Use command terms Apply, Calculate, Determine, Solve\n'
+      + '- 25% of marks on strand iii (analysis): Use command terms Analyse, Evaluate, Discuss, Compare, Justify\n'
+      + 'Mix strands WITHIN each section. Do NOT put all strand i questions together.\n\n';
+  } else if (crit === 'B') {
+    critOnlyInstruction += 'Criterion B is ONE extended design question with a holistic marking grid.\n'
+      + 'Generate ONE stimulus + ONE design task. The holistic grid has rows: V (variables 1-4), H (hypothesis 1-3), E (equipment 1-2), M (method 1-4), D (data 1-4), S (safety 1).\n'
+      + 'Do NOT split into multiple small questions. ONE question, ONE grid.\n\n';
+  } else if (crit === 'C') {
+    critOnlyInstruction += 'STRAND DISTRIBUTION for Criterion C:\n'
+      + '- Strand i: Present/organize data (tables, graphs)\n'
+      + '- Strand ii: Interpret data (trends, patterns)\n'
+      + '- Strand iii: Evaluate (does data support hypothesis?)\n'
+      + '- Strand iv: Evaluate (sources of error)\n'
+      + '- Strand v: Suggest improvements\n'
+      + 'Provide a DATA TABLE with real numbers in the stimulus. Questions should process that data.\n\n';
+  } else if (crit === 'D') {
+    critOnlyInstruction += 'STRAND DISTRIBUTION for Criterion D:\n'
+      + '- Strand i: Explain the science/application (describe how physics is used)\n'
+      + '- Strand ii: Discuss implications (advantages AND disadvantages, positive AND negative)\n'
+      + '- Strand iii: Apply scientific knowledge to real-world context\n'
+      + '- Strand iv: Document sources (only if extended response)\n'
+      + 'The main question MUST be an EXTENDED RESPONSE with a holistic marking grid.\n'
+      + 'Grid rows: theme1 (e.g. environmental), theme2 (e.g. ethical/economic), concluding appraisal.\n'
+      + 'Do NOT generate MCQs as the primary Criterion D question. Use extended writing.\n'
+      + 'The stimulus MUST be a real-world scenario (6-10 sentences) about a specific technology or application.\n\n';
+  }
+
+  return critOnlyInstruction + `You are an expert IB MYP Physics teacher creating an eAssessment-style question set based on the IB MYP Sciences Guide (April 2023) and real papers (M23-M25).
 
 ═══ ASSESSMENT ═══
 Grade: ${config.grade} | ${ye.label} | Chapter: ${config.chapter} | Topic: ${config.topic}
@@ -362,7 +394,7 @@ ${config.questions.map(function(q) {
   ]
 }
 
-RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks} 7)Realistic values 8)Mark schemes: "Award X marks","Accept","Do not accept","WTTE","ECF" 9)Holistic grids in meta.gradingGrid 10)Specific stimuli with names,places,numbers 11)At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions 12)Table questions MUST have tableHeaders,tableRows,tableCols,tablePrefill 13)Count marks as you generate — must reach exactly ${config.totalMarks} 14)Verify total before outputting 15)Generate at LEAST 2 different stimulus blocks using different real-world scenarios. Assign questions to different sectionIds (1, 2, or 3).
+RULES: 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks} 7)Realistic values 8)Mark schemes: "Award X marks","Accept","Do not accept","WTTE","ECF" 9)Holistic grids in meta.gradingGrid 10)Specific stimuli with names,places,numbers 11)At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions 12)Table questions MUST have tableHeaders,tableRows,tableCols,tablePrefill 13)Count marks as you generate — must reach exactly ${config.totalMarks} 14)Verify total before outputting 15)Generate at LEAST 2 different stimulus blocks using different real-world scenarios. Assign questions to different sectionIds (1, 2, or 3). 17)VARIETY: Each section MUST have at least 2 different question types. Never a section of all MCQs or all True/False. 18)STRAND MIX: Within each section, progress through strands. Start with strand i, then ii, then iii. Each section should cover at least 2 strands. 19)QUESTION INDEPENDENCE: Each question must be standalone. Do not make one question's answer depend on another question's answer.
 
 DRAWING QUESTIONS: Use type "Drawing" when students need to draw (free body diagram, circuit, ray diagram). Include: data.question (instruction), data.drawingInstructions (what to draw), data.drawingImage (optional base image URL to draw on top of). Mark scheme should list each element.
 
@@ -582,67 +614,154 @@ function collectGenConfig() {
 }
 
 /* ── Generate & Save ── */
-async function runGeneration() {
-  if (_genCooldown) { alert('Please wait a few seconds before generating again.'); return; }
-
-  const config = collectGenConfig();
-  if (!config) return;
-
-  // AUTO-GENERATE QUESTION MIX if no question types are selected
-  if (config.questions.length === 0 || config.questions.every(q => q.count === 0)) {
-    var totalMarks = config.totalMarks || 25;
-    var crit = (config.criterion || 'A').charAt(0);
+function getAutoQuestionMix(criterion, totalMarks) {
+  var mix = [];
+  
+  if (criterion === 'A') {
+    // Criterion A: mixed types, strands i→ii→iii
+    // 40% strand i (recall), 35% strand ii (apply), 25% strand iii (analyse)
+    var s1marks = Math.round(totalMarks * 0.4);
+    var s2marks = Math.round(totalMarks * 0.35);
+    var s3marks = totalMarks - s1marks - s2marks;
     
-    if (crit === 'A') {
-      config.questions = [
-        {type: 'MCQ', count: Math.ceil(totalMarks * 0.15), marks: 1},
-        {type: 'Long Answer', count: Math.ceil(totalMarks * 0.25), marks: 2},
-        {type: 'Fill Text', count: Math.ceil(totalMarks * 0.1), marks: 1},
-        {type: 'Table', count: 1, marks: Math.ceil(totalMarks * 0.15)},
-        {type: 'Long Answer', count: 1, marks: Math.ceil(totalMarks * 0.2)}
+    mix = [
+      {type: 'MCQ', count: Math.max(2, Math.floor(s1marks / 1)), marks: 1},
+      {type: 'Fill in the Blank', count: Math.max(1, Math.floor(s1marks * 0.3)), marks: 1},
+      {type: 'Long Answer', count: Math.max(1, Math.ceil(s2marks / 3)), marks: 3},
+      {type: 'Table', count: 1, marks: Math.min(4, s2marks)},
+      {type: 'Long Answer', count: Math.max(1, Math.ceil(s3marks / 4)), marks: 4}
+    ];
+  } else if (criterion === 'B') {
+    // Criterion B: ONE design question with holistic grid
+    mix = [{type: 'Long Answer', count: 1, marks: totalMarks}];
+  } else if (criterion === 'C') {
+    // Criterion C: data processing, graphs, calculations
+    mix = [
+      {type: 'Fill in the Blank', count: 2, marks: 1},
+      {type: 'Table', count: 1, marks: Math.min(4, Math.floor(totalMarks * 0.2))},
+      {type: 'Long Answer', count: 2, marks: Math.floor(totalMarks * 0.2)},
+      {type: 'Graph Plot', count: 1, marks: Math.min(4, Math.floor(totalMarks * 0.2))}
+    ];
+  } else if (criterion === 'D') {
+    // Criterion D: extended reflection + shorter context questions
+    if (totalMarks >= 15) {
+      // One big extended response + some shorter ones
+      var extendedMarks = Math.max(10, Math.floor(totalMarks * 0.6));
+      var shortMarks = totalMarks - extendedMarks;
+      mix = [
+        {type: 'Long Answer', count: 1, marks: extendedMarks},
+        {type: 'MCQ', count: Math.min(2, shortMarks), marks: 1},
+        {type: 'Fill in the Blank', count: Math.max(1, shortMarks - 2), marks: 1}
       ];
-    } else if (crit === 'B' || config.criterion === 'B+C') {
-      // Criterion B is ONE big design question with holistic grid
-      config.questions = [
-        {type: 'Long Answer', count: 1, marks: totalMarks}
-      ];
-    } else if (crit === 'C') {
-      config.questions = [
-        {type: 'Table', count: 1, marks: Math.ceil(totalMarks * 0.2)},
-        {type: 'Long Answer', count: Math.ceil(totalMarks * 0.3), marks: 2},
-        {type: 'Fill Text', count: Math.ceil(totalMarks * 0.15), marks: 1},
-        {type: 'Long Answer', count: 1, marks: Math.ceil(totalMarks * 0.2)}
-      ];
-    } else if (crit === 'D') {
-      // Criterion D is ONE big reflection question with holistic grid
-      config.questions = [
-        {type: 'Long Answer', count: 1, marks: totalMarks}
+    } else {
+      mix = [
+        {type: 'Long Answer', count: 1, marks: Math.max(6, totalMarks - 4)},
+        {type: 'MCQ', count: 2, marks: 1},
+        {type: 'Fill in the Blank', count: 2, marks: 1}
       ];
     }
   }
+  
+  return mix;
+}
 
-  const btn = document.getElementById('gen-run-btn');
-  const status = document.getElementById('gen-status');
+async function runGeneration() {
+  if (_genCooldown) { alert('Please wait before generating again.'); return; }
+
+  var config = collectGenConfig();
+  if (!config) return;
+
+  var btn = document.getElementById('gen-run-btn');
+  var status = document.getElementById('gen-status');
 
   btn.disabled = true;
   btn.textContent = '⏳ Generating...';
-  status.textContent = 'Sending to Gemini AI... this takes 10-20 seconds';
+  status.textContent = 'Preparing...';
   status.style.color = 'var(--text2)';
 
   _genCooldown = true;
-  setTimeout(() => { _genCooldown = false; }, 3000);
+  setTimeout(function() { _genCooldown = false; }, 3000);
 
   try {
-    const prompt = buildGeneratorPrompt(config);
-    console.log('--- GENERATOR PROMPT ---', prompt);
-    const result = await callAI(prompt);
-    console.log('--- AI PARSED RESULT ---', result);
-
-    if (!result || !result.blocks || !Array.isArray(result.blocks)) {
-      throw new Error('Invalid response format — missing blocks array');
+    // Parse criteria — could be "A", "A, D", "A, B, C", etc.
+    var criteriaRaw = config.criterion || 'A';
+    var criteria = criteriaRaw.split(/[,+]/).map(function(c) { return c.trim().charAt(0); }).filter(function(c) { return 'ABCD'.indexOf(c) !== -1; });
+    
+    // Remove duplicates
+    criteria = criteria.filter(function(c, i) { return criteria.indexOf(c) === i; });
+    
+    if (criteria.length === 0) criteria = ['A'];
+    
+    // Calculate marks per criterion
+    var marksPerCrit = {};
+    var baseMarks = Math.floor(config.totalMarks / criteria.length);
+    var remainder = config.totalMarks % criteria.length;
+    criteria.forEach(function(c, i) {
+      marksPerCrit[c] = baseMarks + (i < remainder ? 1 : 0);
+    });
+    
+    var allBlocks = [];
+    var allSections = [];
+    var sectionOffset = 0;
+    
+    // Generate each criterion separately
+    for (var ci = 0; ci < criteria.length; ci++) {
+      var crit = criteria[ci];
+      var critMarks = marksPerCrit[crit];
+      
+      status.textContent = '⏳ Generating Criterion ' + crit + ' (' + (ci + 1) + '/' + criteria.length + ')... ' + critMarks + ' marks';
+      
+      // Build config for this single criterion
+      var singleConfig = JSON.parse(JSON.stringify(config));
+      singleConfig.criterion = crit;
+      singleConfig.totalMarks = critMarks;
+      
+      // Auto-select appropriate question types per criterion
+      if (criteria.length > 1) {
+        singleConfig.questions = getAutoQuestionMix(crit, critMarks);
+      }
+      
+      // Build and send prompt
+      var prompt = buildGeneratorPrompt(singleConfig);
+      var result = await callAI(prompt);
+      
+      if (result && result.blocks && Array.isArray(result.blocks)) {
+        // Assign unique section IDs
+        var critSections = result.sections || [{id: 1, name: 'Section 1'}];
+        critSections.forEach(function(sec) {
+          sec.id = sec.id + sectionOffset;
+          sec.name = 'Criterion ' + crit + ' — ' + sec.name;
+        });
+        
+        result.blocks.forEach(function(block) {
+          block.sectionId = (block.sectionId || 1) + sectionOffset;
+          if (block.meta) block.meta.criterion = crit;
+        });
+        
+        sectionOffset += critSections.length;
+        allSections = allSections.concat(critSections);
+        allBlocks = allBlocks.concat(result.blocks);
+      }
+      
+      // Rate limit delay between calls
+      if (ci < criteria.length - 1) {
+        status.textContent = '⏳ Waiting for rate limit... next: Criterion ' + criteria[ci + 1];
+        await new Promise(function(r) { setTimeout(r, 3000); });
+      }
     }
     
-    let validatedResult = validateGeneratedSet(result, config);
+    // Combine results
+    var combinedResult = {
+      heading: config.heading || config.topic,
+      sections: allSections.length > 0 ? allSections : [{id: 1, name: 'Section 1'}],
+      blocks: allBlocks
+    };
+    
+    if (!combinedResult.blocks || combinedResult.blocks.length === 0) {
+      throw new Error('No questions generated. Try again.');
+    }
+    
+    var validatedResult = validateGeneratedSet(combinedResult, config);
 
     // ═══ MARK PADDING: If AI generated fewer marks than requested, add MCQs to fill ═══
     var currentTotal = validatedResult.blocks
@@ -814,13 +933,41 @@ async function runGeneration() {
     });
     const validBlocks = processedBlocks.filter(b => !b._invalid);
 
+    // ═══ HIGHLIGHT COMMAND TERMS ═══
+    var commandTerms = ['State','Define','Outline','Describe','Explain','Calculate','Apply','Determine','Solve','Show','Derive','Analyse','Analyze','Evaluate','Discuss','Compare','Justify','Formulate','Suggest','Design','Plot','Interpret','Predict'];
+
+    validBlocks.forEach(function(block) {
+      if (block.mode === 'question' && block.data && block.data.question) {
+        var q = block.data.question;
+        commandTerms.forEach(function(term) {
+          // Match the command term at the START of the question or after a period/newline
+          var regex = new RegExp('(^|\\. |\\n)(' + term + ')\\b', 'g');
+          q = q.replace(regex, '$1<strong style="color:#c0392b;text-decoration:underline;">' + term + '</strong>');
+        });
+        block.data.question = q;
+      }
+    });
+
+    validBlocks.forEach(function(block) {
+      if (block.meta && block.meta.commandTerm) {
+        // Add the command term and strand as visible tags in the mark scheme
+        var ct = block.meta.commandTerm || '';
+        var strand = block.meta.strand || '';
+        var existingScheme = block.meta.markScheme || '';
+        
+        if (existingScheme && existingScheme.indexOf('Command term:') === -1) {
+          block.meta.markScheme = '<strong style="color:#c0392b;">Command term: ' + ct + '</strong> | <strong>Strand: ' + (block.meta.criterion || '') + '.' + strand + '</strong>\n' + existingScheme;
+        }
+      }
+    });
+
     const totalMarks = validBlocks
       .filter(b => b.mode === 'question')
       .reduce((sum, b) => sum + Number(b.meta?.marks || 0), 0);
 
     const newSet = {
       id: setId,
-      heading: config.heading || result.heading || config.topic,
+      heading: config.heading || combinedResult.heading || config.topic,
       chapter: config.chapter,
       topic: config.topic,
       gc: config.globalContext || '',
