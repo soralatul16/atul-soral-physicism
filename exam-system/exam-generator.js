@@ -815,9 +815,9 @@ async function runGeneration() {
       // Generate simple fill-in-the-blank questions to pad marks
       var padQuestions = [
         {q: 'The SI unit of force is _______.', a: 'newton (N)'},
-        {q: 'According to Newton\\'s First Law, an object at rest will _______ at rest unless acted upon by an unbalanced force.', a: 'remain'},
+        {q: 'According to Newton\'s First Law, an object at rest will _______ at rest unless acted upon by an unbalanced force.', a: 'remain'},
         {q: 'The formula F = ma relates force, _______ and acceleration.', a: 'mass'},
-        {q: 'Newton\\'s Third Law states that every action has an equal and opposite _______.', a: 'reaction'},
+        {q: 'Newton\'s Third Law states that every action has an equal and opposite _______.', a: 'reaction'},
         {q: 'The unit of acceleration is _______.', a: 'm/s²'},
         {q: 'Friction is a force that _______ motion.', a: 'opposes'},
         {q: 'Weight is calculated using the formula W = _______.', a: 'mg'},
