@@ -507,7 +507,7 @@ body::after {
     <button class="nav-btn" onclick="switchTab(this); openGenerator()">🎯 Generate</button>
     <button class="nav-btn" onclick="switchTab(this); openLibrary()">📚 Library</button>
     <button class="nav-btn" onclick="switchTab(this); openUsers()">👥 Users</button>
-    <button class="icon-btn" id="gradeNavBtn" onclick="window.location.href='exam-grading.html'">📝 Grade</button>
+    <button class="icon-btn" id="gradeNavBtn" onclick="markSubmissionsAsSeen(); window.location.href='exam-grading.html'">📝 Grade</button>
   </div>
   <div class="topbar-right">
     <button id="themeToggle" class="icon-btn" onclick="toggleTheme()" style="font-size:16px;">🌓</button>
@@ -1181,15 +1181,22 @@ function checkNewSubmissions() {
   if (!window.db) return;
   
   db.collection('submissions')
-    .where('gradingStatus', 'in', ['pending', 'ai_graded'])
     .where('teacherApproved', '==', false)
     .onSnapshot(function(snapshot) {
-      var count = snapshot.size;
+      // Count only submissions that haven't been seen by teacher
+      var unseenCount = 0;
+      snapshot.forEach(function(doc) {
+        var data = doc.data();
+        if (!data.teacherSeen) {
+          unseenCount++;
+        }
+      });
+      
       var badge = document.getElementById('gradeBadge');
       var gradeBtn = document.getElementById('gradeNavBtn');
       if (!gradeBtn) return;
       
-      if (count > 0) {
+      if (unseenCount > 0) {
         if (!badge) {
           badge = document.createElement('span');
           badge.id = 'gradeBadge';
@@ -1197,11 +1204,40 @@ function checkNewSubmissions() {
           gradeBtn.style.position = 'relative';
           gradeBtn.appendChild(badge);
         }
-        badge.textContent = count;
+        badge.textContent = unseenCount;
         badge.style.display = 'flex';
+        badge.style.animation = 'badgePulse 1.5s infinite';
       } else if (badge) {
         badge.style.display = 'none';
+        badge.style.animation = 'none';
       }
+    });
+}
+
+function markSubmissionsAsSeen() {
+  if (!window.db) return;
+  
+  db.collection('submissions')
+    .where('teacherApproved', '==', false)
+    .where('teacherSeen', '==', false)
+    .get()
+    .then(function(snapshot) {
+      var batch = db.batch();
+      snapshot.forEach(function(doc) {
+        batch.update(doc.ref, { teacherSeen: true });
+      });
+      return batch.commit();
+    })
+    .then(function() {
+      // Remove badge animation
+      var badge = document.getElementById('gradeBadge');
+      if (badge) {
+        badge.style.display = 'none';
+        badge.style.animation = 'none';
+      }
+    })
+    .catch(function(err) {
+      console.error('Error marking seen:', err);
     });
 }
 
