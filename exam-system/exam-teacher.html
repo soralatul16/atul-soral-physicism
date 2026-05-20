@@ -1268,6 +1268,26 @@ function showPage(name) {
   currentPage = name;
 }
 
+function openGenerator() {
+  showPage('generator');
+  var screen = document.getElementById('generatorScreen');
+  if (!screen) return;
+  screen.style.display = 'flex';
+  var metaForm = document.getElementById('shared-meta-form');
+  var placeholder = document.getElementById('gen-meta-placeholder');
+  if (metaForm && placeholder) {
+    placeholder.appendChild(metaForm);
+    metaForm.style.display = 'block';
+  }
+  if (typeof renderTemplates === 'function') renderTemplates();
+  var key = localStorage.getItem('groq_api_key') || localStorage.getItem('gemini_api_key');
+  var keySetup = document.getElementById('gen-key-setup');
+  var mainForm = document.getElementById('gen-main-form');
+  if (keySetup) keySetup.style.display = key ? 'none' : 'block';
+  if (mainForm) mainForm.style.display = key ? 'block' : 'none';
+  if (typeof updateGenTotalMarks === 'function') updateGenTotalMarks();
+}
+
 function showHomePage() { showPage('home'); }
 
 function switchTab(btn) {
