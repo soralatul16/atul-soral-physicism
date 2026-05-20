@@ -570,6 +570,7 @@ async function guidedGenerateAll() {
       updatedAt: now,
       totalMarks: config.totalMarks,
       grade: config.grade,
+      timeLimit: Number(config.timeLimit) || 0,
       generatedBy: 'ai-guided'
     };
 

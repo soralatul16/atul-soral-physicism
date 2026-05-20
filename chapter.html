@@ -14,18 +14,63 @@
 
 <style>
 :root {
+  /* Light theme (default) */
   --bg: #f5f0e8;
-  --bg-paper: #ffffff;
+  --bg-deep: #f0ebe2;
+  --surface: rgba(255,255,255,0.75);
+  --surface2: rgba(255,255,255,0.55);
+  --white: #ffffff;
+  --text: #1a1a2e;
+  --text2: #555;
+  --text3: #888;
+  --border: rgba(0,0,0,0.06);
   --accent: #c0392b;
+  --cream: #f9f6f1;
+
+  /* Theme mappings for Chapter */
+  --bg-paper: var(--white);
+  --text-muted: var(--text2);
+  --text-light: var(--text3);
+  --shadow: rgba(0, 0, 0, 0.06);
+
   --accent-hover: #962d22;
   --accent-pale: rgba(192, 57, 43, 0.06);
-  --text: #1a1a2e;
-  --text-muted: #555570;
-  --text-light: #8888a0;
-  --border: rgba(0, 0, 0, 0.06);
-  --shadow: rgba(0, 0, 0, 0.06);
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body: 'DM Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg: #0f1119;
+  --bg-deep: #141620;
+  --surface: rgba(30,32,45,0.85);
+  --surface2: rgba(30,32,45,0.65);
+  --white: #1e2030;
+  --text: #e0ddd5;
+  --text2: #a0a0b0;
+  --text3: #6a6a7a;
+  --border: rgba(255,255,255,0.06);
+  --accent: #e05040;
+  --cream: #1a1c28;
+}
+
+[data-theme="dark"] body {
+  background: var(--bg);
+  color: var(--text);
+}
+[data-theme="dark"] img {
+  opacity: 0.92;
+}
+[data-theme="dark"] .topbar,
+[data-theme="dark"] .navbar {
+  background: var(--surface);
+  border-bottom-color: var(--border);
+}
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: var(--white);
+  color: var(--text);
+  border-color: var(--border);
 }
 
 *, *::before, *::after {
@@ -109,7 +154,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0 32px;
-  background: rgba(255, 255, 255, 0.75);
+  background: var(--surface);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
@@ -247,7 +292,7 @@ body {
   border-radius: 16px;
   box-shadow: 0 12px 36px var(--shadow);
   border: 1px solid rgba(0, 0, 0, 0.04);
-  background: white;
+  background: var(--white);
   padding: 8px;
 }
 
@@ -283,7 +328,7 @@ body {
 }
 
 #quizBtn {
-  background: white;
+  background: var(--white);
   border: 1.5px solid var(--border);
   color: var(--text);
 }
@@ -336,7 +381,7 @@ body {
   right: 28px;
   z-index: 9000;
   width: 320px;
-  background: #ffffff;
+  background: var(--white);
   border: 1.5px solid rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   overflow: hidden;
@@ -386,7 +431,7 @@ body {
 #fb-panel input,
 #fb-panel textarea {
   width: 100%;
-  background: #ffffff;
+  background: var(--white);
   border: 1.5px solid var(--border);
   border-radius: 8px;
   color: var(--text);
@@ -518,6 +563,7 @@ body {
   <div class="nav-links-right">
     <a href="index.html" class="nav-btn-link">Home</a>
     <a href="myp-dashboard.html" class="nav-btn-link">MYP Dashboard</a>
+    <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:14px;transition:all .2s;color:var(--text2);" title="Toggle dark/light mode">🌙</button>
   </div>
 </div>
 
@@ -623,6 +669,26 @@ function searchImages(){
 if(images.length > 0){
   loadImage(images[0], sidebar.children[0]);
 }
+</script>
+
+<script>
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme');
+  var next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('physicism-theme', next);
+  var btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = next === 'dark' ? '☀️' : '🌙';
+}
+// Load saved theme
+(function() {
+  var saved = localStorage.getItem('physicism-theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    var btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
 </script>
 
 </body>

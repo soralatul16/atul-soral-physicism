@@ -2,6 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  })();
+</script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Atul Soral Physicism</title>
@@ -44,6 +50,47 @@
   --font-body: 'Avenir Next', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
 }
+[data-theme="dark"] {
+  --cream: #0f1119;
+  --white: #1e2030;
+  --ink: #e0ddd5;
+  --ink-2: #c0c0d8;
+  --ink-3: #a0a0b0;
+  --ink-4: #6a6a7a;
+  --ink-5: #4a4a58;
+  --teal: #4ecdc4;
+  --teal-mid: #3db8b0;
+  --teal-pale: rgba(78,205,196,0.06);
+  --teal-soft: rgba(78,205,196,0.3);
+  --blue: #5b9bd5;
+  --blue-pale: rgba(91,155,213,0.06);
+  --pink: #f28b82;
+  --pink-pale: rgba(242,139,130,0.06);
+  --pink-soft: rgba(242,139,130,0.3);
+  --coral: #ff8a65;
+  --coral-pale: rgba(255,138,101,0.06);
+  --purple: #b39ddb;
+  --purple-pale: rgba(179,157,219,0.06);
+  --purple-soft: rgba(179,157,219,0.3);
+  --green: #81c784;
+  --green-pale: rgba(129,199,132,0.06);
+  --amber: #ffd54f;
+  --amber-pale: rgba(255,213,79,0.06);
+  --glass: rgba(30,32,45,0.85);
+  --glass-border: rgba(255,255,255,0.06);
+  --glass-hover: rgba(30,32,45,0.95);
+}
+[data-theme="dark"] body { background: var(--cream); color: var(--ink); }
+[data-theme="dark"] .bg-image { opacity: 0.03; }
+[data-theme="dark"] .nav-link:not(.cta) { color: var(--ink-3); }
+[data-theme="dark"] .nav-link:not(.cta):hover { background: rgba(78,205,196,0.12); color: var(--teal); }
+[data-theme="dark"] .nav-link.cta { background: var(--teal); color: #0f1119; }
+[data-theme="dark"] .nav-link.cta:hover { background: #3db8b0; }
+[data-theme="dark"] .btn-email { background: var(--glass); color: var(--ink); border-color: var(--glass-border); }
+[data-theme="dark"] .btn-email:hover { background: var(--glass-hover); border-color: var(--teal-soft); }
+[data-theme="dark"] .stat-item { border-right-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] .spotlight-arrow, [data-theme="dark"] .card-arrow, [data-theme="dark"] .card-icon { background: rgba(30,32,45,0.7); color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+[data-theme="dark"] .card-tag { background: rgba(30,32,45,0.8); color: var(--ink-3); }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden;font-size:15px;line-height:1.6;}
@@ -496,6 +543,7 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
   <div class="nav-links">
     <a class="nav-link" href="myp-dashboard.html">MYP</a>
     <a class="nav-link" href="dp-dashboard.html">DP</a>
+    <button id="themeToggle" class="nav-link" onclick="toggleTheme()" style="background:none;border:none;cursor:pointer;font-size:14px;padding:8px 12px;display:inline-flex;align-items:center;justify-content:center;">🌓</button>
     <a class="nav-link cta" href="https://wa.me/917877199443">Book Tutoring</a>
   </div>
 </nav>
@@ -716,7 +764,8 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
 
   function draw(){
     ctx.clearRect(0,0,w,h);
-    ctx.fillStyle='#f7f3ed';
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    ctx.fillStyle = isDark ? '#0f1119' : '#f7f3ed';
     ctx.fillRect(0,0,w,h);
     var t=Date.now()*0.0003;
     for(var i=0;i<orbs.length;i++){
@@ -931,5 +980,13 @@ document.querySelectorAll('.btn').forEach(function(btn){
 })();
 </script>
 
+<script>
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+</script>
 </body>
 </html>

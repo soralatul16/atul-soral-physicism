@@ -2,6 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IB Physics IA Generator | Physicism</title>
@@ -9,6 +15,25 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:Georgia,'Palatino Linotype',serif;background:#f5f0e8;color:#1a1a2e;line-height:1.7;min-height:100vh;}
 body::before{content:'Atul Soral Physicism';position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);font-family:'Monotype Corsiva','Apple Chancery',cursive;font-size:70px;color:rgba(0,0,0,0.02);white-space:nowrap;pointer-events:none;z-index:9999;letter-spacing:6px;}
+
+[data-theme="dark"] body { background: #0f1119; color: #e0ddd5; }
+[data-theme="dark"] body::before { color: rgba(255,255,255,0.015); }
+[data-theme="dark"] .navbar { background: rgba(30,32,45,0.85); border-bottom-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] .nav-brand { color: #e0ddd5; }
+[data-theme="dark"] .nav-btn, [data-theme="dark"] .tab, [data-theme="dark"] .btn-white { background: #1e2030; color: #e0ddd5; border-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] .card, [data-theme="dark"] .sec-hdr, [data-theme="dark"] .sec-body, [data-theme="dark"] .export-card, [data-theme="dark"] #authGate > div { background: #1e2030 !important; border-color: rgba(255,255,255,0.06) !important; color: #e0ddd5 !important; }
+[data-theme="dark"] .card-title, [data-theme="dark"] .sec-name { color: #e0ddd5; }
+[data-theme="dark"] .fg select, [data-theme="dark"] .fg input[type="text"], [data-theme="dark"] .fg input[type="number"] { background: #141620 !important; border-color: rgba(255,255,255,0.06) !important; color: #e0ddd5 !important; }
+[data-theme="dark"] .tabs-bar { background: rgba(15,17,25,0.9); border-bottom-color: rgba(255,255,255,0.04); }
+[data-theme="dark"] .out-card { background: #141620; border-color: rgba(255,255,255,0.04); }
+[data-theme="dark"] .out-body { color: #d0ddd0; }
+[data-theme="dark"] .out-body th { background: #141620; color: #a0a0b0; }
+[data-theme="dark"] .out-body td { border-top-color: rgba(255,255,255,0.04); }
+[data-theme="dark"] .out-body table { border-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] .btn-out { background: #1e2030; color: #e0ddd5; border-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] #authGate { background: rgba(15,17,25,0.98) !important; }
+[data-theme="dark"] .sec-hdr { border-bottom: 1.5px solid rgba(255,255,255,0.06) !important; }
+[data-theme="dark"] #selected-rq-text { color: #e0ddd5 !important; }
 
 .navbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);padding:0 28px;height:54px;display:flex;align-items:center;gap:16px;}
 .nav-brand{font-size:17px;font-weight:600;color:#1a1a2e;text-decoration:none;}
@@ -137,6 +162,7 @@ if (sessionStorage.getItem('ia_auth') === 'true') {
   <div class="nav-spacer"></div>
   <a class="nav-btn" href="dp-dashboard.html">DP Dashboard</a>
   <a class="nav-btn" href="index.html">Home</a>
+  <button id="themeToggle" class="nav-btn" onclick="toggleTheme()" style="cursor:pointer;font-size:12px;padding:6px 12px;margin-left:8px;display:inline-flex;align-items:center;justify-content:center;font-family:-apple-system,system-ui,sans-serif;">🌓</button>
 </nav>
 
 <div class="tabs-bar">
@@ -902,5 +928,13 @@ checkApiKey();
 injectGradingBadges();
 </script>
 
+<script>
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+</script>
 </body>
 </html>

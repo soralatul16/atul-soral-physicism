@@ -9,19 +9,32 @@
 <style>
 /* MOD-A1: Warm cream theme replacing dark hacker terminal */
 :root {
+  /* Light theme (default) */
   --bg: #f5f0e8;
-  --bg2: #ede8df;
-  --surface: #ffffff;
-  --surface2: #f9f6f1;
-  --surface3: #f0ebe0;
-  --border: rgba(180,160,130,0.25);
-  --border-strong: rgba(180,160,130,0.5);
+  --bg-deep: #f0ebe2;
+  --surface: rgba(255,255,255,0.75);
+  --surface2: rgba(255,255,255,0.55);
+  --white: #ffffff;
+  --text: #1a1a2e;
+  --text2: #555;
+  --text3: #888;
+  --border: rgba(0,0,0,0.06);
   --accent: #c0392b;
+  --cream: #f9f6f1;
+
+  /* Mappings for exam-student.html */
+  --bg2: var(--bg-deep);
+  --surface: var(--white);
+  --surface2: var(--cream);
+  --surface3: var(--bg-deep);
+  --border: var(--border);
+  --border-strong: var(--border);
+  --text: var(--text);
+  --text2: var(--text2);
+  --text3: var(--text3);
+
   --accent-light: rgba(192,57,43,0.08);
   --accent-glow: rgba(192,57,43,0.15);
-  --text: #2c2420;
-  --text2: #6b5c52;
-  --text3: #9a8070;
   --green: #27ae60;
   --green-light: rgba(39,174,96,0.1);
   --yellow: #e67e22;
@@ -33,6 +46,45 @@
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.13);
   --radius: 10px;
   --radius-lg: 16px;
+}
+
+[data-theme="dark"] {
+  --bg: #0f1119;
+  --bg-deep: #141620;
+  --surface: rgba(30,32,45,0.85);
+  --surface2: rgba(30,32,45,0.65);
+  --white: #1e2030;
+  --text: #e0ddd5;
+  --text2: #a0a0b0;
+  --text3: #6a6a7a;
+  --border: rgba(255,255,255,0.06);
+  --accent: #e05040;
+  --cream: #1a1c28;
+}
+
+[data-theme="dark"] body {
+  background: var(--bg);
+  color: var(--text);
+}
+[data-theme="dark"] img {
+  opacity: 0.92;
+}
+[data-theme="dark"] .topbar,
+[data-theme="dark"] .navbar {
+  background: var(--surface);
+  border-bottom-color: var(--border);
+}
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: var(--white);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+@keyframes timerPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -747,6 +799,10 @@ body {
 </style>
 </head>
 <body>
+<div id="examTimer" style="display:none;position:fixed;top:12px;right:20px;z-index:100;background:var(--white,white);border:1.5px solid rgba(0,0,0,0.06);border-radius:50px;padding:8px 18px;font-family:-apple-system,system-ui,sans-serif;font-size:14px;font-weight:600;color:#1a1a2e;box-shadow:0 2px 12px rgba(0,0,0,0.06);display:flex;align-items:center;gap:8px;">
+  <span id="timerIcon" style="font-size:16px;">⏱️</span>
+  <span id="timerDisplay">00:00</span>
+</div>
 <div class="topbar">
   <div style="display:flex;align-items:center;gap:6px;">
     <span class="brand">⚛ MYP·Physics</span>
@@ -757,6 +813,7 @@ body {
   <div style="display:flex;gap:8px;align-items:center;">
     <span style="font-size:12px;color:var(--text3);" id="topbarName"></span>
     <button class="icon-btn" onclick="window.location.href='https://soralatul16.github.io/atul-soral-physicism/index.html'">🔴 MYP</button>
+    <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:12px;transition:all .2s;color:var(--text2);" title="Toggle dark/light mode">🌙</button>
     <button class="icon-btn" onclick="doLogout()">Logout</button>
   </div>
 </div>
@@ -1010,6 +1067,7 @@ function filterByTopic(ch,tp){showScreen("library");document.getElementById("sea
 
 /* ══════ Screen Nav ══════ */
 function showScreen(name){
+  stopExamTimer();
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("attemptScreen").classList.remove("active");
   document.getElementById(name+"Screen").classList.add("active");
@@ -1100,12 +1158,25 @@ function startAttempt(setId){
   allBlocks=(currentSet.blocks||[]).filter(b=>b.saved);qBlocks=allBlocks.filter(b=>b.mode==="question");
   currentAttempt={id:"att_"+Date.now(),setId,setVersion:currentSet.version||1,studentEmail:currentStudent.email,studentName:currentStudent.name,criterion:currentSet.criterion,startTime:Date.now(),endTime:null,status:"in_progress",answers:{},flags:{},notes:{},duration:0,totalMarks:currentSet.totalMarks||0,earnedMarks:0,percentScore:0,setTitle:currentSet.heading,wantsGrading:true};
   currentQIdx=0;timerSecs=0;saveAttempt(currentAttempt);startTimer();startAutoSave();initAttemptUI();showAttemptScreen();
+  if (currentSet && currentSet.timeLimit) {
+    startExamTimer(currentSet.timeLimit);
+  }
 }
 function resumeAttemptById(id){
   const a=getAttempts().find(x=>x.id===id);if(!a){alert("Attempt not found.");return;}
   const lib=getLibrary();currentSet=lib.find(s=>s.id===a.setId);if(!currentSet){alert("Set no longer available.");return;}
   currentAttempt=a;currentQIdx=0;allBlocks=(currentSet.blocks||[]).filter(b=>b.saved);qBlocks=allBlocks.filter(b=>b.mode==="question");
   timerSecs=Math.round((Date.now()-a.startTime)/1000);startTimer();startAutoSave();initAttemptUI();showAttemptScreen();
+  if (currentSet && currentSet.timeLimit) {
+    var elapsedMinutes = timerSecs / 60;
+    var remainingMinutes = currentSet.timeLimit - elapsedMinutes;
+    if (remainingMinutes > 0) {
+      startExamTimer(remainingMinutes);
+    } else {
+      alert('⏰ Time has expired for this exam.');
+      doSubmit();
+    }
+  }
 }
 function resumeLastAttempt(){const a=myAttempts().find(x=>x.status==="in_progress");if(a)resumeAttemptById(a.id);}
 function initAttemptUI(){document.getElementById("attemptTitle").textContent=currentSet.heading;document.getElementById("attemptMeta").textContent=[currentSet.chapter,currentSet.topic,currentSet.criterion].filter(Boolean).join(" · ");renderQ(0);}
@@ -1695,6 +1766,7 @@ function confirmSubmit(){
 }
 function closeModal(){document.getElementById("submitModal").classList.remove("open");}
 function doSubmit(){
+  stopExamTimer();
   closeModal();clearInterval(timerInterval);clearInterval(autoSaveInterval);
   currentAttempt.status="completed";currentAttempt.endTime=Date.now();currentAttempt.duration=timerSecs;
   currentAttempt.wantsGrading=document.getElementById("wantsGrading").checked;
@@ -2171,6 +2243,107 @@ document.addEventListener('mouseup', function(e) {
     selection.removeAllRanges();
   } catch(err) { selection.removeAllRanges(); }
 });
+
+var examTimerInterval = null;
+var examTimeRemaining = 0;
+
+function startExamTimer(minutes) {
+  if (!minutes || minutes <= 0) return;
+  
+  examTimeRemaining = Math.round(minutes * 60);
+  var timerEl = document.getElementById('examTimer');
+  var displayEl = document.getElementById('timerDisplay');
+  var iconEl = document.getElementById('timerIcon');
+  
+  if (timerEl) timerEl.style.display = 'flex';
+  
+  updateTimerDisplay();
+  
+  if (examTimerInterval) clearInterval(examTimerInterval);
+  examTimerInterval = setInterval(function() {
+    examTimeRemaining--;
+    
+    if (examTimeRemaining <= 0) {
+      // Time's up
+      clearInterval(examTimerInterval);
+      examTimerInterval = null;
+      displayEl.textContent = "TIME'S UP";
+      displayEl.style.color = '#c0392b';
+      iconEl.textContent = '🔴';
+      timerEl.style.borderColor = 'rgba(192,57,43,0.3)';
+      timerEl.style.background = 'rgba(192,57,43,0.04)';
+      
+      alert('⏰ Time is up! Your exam will be submitted now.');
+      if (typeof submitExam === 'function') submitExam();
+      return;
+    }
+    
+    // Warning at 5 minutes
+    if (examTimeRemaining === 300) {
+      iconEl.textContent = '⚠️';
+      timerEl.style.borderColor = 'rgba(230,168,23,0.3)';
+      timerEl.style.background = 'rgba(230,168,23,0.04)';
+      displayEl.style.color = '#e6a817';
+    }
+    
+    // Critical at 1 minute
+    if (examTimeRemaining === 60) {
+      iconEl.textContent = '🔴';
+      timerEl.style.borderColor = 'rgba(192,57,43,0.3)';
+      timerEl.style.background = 'rgba(192,57,43,0.04)';
+      displayEl.style.color = '#c0392b';
+      timerEl.style.animation = 'timerPulse 1s infinite';
+    }
+    
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  var displayEl = document.getElementById('timerDisplay');
+  if (!displayEl) return;
+  
+  var hours = Math.floor(examTimeRemaining / 3600);
+  var mins = Math.floor((examTimeRemaining % 3600) / 60);
+  var secs = examTimeRemaining % 60;
+  
+  if (hours > 0) {
+    displayEl.textContent = hours + ':' + String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+  } else {
+    displayEl.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+  }
+}
+
+function stopExamTimer() {
+  if (examTimerInterval) {
+    clearInterval(examTimerInterval);
+    examTimerInterval = null;
+  }
+  var timerEl = document.getElementById('examTimer');
+  if (timerEl) timerEl.style.display = 'none';
+}
+
+function submitExam() {
+  doSubmit();
+}
+
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme');
+  var next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('physicism-theme', next);
+  var btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = next === 'dark' ? '☀️' : '🌙';
+}
+// Load saved theme
+(function() {
+  var saved = localStorage.getItem('physicism-theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    var btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
 
 </script>
 </body>

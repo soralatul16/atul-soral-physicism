@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Forces & Motion | Atul Soral Physicism</title>
@@ -38,6 +44,24 @@
   --font-body: 'DM Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-mono: 'SF Mono', 'Cascadia Code', monospace;
 }
+[data-theme="dark"] {
+  --bg: #0f1119;
+  --bg-paper: #1a1c28;
+  --white: #1e2030;
+  --ink: #e0ddd5;
+  --ink-muted: #a0a0b0;
+  --ink-light: #6a6a7a;
+  --accent: #e05040;
+  --accent-dark: #c0392b;
+  --accent-pale: rgba(224,80,64,0.06);
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --glass: rgba(30, 32, 45, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] body { background: var(--bg); color: var(--ink); }
+[data-theme="dark"] img { opacity: 0.92; }
+[data-theme="dark"] .navbar { background: var(--glass); border-bottom-color: var(--glass-border); }
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -652,6 +676,7 @@ body {
   <div class="nav-links">
     <a href="index.html" class="nav-link">Home</a>
     <a href="myp-dashboard.html" class="nav-link">MYP Dashboard</a>
+    <button id="themeToggle" class="nav-link" onclick="toggleTheme()" style="background:none;border:none;cursor:pointer;font-size:14px;padding:8px 12px;display:inline-flex;align-items:center;justify-content:center;">🌓</button>
   </div>
 </div>
 
@@ -1296,5 +1321,13 @@ function showSoonToast(lessonTitle) {
 }
 </script>
 
+<script>
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+</script>
 </body>
 </html>

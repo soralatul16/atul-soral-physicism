@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Physics Pictionary | Atul Soral Physicism</title>
@@ -15,6 +21,23 @@
     --text-muted: #7f8c8d;
     --shadow: rgba(0,0,0,0.12);
   }
+  [data-theme="dark"] {
+    --bg: #0f1119;
+    --bg-paper: #1a1c28;
+    --accent: #e05040;
+    --accent-dark: #c0392b;
+    --text: #e0ddd5;
+    --text-muted: #a0a0b0;
+    --shadow: rgba(255,255,255,0.06);
+  }
+  [data-theme="dark"] body { background: var(--bg); color: var(--text); }
+  [data-theme="dark"] img { opacity: 0.92; }
+  [data-theme="dark"] .navbar { background: rgba(30,32,45,0.85); border-bottom-color: rgba(255,255,255,0.06); }
+  [data-theme="dark"] .index-bar { background: rgba(30,32,45,0.5); border-bottom-color: rgba(255,255,255,0.04); }
+  [data-theme="dark"] .nav-btn, [data-theme="dark"] .ctrl-btn, [data-theme="dark"] .page-info, [data-theme="dark"] .zoom-container { background: #1e2030; color: var(--text); border-color: rgba(255,255,255,0.06); }
+  [data-theme="dark"] .nav-btn:hover, [data-theme="dark"] .ctrl-btn:hover:not(:disabled) { background: var(--accent); color: white; border-color: var(--accent); }
+  [data-theme="dark"] .idx-pill:hover { background: rgba(224,80,64,0.05); color: var(--accent); }
+  [data-theme="dark"] .spine { background: #1a1c28; box-shadow: -1px 0 3px rgba(255,255,255,0.04), 1px 0 3px rgba(255,255,255,0.04); }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -1001,6 +1024,7 @@
   <span class="navbar-title">Physics Pictionary</span>
   <a class="nav-btn" href="myp-dashboard.html">MYP Dashboard</a>
   <a class="nav-btn" href="index.html">Home</a>
+  <button id="themeToggle" class="nav-btn" onclick="toggleTheme()" style="cursor:pointer;font-size:12px;padding:7px 12px;margin-left:8px;display:inline-flex;align-items:center;justify-content:center;">🌓</button>
 </div>
 
 <!-- HORIZONTAL A-Z INDEX BAR -->
@@ -1712,5 +1736,13 @@ renderSpread();
 
 </script>
 
+<script>
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+</script>
 </body>
 </html>
