@@ -20,6 +20,13 @@ if (!firebase.apps.length) {
 // Global references
 const auth = firebase.auth();
 const db   = firebase.firestore();
+
+// Fix for WebChannel connection errors on some networks
+db.settings({
+  experimentalForceLongPolling: true,
+  useFetchStreams: false
+});
+
 window.auth = auth;
 window.db   = db;
 

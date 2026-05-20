@@ -856,196 +856,7 @@ async function runGeneration() {
     // Build set object matching existing schema
     const setId = 'set_' + Date.now();
     const now = Date.now();
-    let blockId = 0;
-
-    const processedBlocks = validatedResult.blocks.map(block => {
-      // Robust type mapping — AI may use different names
-      let type = block.type;
-      if (type === 'Multiple Choice' || type === 'Multiple Choice Question') type = 'MCQ';
-      if (type === 'Short Answer' || type === 'Fill in the Blank' || type === 'Fill in the blanks' || type === 'Fill-in-the-blank' || type === 'Fill in the Blank') type = 'Fill Text';
-      if (type === 'Dropdown' || type === 'Select') type = 'Fill Drop Down';
-      if (type === 'Multiple Select') type = 'Multiple Select MCQ';
-      if (type === 'Matching' || type === 'Match' || type === 'Match The Following') type = 'Match the Following';
-      if (type === 'DnD' || type === 'Drag-and-Drop' || type === 'DragAndDrop' || type === 'Drag & Drop') type = 'Drag and Drop';
-      if (type === 'Graph' || type === 'GraphPlot' || type === 'Graph plot') type = 'Graph Plot';
-      if (type === 'Draw' || type === 'Diagram') type = 'Drawing';
-      if (type === 'TrueFalse' || type === 'True/False' || type === 'True or False') type = 'True / False';
-
-      return {
-        ...block,
-        id: blockId++,
-        type: type,
-        saved: true,
-        sectionId: block.sectionId || 1,
-        media: block.media || [],
-        data: block.data || {},
-        meta: {
-          marks: block.meta?.marks || block.marks || 1,
-          criterion: block.meta?.criterion || block.criterion || config.criterion?.charAt(0) || 'A',
-          markScheme: block.meta?.markScheme || block.markScheme || '',
-          hint: block.meta?.hint || block.hint || '',
-          difficulty: block.meta?.difficulty || block.difficulty || config.difficulty || 'Medium',
-          commandTerm: block.meta?.commandTerm || block.commandTerm || 'Explain',
-          gradingGrid: block.meta?.gradingGrid || null,
-          ...(block.meta || {})
-        },
-        ui: block.ui || {}
-      };
-    });
-
-    // Fix empty Multi-Dropdown questions
-    processedBlocks.forEach(block => {
-      if (block.type === 'Multi-Dropdown' && block.mode === 'question') {
-        if (!block.data.mdRows || !block.data.mdRows.length) {
-          block.data.mdRows = [{label: 'Item 1', correct: ''}, {label: 'Item 2', correct: ''}];
-          console.warn('Multi-Dropdown Q missing mdRows — placeholder added, needs manual edit');
-        }
-        if (!block.data.mdOptions || !block.data.mdOptions.trim()) {
-          block.data.mdOptions = 'Option A, Option B, Option C';
-          console.warn('Multi-Dropdown Q missing mdOptions — placeholder added, needs manual edit');
-        }
-        block.data.mdRows = block.data.mdRows.map(row => ({
-          label: row.label || row.a || row.item || 'Unnamed',
-          correct: row.correct || row.answer || ''
-        }));
-      }
-    });
-
-    // Fix Match the Following
-    processedBlocks.forEach(block => {
-      if (block.type === 'Match the Following' && block.mode === 'question') {
-        if (!block.ui) block.ui = {};
-        if (!block.ui.matchPairs || !block.ui.matchPairs.length) {
-          if (block.data.pairs && block.data.pairs.length) {
-            block.ui.matchPairs = block.data.pairs.map(p => ({a: p.left || p.a || '', b: p.right || p.b || ''}));
-          } else if (block.data.matchPairs && block.data.matchPairs.length) {
-            block.ui.matchPairs = block.data.matchPairs;
-          } else {
-            block.ui.matchPairs = [{a: 'Item A', b: 'Match A'}, {a: 'Item B', b: 'Match B'}];
-            console.warn('Match the Following Q missing pairs — placeholder added');
-          }
-        }
-      }
-    });
-
-    // Fix MCQ options location
-    processedBlocks.forEach(block => {
-      if ((block.type === 'MCQ' || block.type === 'Multiple Select MCQ') && block.mode === 'question') {
-        if (!block.ui) block.ui = {};
-        if (!block.ui.mcqOptions || !block.ui.mcqOptions.length || !block.ui.mcqOptions.some(o => o.trim())) {
-          if (block.data.options && Array.isArray(block.data.options)) {
-            block.ui.mcqOptions = block.data.options;
-          } else {
-            console.warn('MCQ Q missing options');
-          }
-        }
-      }
-    });
-
-    // Fix True/False answer location
-    processedBlocks.forEach(block => {
-      if (block.type === 'True / False' && block.mode === 'question') {
-        if (!block.ui) block.ui = {};
-        if (!block.ui.tfAnswer) {
-          if (block.data.correct === true || block.data.correct === 'True') block.ui.tfAnswer = 'True';
-          else if (block.data.correct === false || block.data.correct === 'False') block.ui.tfAnswer = 'False';
-          else if (block.data.answer) block.ui.tfAnswer = block.data.answer;
-        }
-      }
-    });
-
-    // ═══ FIX: Populate empty Table questions ═══
-    processedBlocks.forEach(function(block) {
-      if (block.type === 'Table' && block.mode === 'question') {
-        if (!block.data.tableHeaders || !block.data.tableHeaders.length || !block.data.tableHeaders.some(function(h) { return h && h.trim(); })) {
-          var qText = block.data.question || '';
-          if (qText.toLowerCase().includes('angle of incidence') && qText.toLowerCase().includes('angle of reflection')) {
-            block.data.tableHeaders = ['Angle of Incidence / °', 'Angle of Reflection / °'];
-            block.data.tableCols = 2; block.data.tableRows = 5;
-            block.data.tablePrefill = [['10',''],['20',''],['30',''],['45',''],['60','']];
-          } else if (qText.toLowerCase().includes('force') && qText.toLowerCase().includes('acceleration')) {
-            block.data.tableHeaders = ['Force / N', 'Mass / kg', 'Acceleration / m/s²'];
-            block.data.tableCols = 3; block.data.tableRows = 5;
-            block.data.tablePrefill = [['5','2',''],['10','2',''],['15','2',''],['20','2',''],['25','2','']];
-          } else if (qText.toLowerCase().includes('voltage') && qText.toLowerCase().includes('current')) {
-            block.data.tableHeaders = ['Voltage / V', 'Current / A', 'Resistance / Ω'];
-            block.data.tableCols = 3; block.data.tableRows = 5;
-            block.data.tablePrefill = [['2','0.1',''],['4','0.2',''],['6','0.3',''],['8','0.4',''],['10','0.5','']];
-          } else if (qText.toLowerCase().includes('wavelength') || qText.toLowerCase().includes('frequency')) {
-            block.data.tableHeaders = ['Wavelength / m', 'Frequency / Hz', 'Wave Speed / m/s'];
-            block.data.tableCols = 3; block.data.tableRows = 4;
-            block.data.tablePrefill = [['0.5','','340'],['1.0','','340'],['1.5','','340'],['2.0','','340']];
-          } else if (qText.toLowerCase().includes('distance') && qText.toLowerCase().includes('time')) {
-            block.data.tableHeaders = ['Time / s', 'Distance / m', 'Speed / m/s'];
-            block.data.tableCols = 3; block.data.tableRows = 5;
-            block.data.tablePrefill = [['0','0',''],['2','8',''],['4','20',''],['6','36',''],['8','56','']];
-          } else {
-            block.data.tableHeaders = ['Variable 1', 'Variable 2', 'Calculated Value'];
-            block.data.tableCols = 3; block.data.tableRows = 5;
-            block.data.tablePrefill = [['','',''],['','',''],['','',''],['','',''],['','','']];
-          }
-        }
-        if (block.data.tableHeaders && block.data.tableHeaders.length) block.data.tableCols = block.data.tableHeaders.length;
-        if (!block.data.tableRows || block.data.tableRows < 2) block.data.tableRows = 5;
-        if (!block.data.tablePrefill || !block.data.tablePrefill.length) {
-          block.data.tablePrefill = [];
-          for (var r2 = 0; r2 < block.data.tableRows; r2++) {
-            block.data.tablePrefill[r2] = [];
-            for (var c = 0; c < block.data.tableCols; c++) block.data.tablePrefill[r2][c] = '';
-          }
-        }
-        console.log('Table question fixed:', block.data.tableHeaders, block.data.tableRows + 'x' + block.data.tableCols);
-      }
-    });
-
-    // Validate MCQ blocks
-    processedBlocks.forEach((b, i) => {
-      if (b.type === 'MCQ' && (!b.ui.mcqOptions || b.ui.mcqOptions.length < 2)) {
-        console.warn('Skipping invalid MCQ block at index ' + i);
-        b._invalid = true;
-      }
-    });
-    const validBlocks = processedBlocks.filter(b => !b._invalid);
-
-    // ═══ HIGHLIGHT COMMAND TERMS IN QUESTIONS ═══
-    var commandTermsList = ['State','Define','Outline','Describe','Explain','Calculate','Apply','Determine','Solve','Show','Derive','Analyse','Analyze','Evaluate','Discuss','Compare','Justify','Formulate','Suggest','Design','Plot','Interpret','Predict','Identify','List','Name','Label','Construct'];
-
-    validBlocks.forEach(function(block) {
-      if (block.mode === 'question' && block.data && block.data.question) {
-        var q = block.data.question;
-        commandTermsList.forEach(function(term) {
-          // Match at start of question or after period/newline — case sensitive
-          var regex = new RegExp('(^|\\. |\\n|<br>)(' + term + ')(\\s)', 'g');
-          q = q.replace(regex, '$1<span style="color:#c0392b;font-weight:700;text-decoration:underline;text-underline-offset:3px;">' + term + '</span>$3');
-          
-          // Also match if it's the very first word
-          if (q.indexOf(term) === 0) {
-            q = '<span style="color:#c0392b;font-weight:700;text-decoration:underline;text-underline-offset:3px;">' + term + '</span>' + q.substring(term.length);
-          }
-        });
-        block.data.question = q;
-      }
-    });
-
-    // ═══ ADD COMMAND TERM + STRAND LABELS TO MARK SCHEMES ═══
-    validBlocks.forEach(function(block) {
-      if (block.mode === 'question' && block.meta) {
-        var ct = block.meta.commandTerm || '';
-        var strand = block.meta.strand || '';
-        var criterion = block.meta.criterion || '';
-        var existingScheme = block.meta.markScheme || '';
-        
-        // Only add if not already present
-        if (existingScheme && existingScheme.indexOf('Command term:') === -1) {
-          var label = '<div style="margin-bottom:6px;padding:4px 8px;background:rgba(192,57,43,0.04);border-radius:4px;font-size:11px;">'
-            + '<strong style="color:#c0392b;">Command term: <span style="text-decoration:underline;">' + ct + '</span></strong>'
-            + ' &nbsp;|&nbsp; '
-            + '<strong>Strand: ' + criterion + '.' + strand + '</strong>'
-            + '</div>';
-          block.meta.markScheme = label + existingScheme;
-        }
-      }
-    });
+    const validBlocks = window.normalizeGeneratedBlocks(validatedResult.blocks, config);
 
     const totalMarks = validBlocks
       .filter(b => b.mode === 'question')
@@ -1100,3 +911,185 @@ async function runGeneration() {
     btn.textContent = '⚡ Generate Question Set';
   }
 }
+
+window.normalizeGeneratedBlocks = function(blocksArray, config) {
+  let blockId = 0;
+  var critStr = config.criterion || (config.criteria && config.criteria[0]) || 'A';
+  var critChar = critStr.charAt(0);
+  var diffStr = config.difficulty || 'Medium';
+
+  const processedBlocks = blocksArray.map(block => {
+    let type = block.type;
+    if (type === 'Multiple Choice' || type === 'Multiple Choice Question') type = 'MCQ';
+    if (type === 'Short Answer' || type === 'Fill in the Blank' || type === 'Fill in the blanks' || type === 'Fill-in-the-blank' || type === 'Fill in the Blank') type = 'Fill Text';
+    if (type === 'Dropdown' || type === 'Select') type = 'Fill Drop Down';
+    if (type === 'Multiple Select') type = 'Multiple Select MCQ';
+    if (type === 'Matching' || type === 'Match' || type === 'Match The Following') type = 'Match the Following';
+    if (type === 'DnD' || type === 'Drag-and-Drop' || type === 'DragAndDrop' || type === 'Drag & Drop') type = 'Drag and Drop';
+    if (type === 'Graph' || type === 'GraphPlot' || type === 'Graph plot') type = 'Graph Plot';
+    if (type === 'Draw' || type === 'Diagram') type = 'Drawing';
+    if (type === 'TrueFalse' || type === 'True/False' || type === 'True or False') type = 'True / False';
+
+    return {
+      ...block,
+      id: blockId++,
+      type: type,
+      saved: true,
+      sectionId: block.sectionId || 1,
+      media: block.media || [],
+      data: block.data || {},
+      meta: {
+        marks: block.meta?.marks || block.marks || 1,
+        criterion: block.meta?.criterion || block.criterion || critChar,
+        markScheme: block.meta?.markScheme || block.markScheme || '',
+        hint: block.meta?.hint || block.hint || '',
+        difficulty: block.meta?.difficulty || block.difficulty || diffStr,
+        commandTerm: block.meta?.commandTerm || block.commandTerm || 'Explain',
+        gradingGrid: block.meta?.gradingGrid || null,
+        ...(block.meta || {})
+      },
+      ui: block.ui || {}
+    };
+  });
+
+  // Fix empty Multi-Dropdown questions
+  processedBlocks.forEach(block => {
+    if (block.type === 'Multi-Dropdown' && block.mode === 'question') {
+      if (!block.data.mdRows || !block.data.mdRows.length) {
+        block.data.mdRows = [{label: 'Item 1', correct: ''}, {label: 'Item 2', correct: ''}];
+      }
+      if (!block.data.mdOptions || !block.data.mdOptions.trim()) {
+        block.data.mdOptions = 'Option A, Option B, Option C';
+      }
+      block.data.mdRows = block.data.mdRows.map(row => ({
+        label: row.label || row.a || row.item || 'Unnamed',
+        correct: row.correct || row.answer || ''
+      }));
+    }
+  });
+
+  // Fix Match the Following
+  processedBlocks.forEach(block => {
+    if (block.type === 'Match the Following' && block.mode === 'question') {
+      if (!block.ui) block.ui = {};
+      if (!block.ui.matchPairs || !block.ui.matchPairs.length) {
+        if (block.data.pairs && block.data.pairs.length) {
+          block.ui.matchPairs = block.data.pairs.map(p => ({a: p.left || p.a || '', b: p.right || p.b || ''}));
+        } else if (block.data.matchPairs && block.data.matchPairs.length) {
+          block.ui.matchPairs = block.data.matchPairs;
+        } else {
+          block.ui.matchPairs = [{a: 'Item A', b: 'Match A'}, {a: 'Item B', b: 'Match B'}];
+        }
+      }
+    }
+  });
+
+  // Fix MCQ options location
+  processedBlocks.forEach(block => {
+    if ((block.type === 'MCQ' || block.type === 'Multiple Select MCQ') && block.mode === 'question') {
+      if (!block.ui) block.ui = {};
+      if (!block.ui.mcqOptions || !block.ui.mcqOptions.length || !block.ui.mcqOptions.some(o => o.trim())) {
+        if (block.data.options && Array.isArray(block.data.options)) {
+          block.ui.mcqOptions = block.data.options;
+        }
+      }
+    }
+  });
+
+  // Fix True/False answer location
+  processedBlocks.forEach(block => {
+    if (block.type === 'True / False' && block.mode === 'question') {
+      if (!block.ui) block.ui = {};
+      if (!block.ui.tfAnswer) {
+        if (block.data.correct === true || block.data.correct === 'True') block.ui.tfAnswer = 'True';
+        else if (block.data.correct === false || block.data.correct === 'False') block.ui.tfAnswer = 'False';
+        else if (block.data.answer) block.ui.tfAnswer = block.data.answer;
+      }
+    }
+  });
+
+  // Fix Table questions
+  processedBlocks.forEach(function(block) {
+    if (block.type === 'Table' && block.mode === 'question') {
+      if (!block.data.tableHeaders || !block.data.tableHeaders.length || !block.data.tableHeaders.some(function(h) { return h && h.trim(); })) {
+        var qText = block.data.question || '';
+        if (qText.toLowerCase().includes('angle of incidence') && qText.toLowerCase().includes('angle of reflection')) {
+          block.data.tableHeaders = ['Angle of Incidence / °', 'Angle of Reflection / °'];
+          block.data.tableCols = 2; block.data.tableRows = 5;
+          block.data.tablePrefill = [['10',''],['20',''],['30',''],['45',''],['60','']];
+        } else if (qText.toLowerCase().includes('force') && qText.toLowerCase().includes('acceleration')) {
+          block.data.tableHeaders = ['Force / N', 'Mass / kg', 'Acceleration / m/s²'];
+          block.data.tableCols = 3; block.data.tableRows = 5;
+          block.data.tablePrefill = [['5','2',''],['10','2',''],['15','2',''],['20','2',''],['25','2','']];
+        } else if (qText.toLowerCase().includes('voltage') && qText.toLowerCase().includes('current')) {
+          block.data.tableHeaders = ['Voltage / V', 'Current / A', 'Resistance / Ω'];
+          block.data.tableCols = 3; block.data.tableRows = 5;
+          block.data.tablePrefill = [['2','0.1',''],['4','0.2',''],['6','0.3',''],['8','0.4',''],['10','0.5','']];
+        } else if (qText.toLowerCase().includes('wavelength') || qText.toLowerCase().includes('frequency')) {
+          block.data.tableHeaders = ['Wavelength / m', 'Frequency / Hz', 'Wave Speed / m/s'];
+          block.data.tableCols = 3; block.data.tableRows = 4;
+          block.data.tablePrefill = [['0.5','','340'],['1.0','','340'],['1.5','','340'],['2.0','','340']];
+        } else if (qText.toLowerCase().includes('distance') && qText.toLowerCase().includes('time')) {
+          block.data.tableHeaders = ['Time / s', 'Distance / m', 'Speed / m/s'];
+          block.data.tableCols = 3; block.data.tableRows = 5;
+          block.data.tablePrefill = [['0','0',''],['2','8',''],['4','20',''],['6','36',''],['8','56','']];
+        } else {
+          block.data.tableHeaders = ['Variable 1', 'Variable 2', 'Calculated Value'];
+          block.data.tableCols = 3; block.data.tableRows = 5;
+          block.data.tablePrefill = [['','',''],['','',''],['','',''],['','',''],['','','']];
+        }
+      }
+      if (block.data.tableHeaders && block.data.tableHeaders.length) block.data.tableCols = block.data.tableHeaders.length;
+      if (!block.data.tableRows || block.data.tableRows < 2) block.data.tableRows = 5;
+      if (!block.data.tablePrefill || !block.data.tablePrefill.length) {
+        block.data.tablePrefill = [];
+        for (var r2 = 0; r2 < block.data.tableRows; r2++) {
+          block.data.tablePrefill[r2] = [];
+          for (var c = 0; c < block.data.tableCols; c++) block.data.tablePrefill[r2][c] = '';
+        }
+      }
+    }
+  });
+
+  processedBlocks.forEach((b, i) => {
+    if (b.type === 'MCQ' && (!b.ui.mcqOptions || b.ui.mcqOptions.length < 2)) {
+      b._invalid = true;
+    }
+  });
+  const validBlocks = processedBlocks.filter(b => !b._invalid);
+
+  var commandTermsList = ['State','Define','Outline','Describe','Explain','Calculate','Apply','Determine','Solve','Show','Derive','Analyse','Analyze','Evaluate','Discuss','Compare','Justify','Formulate','Suggest','Design','Plot','Interpret','Predict','Identify','List','Name','Label','Construct'];
+
+  validBlocks.forEach(function(block) {
+    if (block.mode === 'question' && block.data && block.data.question) {
+      var q = block.data.question;
+      commandTermsList.forEach(function(term) {
+        var regex = new RegExp('(^|\\. |\\n|<br>)(' + term + ')(\\s)', 'g');
+        q = q.replace(regex, '$1<span style="color:#c0392b;font-weight:700;text-decoration:underline;text-underline-offset:3px;">' + term + '</span>$3');
+        if (q.indexOf(term) === 0) {
+          q = '<span style="color:#c0392b;font-weight:700;text-decoration:underline;text-underline-offset:3px;">' + term + '</span>' + q.substring(term.length);
+        }
+      });
+      block.data.question = q;
+    }
+  });
+
+  validBlocks.forEach(function(block) {
+    if (block.mode === 'question' && block.meta) {
+      var ct = block.meta.commandTerm || '';
+      var strand = block.meta.strand || '';
+      var criterion = block.meta.criterion || '';
+      var existingScheme = block.meta.markScheme || '';
+      if (existingScheme && existingScheme.indexOf('Command term:') === -1) {
+        var label = '<div style="margin-bottom:6px;padding:4px 8px;background:rgba(192,57,43,0.04);border-radius:4px;font-size:11px;">'
+          + '<strong style="color:#c0392b;">Command term: <span style="text-decoration:underline;">' + ct + '</span></strong>'
+          + ' &nbsp;|&nbsp; '
+          + '<strong>Strand: ' + criterion + '.' + strand + '</strong>'
+          + '</div>';
+        block.meta.markScheme = label + existingScheme;
+      }
+    }
+  });
+
+  return validBlocks;
+};

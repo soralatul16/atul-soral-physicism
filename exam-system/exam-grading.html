@@ -336,19 +336,25 @@ function renderSidebar() {
 }
 
 /* ── Delete attempt ── */
-function deleteSubmission(e, submissionId) {
+function deleteSubmission(e, attemptId) {
   if (e) e.stopPropagation();
-  console.log('Deleting submission:', submissionId);
+  console.log('Deleting submission:', attemptId);
   if (!confirm('Delete this submission permanently?')) return;
   
+  const attempt = allAttempts.find(x => x.id === attemptId);
+  const realSubmissionId = attempt && attempt.submissionId ? attempt.submissionId : attemptId;
+  
   if (window.db) {
-    db.collection('submissions').doc(submissionId).delete().then(function() {
+    Promise.all([
+      db.collection('submissions').doc(realSubmissionId).delete().catch(e => console.warn('Could not delete from submissions', e)),
+      db.collection('attempts').doc(attemptId).delete().catch(e => console.warn('Could not delete from attempts', e))
+    ]).then(function() {
       // Remove the card from the DOM
-      var card = document.getElementById('sub-' + submissionId);
+      var card = document.getElementById('sub-' + attemptId);
       if (card) card.remove();
       alert('Submission deleted.');
       
-      if (activeAttemptId === submissionId) {
+      if (activeAttemptId === attemptId) {
         activeAttemptId = null;
         var empty = document.getElementById('emptyState');
         var area = document.getElementById('gradingArea');
@@ -358,7 +364,7 @@ function deleteSubmission(e, submissionId) {
       
       // Also delete from local array if it's there
       const attempts = fetchAttempts();
-      const idx = attempts.findIndex(x => x.id === submissionId);
+      const idx = attempts.findIndex(x => x.id === attemptId);
       if (idx !== -1) {
         attempts.splice(idx, 1);
         if (typeof _attemptsCache !== 'undefined') window._attemptsCache = attempts;
@@ -373,18 +379,16 @@ function deleteSubmission(e, submissionId) {
   } else {
     // Local fallback
     const attempts = fetchAttempts();
-    const idx = attempts.findIndex(x => x.id === submissionId);
+    const idx = attempts.findIndex(x => x.id === attemptId);
     if (idx !== -1) {
       attempts.splice(idx, 1);
       if (typeof _attemptsCache !== 'undefined') window._attemptsCache = attempts;
       try { localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(attempts)); } catch(err) {}
     }
     
-    var card = document.getElementById('sub-' + submissionId);
+    var card = document.getElementById('sub-' + attemptId);
     if (card) card.remove();
-    alert('Submission deleted.');
-    
-    if (activeAttemptId === submissionId) {
+    if (activeAttemptId === attemptId) {
       activeAttemptId = null;
       var empty = document.getElementById('emptyState');
       var area = document.getElementById('gradingArea');
@@ -670,6 +674,7 @@ function openAttempt(attemptId) {
   <div class="action-bar">
     <span class="save-status" id="saveStatus"></span>
     <button class="btn-secondary" onclick="autoScoreAll()">⚡ Auto-Score MCQ/T-F</button>
+    <button class="btn-secondary" id="btn-ai-grade" onclick="generateAIGrades()" style="background:var(--accent);color:var(--white);border-color:var(--accent);">🤖 AI Auto-Grade All</button>
     <button class="btn-save" onclick="saveGrades()">💾 Save Grades</button>
   </div>`;
 
@@ -727,6 +732,170 @@ function autoScoreAll() {
 
   onGradeChange();
   showToast('⚡ Auto-scored MCQ and True/False questions');
+}
+
+/* ── AI Auto-Grade All ── */
+async function generateAIGrades() {
+  const a = allAttempts.find(x => x.id === activeAttemptId);
+  if (!a) return;
+  const set = getSetForAttempt(a);
+  if (!set) return;
+  const qBlocks = (set.blocks || []).filter(b => b.saved && b.mode === 'question');
+  
+  var key = localStorage.getItem('groq_api_key') || localStorage.getItem('gemini_api_key') || localStorage.getItem('ia_api_key');
+  if (!key) {
+    alert('Please set your AI API key in the Question Generator panel first.');
+    return;
+  }
+  
+  const btn = document.getElementById('btn-ai-grade');
+  if (btn) {
+    btn.disabled = true;
+  }
+
+  for (let qi = 0; qi < qBlocks.length; qi++) {
+    const qBlock = qBlocks[qi];
+    const studentAnswer = a.answers?.[qi] || '';
+    const maxMarks = Number(qBlock.meta?.marks || 0);
+    
+    if (btn) btn.innerHTML = '🤖 Grading Q' + (qi + 1) + '...';
+    
+    // MCQ, True/False — grade automatically without AI
+    if (qBlock.type === 'MCQ' || qBlock.type === 'True / False') {
+      let correct = false;
+      if (qBlock.type === 'MCQ') correct = studentAnswer === qBlock.data?.correct;
+      else correct = studentAnswer === qBlock.ui?.tfAnswer;
+      
+      const marks = correct ? maxMarks : 0;
+      const el = document.getElementById('grade-' + qi);
+      if (el) { el.value = marks; }
+      const fbEl = document.getElementById('feedback-' + qi);
+      if (fbEl) fbEl.value = correct ? 'Correct.' : 'Incorrect. The correct answer is: ' + (qBlock.type === 'MCQ' ? (qBlock.ui?.mcqOptions?.[qBlock.data?.correct] || '') : qBlock.ui?.tfAnswer || '');
+      onGradeChange();
+      continue;
+    }
+    
+    // Fill in the Blank
+    if (qBlock.type === 'Fill in the Blank' || qBlock.type === 'Fill Text') {
+      const expected = (qBlock.data?.labels || qBlock.data?.correct || '').toString().toLowerCase().trim();
+      const given = (studentAnswer || '').toString().toLowerCase().trim();
+      const correct = given === expected || expected.indexOf(given) !== -1 || given.indexOf(expected) !== -1;
+      const marks = correct ? maxMarks : 0;
+      
+      const el = document.getElementById('grade-' + qi);
+      if (el) { el.value = marks; }
+      const fbEl = document.getElementById('feedback-' + qi);
+      if (fbEl) fbEl.value = correct ? 'Correct.' : 'Expected answer: ' + expected;
+      onGradeChange();
+      continue;
+    }
+    
+    let studentAnsStr = studentAnswer;
+    if (typeof studentAnswer === 'string' && studentAnswer.startsWith('data:image')) {
+      const fbEl = document.getElementById('feedback-' + qi);
+      if (fbEl) fbEl.value = 'Drawing requires manual teacher review.';
+      continue;
+    } else if (typeof studentAnswer === 'object') {
+      studentAnsStr = JSON.stringify(studentAnswer);
+    } else if (!studentAnswer) {
+      studentAnsStr = '[No answer provided]';
+    }
+    
+    let gradingPrompt = 'You are a strict IB MYP Physics examiner. Grade this student answer.\\n\\n'
+      + 'QUESTION: ' + (qBlock.data?.question || '') + '\\n'
+      + 'MAXIMUM MARKS: ' + maxMarks + '\\n'
+      + 'CRITERION: ' + (qBlock.meta?.criterion || 'A') + '\\n'
+      + 'STRAND: ' + (qBlock.meta?.strand || 'i') + '\\n'
+      + 'COMMAND TERM: ' + (qBlock.meta?.commandTerm || 'State') + '\\n'
+      + 'MARK SCHEME: ' + (qBlock.meta?.markScheme || 'Award marks based on quality of response.') + '\\n';
+    
+    if (qBlock.meta?.gradingGrid) {
+      gradingPrompt += 'HOLISTIC MARKING GRID:\\n' + JSON.stringify(qBlock.meta.gradingGrid, null, 2) + '\\n';
+    }
+    
+    gradingPrompt += '\\nSTUDENT ANSWER: ' + studentAnsStr + '\\n\\n'
+      + 'GRADE THIS ANSWER. Respond with ONLY valid JSON in this exact format:\\n'
+      + '{"marksAwarded":N,"feedback":"One sentence summary of performance plus what they missed."}\\n\\n'
+      + 'GRADING RULES:\\n'
+      + '- Be STRICT. Follow the mark scheme exactly.\\n'
+      + '- Award marks ONLY for points that match the mark scheme.\\n'
+      + '- If the student wrote nothing, award 0 marks.\\n'
+      + '- If the answer is partially correct, award partial marks.\\n'
+      + '- Do NOT be generous. This is IB standard marking — hard but fair.\\n';
+    
+    let gradeText = '';
+    let aiError = null;
+    let modelToUse = 'llama-3.3-70b-versatile';
+    let retryCount = 0;
+    
+    while (retryCount < 3) {
+      try {
+        let response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key},
+          body: JSON.stringify({
+            model: modelToUse,
+            messages: [
+              {role: 'system', content: 'You are a strict IB MYP Physics examiner. Respond with valid JSON only. No markdown.'},
+              {role: 'user', content: gradingPrompt}
+            ],
+            temperature: 0.3,
+            max_tokens: 500,
+            response_format: {type: 'json_object'}
+          })
+        });
+        
+        if (response.ok) {
+          let data = await response.json();
+          gradeText = data.choices?.[0]?.message?.content || '{}';
+          aiError = null;
+          break;
+        } else {
+          if (response.status === 429) {
+            modelToUse = 'llama-3.1-8b-instant';
+            retryCount++;
+            await new Promise(r => setTimeout(r, 2000 * retryCount));
+          } else {
+            aiError = 'API Error ' + response.status;
+            break;
+          }
+        }
+      } catch(err) {
+        aiError = err.message;
+        retryCount++;
+        await new Promise(r => setTimeout(r, 1000));
+      }
+    }
+    
+    if (!aiError && gradeText) {
+      try {
+        gradeText = gradeText.replace(/\`\`\`json/g, '').replace(/\`\`\`/g, '').trim();
+        let grade = JSON.parse(gradeText);
+        let awarded = Math.min(Number(grade.marksAwarded || 0), maxMarks);
+        
+        const el = document.getElementById('grade-' + qi);
+        if (el) { el.value = awarded; }
+        const fbEl = document.getElementById('feedback-' + qi);
+        if (fbEl) fbEl.value = grade.feedback || '';
+        onGradeChange();
+      } catch (parseErr) {
+        aiError = 'JSON Parse Error';
+      }
+    }
+    
+    if (aiError) {
+      const fbEl = document.getElementById('feedback-' + qi);
+      if (fbEl) fbEl.value = 'Could not auto-grade (' + aiError + '). Please grade manually.';
+    }
+    
+    await new Promise(r => setTimeout(r, 1500));
+  }
+  
+  if (btn) {
+    btn.innerHTML = '🤖 AI Auto-Grade All';
+    btn.disabled = false;
+  }
+  alert('AI Auto-Grading complete! Please review the assigned grades and feedback, then click Save Grades.');
 }
 
 /* ── Live marks update ── */

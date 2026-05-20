@@ -509,50 +509,30 @@ async function guidedGenerateAll() {
     
     const parsedData = JSON.parse(jsonStr);
     
-    // ═══ FIX: Populate empty Table questions ═══
+    // ═══ FLATTEN AND NORMALIZE BLOCKS ═══
+    let allBlocks = [];
     if (parsedData.blocks && Array.isArray(parsedData.blocks)) {
-      parsedData.blocks.forEach(function(block) {
-        if (block.type === 'Table' && block.mode === 'question') {
-          if (!block.data) block.data = {};
-          if (!block.data.tableHeaders || !block.data.tableHeaders.length || !block.data.tableHeaders.some(function(h) { return h && h.trim(); })) {
-            var qText = block.data.question || '';
-            if (qText.toLowerCase().includes('angle of incidence') && qText.toLowerCase().includes('angle of reflection')) {
-              block.data.tableHeaders = ['Angle of Incidence / °', 'Angle of Reflection / °'];
-              block.data.tableCols = 2; block.data.tableRows = 5;
-              block.data.tablePrefill = [['10',''],['20',''],['30',''],['45',''],['60','']];
-            } else if (qText.toLowerCase().includes('force') && qText.toLowerCase().includes('acceleration')) {
-              block.data.tableHeaders = ['Force / N', 'Mass / kg', 'Acceleration / m/s²'];
-              block.data.tableCols = 3; block.data.tableRows = 5;
-              block.data.tablePrefill = [['5','2',''],['10','2',''],['15','2',''],['20','2',''],['25','2','']];
-            } else if (qText.toLowerCase().includes('voltage') && qText.toLowerCase().includes('current')) {
-              block.data.tableHeaders = ['Voltage / V', 'Current / A', 'Resistance / Ω'];
-              block.data.tableCols = 3; block.data.tableRows = 5;
-              block.data.tablePrefill = [['2','0.1',''],['4','0.2',''],['6','0.3',''],['8','0.4',''],['10','0.5','']];
-            } else if (qText.toLowerCase().includes('wavelength') || qText.toLowerCase().includes('frequency')) {
-              block.data.tableHeaders = ['Wavelength / m', 'Frequency / Hz', 'Wave Speed / m/s'];
-              block.data.tableCols = 3; block.data.tableRows = 4;
-              block.data.tablePrefill = [['0.5','','340'],['1.0','','340'],['1.5','','340'],['2.0','','340']];
-            } else if (qText.toLowerCase().includes('distance') && qText.toLowerCase().includes('time')) {
-              block.data.tableHeaders = ['Time / s', 'Distance / m', 'Speed / m/s'];
-              block.data.tableCols = 3; block.data.tableRows = 5;
-              block.data.tablePrefill = [['0','0',''],['2','8',''],['4','20',''],['6','36',''],['8','56','']];
-            } else {
-              block.data.tableHeaders = ['Variable 1', 'Variable 2', 'Calculated Value'];
-              block.data.tableCols = 3; block.data.tableRows = 5;
-              block.data.tablePrefill = [['','',''],['','',''],['','',''],['','',''],['','','']];
-            }
-          }
-          if (block.data.tableHeaders && block.data.tableHeaders.length) block.data.tableCols = block.data.tableHeaders.length;
-          if (!block.data.tableRows || block.data.tableRows < 2) block.data.tableRows = 5;
-          if (!block.data.tablePrefill || !block.data.tablePrefill.length) {
-            block.data.tablePrefill = [];
-            for (var r2 = 0; r2 < block.data.tableRows; r2++) {
-              block.data.tablePrefill[r2] = [];
-              for (var c = 0; c < block.data.tableCols; c++) block.data.tablePrefill[r2][c] = '';
-            }
-          }
+      allBlocks = parsedData.blocks;
+    }
+    
+    if (parsedData.sections && Array.isArray(parsedData.sections)) {
+      parsedData.sections.forEach((sec, idx) => {
+        const secId = sec.id || (idx + 1);
+        sec.id = secId;
+        if (sec.blocks && Array.isArray(sec.blocks)) {
+          sec.blocks.forEach(b => {
+            b.sectionId = secId;
+            allBlocks.push(b);
+          });
+          delete sec.blocks; // Remove from sections array, keep it flat
         }
       });
+    }
+
+    if (allBlocks.length > 0 && typeof window.normalizeGeneratedBlocks === 'function') {
+      parsedData.blocks = window.normalizeGeneratedBlocks(allBlocks, config);
+    } else {
+      parsedData.blocks = allBlocks;
     }
     
     // ═══ CREATE NEW SET ═══
