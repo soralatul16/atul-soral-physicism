@@ -18,12 +18,9 @@
   --text3: #888;
   --border: rgba(0,0,0,0.06);
   --accent: #c0392b;
-  --cream: #f9f6f1;
-
   /* Theme mappings for MYP Dashboard */
   --cream: var(--bg);
   --cream-2: var(--bg-deep);
-  --white: var(--white);
   --ink: var(--text);
   --ink-2: var(--text2);
   --ink-3: var(--text2);
@@ -179,6 +176,7 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
 .pc-icon-teal{background:var(--teal-pale);}
 .pc-icon-purple{background:var(--purple-pale);}
 .pc-icon-green{background:var(--green-pale);}
+.pc-icon-blue{background:var(--blue-pale);}
 .pc-info{flex:1;}
 .pc-label{font-family:var(--font-display);font-size:18px;font-weight:600;margin-bottom:4px;}
 .pc-desc{font-size:13px;color:var(--ink-4);}
@@ -483,6 +481,11 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
   color: var(--text2, #888);
 }
 </style>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="exam-system/firebase-config.js?v=2"></script>
 </head>
 <body>
 
@@ -502,6 +505,8 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
     <a class="nav-link" href="index.html">Home</a>
     <a class="nav-link" href="#" onclick="openFormulas();return false;">Formula Bank</a>
     <a class="nav-link" href="myp-flashcards.html">Flashcards</a>
+    <a class="nav-link" href="simulator.html">Simulators</a>
+    <a class="nav-link" id="myProgressBtn" href="student-dashboard.html" style="display:none;">📊 My Progress</a>
     <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:14px;transition:all .2s;color:var(--text2);" title="Toggle dark/light mode">🌙</button>
   </div>
 </div>
@@ -561,6 +566,14 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
       <div class="pc-info">
         <div class="pc-label">Do's & Don'ts</div>
         <div class="pc-desc">Criterion-wise rules to protect every mark you deserve</div>
+      </div>
+      <div class="pc-arrow">&#8594;</div>
+    </div>
+    <div class="practice-card reveal stagger-1" onclick="window.location.href='simulator.html'">
+      <div class="pc-icon pc-icon-blue">🧪</div>
+      <div class="pc-info">
+        <div class="pc-label">Physics Simulators</div>
+        <div class="pc-desc">Interactive physics experiments — change variables and watch physics happen</div>
       </div>
       <div class="pc-arrow">&#8594;</div>
     </div>
@@ -672,6 +685,31 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
   </div>
 </div>
 
+<!-- AI TUTOR CHAT -->
+<button id="ai-tutor-trigger" onclick="toggleAITutor()" style="position:fixed;bottom:92px;right:28px;z-index:8999;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#1a6fb5,#0d4f8b);border:none;cursor:pointer;box-shadow:0 4px 16px rgba(26,111,181,0.3);display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;color:white;" title="Ask Physicism AI">🧠</button>
+
+<div id="ai-tutor-panel" style="position:fixed;bottom:148px;right:28px;z-index:8999;width:340px;max-height:450px;background:var(--white,white);border:1.5px solid var(--border,rgba(0,0,0,0.06));border-radius:20px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.1);transform:translateY(20px) scale(0.96);opacity:0;pointer-events:none;transition:transform .28s cubic-bezier(.22,.68,0,1.2),opacity .2s;display:flex;flex-direction:column;">
+  
+  <!-- Header -->
+  <div style="background:linear-gradient(135deg,#1a6fb5,#0d4f8b);padding:14px 18px;color:white;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;">
+    🧠 Ask Physicism
+    <span style="font-size:10px;opacity:0.7;margin-left:auto;">AI Tutor</span>
+  </div>
+  
+  <!-- Messages -->
+  <div id="ai-tutor-messages" style="flex:1;overflow-y:auto;padding:14px;max-height:280px;font-size:13px;line-height:1.6;">
+    <div style="background:rgba(26,111,181,0.06);border-radius:12px;padding:10px 14px;margin-bottom:8px;color:var(--text2,#555);font-size:12px;">
+      Hi! I'm your Physics AI tutor. Ask me anything about MYP Physics — formulas, concepts, practice problems. 🔬
+    </div>
+  </div>
+  
+  <!-- Input -->
+  <div style="padding:10px;border-top:1px solid var(--border,rgba(0,0,0,0.06));display:flex;gap:8px;">
+    <input type="text" id="ai-tutor-input" placeholder="Ask a physics question..." style="flex:1;padding:9px 14px;border:1.5px solid var(--border,rgba(0,0,0,0.06));border-radius:50px;font-size:13px;outline:none;background:var(--cream,#f9f6f1);color:var(--text,#1a1a2e);" onkeydown="if(event.key==='Enter')sendAITutor()">
+    <button onclick="sendAITutor()" style="width:36px;height:36px;border-radius:50%;background:#1a6fb5;border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">→</button>
+  </div>
+</div>
+
 <!-- FEEDBACK WIDGET -->
 <button id="fb-trigger" title="Send feedback or report an error">&#128172;</button>
 <div id="fb-panel">
@@ -758,7 +796,11 @@ chapters.forEach(function(ch,i){
   var div=document.createElement("div");
   div.className="topic-card reveal"+(ch.ready?"":" locked");
   div.style.transitionDelay=(i*0.04)+'s';
-  div.innerHTML='<div class="tc-top"><span class="tc-emoji">'+ch.emoji+'</span><span class="tc-arrow">&#8594;</span></div>'
+  var safeName = ch.name.replace(/[^a-zA-Z]/g, '');
+  var progressRingHtml = ch.ready ? '<div class="progress-ring-container" style="position:relative;display:none;align-items:center;justify-content:center;width:36px;height:36px;" id="progress-' + safeName + '"></div>' : '';
+  div.innerHTML='<div class="tc-top"><span class="tc-emoji">'+ch.emoji+'</span>'
+    + progressRingHtml
+    + '<span class="tc-arrow">&#8594;</span></div>'
     +'<div class="tc-name">'+ch.name+'</div>'
     +'<div class="tc-status '+(ch.ready?'tc-ready':'tc-locked-pill')+'">'+(ch.ready?'&#9679; Available':'&#128274; Locked')+'</div>';
   div.onclick=ch.ready
@@ -816,6 +858,92 @@ document.getElementById("fb-send-btn").addEventListener("click",async function()
 });
 </script>
 
+<script>
+function toggleAITutor() {
+  var panel = document.getElementById('ai-tutor-panel');
+  var isOpen = panel.style.opacity === '1';
+  panel.style.opacity = isOpen ? '0' : '1';
+  panel.style.pointerEvents = isOpen ? 'none' : 'all';
+  panel.style.transform = isOpen ? 'translateY(20px) scale(0.96)' : 'translateY(0) scale(1)';
+  if (!isOpen) {
+    setTimeout(function() { document.getElementById('ai-tutor-input').focus(); }, 300);
+  }
+}
+
+function sendAITutor() {
+  var input = document.getElementById('ai-tutor-input');
+  var msg = input.value.trim();
+  if (!msg) return;
+  
+  var messages = document.getElementById('ai-tutor-messages');
+  
+  // Add user message
+  messages.innerHTML += '<div style="text-align:right;margin-bottom:8px;"><span style="background:#1a6fb5;color:white;padding:8px 14px;border-radius:12px 12px 2px 12px;display:inline-block;font-size:13px;max-width:80%;text-align:left;">' + escapeHtml(msg) + '</span></div>';
+  
+  input.value = '';
+  messages.scrollTop = messages.scrollHeight;
+  
+  // Add loading indicator
+  var loadingId = 'loading-' + Date.now();
+  messages.innerHTML += '<div id="' + loadingId + '" style="margin-bottom:8px;"><span style="background:var(--cream,#f9f6f1);padding:8px 14px;border-radius:12px 12px 12px 2px;display:inline-block;font-size:12px;color:var(--text3,#888);">Thinking...</span></div>';
+  messages.scrollTop = messages.scrollHeight;
+  
+  // Call Groq API
+  var key = localStorage.getItem('groq_api_key') || localStorage.getItem('ia_api_key');
+  if (!key) {
+    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Please set your Groq API key in the Exam Generator first.</span>';
+    return;
+  }
+  
+  fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key},
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      messages: [
+        {role: 'system', content: 'You are a friendly IB MYP Physics tutor for Grade 6-10 students. Give clear, concise answers. Use simple language. Include formulas when relevant. Keep answers under 150 words. If asked about non-physics topics, politely redirect to physics. Always encourage the student.'},
+        {role: 'user', content: msg}
+      ],
+      temperature: 0.7,
+      max_tokens: 300
+    })
+  }).then(function(r) {
+    if (r.status === 429) {
+      document.getElementById(loadingId).innerHTML = '<span style="background:rgba(230,168,23,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#e6a817;">Rate limited — wait a minute and try again.</span>';
+      return;
+    }
+    return r.json();
+  }).then(function(data) {
+    if (!data) return;
+    var reply = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+    if (reply) {
+      document.getElementById(loadingId).innerHTML = '<span style="background:var(--cream,#f9f6f1);padding:10px 14px;border-radius:12px 12px 12px 2px;display:inline-block;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;line-height:1.6;text-align:left;">' + reply.replace(/\n/g, '<br>') + '</span>';
+    }
+    messages.scrollTop = messages.scrollHeight;
+  }).catch(function(err) {
+    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Error: ' + err.message + '</span>';
+  });
+}
+
+function escapeHtml(text) {
+  var div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Close on outside click
+document.addEventListener('click', function(e) {
+  var panel = document.getElementById('ai-tutor-panel');
+  var trigger = document.getElementById('ai-tutor-trigger');
+  if (panel && trigger && !panel.contains(e.target) && e.target !== trigger) {
+    panel.style.opacity = '0';
+    panel.style.pointerEvents = 'none';
+    panel.style.transform = 'translateY(20px) scale(0.96)';
+  }
+});
+</script>
+
+
 <!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
         onload="emailjs.init({publicKey: FB.publicKey})"></script>
@@ -858,6 +986,171 @@ function toggleTheme() {
     if (btn) btn.textContent = '☀️';
   }
 })();
+</script>
+
+<script src="quiz/question-bank.js"></script>
+<script>
+// Chapter to topic keys mapping
+var chapterTopics = {
+  'Exploring Matter': ['matter'],
+  'Forces and Motion': ['forces'],
+  'Work, Power & Gravity': ['workpower'],
+  'Energy & Environment': ['energy'],
+  'The Nature of Waves': ['waves'],
+  'Atomic Physics': ['atomic'],
+  'Electromagnetism': ['electromagnetism'],
+  'Thermal Physics': ['thermal'],
+  'Astrophysics': ['astro']
+};
+
+var dbAttempts = [];
+
+function getChapterProgressFromDb(chapterName) {
+  var topics = chapterTopics[chapterName] || [];
+  if (topics.length === 0) return 0;
+  
+  var completedQuizzes = {};
+  var total = 0;
+  
+  topics.forEach(function(topic) {
+    // Unique quizzes attempted by user in this topic
+    dbAttempts.forEach(function(att) {
+      if (att.topic === topic && att.imageName) {
+        completedQuizzes[att.imageName] = true;
+      }
+    });
+
+    // Count total possible quizzes from question bank
+    var uniqueImages = {};
+    if (typeof questionBank !== 'undefined') {
+      questionBank.forEach(function(q) {
+        if (q.topic === topic && q.image) {
+          uniqueImages[q.image] = true;
+        }
+      });
+    }
+    total += Object.keys(uniqueImages).length;
+  });
+  
+  var completedCount = Object.keys(completedQuizzes).length;
+  return total > 0 ? Math.round((completedCount / total) * 100) : 0;
+}
+
+function getChapterProgressFromLocalStorage(chapterName) {
+  var topics = chapterTopics[chapterName] || [];
+  if (topics.length === 0) return 0;
+  
+  var completed = 0;
+  var total = 0;
+  
+  topics.forEach(function(topic) {
+    var key = 'quiz_completed_' + topic;
+    var data = JSON.parse(localStorage.getItem(key) || '{"completed":0,"quizzes":{}}');
+    
+    // Count total possible quizzes for this topic from question bank
+    var uniqueImages = {};
+    if (typeof questionBank !== 'undefined') {
+      questionBank.forEach(function(q) {
+        if (q.topic === topic && q.image) {
+          uniqueImages[q.image] = true;
+        }
+      });
+    }
+    var totalQuizzes = Object.keys(uniqueImages).length;
+    
+    total += totalQuizzes;
+    var completedQuizzes = Object.keys(data.quizzes || {}).length;
+    completed += Math.min(completedQuizzes, totalQuizzes);
+  });
+  
+  return total > 0 ? Math.round((completed / total) * 100) : 0;
+}
+
+function createProgressRing(percent) {
+  var size = 36;
+  var stroke = 3;
+  var radius = (size - stroke) / 2;
+  var circumference = 2 * Math.PI * radius;
+  var offset = circumference - (percent / 100) * circumference;
+  var color = percent === 0 ? 'rgba(0,0,0,0.06)' : (percent === 100 ? '#2e7d32' : '#c0392b');
+  
+  return '<svg width="' + size + '" height="' + size + '" style="transform:rotate(-90deg);flex-shrink:0;">'
+    + '<circle cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + radius + '" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="' + stroke + '"/>'
+    + '<circle cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + radius + '" fill="none" stroke="' + color + '" stroke-width="' + stroke + '" stroke-dasharray="' + circumference + '" stroke-dashoffset="' + offset + '" stroke-linecap="round" style="transition:stroke-dashoffset 0.6s ease;"/>'
+    + '</svg>'
+    + '<span style="position:absolute;font-size:9px;font-weight:600;color:var(--text2,#555);">' + percent + '%</span>';
+}
+
+function populateProgressRings(useDb) {
+  var chaptersList = ['Exploring Matter', 'Forces and Motion', 'Work, Power & Gravity', 'Energy & Environment', 'The Nature of Waves', 'Atomic Physics', 'Electromagnetism', 'Thermal Physics', 'Astrophysics'];
+  chaptersList.forEach(function(ch) {
+    var el = document.getElementById('progress-' + ch.replace(/[^a-zA-Z]/g, ''));
+    if (el) {
+      var pct = useDb ? getChapterProgressFromDb(ch) : getChapterProgressFromLocalStorage(ch);
+      el.innerHTML = createProgressRing(pct);
+    }
+  });
+}
+
+function showProgressFeatures(user) {
+  document.querySelectorAll('.progress-ring-container').forEach(function(el) {
+    el.style.display = 'flex';
+  });
+
+  if (typeof firebase !== 'undefined' && firebase.firestore) {
+    firebase.firestore().collection('students').doc(user.uid).collection('quizAttempts').get()
+      .then(function(snapshot) {
+        dbAttempts = [];
+        snapshot.forEach(function(doc) {
+          dbAttempts.push(doc.data());
+        });
+        populateProgressRings(true);
+      })
+      .catch(function(err) {
+        console.error("Error loading progress: ", err);
+        populateProgressRings(false);
+      });
+  } else {
+    populateProgressRings(false);
+  }
+}
+
+function hideProgressFeatures() {
+  document.querySelectorAll('.progress-ring-container').forEach(function(el) {
+    el.style.display = 'none';
+    el.innerHTML = '';
+  });
+}
+
+function showProgressFromLocalStorage() {
+  document.querySelectorAll('.progress-ring-container').forEach(function(el) {
+    el.style.display = 'flex';
+  });
+  populateProgressRings(false);
+}
+
+// Check if student is logged in
+var currentUser = null;
+
+if (typeof firebase !== 'undefined' && firebase.auth) {
+  firebase.auth().onAuthStateChanged(function(user) {
+    currentUser = user;
+    if (user) {
+      // Student is logged in — show progress features
+      showProgressFeatures(user);
+      var progressBtn = document.getElementById('myProgressBtn');
+      if (progressBtn) progressBtn.style.display = 'inline-flex';
+    } else {
+      // Guest — hide progress features
+      var progressBtn = document.getElementById('myProgressBtn');
+      if (progressBtn) progressBtn.style.display = 'none';
+      hideProgressFeatures();
+    }
+  });
+} else {
+  // Firebase not loaded on this page — use localStorage only
+  showProgressFromLocalStorage();
+}
 </script>
 
 </body>

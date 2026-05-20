@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Simulators | Atul Soral Physicism</title>
+<style>
+:root {
+  /* Light theme (default) */
+  --bg: #f5f0e8;
+  --bg-deep: #f0ebe2;
+  --surface: rgba(255,255,255,0.75);
+  --surface2: rgba(255,255,255,0.55);
+  --white: #ffffff;
+  --text: #1a1a2e;
+  --text2: #555;
+  --text3: #888;
+  --border: rgba(0,0,0,0.06);
+  --accent: #c0392b;
+  --cream: var(--bg);
+  --cream-2: var(--bg-deep);
+  --ink: var(--text);
+  --ink-2: var(--text2);
+  --ink-3: var(--text2);
+  --ink-4: var(--text3);
+  --ink-5: var(--text3);
+  --glass: var(--surface);
+  --glass-border: var(--border);
+
+  --red:#ef4444;--red-dark:#991b1b;--red-pale:#fde8e6;--red-soft:#f7c5c0;
+  --teal:#4ecdc4;--teal-pale:#e0f7f5;--teal-soft:#b2ece6;
+  --blue:#5b9bd5;--blue-pale:#deeaf6;
+  --purple:#b39ddb;--purple-pale:#ede7f6;
+  --amber:#ffd54f;--amber-pale:#fff8e1;
+  --green:#81c784;--green-pale:#e8f5e9;
+  --shadow-sm:0 2px 12px rgba(26,26,46,0.06);
+  --shadow-md:0 8px 28px rgba(26,26,46,0.08);
+  --shadow-lg:0 16px 48px rgba(26,26,46,0.1);
+  --r:16px;--r-lg:24px;
+  --font-display:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif;
+  --font-body:'Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;
+  --font-mono:'SF Mono','Cascadia Code','Consolas',monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #0f1119;
+  --bg-deep: #141620;
+  --surface: rgba(30,32,45,0.85);
+  --surface2: rgba(30,32,45,0.65);
+  --white: #1e2030;
+  --text: #e0ddd5;
+  --text2: #a0a0b0;
+  --text3: #6a6a7a;
+  --border: rgba(255,255,255,0.06);
+  --accent: #e05040;
+  --cream: #1a1c28;
+}
+
+[data-theme="dark"] body {
+  background: var(--bg);
+  color: var(--text);
+}
+[data-theme="dark"] .navbar {
+  background: var(--surface);
+  border-bottom-color: var(--border);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden;font-size:15px;line-height:1.6;}
+
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.bg-image{position:fixed;inset:0;z-index:0;pointer-events:none;background:url('./exam-system/assets/myp-background-image.png') center/cover no-repeat fixed;opacity:0.1;}
+.physics-grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.02;
+  background:linear-gradient(rgba(239,68,68,0.3) 1px,transparent 1px),linear-gradient(90deg,rgba(239,68,68,0.3) 1px,transparent 1px);
+  background-size:80px 80px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black 10%,transparent 80%);}
+
+/* NAVBAR */
+.navbar{
+  position:sticky;top:0;z-index:100;
+  background:var(--glass);backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5);
+  border-bottom:1px solid var(--glass-border);
+  padding:0 36px;height:64px;display:flex;align-items:center;gap:16px;
+}
+.nav-brand{
+  font-family:var(--font-display);font-size:18px;font-weight:600;
+  color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px;
+}
+.nav-dot{
+  width:10px;height:10px;background:var(--red);border-radius:50%;
+  box-shadow:0 0 8px var(--red);animation:navPulse 2s infinite;flex-shrink:0;
+}
+@keyframes navPulse{0%,100%{opacity:1;box-shadow:0 0 8px var(--red)}50%{opacity:.6;box-shadow:0 0 16px var(--red)}}
+.nav-brand span{color:var(--red);}
+.nav-spacer{flex:1;}
+.nav-links{display:flex;align-items:center;gap:6px;}
+.nav-link{
+  padding:8px 18px;border-radius:50px;font-size:13px;font-weight:600;
+  color:var(--ink-3);text-decoration:none;transition:all .25s;cursor:pointer;
+  border:none;background:none;
+}
+.nav-link:hover, .nav-link.active{background:var(--red-pale);color:var(--red);}
+
+/* MAIN CONTAINER */
+.main{max-width:850px;margin:0 auto;padding:32px 20px 80px;position:relative;z-index:1;}
+
+/* HEADER */
+h1 {
+  font-family:var(--font-display);
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--ink);
+  text-align: center;
+}
+.subtitle {
+  font-size: 14px;
+  color: var(--ink-4);
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+/* SIM GRID & CARDS */
+.sim-grid { display: grid; grid-template-columns: 1fr; gap: 32px; margin-top: 20px; }
+@media (min-width: 768px) {
+  .sim-grid { grid-template-columns: 1fr; }
+}
+.sim-card { background: var(--white,white); border: 1.5px solid var(--border,rgba(0,0,0,0.06)); border-radius: 20px; padding: 28px; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; }
+.sim-card:hover { box-shadow: var(--shadow-md); }
+.sim-card h3 { font-family: var(--font-display); font-size: 20px; color: var(--text,#1a1a2e); margin-bottom: 6px; }
+.sim-card p { font-size: 13px; color: var(--text3,#888); margin-bottom: 18px; }
+.sim-area { background: var(--cream,#f9f6f1); border-radius: 12px; padding: 12px; margin-bottom: 18px; text-align: center; display: flex; justify-content: center; }
+.sim-area canvas { max-width: 100%; height: auto; display: block; }
+.sim-controls { display: flex; flex-direction: column; gap: 14px; margin-bottom: 18px; }
+.sim-controls label { font-size: 13px; font-weight: 600; color: var(--text2,#555); display: flex; justify-content: space-between; margin-bottom: 4px; }
+.sim-controls input[type=range] { width: 100%; accent-color: var(--accent,#c0392b); background: var(--border); height: 6px; border-radius: 10px; outline: none; -webkit-appearance: none; }
+.sim-controls input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent,#c0392b); cursor: pointer; transition: transform 0.1s; }
+.sim-controls input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+.sim-readout { display: flex; gap: 24px; font-size: 14px; color: var(--text,#1a1a2e); flex-wrap: wrap; background: rgba(0,0,0,0.02); padding: 12px 18px; border-radius: 10px; border-left: 3px solid var(--accent); }
+.sim-readout span { font-weight: 500; }
+.sim-readout strong { color: var(--accent); font-family: var(--font-mono); }
+
+/* Buttons */
+.sim-btn {
+  padding: 10px 20px; border-radius: 50px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s;
+  background: var(--accent); color: white; box-shadow: 0 4px 12px rgba(192,57,43,0.2);
+}
+.sim-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.sim-btn:active { transform: translateY(0); }
+.sim-btn:disabled { background: var(--text3); color: rgba(255,255,255,0.7); box-shadow: none; cursor: not-allowed; }
+.btn-sec {
+  background: var(--surface); color: var(--text); border: 1.5px solid var(--border); box-shadow: none; margin-left: 8px;
+}
+.btn-sec:hover { background: var(--border); }
+
+/* Embedded Feedback and Correction Styles */
+#fb-trigger { position: fixed; bottom: 28px; right: 28px; z-index: 9000; width: 46px; height: 46px; border-radius: 50%; background: var(--accent); border: none; color: white; font-size: 18px; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; transition: all .2s; }
+#fb-trigger:hover { transform: scale(1.05); }
+#fb-panel { position: fixed; bottom: 84px; right: 28px; z-index: 9000; width: 320px; background: var(--white); border: 1.5px solid var(--border); border-radius: 18px; box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none; transform: translateY(15px); transition: all 0.25s cubic-bezier(0.22, 0.68, 0, 1.15); display: flex; flex-direction: column; overflow: hidden; }
+#fb-panel.open { opacity: 1; pointer-events: all; transform: translateY(0); }
+.fb-header { background: var(--accent); color: white; padding: 14px 18px; font-size: 13px; font-weight: 600; }
+.fb-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.fb-page-tag { font-family: var(--font-mono); font-size: 10px; color: var(--text3); }
+#fb-email, #fb-message { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 13px; outline: none; background: var(--cream); color: var(--text); }
+#fb-message { height: 100px; resize: none; }
+.fb-submit { padding: 10px; border-radius: 50px; background: var(--accent); color: white; font-weight: 600; font-size: 13px; border: none; cursor: pointer; }
+.fb-status { font-size: 11px; text-align: center; margin-top: 4px; }
+.fb-status.success { color: #2e7d32; }
+.fb-status.error { color: #c62828; }
+</style>
+<!-- Firebasecompat SDK for dynamic Progress check if available -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="exam-system/firebase-config.js?v=2"></script>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+<div class="bg-image"></div>
+<div class="physics-grid"></div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <a class="nav-brand" href="index.html">
+    <span class="nav-dot"></span>
+    MYP <span>Physics</span>
+  </a>
+  <div class="nav-spacer"></div>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="#" onclick="openFormulas(); return false;">Formula Bank</a>
+    <a class="nav-link" href="myp-flashcards.html">Flashcards</a>
+    <a class="nav-link active" href="simulator.html">Simulators</a>
+    <a class="nav-link" id="myProgressBtn" href="student-dashboard.html" style="display:none;">📊 My Progress</a>
+    <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:14px;transition:all .2s;color:var(--text2);" title="Toggle dark/light mode">🌙</button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+  <h1>Physics Simulators</h1>
+  <div class="subtitle">Interactive experiments — change variables and watch physics happen in real time.</div>
+
+  <div class="sim-grid">
+
+    <!-- SIMULATION 1: Hooke's Law -->
+    <div class="sim-card" id="sim-spring">
+      <h3>Hooke's Law Simulator</h3>
+      <p>Drag the sliders to change the applied force and the spring constant. Observe the spring extension and compliance.</p>
+      <div class="sim-area">
+        <canvas id="springCanvas" width="400" height="300" style="background:#f9f6f1; border-radius:10px; border:1px solid rgba(0,0,0,0.06);"></canvas>
+      </div>
+      <div class="sim-controls">
+        <div>
+          <label>Applied Force (F): <span><span id="forceVal">0.0</span> N</span></label>
+          <input type="range" id="forceSlider" min="0" max="10" step="0.5" value="0" oninput="updateSpring()">
+        </div>
+        <div>
+          <label>Spring Constant (k): <span><span id="kVal">20</span> N/m</span></label>
+          <input type="range" id="kSlider" min="5" max="50" step="5" value="20" oninput="updateSpring()">
+        </div>
+      </div>
+      <div class="sim-readout">
+        <span>Extension (x): <strong id="extVal">0.00</strong> m</span>
+        <span>Equation: <strong>F = kx</strong> &rarr; <strong id="fkxVal">0.0 = 20 &times; 0.000</strong></span>
+      </div>
+    </div>
+
+    <!-- SIMULATION 2: Newton's Second Law -->
+    <div class="sim-card" id="sim-fma">
+      <h3>Newton's Second Law (F = ma)</h3>
+      <p>Adjust the applied net force and the object mass. Run the simulation to see constant acceleration in action.</p>
+      <div class="sim-area">
+        <canvas id="fmaCanvas" width="400" height="200" style="background:#f9f6f1; border-radius:10px; border:1px solid rgba(0,0,0,0.06);"></canvas>
+      </div>
+      <div class="sim-controls">
+        <div>
+          <label>Applied Net Force (F): <span><span id="fmaForceVal">5.0</span> N</span></label>
+          <input type="range" id="fmaForce" min="1.0" max="10" step="0.5" value="5.0" oninput="updateFma()">
+        </div>
+        <div>
+          <label>Mass (m): <span><span id="fmaMassVal">2.0</span> kg</span></label>
+          <input type="range" id="fmaMass" min="0.5" max="5.0" step="0.5" value="2.0" oninput="updateFma()">
+        </div>
+        <div style="margin-top: 10px; display: flex; gap: 8px;">
+          <button onclick="startFma()" id="fmaRunBtn" class="sim-btn">▶ Run Simulation</button>
+          <button onclick="resetFma()" class="sim-btn btn-sec">🔄 Reset</button>
+        </div>
+      </div>
+      <div class="sim-readout">
+        <span>Acceleration (a = F/m): <strong id="fmaAccVal">2.50</strong> m/s²</span>
+        <span>Equation: <strong id="fmaEq">2.50 = 5.0 / 2.0</strong></span>
+      </div>
+    </div>
+
+    <!-- SIMULATION 3: Wave Properties -->
+    <div class="sim-card" id="sim-wave">
+      <h3>Wave Properties Simulator</h3>
+      <p>Modify the frequency and amplitude of the wave. The blue particles show transverse medium displacement bobbing vertically.</p>
+      <div class="sim-area">
+        <canvas id="waveCanvas" width="400" height="200" style="background:#f9f6f1; border-radius:10px; border:1px solid rgba(0,0,0,0.06);"></canvas>
+      </div>
+      <div class="sim-controls">
+        <div>
+          <label>Frequency (f): <span><span id="waveFreqVal">2.0</span> Hz</span></label>
+          <input type="range" id="waveFreq" min="1.0" max="5.0" step="0.2" value="2.0" oninput="updateWave()">
+        </div>
+        <div>
+          <label>Amplitude (A): <span><span id="waveAmpVal">1.5</span></span></label>
+          <input type="range" id="waveAmp" min="0.2" max="2.5" step="0.1" value="1.5" oninput="updateWave()">
+        </div>
+      </div>
+      <div class="sim-readout">
+        <span>Wave Speed (v): <strong>340</strong> m/s</span>
+        <span>Wavelength (λ = v/f): <strong id="waveLambda">170.0</strong> m</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- EMAILJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- Feedback Widget JS -->
+<script src="js/Feedback.js"></script>
+
+<!-- AI TUTOR CHAT -->
+<button id="ai-tutor-trigger" onclick="toggleAITutor()" style="position:fixed;bottom:92px;right:28px;z-index:8999;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#1a6fb5,#0d4f8b);border:none;cursor:pointer;box-shadow:0 4px 16px rgba(26,111,181,0.3);display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;color:white;" title="Ask Physicism AI">🧠</button>
+
+<div id="ai-tutor-panel" style="position:fixed;bottom:148px;right:28px;z-index:8999;width:340px;max-height:450px;background:var(--white,white);border:1.5px solid var(--border,rgba(0,0,0,0.06));border-radius:20px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.1);transform:translateY(20px) scale(0.96);opacity:0;pointer-events:none;transition:transform .28s cubic-bezier(.22,.68,0,1.2),opacity .2s;display:flex;flex-direction:column;">
+  
+  <!-- Header -->
+  <div style="background:linear-gradient(135deg,#1a6fb5,#0d4f8b);padding:14px 18px;color:white;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;">
+    🧠 Ask Physicism
+    <span style="font-size:10px;opacity:0.7;margin-left:auto;">AI Tutor</span>
+  </div>
+  
+  <!-- Messages -->
+  <div id="ai-tutor-messages" style="flex:1;overflow-y:auto;padding:14px;max-height:280px;font-size:13px;line-height:1.6;">
+    <div style="background:rgba(26,111,181,0.06);border-radius:12px;padding:10px 14px;margin-bottom:8px;color:var(--text2,#555);font-size:12px;">
+      Hi! I'm your Physics AI tutor. Ask me anything about MYP Physics — formulas, concepts, practice problems. 🔬
+    </div>
+  </div>
+  
+  <!-- Input -->
+  <div style="padding:10px;border-top:1px solid var(--border,rgba(0,0,0,0.06));display:flex;gap:8px;">
+    <input type="text" id="ai-tutor-input" placeholder="Ask a physics question..." style="flex:1;padding:9px 14px;border:1.5px solid var(--border,rgba(0,0,0,0.06));border-radius:50px;font-size:13px;outline:none;background:var(--cream,#f9f6f1);color:var(--text,#1a1a2e);" onkeydown="if(event.key==='Enter')sendAITutor()">
+    <button onclick="sendAITutor()" style="width:36px;height:36px;border-radius:50%;background:#1a6fb5;border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">→</button>
+  </div>
+</div>
+
+<script>
+// Formula bank open placeholder
+function openFormulas() {
+  alert('Formula Bank info can be loaded from the dashboard. This page will guide you through Hooke\'s Law, F=ma, and wave characteristics!');
+}
+
+/* ============================================================
+   SIMULATION 1: Spring Extension (Hooke's Law)
+   ============================================================ */
+function updateSpring() {
+  var F = parseFloat(document.getElementById('forceSlider').value);
+  var k = parseFloat(document.getElementById('kSlider').value);
+  var x = F / k;
+  
+  document.getElementById('forceVal').textContent = F.toFixed(1);
+  document.getElementById('kVal').textContent = k;
+  document.getElementById('extVal').textContent = x.toFixed(3);
+  document.getElementById('fkxVal').textContent = F.toFixed(1) + ' = ' + k + ' &times; ' + x.toFixed(3);
+  
+  var canvas = document.getElementById('springCanvas');
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 400, 300);
+  
+  // Background Grid Pattern
+  ctx.strokeStyle = 'rgba(0,0,0,0.03)';
+  ctx.lineWidth = 0.5;
+  for(var g = 10; g < 400; g += 20) {
+    ctx.beginPath(); ctx.moveTo(g, 0); ctx.lineTo(g, 300); ctx.stroke();
+  }
+  for(var g = 10; g < 300; g += 20) {
+    ctx.beginPath(); ctx.moveTo(0, g); ctx.lineTo(400, g); ctx.stroke();
+  }
+
+  // Ruler marks
+  ctx.strokeStyle = '#999';
+  ctx.lineWidth = 0.5;
+  ctx.font = '9px sans-serif';
+  ctx.fillStyle = '#666';
+  ctx.textAlign = 'left';
+  for (var m = 0; m <= 0.5; m += 0.05) {
+    var ry = 50 + m * 400; // start ruler at 50px
+    if (ry < 290) {
+      ctx.beginPath(); ctx.moveTo(130, ry); ctx.lineTo(145, ry); ctx.stroke();
+      if (Math.abs(m % 0.1) < 0.001 || Math.abs(m % 0.1 - 0.1) < 0.001) {
+        ctx.fillText(m.toFixed(2) + ' m', 95, ry + 3);
+      }
+    }
+  }
+
+  // Fixed support point
+  ctx.fillStyle = '#444';
+  ctx.fillRect(170, 15, 60, 10);
+  
+  // Spring coils parameters
+  var springTop = 25;
+  var springBottom = 50 + (x * 400); // extension scaled (1m = 400px)
+  var coils = 12;
+  var coilWidth = 24;
+  
+  ctx.strokeStyle = '#c0392b';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(200, springTop);
+  for (var i = 0; i < coils; i++) {
+    var y1 = springTop + ((springBottom - springTop) / coils) * i;
+    var y2 = springTop + ((springBottom - springTop) / coils) * (i + 0.5);
+    var y3 = springTop + ((springBottom - springTop) / coils) * (i + 1);
+    ctx.lineTo(200 + coilWidth, y2);
+    ctx.lineTo(200 - coilWidth, (y2 + y3) / 2);
+  }
+  ctx.lineTo(200, springBottom);
+  ctx.stroke();
+  
+  // Mass block
+  ctx.fillStyle = '#c0392b';
+  ctx.fillRect(175, springBottom, 50, 30);
+  ctx.fillStyle = 'white';
+  ctx.font = '11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(F.toFixed(1) + ' N', 200, springBottom + 19);
+  
+  // Force arrow
+  if (F > 0) {
+    ctx.strokeStyle = '#2e7d32';
+    ctx.fillStyle = '#2e7d32';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(200, springBottom + 30);
+    ctx.lineTo(200, springBottom + 30 + F * 7);
+    ctx.stroke();
+    
+    // Arrow head
+    ctx.beginPath();
+    ctx.moveTo(200, springBottom + 30 + F * 7);
+    ctx.lineTo(196, springBottom + 25 + F * 7);
+    ctx.lineTo(204, springBottom + 25 + F * 7);
+    ctx.fill();
+    
+    ctx.font = '10px sans-serif';
+    ctx.fillText('F = ' + F.toFixed(1) + ' N', 245, springBottom + 32 + F * 3.5);
+  }
+}
+
+/* ============================================================
+   SIMULATION 2: Newton's Second Law (F = ma)
+   ============================================================ */
+var fmaAnimId = null;
+var fmaX = 20; // Starting position of block
+var fmaV = 0;  // Velocity of block
+var fmaLastTime = 0;
+var fmaIsRunning = false;
+
+function updateFma() {
+  var F = parseFloat(document.getElementById('fmaForce').value);
+  var m = parseFloat(document.getElementById('fmaMass').value);
+  var a = F / m;
+  
+  document.getElementById('fmaForceVal').textContent = F.toFixed(1);
+  document.getElementById('fmaMassVal').textContent = m.toFixed(1);
+  document.getElementById('fmaAccVal').textContent = a.toFixed(2);
+  document.getElementById('fmaEq').textContent = a.toFixed(2) + ' = ' + F.toFixed(1) + ' / ' + m.toFixed(1);
+  
+  if (!fmaIsRunning) {
+    drawFma(fmaX, 0, a);
+  }
+}
+
+function drawFma(x, v, a) {
+  var canvas = document.getElementById('fmaCanvas');
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 400, 200);
+  
+  var m = parseFloat(document.getElementById('fmaMass').value);
+  var F = parseFloat(document.getElementById('fmaForce').value);
+  
+  // Track line
+  ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(0, 150);
+  ctx.lineTo(400, 150);
+  ctx.stroke();
+  
+  // Hash marks on track
+  ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+  ctx.lineWidth = 1;
+  for (var i = 0; i <= 400; i += 40) {
+    ctx.beginPath();
+    ctx.moveTo(i, 150);
+    ctx.lineTo(i, 158);
+    ctx.stroke();
+  }
+  
+  // Block dimensions based on mass
+  var size = 30 + m * 8;
+  var y = 150 - size;
+  
+  // Draw block
+  ctx.fillStyle = '#1a6fb5';
+  ctx.fillRect(x, y, size, size);
+  
+  // Draw wheels
+  ctx.fillStyle = '#333';
+  ctx.beginPath();
+  ctx.arc(x + size*0.25, 150, 5, 0, Math.PI*2);
+  ctx.arc(x + size*0.75, 150, 5, 0, Math.PI*2);
+  ctx.fill();
+  
+  // Label inside block
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(m.toFixed(1) + ' kg', x + size/2, y + size/2 + 4);
+  
+  // Force vector arrow (green)
+  if (F > 0) {
+    ctx.strokeStyle = '#2e7d32';
+    ctx.fillStyle = '#2e7d32';
+    ctx.lineWidth = 3;
+    var arrowY = y + size/2;
+    ctx.beginPath();
+    ctx.moveTo(x - 30, arrowY);
+    ctx.lineTo(x, arrowY);
+    ctx.stroke();
+    // Arrow head
+    ctx.beginPath();
+    ctx.moveTo(x, arrowY);
+    ctx.lineTo(x - 6, arrowY - 4);
+    ctx.lineTo(x - 6, arrowY + 4);
+    ctx.fill();
+    
+    ctx.font = '10px sans-serif';
+    ctx.fillText('F = ' + F.toFixed(1) + ' N', x - 18, arrowY - 8);
+  }
+  
+  // Velocity arrow (blue)
+  if (v > 0) {
+    ctx.strokeStyle = '#1a6fb5';
+    ctx.fillStyle = '#1a6fb5';
+    ctx.lineWidth = 2;
+    var velArrowY = y - 12;
+    var arrowLen = Math.min(v * 4, 60);
+    ctx.beginPath();
+    ctx.moveTo(x + size/2, velArrowY);
+    ctx.lineTo(x + size/2 + arrowLen, velArrowY);
+    ctx.stroke();
+    // Arrow head
+    ctx.beginPath();
+    ctx.moveTo(x + size/2 + arrowLen, velArrowY);
+    ctx.lineTo(x + size/2 + arrowLen - 5, velArrowY - 3);
+    ctx.lineTo(x + size/2 + arrowLen - 5, velArrowY + 3);
+    ctx.fill();
+    
+    ctx.font = '9px sans-serif';
+    ctx.fillText('v = ' + v.toFixed(1) + ' m/s', x + size/2 + arrowLen/2, velArrowY - 6);
+  }
+}
+
+function startFma() {
+  if (fmaIsRunning) return;
+  fmaIsRunning = true;
+  fmaLastTime = performance.now();
+  document.getElementById('fmaRunBtn').disabled = true;
+  document.getElementById('fmaRunBtn').textContent = '⏳ Running...';
+  
+  function anim(now) {
+    var dt = (now - fmaLastTime) / 1000; // seconds
+    fmaLastTime = now;
+    
+    var F = parseFloat(document.getElementById('fmaForce').value);
+    var m = parseFloat(document.getElementById('fmaMass').value);
+    var a = F / m;
+    
+    fmaV += a * dt;
+    // Scaled movement: 1 meter = 40 pixels
+    fmaX += (fmaV * dt) * 45;
+    
+    // Stop if block reaches the boundary
+    var size = 30 + m * 8;
+    if (fmaX + size >= 390) {
+      fmaX = 390 - size;
+      fmaV = 0;
+      fmaIsRunning = false;
+      document.getElementById('fmaRunBtn').disabled = false;
+      document.getElementById('fmaRunBtn').textContent = '▶ Run Simulation';
+      drawFma(fmaX, fmaV, a);
+      return;
+    }
+    
+    drawFma(fmaX, fmaV, a);
+    fmaAnimId = requestAnimationFrame(anim);
+  }
+  
+  fmaAnimId = requestAnimationFrame(anim);
+}
+
+function resetFma() {
+  cancelAnimationFrame(fmaAnimId);
+  fmaIsRunning = false;
+  fmaX = 20;
+  fmaV = 0;
+  document.getElementById('fmaRunBtn').disabled = false;
+  document.getElementById('fmaRunBtn').textContent = '▶ Run Simulation';
+  updateFma();
+}
+
+/* ============================================================
+   SIMULATION 3: Wave Properties
+   ============================================================ */
+var waveTime = 0;
+var waveAnimId = null;
+
+function updateWave() {
+  var freq = parseFloat(document.getElementById('waveFreq').value);
+  var amp = parseFloat(document.getElementById('waveAmp').value);
+  var speed = 340; // speed of sound
+  var wavelength = speed / freq;
+  
+  document.getElementById('waveFreqVal').textContent = freq.toFixed(1);
+  document.getElementById('waveAmpVal').textContent = amp.toFixed(1);
+  document.getElementById('waveLambda').textContent = wavelength.toFixed(1);
+}
+
+function animateWave() {
+  waveTime += 0.05;
+  
+  var canvas = document.getElementById('waveCanvas');
+  if (canvas) {
+    var ctx = canvas.getContext('2d');
+    var freq = parseFloat(document.getElementById('waveFreq').value);
+    var amp = parseFloat(document.getElementById('waveAmp').value);
+    
+    ctx.clearRect(0, 0, 400, 200);
+    
+    // Equilibrium line
+    ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(0, 100);
+    ctx.lineTo(400, 100);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    
+    // Draw propagating sine wave
+    ctx.strokeStyle = '#c0392b';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (var x = 0; x < 400; x++) {
+      var cycleScale = 0.04;
+      var y = 100 + amp * 22 * Math.sin(x * cycleScale * freq - waveTime);
+      if (x === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    
+    // Draw transverse bobbing particles
+    ctx.fillStyle = '#0d4f8b';
+    for (var px = 40; px < 400; px += 80) {
+      var py = 100 + amp * 22 * Math.sin(px * 0.04 * freq - waveTime);
+      ctx.beginPath();
+      ctx.arc(px, py, 6, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  
+  waveAnimId = requestAnimationFrame(animateWave);
+}
+
+/* ============================================================
+   AI TUTOR CHAT CONTROL
+   ============================================================ */
+function toggleAITutor() {
+  var panel = document.getElementById('ai-tutor-panel');
+  var isOpen = panel.style.opacity === '1';
+  panel.style.opacity = isOpen ? '0' : '1';
+  panel.style.pointerEvents = isOpen ? 'none' : 'all';
+  panel.style.transform = isOpen ? 'translateY(20px) scale(0.96)' : 'translateY(0) scale(1)';
+  if (!isOpen) {
+    setTimeout(function() { document.getElementById('ai-tutor-input').focus(); }, 300);
+  }
+}
+
+function sendAITutor() {
+  var input = document.getElementById('ai-tutor-input');
+  var msg = input.value.trim();
+  if (!msg) return;
+  
+  var messages = document.getElementById('ai-tutor-messages');
+  messages.innerHTML += '<div style="text-align:right;margin-bottom:8px;"><span style="background:#1a6fb5;color:white;padding:8px 14px;border-radius:12px 12px 2px 12px;display:inline-block;font-size:13px;max-width:80%;text-align:left;">' + escapeHtml(msg) + '</span></div>';
+  
+  input.value = '';
+  messages.scrollTop = messages.scrollHeight;
+  
+  var loadingId = 'loading-' + Date.now();
+  messages.innerHTML += '<div id="' + loadingId + '" style="margin-bottom:8px;"><span style="background:var(--cream,#f9f6f1);padding:8px 14px;border-radius:12px 12px 12px 2px;display:inline-block;font-size:12px;color:var(--text3,#888);">Thinking...</span></div>';
+  messages.scrollTop = messages.scrollHeight;
+  
+  var key = localStorage.getItem('groq_api_key') || localStorage.getItem('ia_api_key');
+  if (!key) {
+    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Please set your Groq API key in the Exam Generator first.</span>';
+    return;
+  }
+  
+  fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key},
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      messages: [
+        {role: 'system', content: 'You are a friendly IB MYP Physics tutor for Grade 6-10 students. Give clear, concise answers. Use simple language. Include formulas when relevant. Keep answers under 150 words. If asked about non-physics topics, politely redirect to physics. Always encourage the student.'},
+        {role: 'user', content: msg}
+      ],
+      temperature: 0.7,
+      max_tokens: 300
+    })
+  }).then(function(r) {
+    if (r.status === 429) {
+      document.getElementById(loadingId).innerHTML = '<span style="background:rgba(230,168,23,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#e6a817;">Rate limited — wait a minute and try again.</span>';
+      return;
+    }
+    return r.json();
+  }).then(function(data) {
+    if (!data) return;
+    var reply = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+    if (reply) {
+      document.getElementById(loadingId).innerHTML = '<span style="background:var(--cream,#f9f6f1);padding:10px 14px;border-radius:12px 12px 12px 2px;display:inline-block;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;line-height:1.6;text-align:left;">' + reply.replace(/\n/g, '<br>') + '</span>';
+    }
+    messages.scrollTop = messages.scrollHeight;
+  }).catch(function(err) {
+    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Error: ' + err.message + '</span>';
+  });
+}
+
+function escapeHtml(text) {
+  var div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Close AI Tutor on outside click
+document.addEventListener('click', function(e) {
+  var panel = document.getElementById('ai-tutor-panel');
+  var trigger = document.getElementById('ai-tutor-trigger');
+  if (panel && trigger && !panel.contains(e.target) && e.target !== trigger) {
+    panel.style.opacity = '0';
+    panel.style.pointerEvents = 'none';
+    panel.style.transform = 'translateY(20px) scale(0.96)';
+  }
+});
+</script>
+
+<!-- INIT & BACKGROUND ORBS -->
+<script>
+window.onload = () => {
+  updateSpring();
+  updateFma();
+  updateWave();
+  animateWave();
+};
+
+// Canvas Orbs Animation
+(function(){
+  var canvas=document.getElementById("bgCanvas");if(!canvas)return;
+  var ctx=canvas.getContext("2d");var w=0,h=0;
+  function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
+  resize();window.addEventListener("resize",resize);
+  var orbs=[];
+  var colors=[
+    {r:239,g:68,b:68},
+    {r:78,g:205,b:196},
+    {r:179,g:157,b:219}
+  ];
+  for(var i=0;i<12;i++){
+    orbs.push({
+      x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,
+      r:Math.random()*80+60,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,
+      color:colors[Math.floor(Math.random()*colors.length)],
+      alpha:Math.random()*.04+.01,phase:Math.random()*Math.PI*2
+    });
+  }
+  function draw(){
+    var theme = document.documentElement.getAttribute('data-theme') || 'light';
+    ctx.fillStyle = theme === 'dark' ? '#0f1119' : '#f7f3ed';
+    ctx.fillRect(0,0,w,h);
+    var t=Date.now()*.0003;
+    for(var i=0;i<orbs.length;i++){var o=orbs[i];
+      o.x+=o.vx+Math.sin(t+o.phase)*.12;o.y+=o.vy+Math.cos(t+o.phase*.7)*.08;
+      if(o.x<-o.r)o.x=w+o.r;if(o.x>w+o.r)o.x=-o.r;if(o.y<-o.r)o.y=h+o.r;if(o.y>h+o.r)o.y=-o.r;
+      var a=o.alpha+Math.sin(t*1.5+o.phase)*.008;
+      var g=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+      g.addColorStop(0,'rgba('+o.color.r+','+o.color.g+','+o.color.b+','+(a*2)+')');
+      g.addColorStop(.5,'rgba('+o.color.r+','+o.color.g+','+o.color.b+','+a+')');
+      g.addColorStop(1,'rgba('+o.color.r+','+o.color.g+','+o.color.b+',0)');
+      ctx.fillStyle=g;ctx.fillRect(o.x-o.r,o.y-o.r,o.r*2,o.r*2);
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// Theme Logic
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme');
+  var next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('physicism-theme', next);
+  var btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = next === 'dark' ? '☀️' : '🌙';
+}
+(function() {
+  var saved = localStorage.getItem('physicism-theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    var btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
+
+// Check if student is logged in to show/hide "My Progress" button
+if (typeof firebase !== 'undefined' && firebase.auth) {
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      document.getElementById('myProgressBtn').style.display = 'inline-flex';
+    } else {
+      document.getElementById('myProgressBtn').style.display = 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>

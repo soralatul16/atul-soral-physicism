@@ -280,6 +280,16 @@ function showSummary() {
   saveQuizAttempt(topic, image, score, questions.length, pct);
 }
 
+// ===============================
+// FIREBASE AUTH & SYNCHRONIZATION
+// ===============================
+let currentUser = null;
+if (typeof firebase !== 'undefined' && firebase.auth) {
+  firebase.auth().onAuthStateChanged(user => {
+    currentUser = user;
+  });
+}
+
 function saveQuizAttempt(topic, image, score, total, pct) {
   const key = 'PHYS_QUIZ_HISTORY';
   let history = JSON.parse(localStorage.getItem(key) || '[]');
@@ -293,6 +303,70 @@ function saveQuizAttempt(topic, image, score, total, pct) {
   });
   if (history.length > 50) history = history.slice(-50);
   localStorage.setItem(key, JSON.stringify(history));
+
+  // Save quiz completion to localStorage
+  saveQuizProgress(topic, image);
+
+  // Sync to Firebase if logged in
+  if (currentUser && typeof firebase !== 'undefined' && firebase.firestore) {
+    const strandScore = {i: 0, ii: 0, iii: 0};
+    const strandTotal = {i: 0, ii: 0, iii: 0};
+    
+    userAnswers.forEach(item => {
+      const s = item.question.strand || 'i';
+      strandTotal[s]++;
+      if (item.selected >= 0 && item.question.options[item.selected] === item.question.answer) {
+        strandScore[s]++;
+      }
+    });
+
+    const attemptId = firebase.firestore().collection('students').doc(currentUser.uid).collection('quizAttempts').doc().id;
+    const attemptData = {
+      topic: topic,
+      imageName: image,
+      score: score,
+      total: total,
+      percentage: pct,
+      strandBreakdown: {
+        i: { score: strandScore['i'], total: strandTotal['i'] },
+        ii: { score: strandScore['ii'], total: strandTotal['ii'] },
+        iii: { score: strandScore['iii'], total: strandTotal['iii'] }
+      },
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    firebase.firestore().collection('students').doc(currentUser.uid).collection('quizAttempts').doc(attemptId).set(attemptData)
+      .then(() => {
+        console.log("Quiz attempt synced to Firebase successfully");
+      })
+      .catch(err => {
+        console.error("Error syncing attempt to Firebase: ", err);
+      });
+  }
+}
+
+function saveQuizProgress(topic, imageName) {
+  if (!imageName) return;
+  const key = 'quiz_completed_' + topic;
+  let data = JSON.parse(localStorage.getItem(key) || '{"total":0,"completed":0,"quizzes":{}}');
+  
+  if (!data.quizzes[imageName]) {
+    data.quizzes[imageName] = true;
+    data.completed = (data.completed || 0) + 1;
+  }
+  
+  // Count total possible quizzes for this topic from question bank
+  const uniqueImages = {};
+  if (typeof questionBank !== 'undefined') {
+    questionBank.forEach(q => {
+      if (q.topic === topic && q.image) {
+        uniqueImages[q.image] = true;
+      }
+    });
+  }
+  data.total = Object.keys(uniqueImages).length;
+  
+  localStorage.setItem(key, JSON.stringify(data));
 }
 
 // ===============================

@@ -4,7 +4,7 @@
 <head>
 <script>
   (function() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('physicism-theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
   })();
 </script>
@@ -577,7 +577,7 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
 <div class="stats-strip reveal">
   <div class="stats-inner">
     <div class="stat-item">
-      <div class="stat-num" id="s1">250<span>+</span></div>
+      <div class="stat-num" id="s1">400<span>+</span></div>
       <div class="stat-lbl">Questions</div>
     </div>
     <div class="stat-item">
@@ -601,7 +601,7 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
     <div class="spotlight-pulse"></div>
     <div class="spotlight-text">
       <div class="spotlight-label">What's New</div>
-      <div class="spotlight-title">&#9889; Forces &amp; Motion question set just dropped &mdash; 12 Criterion A questions ready to go</div>
+      <div id="whats-new-text" class="spotlight-title" style="font-weight:600;color:var(--ink);">Loading...</div>
     </div>
     <div class="spotlight-arrow">&#8594;</div>
   </a>
@@ -632,7 +632,7 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
       <div class="card-stats">
         <div class="card-stat"><div class="card-stat-num">12</div><div class="card-stat-lbl">Question Sets</div></div>
         <div class="card-stat"><div class="card-stat-num">4</div><div class="card-stat-lbl">Criteria</div></div>
-        <div class="card-stat"><div class="card-stat-num">250+</div><div class="card-stat-lbl">Questions</div></div>
+        <div class="card-stat"><div class="card-stat-num">400+</div><div class="card-stat-lbl">Questions</div></div>
       </div>
       <div class="card-bottom">
         <span class="card-pill pill-myp">MYP</span>
@@ -949,7 +949,7 @@ document.querySelectorAll('.btn').forEach(function(btn){
   var obs=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(e.isIntersecting){
-        animateNum(document.getElementById('s1'),250,'<span>+</span>');
+        animateNum(document.getElementById('s1'),400,'<span>+</span>');
         animateNum(document.getElementById('s2'),4,'');
         animateNum(document.getElementById('s3'),12,'');
         document.getElementById('s4').textContent='Free';
@@ -985,8 +985,49 @@ document.querySelectorAll('.btn').forEach(function(btn){
     const current = document.documentElement.getAttribute('data-theme') || 'light';
     const next = current === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
+    localStorage.setItem('physicism-theme', next);
   }
+</script>
+
+<script>
+// Announcements — add new entries at the TOP of this array
+// The first entry is always shown
+var announcements = [
+  {date: '2026-05-20', icon: '🧠', text: 'AI Tutor Chat — ask any physics question and get instant answers'},
+  {date: '2026-05-19', icon: '📖', text: 'Physics Pictionary A-Z — 26 illustrated pages now live in the interactive book'},
+  {date: '2026-05-18', icon: '🔬', text: 'IA Generator upgraded — rubric-aware, context-chained, trained on 7 IB exemplars'},
+  {date: '2026-05-17', icon: '⚡', text: 'Forces & Motion question set just dropped — 12 Criterion A questions ready to go'},
+  {date: '2026-05-16', icon: '📝', text: 'Exam Generator now supports Drawing, Drag & Drop, and Graph Plot questions'},
+  {date: '2026-05-15', icon: '🎯', text: 'Scientific calculator added to the student exam panel'},
+  {date: '2026-05-14', icon: '🌙', text: 'Dark mode now available — toggle in the top-right corner of every page'}
+];
+
+function updateWhatsNew() {
+  var el = document.getElementById('whats-new-text');
+  if (!el || announcements.length === 0) return;
+  
+  // Show the most recent announcement
+  var latest = announcements[0];
+  el.innerHTML = latest.icon + ' ' + latest.text;
+  
+  // Optional: cycle through announcements every 5 seconds
+  var currentIdx = 0;
+  setInterval(function() {
+    currentIdx = (currentIdx + 1) % announcements.length;
+    var ann = announcements[currentIdx];
+    el.style.opacity = '0';
+    setTimeout(function() {
+      el.innerHTML = ann.icon + ' ' + ann.text;
+      el.style.opacity = '1';
+    }, 300);
+  }, 5000);
+}
+
+// Add CSS transition for smooth text change
+var el = document.getElementById('whats-new-text');
+if (el) el.style.transition = 'opacity 0.3s ease';
+
+updateWhatsNew();
 </script>
 </body>
 </html>

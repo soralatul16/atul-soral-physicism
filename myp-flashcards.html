@@ -1,103 +1,1055 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>🧠 MYP Flashcards | Atul Soral Physicism</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .card-front, .card-back {
-      height: 150px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Flashcards | Atul Soral Physicism</title>
+<style>
+:root {
+  /* Light theme (default) */
+  --bg: #f5f0e8;
+  --bg-deep: #f0ebe2;
+  --surface: rgba(255,255,255,0.75);
+  --surface2: rgba(255,255,255,0.55);
+  --white: #ffffff;
+  --text: #1a1a2e;
+  --text2: #555;
+  --text3: #888;
+  --border: rgba(0,0,0,0.06);
+  --accent: #c0392b;
+  --cream: var(--bg);
+  --cream-2: var(--bg-deep);
+  --ink: var(--text);
+  --ink-2: var(--text2);
+  --ink-3: var(--text2);
+  --ink-4: var(--text3);
+  --ink-5: var(--text3);
+  --glass: var(--surface);
+  --glass-border: var(--border);
 
-    .card-flip {
-      perspective: 1000px;
-    }
-    .card-inner {
-      position: relative;
-      width: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-    .card-flip:hover .card-inner {
-      transform: rotateY(180deg);
-    }
-    .card-front, .card-back {
-      width: 100%;
-      backface-visibility: hidden;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      background: #fff;
-      min-height: 120px;
-    }
-    .card-back {
-      transform: rotateY(180deg);
-      background: #eef6ff;
-    }
-  </style>
+  --red:#ef4444;--red-dark:#991b1b;--red-pale:#fde8e6;--red-soft:#f7c5c0;
+  --teal:#4ecdc4;--teal-pale:#e0f7f5;--teal-soft:#b2ece6;
+  --blue:#5b9bd5;--blue-pale:#deeaf6;
+  --purple:#b39ddb;--purple-pale:#ede7f6;
+  --amber:#ffd54f;--amber-pale:#fff8e1;
+  --green:#81c784;--green-pale:#e8f5e9;
+  --shadow-sm:0 2px 12px rgba(26,26,46,0.06);
+  --shadow-md:0 8px 28px rgba(26,26,46,0.08);
+  --shadow-lg:0 16px 48px rgba(26,26,46,0.1);
+  --r:16px;--r-lg:24px;
+  --font-display:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif;
+  --font-body:'Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;
+  --font-mono:'SF Mono','Cascadia Code','Consolas',monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #0f1119;
+  --bg-deep: #141620;
+  --surface: rgba(30,32,45,0.85);
+  --surface2: rgba(30,32,45,0.65);
+  --white: #1e2030;
+  --text: #e0ddd5;
+  --text2: #a0a0b0;
+  --text3: #6a6a7a;
+  --border: rgba(255,255,255,0.06);
+  --accent: #e05040;
+  --cream: #1a1c28;
+}
+
+[data-theme="dark"] body {
+  background: var(--bg);
+  color: var(--text);
+}
+[data-theme="dark"] .navbar {
+  background: var(--surface);
+  border-bottom-color: var(--border);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden;font-size:15px;line-height:1.6;}
+
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.bg-image{position:fixed;inset:0;z-index:0;pointer-events:none;background:url('./exam-system/assets/myp-background-image.png') center/cover no-repeat fixed;opacity:0.1;}
+.physics-grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.02;
+  background:linear-gradient(rgba(239,68,68,0.3) 1px,transparent 1px),linear-gradient(90deg,rgba(239,68,68,0.3) 1px,transparent 1px);
+  background-size:80px 80px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black 10%,transparent 80%);}
+
+/* NAVBAR */
+.navbar{
+  position:sticky;top:0;z-index:100;
+  background:var(--glass);backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5);
+  border-bottom:1px solid var(--glass-border);
+  padding:0 36px;height:64px;display:flex;align-items:center;gap:16px;
+}
+.nav-brand{
+  font-family:var(--font-display);font-size:18px;font-weight:600;
+  color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px;
+}
+.nav-dot{
+  width:10px;height:10px;background:var(--red);border-radius:50%;
+  box-shadow:0 0 8px var(--red);animation:navPulse 2s infinite;flex-shrink:0;
+}
+@keyframes navPulse{0%,100%{opacity:1;box-shadow:0 0 8px var(--red)}50%{opacity:.6;box-shadow:0 0 16px var(--red)}}
+.nav-brand span{color:var(--red);}
+.nav-spacer{flex:1;}
+.nav-links{display:flex;align-items:center;gap:6px;}
+.nav-link{
+  padding:8px 18px;border-radius:50px;font-size:13px;font-weight:600;
+  color:var(--ink-3);text-decoration:none;transition:all .25s;cursor:pointer;
+  border:none;background:none;
+}
+.nav-link:hover{background:var(--red-pale);color:var(--red);}
+
+/* MAIN CONTAINER */
+.main{max-width:800px;margin:0 auto;padding:24px 20px 80px;position:relative;z-index:1;text-align:center;}
+
+/* TITLE */
+h1 {
+  font-family:var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--ink);
+}
+
+/* TOPIC SELECTOR */
+.topic-selector {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+.topic-btn {
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.topic-btn:hover {
+  border-color: var(--red-soft);
+  color: var(--accent);
+}
+.topic-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* PROGRESS BAR */
+.progress-container {
+  max-width: 500px;
+  margin: 0 auto 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text2);
+  font-weight: 600;
+}
+.progress-bar-bg {
+  height: 8px;
+  background: var(--surface2);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* FLASHCARD DESIGN */
+.flashcard-container {
+  perspective: 1000px;
+  width: min(90vw, 500px);
+  height: 300px;
+  margin: 30px auto;
+  cursor: pointer;
+  position: relative;
+}
+.flashcard {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.flashcard.flipped {
+  transform: rotateY(180deg);
+}
+.flashcard-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  text-align: center;
+}
+.flashcard-front {
+  background: var(--white, white);
+  border: 1.5px solid var(--border, rgba(0,0,0,0.06));
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  color: var(--text);
+}
+.flashcard-front .card-topic-tag {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: var(--red-pale);
+  color: var(--accent);
+  padding: 3px 10px;
+  border-radius: 50px;
+}
+.flashcard-front h2 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.5;
+}
+.flashcard-front .tap-hint {
+  position: absolute;
+  bottom: 15px;
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.5px;
+}
+.flashcard-back {
+  background: linear-gradient(135deg, #c0392b, #922b21);
+  color: white;
+  transform: rotateY(180deg);
+  box-shadow: 0 4px 24px rgba(192,57,43,0.2);
+  border: 1.5px solid rgba(0,0,0,0.06);
+}
+.flashcard-back p {
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.flashcard-back .tap-hint {
+  position: absolute;
+  bottom: 15px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.5px;
+}
+
+/* ACTIONS BAR */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.action-btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+}
+.btn-again {
+  background: var(--white);
+  color: #c0392b;
+  border: 1.5px solid #c0392b;
+}
+.btn-again:hover {
+  background: #fde8e6;
+  transform: translateY(-2px);
+}
+.btn-gotit {
+  background: #2e7d32;
+  color: white;
+}
+.btn-gotit:hover {
+  background: #27662a;
+  transform: translateY(-2px);
+}
+
+/* KEYBOARD SHORTCUTS SUBTITLE */
+.shortcuts-hint {
+  margin-top: 30px;
+  font-size: 12px;
+  color: var(--text3);
+}
+.shortcuts-hint kbd {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+}
+
+/* END SCREEN */
+.end-screen {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 40px;
+  max-width: 500px;
+  margin: 30px auto;
+  box-shadow: var(--shadow-md);
+}
+.end-emoji {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+.end-score {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+.end-text {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 30px;
+}
+.restart-btn {
+  padding: 14px 30px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  background: var(--accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+.restart-btn:hover {
+  background: #991b1b;
+  transform: translateY(-2px);
+}
+</style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container py-4">
-  <h1 class="text-center mb-4">🧠 MYP Flashcards</h1>
-  
-  <div class="mb-3">
-    <select id="topicSelect" class="form-select">
-      <option value="">-- Select Topic --</option>
-      <option>Forces & Motion</option>
-      <option>Newton’s Laws</option>
-      <option>Energy & Work</option>
-      <option>Power & Efficiency</option>
-      <option>Pressure & Density</option>
-      <option>Current & Voltage</option>
-      <option>Resistance & Ohm’s Law</option>
-      <option>Magnetism</option>
-      <option>Waves</option>
-      <option>Heat & Thermal Physics</option>
-      <option>Electricity & Circuits</option>
-      <option>Atomic Physics</option>
-    </select>
+<canvas id="bgCanvas"></canvas>
+<div class="bg-image"></div>
+<div class="physics-grid"></div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <a class="nav-brand" href="myp-dashboard.html">
+    <span class="nav-dot"></span>
+    MYP <span>Physics</span>
+  </a>
+  <div class="nav-spacer"></div>
+  <div class="nav-links">
+    <a class="nav-link" href="myp-dashboard.html">📘 Dashboard</a>
+    <a class="nav-link" href="index.html">🏠 Home</a>
+    <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:14px;transition:all .2s;color:var(--text2);" title="Toggle dark/light mode">🌙</button>
   </div>
-  
-  <div id="cards" class="row g-3"></div>
 </div>
 
-<script src="myp-flashcards.js"></script>
+<div class="main">
+  <h1>🧠 Spaced Repetition Flashcards</h1>
+
+  <!-- TOPIC SELECTOR -->
+  <div class="topic-selector" id="topic-selector">
+    <button class="topic-btn active" onclick="selectTopic('all', this)">All Topics</button>
+    <button class="topic-btn" onclick="selectTopic('forces', this)">Forces & Motion</button>
+    <button class="topic-btn" onclick="selectTopic('waves', this)">Waves</button>
+    <button class="topic-btn" onclick="selectTopic('atomic', this)">Atomic Physics</button>
+    <button class="topic-btn" onclick="selectTopic('electromagnetism', this)">Electromagnetism</button>
+    <button class="topic-btn" onclick="selectTopic('energy', this)">Energy</button>
+  </div>
+
+  <div id="study-area">
+    <!-- PROGRESS -->
+    <div class="progress-container">
+      <div class="progress-info">
+        <span id="progress-text">Card 1 of 50</span>
+        <span id="score-text">Knew: 0</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- FLASHCARD -->
+    <div class="flashcard-container" id="flashcard-container" onclick="flipCard()">
+      <div class="flashcard" id="flashcard">
+        <div class="flashcard-face flashcard-front">
+          <div class="card-topic-tag" id="card-topic">-</div>
+          <h2 id="card-front-text">Front side question</h2>
+          <div class="tap-hint">Tap to flip 🔄</div>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <p id="card-back-text">Back side answer explanation.</p>
+          <div class="tap-hint">Tap to flip 🔄</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+      <button class="action-btn btn-again" onclick="studyAgain(event)">✗ Study again</button>
+      <button class="action-btn btn-gotit" onclick="gotIt(event)">✓ Got it</button>
+    </div>
+
+    <!-- KEYBOARD HINTS -->
+    <div class="shortcuts-hint">
+      Shortcuts: <kbd>Space</kbd> Flip &bull; <kbd>←</kbd> Study again &bull; <kbd>→</kbd> Got it
+    </div>
+  </div>
+
+  <!-- END SCREEN (Hidden by default) -->
+  <div class="end-screen" id="end-screen" style="display:none;">
+    <div class="end-emoji" id="end-emoji">🏆</div>
+    <div class="end-score" id="end-score-title">Session Complete!</div>
+    <div class="end-text" id="end-score-desc">You knew 0/0 cards.</div>
+    <button class="restart-btn" onclick="restartSession()">Restart Session</button>
+  </div>
+</div>
+
 <script>
-  const topicSelect = document.getElementById("topicSelect");
-  const cardsContainer = document.getElementById("cards");
+// Data Bank (at least 50 high-quality cards)
+const FLASHCARD_BANK = [
+  // FORCES
+  {
+    id: 'f1',
+    topic: 'forces',
+    front: "What is Newton's First Law of Motion?",
+    back: "An object remains at rest or continues in a straight line at constant speed unless acted upon by a net external force.\n\nAlso known as the Law of Inertia."
+  },
+  {
+    id: 'f2',
+    topic: 'forces',
+    front: "What is Newton's Second Law of Motion?",
+    back: "F = ma\n\nThe acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass.\n\nUnit: Newton (N) = kg·m/s²"
+  },
+  {
+    id: 'f3',
+    topic: 'forces',
+    front: "What is Newton's Third Law of Motion?",
+    back: "When one body exerts a force on a second body, the second body simultaneously exerts a force equal in magnitude and opposite in direction on the first body.\n\nFor every action, there is an equal and opposite reaction."
+  },
+  {
+    id: 'f4',
+    topic: 'forces',
+    front: "What is Friction?",
+    back: "A force that opposes the relative motion or tendency of motion between two surfaces in contact.\n\nIt acts parallel to the contact surfaces and opposes direction of motion."
+  },
+  {
+    id: 'f5',
+    topic: 'forces',
+    front: "What is Terminal Velocity?",
+    back: "The constant maximum velocity reached by a falling object when the downward force of gravity equals the upward force of air resistance.\n\nNet force = 0, Acceleration = 0."
+  },
+  {
+    id: 'f6',
+    topic: 'forces',
+    front: "What is Momentum?",
+    back: "p = mv\n\nThe product of an object's mass and its velocity.\n\nVector quantity. Unit: kg·m/s"
+  },
+  {
+    id: 'f7',
+    topic: 'forces',
+    front: "State the Law of Conservation of Momentum.",
+    back: "In a closed system (no external forces), the total momentum before a collision is equal to the total momentum after the collision.\n\nm₁v₁ + m₂v₂ = m₁u₁ + m₂u₂"
+  },
+  {
+    id: 'f8',
+    topic: 'forces',
+    front: "What is the difference between Mass and Weight?",
+    back: "Mass: Amount of matter in an object (scalar, measured in kg, constant everywhere).\n\nWeight: Force of gravity acting on a mass (vector, measured in N, varies with gravitational field strength: W = mg)."
+  },
+  {
+    id: 'f9',
+    topic: 'forces',
+    front: "What is Hooke's Law?",
+    back: "F = -kx\n\nThe extension of a spring is directly proportional to the force applied to it, provided the limit of proportionality is not exceeded.\n\nk: spring constant (N/m), x: extension (m)."
+  },
+  {
+    id: 'f10',
+    topic: 'forces',
+    front: "What is Vector vs Scalar?",
+    back: "Scalar: Has magnitude (size) only. Examples: Mass, speed, distance, time, energy.\n\nVector: Has both magnitude and direction. Examples: Weight, velocity, displacement, force, acceleration."
+  },
+  
+  // WAVES
+  {
+    id: 'w1',
+    topic: 'waves',
+    front: "What is Wave Frequency?",
+    back: "f = 1 / T\n\nThe number of complete wave cycles passing a point per second.\n\nMeasured in Hertz (Hz)."
+  },
+  {
+    id: 'w2',
+    topic: 'waves',
+    front: "What is Wavelength?",
+    back: "The distance between two consecutive corresponding points on a wave (e.g., crest to crest or compression to compression).\n\nSymbol: λ (lambda), Unit: meter (m)."
+  },
+  {
+    id: 'w3',
+    topic: 'waves',
+    front: "What is Wave Amplitude?",
+    back: "The maximum displacement of a particle on the medium from its equilibrium/rest position.\n\nDetermines the loudness of sound or brightness of light."
+  },
+  {
+    id: 'w4',
+    topic: 'waves',
+    front: "What is a Transverse Wave?",
+    back: "A wave in which the particles of the medium oscillate perpendicular to the direction of wave propagation/energy transfer.\n\nExamples: Water waves, light, electromagnetic waves, S-waves."
+  },
+  {
+    id: 'w5',
+    topic: 'waves',
+    front: "What is a Longitudinal Wave?",
+    back: "A wave in which the particles of the medium oscillate parallel to the direction of wave propagation/energy transfer.\n\nConsists of compressions and rarefactions. Examples: Sound waves, P-waves."
+  },
+  {
+    id: 'w6',
+    topic: 'waves',
+    front: "What is the Electromagnetic (EM) Spectrum?",
+    back: "A range of all types of EM radiation in order of frequency/wavelength:\n\nRadio, Microwave, Infrared, Visible, Ultraviolet, X-ray, Gamma ray.\n\nAll travel at the speed of light (3 × 10⁸ m/s) in a vacuum."
+  },
+  {
+    id: 'w7',
+    topic: 'waves',
+    front: "What is Refraction?",
+    back: "The bending of a wave as it passes from one medium to another of different density, caused by a change in wave speed.\n\nLight bends towards the normal when entering a denser medium (slows down)."
+  },
+  {
+    id: 'w8',
+    topic: 'waves',
+    front: "What is Diffraction?",
+    back: "The spreading out of waves as they pass through a gap or around an obstacle.\n\nMost pronounced when the gap size is comparable to the wavelength."
+  },
+  {
+    id: 'w9',
+    topic: 'waves',
+    front: "What is Reflection?",
+    back: "The bouncing back of a wave when it hits a boundary/surface.\n\nLaw of Reflection: Angle of incidence (i) = Angle of reflection (r)."
+  },
+  {
+    id: 'w10',
+    topic: 'waves',
+    front: "What is the Wave Equation?",
+    back: "v = fλ\n\nWave speed (v) equals frequency (f) multiplied by wavelength (λ)."
+  },
 
-  topicSelect.addEventListener("change", () => {
-    const selected = topicSelect.value;
-    const filtered = flashcards.filter(fc => fc.topic === selected);
-    cardsContainer.innerHTML = "";
-    filtered.forEach(fc => {
-      const col = document.createElement("div");
-      col.className = "col-12 col-md-4";
-      col.innerHTML = `
-        <div class="card-flip">
-          <div class="card-inner">
-            <div class="card-front">
-              <strong>Q:</strong> ${fc.question}
-            </div>
-            <div class="card-back">
-              <strong>A:</strong> ${fc.answer}
-            </div>
-          </div>
-        </div>`;
-      cardsContainer.appendChild(col);
-    });
+  // ATOMIC
+  {
+    id: 'a1',
+    topic: 'atomic',
+    front: "What is Half-life?",
+    back: "The time taken for half of the radioactive nuclei in a sample to decay, or for the activity of the sample to decrease by half.\n\nConstant for a given isotope."
+  },
+  {
+    id: 'a2',
+    topic: 'atomic',
+    front: "Describe Alpha (α) Radiation.",
+    back: "Helium nucleus: 2 protons + 2 neutrons (⁴₂He).\n\nHigh ionizing power, low penetrating power (stopped by paper/skin). Charge: +2."
+  },
+  {
+    id: 'a3',
+    topic: 'atomic',
+    front: "Describe Beta (β) Radiation.",
+    back: "High-speed electron (⁰₋₁e) emitted when a neutron turns into a proton in the nucleus.\n\nModerate ionizing/penetrating power (stopped by aluminum). Charge: -1."
+  },
+  {
+    id: 'a4',
+    topic: 'atomic',
+    front: "Describe Gamma (γ) Radiation.",
+    back: "High-frequency electromagnetic wave emitted from an excited nucleus.\n\nLow ionizing power, extremely high penetrating power (reduced by thick lead/concrete). Charge: 0."
+  },
+  {
+    id: 'a5',
+    topic: 'atomic',
+    front: "What are Isotopes?",
+    back: "Atoms of the same element with the same number of protons but different number of neutrons.\n\nSame atomic number, different mass number."
+  },
+  {
+    id: 'a6',
+    topic: 'atomic',
+    front: "Describe Atomic Structure.",
+    back: "A central dense nucleus containing protons (+ charge) and neutrons (neutral), surrounded by orbiting electrons (- charge) in energy shells."
+  },
+  {
+    id: 'a7',
+    topic: 'atomic',
+    front: "What is Nuclear Fission?",
+    back: "The splitting of a large, unstable nucleus (e.g., Uranium-235) into two smaller daughter nuclei, releasing neutrons and a massive amount of kinetic energy.\n\nUsed in nuclear power plants."
+  },
+  {
+    id: 'a8',
+    topic: 'atomic',
+    front: "What is Nuclear Fusion?",
+    back: "The joining together of two light nuclei (e.g., Hydrogen isotopes) to form a heavier nucleus (e.g., Helium), releasing immense energy.\n\nOccurs in the cores of stars."
+  },
+  {
+    id: 'a9',
+    topic: 'atomic',
+    front: "What is Background Radiation?",
+    back: "Low-level radiation that is constantly present in the environment.\n\nSources: Radon gas, cosmic rays, rocks/soil, food (bananas), medical sources."
+  },
+  {
+    id: 'a10',
+    topic: 'atomic',
+    front: "What is Ionization?",
+    back: "The process by which radiation removes electrons from atoms or molecules, creating charged particles (ions).\n\nCan damage living DNA and cause mutations."
+  },
+
+  // ELECTROMAGNETISM
+  {
+    id: 'e1',
+    topic: 'electromagnetism',
+    front: "State Ohm's Law.",
+    back: "V = IR\n\nThe current through a conductor is directly proportional to the potential difference across it, provided physical conditions (like temperature) remain constant.\n\nV: voltage, I: current, R: resistance."
+  },
+  {
+    id: 'e2',
+    topic: 'electromagnetism',
+    front: "What is the Electrical Power formula?",
+    back: "P = IV\n\nPower (P) equals current (I) times voltage (V).\n\nAlternative formulas: P = I²R and P = V²/R. Measured in Watts (W)."
+  },
+  {
+    id: 'e3',
+    topic: 'electromagnetism',
+    front: "Compare Series vs Parallel Circuit Current.",
+    back: "Series: Current is the same at all points in the loop (I_total = I₁ = I₂).\n\nParallel: Total current is split among parallel branches (I_total = I₁ + I₂)."
+  },
+  {
+    id: 'e4',
+    topic: 'electromagnetism',
+    front: "Compare Series vs Parallel Circuit Voltage.",
+    back: "Series: Supply voltage is shared among components (V_total = V₁ + V₂).\n\nParallel: Voltage across each parallel branch is equal to the supply voltage (V_total = V₁ = V₂)."
+  },
+  {
+    id: 'e5',
+    topic: 'electromagnetism',
+    front: "What is Electric Current?",
+    back: "I = Q / t\n\nThe rate of flow of electric charge.\n\nMeasured in Amperes (A) using an ammeter connected in series."
+  },
+  {
+    id: 'e6',
+    topic: 'electromagnetism',
+    front: "What is Electric Charge?",
+    back: "A fundamental property of matter causing it to experience a force in an electromagnetic field.\n\nUnit: Coulomb (C). Carrier: Electrons (-1.6 × 10⁻¹⁹ C)."
+  },
+  {
+    id: 'e7',
+    topic: 'electromagnetism',
+    front: "What is Potential Difference (Voltage)?",
+    back: "V = E / Q\n\nThe energy transferred per unit charge between two points in a circuit.\n\nMeasured in Volts (V) using a voltmeter in parallel."
+  },
+  {
+    id: 'e8',
+    topic: 'electromagnetism',
+    front: "What is Electrical Resistance?",
+    back: "A measure of how much a component opposes the flow of electric current.\n\nUnit: Ohm (Ω). R = V / I."
+  },
+  {
+    id: 'e9',
+    topic: 'electromagnetism',
+    front: "What is Electromagnetic Induction?",
+    back: "The generation of a potential difference (voltage) across a conductor when it experiences a changing magnetic field.\n\nUsed in generators and transformers."
+  },
+  {
+    id: 'e10',
+    topic: 'electromagnetism',
+    front: "Describe the Magnetic Field around a current-carrying wire.",
+    back: "Concentric circular field lines centered on the wire.\n\nDirection is determined by the Right-Hand Grip Rule (thumb = current, fingers curl = field)."
+  },
+
+  // ENERGY
+  {
+    id: 'g1',
+    topic: 'energy',
+    front: "What is the Kinetic Energy formula?",
+    back: "KE = ½mv²\n\nThe energy possessed by an object due to its motion.\n\nm: mass (kg), v: speed (m/s)."
+  },
+  {
+    id: 'g2',
+    topic: 'energy',
+    front: "What is Gravitational Potential Energy (GPE)?",
+    back: "GPE = mgh\n\nThe energy stored in an object due to its vertical position in a gravitational field.\n\nm: mass (kg), g: gravitational field (9.8 N/kg or 10 N/kg), h: height (m)."
+  },
+  {
+    id: 'g3',
+    topic: 'energy',
+    front: "What is the Energy Efficiency formula?",
+    back: "Efficiency = (Useful Energy Output / Total Energy Input) × 100%\n\nCan also be calculated using power. Value is always less than 100% due to energy dissipation (usually heat)."
+  },
+  {
+    id: 'g4',
+    topic: 'energy',
+    front: "What is Power in terms of energy?",
+    back: "P = E / t\n\nThe rate at which energy is transferred or work is done.\n\nUnit: Watt (W) = 1 Joule per second."
+  },
+  {
+    id: 'g5',
+    topic: 'energy',
+    front: "What is Work Done?",
+    back: "W = Fd\n\nThe energy transferred when a force moves an object through a distance.\n\nMeasured in Joules (J). Force and displacement must be in the same direction."
+  },
+  {
+    id: 'g6',
+    topic: 'energy',
+    front: "State the Law of Conservation of Energy.",
+    back: "Energy cannot be created or destroyed, only transferred from one store to another.\n\nThe total energy in a closed system remains constant."
+  },
+  {
+    id: 'g7',
+    topic: 'energy',
+    front: "Name the 8 primary Energy Stores.",
+    back: "1. Kinetic\n2. Gravitational Potential\n3. Chemical\n4. Elastic Potential\n5. Thermal\n6. Magnetic\n7. Electrostatic\n8. Nuclear"
+  },
+  {
+    id: 'g8',
+    topic: 'energy',
+    front: "Name the 4 primary Energy Pathways (transfer methods).",
+    back: "1. Mechanically (by force)\n2. Electrically (by current)\n3. By Heating (conduction/convection/radiation)\n4. By Radiation (light/sound waves)"
+  },
+  {
+    id: 'g9',
+    topic: 'energy',
+    front: "What is Elastic Potential Energy?",
+    back: "E_e = ½kx²\n\nThe energy stored in a stretched or compressed elastic object (like a spring).\n\nk: spring constant (N/m), x: extension (m)."
+  },
+  {
+    id: 'g10',
+    topic: 'energy',
+    front: "What is Specific Heat Capacity?",
+    back: "c = Q / (mΔT)\n\nThe energy required to raise the temperature of 1 kg of a substance by 1°C.\n\nUnit: J/(kg·°C). Q: heat energy, m: mass, ΔT: change in temperature."
+  }
+];
+
+// Spaced Repetition State
+let activeTopic = 'all';
+let currentDeck = [];
+let currentCardIndex = 0;
+let knownCount = 0;
+let progress = {
+  known: [],
+  review: [],
+  lastSession: Date.now()
+};
+
+// Load progress from localStorage
+function loadProgress() {
+  const saved = localStorage.getItem('flashcard_progress');
+  if (saved) {
+    try {
+      progress = JSON.parse(saved);
+      if (!progress.known) progress.known = [];
+      if (!progress.review) progress.review = [];
+    } catch(e) {
+      console.error("Error loading progress: ", e);
+    }
+  }
+}
+
+// Save progress to localStorage
+function saveProgress() {
+  progress.lastSession = Date.now();
+  localStorage.setItem('flashcard_progress', JSON.stringify(progress));
+}
+
+// Shuffle array
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// Initialize session
+function initSession() {
+  loadProgress();
+  
+  // Filter by topic
+  let filtered = FLASHCARD_BANK;
+  if (activeTopic !== 'all') {
+    filtered = FLASHCARD_BANK.filter(card => card.topic === activeTopic);
+  }
+
+  if (filtered.length === 0) {
+    alert("No flashcards found for this topic.");
+    return;
+  }
+
+  // Spaced Repetition weighting:
+  // Cards in review list appear 3 times, others 1 time
+  let weightedPool = [];
+  filtered.forEach(card => {
+    let count = 1;
+    if (progress.review.includes(card.id)) {
+      count = 3;
+    }
+    for (let i = 0; i < count; i++) {
+      weightedPool.push({...card});
+    }
   });
+
+  // Shuffle the weighted pool
+  currentDeck = shuffle(weightedPool);
+  currentCardIndex = 0;
+  knownCount = 0;
+
+  // UI Reset
+  document.getElementById('study-area').style.display = 'block';
+  document.getElementById('end-screen').style.display = 'none';
+  document.getElementById('flashcard').classList.remove('flipped');
+  
+  updateCard();
+}
+
+function updateCard() {
+  if (currentCardIndex >= currentDeck.length) {
+    showEndScreen();
+    return;
+  }
+
+  const card = currentDeck[currentCardIndex];
+  
+  // Reset flipped state
+  document.getElementById('flashcard').classList.remove('flipped');
+  
+  // Wait for flip transition if returning from flipped card
+  setTimeout(() => {
+    document.getElementById('card-topic').textContent = card.topic.replace('-', ' ');
+    document.getElementById('card-front-text').textContent = card.front;
+    document.getElementById('card-back-text').textContent = card.back;
+  }, 150);
+
+  // Progress Bar
+  const total = currentDeck.length;
+  const currentNum = currentCardIndex + 1;
+  document.getElementById('progress-text').textContent = `Card ${currentNum} of ${total}`;
+  document.getElementById('score-text').textContent = `Knew: ${knownCount}`;
+  document.getElementById('progress-fill').style.width = `${(currentCardIndex / total) * 100}%`;
+}
+
+function flipCard() {
+  document.getElementById('flashcard').classList.toggle('flipped');
+}
+
+function gotIt(event) {
+  if (event) event.stopPropagation();
+  if (currentCardIndex >= currentDeck.length) return;
+  const card = currentDeck[currentCardIndex];
+  
+  // Add to known, remove from review
+  if (!progress.known.includes(card.id)) {
+    progress.known.push(card.id);
+  }
+  progress.review = progress.review.filter(id => id !== card.id);
+  
+  knownCount++;
+  saveProgress();
+
+  nextCard();
+}
+
+function studyAgain(event) {
+  if (event) event.stopPropagation();
+  if (currentCardIndex >= currentDeck.length) return;
+  const card = currentDeck[currentCardIndex];
+  
+  // Add to review, remove from known
+  if (!progress.review.includes(card.id)) {
+    progress.review.push(card.id);
+  }
+  progress.known = progress.known.filter(id => id !== card.id);
+  
+  saveProgress();
+
+  // Spaced repetition inside round: put this card back in queue
+  // Insert it 3-5 positions later (or at end if deck is short)
+  const remaining = currentDeck.length - currentCardIndex;
+  if (remaining > 4) {
+    const insertPos = currentCardIndex + 4 + Math.floor(Math.random() * 2);
+    currentDeck.splice(insertPos, 0, {...card});
+  } else {
+    currentDeck.push({...card});
+  }
+
+  nextCard();
+}
+
+function nextCard() {
+  currentCardIndex++;
+  updateCard();
+}
+
+function showEndScreen() {
+  document.getElementById('study-area').style.display = 'none';
+  document.getElementById('end-screen').style.display = 'block';
+
+  const total = currentDeck.length;
+  document.getElementById('progress-fill').style.width = '100%';
+  document.getElementById('end-score-desc').textContent = `You knew ${knownCount} out of ${total} cards in this session!`;
+  
+  const pct = total > 0 ? (knownCount / total) * 100 : 0;
+  let emoji = "📖";
+  let title = "Keep Studying!";
+  if (pct >= 85) {
+    emoji = "🏆";
+    title = "Excellent Work!";
+  } else if (pct >= 60) {
+    emoji = "👏";
+    title = "Great Job!";
+  }
+  document.getElementById('end-emoji').textContent = emoji;
+  document.getElementById('end-score-title').textContent = title;
+}
+
+function restartSession() {
+  initSession();
+}
+
+function selectTopic(topic, btn) {
+  activeTopic = topic;
+  
+  // Toggle active class
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  initSession();
+}
+
+// KEYBOARD EVENTS
+document.addEventListener('keydown', e => {
+  const studyArea = document.getElementById('study-area');
+  if (studyArea.style.display === 'none') return;
+
+  if (e.code === 'Space') {
+    e.preventDefault();
+    flipCard();
+  } else if (e.code === 'ArrowRight') {
+    e.preventDefault();
+    gotIt();
+  } else if (e.code === 'ArrowLeft') {
+    e.preventDefault();
+    studyAgain();
+  }
+});
+
+// TOUCH SWIPE LOGIC
+let touchStartX = 0;
+let touchEndX = 0;
+const cardContainer = document.getElementById('flashcard-container');
+
+cardContainer.addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].screenX;
+}, {passive: true});
+
+cardContainer.addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+}, {passive: true});
+
+function handleSwipe() {
+  const swipeThreshold = 60;
+  if (touchEndX < touchStartX - swipeThreshold) {
+    // Swipe Left -> Study again
+    studyAgain();
+  } else if (touchEndX > touchStartX + swipeThreshold) {
+    // Swipe Right -> Got it
+    gotIt();
+  }
+}
+
+// Start on Load
+window.onload = () => {
+  initSession();
+};
+
+// Canvas Orbs
+(function(){
+  var canvas=document.getElementById("bgCanvas");if(!canvas)return;
+  var ctx=canvas.getContext("2d");var w=0,h=0;
+  function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
+  resize();window.addEventListener("resize",resize);
+  var orbs=[];
+  var colors=[
+    {r:239,g:68,b:68},
+    {r:78,g:205,b:196},
+    {r:179,g:157,b:219}
+  ];
+  for(var i=0;i<12;i++){
+    orbs.push({
+      x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,
+      r:Math.random()*80+60,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,
+      color:colors[Math.floor(Math.random()*colors.length)],
+      alpha:Math.random()*.04+.01,phase:Math.random()*Math.PI*2
+    });
+  }
+  function draw(){
+    var theme = document.documentElement.getAttribute('data-theme') || 'light';
+    ctx.fillStyle = theme === 'dark' ? '#0f1119' : '#f7f3ed';
+    ctx.fillRect(0,0,w,h);
+    var t=Date.now()*.0003;
+    for(var i=0;i<orbs.length;i++){var o=orbs[i];
+      o.x+=o.vx+Math.sin(t+o.phase)*.12;o.y+=o.vy+Math.cos(t+o.phase*.7)*.08;
+      if(o.x<-o.r)o.x=w+o.r;if(o.x>w+o.r)o.x=-o.r;if(o.y<-o.r)o.y=h+o.r;if(o.y>h+o.r)o.y=-o.r;
+      var a=o.alpha+Math.sin(t*1.5+o.phase)*.008;
+      var g=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+      g.addColorStop(0,'rgba('+o.color.r+','+o.color.g+','+o.color.b+','+(a*2)+')');
+      g.addColorStop(.5,'rgba('+o.color.r+','+o.color.g+','+o.color.b+','+a+')');
+      g.addColorStop(1,'rgba('+o.color.r+','+o.color.g+','+o.color.b+',0)');
+      ctx.fillStyle=g;ctx.fillRect(o.x-o.r,o.y-o.r,o.r*2,o.r*2);
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// Theme Logic
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme');
+  var next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('physicism-theme', next);
+  var btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = next === 'dark' ? '☀️' : '🌙';
+}
+(function() {
+  var saved = localStorage.getItem('physicism-theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    var btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
 </script>
-<div class="text-center my-4">
-  <button onclick="location.href='https://soralatul16.github.io/atul-soral-physicism/'" class="btn btn-primary me-2">🏠 Home</button>
-  <button onclick="history.back()" class="btn btn-secondary">🔙 Back</button>
-</div>
 
 </body>
 </html>

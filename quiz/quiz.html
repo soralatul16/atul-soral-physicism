@@ -238,6 +238,31 @@ h2 { color: var(--text); text-align: center; margin-bottom: 20px; }
   <div id="summary-area" style="display:none;margin-top:20px;"></div>
 </div>
 
+<!-- AI TUTOR CHAT -->
+<button id="ai-tutor-trigger" onclick="toggleAITutor()" style="position:fixed;bottom:92px;right:28px;z-index:8999;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#1a6fb5,#0d4f8b);border:none;cursor:pointer;box-shadow:0 4px 16px rgba(26,111,181,0.3);display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;color:white;" title="Ask Physicism AI">🧠</button>
+
+<div id="ai-tutor-panel" style="position:fixed;bottom:148px;right:28px;z-index:8999;width:340px;max-height:450px;background:var(--white,white);border:1.5px solid var(--border,rgba(0,0,0,0.06));border-radius:20px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.1);transform:translateY(20px) scale(0.96);opacity:0;pointer-events:none;transition:transform .28s cubic-bezier(.22,.68,0,1.2),opacity .2s;display:flex;flex-direction:column;">
+  
+  <!-- Header -->
+  <div style="background:linear-gradient(135deg,#1a6fb5,#0d4f8b);padding:14px 18px;color:white;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;">
+    🧠 Ask Physicism
+    <span style="font-size:10px;opacity:0.7;margin-left:auto;">AI Tutor</span>
+  </div>
+  
+  <!-- Messages -->
+  <div id="ai-tutor-messages" style="flex:1;overflow-y:auto;padding:14px;max-height:280px;font-size:13px;line-height:1.6;">
+    <div style="background:rgba(26,111,181,0.06);border-radius:12px;padding:10px 14px;margin-bottom:8px;color:var(--text2,#555);font-size:12px;">
+      Hi! I'm your Physics AI tutor. Ask me anything about MYP Physics — formulas, concepts, practice problems. 🔬
+    </div>
+  </div>
+  
+  <!-- Input -->
+  <div style="padding:10px;border-top:1px solid var(--border,rgba(0,0,0,0.06));display:flex;gap:8px;">
+    <input type="text" id="ai-tutor-input" placeholder="Ask a physics question..." style="flex:1;padding:9px 14px;border:1.5px solid var(--border,rgba(0,0,0,0.06));border-radius:50px;font-size:13px;outline:none;background:var(--cream,#f9f6f1);color:var(--text,#1a1a2e);" onkeydown="if(event.key==='Enter')sendAITutor()">
+    <button onclick="sendAITutor()" style="width:36px;height:36px;border-radius:50%;background:#1a6fb5;border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">→</button>
+  </div>
+</div>
+
 <!-- FEEDBACK WIDGET -->
 <button id="fb-trigger" title="Send feedback or report an error">💬</button>
 <div id="fb-panel">
@@ -250,6 +275,12 @@ h2 { color: var(--text); text-align: center; margin-bottom: 20px; }
     <div class="fb-status" id="fb-status"></div>
   </div>
 </div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="../exam-system/firebase-config.js?v=2"></script>
 
 <script src="./question-bank.js"></script>
 <script src="./quiz-engine.js"></script>
@@ -356,6 +387,91 @@ function toggleTheme() {
     if (btn) btn.textContent = '☀️';
   }
 })();
+</script>
+
+<script>
+function toggleAITutor() {
+  var panel = document.getElementById('ai-tutor-panel');
+  var isOpen = panel.style.opacity === '1';
+  panel.style.opacity = isOpen ? '0' : '1';
+  panel.style.pointerEvents = isOpen ? 'none' : 'all';
+  panel.style.transform = isOpen ? 'translateY(20px) scale(0.96)' : 'translateY(0) scale(1)';
+  if (!isOpen) {
+    setTimeout(function() { document.getElementById('ai-tutor-input').focus(); }, 300);
+  }
+}
+
+function sendAITutor() {
+  var input = document.getElementById('ai-tutor-input');
+  var msg = input.value.trim();
+  if (!msg) return;
+  
+  var messages = document.getElementById('ai-tutor-messages');
+  
+  // Add user message
+  messages.innerHTML += '<div style="text-align:right;margin-bottom:8px;"><span style="background:#1a6fb5;color:white;padding:8px 14px;border-radius:12px 12px 2px 12px;display:inline-block;font-size:13px;max-width:80%;text-align:left;">' + escapeHtml(msg) + '</span></div>';
+  
+  input.value = '';
+  messages.scrollTop = messages.scrollHeight;
+  
+  // Add loading indicator
+  var loadingId = 'loading-' + Date.now();
+  messages.innerHTML += '<div id="' + loadingId + '" style="margin-bottom:8px;"><span style="background:var(--cream,#f9f6f1);padding:8px 14px;border-radius:12px 12px 12px 2px;display:inline-block;font-size:12px;color:var(--text3,#888);">Thinking...</span></div>';
+  messages.scrollTop = messages.scrollHeight;
+  
+  // Call Groq API
+  var key = localStorage.getItem('groq_api_key') || localStorage.getItem('ia_api_key');
+  if (!key) {
+    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Please set your Groq API key in the Exam Generator first.</span>';
+    return;
+  }
+  
+  fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key},
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      messages: [
+        {role: 'system', content: 'You are a friendly IB MYP Physics tutor for Grade 6-10 students. Give clear, concise answers. Use simple language. Include formulas when relevant. Keep answers under 150 words. If asked about non-physics topics, politely redirect to physics. Always encourage the student.'},
+        {role: 'user', content: msg}
+      ],
+      temperature: 0.7,
+      max_tokens: 300
+    })
+  }).then(function(r) {
+    if (r.status === 429) {
+      document.getElementById(loadingId).innerHTML = '<span style="background:rgba(230,168,23,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#e6a817;">Rate limited — wait a minute and try again.</span>';
+      return;
+    }
+    return r.json();
+  }).then(function(data) {
+    if (!data) return;
+    var reply = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+    if (reply) {
+      document.getElementById(loadingId).innerHTML = '<span style="background:var(--cream,#f9f6f1);padding:10px 14px;border-radius:12px 12px 12px 2px;display:inline-block;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;line-height:1.6;text-align:left;">' + reply.replace(/\n/g, '<br>') + '</span>';
+    }
+    messages.scrollTop = messages.scrollHeight;
+  }).catch(function(err) {
+    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Error: ' + err.message + '</span>';
+  });
+}
+
+function escapeHtml(text) {
+  var div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Close on outside click
+document.addEventListener('click', function(e) {
+  var panel = document.getElementById('ai-tutor-panel');
+  var trigger = document.getElementById('ai-tutor-trigger');
+  if (panel && trigger && !panel.contains(e.target) && e.target !== trigger) {
+    panel.style.opacity = '0';
+    panel.style.pointerEvents = 'none';
+    panel.style.transform = 'translateY(20px) scale(0.96)';
+  }
+});
 </script>
 
 </body>
