@@ -1949,6 +1949,13 @@ function loadAnalytics(){
 /* ══════════ Init ══════════ */
 auth.onAuthStateChanged(async (user) => {
   if (!user) { redirect(); return; }
+  // Block unverified email/password users (Google users are auto-verified)
+  if (!user.emailVerified && !user.providerData[0]?.providerId?.includes('google')) {
+    alert('Please verify your email before continuing. Check your inbox for the verification link.');
+    auth.signOut();
+    redirect();
+    return;
+  }
   if (!checkSession()) return;
   // Load data from Firestore
   await initFirebaseDB();

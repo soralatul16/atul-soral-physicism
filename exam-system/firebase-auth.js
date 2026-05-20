@@ -23,6 +23,12 @@ async function firebaseRegister(email, password, profile) {
   await cred.user.updateProfile({
     displayName: profile.firstName + ' ' + profile.lastName
   });
+  // Send verification email
+  try {
+    await cred.user.sendEmailVerification();
+  } catch (err) {
+    console.error('Verification email error:', err);
+  }
   return cred.user;
 }
 

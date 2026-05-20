@@ -382,6 +382,10 @@ body {
 /* ── Check if already logged in ── */
 auth.onAuthStateChanged(user => {
   if (user) {
+    if (!user.emailVerified && !user.providerData[0]?.providerId?.includes('google')) {
+      auth.signOut();
+      return;
+    }
     window.location.href = 'exam-student.html';
   }
 });
@@ -460,6 +464,29 @@ function firebaseErrorMsg(code) {
   return map[code] || 'Something went wrong. Please try again.';
 }
 
+function isValidStudentEmail(email) {
+  if (!email || !email.includes('@')) return false;
+  
+  // Must have valid format
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) return false;
+  
+  // Block disposable email providers
+  var blockedDomains = [
+    'mailinator.com', 'tempmail.com', 'throwaway.email', 'guerrillamail.com',
+    'yopmail.com', 'sharklasers.com', 'guerrillamail.info', 'grr.la',
+    'guerrillamail.biz', 'guerrillamail.de', 'guerrillamail.net',
+    'zzzz.com', 'trashmail.com', 'fakeinbox.com', 'mailnesia.com',
+    'maildrop.cc', 'dispostable.com', '10minutemail.com', 'temp-mail.org',
+    'tempail.com', 'tempr.email', 'getnada.com', 'mohmal.com'
+  ];
+  
+  var domain = email.split('@')[1].toLowerCase();
+  if (blockedDomains.indexOf(domain) !== -1) return false;
+  
+  return true;
+}
+
 /* ── LOGIN ── */
 async function doLogin() {
   const email = document.getElementById('loginId').value.trim();
@@ -467,7 +494,13 @@ async function doLogin() {
   if(!email || !pwd) { showMsg('loginMsg', 'Please fill all fields.'); return; }
   loadingBtn('btnLogin', true);
   try {
-    await firebaseLogin(email, pwd);
+    const user = await firebaseLogin(email, pwd);
+    if (!user.emailVerified && !user.providerData[0]?.providerId?.includes('google')) {
+      showMsg('loginMsg', '❌ Please verify your email before continuing. Check your inbox.');
+      await auth.signOut();
+      loadingBtn('btnLogin', false);
+      return;
+    }
     showMsg('loginMsg', '✅ Welcome back! Redirecting…', 'success');
     setTimeout(() => { window.location.href = 'exam-student.html'; }, 800);
   } catch(err) {
@@ -488,13 +521,16 @@ async function doRegister() {
   const pwd2    = document.getElementById('regPwd2').value;
   if(!first||!last||!email||!grade||!pwd) { showMsg('registerMsg','Please fill all required fields.'); return; }
   if(!/\S+@\S+\.\S+/.test(email))         { showMsg('registerMsg','Please enter a valid email.'); return; }
+  if(!isValidStudentEmail(email))         { showMsg('registerMsg','Please use a valid school or personal email. Temporary/disposable emails are not allowed.'); return; }
   if(pwd.length < 8)                       { showMsg('registerMsg','Password must be at least 8 characters.'); return; }
   if(pwd !== pwd2)                         { showMsg('registerMsg','Passwords do not match.'); return; }
   loadingBtn('btnRegister', true);
   try {
     await firebaseRegister(email, pwd, { firstName: first, lastName: last, studentId: studId, grade, section });
-    showMsg('registerMsg', `✅ Account created! Welcome, ${first}! Redirecting…`, 'success');
-    setTimeout(() => { window.location.href = 'exam-student.html'; }, 800);
+    alert('A verification email has been sent to ' + email + '. Please verify your email before continuing.');
+    showMsg('registerMsg', `✅ Account created! Verification email sent. Please check your inbox.`, 'success');
+    await auth.signOut();
+    loadingBtn('btnRegister', false);
   } catch(err) {
     showMsg('registerMsg', '❌ ' + firebaseErrorMsg(err.code));
     loadingBtn('btnRegister', false);
