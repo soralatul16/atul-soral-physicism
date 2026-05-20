@@ -192,18 +192,64 @@ function getSetForAttempt(a) {
   return fetchLibrary().find(s => s.id === a.setId);
 }
 
-/* ── Init ── */
+// Submissions cache
+let _submissionsCache = [];
+
+function loadAttempts() {
+  const sort = document.getElementById('sortSelect')?.value || 'newest';
+  allAttempts = fetchAttempts().filter(a => a.status === "completed");
+  
+  // Merge submissions
+  _submissionsCache.forEach(sub => {
+    // Check if we already have this attempt based on attemptId
+    if (!allAttempts.find(a => a.id === sub.attemptId || a.id === sub.id)) {
+      // Map submission to attempt format
+      allAttempts.push({
+        ...sub,
+        id: sub.id, // Use submission doc id
+        status: "completed",
+        endTime: sub.submittedAt?.toDate ? sub.submittedAt.toDate().getTime() : Date.now(),
+        percentScore: sub.aiGrading ? sub.aiGrading.percentage : 0,
+        earnedMarks: sub.aiGrading ? sub.aiGrading.totalMarksAwarded : 0,
+        totalMarks: sub.aiGrading ? sub.aiGrading.totalMarksPossible : 0
+      });
+    } else {
+      // If found, update it with AI grading data
+      let existing = allAttempts.find(a => a.id === sub.attemptId || a.id === sub.id);
+      if (existing) {
+        existing.aiGrading = sub.aiGrading;
+        existing.gradingStatus = sub.gradingStatus;
+        existing.submissionId = sub.id;
+      }
+    }
+  });
+  
+  if (sort === 'newest') allAttempts.sort((a, b) => (b.endTime || b.startTime) - (a.endTime || a.startTime));
+  else if (sort === 'oldest') allAttempts.sort((a, b) => (a.endTime || a.startTime) - (b.endTime || b.startTime));
+  else if (sort === 'name') allAttempts.sort((a, b) => (a.studentName || '').localeCompare(b.studentName || ''));
+  else if (sort === 'score-low') allAttempts.sort((a, b) => (a.percentScore || 0) - (b.percentScore || 0));
+  else if (sort === 'score-high') allAttempts.sort((a, b) => (b.percentScore || 0) - (a.percentScore || 0));
+}
+
 // Ensure we wait for Firebase if present
 window.addEventListener("DOMContentLoaded", async () => {
   if (typeof auth !== 'undefined') {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         if (typeof initFirebaseDB === 'function') await initFirebaseDB();
-        // For teacher, we need ALL attempts to grade them. initFirebaseDB only loads user's attempts by default if not teacher, but let's load all attempts.
         if (typeof loadAllAttempts === 'function') {
           const all = await loadAllAttempts();
-          // Update cache with all attempts for teacher
           if (typeof _attemptsCache !== 'undefined') window._attemptsCache = all;
+        }
+        if (window.db) {
+          db.collection('submissions').onSnapshot(snap => {
+            _submissionsCache = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            loadAttempts();
+            renderSidebar();
+            if (activeAttemptId) {
+               // Update active view if needed (optional)
+            }
+          });
         }
       }
       loadAttempts();
@@ -214,16 +260,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     renderSidebar();
   }
 });
-
-function loadAttempts() {
-  const sort = document.getElementById('sortSelect')?.value || 'newest';
-  allAttempts = fetchAttempts().filter(a => a.status === "completed");
-  if (sort === 'newest') allAttempts.sort((a, b) => (b.endTime || b.startTime) - (a.endTime || a.startTime));
-  else if (sort === 'oldest') allAttempts.sort((a, b) => (a.endTime || a.startTime) - (b.endTime || b.startTime));
-  else if (sort === 'name') allAttempts.sort((a, b) => (a.studentName || '').localeCompare(b.studentName || ''));
-  else if (sort === 'score-low') allAttempts.sort((a, b) => (a.percentScore || 0) - (b.percentScore || 0));
-  else if (sort === 'score-high') allAttempts.sort((a, b) => (b.percentScore || 0) - (a.percentScore || 0));
-}
 
 /* ── Sidebar ── */
 function filterAttempts(filter, btn) {
@@ -522,6 +558,32 @@ function openAttempt(attemptId) {
       }
     }
 
+    let aiFeedbackHTML = '';
+    const aiRes = a.aiGrading?.results?.find(r => r.questionIndex === i);
+    let finalGrade = currentGrade;
+    if (aiRes) {
+      if (finalGrade === '' && aiRes.marksAwarded >= 0) {
+        finalGrade = aiRes.marksAwarded; // Use AI suggested grade
+      }
+      
+      let gainedLi = (aiRes.marksGained || []).map(g => `<li>${g}</li>`).join('');
+      let lostLi = (aiRes.marksLost || []).map(l => `<li>${l}</li>`).join('');
+      
+      aiFeedbackHTML = `<div class="grade-feedback" style="margin-top:16px;">
+        <div style="font-size:11px;color:#c0392b;font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">🤖 AI Grading Result</div>
+        <div class="grade-marks"><span class="marks-awarded" style="font-size:13px;font-weight:600;">Suggested Marks: ${aiRes.marksAwarded >= 0 ? aiRes.marksAwarded : '?'} / ${maxMarks}</span></div>
+        ${gainedLi ? `<div class="marks-gained" style="background:#e8f5e9;border-left:3px solid #2e7d32;padding:8px 12px;border-radius:0 6px 6px 0;margin:4px 0;font-size:12px;">
+          <strong style="color:#2e7d32;">Marks Gained:</strong>
+          <ul style="margin-left:16px;margin-top:4px;">${gainedLi}</ul>
+        </div>` : ''}
+        ${lostLi ? `<div class="marks-lost" style="background:#fde8e6;border-left:3px solid #c0392b;padding:8px 12px;border-radius:0 6px 6px 0;margin:4px 0;font-size:12px;">
+          <strong style="color:#c0392b;">Marks Lost:</strong>
+          <ul style="margin-left:16px;margin-top:4px;">${lostLi}</ul>
+        </div>` : ''}
+        ${aiRes.feedback ? `<p style="margin-top:8px;font-size:13px;color:#444;"><strong>AI Note:</strong> ${aiRes.feedback}</p>` : ''}
+      </div>`;
+    }
+
     html += `
     <div class="q-grade-card" id="qcard-${i}">
       <div class="q-grade-header">
@@ -539,20 +601,22 @@ function openAttempt(attemptId) {
           ${responseHTML}
         </div>
 
+        ${aiFeedbackHTML}
+
         ${markScheme ? `
-        <button class="ms-toggle" onclick="toggleMS(${i})">📗 Show Mark Scheme</button>
+        <button class="ms-toggle" style="margin-top:12px;" onclick="toggleMS(${i})">📗 Show Mark Scheme</button>
         <div class="ms-content" id="ms-${i}">${markScheme}</div>` : ''}
 
-        <div class="grade-row">
+        <div class="grade-row" ${aiRes ? 'style="border-top:1px dashed #ccc;background:transparent;padding:16px 0 0 0;margin-top:16px;border-radius:0;"' : ''}>
           <div class="grade-field">
-            <label>Marks</label>
-            <input type="number" class="grade-input" id="grade-${i}" value="${currentGrade}" min="0" max="${maxMarks}" placeholder="0" oninput="onGradeChange()">
+            <label>${aiRes ? 'Override Marks' : 'Marks'}</label>
+            <input type="number" class="grade-input" id="grade-${i}" value="${finalGrade}" min="0" max="${maxMarks}" placeholder="0" oninput="onGradeChange()">
             ${maxMarks <= 8 ? '<div style="display:flex;gap:4px;margin-top:6px;">' + Array.from({length: maxMarks + 1}, (_, m) => '<button onclick="document.getElementById(\'grade-' + i + '\').value=' + m + ';onGradeChange();" style="width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:' + (m === 0 ? 'var(--red-pale)' : m === maxMarks ? 'var(--green-pale)' : 'var(--cream-deep)') + ';color:' + (m === 0 ? 'var(--accent)' : m === maxMarks ? 'var(--green)' : 'var(--text2)') + ';cursor:pointer;font-size:11px;font-weight:600;font-family:DM Sans,sans-serif;transition:all .15s;" title="' + m + ' marks">' + m + '</button>').join('') + '</div>' : ''}
           </div>
           <span class="grade-max">/ ${maxMarks}</span>
           <div class="grade-field" style="flex:1;">
-            <label>Teacher Feedback</label>
-            <input type="text" class="feedback-input" id="feedback-${i}" value="${currentFeedback}" placeholder="Feedback for this question…">
+            <label>${aiRes ? 'Teacher Comment (Optional)' : 'Teacher Feedback'}</label>
+            <input type="text" class="feedback-input" id="feedback-${i}" value="${currentFeedback}" placeholder="${aiRes ? 'Add a note for the student...' : 'Feedback for this question...'}">
           </div>
         </div>
       </div>
@@ -682,6 +746,13 @@ function saveGrades() {
       const val = Math.max(0, Math.min(Number(gradeEl.value), maxMarks));
       a.grades[i] = val;
       totalEarned += val;
+    } else {
+      // Use AI suggested grade if teacher hasn't overridden
+      const aiRes = a.aiGrading?.results?.find(r => r.questionIndex === i);
+      if (aiRes && aiRes.marksAwarded >= 0) {
+        a.grades[i] = aiRes.marksAwarded;
+        totalEarned += aiRes.marksAwarded;
+      }
     }
     if (fbEl && fbEl.value.trim()) {
       a.teacherFeedback[i] = fbEl.value.trim();
@@ -695,10 +766,24 @@ function saveGrades() {
   a.totalMarks = totalMax;
   a.percentScore = totalMax > 0 ? Math.round(totalEarned / totalMax * 100) : 0;
   a.gradingStatus = 'graded';
+  a.teacherApproved = true;
   a.gradedAt = Date.now();
 
   attempts[idx] = a;
   storeAttempts(attempts);
+  
+  if (a.submissionId && window.db) {
+    db.collection('submissions').doc(a.submissionId).update({
+      gradingStatus: 'graded',
+      teacherApproved: true,
+      earnedMarks: totalEarned,
+      percentScore: a.percentScore,
+      grades: a.grades,
+      teacherFeedback: a.teacherFeedback,
+      overallFeedback: a.overallFeedback,
+      gradedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(err => console.error('Error updating submission:', err));
+  }
 
   loadAttempts();
   renderSidebar();

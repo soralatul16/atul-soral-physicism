@@ -1765,7 +1765,7 @@ function confirmSubmit(){
   document.getElementById("submitModal").classList.add("open");
 }
 function closeModal(){document.getElementById("submitModal").classList.remove("open");}
-function doSubmit(){
+async function doSubmit(){
   stopExamTimer();
   closeModal();clearInterval(timerInterval);clearInterval(autoSaveInterval);
   currentAttempt.status="completed";currentAttempt.endTime=Date.now();currentAttempt.duration=timerSecs;
@@ -1778,7 +1778,215 @@ function doSubmit(){
   });
   currentAttempt.earnedMarks=earned;currentAttempt.totalMarks=total||currentSet.totalMarks||0;
   currentAttempt.percentScore=total>0?Math.round(earned/total*100):0;
+  
+  // Save to Firestore
+  const user = firebase.auth().currentUser;
+  if (user && window.db) {
+    const requestGrading = currentAttempt.wantsGrading;
+    const submission = {
+      setId: currentSet.id,
+      studentId: user.uid,
+      studentEmail: user.email,
+      studentName: user.displayName || user.email,
+      answers: currentAttempt.answers,
+      submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      requestGrading: requestGrading,
+      gradingStatus: requestGrading ? 'pending' : 'not_requested',
+      aiGrading: null,
+      teacherApproved: false
+    };
+    
+    try {
+      const docRef = await db.collection('submissions').add(submission);
+      currentAttempt.firebaseSubmissionId = docRef.id;
+      if (requestGrading) {
+        alert('✅ Your answers have been submitted! They will be graded by AI and reviewed by your teacher. Check back later for your results.');
+        // Trigger AI grading in background
+        gradeSubmissionWithAI(docRef.id, submission);
+      } else {
+        alert('✅ Your answers have been submitted successfully.');
+      }
+    } catch(err) {
+      alert('Error submitting to cloud: ' + err.message);
+    }
+  }
+
   saveAttempt(currentAttempt);showResults(currentAttempt.id);
+}
+
+async function gradeSubmissionWithAI(submissionId, submission) {
+  var key = localStorage.getItem('groq_api_key') || localStorage.getItem('ia_api_key');
+  if (!key) {
+    console.error('No API key for grading');
+    return;
+  }
+  
+  // Load the question set to get mark schemes
+  var setDoc = await db.collection('questionSets').doc(submission.setId).get();
+  if (!setDoc.exists) {
+    console.error('Question set not found');
+    return;
+  }
+  var questionSet = setDoc.data();
+  var blocks = questionSet.blocks || [];
+  var questionBlocks = blocks.filter(function(b) { return b.mode === 'question' && b.saved; });
+  
+  var gradingResults = [];
+  var totalMarksAwarded = 0;
+  var totalMarksPossible = 0;
+  
+  for (var qi = 0; qi < questionBlocks.length; qi++) {
+    var qBlock = questionBlocks[qi];
+    var studentAnswer = submission.answers[qi] || { response: '' };
+    var maxMarks = Number(qBlock.meta?.marks || 0);
+    totalMarksPossible += maxMarks;
+    
+    // MCQ, True/False — grade automatically without AI
+    if (qBlock.type === 'MCQ' || qBlock.type === 'True / False') {
+      var correct = false;
+      if (qBlock.type === 'MCQ') {
+        correct = studentAnswer === qBlock.data?.correct;
+      } else {
+        correct = studentAnswer === qBlock.ui?.tfAnswer;
+      }
+      var marks = correct ? maxMarks : 0;
+      totalMarksAwarded += marks;
+      gradingResults.push({
+        questionIndex: qi,
+        type: qBlock.type,
+        marksAwarded: marks,
+        maxMarks: maxMarks,
+        feedback: correct ? 'Correct.' : 'Incorrect. The correct answer is: ' + (qBlock.type === 'MCQ' ? (qBlock.ui?.mcqOptions?.[qBlock.data?.correct] || '') : qBlock.ui?.tfAnswer || ''),
+        marksGained: correct ? ['Correct answer selected'] : [],
+        marksLost: correct ? [] : ['Incorrect answer selected. ' + (qBlock.data?.explanation || '')]
+      });
+      continue;
+    }
+    
+    // Fill in the Blank — check exact match or close match
+    if (qBlock.type === 'Fill in the Blank' || qBlock.type === 'Fill Text') {
+      var expected = (qBlock.data?.labels || qBlock.data?.correct || '').toString().toLowerCase().trim();
+      var given = (studentAnswer || '').toString().toLowerCase().trim();
+      var correct = given === expected || expected.indexOf(given) !== -1 || given.indexOf(expected) !== -1;
+      var marks = correct ? maxMarks : 0;
+      totalMarksAwarded += marks;
+      gradingResults.push({
+        questionIndex: qi,
+        type: qBlock.type,
+        marksAwarded: marks,
+        maxMarks: maxMarks,
+        feedback: correct ? 'Correct.' : 'Expected answer: ' + expected,
+        marksGained: correct ? ['Correct answer provided'] : [],
+        marksLost: correct ? [] : ['Answer does not match expected: ' + expected]
+      });
+      continue;
+    }
+    
+    // For Long Answer, Table, Drawing, Extended Response — use AI grading
+    var gradingPrompt = 'You are a strict IB MYP Physics examiner. Grade this student answer.\\n\\n'
+      + 'QUESTION: ' + (qBlock.data?.question || '') + '\\n'
+      + 'MAXIMUM MARKS: ' + maxMarks + '\\n'
+      + 'CRITERION: ' + (qBlock.meta?.criterion || 'A') + '\\n'
+      + 'STRAND: ' + (qBlock.meta?.strand || 'i') + '\\n'
+      + 'COMMAND TERM: ' + (qBlock.meta?.commandTerm || 'State') + '\\n'
+      + 'MARK SCHEME: ' + (qBlock.meta?.markScheme || 'Award marks based on quality of response.') + '\\n';
+    
+    // Add holistic grid if present
+    if (qBlock.meta?.gradingGrid) {
+      gradingPrompt += 'HOLISTIC MARKING GRID:\\n' + JSON.stringify(qBlock.meta.gradingGrid, null, 2) + '\\n';
+    }
+    
+    gradingPrompt += '\\nSTUDENT ANSWER: ' + (typeof studentAnswer === 'object' ? JSON.stringify(studentAnswer) : studentAnswer || '[No answer provided]') + '\\n\\n'
+      + 'GRADE THIS ANSWER. Respond with ONLY valid JSON in this exact format:\\n'
+      + '{"marksAwarded":N,"marksGained":["point 1","point 2"],"marksLost":["point 1","point 2"],"feedback":"One sentence summary of performance."}\\n\\n'
+      + 'GRADING RULES:\\n'
+      + '- Be STRICT. Follow the mark scheme exactly.\\n'
+      + '- Award marks ONLY for points that match the mark scheme.\\n'
+      + '- "marksGained" — list each specific point the student earned marks for.\\n'
+      + '- "marksLost" — list each specific point the student missed or got wrong.\\n'
+      + '- If the student wrote nothing, award 0 marks.\\n'
+      + '- If the answer is partially correct, award partial marks.\\n'
+      + '- For holistic grids, assess each row independently and sum the marks.\\n'
+      + '- Do NOT be generous. This is IB standard marking — hard but fair.\\n'
+      + '- "feedback" should be constructive: what was good and what to improve.';
+    
+    try {
+      var response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key},
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          messages: [
+            {role: 'system', content: 'You are a strict IB MYP Physics examiner. Respond with valid JSON only. No markdown, no code fences.'},
+            {role: 'user', content: gradingPrompt}
+          ],
+          temperature: 0.3,
+          max_tokens: 500,
+          response_format: {type: 'json_object'}
+        })
+      });
+      
+      if (response.ok) {
+        var data = await response.json();
+        var gradeText = data.choices?.[0]?.message?.content || '{}';
+        gradeText = gradeText.replace(/\`\`\`json/g, '').replace(/\`\`\`/g, '').trim();
+        var grade = JSON.parse(gradeText);
+        
+        var awarded = Math.min(Number(grade.marksAwarded || 0), maxMarks);
+        totalMarksAwarded += awarded;
+        
+        gradingResults.push({
+          questionIndex: qi,
+          type: qBlock.type,
+          marksAwarded: awarded,
+          maxMarks: maxMarks,
+          feedback: grade.feedback || '',
+          marksGained: grade.marksGained || [],
+          marksLost: grade.marksLost || []
+        });
+      } else {
+        // API error — mark as pending manual review
+        gradingResults.push({
+          questionIndex: qi,
+          type: qBlock.type,
+          marksAwarded: -1,
+          maxMarks: maxMarks,
+          feedback: 'Could not auto-grade. Pending teacher review.',
+          marksGained: [],
+          marksLost: []
+        });
+      }
+      
+      // Rate limit delay
+      await new Promise(function(r) { setTimeout(r, 1500); });
+      
+    } catch(err) {
+      gradingResults.push({
+        questionIndex: qi,
+        type: qBlock.type,
+        marksAwarded: -1,
+        maxMarks: maxMarks,
+        feedback: 'Grading error: ' + err.message,
+        marksGained: [],
+        marksLost: []
+      });
+    }
+  }
+  
+  // Save grading results to Firestore
+  await db.collection('submissions').doc(submissionId).update({
+    aiGrading: {
+      results: gradingResults,
+      totalMarksAwarded: totalMarksAwarded,
+      totalMarksPossible: totalMarksPossible,
+      percentage: totalMarksPossible > 0 ? Math.round((totalMarksAwarded / totalMarksPossible) * 100) : 0,
+      gradedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      gradedBy: 'ai-auto'
+    },
+    gradingStatus: 'ai_graded'
+  });
+  
+  console.log('AI grading complete:', totalMarksAwarded + '/' + totalMarksPossible);
 }
 /* ══════════ Results — WITH TEACHER GRADING ══════════ */
 function showResults(attemptId){

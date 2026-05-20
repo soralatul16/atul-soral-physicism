@@ -507,7 +507,7 @@ body::after {
     <button class="nav-btn" onclick="switchTab(this); openGenerator()">🎯 Generate</button>
     <button class="nav-btn" onclick="switchTab(this); openLibrary()">📚 Library</button>
     <button class="nav-btn" onclick="switchTab(this); openUsers()">👥 Users</button>
-    <button class="icon-btn" onclick="window.location.href='exam-grading.html'">📝 Grade</button>
+    <button class="icon-btn" id="gradeNavBtn" onclick="window.location.href='exam-grading.html'">📝 Grade</button>
   </div>
   <div class="topbar-right">
     <button id="themeToggle" class="icon-btn" onclick="toggleTheme()" style="font-size:16px;">🌓</button>
@@ -1173,6 +1173,46 @@ auth.onAuthStateChanged(async (user) => {
       await initFirebaseDB();
       document.getElementById('teacherAuthGate').style.display = 'none';
     }
+  }
+});
+
+// Check for new submissions every 30 seconds
+function checkNewSubmissions() {
+  if (!window.db) return;
+  
+  db.collection('submissions')
+    .where('gradingStatus', 'in', ['pending', 'ai_graded'])
+    .where('teacherApproved', '==', false)
+    .onSnapshot(function(snapshot) {
+      var count = snapshot.size;
+      var badge = document.getElementById('gradeBadge');
+      var gradeBtn = document.getElementById('gradeNavBtn');
+      if (!gradeBtn) return;
+      
+      if (count > 0) {
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.id = 'gradeBadge';
+          badge.style.cssText = 'position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;background:#c0392b;color:white;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700;animation:badgePulse 1.5s infinite;';
+          gradeBtn.style.position = 'relative';
+          gradeBtn.appendChild(badge);
+        }
+        badge.textContent = count;
+        badge.style.display = 'flex';
+      } else if (badge) {
+        badge.style.display = 'none';
+      }
+    });
+}
+
+// Add CSS for badge pulse
+var pulseStyle = document.createElement('style');
+pulseStyle.textContent = '@keyframes badgePulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.2);} }';
+document.head.appendChild(pulseStyle);
+
+auth.onAuthStateChanged(function(user) {
+  if (user) {
+    setTimeout(checkNewSubmissions, 2000);
   }
 });
 </script>
