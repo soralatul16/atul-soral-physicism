@@ -11,7 +11,7 @@ const { STRAND_MODULES } = require("./strands");
  * @param {Object} config - { criterion, totalMarks, topic, grade, yearLevel, questions, dFactor, globalContext }
  * @returns {Object} { systemPrompt, userPrompt }
  */
-function buildBlueprintPrompt(config) {
+function buildBlueprintPrompt(config, orchestratorPlan) {
   const crit = config.criterion || "A";
   const strands = Object.keys(STRAND_MODULES)
     .filter(k => k.startsWith(crit + "_"))
@@ -26,10 +26,14 @@ Your ONLY job: output a JSON blueprint with metadata for each question slot.
 You do NOT write questions, stimuli, or mark schemes.
 Output ONLY valid JSON. No markdown, no prose.`;
 
+  const orchestratorBlock = orchestratorPlan 
+    ? `\nCHIEF EXAMINER ORCHESTRATOR PLAN (STRICT CONSTRAINTS):\n${JSON.stringify(orchestratorPlan, null, 2)}\n\nYou MUST align the blueprint pacing, cognitive distribution, and thematic branches precisely with these constraints.\n` 
+    : "";
+
   const userPrompt = `Design a blueprint for Criterion ${crit} with EXACTLY ${config.totalMarks} total marks.
 Topic: ${config.topic} | Grade: ${config.grade} | Year Level: ${config.yearLevel || "5"}
 Global Context: ${config.globalContext || "Scientific and Technical Innovation"}
-${config.dFactor ? "D-Factor: " + config.dFactor : ""}
+${config.dFactor ? "D-Factor: " + config.dFactor : ""}${orchestratorBlock}
 
 STRAND DEFINITIONS FOR CRITERION ${crit}:
 ${strandBlock}
@@ -71,9 +75,9 @@ OUTPUT FORMAT — array of question slots:
 
 RULES:
 1) Total marks across all slots MUST equal EXACTLY ${config.totalMarks}.
-2) Distribute strands: ~40% strand i, ~35% strand ii, ~25% strand iii (for Crit A). For other criteria, cover all relevant strands.
-3) Each section MUST use a DIFFERENT real-world scenario (never generic lab).
-4) Generate at LEAST 2 sections with different themes.
+2) Distribute strands based on the cognitiveDistribution in the Orchestrator Plan.
+3) Each section MUST use a DIFFERENT real-world scenario (never generic lab), strictly following sectionThemes.
+4) Generate at LEAST 2 sections. Do NOT exceed the thematic branches in the Orchestrator Plan.
 5) Progress strands within each section: i → ii → iii.
 6) Match commandTerm to strand strictly (strand i=recall terms, strand ii=application terms, strand iii=analysis terms).
 7) Every scenario must be a genuine real-world context: medical devices, space missions, sports technology, transport, environment, renewable energy, consumer electronics.

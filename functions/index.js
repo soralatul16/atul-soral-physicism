@@ -11,6 +11,9 @@ const { buildQuestionPrompt } = require("./prompts/question");
 const { buildMarkschemePrompt } = require("./prompts/markscheme");
 const { validateAndRepair, safeParseJSON, getThreshold } = require("./prompts/validator");
 const { buildSelfSolvePrompt, compareSolutions } = require("./prompts/selfsolver");
+const { buildOrchestratorPrompt } = require("./prompts/orchestrator");
+const { getTargetedPatterns } = require("./prompts/retrieval");
+const memoryModule = require("./memory");
 const analytics = require("./analytics");
 
 admin.initializeApp();
@@ -268,8 +271,29 @@ exports.generateModular = functions
 
     logGeneration({ generationId, phase: "start", env: ENV, threshold, config: { topic: config.topic, criterion: config.criterion, totalMarks: config.totalMarks, grade: config.grade } });
 
+    // ── CALL 0: ORCHESTRATOR ──
+    // Fetch localized recent memory for the requested topic and grade
+    const topicMemory = await memoryModule.getMemory(db, config.topic, config.grade);
+    
+    // Retrieve static structural IB patterns for the requested criterion
+    const patterns = getTargetedPatterns([config.criterion || "A"]);
+
+    let orchestratorPlan = null;
+    const op = buildOrchestratorPrompt(config, topicMemory, patterns);
+    try {
+      const orchestratorResult = await callModel(op.systemPrompt, op.userPrompt, {
+        generationId, phase: "orchestrator", preferredModel,
+        temperature: 0.2, maxTokens: 800, session
+      });
+      orchestratorPlan = orchestratorResult.orchestratorPlan || orchestratorResult;
+      logGeneration({ generationId, phase: "orchestrator_done", forbiddenScenarios: orchestratorPlan.forbiddenScenarios?.length || 0 });
+    } catch (e) {
+      logGeneration({ generationId, phase: "orchestrator_error", error: e.message });
+      // Non-fatal, continue without orchestrator constraints
+    }
+
     // ── CALL 1: BLUEPRINT ──
-    const bp = buildBlueprintPrompt(config);
+    const bp = buildBlueprintPrompt(config, orchestratorPlan);
     const blueprintResult = await callModel(bp.systemPrompt, bp.userPrompt, {
       generationId, phase: "blueprint", preferredModel,
       temperature: 0.6, maxTokens: 2048, session
@@ -379,6 +403,11 @@ exports.generateModular = functions
 
     // Save analytics (non-blocking)
     analytics.saveSession(db, finalSession).catch(() => {});
+
+    // Save memory (non-blocking)
+    if (finalValidation.score >= 3) {
+      memoryModule.updateMemory(db, config.topic, config.grade, finalValidation.result, summary).catch(() => {});
+    }
 
     // ── RETURN ──
     if (finalValidation.score < 3) {
