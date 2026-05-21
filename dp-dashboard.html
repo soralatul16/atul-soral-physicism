@@ -1,147 +1,363 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DP Dashboard | Atul Soral Physicism</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      margin: 0;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP Dashboard | Atul Soral Physicism</title>
+<style>
+:root {
+  --bg: #f5f0e8;--bg-deep: #f0ebe2;--surface: rgba(255,255,255,0.75);--surface2: rgba(255,255,255,0.55);
+  --white: #ffffff;--text: #1a1a2e;--text2: #555;--text3: #888;--border: rgba(0,0,0,0.06);--accent: #c0392b;
+  --cream: var(--bg);--cream-2: var(--bg-deep);--ink: var(--text);--ink-2: var(--text2);--ink-3: var(--text2);--ink-4: var(--text3);--ink-5: var(--text3);
+  --glass: var(--surface);--glass-border: var(--border);
+  --red:#ef4444;--red-dark:#991b1b;--red-pale:#fde8e6;--red-soft:#f7c5c0;
+  --teal:#4ecdc4;--teal-pale:#e0f7f5;--blue:#5b9bd5;--blue-pale:#deeaf6;
+  --purple:#b39ddb;--purple-pale:#ede7f6;--amber:#ffd54f;--amber-pale:#fff8e1;
+  --green:#81c784;--green-pale:#e8f5e9;--orange:#ff8a65;--orange-pale:#fff3e0;
+  --shadow-sm:0 2px 12px rgba(26,26,46,0.06);--shadow-md:0 8px 28px rgba(26,26,46,0.08);--shadow-lg:0 16px 48px rgba(26,26,46,0.1);
+  --r:16px;--r-lg:24px;
+  --font-display:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif;
+  --font-body:'Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;
+  --font-mono:'SF Mono','Cascadia Code','Consolas',monospace;
+}
+[data-theme="dark"]{--bg:#0f1119;--bg-deep:#141620;--surface:rgba(30,32,45,0.85);--surface2:rgba(30,32,45,0.65);--white:#1e2030;--text:#e0ddd5;--text2:#a0a0b0;--text3:#6a6a7a;--border:rgba(255,255,255,0.06);--accent:#e05040;--cream:#1a1c28;}
+[data-theme="dark"] body{background:var(--bg);color:var(--text);}
+[data-theme="dark"] .topic-card{background:var(--white);border-color:var(--border);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden;font-size:15px;line-height:1.6;}
 
-    .navbar {
-      background: #660000;
-      color: white;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+.bg-image{position:fixed;inset:0;z-index:0;pointer-events:none;background:url('./exam-system/assets/myp-background-image.png') center/cover no-repeat fixed;opacity:0.1;}
+.physics-grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.02;
+  background:linear-gradient(rgba(239,68,68,0.3) 1px,transparent 1px),linear-gradient(90deg,rgba(239,68,68,0.3) 1px,transparent 1px);
+  background-size:80px 80px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black 10%,transparent 80%);}
 
-    .navbar .logo {
-      font-size: 22px;
-      font-weight: bold;
-    }
+/* NAVBAR */
+.navbar{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5);border-bottom:1px solid var(--glass-border);padding:0 36px;height:64px;display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px;}
+.nav-dot{width:10px;height:10px;background:var(--red);border-radius:50%;box-shadow:0 0 8px var(--red);animation:navPulse 2s infinite;flex-shrink:0;}
+@keyframes navPulse{0%,100%{opacity:1;box-shadow:0 0 8px var(--red)}50%{opacity:.6;box-shadow:0 0 16px var(--red)}}
+.nav-brand span{color:var(--red);}
+.nav-spacer{flex:1;}
+.nav-links{display:flex;align-items:center;gap:6px;}
+.nav-link{padding:8px 18px;border-radius:50px;font-size:13px;font-weight:600;color:var(--ink-3);text-decoration:none;transition:all .25s;cursor:pointer;}
+.nav-link:hover{background:var(--red-pale);color:var(--red);}
 
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-    }
+/* HERO */
+.hero{max-width:1100px;margin:0 auto;padding:28px 36px 0;position:relative;z-index:1;}
+.hero-banner{background:linear-gradient(135deg,#1a237e 0%,#283593 40%,#3949ab 100%);border-radius:var(--r-lg);padding:36px 40px;position:relative;overflow:hidden;display:flex;align-items:center;gap:32px;color:white;}
+.hero-banner::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,.03) 40px,rgba(255,255,255,.03) 80px);}
+.hero-banner::after{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%);pointer-events:none;}
+.hero-content{flex:1;position:relative;z-index:1;}
+.hero-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-bottom:8px;}
+.hero-banner h1{font-family:var(--font-display);font-size:32px;font-weight:600;line-height:1.15;letter-spacing:-.01em;margin-bottom:8px;}
+.hero-tagline{font-size:14px;opacity:.7;letter-spacing:.15em;text-transform:uppercase;}
+.hero-visual{position:relative;z-index:1;width:160px;flex-shrink:0;text-align:center;}
+.hero-eq{font-family:var(--font-mono);font-size:13px;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:6px 12px;display:inline-block;animation:eqBob 3.5s ease-in-out infinite;}
+.hero-eq:nth-child(2){animation-delay:.8s;margin-top:8px;}
+.hero-eq:nth-child(3){animation-delay:1.6s;margin-top:8px;}
+@keyframes eqBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
-    .nav-links li a {
-      text-decoration: none;
-      color: white;
-      font-weight: 500;
-    }
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:24px 36px 80px;position:relative;z-index:1;}
 
-    .hero {
-      background: linear-gradient(135deg, #8B0000, #C71585);
-      color: white;
-      text-align: center;
-      padding: 50px 20px;
-    }
+/* SL/HL TOGGLE */
+.level-toggle{display:flex;gap:0;background:var(--white);border:1.5px solid var(--border);border-radius:50px;padding:3px;margin-bottom:24px;width:fit-content;}
+.level-btn{padding:8px 24px;border-radius:50px;border:none;background:none;font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--ink-4);cursor:pointer;transition:all .2s;}
+.level-btn.active{background:var(--red);color:white;}
+.level-btn:hover:not(.active){color:var(--red);}
 
-    .dashboard-group {
-      padding: 40px 20px;
-    }
+/* PRACTICE CARDS */
+.practice-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;}
+.practice-card{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1.5px solid var(--glass-border);border-radius:var(--r-lg);padding:28px;cursor:pointer;transition:all .3s;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:20px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm),inset 0 1px 0 rgba(255,255,255,0.4);}
+.practice-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(255,255,255,0.5);border-color:var(--red-soft);}
+.pc-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;transition:transform .3s;}
+.pc-icon-red{background:var(--red-pale);}.pc-icon-teal{background:var(--teal-pale);}.pc-icon-purple{background:var(--purple-pale);}.pc-icon-green{background:var(--green-pale);}.pc-icon-blue{background:var(--blue-pale);}.pc-icon-amber{background:var(--amber-pale);}.pc-icon-orange{background:var(--orange-pale);}
+.pc-info{flex:1;}.pc-label{font-family:var(--font-display);font-size:18px;font-weight:600;margin-bottom:4px;}.pc-desc{font-size:13px;color:var(--ink-4);}
+.pc-arrow{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink-4);transition:all .3s;opacity:.5;}
+.practice-card:hover .pc-arrow{opacity:1;transform:translateX(3px);}
 
-    .dashboard-group h2 {
-      text-align: center;
-      font-size: 28px;
-      margin-bottom: 30px;
-      color: #00668b;
-    }
+/* SECTION HEADER */
+.section-hdr{display:flex;align-items:center;gap:12px;margin:32px 0 18px;}
+.section-hdr-dot{width:10px;height:10px;border-radius:50%;position:relative;}
+.section-hdr-dot::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1.5px dashed currentColor;opacity:.3;animation:spinSlow 8s linear infinite;}
+@keyframes spinSlow{to{transform:rotate(360deg);}}
+.section-hdr h2{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--ink);}
+.section-hdr-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(26,26,46,0.1),transparent);}
+.section-hdr-eq{font-family:var(--font-mono);font-size:11px;color:rgba(26,26,46,0.08);}
+.section-hdr-badge{font-size:11px;padding:4px 12px;border-radius:50px;font-weight:600;font-family:var(--font-mono);}
 
-    .card-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
+/* THEME SECTION */
+.theme-section{margin-bottom:12px;}
+.theme-bar{display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:14px;cursor:pointer;transition:all .2s;}
+.theme-bar:hover{border-color:var(--red-soft);box-shadow:var(--shadow-sm);}
+.theme-letter{font-family:var(--font-display);font-size:28px;font-weight:600;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0;}
+.theme-letter-a{background:linear-gradient(135deg,#1a237e,#3949ab);}
+.theme-letter-b{background:linear-gradient(135deg,#b71c1c,#e53935);}
+.theme-letter-c{background:linear-gradient(135deg,#00695c,#26a69a);}
+.theme-letter-d{background:linear-gradient(135deg,#e65100,#ff9800);}
+.theme-letter-e{background:linear-gradient(135deg,#4a148c,#7b1fa2);}
+.theme-info{flex:1;}
+.theme-name{font-family:var(--font-display);font-size:16px;font-weight:600;color:var(--ink);}
+.theme-hours{font-size:12px;color:var(--ink-4);font-family:var(--font-mono);}
+.theme-arrow{font-size:14px;color:var(--ink-4);transition:transform .2s;}
+.theme-bar.open .theme-arrow{transform:rotate(90deg);}
 
-    .card {
-      background: white;
-      padding: 30px 20px;
-      border-radius: 10px;
-      width: 200px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: 0.3s;
-      cursor: pointer;
-      font-size: 18px;
-      text-decoration: none;
-      color: #111;
-    }
+/* TOPIC GRID */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:8px;overflow:hidden;max-height:0;transition:max-height .4s ease;padding:0 4px;}
+.topic-grid.open{max-height:600px;}
+.topic-card{background:var(--white);border:1.5px solid rgba(26,26,46,0.06);border-radius:var(--r);padding:20px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--ink);}
+.topic-card:hover:not(.locked){transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--red-soft);}
+.topic-card.locked{opacity:.4;cursor:not-allowed;}
+.topic-card.hl-only{border-left:3px solid var(--purple);}
+.tc-top{display:flex;align-items:center;justify-content:space-between;}
+.tc-code{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--red);background:var(--red-pale);padding:2px 8px;border-radius:50px;}
+.tc-level{font-size:10px;padding:2px 8px;border-radius:50px;font-weight:700;font-family:var(--font-mono);}
+.tc-sl{background:var(--green-pale);color:#2e7d32;}
+.tc-hl{background:var(--purple-pale);color:#7b1fa2;}
+.tc-hlonly{background:#7b1fa2;color:white;}
+.tc-name{font-size:14px;font-weight:600;color:var(--ink);}
+.tc-hours{font-size:11px;color:var(--ink-4);font-family:var(--font-mono);}
+.tc-status{font-family:var(--font-mono);font-size:10px;font-weight:600;padding:3px 8px;border-radius:50px;display:inline-flex;align-items:center;gap:4px;width:fit-content;}
+.tc-ready{background:var(--green-pale);color:#2e7d32;}
+.tc-coming{background:rgba(26,26,46,0.04);color:var(--ink-5);}
 
-    .card:hover {
-      background: #8B0000;
-      color: white;
-      transform: translateY(-5px);
-    }
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s cubic-bezier(.4,0,.2,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.stagger-1{transition-delay:.05s;}.stagger-2{transition-delay:.12s;}
 
-    .footer {
-      text-align: center;
-      padding: 20px;
-      background: #eee;
-      color: #555;
-      margin-top: 40px;
-    }
-  </style>
+/* RESPONSIVE */
+@media(max-width:768px){.navbar{padding:0 16px;}.hero{padding:20px 16px 0;}.hero-banner{padding:28px 24px;flex-direction:column;text-align:center;}.hero-banner h1{font-size:24px;}.hero-visual{display:none;}.main{padding:20px 16px 80px;}.practice-row{grid-template-columns:1fr;}.topic-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.topic-grid{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
 
-  <header class="navbar">
-    <div class="logo">🟥 DP Physics</div>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="dp-dashboard.html">DP</a></li>
-      <li><a href="#">MYP</a></li>
-    </ul>
-  </header>
+<div class="bg-image"></div>
+<div class="physics-grid"></div>
 
-  <section class="hero">
-    <h1>IB DP Physics Dashboard</h1>
-    <p>All your HL/SL physics tools in one place – by Atul Soral</p>
-  </section>
+<!-- NAVBAR -->
+<div class="navbar">
+  <a class="nav-brand" href="index.html"><span class="nav-dot"></span>DP <span>Physics</span></a>
+  <div class="nav-spacer"></div>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="myp-dashboard.html">MYP</a>
+    <a class="nav-link" href="dp-formula-bank.html">Formula Bank</a>
+    <a class="nav-link" href="dp-flashcards.html">Flashcards</a>
+    <a class="nav-link" href="dp-quiz.html">Quiz</a>
+    <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:14px;transition:all .2s;color:var(--text2);" title="Toggle dark/light mode">🌙</button>
+  </div>
+</div>
 
-  <section class="dashboard-group">
-    <h2>🛠️ DP Tools</h2>
-    <div class="card-grid">
-      <a href="dp-formula-bank.html" class="card">📘 DP Formula Bank</a>
-      <a href="dp-flashcards.html" class="card">🧠 Flashcards (HL/SL)</a>
-      <a href="dp-quiz.html" class="card">🎯 Quizzes by Topic</a>
-      <a href="dp-past-paper.html" class="card">🧩 Past Paper Challenges</a>
-      <a href="formula-puzzle.html" class="card">🧩 Formula Puzzle</a>
-      <a href="#" class="card">🎯 Quizzes by Topic</a>
-      <a href="#" class="card">🧩 Past Paper Challenges</a>
-      <a href="#" class="card">🌐 Extension Resources</a>
+<!-- HERO -->
+<div class="hero reveal">
+  <div class="hero-banner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">// ATUL SORAL PHYSICISM &middot; DIPLOMA PROGRAMME</div>
+      <h1>IB DP Physics Dashboard</h1>
+      <div class="hero-tagline">SL &bull; HL &bull; First Assessment 2025</div>
     </div>
-  </section>
+    <div class="hero-visual">
+      <div class="hero-eq">E = mc²</div>
+      <div class="hero-eq">ΔS ≥ 0</div>
+      <div class="hero-eq">γ = 1/√(1-v²/c²)</div>
+    </div>
+  </div>
+</div>
 
-  <footer class="footer">
-    &copy; 2025 Atul Soral Physicism. All rights reserved.
-  </footer>
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SL/HL TOGGLE -->
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:4px;margin-top:20px;">
+    <div class="level-toggle">
+      <button class="level-btn active" onclick="setLevel('all',this)">All Topics</button>
+      <button class="level-btn" onclick="setLevel('sl',this)">SL Only</button>
+      <button class="level-btn" onclick="setLevel('hl',this)">HL Only</button>
+    </div>
+    <span style="font-size:12px;color:var(--ink-4);font-family:var(--font-mono);">SL: 150h &middot; HL: 240h</span>
+  </div>
+
+  <!-- PRACTICE TOOLS -->
+  <div class="section-hdr reveal">
+    <div class="section-hdr-dot" style="background:var(--red);color:var(--red)"></div>
+    <h2>&#129504; DP Tools</h2>
+    <div class="section-hdr-line"></div>
+  </div>
+  <div class="practice-row">
+    <a class="practice-card reveal stagger-1" href="dp-formula-bank.html">
+      <div class="pc-icon pc-icon-teal">📘</div>
+      <div class="pc-info"><div class="pc-label">DP Formula Bank</div><div class="pc-desc">All IB Data Booklet formulas organized by theme</div></div>
+      <div class="pc-arrow">→</div>
+    </a>
+    <a class="practice-card reveal stagger-2" href="dp-flashcards.html">
+      <div class="pc-icon pc-icon-purple">🧠</div>
+      <div class="pc-info"><div class="pc-label">Flashcards (SL/HL)</div><div class="pc-desc">Spaced repetition cards for all 25 topics</div></div>
+      <div class="pc-arrow">→</div>
+    </a>
+    <a class="practice-card reveal stagger-1" href="dp-quiz.html">
+      <div class="pc-icon pc-icon-red">🎯</div>
+      <div class="pc-info"><div class="pc-label">Topic Quizzes</div><div class="pc-desc">Paper 1A style MCQs by topic and theme</div></div>
+      <div class="pc-arrow">→</div>
+    </a>
+    <a class="practice-card reveal stagger-2" href="dp-past-paper.html">
+      <div class="pc-icon pc-icon-amber">📝</div>
+      <div class="pc-info"><div class="pc-label">Past Paper Practice</div><div class="pc-desc">Paper 1B data-based & Paper 2 extended response</div></div>
+      <div class="pc-arrow">→</div>
+    </a>
+    <a class="practice-card reveal stagger-1" href="ia-ee-generator.html">
+      <div class="pc-icon pc-icon-green">🔬</div>
+      <div class="pc-info"><div class="pc-label">IA Generator</div><div class="pc-desc">Scientific Investigation builder — 24 mark criteria</div></div>
+      <div class="pc-arrow">→</div>
+    </a>
+    <a class="practice-card reveal stagger-2" href="concept-map-generator.html">
+      <div class="pc-icon pc-icon-orange">🗺️</div>
+      <div class="pc-info"><div class="pc-label">Concept Maps</div><div class="pc-desc">Visual connections between energy, particles & forces</div></div>
+      <div class="pc-arrow">→</div>
+    </a>
+  </div>
+
+  <!-- THEME A -->
+  <div class="theme-section reveal" data-theme-id="A">
+    <div class="theme-bar open" onclick="toggleThemeSection('A')">
+      <div class="theme-letter theme-letter-a">A</div>
+      <div class="theme-info"><div class="theme-name">Space, Time and Motion</div><div class="theme-hours">SL: 27h &middot; HL: 42h</div></div>
+      <div class="theme-arrow">›</div>
+    </div>
+    <div class="topic-grid open" id="grid-A">
+      <a class="topic-card" href="chapter.html?topic=A1-Kinematics"><div class="tc-top"><span class="tc-code">A.1</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Kinematics</div><div class="tc-hours">9 hours</div><div class="tc-status tc-ready">● Available</div></a>
+      <a class="topic-card" href="chapter.html?topic=A2-Forces"><div class="tc-top"><span class="tc-code">A.2</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Forces and Momentum</div><div class="tc-hours">10 hours</div><div class="tc-status tc-ready">● Available</div></a>
+      <a class="topic-card" href="chapter.html?topic=A3-Energy"><div class="tc-top"><span class="tc-code">A.3</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Work, Energy and Power</div><div class="tc-hours">8 hours</div><div class="tc-status tc-ready">● Available</div></a>
+      <a class="topic-card hl-only" href="chapter.html?topic=A4-Rigid-Body"><div class="tc-top"><span class="tc-code">A.4</span><span class="tc-level tc-hlonly">HL ONLY</span></div><div class="tc-name">Rigid Body Mechanics</div><div class="tc-hours">7 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
+      <a class="topic-card hl-only" href="chapter.html?topic=A5-Relativity"><div class="tc-top"><span class="tc-code">A.5</span><span class="tc-level tc-hlonly">HL ONLY</span></div><div class="tc-name">Galilean & Special Relativity</div><div class="tc-hours">8 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
+    </div>
+  </div>
+
+  <!-- THEME B -->
+  <div class="theme-section reveal" data-theme-id="B">
+    <div class="theme-bar" onclick="toggleThemeSection('B')">
+      <div class="theme-letter theme-letter-b">B</div>
+      <div class="theme-info"><div class="theme-name">The Particulate Nature of Matter</div><div class="theme-hours">SL: 24h &middot; HL: 32h</div></div>
+      <div class="theme-arrow">›</div>
+    </div>
+    <div class="topic-grid" id="grid-B">
+      <a class="topic-card" href="chapter.html?topic=B1-Thermal"><div class="tc-top"><span class="tc-code">B.1</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Thermal Energy Transfers</div><div class="tc-hours">6 hours</div><div class="tc-status tc-ready">● Available</div></a>
+      <a class="topic-card" href="chapter.html?topic=B2-Greenhouse"><div class="tc-top"><span class="tc-code">B.2</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Greenhouse Effect</div><div class="tc-hours">6 hours</div><div class="tc-status tc-ready">● Available</div></a>
+      <a class="topic-card" href="chapter.html?topic=B3-Gas-Laws"><div class="tc-top"><span class="tc-code">B.3</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Gas Laws</div><div class="tc-hours">6 hours</div><div class="tc-status tc-ready">● Available</div></a>
+      <a class="topic-card hl-only" href="chapter.html?topic=B4-Thermo"><div class="tc-top"><span class="tc-code">B.4</span><span class="tc-level tc-hlonly">HL ONLY</span></div><div class="tc-name">Thermodynamics</div><div class="tc-hours">8 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
+      <a class="topic-card" href="chapter.html?topic=B5-Circuits"><div class="tc-top"><span class="tc-code">B.5</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Current and Circuits</div><div class="tc-hours">6 hours</div><div class="tc-status tc-ready">● Available</div></a>
+    </div>
+  </div>
+
+  <!-- THEME C -->
+  <div class="theme-section reveal" data-theme-id="C">
+    <div class="theme-bar" onclick="toggleThemeSection('C')">
+      <div class="theme-letter theme-letter-c">C</div>
+      <div class="theme-info"><div class="theme-name">Wave Behaviour</div><div class="theme-hours">SL: 17h &middot; HL: 29h</div></div>
+      <div class="theme-arrow">›</div>
+    </div>
+    <div class="topic-grid" id="grid-C">
+      <a class="topic-card" href="chapter.html?topic=C1-SHM"><div class="tc-top"><span class="tc-code">C.1</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Simple Harmonic Motion</div><div class="tc-hours">SL:3h HL:7h</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
+      <a class="topic-card" href="chapter.html?topic=C2-Wave-Model"><div class="tc-top"><span class="tc-code">C.2</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Wave Model</div><div class="tc-hours">3 hours</div><div class="tc-status tc-ready">● Available</div></a>
+      <a class="topic-card" href="chapter.html?topic=C3-Wave-Phenomena"><div class="tc-top"><span class="tc-code">C.3</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Wave Phenomena</div><div class="tc-hours">SL:5h HL:11h</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
+      <a class="topic-card" href="chapter.html?topic=C4-Standing-Waves"><div class="tc-top"><span class="tc-code">C.4</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Standing Waves & Resonance</div><div class="tc-hours">4 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
+      <a class="topic-card" href="chapter.html?topic=C5-Doppler"><div class="tc-top"><span class="tc-code">C.5</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Doppler Effect</div><div class="tc-hours">SL:2h HL:4h</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
+    </div>
+  </div>
+
+  <!-- THEME D -->
+  <div class="theme-section reveal" data-theme-id="D">
+    <div class="theme-bar" onclick="toggleThemeSection('D')">
+      <div class="theme-letter theme-letter-d">D</div>
+      <div class="theme-info"><div class="theme-name">Fields</div><div class="theme-hours">SL: 19h &middot; HL: 38h</div></div>
+      <div class="theme-arrow">›</div>
+    </div>
+    <div class="topic-grid" id="grid-D">
+      <a class="topic-card" href="chapter.html?topic=D1-Gravity"><div class="tc-top"><span class="tc-code">D.1</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Gravitational Fields</div><div class="tc-hours">SL:5h HL:12h</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
+      <a class="topic-card" href="chapter.html?topic=D2-EM-Fields"><div class="tc-top"><span class="tc-code">D.2</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Electric & Magnetic Fields</div><div class="tc-hours">SL:8h HL:14h</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
+      <a class="topic-card" href="chapter.html?topic=D3-EM-Motion"><div class="tc-top"><span class="tc-code">D.3</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Motion in EM Fields</div><div class="tc-hours">6 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
+      <a class="topic-card hl-only" href="chapter.html?topic=D4-Induction"><div class="tc-top"><span class="tc-code">D.4</span><span class="tc-level tc-hlonly">HL ONLY</span></div><div class="tc-name">Induction</div><div class="tc-hours">6 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
+    </div>
+  </div>
+
+  <!-- THEME E -->
+  <div class="theme-section reveal" data-theme-id="E">
+    <div class="theme-bar" onclick="toggleThemeSection('E')">
+      <div class="theme-letter theme-letter-e">E</div>
+      <div class="theme-info"><div class="theme-name">Nuclear and Quantum Physics</div><div class="theme-hours">SL: 23h &middot; HL: 39h</div></div>
+      <div class="theme-arrow">›</div>
+    </div>
+    <div class="topic-grid" id="grid-E">
+      <a class="topic-card" href="chapter.html?topic=E1-Atom"><div class="tc-top"><span class="tc-code">E.1</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Structure of the Atom</div><div class="tc-hours">SL:6h HL:9h</div><div class="tc-status tc-ready">● Available</div></a>
+      <a class="topic-card hl-only" href="chapter.html?topic=E2-Quantum"><div class="tc-top"><span class="tc-code">E.2</span><span class="tc-level tc-hlonly">HL ONLY</span></div><div class="tc-name">Quantum Physics</div><div class="tc-hours">8 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
+      <a class="topic-card" href="chapter.html?topic=E3-Decay"><div class="tc-top"><span class="tc-code">E.3</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Radioactive Decay</div><div class="tc-hours">SL:7h HL:12h</div><div class="tc-status tc-ready">● Available</div></a>
+      <a class="topic-card" href="chapter.html?topic=E4-Fission"><div class="tc-top"><span class="tc-code">E.4</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Fission</div><div class="tc-hours">4 hours</div><div class="tc-status tc-ready">● Available</div></a>
+      <a class="topic-card" href="chapter.html?topic=E5-Fusion"><div class="tc-top"><span class="tc-code">E.5</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Fusion and Stars</div><div class="tc-hours">6 hours</div><div class="tc-status tc-ready">● Available</div></a>
+    </div>
+  </div>
+
+</div>
 
 <script>
-// Secret IA Generator access — press I then A quickly (within 500ms)
+// Theme section toggle
+function toggleThemeSection(id) {
+  var grid = document.getElementById('grid-' + id);
+  var bar = grid.previousElementSibling;
+  grid.classList.toggle('open');
+  bar.classList.toggle('open');
+}
+
+// SL/HL filter
+function setLevel(level, btn) {
+  document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.topic-card').forEach(card => {
+    var levelBadge = card.querySelector('.tc-level');
+    if (!levelBadge) return;
+    if (level === 'all') { card.style.display = ''; return; }
+    if (level === 'sl') {
+      card.style.display = levelBadge.classList.contains('tc-hlonly') ? 'none' : '';
+    } else if (level === 'hl') {
+      card.style.display = '';
+    }
+  });
+}
+
+// Dark mode
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme');
+  var next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('physicism-theme', next);
+  var btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = next === 'dark' ? '☀️' : '🌙';
+}
+(function() {
+  var saved = localStorage.getItem('physicism-theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    var btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
+
+// Reveal on scroll
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+
+// Secret IA Generator access
 (function(){
-  var lastKey = '';
-  var lastTime = 0;
+  var lastKey = '', lastTime = 0;
   document.addEventListener('keydown', function(e) {
     var now = Date.now();
-    if (e.key === 'I' || e.key === 'i') {
-      lastKey = 'I';
-      lastTime = now;
-    } else if ((e.key === 'A' || e.key === 'a') && lastKey === 'I' && (now - lastTime) < 500) {
-      window.location.href = 'ia-ee-generator.html';
-      lastKey = '';
-    } else {
-      lastKey = '';
-    }
+    if (e.key === 'I' || e.key === 'i') { lastKey = 'I'; lastTime = now; }
+    else if ((e.key === 'A' || e.key === 'a') && lastKey === 'I' && (now - lastTime) < 500) { window.location.href = 'ia-ee-generator.html'; lastKey = ''; }
+    else { lastKey = ''; }
   });
 })();
 </script>
