@@ -484,6 +484,7 @@ exports.generateExamPipeline = functions.https.onCall(async (data, context) => {
   return await callModel(sysPrompt, prompt, {
     generationId, phase: isMarkSchemePhase ? "legacy_markscheme" : "legacy_questions",
     preferredModel, temperature: temp, maxTokens: 4096
+  });
 });
 
 /* ═══════════════════════════════════════════════════════════
