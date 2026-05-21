@@ -625,8 +625,71 @@ Graph axes MUST include units (e.g. "Time / s", "Force / N").
 Use HTML tables for data, <sub>/<sup> for equations.`;
 }
 
-/* ── AI API Call (Groq primary, Gemini fallback) ── */
+const USE_SERVER_GEN = true;  // Feature flag: true = Firebase Functions, false = browser-side
+const USE_MODULAR_PIPELINE = true;  // Feature flag: true = 3-step modular, false = legacy single-call
+
+// Client-side generationId for tracking
+function makeClientGenId() {
+  return 'cgen_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8);
+}
+
+/**
+ * Phase 2: Modular pipeline — calls the server's generateModular endpoint
+ * which internally does Blueprint → Questions → Markschemes.
+ * @param {Object} config - The teacher's config from collectGenConfig()
+ * @returns {Object} The final validated exam JSON
+ */
+async function callAIModular(config) {
+  const statusEl = document.getElementById('gen-status');
+  const genId = makeClientGenId();
+  
+  if (!window.fns) throw new Error('Firebase Functions not initialized');
+  
+  if (statusEl) statusEl.textContent = '⏳ [' + genId.substring(0,10) + '] Modular pipeline: Blueprint → Questions → Markschemes...';
+  
+  const groqKey = localStorage.getItem('groq_api_key');
+  const preferredModel = groqKey ? 'groq' : 'gemini';
+  
+  const generateModular = window.fns.httpsCallable('generateModular', { timeout: 300000 });
+  const response = await generateModular({ config, preferredModel });
+  
+  if (statusEl) statusEl.textContent = '✅ [' + genId.substring(0,10) + '] Pipeline complete!';
+  return response.data;
+}
+
+/**
+ * Legacy single-call AI (browser-side direct fetch to Groq/Gemini).
+ * Kept as a fallback if server pipeline is disabled or fails.
+ */
 async function callAI(prompt, isMarkSchemePhase = false) {
+  const statusEl = document.getElementById('gen-status');
+  
+  if (USE_SERVER_GEN && window.fns && !USE_MODULAR_PIPELINE) {
+    // Phase 1 legacy server path
+    try {
+      if (statusEl) statusEl.textContent = '⏳ Calling Server API (legacy)...';
+      const groqKey = localStorage.getItem('groq_api_key');
+      const preferredModel = groqKey ? 'groq' : 'gemini';
+      
+      const generateExamPipeline = window.fns.httpsCallable('generateExamPipeline', { timeout: 120000 });
+      const response = await generateExamPipeline({ 
+        prompt, 
+        isMarkSchemePhase,
+        preferredModel 
+      });
+      
+      return response.data;
+    } catch (e) {
+      console.error("Server generation failed, falling back to legacy browser generation", e);
+      if (statusEl) statusEl.textContent = '⚠️ Server failed, using browser fallback...';
+      return await callAILegacy(prompt, isMarkSchemePhase);
+    }
+  } else {
+    return await callAILegacy(prompt, isMarkSchemePhase);
+  }
+}
+
+async function callAILegacy(prompt, isMarkSchemePhase = false) {
   const groqKey = localStorage.getItem('groq_api_key');
   const geminiKey = localStorage.getItem('gemini_api_key');
   const statusEl = document.getElementById('gen-status');
@@ -953,43 +1016,60 @@ async function runGeneration() {
         singleConfig.questions = getAutoQuestionMix(crit, critMarks);
       }
       
-      var prompt = buildGeneratorPrompt(singleConfig);
-      prompt += "\n\nCRITICAL FOR THIS PHASE: Do NOT generate the actual mark scheme or explanation yet. Leave meta.markScheme and data.explanation as empty strings (''). We will generate them in the next step.";
+      var result;
       
-      var qResult = await callAI(prompt, false);
-      
-      if (qResult && qResult.blocks && Array.isArray(qResult.blocks)) {
-        status.textContent = '⏳ Generating mark schemes for Criterion ' + crit + '...';
-        
-        var msPrompt = "Here is the generated question JSON block array:\n" + JSON.stringify(qResult, null, 2) + "\n\nCRITICAL INSTRUCTION: Read these questions, calculate the answers yourself, and generate the EXACT SAME JSON structure, but this time fill in the missing 'meta.markScheme', 'data.correct', and 'data.explanation' fields for every question. Do not change any other fields.";
-        
-        var msResult = await callAI(msPrompt, true);
-        
-        if (msResult && msResult.blocks && Array.isArray(msResult.blocks)) {
-           // Merge the mark schemes in
-           for(let j=0; j<qResult.blocks.length; j++) {
-              let qb = qResult.blocks[j];
-              let mb = msResult.blocks.find(x => x.id === qb.id || (x.data && x.data.question === qb.data?.question));
-              if(!mb) mb = msResult.blocks[j]; // Fallback to index
-              
-              if(mb) {
-                 if(mb.meta && mb.meta.markScheme) {
-                    qb.meta = qb.meta || {};
-                    qb.meta.markScheme = mb.meta.markScheme;
-                 }
-                 if(mb.data) {
-                    qb.data = qb.data || {};
-                    if(mb.data.correct !== undefined) qb.data.correct = mb.data.correct;
-                    if(mb.data.explanation !== undefined) qb.data.explanation = mb.data.explanation;
-                 }
-              }
-           }
-         }
-         
-         var result = qResult;
+      // ── MODULAR PIPELINE PATH (Phase 2) ──
+      if (USE_SERVER_GEN && USE_MODULAR_PIPELINE && window.fns) {
+        try {
+          status.textContent = '⏳ [Modular] Criterion ' + crit + ': Blueprint → Questions → Markschemes...';
+          result = await callAIModular(singleConfig);
+        } catch (modularErr) {
+          console.error('Modular pipeline failed for Criterion ' + crit + ', falling back to legacy:', modularErr);
+          status.textContent = '⚠️ Modular pipeline failed, using legacy for Criterion ' + crit + '...';
+          result = null; // Will fall through to legacy below
+        }
       }
       
-      if (typeof result !== 'undefined' && result && result.blocks && Array.isArray(result.blocks)) {
+      // ── LEGACY PATH (Phase 1 / browser-side fallback) ──
+      if (!result || !result.blocks || !Array.isArray(result.blocks)) {
+        var prompt = buildGeneratorPrompt(singleConfig);
+        prompt += "\n\nCRITICAL FOR THIS PHASE: Do NOT generate the actual mark scheme or explanation yet. Leave meta.markScheme and data.explanation as empty strings (''). We will generate them in the next step.";
+        
+        var qResult = await callAI(prompt, false);
+        
+        if (qResult && qResult.blocks && Array.isArray(qResult.blocks)) {
+          status.textContent = '⏳ Generating mark schemes for Criterion ' + crit + '...';
+          
+          var msPrompt = "Here is the generated question JSON block array:\n" + JSON.stringify(qResult, null, 2) + "\n\nCRITICAL INSTRUCTION: Read these questions, calculate the answers yourself, and generate the EXACT SAME JSON structure, but this time fill in the missing 'meta.markScheme', 'data.correct', and 'data.explanation' fields for every question. Do not change any other fields.";
+          
+          var msResult = await callAI(msPrompt, true);
+          
+          if (msResult && msResult.blocks && Array.isArray(msResult.blocks)) {
+             // Merge the mark schemes in
+             for(let j=0; j<qResult.blocks.length; j++) {
+                let qb = qResult.blocks[j];
+                let mb = msResult.blocks.find(x => x.id === qb.id || (x.data && x.data.question === qb.data?.question));
+                if(!mb) mb = msResult.blocks[j]; // Fallback to index
+                
+                if(mb) {
+                   if(mb.meta && mb.meta.markScheme) {
+                      qb.meta = qb.meta || {};
+                      qb.meta.markScheme = mb.meta.markScheme;
+                   }
+                   if(mb.data) {
+                      qb.data = qb.data || {};
+                      if(mb.data.correct !== undefined) qb.data.correct = mb.data.correct;
+                      if(mb.data.explanation !== undefined) qb.data.explanation = mb.data.explanation;
+                   }
+                }
+             }
+           }
+           
+           result = qResult;
+        }
+      }
+      
+      if (result && result.blocks && Array.isArray(result.blocks)) {
         var critSections = result.sections || [{id: 1, name: 'Section 1'}];
         critSections.forEach(function(sec) {
           sec.id = sec.id + sectionOffset;

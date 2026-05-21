@@ -20,6 +20,7 @@ if (!firebase.apps.length) {
 // Global references
 const auth = firebase.auth();
 const db   = firebase.firestore();
+const fns  = firebase.functions();
 
 // Fix for WebChannel connection errors on some networks
 db.settings({
@@ -29,5 +30,6 @@ db.settings({
 
 window.auth = auth;
 window.db   = db;
+window.fns  = fns;
 
 console.log('🔥 Firebase initialized — project:', firebaseConfig.projectId);
