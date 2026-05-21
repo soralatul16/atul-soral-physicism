@@ -30,20 +30,17 @@ admin.initializeApp();
 const orchestratorCache = new Map();
 const db = admin.firestore();
 
-// Safely wrap functions.config() because it throws in Firebase v2 / Cloud Run environments
-let fbConfig = {};
-try {
-  fbConfig = functions.config();
-} catch (e) {
-  // Ignored: v2 relies entirely on process.env
+// ── Secure Environment Access (Lazy Loaded for Gen2 Safety) ──
+function getEnv() {
+  let fbConfig = {};
+  try { fbConfig = functions.config(); } catch (e) { /* ignored in v2 */ }
+  
+  return {
+    GROQ_API_KEY: fbConfig.api?.groq || process.env.GROQ_API_KEY || "",
+    GEMINI_API_KEY: fbConfig.api?.gemini || process.env.GEMINI_API_KEY || "",
+    ENV: fbConfig.app?.env || process.env.NODE_ENV || "production"
+  };
 }
-
-// ── Secure API Key Access ──
-const GROQ_API_KEY = fbConfig.api?.groq || process.env.GROQ_API_KEY || "";
-const GEMINI_API_KEY = fbConfig.api?.gemini || process.env.GEMINI_API_KEY || "";
-
-// ── Environment ──
-const ENV = fbConfig.app?.env || process.env.NODE_ENV || "production";
 
 // ── Structured Logging ──
 function logGeneration(entry) {
@@ -60,7 +57,8 @@ function makeGenerationId() {
 
 // ── Core AI caller with timeout, retries, logging, analytics ──
 async function callModel(systemPrompt, userPrompt, opts = {}) {
-  const {
+  const { envVars = getEnv() } = opts;
+  const { 
     generationId = makeGenerationId(),
     phase = "unknown",
     preferredModel = "gemini",
@@ -70,7 +68,7 @@ async function callModel(systemPrompt, userPrompt, opts = {}) {
     session = null  // analytics session
   } = opts;
 
-  const key = preferredModel === "groq" ? GROQ_API_KEY : GEMINI_API_KEY;
+  const key = preferredModel === "groq" ? envVars.GROQ_API_KEY : envVars.GEMINI_API_KEY;
   if (!key) {
     throw new functions.https.HttpsError("failed-precondition", "No API key for " + preferredModel);
   }
@@ -290,8 +288,20 @@ exports.generateModular = onCall(
     cors: ["https://soralatul16.github.io", "http://localhost:5000", "http://127.0.0.1:5000", "http://localhost:8080", "http://127.0.0.1:8080"]
   },
   async (request) => {
+    // ── Safe Lazy Env Access ──
+    const envVars = getEnv();
+    const ENV = envVars.ENV;
+
+    // Temporary diagnostics requested by user
+    console.log("[BOOT] generateModular loaded");
+    console.log("[BOOT] env check", {
+      groq: !!envVars.GROQ_API_KEY,
+      gemini: !!envVars.GEMINI_API_KEY
+    });
+
     const data = request.data;
     const context = { auth: request.auth };
+
     const { config, preferredModel } = data;
     const generationId = makeGenerationId();
     const session = analytics.createSession(generationId);
