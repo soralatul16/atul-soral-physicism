@@ -1025,10 +1025,14 @@ async function runGeneration() {
         try {
           status.textContent = '⏳ [Modular] Criterion ' + crit + ': Blueprint → Questions → Markschemes...';
           result = await callAIModular(singleConfig);
+          if (result) {
+            status.innerHTML = '✅ <strong style="color:var(--success);">Modular AI Pipeline Active</strong> (Success!)';
+          }
         } catch (modularErr) {
           console.error('Modular pipeline failed for Criterion ' + crit + ', falling back to legacy:', modularErr);
-          status.textContent = '⚠️ Modular pipeline failed, using legacy for Criterion ' + crit + '...';
-          result = null; // Will fall through to legacy below
+          status.innerHTML = '⚠️ <strong style="color:var(--danger);">Legacy Fallback Active</strong> (Modular Failed)';
+          alert('Deployment Debug: Modular pipeline failed!\n' + modularErr.message + '\n\nFallback is temporarily disabled to prevent masking deployment issues.');
+          throw modularErr; // Temporarily disable fallback
         }
       }
       

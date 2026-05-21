@@ -272,9 +272,18 @@ async function softRegenerate(result, failedNodes, config, opts) {
    Self-Solving, Analytics, Command-Term Enforcement
    ═══════════════════════════════════════════════════════════ */
 
-exports.generateModular = functions
-  .runWith({ timeoutSeconds: 540, memory: "512MB" })
-  .https.onCall(async (data, context) => {
+const { onCall, HttpsError } = require("firebase-functions/v2/https");
+
+exports.generateModular = onCall(
+  {
+    timeoutSeconds: 540,
+    memory: "512MiB",
+    region: "us-central1",
+    cors: ["https://soralatul16.github.io", "http://localhost:5000", "http://127.0.0.1:5000", "http://localhost:8080", "http://127.0.0.1:8080"]
+  },
+  async (request) => {
+    const data = request.data;
+    const context = { auth: request.auth };
     const { config, preferredModel } = data;
     const generationId = makeGenerationId();
     const session = analytics.createSession(generationId);
@@ -342,7 +351,7 @@ exports.generateModular = functions
     if (qValidation.score < 3 || !qValidation.result) {
       const finalSession = analytics.finalizeSession(session, { finalScore: qValidation.score, softRegenerations: 0 });
       analytics.saveSession(db, finalSession).catch(() => {});
-      throw new functions.https.HttpsError("internal", "Question quality too low (score: " + qValidation.score + ")");
+      throw new HttpsError("internal", "Question quality too low (score: " + qValidation.score + ")");
     }
 
     // ── CALL 3: MARKSCHEMES ──
@@ -433,7 +442,7 @@ exports.generateModular = functions
 
     // ── RETURN ──
     if (finalValidation.score < 3) {
-      throw new functions.https.HttpsError("internal", "Final quality too low (score: " + finalValidation.score + ")");
+      throw new HttpsError("internal", "Final quality too low (score: " + finalValidation.score + ")");
     }
 
     // Attach generation rationale to the first block for the UI to display
