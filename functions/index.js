@@ -30,12 +30,20 @@ admin.initializeApp();
 const orchestratorCache = new Map();
 const db = admin.firestore();
 
+// Safely wrap functions.config() because it throws in Firebase v2 / Cloud Run environments
+let fbConfig = {};
+try {
+  fbConfig = functions.config();
+} catch (e) {
+  // Ignored: v2 relies entirely on process.env
+}
+
 // ── Secure API Key Access ──
-const GROQ_API_KEY = functions.config().api?.groq || process.env.GROQ_API_KEY || "";
-const GEMINI_API_KEY = functions.config().api?.gemini || process.env.GEMINI_API_KEY || "";
+const GROQ_API_KEY = fbConfig.api?.groq || process.env.GROQ_API_KEY || "";
+const GEMINI_API_KEY = fbConfig.api?.gemini || process.env.GEMINI_API_KEY || "";
 
 // ── Environment ──
-const ENV = functions.config().app?.env || process.env.NODE_ENV || "production";
+const ENV = fbConfig.app?.env || process.env.NODE_ENV || "production";
 
 // ── Structured Logging ──
 function logGeneration(entry) {
@@ -484,7 +492,9 @@ IMPORTANT: Never output markdown. Only pure JSON.`;
 
 const LEGACY_MS_PROMPT = `You are an IB MYP Physics chief examiner. Your ONLY job is to write accurate mark schemes and explanations. Given the JSON array of questions, calculate answers step-by-step and fill in the 'markScheme' array and 'explanation' string. Preserve the exact JSON structure. Return ONLY valid JSON.`;
 
-exports.generateExamPipeline = functions.https.onCall(async (data, context) => {
+exports.generateExamPipeline = onCall({ region: "us-central1" }, async (request) => {
+  const data = request.data;
+  const context = { auth: request.auth };
   const { prompt, isMarkSchemePhase, preferredModel } = data;
   const generationId = makeGenerationId();
   const sysPrompt = isMarkSchemePhase ? LEGACY_MS_PROMPT : LEGACY_SYSTEM_PROMPT;

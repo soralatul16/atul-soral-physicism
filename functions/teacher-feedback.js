@@ -6,8 +6,8 @@
    Calculates a rolling Trust Score for generation blocks.
    ═══════════════════════════════════════════════════════════ */
 
-const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const { onCall, HttpsError } = require("firebase-functions/v2/https");
 
 /**
  * Calculates a Trust Score (0-10) for a generated block based on analytics.
@@ -34,10 +34,12 @@ function calculateTrustScore(blockData, feedback) {
 /**
  * Submits structured teacher feedback for a specific generated question block.
  */
-exports.submitTeacherFeedback = functions.https.onCall(async (data, context) => {
+exports.submitTeacherFeedback = onCall({ region: "us-central1" }, async (request) => {
+  const data = request.data;
+  const context = { auth: request.auth };
   const { generationId, blockIndex, topic, grade, feedback } = data;
   if (!generationId || blockIndex === undefined) {
-    throw new functions.https.HttpsError("invalid-argument", "Missing generationId or blockIndex");
+    throw new HttpsError("invalid-argument", "Missing generationId or blockIndex");
   }
 
   const db = admin.firestore();
@@ -113,11 +115,13 @@ exports.submitTeacherFeedback = functions.https.onCall(async (data, context) => 
 /**
  * Saves a high-quality generated question as a reusable template.
  */
-exports.saveTrustedTemplate = functions.https.onCall(async (data, context) => {
+exports.saveTrustedTemplate = onCall({ region: "us-central1" }, async (request) => {
+  const data = request.data;
+  const context = { auth: request.auth };
   const { blockData, topic, grade } = data;
   
   if (!blockData || !blockData.data) {
-    throw new functions.https.HttpsError("invalid-argument", "Missing block data");
+    throw new HttpsError("invalid-argument", "Missing block data");
   }
 
   const db = admin.firestore();
