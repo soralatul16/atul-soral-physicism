@@ -268,7 +268,7 @@ Task 3 (Criterion D, ~25 marks):
 MARK FLEXIBILITY: Blueprint allows ±3 marks variation per task.`;
 
 /* ── System Prompts ── */
-const GROQ_SYSTEM_PROMPT = 'You are an expert IB MYP Physics teacher and examiner who has written and marked every MYP Sciences eAssessment paper from M23 to M25. You follow the IB MYP Sciences Guide (April 2023), the official assessment blueprint (Task 1=25mk Crit A, Task 2=50mk Crit B+C, Task 3=25mk Crit D, Total=100mk), ISO 80000 conventions (3 s.f., SI units, scientific notation), and the official formula sheet. Your questions are INDISTINGUISHABLE from real IB papers. You MUST respond with valid JSON only. No markdown, no code fences, no extra text. CRITICAL: For MCQ questions, verify data.correct index matches the actually correct option. Do NOT set the wrong index.';
+const GROQ_SYSTEM_PROMPT = 'You are an expert IB MYP Physics teacher and examiner who has written and marked every MYP Sciences eAssessment paper from M23 to M25. You follow the IB MYP Sciences Guide (April 2023), the official assessment blueprint (Task 1=25mk Crit A, Task 2=50mk Crit B+C, Task 3=25mk Crit D, Total=100mk), ISO 80000 conventions (3 s.f., SI units, scientific notation), and the official formula sheet. Your questions are INDISTINGUISHABLE from real IB papers. You MUST respond with valid JSON only. No markdown, no code fences, no extra text. CRITICAL: For MCQ questions, verify data.correct index matches the actually correct option. Do NOT set the wrong index. Every question MUST use a real-world context (never "a student in a lab"). Every mark scheme must state the exact correct answer, never "correct answer". Use at least 3 different question types per section.';
 
 const GROQ_SYSTEM_PROMPT_MARK_SCHEME = 'You are an IB MYP Physics chief examiner. Your ONLY job is to write accurate mark schemes and explanations. You are given a generated question set JSON. You MUST output the EXACT SAME JSON structure but fill in the missing "markScheme" and "explanation" fields. Follow IB MYP mark scheme conventions exactly. Work through every calculation yourself. Output valid JSON only.';
 
@@ -584,6 +584,36 @@ NEVER use "State" or "Define" for Long Answer questions worth more than 2 marks.
 26) CALCULATOR AWARENESS: For calculation questions, assume students have an on-screen scientific calculator. Design multi-step problems that require it.
 27) SIMULATION CONTEXT (Criterion B/C): When generating Task 2 questions, describe a virtual simulation students interact with. Specify what can be changed and what is measured.
 28) EXPLANATION FORMATTING: In data.explanation for calculation questions, use <br> tags to separate each step. Each formula substitution, each intermediate result, and the final answer should be on its own line. Example: 'Step 1: F = ma<br>Step 2: F = 1500 × 4.17<br>Step 3: F = 6250 N (3 s.f.)'
+29) REAL-WORLD CONTEXT RULES:
+- Every stimulus MUST use a genuine real-world scenario: medical devices, space technology, sports, transport, environment, consumer electronics, animals, historical experiments
+- NEVER use: "A student in a lab...", "Consider a block on a frictionless surface...", "A physics experiment involves..."
+- GOOD: "Defibrillators are medical devices used in hospitals to restore heart rhythm. They deliver a controlled electric shock using two electrodes placed on the skin."
+- BAD: "A student investigates electrical circuits in a laboratory."
+- Include specific names, locations, dates, or statistics where possible
+30) QUESTION TYPE VARIETY PER SECTION:
+- Type 1: MCQ (1mk, Crit A, strand i) — 4 options, exactly one correct, command word: State/Select
+- Type 2: Short recall (1-2mk, Crit A, strand i) — one/two sentence answer, command: State/Define/Name
+- Type 3: Calculation (2-3mk, Crit A/C, strand ii) — formula→substitute→answer with unit to 3 s.f.
+- Type 4: Table completion (2mk, Crit A/C) — partially filled, student fills missing values, units in headers
+- Type 5: Graph description (2mk, Crit C, strand ii) — describe relationship: trend (1mk) + qualified (1mk)
+- Type 6: Source of error (2mk, Crit C, strand iv) — specific error (1mk) + effect on results (1mk). NEVER accept "human error" without specifics
+- Type 7: Explain using science (3mk, Crit A/C, strand iii) — chain: concept→mechanism→consequence
+- Use at LEAST 3 different types per section. Never all MCQ.
+31) MARK SCHEME PRECISION:
+- For calculations: MP1 = formula (seen or implied), MP2 = correct substitution with numbers, MP3 = exact answer with unit to 3 s.f. Always state "ECF from previous part" where applicable.
+- NEVER write "correct answer" — always write the actual numerical value or specific text
+- NEVER write "any reasonable answer" — always list 2-3 acceptable example answers
+- For conceptual answers: always add "WTTE" (words to that effect)
+- For units: award unit mark independently from numerical mark
+- Mark POSITIVELY — never deduct marks, only award for correct points
+32) THINGS THE AI MUST NEVER DO:
+- Never generate a question part without a criterion tag (A/B/C/D) in meta.criterion
+- Never generate Criterion B without the holistic V-H-E-M-D-S rubric in meta.gradingGrid
+- Never generate Criterion D without covering: scientific + economic + social aspects + concluding appraisal
+- Never accept "human error" as a source of error in mark schemes
+- Never put Criterion D as an early sub-part — always the last 1-2 sub-parts
+- Never omit units from calculation mark schemes
+- Never generate all questions of the same type in one section
 
 DRAWING QUESTIONS: Use type "Drawing" when students need to draw (free body diagram, circuit, ray diagram). Include: data.question (instruction), data.drawingInstructions (what to draw). Do NOT include data.drawingImage.
 
