@@ -1301,22 +1301,59 @@ function renderQ(idx){
     }
   }
 
-  const questionBody=`
-      <div class="q-header"><span class="q-label">Question ${currentQIdx+1} · ${q.type||"Open"}</span><span class="q-marks">${q.meta?.marks?q.meta.marks+" marks":""}</span></div>
-      ${mediaAbove}
-      <div class="q-text">${q.data?.question||q.data?.text||q.data?.fillText||"(No question text)"}</div>
-      ${mediaBelow}
-      ${buildInput(q,currentQIdx)}
-      <div class="q-controls">
-        <button class="q-ctrl-btn ${currentAttempt.flags[currentQIdx]?"flagged":""}" onclick="flagQ()">${currentAttempt.flags[currentQIdx]?"⭐ Flagged":"☆ Flag for Review"}</button>
-        <button class="q-ctrl-btn" onclick="clearAns()">✕ Clear</button>
-      </div>
-      <div class="student-note"><label>📝 My Note (private)</label><textarea placeholder="Note to self…" oninput="saveNote(${currentQIdx},this.value)">${currentAttempt.notes[currentQIdx]||""}</textarea></div>`;
-  if(hasBeside){
-    document.getElementById("attemptContent").innerHTML=contentHTML+sectionIntroHTML+`<div class="question-block"><div style="display:flex;gap:16px;flex-wrap:wrap;"><div style="flex:1;min-width:300px;">${questionBody}</div><div style="flex:0 0 300px;max-width:40%;">${besideHTML}</div></div></div>`;
+  // Get all questions in the same section
+  const sectionQuestions = [];
+  if(currentSet) {
+    const allSaved = (currentSet.blocks || []).filter(b => b.saved);
+    const qSectionId = q.sectionId || 1;
+    allSaved.forEach(b => {
+      if (b.mode === 'question' && (b.sectionId || 1) === qSectionId) {
+        sectionQuestions.push(b);
+      }
+    });
   } else {
-    document.getElementById("attemptContent").innerHTML=contentHTML+sectionIntroHTML+`<div class="question-block">${questionBody}</div>`;
+    sectionQuestions.push(q);
   }
+
+  let questionsHTML = '';
+  sectionQuestions.forEach((sq) => {
+    // Find its global index in qBlocks
+    const sqIdx = qBlocks.indexOf(sq);
+    
+    const mediaAbove=renderMediaInline((sq.media||[]).filter(m=>m.position!=='below'&&m.position!=='beside'));
+    const mediaBelow=renderMediaInline((sq.media||[]).filter(m=>m.position==='below'));
+    const mediaBeside=(sq.media||[]).filter(m=>m.position==='beside');
+    const hasBeside=mediaBeside.length>0;
+    const besideHTML=hasBeside?renderMediaInline(mediaBeside):'';
+
+    const qBody=`
+      <div class="q-header" id="q-anchor-${sqIdx}"><span class="q-label">Question ${sqIdx+1} · ${sq.type||"Open"}</span><span class="q-marks">${sq.meta?.marks?sq.meta.marks+" marks":""}</span></div>
+      ${mediaAbove}
+      <div class="q-text">${sq.data?.question||sq.data?.text||sq.data?.fillText||"(No question text)"}</div>
+      ${mediaBelow}
+      <div onfocusin="currentQIdx=${sqIdx}; renderQNav();" onclick="currentQIdx=${sqIdx}; renderQNav();">
+        ${buildInput(sq, sqIdx)}
+      </div>
+      <div class="q-controls">
+        <button class="q-ctrl-btn ${currentAttempt.flags[sqIdx]?"flagged":""}" onclick="currentQIdx=${sqIdx};flagQ()">${currentAttempt.flags[sqIdx]?"⭐ Flagged":"☆ Flag for Review"}</button>
+        <button class="q-ctrl-btn" onclick="currentQIdx=${sqIdx};clearAns()">✕ Clear</button>
+      </div>
+      <div class="student-note"><label>📝 My Note (private)</label><textarea placeholder="Note to self…" onfocus="currentQIdx=${sqIdx}; renderQNav();" oninput="saveNote(${sqIdx},this.value)">${currentAttempt.notes[sqIdx]||""}</textarea></div>`;
+    
+    if(hasBeside){
+      questionsHTML += `<div class="question-block" style="margin-bottom: 24px;"><div style="display:flex;gap:16px;flex-wrap:wrap;"><div style="flex:1;min-width:300px;">${qBody}</div><div style="flex:0 0 300px;max-width:40%;">${besideHTML}</div></div></div>`;
+    } else {
+      questionsHTML += `<div class="question-block" style="margin-bottom: 24px;">${qBody}</div>`;
+    }
+  });
+
+  document.getElementById("attemptContent").innerHTML=contentHTML+sectionIntroHTML+questionsHTML;
+  
+  // Scroll to the specific question if requested
+  setTimeout(() => {
+    const anchor = document.getElementById("q-anchor-" + currentQIdx);
+    if (anchor) anchor.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, 50);
   renderQNav();
   // Initialize all drawing canvases after page loads
   document.querySelectorAll('.draw-canvas').forEach(function(c) { 
@@ -1778,13 +1815,32 @@ function getQLabel(q){
 function updateRightNav(){
   const rc=document.getElementById("rightNavContent");
   if(!rc)return;
-  rc.innerHTML=qBlocks.map((q,i)=>{
-    const st=getQuestionState(i);
-    return `<div class="right-nav-item ${i===currentQIdx?'current':''}" onclick="renderQ(${i})">
-      <div style="flex-shrink:0;">${circleSVG(st)}</div>
-      <div style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text);font-weight:500;">Q${i+1}: ${getQLabel(q)}</div>
-    </div>`;
-  }).join("");
+  
+  // Group questions by section
+  const sectionsMap = new Map(); // sectionId -> { name, qBlocks: [ { idx, q, st } ] }
+  const savedSections = currentSet?.sections || [{ id: 1, name: "Section 1" }];
+  
+  qBlocks.forEach((q, i) => {
+    const secId = q.sectionId || 1;
+    if (!sectionsMap.has(secId)) {
+      const secMeta = savedSections.find(s => s.id === secId) || { name: "Section " + secId };
+      sectionsMap.set(secId, { name: secMeta.name || "Section " + secId, questions: [] });
+    }
+    sectionsMap.get(secId).questions.push({ idx: i, q: q, st: getQuestionState(i) });
+  });
+
+  let html = '';
+  sectionsMap.forEach((secData, secId) => {
+    const firstQIdx = secData.questions.length > 0 ? secData.questions[0].idx : 0;
+    html += `<div style="padding: 10px 12px; margin-top: 8px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text2); cursor: pointer;" onclick="renderQ(${firstQIdx})">${secData.name}</div>`;
+    secData.questions.forEach((item) => {
+      html += `<div class="right-nav-item ${item.idx===currentQIdx?'current':''}" onclick="renderQ(${item.idx})" style="padding-left: 20px;">
+        <div style="flex-shrink:0;">${circleSVG(item.st)}</div>
+        <div style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text);font-weight:500;">Q${item.idx+1}: ${getQLabel(item.q)}</div>
+      </div>`;
+    });
+  });
+  rc.innerHTML = html;
 }
 
 /* ══════ Timer ══════ */
@@ -2161,7 +2217,12 @@ function showResults(attemptId){
     if(hasTeacherGrade&&q.type!=="MCQ"&&q.type!=="Multiple Select MCQ"&&q.type!=="True / False"){statusText=`Graded: ${teacherGrade}/${q.meta?.marks||0}`;statusColor="#5edd8a";}
     const secId=q.sectionId||(savedSections[0]?.id||1);const sec=savedSections.find(s=>s.id===secId)||savedSections[0]||{name:"Section 1"};const secIdx=savedSections.indexOf(sec)+1;
     const qInSec=qBlocks.slice(0,i+1).filter(bk=>bk.sectionId===secId).length;const letters=["a","b","c","d","e","f","g","h","i","j"];const qLabel=`${secIdx}(${letters[qInSec-1]||qInSec})`;
-    const marks=q.meta?.marks||0;const crit=q.meta?.criterion;const markScheme=q.meta?.markScheme;const explanation=q.data?.explanation;
+    const marks=q.meta?.marks||0;const crit=q.meta?.criterion;const markScheme=q.meta?.markScheme;
+    let explanation=q.data?.explanation||"";
+    if (explanation) {
+      explanation = explanation.replace(/\. The/g, ".<br>The");
+      explanation = explanation.replace(/ ([A-Za-z0-9_]+\s*=)/g, "<br>$1");
+    }
     return `<div class="q-review-item" style="border-left:3px solid ${statusColor};"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;flex-wrap:wrap;gap:8px;"><div><span style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Q${qLabel} · ${q.type}</span>${marks?`<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:var(--glow);border:1px solid rgba(224,48,48,0.3);color:#ff7070;margin-left:6px;">${marks} marks</span>`:""}${crit?`<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(41,128,185,0.1);border:1px solid rgba(41,128,185,0.3);color:#76b4de;margin-left:4px;">Crit ${crit}</span>`:""}${hasTeacherGrade?`<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.3);color:#5edd8a;margin-left:4px;">✓ ${teacherGrade}/${marks}</span>`:""}</div><span style="font-size:12px;font-weight:700;color:${statusColor};">${statusText}</span></div><div style="font-size:14px;line-height:1.7;margin-bottom:10px;">${q.data?.question||q.data?.fillText||"(No question text)"}</div><div style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Your Answer</div>${studentAnsHTML}${teacherFb?`<div style="margin-top:14px;padding:12px;background:rgba(224,48,48,0.07);border:1px solid rgba(224,48,48,0.2);border-radius:7px;"><div style="font-size:11px;color:#ff7070;font-weight:600;margin-bottom:4px;">👨‍🏫 Teacher Feedback</div><div style="font-size:13px;color:var(--text3);line-height:1.6;">${teacherFb}</div></div>`:""}${markScheme?`<div style="margin-top:14px;padding:12px;background:rgba(39,174,96,0.07);border:1px solid rgba(39,174,96,0.2);border-radius:7px;"><div style="font-size:11px;color:#5edd8a;font-weight:600;margin-bottom:4px;">📗 Mark Scheme</div><div style="font-size:13px;color:var(--text3);line-height:1.6;">${markScheme}</div></div>`:""}${explanation?`<div style="margin-top:10px;padding:12px;background:rgba(41,128,185,0.07);border:1px solid rgba(41,128,185,0.2);border-radius:7px;"><div style="font-size:11px;color:#76b4de;font-weight:600;margin-bottom:4px;">💡 Explanation</div><div style="font-size:13px;color:var(--text3);line-height:1.6;">${explanation}</div></div>`:""}${a.notes?.[i]?`<div style="margin-top:10px;font-size:12px;color:var(--yellow);">📝 Your note: ${a.notes[i]}</div>`:""}</div>`;
   }).join("")||'<p style="color:var(--text2);font-size:13px;">Set details unavailable.</p>';
 }

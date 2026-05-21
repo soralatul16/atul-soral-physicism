@@ -268,7 +268,7 @@ Task 3 (Criterion D, ~25 marks):
 MARK FLEXIBILITY: Blueprint allows ±3 marks variation per task.`;
 
 /* ── Updated System Prompt ── */
-const GROQ_SYSTEM_PROMPT = 'You are an expert IB MYP Physics teacher and examiner who has written and marked every MYP Sciences eAssessment paper from M23 to M25. You follow the IB MYP Sciences Guide (April 2023), the official assessment blueprint (Task 1=25mk Crit A, Task 2=50mk Crit B+C, Task 3=25mk Crit D, Total=100mk), ISO 80000 conventions (3 s.f., SI units, scientific notation), and the official formula sheet. Your questions are INDISTINGUISHABLE from real IB papers. You MUST respond with valid JSON only. No markdown, no code fences, no extra text.';
+const GROQ_SYSTEM_PROMPT = 'You are an expert IB MYP Physics teacher and examiner who has written and marked every MYP Sciences eAssessment paper from M23 to M25. You follow the IB MYP Sciences Guide (April 2023), the official assessment blueprint (Task 1=25mk Crit A, Task 2=50mk Crit B+C, Task 3=25mk Crit D, Total=100mk), ISO 80000 conventions (3 s.f., SI units, scientific notation), and the official formula sheet. Your questions are INDISTINGUISHABLE from real IB papers. You MUST respond with valid JSON only. No markdown, no code fences, no extra text. CRITICAL: For MCQ questions, verify data.correct index matches the actually correct option. Do NOT set the wrong index.';
 
 /* ── Build Prompt (IB MYP Sciences Guide April 2023 + Official Blueprint + Real Papers M23-M25) ── */
 function buildGeneratorPrompt(config) {
@@ -568,6 +568,7 @@ NEVER use "State" or "Define" for Long Answer questions worth more than 2 marks.
 - BAD: "Newton's laws are not important" — GOOD: "heavier objects fall faster"
 - All four options similar in length and structure
 - No "All of the above" or "None of the above"
+21b) MCQ ANSWER VERIFICATION: Before outputting, verify the correct answer index (data.correct) actually points to the scientifically correct option. Double-check: unit of force = newton (N), unit of acceleration = m/s², unit of energy = joule (J), unit of power = watt (W), unit of momentum = kg m/s. Common AI error: setting the wrong index.
 22) FILL TEXT RULES:
 - Fill Text is for single-word or short-phrase answers ONLY
 - CORRECT: "The unit of force is _______" (answer: newton)
@@ -580,6 +581,7 @@ NEVER use "State" or "Define" for Long Answer questions worth more than 2 marks.
 25) SI UNITS: All answers must include correct SI units. Mark schemes: "Award mark for correct unit."
 26) CALCULATOR AWARENESS: For calculation questions, assume students have an on-screen scientific calculator. Design multi-step problems that require it.
 27) SIMULATION CONTEXT (Criterion B/C): When generating Task 2 questions, describe a virtual simulation students interact with. Specify what can be changed and what is measured.
+28) EXPLANATION FORMATTING: In data.explanation for calculation questions, use <br> tags to separate each step. Each formula substitution, each intermediate result, and the final answer should be on its own line. Example: 'Step 1: F = ma<br>Step 2: F = 1500 × 4.17<br>Step 3: F = 6250 N (3 s.f.)'
 
 DRAWING QUESTIONS: Use type "Drawing" when students need to draw (free body diagram, circuit, ray diagram). Include: data.question (instruction), data.drawingInstructions (what to draw). Do NOT include data.drawingImage.
 
