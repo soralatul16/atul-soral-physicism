@@ -267,8 +267,10 @@ Task 3 (Criterion D, ~25 marks):
 
 MARK FLEXIBILITY: Blueprint allows ±3 marks variation per task.`;
 
-/* ── Updated System Prompt ── */
+/* ── System Prompts ── */
 const GROQ_SYSTEM_PROMPT = 'You are an expert IB MYP Physics teacher and examiner who has written and marked every MYP Sciences eAssessment paper from M23 to M25. You follow the IB MYP Sciences Guide (April 2023), the official assessment blueprint (Task 1=25mk Crit A, Task 2=50mk Crit B+C, Task 3=25mk Crit D, Total=100mk), ISO 80000 conventions (3 s.f., SI units, scientific notation), and the official formula sheet. Your questions are INDISTINGUISHABLE from real IB papers. You MUST respond with valid JSON only. No markdown, no code fences, no extra text. CRITICAL: For MCQ questions, verify data.correct index matches the actually correct option. Do NOT set the wrong index.';
+
+const GROQ_SYSTEM_PROMPT_MARK_SCHEME = 'You are an IB MYP Physics chief examiner. Your ONLY job is to write accurate mark schemes and explanations. You are given a generated question set JSON. You MUST output the EXACT SAME JSON structure but fill in the missing "markScheme" and "explanation" fields. Follow IB MYP mark scheme conventions exactly. Work through every calculation yourself. Output valid JSON only.';
 
 /* ── Build Prompt (IB MYP Sciences Guide April 2023 + Official Blueprint + Real Papers M23-M25) ── */
 function buildGeneratorPrompt(config) {
@@ -594,7 +596,7 @@ Use HTML tables for data, <sub>/<sup> for equations.`;
 }
 
 /* ── AI API Call (Groq primary, Gemini fallback) ── */
-async function callAI(prompt) {
+async function callAI(prompt, isMarkSchemePhase = false) {
   const groqKey = localStorage.getItem('groq_api_key');
   const geminiKey = localStorage.getItem('gemini_api_key');
   const statusEl = document.getElementById('gen-status');
@@ -603,15 +605,17 @@ async function callAI(prompt) {
 
   // Use Groq if available
   if (groqKey) {
-    return await callGroq(prompt, groqKey, statusEl);
+    return await callGroq(prompt, isMarkSchemePhase, groqKey, statusEl);
   } else {
-    return await callGeminiAPI(prompt, geminiKey, statusEl);
+    return await callGeminiAPI(prompt, isMarkSchemePhase, geminiKey, statusEl);
   }
 }
 
-async function callGroq(prompt, key, statusEl) {
+async function callGroq(prompt, isMarkSchemePhase, key, statusEl) {
   for (let attempt = 0; attempt < 2; attempt++) {
     const model = attempt === 0 ? 'llama-3.3-70b-versatile' : 'llama-3.1-8b-instant';
+    const sysPrompt = isMarkSchemePhase ? GROQ_SYSTEM_PROMPT_MARK_SCHEME : GROQ_SYSTEM_PROMPT;
+    const temp = isMarkSchemePhase ? 0.2 : 0.7;
     
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
@@ -622,10 +626,10 @@ async function callGroq(prompt, key, statusEl) {
       body: JSON.stringify({
         model: model,
         messages: [
-          { role: 'system', content: GROQ_SYSTEM_PROMPT },
+          { role: 'system', content: sysPrompt },
           { role: 'user', content: prompt }
         ],
-        temperature: 0.7,
+        temperature: temp,
         max_tokens: 4096,
         response_format: { type: 'json_object' }
       })
@@ -651,7 +655,10 @@ async function callGroq(prompt, key, statusEl) {
   }
 }
 
-async function callGeminiAPI(prompt, key, statusEl) {
+async function callGeminiAPI(prompt, isMarkSchemePhase, key, statusEl) {
+  const sysPrompt = isMarkSchemePhase ? GROQ_SYSTEM_PROMPT_MARK_SCHEME : GROQ_SYSTEM_PROMPT;
+  const temp = isMarkSchemePhase ? 0.2 : 0.7;
+
   for (let attempt = 0; attempt < 2; attempt++) {
     const response = await fetch(
       'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key,
@@ -661,10 +668,10 @@ async function callGeminiAPI(prompt, key, statusEl) {
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
           systemInstruction: {
-            parts: [{ text: GROQ_SYSTEM_PROMPT }]
+            parts: [{ text: sysPrompt }]
           },
           generationConfig: {
-            temperature: 0.7,
+            temperature: temp,
             maxOutputTokens: 4096,
             responseMimeType: "application/json"
           }
@@ -917,7 +924,39 @@ async function runGeneration() {
       }
       
       var prompt = buildGeneratorPrompt(singleConfig);
-      var result = await callAI(prompt);
+      prompt += "\n\nCRITICAL FOR THIS PHASE: Do NOT generate the actual mark scheme or explanation yet. Leave meta.markScheme and data.explanation as empty strings (''). We will generate them in the next step.";
+      
+      var qResult = await callAI(prompt, false);
+      
+      if (qResult && qResult.blocks && Array.isArray(qResult.blocks)) {
+        status.textContent = '⏳ Generating mark schemes for Criterion ' + crit + '...';
+        
+        var msPrompt = "Here is the generated question JSON block array:\n" + JSON.stringify(qResult, null, 2) + "\n\nCRITICAL INSTRUCTION: Read these questions, calculate the answers yourself, and generate the EXACT SAME JSON structure, but this time fill in the missing 'meta.markScheme', 'data.correct', and 'data.explanation' fields for every question. Do not change any other fields.";
+        
+        var msResult = await callAI(msPrompt, true);
+        
+        if (msResult && msResult.blocks && Array.isArray(msResult.blocks)) {
+           // Merge the mark schemes in
+           for(let j=0; j<qResult.blocks.length; j++) {
+              let qb = qResult.blocks[j];
+              let mb = msResult.blocks.find(x => x.id === qb.id || (x.data && x.data.question === qb.data?.question));
+              if(!mb) mb = msResult.blocks[j]; // Fallback to index
+              
+              if(mb) {
+                 if(mb.meta && mb.meta.markScheme) {
+                    qb.meta = qb.meta || {};
+                    qb.meta.markScheme = mb.meta.markScheme;
+                 }
+                 if(mb.data) {
+                    qb.data = qb.data || {};
+                    if(mb.data.correct !== undefined) qb.data.correct = mb.data.correct;
+                    if(mb.data.explanation !== undefined) qb.data.explanation = mb.data.explanation;
+                 }
+              }
+           }
+        }
+        
+        var result = qResult;
       
       if (result && result.blocks && Array.isArray(result.blocks)) {
         var critSections = result.sections || [{id: 1, name: 'Section 1'}];
