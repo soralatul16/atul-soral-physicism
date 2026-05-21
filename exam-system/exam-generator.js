@@ -465,13 +465,10 @@ EXTENDED RESPONSE REQUIREMENTS:
 
   return critOnlyInstruction + `You are an expert IB MYP Physics teacher creating an eAssessment-style question set. Your questions must be INDISTINGUISHABLE from real IB MYP Sciences eAssessment papers (M23-M25).
 
-${IB_TASK_BLUEPRINT}
-
-${IB_OFFICIAL_FORMULA_SHEET}
-
 ${IB_ASSESSMENT_CONVENTIONS}
-
-${IB_EXAM_TOOLS}
+${(crit === 'A' || crit === 'C') ? IB_OFFICIAL_FORMULA_SHEET : ''}
+${(crit === 'B' || crit === 'C') ? IB_EXAM_TOOLS : ''}
+${IB_TASK_BLUEPRINT}
 
 ═══ ASSESSMENT CONFIGURATION ═══
 Grade: ${config.grade} | ${ye.label} | Chapter: ${config.chapter} | Topic: ${config.topic}
@@ -627,7 +624,7 @@ async function callGroq(prompt, key, statusEl) {
           { role: 'user', content: prompt }
         ],
         temperature: 0.7,
-        max_tokens: 8000,
+        max_tokens: 4096,
         response_format: { type: 'json_object' }
       })
     });
