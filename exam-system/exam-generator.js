@@ -984,11 +984,12 @@ async function runGeneration() {
                  }
               }
            }
-        }
-        
-        var result = qResult;
+         }
+         
+         var result = qResult;
+      }
       
-      if (result && result.blocks && Array.isArray(result.blocks)) {
+      if (typeof result !== 'undefined' && result && result.blocks && Array.isArray(result.blocks)) {
         var critSections = result.sections || [{id: 1, name: 'Section 1'}];
         critSections.forEach(function(sec) {
           sec.id = sec.id + sectionOffset;
