@@ -1,3 +1,6 @@
+Replace the entire contents of exam-system/exam-generator.js with the following code:
+
+```javascript
 /* ═══════════════════════════════════════════════════════════
    PHYSICISM — AI Question Set Generator (Groq + Gemini)
    Supports Groq (default, free 30RPM) and Gemini as fallback.
@@ -83,36 +86,36 @@ function updateGenTotalMarks() {
   if (genTotal) genTotal.value = total;
 }
 
-/* ── Templates Logic ── */
+/* ── Templates Logic (Updated to match Official IB Blueprint) ── */
 const PRESET_TEMPLATES = [
   {
-    name: "Criterion A Test (25 marks)",
+    name: "Task 1 — Criterion A (25 marks)",
     criteria: ["A"],
-    mix: [ {t:"MCQ", c:5, m:1}, {t:"Long Answer", c:3, m:4}, {t:"Table", c:1, m:4}, {t:"Fill Text", c:4, m:1} ],
+    mix: [ {t:"MCQ", c:5, m:1}, {t:"Fill Text", c:3, m:1}, {t:"Long Answer", c:2, m:3}, {t:"Long Answer", c:2, m:4}, {t:"Table", c:1, m:4} ],
     marks: 25
   },
   {
-    name: "Criterion B+C Investigation",
+    name: "Task 2 — Criteria B+C (50 marks)",
     criteria: ["B", "C"],
-    mix: [ {t:"Long Answer", c:5, m:4}, {t:"Table", c:1, m:5}, {t:"Graph Plot", c:1, m:4} ],
+    mix: [ {t:"Long Answer", c:1, m:25}, {t:"Table", c:1, m:4}, {t:"Graph Plot", c:1, m:4}, {t:"Long Answer", c:3, m:4}, {t:"Fill Text", c:3, m:1} ],
     marks: 50
   },
   {
-    name: "Criterion D Reflection",
+    name: "Task 3 — Criterion D (25 marks)",
     criteria: ["D"],
-    mix: [ {t:"Long Answer", c:2, m:6}, {t:"Table", c:1, m:3}, {t:"True / False", c:5, m:1} ],
+    mix: [ {t:"MCQ", c:3, m:1}, {t:"Fill Text", c:2, m:1}, {t:"Long Answer", c:1, m:6}, {t:"Long Answer", c:1, m:8}, {t:"True / False", c:2, m:1} ],
     marks: 25
   },
   {
-    name: "Full Mock Exam",
+    name: "Full Mock eAssessment (100 marks)",
     criteria: ["A", "B", "C", "D"],
-    mix: [ {t:"MCQ", c:10, m:1}, {t:"Long Answer", c:10, m:5}, {t:"Table", c:3, m:4}, {t:"Graph Plot", c:1, m:4} ],
+    mix: [ {t:"MCQ", c:8, m:1}, {t:"Fill Text", c:5, m:1}, {t:"Long Answer", c:8, m:4}, {t:"Table", c:2, m:4}, {t:"Graph Plot", c:1, m:4}, {t:"Long Answer", c:2, m:8} ],
     marks: 100
   },
   {
-    name: "Quick Quiz",
+    name: "Quick Quiz — Criterion A (15 marks)",
     criteria: ["A"],
-    mix: [ {t:"MCQ", c:5, m:1}, {t:"Long Answer", c:2, m:2}, {t:"Fill Text", c:2, m:1}, {t:"Table", c:1, m:4} ],
+    mix: [ {t:"MCQ", c:5, m:1}, {t:"Long Answer", c:2, m:3}, {t:"Fill Text", c:2, m:1} ],
     marks: 15
   }
 ];
@@ -158,7 +161,7 @@ function applyTemplate(idx) {
   updateGenTotalMarks();
 }
 
-/* ── Build Prompt (IB MYP Sciences Guide April 2023 + Real Papers M23-M25) ── */
+/* ── Official IB MYP Sciences Constants ── */
 const DIAGRAM_BANK = {
   forces: ['free-body-diagram.png','spring-extension.png','friction-surface.png','projectile-motion.png'],
   waves: ['transverse-wave.png','longitudinal-wave.png','refraction-prism.png','em-spectrum.png','reflection-diagram.png'],
@@ -171,19 +174,118 @@ const DIAGRAM_BANK = {
   experiments: ['measuring-cylinder.png','stopwatch-ruler.png','spring-mass-setup.png','pendulum-setup.png','beaker-thermometer.png']
 };
 
+const IB_OFFICIAL_FORMULA_SHEET = `
+OFFICIAL IB MYP PHYSICS FORMULA SHEET (provided to students on-screen):
+ρ = m/V (density)
+s = d/t (speed)
+v = Δd/Δt (velocity, where d = displacement)
+a = Δv/Δt (acceleration)
+v = u + at
+d = ut + ½at²
+v² = u² + 2ad
+F = ma (force)
+p = mv (momentum)
+P = F/A (pressure)
+W = Fd (work done)
+KE = ½mv² (kinetic energy)
+g = F_g/m (gravitational field strength)
+GPE = mgh (gravitational potential energy)
+efficiency = useful energy output / total energy input × 100%
+P = W/t (power, from work)
+P = IV (power, electrical)
+I = Q/t (current)
+V = IR (voltage)
+R_total = R₁ + R₂ + ... (series)
+1/R_total = 1/R₁ + 1/R₂ + ... (parallel)
+V₁/V₂ = n₁/n₂ (transformer equation)
+v = fλ (wave speed)
+T = 1/f (time period)
+
+RULE: These are the ONLY formulas students have access to. If a question requires any formula NOT on this list, you MUST provide it within the question text. Never assume students know formulas beyond this list.`;
+
+const IB_ASSESSMENT_CONVENTIONS = `
+OFFICIAL IB ASSESSMENT CONVENTIONS (ISO 80000):
+- Final answers: 3 significant figures (unless stated otherwise)
+- Scientific notation: a × 10^k where 1 ≤ a < 10
+- SI units required. Accepted exceptions: mass in g (lab), volume in cm³ or dm³, temperature in °C, pressure in kPa
+- Derived units: ms⁻¹, ms⁻², kg m⁻³, J g⁻¹ °C⁻¹
+- Subscripts/superscripts must be formatted correctly — wrong formatting = no marks
+- Mark schemes must specify: "Award [N] mark(s) for answer to 3 s.f. with correct unit"
+- Accept ECF (error carried forward) from previous parts
+- "Seen or implied" means the working doesn't need to be explicitly shown if the answer is correct`;
+
+const IB_EXAM_TOOLS = `
+TOOLS AVAILABLE TO STUDENTS (on-screen eAssessment):
+- Scientific calculator (on-screen, always available)
+- Measuring tool (for measuring distances/angles on diagrams)
+- Drawing canvas (for sketching diagrams, free-body diagrams, circuits)
+- Graph plotter (for plotting data points and drawing lines of best fit)
+- Table drawing tool (for organizing data)
+- IUPAC periodic table (interactive, on-screen)
+
+When creating questions, assume students have access to ALL these tools. Design questions that USE these tools:
+- "Use the graph plotter to plot..." instead of "Draw a graph..."
+- "Complete the table below..." using the table tool
+- "On the drawing canvas, sketch..." for diagram questions
+- Calculator questions should require multi-step calculations`;
+
+const IB_TASK_BLUEPRINT = `
+OFFICIAL IB MYP SCIENCES eASSESSMENT BLUEPRINT:
+┌─────────┬─────────────────────────────┬───────┬──────────────┐
+│ Task    │ Focus                       │ Marks │ Criteria     │
+├─────────┼─────────────────────────────┼───────┼──────────────┤
+│ Task 1  │ Knowing & Understanding     │  25   │ A (may +C)   │
+│ Task 2  │ Investigation (simulation)  │  50   │ B + C        │
+│ Task 3  │ Real-world reflection       │  25   │ D            │
+├─────────┼─────────────────────────────┼───────┼──────────────┤
+│ TOTAL   │                             │ 100   │ A+B+C+D      │
+└─────────┴─────────────────────────────┴───────┴──────────────┘
+
+Task 1 (Criterion A, ~25 marks):
+- Tests knowledge and understanding of physics concepts
+- May ALSO award marks against Criterion C when data interpretation is involved
+- Uses 2-3 stimulus contexts with progressive sub-parts (i → ii → iii)
+- Stimulus = real-world scenario (3-8 sentences) with specific data
+
+Task 2 (Criteria B+C, ~50 marks):
+- Based on a SIMULATION — students interact with a virtual lab
+- Criterion B (~25 marks): Design an investigation using the simulation
+  - Formulate research question, hypothesis, identify variables
+  - Design method with equipment from the simulation
+  - Plan data collection (5 increments, 3 trials, calculate average)
+  - ONE holistic marking grid (V, H, E, M, D, S)
+- Criterion C (~25 marks): Process and evaluate data FROM the simulation
+  - Present data in tables with correct headers and units
+  - Plot graphs using the graph plotter tool
+  - Interpret trends, calculate values, evaluate hypothesis
+  - Identify errors and suggest improvements
+
+Task 3 (Criterion D, ~25 marks):
+- Extended response about a REAL-WORLD science issue
+- Stimulus = detailed scenario (6-10 sentences) with specific data, names, locations
+- Students discuss implications (environmental, economic, ethical, social, political)
+- Must include BOTH benefits AND limitations
+- Holistic marking grid for extended response
+- Concluding appraisal with justified opinion
+
+MARK FLEXIBILITY: Blueprint allows ±3 marks variation per task.`;
+
+/* ── Updated System Prompt ── */
+const GROQ_SYSTEM_PROMPT = 'You are an expert IB MYP Physics teacher and examiner who has written and marked every MYP Sciences eAssessment paper from M23 to M25. You follow the IB MYP Sciences Guide (April 2023), the official assessment blueprint (Task 1=25mk Crit A, Task 2=50mk Crit B+C, Task 3=25mk Crit D, Total=100mk), ISO 80000 conventions (3 s.f., SI units, scientific notation), and the official formula sheet. Your questions are INDISTINGUISHABLE from real IB papers. You MUST respond with valid JSON only. No markdown, no code fences, no extra text.';
+
+/* ── Build Prompt (IB MYP Sciences Guide April 2023 + Official Blueprint + Real Papers M23-M25) ── */
 function buildGeneratorPrompt(config) {
   const gradeToYear = {"6":"1","7":"1","8":"3","9":"3","10":"5"};
   const crit = config.criterion?.charAt(0) || "A";
   const yl = gradeToYear[config.grade] || "5";
   const critFullNames = {A:"Knowing and Understanding",B:"Inquiring and Designing",C:"Processing and Evaluating",D:"Reflecting on the Impacts of Science"};
 
-
   const diagramInstr = config.includeDiagrams ? `
 DIAGRAMS: When a visual is needed, generate a Text content block with a styled HTML placeholder box. Do NOT use Image blocks — they break. Use this format:
 
 {"mode":"content","type":"Text","sectionId":1,"data":{"text":"<div style='padding:16px;background:#f9f6f1;border:2px dashed rgba(192,57,43,0.15);border-radius:10px;text-align:center;margin:10px 0;'><p style='font-size:13px;color:#c0392b;font-weight:600;'>[DIAGRAM: Description of what diagram shows]</p><p style='font-size:12px;color:#555;margin-top:6px;'>Detailed description with labels, arrows, and measurements</p></div>"}}
 
-For Criterion D, describe the real-world scenario with specific details in the stimulus text instead of requiring an image. The text description IS the visual — no image needed.
+For Criterion D, describe the real-world scenario with specific details in the stimulus text instead of requiring an image.
 
 RULES:
 - NEVER generate blocks with "type":"Image" — they will break and show nothing
@@ -234,57 +336,93 @@ DATA TABLES: For Criterion C and calculation questions, include HTML data tables
 
   if (hasA) {
     taskStructure += `
-CRITERION A (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'}): 2-3 stimuli with sub-parts.
-(a) 1mk strand i: "${ye.A_verbs.i[0]}" — recall. (b) 1-2mk strand i: short answer. (c) 2mk strand ii: "${ye.A_verbs.ii[0]}" — formula→sub→answer+units. (d) 2-3mk strand ii: multi-step calc. (e) 2-3mk strand iii: "${ye.A_verbs.iii[0]}" — reasoning.
-Mark scheme: "Award N marks", "Seen or implied", "Accept/Do not accept", "WTTE", "ECF", "2+ sig figs".`;
+TASK 1 — CRITERION A: KNOWING AND UNDERSTANDING (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'})
+Structure: 2-3 real-world stimulus contexts, each with progressive sub-parts.
+(a) 1mk strand i: "${ye.A_verbs.i[0]}" — recall a fact or definition.
+(b) 1-2mk strand i: short answer recalling key concept.
+(c) 2mk strand ii: "${ye.A_verbs.ii[0]}" — substitute into formula, show working, answer with unit.
+(d) 2-3mk strand ii: multi-step calculation with formula rearrangement.
+(e) 2-3mk strand iii: "${ye.A_verbs.iii[0]}" — analyse data or evaluate a claim with reasoning.
+
+NOTE: Task 1 questions MAY also award marks against Criterion C when they involve interpreting data from a table or graph. If a sub-part asks students to read/interpret data, tag it as criterion "A" but note in markScheme that C marks may also be awarded.
+
+MARK SCHEME FORMAT:
+- "Award [N] mark(s) for..."
+- "Seen or implied" (working doesn't need to be explicit if answer is correct)
+- "Accept [alternative] / Do not accept [wrong answer]"
+- "WTTE" (words to that effect — accept equivalent phrasing)
+- "ECF" (error carried forward from previous part)
+- "Answer must be to 3 significant figures with correct SI unit"
+- For calculations: "Award 1 mark for correct substitution, 1 mark for correct answer with unit"`;
   }
 
   if (hasB) {
     taskStructure += `
-CRITERION B (${config.criterion === 'Full Exam' ? '~16-18 marks' : '~14-16 marks'}): ONE design question. Stimulus describes phenomenon+equipment.
-(a) 1mk: "${ye.B_verbs.i[0]} a research question". (b) 2-3mk: "${ye.B_verbs.ii[0]} a testable ${yl==='1'?'prediction':'hypothesis'}".
+TASK 2a — CRITERION B: INQUIRING AND DESIGNING (${config.criterion === 'Full Exam' ? '~25 marks' : '~14-16 marks'})
+Context: Based on a SIMULATION. Describe a virtual lab setup that students interact with.
+The stimulus MUST describe: what the simulation shows, what variables can be changed, what can be measured.
+
+(a) 1mk: "${ye.B_verbs.i[0]} a research question" — must link IV and DV.
+(b) 2-3mk: "${ye.B_verbs.ii[0]} a testable ${yl==='1'?'prediction':'hypothesis'}" — must explain WHY using physics.
 (c) MAIN DESIGN (14-16mk): Holistic grid in meta.gradingGrid:
 {"V":{"label":"Variables","levels":{"1":"IV or DV","2":"IV and DV","3":"IV,DV,CV","4":"IV,DV,CV justified"}},"H":{"label":"${yl==='1'?'Prediction':'Hypothesis'}","levels":{"1":"Links one var","2":"Links IV+DV","3":"IV+DV+explanation"}},"E":{"label":"Equipment","levels":{"1":"Measures IV or DV","2":"Measures IV and DV"}},"M":{"label":"Method","levels":{"1":"Attempt","2":"Links IV+DV","3":"Complete","4":"Complete+CV control"}},"D":{"label":"Data","levels":{"1":"IV values","2":"5 increments or 3 trials","3":"5+3","4":"5+3+average"}},"S":{"label":"Safety","levels":{"1":"Precaution+hazard"}}}
+
+SIMULATION CONTEXT EXAMPLE:
+"You have access to a simulation that models [phenomenon]. In the simulation, you can change [IV] using a slider/dropdown. The simulation measures [DV] and displays it on a [meter/graph/table]. Equipment available includes: [list from simulation]."
+
 Do NOT split into multiple questions. ONE stimulus, ONE design task, ONE grid.`;
   }
 
   if (hasC) {
     taskStructure += `
-CRITERION C (${config.criterion === 'Full Exam' ? '~20-25 marks' : config.totalMarks + ' marks'}): Provide data table (5-7 rows, units in headers).
-(a) 1-2mk: Read/calculate from data. (b) 2-3mk: Calculate using formula. (c) 4mk: Present/plot data. (d) 2-3mk: "${ye.C_verbs.ii[0]}" trend+relationship. (e) 3mk: "${ye.C_verbs.iii[0]}" whether data supports ${yl==='1'?'prediction':'hypothesis'}. (f) 2mk: Error+effect. (g) 2-3mk: Improvement.`;
+TASK 2b — CRITERION C: PROCESSING AND EVALUATING (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'})
+Context: Students have collected data FROM the simulation described in Task 2a.
+Provide a complete DATA TABLE with 5-7 rows of realistic numerical data. Headers MUST include units (e.g. "Force / N").
+
+(a) 1-2mk strand i: Read a value from the data or calculate a simple value.
+(b) 2-3mk strand ii: Calculate using a formula (show substitution + answer + unit + 3 s.f.).
+(c) 4mk strand i: "Use the graph plotter to plot [DV] against [IV]. Draw a line of best fit."
+(d) 2-3mk strand ii: "${ye.C_verbs.ii[0]} the trend shown by the graph. Describe the relationship between [IV] and [DV]."
+(e) 3mk strand iii: "${ye.C_verbs.iii[0]} whether the data supports the ${yl==='1'?'prediction':'hypothesis'} from Task 2. Use specific data values."
+(f) 2mk strand iv: "Identify ONE source of error in this investigation. Explain how it would affect the results."
+(g) 2-3mk strand v: "${ye.C_verbs.v[0]} ONE improvement to increase the reliability or accuracy of this investigation."
+
+GRAPH PLOTTER: When asking students to plot, use type "Graph Plot" with data.graphAxes and data.dataPoints. The graph plotter tool allows students to plot points and draw lines of best fit on-screen.`;
   }
 
   if (hasD) {
     taskStructure += `
-TASK: CRITERION D — REFLECTING ON THE IMPACTS (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'})
+TASK 3 — CRITERION D: REFLECTING ON THE IMPACTS OF SCIENCE (${config.criterion === 'Full Exam' ? '~25 marks' : config.totalMarks + ' marks'})
 D-Factor: ${config.dFactor || 'Environmental, Economic'}
 
-Generate Criterion D questions using the EXACT question types specified in the QUESTION MIX section below. Adapt each question type to the D criterion theme:
+The stimulus MUST be a detailed real-world scenario (6-10 sentences) about a specific technology, application, or issue related to "${config.topic}". Include:
+- Specific names (people, companies, organizations, locations)
+- Specific data (statistics, costs, dates, measurements)
+- Both positive and negative aspects hinted at in the stimulus
 
-CONTENT THEME:
-- Provide a real-world stimulus (6-10 sentences) about a specific technology or application related to "${config.topic}"
-- Include specific data (names, numbers, locations, statistics)
-- The stimulus should enable questions about implications, benefits, limitations
+Generate Criterion D questions using the EXACT question types specified in the QUESTION MIX section below.
 
 QUESTION ADAPTATION FOR CRITERION D:
 - MCQ / True False: Test factual understanding of the real-world context (strand D-i)
-- Match the Following: Match technologies to their implications, benefits to limitations, etc. (strand D-i/ii)
-- Drag and Drop: Classify items as benefits/limitations, environmental/economic impacts, etc. (strand D-i/ii)
+- Match the Following: Match technologies to their implications (strand D-i/ii)
+- Drag and Drop: Classify items as benefits/limitations (strand D-i/ii)
 - Long Answer: Discuss implications, evaluate impact, write concluding appraisal (strand D-ii/iii)
 - Fill Text: "One environmental benefit of solar panels is _______" (strand D-i)
 - Table: Compare benefits vs limitations across different factors (strand D-ii)
 
-For the HIGHEST-MARK Long Answer question (if included in mix), use a holistic marking grid in meta.gradingGrid:
+For the HIGHEST-MARK Long Answer question (if included), use a holistic marking grid in meta.gradingGrid:
 ${JSON.stringify({
   "theme1": {"label": "[Based on D-factor, e.g. Environmental implications]", "levels": {"1": "A statement", "2": "A statement with support OR two statements", "3": "Two statements with support for one", "4": "Two statements with support for both"}},
   "theme2": {"label": "[Second theme from D-factor]", "levels": {"1": "A positive or negative implication", "2": "A positive AND negative", "3": "Positive and negative with support for one", "4": "Positive and negative with support for both"}},
   "conclusion": {"label": "Concluding appraisal", "levels": {"1": "A concluding opinion", "2": "A concluding appraisal with justification"}}
 }, null, 2)}
 
-Both benefits AND limitations required in extended responses.`;
+EXTENDED RESPONSE REQUIREMENTS:
+- Students must discuss BOTH benefits AND limitations
+- Students must reference specific data from the stimulus
+- Concluding appraisal must be a justified personal opinion
+- Mark scheme uses holistic grid, NOT analytical marking`;
   }
-
-  const formulas = `Use relevant physics formulas for the topic. Show formulas in questions where calculations are needed.`;
 
   var critOnlyInstruction = 'CRITICAL: This generation is for Criterion ' + crit + ' ONLY. Every question MUST be Criterion ' + crit + '. Do NOT generate questions for any other criterion.\n\n';
 
@@ -293,19 +431,24 @@ Both benefits AND limitations required in extended responses.`;
       + '- 40% of marks on strand i (recall): Use command terms State, Define, Outline, Describe\n'
       + '- 35% of marks on strand ii (application): Use command terms Apply, Calculate, Determine, Solve\n'
       + '- 25% of marks on strand iii (analysis): Use command terms Analyse, Evaluate, Discuss, Compare, Justify\n'
-      + 'Mix strands WITHIN each section. Do NOT put all strand i questions together.\n\n';
+      + 'Mix strands WITHIN each section. Do NOT put all strand i questions together.\n'
+      + 'NOTE: Criterion A questions may ALSO test data interpretation (Criterion C skills). If a question involves reading a table/graph, note this in the markScheme.\n\n';
   } else if (crit === 'B') {
-    critOnlyInstruction += 'Criterion B is ONE extended design question with a holistic marking grid.\n'
+    critOnlyInstruction += 'Criterion B is ONE extended design question based on a SIMULATION.\n'
+      + 'The stimulus MUST describe a virtual lab/simulation that students can interact with.\n'
+      + 'Include: what the simulation models, what variables can be changed, what is measured.\n'
       + 'Generate ONE stimulus + ONE design task. The holistic grid has rows: V (variables 1-4), H (hypothesis 1-3), E (equipment 1-2), M (method 1-4), D (data 1-4), S (safety 1).\n'
       + 'Do NOT split into multiple small questions. ONE question, ONE grid.\n\n';
   } else if (crit === 'C') {
     critOnlyInstruction += 'STRAND DISTRIBUTION for Criterion C:\n'
-      + '- Strand i: Present/organize data (tables, graphs)\n'
-      + '- Strand ii: Interpret data (trends, patterns)\n'
+      + '- Strand i: Present/organize data (tables, graphs) — use the graph plotter and table tools\n'
+      + '- Strand ii: Interpret data (trends, patterns, calculations)\n'
       + '- Strand iii: Evaluate (does data support hypothesis?)\n'
-      + '- Strand iv: Evaluate (sources of error)\n'
-      + '- Strand v: Suggest improvements\n'
-      + 'Provide a DATA TABLE with real numbers in the stimulus. Questions should process that data.\n\n';
+      + '- Strand iv: Evaluate (sources of error and their effects)\n'
+      + '- Strand v: Suggest improvements to the investigation\n'
+      + 'Provide a DATA TABLE with 5-7 rows of realistic numerical values. Headers must include units.\n'
+      + 'Data must be internally consistent with physics formulas.\n'
+      + 'Graph questions should use the "Graph Plot" question type.\n\n';
   } else if (crit === 'D') {
     critOnlyInstruction += 'STRAND DISTRIBUTION for Criterion D:\n'
       + '- Strand i: Explain the science/application (describe how physics is used)\n'
@@ -323,9 +466,17 @@ Both benefits AND limitations required in extended responses.`;
       + '- Theme labels must match the D-factor selected by the teacher\n\n';
   }
 
-  return critOnlyInstruction + `You are an expert IB MYP Physics teacher creating an eAssessment-style question set based on the IB MYP Sciences Guide (April 2023) and real papers (M23-M25).
+  return critOnlyInstruction + `You are an expert IB MYP Physics teacher creating an eAssessment-style question set. Your questions must be INDISTINGUISHABLE from real IB MYP Sciences eAssessment papers (M23-M25).
 
-═══ ASSESSMENT ═══
+${IB_TASK_BLUEPRINT}
+
+${IB_OFFICIAL_FORMULA_SHEET}
+
+${IB_ASSESSMENT_CONVENTIONS}
+
+${IB_EXAM_TOOLS}
+
+═══ ASSESSMENT CONFIGURATION ═══
 Grade: ${config.grade} | ${ye.label} | Chapter: ${config.chapter} | Topic: ${config.topic}
 Criterion: ${config.criterion} (${critFullNames[crit] || 'Combined'})
 Global Context: ${config.globalContext || 'Scientific and Technical Innovation'} | Difficulty: ${config.difficulty || 'Mixed'}
@@ -342,21 +493,14 @@ B verbs: i:${ye.B_verbs.i.join('/')}, ii:${ye.B_verbs.ii.join('/')}, iii:${ye.B_
 C verbs: i:${ye.C_verbs.i.join('/')}, ii:${ye.C_verbs.ii.join('/')}, iii:${ye.C_verbs.iii.join('/')}, iv:${ye.C_verbs.iv.join('/')}, v:${ye.C_verbs.v.join('/')}
 D verbs: i:${ye.D_verbs.i.join('/')}, ii:${ye.D_verbs.ii.join('/')}, iii:${ye.D_verbs.iii.join('/')}, iv:${ye.D_verbs.iv.join('/')}
 
-${formulas}
 COMMAND TERMS: State(1 mark, MCQ/Fill), Define(1 mark, MCQ/Fill), Describe(2-3 marks, Long Answer), Explain(2-4 marks, Long Answer), Calculate(2-3 marks, Long Answer), Apply(2-3 marks, Long Answer), Analyse(3-4 marks, Long Answer), Evaluate(3-4 marks, Long Answer), Discuss(3-4 marks, Long Answer), Justify(3-4 marks, Long Answer)
 ${diagramInstr}
 ${dataTableInstr}
 
-eASSESSMENT STYLE GUIDE:
-- Criterion A: Stimulus (3-6 sentences) → sub-parts i→ii→iii. "Award N marks", "Seen or implied", "Accept/Do not accept".
-- Criterion B: ONE design question with holistic grid V(1-4), H(1-3), E(1-2), M(1-4), D(1-4), S(1).
-- Criterion C: Data table → read→calculate→graph→interpret→evaluate.
-- Criterion D: ONE reflection with holistic grid + concluding appraisal.
-
 ${taskStructure}
 
 ═══ QUESTION MIX — MANDATORY (follow EXACTLY, do NOT change types or counts) ═══
-The teacher has explicitly selected these question types, counts, and marks. You MUST generate EXACTLY these types and quantities. Do NOT substitute, skip, or replace any type with another. This overrides any criterion-specific type suggestions above.
+The teacher has explicitly selected these question types, counts, and marks. You MUST generate EXACTLY these types and quantities. Do NOT substitute, skip, or replace any type with another.
 
 ${config.questions.map(function(q) {
   if (q.marksList && q.marksList.length > 0) {
@@ -376,7 +520,7 @@ QUESTION TYPE DATA FORMATS — follow these for each type:
 - Table: data.question, data.tableHeaders (array with units), data.tableRows (int), data.tableCols (int), data.tablePrefill (2D array, use "" for blanks students fill)
 - Drawing: data.question, data.drawingInstructions (what to draw). NO image URLs.
 - Drag and Drop: data.question, data.dragItems (array of strings to drag), data.dropZones (array of {label:"zone name", accepts:["item1","item2"]}). 1 mark per correct placement.
-- Graph Plot: data.question, data.graphAxes ({x:"label",y:"label",xRange:[min,max],yRange:[min,max]}), data.dataPoints ([[x,y],...])
+- Graph Plot: data.question, data.graphAxes ({x:"label / unit",y:"label / unit",xRange:[min,max],yRange:[min,max]}), data.dataPoints ([[x,y],...])
 - Multi-Dropdown: data.question (with [DROPDOWN] placeholders), data.dropdownOptions (array of arrays), data.correct (array of correct indices)
 
 ═══ OUTPUT: VALID JSON ONLY ═══
@@ -394,41 +538,61 @@ QUESTION TYPE DATA FORMATS — follow these for each type:
   ]
 }
 
-RULES: 0)HIGHEST PRIORITY: Generate EXACTLY the question types and counts listed in the QUESTION MIX. If the mix says 1× Match the Following, you MUST generate 1 Match the Following question. Do NOT substitute types. 1)ONLY valid JSON 2)Every question meta: marks,criterion,strand,commandTerm,difficulty,markScheme 3)Questions start with command term 4)Stimulus before questions 5)Strands i→ii→iii 6)Total marks MUST equal EXACTLY ${config.totalMarks} 7)Realistic values 8)Mark schemes: \"Award X marks\",\"Accept\",\"Do not accept\",\"WTTE\",\"ECF\" 9)Holistic grids in meta.gradingGrid 10)Specific stimuli with names,places,numbers 11)At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions 12)Table questions MUST have tableHeaders,tableRows,tableCols,tablePrefill 13)Count marks as you generate — must reach exactly ${config.totalMarks} 14)Verify total before outputting 15)Generate at LEAST 2 different stimulus blocks using different real-world scenarios. Assign questions to different sectionIds (1, 2, or 3). 17)VARIETY: Each section MUST have at least 2 different question types. Never a section of all MCQs or all True/False. 18)STRAND MIX: Within each section, progress through strands. Start with strand i, then ii, then iii. Each section should cover at least 2 strands. 19)QUESTION INDEPENDENCE: Each question must be standalone. Do not make one question's answer depend on another question's answer.
-20)COMMAND TERM TO QUESTION TYPE MATCHING — follow these strictly:
+═══ RULES (MUST FOLLOW ALL) ═══
+0) HIGHEST PRIORITY: Generate EXACTLY the question types and counts listed in the QUESTION MIX.
+1) ONLY valid JSON — no markdown, no code fences, no commentary.
+2) Every question meta: marks, criterion, strand, commandTerm, difficulty, markScheme.
+3) Questions start with the command term (bold/underlined in the student view).
+4) Stimulus (Text content block) before questions in each section.
+5) Strands progress i → ii → iii within each section.
+6) Total marks MUST equal EXACTLY ${config.totalMarks}.
+7) Realistic physics values with correct units and 3 significant figures.
+8) Mark schemes use IB conventions: "Award X marks", "Accept", "Do not accept", "WTTE", "ECF", "Seen or implied", "3 s.f. with correct unit".
+9) Holistic grids in meta.gradingGrid for Criteria B and D extended responses.
+10) Specific stimuli with real names, places, numbers — never generic.
+11) At LEAST ${Math.max(5, Math.ceil(config.totalMarks / 3))} questions.
+12) Table questions MUST have tableHeaders (with units), tableRows, tableCols, tablePrefill.
+13) Count marks as you generate — must reach exactly ${config.totalMarks}.
+14) Verify total before outputting.
+15) Generate at LEAST 2 different stimulus blocks using different real-world scenarios. Assign questions to different sectionIds (1, 2, or 3).
+16) FORMULAS: Only use formulas from the official formula sheet. If a question needs a formula NOT on the sheet, provide it in the question text.
+17) VARIETY: Each section MUST have at least 2 different question types. Never a section of all MCQs or all True/False.
+18) STRAND MIX: Within each section, progress through strands. Start with strand i, then ii, then iii. Each section should cover at least 2 strands.
+19) QUESTION INDEPENDENCE: Each question must be standalone. Do not make one question's answer depend on another.
+20) COMMAND TERM TO QUESTION TYPE MATCHING — follow strictly:
 - "State" or "Define" → MCQ or Fill Text (1 mark, strand i)
 - "Describe" or "Outline" → Long Answer (2-3 marks, strand i-ii)
 - "Calculate" or "Determine" or "Solve" → Long Answer with working shown (2-3 marks, strand ii)
 - "Apply" → Long Answer or Table (2-3 marks, strand ii)
 - "Explain" → Long Answer (2-4 marks, strand ii-iii)
 - "Analyse" or "Evaluate" or "Discuss" or "Compare" or "Justify" → Long Answer ONLY (3-4 marks, strand iii)
-NEVER use "Evaluate", "Analyse", "Discuss", "Compare", or "Justify" for MCQ or Fill Text questions. These command terms require extended writing.
+NEVER use "Evaluate", "Analyse", "Discuss", "Compare", or "Justify" for MCQ or Fill Text.
 NEVER use "State" or "Define" for Long Answer questions worth more than 2 marks.
-21)MCQ QUALITY RULES:
-- Every MCQ must have ONE clearly correct answer and THREE plausible distractors
-- Distractors must be scientifically plausible wrong answers, not obviously silly
-- BAD distractors: "Newton's laws are not important" / "Force has no effect" — too obviously wrong
-- GOOD distractors: Common misconceptions like "heavier objects fall faster" or "action-reaction forces act on the same object"
-- All four options should be similar in length and structure
-- Do NOT use "All of the above" or "None of the above"
-- MCQs should test KNOWLEDGE (strand i), not OPINION
-22)FILL TEXT RULES:
+21) MCQ QUALITY RULES:
+- Every MCQ: ONE clearly correct answer + THREE plausible distractors
+- Distractors = common misconceptions, not obviously silly answers
+- BAD: "Newton's laws are not important" — GOOD: "heavier objects fall faster"
+- All four options similar in length and structure
+- No "All of the above" or "None of the above"
+22) FILL TEXT RULES:
 - Fill Text is for single-word or short-phrase answers ONLY
-- "The unit of force is ______" → correct (single word: newton)
-- "Justify why an object remains at rest..." → WRONG for Fill Text, use Long Answer
-- Fill Text questions must have a clear, unambiguous single correct answer
-23)STRAND TO COMMAND TERM MATCHING:
+- CORRECT: "The unit of force is _______" (answer: newton)
+- WRONG for Fill Text: "Justify why an object remains at rest..." → use Long Answer
+23) STRAND TO COMMAND TERM MATCHING:
 - Strand i: State, Define, Outline, List, Identify, Name, Label
 - Strand ii: Describe, Apply, Calculate, Determine, Solve, Show, Construct, Plot
 - Strand iii: Explain, Analyse, Evaluate, Discuss, Compare, Justify, Suggest, Predict
-- Do NOT assign strand i to questions using "Evaluate" or "Analyse"
-- Do NOT assign strand iii to questions using "State" or "Define"
+24) SIGNIFICANT FIGURES: All numerical answers must be given to 3 s.f. Mark schemes must state "Accept answer to 3 s.f."
+25) SI UNITS: All answers must include correct SI units. Mark schemes: "Award mark for correct unit."
+26) CALCULATOR AWARENESS: For calculation questions, assume students have an on-screen scientific calculator. Design multi-step problems that require it.
+27) SIMULATION CONTEXT (Criterion B/C): When generating Task 2 questions, describe a virtual simulation students interact with. Specify what can be changed and what is measured.
 
-DRAWING QUESTIONS: Use type "Drawing" when students need to draw (free body diagram, circuit, ray diagram). Include: data.question (instruction), data.drawingInstructions (what to draw). Do NOT include data.drawingImage — image URLs break. Mark scheme should list each element.
+DRAWING QUESTIONS: Use type "Drawing" when students need to draw (free body diagram, circuit, ray diagram). Include: data.question (instruction), data.drawingInstructions (what to draw). Do NOT include data.drawingImage.
 
-DRAG AND DROP QUESTIONS: Use type "Drag and Drop" for classify/sort tasks. Include: data.question, data.dragItems (array of items), data.dropZones (array of {label, accepts:[items]}). Award 1 mark per correct placement.
+DRAG AND DROP QUESTIONS: Use type "Drag and Drop" for classify/sort tasks. Include: data.question, data.dragItems (array), data.dropZones (array of {label, accepts:[items]}).
 
-GRAPH PLOT QUESTIONS: Use type "Graph Plot" when students plot data. Include: data.question, data.graphAxes ({x,y,xRange,yRange}), data.dataPoints ([[x,y],...]).
+GRAPH PLOT QUESTIONS: Use type "Graph Plot" when students plot data. Include: data.question, data.graphAxes ({x:"label / unit",y:"label / unit",xRange,yRange}), data.dataPoints ([[x,y],...]).
+Graph axes MUST include units (e.g. "Time / s", "Force / N").
 
 Use HTML tables for data, <sub>/<sup> for equations.`;
 }
@@ -462,7 +626,7 @@ async function callGroq(prompt, key, statusEl) {
       body: JSON.stringify({
         model: model,
         messages: [
-          { role: 'system', content: 'You are an expert IB MYP Physics teacher who has studied every MYP eAssessment paper from M23 to M25. You generate questions that are indistinguishable from real IB papers. You MUST respond with valid JSON only. No markdown, no code fences, no extra text.' },
+          { role: 'system', content: GROQ_SYSTEM_PROMPT },
           { role: 'user', content: prompt }
         ],
         temperature: 0.7,
@@ -473,7 +637,7 @@ async function callGroq(prompt, key, statusEl) {
 
     if (response.status === 429 && attempt === 0) {
       if (statusEl) statusEl.textContent = '⏳ Rate limited — retrying with faster model...';
-      await new Promise(r => setTimeout(r, 2000)); // Shorter wait for faster model
+      await new Promise(r => setTimeout(r, 2000));
       continue;
     }
 
@@ -501,7 +665,7 @@ async function callGeminiAPI(prompt, key, statusEl) {
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
           systemInstruction: {
-            parts: [{ text: 'You are an expert IB MYP Physics teacher who has studied every MYP eAssessment paper from M23 to M25. You generate questions that are indistinguishable from real IB papers. You MUST respond with valid JSON only. No markdown, no code fences, no extra text.' }]
+            parts: [{ text: GROQ_SYSTEM_PROMPT }]
           },
           generationConfig: {
             temperature: 0.7,
@@ -574,7 +738,6 @@ function validateGeneratedSet(result, config) {
   
   if (issues.length > 0) {
     console.warn('Generated set validation issues:', issues);
-    // Show a warning but still save — teacher can fix in builder
     const status = document.getElementById('gen-status');
     if(status) {
         status.textContent = '⚠️ Generated with ' + issues.length + ' minor issue(s) — review in builder. ' + issues[0];
@@ -613,7 +776,6 @@ function collectGenConfig() {
     const marksInput = row.querySelector('.gen-type-marks').value || '1';
 
     if (cb && cb.checked) {
-      // Check if marks is comma-separated (individual marks per question)
       if (marksInput.indexOf(',') !== -1) {
         var marksList = marksInput.split(',').map(function(m) { return Number(m.trim()) || 1; });
         questions.push({ type: type, count: marksList.length, marks: marksList[0], marksList: marksList });
@@ -641,13 +803,33 @@ function collectGenConfig() {
   };
 }
 
+/* ── Blueprint-Aware Mark Distribution ── */
+function calculateBlueprintMarks(criteria, totalMarks) {
+  var marksPerCrit = {};
+
+  // If generating a full 100-mark exam, use official blueprint
+  if (criteria.length === 4 && totalMarks === 100) {
+    marksPerCrit = { A: 25, B: 25, C: 25, D: 25 };
+  } else if (criteria.length === 2 && criteria.includes('B') && criteria.includes('C') && totalMarks === 50) {
+    // Task 2: B+C split
+    marksPerCrit = { B: 25, C: 25 };
+  } else {
+    // Custom split — divide evenly
+    var baseMarks = Math.floor(totalMarks / criteria.length);
+    var remainder = totalMarks % criteria.length;
+    criteria.forEach(function(c, i) {
+      marksPerCrit[c] = baseMarks + (i < remainder ? 1 : 0);
+    });
+  }
+
+  return marksPerCrit;
+}
+
 /* ── Generate & Save ── */
 function getAutoQuestionMix(criterion, totalMarks) {
   var mix = [];
   
   if (criterion === 'A') {
-    // Criterion A: mixed types, strands i→ii→iii
-    // 40% strand i (recall), 35% strand ii (apply), 25% strand iii (analyse)
     var s1marks = Math.round(totalMarks * 0.4);
     var s2marks = Math.round(totalMarks * 0.35);
     var s3marks = totalMarks - s1marks - s2marks;
@@ -660,10 +842,8 @@ function getAutoQuestionMix(criterion, totalMarks) {
       {type: 'Long Answer', count: Math.max(1, Math.ceil(s3marks / 4)), marks: 4}
     ];
   } else if (criterion === 'B') {
-    // Criterion B: ONE design question with holistic grid
     mix = [{type: 'Long Answer', count: 1, marks: totalMarks}];
   } else if (criterion === 'C') {
-    // Criterion C: data processing, graphs, calculations
     mix = [
       {type: 'Fill in the Blank', count: 2, marks: 1},
       {type: 'Table', count: 1, marks: Math.min(4, Math.floor(totalMarks * 0.2))},
@@ -671,9 +851,7 @@ function getAutoQuestionMix(criterion, totalMarks) {
       {type: 'Graph Plot', count: 1, marks: Math.min(4, Math.floor(totalMarks * 0.2))}
     ];
   } else if (criterion === 'D') {
-    // Criterion D: extended reflection + shorter context questions
     if (totalMarks >= 15) {
-      // One big extended response + some shorter ones
       var extendedMarks = Math.max(10, Math.floor(totalMarks * 0.6));
       var shortMarks = totalMarks - extendedMarks;
       mix = [
@@ -711,7 +889,7 @@ async function runGeneration() {
   setTimeout(function() { _genCooldown = false; }, 3000);
 
   try {
-    // Parse criteria — could be "A", "A, D", "A, B, C", etc.
+    // Parse criteria
     var criteriaRaw = config.criterion || 'A';
     var criteria = criteriaRaw.split(/[,+]/).map(function(c) { return c.trim().charAt(0); }).filter(function(c) { return 'ABCD'.indexOf(c) !== -1; });
     
@@ -720,13 +898,8 @@ async function runGeneration() {
     
     if (criteria.length === 0) criteria = ['A'];
     
-    // Calculate marks per criterion
-    var marksPerCrit = {};
-    var baseMarks = Math.floor(config.totalMarks / criteria.length);
-    var remainder = config.totalMarks % criteria.length;
-    criteria.forEach(function(c, i) {
-      marksPerCrit[c] = baseMarks + (i < remainder ? 1 : 0);
-    });
+    // Use blueprint-aware mark distribution
+    var marksPerCrit = calculateBlueprintMarks(criteria, config.totalMarks);
     
     var allBlocks = [];
     var allSections = [];
@@ -739,22 +912,18 @@ async function runGeneration() {
       
       status.textContent = '⏳ Generating Criterion ' + crit + ' (' + (ci + 1) + '/' + criteria.length + ')... ' + critMarks + ' marks';
       
-      // Build config for this single criterion
       var singleConfig = JSON.parse(JSON.stringify(config));
       singleConfig.criterion = crit;
       singleConfig.totalMarks = critMarks;
       
-      // Auto-select appropriate question types per criterion
       if (criteria.length > 1) {
         singleConfig.questions = getAutoQuestionMix(crit, critMarks);
       }
       
-      // Build and send prompt
       var prompt = buildGeneratorPrompt(singleConfig);
       var result = await callAI(prompt);
       
       if (result && result.blocks && Array.isArray(result.blocks)) {
-        // Assign unique section IDs
         var critSections = result.sections || [{id: 1, name: 'Section 1'}];
         critSections.forEach(function(sec) {
           sec.id = sec.id + sectionOffset;
@@ -771,14 +940,12 @@ async function runGeneration() {
         allBlocks = allBlocks.concat(result.blocks);
       }
       
-      // Rate limit delay between calls
       if (ci < criteria.length - 1) {
         status.textContent = '⏳ Waiting for rate limit... next: Criterion ' + criteria[ci + 1];
         await new Promise(function(r) { setTimeout(r, 3000); });
       }
     }
     
-    // Combine results
     var combinedResult = {
       heading: config.heading || config.topic,
       sections: allSections.length > 0 ? allSections : [{id: 1, name: 'Section 1'}],
@@ -799,14 +966,12 @@ async function runGeneration() {
     var deficit = config.totalMarks - currentTotal;
 
     if (deficit > 0 && deficit <= 15) {
-      // Generate topic-specific padding questions using a quick AI call
       var padPrompt = 'Generate exactly ' + deficit + ' simple fill-in-the-blank physics questions about "' + config.topic + '". Each question is 1 mark, strand i (recall). Return ONLY a JSON array of objects with "q" (question with one blank shown as _______) and "a" (correct answer). No other text. Example: [{"q":"The SI unit of energy is _______.","a":"joule (J)"}]';
       
       try {
         await new Promise(function(r) { setTimeout(r, 2000); });
         var padResult = await callAI(padPrompt);
         
-        // callAI may return {questions:[...]} or [...] depending on model
         var padArray = Array.isArray(padResult) ? padResult : (padResult && Array.isArray(padResult.questions) ? padResult.questions : null);
         
         if (padArray && padArray.length > 0) {
@@ -825,7 +990,6 @@ async function runGeneration() {
         }
       } catch(padErr) {
         console.warn('AI padding failed, using generic questions:', padErr);
-        // Fallback to generic questions if AI call fails
         var genericPad = [
           {q: 'The SI unit of energy is _______.', a: 'joule (J)'},
           {q: 'Energy cannot be created or _______.', a: 'destroyed'},
@@ -853,7 +1017,6 @@ async function runGeneration() {
     status.textContent = status.textContent.startsWith('⚠️') ? status.textContent : '✅ Generated! Saving to library...';
     status.style.color = status.style.color === 'var(--yellow)' ? 'var(--yellow)' : 'var(--green)';
 
-    // Build set object matching existing schema
     const setId = 'set_' + Date.now();
     const now = Date.now();
     const validBlocks = window.normalizeGeneratedBlocks(validatedResult.blocks, config);
@@ -882,12 +1045,10 @@ async function runGeneration() {
       generatedAt: now
     };
 
-    // Save to library
     const lib = getLibrary();
     lib.push(newSet);
     saveLibrary(lib);
 
-    // Sync to Firestore
     if (typeof saveQuestionSetToFirestore === 'function') {
       saveQuestionSetToFirestore(newSet).catch(err =>
         console.error('Firestore sync error:', err)
@@ -1093,3 +1254,4 @@ window.normalizeGeneratedBlocks = function(blocksArray, config) {
 
   return validBlocks;
 };
+```
