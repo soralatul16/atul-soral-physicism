@@ -457,5 +457,11 @@ exports.generateExamPipeline = functions.https.onCall(async (data, context) => {
   return await callModel(sysPrompt, prompt, {
     generationId, phase: isMarkSchemePhase ? "legacy_markscheme" : "legacy_questions",
     preferredModel, temperature: temp, maxTokens: 4096
-  });
 });
+
+/* ═══════════════════════════════════════════════════════════
+   PHASE 5: Teacher Feedback & Intelligence Layer
+   ═══════════════════════════════════════════════════════════ */
+const teacherFeedback = require("./teacher-feedback");
+exports.submitTeacherFeedback = teacherFeedback.submitTeacherFeedback;
+exports.saveTrustedTemplate = teacherFeedback.saveTrustedTemplate;

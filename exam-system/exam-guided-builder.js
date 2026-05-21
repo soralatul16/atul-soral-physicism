@@ -366,9 +366,36 @@ function guidedEditBlock(sectionId, blockId) {
     
     html += `
       <div class="form-group"><label>Teacher Prompt (Optional)</label>
-        <textarea rows="3" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);" placeholder="What should this question ask about? E.g. Calculate the spring constant..." onchange="guidedActiveBlock.block.prompt = this.value">${block.prompt}</textarea>
+        <textarea rows="3" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);" placeholder="What should this question ask about? E.g. Calculate the spring constant..." onchange="guidedActiveBlock.block.prompt = this.value">${block.prompt || ''}</textarea>
       </div>
     `;
+
+    // MEDIA INTENT PLACEHOLDER
+    if(block.mediaIntent && block.mediaIntent.recommendedType) {
+      html += `
+        <div style="margin-top:16px;padding:12px;background:var(--blue-pale);border:1px solid rgba(26,111,181,0.3);border-radius:6px;">
+          <h4 style="color:var(--blue);font-size:12px;margin-bottom:6px;">🤖 AI Media Recommendation</h4>
+          <p style="font-size:11px;color:var(--text2);margin-bottom:4px;"><strong>Type:</strong> ${block.mediaIntent.recommendedType}</p>
+          <p style="font-size:11px;color:var(--text2);margin-bottom:4px;"><strong>Description:</strong> ${block.mediaIntent.description || ''}</p>
+          <p style="font-size:11px;color:var(--text2);"><strong>Suggested Axes:</strong> ${(block.mediaIntent.axisLabels || []).join(', ')}</p>
+        </div>
+      `;
+    }
+
+    // PHASE 5: TEACHER OVERRIDES & FEEDBACK
+    if (block.id) {
+       html += `
+         <div style="margin-top:20px;padding-top:16px;border-top:1.5px dashed var(--border);">
+           <h4 style="font-size:11px;text-transform:uppercase;color:var(--text3);margin-bottom:10px;">Human Overrides (Phase 5)</h4>
+           <div style="display:flex;gap:8px;flex-wrap:wrap;">
+             <button class="sm-btn" onclick="alert('Pinned Context: Trust Score boosted.')" style="background:#fff8e1;border-color:#e6a817;color:#e6a817;">★ Pin Context</button>
+             <button class="sm-btn" onclick="alert('Scenario Blacklisted: Prevented from appearing in future generations.')" style="background:#fde8e6;border-color:#e03030;color:#e03030;">∅ Blacklist</button>
+             <button class="sm-btn" onclick="alert('Markscheme Approved.')" style="background:#e8f5e9;border-color:#2e7d32;color:#2e7d32;">✓ Approve MS</button>
+             <button class="sm-btn" onclick="alert('Trusted Template saved.')" style="background:#ede7f6;border-color:#7e57c2;color:#7e57c2;">💾 Save Template</button>
+           </div>
+         </div>
+       `;
+    }
   }
   
   html += `</div>`;

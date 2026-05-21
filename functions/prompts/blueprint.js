@@ -62,9 +62,12 @@ OUTPUT FORMAT — array of question slots:
       "physicsConcepts": ["Newton's Second Law"],
       "cognitiveLevel": "recall",
       "reasoningDepth": "single-step",
-      "mediaRequired": false,
-      "mediaType": null,
-      "calculationRequired": false
+      "calculationRequired": false,
+      "mediaIntent": {
+        "recommendedType": "graph",
+        "description": "Brief description of visual",
+        "axisLabels": ["x-axis", "y-axis"]
+      }
     }
   ],
   "sections": [
