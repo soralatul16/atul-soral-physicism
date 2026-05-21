@@ -1,6 +1,3 @@
-Replace the entire contents of exam-system/exam-generator.js with the following code:
-
-```javascript
 /* ═══════════════════════════════════════════════════════════
    PHYSICISM — AI Question Set Generator (Groq + Gemini)
    Supports Groq (default, free 30RPM) and Gemini as fallback.
@@ -1254,4 +1251,3 @@ window.normalizeGeneratedBlocks = function(blocksArray, config) {
 
   return validBlocks;
 };
-```
