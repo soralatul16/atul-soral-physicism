@@ -397,6 +397,15 @@ function validateAndRepair(result, config, opts = {}) {
   }
   score = Math.round(score * 10) / 10;
 
+  // ── GENERATION RATIONALE (Explainability Layer) ──
+  let rationale = `This exam generation achieved a composite score of ${score}/10.\n`;
+  if (subscores.markAccuracy === 10) rationale += `- Marks are perfectly distributed.\n`;
+  else rationale += `- Warning: Total marks deviated from the request.\n`;
+  if (subscores.commandTermCorrectness >= 8) rationale += `- Command terms strictly followed IB MYP expectations.\n`;
+  else rationale += `- Note: Some command terms did not align with the requested strand (e.g. asking to 'State' for 4 marks).\n`;
+  if (subscores.contextualRealism === 10) rationale += `- Context selected was highly realistic and non-generic.\n`;
+  if (failedNodes.length > 0) rationale += `- The AI self-corrected ${failedNodes.length} minor structural errors during generation.\n`;
+
   return {
     result,
     issues: [...issues, ...commandTermIssues, ...styleIssues],
@@ -405,7 +414,8 @@ function validateAndRepair(result, config, opts = {}) {
     score,
     subscores,
     commandTermIssues,
-    threshold: getThreshold(env)
+    threshold: getThreshold(env),
+    generationRationale: rationale
   };
 }
 

@@ -857,6 +857,8 @@ function collectGenConfig() {
   const atl = '';
   const yearLevel = gradeToYearLevel(grade);
   const heading = document.getElementById('shared-heading')?.value.trim() || (topic + ' — Criterion ' + criterion);
+  const subject = document.getElementById('shared-subject')?.value || 'Physics';
+  const profileMode = document.getElementById('shared-profile-mode')?.value || 'Strict IB';
 
   if (!chapter) { alert('Please select an Assessment Type.'); return null; }
   if (!topic) { alert('Please enter a Topic.'); return null; }
@@ -891,7 +893,7 @@ function collectGenConfig() {
 
   return {
     chapter, topic, criterion, globalContext: gc, atl, difficulty, grade, yearLevel, dFactor, includeDiagrams, includeDataTables, heading, questions, totalMarks,
-    context, mediaUrls,
+    context, mediaUrls, subject, profileMode,
     includeContent: document.getElementById('gen-opt-content').checked,
     includeMarkSchemes: document.getElementById('gen-opt-markscheme').checked,
     includeExplanations: document.getElementById('gen-opt-explanations').checked,

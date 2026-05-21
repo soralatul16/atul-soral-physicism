@@ -16,7 +16,18 @@ const { getTargetedPatterns } = require("./prompts/retrieval");
 const memoryModule = require("./memory");
 const analytics = require("./analytics");
 
+// Subject Adapters (Phase 6)
+const physicsAdapter = require("./subjects/physics");
+// Biology and Chemistry adapters can be added here in the future
+const getSubjectAdapter = (subject) => {
+  if (subject === "Physics") return physicsAdapter;
+  return physicsAdapter; // Default to physics for now
+};
+
 admin.initializeApp();
+
+// Simple in-memory cache for Orchestrator plans (Phase 6 Performance Optimization)
+const orchestratorCache = new Map();
 const db = admin.firestore();
 
 // ── Secure API Key Access ──
@@ -277,23 +288,34 @@ exports.generateModular = functions
     
     // Retrieve static structural IB patterns for the requested criterion
     const patterns = getTargetedPatterns([config.criterion || "A"]);
+    
+    const subjectAdapter = getSubjectAdapter(config.subject || "Physics");
 
     let orchestratorPlan = null;
-    const op = buildOrchestratorPrompt(config, topicMemory, patterns);
-    try {
-      const orchestratorResult = await callModel(op.systemPrompt, op.userPrompt, {
-        generationId, phase: "orchestrator", preferredModel,
-        temperature: 0.2, maxTokens: 800, session
-      });
-      orchestratorPlan = orchestratorResult.orchestratorPlan || orchestratorResult;
-      logGeneration({ generationId, phase: "orchestrator_done", forbiddenScenarios: orchestratorPlan.forbiddenScenarios?.length || 0 });
-    } catch (e) {
-      logGeneration({ generationId, phase: "orchestrator_error", error: e.message });
-      // Non-fatal, continue without orchestrator constraints
+    
+    // Check Cache first (Phase 6)
+    const cacheKey = `${config.topic}_${config.grade}_${config.criterion}_${config.profileMode}`;
+    if (orchestratorCache.has(cacheKey) && (Date.now() - orchestratorCache.get(cacheKey).timestamp < 5 * 60 * 1000)) {
+      orchestratorPlan = orchestratorCache.get(cacheKey).plan;
+      logGeneration({ generationId, phase: "orchestrator_cache_hit" });
+    } else {
+      const op = buildOrchestratorPrompt(config, topicMemory, patterns, subjectAdapter);
+      try {
+        const orchestratorResult = await callModel(op.systemPrompt, op.userPrompt, {
+          generationId, phase: "orchestrator", preferredModel,
+          temperature: 0.2, maxTokens: 800, session
+        });
+        orchestratorPlan = orchestratorResult.orchestratorPlan || orchestratorResult;
+        orchestratorCache.set(cacheKey, { plan: orchestratorPlan, timestamp: Date.now() });
+        logGeneration({ generationId, phase: "orchestrator_done", forbiddenScenarios: orchestratorPlan.forbiddenScenarios?.length || 0 });
+      } catch (e) {
+        logGeneration({ generationId, phase: "orchestrator_error", error: e.message });
+        // Non-fatal, continue without orchestrator constraints
+      }
     }
 
     // ── CALL 1: BLUEPRINT ──
-    const bp = buildBlueprintPrompt(config, orchestratorPlan);
+    const bp = buildBlueprintPrompt(config, orchestratorPlan, subjectAdapter);
     const blueprintResult = await callModel(bp.systemPrompt, bp.userPrompt, {
       generationId, phase: "blueprint", preferredModel,
       temperature: 0.6, maxTokens: 2048, session
@@ -412,6 +434,11 @@ exports.generateModular = functions
     // ── RETURN ──
     if (finalValidation.score < 3) {
       throw new functions.https.HttpsError("internal", "Final quality too low (score: " + finalValidation.score + ")");
+    }
+
+    // Attach generation rationale to the first block for the UI to display
+    if (finalValidation.result && finalValidation.result.blocks && finalValidation.result.blocks.length > 0) {
+      finalValidation.result.blocks[0].generationRationale = finalValidation.generationRationale;
     }
 
     // Attach analytics summary to response for client visibility

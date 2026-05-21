@@ -8,10 +8,22 @@ const { STRAND_MODULES } = require("./strands");
 
 /**
  * Build a micro-prompt for the Blueprint Generator (Call 1).
- * @param {Object} config - { criterion, totalMarks, topic, grade, yearLevel, questions, dFactor, globalContext }
+ * @param {Object} config - { criterion, totalMarks, topic, grade, yearLevel, subject }
+ * @param {Object} orchestratorPlan - Constraints from Call 0
+ * @param {Object} subjectAdapter - The subject-specific adapter module (e.g. physics.js)
  * @returns {Object} { systemPrompt, userPrompt }
  */
-function buildBlueprintPrompt(config, orchestratorPlan) {
+function buildBlueprintPrompt(config, orchestratorPlan, subjectAdapter) {
+  const subjectName = subjectAdapter ? subjectAdapter.subjectName : (config.subject || "Physics");
+  const coreConceptKey = subjectAdapter && subjectAdapter.terminology ? subjectAdapter.terminology.coreConceptKey : "physicsConcepts";
+  const misconceptions = subjectAdapter && subjectAdapter.getMisconceptions ? subjectAdapter.getMisconceptions(config.topic) : [];
+
+  let misconceptionString = "";
+  if (misconceptions.length > 0) {
+    misconceptionString = "KNOWN MISCONCEPTIONS TO TARGET IN DISTRACTORS/REASONING:\n" + 
+      misconceptions.map(m => `- Pattern: ${m.pattern}\n  Distractors: ${m.distractorForms.join(" | ")}`).join("\n") + "\n";
+  }
+
   const crit = config.criterion || "A";
   const strands = Object.keys(STRAND_MODULES)
     .filter(k => k.startsWith(crit + "_"))
@@ -21,7 +33,7 @@ function buildBlueprintPrompt(config, orchestratorPlan) {
     `${s.key}: ${s.label}\n  Cognitive: ${s.cognitiveExpectation}\n  Commands: ${s.commandTerms.join(", ")}\n  Types: ${s.questionTypes.join(", ")}\n  Marks: ${s.marksRange[0]}-${s.marksRange[1]}`
   ).join("\n\n");
 
-  const systemPrompt = `You are an IB MYP Sciences eAssessment blueprint architect.
+  const systemPrompt = `You are an IB MYP ${subjectName} eAssessment blueprint architect.
 Your ONLY job: output a JSON blueprint with metadata for each question slot.
 You do NOT write questions, stimuli, or mark schemes.
 Output ONLY valid JSON. No markdown, no prose.`;
@@ -38,6 +50,7 @@ ${config.dFactor ? "D-Factor: " + config.dFactor : ""}${orchestratorBlock}
 STRAND DEFINITIONS FOR CRITERION ${crit}:
 ${strandBlock}
 
+${misconceptionString}
 QUESTION MIX REQUESTED:
 ${config.questions.map(q => {
   if (q.marksList && q.marksList.length > 0) {
@@ -59,10 +72,11 @@ OUTPUT FORMAT — array of question slots:
       "marks": 1,
       "difficulty": "easy",
       "scenario": "Brief 1-sentence real-world context idea",
-      "physicsConcepts": ["Newton's Second Law"],
+      "${coreConceptKey}": ["Core concept example"],
       "cognitiveLevel": "recall",
       "reasoningDepth": "single-step",
       "calculationRequired": false,
+      "misconceptionsTargeted": ["Optional: misconception addressed"],
       "mediaIntent": {
         "recommendedType": "graph",
         "description": "Brief description of visual",
