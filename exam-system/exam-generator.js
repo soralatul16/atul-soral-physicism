@@ -180,7 +180,7 @@ const IB_EXAM_TOOLS = `STUDENT TOOLS: calculator, graph plotter, drawing canvas,
 const IB_TASK_BLUEPRINT = `BLUEPRINT: Task1(CritA,25mk) Task2(CritB+C,50mk) Task3(CritD,25mk) Total=100mk.`;
 
 /* ── System Prompts ── */
-const GROQ_SYSTEM_PROMPT = 'You are an expert IB MYP Physics teacher and examiner who has written and marked every MYP Sciences eAssessment paper from M23 to M25. You follow the IB MYP Sciences Guide (April 2023), the official assessment blueprint (Task 1=25mk Crit A, Task 2=50mk Crit B+C, Task 3=25mk Crit D, Total=100mk), ISO 80000 conventions (3 s.f., SI units, scientific notation), and the official formula sheet. Your questions are INDISTINGUISHABLE from real IB papers. You MUST respond with valid JSON only. No markdown, no code fences, no extra text. CRITICAL: For MCQ questions, verify data.correct index matches the actually correct option. Do NOT set the wrong index. Every question MUST use a real-world context (never "a student in a lab"). Every mark scheme must state the exact correct answer, never "correct answer". Use at least 3 different question types per section.';
+const GROQ_SYSTEM_PROMPT = 'You are an expert IB MYP Physics teacher and examiner who has written and marked every MYP Sciences eAssessment paper from M23 to M25. You follow the IB MYP Sciences Guide (April 2023), the official assessment blueprint (Task 1=25mk Crit A, Task 2=50mk Crit B+C, Task 3=25mk Crit D, Total=100mk), ISO 80000 conventions (3 s.f., SI units, scientific notation), and the official formula sheet. Your questions are INDISTINGUISHABLE from real IB papers. You MUST respond with valid JSON only. No markdown, no code fences, no extra text. CRITICAL: For MCQ questions, verify data.correct index matches the actually correct option. Do NOT set the wrong index. Every question MUST use a real-world context (never "a student in a lab"). Every mark scheme must state the exact correct answer, never "correct answer". Use at least 3 different question types per section. Questions must be challenging and require multi-step thinking. Never ask students to state formulas or units in isolation — always embed in real-world calculations with specific data values.';
 
 const GROQ_SYSTEM_PROMPT_MARK_SCHEME = 'You are an IB MYP Physics chief examiner. Your ONLY job is to write accurate mark schemes and explanations. You are given a generated question set JSON. You MUST output the EXACT SAME JSON structure but fill in the missing "markScheme" and "explanation" fields. Follow IB MYP mark scheme conventions exactly. Work through every calculation yourself. Output valid JSON only.';
 
@@ -526,6 +526,22 @@ NEVER use "State" or "Define" for Long Answer questions worth more than 2 marks.
 - Never put Criterion D as an early sub-part — always the last 1-2 sub-parts
 - Never omit units from calculation mark schemes
 - Never generate all questions of the same type in one section
+
+33) DIFFICULTY AND AUTHENTICITY:
+- NEVER ask "State the formula for..." — students have the formula sheet. Instead, ask them to APPLY the formula to a specific scenario with given values.
+- NEVER ask "State the unit of..." as a standalone question — embed it within a calculation or context.
+- MCQ distractors must be PLAUSIBLE WRONG CALCULATIONS, not obviously wrong options. Example for "Calculate acceleration": correct=2.5 m/s², distractors should be 25 m/s² (forgot to divide), 0.4 m/s² (inverted), 5.0 m/s² (wrong formula) — NOT "J" or "N".
+- Every calculation question MUST give specific numerical values in the stimulus and require students to extract and use them.
+- Multi-part questions: part (b) should use data or results that connect to part (a). Part (c) should require reasoning about the result from (b).
+- Fill Text questions must test CONCEPTUAL understanding, not formula recall. GOOD: "When the resultant force on an object is zero, the object is in _______" BAD: "F = _______"
+- Long Answer questions must require CHAINS OF REASONING, not single-sentence answers. "Describe" needs 2-3 linked points. "Explain" needs cause→mechanism→effect.
+- For Criterion A strand iii (Analyse/Evaluate): questions must present DATA or a CLAIM and ask students to evaluate it using evidence. Never just "Analyse X" without giving data to analyse.
+
+34) eASSESSMENT REALISM:
+- Questions should feel like they come from an on-screen exam, not a textbook exercise.
+- Stimuli must contain SPECIFIC NUMBERS that students extract for calculations (e.g. "The car has a mass of 1200 kg and accelerates from 15 m/s to 25 m/s in 8.0 s")
+- Each section's stimulus should be 3-6 sentences describing a real scenario with embedded data.
+- Avoid "toy problems" — use realistic magnitudes (car masses in kg not g, speeds in m/s not cm/s, forces in N not mN).
 
 DRAWING QUESTIONS: Use type "Drawing" when students need to draw (free body diagram, circuit, ray diagram). Include: data.question (instruction), data.drawingInstructions (what to draw). Do NOT include data.drawingImage.
 
