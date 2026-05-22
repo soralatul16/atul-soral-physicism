@@ -950,43 +950,10 @@ async function runGeneration() {
         }
       }
       
-      // ── LEGACY PATH (Phase 1 / browser-side fallback) ──
+      // ── LEGACY PATH (browser-side fallback) ──
       if (!result || !result.blocks || !Array.isArray(result.blocks)) {
         var prompt = buildGeneratorPrompt(singleConfig);
-        prompt += "\n\nCRITICAL FOR THIS PHASE: Do NOT generate the actual mark scheme or explanation yet. Leave meta.markScheme and data.explanation as empty strings (''). We will generate them in the next step.";
-        
-        var qResult = await callAI(prompt, false);
-        
-        if (qResult && qResult.blocks && Array.isArray(qResult.blocks)) {
-          status.textContent = '⏳ Generating mark schemes for Criterion ' + crit + '...';
-          
-          var msPrompt = "Here is the generated question JSON block array:\n" + JSON.stringify(qResult, null, 2) + "\n\nCRITICAL INSTRUCTION: Read these questions, calculate the answers yourself, and generate the EXACT SAME JSON structure, but this time fill in the missing 'meta.markScheme', 'data.correct', and 'data.explanation' fields for every question. Do not change any other fields.";
-          
-          var msResult = await callAI(msPrompt, true);
-          
-          if (msResult && msResult.blocks && Array.isArray(msResult.blocks)) {
-             // Merge the mark schemes in
-             for(let j=0; j<qResult.blocks.length; j++) {
-                let qb = qResult.blocks[j];
-                let mb = msResult.blocks.find(x => x.id === qb.id || (x.data && x.data.question === qb.data?.question));
-                if(!mb) mb = msResult.blocks[j]; // Fallback to index
-                
-                if(mb) {
-                   if(mb.meta && mb.meta.markScheme) {
-                      qb.meta = qb.meta || {};
-                      qb.meta.markScheme = mb.meta.markScheme;
-                   }
-                   if(mb.data) {
-                      qb.data = qb.data || {};
-                      if(mb.data.correct !== undefined) qb.data.correct = mb.data.correct;
-                      if(mb.data.explanation !== undefined) qb.data.explanation = mb.data.explanation;
-                   }
-                }
-             }
-           }
-           
-           result = qResult;
-        }
+        result = await callAI(prompt, false);
       }
       
       if (result && result.blocks && Array.isArray(result.blocks)) {
