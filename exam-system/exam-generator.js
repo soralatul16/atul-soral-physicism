@@ -625,8 +625,10 @@ Graph axes MUST include units (e.g. "Time / s", "Force / N").
 Use HTML tables for data, <sub>/<sup> for equations.`;
 }
 
-const USE_SERVER_GEN = true;  // Feature flag: true = Firebase Functions, false = browser-side
-const USE_MODULAR_PIPELINE = true;  // Feature flag: true = 3-step modular, false = legacy single-call
+// ── CONFIGURATION & TOGGLES ──
+// Toggles for Phase 5 & 6
+const USE_SERVER_GEN = false;
+const USE_MODULAR_PIPELINE = false;
 
 // Client-side generationId for tracking
 function makeClientGenId() {
