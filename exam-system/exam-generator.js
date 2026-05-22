@@ -981,7 +981,13 @@ async function runGeneration() {
         
         result.blocks.forEach(function(block) {
           block.sectionId = (block.sectionId || 1) + sectionOffset;
-          if (block.meta) block.meta.criterion = crit;
+          if (block.mode === 'question') {
+            block.meta = block.meta || {};
+            block.meta.criterion = crit;
+            if (!block.meta.marks && block.marks) block.meta.marks = block.marks;
+            if (!block.meta.marks) block.meta.marks = 1;
+            block.meta.marks = Number(block.meta.marks);
+          }
         });
         
         sectionOffset += critSections.length;
