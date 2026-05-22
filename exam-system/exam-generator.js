@@ -171,101 +171,13 @@ const DIAGRAM_BANK = {
   experiments: ['measuring-cylinder.png','stopwatch-ruler.png','spring-mass-setup.png','pendulum-setup.png','beaker-thermometer.png']
 };
 
-const IB_OFFICIAL_FORMULA_SHEET = `
-OFFICIAL IB MYP PHYSICS FORMULA SHEET (provided to students on-screen):
-ρ = m/V (density)
-s = d/t (speed)
-v = Δd/Δt (velocity, where d = displacement)
-a = Δv/Δt (acceleration)
-v = u + at
-d = ut + ½at²
-v² = u² + 2ad
-F = ma (force)
-p = mv (momentum)
-P = F/A (pressure)
-W = Fd (work done)
-KE = ½mv² (kinetic energy)
-g = F_g/m (gravitational field strength)
-GPE = mgh (gravitational potential energy)
-efficiency = useful energy output / total energy input × 100%
-P = W/t (power, from work)
-P = IV (power, electrical)
-I = Q/t (current)
-V = IR (voltage)
-R_total = R₁ + R₂ + ... (series)
-1/R_total = 1/R₁ + 1/R₂ + ... (parallel)
-V₁/V₂ = n₁/n₂ (transformer equation)
-v = fλ (wave speed)
-T = 1/f (time period)
+const IB_OFFICIAL_FORMULA_SHEET = `FORMULA SHEET: ρ=m/V, s=d/t, v=Δd/Δt, a=Δv/Δt, v=u+at, d=ut+½at², v²=u²+2ad, F=ma, p=mv, P=F/A, W=Fd, KE=½mv², g=Fg/m, GPE=mgh, eff=useful/total×100%, P=W/t, P=IV, I=Q/t, V=IR, series:R=R1+R2, parallel:1/R=1/R1+1/R2, V1/V2=n1/n2, v=fλ, T=1/f. If question needs other formulas, provide them in the question.`;
 
-RULE: These are the ONLY formulas students have access to. If a question requires any formula NOT on this list, you MUST provide it within the question text. Never assume students know formulas beyond this list.`;
+const IB_ASSESSMENT_CONVENTIONS = `CONVENTIONS: 3 s.f., SI units, a×10^k notation. Mark schemes: "Award N marks", "Accept/Do not accept", "WTTE", "ECF", "Seen or implied".`;
 
-const IB_ASSESSMENT_CONVENTIONS = `
-OFFICIAL IB ASSESSMENT CONVENTIONS (ISO 80000):
-- Final answers: 3 significant figures (unless stated otherwise)
-- Scientific notation: a × 10^k where 1 ≤ a < 10
-- SI units required. Accepted exceptions: mass in g (lab), volume in cm³ or dm³, temperature in °C, pressure in kPa
-- Derived units: ms⁻¹, ms⁻², kg m⁻³, J g⁻¹ °C⁻¹
-- Subscripts/superscripts must be formatted correctly — wrong formatting = no marks
-- Mark schemes must specify: "Award [N] mark(s) for answer to 3 s.f. with correct unit"
-- Accept ECF (error carried forward) from previous parts
-- "Seen or implied" means the working doesn't need to be explicitly shown if the answer is correct`;
+const IB_EXAM_TOOLS = `STUDENT TOOLS: calculator, graph plotter, drawing canvas, table tool. Say "Use the graph plotter to plot..." not "Draw a graph".`;
 
-const IB_EXAM_TOOLS = `
-TOOLS AVAILABLE TO STUDENTS (on-screen eAssessment):
-- Scientific calculator (on-screen, always available)
-- Measuring tool (for measuring distances/angles on diagrams)
-- Drawing canvas (for sketching diagrams, free-body diagrams, circuits)
-- Graph plotter (for plotting data points and drawing lines of best fit)
-- Table drawing tool (for organizing data)
-- IUPAC periodic table (interactive, on-screen)
-
-When creating questions, assume students have access to ALL these tools. Design questions that USE these tools:
-- "Use the graph plotter to plot..." instead of "Draw a graph..."
-- "Complete the table below..." using the table tool
-- "On the drawing canvas, sketch..." for diagram questions
-- Calculator questions should require multi-step calculations`;
-
-const IB_TASK_BLUEPRINT = `
-OFFICIAL IB MYP SCIENCES eASSESSMENT BLUEPRINT:
-┌─────────┬─────────────────────────────┬───────┬──────────────┐
-│ Task    │ Focus                       │ Marks │ Criteria     │
-├─────────┼─────────────────────────────┼───────┼──────────────┤
-│ Task 1  │ Knowing & Understanding     │  25   │ A (may +C)   │
-│ Task 2  │ Investigation (simulation)  │  50   │ B + C        │
-│ Task 3  │ Real-world reflection       │  25   │ D            │
-├─────────┼─────────────────────────────┼───────┼──────────────┤
-│ TOTAL   │                             │ 100   │ A+B+C+D      │
-└─────────┴─────────────────────────────┴───────┴──────────────┘
-
-Task 1 (Criterion A, ~25 marks):
-- Tests knowledge and understanding of physics concepts
-- May ALSO award marks against Criterion C when data interpretation is involved
-- Uses 2-3 stimulus contexts with progressive sub-parts (i → ii → iii)
-- Stimulus = real-world scenario (3-8 sentences) with specific data
-
-Task 2 (Criteria B+C, ~50 marks):
-- Based on a SIMULATION — students interact with a virtual lab
-- Criterion B (~25 marks): Design an investigation using the simulation
-  - Formulate research question, hypothesis, identify variables
-  - Design method with equipment from the simulation
-  - Plan data collection (5 increments, 3 trials, calculate average)
-  - ONE holistic marking grid (V, H, E, M, D, S)
-- Criterion C (~25 marks): Process and evaluate data FROM the simulation
-  - Present data in tables with correct headers and units
-  - Plot graphs using the graph plotter tool
-  - Interpret trends, calculate values, evaluate hypothesis
-  - Identify errors and suggest improvements
-
-Task 3 (Criterion D, ~25 marks):
-- Extended response about a REAL-WORLD science issue
-- Stimulus = detailed scenario (6-10 sentences) with specific data, names, locations
-- Students discuss implications (environmental, economic, ethical, social, political)
-- Must include BOTH benefits AND limitations
-- Holistic marking grid for extended response
-- Concluding appraisal with justified opinion
-
-MARK FLEXIBILITY: Blueprint allows ±3 marks variation per task.`;
+const IB_TASK_BLUEPRINT = `BLUEPRINT: Task1(CritA,25mk) Task2(CritB+C,50mk) Task3(CritD,25mk) Total=100mk.`;
 
 /* ── System Prompts ── */
 const GROQ_SYSTEM_PROMPT = 'You are an expert IB MYP Physics teacher and examiner who has written and marked every MYP Sciences eAssessment paper from M23 to M25. You follow the IB MYP Sciences Guide (April 2023), the official assessment blueprint (Task 1=25mk Crit A, Task 2=50mk Crit B+C, Task 3=25mk Crit D, Total=100mk), ISO 80000 conventions (3 s.f., SI units, scientific notation), and the official formula sheet. Your questions are INDISTINGUISHABLE from real IB papers. You MUST respond with valid JSON only. No markdown, no code fences, no extra text. CRITICAL: For MCQ questions, verify data.correct index matches the actually correct option. Do NOT set the wrong index. Every question MUST use a real-world context (never "a student in a lab"). Every mark scheme must state the exact correct answer, never "correct answer". Use at least 3 different question types per section.';
