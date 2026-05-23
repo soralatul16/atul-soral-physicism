@@ -965,27 +965,32 @@ document.querySelectorAll('.btn').forEach(function(btn){
 (function(){
   var keys = '', lastTime = 0;
   document.addEventListener('keydown', function(e) {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+    
+    // Ignore modifier keys alone
+    if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' || e.key === 'Meta') return;
+    
     var now = Date.now();
     if (now - lastTime > 800) keys = '';
     lastTime = now;
-    keys += e.key.toUpperCase();
+    
+    var char = e.key.toUpperCase();
+    if (char.length === 1) { // Only accumulate single characters
+      keys += char;
+    }
+    
+    console.log('Teacher Shortcut Debug - Key:', e.key, 'Keys buffer:', keys);
     
     if (keys === 'M' || keys === 'T') {
+      console.log('Redirecting to Exam Teacher...');
       window.location.href = 'exam-system/exam-teacher.html';
       keys = '';
-    } else if (keys === 'D') {
-      // Delay slightly in case they type 'P' next for 'DP' combo
-      setTimeout(function() {
-        if (keys === 'D') {
-          window.location.href = 'dp-teacher-planner.html';
-          keys = '';
-        }
-      }, 250);
-    } else if (keys === 'DP') {
+    } else if (keys === 'D' || keys === 'DP') {
+      console.log('Redirecting to Teacher Planner...');
       window.location.href = 'dp-teacher-planner.html';
       keys = '';
     } else if (keys === 'IA') {
+      console.log('Redirecting to IA Generator...');
       window.location.href = 'ia-ee-generator.html';
       keys = '';
     } else if (keys.length > 2) {

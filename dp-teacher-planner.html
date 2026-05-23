@@ -991,6 +991,166 @@
         color: black !important;
       }
     }
+
+    /* Grid styles for 5-row table layout */
+    .lesson-body-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 16px !important;
+    }
+    .grid-row-1-col-1 { grid-column: span 2; }
+    .grid-row-1-col-2 { grid-column: span 2; }
+    .grid-row-2-full { grid-column: span 4; }
+    .grid-row-3-col { grid-column: span 1; }
+    .grid-row-4-full { grid-column: span 4; }
+    .grid-row-5-full { grid-column: span 4; }
+    
+    .print-only-reflection {
+      display: none;
+    }
+    
+    /* Group collapsible headers style */
+    .group-header {
+      padding: 12px 18px;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      user-select: none;
+      transition: background 0.15s;
+    }
+    .group-chevron {
+      font-size: 10px;
+      margin-right: 8px;
+      transition: transform 0.2s;
+      display: inline-block;
+    }
+    .group-header.collapsed .group-chevron {
+      transform: rotate(-90deg);
+    }
+    .group-badge {
+      font-size: 11px;
+      background: var(--white);
+      padding: 2px 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      color: var(--text2);
+    }
+    
+    /* Print overrides */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+        min-height: auto !important;
+        display: block !important;
+      }
+      header, .sidebar, .tab-btn, .header-actions, .toolbar, .lesson-drag-handle, .lesson-chevron, .lesson-reorder-controls, .btn, .reorder-btn, .lesson-actual-box, .status-select, .status-dot, .btn-danger, #auth-gate-container, .search-filter-row {
+        display: none !important;
+      }
+      .layout-planner {
+        display: block !important;
+        overflow: visible !important;
+      }
+      .editor-pane {
+        padding: 0 !important;
+        overflow: visible !important;
+        display: block !important;
+        background: white !important;
+      }
+      .editor-header {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 0 20px 0 !important;
+        margin-bottom: 20px !important;
+        border-bottom: 2px solid #000 !important;
+        border-radius: 0 !important;
+      }
+      .group-header {
+        page-break-before: always !important;
+        background: #f0f0f0 !important;
+        border: 1px solid #000 !important;
+        color: black !important;
+        padding: 10px !important;
+      }
+      .group-chevron {
+        display: none !important;
+      }
+      .lesson-card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+        margin-bottom: 20px !important;
+        page-break-inside: avoid !important;
+        border-radius: 0 !important;
+      }
+      .lesson-header {
+        background: #f9f9f9 !important;
+        border-bottom: 1px solid #000 !important;
+        padding: 10px !important;
+      }
+      .lesson-title-input {
+        font-weight: bold !important;
+        color: black !important;
+        border: none !important;
+        background: transparent !important;
+      }
+      .lesson-body {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 12px !important;
+        padding: 10px !important;
+      }
+      .grid-row-1-col-1 { grid-column: span 2 !important; }
+      .grid-row-1-col-2 { grid-column: span 2 !important; }
+      .grid-row-2-full { grid-column: span 4 !important; }
+      .grid-row-3-col { grid-column: span 1 !important; }
+      .grid-row-4-full { grid-column: span 4 !important; }
+      .grid-row-5-full { grid-column: span 4 !important; }
+      
+      .editable-box {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        min-height: auto !important;
+        color: black !important;
+      }
+      .checklist-container {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+      }
+      .checklist-checkbox {
+        display: none !important;
+      }
+      .checklist-label {
+        color: black !important;
+      }
+      .checklist-label::before {
+        content: "☐ ";
+      }
+      .checklist-label.checked::before {
+        content: "☑ ";
+      }
+      textarea {
+        display: none !important;
+      }
+      .print-only-reflection {
+        display: block !important;
+        color: black !important;
+        font-size: 12px !important;
+        border-top: 1px dashed #000 !important;
+        padding-top: 6px !important;
+        margin-top: 6px !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1065,262 +1225,348 @@
 
     // A2 Pre-populated content (17 lessons)
     const A2_PREPOPULATED_LESSONS = [
-      {
-        id: "n1",
-        title: "Newton's 1st Law & Translational Equilibrium",
-        plannedTime: 15,
-        understandings: "A body remains at rest or in uniform motion unless acted upon by a resultant external force.\nApplied to problems involving translational equilibrium (resultant force = 0).",
-        how: "<p><strong>Opener (5 min):</strong> Start with ISS astronaut video — objects float because no resultant force acts.</p><p><strong>Socratic Questioning (5 min):</strong> Ask: 'Is the ball at rest because no forces act, or because forces balance?'</p><p><strong>Instruction (5 min):</strong> Use interaction diagrams before formal FBDs.</p>",
-        engage: "<p><strong>Demo (5 min):</strong> Tablecloth pull: yank the cloth, dishes stay. Students predict first, then explain using the 1st law. Follow with a coin-on-card flick over a glass.</p>",
-        nos: "Models, Theories",
-        atl: "Thinking",
-        lp: "Thinker",
-        ao: "AO1: State the law; AO2: Apply to equilibrium",
-        actualHours: 0.25,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "n2",
-        title: "Newton's 2nd Law: F = ma and F = Δp/Δt",
-        plannedTime: 20,
-        understandings: "F = ma assumes constant mass.\nF = Δp/Δt is the general form allowing for changing mass (rockets, conveyor belts, rain on a cart).\nDerive F = ma as a special case of F = Δp/Δt.",
-        how: "<p><strong>Opener (5 min):</strong> Rocket launch video opener — 'mass is changing, can we use F = ma?' Derive the general form.</p><p><strong>Worked Examples (10 min):</strong> Constant mass (block on surface) then changing mass (rocket, sand on belt).</p><p><strong>Practice Task (5 min):</strong> Group problem-solving with escalating difficulty.</p>",
-        engage: "<p><strong>Balloon Rocket (5 min):</strong> Inflate, release, it accelerates as air (mass) leaves. 'Is the force constant? Is the acceleration constant? Why not?' Directly motivates F = Δp/Δt.</p>",
-        nos: "Theories — F = Δp/Δt is more general, explains more situations",
-        atl: "Thinking, Social",
-        lp: "Knowledgeable",
-        ao: "AO2: Apply both forms; AO3: Evaluate when each is needed",
-        actualHours: 0.33,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "n3",
-        title: "Newton's 3rd Law & Force Pairs",
-        plannedTime: 15,
-        understandings: "Forces exist in pairs: equal magnitude, opposite direction, on DIFFERENT bodies.\nForces as interactions between bodies — every force involves two objects.\nIdentification of force pairs in various situations (per IB guidance).",
-        how: "<p><strong>Skateboard Demo (5 min):</strong> Two students on skateboards push off each other — who moves faster?</p><p><strong>Diagram Exercise (5 min):</strong> Draw interaction diagrams labelling what each body does to the other.</p><p><strong>Class Discussion (5 min):</strong> Book on table on Earth — identify ALL 3rd-law pairs. Emphasise: 3rd-law pairs act on different bodies, never cancel.</p>",
-        engage: "<p><strong>Skateboard Challenge (5 min):</strong> Skateboard challenge with students of different masses. The lighter one shoots backward — visceral surprise. 'If forces are equal, why don't they accelerate equally?'</p>",
-        nos: "Patterns & trends, Shared endeavour (Newton built on Galileo)",
-        atl: "Communication",
-        lp: "Inquirer",
-        ao: "AO1: State the law; AO3: Analyse to identify force pairs",
-        actualHours: 0.25,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "f1",
-        title: "Drawing & Labelling FBDs",
-        plannedTime: 15,
-        understandings: "Represent all forces on a single body as a free-body diagram.\nForces labelled using accepted names/symbols: F_N, F_f, F_g, T, etc.\nFBDs for 1D and 2D situations only (per IB guidance).",
-        how: "<p><strong>Modeling (5 min):</strong> Step-by-step modelling: (1) isolate the body, (2) draw as a dot, (3) identify every contact and field force, (4) draw arrows to scale, (5) label.</p><p><strong>Examples (5 min):</strong> Three worked examples escalating: horizontal surface → inclined plane → two ropes at angles.</p><p><strong>Practice (5 min):</strong> Students practise in pairs with graded problem set.</p>",
-        engage: "<p><strong>Visual Puzzle (5 min):</strong> Rock climber photo — 'What forces act on her? How is she in equilibrium?' Students sketch before instruction, then compare with the correct FBD after.</p>",
-        nos: "Models — FBDs strip away irrelevant detail to focus on physics",
-        atl: "Communication, Thinking",
-        lp: "Communicator",
-        ao: "AO1: Draw and label FBDs correctly",
-        actualHours: 0.25,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "f2",
-        title: "Resultant Force & Vector Resolution",
-        plannedTime: 20,
-        understandings: "Finding resultant force by vector addition in 1D and 2D.\nResolving forces into components using trigonometry.\nSolving equilibrium problems using simultaneous equations (per IB guidance).",
-        how: "<p><strong>Resolution Practice (10 min):</strong> Resolve forces on an inclined plane into parallel and perpendicular components. Show F_N = mg·cosθ.</p><p><strong>Equations Practice (5 min):</strong> Extension: hanging sign on two cables at different angles — set up and solve simultaneous equations.</p><p><strong>Peer Check (5 min):</strong> Swap FBDs and check with rubric.</p>",
-        engage: "<p><strong>Human FBD (5 min):</strong> Student on bathroom scale in a lift (or simulated). Class draws FBD in real time and predicts scale reading for accelerating up, constant velocity, and decelerating.</p>",
-        nos: "Models — point particle assumption, when does it break down?",
-        atl: "Thinking, Social",
-        lp: "Thinker",
-        ao: "AO2: Resolve forces; AO3: Analyse with simultaneous equations",
-        actualHours: 0.33,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "c1",
-        title: "Normal Force & Friction (μ_s and μ_d)",
-        plannedTime: 25,
-        understandings: "Normal force (F_N): perpendicular contact force counteracting the body.\nStatic friction: F_f ≤ μ_s·F_N (maximum before sliding).\nDynamic friction: F_f = μ_d·F_N (while moving, μ_d < μ_s).",
-        how: "<p><strong>Intro (5 min):</strong> Push a textbook — it resists, then suddenly slides. 'What was pushing back? Why did it give way?'</p><p><strong>Investigation (15 min):</strong> LAB: spring scale to drag blocks across surfaces (wood, sandpaper, glass). Plot F_f vs F_N, find μ from gradient.</p><p><strong>Theory (5 min):</strong> Formalise with inclined plane: F_N = mg·cosθ, threshold condition.</p>",
-        engage: "<p><strong>Friction Olympics (10 min):</strong> (1) Tug-of-war: socks vs shoes, (2) Drag race across different surfaces, (3) Coin on tilted book — find angle and calculate μ_s = tanθ.</p>",
-        nos: "Measurements, Patterns — μ is empirical not theoretical",
-        atl: "Research, Self-management",
-        lp: "Inquirer, Risk-taker",
-        ao: "AO2: Apply μ; AO3: Analyse lab data; AO4: Lab skills",
-        actualHours: 0.42,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "c2",
-        title: "Tension & Pulley Systems",
-        plannedTime: 15,
-        understandings: "Tension: pulling force transmitted through a string, rope, or cable.\nTension is the same throughout an ideal string.\nAtwood machine and connected-body problems.",
-        how: "<p><strong>Demo (5 min):</strong> Demonstrate Atwood machine. Students predict: which mass accelerates?</p><p><strong>Problem Solving (10 min):</strong> Apply Newton's 2nd law to each mass separately, then combine. Solve for both acceleration and tension. Extend to bodies connected on a surface with a pulley.</p>",
-        engage: "<p><strong>Human Atwood (5 min):</strong> Two students hold ends of a rope over a smooth bar. Different weights attached — who gets pulled? Predict before testing.</p>",
-        nos: "Models — ideal string assumption",
-        atl: "Thinking",
-        lp: "Thinker",
-        ao: "AO2: Apply to connected-body problems",
-        actualHours: 0.25,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "c3",
-        title: "Elastic Restoring Force (Hooke's Law)",
-        plannedTime: 20,
-        understandings: "F_H = −kx, where k is spring constant, x is extension/compression.\nThe negative sign indicates a restoring force (opposite to displacement).\nElastic limit: Hooke's law only holds within it.",
-        how: "<p><strong>Experiment (10 min):</strong> LAB: hang masses on a spring, measure extension, plot F vs x. Find k from gradient.</p><p><strong>Analysis (5 min):</strong> Show a permanently deformed spring — beyond the elastic limit. Discuss the negative sign: force always opposes displacement.</p><p><strong>Task (5 min):</strong> Problem practice: springs in series/parallel.</p>",
-        engage: "<p><strong>Spring Challenge (5 min):</strong> Give students springs of identical appearance but different k values. They discover through measurement that appearance is deceptive.</p>",
-        nos: "Models have boundaries — Hooke's law fails beyond elastic limit",
-        atl: "Research, Thinking",
-        lp: "Inquirer",
-        ao: "AO1: State Hooke's law; AO2: Calculate k; AO4: Lab skills",
-        actualHours: 0.33,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "c4",
-        title: "Viscous Drag (Stokes' Law) & Buoyancy",
-        plannedTime: 20,
-        understandings: "Viscous drag: F_d = 6πηrv (small sphere, laminar flow).\nBuoyancy: F_b = ρVg (V = volume of displaced fluid).\nTerminal velocity: mg = F_d + F_b, so acceleration = 0.",
-        how: "<p><strong>Demo (5 min):</strong> Drop steel ball into glycerol — observe acceleration then constant speed. Derive terminal velocity condition.</p><p><strong>Skydiver Analysis (10 min):</strong> Sketch FBD at three stages of a skydiver: accelerating, terminal velocity, parachute opens.</p><p><strong>Practice (5 min):</strong> Numerical problem: steel ball in glycerol.</p>",
-        engage: "<p><strong>Slow-Mo Race (5 min):</strong> Drop steel, glass, plastic balls into glycerol simultaneously — predict finishing order. Submarine challenge: neutrally buoyant canister using plasticine.</p>",
-        nos: "Falsification — Stokes' law only applies to laminar flow",
-        atl: "Thinking, Research",
-        lp: "Thinker",
-        ao: "AO2: Apply drag and buoyancy; AO3: Analyse terminal velocity",
-        actualHours: 0.33,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "ff1",
-        title: "Weight (F_g = mg) & Mass vs Weight",
-        plannedTime: 10,
-        understandings: "Gravitational force: F_g = mg (weight).\nClear distinction between mass (scalar, invariant) and weight (force, varies with g).\ng varies by location: Moon 1.6, Mars 3.7, Jupiter 24.8 m/s².",
-        how: "<p><strong>Demo (5 min):</strong> Spring scale (weight) vs balance (mass): demonstrate the difference. Calculate weight on different planets.</p><p><strong>Q&A (5 min):</strong> Socratic: 'Would your mass change on the Moon? Would your weight?'</p>",
-        engage: "<p><strong>World Weight (5 min):</strong> Calculate weight on Moon, Mars, Jupiter using planetary g chart. Seeing '15 kg on the Moon' makes the concept visceral.</p>",
-        nos: "Global impact — space exploration depends on this distinction",
-        atl: "Thinking",
-        lp: "Knowledgeable",
-        ao: "AO1: Define; AO2: Apply F_g = mg",
-        actualHours: 0.17,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "ff2",
-        title: "Electric & Magnetic Forces (Intro)",
-        plannedTime: 10,
-        understandings: "Electric force (F_e): acts between charged bodies.\nMagnetic force (F_m): acts on moving charges and currents.\nBoth are field forces — act at a distance without contact.\nQuantified in Theme D (D.2 and D.3).",
-        how: "<p><strong>Demos (5 min):</strong> Charged balloon sticking to wall (F_e), magnet deflecting a current-carrying wire (F_m).</p><p><strong>Task (5 min):</strong> Classify as field forces — no contact. Students add F_e and F_m to their force classification table.</p>",
-        engage: "<p><strong>Showcase (5 min):</strong> Van de Graaff hair-raising or magnet near compass. Quick, visual, memorable.</p>",
-        nos: "Observations — field forces discovered through unexpected observations",
-        atl: "Communication",
-        lp: "Open-minded",
-        ao: "AO1: Identify field forces",
-        actualHours: 0.17,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "m1",
-        title: "Linear Momentum (p = mv)",
-        plannedTime: 15,
-        understandings: "p = mv is a vector quantity.\nMomentum remains constant unless acted on by a resultant external force.\nConservation of momentum in isolated systems.",
-        how: "<p><strong>Intro (5 min):</strong> Car crash test video. 'The car had momentum — where did it go?' Define p = mv.</p><p><strong>Demo (5 min):</strong> Dynamics carts: show total momentum before = total after.</p><p><strong>Practice (5 min):</strong> Two carts colliding, calculate p before and after.</p>",
-        engage: "<p><strong>Analysis (5 min):</strong> Slow-motion crash video. Calculate the momentum of the car before and after. 'Why did it stop if p is conserved?'</p>",
-        nos: "Patterns — conservation laws as fundamental patterns in nature",
-        atl: "Thinking",
-        lp: "Thinker",
-        ao: "AO1: Define momentum; AO2: Apply conservation",
-        actualHours: 0.25,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "m2",
-        title: "Impulse (J = FΔt = Δp) & Safety Design",
-        plannedTime: 20,
-        understandings: "Impulse J = FΔt = Δp.\nSame Δp achieved by large F × short Δt OR small F × long Δt.\nApplications: crumple zones, airbags, seatbelts, bungee cords, martial arts landing.",
-        how: "<p><strong>Derivation (5 min):</strong> Derive J = Δp from F = Δp/Δt. Explain crumple zones (increases Δt, reducing F for same Δp).</p><p><strong>Prep Work (10 min):</strong> Egg Drop Challenge: build container to survive 2m drop. Must write physics justification using J = FΔt first.</p><p><strong>Calculations (5 min):</strong> Calculate impulse and estimate average force.</p>",
-        engage: "<p><strong>Egg Drop (15 min):</strong> 1 egg, 4 sheets of newspaper, 50 cm tape. Film drops in slow motion and analyze physics.</p>",
-        nos: "Global impact — crash safety standards save lives internationally",
-        atl: "Social, Communication, Self-management",
-        lp: "Caring, Principled",
-        ao: "AO2: Apply J = Δp; AO3: Analyse Δt effect on F; AO4: Design",
-        actualHours: 0.33,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "co1",
-        title: "Elastic & Inelastic Collisions",
-        plannedTime: 25,
-        understandings: "Elastic: both momentum AND kinetic energy conserved.\nInelastic: momentum conserved, KE not (→ heat, sound, deformation).\nPerfectly inelastic: objects stick, maximum KE loss.\nSimultaneous equations for elastic collisions (conservation of p and KE).\nRelative approach speed = relative separation speed (elastic).",
-        how: "<p><strong>Intro Question (5 min):</strong> Newton's cradle: 'Why doesn't 1 ball fly out at double speed?' Need BOTH p and KE conservation.</p><p><strong>Investigation (15 min):</strong> LAB: dynamics carts — spring (elastic), velcro (inelastic), spring release (explosion). Record v, calculate p and KE before/after, find % KE lost.</p>",
-        engage: "<p><strong>Cradle Mystery (10 min):</strong> Newton's Cradle analysis. Marbles billiards tournament: predict shots using conservation laws, verify by measurement.</p>",
-        nos: "Models — no real collision is perfectly elastic (idealisation)",
-        atl: "Thinking, Research",
-        lp: "Inquirer, Knowledgeable",
-        ao: "AO2: Apply simultaneous equations; AO3: Analyse and classify",
-        actualHours: 0.42,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "co2",
-        title: "Explosions & Energy Analysis",
-        plannedTime: 15,
-        understandings: "Explosions: initial p = 0, so final total p = 0.\nKE increases — energy comes from internal (chemical/elastic) energy.\nEnergy analysis: calculate KE before/after to find energy transferred.",
-        how: "<p><strong>Skater Problem (5 min):</strong> Skater push-off: two ice skaters of different mass push apart from rest. Calculate each velocity and KE.</p><p><strong>Q&A (5 min):</strong> 'Who gets more KE? Where does the energy come from?' Recoil calculations.</p><p><strong>Classification (5 min):</strong> Show 5 video clips — students classify each collision with justification.</p>",
-        engage: "<p><strong>Cannon Demo (5 min):</strong> Cannonball cart against wall. Students calculate both velocities and verify p_total = 0.</p>",
-        nos: "Theories guide observation — neutrinos predicted via missing momentum",
-        atl: "Thinking, Self-management",
-        lp: "Thinker",
-        ao: "AO2: Apply conservation to explosions; AO3: Evaluate energy",
-        actualHours: 0.25,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "cm1",
-        title: "Centripetal Acceleration & Force",
-        plannedTime: 25,
-        understandings: "Centripetal acceleration: a = v²/r = ω²r = 4π²r/T².\nCentripetal force is perpendicular to velocity — changes direction, not speed.\nCentripetal force is NOT a new force — it is whatever real force acts toward the centre.",
-        how: "<p><strong>Opener (5 min):</strong> Bucket of water in vertical circle — tackle 'centrifugal force' misconception.</p><p><strong>Derivation (10 min):</strong> Velocity vector change diagram, find Δv pointing inward. Derive a = v²/r geometrically.</p><p><strong>Pendulum Lab (10 min):</strong> Conical pendulum: measure radius, angle, period. Set up T·sinθ = mv²/r, T·cosθ = mg. Calculate v, compare.</p>",
-        engage: "<p><strong>Water Bucket (5 min):</strong> Swing bucket of water vertically. Roller coaster design challenge: calculate minimum loop speed (N = 0).</p>",
-        nos: "Models — centrifugal force is a frame-dependent concept",
-        atl: "Thinking, Communication, Social",
-        lp: "Risk-taker, Communicator",
-        ao: "AO1: Define a and ω; AO2: Apply equations; AO3: Identify real centripetal force",
-        actualHours: 0.42,
-        notes: "",
-        checklist: {}
-      },
-      {
-        id: "cm2",
-        title: "Angular Velocity & Applications",
-        plannedTime: 15,
-        understandings: "Angular velocity ω related to linear speed: v = 2πr/T = ωr.\nApplications: flat curve (friction), banked curve (normal force), vertical loop, satellite orbit (gravity).",
-        how: "<p><strong>Problem Carousel (10 min):</strong> 4 stations: (1) flat curve, (2) banked curve, (3) vertical loop, (4) satellite orbit. Groups rotate every 5 min and solve.</p><p><strong>Synthesis (5 min):</strong> Preview connections to D.1 (orbits) and D.3 (charged particles in B fields).</p>",
-        engage: "<p><strong>F1 Design (5 min):</strong> Banking angle calculation for a real Formula 1 corner using published data.</p>",
-        nos: "Global impact — satellite orbits, GPS technology",
-        atl: "Social, Thinking",
-        lp: "Knowledgeable, Thinker",
-        ao: "AO2: Apply v = ωr to solve problems",
-        actualHours: 0.25,
-        notes: "",
-        checklist: {}
-      }
-    ];
+  {
+    "id": "sub_1",
+    "group": "Newton's Laws",
+    "title": "Newton's 1st Law & Translational Equilibrium",
+    "plannedTime": 30,
+    "understandings": "<ul><li>A body remains at rest or in uniform motion unless acted upon by a resultant external force</li><li>Applied to problems involving translational equilibrium (resultant force = 0)</li></ul>",
+    "how": "<p><strong>Opener (5 min):</strong> Show ISS astronaut video — objects float, liquids form spheres. Ask: \"Why doesn't the water fall?\" Surface prior conceptions about forces.</p><p><strong>Socratic discussion (10 min):</strong> \"Is the ball at rest because no forces act, or because forces balance?\" Challenge the common misconception. Use think-pair-share to get every student involved.</p><p><strong>Concept building (10 min):</strong> Introduce interaction diagrams — draw two objects and label what each does to the other. Bridge from intuitive understanding to formal physics language. Work through translational equilibrium examples: a book on a table, a parachutist at terminal velocity.</p><p><strong>Practice (5 min):</strong> Students solve 2–3 equilibrium problems independently, then check with a partner.</p>",
+    "engage": "<p>TABLECLOTH PULL — Yank the cloth and the dishes stay (inertia). Students predict before the demo. Follow with coin-on-card flick over a glass. Ask: \"Why does the coin drop straight down instead of flying sideways?\" Both demos take 3 minutes but create a vivid anchor for the 1st law.</p>",
+    "nos": "Models, Theories — Newton's laws are a model of how the physical world works, developed by observing patterns and formalising them. Galileo's thought experiments about frictionless surfaces were a precursor (NOS: science as a shared endeavour).",
+    "atl": "Thinking skills, Communication skills",
+    "lp": "Thinker, Inquirer",
+    "ao": "AO1 — State the 1st law; AO2 — Apply to equilibrium problems",
+    "resources": "ISS video clip, tablecloth + plastic dishes, coin + card + glass, whiteboard",
+    "formative": "Exit ticket: \"A lamp hangs from two cables at 30° and 60° to the ceiling. Is it in equilibrium? How do you know? Draw the FBD.\"",
+    "lab": false,
+    "demo": false,
+    "actualHours": 0.5,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_2",
+    "group": "Newton's Laws",
+    "title": "Newton's 2nd Law — F = ma and F = Δp/Δt",
+    "plannedTime": 45,
+    "understandings": "<ul><li>F = ma assumes constant mass</li><li>F = Δp/Δt is the general form allowing for changing mass (rockets, conveyor belts, rain on a cart)</li><li>Derive F = ma as a special case of F = Δp/Δt</li></ul>",
+    "how": "<p><strong>Opener (5 min):</strong> Show rocket launch video. \"As the rocket burns fuel, its mass decreases — can we still use F = ma?\" Create the need for the general form.</p><p><strong>Derivation (10 min):</strong> Start from p = mv. Differentiate: F = Δp/Δt. Show that when m is constant, this reduces to F = ma. This is NOT just a formula — it's the idea that force is fundamentally about changing momentum, not just accelerating a fixed mass.</p><p><strong>Worked examples (15 min):</strong> Escalate complexity: (1) constant mass — block on a surface, find acceleration; (2) connected bodies — two blocks on a surface connected by a string; (3) changing mass — a rocket expelling gas at a known rate. For each, set up the problem together, then let students finish.</p><p><strong>Group problem-solving (10 min):</strong> Groups of 3 tackle a challenging problem: \"Sand falls at 2 kg/s onto a conveyor belt moving at 3 m/s. What force is needed to keep the belt moving?\" Each group presents their solution.</p><p><strong>Consolidation (5 min):</strong> Key takeaway — F = ma is a special case. Both forms give the same answer when mass is constant, but only F = Δp/Δt works for variable-mass systems.</p>",
+    "engage": "<p>BALLOON ROCKET — Inflate a balloon, tape it to a straw threaded on a fishing line stretched across the room. Release. It accelerates as air (mass) leaves. Ask: \"Is the force constant? Is the acceleration constant? Why not?\" Students see the acceleration increase as mass decreases — a direct, visceral demonstration of why F = ma alone is insufficient. Follow up by calculating the approximate thrust.</p>",
+    "nos": "Theories — F = Δp/Δt is more general than F = ma; scientific theories evolve to become more encompassing without invalidating simpler cases. Global impact — the rocket equation has geopolitical significance (space race, satellites, missile defence).",
+    "atl": "Thinking skills, Social skills",
+    "lp": "Knowledgeable, Thinker",
+    "ao": "AO1 — State both forms; AO2 — Apply both; AO3 — Evaluate when each is needed",
+    "resources": "Rocket launch video, balloon + straw + fishing line, graded problem sets",
+    "formative": "Group problem presentation. Exit ticket: \"A 500 kg rocket expels 10 kg of gas at 200 m/s in 0.5 s. Calculate the thrust using F = Δp/Δt and explain why F = ma alone would be insufficient.\"",
+    "lab": false,
+    "demo": false,
+    "actualHours": 0.75,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_3",
+    "group": "Newton's Laws",
+    "title": "Newton's 3rd Law & Force Pairs",
+    "plannedTime": 35,
+    "understandings": "<ul><li>Forces exist in pairs: equal magnitude, opposite direction, on DIFFERENT bodies</li><li>Forces as interactions between bodies — every force involves two objects</li><li>Identification of force pairs in various situations (per IB guidance)</li></ul>",
+    "how": "<p><strong>Demonstration (10 min):</strong> Two students of different masses sit on office chairs/skateboards and push off each other. Before the push, ask the class to predict: Who moves faster? Who exerts more force? After: \"If the forces are equal, why don't they accelerate equally?\" (Because F = ma, and their masses differ.)</p><p><strong>Concept building (10 min):</strong> Draw interaction diagrams for: (a) book on table, (b) person standing on Earth, (c) horse pulling a cart. For each, identify ALL 3rd-law pairs. Emphasise: 3rd-law pairs act on DIFFERENT bodies and therefore NEVER cancel.</p><p><strong>Common misconception attack (10 min):</strong> \"If the horse and cart exert equal forces on each other, how does the cart move?\" Work through this carefully — the net force on the cart comes from the horse's pull minus friction, NOT from the 3rd-law pair.</p><p><strong>Practice (5 min):</strong> Students draw interaction diagrams for 3 new scenarios and identify all force pairs.</p>",
+    "engage": "<p>SKATEBOARD CHALLENGE — The visceral surprise when the heavier student barely moves while the lighter one shoots backward is unforgettable. Film it in slow motion. Have students calculate the expected velocity ratio from the mass ratio, then compare with the video.</p>",
+    "nos": "Patterns & trends — Newton observed patterns in interactions. Science as a shared endeavour — Newton acknowledged building on Galileo, Kepler, and others (\"If I have seen further, it is by standing on the shoulders of giants\").",
+    "atl": "Communication skills, Thinking skills",
+    "lp": "Inquirer, Communicator",
+    "ao": "AO1 — State the 3rd law; AO2 — Identify force pairs; AO3 — Analyse the horse-and-cart paradox",
+    "resources": "2 office chairs or skateboards, phone for slow-mo video, whiteboard",
+    "formative": "\"Draw the interaction diagram for a rocket in space. Identify the 3rd-law pair. Explain how a rocket accelerates in the vacuum of space where there is nothing to 'push against'.\"",
+    "lab": false,
+    "demo": false,
+    "actualHours": 0.5833333333333334,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_4",
+    "group": "Free-Body Diagrams",
+    "title": "Drawing & Labelling FBDs",
+    "plannedTime": 35,
+    "understandings": "<ul><li>Represent all forces acting on a single body using a free-body diagram</li><li>Forces labelled using accepted names/symbols: F_N, F_f, F_g, T, etc.</li><li>FBDs for 1D and 2D situations only (per IB guidance)</li></ul>",
+    "how": "<p><strong>Opener (5 min):</strong> Show a photo of a rock climber on a cliff face. \"What forces act on her? How is she in equilibrium?\" Students sketch rough FBDs in notebooks — no instruction yet, just intuition.</p><p><strong>Step-by-step modelling (10 min):</strong> Teach the 5-step FBD process: (1) Isolate the body, (2) Draw it as a dot, (3) Identify every contact and field force, (4) Draw force arrows FROM the dot, to scale, (5) Label each force with its accepted symbol. Model with 3 examples of increasing difficulty: object on horizontal surface → object on inclined plane → object suspended by two ropes at angles.</p><p><strong>Guided practice (15 min):</strong> Students work through 6 graded problems in pairs. Circulate actively — the most common errors at this stage are: missing forces (forgetting normal force), drawing forces ON the surface instead of on the body, and mislabelling.</p><p><strong>Peer assessment (5 min):</strong> Pairs swap their inclined plane FBD. Partners check against a rubric: Are all forces present? Are labels correct using accepted symbols? Are arrows roughly to scale?</p>",
+    "engage": "<p>ROCK CLIMBER FBD — Show the photo first, let students attempt the FBD, THEN teach the method, THEN have them redo it. Comparing their before/after builds metacognitive awareness of what they've learned.</p>",
+    "nos": "Models — FBDs are a model that strips away irrelevant detail to focus on the physics. Discuss: \"Why do we draw the object as a dot? When does the point-particle assumption break down?\" (Answer: when rotation matters — link to A.4.)",
+    "atl": "Communication skills, Thinking skills",
+    "lp": "Communicator, Thinker",
+    "ao": "AO1 — Draw and label FBDs correctly; AO2 — Identify all forces on a body",
+    "resources": "Printed problem sets (graded difficulty), rock climber photo, whiteboard markers, FBD rubric",
+    "formative": "Peer-assessed FBD with rubric. The rubric itself is a teaching tool — students internalise what a good FBD looks like.",
+    "lab": false,
+    "demo": false,
+    "actualHours": 0.5833333333333334,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_5",
+    "group": "Free-Body Diagrams",
+    "title": "Resultant Force & Vector Resolution",
+    "plannedTime": 45,
+    "understandings": "<ul><li>Finding resultant force by vector addition in 1D and 2D</li><li>Resolving forces into components using trigonometry</li><li>Solving equilibrium problems using simultaneous equations (per IB guidance)</li></ul>",
+    "how": "<p><strong>Review (5 min):</strong> Quick recap of FBDs. Show a 2D FBD and ask: \"How do we find the net force when forces point in different directions?\"</p><p><strong>Direct instruction (15 min):</strong> Teach force resolution into components (F_x = F·cosθ, F_y = F·sinθ). Work through: (a) forces on an inclined plane — resolve weight into components parallel and perpendicular to the surface, show F_N = mg·cosθ; (b) two ropes supporting a sign at different angles — set up simultaneous equations T₁·sinα = T₂·sinβ and T₁·cosα + T₂·cosβ = mg.</p><p><strong>Guided practice (15 min):</strong> Students work through 4 problems in pairs, escalating from basic component resolution to simultaneous equation problems. Provide worked solutions for self-checking after each problem.</p><p><strong>Extension challenge (10 min):</strong> \"A 50 kg lamp hangs from two cables. Cable 1 makes 30° with the horizontal, Cable 2 makes 60°. Find the tension in each cable.\" This requires setting up and solving two simultaneous equations — a critical IB exam skill.</p>",
+    "engage": "<p>HUMAN FBD — A student stands on a bathroom scale. The class draws the FBD and predicts the scale reading. Then simulate a lift: push down on the student's shoulders (scale reads more) and pull up (scale reads less). \"Are you heavier when someone pushes you? Or is the normal force just larger?\" This makes apparent weight tangible.</p>",
+    "nos": "Models — The point-particle model breaks down for extended bodies. The component method is itself a mathematical model that simplifies 2D problems into two 1D problems.",
+    "atl": "Thinking skills, Social skills",
+    "lp": "Thinker, Communicator",
+    "ao": "AO2 — Resolve forces into components; AO3 — Analyse equilibrium using simultaneous equations",
+    "resources": "Bathroom scale, printed problem sets with worked answers, angle protractors, calculators",
+    "formative": "Exit ticket: \"Draw the FBD for a 5 kg block on a 30° incline with friction (μ = 0.3). Calculate the net force and the acceleration.\"",
+    "lab": false,
+    "demo": false,
+    "actualHours": 0.75,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_6",
+    "group": "Contact Forces",
+    "title": "Normal Force & Friction (μ_s and μ_d)",
+    "plannedTime": 50,
+    "understandings": "<ul><li>Normal force (F_N): component of contact force perpendicular to the surface that counteracts the body</li><li>Static friction: F_f ≤ μ_s·F_N (up to a maximum before sliding)</li><li>Dynamic friction: F_f = μ_d·F_N (constant while moving, μ_d < μ_s)</li></ul>",
+    "how": "<p><strong>Opener (5 min):</strong> Push a heavy textbook on a desk. Push gently — nothing happens. Gradually increase force — still nothing. Suddenly it slides. \"What was pushing back? Why did it suddenly give way?\" Introduce the concept of static friction having a maximum.</p><p><strong>Lab (25 min):</strong> MEASURING FRICTION COEFFICIENTS — Students use a spring scale to drag wooden blocks across different surfaces (wood, sandpaper, glass, rubber mat). For each: (a) increase force gradually until the block just starts moving — record F_f at that instant (this gives μ_s·F_N), (b) drag at constant velocity — record F_f (this gives μ_d·F_N). Add masses to change F_N. Plot F_f vs F_N for each surface. Find μ from the gradient. Compare μ_s vs μ_d.</p><p><strong>Theory consolidation (10 min):</strong> Formalise the equations. Work through an inclined plane problem: \"At what angle will the block start sliding?\" Show that μ_s = tanθ_critical. This is elegant — students can verify it immediately with a book and a coin.</p><p><strong>Real-world connections (5 min):</strong> Why do car tyres have treads? (Channels water to maintain contact → friction.) Why is it harder to start pushing a fridge than to keep it moving? (μ_s > μ_d.) Why do new shoes slip? (Smooth sole → low μ.)</p><p><strong>Practice (5 min):</strong> 2 inclined plane problems with friction.</p>",
+    "engage": "<p>FRICTION OLYMPICS — Three events: (1) Tug-of-war between a student in socks vs shoes on a smooth floor — who wins and why? (2) Drag race: pull identical blocks across sandpaper, wood, and oiled glass — students bet on which has highest μ before measuring. (3) The unbeatable incline: students find the exact angle where a coin just starts sliding on a tilted textbook, then calculate μ_s = tanθ. Award prizes for the most accurate measurement (± 0.01). The competitive format makes abstract coefficients unforgettable.</p>",
+    "nos": "Measurements, Patterns & trends — Friction coefficients are empirical, not derived from theory. The linear relationship between F_f and F_N is a pattern discovered through data. Discuss: \"Is Coulomb's friction model a law or an approximation? When does it fail?\" (It fails at very high speeds, very smooth surfaces, or lubricated contacts.)",
+    "atl": "Research skills, Self-management skills, Thinking skills",
+    "lp": "Inquirer, Risk-taker",
+    "ao": "AO1 — Define friction; AO2 — Apply μ in calculations; AO3 — Analyse lab data to determine μ; AO4 — Lab skills (measurement, graphing, gradient analysis)",
+    "resources": "Spring scales (0–10 N), wooden blocks, surfaces (sandpaper, glass, rubber, wood), inclined plane, protractors, graph paper, calculators",
+    "formative": "Lab report: F_f vs F_N graph with gradient calculation and comparison of μ_s vs μ_d. Must include uncertainties.",
+    "lab": true,
+    "demo": false,
+    "actualHours": 0.8333333333333334,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_7",
+    "group": "Contact Forces",
+    "title": "Tension & Pulley Systems",
+    "plannedTime": 30,
+    "understandings": "<ul><li>Tension: the pulling force transmitted through a string, rope, or cable</li><li>Tension is the same throughout an ideal (massless, inextensible) string</li><li>Atwood machine and connected-body problems</li></ul>",
+    "how": "<p><strong>Demo (5 min):</strong> Set up an Atwood machine with two clearly different masses. Ask students to predict: \"Which mass accelerates down? What determines the acceleration?\" Let them discuss in pairs before revealing.</p><p><strong>Worked example (10 min):</strong> Apply Newton's 2nd law to EACH mass separately. For mass 1: T − m₁g = m₁a. For mass 2: m₂g − T = m₂a. Add the equations to eliminate T, solve for a. Then back-substitute to find T. Show that T is NOT equal to the weight of either mass.</p><p><strong>Extension (10 min):</strong> Connected bodies on a surface: a block on a table connected by a string over a pulley to a hanging mass. Same method — FBD for each body, Newton's 2nd law for each, solve simultaneously.</p><p><strong>Practice (5 min):</strong> One Atwood machine problem and one connected-body problem. Students solve independently then compare.</p>",
+    "engage": "<p>HUMAN ATWOOD MACHINE — Two students hold ends of a rope over a smooth bar. Attach different water bottles to each end. Who gets pulled? Predict first, then test. The physical struggle makes the abstract problem real.</p>",
+    "nos": "Models — The \"ideal string\" is a model assumption (massless, inextensible). Discuss when this breaks down: bungee cords stretch, heavy chains have their own weight distribution.",
+    "atl": "Thinking skills",
+    "lp": "Thinker",
+    "ao": "AO2 — Apply Newton's 2nd law to connected systems; AO3 — Set up and solve simultaneous equations",
+    "resources": "Atwood machine (pulley + string + masses), or improvised with a smooth bar and rope",
+    "formative": "\"Two masses (3 kg and 5 kg) are connected by a string over a frictionless pulley. Calculate the acceleration and the tension. Then: what would happen if the string had a mass of 0.5 kg?\"",
+    "lab": false,
+    "demo": false,
+    "actualHours": 0.5,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_8",
+    "group": "Contact Forces",
+    "title": "Elastic Restoring Force (Hooke's Law)",
+    "plannedTime": 40,
+    "understandings": "<ul><li>F_H = −kx, where k is the spring constant and x is the extension/compression</li><li>The negative sign indicates a restoring force (opposite to displacement)</li><li>Hooke's law is only valid within the elastic limit</li></ul>",
+    "how": "<p><strong>Lab (20 min):</strong> HOOKE'S LAW INVESTIGATION — Students hang masses from a spring and measure extension for each added mass. Record in a table. Plot F (weight of masses) vs x (extension). Find k from the gradient. Discuss: Is the relationship perfectly linear? What happens if you load too much? Show a permanently deformed spring — this is the elastic limit. Key question: \"Why is there a negative sign in F_H = −kx?\" Answer: the force acts in the opposite direction to the displacement — it always pulls back toward equilibrium.</p><p><strong>Theory (10 min):</strong> Formalise Hooke's law. Distinguish between extension (positive x) and compression (negative x) — force reverses direction in both cases. Introduce spring combinations: springs in series (1/k_total = 1/k₁ + 1/k₂) and parallel (k_total = k₁ + k₂). Work through one example of each.</p><p><strong>Practice (10 min):</strong> Problem set: (a) find k from F-x data, (b) find extension under a given force, (c) springs in series and parallel, (d) elastic potential energy preview: \"If the area under the F-x graph is energy stored, what is it?\" (½kx² — this links to A.3.)</p>",
+    "engage": "<p>SPRING MYSTERY — Give students 3 springs that look identical (same length, same coils) but have different k values. They must determine which is stiffest using only a ruler and a set of masses — no labels, no hints. The discovery that appearance is deceptive and only measurement reveals the truth is a direct lesson in scientific method.</p>",
+    "nos": "Models have boundaries — Hooke's law is an approximation that fails beyond the elastic limit. This is a powerful example of the scope and limitations of scientific models. Discuss: \"Does any real spring obey Hooke's law perfectly?\" (No — it's always an approximation, best for small deformations.)",
+    "atl": "Research skills, Thinking skills",
+    "lp": "Inquirer, Thinker",
+    "ao": "AO1 — State Hooke's law; AO2 — Calculate k and extension; AO3 — Analyse F-x data; AO4 — Lab skills",
+    "resources": "3+ springs of different k, mass hangers, slotted masses, rulers, clamp stands, graph paper",
+    "formative": "Lab report: F vs x graph with gradient = k, uncertainty bars, discussion of elastic limit. Bonus: \"Predict the extension when two of your springs are connected in series, then verify experimentally.\"",
+    "lab": true,
+    "demo": false,
+    "actualHours": 0.6666666666666666,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_9",
+    "group": "Contact Forces",
+    "title": "Viscous Drag (Stokes' Law) & Buoyancy",
+    "plannedTime": 45,
+    "understandings": "<ul><li>Viscous drag on a small sphere: F_d = 6πηrv (Stokes' law) where η is fluid viscosity, r is radius, v is velocity</li><li>Buoyancy: F_b = ρVg where V is the volume of fluid displaced, ρ is the fluid density</li><li>Terminal velocity: when drag + buoyancy = weight, acceleration = 0</li></ul>",
+    "how": "<p><strong>Demonstration (5 min):</strong> Drop a steel ball into a tall cylinder (1 m+) of glycerol or thick honey. Students observe it accelerate, then reach a constant speed. \"The gravitational force didn't change — so what grew as the ball sped up?\"</p><p><strong>Direct instruction (15 min):</strong> Introduce Stokes' law F_d = 6πηrv — drag increases with velocity. Introduce buoyancy F_b = ρVg — depends on displaced volume, not the object's weight. Derive the terminal velocity condition: at terminal velocity, a = 0, so mg = 6πηrv_t + ρVg. Rearrange to find v_t. Numerical example: steel ball (r = 5 mm, ρ = 7800 kg/m³) in glycerol (η = 1.5 Pa·s, ρ = 1260 kg/m³).</p><p><strong>Skydiver analysis (10 min):</strong> The skydiver is the most important application. Draw the v-t graph showing three phases: (1) just after jumping — only gravity acts, acceleration = g, (2) as speed increases — drag grows, net force decreases, acceleration decreases but speed still increases, (3) terminal velocity reached — drag = weight, a = 0. Then: parachute opens — drag suddenly exceeds weight, deceleration occurs, new (lower) terminal velocity reached. Students sketch the FBD at each phase.</p><p><strong>Practice (10 min):</strong> Problem set: (a) calculate terminal velocity for a given sphere in a given fluid, (b) \"Will this object float in water? In mercury? In oil?\", (c) \"Two spheres of the same material but different radii fall through glycerol — which reaches terminal velocity first and why?\"</p><p><strong>Wrap-up (5 min):</strong> Limitations of Stokes' law: only valid for small spheres at low Reynolds numbers (laminar flow). At high speeds, drag ∝ v² instead of v.</p>",
+    "engage": "<p>TWO ACTIVITIES — (1) SLOW-MOTION RACE: Drop steel, glass, and plastic balls simultaneously into glycerol columns. Students predict the finishing order using Stokes' law — both radius AND density matter. (2) SUBMARINE CHALLENGE: Give groups a film canister, plasticine, and a tub of water. They must make the canister hover neutrally buoyant (neither sinking nor floating). This requires precise balancing of F_b = ρVg and mg. The satisfaction when it hovers is genuine delight.</p>",
+    "nos": "Falsification — Stokes' law makes a specific, testable prediction. If the ball doesn't reach the predicted terminal velocity, something is wrong with the assumptions (turbulent flow, wall effects, non-spherical shape). Models have defined scope.",
+    "atl": "Thinking skills, Research skills",
+    "lp": "Inquirer, Thinker",
+    "ao": "AO1 — State Stokes' law and buoyancy equation; AO2 — Apply to calculate terminal velocity and buoyancy; AO3 — Analyse conditions for terminal velocity from FBDs",
+    "resources": "Tall cylinders (1 m) with glycerol, steel/glass/plastic balls of known radii, film canisters, plasticine, water tub, stopwatches",
+    "formative": "Annotated FBD + v-t graph for a skydiver at all four stages (free fall, increasing drag, terminal velocity, parachute). Must label forces and state whether a > 0, a = 0, or a < 0 at each stage.",
+    "lab": false,
+    "demo": true,
+    "actualHours": 0.75,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_10",
+    "group": "Field Forces",
+    "title": "Weight (F_g = mg) & Mass vs Weight",
+    "plannedTime": 20,
+    "understandings": "<ul><li>Gravitational force F_g = mg (weight)</li><li>Mass is a scalar (invariant); weight is a force (varies with g)</li><li>g varies by location: Moon 1.6, Mars 3.7, Earth 9.8, Jupiter 24.8 m/s²</li></ul>",
+    "how": "<p><strong>Demo (5 min):</strong> Weigh an object on a spring scale (measures weight) and a balance (measures mass). \"Which reading would change on the Moon?\"</p><p><strong>Discussion & calculation (10 min):</strong> Students calculate their weight on Moon, Mars, Jupiter. Record in a table. \"Would your mass change? Would your weight?\" Formalise: mass is the quantity of matter (doesn't change); weight is the gravitational force (depends on g). Address the common confusion: \"I weigh 70 kg\" — no, you have a mass of 70 kg and a weight of 686 N on Earth.</p><p><strong>Practice (5 min):</strong> Quick problems involving weight on different planets, apparent weightlessness in orbit.</p>",
+    "engage": "<p>WEIGHT ON OTHER WORLDS — Give each student a \"passport\" card. They calculate their weight on 5 planets/moons and fill it in. Display results. \"On Jupiter, you'd struggle to stand up. On the Moon, you could jump 6 times higher.\"</p>",
+    "nos": "Global impact — understanding weight vs mass is essential for space exploration and satellite deployment.",
+    "atl": "Thinking skills",
+    "lp": "Knowledgeable",
+    "ao": "AO1 — Define mass and weight; AO2 — Apply F_g = mg",
+    "resources": "Spring scale, balance, planetary g-values chart, \"passport\" cards",
+    "formative": "\"An astronaut has a mass of 80 kg. Calculate her weight on Earth, on the Moon, and in the ISS (in orbit around Earth). Explain why she feels weightless in the ISS even though g ≈ 8.7 m/s² at that altitude.\"",
+    "lab": false,
+    "demo": false,
+    "actualHours": 0.3333333333333333,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_11",
+    "group": "Field Forces",
+    "title": "Electric & Magnetic Forces (Intro)",
+    "plannedTime": 15,
+    "understandings": "<ul><li>Electric force (F_e): acts between charged bodies</li><li>Magnetic force (F_m): acts on moving charges and currents</li><li>Both are field forces — act at a distance without contact</li><li>These will be quantified in Theme D (D.2 and D.3)</li></ul>",
+    "how": "<p><strong>Quick demos (5 min):</strong> (a) Rub a balloon on hair, stick it to a wall — electric force. (b) Bring a magnet near a current-carrying wire — it deflects — magnetic force. Both act WITHOUT CONTACT.</p><p><strong>Classification (5 min):</strong> Students update their force classification table (started in earlier subtopics): Contact forces (normal, friction, tension, spring, drag, buoyancy) vs Field forces (gravitational, electric, magnetic). Discuss: \"What's the fundamental difference?\"</p><p><strong>Preview (5 min):</strong> \"We've met F_g = mg for gravity. In Theme D, you'll learn F_e = kq₁q₂/r² for electric force and F_m = qvB for magnetic force. These follow the same patterns — force depends on a property of the object and a property of the field.\"</p>",
+    "engage": "<p>VAN DE GRAAFF HAIR-RAISING or charged balloon attracting small paper pieces. Quick, visual, memorable. \"This is the electric force — it's the same force that holds atoms together and makes lightning.\"</p>",
+    "nos": "Observations — Field forces were discovered through unexpected observations (Oersted's accidental discovery that a current deflects a compass).",
+    "atl": "Communication skills",
+    "lp": "Open-minded",
+    "ao": "AO1 — Identify and classify field forces",
+    "resources": "Balloon, Van de Graaff (if available), bar magnet, wire, battery, compass",
+    "formative": "\"Complete the force classification table. For each force, state whether it is contact or field, give its symbol, and give one real-world example.\"",
+    "lab": false,
+    "demo": false,
+    "actualHours": 0.25,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_12",
+    "group": "Momentum & Impulse",
+    "title": "Linear Momentum (p = mv) & Conservation",
+    "plannedTime": 40,
+    "understandings": "<ul><li>p = mv is a vector quantity</li><li>Momentum remains constant unless the system is acted upon by a resultant external force</li><li>Conservation of momentum in isolated systems</li></ul>",
+    "how": "<p><strong>Opener (5 min):</strong> Show slow-motion car crash test video. Pause at impact. \"The car had momentum before the crash. After the crash, it's stopped. Where did the momentum go?\"</p><p><strong>Concept building (10 min):</strong> Define p = mv. Emphasise it's a VECTOR — direction matters. Momentum of a system = sum of individual momenta. Conservation: if no external force acts, total momentum before = total momentum after. This works because Newton's 3rd law ensures internal forces cancel.</p><p><strong>Demo (10 min):</strong> Dynamics carts on a track. (a) Equal masses, one moving — after collision, the moving one stops and the stationary one moves (elastic). (b) Unequal masses — both move after collision. For each, calculate total p before and after. Students see conservation in action.</p><p><strong>Problem-solving (10 min):</strong> Numerical problems: (a) two carts colliding, (b) a bullet embedding in a block (find the block's velocity after), (c) a cannon firing a cannonball (find the recoil velocity). Set up conservation equation for each: m₁v₁ + m₂v₂ = m₁v₁' + m₂v₂'.</p><p><strong>Discussion (5 min):</strong> \"Is momentum always conserved?\" Discuss: yes, for an isolated system. In a car crash, is the system isolated? (No — friction from the road is an external force. But during the very short collision time, external forces are negligible compared to the collision forces, so momentum is approximately conserved.)</p>",
+    "engage": "<p>CRASH TEST VIDEO — The visceral drama of a car crash grabs attention. Calculate the car's momentum before impact (m ≈ 1500 kg, v ≈ 50 km/h ≈ 14 m/s → p ≈ 21,000 kg·m/s). \"That's the momentum that had to go somewhere in 0.1 seconds.\"</p>",
+    "nos": "Patterns — Conservation laws are among the deepest patterns in physics. Every conservation law is connected to a symmetry of nature (Noether's theorem, mentioned briefly). Theories — conservation of momentum was used to predict the existence of the neutrino (Pauli, 1930).",
+    "atl": "Thinking skills",
+    "lp": "Thinker, Knowledgeable",
+    "ao": "AO1 — Define momentum; AO2 — Apply conservation of momentum; AO3 — Analyse whether a system is isolated",
+    "resources": "Dynamics carts, track, crash test video, problem sets",
+    "formative": "\"A 0.02 kg bullet travelling at 400 m/s embeds in a 2 kg wooden block at rest. Calculate the velocity of the block+bullet after impact. Is momentum conserved? Is kinetic energy conserved? Calculate the % of KE lost.\"",
+    "lab": false,
+    "demo": false,
+    "actualHours": 0.6666666666666666,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_13",
+    "group": "Momentum & Impulse",
+    "title": "Impulse (J = FΔt = Δp) & Safety Design",
+    "plannedTime": 70,
+    "understandings": "<ul><li>Impulse J = FΔt — the product of average resultant force and time of contact</li><li>Impulse equals the change in momentum: J = Δp</li><li>Same change in momentum can be achieved by large F × short Δt or small F × long Δt</li><li>Use of simultaneous equations involving conservation of momentum and energy (per IB guidance)</li></ul>",
+    "how": "<p><strong>Concept building (15 min):</strong> Derive J = Δp from F = Δp/Δt. Rearrange: FΔt = Δp. This is the impulse-momentum theorem. Key insight: for the same Δp, increasing Δt DECREASES F. This one idea explains all of the following: crumple zones (car deforms over longer time → lower force on passengers), airbags (cushion → longer Δt → lower force on head), seatbelts (stretch slightly → longer Δt), bungee cords (decelerate over seconds, not milliseconds), catching a cricket ball (draw hands back to increase Δt), martial arts rolls (distribute impact over time). Work through the calculation: \"A 70 kg person moving at 10 m/s stops in 0.05 s (hitting a wall) vs 0.5 s (crumple zone). Calculate the force in each case.\" (14,000 N vs 1,400 N — a 10x reduction.)</p><p><strong>Lab (30 min):</strong> EGG DROP CHALLENGE — Each group gets: 1 raw egg, 4 sheets of newspaper, 50 cm of tape. BEFORE building: write a one-paragraph physics justification explaining how their design increases Δt to reduce the force on the egg. Use the equation J = FΔt = Δp explicitly. Then build (10 min), then drop from 2 m (5 min — film in slow motion). After: calculate the egg's momentum just before impact (estimate mass, use v = √(2gh)), calculate the impulse, estimate the average force during impact using the approximate time from the slow-mo video.</p><p><strong>Problem-solving (15 min):</strong> Conservation of momentum problems requiring simultaneous equations: (a) elastic collision with both final velocities unknown (two equations: p conservation + KE conservation), (b) ballistic pendulum (bullet in block, then block swings up — combine momentum conservation with energy conservation). These are classic IB exam problems.</p><p><strong>Debrief (10 min):</strong> Return to the car crash video. Students now explain QUANTITATIVELY how crumple zones, airbags, and seatbelts each reduce peak force. Discussion: \"Are there situations where you WANT a short impact time?\" (Yes: hammering a nail, martial arts strikes, heading a football for power.)</p>",
+    "engage": "<p>EGG DROP ENGINEERING CHALLENGE — The twist of requiring a written physics justification BEFORE building forces students to think about the physics, not just build randomly. Groups whose egg survives AND whose explanation correctly uses the impulse-momentum theorem earn full marks. The tension when the egg drops, the slow-mo replay, the physics analysis afterward — this is the kind of lesson students remember for years.</p>",
+    "nos": "Global impact — Car safety standards (Euro NCAP, NHTSA) are direct applications of impulse-momentum theory. Scientific knowledge informing international policy and saving lives. Science as a shared endeavour — crash test data is shared internationally.",
+    "atl": "Thinking skills, Social skills, Self-management skills, Communication skills",
+    "lp": "Caring (safety design protects lives), Principled (honest data), Thinker, Communicator",
+    "ao": "AO1 — Define impulse; AO2 — Apply J = Δp and conservation; AO3 — Analyse how Δt affects force; AO4 — Design and justify egg-drop experiment",
+    "resources": "Raw eggs (extras!), newspaper, tape, 2m drop height, slow-mo camera (phone), dynamics carts, crash test video, problem sets with simultaneous equations",
+    "formative": "(a) Egg drop physics justification — assessed for correct use of J = FΔt. (b) Problem set: ballistic pendulum and elastic collision simultaneous equation problems.",
+    "lab": true,
+    "demo": false,
+    "actualHours": 1.1666666666666667,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_14",
+    "group": "Collisions & Explosions",
+    "title": "Elastic & Inelastic Collisions",
+    "plannedTime": 55,
+    "understandings": "<ul><li>Elastic collisions: both momentum and kinetic energy are conserved</li><li>Inelastic collisions: momentum is conserved, kinetic energy is NOT (some → heat, sound, deformation)</li><li>Perfectly inelastic: objects stick together — maximum KE loss</li><li>Setting up simultaneous equations from conservation of momentum AND conservation of KE</li><li>Shortcut for elastic collisions: relative speed of approach = relative speed of separation</li></ul>",
+    "how": "<p><strong>Opener (10 min):</strong> Newton's cradle. Pull back 1 ball → 1 swings out. Pull back 2 → 2 swing out. Pull back 3 → 3 swing out. Ask: \"Why doesn't pulling back 1 ball make 1 ball fly out at DOUBLE the speed? Momentum would still be conserved!\" Let students struggle with this. The answer: BOTH momentum AND kinetic energy must be conserved. If 1 ball flew out at 2v, KE would be ½m(2v)² = 2mv², but the original KE was only ½mv². Conservation of KE forbids it. This creates the intellectual NEED for the energy equation.</p><p><strong>Lab (20 min):</strong> COLLISION ANALYSIS — Dynamics carts on a track with photogates or motion sensors. Three experiments: (a) Elastic collision — spring bumpers: record v₁ and v₂ before and after, calculate total p and total KE before and after. Are they conserved? (b) Inelastic collision — velcro bumpers (carts stick): same measurements. p conserved? KE conserved? Calculate % KE lost. (c) Explosion — compressed spring released between two carts initially at rest: measure final velocities. p_total should ≈ 0. KE increased from where? (Elastic potential energy of the spring.)</p><p><strong>Theory (15 min):</strong> Formalise the algebra for a 1D elastic collision between two bodies: Set up (1) m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂ and (2) ½m₁u₁² + ½m₂u₂² = ½m₁v₁² + ½m₂v₂². Show that these can be combined to give the shortcut: u₁ − u₂ = −(v₁ − v₂), i.e., relative approach speed = relative separation speed. This makes problem-solving MUCH faster than solving the full simultaneous equations every time. Work through 2 examples.</p><p><strong>Classification practice (10 min):</strong> Show 5 short video clips: billiards shot, car crash, firework, ball caught by hand, neutron hitting uranium nucleus. For each, students classify as elastic, inelastic, or explosion AND justify using energy arguments.</p>",
+    "engage": "<p>NEWTON'S CRADLE MYSTERY + BILLIARDS TOURNAMENT — After the cradle analysis, set up a mini billiards/snooker tournament using marbles on a flat surface. Students must PREDICT the outcome of each shot using conservation of momentum, then verify by measurement. Show a professional trick shot compilation and identify the physics.</p>",
+    "nos": "Models — No macroscopic collision is perfectly elastic; it's an idealisation. Theories — Particle physicists use conservation of p and KE to detect invisible particles. Pauli predicted the neutrino in 1930 because energy and momentum appeared to be missing in beta decay. The neutrino wasn't detected until 1956. Conservation laws as tools for DISCOVERY.",
+    "atl": "Thinking skills, Research skills, Self-management skills",
+    "lp": "Thinker, Inquirer, Knowledgeable",
+    "ao": "AO1 — Define elastic/inelastic/perfectly inelastic; AO2 — Apply conservation of p and KE simultaneously; AO3 — Analyse collision data to classify and calculate energy loss",
+    "resources": "Newton's cradle, dynamics carts (spring + velcro bumpers), photogates or motion sensors, data logger, marbles, flat surface, video clips",
+    "formative": "Lab data table: total p and total KE before and after for each collision type, % KE lost, classification with justification.",
+    "lab": true,
+    "demo": false,
+    "actualHours": 0.9166666666666666,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_15",
+    "group": "Collisions & Explosions",
+    "title": "Explosions & Energy Analysis",
+    "plannedTime": 45,
+    "understandings": "<ul><li>Explosions: total momentum before = 0, so total momentum after = 0</li><li>KE increases — energy comes from internal (chemical, elastic, nuclear) energy</li><li>Energy analysis: calculate KE before and after to classify any collision/explosion and find energy transferred</li></ul>",
+    "how": "<p><strong>Ice skater analysis (10 min):</strong> Two ice skaters of different masses (60 kg and 90 kg) push off from rest. \"If they start at rest, total momentum = 0. After pushing, total momentum still = 0. So if the 60 kg skater moves right at 3 m/s, what is the 90 kg skater's velocity?\" (2 m/s left.) Calculate KE of each: 60 kg skater → 270 J, 90 kg skater → 180 J. Total KE = 450 J. \"Where did 450 J come from if they started at rest?\" (Internal energy — chemical energy in muscles.)</p><p><strong>Cannon & recoil problems (10 min):</strong> A 500 kg cannon fires a 5 kg ball at 100 m/s. Find the recoil velocity (−1 m/s). Calculate KE of ball (25,000 J) and cannon (250 J). \"The ball gets 99% of the KE. Why?\" (Same momentum magnitude, but KE = p²/2m, so the lighter object gets more KE.)</p><p><strong>Energy analysis framework (15 min):</strong> Teach a systematic approach for ANY collision/explosion problem: (1) Calculate total p before and after — is it conserved? (Should be.) (2) Calculate total KE before and after. (3) Compare: KE_after = KE_before → elastic. KE_after < KE_before → inelastic (find where the KE went). KE_after > KE_before → explosion (find where the KE came from). Work through 3 examples using this framework.</p><p><strong>Practice (10 min):</strong> Mixed problem set — students must first classify, then solve.</p>",
+    "engage": "<p>CANNON DEMO — Use a spring-loaded dynamics cart against a wall: the \"cannonball\" (small cart) flies off while the \"cannon\" (heavy cart) barely moves. Students calculate both velocities and verify that total momentum = 0. Then calculate KE of each and see the energy asymmetry.</p>",
+    "nos": "Theories guide observation — Missing energy in beta decay led to the neutrino prediction. Missing momentum in particle collisions at CERN has been used to search for dark matter candidates. Conservation laws are not just calculation tools — they're discovery tools.",
+    "atl": "Thinking skills, Self-management skills",
+    "lp": "Thinker, Knowledgeable",
+    "ao": "AO2 — Apply conservation to explosions; AO3 — Evaluate energy transfer and classify interactions",
+    "resources": "Spring-loaded dynamics cart, wall/barrier, problem sets, calculators",
+    "formative": "\"A 10 g bullet at 300 m/s hits a 2 kg block and passes through, emerging at 100 m/s. (a) Find the block's velocity. (b) Is this elastic, inelastic, or an explosion? (c) Calculate the energy transferred to heat/deformation.\"",
+    "lab": false,
+    "demo": false,
+    "actualHours": 0.75,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_16",
+    "group": "Circular Motion",
+    "title": "Centripetal Acceleration & Force",
+    "plannedTime": 55,
+    "understandings": "<ul><li>Bodies moving in a circle at constant speed experience centripetal acceleration: a = v²/r = ω²r = 4π²r/T²</li><li>Centripetal force acts perpendicular to velocity — changes direction, not speed</li><li>Centripetal force is NOT a new force — it is whatever real force (tension, gravity, friction, normal) acts toward the centre</li></ul>",
+    "how": "<p><strong>Opener (5 min):</strong> Swing a bucket of water in a vertical circle over your head. The water doesn't fall out at the top! \"What force keeps the water in? Is there a force pushing the water outward?\" Tackle the centrifugal force misconception immediately.</p><p><strong>Geometric derivation (15 min):</strong> Draw the velocity vector at two points on a circular path (separated by a small angle Δθ). Move both vectors to a common origin. The change in velocity Δv points toward the centre. As Δθ → 0, the magnitude of acceleration = v²/r. This is a beautiful derivation — walk through it slowly, let students draw along. Key message: constant speed ≠ constant velocity (direction changes), so there IS acceleration.</p><p><strong>Centripetal force identification (10 min):</strong> The centripetal force is not a new force. Work through examples: (a) ball on a string in horizontal circle — tension provides F_c. (b) Car on a flat curve — friction provides F_c. (c) Satellite in orbit — gravity provides F_c. (d) Clothes in a washing machine — normal force provides F_c. For each, draw the FBD and identify which real force acts toward the centre.</p><p><strong>Conical pendulum demo (15 min):</strong> Swing a mass on a string in a horizontal circle. Students measure: radius (r), angle of string (θ), period (T). From the FBD: T·sinθ = mv²/r (centripetal direction) and T·cosθ = mg (vertical equilibrium). Divide: tanθ = v²/(rg). Calculate v from measurements, compare with v = 2πr/T.</p><p><strong>Practice (10 min):</strong> 3 problems: (a) find centripetal acceleration given v and r, (b) find the tension in a string for horizontal circular motion, (c) minimum speed at the top of a vertical loop.</p>",
+    "engage": "<p>BUCKET OF WATER — Students genuinely fear getting splashed, which guarantees 100% attention. After the demo, ask: \"At the top of the circle, the water is upside down. Draw the FBD. What provides the centripetal force?\" (Gravity + normal force from the bucket, both pointing down toward the centre.) \"What's the minimum speed so the water doesn't fall?\" (When N = 0: mg = mv²/r, so v = √(gr).) Calculate it for your bucket.</p>",
+    "nos": "Models — \"Centrifugal force\" is a valid concept in a rotating (non-inertial) reference frame, but NOT in the inertial frame we use in IB physics. This is a nuanced discussion about frames of reference and the role of models. Falsification — students can test whether centripetal force predictions match observations (conical pendulum).",
+    "atl": "Thinking skills, Communication skills, Social skills",
+    "lp": "Thinker, Risk-taker, Communicator",
+    "ao": "AO1 — Define centripetal acceleration and centripetal force; AO2 — Apply a = v²/r and F_c = mv²/r; AO3 — Identify which real force provides the centripetal force in each scenario",
+    "resources": "Bucket of water, string + mass (conical pendulum), stopwatch, ruler, protractor, whiteboard",
+    "formative": "\"A 0.5 kg ball on a 1.2 m string is swung in a horizontal circle, making 2 revolutions per second. (a) Find ω, v, and the centripetal acceleration. (b) Draw the FBD and find the tension. (c) Why does the string make an angle with the horizontal rather than being perfectly horizontal?\"",
+    "lab": false,
+    "demo": true,
+    "actualHours": 0.9166666666666666,
+    "notes": "",
+    "checklist": {}
+  },
+  {
+    "id": "sub_17",
+    "group": "Circular Motion",
+    "title": "Angular Velocity & Applications",
+    "plannedTime": 45,
+    "understandings": "<ul><li>Angular velocity ω related to linear speed: v = 2πr/T = ωr</li><li>Applications: car on flat curve (friction), banked curve (normal force component), vertical loop (minimum speed at top), satellite orbit (gravity as centripetal force)</li></ul>",
+    "how": "<p><strong>Quick review (5 min):</strong> Recap ω = 2π/T, v = ωr. \"Two students sit on a merry-go-round, one near the centre, one at the edge. Who has greater ω? Who has greater v?\" (Same ω, but the one at the edge has greater v because v = ωr.)</p><p><strong>Problem-solving carousel (25 min):</strong> Set up 4 stations around the room. Each station has a different circular motion scenario with a problem to solve. Groups of 3–4 rotate every 6 minutes:</p><p><strong>Station 1:</strong> CAR ON A FLAT CURVE — \"A 1200 kg car takes a curve of radius 50 m at 20 m/s. What minimum coefficient of friction is needed?\" (Friction = centripetal force: μmg = mv²/r, so μ = v²/(rg) = 0.82.)</p><p><strong>Station 2:</strong> BANKED CURVE — \"The same curve is banked at 25°. At what speed can a car take the curve with zero friction?\" (Component of normal force provides centripetal force: tan25° = v²/(rg), v = 15.1 m/s.)</p><p><strong>Station 3:</strong> VERTICAL LOOP — \"A roller coaster car enters a loop of radius 10 m. What minimum speed at the top ensures the car stays on the track?\" (At minimum speed, N = 0: mg = mv²/r, v = √(gr) = 9.9 m/s.)</p><p><strong>Station 4:</strong> SATELLITE ORBIT — \"A satellite orbits Earth at altitude 400 km. Find its orbital speed and period.\" (GMm/r² = mv²/r, v = √(GM/r). Preview of D.1.)</p><p><strong>Synthesis & connections (15 min):</strong> (a) \"Why do you feel pushed outward on a roundabout?\" — explain using inertial vs non-inertial frames. (b) ROLLER COASTER DESIGN CHALLENGE: give each group a printed loop diagram with a given drop height. They must calculate: Is the speed at the bottom sufficient to make it around the loop? (Use energy conservation from A.3 to find v at bottom, then check if v at top > √(gr).) This links A.2 (circular motion) with A.3 (energy conservation). (c) Preview connections to D.1 (planetary orbits use circular motion + gravitation) and D.3 (charged particles in magnetic fields move in circles: qvB = mv²/r).</p>",
+    "engage": "<p>PROBLEM CAROUSEL FORMAT — Moving around the room keeps energy high. The roller coaster design challenge connects circular motion to energy (A.3 link) and lets students play engineer. Bonus: show a Formula 1 banked turn and ask students to calculate the banking angle from published speed and radius data.</p>",
+    "nos": "Global impact — Satellite orbits, GPS technology, space station design, and particle accelerators all depend on circular motion physics. International collaboration in space (ISS partners: NASA, ESA, JAXA, Roscosmos, CSA).",
+    "atl": "Social skills, Thinking skills",
+    "lp": "Knowledgeable, Thinker, Communicator",
+    "ao": "AO2 — Apply v = ωr and circular motion equations to diverse scenarios; AO3 — Analyse FBDs to identify centripetal force in each application",
+    "resources": "Printed station cards with problems, roller coaster loop diagrams, calculators, F1 corner data",
+    "formative": "(a) Completed solutions from all 4 stations. (b) Exit ticket: \"A highway curve has radius 200 m. It is banked at 12°. Calculate the speed at which no friction is needed. If a car travels at 30 m/s instead, does it slide up the bank or down? Why?\"",
+    "lab": false,
+    "demo": false,
+    "actualHours": 0.75,
+    "notes": "",
+    "checklist": {}
+  }
+];
+
 
     // Default template for blank lessons in other topics
     const DEFAULT_LESSON_TEMPLATE = {
@@ -1333,7 +1579,9 @@
       atl: "ATL Skill",
       lp: "Learner Profile attribute",
       ao: "AO Level",
-      actualHours: 0,
+      resources: "List resources...",
+      formative: "Describe formative assessment...",
+      actualHours: 0.75,
       notes: "",
       checklist: {}
     };
@@ -1352,6 +1600,13 @@
     let plannerState = {}; // cached locally
     let studentsData = []; // loaded from Firestore
     let draggedCard = null;
+
+    // Version check to force reset A.2 content cache once
+    const PLANNER_VERSION = "2025_v2";
+    if (localStorage.getItem("dp_planner_version") !== PLANNER_VERSION) {
+      localStorage.removeItem("dp-planner-A2");
+      localStorage.setItem("dp_planner_version", PLANNER_VERSION);
+    }
 
     // CHECK AUTHENTICATION STATUS
     function checkAuth() {
@@ -1650,69 +1905,20 @@
 
       if (!topic || !state) return;
 
-      // Calculate totals
-      let totalPlannedMinutes = 0;
-      let totalActualHours = 0;
-      let totalChecklistItems = 0;
-      let totalCompletedItems = 0;
-
-      state.lessons.forEach(l => {
-        totalPlannedMinutes += Number(l.plannedTime || 0);
-        totalActualHours += Number(l.actualHours || 0);
-        
-        const parsed = parseStrategyChecklist(l.how + " " + l.engage);
-        const chk = l.checklist || {};
-        parsed.forEach(item => {
-          totalChecklistItems++;
-          if (chk[item]) totalCompletedItems++;
-        });
-        STANDARD_CHECKLIST_ITEMS.forEach(item => {
-          totalChecklistItems++;
-          if (chk[item]) totalCompletedItems++;
-        });
-      });
-
-      const totalPlannedHours = (totalPlannedMinutes / 60).toFixed(1);
-      const completionRate = totalChecklistItems > 0 ? Math.round((totalCompletedItems / totalChecklistItems) * 100) : 0;
-
-      // Status indicator style
-      const status = getTopicStatus(code);
-      let statusLabel = "Not Started";
-      let statusColor = "var(--text3)";
-      if (status === "in-progress") { statusLabel = "In Progress"; statusColor = "var(--amber)"; }
-      else if (status === "completed") { statusLabel = "Completed"; statusColor = "var(--teal)"; }
-
       container.innerHTML = `
-        <div class="editor-header">
+        <div class="editor-header" style="margin-bottom:12px;">
           <div class="editor-header-top">
             <div class="topic-title-area">
               <span class="topic-code-badge">${topic.code} &middot; Theme ${topic.theme} (${topic.level})</span>
               <h1 class="topic-name-header">${topic.title}</h1>
             </div>
-            <span class="oc-status" style="background:${statusColor}22; color:${statusColor}; border:1px solid ${statusColor}">${statusLabel}</span>
+            <span class="oc-status" style="background:var(--bg-deep); color:var(--text2); border:1px solid var(--border)">Teacher Mode</span>
           </div>
 
-          <div class="stats-row">
-            <div class="stat-box">
-              <div class="stat-label">Recommended Hours</div>
-              <div class="stat-val">${topic.hours}h</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Total Planned Hours</div>
-              <div class="stat-val ${Number(totalPlannedHours) > topic.hours ? 'warning' : ''}">${totalPlannedHours}h</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Actual Hours Spent</div>
-              <div class="stat-val success">${totalActualHours.toFixed(1)}h</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Checklist Completion</div>
-              <div class="stat-val success">${completionRate}%</div>
-            </div>
-          </div>
+          <div class="stats-row" id="topic-stats-row"></div>
         </div>
 
-        <div class="toolbar">
+        <div class="toolbar" style="margin-bottom: 12px;">
           <div class="toolbar-left">
             <button class="btn btn-accent" onclick="addLesson()">➕ Add Lesson</button>
             <button class="btn" onclick="triggerPrint()">🖨️ Download PDF</button>
@@ -1724,17 +1930,84 @@
           </div>
         </div>
 
+        <!-- Search and Expand controls -->
+        <div class="search-filter-row" style="margin-bottom:15px; display:flex; gap:10px; align-items:center;">
+          <input type="text" id="subtopic-search" placeholder="🔍 Search subtopics by keyword..." oninput="filterSubtopics(this.value)" style="flex:1; padding:8px 12px; border:1px solid var(--border); border-radius:8px; font-size:13px; outline:none; background:var(--bg-deep);" />
+          <button class="btn" onclick="expandAllLessons()">↔️ Expand All</button>
+          <button class="btn" onclick="collapseAllLessons()">↕️ Collapse All</button>
+        </div>
+
         <div class="lessons-list" id="lessons-list">
           <!-- Dynamic lesson cards -->
         </div>
 
-        <div class="lesson-field" style="margin-top: 10px;">
+        <div class="lesson-field" style="margin-top: 20px;">
           <span class="field-label">General Topic Planner Reflections / Private Notes (Hidden in Print)</span>
           <textarea id="topic-notes" class="editable-box" style="width:100%; min-height:80px; font-family:var(--font-body); resize:vertical;" placeholder="Write personal reflections, warnings, or lab observations for future reference..." onblur="updateTopicNotes(this.value)">${state.notes || ""}</textarea>
         </div>
+
+        <div id="linking-questions-container"></div>
       `;
 
+      updateHeaderTotals();
       renderLessonCards(state.lessons);
+
+      // Inject Linking Questions if Topic A.2
+      if (code === "A.2") {
+        const linkingContainer = document.getElementById('linking-questions-container');
+        linkingContainer.innerHTML = `
+          <div class="linking-questions-section" style="margin-top: 40px; border-top: 2px solid var(--border); padding-top: 30px;">
+            <h2 style="font-family:var(--font-display); font-size:18px; font-weight:700; margin-bottom:15px; color:var(--text);">Linking Questions</h2>
+            <p style="font-size:13px; color:var(--text3); margin-bottom:20px;">Use these questions to connect A.2 Forces & Momentum to other themes and topics in the syllabus.</p>
+            <div class="linking-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:16px;">
+              <div class="linking-card" style="background:var(--white); border:1px solid var(--border); border-radius:8px; padding:16px; box-shadow:var(--shadow-sm);">
+                <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--accent); margin-bottom:8px;">A.1 Kinematics</div>
+                <div style="font-size:12.5px; line-height:1.5; color:var(--text2);">How do the equations of motion connect to Newton's 2nd law? Use kinematic graphs to derive force-time relationships.</div>
+              </div>
+              <div class="linking-card" style="background:var(--white); border:1px solid var(--border); border-radius:8px; padding:16px; box-shadow:var(--shadow-sm);">
+                <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--accent2); margin-bottom:8px;">A.3 Work, Energy & Power</div>
+                <div style="font-size:12.5px; line-height:1.5; color:var(--text2);">How does the work-energy theorem relate to F = ma? When is energy analysis more efficient than force analysis?</div>
+              </div>
+              <div class="linking-card" style="background:var(--white); border:1px solid var(--border); border-radius:8px; padding:16px; box-shadow:var(--shadow-sm);">
+                <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--accent4); margin-bottom:8px;">A.4 Rigid Body Mechanics (HL)</div>
+                <div style="font-size:12.5px; line-height:1.5; color:var(--text2);">How does torque extend the concept of force to rotational systems? How is angular momentum analogous to linear momentum?</div>
+              </div>
+              <div class="linking-card" style="background:var(--white); border:1px solid var(--border); border-radius:8px; padding:16px; box-shadow:var(--shadow-sm);">
+                <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--accent5); margin-bottom:8px;">B.1 Thermal Energy</div>
+                <div style="font-size:12.5px; line-height:1.5; color:var(--text2);">How does viscous drag connect to thermal conductivity? How does Newton's law of cooling relate to forces at the molecular level?</div>
+              </div>
+              <div class="linking-card" style="background:var(--white); border:1px solid var(--border); border-radius:8px; padding:16px; box-shadow:var(--shadow-sm);">
+                <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--accent3); margin-bottom:8px;">B.5 Circuits</div>
+                <div style="font-size:12.5px; line-height:1.5; color:var(--text2);">How is Ohm's law (V = IR) analogous to F = ma? How does electrical resistance mirror mechanical friction?</div>
+              </div>
+              <div class="linking-card" style="background:var(--white); border:1px solid var(--border); border-radius:8px; padding:16px; box-shadow:var(--shadow-sm);">
+                <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--accent5); margin-bottom:8px;">D.1 Gravitational Fields</div>
+                <div style="font-size:12.5px; line-height:1.5; color:var(--text2);">How does F_g = mg connect to Newton's law of gravitation F = GMm/r²? How does circular motion apply to planetary orbits?</div>
+              </div>
+              <div class="linking-card" style="background:var(--white); border:1px solid var(--border); border-radius:8px; padding:16px; box-shadow:var(--shadow-sm);">
+                <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--accent4); margin-bottom:8px;">D.3 Motion in EM Fields</div>
+                <div style="font-size:12.5px; line-height:1.5; color:var(--text2);">How does the magnetic force on a charged particle produce circular motion? Compare F = qvB with F = mv²/r.</div>
+              </div>
+              <div class="linking-card" style="background:var(--white); border:1px solid var(--border); border-radius:8px; padding:16px; box-shadow:var(--shadow-sm);">
+                <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--accent); margin-bottom:8px;">E.1 Structure of the Atom</div>
+                <div style="font-size:12.5px; line-height:1.5; color:var(--text2);">How did Rutherford use momentum conservation to deduce nuclear structure from alpha particle scattering?</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function getGroupColor(group) {
+      if (!group) return '#B8432F';
+      const g = group.toLowerCase();
+      if (g.includes("newton")) return '#B8432F'; // var(--accent) red-brown
+      if (g.includes("free-body") || g.includes("fbd") || g.includes("diagram")) return '#1B4965'; // var(--accent3) navy
+      if (g.includes("contact")) return '#2D6A4F'; // var(--accent2) forest green
+      if (g.includes("field")) return '#B07D10'; // var(--accent5) gold
+      if (g.includes("momentum") || g.includes("impulse")) return '#B8432F'; // var(--accent) red-brown
+      if (g.includes("collision") || g.includes("explosion") || g.includes("circular")) return '#7B2D8E'; // var(--accent4) purple
+      return '#B8432F';
     }
 
     // RENDER LESSON CARDS
@@ -1747,13 +2020,52 @@
         return;
       }
 
+      // Calculate sums for group headers
+      const groupSums = {};
+      lessons.forEach(l => {
+        if (l.group) {
+          if (!groupSums[l.group]) {
+            groupSums[l.group] = { time: 0, count: 0 };
+          }
+          groupSums[l.group].time += Number(l.plannedTime || 0);
+          groupSums[l.group].count += 1;
+        }
+      });
+
+      let lastGroup = "";
+
       lessons.forEach((l, index) => {
+        // Render Collapsible Group Header if the group changes
+        if (l.group && l.group !== lastGroup) {
+          const groupColor = getGroupColor(l.group);
+          const groupLessons = lessons.filter(ls => ls.group === l.group);
+          const isGroupCollapsed = groupLessons.every(ls => ls.collapsed);
+          
+          const groupHdr = document.createElement('div');
+          groupHdr.className = `group-header ${isGroupCollapsed ? 'collapsed' : ''}`;
+          groupHdr.setAttribute('data-group', l.group);
+          groupHdr.onclick = () => toggleGroupCollapse(l.group);
+          groupHdr.style.background = `${groupColor}10`;
+          groupHdr.style.borderLeft = `4px solid ${groupColor}`;
+          groupHdr.innerHTML = `
+            <div class="group-header-left">
+              <span class="group-chevron" style="transform: ${isGroupCollapsed ? 'rotate(-90deg)' : 'none'};">▼</span>
+              <span class="group-name" style="color:var(--text); font-weight:700;">${l.group}</span>
+            </div>
+            <div class="group-header-right">
+              <span class="group-badge">${groupSums[l.group].count} subtopics</span>
+              <span class="group-badge">${groupSums[l.group].time} min</span>
+            </div>
+          `;
+          container.appendChild(groupHdr);
+          lastGroup = l.group;
+        }
+
         const card = document.createElement('div');
         card.className = `lesson-card${l.collapsed ? ' collapsed' : ''}`;
         card.id = `lesson-card-${index}`;
         card.draggable = true;
         
-        // Drag listeners
         card.addEventListener('dragstart', (e) => handleDragStart(e, index));
         card.addEventListener('dragover', handleDragOver);
         card.addEventListener('drop', (e) => handleDrop(e, index));
@@ -1774,7 +2086,7 @@
           if (checked) chkDone++;
           checklistHTML += `
             <div class="checklist-item">
-              <input type="checkbox" class="checklist-checkbox" id="chk-${index}-${chkTotal}" ${checked ? 'checked' : ''} onchange="toggleChecklistItem(${index}, '${item.replace(/'/g, "\\'")}', this.checked)" />
+              <input type="checkbox" class="checklist-checkbox" id="chk-${index}-${chkTotal}" ${checked ? 'checked' : ''} onchange="toggleChecklistItem(${index}, '${item.replace(/'/g, "\'")}', this.checked)" />
               <label for="chk-${index}-${chkTotal}" class="checklist-label ${checked ? 'checked' : ''}">${item}</label>
             </div>
           `;
@@ -1787,74 +2099,143 @@
           if (checked) chkDone++;
           checklistHTML += `
             <div class="checklist-item">
-              <input type="checkbox" class="checklist-checkbox" id="chk-${index}-${chkTotal}" ${checked ? 'checked' : ''} onchange="toggleChecklistItem(${index}, '${item.replace(/'/g, "\\'")}', this.checked)" />
+              <input type="checkbox" class="checklist-checkbox" id="chk-${index}-${chkTotal}" ${checked ? 'checked' : ''} onchange="toggleChecklistItem(${index}, '${item.replace(/'/g, "\'")}', this.checked)" />
               <label for="chk-${index}-${chkTotal}" class="checklist-label ${checked ? 'checked' : ''}"><em>${item}</em></label>
             </div>
           `;
         });
 
         const lessonRate = chkTotal > 0 ? Math.round((chkDone / chkTotal) * 100) : 0;
+        const groupColor = getGroupColor(l.group || "");
+
+        // Determine Status
+        let status = l.status || "planned";
+        if (!l.status) {
+          if (chkDone === chkTotal && chkTotal > 0) status = "completed";
+          else if (chkDone > 0 || l.actualHours > 0) status = "in-progress";
+        }
+        let dotColor = "#718096";
+        if (status === "planned") dotColor = "#3182ce";
+        else if (status === "in-progress") dotColor = "#dd6b20";
+        else if (status === "completed") dotColor = "#38a169";
+        else if (status === "skipped") dotColor = "#e53e3e";
 
         card.innerHTML = `
           <div class="lesson-header" onclick="toggleCollapseLesson(${index})">
             <span class="lesson-drag-handle" title="Drag to reorder" onclick="event.stopPropagation()">⠿</span>
             <span class="lesson-chevron">▼</span>
+            
+            <span class="group-color-badge" style="background:${groupColor}; width:12px; height:12px; border-radius:3px; display:inline-block; flex-shrink:0; margin-right:4px;" title="${l.group || ''}"></span>
+            <span style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:var(--text3); margin-right:4px; white-space:nowrap;">#${index+1}</span>
             <input type="text" class="lesson-title-input" value="${l.title}" onclick="event.stopPropagation()" onblur="updateLessonField(${index}, 'title', this.value)" placeholder="Enter Lesson Title" />
             
-            <div class="lesson-meta-header" onclick="event.stopPropagation()">
-              <div class="lesson-duration-box">
-                <input type="number" min="0" value="${l.plannedTime}" onblur="updateLessonField(${index}, 'plannedTime', this.value)" />
-                <span class="field-label">mins</span>
+            <div class="lesson-meta-header" onclick="event.stopPropagation()" style="display:flex; align-items:center; gap:12px;">
+              <div class="lesson-duration-box" title="Recommended Time">
+                <input type="number" min="0" value="${l.plannedTime}" onblur="updateLessonField(${index}, 'plannedTime', this.value)" style="width:40px; text-align:center;" />
+                <span class="field-label" style="font-size:10px;">min</span>
               </div>
-              <span class="oc-status status-completed" style="font-size:9.5px; padding: 1px 6px;">${chkDone}/${chkTotal} Done (${lessonRate}%)</span>
+              
+              <div class="lesson-actual-box" title="Actual Time Spent" style="display:flex; align-items:center; gap:4px;">
+                <span class="field-label" style="font-size:9px; color:var(--text3);">Actual:</span>
+                <input type="number" min="0" value="${Math.round((l.actualHours || 0) * 60)}" onblur="updateLessonField(${index}, 'actualHours', this.value / 60)" style="width:44px; padding:2px; border:1px solid var(--border); border-radius:4px; text-align:center; background:var(--bg-deep); color:var(--text); font-family:var(--font-mono); font-weight:700;" />
+                <span class="field-label" style="font-size:10px;">min</span>
+              </div>
+
+              <span class="oc-status status-completed" style="font-size:10px; padding: 2px 8px; border-radius:12px; font-weight:700; white-space:nowrap;">
+                ${chkDone}/${chkTotal} done (${lessonRate}%)
+              </span>
+
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span class="status-dot" style="width:8px; height:8px; border-radius:50%; background:${dotColor}; display:inline-block;" title="Status: ${status}"></span>
+                <select class="status-select" onchange="updateLessonField(${index}, 'status', this.value); renderSidebar();" style="font-size:10.5px; padding:2px; border:1px solid var(--border); border-radius:4px; outline:none; background:var(--bg-deep); color:var(--text); font-weight:600;">
+                  <option value="planned" ${status === 'planned' ? 'selected' : ''}>Planned</option>
+                  <option value="in-progress" ${status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+                  <option value="completed" ${status === 'completed' ? 'selected' : ''}>Completed</option>
+                  <option value="skipped" ${status === 'skipped' ? 'selected' : ''}>Skipped</option>
+                </select>
+              </div>
               
               <div class="lesson-reorder-controls">
                 <button class="reorder-btn" title="Move Up" onclick="moveLesson(${index}, -1)">▲</button>
                 <button class="reorder-btn" title="Move Down" onclick="moveLesson(${index}, 1)">▼</button>
               </div>
 
-              <button class="btn btn-danger" style="padding: 4px 8px; font-size:11px;" onclick="deleteLesson(${index})">🗑️ Delete</button>
+              <button class="btn btn-danger" style="padding: 4px 8px; font-size:11px;" onclick="deleteLesson(${index})">🗑️</button>
             </div>
           </div>
 
-          <div class="lesson-body">
-            <div class="lesson-col">
-              <div class="lesson-field">
-                <span class="field-label">IB DP Physics Understandings / Knowledge Points</span>
-                <div class="editable-box" contenteditable="true" onblur="updateLessonField(${index}, 'understandings', this.innerHTML)" placeholder="List the core syllabus criteria covered in this lesson block...">${l.understandings || ""}</div>
-              </div>
+          <div class="lesson-body lesson-body-grid">
+            <!-- Row 1: Two Columns -->
+            <div class="lesson-field grid-row-1-col-1">
+              <span class="field-label">IB Understandings (What to teach)</span>
+              <div class="editable-box" contenteditable="true" onblur="updateLessonField(${index}, 'understandings', this.innerHTML)" placeholder="List the core understandings...">${l.understandings || ""}</div>
+            </div>
+            
+            <div class="lesson-field grid-row-1-col-2">
+              <span class="field-label">Teaching Strategy (How to teach, with timing per activity)</span>
+              <div class="editable-box" contenteditable="true" onblur="updateLessonField(${index}, 'how', this.innerHTML); triggerChecklistReload(${index});" placeholder="Describe the strategy and activities...">${l.how || ""}</div>
+            </div>
 
-              <div class="lesson-field">
-                <span class="field-label">Teaching Strategy & How to Teach It (Use bold text for checklists!)</span>
-                <div class="editable-box" contenteditable="true" onblur="updateLessonField(${index}, 'how', this.innerHTML); triggerChecklistReload(${index});" placeholder="Strategy details, openers, activity time schedules...">${l.how || ""}</div>
-              </div>
-
-              <div class="lesson-field">
-                <span class="field-label">Engagement / Demonstration Hook</span>
-                <div class="editable-box" contenteditable="true" onblur="updateLessonField(${index}, 'engage', this.innerHTML); triggerChecklistReload(${index});" placeholder="Visual puzzles, classroom physics demos...">${l.engage || ""}</div>
+            <!-- Row 2: Full-width Highlighted Box -->
+            <div class="grid-row-2-full">
+              <div class="engage-box" style="margin: 0; padding: 12px 16px;">
+                <span class="field-label" style="color:var(--accent); font-weight:700; display:block; margin-bottom:8px;">Engagement / Demonstration Hook</span>
+                <div class="editable-box" contenteditable="true" onblur="updateLessonField(${index}, 'engage', this.innerHTML)" style="background:transparent; border:none; padding:0; min-height:auto; font-style:italic;" placeholder="Describe a hook or demo...">${l.engage || ""}</div>
               </div>
             </div>
 
-            <div class="lesson-col">
-              <div class="lesson-field">
-                <span class="field-label">Lesson Task Checklist</span>
-                <div class="checklist-container" id="checklist-container-${index}">
-                  ${checklistHTML}
+            <!-- Row 3: Four Columns -->
+            <div class="lesson-field grid-row-3-col">
+              <span class="field-label">Nature of Science (NOS)</span>
+              <div class="editable-box" contenteditable="true" onblur="updateLessonField(${index}, 'nos', this.innerHTML)" placeholder="NOS connections...">${l.nos || ""}</div>
+            </div>
+
+            <div class="lesson-field grid-row-3-col">
+              <span class="field-label">ATL Skills & Learner Profile</span>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <div>
+                  <label class="field-label" style="font-size:9px; color:var(--text3);">ATL Skills</label>
+                  <div class="editable-box" contenteditable="true" onblur="updateLessonField(${index}, 'atl', this.innerHTML)" style="min-height:30px; padding:6px 10px;" placeholder="ATL skills...">${l.atl || ""}</div>
+                </div>
+                <div>
+                  <label class="field-label" style="font-size:9px; color:var(--text3);">Learner Profile</label>
+                  <div class="editable-box" contenteditable="true" onblur="updateLessonField(${index}, 'lp', this.innerHTML)" style="min-height:30px; padding:6px 10px;" placeholder="Learner profile...">${l.lp || ""}</div>
                 </div>
               </div>
+            </div>
 
-              <div class="lesson-field">
-                <span class="field-label">Actual Hours Taught</span>
-                <div class="actual-hours-input">
-                  <input type="number" step="0.1" min="0" value="${l.actualHours || 0}" onblur="updateLessonField(${index}, 'actualHours', this.value)" />
-                  <label class="field-label">hours</label>
+            <div class="lesson-field grid-row-3-col">
+              <span class="field-label">Assessment Objectives</span>
+              <div class="editable-box" contenteditable="true" onblur="updateLessonField(${index}, 'ao', this.innerHTML)" placeholder="AO targets...">${l.ao || ""}</div>
+            </div>
+
+            <div class="lesson-field grid-row-3-col">
+              <span class="field-label">Resources & Formative Assessment</span>
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <div>
+                  <label class="field-label" style="font-size:9px; color:var(--text3);">Resources</label>
+                  <div class="editable-box" contenteditable="true" onblur="updateLessonField(${index}, 'resources', this.innerHTML)" style="min-height:30px; padding:6px 10px;" placeholder="Resources needed...">${l.resources || ""}</div>
+                </div>
+                <div>
+                  <label class="field-label" style="font-size:9px; color:var(--text3);">Formative</label>
+                  <div class="editable-box" contenteditable="true" onblur="updateLessonField(${index}, 'formative', this.innerHTML)" style="min-height:30px; padding:6px 10px;" placeholder="Formative assessment...">${l.formative || ""}</div>
                 </div>
               </div>
+            </div>
 
-              <div class="lesson-field">
-                <span class="field-label">Lesson Reflections / Modifications</span>
-                <textarea class="editable-box" style="font-family:var(--font-body); resize:vertical; min-height:60px;" placeholder="Record student struggles, timing adjustments, or updates for next year..." onblur="updateLessonField(${index}, 'notes', this.value)">${l.notes || ""}</textarea>
+            <!-- Row 4: Full-width Task Checklist -->
+            <div class="lesson-field grid-row-4-full">
+              <span class="field-label">Task Checklist</span>
+              <div class="checklist-container" id="checklist-container-${index}" style="max-height: 200px;">
+                ${checklistHTML}
               </div>
+            </div>
+
+            <!-- Row 5: Full-width Reflections Textarea -->
+            <div class="lesson-field grid-row-5-full">
+              <span class="field-label">Lesson Reflections / Modifications</span>
+              <textarea class="editable-box" style="font-family:var(--font-body); resize:vertical; min-height:60px; width:100%;" placeholder="Record student struggles, timing adjustments, or updates for next year..." onblur="updateLessonField(${index}, 'notes', this.value)">${l.notes || ""}</textarea>
+              <div class="print-only-reflection">${l.notes || ""}</div>
             </div>
           </div>
         `;
@@ -1914,7 +2295,6 @@
     }
 
     function updateHeaderTotals() {
-      // Reload header figures without re-rendering everything
       const topic = DP_TOPICS.find(t => t.code === activeTopicCode);
       const state = plannerState[activeTopicCode];
       if (!topic || !state) return;
@@ -1923,10 +2303,13 @@
       let totalActualHours = 0;
       let totalChecklistItems = 0;
       let totalCompletedItems = 0;
+      let totalLabsDemos = 0;
 
       state.lessons.forEach(l => {
         totalPlannedMinutes += Number(l.plannedTime || 0);
         totalActualHours += Number(l.actualHours || 0);
+        if (l.lab || l.demo) totalLabsDemos++;
+        
         const parsed = parseStrategyChecklist(l.how + " " + l.engage);
         const chk = l.checklist || {};
         parsed.forEach(item => {
@@ -1942,12 +2325,63 @@
       const totalPlannedHours = (totalPlannedMinutes / 60).toFixed(1);
       const completionRate = totalChecklistItems > 0 ? Math.round((totalCompletedItems / totalChecklistItems) * 100) : 0;
       
-      // Select DOM elements and update values
-      const boxes = document.querySelectorAll('.stat-val');
-      if (boxes.length === 4) {
-        boxes[1].textContent = `${totalPlannedHours}h`;
-        boxes[2].textContent = `${totalActualHours.toFixed(1)}h`;
-        boxes[3].textContent = `${completionRate}%`;
+      const statsContainer = document.getElementById('topic-stats-row');
+      if (statsContainer) {
+        if (activeTopicCode === "A.2") {
+          statsContainer.className = "stats-row";
+          statsContainer.style.display = "grid";
+          statsContainer.style.gridTemplateColumns = "repeat(5, 1fr)";
+          statsContainer.style.gap = "16px";
+          statsContainer.style.marginBottom = "20px";
+          statsContainer.innerHTML = `
+            <div class="stat-box">
+              <div class="stat-label">Recommended Hours</div>
+              <div class="stat-val">10h (600 min)</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Subtopics</div>
+              <div class="stat-val">${state.lessons.length}</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Labs / Demos</div>
+              <div class="stat-val">${totalLabsDemos}</div>
+            </div>
+            <div class="stat-box" style="grid-column: span 2;">
+              <div class="stat-label">Checklist Completion</div>
+              <div class="progress-bar-container" style="background:var(--bg-deep); height:10px; border-radius:5px; overflow:hidden; margin-top:8px;">
+                <div class="progress-bar-fill" style="width:${completionRate}%; background:var(--teal); height:100%; transition:width 0.3s;"></div>
+              </div>
+              <div style="font-size:11px; margin-top:4px; color:var(--text3); display:flex; justify-content:space-between; font-family:var(--font-mono);">
+                <span>${completionRate}%</span>
+                <span>${totalCompletedItems} / ${totalChecklistItems} done</span>
+              </div>
+            </div>
+          `;
+        } else {
+          statsContainer.className = "stats-row";
+          statsContainer.style.display = "grid";
+          statsContainer.style.gridTemplateColumns = "repeat(4, 1fr)";
+          statsContainer.style.gap = "16px";
+          statsContainer.style.marginBottom = "20px";
+          statsContainer.innerHTML = `
+            <div class="stat-box">
+              <div class="stat-label">Recommended Hours</div>
+              <div class="stat-val">${topic.hours}h</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Total Planned Hours</div>
+              <div class="stat-val ${Number(totalPlannedHours) > topic.hours ? 'warning' : ''}">${totalPlannedHours}h</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Actual Hours Spent</div>
+              <div class="stat-val success">${totalActualHours.toFixed(1)}h</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Checklist Completion</div>
+              <div class="stat-val success">${completionRate}%</div>
+            </div>
+          `;
+        }
       }
     }
 
