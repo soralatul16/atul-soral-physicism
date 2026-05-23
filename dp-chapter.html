@@ -26,7 +26,7 @@
   --cream: #f8fafc;
   --font-display: 'Outfit', sans-serif;
   --font-body: 'Outfit', sans-serif;
-  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+  --font-mono: 'Space Mono', 'SF Mono', monospace;
 }
 
 [data-theme="dark"] {
@@ -40,6 +40,7 @@
   --text2: #94a3b8;
   --text3: #64748b;
   --cream: #1e293b;
+  --border: rgba(255,255,255,0.04);
 }
 
 * {
@@ -333,6 +334,111 @@ body {
   color: var(--accent);
 }
 
+/* SELECTORS STICKY BAR */
+.selectors-sticky-bar {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--tint-border);
+  padding: 10px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  z-index: 100;
+}
+
+.glass-toggle-bar {
+  background: var(--cream);
+  border: 1px solid var(--tint-border);
+  border-radius: 50px;
+  padding: 4px;
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+[data-theme="dark"] .glass-toggle-bar {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.glass-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 50px;
+  padding: 6px 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text2);
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.glass-btn:hover {
+  color: var(--text);
+}
+.glass-btn.active {
+  background: var(--white);
+  color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+[data-theme="dark"] .glass-btn.active {
+  background: var(--white);
+  color: #60a5fa;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* LEVEL SCOPE BADGES */
+.glass-badge-ahl {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent2);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+}
+.glass-badge-sl {
+  background: rgba(22, 163, 74, 0.08);
+  color: var(--green);
+  border: 1px solid rgba(22, 163, 74, 0.2);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Card buttons for layers */
+#btn-ability-foundation.active {
+  background: rgba(13, 148, 136, 0.12);
+  color: #0d9488;
+  border-color: rgba(13, 148, 136, 0.25);
+}
+#btn-ability-core.active {
+  background: rgba(30, 64, 175, 0.08);
+  color: var(--accent);
+  border-color: rgba(30, 64, 175, 0.15);
+}
+[data-theme="dark"] #btn-ability-core.active {
+  color: #60a5fa;
+  border-color: rgba(96,165,250,0.3);
+}
+#btn-ability-extension.active {
+  background: rgba(124, 58, 237, 0.12);
+  color: #7c3aed;
+  border-color: rgba(124, 58, 237, 0.25);
+}
+
 /* CONTENT + RIGHT PANEL LAYOUT */
 .content-wrapper {
   flex: 1;
@@ -398,13 +504,9 @@ body {
 
 /* LESSON SECTION RENDERER */
 .lesson {
-  display: none;
   padding: 36px 44px 80px;
   max-width: 850px;
   margin: 0 auto;
-}
-.lesson.active {
-  display: block;
 }
 .lesson-header {
   margin-bottom: 28px;
@@ -490,6 +592,90 @@ body {
   box-shadow: var(--glass-shadow);
   padding: 20px 24px;
   margin: 20px 0;
+  transition: opacity 0.3s ease, transform 0.25s, box-shadow 0.25s;
+}
+.glass-card:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 12px 36px rgba(31,38,135,0.1);
+}
+
+/* CONCEPT LAYERS */
+.concept-layer-card {
+  transition: opacity 0.3s ease, transform 0.25s, box-shadow 0.25s;
+}
+.concept-layer-card.dimmed {
+  opacity: 0.65;
+}
+.concept-layer-card.dimmed:hover {
+  opacity: 0.9;
+}
+.concept-layer-card.collapsed .concept-card-body {
+  display: none;
+}
+.concept-layer-card.collapsed {
+  cursor: pointer;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.concept-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.concept-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.concept-card-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 5px;
+  letter-spacing: 0.5px;
+}
+.badge-foundation {
+  background: rgba(13, 148, 136, 0.08);
+  color: #0d9488;
+  border: 1px solid rgba(13, 148, 136, 0.2);
+}
+.badge-core {
+  background: rgba(30, 64, 175, 0.08);
+  color: var(--accent);
+  border: 1px solid rgba(30, 64, 175, 0.15);
+}
+[data-theme="dark"] .badge-core {
+  color: #60a5fa;
+  border-color: rgba(96,165,250,0.3);
+}
+.badge-extension {
+  background: rgba(124, 58, 237, 0.08);
+  color: #7c3aed;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+.concept-card-trigger {
+  font-size: 12px;
+  color: var(--text3);
+  font-weight: 600;
+}
+
+/* PRACTICE PROBLEM HIGHLIGHTS */
+.practice-problem-card {
+  border-left: 4px solid transparent;
+  transition: all 0.3s;
+}
+.practice-problem-card.highlighted-easy {
+  border-left-color: #0d9488 !important;
+  box-shadow: 0 4px 20px rgba(13, 148, 136, 0.08);
+}
+.practice-problem-card.highlighted-medium {
+  border-left-color: var(--accent) !important;
+  box-shadow: 0 4px 20px rgba(30, 64, 175, 0.08);
+}
+.practice-problem-card.highlighted-hard {
+  border-left-color: #7c3aed !important;
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
 }
 
 .ib-box {
@@ -527,7 +713,7 @@ body {
 }
 
 .formula-card {
-  background: linear-gradient(135deg, rgba(96,165,250,0.04), rgba(59,130,246,0.08));
+  background: linear-gradient(135deg, rgba(96,165,250,0.03), rgba(59,130,246,0.06));
   border: 1.5px solid var(--tint-border);
   border-radius: 16px;
   padding: 20px;
@@ -565,6 +751,9 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
+.worked-example.collapsed .we-body {
+  display: none;
+}
 .worked-example-title {
   font-size: 10px;
   text-transform: uppercase;
@@ -574,7 +763,7 @@ body {
   margin-bottom: 10px;
 }
 .we-question {
-  font-size: 14px;
+  font-size: 14.5px;
   color: var(--text);
   margin-bottom: 14px;
   padding-bottom: 10px;
@@ -675,9 +864,9 @@ body {
   border-radius: 0 16px 16px 0;
   padding: 14px 20px;
   margin: 16px 0;
-  border-top: 1px solid var(--tint-border);
-  border-right: 1px solid var(--tint-border);
-  border-bottom: 1px solid var(--tint-border);
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 .mistake-box-title {
   font-size: 10.5px;
@@ -1168,16 +1357,49 @@ body {
   .sidebar{display:none;}
   .topbar{padding:0 16px;}
   .lesson{padding:24px 20px 80px;}
-  .right-panel{width:52px;}
+  .right-panel{display:none;}
   .formula-sidebar{width:100%;}
+  .selectors-sticky-bar{padding:10px 16px;}
 }
+
 @media print{
-  .sidebar, .topbar, .right-panel, .formula-sidebar, .auth-banner {display:none !important;}
-  .main {height:auto;}
-  .content-wrapper {display:block;}
-  .content {overflow:visible;}
-  .lesson {max-width:100%; padding:16px; display:block !important;}
-  .lesson-nav, .practice-more {display:none !important;}
+  .selectors-sticky-bar, .sidebar, .topbar, .right-panel, .formula-sidebar, .auth-banner, .lesson-nav, .practice-more, .concept-card-trigger, .nav-btn {
+    display: none !important;
+  }
+  .main {
+    height: auto;
+  }
+  .content-wrapper {
+    display: block;
+  }
+  .content {
+    overflow: visible;
+  }
+  .lesson {
+    max-width: 100%;
+    padding: 0;
+    display: block !important;
+  }
+  /* Auto-expand everything for print */
+  .concept-layer-card.collapsed .concept-card-body,
+  .worked-example-card.collapsed .we-body,
+  .practice-problem-card .sol-body,
+  .exam-corner-card .sol-body {
+    display: block !important;
+  }
+  .concept-layer-card.collapsed,
+  .worked-example-card.collapsed {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .concept-layer-card {
+    opacity: 1 !important;
+    transform: none !important;
+    page-break-inside: avoid;
+  }
+  .worked-example-card, .practice-problem-card, .mistake-box, .exam-corner-card {
+    page-break-inside: avoid;
+  }
 }
 </style>
 </head>
@@ -1225,6 +1447,20 @@ body {
       <a href="dp-dashboard.html" class="topbar-link">DP Dashboard</a>
       <a href="dp-student-progress.html" class="topbar-link" id="progressLink" style="display:none;">📊 My Progress</a>
       <button onclick="toggleTheme()" style="background:var(--glass);border:1.5px solid var(--glass-border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:13px;color:var(--text2);backdrop-filter:blur(4px);" id="themeToggle" title="Toggle theme">🌙</button>
+    </div>
+  </div>
+
+  <!-- Selectors Sticky Bar -->
+  <div class="selectors-sticky-bar" id="selectorsBar" style="display:none;">
+    <div class="glass-toggle-bar" id="levelToggleBar">
+      <button class="glass-btn" id="btn-level-sl" onclick="setScopeLevel('sl')">SL</button>
+      <button class="glass-btn" id="btn-level-hl" onclick="setScopeLevel('hl')">HL</button>
+    </div>
+    
+    <div class="glass-toggle-bar" id="abilityToggleBar">
+      <button class="glass-btn" id="btn-ability-foundation" onclick="setAbilityLevel('foundation')">👶 Foundation</button>
+      <button class="glass-btn" id="btn-ability-core" onclick="setAbilityLevel('core')">🎯 Core</button>
+      <button class="glass-btn" id="btn-ability-extension" onclick="setAbilityLevel('extension')">🚀 Extension</button>
     </div>
   </div>
 
@@ -1309,7 +1545,7 @@ body {
 <script src="exam-system/firebase-config.js?v=2"></script>
 
 <!-- Content and Progress Data Scripts -->
-<script src="js/dp-lessons.js?v=2"></script>
+<script src="js/dp-student-data.js?v=2"></script>
 <script src="js/dp-progress.js?v=2"></script>
 <script src="js/gdc.js"></script>
 
@@ -1379,110 +1615,82 @@ let activeTopicCode = "";
 let currentTopicData = null;
 let currentLessonIdx = 0;
 let studentProgress = null;
+let currentLevel = localStorage.getItem('dpStudentLevel') || 'hl';
+let currentAbility = localStorage.getItem('dpStudentAbility') || 'core';
 
 // Parse topic from URL
 const urlParams = new URLSearchParams(window.location.search);
 const rawTopic = urlParams.get('topic');
 if (rawTopic) {
-  // Format code (e.g. "A2" -> "A2", "A.2" -> "A2")
   activeTopicCode = rawTopic.replace('.', '').toUpperCase();
 } else {
-  // Redirect to dashboard if no topic provided
   window.location.href = 'dp-dashboard.html';
 }
 
 // ── INIT LESSON VIEWER ──
 function initLessonViewer() {
-  currentTopicData = DP_LESSONS[activeTopicCode];
+  currentTopicData = DP_STUDENT_DATA[activeTopicCode];
   
-  if (!currentTopicData || !currentTopicData.lessons || currentTopicData.lessons.length === 0) {
+  if (!currentTopicData || !currentTopicData.subtopics || currentTopicData.subtopics.length === 0) {
     renderComingSoon();
     return;
   }
 
+  // Show selectors sticky bar
+  document.getElementById('selectorsBar').style.display = 'flex';
+  
+  // Set active levels from localStorage or defaults
+  currentLevel = localStorage.getItem('dpStudentLevel') || 'hl';
+  currentAbility = localStorage.getItem('dpStudentAbility') || 'core';
+  
+  // Force level scope if topic is HL-only or SL-only
+  const topicLevel = currentTopicData.level ? currentTopicData.level.toLowerCase() : '';
+  const isHlOnly = topicLevel.includes('hl only');
+  const isSlOnly = topicLevel.includes('sl only');
+  
+  if (isHlOnly) {
+    currentLevel = 'hl';
+    document.getElementById('levelToggleBar').style.display = 'none';
+  } else if (isSlOnly) {
+    currentLevel = 'sl';
+    document.getElementById('levelToggleBar').style.display = 'none';
+  } else {
+    document.getElementById('levelToggleBar').style.display = 'flex';
+  }
+  
+  // Sync selector button states in UI
+  document.querySelectorAll('#levelToggleBar button').forEach(btn => btn.classList.remove('active'));
+  const activeLevelBtn = document.getElementById(`btn-level-${currentLevel}`);
+  if (activeLevelBtn) activeLevelBtn.classList.add('active');
+  
+  document.querySelectorAll('#abilityToggleBar button').forEach(btn => btn.classList.remove('active'));
+  const activeAbilityBtn = document.getElementById(`btn-ability-${currentAbility}`);
+  if (activeAbilityBtn) activeAbilityBtn.classList.add('active');
+
   // Update layout header info
   document.getElementById('topic-header-title').textContent = currentTopicData.title;
-  document.getElementById('topic-header-meta').textContent = `Theme ${currentTopicData.theme} · ${currentTopicData.level} · ${currentTopicData.hours}h`;
+  document.getElementById('topic-header-meta').textContent = `Theme ${currentTopicData.theme} · ${currentTopicData.level} · Recommended ${currentTopicData.subtopicCount} Subtopics`;
   document.getElementById('topbar-topic-code').textContent = `${currentTopicData.code} ${currentTopicData.title}`;
   document.title = `${currentTopicData.code} ${currentTopicData.title} | Physicism`;
 
-  // Render sidebar items
-  const sidebarList = document.getElementById('sidebar-lessons-list');
-  sidebarList.innerHTML = '';
-  currentTopicData.lessons.forEach((l, idx) => {
-    const item = document.createElement('div');
-    item.className = `sidebar-item ${idx === 0 ? 'active' : ''}`;
-    item.id = `sidebar-item-${idx}`;
-    item.onclick = () => showLesson(idx);
-    
-    item.innerHTML = `
-      <span class="si-top">
-        <span class="si-num">${idx + 1}</span>
-        <span class="si-title" title="${l.title}">${l.title}</span>
-      </span>
-      <span class="si-meta">
-        <span class="si-duration">~${l.hours}h</span>
-        <span class="si-status-badge" id="badge-lesson-${idx}">NEW</span>
-      </span>
-    `;
-    sidebarList.appendChild(item);
-  });
-
-  // Render lessons in main area
-  const contentArea = document.getElementById('contentArea');
-  contentArea.innerHTML = '';
-  currentTopicData.lessons.forEach((l, idx) => {
-    const lessonDiv = document.createElement('div');
-    lessonDiv.className = `lesson ${idx === 0 ? 'active' : ''}`;
-    lessonDiv.id = `lesson-${idx}`;
-    
-    // Header
-    const guidingQ = l.guiding ? `<p class="lesson-guiding">${l.guiding}</p>` : '';
-    lessonDiv.innerHTML = `
-      <div class="lesson-header">
-        <div class="lesson-badge">
-          <span class="badge-topic">${currentTopicData.code}</span>
-          <span class="badge-sl">${currentTopicData.level}</span>
-          <span class="badge-ao">${l.ao}</span>
-          <span class="badge-hours">~${l.hours}h</span>
-        </div>
-        <h1>${l.title}</h1>
-        ${guidingQ}
-      </div>
-      <div id="lesson-sections-${idx}"></div>
-      
-      <!-- Footer Nav -->
-      <div class="lesson-nav">
-        ${idx > 0 
-          ? `<button class="nav-btn" onclick="showLesson(${idx - 1})">← Previous Lesson</button>` 
-          : '<span></span>'}
-        ${idx < currentTopicData.lessons.length - 1 
-          ? `<button class="nav-btn nav-btn-primary" onclick="showLesson(${idx + 1})">Next Lesson →</button>` 
-          : `<a class="nav-btn nav-btn-primary" href="dp-dashboard.html">Back to Dashboard</a>`}
-      </div>
-    `;
-    contentArea.appendChild(lessonDiv);
-    
-    // Render Sections
-    const sectionsContainer = document.getElementById(`lesson-sections-${idx}`);
-    let infographicCounter = 0;
-    
-    l.sections.forEach(s => {
-      const element = renderSection(s, l, infographicCounter);
-      if (s.type === 'infographic') {
-        infographicCounter++;
+  // Set active lesson idx to first visible SL subtopic if current is HL in SL mode
+  if (currentLevel === 'sl') {
+    const activeSub = currentTopicData.subtopics[currentLessonIdx];
+    if (!activeSub || activeSub.scope === 'hl') {
+      let firstSlIdx = 0;
+      for (let i = 0; i < currentTopicData.subtopics.length; i++) {
+        if (currentTopicData.subtopics[i].scope !== 'hl') {
+          firstSlIdx = i;
+          break;
+        }
       }
-      if (element) {
-        sectionsContainer.appendChild(element);
-      }
-    });
-  });
+      currentLessonIdx = firstSlIdx;
+    }
+  }
 
-  // Render Data Booklet Sidebar content
+  renderSidebar();
+  renderActiveSubtopic();
   renderFormulaBooklet();
-  
-  // Set first lesson active on load
-  showLesson(0);
 }
 
 function renderComingSoon() {
@@ -1496,230 +1704,716 @@ function renderComingSoon() {
   `;
   document.getElementById('topic-header-title').textContent = "Coming Soon";
   document.getElementById('topic-header-meta').textContent = "DP Physics";
+  document.getElementById('selectorsBar').style.display = 'none';
 }
 
-// ── SECTION RENDERING STRATEGY ──
-function renderSection(s, lesson, infographicCounter) {
-  const container = document.createElement('div');
+function renderSidebar() {
+  const sidebarList = document.getElementById('sidebar-lessons-list');
+  sidebarList.innerHTML = '';
   
-  switch(s.type) {
-    case 'syllabus':
-      container.className = 'ib-box';
-      container.innerHTML = `<div class="ib-box-title">IB Syllabus Content</div>${s.content}`;
-      break;
-      
-    case 'heading':
-      const level = s.level || 2;
-      container.innerHTML = `<h${level}>${s.text}</h${level}>`;
-      break;
-      
-    case 'text':
-      container.innerHTML = s.content;
-      break;
-      
-    case 'formula':
-      container.className = 'formula-card';
-      container.innerHTML = `
-        <div class="formula-label">${s.label}</div>
-        <div class="formula">${s.formula}</div>
-        <div class="formula-note">${s.note}</div>
-      `;
-      break;
-      
-    case 'concept':
-      container.className = 'concept-box';
-      container.innerHTML = `<h3>${s.title}</h3>${s.content}`;
-      break;
-      
-    case 'worked':
-      container.className = 'worked-example';
-      const stepsHtml = s.steps.map(step => `<div class="we-step">${step}</div>`).join('');
-      const refHtml = s.ref ? `<div class="practice-ref">${s.ref}</div>` : '';
-      container.innerHTML = `
-        <div class="worked-example-title">📝 Worked Example ${s.num}</div>
-        <div class="we-question">${s.question}</div>
-        ${stepsHtml}
-        ${refHtml}
-      `;
-      break;
-      
-    case 'keypoint':
-      container.className = 'key-point';
-      container.innerHTML = `<div class="key-point-title">${s.title}</div><p>${s.content}</p>`;
-      break;
-      
-    case 'derivation':
-      container.className = 'derivation';
-      container.innerHTML = s.content;
-      break;
-      
-    case 'table':
-      container.className = 'table-responsive';
-      const thHtml = s.headers.map(h => `<th>${h}</th>`).join('');
-      const trHtml = s.rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('');
-      container.innerHTML = `
-        <table class="data-table">
-          <thead><tr>${thHtml}</tr></thead>
-          <tbody>${trHtml}</tbody>
-        </table>
-      `;
-      break;
-      
-    case 'mistake':
-      container.className = 'mistake-box';
-      const itemsHtml = s.items.map(item => `<p>${item}</p>`).join('');
-      container.innerHTML = `<div class="mistake-box-title">Common Mistakes</div>${itemsHtml}`;
-      break;
-      
-    case 'practice':
-      container.className = 'practice-box';
-      const questionsHtml = s.questions.map(q => {
-        let qText = q.text;
-        if (q.cmd) {
-          const regex = new RegExp(`\\b${q.cmd}\\b`, 'i');
-          if (regex.test(qText)) {
-            qText = qText.replace(regex, `<span class="cmd-term">${q.cmd}</span>`);
-          } else {
-            qText = `<span class="cmd-term">${q.cmd}</span> ` + qText;
-          }
-        }
-        return `<div class="practice-q" data-num="${q.num}">${qText}</div>`;
-      }).join('');
-      container.innerHTML = `
-        <div class="practice-title">Practice Questions</div>
-        ${questionsHtml}
-        <div class="practice-more">
-          <a href="dp-quiz.html?topic=${activeTopicCode}">📝 Paper 1A: MCQs</a>
-          <a href="dp-past-paper.html?topic=${activeTopicCode}&paper=1B">📊 Paper 1B: Data-Based</a>
-          <a href="dp-past-paper.html?topic=${activeTopicCode}&paper=2">✍️ Paper 2: Extended</a>
-          <a href="dp-flashcards.html?topic=${activeTopicCode}">🧠 Flashcards</a>
-        </div>
-      `;
-      break;
-      
-    case 'nos':
-      container.className = 'nos-box';
-      container.innerHTML = `<div class="nos-box-title">Nature of Science</div><p>${s.content}</p>`;
-      break;
-      
-    case 'tok':
-      container.className = 'tok-box';
-      container.innerHTML = `<div class="tok-box-title">Theory of Knowledge</div><p>${s.content}</p>`;
-      break;
-      
-    case 'linking':
-      container.className = 'linking-box';
-      const lqHtml = s.questions.map(q => `<p>→ ${q}</p>`).join('');
-      container.innerHTML = `<div class="linking-box-title">Linking Questions (IB Guide)</div>${lqHtml}`;
-      break;
-      
-    case 'ia':
-      container.className = 'ia-box';
-      container.innerHTML = `<div class="ia-box-title">Internal Assessment Connection</div>${s.content}`;
-      break;
-      
-    case 'diagram':
-      container.className = 'diagram-box';
-      const capHtml = s.caption ? `<div class="diagram-caption">${s.caption}</div>` : '';
-      container.innerHTML = `${s.content}${capHtml}`;
-      break;
-      
-    case 'infographic':
-      const src = s.src || (lesson.infographics && lesson.infographics[infographicCounter]);
-      if (src) {
-        container.className = 'infographic-slot';
-        container.innerHTML = `<img src="Images/${src}" onerror="this.parentElement.style.display='none'">`;
-      } else {
-        return null;
-      }
-      break;
-      
-    default:
-      return null;
-  }
+  if (!currentTopicData || !currentTopicData.subtopics) return;
   
-  return container;
-}
-
-// ── RENDER DATA BOOKLET SIDEBAR ──
-function renderFormulaBooklet() {
-  const sidebarTitle = document.getElementById('formula-sidebar-title');
-  const sidebarContent = document.getElementById('formula-sidebar-content');
-  sidebarContent.innerHTML = '';
-  
-  if (!currentTopicData) return;
-  sidebarTitle.textContent = `📘 IB Data Booklet — ${currentTopicData.code}`;
-  
-  // Find formulas for theme / topic
-  const themeFormulas = FORMULA_BOOKLET_CONTENT[currentTopicData.theme];
-  if (!themeFormulas) {
-    sidebarContent.innerHTML = `<div style="font-size:13px; color:var(--text3); text-align:center; padding:20px 0;">No formulas found for this theme.</div>`;
-    return;
-  }
-
-  // Render active topic section first
-  const activeTopicCodeFormatted = currentTopicData.code;
-  if (themeFormulas[activeTopicCodeFormatted]) {
-    const sectionDiv = document.createElement('div');
-    sectionDiv.className = 'fs-section';
-    sectionDiv.innerHTML = `<h4>${currentTopicData.code} — ${currentTopicData.title}</h4>`;
+  currentTopicData.subtopics.forEach((sub, idx) => {
+    // Hide HL subtopics in SL mode
+    if (currentLevel === 'sl' && sub.scope === 'hl') {
+      return;
+    }
     
-    themeFormulas[activeTopicCodeFormatted].forEach(f => {
-      sectionDiv.innerHTML += `<div class="fs-row"><span>${f.name}</span><span>${f.formula}</span></div>`;
-    });
-    sidebarContent.appendChild(sectionDiv);
-  }
+    const item = document.createElement('div');
+    item.className = `sidebar-item ${idx === currentLessonIdx ? 'active' : ''}`;
+    item.id = `sidebar-item-${idx}`;
+    item.onclick = () => showLesson(idx);
+    
+    let badgeText = "NEW";
+    let badgeStyle = "";
+    
+    if (studentProgress) {
+      const lessonKey = `${activeTopicCode}-lesson${idx + 1}`;
+      const progressItem = studentProgress.lessonsViewed && studentProgress.lessonsViewed[lessonKey];
+      if (progressItem) {
+        const isViewed = progressItem.viewed || false;
+        const seconds = progressItem.timeSpent || 0;
+        const mins = Math.round(seconds / 60);
+        
+        if (isViewed) {
+          badgeText = "✓ DONE";
+          badgeStyle = "background: rgba(22,163,74,0.08); color: var(--green);";
+        } else {
+          badgeText = `${mins} min`;
+          badgeStyle = "background: rgba(0,0,0,0.04); color: var(--text3);";
+        }
+      }
+    }
+    
+    const ahlLabel = (currentLevel === 'hl' && sub.scope === 'hl') ? `<span class="glass-badge-ahl" style="font-size: 8px; padding: 1px 4px; margin-left: 6px;">AHL</span>` : '';
+    
+    item.innerHTML = `
+      <span class="si-top">
+        <span class="si-num">${sub.num}</span>
+        <span class="si-title" title="${sub.title}">${sub.title} ${ahlLabel}</span>
+      </span>
+      <span class="si-meta">
+        <span class="si-duration">${sub.level}</span>
+        <span class="si-status-badge" id="badge-lesson-${idx}" style="${badgeStyle}">${badgeText}</span>
+      </span>
+    `;
+    sidebarList.appendChild(item);
+  });
+}
 
-  // Render other topics in the same theme
-  Object.keys(themeFormulas).forEach(code => {
-    if (code !== activeTopicCodeFormatted) {
-      const sectionDiv = document.createElement('div');
-      sectionDiv.className = 'fs-section';
-      sectionDiv.innerHTML = `<h4>${code}</h4>`;
+function renderActiveSubtopic() {
+  const contentArea = document.getElementById('contentArea');
+  contentArea.innerHTML = '';
+  
+  if (!currentTopicData || !currentTopicData.subtopics) return;
+  
+  const sub = currentTopicData.subtopics[currentLessonIdx];
+  if (!sub) return;
+  
+  const subtopicContainer = document.createElement('div');
+  subtopicContainer.className = 'lesson active';
+  subtopicContainer.id = `subtopic-${currentLessonIdx}`;
+  
+  // Banner
+  const topicLevel = currentTopicData.level ? currentTopicData.level.toLowerCase() : '';
+  const isHlOnly = topicLevel.includes('hl only');
+  const isSlOnly = topicLevel.includes('sl only');
+  const levelSwitchHtml = (isHlOnly || isSlOnly) 
+    ? `<span style="font-size: 11.5px; font-weight: 600; color: var(--text3);">${isHlOnly ? 'Higher Level (AHL) Topic' : 'Standard Level (SL) Topic'}</span>`
+    : `<span style="font-size: 11.5px; font-weight: 600; cursor: pointer; text-decoration: none; color: var(--accent2);" onclick="setScopeLevel('${currentLevel === 'sl' ? 'hl' : 'sl'}')">Switch to ${currentLevel === 'sl' ? 'HL' : 'SL'}</span>`;
+
+  const bannerHtml = `
+    <div class="glass-card" style="margin-top: 0; margin-bottom: 20px; padding: 12px 16px; border-color: var(--tint-border); background: var(--tint); display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--text2); border-radius: 12px;">
+      <span>👁️ Active View: <strong>${currentLevel.toUpperCase()}</strong> mode · Ability: <strong>${currentAbility.charAt(0).toUpperCase() + currentAbility.slice(1)}</strong></span>
+      ${levelSwitchHtml}
+    </div>
+  `;
+  
+  // Hero Header
+  const headerHtml = `
+    <div class="lesson-header">
+      <div class="lesson-badge">
+        <span class="badge-topic">${currentTopicData.code}</span>
+        <span class="badge-sl">${sub.level}</span>
+        ${sub.scope === 'hl' ? `<span class="glass-badge-ahl">AHL ONLY</span>` : `<span class="badge-sl" style="background: rgba(22,163,74,0.08); color: var(--green);">SL + HL</span>`}
+      </div>
+      <h1>Subtopic ${currentTopicData.code}.${sub.num}: ${sub.title}</h1>
+    </div>
+  `;
+  
+  // Big Idea
+  const bigIdeaHtml = `
+    <div class="glass-card" style="border-left: 4px solid var(--accent); margin-bottom: 20px;">
+      <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); font-weight: 700; margin-bottom: 8px;">The Big Idea</div>
+      <p style="font-size: 16px; font-weight: 500; font-style: italic; line-height: 1.6; margin-bottom: 0;">"${sub.bigIdea}"</p>
+    </div>
+  `;
+  
+  // Layer Navigation Tabs
+  const layerTabsHtml = `
+    <div class="practice-more" style="justify-content: flex-start; margin: 20px 0; padding: 10px 16px; background: rgba(0,0,0,0.01); border-radius: 12px; border: 1px dashed var(--tint-border); gap: 8px;">
+      <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text3); margin-right: 8px; align-self: center;">Jump to Layer:</span>
+      <a href="#card-foundation" onclick="setAbilityLevel('foundation'); return true;" style="padding: 6px 14px; border-radius: 8px; font-size: 11.5px;">Foundation</a>
+      <a href="#card-core" onclick="setAbilityLevel('core'); return true;" style="padding: 6px 14px; border-radius: 8px; font-size: 11.5px;">Core</a>
+      <a href="#card-extension" onclick="setAbilityLevel('extension'); return true;" style="padding: 6px 14px; border-radius: 8px; font-size: 11.5px;">Extension</a>
+    </div>
+  `;
+  
+  // Concept cards content helpers
+  const fCheckQuestions = sub.foundation.checkQuestions && sub.foundation.checkQuestions.length > 0 ? `
+    <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px;">
+      <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text);">Quick Check</h4>
+      ${sub.foundation.checkQuestions.map((cq, cqIdx) => `
+        <div style="margin-bottom: 12px; background: rgba(0,0,0,0.01); border: 1.5px solid var(--border); border-radius: 8px; padding: 12px;">
+          <p style="font-weight: 600; font-size: 13.5px; margin-bottom: 8px;">Q: ${cq.question}</p>
+          <button class="nav-btn" style="padding: 4px 12px; font-size: 11px;" onclick="toggleAnswer('check-ans-${cqIdx}', this, event)">Show Answer</button>
+          <div id="check-ans-${cqIdx}" style="display: none; margin-top: 8px; font-size: 13.5px; color: var(--green); font-weight: 500;">
+            A: ${cq.answer}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  ` : '';
+  
+  const foundationHtml = `
+    <div class="glass-card concept-layer-card" id="card-foundation" data-layer="foundation" onclick="handleCardClick('foundation', event)" style="border-left: 4px solid #0d9488;">
+      <div class="concept-card-header">
+        <div class="concept-card-title-group">
+          <span class="concept-card-badge badge-foundation">Foundation</span>
+          <h3 style="margin: 0; font-size: 17px; font-weight: 600;">${sub.foundation.title}</h3>
+        </div>
+        <span class="concept-card-trigger" id="trigger-foundation">Expand ▼</span>
+      </div>
+      <div class="concept-card-body" id="body-foundation" style="margin-top: 16px;">
+        <div style="font-size: 14.5px; line-height: 1.8; color: var(--text2);">${sub.foundation.content}</div>
+        <div class="nos-box" style="margin-top: 16px; border: 1.5px solid rgba(13,148,136,0.15); background: rgba(13,148,136,0.02);">
+          <div class="nos-box-title" style="color: #0d9488;">Foundation Summary</div>
+          <div style="font-size: 13.5px; line-height: 1.6; color: var(--text2);">${sub.foundation.summary}</div>
+        </div>
+        ${fCheckQuestions}
+      </div>
+    </div>
+  `;
+  
+  const coreAhlHtml = (currentLevel === 'hl' && sub.core.ahlContent) ? `
+    <div style="margin-top: 24px; border-top: 2px dashed rgba(59, 130, 246, 0.2); padding-top: 20px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+        <span class="glass-badge-ahl">AHL Content</span>
+      </div>
+      <div style="font-size: 14.5px; line-height: 1.8; color: var(--text2);">${sub.core.ahlContent}</div>
+      ${sub.core.ahlKeyPoints && sub.core.ahlKeyPoints.length > 0 ? `
+        <div style="margin-top: 14px;">
+          <h4 style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--accent2); letter-spacing: 0.5px; margin-bottom: 8px;">AHL Key Takeaways</h4>
+          <ul style="padding-left: 20px;">
+            ${sub.core.ahlKeyPoints.map(kp => `<li>${kp}</li>`).join('')}
+          </ul>
+        </div>
+      ` : ''}
+      ${sub.core.ahlExamTrap ? `
+        <div class="mistake-box" style="margin-top: 16px; border-left-color: var(--red);">
+          <div class="mistake-box-title">🚨 AHL Exam Trap</div>
+          <p style="margin-bottom: 6px;"><strong style="color: var(--red);">Common Misconception:</strong> ${sub.core.ahlExamTrap.wrong}</p>
+          <p><strong style="color: var(--green);">Correct Physics:</strong> ${sub.core.ahlExamTrap.correct}</p>
+        </div>
+      ` : ''}
+    </div>
+  ` : '';
+  
+  const coreHtml = `
+    <div class="glass-card concept-layer-card" id="card-core" data-layer="core" onclick="handleCardClick('core', event)" style="border-left: 4px solid var(--accent);">
+      <div class="concept-card-header">
+        <div class="concept-card-title-group">
+          <span class="concept-card-badge badge-core">Core</span>
+          <h3 style="margin: 0; font-size: 17px; font-weight: 600;">${sub.core.title}</h3>
+        </div>
+        <span class="concept-card-trigger" id="trigger-core">Expand ▼</span>
+      </div>
+      <div class="concept-card-body" id="body-core" style="margin-top: 16px;">
+        <div style="font-size: 14.5px; line-height: 1.8; color: var(--text2);">${sub.core.content}</div>
+        <div style="margin-top: 16px;">
+          <h4 style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--accent); letter-spacing: 0.5px; margin-bottom: 8px;">Key Takeaways</h4>
+          <ul style="padding-left: 20px;">
+            ${sub.core.keyPoints.map(kp => `<li>${kp}</li>`).join('')}
+          </ul>
+        </div>
+        ${sub.core.examTrap ? `
+          <div class="mistake-box" style="margin-top: 16px; border-left-color: var(--red);">
+            <div class="mistake-box-title">🚨 Exam Trap</div>
+            <p style="margin-bottom: 6px;"><strong style="color: var(--red);">Common Misconception:</strong> ${sub.core.examTrap.wrong}</p>
+            <p><strong style="color: var(--green);">Correct Physics:</strong> ${sub.core.examTrap.correct}</p>
+          </div>
+        ` : ''}
+        ${coreAhlHtml}
+      </div>
+    </div>
+  `;
+  
+  const extensionHtml = `
+    <div class="glass-card concept-layer-card" id="card-extension" data-layer="extension" onclick="handleCardClick('extension', event)" style="border-left: 4px solid #7c3aed;">
+      <div class="concept-card-header">
+        <div class="concept-card-title-group">
+          <span class="concept-card-badge badge-extension">Extension</span>
+          <h3 style="margin: 0; font-size: 17px; font-weight: 600;">${sub.extension.title}</h3>
+        </div>
+        <span class="concept-card-trigger" id="trigger-extension">Expand ▼</span>
+      </div>
+      <div class="concept-card-body" id="body-extension" style="margin-top: 16px;">
+        <div style="font-size: 14.5px; line-height: 1.8; color: var(--text2);">${sub.extension.content}</div>
+        ${sub.extension.connections && sub.extension.connections.length > 0 ? `
+          <div style="margin-top: 16px;">
+            <h4 style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: #7c3aed; letter-spacing: 0.5px; margin-bottom: 8px;">Syllabus Connections</h4>
+            <ul style="padding-left: 20px;">
+              ${sub.extension.connections.map(c => `<li>${c}</li>`).join('')}
+            </ul>
+          </div>
+        ` : ''}
+      </div>
+    </div>
+  `;
+  
+  const simHtml = sub.simulation ? `
+    <div class="glass-card" style="border-left: 4px solid var(--accent2); margin-top: 24px;">
+      <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent2); font-weight: 700; margin-bottom: 12px;">💻 Interactive Simulator</div>
+      <h3 style="font-size: 18px; margin-bottom: 4px; font-weight: 600;">${sub.simulation.title}</h3>
+      <p style="font-size: 12px; color: var(--text3); margin-bottom: 16px;">Source: ${sub.simulation.source}</p>
       
-      themeFormulas[code].forEach(f => {
-        sectionDiv.innerHTML += `<div class="fs-row"><span>${f.name}</span><span>${f.formula}</span></div>`;
-      });
-      sidebarContent.appendChild(sectionDiv);
+      <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; border-radius: 12px; overflow: hidden; border: 1px solid var(--tint-border); margin-bottom: 16px;">
+        <iframe src="${sub.simulation.url}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+      </div>
+      
+      <div style="background: rgba(0,0,0,0.01); border: 1px dashed var(--tint-border); border-radius: 8px; padding: 14px;">
+        <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text2);">Quick Exploration Guidelines:</h4>
+        <ol style="margin-bottom: 0; padding-left: 20px; font-size: 13.5px;">
+          ${sub.simulation.instructions.map(inst => `<li>${inst}</li>`).join('')}
+        </ol>
+      </div>
+    </div>
+  ` : '';
+  
+  const videoHtml = sub.video ? `
+    <div class="glass-card" style="border-left: 4px solid var(--red); margin-top: 24px;">
+      <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--red); font-weight: 700; margin-bottom: 12px;">📺 Watch & Learn</div>
+      <h3 style="font-size: 18px; margin-bottom: 4px; font-weight: 600;">${sub.video.title}</h3>
+      <p style="font-size: 12px; color: var(--text3); margin-bottom: 16px;">Duration: ${sub.video.duration} · ${sub.video.description}</p>
+      
+      <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; border-radius: 12px; overflow: hidden; border: 1px solid var(--tint-border);">
+        <iframe src="https://www.youtube.com/embed/${sub.video.embedId}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+      </div>
+    </div>
+  ` : '';
+  
+  const equationsHtml = `
+    <div class="glass-card" style="border-left: 4px solid var(--accent); margin-top: 24px;">
+      <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); font-weight: 700; margin-bottom: 16px;">📐 Key Equations</div>
+      
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        ${sub.equations.map(eq => `
+          <div class="formula-card" style="margin: 0; text-align: left; padding: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div style="font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--accent); min-width: 140px;">${eq.formula}</div>
+            <div style="font-size: 13.5px; color: var(--text2); flex: 1; min-width: 200px;" class="eq-desc">${eq.description}</div>
+          </div>
+        `).join('')}
+        
+        <!-- AHL Equations (Only in HL Mode) -->
+        ${(currentLevel === 'hl' && sub.ahlEquations && sub.ahlEquations.length > 0) ? sub.ahlEquations.map(eq => `
+          <div class="formula-card" style="margin: 0; text-align: left; padding: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-color: rgba(59, 130, 246, 0.3);">
+            <div style="display: flex; flex-direction: column; gap: 4px; min-width: 140px;">
+              <span class="glass-badge-ahl" style="font-size: 8px; padding: 1px 4px; align-self: flex-start;">AHL</span>
+              <span style="font-family: var(--font-mono); font-size: 20px; font-weight: 700; color: var(--accent2);">${eq.formula}</span>
+            </div>
+            <div style="font-size: 13.5px; color: var(--text2); flex: 1; min-width: 200px;" class="eq-desc">${eq.description}</div>
+          </div>
+        `).join('') : ''}
+      </div>
+    </div>
+  `;
+  
+  subtopicContainer.innerHTML = `
+    ${bannerHtml}
+    ${headerHtml}
+    ${bigIdeaHtml}
+    ${layerTabsHtml}
+    ${foundationHtml}
+    ${coreHtml}
+    ${extensionHtml}
+    ${simHtml}
+    ${videoHtml}
+    ${equationsHtml}
+    ${renderWorkedExamples(sub.workedExamples)}
+    ${renderPracticeProblems(sub.practiceProblems)}
+    ${renderCommonMistakes(sub.commonMistakes)}
+    ${renderExamCorner(sub.examCorner, sub.ahlExamCorner)}
+    ${renderFooterNav()}
+  `;
+  
+  contentArea.appendChild(subtopicContainer);
+  
+  // Set initial visible classes and heights based on currentAbility level
+  setAbilityLevel(currentAbility);
+}
+
+function renderWorkedExamples(workedExamples) {
+  if (!workedExamples || workedExamples.length === 0) return '';
+  
+  // Filter by scope
+  const filtered = workedExamples.filter(we => currentLevel === 'hl' || we.scope !== 'hl');
+  if (filtered.length === 0) return '';
+  
+  return `
+    <div class="glass-card" style="border-left: 4px solid var(--green); margin-top: 24px;">
+      <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--green); font-weight: 700; margin-bottom: 16px;">📝 Worked Examples</div>
+      
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        ${filtered.map((we, idx) => {
+          const isMatching = we.level === currentAbility;
+          const isAhl = we.scope === 'hl';
+          
+          return `
+            <div class="worked-example-card worked-example ${isMatching ? 'expanded' : 'collapsed'}" id="we-card-${idx}" style="margin: 0; padding: 16px 20px; border-color: ${isAhl ? 'rgba(59, 130, 246, 0.3)' : 'rgba(22, 163, 74, 0.15)'};">
+              <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleWorkedExample(${idx})">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                  <span class="concept-card-badge badge-${we.level}">${we.level}</span>
+                  ${isAhl ? `<span class="glass-badge-ahl">AHL</span>` : ''}
+                  <strong style="font-size: 14.5px; color: var(--text);">${we.title}</strong>
+                </div>
+                <button class="nav-btn" style="padding: 4px 12px; font-size: 11px;" id="we-btn-${idx}">${isMatching ? 'Hide Steps ▲' : 'Show Steps ▼'}</button>
+              </div>
+              
+              <div class="we-body" id="we-body-${idx}" style="display: ${isMatching ? 'block' : 'none'}; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 14px;">
+                ${we.steps.map(step => `
+                  <div class="we-step" style="border-left-color: ${isAhl ? 'rgba(59, 130, 246, 0.4)' : 'rgba(22, 163, 74, 0.3)'};">
+                    <strong>${step.label}:</strong>
+                    ${step.isEquation ? `<div style="font-family: var(--font-mono); font-size: 14px; background: rgba(0,0,0,0.02); padding: 8px 12px; border-radius: 6px; margin-top: 4px; color: var(--accent); font-weight: 700; width: fit-content;">${step.text}</div>` : `<span style="font-size: 14px;">${step.text}</span>`}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderPracticeProblems(practiceProblems) {
+  if (!practiceProblems || practiceProblems.length === 0) return '';
+  
+  const filtered = practiceProblems.filter(p => currentLevel === 'hl' || p.scope !== 'hl');
+  if (filtered.length === 0) return '';
+  
+  return `
+    <div class="glass-card" style="border-left: 4px solid var(--accent2); margin-top: 24px;">
+      <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent2); font-weight: 700; margin-bottom: 16px;">✍️ Try It Yourself</div>
+      
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        ${filtered.map((p, idx) => {
+          const isAhl = p.scope === 'hl';
+          let highlightClass = '';
+          if (currentAbility === 'foundation' && p.difficulty === 'easy') {
+            highlightClass = 'highlighted-easy';
+          } else if (currentAbility === 'core' && p.difficulty === 'medium') {
+            highlightClass = 'highlighted-medium';
+          } else if (currentAbility === 'extension' && p.difficulty === 'hard') {
+            highlightClass = 'highlighted-hard';
+          }
+          
+          return `
+            <div class="practice-problem-card practice-box ${highlightClass}" id="practice-card-${idx}" style="margin: 0; padding: 18px 22px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span class="concept-card-badge badge-${p.difficulty === 'easy' ? 'foundation' : (p.difficulty === 'medium' ? 'core' : 'extension')}">${p.difficulty}</span>
+                  ${isAhl ? `<span class="glass-badge-ahl">AHL</span>` : ''}
+                </div>
+                <span style="font-size: 11px; color: var(--text3); font-weight: 600;">Problem ${idx + 1}</span>
+              </div>
+              
+              <div style="font-size: 14.5px; color: var(--text); margin-bottom: 14px; line-height: 1.7;">
+                ${p.question}
+              </div>
+              
+              <button class="nav-btn reveal-btn" style="padding: 4px 12px; font-size: 11px;" onclick="toggleAnswer('practice-ans-${idx}', this, event)">Reveal Solution</button>
+              
+              <div class="sol-body" id="practice-ans-${idx}" style="display: none; margin-top: 14px; padding: 12px; border-radius: 8px; background: rgba(59, 130, 246, 0.04); border: 1.5px solid var(--tint-border); font-size: 14px; color: var(--accent); font-weight: 500;">
+                <strong style="color: var(--text); display: block; margin-bottom: 4px;">Solution:</strong>
+                ${p.solution}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+      
+      <div class="practice-more" style="margin-top: 24px; margin-bottom: 0;">
+        <a href="dp-quiz.html?topic=${activeTopicCode}">📝 Paper 1A: MCQs</a>
+        <a href="dp-past-paper.html?topic=${activeTopicCode}&paper=1B">📊 Paper 1B: Data-Based</a>
+        <a href="dp-past-paper.html?topic=${activeTopicCode}&paper=2">✍️ Paper 2: Extended</a>
+        <a href="dp-flashcards.html?topic=${activeTopicCode}">🧠 Flashcards</a>
+      </div>
+    </div>
+  `;
+}
+
+function renderCommonMistakes(commonMistakes) {
+  if (!commonMistakes || commonMistakes.length === 0) return '';
+  
+  return `
+    <div class="glass-card" style="border-left: 4px solid var(--red); margin-top: 24px;">
+      <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--red); font-weight: 700; margin-bottom: 16px;">🚨 Common Traps & Mistakes</div>
+      
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        ${commonMistakes.map(cm => `
+          <div class="mistake-box" style="margin: 0; border-left-color: var(--red); background: rgba(220, 38, 38, 0.02);">
+            <p style="margin-bottom: 8px;"><strong style="color: var(--red); text-transform: uppercase; font-size: 11px;">❌ Common Error:</strong> ${cm.wrong}</p>
+            <p style="margin-bottom: 8px; font-size: 13.5px; color: var(--text2); font-style: italic;">${cm.explanation}</p>
+            <p style="margin-bottom: 0;"><strong style="color: var(--green); text-transform: uppercase; font-size: 11px;">✅ Correct Physics:</strong> ${cm.correct}</p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderExamCorner(examCorner, ahlExamCorner) {
+  if (!examCorner && !ahlExamCorner) return '';
+  
+  let html = `
+    <div class="glass-card" style="border-left: 4px solid #7c3aed; margin-top: 24px;">
+      <div style="font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #7c3aed; font-weight: 700; margin-bottom: 16px;">🏆 IB Exam Corner</div>
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+  `;
+  
+  if (examCorner) {
+    html += `
+      <div class="exam-corner-card" style="background: rgba(124, 58, 237, 0.02); border: 1.5px solid rgba(124, 58, 237, 0.12); border-radius: 12px; padding: 18px 22px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <span class="concept-card-badge" style="background: rgba(124, 58, 237, 0.08); color: #7c3aed; border: 1px solid rgba(124, 58, 237, 0.2);">Standard Level</span>
+          <span style="font-size: 12px; font-weight: 700; color: var(--text3);">${examCorner.marks} Marks</span>
+        </div>
+        
+        <p style="font-size: 14.5px; color: var(--text); line-height: 1.7; margin-bottom: 16px; font-weight: 500;">
+          ${examCorner.question}
+        </p>
+        
+        <button class="nav-btn" style="padding: 4px 12px; font-size: 11px;" onclick="toggleAnswer('exam-ans-sl', this, event)">Reveal Model Answer</button>
+        
+        <div class="sol-body" id="exam-ans-sl" style="display: none; margin-top: 14px; border-top: 1px solid var(--border); padding-top: 12px;">
+          <strong style="display: block; font-size: 13px; color: var(--text2); margin-bottom: 6px;">Model Answer:</strong>
+          <div style="font-family: var(--font-mono); font-size: 13.5px; background: rgba(0,0,0,0.02); padding: 10px 14px; border-radius: 8px; color: var(--text); line-height: 1.6; margin-bottom: 12px;">
+            ${examCorner.modelAnswer}
+          </div>
+          <div style="background: rgba(245, 158, 11, 0.04); border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 13px; color: var(--text2);">
+            <strong style="color: #d97706;">💡 Examiner Tip:</strong> ${examCorner.examinerTip}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
+  if (currentLevel === 'hl' && ahlExamCorner) {
+    html += `
+      <div class="exam-corner-card" style="background: rgba(59, 130, 246, 0.02); border: 1.5px solid rgba(59, 130, 246, 0.2); border-radius: 12px; padding: 18px 22px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <span class="glass-badge-ahl">Higher Level (AHL)</span>
+          <span style="font-size: 12px; font-weight: 700; color: var(--text3);">${ahlExamCorner.marks} Marks</span>
+        </div>
+        
+        <p style="font-size: 14.5px; color: var(--text); line-height: 1.7; margin-bottom: 16px; font-weight: 500;">
+          ${ahlExamCorner.question}
+        </p>
+        
+        <button class="nav-btn" style="padding: 4px 12px; font-size: 11px;" onclick="toggleAnswer('exam-ans-hl', this, event)">Reveal Model Answer</button>
+        
+        <div class="sol-body" id="exam-ans-hl" style="display: none; margin-top: 14px; border-top: 1px solid var(--border); padding-top: 12px;">
+          <strong style="display: block; font-size: 13px; color: var(--text2); margin-bottom: 6px;">Model Answer:</strong>
+          <div style="font-family: var(--font-mono); font-size: 13.5px; background: rgba(0,0,0,0.02); padding: 10px 14px; border-radius: 8px; color: var(--text); line-height: 1.6; margin-bottom: 12px;">
+            ${ahlExamCorner.modelAnswer}
+          </div>
+          <div style="background: rgba(245, 158, 11, 0.04); border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 13px; color: var(--text2);">
+            <strong style="color: #d97706;">💡 Examiner Tip:</strong> ${ahlExamCorner.examinerTip}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
+  html += `
+      </div>
+    </div>
+  `;
+  return html;
+}
+
+function renderFooterNav() {
+  const activeSubtopics = [];
+  currentTopicData.subtopics.forEach((s, i) => {
+    if (currentLevel === 'hl' || s.scope !== 'hl') {
+      activeSubtopics.push({ sub: s, index: i });
     }
   });
-
-  // Render physical constants
-  const constantsDiv = document.createElement('div');
-  constantsDiv.className = 'fs-section';
-  constantsDiv.innerHTML = `
-    <h4>Constants</h4>
-    <div class="fs-row"><span>g (Earth surface)</span><span>9.81 m s⁻²</span></div>
-    <div class="fs-row"><span>g (Moon surface)</span><span>1.62 m s⁻²</span></div>
-    <div class="fs-row"><span>Speed of light (c)</span><span>3.00 * 10⁸ m s⁻¹</span></div>
-    <div class="fs-row"><span>Planck constant (h)</span><span>6.63 * 10⁻³⁴ J s</span></div>
+  
+  const activePos = activeSubtopics.findIndex(item => item.index === currentLessonIdx);
+  if (activePos === -1) return '';
+  
+  const prevItem = activePos > 0 ? activeSubtopics[activePos - 1] : null;
+  const nextItem = activePos < activeSubtopics.length - 1 ? activeSubtopics[activePos + 1] : null;
+  
+  const prevHtml = prevItem 
+    ? `<button class="nav-btn" onclick="showLesson(${prevItem.index})">← Previous: ${prevItem.sub.title}</button>` 
+    : '<span></span>';
+    
+  const nextHtml = nextItem 
+    ? `<button class="nav-btn nav-btn-primary" onclick="showLesson(${nextItem.index})">Next: ${nextItem.sub.title} →</button>` 
+    : `<a class="nav-btn nav-btn-primary" href="dp-dashboard.html">Back to Dashboard</a>`;
+    
+  return `
+    <div class="lesson-nav">
+      ${prevHtml}
+      ${nextHtml}
+    </div>
   `;
-  sidebarContent.appendChild(constantsDiv);
+}
+
+function toggleAnswer(id, btn, event) {
+  if (event) event.stopPropagation();
+  const ans = document.getElementById(id);
+  if (!ans) return;
+  const isHidden = ans.style.display === 'none';
+  
+  if (isHidden) {
+    ans.style.display = 'block';
+    if (btn.textContent.includes('Solution')) btn.textContent = 'Hide Solution';
+    else if (btn.textContent.includes('Answer')) btn.textContent = 'Hide Answer';
+    else if (btn.textContent.includes('Reveal Model Answer')) btn.textContent = 'Hide Model Answer';
+    else btn.textContent = 'Hide';
+  } else {
+    ans.style.display = 'none';
+    if (btn.textContent.includes('Solution')) btn.textContent = 'Reveal Solution';
+    else if (btn.textContent.includes('Answer')) btn.textContent = 'Show Answer';
+    else if (btn.textContent.includes('Model Answer')) btn.textContent = 'Reveal Model Answer';
+    else btn.textContent = 'Show';
+  }
+}
+
+function toggleWorkedExample(idx) {
+  const body = document.getElementById(`we-body-${idx}`);
+  const btn = document.getElementById(`we-btn-${idx}`);
+  const card = document.getElementById(`we-card-${idx}`);
+  if (!body || !btn || !card) return;
+  
+  if (body.style.display === 'none') {
+    body.style.display = 'block';
+    btn.textContent = 'Hide Steps ▲';
+    card.classList.remove('collapsed');
+    card.classList.add('expanded');
+  } else {
+    body.style.display = 'none';
+    btn.textContent = 'Show Steps ▼';
+    card.classList.remove('expanded');
+    card.classList.add('collapsed');
+  }
+}
+
+function handleCardClick(layer, event) {
+  const card = document.getElementById(`card-${layer}`);
+  if (!card) return;
+  const isCollapsed = card.classList.contains('collapsed');
+  
+  if (event.target.closest('button') || event.target.closest('a') || event.target.closest('input') || event.target.closest('textarea')) {
+    return;
+  }
+  
+  if (isCollapsed) {
+    setAbilityLevel(layer);
+  } else {
+    const header = card.querySelector('.concept-card-header');
+    if (header && (header.contains(event.target) || event.target === header)) {
+      card.classList.add('collapsed');
+      const trigger = document.getElementById(`trigger-${layer}`);
+      if (trigger) trigger.textContent = 'Expand ▼';
+    }
+  }
+}
+
+function setAbilityLevel(level) {
+  localStorage.setItem('dpStudentAbility', level);
+  currentAbility = level;
+  
+  document.querySelectorAll('#abilityToggleBar button').forEach(btn => btn.classList.remove('active'));
+  const activeBtn = document.getElementById(`btn-ability-${level}`);
+  if (activeBtn) activeBtn.classList.add('active');
+  
+  const layers = ['foundation', 'core', 'extension'];
+  layers.forEach(l => {
+    const card = document.getElementById(`card-${l}`);
+    const trigger = document.getElementById(`trigger-${l}`);
+    const body = document.getElementById(`body-${l}`);
+    if (card && trigger && body) {
+      if (l === level) {
+        card.classList.remove('collapsed', 'dimmed');
+        trigger.textContent = 'Collapse ▲';
+        body.style.display = 'block';
+      } else {
+        card.classList.add('collapsed', 'dimmed');
+        trigger.textContent = 'Expand ▼';
+        body.style.display = 'none';
+      }
+    }
+  });
+  
+  const sub = currentTopicData.subtopics[currentLessonIdx];
+  if (sub && sub.workedExamples) {
+    const filtered = sub.workedExamples.filter(we => currentLevel === 'hl' || we.scope !== 'hl');
+    filtered.forEach((we, idx) => {
+      const weBody = document.getElementById(`we-body-${idx}`);
+      const weBtn = document.getElementById(`we-btn-${idx}`);
+      const weCard = document.getElementById(`we-card-${idx}`);
+      if (weBody && weBtn && weCard) {
+        const shouldBeExpanded = we.level === level;
+        weBody.style.display = shouldBeExpanded ? 'block' : 'none';
+        weBtn.textContent = shouldBeExpanded ? 'Hide Steps ▲' : 'Show Steps ▼';
+        if (shouldBeExpanded) {
+          weCard.classList.remove('collapsed');
+          weCard.classList.add('expanded');
+        } else {
+          weCard.classList.remove('expanded');
+          weCard.classList.add('collapsed');
+        }
+      }
+    });
+  }
+  
+  if (sub && sub.practiceProblems) {
+    const filtered = sub.practiceProblems.filter(p => currentLevel === 'hl' || p.scope !== 'hl');
+    filtered.forEach((p, idx) => {
+      const card = document.getElementById(`practice-card-${idx}`);
+      if (card) {
+        card.classList.remove('highlighted-easy', 'highlighted-medium', 'highlighted-hard');
+        if (level === 'foundation' && p.difficulty === 'easy') {
+          card.classList.add('highlighted-easy');
+        } else if (level === 'core' && p.difficulty === 'medium') {
+          card.classList.add('highlighted-medium');
+        } else if (level === 'extension' && p.difficulty === 'hard') {
+          card.classList.add('highlighted-hard');
+        }
+      }
+    });
+  }
+  
+  const eqDescs = document.querySelectorAll('.eq-desc');
+  if (eqDescs.length > 0) {
+    eqDescs.forEach(desc => {
+      if (level === 'foundation') {
+        desc.style.fontWeight = '500';
+        desc.style.color = 'var(--text)';
+      } else {
+        desc.style.fontWeight = 'normal';
+        desc.style.color = 'var(--text2)';
+      }
+    });
+  }
+}
+
+function setScopeLevel(level) {
+  localStorage.setItem('dpStudentLevel', level);
+  currentLevel = level;
+  
+  document.querySelectorAll('#levelToggleBar button').forEach(btn => btn.classList.remove('active'));
+  const activeLevelBtn = document.getElementById(`btn-level-${level}`);
+  if (activeLevelBtn) activeLevelBtn.classList.add('active');
+  
+  if (level === 'sl') {
+    const activeSub = currentTopicData.subtopics[currentLessonIdx];
+    if (activeSub && activeSub.scope === 'hl') {
+      let firstSlIdx = 0;
+      for (let i = 0; i < currentTopicData.subtopics.length; i++) {
+        if (currentTopicData.subtopics[i].scope !== 'hl') {
+          firstSlIdx = i;
+          break;
+        }
+      }
+      currentLessonIdx = firstSlIdx;
+    }
+  }
+  
+  renderSidebar();
+  updateSidebarProgress();
+  renderActiveSubtopic();
 }
 
 // ── DYNAMIC LESSON SWITCHING ──
 function showLesson(idx) {
-  // Hide all lessons
-  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+  currentLessonIdx = idx;
+  
   document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
-  
-  // Show active lesson
-  const lessonEl = document.getElementById(`lesson-${idx}`);
-  if (lessonEl) lessonEl.classList.add('active');
-  
   const sidebarEl = document.getElementById(`sidebar-item-${idx}`);
   if (sidebarEl) sidebarEl.classList.add('active');
   
-  currentLessonIdx = idx;
-  
-  // Scroll content container back to top
   document.querySelector('.content').scrollTop = 0;
   
-  // Triggers progress tracking hooks if available (hooked in dp-progress.js)
-  if (typeof window.trackLessonView === 'function') {
-    // Immediate view trigger is handled by active hook inside dp-progress.js
-  }
+  renderActiveSubtopic();
+  updateSidebarProgress();
 }
+
+window.showLesson = showLesson;
 
 // ── THEME TOGLE ──
 function toggleTheme() {
@@ -1746,7 +2440,6 @@ function toggleFormulaSidebar() {
 // ── SCIENTIFIC CALCULATOR MODAL ──
 let calcStr = '', calcDeg = true, calcLastAns = 0;
 function openCalc() {
-  // If the modern GDC Graphing Calculator tool is available in repo, run that instead!
   if (typeof window.openGDC === 'function') {
     window.openGDC();
   } else {
@@ -1799,6 +2492,58 @@ function toggleDegRad() {
   document.getElementById('degRadBtn').textContent = calcDeg ? 'DEG' : 'RAD';
 }
 
+// ── RENDER DATA BOOKLET SIDEBAR ──
+function renderFormulaBooklet() {
+  const sidebarTitle = document.getElementById('formula-sidebar-title');
+  const sidebarContent = document.getElementById('formula-sidebar-content');
+  sidebarContent.innerHTML = '';
+  
+  if (!currentTopicData) return;
+  sidebarTitle.textContent = `📘 IB Data Booklet — ${currentTopicData.code}`;
+  
+  const themeFormulas = FORMULA_BOOKLET_CONTENT[currentTopicData.theme];
+  if (!themeFormulas) {
+    sidebarContent.innerHTML = `<div style="font-size:13px; color:var(--text3); text-align:center; padding:20px 0;">No formulas found for this theme.</div>`;
+    return;
+  }
+
+  const activeTopicCodeFormatted = currentTopicData.code;
+  if (themeFormulas[activeTopicCodeFormatted]) {
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'fs-section';
+    sectionDiv.innerHTML = `<h4>${currentTopicData.code} — ${currentTopicData.title}</h4>`;
+    
+    themeFormulas[activeTopicCodeFormatted].forEach(f => {
+      sectionDiv.innerHTML += `<div class="fs-row"><span>${f.name}</span><span>${f.formula}</span></div>`;
+    });
+    sidebarContent.appendChild(sectionDiv);
+  }
+
+  Object.keys(themeFormulas).forEach(code => {
+    if (code !== activeTopicCodeFormatted) {
+      const sectionDiv = document.createElement('div');
+      sectionDiv.className = 'fs-section';
+      sectionDiv.innerHTML = `<h4>${code}</h4>`;
+      
+      themeFormulas[code].forEach(f => {
+        sectionDiv.innerHTML += `<div class="fs-row"><span>${f.name}</span><span>${f.formula}</span></div>`;
+      });
+      sidebarContent.appendChild(sectionDiv);
+    }
+  });
+
+  const constantsDiv = document.createElement('div');
+  constantsDiv.className = 'fs-section';
+  constantsDiv.innerHTML = `
+    <h4>Constants</h4>
+    <div class="fs-row"><span>g (Earth surface)</span><span>9.81 m s⁻²</span></div>
+    <div class="fs-row"><span>g (Moon surface)</span><span>1.62 m s⁻²</span></div>
+    <div class="fs-row"><span>Speed of light (c)</span><span>3.00 * 10⁸ m s⁻¹</span></div>
+    <div class="fs-row"><span>Planck constant (h)</span><span>6.63 * 10⁻³⁴ J s</span></div>
+  `;
+  sidebarContent.appendChild(constantsDiv);
+}
+
 // ── AUTHENTICATION AND PROGRESS SYSTEM ──
 function checkAuth() {
   if (typeof firebase !== 'undefined' && firebase.auth) {
@@ -1810,7 +2555,6 @@ function checkAuth() {
       const sidebarProgress = document.getElementById('sidebarProgress');
 
       if (!user) {
-        // Guest mode
         bannerText.textContent = "Sign in to track your progress and unlock analytics";
         bannerBtn.textContent = "Sign In";
         bannerBtn.onclick = () => window.location.href = 'exam-system/student-login.html';
@@ -1821,14 +2565,12 @@ function checkAuth() {
         return;
       }
 
-      // Strict verification checks
       if (!user.emailVerified && !user.providerData[0]?.providerId?.includes('google')) {
         alert('Please verify your email before continuing. Check your inbox.');
         firebase.auth().signOut();
         return;
       }
 
-      // Check for disposable emails
       const domain = user.email.split('@')[1].toLowerCase();
       if (BLOCKED_DOMAINS.includes(domain)) {
         alert('Please use a valid school or personal email. Disposable emails are not allowed.');
@@ -1836,7 +2578,6 @@ function checkAuth() {
         return;
       }
 
-      // Logged in & Verified
       const displayName = user.displayName || user.email.split('@')[0];
       bannerText.textContent = `Welcome, ${displayName}! Progress tracking is enabled.`;
       bannerBtn.textContent = "Sign Out";
@@ -1849,7 +2590,6 @@ function checkAuth() {
       progressLink.style.display = 'inline-flex';
       sidebarProgress.style.display = 'block';
 
-      // Load progress
       syncProgressRealtime(user.uid);
     });
   }
@@ -1857,7 +2597,7 @@ function checkAuth() {
 
 function resetSidebarStatusBadges() {
   if (!currentTopicData) return;
-  currentTopicData.lessons.forEach((l, idx) => {
+  currentTopicData.subtopics.forEach((l, idx) => {
     const badge = document.getElementById(`badge-lesson-${idx}`);
     if (badge) {
       badge.textContent = "NEW";
@@ -1889,9 +2629,15 @@ function updateSidebarProgress() {
   
   let viewedCount = 0;
   let totalMinutes = 0;
-  const lessonsCount = currentTopicData.lessons.length;
+  let activeSubtopicsCount = 0;
   
-  currentTopicData.lessons.forEach((l, idx) => {
+  currentTopicData.subtopics.forEach((sub, idx) => {
+    // Hide HL subtopics in SL mode
+    if (currentLevel === 'sl' && sub.scope === 'hl') {
+      return;
+    }
+    activeSubtopicsCount++;
+    
     const lessonKey = `${activeTopicCode}-lesson${idx + 1}`;
     const progressItem = studentProgress.lessonsViewed && studentProgress.lessonsViewed[lessonKey];
     const badge = document.getElementById(`badge-lesson-${idx}`);
@@ -1930,19 +2676,18 @@ function updateSidebarProgress() {
   });
 
   // Update top sidebar counts
-  document.getElementById('progress-lessons').textContent = `${viewedCount}/${lessonsCount}`;
+  document.getElementById('progress-lessons').textContent = `${viewedCount}/${activeSubtopicsCount}`;
   document.getElementById('progress-time').textContent = `${totalMinutes} min`;
   
-  const pct = lessonsCount > 0 ? Math.round((viewedCount / lessonsCount) * 100) : 0;
-  document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+  const pct = activeSubtopicsCount > 0 ? Math.round((viewedCount / activeSubtopicsCount) * 100) : 0;
+  const barFill = document.getElementById('progress-bar-fill');
+  if (barFill) barFill.style.width = `${pct}%`;
 }
 
-// Light dismiss overlay fallback for calculator
 document.getElementById('calcModal').addEventListener('click', function(e) {
   if (e.target === this) closeCalc();
 });
 
-// Run auth check on load
 window.addEventListener('load', () => {
   initLessonViewer();
   checkAuth();
