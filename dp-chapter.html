@@ -1646,54 +1646,6 @@ body {
   </div>
 </div>
 
-<!-- ═══════════ CALCULATOR MODAL ═══════════ -->
-<div class="modal-overlay" id="calcModal">
-  <div class="modal" style="width:360px;">
-    <div class="modal-header"><h3>🧮 Scientific Calculator</h3><button class="modal-close" onclick="closeCalc()">✕</button></div>
-    <div class="modal-body">
-      <div class="calc-sub" id="calcExpr">&nbsp;</div>
-      <div class="calc-display" id="calcDisplay">0</div>
-      <div class="calc-grid">
-        <button class="calc-btn calc-btn-fn" onclick="calcFn('sin')">sin</button>
-        <button class="calc-btn calc-btn-fn" onclick="calcFn('cos')">cos</button>
-        <button class="calc-btn calc-btn-fn" onclick="calcFn('tan')">tan</button>
-        <button class="calc-btn calc-btn-fn" onclick="calcFn('log')">log</button>
-        <button class="calc-btn calc-btn-fn" onclick="calcFn('ln')">ln</button>
-        <button class="calc-btn calc-btn-fn" onclick="calcInput('Math.sqrt(')">√</button>
-        <button class="calc-btn calc-btn-fn" onclick="calcInput('**2')">x²</button>
-        <button class="calc-btn calc-btn-fn" onclick="calcInput('**')">xⁿ</button>
-        <button class="calc-btn calc-btn-fn" onclick="calcInput('Math.PI')">π</button>
-        <button class="calc-btn calc-btn-fn" onclick="calcInput('Math.E')">e</button>
-        <button class="calc-btn" onclick="calcInput('7')">7</button>
-        <button class="calc-btn" onclick="calcInput('8')">8</button>
-        <button class="calc-btn" onclick="calcInput('9')">9</button>
-        <button class="calc-btn calc-btn-op" onclick="calcInput('/')">&divide;</button>
-        <button class="calc-btn calc-btn-op" onclick="calcClear()">C</button>
-        <button class="calc-btn" onclick="calcInput('4')">4</button>
-        <button class="calc-btn" onclick="calcInput('5')">5</button>
-        <button class="calc-btn" onclick="calcInput('6')">6</button>
-        <button class="calc-btn calc-btn-op" onclick="calcInput('*')">×</button>
-        <button class="calc-btn calc-btn-op" onclick="calcBackspace()">⌫</button>
-        <button class="calc-btn" onclick="calcInput('1')">1</button>
-        <button class="calc-btn" onclick="calcInput('2')">2</button>
-        <button class="calc-btn" onclick="calcInput('3')">3</button>
-        <button class="calc-btn calc-btn-op" onclick="calcInput('-')">−</button>
-        <button class="calc-btn calc-btn-op" onclick="calcInput('(')">(</button>
-        <button class="calc-btn" onclick="calcInput('0')">0</button>
-        <button class="calc-btn" onclick="calcInput('.')">.</button>
-        <button class="calc-btn" onclick="calcInput('e')">EXP</button>
-        <button class="calc-btn calc-btn-op" onclick="calcInput('+')">+</button>
-        <button class="calc-btn calc-btn-op" onclick="calcInput(')')">)</button>
-        <button class="calc-btn calc-btn-eq" onclick="calcEval()" style="grid-column:span 5;">=</button>
-      </div>
-      <div style="margin-top:10px;display:flex;gap:6px;">
-        <button class="calc-btn calc-btn-fn" onclick="toggleDegRad()" id="degRadBtn" style="flex:1;">DEG</button>
-        <button class="calc-btn calc-btn-fn" onclick="calcInput('e-')" style="flex:1;">×10⁻</button>
-        <button class="calc-btn calc-btn-fn" onclick="calcAns()" style="flex:1;">ANS</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Firebase Compat SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -2599,59 +2551,11 @@ function toggleFormulaSidebar() {
   document.getElementById('formulaSidebar').classList.toggle('open');
 }
 
-// ── SCIENTIFIC CALCULATOR MODAL ──
-let calcStr = '', calcDeg = true, calcLastAns = 0;
+// ── GDC CALCULATOR LAUNCHER ──
 function openCalc() {
   if (typeof window.openGDC === 'function') {
     window.openGDC();
-  } else {
-    document.getElementById('calcModal').classList.add('open');
   }
-}
-function closeCalc() {
-  document.getElementById('calcModal').classList.remove('open');
-}
-function calcInput(v) {
-  calcStr += v;
-  document.getElementById('calcDisplay').textContent = calcStr.replace(/\*/g, '×').replace(/\//g, '÷');
-}
-function calcClear() {
-  calcStr = '';
-  document.getElementById('calcDisplay').textContent = '0';
-  document.getElementById('calcExpr').innerHTML = '&nbsp;';
-}
-function calcBackspace() {
-  calcStr = calcStr.slice(0, -1);
-  document.getElementById('calcDisplay').textContent = calcStr || '0';
-}
-function calcFn(fn) {
-  if (fn === 'sin') calcStr += (calcDeg ? 'Math.sin(Math.PI/180*' : 'Math.sin(');
-  else if (fn === 'cos') calcStr += (calcDeg ? 'Math.cos(Math.PI/180*' : 'Math.cos(');
-  else if (fn === 'tan') calcStr += (calcDeg ? 'Math.tan(Math.PI/180*' : 'Math.tan(');
-  else if (fn === 'log') calcStr += 'Math.log10(';
-  else if (fn === 'ln') calcStr += 'Math.log(';
-  document.getElementById('calcDisplay').textContent = calcStr;
-}
-function calcEval() {
-  try {
-    const expr = calcStr.replace(/e-/g, 'e-').replace(/e(\d)/g, '*10**$1');
-    document.getElementById('calcExpr').textContent = calcStr;
-    const result = Function('"use strict";return (' + expr + ')')();
-    calcLastAns = result;
-    const display = Number.isInteger(result) ? result.toString() : parseFloat(result.toPrecision(10)).toString();
-    document.getElementById('calcDisplay').textContent = display;
-    calcStr = display;
-  } catch (e) {
-    document.getElementById('calcDisplay').textContent = 'Error';
-  }
-}
-function calcAns() {
-  calcStr += calcLastAns.toString();
-  document.getElementById('calcDisplay').textContent = calcStr;
-}
-function toggleDegRad() {
-  calcDeg = !calcDeg;
-  document.getElementById('degRadBtn').textContent = calcDeg ? 'DEG' : 'RAD';
 }
 
 // ── RENDER DATA BOOKLET SIDEBAR ──
@@ -2853,9 +2757,7 @@ function updateSidebarProgress() {
   if (barFill) barFill.style.width = `${pct}%`;
 }
 
-document.getElementById('calcModal').addEventListener('click', function(e) {
-  if (e.target === this) closeCalc();
-});
+
 
 // ── CHECKLIST SYSTEM ──
 function getChecklistKey(sub, isAhl) {
