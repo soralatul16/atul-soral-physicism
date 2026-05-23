@@ -2099,8 +2099,8 @@ const DP_PLANNER_DATA = {
     { "topic": "D.3 Motion in EM Fields", "question": "How do electric and magnetic fields transform between reference frames? A purely electric field in one frame can appear as a magnetic field in another." },
     { "topic": "E.1 Structure of the Atom", "question": "How does the relativistic energy-momentum relation E² = (pc)² + (mc²)² apply to particles and photons?" },
     { "topic": "E.3 Radioactive Decay", "question": "How does mass defect (Δm) relate to binding energy via E = Δmc²? Why is this relevant to nuclear power and weapons?" }
-  ]
-};
+  ],
+},
 "B1": {
   "title": "Thermal Energy Transfers",
   "code": "B.1",
@@ -7425,3 +7425,4 @@ const DP_PLANNER_DATA = {
     { "topic": "IB Linking (NOS)", "question": "Can observations of the present state of the universe predict the future outcome of the universe?" }
   ]
 }
+};
