@@ -3014,6 +3014,26 @@
       const state = plannerState[activeTopicCode];
       if (!topic || !state) return;
 
+      const dataKey = activeTopicCode.replace('.', '');
+      const baseTopic = DP_PLANNER_DATA[dataKey] || {};
+
+      const recommendedHours = baseTopic.recommendedHours || topic.hours || 0;
+      const recommendedMinutes = baseTopic.recommendedMinutes || (recommendedHours * 60);
+
+      // Count all subtopics across all groups in the topic data
+      let subtopicsCount = 0;
+      if (baseTopic && baseTopic.groups) {
+        baseTopic.groups.forEach(g => {
+          if (g.subtopics) {
+            subtopicsCount += g.subtopics.length;
+          }
+        });
+      }
+      // If there are no groups in baseTopic, default to state.lessons.length
+      if (subtopicsCount === 0) {
+        subtopicsCount = state.lessons.length;
+      }
+
       let totalPlannedMinutes = 0;
       let totalActualHours = 0;
       let totalChecklistItems = 0;
@@ -3023,7 +3043,19 @@
       state.lessons.forEach(l => {
         totalPlannedMinutes += Number(l.plannedTime || 0);
         totalActualHours += Number(l.actualHours || 0);
-        if (l.lab || l.demo) totalLabsDemos++;
+        
+        let isLabOrDemo = false;
+        if (l.lab || l.demo) {
+          isLabOrDemo = true;
+        } else {
+          const text = (l.how + " " + l.engage + " " + (l.engagementHook ? (l.engagementHook.title + " " + l.engagementHook.content) : "") + " " + (l.title || "")).toLowerCase();
+          const hasLab = /\blabs?\b/.test(text) || /\blaboratory\b/.test(text) || /\blab\s/.test(text);
+          const hasDemo = /\bdemos?\b/.test(text) || /\bdemonstrat/.test(text);
+          if (hasLab || hasDemo) {
+            isLabOrDemo = true;
+          }
+        }
+        if (isLabOrDemo) totalLabsDemos++;
         
         const parsed = parseStrategyChecklist(l.how + " " + l.engage);
         const chk = l.checklist || {};
@@ -3037,68 +3069,41 @@
         });
       });
 
-      const totalPlannedHours = (totalPlannedMinutes / 60).toFixed(1);
       const completionRate = totalChecklistItems > 0 ? Math.round((totalCompletedItems / totalChecklistItems) * 100) : 0;
       
       const statsContainer = document.getElementById('topic-stats-row');
       if (statsContainer) {
-        if (activeTopicCode === "A.2") {
-          statsContainer.className = "stats-row";
-          statsContainer.style.display = "grid";
-          statsContainer.style.gridTemplateColumns = "repeat(5, 1fr)";
-          statsContainer.style.gap = "16px";
-          statsContainer.style.marginBottom = "20px";
-          statsContainer.innerHTML = `
-            <div class="stat-box">
-              <div class="stat-label">Recommended Hours</div>
-              <div class="stat-val">10h (600 min)</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Subtopics</div>
-              <div class="stat-val">${state.lessons.length}</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Labs / Demos</div>
-              <div class="stat-val">${totalLabsDemos}</div>
-            </div>
-            <div class="stat-box" style="grid-column: span 2;">
-              <div class="stat-label">Checklist Completion</div>
-              <div class="progress-bar-container" style="background:var(--bg-deep); height:10px; border-radius:5px; overflow:hidden; margin-top:8px; position:relative;">
-                <div class="progress-bar-fill" style="width:${completionRate}%; background:linear-gradient(90deg, var(--accent), var(--teal), #38a169); height:100%; transition:width 0.5s cubic-bezier(0.4,0,0.2,1); border-radius:5px; position:relative; overflow:hidden;">
-                  <div style="position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: shimmer 2.5s ease-in-out infinite;"></div>
-                </div>
-              </div>
-              <div style="font-size:11px; margin-top:4px; color:var(--text3); display:flex; justify-content:space-between; font-family:var(--font-mono);">
-                <span>${completionRate}%</span>
-                <span>${totalCompletedItems} / ${totalChecklistItems} done</span>
+        statsContainer.className = "stats-row";
+        statsContainer.style.display = "grid";
+        statsContainer.style.gridTemplateColumns = "repeat(5, 1fr)";
+        statsContainer.style.gap = "16px";
+        statsContainer.style.marginBottom = "20px";
+        statsContainer.innerHTML = `
+          <div class="stat-box">
+            <div class="stat-label">Recommended Hours</div>
+            <div class="stat-val">${recommendedHours}h (${recommendedMinutes} min)</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Subtopics</div>
+            <div class="stat-val">${subtopicsCount}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Labs / Demos</div>
+            <div class="stat-val">${totalLabsDemos}</div>
+          </div>
+          <div class="stat-box" style="grid-column: span 2;">
+            <div class="stat-label">Checklist Completion</div>
+            <div class="progress-bar-container" style="background:var(--bg-deep); height:10px; border-radius:5px; overflow:hidden; margin-top:8px; position:relative;">
+              <div class="progress-bar-fill" style="width:${completionRate}%; background:linear-gradient(90deg, var(--accent), var(--teal), #38a169); height:100%; transition:width 0.5s cubic-bezier(0.4,0,0.2,1); border-radius:5px; position:relative; overflow:hidden;">
+                <div style="position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: shimmer 2.5s ease-in-out infinite;"></div>
               </div>
             </div>
-          `;
-        } else {
-          statsContainer.className = "stats-row";
-          statsContainer.style.display = "grid";
-          statsContainer.style.gridTemplateColumns = "repeat(4, 1fr)";
-          statsContainer.style.gap = "16px";
-          statsContainer.style.marginBottom = "20px";
-          statsContainer.innerHTML = `
-            <div class="stat-box">
-              <div class="stat-label">Recommended Hours</div>
-              <div class="stat-val">${topic.hours}h</div>
+            <div style="font-size:11px; margin-top:4px; color:var(--text3); display:flex; justify-content:space-between; font-family:var(--font-mono);">
+              <span>${completionRate}%</span>
+              <span>${totalCompletedItems} / ${totalChecklistItems} done</span>
             </div>
-            <div class="stat-box">
-              <div class="stat-label">Total Planned Hours</div>
-              <div class="stat-val ${Number(totalPlannedHours) > topic.hours ? 'warning' : ''}">${totalPlannedHours}h</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Actual Hours Spent</div>
-              <div class="stat-val success">${totalActualHours.toFixed(1)}h</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Checklist Completion</div>
-              <div class="stat-val success">${completionRate}%</div>
-            </div>
-          `;
-        }
+          </div>
+        `;
       }
     }
 
