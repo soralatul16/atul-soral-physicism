@@ -1871,4 +1871,356 @@ const DP_PLANNER_DATA = {
       { "topic": "E.1 Structure of the Atom", "question": "How does the concept of quantised angular momentum apply to the Bohr model of the atom?" }
     ]
   },
-
+  "A5": {
+  "title": "Galilean and Special Relativity",
+  "code": "A.5",
+  "theme": "A",
+  "level": "HL only",
+  "recommendedHours": 8,
+  "recommendedMinutes": 480,
+  "guidingQuestions": [
+    "How do observers in different reference frames describe events in terms of space and time?",
+    "How does special relativity change our understanding of motion compared to Galilean relativity?",
+    "How are space-time diagrams used to represent relativistic motion?"
+  ],
+  "groups": [
+    {
+      "name": "Galilean Relativity",
+      "color": "accent",
+      "totalMinutes": 90,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Reference Frames & Inertial Frames",
+          "focus": "How different observers describe the same event",
+          "minutes": 35,
+          "understandings": [
+            "A reference frame is a coordinate system relative to which observations and measurements are made",
+            "An inertial reference frame is non-accelerating (moves at constant velocity or is at rest)",
+            "Newton's laws of motion are consistent in all inertial reference frames (Galilean relativity)",
+            "There is no experiment that can distinguish one inertial frame from another — all are equally valid"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"You're sitting on a smooth train. The blinds are closed. Can you tell if the train is moving at constant velocity or stationary?\" Students debate. The answer: no — there's no experiment you can do inside the train to tell. This is the principle of Galilean relativity.</p><p><strong>Direct instruction (15 min):</strong> Define reference frame and inertial frame. A non-accelerating frame is inertial. Newton's laws work identically in all inertial frames. Example: throw a ball vertically on a smooth train — it lands back in your hand, just as on the ground. A passenger sees a straight path; a person on the platform sees a parabola. Both are correct descriptions — physics is the same, coordinates differ.</p><p><strong>Discussion (10 min):</strong> \"Is the Earth an inertial frame?\" Approximately, yes — its rotation and orbital acceleration are small enough to ignore for most experiments. \"Is a car braking an inertial frame?\" No — you feel a forward force (Newton's 1st law appears violated). Non-inertial frames require fictitious forces (centrifugal, Coriolis).</p><p><strong>Practice (5 min):</strong> Classify 6 scenarios as inertial or non-inertial frames.</p>",
+          "engagementHook": {
+            "title": "THE TRAIN THOUGHT EXPERIMENT",
+            "content": "\"Close your eyes on a perfectly smooth train. Can you tell if you're moving at 200 km/h or parked?\" No — and this bothered physicists for centuries. Galileo first stated this principle in 1632. Einstein took it further: what if this applies to ALL physics, including light? That single question — asked at age 16 — led to special relativity."
+          },
+          "nos": {
+            "tags": ["Theories", "Observations"],
+            "description": "Galilean relativity started as a thought experiment — Galileo argued in 1632 that motion is relative by imagining experiments below decks of a ship. Thought experiments remain a powerful tool in physics, especially in relativity where direct experimentation at high speeds is impractical."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Open-minded"],
+          "ao": [
+            "AO1 — Define reference frame and inertial reference frame",
+            "AO2 — Identify inertial vs non-inertial frames in various scenarios"
+          ],
+          "resources": "Video of ball thrown on a moving train (from both perspectives), whiteboard, scenario cards",
+          "formative": "\"A person drops a ball inside a lift. Describe the ball's motion as seen by: (a) the person in the lift, (b) someone outside watching through a glass wall — for three cases: lift stationary, lift moving up at constant velocity, lift accelerating upward. In which cases is the lift an inertial frame?\""
+        },
+        {
+          "num": 2,
+          "title": "Galilean Transformations & Velocity Addition",
+          "focus": "x' = x − vt, t' = t, and u' = u − v",
+          "minutes": 55,
+          "understandings": [
+            "In Galilean relativity, the position and time of an event in frame S' moving at velocity v relative to frame S are: x' = x − vt and t' = t",
+            "Time is absolute in Galilean relativity — all observers agree on the time of an event (t' = t)",
+            "Velocity addition for a Galilean transformation: u' = u − v",
+            "These transformations work perfectly at everyday speeds but fail at speeds close to c"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Set up two frames: S (ground) and S' (train moving at v relative to ground). An event occurs at position x at time t in S. In S': x' = x − vt (the train has moved vt, so the event is closer by that amount) and t' = t (time is the same for both — this is the key Galilean assumption). For velocities: if a ball moves at u in S, it moves at u' = u − v in S'. Example: you walk at 5 km/h on a train going 100 km/h → ground sees you at 105 km/h.</p><p><strong>Worked examples (15 min):</strong> (1) A car at 30 m/s passes a ball thrown at 20 m/s in the same direction → ball's velocity in the car's frame? (−10 m/s — moving backward). (2) Two spaceships approach each other at 0.3c and 0.4c → Galilean closing speed = 0.7c. \"Is this a problem? What if each travels at 0.6c? Galilean gives 1.2c — faster than light!\" This motivates the need for special relativity.</p><p><strong>Group activity (15 min):</strong> Students work through 5 transformation problems in pairs, including one where Galilean addition gives v > c. For each, ask: \"Does this result make physical sense?\" Build the case that something must change at high speeds.</p><p><strong>Wrap-up (10 min):</strong> \"Galilean transformations assume t' = t — time is absolute. Einstein questioned this: what if time ISN'T the same for different observers? That question changed physics forever.\"</p>",
+          "engagementHook": {
+            "title": "THE SPEED-OF-LIGHT PARADOX",
+            "content": "\"You're on a spaceship at 0.9c. You turn on the headlights. How fast does the light travel relative to the ground?\" Galilean answer: 0.9c + c = 1.9c. But Maxwell's equations predict light ALWAYS travels at c — for everyone. Both can't be right. Either Newton or Maxwell is wrong. Einstein chose to trust Maxwell, and everything we thought we knew about space and time had to change."
+          },
+          "nos": {
+            "tags": ["Theories", "Falsification"],
+            "description": "Galilean relativity is not 'wrong' — it's an excellent approximation at v << c. It was 'falsified' only at extreme speeds, replaced by a more general theory (special relativity) that reduces to Galilean physics in the low-speed limit. This is how science progresses: theories are refined, not discarded."
+          },
+          "atl": ["Thinking skills", "Social skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — State the Galilean transformation equations",
+            "AO2 — Apply x' = x − vt, t' = t, and u' = u − v",
+            "AO3 — Evaluate the limitations of Galilean transformations at high speeds"
+          ],
+          "resources": "Whiteboard, problem sets with everyday and relativistic scenarios",
+          "formative": "\"Spaceship A moves at 0.5c to the right. It fires a probe at 0.7c (relative to itself) to the right. (a) Find the probe's velocity relative to the ground using Galilean addition. (b) What is wrong with this answer? (c) Why does this force us to reconsider the Galilean framework?\""
+        }
+      ]
+    },
+    {
+      "name": "Postulates & Lorentz Transformations",
+      "color": "accent3",
+      "totalMinutes": 100,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "The Two Postulates of Special Relativity",
+          "focus": "Einstein's revolutionary assumptions and their consequences",
+          "minutes": 45,
+          "understandings": [
+            "Postulate 1: The laws of physics are the same in all inertial reference frames",
+            "Postulate 2: The speed of light in a vacuum is the same for all inertial observers, regardless of the motion of the source or observer (c = 3 × 10⁸ m/s)",
+            "These two postulates together lead to all the consequences of special relativity: time dilation, length contraction, mass-energy equivalence",
+            "The postulates must be memorised"
+          ],
+          "teachingStrategy": "<p><strong>Opener (10 min):</strong> Tell Einstein's story: at age 16, he imagined riding alongside a beam of light. \"What would a light wave look like if I kept pace with it?\" It would appear frozen — a stationary electromagnetic wave. But Maxwell's equations don't allow stationary EM waves. Something must give. Einstein's radical solution: you CAN'T keep pace with light. Its speed is constant for everyone.</p><p><strong>Direct instruction (15 min):</strong> State both postulates precisely. Postulate 1 is Galileo's principle — nothing new. Postulate 2 is the revolution: c is invariant. Unpack what this means: if you drive at 0.9c toward a light source, the light STILL approaches you at c, not at 1.9c. This violates everything about Galilean velocity addition. But experiments (Michelson-Morley, 1887) confirm it.</p><p><strong>Discussion (10 min):</strong> \"If light has the same speed for everyone, what must change?\" Guide students to the conclusion: space and time themselves must be different for different observers. Time is NOT absolute. Length is NOT absolute. Only c is absolute. This is the conceptual earthquake that makes special relativity so counterintuitive.</p><p><strong>Practice (10 min):</strong> Students write the two postulates from memory. Then apply them qualitatively: \"A spaceship at 0.8c fires a laser forward. How fast does the laser light travel relative to the ground?\" (Answer: c — not 1.8c.)</p>",
+          "engagementHook": {
+            "title": "EINSTEIN'S THOUGHT EXPERIMENT AT 16",
+            "content": "\"Imagine you could ride a bicycle at the speed of light next to a light beam. What would you see?\" A frozen wave — but Maxwell says that's impossible. Einstein realised at 16 that this paradox could only be resolved if the speed of light is the same for ALL observers. He spent 10 years working out the consequences. Show the famous 1905 paper — just 30 pages that changed the universe."
+          },
+          "nos": {
+            "tags": ["Theories", "Falsification", "Observations"],
+            "description": "The Michelson-Morley experiment (1887) failed to detect the 'aether' — the medium light was supposed to travel through. This null result was one of the most important experiments in physics: it didn't find what it was looking for, but the failure was more valuable than success. Einstein used it to build special relativity."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Open-minded", "Inquirer"],
+          "ao": [
+            "AO1 — State the two postulates of special relativity (must be memorised)",
+            "AO2 — Apply the postulates to predict that light speed is constant for all observers",
+            "AO3 — Evaluate why Galilean transformations fail at high speeds"
+          ],
+          "resources": "Einstein biography excerpt, Michelson-Morley experiment video/animation, whiteboard",
+          "formative": "\"Write both postulates from memory. Then: A spaceship at 0.95c fires a probe backward at 0.3c (relative to the ship). (a) What does Galilean addition predict for the probe's ground-frame speed? (b) Is this consistent with the postulates? (c) What does this tell us about the need for new transformation equations?\""
+        },
+        {
+          "num": 2,
+          "title": "Lorentz Transformations & Relativistic Velocity Addition",
+          "focus": "The equations that replace Galilean transformations at high speeds",
+          "minutes": 55,
+          "understandings": [
+            "The Lorentz transformation equations replace Galilean transformations at high speeds (derivation NOT required)",
+            "The Lorentz factor: γ = 1/√(1 − v²/c²), where γ ≥ 1 always",
+            "The relativistic velocity addition equation replaces u' = u − v (derivation NOT required)",
+            "Relativistic velocity addition ensures no combined velocity exceeds c"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Introduce the Lorentz factor γ = 1/√(1 − v²/c²). Calculate γ for various speeds: v = 0 → γ = 1, v = 0.5c → γ = 1.15, v = 0.9c → γ = 2.29, v = 0.99c → γ = 7.09, v = 0.999c → γ = 22.4. γ grows rapidly as v → c and reaches infinity at v = c. Present the Lorentz transformation equations (derivation not required): x' = γ(x − vt), t' = γ(t − vx/c²). Compare with Galilean: the extra factors are γ and the −vx/c² term. At low speeds, γ → 1 and vx/c² → 0, recovering Galilean transformations.</p><p><strong>Velocity addition (10 min):</strong> Relativistic velocity addition: u = (u' + v)/(1 + u'v/c²). Test: two ships at 0.6c toward each other → u = (0.6c + 0.6c)/(1 + 0.36) = 1.2c/1.36 = 0.88c. Always < c! Test with light: u' = c, v = 0.9c → u = (c + 0.9c)/(1 + 0.9) = 1.9c/1.9 = c. Light always measured at c — the postulate is built into the maths.</p><p><strong>Worked examples (15 min):</strong> (1) Calculate γ for a particle at 0.8c. (2) Use Lorentz transformations to find x' and t' for an event. (3) Relativistic velocity addition: probe fired at 0.7c from a ship at 0.5c. (4) Verify that adding any two speeds < c always gives a result < c.</p><p><strong>Practice (15 min):</strong> Problem set with γ calculations, Lorentz transformations, and velocity addition. Include comparison: Galilean vs relativistic result for the same scenario.</p>",
+          "engagementHook": {
+            "title": "THE γ FACTOR GRAPH",
+            "content": "Plot γ vs v/c on a large graph. At everyday speeds (v << c), γ ≈ 1 — you can't tell. But as v approaches c, γ shoots up toward infinity. \"At 0.99c, one second for you is 7 seconds for everyone else. At 0.9999c, one second becomes 71 seconds.\" Draw the curve together — the dramatic uptick near c makes the mathematics feel physical. \"This is why you can never reach c: γ → ∞ means you'd need infinite energy.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Models"],
+            "description": "The Lorentz transformations were originally derived by Hendrik Lorentz to explain the Michelson-Morley result within the aether framework. Einstein derived the same equations from his two postulates — a completely different physical interpretation. Same maths, different physics. The shift from aether to spacetime geometry was a paradigm shift."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State the Lorentz factor γ",
+            "AO2 — Calculate γ; apply Lorentz transformations and relativistic velocity addition",
+            "AO3 — Compare Galilean and relativistic predictions for the same scenario"
+          ],
+          "resources": "γ vs v/c graph (large printout or drawn live), calculators, Galilean vs Lorentz comparison table, problem sets",
+          "formative": "\"(a) Calculate γ for v = 0.6c, 0.8c, 0.95c, 0.99c. (b) Spaceship at 0.8c fires a probe at 0.6c forward. Find ground-frame speed using both Galilean and relativistic addition. (c) An event at x = 100 m, t = 2 × 10⁻⁷ s in frame S. Frame S' moves at 0.6c. Find x' and t' using Lorentz transformations.\""
+        }
+      ]
+    },
+    {
+      "name": "Consequences of Special Relativity",
+      "color": "accent2",
+      "totalMinutes": 150,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Time Dilation — Δt = γΔt₀",
+          "focus": "Moving clocks run slow",
+          "minutes": 55,
+          "understandings": [
+            "Proper time interval Δt₀ is the time between two events measured by an observer for whom both events occur at the SAME position",
+            "Time dilation: Δt = γΔt₀ — a moving clock runs slower than a stationary one",
+            "The derivation is NOT required, but the conceptual basis (the light clock thought experiment) should be understood",
+            "Time dilation is NOT an illusion — it is a real physical effect, confirmed experimentally"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"If you travelled at 0.99c for what feels like 1 year to you, 7.09 years would pass on Earth. Your twin would be 6 years older than you when you return.\" The twin paradox — introduce it as a hook, resolve it at the end of the lesson.</p><p><strong>Light clock thought experiment (15 min):</strong> Draw a light clock: a beam bouncing vertically between two mirrors, separated by distance d. For the rest frame: one tick takes Δt₀ = 2d/c. For a moving frame: the light travels a longer diagonal path, but still at speed c. So the tick takes longer: Δt = γΔt₀. Walk through the geometry slowly with diagrams. Key message: this isn't about light clocks specifically — ALL clocks (including biological ones) slow down.</p><p><strong>Worked examples (15 min):</strong> (1) A spaceship at 0.8c (γ = 5/3). Crew measures 10 s for an event. Ground time: 10 × 5/3 = 16.7 s. (2) A muon has a rest-frame lifetime of 2.2 μs. At 0.998c (γ = 15.8), its lab lifetime is 34.8 μs — long enough to reach Earth's surface from the upper atmosphere. (3) GPS satellites: their clocks gain ~38 μs/day due to combined relativistic effects. Without correction, GPS would drift by 10 km/day.</p><p><strong>Twin paradox resolution (10 min):</strong> The paradox assumes symmetry — but the travelling twin accelerates (non-inertial frame), breaking the symmetry. Only the stay-at-home twin remains in an inertial frame throughout. The travelling twin really IS younger.</p><p><strong>Practice (10 min):</strong> Time dilation calculations and identifying the proper time observer.</p>",
+          "engagementHook": {
+            "title": "THE TWIN PARADOX & GPS WITHOUT RELATIVITY",
+            "content": "\"Your twin stays on Earth. You travel at 0.99c for 1 year (your time). You return — your twin is now 7 years older. You're biologically younger. Is this real?\" YES. Then the practical hook: GPS satellites experience time dilation. Without relativistic corrections, your phone's GPS would be off by 10 km per day. Relativity isn't just theory — it's running on your phone right now."
+          },
+          "nos": {
+            "tags": ["Theories", "Measurements", "Technology"],
+            "description": "Time dilation was predicted by theory (1905) and confirmed by experiment: Hafele-Keating (1971) flew atomic clocks around the world and measured nanosecond differences matching predictions. GPS is a daily technological application. When theory predicts, experiments confirm, and technology applies — that's the full scientific cycle."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Open-minded", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define proper time; state Δt = γΔt₀",
+            "AO2 — Apply time dilation to calculate dilated time intervals",
+            "AO3 — Analyse the twin paradox and identify the proper time observer"
+          ],
+          "resources": "Light clock animation/diagram, GPS accuracy infographic, Hafele-Keating experiment summary, calculators",
+          "formative": "\"A muon has rest-frame lifetime 2.2 μs. It travels at 0.995c. (a) Calculate γ. (b) What is its lifetime as measured in the lab? (c) How far does it travel in the lab frame? (d) Is the 2.2 μs the proper time or dilated time? Justify your answer.\""
+        },
+        {
+          "num": 2,
+          "title": "Length Contraction — L = L₀/γ",
+          "focus": "Moving objects are shorter in the direction of motion",
+          "minutes": 45,
+          "understandings": [
+            "Proper length L₀ is the length of an object measured in the frame where the object is at rest",
+            "Length contraction: L = L₀/γ — an object moving relative to an observer is contracted along its direction of motion",
+            "Contraction occurs ONLY in the direction of motion, not perpendicular to it",
+            "Length contraction and time dilation are two sides of the same coin — both arise from the Lorentz transformations"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> Define proper length L₀: measured in the object's rest frame. In a frame where the object moves at v: L = L₀/γ. The object is physically shorter — this is real, not an optical illusion. Only the dimension parallel to motion contracts; perpendicular dimensions are unchanged. Show: at 0.87c (γ = 2), a 1 m rod becomes 0.5 m.</p><p><strong>Connecting to the muon (10 min):</strong> Revisit the muon problem from two perspectives: (a) Earth frame: muon lives longer (time dilation) → travels far enough. (b) Muon frame: muon's lifetime is normal (2.2 μs), but the atmosphere is LENGTH CONTRACTED → distance is shorter → muon still reaches the surface. Same physics, two perspectives, both give the same answer. This is the most powerful check in all of relativity.</p><p><strong>Worked examples (15 min):</strong> (1) A 100 m spaceship at 0.6c → L = 100/1.25 = 80 m as seen from Earth. (2) A particle accelerator ring: circumference 27 km. A proton at 0.9999c sees it as 27000/70.7 = 382 m. (3) The muon problem from both frames — verify consistency.</p><p><strong>Practice (10 min):</strong> Length contraction problems, always identifying which observer measures proper length.</p>",
+          "engagementHook": {
+            "title": "THE MUON — TWO EXPLANATIONS, ONE ANSWER",
+            "content": "Muons are created 15 km up in the atmosphere. At 0.998c, Newtonian physics says they'd travel only 660 m before decaying — they shouldn't reach us. But they do! Earth's explanation: time dilation — they live longer. Muon's explanation: length contraction — the atmosphere is thinner. BOTH explanations give the same answer. This consistency is what makes relativity trustworthy."
+          },
+          "nos": {
+            "tags": ["Theories", "Observations", "Measurements"],
+            "description": "The muon experiment provides simultaneous evidence for time dilation AND length contraction. The same phenomenon explained from two frames — this internal consistency is what physicists mean when they say a theory is 'self-consistent.' A theory that contradicted itself between frames would be immediately rejected."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define proper length; state L = L₀/γ",
+            "AO2 — Apply length contraction",
+            "AO3 — Analyse the muon problem from both Earth and muon frames; verify consistency"
+          ],
+          "resources": "Muon problem diagram (Earth frame vs muon frame), calculators, visualisation of a contracted spaceship",
+          "formative": "\"Muons at 0.998c created 15 km up. Rest lifetime = 2.2 μs. (a) Earth frame: find γ, dilated lifetime, distance travelled. (b) Muon frame: find contracted atmosphere thickness, time to traverse it using normal lifetime. (c) Do both frames agree on whether the muon reaches the ground?\""
+        },
+        {
+          "num": 3,
+          "title": "Relativistic Velocity Addition & the Space-Time Interval",
+          "focus": "The invariant quantity that all observers agree on",
+          "minutes": 50,
+          "understandings": [
+            "The relativistic velocity addition equation ensures no combined velocity exceeds c (derivation NOT required)",
+            "The space-time interval Δs between two events is invariant: (Δs)² = (cΔt)² − (Δx)²",
+            "All observers in all frames calculate the same Δs for the same pair of events — it is the relativistic invariant",
+            "If (Δs)² > 0: time-like interval (events can be causally connected). If (Δs)² < 0: space-like (no causal connection possible). If (Δs)² = 0: light-like (connected by light)"
+          ],
+          "teachingStrategy": "<p><strong>Velocity addition (15 min):</strong> State the relativistic formula: u = (u' + v)/(1 + u'v/c²). Verify: two ships at 0.6c → 0.88c (not 1.2c). Light from a moving source: u' = c → u = c always. This is the postulate built into the maths. Work through 3 examples and compare with Galilean in each case.</p><p><strong>Space-time interval (20 min):</strong> Introduce (Δs)² = (cΔt)² − (Δx)². Explain: while Δt and Δx differ between frames, Δs does NOT. It's the relativistic equivalent of distance — but in 4D spacetime. Analogy: in 2D, rotating axes changes x and y coordinates but preserves x² + y² (distance). In spacetime, changing frames changes Δt and Δx but preserves (cΔt)² − (Δx)². Worked example: calculate Δs for an event from two frames — same answer.</p><p><strong>Classification (10 min):</strong> Time-like (Δs² > 0): events can be causally connected — one can influence the other. Space-like (Δs² < 0): no causal connection — they're too far apart in space for even light to connect them. Light-like (Δs² = 0): connected by a light signal. Students classify 4 event pairs.</p><p><strong>Practice (5 min):</strong> Calculate Δs and classify intervals.</p>",
+          "engagementHook": {
+            "title": "THE INVARIANT — WHAT ALL OBSERVERS AGREE ON",
+            "content": "\"Different observers disagree on when and where events happen. They disagree on time intervals and lengths. Is there ANYTHING everyone agrees on?\" Yes: the space-time interval (Δs)². It's the one quantity that's the same for all observers. It's the bedrock of relativity — the invariant that holds the universe together. Calculate it from two different frames for the same events and watch the numbers match perfectly."
+          },
+          "nos": {
+            "tags": ["Theories", "Models"],
+            "description": "Invariance is a central concept in modern physics. The speed of light c is invariant. The space-time interval Δs is invariant. Later: rest mass and electric charge are invariant. Identifying what DOESN'T change is often more powerful than tracking what does. Symmetry and invariance underpin all of modern theoretical physics."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State the space-time interval formula",
+            "AO2 — Calculate the space-time interval; apply relativistic velocity addition",
+            "AO3 — Classify intervals as time-like, space-like, or light-like and interpret physically"
+          ],
+          "resources": "Calculators, Galilean vs relativistic velocity addition comparison table, interval classification worksheet",
+          "formative": "\"Event A: x = 0, t = 0. Event B: x = 3 × 10⁸ m, t = 2 s. (a) Calculate (Δs)². (b) Is this time-like, space-like, or light-like? (c) Can event A cause event B? (d) A second observer measures Δx' = 5 × 10⁸ m. Find Δt' such that (Δs)² is the same.\""
+        }
+      ]
+    },
+    {
+      "name": "Space-Time Diagrams & Experimental Evidence",
+      "color": "accent4",
+      "totalMinutes": 140,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Space-Time Diagrams & World Lines",
+          "focus": "Visualising motion in spacetime with ct on the vertical axis",
+          "minutes": 55,
+          "understandings": [
+            "Space-time diagrams have ct on the vertical axis and x on the horizontal axis",
+            "A world line represents the trajectory of a particle through spacetime",
+            "A stationary object has a vertical world line (only time passes)",
+            "The angle between the world line and the ct axis: tanθ = v/c",
+            "Light travels at 45° (tanθ = c/c = 1) — light lines define the boundary of causal connection",
+            "World lines of massive particles always have θ < 45° (slower than light)"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Set up the spacetime diagram: ct vertical, x horizontal. Stationary object: vertical line (x doesn't change, only ct increases). Object at constant v: a straight line at angle θ where tanθ = v/c. Light: θ = 45° (diagonal). Draw examples: stationary observer, object at 0.5c (θ = 26.6°), object at 0.9c (θ = 42°), light ray (45°). Nothing can have θ > 45° (would mean v > c).</p><p><strong>Drawing practice (15 min):</strong> Students draw spacetime diagrams for: (a) two objects at rest, separated by distance d, (b) an object accelerating from rest (world line curves), (c) a light pulse sent from origin reflected by a mirror and returning, (d) two objects approaching each other at constant speeds.</p><p><strong>Light cones (10 min):</strong> The 45° light lines from an event divide spacetime into: future light cone (events the event CAN influence), past light cone (events that COULD have influenced it), and \"elsewhere\" (no causal connection). This is the spacetime interval classification visualised.</p><p><strong>Worked examples (10 min):</strong> (1) Calculate θ for a particle at 0.3c, 0.7c, 0.95c. (2) Read off the velocity from a given world line. (3) Determine from a diagram whether two events are causally connected.</p><p><strong>Practice (5 min):</strong> Draw and interpret spacetime diagrams.</p>",
+          "engagementHook": {
+            "title": "DRAWING THE UNIVERSE — YOUR FIRST SPACETIME DIAGRAM",
+            "content": "\"Every moment of your life is a point on a spacetime diagram. Your entire existence — past, present, future — is a line: your world line. Right now, you're adding to it. Nothing you do can make your world line tilt past 45° — that would mean travelling faster than light.\" Students draw their own world lines for today: sitting still in class (vertical), walking to lunch (slight tilt), driving home (more tilt). \"Even at 100 km/h, your world line is practically vertical. You'd need a microscope to see the tilt.\""
+          },
+          "nos": {
+            "tags": ["Models", "Theories"],
+            "description": "Space-time diagrams were introduced by Hermann Minkowski in 1908. He famously declared: 'Henceforth space by itself, and time by itself, are doomed to fade away into mere shadows, and only a kind of union of the two will preserve an independent reality.' This visualisation tool transformed how physicists think about relativity — a model that changed the conceptual landscape."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Communicator"],
+          "ao": [
+            "AO1 — Draw and label spacetime diagrams with ct axis",
+            "AO2 — Calculate tanθ = v/c; read velocities from diagrams",
+            "AO3 — Analyse causal connections using light cones"
+          ],
+          "resources": "Graph paper, rulers, protractors, printed spacetime diagram templates, Minkowski quote",
+          "formative": "\"Draw a spacetime diagram showing: (a) a stationary observer at x = 0, (b) a spaceship passing at 0.6c at t = 0, (c) a light pulse emitted from x = 0 at t = 0. (d) Calculate θ for the spaceship. (e) Mark the future light cone and determine: can the stationary observer send a message that reaches the spaceship?\""
+        },
+        {
+          "num": 2,
+          "title": "Simultaneity on Space-Time Diagrams",
+          "focus": "Events simultaneous in one frame may not be in another",
+          "minutes": 40,
+          "understandings": [
+            "The relativity of simultaneity: two events that are simultaneous in one frame are NOT necessarily simultaneous in another",
+            "Simultaneity can be visualised on spacetime diagrams by drawing the lines of simultaneity for different observers",
+            "This is a direct consequence of the Lorentz transformations: if t' = γ(t − vx/c²), then events at different x with the same t have different t'",
+            "Simultaneity is relative, not absolute — this is perhaps the most counterintuitive consequence of special relativity"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> THE TRAIN AND LIGHTNING — Einstein's classic thought experiment: lightning strikes both ends of a moving train simultaneously (in the ground frame). A passenger at the centre of the train: does she see them simultaneously? No — she moves toward one flash and away from the other. Since light speed is constant, she sees the front flash first. \"Same events, different time ordering.\" Simultaneity is relative.</p><p><strong>Direct instruction (15 min):</strong> Show on a spacetime diagram: in frame S, two events at the same t (horizontal line) but different x. In frame S', the line of simultaneity is TILTED — these events have different t'. The faster S' moves, the more tilted the simultaneity line. Draw the transformed axes for S' on the same diagram. Show that S' disagrees about which event happened first.</p><p><strong>Mathematical verification (10 min):</strong> Use t' = γ(t − vx/c²): if two events have the same t but different x₁ and x₂, then t₁' = γ(t − vx₁/c²) and t₂' = γ(t − vx₂/c²). Since x₁ ≠ x₂, t₁' ≠ t₂'. The events are NOT simultaneous in S'. QED.</p><p><strong>Practice (10 min):</strong> Problems: calculate the time difference between two \"simultaneous\" events as seen from a moving frame. Draw the tilted simultaneity lines on diagrams.</p>",
+          "engagementHook": {
+            "title": "EINSTEIN'S TRAIN & LIGHTNING",
+            "content": "Lightning strikes both ends of a 300 m train moving at 0.8c. Ground observer: simultaneous. Train passenger at the centre: \"The front flash arrives first — the front strike happened earlier!\" Same events, different ordering. \"If two people can't agree on WHEN things happened, can they agree on cause and effect?\" (Only for causally connected events — time-like intervals.) This single thought experiment breaks the intuition that time is universal."
+          },
+          "nos": {
+            "tags": ["Theories", "Models"],
+            "description": "Simultaneity was considered self-evident before Einstein — an assumption so deeply embedded in human experience that no one questioned it. Einstein's genius was to question the unquestionable. This is a powerful lesson in NOS: the most important scientific advances often come from questioning assumptions that everyone takes for granted."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Open-minded"],
+          "ao": [
+            "AO1 — State the relativity of simultaneity",
+            "AO2 — Apply Lorentz transformations to show that simultaneous events in one frame aren't in another",
+            "AO3 — Visualise simultaneity on spacetime diagrams with tilted axes"
+          ],
+          "resources": "Train-and-lightning animation, spacetime diagram templates with tilted axes, calculators",
+          "formative": "\"Two explosions occur at x₁ = 0 and x₂ = 900 m at the same time t = 0 in frame S. Frame S' moves at 0.6c. (a) Find t₁' and t₂'. (b) Which event occurs first in S'? (c) Draw a spacetime diagram showing both frames' lines of simultaneity. (d) Can the order of these events matter physically? Why or why not?\""
+        },
+        {
+          "num": 3,
+          "title": "Muon Decay — Experimental Evidence",
+          "focus": "How muon experiments confirm time dilation and length contraction",
+          "minutes": 45,
+          "understandings": [
+            "Muon decay experiments provide experimental evidence for time dilation and length contraction",
+            "Muons created in the upper atmosphere (~15 km) by cosmic rays travel at ~0.998c",
+            "Rest-frame lifetime: 2.2 μs → should only travel ~660 m before decaying",
+            "But muons ARE detected at sea level — explained by time dilation (Earth frame) or length contraction (muon frame)",
+            "Both explanations give the same prediction — this internal consistency validates special relativity"
+          ],
+          "teachingStrategy": "<p><strong>The puzzle (10 min):</strong> Present the data: muons are created ~15 km up. They travel at 0.998c. Their rest lifetime is 2.2 μs. Classical calculation: distance = 0.998c × 2.2 μs = 659 m. They should decay long before reaching the ground. But detectors at sea level register a significant fraction of the muons created above. \"Something is very wrong with our classical calculation. What?\"</p><p><strong>Earth-frame explanation (10 min):</strong> Time dilation: γ at 0.998c = 15.8. Dilated lifetime: 2.2 × 15.8 = 34.8 μs. Distance: 0.998c × 34.8 μs = 10,400 m. Many muons survive 15 km. Quantitative: fraction surviving = e^(−t/τ), where τ is the dilated lifetime. Calculate the expected fraction at sea level — matches observation.</p><p><strong>Muon-frame explanation (10 min):</strong> In the muon's rest frame, its lifetime is normal (2.2 μs). But the atmosphere is length-contracted: 15 km / 15.8 = 949 m. The muon only needs to travel 949 m in 2.2 μs at 0.998c — possible. Same prediction, different explanation. Both frames agree on the observable: muons reach the ground.</p><p><strong>Synthesis (10 min):</strong> Compare the two explanations in a table: Earth says \"muon lives longer,\" muon says \"atmosphere is thinner.\" Same physics, two perspectives. This is the hallmark of a correct relativistic analysis — frame independence of predictions. Discuss: \"Which frame is right?\" Both are — that's the point of relativity.</p><p><strong>Practice (5 min):</strong> Full muon calculation from both frames.</p>",
+          "engagementHook": {
+            "title": "COSMIC RAY DETECTIVES",
+            "content": "\"Right now, muons are raining down on you. They're created 15 km above your head, live for 2 microseconds, and somehow reach you. Without relativity, they'd decay 14 km above your head. You — sitting in this room — are living experimental evidence for special relativity.\" If available, show a cloud chamber video with cosmic ray muon tracks. The fact that students can BE the experiment — standing at sea level while muons arrive — makes this deeply personal."
+          },
+          "nos": {
+            "tags": ["Observations", "Measurements", "Theories"],
+            "description": "Muon decay experiments were first conducted by Rossi and Hall (1941) and later refined by Frisch and Smith (1963). These experiments are elegant because they test TWO predictions simultaneously (time dilation AND length contraction) using the same data. A single experiment confirming multiple predictions from one theory is especially powerful evidence."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Knowledgeable", "Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Describe muon decay experiments and their significance",
+            "AO2 — Calculate muon lifetime and distance from both frames",
+            "AO3 — Analyse why both frames give the same physical prediction"
+          ],
+          "resources": "Muon creation/detection diagram, cloud chamber video (if available), dual-frame calculation worksheet, calculators",
+          "formative": "\"Muons at 0.995c, created 20 km up, rest lifetime 2.2 μs. (a) Calculate γ. (b) Earth frame: dilated lifetime and distance. Do they reach the ground? (c) Muon frame: contracted atmosphere thickness. Time to traverse? Do they reach? (d) A sceptic says 'time dilation is just a mathematical trick.' How does the muon experiment prove it's physically real?\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "A.2 Forces & Momentum", "question": "How does relativistic momentum p = γmv differ from Newtonian momentum? Why is F = ma insufficient at high speeds?" },
+    { "topic": "A.3 Work, Energy & Power", "question": "How does mass-energy equivalence E = mc² connect to kinetic energy at relativistic speeds? How does Eₖ = (γ−1)mc² reduce to ½mv² at low speeds?" },
+    { "topic": "A.4 Rigid Body Mechanics", "question": "Does the mass-energy equivalence affect moment of inertia at relativistic speeds?" },
+    { "topic": "D.3 Motion in EM Fields", "question": "How do electric and magnetic fields transform between reference frames? A purely electric field in one frame can appear as a magnetic field in another." },
+    { "topic": "E.1 Structure of the Atom", "question": "How does the relativistic energy-momentum relation E² = (pc)² + (mc²)² apply to particles and photons?" },
+    { "topic": "E.3 Radioactive Decay", "question": "How does mass defect (Δm) relate to binding energy via E = Δmc²? Why is this relevant to nuclear power and weapons?" }
+  ]
+},
