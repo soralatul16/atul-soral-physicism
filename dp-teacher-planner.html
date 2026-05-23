@@ -1412,6 +1412,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
   <script src="exam-system/firebase-config.js?v=2"></script>
   <script src="js/dp-planner-data.js"></script>
 
@@ -1457,6 +1458,7 @@
       "E": "Nuclear and Quantum Physics"
     };
 
+    let activeTab = "planner";
     let activeTopicCode = "A.2";
     let activeThemeCode = "A";
     let plannerState = {}; // cached locally
@@ -2669,10 +2671,10 @@
           hookTitle = l.engagementHook.title || "";
           hookContent = l.engagementHook.content || "";
         } else {
-          const match = (l.engage || "").match(/<strong>(.*?)</strong>\s*(?:&mdash;|—|-)?\s*(.*)/i);
+          const match = (l.engage || "").match(/<strong>(.*?)<\/strong>\s*(?:&mdash;|—|-)?\s*(.*)/i);
           if (match) {
             hookTitle = match[1];
-            hookContent = match[2].replace(/</p>$/, '').trim();
+            hookContent = match[2].replace(/<\/p>$/, '').trim();
           } else {
             hookContent = l.engage || "";
           }
