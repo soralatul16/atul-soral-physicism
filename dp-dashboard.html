@@ -149,10 +149,6 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
   <div class="nav-spacer"></div>
   <div class="nav-links">
     <a class="nav-link" href="index.html">Home</a>
-    <a class="nav-link" href="myp-dashboard.html">MYP</a>
-    <a class="nav-link" href="dp-formula-bank.html">Formula Bank</a>
-    <a class="nav-link" href="dp-flashcards.html">Flashcards</a>
-    <a class="nav-link" href="dp-quiz.html">Quiz</a>
     <a class="nav-link" id="myProgressBtn" href="dp-student-progress.html" style="display:none;">📊 My Progress</a>
     <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:14px;transition:all .2s;color:var(--text2);" title="Toggle dark/light mode">🌙</button>
   </div>
@@ -164,7 +160,7 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
     <div class="hero-content">
       <div class="hero-eyebrow">// ATUL SORAL PHYSICISM &middot; DIPLOMA PROGRAMME</div>
       <h1>IB DP Physics Dashboard</h1>
-      <div class="hero-tagline">SL &bull; HL &bull; First Assessment 2025</div>
+      <div class="hero-tagline">25 Topics &bull; 5 Themes &bull; Your Physics Journey</div>
     </div>
     <div class="hero-visual">
       <div class="hero-eq">E = mc²</div>
@@ -176,50 +172,6 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
 
 <!-- MAIN -->
 <div class="main">
-
-  <!-- SL/HL TOGGLE -->
-  <div style="display:flex;align-items:center;gap:16px;margin-bottom:4px;margin-top:20px;">
-    <div class="level-toggle">
-      <button class="level-btn active" onclick="setLevel('all',this)">All Topics</button>
-      <button class="level-btn" onclick="setLevel('sl',this)">SL Only</button>
-      <button class="level-btn" onclick="setLevel('hl',this)">HL Only</button>
-    </div>
-    <span style="font-size:12px;color:var(--ink-4);font-family:var(--font-mono);">SL: 150h &middot; HL: 240h</span>
-  </div>
-
-  <!-- PRACTICE TOOLS -->
-  <div class="section-hdr reveal">
-    <div class="section-hdr-dot" style="background:var(--red);color:var(--red)"></div>
-    <h2>&#129504; DP Tools</h2>
-    <div class="section-hdr-line"></div>
-  </div>
-  <div class="practice-row">
-    <a class="practice-card reveal stagger-1" href="dp-formula-bank.html">
-      <div class="pc-icon pc-icon-teal">📘</div>
-      <div class="pc-info"><div class="pc-label">DP Formula Bank</div><div class="pc-desc">All IB Data Booklet formulas organized by theme</div></div>
-      <div class="pc-arrow">→</div>
-    </a>
-    <a class="practice-card reveal stagger-2" href="dp-flashcards.html">
-      <div class="pc-icon pc-icon-purple">🧠</div>
-      <div class="pc-info"><div class="pc-label">Flashcards (SL/HL)</div><div class="pc-desc">Spaced repetition cards for all 25 topics</div></div>
-      <div class="pc-arrow">→</div>
-    </a>
-    <a class="practice-card reveal stagger-1" href="dp-past-paper.html">
-      <div class="pc-icon pc-icon-amber">📝</div>
-      <div class="pc-info"><div class="pc-label">Past Paper Practice</div><div class="pc-desc">Paper 1B data-based & Paper 2 extended response</div></div>
-      <div class="pc-arrow">→</div>
-    </a>
-    <a class="practice-card reveal stagger-2" href="concept-map-generator.html">
-      <div class="pc-icon pc-icon-orange">🗺️</div>
-      <div class="pc-info"><div class="pc-label">Concept Maps</div><div class="pc-desc">Visual connections between energy, particles & forces</div></div>
-      <div class="pc-arrow">→</div>
-    </a>
-    <a class="practice-card reveal stagger-1" href="exam-system/exam-student.html">
-      <div class="pc-icon pc-icon-red">📝</div>
-      <div class="pc-info"><div class="pc-label">DP Exam Practice</div><div class="pc-desc">Take teacher-assigned tests with AI grading</div></div>
-      <div class="pc-arrow">→</div>
-    </a>
-  </div>
 
   <!-- THEME A -->
   <div class="theme-section reveal" data-theme-id="A">
@@ -300,6 +252,10 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
     </div>
   </div>
 
+  <div style="text-align: center; margin-top: 40px; margin-bottom: 20px; font-size: 13px; color: var(--text3);">
+    More features coming soon
+  </div>
+
 </div>
 
 <script>
@@ -349,21 +305,14 @@ function toggleThemeSection(id) {
   bar.classList.toggle('open');
 }
 
-// SL/HL filter
-function setLevel(level, btn) {
-  document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.topic-card').forEach(card => {
-    var levelBadge = card.querySelector('.tc-level');
-    if (!levelBadge) return;
-    if (level === 'all') { card.style.display = ''; return; }
-    if (level === 'sl') {
-      card.style.display = levelBadge.classList.contains('tc-hlonly') ? 'none' : '';
-    } else if (level === 'hl') {
-      card.style.display = '';
-    }
-  });
-}
+// D shortcut redirect to teacher planner
+document.addEventListener('keydown', function(e) {
+  // Don't trigger if typing in an input/textarea
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 'D' || e.key === 'd') {
+    window.location.href = 'dp-teacher-planner.html';
+  }
+});
 
 // Dark mode
 function toggleTheme() {
