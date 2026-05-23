@@ -5311,3 +5311,1727 @@ const DP_PLANNER_DATA = {
     { "topic": "E.4 Fission / E.5 Fusion", "question": "How does gravitational PE drive stellar collapse, initiating nuclear fusion in the cores of stars?" }
   ]
 },
+"D2": {
+  "title": "Electric and Magnetic Fields",
+  "code": "D.2",
+  "theme": "D",
+  "level": "SL + HL",
+  "recommendedHours": 14,
+  "recommendedMinutes": 840,
+  "guidingQuestions": [
+    "Which experiments provided evidence to determine the nature of the electron?",
+    "How can the properties of fields be understood using both an algebraic approach and a visual representation?",
+    "What are the consequences of interactions between electric and magnetic fields?"
+  ],
+  "groups": [
+    {
+      "name": "Electric Charge & Coulomb's Law (SL)",
+      "color": "accent5",
+      "totalMinutes": 160,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Electric Charge, Conservation & Transfer",
+          "focus": "Two types of charge, conservation, and methods of charging",
+          "minutes": 50,
+          "understandings": [
+            "There are two types of electric charge: positive and negative. Like charges repel; unlike charges attract",
+            "The conservation of electric charge: charge cannot be created or destroyed, only transferred",
+            "Electric charge can be transferred between bodies by: friction (rubbing), electrostatic induction (no contact), and contact (touching), including the role of grounding (earthing)",
+            "Millikan's experiment as evidence for the quantisation of charge: charge comes in integer multiples of e = 1.6 × 10⁻¹⁹ C"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Rub a balloon on your hair. It sticks to the wall. Rub a plastic rod with fur — it attracts small paper pieces. \"What force is doing this? It's not gravity — gravity can't repel. It's not magnetic — balloons aren't magnets. It's ELECTRIC force — the same force that holds atoms together and makes lightning.\"</p><p><strong>Direct instruction (15 min):</strong> Two types: positive (protons) and negative (electrons). Like repels, unlike attracts. Conservation: rubbing doesn't CREATE charge — it TRANSFERS electrons from one surface to the other. The total charge of the universe is zero (probably). Three transfer methods: (a) Friction: rubbing strips electrons from one material to another. (b) Induction: bring a charged rod near a conductor — charges separate WITHOUT contact. Ground one side → permanent charge. (c) Contact: touch a charged object to a neutral one — charge flows until shared equally.</p><p><strong>Millikan's experiment (10 min):</strong> Oil drops suspended in an electric field. By balancing gravity with electric force, Millikan measured the charge on each drop. ALL charges were multiples of 1.6 × 10⁻¹⁹ C = e. \"Charge is quantised — it comes in packets. You can't have 0.7e or 1.3e. Only whole numbers.\"</p><p><strong>Demo (10 min):</strong> (1) Charge a Van de Graaff. Touch a grounded sphere — spark. \"Charge flows from high to low potential, just like heat flows from hot to cold.\" (2) Electroscope: charge by contact and by induction. Show both and explain the difference.</p><p><strong>Practice (10 min):</strong> Classify charging scenarios, Millikan calculation: given field E and drop mass, find charge q = mg/E, verify it's a multiple of e.</p>",
+          "engagementHook": {
+            "title": "LIGHTNING IN THE CLASSROOM — VAN DE GRAAFF SPARKS",
+            "content": "Charge a Van de Graaff generator. Bring a grounded sphere close — CRACK! A spark jumps. \"That's a tiny bolt of lightning. Same physics: charge builds up until the electric field is strong enough to ionise air, creating a conducting path. Lightning is just a Van de Graaff on a planetary scale — billions of coulombs instead of microcoulombs.\" Students calculate: how many electrons is 1 μC? (6.25 × 10¹²)."
+          },
+          "nos": {
+            "tags": ["Measurements", "Observations", "Patterns"],
+            "description": "Millikan's oil drop experiment (1909) is one of the most celebrated precision measurements in physics. It proved charge is quantised — a fundamental discovery. However, Millikan was later criticised for selectively discarding data that didn't fit his hypothesis. This raises important questions about scientific integrity and data handling."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Inquirer", "Principled"],
+          "ao": [
+            "AO1 — State two types of charge; state conservation of charge; describe Millikan's experiment",
+            "AO2 — Explain charging by friction, induction, and contact",
+            "AO3 — Analyse Millikan's data to show charge quantisation"
+          ],
+          "resources": "Van de Graaff generator, electroscope, balloons, plastic/glass rods + fur/silk, paper pieces, Millikan data table",
+          "formative": "\"(a) A plastic rod rubbed with fur gains a charge of −3.2 × 10⁻⁸ C. How many excess electrons does it have? (b) In Millikan's experiment, a drop of mass 1.6 × 10⁻¹⁵ kg is suspended in a field of 5 × 10⁵ V/m. Find the charge on the drop. How many electron charges is this? (c) Explain how to charge a metal sphere by induction WITHOUT touching the charged rod to it.\""
+        },
+        {
+          "num": 2,
+          "title": "Coulomb's Law — F = kq₁q₂/r²",
+          "focus": "The electric force between point charges — an inverse-square law",
+          "minutes": 55,
+          "understandings": [
+            "Coulomb's law: F = kq₁q₂/r², where k = 1/(4πε₀) = 8.99 × 10⁹ N m² C⁻²",
+            "Charged bodies treated as point charges (valid when separation >> size)",
+            "Attractive force if charges have opposite signs; repulsive if same sign",
+            "The structure is identical to Newton's law of gravitation — but gravity is always attractive, electric force can attract or repel",
+            "A range of permittivity values for different media may be used"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Gravity and electricity both follow inverse-square laws: F ∝ 1/r². But the electric force between a proton and electron in a hydrogen atom is 10³⁹ times stronger than gravity between them. Electricity utterly dominates at the atomic scale.\"</p><p><strong>Direct instruction (15 min):</strong> F = kq₁q₂/r². Compare with F = Gm₁m₂/r²: same structure but k >> G. Electric force can be + (repulsive) or − (attractive). Gravity is always attractive. k = 1/(4πε₀) where ε₀ = 8.85 × 10⁻¹² F/m is the permittivity of free space. In a medium: k_medium = 1/(4πε₀ε_r) where ε_r is the relative permittivity (reduces the force — the medium partially shields the charges).</p><p><strong>Worked examples (20 min):</strong> (1) Two protons 10⁻¹⁵ m apart (inside a nucleus): F = 230 N — enormous force from tiny charges! (2) Two 1 μC charges 0.1 m apart: F = 0.9 N (about the weight of an apple). (3) Hydrogen atom: proton-electron force at r = 5.3 × 10⁻¹¹ m = 8.2 × 10⁻⁸ N. Compare with gravitational force: 3.6 × 10⁻⁴⁷ N — 10³⁹ times weaker. (4) Three charges in a line: find the net force on the middle charge (vector addition).</p><p><strong>Comparison table (5 min):</strong> Students build: Gravity vs Electricity — force law, constant, sign, range, relative strength, mediated by. This comparison is a common IB question.</p><p><strong>Practice (10 min):</strong> Coulomb's law calculations and gravitational comparison problems.</p>",
+          "engagementHook": {
+            "title": "10³⁹ TIMES STRONGER — WHY ELECTRICITY RULES THE ATOM",
+            "content": "\"The electric force between a proton and electron is 10³⁹ times stronger than gravity between them. That's a 1 followed by 39 zeros. If gravity were a grain of sand, electricity would be larger than the observable universe.\" Calculate both forces for hydrogen. \"So why does gravity seem stronger in daily life?\" Because matter is electrically neutral — positive and negative cancel. Gravity never cancels (no negative mass)."
+          },
+          "nos": {
+            "tags": ["Theories", "Patterns", "Measurements"],
+            "description": "Charles-Augustin de Coulomb measured the electric force with a torsion balance in 1785 — the same technique Cavendish later used for gravity. The identical mathematical structure (inverse-square) of gravity and electricity fascinated physicists and eventually led to attempts at 'grand unification' — finding one theory for all forces."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State Coulomb's law; define k and ε₀",
+            "AO2 — Calculate electric force between point charges; compare with gravitational force",
+            "AO3 — Analyse the similarities and differences between gravitational and electric forces"
+          ],
+          "resources": "Calculators, gravity-electricity comparison table template, periodic table (for particle data)",
+          "formative": "\"(a) Two charges: +3 μC and −5 μC, 0.2 m apart. Find F (magnitude and direction). (b) Compare the electric and gravitational forces between two protons at 1 fm. (c) Three charges on a line: +2 μC at x = 0, −4 μC at x = 0.1 m, +3 μC at x = 0.3 m. Find the net force on the middle charge. (d) How does the force change if the charges are placed in water (ε_r = 80)?\""
+        },
+        {
+          "num": 3,
+          "title": "Electric Field Strength & Field Lines",
+          "focus": "E = F/q, E = V/d, and visualising electric fields",
+          "minutes": 55,
+          "understandings": [
+            "Electric field strength E at a point: force per unit positive test charge — E = F/q (units: N/C or V/m)",
+            "For a point charge: E = kQ/r² (radial field, inverse-square)",
+            "For parallel plates: E = V/d (uniform field between plates)",
+            "Electric field lines: arrows showing the direction of force on a POSITIVE test charge",
+            "Field lines go FROM positive TO negative; denser lines = stronger field; lines never cross",
+            "Higher field line density represents larger electric field strength"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (20 min):</strong> Define E = F/q — the force per unit positive test charge placed at that point. For a point charge Q: combine with Coulomb's law → E = kQ/r² (doesn't depend on test charge — it's a property of the field). Direction: away from + charges, toward − charges. Between parallel plates: E = V/d (uniform — same everywhere between the plates). This is the simplest field to work with and the most useful for problems. Field lines: (a) single + charge: radial outward, (b) single − charge: radial inward, (c) two opposite charges (dipole): lines from + to −, (d) parallel plates: straight parallel lines from + plate to − plate (with edge effects curving at the edges), (e) inside a conducting sphere: E = 0 (charges on surface shield the interior).</p><p><strong>Demo (10 min):</strong> Grass seeds or semolina in oil between charged conductors. Apply voltage → seeds align with the field. Students SEE: radial patterns around point charges, uniform parallel lines between plates, dipole pattern between +/− charges. \"These seeds ARE field lines — they show the direction the electric force pushes at every point.\"</p><p><strong>Worked examples (15 min):</strong> (1) E at 0.3 m from a 5 μC charge: E = kQ/r² = 5 × 10⁵ N/C. (2) Parallel plates: V = 200 V, d = 5 mm → E = 40,000 V/m. (3) Force on a 2 nC charge in a field of 10⁴ N/C: F = qE = 2 × 10⁻⁵ N. (4) Resultant E at a point between two charges: vector addition along the line joining them.</p><p><strong>Practice (10 min):</strong> E calculations and field line sketching for various configurations.</p>",
+          "engagementHook": {
+            "title": "SEEING THE INVISIBLE — GRASS SEEDS IN ELECTRIC FIELDS",
+            "content": "Sprinkle grass seeds or semolina into oil between charged conductors. Apply voltage. The seeds rotate and align with the field — you can SEE the field lines. Around a point charge: beautiful radial pattern. Between parallel plates: perfect straight lines. Between a dipole: the classic curved pattern from every textbook — but REAL and in front of you."
+          },
+          "nos": {
+            "tags": ["Models", "Observations"],
+            "description": "Michael Faraday introduced field lines in the 1830s as a visual tool. He had little mathematical training but extraordinary physical intuition. His 'lines of force' were initially dismissed by mathematicians but later became the foundation of field theory. Maxwell translated Faraday's pictures into equations — one of the greatest collaborations (across decades) in physics history."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Communicator", "Thinker"],
+          "ao": [
+            "AO1 — Define E; state E = kQ/r² and E = V/d; sketch field lines for standard configurations",
+            "AO2 — Calculate E and force on charges in fields",
+            "AO3 — Analyse the relationship between field line density and field strength"
+          ],
+          "resources": "Grass seeds/semolina in oil, electrodes + HV supply, Van de Graaff, whiteboard for field line drawing",
+          "formative": "\"(a) Sketch electric field lines for: a single +Q, a dipole (+Q and −Q), and parallel plates. (b) Parallel plates: V = 500 V, d = 2 cm. Find E. A proton (q = 1.6 × 10⁻¹⁹ C) is placed between them. Find F and acceleration. (c) At what distance from a 10 μC point charge is E = 10⁴ N/C? (d) Why is E = 0 inside a hollow conducting sphere?\""
+        }
+      ]
+    },
+    {
+      "name": "Magnetic Fields (SL)",
+      "color": "accent3",
+      "totalMinutes": 80,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Magnetic Field Lines & Patterns",
+          "focus": "Bar magnets, current-carrying wires, coils, and solenoids",
+          "minutes": 80,
+          "understandings": [
+            "Magnetic field lines: from north to south outside the magnet; form closed loops",
+            "Field patterns for: bar magnet, straight current-carrying wire (concentric circles), circular coil, and solenoid",
+            "Direction of magnetic field around a current-carrying wire: right-hand grip rule",
+            "Solenoid: uniform field inside (like a bar magnet), negligible outside",
+            "Sketching and interpretation of magnetic field lines is required"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Sprinkle iron filings on paper over a bar magnet. Tap the paper. The filings arrange into the classic pattern — field lines visible. \"These filings ARE the magnetic field, made visible. Each filing acts as a tiny compass, aligning with the local field direction.\"</p><p><strong>Direct instruction (20 min):</strong> Bar magnet: field lines emerge from N, curve through space, enter S, continue through the magnet from S to N (closed loops). Denser near the poles = stronger field. Current-carrying wire: field lines are concentric circles centred on the wire. Direction: right-hand grip rule — thumb points in current direction, fingers curl in field direction. Circular coil: field lines through the centre, looping around the outside. Solenoid: many coils → uniform parallel field inside (like a bar magnet), nearly zero outside. The solenoid IS an electromagnet — current on = magnetic; current off = not.</p><p><strong>Lab (20 min):</strong> MAPPING MAGNETIC FIELDS — (1) Iron filings on paper over: bar magnet, two magnets (N-N, N-S), horseshoe magnet. Students sketch the patterns. (2) Compass around a current-carrying wire: trace the circular field. Verify right-hand grip rule. (3) Compass inside a solenoid: verify uniform direction and determine N/S poles from current direction.</p><p><strong>Demo (10 min):</strong> Electromagnet: wrap wire around a nail, connect to battery. It picks up paperclips. Reverse the current → the poles flip (compass shows reversal). \"Every MRI machine, electric motor, and maglev train uses the solenoid field.\"</p><p><strong>Worked examples (10 min):</strong> (1) Determine the magnetic field direction at various points around a current-carrying wire using the right-hand rule. (2) Identify N and S poles of a solenoid given current direction. (3) Sketch the combined field from two bar magnets in N-N and N-S configurations.</p><p><strong>Practice (15 min):</strong> Sketch field patterns from descriptions. Apply the right-hand grip rule. Identify poles. Interpret given field diagrams.</p>",
+          "engagementHook": {
+            "title": "IRON FILINGS — FROZEN MAGNETIC FIELD LINES",
+            "content": "Sprinkle iron filings on paper over various magnet configurations. Each filing is a tiny compass — the collective alignment reveals the field. N-N repulsion creates a 'neutral point' between the magnets (filings chaotic there). N-S attraction creates beautiful curved lines connecting the poles. \"Faraday invented this technique in the 1830s. It's still the best way to SEE a magnetic field.\" Then: build an electromagnet from a nail and wire — students experience making magnetism from electricity."
+          },
+          "nos": {
+            "tags": ["Observations", "Models", "Technology"],
+            "description": "Hans Christian Ørsted discovered in 1820 that a current-carrying wire deflects a compass — the first link between electricity and magnetism. This accidental discovery (during a lecture!) launched the field of electromagnetism and eventually led to Maxwell's equations. Great discoveries sometimes happen by accident — but only to prepared minds."
+          },
+          "atl": ["Thinking skills", "Research skills", "Communication skills"],
+          "learnerProfile": ["Inquirer", "Communicator", "Thinker"],
+          "ao": [
+            "AO1 — Sketch magnetic field patterns for bar magnet, wire, coil, solenoid",
+            "AO2 — Apply the right-hand grip rule to determine field direction",
+            "AO3 — Analyse and interpret magnetic field diagrams"
+          ],
+          "resources": "Bar magnets (various), iron filings, paper, compasses (small, many), wire + battery for straight wire demo, solenoid, nail + wire (electromagnet), paperclips",
+          "formative": "\"(a) Sketch the magnetic field of a bar magnet. Label N, S, and indicate field direction. (b) A wire carries current INTO the page. Draw the field lines and indicate direction. (c) Current flows clockwise when viewed from the left end of a solenoid. Which end is N? (d) Two bar magnets are placed N–N 5 cm apart. Sketch the field between them. Where is the neutral point?\""
+        }
+      ]
+    },
+    {
+      "name": "Electric Potential & Energy (AHL)",
+      "color": "accent",
+      "totalMinutes": 240,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Electric PE — Eₚ = kq₁q₂/r (AHL)",
+          "focus": "Work to assemble charges from infinity — can be positive or negative",
+          "minutes": 55,
+          "understandings": [
+            "Electric PE of a system = work done to assemble from infinite separation",
+            "For two point charges: Eₚ = kq₁q₂/r",
+            "Unlike gravity: Eₚ can be POSITIVE (like charges repelled, work done TO push together) or NEGATIVE (unlike charges attracted, work released pulling together)",
+            "Zero PE at r = ∞ by convention"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"In D.1 gravitational PE was always negative — masses attract. Electric PE is different: like charges repel, so pushing them together STORES energy (positive PE). Unlike charges attract, so bringing them together RELEASES energy (negative PE). The sign tells you whether the system is bound or unbound.\"</p><p><strong>Direct instruction (15 min):</strong> Eₚ = kq₁q₂/r. Like signs (both + or both −): Eₚ > 0 → repulsive system, energy was added to bring them together. Unlike signs: Eₚ < 0 → attractive system, energy was released. Compare with gravity: Eₚ = −Gm₁m₂/r (always negative because masses always attract). Electric PE can be either sign because charge can be positive or negative.</p><p><strong>Worked examples (20 min):</strong> (1) Two protons at 10⁻¹⁰ m: Eₚ = kq²/r = 2.3 × 10⁻¹⁸ J = 14.4 eV (positive — repulsive). (2) Proton-electron at 5.3 × 10⁻¹¹ m (hydrogen): Eₚ = −4.35 × 10⁻¹⁸ J = −27.2 eV (negative — bound). (3) Three charges at the corners of a triangle: total Eₚ = Eₚ₁₂ + Eₚ₁₃ + Eₚ₂₃ (add all pairwise contributions). (4) Work to bring a +3 μC charge from ∞ to 0.1 m from a +5 μC charge: W = ΔEₚ = kq₁q₂/r − 0 = 1.35 J.</p><p><strong>Practice (15 min):</strong> Eₚ calculations for 2 and 3 charge systems. Work done in assembling charge configurations.</p>",
+          "engagementHook": {
+            "title": "POSITIVE OR NEGATIVE? — THE SIGN TELLS THE STORY",
+            "content": "\"Two positive charges near each other: Eₚ > 0. Release them → they fly apart → Eₚ → 0 → the stored energy becomes KE. Two opposite charges near each other: Eₚ < 0. To separate them, you must ADD energy (do work) until Eₚ = 0 at infinity. Negative PE = trapped. Positive PE = loaded spring, ready to release.\""
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "The parallel between gravitational PE (−GMm/r, always negative) and electric PE (kq₁q₂/r, can be either sign) reveals a deep structural similarity between the two forces — and a key difference. The ability of electric force to repel is why matter doesn't collapse: electron-electron repulsion balances nuclear attraction."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define electric PE; state Eₚ = kq₁q₂/r; explain the sign",
+            "AO2 — Calculate Eₚ for 2- and 3-charge systems; calculate work to assemble",
+            "AO3 — Compare electric and gravitational PE"
+          ],
+          "resources": "Calculators, charge configuration diagrams, gravity-electricity PE comparison table",
+          "formative": "\"(a) Two charges +4 μC and −6 μC are 0.05 m apart. Find Eₚ. Is the system bound? (b) Work to bring a +2 μC charge from ∞ to 0.2 m from a −3 μC charge. Is work done BY you or BY the field? (c) Three charges at triangle vertices (0.1 m sides): +1 μC, +2 μC, −3 μC. Find total Eₚ.\""
+        },
+        {
+          "num": 2,
+          "title": "Electric Potential Vₑ = kQ/r & Equipotentials (AHL)",
+          "focus": "Potential per unit charge and surfaces of constant potential",
+          "minutes": 55,
+          "understandings": [
+            "Electric potential Vₑ at a point: work done per unit charge bringing a positive test charge from infinity",
+            "Vₑ = kQ/r (scalar, units: V = J/C). Positive for + charges, negative for − charges",
+            "Vₑ = 0 at infinity by convention",
+            "Equipotential surfaces: Vₑ = constant. No work to move charge along an equipotential",
+            "Equipotentials ⊥ field lines always",
+            "Equipotentials for: point charge (concentric spheres), parallel plates (flat planes), multiple charges (distorted surfaces)"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Vₑ = Eₚ/q = kQ/r. Like gravitational potential Vg = −GM/r, but Vₑ can be positive (near + charge) or negative (near − charge). Equipotentials: identical concept to gravitational equipotentials. No work moving along them. Always perpendicular to field lines. Draw for: single + charge (concentric circles, values decreasing outward), single − charge (concentric, values increasing toward 0), parallel plates (flat equally-spaced planes), dipole (complex distorted shapes).</p><p><strong>Multiple charges (10 min):</strong> Vₑ is a scalar — for multiple charges: V_total = V₁ + V₂ + V₃ ... (just add, no vectors!). This is simpler than adding forces or fields (which require vector addition). Example: two +Q charges 2d apart. At the midpoint: V = 2kQ/d. At any point: calculate V from each charge and add algebraically.</p><p><strong>Worked examples (15 min):</strong> (1) Vₑ at 0.1 m from +5 μC: V = 4.5 × 10⁵ V. (2) Two charges +3 μC at (0,0) and −2 μC at (0.1, 0). Find V at (0.05, 0): V = kq₁/r₁ + kq₂/r₂. (3) Work to move a 2 nC charge from r = 0.1 m to r = 0.3 m from a +10 μC charge: W = qΔV. (4) Sketch equipotentials for a +/− charge pair (dipole) and verify ⊥ to field lines.</p><p><strong>Equipotential sketching (10 min):</strong> Students sketch equipotentials for: point charge, parallel plates, two equal + charges, dipole. Cross-reference with field line sketches. Verify perpendicularity.</p><p><strong>Practice (5 min):</strong> Potential and work calculations.</p>",
+          "engagementHook": {
+            "title": "POTENTIAL IS A SCALAR — THE EASY ONE",
+            "content": "\"To find the total FIELD from multiple charges, you need vector addition — angles, components, Pythagoras. To find the total POTENTIAL, just ADD numbers. No vectors. That's why potential is often easier to work with than field.\" Students calculate V at a point from 4 charges — just 4 additions. Then calculate E — much harder (4 vectors). \"Same physics, different difficulty. Choose wisely.\""
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "The concept of electric potential was developed by George Green (1828) and later refined by Gauss and others. It provides a scalar description of what is fundamentally a vector phenomenon — a mathematical shortcut that simplifies many calculations without losing any physics."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Communicator"],
+          "ao": [
+            "AO1 — Define Vₑ; state Vₑ = kQ/r; describe equipotential surfaces",
+            "AO2 — Calculate Vₑ from multiple charges; calculate W = qΔV",
+            "AO3 — Sketch equipotentials and verify perpendicularity with field lines"
+          ],
+          "resources": "Calculators, equipotential sketching templates, field line + equipotential overlay sheets",
+          "formative": "\"(a) Calculate Vₑ at 0.2 m from a −8 μC charge. (b) Two charges +5 μC and +5 μC are 0.4 m apart. Find V at the midpoint and at a point 0.3 m from each. (c) Work to move a 3 nC charge from V₁ = 500 V to V₂ = 200 V. Is work done BY the field or against it? (d) Sketch equipotentials for two equal positive charges. Where is V highest?\""
+        },
+        {
+          "num": 3,
+          "title": "Potential Gradient & Work Done (AHL)",
+          "focus": "E = −ΔVₑ/Δr and W = qΔVₑ",
+          "minutes": 50,
+          "understandings": [
+            "Electric field strength = negative potential gradient: E = −ΔVₑ/Δr",
+            "The field points in the direction of DECREASING potential (from + to −)",
+            "Work done moving charge q: W = qΔVₑ",
+            "Can be expressed in joules or electronvolts (1 eV = 1.6 × 10⁻¹⁹ J)",
+            "On a Vₑ vs r graph: gradient = −E at that point"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> E = −ΔVₑ/Δr — identical structure to g = −ΔVg/Δr from D.1. The field is the 'slope' of the potential landscape. Steeper slope = stronger field. For parallel plates: V changes linearly → E = V/d (constant). For point charges: V changes as 1/r → E changes as 1/r² (gradient of 1/r is 1/r²). Work: W = qΔVₑ. Positive charge moving from high to low V: W done BY the field (charge accelerates). Moving from low to high: W done AGAINST the field (needs external energy). Electronvolt: the energy gained by an electron accelerated through 1 V. 1 eV = 1.6 × 10⁻¹⁹ J.</p><p><strong>Worked examples (20 min):</strong> (1) From a Vₑ-r graph: draw tangent at r = 0.05 m, gradient = −E. (2) Parallel plates (V = 1000 V, d = 2 cm): E = 50,000 V/m. Work to move an electron across: W = eV = 1000 eV = 1.6 × 10⁻¹⁶ J. (3) An electron accelerated from rest through 5000 V: KE = eV = 5000 eV. Speed: ½mv² = eV → v = √(2eV/m). (4) Proton accelerated through 10⁶ V: energy in eV and joules.</p><p><strong>Practice (15 min):</strong> Gradient, work, and energy calculations. Convert between eV and J. Determine E from Vₑ-r graphs.</p>",
+          "engagementHook": {
+            "title": "THE ELECTRONVOLT — A PHYSICIST'S FAVOURITE UNIT",
+            "content": "\"A joule is too big for atomic physics. A single electron through 1 V gains 1.6 × 10⁻¹⁹ J. Writing that every time is painful. So physicists invented the electronvolt: 1 eV = 1.6 × 10⁻¹⁹ J. An electron through 1 V gains 1 eV. Through 100 V: 100 eV. Through 1 million V: 1 MeV.\" The particle physics energy scale: chemical bonds ~ 1 eV, X-rays ~ keV, nuclear ~ MeV, LHC ~ TeV."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns", "Measurements"],
+            "description": "The electronvolt exemplifies how physicists create units suited to their scale of investigation. Chemistry works in kJ/mol, atomic physics in eV, nuclear physics in MeV, and particle physics in GeV-TeV. Each scale has its natural unit — using the wrong one makes numbers unwieldy."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State E = −ΔVₑ/Δr; define the electronvolt",
+            "AO2 — Calculate E from potential gradient; calculate W = qΔV in J and eV",
+            "AO3 — Analyse Vₑ-r graphs to extract field strength"
+          ],
+          "resources": "Vₑ vs r graphs (printed), calculators, eV-J conversion reference",
+          "formative": "\"(a) An electron is accelerated from rest through 2000 V. Find its KE in eV and J, then its speed. (b) Parallel plates: 600 V, 3 cm apart. Find E. Find the force on a proton between them and its acceleration. (c) From a Vₑ-r graph: estimate E at r = 0.1 m by measuring the gradient. (d) Convert 13.6 eV to joules. (This is the ionisation energy of hydrogen.)\""
+        },
+        {
+          "num": 4,
+          "title": "Equipotentials for Multiple Configurations (AHL)",
+          "focus": "Point charges, charged spheres, and parallel plates — complete picture",
+          "minutes": 80,
+          "understandings": [
+            "Equipotential surfaces for: a point charge, a collection of up to 4 point charges, inside/outside a solid charged conducting sphere, inside/outside a hollow charged conducting sphere, between parallel plates",
+            "Inside a conductor: E = 0, V = constant (equipotential throughout the volume)",
+            "Outside a charged sphere: field and potential behave as if all charge is at the centre",
+            "No work done moving charge on an equipotential surface"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (20 min):</strong> Systematic coverage of all required configurations: (a) Point charge: concentric spheres, V = kQ/r. (b) 2-4 point charges: superpose individual equipotentials. Near charges: circular. Between: distorted. Neutral points where V from opposing charges sum to specific values. (c) Solid conducting sphere: charge on surface. Inside: E = 0, V = constant = V_surface. Outside: same as point charge at centre. (d) Hollow conducting sphere: same as solid (charge on outer surface only). (e) Parallel plates: flat equally-spaced equipotentials between the plates. V changes linearly from one plate to the other.</p><p><strong>Graphical analysis (20 min):</strong> Draw V vs r graphs for: (a) point charge (hyperbola), (b) solid sphere (constant inside, hyperbola outside — continuous at surface), (c) hollow sphere (same shape). Draw E vs r: (a) point charge (1/r²), (b) solid sphere (0 inside, 1/r² outside — discontinuous at surface). Students annotate both graphs with field line and equipotential sketches.</p><p><strong>Lab (15 min):</strong> EQUIPOTENTIAL MAPPING — Use conducting paper or a water tray with electrodes. Connect a voltmeter and probe. Map equipotential lines between: (a) two point electrodes, (b) two parallel plates, (c) a point and a plate. Students discover the equipotential shapes experimentally.</p><p><strong>Worked examples (15 min):</strong> (1) A conducting sphere of radius R carries charge Q. Find V and E at: r = R/2 (inside), r = R (surface), r = 2R (outside). (2) Two parallel plates: V = 400 V, d = 4 cm. Draw 4 equipotentials between them, equally spaced. State V at each. (3) Four charges at square corners: find V at the centre.</p><p><strong>Practice (10 min):</strong> V and E calculations for conductors and multi-charge configurations.</p>",
+          "engagementHook": {
+            "title": "THE FARADAY CAGE — ZERO FIELD INSIDE",
+            "content": "\"Inside a conducting shell: E = 0 everywhere. This is a Faraday cage — it shields the interior from ALL external electric fields.\" Demo: place a radio inside a metal mesh cage → signal disappears. \"Your microwave oven has a Faraday cage (the metal mesh on the door) to keep the microwaves IN. Your car's metal body protects you from lightning (mostly). MRI rooms are Faraday cages to block external EM interference.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Technology", "Observations"],
+            "description": "Faraday demonstrated the cage effect in 1836 by sitting inside a large metal-mesh room while it was bombarded with high-voltage sparks. He was unharmed — the charge stayed on the outer surface. This dramatic demonstration proved a theoretical prediction and has practical applications from electronics shielding to lightning protection."
+          },
+          "atl": ["Thinking skills", "Research skills", "Communication skills"],
+          "learnerProfile": ["Inquirer", "Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe V and E inside and outside conducting spheres",
+            "AO2 — Sketch equipotentials for all required configurations; calculate V from multiple charges",
+            "AO3 — Analyse V-r and E-r graphs for conductors"
+          ],
+          "resources": "Conducting paper + voltmeter + probe (equipotential mapping), metal mesh cage + radio (Faraday cage demo), calculators, V-r and E-r graph templates",
+          "formative": "\"(a) A solid conducting sphere (R = 0.1 m, Q = +4 μC). Find V and E at r = 0.05 m, r = 0.1 m, r = 0.2 m. (b) Sketch V vs r and E vs r for this sphere. (c) Why is E = 0 inside the conductor? (d) Map equipotentials between two point electrodes on conducting paper. What shape are they? (e) Why does a Faraday cage protect electronics from lightning?\""
+        }
+      ]
+    },
+    {
+      "name": "Synthesis & Problem Solving",
+      "color": "accent4",
+      "totalMinutes": 120,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Comparing Gravitational & Electric Fields",
+          "focus": "Systematic comparison — the parallels and the differences",
+          "minutes": 55,
+          "understandings": [
+            "Both are inverse-square force laws: F ∝ 1/r²",
+            "Both have field strength = force per unit test object (g = F/m, E = F/q)",
+            "Both have potential defined as zero at infinity",
+            "Key differences: gravity always attracts (one sign of mass); electric force can attract or repel (two signs of charge)",
+            "Gravitational PE always negative; electric PE can be positive or negative",
+            "Gravity is vastly weaker than electricity: G << k; the ratio for protons is ~10³⁶"
+          ],
+          "teachingStrategy": "<p><strong>Comparison table (20 min):</strong> Students build the master comparison table — the single most important synthesis in Theme D: Force law | Field strength | Potential | PE | Potential gradient | Field lines | Equipotentials | Sign(s) | Relative strength. Each row compares gravity and electricity. This table summarises two entire topics in one page.</p><p><strong>Analogy problems (20 min):</strong> \"Every gravitational problem has an electric analogue.\" (1) Escape speed from a charged sphere: ½mv² = kQq/r (analogue of ½mv² = GMm/r). (2) \"Orbit\" of an electron around a proton: kq²/r² = mv²/r (analogue of GMm/r² = mv²/r). Calculate the electron's speed in hydrogen — preview of E.1 Bohr model. (3) Resultant field between two charges — same method as resultant g between two masses.</p><p><strong>Discussion (10 min):</strong> \"Why does gravity dominate at large scales (planets, galaxies) but electricity dominates at small scales (atoms, molecules)?\" Because bulk matter is electrically neutral — positive and negative cancel. Gravity never cancels because there's no 'negative mass.' At the atomic level, individual charges dominate.</p><p><strong>Practice (5 min):</strong> Mixed gravity/electricity comparison questions.</p>",
+          "engagementHook": {
+            "title": "ONE TABLE TO RULE THEM ALL",
+            "content": "\"D.1 and D.2 are the SAME PHYSICS with different constants.\" Students fill in a giant comparison poster. Every formula has a twin. g = GM/r² ↔ E = kQ/r². Vg = −GM/r ↔ Vₑ = kQ/r. Eₚ = −GMm/r ↔ Eₚ = kq₁q₂/r. \"If you understand one, you understand both. The IB loves comparison questions — this table is your best friend.\""
+          },
+          "nos": {
+            "tags": ["Patterns", "Theories"],
+            "description": "The structural parallel between gravity and electricity inspired Einstein to seek a 'unified field theory' connecting all forces. He never succeeded, but the quest continues: the Standard Model unifies electromagnetic, weak, and strong forces. Gravity remains the outlier — unifying it with quantum mechanics is the biggest unsolved problem in physics."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Communicator"],
+          "ao": [
+            "AO1 — List the parallels and differences between gravitational and electric fields",
+            "AO2 — Solve analogue problems in both fields",
+            "AO3 — Analyse why gravity dominates at large scales but electricity at small scales"
+          ],
+          "resources": "Large comparison poster template, calculators, previous D.1 and D.2 notes",
+          "formative": "\"Complete the comparison table for all quantities. Then: (a) An electron 'orbits' a proton at 5.3 × 10⁻¹¹ m. Using kq²/r² = mv²/r, find its speed. (b) Compare with the Moon's orbital speed around Earth. (c) Why can't a gravitational analogue of an electric dipole exist? (d) In what ways are gravitational and electric fields fundamentally different despite having identical mathematical structures?\""
+        },
+        {
+          "num": 2,
+          "title": "Advanced D.2 Problem Solving",
+          "focus": "Multi-step problems combining charge, field, potential, and energy",
+          "minutes": 65,
+          "understandings": [
+            "Combine Coulomb's law, field strength, potential, PE, and work in complex problems",
+            "Common scenarios: charged particles accelerated through potential differences, particles in uniform fields, multi-charge configurations",
+            "Use energy methods when possible (scalar, simpler than force/vector methods)",
+            "Link to D.3 (motion in EM fields) and E.1 (atomic structure)"
+          ],
+          "teachingStrategy": "<p><strong>Strategy review (10 min):</strong> Decision framework: (a) Force → F = kq₁q₂/r². (b) Field → E = kQ/r² or E = V/d. (c) Potential → Vₑ = kQ/r. (d) Energy → Eₚ = kq₁q₂/r, KE = qV. (e) Work → W = qΔV. Choose scalar methods (V, Eₚ, W) over vector methods (F, E) when possible.</p><p><strong>Multi-step problems (35 min):</strong> Groups tackle: (1) An electron accelerated through 500 V enters a uniform field between parallel plates (V = 200 V, d = 2 cm). Find: entry speed, E between plates, force, acceleration, time to cross, vertical deflection. (2) Two charges +Q and −Q separated by distance d. Find: V and E at the midpoint, at a point distance d from each charge (equilateral triangle position), and the work to bring a third charge from ∞ to that point. (3) A charged sphere (R = 5 cm, Q = 10 μC): graph V and E vs r from r = 0 to r = 0.5 m. Find the PE of a 1 nC charge at the surface. Find the work to move it to 0.3 m. (4) Alpha particle (q = 2e) approaches a gold nucleus (Z = 79). Find the distance of closest approach using energy conservation: KE = kZe × 2e / r_min.</p><p><strong>Exam practice (15 min):</strong> 3 timed IB-style D.2 problems.</p><p><strong>Wrap-up (5 min):</strong> \"D.2 gives you the tools. D.3 shows you what happens when charges MOVE in these fields.\"</p>",
+          "engagementHook": {
+            "title": "RUTHERFORD'S CLOSEST APPROACH — HOW CLOSE DID THE ALPHA GET?",
+            "content": "\"In 1909, Rutherford fired alpha particles (KE = 7.7 MeV) at gold nuclei (Z = 79). The alphas slowed, stopped, and reversed — repelled by the nucleus. How close did they get?\" Energy conservation: ½mv² = k(2e)(79e)/r_min. Solve: r_min = k × 2 × 79 × e² / KE ≈ 3 × 10⁻¹⁴ m. \"The nucleus is SMALLER than this — the alpha never reached it. This calculation told Rutherford the nucleus was tiny.\" Preview of E.1."
+          },
+          "nos": {
+            "tags": ["Theories", "Measurements", "Observations"],
+            "description": "Rutherford's scattering experiment used Coulomb's law and energy conservation to deduce the size of the nucleus — a quantity too small to measure directly. Using known physics to probe the unknown is the essence of experimental physics. The same technique (scattering with energy analysis) is still used at the LHC today."
+          },
+          "atl": ["Thinking skills", "Social skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Inquirer"],
+          "ao": [
+            "AO2 — Apply multiple D.2 concepts in combination",
+            "AO3 — Evaluate which approach (force, field, potential, energy) is most efficient"
+          ],
+          "resources": "Problem sets, whiteboards, calculators, Rutherford scattering diagram",
+          "formative": "\"An alpha particle (q = 2e, KE = 5 MeV) approaches a silver nucleus (Z = 47) head-on. (a) Find the distance of closest approach. (b) Calculate E at that distance. (c) Calculate the force on the alpha at closest approach. (d) Sketch the trajectory and the PE vs r graph, labelling key points. (e) If the alpha had twice the KE, by what factor would r_min change?\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "D.1 Gravitational Fields", "question": "How are electric and magnetic fields like gravitational fields? What are the key differences?" },
+    { "topic": "D.3 Motion in EM Fields", "question": "How do charged particles move in uniform electric and magnetic fields?" },
+    { "topic": "B.5 Current and Circuits", "question": "How does the microscopic picture of electron drift connect to E and V concepts?" },
+    { "topic": "E.1 Structure of the Atom", "question": "How does Coulomb's law explain the stability and energy levels of the hydrogen atom?" },
+    { "topic": "IB Linking (Quantisation)", "question": "Charge is quantised. Which other physical quantities are quantised?" },
+    { "topic": "IB Linking (Fundamental forces)", "question": "What are the relative strengths of the four fundamental forces?" }
+  ]
+},
+"D3": {
+  "title": "Motion in Electromagnetic Fields",
+  "code": "D.3",
+  "theme": "D",
+  "level": "SL + HL",
+  "recommendedHours": 6,
+  "recommendedMinutes": 360,
+  "guidingQuestions": [
+    "How do charged particles move in magnetic fields?",
+    "What can be deduced about the nature of a charged particle from observations of it moving in electric and magnetic fields?"
+  ],
+  "groups": [
+    {
+      "name": "Charged Particles in Electric Fields",
+      "color": "accent5",
+      "totalMinutes": 100,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Motion of a Charged Particle in a Uniform Electric Field",
+          "focus": "Acceleration in E fields — the electric 'projectile'",
+          "minutes": 55,
+          "understandings": [
+            "A charged particle in a uniform electric field (e.g., between parallel plates) experiences a constant force F = qE",
+            "If the particle enters parallel to E: it accelerates (or decelerates) along the field direction — like free fall under gravity",
+            "If the particle enters perpendicular to E: it follows a PARABOLIC path — identical to projectile motion under gravity but with a = qE/m instead of g",
+            "The motion can be resolved into components: constant velocity along the field-free direction, uniform acceleration along the field direction"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"An electron enters the space between two parallel plates. There's no gravity to worry about — but there IS an electric field. What happens?\" If it enters along the field: it accelerates (like a ball thrown downward). If it enters perpendicular: it curves — a parabola. \"This is projectile motion from A.1, but with qE/m replacing g.\"</p><p><strong>Direct instruction (15 min):</strong> Between parallel plates: E = V/d (uniform). Force on charge q: F = qE = qV/d. Acceleration: a = F/m = qE/m = qV/(md). Case 1: particle enters parallel to E — SUVAT applies with a = qE/m. Case 2: particle enters perpendicular to E — projectile motion: horizontal (constant v), vertical (a = qE/m). Path is parabolic. Exit velocity: combine components using Pythagoras. Deflection: use y = ½at² where t = L/v_horizontal (L = plate length).</p><p><strong>Worked examples (20 min):</strong> (1) Electron accelerated from rest through 1000 V: KE = eV → v = √(2eV/m) = 1.87 × 10⁷ m/s. (2) Electron enters perpendicular to E = 5 × 10⁴ V/m between plates 10 cm long at v = 10⁷ m/s. Find: time in the field, vertical acceleration, vertical deflection at exit, exit angle. (3) A proton in the same field — compare deflection (much less because m_proton >> m_electron). (4) CRT: electrons accelerated, deflected by plates, hit screen — this is how old TVs worked.</p><p><strong>Practice (15 min):</strong> Projectile-in-E-field problems with increasing complexity.</p>",
+          "engagementHook": {
+            "title": "THE ELECTRIC PROJECTILE — BENDING ELECTRON BEAMS",
+            "content": "\"Old TV screens (CRTs) worked by firing an electron beam and deflecting it with electric fields between plates. Sweeping the beam across the screen 25 times per second created the image.\" Show a CRT tube diagram. Students calculate the deflection of an electron beam — they're solving the physics that powered television for 70 years. \"Every pixel on an old TV was placed by solving F = qE and projectile kinematics.\""
+          },
+          "nos": {
+            "tags": ["Technology", "Models", "Patterns"],
+            "description": "The CRT (cathode ray tube) was invented by Karl Ferdinand Braun in 1897. J.J. Thomson used it to discover the electron (also 1897) by measuring its charge-to-mass ratio. The same device that enabled television also revealed the fundamental nature of matter — technology and pure science advancing together."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe motion of a charge in a uniform E field (parallel and perpendicular entry)",
+            "AO2 — Calculate acceleration, deflection, exit speed, and exit angle for a charged particle between plates",
+            "AO3 — Analyse the analogy between projectile motion (g) and E-field motion (qE/m)"
+          ],
+          "resources": "CRT tube diagram, parallel plate diagrams, calculators, projectile-in-E-field problem sets",
+          "formative": "\"An electron (m = 9.1 × 10⁻³¹ kg) enters a uniform E field of 2 × 10⁴ V/m perpendicular to the field at 3 × 10⁷ m/s. The plates are 5 cm long. (a) Time spent in the field. (b) Vertical acceleration. (c) Vertical deflection at exit. (d) Exit angle. (e) A proton enters at the same speed. Compare its deflection. Why is it different?\""
+        },
+        {
+          "num": 2,
+          "title": "Velocity Selectors — Crossed E and B Fields",
+          "focus": "When electric and magnetic forces balance — selecting particles by speed",
+          "minutes": 45,
+          "understandings": [
+            "When uniform electric and magnetic fields are perpendicular to each other and to the particle's velocity: F_E = qE (one direction), F_B = qvB (opposite direction)",
+            "For a specific speed: qE = qvB → v = E/B — the forces balance and the particle travels straight",
+            "Faster particles curve one way (F_B > F_E); slower particles curve the other (F_E > F_B)",
+            "This is a velocity selector: only particles with v = E/B pass through undeflected",
+            "Used in mass spectrometers and particle physics experiments"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"How do you select ONLY particles of a specific speed from a beam containing many speeds? Put them in crossed E and B fields. Only those with v = E/B go straight. Everything else curves away.\" This is the velocity selector — a speed filter made of pure physics.</p><p><strong>Direct instruction (15 min):</strong> Set up: E field pointing up, B field pointing into the page, particle moving right with charge +q. F_E = qE (upward). F_B = qvB (downward, from F = qvB and the right-hand rule). For balance: qE = qvB → v = E/B. If v > E/B: F_B > F_E → curves downward. If v < E/B: F_E > F_B → curves upward. Only v = E/B goes straight → velocity selector. Note: the selected speed doesn't depend on q or m — it selects by speed alone.</p><p><strong>Worked examples (15 min):</strong> (1) E = 30 kV/m, B = 0.5 T → selected speed: v = E/B = 60,000 m/s. (2) A beam contains protons at speeds 5 × 10⁴ to 8 × 10⁴ m/s. Design a selector for 6 × 10⁴ m/s: choose E and B such that E/B = 6 × 10⁴. (3) After the selector: particles enter a region with only B → circular motion (next subtopic). From the radius: determine q/m. This is a mass spectrometer.</p><p><strong>Practice (10 min):</strong> Velocity selector calculations and mass spectrometer problems.</p>",
+          "engagementHook": {
+            "title": "THE SPEED FILTER — PHYSICS AS A SIEVE",
+            "content": "\"Imagine a crowd of runners on a treadmill. If you set the treadmill to 10 km/h, only runners at exactly 10 km/h stay in place. Slower ones fall back, faster ones fly forward.\" A velocity selector does the same with charged particles: E pushes one way, B pushes the other, and only v = E/B stays straight. \"Mass spectrometers use this to identify unknown atoms — measure their speed, then their circular radius in a B field, and you know exactly what element they are.\""
+          },
+          "nos": {
+            "tags": ["Technology", "Measurements", "Models"],
+            "description": "The velocity selector was developed by Wilhelm Wien (1898) and refined by J.J. Thomson and Francis Aston for mass spectrometry. Mass spectrometers revolutionised chemistry, biology, and forensics — they can identify molecules by mass with extraordinary precision. Modern versions are used in drug testing, environmental monitoring, and space exploration (Mars rovers carry miniature mass spectrometers)."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe motion of a charge in perpendicular E and B fields",
+            "AO2 — Calculate the selected velocity v = E/B; design a selector for a given speed",
+            "AO3 — Analyse how the velocity selector forms part of a mass spectrometer"
+          ],
+          "resources": "Velocity selector diagram, mass spectrometer schematic, calculators",
+          "formative": "\"A velocity selector has E = 2.4 × 10⁴ V/m and B = 0.4 T. (a) What speed passes through undeflected? (b) Does this depend on the particle's charge or mass? (c) A particle with v = 5 × 10⁴ m/s enters. In which direction does it curve? (d) After the selector, particles enter a region with B = 0.4 T only. A singly-charged ion makes a semicircle of radius 0.12 m. Find q/m and identify the ion.\""
+        }
+      ]
+    },
+    {
+      "name": "Charged Particles in Magnetic Fields",
+      "color": "accent3",
+      "totalMinutes": 140,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Force on a Moving Charge — F = qvB sinθ",
+          "focus": "The magnetic force is always perpendicular to velocity — it changes direction, not speed",
+          "minutes": 55,
+          "understandings": [
+            "The magnitude of the force on a charge moving in a B field: F = qvB sinθ, where θ is the angle between v and B",
+            "Direction: right-hand rule (for positive charges). Thumb = v, fingers = B, palm pushes = F. For negative charges: force is opposite",
+            "F is always perpendicular to v → the magnetic force does NO WORK → KE stays constant → speed doesn't change, only direction",
+            "If v ∥ B (θ = 0): F = 0 — no force. If v ⊥ B (θ = 90°): F = qvB — maximum force, circular motion"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Gravity pulls you DOWN (parallel to g). Electric fields push you ALONG the field. Magnetic fields do something weird: they push you SIDEWAYS — perpendicular to BOTH your velocity AND the field. If you try to walk north in a magnetic field pointing up, you get pushed EAST.\"</p><p><strong>Direct instruction (20 min):</strong> F = qvB sinθ. Maximum when v ⊥ B (θ = 90°). Zero when v ∥ B (θ = 0°). Direction: right-hand rule (for +q). Point fingers in v direction, curl toward B, thumb points in F direction. For −q (electrons): F is opposite. Key property: F ⊥ v ALWAYS → the force NEVER does work → KE = constant → speed constant → only direction changes. This is fundamentally different from electric and gravitational forces, which CAN change speed.</p><p><strong>Demo (10 min):</strong> Electron beam tube (or video): electrons in a vacuum tube pass through a B field. The beam curves into a CIRCLE. \"The magnetic force provides centripetal force — constantly turning the electron without changing its speed.\" Vary B → radius changes. Vary v (accelerating voltage) → radius changes.</p><p><strong>Worked examples (10 min):</strong> (1) Proton at 10⁶ m/s perpendicular to B = 0.1 T: F = 1.6 × 10⁻¹⁹ × 10⁶ × 0.1 = 1.6 × 10⁻¹⁴ N. (2) Same proton at 45° to B: F = 1.6 × 10⁻¹⁴ × sin45° = 1.13 × 10⁻¹⁴ N. (3) Electron at 5 × 10⁶ m/s in B = 0.2 T: find F and the direction of the force.</p><p><strong>Practice (10 min):</strong> F = qvB sinθ calculations and right-hand rule direction problems.</p>",
+          "engagementHook": {
+            "title": "THE FORCE THAT NEVER DOES WORK",
+            "content": "\"Every other force you've met can speed things up or slow them down. Gravity accelerates falling objects. Friction decelerates sliding ones. Electric fields accelerate charges. But the magnetic force CANNOT change speed — only direction. It's like a barrier that constantly redirects you without pushing or pulling. That's why KE is constant in a B field.\" Students verify: F ⊥ v → W = Fs cosθ = Fs cos90° = 0. Zero work, always."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns", "Observations"],
+            "description": "The magnetic force is unique among fundamental forces: it depends on VELOCITY, not just position. A stationary charge in a B field feels nothing. This velocity-dependence troubled physicists until Einstein showed that electric and magnetic forces are aspects of the SAME force, seen from different reference frames. A purely electric force in one frame appears partly magnetic in another."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — State F = qvB sinθ; explain why F does no work",
+            "AO2 — Calculate F for various v, B, θ; determine direction using right-hand rule",
+            "AO3 — Analyse why speed is constant but direction changes in a B field"
+          ],
+          "resources": "Electron beam tube (or video), magnets, right-hand rule practice cards, calculators",
+          "formative": "\"(a) A proton moves at 2 × 10⁶ m/s perpendicular to B = 0.5 T. Find F and its direction. (b) The proton now moves at 30° to B. Find F. (c) An electron moves at the same speed. Find F — same magnitude? Same direction? (d) Explain why the magnetic force cannot change the KE of a particle. Use W = Fs cosθ.\""
+        },
+        {
+          "num": 2,
+          "title": "Circular Motion in B Fields & Charge-to-Mass Ratio",
+          "focus": "qvB = mv²/r → r = mv/(qB) and q/m determination",
+          "minutes": 50,
+          "understandings": [
+            "When v ⊥ B: the magnetic force provides centripetal force → circular motion",
+            "qvB = mv²/r → radius of circular path: r = mv/(qB)",
+            "Larger mass → larger r (harder to turn). Larger charge or B → smaller r (stronger force)",
+            "The charge-to-mass ratio q/m can be determined by measuring the radius of the circular path in a known B field",
+            "q/m = v/(Br) — this is how Thomson discovered the electron and measured e/m"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> F_magnetic provides F_centripetal: qvB = mv²/r. Solve: r = mv/(qB). Rearrange: q/m = v/(Br). If you know v (from a velocity selector) and measure r (from the circular path) in known B: you get q/m. This is how J.J. Thomson identified the electron (1897): he found q/m was 1836× larger than for hydrogen ions → either the charge was huge or the mass was tiny. He concluded: a new particle with mass ~1/1836 of a proton. The electron.</p><p><strong>Worked examples (20 min):</strong> (1) Proton at 10⁶ m/s in B = 0.1 T: r = mv/(qB) = 1.67×10⁻²⁷ × 10⁶ / (1.6×10⁻¹⁹ × 0.1) = 0.104 m ≈ 10 cm. (2) Electron at same speed: r = 9.1×10⁻³¹ × 10⁶ / (1.6×10⁻¹⁹ × 0.1) = 5.7 × 10⁻⁵ m ≈ 0.057 mm — vastly smaller (lighter → tighter curve). (3) Unknown particle: r = 0.15 m, v = 5 × 10⁵ m/s, B = 0.2 T. q/m = v/(Br) = 1.67 × 10⁷ C/kg. Compare with known particles → it's a singly-charged nitrogen ion. (4) Period of circular motion: T = 2πr/v = 2πm/(qB) — independent of v! (The cyclotron frequency.)</p><p><strong>Discussion (10 min):</strong> Applications: (a) Cyclotron (particle accelerator): particles spiral outward as energy increases, T stays constant → can be accelerated by AC electric field at fixed frequency. (b) Mass spectrometer: after velocity selection, particles curve in B → different masses curve differently → separate by mass. (c) Earth's magnetic field: protects us from solar wind particles — they spiral along field lines, trapped in the Van Allen belts.</p><p><strong>Practice (5 min):</strong> r and q/m calculations.</p>",
+          "engagementHook": {
+            "title": "THOMSON'S DISCOVERY — FINDING THE ELECTRON",
+            "content": "\"In 1897, J.J. Thomson measured the circular radius of 'cathode rays' in a known B field. He calculated q/m = 1.76 × 10¹¹ C/kg — 1836× larger than for hydrogen ions. Either the charge was enormous or the mass was tiny. He chose tiny — and discovered the electron, the first subatomic particle.\" Students repeat the calculation from given data and 'discover' the electron themselves."
+          },
+          "nos": {
+            "tags": ["Measurements", "Theories", "Observations"],
+            "description": "Thomson's discovery of the electron (1897) using crossed E and B fields is one of the most important experiments in physics. It proved atoms were NOT indivisible — they contained smaller particles. This opened the door to atomic physics, quantum mechanics, and eventually nuclear energy. One measurement of q/m changed everything."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State r = mv/(qB); explain how q/m is determined from circular motion in B",
+            "AO2 — Calculate r, q/m, and T for charged particles in B fields",
+            "AO3 — Analyse Thomson's experiment and mass spectrometer operation"
+          ],
+          "resources": "Electron beam tube (or video/simulation), calculators, Thomson experiment data, mass spectrometer diagram",
+          "formative": "\"(a) An electron at 4 × 10⁶ m/s enters B = 0.01 T perpendicular to the field. Find r and T. (b) A proton at the same speed in the same field: find r. Compare. (c) An unknown singly-charged ion has r = 0.25 m at v = 3 × 10⁵ m/s in B = 0.3 T. Find q/m and the ion's mass. Identify it. (d) Why does T = 2πm/(qB) NOT depend on v? What does this imply for cyclotrons?\""
+        },
+        {
+          "num": 3,
+          "title": "Force on Current-Carrying Conductors & Parallel Wires",
+          "focus": "F = BIL sinθ and F/L = μ₀I₁I₂/(2πr)",
+          "minutes": 35,
+          "understandings": [
+            "Force on a current-carrying conductor in a B field: F = BIL sinθ, where I is current, L is length of conductor in the field, θ is angle between current and B",
+            "Direction: right-hand rule (or Fleming's left-hand rule) — thumb = force, index = field, middle = current",
+            "This force is the basis of all electric motors",
+            "Force per unit length between two parallel wires: F/L = μ₀I₁I₂/(2πr), where μ₀ = 4π × 10⁻⁷ T·m/A",
+            "Currents in the same direction: attractive. Opposite directions: repulsive"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> A current = moving charges. Moving charges in B feel F = qvB. For N charges in a wire of length L: F = NqvB = (Nqv)B = ILB (since I = Nqv/L). With angle: F = BIL sinθ. Direction: use the right-hand rule or Fleming's left-hand rule. This force makes the wire JUMP — it's how motors work. For two parallel wires: each creates a B field that exerts a force on the other. Same direction currents: attract (their B fields pull them together). Opposite: repel. F/L = μ₀I₁I₂/(2πr).</p><p><strong>Demo (10 min):</strong> (1) Wire on rails in a magnet: turn on current → wire rolls (motor effect). Reverse current → rolls the other way. This IS a motor — in its simplest form. (2) Two parallel wires carrying current: show attraction (same direction) and repulsion (opposite). Flexible wires visibly move together or apart.</p><p><strong>Worked examples (10 min):</strong> (1) Wire (L = 0.5 m, I = 3 A) perpendicular to B = 0.4 T: F = 0.6 N. (2) Same wire at 60° to B: F = 0.52 N. (3) Two wires 5 cm apart, each carrying 10 A: F/L = 4π×10⁻⁷ × 100/(2π × 0.05) = 4 × 10⁻⁴ N/m = 0.4 mN per metre — small but measurable.</p><p><strong>Practice (5 min):</strong> F = BIL and parallel wire calculations.</p>",
+          "engagementHook": {
+            "title": "THE JUMPING WIRE — A MOTOR IN 5 SECONDS",
+            "content": "Place an aluminium rod across two rails between the poles of a strong magnet. Turn on the current — the rod SHOOTS along the rails. \"That rod is a motor. Current × magnetic field = force. Every electric motor, from your phone's vibration motor to a Tesla's drivetrain, works on F = BIL.\" Reverse the current → rod moves the other way. Change B direction → same. Students predict and verify."
+          },
+          "nos": {
+            "tags": ["Technology", "Observations", "Global impact"],
+            "description": "Michael Faraday built the first electric motor in 1821 — just one year after Ørsted discovered the link between electricity and magnetism. The motor effect (F = BIL) has transformed civilisation: transport, industry, computing, and medicine all depend on electric motors. An estimated 45% of global electricity consumption drives electric motors."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State F = BIL sinθ and F/L = μ₀I₁I₂/(2πr); determine force direction",
+            "AO2 — Calculate force on a conductor and force between parallel wires",
+            "AO3 — Explain why same-direction currents attract and opposite repel"
+          ],
+          "resources": "Magnet + rails + aluminium rod (motor effect demo), two parallel flexible wires + power supply, calculators",
+          "formative": "\"(a) A 0.3 m wire carries 5 A perpendicular to B = 0.8 T. Find F. (b) At 45° to B: find F. (c) Two parallel wires 0.1 m apart carry 20 A each in the same direction. Find F/L. Attract or repel? (d) The wires now carry current in opposite directions. What changes? (e) Explain why F = BIL is the basis of every electric motor.\""
+        }
+      ]
+    },
+    {
+      "name": "Synthesis & Applications",
+      "color": "accent4",
+      "totalMinutes": 120,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Mass Spectrometry, Cyclotrons & Real Applications",
+          "focus": "How crossed fields and circular motion are used in science and technology",
+          "minutes": 55,
+          "understandings": [
+            "Mass spectrometer: velocity selector (v = E/B₁) → B₂ field → circular path (r = mv/(qB₂)) → separation by mass",
+            "Cyclotron: particles spiral in B field, accelerated by alternating E field each half-turn, T = 2πm/(qB) is constant",
+            "Earth's magnetic field traps charged particles from the solar wind → Van Allen belts, aurora",
+            "Applications: mass spectrometry in chemistry/forensics, particle accelerators in physics, MRI in medicine"
+          ],
+          "teachingStrategy": "<p><strong>Mass spectrometer (15 min):</strong> Full walkthrough: ionise the sample → accelerate through V (gives KE = qV → v = √(2qV/m)) → velocity selector (v = E/B₁) → enter B₂ region → circular path with r = mv/(qB₂). Different masses → different r → land at different positions on the detector. From r: calculate m. Students solve a complete mass spectrometer problem: identify an isotope from its measured r.</p><p><strong>Cyclotron (10 min):</strong> Two D-shaped electrodes ('dees') in a B field. Particles spiral outward as they gain energy each half-turn. Key: T = 2πm/(qB) is independent of v → the AC frequency stays fixed. As v increases, r increases (r = mv/(qB)), but the particle takes the same time per half-turn. Maximum energy: when the particle reaches the edge. Used for: medical isotope production, proton therapy for cancer.</p><p><strong>Aurora & Van Allen belts (10 min):</strong> Solar wind particles (mainly protons and electrons) hit Earth's magnetic field. They spiral along field lines (F = qvB → circular component) and bounce between the poles. Near the poles: they collide with atmospheric gases → aurora. \"The Northern Lights are a massive physics demonstration: charged particles spiralling in a magnetic field and exciting gas molecules.\"</p><p><strong>Worked examples (15 min):</strong> (1) Mass spectrometer: r = 0.15 m, B = 0.2 T, V_accel = 1000 V, charge = e. Find m and identify the element. (2) Cyclotron: B = 1.5 T, proton. Find the frequency of the AC supply. Find the maximum KE if the dee radius is 0.5 m. (3) A proton in the Van Allen belt at B = 5 × 10⁻⁵ T, v = 10⁷ m/s: find r of the spiral.</p><p><strong>Practice (5 min):</strong> Application problems.</p>",
+          "engagementHook": {
+            "title": "THE AURORA — PHYSICS LIGHT SHOW",
+            "content": "Show stunning aurora footage. \"Protons and electrons from the Sun hit Earth's magnetic field at millions of m/s. They spiral along field lines (F = qvB → circular component), bounce between poles, and near the poles, they collide with nitrogen (green light) and oxygen (red/purple light). The aurora IS charged particle motion in a magnetic field — the most beautiful physics demonstration on Earth.\""
+          },
+          "nos": {
+            "tags": ["Technology", "Observations", "Science as a shared endeavour"],
+            "description": "Mass spectrometry, cyclotrons, and magnetic shielding all use the same F = qvB physics. Francis Aston won the 1922 Nobel Prize for mass spectrometry (discovering isotopes). Ernest Lawrence won the 1939 Nobel for the cyclotron. The same equation discovered the electron, revealed isotopes, and now treats cancer with proton beams."
+          },
+          "atl": ["Thinking skills", "Communication skills", "Research skills"],
+          "learnerProfile": ["Knowledgeable", "Thinker", "Caring"],
+          "ao": [
+            "AO1 — Describe mass spectrometer, cyclotron, and aurora in terms of EM field physics",
+            "AO2 — Solve complete mass spectrometer and cyclotron problems",
+            "AO3 — Analyse how EM fields are used in technology and natural phenomena"
+          ],
+          "resources": "Mass spectrometer schematic, cyclotron diagram, aurora video/photos, calculators",
+          "formative": "\"(a) In a mass spectrometer: ions accelerated through 2000 V enter B = 0.3 T. An ion traces a semicircle of radius 0.08 m. Find q/m. If singly charged, find m. What element? (b) A cyclotron operates at B = 1.2 T for protons. Find the required AC frequency. (c) Explain qualitatively why the aurora is seen near the poles, not the equator.\""
+        },
+        {
+          "num": 2,
+          "title": "D.3 Advanced Problem Solving",
+          "focus": "Multi-step problems combining E fields, B fields, and energy conservation",
+          "minutes": 65,
+          "understandings": [
+            "Combine E field acceleration (KE = qV), B field circular motion (r = mv/(qB)), and velocity selection (v = E/B) in complex problems",
+            "Use energy conservation in EM fields: KE gained = qV (electric), KE unchanged in B field",
+            "Determine particle properties (q, m, q/m, speed, KE) from observed trajectories in known fields",
+            "Link to A.2 (circular motion), A.3 (energy), D.2 (fields and potentials)"
+          ],
+          "teachingStrategy": "<p><strong>Strategy review (10 min):</strong> Decision framework for D.3: (a) Particle in E field → F = qE → a = qE/m → SUVAT or projectile motion. (b) Particle in B field → F = qvB → circular motion → r = mv/(qB). (c) Crossed E and B → velocity selector: v = E/B. (d) Energy: KE = qV (from E field), KE unchanged in B field. (e) q/m = v/(Br). Many problems chain these steps.</p><p><strong>Multi-step problems (35 min):</strong> Groups tackle: (1) Complete mass spectrometer: ion source → acceleration through V → velocity selector (E, B₁) → deflection in B₂ → find m. All values given. (2) Electron gun + deflection: electron accelerated from rest through V, enters perpendicular E field between plates (length L, separation d, voltage V_plates). Find: entry speed, deflection angle, point of impact on screen beyond plates. (3) Particle enters B field: traces a semicircle of measured diameter. Given B and V_acceleration: find q/m and identify the particle. (4) A proton enters a region with BOTH E and B (not perpendicular to each other): resolve forces and determine trajectory qualitatively.</p><p><strong>Exam practice (15 min):</strong> 3 timed IB-style D.3 problems.</p><p><strong>Wrap-up (5 min):</strong> \"D.3 is where forces (A.2), energy (A.3), circular motion (A.2), and fields (D.1/D.2) all come together. Every problem is a synthesis.\"\n</p>",
+          "engagementHook": {
+            "title": "BUILD A MASS SPECTROMETER — ON PAPER",
+            "content": "\"Design a mass spectrometer to separate carbon-12 and carbon-14 isotopes. Choose: acceleration voltage V, selector fields E and B₁, and deflection field B₂. Calculate the expected separation of the two isotopes on the detector.\" Students design, calculate, and compare designs. The best design separates the isotopes by the largest distance — most practical to build. \"This is real engineering: choosing parameters to maximise performance within constraints.\""
+          },
+          "nos": {
+            "tags": ["Technology", "Models", "Science as a shared endeavour"],
+            "description": "Carbon-14 dating (used to determine the age of archaeological artefacts) relies on mass spectrometry to count C-14 atoms. Accelerator mass spectrometry can measure one C-14 atom among 10¹⁵ C-12 atoms. The physics of D.3 enables archaeology, forensics, and climate science."
+          },
+          "atl": ["Thinking skills", "Social skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Communicator"],
+          "ao": [
+            "AO2 — Apply E field, B field, and energy concepts in multi-step problems",
+            "AO3 — Design and analyse EM field configurations for particle separation"
+          ],
+          "resources": "Problem sets, whiteboards, mass spectrometer design template, isotope data, calculators",
+          "formative": "\"An ion is accelerated from rest through 5000 V, passes through a velocity selector (E = 3 × 10⁴ V/m, B₁ = 0.5 T), then enters B₂ = 0.3 T. It traces a semicircle of diameter 0.24 m. (a) Find the selected speed. (b) Find the radius. (c) Find q/m. (d) If singly charged, find m and identify the ion. (e) If a doubly-charged ion of the same mass entered, what would its radius be?\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "A.2 Forces & Momentum", "question": "What causes circular motion of charged particles in a B field? How is F = qvB related to F = mv²/r?" },
+    { "topic": "A.3 Work, Energy & Power", "question": "How can conservation of energy be applied to motion in electromagnetic fields? Why does the magnetic force do no work?" },
+    { "topic": "D.1 Gravitational Fields", "question": "How can the orbital radius in a field determine the nature of a particle (mass, charge)?" },
+    { "topic": "D.2 Electric & Magnetic Fields", "question": "How are the properties of E and B fields used to control charged particle motion?" },
+    { "topic": "E.1 Structure of the Atom", "question": "How are the concepts of energy, forces and fields used to determine the size of an atom (Rutherford scattering, Bohr model)?" },
+    { "topic": "IB Linking (NOS)", "question": "How are the properties of electric and magnetic fields represented visually and mathematically?" }
+  ]
+},
+"D4": {
+  "title": "Induction",
+  "code": "D.4",
+  "theme": "D",
+  "level": "HL only",
+  "recommendedHours": 6,
+  "recommendedMinutes": 360,
+  "guidingQuestions": [
+    "What are the effects of relative motion between a conductor and a magnetic field?",
+    "How can the power output of electrical generators be increased?",
+    "How did the discovery of electromagnetic induction effect industrialization?"
+  ],
+  "groups": [
+    {
+      "name": "Magnetic Flux & Faraday's Law",
+      "color": "accent5",
+      "totalMinutes": 150,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Magnetic Flux — Φ = BA cosθ",
+          "focus": "How much magnetic field 'threads' through a surface",
+          "minutes": 45,
+          "understandings": [
+            "Magnetic flux Φ = BA cosθ, where B is the magnetic field strength, A is the area of the surface, and θ is the angle between B and the normal to the surface",
+            "Units: weber (Wb) = T·m²",
+            "When B ⊥ surface (θ = 0°): Φ = BA (maximum flux). When B ∥ surface (θ = 90°): Φ = 0 (no flux)",
+            "Flux represents 'how many field lines pass through the surface' — a useful visual model"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Hold a wire loop in front of a bar magnet. \"How much magnetic field passes through this loop?\" Turn the loop — the amount changes. Face it directly at the magnet: maximum. Turn it edge-on: zero. \"The amount that passes through depends on the angle. This is magnetic flux.\"</p><p><strong>Direct instruction (15 min):</strong> Define Φ = BA cosθ. B = field strength (T). A = area of the loop (m²). θ = angle between B and the NORMAL to the loop surface. When the loop faces the field head-on (θ = 0°): Φ = BA (max — all field lines pass through). When the loop is edge-on (θ = 90°): Φ = 0 (no lines pass through). Between: Φ = BA cosθ. Visual: count the field lines passing through the loop. More lines = more flux. Turning the loop reduces the number of lines threading through it.</p><p><strong>Worked examples (15 min):</strong> (1) A circular coil (r = 0.05 m) in B = 0.3 T, perpendicular to field: Φ = 0.3 × π × 0.05² = 2.36 × 10⁻³ Wb. (2) Same coil tilted at 60° to the field (θ = 60° from normal): Φ = 2.36 × 10⁻³ × cos60° = 1.18 × 10⁻³ Wb. (3) Rectangular coil (0.1 × 0.2 m), B = 0.5 T, edge-on (θ = 90°): Φ = 0. (4) The coil rotates from θ = 0° to θ = 90° — the flux changes from BA to 0. \"Whenever flux CHANGES, something happens...\"</p><p><strong>Practice (10 min):</strong> Flux calculations for various angles and coil orientations.</p>",
+          "engagementHook": {
+            "title": "THE RAIN ANALOGY — CATCHING FLUX",
+            "content": "\"Hold a bucket in the rain. Straight up: maximum rain collected (Φ = BA). Tilt it 45°: less rain (Φ = BA cos45°). Turn it sideways: no rain collected (Φ = 0).\" The bucket area is A. The rain intensity is B. The angle between rain and bucket-normal is θ. Magnetic flux is EXACTLY like 'rain collected.' Students hold books at different angles under a 'rainfall' of marker pens dropped from above — count how many land on the book."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "Magnetic flux is a mathematical model — there are no actual 'lines' threading through the loop. But the model is so useful that physicists treat flux as a real, measurable quantity. It connects the abstract field to the concrete effect (induced emf). Faraday thought of flux intuitively; Maxwell formalised it mathematically."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Communicator"],
+          "ao": [
+            "AO1 — Define magnetic flux; state Φ = BA cosθ",
+            "AO2 — Calculate flux for various B, A, θ values",
+            "AO3 — Analyse how rotating a coil changes the flux through it"
+          ],
+          "resources": "Wire loop, bar magnet, whiteboard, 'rain and bucket' demo materials, calculators",
+          "formative": "\"A rectangular coil (0.05 × 0.08 m) is in a uniform B = 0.4 T field. (a) Find Φ when the coil is perpendicular to B. (b) At 30° to B (θ = 30° between B and normal). (c) Parallel to B. (d) The coil rotates from perpendicular to parallel in 0.1 s. Find the change in flux. (e) Predict: will this change produce an effect? (Teaser for Faraday's law.)\""
+        },
+        {
+          "num": 2,
+          "title": "Faraday's Law of Induction — ε = −NΔΦ/Δt",
+          "focus": "A changing flux induces an emf — the foundation of all generators",
+          "minutes": 55,
+          "understandings": [
+            "A time-changing magnetic flux induces an emf: ε = −NΔΦ/Δt (Faraday's law)",
+            "N = number of turns in the coil. More turns → larger emf",
+            "The emf is proportional to the RATE of change of flux, not the flux itself",
+            "The negative sign (Lenz's law) indicates the direction: the induced emf opposes the change that caused it",
+            "Ways to change flux: change B, change A, change θ, or move the coil in/out of the field"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Push a bar magnet into a coil connected to a galvanometer. The needle deflects — current flows! Pull it out — needle deflects the other way. Hold it still inside — NOTHING. \"Moving it in: flux changes → emf. Stationary: flux constant → no emf. Moving it out: flux changes again → emf. The KEY is CHANGE.\"</p><p><strong>Direct instruction (20 min):</strong> Faraday's law: ε = −NΔΦ/Δt. The induced emf equals the rate of change of flux linkage (NΦ). Faster change → larger emf. More turns → larger emf. Ways to change Φ: (a) move a magnet toward/away from a coil (change B at the coil), (b) move a coil into/out of a B field region (change A in the field), (c) rotate a coil in B (change θ → Φ = BA cosθ changes), (d) change B itself (electromagnet with varying current). The negative sign = Lenz's law: the induced current creates a magnetic field that OPPOSES the change in flux. This is conservation of energy — if it didn't oppose, you'd get energy for free.</p><p><strong>Lenz's law deep dive (10 min):</strong> Push N pole toward coil → flux into coil increases → induced current creates a field to OPPOSE the increase → induced field pushes back (like N pole) → coil repels the magnet. You must do WORK to push the magnet → this work becomes the electrical energy. If the coil attracted the magnet instead, the magnet would accelerate in, inducing MORE current, attracting MORE — infinite energy from nothing. Lenz's law prevents this.</p><p><strong>Worked examples (15 min):</strong> (1) A coil (N = 50, A = 0.01 m²) in B that increases from 0 to 0.5 T in 0.2 s: ε = 50 × 0.5 × 0.01/0.2 = 1.25 V. (2) A rectangular coil (0.1 × 0.05 m, N = 100) is pulled out of a B = 0.3 T field in 0.5 s: ΔΦ = 0.3 × 0.005 = 1.5 × 10⁻³ Wb → ε = 100 × 1.5 × 10⁻³/0.5 = 0.3 V. (3) Determine the direction of induced current using Lenz's law for 3 scenarios.</p><p><strong>Practice (5 min):</strong> ε calculations and Lenz's law direction problems.</p>",
+          "engagementHook": {
+            "title": "THE MAGNET AND COIL — THE EXPERIMENT THAT POWERED THE WORLD",
+            "content": "\"In 1831, Michael Faraday pushed a magnet into a coil and saw a current. He pulled it out and saw the current reverse. He held it still — nothing. With that simple experiment, he discovered electromagnetic induction. Within 50 years: power stations, electric motors, transformers. One experiment → the entire electrical age.\" Students recreate the exact experiment with a bar magnet and galvanometer."
+          },
+          "nos": {
+            "tags": ["Observations", "Theories", "Global impact"],
+            "description": "Faraday's discovery of electromagnetic induction (1831) is arguably the most consequential experiment in human history. It led directly to: electric generators, power grids, transformers, induction motors, and every device that runs on electricity. Faraday had no formal mathematical training — his physical intuition was extraordinary. Maxwell later expressed Faraday's ideas mathematically."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Inquirer"],
+          "ao": [
+            "AO1 — State Faraday's law; state Lenz's law; explain the negative sign as energy conservation",
+            "AO2 — Calculate induced emf from rate of flux change",
+            "AO3 — Analyse the direction of induced current using Lenz's law"
+          ],
+          "resources": "Bar magnet, coil (many turns), galvanometer, electromagnet + AC supply, calculators",
+          "formative": "\"(a) A coil (N = 200, A = 4 × 10⁻³ m²) is in a field that drops from 0.6 T to 0.1 T in 0.25 s. Find ε. (b) The same coil is pulled completely out of a 0.6 T field in 0.1 s. Find ε. (c) A magnet is dropped through a coil. Sketch the emf-time graph (positive pulse, then negative pulse). (d) Explain why a dropped magnet falls SLOWER through a copper tube than through a plastic tube (Lenz's law braking).\""
+        },
+        {
+          "num": 3,
+          "title": "EMF in a Moving Conductor — ε = BvL",
+          "focus": "A straight conductor cutting field lines — the simplest generator",
+          "minutes": 50,
+          "understandings": [
+            "A straight conductor of length L moving with velocity v perpendicular to a uniform B field induces emf: ε = BvL",
+            "This is a specific case of Faraday's law: the conductor sweeps out area A = Lv·t per second → ΔΦ/Δt = BLv",
+            "Direction: use the right-hand rule (or consider Lenz's law — the induced current opposes the change)",
+            "Quantitative treatment restricted to straight conductors moving at right angles to B"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> A conductor of length L moves at speed v perpendicular to B. In time Δt, it sweeps out area A = L × vΔt. Flux swept: ΔΦ = B × LvΔt. EMF: ε = ΔΦ/Δt = BLv. This is the SIMPLEST generator: a wire moving through a field. The free electrons in the wire experience F = qvB and are pushed along the wire → emf. Direction: right-hand rule — thumb (v), fingers (B), palm pushes electrons → determines which end is + and which is −.</p><p><strong>Demo (10 min):</strong> Slide a conducting rod along metal rails in a magnetic field (homopolar generator). Connect a sensitive meter. Move the rod → meter deflects. Faster → larger deflection. Reverse direction → reverse deflection. \"This rod IS a generator. Power stations use this principle with rotating coils instead of sliding rods.\"</p><p><strong>Worked examples (15 min):</strong> (1) A 0.5 m rod at 3 m/s in B = 0.4 T: ε = 0.4 × 3 × 0.5 = 0.6 V. (2) An aeroplane (wingspan 30 m) flies at 250 m/s through Earth's B field (vertical component 5 × 10⁻⁵ T): ε = 5 × 10⁻⁵ × 250 × 30 = 0.375 V. \"There's a voltage between your wingtips — but too small to use.\" (3) A rectangular coil (0.1 × 0.05 m) is pulled out of B = 0.2 T at 2 m/s. The 0.1 m side cuts the field. ε = BvL = 0.2 × 2 × 0.1 = 0.04 V.</p><p><strong>Practice (10 min):</strong> ε = BvL calculations and direction determination.</p>",
+          "engagementHook": {
+            "title": "VOLTAGE BETWEEN YOUR WINGTIPS",
+            "content": "\"A Boeing 747 (wingspan 64 m) flies at 250 m/s through Earth's magnetic field (B ≈ 5 × 10⁻⁵ T). The wingtips are a moving conductor.\" Calculate: ε = BvL = 5 × 10⁻⁵ × 250 × 64 = 0.8 V. \"There's almost a volt between your wingtips right now. Not enough to power anything — but enough to MEASURE.\" MHD (magnetohydrodynamic) generators use this principle with conducting fluids to generate real power."
+          },
+          "nos": {
+            "tags": ["Observations", "Technology", "Patterns"],
+            "description": "The motional emf ε = BvL is the most intuitive form of induction: free electrons in the moving wire experience F = qvB and are pushed along the wire. It directly connects D.3 (force on moving charges) to D.4 (induction). The same physics that deflects electrons in a cathode ray tube also generates electricity in a power station."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State ε = BvL for a straight conductor; derive it from Faraday's law",
+            "AO2 — Calculate induced emf for moving conductors",
+            "AO3 — Analyse the direction of induced emf using the right-hand rule or Lenz's law"
+          ],
+          "resources": "Conducting rod on rails + magnet + galvanometer, calculators, aeroplane wingspan data",
+          "formative": "\"(a) A 0.3 m rod moves at 5 m/s ⊥ to B = 0.2 T. Find ε. (b) The rod is connected to a 10 Ω resistor. Find the induced current and the force needed to maintain the motion. (c) An aeroplane (wingspan 40 m, speed 200 m/s, B_vertical = 4 × 10⁻⁵ T): find ε between wingtips. (d) Explain why the induced current in part (b) creates a force that OPPOSES the rod's motion (Lenz's law).\""
+        }
+      ]
+    },
+    {
+      "name": "AC Generators & Applications",
+      "color": "accent3",
+      "totalMinutes": 120,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "The AC Generator — Rotating Coil in a Uniform B Field",
+          "focus": "How rotation produces sinusoidal emf — the basis of all power generation",
+          "minutes": 60,
+          "understandings": [
+            "A coil rotating in a uniform B field: Φ = BA cosθ = BA cos(ωt), where ω is the angular frequency of rotation",
+            "Faraday's law: ε = −NΔΦ/Δt → for continuous rotation: ε = NBAω sin(ωt)",
+            "The emf is SINUSOIDAL — it varies as sin(ωt), with peak emf ε₀ = NBAω",
+            "The effect of changing rotation frequency: higher ω → higher ε₀ AND higher frequency of the AC output",
+            "This is how AC electricity is generated in every power station"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Every power station in the world — coal, gas, nuclear, hydro, wind — does the same thing: rotates a coil in a magnetic field. That's it. The energy source just determines WHAT spins the coil. Faraday's law does the rest.\"</p><p><strong>Direct instruction (20 min):</strong> A rectangular coil (N turns, area A) rotates at angular speed ω in uniform B. At angle θ = ωt from the perpendicular: Φ = BA cos(ωt). Rate of change: ΔΦ/Δt = −BAω sin(ωt). EMF: ε = NBAω sin(ωt). Peak emf: ε₀ = NBAω. The output is SINUSOIDAL. One revolution = one complete AC cycle. Frequency: f = ω/(2π). To increase ε₀: increase N (more turns), B (stronger magnet), A (bigger coil), ω (spin faster). Faster spinning also increases f. UK mains: f = 50 Hz → coil rotates 50 times per second = 3000 rpm.</p><p><strong>Graphical analysis (10 min):</strong> Plot ε vs t: sinusoidal. Mark: ε₀ (peak), T (period), and the positions of the coil at ε = 0 (coil perpendicular to B, Φ is max but ΔΦ/Δt = 0 — rate of change is zero at the peak of cosine) and ε = ε₀ (coil parallel to B, Φ = 0 but changing fastest). Students often confuse this: \"Maximum flux ≠ maximum emf. Maximum CHANGE of flux = maximum emf.\"</p><p><strong>Worked examples (15 min):</strong> (1) Coil: N = 200, A = 0.04 m², B = 0.5 T, f = 50 Hz → ω = 100π. ε₀ = 200 × 0.5 × 0.04 × 100π = 1257 V. (2) The rotation speed is doubled: new ε₀ = 2514 V AND f = 100 Hz. Both increase. (3) At what angle (position) is the emf: (a) maximum, (b) zero? (4) Sketch ε-t and Φ-t on the same axes — show they're 90° out of phase.</p><p><strong>Practice (10 min):</strong> Generator calculations and graph sketching.</p>",
+          "engagementHook": {
+            "title": "SPIN THE GENERATOR — LIGHT THE BULB",
+            "content": "Connect a hand-crank generator to a small bulb. Spin slowly: dim glow. Spin faster: brighter AND the flicker frequency increases (visible if you spin slowly enough). \"Faster spin → more flux change per second → larger emf AND higher frequency. Your hand is doing what a turbine does in a power station — converting mechanical rotation into electrical energy via Faraday's law.\" Students feel the resistance increase when the bulb is connected (Lenz's law — the generator fights back)."
+          },
+          "nos": {
+            "tags": ["Technology", "Theories", "Global impact"],
+            "description": "The AC generator transformed human civilisation. Before 1882, there were no public power grids. Within 40 years of Faraday's discovery, cities were electrified. The debate between Edison (DC) and Tesla/Westinghouse (AC) was settled by physics: AC can be easily transformed to high voltage for efficient transmission (P_loss = I²R). Tesla's AC system won — and still powers the world."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Caring"],
+          "ao": [
+            "AO1 — State ε = NBAω sin(ωt); explain how an AC generator works",
+            "AO2 — Calculate peak emf and frequency; analyse the effect of changing ω, N, B, A",
+            "AO3 — Sketch and interpret ε-t and Φ-t graphs; explain the phase relationship"
+          ],
+          "resources": "Hand-crank generator, small bulb, oscilloscope (to show AC waveform), coil-in-magnet model, calculators",
+          "formative": "\"A coil (N = 500, A = 0.02 m²) rotates at 60 Hz in B = 0.3 T. (a) Find ω. (b) Find ε₀. (c) Write the expression for ε(t). (d) Sketch ε vs t for 2 complete cycles. (e) The rotation speed is halved. Find the new ε₀ and frequency. (f) At what coil orientation is the emf maximum? Explain using ΔΦ/Δt.\""
+        },
+        {
+          "num": 2,
+          "title": "Lenz's Law, Energy Conservation & Self-Induction",
+          "focus": "Why induction always opposes — and a qualitative look at self-induction",
+          "minutes": 60,
+          "understandings": [
+            "Lenz's law: the direction of the induced emf is such that the induced current opposes the change in flux that caused it",
+            "This is a consequence of conservation of energy — if the induced current aided the change, energy would be created from nothing",
+            "Applications: eddy current braking, electromagnetic damping, induction cooktops",
+            "Self-induction (qualitative only): a changing current in a coil induces an emf in the SAME coil that opposes the change in current"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Drop a strong magnet through a copper tube. It falls in slow motion — much slower than free fall. \"There's no friction, no contact. The copper isn't magnetic. What's slowing it?\" Lenz's law: the falling magnet changes the flux through the tube → induces eddy currents → these create a field that OPPOSES the motion → the magnet is braked. Energy: the magnet's gravitational PE → electrical energy in the eddy currents → thermal energy in the copper.</p><p><strong>Direct instruction (15 min):</strong> Systematic Lenz's law: (1) Determine how Φ is changing (increasing or decreasing). (2) The induced current creates B to OPPOSE the change: if Φ increases → induced B opposes the external B (reduces flux). If Φ decreases → induced B supports the external B (maintains flux). (3) Use the right-hand rule to find the current direction that creates the opposing B. Applications: (a) Eddy current brakes (trains, rollercoasters — braking without friction, wear-free). (b) Induction cooktops: rapidly alternating B induces eddy currents in the pan → the PAN heats up, not the cooktop. (c) Electromagnetic damping in galvanometers.</p><p><strong>Self-induction (10 min):</strong> Qualitative only. When current in a coil changes, the changing current → changing B → changing Φ through the SAME coil → induced emf opposes the change. This is self-induction. \"A coil resists changes in its own current — like inertia for electricity.\" When you switch off a large inductor, the collapsing field induces a large emf → can create sparks (back-emf).</p><p><strong>Demo (15 min):</strong> (1) Magnet through copper tube — slow fall. (2) Aluminium plate swinging between magnet poles — stops quickly (eddy current damping). (3) Induction cooktop (video): boils water in 90 seconds, paper on the cooktop doesn't burn (the surface isn't hot — only the pan is). (4) Back-emf spark: disconnect a coil from a battery → spark at the switch (energy stored in the magnetic field is released).</p><p><strong>Practice (10 min):</strong> Lenz's law direction problems and qualitative self-induction questions.</p><p><strong>Wrap-up (5 min):</strong> \"Faraday's law tells you HOW MUCH emf. Lenz's law tells you WHICH DIRECTION. Together they're the complete story of electromagnetic induction — and the reason you have electricity at home.\"</p>",
+          "engagementHook": {
+            "title": "THE SLOW-FALLING MAGNET — LENZ'S LAW IN ACTION",
+            "content": "Drop a strong neodymium magnet through a copper tube. It takes 5-10 seconds to fall 1 metre — instead of 0.45 seconds in free fall. \"No friction. No contact. No magnetism in copper. The magnet creates its own brake by inducing eddy currents that OPPOSE its fall.\" Then drop through a PVC tube (non-conductor) — normal speed. \"The difference is Lenz's law. The copper allows eddy currents; the plastic doesn't.\" Students calculate the theoretical fall time and compare."
+          },
+          "nos": {
+            "tags": ["Theories", "Technology", "Observations"],
+            "description": "Lenz's law is conservation of energy applied to induction. Without it, a generator could produce unlimited electricity for free — violating the first law of thermodynamics. Heinrich Lenz (1834) stated the law; it was immediately recognised as a consequence of energy conservation. Eddy current braking, now used in high-speed trains and rollercoasters, is a direct technological application."
+          },
+          "atl": ["Thinking skills", "Communication skills", "Research skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Caring"],
+          "ao": [
+            "AO1 — State Lenz's law; explain it as a consequence of energy conservation; describe self-induction qualitatively",
+            "AO2 — Determine the direction of induced current using Lenz's law",
+            "AO3 — Analyse eddy current braking, induction cooking, and self-induction effects"
+          ],
+          "resources": "Strong neodymium magnet, copper tube + PVC tube, aluminium plate + magnets, induction cooktop video, galvanometer with damping, battery + coil (back-emf demo)",
+          "formative": "\"(a) A magnet's N pole approaches a coil from the left. Which direction does the induced current flow (viewed from the left)? (b) The magnet is now pulled AWAY from the coil. New current direction? (c) Explain why a magnet falls slowly through a copper tube but at normal speed through a plastic tube. (d) A large electromagnet is switched off. Explain why a spark appears at the switch. (e) Why does Lenz's law follow from conservation of energy? What would happen if the induced current AIDED the flux change?\""
+        }
+      ]
+    },
+    {
+      "name": "Synthesis & Power Generation",
+      "color": "accent4",
+      "totalMinutes": 90,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "D.4 Synthesis — Induction Problem Solving & Power Generation",
+          "focus": "Multi-step problems and the physics of electricity generation",
+          "minutes": 90,
+          "understandings": [
+            "Combine Φ = BA cosθ, ε = −NΔΦ/Δt, ε = BvL, and ε = NBAω sin(ωt) in complex problems",
+            "Energy and power in generators: P = εI = ε²/R",
+            "Efficiency of electricity generation depends on the energy source: thermal (30-60%), hydro (80-95%), wind (30-45%), nuclear (33-37%)",
+            "The complete chain: energy source → mechanical rotation → ΔΦ/Δt → ε → current → power to grid"
+          ],
+          "teachingStrategy": "<p><strong>Strategy review (10 min):</strong> Decision framework: (a) Flux at any time → Φ = BA cosθ. (b) Induced emf → ε = −NΔΦ/Δt (general) or ε = BvL (straight conductor) or ε = NBAω sinωt (rotating coil). (c) Induced current → I = ε/R. (d) Power → P = εI = ε²/R. (e) Direction → Lenz's law. Most problems combine 2-3 of these steps.</p><p><strong>Complex problems (35 min):</strong> Groups tackle: (1) A coil is pulled from a B field at constant speed. Find: ε (BvL for the leading edge), current (I = ε/R), force needed to maintain speed (F = BIL — must equal Lenz force), power input (Fv), power dissipated (I²R). Verify: mechanical power input = electrical power output (energy conservation). (2) A magnet oscillates on a spring above a coil (SHM from C.1!). The flux varies as Φ = Φ₀ cos(ωt). Find ε(t) and ε₀. Sketch ε-t graph. (3) Generator design: a power station needs ε₀ = 10 kV at 50 Hz. Given B = 0.5 T, choose N and A. Multiple solutions exist — trade-offs between size and turns.</p><p><strong>Efficiency discussion (15 min):</strong> The energy chain: coal → heat → steam → turbine rotation → generator (Faraday's law) → ε → grid. Every conversion has losses. Coal station: 33-40% efficient (most energy lost as waste heat — 2nd law from B.4). Hydro: 80-95% (direct mechanical → electrical, no thermal stage). Nuclear: ~33% (same thermal limitations as coal). Wind: 30-45% (Betz limit: max 59.3% of wind energy extractable). Students calculate: if a coal station's fuel input is 1000 MW, how much electrical power is output at 37% efficiency? (370 MW.) Where does the other 630 MW go? (Cooling towers — waste heat.)</p><p><strong>Historical impact (10 min):</strong> \"Before Faraday (1831): no electricity generation. By 1882: Edison's Pearl Street station powered lower Manhattan. By 1900: cities worldwide were electrified. By 2024: 29,000 TWh of electricity generated globally. ALL of it uses Faraday's law: ε = −NΔΦ/Δt. One equation, discovered by a self-taught bookbinder's apprentice, powers civilisation.\"</p><p><strong>Exam practice (15 min):</strong> 3 timed IB-style D.4 problems.</p><p><strong>Wrap-up (5 min):</strong> Theme D complete. \"Fields (D.1, D.2) → forces on moving charges (D.3) → induction (D.4). One connected story from Newton's gravity to the electricity in this room.\"</p>",
+          "engagementHook": {
+            "title": "ONE EQUATION POWERS CIVILISATION",
+            "content": "\"Michael Faraday was a bookbinder's apprentice with no formal education. He couldn't do calculus. But in 1831, he discovered electromagnetic induction — and wrote the equation that powers every light, computer, hospital, and city on Earth. ε = −NΔΦ/Δt. 29,000 terawatt-hours per year. All from one man's curiosity about magnets and coils.\" Show the timeline: 1831 → 1882 → 1900 → 2024. The exponential growth of electricity generation — all built on Faraday's law."
+          },
+          "nos": {
+            "tags": ["Global impact", "Technology", "Science as a shared endeavour"],
+            "description": "The discovery of electromagnetic induction is arguably the most impactful scientific discovery in human history — measured by its effect on daily life. Faraday, Joseph Henry (independently, same year), and later Tesla and Westinghouse transformed the discovery into the electrical grid. Science → technology → society — the full cycle, completed in one generation."
+          },
+          "atl": ["Thinking skills", "Social skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Caring", "Communicator"],
+          "ao": [
+            "AO2 — Apply all D.4 equations in multi-step problems; calculate power and efficiency",
+            "AO3 — Evaluate the efficiency of different electricity generation methods; analyse energy chains"
+          ],
+          "resources": "Problem sets, whiteboards, electricity generation efficiency data, Faraday biography, power station diagrams, calculators",
+          "formative": "\"(a) A 0.2 m rod moves at 4 m/s ⊥ to B = 0.5 T. Connected to R = 2 Ω. Find: ε, I, power dissipated, force needed to maintain speed. Verify Fv = I²R. (b) A generator (N = 1000, A = 0.05 m², B = 0.4 T) rotates at 50 Hz. Find ε₀. If the total circuit resistance is 500 Ω, find the peak current and average power. (c) A coal power station inputs 800 MW of thermal energy. Efficiency = 35%. Find electrical output and waste heat. (d) Explain why hydroelectric stations are more efficient than coal stations.\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "D.2 Electric & Magnetic Fields", "question": "How does the magnetic field from a current (D.2) lead to the induction of emf when that current changes (D.4)?" },
+    { "topic": "D.3 Motion in EM Fields", "question": "How does the force on a moving charge (F = qvB) in D.3 relate to the motional emf (ε = BvL) in D.4?" },
+    { "topic": "A.3 Work, Energy & Power", "question": "How does conservation of energy explain Lenz's law and the efficiency limitations of generators?" },
+    { "topic": "B.4 Thermodynamics (HL)", "question": "How is the efficiency of electricity generation dependent on the source of energy? Why can't thermal stations exceed Carnot efficiency?" },
+    { "topic": "C.1 Simple Harmonic Motion", "question": "How does a magnet oscillating on a spring above a coil produce a sinusoidal emf? How does ω connect SHM to AC generation?" },
+    { "topic": "IB Linking (NOS)", "question": "Faraday's law includes a rate of change. Which other areas of physics relate to rates of change?" }
+  ]
+},
+"E1": {
+  "title": "Structure of the Atom",
+  "code": "E.1",
+  "theme": "E",
+  "level": "SL + HL",
+  "recommendedHours": 9,
+  "recommendedMinutes": 540,
+  "guidingQuestions": [
+    "What is the current understanding of the nature of an atom?",
+    "What is the role of evidence in the development of models of the atom?",
+    "In what ways are previous models of the atom still valid despite recent advances in understanding?"
+  ],
+  "groups": [
+    {
+      "name": "The Nucleus & Rutherford Scattering (SL)",
+      "color": "accent4",
+      "totalMinutes": 150,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "The Geiger-Marsden-Rutherford Experiment",
+          "focus": "How gold foil and alpha particles revealed the nuclear atom",
+          "minutes": 55,
+          "understandings": [
+            "The Geiger-Marsden-Rutherford experiment: alpha particles fired at thin gold foil",
+            "Three key observations: (1) most alphas pass straight through (atom is mostly empty space), (2) some deflect at small angles (positive nucleus repels positive alphas), (3) very few (~1 in 8000) bounce back at large angles (head-on encounter with a tiny, massive, positive nucleus)",
+            "Conclusions: the atom has a small, dense, positively charged nucleus containing most of the mass, surrounded by orbiting electrons in mostly empty space",
+            "Nuclear notation: ᴬ_Z X where A = nucleon number (protons + neutrons), Z = proton number"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Before 1909, the best model was Thomson's 'plum pudding' — positive charge spread throughout the atom with electrons embedded like raisins. Rutherford's team fired alpha particles at gold foil expecting them all to pass through with slight deflections. What they saw changed everything.\"</p><p><strong>Direct instruction (20 min):</strong> The experiment: alpha source → collimator → thin gold foil → zinc sulfide screen (detects alphas by flashes). Three observations: (1) Most pass straight through → atom is mostly empty. If the positive charge were spread out (plum pudding), ALL alphas would deflect slightly. (2) Some deflect at small angles → there's a concentrated positive charge that repels at a distance. (3) A tiny fraction bounce BACK (>90°) → they hit something very small, very dense, and very positive head-on. Rutherford: \"It was almost as incredible as if you fired a 15-inch shell at a piece of tissue paper and it came back and hit you.\" Conclusion: nuclear model — tiny positive nucleus (~10⁻¹⁵ m), electrons far away (~10⁻¹⁰ m), mostly empty space. Nuclear notation: ᴬ_Z X. Example: ²³⁸₉₂U → 92 protons, 238 nucleons, 146 neutrons.</p><p><strong>Scale demo (10 min):</strong> \"If the nucleus were a marble (1 cm), the atom would be a football stadium (100 m across). The electrons would be gnats flying around the upper seats.\" Students calculate: atom diameter / nucleus diameter ≈ 10⁻¹⁰/10⁻¹⁵ = 10⁵. \"The atom is 99.9999999999999% empty space. You are mostly nothing.\"</p><p><strong>Worked examples (10 min):</strong> (1) How many protons, neutrons in ⁵⁶₂₆Fe? (26p, 30n). (2) Isotopes: ¹²₆C and ¹⁴₆C — same Z, different A. (3) Why do most alphas pass through? (They miss the nucleus — it's tiny compared to the atom.)</p><p><strong>Practice (10 min):</strong> Nuclear notation, isotope identification, and Rutherford observation interpretation.</p>",
+          "engagementHook": {
+            "title": "THE 15-INCH SHELL — RUTHERFORD'S ASTONISHMENT",
+            "content": "\"Rutherford expected every alpha to pass through — like firing bullets through fog. Instead, some bounced BACK. He said it was like firing a 15-inch artillery shell at tissue paper and having it come back and hit you.\" Show the scale: if the gold foil were scaled up so atoms were football stadiums, the nuclei would be marbles on the centre spot. Students calculate the probability of an alpha hitting a nucleus — explain why only 1 in 8000 bounces back."
+          },
+          "nos": {
+            "tags": ["Observations", "Models", "Falsification"],
+            "description": "Rutherford's experiment falsified Thomson's plum pudding model. The back-scattered alphas were impossible under Thomson's model — a clear falsification. The nuclear model replaced it. But the nuclear model had its own problems (electrons should spiral into the nucleus, radiating energy). Bohr later fixed this with quantised orbits. Science progresses by replacing models with better models."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Describe the Rutherford experiment, its observations, and conclusions",
+            "AO2 — Use nuclear notation to identify protons, neutrons, nucleon number",
+            "AO3 — Analyse why the observations falsified the plum pudding model"
+          ],
+          "resources": "Rutherford experiment animation/video, gold foil diagram, scale model materials, periodic table",
+          "formative": "\"(a) State the three key observations of the Rutherford experiment. (b) Explain how each observation leads to a conclusion about atomic structure. (c) Why couldn't the plum pudding model explain the back-scattering? (d) Write the nuclear notation for an atom with 20 protons and 20 neutrons. Identify the element. (e) Two isotopes of chlorine: ³⁵Cl and ³⁷Cl. How many neutrons in each?\""
+        },
+        {
+          "num": 2,
+          "title": "Emission & Absorption Spectra — Evidence for Energy Levels",
+          "focus": "Discrete spectral lines prove atoms have quantised energy levels",
+          "minutes": 50,
+          "understandings": [
+            "Emission spectra: hot gases emit light at specific discrete wavelengths (bright lines on dark background)",
+            "Absorption spectra: cool gases absorb light at the same specific wavelengths (dark lines on continuous background)",
+            "These provide evidence for discrete atomic energy levels — electrons can only exist at specific energies",
+            "Each element has a UNIQUE spectrum — a 'fingerprint' used to identify chemical composition"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Show hydrogen spectrum through a diffraction grating: red, cyan, blue, violet lines — nothing in between. \"A hot hydrogen gas doesn't emit all colours. It emits only THESE specific wavelengths. Why?\" Because the electron can only occupy specific energy levels, and transitions between them produce photons of specific energies (and therefore specific wavelengths).</p><p><strong>Direct instruction (15 min):</strong> Energy level diagram: draw horizontal lines at specific energies (n = 1, 2, 3, ...). An electron dropping from level 3 to level 2 emits a photon with energy E₃ − E₂. This corresponds to a specific frequency (and colour). Each possible transition → one spectral line. Emission: electron drops DOWN → photon OUT → bright line. Absorption: photon IN → electron jumps UP → dark line at the same wavelength. Key: absorption and emission lines occur at the SAME wavelengths for the same element. Each element has different energy levels → different spectrum → unique fingerprint.</p><p><strong>Demo (10 min):</strong> View spectral tubes (H, He, Na, Ne) through diffraction gratings. Each element shows completely different lines. Na: bright yellow doublet. H: the Balmer series (red, cyan, blue, violet). Ne: complex red/orange. \"No two elements have the same spectrum. This is how astronomers identify what stars are made of — from millions of light-years away.\"</p><p><strong>Worked examples (10 min):</strong> (1) An atom has energy levels at −13.6, −3.4, −1.51, −0.85 eV. Draw the energy level diagram. (2) List all possible emission transitions. (3) The 3→2 transition: ΔE = −1.51 − (−3.4) = 1.89 eV → photon frequency? (4) Solar absorption: dark lines in the Sun's continuous spectrum → which elements are in the Sun's atmosphere?</p><p><strong>Practice (10 min):</strong> Energy level diagrams, transition calculations, spectrum identification.</p>",
+          "engagementHook": {
+            "title": "ATOMIC FINGERPRINTS — EVERY ELEMENT HAS ITS OWN",
+            "content": "View H, He, Na, Ne through diffraction gratings. Each shows completely different coloured lines. \"If I gave you an unknown gas and a diffraction grating, you could identify the element by its spectral lines — without any chemical test.\" Then show the Sun's absorption spectrum: dark lines matching known elements. \"Helium was discovered this way — on the Sun, 27 years before it was found on Earth.\""
+          },
+          "nos": {
+            "tags": ["Observations", "Measurements", "Theories"],
+            "description": "Kirchhoff and Bunsen (1860) showed that each element produces a unique spectrum. This launched the field of spectroscopy. The EXPLANATION — quantised energy levels — didn't come until Bohr (1913). For 50 years, spectra were observed and catalogued without understanding WHY they looked the way they did. The pattern was known; the theory came later."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe emission and absorption spectra; explain as evidence for discrete energy levels",
+            "AO2 — Draw energy level diagrams; identify transitions producing specific spectral lines",
+            "AO3 — Analyse how spectra reveal chemical composition"
+          ],
+          "resources": "Spectral tubes (H, He, Na, Ne) + power supply, diffraction gratings, solar spectrum poster, energy level diagram handout",
+          "formative": "\"An atom has energy levels at −10.4, −5.1, −2.3, −1.0 eV. (a) Draw the energy level diagram. (b) How many emission lines are possible? List them. (c) Calculate the photon energy and wavelength for the transition from −2.3 to −10.4 eV. (d) This element's gas is placed in front of a white light source. Which wavelengths are absorbed? (e) Why does each element have a unique spectrum?\""
+        },
+        {
+          "num": 3,
+          "title": "Photon Emission & Absorption — E = hf",
+          "focus": "The quantum link between energy levels and photon properties",
+          "minutes": 45,
+          "understandings": [
+            "Photons are emitted during transitions from higher to lower energy levels",
+            "Photons are absorbed during transitions from lower to higher energy levels",
+            "The frequency of the photon depends on the energy difference: E = hf, where h = 6.63 × 10⁻³⁴ J·s",
+            "Also: E = hc/λ — connecting energy to wavelength",
+            "Only photons with EXACTLY the right energy can be absorbed (matching a level gap)"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> When an electron drops from E_high to E_low: it emits a photon with energy E_photon = E_high − E_low = hf. Rearrange: f = (E_high − E_low)/h. And λ = hc/E_photon. The photon carries exactly the energy of the transition — no more, no less. Absorption: a photon can ONLY be absorbed if its energy matches a level gap exactly. If E_photon doesn't match any gap: the photon passes through — the gas is transparent at that wavelength. This is why absorption lines are at the SAME wavelengths as emission lines — same gaps, same energies.</p><p><strong>Worked examples (20 min):</strong> (1) Hydrogen transition n=3→n=2: E₃ = −1.51 eV, E₂ = −3.40 eV. E_photon = 1.89 eV = 1.89 × 1.6 × 10⁻¹⁹ J = 3.02 × 10⁻¹⁹ J. f = E/h = 4.57 × 10¹⁴ Hz. λ = c/f = 656 nm (red — Hα line). (2) A photon of λ = 486 nm is emitted. Find E in eV and identify the transition from the hydrogen energy level diagram. (3) Can a 2.0 eV photon be absorbed by hydrogen in the ground state? Check: E₂ − E₁ = −3.40 − (−13.6) = 10.2 eV. No — 2.0 eV doesn't match any transition from n = 1. (4) A 10.2 eV photon IS absorbed by hydrogen in the ground state → electron jumps to n = 2.</p><p><strong>Practice (10 min):</strong> Photon energy, frequency, and wavelength calculations. Match photons to transitions.</p>",
+          "engagementHook": {
+            "title": "THE PHOTON THAT FITS — OR DOESN'T",
+            "content": "\"A hydrogen atom in the ground state is like a vending machine that only takes exact change. A 10.2 eV photon? ACCEPTED — electron jumps to n = 2. A 10.0 eV photon? REJECTED — no matching level gap. A 13.6 eV photon? ACCEPTED — ionisation (electron ejected entirely). The atom is incredibly picky.\" Students try various photon energies and determine which are accepted and which rejected."
+          },
+          "nos": {
+            "tags": ["Theories", "Patterns"],
+            "description": "Planck introduced E = hf in 1900 to explain blackbody radiation, but he considered it a mathematical trick. Einstein (1905) proposed that light ACTUALLY comes in packets (photons) of energy hf. Bohr (1913) applied this to atoms. Three Nobel laureates, three steps, one equation: E = hf is the foundation of quantum physics."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State E = hf = hc/λ; explain photon emission and absorption",
+            "AO2 — Calculate photon energy, frequency, wavelength for atomic transitions",
+            "AO3 — Analyse which photons can be absorbed by a given atom"
+          ],
+          "resources": "Hydrogen energy level diagram, calculators, periodic table, h and c values",
+          "formative": "\"Hydrogen levels: E₁ = −13.6, E₂ = −3.4, E₃ = −1.51, E₄ = −0.85 eV. (a) Find the energy and wavelength of the n=4→n=2 transition. (b) What colour is this light? (c) Can a 12.1 eV photon be absorbed by hydrogen in the ground state? Which level does the electron reach? (d) A photon of λ = 122 nm is emitted. Identify the transition. (e) Why can't a hydrogen atom absorb a 7.0 eV photon when in the ground state?\""
+        }
+      ]
+    },
+    {
+      "name": "Nuclear Size & Scattering (AHL)",
+      "color": "accent",
+      "totalMinutes": 120,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Nuclear Radius, Density & High-Energy Scattering (AHL)",
+          "focus": "R = R₀A^(1/3) — all nuclei have the same density",
+          "minutes": 55,
+          "understandings": [
+            "The relationship between nuclear radius R and nucleon number A: R = R₀A^(1/3), where R₀ ≈ 1.2 × 10⁻¹⁵ m",
+            "This implies nuclear volume ∝ A (each nucleon occupies the same volume) → nuclear density is approximately constant for all nuclei (~2.3 × 10¹⁷ kg/m³)",
+            "Nuclear density is ~10¹⁴ times greater than ordinary matter — a teaspoon of nuclear matter would weigh ~5 billion tonnes",
+            "Deviations from Rutherford scattering at high energies: the alpha gets close enough to 'feel' the nuclear force → the scattering pattern deviates from the Coulomb prediction → evidence that the nucleus has a finite size"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (20 min):</strong> R = R₀A^(1/3). For hydrogen (A = 1): R ≈ 1.2 fm. For uranium (A = 238): R = 1.2 × 238^(1/3) = 1.2 × 6.2 = 7.4 fm. Volume: V = (4/3)πR³ = (4/3)πR₀³A → V ∝ A. Each nucleon occupies the same volume — nucleons pack like incompressible spheres. Density: ρ = Am_nucleon / V = m_nucleon / ((4/3)πR₀³) ≈ 2.3 × 10¹⁷ kg/m³. This is CONSTANT for all nuclei. \"A neutron star is essentially a giant nucleus — same density, ~10 km radius, mass of the Sun.\"\n\nHigh-energy scattering: at low energies, alphas are repelled by Coulomb force → Rutherford scattering (1/sin⁴(θ/2) pattern). At very high energies, alphas get close enough to reach the nuclear surface (~few fm) → nuclear strong force kicks in → scattering deviates from the Coulomb prediction. The energy at which deviation occurs tells us the nuclear radius.</p><p><strong>Worked examples (15 min):</strong> (1) Calculate R for ⁵⁶Fe (A = 56): R = 1.2 × 56^(1/3) = 1.2 × 3.83 = 4.6 fm. (2) Calculate nuclear density: ρ = 56 × 1.67 × 10⁻²⁷ / ((4/3)π × (4.6 × 10⁻¹⁵)³) = 2.3 × 10¹⁷ kg/m³. (3) A teaspoon (5 mL) of nuclear matter: mass = 2.3 × 10¹⁷ × 5 × 10⁻⁶ = 1.15 × 10¹² kg ≈ 1 billion tonnes. (4) At what energy does an alpha get within R of a gold nucleus? Use closest approach: KE = kZe × 2e / R → KE = k × 79 × 2 × e² / R.</p><p><strong>Discussion (10 min):</strong> \"Electron scattering (not alpha) gives more precise nuclear radii because electrons aren't affected by the strong force — they probe the charge distribution purely via the electromagnetic force. The diffraction pattern of scattered electrons gives R directly.\"</p><p><strong>Practice (10 min):</strong> R and density calculations. Closest approach problems.</p>",
+          "engagementHook": {
+            "title": "A TEASPOON WEIGHING A BILLION TONNES",
+            "content": "Calculate the mass of 5 mL of nuclear matter: 1.15 × 10¹² kg. \"That's about the mass of Mount Everest. All in a teaspoon. Nuclear matter is 10¹⁴ times denser than water.\" Then: \"Neutron stars ARE nuclear matter — a star that has collapsed until protons and electrons merge into neutrons. A neutron star packs 1.4 solar masses into a sphere 10 km across.\" Students calculate the density of a neutron star and verify it matches nuclear density."
+          },
+          "nos": {
+            "tags": ["Measurements", "Models", "Patterns"],
+            "description": "The constant nuclear density (R ∝ A^(1/3)) tells us something profound: nucleons behave like incompressible fluid — they pack tightly regardless of nucleus size. This led to the 'liquid drop' model of the nucleus, which successfully predicts binding energies and explains nuclear fission (a drop splitting in two)."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State R = R₀A^(1/3); explain constant nuclear density",
+            "AO2 — Calculate nuclear radius, volume, density; calculate closest approach distance",
+            "AO3 — Analyse why high-energy scattering deviates from Rutherford predictions"
+          ],
+          "resources": "Calculators, nuclear data table, neutron star infographic, scattering deviation graph",
+          "formative": "\"(a) Calculate R for ²⁰⁸Pb. (b) Calculate its nuclear density. Compare with water (1000 kg/m³). (c) At what alpha KE does the distance of closest approach equal R for gold (Z = 79)? (d) At energies above this: what happens to the scattering pattern and why? (e) Why are electrons better probes of nuclear size than alpha particles?\""
+        },
+        {
+          "num": 2,
+          "title": "Distance of Closest Approach (AHL)",
+          "focus": "Using energy conservation to find how close an alpha gets to a nucleus",
+          "minutes": 65,
+          "understandings": [
+            "In head-on scattering: the alpha particle approaches the nucleus, decelerates due to Coulomb repulsion, stops momentarily, then reverses",
+            "At closest approach: all KE has converted to electric PE → ½mv² = kZe × 2e / r_min",
+            "r_min = k × 2Ze² / KE — gives an UPPER BOUND on the nuclear radius",
+            "If r_min > R_nucleus: the alpha never reaches the nucleus → pure Coulomb scattering (Rutherford pattern valid)",
+            "If r_min ≈ R_nucleus: nuclear force becomes significant → deviations from Rutherford"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Head-on collision (b = 0): alpha approaches nucleus directly. As it gets closer: KE → PE (Coulomb repulsion). At r_min: KE = 0, all energy is PE. Energy conservation: ½mv² = k(2e)(Ze)/r_min. Solve: r_min = k × 2Ze² / (½mv²) = 2kZe² / KE. This is the closest the alpha gets — an upper bound for the nucleus size. If the alpha has enough energy to reach the actual nuclear surface: nuclear force takes over → scattering differs from Coulomb prediction.</p><p><strong>Worked examples (25 min):</strong> (1) Classic Rutherford: alpha (KE = 7.7 MeV) at gold (Z = 79). r_min = 2 × 8.99 × 10⁹ × 79 × (1.6 × 10⁻¹⁹)² / (7.7 × 10⁶ × 1.6 × 10⁻¹⁹) = 2.96 × 10⁻¹⁴ m = 29.6 fm. R_gold ≈ 7.3 fm (from R = R₀A^(1/3)). Since r_min >> R: alpha never reaches the nucleus → Rutherford scattering is valid. (2) Higher energy alpha (50 MeV) at gold: r_min = 4.56 fm. Now r_min < R → nuclear force affects the scattering. (3) Find the minimum KE for an alpha to reach the nuclear surface of aluminium (Z = 13, A = 27). R = 1.2 × 27^(1/3) = 3.6 fm. KE = 2kZe²/R = 10.4 MeV.</p><p><strong>Graphical analysis (15 min):</strong> Plot KE vs r and PE vs r for an alpha approaching a nucleus. KE starts at KE₀ and decreases. PE starts at 0 and increases as 1/r. At r_min: KE = 0, PE = KE₀. Total energy (horizontal line) = KE₀ throughout. This is A.3 energy conservation applied to nuclear physics.</p><p><strong>Practice (10 min):</strong> Closest approach calculations for various nuclei and alpha energies.</p>",
+          "engagementHook": {
+            "title": "HOW CLOSE DID RUTHERFORD'S ALPHAS GET?",
+            "content": "Students calculate r_min for Rutherford's original experiment (7.7 MeV alphas at gold). Answer: ~30 fm. Gold's nuclear radius: ~7 fm. \"The alphas never got close to the nucleus — they turned around 4 nuclear radii away. That's why Rutherford scattering worked perfectly with his energies.\" Then: \"What energy would you need to actually TOUCH the gold nucleus?\" Calculate: ~25 MeV. \"Rutherford's alphas were 3× too weak. Modern accelerators easily exceed this — and they see the scattering pattern change.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Measurements", "Models"],
+            "description": "The closest approach calculation uses ONLY energy conservation and Coulomb's law — concepts from A.3 and D.2. No new physics is needed. This is the power of conservation laws: they apply everywhere, from springs to nuclei. Rutherford used this simple calculation in 1911 to estimate the nuclear size — a profound result from elementary physics."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe head-on scattering and closest approach",
+            "AO2 — Calculate r_min from KE using energy conservation; compare with R_nucleus",
+            "AO3 — Analyse when Rutherford scattering is valid and when it breaks down"
+          ],
+          "resources": "Calculators, KE-PE vs r graph template, nuclear radii table",
+          "formative": "\"An alpha (KE = 5 MeV) approaches a nitrogen nucleus (Z = 7, A = 14) head-on. (a) Calculate r_min. (b) Calculate R_nitrogen using R = R₀A^(1/3). (c) Does the alpha reach the nuclear surface? (d) What minimum KE is needed to reach R? (e) At energies above this, how would the scattering differ from the Rutherford prediction?\""
+        }
+      ]
+    },
+    {
+      "name": "The Bohr Model (AHL)",
+      "color": "accent3",
+      "totalMinutes": 120,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "The Bohr Model — Quantised Energy Levels & Orbits (AHL)",
+          "focus": "E = −13.6/n² eV and mvr = nh/(2π) — the first quantum model of the atom",
+          "minutes": 60,
+          "understandings": [
+            "The Bohr model for hydrogen: electrons orbit the nucleus in discrete circular orbits with quantised energy",
+            "Energy levels: E_n = −13.6/n² eV, where n = 1 (ground state), 2, 3, ... (excited states)",
+            "The existence of quantised energy and orbits arises from the quantisation of angular momentum: mvr = nh/(2π)",
+            "Only orbits where the angular momentum is an integer multiple of h/(2π) are allowed — this is the quantum condition",
+            "The Bohr model correctly predicts hydrogen's spectrum but fails for multi-electron atoms"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Rutherford's model had a problem: an orbiting electron accelerates (centripetal) → Maxwell's equations say it should radiate energy → it should spiral into the nucleus in ~10⁻¹¹ s. But atoms are stable. Something is wrong with classical physics. Bohr's radical solution: electrons can ONLY orbit at specific radii — and they DON'T radiate while in these orbits.\"</p><p><strong>Direct instruction (20 min):</strong> Bohr's postulates: (1) Electrons orbit in stationary states (don't radiate). (2) Only orbits where mvr = nh/(2π) are allowed. (3) Photons are emitted/absorbed only during transitions between states. From postulate 2 + Coulomb force + circular motion: derive (or state) E_n = −13.6/n² eV. n = 1: E₁ = −13.6 eV (ground state, most tightly bound). n = 2: E₂ = −3.4 eV. n = 3: E₃ = −1.51 eV. n → ∞: E = 0 (ionisation — electron free). The orbit radius: r_n = n²a₀ where a₀ = 0.053 nm (Bohr radius). Draw the energy level diagram with transitions: Lyman (to n = 1, UV), Balmer (to n = 2, visible), Paschen (to n = 3, IR).</p><p><strong>Spectral verification (10 min):</strong> Calculate the wavelengths predicted by Bohr for the Balmer series: E = 13.6(1/n_f² − 1/n_i²) eV. For n = 3→2: E = 1.89 eV → λ = 656 nm (red). For n = 4→2: E = 2.55 eV → λ = 486 nm (cyan). These match the OBSERVED hydrogen spectrum exactly. \"Bohr's theory PREDICTED the spectrum — it wasn't fitted to the data. This is the power of a correct theory.\"</p><p><strong>Worked examples (15 min):</strong> (1) Ionisation energy from the ground state = 13.6 eV. (2) Photon from n = 5→2: E = 13.6(1/4 − 1/25) = 2.856 eV → λ = 434 nm (violet). (3) An electron in n = 4 absorbs a photon and is ionised. Minimum photon energy? E = |E₄| = 0.85 eV. (4) Angular momentum in n = 3: L = 3h/(2π).</p><p><strong>Practice (10 min):</strong> Energy level, transition, and angular momentum calculations.</p>",
+          "engagementHook": {
+            "title": "THE SPECTRUM THAT BOHR PREDICTED — WITHOUT SEEING IT",
+            "content": "\"Bohr published his model in 1913. His equation predicted hydrogen's spectral lines to 4 significant figures — matching measurements that had been catalogued for decades but never explained. He predicted lines in the UV (Lyman series) that HADN'T BEEN OBSERVED YET. They were found exactly where Bohr said they'd be.\" Students calculate 3 Balmer wavelengths and compare with the observed hydrogen spectrum on the wall."
+          },
+          "nos": {
+            "tags": ["Theories", "Models", "Observations"],
+            "description": "The Bohr model is a fascinating case study in NOS: it was revolutionary (introduced quantisation to atomic structure), partially correct (accurate for hydrogen), and ultimately wrong (fails for helium and all heavier atoms). Yet it's still taught because it captures the essential physics of quantised energy. Previous models are 'still valid' within their domain — as the IB guiding question asks."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Open-minded"],
+          "ao": [
+            "AO1 — State E_n = −13.6/n² eV; state mvr = nh/(2π); describe the Bohr model",
+            "AO2 — Calculate energy levels, transition energies, and photon wavelengths for hydrogen",
+            "AO3 — Analyse the successes and limitations of the Bohr model"
+          ],
+          "resources": "Hydrogen energy level diagram (large), calculators, hydrogen spectral tube + grating for verification, Bohr model animation",
+          "formative": "\"(a) Calculate E₁, E₂, E₃, E₄ for hydrogen using E_n = −13.6/n². (b) Find the wavelength of the photon emitted in the n = 6→2 transition. Which series is this in? (c) A hydrogen atom absorbs a 12.75 eV photon while in the ground state. To which level does the electron jump? (d) Calculate the angular momentum of the electron in n = 4. (e) Why does the Bohr model fail for helium?\""
+        },
+        {
+          "num": 2,
+          "title": "Bohr Model Applications & Synthesis (AHL)",
+          "focus": "Multi-step problems combining energy levels, spectra, and scattering",
+          "minutes": 60,
+          "understandings": [
+            "Combine E_n = −13.6/n², E = hf, closest approach, and R = R₀A^(1/3) in complex problems",
+            "Ionisation energy: energy to remove the electron from n = 1 to n = ∞ (13.6 eV for hydrogen)",
+            "Series identification: Lyman (n_f = 1, UV), Balmer (n_f = 2, visible), Paschen (n_f = 3, IR)",
+            "Connections: energy levels → spectra → composition → stellar physics (E.4/E.5)"
+          ],
+          "teachingStrategy": "<p><strong>Strategy review (10 min):</strong> E.1 connects multiple topics: (a) Rutherford scattering → closest approach (energy conservation from A.3 + Coulomb from D.2). (b) Bohr model → energy levels → spectra (E = hf from quantum). (c) Nuclear size → R = R₀A^(1/3) → density. Multi-step problems chain these together.</p><p><strong>Complex problems (30 min):</strong> Groups tackle: (1) A hydrogen atom in n = 5 drops to n = 2. Find: energy released, photon frequency, wavelength, which series, which colour. Then the electron absorbs a 2.55 eV photon: which level does it reach? (2) An alpha (KE = 4 MeV) approaches aluminium (Z = 13). Find closest approach. Compare with nuclear radius (R = R₀ × 27^(1/3)). Does the alpha reach the nucleus? (3) From a star's absorption spectrum: dark lines at 656 nm and 486 nm. Identify the element and the transitions. Estimate the star's composition. (4) Using mvr = nh/(2π) and F_centripetal = Coulomb force: derive the expression for r_n = n²a₀ (show that quantising angular momentum forces discrete radii).</p><p><strong>Exam practice (15 min):</strong> 3 timed IB-style E.1 problems.</p><p><strong>Wrap-up (5 min):</strong> \"E.1 is the story of how we learned what atoms look like: Thomson → Rutherford → Bohr → quantum mechanics. Each model replaced the previous one — but each is still valid within its domain. This is how science works.\"</p>",
+          "engagementHook": {
+            "title": "THE EVOLUTION OF THE ATOM — 4 MODELS IN 20 YEARS",
+            "content": "\"1897: Thomson — plum pudding (electrons in positive 'dough'). 1911: Rutherford — nuclear model (tiny positive core). 1913: Bohr — quantised orbits (electrons in fixed energy levels). 1926: Schrödinger — wave mechanics (electrons as probability clouds).\" Each model was 'wrong' — and each was essential. Students draw all 4 models side by side. \"Which is 'right'? All of them — within their domain. And none of them — at the deepest level. This is how physics progresses.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Models", "Science as a shared endeavour"],
+            "description": "The history of atomic models is the best example in the IB syllabus of the guiding question: 'In what ways are previous models still valid despite recent advances?' Thomson's model is wrong about atomic structure but right about electrons. Rutherford's model is wrong about electron orbits but right about the nucleus. Bohr's model is wrong about fixed orbits but right about quantised energy. Each 'wrong' model captured something true."
+          },
+          "atl": ["Thinking skills", "Social skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Open-minded", "Communicator"],
+          "ao": [
+            "AO2 — Apply E.1 concepts in multi-step problems combining scattering, energy levels, and spectra",
+            "AO3 — Evaluate the progression of atomic models and what each contributed"
+          ],
+          "resources": "Problem sets, whiteboards, 4-models poster, calculators, exam papers",
+          "formative": "\"(a) A hydrogen atom drops from n = 4 to n = 1 (via n = 4→3→2→1). Calculate the wavelength of each photon emitted. In which part of the EM spectrum is each? (b) Compare: single transition 4→1 vs stepwise 4→3→2→1. Is the total energy the same? Are the photons the same? (c) An alpha (5 MeV) is fired at a carbon nucleus (Z = 6, A = 12). Find r_min. Find R_carbon. Does the alpha reach the nucleus? (d) Draw the four atomic models in chronological order. For each, state one thing it got RIGHT and one thing it got WRONG.\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "D.2 Electric & Magnetic Fields", "question": "How does Coulomb's law explain the Rutherford scattering pattern and the distance of closest approach?" },
+    { "topic": "A.3 Work, Energy & Power", "question": "How is energy conservation applied in head-on scattering experiments?" },
+    { "topic": "A.2 Forces & Momentum", "question": "How did Rutherford use momentum conservation to deduce nuclear structure?" },
+    { "topic": "E.4 Fission / E.5 Fusion", "question": "How can emission spectra allow for the properties of stars to be determined?" },
+    { "topic": "C.3 Wave Phenomena", "question": "How does electron diffraction provide evidence for wave-particle duality and probe nuclear structure?" },
+    { "topic": "IB Linking (NOS)", "question": "What is the role of evidence in the development of models of the atom? How are previous models still valid?" }
+  ]
+},
+"E2": {
+  "title": "Quantum Physics",
+  "code": "E.2",
+  "theme": "E",
+  "level": "HL only",
+  "recommendedHours": 8,
+  "recommendedMinutes": 480,
+  "guidingQuestions": [
+    "How can light be used to create an electric current?",
+    "What is meant by wave–particle duality?"
+  ],
+  "groups": [
+    {
+      "name": "The Photoelectric Effect",
+      "color": "accent4",
+      "totalMinutes": 240,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Photoelectric Effect — Observations & Evidence",
+          "focus": "Light ejects electrons from metals — but only above a threshold frequency",
+          "minutes": 60,
+          "understandings": [
+            "The photoelectric effect: light shining on a metal surface can eject electrons (photoelectrons)",
+            "Photoelectrons are only emitted when the light frequency exceeds a threshold frequency f₀ — below f₀, NO electrons are emitted regardless of intensity",
+            "Increasing intensity increases the NUMBER of photoelectrons but NOT their maximum KE",
+            "Increasing frequency increases the maximum KE of photoelectrons",
+            "These observations CANNOT be explained by the wave model of light — evidence for the particle nature of light"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Shine UV light on a zinc plate connected to an electroscope — the electroscope discharges. The UV ejects electrons.\" Now try visible light — even very bright visible light — NOTHING happens. \"Brighter light has MORE energy per second. Why doesn't it work?\" Because it's not about total energy — it's about energy PER PHOTON. Each photon must have enough energy individually to eject one electron.</p><p><strong>Direct instruction (20 min):</strong> The three key observations that wave theory CAN'T explain: (1) Threshold frequency: below f₀, no emission regardless of intensity. Wave theory says: just wait — waves should accumulate energy gradually. Reality: instant emission above f₀, zero below. (2) Intensity increases rate (more photons → more electrons) but NOT max KE. Wave theory says: more intense → more energy → faster electrons. Reality: same max KE, just more of them. (3) Emission is instantaneous (within 10⁻⁹ s). Wave theory says: energy accumulates over time — should take minutes for a dim source. Reality: immediate. Einstein's explanation (1905): light comes in PHOTONS, each with energy E = hf. One photon ejects one electron. If hf < Φ (work function): photon doesn't have enough energy → no emission. If hf ≥ Φ: electron ejected with KE_max = hf − Φ.</p><p><strong>Demo (10 min):</strong> UV lamp + zinc plate + electroscope: plate discharges under UV but not visible light. Insert a glass plate between UV source and zinc: discharge STOPS (glass absorbs UV). \"The glass removes the high-frequency photons. The remaining visible photons don't have enough energy per photon.\"</p><p><strong>Discussion (15 min):</strong> Why couldn't wave theory explain this? In wave theory, energy depends on amplitude (intensity), not frequency. A very bright red light should eventually eject electrons if waves delivered energy gradually. But it NEVER does. \"This was the crisis that launched quantum physics. Einstein solved it — and won the Nobel Prize, NOT for relativity, but for the photoelectric effect.\"</p><p><strong>Practice (10 min):</strong> Classify observations as explainable by wave theory or requiring photon theory.</p>",
+          "engagementHook": {
+            "title": "EINSTEIN'S NOBEL PRIZE — NOT FOR E = mc²",
+            "content": "\"Einstein is famous for relativity. But his Nobel Prize (1921) was for the photoelectric effect. His 1905 paper proposed that light is made of particles (photons), each carrying energy hf. This was MORE revolutionary than relativity — it said light, which Maxwell had proved was a wave, was ALSO a particle. The entire foundation of quantum mechanics rests on this idea.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Observations", "Falsification"],
+            "description": "The photoelectric effect falsified the classical wave theory of light — a theory that had been triumphant since Young's double slit experiment (1801). Maxwell's equations described light perfectly as a wave. Yet the photoelectric effect demanded particles. This is one of the most dramatic examples of scientific revolution: a successful theory overturned by a single set of observations."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Inquirer", "Open-minded"],
+          "ao": [
+            "AO1 — Describe the photoelectric effect and its key observations",
+            "AO2 — Explain why wave theory fails and photon theory succeeds",
+            "AO3 — Analyse why each observation supports the particle nature of light"
+          ],
+          "resources": "UV lamp, zinc plate, electroscope, glass plate (UV filter), photoelectric effect simulation (PhET)",
+          "formative": "\"(a) State three observations of the photoelectric effect that wave theory cannot explain. (b) For each, explain how the photon model provides a correct explanation. (c) UV light ejects electrons from zinc but visible light doesn't (even at very high intensity). Explain. (d) Why did Einstein receive the Nobel Prize for the photoelectric effect rather than relativity?\""
+        },
+        {
+          "num": 2,
+          "title": "Einstein's Equation — E_k(max) = hf − Φ",
+          "focus": "One photon, one electron, one equation — the quantum revolution",
+          "minutes": 65,
+          "understandings": [
+            "Work function Φ: the minimum energy needed to release an electron from the metal surface",
+            "Einstein's photoelectric equation: E_k(max) = hf − Φ",
+            "If hf < Φ: no emission. If hf = Φ: electron just barely released (KE = 0). If hf > Φ: excess energy becomes KE",
+            "Threshold frequency: f₀ = Φ/h — the minimum frequency for emission",
+            "Different metals have different Φ values → different f₀ values"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (20 min):</strong> Energy conservation for one photon ejecting one electron: photon energy = work to escape + kinetic energy of the freed electron. hf = Φ + E_k(max). Rearrange: E_k(max) = hf − Φ. At threshold: E_k = 0 → hf₀ = Φ → f₀ = Φ/h. Below f₀: hf < Φ → E_k would be negative → impossible → no emission. Φ depends on the metal: caesium has low Φ (easy to eject, responds to visible light), platinum has high Φ (needs UV). Present a table of Φ values for common metals.</p><p><strong>Worked examples (25 min):</strong> (1) Zinc: Φ = 4.3 eV. Threshold frequency: f₀ = Φ/h = 4.3 × 1.6 × 10⁻¹⁹ / 6.63 × 10⁻³⁴ = 1.04 × 10¹⁵ Hz → λ₀ = 289 nm (UV — explains why visible light doesn't work). (2) UV photon (f = 1.5 × 10¹⁵ Hz) hits zinc: E_k = hf − Φ = 6.63 × 10⁻³⁴ × 1.5 × 10¹⁵ − 4.3 × 1.6 × 10⁻¹⁹ = 3.07 × 10⁻¹⁹ J = 1.92 eV. Speed: v = √(2E_k/m) = 8.2 × 10⁵ m/s. (3) Which metals emit with visible light (f ≈ 5 × 10¹⁴ Hz)? Only those with Φ < hf = 2.07 eV → caesium (Φ = 1.9 eV) works. (4) A photon of λ = 200 nm hits sodium (Φ = 2.3 eV). Find E_k(max) and the speed of the fastest photoelectron.</p><p><strong>Practice (20 min):</strong> Mixed photoelectric calculations: finding Φ, f₀, E_k, v from various given data.</p>",
+          "engagementHook": {
+            "title": "SOLAR CELLS — THE PHOTOELECTRIC EFFECT POWERING YOUR PHONE",
+            "content": "\"Solar cells work by the photoelectric effect: sunlight photons eject electrons in a semiconductor, creating a current. The threshold frequency determines which part of the solar spectrum is useful. Silicon's band gap (1.1 eV → f₀ ≈ 2.7 × 10¹⁴ Hz, λ₀ ≈ 1100 nm) means it absorbs visible and near-IR but not far-IR. Every solar panel on Earth runs on Einstein's 1905 equation.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Technology", "Global impact"],
+            "description": "Einstein's photoelectric equation is one of the simplest in physics — yet it won the Nobel Prize because it introduced the photon concept. Solar cells, night vision, CCD cameras, and automatic doors all use the photoelectric effect. One equation, discovered through pure physics, now generates hundreds of gigawatts of renewable energy."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define work function; state E_k(max) = hf − Φ; define threshold frequency",
+            "AO2 — Calculate Φ, f₀, E_k, v for various metals and photon frequencies",
+            "AO3 — Analyse which metals respond to which parts of the EM spectrum"
+          ],
+          "resources": "Φ values table for metals, calculators, solar cell diagram, PhET photoelectric simulation",
+          "formative": "\"(a) Potassium has Φ = 2.3 eV. Find f₀ and λ₀. Will violet light (λ = 400 nm) cause emission? (b) If yes, find E_k(max) and the speed of the emitted electron. (c) Red light (λ = 700 nm) at 10× the intensity: any emission? Why not? (d) A metal has f₀ = 6 × 10¹⁴ Hz. Find Φ in eV. (e) A 3.5 eV photon ejects an electron with E_k = 1.2 eV. Find Φ.\""
+        },
+        {
+          "num": 3,
+          "title": "Stopping Voltage & Graphical Analysis",
+          "focus": "eV_s = hf − Φ and extracting h and Φ from graphs",
+          "minutes": 55,
+          "understandings": [
+            "Stopping voltage V_s: the minimum reverse voltage needed to stop the most energetic photoelectrons",
+            "eV_s = E_k(max) = hf − Φ → V_s = (h/e)f − Φ/e",
+            "V_s vs f graph: straight line with gradient h/e and y-intercept −Φ/e",
+            "The x-intercept gives f₀ (threshold frequency)",
+            "This graph allows experimental determination of h and Φ"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> To measure E_k(max): apply a reverse voltage V_s until the photocurrent drops to zero. At that point: eV_s = E_k(max). So: eV_s = hf − Φ → V_s = (h/e)f − Φ/e. Plot V_s vs f: straight line! Gradient = h/e → extract h. y-intercept = −Φ/e → extract Φ. x-intercept (V_s = 0): f₀ = Φ/h. This is one of the most important graphs in modern physics — it's how Millikan verified Einstein's equation (1916) and measured h.</p><p><strong>Lab / Data analysis (20 min):</strong> Give students V_s vs f data for a metal (or use simulation data). Plot V_s vs f. Draw the best-fit line. From gradient: h = gradient × e. From y-intercept: Φ = −(y-intercept) × e. From x-intercept: f₀. Compare calculated h with accepted value (6.63 × 10⁻³⁴). Calculate % error.</p><p><strong>Worked examples (10 min):</strong> (1) V_s = 1.2 V when f = 8 × 10¹⁴ Hz, and V_s = 0.4 V when f = 6 × 10¹⁴ Hz. Gradient = (1.2 − 0.4)/(8 − 6) × 10¹⁴ = 4 × 10⁻¹⁵ V·s = h/e → h = 4 × 10⁻¹⁵ × 1.6 × 10⁻¹⁹ = 6.4 × 10⁻³⁴ J·s (close to actual). (2) Find Φ from the data. (3) Different metal: same gradient (h/e is universal) but different intercept (different Φ).</p><p><strong>Practice (10 min):</strong> Graph interpretation and h extraction problems.</p>",
+          "engagementHook": {
+            "title": "MILLIKAN'S MEASUREMENT OF h — FROM A GRAPH",
+            "content": "\"Robert Millikan spent 10 years (1906-1916) trying to DISPROVE Einstein's photoelectric equation. He measured V_s vs f meticulously for multiple metals. Every time: a straight line with gradient h/e. Despite wanting Einstein to be wrong, Millikan's data CONFIRMED the equation perfectly. He wrote: 'I spent ten years of my life testing Einstein's 1905 equation and, contrary to all my expectations, I was compelled to assert its unambiguous verification.'\" Students extract h from Millikan-style data and verify Einstein was right."
+          },
+          "nos": {
+            "tags": ["Measurements", "Theories", "Falsification"],
+            "description": "Millikan tried to falsify Einstein's equation and ended up confirming it — a beautiful example of how science works. His meticulous measurements earned him the Nobel Prize (1923). The integrity of accepting results that contradict your hypothesis is the hallmark of good science."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Principled", "Thinker"],
+          "ao": [
+            "AO1 — Define stopping voltage; state V_s = (h/e)f − Φ/e",
+            "AO2 — Extract h and Φ from V_s vs f graphs",
+            "AO3 — Analyse why different metals have the same gradient but different intercepts"
+          ],
+          "resources": "V_s vs f data sets, graph paper, calculators, PhET photoelectric simulation",
+          "formative": "\"V_s vs f data: (5.5 × 10¹⁴, 0.1), (7.0 × 10¹⁴, 0.72), (8.5 × 10¹⁴, 1.34), (10 × 10¹⁴, 1.96). All in Hz and V. (a) Plot V_s vs f. (b) Find gradient. Calculate h. (c) Find y-intercept. Calculate Φ in eV. (d) Find f₀ from the x-intercept. (e) A second metal has V_s values that are all 0.5 V lower. What changed? Same or different h? Same or different Φ?\""
+        },
+        {
+          "num": 4,
+          "title": "Photoelectric Problem Solving",
+          "focus": "Multi-step problems combining all photoelectric concepts",
+          "minutes": 60,
+          "understandings": [
+            "Combine E_k = hf − Φ, eV_s = E_k, f₀ = Φ/h, and graphical analysis in complex problems",
+            "Calculate photon energy from wavelength: E = hc/λ",
+            "Determine whether emission occurs for a given metal and light source",
+            "Calculate photoelectron speed, current (from intensity and photon rate), and power"
+          ],
+          "teachingStrategy": "<p><strong>Strategy review (10 min):</strong> Decision framework: (a) Given λ → E = hc/λ. (b) Compare E with Φ → emission? (c) If yes: E_k = E − Φ → v = √(2E_k/m). (d) Stopping voltage: V_s = E_k/e. (e) Photon rate: n/t = P/(hf) where P is light power. (f) Photocurrent: I = (n/t) × e × quantum efficiency.</p><p><strong>Complex problems (30 min):</strong> Groups tackle: (1) A 60 W UV lamp (λ = 250 nm) shines on caesium (Φ = 1.9 eV). Find: photon energy (4.97 eV), E_k (3.07 eV), v (1.04 × 10⁶ m/s), V_s (3.07 V), photon rate (1.51 × 10¹⁹/s). If 1% of photons eject electrons: I = 24.2 mA. (2) Two metals (Φ₁ = 2.0 eV, Φ₂ = 4.5 eV) illuminated by the same 300 nm source. Which emits? Find E_k for each that emits. (3) A V_s vs f graph with 4 data points: extract h, Φ, f₀. Then predict V_s for a new frequency. (4) A photoelectric cell in a circuit: light energy → electrical energy → power to a load. Calculate efficiency.</p><p><strong>Exam practice (15 min):</strong> 3 timed IB-style problems.</p><p><strong>Wrap-up (5 min):</strong> \"The photoelectric effect proved light is a particle. But Young's double slit proved light is a wave. Both are correct — wave-particle duality. Next: if light can be a particle, can particles be waves?\"</p>",
+          "engagementHook": {
+            "title": "DESIGNING A PHOTOELECTRIC SENSOR",
+            "content": "\"Design a sensor that detects UV light but NOT visible light. Which metal should you use?\" Students choose a metal with f₀ in the UV range (high Φ). Calculate: response to 300 nm UV (yes → find current) and 500 nm visible (no → Φ too high). Then: \"Design one that detects ALL visible light.\" Need Φ < 1.77 eV (lowest visible energy) → caesium works. Real photodetectors use exactly this physics."
+          },
+          "nos": {
+            "tags": ["Technology", "Models"],
+            "description": "Photoelectric sensors are everywhere: automatic doors, smoke detectors, digital cameras (CCD/CMOS sensors), solar cells. Each application requires choosing a material with the right work function for the desired wavelength range. Engineering IS applied physics."
+          },
+          "atl": ["Thinking skills", "Social skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Communicator"],
+          "ao": [
+            "AO2 — Apply all photoelectric equations in multi-step problems",
+            "AO3 — Design photoelectric systems for specific applications"
+          ],
+          "resources": "Problem sets, whiteboards, Φ values table, calculators",
+          "formative": "\"A 40 W lamp emits light of λ = 400 nm onto a sodium surface (Φ = 2.3 eV). (a) Photon energy in eV. (b) Does emission occur? (c) E_k(max) and V_s. (d) Photon rate. (e) If quantum efficiency is 0.5%, find the photocurrent. (f) The lamp wavelength is changed to 600 nm. Does emission still occur? Why or why not?\""
+        }
+      ]
+    },
+    {
+      "name": "Wave-Particle Duality & Matter Waves",
+      "color": "accent",
+      "totalMinutes": 240,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "de Broglie Wavelength — λ = h/p",
+          "focus": "If waves are particles, are particles waves?",
+          "minutes": 60,
+          "understandings": [
+            "Louis de Broglie (1924): if light (a wave) can behave as a particle (photon with p = h/λ), then particles (electrons, protons) should behave as waves with wavelength λ = h/p = h/(mv)",
+            "The de Broglie wavelength: λ = h/p = h/(mv) for a particle with momentum p",
+            "Larger momentum → shorter wavelength → less wave-like behaviour",
+            "For macroscopic objects: λ is incredibly small → wave effects are undetectable",
+            "For electrons: λ can be comparable to atomic spacings → diffraction and interference are observable"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Young's double slit proved light is a wave (1801). The photoelectric effect proved light is a particle (1905). Both are true — light is BOTH. In 1924, a French PhD student asked: if waves can be particles, can particles be waves? His name was Louis de Broglie. His thesis changed physics forever.\"</p><p><strong>Direct instruction (15 min):</strong> For a photon: E = hf and p = E/c = hf/c = h/λ → λ = h/p. de Broglie proposed: the SAME equation applies to ALL particles. An electron with momentum p has a wavelength λ = h/p = h/(mv). Is this detectable? For a person (70 kg, 1 m/s): λ = 6.63 × 10⁻³⁴ / 70 = 9.5 × 10⁻³⁶ m. Way too small — no observable wave effects. For an electron accelerated through 100 V: v = √(2eV/m) = 5.9 × 10⁶ m/s → λ = h/(mv) = 1.2 × 10⁻¹⁰ m = 0.12 nm. This is comparable to atomic spacings in crystals → diffraction IS possible.</p><p><strong>Worked examples (20 min):</strong> (1) Electron at 10⁷ m/s: λ = 7.3 × 10⁻¹¹ m = 0.073 nm. (2) Electron accelerated through V: KE = eV → p = √(2meV) → λ = h/√(2meV). For V = 150 V: λ = 0.1 nm. (3) A neutron at room temperature (thermal neutron, KE = (3/2)k_BT): v = √(3k_BT/m) → λ. At T = 300 K: λ ≈ 0.15 nm → neutron diffraction is used to study crystal structures. (4) A 0.1 kg ball at 30 m/s: λ = 2.2 × 10⁻³⁴ m → undetectable.</p><p><strong>Discussion (10 min):</strong> \"Why don't we see wave effects in everyday life?\" Because λ is fantastically small for macroscopic objects. Wave effects (diffraction, interference) are only observable when λ is comparable to the size of obstacles/apertures. For baseballs: λ << any aperture. For electrons: λ ≈ atomic spacings → interference IS observable.</p><p><strong>Practice (10 min):</strong> de Broglie wavelength calculations for various particles and speeds.</p>",
+          "engagementHook": {
+            "title": "A PhD THESIS THAT WON THE NOBEL PRIZE",
+            "content": "\"In 1924, Louis de Broglie submitted a PhD thesis proposing that ALL particles have wave properties. His thesis committee was so unsure they sent it to Einstein for review. Einstein called it 'a first feeble ray of light on this worst of our physics enigmas.' Three years later, electron diffraction was observed — confirming de Broglie's prediction. He won the Nobel Prize in 1929 — for his PhD thesis.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Patterns", "Observations"],
+            "description": "De Broglie's hypothesis is a beautiful example of reasoning by analogy: if waves have particle properties, then particles should have wave properties. This symmetry argument — extended by Schrödinger into wave mechanics — became the foundation of quantum mechanics. The prediction was confirmed experimentally within 3 years by Davisson and Germer (electron diffraction from nickel crystals, 1927)."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Open-minded", "Knowledgeable"],
+          "ao": [
+            "AO1 — State λ = h/p = h/(mv); explain de Broglie's hypothesis",
+            "AO2 — Calculate de Broglie wavelength for various particles and energies",
+            "AO3 — Analyse why wave effects are observable for electrons but not macroscopic objects"
+          ],
+          "resources": "Calculators, particle data table (masses), crystal spacing data, de Broglie biography",
+          "formative": "\"(a) An electron is accelerated through 200 V. Find its speed, momentum, and de Broglie wavelength. (b) A proton at the same speed: find its wavelength. Why is it shorter? (c) A cricket ball (0.16 kg, 40 m/s): find λ. Could you ever observe its diffraction? (d) What accelerating voltage gives an electron a wavelength of 0.1 nm (comparable to atomic spacing)?\""
+        },
+        {
+          "num": 2,
+          "title": "Electron Diffraction — Evidence for Matter Waves",
+          "focus": "Electrons diffract through crystals — they ARE waves",
+          "minutes": 55,
+          "understandings": [
+            "Electron diffraction: electrons fired at a thin crystal (or graphite film) produce a diffraction pattern of concentric rings — identical in form to X-ray diffraction",
+            "This is direct evidence that electrons have wave properties",
+            "The ring spacing matches predictions from λ = h/p using the known crystal spacing",
+            "Davisson-Germer experiment (1927): first experimental confirmation of de Broglie's hypothesis",
+            "Wave-particle duality: all quantum objects (photons, electrons, neutrons, atoms) exhibit BOTH wave and particle properties — which you observe depends on the experiment"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Show the electron diffraction pattern: concentric rings, exactly like X-ray diffraction. \"If electrons were just particles, they'd make a dot on the screen. Rings mean interference. Interference means WAVES. Electrons are waves.\"</p><p><strong>Direct instruction (15 min):</strong> Davisson and Germer (1927): fired electrons at a nickel crystal and observed a diffraction pattern matching λ = h/p exactly. G.P. Thomson (son of J.J. Thomson) independently observed electron diffraction through thin metal foils — also matching de Broglie. The rings appear because the crystal lattice acts as a diffraction grating for electron waves, just as it does for X-rays. Higher accelerating voltage → faster electrons → shorter λ → rings closer together (less diffraction, just like light through a wide slit).</p><p><strong>The irony (5 min):</strong> \"J.J. Thomson won the Nobel Prize (1906) for proving the electron is a PARTICLE. His son G.P. Thomson won the Nobel Prize (1937) for proving the electron is a WAVE. Both were right.\" This is wave-particle duality — the central mystery of quantum mechanics.</p><p><strong>Demo / Simulation (10 min):</strong> Electron diffraction tube (if available) or PhET simulation: increase voltage → rings shrink (shorter λ). Decrease voltage → rings expand (longer λ). Students verify: λ = h/√(2meV) predicts the ring size correctly.</p><p><strong>Worked examples (10 min):</strong> (1) Electrons at 5 kV: λ = h/√(2meV) = 0.017 nm. Compare with graphite lattice spacing (0.213 nm). First ring angle: sinθ = λ/d. (2) Neutrons at thermal energies (λ ≈ 0.1 nm) diffract from crystals — used in materials science. (3) Even ATOMS have been diffracted — helium atoms through nanostructures.</p><p><strong>Practice (10 min):</strong> Electron diffraction calculations and wave-particle duality conceptual questions.</p>",
+          "engagementHook": {
+            "title": "FATHER AND SON — BOTH WON NOBELS, BOTH WERE RIGHT",
+            "content": "\"J.J. Thomson proved the electron is a particle (1897). His son G.P. Thomson proved the electron is a wave (1927). Father: Nobel 1906. Son: Nobel 1937. Were they contradicting each other?\" No — both were correct. The electron IS both. \"Which property you see depends on what experiment you do. Measure which slit it goes through → particle. Don't measure → wave (interference pattern). This is the deepest mystery in physics.\""
+          },
+          "nos": {
+            "tags": ["Observations", "Theories", "Falsification"],
+            "description": "Electron diffraction confirmed de Broglie's hypothesis — a prediction from pure theoretical reasoning verified by experiment. The wave-particle duality it revealed remains the most counterintuitive aspect of quantum mechanics. Feynman called the double slit experiment with electrons 'the only mystery' in quantum physics."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker", "Open-minded"],
+          "ao": [
+            "AO1 — Describe electron diffraction as evidence for matter waves",
+            "AO2 — Calculate electron wavelength and relate to diffraction pattern",
+            "AO3 — Analyse wave-particle duality — when does each behaviour manifest?"
+          ],
+          "resources": "Electron diffraction tube or simulation, diffraction pattern photos, calculators",
+          "formative": "\"(a) Electrons accelerated through 4 kV hit a graphite target (d = 0.213 nm). Find λ and the angle of the first diffraction ring. (b) The voltage is increased to 10 kV. Does the ring get larger or smaller? Calculate to verify. (c) If protons were used at the same voltage instead of electrons, would the rings be larger or smaller? Why? (d) Explain why the double slit experiment with electrons demonstrates wave-particle duality.\""
+        },
+        {
+          "num": 3,
+          "title": "Pair Production & Annihilation",
+          "focus": "Energy ↔ matter — E = mc² in action",
+          "minutes": 60,
+          "understandings": [
+            "Pair production: a photon with sufficient energy (≥ 2m_ec² = 1.022 MeV) can create an electron-positron pair near a nucleus",
+            "The photon disappears; its energy becomes the mass and KE of the two particles: E_photon = 2m_ec² + KE_e + KE_positron",
+            "A nucleus must be nearby to conserve momentum (photon has momentum; the pair alone can't conserve it)",
+            "Pair annihilation: when an electron meets a positron, they annihilate, producing (typically) two gamma photons",
+            "Conservation: charge (0 = +1 + (−1)), energy (masses → photon energies), momentum (two photons in opposite directions)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Einstein's E = mc² says mass IS energy. Can you convert pure energy (a photon) into mass (particles)?\" YES — pair production. A gamma ray photon with ≥ 1.022 MeV can create an electron + positron out of nothing but energy. And the reverse: electron + positron → two gamma photons. Matter and energy are interchangeable.</p><p><strong>Direct instruction (20 min):</strong> Pair production: photon → e⁻ + e⁺ (near a nucleus). Minimum photon energy: E_min = 2m_ec² = 2 × 0.511 MeV = 1.022 MeV. Any excess energy → KE of the particles. Why near a nucleus? Conservation of momentum. A single photon has momentum p = E/c. The electron-positron pair can't conserve both energy AND momentum alone — the nucleus absorbs the recoil momentum. Pair annihilation: e⁻ + e⁺ → 2γ. Why TWO photons? Conservation of momentum. If the pair is at rest: total p = 0. One photon has p ≠ 0 → can't conserve. Two photons in opposite directions: p₁ + p₂ = 0 ✓. Each photon: E = m_ec² = 0.511 MeV. Conservation checks: charge (+1 − 1 = 0 ✓), lepton number (1 − 1 = 0 ✓), energy (2 × 0.511 = 1.022 MeV ✓), momentum (opposite directions ✓).</p><p><strong>Worked examples (15 min):</strong> (1) A 3 MeV photon produces a pair. KE of each particle: (3 − 1.022)/2 = 0.989 MeV each. (2) A 0.8 MeV photon: can it produce a pair? No — 0.8 < 1.022 MeV. (3) An electron (KE = 0.5 MeV) annihilates with a positron at rest. Total energy = 0.511 + 0.511 + 0.5 = 1.522 MeV → shared between two photons (not equally, since momentum of the moving electron must be conserved).</p><p><strong>PET scan application (5 min):</strong> Positron Emission Tomography: a radioactive tracer emits positrons inside the body. Each positron annihilates with a nearby electron → two 0.511 MeV gamma rays in opposite directions. Detectors around the body locate the origin. \"Medical imaging powered by E = mc² and pair annihilation.\"</p><p><strong>Practice (15 min):</strong> Pair production thresholds, annihilation photon energies, conservation checks.</p>",
+          "engagementHook": {
+            "title": "CREATING MATTER FROM LIGHT — E = mc² IN REVERSE",
+            "content": "\"In pair production: a photon disappears and TWO particles appear. Pure energy → matter. This happens right now in the Earth's upper atmosphere — cosmic ray gamma rays create electron-positron pairs constantly.\" Then: \"In PET scans: positrons from a radioactive tracer annihilate with your body's electrons. The two gamma rays reveal exactly where the tracer is — doctors use antimatter to find cancers.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Technology", "Observations"],
+            "description": "Pair production was predicted by Dirac's equation (1928) and first observed by Anderson (1932, discovered the positron). It confirmed: (a) E = mc² allows mass-energy conversion, (b) antimatter exists, (c) Dirac's relativistic quantum theory was correct. Anderson's cloud chamber photograph of a positron is one of the most important images in physics."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Open-minded"],
+          "ao": [
+            "AO1 — Describe pair production and annihilation; state threshold energy 2m_ec²",
+            "AO2 — Calculate minimum photon energy, particle KE, and annihilation photon energies",
+            "AO3 — Analyse conservation laws in pair production and annihilation"
+          ],
+          "resources": "Cloud chamber photo of pair production, PET scan diagram, calculators, particle data (m_e, c)",
+          "formative": "\"(a) Calculate the minimum photon energy (in MeV and J) for pair production. (b) A 5 MeV photon creates an electron-positron pair. Find the KE of each particle. (c) An electron and positron, both at rest, annihilate. Find the energy, frequency, and wavelength of each gamma photon. (d) Why are two photons produced, not one? (e) Explain how PET scans use pair annihilation to image the body.\""
+        },
+        {
+          "num": 4,
+          "title": "Quantum Synthesis — Wave-Particle Duality in Full",
+          "focus": "Bringing together photons, matter waves, and the quantum worldview",
+          "minutes": 65,
+          "understandings": [
+            "Wave-particle duality applies to ALL quantum objects: photons, electrons, neutrons, atoms",
+            "When a quantum object is detected: it behaves as a particle (localised, definite position)",
+            "When it propagates: it behaves as a wave (delocalised, interference, diffraction)",
+            "The double slit experiment with single electrons: each electron lands as a dot (particle), but the pattern of many dots builds up interference fringes (wave)",
+            "This is the central mystery of quantum mechanics — no classical explanation exists"
+          ],
+          "teachingStrategy": "<p><strong>The double slit with electrons (15 min):</strong> The most important experiment in quantum physics: fire electrons one at a time through a double slit. Each electron hits the screen at a SINGLE point (particle). But after thousands of electrons: the dots form an INTERFERENCE PATTERN (wave). \"Each electron interferes with ITSELF — it goes through both slits simultaneously as a wave, but arrives at the screen as a particle.\" If you put a detector at the slits to see which slit each electron goes through: the interference pattern DISAPPEARS. Observation changes the outcome. Show the Hitachi electron double slit video.</p><p><strong>Synthesis discussion (15 min):</strong> Organise the evidence: WAVE evidence: Young's double slit, diffraction, interference, polarisation. PARTICLE evidence: photoelectric effect, Compton scattering, pair production, detectors clicking. Resolution: quantum objects are NEITHER classical waves NOR classical particles. They're quantum objects described by probability amplitudes (wave functions). We use 'wave' and 'particle' as metaphors because we have no direct experience of quantum behaviour. \"Quantum mechanics doesn't answer 'what IS an electron?' — it answers 'what will we OBSERVE when we measure?'\"</p><p><strong>Multi-step problems (25 min):</strong> (1) Light: λ = 500 nm. Find: photon energy, momentum, de Broglie wavelength (same as light λ — self-consistent). (2) Electron with same λ = 500 nm: find momentum, speed, KE. Compare with photon energy at same λ. (3) An electron passes through a 0.1 nm slit. Estimate the angular spread of its diffraction pattern: θ ≈ λ/w where λ = de Broglie wavelength. (4) Pair production from a 2 MeV photon → find de Broglie wavelengths of the produced particles.</p><p><strong>Exam practice (10 min):</strong> 2 timed problems combining photoelectric + de Broglie + pair production.</p>",
+          "engagementHook": {
+            "title": "THE EXPERIMENT THAT BROKE REALITY — ELECTRONS ONE AT A TIME",
+            "content": "Show the Hitachi video: single electrons through a double slit. Dot by dot, the interference pattern builds up. \"Each electron goes through BOTH slits. It interferes with itself. If you watch which slit it goes through, the interference vanishes. The act of observation changes the result.\" Feynman: 'Nobody understands quantum mechanics.' \"And he was right — but we can PREDICT with it to 12 decimal places. It's the most successful theory in history, and the least understood.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Models", "Observations"],
+            "description": "Wave-particle duality forced physicists to abandon the idea that nature can be described by everyday concepts. Bohr's complementarity principle: wave and particle are complementary descriptions — both are needed, neither is complete alone. This represents a fundamental shift in what we expect physics to provide: not a picture of 'what things are,' but a framework for predicting observations."
+          },
+          "atl": ["Thinking skills", "Communication skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Open-minded", "Knowledgeable"],
+          "ao": [
+            "AO1 — State wave-particle duality for all quantum objects",
+            "AO2 — Calculate photon and particle properties; solve combined quantum problems",
+            "AO3 — Analyse the double slit experiment with electrons and its implications"
+          ],
+          "resources": "Hitachi electron double slit video, calculators, summary table template (wave vs particle evidence), exam papers",
+          "formative": "\"(a) List three pieces of evidence for the wave nature of light and three for the particle nature. (b) An electron is accelerated through 100 V and passes through a 0.2 nm slit. Find λ and estimate the diffraction angle. (c) In the double slit experiment with single electrons: describe what you see on the screen after 10, 1000, and 100,000 electrons. (d) If a detector is placed at the slits: what changes and why? (e) 'The electron goes through both slits.' Is this statement literally true? Discuss.\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "E.1 Structure of the Atom", "question": "How does the photoelectric effect relate to atomic energy levels? Both involve photons with E = hf." },
+    { "topic": "C.3 Wave Phenomena", "question": "How does electron diffraction connect to the wave phenomena (diffraction, interference) studied in C.3?" },
+    { "topic": "A.5 Special Relativity (HL)", "question": "How does E = mc² enable pair production and annihilation? How is the relativistic energy-momentum relation E² = (pc)² + (mc²)² relevant?" },
+    { "topic": "B.1 Thermal Energy Transfers", "question": "How does the photoelectric effect connect to the black body radiation problem that launched quantum physics (Planck, 1900)?" },
+    { "topic": "IB Linking (NOS)", "question": "How did the photoelectric effect and electron diffraction challenge existing paradigms and lead to quantum mechanics?" }
+  ]
+},
+"E3": {
+  "title": "Radioactive Decay",
+  "code": "E.3",
+  "theme": "E",
+  "level": "SL + HL",
+  "recommendedHours": 12,
+  "recommendedMinutes": 720,
+  "guidingQuestions": [
+    "Why are some isotopes more stable than others?",
+    "In what ways can a nucleus undergo change?",
+    "How can the random nature of radioactive decay allow for predictions to be made?"
+  ],
+  "groups": [
+    {
+      "name": "Nuclear Structure & Binding Energy (SL)",
+      "color": "accent4",
+      "totalMinutes": 180,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Isotopes, Mass Defect & Binding Energy",
+          "focus": "Why nuclei weigh less than their parts — and where the missing mass goes",
+          "minutes": 60,
+          "understandings": [
+            "Isotopes: atoms of the same element (same Z) with different numbers of neutrons (different A)",
+            "Mass defect Δm: the difference between the total mass of separate nucleons and the actual mass of the nucleus — Δm = Zm_p + (A−Z)m_n − m_nucleus",
+            "The mass defect represents the mass converted to energy when the nucleus was assembled: E_binding = Δmc²",
+            "Nuclear binding energy: the energy required to completely separate the nucleus into individual nucleons",
+            "Greater binding energy → more stable nucleus"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Weigh 2 protons and 2 neutrons separately: total mass = 4.03188 u. Weigh a helium-4 nucleus: 4.00153 u. Where did 0.03035 u go?\" It was converted to energy: E = Δmc² = 28.3 MeV. \"This 'missing mass' is the binding energy — the energy that holds the nucleus together. To split helium-4 back into its parts, you'd need to supply 28.3 MeV.\"</p><p><strong>Direct instruction (20 min):</strong> Define isotopes: same Z, different A. Hydrogen: ¹H (0 neutrons), ²H (1 neutron = deuterium), ³H (2 neutrons = tritium). Mass defect: Δm = Zm_p + (A−Z)m_n − m_nucleus. Always positive for stable nuclei — they always weigh LESS than their parts. E = Δmc². Units: 1 u = 931.5 MeV/c². So E_binding (MeV) = Δm (u) × 931.5. Binding energy per nucleon: BE/A — a measure of how tightly each nucleon is held. Higher BE/A → more stable.</p><p><strong>Worked examples (20 min):</strong> (1) He-4: Δm = 2(1.00728) + 2(1.00866) − 4.00153 = 0.03035 u. E = 0.03035 × 931.5 = 28.3 MeV. BE/A = 28.3/4 = 7.07 MeV/nucleon. (2) Fe-56: given masses, calculate Δm and BE/A. (Compare: Fe-56 has the highest BE/A at ~8.8 MeV/nucleon.) (3) U-238: calculate BE/A (~7.6 MeV/nucleon — lower than Fe-56, hence less stable per nucleon).</p><p><strong>Practice (15 min):</strong> Mass defect and BE/A calculations for various nuclei.</p>",
+          "engagementHook": {
+            "title": "THE MISSING MASS — WHERE DID IT GO?",
+            "content": "\"4 separate nucleons weigh MORE than the helium nucleus they form. The 'missing' 0.03 u became 28.3 MeV of energy when the nucleus formed. That energy was released as radiation — and is the energy source of every star. The Sun converts 4 million tonnes of mass to energy every SECOND. E = mc² in action, 150 million km away, keeping you alive.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Measurements", "Patterns"],
+            "description": "Francis Aston measured atomic masses precisely with his mass spectrometer (1920s Nobel) and discovered that nuclei weigh less than their parts. The explanation required Einstein's E = mc² (1905). Two Nobel Prize-winning discoveries combined to explain nuclear stability — a beautiful convergence of measurement and theory."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define isotopes, mass defect, binding energy, and BE/A",
+            "AO2 — Calculate Δm, E_binding, and BE/A from given masses",
+            "AO3 — Analyse why greater BE/A means greater nuclear stability"
+          ],
+          "resources": "Atomic mass data table, calculators, periodic table, BE/A graph",
+          "formative": "\"Given: m_p = 1.00728 u, m_n = 1.00866 u, m(Li-7) = 7.01436 u. (a) Find Δm. (b) Find E_binding in MeV. (c) Find BE/A. (d) Compare with Fe-56 (BE/A = 8.79). Which is more stable per nucleon? (e) If you could convert 1 kg of mass entirely to energy (E = mc²), how much energy would that be?\""
+        },
+        {
+          "num": 2,
+          "title": "The BE/A Curve & the Strong Nuclear Force",
+          "focus": "The graph that explains fission, fusion, and stellar energy",
+          "minutes": 60,
+          "understandings": [
+            "The variation of binding energy per nucleon (BE/A) with nucleon number A: rises steeply for light nuclei, peaks at Fe-56 (~8.8 MeV), then gradually decreases for heavy nuclei",
+            "Fusion (combining light nuclei) INCREASES BE/A → releases energy. Fission (splitting heavy nuclei) also INCREASES BE/A → releases energy",
+            "Both processes move TOWARD the peak (Fe-56) — the most stable configuration",
+            "The strong nuclear force: short-range (~1 fm), attractive force between nucleons that overcomes electrostatic repulsion",
+            "The strong force binds the nucleus; the electromagnetic force tries to break it apart"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Display the BE/A curve. \"This is the most important graph in nuclear physics. It tells you: which nuclei are stable, why stars shine, why nuclear weapons work, and why iron is the final product of stellar fusion.\"</p><p><strong>Direct instruction (20 min):</strong> Walk through the graph: (a) Very light nuclei (H, He): low BE/A → not very tightly bound per nucleon. (b) Rising steeply: He-4 is a spike (unusually stable — 'magic number' 2). (c) Peak at Fe-56: maximum stability. (d) Heavy nuclei (U, Pu): BE/A decreases — electrostatic repulsion of many protons loosens the binding. Energy is released when nuclei move TOWARD Fe-56: fusion (left → peak) or fission (right → peak). Both release energy because BE/A increases. The strong nuclear force: attractive, acts between ALL nucleon pairs, but only over ~1 fm (comparable to nucleon size). Beyond ~3 fm: essentially zero. This is why large nuclei are less stable — protons on opposite sides feel electrostatic repulsion (long-range) but NOT the strong force (short-range).</p><p><strong>Graphical analysis (15 min):</strong> Students annotate the BE/A curve: mark Fe-56 (peak), fusion region (left), fission region (right), He-4 (spike), very heavy elements (decreasing). Calculate: energy released in fusion of 2 H-2 → He-4: ΔBE = 4 × 7.07 − 2 × (2 × 1.11) = 28.28 − 4.44 = 23.84 MeV. (Approximate — actual depends on specific masses.)</p><p><strong>Discussion (10 min):</strong> \"Why can't you get energy from splitting iron? Or from fusing iron?\" Because Fe-56 is at the PEAK. Moving in either direction from the peak DECREASES BE/A — you'd need to ADD energy. Iron is the nuclear ash — the dead end of stellar fusion.</p><p><strong>Practice (10 min):</strong> BE/A curve interpretation and energy release estimation.</p>",
+          "engagementHook": {
+            "title": "THE MOST IMPORTANT GRAPH IN NUCLEAR PHYSICS",
+            "content": "\"This one graph explains: (1) why the Sun shines (fusion, left → peak). (2) Why nuclear reactors work (fission, right → peak). (3) Why iron is the most common element in Earth's core (peak = end of the road). (4) Why elements heavier than iron require supernovae to form (need energy INPUT).\" Students trace with their finger: fusion goes UP the left side (energy out). Fission comes DOWN the right side (energy out). Both head toward iron."
+          },
+          "nos": {
+            "tags": ["Patterns", "Theories", "Global impact"],
+            "description": "The BE/A curve was constructed from thousands of mass measurements over decades. The pattern — peak at Fe-56 — was recognised before it was fully explained. The explanation required both the strong nuclear force (proposed by Yukawa, 1935) and the liquid drop model of the nucleus (Gamow, von Weizsäcker). Pattern → explanation → prediction → application."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Caring"],
+          "ao": [
+            "AO1 — Describe the BE/A curve; describe the strong nuclear force",
+            "AO2 — Use the curve to predict whether fusion or fission releases energy for a given nucleus",
+            "AO3 — Analyse why Fe-56 is the most stable nucleus and why iron is the endpoint of stellar fusion"
+          ],
+          "resources": "Large BE/A curve poster, calculators, nuclear force range diagram",
+          "formative": "\"(a) Sketch the BE/A curve. Label the fusion region, fission region, and Fe-56 peak. (b) Why does fusion of light nuclei release energy? Use BE/A to explain. (c) Why does fission of heavy nuclei release energy? (d) Can you get energy from fusing two iron nuclei? Explain. (e) The strong force has range ~1 fm. Explain why this makes very large nuclei unstable.\""
+        },
+        {
+          "num": 3,
+          "title": "E = mc² in Nuclear Reactions",
+          "focus": "Mass-energy equivalence — the source of nuclear power",
+          "minutes": 60,
+          "understandings": [
+            "Mass-energy equivalence: E = mc² — mass can be converted to energy and vice versa",
+            "In nuclear reactions: the total mass of products is LESS than the total mass of reactants → the difference (Δm) appears as energy: E = Δmc²",
+            "1 u of mass = 931.5 MeV of energy",
+            "Nuclear reactions release ~10⁶ times more energy per unit mass than chemical reactions",
+            "This is the energy source of nuclear power stations and nuclear weapons"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"A chemical reaction (burning coal) releases ~4 eV per atom. A nuclear reaction (fission of U-235) releases ~200 MeV per atom. That's 50 MILLION times more energy per event. Why?\" Because nuclear reactions convert MASS to energy. Chemical reactions rearrange electrons — no mass changes. Nuclear reactions rearrange nucleons — measurable mass changes.</p><p><strong>Direct instruction (15 min):</strong> E = mc². In nuclear reactions: measure total mass before and after. The difference Δm → E = Δmc². Conversion: 1 u = 1.661 × 10⁻²⁷ kg → E = 1.661 × 10⁻²⁷ × (3 × 10⁸)² = 1.493 × 10⁻¹⁰ J = 931.5 MeV. So: Δm in u × 931.5 = energy in MeV. Compare: 1 kg of U-235 fission → ~8.2 × 10¹³ J. 1 kg of coal combustion → ~3 × 10⁷ J. Ratio: ~2.7 million. Nuclear energy density is millions of times greater than chemical.</p><p><strong>Worked examples (20 min):</strong> (1) Fission: U-235 + n → Ba-141 + Kr-92 + 3n. Given masses: calculate Δm and energy released per fission (~200 MeV). (2) Fusion: 2H + 3H → 4He + n. Calculate energy released (~17.6 MeV). (3) Energy from 1 kg of U-235: number of atoms = 1000/(235 × 1.661 × 10⁻²⁷) = 2.56 × 10²⁴. Total energy = 2.56 × 10²⁴ × 200 × 10⁶ × 1.6 × 10⁻¹⁹ = 8.2 × 10¹³ J. (4) The Sun: converts 4.3 million tonnes/s of mass to energy. P = Δm × c²/t = 4.3 × 10⁹ × (3 × 10⁸)² / 1 = 3.87 × 10²⁶ W.</p><p><strong>Practice (20 min):</strong> E = Δmc² calculations for various nuclear reactions.</p>",
+          "engagementHook": {
+            "title": "THE SUN LOSES 4 MILLION TONNES PER SECOND",
+            "content": "\"Every second, the Sun converts 4.3 × 10⁹ kg of mass into energy. 4.3 million tonnes — vanished. Converted to 3.87 × 10²⁶ watts of light and heat. E = mc² at cosmic scale.\" Students calculate: how long until the Sun runs out? Mass = 2 × 10³⁰ kg. At 4.3 × 10⁹ kg/s: ~4.7 × 10²⁰ seconds ≈ 15 billion years. (But only ~10% is usable hydrogen → ~5 billion years of main sequence left. We're about halfway through.)"
+          },
+          "nos": {
+            "tags": ["Theories", "Global impact", "Measurements"],
+            "description": "E = mc² was proposed by Einstein in 1905 as a consequence of special relativity. Its verification in nuclear reactions came decades later. The equation enables both nuclear power (controlled fission) and nuclear weapons (uncontrolled fission/fusion). No other equation in physics has had such profound ethical and geopolitical consequences."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Caring"],
+          "ao": [
+            "AO1 — State E = mc²; explain mass-energy equivalence in nuclear reactions",
+            "AO2 — Calculate energy released from Δm in nuclear reactions",
+            "AO3 — Compare nuclear and chemical energy densities; analyse the Sun's energy output"
+          ],
+          "resources": "Nuclear reaction mass data, calculators, Sun data, energy comparison chart (nuclear vs chemical)",
+          "formative": "\"(a) In the reaction ²H + ³H → ⁴He + ¹n, total mass of reactants = 5.02990 u, products = 5.01102 u. Find Δm and energy released. (b) Energy from 1 g of deuterium-tritium fuel. Compare with 1 g of petrol (~46 kJ). (c) The Sun's luminosity is 3.85 × 10²⁶ W. Find the mass converted per second. (d) Why are nuclear reactions ~10⁶ times more energetic than chemical reactions per unit mass?\""
+        }
+      ]
+    },
+    {
+      "name": "Radioactive Decay Processes (SL)",
+      "color": "accent",
+      "totalMinutes": 240,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Alpha, Beta & Gamma Decay",
+          "focus": "Three types of radiation — what they are and what they do to the nucleus",
+          "minutes": 60,
+          "understandings": [
+            "Radioactive decay is random and spontaneous — it cannot be predicted for individual nuclei or influenced by external conditions",
+            "Alpha (α) decay: nucleus emits ⁴₂He → A decreases by 4, Z decreases by 2",
+            "Beta-minus (β⁻) decay: neutron → proton + electron + antineutrino → A unchanged, Z increases by 1",
+            "Beta-plus (β⁺) decay: proton → neutron + positron + neutrino → A unchanged, Z decreases by 1",
+            "Gamma (γ) decay: excited nucleus emits a photon → no change in A or Z",
+            "Neutrinos ν and antineutrinos ν̄ are emitted in beta decay to conserve energy, momentum, and lepton number"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"A uranium atom sits peacefully for 4.5 billion years, then suddenly — with no warning and no trigger — it spits out an alpha particle and becomes thorium. Nothing caused it. It's fundamentally random. This is radioactive decay.\"</p><p><strong>Direct instruction (25 min):</strong> Alpha: ²³⁸U → ²³⁴Th + ⁴He. Heavy particle (4u), +2 charge, low penetration (stopped by paper), high ionisation. Occurs in heavy nuclei (A > 200) to reduce size. Beta-minus: ¹⁴C → ¹⁴N + ⁰₋₁e + ν̄. A neutron converts to a proton (mediated by the weak force). Emits electron + antineutrino. Occurs in neutron-rich nuclei. Beta-plus: ¹¹C → ¹¹B + ⁰₊₁e + ν. A proton converts to a neutron. Emits positron + neutrino. Occurs in proton-rich nuclei. Gamma: excited nucleus → lower state + γ photon. Often follows α or β decay. No change in A or Z — just energy release. Neutrinos: needed to conserve energy (beta particles have a continuous energy spectrum, not discrete — the neutrino carries the 'missing' energy).</p><p><strong>Decay equations (10 min):</strong> Students write balanced decay equations for 6 examples. Verify: A conserved (total nucleon number), Z conserved (total charge), lepton number conserved.</p><p><strong>Comparison table (10 min):</strong> Build: Type | Particle | Charge | Mass | Penetration | Ionisation | Effect on A, Z | Occurs when...</p><p><strong>Practice (10 min):</strong> Write decay equations, classify decay types, identify daughter nuclei.</p>",
+          "engagementHook": {
+            "title": "THE GHOST PARTICLE — WHY NEUTRINOS HAD TO EXIST",
+            "content": "\"In 1930, beta decay had a problem: the emitted electron didn't always have the same energy. Energy appeared to be NOT conserved. Pauli proposed a desperate solution: an invisible, nearly massless particle carries the missing energy. He called it the 'little neutral one' — the neutrino. It wasn't detected until 1956 (26 years later). Pauli: 'I have done a terrible thing. I have postulated a particle that cannot be detected.'\" Students calculate the missing energy in a specific beta decay."
+          },
+          "nos": {
+            "tags": ["Theories", "Observations", "Patterns"],
+            "description": "The neutrino was predicted (1930) from conservation laws before it was detected (1956). This is one of the most powerful examples of conservation laws as predictive tools in physics. Rather than abandon energy conservation, Pauli hypothesised a new particle — and was eventually proved right. Conservation laws are so trusted that their apparent violation signals new physics."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Inquirer", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe α, β⁻, β⁺, γ decay; write decay equations; explain the role of neutrinos",
+            "AO2 — Write balanced nuclear decay equations; identify daughter nuclei",
+            "AO3 — Analyse why each decay type occurs (neutron-rich, proton-rich, heavy nuclei)"
+          ],
+          "resources": "Decay equation practice sheets, periodic table, comparison table template, neutrino story",
+          "formative": "\"(a) Write the decay equation for α decay of Ra-226. (b) Write the β⁻ decay of Co-60. (c) Why is a neutrino needed in β decay? (d) Complete the table: decay type, particle, penetration, ionisation. (e) A nucleus undergoes α decay followed by two β⁻ decays. If it starts as Th-232, what is the final nucleus?\""
+        },
+        {
+          "num": 2,
+          "title": "Penetration, Ionisation & Detection",
+          "focus": "How alpha, beta, and gamma interact with matter differently",
+          "minutes": 45,
+          "understandings": [
+            "Alpha particles: high ionisation (large charge, large mass, slow), low penetration (stopped by paper or few cm of air)",
+            "Beta particles: moderate ionisation, moderate penetration (stopped by few mm of aluminium)",
+            "Gamma rays: low ionisation (no charge), high penetration (reduced by several cm of lead or thick concrete)",
+            "Penetration and ionisation are inversely related: high ionisation → rapid energy loss → short range"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Alpha particles can be stopped by a sheet of paper. Gamma rays can pass through your entire body. But alpha particles are MORE dangerous if you swallow the source — they dump ALL their energy into a tiny volume of tissue. Gamma passes through without depositing much. Penetration and danger are NOT the same thing.\"</p><p><strong>Direct instruction (10 min):</strong> Alpha: +2 charge, 4u mass. Ionises EVERY atom it passes near (strips electrons). Loses energy rapidly → stops quickly (paper, skin, few cm air). Beta: −1 charge (or +1), light (1/1836 u). Less ionising per encounter but travels further before stopping (few mm Al). Gamma: no charge, no mass — just a photon. Rarely interacts → passes through most materials. Reduced (not stopped) by dense materials (lead, concrete). Inverse relationship: alpha ionises heavily → loses energy fast → stops quickly. Gamma ionises weakly → retains energy → travels far.</p><p><strong>Demo (10 min):</strong> Geiger-Müller tube + radioactive sources (if available) or simulation: (1) Alpha source + paper between source and detector → count drops to background. (2) Beta source + aluminium → count drops. (3) Gamma source + lead → count reduced but not zero. Students record count rates for each absorber thickness.</p><p><strong>Discussion (10 min):</strong> Safety implications: external exposure → gamma is most dangerous (reaches internal organs). Internal exposure (ingested/inhaled) → alpha is most dangerous (dumps energy into tissue, causing DNA damage). Polonium-210 (alpha emitter) was used to poison Alexander Litvinenko in 2006 — harmless outside the body, lethal inside.</p><p><strong>Practice (10 min):</strong> Classify radiation types by properties. Safety scenario analysis.</p>",
+          "engagementHook": {
+            "title": "THE LITVINENKO CASE — ALPHA'S DEADLY SECRET",
+            "content": "\"Alexander Litvinenko was poisoned with polonium-210, an alpha emitter. Alpha can't penetrate skin — it's harmless externally. But he drank it in tea. Inside his body: every alpha particle deposited ALL its energy into his cells. He died 23 days later.\" Students calculate: Po-210 emits 5.3 MeV alphas. Each alpha ionises ~150,000 atoms in tissue. \"Same radiation, different route, opposite outcome. Physics saves lives — and takes them.\""
+          },
+          "nos": {
+            "tags": ["Global impact", "Observations", "Ethics"],
+            "description": "Understanding radiation penetration and ionisation is essential for radiation safety — medical imaging (X-rays, gamma), cancer treatment (targeted radiation), nuclear industry safety, and environmental protection. The biological effects of radiation depend on the TYPE, ENERGY, and LOCATION — all physics concepts applied to protect health."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Caring", "Knowledgeable", "Thinker"],
+          "ao": [
+            "AO1 — State penetration and ionisation properties of α, β, γ",
+            "AO2 — Determine radiation type from absorber experiments",
+            "AO3 — Analyse safety implications of internal vs external exposure"
+          ],
+          "resources": "GM tube + sources (if available) or simulation, absorbers (paper, Al, lead), safety scenario cards",
+          "formative": "\"(a) Rank α, β, γ by penetration (low to high) and ionisation (low to high). (b) An unknown source is tested: paper has no effect, 3 mm Al stops it. What type? (c) A worker handles a gamma source with tongs at 2 m distance. Another accidentally ingests an alpha source. Who is in greater danger? Explain. (d) Why are alpha emitters used in smoke detectors (inside a sealed chamber) but not in medical imaging?\""
+        },
+        {
+          "num": 3,
+          "title": "Half-Life, Activity & Count Rate",
+          "focus": "T₁/₂ — the clock of nuclear physics",
+          "minutes": 60,
+          "understandings": [
+            "Half-life T₁/₂: the time taken for half the radioactive nuclei in a sample to decay (or for the activity to halve)",
+            "Activity A: the number of decays per second (unit: becquerel, Bq = 1 decay/s)",
+            "Count rate: the number of decays detected per second — less than activity due to detector efficiency and geometry",
+            "After n half-lives: fraction remaining = (½)ⁿ, activity = A₀(½)ⁿ",
+            "Background radiation must be subtracted from count rate to get the corrected count rate",
+            "Integer half-lives: problems using 1, 2, 3, ... half-lives without exponential equations (SL)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Carbon-14 has a half-life of 5730 years. If a tree dies with 100 C-14 atoms, after 5730 years: 50 remain. After 11,460 years: 25. After 17,190: 12.5 (on average). We can't predict WHICH atoms will decay — but we can predict HOW MANY.\"</p><p><strong>Direct instruction (15 min):</strong> Half-life T₁/₂: after each T₁/₂, half the remaining nuclei decay. N = N₀(½)ⁿ where n = t/T₁/₂ (integer values at SL). Activity A = decay rate. After n half-lives: A = A₀(½)ⁿ. Count rate: what the detector measures — always LESS than activity (detector doesn't catch every decay). Background: natural radiation (cosmic rays, radon, rocks) that the detector picks up even with no source present. Must subtract background from count rate: corrected count rate = measured − background.</p><p><strong>Simulation (10 min):</strong> Dice simulation: 100 dice = radioactive atoms. Roll all: any showing '6' has 'decayed' — remove them. Record how many remain. Repeat. Plot remaining vs round number. The curve is exponential. T₁/₂ ≈ 3.8 rounds (ln2 / ln(6/5) ≈ 3.8). Students see: each atom's fate is random, but the overall pattern is predictable. This is the essence of radioactive decay.</p><p><strong>Worked examples (15 min):</strong> (1) T₁/₂ = 8 days. A₀ = 1000 Bq. After 24 days (3 half-lives): A = 1000/8 = 125 Bq. (2) A sample has count rate 240 cpm, background = 40 cpm. Corrected = 200 cpm. After 2 half-lives: corrected = 50 cpm. Measured = 50 + 40 = 90 cpm. (3) C-14 dating: a sample has 25% of its original C-14. How old? 2 half-lives = 11,460 years. (4) Medical: Tc-99m (T₁/₂ = 6 hours) injected at 800 MBq. Activity after 24 hours? (4 half-lives → 50 MBq.)</p><p><strong>Practice (15 min):</strong> Half-life problems including background correction.</p>",
+          "engagementHook": {
+            "title": "THE DICE EXPERIMENT — RANDOMNESS CREATES PATTERNS",
+            "content": "100 dice. Roll all. Remove every 6 — they've 'decayed.' Count survivors. Roll again. Repeat. \"Each die has a 1/6 chance of decaying each round — completely random. But the TOTAL number of survivors follows a smooth exponential curve.\" Plot the data. \"This is radioactive decay: unpredictable for individuals, perfectly predictable for populations. That's why half-life works.\""
+          },
+          "nos": {
+            "tags": ["Models", "Patterns", "Measurements"],
+            "description": "Radioactive decay is fundamentally random — the first truly random process discovered in physics. Unlike Newtonian mechanics (deterministic), decay is probabilistic. This was deeply disturbing to physicists: Einstein famously said 'God does not play dice.' But the statistics are reliable: for large numbers of atoms, the decay rate is precisely predictable."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Define half-life, activity, count rate; explain background radiation",
+            "AO2 — Calculate remaining nuclei, activity, and count rate using integer half-lives",
+            "AO3 — Analyse decay data including background subtraction"
+          ],
+          "resources": "100 dice per group, data table, graph paper, GM tube (if available), C-14 dating example",
+          "formative": "\"T₁/₂ = 5 hours. Initial count rate (corrected) = 800 cpm. Background = 20 cpm. (a) Corrected count rate after 15 hours. (b) Measured count rate after 15 hours. (c) A bone has 12.5% of its original C-14 (T₁/₂ = 5730 years). How old is it? (d) A sample's measured count rate drops from 320 to 100 cpm in 12 minutes. Background = 20 cpm. Find T₁/₂.\""
+        },
+        {
+          "num": 4,
+          "title": "Decay Chains & Problem Solving",
+          "focus": "Multi-step decay series and mixed decay problems",
+          "minutes": 75,
+          "understandings": [
+            "Radioactive decay series: a sequence of decays from a heavy unstable nucleus to a stable end product",
+            "Example: U-238 decay series → through 14 decays (8α + 6β⁻) → Pb-206 (stable)",
+            "Each decay changes A and/or Z, identified by the type of radiation emitted",
+            "Combining: decay equations, half-life, activity, penetration, and energy calculations"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> Some nuclei require MANY decays to reach stability. U-238 → ... → Pb-206 (14 steps). Each α reduces A by 4, Z by 2. Each β⁻ increases Z by 1 (A unchanged). The whole chain: ΔA = 238 − 206 = 32 = 8 × 4 → 8 alpha decays. ΔZ = 92 − 82 = 10. 8 alphas reduce Z by 16. 6 betas increase Z by 6. Net: −16 + 6 = −10 ✓. Students can work out the NUMBER of each decay type from start and end nuclei.</p><p><strong>Multi-step problems (35 min):</strong> Groups tackle: (1) Th-232 → Pb-208. Find number of α and β⁻ decays. (2) A hospital uses Tc-99m (T₁/₂ = 6 hr). A dose of 400 MBq is prepared at 8am. Activity when injected at 2pm? After the scan (4pm), the patient's activity? How long until activity drops below 10 MBq? (3) Mixed: a source has initial count rate 6400 cpm (corrected). After 3 half-lives: 800 cpm. Background = 50 cpm. What does the detector read? (4) C-14 dating: a sample has count rate 3.5 cpm per gram. Living wood has 15.3 cpm per gram. Background = 0.5 cpm per gram. Find the age. (5) Energy: U-238 α decays to Th-234. Given masses, find the KE of the alpha particle (assume nucleus is at rest → conservation of momentum distributes energy between alpha and daughter).</p><p><strong>Exam practice (20 min):</strong> 4 timed IB-style E.3 problems.</p><p><strong>Wrap-up (10 min):</strong> \"E.3 connects: nuclear structure (binding energy, strong force) → instability (decay types) → statistics (half-life) → applications (dating, medicine, power). The same physics explains why the Sun shines, how we date ancient artefacts, and how we treat cancer.\"</p>",
+          "engagementHook": {
+            "title": "CARBON DATING — HOW OLD IS THIS BONE?",
+            "content": "\"Living organisms absorb C-14 from the atmosphere. When they die, C-14 decays with T₁/₂ = 5730 years. By measuring the remaining C-14, you can date the sample.\" Give students real data: a Viking sword handle has 78% of its original C-14. Age? ln(0.78)/ln(0.5) × 5730 = 2050 years → about 25 BC to 75 AD. \"Physics as archaeology.\""
+          },
+          "nos": {
+            "tags": ["Measurements", "Technology", "Science as a shared endeavour"],
+            "description": "Carbon-14 dating (developed by Willard Libby, Nobel Prize 1960) revolutionised archaeology, geology, and climate science. It relies on the constant rate of radioactive decay — a quantum mechanical property used to unlock the past. The technique has been calibrated against tree-ring data and coral records, making it accurate to within 50 years for samples up to ~50,000 years old."
+          },
+          "atl": ["Thinking skills", "Social skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Inquirer"],
+          "ao": [
+            "AO2 — Solve decay chain, half-life, dating, and energy problems in combination",
+            "AO3 — Analyse decay series to determine number of α and β decays"
+          ],
+          "resources": "Decay chain diagrams, C-14 dating data, medical isotope data, problem sets, calculators",
+          "formative": "\"(a) U-235 → Pb-207. Find the number of α and β⁻ decays. (b) A source starts at 12,800 Bq. After 40 minutes: 400 Bq. Find T₁/₂. (c) A wooden artefact has C-14 activity of 10 counts/min/g. A living sample gives 80 counts/min/g. Background = 0 for simplicity. Find the age in years. (d) In α decay of Po-210 (mass 209.9829 u) → Pb-206 (205.9745 u) + He-4 (4.0026 u): find the energy released and estimate the KE of the alpha.\""
+        }
+      ]
+    },
+    {
+      "name": "Nuclear Stability & Exponential Decay (AHL)",
+      "color": "accent3",
+      "totalMinutes": 300,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Nuclear Stability & the N-Z Diagram (AHL)",
+          "focus": "Neutron-to-proton ratio determines stability and decay mode",
+          "minutes": 60,
+          "understandings": [
+            "Evidence for the strong nuclear force: nuclei exist despite proton repulsion → a stronger attractive force must bind them",
+            "The role of the neutron-to-proton ratio (N/Z) for stability: light stable nuclei have N ≈ Z, heavy stable nuclei need N > Z (extra neutrons provide strong-force 'glue' without adding electrostatic repulsion)",
+            "Above Z ≈ 83 (bismuth): no stable isotopes exist — too many protons, electrostatic repulsion wins",
+            "N-Z diagram: the band of stability. Nuclei above the band: neutron-rich → β⁻ decay. Below the band: proton-rich → β⁺ decay or electron capture. Beyond Z ≈ 83: α decay to reduce both N and Z"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Why do nuclei need neutrons at all? Protons repel each other electromagnetically. Neutrons add strong-force attraction WITHOUT adding electrostatic repulsion. They're the 'nuclear glue.' But add too many → neutron excess → β⁻ decay. Too few → proton excess → β⁺ decay.\"</p><p><strong>Direct instruction (20 min):</strong> Plot N vs Z for all stable nuclei: the band of stability. For light nuclei: N ≈ Z (line at 45°). For heavy nuclei: N > Z (curve bends above the 45° line). Why? More protons → more Coulomb repulsion → need more neutrons to provide extra strong-force binding. The strong force: range ~1 fm, attracts ALL nucleon pairs (p-p, p-n, n-n). Coulomb: infinite range, repels p-p only. In small nuclei: every nucleon 'touches' every other → strong force dominates. In large nuclei: protons on opposite sides feel Coulomb but NOT strong force → proton repulsion destabilises. Above Z = 83: no combination of N works → ALL isotopes unstable.</p><p><strong>Decay mode prediction (15 min):</strong> Above the band (high N/Z): neutron excess → β⁻ decay (n → p). Below the band (low N/Z): proton excess → β⁺ decay (p → n) or electron capture. Very heavy (A > 200): α decay (reduces A by 4, Z by 2 — moves diagonally toward stability). Students predict decay modes for given nuclei by locating them on the N-Z diagram.</p><p><strong>Worked examples (10 min):</strong> (1) C-14 (Z = 6, N = 8): N/Z = 1.33 (above stability line for Z = 6) → β⁻ decay → N-14. (2) C-11 (Z = 6, N = 5): N/Z = 0.83 (below) → β⁺ decay → B-11. (3) U-238 (Z = 92, N = 146): too heavy → α decay.</p><p><strong>Practice (10 min):</strong> Predict decay modes from N-Z diagram positions.</p>",
+          "engagementHook": {
+            "title": "THE BAND OF STABILITY — NATURE'S NARROW PATH",
+            "content": "Show the N-Z diagram with all stable nuclei highlighted. \"Out of thousands of possible N-Z combinations, only ~300 are stable. They form a narrow band. Everything else decays — sometimes in fractions of a second, sometimes over billions of years. The band is nature's 'Goldilocks zone' for nuclei.\" Students plot 10 nuclei on the diagram and predict each one's decay mode."
+          },
+          "nos": {
+            "tags": ["Patterns", "Models", "Observations"],
+            "description": "The N-Z diagram is a powerful visual model: it shows ALL stable nuclei at a glance, predicts decay modes, and reveals why heavier elements need more neutrons. It was constructed empirically from thousands of nuclear measurements over decades — a triumph of systematic data collection leading to pattern recognition."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe the band of stability; explain the role of N/Z ratio",
+            "AO2 — Predict decay mode from position on N-Z diagram",
+            "AO3 — Analyse why heavy nuclei need more neutrons and why Z > 83 is always unstable"
+          ],
+          "resources": "Large N-Z diagram poster, nuclear data for plotting, periodic table",
+          "formative": "\"(a) On an N-Z diagram: plot C-12, C-14, N-13, Fe-56, U-238. Identify which are stable. (b) For each unstable one: predict the decay mode using the N-Z diagram. (c) Why does the stability line bend above N = Z for heavy elements? (d) Why is there no stable isotope with Z = 100?\""
+        },
+        {
+          "num": 2,
+          "title": "Exponential Decay — N = N₀e^(−λt) (AHL)",
+          "focus": "The mathematics of randomness — decay constant and exponential functions",
+          "minutes": 65,
+          "understandings": [
+            "The decay constant λ: the probability of decay per unit time for each nucleus",
+            "N = N₀e^(−λt) — the number of undecayed nuclei decreases exponentially",
+            "Activity A = λN = A₀e^(−λt) — also exponential",
+            "Relationship: T₁/₂ = ln2/λ ≈ 0.693/λ",
+            "The exponential law arises from the RANDOM nature of decay: each nucleus has the same probability λ of decaying in any time interval, regardless of age"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (20 min):</strong> At SL: integer half-lives (½, ¼, ⅛, ...). At HL: the full exponential. Why exponential? In a short time dt, the number that decay = λNdt (proportional to how many are present). So dN/dt = −λN → N = N₀e^(−λt). Activity: A = −dN/dt = λN = λN₀e^(−λt) = A₀e^(−λt). Link T₁/₂ to λ: at t = T₁/₂, N = N₀/2. So ½ = e^(−λT₁/₂) → ln½ = −λT₁/₂ → T₁/₂ = ln2/λ. Large λ → short T₁/₂ (decays quickly). Small λ → long T₁/₂ (decays slowly).</p><p><strong>Worked examples (25 min):</strong> (1) Co-60: T₁/₂ = 5.27 years. λ = ln2/5.27 = 0.1315 yr⁻¹. N₀ = 10²⁰ atoms. After 10 years: N = 10²⁰ × e^(−0.1315×10) = 10²⁰ × 0.268 = 2.68 × 10¹⁹. (2) A sample has A = 500 Bq at t = 0 and A = 200 Bq at t = 4 hours. Find λ: 200 = 500e^(−4λ) → λ = ln(500/200)/4 = 0.229 hr⁻¹. T₁/₂ = 0.693/0.229 = 3.03 hours. (3) I-131 (T₁/₂ = 8 days). A hospital administers 400 MBq. Activity after 20 days? A = 400e^(−0.0866×20) = 400 × 0.176 = 70.5 MBq. (4) How long until activity drops below 1 MBq? Solve: 1 = 400e^(−0.0866t) → t = ln(400)/0.0866 = 69.2 days.</p><p><strong>Graphical analysis (10 min):</strong> Plot N vs t (exponential decay curve). Also plot lnN vs t → straight line with gradient = −λ. The ln plot is the standard method to extract λ from experimental data. Students practise reading λ from both graph types.</p><p><strong>Practice (10 min):</strong> Exponential decay calculations using N = N₀e^(−λt) and ln graphs.</p>",
+          "engagementHook": {
+            "title": "THE HALF-LIFE OF EVERYTHING — FROM FEMTOSECONDS TO BILLIONS OF YEARS",
+            "content": "\"Some isotopes have T₁/₂ < 10⁻²⁰ s (they barely exist). Others: T₁/₂ > 10¹⁰ years (older than the universe). U-238: 4.5 billion years — about the age of Earth. That's why there's still uranium in the ground. Po-214: 164 microseconds — blink and it's gone.\" Students calculate λ for each extreme and appreciate the range: 20+ orders of magnitude."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns", "Measurements"],
+            "description": "Exponential decay appears throughout physics: radioactive decay, RC circuits (B.5), capacitor discharge, damped oscillations (C.4), atmospheric pressure with altitude. The same mathematical function N = N₀e^(−λt) describes them all. The IB linking question asks: 'Which areas of physics involve exponential change?' The answer: almost everywhere."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State N = N₀e^(−λt) and T₁/₂ = ln2/λ; define decay constant",
+            "AO2 — Calculate N, A, t, or λ using the exponential law; extract λ from lnN-t graphs",
+            "AO3 — Analyse why the exponential form arises from random independent decay"
+          ],
+          "resources": "Calculators (need eˣ and ln), graph paper, lnN-t plotting practice sheets",
+          "formative": "\"(a) Ra-226: T₁/₂ = 1600 years. Find λ. (b) A 5 g sample of Ra-226 (M = 226 g/mol): find N₀. (c) Find A₀ = λN₀ in Bq. (d) Activity after 3200 years (using both integer half-lives and e^(−λt) — verify they agree). (e) Plot lnA vs t data: extract λ from the gradient. Then find T₁/₂.\""
+        },
+        {
+          "num": 3,
+          "title": "AHL Decay Problem Solving & Applications",
+          "focus": "Multi-step problems combining all E.3 concepts",
+          "minutes": 55,
+          "understandings": [
+            "Combine: decay equations, BE/A, E = mc², half-life (integer and exponential), N-Z stability, and decay mode prediction",
+            "Applications: radioactive dating (C-14, K-Ar), medical isotopes (Tc-99m, I-131, PET with F-18), nuclear waste management",
+            "The role of T₁/₂ in application selection: short T₁/₂ for medical (minimise patient dose), long T₁/₂ for dating and power"
+          ],
+          "teachingStrategy": "<p><strong>Application discussion (15 min):</strong> Medical: Tc-99m (T₁/₂ = 6 hr) — ideal for imaging: decays quickly, gamma only (penetrates tissue), short enough that activity drops to safe levels in ~24 hours. I-131 (T₁/₂ = 8 days) — thyroid treatment: long enough to deliver therapeutic dose over days. F-18 for PET (T₁/₂ = 110 min) — positron emitter, annihilation produces two gammas detected by PET scanner. Dating: C-14 (5730 yr) for biological samples up to ~50,000 years. K-Ar (1.25 × 10⁹ yr) for geological samples (millions to billions of years). Nuclear waste: spent fuel contains isotopes with T₁/₂ from seconds to millions of years. Long-lived waste is the challenge: Pu-239 (T₁/₂ = 24,100 yr) remains dangerous for ~250,000 years.</p><p><strong>Complex problems (25 min):</strong> Groups tackle: (1) A hospital receives I-131 on Monday at 600 MBq. Treatment is on Thursday. Find A at treatment time. After treatment: how long until the patient's activity drops below 10 MBq? (2) A rock contains U-238 and Pb-206 in a 3:1 ratio. Assuming all Pb-206 came from U-238 decay: find the rock's age using T₁/₂ = 4.5 × 10⁹ years. (3) From a BE/A curve: estimate energy released when U-235 undergoes fission. Then calculate the energy from 1 kg of U-235 and compare with 1 kg of coal. (4) Design a medical isotope: what T₁/₂, radiation type, and production method would you choose for a cardiac scan?</p><p><strong>Exam practice (15 min):</strong> 3 timed IB-style problems.</p>",
+          "engagementHook": {
+            "title": "DESIGNING A MEDICAL ISOTOPE — PHYSICS SAVES LIVES",
+            "content": "\"You're designing a radioactive tracer for brain imaging. Requirements: (a) short T₁/₂ (hours, not days — patient safety), (b) gamma emission only (penetrates skull, detected externally), (c) easily produced in a hospital. Students evaluate candidates: Tc-99m ✓ (6 hr, gamma, produced from Mo-99 generator). I-131 ✗ (too long, beta damages tissue). F-18 ~ (110 min, positron → PET, but needs cyclotron). \"Your choice of isotope balances physics, medicine, logistics, and patient safety.\""
+          },
+          "nos": {
+            "tags": ["Technology", "Ethics", "Global impact"],
+            "description": "Nuclear medicine saves millions of lives annually through imaging and therapy. But it also creates radioactive waste and raises ethical questions about nuclear technology. The physics is neutral — the applications can heal or harm. This dual-use nature is a recurring theme in science and technology."
+          },
+          "atl": ["Thinking skills", "Social skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Caring", "Knowledgeable"],
+          "ao": [
+            "AO2 — Apply all E.3 concepts in multi-step problems",
+            "AO3 — Evaluate isotope choices for medical, dating, and energy applications"
+          ],
+          "resources": "Medical isotope data table, dating examples, nuclear waste infographic, problem sets, calculators",
+          "formative": "\"(a) Tc-99m (T₁/₂ = 6 hr) is administered at 740 MBq at 9am. Activity at 9pm? At 9am the next day? (b) A bone has C-14 activity 3.2 disintegrations/min/g. Living bone: 15.3 dis/min/g. Find the age (use N = N₀e^(−λt) with T₁/₂ = 5730 yr). (c) Pu-239 waste (T₁/₂ = 24,100 yr). How many half-lives until activity drops to 0.1% of original? How many years is that? (d) Why is Tc-99m preferred over I-131 for diagnostic imaging?\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "E.1 Structure of the Atom", "question": "Are there differences between the photons emitted as a result of atomic versus nuclear transitions?" },
+    { "topic": "E.4 Fission / E.5 Fusion", "question": "How does equilibrium within a star compare to stability within the nucleus?" },
+    { "topic": "D.2 Electric & Magnetic Fields", "question": "Would a nucleus be able to exist if only gravitational and electric forces were considered?" },
+    { "topic": "A.2 Forces & Momentum", "question": "How did conservation of momentum and energy lead to experimental evidence of the neutrino?" },
+    { "topic": "IB Linking (NOS)", "question": "Which areas of physics involve exponential change?" }
+  ]
+},
