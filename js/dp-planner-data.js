@@ -2669,3 +2669,648 @@ const DP_PLANNER_DATA = {
     { "topic": "IB Linking (Models)", "question": "What limitations are there in using a resonance model to explain the greenhouse effect?" }
   ]
 },
+"B3": {
+  "title": "Gas Laws",
+  "code": "B.3",
+  "theme": "B",
+  "level": "SL + HL",
+  "recommendedHours": 6,
+  "recommendedMinutes": 360,
+  "guidingQuestions": [
+    "How are the macroscopic characteristics of a gas related to the behaviour of individual molecules?",
+    "What assumptions and observations lead to universal gas laws?",
+    "How can models be used to help explain observed phenomena?"
+  ],
+  "groups": [
+    {
+      "name": "Pressure & Amount of Substance",
+      "color": "accent5",
+      "totalMinutes": 80,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Pressure — P = F/A",
+          "focus": "Force per unit area and how gas particles create pressure",
+          "minutes": 35,
+          "understandings": [
+            "Pressure P = F/A, where F is the force exerted perpendicular to the surface",
+            "Units: pascal (Pa) = N/m². Also: 1 atm = 101,325 Pa",
+            "Gas pressure arises from collisions of gas molecules with the walls of the container",
+            "More collisions per second OR harder collisions → higher pressure"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> A student stands on the floor in shoes — no problem. Now hand them a pair of stilettos (or place a block on a nail vs a flat surface). \"Same weight, different area, VERY different pressure.\" P = F/A means the same force concentrated on a smaller area creates higher pressure.</p><p><strong>Direct instruction (10 min):</strong> Define P = F/A. Units: 1 Pa = 1 N/m². Standard atmospheric pressure = 101,325 Pa ≈ 10⁵ Pa. The atmosphere pushes ~10⁵ N on every square metre of your body. \"Why aren't you crushed?\" Because the pressure inside your body pushes outward equally. For gases: billions of molecules collide with walls every second — each collision exerts a tiny force. Sum of all these tiny forces / wall area = pressure.</p><p><strong>Demo (5 min):</strong> Magdeburg hemispheres (or suction cups): press two half-spheres together and pump out the air. Students try to pull them apart — impossible. \"Atmospheric pressure pushes them together with enormous force.\" Calculate: F = P × A for the hemisphere area.</p><p><strong>Worked examples (10 min):</strong> (1) Atmospheric force on a 1 m × 2 m table = 10⁵ × 2 = 200,000 N ≈ 20 tonnes. \"Why doesn't the table collapse?\" Pressure acts from below too. (2) A nail (tip area 0.5 mm²) hit with 500 N → P = 10⁹ Pa = 1 GPa. (3) A tyre inflated to 2 atm has contact patch area 200 cm² — weight of car?</p><p><strong>Practice (5 min):</strong> Pressure calculations including unit conversions.</p>",
+          "engagementHook": {
+            "title": "THE MAGDEBURG HEMISPHERES — 20 TONNES OF NOTHING",
+            "content": "Press two suction cups (or hemispheres) together and remove the air. Two students pull from each side — they can't separate them. \"There's NOTHING inside. What's holding them together?\" The atmosphere — pushing with ~10⁵ Pa on every square centimetre. Calculate the force: even for a 10 cm diameter hemisphere, F = P × πr² ≈ 800 N. That's like hanging 80 kg from the suction cups."
+          },
+          "nos": {
+            "tags": ["Measurements", "Observations"],
+            "description": "Otto von Guericke's original Magdeburg experiment (1654) used horse teams pulling in opposite directions and still couldn't separate the hemispheres. This public demonstration convinced sceptics that atmospheric pressure was real and enormous — a landmark in the history of experimental physics."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — Define pressure; state P = F/A",
+            "AO2 — Calculate pressure, force, or area given the other two; convert units"
+          ],
+          "resources": "Suction cups or Magdeburg hemispheres, vacuum pump (if available), nail and block, calculators",
+          "formative": "\"A person (70 kg) stands on snow in boots (sole area 400 cm²) and sinks. They put on snowshoes (area 3000 cm²) and stay on top. (a) Calculate the pressure in each case. (b) By what factor does the pressure decrease? (c) Explain at the molecular level how gas pressure arises in a sealed container.\""
+        },
+        {
+          "num": 2,
+          "title": "Amount of Substance — n = N/Nₐ",
+          "focus": "Counting molecules using moles, Avogadro's constant, and Boltzmann's constant",
+          "minutes": 45,
+          "understandings": [
+            "The amount of substance n = N/Nₐ, where N is the number of molecules and Nₐ = 6.02 × 10²³ mol⁻¹ is the Avogadro constant",
+            "One mole contains Nₐ particles — it's a counting unit, like a 'dozen' but for atoms",
+            "The Boltzmann constant k_B = R/Nₐ = 1.38 × 10⁻²³ J/K bridges the molecular scale (per molecule) and the macroscopic scale (per mole)",
+            "The molar gas constant R = 8.31 J mol⁻¹ K⁻¹"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"How many molecules of air are in this classroom?\" Students guess wildly. Calculate: room volume ~150 m³ × 2.5 × 10²⁵ molecules/m³ ≈ 4 × 10²⁷ molecules. \"That's 4 followed by 27 zeros. We need a better way to count.\" Enter the mole.</p><p><strong>Direct instruction (15 min):</strong> Define n = N/Nₐ. One mole = 6.02 × 10²³ particles. Analogy: a dozen = 12. A mole = 6 × 10²³. Why this specific number? Because 1 mole of carbon-12 has a mass of exactly 12 g — the mole bridges counting (number of particles) and weighing (mass). Introduce k_B and R: k_B is energy per molecule per kelvin. R is energy per mole per kelvin. R = Nₐ × k_B. These connect the two ways of counting: per molecule (N, k_B) vs per mole (n, R).</p><p><strong>Worked examples (15 min):</strong> (1) 2 moles of gas: N = 2 × 6.02 × 10²³ = 1.204 × 10²⁴ molecules. (2) 5 × 10²⁵ molecules: n = 5 × 10²⁵ / 6.02 × 10²³ = 83.1 mol. (3) 32 g of O₂ (molar mass = 32 g/mol): n = 1 mol, N = 6.02 × 10²³. (4) Verify: R = Nₐ × k_B = 6.02 × 10²³ × 1.38 × 10⁻²³ = 8.31 J/(mol·K). ✓</p><p><strong>Practice (10 min):</strong> Convert between N, n, and mass. Calculate k_B from R/Nₐ and verify.</p>",
+          "engagementHook": {
+            "title": "HOW BIG IS A MOLE?",
+            "content": "\"If you had a mole of rice grains, it would cover the entire surface of the Earth to a depth of 75 metres. A mole of tennis balls would fill the Sun. A mole of sheets of paper stacked would reach from Earth to the Andromeda galaxy — 2.5 million light-years away.\" These absurd comparisons make 6 × 10²³ feel real. Then: \"And yet, a glass of water contains about 10 moles — that's 6 × 10²⁴ molecules in your hand.\""
+          },
+          "nos": {
+            "tags": ["Models", "Science as a shared endeavour"],
+            "description": "The mole was defined by international agreement (SI system). Avogadro's number was measured by multiple methods (electrolysis, Brownian motion, X-ray diffraction) — all giving the same answer. This convergence from independent methods is strong evidence that atoms and molecules are real, not just theoretical constructs."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Knowledgeable", "Thinker"],
+          "ao": [
+            "AO1 — Define mole, Avogadro's constant, Boltzmann constant",
+            "AO2 — Convert between N, n, and mass; relate k_B and R"
+          ],
+          "resources": "Periodic table, calculators, mole comparison infographic",
+          "formative": "\"A container holds 0.5 mol of helium (molar mass 4 g/mol). (a) How many atoms? (b) What is the total mass? (c) Verify that k_B = R/Nₐ numerically. (d) Why do physicists use two different constants (k_B and R) for the same physics?\""
+        }
+      ]
+    },
+    {
+      "name": "Gas Laws & the Ideal Gas",
+      "color": "accent2",
+      "totalMinutes": 140,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Empirical Gas Laws — Boyle's, Charles's & Gay-Lussac's",
+          "focus": "Constant T, constant P, and constant V — the building blocks",
+          "minutes": 50,
+          "understandings": [
+            "The ideal gas law can be derived from empirical gas laws: PV/T = constant",
+            "Boyle's law (constant T): P ∝ 1/V → P₁V₁ = P₂V₂",
+            "Charles's law (constant P): V ∝ T → V₁/T₁ = V₂/T₂ (T in kelvin!)",
+            "Gay-Lussac's law (constant V): P ∝ T → P₁/T₁ = P₂/T₂",
+            "Gas laws are limited to constant volume, constant temperature, and constant pressure processes"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Inflate a balloon. Place it in a freezer (or pour liquid nitrogen on it). It shrinks dramatically. Remove it — it re-inflates. \"Pressure is roughly constant (open to the atmosphere). Temperature decreased. What happened to volume?\" V ∝ T — Charles's law.</p><p><strong>Lab (20 min):</strong> BOYLE'S LAW — Use a syringe connected to a pressure gauge. Students push the plunger to reduce volume and record pressure at each step. Plot P vs 1/V → should be a straight line through the origin. Or plot PV → should be constant. Discuss: what assumptions make this work? (Constant T, sealed gas, no leaks.)</p><p><strong>Direct instruction (10 min):</strong> Present all three laws with graphs: (a) Boyle: P vs V is a hyperbola; P vs 1/V is linear. (b) Charles: V vs T(K) is linear, extrapolates to V = 0 at T = 0 K — this is how absolute zero was first estimated! (c) Gay-Lussac: P vs T(K) is linear. Emphasise: T must be in kelvin for proportionality to hold. Combine: PV/T = constant → leads to the ideal gas law.</p><p><strong>Worked examples (10 min):</strong> (1) Gas at 1 atm, 2 L compressed to 0.5 L at constant T → P = 4 atm. (2) Gas at 300 K, 1 L heated to 600 K at constant P → V = 2 L. (3) Combined: gas at P₁, V₁, T₁ changes to P₂, V₂, T₂ → P₁V₁/T₁ = P₂V₂/T₂.</p><p><strong>Practice (5 min):</strong> Mixed gas law problems.</p>",
+          "engagementHook": {
+            "title": "THE BALLOON IN THE FREEZER & ABSOLUTE ZERO",
+            "content": "Shrink a balloon with cold (freezer or liquid nitrogen). Students SEE Charles's law. Then the deeper hook: \"If V ∝ T(K), then at T = 0 K, volume = 0. That's absolute zero — the temperature where an ideal gas would have zero volume.\" Of course, real gases liquefy first. But the EXTRAPOLATION to V = 0 is how absolute zero was first estimated, 100 years before anyone could reach temperatures near it."
+          },
+          "nos": {
+            "tags": ["Observations", "Patterns", "Models"],
+            "description": "Boyle's, Charles's, and Gay-Lussac's laws were discovered empirically — by experiment, not theory. The kinetic theory (theoretical) came later and EXPLAINED why these empirical patterns exist. This is a classic NOS trajectory: observation → pattern → model → explanation."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — State the three gas laws and their conditions",
+            "AO2 — Apply each law to calculate changes in P, V, or T",
+            "AO3 — Analyse experimental data to verify Boyle's law"
+          ],
+          "resources": "Syringe + pressure gauge (Boyle's law kit), balloon, freezer or liquid nitrogen, graph paper, calculators",
+          "formative": "\"A gas at 2 atm, 3 L, 300 K is heated to 450 K at constant pressure. (a) Find the new volume. (b) The gas is then compressed to 1.5 L at constant temperature. Find the new pressure. (c) Plot the two changes on a PV diagram. (d) What single gas law equation could have been used to go directly from the initial to the final state?\""
+        },
+        {
+          "num": 2,
+          "title": "The Ideal Gas Law — PV = Nk_BT = nRT",
+          "focus": "The unifying equation combining all gas laws",
+          "minutes": 45,
+          "understandings": [
+            "The ideal gas law: PV = Nk_BT (per molecule) and PV = nRT (per mole)",
+            "Derived empirically from combining Boyle's, Charles's, and Gay-Lussac's laws: PV/T = constant",
+            "The ideal gas is a modelled system: perfectly elastic collisions, no intermolecular forces, negligible particle volume",
+            "Temperature, pressure and density conditions under which an ideal gas approximates a real gas: low P, moderate T, low density"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Combine the three laws: PV/T = constant. What IS the constant? It depends on the amount of gas. For N molecules: constant = Nk_B → PV = Nk_BT. For n moles: constant = nR → PV = nRT. These are equivalent (since R = Nₐk_B). List the ideal gas assumptions: (1) gas consists of identical point particles (negligible volume), (2) no intermolecular forces except during collisions, (3) collisions are perfectly elastic, (4) motion is random, (5) Newtonian mechanics applies. When do these assumptions hold? Low pressure (particles far apart → negligible volume and forces), moderate temperature (not too cold → gas doesn't liquefy), low density.</p><p><strong>Worked examples (15 min):</strong> (1) 2 mol of gas at 300 K in a 0.05 m³ container → P = nRT/V = 2 × 8.31 × 300 / 0.05 = 99,720 Pa ≈ 1 atm. (2) A balloon (V = 0.01 m³) at 1 atm, 293 K → n? N? (3) What volume does 1 mol of gas occupy at STP (0°C, 1 atm)? → 22.4 L (the molar volume). (4) A sealed flask is heated from 20°C to 100°C → new pressure?</p><p><strong>Ideal vs Real (10 min):</strong> Where does the ideal gas model fail? (a) High pressure: particles close → volume matters, forces matter. (b) Low temperature: particles slow → intermolecular attractions dominate → gas liquefies. (c) High density: same as high pressure. Real gases deviate most near their boiling point. Show a comparison graph: ideal PV = nRT (straight line) vs real gas (deviates at high P).</p><p><strong>Practice (5 min):</strong> Ideal gas law calculations and identifying when the model breaks down.</p>",
+          "engagementHook": {
+            "title": "THE MOLAR VOLUME — 22.4 LITRES OF ANYTHING",
+            "content": "\"1 mole of ANY ideal gas at 0°C and 1 atm occupies exactly 22.4 litres — about the size of a basketball. Doesn't matter if it's hydrogen, oxygen, or xenon.\" Calculate it live: V = nRT/P = 1 × 8.31 × 273 / 101325 = 0.0224 m³ = 22.4 L. \"The MASS of 22.4 L differs hugely (H₂ = 2 g, Xe = 131 g), but the volume is the same. Why?\" Because ideal gas behaviour depends on NUMBER of particles, not their mass."
+          },
+          "nos": {
+            "tags": ["Models", "Theories", "Patterns"],
+            "description": "The ideal gas is one of the most successful models in physics — simple assumptions lead to a powerful equation that works across an enormous range of conditions. But every model has limits. Understanding WHEN a model fails is as important as understanding when it works. The ideal gas fails precisely when its assumptions break down: particles too close, forces too strong, volume not negligible."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State the ideal gas law in both forms; list the assumptions",
+            "AO2 — Apply PV = nRT and PV = Nk_BT to solve problems",
+            "AO3 — Evaluate conditions under which the ideal gas model is valid"
+          ],
+          "resources": "Calculators, ideal vs real gas comparison graph, basketball (22.4 L visual), periodic table",
+          "formative": "\"(a) Calculate the volume of 3 mol of gas at 25°C and 2 atm. (b) A sealed container of gas at 20°C and 1 atm is heated to 200°C. Find the new pressure. (c) Under what conditions would you expect the ideal gas law to fail for steam? Explain using the model's assumptions. (d) Why does 22.4 L of H₂ and 22.4 L of O₂ at STP contain the same number of molecules despite having very different masses?\""
+        },
+        {
+          "num": 3,
+          "title": "PV Diagrams & Changes of State",
+          "focus": "Visualising gas processes on pressure-volume graphs",
+          "minutes": 45,
+          "understandings": [
+            "Changes of state of a gas can be represented on pressure-volume (PV) diagrams",
+            "Isothermal process (constant T): PV = constant → hyperbola on PV diagram",
+            "Isobaric process (constant P): horizontal line on PV diagram",
+            "Isovolumetric/isochoric process (constant V): vertical line on PV diagram",
+            "The area under a PV curve represents the work done by or on the gas (preview of B.4 for HL students)"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Draw PV diagrams for each process: (a) Isothermal: T constant, PV = constant → hyperbola. Moving to larger V means lower P (Boyle's law). (b) Isobaric: P constant → horizontal line. Heating at constant P → V increases (Charles's law). (c) Isochoric: V constant → vertical line. Heating at constant V → P increases (Gay-Lussac's law). Label each clearly. Multiple isotherms: higher T → higher curve (farther from origin).</p><p><strong>Worked examples (15 min):</strong> (1) Draw the PV diagram for: gas at (2 atm, 1 L) is heated at constant P to 2 L, then compressed isothermally to 4 atm. (2) A gas undergoes a cycle: isothermal expansion, isobaric compression, isochoric pressure increase back to start. Draw and label each step. (3) Identify the process from a given PV diagram segment.</p><p><strong>Area = Work preview (5 min):</strong> \"The area under a PV curve equals the work done by the gas. We'll formalise this in B.4 (HL). For now: isothermal expansion does MORE work than isobaric expansion to the same final volume because the pressure is higher throughout. You can see this from the area.\"</p><p><strong>Practice (10 min):</strong> Draw PV diagrams from descriptions. Identify processes from diagrams. Rank work done by comparing areas.</p>",
+          "engagementHook": {
+            "title": "THE PV DIAGRAM AS A STORY",
+            "content": "\"A PV diagram is the biography of a gas — every point tells you its pressure and volume at that moment. A line tells you how it changed. A closed loop means it returned to where it started — a cycle.\" Draw the 'life story' of air in a bicycle pump: atmospheric pressure → compression (isochoric-ish) → release into tyre. Students narrate the physics of everyday actions using PV diagrams."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "PV diagrams are a visual model that reveals physics hidden in equations. Émile Clapeyron (1834) first used them to analyse Carnot's heat engine — a visual approach that made the abstract concrete. Graphical representations remain essential: Feynman diagrams, HR diagrams, and phase diagrams all follow this tradition."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Communicator", "Thinker"],
+          "ao": [
+            "AO1 — Identify isothermal, isobaric, and isochoric processes on PV diagrams",
+            "AO2 — Sketch PV diagrams for described processes",
+            "AO3 — Analyse and compare processes using PV diagram features"
+          ],
+          "resources": "Graph paper, printed PV diagram templates, whiteboard, coloured markers for different processes",
+          "formative": "\"A gas starts at (1 atm, 4 L, 300 K). (a) It is compressed isothermally to 2 L. Find the new pressure. Draw on a PV diagram. (b) It is then heated at constant volume to 600 K. Find the new pressure. Draw this step. (c) It is then expanded isobarically back to 4 L. Find the new temperature. Draw this step. (d) Is the gas back at its starting state? If not, what would need to happen?\""
+        }
+      ]
+    },
+    {
+      "name": "Kinetic Theory & Internal Energy",
+      "color": "accent3",
+      "totalMinutes": 140,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Kinetic Theory — Assumptions & P = (1/3)ρv̄²",
+          "focus": "How molecular collisions create pressure — the microscopic origin of gas laws",
+          "minutes": 50,
+          "understandings": [
+            "Ideal gases are described in terms of the kinetic theory — a modelled system used to approximate real gas behaviour",
+            "Assumptions: identical point particles, random motion, elastic collisions, no intermolecular forces (except during collisions), Newtonian mechanics",
+            "The change in momentum of particles due to collisions with surfaces gives rise to pressure",
+            "Pressure is related to average translational speed: P = (1/3)ρv̄², where v̄² is the mean square speed"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"A balloon stays inflated — something pushes outward. What?\" Billions of air molecules hitting the inner surface every second. Each collision transfers a tiny momentum impulse. The sum of all these impulses per unit area per unit time = pressure. This is kinetic theory: explaining a macroscopic quantity (P) from microscopic behaviour (molecular collisions).</p><p><strong>Direct instruction (20 min):</strong> List the kinetic theory assumptions clearly. Then derive the pressure equation conceptually (full derivation not required, but the logic should be understood): (1) A molecule of mass m moves with speed v toward a wall. (2) It bounces back elastically: Δp = 2mv per collision. (3) The molecule travels back and forth in a box of length L: time between collisions = 2L/v. (4) Force from one molecule = Δp/Δt = 2mv/(2L/v) = mv²/L. (5) For N molecules in 3D (only 1/3 move in any given direction): total force = Nm v̄²/(3L). (6) P = F/A = Nm v̄²/(3LA) = Nm v̄²/(3V) = (1/3)(Nm/V)v̄² = (1/3)ρv̄². This is the bridge between the micro and macro worlds.</p><p><strong>Root mean square speed (10 min):</strong> v̄² is the mean SQUARE speed (average of v²). The root mean square speed v_rms = √(v̄²). From P = (1/3)ρv̄² and PV = Nk_BT: v_rms = √(3k_BT/m). At room temperature: air molecules move at ~500 m/s (faster than sound!). Hydrogen: ~1900 m/s. Calculate for several gases.</p><p><strong>Simulation (5 min):</strong> Use a PhET gas simulation. Students adjust T and observe: molecules move faster → hit walls harder → pressure increases. Increase N → more collisions → P increases. Decrease V → more frequent collisions → P increases. Every gas law emerges from particle behaviour.</p><p><strong>Practice (10 min):</strong> Calculate v_rms for different gases at different temperatures. Use P = (1/3)ρv̄² to find pressure from molecular data.</p>",
+          "engagementHook": {
+            "title": "MOLECULES AT MACH 1.5 — RIGHT NOW",
+            "content": "\"The nitrogen molecules in this room are moving at about 510 m/s — that's 1.5 times the speed of sound. Oxygen: 480 m/s. If you could see them, the room would be a violent chaos of collisions.\" Calculate v_rms live for air at 293 K: v_rms = √(3 × 1.38×10⁻²³ × 293 / (4.8×10⁻²⁶)) = 508 m/s. \"Why don't you feel this? Because they're tiny and they hit you from all sides equally.\""
+          },
+          "nos": {
+            "tags": ["Models", "Theories", "Patterns"],
+            "description": "Kinetic theory is a triumph of theoretical physics: a simple model (hard spheres bouncing in a box) predicts PV = NkT, the relationship P = (1/3)ρv̄², and the distribution of molecular speeds (Maxwell-Boltzmann). The model was controversial in the 19th century — many physicists didn't believe atoms were real. Einstein's 1905 paper on Brownian motion provided definitive evidence."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — State the assumptions of the kinetic theory",
+            "AO2 — Apply P = (1/3)ρv̄² and v_rms = √(3k_BT/m)",
+            "AO3 — Analyse how changes in T, V, N affect pressure using the kinetic model"
+          ],
+          "resources": "PhET gas properties simulation, calculators, periodic table (for molecular masses)",
+          "formative": "\"Helium gas (molar mass 4 g/mol) is at 300 K. (a) Calculate v_rms. (b) Argon (40 g/mol) is at the same temperature. Calculate its v_rms. (c) Which molecules move faster and by what factor? (d) If the helium is heated to 1200 K, what is the new v_rms? By what factor did it increase? (e) Why √ and not just 4×?\""
+        },
+        {
+          "num": 2,
+          "title": "Internal Energy of an Ideal Monatomic Gas — U = (3/2)Nk_BT",
+          "focus": "Total energy of all gas molecules — connecting to B.1 and previewing B.4",
+          "minutes": 40,
+          "understandings": [
+            "The internal energy U of an ideal monatomic gas is given by U = (3/2)Nk_BT or U = (3/2)nRT",
+            "For an ideal gas: no intermolecular PE, so internal energy = total translational KE only",
+            "Internal energy depends only on temperature (for an ideal gas) — not on pressure or volume separately",
+            "This connects to B.1 (internal energy = KE + PE; for ideal gas PE = 0) and previews B.4 (first law of thermodynamics, HL)"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> From B.1: internal energy = total KE + total PE. For an ideal gas: no intermolecular forces → PE = 0. So U = total KE only. Each molecule has average KE = (3/2)k_BT (from B.1). For N molecules: U = N × (3/2)k_BT = (3/2)Nk_BT. Or per mole: U = (3/2)nRT. Key insight: U depends ONLY on T. Doubling T doubles U. Changing V at constant T does NOT change U.</p><p><strong>Worked examples (15 min):</strong> (1) U of 2 mol of helium at 300 K: U = 1.5 × 2 × 8.31 × 300 = 7479 J. (2) The gas is heated to 600 K: U doubles to 14,958 J. Energy input = ΔU = 7479 J. (3) The gas expands isothermally (constant T): ΔU = 0 — no change in internal energy! \"Where does the energy go if we add heat at constant T?\" Into work done by the gas expanding (preview of B.4 first law: Q = ΔU + W).</p><p><strong>HL preview connection (5 min):</strong> \"For HL students: in B.4 you'll learn the first law of thermodynamics: Q = ΔU + W. For an isothermal process of an ideal gas: ΔU = 0, so Q = W — all heat input becomes work. For an isochoric process: W = 0, so Q = ΔU — all heat input raises temperature. This equation is the key to thermodynamics.\"</p><p><strong>Practice (10 min):</strong> Calculate U, ΔU, and temperature changes. Include: \"Does U change during isothermal expansion? During isochoric heating? During adiabatic expansion?\"</p>",
+          "engagementHook": {
+            "title": "THE ROOM FULL OF ENERGY",
+            "content": "\"How much kinetic energy do all the air molecules in this room have?\" Estimate: ~150 m³ of air, ~5.4 × 10²⁷ molecules, T = 293 K → U = (3/2) × 5.4×10²⁷ × 1.38×10⁻²³ × 293 ≈ 33 million joules. \"That's enough energy to run a 100 W light bulb for almost 4 days. It's all around you, moving at 500 m/s — but you can't USE it easily. Why?\" (Preview of 2nd law — energy is disordered.)"
+          },
+          "nos": {
+            "tags": ["Theories", "Models"],
+            "description": "The equation U = (3/2)NkT connects thermodynamics (macroscopic energy) to kinetic theory (microscopic motion). This unification — macro explained by micro — was one of the great achievements of 19th-century physics, driven by Boltzmann, Maxwell, and Clausius. Boltzmann's work was so controversial that he faced fierce opposition; his vindication came after his death."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State U = (3/2)NkT = (3/2)nRT for ideal monatomic gas",
+            "AO2 — Calculate internal energy and changes in internal energy",
+            "AO3 — Analyse why U depends only on T for an ideal gas"
+          ],
+          "resources": "Calculators, whiteboard, connection diagram (B.1 → B.3 → B.4 pathway)",
+          "formative": "\"3 mol of ideal monatomic gas at 400 K. (a) Calculate U. (b) Heated to 500 K at constant V: find ΔU and the heat added. (c) The gas then expands isothermally at 500 K to twice its volume. Find ΔU. (d) Why is the answer to (c) zero even though the gas expanded? (e) For HL preview: if ΔU = 0 but the gas did work expanding, where did the energy come from?\""
+        },
+        {
+          "num": 3,
+          "title": "Ideal vs Real Gases — When Does the Model Break Down?",
+          "focus": "Conditions for validity and how real gases deviate",
+          "minutes": 50,
+          "understandings": [
+            "A real gas approximates an ideal gas at low pressure, moderate temperature, and low density",
+            "At high pressure: molecular volume becomes significant (gas can't compress to zero volume)",
+            "At low temperature: intermolecular attractions become significant (gas liquefies)",
+            "At high density: both effects combine — deviations are largest",
+            "The differences between ideal and real gases should be understood qualitatively"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Can you compress air to zero volume?\" No — molecules have physical size. \"Can you cool any gas and keep it as a gas forever?\" No — intermolecular forces eventually cause liquefaction. \"The ideal gas model ignores both of these realities. Let's find out when that matters.\"</p><p><strong>Direct instruction (15 min):</strong> Build a comparison table: Ideal gas vs Real gas. Ideal: point particles, no forces, no liquefaction, PV = nRT exact. Real: finite volume, attractive forces (Van der Waals), can liquefy, PV = nRT approximate. When does ideal work well? Low P (particles far apart → size negligible, forces negligible), moderate T (enough KE to overcome attractions), low density. When does it fail? High P, low T, near boiling point, polar molecules (stronger forces).</p><p><strong>Data analysis (15 min):</strong> Give students PV/nRT vs P data for N₂ at different temperatures. Ideal gas: PV/nRT = 1 always. Real gas: (a) at low P, PV/nRT ≈ 1 (ideal works). (b) At moderate P, PV/nRT < 1 (attractions dominate → gas more compressible than predicted). (c) At high P, PV/nRT > 1 (molecular volume dominates → gas less compressible). Students identify the crossover and explain each region.</p><p><strong>Demo (5 min):</strong> Compress butane in a transparent syringe — at sufficient pressure, it LIQUEFIES (visible phase change). \"An ideal gas can't do this. The ideal model has no mechanism for liquefaction because it has no intermolecular forces.\"</p><p><strong>Discussion (5 min):</strong> \"Is the ideal gas model wrong?\" No — it's an approximation. All models are approximations. The ideal gas model is excellent for most atmospheric conditions, reasonable for most lab conditions, and poor near phase boundaries. Knowing the limits is using the model wisely.</p><p><strong>Practice (5 min):</strong> Classify scenarios as 'ideal appropriate' or 'real gas needed.'</p>",
+          "engagementHook": {
+            "title": "LIQUEFYING GAS IN A SYRINGE",
+            "content": "Compress butane gas in a transparent syringe. Students watch it TURN TO LIQUID before their eyes. \"The ideal gas model says this can't happen — there's no mechanism for it. The model fails because it ignores intermolecular attractions.\" Then decompress — the liquid boils back to gas. Students see the limits of the model in real time."
+          },
+          "nos": {
+            "tags": ["Models", "Falsification", "Observations"],
+            "description": "The ideal gas model is a deliberate simplification. It's not 'wrong' — it's an approximation with known limits. Johannes van der Waals (1873) modified the ideal gas equation to include molecular volume and attractions: (P + a/V²)(V − b) = nRT. His equation was more accurate but more complex. Science constantly balances simplicity and accuracy."
+          },
+          "atl": ["Thinking skills", "Research skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Inquirer", "Open-minded"],
+          "ao": [
+            "AO1 — State conditions where ideal gas model is valid",
+            "AO2 — Compare ideal and real gas predictions qualitatively",
+            "AO3 — Analyse PV/nRT data to identify deviations and explain them molecularly"
+          ],
+          "resources": "Transparent syringe with butane, PV/nRT vs P data graphs (N₂ at multiple temperatures), ideal vs real comparison table",
+          "formative": "\"(a) List three assumptions of the ideal gas model and explain when each breaks down. (b) A PV/nRT vs P graph shows values below 1 at moderate P and above 1 at high P. Explain each region in terms of molecular behaviour. (c) Would H₂O vapour at 110°C behave more or less ideally than N₂ at the same temperature? Explain. (d) Why is the ideal gas model still useful even though it's an approximation?\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "B.1 Thermal Energy Transfers", "question": "How does E̅ₖ = (3/2)k_BT connect to the ideal gas law PV = Nk_BT? How does internal energy relate to temperature?" },
+    { "topic": "B.4 Thermodynamics (HL)", "question": "How does U = (3/2)NkT connect to the first law of thermodynamics? What does the area under a PV curve represent?" },
+    { "topic": "A.2 Forces & Momentum", "question": "How does the change in momentum during molecular collisions give rise to pressure?" },
+    { "topic": "B.2 Greenhouse Effect", "question": "How do gas laws help explain atmospheric behaviour and the distribution of greenhouse gases?" },
+    { "topic": "IB Linking (NOS)", "question": "How can models be used to help explain observed phenomena? What are the limits of the ideal gas model?" }
+  ]
+},
+"B4": {
+  "title": "Thermodynamics",
+  "code": "B.4",
+  "theme": "B",
+  "level": "HL only",
+  "recommendedHours": 8,
+  "recommendedMinutes": 480,
+  "guidingQuestions": [
+    "How can energy transfers and energy storage within a system be analysed?",
+    "How can the future evolution of a system be determined?",
+    "In what way is entropy fundamental to the evolution of the universe?"
+  ],
+  "groups": [
+    {
+      "name": "First Law of Thermodynamics",
+      "color": "accent",
+      "totalMinutes": 130,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "The First Law — Q = ΔU + W",
+          "focus": "Conservation of energy applied to a closed thermodynamic system",
+          "minutes": 50,
+          "understandings": [
+            "The first law of thermodynamics: Q = ΔU + W, where Q is heat supplied TO the system, ΔU is change in internal energy, W is work done BY the system",
+            "This is conservation of energy for a closed system: energy in (Q) = energy stored (ΔU) + energy out (W)",
+            "Clausius sign convention: Q positive = heat flows IN; W positive = work done BY the system; W negative = work done ON the system",
+            "The first law connects B.1 (internal energy), B.3 (ideal gas, PV diagrams), and A.3 (energy conservation) into a unified framework"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"You heat a gas in a piston. Some energy raises the temperature (ΔU). Some energy pushes the piston outward (W). The total heat input Q must equal both: Q = ΔU + W.\" Draw the system diagram: heat flows in, piston moves out, gas gets hotter. \"This is the bookkeeping of energy — every joule must be accounted for.\"</p><p><strong>Direct instruction (15 min):</strong> State the first law formally: Q = ΔU + W. Unpack Clausius sign convention: Q > 0 means heat flows INTO the system. W > 0 means work done BY the system (gas expands). W < 0 means work done ON the system (gas compressed). If Q = 0: adiabatic — all work comes from internal energy. If W = 0: isochoric — all heat goes to internal energy. If ΔU = 0: isothermal — all heat becomes work.</p><p><strong>Worked examples (20 min):</strong> (1) 500 J of heat is added to a gas. The gas does 200 J of work expanding. ΔU = 500 − 200 = 300 J — temperature rises. (2) A gas is compressed: 300 J of work is done ON the gas (W = −300 J), and 100 J of heat leaks out (Q = −100 J). ΔU = −100 − (−300) = +200 J — temperature rises despite losing heat. (3) A gas expands isothermally: ΔU = 0 → Q = W. All heat input becomes work. (4) Adiabatic compression: Q = 0 → ΔU = −W = +|W|. Gas heats up without any heat input.</p><p><strong>Practice (10 min):</strong> First law problems with sign conventions. Students must state the sign of Q, W, and ΔU for each scenario.</p>",
+          "engagementHook": {
+            "title": "THE DIESEL ENGINE — FIRE WITHOUT A SPARK",
+            "content": "\"A diesel engine has no spark plug. It compresses air so rapidly (adiabatic, Q ≈ 0) that the temperature rises from ~300 K to ~900 K — hot enough to ignite fuel. Where did the heat come from?\" From the first law: Q = 0, W is negative (compression), so ΔU = −W is positive → temperature rises. No heat was added — the work of compression became internal energy. Students calculate: ΔU = (3/2)nRΔT for the compression."
+          },
+          "nos": {
+            "tags": ["Theories", "Patterns"],
+            "description": "The first law of thermodynamics is conservation of energy applied to thermal systems. It was developed independently by Mayer, Joule, and Helmholtz in the 1840s, each from a different perspective (metabolism, mechanical equivalent of heat, mathematical physics). Their convergence on the same law from different angles is powerful evidence for its universality."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State the first law; explain Clausius sign convention",
+            "AO2 — Apply Q = ΔU + W with correct signs",
+            "AO3 — Analyse energy flows in various thermodynamic scenarios"
+          ],
+          "resources": "Piston/syringe demo, diesel engine cutaway diagram or video, whiteboard, problem sets",
+          "formative": "\"A gas receives 800 J of heat. It expands, doing 500 J of work. (a) Find ΔU. (b) Does the temperature rise or fall? (c) The gas is then compressed adiabatically with 400 J of work done on it. Find ΔU and the temperature change direction. (d) State the sign of Q, W, and ΔU for each process.\""
+        },
+        {
+          "num": 2,
+          "title": "Work Done by a Gas — W = PΔV & PV Diagram Areas",
+          "focus": "Calculating work from pressure and volume change, and from graph areas",
+          "minutes": 40,
+          "understandings": [
+            "Work done by or on a closed system: W = PΔV when pressure is constant (isobaric)",
+            "When pressure varies, W = area under the curve on a PV diagram",
+            "Expansion (ΔV > 0): gas does positive work on surroundings",
+            "Compression (ΔV < 0): surroundings do work on gas (W is negative)",
+            "For a cyclic process: net work = area enclosed by the cycle on the PV diagram"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> At constant pressure: W = PΔV. But what if P changes? Then W = area under the PV curve. This is the same gradient/area concept from A.1 (area under v-t = displacement) and A.3 (area under F-x = work). Show: isobaric (rectangle area), isothermal (area under hyperbola), isochoric (zero area — vertical line has no width).</p><p><strong>Worked examples (15 min):</strong> (1) Gas expands isobarically from 2 L to 5 L at 1 atm: W = 1.013 × 10⁵ × 3 × 10⁻³ = 304 J. (2) Same initial and final states but via isothermal path — W is larger (area under the curve is bigger). Estimate by counting squares on a PV diagram. (3) A cyclic process: expansion at high P, compression at low P → net work = enclosed area = energy converted from heat to work per cycle.</p><p><strong>PV diagram skills (10 min):</strong> Students practise: (a) shading the area representing work for different processes, (b) comparing work done in two different paths between the same endpoints — work depends on the PATH, not just start and end. (c) For a cycle: shade the enclosed area = net work output per cycle.</p><p><strong>Practice (5 min):</strong> Calculate W for isobaric processes and estimate W from PV graphs.</p>",
+          "engagementHook": {
+            "title": "PATH MATTERS — THE SCENIC ROUTE COSTS MORE",
+            "content": "\"Two hikers climb from the same base to the same summit. One takes the direct path, the other takes a winding scenic route. Who does more work against gravity?\" Same — gravity is conservative. \"But for a gas: two different paths between the same PV states give DIFFERENT amounts of work. W depends on the path.\" This is why PV diagrams are essential — the path IS the physics."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "The PV diagram is one of the most powerful visual tools in physics. Clapeyron introduced it in 1834 to analyse Carnot's heat engine. The area-under-the-curve interpretation connects thermodynamics to mechanics (F-x diagrams) and kinematics (v-t diagrams) — the same mathematical structure appears everywhere."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Communicator"],
+          "ao": [
+            "AO1 — State W = PΔV; relate W to PV diagram area",
+            "AO2 — Calculate work for isobaric processes; estimate work from PV diagrams",
+            "AO3 — Analyse why work depends on path, not just initial and final states"
+          ],
+          "resources": "Printed PV diagram templates, graph paper, coloured markers, calculators",
+          "formative": "\"A gas goes from state A (1 atm, 2 L) to state B (1 atm, 6 L) isobarically. (a) Calculate W. (b) The gas then goes from A to B via an isothermal path. Is the work greater, less, or equal? Explain using the PV diagram. (c) For a complete cycle A → B (isobaric) → A (isothermal), shade the net work area. Is net work done by or on the gas?\""
+        },
+        {
+          "num": 3,
+          "title": "Internal Energy Changes — ΔU = (3/2)NkΔT",
+          "focus": "Quantifying temperature changes in an ideal monatomic gas",
+          "minutes": 40,
+          "understandings": [
+            "Change in internal energy: ΔU = (3/2)Nk_BΔT = (3/2)nRΔT for an ideal monatomic gas",
+            "ΔU depends ONLY on ΔT for an ideal gas — not on path, pressure, or volume independently",
+            "ΔU is a state function: it depends only on initial and final states, not on the process",
+            "This contrasts with Q and W, which ARE path-dependent"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> From B.3: U = (3/2)NkT. So ΔU = (3/2)NkΔT = (3/2)nRΔT. This is the key connection: temperature change → internal energy change, regardless of HOW the temperature changed. Whether you heat at constant V (all heat → ΔU), constant P (some heat → work), or any other path — if ΔT is the same, ΔU is the same. ΔU is a state function; Q and W are not.</p><p><strong>Worked examples (15 min):</strong> (1) 2 mol heated from 300 K to 500 K: ΔU = 1.5 × 2 × 8.31 × 200 = 4986 J — regardless of path. (2) Same gas, isochoric (W = 0): Q = ΔU = 4986 J. (3) Same gas, isobaric: Q = ΔU + PΔV. Use ideal gas law to find ΔV: V₁ = nRT₁/P, V₂ = nRT₂/P → ΔV = nRΔT/P → W = PΔV = nRΔT = 2 × 8.31 × 200 = 3324 J. So Q = 4986 + 3324 = 8310 J. MORE heat is needed at constant P because some goes to work.</p><p><strong>Key insight (5 min):</strong> \"At constant V: Q = ΔU (all heat raises temperature). At constant P: Q = ΔU + W > ΔU (some heat does work). That's why c_P > c_V for gases — you need more heat per degree at constant pressure.\"</p><p><strong>Practice (10 min):</strong> First law problems calculating Q, W, and ΔU for isobaric and isochoric processes.</p>",
+          "engagementHook": {
+            "title": "STATE FUNCTION vs PATH FUNCTION — THE ALTITUDE ANALOGY",
+            "content": "\"Your altitude is a state function — it depends only on where you are, not how you got there. The distance you walked is a path function — it depends on the route. Internal energy U is like altitude: ΔU depends only on initial and final temperatures. Heat Q and work W are like distance walked: they depend on the path (process). Same destination, different journeys, different Q and W, but always the same ΔU.\""
+          },
+          "nos": {
+            "tags": ["Models", "Theories"],
+            "description": "The distinction between state functions (U, T, P, V) and path functions (Q, W) was clarified by Rudolf Clausius in the 1850s. It's a subtle but profound concept: some quantities describe WHERE the system is; others describe HOW it got there. This distinction is central to all of thermodynamics."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State ΔU = (3/2)NkΔT; explain why ΔU is a state function",
+            "AO2 — Calculate ΔU, Q, and W for isochoric and isobaric processes",
+            "AO3 — Analyse why Q differs between isochoric and isobaric paths for the same ΔT"
+          ],
+          "resources": "Whiteboard, first law calculation framework, problem sets",
+          "formative": "\"3 mol of ideal monatomic gas is heated from 200 K to 400 K. (a) Calculate ΔU (same for all paths). (b) If heated at constant V: find Q and W. (c) If heated at constant P: find W, then Q. (d) Verify Q = ΔU + W for both cases. (e) Why is Q different in (b) and (c) even though ΔU is the same?\""
+        }
+      ]
+    },
+    {
+      "name": "Thermodynamic Processes",
+      "color": "accent3",
+      "totalMinutes": 140,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Isovolumetric & Isobaric Processes",
+          "focus": "Constant V and constant P — the simplest thermodynamic processes",
+          "minutes": 45,
+          "understandings": [
+            "Isovolumetric (isochoric): V constant → W = 0 → Q = ΔU (all heat changes temperature)",
+            "On a PV diagram: vertical line (no volume change)",
+            "Isobaric: P constant → W = PΔV → Q = ΔU + PΔV",
+            "On a PV diagram: horizontal line",
+            "For both: apply Q = ΔU + W with the appropriate simplification"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> Isochoric: sealed rigid container heated. V can't change → no work done (W = PΔV = P × 0 = 0). All heat raises temperature: Q = ΔU. PV diagram: vertical line. Pressure increases (Gay-Lussac). Isobaric: gas in a piston heated. Piston moves out freely at constant atmospheric pressure. W = PΔV > 0. Need more heat for the same ΔT because some energy goes to work: Q = ΔU + PΔV.</p><p><strong>Worked examples (15 min):</strong> (1) Isochoric: 1 mol heated from 300 to 500 K. ΔU = (3/2)(1)(8.31)(200) = 2493 J. W = 0. Q = 2493 J. (2) Isobaric: same gas, same ΔT. ΔU = 2493 J (same — state function!). W = nRΔT = 1 × 8.31 × 200 = 1662 J. Q = 2493 + 1662 = 4155 J. (3) Draw both processes on a PV diagram. Shade the work area for the isobaric process.</p><p><strong>Comparison table (10 min):</strong> Students build a table: Process | Constraint | W | ΔU | Q | PV diagram shape. Fill in for isochoric and isobaric. Leave rows blank for isothermal and adiabatic (next subtopic).</p><p><strong>Practice (10 min):</strong> Mixed isochoric and isobaric problems.</p>",
+          "engagementHook": {
+            "title": "THE PRESSURE COOKER vs THE OPEN POT",
+            "content": "\"A pressure cooker heats water in a sealed, rigid container (isochoric): all heat raises temperature and pressure. An open pot heats water at constant atmospheric pressure (isobaric): the steam expands and does work pushing air aside, so you need MORE heat to reach the same temperature.\" Students calculate: how much more heat per degree does the isobaric process require? (Answer: 5/3 times more for a monatomic gas, because Q_P/Q_V = c_P/c_V = 5/3.)"
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "The four thermodynamic processes (isochoric, isobaric, isothermal, adiabatic) are idealisations — no real process is perfectly any one of these. But they serve as building blocks: any complex process can be approximated as a sequence of these simple steps. This decomposition strategy is characteristic of how physics models complex systems."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Communicator"],
+          "ao": [
+            "AO1 — Describe isochoric and isobaric processes",
+            "AO2 — Apply the first law to calculate Q, W, ΔU for each",
+            "AO3 — Compare energy flows between the two processes for the same ΔT"
+          ],
+          "resources": "Process comparison table template, PV diagram templates, calculators",
+          "formative": "\"2 mol of monatomic gas at 250 K, 1 atm. (a) Heated isochorically to 450 K: find ΔU, W, Q, and the new pressure. (b) Instead heated isobarically to 450 K: find ΔU, W, Q, and the new volume. (c) Draw both processes on one PV diagram. (d) Why is Q larger in (b)?\""
+        },
+        {
+          "num": 2,
+          "title": "Isothermal & Adiabatic Processes",
+          "focus": "Constant T and zero heat exchange — the two remaining idealised processes",
+          "minutes": 50,
+          "understandings": [
+            "Isothermal: T constant → ΔU = 0 → Q = W (all heat input becomes work, or vice versa)",
+            "On PV diagram: hyperbola (PV = constant for an ideal gas)",
+            "Requires very SLOW process to maintain thermal equilibrium with surroundings",
+            "Adiabatic: Q = 0 → ΔU = −W (work comes entirely from/goes to internal energy)",
+            "On PV diagram: steeper curve than isothermal (γ = 5/3 for monatomic gas)",
+            "Adiabatic expansion cools the gas; adiabatic compression heats it — no heat exchange needed"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Isothermal: temperature doesn't change → ΔU = 0. First law: Q = W. Gas expands isothermally → it does work → it must absorb heat from surroundings to maintain T. PV diagram: the familiar hyperbola PV = nRT = constant. Must be done slowly (quasi-static) so the gas stays in thermal equilibrium. Adiabatic: no heat exchange (Q = 0). First law: ΔU = −W. Expand → W > 0 → ΔU < 0 → gas cools. Compress → W < 0 → ΔU > 0 → gas heats. The adiabatic curve on a PV diagram is STEEPER than the isothermal because the gas cools as it expands (pressure drops faster).</p><p><strong>Demo (5 min):</strong> Fire syringe (or video): rapidly compress air in a closed syringe with a piece of cotton inside. The cotton ignites! Rapid compression is approximately adiabatic → Q ≈ 0 → all work becomes ΔU → temperature skyrockets. This is how diesel engines work.</p><p><strong>Worked examples (15 min):</strong> (1) Isothermal expansion: 1 mol at 300 K from 10 L to 20 L. ΔU = 0. P₁V₁ = P₂V₂ → P₂ = P₁/2. W = Q (must calculate from area under hyperbola or use W = nRT ln(V₂/V₁) if provided). (2) Adiabatic expansion: 1 mol from 400 K, V doubles. T drops (calculate using adiabatic relations if provided). W = −ΔU = −(3/2)nRΔT.</p><p><strong>Complete the table (5 min):</strong> Students fill in isothermal and adiabatic rows in their process comparison table from the previous subtopic. All four processes now covered.</p><p><strong>Practice (10 min):</strong> Identify processes from descriptions and PV diagrams. Apply first law to each.</p>",
+          "engagementHook": {
+            "title": "THE FIRE SYRINGE — COMPRESSION IGNITION",
+            "content": "Rapidly compress air in a fire syringe. Cotton inside ignites. \"No spark, no flame — just compression. Q ≈ 0 (too fast for heat to escape). All work → ΔU → temperature exceeds 230°C → ignition.\" This is the diesel engine principle. Students calculate: if air is compressed adiabatically from 300 K by a factor of 20 in volume, the final temperature exceeds 1000 K. Mechanical work alone creates fire."
+          },
+          "nos": {
+            "tags": ["Models", "Observations", "Technology"],
+            "description": "Adiabatic processes are central to meteorology (rising air cools adiabatically → clouds form), engineering (diesel engines, refrigeration), and astrophysics (stellar cores). The same physics appears across vastly different scales — from a syringe in a classroom to the interior of a star."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — Describe isothermal and adiabatic processes",
+            "AO2 — Apply the first law with Q = 0 (adiabatic) or ΔU = 0 (isothermal)",
+            "AO3 — Compare isothermal and adiabatic curves on PV diagrams; explain why adiabatic is steeper"
+          ],
+          "resources": "Fire syringe (or video), process comparison table, PV diagram overlays (isothermal vs adiabatic), calculators",
+          "formative": "\"A gas undergoes two separate expansions from the same initial state, both doubling the volume. Process A is isothermal. Process B is adiabatic. (a) Which final state has lower pressure? Why? (b) Which process does more work? (Hint: compare PV diagram areas.) (c) In which does the temperature change? By how much? (d) Apply Q = ΔU + W to each and verify consistency.\""
+        },
+        {
+          "num": 3,
+          "title": "Adiabatic Processes for Monatomic Gases",
+          "focus": "Quantitative treatment using γ = 5/3",
+          "minutes": 45,
+          "understandings": [
+            "For adiabatic processes in monatomic ideal gases, the relationship between P and V is PV^γ = constant, where γ = 5/3",
+            "Equivalently: TV^(γ−1) = constant → TV^(2/3) = constant for monatomic gas",
+            "These allow calculation of final T and P after adiabatic expansion or compression",
+            "γ = c_P/c_V = 5/3 for monatomic gases (3 translational degrees of freedom)"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> For an adiabatic process: PV^γ = constant, where γ = 5/3 for monatomic gases. Derivation not required, but physical understanding: adiabatic curve is steeper than isothermal because P drops faster (gas cools as it expands). Also: TV^(γ−1) = T₁V₁^(2/3) = T₂V₂^(2/3). And: TP^((1−γ)/γ) = constant. These are equivalent — derived from PV^γ = const + PV = nRT. Use whichever gives the simplest calculation.</p><p><strong>Worked examples (20 min):</strong> (1) Monatomic gas at 300 K, 2 atm, 5 L is compressed adiabatically to 1 L. Find final T: T₂ = T₁(V₁/V₂)^(2/3) = 300 × 5^(2/3) = 300 × 2.92 = 877 K. Find final P: P₂ = P₁(V₁/V₂)^(5/3) = 2 × 5^(5/3) = 2 × 14.6 = 29.2 atm. (2) Verify using PV^γ: P₁V₁^(5/3) = P₂V₂^(5/3) → check. (3) Adiabatic expansion from 600 K, volume doubles → T₂ = 600/2^(2/3) = 600/1.587 = 378 K. ΔU = (3/2)nRΔT. W = −ΔU. (4) A diesel engine compresses air by factor 20 from 293 K → T = 293 × 20^(2/3) = 2153 K.</p><p><strong>Practice (10 min):</strong> Adiabatic calculations using PV^γ and TV^(2/3) relations.</p>",
+          "engagementHook": {
+            "title": "DIESEL TEMPERATURE CALCULATION",
+            "content": "\"A diesel engine compresses air from 293 K by a volume ratio of 20:1. Calculate the final temperature.\" T₂ = 293 × 20^(2/3) = 293 × 7.37 = 2159 K — that's hotter than molten steel! Students are stunned. \"Pure compression, no fuel burning yet, and you've exceeded 2000 K. That's why diesel engines don't need spark plugs.\" The calculation makes the fire syringe demo quantitative."
+          },
+          "nos": {
+            "tags": ["Models", "Technology"],
+            "description": "The adiabatic relations for monatomic gases (γ = 5/3) come from the equipartition theorem: 3 translational degrees of freedom → c_V = (3/2)R, c_P = (5/2)R → γ = 5/3. For diatomic gases (N₂, O₂): 5 degrees of freedom → γ = 7/5. The value of γ encodes the microscopic structure of the molecule into a macroscopic thermodynamic property."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State PV^γ = constant and TV^(γ−1) = constant for adiabatic processes",
+            "AO2 — Calculate final T, P, V after adiabatic compression/expansion",
+            "AO3 — Analyse the diesel engine cycle using adiabatic relations"
+          ],
+          "resources": "Calculators (need y^x function), adiabatic relation reference card, diesel engine diagram",
+          "formative": "\"Monatomic gas at 400 K, 3 atm, 8 L undergoes adiabatic expansion to 24 L. (a) Find T₂ using TV^(2/3) = const. (b) Find P₂ using PV^(5/3) = const. (c) Calculate ΔU. (d) Calculate W. (e) Verify Q = ΔU + W = 0 (adiabatic check).\""
+        }
+      ]
+    },
+    {
+      "name": "Entropy & the Second Law",
+      "color": "accent4",
+      "totalMinutes": 110,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Entropy — ΔS = ΔQ/T and S = k_B ln Ω",
+          "focus": "Disorder, microstates, and the arrow of time",
+          "minutes": 55,
+          "understandings": [
+            "Entropy S is a thermodynamic quantity related to the degree of disorder of particles in a system",
+            "Macroscopic definition: ΔS = ΔQ/T (entropy change = heat transferred / temperature, for a reversible process)",
+            "Microscopic definition: S = k_B ln Ω, where Ω is the number of possible microstates",
+            "More microstates → higher entropy → more disorder",
+            "Entropy is a state function (depends only on current state, not history)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Shuffle a deck of cards. \"A new deck is ordered (low entropy, Ω = 1 arrangement). After shuffling, it's disordered (high entropy, Ω = 52! ≈ 8 × 10⁶⁷ arrangements). It's astronomically unlikely that shuffling will return the deck to its original order.\" This is entropy: the number of ways a system can be arranged.</p><p><strong>Microscopic entropy (15 min):</strong> Define Ω (omega): the number of microstates — the number of distinct ways the particles can be arranged while giving the same macroscopic properties (T, P, V). S = k_B ln Ω. More microstates → higher S. Example: 4 coins, all heads = 1 microstate (Ω = 1, S = 0). 2 heads + 2 tails = 6 microstates (Ω = 6, S = k_B ln 6). The most probable state has the MOST microstates → highest entropy. Systems naturally evolve toward maximum entropy.</p><p><strong>Macroscopic entropy (10 min):</strong> ΔS = ΔQ/T. Adding heat increases entropy (more energy → more possible arrangements). At higher T, the same ΔQ produces LESS ΔS (the system is already disordered). Units: J/K. Irreversible processes: ΔS > ΔQ/T for the system (entropy increases even beyond the heat contribution).</p><p><strong>Worked examples (15 min):</strong> (1) 1000 J of heat flows into water at 373 K: ΔS = 1000/373 = 2.68 J/K. (2) Same heat flows into ice at 273 K: ΔS = 1000/273 = 3.66 J/K — more entropy increase at lower T. (3) Microstates: 2 particles in 2 boxes → Ω = 4. 3 particles in 2 boxes → Ω = 8. 10 particles → Ω = 1024. S increases with N. (4) Free expansion: gas expands into vacuum. Q = 0, W = 0, ΔU = 0, T unchanged. But Ω increases enormously (molecules have more space) → S increases. \"Entropy increased with no heat transfer — the macroscopic formula misses this!\"</p><p><strong>Practice (10 min):</strong> Calculate ΔS from ΔQ/T. Count microstates for simple systems.</p>",
+          "engagementHook": {
+            "title": "THE SHUFFLED DECK — 8 × 10⁶⁷ ARRANGEMENTS",
+            "content": "\"Shuffle a deck. The number of possible arrangements is 52! = 8 × 10⁶⁷. If every person on Earth shuffled a deck every second since the Big Bang, they STILL wouldn't have covered all possible arrangements.\" The ordered deck has Ω = 1 (S = 0). A shuffled deck has Ω = 8 × 10⁶⁷ (very high S). \"Entropy is why your room gets messy but never cleans itself. There are overwhelmingly more disordered states than ordered ones.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Models", "Patterns"],
+            "description": "Boltzmann's equation S = k_B ln Ω bridges the microscopic (individual particle arrangements) and the macroscopic (heat and temperature). Boltzmann was so proud of this equation that it's engraved on his tombstone. His work connected thermodynamics to statistical mechanics — one of the deepest unifications in physics."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Open-minded", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define entropy; state both ΔS = ΔQ/T and S = k_B ln Ω",
+            "AO2 — Calculate entropy changes from heat transfer; count microstates",
+            "AO3 — Analyse why systems evolve toward higher entropy"
+          ],
+          "resources": "Deck of cards, coin sets (for microstate counting), Boltzmann tombstone image, calculators",
+          "formative": "\"(a) 500 J of heat is added to a system at 250 K. Calculate ΔS. (b) The same heat is added at 500 K. Calculate ΔS. Why is it smaller? (c) 4 identical particles are placed in 3 boxes. How many microstates? Calculate S. (d) An ice cube melts in a warm room. Does the entropy of the ice increase or decrease? Does the entropy of the room increase or decrease? Does the TOTAL entropy increase? Why?\""
+        },
+        {
+          "num": 2,
+          "title": "The Second Law of Thermodynamics",
+          "focus": "Clausius form, Kelvin form, and entropy change in isolated systems",
+          "minutes": 55,
+          "understandings": [
+            "The second law sets constraints on possible processes and the evolution of isolated systems",
+            "Clausius form: heat cannot spontaneously flow from a cold body to a hot body",
+            "Kelvin form: it is impossible to construct a heat engine that converts ALL heat into work with no other effect",
+            "Entropy form: the entropy of an isolated system can never decrease; it increases for irreversible processes and stays constant for reversible ones",
+            "Real processes are almost always irreversible → entropy of the universe always increases",
+            "Entropy of a non-isolated system CAN decrease locally, compensated by a larger increase elsewhere"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Why can't you un-burn a log? Un-scramble an egg? Un-mix coffee and milk?\" All are irreversible processes. The first law doesn't forbid the reverse — energy would still be conserved. But the second law does: entropy would decrease, and that doesn't happen spontaneously in isolated systems.</p><p><strong>Three forms (15 min):</strong> (1) Clausius: heat flows from hot to cold, never the reverse, without external work. A fridge DOES move heat from cold to hot — but only by doing work (using electricity). (2) Kelvin: no perfect heat engine — you can't convert 100% of heat to work. Some heat MUST be rejected to a cold reservoir. (3) Entropy: ΔS_total ≥ 0 for isolated systems. The = sign holds only for reversible (ideal) processes. All real processes are irreversible → ΔS_total > 0 always. These three statements are equivalent — proving any one proves the others.</p><p><strong>Local vs global entropy (10 min):</strong> \"A refrigerator decreases entropy inside (cools the food). But it increases entropy outside MORE (heats the kitchen). Total entropy increases.\" Living organisms decrease their internal entropy (building order from food) but increase environmental entropy MORE (exhaling CO₂, radiating heat). Life doesn't violate the 2nd law — it's a non-isolated system.</p><p><strong>Worked examples (15 min):</strong> (1) 1000 J flows from 500 K to 300 K. ΔS_hot = −1000/500 = −2 J/K. ΔS_cold = +1000/300 = +3.33 J/K. ΔS_total = +1.33 J/K > 0 ✓. (2) What if heat flowed 300 K → 500 K? ΔS_total = −1.33 J/K < 0 ✗. Forbidden. (3) A fridge: removes 200 J from food at 275 K, rejects 260 J to room at 295 K. ΔS_food = −200/275 = −0.73. ΔS_room = +260/295 = +0.88. ΔS_total = +0.15 > 0 ✓.</p><p><strong>Practice (10 min):</strong> Entropy change calculations. Determine if processes are allowed by the 2nd law.</p>",
+          "engagementHook": {
+            "title": "THE ARROW OF TIME — WHY EGGS DON'T UN-SCRAMBLE",
+            "content": "Play a video of an egg being dropped — forward, then reversed. \"The forward video looks normal. The reversed video looks absurd. But the first law of thermodynamics allows it — energy would be conserved either way.\" The second law is what gives time its direction. Entropy increases → things break, mix, cool, and age. The 'arrow of time' is an entropy arrow. \"The universe is heading toward maximum entropy — heat death. But that's trillions of years away.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Global impact", "Ethics"],
+            "description": "The second law is unique among physical laws: it introduces an arrow of time. All other laws (Newton's, Maxwell's, quantum mechanics) work equally well forward and backward in time. Only the second law distinguishes past from future. Arthur Eddington said: 'If your theory is found to be against the second law of thermodynamics, I can give you no hope; there is nothing for it but to collapse in deepest humiliation.'"
+          },
+          "atl": ["Thinking skills", "Communication skills", "Social skills"],
+          "learnerProfile": ["Thinker", "Open-minded", "Knowledgeable"],
+          "ao": [
+            "AO1 — State the 2nd law in Clausius, Kelvin, and entropy forms",
+            "AO2 — Calculate total entropy change for heat transfer between two bodies",
+            "AO3 — Analyse whether a proposed process violates the 2nd law"
+          ],
+          "resources": "Egg drop video (forward and reverse), fridge energy flow diagram, entropy calculation worksheets",
+          "formative": "\"(a) State the 2nd law in Clausius form and Kelvin form. (b) 2000 J of heat flows from a reservoir at 600 K to one at 300 K. Calculate ΔS for each and verify ΔS_total > 0. (c) A inventor claims a machine that converts 100% of heat to work. Explain why this violates the Kelvin form. (d) A fridge removes 150 J from food at 268 K and dumps 200 J to the room at 298 K. Is the 2nd law satisfied? Show your calculation.\""
+        }
+      ]
+    },
+    {
+      "name": "Heat Engines & Carnot Cycle",
+      "color": "accent2",
+      "totalMinutes": 100,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Cyclic Processes & Heat Engines",
+          "focus": "Converting heat to work using thermodynamic cycles",
+          "minutes": 50,
+          "understandings": [
+            "A heat engine operates in a cycle: it absorbs heat Q_H from a hot reservoir, converts part to work W, and rejects the rest Q_C to a cold reservoir",
+            "Over one complete cycle: ΔU = 0 (returns to the same state) → Q_H = W + Q_C",
+            "On a PV diagram, the net work per cycle = area enclosed by the cycle",
+            "Real heat engines include: car engines (Otto cycle), diesel engines, power station turbines (Rankine cycle)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Every power station, car engine, and jet turbine is a heat engine: it takes in heat, produces work, and rejects waste heat. The 2nd law says you MUST reject some heat — you can never convert it all.\" Draw the heat engine diagram: hot reservoir (T_H) → Q_H → engine → W (output) + Q_C → cold reservoir (T_C).</p><p><strong>Direct instruction (15 min):</strong> A cyclic process returns the gas to its starting state → ΔU = 0. First law: Q_net = W_net. The engine absorbs Q_H and rejects Q_C, so Q_net = Q_H − Q_C = W. On a PV diagram, the cycle is a closed loop. Net work = enclosed area. Clockwise = engine (produces work). Counterclockwise = refrigerator/heat pump (consumes work). Walk through a simple rectangular cycle: two isobaric + two isochoric steps.</p><p><strong>Worked examples (15 min):</strong> (1) An engine absorbs 1000 J and rejects 600 J per cycle. W = 400 J. Draw the energy flow diagram. (2) A rectangular cycle on a PV diagram: P₁ = 1 atm, P₂ = 3 atm, V₁ = 2 L, V₂ = 5 L. Net work = (P₂ − P₁)(V₂ − V₁) = 2 × 10⁵ × 3 × 10⁻³ = 600 J. (3) A triangular cycle: calculate area = ½ base × height on PV diagram.</p><p><strong>Connection to real engines (10 min):</strong> Show simplified PV diagrams for the Otto cycle (petrol engine): two adiabatic + two isochoric processes. Diesel cycle: two adiabatic + one isobaric + one isochoric. Students identify each step. \"Your car runs 4000 of these cycles per minute.\"`</p><p><strong>Practice (5 min):</strong> Calculate net work from PV cycle areas.</p>",
+          "engagementHook": {
+            "title": "4000 CYCLES PER MINUTE — YOUR CAR ENGINE",
+            "content": "\"A car engine at 4000 rpm completes 4000 thermodynamic cycles every minute — 67 per second. Each cycle: intake → compression (adiabatic) → combustion (isochoric) → expansion (adiabatic) → exhaust. You just learned the physics of every step.\" Show an animated PV diagram for the Otto cycle. The area enclosed = work per cycle = what moves your car."
+          },
+          "nos": {
+            "tags": ["Technology", "Models", "Global impact"],
+            "description": "Sadi Carnot analysed heat engines in 1824 — before the first and second laws were formally stated. He asked: 'What is the maximum possible efficiency?' His answer (the Carnot efficiency) set a theoretical upper limit that no real engine can exceed. Carnot's work is a rare example of engineering driving fundamental physics."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe how a heat engine operates; identify Q_H, W, Q_C",
+            "AO2 — Calculate net work from PV diagram cycle areas",
+            "AO3 — Analyse real engine cycles (Otto, Diesel) in terms of thermodynamic processes"
+          ],
+          "resources": "Heat engine energy flow diagram, Otto/Diesel cycle PV diagrams, animated engine video, calculators",
+          "formative": "\"An engine operates between a hot reservoir at 800 K and a cold reservoir at 300 K. It absorbs 5000 J per cycle and rejects 3200 J. (a) Calculate W per cycle. (b) Draw the energy flow diagram. (c) On a PV diagram, the cycle is a rectangle from (1 atm, 1 L) to (4 atm, 3 L). Calculate the net work from the area. Does it match your answer?\""
+        },
+        {
+          "num": 2,
+          "title": "Thermal Efficiency & the Carnot Cycle",
+          "focus": "Maximum possible efficiency and why it can never be 100%",
+          "minutes": 50,
+          "understandings": [
+            "Thermal efficiency: η = W/Q_H = (Q_H − Q_C)/Q_H = 1 − Q_C/Q_H",
+            "η < 1 always — some heat MUST be rejected (2nd law)",
+            "The Carnot cycle is a theoretical heat engine with the maximum possible efficiency operating between two temperatures",
+            "Carnot efficiency: η_Carnot = 1 − T_C/T_H (temperatures in kelvin)",
+            "No real engine can exceed Carnot efficiency between the same temperatures",
+            "The Carnot cycle consists of: isothermal expansion → adiabatic expansion → isothermal compression → adiabatic compression"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Define η = W/Q_H = 1 − Q_C/Q_H. From the 2nd law: Q_C > 0 always → η < 1. The Carnot cycle achieves the maximum: η_Carnot = 1 − T_C/T_H. Why? Because it uses only reversible processes (isothermal + adiabatic), minimising entropy generation. Describe the 4 steps: (1) isothermal expansion at T_H (absorbs Q_H), (2) adiabatic expansion (cools to T_C), (3) isothermal compression at T_C (rejects Q_C), (4) adiabatic compression (heats back to T_H). Draw on a PV diagram.</p><p><strong>Worked examples (20 min):</strong> (1) Carnot engine: T_H = 600 K, T_C = 300 K. η = 1 − 300/600 = 0.5 = 50%. (2) A real engine operates between the same temperatures at 35% efficiency. \"Is this possible?\" Yes — below Carnot. (3) A power station: T_H = 823 K (steam), T_C = 300 K. η_Carnot = 63.5%. Actual: ~40% (losses from friction, non-reversible processes). (4) \"To improve efficiency: raise T_H or lower T_C?\" Both work. Practically: raising T_H is limited by materials; lowering T_C is limited by the environment. (5) \"Why can η never reach 100%?\" That would require T_C = 0 K — absolute zero — which is unachievable.</p><p><strong>Discussion (10 min):</strong> \"Why do power stations need cooling towers?\" To reject Q_C to the cold reservoir (atmosphere/river). No cooling = no engine. The 2nd law demands waste heat. \"Why are combined-cycle gas turbines more efficient (~60%)?\" They use the exhaust heat from one engine as the input for a second — effectively raising T_H and lowering Q_C wasted.</p><p><strong>Practice (5 min):</strong> Carnot efficiency and real efficiency calculations.</p>",
+          "engagementHook": {
+            "title": "THE IMPOSSIBLE ENGINE — WHY 100% WILL NEVER HAPPEN",
+            "content": "\"An inventor claims an engine at 80% efficiency between 500 K and 300 K. Carnot says the max is 1 − 300/500 = 40%. The inventor is either lying or has broken the 2nd law of thermodynamics.\" Students become patent examiners: given 5 engine claims (T_H, T_C, claimed η), they must calculate Carnot efficiency and rule each claim as 'possible' or 'impossible.' Two are impossible — students catch the fraud using physics."
+          },
+          "nos": {
+            "tags": ["Theories", "Technology", "Ethics"],
+            "description": "Carnot proved in 1824 that there's a maximum efficiency for any heat engine — a result with profound implications. No amount of engineering genius can exceed this limit. It's imposed by nature (the 2nd law), not by current technology. This is rare in physics: an absolute, permanent bound on what's possible."
+          },
+          "atl": ["Thinking skills", "Social skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Principled", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define thermal efficiency; state η_Carnot = 1 − T_C/T_H",
+            "AO2 — Calculate Carnot and real efficiencies; determine if a claimed efficiency is possible",
+            "AO3 — Analyse why no real engine reaches Carnot efficiency and what factors limit real performance"
+          ],
+          "resources": "Carnot cycle PV diagram, engine efficiency comparison table, patent examiner activity cards, calculators",
+          "formative": "\"(a) Calculate η_Carnot for T_H = 700 K, T_C = 350 K. (b) A real engine between these temperatures has η = 30%. Calculate Q_C per cycle if Q_H = 2000 J. (c) An inventor claims η = 55% between the same temperatures. Is this possible? Justify. (d) How could the theoretical maximum be increased without changing T_C? What practical limit would you hit? (e) Describe the 4 steps of the Carnot cycle and identify each on a PV diagram.\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "A.3 Work, Energy & Power", "question": "How does the first law of thermodynamics extend conservation of energy from mechanics to thermal systems?" },
+    { "topic": "B.1 Thermal Energy Transfers", "question": "How does the concept of internal energy (B.1) connect to ΔU = (3/2)NkΔT and the first law?" },
+    { "topic": "B.3 Gas Laws", "question": "How do PV diagrams from B.3 support the analysis of thermodynamic processes? How does U = (3/2)NkT feed into the first law?" },
+    { "topic": "B.2 Greenhouse Effect", "question": "How does the second law constrain the efficiency of power stations, and how does this relate to waste heat and CO₂ emissions?" },
+    { "topic": "E.4 Fission / E.5 Fusion", "question": "How do nuclear power stations convert thermal energy to work? What limits their efficiency?" },
+    { "topic": "IB Linking (NOS)", "question": "In what way is entropy fundamental to the evolution of the universe? How does the arrow of time emerge from the second law?" }
+  ]
+},
+
