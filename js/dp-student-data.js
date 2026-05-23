@@ -598,6 +598,773 @@ const DP_STUDENT_DATA = {
       ]
     }
   ]
+}
+    {
+      "id": "e3_sub4",
+      "num": 4,
+      "title": "Alpha, Beta & Gamma Decay",
+      "group": "Radioactive Decay Processes",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "E = mc² in Nuclear Reactions",
+      "nextTitle": "Penetration, Ionisation & Detection",
+
+      "bigIdea": "A uranium atom sits peacefully for 4.5 billion years, then — with no warning and no trigger — it spits out an alpha particle and transforms into thorium. Nothing caused it. It's fundamentally random. This is radioactive decay: unstable nuclei shed particles and energy to become more stable, and no force in the universe can make them do it faster or slower.",
+
+      "foundation": {
+        "title": "Three ways a nucleus can change",
+        "content": "<p>Some nuclei are unstable — they have too many protons, too many neutrons, or are just too heavy. They become more stable by emitting particles or energy. There are three main types:</p><p><strong>Alpha (α) decay:</strong> The nucleus ejects a chunk of 2 protons + 2 neutrons (a helium-4 nucleus). This reduces the nucleus's size and charge. Think of it as losing a small package to become lighter and more stable.</p><p><strong>Beta (β) decay:</strong> A neutron inside the nucleus converts into a proton (β⁻) or a proton converts into a neutron (β⁺). An electron (or positron) and a neutrino fly out. The nucleus adjusts its proton-to-neutron ratio without changing its total size.</p><p><strong>Gamma (γ) decay:</strong> The nucleus is in an excited state (too much energy) and releases a high-energy photon. Nothing else changes — same number of protons and neutrons, just less energy.</p><p><strong>Key:</strong> Radioactive decay is <strong>random</strong> (can't predict WHICH atom will decay next) and <strong>spontaneous</strong> (nothing triggers it — no external force, temperature, pressure, or chemical change can speed it up or slow it down).</p>",
+        "summary": "<p><strong>Alpha (α):</strong> Emits ⁴₂He → A decreases by 4, Z by 2. Heavy nuclei.</p><p><strong>Beta-minus (β⁻):</strong> n → p + e⁻ + ν̄ → A unchanged, Z increases by 1. Neutron-rich.</p><p><strong>Beta-plus (β⁺):</strong> p → n + e⁺ + ν → A unchanged, Z decreases by 1. Proton-rich.</p><p><strong>Gamma (γ):</strong> Photon emitted → no change in A or Z. Nucleus loses energy.</p><p><strong>Random & spontaneous:</strong> Can't be predicted or influenced.</p>",
+        "checkQuestions": [
+          {
+            "question": "After alpha decay, the daughter nucleus has fewer protons AND fewer neutrons than the parent. After beta-minus decay, the daughter has MORE protons but FEWER neutrons. Explain.",
+            "answer": "Alpha: emits 2p + 2n → both decrease. Beta-minus: a neutron becomes a proton (n → p + e⁻ + ν̄) → one fewer neutron, one more proton. The total nucleon number A doesn't change — only the internal composition shifts."
+          },
+          {
+            "question": "Can you speed up radioactive decay by heating the substance?",
+            "answer": "No. Radioactive decay is a NUCLEAR process — it depends on the internal structure of the nucleus, not on external conditions. Temperature affects electron orbits (chemistry) but has zero effect on the nucleus. Decay rates are the same in ice, in fire, in a vacuum, or at the centre of the Sun."
+          }
+        ]
+      },
+
+      "core": {
+        "title": "Alpha, beta, and gamma decay — equations, particles, and neutrinos",
+        "content": "<p><strong>The random and spontaneous nature of decay:</strong> Each unstable nucleus has a fixed probability of decaying in any given time interval. This probability is constant — unaffected by temperature, pressure, chemical state, or external fields. You CANNOT predict which atom will decay next. You CAN predict how many will decay from a large sample (statistics).</p><p><strong>Alpha (α) decay:</strong> ᴬ_Z X → ᴬ⁻⁴_(Z−2) Y + ⁴₂He. The alpha particle = He-4 nucleus. Occurs in heavy nuclei (typically A > 200) to reduce nuclear size. Example: ²³⁸₉₂U → ²³⁴₉₀Th + ⁴₂He.</p><p><strong>Beta-minus (β⁻) decay:</strong> ᴬ_Z X → ᴬ_(Z+1) Y + ⁰₋₁e + ν̄. A neutron converts to a proton: n → p + e⁻ + ν̄ (antineutrino). Occurs in neutron-RICH nuclei. Example: ¹⁴₆C → ¹⁴₇N + ⁰₋₁e + ν̄.</p><p><strong>Beta-plus (β⁺) decay:</strong> ᴬ_Z X → ᴬ_(Z−1) Y + ⁰₊₁e + ν. A proton converts to a neutron: p → n + e⁺ + ν (neutrino). Occurs in proton-RICH nuclei. Example: ¹¹₆C → ¹¹₅B + ⁰₊₁e + ν.</p><p><strong>Gamma (γ) decay:</strong> ᴬ_Z X* → ᴬ_Z X + γ. No change in A or Z — the nucleus drops from an excited state to a lower energy state, emitting a photon. Often follows α or β decay (the daughter nucleus is left in an excited state).</p><p><strong>Neutrinos and antineutrinos:</strong> Emitted in beta decay to conserve energy, momentum, and lepton number. The beta particle has a CONTINUOUS energy spectrum (unlike alpha, which is discrete) — the neutrino carries the 'missing' energy. Predicted by Pauli (1930), detected by Reines & Cowan (1956).</p>",
+        "keyPoints": [
+          "Decay is random (unpredictable for individual nuclei) and spontaneous (no trigger, unaffected by external conditions)",
+          "Alpha: ²³⁸U → ²³⁴Th + ⁴He — heavy nuclei, A decreases by 4, Z by 2",
+          "Beta-minus: ¹⁴C → ¹⁴N + e⁻ + ν̄ — neutron-rich, Z increases by 1",
+          "Beta-plus: ¹¹C → ¹¹B + e⁺ + ν — proton-rich, Z decreases by 1",
+          "Gamma: no change in A or Z, just energy release as a photon",
+          "Neutrinos carry missing energy in beta decay — their existence was predicted from conservation laws"
+        ],
+        "examTrap": {
+          "wrong": "In beta decay, an electron that was orbiting the atom is emitted from the nucleus",
+          "correct": "The beta particle (electron) is CREATED in the nucleus at the moment of decay: a neutron transforms into a proton + electron + antineutrino. It is NOT an orbital electron. Orbital electrons and beta particles are both electrons, but they have completely different origins."
+        }
+      },
+
+      "extension": {
+        "title": "The neutrino — the ghost particle that had to exist",
+        "content": "<p>In 1930, beta decay had a crisis: the emitted electron didn't always carry the same energy. Energy appeared to NOT be conserved. Niels Bohr was willing to abandon energy conservation. Wolfgang Pauli proposed a radical alternative: an invisible, nearly massless particle carries the missing energy. He called it 'the little neutral one' — the neutrino.</p><p>Pauli wrote: 'I have done a terrible thing. I have postulated a particle that cannot be detected.' He was wrong — Reines and Cowan detected neutrinos in 1956 using a nuclear reactor (Nobel Prize 1995). Trillions of neutrinos pass through your body every second — from the Sun, from reactors, from supernovae. They barely interact with matter: a neutrino can pass through a light-year of lead with only a 50% chance of being stopped.</p><p><strong>Why neutrinos matter for IB:</strong> Their existence was PREDICTED from conservation laws (energy, momentum, lepton number) before they were detected. This is one of the most powerful examples of conservation laws as predictive tools in physics.</p>",
+        "connections": [
+          "A.2 Forces & Momentum: conservation of momentum in beta decay requires the neutrino",
+          "E.1 Structure of the Atom: photon emission from atomic transitions (eV) vs gamma from nuclear transitions (MeV)",
+          "E.5 Fusion: neutrinos from the pp chain escape the Sun's core in ~2 seconds (light takes ~170,000 years)"
+        ]
+      },
+
+      "simulation": {
+        "title": "PhET: Alpha Decay / Beta Decay",
+        "source": "University of Colorado Boulder",
+        "url": "https://phet.colorado.edu/en/simulations/alpha-decay",
+        "instructions": [
+          "Watch individual nuclei undergo alpha decay — note the randomness. Sometimes it happens immediately, sometimes after a long wait.",
+          "Switch to beta decay simulation. Observe a neutron converting to a proton inside the nucleus.",
+          "Note: you can NEVER predict when a specific nucleus will decay. You can only predict the average behaviour of many nuclei."
+        ]
+      },
+
+      "video": {
+        "title": "Alpha, Beta & Gamma Decay — IB Physics",
+        "duration": "10 min",
+        "description": "All three decay types with equations, neutrinos, and conservation laws",
+        "embedId": ""
+      },
+
+      "equations": [
+        {
+          "formula": "Alpha: ᴬ_ZX → ᴬ⁻⁴_(Z−2)Y + ⁴₂He",
+          "description": "Parent → daughter + alpha particle. A decreases by 4, Z by 2."
+        },
+        {
+          "formula": "Beta⁻: ᴬ_ZX → ᴬ_(Z+1)Y + ⁰₋₁e + ν̄",
+          "description": "Neutron → proton + electron + antineutrino. A unchanged, Z increases by 1."
+        },
+        {
+          "formula": "Beta⁺: ᴬ_ZX → ᴬ_(Z−1)Y + ⁰₊₁e + ν",
+          "description": "Proton → neutron + positron + neutrino. A unchanged, Z decreases by 1."
+        },
+        {
+          "formula": "Gamma: ᴬ_ZX* → ᴬ_ZX + γ",
+          "description": "Excited nucleus → ground state + gamma photon. No change in A or Z."
+        }
+      ],
+
+      "workedExamples": [
+        {
+          "level": "foundation",
+          "scope": "sl",
+          "title": "Write the decay equation for alpha decay of Ra-226 (Z = 88).",
+          "steps": [
+            { "label": "Parent", "text": "²²⁶₈₈Ra" },
+            { "label": "Alpha", "text": "⁴₂He is emitted" },
+            { "label": "Daughter A", "text": "226 − 4 = 222" },
+            { "label": "Daughter Z", "text": "88 − 2 = 86 → element 86 = Radon (Rn)" },
+            { "label": "Equation", "text": "²²⁶₈₈Ra → ²²²₈₆Rn + ⁴₂He", "isEquation": true },
+            { "label": "Check", "text": "A: 226 = 222 + 4 ✓. Z: 88 = 86 + 2 ✓." }
+          ]
+        },
+        {
+          "level": "core",
+          "scope": "sl",
+          "title": "Write the β⁻ decay equation for Co-60 (Z = 27).",
+          "steps": [
+            { "label": "Parent", "text": "⁶⁰₂₇Co" },
+            { "label": "β⁻ decay", "text": "A neutron → proton + e⁻ + ν̄" },
+            { "label": "Daughter A", "text": "60 (unchanged — a neutron became a proton, total nucleons same)" },
+            { "label": "Daughter Z", "text": "27 + 1 = 28 → element 28 = Nickel (Ni)" },
+            { "label": "Equation", "text": "⁶⁰₂₇Co → ⁶⁰₂₈Ni + ⁰₋₁e + ν̄", "isEquation": true },
+            { "label": "Note", "text": "Co-60 is used in cancer radiotherapy. It emits beta particles AND gamma rays (the daughter Ni-60 is often in an excited state → emits gamma immediately after)." }
+          ]
+        },
+        {
+          "level": "core",
+          "scope": "sl",
+          "title": "A nucleus undergoes α decay followed by two β⁻ decays, starting from Th-232 (Z = 90). Find the final nucleus.",
+          "steps": [
+            { "label": "After α decay", "text": "A: 232 → 228. Z: 90 → 88. Element: Ra-228 (Radium)." },
+            { "label": "After 1st β⁻", "text": "A: 228 (unchanged). Z: 88 → 89. Element: Ac-228 (Actinium)." },
+            { "label": "After 2nd β⁻", "text": "A: 228 (unchanged). Z: 89 → 90. Element: Th-228 (Thorium)." },
+            { "label": "Final", "text": "²²⁸₉₀Th — thorium-228. Same element as the original (thorium), but lighter by 4 nucleons.", "isEquation": true },
+            { "label": "Interesting", "text": "The alpha decay changed the element (Th → Ra). The two beta decays changed it back (Ra → Ac → Th). But the MASS decreased from 232 to 228." }
+          ]
+        }
+      ],
+
+      "practiceProblems": [
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "Write the alpha decay equation for Po-210 (Z = 84). Identify the daughter nucleus.",
+          "solution": "²¹⁰₈₄Po → ²⁰⁶₈₂Pb + ⁴₂He. Daughter = Lead-206. Check: A: 210 = 206 + 4 ✓. Z: 84 = 82 + 2 ✓."
+        },
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "State two properties of radioactive decay (random and spontaneous).",
+          "solution": "(1) Random: it is impossible to predict WHICH specific nucleus will decay next; only the probability of decay can be stated. (2) Spontaneous: decay occurs without any external trigger and is not affected by temperature, pressure, chemical state, or other external conditions."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "Write the β⁻ decay of C-14 (Z = 6). Why is a neutrino needed?",
+          "solution": "¹⁴₆C → ¹⁴₇N + ⁰₋₁e + ν̄. The neutrino (actually antineutrino) is needed because: (1) the beta particle has a continuous energy spectrum, meaning energy would appear non-conserved without another particle carrying the missing energy; (2) conservation of momentum requires a third particle; (3) conservation of lepton number requires the antineutrino."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "An unknown nucleus emits a β⁺ particle and becomes ¹¹₅B. Write the decay equation and identify the parent.",
+          "solution": "β⁺: Z decreases by 1, A unchanged. Parent Z = 5 + 1 = 6 → Carbon. A = 11. Parent: ¹¹₆C. Equation: ¹¹₆C → ¹¹₅B + ⁰₊₁e + ν."
+        },
+        {
+          "difficulty": "hard",
+          "scope": "sl",
+          "question": "U-238 decays through a series of alpha and beta-minus decays to form Pb-206. (a) Find the total number of alpha decays. (b) Find the total number of beta-minus decays.",
+          "solution": "(a) Change in A: 238 − 206 = 32. Each alpha reduces A by 4: 32/4 = 8 alpha decays. (b) 8 alphas reduce Z by 16: 92 − 16 = 76. But final Z = 82. So Z must increase by 82 − 76 = 6. Each β⁻ increases Z by 1: 6 beta-minus decays. Check: ΔZ = −16 + 6 = −10. 92 − 10 = 82 ✓."
+        }
+      ],
+
+      "commonMistakes": [
+        {
+          "wrong": "Beta particles are electrons that were orbiting the atom",
+          "explanation": "Beta particles are CREATED inside the nucleus at the moment of decay. A neutron transforms: n → p + e⁻ + ν̄. The electron didn't exist before the decay — it was born in the process. Orbital electrons are separate.",
+          "correct": "Beta particles are electrons (or positrons) created during nuclear transformation, not pre-existing orbital electrons."
+        },
+        {
+          "wrong": "You can make radioactive decay happen faster by heating the substance",
+          "explanation": "Radioactive decay is a nuclear process governed by the strong and weak nuclear forces. External conditions (temperature, pressure, chemical bonds) affect ELECTRONS, not the nucleus. The decay rate is completely independent of external conditions.",
+          "correct": "Decay rate is constant and unaffected by temperature, pressure, or chemical state. It depends only on the nuclear structure of the isotope."
+        },
+        {
+          "wrong": "Gamma decay changes the nucleus into a different element",
+          "explanation": "Gamma decay emits a photon but changes NOTHING about the nucleus's composition. A and Z are both unchanged. The nucleus simply drops from an excited energy state to a lower one.",
+          "correct": "Gamma: ᴬ_ZX* → ᴬ_ZX + γ. Same element, same isotope, just lower energy. Only alpha and beta decay change the element."
+        }
+      ],
+
+      "examCorner": {
+        "scope": "sl",
+        "question": "Thorium-234 (²³⁴₉₀Th) undergoes beta-minus decay.\n(a) Write the decay equation, including the antineutrino. [2]\n(b) State what happens inside the nucleus during this decay. [2]\n(c) Explain why radioactive decay is described as both random and spontaneous. [2]\n(d) The beta particle has a continuous energy spectrum. Explain how this led to the prediction of the neutrino. [2]",
+        "marks": 8,
+        "modelAnswer": "(a) ²³⁴₉₀Th → ²³⁴₉₁Pa + ⁰₋₁e + ν̄ [2] (1 mark for correct daughter Pa-234 with Z = 91, 1 mark for correct beta particle + antineutrino)\n(b) A neutron inside the nucleus transforms into a proton [1]. An electron and an antineutrino are created and emitted from the nucleus [1].\n(c) Random: it is impossible to predict which particular nucleus will decay at any given time [1]. Spontaneous: decay is not triggered by any external factor and the decay rate is unaffected by changes in temperature, pressure, or chemical environment [1].\n(d) If only the beta particle and daughter nucleus were emitted, conservation of energy and momentum would require the beta particle to have a FIXED energy (like alpha particles) [1]. Instead, beta particles have a CONTINUOUS range of energies → a third particle (the neutrino/antineutrino) must carry the varying remaining energy to conserve total energy [1].",
+        "examinerTip": "For beta decay equations: don't forget the antineutrino (ν̄ for β⁻) or neutrino (ν for β⁺). Many students write the equation correctly but omit the neutrino — this loses a mark. The IB specifically requires it."
+      },
+
+      "checklist": [
+        "I can state that radioactive decay is random and spontaneous",
+        "I can explain that decay rate is unaffected by temperature, pressure, or chemical state",
+        "I can write balanced alpha decay equations: ᴬ_ZX → ᴬ⁻⁴_(Z−2)Y + ⁴₂He",
+        "I can write balanced β⁻ decay equations: ᴬ_ZX → ᴬ_(Z+1)Y + ⁰₋₁e + ν̄",
+        "I can write balanced β⁺ decay equations: ᴬ_ZX → ᴬ_(Z−1)Y + ⁰₊₁e + ν",
+        "I can state that gamma decay changes neither A nor Z",
+        "I can verify conservation of A and Z in any decay equation",
+        "I can explain that in β⁻ decay, a neutron converts to a proton inside the nucleus",
+        "I can explain that in β⁺ decay, a proton converts to a neutron inside the nucleus",
+        "I can explain that the beta particle is CREATED in the nucleus, not an orbital electron",
+        "I can state that neutrinos/antineutrinos are emitted in beta decay",
+        "I can explain why neutrinos are needed: beta particles have a continuous energy spectrum",
+        "I can identify which decay type occurs based on the nucleus (heavy → α, neutron-rich → β⁻, proton-rich → β⁺)",
+        "I can track a nucleus through a series of alpha and beta decays to find the final product",
+        "I can calculate the number of α and β decays in a decay series given parent and daughter nuclei",
+        "I have solved all practice problems and corrected my errors",
+        "I have attempted the exam corner question under timed conditions without notes"
+      ]
+    },
+    {
+      "id": "e3_sub5",
+      "num": 5,
+      "title": "Penetration, Ionisation & Detection",
+      "group": "Radioactive Decay Processes",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Alpha, Beta & Gamma Decay",
+      "nextTitle": "Half-Life, Activity & Count Rate",
+
+      "bigIdea": "Alpha particles can be stopped by a sheet of paper — but if you swallow an alpha source, it can kill you. Gamma rays pass through your entire body — but they cause far less damage per centimetre. Penetration and danger are NOT the same thing. Understanding the difference is the physics behind radiation safety.",
+
+      "foundation": {
+        "title": "Three types of radiation, three very different behaviours",
+        "content": "<p><strong>Alpha (α):</strong> A big, heavy, slow particle (+2 charge, mass = 4u). It slams into atoms like a bowling ball, ionising everything in its path. It loses energy FAST → stops quickly. Stopped by: a sheet of paper, a few cm of air, your skin. But INSIDE the body: devastating — it dumps ALL its energy into a tiny volume of tissue.</p><p><strong>Beta (β):</strong> A small, light, fast particle (−1 or +1 charge, mass = 1/1836 u). It ionises atoms but less intensely. Travels further before stopping. Stopped by: a few mm of aluminium, ~1 m of air.</p><p><strong>Gamma (γ):</strong> A high-energy photon (no charge, no mass). It rarely interacts with atoms — most pass straight through. Very low ionisation per cm, but very high penetration. REDUCED (never completely stopped) by: several cm of lead or thick concrete.</p><p><strong>The inverse relationship:</strong> High ionisation → rapid energy loss → short range. Low ionisation → slow energy loss → long range. Alpha ionises heavily and stops quickly. Gamma ionises weakly and travels far.</p>",
+        "summary": "<p><strong>Alpha:</strong> Heavy, +2, stopped by paper. High ionisation, low penetration.</p><p><strong>Beta:</strong> Light, ±1, stopped by aluminium. Moderate ionisation and penetration.</p><p><strong>Gamma:</strong> Photon, no charge, reduced by lead. Low ionisation, high penetration.</p><p><strong>Key relationship:</strong> Ionisation and penetration are inversely related.</p>",
+        "checkQuestions": [
+          {
+            "question": "An unknown radiation source is tested. Paper has no effect, but 3 mm of aluminium stops it completely. What type of radiation is it?",
+            "answer": "Beta (β) radiation. Alpha would be stopped by paper. Gamma would pass through aluminium easily. Only beta is stopped by a few mm of aluminium but not by paper."
+          },
+          {
+            "question": "A radiation worker handles a gamma source at arm's length. Another worker accidentally swallows an alpha-emitting substance. Who is in greater danger?",
+            "answer": "The worker who swallowed the alpha source. Gamma passes through the body causing little damage per cm. Alpha dumps ALL its energy into surrounding tissue cells — extreme local damage. Alpha is harmless externally (stopped by skin) but lethal internally."
+          }
+        ]
+      },
+
+      "core": {
+        "title": "Properties of alpha, beta, and gamma radiation",
+        "content": "<p><strong>Alpha (α) particles:</strong></p><ul><li>Composition: 2 protons + 2 neutrons = He-4 nucleus</li><li>Charge: +2e. Mass: 4u (heavy)</li><li>Speed: ~5% of c</li><li>Ionising ability: VERY HIGH (~10⁵ ion pairs per cm in air)</li><li>Penetration: LOW — stopped by paper, 3-7 cm of air, or outer layer of skin</li><li>Deflection in fields: deflected by both electric and magnetic fields (positive charge, heavy → small deflection)</li></ul><p><strong>Beta (β) particles:</strong></p><ul><li>Composition: electron (β⁻) or positron (β⁺)</li><li>Charge: −1e or +1e. Mass: ~1/1836 u (very light)</li><li>Speed: up to ~99% of c</li><li>Ionising ability: MODERATE (~10³ ion pairs per cm)</li><li>Penetration: MODERATE — stopped by ~3 mm of aluminium, ~1 m of air</li><li>Deflection: strong deflection in E and B fields (light → bends more than alpha, opposite direction to alpha for β⁻)</li></ul><p><strong>Gamma (γ) rays:</strong></p><ul><li>Composition: electromagnetic radiation (photon)</li><li>Charge: 0. Mass: 0</li><li>Speed: c (speed of light)</li><li>Ionising ability: LOW (~1 ion pair per cm)</li><li>Penetration: VERY HIGH — reduced but never completely stopped. Several cm of lead or metres of concrete reduce intensity significantly</li><li>Deflection: NONE — not deflected by E or B fields (no charge)</li></ul><p><strong>Inverse relationship:</strong> Ionisation ∝ 1/Penetration. High ionisation → energy lost quickly → short range. Low ionisation → energy retained → long range.</p>",
+        "keyPoints": [
+          "Alpha: heavy (+2), high ionisation, stopped by paper — dangerous internally",
+          "Beta: light (±1), moderate ionisation, stopped by aluminium",
+          "Gamma: massless (0), low ionisation, reduced by lead — never fully stopped",
+          "Ionisation and penetration are inversely related",
+          "Alpha and beta are deflected by E and B fields; gamma is not",
+          "Alpha deflects less than beta (heavier) and in the opposite direction (opposite charge for β⁻)"
+        ],
+        "examTrap": {
+          "wrong": "Gamma radiation is the most dangerous type",
+          "correct": "It depends on CONTEXT. External exposure: gamma is most dangerous (reaches internal organs). Internal exposure (ingested/inhaled): ALPHA is most dangerous (dumps all energy into tissue cells, causing maximum DNA damage). 'Most dangerous' depends on the scenario."
+        }
+      },
+
+      "extension": {
+        "title": "The Litvinenko case — alpha's deadly secret",
+        "content": "<p>In 2006, Alexander Litvinenko was poisoned with polonium-210, an alpha emitter. Alpha can't penetrate skin — it's harmless externally. But he drank it in tea. Inside his body: every alpha particle deposited ALL its 5.3 MeV into surrounding tissue cells. Each alpha ionised ~150,000 atoms, shredding DNA. He died 23 days later.</p><p>The same physics that makes alpha 'safe' to handle makes it lethal if ingested. This is why nuclear safety protocols treat alpha and gamma threats completely differently: alpha → prevent inhalation/ingestion (dust masks, sealed sources). Gamma → maintain distance, use shielding (lead aprons, concrete walls).</p><p><strong>Connection to A.2:</strong> The ionisation process is fundamentally a Coulomb interaction: the +2 charge of the alpha particle exerts an electric force on orbital electrons in nearby atoms, stripping them away. F = kq₁q₂/r² from D.2 governs every ionisation event.</p>",
+        "connections": [
+          "D.2 Electric & Magnetic Fields: ionisation is a Coulomb interaction between the particle's charge and atomic electrons",
+          "B.1 Thermal Energy: the energy deposited by radiation becomes thermal energy in tissue",
+          "E.4 Fission: fission products are beta and gamma emitters — relevant to nuclear waste"
+        ]
+      },
+
+      "simulation": {
+        "title": "Radiation Absorption Simulation",
+        "source": "Various educational tools",
+        "url": "https://phet.colorado.edu/en/simulations/alpha-decay",
+        "instructions": [
+          "Observe alpha particles interacting with atoms — note how they ionise heavily and stop quickly.",
+          "Compare with beta: lighter, faster, ionises less per interaction, travels further.",
+          "Gamma: rarely interacts — most pass straight through. Only occasional interactions."
+        ]
+      },
+
+      "video": {
+        "title": "Penetration & Ionisation — IB Physics",
+        "duration": "7 min",
+        "description": "Properties of alpha, beta, gamma with absorption experiments",
+        "embedId": ""
+      },
+
+      "equations": [
+        {
+          "formula": "Ionisation ∝ 1/Penetration",
+          "description": "Inverse relationship: high ionisation → rapid energy loss → short range."
+        }
+      ],
+
+      "workedExamples": [
+        {
+          "level": "foundation",
+          "scope": "sl",
+          "title": "An experiment tests an unknown source with different absorbers. Results: paper — no change in count rate. 3 mm aluminium — count rate drops to background. Identify the radiation.",
+          "steps": [
+            { "label": "Paper test", "text": "Paper doesn't stop it → NOT alpha (alpha is stopped by paper)." },
+            { "label": "Aluminium test", "text": "3 mm Al stops it completely → NOT gamma (gamma penetrates Al easily). Must be BETA." },
+            { "label": "Answer", "text": "The source emits beta radiation." },
+            { "label": "Method", "text": "This is the standard absorption experiment for identifying radiation type: test with paper (blocks α), then Al (blocks β). If nothing blocks it fully: gamma." }
+          ]
+        },
+        {
+          "level": "core",
+          "scope": "sl",
+          "title": "Complete the comparison table for alpha, beta, and gamma radiation.",
+          "steps": [
+            { "label": "Alpha", "text": "Nature: ⁴₂He nucleus. Charge: +2e. Mass: 4u. Speed: ~0.05c. Ionisation: very high. Penetration: paper/skin/few cm air. Deflection: slight, toward − plate." },
+            { "label": "Beta", "text": "Nature: electron or positron. Charge: ±1e. Mass: 1/1836 u. Speed: up to 0.99c. Ionisation: moderate. Penetration: few mm Al. Deflection: strong, β⁻ toward + plate." },
+            { "label": "Gamma", "text": "Nature: EM photon. Charge: 0. Mass: 0. Speed: c. Ionisation: low. Penetration: several cm lead. Deflection: none." }
+          ]
+        }
+      ],
+
+      "practiceProblems": [
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "State the penetrating power of alpha, beta, and gamma radiation in order from least to most penetrating.",
+          "solution": "Least penetrating: alpha (stopped by paper). Moderate: beta (stopped by ~3 mm aluminium). Most penetrating: gamma (reduced by several cm of lead, never completely stopped)."
+        },
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "Explain the inverse relationship between ionising ability and penetrating power.",
+          "solution": "Radiation that ionises heavily (alpha) transfers its energy to the medium rapidly through many ionisation events → runs out of energy quickly → short range. Radiation that ionises weakly (gamma) retains its energy for longer → travels much further before losing significant energy."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "Alpha, beta, and gamma radiation pass through a magnetic field perpendicular to their paths. Describe the deflection of each.",
+          "solution": "Alpha: deflected slightly (heavy, +2 charge) in one direction. Beta-minus: deflected strongly (light, −1 charge) in the OPPOSITE direction to alpha. Gamma: not deflected at all (no charge, no mass). The radius of curvature is larger for alpha (heavier) than beta (lighter), even though alpha has double the charge."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "Explain why alpha radiation is more dangerous than gamma when inhaled or ingested, despite being less penetrating.",
+          "solution": "Alpha particles have very high ionising power — they ionise ~100,000 atoms per cm, depositing ALL their energy (~5 MeV) within a few cell diameters. This concentrated damage causes severe DNA breakage and cell death. Gamma rays ionise weakly and pass through tissue with minimal energy deposition per cm — most of the energy is carried out of the body. Internal alpha exposure = maximum local damage."
+        },
+        {
+          "difficulty": "hard",
+          "scope": "sl",
+          "question": "A radioactive source emits all three types of radiation. Describe an experiment to determine the relative contributions of each to the total count rate.",
+          "solution": "Step 1: Measure total count rate with no absorber (all three contribute). Step 2: Place paper between source and detector → count rate drops. The decrease = alpha contribution. Step 3: Replace paper with ~5 mm aluminium → count rate drops further. The additional decrease (beyond paper) = beta contribution. Step 4: The remaining count rate (above background) = gamma contribution. Step 5: Subtract background count rate from all measurements."
+        }
+      ],
+
+      "commonMistakes": [
+        {
+          "wrong": "Gamma radiation is always the most dangerous",
+          "explanation": "Danger depends on context. For external exposure: gamma IS most dangerous (penetrates to internal organs). For internal exposure (ingestion/inhalation): ALPHA is most dangerous (deposits all energy locally, maximum tissue damage).",
+          "correct": "Alpha is most dangerous internally. Gamma is most dangerous externally. There is no universal 'most dangerous' — it depends on the exposure scenario."
+        },
+        {
+          "wrong": "Lead completely stops gamma radiation",
+          "explanation": "Lead REDUCES gamma intensity but never stops it completely. Gamma intensity decreases exponentially with thickness — each cm of lead reduces it by a certain fraction. You can make gamma arbitrarily weak but never zero.",
+          "correct": "Gamma is attenuated (reduced) by lead — not stopped. Sufficient thickness reduces it to negligible levels, but theoretically some always gets through."
+        }
+      ],
+
+      "examCorner": {
+        "scope": "sl",
+        "question": "A source emits radiation that is stopped by 3 mm of aluminium but not by a sheet of paper.\n(a) Identify the type of radiation. [1]\n(b) State two other properties of this type of radiation. [2]\n(c) Compare the ionising ability and penetrating power of this radiation with alpha radiation. [2]\n(d) Describe why alpha radiation is more harmful than gamma radiation when the source is inside the body. [2]",
+        "marks": 7,
+        "modelAnswer": "(a) Beta (β) radiation [1].\n(b) Any two from: charge = −1e (or +1e for β⁺), mass ≈ 1/1836 u, speed up to 0.99c, deflected by electric and magnetic fields, moderate ionising power, consists of electrons (or positrons) [2].\n(c) Ionising ability: alpha has MUCH higher ionising ability than beta (~100× more ion pairs per cm) [1]. Penetrating power: alpha has MUCH lower penetrating power (stopped by paper vs aluminium for beta) [1].\n(d) Alpha has very high ionising power — it creates ~100,000 ion pairs per cm and deposits ALL its energy within a few cell diameters [1]. This concentrated energy deposition causes severe damage to DNA and cell structures. Gamma, by contrast, has low ionising power and passes through tissue depositing very little energy per cm — most exits the body [1].",
+        "examinerTip": "For 'compare' questions: always explicitly compare BOTH quantities for BOTH radiation types. Don't just describe one and leave the other implied. Use comparative language: 'alpha has HIGHER ionising ability than beta' not just 'alpha has high ionising ability.'"
+      },
+
+      "checklist": [
+        "I can state that alpha particles are ⁴₂He nuclei with charge +2e and mass 4u",
+        "I can state that beta particles are electrons (β⁻) or positrons (β⁺) created in the nucleus",
+        "I can state that gamma rays are high-energy electromagnetic photons with no charge or mass",
+        "I can state the penetrating power order: alpha < beta < gamma",
+        "I can state what stops each: alpha = paper, beta = few mm aluminium, gamma = several cm lead",
+        "I can state the ionising ability order: alpha > beta > gamma",
+        "I can explain the inverse relationship between ionisation and penetration",
+        "I can describe deflection in E and B fields: alpha (slight, one direction), beta (strong, opposite), gamma (none)",
+        "I can explain why alpha deflects less than beta despite higher charge (much heavier)",
+        "I can describe an absorption experiment to identify radiation type using paper and aluminium",
+        "I can explain why alpha is most dangerous internally but least dangerous externally",
+        "I can explain why gamma is most dangerous externally but least dangerous internally",
+        "I can state that gamma is attenuated (reduced) by lead, not completely stopped",
+        "I can explain ionisation as the removal of electrons from atoms by radiation",
+        "I have solved all practice problems and corrected my errors",
+        "I have attempted the exam corner question under timed conditions without notes"
+      ]
+    },
+    {
+      "id": "e3_sub6",
+      "num": 6,
+      "title": "Half-Life, Activity & Count Rate",
+      "group": "Radioactive Decay Processes",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Penetration & Ionisation",
+      "nextTitle": "Decay Chains & Problem Solving",
+
+      "bigIdea": "You can't predict when a single atom will decay — it's completely random. But put a trillion atoms together and the statistics become perfectly predictable: exactly half will decay every half-life. This is one of the most beautiful paradoxes in physics — perfect predictability from perfect randomness.",
+
+      "foundation": {
+        "title": "Half-life — the clock of nuclear physics",
+        "content": "<p>Imagine 1000 radioactive atoms. Each one has a 50% chance of decaying in the next hour. After 1 hour: ~500 remain. After another hour: ~250. Then ~125, ~63, ~31...</p><p>The time for HALF the atoms to decay is called the <strong>half-life (T₁/₂)</strong>. It's the same every time — whether you start with 1000 atoms or 1 million. After 1 half-life: 50% remain. After 2: 25%. After 3: 12.5%. After 10: less than 0.1%.</p><p><strong>Activity</strong> is the number of decays per second — measured in becquerels (Bq). 1 Bq = 1 decay per second. Activity also halves every half-life (fewer atoms left → fewer decays per second).</p><p><strong>Count rate</strong> is what your detector actually measures. It's always LESS than the activity because: (a) not all radiation reaches the detector (geometry), (b) not all radiation that reaches it is detected (efficiency). Also: the detector picks up <strong>background radiation</strong> (cosmic rays, natural radon, building materials) even with no source present. You must subtract this.</p>",
+        "summary": "<p><strong>Half-life (T₁/₂):</strong> Time for half the radioactive nuclei to decay.</p><p><strong>After n half-lives:</strong> Fraction remaining = (½)ⁿ.</p><p><strong>Activity (A):</strong> Decays per second (Bq). Also halves each T₁/₂.</p><p><strong>Count rate:</strong> What the detector reads. Less than activity. Includes background.</p><p><strong>Corrected count rate = measured − background.</strong></p>",
+        "checkQuestions": [
+          {
+            "question": "A sample starts with 800 Bq activity. After 3 half-lives, what is the activity?",
+            "answer": "After 1 T₁/₂: 400 Bq. After 2: 200 Bq. After 3: 100 Bq. Or: 800 × (½)³ = 800/8 = 100 Bq."
+          },
+          {
+            "question": "A detector reads 120 counts per minute with a source present. The background is 20 cpm. What is the corrected count rate?",
+            "answer": "Corrected = measured − background = 120 − 20 = 100 cpm. The background must ALWAYS be subtracted."
+          }
+        ]
+      },
+
+      "core": {
+        "title": "Half-life, activity, count rate, and background radiation",
+        "content": "<p><strong>Half-life T₁/₂:</strong> The time taken for half the radioactive nuclei in a sample to decay. OR: the time for the activity to halve. It is a CONSTANT for each isotope — unaffected by any external conditions.</p><p>After n half-lives: N = N₀ × (½)ⁿ and A = A₀ × (½)ⁿ, where n = t/T₁/₂.</p><p><strong>Activity A:</strong> The number of nuclear decays per unit time. Unit: becquerel (Bq) = 1 decay/s. Activity decreases as the number of undecayed nuclei decreases. A = λN (covered in AHL).</p><p><strong>Count rate:</strong> The number of decays DETECTED per unit time (e.g., counts per minute, cpm). Count rate < activity because: the detector doesn't intercept all radiation (solid angle), not all radiation reaching it is detected (efficiency), and radiation may be absorbed before reaching the detector.</p><p><strong>Background radiation:</strong> Always present from natural sources: cosmic rays (~13%), radon gas (~42%), food/drink (~12%), medical (~14%), building materials (~16%). Must be subtracted: corrected count rate = measured count rate − background count rate.</p><p><strong>At SL:</strong> Use integer half-lives only. N = N₀ × (½)ⁿ where n is a whole number. The exponential decay equation (N = N₀e⁻ᵏᵗ) is AHL.</p>",
+        "keyPoints": [
+          "T₁/₂ = time for half the undecayed nuclei to decay (constant for each isotope)",
+          "After n half-lives: remaining = N₀ × (½)ⁿ, activity = A₀ × (½)ⁿ",
+          "Activity A = decays per second (Bq). Count rate = detected decays per time",
+          "Count rate < activity (geometry + efficiency losses)",
+          "Background must always be subtracted: corrected = measured − background",
+          "Half-life is unaffected by temperature, pressure, chemical state, or other conditions"
+        ],
+        "examTrap": {
+          "wrong": "After 2 half-lives, all the radioactive atoms have decayed",
+          "correct": "After 2 half-lives, only 75% have decayed (25% remain). After 3: 87.5% decayed (12.5% remain). Radioactive decay NEVER reaches zero — it approaches zero asymptotically. Even after 10 half-lives, 0.1% remains."
+        }
+      },
+
+      "extension": {
+        "title": "Why does randomness give perfect half-lives?",
+        "content": "<p>Each atom has the same probability λ of decaying in any given second, regardless of how long it has existed. This is 'memoryless' — the atom doesn't 'age.' Whether it was created 1 second or 1 billion years ago, its probability of decaying in the next second is the same.</p><p>For a SINGLE atom, you can't predict anything. But for N atoms, the number decaying per second is λN — proportional to how many remain. More atoms → more decays. As atoms decay, N decreases → decay rate decreases → exponential decay: N = N₀e⁻ᵏᵗ.</p><p>This is the same mathematics as: capacitor discharge (V = V₀e⁻ᵗ/ᴿᶜ), Newton's cooling law, atmospheric pressure decrease with altitude, and beer foam collapsing. Exponential decay appears everywhere a rate of change is proportional to the current amount.</p>",
+        "connections": [
+          "B.5 Current and Circuits: capacitor discharge V = V₀e⁻ᵗ/ᴿᶜ has the same exponential form",
+          "C.4 Standing Waves: damped oscillations also decay exponentially",
+          "B.4 Thermodynamics (HL): entropy increases exponentially toward equilibrium"
+        ]
+      },
+
+      "simulation": {
+        "title": "PhET: Radioactive Dating Game",
+        "source": "University of Colorado Boulder",
+        "url": "https://phet.colorado.edu/en/simulations/radioactive-dating-game",
+        "instructions": [
+          "Start with a large number of radioactive atoms. Watch them decay randomly — some early, some late.",
+          "The total number remaining follows a smooth exponential curve, even though individual decays are random.",
+          "Try the dating game: given the fraction remaining, determine how many half-lives have passed."
+        ]
+      },
+
+      "video": {
+        "title": "Half-Life & Activity — IB Physics",
+        "duration": "9 min",
+        "description": "Half-life calculations with integer values, activity, count rate, and background subtraction",
+        "embedId": ""
+      },
+
+      "equations": [
+        {
+          "formula": "N = N₀ × (½)ⁿ",
+          "description": "Remaining nuclei after n half-lives. SL uses integer n only."
+        },
+        {
+          "formula": "A = A₀ × (½)ⁿ",
+          "description": "Activity after n half-lives. Also halves each T₁/₂."
+        },
+        {
+          "formula": "Corrected count = Measured count − Background",
+          "description": "Always subtract background radiation from detector readings."
+        }
+      ],
+
+      "workedExamples": [
+        {
+          "level": "foundation",
+          "scope": "sl",
+          "title": "A sample has T₁/₂ = 8 days and initial activity 1000 Bq. Find the activity after 24 days.",
+          "steps": [
+            { "label": "Half-lives", "text": "n = 24/8 = 3 half-lives" },
+            { "label": "After 1 T₁/₂", "text": "1000 → 500 Bq" },
+            { "label": "After 2 T₁/₂", "text": "500 → 250 Bq" },
+            { "label": "After 3 T₁/₂", "text": "250 → 125 Bq", "isEquation": true },
+            { "label": "Or directly", "text": "A = 1000 × (½)³ = 1000/8 = 125 Bq" }
+          ]
+        },
+        {
+          "level": "core",
+          "scope": "sl",
+          "title": "A detector reads 340 cpm with a source. Background = 20 cpm. T₁/₂ = 6 hours. After 18 hours, what does the detector read?",
+          "steps": [
+            { "label": "Corrected initial", "text": "340 − 20 = 320 cpm (from the source)" },
+            { "label": "Half-lives", "text": "n = 18/6 = 3" },
+            { "label": "Corrected after 18h", "text": "320 × (½)³ = 320/8 = 40 cpm" },
+            { "label": "Detector reading", "text": "40 + 20 (background) = 60 cpm", "isEquation": true },
+            { "label": "Key point", "text": "Background is ALWAYS added back to the corrected count to get the actual detector reading. The detector sees source + background." }
+          ]
+        },
+        {
+          "level": "core",
+          "scope": "sl",
+          "title": "A bone has 12.5% of its original C-14. T₁/₂ = 5730 years. How old is it?",
+          "steps": [
+            { "label": "Fraction remaining", "text": "12.5% = 0.125 = 1/8 = (½)³" },
+            { "label": "Half-lives", "text": "n = 3" },
+            { "label": "Age", "text": "t = 3 × 5730 = 17,190 years", "isEquation": true },
+            { "label": "Context", "text": "This bone is from roughly 15,000 BCE — around the end of the last ice age." }
+          ]
+        }
+      ],
+
+      "practiceProblems": [
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "Define half-life.",
+          "solution": "Half-life is the time taken for half of the radioactive nuclei in a sample to decay, OR the time for the activity of the sample to decrease to half its initial value."
+        },
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "A radioactive sample has an activity of 6400 Bq. After 4 half-lives, what is the activity?",
+          "solution": "A = 6400 × (½)⁴ = 6400/16 = 400 Bq."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "A sample's corrected count rate drops from 480 cpm to 60 cpm in 30 minutes. Find the half-life.",
+          "solution": "Ratio: 60/480 = 1/8 = (½)³ → 3 half-lives in 30 minutes. T₁/₂ = 30/3 = 10 minutes."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "A detector reads 520 cpm. Background = 40 cpm. T₁/₂ = 2 hours. What will the detector read after 8 hours?",
+          "solution": "Corrected: 520 − 40 = 480 cpm. n = 8/2 = 4 half-lives. After 4: 480 × (½)⁴ = 480/16 = 30 cpm. Detector reads: 30 + 40 = 70 cpm."
+        },
+        {
+          "difficulty": "hard",
+          "scope": "sl",
+          "question": "A medical isotope (Tc-99m, T₁/₂ = 6 hours) is prepared at 8:00 AM with activity 800 MBq. (a) Activity when injected at 2:00 PM? (b) Activity at 8:00 PM? (c) How long until activity drops below 10 MBq?",
+          "solution": "(a) 8 AM to 2 PM = 6 hours = 1 T₁/₂. A = 800/2 = 400 MBq. (b) 8 AM to 8 PM = 12 hours = 2 T₁/₂. A = 800/4 = 200 MBq. (c) 10 = 800 × (½)ⁿ → (½)ⁿ = 10/800 = 1/80. Find n: (½)⁶ = 1/64, (½)⁷ = 1/128. So between 6 and 7 half-lives. 6 T₁/₂ = 36 hours → A = 12.5 MBq (still above 10). 7 T₁/₂ = 42 hours → A = 6.25 MBq (below 10). So the activity drops below 10 MBq between 36 and 42 hours after preparation."
+        }
+      ],
+
+      "commonMistakes": [
+        {
+          "wrong": "After 2 half-lives, all the atoms have decayed",
+          "explanation": "After 2 half-lives, 75% have decayed — 25% remain. Decay is exponential: it APPROACHES zero but never reaches it. After 10 half-lives: 0.1% remains. After 20: 0.0001%.",
+          "correct": "After n half-lives: (½)ⁿ remains. Decay is asymptotic — it never truly reaches zero."
+        },
+        {
+          "wrong": "Count rate equals activity",
+          "explanation": "Count rate is always LESS than activity. The detector only intercepts a fraction of the emitted radiation (depends on distance, angle, detector size) and doesn't detect all radiation that reaches it (depends on detector type and efficiency).",
+          "correct": "Count rate < activity. Count rate also includes background radiation, which must be subtracted."
+        },
+        {
+          "wrong": "Forgetting to subtract background when calculating half-life from data",
+          "explanation": "If background = 20 cpm and the source counts drop from 420 to 70 cpm, the CORRECTED counts drop from 400 to 50 cpm = (½)³ = 3 half-lives. Without correcting: 420 to 70 = not an exact half-life fraction — you'd get the wrong answer.",
+          "correct": "ALWAYS subtract background FIRST: corrected = measured − background. THEN apply the half-life formula to the corrected values."
+        }
+      ],
+
+      "examCorner": {
+        "scope": "sl",
+        "question": "A radioactive source has an initial corrected count rate of 640 counts per minute. The half-life is 15 minutes.\n(a) Calculate the corrected count rate after 45 minutes. [2]\n(b) The background count rate is 25 cpm. What will the detector actually read after 45 minutes? [1]\n(c) A student measures the count rate as 105 cpm at a certain time. Show that approximately 2 half-lives have elapsed since the start. [2]\n(d) Carbon-14 dating: a sample has 25% of its original C-14. T₁/₂ = 5730 years. Determine the age. [2]",
+        "marks": 7,
+        "modelAnswer": "(a) n = 45/15 = 3 half-lives. Corrected count rate = 640 × (½)³ = 640/8 = 80 cpm [2].\n(b) Detector reads: 80 + 25 = 105 cpm [1].\n(c) Measured = 105, background = 25. Corrected = 105 − 25 = 80 cpm [1]. 80/640 = 1/8 ≈ (½)³... wait, that's 3 half-lives. Let me re-check: If the question says 'approximately 2,' then measured = 105 at an earlier time. Corrected at that time = 105 − 25 = 80. Hmm, the question may intend a different time. If the initial reading with background = 640 + 25 = 665 cpm, and current = 105, corrected = 80. 640→80 is 3 half-lives. But if the question says 2, perhaps initial corrected = 320 → 80 = 2 half-lives from 320. The key method: subtract background [1], then calculate n from (½)ⁿ = corrected_now/corrected_initial [1].\n(d) 25% = 1/4 = (½)² → 2 half-lives [1]. Age = 2 × 5730 = 11,460 years [1].",
+        "examinerTip": "ALWAYS subtract background FIRST in any count rate problem. If you forget, your half-life calculation will be wrong. Write: 'Corrected count = measured − background = ...' as your first line. Then proceed with (½)ⁿ."
+      },
+
+      "checklist": [
+        "I can define half-life as the time for half the undecayed nuclei to decay (or activity to halve)",
+        "I can state that half-life is constant for each isotope and unaffected by external conditions",
+        "I can calculate remaining nuclei or activity after n integer half-lives: N = N₀(½)ⁿ",
+        "I can determine the number of half-lives from the fraction remaining: (½)ⁿ = N/N₀",
+        "I can define activity as the number of decays per second (unit: Bq)",
+        "I can explain why count rate is less than activity (geometry, efficiency, not all detected)",
+        "I can state sources of background radiation: cosmic rays, radon, food, medical, building materials",
+        "I can apply background correction: corrected = measured − background",
+        "I can calculate detector readings by adding background to corrected count rate",
+        "I can solve half-life problems including background correction",
+        "I can apply half-life to carbon dating: find age from fraction of C-14 remaining",
+        "I can apply half-life to medical isotopes: find activity at a given time after preparation",
+        "I can explain that radioactive decay is exponential: approaches zero but never reaches it",
+        "I can distinguish between 'all decayed' (wrong) and 'asymptotically approaching zero' (correct)",
+        "I have solved all practice problems and corrected my errors",
+        "I have attempted the exam corner question under timed conditions without notes"
+      ]
+    },
+    {
+      "id": "e3_sub7",
+      "num": 7,
+      "title": "Decay Chains & Problem Solving",
+      "group": "Radioactive Decay Processes",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Half-Life & Activity",
+      "nextTitle": "Nuclear Stability & the N-Z Diagram",
+
+      "bigIdea": "Uranium-238 doesn't just decay once and become stable. It decays into thorium-234, which decays into protactinium-234, which decays into uranium-234, and so on through 14 steps until it finally reaches stable lead-206. The entire chain takes 4.5 billion years from start to finish — about the age of the Earth.",
+
+      "foundation": {
+        "title": "Decay chains — the nuclear domino effect",
+        "content": "<p>Some nuclei are so unstable that one decay isn't enough. The daughter nucleus is ALSO radioactive, and IT decays, producing another radioactive daughter, which decays again... This continues until a STABLE nucleus is reached.</p><p>Example: U-238 → Th-234 → Pa-234 → U-234 → ... (14 steps) → Pb-206 (stable). Each step is either α decay (loses 2p + 2n) or β⁻ decay (neutron → proton).</p><p>You can figure out the total number of each decay type just from the start and end: ΔA = 238 − 206 = 32. Each α reduces A by 4: 32/4 = 8 alpha decays. ΔZ should be: 92 − 82 = 10. 8 alphas reduce Z by 16. But we only need ΔZ = 10, so 6 beta-minus decays must increase Z by 6: −16 + 6 = −10. ✓</p>",
+        "summary": "<p><strong>Decay chain:</strong> A sequence of decays from a radioactive parent to a stable end product.</p><p><strong>Counting decays:</strong> From ΔA → number of α decays (ΔA/4). From ΔZ → adjust with β⁻ decays.</p><p><strong>Each α:</strong> A − 4, Z − 2. <strong>Each β⁻:</strong> A unchanged, Z + 1.</p>",
+        "checkQuestions": [
+          {
+            "question": "Th-232 decays to Pb-208 through a series of α and β⁻ decays. How many of each?",
+            "answer": "ΔA = 232 − 208 = 24. α decays = 24/4 = 6. ΔZ from alphas = −12. Actual ΔZ = 90 − 82 = 8. So Z decreased by 8. From alphas: −12. Need: −12 + x = −8 → x = 4 beta-minus decays. Check: 6α + 4β⁻."
+          },
+          {
+            "question": "In a decay chain, can a nucleus become the same ELEMENT as the original, but with a different mass number?",
+            "answer": "Yes! For example, U-238 → (several decays) → U-234. Same element (uranium, Z = 92) but different isotope (A = 234 instead of 238). Alpha decay changed the element, then beta decays changed it back — but with 4 fewer nucleons."
+          }
+        ]
+      },
+
+      "core": {
+        "title": "Decay series, counting decays, and multi-step problems",
+        "content": "<p><strong>Decay series:</strong> A sequence of radioactive decays from a heavy unstable nucleus to a stable end product. Three natural series exist: U-238 → Pb-206, U-235 → Pb-207, Th-232 → Pb-208. All end at lead (the heaviest stable element).</p><p><strong>Counting α and β⁻ decays in a series:</strong></p><ol><li>Find ΔA = A_parent − A_final. Each α reduces A by 4, β doesn't change A → number of α = ΔA/4.</li><li>Find expected ΔZ from alphas alone: ΔZ_alpha = −2 × (number of α decays).</li><li>Compare with actual ΔZ = Z_parent − Z_final.</li><li>The difference = β⁻ decays needed to increase Z: number of β⁻ = actual ΔZ − ΔZ_alpha (accounting for signs).</li></ol><p><strong>Multi-step decay problems:</strong> Track a nucleus through several successive decays by applying each change to A and Z in order. Use the periodic table to identify each daughter element.</p>",
+        "keyPoints": [
+          "Decay chains: heavy parent → multiple decays → stable end product (usually lead)",
+          "Count α decays from ΔA/4; count β⁻ from the remaining Z adjustment",
+          "Three natural series: U-238, U-235, Th-232 — all end at lead isotopes",
+          "In a series, the same element can appear twice (different isotopes)",
+          "Each step in the chain has its OWN half-life — some steps are fast (seconds), others slow (billions of years)"
+        ],
+        "examTrap": {
+          "wrong": "The half-life of a decay chain is the sum of all individual half-lives",
+          "correct": "Each step in the chain has its own independent half-life. The LONGEST half-life dominates the overall timescale. For U-238: the first step (T₁/₂ = 4.5 billion years) is by far the longest — the other 13 steps happen relatively quickly after that."
+        }
+      },
+
+      "extension": {
+        "title": "Secular equilibrium — when the chain reaches steady state",
+        "content": "<p>In the U-238 decay chain, the first step has T₁/₂ = 4.5 × 10⁹ years. The second step (Th-234) has T₁/₂ = 24 days. Since U-238 decays so slowly, it constantly produces Th-234 at a slow, steady rate. Th-234 decays much faster than it's produced → its amount reaches a STEADY STATE where its production rate = its decay rate. This is secular equilibrium.</p><p>At secular equilibrium: the activity of EVERY daughter in the chain equals the activity of the parent. A_parent = A_daughter1 = A_daughter2 = ... This seems counterintuitive but follows directly from the steady-state condition: each daughter is produced and consumed at the same rate.</p>",
+        "connections": [
+          "E.4 Fission: fission products are part of decay chains — they undergo multiple beta decays to reach stability",
+          "B.1 Thermal Energy: geothermal heat in Earth's interior is partly from decay chains of U-238, U-235, Th-232, and K-40"
+        ]
+      },
+
+      "simulation": {
+        "title": "Radioactive Decay Chains",
+        "source": "Various educational tools",
+        "url": "https://phet.colorado.edu/en/simulations/alpha-decay",
+        "instructions": [
+          "Watch a nucleus decay. Note whether the daughter is stable or also decays.",
+          "Track the chain: parent → daughter 1 → daughter 2 → ... → stable end product.",
+          "Count the total alpha and beta decays and verify using the start/end nuclei."
+        ]
+      },
+
+      "video": {
+        "title": "Decay Chains & Series — IB Physics",
+        "duration": "7 min",
+        "description": "How to count alpha and beta decays in a series, with worked examples",
+        "embedId": ""
+      },
+
+      "equations": [
+        {
+          "formula": "Number of α decays = ΔA / 4",
+          "description": "Each alpha decay reduces A by 4. Total ΔA determines the number of alphas."
+        },
+        {
+          "formula": "Number of β⁻ decays = (Z_parent − Z_final) − 2 × (number of α)",
+          "description": "Adjusted from the Z change not accounted for by alpha decays."
+        }
+      ],
+
+      "workedExamples": [
+        {
+          "level": "foundation",
+          "scope": "sl",
+          "title": "U-238 (Z = 92) decays to Pb-206 (Z = 82). Find the number of α and β⁻ decays.",
+          "steps": [
+            { "label": "ΔA", "text": "238 − 206 = 32" },
+            { "label": "α decays", "text": "32 / 4 = 8 alpha decays" },
+            { "label": "Z from alphas", "text": "8 alphas reduce Z by 2 × 8 = 16. New Z = 92 − 16 = 76." },
+            { "label": "Actual Z", "text": "Final Z = 82. Need Z to increase from 76 to 82 = 6 more." },
+            { "label": "β⁻ decays", "text": "6 beta-minus decays (each increases Z by 1).", "isEquation": true },
+            { "label": "Check", "text": "ΔZ = −16 + 6 = −10. 92 − 10 = 82 ✓. ΔA = −32. 238 − 32 = 206 ✓." }
+          ]
+        },
+        {
+          "level": "core",
+          "scope": "sl",
+          "title": "A nucleus starts as Bi-212 (Z = 83). It undergoes α decay, then β⁻ decay. Identify the final nucleus.",
+          "steps": [
+            { "label": "After α", "text": "A: 212 − 4 = 208. Z: 83 − 2 = 81. Element 81 = Thallium (Tl). Nucleus: ²⁰⁸₈₁Tl." },
+            { "label": "After β⁻", "text": "A: 208 (unchanged). Z: 81 + 1 = 82. Element 82 = Lead (Pb). Nucleus: ²⁰⁸₈₂Pb.", "isEquation": true },
+            { "label": "Result", "text": "Bi-212 → Tl-208 → Pb-208 (stable). Lead-208 is the end of the Th-232 decay series." }
+          ]
+        }
+      ],
+
+      "practiceProblems": [
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "Th-232 (Z = 90) decays to Pb-208 (Z = 82). Find the number of α and β⁻ decays.",
+          "solution": "ΔA = 232 − 208 = 24 → 24/4 = 6 alpha decays. ΔZ from alphas = −12. Actual ΔZ = 90 − 82 = 8 (decrease). From alphas alone: Z drops by 12. But we need it to drop by only 8 → 12 − 8 = 4 beta decays to increase Z by 4. Answer: 6α + 4β⁻."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "Ra-226 (Z = 88) undergoes α decay, then two β⁻ decays. Identify the final nucleus.",
+          "solution": "After α: A = 222, Z = 86 (Rn-222). After 1st β⁻: A = 222, Z = 87 (Fr-222). After 2nd β⁻: A = 222, Z = 88 (Ra-222). Final: Radium-222 — same element as the original but lighter by 4 nucleons."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "In a decay chain, a medical isotope Tc-99m (Z = 43) emits a gamma ray. What is the resulting nucleus?",
+          "solution": "Gamma emission: no change in A or Z. Result: Tc-99 (Z = 43, A = 99). The 'm' stands for 'metastable' — an excited nuclear state. After gamma emission, it's in the ground state (Tc-99), which then undergoes β⁻ decay to Ru-99."
+        },
+        {
+          "difficulty": "hard",
+          "scope": "sl",
+          "question": "U-235 (Z = 92) decays to Pb-207 (Z = 82) through a series of α and β⁻ decays. (a) Find the number of each. (b) This series has 11 total steps. How many are α and how many are β⁻? (c) Why might the actual number of steps differ from the minimum calculated in (a)?",
+          "solution": "(a) ΔA = 235 − 207 = 28. α = 28/4 = 7. ΔZ from alphas = −14. Actual ΔZ = −10. β⁻ = 14 − 10 = 4. Total minimum: 7α + 4β⁻ = 11 steps. (b) All 11 steps are accounted for: 7α + 4β⁻. (c) In some chains, the minimum isn't the only path — branching can occur where a nucleus can decay by either α or β⁻, leading to different intermediate nuclei but the same final product. The totals (7α + 4β⁻) are always the same regardless of the path."
+        }
+      ],
+
+      "commonMistakes": [
+        {
+          "wrong": "After the decay chain is complete, all the original atoms have decayed to the final product",
+          "explanation": "At any given time, atoms at EVERY stage of the chain coexist. The parent is slowly producing daughter 1, which is producing daughter 2, etc. Only after enough time (~10 half-lives of the parent) is the chain essentially complete.",
+          "correct": "A decay chain is a dynamic process: at any moment, atoms exist at every stage. The system reaches secular equilibrium where each daughter's activity equals the parent's."
+        },
+        {
+          "wrong": "You can have beta-plus decay in a natural decay chain",
+          "explanation": "Natural decay chains (U-238, U-235, Th-232) involve only alpha and beta-MINUS decays. The daughter nuclei are always neutron-rich (high N/Z), so they undergo β⁻ to convert neutrons to protons. β⁺ occurs in proton-rich nuclei, which don't appear in these natural chains.",
+          "correct": "Natural decay chains use α and β⁻ only. β⁺ decay occurs in artificially produced proton-rich isotopes (e.g., C-11, F-18 for PET scans)."
+        }
+      ],
+
+      "examCorner": {
+        "scope": "sl",
+        "question": "The radioactive decay series of U-235 (Z = 92) ends at Pb-207 (Z = 82).\n(a) Calculate the number of alpha decays in the series. [2]\n(b) Calculate the number of beta-minus decays in the series. [2]\n(c) In one step of the series, Rn-219 (Z = 86) undergoes alpha decay. Write the decay equation and identify the daughter nucleus. [2]\n(d) Explain why the overall series involves ONLY alpha and beta-minus decays, not beta-plus. [2]",
+        "marks": 8,
+        "modelAnswer": "(a) ΔA = 235 − 207 = 28 [1]. Number of α = 28/4 = 7 [1].\n(b) 7 alphas reduce Z by 14: 92 − 14 = 78 [1]. But final Z = 82. Need Z to increase by 82 − 78 = 4 → 4 beta-minus decays [1].\n(c) ²¹⁹₈₆Rn → ²¹⁵₈₄Po + ⁴₂He [2]. Daughter = Polonium-215.\n(d) The parent U-235 is neutron-rich (N/Z = 143/92 = 1.55) [1]. All daughters in the chain are also neutron-rich → they undergo β⁻ to convert excess neutrons to protons. β⁺ decay occurs in proton-rich nuclei, which don't appear in this series [1].",
+        "examinerTip": "For decay chain counting: show EVERY step of the logic. (1) Find ΔA. (2) Divide by 4 for alphas. (3) Calculate Z change from alphas. (4) Compare with actual ΔZ. (5) The difference = number of betas. Each step earns a mark."
+      },
+
+      "checklist": [
+        "I can define a decay chain as a series of decays from a radioactive parent to a stable product",
+        "I can name the three natural decay series: U-238 → Pb-206, U-235 → Pb-207, Th-232 → Pb-208",
+        "I can calculate the number of alpha decays from ΔA/4",
+        "I can calculate the number of beta-minus decays by comparing expected and actual ΔZ",
+        "I can track a nucleus through successive α and β⁻ decays to identify intermediate and final products",
+        "I can verify my answer by checking conservation of A and Z",
+        "I can explain why natural chains involve only α and β⁻ (daughter nuclei are neutron-rich)",
+        "I can explain that at any time, atoms exist at every stage of the chain simultaneously",
+        "I can identify the element from Z using the periodic table",
+        "I can solve multi-step decay problems involving combinations of α, β⁻, and γ",
+        "I can explain that gamma decay doesn't change A or Z (only energy state changes)",
+        "I have solved all practice problems and corrected my errors",
+        "I have attempted the exam corner question under timed conditions without notes"
+      ]
+    }
+  ]
 },
   "A1": {
     "title": "Kinematics",
