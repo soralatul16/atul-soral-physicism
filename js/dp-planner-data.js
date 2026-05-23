@@ -6,6 +6,352 @@
 // Modifications are loaded automatically by the planner UI.
 
 const DP_PLANNER_DATA = {
+  "A1": {
+  "title": "Kinematics",
+  "code": "A.1",
+  "theme": "A",
+  "level": "SL + HL",
+  "recommendedHours": 9,
+  "recommendedMinutes": 540,
+  "guidingQuestions": [
+    "How can the motion of a body be described quantitatively and qualitatively?",
+    "How can the position of a body in space and time be predicted?",
+    "How can the analysis of motion in one and two dimensions be used to solve real-life problems?"
+  ],
+  "groups": [
+    {
+      "name": "Describing Motion",
+      "color": "accent",
+      "totalMinutes": 130,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Position, Displacement & Distance",
+          "focus": "The difference between scalar distance and vector displacement",
+          "minutes": 40,
+          "understandings": [
+            "The motion of bodies through space and time can be described and analysed in terms of position, velocity, and acceleration",
+            "The change in position is the displacement — a vector quantity (magnitude and direction)",
+            "The difference between distance (scalar, total path length) and displacement (vector, straight-line start to finish)",
+            "Displacement can be positive or negative depending on direction; distance is always positive"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Ask a student to walk from one corner of the classroom to the opposite corner via the door. Measure the path length with a tape (distance). Then measure the straight-line diagonal (displacement). \"You walked 15 m but your displacement is only 7 m. Why the difference?\"</p><p><strong>Direct instruction (15 min):</strong> Define position as a coordinate relative to an origin. Displacement = final position − initial position = Δx (a vector). Distance = total path length (a scalar). A runner completing one lap of a 400 m track: distance = 400 m, displacement = 0. Emphasise sign convention: choose a positive direction; motion in the opposite direction is negative.</p><p><strong>Practice with maps (10 min):</strong> Give students a grid map. They trace a path (e.g., 3 blocks east, 4 blocks north). Calculate distance (7 blocks) and displacement (5 blocks at 53° N of E using Pythagoras). This introduces vector addition visually.</p><p><strong>Wrap-up (10 min):</strong> Quick quiz: 5 scenarios — students state distance AND displacement for each. Include circular motion (lap of a track) and back-and-forth motion.</p>",
+          "engagementHook": {
+            "title": "THE CLASSROOM WALK",
+            "content": "A student walks the longest possible path from their seat to the teacher's desk (around every table). The class measures the path length (distance) and the straight-line result (displacement). \"You walked 20 metres to move 4 metres. Physics only cares about the 4.\" This visceral demonstration of the difference sticks."
+          },
+          "nos": {
+            "tags": ["Models", "Observations"],
+            "description": "The displacement model ignores the path and focuses only on start and end points. This is a deliberate simplification — useful when only the net effect matters, misleading when the path matters (e.g., fuel consumption). Choosing the right level of abstraction is a core scientific skill."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Communicator"],
+          "ao": [
+            "AO1 — Define displacement, distance, position",
+            "AO2 — Calculate displacement and distance for various paths"
+          ],
+          "resources": "Tape measure, grid map handout, whiteboard, scenario cards",
+          "formative": "\"A car drives 3 km north, then 4 km east. (a) Total distance? (b) Displacement (magnitude and direction)? (c) The car then drives 3 km south and 4 km west. New distance? New displacement?\""
+        },
+        {
+          "num": 2,
+          "title": "Velocity & Speed — Instantaneous vs Average",
+          "focus": "Rate of change of position, and why the average can hide the detail",
+          "minutes": 50,
+          "understandings": [
+            "Velocity is the rate of change of position: v = Δx/Δt (a vector)",
+            "Speed is the magnitude of velocity (a scalar), OR distance/time for average speed",
+            "The difference between instantaneous and average values of velocity and speed",
+            "Instantaneous velocity = gradient of the displacement-time graph at a point",
+            "Average velocity = total displacement / total time; average speed = total distance / total time"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Usain Bolt ran 100 m in 9.58 s. His average speed was 10.4 m/s. But his top speed was 12.3 m/s. How can his maximum be higher than his average?\" Because he started from rest and accelerated. Average hides the variation.</p><p><strong>Direct instruction (15 min):</strong> Define velocity v = Δx/Δt. Vector: direction matters. Speed = |v| or distance/time. Average velocity = total displacement / total time. Average speed = total distance / total time. These can be DIFFERENT: a runner completing a lap has zero average velocity but non-zero average speed. Instantaneous velocity = velocity at a single instant = gradient of the x-t graph.</p><p><strong>Graphical work (15 min):</strong> Give students a displacement-time graph with changing slopes. At each section: calculate average velocity (secant line), estimate instantaneous velocity (tangent line). Show that as Δt → 0, average → instantaneous. This is the concept of a derivative without using calculus.</p><p><strong>Lab (10 min):</strong> TICKER TAPE or MOTION SENSOR — Record the position of a cart at regular intervals. Calculate average velocity for each interval. Plot v-t graph. See how the velocity changes when acceleration is present.</p><p><strong>Practice (5 min):</strong> Problems distinguishing average from instantaneous, speed from velocity.</p>",
+          "engagementHook": {
+            "title": "USAIN BOLT'S SPEED PROFILE",
+            "content": "Show Bolt's 100 m split data: 0-10 m in 1.85 s, 60-70 m in 0.81 s. Calculate his speed in each segment. He's SLOWEST at the start and FASTEST at 60-70 m. His average speed (10.4 m/s) never actually equals his speed at any particular moment. \"The average is a useful lie — it tells you the result but hides the story.\""
+          },
+          "nos": {
+            "tags": ["Measurements", "Patterns"],
+            "description": "The transition from average to instantaneous values is foundational: it's the conceptual basis of calculus, developed independently by Newton and Leibniz. Physics drove the invention of new mathematics — a powerful example of how scientific needs shape mathematical tools."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Define velocity, speed; distinguish instantaneous from average",
+            "AO2 — Calculate average and instantaneous velocity from data and graphs",
+            "AO3 — Analyse displacement-time graphs to extract velocity information"
+          ],
+          "resources": "Usain Bolt split data, displacement-time graph handout, ticker tape or motion sensor + cart, graph paper",
+          "formative": "\"A cyclist rides 6 km north in 15 min, rests for 5 min, then rides 4 km south in 10 min. (a) Total distance. (b) Total displacement. (c) Average speed. (d) Average velocity. (e) Why are (c) and (d) different?\""
+        },
+        {
+          "num": 3,
+          "title": "Acceleration — Uniform & Non-Uniform",
+          "focus": "Rate of change of velocity and recognising when it's constant",
+          "minutes": 40,
+          "understandings": [
+            "Acceleration is the rate of change of velocity: a = Δv/Δt (a vector)",
+            "Recognise situations where acceleration is uniform (constant) and non-uniform (changing)",
+            "Uniform acceleration: v-t graph is a straight line (constant gradient)",
+            "Non-uniform acceleration: v-t graph is curved (changing gradient)",
+            "Deceleration is acceleration in the opposite direction to velocity — not a separate concept"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Drop a ball and a feather in the classroom. Ball: nearly uniform acceleration (g). Feather: non-uniform acceleration (drag increases with speed). \"Both accelerate — but one uniformly and the other not. How can we tell from a graph?\"</p><p><strong>Direct instruction (15 min):</strong> Define a = Δv/Δt. Vector — direction matters. Positive acceleration can mean speeding up OR slowing down (depends on direction). Uniform: a is constant → v-t graph is straight. Non-uniform: a changes → v-t graph curves. Example: a car merging onto a highway (non-uniform), then cruise control (a = 0), then braking (uniform negative a). Draw all three on one v-t graph.</p><p><strong>Demo (10 min):</strong> MOTION SENSOR ON A RAMP — Roll a cart down a ramp. Motion sensor captures position in real time. Software plots x-t, v-t, a-t graphs simultaneously. Students observe: x-t is curved (parabola), v-t is straight (constant gradient = a), a-t is horizontal (constant). Change to a non-uniform case: push and release a cart on a flat surface with friction. a-t shows changing acceleration.</p><p><strong>Practice (10 min):</strong> Match 5 scenarios to their v-t graphs. Calculate acceleration from v-t graph gradients.</p>",
+          "engagementHook": {
+            "title": "THE BALL vs FEATHER RACE (IN A VACUUM TUBE)",
+            "content": "If available, show the BBC/NASA video of a feather and hammer dropped in a vacuum — they fall together. \"On the Moon, Apollo 15's David Scott did this for real.\" Without air resistance, ALL objects accelerate uniformly at g. The feather in air has non-uniform acceleration because drag increases with speed. Same physics, different conditions, different motion."
+          },
+          "nos": {
+            "tags": ["Observations", "Models"],
+            "description": "Galileo's inclined plane experiments (1638) were the first systematic measurements of uniform acceleration. He used water clocks and rolling balls because free-fall was too fast to measure directly. The idea of slowing down a phenomenon to study it — using a ramp instead of free fall — is a foundational experimental technique."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Define acceleration; distinguish uniform from non-uniform",
+            "AO2 — Calculate acceleration from velocity-time data",
+            "AO3 — Analyse v-t graphs to determine acceleration type"
+          ],
+          "resources": "Motion sensor + ramp + cart, ball and feather, vacuum tube video (BBC/NASA), v-t graph matching cards",
+          "formative": "\"A car accelerates from rest to 20 m/s in 8 s uniformly, then maintains speed for 10 s, then brakes uniformly to rest in 5 s. (a) Calculate acceleration in each phase. (b) Sketch the v-t graph. (c) Sketch the a-t graph. (d) Is the braking acceleration positive or negative? Justify.\""
+        }
+      ]
+    },
+    {
+      "name": "Equations of Motion & Graphs",
+      "color": "accent3",
+      "totalMinutes": 210,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "The SUVAT Equations",
+          "focus": "The four equations for uniformly accelerated motion",
+          "minutes": 60,
+          "understandings": [
+            "The equations of motion for solving problems with uniformly accelerated motion: s = (u+v)/2 × t, v = u + at, s = ut + ½at², v² = u² + 2as",
+            "These equations are only valid when acceleration is constant (uniform)",
+            "Each equation uses 4 of the 5 SUVAT variables — choose the equation that contains the 3 knowns and 1 unknown",
+            "Sign convention: choose positive direction; variables in the opposite direction are negative"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"A ball is thrown straight up at 20 m/s. How high does it go? How long until it returns?\" Students guess. \"By the end of this lesson, you'll solve this in 30 seconds.\"</p><p><strong>Derivation & understanding (20 min):</strong> Derive each equation from the definitions of velocity and acceleration, using the v-t graph. (1) v = u + at from a = (v−u)/t. (2) s = (u+v)/2 × t from average velocity. (3) s = ut + ½at² by substituting (1) into (2). (4) v² = u² + 2as by eliminating t. For each: identify which SUVAT variable is missing. Build a table: \"Missing s? Use v = u + at. Missing t? Use v² = u² + 2as.\" This decision framework is more valuable than memorising equations.</p><p><strong>Worked examples (20 min):</strong> (1) Car accelerates from 10 to 30 m/s over 200 m. Find a (2 m/s²) and t (10 s). (2) Ball thrown up at 20 m/s: find max height (v = 0 at top → h = 20.4 m) and time to return (4.08 s). (3) A train brakes with a = −1.5 m/s² from 30 m/s. How far to stop? (300 m). (4) Two-stage: a car accelerates then decelerates — solve each stage separately.</p><p><strong>Practice (15 min):</strong> Students solve 6 graded problems. Key: identify the 3 knowns and 1 unknown BEFORE choosing an equation.</p>",
+          "engagementHook": {
+            "title": "THE REACTION TIME TEST",
+            "content": "Drop a ruler — the student catches it. Measure the distance fallen. Using s = ½gt² (u = 0), calculate the student's reaction time. Typical: 0.15–0.25 s. Fastest student wins. This is SUVAT applied to a real measurement in under 1 minute — students see the equations working instantly. \"Your reaction time determines your braking distance when driving. At 30 m/s, you travel 6 m before you even touch the brake.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Models"],
+            "description": "The SUVAT equations model uniformly accelerated motion — a common but not universal situation. They're exact for free fall near Earth's surface, excellent for car braking, but wrong for a rocket (mass changes) or a feather (drag changes). Knowing the boundaries of a model is as important as knowing the model itself."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State the four equations of motion",
+            "AO2 — Apply SUVAT equations to solve uniformly accelerated motion problems",
+            "AO3 — Analyse which equation to use based on known and unknown variables"
+          ],
+          "resources": "30 cm rulers (for reaction time test), whiteboard, SUVAT decision table handout, graded problem sets",
+          "formative": "\"A stone is dropped from a 45 m cliff. (a) Time to hit the ground. (b) Speed on impact. (c) A second stone is thrown DOWN at 5 m/s from the same cliff. Time to hit? Speed on impact? (d) Compare: does the initial speed make a bigger difference to the time or the impact speed?\""
+        },
+        {
+          "num": 2,
+          "title": "Multi-Step SUVAT Problem Solving",
+          "focus": "Two-stage problems and vertical motion under gravity",
+          "minutes": 55,
+          "understandings": [
+            "Vertical motion under gravity uses the same SUVAT equations with a = g = 9.8 m/s² (or −9.8 depending on sign convention)",
+            "At the highest point of vertical throw, v = 0 (instantaneously at rest before falling back)",
+            "Multi-stage problems require solving each stage separately — the final conditions of one stage become the initial conditions of the next",
+            "Free fall, throw up, and throw down are all the same physics with different initial conditions"
+          ],
+          "teachingStrategy": "<p><strong>Vertical motion (15 min):</strong> All vertical motion near Earth's surface has a = g downward. Sign convention matters! If up is positive: a = −9.8 m/s². Throw up at 25 m/s: (a) max height (v = 0 → h = 31.9 m), (b) time to peak (2.55 s), (c) time to return to hand (5.1 s — symmetry: up time = down time), (d) speed on return (25 m/s — same as launch, symmetry). Emphasise these symmetries — they speed up problem-solving.</p><p><strong>Multi-stage problems (20 min):</strong> (1) A ball is thrown up at 15 m/s from the top of a 30 m building. Find: time to reach max height, max height above ground, time to hit the ground, speed on impact. Stage 1: up to peak. Stage 2: peak to ground. (2) A car accelerates for 10 s at 2 m/s², cruises for 20 s, brakes at −3 m/s² to rest. Total distance? Total time? These require chaining SUVAT for each stage.</p><p><strong>Group challenge (15 min):</strong> Groups solve a 3-stage problem on whiteboards. Present and compare methods. Fastest correct group wins.</p><p><strong>Practice (5 min):</strong> 2 multi-stage problems independently.</p>",
+          "engagementHook": {
+            "title": "THE BUILDING DROP — UP OR DOWN?",
+            "content": "\"From the top of a 50 m building, you throw a ball UP at 10 m/s. Your friend drops a ball at the same instant. Which hits the ground first?\" Students debate. The dropped ball wins (obviously). But by how much? Calculate both. The thrown ball takes only 0.7 s longer — much less than students expect, because it spends most of its extra time near the top where it's moving slowly."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "The symmetry of vertical motion (same speed up and down, equal times) is a consequence of energy conservation combined with uniform gravity. Recognising symmetry reduces problem-solving time — a skill that transfers to every area of physics."
+          },
+          "atl": ["Thinking skills", "Social skills"],
+          "learnerProfile": ["Thinker", "Communicator"],
+          "ao": [
+            "AO2 — Apply SUVAT to vertical motion and multi-stage problems",
+            "AO3 — Analyse multi-stage problems by chaining initial/final conditions"
+          ],
+          "resources": "Whiteboards and markers for group work, multi-stage problem cards",
+          "formative": "\"A ball is thrown up at 20 m/s from a 25 m rooftop. (a) Max height above ground. (b) Time from throw to hitting the ground below. (c) Impact speed. (d) Sketch the v-t graph for the entire motion, clearly labelling key points.\""
+        },
+        {
+          "num": 3,
+          "title": "Motion Graphs — s-t, v-t, a-t",
+          "focus": "Drawing, interpreting, and extracting physics from graphs",
+          "minutes": 55,
+          "understandings": [
+            "Displacement-time (s-t) graphs: gradient = velocity; curve means acceleration; straight line means constant velocity; horizontal means at rest",
+            "Velocity-time (v-t) graphs: gradient = acceleration; area under the graph = displacement; straight line means uniform acceleration",
+            "Acceleration-time (a-t) graphs: area under the graph = change in velocity; horizontal line means uniform acceleration",
+            "The three graphs are linked: each is the gradient of the one above and the area of the one below"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Present the three graph types side by side for the same motion (e.g., a ball thrown up and caught). s-t: inverted parabola. v-t: straight line crossing zero at the peak. a-t: horizontal line at −g. Teach the links: gradient of s-t = velocity. Gradient of v-t = acceleration. Area under v-t = displacement. Area under a-t = Δv. These links are the most powerful tool in kinematics.</p><p><strong>Lab (15 min):</strong> MOTION SENSOR LIVE GRAPHS — Walk toward and away from a motion sensor. The software plots s-t, v-t, a-t in real time. Students see how their movement creates specific graph shapes. Challenge: \"Walk to produce a triangular v-t graph\" or \"Walk to produce a constant-velocity s-t line.\" The feedback is immediate and physical.</p><p><strong>Graph interpretation practice (15 min):</strong> Give students 5 v-t graphs. For each: (a) describe the motion in words, (b) calculate displacement (area), (c) sketch the corresponding s-t and a-t graphs. Include graphs with negative velocities and graphs returning to zero.</p><p><strong>Wrap-up (10 min):</strong> Summary poster: the three graphs with arrows showing gradient/area relationships. Students copy into notes. This is the single most useful reference in all of kinematics.</p>",
+          "engagementHook": {
+            "title": "WALK THE GRAPH — LIVE MOTION SENSOR",
+            "content": "A motion sensor plots your position in real time. Challenge: \"Can you walk to produce THIS graph?\" Show a target s-t graph (e.g., triangular displacement). Students take turns. The physical connection between movement and graph shape builds deep intuition that no worksheet can match. Competitive version: who can match the target graph most accurately?"
+          },
+          "nos": {
+            "tags": ["Observations", "Patterns", "Models"],
+            "description": "Graphical analysis is a universal scientific tool. The gradient/area relationships between s-t, v-t, and a-t graphs are the conceptual foundation of calculus — differentiation (gradient) and integration (area). Newton invented calculus specifically to describe motion. The IB linking question asks: 'How does graphical analysis allow for the determination of other physical quantities?' (NOS)"
+          },
+          "atl": ["Thinking skills", "Communication skills", "Research skills"],
+          "learnerProfile": ["Communicator", "Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — State what gradients and areas represent on each graph type",
+            "AO2 — Calculate velocity, acceleration, and displacement from graphs",
+            "AO3 — Analyse complex graphs and convert between s-t, v-t, and a-t"
+          ],
+          "resources": "Motion sensor + laptop/display, graph interpretation worksheets, graph relationship poster template",
+          "formative": "\"A v-t graph shows: 0-4 s: v increases linearly from 0 to 8 m/s. 4-10 s: v constant at 8 m/s. 10-14 s: v decreases linearly to 0. (a) Calculate acceleration in each phase. (b) Calculate total displacement (area under graph). (c) Sketch the corresponding s-t graph. (d) Sketch the a-t graph.\""
+        },
+        {
+          "num": 4,
+          "title": "Gradients, Areas & Graphical Problem Solving",
+          "focus": "Using graphs to solve problems that equations can't easily handle",
+          "minutes": 40,
+          "understandings": [
+            "How to determine instantaneous velocity from the gradient of a tangent to an s-t curve",
+            "How to determine displacement from the area under a non-linear v-t graph (counting squares or using trapezoids)",
+            "How to handle non-uniform acceleration using graphs when SUVAT equations don't apply",
+            "Graphical analysis allows determination of physical quantities even when algebraic solutions are difficult or impossible"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> When acceleration is non-uniform, SUVAT fails. But graphs still work. Show a curved v-t graph (e.g., a car with changing acceleration). Displacement = area under the curve. Estimate by counting grid squares or drawing trapezoids. Instantaneous acceleration = gradient of tangent at any point.</p><p><strong>Worked examples (15 min):</strong> (1) A curved s-t graph: draw tangent at t = 3 s, measure gradient → instantaneous velocity. (2) A non-linear v-t graph: count squares under the curve → displacement. (3) Data-based: given a table of v vs t (non-uniform), plot the graph, find area → displacement. Find gradient at specific times → acceleration.</p><p><strong>Practice (15 min):</strong> IB-style data-based questions: extract velocities from tangents, displacements from areas, and accelerations from gradients. This is a frequent Paper 1 Section B question type.</p>",
+          "engagementHook": {
+            "title": "THE IMPOSSIBLE EQUATION — GRAPHS TO THE RESCUE",
+            "content": "\"A car's velocity is recorded every second for 10 seconds. The acceleration isn't constant — it changes unpredictably. Can SUVAT find the total distance?\" No. \"Can a graph?\" Yes — plot v-t and measure the area. This is why graphical analysis exists: it solves problems that algebra can't. Students count squares on a real, messy, non-uniform v-t graph and find the displacement."
+          },
+          "nos": {
+            "tags": ["Observations", "Models"],
+            "description": "Graphical analysis bridges observation and theory. When the mathematical model is too complex for an algebraic solution, the graph provides the answer directly from the data. This is the IB linking question in action: 'How does graphical analysis allow for the determination of other physical quantities?'"
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO2 — Determine velocity from tangent gradients; displacement from areas",
+            "AO3 — Analyse non-uniform motion using graphical methods when SUVAT fails"
+          ],
+          "resources": "Printed curved s-t and v-t graphs on grid paper, rulers, data tables, calculators",
+          "formative": "\"A v-t graph shows a curve (not straight). Estimate: (a) instantaneous acceleration at t = 5 s by drawing a tangent, (b) total displacement from t = 0 to t = 10 s by counting squares, (c) average velocity over the 10 s, (d) at what time is the acceleration zero?\""
+        }
+      ]
+    },
+    {
+      "name": "Projectile Motion & Fluid Resistance",
+      "color": "accent2",
+      "totalMinutes": 200,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Projectile Motion — Resolving into Components",
+          "focus": "Horizontal and vertical motion are independent",
+          "minutes": 65,
+          "understandings": [
+            "The behaviour of projectiles in the absence of fluid resistance",
+            "Projectile motion resolved into vertical and horizontal components",
+            "Horizontal: no force → constant velocity (a_x = 0, v_x = u cosθ)",
+            "Vertical: gravity only → uniform acceleration (a_y = g, u_y = u sinθ)",
+            "The two components are INDEPENDENT — horizontal motion doesn't affect vertical motion and vice versa",
+            "Projectile motion uses constant g close to the surface of the Earth"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> THE MONKEY AND THE HUNTER — \"A hunter aims directly at a monkey in a tree. The monkey sees the flash and drops. Does the dart hit?\" Show the simulation: YES — both the dart and monkey fall at the same rate. The horizontal and vertical motions are independent.</p><p><strong>Demo (10 min):</strong> Simultaneously launch one ball horizontally and drop another from the same height. They hit the ground at the SAME time. \"The horizontal velocity doesn't affect how fast it falls.\" This is the key insight of projectile motion.</p><p><strong>Direct instruction (20 min):</strong> Resolve initial velocity: u_x = u cosθ (horizontal), u_y = u sinθ (vertical). Horizontal: no acceleration → x = u_x × t. Vertical: acceleration = g → use SUVAT. Combine to get the trajectory. Work through: (a) horizontal launch from a cliff — find time to fall (vertical SUVAT), then range (x = u_x × t), (b) oblique launch at 45° — find time of flight, max height, range.</p><p><strong>Worked examples (15 min):</strong> (1) Ball kicked at 20 m/s at 30° — range, max height, time of flight. (2) Ball launched horizontally at 15 m/s from a 20 m cliff — time, range, impact speed. (3) A ball launched below horizontal at 10° — calculate landing point.</p><p><strong>Practice (15 min):</strong> 4 projectile problems of increasing difficulty.</p>",
+          "engagementHook": {
+            "title": "THE MONKEY AND THE HUNTER",
+            "content": "Show the classic simulation (or build with a blowpipe and a falling target): a hunter aims directly at a monkey. The monkey drops the instant the dart is fired. The dart still hits because both fall at the same rate — gravity acts equally on both. Students predict before watching. The result is counterintuitive and unforgettable. \"The dart curves downward at exactly the same rate the monkey falls.\""
+          },
+          "nos": {
+            "tags": ["Models", "Theories"],
+            "description": "The independence of horizontal and vertical components is a modelling choice — it works because gravity acts only vertically and (without air resistance) there's no horizontal force. This decomposition strategy appears throughout physics: any complex motion can be broken into independent components. Galileo was the first to describe projectile motion this way (1638)."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — State that horizontal and vertical motions are independent in projectile motion",
+            "AO2 — Resolve initial velocity into components; apply SUVAT to each independently",
+            "AO3 — Analyse projectile trajectories for horizontal, oblique, and below-horizontal launches"
+          ],
+          "resources": "Projectile launcher or ball + ramp, second ball to drop simultaneously, Monkey and Hunter simulation, stopwatch",
+          "formative": "\"A ball is launched at 25 m/s at 40° above horizontal from ground level. (a) Find u_x and u_y. (b) Time of flight. (c) Maximum height. (d) Range. (e) At what other angle would the same initial speed give the same range?\""
+        },
+        {
+          "num": 2,
+          "title": "Solving Projectile Problems",
+          "focus": "Systematic approach to all projectile scenarios",
+          "minutes": 65,
+          "understandings": [
+            "A systematic method: (1) resolve u into components, (2) use vertical SUVAT to find time, (3) use horizontal equation to find range, (4) combine components for resultant velocity",
+            "The trajectory is parabolic (in the absence of air resistance)",
+            "Impact speed found using Pythagoras on horizontal and vertical velocity components",
+            "Impact angle found using trigonometry: θ = tan⁻¹(v_y/v_x)"
+          ],
+          "teachingStrategy": "<p><strong>Systematic method (10 min):</strong> Teach the 4-step method as a recipe: (1) Resolve: u_x = u cosθ, u_y = u sinθ. (2) Vertical SUVAT: find t (often from the vertical displacement or v_y = 0 at peak). (3) Horizontal: x = u_x × t (finds range). (4) Resultant: v = √(v_x² + v_y²) for impact speed; θ = tan⁻¹(v_y/v_x) for impact angle. This method works for EVERY projectile problem.</p><p><strong>Lab (20 min):</strong> PROJECTILE RANGE PREDICTION — Launch a ball horizontally from a measured height using a ramp. Calculate the predicted range using the 4-step method. Mark the predicted landing spot on the floor. Launch and measure. How close was the prediction? Discrepancy comes from air resistance and measurement error — real physics.</p><p><strong>Worked examples (15 min):</strong> (1) A stunt car drives off a 30 m cliff at 25 m/s horizontally — where does it land and at what speed/angle? (2) A football kicked at 18 m/s at 55° — time of flight, range, max height, and the velocity vector at t = 1.5 s. (3) A ball launched at 12 m/s at 20° below horizontal from a 40 m tower — where and how fast does it land?</p><p><strong>Group challenge (15 min):</strong> \"Design the longest-range projectile.\" Given a fixed launch speed, what angle maximises range? (45° for flat ground.) What if launched from a height? (Slightly below 45°.) Groups calculate and compare.</p><p><strong>Practice (5 min):</strong> 2 exam-style projectile problems independently.</p>",
+          "engagementHook": {
+            "title": "PREDICT THE LANDING SPOT",
+            "content": "Students calculate exactly where a ball launched horizontally from a table will land. They place a cup at the predicted spot. Launch the ball. If it lands in the cup — physics works. The thrill of prediction matching reality is deeply satisfying. Groups compete for accuracy. Discrepancies lead to a discussion of air resistance, measurement uncertainty, and model limitations."
+          },
+          "nos": {
+            "tags": ["Measurements", "Models"],
+            "description": "The cup-catching lab is a genuine test of the projectile model. When the ball misses, students must decide: is the model wrong, or is the measurement imprecise? This is the scientific method in miniature — test predictions, analyse discrepancies, refine understanding."
+          },
+          "atl": ["Thinking skills", "Research skills", "Social skills"],
+          "learnerProfile": ["Inquirer", "Risk-taker", "Thinker"],
+          "ao": [
+            "AO2 — Apply the 4-step method to all projectile scenarios",
+            "AO3 — Analyse trajectory, impact speed, and impact angle",
+            "AO4 — Lab: predict and verify projectile landing position"
+          ],
+          "resources": "Ramp + ball, metre sticks, cups/targets, stopwatch, protractors, printed problem sets",
+          "formative": "Lab: predicted vs actual landing spot (calculate % error). \"A ball is thrown at 22 m/s at 35° from the edge of a 15 m building. (a) Time to hit the ground. (b) Horizontal distance from the building. (c) Impact speed. (d) Impact angle with the horizontal.\""
+        },
+        {
+          "num": 3,
+          "title": "Fluid Resistance, Drag & Terminal Speed",
+          "focus": "The qualitative effect of air resistance on projectile motion",
+          "minutes": 70,
+          "understandings": [
+            "The qualitative effect of fluid resistance on projectiles: time of flight, trajectory, velocity, acceleration, range, and terminal speed",
+            "Fluid resistance (drag) acts opposite to the direction of motion and increases with speed",
+            "With air resistance: the trajectory is NOT a symmetric parabola — it's steeper on the way down, range is shorter, max height is lower",
+            "Terminal speed: when drag equals weight, net force = 0, acceleration = 0, speed becomes constant",
+            "Fluid resistance refers to effects of both gases (air resistance) and liquids (viscous drag)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Show a slow-motion video of a shuttlecock vs a ball. The ball follows a near-parabolic path. The shuttlecock curves sharply and drops steeply. \"Same launch angle and speed — why such different trajectories?\" Air resistance.</p><p><strong>Direct instruction (20 min):</strong> Qualitative analysis (no equations — IB asks for qualitative effects only): With air resistance: (a) Range decreases — drag removes horizontal KE. (b) Max height decreases — drag opposes upward motion, so it decelerates faster going up. (c) Trajectory is asymmetric — steeper descent because the object is slower at the peak than without drag, and drag adds to gravity on the way down. (d) Time of flight changes — shorter going up (drag + gravity), longer coming down (drag opposes gravity). (e) Terminal speed: when drag force = weight, net force = 0, the object reaches constant speed. Sketch all these effects on a trajectory diagram and a v-t graph.</p><p><strong>Comparison activity (15 min):</strong> Give students a table: projectile WITH and WITHOUT air resistance. They fill in qualitative comparisons for: range, max height, time up, time down, total time, impact speed, trajectory shape, and acceleration during flight. This systematic comparison is exactly what IB exams ask for.</p><p><strong>Terminal speed analysis (15 min):</strong> The v-t graph for a falling object with drag: starts at 0, curves upward, approaches a horizontal asymptote (terminal speed). Draw the FBD at three stages: early fall (mg >> drag, large a), mid fall (mg > drag, decreasing a), terminal (mg = drag, a = 0). Link to A.2 concepts: Stokes' law (viscous drag) and the submarine challenge.</p><p><strong>Lab (10 min):</strong> Drop coffee filters (stacked for different masses). Time the fall from 2 m. More filters → higher terminal speed (more weight to balance). Plot terminal speed vs number of filters. Discuss the shape of the graph.</p><p><strong>Practice (5 min):</strong> Qualitative questions comparing trajectories with and without resistance.</p>",
+          "engagementHook": {
+            "title": "SHUTTLECOCK vs BALL — SAME LAUNCH, DIFFERENT FATE",
+            "content": "Launch a shuttlecock and a ball at the same angle and speed (use identical rubber-band launchers). Film in slow motion. The ball sails in a near-perfect parabola. The shuttlecock hooks downward dramatically. Overlay the two trajectories on screen. \"The ball's path is what physics predicts without air resistance. The shuttlecock is reality.\" Then drop stacked coffee filters — they reach terminal speed in about 1 metre, visible to the naked eye."
+          },
+          "nos": {
+            "tags": ["Models", "Observations", "Patterns"],
+            "description": "The 'no air resistance' model is an idealisation — useful for understanding but never perfectly true. Real physics always includes drag. The skill is knowing WHEN the idealisation is good enough (a dense ball) and when it fails (a feather, a shuttlecock). This judgement — when to apply which model — is central to scientific thinking."
+          },
+          "atl": ["Thinking skills", "Research skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Inquirer", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe qualitative effects of fluid resistance on projectile motion",
+            "AO2 — Sketch modified trajectories and v-t graphs with air resistance",
+            "AO3 — Analyse terminal speed conditions using FBDs"
+          ],
+          "resources": "Shuttlecock, ball, rubber-band launcher, slow-mo camera (phone), coffee filters, stopwatch, 2 m drop height",
+          "formative": "\"A ball is launched at 45° with and without air resistance. Compare qualitatively: (a) range, (b) max height, (c) time of flight, (d) impact speed, (e) trajectory shape. Sketch both trajectories on the same diagram. (f) A skydiver jumps from 4000 m. Sketch her v-t graph. Label: the acceleration phase, the point where terminal speed is reached, and the effect of opening a parachute.\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "A.2 Forces & Momentum", "question": "How effectively do the equations of motion model Newton's laws of dynamics?" },
+    { "topic": "A.3 Work, Energy & Power", "question": "When can projectile motion problems be solved by conservation of energy instead of kinematic equations?" },
+    { "topic": "A.4 Rigid Body Mechanics", "question": "How are the equations for rotational motion related to those for linear motion?" },
+    { "topic": "D.1 Gravitational Fields", "question": "How does a gravitational force allow for orbital motion? How does motion change within a gravitational field?" },
+    { "topic": "D.2 Electric & Magnetic Fields", "question": "How does the motion of a mass in a gravitational field compare to the motion of a charged particle in an electric field?" },
+    { "topic": "IB Linking (NOS)", "question": "How does graphical analysis allow for the determination of other physical quantities?" }
+  ]
+},
   "A2": {
     "title": "Forces & Momentum",
     "code": "A.2",
