@@ -965,20 +965,29 @@ document.querySelectorAll('.btn').forEach(function(btn){
 (function(){
   var keys = '', lastTime = 0;
   document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     var now = Date.now();
     if (now - lastTime > 800) keys = '';
     lastTime = now;
     keys += e.key.toUpperCase();
     
-    if (keys === 'M') {
+    if (keys === 'M' || keys === 'T') {
       window.location.href = 'exam-system/exam-teacher.html';
+      keys = '';
     } else if (keys === 'D') {
-      // Wait — could be start of "DP" or just "D"
-      // Don't navigate yet, wait for next key or timeout
+      // Delay slightly in case they type 'P' next for 'DP' combo
+      setTimeout(function() {
+        if (keys === 'D') {
+          window.location.href = 'dp-teacher-planner.html';
+          keys = '';
+        }
+      }, 250);
     } else if (keys === 'DP') {
       window.location.href = 'dp-teacher-planner.html';
+      keys = '';
     } else if (keys === 'IA') {
       window.location.href = 'ia-ee-generator.html';
+      keys = '';
     } else if (keys.length > 2) {
       keys = '';
     }
