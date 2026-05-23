@@ -1853,10 +1853,9 @@
   document.addEventListener('keydown', (e) => {
     if (modal.style.display !== 'flex') return;
 
-    // Don't hijack keystrokes if the user is typing in a text input elsewhere on the page
+    // Don't hijack keystrokes if the user is typing in any text input
     if (document.activeElement && 
-        (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') && 
-        !document.activeElement.closest('#gdcModal')) {
+        (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
       return;
     }
 
