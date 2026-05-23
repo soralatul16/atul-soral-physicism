@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Lesson Viewer | Physicism DP</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f0f4f8;            /* Light blue-gray background */
+  --white: #ffffff;
+  --glass: rgba(255,255,255,0.6);
+  --glass-border: rgba(255,255,255,0.8);
+  --glass-shadow: 0 8px 32px rgba(31,38,135,0.08);
+  --tint: rgba(96,165,250,0.06);    /* Very light blue tint */
+  --tint-border: rgba(96,165,250,0.12);
+  --accent: #1e40af;         /* Deep blue accent */
+  --accent2: #3b82f6;        /* Lighter blue */
+  --accent-pale: rgba(59,130,246,0.06);
+  --text: #1e293b;
+  --text2: #475569;
+  --text3: #94a3b8;
+  --red: #dc2626;
+  --green: #16a34a;
+  --border: rgba(0,0,0,0.04);
+  --cream: #f8fafc;
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --white: #1e293b;
+  --glass: rgba(30,41,59,0.7);
+  --glass-border: rgba(51,65,85,0.5);
+  --tint: rgba(59,130,246,0.08);
+  --tint-border: rgba(59,130,246,0.15);
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --cream: #1e293b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+  font-size: 15px;
+  line-height: 1.7;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* AUTH BANNER */
+.auth-banner {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: var(--text2);
+  position: relative;
+  z-index: 10;
+  gap: 12px;
+}
+.auth-banner a {
+  color: var(--accent2);
+  font-weight: 600;
+  text-decoration: none;
+}
+.auth-banner button {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  border: none;
+  padding: 5px 14px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 11px;
+  box-shadow: 0 4px 12px rgba(59,130,246,0.2);
+  transition: all 0.2s;
+}
+.auth-banner button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(59,130,246,0.3);
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 290px;
+  background: var(--white);
+  background-image: linear-gradient(180deg, var(--white), var(--tint));
+  height: 100vh;
+  overflow-y: auto;
+  padding: 0;
+  border-right: 1px solid var(--tint-border);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-header {
+  padding: 20px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  box-shadow: 0 4px 12px rgba(30,64,175,0.1);
+}
+.sidebar-header h2 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.sidebar-header p {
+  font-size: 11px;
+  opacity: 0.8;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* PROGRESS SUMMARY IN SIDEBAR */
+.progress-summary {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--tint-border);
+  background: rgba(255,255,255,0.2);
+}
+.ps-text {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text2);
+  margin-bottom: 8px;
+}
+.ps-bar-container {
+  height: 6px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 5px;
+  overflow: hidden;
+}
+[data-theme="dark"] .ps-bar-container {
+  background: rgba(255,255,255,0.1);
+}
+.ps-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 5px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-nav {
+  padding: 12px;
+  flex: 1;
+}
+.sidebar-section-title {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text3);
+  font-weight: 700;
+  padding: 12px 10px 6px;
+  margin-top: 4px;
+}
+.sidebar-item {
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text2);
+  font-weight: 500;
+  transition: all 0.25s;
+  margin-bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid transparent;
+}
+.sidebar-item:hover {
+  background: var(--glass);
+  border-color: var(--tint-border);
+  color: var(--accent);
+  box-shadow: 0 4px 16px rgba(59,130,246,0.05);
+}
+.sidebar-item.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(30,64,175,0.15);
+}
+.si-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.si-num {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(96,165,250,0.12);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.sidebar-item.active .si-num {
+  background: rgba(255,255,255,0.25);
+  color: white;
+}
+.si-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.si-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: 2px;
+  padding-left: 32px;
+}
+.sidebar-item.active .si-meta {
+  color: rgba(255,255,255,0.7);
+}
+.si-status-badge {
+  background: var(--accent-pale);
+  color: var(--accent2);
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+.sidebar-item.active .si-status-badge {
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+.sidebar-back {
+  display: block;
+  padding: 12px 20px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  border-top: 1px solid var(--tint-border);
+  transition: color 0.2s;
+}
+.sidebar-back:hover {
+  color: var(--accent);
+}
+
+/* MAIN AREA */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-width: 0;
+}
+.topbar {
+  height: 60px;
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  flex-shrink: 0;
+}
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.topbar-brand {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+}
+.topbar-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent2);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px var(--accent2);
+}
+.topbar-title {
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  border-left: 1.5px solid var(--tint-border);
+  padding-left: 10px;
+  margin-left: 6px;
+}
+.topbar-links {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.topbar-link {
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text2);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.topbar-link:hover {
+  background: var(--accent-pale);
+  color: var(--accent);
+}
+
+/* CONTENT + RIGHT PANEL LAYOUT */
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+.content {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+  scroll-behavior: smooth;
+}
+.right-panel {
+  width: 60px;
+  background: var(--white);
+  border-left: 1px solid var(--tint-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.right-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1.5px solid var(--tint-border);
+  background: var(--glass);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.25s;
+  position: relative;
+  color: var(--text2);
+  backdrop-filter: blur(8px);
+}
+.right-btn:hover {
+  border-color: var(--accent2);
+  color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59,130,246,0.1);
+}
+.right-btn-tooltip {
+  display: none;
+  position: absolute;
+  right: 54px;
+  background: var(--text);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: var(--glass-shadow);
+  z-index: 100;
+}
+.right-btn:hover .right-btn-tooltip {
+  display: block;
+}
+
+/* LESSON SECTION RENDERER */
+.lesson {
+  display: none;
+  padding: 36px 44px 80px;
+  max-width: 850px;
+  margin: 0 auto;
+}
+.lesson.active {
+  display: block;
+}
+.lesson-header {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border);
+}
+.lesson-badge {
+  display: inline-flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.lesson-badge span {
+  font-size: 9px;
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+.badge-topic { background: rgba(30,64,175,0.08); color: var(--accent); }
+.badge-sl { background: rgba(22,163,74,0.08); color: var(--green); }
+.badge-ao { background: rgba(220,38,38,0.08); color: var(--red); }
+.badge-hours { background: rgba(0,0,0,0.04); color: var(--text2); }
+[data-theme="dark"] .badge-hours { background: rgba(255,255,255,0.06); }
+
+.lesson h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+.lesson-guiding {
+  font-size: 13.5px;
+  color: var(--text2);
+  font-style: italic;
+  line-height: 1.5;
+}
+.lesson h2 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--text);
+  margin: 32px 0 14px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+}
+.lesson h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--text);
+  margin: 24px 0 10px;
+  font-weight: 600;
+}
+.lesson p {
+  font-size: 14.5px;
+  color: var(--text2);
+  margin-bottom: 14px;
+  line-height: 1.8;
+}
+.lesson ul, .lesson ol {
+  padding-left: 20px;
+  margin-bottom: 14px;
+  color: var(--text2);
+  font-size: 14.5px;
+}
+.lesson li {
+  margin-bottom: 6px;
+  line-height: 1.7;
+}
+
+/* GLASS CARDS & BOXES Styling */
+.glass-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+
+.ib-box {
+  background: linear-gradient(135deg, rgba(30,64,175,0.03), rgba(59,130,246,0.06));
+  border: 1.5px solid rgba(30,64,175,0.1);
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 13.5px;
+}
+.ib-box-title {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.concept-box {
+  background: var(--glass);
+  border: 1.5px solid var(--glass-border);
+  border-left: 4px solid var(--accent);
+  border-radius: 16px;
+  padding: 18px 22px;
+  margin: 20px 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.concept-box h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  margin: 0 0 8px;
+  color: var(--text);
+}
+
+.formula-card {
+  background: linear-gradient(135deg, rgba(96,165,250,0.04), rgba(59,130,246,0.08));
+  border: 1.5px solid var(--tint-border);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  margin: 20px 0;
+}
+.formula-card .formula {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  color: var(--accent);
+  font-weight: 700;
+  margin: 6px 0;
+}
+[data-theme="dark"] .formula-card .formula {
+  color: var(--accent2);
+}
+.formula-card .formula-label {
+  font-size: 11px;
+  color: var(--text3);
+}
+.formula-card .formula-note {
+  font-size: 11.5px;
+  color: var(--text2);
+  margin-top: 6px;
+}
+
+.worked-example {
+  background: var(--glass);
+  border: 1.5px solid rgba(22,163,74,0.15);
+  border-radius: 16px;
+  padding: 18px 22px;
+  margin: 20px 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.worked-example-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--green);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.we-question {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.7;
+}
+.we-step {
+  margin-bottom: 10px;
+  padding-left: 14px;
+  border-left: 2px solid rgba(22,163,74,0.2);
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.8;
+}
+.we-step strong {
+  color: var(--text);
+}
+.practice-ref {
+  font-size: 10.5px;
+  color: var(--text3);
+  font-style: italic;
+  margin-top: 12px;
+}
+
+.key-point {
+  background: rgba(220,38,38,0.03);
+  border: 1.5px solid rgba(220,38,38,0.1);
+  border-radius: 16px;
+  padding: 14px 20px;
+  margin: 16px 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.key-point-title {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--red);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.key-point p {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.cmd-term {
+  display: inline-block;
+  background: rgba(220,38,38,0.06);
+  color: var(--red);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.practice-box {
+  background: var(--glass);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 18px 22px;
+  margin: 20px 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.practice-title {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.practice-q {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 12px;
+  padding-left: 24px;
+  position: relative;
+  line-height: 1.7;
+}
+.practice-q::before {
+  content: attr(data-num);
+  position: absolute;
+  left: 0;
+  color: var(--accent2);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+
+.mistake-box {
+  background: rgba(220,38,38,0.03);
+  border-left: 4px solid var(--red);
+  border-radius: 0 16px 16px 0;
+  padding: 14px 20px;
+  margin: 16px 0;
+  border-top: 1px solid var(--tint-border);
+  border-right: 1px solid var(--tint-border);
+  border-bottom: 1px solid var(--tint-border);
+}
+.mistake-box-title {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--red);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.mistake-box p {
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
+.mistake-box p:last-child {
+  margin-bottom: 0;
+}
+
+.tok-box {
+  background: rgba(142,68,173,0.03);
+  border: 1.5px solid rgba(142,68,173,0.12);
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.tok-box-title {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #8e44ad;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.tok-box p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.linking-box {
+  background: rgba(245,158,11,0.03);
+  border: 1.5px solid rgba(245,158,11,0.15);
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.linking-box-title {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #d97706;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.linking-box p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.nos-box {
+  background: rgba(13,148,136,0.03);
+  border: 1.5px solid rgba(13,148,136,0.12);
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.nos-box-title {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #0d9488;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.nos-box p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.ia-box {
+  background: rgba(147,51,234,0.03);
+  border: 1.5px solid rgba(147,51,234,0.12);
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.ia-box-title {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #7c3aed;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.ia-box ul {
+  padding-left: 16px;
+  color: var(--text2);
+  font-size: 13px;
+}
+
+.derivation {
+  background: rgba(30,64,175,0.02);
+  border: 1px solid rgba(30,64,175,0.08);
+  border-radius: 16px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent);
+  line-height: 2.2;
+}
+[data-theme="dark"] .derivation {
+  color: var(--accent2);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13.5px;
+}
+.data-table th {
+  background: rgba(30,64,175,0.04);
+  color: var(--text);
+  font-weight: 600;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 2px solid var(--border);
+  font-size: 12.5px;
+}
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+}
+
+.diagram-box {
+  background: var(--cream);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0;
+  text-align: center;
+}
+.diagram-box svg {
+  max-width: 100%;
+}
+.diagram-caption {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* INFOGRAPHIC SLOT */
+.infographic-slot {
+  width: 100%;
+  min-height: 60px;
+  margin: 20px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--glass-border);
+}
+.infographic-slot img {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+}
+
+.lesson-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 2px solid var(--border);
+}
+
+/* PRACTICE MORE BUTTONS */
+.practice-more {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 24px 0;
+  padding: 20px;
+  background: rgba(96,165,250,0.04);
+  border-radius: 16px;
+  border: 1.5px solid var(--tint-border);
+  justify-content: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.practice-more a {
+  background: var(--glass);
+  border: 1.5px solid var(--tint-border);
+  border-radius: 50px;
+  padding: 10px 22px;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 12px;
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.2s;
+}
+.practice-more a:hover {
+  background: rgba(59,130,246,0.08);
+  border-color: var(--accent2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(59,130,246,0.15);
+  color: var(--accent);
+}
+[data-theme="dark"] .practice-more a {
+  color: var(--accent2);
+}
+[data-theme="dark"] .practice-more a:hover {
+  color: white;
+}
+
+/* NAVIGATION BUTTONS */
+.nav-btn {
+  background: var(--glass);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 50px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 8px 22px;
+  color: var(--text2);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.nav-btn:hover {
+  border-color: var(--accent2);
+  color: var(--accent);
+}
+.nav-btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  border: none;
+  box-shadow: 0 4px 16px rgba(30,64,175,0.2);
+}
+.nav-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(30,64,175,0.3);
+}
+
+/* GDC MODAL STYLE */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.4);
+  z-index: 500;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.modal-overlay.open {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal {
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(15,23,42,0.15);
+  max-width: 90vw;
+  max-height: 90vh;
+  border: 1px solid var(--glass-border);
+  animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-header {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  padding: 16px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.modal-header h3 {
+  font-size: 15px;
+  font-weight: 600;
+}
+.modal-close {
+  background: rgba(255,255,255,.15);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.modal-close:hover {
+  background: rgba(255,255,255,.25);
+}
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 75vh;
+}
+
+/* CALCULATOR */
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+.calc-btn {
+  padding: 12px;
+  border: 1px solid var(--tint-border);
+  border-radius: 10px;
+  background: var(--cream);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font-mono);
+  color: var(--text);
+  text-align: center;
+  font-weight: 500;
+}
+.calc-btn:hover {
+  background: var(--accent-pale);
+  border-color: var(--accent2);
+}
+.calc-btn-op {
+  background: rgba(59,130,246,0.08);
+  color: var(--accent2);
+  font-weight: 600;
+}
+.calc-btn-eq {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 4px 12px rgba(59,130,246,0.2);
+}
+.calc-btn-fn {
+  font-size: 11.5px;
+  color: var(--text2);
+  background: rgba(15,23,42,0.02);
+}
+[data-theme="dark"] .calc-btn-fn {
+  background: rgba(255,255,255,0.02);
+}
+.calc-display {
+  background: var(--cream);
+  border: 1.5px solid var(--tint-border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 24px;
+  color: var(--text);
+  min-height: 58px;
+  word-break: break-all;
+}
+.calc-sub {
+  font-size: 11px;
+  color: var(--text3);
+  text-align: right;
+  margin-bottom: 4px;
+  font-family: var(--font-mono);
+}
+
+/* FORMULA BOOKLET SIDEBAR */
+.formula-sidebar {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100vh;
+  background: var(--white);
+  background-image: linear-gradient(180deg, var(--white), var(--tint));
+  border-left: 1.5px solid var(--tint-border);
+  z-index: 400;
+  overflow-y: auto;
+  box-shadow: -8px 0 32px rgba(15,23,42,0.06);
+}
+.formula-sidebar.open {
+  display: block;
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.formula-sidebar-header {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  padding: 16px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(30,64,175,0.1);
+}
+.formula-sidebar-header h3 {
+  font-size: 15px;
+}
+.formula-sidebar-body {
+  padding: 20px;
+}
+.fs-section {
+  margin-bottom: 24px;
+}
+.fs-section h4 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid var(--tint-border);
+}
+[data-theme="dark"] .fs-section h4 {
+  color: var(--accent2);
+}
+.fs-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 13.5px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+.fs-row span:first-child {
+  color: var(--text2);
+  font-weight: 500;
+}
+.fs-row span:last-child {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 13.5px;
+}
+[data-theme="dark"] .fs-row span:last-child {
+  color: var(--accent2);
+}
+
+/* ERROR MESSAGE COMPONENT */
+.error-card {
+  max-width: 500px;
+  margin: 60px auto;
+  text-align: center;
+}
+.error-card h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+.error-card p {
+  color: var(--text2);
+  margin-bottom: 20px;
+}
+
+@media(max-width:768px){
+  .sidebar{display:none;}
+  .topbar{padding:0 16px;}
+  .lesson{padding:24px 20px 80px;}
+  .right-panel{width:52px;}
+  .formula-sidebar{width:100%;}
+}
+@media print{
+  .sidebar, .topbar, .right-panel, .formula-sidebar, .auth-banner {display:none !important;}
+  .main {height:auto;}
+  .content-wrapper {display:block;}
+  .content {overflow:visible;}
+  .lesson {max-width:100%; padding:16px; display:block !important;}
+  .lesson-nav, .practice-more {display:none !important;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h2 id="topic-header-title">Topic Loading...</h2>
+    <p id="topic-header-meta">Theme &middot; Hours</p>
+  </div>
+  
+  <!-- Student Progress Summary in Sidebar (Only shown when logged in) -->
+  <div class="progress-summary" id="sidebarProgress" style="display:none;">
+    <div class="ps-text">Your Progress: <span id="progress-lessons">0/0</span> done &middot; <span id="progress-time">0 min</span></div>
+    <div class="ps-bar-container"><div class="ps-bar-fill" id="progress-bar-fill" style="width: 0%"></div></div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="sidebar-section-title">Lessons</div>
+    <div id="sidebar-lessons-list">
+      <!-- Generated dynamically -->
+    </div>
+    <div class="sidebar-section-title">Resources</div>
+    <div class="sidebar-item" onclick="toggleFormulaSidebar()"><span class="si-top"><span class="si-num">📘</span><span class="si-title">Data Booklet</span></span></div>
+    <div class="sidebar-item" onclick="openCalc()"><span class="si-top"><span class="si-num">🧮</span><span class="si-title">GDC Calculator</span></span></div>
+  </div>
+  <a class="sidebar-back" href="dp-dashboard.html">← DP Dashboard</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- Auth State Banner -->
+  <div class="auth-banner" id="authBanner">
+    <span id="authBannerText">Sign in to track your progress and unlock analytics</span>
+    <button id="authBannerBtn" onclick="window.location.href='exam-system/student-login.html'">Sign In</button>
+  </div>
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <a href="index.html" class="topbar-brand"><span class="topbar-dot"></span> Physicism</a>
+      <span class="topbar-title" id="topbar-topic-code">DP PHYSICS</span>
+    </div>
+    <div class="topbar-links">
+      <a href="dp-dashboard.html" class="topbar-link">DP Dashboard</a>
+      <a href="dp-student-progress.html" class="topbar-link" id="progressLink" style="display:none;">📊 My Progress</a>
+      <button onclick="toggleTheme()" style="background:var(--glass);border:1.5px solid var(--glass-border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:13px;color:var(--text2);backdrop-filter:blur(4px);" id="themeToggle" title="Toggle theme">🌙</button>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="content" id="contentArea">
+      <!-- Rendered dynamically -->
+      <div style="padding:40px; text-align:center; color:var(--text3);">Loading content...</div>
+    </div>
+
+    <!-- RIGHT PANEL — Quick tools -->
+    <div class="right-panel">
+      <button class="right-btn" onclick="toggleFormulaSidebar()" title="Data Booklet">📘<span class="right-btn-tooltip">IB Data Booklet</span></button>
+      <button class="right-btn" onclick="openCalc()" title="Calculator">🧮<span class="right-btn-tooltip">GDC Calculator</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FORMULA BOOKLET SIDEBAR ═══════════ -->
+<div class="formula-sidebar" id="formulaSidebar">
+  <div class="formula-sidebar-header">
+    <h3 id="formula-sidebar-title">📘 IB Data Booklet</h3>
+    <button class="modal-close" onclick="toggleFormulaSidebar()">✕</button>
+  </div>
+  <div class="formula-sidebar-body" id="formula-sidebar-content">
+    <!-- Generated dynamically based on topic -->
+  </div>
+</div>
+
+<!-- ═══════════ CALCULATOR MODAL ═══════════ -->
+<div class="modal-overlay" id="calcModal">
+  <div class="modal" style="width:360px;">
+    <div class="modal-header"><h3>🧮 Scientific Calculator</h3><button class="modal-close" onclick="closeCalc()">✕</button></div>
+    <div class="modal-body">
+      <div class="calc-sub" id="calcExpr">&nbsp;</div>
+      <div class="calc-display" id="calcDisplay">0</div>
+      <div class="calc-grid">
+        <button class="calc-btn calc-btn-fn" onclick="calcFn('sin')">sin</button>
+        <button class="calc-btn calc-btn-fn" onclick="calcFn('cos')">cos</button>
+        <button class="calc-btn calc-btn-fn" onclick="calcFn('tan')">tan</button>
+        <button class="calc-btn calc-btn-fn" onclick="calcFn('log')">log</button>
+        <button class="calc-btn calc-btn-fn" onclick="calcFn('ln')">ln</button>
+        <button class="calc-btn calc-btn-fn" onclick="calcInput('Math.sqrt(')">√</button>
+        <button class="calc-btn calc-btn-fn" onclick="calcInput('**2')">x²</button>
+        <button class="calc-btn calc-btn-fn" onclick="calcInput('**')">xⁿ</button>
+        <button class="calc-btn calc-btn-fn" onclick="calcInput('Math.PI')">π</button>
+        <button class="calc-btn calc-btn-fn" onclick="calcInput('Math.E')">e</button>
+        <button class="calc-btn" onclick="calcInput('7')">7</button>
+        <button class="calc-btn" onclick="calcInput('8')">8</button>
+        <button class="calc-btn" onclick="calcInput('9')">9</button>
+        <button class="calc-btn calc-btn-op" onclick="calcInput('/')">&divide;</button>
+        <button class="calc-btn calc-btn-op" onclick="calcClear()">C</button>
+        <button class="calc-btn" onclick="calcInput('4')">4</button>
+        <button class="calc-btn" onclick="calcInput('5')">5</button>
+        <button class="calc-btn" onclick="calcInput('6')">6</button>
+        <button class="calc-btn calc-btn-op" onclick="calcInput('*')">×</button>
+        <button class="calc-btn calc-btn-op" onclick="calcBackspace()">⌫</button>
+        <button class="calc-btn" onclick="calcInput('1')">1</button>
+        <button class="calc-btn" onclick="calcInput('2')">2</button>
+        <button class="calc-btn" onclick="calcInput('3')">3</button>
+        <button class="calc-btn calc-btn-op" onclick="calcInput('-')">−</button>
+        <button class="calc-btn calc-btn-op" onclick="calcInput('(')">(</button>
+        <button class="calc-btn" onclick="calcInput('0')">0</button>
+        <button class="calc-btn" onclick="calcInput('.')">.</button>
+        <button class="calc-btn" onclick="calcInput('e')">EXP</button>
+        <button class="calc-btn calc-btn-op" onclick="calcInput('+')">+</button>
+        <button class="calc-btn calc-btn-op" onclick="calcInput(')')">)</button>
+        <button class="calc-btn calc-btn-eq" onclick="calcEval()" style="grid-column:span 5;">=</button>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:6px;">
+        <button class="calc-btn calc-btn-fn" onclick="toggleDegRad()" id="degRadBtn" style="flex:1;">DEG</button>
+        <button class="calc-btn calc-btn-fn" onclick="calcInput('e-')" style="flex:1;">×10⁻</button>
+        <button class="calc-btn calc-btn-fn" onclick="calcAns()" style="flex:1;">ANS</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase Compat SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="exam-system/firebase-config.js?v=2"></script>
+
+<!-- Content and Progress Data Scripts -->
+<script src="js/dp-lessons.js?v=2"></script>
+<script src="js/dp-progress.js?v=2"></script>
+<script src="js/gdc.js"></script>
+
+<script>
+// --- GLOBAL LOOKUP FOR FORMULAS BY THEME/TOPIC ---
+const FORMULA_BOOKLET_CONTENT = {
+  "A": {
+    "A.1": [
+      { name: "Velocity", formula: "v = u + at" },
+      { name: "Displacement", formula: "s = ut + ½at²" },
+      { name: "No-time equation", formula: "v² = u² + 2as" },
+      { name: "Average displacement", formula: "s = ½(u + v)t" }
+    ],
+    "A.2": [
+      { name: "Weight", formula: "F_g = mg" },
+      { name: "Newton's 2nd Law", formula: "F = ma" },
+      { name: "N2L (momentum)", formula: "F = Δp/Δt" },
+      { name: "Friction (static)", formula: "F_f ≤ μ_s * F_N" },
+      { name: "Friction (dynamic)", formula: "F_f = μ_d * F_N" },
+      { name: "Hooke's Law", formula: "F_H = -kx" },
+      { name: "Buoyancy", formula: "F_b = ρVg" },
+      { name: "Viscous drag", formula: "F_d = 6πηrv" },
+      { name: "Linear momentum", formula: "p = mv" },
+      { name: "Impulse", formula: "J = FΔt = Δp" },
+      { name: "Centripetal accel.", formula: "a = v²/r = ω²r" },
+      { name: "Angular velocity", formula: "ω = 2π/T = 2πf" },
+      { name: "Centripetal force", formula: "F = mv²/r = mω²r" }
+    ],
+    "A.3": [
+      { name: "Kinetic energy", formula: "E_k = ½mv²" },
+      { name: "Elastic potential", formula: "E_p = ½kx²" },
+      { name: "Work done", formula: "W = Fs cos θ" },
+      { name: "Power", formula: "P = Fv" },
+      { name: "Efficiency", formula: "η = E_useful / E_total" }
+    ],
+    "A.4": [
+      { name: "Torque", formula: "τ = Fr sin θ" },
+      { name: "Angular momentum", formula: "L = Iω" },
+      { name: "Rotational energy", formula: "E_k = ½Iω²" },
+      { name: "Angular impulse", formula: "ΔL = τΔt" }
+    ],
+    "A.5": [
+      { name: "Gamma factor", formula: "γ = 1 / √(1 - v²/c²)" },
+      { name: "Time dilation", formula: "Δt = γ * Δt_0" },
+      { name: "Length contraction", formula: "L = L_0 / γ" },
+      { name: "Relativistic momentum", formula: "p = γmv" }
+    ]
+  },
+  "B": {
+    "B.1": [
+      { name: "Heat capacity", formula: "Q = mcΔT" },
+      { name: "Latent heat", formula: "Q = mL" }
+    ]
+  }
+};
+
+const BLOCKED_DOMAINS = [
+  'mailinator.com', 'tempmail.com', 'throwaway.email', 'guerrillamail.com',
+  'yopmail.com', 'sharklasers.com', 'guerrillamail.info', 'grr.la',
+  'guerrillamail.biz', 'guerrillamail.de', 'guerrillamail.net',
+  'zzzz.com', 'trashmail.com', 'fakeinbox.com', 'mailnesia.com',
+  'maildrop.cc', 'dispostable.com', '10minutemail.com', 'temp-mail.org',
+  'tempail.com', 'tempr.email', 'getnada.com', 'mohmal.com'
+];
+
+let activeTopicCode = "";
+let currentTopicData = null;
+let currentLessonIdx = 0;
+let studentProgress = null;
+
+// Parse topic from URL
+const urlParams = new URLSearchParams(window.location.search);
+const rawTopic = urlParams.get('topic');
+if (rawTopic) {
+  // Format code (e.g. "A2" -> "A2", "A.2" -> "A2")
+  activeTopicCode = rawTopic.replace('.', '').toUpperCase();
+} else {
+  // Redirect to dashboard if no topic provided
+  window.location.href = 'dp-dashboard.html';
+}
+
+// ── INIT LESSON VIEWER ──
+function initLessonViewer() {
+  currentTopicData = DP_LESSONS[activeTopicCode];
+  
+  if (!currentTopicData || !currentTopicData.lessons || currentTopicData.lessons.length === 0) {
+    renderComingSoon();
+    return;
+  }
+
+  // Update layout header info
+  document.getElementById('topic-header-title').textContent = currentTopicData.title;
+  document.getElementById('topic-header-meta').textContent = `Theme ${currentTopicData.theme} · ${currentTopicData.level} · ${currentTopicData.hours}h`;
+  document.getElementById('topbar-topic-code').textContent = `${currentTopicData.code} ${currentTopicData.title}`;
+  document.title = `${currentTopicData.code} ${currentTopicData.title} | Physicism`;
+
+  // Render sidebar items
+  const sidebarList = document.getElementById('sidebar-lessons-list');
+  sidebarList.innerHTML = '';
+  currentTopicData.lessons.forEach((l, idx) => {
+    const item = document.createElement('div');
+    item.className = `sidebar-item ${idx === 0 ? 'active' : ''}`;
+    item.id = `sidebar-item-${idx}`;
+    item.onclick = () => showLesson(idx);
+    
+    item.innerHTML = `
+      <span class="si-top">
+        <span class="si-num">${idx + 1}</span>
+        <span class="si-title" title="${l.title}">${l.title}</span>
+      </span>
+      <span class="si-meta">
+        <span class="si-duration">~${l.hours}h</span>
+        <span class="si-status-badge" id="badge-lesson-${idx}">NEW</span>
+      </span>
+    `;
+    sidebarList.appendChild(item);
+  });
+
+  // Render lessons in main area
+  const contentArea = document.getElementById('contentArea');
+  contentArea.innerHTML = '';
+  currentTopicData.lessons.forEach((l, idx) => {
+    const lessonDiv = document.createElement('div');
+    lessonDiv.className = `lesson ${idx === 0 ? 'active' : ''}`;
+    lessonDiv.id = `lesson-${idx}`;
+    
+    // Header
+    const guidingQ = l.guiding ? `<p class="lesson-guiding">${l.guiding}</p>` : '';
+    lessonDiv.innerHTML = `
+      <div class="lesson-header">
+        <div class="lesson-badge">
+          <span class="badge-topic">${currentTopicData.code}</span>
+          <span class="badge-sl">${currentTopicData.level}</span>
+          <span class="badge-ao">${l.ao}</span>
+          <span class="badge-hours">~${l.hours}h</span>
+        </div>
+        <h1>${l.title}</h1>
+        ${guidingQ}
+      </div>
+      <div id="lesson-sections-${idx}"></div>
+      
+      <!-- Footer Nav -->
+      <div class="lesson-nav">
+        ${idx > 0 
+          ? `<button class="nav-btn" onclick="showLesson(${idx - 1})">← Previous Lesson</button>` 
+          : '<span></span>'}
+        ${idx < currentTopicData.lessons.length - 1 
+          ? `<button class="nav-btn nav-btn-primary" onclick="showLesson(${idx + 1})">Next Lesson →</button>` 
+          : `<a class="nav-btn nav-btn-primary" href="dp-dashboard.html">Back to Dashboard</a>`}
+      </div>
+    `;
+    contentArea.appendChild(lessonDiv);
+    
+    // Render Sections
+    const sectionsContainer = document.getElementById(`lesson-sections-${idx}`);
+    let infographicCounter = 0;
+    
+    l.sections.forEach(s => {
+      const element = renderSection(s, l, infographicCounter);
+      if (s.type === 'infographic') {
+        infographicCounter++;
+      }
+      if (element) {
+        sectionsContainer.appendChild(element);
+      }
+    });
+  });
+
+  // Render Data Booklet Sidebar content
+  renderFormulaBooklet();
+  
+  // Set first lesson active on load
+  showLesson(0);
+}
+
+function renderComingSoon() {
+  const contentArea = document.getElementById('contentArea');
+  contentArea.innerHTML = `
+    <div class="error-card glass-card">
+      <h2>Coming Soon</h2>
+      <p>Content for this topic is currently being developed. Please check back later.</p>
+      <a href="dp-dashboard.html" class="nav-btn nav-btn-primary" style="display: inline-block;">Return to Dashboard</a>
+    </div>
+  `;
+  document.getElementById('topic-header-title').textContent = "Coming Soon";
+  document.getElementById('topic-header-meta').textContent = "DP Physics";
+}
+
+// ── SECTION RENDERING STRATEGY ──
+function renderSection(s, lesson, infographicCounter) {
+  const container = document.createElement('div');
+  
+  switch(s.type) {
+    case 'syllabus':
+      container.className = 'ib-box';
+      container.innerHTML = `<div class="ib-box-title">IB Syllabus Content</div>${s.content}`;
+      break;
+      
+    case 'heading':
+      const level = s.level || 2;
+      container.innerHTML = `<h${level}>${s.text}</h${level}>`;
+      break;
+      
+    case 'text':
+      container.innerHTML = s.content;
+      break;
+      
+    case 'formula':
+      container.className = 'formula-card';
+      container.innerHTML = `
+        <div class="formula-label">${s.label}</div>
+        <div class="formula">${s.formula}</div>
+        <div class="formula-note">${s.note}</div>
+      `;
+      break;
+      
+    case 'concept':
+      container.className = 'concept-box';
+      container.innerHTML = `<h3>${s.title}</h3>${s.content}`;
+      break;
+      
+    case 'worked':
+      container.className = 'worked-example';
+      const stepsHtml = s.steps.map(step => `<div class="we-step">${step}</div>`).join('');
+      const refHtml = s.ref ? `<div class="practice-ref">${s.ref}</div>` : '';
+      container.innerHTML = `
+        <div class="worked-example-title">📝 Worked Example ${s.num}</div>
+        <div class="we-question">${s.question}</div>
+        ${stepsHtml}
+        ${refHtml}
+      `;
+      break;
+      
+    case 'keypoint':
+      container.className = 'key-point';
+      container.innerHTML = `<div class="key-point-title">${s.title}</div><p>${s.content}</p>`;
+      break;
+      
+    case 'derivation':
+      container.className = 'derivation';
+      container.innerHTML = s.content;
+      break;
+      
+    case 'table':
+      container.className = 'table-responsive';
+      const thHtml = s.headers.map(h => `<th>${h}</th>`).join('');
+      const trHtml = s.rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('');
+      container.innerHTML = `
+        <table class="data-table">
+          <thead><tr>${thHtml}</tr></thead>
+          <tbody>${trHtml}</tbody>
+        </table>
+      `;
+      break;
+      
+    case 'mistake':
+      container.className = 'mistake-box';
+      const itemsHtml = s.items.map(item => `<p>${item}</p>`).join('');
+      container.innerHTML = `<div class="mistake-box-title">Common Mistakes</div>${itemsHtml}`;
+      break;
+      
+    case 'practice':
+      container.className = 'practice-box';
+      const questionsHtml = s.questions.map(q => {
+        let qText = q.text;
+        if (q.cmd) {
+          const regex = new RegExp(`\\b${q.cmd}\\b`, 'i');
+          if (regex.test(qText)) {
+            qText = qText.replace(regex, `<span class="cmd-term">${q.cmd}</span>`);
+          } else {
+            qText = `<span class="cmd-term">${q.cmd}</span> ` + qText;
+          }
+        }
+        return `<div class="practice-q" data-num="${q.num}">${qText}</div>`;
+      }).join('');
+      container.innerHTML = `
+        <div class="practice-title">Practice Questions</div>
+        ${questionsHtml}
+        <div class="practice-more">
+          <a href="dp-quiz.html?topic=${activeTopicCode}">📝 Paper 1A: MCQs</a>
+          <a href="dp-past-paper.html?topic=${activeTopicCode}&paper=1B">📊 Paper 1B: Data-Based</a>
+          <a href="dp-past-paper.html?topic=${activeTopicCode}&paper=2">✍️ Paper 2: Extended</a>
+          <a href="dp-flashcards.html?topic=${activeTopicCode}">🧠 Flashcards</a>
+        </div>
+      `;
+      break;
+      
+    case 'nos':
+      container.className = 'nos-box';
+      container.innerHTML = `<div class="nos-box-title">Nature of Science</div><p>${s.content}</p>`;
+      break;
+      
+    case 'tok':
+      container.className = 'tok-box';
+      container.innerHTML = `<div class="tok-box-title">Theory of Knowledge</div><p>${s.content}</p>`;
+      break;
+      
+    case 'linking':
+      container.className = 'linking-box';
+      const lqHtml = s.questions.map(q => `<p>→ ${q}</p>`).join('');
+      container.innerHTML = `<div class="linking-box-title">Linking Questions (IB Guide)</div>${lqHtml}`;
+      break;
+      
+    case 'ia':
+      container.className = 'ia-box';
+      container.innerHTML = `<div class="ia-box-title">Internal Assessment Connection</div>${s.content}`;
+      break;
+      
+    case 'diagram':
+      container.className = 'diagram-box';
+      const capHtml = s.caption ? `<div class="diagram-caption">${s.caption}</div>` : '';
+      container.innerHTML = `${s.content}${capHtml}`;
+      break;
+      
+    case 'infographic':
+      const src = s.src || (lesson.infographics && lesson.infographics[infographicCounter]);
+      if (src) {
+        container.className = 'infographic-slot';
+        container.innerHTML = `<img src="Images/${src}" onerror="this.parentElement.style.display='none'">`;
+      } else {
+        return null;
+      }
+      break;
+      
+    default:
+      return null;
+  }
+  
+  return container;
+}
+
+// ── RENDER DATA BOOKLET SIDEBAR ──
+function renderFormulaBooklet() {
+  const sidebarTitle = document.getElementById('formula-sidebar-title');
+  const sidebarContent = document.getElementById('formula-sidebar-content');
+  sidebarContent.innerHTML = '';
+  
+  if (!currentTopicData) return;
+  sidebarTitle.textContent = `📘 IB Data Booklet — ${currentTopicData.code}`;
+  
+  // Find formulas for theme / topic
+  const themeFormulas = FORMULA_BOOKLET_CONTENT[currentTopicData.theme];
+  if (!themeFormulas) {
+    sidebarContent.innerHTML = `<div style="font-size:13px; color:var(--text3); text-align:center; padding:20px 0;">No formulas found for this theme.</div>`;
+    return;
+  }
+
+  // Render active topic section first
+  const activeTopicCodeFormatted = currentTopicData.code;
+  if (themeFormulas[activeTopicCodeFormatted]) {
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'fs-section';
+    sectionDiv.innerHTML = `<h4>${currentTopicData.code} — ${currentTopicData.title}</h4>`;
+    
+    themeFormulas[activeTopicCodeFormatted].forEach(f => {
+      sectionDiv.innerHTML += `<div class="fs-row"><span>${f.name}</span><span>${f.formula}</span></div>`;
+    });
+    sidebarContent.appendChild(sectionDiv);
+  }
+
+  // Render other topics in the same theme
+  Object.keys(themeFormulas).forEach(code => {
+    if (code !== activeTopicCodeFormatted) {
+      const sectionDiv = document.createElement('div');
+      sectionDiv.className = 'fs-section';
+      sectionDiv.innerHTML = `<h4>${code}</h4>`;
+      
+      themeFormulas[code].forEach(f => {
+        sectionDiv.innerHTML += `<div class="fs-row"><span>${f.name}</span><span>${f.formula}</span></div>`;
+      });
+      sidebarContent.appendChild(sectionDiv);
+    }
+  });
+
+  // Render physical constants
+  const constantsDiv = document.createElement('div');
+  constantsDiv.className = 'fs-section';
+  constantsDiv.innerHTML = `
+    <h4>Constants</h4>
+    <div class="fs-row"><span>g (Earth surface)</span><span>9.81 m s⁻²</span></div>
+    <div class="fs-row"><span>g (Moon surface)</span><span>1.62 m s⁻²</span></div>
+    <div class="fs-row"><span>Speed of light (c)</span><span>3.00 * 10⁸ m s⁻¹</span></div>
+    <div class="fs-row"><span>Planck constant (h)</span><span>6.63 * 10⁻³⁴ J s</span></div>
+  `;
+  sidebarContent.appendChild(constantsDiv);
+}
+
+// ── DYNAMIC LESSON SWITCHING ──
+function showLesson(idx) {
+  // Hide all lessons
+  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  
+  // Show active lesson
+  const lessonEl = document.getElementById(`lesson-${idx}`);
+  if (lessonEl) lessonEl.classList.add('active');
+  
+  const sidebarEl = document.getElementById(`sidebar-item-${idx}`);
+  if (sidebarEl) sidebarEl.classList.add('active');
+  
+  currentLessonIdx = idx;
+  
+  // Scroll content container back to top
+  document.querySelector('.content').scrollTop = 0;
+  
+  // Triggers progress tracking hooks if available (hooked in dp-progress.js)
+  if (typeof window.trackLessonView === 'function') {
+    // Immediate view trigger is handled by active hook inside dp-progress.js
+  }
+}
+
+// ── THEME TOGLE ──
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('physicism-theme', next);
+  document.getElementById('themeToggle').textContent = next === 'dark' ? '☀️' : '🌙';
+}
+(function() {
+  const saved = localStorage.getItem('physicism-theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    const btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
+
+// ── SIDEBAR FORMULA BOOKLET TOGLE ──
+function toggleFormulaSidebar() {
+  document.getElementById('formulaSidebar').classList.toggle('open');
+}
+
+// ── SCIENTIFIC CALCULATOR MODAL ──
+let calcStr = '', calcDeg = true, calcLastAns = 0;
+function openCalc() {
+  // If the modern GDC Graphing Calculator tool is available in repo, run that instead!
+  if (typeof window.openGDC === 'function') {
+    window.openGDC();
+  } else {
+    document.getElementById('calcModal').classList.add('open');
+  }
+}
+function closeCalc() {
+  document.getElementById('calcModal').classList.remove('open');
+}
+function calcInput(v) {
+  calcStr += v;
+  document.getElementById('calcDisplay').textContent = calcStr.replace(/\*/g, '×').replace(/\//g, '÷');
+}
+function calcClear() {
+  calcStr = '';
+  document.getElementById('calcDisplay').textContent = '0';
+  document.getElementById('calcExpr').innerHTML = '&nbsp;';
+}
+function calcBackspace() {
+  calcStr = calcStr.slice(0, -1);
+  document.getElementById('calcDisplay').textContent = calcStr || '0';
+}
+function calcFn(fn) {
+  if (fn === 'sin') calcStr += (calcDeg ? 'Math.sin(Math.PI/180*' : 'Math.sin(');
+  else if (fn === 'cos') calcStr += (calcDeg ? 'Math.cos(Math.PI/180*' : 'Math.cos(');
+  else if (fn === 'tan') calcStr += (calcDeg ? 'Math.tan(Math.PI/180*' : 'Math.tan(');
+  else if (fn === 'log') calcStr += 'Math.log10(';
+  else if (fn === 'ln') calcStr += 'Math.log(';
+  document.getElementById('calcDisplay').textContent = calcStr;
+}
+function calcEval() {
+  try {
+    const expr = calcStr.replace(/e-/g, 'e-').replace(/e(\d)/g, '*10**$1');
+    document.getElementById('calcExpr').textContent = calcStr;
+    const result = Function('"use strict";return (' + expr + ')')();
+    calcLastAns = result;
+    const display = Number.isInteger(result) ? result.toString() : parseFloat(result.toPrecision(10)).toString();
+    document.getElementById('calcDisplay').textContent = display;
+    calcStr = display;
+  } catch (e) {
+    document.getElementById('calcDisplay').textContent = 'Error';
+  }
+}
+function calcAns() {
+  calcStr += calcLastAns.toString();
+  document.getElementById('calcDisplay').textContent = calcStr;
+}
+function toggleDegRad() {
+  calcDeg = !calcDeg;
+  document.getElementById('degRadBtn').textContent = calcDeg ? 'DEG' : 'RAD';
+}
+
+// ── AUTHENTICATION AND PROGRESS SYSTEM ──
+function checkAuth() {
+  if (typeof firebase !== 'undefined' && firebase.auth) {
+    firebase.auth().onAuthStateChanged(user => {
+      const banner = document.getElementById('authBanner');
+      const bannerText = document.getElementById('authBannerText');
+      const bannerBtn = document.getElementById('authBannerBtn');
+      const progressLink = document.getElementById('progressLink');
+      const sidebarProgress = document.getElementById('sidebarProgress');
+
+      if (!user) {
+        // Guest mode
+        bannerText.textContent = "Sign in to track your progress and unlock analytics";
+        bannerBtn.textContent = "Sign In";
+        bannerBtn.onclick = () => window.location.href = 'exam-system/student-login.html';
+        banner.style.display = 'flex';
+        progressLink.style.display = 'none';
+        sidebarProgress.style.display = 'none';
+        resetSidebarStatusBadges();
+        return;
+      }
+
+      // Strict verification checks
+      if (!user.emailVerified && !user.providerData[0]?.providerId?.includes('google')) {
+        alert('Please verify your email before continuing. Check your inbox.');
+        firebase.auth().signOut();
+        return;
+      }
+
+      // Check for disposable emails
+      const domain = user.email.split('@')[1].toLowerCase();
+      if (BLOCKED_DOMAINS.includes(domain)) {
+        alert('Please use a valid school or personal email. Disposable emails are not allowed.');
+        firebase.auth().signOut();
+        return;
+      }
+
+      // Logged in & Verified
+      const displayName = user.displayName || user.email.split('@')[0];
+      bannerText.textContent = `Welcome, ${displayName}! Progress tracking is enabled.`;
+      bannerBtn.textContent = "Sign Out";
+      bannerBtn.onclick = () => {
+        firebase.auth().signOut().then(() => {
+          window.location.reload();
+        });
+      };
+      
+      progressLink.style.display = 'inline-flex';
+      sidebarProgress.style.display = 'block';
+
+      // Load progress
+      syncProgressRealtime(user.uid);
+    });
+  }
+}
+
+function resetSidebarStatusBadges() {
+  if (!currentTopicData) return;
+  currentTopicData.lessons.forEach((l, idx) => {
+    const badge = document.getElementById(`badge-lesson-${idx}`);
+    if (badge) {
+      badge.textContent = "NEW";
+      badge.className = "si-status-badge";
+      badge.style.background = "";
+      badge.style.color = "";
+    }
+  });
+}
+
+function syncProgressRealtime(uid) {
+  if (typeof firebase !== 'undefined' && firebase.firestore) {
+    const db = firebase.firestore();
+    db.collection('dp-progress').doc(uid).onSnapshot(doc => {
+      if (doc.exists) {
+        studentProgress = doc.data();
+        updateSidebarProgress();
+      } else {
+        studentProgress = {};
+      }
+    }, err => {
+      console.warn("Realtime progress subscription failed:", err);
+    });
+  }
+}
+
+function updateSidebarProgress() {
+  if (!currentTopicData || !studentProgress) return;
+  
+  let viewedCount = 0;
+  let totalMinutes = 0;
+  const lessonsCount = currentTopicData.lessons.length;
+  
+  currentTopicData.lessons.forEach((l, idx) => {
+    const lessonKey = `${activeTopicCode}-lesson${idx + 1}`;
+    const progressItem = studentProgress.lessonsViewed && studentProgress.lessonsViewed[lessonKey];
+    const badge = document.getElementById(`badge-lesson-${idx}`);
+    
+    if (progressItem) {
+      const isViewed = progressItem.viewed || false;
+      const seconds = progressItem.timeSpent || 0;
+      const mins = Math.round(seconds / 60);
+      
+      totalMinutes += mins;
+      
+      if (isViewed) {
+        viewedCount++;
+        if (badge) {
+          badge.textContent = "✓ DONE";
+          badge.className = "si-status-badge";
+          badge.style.background = "rgba(22,163,74,0.08)";
+          badge.style.color = "var(--green)";
+        }
+      } else {
+        if (badge) {
+          badge.textContent = `${mins} min`;
+          badge.className = "si-status-badge";
+          badge.style.background = "rgba(0,0,0,0.04)";
+          badge.style.color = "var(--text3)";
+        }
+      }
+    } else {
+      if (badge) {
+        badge.textContent = "NEW";
+        badge.className = "si-status-badge";
+        badge.style.background = "";
+        badge.style.color = "";
+      }
+    }
+  });
+
+  // Update top sidebar counts
+  document.getElementById('progress-lessons').textContent = `${viewedCount}/${lessonsCount}`;
+  document.getElementById('progress-time').textContent = `${totalMinutes} min`;
+  
+  const pct = lessonsCount > 0 ? Math.round((viewedCount / lessonsCount) * 100) : 0;
+  document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+}
+
+// Light dismiss overlay fallback for calculator
+document.getElementById('calcModal').addEventListener('click', function(e) {
+  if (e.target === this) closeCalc();
+});
+
+// Run auth check on load
+window.addEventListener('load', () => {
+  initLessonViewer();
+  checkAuth();
+});
+</script>
+</body>
+</html>

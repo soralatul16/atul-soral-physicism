@@ -24,11 +24,17 @@
   let localAccumulatedTime = {}; // { 0: seconds, 1: seconds, etc. }
   let syncIntervalId = null;
 
-  // Determine current topic from filename (e.g. dp-a2-forces.html -> A2)
-  const pageName = window.location.pathname.split('/').pop();
-  const match = pageName.match(/dp-([a-z]\d+)/i);
-  if (match) {
-    topicId = match[1].toUpperCase();
+  // Determine current topic from URL query string or filename (e.g. ?topic=A2 or dp-a2-forces.html -> A2)
+  const urlParams = new URLSearchParams(window.location.search);
+  const topicParam = urlParams.get('topic');
+  if (topicParam) {
+    topicId = topicParam.replace(/\./g, '').toUpperCase();
+  } else {
+    const pageName = window.location.pathname.split('/').pop();
+    const match = pageName.match(/dp-([a-z]\d+)/i);
+    if (match) {
+      topicId = match[1].toUpperCase();
+    }
   }
 
   console.log(`🧭 DP Progress Init — Topic: ${topicId}`);
