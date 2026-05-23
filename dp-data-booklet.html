@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IB Physics Interactive Data Booklet (2025) | Physicism</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f0f4f8;
+  --white: #ffffff;
+  --glass: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.08);
+  --tint: rgba(96, 165, 250, 0.06);
+  --tint-border: rgba(96, 165, 250, 0.12);
+  --accent: #1e40af;
+  --accent2: #3b82f6;
+  --accent-pale: rgba(59, 130, 246, 0.06);
+  --text: #1e293b;
+  --text2: #475569;
+  --text3: #94a3b8;
+  --red: #dc2626;
+  --green: #16a34a;
+  --border: rgba(0, 0, 0, 0.04);
+  --cream: #f8fafc;
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', 'SF Mono', monospace;
+  --purple: #7c3aed;
+  --purple-pale: rgba(124, 58, 237, 0.06);
+  --purple-border: rgba(124, 58, 237, 0.15);
+}
+
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --white: #1e293b;
+  --glass: rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(51, 65, 85, 0.5);
+  --tint: rgba(59, 130, 246, 0.08);
+  --tint-border: rgba(59, 130, 246, 0.15);
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --cream: #1e293b;
+  --border: rgba(255, 255, 255, 0.04);
+  --purple-pale: rgba(124, 58, 237, 0.1);
+  --purple-border: rgba(124, 58, 237, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* NAVBAR */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--glass);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 0 36px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.nav-brand {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent2);
+  border-radius: 50%;
+}
+.nav-brand span {
+  font-weight: 400;
+  color: var(--text2);
+}
+.nav-spacer {
+  flex: 1;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-link {
+  color: var(--text2);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 50px;
+  transition: all 0.2s;
+}
+.nav-link:hover {
+  background: var(--tint);
+  color: var(--accent2);
+}
+.nav-link.active {
+  background: var(--accent-pale);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* MAIN LAYOUT */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+.header {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+.header p {
+  color: var(--text2);
+  font-size: 15px;
+}
+
+/* SEARCH BAR */
+.search-container {
+  margin-bottom: 24px;
+  position: relative;
+  display: flex;
+  gap: 12px;
+}
+.search-wrapper {
+  position: relative;
+  flex: 1;
+}
+.search-input {
+  width: 100%;
+  padding: 14px 20px 14px 46px;
+  border-radius: 50px;
+  border: 1.5px solid var(--tint-border);
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text);
+  font-size: 14.5px;
+  outline: none;
+  transition: all 0.3s;
+  box-shadow: var(--glass-shadow);
+}
+.search-input:focus {
+  border-color: var(--accent2);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  background: var(--white);
+}
+.search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3);
+  pointer-events: none;
+  font-size: 18px;
+}
+
+/* STICKY TAB NAVIGATION */
+.tabs-outer {
+  position: sticky;
+  top: 64px;
+  z-index: 90;
+  background: var(--bg);
+  padding: 8px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--tint-border);
+}
+.tabs-container {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.tabs-container::-webkit-scrollbar {
+  display: none;
+}
+.tab-btn {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  color: var(--text2);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.tab-btn:hover {
+  border-color: var(--accent2);
+  color: var(--accent2);
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+.tab-btn.active-starred {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+/* SUB TABS (FOR GENERAL) */
+.sub-tabs-container {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.sub-tabs-container::-webkit-scrollbar {
+  display: none;
+}
+.sub-tab-btn {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px dashed var(--tint-border);
+  color: var(--text2);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+[data-theme="dark"] .sub-tab-btn {
+  background: rgba(255, 255, 255, 0.02);
+}
+.sub-tab-btn:hover {
+  border-style: solid;
+  border-color: var(--accent2);
+  color: var(--accent2);
+}
+.sub-tab-btn.active {
+  background: var(--accent-pale);
+  border: 1.5px solid var(--accent2);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* CONTENT CONTAINER */
+.content-panel {
+  display: none;
+}
+.content-panel.active {
+  display: block;
+}
+
+/* TOPIC GROUPING */
+.topic-group {
+  margin-bottom: 24px;
+}
+.topic-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text3);
+  margin-bottom: 12px;
+  padding-left: 4px;
+  border-left: 3px solid var(--accent2);
+}
+
+/* FORMULA ROW CARDS */
+.formula-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.2s;
+}
+.formula-row:hover {
+  border-color: var(--accent2);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1);
+  transform: translateY(-1px);
+}
+.formula-row.hl-only {
+  border-left: 4px solid var(--purple) !important;
+}
+.formula-row.hl-only:hover {
+  border-color: var(--purple);
+}
+
+.formula-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+/* STAR BOOKMARK TRIGGER */
+.bookmark-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  color: var(--text3);
+}
+.bookmark-btn:hover {
+  transform: scale(1.2);
+  color: #eab308;
+}
+.bookmark-btn.starred {
+  color: #eab308;
+}
+.star-icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.formula-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.formula-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+.formula-note {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.formula-eq-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.formula-eq {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+[data-theme="dark"] .formula-eq {
+  color: var(--accent2);
+}
+.glass-badge-hl {
+  background: var(--purple-pale);
+  color: var(--purple);
+  border: 1px solid var(--purple-border);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+/* CIRCUIT SYMBOLS GRID */
+.circuit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 16px;
+}
+.circuit-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  height: 110px;
+}
+.circuit-card:hover {
+  border-color: var(--accent2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.08);
+}
+.circuit-svg {
+  width: 70px;
+  height: 44px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.circuit-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text2);
+}
+
+/* EM SPECTRUM VISUALIZER */
+.spectrum-container {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  margin-bottom: 24px;
+}
+.spectrum-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.spectrum-bar {
+  height: 44px;
+  border-radius: 8px;
+  background: linear-gradient(to right, 
+    #2c003e 0%,    /* Gamma */
+    #3d0076 15%,   /* X-ray */
+    #5900b3 30%,   /* UV */
+    #8f00ff 43%,   /* Violet */
+    #0000ff 47%,   /* Blue */
+    #00ff00 51%,   /* Green */
+    #ffff00 55%,   /* Yellow */
+    #ff7f00 59%,   /* Orange */
+    #ff0000 63%,   /* Red */
+    #a80000 75%,   /* IR */
+    #660000 85%,   /* Microwave */
+    #330000 100%   /* Radio */
+  );
+  position: relative;
+  margin-bottom: 10px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+.spectrum-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 20px;
+}
+.spectrum-bar-labels span {
+  width: 14%;
+  text-align: center;
+}
+.spectrum-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  margin-bottom: 24px;
+  border-top: 1px dashed var(--tint-border);
+  padding-top: 6px;
+}
+
+.visible-spectrum-section {
+  border-top: 1.5px dashed var(--tint-border);
+  padding-top: 20px;
+}
+.visible-spectrum-bar {
+  height: 32px;
+  border-radius: 6px;
+  background: linear-gradient(to right, 
+    #8f00ff, #4b0082, #0000ff, #00ff00, #ffff00, #ff7f00, #ff0000
+  );
+  position: relative;
+  margin-bottom: 8px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+}
+.visible-spectrum-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+}
+
+/* NO BOOKMARKS PLACEHOLDER */
+.bookmarks-empty {
+  text-align: center;
+  padding: 48px 24px;
+  background: var(--glass);
+  border: 1.5px dashed var(--tint-border);
+  border-radius: 16px;
+  color: var(--text3);
+}
+.bookmarks-empty svg {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+.bookmarks-empty h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 6px;
+}
+.bookmarks-empty p {
+  font-size: 13.5px;
+}
+
+/* FLOATING WIDGETS TRIGGER BUTTONS */
+.floating-triggers {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 8000;
+}
+.float-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.float-btn:hover {
+  transform: translateY(-2px);
+}
+.float-gdc {
+  background: linear-gradient(135deg, #1a237e, #3949ab);
+  box-shadow: 0 4px 20px rgba(26,35,126,0.3);
+}
+.float-feedback {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  box-shadow: 0 4px 20px rgba(239,68,68,0.3);
+}
+
+/* FEEDBACK OVERLAY PANEL */
+#fb-panel {
+  position: fixed;
+  bottom: 92px;
+  right: 28px;
+  z-index: 9000;
+  width: 320px;
+  background: var(--white);
+  border: 1.5px solid var(--tint-border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(26,26,46,0.15);
+  transform: translateY(20px) scale(.96);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .28s cubic-bezier(.22,.68,0,1.2), opacity .2s;
+}
+#fb-panel.open {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* RESPONSIVENESS */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 16px;
+  }
+  .container {
+    padding: 24px 16px 80px;
+  }
+  .header h1 {
+    font-size: 26px;
+  }
+  .tabs-outer {
+    top: 64px;
+  }
+  .formula-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .formula-eq-container {
+    align-self: flex-end;
+  }
+  .formula-eq {
+    font-size: 16px;
+  }
+}
+
+/* PRINT STYLESHEET */
+@media print {
+  .navbar, .tabs-outer, .sub-tabs-container, .search-container, .floating-triggers, #fb-panel, .bookmark-btn, .glass-badge-hl {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  .content-panel {
+    display: block !important;
+    page-break-after: always;
+  }
+  .formula-row {
+    background: none !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    page-break-inside: avoid;
+  }
+  .formula-eq {
+    color: black !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <a class="nav-brand" href="index.html"><span class="nav-dot"></span>DP <span>Physics</span></a>
+  <div class="nav-spacer"></div>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="dp-dashboard.html">Dashboard</a>
+    <a class="nav-link active" href="dp-data-booklet.html">📘 Data Booklet</a>
+    <button id="themeToggle" onclick="toggleTheme()" style="background:var(--white); border:1.5px solid var(--tint-border); padding:6px 12px; border-radius:50px; cursor:pointer; font-size:14px; color:var(--text2); transition:all 0.2s;" title="Toggle dark/light mode">🌙</button>
+  </div>
+</div>
+
+<div class="container">
+  <!-- HEADER -->
+  <div class="header">
+    <h1>IB Physics Data Booklet</h1>
+    <p>Interactive Physics Reference Guide &bull; First Assessment 2025</p>
+  </div>
+
+  <!-- SEARCH BAR -->
+  <div class="search-container">
+    <div class="search-wrapper">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search formulas by name, equation symbol, or note terms..." oninput="handleSearch()">
+    </div>
+  </div>
+
+  <!-- STICKY PRIMARY TAB NAVIGATION -->
+  <div class="tabs-outer">
+    <div class="tabs-container" id="tabsContainer">
+      <button class="tab-btn active" onclick="switchPrimaryTab('general')">General Reference</button>
+      <button class="tab-btn" onclick="switchPrimaryTab('theme_A')">Theme A: Motion</button>
+      <button class="tab-btn" onclick="switchPrimaryTab('theme_B')">Theme B: Matter</button>
+      <button class="tab-btn" onclick="switchPrimaryTab('theme_C')">Theme C: Waves</button>
+      <button class="tab-btn" onclick="switchPrimaryTab('theme_D')">Theme D: Fields</button>
+      <button class="tab-btn" onclick="switchPrimaryTab('theme_E')">Theme E: Nuclear/Quantum</button>
+      <button class="tab-btn" id="starredTabBtn" onclick="switchPrimaryTab('starred')">⭐ Bookmarks</button>
+    </div>
+  </div>
+
+  <!-- SUB TABS CONTAINER (Only visible for General Tab) -->
+  <div class="sub-tabs-container" id="subTabsContainer">
+    <button class="sub-tab-btn active" onclick="switchSubTab('math')">Math Tools</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('uncertainties')">Uncertainties</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('constants')">Physical Constants</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('prefixes')">SI Prefixes</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('conversions')">Unit Conversions</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('circuits')">Circuit Symbols</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('spectrum')">EM Spectrum</button>
+  </div>
+
+  <!-- MAIN DYNAMIC CONTENT PANEL -->
+  <div id="bookletContentArea">
+    <!-- Generated dynamically by script -->
+  </div>
+</div>
+
+<!-- FLOATING TRIGGER BUTTONS -->
+<div class="floating-triggers">
+  <button class="float-btn float-gdc" onclick="openGDC()" title="TI-84 Graphing Calculator">🧮</button>
+  <button class="float-btn float-feedback" onclick="toggleFeedback()" title="Submit Feedback">💬</button>
+</div>
+
+<!-- INLINE FEEDBACK PANEL -->
+<div id="fb-panel">
+  <div style="background:linear-gradient(135deg,#ef4444,#b91c1c); padding:14px 18px; font-size:14px; font-weight:600; color:white; display:flex; justify-content:space-between; align-items:center;">
+    <span>💬 Send Feedback</span>
+    <button onclick="toggleFeedback()" style="background:rgba(255,255,255,0.15); border:none; color:white; width:22px; height:22px; border-radius:50%; cursor:pointer; font-size:11px;">✕</button>
+  </div>
+  <div style="padding:16px; display:flex; flex-direction:column; gap:11px;">
+    <div style="font-size:11px; color:var(--text3); background:rgba(0,0,0,0.03); padding:6px 10px; border-radius:8px;">Page: dp-data-booklet.html</div>
+    <input type="text" id="fbName" placeholder="Your name" style="width:100%; background:var(--white); border:1.5px solid var(--tint-border); border-radius:10px; color:var(--text); font-size:14px; padding:10px 14px; outline:none;">
+    <textarea id="fbMsg" placeholder="Your feedback or suggestion..." style="width:100%; background:var(--white); border:1.5px solid var(--tint-border); border-radius:10px; color:var(--text); font-size:14px; padding:10px 14px; height:88px; resize:none; outline:none;"></textarea>
+    <button onclick="sendFeedback()" style="background:linear-gradient(135deg,#ef4444,#b91c1c); border:none; color:white; font-size:14px; font-weight:600; padding:11px; border-radius:10px; cursor:pointer;">Send</button>
+    <div id="fbStatus" style="font-size:12px; text-align:center; min-height:16px; color:var(--text3);"></div>
+  </div>
+</div>
+
+<script>
+// ── BOOKLET DATABASE ──
+const FORMULAS_DATA = {
+  // general sub-tabs
+  "math": [
+    { name: "Area of triangle", eq: "A = ½bh", note: "b = base, h = height", scope: "sl" },
+    { name: "Area of circle", eq: "A = πr²", note: "r = radius", scope: "sl" },
+    { name: "Circumference of circle", eq: "C = 2πr", note: "r = radius", scope: "sl" },
+    { name: "Volume of cuboid", eq: "V = lwh", note: "l = length, w = width, h = height", scope: "sl" },
+    { name: "Volume of cylinder", eq: "V = πr²h", note: "r = radius, h = height", scope: "sl" },
+    { name: "Volume of sphere", eq: "V = ⁴/₃πr³", note: "r = radius", scope: "sl" },
+    { name: "Curved surface area of cylinder", eq: "A = 2πrh", note: "r = radius, h = height", scope: "sl" },
+    { name: "Horizontal vector component", eq: "A_H = A cos θ", note: "A = vector magnitude, θ = angle to horizontal", scope: "sl" },
+    { name: "Vertical vector component", eq: "A_V = A sin θ", note: "A = vector magnitude, θ = angle to horizontal", scope: "sl" },
+    { name: "Trigonometric relation", eq: "tan θ = sin θ / cos θ", note: "θ = angle", scope: "sl" },
+    { name: "Trigonometric identity", eq: "sin²θ + cos²θ = 1", note: "θ = angle", scope: "sl" }
+  ],
+  "uncertainties": [
+    { name: "Addition / Subtraction uncertainty", eq: "y = a ± b  →  Δy = Δa + Δb", note: "Absolute uncertainties add together", scope: "sl" },
+    { name: "Multiplication / Division uncertainty", eq: "y = ab/c  →  Δy/y = Δa/a + Δb/b + Δc/c", note: "Fractional / percentage uncertainties add together", scope: "sl" },
+    { name: "Power uncertainty", eq: "y = aⁿ  →  Δy/y = n × Δa/a", note: "Fractional uncertainty multiplied by exponent magnitude", scope: "sl" }
+  ],
+  "constants": [
+    { name: "Acceleration of gravity (Earth surface)", eq: "g = 9.8 m s⁻²", note: "Average gravitational acceleration on Earth's surface", scope: "sl" },
+    { name: "Gravitational constant", eq: "G = 6.67 × 10⁻¹¹ N m² kg⁻²", note: "Universal constant of gravitation", scope: "sl" },
+    { name: "Avogadro's constant", eq: "N_A = 6.02 × 10²³ mol⁻¹", note: "Number of elementary entities per mole", scope: "sl" },
+    { name: "Gas constant", eq: "R = 8.31 J K⁻¹ mol⁻¹", note: "Universal gas constant", scope: "sl" },
+    { name: "Boltzmann constant", eq: "k_B = 1.38 × 10⁻²³ J K⁻¹", note: "Gas constant divided by Avogadro constant", scope: "sl" },
+    { name: "Stefan-Boltzmann constant", eq: "σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴", note: "Constant of proportionality for blackbody radiation", scope: "sl" },
+    { name: "Coulomb constant", eq: "k = 8.99 × 10⁹ N m² C⁻²", note: "Electrostatic constant, 1 / (4πε₀)", scope: "sl" },
+    { name: "Permittivity of free space", eq: "ε₀ = 8.85 × 10⁻¹² C² N⁻¹ m⁻²", note: "Vacuum electric permittivity", scope: "sl" },
+    { name: "Permeability of free space", eq: "μ₀ = 4π × 10⁻⁷ T m A⁻¹", note: "Vacuum magnetic permeability", scope: "sl" },
+    { name: "Speed of light in vacuum", eq: "c = 3.00 × 10⁸ m s⁻¹", note: "Speed of electromagnetic waves", scope: "sl" },
+    { name: "Planck's constant", eq: "h = 6.63 × 10⁻³⁴ J s", note: "Quantum of electromagnetic action", scope: "sl" },
+    { name: "Elementary charge", eq: "e = 1.60 × 10⁻¹⁹ C", note: "Charge of a proton / electron magnitude", scope: "sl" },
+    { name: "Electron rest mass", eq: "m_e = 9.11 × 10⁻³¹ kg = 0.000549 u = 0.511 MeV/c²", note: "Rest mass of electron", scope: "sl" },
+    { name: "Proton rest mass", eq: "m_p = 1.673 × 10⁻²⁷ kg = 1.007276 u = 938 MeV/c²", note: "Rest mass of proton", scope: "sl" },
+    { name: "Neutron rest mass", eq: "m_n = 1.675 × 10⁻²⁷ kg = 1.008665 u = 940 MeV/c²", note: "Rest mass of neutron", scope: "sl" },
+    { name: "Unified atomic mass unit", eq: "u = 1.661 × 10⁻²⁷ kg = 931.5 MeV/c²", note: "1/12 the mass of a Carbon-12 atom", scope: "sl" },
+    { name: "Solar constant", eq: "S = 1.36 × 10³ W m⁻²", note: "Solar intensity reaching top of Earth's atmosphere", scope: "sl" },
+    { name: "Fermi radius", eq: "R₀ = 1.20 × 10⁻¹⁵ m", note: "Nuclear radius scale constant", scope: "sl" }
+  ],
+  "prefixes": [
+    { name: "peta", eq: "P = 10¹⁵", note: "Prefix multiplier 1,000,000,000,000,000", scope: "sl" },
+    { name: "tera", eq: "T = 10¹²", note: "Prefix multiplier 1,000,000,000,000", scope: "sl" },
+    { name: "giga", eq: "G = 10⁹", note: "Prefix multiplier 1,000,000,000", scope: "sl" },
+    { name: "mega", eq: "M = 10⁶", note: "Prefix multiplier 1,000,000", scope: "sl" },
+    { name: "kilo", eq: "k = 10³", note: "Prefix multiplier 1,000", scope: "sl" },
+    { name: "hecto", eq: "h = 10²", note: "Prefix multiplier 100", scope: "sl" },
+    { name: "deca", eq: "da = 10¹", note: "Prefix multiplier 10", scope: "sl" },
+    { name: "deci", eq: "d = 10⁻¹", note: "Prefix multiplier 0.1", scope: "sl" },
+    { name: "centi", eq: "c = 10⁻²", note: "Prefix multiplier 0.01", scope: "sl" },
+    { name: "milli", eq: "m = 10⁻³", note: "Prefix multiplier 0.001", scope: "sl" },
+    { name: "micro", eq: "μ = 10⁻⁶", note: "Prefix multiplier 0.000001", scope: "sl" },
+    { name: "nano", eq: "n = 10⁻⁹", note: "Prefix multiplier 10⁻⁹", scope: "sl" },
+    { name: "pico", eq: "p = 10⁻¹²", note: "Prefix multiplier 10⁻¹²", scope: "sl" },
+    { name: "femto", eq: "f = 10⁻¹⁵", note: "Prefix multiplier 10⁻¹⁵", scope: "sl" }
+  ],
+  "conversions": [
+    { name: "Radian to degrees", eq: "1 rad = 180°/π", note: "Conversion from radians to degrees", scope: "sl" },
+    { name: "Celsius to Kelvin", eq: "T(K) = T(°C) + 273", note: "Temperature scales offset conversion", scope: "sl" },
+    { name: "Light year", eq: "1 ly = 9.46 × 10¹⁵ m", note: "Distance light travels in vacuum in 1 year", scope: "sl" },
+    { name: "Parsec", eq: "1 pc = 3.26 ly", note: "Distance where 1 AU subtends angle of 1 arc-second", scope: "sl" },
+    { name: "Astronomical unit", eq: "1 AU = 1.50 × 10¹¹ m", note: "Mean distance from center of Earth to center of Sun", scope: "sl" },
+    { name: "Kilowatt-hour", eq: "1 kWh = 3.60 × 10⁶ J", note: "Energy dissipated in 1 hour at a rate of 1 kW", scope: "sl" },
+    { name: "Planck constant & light speed product", eq: "hc = 1.99 × 10⁻²⁵ J m = 1.24 × 10⁻⁶ eV m", note: "Planck constant × speed of light in vacuum", scope: "sl" }
+  ],
+  "theme_A": [
+    // A.1
+    { topic: "A.1 Kinematics", name: "Average displacement", eq: "s = ½(u + v)t", note: "s = displacement, u = initial velocity, v = final velocity, t = time", scope: "sl" },
+    { topic: "A.1 Kinematics", name: "Velocity-time relation", eq: "v = u + at", note: "v = final velocity, u = initial velocity, a = constant acceleration, t = time", scope: "sl" },
+    { topic: "A.1 Kinematics", name: "Displacement-time relation", eq: "s = ut + ½at²", note: "s = displacement, u = initial velocity, a = constant acceleration, t = time", scope: "sl" },
+    { topic: "A.1 Kinematics", name: "Velocity-displacement relation", eq: "v² = u² + 2as", note: "v = final velocity, u = initial velocity, a = constant acceleration, s = displacement", scope: "sl" },
+    // A.2
+    { topic: "A.2 Forces and Momentum", name: "Static friction limit", eq: "F_f ≤ μ_s F_N", note: "F_f = static frictional force, μ_s = static coefficient, F_N = normal force", scope: "sl" },
+    { topic: "A.2 Forces and Momentum", name: "Dynamic friction force", eq: "F_f = μ_d F_N", note: "F_f = dynamic frictional force, μ_d = dynamic coefficient, F_N = normal force", scope: "sl" },
+    { topic: "A.2 Forces and Momentum", name: "Hooke's Law (spring force)", eq: "F_H = -kx", note: "F_H = restoring force, k = spring constant, x = displacement", scope: "sl" },
+    { topic: "A.2 Forces and Momentum", name: "Stokes' law (viscous drag)", eq: "F_d = 6πηrv", note: "F_d = drag force, η = fluid viscosity, r = sphere radius, v = speed", scope: "sl" },
+    { topic: "A.2 Forces and Momentum", name: "Buoyancy force (Archimedes)", eq: "F_b = ρVg", note: "F_b = buoyant force, ρ = fluid density, V = submerged volume, g = gravity", scope: "sl" },
+    { topic: "A.2 Forces and Momentum", name: "Gravitational force (weight)", eq: "F_g = mg", note: "F_g = weight, m = mass, g = gravitational field strength", scope: "sl" },
+    { topic: "A.2 Forces and Momentum", name: "Linear momentum", eq: "p = mv", note: "p = momentum, m = mass, v = velocity", scope: "sl" },
+    { topic: "A.2 Forces and Momentum", name: "Impulse (momentum change)", eq: "J = FΔt", note: "J = impulse, F = average resultant force, Δt = contact time", scope: "sl" },
+    { topic: "A.2 Forces and Momentum", name: "Newton's 2nd Law (force & momentum)", eq: "F = ma = Δp/Δt", note: "F = resultant force, m = mass, a = acceleration, p = momentum, t = time", scope: "sl" },
+    { topic: "A.2 Forces and Momentum", name: "Centripetal acceleration", eq: "a = v²/r = ω²r = 4π²r/T²", note: "a = centripetal acceleration, v = speed, r = radius, ω = angular speed, T = period", scope: "sl" },
+    { topic: "A.2 Forces and Momentum", name: "Orbital speed relation", eq: "v = 2πr/T = ωr", note: "v = linear speed, r = radius, T = orbital period, ω = angular velocity", scope: "sl" },
+    // A.3
+    { topic: "A.3 Work, Energy, Power", name: "Work done by constant force", eq: "W = Fs cos θ", note: "W = work, F = force, s = displacement, θ = angle between force and displacement", scope: "sl" },
+    { topic: "A.3 Work, Energy, Power", name: "Kinetic energy", eq: "E_k = ½mv² = p²/2m", note: "E_k = kinetic energy, m = mass, v = speed, p = momentum", scope: "sl" },
+    { topic: "A.3 Work, Energy, Power", name: "Gravitational potential energy change", eq: "ΔE_p = mgh", note: "E_p = potential energy change, m = mass, g = gravity, h = height change", scope: "sl" },
+    { topic: "A.3 Work, Energy, Power", name: "Elastic potential energy", eq: "E_H = ½kΔx²", note: "E_H = elastic potential energy, k = spring constant, Δx = extension", scope: "sl" },
+    { topic: "A.3 Work, Energy, Power", name: "Power", eq: "P = ΔW/Δt = Fv", note: "P = power, W = work, t = time, F = force, v = speed", scope: "sl" },
+    { topic: "A.3 Work, Energy, Power", name: "Efficiency", eq: "η = useful out / total in", note: "η = efficiency (ratio or percentage)", scope: "sl" },
+    // A.4
+    { topic: "A.4 Rigid Body Mechanics", name: "Torque definition", eq: "τ = Fr sin θ", note: "τ = torque, F = applied force, r = distance to pivot, θ = angle to line of action", scope: "hl" },
+    { topic: "A.4 Rigid Body Mechanics", name: "Average angular displacement", eq: "Δθ = (ω_f + ω_i)/2 × t", note: "θ = angular displacement, ω = angular velocity, t = time", scope: "hl" },
+    { topic: "A.4 Rigid Body Mechanics", name: "Angular velocity-time relation", eq: "ω_f = ω_i + αt", note: "ω_f = final angular speed, ω_i = initial angular speed, α = angular acceleration", scope: "hl" },
+    { topic: "A.4 Rigid Body Mechanics", name: "Angular displacement-time relation", eq: "Δθ = ω_i t + ½αt²", note: "θ = displacement, ω_i = initial speed, α = angular acceleration, t = time", scope: "hl" },
+    { topic: "A.4 Rigid Body Mechanics", name: "Angular velocity-displacement relation", eq: "ω_f² = ω_i² + 2αΔθ", note: "ω = angular speed, α = acceleration, θ = displacement", scope: "hl" },
+    { topic: "A.4 Rigid Body Mechanics", name: "Moment of inertia", eq: "I = Σmr²", note: "I = moment of inertia, m = point masses, r = distance from rotational axis", scope: "hl" },
+    { topic: "A.4 Rigid Body Mechanics", name: "Rotational Newton's 2nd Law", eq: "τ = Iα", note: "τ = resultant torque, I = moment of inertia, α = angular acceleration", scope: "hl" },
+    { topic: "A.4 Rigid Body Mechanics", name: "Angular momentum", eq: "L = Iω", note: "L = angular momentum, I = moment of inertia, ω = angular velocity", scope: "hl" },
+    { topic: "A.4 Rigid Body Mechanics", name: "Angular impulse (torque & time)", eq: "ΔL = τΔt", note: "L = angular momentum, τ = resultant torque, t = contact time", scope: "hl" },
+    { topic: "A.4 Rigid Body Mechanics", name: "Angular momentum change", eq: "ΔL = Δ(Iω)", note: "Variation of angular momentum for variable shape/inertia", scope: "hl" },
+    { topic: "A.4 Rigid Body Mechanics", name: "Rotational kinetic energy", eq: "E_k = ½Iω² = L²/2I", note: "E_k = rotational kinetic energy, I = moment of inertia, ω = speed, L = momentum", scope: "hl" },
+    // A.5
+    { topic: "A.5 Galilean & Special Relativity", name: "Galilean position transformation", eq: "x' = x - vt", note: "Position coordinate in frame S' moving at constant speed v relative to S", scope: "hl" },
+    { topic: "A.5 Galilean & Special Relativity", name: "Galilean time transformation", eq: "t' = t", note: "Absolute time assumption in Galilean relativity", scope: "hl" },
+    { topic: "A.5 Galilean & Special Relativity", name: "Galilean velocity transformation", eq: "u' = u - v", note: "Relative velocity in S' frame", scope: "hl" },
+    { topic: "A.5 Galilean & Special Relativity", name: "Lorentz position transformation", eq: "x' = γ(x - vt)", note: "Lorentz position coordinate, γ = Lorentz factor", scope: "hl" },
+    { topic: "A.5 Galilean & Special Relativity", name: "Lorentz time transformation", eq: "t' = γ(t - vx/c²)", note: "Lorentz time coordinate showing relativity of simultaneity", scope: "hl" },
+    { topic: "A.5 Galilean & Special Relativity", name: "Lorentz velocity transformation", eq: "u' = (u-v) / (1 - uv/c²)", note: "Relativistic velocity addition", scope: "hl" },
+    { topic: "A.5 Galilean & Special Relativity", name: "Lorentz factor", eq: "γ = 1 / √(1 - v²/c²)", note: "γ ≥ 1, measures relativistic dilation / contraction", scope: "hl" },
+    { topic: "A.5 Galilean & Special Relativity", name: "Space-time interval invariant", eq: "Δs² = (cΔt)² - Δx²", note: "Invariant space-time distance between events in all inertial reference frames", scope: "hl" },
+    { topic: "A.5 Galilean & Special Relativity", name: "Time dilation", eq: "Δt = γΔt₀", note: "Δt = dilated time interval, Δt₀ = proper time interval", scope: "hl" },
+    { topic: "A.5 Galilean & Special Relativity", name: "Length contraction", eq: "L = L₀/γ", note: "L = contracted length in motion direction, L₀ = proper length", scope: "hl" },
+    { topic: "A.5 Galilean & Special Relativity", name: "Minkowski angle relation", eq: "tan θ = v/c", note: "θ = angle of rotated S' axes on Minkowski space-time diagram", scope: "hl" }
+  ],
+  "theme_B": [
+    // B.1
+    { topic: "B.1 Thermal Energy Transfers", name: "Density definition", eq: "ρ = m/V", note: "ρ = density, m = mass, V = volume", scope: "sl" },
+    { topic: "B.1 Thermal Energy Transfers", name: "Gas particle average kinetic energy", eq: "E_k = ³/₂ k_B T", note: "E_k = mean kinetic energy, k_B = Boltzmann constant, T = absolute temperature (K)", scope: "sl" },
+    { topic: "B.1 Thermal Energy Transfers", name: "Specific heat capacity equation", eq: "Q = mcΔT", note: "Q = thermal energy transferred, m = mass, c = specific heat capacity, ΔT = temperature change", scope: "sl" },
+    { topic: "B.1 Thermal Energy Transfers", name: "Specific latent heat equation", eq: "Q = mL", note: "Q = energy transferred during phase change, m = mass, L = specific latent heat", scope: "sl" },
+    { topic: "B.1 Thermal Energy Transfers", name: "Thermal conduction rate", eq: "ΔQ/Δt = kAΔT/Δx", note: "Q/t = heat current, k = thermal conductivity, A = area, ΔT = temp diff, Δx = thickness", scope: "sl" },
+    { topic: "B.1 Thermal Energy Transfers", name: "Stefan-Boltzmann radiation law", eq: "L = σAT⁴", note: "L = luminosity/radiated power, σ = constant, A = surface area, T = absolute temp", scope: "sl" },
+    { topic: "B.1 Thermal Energy Transfers", name: "Apparent brightness (radiation intensity)", eq: "b = L / (4πd²)", note: "b = apparent brightness, L = source luminosity, d = distance to source", scope: "sl" },
+    { topic: "B.1 Thermal Energy Transfers", name: "Wien's displacement law", eq: "λ_max T = 2.9 × 10⁻³ m K", note: "λ_max = peak emission wavelength, T = blackbody absolute temperature", scope: "sl" },
+    // B.2
+    { topic: "B.2 Greenhouse Effect", name: "Emissivity definition", eq: "emissivity = power radiated per unit area / σT⁴", note: "Ratio of power radiated by a body to that of a blackbody of same dimensions at same temp", scope: "sl" },
+    { topic: "B.2 Greenhouse Effect", name: "Albedo definition", eq: "albedo = total scattered / total incident", note: "Fraction of incident electromagnetic radiation reflected/scattered by a surface", scope: "sl" },
+    // B.3
+    { topic: "B.3 Gas Laws", name: "Pressure definition", eq: "P = F/A", note: "P = pressure, F = perpendicular force, A = area", scope: "sl" },
+    { topic: "B.3 Gas Laws", name: "Mole calculation", eq: "n = N/N_A", note: "n = number of moles, N = number of particles, N_A = Avogadro's constant", scope: "sl" },
+    { topic: "B.3 Gas Laws", name: "Ideal gas constant ratio", eq: "PV/T = const", note: "Combines Boyle's, Charles's, and Gay-Lussac's laws for fixed quantity of gas", scope: "sl" },
+    { topic: "B.3 Gas Laws", name: "Ideal gas state equation", eq: "PV = nRT = N k_B T", note: "P = pressure, V = volume, n = moles, R = gas constant, N = particles, k_B = Boltzmann, T = absolute temp", scope: "sl" },
+    { topic: "B.3 Gas Laws", name: "Gas pressure microscopic derivation", eq: "P = ⅓ρv²", note: "P = pressure, ρ = gas density, v = root-mean-square speed of gas particles", scope: "sl" },
+    { topic: "B.3 Gas Laws", name: "Ideal gas internal energy", eq: "U = ³/₂ nRT = ³/₂ N k_B T", note: "U = internal energy (only kinetic for ideal gas), n = moles, R = gas constant, T = absolute temp", scope: "sl" },
+    // B.4
+    { topic: "B.4 Thermodynamics", name: "First Law of Thermodynamics", eq: "Q = ΔU + W", note: "Q = heat energy supplied, ΔU = increase in internal energy, W = work done BY the gas", scope: "hl" },
+    { topic: "B.4 Thermodynamics", name: "Work done by expanding gas", eq: "W = PΔV", note: "W = work done during isobaric (constant pressure) volume change ΔV", scope: "hl" },
+    { topic: "B.4 Thermodynamics", name: "Monatomic gas internal energy change", eq: "ΔU = ³/₂ nRΔT", note: "Internal energy change proportional to temperature change", scope: "hl" },
+    { topic: "B.4 Thermodynamics", name: "Entropy change", eq: "ΔS = ΔQ/T", note: "ΔS = entropy change, ΔQ = reversible heat transferred, T = absolute temperature", scope: "hl" },
+    { topic: "B.4 Thermodynamics", name: "Boltzmann entropy relation", eq: "S = k_B ln Ω", note: "S = thermodynamic entropy, k_B = Boltzmann constant, Ω = number of microstates", scope: "hl" },
+    { topic: "B.4 Thermodynamics", name: "Adiabatic gas expansion equation", eq: "PV^(5/3) = const", note: "For monatomic ideal gas undergoing reversible adiabatic process (no heat exchange)", scope: "hl" },
+    { topic: "B.4 Thermodynamics", name: "Thermodynamic cycle efficiency", eq: "η = useful work / input energy", note: "η = thermal efficiency", scope: "hl" },
+    { topic: "B.4 Thermodynamics", name: "Carnot cycle maximum efficiency", eq: "η_Carnot = 1 - T_c/T_h", note: "Theoretical maximum efficiency between cold reservoir T_c and hot reservoir T_h", scope: "hl" },
+    // B.5
+    { topic: "B.5 Current and Circuits", name: "Electric current definition", eq: "I = Δq/Δt", note: "I = current, Δq = charge quantity, Δt = time flow duration", scope: "sl" },
+    { topic: "B.5 Current and Circuits", name: "Electric potential difference", eq: "V = W/q", note: "V = potential difference, W = work done to move charge, q = charge magnitude", scope: "sl" },
+    { topic: "B.5 Current and Circuits", name: "Electrical resistance (Ohm's law)", eq: "R = V/I", note: "R = resistance, V = potential difference, I = current", scope: "sl" },
+    { topic: "B.5 Current and Circuits", name: "Resistivity", eq: "ρ = RA/L", note: "ρ = material resistivity, R = wire resistance, A = cross-sectional area, L = wire length", scope: "sl" },
+    { topic: "B.5 Current and Circuits", name: "Electric power", eq: "P = VI = I²R = V²/R", note: "P = power dissipated in circuit component", scope: "sl" },
+    { topic: "B.5 Current and Circuits", name: "Resistors in series", eq: "Series: I same, V adds, R adds", note: "Total resistance is sum of individual resistances in series", scope: "sl" },
+    { topic: "B.5 Current and Circuits", name: "Resistors in parallel", eq: "Parallel: V same, I adds, 1/R adds", note: "Inverse of total resistance is sum of inverses in parallel", scope: "sl" },
+    { topic: "B.5 Current and Circuits", name: "Electromotive force (emf)", eq: "ε = I(R + r)", note: "ε = emf of source, R = load resistance, r = internal source resistance", scope: "sl" }
+  ],
+  "theme_C": [
+    // C.1
+    { topic: "C.1 Simple Harmonic Motion", name: "SHM acceleration relation", eq: "a = -ω²x", note: "a = acceleration, ω = angular frequency, x = displacement from equilibrium", scope: "sl" },
+    { topic: "C.1 Simple Harmonic Motion", name: "SHM time period & frequency", eq: "T = 1/f = 2π/ω", note: "T = period, f = cyclic frequency, ω = angular frequency", scope: "sl" },
+    { topic: "C.1 Simple Harmonic Motion", name: "Spring-mass oscillator period", eq: "T = 2π√(m/k)", note: "T = period, m = oscillating mass, k = spring constant", scope: "sl" },
+    { topic: "C.1 Simple Harmonic Motion", name: "Simple pendulum time period", eq: "T = 2π√(l/g)", note: "T = period, l = pendulum string length, g = gravitational field strength", scope: "sl" },
+    { topic: "C.1 Simple Harmonic Motion", name: "SHM position equation", eq: "x = x₀ sin(ωt + φ)", note: "x = displacement, x₀ = amplitude, ω = angular frequency, t = time, φ = phase constant", scope: "hl" },
+    { topic: "C.1 Simple Harmonic Motion", name: "SHM velocity equation", eq: "v = ωx₀ cos(ωt + φ)", note: "v = velocity, x₀ = amplitude, ω = angular frequency, t = time, φ = phase constant", scope: "hl" },
+    { topic: "C.1 Simple Harmonic Motion", name: "SHM velocity-position relation", eq: "v = ±ω√(x₀² - x²)", note: "v = velocity at position x, x₀ = motion amplitude, ω = angular frequency", scope: "hl" },
+    { topic: "C.1 Simple Harmonic Motion", name: "SHM total mechanical energy", eq: "E_T = ½mω²x₀²", note: "E_T = total energy, m = mass, ω = angular frequency, x₀ = oscillation amplitude", scope: "hl" },
+    { topic: "C.1 Simple Harmonic Motion", name: "SHM potential energy", eq: "E_p = ½mω²x²", note: "E_p = potential energy at displacement position x", scope: "hl" },
+    // C.2
+    { topic: "C.2 Wave Model", name: "Wave speed equation", eq: "v = fλ = λ/T", note: "v = wave propagation speed, f = frequency, λ = wavelength, T = period", scope: "sl" },
+    // C.3
+    { topic: "C.3 Wave Phenomena", name: "Snell's Law (refraction)", eq: "n₁/n₂ = sin θ₂/sin θ₁ = v₂/v₁", note: "n = refractive index, θ = angle to normal, v = wave speed in medium", scope: "sl" },
+    { topic: "C.3 Wave Phenomena", name: "Constructive interference condition", eq: "path diff = nλ", note: "Path difference must be an integer multiple of wavelengths (n = 0, 1, 2, ...)", scope: "sl" },
+    { topic: "C.3 Wave Phenomena", name: "Destructive interference condition", eq: "path diff = (n+½)λ", note: "Path difference must be a half-integer multiple of wavelengths (n = 0, 1, 2, ...)", scope: "sl" },
+    { topic: "C.3 Wave Phenomena", name: "Double slit fringe spacing", eq: "s = λD/d", note: "s = fringe separation, λ = wavelength, D = distance to screen, d = slit spacing", scope: "sl" },
+    { topic: "C.3 Wave Phenomena", name: "Single slit resolution angle", eq: "θ = λ/b", note: "θ = angular width of central maximum, λ = wavelength, b = slit width", scope: "hl" },
+    { topic: "C.3 Wave Phenomena", name: "Diffraction grating maximum", eq: "nλ = d sin θ", note: "n = order of maximum, λ = wavelength, d = grating spacing, θ = diffraction angle", scope: "hl" },
+    // C.5
+    { topic: "C.5 Doppler Effect", name: "Relativistic Doppler approximation", eq: "Δf/f = Δλ/λ ≈ v/c", note: "Used for electromagnetic waves when source speed v << light speed c", scope: "sl" },
+    { topic: "C.5 Doppler Effect", name: "Doppler effect (moving source)", eq: "f' = fv/(v ± u_s)", note: "f' = observed frequency, f = source frequency, v = wave speed, u_s = source speed (- approaches, + recedes)", scope: "hl" },
+    { topic: "C.5 Doppler Effect", name: "Doppler effect (moving observer)", eq: "f' = f(v ± u_o)/v", note: "f' = observed frequency, f = source frequency, v = wave speed, u_o = observer speed (+ approaches, - recedes)", scope: "hl" }
+  ],
+  "theme_D": [
+    // D.1
+    { topic: "D.1 Gravitational Fields", name: "Newton's gravitational force law", eq: "F = Gm₁m₂/r²", note: "F = attractive gravitational force, G = constant, m = masses, r = center separation", scope: "sl" },
+    { topic: "D.1 Gravitational Fields", name: "Gravitational field strength", eq: "g = F/m = GM/r²", note: "g = field strength (acceleration), F = force on test mass m, M = source mass, r = distance", scope: "sl" },
+    { topic: "D.1 Gravitational Fields", name: "Gravitational potential energy", eq: "E_p = -Gm₁m₂/r", note: "E_p = gravitational potential energy (defined zero at infinity), m = masses, r = separation", scope: "hl" },
+    { topic: "D.1 Gravitational Fields", name: "Gravitational potential", eq: "V_g = -GM/r", note: "V_g = potential (work done per unit mass to bring from infinity), M = source mass, r = distance", scope: "hl" },
+    { topic: "D.1 Gravitational Fields", name: "Potential gradient relation", eq: "g = -ΔV_g/Δr", note: "Field strength is negative potential gradient", scope: "hl" },
+    { topic: "D.1 Gravitational Fields", name: "Work done in field", eq: "W = mΔV_g", note: "W = work done, m = moved mass, ΔV_g = potential difference", scope: "hl" },
+    { topic: "D.1 Gravitational Fields", name: "Escape speed", eq: "v_esc = √(2GM/r)", note: "v_esc = minimum speed required to escape planet's gravity, M = planet mass, r = radius", scope: "hl" },
+    { topic: "D.1 Gravitational Fields", name: "Orbital speed", eq: "v_orbital = √(GM/r)", note: "v = speed of satellite in circular orbit, M = central body mass, r = orbit radius", scope: "hl" },
+    // D.2
+    { topic: "D.2 Electric & Magnetic Fields", name: "Coulomb's electrostatic force law", eq: "F = kq₁q₂/r²", note: "F = electrostatic force, k = Coulomb constant, q = charges, r = separation", scope: "sl" },
+    { topic: "D.2 Electric & Magnetic Fields", name: "Electric field strength", eq: "E = F/q", note: "E = electric field strength, F = force on test charge q", scope: "sl" },
+    { topic: "D.2 Electric & Magnetic Fields", name: "Uniform electric field", eq: "E = V/d", note: "E = electric field, V = potential difference, d = plate separation distance", scope: "sl" },
+    { topic: "D.2 Electric & Magnetic Fields", name: "Magnetic force on moving charge", eq: "F = qvB sin θ", note: "F = magnetic force, q = charge, v = velocity, B = field strength, θ = angle to field", scope: "sl" },
+    { topic: "D.2 Electric & Magnetic Fields", name: "Magnetic force on current wire", eq: "F = BIL sin θ", note: "F = force, B = magnetic field, I = current, L = wire length, θ = angle to field", scope: "sl" },
+    { topic: "D.2 Electric & Magnetic Fields", name: "Magnetic force between parallel wires", eq: "F/L = μ₀I₁I₂/(2πr)", note: "F/L = force per unit length, μ₀ = permeability, I = currents, r = wire separation", scope: "sl" },
+    { topic: "D.2 Electric & Magnetic Fields", name: "Electric potential energy", eq: "E_p = kq₁q₂/r", note: "E_p = electrostatic potential energy (defined zero at infinity), q = charges, r = separation", scope: "hl" },
+    { topic: "D.2 Electric & Magnetic Fields", name: "Electric potential", eq: "V_e = kQ/r", note: "V_e = electric potential, Q = source charge, r = distance", scope: "hl" },
+    { topic: "D.2 Electric & Magnetic Fields", name: "Potential gradient relation", eq: "E = -ΔV_e/Δr", note: "Electric field strength is negative potential gradient", scope: "hl" },
+    { topic: "D.2 Electric & Magnetic Fields", name: "Work done in field", eq: "W = qΔV_e", note: "W = work done, q = moved charge, ΔV_e = potential difference", scope: "hl" },
+    // D.4
+    { topic: "D.4 Induction", name: "Magnetic flux definition", eq: "Φ = BA cos θ", note: "Φ = magnetic flux, B = field strength, A = loop area, θ = angle to area normal", scope: "hl" },
+    { topic: "D.4 Induction", name: "Faraday's law of induction", eq: "ε = -NΔΦ/Δt", note: "ε = induced electromotive force (emf), N = number of turns, Φ = flux, t = time", scope: "hl" },
+    { topic: "D.4 Induction", name: "Induced emf in moving conductor", eq: "ε = BvL", note: "ε = induced emf, B = magnetic field, v = conductor speed, L = conductor length", scope: "hl" }
+  ],
+  "theme_E": [
+    // E.1
+    { topic: "E.1 Structure of the Atom", name: "Planck-Einstein relation", eq: "E = hf", note: "E = photon energy, h = Planck's constant, f = wave frequency", scope: "sl" },
+    { topic: "E.1 Structure of the Atom", name: "Nuclear radius scaling law", eq: "R = R₀A^(1/3)", note: "R = nuclear radius, R₀ = Fermi radius (~1.2 fm), A = nucleon number (mass number)", scope: "hl" },
+    { topic: "E.1 Structure of the Atom", name: "Hydrogen state energies (Bohr)", eq: "E = -13.6/n² eV", note: "E = state energy, n = principal quantum number (1, 2, ...)", scope: "hl" },
+    { topic: "E.1 Structure of the Atom", name: "Angular momentum quantization (Bohr)", eq: "mvr = nh/2π", note: "Electron orbital angular momentum quantization (n = 1, 2, ...)", scope: "hl" },
+    // E.2
+    { topic: "E.2 Quantum Physics", name: "Einstein photoelectric equation", eq: "E_max = hf - Φ", note: "E_max = max photoelectron kinetic energy, hf = photon energy, Φ = work function", scope: "hl" },
+    { topic: "E.2 Quantum Physics", name: "de Broglie wavelength", eq: "λ = h/p", note: "λ = matter wave wavelength, h = Planck's constant, p = momentum", scope: "hl" },
+    { topic: "E.2 Quantum Physics", name: "Compton scattering shift", eq: "Δλ = (h/m_ec)(1 - cos θ)", note: "Δλ = wavelength shift, m_e = electron mass, c = light speed, θ = scattering angle", scope: "hl" },
+    // E.3
+    { topic: "E.3 Radioactive Decay", name: "Mass-energy equivalence", eq: "E = mc²", note: "E = rest energy equivalent, m = rest mass, c = speed of light", scope: "sl" },
+    { topic: "E.3 Radioactive Decay", name: "Radioactive decay exponential law", eq: "N = N₀e^(-λt)", note: "N = remaining active nuclei, N₀ = initial count, λ = decay constant, t = time", scope: "hl" },
+    { topic: "E.3 Radioactive Decay", name: "Radioactive Activity", eq: "A = λN = λN₀e^(-λt)", note: "A = decay rate (becquerels), λ = decay constant, N = active nuclei number", scope: "hl" },
+    { topic: "E.3 Radioactive Decay", name: "Half-life equation", eq: "T½ = ln2/λ", note: "T½ = time required for half the sample to decay, λ = decay constant", scope: "hl" },
+    // E.5
+    { topic: "E.5 Stars", name: "Stellar distance (parsec relation)", eq: "d(parsec) = 1/p(arc-second)", note: "d = distance in parsecs, p = parallax angle in arc-seconds", scope: "sl" }
+  ]
+};
+
+// ── STATE VARIABLES ──
+let activePrimaryTab = 'general';
+let activeSubTab = 'math';
+let starredFormulas = [];
+
+// ── INIT ──
+window.addEventListener('load', () => {
+  // Load starred formulas
+  const savedStars = localStorage.getItem('dp-starred-formulas');
+  if (savedStars) {
+    try {
+      starredFormulas = JSON.parse(savedStars);
+    } catch(e) {
+      starredFormulas = [];
+    }
+  }
+  
+  // Theme initialization
+  const savedTheme = localStorage.getItem('physicism-theme');
+  if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('themeToggle').textContent = '☀️';
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    document.getElementById('themeToggle').textContent = '🌙';
+  }
+  
+  renderContent();
+});
+
+// ── THEME TOGGLE ──
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  const btn = document.getElementById('themeToggle');
+  
+  if (next === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('physicism-theme', 'dark');
+    if (btn) btn.textContent = '☀️';
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('physicism-theme', 'light');
+    if (btn) btn.textContent = '🌙';
+  }
+}
+
+// ── TAB SWITCHING ──
+function switchPrimaryTab(tabId) {
+  // Reset search
+  document.getElementById('searchInput').value = '';
+  
+  activePrimaryTab = tabId;
+  
+  // Sync buttons UI
+  document.querySelectorAll('#tabsContainer button').forEach(btn => {
+    btn.classList.remove('active', 'active-starred');
+  });
+  
+  const activeBtn = Array.from(document.querySelectorAll('#tabsContainer button')).find(btn => 
+    btn.getAttribute('onclick').includes(`'${tabId}'`)
+  );
+  
+  if (activeBtn) {
+    if (tabId === 'starred') {
+      activeBtn.classList.add('active-starred');
+    } else {
+      activeBtn.classList.add('active');
+    }
+  }
+  
+  // Toggle sub tabs visibility
+  const subTabs = document.getElementById('subTabsContainer');
+  if (tabId === 'general') {
+    subTabs.style.display = 'flex';
+  } else {
+    subTabs.style.display = 'none';
+  }
+  
+  renderContent();
+}
+
+function switchSubTab(subTabId) {
+  activeSubTab = subTabId;
+  
+  // Sync sub-tabs UI
+  document.querySelectorAll('#subTabsContainer button').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  const activeBtn = Array.from(document.querySelectorAll('#subTabsContainer button')).find(btn => 
+    btn.getAttribute('onclick').includes(`'${subTabId}'`)
+  );
+  if (activeBtn) activeBtn.classList.add('active');
+  
+  renderContent();
+}
+
+// ── BOOKMARK SYNC ──
+function toggleBookmark(formulaId, event) {
+  if (event) event.stopPropagation();
+  
+  const idx = starredFormulas.indexOf(formulaId);
+  if (idx === -1) {
+    starredFormulas.push(formulaId);
+  } else {
+    starredFormulas.splice(idx, 1);
+  }
+  
+  localStorage.setItem('dp-starred-formulas', JSON.stringify(starredFormulas));
+  
+  // Update star icon styling in place
+  const btn = document.getElementById(`star-btn-${formulaId}`);
+  if (btn) {
+    if (starredFormulas.includes(formulaId)) {
+      btn.classList.add('starred');
+    } else {
+      btn.classList.remove('starred');
+    }
+  }
+  
+  // If we are in the Bookmarks tab, re-render the whole list
+  if (activePrimaryTab === 'starred') {
+    renderContent();
+  }
+}
+
+// ── DYNAMIC RENDERING ──
+function renderContent() {
+  const contentArea = document.getElementById('bookletContentArea');
+  contentArea.innerHTML = '';
+  
+  const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
+  
+  // 1. Render Search Results if query exists
+  if (searchVal) {
+    renderSearchResults(searchVal);
+    return;
+  }
+  
+  // 2. Render Bookmarks Tab
+  if (activePrimaryTab === 'starred') {
+    renderBookmarksTab();
+    return;
+  }
+  
+  // 3. Render Themes A to E Tabs
+  if (activePrimaryTab.startsWith('theme_')) {
+    renderThemeTab(activePrimaryTab);
+    return;
+  }
+  
+  // 4. Render General Sub-tabs
+  renderGeneralSubTab();
+}
+
+// ── GENERAL SUB-TAB RENDERERS ──
+function renderGeneralSubTab() {
+  const contentArea = document.getElementById('bookletContentArea');
+  
+  if (activeSubTab === 'circuits') {
+    renderCircuitsGrid();
+    return;
+  }
+  if (activeSubTab === 'spectrum') {
+    renderSpectrumVisualizer();
+    return;
+  }
+  
+  // Default list-based sub-tabs (math, uncertainties, constants, prefixes, conversions)
+  const formulas = FORMULAS_DATA[activeSubTab];
+  if (!formulas) return;
+  
+  const sectionDiv = document.createElement('div');
+  sectionDiv.className = 'topic-group';
+  
+  const titleMap = {
+    'math': 'Mathematical Equations',
+    'uncertainties': 'Uncertainties & Errors',
+    'constants': 'Physical Constants',
+    'prefixes': 'SI Prefixes',
+    'conversions': 'Unit Conversions'
+  };
+  
+  sectionDiv.innerHTML = `<h2 class="topic-title">${titleMap[activeSubTab] || activeSubTab}</h2>`;
+  
+  formulas.forEach((f, idx) => {
+    const fId = `${activeSubTab}_eq${idx}`;
+    const isStarred = starredFormulas.includes(fId);
+    
+    sectionDiv.innerHTML += `
+      <div class="formula-row">
+        <div class="formula-info">
+          <button class="bookmark-btn ${isStarred ? 'starred' : ''}" id="star-btn-${fId}" onclick="toggleBookmark('${fId}', event)">
+            <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <div class="formula-meta">
+            <span class="formula-name">${f.name}</span>
+            <span class="formula-note">${f.note}</span>
+          </div>
+        </div>
+        <div class="formula-eq-container">
+          <span class="formula-eq">${f.eq}</span>
+        </div>
+      </div>
+    `;
+  });
+  
+  contentArea.appendChild(sectionDiv);
+}
+
+// ── THEME TABS RENDERER ──
+function renderThemeTab(themeKey) {
+  const contentArea = document.getElementById('bookletContentArea');
+  const formulas = FORMULAS_DATA[themeKey];
+  if (!formulas) return;
+  
+  // Group by topic
+  const grouped = {};
+  formulas.forEach((f, idx) => {
+    if (!grouped[f.topic]) grouped[f.topic] = [];
+    grouped[f.topic].push({ f, idx });
+  });
+  
+  Object.keys(grouped).forEach(topicName => {
+    const topicGroup = document.createElement('div');
+    topicGroup.className = 'topic-group';
+    topicGroup.innerHTML = `<h2 class="topic-title">${topicName}</h2>`;
+    
+    grouped[topicName].forEach(item => {
+      const fId = `${themeKey}_eq${item.idx}`;
+      const isStarred = starredFormulas.includes(fId);
+      const isHl = item.f.scope === 'hl';
+      
+      topicGroup.innerHTML += `
+        <div class="formula-row ${isHl ? 'hl-only' : ''}">
+          <div class="formula-info">
+            <button class="bookmark-btn ${isStarred ? 'starred' : ''}" id="star-btn-${fId}" onclick="toggleBookmark('${fId}', event)">
+              <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            </button>
+            <div class="formula-meta">
+              <span class="formula-name">${item.f.name}</span>
+              <span class="formula-note">${item.f.note}</span>
+            </div>
+          </div>
+          <div class="formula-eq-container">
+            ${isHl ? '<span class="glass-badge-hl">HL Only</span>' : ''}
+            <span class="formula-eq">${item.f.eq}</span>
+          </div>
+        </div>
+      `;
+    });
+    
+    contentArea.appendChild(topicGroup);
+  });
+}
+
+// ── BOOKMARKS TAB RENDERER ──
+function renderBookmarksTab() {
+  const contentArea = document.getElementById('bookletContentArea');
+  
+  if (starredFormulas.length === 0) {
+    contentArea.innerHTML = `
+      <div class="bookmarks-empty">
+        <svg viewBox="0 0 24 24" style="width:48px;height:48px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <h3>No Starred Formulas</h3>
+        <p>Click the star icon next to any formula to bookmark it for quick access here.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  const bookmarksGroup = document.createElement('div');
+  bookmarksGroup.className = 'topic-group';
+  bookmarksGroup.innerHTML = '<h2 class="topic-title">⭐ Bookmarked Formulas</h2>';
+  
+  starredFormulas.forEach(fId => {
+    // Resolve which formula this is
+    const parts = fId.split('_eq');
+    if (parts.length !== 2) return;
+    const tabKey = parts[0];
+    const idx = parseInt(parts[1], 10);
+    
+    const fList = FORMULAS_DATA[tabKey];
+    if (!fList || !fList[idx]) return;
+    const f = fList[idx];
+    const isHl = f.scope === 'hl';
+    
+    bookmarksGroup.innerHTML += `
+      <div class="formula-row ${isHl ? 'hl-only' : ''}">
+        <div class="formula-info">
+          <button class="bookmark-btn starred" id="star-btn-${fId}" onclick="toggleBookmark('${fId}', event)">
+            <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </button>
+          <div class="formula-meta">
+            <span class="formula-name">${f.name}</span>
+            <span class="formula-note">${f.note} ${f.topic ? `&bull; <em>${f.topic}</em>` : ''}</span>
+          </div>
+        </div>
+        <div class="formula-eq-container">
+          ${isHl ? '<span class="glass-badge-hl">HL Only</span>' : ''}
+          <span class="formula-eq">${f.eq}</span>
+        </div>
+      </div>
+    `;
+  });
+  
+  contentArea.appendChild(bookmarksGroup);
+}
+
+// ── SEARCH LOGIC ──
+function handleSearch() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+  
+  // Hide or show General sub-tabs depending on whether we're searching
+  const subTabs = document.getElementById('subTabsContainer');
+  const tabsOuter = document.getElementById('tabsContainer');
+  
+  if (query) {
+    subTabs.style.display = 'none';
+    renderContent();
+  } else {
+    // Restore default tab views
+    if (activePrimaryTab === 'general') {
+      subTabs.style.display = 'flex';
+    }
+    renderContent();
+  }
+}
+
+function renderSearchResults(query) {
+  const contentArea = document.getElementById('bookletContentArea');
+  
+  const results = [];
+  const searchKeys = Object.keys(FORMULAS_DATA);
+  
+  searchKeys.forEach(tabKey => {
+    FORMULAS_DATA[tabKey].forEach((f, idx) => {
+      const matchName = f.name.toLowerCase().includes(query);
+      const matchEq = f.eq.toLowerCase().includes(query);
+      const matchNote = f.note.toLowerCase().includes(query);
+      const matchTopic = f.topic && f.topic.toLowerCase().includes(query);
+      
+      if (matchName || matchEq || matchNote || matchTopic) {
+        results.push({
+          f,
+          fId: `${tabKey}_eq${idx}`,
+          sourceTab: tabKey
+        });
+      }
+    });
+  });
+  
+  if (results.length === 0) {
+    contentArea.innerHTML = `
+      <div style="text-align: center; padding: 48px; color: var(--text3);">
+        <p style="font-size: 16px; font-weight: 500; margin-bottom: 4px;">No formulas found</p>
+        <p style="font-size: 13px;">No equations matched your search term "${query}". Try another keyword.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  // Group results by section
+  const grouped = {};
+  results.forEach(item => {
+    let sectionName = '';
+    if (item.f.topic) {
+      sectionName = item.f.topic;
+    } else {
+      const generalNames = {
+        'math': 'General > Mathematics',
+        'uncertainties': 'General > Uncertainties & Errors',
+        'constants': 'General > Constants',
+        'prefixes': 'General > SI Prefixes',
+        'conversions': 'General > Conversions'
+      };
+      sectionName = generalNames[item.sourceTab] || 'General Reference';
+    }
+    
+    if (!grouped[sectionName]) grouped[sectionName] = [];
+    grouped[sectionName].push(item);
+  });
+  
+  Object.keys(grouped).forEach(sectionName => {
+    const resultsGroup = document.createElement('div');
+    resultsGroup.className = 'topic-group';
+    resultsGroup.innerHTML = `<h2 class="topic-title">${sectionName}</h2>`;
+    
+    grouped[sectionName].forEach(item => {
+      const isStarred = starredFormulas.includes(item.fId);
+      const isHl = item.f.scope === 'hl';
+      
+      resultsGroup.innerHTML += `
+        <div class="formula-row ${isHl ? 'hl-only' : ''}">
+          <div class="formula-info">
+            <button class="bookmark-btn ${isStarred ? 'starred' : ''}" id="star-btn-${item.fId}" onclick="toggleBookmark('${item.fId}', event)">
+              <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            </button>
+            <div class="formula-meta">
+              <span class="formula-name">${item.f.name}</span>
+              <span class="formula-note">${item.f.note}</span>
+            </div>
+          </div>
+          <div class="formula-eq-container">
+            ${isHl ? '<span class="glass-badge-hl">HL Only</span>' : ''}
+            <span class="formula-eq">${item.f.eq}</span>
+          </div>
+        </div>
+      `;
+    });
+    
+    contentArea.appendChild(resultsGroup);
+  });
+}
+
+// ── CIRCUITS SVG GRID RENDERER ──
+function renderCircuitsGrid() {
+  const contentArea = document.getElementById('bookletContentArea');
+  
+  const circuitsHtml = `
+    <div class="topic-group">
+      <h2 class="topic-title">IB Circuit Diagram Symbols</h2>
+      <div class="circuit-grid">
+        <!-- Cell -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <line x1="15" y1="25" x2="35" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="35" y1="13" x2="35" y2="37" stroke="currentColor" stroke-width="2"/>
+            <line x1="45" y1="18" x2="45" y2="32" stroke="currentColor" stroke-width="4.5"/>
+            <line x1="45" y1="25" x2="65" y2="25" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span class="circuit-label">Cell</span>
+        </div>
+        <!-- Battery -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <line x1="10" y1="25" x2="25" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="25" y1="15" x2="25" y2="35" stroke="currentColor" stroke-width="2"/>
+            <line x1="30" y1="20" x2="30" y2="30" stroke="currentColor" stroke-width="4.5"/>
+            <line x1="30" y1="25" x2="40" y2="25" stroke="currentColor" stroke-width="2" stroke-dasharray="2 2"/>
+            <line x1="40" y1="15" x2="40" y2="35" stroke="currentColor" stroke-width="2"/>
+            <line x1="45" y1="20" x2="45" y2="30" stroke="currentColor" stroke-width="4.5"/>
+            <line x1="45" y1="25" x2="70" y2="25" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span class="circuit-label">Battery</span>
+        </div>
+        <!-- Switch -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <circle cx="25" cy="25" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="55" cy="25" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="10" y1="25" x2="22" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="25" y1="22" x2="53" y2="10" stroke="currentColor" stroke-width="2"/>
+            <line x1="58" y1="25" x2="70" y2="25" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span class="circuit-label">Switch</span>
+        </div>
+        <!-- Voltmeter -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <circle cx="40" cy="25" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="10" y1="25" x2="26" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="54" y1="25" x2="70" y2="25" stroke="currentColor" stroke-width="2"/>
+            <text x="40" y="30" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="currentColor">V</text>
+          </svg>
+          <span class="circuit-label">Voltmeter</span>
+        </div>
+        <!-- Ammeter -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <circle cx="40" cy="25" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="10" y1="25" x2="26" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="54" y1="25" x2="70" y2="25" stroke="currentColor" stroke-width="2"/>
+            <text x="40" y="30" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="currentColor">A</text>
+          </svg>
+          <span class="circuit-label">Ammeter</span>
+        </div>
+        <!-- Resistor -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <line x1="10" y1="25" x2="25" y2="25" stroke="currentColor" stroke-width="2"/>
+            <rect x="25" y="17" width="30" height="16" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="55" y1="25" x2="70" y2="25" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span class="circuit-label">Resistor</span>
+        </div>
+        <!-- Variable Resistor -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <line x1="10" y1="25" x2="25" y2="25" stroke="currentColor" stroke-width="2"/>
+            <rect x="25" y="17" width="30" height="16" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="55" y1="25" x2="70" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="20" y1="36" x2="58" y2="13" stroke="currentColor" stroke-width="2"/>
+            <polygon points="59,13 52,14 55,19" fill="currentColor"/>
+          </svg>
+          <span class="circuit-label">Variable Resistor</span>
+        </div>
+        <!-- LDR -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <circle cx="40" cy="25" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
+            <rect x="27" y="18" width="26" height="14" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="10" y1="25" x2="27" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="53" y1="25" x2="70" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="20" y1="8" x2="30" y2="18" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="26" y1="5" x2="36" y2="15" stroke="currentColor" stroke-width="1.5"/>
+            <polygon points="30,18 24,17 28,13" fill="currentColor"/>
+            <polygon points="36,15 30,14 34,10" fill="currentColor"/>
+          </svg>
+          <span class="circuit-label">LDR</span>
+        </div>
+        <!-- Thermistor -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <line x1="10" y1="25" x2="25" y2="25" stroke="currentColor" stroke-width="2"/>
+            <rect x="25" y="17" width="30" height="16" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="55" y1="25" x2="70" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="20" y1="36" x2="55" y2="14" stroke="currentColor" stroke-width="2"/>
+            <line x1="55" y1="14" x2="62" y2="14" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span class="circuit-label">Thermistor</span>
+        </div>
+        <!-- Potentiometer -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <line x1="10" y1="25" x2="25" y2="25" stroke="currentColor" stroke-width="2"/>
+            <rect x="25" y="17" width="30" height="16" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="55" y1="25" x2="70" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="40" y1="42" x2="40" y2="35" stroke="currentColor" stroke-width="2"/>
+            <polygon points="40,33 36,39 44,39" fill="currentColor"/>
+          </svg>
+          <span class="circuit-label">Potentiometer</span>
+        </div>
+        <!-- Lamp -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <circle cx="40" cy="25" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="10" y1="25" x2="26" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="54" y1="25" x2="70" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="30" y1="15" x2="50" y2="35" stroke="currentColor" stroke-width="2"/>
+            <line x1="30" y1="35" x2="50" y2="15" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span class="circuit-label">Lamp</span>
+        </div>
+        <!-- LED -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <circle cx="40" cy="25" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="15" y1="25" x2="30" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="50" y1="25" x2="65" y2="25" stroke="currentColor" stroke-width="2"/>
+            <polygon points="30,17 30,33 45,25" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="45" y1="17" x2="45" y2="33" stroke="currentColor" stroke-width="2"/>
+            <line x1="42" y1="11" x2="48" y2="5" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="48" y1="13" x2="54" y2="7" stroke="currentColor" stroke-width="1.5"/>
+            <polygon points="48,5 42,6 46,9" fill="currentColor"/>
+            <polygon points="54,7 48,8 52,11" fill="currentColor"/>
+          </svg>
+          <span class="circuit-label">LED</span>
+        </div>
+        <!-- Heating Element -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <line x1="10" y1="25" x2="25" y2="25" stroke="currentColor" stroke-width="2"/>
+            <rect x="25" y="17" width="30" height="16" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="55" y1="25" x2="70" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="35" y1="17" x2="35" y2="33" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="45" y1="17" x2="45" y2="33" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          <span class="circuit-label">Heating Element</span>
+        </div>
+        <!-- Motor -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <circle cx="40" cy="25" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="10" y1="25" x2="26" y2="25" stroke="currentColor" stroke-width="2"/>
+            <line x1="54" y1="25" x2="70" y2="25" stroke="currentColor" stroke-width="2"/>
+            <text x="40" y="30" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="currentColor">M</text>
+          </svg>
+          <span class="circuit-label">Motor</span>
+        </div>
+        <!-- Earth -->
+        <div class="circuit-card">
+          <svg class="circuit-svg" viewBox="0 0 80 50">
+            <line x1="40" y1="10" x2="40" y2="28" stroke="currentColor" stroke-width="2"/>
+            <line x1="25" y1="28" x2="55" y2="28" stroke="currentColor" stroke-width="3"/>
+            <line x1="31" y1="33" x2="49" y2="33" stroke="currentColor" stroke-width="2"/>
+            <line x1="36" y1="38" x2="44" y2="38" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          <span class="circuit-label">Earth Connection</span>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  contentArea.innerHTML = circuitsHtml;
+}
+
+// ── EM SPECTRUM VISUALIZER RENDERER ──
+function renderSpectrumVisualizer() {
+  const contentArea = document.getElementById('bookletContentArea');
+  
+  const spectrumHtml = `
+    <div class="topic-group">
+      <h2 class="topic-title">Electromagnetic (EM) Spectrum</h2>
+      <div class="spectrum-container">
+        <h4 class="spectrum-title">The Complete EM Spectrum (Wavelength Scale)</h4>
+        
+        <!-- Rainbow/Scientific Gradient Bar -->
+        <div class="spectrum-bar"></div>
+        
+        <div class="spectrum-bar-labels">
+          <span>Gamma</span>
+          <span>X-ray</span>
+          <span>UV</span>
+          <span style="color:var(--accent2); font-weight:700;">Visible</span>
+          <span>Infrared</span>
+          <span>Micro</span>
+          <span>Radio</span>
+        </div>
+        
+        <!-- Wavelength Scale Ticks -->
+        <div class="spectrum-scale">
+          <span>10⁻¹⁶ m</span>
+          <span>10⁻¹² m</span>
+          <span>10⁻⁹ m</span>
+          <span>10⁻⁷ m</span>
+          <span>10⁻⁵ m</span>
+          <span>10⁻² m</span>
+          <span>10⁴ m</span>
+          <span>10⁸ m</span>
+        </div>
+        
+        <!-- ZOOMED VISIBLE SPECTRUM SECTION -->
+        <div class="visible-spectrum-section">
+          <h4 class="spectrum-title">Visible Spectrum Expansion (400 – 700 nm)</h4>
+          <div class="visible-spectrum-bar"></div>
+          <div class="visible-spectrum-labels">
+            <span>Violet (400 nm)</span>
+            <span>Blue (450 nm)</span>
+            <span>Green (525 nm)</span>
+            <span>Yellow (580 nm)</span>
+            <span>Orange (600 nm)</span>
+            <span>Red (700 nm)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  contentArea.innerHTML = spectrumHtml;
+}
+
+// ── FEEDBACK FUNCTIONS ──
+function toggleFeedback() {
+  const panel = document.getElementById('fb-panel');
+  if (!panel) return;
+  panel.classList.toggle('open');
+}
+
+function sendFeedback() {
+  const name = document.getElementById('fbName').value.trim();
+  const msg = document.getElementById('fbMsg').value.trim();
+  const status = document.getElementById('fbStatus');
+  
+  if (!msg) {
+    status.textContent = 'Please enter feedback.';
+    status.style.color = 'var(--red)';
+    return;
+  }
+  
+  status.textContent = 'Sending...';
+  status.style.color = 'var(--text2)';
+  
+  console.log('💡 Booklet Feedback from', name, ':', msg);
+  
+  status.textContent = '✅ Thank you for your feedback!';
+  status.style.color = 'var(--green)';
+  document.getElementById('fbMsg').value = '';
+  
+  setTimeout(() => {
+    toggleFeedback();
+    status.textContent = '';
+  }, 2000);
+}
+
+// ── GDC HELPER LAUNCHER ──
+function openGDC() {
+  if (typeof window.openGDC === 'function') {
+    window.openGDC();
+  } else {
+    alert('TI-84 Graphing Calculator script loading... please try again in a moment.');
+  }
+}
+</script>
+
+<!-- GDC Calculator Scripts -->
+<script src="js/gdc.js"></script>
+
+</body>
+</html>
