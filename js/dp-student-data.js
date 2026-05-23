@@ -1,4 +1,604 @@
 const DP_STUDENT_DATA = {
+  "E3": {
+  "title": "Radioactive Decay",
+  "code": "E.3",
+  "theme": "E",
+  "level": "SL + HL",
+  "subtopicCount": 10,
+  "subtopics": [
+    {
+      "id": "e3_sub1",
+      "num": 1,
+      "title": "Isotopes, Mass Defect & Binding Energy",
+      "group": "Nuclear Structure & Binding Energy",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "E.2 Quantum Physics",
+      "nextTitle": "The BE/A Curve & the Strong Nuclear Force",
+
+      "bigIdea": "A helium-4 nucleus weighs LESS than 2 protons and 2 neutrons separately. The missing mass didn't vanish — it was converted to energy when the nucleus formed. This 'binding energy' is what holds the nucleus together, and its variation across the periodic table explains both fission and fusion.",
+
+      "foundation": {
+        "title": "Why nuclei weigh less than their parts",
+        "content": "<p>Imagine building a house from bricks. The finished house weighs exactly the same as all the bricks did separately. But nuclei are different: the finished nucleus weighs LESS than the separate protons and neutrons that make it up.</p><p>Where did the missing mass go? It was converted into energy — the energy that BINDS the nucleus together. To pull the nucleus apart, you'd have to put that energy BACK. This is the <strong>binding energy</strong>: the energy needed to completely disassemble a nucleus into individual protons and neutrons.</p><p><strong>Isotopes</strong> are atoms of the same element (same number of protons) but with different numbers of neutrons. Carbon-12 has 6 protons + 6 neutrons. Carbon-14 has 6 protons + 8 neutrons. Same element, different mass, different stability.</p>",
+        "summary": "<p><strong>Isotopes:</strong> Same element (same Z), different neutron count (different A).</p><p><strong>Mass defect (Δm):</strong> The difference between the mass of separate nucleons and the assembled nucleus. Always positive for stable nuclei.</p><p><strong>Binding energy:</strong> E = Δmc² — the energy equivalent of the mass defect. The energy needed to split the nucleus apart.</p><p><strong>More binding energy = more stable nucleus.</strong></p>",
+        "checkQuestions": [
+          {
+            "question": "A helium-4 nucleus has a mass defect of 0.03035 u. What does this mean physically?",
+            "answer": "The assembled He-4 nucleus is 0.03035 u lighter than 2 protons + 2 neutrons separately. This 'missing mass' was converted to 28.3 MeV of binding energy when the nucleus formed. You'd need to supply 28.3 MeV to split it back into 4 separate nucleons."
+          },
+          {
+            "question": "Carbon-12 and carbon-14 are isotopes. What's the same and what's different?",
+            "answer": "Same: both have 6 protons (Z = 6) → both are carbon, same chemical properties. Different: C-12 has 6 neutrons (A = 12), C-14 has 8 neutrons (A = 14) → different mass, different nuclear stability (C-14 is radioactive)."
+          }
+        ]
+      },
+
+      "core": {
+        "title": "Isotopes, mass defect, and nuclear binding energy",
+        "content": "<p><strong>Nuclear notation:</strong> ᴬ_Z X, where A = nucleon number (protons + neutrons), Z = proton number (= atomic number = number of electrons in a neutral atom), X = chemical symbol. Neutron number N = A − Z.</p><p><strong>Isotopes:</strong> Atoms with the same Z but different A (same protons, different neutrons). Example: ¹H (protium), ²H (deuterium), ³H (tritium) — all hydrogen (Z = 1), with 0, 1, 2 neutrons respectively.</p><p><strong>Mass defect (Δm):</strong> Δm = Zm_p + (A − Z)m_n − m_nucleus. This is ALWAYS positive for stable nuclei — the assembled nucleus weighs less than its parts.</p><p><strong>Binding energy (BE):</strong> E = Δmc². The energy released when the nucleus was assembled from separate nucleons, OR the energy required to disassemble it completely. Units: MeV (1 u = 931.5 MeV/c²).</p><p><strong>Binding energy per nucleon (BE/A):</strong> A measure of how tightly bound EACH nucleon is, on average. Higher BE/A → more stable nucleus. This is the key quantity for comparing nuclear stability across the periodic table.</p>",
+        "keyPoints": [
+          "Nuclear notation: ᴬ_Z X — A = nucleon number, Z = proton number, N = A − Z",
+          "Isotopes: same Z, different A (same element, different mass and stability)",
+          "Mass defect: Δm = Zm_p + Nm_n − m_nucleus (always positive for stable nuclei)",
+          "Binding energy: E = Δmc² = Δm(u) × 931.5 MeV",
+          "BE/A: binding energy per nucleon — higher = more stable"
+        ],
+        "examTrap": {
+          "wrong": "Binding energy is the energy stored inside the nucleus",
+          "correct": "Binding energy is the energy needed to DISASSEMBLE the nucleus — to pull all nucleons apart to infinity. It's NOT energy 'stored' inside that can be released. To RELEASE energy, you need to form a MORE tightly bound nucleus (higher BE/A), not break one apart."
+        }
+      },
+
+      "extension": {
+        "title": "Why does mass defect exist? — The deep connection to E = mc²",
+        "content": "<p>When nucleons come together to form a nucleus, the strong nuclear force binds them. Energy is released (as photons or kinetic energy of the products). By E = mc², this released energy corresponds to a decrease in mass. The nucleus is lighter because it has LESS energy than the separated nucleons.</p><p>Think of it as an energy 'well': the nucleons fell into a potential well when they assembled. To get them back out, you must supply the binding energy — climb back out of the well.</p><p>This is the same principle as chemical bonding (electrons in atoms release energy when bonding), but ~10⁶ times stronger because the strong nuclear force is ~10⁶ times stronger than the electromagnetic force at nuclear distances.</p>",
+        "connections": [
+          "A.5 Special Relativity: E = mc² is the theoretical basis for mass-energy equivalence in nuclear reactions",
+          "E.4 Fission / E.5 Fusion: the BE/A curve determines whether fission or fusion releases energy for a given nucleus"
+        ]
+      },
+
+      "simulation": {
+        "title": "PhET: Build a Nucleus",
+        "source": "University of Colorado Boulder",
+        "url": "https://phet.colorado.edu/en/simulations/build-a-nucleus",
+        "instructions": [
+          "Add protons and neutrons one at a time. Watch how the nucleus's stability changes.",
+          "Note: some combinations are stable, others decay immediately. Stability depends on the N/Z ratio.",
+          "Try building He-4 (2p + 2n): notice it's exceptionally stable — a 'doubly magic' nucleus."
+        ]
+      },
+
+      "video": {
+        "title": "Mass Defect & Binding Energy — IB Physics",
+        "duration": "9 min",
+        "description": "Mass defect calculation, binding energy, and BE/A with worked examples",
+        "embedId": ""
+      },
+
+      "equations": [
+        {
+          "formula": "Δm = Zm_p + (A−Z)m_n − m_nucleus",
+          "description": "Mass defect: total mass of separate nucleons minus mass of assembled nucleus."
+        },
+        {
+          "formula": "E = Δmc² = Δm(u) × 931.5 MeV",
+          "description": "Binding energy from mass defect. 1 u = 931.5 MeV/c²."
+        },
+        {
+          "formula": "BE/A = E_binding / A",
+          "description": "Binding energy per nucleon. Higher = more stable."
+        }
+      ],
+
+      "workedExamples": [
+        {
+          "level": "foundation",
+          "scope": "sl",
+          "title": "He-4 has 2 protons and 2 neutrons. Given m_p = 1.00728 u, m_n = 1.00866 u, m(He-4) = 4.00260 u. Find the mass defect and binding energy.",
+          "steps": [
+            { "label": "Separate nucleons", "text": "2 × 1.00728 + 2 × 1.00866 = 2.01456 + 2.01732 = 4.03188 u" },
+            { "label": "Mass defect", "text": "Δm = 4.03188 − 4.00260 = 0.02928 u", "isEquation": true },
+            { "label": "Binding energy", "text": "E = 0.02928 × 931.5 = 27.3 MeV", "isEquation": true },
+            { "label": "Per nucleon", "text": "BE/A = 27.3 / 4 = 6.82 MeV/nucleon" },
+            { "label": "Meaning", "text": "You'd need 27.3 MeV to split He-4 into 2 protons and 2 neutrons. Each nucleon is bound by about 6.82 MeV on average." }
+          ]
+        },
+        {
+          "level": "core",
+          "scope": "sl",
+          "title": "Calculate BE/A for Fe-56 given: m(Fe-56) = 55.9349 u, m_p = 1.00728 u, m_n = 1.00866 u. (Fe has Z = 26.)",
+          "steps": [
+            { "label": "Nucleons", "text": "Z = 26 protons, N = 56 − 26 = 30 neutrons" },
+            { "label": "Separate mass", "text": "26(1.00728) + 30(1.00866) = 26.1893 + 30.2598 = 56.4491 u" },
+            { "label": "Mass defect", "text": "Δm = 56.4491 − 55.9349 = 0.5142 u", "isEquation": true },
+            { "label": "Binding energy", "text": "E = 0.5142 × 931.5 = 479.0 MeV", "isEquation": true },
+            { "label": "Per nucleon", "text": "BE/A = 479.0 / 56 = 8.55 MeV/nucleon", "isEquation": true },
+            { "label": "Significance", "text": "Fe-56 has one of the highest BE/A values of any nucleus (~8.8 MeV/nucleon for Fe-56 with more precise masses). This is the PEAK of the BE/A curve — iron is the most stable nucleus." }
+          ]
+        },
+        {
+          "level": "extension",
+          "scope": "sl",
+          "title": "Compare BE/A for H-2 (deuterium), He-4, and U-238. What does the comparison tell us?",
+          "steps": [
+            { "label": "H-2", "text": "BE/A ≈ 1.11 MeV/nucleon — weakly bound" },
+            { "label": "He-4", "text": "BE/A ≈ 7.07 MeV/nucleon — strongly bound (spike on the curve)" },
+            { "label": "Fe-56", "text": "BE/A ≈ 8.79 MeV/nucleon — the peak (most stable)" },
+            { "label": "U-238", "text": "BE/A ≈ 7.57 MeV/nucleon — less stable than iron" },
+            { "label": "Conclusion", "text": "Fusion of light nuclei (H → He) INCREASES BE/A → releases energy. Fission of heavy nuclei (U → mid-range) also INCREASES BE/A → releases energy. Both move TOWARD iron. Iron is the 'ash' — the endpoint of both processes." }
+          ]
+        }
+      ],
+
+      "practiceProblems": [
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "State the number of protons, neutrons, and electrons in a neutral atom of ⁵⁶₂₆Fe.",
+          "solution": "Protons = Z = 26. Neutrons = A − Z = 56 − 26 = 30. Electrons = 26 (neutral atom: electrons = protons)."
+        },
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "Define mass defect and explain why it is always positive for stable nuclei.",
+          "solution": "Mass defect is the difference between the total mass of the individual nucleons and the mass of the assembled nucleus: Δm = Zm_p + Nm_n − m_nucleus. It is positive because the nucleus has LESS mass than its separate parts — the 'missing' mass was converted to binding energy when the nucleus formed."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "Calculate the binding energy and BE/A for Li-7 (Z = 3): m(Li-7) = 7.01601 u, m_p = 1.00728 u, m_n = 1.00866 u.",
+          "solution": "Separate: 3(1.00728) + 4(1.00866) = 3.02184 + 4.03464 = 7.05648 u. Δm = 7.05648 − 7.01601 = 0.04047 u. BE = 0.04047 × 931.5 = 37.7 MeV. BE/A = 37.7/7 = 5.39 MeV/nucleon."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "Two isotopes: ³⁵₁₇Cl and ³⁷₁₇Cl. (a) How many neutrons in each? (b) Are they the same element? (c) Which has the higher mass?",
+          "solution": "(a) Cl-35: N = 35 − 17 = 18 neutrons. Cl-37: N = 37 − 17 = 20 neutrons. (b) Yes — same Z = 17 = same element (chlorine). (c) Cl-37 has higher mass (2 more neutrons)."
+        },
+        {
+          "difficulty": "hard",
+          "scope": "sl",
+          "question": "If 1 kg of matter were converted entirely to energy (E = mc²), how much energy would be released? Compare with 1 kg of TNT (~4.2 × 10⁶ J).",
+          "solution": "E = mc² = 1 × (3 × 10⁸)² = 9 × 10¹⁶ J. Ratio = 9 × 10¹⁶ / 4.2 × 10⁶ = 2.14 × 10¹⁰ — about 21 billion times more energy than TNT. (In practice, nuclear reactions convert only a tiny fraction of mass to energy — fission converts ~0.09%, fusion ~0.7%.)"
+        }
+      ],
+
+      "commonMistakes": [
+        {
+          "wrong": "Binding energy is energy stored inside the nucleus that can be released",
+          "explanation": "Binding energy is the energy you must ADD to break the nucleus apart. It's the energy that was released when the nucleus FORMED. To release MORE energy, you need to form a MORE stable nucleus (higher BE/A) — not break one apart.",
+          "correct": "Binding energy = energy needed to disassemble. Energy is released when nucleons form a MORE tightly bound nucleus (BE/A increases)."
+        },
+        {
+          "wrong": "More binding energy always means more energy is released in a reaction",
+          "explanation": "What matters is the CHANGE in total binding energy: ΔBE = BE(products) − BE(reactants). If products have higher total BE → energy is released. If lower → energy is absorbed.",
+          "correct": "Energy released = increase in total binding energy = Δ(total BE) of products vs reactants."
+        }
+      ],
+
+      "examCorner": {
+        "scope": "sl",
+        "question": "The nucleus of iron-56 (⁵⁶₂₆Fe) has a mass of 55.9349 u.\n(a) Define mass defect. [1]\n(b) Calculate the mass defect of iron-56. (m_p = 1.00728 u, m_n = 1.00866 u) [2]\n(c) Calculate the binding energy in MeV. [1]\n(d) Calculate the binding energy per nucleon. [1]\n(e) Explain the significance of iron-56 having one of the highest binding energies per nucleon. [2]",
+        "marks": 7,
+        "modelAnswer": "(a) Mass defect is the difference between the total mass of the individual (separate) nucleons and the mass of the nucleus [1].\n(b) Total nucleon mass = 26(1.00728) + 30(1.00866) = 26.189 + 30.260 = 56.449 u [1]. Δm = 56.449 − 55.935 = 0.514 u [1].\n(c) BE = 0.514 × 931.5 = 479 MeV [1].\n(d) BE/A = 479/56 = 8.55 MeV/nucleon [1].\n(e) Iron-56 is at/near the peak of the BE/A curve [1]. This means both fusion of lighter nuclei AND fission of heavier nuclei release energy as they move toward iron's BE/A value — iron is the most stable nuclear configuration and the endpoint of stellar fusion [1].",
+        "examinerTip": "For mass defect calculations: write out the FULL calculation showing separate nucleon mass, then subtract nucleus mass. Students who skip steps often make arithmetic errors that lose both method AND answer marks."
+      },
+
+      "checklist": [
+        "I can define isotopes as atoms with the same proton number but different nucleon number",
+        "I can use nuclear notation ᴬ_ZX to identify protons, neutrons, and nucleon number",
+        "I can calculate the number of neutrons from A and Z: N = A − Z",
+        "I can define mass defect as Δm = Zm_p + Nm_n − m_nucleus",
+        "I can explain why mass defect is always positive for stable nuclei",
+        "I can calculate binding energy from mass defect: E = Δm × 931.5 MeV",
+        "I can define binding energy as the energy needed to completely separate a nucleus into individual nucleons",
+        "I can calculate binding energy per nucleon: BE/A = E_binding / A",
+        "I can explain that higher BE/A means a more stable nucleus",
+        "I can identify Fe-56 as having the highest BE/A (~8.8 MeV/nucleon)",
+        "I can explain the significance of the BE/A peak at iron for both fusion and fission",
+        "I can distinguish between mass defect (mass difference) and binding energy (energy equivalent)",
+        "I can convert between atomic mass units (u) and MeV using 1 u = 931.5 MeV/c²",
+        "I can calculate E = mc² for complete mass-to-energy conversion",
+        "I have solved all practice problems and corrected my errors",
+        "I have attempted the exam corner question under timed conditions without notes"
+      ]
+    },
+    {
+      "id": "e3_sub2",
+      "num": 2,
+      "title": "The BE/A Curve & the Strong Nuclear Force",
+      "group": "Nuclear Structure & Binding Energy",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Isotopes, Mass Defect & Binding Energy",
+      "nextTitle": "E = mc² in Nuclear Reactions",
+
+      "bigIdea": "One graph explains why the Sun shines, why nuclear reactors work, why iron is the most common element in Earth's core, and why you can't get energy from fusing iron. The binding energy per nucleon curve is the most important graph in nuclear physics.",
+
+      "foundation": {
+        "title": "The graph that explains everything nuclear",
+        "content": "<p>Plot binding energy per nucleon (how tightly bound each nucleon is) against nucleon number (how many nucleons are in the nucleus) for every element. You get a curve that rises steeply, peaks at iron-56, then gradually falls.</p><p><strong>Left side (light nuclei):</strong> Low BE/A → loosely bound. FUSING them together (moving RIGHT) increases BE/A → releases energy. This is how the Sun works.</p><p><strong>Right side (heavy nuclei):</strong> Moderately high BE/A but decreasing. SPLITTING them (moving LEFT) increases BE/A → releases energy. This is how nuclear reactors work.</p><p><strong>The peak (iron-56):</strong> Maximum stability. You can't get energy by fusing iron OR splitting iron. Iron is the dead end — the nuclear ash. This is why massive stars die when their core becomes iron.</p><p><strong>The strong nuclear force</strong> is what holds nucleons together. It's: (a) very strong (overcomes proton-proton repulsion), (b) very short range (~1 fm = 10⁻¹⁵ m), (c) attractive between ALL nucleon pairs (p-p, p-n, n-n). Beyond ~3 fm, it drops to essentially zero.</p>",
+        "summary": "<p><strong>BE/A curve:</strong> Rises steeply for light nuclei → peaks at Fe-56 → decreases for heavy nuclei.</p><p><strong>Fusion (left → peak):</strong> Releases energy. Powers stars.</p><p><strong>Fission (right → peak):</strong> Releases energy. Powers reactors.</p><p><strong>Iron:</strong> Peak = most stable. Can't release energy from iron.</p><p><strong>Strong force:</strong> Short-range (~1 fm), attractive, holds nucleus together against Coulomb repulsion.</p>",
+        "checkQuestions": [
+          {
+            "question": "Why can both fusion AND fission release energy? Aren't they opposite processes?",
+            "answer": "Both release energy because both move TOWARD the peak of the BE/A curve (iron-56). Fusion moves light nuclei RIGHT (up the curve). Fission moves heavy nuclei LEFT (also up the curve). Energy is released whenever BE/A INCREASES — regardless of direction."
+          },
+          {
+            "question": "Why are very heavy nuclei (like uranium) less stable than iron?",
+            "answer": "In very heavy nuclei, there are so many protons that the long-range Coulomb repulsion between protons on opposite sides of the nucleus is significant. But the strong nuclear force only acts over ~1 fm — protons far apart don't feel it. The balance tips toward instability, reducing BE/A."
+          }
+        ]
+      },
+
+      "core": {
+        "title": "The BE/A curve and the strong nuclear force — formal treatment",
+        "content": "<p><strong>The BE/A curve:</strong></p><ul><li>Rises steeply for A < 20 (light nuclei become much more stable as you add nucleons)</li><li>He-4 is a spike: unusually high BE/A for its mass (doubly magic: 2p + 2n)</li><li>Peak at Fe-56: BE/A ≈ 8.8 MeV/nucleon (most tightly bound per nucleon)</li><li>Gradual decrease for A > 60 (heavy nuclei become slightly less stable per nucleon)</li></ul><p><strong>Why the curve has this shape:</strong></p><ul><li>Light nuclei: adding nucleons increases the number of strong-force bonds faster than the Coulomb repulsion grows → BE/A rises</li><li>At the peak: optimal balance between strong force (attraction) and Coulomb repulsion</li><li>Heavy nuclei: each new proton adds Coulomb repulsion to ALL other protons (long-range), but strong-force attraction only to nearest neighbours (short-range) → diminishing returns → BE/A decreases</li></ul><p><strong>The strong nuclear force:</strong></p><ul><li>Range: ~1 fm (10⁻¹⁵ m) — comparable to nucleon size</li><li>Strength: ~100× stronger than the electromagnetic force at nuclear distances</li><li>Attractive between ALL nucleon pairs: p-p, p-n, n-n (charge-independent)</li><li>At distances > ~3 fm: essentially zero (drops off extremely rapidly)</li><li>Evidence: nuclei EXIST despite proton-proton repulsion → a stronger attractive force must act</li></ul>",
+        "keyPoints": [
+          "BE/A curve: rises steeply, peaks at Fe-56, then gradually decreases",
+          "Fusion releases energy for A < 56 (moving toward the peak from the left)",
+          "Fission releases energy for A > 56 (moving toward the peak from the right)",
+          "Iron is the endpoint: can't release energy by fusing or splitting iron",
+          "Strong nuclear force: short-range (~1 fm), attractive, ~100× stronger than EM at nuclear distances",
+          "The short range of the strong force explains why heavy nuclei are LESS stable per nucleon"
+        ],
+        "examTrap": {
+          "wrong": "The strong force acts on protons only",
+          "correct": "The strong force acts between ALL nucleon pairs: proton-proton, proton-neutron, AND neutron-neutron. It is charge-independent. Neutrons contribute to binding without adding Coulomb repulsion — this is why heavy nuclei need more neutrons than protons for stability."
+        }
+      },
+
+      "extension": {
+        "title": "Why He-4 is special — magic numbers and nuclear shell structure",
+        "content": "<p>He-4 has an anomalously high BE/A for its size — a spike on the curve. This is because both its proton number (2) and neutron number (2) are 'magic numbers' — values that correspond to completely filled nuclear energy levels (analogous to filled electron shells in atomic physics).</p><p>Other magic numbers: 2, 8, 20, 28, 50, 82, 126. Nuclei with magic numbers of protons OR neutrons are unusually stable. Doubly magic nuclei (magic Z AND magic N) are exceptionally stable: He-4 (2,2), O-16 (8,8), Ca-40 (20,20), Pb-208 (82,126).</p><p>This nuclear shell model earned Mayer and Jensen the 1963 Nobel Prize. It explains why certain isotopes are more abundant in nature — they're the stable ones.</p>",
+        "connections": [
+          "E.1 Structure of the Atom: nuclear shell model is analogous to atomic electron shells",
+          "E.4 Fission: the BE/A curve predicts energy release from splitting heavy nuclei",
+          "E.5 Fusion: the BE/A curve predicts energy release from combining light nuclei"
+        ]
+      },
+
+      "simulation": {
+        "title": "Interactive BE/A Curve",
+        "source": "Various educational resources",
+        "url": "https://phet.colorado.edu/en/simulations/nuclear-fission",
+        "instructions": [
+          "Examine the BE/A values for different nuclei. Note the peak at Fe-56.",
+          "Compare He-4 (spike) with its neighbours Li-6 and Li-7 — He-4 is unusually stable.",
+          "Trace the path of fusion (H → He → C → Fe: moving right, up the curve) and fission (U → Ba + Kr: moving left, up the curve)."
+        ]
+      },
+
+      "video": {
+        "title": "Binding Energy Per Nucleon Curve — IB Physics",
+        "duration": "8 min",
+        "description": "The BE/A curve explained: fusion, fission, iron, and the strong force",
+        "embedId": ""
+      },
+
+      "equations": [
+        {
+          "formula": "BE/A curve peaks at Fe-56 (~8.8 MeV/nucleon)",
+          "description": "Iron-56 has the highest BE/A → most stable nucleus. Both fusion and fission move toward this peak."
+        },
+        {
+          "formula": "Strong force range ≈ 1 fm = 10⁻¹⁵ m",
+          "description": "The strong nuclear force acts only over nuclear distances. Beyond ~3 fm: essentially zero."
+        }
+      ],
+
+      "workedExamples": [
+        {
+          "level": "foundation",
+          "scope": "sl",
+          "title": "Using the BE/A curve, explain why fusion of hydrogen to helium releases energy.",
+          "steps": [
+            { "label": "Hydrogen", "text": "H-1: BE/A ≈ 0 MeV/nucleon (a single proton has no binding energy)" },
+            { "label": "Helium-4", "text": "He-4: BE/A ≈ 7.07 MeV/nucleon" },
+            { "label": "Change", "text": "BE/A increases dramatically: 0 → 7.07 MeV/nucleon" },
+            { "label": "Energy", "text": "For 4 nucleons: total BE increase ≈ 4 × 7 = 28 MeV released" },
+            { "label": "Key point", "text": "Moving UP the left side of the curve (toward the peak) releases energy. This is fusion — and it's what powers the Sun." }
+          ]
+        },
+        {
+          "level": "core",
+          "scope": "sl",
+          "title": "Estimate the energy released when U-235 undergoes fission, using BE/A values: U-235 ≈ 7.59 MeV/nucleon, average products ≈ 8.50 MeV/nucleon.",
+          "steps": [
+            { "label": "Before", "text": "Total BE of U-235 = 235 × 7.59 = 1784 MeV" },
+            { "label": "After", "text": "Total BE of products = 235 × 8.50 = 1998 MeV (approximately, since total nucleons are conserved)" },
+            { "label": "Energy released", "text": "ΔBE = 1998 − 1784 = 214 MeV", "isEquation": true },
+            { "label": "Check", "text": "This is close to the measured ~200 MeV per fission. The BE/A method gives a good estimate." }
+          ]
+        },
+        {
+          "level": "extension",
+          "scope": "sl",
+          "title": "Explain why the strong nuclear force must be short-range, using evidence from the BE/A curve.",
+          "steps": [
+            { "label": "Observation", "text": "If the strong force were long-range (like gravity or electromagnetism), every nucleon would attract every other nucleon equally." },
+            { "label": "Prediction", "text": "Total binding energy would scale as A(A−1)/2 (number of pairs) → BE/A would increase continuously with A." },
+            { "label": "Reality", "text": "BE/A peaks at iron and DECREASES for heavy nuclei. This means adding more nucleons doesn't always increase stability." },
+            { "label": "Conclusion", "text": "The strong force must be short-range: each nucleon only binds to its NEAREST NEIGHBOURS, not to the entire nucleus. Beyond ~1 fm, the force drops to zero. In large nuclei, distant protons repel (long-range Coulomb) without attracting (short-range strong force exhausted) → BE/A decreases." }
+          ]
+        }
+      ],
+
+      "practiceProblems": [
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "Using the BE/A curve, state which nucleus is the most stable per nucleon.",
+          "solution": "Iron-56 (Fe-56) has the highest binding energy per nucleon (~8.8 MeV/nucleon), making it the most stable nucleus per nucleon."
+        },
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "State two properties of the strong nuclear force.",
+          "solution": "(1) It is attractive and acts between all nucleon pairs (proton-proton, proton-neutron, neutron-neutron). (2) It is short-range: acts over ~1 fm (10⁻¹⁵ m) and is essentially zero beyond ~3 fm."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "Using the BE/A curve, explain why fission of U-235 releases energy but fission of Fe-56 would not.",
+          "solution": "U-235 has BE/A ≈ 7.6 MeV/nucleon. Its fission products have BE/A ≈ 8.5 MeV/nucleon (closer to the peak). BE/A increases → energy released. Fe-56 is already at the PEAK of the curve. Splitting it would produce nuclei with LOWER BE/A → energy would need to be ABSORBED, not released."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "Explain why heavy nuclei (A > 200) are less stable than iron, even though they contain more nucleons.",
+          "solution": "The strong force is short-range (~1 fm). Each nucleon only binds to its immediate neighbours. But Coulomb repulsion is long-range — every proton repels every other proton across the entire nucleus. In heavy nuclei, protons on opposite sides feel Coulomb repulsion but NOT the strong force. This imbalance reduces BE/A, making heavy nuclei less stable per nucleon than iron."
+        },
+        {
+          "difficulty": "hard",
+          "scope": "sl",
+          "question": "He-4 has BE/A ≈ 7.07 MeV/nucleon. Li-6 has BE/A ≈ 5.33 MeV/nucleon. (a) Which is more stable per nucleon? (b) Can He-4 fuse with He-4 to form Be-8 (BE/A ≈ 7.06)? Would this release or absorb energy? (c) Why is this significant for stellar nucleosynthesis?",
+          "solution": "(a) He-4 (higher BE/A). (b) BE/A decreases slightly (7.07 → 7.06) → energy must be ABSORBED. Be-8 is unstable and decays back to two He-4 in ~10⁻¹⁶ s. (c) This is the 'beryllium bottleneck' — it makes stellar helium fusion extremely slow. The triple-alpha process (3He-4 → C-12) bypasses this by forming C-12 (BE/A ≈ 7.68) in a single step, which DOES release energy."
+        }
+      ],
+
+      "commonMistakes": [
+        {
+          "wrong": "Fusion always releases energy for any nuclei",
+          "explanation": "Fusion only releases energy when the products have HIGHER BE/A than the reactants — i.e., for nuclei LIGHTER than iron (left side of the curve). Fusing nuclei heavier than iron ABSORBS energy.",
+          "correct": "Fusion releases energy only for nuclei lighter than iron (left of the BE/A peak). Fission releases energy only for nuclei heavier than iron (right of the peak). Both move TOWARD iron."
+        },
+        {
+          "wrong": "The strong force is just a stronger version of the electromagnetic force",
+          "explanation": "They are completely different fundamental forces. The EM force is long-range and acts between charges. The strong force is short-range (~1 fm), acts between ALL nucleons (including uncharged neutrons), and is charge-independent.",
+          "correct": "The strong nuclear force is a distinct fundamental force: short-range, charge-independent, and ~100× stronger than EM at nuclear distances."
+        }
+      ],
+
+      "examCorner": {
+        "scope": "sl",
+        "question": "The graph shows the variation of binding energy per nucleon with nucleon number.\n(a) Identify the most stable nucleus on the graph. [1]\n(b) Using the graph, explain why the fusion of hydrogen nuclei releases energy. [2]\n(c) Using the graph, explain why the fission of uranium-235 releases energy. [2]\n(d) Explain why very heavy nuclei are less stable per nucleon than iron, with reference to the strong nuclear force. [3]",
+        "marks": 8,
+        "modelAnswer": "(a) Iron-56 (Fe-56) — it has the highest binding energy per nucleon [1].\n(b) Hydrogen has very low BE/A [1]. When hydrogen fuses to helium, the product has much higher BE/A → the increase in total binding energy is released as energy [1].\n(c) U-235 has BE/A ≈ 7.6. Its fission products have BE/A ≈ 8.5 (closer to the peak) [1]. The increase in total binding energy across all nucleons is released as energy (~200 MeV) [1].\n(d) The strong nuclear force has a very short range (~1 fm / 10⁻¹⁵ m) [1]. In very heavy nuclei, protons on opposite sides of the nucleus are too far apart to feel the strong force [1]. However, they still experience long-range Coulomb repulsion → the net effect reduces binding energy per nucleon → heavy nuclei are less stable than iron [1].",
+        "examinerTip": "For BE/A curve questions: always reference the CURVE, not just 'binding energy.' State where the reactants are on the curve, where the products are, and which direction represents an increase in BE/A (= energy release). Without referencing the curve, you lose the 'using the graph' marks."
+      },
+
+      "checklist": [
+        "I can sketch the BE/A curve showing: steep rise for light nuclei, peak at Fe-56, gradual decrease for heavy nuclei",
+        "I can identify He-4 as an anomalous spike on the curve (unusually stable for its mass)",
+        "I can state that Fe-56 has the highest BE/A (~8.8 MeV/nucleon)",
+        "I can explain why fusion releases energy for light nuclei (BE/A increases moving right toward the peak)",
+        "I can explain why fission releases energy for heavy nuclei (BE/A increases moving left toward the peak)",
+        "I can explain why iron is the endpoint of both fusion and fission (can't increase BE/A further)",
+        "I can state that the strong nuclear force is attractive between ALL nucleon pairs (p-p, p-n, n-n)",
+        "I can state the range of the strong force: ~1 fm (10⁻¹⁵ m)",
+        "I can state the strong force is ~100× stronger than electromagnetic force at nuclear distances",
+        "I can explain why heavy nuclei are less stable using the short range of the strong force",
+        "I can explain the evidence for the strong force: nuclei exist despite proton-proton Coulomb repulsion",
+        "I can use BE/A values to estimate energy released in fusion or fission reactions",
+        "I can explain why neutrons contribute to stability without adding Coulomb repulsion",
+        "I have solved all practice problems and corrected my errors",
+        "I have attempted the exam corner question under timed conditions without notes"
+      ]
+    },
+    {
+      "id": "e3_sub3",
+      "num": 3,
+      "title": "E = mc² in Nuclear Reactions",
+      "group": "Nuclear Structure & Binding Energy",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "The BE/A Curve",
+      "nextTitle": "Alpha, Beta & Gamma Decay",
+
+      "bigIdea": "Einstein's most famous equation isn't just theory — it's the source of every joule of nuclear energy ever produced. When a uranium atom splits, 0.09% of its mass vanishes. That vanished mass becomes 200 million electron-volts of energy. One kilogram of uranium contains as much energy as 2.7 million kilograms of coal.",
+
+      "foundation": {
+        "title": "Mass becomes energy — and it's a LOT of energy",
+        "content": "<p>In a chemical reaction (like burning wood), the atoms rearrange but no mass is lost. The total mass before = total mass after. Energy comes from rearranging electron bonds — a few eV per reaction.</p><p>In a nuclear reaction, mass IS lost. The products weigh slightly less than the reactants. Where did the mass go? It became energy: E = mc². Since c² = 9 × 10¹⁶, even a tiny mass loss produces an enormous amount of energy.</p><p><strong>The numbers are staggering:</strong> 1 kg of uranium fission releases ~8.2 × 10¹³ J. 1 kg of coal releases ~3 × 10⁷ J. That's 2.7 MILLION times more energy from the same mass. This is why nuclear fuel is so incredibly energy-dense.</p>",
+        "summary": "<p><strong>E = mc²:</strong> Mass and energy are interchangeable. A small mass loss produces enormous energy.</p><p><strong>Nuclear reactions:</strong> Products weigh less than reactants. The mass difference becomes energy.</p><p><strong>1 u = 931.5 MeV/c²:</strong> The conversion factor between atomic mass units and energy.</p><p><strong>Nuclear energy density:</strong> ~10⁶ times greater than chemical (coal, petrol).</p>",
+        "checkQuestions": [
+          {
+            "question": "In a nuclear reaction, the total mass of products is less than the total mass of reactants. Does this violate conservation of mass?",
+            "answer": "No — mass-energy is conserved. The 'missing' mass hasn't disappeared; it's been converted to energy (kinetic energy of products, gamma rays, neutrino energy). If you include the energy as equivalent mass (E/c²), the total mass-energy is exactly conserved."
+          },
+          {
+            "question": "Why is nuclear energy so much more concentrated than chemical energy?",
+            "answer": "Chemical reactions rearrange electrons (~eV per reaction, no mass change). Nuclear reactions rearrange nucleons (~MeV per reaction, measurable mass change). The strong nuclear force is ~10⁶ times stronger than the electromagnetic force → ~10⁶ times more energy per reaction."
+          }
+        ]
+      },
+
+      "core": {
+        "title": "Mass-energy equivalence in nuclear reactions",
+        "content": "<p><strong>E = mc²</strong> — mass and energy are different forms of the same thing. In nuclear reactions:</p><p>Total mass of reactants > total mass of products. The difference Δm is converted to energy: E = Δmc².</p><p><strong>Practical calculation:</strong> Δm in atomic mass units (u) × 931.5 = energy in MeV. This avoids dealing with very small kg values and very large c² values.</p><p><strong>Where the energy goes:</strong></p><ul><li>Fission: ~200 MeV → KE of fragments (~165), KE of neutrons (~5), gamma (~7), beta/gamma from product decay (~23)</li><li>Fusion (pp chain): ~26.7 MeV → KE of products, positron annihilation, neutrino energy</li></ul><p><strong>Energy density comparison:</strong></p><ul><li>Nuclear fission (U-235): ~8.2 × 10¹³ J/kg</li><li>Nuclear fusion (D-T): ~3.4 × 10¹⁴ J/kg</li><li>Coal: ~3 × 10⁷ J/kg</li><li>Petrol: ~4.6 × 10⁷ J/kg</li></ul><p>Nuclear reactions release ~10⁶× more energy per kg than chemical reactions.</p>",
+        "keyPoints": [
+          "E = mc² connects mass and energy: Δm → E = Δmc²",
+          "In nuclear reactions: mass of products < mass of reactants → energy released",
+          "1 u = 931.5 MeV/c² (the key conversion factor)",
+          "Fission of U-235 releases ~200 MeV per nucleus",
+          "Nuclear energy density is ~10⁶ times greater than chemical",
+          "The Sun converts 4.3 × 10⁹ kg of mass to energy every second"
+        ],
+        "examTrap": {
+          "wrong": "E = mc² means mass is destroyed in nuclear reactions",
+          "correct": "Mass is not destroyed — it's CONVERTED to energy. Mass-energy is conserved. If you include the energy of the products (as equivalent mass E/c²), the total is unchanged. The mass of a hot cup of tea is very slightly more than a cold one — the thermal energy adds mass."
+        }
+      },
+
+      "extension": {
+        "title": "How much mass does the Sun lose?",
+        "content": "<p>The Sun's luminosity is L = 3.85 × 10²⁶ W. From E = mc²: mass loss rate = L/c² = 3.85 × 10²⁶ / (9 × 10¹⁶) = 4.28 × 10⁹ kg/s.</p><p>That's 4.3 million tonnes per second — vanishing as light and neutrinos. Over 4.6 billion years: total mass lost ≈ 6 × 10²⁶ kg. The Sun's mass is 2 × 10³⁰ kg. So it's lost only 0.03% of its mass in its entire lifetime. E = mc² packs a LOT of energy into a little mass.</p><p><strong>Connection to A.3:</strong> Energy density = energy per unit mass. Nuclear fuel has the highest energy density of any non-antimatter source. This is why 1 truck of nuclear fuel replaces 1000 trains of coal.</p>",
+        "connections": [
+          "A.3 Work, Energy & Power: energy density compares nuclear, chemical, and other fuels",
+          "A.5 Special Relativity: E = mc² is derived from special relativity",
+          "E.4 Fission / E.5 Fusion: E = Δmc² is the tool for calculating energy released in both"
+        ]
+      },
+
+      "simulation": {
+        "title": "Nuclear Reactions Energy Calculator",
+        "source": "Various educational tools",
+        "url": "https://phet.colorado.edu/en/simulations/nuclear-fission",
+        "instructions": [
+          "Enter the masses of reactants and products for a nuclear reaction.",
+          "Calculate Δm and convert to energy using E = Δm × 931.5 MeV.",
+          "Compare: how many kg of coal would you need to match the energy from 1 kg of U-235?"
+        ]
+      },
+
+      "video": {
+        "title": "E = mc² in Nuclear Physics — IB Physics",
+        "duration": "7 min",
+        "description": "Mass-energy equivalence with fission and fusion energy calculations",
+        "embedId": ""
+      },
+
+      "equations": [
+        {
+          "formula": "E = mc²",
+          "description": "Mass-energy equivalence. c = 3 × 10⁸ m/s. A small mass = enormous energy."
+        },
+        {
+          "formula": "E = Δm × 931.5 MeV",
+          "description": "Energy from mass defect in atomic mass units. 1 u = 931.5 MeV/c²."
+        },
+        {
+          "formula": "E (J) = Δm (kg) × (3 × 10⁸)²",
+          "description": "Energy from mass defect in SI units. 1 kg → 9 × 10¹⁶ J."
+        }
+      ],
+
+      "workedExamples": [
+        {
+          "level": "foundation",
+          "scope": "sl",
+          "title": "If 1 g (0.001 kg) of mass were completely converted to energy, how much energy would be released?",
+          "steps": [
+            { "label": "Formula", "text": "E = mc²" },
+            { "label": "Calculation", "text": "E = 0.001 × (3 × 10⁸)² = 0.001 × 9 × 10¹⁶ = 9 × 10¹³ J", "isEquation": true },
+            { "label": "Context", "text": "90 TJ — enough to power a city of 30,000 homes for a year. From ONE GRAM of mass." },
+            { "label": "Reality check", "text": "Nuclear reactions convert only a fraction of mass to energy: fission ~0.09%, fusion ~0.7%. But even these fractions release enormous energy." }
+          ]
+        },
+        {
+          "level": "core",
+          "scope": "sl",
+          "title": "In D-T fusion: ²H (2.01410 u) + ³H (3.01605 u) → ⁴He (4.00260 u) + ¹n (1.00866 u). Calculate energy released.",
+          "steps": [
+            { "label": "Reactants", "text": "2.01410 + 3.01605 = 5.03015 u" },
+            { "label": "Products", "text": "4.00260 + 1.00866 = 5.01126 u" },
+            { "label": "Mass defect", "text": "Δm = 5.03015 − 5.01126 = 0.01889 u", "isEquation": true },
+            { "label": "Energy", "text": "E = 0.01889 × 931.5 = 17.6 MeV", "isEquation": true },
+            { "label": "Fraction converted", "text": "Δm/m_total = 0.01889/5.03015 = 0.00376 = 0.376% of the mass became energy" }
+          ]
+        },
+        {
+          "level": "core",
+          "scope": "sl",
+          "title": "Calculate the energy from complete fission of 1 kg of U-235. Compare with 1 kg of coal (~3 × 10⁷ J).",
+          "steps": [
+            { "label": "Atoms in 1 kg", "text": "N = 1000/235 × 6.02 × 10²³ = 2.56 × 10²⁴" },
+            { "label": "Energy per fission", "text": "200 MeV = 200 × 10⁶ × 1.6 × 10⁻¹⁹ = 3.2 × 10⁻¹¹ J" },
+            { "label": "Total energy", "text": "E = 2.56 × 10²⁴ × 3.2 × 10⁻¹¹ = 8.2 × 10¹³ J", "isEquation": true },
+            { "label": "Comparison", "text": "8.2 × 10¹³ / 3 × 10⁷ = 2.7 × 10⁶", "isEquation": true },
+            { "label": "Result", "text": "1 kg of uranium releases 2.7 MILLION times more energy than 1 kg of coal." }
+          ]
+        }
+      ],
+
+      "practiceProblems": [
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "State the mass-energy equivalence equation and explain what each symbol represents.",
+          "solution": "E = mc². E = energy (joules), m = mass (kilograms), c = speed of light in vacuum (3 × 10⁸ m/s). It means mass can be converted to energy and vice versa."
+        },
+        {
+          "difficulty": "easy",
+          "scope": "sl",
+          "question": "Convert a mass defect of 0.025 u to energy in MeV.",
+          "solution": "E = 0.025 × 931.5 = 23.3 MeV."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "The Sun's luminosity is 3.85 × 10²⁶ W. Calculate the mass converted to energy per second.",
+          "solution": "P = Δmc²/t → Δm/t = P/c² = 3.85 × 10²⁶ / (3 × 10⁸)² = 3.85 × 10²⁶ / 9 × 10¹⁶ = 4.28 × 10⁹ kg/s ≈ 4.3 million tonnes per second."
+        },
+        {
+          "difficulty": "medium",
+          "scope": "sl",
+          "question": "In a fission reaction, the mass defect is 0.186 u. Calculate the energy released in (a) MeV, (b) joules.",
+          "solution": "(a) E = 0.186 × 931.5 = 173 MeV. (b) E = 173 × 10⁶ × 1.6 × 10⁻¹⁹ = 2.77 × 10⁻¹¹ J."
+        },
+        {
+          "difficulty": "hard",
+          "scope": "sl",
+          "question": "A nuclear reactor produces 1 GW of electrical power at 33% efficiency. (a) Find the thermal power. (b) Find the mass converted to energy per second. (c) Find the mass of U-235 consumed per year (each fission releases 200 MeV).",
+          "solution": "(a) P_thermal = 1 × 10⁹ / 0.33 = 3.03 × 10⁹ W. (b) Δm/t = P/c² = 3.03 × 10⁹ / 9 × 10¹⁶ = 3.37 × 10⁻⁸ kg/s. (c) Fissions/s = P_thermal / E_per_fission = 3.03 × 10⁹ / 3.2 × 10⁻¹¹ = 9.47 × 10¹⁹. Mass/s = 9.47 × 10¹⁹ × 235 × 1.66 × 10⁻²⁷ = 3.69 × 10⁻⁵ kg/s. Per year = 3.69 × 10⁻⁵ × 3.15 × 10⁷ = 1163 kg ≈ 1.2 tonnes."
+        }
+      ],
+
+      "commonMistakes": [
+        {
+          "wrong": "E = mc² means mass is destroyed",
+          "explanation": "Mass is CONVERTED to energy, not destroyed. Total mass-energy is always conserved. The 'missing mass' appears as kinetic energy, photons, and neutrinos. If you could weigh the entire system (including all radiation), the total would be unchanged.",
+          "correct": "Mass-energy is conserved. Mass converts TO energy (and vice versa). Neither is created or destroyed."
+        },
+        {
+          "wrong": "E = mc² only applies to nuclear reactions",
+          "explanation": "E = mc² applies to ALL energy changes — chemical reactions, heating objects, even compressing a spring. But the mass changes in chemical reactions are so tiny (~10⁻⁹ u per reaction) that they're unmeasurable. In nuclear reactions, the mass changes are ~10⁶ times larger and easily measured.",
+          "correct": "E = mc² is universal. Nuclear reactions just have large enough mass changes to measure directly."
+        }
+      ],
+
+      "examCorner": {
+        "scope": "sl",
+        "question": "In a nuclear reaction, the total mass of reactants is 236.0526 u and the total mass of products is 235.8667 u.\n(a) Calculate the mass defect in atomic mass units. [1]\n(b) Calculate the energy released in MeV. [1]\n(c) Calculate the energy released in joules. [1]\n(d) Explain why nuclear reactions release so much more energy per kilogram than chemical reactions. [2]\n(e) A nuclear reactor uses this reaction to produce 3.0 GW of thermal power. Calculate the total mass converted to energy per day. [2]",
+        "marks": 7,
+        "modelAnswer": "(a) Δm = 236.0526 − 235.8667 = 0.1859 u [1].\n(b) E = 0.1859 × 931.5 = 173 MeV [1].\n(c) E = 173 × 10⁶ × 1.6 × 10⁻¹⁹ = 2.77 × 10⁻¹¹ J [1].\n(d) Nuclear reactions involve rearranging nucleons via the strong nuclear force, which is ~10⁶ times stronger than the electromagnetic force [1]. This means the energy per reaction (~MeV) is ~10⁶ times greater than chemical reactions (~eV), so the energy per kilogram is correspondingly ~10⁶ times greater [1].\n(e) Δm/t = P/c² = 3.0 × 10⁹ / 9 × 10¹⁶ = 3.33 × 10⁻⁸ kg/s [1]. Per day: 3.33 × 10⁻⁸ × 86400 = 2.88 × 10⁻³ kg = 2.88 g per day [1].",
+        "examinerTip": "For energy conversion calculations: always show the FULL chain: Δm (u) → Δm × 931.5 → MeV → MeV × 1.6 × 10⁻¹³ → J. Or: Δm (u) → Δm × 1.66 × 10⁻²⁷ → kg → mc² → J. Both routes work — choose one and be consistent."
+      },
+
+      "checklist": [
+        "I can state E = mc² and explain that mass and energy are interchangeable",
+        "I can explain that in nuclear reactions, the total mass of products < total mass of reactants",
+        "I can calculate mass defect: Δm = m_reactants − m_products",
+        "I can convert mass defect to energy: E = Δm × 931.5 MeV (when Δm is in u)",
+        "I can convert mass defect to energy: E = Δm × c² (when Δm is in kg)",
+        "I can convert between MeV and joules: 1 MeV = 1.6 × 10⁻¹³ J",
+        "I can state the conversion: 1 u = 931.5 MeV/c²",
+        "I can explain why mass-energy is conserved (mass converts to energy, not destroyed)",
+        "I can compare energy density of nuclear fuel (~10¹³ J/kg) with chemical fuel (~10⁷ J/kg)",
+        "I can explain why nuclear reactions release ~10⁶ times more energy per kg than chemical reactions",
+        "I can calculate the Sun's mass loss rate from its luminosity: Δm/t = L/c²",
+        "I can calculate total energy from N fissions: E_total = N × E_per_fission",
+        "I can calculate the number of atoms in a given mass: N = (m/M) × Nₐ",
+        "I can calculate fuel consumption rate for a reactor given its power and efficiency",
+        "I have solved all practice problems and corrected my errors",
+        "I have attempted the exam corner question under timed conditions without notes"
+      ]
+    }
+  ]
+},
   "A1": {
     "title": "Kinematics",
     "code": "A.1",
