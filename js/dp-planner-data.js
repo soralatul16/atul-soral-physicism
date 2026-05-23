@@ -1197,3 +1197,678 @@ const DP_PLANNER_DATA = {
     ]
   }
 };
+// ============================================================
+// PASTE LOCATION: js/dp-planner-data.js
+// Inside the DP_PLANNER_DATA = { ... } object, add these two keys.
+// No other code changes needed — the sidebar auto-detects them.
+// ============================================================
+
+  "A3": {
+    "title": "Work, Energy and Power",
+    "code": "A.3",
+    "theme": "A",
+    "level": "SL + HL",
+    "recommendedHours": 8,
+    "recommendedMinutes": 480,
+    "guidingQuestions": [
+      "How are concepts of work, energy and power used to predict changes within a system?",
+      "How can a consideration of energetics be used as a method to solve problems in kinematics?",
+      "How can transfer of energy be used to do work?"
+    ],
+    "groups": [
+      {
+        "name": "Work & Energy Concepts",
+        "color": "accent",
+        "totalMinutes": 135,
+        "subtopics": [
+          {
+            "num": 1,
+            "title": "The Principle of Conservation of Energy",
+            "focus": "Energy cannot be created or destroyed, only transferred or transformed",
+            "minutes": 40,
+            "understandings": [
+              "The principle of the conservation of energy",
+              "Work done by a force is equivalent to a transfer of energy",
+              "Energy forms: kinetic, gravitational potential, elastic potential, thermal, chemical, electrical, nuclear, radiant",
+              "Distinguish energy transfers (between objects) from energy transformations (between forms within a system)"
+            ],
+            "teachingStrategy": "<p><strong>Opener (5 min):</strong> Show a Rube Goldberg machine video. Students count how many times energy changes form: gravitational → kinetic → elastic → kinetic → thermal. This previews the entire topic.</p><p><strong>Concept mapping (15 min):</strong> Students brainstorm all energy forms on the board. Categorise: stored (potential) vs in motion (kinetic). Key insight: GPE, elastic PE, and chemical energy are all forms of potential energy — energy stored due to position or configuration.</p><p><strong>Guided discussion (10 min):</strong> \"Where does the energy go?\" scenarios: (a) ball bounces lower each time — KE → thermal + sound, (b) phone charges — electrical → chemical, (c) photosynthesis — radiant → chemical. For each: total energy in = total energy out.</p><p><strong>Practice (10 min):</strong> Students trace complete energy chains for 5 real-world systems and verify conservation at each step.</p>",
+            "engagementHook": {
+              "title": "THE BOUNCING BALL AUDIT",
+              "content": "Drop a ball from a measured height. Measure the bounce height. Calculate the percentage of energy \"lost.\" Ask: \"Lost to WHERE?\" Students touch the ball and the floor — both slightly warmer. Energy wasn't destroyed; it was transferred to thermal energy. This 3-minute demo makes conservation tangible and anchors the entire unit."
+            },
+            "nos": {
+              "tags": ["Theories", "Patterns"],
+              "description": "Conservation of energy has never been violated in any experiment. Unlike Newton's laws (which break down at relativistic speeds), it holds universally. Noether's theorem connects it to time-translation symmetry — a deep link between physics and mathematics."
+            },
+            "atl": ["Thinking skills", "Communication skills"],
+            "learnerProfile": ["Knowledgeable", "Thinker"],
+            "ao": [
+              "AO1 — State the conservation of energy principle",
+              "AO2 — Identify energy forms and trace transformations"
+            ],
+            "resources": "Bouncing balls (various types), metre ruler, Rube Goldberg machine video, whiteboard for concept map",
+            "formative": "Trace the full energy chain for a hydroelectric dam: sun → evaporation → rain → GPE of water → KE of falling water → KE of turbine → electrical → thermal/light in homes. Verify conservation at each step."
+          },
+          {
+            "num": 2,
+            "title": "Work Done — W = Fs cosθ & the Work-Energy Theorem",
+            "focus": "Work by a force, work by the resultant force, and the work-energy theorem",
+            "minutes": 60,
+            "understandings": [
+              "Work W done on a body by a constant force depends on the component of the force along the line of displacement: W = Fs cosθ",
+              "θ = 0°: W = Fs (force parallel to displacement)",
+              "θ = 90°: W = 0 (force perpendicular — centripetal force does no work)",
+              "θ > 90°: W is negative (force opposes motion — e.g., friction)",
+              "Work done by the resultant force on a system is equal to the change in the energy of the system (work-energy theorem)"
+            ],
+            "teachingStrategy": "<p><strong>Opener (5 min):</strong> Two students carry identical heavy bags. One walks horizontally; the other climbs stairs. \"Who did more work on the bag?\" The carrying force (upward) is perpendicular to horizontal displacement — W = Fs cos90° = 0. Only climbing involves work against gravity.</p><p><strong>Direct instruction (15 min):</strong> Define W = Fs cosθ. Walk through three key cases with diagrams: θ = 0 (pushing a box), θ = 90° (carrying horizontally), θ between 0–90 (pulling a sled). Explicitly state: work by the resultant force = change in total energy. If W_net > 0, system gains energy. If W_net < 0, it loses energy.</p><p><strong>Worked examples (15 min):</strong> (1) Pulling a sled: 100 N at 30° over 20 m → W = 1732 J. (2) Pushing a crate 5 m with 200 N, friction 150 N → net work = 250 J → becomes KE. (3) Satellite in orbit: force always perpendicular → W = 0, speed constant.</p><p><strong>Lab (15 min):</strong> WORK AT ANGLES — Pull a block with a spring scale at 0°, 30°, 45°, 60°. Calculate W = Fs cosθ for each. Plot W vs θ.</p><p><strong>Practice (10 min):</strong> Problems including negative work, zero work, and applying the work-energy theorem.</p>",
+            "engagementHook": {
+              "title": "THE CARRYING PARADOX",
+              "content": "\"You carry a 20 kg suitcase across a flat airport for 500 metres. You're exhausted. How much work did you do on the suitcase?\" Answer: zero. The carrying force is vertical; displacement is horizontal; cos90° = 0. \"Then why are you tired?\" Your muscles do internal work — chemical energy converts to thermal energy inside your body. The distinction between physics-work and everyday-work is one of the most powerful conceptual moments in the course."
+            },
+            "nos": {
+              "tags": ["Models", "Measurements"],
+              "description": "The physics definition of \"work\" is narrower than everyday language. Technical terms are redefined to have exact, quantifiable meanings. W = F·s is a mathematical model capturing only the component of force along displacement."
+            },
+            "atl": ["Thinking skills", "Research skills"],
+            "learnerProfile": ["Thinker", "Inquirer"],
+            "ao": [
+              "AO1 — Define work done",
+              "AO2 — Apply W = Fs cosθ including negative and zero work; apply the work-energy theorem",
+              "AO3 — Analyse whether work is done and determine its sign"
+            ],
+            "resources": "Spring scales, wooden blocks, protractors, metre rulers, various surfaces",
+            "formative": "\"A 50 N force at 60° drags a box 10 m. Friction = 15 N. (a) Work by applied force. (b) Work by friction. (c) Net work. (d) Use the work-energy theorem: does the box speed up or slow down? By how much does its KE change?\""
+          },
+          {
+            "num": 3,
+            "title": "Sankey Diagrams & Energy Transfers",
+            "focus": "Visual representation of energy flow, useful output, and waste",
+            "minutes": 35,
+            "understandings": [
+              "Energy transfers can be represented on a Sankey diagram",
+              "Arrow widths are proportional to energy transferred",
+              "Input energy (left) = sum of all output energies (right) — conservation of energy visualised",
+              "Useful energy flows straight ahead; wasted energy branches downward"
+            ],
+            "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> Show a Sankey diagram for a light bulb: 100 J electrical → 5 J light + 95 J thermal (incandescent) vs 100 J → 25 J light + 75 J thermal (LED). Rules: input arrow on left, useful output straight ahead, waste branches down. Widths MUST be proportional.</p><p><strong>Guided practice (15 min):</strong> Students construct Sankey diagrams for: (a) car engine — 100 J chemical → 25 J KE + 60 J thermal + 10 J sound + 5 J friction, (b) coal power station with cascade losses, (c) human body running — 25% KE + 75% thermal. Use graph paper.</p><p><strong>Analysis task (10 min):</strong> 3 pre-drawn Sankey diagrams. Students: read off efficiency, identify largest waste, suggest one improvement.</p>",
+            "engagementHook": {
+              "title": "LIGHT BULB SHOWDOWN",
+              "content": "Bring an incandescent and an LED bulb of the same brightness. Turn both on for 2 minutes. Touch each (incandescent through cloth). The incandescent is scorching; the LED barely warm. \"Both make the same light. Where is the extra energy going?\" Draw side-by-side Sankey diagrams. The fat \"waste heat\" arrow for incandescent vs the thin one for LED makes efficiency visceral."
+            },
+            "nos": {
+              "tags": ["Models", "Science as a shared endeavour"],
+              "description": "Sankey diagrams were created by Captain Matthew Sankey in 1898 for steam engines. Now used universally — from classrooms to government energy policy. A shared convention that facilitates unambiguous communication."
+            },
+            "atl": ["Communication skills", "Thinking skills"],
+            "learnerProfile": ["Communicator", "Knowledgeable"],
+            "ao": [
+              "AO1 — Sketch Sankey diagrams with proportional arrows",
+              "AO3 — Analyse Sankey diagrams to determine efficiency and identify waste"
+            ],
+            "resources": "Incandescent + LED bulbs, graph paper, printed Sankey diagrams for analysis, coloured pens",
+            "formative": "\"A coal power station: 1000 MJ input. Boiler losses: 100 MJ. Turbine losses: 550 MJ. Transmission losses: 35 MJ. Draw the complete Sankey diagram and calculate the overall efficiency.\""
+          }
+        ]
+      },
+      {
+        "name": "Mechanical Energy",
+        "color": "accent2",
+        "totalMinutes": 195,
+        "subtopics": [
+          {
+            "num": 1,
+            "title": "Kinetic Energy — Eₖ = ½mv² = p²/2m",
+            "focus": "Derivation, the v² relationship, and the momentum form",
+            "minutes": 50,
+            "understandings": [
+              "The kinetic energy of translational motion: Eₖ = ½mv²",
+              "Alternative form using momentum: Eₖ = p²/2m (derived from p = mv)",
+              "Derive Eₖ = ½mv² from W = Fs and the equations of motion",
+              "The v² relationship: doubling speed quadruples KE"
+            ],
+            "teachingStrategy": "<p><strong>Derivation (10 min):</strong> From first principles: F acts on mass m over distance s from rest. W = Fs = mas. From v² = u² + 2as: s = v²/2a. So W = ma × v²/2a = ½mv². Then derive p form: v = p/m → Eₖ = ½m(p/m)² = p²/2m. The p²/2m form is useful in collision problems where momentum is known.</p><p><strong>Worked examples (10 min):</strong> (1) 70 kg sprinter at 10 m/s → KE = 3500 J. Doubling speed → 4× KE. (2) Bullet with p = 8 kg·m/s, m = 0.02 kg → Eₖ = p²/2m = 1600 J. (3) 1500 kg car at 30 m/s — to what height could it coast? h = v²/2g = 45.9 m.</p><p><strong>Lab (20 min):</strong> THE v² RELATIONSHIP — Roll a cart down ramps of different heights. Measure speed at bottom. Plot v² vs h. Linear graph → v² ∝ h. Gradient = 2g — extract experimental g.</p><p><strong>Practice (10 min):</strong> Problems using both Eₖ forms. Include the \"doubling speed\" trap question.</p>",
+            "engagementHook": {
+              "title": "SPEED KILLS — THE v² SURPRISE",
+              "content": "\"A car at 60 km/h has a certain KE. How much more KE at 120 km/h?\" Students guess double. Answer: FOUR times. Show real stopping distance data at 30, 50, 70 mph — the gap between 50 and 70 is shockingly large. Braking distance scales with v², not v. Physics saves lives."
+            },
+            "nos": {
+              "tags": ["Theories", "Measurements"],
+              "description": "The work-energy theorem connects forces (Newton's laws) with energy — two frameworks describing the same physics from different angles. The p²/2m form bridges A.2 and A.3, showing how momentum and energy are related."
+            },
+            "atl": ["Thinking skills", "Research skills"],
+            "learnerProfile": ["Thinker", "Caring"],
+            "ao": [
+              "AO1 — Define KE; derive Eₖ = ½mv²; state Eₖ = p²/2m",
+              "AO2 — Calculate KE using both forms",
+              "AO3 — Analyse the v² relationship and its consequences for braking distance"
+            ],
+            "resources": "Ramp, dynamics cart, photogates or phone speed app, stopping distance data table",
+            "formative": "Lab: v² vs h graph — find g from gradient. Exit ticket: \"Car A at 20 m/s, Car B at 40 m/s, same mass. How many times longer is B's braking distance?\" AND \"A bullet (m = 10 g, p = 6 kg·m/s) — find its KE using p²/2m.\""
+          },
+          {
+            "num": 2,
+            "title": "Gravitational PE & Elastic PE",
+            "focus": "ΔEₚ = mgΔh and E_H = ½k(Δx)²",
+            "minutes": 50,
+            "understandings": [
+              "Gravitational potential energy close to the surface of the Earth: ΔEₚ = mgΔh",
+              "Δh is the change in height relative to a chosen reference level — GPE is relative, not absolute",
+              "This equation only applies close to the Earth's surface where g is approximately constant",
+              "Elastic potential energy stored in a spring: E_H = ½k(Δx)²",
+              "Derived from the area under the F-x graph (Hooke's law: F = kΔx → area = ½k(Δx)²)",
+              "Energy stored equals work done to stretch or compress the spring"
+            ],
+            "teachingStrategy": "<p><strong>GPE section (20 min):</strong> Lifting mass m by Δh against gravity: W = mgΔh = ΔEₚ. Emphasise the Δ: GPE depends on the CHANGE in height. Reference level is your choice. Worked example: 2 kg ball lifted from 5 m table to 8 m → ΔEₚ = 58.8 J regardless of reference. Discuss: \"Why only near Earth's surface?\" g varies with altitude. Far away: Eₚ = −GMm/r (preview D.1).</p><p><strong>Elastic PE section (15 min):</strong> Recall Hooke's law from A.2. Area under F vs Δx graph = ½k(Δx)². Doubling Δx quadruples energy. Worked example: spring k = 200 N/m, compressed 0.05 m → E_H = 0.25 J.</p><p><strong>Lab (10 min):</strong> SPRING LAUNCHER — Compress spring by measured Δx. Launch ball vertically. Measure max height. Verify: ½k(Δx)² = mgΔh.</p><p><strong>Practice (5 min):</strong> Mixed GPE and elastic PE calculations.</p>",
+            "engagementHook": {
+              "title": "SPRING LAUNCHER COMPETITION",
+              "content": "Each group compresses a spring by a different amount and PREDICTS the launch height BEFORE releasing, using ½k(Δx)² = mgΔh. The group whose prediction is closest to the measured height wins. Energy conservation becomes a testable, competitive prediction."
+            },
+            "nos": {
+              "tags": ["Models", "Measurements"],
+              "description": "The area-under-the-graph method connects algebra and geometry to physics. It recurs: work = area under F-s graph, impulse = area under F-t graph. A general transferable technique."
+            },
+            "atl": ["Thinking skills", "Research skills"],
+            "learnerProfile": ["Inquirer", "Thinker"],
+            "ao": [
+              "AO1 — State ΔEₚ = mgΔh and E_H = ½k(Δx)²",
+              "AO2 — Calculate GPE and elastic PE",
+              "AO3 — Analyse spring-launch data for energy conservation"
+            ],
+            "resources": "Springs (known k from A.2 lab), small balls, rulers, clamp stands, metre sticks",
+            "formative": "Spring launcher prediction vs measurement. \"A spring (k = 500 N/m) compressed 8 cm launches a 50 g ball. Find: (a) E_H stored, (b) launch speed, (c) max height.\""
+          },
+          {
+            "num": 3,
+            "title": "Conservation of Mechanical Energy",
+            "focus": "Eₖ + Eₚ(grav) + E_H = constant when no non-conservative forces act",
+            "minutes": 55,
+            "understandings": [
+              "Mechanical energy is the sum of kinetic energy, gravitational potential energy, and elastic potential energy",
+              "In the absence of frictional, resistive forces, the total mechanical energy of a system is conserved",
+              "If mechanical energy is conserved, work is the amount of energy transformed between different forms of mechanical energy: Eₖ = ½mv², ΔEₚ = mgΔh, E_H = ½k(Δx)²",
+              "Solve problems using Eₖ₁ + Eₚ₁ = Eₖ₂ + Eₚ₂",
+              "Energy bar charts as a visual tool for tracking energy at each point"
+            ],
+            "teachingStrategy": "<p><strong>Opener (5 min):</strong> Pendulum: at highest point, all GPE. At lowest, all KE. BOWLING BALL PENDULUM — hold a heavy ball against a student's nose, release, stand still. It swings back and stops just before their nose. Conservation guarantees it.</p><p><strong>Direct instruction (15 min):</strong> Formalise: E_mech = ½mv² + mgΔh + ½k(Δx)² = constant. Method: (1) choose reference level, (2) total energy at point 1, (3) total energy at point 2, (4) set equal, (5) solve. Worked examples: ball dropped 5 m; roller coaster top to bottom.</p><p><strong>Energy bar charts (10 min):</strong> Stacked bars showing KE, GPE, elastic PE at each point. Total stays constant (no friction) or decreases (with friction — missing bar is thermal).</p><p><strong>Problem-solving (20 min):</strong> (a) Frictionless ramp, (b) pendulum from angle, (c) spring launches ball up ramp, (d) roller coaster loop — minimum height (links A.2 circular motion), (e) with friction: μ = 0.2 on ramp.</p><p><strong>Wrap-up (5 min):</strong> \"Energy methods are often EASIER than force methods — you only need start and end states, not the path.\"</p>",
+            "engagementHook": {
+              "title": "THE BOWLING BALL PENDULUM",
+              "content": "Suspend a heavy ball from the ceiling. A student holds it against their nose, releases it, and stands perfectly still. The ball swings away and returns — stopping just before their nose. Conservation guarantees it can't return past the release point. The emotional trust in physics makes this unforgettable. Follow with: \"What minimum starting height clears a loop of radius R?\" (h_min = 2.5R.)"
+            },
+            "nos": {
+              "tags": ["Theories", "Models"],
+              "description": "Energy conservation provides an alternative to Newton's laws for mechanics. The two are equivalent but conceptually different. Choosing the right tool is a scientific skill. Energy methods are scalar, avoiding vector complexity."
+            },
+            "atl": ["Thinking skills", "Self-management skills"],
+            "learnerProfile": ["Thinker", "Risk-taker"],
+            "ao": [
+              "AO2 — Apply conservation of mechanical energy to solve problems",
+              "AO3 — Analyse systems with and without friction using energy bar charts"
+            ],
+            "resources": "Bowling ball or heavy pendulum, ceiling mount, ramp + dynamics cart, printed roller coaster diagrams",
+            "formative": "\"A 2 kg ball released from rest on a frictionless track with a loop of radius 0.5 m. (a) Minimum starting height? (b) Draw energy bar charts at start, bottom, top of loop. (c) If 10% energy lost to friction, what height now needed?\""
+          },
+          {
+            "num": 4,
+            "title": "Work by Non-Conservative Forces & Complex Problems",
+            "focus": "When mechanical energy is NOT conserved — the IB guidance in practice",
+            "minutes": 40,
+            "understandings": [
+              "IB Guidance: The change in total mechanical energy should be interpreted in terms of the work done by any non-conservative force",
+              "ΔE_mech = W_non-conservative (friction, applied forces, drag)",
+              "When friction acts: E_mech,final = E_mech,initial − W_friction",
+              "Combining energy, momentum (A.2), and force methods in multi-step problems",
+              "Decision framework: when to use force vs energy vs momentum methods"
+            ],
+            "teachingStrategy": "<p><strong>Key concept (10 min):</strong> When friction (non-conservative) acts, mechanical energy decreases. \"Lost\" energy = work by friction = F_f × d. Worked example: 10 kg box slides 8 m down 30° ramp, μ = 0.3 → E_initial = 392 J, W_friction = 203.6 J, E_final = 188.4 J → v = 6.14 m/s.</p><p><strong>Decision framework (5 min):</strong> When to use which? (a) Force: need acceleration. (b) Energy: know start/end, don't care about path. (c) Momentum: collisions. Many IB problems need two or three in sequence.</p><p><strong>Worked example (10 min):</strong> Spring launches ball off table: (a) launch speed (energy), (b) time to ground (kinematics), (c) range (kinematics), (d) impact speed (energy). Identify method at each step.</p><p><strong>Group challenge (15 min):</strong> \"A 50 g ball slides down a frictionless ramp from h = 2 m, hits a 150 g ball (perfectly inelastic), combined slides up rough 30° incline (μ = 0.3). How far up?\" Steps: energy → momentum → energy with friction. Groups present one step each.</p>",
+            "engagementHook": {
+              "title": "GLOWING F1 BRAKES & PROBLEM TOURNAMENT",
+              "content": "Show Formula 1 brake discs glowing red: ½ × 800 × 83² ≈ 2.8 MJ of KE → thermal in ~2 seconds. \"Enough to boil 8 litres of water.\" Then run a problem-solving tournament: groups race to solve multi-step challenge cards. Fastest correct solution wins."
+            },
+            "nos": {
+              "tags": ["Models", "Patterns", "Global impact"],
+              "description": "Non-conservative forces break the simple conservation picture. Recognising when a model applies and when it doesn't is core scientific judgement. Regenerative braking recaptures \"lost\" energy — physics driving innovation."
+            },
+            "atl": ["Thinking skills", "Social skills", "Self-management skills"],
+            "learnerProfile": ["Thinker", "Communicator"],
+            "ao": [
+              "AO2 — Apply energy methods with friction; combine with momentum and kinematics",
+              "AO3 — Evaluate which method to use; interpret energy changes via non-conservative forces"
+            ],
+            "resources": "F1 braking photos/video, whiteboards for group work, printed challenge cards",
+            "formative": "\"A 1200 kg car brakes from 25 m/s to rest over 40 m. (a) KE lost. (b) Average braking force. (c) If regenerative braking recovers 30%, energy recovered?\""
+          }
+        ]
+      },
+      {
+        "name": "Power, Efficiency & Energy Density",
+        "color": "accent3",
+        "totalMinutes": 150,
+        "subtopics": [
+          {
+            "num": 1,
+            "title": "Power — P = ΔW/Δt = Fv",
+            "focus": "Rate of work done and rate of energy transfer",
+            "minutes": 50,
+            "understandings": [
+              "Power developed P is the rate of work done, or the rate of energy transfer: P = ΔW/Δt",
+              "Derive P = Fv from P = ΔW/Δt = FΔs/Δt = Fv",
+              "P = Fv is useful for constant-velocity motion against resistive forces",
+              "Units: watts (W) = J/s"
+            ],
+            "teachingStrategy": "<p><strong>Opener (5 min):</strong> Two students climb to the 3rd floor. One runs, one walks. Same work. But who is more powerful? Power = how FAST you transfer energy.</p><p><strong>Lab (20 min):</strong> MEASURE YOUR POWER — Run up stairs. Measure mass, height, time. Calculate W = mgΔh, P = W/t. Compare: typical human 200–500 W, Usain Bolt ~2600 W, horse ~750 W (1 hp), car ~100 kW.</p><p><strong>Direct instruction (10 min):</strong> Derive P = Fv. Application: car at 150 kW max speed, driving force = drag → P = F_drag × v_max.</p><p><strong>Practice (15 min):</strong> (1) Student climbs 3 m in 4 s. (2) Crane lifts 2000 kg by 20 m in 30 s. (3) Car at 80 kW and 40 m/s — drag? (4) Power to accelerate 1200 kg to 30 m/s in 8 s.</p>",
+            "engagementHook": {
+              "title": "STAIR-CLIMB POWER CHALLENGE",
+              "content": "Students race up stairs and calculate their own power output. Post results on a leaderboard. Compare: light bulb (60 W), horse (750 W), Usain Bolt (2600 W), car (100 kW), jet engine (50 MW). \"You are roughly as powerful as a bright light bulb.\" Physical exertion makes the watt a unit you can feel."
+            },
+            "nos": {
+              "tags": ["Measurements", "Patterns"],
+              "description": "James Watt defined \"horsepower\" to market his steam engines against horses — a brilliant use of comparison. The watt (named after him) became the SI unit. Clear, universal units facilitate global communication."
+            },
+            "atl": ["Research skills", "Self-management skills"],
+            "learnerProfile": ["Risk-taker", "Knowledgeable"],
+            "ao": [
+              "AO1 — Define power; derive P = Fv",
+              "AO2 — Apply P = ΔW/Δt and P = Fv"
+            ],
+            "resources": "Bathroom scale, metre stick, stopwatch, staircase, power comparison chart",
+            "formative": "Stair-climb calculation. Exit ticket: \"A lift motor raises a 600 kg cabin 30 m in 20 s. (a) Power output. (b) If 80% efficient, electrical power input needed?\""
+          },
+          {
+            "num": 2,
+            "title": "Efficiency",
+            "focus": "η = useful work out / total work in = useful power out / total power in",
+            "minutes": 45,
+            "understandings": [
+              "Efficiency η in terms of energy transfer or power: η = useful work out / total work in = useful power out / total power in",
+              "Dimensionless; expressed as fraction or percentage",
+              "η < 1 (< 100%) for all real systems — some energy always becomes thermal",
+              "Combined efficiency: η_total = η₁ × η₂ × η₃ …"
+            ],
+            "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"You eat 2000 kcal/day. Only ~500 kcal becomes useful work. Where does 75% go?\" Thermal energy — why you're warm. Human body: ~25% efficient.</p><p><strong>Direct instruction (10 min):</strong> Define both forms. Examples: incandescent 5%, LED 25%, electric motor 85% (500 W in → 425 W useful), combined: station 40% × transmission 90% = 36%.</p><p><strong>Lab (20 min):</strong> MOTOR EFFICIENCY — Electric motor lifts mass by measured height. Measure electrical input (V × I × t). η = mgΔh / (VIt). Typical: 30–50%. Discuss where \"lost\" energy goes.</p><p><strong>Practice (10 min):</strong> Combined efficiency problems and working backwards.</p>",
+            "engagementHook": {
+              "title": "THE HUMAN MACHINE",
+              "content": "Calculate your efficiency climbing stairs. Input: a snack (~100 kcal = 418,000 J). Output: mgΔh (~2000 J). Efficiency ≈ 0.5%. \"Wait, aren't humans 25% efficient?\" That's muscles alone; most food energy keeps you alive. This sparks a discussion about system boundaries."
+            },
+            "nos": {
+              "tags": ["Global impact", "Measurements"],
+              "description": "Efficiency drives energy policy: EU Energy Labels, ENERGY STAR, fuel economy standards. Improving efficiency reduces emissions without changing behaviour."
+            },
+            "atl": ["Research skills", "Thinking skills"],
+            "learnerProfile": ["Caring", "Principled"],
+            "ao": [
+              "AO1 — Define efficiency in both forms",
+              "AO2 — Calculate efficiency; find combined efficiency",
+              "AO3 — Analyse multi-stage systems"
+            ],
+            "resources": "Small electric motor, masses, joulemeter or voltmeter + ammeter + stopwatch, pulley",
+            "formative": "Motor lab report. \"Coal station: 1000 MJ input. Boiler η = 88%. Turbine η = 42%. Generator η = 96%. Transmission η = 92%. (a) Overall η. (b) Useful energy delivered. (c) Total waste.\""
+          },
+          {
+            "num": 3,
+            "title": "Energy Density of Fuel Sources",
+            "focus": "Comparing fuels quantitatively and evaluating suitability",
+            "minutes": 55,
+            "understandings": [
+              "Energy density: energy released per unit mass (J/kg) or per unit volume (J/m³)",
+              "Compare: hydrogen (~140 MJ/kg), petrol (~46 MJ/kg), coal (~24 MJ/kg), wood (~16 MJ/kg), Li battery (~0.5 MJ/kg)",
+              "Solve problems involving energy density, fuel mass, and energy output",
+              "Evaluate suitability considering: energy density, efficiency, availability, cost, environmental impact"
+            ],
+            "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Why can't electric planes cross the Atlantic?\" Batteries: ~0.5 MJ/kg. Jet fuel: ~43 MJ/kg. Plane would need 86× more battery mass.</p><p><strong>Data analysis (15 min):</strong> Fuel table. Tasks: rank, calculate mass for 1 GJ, discuss why hydrogen isn't widely used despite best energy density.</p><p><strong>Calculations (15 min):</strong> (1) Car uses 8 L petrol per 100 km — energy consumed. (2) Electric car: 15 kWh per 100 km — compare. Electric uses LESS total energy (motor 90% vs engine 25%). (3) Station burns 500 tonnes coal/day.</p><p><strong>Group debate (15 min):</strong> Groups represent fossil fuels, nuclear, solar, wind, hydrogen. 2-minute case each on energy density, efficiency, availability, cost, environment. Class votes.</p><p><strong>Wrap-up (5 min):</strong> International-mindedness: Norway (hydro), France (nuclear), Iceland (geothermal) — context matters.</p>",
+            "engagementHook": {
+              "title": "THE ELECTRIC PLANE PROBLEM & ENERGY DEBATE",
+              "content": "Boeing 787 carries ~100,000 kg of fuel. Replacing with batteries: 8.6 million kg. The plane weighs 120,000 kg. \"Batteries 70× heavier than the plane.\" The debate forces multi-dimensional thinking about real trade-offs."
+            },
+            "nos": {
+              "tags": ["Global impact", "Science as a shared endeavour"],
+              "description": "Energy policy is science informing global decisions. The Paris Agreement, IPCC reports, and national strategies rely on energy density and efficiency. Scientists have a responsibility to communicate clearly."
+            },
+            "atl": ["Thinking skills", "Communication skills", "Social skills"],
+            "learnerProfile": ["Caring", "Open-minded", "Knowledgeable"],
+            "ao": [
+              "AO1 — Define energy density",
+              "AO2 — Calculate energy from fuel mass and energy density",
+              "AO3 — Evaluate suitability of fuels considering multiple factors"
+            ],
+            "resources": "Fuel energy density data table, calculators, debate preparation cards",
+            "formative": "\"Hybrid car: 40 L petrol (34 MJ/L) + 50 kWh battery. (a) Total energy in each. (b) Petrol 25% efficient, motor 90% — useful energy from each. (c) Why use both?\""
+          }
+        ]
+      }
+    ],
+    "linkingQuestions": [
+      { "topic": "A.1 Kinematics", "question": "How do the equations of motion connect to the derivation of Eₖ = ½mv²? How does v² = u² + 2as relate to the work-energy theorem?" },
+      { "topic": "A.2 Forces & Momentum", "question": "When should you use force vs energy vs momentum methods? How does Eₖ = p²/2m bridge momentum and energy?" },
+      { "topic": "B.1 Thermal Energy", "question": "How does thermal energy fit into conservation? Why is energy transfer to thermal considered \"waste\"?" },
+      { "topic": "B.2 Greenhouse Effect", "question": "How does fossil fuel energy density connect to CO₂ emissions and the enhanced greenhouse effect?" },
+      { "topic": "C.1 Simple Harmonic Motion", "question": "How does energy interchange between KE and PE in SHM? How is E_total = ½kA² related to elastic PE?" },
+      { "topic": "D.1 Gravitational Fields", "question": "Why is ΔEₚ = mgΔh only valid near Earth's surface? What happens further away?" },
+      { "topic": "IB Linking (NOS)", "question": "Where do the laws of conservation apply in other areas of physics?" },
+      { "topic": "IB Linking (Rates)", "question": "Which other quantities in physics involve rates of change?" }
+    ]
+  },
+
+  "A4": {
+    "title": "Rigid Body Mechanics",
+    "code": "A.4",
+    "theme": "A",
+    "level": "HL only",
+    "recommendedHours": 7,
+    "recommendedMinutes": 420,
+    "guidingQuestions": [
+      "How can the understanding of linear motion be applied to rotational motion?",
+      "How is the understanding of the torques acting on a system used to predict changes in rotational motion?",
+      "How does the distribution of mass within a body affect its rotational motion?"
+    ],
+    "groups": [
+      {
+        "name": "Torque & Rotational Equilibrium",
+        "color": "accent",
+        "totalMinutes": 90,
+        "subtopics": [
+          {
+            "num": 1,
+            "title": "Torque — τ = Fr sinθ",
+            "focus": "The rotational equivalent of force",
+            "minutes": 50,
+            "understandings": [
+              "The torque τ of a force about an axis: τ = Fr sinθ, where r is the distance from the axis and θ is the angle between the force and the line from the axis",
+              "Torque causes rotation, not translation — it is the rotational equivalent of force",
+              "The sense (CW or CCW) of a torque should be identified (vector nature not required)",
+              "Units: N·m (not joules, even though dimensionally equivalent)"
+            ],
+            "teachingStrategy": "<p><strong>Opener (5 min):</strong> Hold a door open. Push near the hinge — hard to close. Push at the handle — easy. \"Same force, different effect. What changed?\" The distance from the axis. This is torque.</p><p><strong>Direct instruction (15 min):</strong> Define τ = Fr sinθ. Three cases: θ = 90° (max torque), θ = 0° (zero torque), θ between (partial). Diagrams for each. Emphasise: the sinθ picks out only the perpendicular component. CW = negative, CCW = positive by convention.</p><p><strong>Parallel with linear motion (5 min):</strong> Start the analogy table: Force F → Torque τ. This table grows throughout A.4.</p><p><strong>Worked examples (15 min):</strong> (1) 40 N at 90° on 0.3 m wrench → τ = 12 N·m. (2) Same at 60° → 10.4 N·m. (3) See-saw with two children at different distances — net torque. (4) Wheel with multiple forces — sum CW and CCW torques.</p><p><strong>Practice (10 min):</strong> Calculate torque at various angles and find net torque on systems.</p>",
+            "engagementHook": {
+              "title": "THE DOOR CHALLENGE",
+              "content": "Two students compete: one pushes near the hinge with maximum force, the other pushes at the handle gently. The handle always wins. Then: try pushing parallel to the door — impossible. τ = Fr sinθ explains both instantly. \"Why are long wrenches used for tight bolts? Why are handles on the opposite side from the hinge?\""
+            },
+            "nos": {
+              "tags": ["Models"],
+              "description": "Torque extends force to rotational systems, just as velocity extends displacement to include time. Physics builds new concepts by analogy with existing ones."
+            },
+            "atl": ["Thinking skills", "Communication skills"],
+            "learnerProfile": ["Thinker", "Inquirer"],
+            "ao": [
+              "AO1 — Define torque; state τ = Fr sinθ",
+              "AO2 — Calculate torque for various force orientations; find net torque on a system"
+            ],
+            "resources": "Door (in classroom), long and short wrenches, metre ruler with pivot and hanging masses",
+            "formative": "\"A mechanic applies 80 N to a 0.25 m wrench at 45°. (a) Calculate torque. (b) What angle maximises torque? (c) Why don't mechanics push parallel to the wrench?\""
+          },
+          {
+            "num": 2,
+            "title": "Rotational Equilibrium",
+            "focus": "Στ = 0 and combined equilibrium with ΣF = 0",
+            "minutes": 40,
+            "understandings": [
+              "Bodies in rotational equilibrium have a resultant torque of zero: Στ = 0",
+              "An unbalanced torque on an extended, rigid body causes angular acceleration",
+              "Full static equilibrium requires BOTH ΣF = 0 (translational) AND Στ = 0 (rotational)",
+              "The pivot point for calculating torques can be chosen freely — the result is the same"
+            ],
+            "teachingStrategy": "<p><strong>Opener (5 min):</strong> Balance a metre ruler on a finger. Place 100 g at 20 cm mark. \"Where must I place 200 g to rebalance?\" Students calculate using Στ = 0.</p><p><strong>Direct instruction (10 min):</strong> Στ = 0 for rotational equilibrium. Combined with ΣF = 0 → complete static equilibrium. Smart pivot choice eliminates unknowns. Work through: beam on two supports with off-centre load.</p><p><strong>Lab (15 min):</strong> BALANCING ACT — Metre ruler on pivot. Place masses at different positions. Verify Σ(CW torques) = Σ(CCW torques). Predict where to place unknown mass; check experimentally.</p><p><strong>Practice (10 min):</strong> Beam and bridge problems: uniform plank on two supports with off-centre load. Find reactions using Στ = 0 and ΣF = 0 together.</p>",
+            "engagementHook": {
+              "title": "BALANCING ACT LAB",
+              "content": "Students build a \"human see-saw\": a plank on a fulcrum. Two students of different masses find the balance point using torque calculations, then test. Extension: \"A 4 m bridge (200 kg) with supports at each end. A 600 kg car parks 1 m from the left. Find each support force.\" Engineers solve this exact problem."
+            },
+            "nos": {
+              "tags": ["Patterns"],
+              "description": "The same structure (sum of effects = 0 for equilibrium) recurs: ΣF = 0, Στ = 0, and later ΣV = 0 in circuits. Recognising patterns across domains is a core scientific skill."
+            },
+            "atl": ["Thinking skills", "Research skills"],
+            "learnerProfile": ["Thinker", "Knowledgeable"],
+            "ao": [
+              "AO1 — State conditions for rotational equilibrium",
+              "AO2 — Apply Στ = 0 and ΣF = 0 simultaneously",
+              "AO3 — Analyse beam/bridge problems"
+            ],
+            "resources": "Metre ruler, pivot/fulcrum, slotted masses, hangers, printed beam/bridge problems",
+            "formative": "Lab: torque balance verification. \"A 3 m uniform plank (15 kg) supported at each end. A 40 kg child stands 1 m from the left support. Find reaction at each support.\""
+          }
+        ]
+      },
+      {
+        "name": "Rotational Kinematics",
+        "color": "accent3",
+        "totalMinutes": 95,
+        "subtopics": [
+          {
+            "num": 1,
+            "title": "Angular Displacement, Velocity & Acceleration",
+            "focus": "The rotational analogues of s, v, and a",
+            "minutes": 45,
+            "understandings": [
+              "Rotation described by angular displacement Δθ (rad), angular velocity ω (rad/s), and angular acceleration α (rad/s²)",
+              "These are rotational analogues of s, v, and a",
+              "ω = Δθ/Δt and α = Δω/Δt",
+              "Connection to linear: v = ωr and a_tangential = αr"
+            ],
+            "teachingStrategy": "<p><strong>Building the analogy (10 min):</strong> Full translation ↔ rotation table: s ↔ θ, v ↔ ω, a ↔ α, F ↔ τ, m ↔ I. Every A.1 equation has a rotational twin. Students who understood kinematics already know this — just new symbols.</p><p><strong>Direct instruction (15 min):</strong> Define each: Δθ in radians (1 rev = 2π), ω = Δθ/Δt, α = Δω/Δt. Connect: v = ωr and a_t = αr. All points on a rigid body share ω and α but have different v and a depending on r.</p><p><strong>Worked examples (10 min):</strong> (1) Wheel at 300 rpm → 31.4 rad/s. (2) Rim point (r = 0.3 m) → v = 9.4 m/s. (3) Centrifuge: 0 to 10,000 rpm in 20 s → find α. (4) Merry-go-round: same ω at centre and edge, different v.</p><p><strong>Practice (10 min):</strong> Conversion problems and calculating v, a_t from ω, α.</p>",
+            "engagementHook": {
+              "title": "MERRY-GO-ROUND PUZZLE",
+              "content": "Two children on a merry-go-round: r = 0.5 m and r = 2 m. Same ω (π/2 rad/s). But the edge child has 4× the linear speed and feels 4× the centripetal acceleration. This connects A.4 to A.2 circular motion and makes the ω vs v distinction visceral."
+            },
+            "nos": {
+              "tags": ["Models"],
+              "description": "Building new physics by analogy with known physics is a powerful modelling strategy. Rotational kinematics mirrors translational kinematics — same structure, different quantities."
+            },
+            "atl": ["Thinking skills", "Communication skills"],
+            "learnerProfile": ["Thinker", "Communicator"],
+            "ao": [
+              "AO1 — Define angular displacement, velocity, acceleration",
+              "AO2 — Convert units (rpm ↔ rad/s); apply v = ωr"
+            ],
+            "resources": "Rotating platform or lazy Susan, ruler, stopwatch, analogy table handout",
+            "formative": "\"Bicycle wheel (r = 0.35 m) at 5 rev/s. (a) Convert to rad/s. (b) Rim speed. (c) Decelerates to rest in 8 s — find α. (d) Tangential deceleration of rim.\""
+          },
+          {
+            "num": 2,
+            "title": "Equations of Motion for Uniform Angular Acceleration",
+            "focus": "The rotational SUVAT equations",
+            "minutes": 50,
+            "understandings": [
+              "Equations for uniform angular acceleration: Δθ = (ω_f + ω_i)/2 × t, ω_f = ω_i + αt, Δθ = ω_i·t + ½αt², ω_f² = ω_i² + 2αΔθ",
+              "Identical in structure to the linear SUVAT equations: replace s → θ, u → ω_i, v → ω_f, a → α",
+              "Valid only when angular acceleration is constant (uniform)",
+              "Angular speed will be measured in rad/s"
+            ],
+            "teachingStrategy": "<p><strong>Pattern recognition (5 min):</strong> Linear SUVAT next to rotational: every s → θ, u → ω_i, v → ω_f, a → α. \"You already KNOW these — learned in A.1. Physics differs; maths is identical.\"</p><p><strong>Worked examples (20 min):</strong> (1) Grinding wheel ω_i = 50, α = −2: time to stop, Δθ in revolutions. (2) Turntable: 0 to 33 rpm in 5 s → α and Δθ. (3) Fan: 200 rev decelerating 1200 → 300 rpm → find α and time. (4) Centrifuge spin-up: revolutions during acceleration.</p><p><strong>Pair practice (15 min):</strong> 4 problems choosing the right equation. Key trap: rpm vs rad/s unit errors.</p><p><strong>Graphical connections (10 min):</strong> ω-t graphs: gradient = α, area = Δθ. Compare with v-t from A.1. Students sketch ω-t and θ-t graphs.</p>",
+            "engagementHook": {
+              "title": "SPIN-DOWN CHALLENGE",
+              "content": "Spin a bicycle wheel and time how long it takes to stop. Count revolutions. Calculate α using ω_f² = ω_i² + 2αΔθ. Compare heavy vs light wheels, lubricated vs dry bearings. Direct measurement makes the equations concrete. \"Washing machine: 1200 rpm stops in 40 revolutions. How long? What is α?\""
+            },
+            "nos": {
+              "tags": ["Patterns"],
+              "description": "The mathematical structure of rotational kinematics is identical to translational. This universality — same equations governing different phenomena — is one of the deepest features of physics."
+            },
+            "atl": ["Thinking skills", "Self-management skills"],
+            "learnerProfile": ["Thinker", "Knowledgeable"],
+            "ao": [
+              "AO1 — State the four rotational equations of motion",
+              "AO2 — Apply them to calculate θ, ω, α, and t",
+              "AO3 — Analyse ω-t and θ-t graphs"
+            ],
+            "resources": "Bicycle wheel or fidget spinner, stopwatch, SUVAT ↔ rotation comparison handout, problem sets",
+            "formative": "\"Pottery wheel accelerates from rest at 3 rad/s² for 4 s, constant ω for 30 s, decelerates at −1.5 rad/s² to rest. (a) ω after acceleration. (b) Total Δθ. (c) Total time. (d) Sketch ω-t graph.\""
+          }
+        ]
+      },
+      {
+        "name": "Moment of Inertia & Newton's 2nd Law for Rotation",
+        "color": "accent2",
+        "totalMinutes": 95,
+        "subtopics": [
+          {
+            "num": 1,
+            "title": "Moment of Inertia — I = Σmr²",
+            "focus": "How mass distribution determines resistance to angular acceleration",
+            "minutes": 50,
+            "understandings": [
+              "Moment of inertia I depends on the distribution of mass about the axis of rotation",
+              "For point masses: I = Σmr² = m₁r₁² + m₂r₂² + ...",
+              "I is the rotational analogue of mass — measures resistance to angular acceleration",
+              "The same body has DIFFERENT I about different axes",
+              "I for specific distributions (disc, ring, sphere, rod) will be provided when necessary"
+            ],
+            "teachingStrategy": "<p><strong>Opener (5 min):</strong> Hold a baseball bat at the handle and swing — easy. Grip at the heavy end and swing — much harder. Same mass, same force. What changed? Mass distribution relative to the axis. This is moment of inertia.</p><p><strong>Direct instruction (15 min):</strong> Define I = Σmr². Common shapes: disc (½MR²), ring (MR²), solid sphere (⅖MR²), rod about centre (1/12ML²), rod about end (⅓ML²). Key: mass far from axis contributes MORE (r²). Figure skaters pull arms in → reduce I → spin faster.</p><p><strong>Calculations (15 min):</strong> (1) Three point masses on a rod — I about centre. (2) Same system, different axis → I changes. (3) Dumbbell: two 5 kg masses, 0.4 m rod → I about centre vs about one end. (4) Two wheels same mass, different radii — which has larger I?</p><p><strong>Lab (15 min):</strong> ROLLING RACE — Solid vs hollow cylinder (same M, R) down a ramp. Solid wins: smaller I → more GPE → translational KE. Predict winner, then race.</p>",
+            "engagementHook": {
+              "title": "ROLLING RACE",
+              "content": "Same mass, same radius, different I. Solid vs hollow cylinder race down a ramp. Students predict using I. Solid always wins — less energy goes to rotation. Follow with figure skater video: arms extend/retract → spin speed changes. \"Mass doesn't change. What changes?\" I changes → ω changes (previewing angular momentum conservation)."
+            },
+            "nos": {
+              "tags": ["Models"],
+              "description": "Moment of inertia collapses complex mass distribution into a single number that predicts rotational behaviour. Different I formulas for different shapes represent models simplifying reality."
+            },
+            "atl": ["Thinking skills", "Research skills"],
+            "learnerProfile": ["Inquirer", "Thinker"],
+            "ao": [
+              "AO1 — Define moment of inertia; state I = Σmr²",
+              "AO2 — Calculate I for point mass systems and using provided formulas",
+              "AO3 — Analyse how mass distribution affects I"
+            ],
+            "resources": "Baseball bat, solid and hollow cylinders (same M and R), ramp, figure skater spin video, I formula sheet",
+            "formative": "Rolling race prediction. \"Three masses (2, 3, 1 kg) at 0.1, 0.2, 0.3 m from axis. (a) Calculate I. (b) Move the 1 kg to 0.5 m — new I? (c) Which is harder to spin?\""
+          },
+          {
+            "num": 2,
+            "title": "Newton's Second Law for Rotation — τ = Iα",
+            "focus": "The rotational analogue of F = ma",
+            "minutes": 45,
+            "understandings": [
+              "Newton's second law for rotation: τ = Iα, where τ is the average resultant torque",
+              "This is the rotational analogue of F = ma",
+              "Net torque causes angular acceleration proportional to torque and inversely proportional to I",
+              "Combining τ = Iα with rotational kinematics for complete problem-solving"
+            ],
+            "teachingStrategy": "<p><strong>Building the analogy (5 min):</strong> Update the table: F = ma → τ = Iα. Force → torque. Mass → moment of inertia. Acceleration → angular acceleration. Pattern complete for dynamics.</p><p><strong>Direct instruction (10 min):</strong> Derivation for a point mass: F = ma, a = αr → F = mαr. Torque = Fr = mr²α = Iα. For a system: Στ = Iα. NOT a new law — Newton's 2nd law for rotation.</p><p><strong>Worked examples (15 min):</strong> (1) Disc (I = 0.5 kg·m²), torque 2 N·m → α = 4 rad/s²; ω after 5 s. (2) Pulley problem: mass hangs from string on disc — find α of disc and linear a of mass using τ = Iα and F = ma simultaneously. (3) Door: 1.2 m wide, 8 kg (I = ⅓ML²), 20 N at handle → α.</p><p><strong>Practice (15 min):</strong> Combined τ = Iα with rotational kinematics. Include: given torque, find revolutions to target ω.</p>",
+            "engagementHook": {
+              "title": "THE PULLEY PARADOX",
+              "content": "Hang a mass from a string on a MASSIVE pulley (not the ideal massless ones from A.2). The mass accelerates slower than g. \"In A.2 we assumed massless pulleys. Now the pulley has I, and GPE goes partly into rotational KE.\" Calculate with and without I — the difference is striking."
+            },
+            "nos": {
+              "tags": ["Theories"],
+              "description": "τ = Iα is not new — it's Newton's 2nd law applied to rotation. Existing theories are extended to new domains without contradiction. The identical structure of F = ma and τ = Iα suggests deeper unity."
+            },
+            "atl": ["Thinking skills", "Self-management skills"],
+            "learnerProfile": ["Thinker", "Knowledgeable"],
+            "ao": [
+              "AO1 — State τ = Iα",
+              "AO2 — Apply τ = Iα to solve for α, τ, or I; combine with rotational kinematics",
+              "AO3 — Analyse pulley and rotating-body problems"
+            ],
+            "resources": "Massive pulley, string, hanging masses, analogy table poster, problem sets",
+            "formative": "\"Solid disc (M = 4 kg, R = 0.2 m), string on rim, 2 kg mass hangs. (a) FBDs for disc and mass. (b) Write τ = Iα and F = ma. (c) Solve for α and tension. (d) Why is acceleration less than g?\""
+          }
+        ]
+      },
+      {
+        "name": "Angular Momentum & Rotational Energy",
+        "color": "accent4",
+        "totalMinutes": 140,
+        "subtopics": [
+          {
+            "num": 1,
+            "title": "Angular Momentum & Conservation — L = Iω",
+            "focus": "The rotational analogue of p = mv and its conservation",
+            "minutes": 50,
+            "understandings": [
+              "Angular momentum of a rotating body: L = Iω",
+              "Angular momentum remains constant unless acted upon by a resultant torque: if Στ = 0, then L = Iω = constant",
+              "Rotational analogue of linear momentum conservation (p = mv = constant when ΣF = 0)",
+              "When I changes (arms pulled in), ω changes to keep L constant"
+            ],
+            "teachingStrategy": "<p><strong>Opener (5 min):</strong> Figure skater video: arms out → slow spin. Arms in → fast spin. \"Mass didn't change. No external torque. What's conserved?\" L = Iω. When I decreases, ω increases.</p><p><strong>Direct instruction (15 min):</strong> Define L = Iω. Conservation: if Στ = 0, then I₁ω₁ = I₂ω₂. Analogy: p = mv → L = Iω. Worked example: skater I₁ = 3, ω₁ = 2 rev/s, pulls arms to I₂ = 1 → ω₂ = 6 rev/s. KE increases — where from? Work done pulling arms inward.</p><p><strong>Demo (5 min):</strong> SPINNING CHAIR — Student on rotating chair holds weights. Arms out → slow. Arms in → fast. Feel conservation in your body.</p><p><strong>Worked examples (15 min):</strong> (1) Neutron star: R = 700,000 km, T = 30 days collapses to R = 10 km → T in milliseconds (pulsars). (2) Two discs: one rotating drops onto stationary identical disc → ω₂ = ω₁/2, 50% KE lost. (3) Child jumps on/off merry-go-round.</p><p><strong>Practice (10 min):</strong> Conservation problems with KE analysis.</p>",
+            "engagementHook": {
+              "title": "SPINNING CHAIR DEMO",
+              "content": "Student on rotating chair holds dumbbells. Gentle spin. Arms extended: slow rotation. Arms in: dramatic speed increase. Arms out: slow again. They FEEL angular momentum conservation. Follow with the neutron star calculation — same physics, cosmic scale."
+            },
+            "nos": {
+              "tags": ["Theories", "Science as a shared endeavour"],
+              "description": "Conservation of angular momentum mirrors linear momentum conservation. Both arise from symmetries (Noether's theorem). Pulsars were discovered by Jocelyn Bell Burnell in 1967; their rapid spin is explained by angular momentum conservation during stellar collapse."
+            },
+            "atl": ["Thinking skills", "Communication skills"],
+            "learnerProfile": ["Thinker", "Knowledgeable", "Open-minded"],
+            "ao": [
+              "AO1 — Define angular momentum; state conservation condition",
+              "AO2 — Apply I₁ω₁ = I₂ω₂",
+              "AO3 — Analyse KE changes when I changes"
+            ],
+            "resources": "Spinning office chair, dumbbells, figure skater video, pulsar/neutron star video",
+            "formative": "\"Skater (I = 4.5 kg·m²) spins at 1.5 rev/s. Pulls arms to I = 1.5 kg·m². (a) New ω. (b) KE before and after. (c) Where did extra KE come from? (d) Does she exert a torque on herself?\""
+          },
+          {
+            "num": 2,
+            "title": "Angular Impulse — ΔL = τΔt",
+            "focus": "The rotational analogue of J = FΔt",
+            "minutes": 40,
+            "understandings": [
+              "The action of a resultant torque constitutes an angular impulse: ΔL = τΔt = Δ(Iω)",
+              "Rotational analogue of linear impulse: J = FΔt = Δp",
+              "Torque applied over time changes angular momentum",
+              "Area under τ-t graph = angular impulse = ΔL"
+            ],
+            "teachingStrategy": "<p><strong>Analogy (5 min):</strong> Complete the table: J = FΔt = Δp → ΔL = τΔt = Δ(Iω). \"Impulse changes momentum. Angular impulse changes angular momentum.\"</p><p><strong>Direct instruction (10 min):</strong> Define ΔL = τΔt. If I constant: ΔL = IΔω. If I changes: ΔL = I₂ω₂ − I₁ω₁. Area under τ-t graph = angular impulse.</p><p><strong>Worked examples (15 min):</strong> (1) Motor: 5 N·m on disc (I = 2) for 10 s from rest → ΔL = 50, ω_f = 25 rad/s. (2) Brake: −3 N·m on wheel at 100 rad/s (I = 0.8) → time to stop. (3) τ-t graph (triangle): find ΔL from area, then Δω.</p><p><strong>Practice (10 min):</strong> τ-t graph problems. Compare same ΔL from large τ × short Δt vs small τ × long Δt.</p>",
+            "engagementHook": {
+              "title": "DOOR SLAM vs GENTLE CLOSE",
+              "content": "Same ΔL (door goes from closed to open), but slamming = large τ × short Δt, gentle = small τ × long Δt. This is the rotational crumple zone principle. \"Why push at the handle rather than kick near the hinge?\" Both r and Δt matter."
+            },
+            "nos": {
+              "tags": ["Patterns"],
+              "description": "The impulse-momentum theorem appears in both linear and rotational forms. The same mathematical structure governs both. Recognising this allows transfer of problem-solving strategies."
+            },
+            "atl": ["Thinking skills", "Self-management skills"],
+            "learnerProfile": ["Thinker"],
+            "ao": [
+              "AO1 — Define angular impulse; state ΔL = τΔt",
+              "AO2 — Apply angular impulse to calculate changes in L",
+              "AO3 — Analyse τ-t graphs to find angular impulse"
+            ],
+            "resources": "τ-t graph worksheets, door for demo, problem sets",
+            "formative": "\"Brake applies −4 N·m to flywheel (I = 6 kg·m²) at 60 rad/s. (a) Angular impulse to stop. (b) Braking time. (c) Revolutions while stopping. (d) Sketch τ-t and ω-t graphs.\""
+          },
+          {
+            "num": 3,
+            "title": "Rotational Kinetic Energy & Rolling Motion",
+            "focus": "Eₖ = ½Iω² = L²/2I and rolling without slipping",
+            "minutes": 50,
+            "understandings": [
+              "Kinetic energy of rotational motion: Eₖ = ½Iω² = L²/2I",
+              "Rotational analogue of Eₖ = ½mv² = p²/2m",
+              "A rolling body has BOTH translational KE (½mv²) and rotational KE (½Iω²)",
+              "Rolling without slipping: v = ωR, total KE = ½mv² + ½Iω²",
+              "Energy conservation for rolling: mgh = ½mv² + ½Iω²"
+            ],
+            "teachingStrategy": "<p><strong>Opener (5 min):</strong> Recall rolling race from sub_5. \"Solid cylinder won — MORE GPE went to translational KE. Now we calculate exactly how much.\"</p><p><strong>Direct instruction (15 min):</strong> Eₖ(rot) = ½Iω². Alternative: L²/2I. For rolling: total KE = ½mv² + ½Iω². With v = ωR: total = ½v²(m + I/R²). Solid cylinder: ¾mv². Hollow: mv². Hollow puts more into rotation → slower.</p><p><strong>Worked examples (15 min):</strong> (1) Disc at 20 rad/s (I = 0.4) → Eₖ = 80 J. (2) Solid sphere rolls down 2 m ramp → v = √(10gh/7). Compare with frictionless slide: v = √(2gh). (3) Ball rolls off table — find range (energy → kinematics).</p><p><strong>Problem-solving (10 min):</strong> Rolling race ranking: sphere, disc, ring. Energy problems combining rolling + projectile motion.</p><p><strong>Wrap-up (5 min):</strong> Complete the master analogy table. Every translational quantity has a rotational twin.</p>",
+            "engagementHook": {
+              "title": "ROLLING RACE REMATCH — WITH CALCULATIONS",
+              "content": "Predict finishing order: solid sphere (⅖MR²), solid cylinder (½MR²), hollow sphere (⅔MR²), hollow cylinder (MR²). Calculate speeds at bottom of 1 m ramp, then verify. The match between prediction and measurement is the payoff of the entire A.4 unit."
+            },
+            "nos": {
+              "tags": ["Theories", "Patterns"],
+              "description": "Rotational KE completes the energy framework from A.3. Every conservation law from translational physics has a rotational counterpart. L²/2I parallels p²/2m — deep structural similarity."
+            },
+            "atl": ["Thinking skills", "Research skills", "Self-management skills"],
+            "learnerProfile": ["Thinker", "Inquirer", "Knowledgeable"],
+            "ao": [
+              "AO1 — State Eₖ = ½Iω² = L²/2I",
+              "AO2 — Apply energy conservation to rolling problems",
+              "AO3 — Analyse rolling race outcomes using rotational and translational KE"
+            ],
+            "resources": "Solid cylinder, hollow cylinder, solid sphere, hollow sphere (matched M and R), ramp, stopwatch",
+            "formative": "\"Solid sphere (2 kg, r = 0.1 m) rolls without slipping down 1.5 m ramp. (a) Speed at bottom (include both KEs). (b) Compare with frictionless sliding. (c) Fraction of KE that is rotational. (d) Hollow sphere: faster or slower? Calculate.\""
+          }
+        ]
+      }
+    ],
+    "linkingQuestions": [
+      { "topic": "A.1 Kinematics", "question": "How do the SUVAT equations map onto rotational kinematics? What is the physical meaning of the analogy?" },
+      { "topic": "A.2 Forces & Momentum", "question": "How does torque extend force to rotation? How is angular momentum analogous to linear momentum?" },
+      { "topic": "A.3 Work, Energy & Power", "question": "How does rotational KE (½Iω²) extend the mechanical energy framework? When must rolling KE be included?" },
+      { "topic": "A.5 Special Relativity", "question": "Does the mass-energy equivalence E = mc² affect moment of inertia at relativistic speeds?" },
+      { "topic": "D.1 Gravitational Fields", "question": "How does angular momentum conservation explain Kepler's 2nd law (equal areas in equal times)?" },
+      { "topic": "E.1 Structure of the Atom", "question": "How does the concept of quantised angular momentum apply to the Bohr model of the atom?" }
+    ]
+  },
+
