@@ -1353,6 +1353,144 @@ body {
   margin-bottom: 20px;
 }
 
+/* ── CHECKLIST STYLES ── */
+.checklist-progress-card {
+  background: linear-gradient(135deg, rgba(96,165,250,0.06), rgba(124,58,237,0.04));
+  border: 1.5px solid var(--tint-border);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+.checklist-progress-card .cp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.checklist-progress-card .cp-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+.checklist-progress-card .cp-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+}
+.checklist-progress-card .cp-bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+[data-theme="dark"] .checklist-progress-card .cp-bar {
+  background: rgba(255,255,255,0.08);
+}
+.checklist-progress-card .cp-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #3b82f6, #7c3aed);
+  transition: width 0.4s ease;
+}
+
+.checklist-card {
+  border-left: 4px solid #7c3aed;
+  margin-top: 24px;
+}
+.checklist-card .cl-header {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #7c3aed;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.checklist-card .cl-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.checklist-card .cl-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.checklist-card .cl-item:hover {
+  background: rgba(124,58,237,0.04);
+}
+.checklist-card .cl-item.checked {
+  opacity: 0.55;
+}
+.checklist-card .cl-item.checked .cl-text {
+  text-decoration: line-through;
+  text-decoration-color: var(--text3);
+}
+.checklist-card .cl-cb {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(124,58,237,0.35);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+.checklist-card .cl-item.checked .cl-cb {
+  background: #7c3aed;
+  border-color: #7c3aed;
+}
+.checklist-card .cl-cb svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s ease;
+}
+.checklist-card .cl-item.checked .cl-cb svg {
+  opacity: 1;
+  transform: scale(1);
+}
+.checklist-card .cl-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text2);
+  transition: opacity 0.2s, text-decoration 0.2s;
+}
+.checklist-card .cl-ahl-divider {
+  border: none;
+  border-top: 2px dashed rgba(59,130,246,0.2);
+  margin: 16px 0 8px;
+}
+.checklist-card .cl-ahl-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 0 14px;
+}
+
 @media(max-width:768px){
   .sidebar{display:none;}
   .topbar{padding:0 16px;}
@@ -1400,6 +1538,19 @@ body {
   .worked-example-card, .practice-problem-card, .mistake-box, .exam-corner-card {
     page-break-inside: avoid;
   }
+  .print-checkbox {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    border: 1.5px solid #333 !important;
+    width: 14px !important;
+    height: 14px !important;
+    background: #ffffff !important;
+    border-radius: 2px !important;
+    display: inline-block !important;
+    position: relative !important;
+    vertical-align: middle !important;
+  }
 }
 </style>
 </head>
@@ -1416,6 +1567,12 @@ body {
   <div class="progress-summary" id="sidebarProgress" style="display:none;">
     <div class="ps-text">Your Progress: <span id="progress-lessons">0/0</span> done &middot; <span id="progress-time">0 min</span></div>
     <div class="ps-bar-container"><div class="ps-bar-fill" id="progress-bar-fill" style="width: 0%"></div></div>
+  </div>
+
+  <!-- Checklist Aggregate Progress in Sidebar -->
+  <div class="checklist-summary" id="sidebarChecklistProgress" style="padding: 16px 20px; border-bottom: 1px solid var(--tint-border); background: rgba(255,255,255,0.15);">
+    <div class="ps-text">Checklist: <span id="checklist-progress-text" style="font-weight: 600;">0/0 done</span></div>
+    <div class="ps-bar-container"><div class="ps-bar-fill" id="checklist-bar-fill" style="width: 0%"></div></div>
   </div>
 
   <div class="sidebar-nav">
@@ -1991,6 +2148,7 @@ function renderActiveSubtopic() {
   subtopicContainer.innerHTML = `
     ${bannerHtml}
     ${headerHtml}
+    ${renderChecklistProgress(sub)}
     ${bigIdeaHtml}
     ${layerTabsHtml}
     ${foundationHtml}
@@ -2003,6 +2161,7 @@ function renderActiveSubtopic() {
     ${renderPracticeProblems(sub.practiceProblems)}
     ${renderCommonMistakes(sub.commonMistakes)}
     ${renderExamCorner(sub.examCorner, sub.ahlExamCorner)}
+    ${renderChecklist(sub)}
     ${renderFooterNav()}
   `;
   
@@ -2010,6 +2169,9 @@ function renderActiveSubtopic() {
   
   // Set initial visible classes and heights based on currentAbility level
   setAbilityLevel(currentAbility);
+  
+  // Update sidebar checklist aggregate progress
+  updateSidebarChecklistProgress();
 }
 
 function renderWorkedExamples(workedExamples) {
@@ -2694,6 +2856,198 @@ function updateSidebarProgress() {
 document.getElementById('calcModal').addEventListener('click', function(e) {
   if (e.target === this) closeCalc();
 });
+
+// ── CHECKLIST SYSTEM ──
+function getChecklistKey(sub, isAhl) {
+  const id = sub.id || `${activeTopicCode}_sub${sub.num}`;
+  return isAhl ? `dpChecklist_${id}_ahl` : `dpChecklist_${id}`;
+}
+
+function loadChecklistState(sub, isAhl) {
+  const key = getChecklistKey(sub, isAhl);
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : {};
+  } catch(e) {
+    return {};
+  }
+}
+
+function saveChecklistItem(sub, itemIdx, isChecked, isAhl) {
+  const key = getChecklistKey(sub, isAhl);
+  const state = loadChecklistState(sub, isAhl);
+  if (isChecked) {
+    state[itemIdx] = true;
+  } else {
+    delete state[itemIdx];
+  }
+  try {
+    localStorage.setItem(key, JSON.stringify(state));
+  } catch(e) {
+    console.warn('Could not save checklist state:', e);
+  }
+}
+
+function getChecklistCounts(sub) {
+  const slItems = sub.checklist || [];
+  const ahlItems = (currentLevel === 'hl' && sub.ahlChecklist) ? sub.ahlChecklist : [];
+  const totalCount = slItems.length + ahlItems.length;
+  
+  const slState = loadChecklistState(sub, false);
+  const ahlState = loadChecklistState(sub, true);
+  
+  let checkedCount = 0;
+  slItems.forEach((_, i) => { if (slState[i]) checkedCount++; });
+  ahlItems.forEach((_, i) => { if (ahlState[i]) checkedCount++; });
+  
+  return { checked: checkedCount, total: totalCount };
+}
+
+function renderChecklistProgress(sub) {
+  const slItems = sub.checklist || [];
+  const ahlItems = (currentLevel === 'hl' && sub.ahlChecklist) ? sub.ahlChecklist : [];
+  const totalCount = slItems.length + ahlItems.length;
+  if (totalCount === 0) return '';
+  
+  const { checked, total } = getChecklistCounts(sub);
+  const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+  
+  return `
+    <div class="checklist-progress-card">
+      <div class="cp-header">
+        <span class="cp-title">📋 Subtopic Checklist</span>
+        <span class="cp-count">${checked}/${total} completed (${pct}%)</span>
+      </div>
+      <div class="cp-bar">
+        <div class="cp-bar-fill" style="width: ${pct}%"></div>
+      </div>
+    </div>
+  `;
+}
+
+function renderChecklist(sub) {
+  const slItems = sub.checklist || [];
+  const ahlItems = (currentLevel === 'hl' && sub.ahlChecklist) ? sub.ahlChecklist : [];
+  const totalCount = slItems.length + ahlItems.length;
+  if (totalCount === 0) return '';
+  
+  const slState = loadChecklistState(sub, false);
+  const ahlState = loadChecklistState(sub, true);
+  
+  const checkSvg = '<svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"></polyline></svg>';
+  
+  let itemsHtml = slItems.map((text, i) => {
+    const isChecked = !!slState[i];
+    return `
+      <div class="cl-item ${isChecked ? 'checked' : ''}" data-idx="${i}" data-ahl="false" onclick="toggleChecklistItem(this, event)">
+        <div class="cl-cb">${checkSvg}</div>
+        <span class="cl-text">${text}</span>
+      </div>
+    `;
+  }).join('');
+  
+  if (ahlItems.length > 0) {
+    itemsHtml += `
+      <hr class="cl-ahl-divider">
+      <div class="cl-ahl-label">
+        <span class="glass-badge-ahl">AHL Checklist</span>
+      </div>
+    `;
+    itemsHtml += ahlItems.map((text, i) => {
+      const isChecked = !!ahlState[i];
+      return `
+        <div class="cl-item ${isChecked ? 'checked' : ''}" data-idx="${i}" data-ahl="true" onclick="toggleChecklistItem(this, event)">
+          <div class="cl-cb">${checkSvg}</div>
+          <span class="cl-text">${text}</span>
+        </div>
+      `;
+    }).join('');
+  }
+  
+  const { checked, total } = getChecklistCounts(sub);
+  
+  return `
+    <div class="glass-card checklist-card">
+      <div class="cl-header">
+        <span>📋 Study Checklist</span>
+        <span style="font-size: 12px; font-weight: 600; color: var(--text2); text-transform: none; letter-spacing: 0;">${checked}/${total} done</span>
+      </div>
+      <div class="cl-items">
+        ${itemsHtml}
+      </div>
+    </div>
+  `;
+}
+
+function toggleChecklistItem(el, event) {
+  event.stopPropagation();
+  const sub = currentTopicData.subtopics[currentLessonIdx];
+  if (!sub) return;
+  
+  const idx = parseInt(el.dataset.idx);
+  const isAhl = el.dataset.ahl === 'true';
+  const isCurrentlyChecked = el.classList.contains('checked');
+  const newState = !isCurrentlyChecked;
+  
+  // Toggle visual state
+  if (newState) {
+    el.classList.add('checked');
+  } else {
+    el.classList.remove('checked');
+  }
+  
+  // Persist
+  saveChecklistItem(sub, idx, newState, isAhl);
+  
+  // Update progress indicators
+  const { checked, total } = getChecklistCounts(sub);
+  const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
+  
+  // Update top progress card
+  const cpCount = document.querySelector('.checklist-progress-card .cp-count');
+  if (cpCount) cpCount.textContent = `${checked}/${total} completed (${pct}%)`;
+  const cpBarFill = document.querySelector('.checklist-progress-card .cp-bar-fill');
+  if (cpBarFill) cpBarFill.style.width = `${pct}%`;
+  
+  // Update bottom checklist header count
+  const clHeader = document.querySelector('.checklist-card .cl-header span:last-child');
+  if (clHeader) clHeader.textContent = `${checked}/${total} done`;
+  
+  // Update sidebar aggregate
+  updateSidebarChecklistProgress();
+}
+
+function updateSidebarChecklistProgress() {
+  if (!currentTopicData || !currentTopicData.subtopics) return;
+  
+  let totalChecked = 0;
+  let totalItems = 0;
+  
+  currentTopicData.subtopics.forEach(sub => {
+    // Skip HL subtopics in SL mode
+    if (currentLevel === 'sl' && sub.scope === 'hl') return;
+    
+    const counts = getChecklistCounts(sub);
+    totalChecked += counts.checked;
+    totalItems += counts.total;
+  });
+  
+  const progressText = document.getElementById('checklist-progress-text');
+  const barFill = document.getElementById('checklist-bar-fill');
+  const container = document.getElementById('sidebarChecklistProgress');
+  
+  if (totalItems === 0) {
+    // No checklist data exists — hide the sidebar section
+    if (container) container.style.display = 'none';
+    return;
+  }
+  
+  if (container) container.style.display = 'block';
+  if (progressText) progressText.textContent = `${totalChecked}/${totalItems} done`;
+  
+  const pct = totalItems > 0 ? Math.round((totalChecked / totalItems) * 100) : 0;
+  if (barFill) barFill.style.width = `${pct}%`;
+}
 
 window.addEventListener('load', () => {
   initLessonViewer();
