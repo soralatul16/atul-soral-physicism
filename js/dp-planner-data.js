@@ -7035,3 +7035,393 @@ const DP_PLANNER_DATA = {
     { "topic": "IB Linking (NOS)", "question": "Which areas of physics involve exponential change?" }
   ]
 },
+"E4": {
+  "title": "Fission",
+  "code": "E.4",
+  "theme": "E",
+  "level": "SL + HL",
+  "recommendedHours": 4,
+  "recommendedMinutes": 240,
+  "guidingQuestions": [
+    "In which form is energy stored within the nucleus of the atom?",
+    "How can the energy released from the nucleus be harnessed?"
+  ],
+  "groups": [
+    {
+      "name": "Nuclear Fission & Chain Reactions",
+      "color": "accent4",
+      "totalMinutes": 120,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Fission — Spontaneous & Neutron-Induced",
+          "focus": "Splitting heavy nuclei to release binding energy",
+          "minutes": 55,
+          "understandings": [
+            "Energy is released in both spontaneous and neutron-induced fission",
+            "Spontaneous fission: a heavy nucleus splits without external trigger (very rare for most isotopes)",
+            "Neutron-induced fission: a neutron is absorbed by a heavy nucleus (e.g., U-235), making it unstable → it splits into two smaller 'daughter' nuclei + 2-3 neutrons + energy (~200 MeV per fission)",
+            "Energy released because daughter nuclei have HIGHER BE/A than the parent → mass decreases → E = Δmc²",
+            "The fission products are typically unequal in mass (asymmetric fission) and are radioactive"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"A single uranium-235 atom, when hit by one slow neutron, releases 200 MeV — the energy of a grain of sand falling 1 cm, but concentrated in a space 10⁻¹⁵ m across. And it releases 2-3 MORE neutrons, each capable of triggering another fission. One neutron → 2-3 → 4-9 → 8-27 → ... This is a chain reaction.\"</p><p><strong>Direct instruction (20 min):</strong> Fission example: ²³⁵U + ¹n → ¹⁴¹Ba + ⁹²Kr + 3¹n + ~200 MeV. Why does this release energy? On the BE/A curve: U-235 has BE/A ≈ 7.6 MeV. Ba-141 and Kr-92 have BE/A ≈ 8.5 MeV. Each nucleon becomes MORE tightly bound → energy is released. The ~200 MeV appears as: KE of daughter nuclei (~165 MeV), KE of neutrons (~5 MeV), gamma rays (~7 MeV), beta/gamma from fission product decay (~23 MeV). Fission products are neutron-rich → undergo β⁻ decay chains → radioactive waste. Different fissions of U-235 produce DIFFERENT daughter pairs (~40 possible combinations) — the process is random.</p><p><strong>Energy calculation (15 min):</strong> (1) From masses: ²³⁵U (235.0439 u) + ¹n (1.0087) = 236.0526 u. Products: ¹⁴¹Ba (140.9144) + ⁹²Kr (91.9262) + 3n (3.0261) = 235.8667 u. Δm = 0.1859 u → E = 173 MeV. (2) From BE/A: ΔBE = [141 × 8.4 + 92 × 8.7] − [236 × 7.6] = [1184.4 + 800.4] − 1793.6 = 191.2 MeV. (Close to measured ~200 MeV.)</p><p><strong>Demo (5 min):</strong> Mousetraps + ping pong balls: set up a grid of loaded mousetraps with a ball on each. Drop one ball → triggers one trap → ball flies up and triggers more → chain reaction. \"Each mousetrap is a U-235 atom. Each ball is a neutron.\"</p><p><strong>Practice (10 min):</strong> Fission energy calculations and balanced nuclear equations.</p>",
+          "engagementHook": {
+            "title": "MOUSETRAPS & PING PONG BALLS — THE CHAIN REACTION",
+            "content": "Set up 50 mousetraps loaded with ping pong balls in a box. Drop one ball in. BANG-BANG-BANG — balls fly everywhere, triggering more traps, creating an avalanche. \"Each trap is a U-235 nucleus. Each ball is a neutron. One neutron → fission → more neutrons → more fission → exponential growth. In a reactor: controlled. In a bomb: uncontrolled.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Observations", "Global impact"],
+            "description": "Nuclear fission was discovered by Hahn and Strassmann (1938) and explained by Meitner and Frisch (1939). Within 6 years, it powered both nuclear reactors (1942, Chicago Pile-1) and nuclear weapons (1945, Hiroshima). No other scientific discovery has been weaponised so rapidly. The ethical responsibility of scientists remains a central NOS discussion."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Caring"],
+          "ao": [
+            "AO1 — Describe spontaneous and neutron-induced fission; explain energy release using BE/A",
+            "AO2 — Write fission equations; calculate energy released using mass defect or BE/A",
+            "AO3 — Analyse why fission products are radioactive"
+          ],
+          "resources": "Mousetraps + ping pong balls (chain reaction demo), BE/A curve, nuclear mass data, calculators",
+          "formative": "\"(a) Write a balanced equation for: ²³⁵U + n → ⁹⁰Sr + ¹⁴³Xe + ?n. Find the number of neutrons released. (b) Using BE/A values: estimate the energy released. (c) Using masses (given): calculate Δm and E. (d) Why are fission products radioactive? (e) Why does fission only release energy for nuclei HEAVIER than iron?\""
+        },
+        {
+          "num": 2,
+          "title": "Chain Reactions — Controlled & Uncontrolled",
+          "focus": "Critical mass, multiplication factor, and what makes the difference between a reactor and a bomb",
+          "minutes": 65,
+          "understandings": [
+            "Chain reaction: each fission releases neutrons that trigger further fissions",
+            "Multiplication factor k: average number of neutrons from one fission that cause another fission",
+            "k < 1: sub-critical — reaction dies out. k = 1: critical — sustained, steady reaction (reactor). k > 1: supercritical — exponential growth (bomb or reactor start-up)",
+            "Critical mass: the minimum mass of fissile material needed to sustain a chain reaction (depends on shape, density, enrichment, presence of moderator/reflector)",
+            "U-235 vs U-238: only U-235 is fissile with slow (thermal) neutrons. Natural uranium is 99.3% U-238, only 0.7% U-235 → enrichment is needed"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"One fission releases ~2.5 neutrons. If each triggers one more fission: 1 → 2.5 → 6.25 → 15.6 → 39 → 98 → 244... After 80 generations (in ~10⁻⁶ seconds): 2.5⁸⁰ ≈ 10³² fissions — the energy of a nuclear weapon. But in a reactor: exactly 1 neutron per fission triggers the next → k = 1 → steady power. The difference between a reactor and a bomb is the difference between k = 1 and k > 1.\"</p><p><strong>Direct instruction (20 min):</strong> Define k: neutrons causing new fissions / neutrons from previous generation. k < 1: sub-critical (reaction stops). k = 1: critical (steady state — reactor operating). k > 1: supercritical (growing — used briefly during reactor start-up or continuously in a weapon). What determines k? (a) How many neutrons each fission produces (~2.5 for U-235). (b) How many are absorbed without causing fission (by U-238, control rods, structural materials). (c) How many escape the material (size/shape — larger volume → fewer escape → higher k). (d) Whether neutrons are slow enough to cause fission (U-235 fissions best with SLOW neutrons → need a moderator). Critical mass of U-235: ~52 kg as a bare sphere. With a neutron reflector: ~15 kg. Pu-239: ~10 kg bare. Enrichment: separating U-235 from U-238 (physically difficult — they're chemically identical).</p><p><strong>Discussion (20 min):</strong> Controlled vs uncontrolled: In a reactor: control rods absorb excess neutrons → maintain k = 1. Delayed neutrons (~0.7% are emitted with a delay of seconds) make control possible — without them, the reaction would be too fast to control. In a weapon: highly enriched U-235 (>80%) or Pu-239, compressed rapidly to supercritical → exponential chain reaction → explosion. Why can't a reactor explode like a bomb? (a) Fuel enrichment too low (~3-5% vs >80%). (b) Any power increase → temperature rises → Doppler broadening → U-238 absorbs more neutrons → k drops below 1 → negative feedback. (c) Control rods can be inserted in seconds.</p><p><strong>Worked examples (10 min):</strong> (1) If k = 1.001 and each generation is 0.1 s: after 100 s (1000 generations), power multiplied by 1.001¹⁰⁰⁰ = 2.72 — nearly tripled. Reactor operator inserts rods. (2) If k = 2 and each generation is 10⁻⁸ s: after 80 generations (8 × 10⁻⁷ s): 2⁸⁰ ≈ 10²⁴ fissions — nuclear explosion.</p><p><strong>Practice (10 min):</strong> k calculations and chain reaction analysis.</p>",
+          "engagementHook": {
+            "title": "k = 1.000 vs k = 1.001 — THE THINNEST LINE IN PHYSICS",
+            "content": "\"A nuclear reactor operates at k = 1.000 — perfectly steady. If k drifts to 1.001: power increases 2.7× in 100 seconds — manageable, insert control rods. If k reaches 2.0 (weapon): power increases 10²⁴× in less than a microsecond. The difference between safe power and catastrophic explosion is in the THIRD DECIMAL PLACE of k. Nuclear engineering is the art of keeping k at exactly 1.000.\""
+          },
+          "nos": {
+            "tags": ["Global impact", "Ethics", "Technology"],
+            "description": "Nuclear fission raises profound ethical questions. The same physics that powers hospitals and cities also produced Hiroshima and Nagasaki. The Manhattan Project scientists debated the morality of their work — many later campaigned for nuclear disarmament. Einstein wrote to Roosevelt warning of the bomb's possibility; later called it 'the great mistake of my life.' Science is neutral; applications are not."
+          },
+          "atl": ["Thinking skills", "Communication skills", "Social skills"],
+          "learnerProfile": ["Thinker", "Caring", "Principled"],
+          "ao": [
+            "AO1 — Define chain reaction, critical mass, multiplication factor k",
+            "AO2 — Calculate power changes from k values; explain conditions for criticality",
+            "AO3 — Analyse why reactors can't explode like bombs; discuss ethical dimensions"
+          ],
+          "resources": "Chain reaction animation, reactor diagram, k-factor calculation examples, Manhattan Project timeline",
+          "formative": "\"(a) Define k and state the values for sub-critical, critical, and supercritical. (b) A reactor operates at k = 1. 1000 fissions occur. How many occur in the next generation? And the next? (c) If k = 1.005 and generation time = 0.1 s: find the power multiplication after 60 s. (d) Explain why natural uranium (0.7% U-235) cannot sustain a chain reaction without a moderator. (e) Why does a nuclear reactor have a NEGATIVE temperature coefficient (higher T → lower k)?\""
+        }
+      ]
+    },
+    {
+      "name": "Nuclear Power Plants & Safety",
+      "color": "accent3",
+      "totalMinutes": 120,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Components of a Nuclear Power Plant",
+          "focus": "Control rods, moderator, heat exchanger, shielding — how a reactor works",
+          "minutes": 60,
+          "understandings": [
+            "Moderator: slows fast neutrons to thermal speeds so they can cause fission in U-235 (water, heavy water, or graphite)",
+            "Control rods: absorb neutrons to control the reaction rate and maintain k = 1 (boron or cadmium)",
+            "Heat exchanger: transfers thermal energy from the reactor core to a secondary coolant loop (which drives the turbine) without mixing radioactive and non-radioactive fluids",
+            "Shielding: thick concrete and steel surrounding the reactor to absorb radiation and protect workers/public",
+            "The fission process: fuel rods → heat → coolant → steam → turbine → generator (Faraday's law from D.4!) → electricity"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"A nuclear power plant is a very expensive way to boil water. Fission heats water → steam → turbine → generator. The only difference from a coal plant is the heat source: nuclear fuel instead of burning coal. Everything after the steam is identical.\"</p><p><strong>Direct instruction (20 min):</strong> Walk through each component: (a) Fuel rods: enriched uranium (3-5% U-235) in metal tubes. (b) Moderator: slows neutrons. Why? U-235 fissions best with SLOW (thermal) neutrons. Fast neutrons from fission must be slowed by elastic collisions with moderator atoms. Water (light water) is cheapest. Heavy water (D₂O) absorbs fewer neutrons → can use natural uranium. Graphite: historical (Chernobyl — contributed to the disaster). (c) Control rods: boron or cadmium. Inserted → absorb neutrons → k decreases → power drops. Withdrawn → fewer absorbed → k increases → power rises. In an emergency: rods drop by gravity (SCRAM). (d) Heat exchanger: primary coolant (radioactive water touching fuel) → secondary coolant (clean water → steam → turbine). Two loops keep radioactive material INSIDE the containment. (e) Shielding: thick concrete absorbs neutrons and gamma. Steel containment vessel prevents release of radioactive material.</p><p><strong>Diagram annotation (10 min):</strong> Students annotate a reactor schematic: label every component, draw the energy flow (nuclear → thermal → mechanical → electrical), and identify where each type of radiation is produced and absorbed.</p><p><strong>Discussion (15 min):</strong> Advantages: low CO₂ during operation, high energy density, reliable baseload power, small land footprint. Disadvantages: radioactive waste (long-lived), risk of accident (Chernobyl 1986, Fukushima 2011), weapons proliferation, high construction cost, public opposition. Students create a balanced pros/cons table.</p><p><strong>Practice (10 min):</strong> Component identification, function questions, and energy flow tracing.</p>",
+          "engagementHook": {
+            "title": "THE MOST EXPENSIVE KETTLE IN THE WORLD",
+            "content": "\"A nuclear power station costs ~$10 billion to build. It splits atoms to heat water to make steam to spin a turbine to generate electricity. A coal plant does the same thing with fire instead of fission. Everything after the steam is identical — Faraday's law from D.4 generates the electricity. The nuclear part just replaces the furnace. The most sophisticated physics in the world... to boil water.\""
+          },
+          "nos": {
+            "tags": ["Technology", "Global impact", "Ethics"],
+            "description": "Nuclear power is one of the most debated technologies. It produces ~10% of global electricity with near-zero CO₂ emissions during operation. But accidents (Three Mile Island, Chernobyl, Fukushima) and waste disposal remain serious concerns. The debate involves physics (safety engineering), politics (energy policy), economics (cost), and ethics (risk to future generations from waste)."
+          },
+          "atl": ["Thinking skills", "Communication skills", "Social skills"],
+          "learnerProfile": ["Knowledgeable", "Caring", "Open-minded"],
+          "ao": [
+            "AO1 — Describe the role of control rods, moderator, heat exchanger, and shielding",
+            "AO2 — Trace energy flow from fission to electricity",
+            "AO3 — Evaluate advantages and disadvantages of nuclear power"
+          ],
+          "resources": "Reactor schematic diagram, energy flow template, pros/cons debate cards, Chernobyl/Fukushima case study summaries",
+          "formative": "\"(a) State the function of each: moderator, control rods, heat exchanger, shielding. (b) Why must neutrons be slowed before they can cause fission in U-235? (c) Trace the energy chain from U-235 nucleus to electricity in the grid (at least 6 steps). (d) The control rods are fully inserted. What happens to the chain reaction? (e) List two advantages and two disadvantages of nuclear power compared to natural gas.\""
+        },
+        {
+          "num": 2,
+          "title": "Nuclear Safety, Waste & the Energy Debate",
+          "focus": "Risks, waste management, and the role of nuclear in the energy mix",
+          "minutes": 60,
+          "understandings": [
+            "Nuclear waste categories: low-level (clothing, tools — short T₁/₂), intermediate (reactor components), high-level (spent fuel rods — long T₁/₂, intensely radioactive)",
+            "High-level waste remains dangerous for thousands to millions of years → deep geological storage required",
+            "Safety systems: containment, redundancy, passive cooling, emergency shutdown (SCRAM)",
+            "Comparison with other energy sources: CO₂ emissions, land use, reliability, waste, safety record, cost"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Waste: (a) Low-level: contaminated clothing, tools. Short T₁/₂. Stored in steel drums, shallow burial. (b) Intermediate: reactor components, resins. Mixed T₁/₂. Encased in concrete. (c) High-level: spent fuel. Contains fission products with T₁/₂ from days to millions of years (Cs-137: 30 yr, Pu-239: 24,100 yr). Generates heat. Must be cooled for years in pools, then encased in glass (vitrification), stored in deep geological repositories. The challenge: ensuring containment for ~100,000 years — longer than recorded human history. Safety: modern reactors have multiple barriers (fuel cladding, pressure vessel, containment building). Passive safety: in Generation III+ reactors, cooling works by gravity and natural circulation — no pumps needed (Fukushima's pumps failed when power was lost → meltdown).</p><p><strong>Case studies (15 min):</strong> (1) Chernobyl (1986): design flaws + operator error → steam explosion → no containment → radioactive fallout across Europe. 31 immediate deaths, ~4000 estimated cancer deaths. (2) Fukushima (2011): earthquake + tsunami → power loss → cooling failure → meltdown. 1 confirmed radiation death, ~2200 evacuation deaths. (3) Three Mile Island (1979): partial meltdown, containment held, no significant radiation release. Lessons: containment works, passive safety matters, human error is the biggest risk.</p><p><strong>Energy debate (20 min):</strong> Structured debate: Is nuclear power essential for addressing climate change? Groups represent: pro-nuclear, anti-nuclear, renewable-only, mixed-energy. Each must use physics data: energy density, CO₂ per kWh, capacity factor, waste volume, land use. No opinion without evidence. Vote after presentations.</p><p><strong>Wrap-up (10 min):</strong> \"Fission is the most concentrated energy source humans have ever harnessed. It can power civilisation with minimal CO₂ — or contaminate land for millennia. The physics is neutral. The choices are ours.\"</p>",
+          "engagementHook": {
+            "title": "100,000 YEARS OF RESPONSIBILITY",
+            "content": "\"Spent nuclear fuel remains dangerous for 100,000 years. That's 50× longer than recorded history. 10× longer than the oldest known civilisation. How do you warn people in the year 102,026 not to dig here?\" Finland's Onkalo repository is being built 400 m underground in granite. The design question: what symbol, language, or structure will communicate 'DANGER' to humans 3000 generations from now? Students propose solutions. \"This is where physics meets philosophy.\""
+          },
+          "nos": {
+            "tags": ["Ethics", "Global impact", "Science as a shared endeavour"],
+            "description": "Nuclear waste disposal is a unique ethical challenge: the benefits accrue NOW (electricity), while the risks extend 100,000+ years into the future. Intergenerational justice — our responsibility to unborn generations — is a concept at the intersection of physics, ethics, and policy. The IAEA coordinates international safety standards, making this a shared global endeavour."
+          },
+          "atl": ["Thinking skills", "Social skills", "Communication skills"],
+          "learnerProfile": ["Caring", "Principled", "Open-minded", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe waste categories and safety systems",
+            "AO2 — Compare nuclear with other energy sources using quantitative data",
+            "AO3 — Evaluate the role of nuclear power in addressing climate change"
+          ],
+          "resources": "Waste category chart, Chernobyl/Fukushima case studies, energy source comparison data, debate preparation cards",
+          "formative": "\"(a) Classify nuclear waste into three categories with one example of each. (b) Pu-239 (T₁/₂ = 24,100 yr) in spent fuel. How many half-lives until activity drops to 0.1%? How many years? (c) Compare: CO₂ per kWh for nuclear (12 g), gas (490 g), coal (820 g), solar (48 g), wind (11 g). Which has the lowest? (d) A nuclear plant produces 1 GW for 30 years. Estimate: total energy output, mass of fuel used, volume of high-level waste. Compare with a coal plant of the same output. (e) 'Nuclear power is essential for fighting climate change.' Argue for AND against, using physics.\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "E.3 Radioactive Decay", "question": "How does the BE/A curve explain why fission of heavy nuclei releases energy?" },
+    { "topic": "E.5 Fusion and Stars", "question": "How does fission compare with fusion in terms of energy per nucleon, fuel availability, and waste?" },
+    { "topic": "A.3 Work, Energy & Power", "question": "How does the energy density of nuclear fuel compare with chemical fuels?" },
+    { "topic": "B.4 Thermodynamics (HL)", "question": "How is the efficiency of a nuclear power station limited by thermodynamics (Carnot efficiency)?" },
+    { "topic": "D.4 Induction (HL)", "question": "How does Faraday's law convert the mechanical rotation of the turbine into electrical energy?" },
+    { "topic": "IB Linking (Ethics)", "question": "How did the discovery of fission and the development of nuclear weapons raise ethical questions about the responsibility of scientists?" }
+  ]
+},
+"E5": {
+  "title": "Fusion and Stars",
+  "code": "E.5",
+  "theme": "E",
+  "level": "SL + HL",
+  "recommendedHours": 6,
+  "recommendedMinutes": 360,
+  "guidingQuestions": [
+    "How are elements created?",
+    "What physical processes lead to the evolution of stars?",
+    "Can observations of the present state of the universe predict the future outcome of the universe?"
+  ],
+  "groups": [
+    {
+      "name": "Nuclear Fusion & Stellar Equilibrium",
+      "color": "accent4",
+      "totalMinutes": 130,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Nuclear Fusion — Combining Light Nuclei",
+          "focus": "How fusing hydrogen into helium powers the Sun and all stars",
+          "minutes": 60,
+          "understandings": [
+            "Nuclear fusion: light nuclei combine to form a heavier nucleus, releasing energy because the products have HIGHER binding energy per nucleon (moving UP the left side of the BE/A curve toward Fe-56)",
+            "The proton-proton chain: the dominant fusion process in the Sun — 4 protons → He-4 + 2 positrons + 2 neutrinos + energy (~26.7 MeV total)",
+            "Fusion requires extremely high temperatures (~10⁷ K) to overcome the Coulomb barrier (electrostatic repulsion between positive nuclei)",
+            "At these temperatures, matter exists as PLASMA — electrons stripped from atoms",
+            "Fusion produces NO long-lived radioactive waste and uses abundant fuel (hydrogen) — but is extremely difficult to achieve on Earth"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"The Sun converts 600 million tonnes of hydrogen into 596 million tonnes of helium every second. The missing 4 million tonnes becomes energy: E = Δmc² = 3.85 × 10²⁶ W. This has been happening for 4.6 billion years. Fusion is the engine of every star.\"</p><p><strong>Direct instruction (20 min):</strong> Why does fusion release energy? On the BE/A curve: H-1 has BE/A = 0. He-4 has BE/A = 7.07 MeV. Going from low to high BE/A releases energy. The pp chain (simplified): 4¹H → ⁴He + 2e⁺ + 2ν + 26.7 MeV. Why is it so hard? Protons are positive → they repel each other. To fuse: must get close enough (~1 fm) for the strong force to take over. Need KE ≈ Coulomb barrier ≈ 1 MeV → T ≈ 10¹⁰ K classically. But quantum tunnelling allows fusion at ~10⁷ K (the Sun's core temperature). Even so: the average proton in the Sun waits ~10 billion years before fusing. The Sun works because it has SO many protons.</p><p><strong>Fusion on Earth (10 min):</strong> Tokamak: magnetic confinement of plasma in a torus. ITER (under construction): aims to produce 500 MW from fusion by ~2035. Challenges: plasma at 150 million K (10× the Sun's core!), confinement for seconds, materials that can withstand the conditions. Inertial confinement: powerful lasers compress a fuel pellet (NIF, Lawrence Livermore). In 2022, NIF achieved ignition — more energy OUT than laser energy IN for the first time.</p><p><strong>Worked examples (15 min):</strong> (1) pp chain: 4 × 1.00728 u → 4.00153 u + 2 × 0.00055 u (positrons). Δm = 4.02912 − 4.00263 = 0.02649 u → E = 24.7 MeV (plus 2 × 1.02 MeV from positron annihilation = ~26.7 MeV total). (2) Deuterium-tritium fusion: ²H + ³H → ⁴He + ¹n. Calculate energy released (~17.6 MeV). (3) Energy from 1 kg of DT fuel vs 1 kg of U-235 fission vs 1 kg of coal. (4) Why D-T fusion, not p-p, for Earth reactors? (Lower Coulomb barrier — easier to achieve.)</p><p><strong>Practice (10 min):</strong> Fusion energy calculations and BE/A curve analysis.</p>",
+          "engagementHook": {
+            "title": "THE SUN: 600 MILLION TONNES OF HYDROGEN PER SECOND",
+            "content": "\"Every second: 600 million tonnes of hydrogen → 596 million tonnes of helium. The missing 4 million tonnes → 3.85 × 10²⁶ watts of energy. For 4.6 billion years. And it has enough hydrogen for another 5 billion.\" Students calculate: total mass converted so far = 4 × 10⁹ × 4.6 × 10⁹ × 3.15 × 10⁷ ≈ 5.8 × 10²⁶ kg. Sun's mass = 2 × 10³⁰ kg. \"The Sun has only lost 0.03% of its mass in 4.6 billion years. E = mc² packs a LOT of energy into a little mass.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Technology", "Global impact"],
+            "description": "Arthur Eddington proposed in 1920 that stars are powered by nuclear fusion — 12 years before the neutron was discovered and 18 years before fission was understood. He reasoned from E = mc² and stellar temperatures. Hans Bethe worked out the pp chain in 1939 (Nobel 1967). Fusion power on Earth remains 'always 30 years away' — but NIF's 2022 ignition was a genuine milestone."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Caring"],
+          "ao": [
+            "AO1 — Describe nuclear fusion; explain energy release using BE/A; describe the pp chain",
+            "AO2 — Calculate energy released in fusion reactions using mass defect",
+            "AO3 — Analyse challenges of fusion on Earth and compare with fission"
+          ],
+          "resources": "BE/A curve, Sun data, ITER/NIF videos, nuclear mass data, calculators",
+          "formative": "\"(a) Why does fusion of light nuclei release energy? Use the BE/A curve. (b) In D-T fusion: ²H (2.01410 u) + ³H (3.01605 u) → ⁴He (4.00260 u) + ¹n (1.00866 u). Find Δm and energy released. (c) Why does fusion require temperatures of ~10⁷ K? What is the Coulomb barrier? (d) Energy from 1 kg of D-T vs 1 kg of U-235 fission. Which produces more? (e) Why is fusion 'cleaner' than fission?\""
+        },
+        {
+          "num": 2,
+          "title": "Stellar Equilibrium — Radiation Pressure vs Gravity",
+          "focus": "How stars balance on a knife edge for billions of years",
+          "minutes": 70,
+          "understandings": [
+            "The stability of stars relies on an equilibrium between OUTWARD radiation pressure (from fusion reactions in the core) and INWARD gravitational forces",
+            "This is hydrostatic equilibrium: at every layer of the star, pressure outward = gravitational compression inward",
+            "If fusion increases → more radiation pressure → star expands → core cools → fusion rate decreases → equilibrium restored (negative feedback)",
+            "If fusion decreases → less pressure → star contracts → core heats → fusion increases → equilibrium restored",
+            "This self-regulating mechanism keeps main sequence stars stable for billions of years"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"The Sun is a ball of gas 1.4 million km across, with a core at 15 million K, producing 3.85 × 10²⁶ W. It has been doing this steadily for 4.6 billion years. How does it NOT explode (too much pressure) or collapse (too much gravity)? Because it's in PERFECT balance.\"</p><p><strong>Direct instruction (20 min):</strong> Two opposing forces: (a) Gravity: every layer of the star is pulled inward by the mass below it. Massive stars have stronger gravity. (b) Radiation pressure: photons from fusion push outward. More fusion → more photons → more pressure. Plus thermal pressure from hot gas. At every layer: these balance → hydrostatic equilibrium. The feedback loop: imagine fusion suddenly increases. More energy → more radiation pressure → star EXPANDS slightly → core density and temperature DROP → fusion rate decreases → pressure drops → star returns to equilibrium. The reverse also works: less fusion → contraction → heating → more fusion. This negative feedback keeps the star stable. Main sequence lifetime: determined by mass. More massive → more fuel BUT burns it much FASTER (L ∝ M³·⁵). The Sun: ~10 billion years. A 10M⊙ star: ~20 million years. A 0.1M⊙ star: ~10 trillion years.</p><p><strong>Discussion (15 min):</strong> \"What happens when the hydrogen runs out?\" The equilibrium breaks. No fusion → no radiation pressure → core collapses under gravity → temperature rises → helium fusion ignites (for massive enough stars). This is the beginning of the end — stellar evolution. When ALL fusible fuel is exhausted: the star's fate depends on its mass (next subtopic).</p><p><strong>Worked examples (15 min):</strong> (1) The Sun's main sequence lifetime: total hydrogen fuel ~1.5 × 10³⁰ kg (only the core's 10% is hot enough to fuse). Energy per kg of fusion: ~6.3 × 10¹⁴ J. Total energy: ~9.5 × 10⁴³ J. At L = 3.85 × 10²⁶ W: lifetime ≈ 2.5 × 10¹⁷ s ≈ 8 billion years (close to accepted ~10 billion). (2) A star of 5M⊙ with L = 500L⊙: estimate its lifetime relative to the Sun.</p><p><strong>Practice (15 min):</strong> Equilibrium concepts, lifetime estimates, and feedback analysis.</p>",
+          "engagementHook": {
+            "title": "THE COSMIC THERMOSTAT — 4.6 BILLION YEARS OF PERFECT BALANCE",
+            "content": "\"If the Sun produced 1% more power: radiation pressure would push the core outward → it would cool → fusion would slow → power drops back. If 1% less: gravity would squeeze the core → it would heat → fusion speeds up → power rises back. The Sun has a built-in thermostat — negative feedback.\" Students draw the feedback loop as a cycle diagram. \"This is why stars are stable for BILLIONS of years — not because nothing changes, but because every change corrects itself.\""
+          },
+          "nos": {
+            "tags": ["Models", "Theories", "Patterns"],
+            "description": "Stellar equilibrium is a beautiful example of negative feedback in a natural system — the same concept appears in climate science (B.2), ecology, and engineering. The mathematical description (hydrostatic equilibrium) was developed by Eddington, Chandrasekhar, and others in the early 20th century. It predicts stellar lifetimes, luminosities, and temperatures with remarkable accuracy."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe the equilibrium between radiation pressure and gravity in stars",
+            "AO2 — Estimate stellar lifetimes from mass and luminosity",
+            "AO3 — Analyse the negative feedback mechanism that stabilises main sequence stars"
+          ],
+          "resources": "Star structure diagram, feedback loop template, Sun data, stellar lifetime comparison chart",
+          "formative": "\"(a) Name the two forces in equilibrium inside a main sequence star. (b) A star suddenly increases its fusion rate. Describe the sequence of events that returns it to equilibrium. (c) The Sun has mass 2 × 10³⁰ kg and luminosity 3.85 × 10²⁶ W. Estimate its main sequence lifetime. (d) A star of 10 M⊙ has L = 10,000 L⊙. Estimate its lifetime as a fraction of the Sun's. (e) Why do massive stars have SHORTER lifetimes despite having MORE fuel?\""
+        }
+      ]
+    },
+    {
+      "name": "Stellar Evolution & the HR Diagram",
+      "color": "accent",
+      "totalMinutes": 130,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "The Hertzsprung-Russell Diagram",
+          "focus": "Luminosity vs temperature — the most important diagram in astrophysics",
+          "minutes": 55,
+          "understandings": [
+            "The HR diagram plots luminosity (vertical, log scale) against surface temperature (horizontal, REVERSED — hot on left, cool on right)",
+            "Main sequence: diagonal band from top-left (hot, luminous, massive, blue) to bottom-right (cool, dim, low-mass, red). ~90% of all stars",
+            "Red giants/supergiants: upper right (cool but very luminous → must be very LARGE, since L = σAT⁴ and large A compensates for low T)",
+            "White dwarfs: lower left (hot but dim → must be very SMALL)",
+            "A star's position on the HR diagram changes as it evolves"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"If you measured the temperature and luminosity of every visible star and plotted them: you wouldn't get random scatter. You'd get PATTERNS. Stars cluster in specific regions. This plot — the Hertzsprung-Russell diagram — is the most important diagram in all of astrophysics. It tells you a star's life story.\"</p><p><strong>Direct instruction (20 min):</strong> Axes: L (vertical, log scale, in L⊙ from 10⁻⁴ to 10⁶) vs T (horizontal, REVERSED, from 40,000 K on left to 2,500 K on right — because astronomers 🙄). Main sequence: the band where stars spend most of their lives fusing hydrogen. Hot end (O, B stars): massive, blue, very luminous, short-lived. Cool end (M stars): low-mass, red, dim, long-lived. The Sun is G-type, middle of the main sequence. Red giants: exhausted core hydrogen → expanded enormously → cool surface (red) but huge area → very luminous despite low T. White dwarfs: remnant cores after red giant phase → very hot (blue-white) but tiny (Earth-sized) → very dim. Use L = 4πR²σT⁴ to understand positions: same L can come from high T + small R (white dwarf) or low T + huge R (red giant).</p><p><strong>Graphical analysis (15 min):</strong> Students annotate a blank HR diagram: draw the main sequence, label the giant region, white dwarf region, supergiant region. Place the Sun, Sirius (A-type main sequence), Betelgeuse (red supergiant), and Sirius B (white dwarf). For each: estimate L, T, R relative to the Sun using L = 4πR²σT⁴.</p><p><strong>Worked examples (10 min):</strong> (1) Betelgeuse: T = 3500 K, L = 10⁵ L⊙. R/R⊙ = √(L/L⊙) × (T⊙/T)² = √(10⁵) × (5800/3500)² = 316 × 2.74 = 867 R⊙. (2) Sirius B: T = 25,000 K, L = 0.03 L⊙ → R = 0.008 R⊙ ≈ R_Earth. (3) Where would a star with T = 5800 K and R = 10R⊙ appear? L = 100 L⊙ → above the Sun on the HR diagram → a subgiant.</p><p><strong>Practice (5 min):</strong> HR diagram placement and radius estimation.</p>",
+          "engagementHook": {
+            "title": "BETELGEUSE: 867 TIMES THE SUN — IF IT REPLACED THE SUN, IT WOULD SWALLOW JUPITER",
+            "content": "Calculate Betelgeuse's radius: 867 R⊙ = 6 × 10¹¹ m. Jupiter's orbit radius: 7.8 × 10¹¹ m. \"Betelgeuse is so large that if placed at the Sun's position, its surface would extend almost to Jupiter's orbit. Mars, Earth, Venus, Mercury — all inside the star.\" Show a scale comparison image. \"And it's only ~10 million years old — a baby compared to the Sun's 4.6 billion. Massive stars live fast and die young.\""
+          },
+          "nos": {
+            "tags": ["Observations", "Patterns", "Models"],
+            "description": "Ejnar Hertzsprung and Henry Norris Russell independently created this diagram around 1910. They had no theory of stellar evolution — they simply plotted the data and saw the patterns. The main sequence, giants, and white dwarfs emerged from pure observation. The EXPLANATION (nuclear fusion, stellar evolution) came decades later. Pattern first, theory second."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Communicator", "Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe the HR diagram axes, main sequence, giants, and white dwarfs",
+            "AO2 — Place stars on the HR diagram; estimate R from L and T using L = 4πR²σT⁴",
+            "AO3 — Analyse how position on the HR diagram reveals a star's properties"
+          ],
+          "resources": "Blank HR diagram template, stellar data table (L, T for 10 stars), calculators, scale comparison images",
+          "formative": "\"(a) Sketch the HR diagram. Label axes (with directions), main sequence, red giant region, white dwarf region. (b) Place the Sun, Betelgeuse, Sirius, Sirius B. (c) A star has L = 10,000 L⊙ and T = 4000 K. Calculate R/R⊙. Is it a main sequence star or a giant? (d) Two stars have the same T but one has L = 1000× the other. What differs? (e) Why is the temperature axis reversed?\""
+        },
+        {
+          "num": 2,
+          "title": "Stellar Evolution — From Birth to Death",
+          "focus": "Nebula → main sequence → giant → remnant — the life cycle of a star",
+          "minutes": 75,
+          "understandings": [
+            "Star formation: gravitational collapse of a nebula (gas/dust cloud) → protostar → main sequence when core temperature reaches ~10⁷ K (hydrogen fusion ignites)",
+            "Main sequence: hydrogen fusion in the core. Duration depends on mass (massive = short life)",
+            "Post-main sequence for Sun-like stars (< 8M⊙): → red giant (helium fusion) → planetary nebula → white dwarf",
+            "Post-main sequence for massive stars (> 8M⊙): → red supergiant (heavier element fusion up to iron) → supernova → neutron star or black hole",
+            "Elements heavier than iron are ONLY produced in supernovae (r-process nucleosynthesis) — the gold in your ring came from a star that exploded",
+            "The Chandrasekhar limit (~1.4M⊙): maximum mass of a white dwarf. Above this: the remnant becomes a neutron star or black hole"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Every atom in your body heavier than hydrogen was made inside a star. The carbon in your cells, the oxygen you breathe, the calcium in your bones — all forged by nuclear fusion in stellar cores. The iron in your blood was made at the moment a massive star died in a supernova. You are literally made of stardust.\"</p><p><strong>Direct instruction (25 min):</strong> THE LIFE OF A SUN-LIKE STAR: (1) Nebula collapse → protostar (gravity compresses, heats). (2) Main sequence (~10 billion years): H → He in core. Equilibrium maintained. (3) Hydrogen exhausted in core → core contracts → heats → shell burning (H fusion around an inert He core) → outer layers expand → RED GIANT. (4) Core reaches ~10⁸ K → helium fusion ignites (triple-alpha: 3He-4 → C-12) → horizontal branch. (5) He exhausted → outer layers ejected → PLANETARY NEBULA (beautiful shell of glowing gas). (6) Core remains: HOT, dense, Earth-sized → WHITE DWARF. Cools over trillions of years. THE LIFE OF A MASSIVE STAR (> 8M⊙): Same start but FASTER. After He fusion: core hot enough for C, O, Ne, Mg, Si fusion — each stage shorter (Si → Fe in ~1 day!). Iron: BE/A maximum → fusion STOPS. No radiation pressure → core collapses in milliseconds → SUPERNOVA (10²⁸× solar luminosity for weeks). If remnant < 3M⊙: NEUTRON STAR (city-sized, nuclear density). If > 3M⊙: BLACK HOLE. Elements heavier than Fe: created in the supernova itself by rapid neutron capture (r-process).</p><p><strong>HR diagram evolution tracks (10 min):</strong> Draw the path of a Sun-like star on the HR diagram: main sequence → red giant branch → horizontal branch → planetary nebula → white dwarf. Draw for a massive star: main sequence (upper left) → supergiant → supernova (off the chart!) → neutron star/black hole (not on HR diagram — no surface luminosity).</p><p><strong>Discussion (10 min):</strong> Chandrasekhar limit: M < 1.4M⊙ → white dwarf (electron degeneracy supports it). M between 1.4 and ~3M⊙ → neutron star. M > ~3M⊙ → black hole. Subrahmanyan Chandrasekhar calculated this limit in 1930 at age 19 on a boat to England. Nobel Prize 1983.</p><p><strong>Stellar nucleosynthesis (10 min):</strong> H → He (main sequence). He → C, O (red giant). C → Ne, Mg. O → Si, S. Si → Fe (in massive stars only). Fe → heavier elements (ONLY in supernovae). \"Everything up to iron was made steadily over millions of years. Everything heavier was made in seconds during a supernova explosion.\"</p><p><strong>Practice (15 min):</strong> Stellar evolution sequence, HR diagram tracks, and Chandrasekhar limit questions.</p>",
+          "engagementHook": {
+            "title": "YOU ARE STARDUST — LITERALLY",
+            "content": "\"The hydrogen in your body's water is from the Big Bang (13.8 billion years ago). The carbon in your DNA was made by triple-alpha fusion in a red giant ~5 billion years ago. The oxygen you're breathing came from the same star. The iron in your blood was forged at the instant a massive star's core collapsed. The gold in a ring? Created in a neutron star merger — the collision of two dead stars.\" Students trace each element in the human body to its stellar origin. \"You are not just IN the universe. You ARE the universe, experiencing itself.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Observations", "Science as a shared endeavour"],
+            "description": "Stellar nucleosynthesis was proposed by Hoyle, Fowler, and the Burbidges (B²FH paper, 1957) — one of the most important papers in astrophysics. It explained where ALL elements come from. Chandrasekhar's work on white dwarf limits (1930) was initially rejected by Eddington — who couldn't accept that stars could collapse to infinite density. Chandrasekhar was vindicated decades later. Persistence in the face of authority is sometimes necessary in science."
+          },
+          "atl": ["Thinking skills", "Communication skills", "Research skills"],
+          "learnerProfile": ["Knowledgeable", "Thinker", "Open-minded", "Caring"],
+          "ao": [
+            "AO1 — Describe stellar evolution for low-mass and high-mass stars; state the Chandrasekhar limit",
+            "AO2 — Trace evolution paths on the HR diagram; identify nucleosynthesis products at each stage",
+            "AO3 — Analyse why iron is the endpoint of stellar fusion and why heavier elements require supernovae"
+          ],
+          "resources": "HR diagram with evolution tracks, stellar evolution flowchart, periodic table colour-coded by stellar origin, supernova video, Chandrasekhar biography",
+          "formative": "\"(a) Describe the main stages of evolution for a 1M⊙ star and a 20M⊙ star. (b) Trace both paths on an HR diagram. (c) Why does fusion stop at iron? What happens next in a massive star? (d) The Chandrasekhar limit is 1.4M⊙. What happens to a stellar remnant above and below this limit? (e) Name an element in your body and state which stellar process created it.\""
+        }
+      ]
+    },
+    {
+      "name": "Observational Astrophysics",
+      "color": "accent3",
+      "totalMinutes": 100,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Measuring Stars — Luminosity, Brightness & Distance",
+          "focus": "How do we know how far away and how bright stars really are?",
+          "minutes": 50,
+          "understandings": [
+            "Luminosity L: total power output of a star (W). Related to surface temperature and radius: L = 4πR²σT⁴ (Stefan-Boltzmann from B.1)",
+            "Apparent brightness b: power received per unit area at distance d: b = L/(4πd²) (inverse-square law from B.1)",
+            "If L is known (e.g., from the HR diagram or Cepheid variables), measuring b gives the distance: d = √(L/(4πb))",
+            "Spectral analysis: absorption lines identify composition, temperature, and surface gravity. Doppler shift of lines gives radial velocity",
+            "Wien's law gives surface temperature: λ_max = 2.9 × 10⁻³/T"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"How do you measure the distance to a star you can never visit? You measure how bright it LOOKS (apparent brightness b), figure out how bright it ACTUALLY IS (luminosity L), and use the inverse-square law: d = √(L/(4πb)). The hard part: finding L.\"</p><p><strong>Direct instruction (15 min):</strong> Recap from B.1: L = 4πR²σT⁴ and b = L/(4πd²). If you know T (from Wien's law: measure peak wavelength) and R (from spectral class + HR diagram), you get L. Then measure b → find d. This is the 'spectroscopic parallax' method. For special stars (Cepheid variables): L is related to their pulsation period → measure period → know L → measure b → find d. Cepheids are 'standard candles' — this is how Hubble measured distances to galaxies. Spectral analysis: absorption lines tell you which elements are present. Line widths tell you temperature and density. Doppler shift tells you velocity (C.5).</p><p><strong>Worked examples (15 min):</strong> (1) A star has T = 10,000 K and R = 2R⊙. Find L (use L/L⊙ = (R/R⊙)² × (T/T⊙)⁴). (2) The star has b = 3 × 10⁻⁹ W/m². Find d. (3) A Cepheid in a distant galaxy has period 10 days → L ≈ 10,000 L⊙. Measured b = 2 × 10⁻¹⁵ W/m². Find d. (4) A star's peak wavelength is 580 nm. Find T using Wien's law.</p><p><strong>Discussion (5 min):</strong> \"The cosmic distance ladder: parallax (nearby) → Cepheids (nearby galaxies) → Type Ia supernovae (distant galaxies). Each method calibrates the next. The entire scale of the observable universe rests on this ladder.\"</p><p><strong>Practice (10 min):</strong> L, b, d calculations and Wien's law applications.</p>",
+          "engagementHook": {
+            "title": "THE COSMIC DISTANCE LADDER — MEASURING THE UNIVERSE STEP BY STEP",
+            "content": "\"How far is the nearest galaxy? 2.5 million light-years. How do we KNOW? Because Hubble found Cepheid variable stars in it, measured their periods, calculated their luminosities, measured their apparent brightness, and used b = L/(4πd²). One equation, applied across millions of light-years.\" Students calculate the distance to a Cepheid from given data — they're repeating Hubble's 1924 measurement that proved galaxies exist beyond the Milky Way."
+          },
+          "nos": {
+            "tags": ["Measurements", "Theories", "Science as a shared endeavour"],
+            "description": "Henrietta Leavitt discovered the period-luminosity relation for Cepheids in 1912 — the key that unlocked extragalactic distances. She was a 'computer' at Harvard Observatory, paid 25 cents per hour, and never received the Nobel Prize (she died in 1921, before Hubble used her work to discover the expanding universe). Her contribution is one of the most important — and most overlooked — in astronomy."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Knowledgeable", "Thinker"],
+          "ao": [
+            "AO1 — State L = 4πR²σT⁴ and b = L/(4πd²); describe spectroscopic methods",
+            "AO2 — Calculate L, b, d, T using Stefan-Boltzmann, Wien, and inverse-square law",
+            "AO3 — Analyse how the cosmic distance ladder works"
+          ],
+          "resources": "Stellar data table, calculators, Cepheid period-luminosity graph, Hubble's original data",
+          "formative": "\"(a) A star: T = 6000 K, R = 3R⊙. Find L/L⊙. (b) b = 5 × 10⁻¹² W/m². Find d. (c) Wien: λ_max = 350 nm. Find T. What colour is this star? (d) A Cepheid has period 5 days → L = 2000 L⊙. Apparent brightness = 10⁻¹³ W/m². Find the distance in light-years. (e) Why are Cepheids called 'standard candles'?\""
+        },
+        {
+          "num": 2,
+          "title": "The Expanding Universe & the Fate of Stars",
+          "focus": "Cosmology — Hubble's law, the Big Bang, and what comes next",
+          "minutes": 50,
+          "understandings": [
+            "Hubble's law: the recession velocity of a galaxy is proportional to its distance: v = H₀d, where H₀ is the Hubble constant (~70 km/s/Mpc)",
+            "This implies the universe is EXPANDING — space itself is stretching",
+            "Extrapolating backward: all matter was once in a single point → the Big Bang (~13.8 billion years ago)",
+            "The CMB (Cosmic Microwave Background): thermal radiation from the early universe, now cooled to 2.7 K → fills all of space uniformly → strongest evidence for the Big Bang",
+            "The future: depends on the density of the universe — open (expand forever), flat (expand, slowing to a halt), or closed (collapse). Current evidence: accelerating expansion (dark energy)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Every galaxy is moving away from us. The further it is, the faster it moves. This doesn't mean we're at the centre — EVERYTHING is moving away from everything else. Space itself is expanding. Run the movie backward: everything was once in the same place. That's the Big Bang.\"</p><p><strong>Direct instruction (20 min):</strong> Hubble's law: v = H₀d. H₀ ≈ 70 km/s/Mpc. A galaxy at 100 Mpc: v = 7000 km/s = 2.3% of c. The CMB: predicted by Gamow (1948), discovered by Penzias and Wilson (1965, Nobel 1978). It's the 'afterglow' of the Big Bang — thermal radiation from when the universe was ~3000 K, now redshifted to 2.7 K by 13.8 billion years of expansion. It's uniform in all directions (to 1 part in 100,000) — evidence that the early universe was extremely smooth and hot. The age of the universe: t ≈ 1/H₀ ≈ 1/(70 km/s/Mpc) ≈ 14 billion years (rough estimate, close to the accepted 13.8 billion). The future: in 1998, observations of distant Type Ia supernovae showed the expansion is ACCELERATING (Perlmutter, Schmidt, Riess, Nobel 2011). The cause: 'dark energy' — ~68% of the universe's energy content and completely unknown.</p><p><strong>Worked examples (10 min):</strong> (1) A galaxy's spectrum shows Hα at 680 nm instead of 656 nm. Δλ/λ = 24/656 = 0.0366. v = 0.0366c = 1.1 × 10⁷ m/s. d = v/H₀ = 1.1 × 10⁷/(70 × 10³) × 3.086 × 10²² = 4.84 × 10²⁴ m ≈ 157 Mpc ≈ 512 million light-years. (2) Estimate the age of the universe from H₀ = 70 km/s/Mpc.</p><p><strong>Discussion (10 min):</strong> \"What came before the Big Bang? Physics can't answer — time itself began at the Big Bang. What is dark energy? Nobody knows — it's the biggest mystery in physics. What is the fate of the universe? Current evidence: accelerating expansion → 'heat death' — everything spreads out, cools down, and eventually all stars die. In ~10¹⁰⁰ years: even black holes evaporate. The universe goes dark.\"</p><p><strong>Practice (5 min):</strong> Hubble's law calculations and CMB interpretation.</p>",
+          "engagementHook": {
+            "title": "THE OLDEST LIGHT IN THE UNIVERSE — YOU CAN SEE IT ON YOUR TV",
+            "content": "\"The CMB is everywhere. Old analog TVs: ~1% of the static 'snow' between channels was CMB radiation. You were watching the afterglow of the Big Bang.\" Show the COBE/WMAP/Planck CMB map: the tiny temperature variations (±0.001%) that seeded all galaxies, stars, and planets. \"These ripples — smaller than the difference between room temperature and your body — became EVERYTHING. Every galaxy. Every star. You.\""
+          },
+          "nos": {
+            "tags": ["Observations", "Theories", "Science as a shared endeavour"],
+            "description": "The Big Bang theory is supported by three independent lines of evidence: (1) Hubble's law (expansion), (2) CMB (thermal afterglow), (3) Big Bang nucleosynthesis (predicted H/He ratio matches observations). The discovery of accelerating expansion (1998) was so unexpected that the discoverers initially thought their data was wrong. Good scientists follow the evidence even when it contradicts expectations."
+          },
+          "atl": ["Thinking skills", "Communication skills", "Research skills"],
+          "learnerProfile": ["Open-minded", "Knowledgeable", "Thinker"],
+          "ao": [
+            "AO1 — State Hubble's law; describe the CMB as evidence for the Big Bang",
+            "AO2 — Calculate recession velocity and distance from Hubble's law; estimate the age of the universe",
+            "AO3 — Analyse the evidence for the Big Bang and the accelerating expansion"
+          ],
+          "resources": "CMB map (Planck), Hubble's law graph, galaxy redshift data, calculators",
+          "formative": "\"(a) A galaxy has v = 21,000 km/s. Find its distance (H₀ = 70 km/s/Mpc) in Mpc and light-years. (b) Estimate the age of the universe from H₀. (c) The CMB has T = 2.7 K. Find its peak wavelength using Wien's law. In what part of the EM spectrum is this? (d) State three pieces of evidence for the Big Bang. (e) 'The expansion of the universe is accelerating.' What does this imply about the future?\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "E.3 Radioactive Decay", "question": "How does the BE/A curve explain why fusion of light nuclei (left of peak) releases energy?" },
+    { "topic": "E.4 Fission", "question": "How does fission compare with fusion: energy per nucleon, fuel, waste, challenges?" },
+    { "topic": "B.1 Thermal Energy Transfers", "question": "How do Stefan-Boltzmann (L = σAT⁴), Wien's law, luminosity, and apparent brightness determine stellar properties?" },
+    { "topic": "C.5 Doppler Effect", "question": "How is the redshift of spectral lines used to measure galaxy recession velocities and confirm Hubble's law?" },
+    { "topic": "D.1 Gravitational Fields", "question": "How does gravitational collapse drive star formation and stellar death (neutron stars, black holes)?" },
+    { "topic": "IB Linking (NOS)", "question": "Can observations of the present state of the universe predict the future outcome of the universe?" }
+  ]
+}
