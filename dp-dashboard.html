@@ -132,6 +132,11 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
 @media(max-width:768px){.navbar{padding:0 16px;}.hero{padding:20px 16px 0;}.hero-banner{padding:28px 24px;flex-direction:column;text-align:center;}.hero-banner h1{font-size:24px;}.hero-visual{display:none;}.main{padding:20px 16px 80px;}.practice-row{grid-template-columns:1fr;}.topic-grid{grid-template-columns:1fr 1fr;}}
 @media(max-width:480px){.topic-grid{grid-template-columns:1fr;}}
 </style>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="exam-system/firebase-config.js?v=2"></script>
 </head>
 <body>
 
@@ -148,6 +153,7 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
     <a class="nav-link" href="dp-formula-bank.html">Formula Bank</a>
     <a class="nav-link" href="dp-flashcards.html">Flashcards</a>
     <a class="nav-link" href="dp-quiz.html">Quiz</a>
+    <a class="nav-link" id="myProgressBtn" href="dp-student-progress.html" style="display:none;">📊 My Progress</a>
     <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:14px;transition:all .2s;color:var(--text2);" title="Toggle dark/light mode">🌙</button>
   </div>
 </div>
@@ -206,6 +212,11 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
     <a class="practice-card reveal stagger-2" href="concept-map-generator.html">
       <div class="pc-icon pc-icon-orange">🗺️</div>
       <div class="pc-info"><div class="pc-label">Concept Maps</div><div class="pc-desc">Visual connections between energy, particles & forces</div></div>
+      <div class="pc-arrow">→</div>
+    </a>
+    <a class="practice-card reveal stagger-1" href="exam-system/exam-student.html">
+      <div class="pc-icon pc-icon-red">📝</div>
+      <div class="pc-info"><div class="pc-label">DP Exam Practice</div><div class="pc-desc">Take teacher-assigned tests with AI grading</div></div>
       <div class="pc-arrow">→</div>
     </a>
   </div>
@@ -340,16 +351,101 @@ var observer = new IntersectionObserver(function(entries) {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
 
-// Secret IA Generator access
-(function(){
-  var lastKey = '', lastTime = 0;
-  document.addEventListener('keydown', function(e) {
-    var now = Date.now();
-    if (e.key === 'I' || e.key === 'i') { lastKey = 'I'; lastTime = now; }
-    else if ((e.key === 'A' || e.key === 'a') && lastKey === 'I' && (now - lastTime) < 500) { window.location.href = 'ia-ee-generator.html'; lastKey = ''; }
-    else { lastKey = ''; }
+
+
+// Dynamic Progress Ring Containers Setup
+document.querySelectorAll('.topic-card').forEach(function(card) {
+  var codeSpan = card.querySelector('.tc-code');
+  if (codeSpan) {
+    var code = codeSpan.textContent.trim().replace('.', '');
+    var tcTop = card.querySelector('.tc-top');
+    if (tcTop && !card.classList.contains('locked')) {
+      var ringDiv = document.createElement('div');
+      ringDiv.className = 'progress-ring-container';
+      ringDiv.style.position = 'relative';
+      ringDiv.style.display = 'none';
+      ringDiv.style.alignItems = 'center';
+      ringDiv.style.justifyContent = 'center';
+      ringDiv.style.width = '32px';
+      ringDiv.style.height = '32px';
+      ringDiv.id = 'progress-' + code;
+      tcTop.appendChild(ringDiv);
+    }
+  }
+});
+
+// Progress calculations and render functions
+function createProgressRing(percent) {
+  var size = 32;
+  var stroke = 3;
+  var radius = (size - stroke) / 2;
+  var circumference = 2 * Math.PI * radius;
+  var offset = circumference - (percent / 100) * circumference;
+  var color = percent === 0 ? 'rgba(0,0,0,0.06)' : (percent === 100 ? '#2e7d32' : '#c0392b');
+  
+  return '<svg width="' + size + '" height="' + size + '" style="transform:rotate(-90deg);flex-shrink:0;">'
+    + '<circle cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + radius + '" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="' + stroke + '"/>'
+    + '<circle cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + radius + '" fill="none" stroke="' + color + '" stroke-width="' + stroke + '" stroke-dasharray="' + circumference + '" stroke-dashoffset="' + offset + '" stroke-linecap="round" style="transition:stroke-dashoffset 0.6s ease;"/>'
+    + '</svg>'
+    + '<span style="position:absolute;font-size:8px;font-weight:700;color:var(--text2,#555);">' + percent + '%</span>';
+}
+
+function getTopicProgress(topicCode, progressData) {
+  // Define default lessons count per topic (A.2 has 4, default others to 4)
+  const totalLessons = 4;
+  let viewedCount = 0;
+  if (progressData && progressData.lessonsViewed) {
+    for (var i = 1; i <= totalLessons; i++) {
+      var key = topicCode + '-lesson' + i;
+      if (progressData.lessonsViewed[key] && progressData.lessonsViewed[key].viewed) {
+        viewedCount++;
+      }
+    }
+  }
+  return Math.round((viewedCount / totalLessons) * 100);
+}
+
+function loadStudentProgress(user) {
+  document.querySelectorAll('.progress-ring-container').forEach(function(el) {
+    el.style.display = 'flex';
   });
-})();
+
+  if (typeof firebase !== 'undefined' && firebase.firestore) {
+    firebase.firestore().collection('dp-progress').doc(user.uid).get()
+      .then(function(doc) {
+        var progressData = doc.exists ? doc.data() : {};
+        document.querySelectorAll('.progress-ring-container').forEach(function(el) {
+          var code = el.id.replace('progress-', '');
+          var pct = getTopicProgress(code, progressData);
+          el.innerHTML = createProgressRing(pct);
+        });
+      })
+      .catch(function(err) {
+        console.error("Error loading DP progress:", err);
+      });
+  }
+}
+
+function hideStudentProgress() {
+  document.querySelectorAll('.progress-ring-container').forEach(function(el) {
+    el.style.display = 'none';
+    el.innerHTML = '';
+  });
+}
+
+// Listen to auth status on dashboard
+if (typeof firebase !== 'undefined' && firebase.auth) {
+  firebase.auth().onAuthStateChanged(function(user) {
+    var progressBtn = document.getElementById('myProgressBtn');
+    if (user) {
+      if (progressBtn) progressBtn.style.display = 'inline-flex';
+      loadStudentProgress(user);
+    } else {
+      if (progressBtn) progressBtn.style.display = 'none';
+      hideStudentProgress();
+    }
+  });
+}
 </script>
 
 <!-- FEEDBACK WIDGET -->

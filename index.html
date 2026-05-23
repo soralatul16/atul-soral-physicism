@@ -961,20 +961,26 @@ document.querySelectorAll('.btn').forEach(function(btn){
 })();
 </script>
 <script>
-// Secret IA Generator access — press I then A quickly (within 500ms)
+// Unified secret teacher access shortcuts
 (function(){
-  var lastKey = '';
-  var lastTime = 0;
+  var keys = '', lastTime = 0;
   document.addEventListener('keydown', function(e) {
     var now = Date.now();
-    if (e.key === 'I' || e.key === 'i') {
-      lastKey = 'I';
-      lastTime = now;
-    } else if ((e.key === 'A' || e.key === 'a') && lastKey === 'I' && (now - lastTime) < 500) {
+    if (now - lastTime > 800) keys = '';
+    lastTime = now;
+    keys += e.key.toUpperCase();
+    
+    if (keys === 'M') {
+      window.location.href = 'exam-system/exam-teacher.html';
+    } else if (keys === 'D') {
+      // Wait — could be start of "DP" or just "D"
+      // Don't navigate yet, wait for next key or timeout
+    } else if (keys === 'DP') {
+      window.location.href = 'dp-teacher-planner.html';
+    } else if (keys === 'IA') {
       window.location.href = 'ia-ee-generator.html';
-      lastKey = '';
-    } else {
-      lastKey = '';
+    } else if (keys.length > 2) {
+      keys = '';
     }
   });
 })();

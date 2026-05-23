@@ -233,6 +233,15 @@ async function saveAttemptToFirestore(attempt) {
   const firestoreDoc = _prepareAttemptForFirestore(attempt);
   await db.collection('attempts').doc(docId).set(firestoreDoc, { merge: true });
   
+  // Update DP progress analytics
+  if (attempt.status === 'graded' || attempt.status === 'completed') {
+    try {
+      await updateDPProgressFromAttempt(attempt);
+    } catch (e) {
+      console.warn("Could not update DP student progress from attempt:", e);
+    }
+  }
+
   // Also log to analytics
   await logAnalyticsEvent('exam_submitted', {
     studentEmail: attempt.studentEmail,
@@ -311,4 +320,148 @@ function getSession() {
     }
     return s;
   } catch (e) { return null; }
+}
+
+/* ── Extract and sync Command Term and AO analytics to DP Progress ── */
+async function updateDPProgressFromAttempt(attempt) {
+  if (!attempt.studentEmail) return;
+  const email = attempt.studentEmail.toLowerCase();
+  
+  // Determine if it is a DP exam/attempt
+  // If the chapter is not set or doesn't match DP conventions (Themes A-E), we still check.
+  // To be safe, we will track it if it has question blocks with valid command terms.
+  
+  let studentUid = null;
+  // Find student UID by email query
+  try {
+    const progressSnap = await db.collection('dp-progress').where('studentEmail', '==', email).get();
+    if (!progressSnap.empty) {
+      studentUid = progressSnap.docs[0].id;
+    } else {
+      const studentSnap = await db.collection('students').where('email', '==', email).get();
+      if (!studentSnap.empty) {
+        studentUid = studentSnap.docs[0].id;
+      } else {
+        const currentUser = auth.currentUser;
+        if (currentUser && currentUser.email && currentUser.email.toLowerCase() === email) {
+          studentUid = currentUser.uid;
+        }
+      }
+    }
+  } catch(e) {
+    console.warn("Error looking up student UID by email:", e);
+  }
+
+  if (!studentUid) {
+    console.warn("Could not identify student UID for email:", email);
+    return;
+  }
+
+  let blocks = [];
+  if (attempt.dataJson) {
+    try {
+      const parsed = JSON.parse(attempt.dataJson);
+      blocks = parsed.blocks || [];
+    } catch(e) { console.error("Error parsing attempt dataJson:", e); }
+  } else if (attempt.blocks) {
+    blocks = attempt.blocks;
+  }
+
+  if (!blocks || blocks.length === 0) return;
+
+  const COMMAND_TERM_TO_AO = {
+    "State": "AO1", "Draw": "AO1",
+    "Annotate": "AO2", "Calculate": "AO2", "Describe": "AO2", "Estimate": "AO2", "Identify": "AO2", "Outline": "AO2",
+    "Analyse": "AO3", "Deduce": "AO3", "Determine": "AO3", "Discuss": "AO3", "Explain": "AO3", "Predict": "AO3", "Show": "AO3", "Sketch": "AO3", "Suggest": "AO3"
+  };
+
+  const termDiff = {};
+  const aoDiff = {};
+  let hasHL = false;
+
+  if (attempt.chapter && attempt.chapter.toLowerCase().includes("hl")) hasHL = true;
+  if (attempt.topic && attempt.topic.toLowerCase().includes("hl")) hasHL = true;
+
+  blocks.forEach((block, idx) => {
+    if (block.mode !== 'question') return;
+    const cmdTerm = block.meta?.commandTerm;
+    const maxMarks = Number(block.meta?.marks || 1);
+    
+    // Attempt to retrieve graded score
+    let earnedMarks = 0;
+    if (attempt.grades && attempt.grades[idx] !== undefined) {
+      earnedMarks = Number(attempt.grades[idx]);
+    } else if (block.ui && block.ui.tfAnswer !== undefined && attempt.answers && attempt.answers[idx] !== undefined) {
+      // True/False autograder fallback
+      earnedMarks = (attempt.answers[idx] === block.ui.tfAnswer) ? maxMarks : 0;
+    } else if (block.ui && block.ui.mcqOptions && attempt.answers && attempt.answers[idx] !== undefined) {
+      // MCQ autograder fallback
+      const correctIdx = Number(block.data?.correct);
+      earnedMarks = (Number(attempt.answers[idx]) === correctIdx) ? maxMarks : 0;
+    }
+
+    if (cmdTerm) {
+      const cleanTerm = cmdTerm.trim().charAt(0).toUpperCase() + cmdTerm.trim().slice(1).toLowerCase();
+      
+      if (!termDiff[cleanTerm]) termDiff[cleanTerm] = { attempted: 0, correct: 0 };
+      termDiff[cleanTerm].attempted += 1;
+      termDiff[cleanTerm].correct += (earnedMarks / maxMarks);
+
+      const ao = COMMAND_TERM_TO_AO[cleanTerm];
+      if (ao) {
+        if (!aoDiff[ao]) aoDiff[ao] = { attempted: 0, correct: 0 };
+        aoDiff[ao].attempted += 1;
+        aoDiff[ao].correct += (earnedMarks / maxMarks);
+      }
+    }
+  });
+
+  const docRef = db.collection('dp-progress').doc(studentUid);
+  const updateData = {
+    studentName: attempt.studentName || email.split('@')[0],
+    studentEmail: email,
+    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  Object.keys(termDiff).forEach(term => {
+    updateData[`commandTermPerformance.${term}.attempted`] = firebase.firestore.FieldValue.increment(termDiff[term].attempted);
+    updateData[`commandTermPerformance.${term}.correct`] = firebase.firestore.FieldValue.increment(termDiff[term].correct);
+  });
+
+  Object.keys(aoDiff).forEach(ao => {
+    updateData[`aoPerformance.${ao}.attempted`] = firebase.firestore.FieldValue.increment(aoDiff[ao].attempted);
+    updateData[`aoPerformance.${ao}.correct`] = firebase.firestore.FieldValue.increment(aoDiff[ao].correct);
+  });
+
+  if (hasHL) {
+    updateData[`learnerProfile.Risk-taker`] = true;
+  }
+
+  try {
+    await docRef.update(updateData);
+    console.log("⚡ Updated student DP progress from attempt:", attempt.setTitle);
+  } catch(err) {
+    if (err.code === 'not-found') {
+      const initDoc = {
+        studentName: attempt.studentName || email.split('@')[0],
+        studentEmail: email,
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+        commandTermPerformance: {},
+        aoPerformance: {}
+      };
+      Object.keys(termDiff).forEach(term => {
+        initDoc.commandTermPerformance[term] = termDiff[term];
+      });
+      Object.keys(aoDiff).forEach(ao => {
+        initDoc.aoPerformance[ao] = aoDiff[ao];
+      });
+      if (hasHL) {
+        initDoc.learnerProfile = { 'Risk-taker': true };
+      }
+      await docRef.set(initDoc, { merge: true });
+      console.log("⚡ Initialized student DP progress doc from attempt.");
+    } else {
+      console.error("Error saving DP progress from attempt:", err);
+    }
+  }
 }
