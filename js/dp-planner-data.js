@@ -3313,4 +3313,2001 @@ const DP_PLANNER_DATA = {
     { "topic": "IB Linking (NOS)", "question": "In what way is entropy fundamental to the evolution of the universe? How does the arrow of time emerge from the second law?" }
   ]
 },
-
+"B5": {
+  "title": "Current and Circuits",
+  "code": "B.5",
+  "theme": "B",
+  "level": "SL + HL",
+  "recommendedHours": 6,
+  "recommendedMinutes": 360,
+  "guidingQuestions": [
+    "How do charged particles flow through materials?",
+    "How are the electrical properties of materials quantified?",
+    "What are the consequences of resistance in conductors?"
+  ],
+  "groups": [
+    {
+      "name": "Current, EMF & Potential Difference",
+      "color": "accent5",
+      "totalMinutes": 100,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "EMF, Cells & Circuit Diagrams",
+          "focus": "Energy sources in circuits and standard symbols",
+          "minutes": 30,
+          "understandings": [
+            "Cells provide a source of electromotive force (emf) — the energy supplied per unit charge by the cell",
+            "Chemical cells and solar cells as energy sources in circuits",
+            "Circuit diagrams represent the arrangement of components using standard symbols",
+            "Advantages and disadvantages of different sources of electrical energy"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Hand out a battery, a bulb, and a wire to each pair. \"Make the bulb light up.\" Students experiment — some succeed quickly, others struggle. The struggle reveals misconceptions: current doesn't flow FROM the battery — it flows THROUGH a complete circuit. The battery provides the energy (emf) that drives the current.</p><p><strong>Direct instruction (10 min):</strong> Define emf: energy per unit charge supplied by the cell (units: volts = J/C). A 1.5 V cell gives 1.5 J to every coulomb of charge. Chemical cells: chemical reactions push charges. Solar cells: photons knock electrons free. Draw standard circuit symbols: cell, battery, resistor, lamp, ammeter, voltmeter, switch, variable resistor. Emphasise: circuit diagrams are a MODEL — they show connectivity, not physical arrangement.</p><p><strong>Discussion (10 min):</strong> Compare energy sources: chemical cells (portable, limited life, environmental disposal), solar cells (renewable, daylight only, expensive), mains supply (high power, not portable, fossil/nuclear origin). Students build a comparison table.</p><p><strong>Practice (5 min):</strong> Draw circuit diagrams from descriptions and identify components from diagrams.</p>",
+          "engagementHook": {
+            "title": "LIGHT THE BULB — THE SIMPLEST CIRCUIT",
+            "content": "One battery, one bulb, one wire. Can you light it? Students who fail reveal a common misconception: they try to connect both wire ends to the same terminal. \"Current needs a COMPLETE loop — from one terminal, through the bulb, back to the other terminal. No loop, no light.\" This 2-minute activity diagnoses and corrects the biggest misconception in circuits before you teach anything."
+          },
+          "nos": {
+            "tags": ["Models", "Technology"],
+            "description": "Circuit diagrams are a visual model — they abstract away physical layout to show electrical connectivity. Alessandro Volta invented the first chemical battery in 1800, enabling the systematic study of current electricity. Before Volta, electricity was limited to static charges and lightning."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Inquirer", "Communicator"],
+          "ao": [
+            "AO1 — Define emf; draw and interpret circuit diagrams using standard symbols",
+            "AO2 — Compare advantages and disadvantages of electrical energy sources"
+          ],
+          "resources": "Batteries (1.5 V), small bulbs, wires, circuit symbol reference sheet, solar cell (if available)",
+          "formative": "\"Draw a circuit diagram for: a battery connected to two lamps in parallel, with an ammeter measuring total current and a voltmeter measuring the pd across one lamp. Label all components using standard symbols.\""
+        },
+        {
+          "num": 2,
+          "title": "Current — I = Δq/Δt",
+          "focus": "Flow of charge carriers through a circuit",
+          "minutes": 35,
+          "understandings": [
+            "Direct current (dc) I is a flow of charge carriers: I = Δq/Δt",
+            "Units: ampere (A) = coulomb per second (C/s)",
+            "In metals, the charge carriers are electrons (moving from − to +), but conventional current is defined as flowing from + to −",
+            "In electrolytes, charge carriers can be positive and negative ions",
+            "The properties of conductors and insulators in terms of mobility of charge carriers"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"How many electrons pass through your phone charger cable every second?\" A typical charger: I = 2 A. Charge per second = 2 C. Number of electrons = 2 / 1.6×10⁻¹⁹ = 1.25 × 10¹⁹. \"12.5 billion billion electrons per second — and you can't feel or see any of them.\"</p><p><strong>Direct instruction (15 min):</strong> Define I = Δq/Δt. Current is the RATE of flow of charge. Analogy: current is like water flow rate (litres/second), charge is like the volume of water, and the battery is like a pump. In metals: charge carriers are free (delocalised) electrons. They drift slowly (~mm/s) but the electric field travels at near light speed — like a tube already full of marbles; push one in, one pops out the other end instantly. Conventional current: from + to − (historical convention, before electrons were discovered). Electron flow: from − to +.</p><p><strong>Conductors vs insulators (5 min):</strong> Conductors: many free charge carriers (metals, electrolytes). Insulators: very few free carriers (rubber, plastic, glass). Semiconductors: intermediate — controlled by doping and temperature (preview of diodes/transistors).</p><p><strong>Practice (10 min):</strong> (1) 5 A flows for 2 minutes. Calculate charge. (2) 3.2 × 10²⁰ electrons flow in 10 s. Calculate current. (3) A lightning bolt transfers 5 C in 0.001 s. Calculate current (5000 A!).</p>",
+          "engagementHook": {
+            "title": "THE MARBLE TUBE — WHY LIGHTS TURN ON INSTANTLY",
+            "content": "Fill a tube with marbles. Push one in at one end — one pops out the other end instantly. \"Electrons work the same way. Individual electrons drift slowly (~0.1 mm/s). But the PUSH travels at near the speed of light. That's why the light turns on instantly even though no single electron has moved far.\" Students push marbles through a tube and see the effect. The drift speed calculation is a classic IB question."
+          },
+          "nos": {
+            "tags": ["Models", "Observations"],
+            "description": "Benjamin Franklin defined current as flowing from + to −, not knowing that electrons (discovered 150 years later) actually flow from − to +. We still use his convention — a historical accident that persists because the maths works either way. This shows how scientific conventions, once established, are hard to change even when understood differently."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define current; state I = Δq/Δt; distinguish conventional current from electron flow",
+            "AO2 — Calculate current, charge, and number of electrons"
+          ],
+          "resources": "Tube filled with marbles (drift speed demo), calculators, ammeter + simple circuit for demonstration",
+          "formative": "\"A wire carries 3 A. (a) How much charge passes a point in 1 minute? (b) How many electrons is that? (c) If the drift speed of electrons is 0.2 mm/s and the wire has cross-section 1 mm², calculate the number density of free electrons. (d) Why does the light turn on instantly if electrons drift so slowly?\""
+        },
+        {
+          "num": 3,
+          "title": "Potential Difference — V = W/q",
+          "focus": "Work done per unit charge between two points",
+          "minutes": 35,
+          "understandings": [
+            "Electric potential difference V is the work done per unit charge on moving a positive charge between two points: V = W/q",
+            "Units: volt (V) = joule per coulomb (J/C)",
+            "EMF is the pd across the terminals of a source when no current flows (open circuit)",
+            "PD across a component represents the energy converted per unit charge in that component",
+            "A voltmeter measures pd and is connected in parallel; an ammeter measures current and is connected in series"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"A 9 V battery and a 1.5 V battery both push electrons around a circuit. What's different?\" The 9 V battery gives each coulomb 9 J of energy; the 1.5 V gives 1.5 J. Voltage = energy per charge. More voltage = more energy per electron = more \"push.\"</p><p><strong>Direct instruction (15 min):</strong> Define V = W/q. A 12 V car battery: each coulomb gets 12 J of energy from the battery and delivers 12 J to the components. The energy is TRANSFORMED, not created: chemical → electrical (at the battery) → thermal + light (at the bulb). Ammeter: measures I, connected in SERIES (current flows through it). Must have very low resistance (doesn't impede flow). Voltmeter: measures V, connected in PARALLEL (across a component). Must have very high resistance (doesn't divert current). Ideal meters: ammeter R = 0, voltmeter R = ∞.</p><p><strong>Demo (5 min):</strong> Build a simple circuit: battery + resistor. Measure I with ammeter (in series). Measure V with voltmeter (across the resistor). Show that connecting the voltmeter in series or the ammeter in parallel gives wrong/dangerous readings.</p><p><strong>Practice (10 min):</strong> (1) A 6 V battery drives 0.5 C of charge. Energy transferred? (3 J). (2) A heater converts 1800 J when 10 C flows. PD across heater? (180 V). (3) Draw a circuit and show where to place ammeter and voltmeter correctly.</p>",
+          "engagementHook": {
+            "title": "THE WATER PUMP ANALOGY — VOLTAGE IS HEIGHT",
+            "content": "\"Imagine a water park: the pump lifts water to the top of a slide (= battery gives energy = emf). The water rushes down the slide losing height (= current through a resistor losing pd). At the bottom it has no more height to lose (= pd used up). The pump lifts it again.\" Current = flow rate. Voltage = height (energy per unit). Resistance = how narrow the slide is. This analogy works remarkably well for series circuits."
+          },
+          "nos": {
+            "tags": ["Models", "Measurements"],
+            "description": "The volt is named after Alessandro Volta, who built the first battery in 1800. The water-circuit analogy is a model — useful but imperfect. It works well for series circuits but breaks down for parallel circuits (water doesn't split and rejoin easily). Knowing the limits of an analogy is as important as the analogy itself."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Communicator"],
+          "ao": [
+            "AO1 — Define pd; state V = W/q; explain ammeter and voltmeter placement",
+            "AO2 — Calculate pd, work done, and charge"
+          ],
+          "resources": "Batteries, resistors, ammeter, voltmeter, connecting wires, bulb, circuit board",
+          "formative": "\"A 12 V battery drives a current through a 6 Ω resistor. (a) Draw the circuit with ammeter and voltmeter correctly placed. (b) Calculate the current. (c) Calculate the energy transferred when 5 C of charge flows. (d) If the ammeter has R = 0.1 Ω, by how much does it affect the current? Is it significant?\""
+        }
+      ]
+    },
+    {
+      "name": "Resistance, Ohm's Law & Power",
+      "color": "accent2",
+      "totalMinutes": 120,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Resistance, Resistivity & Ohm's Law",
+          "focus": "R = V/I, ρ = RA/L, and what makes a material resist current",
+          "minutes": 45,
+          "understandings": [
+            "Electric resistance R: opposition to current flow, arising from collisions between charge carriers and the lattice structure",
+            "R = V/I — definition of resistance. Units: ohm (Ω) = V/A",
+            "Resistivity ρ = RA/L — a material property. R depends on length L (longer = more R), cross-sectional area A (wider = less R), and material (ρ)",
+            "Ohm's law: for an ohmic conductor at constant temperature, V ∝ I (R is constant)",
+            "A metal conductor at constant temperature is an ohmic device"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Why does a thin wire get hotter than a thick wire carrying the same current?\" The thin wire has higher resistance (R ∝ 1/A). More energy is dissipated per second. This is why fuses are thin wires — they're designed to overheat and break the circuit.</p><p><strong>Direct instruction (15 min):</strong> Define R = V/I. Origin of resistance: electrons collide with the metal lattice — each collision transfers energy, slowing electrons and heating the metal. Resistivity: ρ = RA/L. R = ρL/A. Longer wire → more collisions → higher R. Wider wire → more paths for electrons → lower R. Copper: ρ = 1.7 × 10⁻⁸ Ω·m (excellent conductor). Glass: ρ ≈ 10¹⁰ Ω·m (insulator). Ohm's law: V/I = constant (at constant T). Not all materials obey this — Ohm's law is an observation about certain materials, not a universal law.</p><p><strong>Lab (15 min):</strong> MEASURING RESISTANCE — Students measure I for various V across a resistor (or nichrome wire). Plot V vs I. For an ohmic conductor: straight line through origin. Gradient = R. Then vary wire length: plot R vs L (linear). Vary thickness: plot R vs 1/A (linear). Extract ρ.</p><p><strong>Practice (10 min):</strong> (1) R of a 2 m copper wire, area 1 mm². (2) Two wires: same material, one twice as long and half the area — resistance ratio? (4:1). (3) Ohm's law: 6 V across 200 Ω → I?</p>",
+          "engagementHook": {
+            "title": "THE FUSE — A WIRE DESIGNED TO FAIL",
+            "content": "Show a fuse wire. \"This is deliberately thin — high R → heats up quickly → melts and breaks the circuit before the house burns down.\" Calculate: a 13 A fuse with R = 0.02 Ω dissipates P = I²R = 3.4 W during normal operation. At 30 A (fault): P = 18 W — it melts in seconds. \"Resistance isn't always a problem — here it's a safety feature.\""
+          },
+          "nos": {
+            "tags": ["Measurements", "Patterns", "Models"],
+            "description": "Georg Ohm published his law in 1827 but was ridiculed — the idea that a simple ratio described electrical behaviour seemed too simple to be true. It took decades for Ohm's law to be accepted. It's also misnamed: it's not a universal law but an empirical observation about specific materials (ohmic conductors) under specific conditions (constant temperature)."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Define resistance and resistivity; state Ohm's law",
+            "AO2 — Apply R = V/I and ρ = RA/L",
+            "AO3 — Analyse V-I graphs and experimental data to determine R and ρ"
+          ],
+          "resources": "Nichrome wire (various lengths/thicknesses), ammeter, voltmeter, power supply, graph paper, fuse wire",
+          "formative": "\"A nichrome wire (ρ = 1.1 × 10⁻⁶ Ω·m) is 0.5 m long with diameter 0.4 mm. (a) Calculate R. (b) If 3 V is applied, find I. (c) Is this an ohmic device? How would you verify experimentally? (d) If the wire is replaced by one twice as long and twice the diameter, find the new R.\""
+        },
+        {
+          "num": 2,
+          "title": "Ohmic & Non-Ohmic Conductors",
+          "focus": "I-V characteristics of resistors, filament lamps, and diodes",
+          "minutes": 35,
+          "understandings": [
+            "Ohmic conductors: V ∝ I (straight line through origin on I-V graph) — resistance is constant",
+            "Non-ohmic: filament lamp — resistance increases as temperature increases (curve flattens at higher V)",
+            "Non-ohmic: diode — conducts in one direction only (forward bias). Very high resistance in reverse bias",
+            "The heating effect: current through a resistor converts electrical energy to thermal energy"
+          ],
+          "teachingStrategy": "<p><strong>Lab (20 min):</strong> I-V CHARACTERISTICS — Students measure I for various V (positive and negative) for three components: (a) Fixed resistor: straight line → ohmic. (b) Filament lamp: curve → R increases as filament heats up (tungsten gets hotter → more lattice vibrations → more electron collisions → higher R). (c) Diode: conducts above ~0.6 V forward bias; essentially zero current in reverse. Plot all three on the same axes for comparison.</p><p><strong>Direct instruction (10 min):</strong> Explain each shape from microscopic physics. Resistor: constant T → constant lattice vibrations → constant R. Lamp: high current → heating → more vibrations → higher R → curve flattens. Diode: semiconductor junction allows current in one direction only — a one-way valve for electrons. The heating effect: P = I²R → electrical energy → thermal. This is useful (toasters, heaters) and wasteful (power lines, CPUs).</p><p><strong>Practice (5 min):</strong> Sketch I-V characteristics from descriptions. Identify components from their I-V graphs.</p>",
+          "engagementHook": {
+            "title": "THE LIGHT BULB THAT GETS LAZIER",
+            "content": "\"A cold filament bulb has R ≈ 20 Ω. A hot filament: R ≈ 200 Ω — ten times more! The bulb literally becomes MORE resistant as it heats up.\" Students measure: switch on a bulb and watch the ammeter reading DROP in the first second as the filament heats. \"The rush of current when you flip the switch is why bulbs usually blow at the moment you turn them on — not while they're running.\""
+          },
+          "nos": {
+            "tags": ["Observations", "Patterns"],
+            "description": "The I-V characteristic is a direct experimental observation — you measure it, not derive it. Different materials give different curves, and the curves encode the microscopic physics (lattice vibrations, semiconductor junctions). This is empirical science at its most direct: graph the data and let the shape tell the story."
+          },
+          "atl": ["Research skills", "Thinking skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Describe ohmic and non-ohmic behaviour",
+            "AO2 — Sketch and interpret I-V characteristics for resistor, lamp, and diode",
+            "AO3 — Explain why filament lamp R increases with temperature at the molecular level"
+          ],
+          "resources": "Fixed resistor, filament lamp, diode, variable power supply (+ and − voltage), ammeter, voltmeter, graph paper",
+          "formative": "\"Three I-V graphs are shown (unlabelled). Identify which is: (a) a fixed resistor, (b) a filament lamp, (c) a diode. Justify each answer. (d) At which point on the filament lamp curve is the resistance highest? How do you know? (e) Explain why the diode graph is almost flat for negative voltages.\""
+        },
+        {
+          "num": 3,
+          "title": "Electrical Power — P = IV = I²R = V²/R",
+          "focus": "Rate of energy conversion in electrical components",
+          "minutes": 40,
+          "understandings": [
+            "Electrical power dissipated by a resistor: P = IV = I²R = V²/R",
+            "All three forms are equivalent (derived from P = IV and V = IR)",
+            "Choose the form based on what you know: P = IV (general), I²R (when I is known), V²/R (when V is known)",
+            "Power in a circuit = rate of energy conversion from electrical to other forms (thermal, light, kinetic)"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> From P = W/t and V = W/q and I = q/t: P = W/t = (W/q) × (q/t) = VI. Since V = IR: P = (IR)I = I²R. Since I = V/R: P = V(V/R) = V²/R. All three give the same answer — choose based on convenience. P = IV is most general. P = I²R emphasises that power loss in wires depends on CURRENT squared. P = V²/R is useful when voltage is fixed (mains supply).</p><p><strong>Worked examples (15 min):</strong> (1) A 60 W bulb at 240 V: I = P/V = 0.25 A. R = V/I = 960 Ω. (2) Power lost in a 5 Ω cable carrying 10 A: P = I²R = 500 W. \"That's a LOT of waste.\" How to reduce: either lower R (thicker cables, expensive) or lower I (higher V — this is why power stations transmit at 400 kV). (3) Two 100 Ω resistors: in series at 12 V → P_total = V²/(R₁+R₂) = 144/200 = 0.72 W. In parallel → R_p = 50 Ω → P = 144/50 = 2.88 W. Parallel draws MORE power.</p><p><strong>Real-world connection (10 min):</strong> \"Your electricity bill charges by the kWh (kilowatt-hour). 1 kWh = 3.6 MJ. A 2 kW heater running for 3 hours: 6 kWh.\" Students calculate their phone charger's annual cost. \"Why does high-voltage transmission reduce power loss?\" P_loss = I²R. For the same power P transmitted: I = P/V. Higher V → lower I → much lower I²R loss.</p><p><strong>Practice (5 min):</strong> Power calculations using all three forms.</p>",
+          "engagementHook": {
+            "title": "WHY POWER LINES USE 400,000 VOLTS",
+            "content": "\"A power station sends 1 GW at 25 kV: I = 40,000 A. Cable R = 1 Ω. Power lost: I²R = 1.6 GW — MORE than the power sent! At 400 kV: I = 2,500 A. Loss: 6.25 MW — less than 1%.\" The I² factor makes this dramatic: 16× less current → 256× less power loss. \"This is why transformers and high-voltage transmission exist — P = I²R demands it.\""
+          },
+          "nos": {
+            "tags": ["Global impact", "Technology", "Patterns"],
+            "description": "The 'War of Currents' (1880s) between Edison (DC) and Westinghouse/Tesla (AC) was decided by physics: AC can be easily stepped up to high voltage for efficient transmission (P_loss = I²R). Edison's DC system lost too much power over distance. Technology decisions driven by fundamental physics shaped the modern electrical grid."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Knowledgeable", "Caring"],
+          "ao": [
+            "AO1 — State P = IV = I²R = V²/R",
+            "AO2 — Calculate power using the appropriate form; calculate energy in kWh",
+            "AO3 — Analyse why high-voltage transmission reduces power losses"
+          ],
+          "resources": "Calculators, electricity bill example, power comparison chart (phone to power station)",
+          "formative": "\"A 2 kW kettle runs on 240 V mains. (a) Calculate I. (b) Calculate R. (c) It takes 3 minutes to boil 1 L of water. Calculate energy used in kWh and cost at $0.15/kWh. (d) If the same 1 GW of power is transmitted at 100 kV instead of 400 kV, by what factor does the transmission loss increase?\""
+        }
+      ]
+    },
+    {
+      "name": "Circuit Analysis",
+      "color": "accent3",
+      "totalMinutes": 140,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Series & Parallel Circuits",
+          "focus": "Rules for current, voltage, and resistance in combinations",
+          "minutes": 50,
+          "understandings": [
+            "Series: I is the same through all components; V divides: V = V₁ + V₂ + ...; R adds: R_s = R₁ + R₂ + ...",
+            "Parallel: V is the same across all branches; I divides: I = I₁ + I₂ + ...; 1/R_p = 1/R₁ + 1/R₂ + ...",
+            "R_parallel is always LESS than the smallest individual resistance",
+            "Solve circuit problems by identifying series and parallel sections, simplifying step by step"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Your house has lights in PARALLEL. How do you know?\" Turn off one light — the others stay on. In series, turning off one breaks the circuit for all (like old Christmas lights). Parallel gives independence.</p><p><strong>Direct instruction (15 min):</strong> Series rules: one path → same I everywhere. V splits proportionally (more R → more V). R_total = R₁ + R₂. Parallel rules: V same across all branches. I splits (more R → less I through that branch). 1/R_total = 1/R₁ + 1/R₂. For two equal resistors R: series → 2R, parallel → R/2. Key result: R_parallel < smallest R (adding a parallel path always reduces total resistance — more paths = easier flow).</p><p><strong>Lab (15 min):</strong> BUILD AND MEASURE — Students build: (a) 2 resistors in series: measure I (same everywhere) and V across each (adds to total). (b) Same resistors in parallel: measure V (same across each) and I through each (adds to total). Verify the rules with real measurements. Discuss discrepancies (meter resistance, connection resistance).</p><p><strong>Worked examples (10 min):</strong> (1) 100 Ω and 200 Ω in series with 12 V: I = 12/300 = 0.04 A. V₁ = 4 V, V₂ = 8 V. (2) Same in parallel: R_p = 66.7 Ω. I_total = 0.18 A. I₁ = 0.12 A, I₂ = 0.06 A. (3) Mixed circuit: two parallel resistors in series with a third. Simplify step by step.</p><p><strong>Practice (5 min):</strong> Mixed series-parallel circuit problems.</p>",
+          "engagementHook": {
+            "title": "THE CHRISTMAS LIGHT MYSTERY",
+            "content": "\"Old Christmas lights: one bulb blows, ALL go out (series). New ones: one blows, the rest stay on (parallel). Why did manufacturers switch?\" Because parallel is more robust and each bulb gets the full voltage. But series is cheaper (fewer wires). Students calculate: 10 bulbs rated 24 V each. In series: need 240 V supply. In parallel: need 24 V supply but 10× the current. Trade-offs everywhere."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "Circuit analysis uses the same mathematical structure as other 'flow' problems: water pipes (hydraulic analogy), heat conduction, and even traffic flow. Kirchhoff's laws (sum of currents at a junction = 0, sum of voltages around a loop = 0) are conservation of charge and conservation of energy applied to circuits."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — State rules for I, V, R in series and parallel",
+            "AO2 — Calculate R_total, I, V for series, parallel, and mixed circuits",
+            "AO3 — Analyse circuits by identifying and simplifying series/parallel sections"
+          ],
+          "resources": "Resistors (various values), breadboard or circuit board, ammeter, voltmeter, wires, power supply",
+          "formative": "\"Three resistors: 10 Ω, 20 Ω, 30 Ω. (a) All in series with 12 V: find I and V across each. (b) All in parallel with 12 V: find R_total, I_total, and I through each. (c) The 10 Ω and 20 Ω in parallel, then in series with the 30 Ω, connected to 12 V. Find R_total, I, and V across the 30 Ω.\""
+        },
+        {
+          "num": 2,
+          "title": "EMF & Internal Resistance — ε = I(R + r)",
+          "focus": "Why real batteries lose voltage under load",
+          "minutes": 45,
+          "understandings": [
+            "Real cells have internal resistance r — resistance inside the cell itself",
+            "EMF ε = I(R + r), where R is the external (load) resistance",
+            "Terminal pd V = ε − Ir — the voltage available to the external circuit is LESS than the emf by the amount Ir ('lost volts')",
+            "When no current flows (I = 0): V = ε (open circuit voltage = emf)",
+            "When short-circuited (R = 0): I = ε/r (maximum current, all energy wasted internally)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Measure the voltage of a fresh battery with no load: 1.55 V. Connect it to a small bulb: voltage drops to ~1.3 V. \"Where did 0.25 V go?\" Lost inside the battery — internal resistance.</p><p><strong>Direct instruction (15 min):</strong> A real cell: emf ε is the total energy per charge. Internal resistance r uses some of this energy (as heat inside the cell). What's left for the external circuit: V = ε − Ir. Rearrange: ε = IR + Ir = I(R + r). Plot V vs I: straight line with y-intercept = ε and gradient = −r. As I increases, V decreases linearly. At I = 0 (open circuit): V = ε. At maximum I (short circuit): I_max = ε/r, V = 0.</p><p><strong>Lab (15 min):</strong> MEASURING ε AND r — Connect a cell to various resistors. Measure V and I for each. Plot V vs I. y-intercept = ε. Gradient = −r. Students extract both values from their graph. Typical AA cell: ε ≈ 1.5 V, r ≈ 0.5–1 Ω.</p><p><strong>Practice (10 min):</strong> (1) Cell ε = 6 V, r = 0.5 Ω, R = 11.5 Ω: find I, V_terminal, power to R, power wasted in r. (2) Two cells in series: ε_total = 2ε, r_total = 2r. (3) \"Why does a car battery 'die' when you leave the headlights on but the starter motor still drains it?\" (Starter draws huge I → big Ir drop → V_terminal too low to run electronics.)</p>",
+          "engagementHook": {
+            "title": "THE DYING BATTERY — WHERE DO THE VOLTS GO?",
+            "content": "Connect a 9 V battery to increasing loads (decreasing R). Students watch the voltmeter reading DROP as the current increases. \"The battery says 9 V on the label. But under load, it delivers only 7 V. The missing 2 V is being wasted as heat INSIDE the battery.\" Plot V vs I live — the straight line emerges before their eyes. The y-intercept is the 'true' emf. The slope reveals the internal resistance."
+          },
+          "nos": {
+            "tags": ["Models", "Measurements"],
+            "description": "The ideal battery (no internal resistance) is a model — useful for simple calculations but inaccurate for real circuits. Adding r makes the model more realistic. This is a common pattern in physics: start with an idealisation, then add complexity. Each refinement makes the model more accurate but harder to use."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Define emf and internal resistance; state ε = I(R + r)",
+            "AO2 — Apply ε = I(R + r) and V = ε − Ir; extract ε and r from V-I graphs",
+            "AO3 — Analyse how internal resistance affects circuit performance"
+          ],
+          "resources": "Cells, various resistors, ammeter, voltmeter, graph paper, 9 V battery for demo",
+          "formative": "\"A cell (ε = 1.5 V, r = 0.8 Ω) is connected to R = 4.2 Ω. (a) Calculate I. (b) Calculate terminal pd. (c) Calculate power delivered to R and power wasted in r. (d) What value of R would result in maximum power transfer to R? (Hint: it equals r.) (e) From V-I data: V = 1.48 at I = 0.1, V = 1.20 at I = 0.5. Find ε and r.\""
+        },
+        {
+          "num": 3,
+          "title": "Variable Resistors, Thermistors, LDRs & Potential Dividers",
+          "focus": "Components with changing resistance and voltage division",
+          "minutes": 45,
+          "understandings": [
+            "Resistors can have variable resistance",
+            "Thermistor: resistance decreases as temperature increases (NTC type)",
+            "Light-dependent resistor (LDR): resistance decreases as light intensity increases",
+            "Potentiometer: a variable resistor used to vary pd continuously",
+            "Potential divider: V_out = V_in × R₂/(R₁ + R₂) — splits voltage in proportion to resistance"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> Variable resistors change R by adjusting length of wire in the circuit. Special types: Thermistor (NTC): R decreases as T increases — used in temperature sensors, thermostats. LDR: R decreases as light intensity increases — used in automatic lighting, camera exposure. Potentiometer: a 3-terminal variable resistor that acts as a continuously adjustable voltage divider.</p><p><strong>Potential divider (15 min):</strong> Two resistors in series with a voltage source: V_out across R₂ = V_in × R₂/(R₁ + R₂). Derive from series current: I = V_in/(R₁ + R₂), V_out = IR₂. If R₁ = R₂: V_out = V_in/2. If R₂ >> R₁: V_out ≈ V_in. Replace R₁ with a thermistor: as T increases, R₁ decreases, V_out across R₂ increases — a temperature-to-voltage converter. Replace R₁ with LDR: as light increases, R₁ decreases, V_out increases — a light sensor.</p><p><strong>Lab (15 min):</strong> SENSOR CIRCUITS — Build a potential divider with a thermistor and a fixed resistor. Measure V_out at different temperatures (hold the thermistor, breathe on it, dip in warm water). Plot V_out vs T. Then replace the thermistor with an LDR. Measure V_out in different lighting conditions. Students see the sensor concept work in real time.</p><p><strong>Practice (5 min):</strong> Potential divider calculations and sensor circuit design.</p>",
+          "engagementHook": {
+            "title": "BUILD A TEMPERATURE ALARM",
+            "content": "\"Using a thermistor, a fixed resistor, and a battery, build a circuit where V_out increases when temperature increases. If V_out exceeds a threshold, an LED lights up — a simple temperature alarm.\" Students design, build, and test. When they hold the thermistor, the LED lights up from their body heat. \"Congratulations — you just built the sensor circuit inside a fire alarm.\""
+          },
+          "nos": {
+            "tags": ["Technology", "Observations", "Patterns"],
+            "description": "Sensor circuits (thermistors, LDRs) convert physical quantities (temperature, light) into electrical signals (voltage). This is the basis of all electronic instrumentation: every digital thermometer, automatic streetlight, and smartphone light sensor uses a potential divider with a variable-resistance component."
+          },
+          "atl": ["Thinking skills", "Research skills", "Social skills"],
+          "learnerProfile": ["Inquirer", "Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe thermistors, LDRs, and potentiometers",
+            "AO2 — Apply the potential divider equation V_out = V_in × R₂/(R₁+R₂)",
+            "AO3 — Analyse how changing R₁ (thermistor/LDR) affects V_out in a sensor circuit"
+          ],
+          "resources": "Thermistor (NTC), LDR, fixed resistors, battery, voltmeter, LED, breadboard, warm water, torch",
+          "formative": "\"A potential divider: 9 V supply, R₁ = thermistor (1 kΩ at 20°C, 500 Ω at 50°C), R₂ = 1 kΩ fixed. (a) Calculate V_out at 20°C. (b) Calculate V_out at 50°C. (c) Sketch V_out vs temperature (qualitatively). (d) If R₁ is replaced with an LDR, how does V_out change from darkness to bright light? (e) Design a circuit where V_out DECREASES with increasing temperature.\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "A.2 Forces & Momentum", "question": "How is Ohm's law (V = IR) structurally analogous to Newton's second law (F = ma)? What role does 'resistance' play in each?" },
+    { "topic": "A.3 Work, Energy & Power", "question": "How does electrical power P = IV relate to mechanical power P = Fv? How does efficiency apply to electrical systems?" },
+    { "topic": "B.1 Thermal Energy Transfers", "question": "How does resistance heating connect to thermal energy transfer? Why do conductors heat up when current flows?" },
+    { "topic": "D.2 Electric & Magnetic Fields", "question": "How does the microscopic picture of electron drift connect to electric field and potential concepts in D.2?" },
+    { "topic": "D.4 Induction (HL)", "question": "How does electromagnetic induction generate the emf that drives current in generators and transformers?" },
+    { "topic": "IB Linking", "question": "What are the consequences of resistance in conductors for energy efficiency and transmission?" }
+  ]
+},
+"C1": {
+  "title": "Simple Harmonic Motion",
+  "code": "C.1",
+  "theme": "C",
+  "level": "SL + HL",
+  "recommendedHours": 7,
+  "recommendedMinutes": 420,
+  "guidingQuestions": [
+    "What makes the harmonic oscillator model applicable to a wide range of physical phenomena?",
+    "Why must the defining equation of simple harmonic motion take the form it does?",
+    "How can the energy and motion of an oscillation be analysed both graphically and algebraically?"
+  ],
+  "groups": [
+    {
+      "name": "SHM Fundamentals (SL)",
+      "color": "accent3",
+      "totalMinutes": 100,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Conditions for SHM & the Defining Equation",
+          "focus": "a = −ω²x — why the negative sign is everything",
+          "minutes": 50,
+          "understandings": [
+            "Conditions that lead to simple harmonic motion: (1) a restoring force directed toward the equilibrium position, (2) the restoring force is proportional to the displacement from equilibrium",
+            "The defining equation of SHM: a = −ω²x, where ω is the angular frequency",
+            "The negative sign means acceleration is always OPPOSITE to displacement — always directed toward equilibrium",
+            "Definitions: time period T, frequency f, angular frequency ω = 2πf = 2π/T, amplitude A, equilibrium position, displacement x"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Hang a mass from a spring. Pull it down and release. It oscillates. \"It overshoots equilibrium, reverses, overshoots again, reverses again. What force drives this back-and-forth?\" The spring always pulls toward the centre — a RESTORING force. The further you pull, the harder it pulls back — proportional to displacement.</p><p><strong>Direct instruction (20 min):</strong> Two conditions for SHM: (1) restoring force toward equilibrium, (2) force ∝ displacement. This gives F = −kx (spring) → ma = −kx → a = −(k/m)x. Define ω² = k/m → a = −ω²x. The DEFINING equation. Unpack the negative sign: when x is positive (right of centre), a is negative (acceleration to the left — toward centre). When x is negative (left), a is positive (toward centre). The acceleration ALWAYS opposes displacement. Define all terms: T (one complete oscillation), f = 1/T, ω = 2πf, A (maximum displacement), equilibrium (where x = 0 and F = 0).</p><p><strong>Demo (10 min):</strong> Pendulum, mass-spring, ruler clamped to table edge — all oscillate. For each: identify the restoring force and the equilibrium position. \"These look different but the physics is identical: a = −ω²x governs them all.\"</p><p><strong>Practice (15 min):</strong> (1) Identify whether given systems undergo SHM (ball in a bowl: yes; ball bouncing: no — force isn't proportional). (2) A = 0.05 m, f = 2 Hz: find ω, T, and maximum acceleration (a_max = ω²A).</p>",
+          "engagementHook": {
+            "title": "SHM IS EVERYWHERE — NAME THAT OSCILLATION",
+            "content": "Show 10 quick video clips: playground swing, guitar string, heartbeat on ECG, building swaying in wind, vibrating phone, pendulum clock, car suspension, earthquake seismograph, child on a trampoline, metronome. \"Which of these are SHM?\" Students debate each. Key test: is the restoring force proportional to displacement? The swing and pendulum (small angles) are SHM. The bouncing ball is NOT (contact force isn't proportional). This sets up the entire topic."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "SHM is one of the most universal models in physics — it describes any system near a stable equilibrium. The same equation (a = −ω²x) governs a pendulum, a spring, atoms in a crystal, and electromagnetic oscillations. The power of physics is finding one model that explains many different phenomena."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — State the two conditions for SHM; state a = −ω²x; define T, f, ω, A",
+            "AO2 — Determine whether a given system undergoes SHM",
+            "AO3 — Explain the significance of the negative sign in a = −ω²x"
+          ],
+          "resources": "Spring + mass, pendulum, ruler clamped to desk, 10 oscillation video clips, stopwatch",
+          "formative": "\"A body oscillates with a = −ω²x. (a) Explain why the negative sign is essential for oscillation. (b) What would happen if a = +ω²x (positive)? (c) A mass on a spring has f = 3 Hz and A = 0.04 m. Find ω, T, max acceleration, and max speed (preview). (d) Is a ball bouncing on a floor SHM? Justify.\""
+        },
+        {
+          "num": 2,
+          "title": "Period of Mass-Spring & Simple Pendulum",
+          "focus": "T = 2π√(m/k) and T = 2π√(L/g)",
+          "minutes": 50,
+          "understandings": [
+            "Time period for a mass-spring system: T = 2π√(m/k), where m is the mass and k is the spring constant",
+            "Time period for a simple pendulum: T = 2π√(L/g), where L is the length and g is acceleration due to gravity",
+            "For the pendulum: T does NOT depend on mass or amplitude (for small angles)",
+            "For the spring: T does NOT depend on amplitude but DOES depend on mass"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> Mass-spring: from a = −(k/m)x, ω² = k/m → ω = √(k/m) → T = 2π/ω = 2π√(m/k). Heavier mass → longer period (more inertia). Stiffer spring → shorter period (stronger restoring force). Amplitude does NOT affect T — a remarkable result. Pendulum: restoring force = mg sinθ ≈ mgθ (small angles). a = −(g/L)x → ω² = g/L → T = 2π√(L/g). T depends on L and g only. NOT on mass (cancels out) or amplitude (small angle approximation).</p><p><strong>Lab (25 min):</strong> TWO EXPERIMENTS — (1) Pendulum: vary L (0.2, 0.4, 0.6, 0.8, 1.0 m). Time 20 oscillations for each. Plot T² vs L → straight line, gradient = 4π²/g. Extract g. (2) Mass-spring: vary m (0.1, 0.2, 0.3, 0.4, 0.5 kg). Time 20 oscillations. Plot T² vs m → straight line, gradient = 4π²/k. Extract k. Compare with k from A.2 Hooke's law lab.</p><p><strong>Worked examples (10 min):</strong> (1) A 0.5 kg mass on a spring (k = 200 N/m): T = 2π√(0.5/200) = 0.314 s, f = 3.18 Hz. (2) A pendulum of L = 1 m on Earth: T = 2.01 s. On the Moon (g = 1.6): T = 4.96 s. \"Pendulum clocks wouldn't work on the Moon.\" (3) What length pendulum gives T = 1 s? L = g(T/2π)² = 0.248 m.</p><p><strong>Practice (5 min):</strong> Period calculations and extracting g or k from lab data.</p>",
+          "engagementHook": {
+            "title": "GALILEO'S CHANDELIER — THE DISCOVERY OF ISOCHRONISM",
+            "content": "\"In 1583, 19-year-old Galileo watched a chandelier swinging in Pisa Cathedral. He timed it against his pulse and discovered: the period doesn't depend on amplitude. Small swings and large swings take the SAME time.\" Students verify: pull a pendulum to 5° and 15° — time 20 swings each. Same period (within error). This 'isochronism' made pendulum clocks possible and launched the study of oscillations."
+          },
+          "nos": {
+            "tags": ["Observations", "Measurements", "Theories"],
+            "description": "Galileo's observation of the chandelier was serendipitous — he wasn't looking for a physics law. But he had the insight to measure what he saw. The pendulum became the most accurate timekeeper for 300 years (until quartz oscillators). Scientific progress often starts with careful observation of everyday phenomena."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — State T = 2π√(m/k) and T = 2π√(L/g)",
+            "AO2 — Calculate T for mass-spring and pendulum systems; extract g or k from T² vs L or T² vs m graphs",
+            "AO3 — Analyse what T depends on and what it doesn't for each system"
+          ],
+          "resources": "Pendulum (various lengths), springs + masses, stopwatch, clamp stands, rulers, graph paper",
+          "formative": "\"(a) A 200 g mass on a spring oscillates with T = 0.8 s. Find k. (b) A pendulum has T = 2.5 s. Find L. (c) The pendulum is taken to Mars (g = 3.7 m/s²). Find the new T. (d) From your lab: plot T² vs L for the pendulum. Find g from the gradient. Calculate % error from the accepted value.\""
+        }
+      ]
+    },
+    {
+      "name": "SHM Graphs & Energy (SL)",
+      "color": "accent4",
+      "totalMinutes": 80,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "SHM Graphs — x-t, v-t, a-t & a-x",
+          "focus": "Sketching and interpreting the four key graphs",
+          "minutes": 45,
+          "understandings": [
+            "Displacement-time graph: sinusoidal, amplitude A, period T",
+            "Velocity-time graph: cosine curve (leads displacement by 90°), max velocity v_max = ωA at x = 0",
+            "Acceleration-time graph: negative sine (leads velocity by 90°), max acceleration a_max = ω²A at x = ±A",
+            "Acceleration-displacement graph: straight line through origin with negative gradient (−ω²), confirming a = −ω²x"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Start with x = A sin(ωt). Sketch x-t: sinusoidal, peaks at A, period T. Velocity: v = dx/dt = Aω cos(ωt). Sketch v-t: cosine, peaks at ωA (90° ahead of x). When x = 0 (equilibrium), v is maximum. When x = ±A (extremes), v = 0. Acceleration: a = dv/dt = −Aω² sin(ωt) = −ω²x. Sketch a-t: negative sine. When x = +A, a = −ω²A (max negative). The a-x graph: plot a vs x → straight line, gradient = −ω², passing through origin. This graph IS the defining equation visualised.</p><p><strong>Demo (10 min):</strong> Use a motion sensor on an oscillating mass-spring. Display x-t, v-t, a-t graphs simultaneously. Students observe: v leads x by ¼ cycle. a leads v by ¼ cycle. a and x are in antiphase (180° apart). The a-x plot is a straight negative line — live verification of a = −ω²x.</p><p><strong>Graphical skills (15 min):</strong> Give students one graph (e.g., x-t) and ask them to sketch the other three. Then repeat with a different starting graph (e.g., v-t). Key skill: from x-t, the gradient at any point = instantaneous velocity. From v-t, the gradient = instantaneous acceleration. These are the same gradient/area relationships from A.1.</p><p><strong>Practice (5 min):</strong> Match unlabelled graphs to x, v, or a. Read off A, T, ω from graphs.</p>",
+          "engagementHook": {
+            "title": "LIVE GRAPHS — WATCH SHM UNFOLD",
+            "content": "Attach a motion sensor to a mass-spring system. The screen shows x-t, v-t, a-t updating in real time. Students SEE the phase relationships: v peaks when x crosses zero, a peaks when x is at extremes. Then plot a vs x live — a straight negative line appears. \"That line IS the equation a = −ω²x. You just watched a physics law draw itself.\""
+          },
+          "nos": {
+            "tags": ["Patterns", "Models", "Observations"],
+            "description": "The sinusoidal shape of SHM graphs connects to circular motion: SHM is the projection of uniform circular motion onto a diameter. This geometric connection explains why sine and cosine functions describe oscillations. The link between circular motion (A.2) and oscillations (C.1) is one of the most elegant in physics."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Communicator", "Thinker"],
+          "ao": [
+            "AO1 — Sketch x-t, v-t, a-t, and a-x graphs for SHM",
+            "AO2 — Read T, f, A, ω, v_max, a_max from graphs",
+            "AO3 — Derive one graph from another using gradient relationships"
+          ],
+          "resources": "Motion sensor + mass-spring, display screen, graph paper, printed graphs for analysis",
+          "formative": "\"An x-t graph shows: A = 3 cm, T = 0.4 s, starting at x = +A at t = 0. (a) Find ω, f, v_max, a_max. (b) Sketch v-t and a-t on the same time axis. (c) At t = 0.1 s (quarter period): state x, v, a. (d) Draw the a-x graph. State its gradient.\""
+        },
+        {
+          "num": 2,
+          "title": "Energy Changes During Oscillation",
+          "focus": "KE ↔ PE interchange with constant total energy",
+          "minutes": 35,
+          "understandings": [
+            "During SHM, energy is exchanged between kinetic energy and potential energy",
+            "At equilibrium (x = 0): KE is maximum, PE is zero (or minimum)",
+            "At extremes (x = ±A): KE is zero (momentarily at rest), PE is maximum",
+            "Total mechanical energy E = KE + PE = constant (in the absence of damping)",
+            "The energy-displacement graph: KE is an inverted parabola, PE is an upright parabola, their sum is constant"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Swing a pendulum. \"At the top: momentarily at rest — all GPE, no KE. At the bottom: maximum speed — all KE, no GPE. In between: a mix. The total never changes. Where have we seen this before?\" A.3 conservation of mechanical energy — same physics, applied to oscillations.</p><p><strong>Direct instruction (10 min):</strong> At x = 0: v = v_max = ωA → KE = ½m(ωA)² = maximum. PE = 0. At x = ±A: v = 0 → KE = 0. PE = maximum = ½m(ωA)² = ½kA² (for a spring). Total E = ½mω²A² = ½kA² — constant. The total depends on amplitude SQUARED: double A → 4× the energy. Draw the E vs x graph: KE as inverted parabola (max at x = 0), PE as upright parabola (max at x = ±A), E_total as a horizontal line.</p><p><strong>Graphical exercise (10 min):</strong> Students draw the energy-displacement diagram for A = 5 cm, k = 100 N/m. Calculate E_total = ½ × 100 × 0.05² = 0.125 J. Plot KE and PE vs x. Also draw E vs t: KE and PE oscillate sinusoidally at 2f (twice the frequency of the motion), always summing to E_total.</p><p><strong>Practice (10 min):</strong> Energy calculations and graph sketching. \"At what displacement is KE = PE?\" (x = A/√2.)</p>",
+          "engagementHook": {
+            "title": "THE ENERGY DANCE — KE AND PE SWAP PARTNERS",
+            "content": "Swing a pendulum in front of a projected energy bar chart that updates in real time (simulation). Students watch KE and PE bars rise and fall in perfect antiphase, always summing to the same total. \"Energy doesn't disappear or appear — it just changes costume. KE becomes PE becomes KE, back and forth, forever (without damping).\" Ask: \"At what point in the swing are KE and PE equal?\" Students calculate: x = A/√2 ≈ 0.71A."
+          },
+          "nos": {
+            "tags": ["Theories", "Patterns"],
+            "description": "The energy interchange in SHM is a specific case of conservation of mechanical energy (A.3). The same principle governs pendulums, springs, LC circuits (electrical oscillations), and even the oscillation of atoms in molecules. Energy conservation provides a unifying framework across all areas of physics."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe the energy interchange during SHM",
+            "AO2 — Calculate KE, PE, and E_total at any displacement",
+            "AO3 — Sketch and analyse energy-displacement and energy-time graphs"
+          ],
+          "resources": "Pendulum, SHM energy simulation (PhET or similar), graph paper, calculators",
+          "formative": "\"A 0.2 kg mass on a spring (k = 50 N/m) oscillates with A = 0.1 m. (a) Calculate E_total. (b) At x = 0: find KE and PE. (c) At x = 0.06 m: find PE, then KE from E_total − PE. (d) At what x does KE = PE? (e) Draw the energy-displacement graph.\""
+        }
+      ]
+    },
+    {
+      "name": "Advanced SHM Analysis (AHL)",
+      "color": "accent",
+      "totalMinutes": 240,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Phase Angle & Full Displacement Equation (AHL)",
+          "focus": "x = A sin(ωt + φ) — describing SHM starting from any position",
+          "minutes": 60,
+          "understandings": [
+            "Phase angle φ describes the state (position in the cycle) of a particle undergoing SHM",
+            "Full displacement equation: x = A sin(ωt + φ) or x = A cos(ωt + φ) depending on initial conditions",
+            "If the oscillation starts at x = +A: x = A cos(ωt) (φ = π/2 in sine form, or φ = 0 in cosine form)",
+            "If the oscillation starts at x = 0 moving positively: x = A sin(ωt) (φ = 0)",
+            "Phase difference between two oscillators: Δφ — determines whether they're in phase, antiphase, or between"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Two identical pendulums released at different times. They have the same A, T, ω — but they're \"out of sync.\" \"What's different?\" The phase. One started earlier — it has a different phase angle φ.</p><p><strong>Direct instruction (20 min):</strong> The general SHM equation: x = A sin(ωt + φ). φ sets the starting position. If φ = 0: x starts at 0 and moves positive (sine curve). If φ = π/2: x starts at +A (cosine curve). If φ = π: x starts at 0 and moves negative. Any initial condition is captured by choosing the right φ. Phase difference: two oscillators with the same ω but different φ have Δφ = φ₂ − φ₁. In phase: Δφ = 0 (or 2π). Antiphase: Δφ = π. At the SL level, we only needed sin and cos; at HL, φ lets us describe ANY starting condition.</p><p><strong>Circle connection (10 min):</strong> SHM = projection of uniform circular motion. A particle moves on a circle of radius A at angular speed ω. Its x-coordinate at time t: x = A cos(ωt + φ), where φ is the starting angle. Draw the circle and the projection — students see SHM emerge geometrically.</p><p><strong>Worked examples (15 min):</strong> (1) x = 0.05 sin(4πt + π/3). Find A (0.05 m), ω (4π rad/s), f (2 Hz), T (0.5 s), φ (π/3), x at t = 0 (0.05 sin(π/3) = 0.043 m). (2) An oscillator starts at x = −3 cm and moves positively. A = 5 cm, f = 1 Hz. Find φ. (3) Two pendulums: x₁ = 10 sin(2t), x₂ = 10 sin(2t + π/2). Phase difference? When are they at the same position?</p><p><strong>Practice (10 min):</strong> Determine φ from initial conditions. Calculate x at any t given the full equation.</p>",
+          "engagementHook": {
+            "title": "THE CIRCULAR CONNECTION — SHM IS A SHADOW",
+            "content": "Shine a light on a ball moving in a circle (turntable with ball). Its SHADOW on the wall oscillates back and forth — SHM! Students see that x = A cos(ωt + φ) is literally the horizontal projection of circular motion. \"The circle has constant speed ωA. The shadow slows at the edges and speeds up in the middle — exactly like a spring.\" The phase angle φ is just where on the circle you start."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "The connection between SHM and circular motion was first noted by Galileo. It's a deep mathematical link: sinusoidal functions arise naturally from circular geometry. This connection appears everywhere: AC electricity, wave theory, quantum mechanics. The same mathematical structure (sine, cosine) governs all oscillatory and wave phenomena."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define phase angle; state x = A sin(ωt + φ)",
+            "AO2 — Determine φ from initial conditions; calculate x at any time",
+            "AO3 — Analyse phase difference between two oscillators"
+          ],
+          "resources": "Two identical pendulums, turntable with ball + light source (shadow projection), whiteboard, calculators",
+          "formative": "\"x = 0.08 sin(6πt + π/4). (a) State A, ω, f, T, φ. (b) Find x at t = 0. (c) Find x at t = 0.25 s. (d) At what earliest time after t = 0 is x = +A? (e) A second oscillator: x₂ = 0.08 sin(6πt − π/4). Find the phase difference. Are they ever at the same position simultaneously?\""
+        },
+        {
+          "num": 2,
+          "title": "Velocity & Acceleration Equations (AHL)",
+          "focus": "v = Aω cos(ωt + φ) and v = ±ω√(A² − x²)",
+          "minutes": 55,
+          "understandings": [
+            "Velocity: v = dx/dt = Aω cos(ωt + φ)",
+            "Maximum speed: v_max = ωA (at x = 0)",
+            "Velocity as a function of displacement: v = ±ω√(A² − x²)",
+            "Acceleration: a = −Aω² sin(ωt + φ) = −ω²x",
+            "Maximum acceleration: a_max = ω²A (at x = ±A)"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Differentiate x = A sin(ωt + φ): v = Aω cos(ωt + φ). v_max = Aω occurs when cos = ±1, i.e., at x = 0. Differentiate again: a = −Aω² sin(ωt + φ) = −ω²x. a_max = ω²A at x = ±A. The displacement-velocity relation (without time): from x² + (v/ω)² = A² → v = ±ω√(A² − x²). This is the equation of an ellipse in the x-v phase space — link to circular motion projection.</p><p><strong>Worked examples (20 min):</strong> (1) A = 0.1 m, ω = 5 rad/s. v_max = 0.5 m/s. a_max = 2.5 m/s². (2) At x = 0.06 m: v = ±5√(0.01 − 0.0036) = ±0.4 m/s. (3) Given x = 0.04 sin(10t): find v and a at t = π/30 s. (4) An oscillator has v = 0.3 m/s at x = 0.04 m and v = 0 at x = 0.05 m. Find ω and A. (Use v² = ω²(A² − x²) with both data points → two equations, two unknowns.)</p><p><strong>Phase space diagram (10 min):</strong> Plot v vs x for one complete oscillation: you get an ELLIPSE. The oscillator traces this ellipse in phase space. At (0, v_max) it's at equilibrium moving fast. At (±A, 0) it's at the extremes, momentarily stopped. Students draw the phase space ellipse and mark key points.</p><p><strong>Practice (10 min):</strong> Problems using v = ±ω√(A² − x²) and the time-dependent equations.</p>",
+          "engagementHook": {
+            "title": "THE PHASE SPACE ELLIPSE — SHM IN A SINGLE PICTURE",
+            "content": "\"Plot v vs x for a full oscillation. You don't get a line — you get an ellipse. The oscillator runs around this ellipse forever.\" Students plot it point by point. \"At the top of the ellipse (x = 0, v = max): speeding through the middle. At the sides (x = ±A, v = 0): turning around at the edges. One picture contains ALL the information about the motion.\""
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "Phase space diagrams (x-v plots) are used throughout physics: from simple oscillators to planetary orbits to quantum states. The elliptical shape of the SHM phase space is a consequence of energy conservation: ½mv² + ½kx² = E = constant defines an ellipse. Form follows conservation."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State v = Aω cos(ωt + φ) and v = ±ω√(A² − x²)",
+            "AO2 — Calculate v and a at any x or t; find v_max and a_max",
+            "AO3 — Analyse phase space diagrams and extract physical information"
+          ],
+          "resources": "Whiteboard, calculators, phase space plotting worksheet, SHM simulation with v-x display",
+          "formative": "\"An oscillator: A = 0.08 m, f = 2 Hz. (a) Find v_max and a_max. (b) Find v at x = 0.05 m. (c) Find a at x = 0.05 m. (d) The oscillator has v = 0.6 m/s at x = 0.03 m. Find ω and A. (e) Sketch the phase space (v vs x) diagram, labelling key points.\""
+        },
+        {
+          "num": 3,
+          "title": "Energy Interchange — Algebraic & Graphical (AHL)",
+          "focus": "KE = ½mω²(A² − x²), PE = ½mω²x², E_total = ½mω²A²",
+          "minutes": 65,
+          "understandings": [
+            "Kinetic energy as a function of displacement: KE = ½mv² = ½mω²(A² − x²)",
+            "Potential energy as a function of displacement: PE = ½mω²x² (= ½kx² for a spring)",
+            "Total energy: E = KE + PE = ½mω²A² = constant",
+            "Energy interchange can be analysed both graphically (E vs x and E vs t) and algebraically",
+            "KE and PE oscillate at 2f (twice the motion frequency), with their sum constant"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> From v = ±ω√(A² − x²): KE = ½mv² = ½mω²(A² − x²). PE = E_total − KE = ½mω²A² − ½mω²(A² − x²) = ½mω²x². Verify: at x = 0, KE = ½mω²A² (max), PE = 0. At x = ±A, KE = 0, PE = ½mω²A² (max). Sum: KE + PE = ½mω²A² always. For a spring: PE = ½kx² (since ω² = k/m → ½mω²x² = ½kx²). The E_total depends on A²: double the amplitude → 4× the total energy.</p><p><strong>Graphical analysis (15 min):</strong> E vs x: KE is an inverted parabola, PE is an upright parabola. They intersect at x = ±A/√2 (where KE = PE = E/2). E vs t: both KE and PE oscillate sinusoidally at frequency 2f (because sin²(ωt) has period T/2). They're always in antiphase. Students sketch both diagrams with numerical values.</p><p><strong>Worked examples (20 min):</strong> (1) m = 0.5 kg, k = 200 N/m, A = 0.04 m. E_total = ½ × 200 × 0.04² = 0.16 J. At x = 0.02 m: PE = ½ × 200 × 0.02² = 0.04 J, KE = 0.16 − 0.04 = 0.12 J, v = √(2KE/m) = 0.69 m/s. (2) An oscillator has KE = 3PE at some displacement. Find x in terms of A. (KE = 3PE, KE + PE = E → 3PE + PE = E → PE = E/4 = ½mω²A²/4. But PE = ½mω²x² → x = A/2.) (3) At what fraction of the period is KE = PE for the first time? (When x = A/√2 → find t from x = A sin(ωt).)</p><p><strong>Practice (15 min):</strong> Energy ratio problems, graphing, and finding displacements for given energy ratios.</p>",
+          "engagementHook": {
+            "title": "THE ENERGY RATIO CHALLENGE",
+            "content": "\"At what displacement is the kinetic energy exactly 3 times the potential energy?\" Students work it out: KE = 3PE → (A² − x²) = 3x² → A² = 4x² → x = A/2. \"Halfway between centre and extreme, you have 3× more KE than PE.\" Then challenge: \"At what displacement is KE = PE?\" x = A/√2 ≈ 0.71A — further out than students expect. The energy distribution isn't intuitive — you need the algebra."
+          },
+          "nos": {
+            "tags": ["Theories", "Patterns", "Models"],
+            "description": "The algebraic energy analysis of SHM connects to the Lagrangian and Hamiltonian formulations of mechanics — the foundation of modern theoretical physics. The phase space ellipse (½mv² + ½kx² = E) is a conserved quantity called the Hamiltonian. This one idea unifies classical mechanics, quantum mechanics, and statistical mechanics."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State KE, PE, and E_total as functions of x",
+            "AO2 — Calculate KE, PE, v at any displacement; find x for given energy ratios",
+            "AO3 — Analyse energy-displacement and energy-time graphs; explain the 2f frequency"
+          ],
+          "resources": "Calculators, energy graph templates, phase space worksheets",
+          "formative": "\"A 0.3 kg mass on a spring (k = 120 N/m, A = 0.06 m). (a) Calculate E_total, v_max, a_max. (b) At x = 0.04 m: find KE, PE, v. (c) Find the displacement where KE = 2PE. (d) Sketch KE, PE, and E_total vs x on one graph. (e) At what frequency do KE and PE oscillate? Why is it different from the oscillation frequency?\""
+        },
+        {
+          "num": 4,
+          "title": "Advanced SHM Problem Solving (AHL)",
+          "focus": "Multi-step problems combining all SHM concepts",
+          "minutes": 60,
+          "understandings": [
+            "Combine phase angle, displacement, velocity, acceleration, and energy equations in complex problems",
+            "Extract SHM parameters (A, ω, φ) from given data (position at two times, or velocity at a position, etc.)",
+            "Link SHM to circular motion, energy conservation (A.3), and Hooke's law (A.2)",
+            "Apply SHM analysis to real systems: loaded springs, pendulums, molecular vibrations"
+          ],
+          "teachingStrategy": "<p><strong>Strategy review (10 min):</strong> Build a decision framework: \"What do you know? What do you need?\" If given x and t: use x = A sin(ωt + φ). If given v and x: use v = ±ω√(A² − x²). If given E and x: use energy equations. If given T: extract ω = 2π/T. Many problems require COMBINING two or more equations. Always check: do the units work? Is the answer physically reasonable (v < v_max, |x| < A)?</p><p><strong>Exam-style problems (30 min):</strong> Groups of 3 tackle one problem each from a set of 5, then present to the class: (1) A mass-spring: given k, m, and initial displacement released from rest. Find x(t), v(t), and the first time the mass passes through x = A/2. (2) Two oscillators with different φ: find the first time they have the same displacement. (3) A pendulum on the Moon: given T on Earth, find T on Moon and the maximum speed. (4) Energy: given v at a known x, find A, then E_total, then x where KE = 3PE. (5) A vertical spring: equilibrium extension + SHM about the new equilibrium.</p><p><strong>Common exam traps (10 min):</strong> (a) Forgetting to use radians (not degrees) in ωt. (b) Confusing T and t. (c) Assuming all SHM starts at x = 0 (it doesn't — check initial conditions). (d) Forgetting the ± in v = ±ω√(A² − x²) (direction matters). (e) Using the wrong formula for T (spring vs pendulum).</p><p><strong>Practice (10 min):</strong> 3 timed exam-style problems, worked independently.</p>",
+          "engagementHook": {
+            "title": "THE SHM EXAM ESCAPE ROOM",
+            "content": "Set up 5 stations around the room, each with an SHM problem. Groups rotate every 6 minutes. To 'escape,' they must solve all 5 correctly. Each answer unlocks a digit of a combination. If all 5 digits are correct, they open a box with a prize. The time pressure and collaborative format simulate exam conditions while making practice engaging."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "SHM is the foundation of wave theory (Theme C), quantum mechanics (the quantum harmonic oscillator), and electrical engineering (LC circuits). Mastering SHM problem-solving provides tools that transfer to every subsequent topic in physics. The harmonic oscillator is arguably the single most important model in all of physics."
+          },
+          "atl": ["Thinking skills", "Social skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Communicator", "Risk-taker"],
+          "ao": [
+            "AO2 — Apply all SHM equations in combination to solve multi-step problems",
+            "AO3 — Evaluate which equation to use for a given problem; check physical reasonableness of answers"
+          ],
+          "resources": "Exam-style problem sets, whiteboards, escape room combination lock (optional), timer",
+          "formative": "\"A mass-spring system: m = 0.4 kg, k = 160 N/m. At t = 0, x = 3 cm and v = +0.8 m/s. (a) Find ω. (b) Find A using v² = ω²(A² − x²). (c) Find φ using x = A sin(ωt + φ) at t = 0. (d) Write the complete equation x(t). (e) Find the first time after t = 0 when x = −A. (f) Calculate E_total and verify it equals ½kA².\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "A.2 Forces & Momentum", "question": "How does Hooke's law (F = −kx) from A.2 lead directly to the defining equation of SHM (a = −ω²x)?" },
+    { "topic": "A.3 Work, Energy & Power", "question": "How does conservation of mechanical energy apply to SHM? How is E_total = ½kA² related to elastic PE?" },
+    { "topic": "A.4 Rigid Body Mechanics (HL)", "question": "Can a torsional pendulum (rotating rather than swinging) undergo SHM? What would be the equivalent of the restoring force?" },
+    { "topic": "C.4 Standing Waves & Resonance", "question": "How do natural frequency and resonance relate to SHM? What happens when a driving force matches the natural frequency?" },
+    { "topic": "D.1 Gravitational Fields", "question": "How does the simple pendulum equation T = 2π√(L/g) connect to the gravitational field strength g?" },
+    { "topic": "IB Linking", "question": "What makes the harmonic oscillator model applicable to such a wide range of phenomena — from springs to atoms to electromagnetic fields?" }
+  ]
+},
+"C2": {
+  "title": "Wave Model",
+  "code": "C.2",
+  "theme": "C",
+  "level": "SL + HL",
+  "recommendedHours": 3,
+  "recommendedMinutes": 180,
+  "guidingQuestions": [
+    "What are the similarities and differences between different types of waves?",
+    "How can the wave model describe the transmission of energy as a result of local disturbances in a medium?",
+    "What effect does a change in the frequency of oscillation or medium through which the wave is travelling have on the wavelength of a travelling wave?"
+  ],
+  "groups": [
+    {
+      "name": "Types of Waves",
+      "color": "accent3",
+      "totalMinutes": 80,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Transverse & Longitudinal Travelling Waves",
+          "focus": "Particle motion relative to wave propagation direction",
+          "minutes": 40,
+          "understandings": [
+            "Transverse waves: particle displacement is perpendicular to the direction of wave propagation (e.g., water waves, EM waves, waves on a string)",
+            "Longitudinal waves: particle displacement is parallel to the direction of wave propagation (e.g., sound waves, compression waves in a spring)",
+            "Travelling waves transfer energy without resultant displacement of the medium",
+            "Describing particle motion in terms of displacement vs position along the wave and vs time"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Two demos side by side: (1) Shake a slinky side-to-side — a transverse wave travels along it. (2) Push-pull the slinky along its length — a longitudinal wave travels. \"Watch the coils: in the first, they move UP while the wave goes FORWARD. In the second, they move FORWARD and BACK along the same line.\"</p><p><strong>Direct instruction (15 min):</strong> Transverse: displacement ⊥ propagation. The particles oscillate up-down (or side-to-side) while the wave moves horizontally. Examples: waves on water surface, light, waves on a guitar string. Longitudinal: displacement ∥ propagation. Particles oscillate back-and-forth along the wave direction, creating compressions (particles close) and rarefactions (particles spread). Example: sound. Key point: the WAVE moves forward but the particles DON'T — they oscillate about equilibrium. Energy is transferred without net displacement of the medium.</p><p><strong>Demo (10 min):</strong> THE HUMAN WAVE — Students stand in a line. For transverse: each student stands/sits in sequence (a Mexican wave). The wave moves along the line but no student moves from their position. For longitudinal: students lean forward toward their neighbour in sequence — a compression moves along the line. Both transfer \"energy\" (the motion pattern) without anyone walking anywhere.</p><p><strong>Practice (10 min):</strong> Sketch displacement-position and displacement-time graphs for both wave types. Identify compressions and rarefactions on a longitudinal wave diagram. Classify 8 wave examples as transverse or longitudinal.</p>",
+          "engagementHook": {
+            "title": "THE HUMAN WAVE — MEXICAN WAVE vs COMPRESSION WAVE",
+            "content": "Students form the wave themselves. Mexican wave = transverse (standing up is perpendicular to the wave direction). Then a compression wave: lean toward your neighbour in sequence (parallel to wave direction). \"Energy moved from one end to the other. Nobody walked anywhere. THAT is what a wave does — transports energy, not matter.\""
+          },
+          "nos": {
+            "tags": ["Models", "Observations"],
+            "description": "The wave model describes energy transfer through local disturbances — no material moves from source to receiver. This was counterintuitive to early scientists who expected a physical substance (like the 'aether') to carry light. The wave model explains a vast range of phenomena with a single framework."
+          },
+          "atl": ["Thinking skills", "Communication skills", "Social skills"],
+          "learnerProfile": ["Communicator", "Inquirer"],
+          "ao": [
+            "AO1 — Define transverse and longitudinal waves; describe particle motion for each",
+            "AO2 — Sketch displacement-position and displacement-time graphs for both types"
+          ],
+          "resources": "Slinky (long), rope or string, students for human wave, wave type classification cards",
+          "formative": "\"(a) A wave on a string moves horizontally. Describe the motion of a single point on the string. Is this transverse or longitudinal? (b) A sound wave moves through air. Describe the motion of an air molecule. (c) A stadium wave (Mexican wave) moves clockwise around the stadium. Do the fans move clockwise? What type of wave is it? (d) Why can't transverse mechanical waves travel through gases?\""
+        },
+        {
+          "num": 2,
+          "title": "Wave Speed, Wavelength, Frequency & Period",
+          "focus": "v = fλ = λ/T — the universal wave equation",
+          "minutes": 40,
+          "understandings": [
+            "Wavelength λ: distance between successive identical points on a wave (crest to crest, or compression to compression)",
+            "Frequency f: number of complete oscillations per second (Hz)",
+            "Time period T: time for one complete oscillation (T = 1/f)",
+            "Wave speed v: the speed at which the wave pattern propagates through the medium",
+            "The wave equation: v = fλ = λ/T",
+            "Wave speed depends on the medium, NOT on frequency or amplitude"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> Define each quantity with a diagram: λ (peak-to-peak on a displacement-position graph), T (peak-to-peak on a displacement-time graph), f = 1/T. Derive v = fλ: in one period T, the wave moves one wavelength λ, so speed = distance/time = λ/T = fλ. This applies to ALL waves — sound, light, water, seismic. Wave speed is set by the medium (sound in air ≈ 340 m/s, light in vacuum = 3 × 10⁸ m/s) and doesn't change with f or A.</p><p><strong>Worked examples (10 min):</strong> (1) Sound: f = 440 Hz (middle A), v = 340 m/s → λ = 340/440 = 0.77 m. (2) Radio: f = 100 MHz, v = c → λ = 3 m. (3) A wave on a string: λ = 0.5 m, v = 20 m/s → f = 40 Hz, T = 0.025 s. (4) \"If you shout louder (more A), does the sound travel faster?\" No — speed depends on the medium, not amplitude or frequency.</p><p><strong>Lab (15 min):</strong> MEASURING WAVE SPEED — (a) Sound: clap at a known distance from a wall, time the echo. v = 2d/t. Or use two microphones and a timer. (b) Waves on a string: vibrate a string at known f, measure λ (standing wave method — preview of C.4). Calculate v = fλ. Compare with the theoretical v = √(T/μ) where T is tension and μ is mass per unit length.</p><p><strong>Practice (5 min):</strong> v = fλ calculations and unit conversions (MHz to Hz, nm to m).</p>",
+          "engagementHook": {
+            "title": "THE THUNDER LAG — MEASURING LIGHTNING DISTANCE",
+            "content": "\"You see lightning instantly (light speed ≈ 3 × 10⁸ m/s). You hear thunder later (sound speed ≈ 340 m/s). The delay = distance/340. So 3 seconds delay = 1 km away.\" Students calculate: if thunder arrives 8 seconds after lightning, how far was the strike? (2.72 km.) \"You've been using v = d/t your whole life without knowing it was wave physics.\""
+          },
+          "nos": {
+            "tags": ["Measurements", "Patterns"],
+            "description": "v = fλ is universal — it applies to every wave in every medium. This universality is remarkable: the same equation describes a tsunami and a gamma ray. The speed of sound was first measured by timing cannon fire over a known distance (1738). The speed of light was first estimated by Ole Rømer from Jupiter's moons (1676)."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — Define λ, f, T, v; state v = fλ",
+            "AO2 — Apply v = fλ to calculate any quantity given the other two",
+            "AO3 — Analyse why wave speed depends on medium, not frequency"
+          ],
+          "resources": "Slinky, string + vibrator (if available), two microphones + timer, ruler, stopwatch, calculator",
+          "formative": "\"(a) A wave has f = 500 Hz and λ = 0.68 m. Find v. What medium might this be? (b) Light: λ = 600 nm in vacuum. Find f. (c) Sound at 20°C: v = 343 m/s. A violin plays 880 Hz. Find λ. (d) The wave enters water (v_sound = 1480 m/s). Does f change? Does λ change? Find the new λ.\""
+        }
+      ]
+    },
+    {
+      "name": "Sound & Electromagnetic Waves",
+      "color": "accent4",
+      "totalMinutes": 100,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "The Nature of Sound Waves",
+          "focus": "Longitudinal mechanical waves — compressions, rarefactions, and what you hear",
+          "minutes": 45,
+          "understandings": [
+            "Sound waves are longitudinal mechanical waves — they require a medium (solid, liquid, or gas)",
+            "Sound consists of compressions (high pressure) and rarefactions (low pressure) propagating through the medium",
+            "Sound cannot travel through a vacuum — there is no medium to compress",
+            "The speed of sound depends on the medium: faster in solids (~5000 m/s) than liquids (~1500 m/s) than gases (~340 m/s in air)",
+            "Human hearing range: approximately 20 Hz to 20,000 Hz"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Play a tone through a speaker inside a bell jar. Gradually pump out the air. The sound fades and disappears — even though you can see the speaker vibrating. \"Sound needs a medium. No air = no sound. In space, no one can hear you scream.\"</p><p><strong>Direct instruction (15 min):</strong> Sound = longitudinal pressure wave. Speaker cone pushes air → compression (high pressure). Cone pulls back → rarefaction (low pressure). These travel outward at ~340 m/s in air. Draw the compression/rarefaction pattern alongside the displacement graph: maximum forward displacement at the front of a rarefaction, zero displacement at the centre of a compression. Speed depends on medium: solids fastest (particles tightly coupled), gases slowest (particles far apart). Range: 20 Hz (deep bass, felt more than heard) to 20 kHz (high pitch, lost with age). Below 20 Hz = infrasound. Above 20 kHz = ultrasound.</p><p><strong>Demo (10 min):</strong> Oscilloscope + microphone: visualise sound waves. Speak/sing → see the waveform. Vary pitch → frequency changes. Vary volume → amplitude changes. A tuning fork → nearly pure sine wave. A voice → complex waveform (harmonics). Students see that sound IS a wave.</p><p><strong>Worked examples (10 min):</strong> (1) Lowest audible note: f = 20 Hz, v = 340 m/s → λ = 17 m (the size of a room). (2) Highest: f = 20 kHz → λ = 1.7 cm. (3) Sound in water: v = 1480 m/s. A 1000 Hz tone → λ = 1.48 m (much longer than in air).</p><p><strong>Practice (5 min):</strong> Sound calculations and qualitative descriptions.</p>",
+          "engagementHook": {
+            "title": "THE BELL JAR — SOUND IN A VACUUM",
+            "content": "Place a buzzing phone (or small speaker) inside a bell jar. Pump out the air. The buzzing fades to silence — but the phone is still vibrating. \"Light travels through the vacuum (you can see it vibrating). Sound cannot (no medium to compress). This is why astronauts use radios, not shouting.\" Re-admit air and the sound returns instantly."
+          },
+          "nos": {
+            "tags": ["Observations", "Models"],
+            "description": "Robert Boyle first demonstrated the bell jar experiment in 1660, proving sound requires a medium. This was a direct test of a hypothesis — the epitome of experimental physics. Newton later predicted the speed of sound from air density and pressure (though his value was 15% off — Laplace corrected it by including adiabatic, not isothermal, compression)."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Describe sound as a longitudinal mechanical wave; state it requires a medium",
+            "AO2 — Calculate sound wavelength in different media; relate frequency to pitch and amplitude to loudness",
+            "AO3 — Analyse why sound speed varies between media using the particle model"
+          ],
+          "resources": "Bell jar + vacuum pump + buzzer/speaker, oscilloscope + microphone, tuning forks (various f), calculators",
+          "formative": "\"(a) Explain why sound cannot travel through a vacuum. (b) Sound travels at 340 m/s in air and 5100 m/s in steel. A 500 Hz tone: find λ in each. (c) Why is sound faster in steel than air? Explain using particle spacing and coupling. (d) A student claps 100 m from a wall. The echo returns in 0.59 s. Calculate the speed of sound.\""
+        },
+        {
+          "num": 2,
+          "title": "Electromagnetic Waves & Mechanical vs EM Comparison",
+          "focus": "The EM spectrum, wave properties, and what makes EM waves unique",
+          "minutes": 55,
+          "understandings": [
+            "Electromagnetic waves are transverse waves consisting of oscillating electric and magnetic fields perpendicular to each other and to the direction of propagation",
+            "EM waves do NOT require a medium — they travel through a vacuum at c = 3 × 10⁸ m/s",
+            "The EM spectrum (in order of decreasing wavelength / increasing frequency): radio, microwave, infrared, visible, ultraviolet, X-ray, gamma ray",
+            "All EM waves travel at the same speed c in vacuum; frequency and wavelength vary inversely (c = fλ)",
+            "Differences between mechanical waves (need medium, can be transverse or longitudinal) and EM waves (no medium needed, always transverse, travel at c in vacuum)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Right now, radio waves, Wi-Fi, infrared from your body, visible light, and UV from the Sun are ALL passing through this room simultaneously. They're all the same thing — electromagnetic waves — just at different frequencies.\" Show the EM spectrum poster/diagram.</p><p><strong>Direct instruction (20 min):</strong> EM waves: oscillating E and B fields, perpendicular to each other and to propagation direction. No medium needed — they travel through vacuum (that's how sunlight reaches Earth). All travel at c = 3 × 10⁸ m/s in vacuum. The spectrum: radio (λ ~ km, f ~ MHz), microwave (λ ~ cm), IR (λ ~ μm), visible (λ ~ 400-700 nm), UV (λ ~ 10-400 nm), X-ray (λ ~ nm), gamma (λ ~ pm). Higher frequency = higher energy per photon (preview E.1). Key comparison: Mechanical waves need a medium, can be transverse or longitudinal, speeds vary (340 to 5000 m/s). EM waves don't need a medium, always transverse, all travel at c in vacuum.</p><p><strong>Spectrum activity (15 min):</strong> Give students a blank spectrum template. They must: (a) label all 7 regions, (b) add approximate wavelength and frequency ranges, (c) add one application for each (radio: communication, microwave: cooking, IR: thermal imaging, visible: vision, UV: sterilisation, X-ray: medical imaging, gamma: cancer treatment). (d) Calculate f for λ = 550 nm (green light) and λ = 10 cm (microwave).</p><p><strong>Comparison table (10 min):</strong> Students build a table: Mechanical vs EM — medium?, types (T/L)?, speed?, examples. This comparison is a very common exam question.</p><p><strong>Practice (5 min):</strong> EM spectrum calculations and comparison questions.</p>",
+          "engagementHook": {
+            "title": "YOUR PHONE USES 5 PARTS OF THE EM SPECTRUM",
+            "content": "\"Your phone uses: radio waves (cellular signal), microwaves (Wi-Fi/Bluetooth), infrared (face recognition, remote controls), visible light (screen, camera), and it PROTECTS you from UV (screen coating). One device, five parts of the spectrum.\" Students list which EM waves they interact with daily. Then: \"All of these are the same thing — oscillating electric and magnetic fields. The ONLY difference is frequency.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Patterns", "Technology"],
+            "description": "James Clerk Maxwell predicted EM waves theoretically in 1865. Heinrich Hertz confirmed them experimentally in 1887. This is one of the greatest achievements in physics: a prediction from equations, verified by experiment, leading to radio, TV, radar, Wi-Fi, and all wireless communication. Theory → experiment → technology — the full scientific cycle."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Knowledgeable", "Communicator"],
+          "ao": [
+            "AO1 — Describe EM waves; list the EM spectrum in order; state differences between mechanical and EM waves",
+            "AO2 — Apply c = fλ across the EM spectrum",
+            "AO3 — Compare and contrast mechanical and electromagnetic waves systematically"
+          ],
+          "resources": "EM spectrum poster, prism (to split white light), phone (as spectrum example), blank spectrum template, calculators",
+          "formative": "\"(a) List the EM spectrum in order of increasing frequency. (b) Calculate the frequency of green light (λ = 530 nm). (c) Calculate the wavelength of a 2.4 GHz Wi-Fi signal. (d) Complete the table: Property | Mechanical wave | EM wave — for: medium required?, transverse/longitudinal?, speed in vacuum?, example. (e) Why can light from the Sun reach Earth but sound from the Sun cannot?\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "C.1 Simple Harmonic Motion", "question": "How is the oscillation of a single particle (SHM) related to the propagation of a wave through a medium?" },
+    { "topic": "C.3 Wave Phenomena", "question": "How do reflection, refraction, and diffraction depend on wavelength?" },
+    { "topic": "C.5 Doppler Effect", "question": "How does relative motion between source and observer change the observed frequency of a wave?" },
+    { "topic": "B.1 Thermal Energy Transfers", "question": "How does Wien's displacement law connect the peak wavelength of thermal radiation to the EM spectrum?" },
+    { "topic": "D.2 Electric & Magnetic Fields", "question": "How do oscillating electric and magnetic fields give rise to electromagnetic wave propagation?" },
+    { "topic": "IB Linking", "question": "What effect does a change in frequency or medium have on the wavelength of a travelling wave?" }
+  ]
+},
+"C3": {
+  "title": "Wave Phenomena",
+  "code": "C.3",
+  "theme": "C",
+  "level": "SL + HL",
+  "recommendedHours": 11,
+  "recommendedMinutes": 660,
+  "guidingQuestions": [
+    "How are observations of wave behaviours at a boundary between different media explained?",
+    "How is the behaviour of waves passing through apertures represented?",
+    "What happens when two waves meet at a point in space?"
+  ],
+  "groups": [
+    {
+      "name": "Wave Behaviour at Boundaries (SL)",
+      "color": "accent3",
+      "totalMinutes": 130,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Wavefronts, Rays & Reflection",
+          "focus": "Describing waves in 2D/3D and the law of reflection",
+          "minutes": 40,
+          "understandings": [
+            "Waves travelling in two and three dimensions can be described through wavefronts (surfaces of constant phase) and rays (perpendicular to wavefronts, showing direction of propagation)",
+            "Wave behaviour at boundaries: reflection — the wave bounces back from the boundary",
+            "Law of reflection: angle of incidence = angle of reflection (measured from the normal)",
+            "Sketch incident, reflected and transmitted wavefronts/rays between media"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Ripple tank demo: generate circular waves from a point source. Students observe wavefronts (circles expanding outward) and can draw rays (radial lines). Place a flat barrier — waves reflect. The reflected wavefronts appear to come from a mirror-image source behind the barrier.</p><p><strong>Direct instruction (15 min):</strong> Define wavefronts: lines joining points of equal phase (like crests). Rays: arrows perpendicular to wavefronts showing propagation direction. Plane waves: straight wavefronts, parallel rays. Circular waves: curved wavefronts, radial rays. At a flat boundary: reflection — angle of incidence = angle of reflection. Draw the normal, label angles. Wavefronts reverse direction; the spacing (wavelength) stays the same.</p><p><strong>Demo (10 min):</strong> Laser + mirror: show reflection with visible beam path (use chalk dust or fog). Measure angles with a protractor on the whiteboard. Verify θᵢ = θᵣ for several angles. Show: curved mirror focuses parallel rays to a point (converging) or spreads them (diverging).</p><p><strong>Practice (10 min):</strong> Draw wavefronts and rays for: plane waves hitting a flat mirror, circular waves hitting a straight barrier. Verify angle of reflection from diagrams.</p>",
+          "engagementHook": {
+            "title": "THE RIPPLE TANK — WAVES YOU CAN SEE",
+            "content": "A ripple tank makes wave behaviour visible. Students watch circular wavefronts expand, reflect off barriers, and pass through gaps. \"This is exactly what light, sound, and water all do — but water lets you SEE it.\" The entire topic of wave phenomena can be previewed in 5 minutes of ripple tank observation."
+          },
+          "nos": {
+            "tags": ["Models", "Observations"],
+            "description": "The wavefront-ray model is a visual simplification — it collapses a continuous wave into discrete lines and arrows. The ray model works well when wavelength is much smaller than the objects involved (geometric optics). When wavelength is comparable to object size, the ray model fails and diffraction dominates."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Communicator", "Inquirer"],
+          "ao": [
+            "AO1 — Define wavefronts and rays; state the law of reflection",
+            "AO2 — Sketch wavefronts and rays for reflected waves"
+          ],
+          "resources": "Ripple tank, laser + mirror + protractor, chalk dust/fog for beam visibility, whiteboard",
+          "formative": "\"(a) Draw plane wavefronts approaching a flat mirror at 40° to the normal. Sketch the reflected wavefronts and rays. (b) A circular wavefront reflects from a flat barrier. Where does the reflected wave appear to originate from? (c) Why do wavefronts remain the same spacing after reflection?\""
+        },
+        {
+          "num": 2,
+          "title": "Refraction & Snell's Law",
+          "focus": "n₁ sinθ₁ = n₂ sinθ₂ — why waves bend when they change speed",
+          "minutes": 50,
+          "understandings": [
+            "Refraction: a wave changes direction when it crosses a boundary into a medium where its speed is different",
+            "Snell's law: n₁ sinθ₁ = n₂ sinθ₂, where n is the refractive index of the medium",
+            "Refractive index n = c/v (ratio of speed of light in vacuum to speed in the medium)",
+            "When a wave enters a denser medium (higher n): it slows down, wavelength decreases, and it bends TOWARD the normal",
+            "Frequency does NOT change during refraction — it's set by the source"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Place a pencil in a glass of water. It appears bent at the surface. \"The pencil isn't broken — light changes direction at the water surface. Why?\" Because light travels slower in water than air.</p><p><strong>Direct instruction (15 min):</strong> Define refractive index: n = c/v. Air: n ≈ 1. Water: n = 1.33. Glass: n ≈ 1.5. Diamond: n = 2.42. When light enters a medium with higher n: speed decreases, wavelength decreases (v = fλ, f stays same), ray bends toward the normal. Snell's law: n₁ sinθ₁ = n₂ sinθ₂. Derive from wavefronts: draw the wavefront hitting the boundary at an angle — one end slows first, causing the wavefront to rotate. The geometry gives Snell's law.</p><p><strong>Lab (15 min):</strong> SNELL'S LAW VERIFICATION — Shine a light ray through a semicircular glass block. Measure θ₁ (in air) and θ₂ (in glass) for 5 different angles. Plot sinθ₁ vs sinθ₂ → straight line, gradient = n_glass. Compare with the accepted value.</p><p><strong>Worked examples (10 min):</strong> (1) Light from air (n = 1) enters water (n = 1.33) at 45°. Find θ₂. (2) Light in glass (n = 1.5) enters air. θ₁ = 30°. Find θ₂. (3) Speed of light in diamond: v = c/n = 3 × 10⁸/2.42 = 1.24 × 10⁸ m/s.</p><p><strong>Practice (5 min):</strong> Snell's law calculations.</p>",
+          "engagementHook": {
+            "title": "THE BENT PENCIL & THE SWIMMING POOL ILLUSION",
+            "content": "\"A swimming pool always looks shallower than it is. A coin at the bottom appears closer to the surface. Why?\" Light refracts away from the normal when leaving water → the image appears higher. Students calculate: pool depth 2 m, apparent depth = real depth / n = 2/1.33 = 1.5 m. \"You're seeing 0.5 m of invisible water. This is why you should never dive into an unfamiliar pool.\""
+          },
+          "nos": {
+            "tags": ["Measurements", "Theories", "Patterns"],
+            "description": "Willebrord Snell discovered the law of refraction empirically in 1621. Descartes independently derived it theoretically. The agreement between experiment and theory was a triumph. Later, the wave theory explained WHY refraction occurs (speed changes) — a deeper understanding replacing the empirical rule."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — State Snell's law; define refractive index",
+            "AO2 — Apply n₁ sinθ₁ = n₂ sinθ₂; calculate n from speed data",
+            "AO3 — Analyse why waves bend and verify Snell's law experimentally"
+          ],
+          "resources": "Semicircular glass block, ray box or laser, protractor, graph paper, glass of water + pencil",
+          "formative": "\"Light enters a glass block (n = 1.52) from air at 50°. (a) Find the angle of refraction. (b) Find the speed of light in the glass. (c) Does the wavelength change? Does the frequency change? Explain. (d) Plot your lab data: sinθ₁ vs sinθ₂. Find n from the gradient.\""
+        },
+        {
+          "num": 3,
+          "title": "Total Internal Reflection & Critical Angle",
+          "focus": "When refraction fails and all light reflects — fibre optics and diamonds",
+          "minutes": 40,
+          "understandings": [
+            "Total internal reflection (TIR) occurs when light in a denser medium hits the boundary at an angle greater than the critical angle",
+            "Critical angle θ_c: the angle of incidence that gives an angle of refraction of 90° → sinθ_c = n₂/n₁ (where n₁ > n₂)",
+            "For θ > θ_c: no refracted ray — all light is reflected internally",
+            "Applications: optical fibres (telecommunications), endoscopes (medical), diamond sparkle, prisms in binoculars"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Shine a laser into a semicircular glass block from the flat side. Slowly increase the angle. At first: refracted ray exits. At the critical angle: refracted ray runs along the surface (θ₂ = 90°). Beyond: the ray reflects completely — total internal reflection. \"The glass becomes a perfect mirror.\"</p><p><strong>Direct instruction (10 min):</strong> At θ_c: sinθ_c = n₂/n₁. For glass-air: sinθ_c = 1/1.5 → θ_c = 41.8°. For water-air: sinθ_c = 1/1.33 → θ_c = 48.8°. For diamond-air: sinθ_c = 1/2.42 → θ_c = 24.4° — diamond has a very small critical angle, so light bounces around inside many times → sparkle. TIR only occurs going from higher n to lower n (dense → less dense).</p><p><strong>Applications (10 min):</strong> Optical fibres: light enters at an angle exceeding θ_c → bounces along the fibre with no loss. This carries internet data at the speed of light over thousands of km. Endoscopes: fibre bundles carry images inside the body for surgery without large incisions. Diamonds: cut to maximise TIR → light enters and bounces internally before exiting → brilliance.</p><p><strong>Lab + Practice (15 min):</strong> Measure θ_c for the glass block: find the angle where the refracted ray just disappears. Calculate n from θ_c. Compare with the n from Snell's law lab. Then 3 calculation problems.</p>",
+          "engagementHook": {
+            "title": "WHY DIAMONDS SPARKLE & THE INTERNET RUNS ON GLASS",
+            "content": "\"A diamond's critical angle is only 24.4°. Light that enters bounces around inside — hitting surface after surface at angles > θ_c — before finally escaping. Each bounce adds sparkle. Cut the diamond at wrong angles → dull.\" Then: \"The internet is 99% optical fibre. Your Netflix stream travels as light bouncing inside glass threads thinner than a hair, across the Atlantic Ocean. Total internal reflection makes it possible.\""
+          },
+          "nos": {
+            "tags": ["Technology", "Observations", "Patterns"],
+            "description": "TIR was discovered by Kepler (1611) but not understood until the wave theory of light. Its applications in fibre optics have transformed global communication — physics enabling the information age. Charles Kao won the 2009 Nobel Prize for his work on optical fibres."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Knowledgeable", "Thinker"],
+          "ao": [
+            "AO1 — Define critical angle and TIR; state sinθ_c = n₂/n₁",
+            "AO2 — Calculate θ_c; determine whether TIR occurs for a given angle",
+            "AO3 — Analyse applications of TIR in technology"
+          ],
+          "resources": "Semicircular glass block, laser, protractor, optical fibre (if available), diamond image",
+          "formative": "\"(a) Calculate θ_c for glass-water (n_glass = 1.5, n_water = 1.33). (b) A ray in the glass hits the boundary at 50°. Does TIR occur for glass-air? For glass-water? (c) Explain why optical fibres must be clad in a material with LOWER n than the core. (d) A diamond cutter shapes a diamond so that light entering the top surface always hits internal surfaces at > 24.4°. Explain why this maximises brilliance.\""
+        }
+      ]
+    },
+    {
+      "name": "Diffraction, Superposition & Young's Experiment (SL)",
+      "color": "accent4",
+      "totalMinutes": 170,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Diffraction Through Apertures & Around Objects",
+          "focus": "Waves spreading after passing through gaps or around obstacles",
+          "minutes": 40,
+          "understandings": [
+            "Diffraction: the spreading of a wave as it passes through an aperture or around an obstacle",
+            "Maximum diffraction occurs when the aperture width ≈ wavelength (aperture ≈ λ)",
+            "If aperture >> λ: minimal diffraction (ray model works). If aperture << λ: wave spreads almost uniformly in all directions",
+            "Diffraction explains why you can hear around corners (sound λ ≈ door width) but can't see around corners (light λ << door width)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"You can hear someone talking in the next room through an open door, but you can't see them (unless you look through the doorway). Both sound and light are waves. Why does sound bend around the corner but light doesn't?\" Because sound λ (0.3–17 m) ≈ door width, but light λ (400–700 nm) << door width. Diffraction depends on λ/aperture.</p><p><strong>Direct instruction (10 min):</strong> Diffraction = spreading of waves. Maximum when gap ≈ λ. Ripple tank: show water waves passing through gaps of different widths. Wide gap: waves pass straight through (like rays). Gap ≈ λ: waves spread in semicircles. Around a barrier: waves curve around the edges. Sketch wavefronts for each case.</p><p><strong>Demo (15 min):</strong> (1) Ripple tank with adjustable slit: vary gap width, observe diffraction amount. (2) Laser through a single narrow slit: the beam SPREADS into a wide pattern on the wall (not a point). \"If light were just particles, it would pass through the slit and make a narrow line. The spreading proves light is a wave.\" (3) Sound diffraction: stand behind a wall and listen to a speaker — you can hear it because sound diffracts around the wall.</p><p><strong>Practice (10 min):</strong> Sketch diffraction patterns for various aperture/λ ratios. Explain everyday diffraction examples.</p>",
+          "engagementHook": {
+            "title": "WHY CAN YOU HEAR BUT NOT SEE AROUND CORNERS?",
+            "content": "\"Sound wavelength: ~1 m. Door width: ~1 m. Ratio ≈ 1 → maximum diffraction → sound bends around the door. Light wavelength: ~500 nm. Door width: ~1 m. Ratio ≈ 2 × 10⁻⁶ → almost zero diffraction → light goes straight.\" Students calculate the ratio for both. The factor of a million explains why one bends and the other doesn't."
+          },
+          "nos": {
+            "tags": ["Observations", "Models"],
+            "description": "Diffraction was first observed by Francesco Grimaldi (1665) and was a key argument for the wave nature of light. Newton's particle model couldn't explain spreading — waves could. This debate (wave vs particle) ran for 150 years until Young's double slit experiment settled it (temporarily — quantum mechanics reopened it)."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Define diffraction; state when it's maximum",
+            "AO2 — Sketch diffraction patterns for various aperture/λ ratios"
+          ],
+          "resources": "Ripple tank with adjustable slit, laser + single slit, speaker + wall, whiteboard",
+          "formative": "\"(a) Sound (λ = 1.5 m) passes through a 1 m doorway. Sketch the diffraction pattern. (b) Light (λ = 500 nm) passes through the same doorway. Sketch. (c) What aperture size would produce significant diffraction for light? (d) Why don't AM radio waves (λ ~ 300 m) cast sharp shadows behind buildings?\""
+        },
+        {
+          "num": 2,
+          "title": "Superposition & Interference Conditions",
+          "focus": "When two waves meet — constructive and destructive interference",
+          "minutes": 55,
+          "understandings": [
+            "Superposition: when two waves meet, the resultant displacement is the sum of the individual displacements",
+            "Constructive interference: waves in phase → amplitudes add → maximum resultant (path difference = nλ)",
+            "Destructive interference: waves in antiphase → amplitudes cancel → zero resultant (path difference = (n+½)λ)",
+            "Conditions for observable interference: coherent sources (same f, constant phase difference), similar amplitudes",
+            "Path difference determines whether interference is constructive or destructive at any point"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Drop two stones into a ripple tank simultaneously. Where the circular wavefronts overlap: some points have large waves (constructive), some have calm water (destructive). \"Two waves + one point = one resultant. The waves ADD — this is superposition.\"</p><p><strong>Direct instruction (15 min):</strong> Superposition principle: y_total = y₁ + y₂ at every point. Constructive: crests align with crests → amplitude doubles. Path difference = 0, λ, 2λ, … = nλ. Destructive: crests align with troughs → cancellation. Path difference = λ/2, 3λ/2, … = (n+½)λ. For a stable interference pattern: sources must be coherent (same f, constant phase relationship). Two different-frequency sources: the pattern shifts constantly → no visible pattern.</p><p><strong>Demo (10 min):</strong> Two speakers, same signal, same frequency. Walk across the room: loud spots (constructive) alternate with quiet spots (destructive). Students map the positions. \"You're walking through an interference pattern made of SOUND.\"</p><p><strong>Worked examples (15 min):</strong> (1) Two sources, same f. At point P: distance from source 1 = 3.5λ, from source 2 = 5.0λ. Path difference = 1.5λ = (1+½)λ → destructive. (2) Path difference = 4λ → constructive. (3) Two speakers 2 m apart, f = 1700 Hz (λ = 0.2 m). At a point 5 m away along the centreline, then 0.3 m to the side: calculate path difference and determine constructive or destructive.</p><p><strong>Practice (10 min):</strong> Path difference problems and interference classification.</p>",
+          "engagementHook": {
+            "title": "THE SILENT SPOT — WALKING THROUGH SOUND INTERFERENCE",
+            "content": "Two speakers face the class, playing the same pure tone. Students walk from side to side and find SILENT SPOTS between LOUD SPOTS. \"The sound isn't missing — two waves are arriving at that point and cancelling each other perfectly. Move 20 cm and they reinforce.\" Mark the positions on the floor. Calculate the expected spacing from λ and speaker separation. Prediction matches reality."
+          },
+          "nos": {
+            "tags": ["Observations", "Theories", "Patterns"],
+            "description": "Interference was the decisive evidence for the wave nature of light. Only waves can cancel — particles can't. The requirement for coherent sources wasn't understood until Young's experiment (1801). Before lasers, coherent light was extremely difficult to produce, limiting interference experiments."
+          },
+          "atl": ["Thinking skills", "Social skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — State superposition principle; define constructive/destructive interference; state conditions for coherent sources",
+            "AO2 — Calculate path difference and classify interference type",
+            "AO3 — Analyse two-source interference patterns"
+          ],
+          "resources": "Ripple tank (two dippers), two speakers + signal generator, metre ruler, calculator",
+          "formative": "\"Two coherent sources emit waves of λ = 0.04 m. Point P is 0.56 m from source 1 and 0.50 m from source 2. (a) Calculate path difference. (b) Is interference constructive or destructive? (c) Point Q is 0.52 m from source 1 and 0.50 m from source 2. Classify. (d) What is the minimum path difference for destructive interference?\""
+        },
+        {
+          "num": 3,
+          "title": "Young's Double Slit Experiment — s = λD/d",
+          "focus": "The experiment that proved light is a wave",
+          "minutes": 75,
+          "understandings": [
+            "Young's double slit experiment: monochromatic light through two narrow slits produces an interference pattern of bright and dark fringes on a screen",
+            "The significance: this experiment demonstrated the wave nature of light (1801)",
+            "Fringe spacing: s = λD/d, where s is fringe separation, D is slit-to-screen distance, d is slit separation",
+            "Constructive fringes (bright): path difference = nλ. Destructive fringes (dark): path difference = (n+½)λ",
+            "Conditions: coherent sources (same slit illuminated by monochromatic light), similar amplitudes"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"In 1801, Thomas Young performed the most important experiment in the history of optics. He shone light through two thin slits and saw bright and dark bands — an interference pattern. Newton's particle theory couldn't explain this. Waves could. This settled the debate.\" Show a photograph of the double slit pattern.</p><p><strong>Direct instruction (20 min):</strong> Set up: monochromatic light → single slit (to create coherence) → double slit (separation d) → screen (distance D). Each slit acts as a coherent source. At the screen: light from both slits arrives. At some points: path difference = nλ → constructive → bright. At others: path difference = (n+½)λ → destructive → dark. Derive s = λD/d from geometry: for small angles, path difference ≈ d sinθ ≈ dy/D. For constructive: dy/D = nλ → y_n = nλD/d. Fringe spacing: s = y_{n+1} − y_n = λD/d. Wider spacing (larger s) if: longer λ, larger D, or smaller d.</p><p><strong>Lab (25 min):</strong> YOUNG'S DOUBLE SLIT — Use a laser and a double slit (or fine scratches on a blackened glass slide). Measure s (fringe spacing), D (slit-to-screen), and d (slit separation, provided or measured with travelling microscope). Calculate λ = sd/D. Compare with the known laser wavelength. Discuss sources of error: difficulty measuring d, non-uniform fringe brightness, diffraction envelope.</p><p><strong>Worked examples (15 min):</strong> (1) λ = 632 nm, d = 0.2 mm, D = 2 m → s = 6.32 mm. (2) White light double slit: each colour has different λ → different s → coloured fringes. Central fringe is white (all colours constructive). (3) If D doubles, s doubles. If d halves, s doubles. Students verify these dependencies.</p><p><strong>Practice (10 min):</strong> s = λD/d calculations and conceptual questions about changing parameters.</p>",
+          "engagementHook": {
+            "title": "THE EXPERIMENT THAT KILLED NEWTON'S THEORY",
+            "content": "\"Newton said light is particles. Young said light is waves. In 1801, Young shone light through two slits and saw bands of brightness and darkness — an interference pattern. Particles can't cancel each other. Waves can. Newton was wrong (about this). One elegant experiment overturned 100 years of physics.\" Students perform Young's experiment themselves with a laser — seeing the fringes with their own eyes."
+          },
+          "nos": {
+            "tags": ["Theories", "Observations", "Falsification"],
+            "description": "Young's experiment is one of the most celebrated in physics. It falsified Newton's corpuscular (particle) theory of light and established the wave theory. But 100 years later, Einstein showed light IS also particles (photons) — wave-particle duality. Science doesn't just replace theories; it synthesises them."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe Young's experiment; state s = λD/d; state its significance",
+            "AO2 — Apply s = λD/d to calculate fringe spacing; determine λ from experimental data",
+            "AO3 — Analyse how changing λ, D, d affects the pattern"
+          ],
+          "resources": "Laser (red or green), double slit (various d), screen, ruler, travelling microscope (if available for d measurement), calculator",
+          "formative": "\"A red laser (λ = 633 nm) passes through a double slit (d = 0.25 mm) onto a screen 3 m away. (a) Calculate fringe spacing. (b) If replaced with a blue laser (λ = 450 nm), will fringes be closer or further apart? Calculate. (c) If d is halved, what happens to s? (d) Why must the two slits be illuminated by the SAME source for interference to be observed? (e) State the significance of Young's experiment.\""
+        }
+      ]
+    },
+    {
+      "name": "Single Slit Diffraction (AHL)",
+      "color": "accent",
+      "totalMinutes": 180,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Single Slit Diffraction Pattern & First Minimum (AHL)",
+          "focus": "θ = λ/b — why a single slit produces a central maximum with subsidiary fringes",
+          "minutes": 65,
+          "understandings": [
+            "Single slit diffraction at normal incidence produces a central maximum with subsidiary maxima and minima on either side",
+            "The central maximum is twice the width of subsidiary maxima",
+            "Position of the first minimum: sinθ = λ/b, where b is slit width",
+            "Narrower slit → wider diffraction pattern (more spreading). If b >> λ: minimal diffraction",
+            "The diffraction pattern is an intensity distribution (not sharp bright/dark like double slit)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Shine a laser through a single narrow slit. On the screen: not a dot, not a sharp line, but a broad central bright band with fainter bands on either side. \"If light were just particles, there'd be a sharp image of the slit. The spreading and the pattern prove it's a wave.\"</p><p><strong>Direct instruction (20 min):</strong> The single slit acts as a continuous source of secondary wavelets (Huygens' principle). At the centre: all wavelets arrive in phase → maximum intensity. At angle θ where sinθ = λ/b: wavelets from the top and middle of the slit have a path difference of λ/2 → destructive. Every point in the top half is cancelled by its partner in the bottom half → first minimum. Central maximum width = 2λ/b (in angular terms). Narrower slit → wider pattern (more spreading). Draw the intensity distribution: broad central peak, subsidiary peaks decreasing rapidly.</p><p><strong>Lab (20 min):</strong> SINGLE SLIT PATTERN — Shine a laser through slits of different widths (0.1, 0.2, 0.5 mm). For each: measure the width of the central maximum on the screen at known D. Calculate λ from sinθ = λ/b. Observe: narrower slit → wider pattern.</p><p><strong>Worked examples (15 min):</strong> (1) Slit b = 0.1 mm, λ = 633 nm, D = 2 m. Position of first minimum: y = λD/b = 12.7 mm. Central maximum width = 25.4 mm. (2) If b is doubled: pattern halves in width. (3) Width of central max for b = 0.05 mm?</p><p><strong>Practice (5 min):</strong> Single slit calculations and pattern sketching.</p>",
+          "engagementHook": {
+            "title": "THE PARADOX — SMALLER SLIT, BIGGER PATTERN",
+            "content": "\"Make the slit narrower. Does the light pattern get narrower?\" Students expect yes. \"NO — it gets WIDER. The narrower the slit, the MORE the light spreads.\" Demo with decreasing slit widths — the central maximum visibly grows. \"This is the opposite of what particles would do. Diffraction is definitively a wave phenomenon.\""
+          },
+          "nos": {
+            "tags": ["Observations", "Theories"],
+            "description": "Single slit diffraction was explained by Augustin Fresnel using Huygens' wavelets — each point in the slit acts as a source. This wave model predicts the exact pattern, including the widths and intensities of all fringes. Fresnel's theory won him the 1819 Grand Prix of the French Academy, despite fierce opposition from particle-theory supporters."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — Describe single slit diffraction; state sinθ = λ/b for first minimum",
+            "AO2 — Calculate position of first minimum and central maximum width",
+            "AO3 — Analyse how changing b and λ affects the diffraction pattern"
+          ],
+          "resources": "Laser, single slits (various b), screen, ruler, calculator",
+          "formative": "\"λ = 500 nm through a 0.15 mm slit onto a screen 3 m away. (a) Angular position of first minimum. (b) Position on screen. (c) Central maximum width. (d) The slit is narrowed to 0.05 mm. What happens to the pattern? Calculate the new central width. (e) Sketch the intensity distribution.\""
+        },
+        {
+          "num": 2,
+          "title": "Double Slit Modulated by Single Slit Envelope (AHL)",
+          "focus": "The real double slit pattern — interference fringes inside a diffraction envelope",
+          "minutes": 60,
+          "understandings": [
+            "The real double slit pattern is a combination of: double slit INTERFERENCE (fine fringes, spacing s = λD/d) modulated by single slit DIFFRACTION (broad envelope, width = 2λD/b)",
+            "The double slit fringes are visible WITHIN the single slit envelope",
+            "Where the single slit envelope has a minimum, the double slit fringes disappear ('missing orders')",
+            "Sketch and interpret intensity graphs showing both effects superimposed"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> At SL: double slit → uniform bright/dark fringes (idealised). At HL: each slit has width b → each slit INDIVIDUALLY produces a diffraction pattern. The two patterns then INTERFERE. Result: the double slit fringes are modulated by the single slit envelope. Draw: fine interference fringes (spacing s = λD/d) inside a broad diffraction envelope (central width = 2λD/b). Where the envelope is zero (single slit minimum): no light → fringes disappear. These are 'missing orders.'</p><p><strong>Demo (10 min):</strong> Show a real double slit pattern with a laser. Compare with a single slit pattern from one slit of the same width. The double slit has the same overall shape (envelope) but with fine fringes inside. \"The envelope tells you about each individual slit. The fringes tell you about the spacing between slits.\"</p><p><strong>Intensity graph analysis (15 min):</strong> Give students a printed intensity graph. Identify: the diffraction envelope (broad peaks), the interference fringes (fine peaks), missing orders (where envelope = 0). Measure: fringe spacing (gives d), envelope width (gives b). \"You can measure BOTH slit width and slit separation from the same pattern.\"</p><p><strong>Worked examples (10 min):</strong> (1) d = 0.5 mm, b = 0.1 mm. Fringes per central maximum = d/b = 5 → expect ~9 visible fringes (central ± 4). (2) If d = 0.25 mm, b = 0.05 mm → d/b = 5, same ratio → same number. (3) If b decreases (narrower slits): envelope widens → more fringes visible.</p><p><strong>Practice (10 min):</strong> Sketch modulated patterns and count fringes within the central maximum.</p>",
+          "engagementHook": {
+            "title": "THE FINGERPRINT WITHIN THE ENVELOPE",
+            "content": "\"The broad shape is the diffraction envelope — it depends on slit WIDTH b. The fine fringes are the interference pattern — they depend on slit SEPARATION d. One pattern carries TWO pieces of information. It's like seeing fingerprints (fine detail) inside a handprint (broad shape).\" Students identify both in a real laser pattern."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "The modulated pattern shows how two independent phenomena (diffraction from individual slits + interference between slits) combine mathematically through multiplication of amplitudes. This superposition of effects is a recurring theme: complex phenomena often result from the combination of simpler ones."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Communicator"],
+          "ao": [
+            "AO1 — Describe the modulated double slit pattern",
+            "AO2 — Distinguish slit width effects (envelope) from slit separation effects (fringes)",
+            "AO3 — Analyse intensity graphs to extract b and d; identify missing orders"
+          ],
+          "resources": "Laser, double slit (known d and b), screen, printed intensity graphs for analysis",
+          "formative": "\"A double slit: d = 0.4 mm, b = 0.1 mm, λ = 600 nm. (a) Calculate the interference fringe spacing s = λD/d. (b) Calculate the width of the central diffraction envelope = 2λD/b. (c) How many bright fringes are visible within the central maximum? (d) Sketch the intensity pattern. (e) What happens to the pattern if the slit width b is halved but d stays the same?\""
+        },
+        {
+          "num": 3,
+          "title": "Intensity Graphs & Slit Width vs Separation (AHL)",
+          "focus": "How changing b and d independently affects the pattern",
+          "minutes": 55,
+          "understandings": [
+            "Slit width b controls the diffraction ENVELOPE (broader b → narrower envelope; narrower b → wider envelope)",
+            "Slit separation d controls the FRINGE spacing (larger d → closer fringes; smaller d → wider fringes)",
+            "Width of slits and separation of slits have independent, distinguishable effects on intensity graphs",
+            "Sketch and interpret intensity graphs for various b and d combinations"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> Systematic comparison: (a) Fix d, vary b: changing b changes the envelope width but NOT the fringe spacing. Narrower b → wider envelope → more fringes visible. (b) Fix b, vary d: changing d changes fringe spacing but NOT the envelope. Larger d → closer fringes (more fringes in the same envelope). (c) Change both: both effects change independently. Students must learn to read BOTH from a single graph.</p><p><strong>Graph comparison activity (20 min):</strong> Give 6 intensity graphs with different b and d values. Students rank by: (a) which has the narrowest slit? (widest envelope), (b) which has the largest separation? (closest fringes), (c) which has the most fringes in the central maximum? (largest d/b ratio). Then match each graph to a given set of (b, d) values.</p><p><strong>Worked examples (15 min):</strong> (1) Graph A has envelope width 24 mm and fringe spacing 3 mm → 8 fringes in central max → d/b = 4. If λ = 600 nm and D = 2 m: b = 2λD/envelope = 0.1 mm, d = λD/s = 0.4 mm. Verify d/b = 4. (2) Graph B has a narrower envelope and wider fringes: larger b and smaller d. Students extract numerical values.</p><p><strong>Practice (10 min):</strong> Exam-style: given an intensity graph, extract b, d, λ, and number of fringes.</p>",
+          "engagementHook": {
+            "title": "CSI OPTICS — READING THE CLUES IN THE PATTERN",
+            "content": "\"A detective finds a diffraction pattern at a crime scene (from light passing through evidence). From the pattern alone, can she determine both the slit width AND the slit separation?\" YES. Envelope width → b. Fringe spacing → d. Students become forensic physicists: given 4 unknown patterns, they calculate b and d for each and 'identify the evidence.'"
+          },
+          "nos": {
+            "tags": ["Patterns", "Models", "Measurements"],
+            "description": "The ability to extract TWO independent physical quantities (b and d) from a single measurement (the intensity pattern) is a powerful example of how physics uses patterns. X-ray crystallography works similarly: the diffraction pattern of X-rays through a crystal reveals the atomic spacing and arrangement."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Distinguish slit width effects from slit separation effects on intensity",
+            "AO2 — Extract b and d from intensity graph measurements",
+            "AO3 — Analyse how independently changing b and d affects the observed pattern"
+          ],
+          "resources": "6 printed intensity graphs (various b, d), rulers, calculators, CSI activity cards",
+          "formative": "\"Two intensity graphs are given. Graph X has envelope width 30 mm and fringe spacing 5 mm. Graph Y has envelope width 15 mm and fringe spacing 2.5 mm. Both use the same λ and D. (a) Which has the narrower slits? (b) Which has the larger slit separation? (c) Both have the same number of fringes in the central max. Why? (d) Calculate b and d for each if λ = 500 nm and D = 1.5 m.\""
+        }
+      ]
+    },
+    {
+      "name": "Diffraction Gratings (AHL)",
+      "color": "accent2",
+      "totalMinutes": 180,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Multiple Slits & Diffraction Gratings — nλ = d sinθ (AHL)",
+          "focus": "From 2 slits to N slits — sharper maxima and the grating equation",
+          "minutes": 75,
+          "understandings": [
+            "Multiple slits (N > 2) create interference patterns with sharper, brighter principal maxima",
+            "More slits → narrower maxima → better resolution",
+            "Diffraction gratings: large N (thousands per mm) produce very sharp maxima at specific angles",
+            "Grating equation: nλ = d sinθ, where n is the order number (0, 1, 2, ...) and d is the slit spacing",
+            "Maximum number of orders: n_max is the largest integer where sinθ ≤ 1, i.e., n_max = floor(d/λ)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Show the pattern from a laser through a diffraction grating — sharp, bright dots instead of the fuzzy fringes from a double slit. \"More slits = sharper peaks. A grating has thousands of slits per millimetre.\"</p><p><strong>Direct instruction (20 min):</strong> From 2 slits → N slits: as N increases, principal maxima become narrower and brighter (intensity ∝ N²), secondary maxima become negligible. A diffraction grating (N ~ 1000–10,000 per mm): extremely sharp maxima at angles satisfying nλ = d sinθ. d = 1/N (slit spacing = inverse of slits per unit length). Order n = 0: θ = 0 (central). n = 1: sinθ = λ/d. n = 2: sinθ = 2λ/d. Maximum order: when sinθ = 1 → n_max = d/λ. Draw the pattern: sharp dots at calculated angles.</p><p><strong>Lab (25 min):</strong> GRATING EXPERIMENT — Shine a laser through a diffraction grating (e.g., 300 lines/mm → d = 3.33 μm). Measure the angle to each order using tan θ = y/D. Calculate λ from nλ = d sinθ for n = 1, 2, 3. Average. Compare with known λ. This is one of the most accurate λ measurements possible in a school lab.</p><p><strong>Worked examples (15 min):</strong> (1) Grating: 500 lines/mm, λ = 550 nm. d = 2 μm. θ for n = 1: sinθ = 550 × 10⁻⁹ / 2 × 10⁻⁶ = 0.275 → θ = 16.0°. (2) Maximum order: n_max = d/λ = 2000/550 = 3.6 → n_max = 3. (3) White light through a grating: each colour diffracts at a different angle → spectrum. Violet (short λ) diffracts least, red (long λ) diffracts most.</p><p><strong>Practice (10 min):</strong> Grating calculations and maximum order determination.</p>",
+          "engagementHook": {
+            "title": "THE CD RAINBOW — A DIFFRACTION GRATING IN YOUR HAND",
+            "content": "Hold a CD under white light. Rainbow colours appear — the grooves on the CD act as a reflection diffraction grating. Students estimate the groove spacing: the first-order rainbow appears at ~30° for green (550 nm) → d = λ/sinθ = 550/sin30° = 1100 nm ≈ 1.1 μm. \"The CD has ~910 tracks per mm. You just measured it with your eyes and a protractor.\""
+          },
+          "nos": {
+            "tags": ["Measurements", "Technology", "Patterns"],
+            "description": "Diffraction gratings are one of the most important tools in physics: they measure wavelengths with extraordinary precision. Joseph von Fraunhofer (1821) built the first precise gratings and used them to discover dark lines in the solar spectrum — absorption lines from elements in the Sun's atmosphere. This launched astrophysical spectroscopy."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State the grating equation nλ = d sinθ; explain why more slits give sharper maxima",
+            "AO2 — Apply nλ = d sinθ to calculate θ, λ, d, or n; find maximum order",
+            "AO3 — Analyse grating patterns to determine wavelengths"
+          ],
+          "resources": "Diffraction grating (various lines/mm), laser, screen, protractor or ruler for angle measurement, CD, white light source",
+          "formative": "\"A grating has 600 lines/mm. (a) Calculate d. (b) For λ = 480 nm: find θ for orders 1, 2, 3. (c) What is the maximum order visible? (d) White light (400–700 nm) passes through. For n = 1: find the angular range of the spectrum. Do the spectra for n = 1 and n = 2 overlap? (e) Why are grating maxima sharper than double slit fringes?\""
+        },
+        {
+          "num": 2,
+          "title": "Spectrometry & Advanced Diffraction Problem Solving (AHL)",
+          "focus": "Applications of gratings and synthesis of all wave phenomena",
+          "minutes": 75,
+          "understandings": [
+            "Diffraction gratings are used in spectrometers to analyse the wavelength composition of light",
+            "Applications: identifying elements from emission spectra, measuring stellar composition, analysing laser wavelengths",
+            "Resolving power: a grating with more lines can distinguish closer wavelengths (better resolution)",
+            "Combining all wave phenomena: reflection, refraction, diffraction, interference in complex problems"
+          ],
+          "teachingStrategy": "<p><strong>Spectroscopy application (15 min):</strong> Show the emission spectra of hydrogen, helium, sodium through a grating. Each element produces a unique pattern of wavelengths — a 'fingerprint.' Astronomers use this to determine what stars are made of (preview E.1). Students observe: the grating separates the colours into distinct lines at calculated angles. Measure one spectral line's angle → calculate its wavelength → identify the element.</p><p><strong>Resolution discussion (10 min):</strong> \"Can a grating tell the difference between two wavelengths that are very close?\" More lines → narrower maxima → can resolve closer wavelengths. This is why astronomical spectrometers use gratings with 100,000+ lines. A grating's resolving power R = nN (order × number of slits). Students calculate: 1000-line grating in 2nd order: R = 2000 → can distinguish wavelengths differing by Δλ = λ/R.</p><p><strong>Synthesis problems (30 min):</strong> Groups tackle multi-concept problems: (1) Light passes through a glass prism then through a grating — combine refraction + diffraction. (2) White light through a double slit: describe the pattern (central white, coloured fringes, overlapping orders). (3) A fibre optic (TIR) carries laser light to a grating for wavelength analysis — trace the light through the entire system. (4) Sound waves: double slit interference using two speakers — calculate fringe spacing using s = λD/d with sound λ.</p><p><strong>Exam practice (15 min):</strong> 3 timed exam-style problems covering the full range of C.3.</p><p><strong>Wrap-up (5 min):</strong> Summary poster: reflection, refraction, diffraction, interference, TIR — all are consequences of the wave model. \"Light bends, bounces, spreads, and cancels. All because it's a wave.\"</p>",
+          "engagementHook": {
+            "title": "WHAT IS THE SUN MADE OF? — SPECTROSCOPY ANSWERS",
+            "content": "\"In 1868, scientists pointed a spectrometer at the Sun and found a spectral line at 587.56 nm that didn't match ANY known element. They named the unknown element 'helium' — from Helios, the Greek sun god. Helium was discovered on the Sun 27 years before it was found on Earth.\" Students observe helium and hydrogen spectra through a grating and compare with the solar spectrum. \"You're doing the same physics that discovered a new element.\""
+          },
+          "nos": {
+            "tags": ["Observations", "Theories", "Science as a shared endeavour"],
+            "description": "Spectroscopy has been called 'the most powerful tool in all of science.' It identifies elements, measures temperatures, detects motion (Doppler shift), and determines chemical composition — all from analysing light. The discovery of helium on the Sun before Earth is a dramatic example of how physics reveals the universe's composition from a distance."
+          },
+          "atl": ["Thinking skills", "Research skills", "Social skills"],
+          "learnerProfile": ["Inquirer", "Knowledgeable", "Thinker"],
+          "ao": [
+            "AO1 — Describe spectrometer operation using a grating",
+            "AO2 — Apply nλ = d sinθ in spectrometry contexts; calculate resolving power",
+            "AO3 — Synthesise multiple wave phenomena in complex problems"
+          ],
+          "resources": "Diffraction grating, spectral tubes (H, He, Na), power supply, spectrometer (if available), solar spectrum poster, exam papers",
+          "formative": "\"(a) A sodium lamp produces two lines at 589.0 nm and 589.6 nm. A grating has 5000 lines. Can it resolve these in 1st order? In 2nd? (b) A star's spectrum shows hydrogen lines shifted from their expected positions. What does this indicate? (preview C.5 Doppler). (c) White light passes through a 300 lines/mm grating. Describe and sketch the pattern for orders 0, 1, and 2. Do orders 1 and 2 overlap? Calculate to verify.\""
+        },
+        {
+          "num": 3,
+          "title": "Synthesis — Comparing All Diffraction & Interference Patterns (AHL)",
+          "focus": "Single slit vs double slit vs grating — side-by-side comparison",
+          "minutes": 30,
+          "understandings": [
+            "Single slit: broad central maximum, subsidiary maxima decreasing in intensity",
+            "Double slit: uniform fringes modulated by single slit envelope",
+            "Diffraction grating: very sharp principal maxima at nλ = d sinθ positions",
+            "As N increases (1 → 2 → N): maxima become sharper and brighter, pattern becomes more useful for measurement"
+          ],
+          "teachingStrategy": "<p><strong>Comparison activity (15 min):</strong> Students build the ultimate comparison table: Single slit (1 slit, width b) | Double slit (2 slits, width b, separation d) | Grating (N slits, spacing d). For each: key equation, pattern description, what it depends on, intensity distribution sketch. Show all three patterns side by side (from the same laser). The progression from 1 → 2 → 1000 slits is visually dramatic.</p><p><strong>Quick quiz (10 min):</strong> Show 5 unlabelled patterns. Students identify each as single slit, double slit, or grating and justify. Then: given a pattern, extract all possible physical quantities (b, d, λ, N).</p><p><strong>Wrap-up (5 min):</strong> \"Single slit tells you about ONE opening. Double slit tells you about the SPACING between two. Grating tells you about WAVELENGTH with extreme precision. All are the same physics — waves interfering — at different scales.\"</p>",
+          "engagementHook": {
+            "title": "THE LINEUP — CAN YOU TELL THEM APART?",
+            "content": "Show 6 patterns on screen: 3 real photos + 3 computer-generated. Students must identify each as single slit, double slit, or grating AND estimate whether the patterns are real or simulated. Then reveal. \"If you can't tell the computer from reality, the physics model is working perfectly.\""
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "The progression from one slit to a grating illustrates a key scientific strategy: start with the simplest case (one slit), understand it fully, then build complexity (two slits, then N slits). Each step adds new physics without invalidating the previous understanding."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Communicator", "Thinker"],
+          "ao": [
+            "AO1 — Compare single slit, double slit, and grating patterns",
+            "AO3 — Identify pattern type from observations and extract physical parameters"
+          ],
+          "resources": "Laser, single slit, double slit, diffraction grating, screen, comparison table template, printed/projected pattern images",
+          "formative": "\"Complete the table: Pattern type | Key equation | What determines fringe/peak spacing | What determines envelope width | Sketch intensity vs position. Then: an unknown pattern has sharp peaks at 15.2° and 31.5° for orders 1 and 2 with λ = 532 nm. Is this a double slit or grating? Find d.\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "C.1 Simple Harmonic Motion", "question": "How does the oscillation of particles in a medium connect to wave phenomena like diffraction and interference?" },
+    { "topic": "C.2 Wave Model", "question": "How does v = fλ relate to refraction (speed change → wavelength change → direction change)?" },
+    { "topic": "C.4 Standing Waves", "question": "How does the superposition of two waves travelling in opposite directions create standing waves?" },
+    { "topic": "C.5 Doppler Effect", "question": "How does the apparent change in wavelength from a moving source relate to the wave phenomena studied here?" },
+    { "topic": "E.1 Structure of the Atom", "question": "How does the diffraction of electrons provide evidence for wave-particle duality?" },
+    { "topic": "D.2 Electric & Magnetic Fields", "question": "How does the behaviour of light at boundaries (reflection, refraction) connect to the electromagnetic wave model?" }
+  ]
+},
+"C4": {
+  "title": "Standing Waves and Resonance",
+  "code": "C.4",
+  "theme": "C",
+  "level": "SL + HL",
+  "recommendedHours": 4,
+  "recommendedMinutes": 240,
+  "guidingQuestions": [
+    "What distinguishes standing waves from travelling waves?",
+    "How does the form of standing waves depend on the boundary conditions?",
+    "How can the application of force result in resonance within a system?"
+  ],
+  "groups": [
+    {
+      "name": "Standing Waves",
+      "color": "accent3",
+      "totalMinutes": 140,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Formation & Properties of Standing Waves",
+          "focus": "Superposition of two identical waves travelling in opposite directions",
+          "minutes": 45,
+          "understandings": [
+            "Standing waves form from the superposition of two identical waves (same f, λ, A) travelling in opposite directions",
+            "Nodes: points of zero displacement (destructive interference, always at rest)",
+            "Antinodes: points of maximum displacement (constructive interference, maximum oscillation)",
+            "Between adjacent nodes, all points oscillate in phase with each other; across a node, they're in antiphase (180° phase difference)",
+            "Standing waves do NOT transfer energy — energy is stored, not propagated",
+            "Node-to-node distance = λ/2; antinode-to-antinode distance = λ/2"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Tie one end of a long rope to a wall. Shake the other end at the right frequency. A standing wave appears — some points don't move (nodes) while others oscillate wildly (antinodes). \"The wave isn't going anywhere — it's STANDING still. But it's made from two travelling waves.\"</p><p><strong>Direct instruction (15 min):</strong> How it forms: an incident wave reflects off a boundary. The reflected wave travels back. At certain frequencies, the two waves superpose to create a stable pattern. At nodes: the two waves always cancel (equal and opposite displacements). At antinodes: they always reinforce. Key differences from travelling waves: (1) no energy transfer, (2) amplitude varies with position (zero at nodes, max at antinodes), (3) all points between adjacent nodes oscillate in phase — they reach their maxima simultaneously. Across a node: 180° phase difference.</p><p><strong>Demo (10 min):</strong> (1) Rope/slinky on vibrator: show 1st, 2nd, 3rd harmonics by adjusting frequency. Students observe nodes and antinodes appearing and disappearing. (2) Ruben's tube (if available): gas tube with speaker — flames show the pressure pattern of a standing sound wave. Flames are tall at pressure antinodes and short at nodes.</p><p><strong>Graphical skills (10 min):</strong> Draw a standing wave at different instants: t = 0, T/4, T/2, 3T/4, T. Show that nodes never move. Show that all points between nodes reach maximum simultaneously. Students practise drawing and labelling: nodes (N), antinodes (A), λ/2 between nodes.</p><p><strong>Practice (5 min):</strong> Identify nodes, antinodes, and λ from standing wave diagrams. State the phase relationship between marked points.</p>",
+          "engagementHook": {
+            "title": "THE ROPE THAT STANDS STILL — AND RUBEN'S TUBE OF FIRE",
+            "content": "Shake a rope at the resonant frequency and watch the standing wave appear — certain points refuse to move no matter how hard you shake. \"Those are nodes. The wave goes THROUGH them but they don't budge.\" If you have a Ruben's tube: a row of gas flames over a tube with a speaker at one end. Play a tone → the flames form a wave pattern. \"You're SEEING sound. The tall flames mark pressure antinodes. The short flames mark nodes.\""
+          },
+          "nos": {
+            "tags": ["Models", "Observations", "Patterns"],
+            "description": "Standing waves emerge from the superposition of travelling waves — a complex pattern from simple components. This emergence of complexity from simplicity is a theme throughout physics: from standing waves in strings to electron orbitals in atoms (which are also standing wave patterns)."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Inquirer", "Communicator"],
+          "ao": [
+            "AO1 — Describe standing wave formation; define nodes and antinodes; state phase relationships",
+            "AO2 — Draw standing waves at different times; determine λ from node spacing",
+            "AO3 — Compare standing and travelling waves"
+          ],
+          "resources": "Long rope or slinky, mechanical vibrator + signal generator (if available), Ruben's tube (optional), whiteboard",
+          "formative": "\"A standing wave has nodes at 0 cm, 25 cm, 50 cm, 75 cm, 100 cm. (a) Find λ. (b) Mark the antinodes. (c) Points at 10 cm and 15 cm — are they in phase or antiphase? (d) Points at 10 cm and 40 cm? (e) List three differences between standing and travelling waves.\""
+        },
+        {
+          "num": 2,
+          "title": "Standing Waves in Strings — Harmonics",
+          "focus": "Fixed-end boundary conditions and the harmonic series",
+          "minutes": 50,
+          "understandings": [
+            "A string fixed at both ends can only sustain standing waves at specific frequencies (harmonics)",
+            "Boundary condition: both ends must be nodes (fixed points can't vibrate)",
+            "1st harmonic (fundamental): L = λ₁/2 → f₁ = v/(2L)",
+            "2nd harmonic: L = λ₂ → f₂ = 2f₁ = v/L",
+            "nth harmonic: fₙ = nf₁ = nv/(2L), where n = 1, 2, 3, ...",
+            "The frequency of harmonics depends on string length L, wave speed v, and v depends on tension T and mass per unit length μ: v = √(T/μ)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Pluck a guitar string. It vibrates — you hear the fundamental. Lightly touch the middle and pluck — you hear a higher note (2nd harmonic). Touch at 1/3 — even higher (3rd harmonic). \"The string can only vibrate at specific frequencies. Why?\"</p><p><strong>Direct instruction (15 min):</strong> Both ends are fixed → both must be nodes. The longest wavelength that fits: λ₁ = 2L (one antinode in the middle). f₁ = v/(2L) — the fundamental. Next: λ₂ = L (two antinodes). f₂ = v/L = 2f₁. Then λ₃ = 2L/3, f₃ = 3f₁. General: fₙ = nv/(2L). Draw each harmonic: 1st (one loop), 2nd (two loops), 3rd (three loops). n = number of antinodes = number of half-wavelengths that fit.</p><p><strong>Lab (20 min):</strong> HARMONICS ON A STRING — Vibrate a string at measured frequencies. Find f₁ (fundamental). Increase frequency: find f₂ = 2f₁, f₃ = 3f₁. Measure: L, count nodes, determine λ for each. Calculate v = fλ. Then change tension: v = √(T/μ) → higher tension → higher v → higher f₁. Students verify quantitatively.</p><p><strong>Practice (10 min):</strong> (1) A 0.6 m string, v = 300 m/s. Find f₁, f₂, f₃. (2) A guitar string plays 330 Hz as its fundamental. What frequency is the 3rd harmonic? (3) To double f₁ without changing L: what must happen to tension?</p>",
+          "engagementHook": {
+            "title": "GUITAR HARMONICS — TOUCHING MUSIC WITH PHYSICS",
+            "content": "Pluck a guitar string open → fundamental. Touch the middle, pluck → one octave up (2nd harmonic). Touch at 1/3 → an octave + a fifth (3rd harmonic). Touch at 1/4 → two octaves (4th harmonic). \"Every musical note is a standing wave. Every harmony is a ratio of standing wave frequencies. Music IS physics.\" Students who play guitar can demonstrate. Others experiment with a monochord or sonometer."
+          },
+          "nos": {
+            "tags": ["Patterns", "Observations", "Science as a shared endeavour"],
+            "description": "Pythagoras (c. 500 BC) discovered that harmonious musical intervals correspond to simple ratios of string lengths — octave = 2:1, fifth = 3:2, fourth = 4:3. This was arguably the first quantitative law in physics. Music and physics have been intertwined for 2500 years."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe boundary conditions for strings; state fₙ = nv/(2L)",
+            "AO2 — Calculate harmonic frequencies; determine wavelength from diagrams",
+            "AO3 — Analyse how changing L, T, μ affects the harmonic frequencies"
+          ],
+          "resources": "Guitar or sonometer/monochord, vibrator + string setup, frequency generator, rulers, calculator",
+          "formative": "\"A string (L = 0.8 m, v = 400 m/s). (a) Draw the first three harmonics, labelling nodes, antinodes, and λ. (b) Calculate f₁, f₂, f₃. (c) The string's tension is quadrupled. New v? New f₁? (d) A guitar string plays A4 (440 Hz) as its fundamental. The string is 65 cm long. Find v and λ₁.\""
+        },
+        {
+          "num": 3,
+          "title": "Standing Waves in Pipes — Open & Closed Ends",
+          "focus": "Boundary conditions for air columns and their harmonic series",
+          "minutes": 45,
+          "understandings": [
+            "Open end of a pipe: pressure node / displacement antinode (air is free to vibrate)",
+            "Closed end of a pipe: pressure antinode / displacement node (air can't vibrate at the wall)",
+            "Open-open pipe: both ends are antinodes → all harmonics: fₙ = nv/(2L), n = 1, 2, 3, ...",
+            "Open-closed pipe: one antinode, one node → odd harmonics only: fₙ = nv/(4L), n = 1, 3, 5, ...",
+            "Closed pipes produce only odd harmonics — this gives them a distinctive 'hollow' tone"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Blow across the top of a bottle — a tone. Cover the bottom (closed pipe): lower pitch. Open the bottom (open pipe): higher pitch and different timbre. \"Changing boundary conditions changes the harmonics allowed.\"</p><p><strong>Direct instruction (15 min):</strong> Open-open pipe: antinodes at both ends. Longest wavelength: λ₁ = 2L. f₁ = v/(2L). All harmonics present: f₂ = 2f₁, f₃ = 3f₁, etc. Same as a string (similar boundary symmetry). Open-closed pipe: antinode at open end, node at closed end. Longest wavelength: λ₁ = 4L (only quarter-wave fits). f₁ = v/(4L). Only ODD harmonics: f₃ = 3f₁, f₅ = 5f₁ (no f₂, f₄, ...). Draw each: show how the patterns fit with the boundary conditions. A closed pipe's fundamental has f₁ = v/(4L), which is HALF of an open pipe of the same length → lower pitch.</p><p><strong>Lab (15 min):</strong> RESONANCE TUBE — Hold a vibrating tuning fork over a tube partially filled with water (adjustable length). Lower the water level until resonance is heard (loudest sound). The air column length at resonance = λ/4 (first harmonic of closed pipe). Measure L. Calculate v = 4fL. Compare with accepted v_sound. Find the next resonance (3λ/4) to verify.</p><p><strong>Practice (10 min):</strong> (1) Open pipe 0.5 m: f₁ = ? (2) Closed pipe 0.5 m: f₁ = ? (3) Draw the 3rd harmonic for each. (4) Which pipe (same L) has the lower fundamental? (Closed — by factor 2.) (5) Why do closed pipes sound 'hollow'? (Missing even harmonics.)</p>",
+          "engagementHook": {
+            "title": "THE BOTTLE ORCHESTRA — PHYSICS OF WIND INSTRUMENTS",
+            "content": "Bottles filled to different levels: shorter air column → higher pitch. Students calculate: f₁ = v/(4L) for each bottle (closed at the water surface). They tune bottles to play a scale. \"Every wind instrument — flute, trumpet, organ — works on the same principle: standing waves in air columns. The flute is an open-open pipe. A clarinet is effectively open-closed. That's why they sound different even playing the same note.\""
+          },
+          "nos": {
+            "tags": ["Models", "Measurements", "Patterns"],
+            "description": "The resonance tube experiment is one of the most elegant in school physics: you hear the resonance, measure the length, and calculate the speed of sound. It was first used by Ernst Chladni (c. 1800), who also famously visualised standing wave patterns on plates using sand — Chladni patterns."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Describe boundary conditions for open and closed pipes; state harmonic series for each",
+            "AO2 — Calculate harmonic frequencies for both pipe types; determine v from resonance data",
+            "AO3 — Analyse why closed pipes have only odd harmonics and how this affects timbre"
+          ],
+          "resources": "Resonance tube (glass tube + water reservoir), tuning forks (various f), ruler, bottles (various fill levels), calculator",
+          "formative": "\"(a) An open pipe (L = 0.68 m, v = 340 m/s): find f₁, f₂, f₃. Draw each harmonic. (b) A closed pipe of the same length: find f₁, f₃, f₅. Draw each. (c) Which has the lower fundamental? By what factor? (d) A tuning fork (f = 512 Hz) resonates with a closed pipe at L = 16.4 cm. Calculate v_sound. (e) The next resonance occurs at L = 49.2 cm. Verify that this is 3λ/4.\""
+        }
+      ]
+    },
+    {
+      "name": "Resonance & Damping",
+      "color": "accent4",
+      "totalMinutes": 100,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Resonance & Natural Frequency",
+          "focus": "When driving frequency matches natural frequency — maximum amplitude",
+          "minutes": 50,
+          "understandings": [
+            "Every oscillating system has a natural frequency f₀ — the frequency at which it oscillates freely when disturbed",
+            "When an external periodic force (driving force) is applied at frequency f_d, the system oscillates at f_d",
+            "Resonance occurs when f_d = f₀ — the amplitude of oscillation is maximum",
+            "At resonance, the driving force transfers energy to the system most efficiently",
+            "Examples of useful resonance: musical instruments, radio tuning, MRI, microwave ovens",
+            "Examples of destructive resonance: Tacoma Narrows Bridge, wine glass shattering, building collapse in earthquakes"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Hang several pendulums of different lengths from a horizontal rod. Shake the rod at a specific frequency. Only the pendulum whose natural frequency matches the driving frequency responds strongly — it resonates. The others barely move. \"The rod is shouting at the same frequency. Only one pendulum is listening.\"</p><p><strong>Direct instruction (15 min):</strong> Define natural frequency f₀: the frequency a system oscillates at when displaced and released. Driving frequency f_d: the frequency of the applied force. When f_d = f₀: resonance. Amplitude builds up because each push arrives at exactly the right time to add energy. Draw the resonance curve: amplitude vs f_d. Peak at f₀. Narrower peak = less damping (sharper resonance). Wider peak = more damping (broader, lower peak).</p><p><strong>Demo (10 min):</strong> (1) Barton's pendulums: one driver pendulum drives several others of different lengths. Only the matching-length one resonates. (2) Wine glass resonance (video or live): sing/play the right frequency → glass vibrates with increasing amplitude → shatters. \"The sound wave pushes the glass at its natural frequency. Each cycle adds energy. Eventually the glass can't hold it.\"</p><p><strong>Examples (10 min):</strong> Useful: (a) Radio tuning — the receiver circuit resonates at the station's frequency. (b) Musical instruments — strings/pipes resonate at harmonic frequencies. (c) MRI — hydrogen nuclei resonate at specific radio frequencies. Destructive: (a) Tacoma Narrows Bridge (1940) — wind at the bridge's f₀ → catastrophic oscillation → collapse. (b) Soldiers break step on bridges to avoid resonance. (c) Earthquake frequencies matching building f₀ → selective destruction.</p><p><strong>Practice (10 min):</strong> Sketch resonance curves for different damping levels. Identify resonance in real scenarios. Determine f₀ from given data.</p>",
+          "engagementHook": {
+            "title": "THE WINE GLASS SHATTER & THE BRIDGE THAT DANCED",
+            "content": "Show the Tacoma Narrows Bridge video: a massive bridge oscillating in the wind like a ribbon, then collapsing. \"Wind at the right frequency + low damping = catastrophic resonance.\" Then the wine glass: a singer hits the exact natural frequency → the glass vibrates more and more → SMASH. \"Same physics. The bridge is a big wine glass. The wind is the singer.\" Students calculate: a wine glass with f₀ ≈ 500 Hz — what wavelength of sound causes this? (λ = 0.68 m.)"
+          },
+          "nos": {
+            "tags": ["Observations", "Global impact", "Patterns"],
+            "description": "The Tacoma Narrows collapse (1940) transformed engineering: all bridges are now analysed for resonant frequencies. The disaster converted a physics concept into an engineering requirement. Destructive resonance also affects buildings in earthquakes — seismic engineering uses physics to save lives."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Caring", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define natural frequency and resonance; give examples of useful and destructive resonance",
+            "AO2 — Sketch resonance curves; identify conditions for resonance",
+            "AO3 — Analyse real-world resonance scenarios"
+          ],
+          "resources": "Barton's pendulums, wine glass shattering video, Tacoma Narrows video, resonance curve diagrams",
+          "formative": "\"(a) Define resonance. (b) A child on a swing has f₀ = 0.5 Hz. Explain why pushing at 0.5 Hz builds amplitude but pushing at 0.8 Hz doesn't. (c) Sketch a resonance curve (amplitude vs f_d). Label f₀ and the peak. (d) Redraw the curve with MORE damping — what changes? (e) Soldiers break step on bridges. Explain why using physics.\""
+        },
+        {
+          "num": 2,
+          "title": "Damping — Light, Critical & Heavy",
+          "focus": "How energy loss affects oscillation amplitude and resonance curves",
+          "minutes": 50,
+          "understandings": [
+            "Damping: the progressive loss of energy (and reduction in amplitude) of an oscillation due to resistive forces",
+            "Light damping: amplitude decreases gradually over many oscillations (system oscillates near f₀ with slowly decaying A)",
+            "Critical damping: system returns to equilibrium as fast as possible WITHOUT oscillating (e.g., car shock absorbers)",
+            "Heavy (over-)damping: system returns to equilibrium very slowly without oscillating (e.g., door closer mechanism)",
+            "Effect on resonance curve: more damping → lower peak amplitude, broader peak, f_resonance shifts slightly below f₀"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Push a child on a swing, then stop pushing. What happens?\" Amplitude decreases — the swing eventually stops. \"Where does the energy go?\" Air resistance, friction at the pivot. This is damping. Show three scenarios: (a) the swing (light damping — oscillates many times), (b) a car suspension (critical — returns to equilibrium in ~1 bounce), (c) a door closer (heavy — returns slowly with no oscillation).</p><p><strong>Direct instruction (15 min):</strong> Draw x-t graphs for each: Light: sinusoidal oscillation with exponentially decreasing amplitude envelope. Critical: fastest return to equilibrium without crossing it. Heavy: slow exponential approach — slower than critical. On the resonance curve: no damping → infinite peak at f₀ (theoretical). Light damping → tall, narrow peak. Heavy damping → short, broad peak. The peak also shifts slightly left (f_resonance < f₀) with damping, but this shift is small for light damping.</p><p><strong>Demo (5 min):</strong> Pendulum in air (light damping) vs in water (heavy damping) vs pendulum with a large card attached (somewhere between). Students observe the amplitude decay rate for each. \"The card acts like a brake — it increases the damping.\"</p><p><strong>Application (10 min):</strong> Car suspension: MUST be critically damped. Underdamped: car bounces after every bump (dangerous). Overdamped: car responds too slowly to bumps (uncomfortable). Critical: one smooth return. Earthquake-resistant buildings: dampers absorb seismic energy, reducing resonant amplitude. Electrical circuits: radio receivers use controlled damping (Q factor) to select one station frequency.</p><p><strong>Graphical skills (10 min):</strong> Students draw: (a) x-t for light, critical, and heavy damping from the same initial displacement. (b) Resonance curves for three damping levels on the same axes. (c) Label f₀ and f_resonance (noting the slight shift with damping).</p><p><strong>Practice (5 min):</strong> Classify damping types from graphs and real scenarios.</p>",
+          "engagementHook": {
+            "title": "THE CAR SUSPENSION TEST — BOUNCE OR NOT?",
+            "content": "\"Push down the corner of a car and release. It should return smoothly in one motion (critical damping). If it bounces: shock absorbers are worn (underdamped). If it rises very slowly: too stiff (overdamped).\" Students can test this on a teacher's car in the parking lot. \"Your comfort and safety on every road depend on getting damping exactly right. Too little: you bounce off the road. Too much: you can't react to bumps.\""
+          },
+          "nos": {
+            "tags": ["Models", "Technology", "Patterns"],
+            "description": "Damping models are used across physics and engineering: mechanical (shock absorbers), electrical (circuit resistance), acoustic (concert hall design), and even nuclear (reactor control). The mathematics of damping (exponential decay of amplitude) is identical in all these systems — another example of the universality of physics."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Caring"],
+          "ao": [
+            "AO1 — Define light, critical, and heavy damping; describe their effects on oscillation and resonance",
+            "AO2 — Sketch x-t graphs for each damping type; sketch resonance curves for different damping levels",
+            "AO3 — Analyse real-world damping applications (car suspension, earthquake engineering)"
+          ],
+          "resources": "Pendulum, water tub (for heavy damping demo), card attached to pendulum (variable damping), car suspension video, resonance curve overlays",
+          "formative": "\"(a) Sketch x-t graphs for light, critical, and heavy damping from the same initial displacement. (b) On the same resonance curve axes, draw curves for no damping, light damping, and heavy damping. Label f₀. (c) A car bounces 3 times after hitting a pothole. Is the damping light, critical, or heavy? What should be done? (d) Explain why earthquake-resistant buildings have dampers that are designed to be slightly overdamped rather than underdamped.\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "C.1 Simple Harmonic Motion", "question": "How does the natural frequency of a system (f₀) relate to the SHM analysis of that system (ω = 2πf₀)?" },
+    { "topic": "C.2 Wave Model", "question": "How does v = fλ connect to standing wave frequencies? If v changes (different medium), how do the harmonics change?" },
+    { "topic": "C.3 Wave Phenomena", "question": "How does the superposition principle (C.3) explain the formation of standing waves?" },
+    { "topic": "B.2 Greenhouse Effect", "question": "What relevance do resonance and natural frequency have to molecular absorption of IR radiation and climate change?" },
+    { "topic": "B.5 Current and Circuits", "question": "How does resonance in electrical LC circuits parallel mechanical resonance in springs and pendulums?" },
+    { "topic": "IB Linking", "question": "How does the application of force result in resonance within a system? What are the conditions for maximum energy transfer?" }
+  ]
+},
+"C5": {
+  "title": "Doppler Effect",
+  "code": "C.5",
+  "theme": "C",
+  "level": "SL + HL",
+  "recommendedHours": 4,
+  "recommendedMinutes": 240,
+  "guidingQuestions": [
+    "How can the Doppler effect be explained both qualitatively and quantitatively?",
+    "What are some practical applications of the Doppler effect?",
+    "Why are there differences when applying the Doppler effect to different types of waves?"
+  ],
+  "groups": [
+    {
+      "name": "Doppler Effect Concepts (SL)",
+      "color": "accent3",
+      "totalMinutes": 120,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "The Doppler Effect — Qualitative Understanding",
+          "focus": "Why pitch changes when a source moves — wavefront compression and stretching",
+          "minutes": 45,
+          "understandings": [
+            "The nature of the Doppler effect for sound waves and electromagnetic waves",
+            "When a source moves TOWARD an observer: wavefronts are compressed → shorter λ → higher f (higher pitch for sound, blueshift for light)",
+            "When a source moves AWAY: wavefronts are stretched → longer λ → lower f (lower pitch for sound, redshift for light)",
+            "Representation of the Doppler effect in terms of wavefront diagrams showing compressed and stretched wavefronts"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Play audio of an ambulance siren passing — the classic pitch drop. \"The siren's actual frequency doesn't change. YOUR perception changes. Why?\" As the ambulance approaches, it 'catches up' with its own waves, compressing them. As it recedes, it stretches them. This is the Doppler effect.</p><p><strong>Direct instruction (15 min):</strong> Draw wavefront diagrams: (a) Stationary source: concentric circles, equally spaced. (b) Source moving right: wavefronts compressed ahead (shorter λ, higher f), stretched behind (longer λ, lower f). The source is NOT between the centres of the circles — it has moved since emitting each wavefront. Key: the wave speed doesn't change (it's set by the medium), but λ and f as perceived by the observer DO change. For EM waves: same effect but no medium needed. Light from an approaching star: blueshift (shorter λ). Receding star: redshift (longer λ).</p><p><strong>Demo (10 min):</strong> (1) Swing a buzzer on a string in a circle above your head — students hear the pitch rise and fall as it approaches and recedes. (2) PhET Doppler simulation: students adjust source speed and observe wavefront compression/stretching in real time.</p><p><strong>Graphical skills (10 min):</strong> Students draw wavefront diagrams for: (a) stationary source, (b) source at 0.3v, (c) source at 0.8v. Observe: faster source → more compression → bigger frequency shift. \"What happens at v = v_sound?\" All wavefronts pile up → sonic boom (Mach cone — mentioned qualitatively).</p><p><strong>Practice (5 min):</strong> Sketch wavefronts and predict higher/lower pitch for different scenarios.</p>",
+          "engagementHook": {
+            "title": "THE AMBULANCE SIREN — PHYSICS YOU HEAR EVERY DAY",
+            "content": "Play the sound: eeeeEEEEEEeeeee. The pitch rises as the ambulance approaches, drops as it passes. \"The siren plays ONE frequency the entire time. Your ears hear TWO — one higher (approach) and one lower (recede). The Doppler effect is the universe's way of telling you whether something is coming or going.\" Students have heard this their whole lives — now they understand why."
+          },
+          "nos": {
+            "tags": ["Observations", "Models", "Patterns"],
+            "description": "Christian Doppler proposed this effect in 1842 for light from stars. Christoph Buys Ballot confirmed it in 1845 using musicians playing on a moving train — listeners on the platform heard the pitch change. This is a rare example of a theoretical prediction confirmed by a creative, low-tech experiment."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Inquirer", "Communicator"],
+          "ao": [
+            "AO1 — Describe the Doppler effect for sound and EM waves",
+            "AO2 — Draw wavefront diagrams for moving sources",
+            "AO3 — Predict whether observed frequency is higher or lower in given scenarios"
+          ],
+          "resources": "Ambulance siren audio clip, buzzer on string, PhET Doppler simulation, whiteboard for wavefront diagrams",
+          "formative": "\"(a) Draw wavefront diagrams for a source at rest and a source moving at 0.5v_sound to the right. Label compressed and stretched regions. (b) An observer is ahead of the moving source. Is the observed frequency higher or lower than emitted? (c) An observer is behind. Higher or lower? (d) At what point during the ambulance pass does the pitch change most abruptly?\""
+        },
+        {
+          "num": 2,
+          "title": "Applications — Radars, Redshift, Ultrasound & Spectral Lines",
+          "focus": "Real-world uses of the Doppler effect across the spectrum",
+          "minutes": 40,
+          "understandings": [
+            "Applications: speed radars (police), weather radar, Doppler ultrasound (blood flow), redshift of galaxies, spectral line analysis of star motion",
+            "Spectral line shifts provide information about the motion of stars and galaxies: lines shifted to red → receding, lines shifted to blue → approaching",
+            "Hubble's law: redshift of galaxies is proportional to distance → the universe is expanding",
+            "Doppler ultrasound: reflected sound from moving blood cells has shifted frequency → measures blood flow speed"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Walk through each application: (a) Police radar: emit microwaves at a car, reflected waves have shifted frequency → calculate car speed from Δf. (b) Weather radar: microwaves reflected from rain droplets → Doppler shift reveals wind speed and direction inside storms. (c) Medical ultrasound: sound reflected from moving blood → Δf gives blood flow speed. Blocked artery → abnormal flow pattern. (d) Astronomy: hydrogen emits/absorbs at known wavelengths (spectral lines). If a star's lines are shifted to the red → it's moving away. Blue → approaching. The amount of shift gives the speed.</p><p><strong>Hubble's discovery (10 min):</strong> Edwin Hubble (1929): nearly all galaxies show redshift. More distant galaxies → larger redshift. Conclusion: the universe is EXPANDING. Every galaxy is moving away from every other. \"The redshift of distant galaxies is the most important Doppler measurement ever made — it revealed the expansion of the universe and led to the Big Bang theory.\"</p><p><strong>Data analysis (10 min):</strong> Give students spectral data: hydrogen Balmer series expected wavelengths vs observed wavelengths from a distant galaxy. Calculate Δλ/λ for each line. Verify they're all redshifted by the same fraction (z = v/c). Calculate the recession velocity.</p><p><strong>Practice (5 min):</strong> Application identification and qualitative questions.</p>",
+          "engagementHook": {
+            "title": "THE UNIVERSE IS RUNNING AWAY — HUBBLE'S REDSHIFT",
+            "content": "\"Every galaxy is moving away from us. The further it is, the faster it moves. This isn't because we're special — EVERYTHING is moving away from everything else. Space itself is expanding.\" Show Hubble's original data (1929): galaxy velocity vs distance. The straight line changed cosmology forever. Students calculate: a galaxy at 100 Mpc (megaparsecs) recedes at ~7000 km/s. \"That's 2.3% of the speed of light — and that's a nearby galaxy.\""
+          },
+          "nos": {
+            "tags": ["Observations", "Theories", "Global impact"],
+            "description": "Hubble's discovery of the expanding universe (1929) is one of the most profound in all of science. It came from a simple observation — spectral lines are shifted — and a simple equation — Δλ/λ = v/c. The Big Bang theory, dark energy, and the ultimate fate of the universe all trace back to Doppler measurements of distant galaxies."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Knowledgeable", "Open-minded", "Inquirer"],
+          "ao": [
+            "AO1 — Describe applications of the Doppler effect (radar, ultrasound, redshift, spectral lines)",
+            "AO2 — Explain how spectral line shifts reveal stellar motion",
+            "AO3 — Analyse redshift data to determine recession velocity"
+          ],
+          "resources": "Spectral data tables, Hubble's original graph, hydrogen spectral line reference, calculator",
+          "formative": "\"The hydrogen Balmer alpha line has rest wavelength 656.3 nm. A galaxy's spectrum shows this line at 659.6 nm. (a) Is this redshift or blueshift? Is the galaxy approaching or receding? (b) Calculate Δλ/λ. (c) Estimate the galaxy's recession velocity using v/c ≈ Δλ/λ. (d) Name two other applications of the Doppler effect and explain how each works.\""
+        },
+        {
+          "num": 3,
+          "title": "EM Doppler Approximation — Δf/f ≈ v/c",
+          "focus": "The simplified equation for electromagnetic waves at non-relativistic speeds",
+          "minutes": 35,
+          "understandings": [
+            "For electromagnetic waves, the Doppler effect requires the approximation equation: Δf/f ≈ Δλ/λ ≈ v/c (valid when v << c)",
+            "This approximation works because EM waves have no medium — only relative velocity matters",
+            "Redshift parameter z = Δλ/λ = v/c (for v << c)",
+            "For sound waves, the full equations (AHL) distinguish between source and observer motion — for EM waves, only relative motion matters"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> For EM waves: Δf/f = Δλ/λ ≈ v/c. This is simpler than sound because there's no medium — only the relative velocity between source and observer matters. v is positive for recession (redshift), negative for approach (blueshift). This works only when v << c. For v near c: need the full relativistic Doppler formula (not required). Define z = Δλ/λ = v/c — the redshift parameter used in cosmology.</p><p><strong>Worked examples (15 min):</strong> (1) A star moves away at 3 × 10⁶ m/s. z = v/c = 0.01. A line at 500 nm shifts to 505 nm. (2) A galaxy has z = 0.05: recession speed = 0.05c = 1.5 × 10⁷ m/s. (3) Police radar: f = 10 GHz, car at 30 m/s. Δf = fv/c = 10 × 10⁹ × 30/(3 × 10⁸) = 1000 Hz. The radar detects a 1 kHz shift. (4) An approaching star: Δλ = −0.3 nm on a 600 nm line → v = cΔλ/λ = 1.5 × 10⁵ m/s approaching.</p><p><strong>Practice (10 min):</strong> EM Doppler calculations for stars, galaxies, and radar applications.</p>",
+          "engagementHook": {
+            "title": "CATCHING SPEEDERS WITH PHYSICS — THE RADAR GUN",
+            "content": "\"A radar gun sends microwaves at 10 GHz. They bounce off your car and return with a frequency shift of 2000 Hz. How fast are you going?\" Δf = 2fv/c (factor 2 for round trip). v = Δf × c / (2f) = 2000 × 3×10⁸ / (2 × 10¹⁰) = 30 m/s = 108 km/h. \"You're 8 km/h over the limit. That's a ticket.\" Students calculate their own speed from a hypothetical radar reading."
+          },
+          "nos": {
+            "tags": ["Measurements", "Technology", "Patterns"],
+            "description": "The EM Doppler equation is an approximation — valid for v << c. At relativistic speeds, the full formula includes the Lorentz factor γ. The approximation is good enough for all everyday applications (radar, stellar spectroscopy of nearby stars) but fails for distant galaxies with z > 0.1. Knowing when an approximation is valid is a key scientific skill."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State Δf/f ≈ v/c for EM waves; define redshift z",
+            "AO2 — Apply the approximation to calculate v, Δf, Δλ, or z",
+            "AO3 — Analyse when the approximation is valid (v << c) and when it fails"
+          ],
+          "resources": "Calculators, spectral shift data, radar gun specifications",
+          "formative": "\"(a) A star recedes at 6 × 10⁵ m/s. Find z and the shift of a 486 nm line. (b) A radar gun (24 GHz) detects Δf = 4800 Hz from a car. Find the car's speed (account for the factor of 2 for reflection). (c) A galaxy has z = 0.03. Find its recession speed. Is the approximation valid? (d) At what value of z does the approximation break down (say, 10% error)? Why?\""
+        }
+      ]
+    },
+    {
+      "name": "Quantitative Doppler for Sound (AHL)",
+      "color": "accent",
+      "totalMinutes": 120,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Doppler Equations for Sound — Moving Source & Observer (AHL)",
+          "focus": "f' = fv/(v ± v_s) and f' = f(v ± v_o)/v",
+          "minutes": 55,
+          "understandings": [
+            "Moving source: f' = fv/(v ∓ v_s) — source approaching: f' = fv/(v − v_s) (higher f); source receding: f' = fv/(v + v_s) (lower f)",
+            "Moving observer: f' = f(v ± v_o)/v — observer approaching: f' = f(v + v_o)/v (higher f); observer receding: f' = f(v − v_o)/v (lower f)",
+            "For sound, moving source and moving observer give DIFFERENT results (unlike EM) because sound has a medium",
+            "v = speed of sound in the medium (fixed), v_s = speed of source, v_o = speed of observer"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (20 min):</strong> Why sound is different from EM: sound has a medium (air). Moving the source compresses/stretches the wavefronts in the medium. Moving the observer changes how many wavefronts they encounter per second. These are physically different! Moving source toward: the source 'chases' its own waves. In one period T, it moves v_sT. The wavelength ahead is λ' = λ − v_sT = (v − v_s)/f. So f' = v/λ' = fv/(v − v_s). Moving observer toward: the observer encounters wavefronts faster. Relative speed of waves toward observer = v + v_o. So f' = (v + v_o)/λ = f(v + v_o)/v. Key difference: source moving at v_s ≠ observer moving at v_o even if v_s = v_o. (For EM: they're identical because there's no medium.)</p><p><strong>Worked examples (20 min):</strong> (1) Ambulance (f = 800 Hz, v_s = 30 m/s) approaches. v_sound = 340 m/s. f' = 800 × 340/(340 − 30) = 877 Hz. Receding: f' = 800 × 340/(340 + 30) = 735 Hz. Shift: from 877 to 735 Hz as it passes. (2) Observer runs at 5 m/s toward a stationary 440 Hz source: f' = 440(340 + 5)/340 = 446.5 Hz. (3) Both moving: source at 20 m/s toward observer running at 10 m/s toward source: f' = f(v + v_o)/(v − v_s) = f × 350/320. (4) A train whistle: observer on platform hears 900 Hz as train approaches, 800 Hz as it recedes. Find v_s. (Use ratio: f_approach/f_recede = (v + v_s)/(v − v_s) → solve for v_s.)</p><p><strong>Practice (15 min):</strong> Mixed problems with source moving, observer moving, and both moving.</p>",
+          "engagementHook": {
+            "title": "THE TRAIN WHISTLE PROBLEM — FINDING SPEED FROM PITCH",
+            "content": "\"A train blows its whistle (constant f). You stand on the platform and hear 950 Hz as it approaches, 850 Hz as it recedes. Can you find the train's speed WITHOUT seeing it?\" YES: f_toward/f_away = (v + v_s)/(v − v_s). 950/850 = (340 + v_s)/(340 − v_s). Solve: v_s = 18.9 m/s ≈ 68 km/h. \"You measured the train's speed using only your ears and mathematics.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Models"],
+            "description": "The asymmetry between moving source and moving observer for sound — but not for light — puzzled physicists for decades. It was one of the clues that led Einstein to special relativity: if there's no preferred reference frame for EM waves (no aether/medium), then only relative motion should matter. The Doppler effect for sound vs light encodes a deep difference in the physics."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State Doppler equations for moving source and moving observer",
+            "AO2 — Apply f' = fv/(v ± v_s) and f' = f(v ± v_o)/v to calculate observed frequencies",
+            "AO3 — Analyse why moving source ≠ moving observer for sound but not for EM"
+          ],
+          "resources": "Calculators, Doppler equation reference card, train whistle audio clip",
+          "formative": "\"(a) A police siren (f = 700 Hz) approaches at 25 m/s. Find f' heard by a stationary observer (v = 340 m/s). (b) The police car passes and recedes. Find f'. (c) An observer runs at 8 m/s toward a stationary 500 Hz source. Find f'. (d) Source at 40 m/s toward observer running at 10 m/s away. Find f'. (e) Why do the source-moving and observer-moving formulas give slightly different results for the same speeds?\""
+        },
+        {
+          "num": 2,
+          "title": "Doppler Problem Solving & Velocity Determination (AHL)",
+          "focus": "Using measured frequency shifts to calculate source or observer speeds",
+          "minutes": 65,
+          "understandings": [
+            "Determine the velocity of a source or observer from measured frequency or wavelength changes",
+            "Combine Doppler equations with other wave concepts: v = fλ, reflection (radar), spectral analysis",
+            "For reflected waves (radar/ultrasound): the Doppler shift is doubled (signal hits moving target and bounces back)",
+            "Apply Doppler analysis to complex scenarios: moving source + moving observer, reflected waves, sequential observations"
+          ],
+          "teachingStrategy": "<p><strong>Velocity determination (15 min):</strong> Rearranging Doppler equations to find v_s or v_o: Given f, f', v → solve for v_s or v_o. From two observations (approach + recede): f_toward/f_away = (v + v_s)/(v − v_s) → eliminates f, finds v_s directly. This is extremely useful: you don't need to know the emitted frequency, only the ratio of received frequencies.</p><p><strong>Reflected waves (10 min):</strong> Radar/ultrasound: signal hits a moving object and reflects back. The object acts as BOTH a moving observer (receiving the signal) and a moving source (re-emitting the reflection). Result: the Doppler shift is approximately doubled. For radar: Δf ≈ 2fv/c (used in the SL section). For sound ultrasound: Δf ≈ 2fv_blood/v_sound. Doppler ultrasound measures blood velocity from this shift.</p><p><strong>Complex problems (25 min):</strong> Groups tackle multi-step problems: (1) Two trains approach each other. Train A (f = 500 Hz, v_A = 30 m/s), train B's observer. Find f' heard on train B (use combined formula). (2) Ultrasound (f = 5 MHz) reflects from blood moving at 0.3 m/s in an artery. v_sound = 1540 m/s. Find Δf. (3) A bat emits 40 kHz, flies at 10 m/s toward a wall. The echo returns. What frequency does the bat hear? (Doppler shift twice: outgoing + returning.) (4) An astronomer measures a star's Hα line (656.3 nm) oscillating between 656.1 and 656.5 nm over a period of 4 days. What does this tell us? (Binary star system — the star orbits a companion.)</p><p><strong>Exam practice (10 min):</strong> 3 timed IB-style Doppler problems.</p><p><strong>Wrap-up (5 min):</strong> \"The Doppler effect lets you measure speed WITHOUT touching or seeing the object — just by listening to its waves. This makes it one of the most powerful measurement tools in physics, medicine, and astronomy.\"</p>",
+          "engagementHook": {
+            "title": "THE BAT — NATURE'S DOPPLER RADAR",
+            "content": "\"A bat emits ultrasound at 40 kHz while flying at 10 m/s toward a moth. The sound hits the moth and reflects back. The bat hears a HIGHER frequency than it emitted — the Doppler shift tells it the moth's distance AND speed. Bats do this calculation 200 times per second while navigating in total darkness.\" Students calculate: what frequency does the bat hear? (Two Doppler shifts: bat as moving source toward wall, then wall as 'stationary source' reflected to moving observer.) The answer: ~42.4 kHz."
+          },
+          "nos": {
+            "tags": ["Technology", "Observations", "Models"],
+            "description": "Doppler radar, medical ultrasound, and bat echolocation all use the same physics — reflected waves with frequency shifts. Nature evolved Doppler navigation 50 million years before humans invented radar. Biomimicry — learning from nature's solutions — is an active area of engineering research."
+          },
+          "atl": ["Thinking skills", "Social skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Inquirer", "Knowledgeable"],
+          "ao": [
+            "AO2 — Determine velocity from frequency/wavelength data; apply double Doppler shift for reflected waves",
+            "AO3 — Analyse complex Doppler scenarios including combined motion and reflection"
+          ],
+          "resources": "Calculators, bat echolocation video, Doppler ultrasound diagram, exam-style problem sets",
+          "formative": "\"(a) A train whistle: observer hears 880 Hz approaching, 780 Hz receding. Find v_s (v_sound = 340 m/s). (b) Medical ultrasound (f = 4 MHz, v = 1540 m/s) reflects from blood at 0.5 m/s. Find Δf. (c) A bat (v = 15 m/s, f = 45 kHz) flies toward a wall. What frequency does the echo have? Show both Doppler shifts. (d) A star's spectral lines oscillate with Δλ/λ = ±0.001 over 10 days. What is happening and what is the star's orbital speed?\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "C.2 Wave Model", "question": "How does v = fλ underpin the Doppler equations? If v stays constant but λ changes, how does f change?" },
+    { "topic": "C.3 Wave Phenomena", "question": "How does the wavefront diagram for a moving source relate to the concepts of wavefronts and rays?" },
+    { "topic": "A.5 Special Relativity (HL)", "question": "Why does the EM Doppler effect depend only on relative velocity, while sound distinguishes source from observer motion?" },
+    { "topic": "E.1 Structure of the Atom", "question": "How do shifts in spectral lines provide information about the motion of astronomical objects?" },
+    { "topic": "E.5 Fusion and Stars", "question": "How is the Doppler effect used to detect exoplanets via the radial velocity method?" },
+    { "topic": "IB Linking", "question": "Why are there differences when applying the Doppler effect to sound waves versus electromagnetic waves?" }
+  ]
+},
+"D1": {
+  "title": "Gravitational Fields",
+  "code": "D.1",
+  "theme": "D",
+  "level": "SL + HL",
+  "recommendedHours": 12,
+  "recommendedMinutes": 720,
+  "guidingQuestions": [
+    "How are the properties of a gravitational field quantified?",
+    "How does an understanding of gravitational fields allow for humans to explore the solar system?"
+  ],
+  "groups": [
+    {
+      "name": "Newton's Gravitation & Kepler's Laws (SL)",
+      "color": "accent5",
+      "totalMinutes": 300,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Kepler's Three Laws of Orbital Motion",
+          "focus": "The empirical laws that describe how planets move",
+          "minutes": 55,
+          "understandings": [
+            "Kepler's 1st law: planets orbit the Sun in ellipses with the Sun at one focus",
+            "Kepler's 2nd law: a line from the Sun to a planet sweeps equal areas in equal times (faster when closer)",
+            "Kepler's 3rd law: T² ∝ r³ — the square of the orbital period is proportional to the cube of the mean orbital radius",
+            "Kepler's laws are EMPIRICAL — derived from observation. Newton later explained WHY they work using his law of gravitation"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"For 2000 years, people tried to explain planetary motion. Circles didn't work. Ptolemy added epicycles — circles on circles. Then Kepler spent 8 years analysing Tycho Brahe's data and found three simple laws that described everything.\" Show the elliptical orbit with the Sun at one focus — not the centre.</p><p><strong>Direct instruction (20 min):</strong> 1st law: orbits are ellipses. For most planets, the eccentricity is small (nearly circular), but comets have highly elliptical orbits. 2nd law: equal areas in equal times. When a planet is CLOSER to the Sun, it moves FASTER (speeds up near perihelion, slows near aphelion). This conserves angular momentum (link A.4). 3rd law: T² = kr³ (the constant k is the same for all objects orbiting the same central body). For the solar system: T²/r³ = 4π²/(GM_Sun). Derive this from Newton's law + circular orbit: GMm/r² = mv²/r → v = 2πr/T → T² = 4π²r³/(GM).</p><p><strong>Data analysis (15 min):</strong> Give students planetary data: orbital radius and period for all 8 planets. Plot T² vs r³ — should be a straight line through the origin. Gradient = 4π²/(GM_Sun). Extract M_Sun from the gradient. \"You just weighed the Sun using a ruler and a graph.\"</p><p><strong>Worked examples (10 min):</strong> (1) Mars: r = 1.52 AU, T = ? using T²/r³ = 1 (in AU-year units). T = 1.52^(3/2) = 1.87 years. (2) A satellite orbits Earth at r = 42,200 km. Find T. (3) If T = 90 min, find the orbital radius (low Earth orbit).</p><p><strong>Practice (5 min):</strong> T² vs r³ calculations.</p>",
+          "engagementHook": {
+            "title": "WEIGHING THE SUN WITH A GRAPH",
+            "content": "Students plot T² vs r³ for all planets. The straight line gives gradient = 4π²/(GM_Sun). From the gradient: M_Sun = 4π²/(G × gradient) ≈ 2 × 10³⁰ kg. \"You just determined the mass of the Sun — 330,000 times Earth's mass — using only orbital data. No spaceship needed. Kepler's 3rd law is a cosmic weighing scale.\""
+          },
+          "nos": {
+            "tags": ["Observations", "Patterns", "Theories"],
+            "description": "Kepler spent 8 years (1601-1609) analysing Tycho Brahe's observational data before discovering his laws. He tried circular orbits first, failed, and only reluctantly accepted ellipses. This persistence — and willingness to abandon a beautiful model (circles) when data demanded it — is the essence of the scientific method."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — State Kepler's three laws",
+            "AO2 — Apply T² ∝ r³ to calculate orbital periods and radii",
+            "AO3 — Analyse planetary data to verify Kepler's 3rd law and extract M_Sun"
+          ],
+          "resources": "Planetary data table (r, T for 8 planets), graph paper, calculators, orbital simulation",
+          "formative": "\"Planet X has orbital radius 4 AU. (a) Find its period in years using T² ∝ r³. (b) A moon orbits Jupiter at r = 4.2 × 10⁸ m with T = 1.77 days. Find M_Jupiter. (c) Why does Kepler's 3rd law constant differ for Jupiter's moons vs the Sun's planets? (d) Mars moves faster at perihelion than aphelion. Which law explains this?\""
+        },
+        {
+          "num": 2,
+          "title": "Newton's Universal Law of Gravitation — F = Gm₁m₂/r²",
+          "focus": "The force that governs the universe — and why apples fall",
+          "minutes": 60,
+          "understandings": [
+            "Newton's universal law of gravitation: F = Gm₁m₂/r², where G = 6.67 × 10⁻¹¹ N m² kg⁻²",
+            "The force is attractive, acts along the line joining the centres, and obeys Newton's 3rd law (equal forces on both masses)",
+            "r is the distance between the CENTRES of mass of the two bodies",
+            "Extended bodies of uniform density can be treated as point masses with all mass concentrated at the centre",
+            "Newton's law EXPLAINS Kepler's laws — it provides the 'why' behind the 'what'"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Newton supposedly watched an apple fall and asked: does the same force reach the Moon?\" The apple falls because Earth pulls it. The Moon also 'falls' — but it moves sideways fast enough to keep missing Earth. That sideways + falling motion IS an orbit. \"The same force that drops an apple holds the Moon in orbit.\"</p><p><strong>Direct instruction (20 min):</strong> F = Gm₁m₂/r². G is the universal gravitational constant — the same everywhere in the universe. The force is: (a) attractive (always pulls), (b) proportional to BOTH masses (double one → double F), (c) inversely proportional to r² (double distance → quarter F). Obeys Newton's 3rd law: Earth pulls you with F = mg; you pull Earth with the SAME force (but Earth barely accelerates because its mass is enormous). Extended bodies: a uniform sphere gravitationally acts as if all its mass is at the centre — Newton proved this and it took him 20 years.</p><p><strong>Worked examples (20 min):</strong> (1) Force between Earth (6 × 10²⁴ kg) and Moon (7.3 × 10²² kg) at 3.84 × 10⁸ m: F = 1.98 × 10²⁰ N. (2) Force between two 70 kg people 1 m apart: F = 3.27 × 10⁻⁷ N — negligible. \"Gravity is incredibly weak between small objects.\" (3) At Earth's surface: F = GMm/R² = mg → g = GM/R² = 9.8 m/s². (4) At altitude h: g = GM/(R+h)². At 400 km (ISS): g = 8.7 m/s². \"Astronauts aren't weightless because gravity is zero — it's still 89% of surface value! They're in FREE FALL.\"</p><p><strong>Practice (15 min):</strong> Force calculations, deriving g at different altitudes, explaining ISS 'weightlessness.'</p>",
+          "engagementHook": {
+            "title": "THE APPLE, THE MOON & THE ISS — ONE FORCE RULES ALL",
+            "content": "\"At the ISS (400 km up), g = 8.7 m/s² — that's 89% of surface gravity. Astronauts are NOT weightless because gravity disappeared. They're weightless because they're FALLING — along with the station. Everything inside falls at the same rate, so nothing pushes on anything else.\" Calculate g at ISS altitude. Students are shocked it's so close to 9.8. \"Weightlessness is free fall, not zero gravity.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Observations", "Patterns"],
+            "description": "Newton unified terrestrial gravity (apples) with celestial gravity (Moon, planets) — perhaps the greatest unification in physics until Maxwell. His law explained Kepler's empirical observations from first principles. Henry Cavendish measured G in 1798 using a torsion balance — 'weighing the Earth' in a laboratory."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State Newton's law of gravitation; define G",
+            "AO2 — Calculate gravitational force between two masses; derive g = GM/r²",
+            "AO3 — Analyse why ISS astronauts experience weightlessness despite strong gravity"
+          ],
+          "resources": "Calculators, planetary mass/radius data, ISS altitude data, Cavendish experiment video/diagram",
+          "formative": "\"(a) Calculate F between Earth and the Sun (M_Sun = 2 × 10³⁰, r = 1.5 × 10¹¹ m). (b) Two asteroids (m₁ = 10⁶ kg, m₂ = 2 × 10⁶ kg) are 500 m apart. Find F. (c) Calculate g at the surface of Mars (M = 6.4 × 10²³ kg, R = 3.4 × 10⁶ m). (d) At what altitude above Earth is g = 4.9 m/s² (half surface value)?\""
+        },
+        {
+          "num": 3,
+          "title": "Gravitational Field Strength & Field Lines",
+          "focus": "g = GM/r² — the field concept and how to visualise it",
+          "minutes": 55,
+          "understandings": [
+            "Gravitational field strength g at a point: the force per unit mass experienced by a small test mass at that point",
+            "g = F/m = GM/r² — a vector pointing toward the mass creating the field",
+            "Gravitational field lines: arrows showing the direction of the force on a test mass",
+            "Radial field (around a sphere): lines point inward toward the centre, getting further apart with distance (weaker field)",
+            "Uniform field (close to a massive surface): parallel, equally-spaced, vertical lines (g ≈ constant)"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> The field concept: instead of asking 'what force does mass M exert on mass m?', ask 'what field does M create at every point in space?' Then any mass m placed in the field experiences F = mg. g = GM/r² is the field strength — it depends only on M and r, not on the test mass. Direction: toward M. At Earth's surface: g = 9.8 N/kg = 9.8 m/s² (same number, different units). Field lines: arrows pointing in the direction of g. Around a sphere: radial lines pointing inward. Closer lines = stronger field. Near a large flat surface: lines are parallel and equally spaced = uniform field (the approximation used in A.1/A.2).</p><p><strong>Demo (10 min):</strong> Draw field lines for: (a) single spherical mass — radial inward, (b) near Earth's surface — uniform parallel downward, (c) two masses (Earth-Moon system) — lines curve, showing how the field changes between them.</p><p><strong>Resultant field (15 min):</strong> Between two masses: the field from each mass acts as a vector. At any point between them: g_total = g₁ − g₂ (if point is between the two masses, fields oppose). Find the point where g = 0 (neutral point). Worked example: Earth-Moon system — find the L1 Lagrange point.</p><p><strong>Worked examples (10 min):</strong> (1) g at distance 2R from Earth's centre: g = GM/(2R)² = g_surface/4. (2) Two masses: 4M and M separated by distance d. Find the point between them where g = 0. (3) Sketch field lines for this two-mass system.</p><p><strong>Practice (5 min):</strong> Field strength calculations and field line sketches.</p>",
+          "engagementHook": {
+            "title": "THE INVISIBLE LANDSCAPE — MAPPING GRAVITY",
+            "content": "\"Gravity is invisible, but we can map it. Imagine you're a tiny mass placed at every point around Earth. At each point, you'd feel a tug toward the centre — stronger when close, weaker when far. The field lines are the 'map' of this invisible landscape. Between Earth and Moon, there's a point where the tugs balance perfectly — the L1 Lagrange point. The James Webb Space Telescope orbits near the Sun-Earth L2 point.\""
+          },
+          "nos": {
+            "tags": ["Models", "Theories"],
+            "description": "The 'field' concept was introduced by Michael Faraday (for electromagnetism) and applied to gravity. It replaced 'action at a distance' (a mysterious force across empty space) with a field that fills space and mediates the force. This shift in thinking — from forces between objects to fields filling space — was one of the most important conceptual advances in physics."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Communicator"],
+          "ao": [
+            "AO1 — Define g; sketch radial and uniform field lines",
+            "AO2 — Calculate g at any distance; find resultant g between two masses",
+            "AO3 — Analyse field line diagrams to extract physical information"
+          ],
+          "resources": "Whiteboard for field line drawings, calculators, Earth-Moon data, JWST/Lagrange point infographic",
+          "formative": "\"(a) Calculate g at 3 Earth radii from Earth's centre. (b) Two masses: 5 × 10²⁴ kg and 2 × 10²⁴ kg separated by 10⁸ m. Find the point between them where g = 0. (c) Sketch the field lines for this system. (d) At the surface of a planet with twice Earth's mass and twice its radius, what is g compared to Earth's?\""
+        },
+        {
+          "num": 4,
+          "title": "Circular Orbits — Linking Gravitation to Circular Motion",
+          "focus": "Gravity provides the centripetal force for orbital motion",
+          "minutes": 65,
+          "understandings": [
+            "For astronomical bodies in circular orbit: gravitational force = centripetal force",
+            "GMm/r² = mv²/r → v = √(GM/r) — orbital speed decreases with distance (preview of AHL formula)",
+            "From v = 2πr/T and the above: T² = 4π²r³/(GM) — this IS Kepler's 3rd law, now derived from Newton",
+            "Newton explained WHY Kepler's laws work: gravitation provides the centripetal force for orbital motion"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Newton imagined firing a cannonball horizontally from a mountain. At low speed: it falls to the ground (projectile from A.1). Faster: it lands further away. Even faster: the Earth curves away at the same rate the ball falls. The ball never lands — it's in ORBIT.\" Show Newton's cannonball diagram.</p><p><strong>Direct instruction (20 min):</strong> Set gravity = centripetal: GMm/r² = mv²/r. Cancel m: GM/r = v². So v = √(GM/r). Key result: orbital speed DECREASES with r — outer planets move slower. Substitute v = 2πr/T: GM/r = (2πr/T)² → T² = 4π²r³/(GM). This is Kepler's 3rd law — DERIVED from Newton! Kepler found the pattern; Newton explained the mechanism. This is one of the great triumphs of theoretical physics.</p><p><strong>Worked examples (20 min):</strong> (1) ISS orbital speed at r = 6.77 × 10⁶ m: v = √(GM_E/r) = 7.67 km/s. T = 2πr/v = 92.4 min. (2) Geostationary orbit: T = 24 h. Find r. r = (GMT²/4π²)^(1/3) = 42,200 km ≈ 6.6 R_Earth. (3) Find the Moon's orbital speed and verify with its known period (27.3 days).</p><p><strong>Discussion (10 min):</strong> \"Why are geostationary orbits at exactly 42,200 km?\" Because T = 24 hours forces r to be specific. Used for: TV satellites, weather monitoring, GPS. Lower orbits: faster (ISS: 90 min). Higher orbits: slower (Moon: 27 days).</p><p><strong>Practice (10 min):</strong> Orbital speed and period calculations for various scenarios.</p>",
+          "engagementHook": {
+            "title": "NEWTON'S CANNONBALL — FROM PROJECTILE TO ORBIT",
+            "content": "\"Imagine firing a cannonball horizontally from a very tall mountain. At low speed: it falls to the ground. Faster: it travels further before landing. Even faster: the Earth curves away as fast as the ball falls. It keeps falling but NEVER LANDS — it's orbiting.\" Animate the diagram. \"This is the ISS: falling around the Earth at 7.7 km/s. It's been falling for 25 years and hasn't landed yet.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Models", "Patterns"],
+            "description": "Newton's derivation of Kepler's laws from his law of gravitation was one of the most powerful demonstrations of theoretical physics: empirical patterns (Kepler) explained by a fundamental law (Newton). Edmund Halley encouraged Newton to publish, leading to the Principia (1687) — arguably the most important scientific book ever written."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State that gravity provides centripetal force for orbits",
+            "AO2 — Derive and apply v = √(GM/r) and T² = 4π²r³/(GM)",
+            "AO3 — Analyse why Kepler's 3rd law follows from Newton's gravitation"
+          ],
+          "resources": "Newton's cannonball animation, ISS live tracker, geostationary orbit diagram, calculators",
+          "formative": "\"(a) Find the orbital speed and period for a satellite at altitude 200 km above Earth. (b) A geostationary satellite orbits at r = 42,200 km. Verify T = 24 hours. (c) If Earth's mass doubled but radius stayed the same, how would the ISS orbital speed change? (d) Derive Kepler's 3rd law from F_grav = F_centripetal.\""
+        },
+        {
+          "num": 5,
+          "title": "Resultant Gravitational Field & Problem Solving",
+          "focus": "Finding the net field between two masses — where does g = 0?",
+          "minutes": 65,
+          "understandings": [
+            "The resultant gravitational field strength at a point is the vector sum of the individual fields from all masses",
+            "Restricted to points along the line joining two bodies",
+            "Between two masses: fields from each mass point in opposite directions",
+            "At a neutral point: g₁ = g₂ → GM₁/r₁² = GM₂/r₂² (where r₁ + r₂ = d)",
+            "Sketching field lines for systems of two or more masses"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Between two masses M₁ and M₂ separated by distance d, at point P (distance r₁ from M₁, r₂ from M₂, r₁ + r₂ = d): g from M₁ points toward M₁ (left), g from M₂ points toward M₂ (right). g_total = GM₁/r₁² − GM₂/r₂² (if P is between them). At the neutral point: g_total = 0 → GM₁/r₁² = GM₂/r₂² → r₁/r₂ = √(M₁/M₂). For equal masses: neutral point is at the midpoint. For unequal: neutral point is closer to the smaller mass.</p><p><strong>Worked examples (20 min):</strong> (1) Earth (6 × 10²⁴ kg) and Moon (7.3 × 10²² ​kg), d = 3.84 × 10⁸ m. Find neutral point: r_E/r_M = √(M_E/M_M) = √(82.2) = 9.07. r_E = 9.07d/10.07 = 3.46 × 10⁸ m from Earth (90% of the way to the Moon). (2) Two identical masses M separated by d: neutral at d/2. Calculate g at d/4 from one mass: g = GM/(d/4)² − GM/(3d/4)². (3) Sketch field lines for Earth-Moon system: lines point toward Earth everywhere except near the Moon, where they curve toward the Moon. Show the neutral point.</p><p><strong>Lab (15 min):</strong> MAPPING A GRAVITATIONAL FIELD — Use a PhET simulation: place two masses, explore the field strength at various points between and around them. Students map the neutral point and verify with calculation.</p><p><strong>Extension (10 min):</strong> Beyond two bodies: mention the 5 Lagrange points (L1-L5) in the Sun-Earth system. L1: between the two (used by solar observatories). L2: behind Earth (JWST). L4, L5: 60° ahead/behind Earth (Trojan asteroids). \"These are locations where gravitational fields balance in the rotating frame — cosmic parking spots.\"</p><p><strong>Practice (5 min):</strong> Neutral point and field strength calculations.</p>",
+          "engagementHook": {
+            "title": "LAGRANGE POINTS — COSMIC PARKING SPOTS",
+            "content": "\"There are 5 special points in the Sun-Earth system where gravitational forces balance. L2 — 1.5 million km behind Earth — is where the James Webb Space Telescope orbits. It's the perfect spot: always in Earth's shadow, always pointing away from the Sun, with a clear view of the universe.\" Students calculate the approximate position of L1 (Sun-Earth neutral point) and discover it's inside Earth's orbit."
+          },
+          "nos": {
+            "tags": ["Theories", "Technology", "Science as a shared endeavour"],
+            "description": "Lagrange points were predicted mathematically by Joseph-Louis Lagrange in 1772 — over 200 years before we could place spacecraft there. The Trojan asteroids at Jupiter's L4 and L5 points were discovered in 1906, confirming the prediction. JWST at L2 is a triumph of gravitational physics enabling astronomy."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Inquirer"],
+          "ao": [
+            "AO1 — Describe how resultant field is determined between two masses",
+            "AO2 — Calculate the neutral point position between two masses",
+            "AO3 — Analyse field line diagrams for multi-body systems"
+          ],
+          "resources": "PhET gravitational field simulation, calculators, Earth-Moon and Sun-Earth data, Lagrange point diagram",
+          "formative": "\"Two masses: 8 × 10²⁴ kg and 2 × 10²⁴ kg, separated by 5 × 10⁸ m. (a) Find the neutral point. (b) Calculate g at the midpoint — which mass dominates? (c) Sketch the field lines. (d) The JWST orbits at the Sun-Earth L2 point, about 1.5 million km from Earth. Why is this a good location for a space telescope?\""
+        }
+      ]
+    },
+    {
+      "name": "Gravitational Potential & Energy (AHL)",
+      "color": "accent3",
+      "totalMinutes": 210,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Gravitational PE — Eₚ = −Gm₁m₂/r (AHL)",
+          "focus": "Why gravitational PE is negative — work done to assemble from infinity",
+          "minutes": 55,
+          "understandings": [
+            "Gravitational PE of a system = work done to assemble the system from infinite separation",
+            "For two masses: Eₚ = −Gm₁m₂/r (negative because you must do POSITIVE work to separate them to infinity)",
+            "At infinity: Eₚ = 0 (by definition — this is the reference level)",
+            "Closer together → more negative Eₚ → more bound (harder to separate)",
+            "This replaces ΔEₚ = mgΔh which only works close to Earth's surface (g constant)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"In A.3 you used Eₚ = mgh. But this assumes g is constant — only true near the surface. For satellites, rockets, and planets, g varies with altitude. We need a new formula.\" The new formula: Eₚ = −GMm/r. The negative sign confuses everyone — let's unpack it carefully.</p><p><strong>Direct instruction (20 min):</strong> Convention: Eₚ = 0 at r = ∞. Bringing a mass from ∞ to distance r: gravity does POSITIVE work (pulls the mass in), so the mass LOSES PE → Eₚ becomes negative. The closer you bring them, the more negative Eₚ gets. To separate: you must DO work (add energy) → Eₚ increases (becomes less negative) → approaches 0 at ∞. Analogy: being in debt. Eₚ = 0 is debt-free (at infinity). Eₚ = −5 × 10⁹ J means you owe 5 GJ of energy to escape. Binding energy = |Eₚ| = energy needed to separate to infinity.</p><p><strong>Connection to mgh (5 min):</strong> Near the surface: Eₚ = −GMm/r. At height h above surface: Eₚ = −GMm/(R+h). Change: ΔEₚ = −GMm/(R+h) + GMm/R ≈ GMmh/R² = mgh (when h << R). So mgh IS a special case of −GMm/r. The new formula is more general.</p><p><strong>Worked examples (15 min):</strong> (1) Eₚ of Earth-Moon system: −GMₑMₘ/r = −7.6 × 10²⁸ J. (2) Eₚ of a 500 kg satellite at 400 km altitude: −GMₑm/(R+h). (3) Change in Eₚ moving satellite from 400 km to 800 km orbit: ΔEₚ = −GMm/(R+800) − (−GMm/(R+400)). Positive → energy was added. (4) Verify ΔEₚ ≈ mgΔh for a 1 kg mass lifted 10 m at the surface.</p><p><strong>Practice (10 min):</strong> Eₚ calculations and energy changes for orbit changes.</p>",
+          "engagementHook": {
+            "title": "THE GRAVITATIONAL DEBT — WHY PE IS NEGATIVE",
+            "content": "\"Think of gravitational PE as debt. At infinity: debt-free (Eₚ = 0). As Earth pulls you closer, you 'borrow' kinetic energy from the gravitational field — but now you're in debt. The ISS is −29 GJ in debt. The Moon is −76 × 10²⁷ J in debt. To escape, you must 'pay back' every joule.\" The negative sign isn't scary — it just means you're bound. The MORE negative, the MORE bound."
+          },
+          "nos": {
+            "tags": ["Theories", "Models"],
+            "description": "The choice Eₚ = 0 at infinity is a CONVENTION — not a physical fact. We could define Eₚ = 0 at the surface, but then the formula would be messier. Choosing the reference level wisely simplifies the mathematics. This is a common technique in physics: pick the reference that makes the algebra cleanest."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define gravitational PE; explain why it's negative; state Eₚ = −Gm₁m₂/r",
+            "AO2 — Calculate Eₚ and changes in Eₚ for orbit changes",
+            "AO3 — Analyse how Eₚ = −GMm/r reduces to ΔEₚ = mgΔh near the surface"
+          ],
+          "resources": "Calculators, Earth/Moon/satellite data, Eₚ vs r graph, gravitational 'debt' analogy diagram",
+          "formative": "\"(a) Calculate Eₚ for a 200 kg satellite at altitude 600 km above Earth. (b) The satellite moves to 1200 km. Find the change in Eₚ. Is energy added or removed? (c) Show that for h = 100 m at Earth's surface, ΔEₚ from −GMm/r gives the same result as mgh (to 3 s.f.). (d) Why is Eₚ always negative for gravitationally bound systems?\""
+        },
+        {
+          "num": 2,
+          "title": "Gravitational Potential Vg = −GM/r & Equipotentials (AHL)",
+          "focus": "Potential per unit mass and surfaces of equal potential",
+          "minutes": 55,
+          "understandings": [
+            "Gravitational potential Vg at a point: work done per unit mass in bringing a test mass from infinity to that point",
+            "Vg = −GM/r (scalar, units: J/kg). Vg = 0 at infinity, negative everywhere else",
+            "Equipotential surfaces: surfaces where Vg has the same value. Moving along an equipotential requires NO work",
+            "Equipotential surfaces are perpendicular to field lines",
+            "Near Earth: equipotentials are approximately flat horizontal planes (uniform field). Far from Earth: concentric spheres"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Vg = Eₚ/m = −GM/r. It's the PE per unit mass — a property of the FIELD, not the test mass. Like g gives the force per unit mass, Vg gives the PE per unit mass. Equipotential surfaces: contours of equal Vg. Moving along them costs no energy (like walking on flat ground). Moving between them requires/releases energy (like climbing/descending). Key: equipotentials ⊥ field lines always. Draw: around a sphere → concentric circles (in 2D). Near surface → horizontal lines. Between two masses → distorted shapes.</p><p><strong>Demo (10 min):</strong> Topographic map analogy: contour lines = equipotentials. Height = potential. Walking along a contour = no work. Walking uphill = work needed. The steeper the hill (closer contours), the stronger the field (larger g). Draw the gravitational equivalent around Earth.</p><p><strong>Worked examples (15 min):</strong> (1) Vg at Earth's surface: Vg = −GM/R = −6.26 × 10⁷ J/kg. (2) At ISS altitude: Vg = −GM/(R+400km) = −5.93 × 10⁷ J/kg. (3) Work to move a 100 kg mass from surface to ISS: W = mΔVg = 100 × (−5.93 − (−6.26)) × 10⁷ = 3.3 × 10⁸ J = 330 MJ. (4) Draw equipotential lines between Earth and Moon — show how they distort.</p><p><strong>Practice (10 min):</strong> Vg calculations, equipotential sketches, and work calculations.</p><p><strong>Connection (5 min):</strong> \"Equipotentials are the 'contour map' of the gravitational landscape. Satellites orbit ALONG an equipotential (same Vg → no work by gravity → constant speed for circular orbit). Changing orbit means crossing equipotentials — requires energy input or output.\"</p>",
+          "engagementHook": {
+            "title": "THE CONTOUR MAP OF GRAVITY",
+            "content": "Show a topographic map with contour lines. \"This IS a gravitational potential map — height IS proportional to gravitational potential (near the surface). Walking along a contour = no work. Climbing = work against gravity. The closer the contour lines, the steeper the hill, the stronger the 'field.'\" Then show the actual Vg map around Earth — concentric circles with values in MJ/kg. Satellites orbit along these circles."
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "Equipotential surfaces were introduced to make the invisible gravitational field visible. They're analogous to pressure contours on weather maps, voltage contours in electric fields, and temperature contours in thermal systems. The same mathematical tool describes different physical fields — a powerful unifying concept."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Communicator"],
+          "ao": [
+            "AO1 — Define gravitational potential; describe equipotential surfaces",
+            "AO2 — Calculate Vg and work done W = mΔVg",
+            "AO3 — Analyse the relationship between equipotentials and field lines"
+          ],
+          "resources": "Topographic map, Vg contour diagrams, calculators, Earth/planetary data",
+          "formative": "\"(a) Calculate Vg at the surface of Mars. (b) Calculate the work done to move a 50 kg probe from Mars's surface to a height of 1000 km using W = mΔVg. (c) Sketch equipotential lines around a single mass. (d) On your sketch, draw 3 field lines. Verify they're perpendicular to the equipotentials. (e) A satellite orbits along an equipotential. Does gravity do work on it? Explain.\""
+        },
+        {
+          "num": 3,
+          "title": "Potential Gradient & Work Done (AHL)",
+          "focus": "g = −ΔVg/Δr — the field is the slope of the potential",
+          "minutes": 50,
+          "understandings": [
+            "Gravitational field strength = negative potential gradient: g = −ΔVg/Δr",
+            "The negative sign: g points in the direction of DECREASING potential (toward the mass, downhill)",
+            "On a Vg vs r graph: the gradient at any point gives g at that point (magnitude)",
+            "Work done moving mass m: W = mΔVg = m(Vg,final − Vg,initial)",
+            "Moving to less negative Vg (away from mass): positive work required. Moving to more negative Vg (toward mass): work done by gravity"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Plot Vg vs r: starts at −∞ (at r = 0, theoretically), rises toward 0 as r → ∞. The gradient dVg/dr at any r gives g at that r. But g points INWARD (toward mass) while Vg INCREASES outward — hence the negative sign: g = −ΔVg/Δr. Near the surface: Vg changes approximately linearly with height → g ≈ constant. Far away: Vg changes slowly → g is small. Steeper Vg curve → stronger field.</p><p><strong>Graphical analysis (15 min):</strong> Give students a Vg vs r graph (curved). They draw tangent lines at different r values and measure gradients. These gradients equal g at those points. Verify: g calculated from gradient matches g = GM/r². Work: W = mΔVg. On the graph: the difference in Vg between two points × mass = work required to move between them.</p><p><strong>Worked examples (10 min):</strong> (1) From a Vg vs r graph: at r = 7000 km, the gradient is approximately 9.8 J/(kg·m) → g = 9.8 m/s². (2) Work to raise a satellite: W = m(Vg,800km − Vg,surface). (3) A rocket rises from r₁ to r₂: calculate work using W = mΔVg and verify with W = ΔEₖ + ΔEₚ.</p><p><strong>Practice (10 min):</strong> Gradient and work calculations from Vg-r graphs and numerical data.</p>",
+          "engagementHook": {
+            "title": "THE SLOPE OF GRAVITY — STEEP NEAR, FLAT FAR",
+            "content": "\"The Vg-r graph is the 'profile' of the gravitational well. Near a massive body: steep slope, strong g, hard to climb out. Far away: gentle slope, weak g, easy to move. The gradient IS the field strength. The area under a g-r curve between two points IS the change in Vg.\" Students trace their finger along the curve: \"Feel how steep it is near the surface — that's 9.8 m/s². Way out at the Moon's orbit — barely a slope.\""
+          },
+          "nos": {
+            "tags": ["Models", "Patterns"],
+            "description": "The relationship g = −dV/dr is the same mathematical structure as F = −dU/dx (force = negative gradient of PE) and E = −dV_e/dx (electric field = negative voltage gradient). This gradient relationship between a field quantity and its potential appears in every branch of physics — gravity, electrostatics, thermodynamics."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State g = −ΔVg/Δr; explain the negative sign",
+            "AO2 — Extract g from Vg-r graphs; calculate work W = mΔVg",
+            "AO3 — Analyse how Vg-r graphs encode field strength information"
+          ],
+          "resources": "Printed Vg vs r graphs, rulers for gradient measurement, calculators",
+          "formative": "\"A Vg vs r graph for a planet shows: Vg = −4.0 × 10⁷ J/kg at r = 5000 km, Vg = −2.5 × 10⁷ J/kg at r = 8000 km. (a) Estimate g at r = 6500 km using the gradient. (b) Calculate the work to move a 300 kg satellite from 5000 to 8000 km. (c) Does the satellite gain or lose PE? (d) If the satellite was in a circular orbit at 5000 km, what was its KE?\""
+        },
+        {
+          "num": 4,
+          "title": "Energy in Gravitational Orbits (AHL)",
+          "focus": "Total energy of orbiting bodies — Eₜ = −GMm/(2r)",
+          "minutes": 50,
+          "understandings": [
+            "For a circular orbit: KE = GMm/(2r), PE = −GMm/r, so total E = −GMm/(2r)",
+            "Total energy is negative → the body is BOUND (can't escape without adding energy)",
+            "Moving to a higher orbit: E becomes less negative → energy must be ADDED (fire engines forward in the direction of motion)",
+            "KE decreases as r increases (satellite slows down), PE increases (less negative), total E increases (less negative)"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> For circular orbit: gravity = centripetal → GMm/r² = mv²/r → v² = GM/r → KE = ½mv² = GMm/(2r). PE = −GMm/r. Total E = KE + PE = GMm/(2r) − GMm/r = −GMm/(2r). Note: |PE| = 2KE for any circular orbit. E is negative → bound. E = 0 → just barely escapes. E > 0 → escapes with KE to spare. Moving to higher orbit: r increases → E = −GMm/(2r) becomes less negative → need to ADD energy. Paradox: the satellite SLOWS DOWN when you add energy (KE decreases, but PE increases more).</p><p><strong>Worked examples (20 min):</strong> (1) ISS: KE, PE, total E at 400 km altitude. (2) Satellite moves from 500 km to 1000 km orbit. Find ΔE = energy input required. (3) \"To move to a higher orbit, do you fire engines forward or backward?\" Forward — you ADD KE. The satellite enters an elliptical transfer orbit. At the higher altitude, fire again to circularise. This is the Hohmann transfer — how real spacecraft change orbits.</p><p><strong>Energy diagram (10 min):</strong> Plot KE, PE, and E vs r on the same axes. KE curve: positive, decreasing with r. PE curve: negative, increasing toward 0. E curve: negative, halfway between KE and PE curves, increasing toward 0. At r → ∞: all three → 0. Students annotate the diagram with physical meaning at key points.</p><p><strong>Practice (5 min):</strong> Orbital energy calculations and energy changes for orbit transfers.</p>",
+          "engagementHook": {
+            "title": "THE ORBITAL SPEED PARADOX — SPEED UP BY SLOWING DOWN",
+            "content": "\"To reach a higher orbit, you fire your engines FORWARD (adding energy). Your speed temporarily increases. But at the higher orbit, your speed is LOWER than before. You added energy but ended up slower. Where did the energy go?\" Into PE — the satellite climbed the gravitational well. KE decreased but PE increased MORE. The total energy increased. Students calculate the specific case for ISS moving from 400 to 800 km."
+          },
+          "nos": {
+            "tags": ["Theories", "Patterns"],
+            "description": "The relationship E = −GMm/(2r) with E < 0 for bound orbits appears identically in atomic physics: the electron in a hydrogen atom has E = −13.6/n² eV. The mathematics of gravitational orbits and atomic orbits are structurally identical — a deep analogy between gravity and electrostatics."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State KE, PE, E for circular orbits; explain why E is negative",
+            "AO2 — Calculate orbital energies and energy changes for orbit transfers",
+            "AO3 — Analyse the orbital speed paradox and the KE/PE relationship"
+          ],
+          "resources": "Calculators, orbital energy vs r graph template, Hohmann transfer diagram",
+          "formative": "\"A 1000 kg satellite orbits Earth at r = 7000 km. (a) Calculate KE, PE, and total E. (b) Verify |PE| = 2KE. (c) The satellite moves to r = 8000 km. Find the new E and the energy input required. (d) Is the satellite faster or slower in the new orbit? Calculate both speeds. (e) Sketch KE, PE, E vs r on one graph.\""
+        }
+      ]
+    },
+    {
+      "name": "Escape Speed, Orbital Speed & Drag (AHL)",
+      "color": "accent4",
+      "totalMinutes": 210,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Escape Speed — v_esc = √(2GM/r) (AHL)",
+          "focus": "The minimum speed to leave a gravitational field permanently",
+          "minutes": 55,
+          "understandings": [
+            "Escape speed: the minimum speed at which a body must be launched to escape the gravitational field completely (reach r = ∞ with v = 0)",
+            "Derived from energy conservation: ½mv² + (−GMm/r) = 0 → v_esc = √(2GM/r)",
+            "Escape speed does NOT depend on the mass of the escaping body (m cancels)",
+            "Escape speed does NOT depend on the direction of launch",
+            "At any point in a field: v_esc = √2 × v_orbital (escape speed = √2 times orbital speed at the same radius)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"How fast do you need to throw a ball so it NEVER comes back?\" Not a trick question — there's a specific speed above which the ball has enough KE to overcome all the gravitational PE. This is the escape speed.</p><p><strong>Derivation (10 min):</strong> Total energy must be ≥ 0 to escape (E = 0 means just barely reaches infinity with v = 0). At launch: E = ½mv² − GMm/r. Set E = 0: ½mv² = GMm/r → v² = 2GM/r → v_esc = √(2GM/r). Note: m cancels — a marble and a rocket need the same speed. Direction doesn't matter — only magnitude (as long as you don't hit the ground).</p><p><strong>Worked examples (15 min):</strong> (1) Earth: v_esc = √(2 × 6.67×10⁻¹¹ × 6×10²⁴ / 6.37×10⁶) = 11.2 km/s. (2) Moon: v_esc = 2.4 km/s (much easier to escape). (3) Jupiter: v_esc = 60 km/s. (4) Sun's surface: 618 km/s. (5) For a neutron star (M = 2M_Sun, R = 10 km): v_esc = 0.6c — approaching light speed! If R shrinks to about 3 km: v_esc = c → BLACK HOLE (nothing escapes, not even light).</p><p><strong>Connection to v_orbital (10 min):</strong> v_orbital = √(GM/r). v_esc = √(2GM/r) = √2 × v_orbital. So escape speed is always 41.4% more than orbital speed. \"A satellite at 7.7 km/s orbits Earth. At 11.2 km/s, it escapes forever.\"</p><p><strong>Practice (15 min):</strong> Calculate escape speeds for various bodies. Compare v_esc with v_orbital. Discuss black holes qualitatively.</p>",
+          "engagementHook": {
+            "title": "FROM ORBIT TO ESCAPE TO BLACK HOLE",
+            "content": "\"Earth v_orbital = 7.7 km/s. Earth v_esc = 11.2 km/s. Just 45% faster and you leave forever.\" Then: \"A neutron star: v_esc ≈ 0.6c. Compress it more and v_esc reaches c — the speed of light. NOTHING can escape. Not light, not information, not anything. That's a black hole. The 'event horizon' is the surface where v_esc = c.\" Calculate the Schwarzschild radius for Earth's mass: R = 2GM/c² = 9 mm. \"If Earth were compressed to the size of a marble, it would be a black hole.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Models", "Patterns"],
+            "description": "John Michell (1783) and Pierre-Simon Laplace (1796) independently predicted 'dark stars' — objects so massive that light couldn't escape. This was 130 years before Einstein's general relativity formally described black holes. The Newtonian escape speed argument gives the correct Schwarzschild radius — a remarkable coincidence between classical and relativistic physics."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Open-minded", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define escape speed; derive v_esc = √(2GM/r)",
+            "AO2 — Calculate escape speed for various bodies; relate v_esc to v_orbital",
+            "AO3 — Analyse the conditions for a black hole (v_esc = c)"
+          ],
+          "resources": "Calculators, planetary data table, black hole infographic, Schwarzschild radius calculation",
+          "formative": "\"(a) Calculate v_esc for Mars. (b) A rocket at Earth's surface has v = 9 km/s. Does it escape? Find the maximum distance it reaches. (c) Show that v_esc = √2 × v_orbital at any r. (d) Calculate the Schwarzschild radius for the Sun (M = 2 × 10³⁰ kg). Compare with the Sun's actual radius. (e) Why doesn't escape speed depend on launch direction?\""
+        },
+        {
+          "num": 2,
+          "title": "Orbital Speed & Satellite Motion (AHL)",
+          "focus": "v_orbital = √(GM/r) and the physics of real satellite orbits",
+          "minutes": 60,
+          "understandings": [
+            "Orbital speed: v_orbital = √(GM/r) — derived from gravitational force = centripetal force",
+            "Higher orbits → slower speeds. Lower orbits → faster speeds",
+            "Geostationary orbit: T = 24 hours, r ≈ 42,200 km above Earth's centre, above the equator, circular",
+            "Low Earth Orbit (LEO): r ≈ 6,600–8,000 km, T ≈ 90 min, v ≈ 7.7 km/s (ISS, Hubble)",
+            "Changes in energy when a satellite changes orbit"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> v_orbital = √(GM/r). This means: closer → faster, further → slower. ISS at 400 km: v = 7.67 km/s, T = 92 min. Moon at 384,000 km: v = 1.02 km/s, T = 27.3 days. Geostationary: must have T = 24 h → unique r = 42,200 km. Must be circular, equatorial, and same rotational direction as Earth. Uses: TV broadcast, weather, communications. LEO uses: Earth observation, ISS, Hubble.</p><p><strong>Orbit transfer (15 min):</strong> Hohmann transfer orbit: from LEO to geostationary. (1) Fire engines forward at LEO → enter elliptical transfer orbit. (2) Coast to apogee (at geostationary altitude). (3) Fire again to circularise. Calculate: ΔE = E_final − E_initial = energy required for the transfer. KE changes: slower in higher orbit. PE changes: less negative in higher orbit. Net energy input = ΔE_total.</p><p><strong>Worked examples (15 min):</strong> (1) Calculate v_orbital for a satellite at 2R_Earth. (2) A satellite in LEO (r = 6800 km) transfers to r = 20,000 km. Find: v₁, v₂, ΔE. (3) How many minutes of engine burn (at a given thrust) are needed for the transfer?</p><p><strong>Practice (15 min):</strong> Mixed orbital problems including period, speed, energy, and orbit transfers.</p>",
+          "engagementHook": {
+            "title": "GPS — 24 SATELLITES MAKING YOUR PHONE WORK",
+            "content": "\"GPS uses 24+ satellites at r = 26,560 km (medium Earth orbit), T = 12 hours. Your phone receives signals from 4+ satellites, measures time delays, and triangulates your position to within 3 metres. The timing is so precise that GPS must correct for BOTH special relativity (satellite moves → time dilation) and general relativity (weaker gravity → time runs faster). Without relativistic corrections, GPS would drift by 10 km per day.\""
+          },
+          "nos": {
+            "tags": ["Technology", "Theories", "Global impact"],
+            "description": "Satellite technology transforms daily life: GPS navigation, weather forecasting, global communications, Earth observation for climate science. Each application requires precise gravitational calculations. The GPS system also provides one of the most practical demonstrations of Einstein's relativity — the corrections are essential for accuracy."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Knowledgeable", "Thinker"],
+          "ao": [
+            "AO1 — State v_orbital = √(GM/r); describe geostationary orbit conditions",
+            "AO2 — Calculate orbital speed, period, and energy for various orbits; calculate orbit transfer energy",
+            "AO3 — Analyse practical satellite applications and orbit selection"
+          ],
+          "resources": "Calculators, satellite orbit comparison table (LEO, MEO, GEO), GPS satellite diagram, Hohmann transfer animation",
+          "formative": "\"(a) Calculate v and T for a satellite at altitude 1000 km above Earth. (b) Find the radius of a geostationary orbit (T = 24 h). (c) A 500 kg satellite transfers from r = 7000 km to r = 42,200 km. Calculate the change in total energy. Is energy added or removed? (d) Is the satellite faster or slower in the higher orbit? (e) List three conditions for a geostationary orbit.\""
+        },
+        {
+          "num": 3,
+          "title": "Atmospheric Drag on Orbiting Bodies (AHL)",
+          "focus": "What happens when a satellite encounters drag — the counterintuitive speed-up",
+          "minutes": 40,
+          "understandings": [
+            "A small viscous drag force from the upper atmosphere removes energy from an orbiting body",
+            "The satellite loses total energy → it spirals to a LOWER orbit",
+            "In the lower orbit: KE is HIGHER (v_orbital = √(GM/r), r decreased → v increased)",
+            "Counterintuitive result: drag slows the satellite → it drops → it speeds up",
+            "The satellite's PE decreases more than its KE increases → total energy decreases continuously"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"The ISS orbits in the upper atmosphere (tiny air density, but not zero). Drag slows it. So it should slow down, right? WRONG — it speeds up. Every few months, it must fire engines to BOOST back to its original orbit. How does drag make something go faster?\"</p><p><strong>Direct instruction (15 min):</strong> Drag removes energy → E decreases (becomes more negative) → satellite drops to lower orbit. At lower r: v_orbital = √(GM/r) is LARGER. The satellite is faster despite losing energy. How? It lost PE (became more negative) by an amount GREATER than the KE it gained. ΔPE = −GMm/(r−Δr) − (−GMm/r) < 0 (more negative). ΔKE = GMm/(2(r−Δr)) − GMm/(2r) > 0 (KE increased). But |ΔPE| > |ΔKE|, so ΔE < 0. This is the virial theorem: for gravitational orbits, ΔKE = −½ΔE and ΔPE = ΔE.</p><p><strong>Worked example (10 min):</strong> ISS drops from 420 km to 415 km due to drag. Calculate: (a) change in v_orbital (increases by ~0.6 m/s), (b) change in PE (decreases by ~2.8 × 10⁶ J per kg), (c) change in KE (increases by ~1.4 × 10⁶ J per kg), (d) total energy lost = 1.4 × 10⁶ J per kg → dissipated as heat in the atmosphere.</p><p><strong>Discussion (5 min):</strong> \"Ultimately, if no reboosting occurs, a satellite spirals inward, heats up from friction with increasing atmospheric density, and burns up. This is deorbiting. Skylab (1979), Mir (2001), and eventually the ISS will meet this fate.\"</p><p><strong>Practice (5 min):</strong> Qualitative and quantitative questions on drag effects.</p>",
+          "engagementHook": {
+            "title": "THE ISS PARADOX — DRAG MAKES IT FASTER",
+            "content": "\"The ISS encounters drag. It loses energy. It drops lower. And yet — it's going FASTER. Every few weeks, it must fire engines to push back UP to its original altitude, which SLOWS it down. Drag accelerates it. Engines decelerate it. Everything is backward.\" Students calculate v at 420 km and 415 km to verify the speed increase. \"The gravitational well is responsible: dropping into a deeper well releases more PE than the KE gained.\""
+          },
+          "nos": {
+            "tags": ["Observations", "Models", "Patterns"],
+            "description": "The counterintuitive behaviour of orbiting bodies under drag is a direct consequence of the virial theorem — a deep result in classical mechanics that relates average KE and PE in bound gravitational systems. The same theorem explains why collapsing gas clouds HEAT UP as they shrink (relevant to star formation in E.4)."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — Describe qualitatively the effect of atmospheric drag on an orbiting body",
+            "AO2 — Explain why the satellite speeds up despite losing energy",
+            "AO3 — Analyse the energy balance: PE lost > KE gained → total energy decreases"
+          ],
+          "resources": "ISS reboost data, orbital decay diagram, calculators",
+          "formative": "\"A satellite in a circular orbit at 500 km experiences atmospheric drag. (a) Does its total energy increase or decrease? (b) Does it move to a higher or lower orbit? (c) Does its speed increase or decrease? (d) Explain the apparent contradiction between (a) and (c). (e) Why must the ISS periodically fire its engines forward, even though this slows it down?\""
+        },
+        {
+          "num": 4,
+          "title": "Gravitational Fields — Advanced Problem Solving (AHL)",
+          "focus": "Multi-step problems combining all D.1 concepts",
+          "minutes": 55,
+          "understandings": [
+            "Combine Kepler's laws, Newton's gravitation, field strength, potential, energy, escape speed, and orbital mechanics in complex problems",
+            "Common exam scenarios: orbit changes, satellite launches, interplanetary transfers, binary star systems",
+            "Use energy methods (Eₚ, KE, E_total) when possible — they avoid vector complications",
+            "Link gravitational concepts to A.2 (circular motion), A.3 (energy), and A.5 (relativity for extreme cases)"
+          ],
+          "teachingStrategy": "<p><strong>Strategy review (10 min):</strong> Decision framework for gravitational problems: (a) Need force → F = GMm/r². (b) Need field strength → g = GM/r². (c) Need potential → Vg = −GM/r. (d) Need energy → Eₚ = −GMm/r, KE = GMm/(2r), E = −GMm/(2r). (e) Need speed → v_orbital = √(GM/r), v_esc = √(2GM/r). (f) Need period → T² = 4π²r³/(GM). Many problems require chaining 2-3 of these.</p><p><strong>Complex problems (30 min):</strong> Groups tackle one each: (1) A rocket launches from Earth at 15 km/s. What maximum distance from Earth's centre does it reach? (Energy conservation: ½mv² − GMm/R = 0 − GMm/r_max → solve for r_max.) (2) Binary star: two stars of mass M and 2M orbit their common centre of mass. Separation = d. Find the orbital period. (3) A satellite in orbit at r₁ fires engines to increase speed by Δv. Find the new orbital parameters (semi-major axis from energy, period from Kepler's 3rd law). (4) An asteroid passes Earth at distance 10R at speed v. Will it be captured into orbit, fly past, or crash? (Compare E with 0.)</p><p><strong>Exam practice (15 min):</strong> 3 timed IB-style D.1 problems.</p>",
+          "engagementHook": {
+            "title": "MISSION TO MARS — PLAN THE TRAJECTORY",
+            "content": "\"NASA is sending a probe to Mars. From Earth orbit (r₁ = 1 AU, v₁ = 29.8 km/s), it needs to reach Mars orbit (r₂ = 1.52 AU). Calculate: the Δv needed at Earth orbit to enter the transfer ellipse, the travel time (half of the transfer orbit's period), and the arrival speed at Mars.\" Students plan a real interplanetary mission using orbital mechanics. Every Mars mission uses exactly this physics."
+          },
+          "nos": {
+            "tags": ["Technology", "Science as a shared endeavour"],
+            "description": "Every space mission — from Apollo to Voyager to JWST to Mars rovers — relies on the gravitational physics covered in D.1. The calculations are the same as Newton performed in the Principia (1687). Three centuries later, they still guide us to other planets."
+          },
+          "atl": ["Thinking skills", "Social skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable", "Communicator"],
+          "ao": [
+            "AO2 — Apply multiple D.1 concepts in combination to solve multi-step problems",
+            "AO3 — Evaluate which approach (force, energy, potential) is most efficient for a given problem"
+          ],
+          "resources": "Problem sets, whiteboards for group work, planetary data, Hohmann transfer reference",
+          "formative": "\"A 2000 kg satellite is launched from Earth at 12 km/s (> v_esc). (a) Calculate its KE and PE at launch. (b) Find total E. Is the satellite bound or unbound? (c) Find its speed when it's at distance 3R from Earth's centre. (d) What speed would it need at launch to just barely escape (v → 0 at r → ∞)? (e) Compare with v_esc = √(2GM/R).\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "A.2 Forces & Momentum", "question": "How does gravity provide the centripetal force for circular orbits? How is F = GMm/r² linked to F = mv²/r?" },
+    { "topic": "A.3 Work, Energy & Power", "question": "How does Eₚ = −GMm/r generalise ΔEₚ = mgΔh? When does the simpler equation fail?" },
+    { "topic": "A.4 Rigid Body Mechanics (HL)", "question": "How does conservation of angular momentum explain Kepler's 2nd law (equal areas in equal times)?" },
+    { "topic": "A.5 Special Relativity (HL)", "question": "What happens when v_esc approaches c? How does general relativity modify Newtonian gravity near black holes?" },
+    { "topic": "D.2 Electric & Magnetic Fields", "question": "How do gravitational and electric fields compare? Both follow inverse-square laws — what are the key differences?" },
+    { "topic": "E.4 Fission / E.5 Fusion", "question": "How does gravitational PE drive stellar collapse, initiating nuclear fusion in the cores of stars?" }
+  ]
+},
