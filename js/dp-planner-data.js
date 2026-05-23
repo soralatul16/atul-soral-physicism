@@ -2100,8 +2100,6 @@ const DP_PLANNER_DATA = {
     { "topic": "E.1 Structure of the Atom", "question": "How does the relativistic energy-momentum relation E² = (pc)² + (mc²)² apply to particles and photons?" },
     { "topic": "E.3 Radioactive Decay", "question": "How does mass defect (Δm) relate to binding energy via E = Δmc²? Why is this relevant to nuclear power and weapons?" }
   ]
-}
-
 };
 "B1": {
   "title": "Thermal Energy Transfers",
