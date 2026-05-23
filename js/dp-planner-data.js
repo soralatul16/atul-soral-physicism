@@ -2103,3 +2103,571 @@ const DP_PLANNER_DATA = {
 }
 
 };
+"B1": {
+  "title": "Thermal Energy Transfers",
+  "code": "B.1",
+  "theme": "B",
+  "level": "SL + HL",
+  "recommendedHours": 6,
+  "recommendedMinutes": 360,
+  "guidingQuestions": [
+    "How do macroscopic observations provide a model of the microscopic properties of a substance?",
+    "How is energy transferred within and between systems?",
+    "How can observations of one physical quantity be used to determine the other properties of a system?"
+  ],
+  "groups": [
+    {
+      "name": "Molecular Theory & Temperature",
+      "color": "accent5",
+      "totalMinutes": 100,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Molecular Theory — Solids, Liquids & Gases",
+          "focus": "How microscopic particle behaviour explains macroscopic properties",
+          "minutes": 35,
+          "understandings": [
+            "Molecular theory in solids, liquids and gases",
+            "Solids: particles vibrate about fixed positions, closely packed, strong intermolecular forces, fixed shape and volume",
+            "Liquids: particles can slide past each other, closely packed but disordered, moderate forces, fixed volume but variable shape",
+            "Gases: particles move randomly at high speed, widely spaced, negligible forces except during collisions, no fixed shape or volume"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Show three sealed containers: an ice cube, water, and steam (visible from a kettle). \"Same substance, three completely different behaviours. What's different at the particle level?\" Students sketch what they think the particles look like in each.</p><p><strong>Direct instruction (15 min):</strong> Present the molecular model for each phase. Solids: regular lattice, particles vibrate about equilibrium positions, strong bonds. Liquids: particles have enough energy to break free from fixed positions but not enough to separate entirely. Gases: particles move randomly, collide elastically, spend most of their time far apart. Link macroscopic properties (shape, volume, compressibility, density) to microscopic behaviour. Build a comparison table.</p><p><strong>Simulation (10 min):</strong> Use a PhET or similar particle simulation. Students observe: increase temperature → particles vibrate more (solid), move faster (liquid/gas). At phase boundaries, particles transition. This visual reinforcement connects the abstract model to observable behaviour.</p><p><strong>Practice (5 min):</strong> Match 6 macroscopic observations to their microscopic explanations.</p>",
+          "engagementHook": {
+            "title": "THE SYRINGE CHALLENGE",
+            "content": "Give students three syringes: one filled with water, one with air, one with sand. Block the end. \"Compress each.\" Air compresses easily (particles far apart). Water barely compresses (particles close but mobile). Sand doesn't compress at all (rigid lattice). The feel in their fingers IS the molecular model. \"Why can't you compress water? Because the molecules are already touching.\""
+          },
+          "nos": {
+            "tags": ["Models", "Observations"],
+            "description": "The particle model is one of the most successful models in physics — it explains phase behaviour, pressure, temperature, and energy transfer using a single framework. But it's still a model: real molecules have shape, charge distribution, and quantum properties that the simple 'hard sphere' model ignores."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Inquirer"],
+          "ao": [
+            "AO1 — Describe molecular theory for each phase",
+            "AO2 — Link macroscopic properties to microscopic particle behaviour"
+          ],
+          "resources": "Sealed containers with ice/water/steam, syringes (3 per group), sand, PhET particle simulation, comparison table handout",
+          "formative": "\"Explain, using molecular theory: (a) why gases are compressible but liquids are not, (b) why solids have a fixed shape, (c) why liquids take the shape of their container, (d) why gas pressure increases when the gas is heated at constant volume.\""
+        },
+        {
+          "num": 2,
+          "title": "Temperature, Kelvin Scale & Average Kinetic Energy",
+          "focus": "T/K = t/°C + 273 and E̅ₖ = (3/2)k_BT",
+          "minutes": 35,
+          "understandings": [
+            "Kelvin and Celsius scales are used to express temperature",
+            "The change in temperature is the same in K and °C (ΔT = Δt)",
+            "T/K = t/°C + 273",
+            "Kelvin temperature is a measure of the average kinetic energy of particles: E̅ₖ = (3/2)k_BT, where k_B is the Boltzmann constant",
+            "At 0 K (absolute zero), particles have minimum energy — all translational motion ceases"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"What is the coldest possible temperature?\" Students guess. Reveal: −273.15°C = 0 K. \"At this temperature, particles stop moving (classically). You can't go lower because there's no more kinetic energy to remove.\" This motivates the Kelvin scale — it starts at zero where energy starts at zero.</p><p><strong>Direct instruction (15 min):</strong> Define the scales: T/K = t/°C + 273. Key insight: ΔT = Δt — a change of 1°C is the same as a change of 1 K. The Kelvin scale is the 'physicist's scale' because it's proportional to average KE: E̅ₖ = (3/2)k_BT. At 300 K (room temperature): E̅ₖ = 1.5 × 1.38×10⁻²³ × 300 = 6.21 × 10⁻²¹ J. \"This is the average KE of every air molecule around you right now.\"</p><p><strong>Calculation practice (10 min):</strong> (1) Convert 37°C (body temperature) to K. (2) Find average KE of air molecules at room temperature (300 K). (3) At what temperature do molecules have twice the average KE? (600 K = 327°C). (4) \"If you double the Celsius temperature from 20°C to 40°C, does the average KE double?\" No — must use Kelvin: 293 K to 313 K, ratio = 1.07. Common trap!</p><p><strong>Practice (5 min):</strong> Conversion and E̅ₖ calculation problems.</p>",
+          "engagementHook": {
+            "title": "THE DOUBLING TRAP",
+            "content": "\"If you heat a gas from 20°C to 40°C, does the average KE of the molecules double?\" Every student says yes. Then calculate in Kelvin: 293 K to 313 K — the ratio is 1.07, not 2. KE barely changes! To actually double the KE, you'd need 586 K = 313°C. \"This is why physicists use Kelvin — Celsius lies about proportions.\""
+          },
+          "nos": {
+            "tags": ["Models", "Measurements"],
+            "description": "The Kelvin scale was defined by Lord Kelvin (William Thomson) based on the theoretical concept of absolute zero — a temperature that can be approached but never reached. The scale connects a macroscopic measurement (temperature) to a microscopic quantity (average KE). This bridge between macro and micro is the essence of thermal physics."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Knowledgeable", "Thinker"],
+          "ao": [
+            "AO1 — State the Kelvin-Celsius relationship; state E̅ₖ = (3/2)k_BT",
+            "AO2 — Convert between K and °C; calculate average KE at a given temperature",
+            "AO3 — Analyse why Kelvin must be used for proportional reasoning"
+          ],
+          "resources": "Whiteboard, calculators, k_B value card, temperature comparison chart (body, room, boiling, Sun surface)",
+          "formative": "\"(a) Convert −40°C to Kelvin. (b) At what Celsius temperature do molecules have an average KE of 1 × 10⁻²⁰ J? (c) A gas at 200 K is heated to 800 K. By what factor does the average KE increase? (d) Explain why doubling the Celsius temperature does NOT double the KE.\""
+        },
+        {
+          "num": 3,
+          "title": "Internal Energy",
+          "focus": "Total intermolecular PE + total random KE",
+          "minutes": 30,
+          "understandings": [
+            "Internal energy of a system is the total intermolecular potential energy (from forces between molecules) plus the total random kinetic energy (from random motion)",
+            "Temperature difference determines the direction of resultant thermal energy transfer between bodies — from hot to cold",
+            "Heating a system increases KE (temperature rises) OR increases PE (phase changes at constant temperature) — but not both simultaneously during a phase change"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> Internal energy = total KE (random motion) + total PE (intermolecular forces). When you heat a solid: KE increases → temperature rises. At the melting point: energy goes into BREAKING BONDS (increasing PE), not increasing KE → temperature stays constant during the phase change. After melting: KE increases again → temperature rises. This explains the flat sections on a heating curve.</p><p><strong>Heating curve analysis (10 min):</strong> Draw and annotate the temperature-time graph for heating ice from −20°C to steam at 120°C. Label: solid warming (KE ↑), melting (PE ↑, T constant), liquid warming (KE ↑), boiling (PE ↑, T constant), steam warming (KE ↑). Students annotate their own copy. \"Why is the boiling plateau longer than the melting plateau?\" (Latent heat of vaporisation >> fusion.)</p><p><strong>Thermal equilibrium (5 min):</strong> Heat flows from hot to cold until equilibrium (same T). Never the reverse — this is the direction of spontaneous energy transfer. Connect to the 2nd law of thermodynamics (preview B.4 for HL).</p><p><strong>Practice (5 min):</strong> \"A block of ice at 0°C is heated. Does its internal energy increase? Does its temperature increase?\" (Yes / No — during melting, PE increases but T stays constant.)</p>",
+          "engagementHook": {
+            "title": "THE ICE THAT WON'T GET HOTTER",
+            "content": "Heat a beaker of ice. Monitor with a thermometer. Temperature rises to 0°C then STOPS — for several minutes — while the ice melts. \"You're adding energy but the temperature isn't rising. Where is the energy going?\" Into breaking intermolecular bonds (PE). The flat plateau is visible proof that internal energy has two components."
+          },
+          "nos": {
+            "tags": ["Models", "Observations"],
+            "description": "The internal energy model explains why temperature plateaus during phase changes — a phenomenon that puzzled early scientists. The distinction between KE and PE components of internal energy is a model that successfully predicts heating curves, specific heat, and latent heat."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define internal energy as total KE + total PE",
+            "AO2 — Explain why temperature remains constant during a phase change",
+            "AO3 — Analyse heating curves in terms of KE and PE changes"
+          ],
+          "resources": "Beaker, ice, Bunsen burner or hotplate, thermometer, heating curve diagram handout",
+          "formative": "\"A substance is heated at a constant rate. The temperature rises from 20°C to 50°C in 3 min, stays at 50°C for 5 min, then rises again. (a) What happens at 50°C? (b) Is internal energy increasing during the plateau? (c) Which component of internal energy is changing?\""
+        }
+      ]
+    },
+    {
+      "name": "Thermal Properties of Matter",
+      "color": "accent2",
+      "totalMinutes": 110,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Specific Heat Capacity — Q = mcΔT",
+          "focus": "How much energy to change a substance's temperature",
+          "minutes": 40,
+          "understandings": [
+            "Specific heat capacity c: energy required to raise the temperature of 1 kg of a substance by 1 K",
+            "Q = mcΔT, where Q is energy transferred, m is mass, c is specific heat capacity, ΔT is temperature change",
+            "Different substances have different c values — water has an unusually high c (4200 J kg⁻¹ K⁻¹)",
+            "Solve problems involving specific heat capacity including mixtures reaching thermal equilibrium"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Why does sand at the beach burn your feet but the sea feels cool — even though both have been in the same sun all day?\" Sand has low specific heat capacity; water has high c. Same energy input → different temperature change.</p><p><strong>Direct instruction (10 min):</strong> Define c and present Q = mcΔT. Units: J kg⁻¹ K⁻¹. Compare: water (4200), aluminium (900), copper (390), iron (450), sand (~800). Water's high c means it heats and cools slowly — this moderates coastal climates, makes water an excellent coolant, and is why your hot water bottle stays warm.</p><p><strong>Lab (15 min):</strong> MEASURING c — Heat a metal block (with holes for heater and thermometer) with a known electrical energy input (P × t = VIt). Measure mass, initial and final temperature. Calculate c = Q/(mΔT). Compare with textbook value. Discuss sources of error (heat loss to surroundings).</p><p><strong>Practice (10 min):</strong> (1) Energy to heat 2 kg of water from 20°C to 100°C. (2) 500 g of iron at 200°C is dropped into 1 kg of water at 20°C — find the equilibrium temperature (heat lost by iron = heat gained by water).</p>",
+          "engagementHook": {
+            "title": "THE BEACH PARADOX — SAND vs SEA",
+            "content": "\"Noon at the beach: sand burns your feet, sea is refreshing. Midnight: sand is cold, sea is warm. Same sun, same time, opposite temperatures. Why?\" Water's high c means it resists temperature change. This single number explains coastal climates, ocean currents, and why England's winters are milder than Moscow's (same latitude)."
+          },
+          "nos": {
+            "tags": ["Measurements", "Global impact"],
+            "description": "Specific heat capacity was first systematically measured by Joseph Black in the 1760s. His work on latent heat and specific heat laid the foundations for thermodynamics. Water's high c has global consequences: ocean thermal inertia buffers climate, moderates weather, and stores solar energy seasonally."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Caring"],
+          "ao": [
+            "AO1 — Define specific heat capacity",
+            "AO2 — Apply Q = mcΔT; solve thermal equilibrium problems",
+            "AO3 — Analyse experimental data to determine c; evaluate sources of error"
+          ],
+          "resources": "Metal block with heater and thermometer holes, power supply, joulemeter or voltmeter+ammeter+timer, insulation, balance",
+          "formative": "\"A 300 g copper block (c = 390) at 95°C is placed in 500 g of water (c = 4200) at 15°C in an insulated container. (a) Write the energy conservation equation. (b) Find the equilibrium temperature. (c) Why is the final temperature much closer to 15°C than to 95°C?\""
+        },
+        {
+          "num": 2,
+          "title": "Phase Changes & Specific Latent Heat — Q = mL",
+          "focus": "Energy for phase transitions at constant temperature",
+          "minutes": 40,
+          "understandings": [
+            "A phase change represents a change in particle behaviour from a change in energy at constant temperature",
+            "During a phase change, energy changes the intermolecular PE — not the KE — so temperature remains constant",
+            "Specific latent heat of fusion L_f: energy to change 1 kg of solid to liquid at constant temperature",
+            "Specific latent heat of vaporisation L_v: energy to change 1 kg of liquid to gas at constant temperature",
+            "Q = mL for phase change calculations; L_v >> L_f for most substances"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Put ice in a drink. After 10 minutes, the drink is colder and the ice has melted. \"Where did the energy go?\" Into breaking the bonds in ice (latent heat of fusion). The drink lost thermal energy; the ice gained PE without changing temperature.</p><p><strong>Direct instruction (10 min):</strong> Define latent heat: L_f (fusion) and L_v (vaporisation). Q = mL. Water: L_f = 334 kJ/kg, L_v = 2260 kJ/kg. L_v is ~7× larger because vaporisation requires completely separating molecules, not just loosening them. \"A steam burn at 100°C is far worse than a water burn at 100°C because the steam releases 2260 kJ/kg of latent heat onto your skin as it condenses.\"</p><p><strong>Lab (15 min):</strong> MEASURING L_f — Melt a known mass of ice by adding it to warm water of known mass and temperature. Measure final temperature. Energy balance: m_water × c × ΔT_water = m_ice × L_f + m_ice × c × ΔT_meltwater. Solve for L_f. Compare with textbook value.</p><p><strong>Practice (10 min):</strong> (1) Energy to convert 2 kg of ice at −10°C to steam at 110°C (multi-step: warming + melting + warming + boiling + warming). (2) How much ice at 0°C is needed to cool 500 g of water from 80°C to 10°C?</p>",
+          "engagementHook": {
+            "title": "THE STEAM BURN WARNING",
+            "content": "\"Steam at 100°C and water at 100°C — same temperature. Which burns more?\" Steam — because it releases 2260 kJ/kg of latent heat as it condenses on your skin BEFORE it even starts cooling. That's 7× more energy than melting the same mass of ice. Students calculate: energy released by 1 g of steam condensing on skin vs 1 g of water at 100°C cooling to 37°C. The steam delivers 6× more energy."
+          },
+          "nos": {
+            "tags": ["Measurements", "Models"],
+            "description": "Joseph Black (1761) distinguished between heat and temperature — a revolutionary insight. Before Black, scientists thought melting happened because 'heat particles' (caloric) accumulated. Black showed that energy is absorbed WITHOUT temperature change during phase transitions. This led directly to the concept of latent heat."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Define specific latent heat of fusion and vaporisation",
+            "AO2 — Apply Q = mL; solve multi-step heating/cooling problems",
+            "AO3 — Analyse why L_v >> L_f in terms of molecular behaviour"
+          ],
+          "resources": "Ice, warm water, insulated cup, thermometer, balance, Bunsen burner or hotplate",
+          "formative": "\"Convert 500 g of ice at −15°C to steam at 100°C. Calculate the total energy required, showing each step separately. Which step requires the most energy and why?\""
+        },
+        {
+          "num": 3,
+          "title": "Density — ρ = m/V",
+          "focus": "A macroscopic property explained by microscopic spacing",
+          "minutes": 30,
+          "understandings": [
+            "Density ρ = m/V (mass per unit volume)",
+            "Units: kg m⁻³",
+            "Density reflects molecular spacing: solids and liquids have similar densities (particles close); gases have much lower density (particles far apart)",
+            "Density varies with temperature (expansion) and phase (ice is less dense than water — an anomaly)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Float an ice cube in water. \"Why does ice float? Almost every other substance sinks when it solidifies.\" Water expands on freezing — ice is less dense. This anomaly is why lakes freeze from the top, fish survive winter, and Earth's climate works.</p><p><strong>Direct instruction (10 min):</strong> Define ρ = m/V. Typical values: air 1.2 kg/m³, water 1000, ice 917, iron 7874, gold 19300. Connect to molecular theory: gases have low ρ because particles are far apart. Solids/liquids are similar because particles are close. Temperature affects ρ: heating → expansion → ρ decreases (usually).</p><p><strong>Lab (10 min):</strong> DENSITY DETECTIVE — Give students 5 unknown metal blocks. They measure mass (balance) and volume (water displacement or ruler for regular shapes). Calculate ρ. Identify each metal by comparing with a reference table.</p><p><strong>Practice (5 min):</strong> Density calculation problems, including irregular shapes (displacement method).</p>",
+          "engagementHook": {
+            "title": "DENSITY DETECTIVE & THE ICE ANOMALY",
+            "content": "Students identify mystery metal blocks by measuring their density. Then the big question: \"If ice were denser than water (like most solids), lakes would freeze from the BOTTOM up. Fish would die. Earth's oceans would eventually freeze solid. Life as we know it depends on water being weird.\" One anomalous density value → the survival of aquatic life."
+          },
+          "nos": {
+            "tags": ["Measurements", "Patterns"],
+            "description": "Archimedes supposedly discovered density measurement by displacement while solving the problem of the king's crown (c. 250 BC). Whether or not the story is true, the method — measuring volume by displacement — remains one of the most elegant experimental techniques in physics."
+          },
+          "atl": ["Research skills", "Thinking skills"],
+          "learnerProfile": ["Inquirer", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define density; state ρ = m/V",
+            "AO2 — Calculate density; identify substances from density values",
+            "AO3 — Explain density differences between phases using molecular theory"
+          ],
+          "resources": "Mystery metal blocks (5 types), balance, displacement can or graduated cylinder, ruler, density reference table",
+          "formative": "\"A block measures 3 cm × 4 cm × 5 cm and has mass 324 g. (a) Calculate its density. (b) Identify the metal. (c) Will it float in water? In mercury (ρ = 13,600 kg/m³)? (d) Why is ice less dense than liquid water? Explain at the molecular level.\""
+        }
+      ]
+    },
+    {
+      "name": "Thermal Energy Transfer Mechanisms",
+      "color": "accent3",
+      "totalMinutes": 150,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Conduction & Convection",
+          "focus": "Molecular-level mechanisms of thermal energy transfer",
+          "minutes": 40,
+          "understandings": [
+            "Conduction: thermal energy transfer through a material by molecular vibrations and collisions — particles transfer KE to neighbours without bulk movement",
+            "The rate of thermal energy transfer by conduction: Q/t = kA(ΔT)/d, where k is thermal conductivity, A is cross-sectional area, ΔT is temperature difference, d is thickness",
+            "Convection: thermal energy transfer by bulk movement of fluid — heated fluid expands, becomes less dense, rises; cooler fluid sinks to replace it",
+            "Convection requires a fluid medium; conduction can occur in solids, liquids, and gases"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Hold a metal rod with one end in a Bunsen flame. After 30 seconds, the other end is warm. \"The flame never touched this end. How did the energy get here?\" Conduction — vibrating molecules pass energy along the rod.</p><p><strong>Direct instruction — Conduction (10 min):</strong> At the molecular level: fast-vibrating particles at the hot end collide with slower neighbours, transferring KE. Rate depends on: material (k), area (A), temperature difference (ΔT), and thickness (d). Q/t = kAΔT/d. Metals conduct well (free electrons carry energy); insulators don't (no free electrons).</p><p><strong>Direct instruction — Convection (10 min):</strong> Heat water in a beaker from one side. Add a drop of dye. Students observe: dye rises on the heated side and sinks on the cool side — a convection current. Explain: heated water expands → lower density → rises → cooler water sinks to replace it → continuous loop. Only works in fluids (needs bulk movement). Examples: sea breezes, room heating, Earth's mantle.</p><p><strong>Lab (10 min):</strong> CONDUCTION RACE — Rods of different materials (copper, iron, glass, wood) with wax beads at regular intervals, all heated at one end. Students time how fast the wax melts along each rod. Rank by conductivity.</p><p><strong>Practice (5 min):</strong> Calculate rate of heat transfer through a wall using Q/t = kAΔT/d.</p>",
+          "engagementHook": {
+            "title": "THE CONDUCTION RACE & CONVECTION DYE SWIRL",
+            "content": "Wax beads on different metal rods melt at different rates — copper wins (highest k). Students see energy 'racing' along the rod. Then the dye in heated water creates beautiful, swirling convection currents visible to the whole class. Two demos, two mechanisms, both visual and immediate."
+          },
+          "nos": {
+            "tags": ["Models", "Observations"],
+            "description": "Conduction and convection were understood at the macroscopic level long before the molecular theory explained them. The molecular explanation (vibration transfer for conduction, density-driven flow for convection) came later and unified multiple observations under one framework."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Describe conduction and convection at the molecular level",
+            "AO2 — Apply Q/t = kAΔT/d to calculate conduction rates",
+            "AO3 — Analyse which mechanism dominates in different scenarios"
+          ],
+          "resources": "Metal rods (copper, iron, glass, wood), wax beads, Bunsen burner, beaker + dye + heater, thermometers",
+          "formative": "\"A glass window (k = 0.8 W m⁻¹ K⁻¹) is 1.5 m × 1 m × 5 mm thick. Inside: 22°C. Outside: 5°C. (a) Calculate the rate of heat loss. (b) If replaced by double glazing (two panes separated by air, k_air = 0.025), how does the heat loss change? (c) Why is trapped air a good insulator?\""
+        },
+        {
+          "num": 2,
+          "title": "Thermal Radiation, Stefan-Boltzmann & Wien's Law",
+          "focus": "How bodies emit and absorb electromagnetic radiation",
+          "minutes": 40,
+          "understandings": [
+            "Radiation: thermal energy transfer by electromagnetic waves — requires no medium (works in vacuum)",
+            "All bodies above 0 K emit thermal radiation; the hotter the body, the more radiation emitted",
+            "Stefan-Boltzmann law: total power radiated by a black body L = σAT⁴, where σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴",
+            "Wien's displacement law: the peak wavelength of emission is inversely proportional to temperature: λ_max × T = 2.9 × 10⁻³ m·K",
+            "Hotter objects peak at shorter wavelengths (blue) and cooler at longer (red)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"How does the Sun's energy reach Earth? There's no air in space — so conduction and convection are impossible.\" Radiation — electromagnetic waves travel through vacuum. Everything above 0 K radiates. You are radiating right now — about 100 W of infrared.</p><p><strong>Direct instruction (15 min):</strong> Stefan-Boltzmann: L = σAT⁴. The T⁴ dependence is extreme: double the temperature → 16× the power. Wien's law: λ_max = 2.9 × 10⁻³ / T. The Sun (5800 K): λ_max = 500 nm (green/yellow — visible light). A human (310 K): λ_max = 9.4 μm (infrared — invisible). A blue star (30,000 K): λ_max = 97 nm (UV). Show a blackbody spectrum: the curve shifts left and grows enormously as T increases.</p><p><strong>Worked examples (10 min):</strong> (1) Find λ_max for a star at 4000 K. (2) Calculate total power radiated by the Sun (T = 5800 K, R = 6.96 × 10⁸ m). (3) An object has λ_max = 1.0 μm — find its temperature. (4) A body at 600 K is heated to 1200 K — by what factor does its radiated power increase? (16×).</p><p><strong>Discussion (5 min):</strong> \"Why do hot coals glow red but a welding torch glows white-blue?\" Wien's law: higher T → shorter λ → colour shifts from red to orange to white to blue.</p><p><strong>Practice (5 min):</strong> Stefan-Boltzmann and Wien's law calculations.</p>",
+          "engagementHook": {
+            "title": "YOU ARE GLOWING — 100 WATTS OF INVISIBLE LIGHT",
+            "content": "\"Right now, you are emitting about 100 W of infrared radiation. You are literally glowing — just not in visible light.\" Calculate: L = σAT⁴ = 5.67×10⁻⁸ × 1.7 × 310⁴ ≈ 890 W total, but you also absorb ~790 W from your surroundings, so net emission is ~100 W. Show an infrared camera image of the class — everyone is bright. \"This is why a crowded room gets warm even with the heating off.\""
+          },
+          "nos": {
+            "tags": ["Theories", "Measurements", "Patterns"],
+            "description": "The Stefan-Boltzmann law was discovered empirically by Josef Stefan (1879) and derived theoretically by Ludwig Boltzmann (1884). Wien's law was derived in 1893. These laws describe blackbody radiation — the theoretical framework that eventually led Max Planck to quantum theory in 1900. Thermal radiation is where classical physics first broke down."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Knowledgeable", "Thinker"],
+          "ao": [
+            "AO1 — State Stefan-Boltzmann and Wien's laws",
+            "AO2 — Apply L = σAT⁴ and λ_max T = 2.9 × 10⁻³ m·K",
+            "AO3 — Analyse how temperature affects the spectrum of emitted radiation"
+          ],
+          "resources": "Infrared camera (or phone with IR app), blackbody spectrum diagram, calculators, star colour comparison chart",
+          "formative": "\"Star A has surface temperature 3000 K. Star B has surface temperature 12,000 K. (a) Find λ_max for each — what colour would each appear? (b) Star B has the same radius as Star A. By what factor is its luminosity greater? (c) A third star has λ_max = 350 nm. Find its temperature.\""
+        },
+        {
+          "num": 3,
+          "title": "Luminosity & Apparent Brightness",
+          "focus": "How a star's power spreads over distance",
+          "minutes": 35,
+          "understandings": [
+            "Luminosity L: total power radiated by a star in all directions (W)",
+            "Apparent brightness b: power received per unit area at a distance d from the star: b = L/(4πd²)",
+            "A star can have high luminosity but low apparent brightness if it's far away",
+            "Solve problems involving luminosity, apparent brightness, and distance"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Sirius is the brightest star in the night sky. Is it the most luminous star we can see?\" No — Betelgeuse is ~100,000× more luminous than the Sun but appears dimmer than Sirius because it's much farther away. Brightness depends on BOTH luminosity and distance.</p><p><strong>Direct instruction (10 min):</strong> Define luminosity L = total power output (in W). Apparent brightness b = power per unit area at distance d: b = L/(4πd²). The 4πd² is the surface area of a sphere of radius d — the star's light spreads uniformly over this sphere. Inverse square law: double the distance → quarter the brightness.</p><p><strong>Worked examples (10 min):</strong> (1) The Sun: L = 3.85 × 10²⁶ W, d = 1.5 × 10¹¹ m → b = 1361 W/m² (the solar constant!). (2) Two stars have the same luminosity but star A is 3× farther → b_A = b_B/9. (3) A star has b = 4 × 10⁻⁹ W/m² and d = 8 × 10¹⁶ m → find L.</p><p><strong>Connection (5 min):</strong> Link L = σAT⁴ (Stefan-Boltzmann) with b = L/(4πd²). If you know T and R of a star, you can find L. If you measure b, you can find d. This is how astronomers measure distances to stars — a powerful application connecting B.1 to E.4 Fusion and Stars.</p><p><strong>Practice (5 min):</strong> Luminosity and brightness calculations.</p>",
+          "engagementHook": {
+            "title": "THE STREET LAMP ANALOGY",
+            "content": "Hold a light bulb close — it's bright. Walk it to the back of the room — much dimmer. \"Same luminosity (same bulb). Different brightness (different distance). Stars work the same way.\" Calculate: the Sun's apparent brightness on Earth (1361 W/m²) vs on Mars (589 W/m²) vs on Neptune (1.5 W/m²). \"On Neptune, the Sun is barely brighter than a full moon on Earth.\""
+          },
+          "nos": {
+            "tags": ["Measurements", "Theories", "Patterns"],
+            "description": "The inverse square law for brightness was used by astronomers to estimate stellar distances long before parallax measurements were possible. This 'standard candle' method — comparing known luminosity with measured brightness to find distance — remains fundamental to cosmology (used with Cepheid variables and Type Ia supernovae)."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Knowledgeable", "Thinker"],
+          "ao": [
+            "AO1 — Define luminosity and apparent brightness",
+            "AO2 — Apply b = L/(4πd²) to solve for L, b, or d",
+            "AO3 — Analyse why apparent brightness alone doesn't indicate luminosity"
+          ],
+          "resources": "Light bulb, light meter (or phone app), metre stick, star data table (Sirius, Betelgeuse, Sun), calculators",
+          "formative": "\"The Sun has L = 3.85 × 10²⁶ W and is 1.5 × 10¹¹ m from Earth. (a) Calculate the apparent brightness (solar constant). (b) Alpha Centauri has L = 1.5L_Sun and is 4.1 × 10¹⁶ m away. Calculate its apparent brightness. (c) How many times brighter does the Sun appear compared to Alpha Centauri? (d) Explain why the Sun appears so much brighter despite being only slightly more luminous.\""
+        },
+        {
+          "num": 4,
+          "title": "Emissivity & Black Body Radiation",
+          "focus": "Real surfaces vs perfect black bodies",
+          "minutes": 35,
+          "understandings": [
+            "A perfect black body absorbs all incident radiation and emits the maximum possible radiation at every wavelength",
+            "Real surfaces emit less than a black body: L = εσAT⁴, where emissivity ε is between 0 and 1",
+            "ε = 1 for a perfect black body; ε < 1 for real surfaces",
+            "Good emitters are also good absorbers; poor emitters are poor absorbers (reflective surfaces)"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> A perfect black body is an idealisation: ε = 1. Real surfaces have ε < 1. Shiny metal: ε ≈ 0.05 (poor emitter, poor absorber, good reflector). Matt black surface: ε ≈ 0.95 (good emitter, good absorber). Human skin: ε ≈ 0.98 (nearly a black body in infrared!). Modify Stefan-Boltzmann: L = εσAT⁴.</p><p><strong>Demo (10 min):</strong> Leslie's cube: a metal cube with four different surfaces (matt black, shiny metal, white, rough). Fill with hot water. Use an infrared thermometer to measure radiation from each surface. Matt black radiates most. Shiny metal radiates least. \"Same temperature, different emission — because of ε.\"</p><p><strong>Practice (10 min):</strong> (1) A matt black sphere (ε = 0.95, r = 0.1 m, T = 400 K) — find L. (2) A shiny sphere (ε = 0.1, same r and T) — find L. Compare. (3) An object at 500 K receives 200 W of radiation and emits 180 W — find ε.</p><p><strong>Connection to B.2 (5 min):</strong> \"The Earth receives radiation from the Sun and emits radiation back to space. The balance between absorbed and emitted determines Earth's temperature. This is the basis of the greenhouse effect — next topic.\"</p>",
+          "engagementHook": {
+            "title": "LESLIE'S CUBE — WHICH SURFACE RADIATES MOST?",
+            "content": "Four surfaces, same temperature, different emission rates. Students predict the ranking before measuring. Most get it wrong — they expect white to emit most (confusing visible reflection with IR emission). Matt black wins. \"Your skin has ε = 0.98 — you're almost a perfect black body in infrared. That's why infrared cameras work so well on people.\""
+          },
+          "nos": {
+            "tags": ["Models", "Measurements", "Observations"],
+            "description": "The concept of a 'black body' is a theoretical ideal that doesn't exist in nature. But it's one of the most useful idealisations in physics — the black body spectrum led directly to quantum theory (Planck, 1900). The gap between the ideal model and real surfaces (measured by ε) is precisely quantified, making the model both approximate and useful."
+          },
+          "atl": ["Thinking skills", "Research skills"],
+          "learnerProfile": ["Inquirer", "Thinker"],
+          "ao": [
+            "AO1 — Define emissivity and black body",
+            "AO2 — Apply L = εσAT⁴ for real surfaces",
+            "AO3 — Analyse why good emitters are good absorbers"
+          ],
+          "resources": "Leslie's cube (or 4 cans with different surfaces), hot water, infrared thermometer, calculators",
+          "formative": "\"Two spheres of equal radius (0.05 m) are at 600 K. Sphere A is matt black (ε = 0.95). Sphere B is polished silver (ε = 0.05). (a) Calculate the power emitted by each. (b) Both are placed in a room at 300 K. Which cools faster and why? (c) Explain why spacecraft use shiny surfaces on some panels and black surfaces on others.\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "A.3 Work, Energy & Power", "question": "How does the concept of internal energy relate to mechanical energy? How do efficiency and energy density connect to thermal losses?" },
+    { "topic": "B.2 Greenhouse Effect", "question": "How do Stefan-Boltzmann and Wien's laws determine Earth's equilibrium temperature? How does emissivity affect the energy balance?" },
+    { "topic": "B.3 Gas Laws", "question": "How does E̅ₖ = (3/2)k_BT connect to the ideal gas law PV = NkT? How does temperature relate to pressure?" },
+    { "topic": "B.4 Thermodynamics (HL)", "question": "How does the concept of internal energy connect to the first law of thermodynamics?" },
+    { "topic": "E.4 Fusion and Stars", "question": "How are Stefan-Boltzmann, Wien's law, luminosity, and apparent brightness used to classify stars on the HR diagram?" },
+    { "topic": "IB Linking", "question": "How can observations of one physical quantity (e.g., peak wavelength) be used to determine other properties (e.g., temperature) of a system?" }
+  ]
+},
+"B2": {
+  "title": "Greenhouse Effect",
+  "code": "B.2",
+  "theme": "B",
+  "level": "SL + HL",
+  "recommendedHours": 6,
+  "recommendedMinutes": 360,
+  "guidingQuestions": [
+    "How does the greenhouse effect help to maintain life on Earth and how does human activity enhance this effect?",
+    "How is the atmosphere as a system modelled to quantify the Earth–atmosphere energy balance?"
+  ],
+  "groups": [
+    {
+      "name": "Solar Radiation & Surface Properties",
+      "color": "accent5",
+      "totalMinutes": 120,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "The Solar Constant & Incoming Radiation",
+          "focus": "S, projected area, and why the mean intensity is S/4",
+          "minutes": 40,
+          "understandings": [
+            "The solar constant S: the power per unit area received from the Sun at the mean Earth–Sun distance (~1361 W/m²)",
+            "The incoming radiative power depends on the projected surface of the planet along the direction of the rays — a disc of area πR²",
+            "The total surface area of the sphere is 4πR², so the mean incoming intensity is S/4",
+            "Conservation of energy applies to the Earth–atmosphere energy balance"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"The Sun blasts Earth with 1361 W on every square metre facing it. But the whole Earth doesn't face the Sun — it's a sphere. How much power does each square metre of Earth's surface ACTUALLY receive on average?\" Students guess. The answer: S/4 = 340 W/m². The factor of 4 is the ratio of sphere area to disc area.</p><p><strong>Direct instruction (15 min):</strong> Define the solar constant S. The Sun illuminates a disc (shadow area = πR²), but the radiation spreads over the whole sphere (surface area = 4πR²). Average power per unit area = S × πR² / 4πR² = S/4. Draw the geometry carefully — this is the single most common source of exam errors. Total power intercepted = S × πR². Average intensity over the sphere = S/4 = 340 W/m².</p><p><strong>Worked examples (10 min):</strong> (1) Total power intercepted by Earth (R = 6.37 × 10⁶ m): P = S × πR² = 1.74 × 10¹⁷ W. (2) Average intensity on Earth's surface: 1361/4 = 340 W/m². (3) For Mars (S_Mars = 589 W/m²): average = 589/4 = 147 W/m². \"Mars gets less than half the average solar input — one reason it's so cold.\"</p><p><strong>Practice (10 min):</strong> Calculate incoming power for different planets. Verify the S/4 factor geometrically.</p>",
+          "engagementHook": {
+            "title": "THE DISC vs SPHERE — WHY S/4?",
+            "content": "Shine a torch on a globe. The lit area is a disc (circle of light on one side). But the globe's TOTAL surface is 4× larger. Take a photo — the shadow on the wall is a circle (πR²), but the ball has area 4πR². \"The Sun lights a disc but heats a sphere. That's why we divide by 4.\" Students physically see the geometry that causes the factor."
+          },
+          "nos": {
+            "tags": ["Models", "Measurements"],
+            "description": "The S/4 factor is a geometric model — it averages day/night and latitude into a single number. It's an approximation that works for global energy balance calculations but hides important local variations (equator vs poles, summer vs winter). Knowing what a model averages away is as important as knowing what it predicts."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Knowledgeable", "Thinker"],
+          "ao": [
+            "AO1 — Define the solar constant",
+            "AO2 — Explain why mean incoming intensity is S/4; calculate total intercepted power",
+            "AO3 — Apply the S/4 model to other planets"
+          ],
+          "resources": "Torch, globe, calculator, planetary S-values table",
+          "formative": "\"Earth intercepts solar radiation over a disc of area πR². (a) Calculate the total power intercepted. (b) This power is distributed over the full sphere. Calculate the average intensity. (c) Explain physically why the poles receive less solar energy per unit area than the equator, even though S is constant.\""
+        },
+        {
+          "num": 2,
+          "title": "Albedo & Emissivity",
+          "focus": "How much energy is reflected vs absorbed, and how efficiently a surface radiates",
+          "minutes": 40,
+          "understandings": [
+            "Albedo α = total scattered (reflected) power / total incident power — the fraction of incoming radiation reflected back",
+            "Earth's average albedo is approximately 0.3 (30% of sunlight reflected)",
+            "Albedo varies daily and depends on cloud formations and latitude (ice/snow α ≈ 0.8, ocean α ≈ 0.06, clouds α ≈ 0.5–0.8)",
+            "Emissivity ε = power radiated per unit area / σT⁴ — how effectively a surface radiates compared to a black body",
+            "Absorbed power per unit area = (1 − α) × S/4"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> Show two satellite images of Earth: one with cloud cover, one without. \"Which Earth reflects more sunlight?\" The cloudy one — clouds have high albedo. \"If all clouds disappeared tomorrow, Earth would absorb MORE solar energy and warm up.\"</p><p><strong>Direct instruction (15 min):</strong> Define albedo: α = reflected/incident. Earth average: α = 0.3. But it varies hugely: fresh snow (0.8–0.9), ocean (0.06), forest (0.1–0.2), desert (0.3–0.4), clouds (0.5–0.8). Absorbed fraction = (1 − α). So Earth absorbs (1 − 0.3) × S/4 = 0.7 × 340 = 238 W/m². Recall emissivity from B.1: ε = actual radiation / black body radiation. Earth's effective emissivity ≈ 0.612 (due to greenhouse gases trapping some outgoing radiation).</p><p><strong>Ice-albedo feedback (5 min):</strong> \"If Earth warms → ice melts → albedo decreases → more absorption → more warming → more ice melts → ...\" This is a positive feedback loop. The reverse also works: more ice → higher albedo → cooling → more ice. This feedback amplifies climate changes in both directions.</p><p><strong>Worked examples (10 min):</strong> (1) Earth with α = 0.3: absorbed = (1−0.3) × 1361 × πR²/(4πR²) = 238 W/m². (2) If albedo dropped to 0.25 (less ice): absorbed = 255 W/m². Difference = 17 W/m² — massive at global scale. (3) A planet with α = 0.5 and S = 2000 W/m²: absorbed intensity?</p><p><strong>Practice (5 min):</strong> Albedo and absorbed power calculations.</p>",
+          "engagementHook": {
+            "title": "THE ICE-ALBEDO DEATH SPIRAL",
+            "content": "\"Ice reflects 80% of sunlight. Ocean absorbs 94%. So when Arctic ice melts and exposes ocean, Earth absorbs dramatically more energy, which melts more ice, which...\" Draw the feedback loop on the board. Students calculate: replacing 1 million km² of ice (α = 0.8) with ocean (α = 0.06) increases absorbed power by how much? The numbers are alarming — and it's happening now."
+          },
+          "nos": {
+            "tags": ["Global impact", "Models", "Patterns"],
+            "description": "The ice-albedo feedback is a real-world example of positive feedback in a complex system. Climate models must account for multiple interacting feedbacks — a challenge that makes climate science both difficult and essential. The IPCC (International Panel on Climate Change) synthesises global scientific effort to quantify these effects."
+          },
+          "atl": ["Thinking skills", "Social skills"],
+          "learnerProfile": ["Caring", "Knowledgeable", "Thinker"],
+          "ao": [
+            "AO1 — Define albedo and emissivity",
+            "AO2 — Calculate absorbed power using (1−α)S/4",
+            "AO3 — Analyse the ice-albedo feedback mechanism"
+          ],
+          "resources": "Satellite images (cloudy vs clear Earth), albedo values table for different surfaces, calculators",
+          "formative": "\"Earth has α = 0.3 and S = 1361 W/m². (a) Calculate the power absorbed per unit area. (b) If global warming reduces α to 0.25, calculate the new absorbed power. (c) Calculate the difference in total power absorbed over Earth's entire surface. (d) Explain the ice-albedo positive feedback loop.\""
+        },
+        {
+          "num": 3,
+          "title": "Estimating Equilibrium Temperature",
+          "focus": "Energy balance: power absorbed = power emitted",
+          "minutes": 40,
+          "understandings": [
+            "At equilibrium, the power absorbed by a planet equals the power emitted",
+            "Power absorbed = (1 − α) × S/4 × 4πR² = (1 − α) × S × πR²",
+            "Power emitted = εσT⁴ × 4πR²",
+            "Setting absorbed = emitted and solving for T gives the equilibrium temperature",
+            "For a black body (ε = 1, α = 0): T = (S / 4σ)^(1/4) ≈ 279 K for Earth",
+            "With albedo (α = 0.3): T ≈ 255 K = −18°C — but Earth's actual average is 288 K (15°C). The 33 K difference is the greenhouse effect"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (15 min):</strong> Energy balance: at equilibrium, P_in = P_out. P_in = (1 − α) × S × πR². P_out = εσT⁴ × 4πR². Set equal: (1 − α)SπR² = εσT⁴ × 4πR². Cancel πR²: (1 − α)S = 4εσT⁴. Solve: T = [(1 − α)S / (4εσ)]^(1/4). For ε = 1, α = 0.3: T = [(0.7 × 1361) / (4 × 5.67 × 10⁻⁸)]^(1/4) = 255 K = −18°C. But Earth's actual T = 288 K (15°C). The 33 K difference = greenhouse warming.</p><p><strong>Worked examples (15 min):</strong> (1) Earth without atmosphere (ε = 1, α = 0.3): T = 255 K. (2) Earth as a perfect black body (ε = 1, α = 0): T = 279 K. (3) Moon (ε = 1, α = 0.12, no atmosphere): T = 270 K (actual varies −173 to +127 due to no atmosphere to distribute heat). (4) Venus (α = 0.76, S = 2601 W/m²): T_equilibrium = 232 K but actual = 737 K — extreme greenhouse effect.</p><p><strong>Surface-atmosphere energy exchange (5 min):</strong> Introduce the two-layer model: surface absorbs solar + back-radiation from atmosphere. Atmosphere absorbs IR from surface and re-emits in all directions (half up, half down). This is the basis of the greenhouse effect.</p><p><strong>Practice (5 min):</strong> Calculate equilibrium temperature for given α, S, ε values.</p>",
+          "engagementHook": {
+            "title": "EARTH WITHOUT A BLANKET — 255 K",
+            "content": "\"Calculate Earth's temperature with no greenhouse effect: 255 K = −18°C. The oceans would be frozen solid. Life as we know it would be impossible. The greenhouse effect raises Earth by 33 K to a comfortable 15°C.\" Then Venus: equilibrium T = 232 K, actual T = 737 K — a runaway greenhouse added 500 K. \"The greenhouse effect is not the problem. The ENHANCED greenhouse effect is.\""
+          },
+          "nos": {
+            "tags": ["Models", "Global impact", "Theories"],
+            "description": "The energy balance model treats Earth as a single point — no seasons, no latitude variation, no weather. Yet it predicts the right order of magnitude for planetary temperatures. This is the power and limitation of simple models: they capture the essential physics but miss the detail. Climate scientists build increasingly complex models to include what the simple one omits."
+          },
+          "atl": ["Thinking skills", "Self-management skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — State the energy balance condition",
+            "AO2 — Calculate equilibrium temperature using (1−α)S = 4εσT⁴",
+            "AO3 — Analyse the difference between calculated and observed temperature to quantify the greenhouse effect"
+          ],
+          "resources": "Calculators, planetary data table (S, α for Earth, Mars, Venus, Moon), whiteboard for derivation",
+          "formative": "\"A rocky planet orbits a star with S = 800 W/m². Its albedo is 0.2 and it has no atmosphere (ε = 1). (a) Calculate its equilibrium temperature. (b) If a greenhouse atmosphere reduces ε to 0.6, find the new equilibrium T. (c) By how many degrees does the greenhouse effect warm this planet? (d) Compare with Earth's 33 K greenhouse warming.\""
+        }
+      ]
+    },
+    {
+      "name": "Greenhouse Gases & Mechanisms",
+      "color": "accent2",
+      "totalMinutes": 130,
+      "subtopics": [
+        {
+          "num": 1,
+          "title": "Greenhouse Gases — Sources & Properties",
+          "focus": "CH₄, H₂O, CO₂, N₂O — natural and human origins",
+          "minutes": 40,
+          "understandings": [
+            "The main greenhouse gases are: methane (CH₄), water vapour (H₂O), carbon dioxide (CO₂), and nitrous oxide (N₂O)",
+            "Each has origins that are both natural and created by human activity",
+            "CO₂: natural (respiration, volcanic eruptions) and human (fossil fuel combustion, deforestation)",
+            "CH₄: natural (wetlands, termites) and human (livestock, rice paddies, landfills, fossil fuel extraction)",
+            "H₂O: natural (evaporation) — not directly from human activity but amplified by warming (feedback)",
+            "N₂O: natural (soil bacteria) and human (agriculture, fertilisers, combustion)"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"Without greenhouse gases, Earth would be −18°C. Name the gases responsible.\" Students brainstorm. Most know CO₂. Fewer know CH₄, H₂O, N₂O. \"Water vapour is actually the MOST abundant greenhouse gas — but it's not the one we're worried about. Why?\"</p><p><strong>Direct instruction (15 min):</strong> Present each gas with natural and human sources. Key data: CO₂ has risen from 280 ppm (pre-industrial) to ~425 ppm (2024). CH₄ is 80× more potent than CO₂ over 20 years but less abundant. H₂O acts as a feedback amplifier: warming → more evaporation → more H₂O → more warming. N₂O stays in the atmosphere for ~114 years. Build a comparison table: gas, sources, relative warming potential, atmospheric lifetime.</p><p><strong>Data analysis (10 min):</strong> Show the Keeling Curve (CO₂ at Mauna Loa since 1958). Students observe: steady rise + annual oscillation. \"Why the zigzag?\" Northern hemisphere vegetation: summer photosynthesis absorbs CO₂; winter decay releases it. \"The Earth breathes — and we can see it in the data.\"</p><p><strong>Discussion (10 min):</strong> \"The burning of fossil fuels is a primary cause of the enhanced greenhouse effect\" (IB guidance). Discuss: fossil fuels release carbon that was locked underground for millions of years. This is a one-way transfer from the lithosphere to the atmosphere. Why is deforestation a double problem? (Less absorption AND releases stored carbon.)</p>",
+          "engagementHook": {
+            "title": "THE KEELING CURVE — EARTH BREATHING",
+            "content": "Show the Keeling Curve. Students see two things: the relentless upward trend (human emissions) and the annual zigzag (seasonal vegetation). \"You can literally see the Northern Hemisphere's forests breathing in summer and exhaling in winter.\" Then zoom out: the pre-industrial baseline was 280 ppm. We're at 425 ppm. \"In 200 years, we've increased atmospheric CO₂ by 50%. The last time it was this high was 3 million years ago.\""
+          },
+          "nos": {
+            "tags": ["Observations", "Measurements", "Global impact"],
+            "description": "The Keeling Curve is one of the most important datasets in science — continuous, meticulous measurement since 1958. Charles Keeling had to fight for funding to maintain it. The data was initially considered unimportant. Now it's central to climate science. This shows why long-term systematic measurement matters, even when results seem routine."
+          },
+          "atl": ["Thinking skills", "Communication skills", "Social skills"],
+          "learnerProfile": ["Caring", "Knowledgeable", "Open-minded"],
+          "ao": [
+            "AO1 — Name the four main greenhouse gases and their natural/human sources",
+            "AO2 — Explain why burning fossil fuels enhances the greenhouse effect",
+            "AO3 — Analyse the Keeling Curve data to identify trends and seasonal patterns"
+          ],
+          "resources": "Keeling Curve printout, greenhouse gas comparison table, CO₂ historical data, whiteboard",
+          "formative": "\"For each greenhouse gas (CO₂, CH₄, H₂O, N₂O): (a) give one natural source and one human source, (b) explain why H₂O is the most abundant but not the one we focus on for policy, (c) why is CH₄ more concerning per molecule than CO₂? (d) Explain the annual oscillation in the Keeling Curve.\""
+        },
+        {
+          "num": 2,
+          "title": "How Greenhouse Gases Trap Energy",
+          "focus": "Molecular energy levels, IR absorption, resonance, and re-emission",
+          "minutes": 45,
+          "understandings": [
+            "The absorption of infrared radiation by greenhouse gases in terms of molecular energy levels and subsequent emission in all directions",
+            "Earth radiates thermal radiation as a black body (peak in infrared per Wien's law: λ_max ≈ 10 μm at 288 K)",
+            "Greenhouse gas molecules have vibrational and rotational energy levels spaced to match infrared wavelengths",
+            "When IR photon energy matches an energy level gap, the molecule absorbs it → vibrates more → re-emits in a random direction",
+            "The greenhouse effect can be explained by both a resonance model (molecules resonate at IR frequencies) and molecular energy levels",
+            "Re-emission is in ALL directions — roughly half goes back toward the surface, effectively trapping energy"
+          ],
+          "teachingStrategy": "<p><strong>Opener (5 min):</strong> \"The Sun sends visible light to Earth. Earth absorbs it and re-emits it as infrared. If the atmosphere were transparent to IR, it would escape to space and Earth would be −18°C. But greenhouse gases ABSORB IR and send half of it back.\" Draw the energy flow diagram.</p><p><strong>Direct instruction (20 min):</strong> Step by step: (1) Sun emits mostly visible/UV (Wien: T = 5800 K → λ_max = 500 nm). (2) Earth's surface absorbs and warms to ~288 K. (3) Earth re-emits IR (λ_max ≈ 10 μm). (4) N₂ and O₂ (78% and 21% of atmosphere) are transparent to IR — they're symmetric molecules with no dipole moment. (5) CO₂, H₂O, CH₄, N₂O ARE asymmetric — they have vibrational modes that match IR frequencies. (6) When an IR photon matches the energy gap between vibrational levels, the molecule absorbs it. (7) The excited molecule re-emits a photon in a random direction. (8) ~50% heads back to Earth → surface receives solar + back-radiation → warmer than it would be without the atmosphere.</p><p><strong>Resonance model (10 min):</strong> An alternative explanation: greenhouse gas molecules have natural vibrational frequencies that match the frequencies of IR radiation. When the driving frequency (IR) matches the natural frequency, resonance occurs — maximum energy absorption. This is the same resonance from C.4 (standing waves). Discuss the limitation: real absorption isn't a single sharp frequency but a band (unlike ideal resonance).</p><p><strong>Diagram exercise (10 min):</strong> Students draw the complete energy flow diagram: Sun → surface → IR emission → absorption by GHGs → re-emission (up and down) → back-radiation. Label every energy transfer with approximate values from the energy balance calculation.</p>",
+          "engagementHook": {
+            "title": "THE BLANKET MODEL — BUT BETTER",
+            "content": "\"A greenhouse gas isn't a blanket — it's more like a mirror that only works for infrared. Visible light passes straight through (you can see the sky). But infrared gets bounced back.\" Demonstrate: hold a glass pane between a heat source and an IR thermometer — the glass blocks IR but transmits visible. \"Glass does what CO₂ does — that's why actual greenhouses work!\" Then discuss: why is the resonance model useful but limited?"
+          },
+          "nos": {
+            "tags": ["Models", "Theories", "Patterns"],
+            "description": "Two models explain the greenhouse effect: molecular energy levels (quantum) and resonance (classical). Both give correct predictions but from different conceptual frameworks. The resonance model is simpler but less precise (real absorption has bandwidth). The energy level model is more accurate but requires quantum concepts. Having multiple models for the same phenomenon is normal in physics."
+          },
+          "atl": ["Thinking skills", "Communication skills"],
+          "learnerProfile": ["Thinker", "Knowledgeable"],
+          "ao": [
+            "AO1 — Describe IR absorption in terms of molecular energy levels and resonance",
+            "AO2 — Explain how re-emission in all directions leads to surface warming",
+            "AO3 — Analyse the limitations of the resonance model vs the energy level model"
+          ],
+          "resources": "Glass pane, IR thermometer, heat source, energy flow diagram template, molecular vibration animations",
+          "formative": "\"(a) Why does Earth emit infrared rather than visible light? Use Wien's law. (b) Why do N₂ and O₂ NOT absorb IR? (c) Draw the complete energy flow: Sun → surface → atmosphere → space AND back to surface. (d) Explain how the resonance model describes greenhouse gas absorption. What is its main limitation?\""
+        },
+        {
+          "num": 3,
+          "title": "The Enhanced Greenhouse Effect",
+          "focus": "Human activity augmenting the natural greenhouse effect",
+          "minutes": 45,
+          "understandings": [
+            "The augmentation of the greenhouse effect due to human activities is the enhanced greenhouse effect",
+            "The burning of fossil fuels is a primary cause (IB guidance)",
+            "Increased GHG concentrations → more IR absorption → more back-radiation → higher surface temperature",
+            "Energy balance problems including energy exchanged between surface and atmosphere"
+          ],
+          "teachingStrategy": "<p><strong>Direct instruction (10 min):</strong> The natural greenhouse effect (33 K warming) is essential for life. The enhanced greenhouse effect is the ADDITIONAL warming caused by human-produced GHGs. Mechanism: more CO₂ → more IR absorption → more back-radiation → surface temperature rises → more H₂O evaporates (feedback) → even more warming. This is not speculative — it's measured. Global average temperature has risen ~1.2°C since pre-industrial times.</p><p><strong>Energy balance problem (15 min):</strong> Two-layer model: Surface at T_s emits εσT_s⁴ upward. Atmosphere at T_a absorbs all IR and re-emits εσT_a⁴ both up and down. Surface receives: S(1−α)/4 + εσT_a⁴ (back-radiation). At equilibrium: this equals εσT_s⁴. Solve for T_s in terms of T_a, or given values. Walk through the algebra carefully — this is a frequent exam question.</p><p><strong>Data interpretation (10 min):</strong> Show the global temperature anomaly graph (1880–present). Show CO₂ concentration over the same period. Ask students to describe the correlation. Then discuss: \"Correlation doesn't prove causation — but the MECHANISM (IR absorption by CO₂) is understood from physics. The correlation + mechanism together make the case.\"</p><p><strong>Group debate (10 min):</strong> \"What should be done?\" Groups propose one policy each based on the physics: carbon tax (reduce emissions), reforestation (increase absorption), geoengineering (increase albedo), nuclear power (zero-carbon energy). Each group must use at least two physics concepts from B.2 in their argument.</p>",
+          "engagementHook": {
+            "title": "VENUS — THE RUNAWAY GREENHOUSE WARNING",
+            "content": "\"Venus has an atmosphere that is 96% CO₂. Its equilibrium temperature should be 232 K (−41°C). Its actual surface temperature is 737 K (464°C) — hot enough to melt lead. The greenhouse effect added 500 KELVIN.\" Show a comparison: Earth's natural greenhouse adds 33 K. Venus's adds 500 K. \"Could Earth become Venus? Probably not — but the direction of the trend is the same. Every tonne of CO₂ we add pushes us further from equilibrium.\""
+          },
+          "nos": {
+            "tags": ["Global impact", "Science as a shared endeavour", "Ethics"],
+            "description": "Climate science represents perhaps the most consequential application of physics to society. The IPCC brings together thousands of scientists globally to assess the evidence. The science is clear; the policy response involves ethical, economic, and political dimensions that science informs but doesn't decide. Scientists have a responsibility to communicate findings honestly and clearly."
+          },
+          "atl": ["Thinking skills", "Communication skills", "Social skills"],
+          "learnerProfile": ["Caring", "Principled", "Open-minded", "Knowledgeable"],
+          "ao": [
+            "AO1 — Define the enhanced greenhouse effect",
+            "AO2 — Solve energy balance problems including surface-atmosphere exchange",
+            "AO3 — Analyse the relationship between GHG concentration and temperature data"
+          ],
+          "resources": "Global temperature anomaly graph, CO₂ vs temperature correlation data, Venus comparison data, debate cards, calculators",
+          "formative": "\"In a simple model: the surface at T_s emits σT_s⁴. The atmosphere absorbs all IR and re-emits σT_a⁴ equally up and down. Solar input absorbed = (1−α)S/4 = 238 W/m². (a) Write the energy balance for the surface. (b) Write the energy balance for the atmosphere. (c) Solve for T_s and T_a. (d) Compare T_s with the no-atmosphere case (255 K). How much does this simple greenhouse model warm the surface?\""
+        }
+      ]
+    }
+  ],
+  "linkingQuestions": [
+    { "topic": "B.1 Thermal Energy Transfers", "question": "How do Stefan-Boltzmann and Wien's laws determine the spectral properties of solar and terrestrial radiation?" },
+    { "topic": "C.1 Simple Harmonic Motion / C.4 Resonance", "question": "What relevance do simple harmonic motion and resonance have to climate change?" },
+    { "topic": "B.5 Current and Circuits / E.4 Fission", "question": "How do different methods of electricity production affect the energy balance of the atmosphere?" },
+    { "topic": "A.3 Work, Energy & Power", "question": "How does energy density of fuels relate to CO₂ emissions and the enhanced greenhouse effect?" },
+    { "topic": "IB Linking (NOS)", "question": "How are developments in science and technology affected by climate change?" },
+    { "topic": "IB Linking (Models)", "question": "What limitations are there in using a resonance model to explain the greenhouse effect?" }
+  ]
+},
