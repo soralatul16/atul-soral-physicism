@@ -1,0 +1,423 @@
+/* GDC CSS - Graphing Display Calculator */
+
+:root {
+  --gdc-bg: #f5f0e8;
+  --gdc-bg-deep: #e8e2d5;
+  --gdc-surface: #ffffff;
+  --gdc-text: #1a1a2e;
+  --gdc-text-muted: #555555;
+  --gdc-text-light: #888888;
+  --gdc-border: rgba(26, 35, 126, 0.08);
+  --gdc-accent: #1a237e;
+  --gdc-accent-hover: #0d1b60;
+  --gdc-accent-pale: rgba(26, 35, 126, 0.06);
+  --gdc-shadow: 0 10px 45px rgba(26, 35, 126, 0.12);
+  --gdc-shadow-sm: 0 4px 12px rgba(26, 35, 126, 0.06);
+  --gdc-radius: 16px;
+  --gdc-radius-sm: 8px;
+  --gdc-font: 'DM Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --gdc-font-mono: 'SF Mono', 'Cascadia Code', Consolas, monospace;
+}
+
+/* Dark mode compatibility based on data-theme attribute on html */
+[data-theme="dark"] {
+  --gdc-bg: #0f1119;
+  --gdc-bg-deep: #141620;
+  --gdc-surface: #1e2030;
+  --gdc-text: #e0ddd5;
+  --gdc-text-muted: #a0a0b0;
+  --gdc-text-light: #6a6a7a;
+  --gdc-border: rgba(255, 255, 255, 0.08);
+  --gdc-accent: #e05040;
+  --gdc-accent-hover: #ff7060;
+  --gdc-accent-pale: rgba(224, 80, 64, 0.12);
+  --gdc-shadow: 0 10px 45px rgba(0, 0, 0, 0.4);
+  --gdc-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Floating Launch Button */
+.gdc-launcher {
+  position: fixed;
+  bottom: 156px;
+  right: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gdc-accent), var(--gdc-accent-hover));
+  border: none;
+  color: #ffffff;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(26, 35, 126, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 8998;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
+}
+.gdc-launcher:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(26, 35, 126, 0.35);
+}
+
+/* Modal Shell */
+.gdc-modal {
+  position: fixed;
+  width: 380px;
+  height: 580px;
+  min-width: 360px;
+  min-height: 480px;
+  top: 80px;
+  right: 80px;
+  background: var(--gdc-bg);
+  border: 1.5px solid var(--gdc-border);
+  border-radius: var(--gdc-radius);
+  box-shadow: var(--gdc-shadow);
+  display: none;
+  flex-direction: column;
+  z-index: 9999;
+  overflow: hidden;
+  font-family: var(--gdc-font);
+  color: var(--gdc-text);
+  box-sizing: border-box;
+}
+
+.gdc-modal * {
+  box-sizing: border-box;
+}
+
+/* Header */
+.gdc-header {
+  padding: 12px 18px;
+  background: var(--gdc-bg-deep);
+  border-bottom: 1.5px solid var(--gdc-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: move;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.gdc-title {
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--gdc-text);
+}
+
+.gdc-window-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gdc-control-btn {
+  background: transparent;
+  border: none;
+  color: var(--gdc-text-muted);
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.gdc-control-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--gdc-text);
+}
+
+[data-theme="dark"] .gdc-control-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.gdc-control-btn.close-btn:hover {
+  background: #c0392b;
+  color: #ffffff;
+}
+
+/* Tabs */
+.gdc-tabs {
+  display: flex;
+  background: var(--gdc-bg-deep);
+  border-bottom: 1.5px solid var(--gdc-border);
+  flex-shrink: 0;
+}
+
+.gdc-tab-btn {
+  flex: 1;
+  padding: 10px 0;
+  border: none;
+  background: transparent;
+  color: var(--gdc-text-muted);
+  font-family: var(--gdc-font);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  text-align: center;
+}
+
+.gdc-tab-btn:hover {
+  color: var(--gdc-accent);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.gdc-tab-btn.active {
+  color: var(--gdc-accent);
+  background: var(--gdc-bg);
+}
+
+.gdc-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1.5px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gdc-accent);
+  border-radius: 3px 3px 0 0;
+}
+
+/* Content Panels */
+.gdc-content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  background: var(--gdc-bg);
+}
+
+.gdc-panel {
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.gdc-panel.active {
+  display: flex;
+}
+
+/* === CALCULATOR MODE === */
+.gdc-calc-screen {
+  padding: 14px 18px;
+  background: var(--gdc-surface);
+  border-bottom: 1.5px solid var(--gdc-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 140px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.gdc-history-container {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 4px;
+}
+
+.gdc-history-item {
+  font-size: 11px;
+  color: var(--gdc-text-light);
+  text-align: right;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.gdc-history-item:hover {
+  background: var(--gdc-bg-deep);
+  color: var(--gdc-text);
+}
+
+.gdc-input-line {
+  font-family: var(--gdc-font-mono);
+  font-size: 18px;
+  color: var(--gdc-text);
+  text-align: right;
+  word-break: break-all;
+  min-height: 24px;
+  margin-bottom: 4px;
+}
+
+.gdc-result-line {
+  font-family: var(--gdc-font-mono);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--gdc-accent);
+  text-align: right;
+  word-break: break-all;
+}
+
+.gdc-fraction-line {
+  font-size: 11px;
+  color: var(--gdc-text-muted);
+  text-align: right;
+  font-family: var(--gdc-font-mono);
+  min-height: 14px;
+}
+
+.gdc-mode-indicator {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-size: 9px;
+  font-family: var(--gdc-font-mono);
+  font-weight: 700;
+  color: var(--gdc-text-light);
+  letter-spacing: 0.5px;
+}
+
+/* Keypad Grid */
+.gdc-calc-keypad {
+  flex: 1;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  gap: 6px;
+  background: var(--gdc-bg-deep);
+}
+
+.gdc-key {
+  border: 1px solid var(--gdc-border);
+  border-radius: 8px;
+  background: var(--gdc-surface);
+  color: var(--gdc-text);
+  font-family: var(--gdc-font);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  user-select: none;
+  box-shadow: var(--gdc-shadow-sm);
+  outline: none;
+}
+
+.gdc-key:hover {
+  background: var(--gdc-bg);
+  transform: translateY(-1px);
+}
+
+.gdc-key:active {
+  transform: translateY(0);
+}
+
+.gdc-key.num {
+  font-size: 15px;
+}
+
+.gdc-key.op {
+  background: var(--gdc-accent-pale);
+  color: var(--gdc-accent);
+}
+
+.gdc-key.op:hover {
+  background: var(--gdc-accent);
+  color: #ffffff;
+}
+
+.gdc-key.func {
+  font-size: 11px;
+  color: var(--gdc-text-muted);
+}
+
+.gdc-key.ctrl {
+  background: rgba(0, 0, 0, 0.05);
+  font-size: 11.5px;
+}
+
+[data-theme="dark"] .gdc-key.ctrl {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.gdc-key.eq {
+  background: var(--gdc-accent);
+  color: #ffffff;
+  grid-column: span 1;
+}
+
+.gdc-key.eq:hover {
+  background: var(--gdc-accent-hover);
+}
+
+.gdc-key.clr {
+  color: #c0392b;
+}
+
+/* === PLACEHOLDER VIEWS === */
+.gdc-coming-soon {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  text-align: center;
+}
+
+.gdc-coming-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.gdc-coming-soon h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--gdc-text);
+}
+
+.gdc-coming-soon p {
+  font-size: 12.5px;
+  color: var(--gdc-text-muted);
+  line-height: 1.5;
+}
+
+/* Resize handle */
+.gdc-resize-handle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  right: 0;
+  bottom: 0;
+  cursor: se-resize;
+  background: linear-gradient(135deg, transparent 40%, var(--gdc-text-light) 40%, transparent 60%, var(--gdc-text-light) 60%);
+  z-index: 10001;
+}
+
+/* Maximize State */
+.gdc-modal.maximized {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0;
+  border: none;
+}
+.gdc-modal.maximized .gdc-resize-handle {
+  display: none;
+}
