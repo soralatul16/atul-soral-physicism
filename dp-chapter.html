@@ -1860,7 +1860,7 @@ body {
 <script src="exam-system/firebase-config.js?v=2"></script>
 
 <!-- Content and Progress Data Scripts -->
-<script src="js/dp-student-data.js?v=7"></script>
+<script src="js/dp-student-data.js?v=8"></script>
 <script src="js/dp-progress.js?v=2"></script>
 <script src="js/gdc.js"></script>
 
@@ -1989,9 +1989,12 @@ function initLessonViewer() {
   if (activeAbilityBtn) activeAbilityBtn.classList.add('active');
 
   // Update layout header info
-  document.getElementById('topic-header-title').textContent = currentTopicData.title;
-  document.getElementById('topic-header-meta').textContent = `Theme ${currentTopicData.theme} · ${currentTopicData.level} · Recommended ${currentTopicData.subtopicCount} Subtopics`;
-  document.getElementById('topbar-topic-code').textContent = `${currentTopicData.code} ${currentTopicData.title}`;
+  const hTitle = document.getElementById('topic-header-title');
+  if (hTitle) hTitle.textContent = currentTopicData.title;
+  const hMeta = document.getElementById('topic-header-meta');
+  if (hMeta) hMeta.textContent = `Theme ${currentTopicData.theme} · ${currentTopicData.level} · Recommended ${currentTopicData.subtopicCount} Subtopics`;
+  const hCode = document.getElementById('topbar-topic-code');
+  if (hCode) hCode.textContent = `${currentTopicData.code} ${currentTopicData.title}`;
   document.title = `${currentTopicData.code} ${currentTopicData.title} | Physicism`;
 
   // Set active lesson idx to first visible SL subtopic if current is HL in SL mode
@@ -2023,9 +2026,12 @@ function renderComingSoon() {
       <a href="dp-dashboard.html" class="glass-btn" style="display: inline-block;">Return to Dashboard</a>
     </div>
   `;
-  document.getElementById('topic-header-title').textContent = "Coming Soon";
-  document.getElementById('topic-header-meta').textContent = "DP Physics";
-  document.getElementById('selectorsBar').style.display = 'none';
+  const tTitle = document.getElementById('topic-header-title');
+  if (tTitle) tTitle.textContent = "Coming Soon";
+  const tMeta = document.getElementById('topic-header-meta');
+  if (tMeta) tMeta.textContent = "DP Physics";
+  const sBar = document.getElementById('selectorsBar');
+  if (sBar) sBar.style.display = 'none';
 }
 
 function renderSidebar() {
@@ -2868,12 +2874,14 @@ function checkAuth() {
       const sidebarProgress = document.getElementById('sidebarProgress');
 
       if (!user) {
-        bannerText.textContent = "Sign in to track your progress and unlock analytics";
-        bannerBtn.textContent = "Sign In";
-        bannerBtn.onclick = () => window.location.href = 'exam-system/student-login.html';
-        banner.style.display = 'flex';
-        progressLink.style.display = 'none';
-        sidebarProgress.style.display = 'none';
+        if (bannerText) bannerText.textContent = "Sign in to track your progress and unlock analytics";
+        if (bannerBtn) {
+          bannerBtn.textContent = "Sign In";
+          bannerBtn.onclick = () => window.location.href = 'exam-system/student-login.html';
+        }
+        if (banner) banner.style.display = 'flex';
+        if (progressLink) progressLink.style.display = 'none';
+        if (sidebarProgress) sidebarProgress.style.display = 'none';
         resetSidebarStatusBadges();
         return;
       }
@@ -2885,23 +2893,25 @@ function checkAuth() {
       }
 
       const domain = user.email.split('@')[1].toLowerCase();
-      if (BLOCKED_DOMAINS.includes(domain)) {
+      if (typeof BLOCKED_DOMAINS !== 'undefined' && BLOCKED_DOMAINS.includes(domain)) {
         alert('Please use a valid school or personal email. Disposable emails are not allowed.');
         firebase.auth().signOut();
         return;
       }
 
       const displayName = user.displayName || user.email.split('@')[0];
-      bannerText.textContent = `Welcome, ${displayName}! Progress tracking is enabled.`;
-      bannerBtn.textContent = "Sign Out";
-      bannerBtn.onclick = () => {
-        firebase.auth().signOut().then(() => {
-          window.location.reload();
-        });
-      };
+      if (bannerText) bannerText.textContent = `Welcome, ${displayName}! Progress tracking is enabled.`;
+      if (bannerBtn) {
+        bannerBtn.textContent = "Sign Out";
+        bannerBtn.onclick = () => {
+          firebase.auth().signOut().then(() => {
+            window.location.reload();
+          });
+        };
+      }
       
-      progressLink.style.display = 'inline-flex';
-      sidebarProgress.style.display = 'block';
+      if (progressLink) progressLink.style.display = 'inline-flex';
+      if (sidebarProgress) sidebarProgress.style.display = 'block';
 
       syncProgressRealtime(user.uid);
     });
