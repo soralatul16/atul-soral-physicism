@@ -1770,6 +1770,35 @@ body {
   vertical-align: middle;
 }
 
+
+.math-display {
+  font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif;
+  font-size: 1.35em;
+  text-align: center;
+  margin: 12px 0;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+.frac {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 0.9em;
+  margin: 0 6px;
+  line-height: 1.2;
+}
+.frac .num {
+  border-bottom: 1px solid currentColor;
+  padding: 2px 4px;
+}
+.frac .den {
+  padding: 2px 4px;
+}
+.math-display sup {
+  font-size: 0.65em;
+  vertical-align: super;
+}
 </style>
 
 </head>
@@ -1917,7 +1946,7 @@ body {
 <script src="exam-system/firebase-config.js?v=2"></script>
 
 <!-- Content and Progress Data Scripts -->
-<script src="js/dp-student-data.js?v=12"></script>
+<script src="js/dp-student-data.js?v=13"></script>
 <script src="js/dp-progress.js?v=2"></script>
 <script src="js/gdc.js"></script>
 
@@ -2153,6 +2182,37 @@ function renderSidebar() {
 }
 
 
+
+// ── EQUATION FORMATTER ──
+function formatFormula(formula) {
+  if (!formula) return '';
+  let html = formula;
+  
+  // Convert unicode superscripts to standard chars inside <sup>
+  const supMap = {
+    '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4',
+    '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9',
+    '⁺': '+', '⁻': '-', '⁼': '=', '⁽': '(', '⁾': ')'
+  };
+  
+  html = html.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾]+/g, match => {
+    let converted = match.split('').map(c => supMap[c] || c).join('');
+    return `<sup>${converted}</sup>`;
+  });
+             
+  // Detect (numerator) / (denominator) pattern
+  html = html.replace(/\(([^)]+)\)\s*\/\s*\(([^)]+)\)/g, '<div class="frac"><span class="num">$1</span><span class="den">$2</span></div>');
+  
+  // Detect numerator / (denominator) without parens on top
+  html = html.replace(/([a-zA-Z0-9_]+)\s*\/\s*\(([^)]+)\)/g, '<div class="frac"><span class="num">$1</span><span class="den">$2</span></div>');
+  
+  // Detect (numerator) / denominator without parens on bottom
+  html = html.replace(/\(([^)]+)\)\s*\/\s*([a-zA-Z0-9_]+)/g, '<div class="frac"><span class="num">$1</span><span class="den">$2</span></div>');
+  
+  // Wrap in math display
+  return `<div class="math-display">${html}</div>`;
+}
+
 function renderActiveSubtopic() {
   const contentArea = document.getElementById('contentArea');
   contentArea.innerHTML = '';
@@ -2371,7 +2431,7 @@ function renderActiveSubtopic() {
       <div style="display: flex; flex-direction: column;">
         ${sub.equations && sub.equations.length > 0 ? sub.equations.map(eq => `
           <div class="eq-row">
-            <div class="eq-formula">${eq.formula}</div>
+            <div class="eq-formula">${formatFormula(eq.formula)}</div>
             <div class="eq-desc">${eq.description}</div>
           </div>
         `).join('') : '<div style="padding: 16px; color: var(--text3); font-style: italic;">No equations for this subtopic</div>'}
