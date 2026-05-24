@@ -4348,4 +4348,601 @@ const DP_STUDENT_DATA = {
 
   ]
 },
+// ============================================================
+// A.3 WORK, ENERGY & POWER — COMPLETE (8 subtopics)
+// End with comma — ready for A4 to follow
+// ============================================================
+
+"A3": {
+  "title": "Work, Energy & Power",
+  "code": "A.3",
+  "theme": "A",
+  "level": "SL + HL",
+  "subtopicCount": 8,
+  "subtopics": [
+
+    {
+      "id": "a3_sub1",
+      "num": 1,
+      "title": "Work Done by a Force",
+      "group": "Work & Energy",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "A.2 Forces & Momentum",
+      "nextTitle": "Kinetic Energy",
+
+      "bigIdea": "You push a box across a room — that's work. You hold a heavy bag stationary — that's NOT work (in physics). You carry the bag horizontally — still not work (against gravity). Work has a precise meaning in physics: force × displacement in the direction of the force. If there's no movement, or the force is perpendicular to the movement, no work is done.",
+
+      "foundation": {
+        "title": "What 'work' means in physics — it's not what you think",
+        "content": "<h4>The everyday meaning vs the physics meaning</h4><p>In everyday language, holding a heavy suitcase is 'hard work.' But in physics, you're doing ZERO work on the suitcase if it doesn't move. Your muscles are working (biochemically), but you're not doing work on the suitcase because there's no displacement.</p><p>In physics, <strong>work is done when a force causes displacement</strong>. Both must be present: a force AND movement in the direction of the force.</p><h4>The definition of work</h4><p><strong>Work = Force × displacement × cos θ</strong></p><p><strong>W = Fs cos θ</strong></p><p>Where W is work (joules, J), F is the force (newtons, N), s is the displacement (metres, m), and θ is the angle between the force and the displacement.</p><p><strong>Key cases:</strong></p><ul><li><strong>θ = 0° (force and displacement in same direction):</strong> W = Fs. Maximum work. Example: pushing a box forward.</li><li><strong>θ = 90° (force perpendicular to displacement):</strong> W = 0. No work done. Example: carrying a bag horizontally (gravity is vertical, displacement is horizontal — perpendicular).</li><li><strong>θ = 180° (force opposite to displacement):</strong> W = −Fs. Negative work. Example: friction on a sliding box (friction is backward, displacement is forward).</li></ul><h4>The joule — unit of work and energy</h4><p>1 joule = 1 newton × 1 metre = 1 N·m = 1 kg·m²/s². One joule is the work done by a 1 N force moving an object 1 m in the direction of the force.</p><p>Scale: lifting an apple 1 m ≈ 1 J. Climbing a flight of stairs ≈ 1000 J. A car engine produces ≈ 50,000 J per second.</p><h4>When is work zero?</h4><ul><li><strong>No displacement:</strong> Pushing a wall (wall doesn't move) → W = 0.</li><li><strong>Force perpendicular to displacement:</strong> Normal force on a box sliding horizontally (N is vertical, motion is horizontal) → W = 0. Centripetal force on an orbiting satellite (always perpendicular to velocity) → W = 0.</li><li><strong>No force in the direction of displacement:</strong> A puck sliding on frictionless ice (no horizontal force) — no work is done on the puck during the slide (it moves by inertia, not by force).</li></ul><h4>Positive work vs negative work</h4><ul><li><strong>Positive work (0° ≤ θ < 90°):</strong> The force has a component along the displacement. Energy is transferred TO the object. The object speeds up (if this is the only work).</li><li><strong>Negative work (90° < θ ≤ 180°):</strong> The force has a component opposing the displacement. Energy is transferred FROM the object. The object slows down. Friction always does negative work on a moving object.</li></ul>",
+        "summary": "<p><strong>Work: W = Fs cos θ.</strong> Force × displacement × cosine of the angle between them.</p><p><strong>θ = 0°:</strong> W = Fs (max). <strong>θ = 90°:</strong> W = 0. <strong>θ = 180°:</strong> W = −Fs (negative).</p><p><strong>Unit:</strong> joule (J) = N·m = kg·m²/s².</p><p><strong>No displacement OR force ⊥ displacement → no work.</strong></p>",
+        "checkQuestions": [
+          { "question": "You carry a 10 kg bag horizontally for 50 m. How much work do you do against gravity?", "answer": "Zero. The gravitational force is vertical (downward), the displacement is horizontal. θ = 90°, cos 90° = 0. W = Fs cos 90° = 0 J. You do no work against gravity. (Your muscles do biochemical work to maintain the force, but physics work on the bag against gravity is zero.)" },
+          { "question": "A 20 N force pushes a box 5 m along a floor. Friction is 8 N. Find the work done by (a) the push, (b) friction, (c) the net force.", "answer": "(a) W_push = 20 × 5 × cos 0° = 100 J. (b) W_friction = 8 × 5 × cos 180° = −40 J. (c) W_net = W_push + W_friction = 100 + (−40) = 60 J. Or: F_net = 12 N, W_net = 12 × 5 = 60 J." }
+        ],
+        "checklist": [
+          "I can define work: W = Fs cos θ",
+          "I can state the unit of work: joule (J) = N·m",
+          "I can calculate work for forces at 0°, 90°, and 180° to displacement",
+          "I can explain when work is zero (no displacement, or force ⊥ displacement)",
+          "I can distinguish positive work (energy in) from negative work (energy out)",
+          "I can calculate work done by individual forces and by the net force"
+        ]
+      },
+
+      "core": {
+        "title": "Work done by varying forces, on inclines, and from force-displacement graphs",
+        "content": "<h4>Work on inclined planes</h4><p>Pulling a box up a frictionless ramp of height h: the work done against gravity is W = mgh, regardless of the ramp's angle or length. A longer, gentler ramp requires less force but more distance — the work is the same.</p><p>With friction: total work = mgh + friction × (ramp length). Friction adds extra work because it's a non-conservative force.</p><h4>Work done by a varying force — the area under the F-s graph</h4><p>When force varies with position, W = Fs doesn't directly apply. Instead:</p><p><strong>Work = area under the force-displacement graph</strong></p><p>This is analogous to: area under v-t = displacement, area under F-t = impulse. For a constant force, the area is a rectangle = Fs. For a linearly varying force (like a spring), it's a triangle.</p><h4>Work done by a spring (Hooke's law)</h4><p>Spring force: F = kx (proportional to extension x). The F-x graph is a straight line through the origin.</p><p>Work to stretch/compress from 0 to x: <strong>W = ½kx²</strong></p><p>This is the area of the triangle under the F-x graph: ½ × base × height = ½ × x × kx = ½kx².</p><h4>The work-energy theorem</h4><p>The net work done on an object equals the change in its kinetic energy:</p><p><strong>W_net = ΔKE = ½mv² − ½mu²</strong></p><p>If net work is positive → KE increases → object speeds up. If negative → KE decreases → object slows down. If zero → KE unchanged → constant speed.</p><p>This theorem connects forces (through work) to motion (through KE). It's an alternative to F = ma for solving problems where you know forces and displacements but not acceleration directly.</p>",
+        "keyPoints": [
+          "W = Fs cos θ for constant force at angle θ to displacement",
+          "Work against gravity on a ramp: W = mgh (independent of path for gravity)",
+          "Varying force: W = area under F-s graph",
+          "Spring: W = ½kx² (area of triangle on F-x graph)",
+          "Work-energy theorem: W_net = ΔKE = ½mv² − ½mu²"
+        ],
+        "examTrap": {
+          "wrong": "Work done going up a ramp depends on the length and angle of the ramp",
+          "correct": "Work done AGAINST GRAVITY going up a ramp depends only on the height gained: W = mgh. A longer ramp at a smaller angle does the same work — less force but more distance. The ramp is a force-multiplier, not a work-multiplier. (If friction is present, total work IS ramp-dependent because friction × distance adds extra work.)"
+        },
+        "checkQuestions": [
+          { "question": "A spring (k = 200 N/m) is stretched 0.15 m. Find the work done.", "answer": "W = ½kx² = ½ × 200 × 0.0225 = 2.25 J." },
+          { "question": "A 4 kg block is pushed from rest to 6 m/s by a net force. Find the net work done.", "answer": "W_net = ΔKE = ½(4)(36) − 0 = 72 J." }
+        ],
+        "checklist": [
+          "I can calculate work against gravity on a ramp: W = mgh",
+          "I can find work from the area under a force-displacement graph",
+          "I can calculate work done stretching a spring: W = ½kx²",
+          "I can state and apply the work-energy theorem: W_net = ΔKE",
+          "I can explain why a ramp doesn't reduce the work done against gravity"
+        ]
+      },
+
+      "extension": { "title": "Conservative and non-conservative forces", "content": "<h4>Conservative forces</h4><p>A force is <strong>conservative</strong> if the work it does depends only on the start and end positions, not on the path taken. Gravity is conservative: lifting a ball from A to B requires the same work regardless of the path. The work done by gravity around any closed loop is zero.</p><p>Other conservative forces: spring force, electrostatic force. Non-conservative: friction, air resistance, applied forces (by muscles/engines). Non-conservative forces convert mechanical energy to thermal energy — they cause energy 'losses.'</p>", "connections": ["D.1 Gravitational Fields: gravitational PE comes from the conservative nature of gravity", "D.2 Electric Fields: electrostatic PE exists because the Coulomb force is conservative"], "checklist": ["I can define a conservative force (work depends only on endpoints, not path)", "I can classify forces: gravity, spring = conservative; friction, drag = non-conservative"] },
+
+      "simulation": { "title": "PhET: Energy Skate Park", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/energy-skate-park", "instructions": ["Watch work being done as the skater moves: gravity does work going down (speeds up), negative work going up (slows down).", "Turn on friction. Energy is 'lost' to thermal — non-conservative work."] },
+      "video": { "title": "Work Done by a Force — IB Physics", "duration": "9 min", "description": "W = Fs cos θ, work on ramps, force-displacement graphs, springs, and the work-energy theorem", "embedId": "" },
+      "equations": [
+        { "formula": "W = Fs cos θ", "description": "Work = force × displacement × cos(angle between them)." },
+        { "formula": "W = ½kx²", "description": "Work done stretching/compressing a spring by x." },
+        { "formula": "W_net = ΔKE = ½mv² − ½mu²", "description": "Work-energy theorem." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A 50 kg crate is pulled 10 m across a floor by a rope at 30° above horizontal with 200 N tension. Friction is 80 N. Find work by each force.", "steps": [
+          { "label": "Tension", "text": "W_T = 200 × 10 × cos 30° = 2000 × 0.866 = 1732 J", "isEquation": true },
+          { "label": "Friction", "text": "W_f = 80 × 10 × cos 180° = −800 J", "isEquation": true },
+          { "label": "Weight", "text": "W_g = 490 × 10 × cos 90° = 0 J (perpendicular)" },
+          { "label": "Normal", "text": "W_N = 0 J (perpendicular to displacement)" },
+          { "label": "Net work", "text": "W_net = 1732 − 800 = 932 J → this equals ΔKE of the crate", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A 15 N force pushes a box 4 m along a surface. The force is in the direction of motion. Find the work done.", "solution": "W = Fs cos 0° = 15 × 4 × 1 = 60 J." },
+        { "difficulty": "medium", "scope": "sl", "question": "A 10 kg box is pushed up a 5 m ramp that rises 2 m. Friction is 20 N. Find the total work done.", "solution": "Work against gravity: mgh = 10 × 9.8 × 2 = 196 J. Work against friction: f × d = 20 × 5 = 100 J. Total = 296 J." },
+        { "difficulty": "hard", "scope": "sl", "question": "A force varies linearly from 0 to 40 N over a displacement of 8 m. Find the work done.", "solution": "W = area of triangle = ½ × 8 × 40 = 160 J." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Carrying a bag horizontally does work against gravity", "explanation": "The displacement is horizontal, gravity is vertical. cos 90° = 0 → W = 0. No work against gravity.", "correct": "Work is done against gravity only when there's a VERTICAL displacement component." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A 12 kg box is pulled 8.0 m along a horizontal floor by a rope at 25° above horizontal with tension 100 N. Friction is 35 N.\n(a) Calculate the work done by the tension. [2]\n(b) Calculate the work done by friction. [1]\n(c) Find the net work done. [1]\n(d) If the box starts from rest, find its speed after 8.0 m. [2]", "marks": 6, "modelAnswer": "(a) W_T = 100 × 8 × cos 25° = 800 × 0.906 = 725 J [2].\n(b) W_f = −35 × 8 = −280 J [1].\n(c) W_net = 725 − 280 = 445 J [1].\n(d) W_net = ½mv²: 445 = ½(12)v² → v² = 74.2 → v = 8.6 m/s [2].", "examinerTip": "Always include cos θ when the force is at an angle. For friction: θ = 180° → cos 180° = −1 → work is automatically negative." }
+    },
+
+    {
+      "id": "a3_sub2",
+      "num": 2,
+      "title": "Kinetic Energy & the Work-Energy Theorem",
+      "group": "Work & Energy",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Work Done by a Force",
+      "nextTitle": "Gravitational Potential Energy",
+
+      "bigIdea": "A moving truck carries energy — energy of motion. This kinetic energy depends on BOTH mass and speed, but speed matters more: double the speed and the kinetic energy quadruples. This is why a car crash at 60 km/h is four times more destructive than at 30 km/h, and why braking distance is proportional to speed squared.",
+
+      "foundation": {
+        "title": "The energy of motion",
+        "content": "<h4>Kinetic energy defined</h4><p><strong>Kinetic energy (KE)</strong> is the energy an object possesses due to its motion:</p><p><strong>KE = ½mv²</strong></p><p>Where m is mass (kg) and v is speed (m/s). Unit: joules (J).</p><p><strong>Key features:</strong></p><ul><li>Always ≥ 0 (mass and v² are always positive)</li><li>A scalar (no direction — just a number)</li><li>Depends on speed SQUARED: double the speed → 4× the KE</li><li>Depends linearly on mass: double the mass → 2× the KE</li></ul><h4>Why v² matters so much</h4><p>The v² dependence has enormous practical consequences:</p><ul><li><strong>Car crashes:</strong> Impact energy at 60 km/h is 4× that at 30 km/h. At 120 km/h: 16× the energy of 30 km/h.</li><li><strong>Braking distance:</strong> s ∝ v² (from v² = u² + 2as with v = 0). Double your speed → 4× the braking distance. This is why speed limits exist.</li><li><strong>Wind energy:</strong> Power from a wind turbine ∝ v³ (because KE of air ∝ v², and the amount of air hitting the blades ∝ v). A doubling of wind speed gives 8× the power.</li></ul><h4>The work-energy theorem in action</h4><p>The work done by the NET force on an object equals the change in its kinetic energy:</p><p><strong>W_net = ΔKE = ½mv² − ½mu²</strong></p><p>This is one of the most powerful equations in physics. It connects forces (through work) to speeds (through KE) without needing to know the acceleration or time.</p>",
+        "summary": "<p><strong>KE = ½mv².</strong> Scalar. Always ≥ 0. Unit: joules (J).</p><p><strong>v² dependence:</strong> double speed → 4× KE → 4× braking distance.</p><p><strong>Work-energy theorem:</strong> W_net = ½mv² − ½mu².</p>",
+        "checkQuestions": [
+          { "question": "A 1200 kg car travels at 20 m/s. Find its KE. If it doubles its speed to 40 m/s, what is the new KE?", "answer": "At 20 m/s: KE = ½(1200)(400) = 240,000 J = 240 kJ. At 40 m/s: KE = ½(1200)(1600) = 960,000 J = 960 kJ. Four times as much — not double. KE ∝ v²." }
+        ],
+        "checklist": [
+          "I can define KE = ½mv² and state its unit (J)",
+          "I can explain the v² dependence and its practical consequences (braking distance, crash energy)",
+          "I can apply the work-energy theorem: W_net = ΔKE"
+        ]
+      },
+
+      "core": {
+        "title": "Deriving KE and connecting it to momentum",
+        "content": "<h4>Deriving KE = ½mv² from SUVAT</h4><p>From v² = u² + 2as: s = (v² − u²)/(2a). Work: W = Fs = mas = m(v² − u²)/2 = ½mv² − ½mu². For u = 0: W = ½mv². The work needed to accelerate from rest to speed v IS the kinetic energy.</p><h4>KE and momentum</h4><p>Since p = mv → v = p/m. Substituting into KE = ½mv²:</p><p><strong>KE = p²/(2m)</strong></p><p>This alternative form is useful when momentum is known. For the same momentum, a lighter object has MORE kinetic energy (KE ∝ 1/m at constant p).</p><h4>Stopping distance and KE</h4><p>A car brakes with constant force F. W = Fs = ΔKE = ½mv². So s = mv²/(2F) = v²/(2a). Stopping distance ∝ v². At twice the speed: 4× the stopping distance. At three times: 9× the stopping distance.</p>",
+        "keyPoints": [
+          "KE = ½mv² derived from W = Fs and SUVAT",
+          "KE = p²/(2m): alternative form using momentum",
+          "Stopping distance ∝ v² (from work-energy theorem)"
+        ],
+        "examTrap": { "wrong": "Doubling speed doubles kinetic energy", "correct": "Doubling speed QUADRUPLES KE (because KE ∝ v²). This is the single most common energy error." },
+        "checkQuestions": [
+          { "question": "Two objects have the same momentum. Object A has mass m, object B has mass 2m. Which has more KE?", "answer": "KE = p²/(2m). Same p, but A has smaller m → A has MORE KE. KE_A = p²/(2m), KE_B = p²/(4m) = KE_A/2. Object A has double the KE of B." }
+        ],
+        "checklist": [
+          "I can derive KE = ½mv² from W = Fs and SUVAT",
+          "I can use KE = p²/(2m) when momentum is known",
+          "I can prove that stopping distance ∝ v²"
+        ]
+      },
+
+      "extension": { "title": "Relativistic kinetic energy", "content": "<p>At speeds approaching c, KE = ½mv² is wrong. Relativistic KE = (γ − 1)mc² where γ = 1/√(1 − v²/c²). At low speeds, γ ≈ 1 + ½v²/c², so (γ − 1)mc² ≈ ½mv². At v = 0.99c: γ = 7.09, KE = 6.09mc². The object has SIX times its rest mass-energy as kinetic energy. This is covered in A.5.</p>", "connections": ["A.5 Relativity: KE = (γ−1)mc² replaces ½mv² at high speeds"], "checklist": ["I can state that KE = ½mv² fails near c and the relativistic form is (γ−1)mc²"] },
+      "simulation": { "title": "PhET: Energy Skate Park", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/energy-skate-park", "instructions": ["Watch KE bar change as the skater moves. KE is maximum at the bottom (fastest), zero at the top (momentarily at rest)."] },
+      "video": { "title": "Kinetic Energy — IB Physics", "duration": "7 min", "description": "KE = ½mv², the v² dependence, work-energy theorem, and braking distance", "embedId": "" },
+      "equations": [
+        { "formula": "KE = ½mv²", "description": "Kinetic energy. Scalar, always ≥ 0. Unit: J." },
+        { "formula": "KE = p²/(2m)", "description": "KE from momentum. Same p → lighter object has more KE." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A 1500 kg car brakes from 30 m/s to rest. Find the braking force if braking distance is 45 m.", "steps": [
+          { "label": "KE lost", "text": "ΔKE = ½(1500)(900) = 675,000 J" },
+          { "label": "Work = ΔKE", "text": "F × 45 = 675,000 → F = 15,000 N", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A 0.5 kg ball moves at 8 m/s. Find its KE.", "solution": "KE = ½(0.5)(64) = 16 J." },
+        { "difficulty": "medium", "scope": "sl", "question": "A car's speed increases from 10 to 30 m/s. By what factor does the KE increase?", "solution": "KE ∝ v². Factor = 30²/10² = 900/100 = 9. KE increases by a factor of 9." },
+        { "difficulty": "hard", "scope": "sl", "question": "Show that braking distance is proportional to v².", "solution": "Braking: v = 0, deceleration a. W = Fs = ΔKE → Fs = ½mu². s = mu²/(2F) = u²/(2a). Since a is constant: s ∝ u². QED." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Doubling speed doubles KE", "explanation": "KE = ½mv². Speed appears SQUARED. Double v → KE × 4. Triple v → KE × 9.", "correct": "KE ∝ v². Always square the speed ratio." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A 60 kg skier starts from rest at the top of a 20 m high slope.\n(a) Find the KE at the bottom (frictionless). [2]\n(b) Find the speed at the bottom. [2]\n(c) With friction doing −3000 J of work, find the new speed at the bottom. [2]", "marks": 6, "modelAnswer": "(a) W = mgh = 60×9.8×20 = 11,760 J = KE at bottom [2].\n(b) ½mv² = 11,760 → v = √(2×11760/60) = √392 = 19.8 m/s [2].\n(c) KE = 11,760 − 3000 = 8760 J. v = √(2×8760/60) = √292 = 17.1 m/s [2].", "examinerTip": "For 'frictionless slope' problems: all PE converts to KE. mgh = ½mv² → v = √(2gh). This does NOT depend on mass (mass cancels)." }
+    },
+
+    {
+      "id": "a3_sub3",
+      "num": 3,
+      "title": "Gravitational Potential Energy & Elastic PE",
+      "group": "Work & Energy",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Kinetic Energy",
+      "nextTitle": "Conservation of Energy",
+
+      "bigIdea": "Lift a ball above the ground and you give it potential energy — stored energy due to its position. Release it, and that stored energy converts to kinetic energy as it falls. The ball didn't create energy — it converted what you stored in it. This storage mechanism is the key to understanding energy conservation.",
+
+      "foundation": {
+        "title": "Energy stored by position — gravitational and elastic",
+        "content": "<h4>Gravitational potential energy (GPE)</h4><p><strong>GPE</strong> is the energy an object has due to its height above a reference level:</p><p><strong>GPE = mgh</strong></p><p>Where m = mass (kg), g = 9.8 N/kg, h = height above the reference level (m). Unit: joules (J).</p><p>GPE is a scalar, and it depends on the choice of reference level. Usually we pick the ground as h = 0, but you can choose any convenient level. Only CHANGES in GPE (ΔGPE = mgΔh) are physically meaningful.</p><h4>Elastic potential energy (EPE)</h4><p>A compressed or stretched spring stores energy:</p><p><strong>EPE = ½kx²</strong></p><p>Where k = spring constant (N/m) and x = extension or compression from natural length (m). This is the same formula as the work done stretching the spring — the work you do is stored as EPE.</p><h4>PE is stored work</h4><p>When you lift a ball of mass m by height h: you do work W = mgh against gravity. This work doesn't disappear — it's stored as GPE. When you release the ball, gravity does work and converts the GPE back to KE. Energy is transformed, not created or destroyed.</p>",
+        "summary": "<p><strong>GPE = mgh.</strong> Energy from height. Depends on reference level.</p><p><strong>EPE = ½kx².</strong> Energy stored in a stretched/compressed spring.</p><p><strong>PE is stored work</strong> — released when the object moves.</p>",
+        "checkQuestions": [
+          { "question": "A 2 kg ball is 5 m above the ground. Find its GPE. If it falls to 2 m, what is the change in GPE?", "answer": "GPE at 5 m: mgh = 2 × 9.8 × 5 = 98 J. GPE at 2 m: 2 × 9.8 × 2 = 39.2 J. ΔGPE = 39.2 − 98 = −58.8 J (lost 58.8 J of PE → converted to KE)." }
+        ],
+        "checklist": [
+          "I can calculate GPE = mgh",
+          "I can calculate EPE = ½kx²",
+          "I can explain that PE is energy stored through work done against a force",
+          "I can explain that only CHANGES in PE are physically meaningful"
+        ]
+      },
+
+      "core": {
+        "title": "PE as stored work — connecting to force and deriving formulas",
+        "content": "<h4>Deriving GPE = mgh from work</h4><p>To lift mass m by height h at constant velocity: applied force = mg (upward, matching weight). Work = force × distance = mg × h = mgh. This work is stored as GPE. When the object falls: gravity does work mgh, which converts to KE.</p><h4>Deriving EPE = ½kx² from the F-x graph</h4><p>Spring force: F = kx. The F-x graph is a straight line. Work = area under the graph = ½ × base × height = ½ × x × kx = ½kx². This is the elastic PE stored in the spring.</p><h4>GPE on a slope vs vertical lift</h4><p>Going up a ramp of length L at angle θ: height gained = L sin θ. GPE gained = mgL sin θ = mgh. The GPE depends only on height, not on the path. This is because gravity is a conservative force.</p><h4>Negative PE and reference levels</h4><p>You can choose any reference level for h = 0. If an object is below your reference: h is negative → GPE is negative. This is fine — only changes matter. In D.1 (gravitational fields), GPE = −GMm/r, which is always negative with the reference at infinity.</p>",
+        "keyPoints": [
+          "GPE = mgh derived from W = Fs = mg × h",
+          "EPE = ½kx² derived from area under F-x graph",
+          "GPE depends only on height, not path (gravity is conservative)",
+          "Only CHANGES in PE matter — reference level is arbitrary"
+        ],
+        "examTrap": { "wrong": "GPE depends on the path taken (ramp vs vertical lift)", "correct": "GPE = mgh depends only on HEIGHT. A ramp, a ladder, and a vertical lift all give the same GPE gain if the height is the same. The path doesn't matter because gravity is conservative." },
+        "checkQuestions": [
+          { "question": "A spring (k = 500 N/m) is compressed 0.08 m. Find the EPE stored.", "answer": "EPE = ½kx² = ½ × 500 × 0.0064 = 1.6 J." }
+        ],
+        "checklist": [
+          "I can derive GPE = mgh from work done lifting",
+          "I can derive EPE = ½kx² from the area under the F-x graph",
+          "I can explain why GPE is path-independent (conservative force)",
+          "I can handle negative PE when the object is below the reference level"
+        ]
+      },
+
+      "extension": { "title": "Gravitational PE in fields", "content": "<p>Near Earth's surface, GPE = mgh is an approximation valid when h << R_Earth. The general formula (D.1) is GPE = −GMm/r, where r is the distance from Earth's centre. At the surface: r = R. At height h: r = R + h. For h << R: ΔGPE ≈ mgh. The negative sign convention (GPE = 0 at r = ∞) is used in orbital mechanics.</p>", "connections": ["D.1 Gravitational Fields: GPE = −GMm/r generalises mgh"], "checklist": ["I can state that GPE = mgh is an approximation valid near Earth's surface"] },
+      "simulation": { "title": "PhET: Energy Skate Park", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/energy-skate-park", "instructions": ["Watch the PE bar: maximum at the top, zero at the bottom. PE converts to KE and back."] },
+      "video": { "title": "Potential Energy — IB Physics", "duration": "8 min", "description": "GPE = mgh, EPE = ½kx², path independence, and reference levels", "embedId": "" },
+      "equations": [
+        { "formula": "GPE = mgh", "description": "Gravitational PE = mass × g × height above reference." },
+        { "formula": "EPE = ½kx²", "description": "Elastic PE in a spring. k = spring constant, x = extension." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A 0.3 kg ball is dropped from 12 m. Find its speed just before hitting the ground (no air resistance).", "steps": [
+          { "label": "GPE lost = KE gained", "text": "mgh = ½mv² → v = √(2gh) = √(2 × 9.8 × 12) = √235.2 = 15.3 m/s", "isEquation": true },
+          { "label": "Note", "text": "Mass cancelled — the speed doesn't depend on mass (in the absence of air resistance)." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A 5 kg object is lifted 3 m. Find the GPE gained.", "solution": "ΔGPE = mgh = 5 × 9.8 × 3 = 147 J." },
+        { "difficulty": "medium", "scope": "sl", "question": "A ball is thrown upward at 14 m/s. Find the maximum height using energy methods.", "solution": "½mv² = mgh → h = v²/(2g) = 196/19.6 = 10 m." }
+      ],
+      "commonMistakes": [
+        { "wrong": "GPE depends on the path (ramp vs direct lift)", "explanation": "GPE = mgh depends only on height. The path is irrelevant for conservative forces.", "correct": "Only the height difference matters: ΔGPE = mgΔh." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A spring (k = 800 N/m) is compressed 0.10 m and launches a 0.2 kg ball vertically.\n(a) Find the EPE stored. [1]\n(b) Find the maximum height (no friction). [2]\n(c) Find the speed at half the max height. [2]", "marks": 5, "modelAnswer": "(a) EPE = ½(800)(0.01) = 4 J [1].\n(b) EPE = mgh → 4 = 0.2(9.8)h → h = 2.04 m [2].\n(c) At h/2: KE + PE = 4. PE = 0.2(9.8)(1.02) = 2 J. KE = 2 J. v = √(2×2/0.2) = √20 = 4.47 m/s [2].", "examinerTip": "Spring-launch problems: ALL the EPE converts to KE + GPE. Use ½kx² = ½mv² + mgh at any height." }
+    },
+
+    {
+      "id": "a3_sub4",
+      "num": 4,
+      "title": "Conservation of Energy",
+      "group": "Energy Conservation",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Potential Energy",
+      "nextTitle": "Power",
+
+      "bigIdea": "Energy cannot be created or destroyed — only transformed from one form to another. This is the law of conservation of energy, and it's arguably the most fundamental law in all of physics. Every process — from a swinging pendulum to a nuclear explosion to the life cycle of a star — obeys this law without exception.",
+
+      "foundation": {
+        "title": "Energy transforms — it never appears or disappears",
+        "content": "<h4>The law of conservation of energy</h4><p><strong>Energy cannot be created or destroyed. It can only be transformed from one form to another or transferred from one object to another. The total energy of an isolated system remains constant.</strong></p><p>This is the first law of thermodynamics and one of the most tested laws in IB Physics.</p><h4>Forms of energy</h4><ul><li><strong>Kinetic (KE):</strong> energy of motion = ½mv²</li><li><strong>Gravitational PE (GPE):</strong> energy from height = mgh</li><li><strong>Elastic PE (EPE):</strong> energy in springs = ½kx²</li><li><strong>Thermal:</strong> internal energy from random molecular motion (heat)</li><li><strong>Chemical:</strong> stored in chemical bonds (food, fuel, batteries)</li><li><strong>Nuclear:</strong> stored in atomic nuclei (fission, fusion)</li><li><strong>Electrical:</strong> energy from electric current</li><li><strong>Radiant (electromagnetic):</strong> energy of light, radio, X-rays</li><li><strong>Sound:</strong> energy of pressure waves in a medium</li></ul><h4>Mechanical energy conservation</h4><p>When only conservative forces act (gravity, springs — no friction):</p><p><strong>KE + PE = constant</strong></p><p><strong>½mv₁² + mgh₁ = ½mv₂² + mgh₂</strong></p><p>This is conservation of mechanical energy. At any point in the motion, KE + PE equals the same total. As the object rises: KE decreases, PE increases. As it falls: PE decreases, KE increases. The total never changes.</p><h4>When friction is present</h4><p>Friction converts mechanical energy to thermal energy. The total energy is still conserved, but mechanical energy decreases:</p><p><strong>KE₁ + PE₁ = KE₂ + PE₂ + W_friction</strong></p><p>Where W_friction = f × d (the energy converted to heat by friction).</p>",
+        "summary": "<p><strong>Law:</strong> Energy cannot be created or destroyed — only transformed.</p><p><strong>No friction:</strong> KE + PE = constant.</p><p><strong>With friction:</strong> KE₁ + PE₁ = KE₂ + PE₂ + energy lost to friction.</p>",
+        "checkQuestions": [
+          { "question": "A ball is dropped from 10 m. At what height is KE = PE?", "answer": "Total E = mgh₀ = mg(10). At height h: KE + PE = mg(10). If KE = PE: 2PE = mg(10) → PE = mg(5) → h = 5 m. Halfway down." }
+        ],
+        "checklist": [
+          "I can state the law of conservation of energy",
+          "I can list forms of energy: KE, GPE, EPE, thermal, chemical, nuclear, electrical, radiant, sound",
+          "I can apply KE + PE = constant (no friction)",
+          "I can apply KE₁ + PE₁ = KE₂ + PE₂ + W_friction (with friction)"
+        ]
+      },
+
+      "core": {
+        "title": "Applying energy conservation — the most powerful problem-solving tool",
+        "content": "<h4>Why energy methods are often better than F = ma</h4><p>F = ma requires knowing all forces, their directions, and working with vectors. Energy conservation works with scalars (no directions to worry about) and often gives the answer in one step.</p><p>Example: A roller coaster drops 30 m. What's the speed at the bottom? With F = ma: you'd need the slope angle, resolve forces, use SUVAT. With energy: mgh = ½mv² → v = √(2gh) = √(588) = 24.2 m/s. One line.</p><h4>Standard energy conservation problems</h4><p><strong>Type 1: Free fall</strong> mgh = ½mv² → v = √(2gh). Mass cancels.</p><p><strong>Type 2: Pendulum</strong> At the bottom: all PE has converted to KE. v = √(2gL(1 − cos θ)) where L is the string length and θ is the initial angle.</p><p><strong>Type 3: Spring launch</strong> ½kx² = ½mv² + mgh. The EPE converts to KE and GPE.</p><p><strong>Type 4: Slope with friction</strong> mgh = ½mv² + f × d. Solve for v or f.</p><p><strong>Type 5: Loop-the-loop</strong> At the top of a loop: v²/r = g (minimum speed). Using energy from the start: mgh_start = mg(2R) + ½mv²_top. Combine to find minimum starting height: h_min = 5R/2.</p><h4>Energy bar charts</h4><p>A visual tool: draw bars representing KE, GPE, EPE, and thermal energy at different points. The total height of all bars must be the same (conservation). This helps visualize energy transformations.</p><h4>Efficiency</h4><p><strong>Efficiency = useful energy output / total energy input × 100%</strong></p><p>No real machine is 100% efficient. Energy is always 'lost' to thermal energy (friction, air resistance, sound). The 2nd law of thermodynamics guarantees this.</p>",
+        "keyPoints": [
+          "Energy methods use scalars — often simpler than F = ma",
+          "Free fall: v = √(2gh). Mass cancels.",
+          "Pendulum: v_bottom = √(2gL(1 − cos θ))",
+          "With friction: initial E = final E + energy lost to friction",
+          "Efficiency = useful output / total input × 100%"
+        ],
+        "examTrap": { "wrong": "Energy is 'lost' to friction — it disappears", "correct": "Energy is never lost — it's CONVERTED to thermal energy (heat). The total energy is still conserved. When we say 'energy lost to friction' we mean 'converted to a form that's not useful for the desired purpose.'" },
+        "checkQuestions": [
+          { "question": "A 50 kg child slides down a 4 m high frictionless slide. Find the speed at the bottom.", "answer": "mgh = ½mv² → v = √(2gh) = √(2 × 9.8 × 4) = √78.4 = 8.85 m/s. Note: mass cancelled — the answer is the same for any mass." }
+        ],
+        "checklist": [
+          "I can solve free fall, pendulum, spring, slope, and loop problems using energy",
+          "I can draw energy bar charts showing transformations at different points",
+          "I can calculate efficiency: useful output / total input × 100%",
+          "I can explain that 'energy loss' means conversion to thermal energy, not destruction"
+        ]
+      },
+
+      "extension": { "title": "Energy conservation as a universal law", "content": "<p>Energy conservation has survived every revolution in physics — Newtonian mechanics, thermodynamics, electromagnetism, relativity, quantum mechanics. Einstein's E = mc² extended it: mass itself is a form of energy. Nuclear reactions (E.3, E.4, E.5) convert mass to energy. The total (mass-energy) is always conserved.</p><p>Emmy Noether proved (1915) that energy conservation follows from the time-symmetry of physical laws: the laws of physics are the same today as yesterday. This deep connection between symmetry and conservation is one of the most beautiful results in theoretical physics.</p>", "connections": ["B.4 Thermodynamics: energy conservation is the 1st law of thermodynamics", "A.5 Relativity: E = mc² extends energy conservation to include mass-energy"], "checklist": ["I can state that energy conservation has never been violated in any experiment", "I can connect E = mc² to energy conservation in nuclear reactions"] },
+      "simulation": { "title": "PhET: Energy Skate Park", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/energy-skate-park", "instructions": ["Track KE + PE bars. Total stays constant (no friction). Turn on friction: total mechanical decreases, thermal increases."] },
+      "video": { "title": "Conservation of Energy — IB Physics", "duration": "10 min", "description": "All problem types, energy bar charts, friction losses, and efficiency", "embedId": "" },
+      "equations": [
+        { "formula": "KE + PE = constant (no friction)", "description": "Conservation of mechanical energy." },
+        { "formula": "½mv₁² + mgh₁ = ½mv₂² + mgh₂ + W_friction", "description": "Energy conservation with friction losses." },
+        { "formula": "Efficiency = (useful output / total input) × 100%", "description": "Percentage of input energy converted to useful output." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A roller coaster starts from rest at height 40 m. At a later point, it's at height 15 m. Find its speed (no friction).", "steps": [
+          { "label": "Energy conservation", "text": "mgh₁ = ½mv² + mgh₂ → gh₁ = ½v² + gh₂ (mass cancels)" },
+          { "label": "Solve", "text": "v = √(2g(h₁ − h₂)) = √(2 × 9.8 × 25) = √490 = 22.1 m/s", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the law of conservation of energy.", "solution": "Energy cannot be created or destroyed. It can only be transformed from one form to another. The total energy of an isolated system is constant." },
+        { "difficulty": "medium", "scope": "sl", "question": "A 2 kg ball is dropped from 8 m. It bounces back to 5 m. How much energy was lost?", "solution": "E_lost = mg(h₁ − h₂) = 2 × 9.8 × (8 − 5) = 58.8 J (converted to thermal energy and sound during impact)." },
+        { "difficulty": "hard", "scope": "sl", "question": "A spring (k = 1000 N/m, compressed 0.2 m) launches a 0.5 kg ball up a 30° incline with μ = 0.15. How far along the incline does it travel?", "solution": "EPE = ½(1000)(0.04) = 20 J. Along incline d: mgh = mgd sin 30°, friction = μmg cos 30° × d. Energy: 20 = mgd sin 30° + μmg cos 30° × d = mgd(sin 30° + 0.15 cos 30°) = 0.5(9.8)d(0.5 + 0.13) = 4.9d(0.63) = 3.087d. d = 20/3.087 = 6.48 m." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Friction destroys energy", "explanation": "Friction CONVERTS mechanical energy to thermal energy. Total energy is still conserved.", "correct": "Energy is conserved — friction changes the form, not the amount." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A 0.4 kg ball is released from rest at the top of a track 3.0 m above the ground. It travels down, around a loop of radius 0.5 m, and continues. Friction is negligible.\n(a) Find the speed at the bottom. [2]\n(b) Find the speed at the top of the loop. [2]\n(c) Determine if the ball maintains contact at the top of the loop. [2]", "marks": 6, "modelAnswer": "(a) v = √(2gh) = √(2 × 9.8 × 3) = √58.8 = 7.67 m/s [2].\n(b) At top of loop: h = 2R = 1.0 m. ½mv² = mg(3.0 − 1.0). v = √(2 × 9.8 × 2) = √39.2 = 6.26 m/s [2].\n(c) At top of loop: need v²/R ≥ g for contact. v²/R = 39.2/0.5 = 78.4 m/s². g = 9.8 m/s². 78.4 >> 9.8 → YES, ball maintains contact easily [2].", "examinerTip": "For loop problems: the minimum speed at the top requires v² = gR (when N = 0). Calculate actual speed using energy, then compare v²/R with g." }
+    },
+
+    {
+      "id": "a3_sub5",
+      "num": 5,
+      "title": "Power & Efficiency",
+      "group": "Power",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Conservation of Energy",
+      "nextTitle": "Energy Sources & Transfers",
+
+      "bigIdea": "Two cars can climb the same hill — but one does it in 10 seconds and the other in 60. They do the same WORK, but the fast car has six times more POWER. Power is the rate of doing work — how fast energy is transferred. It's measured in watts, and it determines everything from how quickly a car accelerates to how many solar panels you need.",
+
+      "foundation": {
+        "title": "How fast energy is transferred",
+        "content": "<h4>Power defined</h4><p><strong>Power is the rate of doing work, or the rate of energy transfer:</strong></p><p><strong>P = W/t = ΔE/t</strong></p><p>Where P = power (watts, W), W = work done (J), t = time (s), ΔE = energy transferred (J).</p><p><strong>1 watt = 1 joule per second = 1 J/s</strong></p><p>Common multiples: kilowatt (kW) = 1000 W. Megawatt (MW) = 10⁶ W. Gigawatt (GW) = 10⁹ W.</p><h4>Power and velocity</h4><p>For a constant force F moving an object at constant velocity v:</p><p><strong>P = Fv</strong></p><p>This comes from P = W/t = Fs/t = F(s/t) = Fv. This is extremely useful for vehicles: the power output of an engine determines the maximum speed at which it can maintain a given force.</p><h4>Efficiency</h4><p><strong>Efficiency = (useful power output / total power input) × 100%</strong></p><p>Or equivalently: <strong>η = (useful energy output / total energy input) × 100%</strong></p><p>No machine is 100% efficient. Energy is always converted to unusable thermal energy by friction, air resistance, electrical resistance, etc.</p>",
+        "summary": "<p><strong>P = W/t = ΔE/t.</strong> Unit: watt (W) = J/s.</p><p><strong>P = Fv</strong> for constant force at constant velocity.</p><p><strong>Efficiency η = useful output / total input × 100%.</strong> Always < 100%.</p>",
+        "checkQuestions": [
+          { "question": "A crane lifts a 500 kg load 20 m in 10 s. Find the power output.", "answer": "W = mgh = 500 × 9.8 × 20 = 98,000 J. P = W/t = 98,000/10 = 9,800 W = 9.8 kW." },
+          { "question": "A car engine provides 40 kW. Resistive forces total 800 N. Find the maximum constant speed.", "answer": "P = Fv → v = P/F = 40,000/800 = 50 m/s = 180 km/h." }
+        ],
+        "checklist": [
+          "I can define power: P = W/t = ΔE/t (unit: watt)",
+          "I can apply P = Fv for constant force and velocity",
+          "I can calculate efficiency: useful output / total input × 100%",
+          "I can explain why no machine is 100% efficient"
+        ]
+      },
+
+      "core": {
+        "title": "Power in mechanical systems and efficiency calculations",
+        "content": "<h4>P = Fv and vehicle dynamics</h4><p>A car's maximum speed on a flat road occurs when the driving force equals the total resistive forces (equilibrium): F_drive = F_resist. At this point: P_engine = F_resist × v_max → <strong>v_max = P/F_resist</strong>.</p><p>Uphill: the car also works against gravity. P = (F_resist + mg sin θ) × v. So maximum speed uphill is lower.</p><h4>Human power output</h4><p>A typical person can sustain about 75 W (walking upstairs). An elite cyclist: ~400 W. Sprinters: ~2000 W for a few seconds. Comparison: a 60 W light bulb uses as much power as a person walking upstairs.</p><h4>Efficiency chains</h4><p>When energy passes through multiple conversions, the overall efficiency is the product of individual efficiencies:</p><p>η_total = η₁ × η₂ × η₃ × ...</p><p>Example: A coal plant (40% efficient) sends electricity through transmission lines (95% efficient) to a motor (85% efficient). Overall: 0.40 × 0.95 × 0.85 = 0.323 = 32.3%.</p><h4>The kilowatt-hour</h4><p>Energy = Power × time. A 1 kW appliance running for 1 hour uses: E = 1000 × 3600 = 3,600,000 J = 3.6 MJ. This is called <strong>1 kilowatt-hour (kWh)</strong>. It's the commercial unit of electrical energy on your electricity bill.</p>",
+        "keyPoints": [
+          "v_max = P/F_resist (maximum speed when power balances resistance)",
+          "Human sustained power: ~75 W. Cyclist: ~400 W.",
+          "Efficiency chain: η_total = η₁ × η₂ × η₃",
+          "1 kWh = 3.6 MJ (commercial energy unit)"
+        ],
+        "examTrap": { "wrong": "A kilowatt-hour is a unit of power", "correct": "A kWh is a unit of ENERGY (power × time = W × s = J). The name is confusing because it contains 'watt' (a power unit), but kWh = kW × h = 1000 W × 3600 s = 3.6 × 10⁶ J." },
+        "checkQuestions": [
+          { "question": "A 2 kW heater runs for 3 hours. Find the energy used in kWh and in MJ.", "answer": "Energy = 2 kW × 3 h = 6 kWh. In MJ: 6 × 3.6 = 21.6 MJ." }
+        ],
+        "checklist": [
+          "I can calculate maximum speed from power: v_max = P/F_resist",
+          "I can calculate overall efficiency of multiple stages: η_total = η₁ × η₂ × ...",
+          "I can convert between joules and kilowatt-hours: 1 kWh = 3.6 MJ",
+          "I can solve vehicle power problems including uphill driving"
+        ]
+      },
+
+      "extension": { "title": "Power in rotational systems", "content": "<p>For rotating systems: P = τω, where τ is torque and ω is angular velocity. This is the rotational analogue of P = Fv. A car engine might produce 200 Nm of torque at 3000 rpm: P = 200 × 2π(3000/60) = 200 × 314 = 62.8 kW ≈ 84 hp. (1 horsepower ≈ 746 W.)</p>", "connections": ["A.4 Rigid Body Mechanics: P = τω for rotating systems", "B.2 Greenhouse Effect: power per unit area from the Sun (solar constant)"], "checklist": ["I can state P = τω for rotational power"] },
+      "simulation": { "title": "PhET: Energy Skate Park", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/energy-skate-park", "instructions": ["Observe how quickly energy transforms between KE and PE. Faster transformations = more power involved."] },
+      "video": { "title": "Power & Efficiency — IB Physics", "duration": "8 min", "description": "P = W/t, P = Fv, efficiency, kWh, and vehicle dynamics", "embedId": "" },
+      "equations": [
+        { "formula": "P = W/t = ΔE/t", "description": "Power = work/time = energy transferred per second." },
+        { "formula": "P = Fv", "description": "Power for constant force at constant velocity." },
+        { "formula": "η = useful output / total input × 100%", "description": "Efficiency. Always < 100% for real machines." },
+        { "formula": "1 kWh = 3.6 × 10⁶ J", "description": "Kilowatt-hour: commercial unit of energy." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A car engine produces 60 kW. Total resistance at top speed is 1500 N. Find the top speed.", "steps": [
+          { "label": "At top speed", "text": "Driving force = resistance (equilibrium). P = Fv" },
+          { "label": "Solve", "text": "v = P/F = 60,000/1500 = 40 m/s = 144 km/h", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A motor does 5000 J of work in 20 s. Find the power.", "solution": "P = W/t = 5000/20 = 250 W." },
+        { "difficulty": "medium", "scope": "sl", "question": "A 70 kg person climbs 15 m of stairs in 25 s. Find their power output.", "solution": "W = mgh = 70 × 9.8 × 15 = 10,290 J. P = 10,290/25 = 411.6 W." },
+        { "difficulty": "hard", "scope": "sl", "question": "A motor is 80% efficient and lifts a 200 kg load 10 m in 16 s. Find the input power.", "solution": "Useful output = mgh/t = 200×9.8×10/16 = 1225 W. Input = output/η = 1225/0.80 = 1531 W." }
+      ],
+      "commonMistakes": [
+        { "wrong": "kWh is a unit of power", "explanation": "kWh = kW × h = power × time = ENERGY. It's a unit of energy used on electricity bills.", "correct": "kWh is energy. kW is power. Don't confuse them." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A pump lifts 500 kg of water per minute through a height of 8 m. The pump is 70% efficient.\n(a) Calculate the useful power output. [2]\n(b) Calculate the input power. [1]\n(c) Calculate the electrical energy used in 1 hour in kWh. [2]", "marks": 5, "modelAnswer": "(a) W per minute = mgh = 500 × 9.8 × 8 = 39,200 J. P_useful = 39,200/60 = 653 W [2].\n(b) P_input = 653/0.70 = 933 W [1].\n(c) E = P × t = 0.933 kW × 1 h = 0.933 kWh [2].", "examinerTip": "For pump/lift problems: find the mass lifted per second (or per minute), calculate the work per unit time (= power), then apply efficiency." }
+    },
+
+    {
+      "id": "a3_sub6",
+      "num": 6,
+      "title": "Energy Transfers & Sankey Diagrams",
+      "group": "Energy in Context",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Power & Efficiency",
+      "nextTitle": "Energy Sources (Global Context)",
+
+      "bigIdea": "Every energy conversion involves some 'waste' — energy that ends up as unusable heat. A Sankey diagram shows this visually: the width of each arrow represents the amount of energy. Useful energy flows forward; waste energy branches off. The diagram makes efficiency visible at a glance.",
+
+      "foundation": {
+        "title": "Tracking where energy goes",
+        "content": "<h4>Energy transfers and transformations</h4><p>Energy is constantly being transferred (moved from one object to another) and transformed (changed from one form to another). In any process:</p><p>Total energy in = useful energy out + wasted energy</p><p>The 'wasted' energy is almost always thermal (heat) — it disperses into the environment and becomes unusable. This is a consequence of the second law of thermodynamics.</p><h4>Sankey diagrams</h4><p>A <strong>Sankey diagram</strong> is a flow chart where the <strong>width of each arrow is proportional to the amount of energy</strong>.</p><ul><li>The input arrow enters from the left</li><li>Useful output arrows continue forward (or upward)</li><li>Waste arrows branch off (usually downward)</li><li>The total width of all output arrows = the input arrow width (conservation of energy)</li></ul><p>Example: A lightbulb with 100 J input, 10 J light output, 90 J heat waste. The input arrow is 10 units wide. The light arrow is 1 unit. The heat arrow is 9 units. The efficiency is visually obvious: only a thin arrow is useful.</p><h4>Common energy conversions</h4><ul><li><strong>Car engine:</strong> Chemical → KE + thermal (waste). η ≈ 25–30%.</li><li><strong>Electric motor:</strong> Electrical → KE + thermal. η ≈ 85–95%.</li><li><strong>Coal power plant:</strong> Chemical → thermal → KE → electrical + waste heat. η ≈ 35–40%.</li><li><strong>Solar cell:</strong> Radiant → electrical + thermal. η ≈ 15–25%.</li><li><strong>Human body:</strong> Chemical → KE + thermal. η ≈ 20–25%.</li><li><strong>LED bulb:</strong> Electrical → radiant + thermal. η ≈ 30–50% (much better than incandescent).</li></ul>",
+        "summary": "<p><strong>Energy in = useful out + waste.</strong> Waste is almost always thermal.</p><p><strong>Sankey diagram:</strong> Arrow width ∝ energy. Visual representation of efficiency.</p><p><strong>Efficiency varies widely:</strong> Electric motors ~90%. Car engines ~25%. Coal plants ~35%.</p>",
+        "checkQuestions": [
+          { "question": "A motor takes in 500 J of electrical energy and does 400 J of useful mechanical work. Draw a Sankey diagram and find the efficiency.", "answer": "Input arrow: 500 J (left). Useful output: 400 J (forward). Waste: 100 J (downward, heat). η = 400/500 = 80%. The useful arrow is 4/5 of the input width." }
+        ],
+        "checklist": [
+          "I can state that total energy in = useful out + waste",
+          "I can draw and interpret Sankey diagrams with arrow widths proportional to energy",
+          "I can calculate efficiency from a Sankey diagram",
+          "I can list common energy conversions and their typical efficiencies"
+        ]
+      },
+
+      "core": {
+        "title": "Quantitative Sankey diagrams and energy degradation",
+        "content": "<h4>Drawing Sankey diagrams to scale</h4><p>Choose a scale (e.g., 1 cm = 100 J). Draw the input arrow with width proportional to total input. Split it into useful output and waste, with widths proportional to each. Multiple waste pathways can branch off separately.</p><h4>Energy degradation</h4><p>In every energy transfer, some energy becomes thermal (heat) and disperses. This dispersed energy is still there (conservation) but becomes unusable — too spread out and low-temperature to do useful work. This is energy <strong>degradation</strong>.</p><p>The universe tends toward maximum entropy (disorder) — energy spreads out. This is the 2nd law of thermodynamics. It doesn't violate conservation (1st law) — the energy exists, it's just degraded into a form that can't drive useful processes.</p><h4>Improving efficiency</h4><ul><li>Reduce friction (lubrication, streamlining)</li><li>Reduce electrical resistance (better conductors, superconductors)</li><li>Recover waste heat (combined heat and power systems, regenerative braking)</li><li>Use more efficient technology (LED vs incandescent, heat pump vs resistive heating)</li></ul>",
+        "keyPoints": [
+          "Sankey diagrams: draw to scale, arrow width ∝ energy",
+          "Energy degradation: useful → thermal → dispersed → unusable",
+          "2nd law: energy tends to disperse; entropy increases",
+          "Improving efficiency: reduce friction, recover waste heat, better technology"
+        ],
+        "examTrap": { "wrong": "Energy is 'used up' or 'consumed'", "correct": "Energy is NEVER used up — it's conserved. It's CONVERTED to less useful forms (mainly thermal). Saying 'energy is used up' violates the first law of thermodynamics." },
+        "checkQuestions": [
+          { "question": "Why can't we recover all the waste heat from a car engine and convert it back to useful work?", "answer": "The 2nd law of thermodynamics: heat naturally flows from hot to cold and disperses. To convert thermal energy back to work, you'd need a temperature difference, and some energy must always be rejected to a cold reservoir. 100% conversion of heat to work is impossible." }
+        ],
+        "checklist": [
+          "I can draw Sankey diagrams to scale with quantitative energy values",
+          "I can explain energy degradation (useful → dispersed thermal)",
+          "I can explain the 2nd law in terms of energy quality and entropy",
+          "I can suggest methods to improve efficiency in real systems"
+        ]
+      },
+
+      "extension": { "title": "Entropy and the arrow of time", "content": "<p>The 2nd law of thermodynamics defines the 'arrow of time' — entropy always increases in isolated systems. A broken egg doesn't unbreak; spilled coffee doesn't unspill. Every energy conversion increases the universe's total entropy. Eventually (trillions of years), the universe may reach maximum entropy — 'heat death' — where no useful work can be done anywhere. This is one of the deepest consequences of the 2nd law.</p>", "connections": ["B.4 Thermodynamics: entropy, the 2nd law, and heat engines", "B.2 Greenhouse Effect: energy balance of the Earth involves Sankey-style analysis"], "checklist": ["I can explain entropy as a measure of energy dispersal/disorder", "I can connect the 2nd law to the irreversibility of natural processes"] },
+      "simulation": { "title": "PhET: Energy Forms and Changes", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/energy-forms-and-changes", "instructions": ["Watch energy flow through systems. Track where waste heat goes. See how efficiency changes with different setups."] },
+      "video": { "title": "Sankey Diagrams & Energy Efficiency — IB Physics", "duration": "7 min", "description": "Drawing Sankey diagrams, calculating efficiency, energy degradation, and improving real systems", "embedId": "" },
+      "equations": [
+        { "formula": "E_input = E_useful + E_waste", "description": "Energy conservation in any conversion process." },
+        { "formula": "η = E_useful / E_input × 100%", "description": "Efficiency from energy values." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A coal plant has 1000 MJ of chemical energy input and produces 350 MJ of electrical energy. Find the efficiency and waste energy.", "solution": "η = 350/1000 = 35%. Waste = 1000 − 350 = 650 MJ." },
+        { "difficulty": "medium", "scope": "sl", "question": "Draw a Sankey diagram for a car engine: 100 kJ fuel input, 25 kJ KE, 10 kJ sound, 65 kJ heat.", "solution": "Input arrow (100 kJ width). Useful KE arrow forward (25 kJ). Sound arrow branch down (10 kJ). Heat arrow branch down (65 kJ). Total out = 100 kJ ✓." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Energy is destroyed/consumed", "explanation": "Energy is CONVERTED, never destroyed. Total is always conserved.", "correct": "Say 'energy is converted to thermal' not 'energy is lost/used up.'" }
+      ],
+      "examCorner": { "scope": "sl", "question": "A generator converts 1000 J of mechanical energy. 850 J becomes electrical energy. 120 J becomes thermal. 30 J becomes sound.\n(a) Draw a labelled Sankey diagram. [3]\n(b) Calculate the efficiency. [1]\n(c) Suggest how efficiency could be improved. [1]", "marks": 5, "modelAnswer": "(a) Input arrow: 1000 J. Electrical: 850 J (forward). Thermal: 120 J (down). Sound: 30 J (down). Widths proportional [3].\n(b) η = 850/1000 = 85% [1].\n(c) Reduce friction in bearings (reduces thermal waste) or improve magnetic coupling (reduces electrical losses) [1].", "examinerTip": "For Sankey diagrams: check that all output arrows add up to the input. If they don't, you've missed an energy pathway or made an arithmetic error." }
+    },
+
+    {
+      "id": "a3_sub7",
+      "num": 7,
+      "title": "Energy Sources — Renewable & Non-Renewable",
+      "group": "Energy in Context",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Energy Transfers",
+      "nextTitle": "AHL: Energy Stored in Fuels & Thermal Equilibrium",
+
+      "bigIdea": "Humanity runs on energy — but where it comes from matters. Fossil fuels are concentrated and reliable but produce CO₂ and will run out. Renewables are clean and inexhaustible but diffuse and intermittent. Nuclear is powerful and low-carbon but raises waste and safety concerns. There's no perfect source — every choice involves tradeoffs.",
+
+      "foundation": {
+        "title": "Where our energy comes from — and the tradeoffs",
+        "content": "<h4>Non-renewable sources</h4><p>Formed over millions of years, consumed much faster than they're created:</p><ul><li><strong>Fossil fuels (coal, oil, natural gas):</strong> Chemical energy from ancient organisms. Burned to produce thermal energy → mechanical → electrical. High energy density. Produce CO₂ (climate change), SO₂ (acid rain), particulates. Will eventually run out.</li><li><strong>Nuclear fission (uranium):</strong> Nuclear energy from splitting heavy nuclei. Very high energy density (1 kg uranium ≈ 3 million kg coal). Low CO₂ during operation. Produces radioactive waste. Risk of accidents (Chernobyl, Fukushima). Uranium is finite but abundant.</li></ul><h4>Renewable sources</h4><p>Replenished naturally on human timescales:</p><ul><li><strong>Solar:</strong> Radiant energy from the Sun → electrical (photovoltaic) or thermal (solar heater). Clean, abundant. Intermittent (night, clouds). Low power density (~1000 W/m² max).</li><li><strong>Wind:</strong> KE of air → electrical (turbines). Clean, growing fast. Intermittent, visual/noise concerns, bird hazard.</li><li><strong>Hydroelectric:</strong> GPE of water → KE → electrical. Reliable, dispatchable, high efficiency (~90%). Requires specific geography, environmental impact (flooding, ecosystems).</li><li><strong>Geothermal:</strong> Thermal energy from Earth's interior. Reliable, location-limited (volcanic regions). Very low emissions.</li><li><strong>Biomass:</strong> Chemical energy in organic matter (wood, crop waste). Can be carbon-neutral if replanted. Competes with food production.</li><li><strong>Tidal/wave:</strong> KE/GPE of ocean water. Predictable (tidal), intermittent (wave). Technology still developing.</li></ul>",
+        "summary": "<p><strong>Non-renewable:</strong> Fossil fuels (CO₂, finite), nuclear fission (waste, high density).</p><p><strong>Renewable:</strong> Solar, wind (intermittent), hydro (geography), geothermal, biomass, tidal.</p><p><strong>No perfect source:</strong> every option has tradeoffs in cost, reliability, environmental impact.</p>",
+        "checkQuestions": [
+          { "question": "Why are fossil fuels still dominant despite their environmental problems?", "answer": "High energy density (very concentrated), reliable (not weather-dependent), existing infrastructure (power plants, pipelines, engines), relatively cheap, and can provide baseload power on demand. Transitioning requires massive infrastructure investment." }
+        ],
+        "checklist": [
+          "I can list non-renewable sources: coal, oil, gas, nuclear",
+          "I can list renewable sources: solar, wind, hydro, geothermal, biomass, tidal",
+          "I can state advantages and disadvantages of each source",
+          "I can explain the difference between renewable and non-renewable"
+        ]
+      },
+
+      "core": {
+        "title": "Energy density, specific energy, and the global energy challenge",
+        "content": "<h4>Energy density and specific energy</h4><p><strong>Specific energy:</strong> energy per unit mass (J/kg). Determines how much fuel you need to carry.</p><p><strong>Energy density:</strong> energy per unit volume (J/m³). Determines storage tank size.</p><ul><li>Hydrogen: 142 MJ/kg (highest specific energy) but very low density</li><li>Gasoline: 46 MJ/kg, 34 GJ/m³</li><li>Coal: 24 MJ/kg</li><li>Lithium-ion battery: 0.5 MJ/kg (100× less than gasoline — why EVs need large batteries)</li><li>Uranium (fission): 80,000,000 MJ/kg (millions of times more than chemical fuels)</li></ul><h4>The global energy mix</h4><p>As of 2024: ~80% of global primary energy comes from fossil fuels (oil ~30%, coal ~27%, gas ~24%). Nuclear ~4%. Renewables ~16% (hydro ~7%, wind/solar/other ~9%). The transition to renewables is accelerating but fossil fuels still dominate.</p><h4>The intermittency problem</h4><p>Solar and wind produce energy only when the sun shines or wind blows. This mismatch between supply and demand requires: energy storage (batteries, pumped hydro), grid interconnections, backup power (gas plants), or demand management. Solving intermittency is the key technical challenge of the energy transition.</p>",
+        "keyPoints": [
+          "Specific energy (J/kg): highest for nuclear and hydrogen, lowest for batteries",
+          "Global mix: ~80% fossil fuels, ~4% nuclear, ~16% renewables",
+          "Intermittency: solar/wind need storage or backup for reliable supply",
+          "Energy transition requires infrastructure, storage, and policy changes"
+        ],
+        "examTrap": { "wrong": "Renewable means zero environmental impact", "correct": "Renewables have LOWER impact than fossils but NOT zero. Hydro floods valleys. Wind turbines affect birds. Solar panels require mining. Biomass can cause deforestation. 'Renewable' means replenishable, not impact-free." },
+        "checkQuestions": [
+          { "question": "Why can't we simply replace all fossil fuels with solar panels?", "answer": "Intermittency (no power at night or in clouds), low energy density (need large areas), storage challenges (batteries are expensive and limited), and the enormous scale of global energy demand (~580 EJ/year). We need a MIX of renewables, storage, nuclear, and efficiency improvements." }
+        ],
+        "checklist": [
+          "I can define specific energy (J/kg) and energy density (J/m³)",
+          "I can rank energy sources by specific energy",
+          "I can describe the current global energy mix",
+          "I can explain the intermittency problem and possible solutions"
+        ]
+      },
+
+      "extension": { "title": "Fusion as the ultimate energy source", "content": "<p>Nuclear fusion (E.5) could provide virtually unlimited clean energy: deuterium from seawater, no long-lived waste, no CO₂. But achieving net energy from fusion has proven extraordinarily difficult — it requires confining plasma at 150 million °C. ITER (France) aims for Q = 10 by ~2035. NIF (USA) achieved ignition in 2022. Commercial fusion power may arrive by ~2040–2050 — or may take longer. If it works, it changes everything.</p>", "connections": ["E.5 Fusion: the physics of fusion energy", "B.2 Greenhouse Effect: CO₂ from fossil fuels drives climate change"], "checklist": ["I can explain why fusion is considered the 'ultimate' energy source", "I can state the current status of fusion research (ITER, NIF)"] },
+      "simulation": { "title": "Energy Mix Simulator", "source": "Various", "url": "https://phet.colorado.edu/en/simulations/energy-forms-and-changes", "instructions": ["Experiment with different energy sources. Observe conversion chains and waste."] },
+      "video": { "title": "Energy Sources — IB Physics", "duration": "10 min", "description": "Renewable vs non-renewable, energy density, global mix, and the transition challenge", "embedId": "" },
+      "equations": [
+        { "formula": "Specific energy = E/m (J/kg)", "description": "Energy per unit mass of fuel." },
+        { "formula": "Energy density = E/V (J/m³)", "description": "Energy per unit volume of fuel." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State two advantages and two disadvantages of wind power.", "solution": "Advantages: renewable (won't run out), no CO₂ during operation. Disadvantages: intermittent (depends on wind), visual/noise impact on landscape." },
+        { "difficulty": "medium", "scope": "sl", "question": "A car uses 8 litres of gasoline (density 750 kg/m³, specific energy 46 MJ/kg) per 100 km. Find the energy used per km.", "solution": "Mass of 8 L: 0.008 m³ × 750 = 6 kg. Energy: 6 × 46 = 276 MJ per 100 km = 2.76 MJ/km." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Nuclear energy is renewable", "explanation": "Nuclear FISSION uses uranium, which is finite (non-renewable). Nuclear FUSION (using hydrogen) would be effectively inexhaustible but isn't commercially available yet.", "correct": "Fission = non-renewable. Fusion = potentially renewable but not yet practical." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Compare nuclear fission and wind power as energy sources.\n(a) State one advantage and one disadvantage of each. [4]\n(b) Explain why wind power alone cannot replace fossil fuels for baseload electricity. [2]", "marks": 6, "modelAnswer": "(a) Nuclear: advantage — very high energy density / low CO₂ [1]; disadvantage — radioactive waste / accident risk [1]. Wind: advantage — renewable / no emissions [1]; disadvantage — intermittent / depends on weather [1].\n(b) Baseload = constant, reliable supply. Wind is intermittent — no wind = no power [1]. Without large-scale energy storage or backup from other sources, wind cannot guarantee supply at all times [1].", "examinerTip": "For compare questions: structure your answer as parallel comparisons, not separate descriptions. Address the same aspect for both sources." }
+    },
+
+    {
+      "id": "a3_sub8",
+      "num": 8,
+      "title": "Thermal Energy Transfer & Specific Heat Capacity",
+      "group": "AHL Energy",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Energy Sources",
+      "nextTitle": "A.4 Rigid Body Mechanics",
+
+      "bigIdea": "Pour hot coffee into a cold mug. The coffee cools, the mug warms. Energy flows from hot to cold until they reach the same temperature. The amount of energy transferred depends on three things: the mass, the temperature change, and a property of the material called specific heat capacity — how much energy it takes to warm 1 kg by 1°C.",
+
+      "foundation": {
+        "title": "Heating up — where does the energy go?",
+        "content": "<h4>Thermal energy and temperature</h4><p><strong>Thermal energy</strong> is the total kinetic energy of all the particles in a substance (due to their random motion). <strong>Temperature</strong> is a measure of the AVERAGE kinetic energy per particle.</p><p>More thermal energy doesn't always mean higher temperature — it also depends on how much stuff there is. A bathtub of warm water has more thermal energy than a cup of boiling water, even though the cup is hotter.</p><h4>Specific heat capacity</h4><p><strong>Specific heat capacity (c)</strong> is the energy needed to raise the temperature of 1 kg of a substance by 1 K (or 1°C):</p><p><strong>Q = mcΔT</strong></p><p>Where Q = thermal energy transferred (J), m = mass (kg), c = specific heat capacity (J kg⁻¹ K⁻¹), ΔT = temperature change (K or °C).</p><p><strong>Common values:</strong></p><ul><li>Water: c = 4186 J/(kg·K) — very high (why water is used for cooling and heating)</li><li>Aluminium: c = 897 J/(kg·K)</li><li>Copper: c = 385 J/(kg·K)</li><li>Iron: c = 449 J/(kg·K)</li><li>Oil: c ≈ 2000 J/(kg·K)</li></ul><p>Water's high specific heat capacity means it takes a LOT of energy to heat (or cool) water. This is why coastal climates are milder than inland climates — the ocean absorbs and releases energy slowly.</p><h4>Thermal equilibrium</h4><p>When a hot object is placed in contact with a cold object, energy flows from hot to cold until both reach the same temperature: <strong>thermal equilibrium</strong>. The energy lost by the hot object = energy gained by the cold object (conservation of energy):</p><p><strong>m₁c₁ΔT₁ = m₂c₂ΔT₂</strong></p>",
+        "summary": "<p><strong>Q = mcΔT.</strong> Energy = mass × specific heat capacity × temperature change.</p><p><strong>c</strong> = energy to heat 1 kg by 1 K. Water: 4186. Metals: 200–900.</p><p><strong>Thermal equilibrium:</strong> energy lost by hot = energy gained by cold.</p>",
+        "checkQuestions": [
+          { "question": "How much energy is needed to heat 2 kg of water from 20°C to 80°C?", "answer": "Q = mcΔT = 2 × 4186 × 60 = 502,320 J ≈ 502 kJ." },
+          { "question": "A 0.5 kg iron block at 200°C is dropped into 2 kg of water at 20°C. Which changes temperature more — the iron or the water? Why?", "answer": "The iron changes temperature more (it cools a lot). The water changes temperature less (it warms a little). Reason: water has much higher c AND higher mass. The iron has less thermal capacity → its temperature changes more for the same energy transfer." }
+        ],
+        "checklist": [
+          "I can define specific heat capacity and state its unit: J kg⁻¹ K⁻¹",
+          "I can apply Q = mcΔT to calculate energy, mass, c, or ΔT",
+          "I can explain why water has a high c and its practical consequences",
+          "I can apply conservation of energy for thermal equilibrium: m₁c₁ΔT₁ = m₂c₂ΔT₂"
+        ]
+      },
+
+      "core": {
+        "title": "Calorimetry, heat exchange, and measuring specific heat capacity",
+        "content": "<h4>Method of mixtures (calorimetry)</h4><p>To find the specific heat capacity of a metal:</p><ol><li>Heat a metal block to a known temperature T_hot (e.g., in boiling water: 100°C)</li><li>Transfer quickly to a known mass of water at T_cold in an insulated container</li><li>Measure the final equilibrium temperature T_final</li><li>Apply: m_metal × c_metal × (T_hot − T_final) = m_water × c_water × (T_final − T_cold)</li><li>Solve for c_metal</li></ol><p>Assumptions: no energy lost to surroundings (insulated container), no energy absorbed by the container, complete thermal equilibrium reached.</p><h4>Electrical heating method</h4><p>An alternative: use an electrical heater (P = VI) to heat a known mass for a known time.</p><p>Q = Pt = VIt = mcΔT → c = VIt/(mΔT)</p><p>This avoids the need for mixing and gives a more controlled experiment.</p><h4>Phase changes and latent heat (brief intro)</h4><p>During a phase change (melting, boiling), temperature stays constant even though energy is being added. This energy goes into breaking intermolecular bonds, not increasing kinetic energy. The energy per kg for a phase change is the <strong>specific latent heat (L)</strong>: Q = mL. This is covered in detail in B.1 (Thermal Energy).</p>",
+        "keyPoints": [
+          "Method of mixtures: m₁c₁ΔT₁ = m₂c₂ΔT₂ (hot loses = cold gains)",
+          "Electrical method: c = VIt/(mΔT)",
+          "During phase changes: temperature constant, energy breaks bonds (Q = mL)",
+          "Sources of error: heat loss to surroundings, energy absorbed by container"
+        ],
+        "examTrap": { "wrong": "When ice melts, its temperature increases", "correct": "During melting, temperature stays at 0°C. Energy goes into breaking bonds (latent heat), not increasing temperature. Temperature only rises after all the ice has melted." },
+        "checkQuestions": [
+          { "question": "A 0.3 kg copper block at 90°C is placed in 0.5 kg water at 25°C. c_copper = 385, c_water = 4186. Find the equilibrium temperature.", "answer": "0.3(385)(90 − T) = 0.5(4186)(T − 25). 115.5(90 − T) = 2093(T − 25). 10395 − 115.5T = 2093T − 52325. 62720 = 2208.5T. T = 28.4°C. The water barely warms because its thermal capacity is much larger." }
+        ],
+        "checklist": [
+          "I can describe the method of mixtures experiment for finding c",
+          "I can use Q = VIt for electrical heating experiments",
+          "I can solve thermal equilibrium problems: m₁c₁ΔT₁ = m₂c₂ΔT₂",
+          "I can identify sources of error in calorimetry experiments",
+          "I can explain that temperature is constant during phase changes"
+        ]
+      },
+
+      "extension": { "title": "Thermal energy at the molecular level", "content": "<p>Temperature is the average translational KE per molecule: KE_avg = (3/2)kT, where k = 1.38 × 10⁻²³ J/K (Boltzmann constant). This connects macroscopic temperature to microscopic molecular motion. Specific heat capacity depends on how many ways molecules can store energy (translational, rotational, vibrational) — this is the equipartition theorem from B.3 (Gas Laws).</p>", "connections": ["B.1 Thermal Energy: detailed treatment of thermal physics and latent heat", "B.3 Gas Laws: molecular KE and temperature, equipartition theorem"], "checklist": ["I can state KE_avg = (3/2)kT connecting temperature to molecular KE"] },
+      "simulation": { "title": "PhET: Energy Forms and Changes", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/energy-forms-and-changes", "instructions": ["Heat different materials. Observe: materials with low c heat up faster. Water (high c) heats slowly."] },
+      "video": { "title": "Specific Heat Capacity — IB Physics", "duration": "9 min", "description": "Q = mcΔT, calorimetry, thermal equilibrium, and phase changes", "embedId": "" },
+      "equations": [
+        { "formula": "Q = mcΔT", "description": "Thermal energy = mass × specific heat capacity × temperature change." },
+        { "formula": "m₁c₁ΔT₁ = m₂c₂ΔT₂", "description": "Thermal equilibrium: energy lost = energy gained." },
+        { "formula": "Q = mL", "description": "Energy for phase change. L = specific latent heat (J/kg)." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A 2 kW heater warms 5 kg of water from 15°C to 75°C. How long does it take?", "steps": [
+          { "label": "Energy needed", "text": "Q = mcΔT = 5 × 4186 × 60 = 1,255,800 J" },
+          { "label": "Time", "text": "t = Q/P = 1,255,800/2000 = 628 s ≈ 10.5 min", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "How much energy is needed to heat 0.5 kg of aluminium (c = 897) from 20°C to 120°C?", "solution": "Q = mcΔT = 0.5 × 897 × 100 = 44,850 J ≈ 44.9 kJ." },
+        { "difficulty": "medium", "scope": "sl", "question": "A 0.2 kg metal block at 100°C is placed in 0.4 kg water at 20°C. Equilibrium temperature is 23°C. Find c_metal.", "solution": "0.2 × c × (100 − 23) = 0.4 × 4186 × (23 − 20). 15.4c = 5023. c = 326 J/(kg·K). (Close to copper: 385.)" },
+        { "difficulty": "hard", "scope": "sl", "question": "A 3 kW heater that is 85% efficient heats 10 kg of water. How long to raise the temperature by 40°C?", "solution": "Useful power = 0.85 × 3000 = 2550 W. Q = 10 × 4186 × 40 = 1,674,400 J. t = Q/P = 1,674,400/2550 = 657 s ≈ 11 min." }
+      ],
+      "commonMistakes": [
+        { "wrong": "ΔT can be in °C or K — and they give different answers", "explanation": "A change of 1°C = a change of 1 K. So ΔT in °C and ΔT in K are ALWAYS the same number. You can use either in Q = mcΔT.", "correct": "ΔT (°C) = ΔT (K) always. Both give the same answer in Q = mcΔT." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A 0.15 kg copper block (c = 385 J/(kg·K)) at 95°C is placed in 0.30 kg of water at 22°C in an insulated container.\n(a) Calculate the energy lost by the copper as it cools to the equilibrium temperature. Express your answer in terms of the equilibrium temperature T. [1]\n(b) Calculate the energy gained by the water. Express in terms of T. [1]\n(c) Find the equilibrium temperature T. [2]\n(d) State two assumptions made. [2]", "marks": 6, "modelAnswer": "(a) Q_lost = 0.15 × 385 × (95 − T) = 57.75(95 − T) [1].\n(b) Q_gained = 0.30 × 4186 × (T − 22) = 1255.8(T − 22) [1].\n(c) 57.75(95 − T) = 1255.8(T − 22). 5486.25 − 57.75T = 1255.8T − 27627.6. 33113.85 = 1313.55T. T = 25.2°C [2].\n(d) No energy lost to surroundings (perfect insulation) [1]. No energy absorbed by the container itself [1].", "examinerTip": "For mixing problems: ALWAYS write Q_hot = Q_cold in symbols first, then substitute. This earns method marks even if the arithmetic goes wrong." }
+    }
+
+  ]
+},
 
