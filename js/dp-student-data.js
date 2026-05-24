@@ -5556,4 +5556,3821 @@ const DP_STUDENT_DATA = {
 
   ]
 },
+// ============================================================
+// B.1 THERMAL ENERGY TRANSFERS — COMPLETE (8 subtopics)
+// Ends with comma — ready for B2 to follow
+// ============================================================
+
+"B1": {
+  "title": "Thermal Energy Transfers",
+  "code": "B.1",
+  "theme": "B",
+  "level": "SL + HL",
+  "subtopicCount": 8,
+  "subtopics": [
+
+    {
+      "id": "b1_sub1",
+      "num": 1,
+      "title": "Temperature, Heat & Internal Energy",
+      "group": "Thermal Concepts",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "A.5 Special Relativity",
+      "nextTitle": "Specific Heat Capacity",
+
+      "bigIdea": "Temperature is NOT the same as heat. Temperature measures how hot something is — the average kinetic energy of its particles. Heat is energy flowing from hot to cold. Internal energy is the TOTAL energy of all particles. A swimming pool at 25°C has far more internal energy than a cup of tea at 80°C — it's cooler but has enormously more particles.",
+
+      "foundation": {
+        "title": "Three quantities that students constantly confuse",
+        "content": "<h4>Temperature</h4><p><strong>Temperature</strong> is a measure of the <strong>average kinetic energy</strong> of the particles in a substance. Higher temperature = particles move faster on average.</p><p>Temperature does NOT tell you the total energy. A spark from a fire is at ~1000°C but contains very little energy (very few particles). A swimming pool at 25°C contains millions of joules of thermal energy (enormous number of particles).</p><p><strong>Scales:</strong></p><ul><li>Celsius (°C): water freezes at 0°C, boils at 100°C</li><li>Kelvin (K): <strong>T(K) = T(°C) + 273</strong>. Zero kelvin (0 K = −273°C) is absolute zero — the lowest possible temperature, where particles have minimum energy (not zero — quantum mechanics forbids truly zero energy).</li></ul><p>The IB uses KELVIN for most thermodynamic calculations. Always convert.</p><h4>Heat (thermal energy transfer)</h4><p><strong>Heat (Q)</strong> is energy transferred between objects due to a temperature difference. Heat always flows from HOT to COLD — never the reverse (2nd law of thermodynamics).</p><p>Heat is NOT a substance — it's a PROCESS. Objects don't 'contain heat' — they contain internal energy. Heat is the name for energy in transit due to a temperature difference.</p><h4>Internal energy</h4><p><strong>Internal energy (U)</strong> is the total energy of all particles in a substance:</p><p><strong>U = total KE + total PE</strong></p><ul><li><strong>KE component:</strong> from random translational, rotational, and vibrational motion of particles. Related to temperature.</li><li><strong>PE component:</strong> from intermolecular forces (bonds, attractions, repulsions). Related to the phase (solid/liquid/gas) and spacing of particles.</li></ul><p>Increasing temperature increases the KE component. Changing phase (melting, boiling) increases the PE component without changing temperature.</p>",
+        "summary": "<p><strong>Temperature:</strong> average KE of particles. Unit: K (kelvin). T(K) = T(°C) + 273.</p><p><strong>Heat (Q):</strong> energy transferred due to temperature difference. Always hot → cold.</p><p><strong>Internal energy (U):</strong> total KE + PE of all particles. Depends on temperature, phase, and amount.</p><p><strong>Key distinction:</strong> temperature ≠ heat ≠ internal energy. They are three different things.</p>",
+        "checkQuestions": [
+          { "question": "A large lake at 10°C and a cup of boiling water at 100°C. Which has more internal energy? Which has higher temperature?", "answer": "The lake has MORE internal energy (vastly more particles, despite lower temperature). The cup has HIGHER temperature (particles move faster on average). Temperature and internal energy are different quantities." },
+          { "question": "Convert 37°C (body temperature) to kelvin.", "answer": "T = 37 + 273 = 310 K." }
+        ],
+        "checklist": [
+          "I can define temperature as average KE of particles",
+          "I can convert between Celsius and Kelvin: T(K) = T(°C) + 273",
+          "I can define heat as energy transferred due to temperature difference (hot → cold)",
+          "I can define internal energy as total KE + PE of all particles",
+          "I can explain why a large cold object can have more internal energy than a small hot one"
+        ]
+      },
+
+      "core": {
+        "title": "Internal energy, molecular model, and the first law of thermodynamics",
+        "content": "<h4>The molecular model of internal energy</h4><p>Matter is made of particles (atoms/molecules) in constant random motion. The kinetic energy of this random motion is the thermal KE. The potential energy comes from forces between particles.</p><p><strong>In a solid:</strong> Particles vibrate about fixed positions. KE from vibration, PE from strong bonds. Low internal energy per particle (at a given temperature) because particles can't move freely.</p><p><strong>In a liquid:</strong> Particles move past each other but stay close. More KE (translational + rotational) and more PE (weaker bonds) than solid at the same temperature.</p><p><strong>In a gas:</strong> Particles move freely with large separations. Mostly KE (translational). PE is nearly zero (negligible intermolecular forces for an ideal gas). Internal energy is almost entirely kinetic.</p><h4>Absolute zero</h4><p>At <strong>0 K (−273.15°C)</strong>: particles have the minimum possible energy (not zero — the zero-point energy from quantum mechanics). No further energy can be extracted. This is the absolute zero of temperature.</p><p>0 K has never been reached experimentally — only approached asymptotically (3rd law of thermodynamics).</p><h4>The first law of thermodynamics</h4><p><strong>ΔU = Q − W</strong></p><p>Change in internal energy = heat added to the system − work done BY the system.</p><ul><li>Q positive: heat flows INTO the system (heated)</li><li>Q negative: heat flows OUT (cooled)</li><li>W positive: system does work on surroundings (expanding gas)</li><li>W negative: surroundings do work on system (compressed gas)</li></ul><p>This is conservation of energy applied to thermal systems. It governs all engines, refrigerators, and heat pumps.</p>",
+        "keyPoints": [
+          "Internal energy = KE (random motion) + PE (intermolecular forces)",
+          "Solid: vibrating particles. Liquid: moving but close. Gas: freely moving, widely separated.",
+          "Absolute zero (0 K): minimum possible energy. Cannot be reached.",
+          "First law: ΔU = Q − W (energy conservation for thermal systems)"
+        ],
+        "examTrap": { "wrong": "At absolute zero, particles stop moving completely", "correct": "At 0 K, particles have minimum energy but NOT zero (zero-point energy from quantum mechanics). Complete cessation of motion would violate the Heisenberg uncertainty principle. 0 K is approached but never reached." },
+        "checkQuestions": [
+          { "question": "A gas is heated (Q = 500 J) and expands doing 200 J of work. Find ΔU.", "answer": "ΔU = Q − W = 500 − 200 = 300 J. The gas's internal energy increases by 300 J (it gets hotter AND bigger)." },
+          { "question": "During a phase change (melting), temperature stays constant. What happens to internal energy?", "answer": "Internal energy INCREASES. The heat added goes into breaking intermolecular bonds (increasing PE), not increasing KE. Since temperature depends on average KE, it stays constant." }
+        ],
+        "checklist": [
+          "I can describe internal energy in terms of molecular KE and PE for solids, liquids, and gases",
+          "I can state that absolute zero (0 K) is the minimum possible temperature",
+          "I can state the first law of thermodynamics: ΔU = Q − W",
+          "I can explain sign conventions for Q and W in the first law",
+          "I can explain why internal energy increases during phase changes even though temperature is constant"
+        ]
+      },
+
+      "extension": { "title": "Statistical mechanics and the Boltzmann distribution", "content": "<p>Temperature is precisely defined as: T = (∂U/∂S)_V — the rate of change of internal energy with entropy. For an ideal gas: the average translational KE per particle is exactly (3/2)kT, where k = 1.38 × 10⁻²³ J/K is Boltzmann's constant. Particles don't all have the same energy — they follow the Maxwell-Boltzmann distribution: a bell-shaped curve that shifts right and flattens as T increases.</p>", "connections": ["B.3 Gas Laws: ideal gas and KE = 3/2 kT", "B.4 Thermodynamics: entropy and the 2nd law"], "checklist": ["I can state KE_avg = 3/2 kT for an ideal gas particle", "I can describe the Maxwell-Boltzmann distribution qualitatively"] },
+      "simulation": { "title": "PhET: Gas Properties", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/gas-properties", "instructions": ["Watch particles move. Increase temperature → particles speed up. Cool → they slow down. The distribution of speeds (not all the same) is visible."] },
+      "video": { "title": "Temperature, Heat & Internal Energy — IB Physics", "duration": "9 min", "description": "Distinguishing temperature, heat, and internal energy; molecular model; first law", "embedId": "" },
+      "equations": [
+        { "formula": "T(K) = T(°C) + 273", "description": "Converting Celsius to Kelvin." },
+        { "formula": "U = ΣKE + ΣPE", "description": "Internal energy = total kinetic + potential of all particles." },
+        { "formula": "ΔU = Q − W", "description": "First law of thermodynamics." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A gas absorbs 800 J of heat. It does 350 J of work expanding. Find the change in internal energy.", "steps": [
+          { "label": "First law", "text": "ΔU = Q − W = 800 − 350 = 450 J", "isEquation": true },
+          { "label": "Meaning", "text": "Internal energy increases by 450 J → the gas gets hotter." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the difference between temperature and heat.", "solution": "Temperature is a measure of the average KE of particles in a substance (scalar, K or °C). Heat is energy transferred between objects due to a temperature difference (energy in transit, joules). Temperature is a property of an object; heat is a process." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain why internal energy increases during boiling even though temperature doesn't change.", "solution": "During boiling, heat is added but temperature stays at 100°C. The energy goes into breaking intermolecular bonds (increasing PE), not speeding up particles (KE stays constant since T is constant). Since U = KE + PE and PE increases, U increases." },
+        { "difficulty": "hard", "scope": "sl", "question": "A gas is compressed (W = −400 J done on it) while losing 150 J of heat to surroundings. Find ΔU.", "solution": "Q = −150 J (heat lost). W = −400 J (work done ON gas, so W is negative in ΔU = Q − W convention... careful: some textbooks use ΔU = Q + W when W is work done ON the system). Using ΔU = Q − W where W = work done BY system: W = −400 J (gas does negative work = compressed). ΔU = −150 − (−400) = −150 + 400 = 250 J. Internal energy increases by 250 J." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Heat and temperature are the same thing", "explanation": "Temperature is a property (average KE of particles). Heat is a process (energy transfer due to ΔT). A hot spark has high temperature but very little heat capacity. A cold lake has low temperature but enormous internal energy.", "correct": "Temperature = how hot. Heat = energy flowing due to ΔT. Internal energy = total energy of particles." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Distinguish between internal energy and temperature. [2]\nA fixed amount of gas absorbs 600 J of heat at constant volume.\n(a) State the work done by the gas. [1]\n(b) Find the change in internal energy. [1]", "marks": 4, "modelAnswer": "Internal energy is the total KE + PE of all particles [1]. Temperature is the average KE per particle [1]. (a) W = 0 (constant volume — no expansion, so no work done) [1]. (b) ΔU = Q − W = 600 − 0 = 600 J [1].", "examinerTip": "At constant volume: W = 0 and ALL heat goes into internal energy (ΔU = Q). At constant pressure: some heat goes into work (expansion) and the rest into internal energy." }
+    },
+
+    {
+      "id": "b1_sub2",
+      "num": 2,
+      "title": "Specific Heat Capacity",
+      "group": "Thermal Concepts",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Temperature, Heat & Internal Energy",
+      "nextTitle": "Specific Latent Heat",
+
+      "bigIdea": "It takes 4186 J to heat 1 kg of water by 1°C — but only 385 J for copper. Water is a thermal sponge; copper heats up fast. This property — how much energy it takes to change temperature — is specific heat capacity. It explains why coastal cities have milder climates, why car engines use water coolant, and why touching metal feels colder than touching wood at the same temperature.",
+
+      "foundation": {
+        "title": "How much energy to change the temperature?",
+        "content": "<h4>The definition</h4><p><strong>Specific heat capacity (c)</strong> is the energy required to raise the temperature of 1 kg of a substance by 1 K (or 1°C):</p><p><strong>Q = mcΔT</strong></p><p>Where Q = thermal energy (J), m = mass (kg), c = specific heat capacity (J kg⁻¹ K⁻¹), ΔT = temperature change (K or °C — they're the same for changes).</p><h4>Why different materials heat differently</h4><p>Materials with HIGH c (like water: 4186) absorb a lot of energy for a small temperature rise — they're hard to heat AND hard to cool. Materials with LOW c (like metals: 200–900) heat up and cool down quickly.</p><p><strong>Common values:</strong></p><ul><li>Water: 4186 J/(kg·K) — by far the highest of common substances</li><li>Ice: 2100 J/(kg·K)</li><li>Steam: 2010 J/(kg·K)</li><li>Aluminium: 897</li><li>Iron: 449</li><li>Copper: 385</li><li>Lead: 128</li></ul><h4>Why water's high c matters</h4><ul><li><strong>Climate:</strong> Oceans absorb and release heat slowly → coastal temperatures are more stable than inland</li><li><strong>Cooling systems:</strong> Water is used in car radiators and power plant cooling because it carries away a lot of heat</li><li><strong>Cooking:</strong> Water takes a long time to boil (lots of energy needed) but stays hot for a long time</li><li><strong>Biology:</strong> Human body is ~60% water → body temperature is stable despite varying conditions</li></ul><h4>Thermal equilibrium calculations</h4><p>When a hot object is placed in cold water: energy flows from hot to cold until they reach the same temperature.</p><p><strong>Energy lost by hot = Energy gained by cold</strong></p><p>m₁c₁ΔT₁ = m₂c₂ΔT₂</p>",
+        "summary": "<p><strong>Q = mcΔT.</strong> Energy = mass × specific heat capacity × temperature change.</p><p><strong>High c (water):</strong> slow to heat, slow to cool. <strong>Low c (metals):</strong> fast to heat, fast to cool.</p><p><strong>Thermal equilibrium:</strong> hot loses = cold gains → m₁c₁ΔT₁ = m₂c₂ΔT₂.</p>",
+        "checkQuestions": [
+          { "question": "How much energy to heat 3 kg of water from 20°C to 80°C?", "answer": "Q = mcΔT = 3 × 4186 × 60 = 753,480 J ≈ 753 kJ." },
+          { "question": "Why does a metal spoon in hot soup feel hotter than a wooden spoon at the same temperature?", "answer": "Metal has low c AND high thermal conductivity — it transfers heat to your hand quickly. Wood has higher c and low conductivity — it transfers heat slowly. Your hand senses the RATE of heat transfer, not the temperature." }
+        ],
+        "checklist": [
+          "I can define specific heat capacity and state its unit: J kg⁻¹ K⁻¹",
+          "I can apply Q = mcΔT",
+          "I can explain why water's high c has practical consequences (climate, cooling, biology)",
+          "I can solve thermal equilibrium problems: m₁c₁ΔT₁ = m₂c₂ΔT₂"
+        ]
+      },
+
+      "core": {
+        "title": "Measuring c experimentally and solving mixing problems",
+        "content": "<h4>Experiment 1: Electrical heating method</h4><p>Heat a known mass of substance with an electric heater of known power P = VI for time t.</p><p>Q = VIt = mcΔT → <strong>c = VIt/(mΔT)</strong></p><p>Advantages: controlled, repeatable. Errors: heat loss to surroundings, energy absorbed by container.</p><h4>Experiment 2: Method of mixtures</h4><p>Heat a metal block to known T_hot. Place in water at known T_cold. Measure equilibrium temperature T_eq.</p><p>m_metal × c_metal × (T_hot − T_eq) = m_water × c_water × (T_eq − T_cold)</p><p>Solve for c_metal. Errors: heat loss, container absorption, incomplete equilibrium.</p><h4>Continuous flow calorimeter (AHL)</h4><p>Fluid flows at rate dm/dt past a heater of power P. At steady state: P = (dm/dt) × c × ΔT → c = P/((dm/dt)ΔT). Advantage: heat losses are constant and can be eliminated by taking two measurements at different flow rates.</p>",
+        "keyPoints": [
+          "Electrical method: c = VIt/(mΔT)",
+          "Method of mixtures: m₁c₁ΔT₁ = m₂c₂ΔT₂ → find unknown c",
+          "Sources of error: heat loss, container absorption, non-uniform heating",
+          "ΔT in °C = ΔT in K (always — for changes)"
+        ],
+        "examTrap": { "wrong": "Converting ΔT between °C and K gives different answers in Q = mcΔT", "correct": "A CHANGE of 1°C = a CHANGE of 1 K, always. So ΔT(°C) = ΔT(K). You get the same answer in Q = mcΔT regardless of which you use. (But for ABSOLUTE temperatures, like in gas law calculations, you MUST use K.)" },
+        "checkQuestions": [
+          { "question": "A 50 W heater heats 0.2 kg of oil for 300 s. Temperature rises from 20°C to 55°C. Find c.", "answer": "Q = Pt = 50 × 300 = 15,000 J. c = Q/(mΔT) = 15,000/(0.2 × 35) = 15,000/7 = 2143 J/(kg·K)." }
+        ],
+        "checklist": [
+          "I can describe the electrical heating method for finding c",
+          "I can describe the method of mixtures for finding c",
+          "I can identify and explain sources of error in calorimetry experiments",
+          "I can state that ΔT(°C) = ΔT(K) for temperature CHANGES"
+        ]
+      },
+
+      "extension": { "title": "Why different materials have different c values", "content": "<p>At the atomic level: energy is stored in translational KE, rotational KE, vibrational KE, and PE. Monatomic gases (He, Ar) store energy only in translation (3 degrees of freedom) → low c. Diatomic gases (N₂, O₂) also rotate (5 DOF) → higher c. Solids vibrate in 3D (6 DOF) → c depends on how many modes are active. Water's extremely high c is due to extensive hydrogen bonding — energy goes into straining and breaking these bonds before T increases.</p>", "connections": ["B.3 Gas Laws: c_v and c_p for gases from degrees of freedom", "B.4 Thermodynamics: Dulong-Petit law for solids"], "checklist": ["I can explain c in terms of degrees of freedom and energy storage modes"] },
+      "simulation": { "title": "PhET: Energy Forms and Changes", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/energy-forms-and-changes", "instructions": ["Heat different materials with the same energy. Materials with low c heat up faster (bigger ΔT). Water barely changes."] },
+      "video": { "title": "Specific Heat Capacity — IB Physics", "duration": "8 min", "description": "Q = mcΔT, experimental methods, mixing problems, and why water has high c", "embedId": "" },
+      "equations": [
+        { "formula": "Q = mcΔT", "description": "Energy = mass × specific heat capacity × temperature change." },
+        { "formula": "c = VIt/(mΔT)", "description": "Finding c by electrical heating." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A 0.5 kg iron block at 200°C is placed in 2 kg water at 20°C. Find the equilibrium temperature. (c_iron = 449, c_water = 4186)", "steps": [
+          { "label": "Energy balance", "text": "m_iron × c_iron × (200 − T) = m_water × c_water × (T − 20)" },
+          { "label": "Substitute", "text": "0.5 × 449 × (200 − T) = 2 × 4186 × (T − 20)" },
+          { "label": "Expand", "text": "224.5(200 − T) = 8372(T − 20) → 44900 − 224.5T = 8372T − 167440" },
+          { "label": "Solve", "text": "212340 = 8596.5T → T = 24.7°C", "isEquation": true },
+          { "label": "Note", "text": "The water barely warms (4.7°C) while the iron cools 175°C. This is because water's mc product is 37× larger." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "How much energy to heat 0.5 kg of copper (c = 385) from 25°C to 125°C?", "solution": "Q = mcΔT = 0.5 × 385 × 100 = 19,250 J ≈ 19.3 kJ." },
+        { "difficulty": "medium", "scope": "sl", "question": "A 100 W heater heats 0.3 kg of liquid for 200 s. Temperature rises by 40°C. Find c. What fraction of the heater's energy was lost to surroundings?", "solution": "Q_heater = 100 × 200 = 20,000 J. Q_liquid = mcΔT = 0.3 × c × 40 = 12c. If no loss: 12c = 20000 → c = 1667. But if the actual c is known (say 2000): Q_absorbed = 0.3 × 2000 × 40 = 24,000 J. But heater only provided 20,000 J — impossible. So: c = 20000/12 = 1667 J/(kg·K), assuming all energy absorbed. If actual c is higher, some heat was lost." },
+        { "difficulty": "hard", "scope": "sl", "question": "A 0.15 kg aluminium cup (c = 897) contains 0.3 kg water at 15°C. A 0.2 kg copper block (c = 385) at 95°C is dropped in. Find the equilibrium temperature, accounting for the cup.", "solution": "Hot copper loses: 0.2(385)(95−T). Cold water+cup gain: [0.3(4186) + 0.15(897)](T−15). 77(95−T) = [1255.8 + 134.6](T−15) = 1390.4(T−15). 7315 − 77T = 1390.4T − 20856. 28171 = 1467.4T. T = 19.2°C." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Forgetting to include the container's heat capacity in mixing problems", "explanation": "If a metal cup holds the water, the cup ALSO absorbs heat. Include it: (m_water × c_water + m_cup × c_cup) × ΔT_cold = m_hot × c_hot × ΔT_hot.", "correct": "Account for ALL objects that change temperature — water, cup, thermometer, etc." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A 0.4 kg metal block at 100°C is placed in 0.6 kg water at 22°C in an insulated container. The equilibrium temperature is 25°C.\n(a) Calculate c of the metal. [3]\n(b) State two assumptions made. [2]", "marks": 5, "modelAnswer": "(a) 0.4 × c × (100−25) = 0.6 × 4186 × (25−22) [1]. 30c = 7534.8 [1]. c = 251 J/(kg·K) [1].\n(b) No energy lost to surroundings (perfect insulation) [1]. No energy absorbed by the container or thermometer [1].", "examinerTip": "Show the energy balance equation FIRST: heat lost = heat gained. Then substitute. This earns method marks even if arithmetic is wrong." }
+    },
+
+    {
+      "id": "b1_sub3",
+      "num": 3,
+      "title": "Specific Latent Heat — Phase Changes",
+      "group": "Thermal Concepts",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Specific Heat Capacity",
+      "nextTitle": "Heating & Cooling Curves",
+
+      "bigIdea": "Add heat to ice at 0°C and the temperature doesn't rise — the ice melts. ALL the energy goes into breaking bonds between water molecules, not into speeding them up. This hidden energy — 'latent' means hidden — is the energy of the phase change. It takes 334,000 J to melt 1 kg of ice without raising its temperature at all.",
+
+      "foundation": {
+        "title": "Energy that changes the state without changing the temperature",
+        "content": "<h4>What happens during a phase change?</h4><p>When a substance changes state (solid → liquid → gas), the temperature remains <strong>constant</strong> even though energy is being added. Why? The energy goes into:</p><ul><li><strong>Breaking intermolecular bonds</strong> (melting: solid → liquid)</li><li><strong>Separating particles further</strong> (boiling: liquid → gas)</li></ul><p>This increases the PE component of internal energy, not the KE. Since temperature measures average KE, temperature stays constant.</p><h4>Specific latent heat</h4><p><strong>Specific latent heat (L)</strong> is the energy required to change the state of 1 kg of a substance without changing its temperature:</p><p><strong>Q = mL</strong></p><p>Two types:</p><ul><li><strong>Specific latent heat of fusion (L_f):</strong> energy to melt (solid → liquid) at the melting point. For water: L_f = 334,000 J/kg = 334 kJ/kg.</li><li><strong>Specific latent heat of vaporisation (L_v):</strong> energy to boil (liquid → gas) at the boiling point. For water: L_v = 2,260,000 J/kg = 2260 kJ/kg.</li></ul><p>Note: L_v >> L_f always. Boiling requires much more energy than melting because you're completely separating particles (overcoming all intermolecular forces), not just loosening them.</p><h4>Why steam burns are so dangerous</h4><p>1 kg of steam at 100°C condensing on your skin releases 2,260,000 J BEFORE it even starts cooling. This is 7× more energy than the same mass of water cooling from 100°C to 0°C (m × 4186 × 100 = 418,600 J). Steam burns are far worse than hot water burns.</p>",
+        "summary": "<p><strong>Q = mL:</strong> energy for phase change. No temperature change.</p><p><strong>L_f (fusion):</strong> melting. For water: 334 kJ/kg.</p><p><strong>L_v (vaporisation):</strong> boiling. For water: 2260 kJ/kg.</p><p><strong>L_v >> L_f always.</strong> Boiling takes much more energy than melting.</p><p><strong>During phase change:</strong> energy changes PE (bonds), not KE (motion) → T constant.</p>",
+        "checkQuestions": [
+          { "question": "How much energy to melt 0.5 kg of ice at 0°C?", "answer": "Q = mL_f = 0.5 × 334,000 = 167,000 J = 167 kJ." },
+          { "question": "Why does sweating cool you down?", "answer": "Sweat evaporates from your skin. Evaporation requires latent heat (L_v), which is taken FROM your skin. The energy removed lowers your skin temperature. This is why you feel cold when wet on a windy day (wind increases evaporation rate)." }
+        ],
+        "checklist": [
+          "I can define specific latent heat and distinguish L_f from L_v",
+          "I can apply Q = mL for phase change calculations",
+          "I can explain that temperature is constant during phase changes (energy changes PE, not KE)",
+          "I can explain why L_v >> L_f (complete separation vs loosening of bonds)",
+          "I can explain why steam burns are more dangerous than boiling water burns"
+        ]
+      },
+
+      "core": {
+        "title": "Calculating with latent heat and combining with specific heat capacity",
+        "content": "<h4>Combined heating problems</h4><p>Heating ice from −20°C to steam at 120°C requires FIVE stages:</p><ol><li><strong>Heat ice from −20 to 0°C:</strong> Q₁ = mc_ice × 20 = m(2100)(20)</li><li><strong>Melt ice at 0°C:</strong> Q₂ = mL_f = m(334,000)</li><li><strong>Heat water from 0 to 100°C:</strong> Q₃ = mc_water × 100 = m(4186)(100)</li><li><strong>Boil water at 100°C:</strong> Q₄ = mL_v = m(2,260,000)</li><li><strong>Heat steam from 100 to 120°C:</strong> Q₅ = mc_steam × 20 = m(2010)(20)</li></ol><p>Total energy: Q = Q₁ + Q₂ + Q₃ + Q₄ + Q₅. The boiling step (Q₄) dominates — it's roughly 5× all the other steps combined.</p><h4>Measuring latent heat experimentally</h4><p>Electrical method: Heat substance at its melting/boiling point with a heater of known power P for time t.</p><p>Q = Pt = mL → L = Pt/m</p><p>Measure the mass of substance that changes state. Errors: heat loss, energy heating the container, substance changing state unevenly.</p><h4>Mixing problems with phase changes</h4><p>Hot water poured onto ice: the water cools while the ice melts. If enough energy: all ice melts and the final temperature is above 0°C. If not enough: some ice remains and the final temperature is exactly 0°C.</p><p>Energy balance: m_water × c × (T_hot − T_final) = m_ice × L_f + m_ice × c × (T_final − 0)</p>",
+        "keyPoints": [
+          "Multi-stage heating: heat each phase (Q = mcΔT) + melt/boil (Q = mL) at each transition",
+          "Boiling water (L_v) requires ~5× more energy than all other stages combined",
+          "Measuring L: use electrical method — L = Pt/m",
+          "Mixing with ice: check if all ice melts or if T_final = 0°C with ice remaining"
+        ],
+        "examTrap": { "wrong": "During boiling, adding more heat makes the water hotter", "correct": "During boiling (at constant pressure), the temperature stays at 100°C no matter how much heat you add. ALL extra energy goes into converting liquid to gas (latent heat). Only AFTER all liquid has become gas does the temperature start rising again." },
+        "checkQuestions": [
+          { "question": "Calculate the total energy to convert 0.1 kg of ice at −10°C to steam at 100°C.", "answer": "Q₁ = 0.1 × 2100 × 10 = 2,100 J. Q₂ = 0.1 × 334,000 = 33,400 J. Q₃ = 0.1 × 4186 × 100 = 41,860 J. Q₄ = 0.1 × 2,260,000 = 226,000 J. Total = 303,360 J ≈ 303 kJ. Note: Q₄ (boiling) is 74% of the total." }
+        ],
+        "checklist": [
+          "I can solve multi-stage heating problems (ice → water → steam)",
+          "I can describe an experiment to measure latent heat electrically",
+          "I can solve mixing problems involving phase changes (ice + hot water)",
+          "I can identify that the boiling stage requires by far the most energy"
+        ]
+      },
+
+      "extension": { "title": "Latent heat at the molecular level", "content": "<p>L_f is the energy to break enough bonds for particles to move past each other (solid → liquid). L_v is the energy to completely overcome ALL intermolecular attractions (liquid → gas). Since gas particles have essentially zero intermolecular PE, L_v represents the full bond-breaking energy. L_f only partially disrupts the structure — that's why L_f << L_v.</p><p>Sublimation (solid → gas directly): L_sub ≈ L_f + L_v (breaks ALL bonds in one step). Example: dry ice (solid CO₂) sublimes at −78.5°C.</p>", "connections": ["B.3 Gas Laws: gas particles have negligible PE — internal energy is nearly all KE", "E.1 Atomic Structure: ionisation energy is analogous — energy to remove electron from atom"], "checklist": ["I can explain L_f < L_v in terms of bond-breaking", "I can state L_sublimation ≈ L_f + L_v"] },
+      "simulation": { "title": "PhET: States of Matter", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/states-of-matter", "instructions": ["Watch particles during phase changes. At the melting point: structure breaks down but particles stay close. At boiling: particles fly apart completely."] },
+      "video": { "title": "Latent Heat — IB Physics", "duration": "9 min", "description": "Q = mL, L_f vs L_v, heating curves, multi-stage calculations, and experimental measurement", "embedId": "" },
+      "equations": [
+        { "formula": "Q = mL", "description": "Energy for phase change. L = specific latent heat (J/kg)." },
+        { "formula": "L_f (water) = 334 kJ/kg", "description": "Latent heat of fusion for water." },
+        { "formula": "L_v (water) = 2260 kJ/kg", "description": "Latent heat of vaporisation for water." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A 3 kW heater melts 2 kg of ice at 0°C. How long does it take?", "steps": [
+          { "label": "Energy needed", "text": "Q = mL_f = 2 × 334,000 = 668,000 J" },
+          { "label": "Time", "text": "t = Q/P = 668,000/3000 = 222.7 s ≈ 3.7 min", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "How much energy to boil 0.5 kg of water already at 100°C?", "solution": "Q = mL_v = 0.5 × 2,260,000 = 1,130,000 J = 1130 kJ." },
+        { "difficulty": "medium", "scope": "sl", "question": "200 g of steam at 100°C condenses on a surface at 30°C. Find the total energy released.", "solution": "Condensation: Q₁ = mL_v = 0.2 × 2,260,000 = 452,000 J. Cooling water: Q₂ = mcΔT = 0.2 × 4186 × 70 = 58,604 J. Total = 510,604 J ≈ 511 kJ." },
+        { "difficulty": "hard", "scope": "sl", "question": "50 g of ice at 0°C is added to 300 g of water at 40°C. Find the final temperature.", "solution": "Energy to melt ice: Q_melt = 0.05 × 334,000 = 16,700 J. Energy available from water cooling to 0°C: Q_water = 0.3 × 4186 × 40 = 50,232 J. Since 50,232 > 16,700: all ice melts. Remaining energy: 50,232 − 16,700 = 33,532 J heats 0.35 kg of water. ΔT = 33,532/(0.35 × 4186) = 22.9°C. Final T = 0 + 22.9 = 22.9°C." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Applying Q = mcΔT during a phase change", "explanation": "During a phase change, ΔT = 0 (temperature is constant). Use Q = mL, not Q = mcΔT. Only use Q = mcΔT when the substance is heating/cooling WITHOUT changing state.", "correct": "Phase change: Q = mL. Between phase changes: Q = mcΔT. They're different equations for different situations." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A 2.0 kW heater is used to heat 0.50 kg of ice initially at −15°C.\n(a) Calculate the energy needed to raise the ice to 0°C. [1]\n(b) Calculate the energy needed to melt all the ice. [1]\n(c) Calculate the total time for the ice to become water at 0°C. [2]\n(d) Sketch a temperature-time graph for the entire process. [2]", "marks": 6, "modelAnswer": "(a) Q₁ = mcΔT = 0.50 × 2100 × 15 = 15,750 J [1].\n(b) Q₂ = mL_f = 0.50 × 334,000 = 167,000 J [1].\n(c) Total Q = 15,750 + 167,000 = 182,750 J. t = Q/P = 182,750/2000 = 91.4 s [2].\n(d) Rising line from −15°C to 0°C (steep, short section — heating ice). Flat line at 0°C (long section — melting). This flat section is much longer than the rising section because L_f >> c_ice × 15 [2].", "examinerTip": "On heating curves: the flat sections (phase changes) are often MUCH longer than the sloped sections (temperature changes). This is because latent heat is typically much larger than specific heat capacity × ΔT for typical temperature ranges." }
+    },
+
+    {
+      "id": "b1_sub4",
+      "num": 4,
+      "title": "Heating & Cooling Curves",
+      "group": "Thermal Concepts",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Specific Latent Heat",
+      "nextTitle": "Thermal Conduction",
+
+      "bigIdea": "A heating curve tells the whole thermal story in one graph. Temperature rises (sloped sections), then plateaus at phase changes (flat sections). The slope tells you the specific heat capacity. The length of the plateau tells you the latent heat. One graph, all the information.",
+
+      "foundation": {
+        "title": "Reading and drawing heating curves",
+        "content": "<h4>What a heating curve shows</h4><p>A <strong>heating curve</strong> plots temperature (y-axis) against time or energy added (x-axis) for a substance being heated at constant power.</p><p><strong>Features:</strong></p><ul><li><strong>Rising sections (slopes):</strong> Temperature increases. The substance is in a single phase. Q = mcΔT applies. Gradient depends on c: low c → steep slope (heats fast), high c → gentle slope (heats slow).</li><li><strong>Flat sections (plateaus):</strong> Temperature is constant. A phase change is occurring. Q = mL applies. Length of plateau depends on L: larger L → longer plateau.</li></ul><h4>The standard heating curve for water</h4><p>Heating ice from −20°C to steam at 120°C:</p><ol><li><strong>−20 to 0°C:</strong> Solid (ice) heats up. Steep slope (c_ice = 2100, relatively low).</li><li><strong>0°C plateau:</strong> Ice melts to water. Flat (L_f = 334 kJ/kg).</li><li><strong>0 to 100°C:</strong> Liquid (water) heats up. Gentler slope (c_water = 4186, high).</li><li><strong>100°C plateau:</strong> Water boils to steam. Very long flat section (L_v = 2260 kJ/kg — about 7× longer than the melting plateau).</li><li><strong>100 to 120°C:</strong> Gas (steam) heats up. Steep slope (c_steam = 2010).</li></ol><h4>Cooling curves</h4><p>The reverse: temperature drops with time. Plateaus occur at the same temperatures but represent freezing and condensation (energy released, not absorbed). Supercooling may occur — liquid temporarily drops below the freezing point before solidifying.</p>",
+        "summary": "<p><strong>Heating curve:</strong> T vs time (or energy). Slopes = single phase (Q = mcΔT). Plateaus = phase change (Q = mL).</p><p><strong>Slope:</strong> steeper = lower c. <strong>Plateau length:</strong> longer = larger L.</p><p><strong>For water:</strong> boiling plateau >> melting plateau (L_v >> L_f).</p>",
+        "checkQuestions": [
+          { "question": "On a heating curve, the water section (0–100°C) has a gentler slope than the ice section (−20–0°C). What does this tell you?", "answer": "Water has a HIGHER specific heat capacity than ice. Higher c → more energy needed per degree → takes longer per degree → gentler slope on the time-based heating curve." }
+        ],
+        "checklist": [
+          "I can sketch a heating/cooling curve with correct slopes and plateaus",
+          "I can explain what the slope represents (related to c) and what the plateau represents (related to L)",
+          "I can identify the phases on each section of the curve",
+          "I can explain why the boiling plateau is longer than the melting plateau for water"
+        ]
+      },
+
+      "core": {
+        "title": "Extracting quantitative data from heating curves",
+        "content": "<h4>Finding c from the slope</h4><p>If the heating power P is constant: Q = Pt. During a single-phase section: Pt = mcΔT → ΔT/t = P/(mc). The gradient of the T-t graph = P/(mc). So: <strong>c = P/(m × gradient)</strong>.</p><h4>Finding L from the plateau</h4><p>During a phase change: Pt_plateau = mL → <strong>L = Pt_plateau/m</strong>.</p><h4>Reading from an energy-based heating curve</h4><p>If the x-axis is energy (not time): the slope sections have gradient 1/(mc) and the plateau width = mL. This is easier to read quantitatively because you don't need to know P.</p>",
+        "keyPoints": [
+          "From time-based curve: c = P/(m × gradient of T-t slope)",
+          "From time-based curve: L = P × plateau duration / m",
+          "From energy-based curve: slope gradient = 1/(mc), plateau width = mL",
+          "Compare slopes between phases: steeper = smaller c"
+        ],
+        "examTrap": { "wrong": "The temperature increases during a phase change if you add enough heat", "correct": "No. During a phase change at constant pressure, the temperature stays exactly at the melting/boiling point until ALL the substance has changed state. Only then does temperature start rising again. Adding more heat makes the phase change happen faster, not hotter." },
+        "checkQuestions": [
+          { "question": "A 1 kW heater heats 0.5 kg of a substance. The liquid phase (30–80°C) takes 250 s. Find c.", "answer": "Q = Pt = 1000 × 250 = 250,000 J. c = Q/(mΔT) = 250,000/(0.5 × 50) = 10,000 J/(kg·K). (Very high — possibly water with losses.)" }
+        ],
+        "checklist": [
+          "I can extract specific heat capacity from the slope of a heating curve",
+          "I can extract latent heat from the length of a plateau",
+          "I can compare c values between phases by comparing slopes",
+          "I can distinguish time-based and energy-based heating curves"
+        ]
+      },
+
+      "extension": { "title": "Phase diagrams", "content": "<p>A phase diagram plots pressure vs temperature, showing the regions where solid, liquid, and gas are stable. The triple point is where all three phases coexist. The critical point is the highest temperature at which liquid and gas are distinct. Above the critical point: supercritical fluid (properties between liquid and gas). Water's phase diagram has an unusual negative slope for the solid-liquid boundary — ice melts under pressure, which is why ice skating works (pressure from the blade melts the ice surface).</p>", "connections": ["B.3 Gas Laws: ideal gas behaviour at high T, low P — far from phase boundaries"], "checklist": ["I can interpret a phase diagram: regions, boundaries, triple point, critical point"] },
+      "simulation": { "title": "PhET: States of Matter — Basics", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/states-of-matter-basics", "instructions": ["Add heat steadily. Watch the temperature graph — flat during phase changes, rising otherwise."] },
+      "video": { "title": "Heating Curves — IB Physics", "duration": "7 min", "description": "Drawing, reading, and extracting c and L from heating curves", "embedId": "" },
+      "equations": [
+        { "formula": "c = P/(m × gradient)", "description": "Finding c from the slope of a time-based heating curve." },
+        { "formula": "L = Pt_plateau/m", "description": "Finding L from the plateau duration of a time-based heating curve." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "sl", "question": "A 500 W heater heats 0.2 kg of a solid. The melting plateau lasts 200 s. Find L_f.", "solution": "Q = Pt = 500 × 200 = 100,000 J. L_f = Q/m = 100,000/0.2 = 500,000 J/kg = 500 kJ/kg." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Drawing a sloped line during a phase change", "explanation": "The plateau MUST be perfectly flat — temperature is constant during a phase change at constant pressure.", "correct": "Flat = phase change. Sloped = temperature change. Never mix them." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A 400 W heater heats 0.25 kg of a substance from solid to gas. From the heating curve: solid phase (−30 to 0°C) takes 50 s, melting plateau takes 80 s, liquid phase (0 to 60°C) takes 120 s.\n(a) Find c of the solid. [2]\n(b) Find L_f. [2]\n(c) Find c of the liquid. [2]", "marks": 6, "modelAnswer": "(a) Q = 400 × 50 = 20,000 J. c_solid = 20,000/(0.25 × 30) = 2667 J/(kg·K) [2].\n(b) Q = 400 × 80 = 32,000 J. L_f = 32,000/0.25 = 128,000 J/kg [2].\n(c) Q = 400 × 120 = 48,000 J. c_liquid = 48,000/(0.25 × 60) = 3200 J/(kg·K) [2].", "examinerTip": "These are straightforward IF you remember: Q = Pt for each section. Use mcΔT for slopes, mL for plateaus. Don't mix them up." }
+    },
+
+    {
+      "id": "b1_sub5",
+      "num": 5,
+      "title": "Thermal Conduction",
+      "group": "Heat Transfer Mechanisms",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Heating & Cooling Curves",
+      "nextTitle": "Convection & Radiation",
+
+      "bigIdea": "Touch a metal railing on a cold day — it feels freezing. Touch a wooden post at the same temperature — it feels fine. Both are at the same temperature. The difference is conduction: metal conducts heat FROM your hand rapidly (feels cold), wood conducts slowly (feels warmer). Conduction is heat transfer through a material by particle collisions, without the particles themselves moving from place to place.",
+
+      "foundation": {
+        "title": "Heat flowing through solids — by particle vibrations",
+        "content": "<h4>What is conduction?</h4><p><strong>Conduction</strong> is the transfer of thermal energy through a material by collisions between neighbouring particles. Hot (fast) particles vibrate and collide with cold (slow) neighbours, transferring KE. The particles themselves don't move from one place to another — only the energy does.</p><h4>How it works in solids</h4><p>In a solid, particles vibrate about fixed positions. When one end is heated, those particles vibrate more. They bump into their neighbours, which then vibrate more, which bump into THEIR neighbours, and so on. The energy travels through the material — but each particle stays in place.</p><h4>Metals conduct better — because of free electrons</h4><p>Metals have <strong>free (delocalised) electrons</strong> that move rapidly through the lattice. These electrons carry energy much faster than particle vibrations alone. This is why metals are excellent thermal conductors (and also excellent electrical conductors — same free electrons).</p><h4>Thermal conductivity (k)</h4><p><strong>Thermal conductivity k</strong> measures how well a material conducts heat. Unit: W m⁻¹ K⁻¹.</p><ul><li>Metals: k ≈ 50–400 (copper: 385, aluminium: 205, steel: 50)</li><li>Non-metals: k ≈ 0.1–2 (glass: 1, concrete: 1.7, wood: 0.15)</li><li>Insulators: k < 0.1 (air: 0.025, wool: 0.04, foam: 0.03)</li></ul><p>Air is an excellent insulator — which is why double-glazed windows, wool sweaters, and foam insulation all work by trapping air.</p>",
+        "summary": "<p><strong>Conduction:</strong> heat transfer by particle collisions. Particles don't move — energy does.</p><p><strong>Metals:</strong> excellent conductors (free electrons carry energy fast).</p><p><strong>Insulators:</strong> poor conductors (no free electrons, energy moves slowly through vibrations).</p><p><strong>k (thermal conductivity):</strong> higher k = better conductor. Unit: W/(m·K).</p>",
+        "checkQuestions": [
+          { "question": "Why does a tile floor feel colder than a carpet at the same temperature?", "answer": "Tile has higher thermal conductivity than carpet. It conducts heat AWAY from your foot faster, making your foot cool down quickly → feels cold. Carpet insulates (low k) → heat leaves your foot slowly → feels warmer. Both are at the same temperature — the sensation of 'cold' is about heat transfer rate, not temperature." }
+        ],
+        "checklist": [
+          "I can define conduction as heat transfer by particle collisions (no bulk movement)",
+          "I can explain why metals are good conductors (free electrons)",
+          "I can explain why gases and fibrous materials are good insulators (trapped air)",
+          "I can define thermal conductivity k and rank materials by k"
+        ]
+      },
+
+      "core": {
+        "title": "Fourier's law — the rate of heat conduction",
+        "content": "<h4>Fourier's law of conduction</h4><p>The rate of heat flow through a uniform slab:</p><p><strong>Q/t = kA(T_hot − T_cold)/d</strong></p><p>Or: <strong>P = kAΔT/d</strong></p><p>Where P = power (rate of heat flow, W), k = thermal conductivity (W/(m·K)), A = cross-sectional area (m²), ΔT = temperature difference across the slab (K), d = thickness of the slab (m).</p><p>More heat flows when: k is larger (better conductor), A is larger (wider), ΔT is larger (bigger temperature difference), d is smaller (thinner).</p><h4>Thermal resistance</h4><p><strong>R_thermal = d/(kA)</strong> — the resistance to heat flow. Like electrical resistance: higher R → less heat flows for the same ΔT. For layers in series: R_total = R₁ + R₂ + R₃ (add resistances). Analogous to resistors in series.</p><h4>Applications</h4><ul><li><strong>Double glazing:</strong> Two glass panes with trapped air (or vacuum). Glass has moderate k, but the air gap has very low k — it's the main insulator.</li><li><strong>Building insulation:</strong> Foam or fibreglass with trapped air. Low k materials in thick layers (large d) → low heat loss.</li><li><strong>Heat sinks:</strong> Metal fins with large surface area and high k — designed to conduct heat AWAY from electronic components quickly.</li></ul>",
+        "keyPoints": [
+          "Fourier's law: P = kAΔT/d",
+          "More heat flows with: higher k, larger A, bigger ΔT, smaller d",
+          "Thermal resistance: R = d/(kA). Layers in series: R_total = R₁ + R₂",
+          "Insulation works by: low k materials, trapped air, large thickness"
+        ],
+        "examTrap": { "wrong": "Thick walls conduct more heat than thin walls", "correct": "THINNER walls conduct MORE heat (P ∝ 1/d). Thick walls conduct LESS — that's why insulation is thick. Don't confuse thickness with conductivity." },
+        "checkQuestions": [
+          { "question": "A glass window (k = 1.0, area 2 m², thickness 0.005 m) has 20°C inside and 0°C outside. Find the rate of heat loss.", "answer": "P = kAΔT/d = 1.0 × 2 × 20/0.005 = 8000 W = 8 kW. Very high — single glazing loses a lot of heat." }
+        ],
+        "checklist": [
+          "I can apply Fourier's law: P = kAΔT/d",
+          "I can explain the effect of changing k, A, ΔT, and d on heat flow rate",
+          "I can define thermal resistance: R = d/(kA)",
+          "I can add thermal resistances in series for layered walls",
+          "I can explain how insulation (double glazing, foam, trapped air) reduces heat loss"
+        ]
+      },
+
+      "extension": { "title": "The microscopic basis of Fourier's law", "content": "<p>At the microscopic level: k depends on how efficiently particles transfer energy. In metals, free electrons (mean free path ~40 nm in copper at 300 K) carry most of the thermal energy. The Wiedemann-Franz law connects thermal and electrical conductivity: k/σ = LT, where L is the Lorenz number. In non-metals, phonons (quantized lattice vibrations) carry heat — their mean free path is shorter in disordered materials (amorphous glass vs crystalline quartz).</p>", "connections": ["B.5 Current & Circuits: electrical conductivity and thermal conductivity are related (Wiedemann-Franz)", "B.3 Gas Laws: thermal conductivity of gases depends on molecular speed and mean free path"], "checklist": ["I can state the Wiedemann-Franz law connecting thermal and electrical conductivity"] },
+      "simulation": { "title": "PhET: Energy Forms and Changes", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/energy-forms-and-changes", "instructions": ["Watch energy flow through materials by conduction. Metal conducts faster than brick."] },
+      "video": { "title": "Thermal Conduction — IB Physics", "duration": "8 min", "description": "Mechanism, Fourier's law, thermal conductivity, resistance, and insulation applications", "embedId": "" },
+      "equations": [
+        { "formula": "P = kAΔT/d", "description": "Fourier's law. Rate of heat conduction through a slab." },
+        { "formula": "R = d/(kA)", "description": "Thermal resistance. Layers in series: R_total = R₁ + R₂." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A wall has a 0.1 m brick layer (k = 0.7) and 0.05 m insulation (k = 0.04). Area 10 m². T_in = 20°C, T_out = 0°C. Find the heat loss rate.", "steps": [
+          { "label": "R_brick", "text": "R₁ = 0.1/(0.7 × 10) = 0.0143 K/W" },
+          { "label": "R_insulation", "text": "R₂ = 0.05/(0.04 × 10) = 0.125 K/W" },
+          { "label": "R_total", "text": "R = 0.0143 + 0.125 = 0.139 K/W" },
+          { "label": "Power", "text": "P = ΔT/R = 20/0.139 = 144 W", "isEquation": true },
+          { "label": "Note", "text": "The insulation (0.125) has 9× more resistance than the brick (0.014) despite being thinner — low k dominates." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State three ways to reduce heat loss by conduction through a wall.", "solution": "(1) Use materials with lower k (insulation). (2) Increase wall thickness (larger d). (3) Reduce the surface area exposed to the temperature difference." },
+        { "difficulty": "medium", "scope": "sl", "question": "A copper rod (k = 385, area 0.001 m², length 0.3 m) has one end at 100°C and the other at 20°C. Find the rate of heat flow.", "solution": "P = kAΔT/d = 385 × 0.001 × 80/0.3 = 102.7 W." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Confusing thermal conductivity (k) with specific heat capacity (c)", "explanation": "k tells you how fast heat flows THROUGH a material. c tells you how much energy is needed to CHANGE its temperature. They're different properties. Metal has high k (conducts fast) AND low c (heats up fast). Water has moderate k but very high c.", "correct": "k = rate of heat transfer. c = energy storage per degree. Different quantities, different purposes." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A double-glazed window has two glass panes (each 4 mm thick, k = 1.0) separated by a 12 mm air gap (k = 0.025). Area = 1.5 m². T_inside = 22°C, T_outside = 2°C.\n(a) Calculate the thermal resistance of each layer. [3]\n(b) Find the total thermal resistance. [1]\n(c) Calculate the rate of heat loss. [1]", "marks": 5, "modelAnswer": "(a) R_glass1 = 0.004/(1.0 × 1.5) = 0.00267 K/W [1]. R_air = 0.012/(0.025 × 1.5) = 0.32 K/W [1]. R_glass2 = 0.00267 K/W [1].\n(b) R_total = 0.00267 + 0.32 + 0.00267 = 0.325 K/W [1].\n(c) P = ΔT/R = 20/0.325 = 61.5 W [1].", "examinerTip": "The air gap dominates the resistance (0.32 vs 0.005 for both glass panes). This is why double glazing works — it's the AIR (low k) that insulates, not the glass." }
+    },
+
+    {
+      "id": "b1_sub6",
+      "num": 6,
+      "title": "Convection & Radiation",
+      "group": "Heat Transfer Mechanisms",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Thermal Conduction",
+      "nextTitle": "Black-Body Radiation",
+
+      "bigIdea": "Conduction transfers heat through solids. But fluids have a second mechanism: convection — bulk movement of hot fluid carrying energy with it. And ALL objects radiate energy as electromagnetic waves — no medium needed. These three mechanisms (conduction, convection, radiation) account for all heat transfer in the universe.",
+
+      "foundation": {
+        "title": "Two more ways heat travels",
+        "content": "<h4>Convection</h4><p><strong>Convection</strong> is heat transfer by the bulk movement of fluid (liquid or gas). Hot fluid rises (it's less dense), cold fluid sinks (it's denser), creating <strong>convection currents</strong>.</p><p><strong>Mechanism:</strong> Heat a pot of water from below → bottom water heats up → expands → becomes less dense → rises → cooler water from above sinks to take its place → gets heated → rises → continuous circulation.</p><p><strong>Examples:</strong> sea breezes (land heats faster than sea during the day → hot air rises over land → cool sea air rushes in), room heaters (hot air rises, circulates, and returns), weather patterns (global convection cells drive winds).</p><p>Convection ONLY works in fluids — not in solids (particles can't move) and not in a vacuum (no particles at all).</p><h4>Radiation</h4><p><strong>Radiation</strong> is heat transfer by electromagnetic waves (infrared primarily). No medium is needed — radiation travels through vacuum. This is how the Sun's energy reaches Earth (150 million km through empty space).</p><p><strong>All objects emit radiation</strong> at all times. Hotter objects emit MORE radiation and at SHORTER wavelengths. Cool objects (room temperature) emit infrared. Hot objects (1000°C+) emit visible light (they glow red, then white).</p><p><strong>Stefan-Boltzmann law:</strong></p><p><strong>P = εσAT⁴</strong></p><p>Where P = power emitted (W), ε = emissivity (0 to 1), σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴ (Stefan-Boltzmann constant), A = surface area (m²), T = absolute temperature (K).</p><p>Key: P ∝ T⁴. Double the temperature → 16× the power. This is why hot objects radiate enormously more than cool objects.</p><h4>Emissivity and absorption</h4><ul><li><strong>ε = 1:</strong> perfect emitter/absorber = <strong>black body</strong>. Emits maximum radiation for its temperature.</li><li><strong>ε = 0:</strong> perfect reflector. Emits no radiation (reflects all).</li><li><strong>Real objects:</strong> 0 < ε < 1. Dark, rough surfaces: ε ≈ 0.9. Shiny, polished surfaces: ε ≈ 0.1.</li></ul><p>Good emitters are good absorbers (and vice versa). A black car heats up faster in sunlight AND cools down faster at night.</p>",
+        "summary": "<p><strong>Convection:</strong> heat by fluid movement. Hot rises, cold sinks. Fluids only.</p><p><strong>Radiation:</strong> heat by EM waves. No medium needed. All objects emit.</p><p><strong>Stefan-Boltzmann:</strong> P = εσAT⁴. Power ∝ T⁴.</p><p><strong>Emissivity ε:</strong> 0 (reflector) to 1 (black body). Good emitters = good absorbers.</p>",
+        "checkQuestions": [
+          { "question": "How does the Sun's energy reach Earth?", "answer": "By radiation (electromagnetic waves, primarily infrared and visible light). NOT conduction or convection — there's no medium (vacuum) between the Sun and Earth. Radiation is the only mechanism that works through vacuum." },
+          { "question": "Why do radiators in houses have large surface areas and are often painted dark?", "answer": "Large area (A) increases radiation output (P ∝ A). Dark surfaces have high emissivity (ε ≈ 0.9) → emit more radiation. Also: the large area helps convection by heating more air." }
+        ],
+        "checklist": [
+          "I can define convection as heat transfer by bulk fluid movement",
+          "I can explain convection currents: hot rises (less dense), cold sinks",
+          "I can state that convection only works in fluids, not in vacuum",
+          "I can define radiation as heat transfer by EM waves (no medium needed)",
+          "I can apply Stefan-Boltzmann law: P = εσAT⁴",
+          "I can explain emissivity: ε = 1 (black body), 0 (perfect reflector)"
+        ]
+      },
+
+      "core": {
+        "title": "Stefan-Boltzmann law and net radiation",
+        "content": "<h4>Applying the Stefan-Boltzmann law</h4><p>An object at temperature T in surroundings at temperature T_s:</p><ul><li>Power emitted: P_emit = εσAT⁴</li><li>Power absorbed: P_absorb = εσAT_s⁴</li><li>Net power radiated: <strong>P_net = εσA(T⁴ − T_s⁴)</strong></li></ul><p>If T > T_s: net radiation outward → object cools. If T < T_s: net radiation inward → object heats up. At T = T_s: thermal equilibrium — emits and absorbs equally.</p><h4>Wien's displacement law</h4><p>The peak wavelength of emission depends on temperature:</p><p><strong>λ_max × T = 2.9 × 10⁻³ m·K</strong></p><p>Hotter → shorter peak wavelength. Room temperature (~300 K): λ_max ≈ 10 μm (infrared). Sun (~5800 K): λ_max ≈ 500 nm (green visible). Hot star (~30,000 K): λ_max ≈ 100 nm (UV).</p><h4>Applications</h4><ul><li><strong>Solar energy:</strong> Sun at 5800 K emits ~3.85 × 10²⁶ W. At Earth's distance: solar constant ≈ 1361 W/m².</li><li><strong>Thermal imaging:</strong> cameras detect infrared radiation emitted by objects at different temperatures.</li><li><strong>Astronomy:</strong> measuring a star's peak wavelength gives its surface temperature (Wien's law).</li></ul>",
+        "keyPoints": [
+          "P_emitted = εσAT⁴. P_net = εσA(T⁴ − T_s⁴).",
+          "Wien's law: λ_max T = 2.9 × 10⁻³ m·K (hotter → shorter wavelength)",
+          "Solar constant: ~1361 W/m² at Earth's distance from the Sun",
+          "Thermal equilibrium when T = T_s → net radiation = 0"
+        ],
+        "examTrap": { "wrong": "An object at room temperature emits no radiation", "correct": "ALL objects above 0 K emit radiation. At room temperature (~300 K): P = εσA(300)⁴. A person (ε ≈ 0.97, A ≈ 1.7 m²) emits ~800 W of infrared radiation. They don't freeze because they also ABSORB ~800 W from the surroundings." },
+        "checkQuestions": [
+          { "question": "A star has surface temperature 12,000 K. Another has 3,000 K. Find the ratio of their radiation power per unit area.", "answer": "P/A = σT⁴. Ratio = (12000/3000)⁴ = 4⁴ = 256. The hotter star radiates 256× more per unit area." },
+          { "question": "Find the peak wavelength for a 6000 K star.", "answer": "λ_max = 2.9 × 10⁻³/6000 = 4.83 × 10⁻⁷ m = 483 nm (blue-green visible light)." }
+        ],
+        "checklist": [
+          "I can calculate net radiation: P_net = εσA(T⁴ − T_s⁴)",
+          "I can apply Wien's displacement law: λ_max T = 2.9 × 10⁻³",
+          "I can determine a star's temperature from its peak wavelength",
+          "I can explain that all objects emit and absorb radiation continuously"
+        ]
+      },
+
+      "extension": { "title": "The ultraviolet catastrophe and Planck", "content": "<p>Classical physics predicted that a hot object should radiate infinite energy at short wavelengths (the 'ultraviolet catastrophe'). Planck (1900) fixed this by assuming energy is emitted in discrete quanta: E = hf. This was the birth of quantum physics (covered in E.2). The black-body spectrum — the characteristic curve of radiation vs wavelength — is one of the most important results in physics, connecting thermodynamics to quantum mechanics.</p>", "connections": ["E.2 Quantum Physics: Planck's quantum hypothesis arose from black-body radiation", "B.2 Greenhouse Effect: Earth's radiation spectrum determines greenhouse gas absorption"], "checklist": ["I can explain the ultraviolet catastrophe and how Planck's quantization resolved it"] },
+      "simulation": { "title": "PhET: Blackbody Spectrum", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/blackbody-spectrum", "instructions": ["Increase temperature: peak shifts to shorter wavelength (Wien's law) and total area under curve increases rapidly (Stefan-Boltzmann: T⁴)."] },
+      "video": { "title": "Convection & Radiation — IB Physics", "duration": "10 min", "description": "Convection currents, Stefan-Boltzmann law, Wien's law, emissivity, and the black-body spectrum", "embedId": "" },
+      "equations": [
+        { "formula": "P = εσAT⁴", "description": "Stefan-Boltzmann law. σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴." },
+        { "formula": "P_net = εσA(T⁴ − T_s⁴)", "description": "Net radiated power in surroundings at T_s." },
+        { "formula": "λ_max T = 2.9 × 10⁻³ m·K", "description": "Wien's displacement law. Peak wavelength vs temperature." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "The Sun (T = 5800 K, R = 7 × 10⁸ m) radiates as a black body. Find its luminosity.", "steps": [
+          { "label": "Area", "text": "A = 4πR² = 4π(7 × 10⁸)² = 6.16 × 10¹⁸ m²" },
+          { "label": "Stefan-Boltzmann", "text": "P = σAT⁴ = 5.67 × 10⁻⁸ × 6.16 × 10¹⁸ × (5800)⁴", "isEquation": true },
+          { "label": "Calculate", "text": "= 5.67 × 10⁻⁸ × 6.16 × 10¹⁸ × 1.132 × 10¹⁵ = 3.95 × 10²⁶ W ≈ 3.85 × 10²⁶ W", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "List the three mechanisms of heat transfer. State which one works through a vacuum.", "solution": "Conduction (through solids by particle collisions), convection (through fluids by bulk movement), radiation (by EM waves). Only RADIATION works through a vacuum." },
+        { "difficulty": "medium", "scope": "sl", "question": "A metal ball at 500 K is in a room at 300 K. ε = 0.8, A = 0.02 m². Find the net power radiated.", "solution": "P_net = εσA(T⁴ − T_s⁴) = 0.8 × 5.67 × 10⁻⁸ × 0.02 × (500⁴ − 300⁴) = 9.07 × 10⁻¹⁰ × (6.25 × 10¹⁰ − 8.1 × 10⁹) = 9.07 × 10⁻¹⁰ × 5.44 × 10¹⁰ = 49.3 W." },
+        { "difficulty": "hard", "scope": "sl", "question": "Star A has peak wavelength 400 nm. Star B has peak wavelength 700 nm. Find: (a) temperatures of both, (b) ratio of their power output per unit area.", "solution": "(a) T_A = 2.9 × 10⁻³/400 × 10⁻⁹ = 7250 K. T_B = 2.9 × 10⁻³/700 × 10⁻⁹ = 4143 K. (b) P/A ratio = (T_A/T_B)⁴ = (7250/4143)⁴ = 1.75⁴ = 9.38." }
+      ],
+      "commonMistakes": [
+        { "wrong": "T in the Stefan-Boltzmann law can be in °C", "explanation": "The Stefan-Boltzmann law uses KELVIN. T⁴ with °C gives completely wrong answers. A 100°C object (373 K) radiates (373)⁴ = 1.94 × 10¹⁰ — not (100)⁴ = 10⁸.", "correct": "ALWAYS convert to Kelvin before using P = εσAT⁴." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A spherical black body (ε = 1) of radius 0.10 m is at temperature 800 K in surroundings at 300 K.\n(a) Calculate the surface area. [1]\n(b) Calculate the power emitted. [2]\n(c) Calculate the net power radiated. [2]\n(d) Find the peak wavelength of emission. [1]", "marks": 6, "modelAnswer": "(a) A = 4πr² = 4π(0.1)² = 0.126 m² [1].\n(b) P = σAT⁴ = 5.67 × 10⁻⁸ × 0.126 × 800⁴ = 5.67 × 10⁻⁸ × 0.126 × 4.096 × 10¹¹ = 2926 W [2].\n(c) P_net = σA(T⁴ − T_s⁴) = 5.67 × 10⁻⁸ × 0.126 × (800⁴ − 300⁴) = 5.67 × 10⁻⁸ × 0.126 × (4.096 − 0.081) × 10¹¹ = 2868 W [2].\n(d) λ_max = 2.9 × 10⁻³/800 = 3.625 × 10⁻⁶ m = 3.63 μm (infrared) [1].", "examinerTip": "Always use KELVIN for Stefan-Boltzmann calculations. For net power: subtract T_s⁴ inside the bracket, NOT outside." }
+    },
+
+    {
+      "id": "b1_sub7",
+      "num": 7,
+      "title": "Black-Body Radiation & the Solar Constant",
+      "group": "Radiation & Climate",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Convection & Radiation",
+      "nextTitle": "Earth's Energy Balance",
+
+      "bigIdea": "The Sun is approximately a black body at 5800 K. It radiates 3.85 × 10²⁶ W in all directions. By the time this radiation reaches Earth (150 million km away), it's spread over a huge sphere. The power per unit area arriving at Earth — the solar constant — is about 1361 W/m². This single number drives almost all of Earth's weather, climate, and life.",
+
+      "foundation": {
+        "title": "How much energy does Earth receive from the Sun?",
+        "content": "<h4>The solar constant</h4><p>The <strong>solar constant (S)</strong> is the power per unit area received from the Sun at Earth's mean distance:</p><p><strong>S ≈ 1361 W/m²</strong></p><p>This is measured perpendicular to the Sun's rays, at the top of Earth's atmosphere.</p><h4>Deriving the solar constant from the Sun's luminosity</h4><p>The Sun radiates uniformly in all directions. At Earth's distance (d = 1.5 × 10¹¹ m), the radiation is spread over a sphere of area 4πd²:</p><p><strong>S = L / (4πd²)</strong></p><p>Where L = solar luminosity = 3.85 × 10²⁶ W.</p><p>S = 3.85 × 10²⁶ / (4π × (1.5 × 10¹¹)²) = 3.85 × 10²⁶ / (2.83 × 10²³) = 1361 W/m². ✓</p><h4>Power intercepted by Earth</h4><p>Earth intercepts radiation over its cross-sectional area (a circle of radius R_E = 6.37 × 10⁶ m):</p><p><strong>P_intercepted = S × πR_E²</strong></p><p>= 1361 × π × (6.37 × 10⁶)² = 1361 × 1.275 × 10¹⁴ = 1.74 × 10¹⁷ W</p><p>This is the total power arriving at the top of Earth's atmosphere from the Sun.</p>",
+        "summary": "<p><strong>Solar constant: S ≈ 1361 W/m²</strong> at Earth's distance.</p><p><strong>S = L/(4πd²):</strong> luminosity spread over a sphere.</p><p><strong>Power intercepted by Earth: S × πR²</strong> (cross-section, not surface area).</p>",
+        "checkQuestions": [
+          { "question": "Why do we use πR² (cross-section) not 4πR² (surface area) for the intercepted power?", "answer": "The Sun's rays are parallel (effectively, from 150 million km away). Earth presents a circular cross-section (πR²) to these parallel rays. The total surface (4πR²) isn't all facing the Sun — only the cross-section intercepts the radiation." }
+        ],
+        "checklist": [
+          "I can state the solar constant: S ≈ 1361 W/m²",
+          "I can derive S from luminosity: S = L/(4πd²)",
+          "I can calculate the power intercepted by Earth: P = SπR²",
+          "I can explain why we use cross-sectional area (not surface area)"
+        ]
+      },
+
+      "core": {
+        "title": "Equilibrium temperature and albedo",
+        "content": "<h4>Earth's energy balance (simplified)</h4><p>In equilibrium: power absorbed = power emitted.</p><p><strong>Absorbed:</strong> S × πR² × (1 − α), where α = albedo (fraction reflected). Earth's albedo ≈ 0.3.</p><p><strong>Emitted:</strong> εσ(4πR²)T⁴ (radiating from the entire surface, approximated as a black body ε ≈ 1).</p><p>Setting equal: S × πR² × (1 − α) = σ × 4πR² × T⁴</p><p>Simplify: <strong>T = [S(1 − α)/(4σ)]^(1/4)</strong></p><p>With S = 1361, α = 0.3: T = [1361 × 0.7/(4 × 5.67 × 10⁻⁸)]^0.25 = [952.7/2.268 × 10⁻⁷]^0.25 = [4.202 × 10⁹]^0.25 = 255 K = −18°C.</p><p>But Earth's actual average temperature is ~288 K = 15°C. The 33°C difference is due to the <strong>greenhouse effect</strong> (covered in B.2).</p><h4>Albedo</h4><p><strong>Albedo (α)</strong> = fraction of incoming radiation reflected. α = 0: absorbs all (black). α = 1: reflects all (white).</p><ul><li>Fresh snow: α ≈ 0.85 (reflects most light)</li><li>Ice: α ≈ 0.6</li><li>Desert: α ≈ 0.4</li><li>Forest: α ≈ 0.15</li><li>Ocean: α ≈ 0.06 (absorbs almost all)</li><li>Earth average: α ≈ 0.30</li></ul><p>If Earth's albedo decreases (less ice, more ocean due to warming): more energy absorbed → more warming → more ice melts → less albedo → positive feedback loop.</p>",
+        "keyPoints": [
+          "Energy balance: absorbed = emitted → T = [S(1−α)/(4σ)]^(1/4)",
+          "Predicted T without greenhouse: 255 K. Actual: 288 K. Difference = greenhouse effect.",
+          "Albedo α: fraction reflected. High α = cooler. Low α = warmer.",
+          "Ice-albedo feedback: melting ice → lower α → more absorption → more warming → positive feedback"
+        ],
+        "examTrap": { "wrong": "Earth radiates from its cross-section (πR²)", "correct": "Earth ABSORBS over its cross-section (πR²) but RADIATES from its ENTIRE surface (4πR²). This factor of 4 is crucial in the energy balance calculation. The 4 comes from: 4πR²/πR² = 4." },
+        "checkQuestions": [
+          { "question": "If Earth's albedo dropped from 0.3 to 0.2, what would the equilibrium temperature become?", "answer": "T = [1361 × 0.8/(4 × 5.67 × 10⁻⁸)]^0.25 = [1088.8/2.268 × 10⁻⁷]^0.25 = [4.802 × 10⁹]^0.25 = 263 K = −10°C. About 8 K warmer than with α = 0.3 (255 K). Still below freezing — greenhouse effect is needed for current temperatures." }
+        ],
+        "checklist": [
+          "I can derive Earth's equilibrium temperature from the energy balance",
+          "I can explain the role of albedo in the energy balance",
+          "I can explain the ice-albedo positive feedback loop",
+          "I can explain why the calculated temperature (255 K) is lower than actual (288 K) — greenhouse effect"
+        ]
+      },
+
+      "extension": { "title": "Planetary temperatures across the solar system", "content": "<p>The same energy balance applies to all planets. Mercury (no atmosphere, α ≈ 0.12): T ≈ 440 K (day side, no greenhouse). Venus (thick CO₂ atmosphere, extreme greenhouse): T ≈ 735 K (hotter than Mercury despite being further from the Sun!). Mars (thin atmosphere, α ≈ 0.25): T ≈ 210 K. Venus demonstrates what a runaway greenhouse effect looks like — a cautionary tale for Earth.</p>", "connections": ["B.2 Greenhouse Effect: the 33 K difference between predicted and actual Earth temperature", "D.1 Gravitational Fields: planetary distances determine S and therefore equilibrium T"], "checklist": ["I can apply the energy balance to planets other than Earth", "I can explain Venus's extreme temperature as a runaway greenhouse effect"] },
+      "video": { "title": "Black-Body Radiation & Solar Constant — IB Physics", "duration": "9 min", "description": "Solar constant derivation, energy balance, albedo, and equilibrium temperature", "embedId": "" },
+      "equations": [
+        { "formula": "S = L/(4πd²)", "description": "Solar constant from luminosity and distance." },
+        { "formula": "T = [S(1−α)/(4σ)]^(1/4)", "description": "Equilibrium temperature of a planet. α = albedo." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "sl", "question": "Mars is 2.28 × 10¹¹ m from the Sun. Find the solar constant at Mars.", "solution": "S_Mars = L/(4πd²) = 3.85 × 10²⁶/(4π(2.28 × 10¹¹)²) = 3.85 × 10²⁶/(6.53 × 10²³) = 590 W/m²." },
+        { "difficulty": "hard", "scope": "sl", "question": "Calculate the equilibrium temperature of Mars (α = 0.25).", "solution": "T = [590 × 0.75/(4 × 5.67 × 10⁻⁸)]^0.25 = [442.5/2.268 × 10⁻⁷]^0.25 = [1.951 × 10⁹]^0.25 = 210 K = −63°C." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using Earth's surface area (4πR²) for absorption", "explanation": "Earth absorbs over its CROSS-SECTION (πR²) because the Sun's rays are parallel. It radiates from its entire surface (4πR²). Using 4πR² for absorption gives T 4× too low (before the 4th root).", "correct": "Absorbed: S × πR² × (1−α). Emitted: σ × 4πR² × T⁴. The factor of 4 in the denominator comes from 4πR²/πR²." }
+      ],
+      "examCorner": { "scope": "sl", "question": "The luminosity of the Sun is 3.85 × 10²⁶ W. The Earth is 1.50 × 10¹¹ m from the Sun.\n(a) Calculate the solar constant. [2]\n(b) Earth has albedo 0.30 and radius 6.37 × 10⁶ m. Calculate the power absorbed by Earth. [2]\n(c) Assuming Earth radiates as a black body, find the equilibrium surface temperature. [2]\n(d) Explain why the actual surface temperature is higher. [1]", "marks": 7, "modelAnswer": "(a) S = L/(4πd²) = 3.85 × 10²⁶/(4π(1.5 × 10¹¹)²) = 1361 W/m² [2].\n(b) P = S(1−α)πR² = 1361 × 0.7 × π × (6.37 × 10⁶)² = 1.21 × 10¹⁷ W [2].\n(c) P = σ(4πR²)T⁴ → T = [P/(4πR²σ)]^0.25 = [1.21 × 10¹⁷/(4π × (6.37 × 10⁶)² × 5.67 × 10⁻⁸)]^0.25 = 255 K [2].\n(d) The greenhouse effect: greenhouse gases (CO₂, H₂O, CH₄) absorb and re-emit infrared radiation, trapping heat in the atmosphere and raising the surface temperature above the calculated equilibrium [1].", "examinerTip": "The energy balance question is almost guaranteed on the IB exam. Memorize: absorbed = S(1−α)πR², emitted = σ(4πR²)T⁴. Set equal, cancel πR², get T = [S(1−α)/(4σ)]^0.25." }
+    },
+
+    {
+      "id": "b1_sub8",
+      "num": 8,
+      "title": "Earth's Energy Balance & the Greenhouse Effect Preview",
+      "group": "Radiation & Climate",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Black-Body Radiation",
+      "nextTitle": "B.2 Greenhouse Effect",
+
+      "bigIdea": "Earth receives short-wavelength radiation from the Sun (visible and UV) and emits long-wavelength radiation (infrared) into space. Greenhouse gases are transparent to incoming sunlight but absorb outgoing infrared — trapping energy and warming the surface by 33°C. Without this natural greenhouse effect, Earth would be a frozen world. But enhancing it with fossil fuel emissions is heating the planet dangerously.",
+
+      "foundation": {
+        "title": "Why Earth is warmer than the simple calculation predicts",
+        "content": "<h4>The 33°C problem</h4><p>The energy balance calculation gives Earth's temperature as 255 K (−18°C). The actual average is 288 K (+15°C). The difference: <strong>33°C warmer than expected</strong>. This extra warming is the <strong>natural greenhouse effect</strong>.</p><h4>How it works</h4><ol><li><strong>Incoming solar radiation</strong> (peak ~500 nm, visible) passes through the atmosphere — greenhouse gases are mostly transparent to visible light.</li><li>Earth's surface absorbs this radiation and warms up.</li><li><strong>Earth re-radiates</strong> at longer wavelengths (peak ~10 μm, infrared — Wien's law at 288 K).</li><li><strong>Greenhouse gases absorb</strong> this outgoing infrared radiation. They then re-emit it in all directions — including back toward the surface.</li><li>The surface receives energy from the Sun AND from the atmosphere → it's warmer than it would be with no atmosphere.</li></ol><h4>Key greenhouse gases</h4><ul><li><strong>Water vapour (H₂O):</strong> Strongest greenhouse gas by effect. Concentration varies (0–4%).</li><li><strong>Carbon dioxide (CO₂):</strong> ~420 ppm (2024). Main driver of human-caused warming. Lifetime: centuries.</li><li><strong>Methane (CH₄):</strong> ~1.9 ppm. 80× more potent than CO₂ over 20 years. From agriculture, landfills, natural gas leaks.</li><li><strong>Nitrous oxide (N₂O), ozone (O₃), CFCs:</strong> smaller contributions but potent.</li></ul><h4>Natural vs enhanced greenhouse effect</h4><p>The <strong>natural greenhouse effect</strong> keeps Earth habitable (+33°C). Without it: frozen planet.</p><p>The <strong>enhanced greenhouse effect</strong> is the additional warming from human emissions of CO₂, CH₄, etc. Since the industrial revolution: CO₂ has risen from ~280 to ~420 ppm → ~1.2°C of additional warming so far → heading toward 1.5–4°C by 2100 depending on emissions.</p>",
+        "summary": "<p><strong>Natural greenhouse effect:</strong> +33°C. Makes Earth habitable.</p><p><strong>Mechanism:</strong> Sun → visible → surface absorbs → emits IR → greenhouse gases absorb & re-emit → surface warmer.</p><p><strong>Enhanced:</strong> human CO₂/CH₄ emissions → more IR absorbed → additional warming.</p><p><strong>Key gases:</strong> H₂O, CO₂ (420 ppm), CH₄ (1.9 ppm).</p>",
+        "checkQuestions": [
+          { "question": "Why do greenhouse gases absorb infrared but not visible light?", "answer": "Greenhouse gas molecules (CO₂, H₂O, CH₄) have molecular vibration modes that resonate with infrared wavelengths (3–20 μm). Visible light (400–700 nm) has much higher frequency — too high to excite these molecular vibrations. So greenhouse gases are transparent to visible but opaque to IR." },
+          { "question": "If greenhouse gases warm the planet, why isn't more always better?", "answer": "The natural level (pre-industrial ~280 ppm CO₂) gives a comfortable +33°C. Adding more increases the effect: Venus has a massive CO₂ atmosphere and is 735 K — hot enough to melt lead. Too much greenhouse warming makes a planet uninhabitable." }
+        ],
+        "checklist": [
+          "I can explain the 33°C difference between predicted (255 K) and actual (288 K) temperature",
+          "I can describe the greenhouse mechanism: incoming visible → absorbed → emitted IR → trapped by gases",
+          "I can list the main greenhouse gases and their sources",
+          "I can distinguish natural (essential) from enhanced (human-caused) greenhouse effect"
+        ]
+      },
+
+      "core": {
+        "title": "The mechanism in detail — absorption spectra and energy balance diagrams",
+        "content": "<h4>Absorption spectra of the atmosphere</h4><p>The atmosphere has 'windows' (transparent wavelength ranges) and 'opaque' ranges (absorbed by specific gases). The main absorption bands:</p><ul><li><strong>UV:</strong> absorbed by ozone (O₃) in the stratosphere — protects life from harmful UV</li><li><strong>Visible:</strong> mostly transparent — this is why we can see</li><li><strong>Near IR (1–3 μm):</strong> partially absorbed by H₂O and CO₂</li><li><strong>Thermal IR (8–14 μm):</strong> the 'atmospheric window' — partially transparent. This is where Earth radiates most of its energy. Greenhouse gases partially close this window.</li><li><strong>Far IR (>14 μm):</strong> strongly absorbed by H₂O and CO₂</li></ul><h4>Energy balance diagram</h4><p>Of 100 units of incoming solar energy:</p><ul><li>~30 reflected (albedo = 0.3): clouds, ice, surface</li><li>~20 absorbed by atmosphere (ozone, water vapour, dust)</li><li>~50 absorbed by surface</li></ul><p>The surface then emits ~50 units as IR, plus transfers energy by convection and evaporation. Greenhouse gases absorb most of the IR and re-emit ~40 units back to the surface. The net effect: the surface receives ~90 units (50 solar + 40 atmospheric back-radiation) but only emits ~50 to balance.</p><h4>The enhanced greenhouse effect — the human impact</h4><p>Burning fossil fuels adds CO₂. More CO₂ → more IR absorbed → less escapes to space → energy imbalance → warming until a new equilibrium is reached at a higher temperature. Current radiative forcing from human activities: ~2.7 W/m² (the energy imbalance driving warming).</p>",
+        "keyPoints": [
+          "Atmosphere is transparent to visible, partially opaque to IR (greenhouse gases)",
+          "The atmospheric window (8–14 μm): where Earth loses most heat. Greenhouse gases narrow this window.",
+          "Surface receives solar + back-radiation from atmosphere = more than just solar alone",
+          "Enhanced greenhouse effect: extra CO₂ → more IR absorbed → warming → new higher equilibrium T"
+        ],
+        "examTrap": { "wrong": "The greenhouse effect is always bad", "correct": "The NATURAL greenhouse effect is essential — without it, Earth would be −18°C (frozen). The ENHANCED effect (from human emissions) is the problem — adding extra warming beyond what's natural and comfortable." },
+        "checkQuestions": [
+          { "question": "Earth's surface temperature is 288 K. Find the peak emission wavelength.", "answer": "λ_max = 2.9 × 10⁻³/288 = 1.007 × 10⁻⁵ m = 10.1 μm. This is in the infrared — exactly where greenhouse gases absorb." }
+        ],
+        "checklist": [
+          "I can describe the atmospheric absorption spectrum (transparent to visible, absorbs IR)",
+          "I can draw or interpret an energy balance diagram for Earth",
+          "I can explain how increased CO₂ enhances the greenhouse effect",
+          "I can state the current radiative forcing (~2.7 W/m²) and its consequence"
+        ]
+      },
+
+      "extension": { "title": "Climate sensitivity and feedback loops", "content": "<p>Climate sensitivity = temperature rise from doubling CO₂ (from 280 to 560 ppm). Best estimate: 2.5–4°C. Feedbacks amplify or dampen the direct warming: ice-albedo (positive), water vapour (positive — warmer → more evaporation → more greenhouse), cloud (uncertain — low clouds cool, high clouds warm), carbon cycle (positive — warming releases CO₂ from permafrost and oceans). The net feedback is positive, amplifying the direct CO₂ warming by ~2–3×.</p>", "connections": ["B.2 Greenhouse Effect: detailed treatment of climate change physics", "A.3 Energy Sources: transitioning from fossil fuels to renewables reduces CO₂ emissions"], "checklist": ["I can explain climate sensitivity and the main feedback loops", "I can explain why positive feedbacks amplify warming"] },
+      "video": { "title": "Earth's Energy Balance — IB Physics", "duration": "10 min", "description": "Greenhouse mechanism, absorption spectra, energy balance diagrams, and the enhanced greenhouse effect", "embedId": "" },
+      "equations": [
+        { "formula": "T_surface ≈ 255 K + 33 K = 288 K", "description": "Actual temperature = equilibrium temperature + greenhouse warming." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the natural greenhouse effect and explain why it is essential for life.", "solution": "The natural greenhouse effect warms Earth by ~33°C above the temperature it would have without an atmosphere (255 K → 288 K). Without it, Earth would be frozen (−18°C average) and liquid water — essential for life — would not exist on the surface." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain why Earth emits infrared radiation but the Sun emits mainly visible light.", "solution": "Wien's law: λ_max = 2.9 × 10⁻³/T. Sun at 5800 K: λ_max = 500 nm (visible). Earth at 288 K: λ_max = 10 μm (infrared). Hotter objects emit at shorter wavelengths. The Sun is ~20× hotter, so its peak is ~20× shorter." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The ozone layer causes the greenhouse effect", "explanation": "Ozone absorbs UV (protecting us from sunburn), not IR. The greenhouse effect is caused by CO₂, H₂O, CH₄, and N₂O absorbing infrared radiation. Ozone depletion and the greenhouse effect are separate environmental issues.", "correct": "Greenhouse gases (CO₂, H₂O, CH₄) absorb IR → greenhouse effect. Ozone absorbs UV → protects from UV. Different gases, different wavelengths, different effects." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Explain, with reference to wavelengths, why the greenhouse effect warms the Earth. [4]", "marks": 4, "modelAnswer": "The Sun (5800 K) emits mainly short-wavelength visible radiation [1]. This passes through the atmosphere (greenhouse gases are transparent to visible) and is absorbed by Earth's surface [1]. Earth (288 K) re-emits at longer wavelengths (infrared, ~10 μm — Wien's law) [1]. Greenhouse gases (CO₂, H₂O, CH₄) absorb this outgoing infrared and re-emit it in all directions, including back toward the surface, raising the surface temperature above the simple equilibrium value [1].", "examinerTip": "The key to earning all 4 marks: (1) Sun emits short wavelength (visible). (2) Atmosphere transparent to visible. (3) Earth emits long wavelength (IR). (4) Greenhouse gases absorb IR and re-emit toward surface. Hit all four points." }
+    }
+
+  ]
+},
+// ============================================================
+// B.2 GREENHOUSE EFFECT — COMPLETE (6 subtopics)
+// Ends with comma — ready for B3 to follow
+// ============================================================
+
+"B2": {
+  "title": "The Greenhouse Effect",
+  "code": "B.2",
+  "theme": "B",
+  "level": "SL + HL",
+  "subtopicCount": 6,
+  "subtopics": [
+
+    {
+      "id": "b2_sub1",
+      "num": 1,
+      "title": "The Natural Greenhouse Effect",
+      "group": "Climate Physics",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "B.1 Thermal Energy Transfers",
+      "nextTitle": "Greenhouse Gases & Absorption Spectra",
+
+      "bigIdea": "Without the greenhouse effect, Earth would be −18°C — a frozen ball of ice. Greenhouse gases in the atmosphere trap outgoing infrared radiation and warm the surface by 33°C to a comfortable 15°C. This natural warming is essential for life. The problem isn't the greenhouse effect itself — it's that we're making it stronger.",
+
+      "foundation": {
+        "title": "How the atmosphere keeps Earth warm",
+        "content": "<h4>The energy balance recap</h4><p>Earth absorbs solar radiation (mostly visible, short wavelength) and re-emits thermal radiation (infrared, long wavelength). Without an atmosphere: T ≈ 255 K (−18°C). With the natural greenhouse effect: T ≈ 288 K (+15°C). The 33°C difference is the greenhouse warming.</p><h4>The greenhouse mechanism — step by step</h4><ol><li><strong>Solar radiation arrives</strong> at Earth. Peak wavelength ~500 nm (visible). The atmosphere is mostly transparent to visible light.</li><li><strong>Earth's surface absorbs</strong> ~50% of incoming solar energy (the rest is reflected by clouds, ice, and surface — albedo ~30% — or absorbed by the atmosphere ~20%).</li><li><strong>The warm surface emits infrared</strong> radiation. Peak wavelength ~10 μm (Wien's law at 288 K). This is much longer wavelength than the incoming sunlight.</li><li><strong>Greenhouse gases absorb</strong> much of this outgoing IR. The key gases (CO₂, H₂O, CH₄, N₂O) have molecular vibration modes that resonate with IR wavelengths.</li><li><strong>The gases re-emit IR in all directions</strong> — including back toward the surface. This <strong>back-radiation</strong> adds to the energy the surface receives.</li><li><strong>The surface is warmer</strong> because it receives energy from TWO sources: the Sun AND the atmosphere. It must reach a higher temperature to radiate enough energy to balance the total input.</li></ol><h4>Why it's called the 'greenhouse effect'</h4><p>The name comes from a greenhouse (glasshouse): glass lets visible light in but traps heat inside. The analogy is imperfect — a real greenhouse works mainly by preventing convection (hot air can't rise and escape), while the atmospheric greenhouse effect works by absorbing and re-emitting IR radiation. But the name has stuck.</p><h4>Natural greenhouse gases</h4><ul><li><strong>Water vapour (H₂O):</strong> The most important greenhouse gas by contribution (~60% of the effect). Concentration varies (0–4%). NOT directly controlled by human emissions — it responds to temperature (warmer → more evaporation → more H₂O → more warming: positive feedback).</li><li><strong>Carbon dioxide (CO₂):</strong> ~420 ppm (2024). Contributes ~25% of the natural effect. Long atmospheric lifetime (~300–1000 years). Main human-controlled greenhouse gas.</li><li><strong>Methane (CH₄):</strong> ~1.9 ppm. ~80× more potent than CO₂ per molecule over 20 years. Shorter lifetime (~12 years). Sources: wetlands, livestock, rice paddies, natural gas.</li><li><strong>Nitrous oxide (N₂O):</strong> ~330 ppb. ~270× more potent than CO₂. From agriculture, combustion, and natural soil processes.</li><li><strong>Ozone (O₃):</strong> In the troposphere: a greenhouse gas. In the stratosphere: absorbs UV (different role).</li></ul>",
+        "summary": "<p><strong>Natural greenhouse effect:</strong> +33°C warming. Essential for life.</p><p><strong>Mechanism:</strong> Sun (visible) → surface absorbs → surface emits IR → greenhouse gases absorb IR → re-emit in all directions including back to surface → surface warmer.</p><p><strong>Key gases:</strong> H₂O (~60%), CO₂ (~25%), CH₄, N₂O, O₃.</p>",
+        "checkQuestions": [
+          { "question": "Explain why the surface is warmer than the simple energy balance predicts.", "answer": "The surface receives energy from TWO sources: (1) direct solar radiation (~50% of incoming) and (2) back-radiation from greenhouse gases absorbing and re-emitting outgoing IR. This double energy source means the surface must be warmer to radiate enough energy to balance the total input. The calculated temperature without atmosphere (255 K) only accounts for solar input — the greenhouse back-radiation adds the extra 33°C." }
+        ],
+        "checklist": [
+          "I can explain the 33°C difference between predicted (255 K) and actual (288 K) temperature",
+          "I can describe the greenhouse mechanism in sequence (solar in → surface absorbs → IR out → gases absorb → re-emit → back-radiation)",
+          "I can list the main greenhouse gases and their relative contributions",
+          "I can explain why the greenhouse analogy is imperfect (convection vs radiation)"
+        ]
+      },
+
+      "core": {
+        "title": "The radiation budget and energy balance diagrams",
+        "content": "<h4>Earth's radiation budget (quantitative)</h4><p>Of approximately 340 W/m² average incoming solar radiation (1361/4 — divided by 4 because the sphere's surface is 4× the cross-section):</p><ul><li><strong>~100 W/m² reflected</strong> (30% albedo): ~75 by clouds/atmosphere, ~25 by surface</li><li><strong>~80 W/m² absorbed by atmosphere</strong> (by ozone, water vapour, dust)</li><li><strong>~160 W/m² absorbed by surface</strong></li></ul><p>The surface emits ~398 W/m² of IR upward. But ~340 W/m² of this is absorbed by the atmosphere and re-emitted. Only ~58 W/m² escapes directly to space through the atmospheric window (8–14 μm). The atmosphere also radiates ~340 W/m² back to the surface (back-radiation).</p><p>The surface also transfers energy to the atmosphere by:</p><ul><li><strong>Convection (thermals):</strong> ~17 W/m²</li><li><strong>Latent heat (evaporation):</strong> ~80 W/m²</li></ul><h4>Energy balance at each level</h4><p><strong>Top of atmosphere:</strong> Incoming solar (240 W/m² after albedo) = outgoing IR (240 W/m²). Balanced.</p><p><strong>Surface:</strong> Solar absorbed (160) + back-radiation (340) = surface IR emitted (398) + convection (17) + evaporation (80) + conduction (5). Approximately balanced at 288 K.</p><p><strong>Atmosphere:</strong> Absorbs solar (80) + surface IR (340) + convection (17) + latent heat (80) = emits to space (182) + back-radiation to surface (340). Approximately balanced.</p><h4>The atmospheric window</h4><p>The wavelength range 8–14 μm is partially transparent — IR in this range can escape directly to space without being absorbed by greenhouse gases. This is the main cooling pathway. CO₂ and other gases partially close this window, reducing the escape of IR and causing warming.</p>",
+        "keyPoints": [
+          "Average solar input: 340 W/m² (1361/4 spread over sphere)",
+          "Albedo reflects ~30% (100 W/m²). Surface absorbs ~160 W/m².",
+          "Surface emits ~398 W/m² IR. Most absorbed by atmosphere. Only ~58 W/m² escapes directly.",
+          "Back-radiation: ~340 W/m² from atmosphere to surface — this is the greenhouse effect.",
+          "The atmospheric window (8–14 μm): main escape route for IR. Greenhouse gases narrow it."
+        ],
+        "examTrap": { "wrong": "The greenhouse effect blocks heat from leaving Earth", "correct": "Greenhouse gases don't BLOCK heat — they DELAY it. The IR is absorbed, then re-emitted in all directions (including back down). Eventually, all absorbed energy is emitted to space — but the surface must be warmer to maintain the energy balance with the atmosphere re-radiating back." },
+        "checkQuestions": [
+          { "question": "Why is the average solar input 340 W/m² and not 1361 W/m²?", "answer": "The solar constant (1361 W/m²) applies to a surface perpendicular to the Sun's rays. Earth intercepts sunlight over its cross-section (πR²) but the energy is spread over its entire surface (4πR²). Average = 1361/4 = 340 W/m²." }
+        ],
+        "checklist": [
+          "I can state quantitative values for Earth's radiation budget",
+          "I can draw and interpret an energy balance diagram",
+          "I can explain the atmospheric window and its role in cooling",
+          "I can explain how the energy budget balances at the surface, atmosphere, and top of atmosphere"
+        ]
+      },
+
+      "extension": { "title": "Radiative forcing and climate models", "content": "<p>Radiative forcing (RF) measures the change in net energy flux at the top of the atmosphere due to a perturbation (e.g., increased CO₂). Positive RF → warming. Current total anthropogenic RF ≈ 2.7 W/m². This small imbalance (~0.8% of incoming solar) is enough to warm the planet because it accumulates over decades. Climate models use the radiation budget plus feedback mechanisms to project future temperatures — the most sophisticated ones (GCMs) divide the atmosphere into millions of grid cells and solve the physics equations for each.</p>", "connections": ["B.1 Stefan-Boltzmann law: determines how much more the surface must warm to restore balance", "A.3 Energy: the radiative imbalance is an energy input that warms the ocean and atmosphere"], "checklist": ["I can define radiative forcing and state the current value (~2.7 W/m²)", "I can explain how a small energy imbalance leads to significant warming over time"] },
+      "simulation": { "title": "PhET: Greenhouse Effect", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/greenhouse-effect", "instructions": ["Watch IR photons being absorbed and re-emitted by greenhouse gas molecules. Increase CO₂ concentration and observe more back-radiation → higher surface temperature."] },
+      "video": { "title": "The Greenhouse Effect — IB Physics", "duration": "10 min", "description": "Natural greenhouse mechanism, radiation budget, energy balance, and the atmospheric window", "embedId": "" },
+      "equations": [
+        { "formula": "Average solar input = S/4 ≈ 340 W/m²", "description": "Solar constant divided by 4 (sphere surface vs cross-section)." },
+        { "formula": "Absorbed = S(1−α)/4 ≈ 240 W/m²", "description": "After albedo reflection. This must equal outgoing IR at equilibrium." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State three greenhouse gases and their approximate concentrations.", "solution": "CO₂: ~420 ppm. CH₄: ~1.9 ppm. N₂O: ~330 ppb. (Also H₂O: 0–4% but variable.)" },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain, using wavelengths, why the atmosphere transmits solar radiation but absorbs Earth's radiation.", "solution": "Solar radiation peaks at ~500 nm (visible) — greenhouse gases are transparent to these wavelengths. Earth's radiation peaks at ~10 μm (infrared) — greenhouse gas molecules have vibrational modes that absorb at these wavelengths. The key is the WAVELENGTH DIFFERENCE between incoming (short) and outgoing (long) radiation." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The greenhouse effect is caused by the ozone hole", "explanation": "The ozone hole and greenhouse effect are SEPARATE issues. Ozone absorbs UV (not IR). The greenhouse effect involves CO₂, H₂O, CH₄ absorbing IR. Ozone depletion is caused by CFCs; greenhouse warming is caused by CO₂ emissions.", "correct": "Greenhouse effect: CO₂/H₂O/CH₄ absorb IR. Ozone hole: CFCs destroy O₃ in stratosphere. Different gases, different wavelengths, different problems." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Outline the mechanism of the greenhouse effect. [4]", "marks": 4, "modelAnswer": "The Sun emits short-wavelength radiation (mainly visible) [1]. This passes through the atmosphere (transparent to visible) and is absorbed by Earth's surface, warming it [1]. Earth re-emits at longer wavelengths (infrared, ~10 μm) due to its lower temperature (Wien's law) [1]. Greenhouse gases (CO₂, H₂O, CH₄) absorb this outgoing IR and re-emit it in all directions, including back toward the surface, increasing the surface temperature [1].", "examinerTip": "This 4-mark question appears almost every exam session. Learn the four key points: (1) short λ in, (2) surface absorbs, (3) long λ out, (4) gases absorb and re-emit. Hit all four for full marks." }
+    },
+
+    {
+      "id": "b2_sub2",
+      "num": 2,
+      "title": "Greenhouse Gases & Molecular Absorption",
+      "group": "Climate Physics",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "The Natural Greenhouse Effect",
+      "nextTitle": "The Enhanced Greenhouse Effect",
+
+      "bigIdea": "Not all gases are greenhouse gases. N₂ and O₂ make up 99% of the atmosphere but are transparent to infrared. Only molecules with specific structures — asymmetric bonds that can vibrate — absorb IR. CO₂ bends and stretches at exactly the right frequencies to absorb Earth's outgoing radiation. This molecular physics is the microscopic reason the greenhouse effect exists.",
+
+      "foundation": {
+        "title": "Why some gases trap heat and others don't",
+        "content": "<h4>What makes a greenhouse gas?</h4><p>A molecule absorbs infrared radiation when the radiation's frequency matches a <strong>natural vibration frequency</strong> of the molecule. The molecule must have a <strong>changing electric dipole moment</strong> during vibration — this is what allows it to interact with the oscillating electric field of the IR radiation.</p><p><strong>Greenhouse gases (absorb IR):</strong> CO₂, H₂O, CH₄, N₂O, O₃, CFCs. These are all molecules with 3+ atoms (or asymmetric diatomic molecules with permanent dipoles).</p><p><strong>Non-greenhouse gases:</strong> N₂ and O₂. These are symmetric diatomic molecules — their vibrations don't produce a changing dipole moment, so they can't absorb IR. (They CAN absorb UV and visible at very specific wavelengths, but not the broadband IR that Earth emits.)</p><h4>How CO₂ absorbs IR</h4><p>CO₂ has three vibration modes:</p><ul><li><strong>Symmetric stretch:</strong> Both O atoms move away from C simultaneously. No dipole change → does NOT absorb IR.</li><li><strong>Asymmetric stretch:</strong> One O moves away while the other moves closer. Dipole changes → ABSORBS IR at ~4.3 μm.</li><li><strong>Bending mode:</strong> The molecule bends. Dipole changes → ABSORBS IR at ~15 μm.</li></ul><p>The 15 μm absorption band is crucial — it's right in the range of Earth's outgoing IR emission. This is the primary mechanism by which CO₂ traps heat.</p><h4>Absorption spectra of the atmosphere</h4><p>The atmospheric absorption spectrum shows which wavelengths are absorbed and which pass through:</p><ul><li><strong>Visible (0.4–0.7 μm):</strong> Mostly transmitted (transparent) → sunlight reaches surface</li><li><strong>Near IR (1–3 μm):</strong> H₂O absorption bands</li><li><strong>Thermal IR (3–20 μm):</strong> Strong absorption by H₂O, CO₂, O₃, CH₄. The window at 8–13 μm is where Earth loses most heat directly to space</li><li><strong>CO₂ bands:</strong> ~4.3 μm and ~15 μm. The 15 μm band partially overlaps with the atmospheric window edge</li></ul>",
+        "summary": "<p><strong>Greenhouse gas requirement:</strong> molecule must have a changing dipole during vibration.</p><p><strong>N₂, O₂:</strong> symmetric → no dipole change → transparent to IR.</p><p><strong>CO₂:</strong> asymmetric stretch (4.3 μm) and bending (15 μm) modes absorb IR.</p><p><strong>The 15 μm band</strong> is key — right in Earth's emission range.</p>",
+        "checkQuestions": [
+          { "question": "Why is N₂ not a greenhouse gas even though it's 78% of the atmosphere?", "answer": "N₂ is a symmetric diatomic molecule (N≡N). Its vibrations don't produce a changing electric dipole moment, so it cannot absorb or emit infrared radiation. Only molecules with changing dipoles during vibration can interact with IR." }
+        ],
+        "checklist": [
+          "I can explain that greenhouse gases must have changing dipole moments during vibration",
+          "I can explain why N₂ and O₂ are not greenhouse gases (symmetric, no dipole change)",
+          "I can describe CO₂'s vibration modes and their absorption wavelengths",
+          "I can interpret atmospheric absorption spectra (transparent vs opaque wavelength regions)"
+        ]
+      },
+
+      "core": {
+        "title": "Absorption spectra, the atmospheric window, and global warming potential",
+        "content": "<h4>Reading absorption spectra</h4><p>An absorption spectrum of the atmosphere shows absorption (%) vs wavelength. At wavelengths where absorption = 100%: all radiation is absorbed (atmosphere is opaque). At 0%: all passes through (transparent).</p><p>Each gas has characteristic absorption bands. By comparing the overall spectrum with individual gas spectra, you can identify which gas absorbs at which wavelength.</p><h4>The atmospheric window and its closure</h4><p>The 8–13 μm window is where Earth primarily cools. Increasing greenhouse gases (especially CO₂ at 15 μm edge, CH₄ at 7.7 μm, and CFCs in the 8–13 μm window itself) effectively narrows this window, reducing the rate of cooling → warming.</p><h4>Global Warming Potential (GWP)</h4><p><strong>GWP</strong> compares the warming effect of a gas to CO₂ over a specified time (usually 100 years). CO₂ = 1 by definition.</p><ul><li>CH₄: GWP = 28 (over 100 years) or 80 (over 20 years — it's potent but short-lived)</li><li>N₂O: GWP = 265</li><li>CFC-12: GWP = 10,200</li><li>SF₆: GWP = 23,500</li></ul><p>A small concentration of a high-GWP gas can have the same warming effect as a large concentration of CO₂.</p><h4>CO₂ equivalent (CO₂e)</h4><p>To compare different greenhouse gas emissions, convert to <strong>CO₂ equivalent</strong>: mass of gas × GWP = equivalent mass of CO₂ that would cause the same warming. Total anthropogenic emissions: ~50 Gt CO₂e per year (2024).</p>",
+        "keyPoints": [
+          "Absorption spectra: identify which gas absorbs at which wavelength",
+          "Atmospheric window (8–13 μm): main cooling pathway. Being narrowed by added greenhouse gases.",
+          "GWP: warming effect relative to CO₂. CH₄ = 28, N₂O = 265, CFCs = thousands.",
+          "CO₂ equivalent: standardises different gases into one warming metric."
+        ],
+        "examTrap": { "wrong": "CO₂ is the most potent greenhouse gas per molecule", "correct": "Per molecule, CH₄ is ~28× and N₂O is ~265× more potent than CO₂. But CO₂ dominates the total effect because of its much higher concentration (420 ppm vs 1.9 ppm for CH₄) and long atmospheric lifetime (centuries)." },
+        "checkQuestions": [
+          { "question": "1 tonne of CH₄ is emitted. What is the CO₂ equivalent (100-year GWP)?", "answer": "CO₂e = mass × GWP = 1 × 28 = 28 tonnes CO₂e. 1 tonne of methane causes the same warming over 100 years as 28 tonnes of CO₂." }
+        ],
+        "checklist": [
+          "I can read and interpret atmospheric absorption spectra",
+          "I can explain the significance of the 8–13 μm atmospheric window",
+          "I can define GWP and use it to compare different greenhouse gases",
+          "I can calculate CO₂ equivalent emissions"
+        ]
+      },
+
+      "extension": { "title": "Molecular spectroscopy and quantum mechanics", "content": "<p>IR absorption is a quantum mechanical process: the photon's energy (E = hf) must exactly match the energy gap between vibrational quantum states. CO₂'s bending mode at 15 μm corresponds to a photon energy of hc/λ = 0.083 eV. The molecule transitions from its ground vibrational state to an excited state, then re-emits a photon in a random direction. This quantum-level understanding connects greenhouse physics to E.2 (Quantum Physics).</p>", "connections": ["E.2 Quantum Physics: photon absorption/emission and quantized energy levels", "C.2 Wave Model: resonance — the molecule vibrates when driven at its natural frequency"], "checklist": ["I can explain IR absorption as a quantum transition between vibrational energy levels"] },
+      "simulation": { "title": "PhET: Greenhouse Effect", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/greenhouse-effect", "instructions": ["Click on 'Photon Absorption' tab. Watch different molecules interact with IR and visible photons. CO₂ absorbs IR; N₂ doesn't."] },
+      "video": { "title": "Greenhouse Gases & Absorption — IB Physics", "duration": "9 min", "description": "Molecular vibrations, dipole moments, absorption spectra, GWP, and the atmospheric window", "embedId": "" },
+      "equations": [
+        { "formula": "CO₂e = mass × GWP", "description": "CO₂ equivalent emissions. Standardises different gases." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Explain why CO₂ is a greenhouse gas but O₂ is not.", "solution": "CO₂ has asymmetric vibration modes (bending and asymmetric stretch) that produce changing dipole moments → can absorb and emit IR radiation. O₂ is a symmetric diatomic molecule — its vibrations don't produce a changing dipole → transparent to IR." },
+        { "difficulty": "medium", "scope": "sl", "question": "A farm emits 200 tonnes of CH₄ and 50 tonnes of N₂O per year. Find the total CO₂ equivalent.", "solution": "CH₄: 200 × 28 = 5600 tonnes CO₂e. N₂O: 50 × 265 = 13,250 tonnes CO₂e. Total = 18,850 tonnes CO₂e. Note: the N₂O contributes more despite smaller mass — its GWP is much higher." }
+      ],
+      "commonMistakes": [
+        { "wrong": "All gases in the atmosphere are greenhouse gases", "explanation": "N₂ (78%) and O₂ (21%) are NOT greenhouse gases — they're transparent to IR. Only trace gases with changing dipole moments (CO₂, H₂O, CH₄, N₂O, O₃) are greenhouse gases. The greenhouse effect is caused by <1% of the atmosphere.", "correct": "Only molecules with changing dipole moments absorb IR. N₂ and O₂ (99% of atmosphere) are transparent." }
+      ],
+      "examCorner": { "scope": "sl", "question": "CO₂ absorbs infrared radiation at 15 μm.\n(a) Explain, at the molecular level, how CO₂ absorbs infrared radiation. [2]\n(b) Explain why N₂ does not absorb infrared radiation. [1]\n(c) State one other greenhouse gas and its GWP relative to CO₂. [1]", "marks": 4, "modelAnswer": "(a) CO₂ has a bending vibration mode at 15 μm. When the frequency of the incident IR radiation matches the natural vibration frequency, resonance occurs [1]. The vibration produces a changing electric dipole moment, allowing the molecule to absorb the photon's energy and transition to a higher vibrational energy state [1].\n(b) N₂ is a symmetric diatomic molecule. Its vibrations do not produce a changing electric dipole, so it cannot interact with IR radiation [1].\n(c) Methane (CH₄), GWP = 28 over 100 years [1].", "examinerTip": "For molecular-level explanations: mention (1) resonance between photon frequency and vibration frequency, and (2) changing dipole moment. Both are needed for full marks." }
+    },
+
+    {
+      "id": "b2_sub3",
+      "num": 3,
+      "title": "The Enhanced Greenhouse Effect & Climate Change",
+      "group": "Climate Change",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Greenhouse Gases",
+      "nextTitle": "Evidence for Climate Change",
+
+      "bigIdea": "Since the industrial revolution, humans have increased atmospheric CO₂ from 280 ppm to 420 ppm — a 50% increase. This extra CO₂ absorbs more outgoing IR, creating an energy imbalance of ~2.7 W/m². The result: Earth is warming. The physics is unambiguous — the debate is about how much, how fast, and what to do about it.",
+
+      "foundation": {
+        "title": "How humans are strengthening the greenhouse effect",
+        "content": "<h4>The enhanced greenhouse effect</h4><p>The <strong>enhanced greenhouse effect</strong> is the additional warming caused by human activities increasing greenhouse gas concentrations beyond natural levels.</p><p><strong>Pre-industrial CO₂:</strong> ~280 ppm (parts per million). <strong>Current (2024):</strong> ~420 ppm. <strong>Rate of increase:</strong> ~2.5 ppm/year.</p><p><strong>Sources of human CO₂ emissions:</strong></p><ul><li>Burning fossil fuels (coal, oil, gas): ~75% of total CO₂ emissions</li><li>Deforestation and land use change: ~12%</li><li>Cement production: ~5%</li><li>Other industry: ~8%</li></ul><p><strong>CH₄ sources:</strong> Agriculture (livestock, rice), landfills, natural gas leaks, coal mining.</p><p><strong>N₂O sources:</strong> Agriculture (fertilisers), combustion, industrial processes.</p><h4>The carbon cycle imbalance</h4><p>Naturally, CO₂ cycles between atmosphere, oceans, land, and biosphere. Emissions and absorptions roughly balance (~750 Gt/year each way). Humans add ~40 Gt CO₂/year. About half is absorbed by oceans and land sinks. The other half accumulates in the atmosphere — causing the steady rise from 280 to 420 ppm.</p><h4>The resulting warming</h4><p>Global average temperature has risen ~1.2°C since pre-industrial times (2024). The warming is not uniform:</p><ul><li>Arctic: warming 2–3× faster (polar amplification due to ice-albedo feedback)</li><li>Land: warms faster than ocean (lower heat capacity)</li><li>Nights: warming faster than days</li></ul>",
+        "summary": "<p><strong>Enhanced greenhouse:</strong> human emissions increase CO₂ (280 → 420 ppm), CH₄, N₂O → more IR absorbed → warming.</p><p><strong>Main source:</strong> burning fossil fuels (~75% of CO₂).</p><p><strong>Result:</strong> ~1.2°C warming since pre-industrial. Arctic 2–3× more.</p><p><strong>Carbon imbalance:</strong> humans add ~40 Gt CO₂/year; ~half absorbed, half accumulates.</p>",
+        "checkQuestions": [
+          { "question": "Why does increasing CO₂ from 280 to 420 ppm cause warming?", "answer": "More CO₂ molecules → more outgoing IR absorbed by the atmosphere → more back-radiation to the surface → surface must warm to reach a new energy balance. The extra ~140 ppm of CO₂ creates a radiative forcing of ~2 W/m², which drives the warming." }
+        ],
+        "checklist": [
+          "I can define the enhanced greenhouse effect as human-caused additional warming",
+          "I can state pre-industrial (~280 ppm) and current (~420 ppm) CO₂ levels",
+          "I can list the main sources of human greenhouse gas emissions",
+          "I can state that the planet has warmed ~1.2°C since pre-industrial times"
+        ]
+      },
+
+      "core": {
+        "title": "Radiative forcing, feedback mechanisms, and projections",
+        "content": "<h4>Radiative forcing</h4><p><strong>Radiative forcing (RF)</strong> is the change in net energy at the top of the atmosphere caused by a change in greenhouse gas concentration. Positive RF → warming. Negative RF → cooling.</p><p>Current total anthropogenic RF ≈ +2.7 W/m². This is the energy imbalance driving warming. Breakdown:</p><ul><li>CO₂: +2.16 W/m² (largest contributor)</li><li>CH₄: +0.54 W/m²</li><li>N₂O: +0.21 W/m²</li><li>CFCs/HFCs: +0.41 W/m²</li><li>Aerosols (cooling effect): −1.1 W/m²</li><li>Net: ~+2.7 W/m²</li></ul><h4>Feedback mechanisms</h4><p><strong>Positive feedbacks</strong> (amplify warming):</p><ul><li><strong>Water vapour:</strong> Warmer → more evaporation → more H₂O in atmosphere → more greenhouse → more warming. Strongest feedback.</li><li><strong>Ice-albedo:</strong> Warmer → ice melts → lower albedo → more absorption → more warming.</li><li><strong>Permafrost:</strong> Warmer → permafrost thaws → releases CH₄ and CO₂ → more greenhouse → more warming.</li></ul><p><strong>Negative feedbacks</strong> (dampen warming):</p><ul><li><strong>Blackbody radiation:</strong> Warmer surface → radiates more (P ∝ T⁴) → tends to cool. This is the ultimate stabiliser.</li><li><strong>Vegetation growth:</strong> More CO₂ → plants grow faster → absorb more CO₂ (limited by water, nutrients).</li></ul><p>The net feedback is positive — the climate system amplifies the direct CO₂ warming by a factor of ~2–3.</p><h4>Climate sensitivity</h4><p><strong>Equilibrium climate sensitivity (ECS):</strong> the warming from doubling CO₂ (280 → 560 ppm). Best estimate: <strong>2.5–4.0°C</strong> (IPCC AR6, 2021). This includes feedbacks.</p><h4>IPCC projections</h4><p>By 2100, depending on emissions scenario:</p><ul><li><strong>Low emissions (SSP1-1.9):</strong> +1.0–1.8°C above pre-industrial</li><li><strong>Moderate (SSP2-4.5):</strong> +2.1–3.5°C</li><li><strong>High (SSP5-8.5):</strong> +3.3–5.7°C</li></ul>",
+        "keyPoints": [
+          "Radiative forcing: +2.7 W/m² total anthropogenic (CO₂ largest at +2.16)",
+          "Positive feedbacks: water vapour, ice-albedo, permafrost (amplify warming ~2–3×)",
+          "Negative feedback: T⁴ radiation (stabiliser), vegetation growth (limited)",
+          "Climate sensitivity: 2.5–4°C per doubling of CO₂",
+          "Projections: +1.0 to +5.7°C by 2100 depending on emissions"
+        ],
+        "examTrap": { "wrong": "The enhanced greenhouse effect is a theory — it hasn't been proven", "correct": "The physics is established: more CO₂ → more IR absorbed → warming. This is basic radiation physics (tested in labs since the 1850s). The ~1.2°C observed warming, CO₂ increase, and spectroscopic measurements all confirm it. The science is not in dispute — only the precise magnitude of future warming (due to feedback uncertainties)." },
+        "checkQuestions": [
+          { "question": "Explain the ice-albedo feedback loop.", "answer": "Warming → ice/snow melts → exposed ocean/land has lower albedo (darker) → absorbs more solar radiation → warms further → more ice melts → more warming. This is a POSITIVE feedback loop — it amplifies the original warming." }
+        ],
+        "checklist": [
+          "I can define radiative forcing and state the current value (~2.7 W/m²)",
+          "I can describe positive feedback loops: water vapour, ice-albedo, permafrost",
+          "I can describe the negative feedback: T⁴ radiation",
+          "I can state climate sensitivity: 2.5–4°C per CO₂ doubling",
+          "I can describe IPCC projections for different emissions scenarios"
+        ]
+      },
+
+      "extension": { "title": "Tipping points and irreversibility", "content": "<p>Beyond certain thresholds, feedbacks may become self-sustaining — even if emissions stop, the warming continues. Potential tipping points include: collapse of the West Antarctic Ice Sheet (+3 m sea level), Amazon dieback (forest → savanna, releasing carbon), permafrost collapse (massive CH₄ release), shutdown of Atlantic circulation (AMOC). These tipping points may be triggered between 1.5°C and 4°C of warming — and several may cascade (one triggers another).</p>", "connections": ["E.5 Fusion: clean energy could prevent the worst climate scenarios", "A.3 Energy Sources: transitioning away from fossil fuels is the primary mitigation strategy"], "checklist": ["I can define tipping points and give examples", "I can explain why some climate changes may be irreversible"] },
+      "simulation": { "title": "PhET: Greenhouse Effect", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/greenhouse-effect", "instructions": ["Increase CO₂ to 'lots' and observe the temperature rise. Note: the warming saturates partially because of logarithmic dependence of forcing on concentration."] },
+      "video": { "title": "Enhanced Greenhouse Effect — IB Physics", "duration": "10 min", "description": "Human emissions, radiative forcing, feedbacks, climate sensitivity, and IPCC projections", "embedId": "" },
+      "equations": [
+        { "formula": "RF_CO₂ ≈ 5.35 ln(C/C₀) W/m²", "description": "Radiative forcing from CO₂. C = current concentration, C₀ = pre-industrial (280 ppm)." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Calculate the radiative forcing from CO₂ increasing from 280 to 420 ppm.", "steps": [
+          { "label": "Formula", "text": "RF = 5.35 ln(C/C₀) = 5.35 ln(420/280) = 5.35 ln(1.5)" },
+          { "label": "Calculate", "text": "= 5.35 × 0.405 = 2.17 W/m²", "isEquation": true },
+          { "label": "Context", "text": "This 2.17 W/m² of extra energy input is the primary driver of current global warming." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the difference between the natural and enhanced greenhouse effects.", "solution": "Natural: greenhouse gases (H₂O, CO₂, CH₄) at natural levels warm Earth by ~33°C — essential for life. Enhanced: human emissions increase greenhouse gas concentrations above natural levels → additional warming → climate change." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain why the Arctic is warming faster than the equator.", "solution": "Ice-albedo feedback: the Arctic has extensive ice and snow. Warming melts ice → darker ocean/land exposed → lower albedo → more solar absorption → more warming → more ice melts. The equator has little ice, so this feedback is much weaker. This polar amplification makes the Arctic warm 2–3× faster than the global average." }
+      ],
+      "commonMistakes": [
+        { "wrong": "CO₂ is the most potent greenhouse gas", "explanation": "Per molecule: CH₄ (GWP 28), N₂O (GWP 265), and CFCs (GWP thousands) are all more potent than CO₂. But CO₂ is the LARGEST CONTRIBUTOR to the enhanced greenhouse effect because of its much higher concentration (420 ppm vs 1.9 ppm for CH₄) and very long atmospheric lifetime (centuries).", "correct": "CO₂ is the most important (largest total effect) but not the most potent per molecule." }
+      ],
+      "examCorner": { "scope": "sl", "question": "The concentration of CO₂ has increased from 280 ppm to 420 ppm since the industrial revolution.\n(a) State two human activities that have caused this increase. [2]\n(b) Describe the ice-albedo positive feedback mechanism. [3]\n(c) Explain why the enhanced greenhouse effect leads to an increase in global average temperature. [2]", "marks": 7, "modelAnswer": "(a) Burning fossil fuels (coal, oil, gas) for energy [1]. Deforestation / land use change (reduces CO₂ absorption by trees) [1].\n(b) Increased temperature causes ice and snow to melt [1]. This exposes darker land/ocean surfaces which have lower albedo [1]. Lower albedo → more solar radiation absorbed → further temperature increase → more melting [1]. This is a positive feedback as it amplifies the original warming.\n(c) Increased CO₂ absorbs more outgoing infrared radiation from Earth's surface [1]. This is re-emitted back toward the surface (increased back-radiation), creating an energy imbalance that raises the surface temperature until a new, higher equilibrium is reached [1].", "examinerTip": "For feedback questions: describe the LOOP. Start with the initial change, trace through each step, and show how it returns to amplify (or dampen) the original change. Use arrows or clear sequential language." }
+    },
+
+    {
+      "id": "b2_sub4",
+      "num": 4,
+      "title": "Evidence for Climate Change",
+      "group": "Climate Change",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Enhanced Greenhouse Effect",
+      "nextTitle": "Consequences of Climate Change",
+
+      "bigIdea": "The evidence for human-caused climate change is overwhelming and comes from multiple independent sources: thermometer records, ice cores, ocean measurements, satellite data, retreating glaciers, rising seas, and more. No single piece proves it — but the convergence of ALL evidence leaves no reasonable doubt.",
+
+      "foundation": {
+        "title": "What the data shows",
+        "content": "<h4>Direct temperature measurements</h4><p>Thermometer records since ~1850 show global average temperature has risen ~1.2°C, with most warming occurring since 1970. The 10 warmest years on record have all occurred since 2010.</p><h4>Ice core data</h4><p>Air bubbles trapped in ancient ice (from Antarctica and Greenland) preserve atmospheric composition going back ~800,000 years. These show:</p><ul><li>CO₂ and temperature are closely correlated throughout glacial-interglacial cycles</li><li>Pre-industrial CO₂ ranged from ~180 ppm (ice ages) to ~280 ppm (warm periods)</li><li>Current CO₂ (420 ppm) is FAR beyond any natural variation in 800,000 years</li><li>The rate of increase is ~100× faster than any natural change in the ice core record</li></ul><h4>Other evidence</h4><ul><li><strong>Sea level rise:</strong> ~3.6 mm/year (accelerating). From thermal expansion and ice melt.</li><li><strong>Arctic sea ice:</strong> September minimum has declined ~40% since 1979.</li><li><strong>Glaciers:</strong> Retreating worldwide. Glacier National Park (USA) had 150 glaciers in 1850; ~25 remain.</li><li><strong>Ocean acidification:</strong> Oceans absorb ~25% of CO₂ → forms carbonic acid → pH has dropped from 8.2 to 8.1 (30% more acidic). Threatens coral reefs and shellfish.</li><li><strong>Extreme weather:</strong> Increased frequency/intensity of heatwaves, heavy rainfall, and droughts (consistent with predictions).</li><li><strong>Isotopic signature:</strong> The carbon in atmospheric CO₂ has an isotopic ratio (¹³C/¹²C) consistent with fossil fuel origin (fossil carbon is depleted in ¹³C).</li></ul>",
+        "summary": "<p><strong>Temperature:</strong> +1.2°C since pre-industrial. Accelerating.</p><p><strong>Ice cores:</strong> CO₂ at 420 ppm — highest in 800,000 years. Rate 100× faster than natural.</p><p><strong>Sea level:</strong> rising ~3.6 mm/year. <strong>Arctic ice:</strong> −40% since 1979.</p><p><strong>Ocean pH:</strong> dropped 0.1 (30% more acidic).</p><p><strong>Isotopes:</strong> confirm fossil fuel carbon in the atmosphere.</p>",
+        "checkQuestions": [
+          { "question": "How do ice cores show that current CO₂ levels are unprecedented?", "answer": "Air bubbles trapped in ice cores preserve atmospheric CO₂ from up to 800,000 years ago. Throughout this period, CO₂ naturally varied between ~180 and ~280 ppm. The current level of 420 ppm is far beyond any previous maximum, and the rate of increase (~2.5 ppm/year) is about 100× faster than any natural change in the record." }
+        ],
+        "checklist": [
+          "I can state that global temperature has risen ~1.2°C since pre-industrial",
+          "I can describe ice core evidence: CO₂ correlation with temperature, 800,000 year record",
+          "I can list other evidence: sea level, Arctic ice, glaciers, ocean acidification, isotopes",
+          "I can explain why the current CO₂ rise is unprecedented in rate and magnitude"
+        ]
+      },
+
+      "core": {
+        "title": "Evaluating evidence and the scientific consensus",
+        "content": "<h4>Attribution — is it human-caused?</h4><p>Natural factors alone (solar variability, volcanic eruptions, orbital changes) cannot explain the observed warming. Climate models that include ONLY natural factors show no warming trend after 1970. Models that include BOTH natural AND human factors match the observed warming closely. This is the key evidence for human causation.</p><h4>The scientific consensus</h4><p>97–99% of climate scientists agree that human activities are causing global warming. Every major scientific organization worldwide (NASA, NOAA, Royal Society, etc.) endorses this conclusion. The IPCC (Intergovernmental Panel on Climate Change) synthesizes the research of thousands of scientists.</p><h4>Correlation vs causation</h4><p>CO₂ and temperature are correlated in ice cores. Does CO₂ cause warming, or does warming cause CO₂ increase? Answer: BOTH happen.</p><ul><li>In natural cycles: orbital changes → warming → oceans release CO₂ → more warming (CO₂ as feedback)</li><li>Now: human CO₂ emissions → more greenhouse → warming (CO₂ as cause)</li></ul><p>The physics confirms the mechanism: more CO₂ → more IR absorbed → warming. It's not just correlation — the physical mechanism is understood and verified.</p>",
+        "keyPoints": [
+          "Natural factors alone can't explain post-1970 warming — human factors are needed",
+          "97–99% scientific consensus on human-caused climate change",
+          "Ice cores: CO₂ acts as both feedback (natural) and cause (current human emissions)",
+          "The physical mechanism (CO₂ absorbs IR) is verified independently of the correlation"
+        ],
+        "examTrap": { "wrong": "CO₂ and temperature are correlated, so correlation proves causation", "correct": "Correlation alone doesn't prove causation — but in this case, the PHYSICAL MECHANISM is independently understood (CO₂ absorbs IR → greenhouse effect). The correlation PLUS the mechanism PLUS the modelling PLUS the isotopic evidence together form an overwhelming case. It's the convergence of evidence, not just the correlation." },
+        "checkQuestions": [
+          { "question": "How can scientists determine that the warming is human-caused rather than natural?", "answer": "Climate models driven by natural factors alone (solar, volcanic) show no warming trend after 1970. Only models that include human greenhouse gas emissions match the observed warming pattern. Additionally, the isotopic signature of atmospheric CO₂ (depleted in ¹³C) confirms fossil fuel origin, and the rate of CO₂ increase (~100× faster than natural) cannot be explained by natural processes." }
+        ],
+        "checklist": [
+          "I can explain how climate models attribute warming to human causes (natural-only vs natural+human)",
+          "I can state the scientific consensus: 97–99% agreement on human causation",
+          "I can explain the difference between CO₂ as feedback (natural) and cause (current)",
+          "I can distinguish correlation from causation and explain why both apply here"
+        ]
+      },
+
+      "extension": { "title": "Paleoclimate and future projections", "content": "<p>The last time CO₂ was at 400+ ppm was the Pliocene (~3 million years ago): temperatures were 2–3°C warmer and sea levels were 10–20 m higher. This gives a long-term preview of what current CO₂ levels imply. However, the climate system takes centuries to fully respond — current warming is still 'catching up' to the CO₂ already emitted. Even if emissions stopped today, committed warming of ~0.5°C would still occur.</p>", "connections": ["D.1 Gravitational Fields: Milankovitch cycles (orbital variations) drive natural climate changes", "E.5 Fusion & Stars: the Sun's luminosity determines Earth's baseline temperature"], "checklist": ["I can explain committed warming (the climate lag)", "I can use paleoclimate data to contextualise current CO₂ levels"] },
+      "video": { "title": "Evidence for Climate Change — IB Physics", "duration": "10 min", "description": "Temperature records, ice cores, attribution, scientific consensus, and evaluating evidence", "embedId": "" },
+      "equations": [],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State three pieces of evidence for climate change.", "solution": "1. Global average temperature has risen ~1.2°C since pre-industrial. 2. Arctic sea ice extent has declined ~40% since 1979. 3. Sea level is rising at ~3.6 mm/year due to thermal expansion and ice melt." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain how ice cores provide evidence for the link between CO₂ and temperature.", "solution": "Ice cores contain trapped air bubbles preserving ancient atmospheric CO₂ levels. Over 800,000 years, CO₂ and temperature show strong correlation: higher CO₂ → higher temperature. Current CO₂ (420 ppm) far exceeds the natural range (180–280 ppm), and the rate of increase is ~100× any natural change. This supports the link between human CO₂ emissions and current warming." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Climate has changed before naturally, so current change must be natural too", "explanation": "Past natural changes were driven by orbital variations, solar changes, and volcanic activity — these are all MEASURED and ACCOUNTED FOR in modern analysis. They cannot explain the post-1970 warming. The rate, magnitude, and isotopic signature of current change are inconsistent with natural factors but consistent with human emissions.", "correct": "Past changes had natural causes. Current change has the fingerprint of human emissions (isotopes, rate, magnitude, modelling)." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Describe two pieces of evidence that support the claim that the current climate change is caused by human activities. [4]", "marks": 4, "modelAnswer": "1. The isotopic ratio of carbon in atmospheric CO₂ (¹³C/¹²C is decreasing) is consistent with fossil fuel burning, not natural sources [2]. 2. Climate models that include only natural factors (solar, volcanic) cannot reproduce the post-1970 warming; only models that include human greenhouse gas emissions match the observed warming pattern [2].", "examinerTip": "For 'evidence of human cause' questions: choose evidence that specifically points to HUMAN causation, not just evidence of warming in general. Isotopic signatures and model attribution are the strongest human-specific evidence." }
+    },
+
+    {
+      "id": "b2_sub5",
+      "num": 5,
+      "title": "Consequences & Mitigation of Climate Change",
+      "group": "Climate Change",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Evidence for Climate Change",
+      "nextTitle": "International Policy & the Paris Agreement",
+
+      "bigIdea": "The physics tells us the planet is warming. The consequences are already visible: rising seas, extreme weather, ecosystem disruption, food insecurity. Mitigation means reducing emissions — through renewable energy, efficiency, and lifestyle changes. Adaptation means preparing for the changes that are already locked in. Both are needed.",
+
+      "foundation": {
+        "title": "What climate change means for the planet and for us",
+        "content": "<h4>Physical consequences</h4><ul><li><strong>Sea level rise:</strong> 0.3–1.0 m by 2100 (IPCC projections). From thermal expansion of oceans and melting of glaciers and ice sheets. Threatens coastal cities, island nations.</li><li><strong>Extreme weather:</strong> More frequent and intense heatwaves, heavy rainfall, droughts, and cyclones. Not every storm is caused by climate change, but the intensity and frequency of extremes are increasing.</li><li><strong>Ocean acidification:</strong> CO₂ dissolving in oceans lowers pH. Threatens coral reefs (bleaching), shellfish (can't form shells), and marine food chains.</li><li><strong>Permafrost thaw:</strong> Releases stored CH₄ and CO₂ (positive feedback). Damages infrastructure built on frozen ground.</li></ul><h4>Ecological consequences</h4><ul><li><strong>Biodiversity loss:</strong> Species can't adapt or migrate fast enough. Coral reefs (25% of marine species) face collapse at +2°C.</li><li><strong>Ecosystem shifts:</strong> Forests, tundra, and agricultural zones shift poleward. Some ecosystems have nowhere to go.</li></ul><h4>Human consequences</h4><ul><li><strong>Food security:</strong> Changed rainfall patterns, more droughts → reduced crop yields in many regions.</li><li><strong>Water security:</strong> Glacier melt (temporary increase then permanent loss) affects rivers supplying billions of people.</li><li><strong>Health:</strong> Heat-related illness, spread of tropical diseases, air quality degradation.</li><li><strong>Migration:</strong> Climate refugees from uninhabitable regions (sea level, drought, heat).</li></ul><h4>Mitigation strategies</h4><ul><li><strong>Reduce emissions:</strong> Transition to renewable energy, electrify transport, improve efficiency, reduce deforestation.</li><li><strong>Carbon capture:</strong> Direct air capture, carbon capture and storage (CCS), enhanced natural sinks (reforestation, soil carbon).</li><li><strong>Lifestyle changes:</strong> Diet (less meat), travel (less flying), consumption (less waste).</li></ul><h4>Adaptation strategies</h4><ul><li>Sea walls and flood defences</li><li>Drought-resistant crops</li><li>Early warning systems for extreme weather</li><li>Urban planning for heat resilience</li></ul>",
+        "summary": "<p><strong>Consequences:</strong> sea level rise, extreme weather, ocean acidification, biodiversity loss, food/water insecurity.</p><p><strong>Mitigation:</strong> reduce emissions (renewables, efficiency), carbon capture, lifestyle changes.</p><p><strong>Adaptation:</strong> sea walls, resistant crops, warning systems, urban planning.</p>",
+        "checkQuestions": [
+          { "question": "Why is 1.5°C considered a critical threshold?", "answer": "Below 1.5°C: most impacts are manageable with adaptation. Above 1.5°C: coral reefs largely die, extreme weather becomes much more severe, sea ice loss accelerates, and tipping points become more likely. The Paris Agreement aims to limit warming to 1.5°C — but current policies put us on track for 2.5–3°C." }
+        ],
+        "checklist": [
+          "I can list physical consequences: sea level rise, extreme weather, ocean acidification",
+          "I can list human consequences: food/water insecurity, health, migration",
+          "I can describe mitigation strategies: renewables, efficiency, carbon capture",
+          "I can describe adaptation strategies: sea walls, resistant crops, planning"
+        ]
+      },
+
+      "core": {
+        "title": "Quantifying the challenge and evaluating solutions",
+        "content": "<h4>The carbon budget</h4><p>To limit warming to 1.5°C with 50% probability: humanity can emit about 500 Gt CO₂ more (from 2020). At current rates (~40 Gt/year): this budget runs out by ~2032. For 2°C: ~1150 Gt remaining → runs out ~2049.</p><h4>Evaluating energy solutions</h4><p>No single technology can solve climate change. A mix is needed:</p><ul><li><strong>Solar + wind:</strong> Cheapest new electricity in most places. Intermittency managed by storage and grid flexibility. Growing ~20–25%/year.</li><li><strong>Nuclear fission:</strong> Low carbon, reliable baseload. Concerns: waste, safety, cost, slow to build.</li><li><strong>Nuclear fusion:</strong> If achieved: nearly unlimited clean energy. Not yet commercially viable (see E.5).</li><li><strong>Energy efficiency:</strong> The cheapest 'source' — reducing waste. Buildings, transport, industry.</li><li><strong>Electrification:</strong> Electric vehicles, heat pumps, electric industry. Powered by clean electricity.</li><li><strong>Hydrogen:</strong> Clean fuel if produced from renewables ('green hydrogen'). For heavy industry, shipping, aviation.</li></ul><h4>The role of physics</h4><p>Climate change is fundamentally a physics problem — radiation physics, thermodynamics, and fluid dynamics. The solutions are also physics: photovoltaics (quantum mechanics), wind turbines (mechanics), batteries (electrochemistry), nuclear (nuclear physics), grid management (electrical engineering). Physics education is central to solving the defining challenge of our time.</p>",
+        "keyPoints": [
+          "Carbon budget for 1.5°C: ~500 Gt CO₂ remaining (at 40 Gt/yr → ~12 years from 2020)",
+          "No single technology suffices — need a mix of renewables, nuclear, efficiency, electrification",
+          "Solar and wind are now the cheapest new electricity sources",
+          "Climate change is a physics problem with physics solutions"
+        ],
+        "examTrap": { "wrong": "Renewable energy can solve climate change immediately", "correct": "Renewables are growing rapidly but face challenges: intermittency, storage, infrastructure, and the enormous scale of fossil fuel dependency. A full transition requires decades and massive investment. Nuclear, efficiency, and lifestyle changes are also needed. No single solution is sufficient." },
+        "checkQuestions": [
+          { "question": "Why is energy efficiency often called 'the cheapest energy source'?", "answer": "Reducing energy waste costs less than producing new energy. Insulating a building, driving a more efficient car, or using LED lighting saves more money than building new power capacity. Every unit of energy NOT wasted is a unit that doesn't need to be generated — so efficiency directly reduces emissions at negative or low cost." }
+        ],
+        "checklist": [
+          "I can state the carbon budget for 1.5°C and how quickly it's being used",
+          "I can evaluate different energy solutions: pros, cons, and limitations",
+          "I can explain why a mix of solutions is needed",
+          "I can connect the physics curriculum to climate change solutions"
+        ]
+      },
+
+      "extension": { "title": "Geoengineering — last resort or false hope?", "content": "<p>If emissions aren't cut fast enough, geoengineering proposals include: stratospheric aerosol injection (reflecting sunlight — like a controlled volcanic eruption), marine cloud brightening, space mirrors, and enhanced weathering (accelerating natural CO₂ removal). All carry risks: aerosols could disrupt monsoons, side effects are unpredictable, and they don't address ocean acidification. Most scientists view geoengineering as a last resort, not a substitute for emission reductions.</p>", "connections": ["A.3 Energy Sources: the energy transition is the primary climate solution", "E.5 Fusion: fusion energy could provide long-term clean power"], "checklist": ["I can describe solar radiation management and carbon dioxide removal as geoengineering approaches", "I can explain the risks and limitations of geoengineering"] },
+      "video": { "title": "Climate Change Solutions — IB Physics", "duration": "10 min", "description": "Consequences, carbon budgets, energy solutions, and the role of physics", "embedId": "" },
+      "equations": [],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State two consequences of rising global temperatures.", "solution": "1. Sea level rise (from thermal expansion and ice melt), threatening coastal communities. 2. More frequent and intense extreme weather events (heatwaves, floods, droughts)." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain the difference between mitigation and adaptation in the context of climate change.", "solution": "Mitigation: reducing the CAUSE — cutting greenhouse gas emissions (renewables, efficiency, carbon capture). Adaptation: dealing with the EFFECTS — preparing for changes that are already happening or inevitable (sea walls, drought-resistant crops, early warning systems). Both are needed because some warming is already locked in even if emissions stop." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Climate change can be solved by planting trees alone", "explanation": "Reforestation helps (~10% of needed reductions) but is far from sufficient. The scale: humanity emits ~40 Gt CO₂/yr. All the world's forests absorb ~10 Gt/yr. Planting trees can't offset continued fossil fuel burning — emission reductions are the primary need.", "correct": "Tree planting is helpful but insufficient. Primary solution: dramatically reduce fossil fuel emissions." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Discuss the advantages and disadvantages of ONE technology that could reduce greenhouse gas emissions. [4]", "marks": 4, "modelAnswer": "Solar photovoltaic energy.\nAdvantages: Renewable — sunlight is abundant and inexhaustible [1]. No direct CO₂ emissions during operation — clean electricity generation [1].\nDisadvantages: Intermittent — depends on sunlight availability (night, clouds, seasons) — requires energy storage or backup [1]. Manufacturing requires energy and materials (silicon, rare elements), and disposal of old panels creates waste [1].", "examinerTip": "For 'discuss' questions: give BALANCED coverage of both sides. 2 advantages + 2 disadvantages is a safe structure for 4 marks. Be specific — not just 'it's good for the environment.'" }
+    },
+
+    {
+      "id": "b2_sub6",
+      "num": 6,
+      "title": "International Policy & the Physics of Climate Targets",
+      "group": "Climate Policy",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Consequences & Mitigation",
+      "nextTitle": "B.3 Gas Laws",
+
+      "bigIdea": "The Paris Agreement set a target: limit warming to 1.5°C above pre-industrial levels. The physics says this requires reaching net zero CO₂ emissions by ~2050 and halving emissions by 2030. That means transforming the entire global energy system in less than 25 years. It's the largest engineering and policy challenge in human history — and it's driven by the physics of the greenhouse effect.",
+
+      "foundation": {
+        "title": "From physics to policy — what the numbers demand",
+        "content": "<h4>The Paris Agreement (2015)</h4><p>196 countries agreed to:</p><ul><li>Limit global warming to <strong>well below 2°C</strong>, preferably <strong>1.5°C</strong>, above pre-industrial</li><li>Achieve <strong>net zero CO₂ emissions by mid-century</strong></li><li>Each country submits <strong>Nationally Determined Contributions (NDCs)</strong> — their emission reduction plans</li></ul><h4>What the physics requires for 1.5°C</h4><ul><li><strong>Halve global emissions by 2030</strong> (from ~40 to ~20 Gt CO₂/year)</li><li><strong>Net zero by ~2050</strong> (emissions = removals)</li><li><strong>Carbon budget:</strong> ~500 Gt CO₂ remaining (from 2020)</li></ul><h4>Current gap</h4><p>Current NDCs put the world on track for ~2.5–3°C by 2100 — well above 1.5°C. The 'emissions gap' between pledges and the 1.5°C pathway is the central policy challenge.</p><h4>The role of IB Physics students</h4><p>Understanding the physics of climate change — radiation, energy, and thermodynamics — is essential for:</p><ul><li>Evaluating claims and policies (detecting misinformation)</li><li>Developing clean energy technologies</li><li>Making informed career and lifestyle choices</li><li>Participating in democratic decisions about energy and climate</li></ul><p>The physics you learn in this course IS the science behind the most important issue of your generation.</p>",
+        "summary": "<p><strong>Paris Agreement:</strong> limit warming to 1.5°C. Net zero by ~2050.</p><p><strong>Required:</strong> halve emissions by 2030, net zero by 2050.</p><p><strong>Current trajectory:</strong> ~2.5–3°C. A significant gap between pledges and targets.</p>",
+        "checkQuestions": [
+          { "question": "Why does the 1.5°C target require net zero by 2050?", "answer": "Every tonne of CO₂ emitted adds to the atmospheric stock and contributes to warming. The carbon budget for 1.5°C is ~500 Gt. At current rates (40 Gt/yr), it runs out by ~2032. To stay within budget, emissions must decline rapidly to zero — the physics of cumulative emissions demands net zero within decades." }
+        ],
+        "checklist": [
+          "I can state the Paris Agreement targets (well below 2°C, aim for 1.5°C)",
+          "I can state the requirements: halve by 2030, net zero by 2050",
+          "I can explain the emissions gap between current pledges and the 1.5°C target",
+          "I can explain why understanding climate physics matters for informed citizenship"
+        ]
+      },
+
+      "core": {
+        "title": "Carbon budgets, net zero, and the physics of cumulative emissions",
+        "content": "<h4>Why cumulative emissions matter</h4><p>Global temperature is approximately proportional to <strong>total cumulative CO₂ emissions</strong> — not the annual emission rate. This is because CO₂ stays in the atmosphere for centuries. The TCRE (Transient Climate Response to Cumulative Emissions) is ~1.65°C per 1000 Gt CO₂.</p><p>Humanity has already emitted ~2400 Gt CO₂ (causing ~1.2°C warming). For 1.5°C: max ~3000 Gt total → ~500 Gt remaining. For 2°C: ~3400 Gt total → ~1000 Gt remaining.</p><h4>Net zero explained</h4><p><strong>Net zero</strong> means: total CO₂ emissions = total CO₂ removals. Some hard-to-eliminate emissions (aviation, cement, agriculture) will continue — but must be balanced by removal (reforestation, direct air capture, ocean alkalinity enhancement).</p><p>Net zero STABILISES temperature — it doesn't REDUCE it. To actually lower temperature, you need net NEGATIVE emissions (removing more than you emit).</p><h4>Methane and short-lived gases</h4><p>CH₄ has a ~12 year lifetime (vs centuries for CO₂). Reducing CH₄ emissions would lower atmospheric CH₄ within decades, providing rapid temperature relief. Targeting CH₄ (agriculture, gas leaks) gives faster climate benefits than CO₂ reductions alone.</p>",
+        "keyPoints": [
+          "Temperature ∝ cumulative emissions. TCRE ≈ 1.65°C per 1000 Gt CO₂.",
+          "Already emitted ~2400 Gt → 1.2°C. Budget for 1.5°C: ~500 Gt more.",
+          "Net zero stabilises temperature. Net negative reduces it.",
+          "CH₄ reductions give faster results (short lifetime ~12 years)."
+        ],
+        "examTrap": { "wrong": "Reaching net zero will reverse climate change", "correct": "Net zero STOPS further warming — temperature stabilises at whatever level it's reached. To REVERSE warming, you'd need net NEGATIVE emissions (removing CO₂ from the atmosphere). The warming already caused is essentially permanent without active removal." },
+        "checkQuestions": [
+          { "question": "If the world reaches net zero CO₂ in 2050, what happens to the temperature?", "answer": "Temperature approximately stabilises at whatever level it's reached (~1.5–2°C above pre-industrial, depending on the emissions pathway to net zero). It does NOT decrease — the CO₂ already in the atmosphere continues to cause warming for centuries. Only net negative emissions would reduce temperature." }
+        ],
+        "checklist": [
+          "I can explain why cumulative emissions (not annual) determine temperature",
+          "I can state the TCRE: ~1.65°C per 1000 Gt CO₂",
+          "I can explain the difference between net zero (stabilises T) and net negative (reduces T)",
+          "I can explain why reducing CH₄ gives faster climate benefits than CO₂ alone"
+        ]
+      },
+
+      "extension": { "title": "Climate justice and global equity", "content": "<p>The highest emitters (historically: USA, EU; currently: China, USA, India) are not the most vulnerable to climate impacts. Low-income countries that contributed least to emissions face the worst consequences (rising seas, drought, extreme heat). Climate justice argues that wealthy, high-emitting nations bear greater responsibility for both emission reductions and adaptation financing. The physics is universal — the impacts and responsibilities are not.</p>", "connections": ["A.3 Energy Sources: energy access and climate justice are linked", "B.2 Carbon budget: fair allocation of remaining budget is a justice question"], "checklist": ["I can explain the concept of climate justice and differential responsibility"] },
+      "video": { "title": "Climate Policy & Carbon Budgets — IB Physics", "duration": "8 min", "description": "Paris Agreement, carbon budgets, net zero, and the role of physics in climate solutions", "embedId": "" },
+      "equations": [
+        { "formula": "ΔT ≈ TCRE × cumulative CO₂", "description": "Temperature change ≈ 1.65°C per 1000 Gt CO₂ emitted." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Humanity has emitted 2400 Gt CO₂. Using TCRE = 1.65°C per 1000 Gt, estimate the expected warming.", "steps": [
+          { "label": "Calculate", "text": "ΔT = 1.65 × (2400/1000) = 1.65 × 2.4 = 3.96°C", "isEquation": true },
+          { "label": "But actual is 1.2°C", "text": "The difference is because: (1) aerosols have a cooling effect (~−0.5°C), (2) the ocean absorbs heat slowly (committed warming not yet realized), (3) TCRE is approximate. The full warming is still 'in the pipeline.'" }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the main goals of the Paris Agreement.", "solution": "Limit global temperature rise to well below 2°C above pre-industrial levels, with an aim to limit to 1.5°C. Countries submit Nationally Determined Contributions (NDCs) to reduce emissions. Achieve net zero CO₂ emissions by mid-century." },
+        { "difficulty": "medium", "scope": "sl", "question": "The remaining carbon budget for 1.5°C is ~500 Gt CO₂. Current emissions are 40 Gt/year. (a) When does the budget run out at current rates? (b) If emissions decline linearly to zero, when must they reach zero to stay within budget?", "solution": "(a) 500/40 = 12.5 years from 2020 → runs out by ~2032. (b) If emissions decline linearly from 40 to 0: the total emitted = ½ × 40 × t = 20t. Set 20t = 500 → t = 25 years from 2020 → must reach zero by 2045." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Net zero means no emissions at all", "explanation": "Net zero means emissions EQUAL removals — not zero emissions. Some sectors (aviation, cement, agriculture) will likely continue emitting — but these must be balanced by carbon removal (trees, DAC, etc.).", "correct": "Net zero: total emissions = total removals. Some emissions continue but are offset." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Explain, using the concept of a carbon budget, why reaching net zero CO₂ emissions is necessary to limit warming to 1.5°C. [3]", "marks": 3, "modelAnswer": "The temperature rise is approximately proportional to the total cumulative CO₂ emitted [1]. For 1.5°C, the remaining carbon budget is ~500 Gt CO₂ [1]. As long as net emissions are positive, CO₂ accumulates in the atmosphere and the temperature continues to rise. Only at net zero do cumulative emissions stop increasing, stabilising the temperature [1].", "examinerTip": "Explain the chain: cumulative emissions → temperature → budget → need for net zero. Each link earns a mark." }
+    }
+
+  ]
+},
+// ============================================================
+// B.3 GAS LAWS — COMPLETE (7 subtopics)
+// Ends with comma — ready for B4 to follow
+// ============================================================
+
+"B3": {
+  "title": "Gas Laws",
+  "code": "B.3",
+  "theme": "B",
+  "level": "SL + HL",
+  "subtopicCount": 7,
+  "subtopics": [
+
+    {
+      "id": "b3_sub1",
+      "num": 1,
+      "title": "The Mole, Molar Mass & the Avogadro Constant",
+      "group": "Gas Fundamentals",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "B.2 Greenhouse Effect",
+      "nextTitle": "Pressure in Gases",
+
+      "bigIdea": "A mole of anything contains exactly 6.022 × 10²³ particles — atoms, molecules, or whatever you're counting. This absurdly large number bridges the gap between the atomic world (where one molecule weighs 10⁻²⁶ kg) and the macroscopic world (where a glass of water weighs 0.018 kg per mole). The mole is the physicist's counting unit for atoms.",
+
+      "foundation": {
+        "title": "Counting atoms — the mole and Avogadro's number",
+        "content": "<h4>The mole</h4><p>A <strong>mole (mol)</strong> is a counting unit: 1 mole = <strong>6.022 × 10²³ particles</strong>. This is the <strong>Avogadro constant (N_A)</strong>.</p><p>Just as a 'dozen' means 12, a 'mole' means 6.022 × 10²³. You can have a mole of atoms, molecules, electrons, or even tennis balls (though a mole of tennis balls would fill 10²⁰ Olympic swimming pools).</p><h4>Molar mass</h4><p><strong>Molar mass (M)</strong> is the mass of one mole of a substance, in grams per mole (g/mol). Numerically equal to the atomic/molecular mass in atomic mass units (u).</p><ul><li>Hydrogen atom: M = 1 g/mol = 0.001 kg/mol</li><li>Oxygen molecule (O₂): M = 32 g/mol = 0.032 kg/mol</li><li>Water (H₂O): M = 18 g/mol = 0.018 kg/mol</li><li>Carbon dioxide (CO₂): M = 44 g/mol = 0.044 kg/mol</li></ul><h4>Key relationships</h4><p><strong>Number of moles: n = m/M</strong> (mass ÷ molar mass)</p><p><strong>Number of particles: N = nN_A</strong> (moles × Avogadro constant)</p><p><strong>Mass of one particle: m₁ = M/N_A</strong></p>",
+        "summary": "<p><strong>1 mole = N_A = 6.022 × 10²³ particles.</strong></p><p><strong>n = m/M</strong> (moles = mass/molar mass).</p><p><strong>N = nN_A</strong> (particles = moles × Avogadro).</p>",
+        "checkQuestions": [
+          { "question": "How many molecules are in 36 g of water (M = 18 g/mol)?", "answer": "n = 36/18 = 2 mol. N = 2 × 6.022 × 10²³ = 1.204 × 10²⁴ molecules." }
+        ],
+        "checklist": [
+          "I can state N_A = 6.022 × 10²³ mol⁻¹",
+          "I can calculate moles from mass: n = m/M",
+          "I can calculate number of particles: N = nN_A",
+          "I can find the mass of a single molecule: m₁ = M/N_A"
+        ]
+      },
+
+      "core": {
+        "title": "Applying mole calculations to gas problems",
+        "content": "<h4>Moles and gas laws</h4><p>The ideal gas law (coming in subtopic 4) uses n (moles) or N (number of particles). Being comfortable converting between mass, moles, and particle number is essential.</p><h4>Molecular mass vs molar mass</h4><ul><li><strong>Molecular mass:</strong> mass of ONE molecule, in kg or u. Example: O₂ = 32 u = 32 × 1.66 × 10⁻²⁷ = 5.31 × 10⁻²⁶ kg.</li><li><strong>Molar mass:</strong> mass of one MOLE, in g/mol or kg/mol. Example: O₂ = 32 g/mol = 0.032 kg/mol.</li></ul><p>Connection: M (g/mol) = molecular mass (u) numerically. And m₁ (kg) = M/(1000 × N_A).</p>",
+        "keyPoints": [
+          "n = m/M, N = nN_A, m₁ = M/N_A",
+          "1 u = 1.66 × 10⁻²⁷ kg",
+          "Molar mass in g/mol = molecular mass in u (numerically)"
+        ],
+        "examTrap": { "wrong": "Molar mass of O₂ is 16 g/mol", "correct": "Oxygen ATOM has mass 16 u. Oxygen MOLECULE (O₂) has mass 32 u → M = 32 g/mol. Always check if the question asks about atoms or molecules." },
+        "checkQuestions": [
+          { "question": "Find the mass of a single N₂ molecule (M = 28 g/mol).", "answer": "m₁ = M/N_A = 0.028/6.022 × 10²³ = 4.65 × 10⁻²⁶ kg." }
+        ],
+        "checklist": [
+          "I can convert between molecular mass (u or kg) and molar mass (g/mol)",
+          "I can use 1 u = 1.66 × 10⁻²⁷ kg"
+        ]
+      },
+
+      "extension": { "title": "The redefinition of the mole (2019)", "content": "<p>Since 2019, the mole is defined by fixing N_A = 6.02214076 × 10²³ exactly. Previously, 1 mol was defined as the number of atoms in 12 g of carbon-12. The new definition is cleaner and more precise.</p>", "connections": ["E.1 Atomic Structure: atomic mass unit defined relative to carbon-12"], "checklist": ["I can state the 2019 definition of the mole (N_A fixed exactly)"] },
+      "video": { "title": "The Mole & Avogadro — IB Physics", "duration": "6 min", "description": "Mole concept, N_A, molar mass, and particle counting", "embedId": "" },
+      "equations": [
+        { "formula": "N_A = 6.022 × 10²³ mol⁻¹", "description": "Avogadro constant." },
+        { "formula": "n = m/M", "description": "Number of moles = mass / molar mass." },
+        { "formula": "N = nN_A", "description": "Number of particles = moles × Avogadro constant." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A container holds 88 g of CO₂ (M = 44 g/mol). Find the number of moles and molecules.", "steps": [
+          { "label": "Moles", "text": "n = m/M = 88/44 = 2 mol" },
+          { "label": "Molecules", "text": "N = 2 × 6.022 × 10²³ = 1.204 × 10²⁴", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "How many moles in 64 g of O₂ (M = 32)?", "solution": "n = 64/32 = 2 mol." },
+        { "difficulty": "medium", "scope": "sl", "question": "Find the mass of 3.01 × 10²³ molecules of N₂ (M = 28 g/mol).", "solution": "n = N/N_A = 3.01 × 10²³/6.022 × 10²³ = 0.5 mol. m = nM = 0.5 × 28 = 14 g." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using g/mol in physics equations that require kg/mol", "explanation": "IB Physics uses SI units (kg). M must be in kg/mol in equations like pV = nRT or KE = 3RT/(2N_A). Convert: 28 g/mol = 0.028 kg/mol.", "correct": "Always convert M to kg/mol for physics calculations." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A sample of helium gas has mass 0.80 g (M = 4.0 g/mol).\n(a) Find the number of moles. [1]\n(b) Find the number of atoms. [1]\n(c) Find the mass of one helium atom in kg. [1]", "marks": 3, "modelAnswer": "(a) n = 0.80/4.0 = 0.20 mol [1].\n(b) N = 0.20 × 6.022 × 10²³ = 1.20 × 10²³ atoms [1].\n(c) m = M/N_A = 0.004/6.022 × 10²³ = 6.64 × 10⁻²⁷ kg [1].", "examinerTip": "For part (c): convert M to kg/mol FIRST (4.0 g/mol = 0.004 kg/mol), then divide by N_A." }
+    },
+
+    {
+      "id": "b3_sub2",
+      "num": 2,
+      "title": "Pressure in Gases — Molecular Origin",
+      "group": "Gas Fundamentals",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "The Mole",
+      "nextTitle": "Boyle's, Charles's & Gay-Lussac's Laws",
+
+      "bigIdea": "Gas pressure isn't mysterious — it's just trillions of tiny molecules smashing into the walls of their container every second. Each collision transfers a tiny impulse to the wall. The sum of all these impulses, per unit area, per second, is what we call pressure. More molecules, faster molecules, smaller container — all increase pressure.",
+
+      "foundation": {
+        "title": "What causes gas pressure?",
+        "content": "<h4>The molecular picture</h4><p>Gas molecules move randomly in all directions at high speeds (hundreds of m/s at room temperature). They constantly collide with the container walls. Each collision exerts a tiny force on the wall (Newton's 2nd law: F = Δp/Δt). The total force from billions of collisions per second, divided by the wall area, gives the <strong>pressure</strong>.</p><p><strong>Pressure = Force / Area</strong></p><p><strong>P = F/A</strong></p><p>Unit: pascal (Pa) = N/m². Also: 1 atm = 101,325 Pa ≈ 10⁵ Pa. 1 bar = 10⁵ Pa.</p><h4>What increases pressure?</h4><ul><li><strong>More molecules (more n or N):</strong> more collisions per second → more force → higher P</li><li><strong>Higher temperature:</strong> molecules move faster → each collision transfers more impulse → higher P</li><li><strong>Smaller volume:</strong> molecules hit walls more frequently (less distance between collisions) → higher P</li></ul><h4>Pressure is isotropic</h4><p>Gas pressure acts equally in all directions — up, down, sideways. A balloon expands equally in all directions because the internal pressure pushes equally on every part of the wall.</p>",
+        "summary": "<p><strong>Pressure = F/A.</strong> Unit: Pa = N/m². 1 atm ≈ 10⁵ Pa.</p><p><strong>Caused by:</strong> molecular collisions with container walls.</p><p><strong>Increases with:</strong> more molecules, higher temperature, smaller volume.</p><p><strong>Isotropic:</strong> equal in all directions.</p>",
+        "checkQuestions": [
+          { "question": "A gas is heated at constant volume. Explain why the pressure increases.", "answer": "Higher temperature → molecules have more KE → move faster → hit walls more frequently AND with more impulse per collision → greater force per unit area → higher pressure." }
+        ],
+        "checklist": [
+          "I can define pressure: P = F/A (unit: Pa)",
+          "I can explain gas pressure in terms of molecular collisions with walls",
+          "I can explain how temperature, volume, and number of molecules affect pressure",
+          "I can state that gas pressure is isotropic"
+        ]
+      },
+
+      "core": {
+        "title": "Kinetic molecular theory — assumptions and pressure derivation",
+        "content": "<h4>Assumptions of the ideal gas model</h4><ol><li>Gas consists of a large number of <strong>identical</strong> particles (atoms or molecules)</li><li>Particles are in <strong>constant random motion</strong></li><li>The <strong>volume of the particles is negligible</strong> compared to the volume of the container</li><li>Collisions between particles and with walls are <strong>perfectly elastic</strong> (KE conserved)</li><li>There are <strong>no intermolecular forces</strong> except during collisions (negligible PE)</li><li>The <strong>duration of collisions is negligible</strong> compared to the time between collisions</li></ol><p>A gas that satisfies these assumptions is an <strong>ideal gas</strong>. Real gases approximate ideal behaviour at low pressures and high temperatures (where molecules are far apart and moving fast).</p><h4>Deriving pressure from molecular motion (outline)</h4><p>Consider a single molecule of mass m moving with velocity v_x toward a wall:</p><ul><li>It bounces elastically: momentum change = 2mv_x per collision</li><li>Time between hits on the same wall (in a box of length L): Δt = 2L/v_x</li><li>Force from one molecule: F = Δp/Δt = 2mv_x/(2L/v_x) = mv_x²/L</li><li>For N molecules with average v_x²: total F = Nm⟨v_x²⟩/L</li><li>Since motion is random in 3D: ⟨v_x²⟩ = ⟨v²⟩/3</li><li>Pressure P = F/A = Nm⟨v²⟩/(3LA) = Nm⟨v²⟩/(3V)</li></ul><p>Result: <strong>P = Nm⟨v²⟩/(3V) = ⅓ρ⟨v²⟩</strong></p><p>where ρ = Nm/V is the gas density and ⟨v²⟩ is the mean square speed.</p>",
+        "keyPoints": [
+          "Ideal gas: 6 assumptions (small particles, random motion, elastic collisions, no forces, negligible volume/collision time)",
+          "Pressure from molecular collisions: P = Nm⟨v²⟩/(3V)",
+          "Real gases → ideal at low P (far apart) and high T (fast, little interaction)",
+          "⟨v²⟩ is the mean of v² — NOT (mean of v)²"
+        ],
+        "examTrap": { "wrong": "The molecules in an ideal gas don't collide with each other", "correct": "They DO collide with each other — but the collisions are perfectly elastic (no energy lost) and brief (negligible duration). The assumption is not 'no collisions' but 'elastic collisions' and 'no intermolecular forces except during collision.'" },
+        "checkQuestions": [
+          { "question": "State three assumptions of the ideal gas model.", "answer": "1. Particles have negligible volume compared to the container. 2. Collisions are perfectly elastic (no KE lost). 3. No intermolecular forces between particles (except during brief collisions)." }
+        ],
+        "checklist": [
+          "I can list and explain the 6 assumptions of the ideal gas model",
+          "I can outline the derivation of P = Nm⟨v²⟩/(3V)",
+          "I can state when real gases approximate ideal behaviour (low P, high T)"
+        ]
+      },
+
+      "extension": { "title": "Root mean square speed", "content": "<p>The <strong>rms speed</strong> is v_rms = √⟨v²⟩. From PV = NkT and P = Nm⟨v²⟩/(3V): ⟨v²⟩ = 3kT/m → v_rms = √(3kT/m). For N₂ at 300 K: v_rms = √(3 × 1.38 × 10⁻²³ × 300/(4.65 × 10⁻²⁶)) = √(2.67 × 10⁵) = 517 m/s. Gas molecules at room temperature move at ~500 m/s — faster than sound.</p>", "connections": ["B.1 Temperature: KE_avg = 3/2 kT links directly to v_rms"], "checklist": ["I can calculate rms speed: v_rms = √(3kT/m)", "I can state typical molecular speeds (~500 m/s at room temperature)"] },
+      "simulation": { "title": "PhET: Gas Properties", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/gas-properties", "instructions": ["Watch molecules collide with walls. Add more molecules → pressure gauge rises. Heat → faster molecules → pressure rises. Shrink container → more frequent collisions → pressure rises."] },
+      "video": { "title": "Gas Pressure & Kinetic Theory — IB Physics", "duration": "9 min", "description": "Molecular origin of pressure, ideal gas assumptions, and the pressure equation", "embedId": "" },
+      "equations": [
+        { "formula": "P = F/A", "description": "Pressure = force / area. Unit: Pa = N/m²." },
+        { "formula": "P = Nm⟨v²⟩/(3V)", "description": "Pressure from kinetic theory. N = particles, m = particle mass, V = volume." },
+        { "formula": "v_rms = √(3kT/m)", "description": "Root mean square speed. k = Boltzmann constant." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Calculate the rms speed of oxygen molecules (m = 5.31 × 10⁻²⁶ kg) at 300 K.", "steps": [
+          { "label": "Formula", "text": "v_rms = √(3kT/m) = √(3 × 1.38 × 10⁻²³ × 300 / 5.31 × 10⁻²⁶)" },
+          { "label": "Calculate", "text": "= √(1.242 × 10⁻²⁰ / 5.31 × 10⁻²⁶) = √(2.34 × 10⁵) = 484 m/s", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State three assumptions of the ideal gas model.", "solution": "1. Molecules have negligible volume compared to the container. 2. Intermolecular forces are negligible (except during collisions). 3. Collisions are perfectly elastic." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain, using molecular motion, why compressing a gas at constant temperature increases the pressure.", "solution": "Reducing volume means molecules travel less distance between wall collisions → they hit the walls more frequently. Since temperature (and therefore speed) is unchanged, each collision has the same impulse. More frequent collisions × same impulse = greater force per unit area = higher pressure." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Ideal gas molecules don't move — they just vibrate", "explanation": "In a gas, molecules are in constant rapid TRANSLATIONAL motion (not just vibration — that's solids). They move freely through the container, bouncing off walls and each other.", "correct": "Gas molecules translate freely at high speeds (~500 m/s at room temperature)." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Outline, in terms of molecular behaviour, how the pressure of an ideal gas arises. [3]", "marks": 3, "modelAnswer": "Gas molecules are in constant random motion [1]. They collide with the walls of the container, each collision exerting a force (due to change in momentum) on the wall [1]. Pressure is the total force from all molecular collisions per unit area of the wall [1].", "examinerTip": "Three marks: (1) random motion, (2) wall collisions → force from momentum change, (3) pressure = total force / area." }
+    },
+
+    {
+      "id": "b3_sub3",
+      "num": 3,
+      "title": "The Gas Laws — Boyle's, Charles's & Gay-Lussac's",
+      "group": "Empirical Gas Laws",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Pressure in Gases",
+      "nextTitle": "The Ideal Gas Law",
+
+      "bigIdea": "Before anyone understood atoms, experimentalists discovered simple relationships between pressure, volume, and temperature of gases. Boyle found P ∝ 1/V at constant T. Charles found V ∝ T at constant P. Gay-Lussac found P ∝ T at constant V. These three laws combine into one: the ideal gas law. But each one, alone, tells a beautiful story about how gases behave.",
+
+      "foundation": {
+        "title": "Three laws that describe how gases respond to changes",
+        "content": "<h4>Boyle's Law (1662) — constant temperature</h4><p><strong>P ∝ 1/V (at constant T and n)</strong> → <strong>PV = constant</strong> → <strong>P₁V₁ = P₂V₂</strong></p><p>Squeeze a gas into half the volume → pressure doubles. Why? Same molecules, half the space → hit walls twice as often → double the pressure.</p><p>Graph: P vs V is a hyperbola. P vs 1/V is a straight line through the origin.</p><h4>Charles's Law (1787) — constant pressure</h4><p><strong>V ∝ T (at constant P and n)</strong> → <strong>V/T = constant</strong> → <strong>V₁/T₁ = V₂/T₂</strong></p><p>Heat a gas at constant pressure → it expands proportionally to temperature. Why? Faster molecules push the piston outward until the collision rate (and therefore pressure) returns to the original value.</p><p><strong>T must be in KELVIN.</strong> If V ∝ T worked in Celsius, V would be zero at 0°C — but gases clearly have volume at 0°C. In kelvin, V → 0 as T → 0 K (absolute zero). This is how absolute zero was first estimated: extrapolate V vs T to V = 0.</p><h4>Gay-Lussac's Law (Pressure Law) — constant volume</h4><p><strong>P ∝ T (at constant V and n)</strong> → <strong>P/T = constant</strong> → <strong>P₁/T₁ = P₂/T₂</strong></p><p>Heat a gas in a rigid container → pressure increases proportionally to temperature. Why? Faster molecules hit walls harder and more often → pressure rises.</p><p><strong>T must be in KELVIN.</strong></p>",
+        "summary": "<p><strong>Boyle's:</strong> PV = const (const T). Squeeze → P up.</p><p><strong>Charles's:</strong> V/T = const (const P). Heat → V up.</p><p><strong>Gay-Lussac's:</strong> P/T = const (const V). Heat → P up.</p><p><strong>ALL require T in Kelvin.</strong></p>",
+        "checkQuestions": [
+          { "question": "A gas at 1.0 atm occupies 2.0 L. It's compressed to 0.5 L at constant T. Find the new pressure.", "answer": "P₁V₁ = P₂V₂: 1.0 × 2.0 = P₂ × 0.5. P₂ = 4.0 atm." },
+          { "question": "A gas at 300 K occupies 1.5 L. It's heated to 600 K at constant P. Find the new volume.", "answer": "V₁/T₁ = V₂/T₂: 1.5/300 = V₂/600. V₂ = 3.0 L. Double the temperature → double the volume." }
+        ],
+        "checklist": [
+          "I can state Boyle's law: PV = constant at constant T",
+          "I can state Charles's law: V/T = constant at constant P (T in K)",
+          "I can state Gay-Lussac's law: P/T = constant at constant V (T in K)",
+          "I can explain each law using molecular motion",
+          "I can apply each law to solve problems"
+        ]
+      },
+
+      "core": {
+        "title": "Applying the gas laws — graphs, combined law, and molecular explanations",
+        "content": "<h4>Graphical representations</h4><p><strong>Boyle's law:</strong> P vs V: hyperbola (isotherms). Higher T → curve further from origin. PV vs P: horizontal line.</p><p><strong>Charles's law:</strong> V vs T(K): straight line through origin (extrapolated). Higher P → less steep slope.</p><p><strong>Gay-Lussac's:</strong> P vs T(K): straight line through origin. Higher V → less steep slope.</p><h4>The combined gas law</h4><p>Combining all three: <strong>P₁V₁/T₁ = P₂V₂/T₂</strong></p><p>Use this when TWO of the three variables change simultaneously. It reduces to each individual law when the third variable is constant.</p><h4>Molecular explanations</h4><p><strong>Boyle's (T constant, V decreases):</strong> Same speed → same impulse per collision. Less volume → molecules hit walls more often. More collisions/s → more force → higher P.</p><p><strong>Charles's (P constant, T increases):</strong> Faster molecules → harder and more frequent collisions → would increase P. But volume can expand → molecules travel further between wall hits → collision frequency decreases → P stays constant at larger V.</p><p><strong>Gay-Lussac's (V constant, T increases):</strong> Faster molecules → harder collisions (more impulse each) AND more frequent (faster return to same wall). Both increase force → P increases.</p>",
+        "keyPoints": [
+          "Combined law: P₁V₁/T₁ = P₂V₂/T₂ (T in K always)",
+          "Boyle's: P vs V is a hyperbola. Charles's: V vs T is a line through origin.",
+          "Each law has a molecular explanation based on collision frequency and impulse",
+          "All graphs extrapolate to absolute zero where V or P → 0"
+        ],
+        "examTrap": { "wrong": "Using Celsius in gas law calculations", "correct": "ALL gas law calculations require KELVIN. V₁/T₁ = V₂/T₂ with T in °C gives wrong answers. Always convert: T(K) = T(°C) + 273. This is the most common gas law error." },
+        "checkQuestions": [
+          { "question": "A gas at 300 K, 2 atm, 3 L is heated to 450 K and compressed to 2 L. Find the new pressure.", "answer": "P₁V₁/T₁ = P₂V₂/T₂: (2 × 3)/300 = (P₂ × 2)/450. 0.02 = 2P₂/450. P₂ = 0.02 × 450/2 = 4.5 atm." }
+        ],
+        "checklist": [
+          "I can apply the combined gas law: P₁V₁/T₁ = P₂V₂/T₂",
+          "I can sketch and interpret P-V, V-T, and P-T graphs for gases",
+          "I can give molecular explanations for each gas law",
+          "I can always convert to Kelvin before calculation"
+        ]
+      },
+
+      "extension": { "title": "Real gases and deviations from ideal behaviour", "content": "<p>Real gases deviate from ideal at high pressures (molecules are close → intermolecular forces matter, molecular volume is significant) and low temperatures (molecules move slowly → forces have more time to act). The van der Waals equation corrects for this: (P + a/V²)(V − b) = nRT, where a accounts for intermolecular attraction and b for molecular volume. At room temperature and 1 atm, most gases behave within 1% of ideal.</p>", "connections": ["B.1 Internal energy: real gas PE from intermolecular forces", "B.4 Thermodynamics: real gas behaviour affects heat engine efficiency"], "checklist": ["I can explain when real gases deviate from ideal (high P, low T)", "I can state the van der Waals corrections qualitatively"] },
+      "simulation": { "title": "PhET: Gas Properties", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/gas-properties", "instructions": ["Verify Boyle's law: keep T constant, change V, observe P. Verify Charles's: keep P constant, heat, observe V expand."] },
+      "video": { "title": "Gas Laws — IB Physics", "duration": "10 min", "description": "Boyle's, Charles's, Gay-Lussac's, combined law, graphs, and molecular explanations", "embedId": "" },
+      "equations": [
+        { "formula": "P₁V₁ = P₂V₂ (Boyle's)", "description": "Constant T: pressure × volume is constant." },
+        { "formula": "V₁/T₁ = V₂/T₂ (Charles's)", "description": "Constant P: volume ∝ temperature (K)." },
+        { "formula": "P₁/T₁ = P₂/T₂ (Gay-Lussac's)", "description": "Constant V: pressure ∝ temperature (K)." },
+        { "formula": "P₁V₁/T₁ = P₂V₂/T₂", "description": "Combined gas law. T must be in Kelvin." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A balloon contains 2.0 L of gas at 20°C and 1.0 atm. It's taken to altitude where T = −30°C and P = 0.5 atm. Find the new volume.", "steps": [
+          { "label": "Convert to K", "text": "T₁ = 293 K. T₂ = 243 K." },
+          { "label": "Combined law", "text": "(1.0 × 2.0)/293 = (0.5 × V₂)/243" },
+          { "label": "Solve", "text": "V₂ = (1.0 × 2.0 × 243)/(293 × 0.5) = 486/146.5 = 3.32 L", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A gas at 2 atm occupies 5 L. Find the volume at 1 atm (constant T).", "solution": "P₁V₁ = P₂V₂: 2 × 5 = 1 × V₂. V₂ = 10 L." },
+        { "difficulty": "medium", "scope": "sl", "question": "A tyre at 20°C has pressure 200 kPa. After driving, T = 50°C. Find the new pressure (constant V).", "solution": "T₁ = 293 K, T₂ = 323 K. P₁/T₁ = P₂/T₂: 200/293 = P₂/323. P₂ = 200 × 323/293 = 220.5 kPa." },
+        { "difficulty": "hard", "scope": "sl", "question": "Sketch a P-V graph showing three isotherms at temperatures T₁ < T₂ < T₃. Label which is which.", "solution": "Three hyperbolas. The one furthest from the origin corresponds to the highest temperature T₃ (at any given V, higher T → higher P). Each hyperbola represents PV = nRT = constant for that temperature." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using °C in gas law equations", "explanation": "V ∝ T(K), not T(°C). If T₁ = 20°C = 293 K and T₂ = 40°C = 313 K: the ratio T₂/T₁ = 313/293 = 1.068 (not 40/20 = 2). Using °C gives wildly wrong answers.", "correct": "ALWAYS convert to Kelvin: T(K) = T(°C) + 273." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A fixed mass of gas occupies 4.0 × 10⁻³ m³ at 27°C and 1.0 × 10⁵ Pa. The gas is heated to 127°C at constant pressure.\n(a) State the gas law that applies. [1]\n(b) Calculate the new volume. [2]", "marks": 3, "modelAnswer": "(a) Charles's law (V/T = constant at constant P) [1].\n(b) T₁ = 300 K, T₂ = 400 K. V₂ = V₁T₂/T₁ = 4.0 × 10⁻³ × 400/300 = 5.33 × 10⁻³ m³ [2].", "examinerTip": "Convert to Kelvin FIRST. Write down T₁ and T₂ in K before substituting. This earns a method mark and avoids the °C error." }
+    },
+
+    {
+      "id": "b3_sub4",
+      "num": 4,
+      "title": "The Ideal Gas Law: PV = nRT",
+      "group": "Ideal Gas",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "The Gas Laws",
+      "nextTitle": "Kinetic Energy & Temperature",
+
+      "bigIdea": "The three gas laws combine into one master equation: PV = nRT. This single equation describes the behaviour of any ideal gas — predicting its pressure, volume, and temperature from the number of moles and one universal constant. It's the equation of state for an ideal gas, and it works remarkably well for real gases at ordinary conditions.",
+
+      "foundation": {
+        "title": "One equation to rule them all",
+        "content": "<h4>The ideal gas law</h4><p><strong>PV = nRT</strong></p><p>Where P = pressure (Pa), V = volume (m³), n = number of moles, R = 8.314 J mol⁻¹ K⁻¹ (universal gas constant), T = temperature (K).</p><p><strong>Alternative form: PV = NkT</strong></p><p>Where N = number of particles, k = 1.38 × 10⁻²³ J/K (Boltzmann constant). Note: k = R/N_A.</p><p>The two forms are equivalent: nR = NkT since N = nN_A and k = R/N_A.</p><h4>Using the ideal gas law</h4><p>Given any THREE of P, V, n (or N), T — find the fourth. Always use SI units: P in Pa, V in m³, T in K.</p><h4>Connection to the gas laws</h4><ul><li>At constant T and n: PV = constant (Boyle's)</li><li>At constant P and n: V ∝ T (Charles's)</li><li>At constant V and n: P ∝ T (Gay-Lussac's)</li></ul><p>PV = nRT unifies all three into one equation.</p>",
+        "summary": "<p><strong>PV = nRT</strong> (R = 8.314 J/(mol·K)) or <strong>PV = NkT</strong> (k = 1.38 × 10⁻²³ J/K).</p><p><strong>SI units:</strong> P in Pa, V in m³, T in K, n in mol.</p><p><strong>Unifies</strong> Boyle's, Charles's, and Gay-Lussac's laws.</p>",
+        "checkQuestions": [
+          { "question": "2 moles of gas at 300 K occupy a 0.05 m³ container. Find the pressure.", "answer": "P = nRT/V = 2 × 8.314 × 300/0.05 = 4988/0.05 = 99,768 Pa ≈ 1.0 × 10⁵ Pa ≈ 1 atm." }
+        ],
+        "checklist": [
+          "I can state PV = nRT and PV = NkT",
+          "I can state R = 8.314 J/(mol·K) and k = 1.38 × 10⁻²³ J/K",
+          "I can solve for any variable given the other three",
+          "I can use correct SI units (Pa, m³, K, mol)"
+        ]
+      },
+
+      "core": {
+        "title": "Applying PV = nRT — density, molar volume, and STP",
+        "content": "<h4>Finding gas density from the ideal gas law</h4><p>Since n = m/M: PV = (m/M)RT → PM = (m/V)RT = ρRT. So: <strong>ρ = PM/(RT)</strong>.</p><p>Gas density increases with pressure and molar mass, decreases with temperature.</p><h4>Molar volume at STP</h4><p>At standard temperature and pressure (STP: T = 273 K, P = 100 kPa):</p><p>V_molar = RT/P = 8.314 × 273/100,000 = 0.02271 m³/mol ≈ <strong>22.7 L/mol</strong></p><p>One mole of ANY ideal gas occupies 22.7 L at STP. This is useful for quick calculations.</p><h4>Working with non-SI units</h4><p>If pressure is given in atm or kPa, or volume in litres: either convert to SI or use R in matching units (R = 8.314 J/(mol·K) = 0.08206 L·atm/(mol·K)). The IB data booklet uses R = 8.31 J/(mol·K) — always use Pa, m³, K with this value.</p>",
+        "keyPoints": [
+          "Gas density: ρ = PM/(RT)",
+          "Molar volume at STP (273 K, 100 kPa): 22.7 L/mol for any ideal gas",
+          "Always use SI units with R = 8.314: Pa, m³, K, mol",
+          "PV = nRT combines ALL the gas laws into one equation"
+        ],
+        "examTrap": { "wrong": "Using litres for volume with R = 8.314", "correct": "R = 8.314 J/(mol·K) requires V in m³ (not litres). 1 L = 10⁻³ m³. Using litres without converting gives answers that are 1000× wrong." },
+        "checkQuestions": [
+          { "question": "Find the density of CO₂ (M = 0.044 kg/mol) at 300 K and 1 atm (101,325 Pa).", "answer": "ρ = PM/(RT) = 101,325 × 0.044/(8.314 × 300) = 4458.3/2494.2 = 1.79 kg/m³." }
+        ],
+        "checklist": [
+          "I can calculate gas density: ρ = PM/(RT)",
+          "I can state the molar volume at STP: 22.7 L/mol",
+          "I can convert between litres and m³ (1 L = 10⁻³ m³)",
+          "I can solve problems involving changing conditions: P₁V₁/T₁ = P₂V₂/T₂"
+        ]
+      },
+
+      "extension": { "title": "The ideal gas law from kinetic theory", "content": "<p>From kinetic theory: P = Nm⟨v²⟩/(3V). Since ½m⟨v²⟩ = 3/2 kT: m⟨v²⟩ = 3kT. Substituting: P = N(3kT)/(3V) = NkT/V → PV = NkT. The ideal gas law is DERIVED from molecular motion — it's not just an empirical observation but a consequence of Newton's laws applied to many particles.</p>", "connections": ["B.3 Kinetic theory: PV = NkT derived from molecular collisions", "B.1 Temperature: KE_avg = 3/2 kT is the bridge between microscopic and macroscopic"], "checklist": ["I can derive PV = NkT from P = Nm⟨v²⟩/(3V) and ½m⟨v²⟩ = 3/2 kT"] },
+      "simulation": { "title": "PhET: Gas Properties", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/gas-properties", "instructions": ["Verify PV = nRT: fix n and T, observe PV is constant (Boyle's). Fix n and P, observe V/T is constant (Charles's)."] },
+      "video": { "title": "The Ideal Gas Law — IB Physics", "duration": "9 min", "description": "PV = nRT, SI units, gas density, molar volume, and applications", "embedId": "" },
+      "equations": [
+        { "formula": "PV = nRT", "description": "Ideal gas law. R = 8.314 J/(mol·K)." },
+        { "formula": "PV = NkT", "description": "Ideal gas law (particle form). k = 1.38 × 10⁻²³ J/K." },
+        { "formula": "ρ = PM/(RT)", "description": "Gas density from ideal gas law." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A 0.010 m³ container holds nitrogen (M = 28 g/mol) at 400 K and 200 kPa. Find the mass of gas.", "steps": [
+          { "label": "Moles", "text": "n = PV/(RT) = (200,000 × 0.010)/(8.314 × 400) = 2000/3325.6 = 0.601 mol" },
+          { "label": "Mass", "text": "m = nM = 0.601 × 28 = 16.8 g = 0.0168 kg", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Find the volume of 1 mole of gas at STP (273 K, 100 kPa).", "solution": "V = nRT/P = 1 × 8.314 × 273/100,000 = 2269.7/100,000 = 0.0227 m³ = 22.7 L." },
+        { "difficulty": "medium", "scope": "sl", "question": "A balloon contains 0.05 mol of helium at 1 atm and 20°C. Find the volume in litres.", "solution": "V = nRT/P = 0.05 × 8.314 × 293/101,325 = 121.8/101,325 = 1.20 × 10⁻³ m³ = 1.20 L." },
+        { "difficulty": "hard", "scope": "sl", "question": "A car tyre has volume 0.012 m³ and contains air (M = 29 g/mol) at 250 kPa and 15°C. Find the mass of air. After driving, T = 45°C. Find the new pressure.", "solution": "n = PV/(RT) = 250,000 × 0.012/(8.314 × 288) = 3000/2394.4 = 1.253 mol. m = 1.253 × 29 = 36.3 g. At 45°C (318 K), const V and n: P₂ = P₁T₂/T₁ = 250,000 × 318/288 = 276,042 Pa = 276 kPa." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Forgetting to convert litres to m³", "explanation": "R = 8.314 requires V in m³. 5 L = 0.005 m³, not 5. Using 5 instead of 0.005 gives an answer 1000× too large.", "correct": "Always convert: V(m³) = V(L) × 10⁻³. Or use V(cm³) × 10⁻⁶." }
+      ],
+      "examCorner": { "scope": "sl", "question": "An ideal gas at 350 K and 150 kPa has a volume of 0.025 m³.\n(a) Calculate the number of moles. [2]\n(b) Calculate the number of molecules. [1]\n(c) The gas is cooled to 280 K at constant volume. Find the new pressure. [2]", "marks": 5, "modelAnswer": "(a) n = PV/(RT) = 150,000 × 0.025/(8.314 × 350) = 3750/2909.9 = 1.29 mol [2].\n(b) N = nN_A = 1.29 × 6.022 × 10²³ = 7.77 × 10²³ [1].\n(c) P₂ = P₁T₂/T₁ = 150,000 × 280/350 = 120,000 Pa = 120 kPa [2].", "examinerTip": "Always check units: P in Pa, V in m³, T in K. If the answer seems unreasonable (e.g., 10⁶ moles), you probably have a unit error." }
+    },
+
+    {
+      "id": "b3_sub5",
+      "num": 5,
+      "title": "Kinetic Energy & Temperature — The Molecular Connection",
+      "group": "Kinetic Theory",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "The Ideal Gas Law",
+      "nextTitle": "Internal Energy of an Ideal Gas",
+
+      "bigIdea": "Temperature is not just a number on a thermometer — it's the average kinetic energy of the molecules. Double the kelvin temperature and you double the average KE. This precise connection between the macroscopic (temperature) and the microscopic (molecular motion) is one of the most beautiful results in physics.",
+
+      "foundation": {
+        "title": "Temperature = average molecular kinetic energy",
+        "content": "<h4>The fundamental result</h4><p>For an ideal gas, the average translational kinetic energy of one molecule is:</p><p><strong>KE_avg = ³⁄₂ kT</strong></p><p>Where k = 1.38 × 10⁻²³ J/K (Boltzmann constant) and T is in kelvin.</p><p>This is the deepest meaning of temperature: it measures the average energy of random molecular motion. Higher T → faster molecules → more KE per molecule.</p><h4>Key implications</h4><ul><li>KE depends on T ONLY — not on the type of gas. At the same T, helium atoms and nitrogen molecules have the same average KE.</li><li>At the same T, lighter molecules move FASTER (since KE = ½mv², same KE with less m → more v).</li><li>At 0 K: KE = 0 in the classical model. (In reality, quantum zero-point energy prevents truly zero motion.)</li></ul><h4>Total KE of a gas</h4><p>For N molecules: <strong>Total KE = N × ³⁄₂ kT = ³⁄₂ NkT = ³⁄₂ nRT</strong></p>",
+        "summary": "<p><strong>KE_avg = 3/2 kT:</strong> average translational KE per molecule. Depends only on T.</p><p><strong>Same T → same average KE</strong> for all gases (regardless of molecular mass).</p><p><strong>Lighter molecules move faster</strong> at the same T (v_rms ∝ 1/√m).</p><p><strong>Total KE of gas: 3/2 NkT = 3/2 nRT.</strong></p>",
+        "checkQuestions": [
+          { "question": "At 300 K, find the average KE of a gas molecule.", "answer": "KE = 3/2 kT = 3/2 × 1.38 × 10⁻²³ × 300 = 6.21 × 10⁻²¹ J. This is the same for ALL gases at 300 K." },
+          { "question": "Helium (mass 4 u) and argon (mass 40 u) are at the same temperature. Which has faster molecules?", "answer": "Helium. Same KE = ½mv². Since m_He < m_Ar, v_He > v_Ar. Specifically: v_He/v_Ar = √(m_Ar/m_He) = √10 ≈ 3.16. Helium molecules are 3.16× faster." }
+        ],
+        "checklist": [
+          "I can state KE_avg = 3/2 kT and explain that it depends only on temperature",
+          "I can explain why lighter molecules move faster at the same T",
+          "I can calculate total KE of a gas: 3/2 NkT or 3/2 nRT"
+        ]
+      },
+
+      "core": {
+        "title": "Connecting KE, temperature, speed, and the ideal gas law",
+        "content": "<h4>Deriving KE = 3/2 kT from kinetic theory</h4><p>From P = Nm⟨v²⟩/(3V) and PV = NkT:</p><p>Nm⟨v²⟩/3 = NkT → ½m⟨v²⟩ = 3/2 kT → <strong>KE_avg = 3/2 kT</strong></p><h4>RMS speed from temperature</h4><p>Since KE = ½mv² = 3/2 kT: <strong>v_rms = √(3kT/m) = √(3RT/M)</strong></p><p>Where m = mass of one molecule (kg), M = molar mass (kg/mol).</p><h4>Distribution of speeds</h4><p>Not all molecules have the same speed. The <strong>Maxwell-Boltzmann distribution</strong> shows the spread:</p><ul><li>Most molecules have speeds near the peak (most probable speed)</li><li>The peak shifts RIGHT and FLATTENS as T increases (more molecules at higher speeds)</li><li>v_rms > v_mean > v_most probable (the rms is always the highest of the three averages)</li></ul><h4>Internal energy of an ideal gas</h4><p>For a monatomic ideal gas (no rotation or vibration — just translation):</p><p><strong>U = 3/2 NkT = 3/2 nRT</strong></p><p>Internal energy depends ONLY on temperature. This is a defining property of an ideal gas. If T doubles, U doubles. If T is constant, U is constant (even if P and V change).</p>",
+        "keyPoints": [
+          "KE_avg = 3/2 kT (derived from kinetic theory + ideal gas law)",
+          "v_rms = √(3kT/m) = √(3RT/M)",
+          "Maxwell-Boltzmann: speed distribution shifts right and flattens at higher T",
+          "U = 3/2 NkT for monatomic ideal gas. U depends only on T."
+        ],
+        "examTrap": { "wrong": "All molecules in a gas move at the same speed", "correct": "Molecules have a DISTRIBUTION of speeds (Maxwell-Boltzmann). Some are slow, some are fast. The temperature determines the AVERAGE KE, not a single speed. v_rms is the square root of the mean of v² — it's a specific average, not 'the' speed." },
+        "checkQuestions": [
+          { "question": "The temperature of a monatomic ideal gas doubles from 300 K to 600 K. What happens to the internal energy and rms speed?", "answer": "U = 3/2 nRT → U doubles. v_rms = √(3kT/m) → v_rms increases by √2 ≈ 1.41 (not double). Speed ∝ √T." }
+        ],
+        "checklist": [
+          "I can derive KE = 3/2 kT from the kinetic theory pressure equation",
+          "I can calculate rms speed: v_rms = √(3kT/m)",
+          "I can describe the Maxwell-Boltzmann distribution and how it changes with T",
+          "I can state that U = 3/2 nRT for a monatomic ideal gas (depends only on T)"
+        ]
+      },
+
+      "extension": { "title": "Degrees of freedom and equipartition", "content": "<p>The 3/2 in KE = 3/2 kT comes from 3 translational degrees of freedom (x, y, z motion). Each degree contributes ½kT. Diatomic molecules also rotate (2 more DOF) → KE = 5/2 kT → U = 5/2 nRT. At high T, vibration adds 2 more → 7/2 kT. This explains why specific heat capacities differ: c_v = 3/2 R for monatomic, 5/2 R for diatomic. The equipartition theorem: each quadratic degree of freedom contributes ½kT to the average energy.</p>", "connections": ["B.1 Specific heat capacity: c depends on degrees of freedom", "B.4 Thermodynamics: c_v and c_p for ideal gases"], "checklist": ["I can explain degrees of freedom: 3 translational, 2 rotational (diatomic)", "I can state the equipartition theorem: ½kT per degree of freedom"] },
+      "simulation": { "title": "PhET: Gas Properties", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/gas-properties", "instructions": ["Watch the speed histogram. Heat the gas → distribution shifts right and broadens. Cool → shifts left and narrows."] },
+      "video": { "title": "KE & Temperature — IB Physics", "duration": "9 min", "description": "KE = 3/2 kT, rms speed, Maxwell-Boltzmann distribution, and internal energy of ideal gases", "embedId": "" },
+      "equations": [
+        { "formula": "KE_avg = 3/2 kT", "description": "Average translational KE per molecule. k = 1.38 × 10⁻²³ J/K." },
+        { "formula": "v_rms = √(3kT/m) = √(3RT/M)", "description": "Root mean square speed." },
+        { "formula": "U = 3/2 nRT = 3/2 NkT", "description": "Internal energy of a monatomic ideal gas." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Find the rms speed of helium atoms (M = 4 g/mol = 0.004 kg/mol) at 500 K.", "steps": [
+          { "label": "Formula", "text": "v_rms = √(3RT/M) = √(3 × 8.314 × 500/0.004)" },
+          { "label": "Calculate", "text": "= √(12471/0.004) = √(3,117,750) = 1766 m/s", "isEquation": true },
+          { "label": "Context", "text": "Helium at 500 K moves at ~1.8 km/s — about 5× the speed of sound." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Find the average KE of a molecule at 400 K.", "solution": "KE = 3/2 kT = 1.5 × 1.38 × 10⁻²³ × 400 = 8.28 × 10⁻²¹ J." },
+        { "difficulty": "medium", "scope": "sl", "question": "At what temperature do N₂ molecules (M = 28 g/mol) have rms speed of 600 m/s?", "solution": "v² = 3RT/M → T = Mv²/(3R) = 0.028 × 360000/(3 × 8.314) = 10080/24.94 = 404 K." },
+        { "difficulty": "hard", "scope": "sl", "question": "Show that at the same T, lighter molecules move faster by finding the ratio of rms speeds for H₂ (M = 2) and O₂ (M = 32).", "solution": "v_rms ∝ 1/√M. Ratio = √(M_O₂/M_H₂) = √(32/2) = √16 = 4. H₂ is 4× faster than O₂ at the same temperature." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Doubling T doubles the rms speed", "explanation": "v_rms = √(3kT/m). Speed ∝ √T, not T. Doubling T multiplies speed by √2 ≈ 1.41, not 2. To double the speed, you must QUADRUPLE the temperature.", "correct": "v_rms ∝ √T. Double T → speed × √2. Quadruple T → speed × 2." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Nitrogen molecules (M = 28 g/mol) are at 300 K.\n(a) Calculate the average KE of one molecule. [1]\n(b) Calculate the rms speed. [2]\n(c) The temperature is increased to 1200 K. State the factor by which (i) the average KE and (ii) the rms speed increase. [2]", "marks": 5, "modelAnswer": "(a) KE = 3/2 kT = 1.5 × 1.38 × 10⁻²³ × 300 = 6.21 × 10⁻²¹ J [1].\n(b) v = √(3RT/M) = √(3 × 8.314 × 300/0.028) = √(267086) = 517 m/s [2].\n(c) (i) KE ∝ T. 1200/300 = 4. KE increases by factor 4 [1]. (ii) v ∝ √T. √(1200/300) = √4 = 2. Speed doubles [1].", "examinerTip": "Remember the proportionalities: KE ∝ T (linear) but v ∝ √T (square root). These give DIFFERENT factors for the same temperature change." }
+    },
+
+    {
+      "id": "b3_sub6",
+      "num": 6,
+      "title": "PV Diagrams & Work Done by a Gas",
+      "group": "Gas Processes",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Kinetic Energy & Temperature",
+      "nextTitle": "Real Gases (AHL)",
+
+      "bigIdea": "When a gas expands, it pushes a piston and does work on the surroundings. When compressed, work is done on the gas. The amount of work equals the area under the curve on a PV diagram. This diagram is the language of thermodynamics — every engine, refrigerator, and heat pump has a PV cycle.",
+
+      "foundation": {
+        "title": "Work done when a gas changes volume",
+        "content": "<h4>Work done by an expanding gas</h4><p>When a gas expands at pressure P by volume ΔV: it pushes the piston with force F = PA over distance d. Work = Fd = PA × d = P × (A × d) = PΔV.</p><p><strong>W = PΔV</strong> (at constant pressure)</p><p>Expanding: ΔV > 0 → W > 0 (gas does work on surroundings). Compressing: ΔV < 0 → W < 0 (surroundings do work on gas). Constant volume: ΔV = 0 → W = 0.</p><h4>PV diagrams</h4><p>A <strong>PV diagram</strong> plots pressure (y-axis) against volume (x-axis). Each point represents a state of the gas. A process is shown as a path between two states.</p><p><strong>The area under the curve on a PV diagram equals the work done.</strong></p><ul><li>Process going RIGHT (expansion): positive work (gas does work)</li><li>Process going LEFT (compression): negative work (work done on gas)</li></ul>",
+        "summary": "<p><strong>W = PΔV</strong> at constant pressure.</p><p><strong>PV diagram:</strong> area under the curve = work done.</p><p><strong>Expansion:</strong> W > 0 (gas does work). <strong>Compression:</strong> W < 0.</p>",
+        "checkQuestions": [
+          { "question": "A gas expands from 2 L to 5 L at constant pressure 200 kPa. Find the work done.", "answer": "W = PΔV = 200,000 × (5 − 2) × 10⁻³ = 200,000 × 0.003 = 600 J." }
+        ],
+        "checklist": [
+          "I can calculate work at constant pressure: W = PΔV",
+          "I can read work done from the area under a PV diagram",
+          "I can identify expansion (positive work) and compression (negative work)"
+        ]
+      },
+
+      "core": {
+        "title": "Standard gas processes on PV diagrams",
+        "content": "<h4>Four standard processes</h4><p><strong>1. Isobaric (constant P):</strong> Horizontal line on PV diagram. W = PΔV. Example: heating gas in a cylinder with a free piston.</p><p><strong>2. Isochoric/Isovolumetric (constant V):</strong> Vertical line. W = 0 (no volume change). All heat goes to internal energy: ΔU = Q.</p><p><strong>3. Isothermal (constant T):</strong> Hyperbola (PV = const). W = nRT ln(V₂/V₁). Slow process where gas exchanges heat with surroundings to maintain T.</p><p><strong>4. Adiabatic (no heat exchange, Q = 0):</strong> Steeper than isothermal. PVᵞ = const (γ = C_p/C_v). ΔU = −W (all work comes from internal energy). Gas cools during expansion, heats during compression.</p><h4>Cyclic processes</h4><p>A closed loop on a PV diagram represents a <strong>cycle</strong>. The net work done per cycle = area enclosed by the loop. Clockwise = positive net work (heat engine). Counterclockwise = negative (heat pump/refrigerator).</p><h4>First law on PV diagrams</h4><p>ΔU = Q − W at each step. For a complete cycle: ΔU = 0 (returns to starting state) → Q_net = W_net.</p>",
+        "keyPoints": [
+          "Isobaric: horizontal line, W = PΔV",
+          "Isochoric: vertical line, W = 0, ΔU = Q",
+          "Isothermal: hyperbola, W = nRT ln(V₂/V₁)",
+          "Adiabatic: steeper than isothermal, Q = 0, ΔU = −W",
+          "Cycle: net work = enclosed area. Clockwise = engine."
+        ],
+        "examTrap": { "wrong": "Isothermal and adiabatic curves look the same on a PV diagram", "correct": "An adiabatic curve is STEEPER than an isothermal through the same point. During adiabatic expansion: no heat enters → gas cools → pressure drops more steeply. The isothermal is a gentler hyperbola because heat enters to maintain T." },
+        "checkQuestions": [
+          { "question": "A gas undergoes an isochoric process and absorbs 500 J of heat. How much work is done? What is ΔU?", "answer": "Isochoric → ΔV = 0 → W = 0. ΔU = Q − W = 500 − 0 = 500 J. All heat goes to internal energy." }
+        ],
+        "checklist": [
+          "I can identify the four standard processes on a PV diagram",
+          "I can calculate work for each process type",
+          "I can apply the first law (ΔU = Q − W) to each process",
+          "I can calculate net work from the area enclosed by a cycle"
+        ]
+      },
+
+      "extension": { "title": "Heat engines and efficiency", "content": "<p>A heat engine absorbs heat Q_H from a hot reservoir, converts some to work W, and rejects Q_C to a cold reservoir. Efficiency: η = W/Q_H = 1 − Q_C/Q_H. The Carnot efficiency is the maximum possible: η_Carnot = 1 − T_C/T_H. No real engine exceeds Carnot efficiency (2nd law of thermodynamics). This connects PV diagrams to practical energy conversion.</p>", "connections": ["B.4 Thermodynamics: Carnot cycle and the 2nd law", "A.3 Energy: efficiency of real machines"], "checklist": ["I can state Carnot efficiency: η = 1 − T_C/T_H", "I can explain why no engine can exceed Carnot efficiency"] },
+      "simulation": { "title": "Gas Cycle Simulator", "source": "Various", "url": "https://phet.colorado.edu/en/simulations/gas-properties", "instructions": ["Change P and V. Track the path on a PV diagram. The area under each path segment = work done."] },
+      "video": { "title": "PV Diagrams & Gas Processes — IB Physics", "duration": "10 min", "description": "Work from PV diagrams, isobaric/isochoric/isothermal/adiabatic processes, and cycles", "embedId": "" },
+      "equations": [
+        { "formula": "W = PΔV", "description": "Work at constant pressure." },
+        { "formula": "W = area under PV curve", "description": "General: work = area between curve and V-axis." },
+        { "formula": "W = nRT ln(V₂/V₁)", "description": "Work for isothermal process." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A gas at 300 kPa expands from 0.002 m³ to 0.005 m³ at constant pressure. Find W and, if Q = 1500 J, find ΔU.", "steps": [
+          { "label": "Work", "text": "W = PΔV = 300,000 × 0.003 = 900 J", "isEquation": true },
+          { "label": "First law", "text": "ΔU = Q − W = 1500 − 900 = 600 J", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A gas is heated at constant volume and absorbs 800 J. Find W and ΔU.", "solution": "Constant V: W = 0. ΔU = Q − 0 = 800 J." },
+        { "difficulty": "medium", "scope": "sl", "question": "A PV diagram shows a rectangular cycle: P between 100 and 300 kPa, V between 0.01 and 0.03 m³. Find the net work per cycle.", "solution": "Net work = area of rectangle = ΔP × ΔV = (300,000 − 100,000) × (0.03 − 0.01) = 200,000 × 0.02 = 4000 J." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Work is always PΔV", "explanation": "W = PΔV only for CONSTANT pressure (isobaric). For other processes, W = area under the PV curve, which requires integration or geometric area calculation.", "correct": "Isobaric: W = PΔV. Isothermal: W = nRT ln(V₂/V₁). General: W = area under PV curve." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A gas undergoes the following cycle: A→B (isobaric expansion at 200 kPa from 0.01 to 0.03 m³), B→C (isochoric pressure drop to 100 kPa), C→A (isobaric compression back to 0.01 m³).\n(a) Calculate the work done in A→B. [1]\n(b) Calculate the work done in B→C. [1]\n(c) Calculate the work done in C→A. [1]\n(d) Find the net work for the cycle. [1]\n(e) Is this a heat engine or a refrigerator? [1]", "marks": 5, "modelAnswer": "(a) W_AB = 200,000 × 0.02 = 4000 J [1].\n(b) W_BC = 0 (constant V) [1].\n(c) W_CA = 100,000 × (0.01 − 0.03) = 100,000 × (−0.02) = −2000 J [1].\n(d) W_net = 4000 + 0 + (−2000) = 2000 J [1].\n(e) Heat engine (positive net work, clockwise cycle) [1].", "examinerTip": "For cycles: calculate W for each step separately. Net W = sum of all steps. Clockwise on PV → engine (W > 0). Counter-clockwise → refrigerator (W < 0)." }
+    },
+
+    {
+      "id": "b3_sub7",
+      "num": 7,
+      "title": "Real Gases — Deviations from Ideal Behaviour",
+      "group": "AHL Gas Laws",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "PV Diagrams",
+      "nextTitle": "B.4 Thermodynamics",
+
+      "bigIdea": "No gas is truly ideal. Real molecules have volume and attract each other. At high pressures and low temperatures, these effects matter — and the ideal gas law breaks down. Understanding WHEN and WHY it fails is as important as knowing the law itself.",
+
+      "foundation": {
+        "title": "When the ideal gas model breaks down",
+        "content": "<h4>Ideal vs Real</h4><p>The ideal gas model assumes: (1) no intermolecular forces, (2) negligible molecular volume. These fail when:</p><ul><li><strong>High pressure:</strong> molecules are close → forces become significant, molecular volume is a noticeable fraction of the container</li><li><strong>Low temperature:</strong> molecules move slowly → forces have more time to act → molecules tend to stick together</li><li><strong>Near the boiling point:</strong> the gas is about to condense into a liquid — forces are critical</li></ul><h4>How deviations appear</h4><p>Define the <strong>compression factor Z = PV/(nRT)</strong>. For an ideal gas: Z = 1 always. For a real gas:</p><ul><li>At low P: Z ≈ 1 (ideal behaviour)</li><li>At moderate P: Z < 1 (attractions dominate → gas is more compressible than ideal)</li><li>At high P: Z > 1 (molecular volume dominates → gas is less compressible than ideal)</li></ul>",
+        "summary": "<p><strong>Ideal gas: Z = PV/(nRT) = 1.</strong> Real gas: Z ≠ 1.</p><p><strong>Deviations at:</strong> high P (molecular volume matters), low T (forces matter).</p><p><strong>Moderate P:</strong> Z < 1 (attractions). <strong>Very high P:</strong> Z > 1 (volume).</p>",
+        "checkQuestions": [
+          { "question": "Under what conditions do real gases behave most like ideal gases?", "answer": "High temperature (molecules move fast, forces have little effect) and low pressure (molecules far apart, volume negligible). These are the conditions where the ideal gas assumptions are most valid." }
+        ],
+        "checklist": [
+          "I can state when real gases deviate from ideal (high P, low T, near condensation)",
+          "I can define the compression factor Z = PV/(nRT) and interpret Z < 1 and Z > 1",
+          "I can state when real gases approximate ideal (high T, low P)"
+        ]
+      },
+
+      "core": {
+        "title": "The van der Waals equation and intermolecular forces",
+        "content": "<h4>The van der Waals equation</h4><p><strong>(P + a/V²)(V − b) = nRT</strong> (per mole: (P + a/V_m²)(V_m − b) = RT)</p><p>Two corrections to PV = nRT:</p><ul><li><strong>+a/V²:</strong> corrects for intermolecular attraction. Attractive forces effectively reduce the pressure the gas exerts on walls (molecules are pulled inward by neighbours). a is large for strongly attracting molecules.</li><li><strong>−b:</strong> corrects for molecular volume. The available volume is reduced by the volume the molecules themselves occupy. b is larger for bigger molecules.</li></ul><h4>Liquefaction</h4><p>At the <strong>critical temperature T_c</strong>: the distinction between liquid and gas disappears. Above T_c: no amount of pressure can liquefy the gas — it's a supercritical fluid. Below T_c: sufficient pressure causes condensation.</p><p>For water: T_c = 647 K. For CO₂: T_c = 304 K. For He: T_c = 5.2 K (must be cooled enormously to liquefy).</p><h4>Isotherms on PV diagrams for real gases</h4><p>Above T_c: smooth curves (like ideal, but slightly different). Below T_c: the isotherms develop a flat section — this is where liquid and gas coexist during condensation/boiling. At the critical point: the flat section shrinks to a point of inflection.</p>",
+        "keyPoints": [
+          "Van der Waals: (P + a/V²)(V − b) = nRT. a = attraction correction, b = volume correction.",
+          "Critical temperature T_c: above this, gas can't be liquefied by pressure alone.",
+          "Below T_c: isotherms have flat sections (liquid-gas coexistence).",
+          "At the critical point: liquid and gas become indistinguishable."
+        ],
+        "examTrap": { "wrong": "Real gases always have lower pressure than ideal at the same V and T", "correct": "At moderate pressures: attractions reduce pressure (P_real < P_ideal). At very high pressures: molecular volume means molecules are excluded from some space, effectively reducing V → P_real > P_ideal. The correction changes direction." },
+        "checkQuestions": [
+          { "question": "Why can't you liquefy a gas above its critical temperature?", "answer": "Above T_c, the kinetic energy of molecules is so high that no amount of compression can bring them close enough for intermolecular forces to dominate and form a liquid. The gas and liquid phases merge into a single supercritical fluid phase." }
+        ],
+        "checklist": [
+          "I can state the van der Waals equation and explain the physical meaning of a and b",
+          "I can define critical temperature and explain liquefaction",
+          "I can sketch real gas isotherms on PV diagrams (including flat coexistence region)"
+        ]
+      },
+
+      "extension": { "title": "Supercritical fluids", "content": "<p>Above T_c and P_c: matter is a supercritical fluid — neither liquid nor gas, with properties of both. Supercritical CO₂ is used in decaffeination (dissolves caffeine like a liquid but penetrates like a gas), dry cleaning, and extraction of essential oils. Supercritical water (above 647 K, 22.1 MPa) can dissolve organic compounds and is used in waste treatment.</p>", "connections": ["B.1 Phase changes: connection between latent heat and intermolecular forces", "E.1 Atomic Structure: intermolecular forces arise from electromagnetic interactions"], "checklist": ["I can describe supercritical fluids and give applications"] },
+      "video": { "title": "Real Gases — IB HL Physics", "duration": "9 min", "description": "Van der Waals equation, compression factor, critical temperature, and real gas isotherms", "embedId": "" },
+      "equations": [
+        { "formula": "(P + a/V²)(V − b) = nRT", "description": "Van der Waals equation. a = attraction, b = volume correction." },
+        { "formula": "Z = PV/(nRT)", "description": "Compression factor. Z = 1 for ideal. Z ≠ 1 for real." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "A gas has Z = 0.85 at 500 kPa and 300 K. Find the molar volume and compare with ideal.", "solution": "Z = PV_m/(RT). V_m = ZRT/P = 0.85 × 8.314 × 300/500,000 = 2119.1/500,000 = 4.24 × 10⁻³ m³/mol. Ideal: V_m = RT/P = 8.314 × 300/500,000 = 4.99 × 10⁻³ m³/mol. Real volume is 15% less — attractions compress the gas." },
+        { "difficulty": "hard", "scope": "hl", "question": "Explain why the compression factor Z first decreases below 1 then increases above 1 as pressure increases.", "solution": "At moderate P: molecules are close enough for attractive forces to reduce the effective pressure → gas occupies less volume than ideal → Z < 1. At very high P: molecules are so close that their finite volume becomes significant — the available space is less than the container volume → the gas is harder to compress than ideal → Z > 1." }
+      ],
+      "commonMistakes": [
+        { "wrong": "All real gases behave the same way", "explanation": "Different gases have different a and b values (different attraction strengths and molecular sizes). Helium (weak forces, small) behaves nearly ideally even at moderate P. CO₂ and NH₃ (strong forces) deviate significantly.", "correct": "Deviation depends on the specific gas — check a, b values and compare with T_c." }
+      ],
+      "examCorner": { "scope": "hl", "question": "Explain, in terms of intermolecular forces and molecular volume, why real gases deviate from ideal gas behaviour at high pressures. [3]", "marks": 3, "modelAnswer": "At high pressures, molecules are close together [1]. Intermolecular attractive forces become significant, pulling molecules toward each other and reducing the effective pressure on the container walls (compared to ideal) [1]. Additionally, the finite volume of the molecules themselves reduces the available space for movement, meaning the gas cannot be compressed as much as an ideal gas would predict [1].", "examinerTip": "For real gas deviation questions: mention BOTH corrections — attractions (reduce P) AND molecular volume (reduce available V). One without the other gets only partial marks." }
+    }
+
+  ]
+},
+// ============================================================
+// B.4 THERMODYNAMICS — COMPLETE (6 subtopics, AHL)
+// Ends with comma — ready for B5 to follow
+// ============================================================
+
+"B4": {
+  "title": "Thermodynamics",
+  "code": "B.4",
+  "theme": "B",
+  "level": "HL Only",
+  "subtopicCount": 6,
+  "subtopics": [
+
+    {
+      "id": "b4_sub1",
+      "num": 1,
+      "title": "The First Law of Thermodynamics — Revisited",
+      "group": "Laws of Thermodynamics",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "B.3 Gas Laws",
+      "nextTitle": "The Second Law & Entropy",
+
+      "bigIdea": "The first law says energy is conserved: ΔU = Q − W. But it says NOTHING about direction. A hot cup of coffee could spontaneously heat up by cooling the table — the first law wouldn't object. Something else restricts what's possible. That something is entropy — the subject of the second law.",
+
+      "foundation": {
+        "title": "Energy conservation in thermal systems — the complete picture",
+        "content": "<h4>The first law restated</h4><p><strong>ΔU = Q − W</strong></p><p>Change in internal energy = heat added TO system − work done BY system.</p><p>This is conservation of energy applied to a thermodynamic system. Every joule is accounted for: energy entering as heat either increases internal energy or does work on the surroundings (or both).</p><h4>Applying the first law to gas processes</h4><p><strong>Isobaric (constant P):</strong> Q = ΔU + PΔV. Heat goes partly into internal energy, partly into work.</p><p><strong>Isochoric (constant V):</strong> W = 0 → Q = ΔU. All heat goes into internal energy.</p><p><strong>Isothermal (constant T):</strong> For ideal gas: ΔU = 0 (U depends only on T) → Q = W. All heat is converted to work.</p><p><strong>Adiabatic (Q = 0):</strong> ΔU = −W. Work comes entirely from internal energy. Expanding → cools. Compressing → heats.</p><h4>Specific heat capacities of gases</h4><p>Two specific heats for gases:</p><ul><li><strong>c_v (constant volume):</strong> all heat → ΔU. For monatomic ideal gas: c_v = 3R/(2M) → C_v = 3/2 R per mole.</li><li><strong>c_p (constant pressure):</strong> heat → ΔU + work. C_p = C_v + R (Mayer's relation). For monatomic: C_p = 5/2 R.</li></ul><p><strong>γ = C_p/C_v</strong> (heat capacity ratio). Monatomic: γ = 5/3. Diatomic: γ = 7/5 = 1.4. γ determines the steepness of adiabatic curves on PV diagrams.</p>",
+        "summary": "<p><strong>First law: ΔU = Q − W.</strong> Conservation of energy for thermal systems.</p><p><strong>Isobaric:</strong> Q = ΔU + PΔV. <strong>Isochoric:</strong> Q = ΔU. <strong>Isothermal:</strong> Q = W. <strong>Adiabatic:</strong> ΔU = −W.</p><p><strong>C_p = C_v + R. γ = C_p/C_v.</strong> Monatomic: 5/3. Diatomic: 7/5.</p>",
+        "checkQuestions": [
+          { "question": "An ideal gas expands isothermally. Q = 500 J. Find W and ΔU.", "answer": "Isothermal: T constant → ΔU = 0 (ideal gas). First law: 0 = 500 − W → W = 500 J. All heat converts to work." }
+        ],
+        "checklist": [
+          "I can apply the first law to each standard gas process",
+          "I can state C_p = C_v + R and calculate γ for monatomic and diatomic gases",
+          "I can explain why c_p > c_v (extra energy goes to work at constant P)"
+        ]
+      },
+
+      "core": {
+        "title": "Quantitative first-law calculations for gas processes",
+        "content": "<h4>For n moles of ideal gas</h4><ul><li><strong>Isochoric:</strong> Q = nC_vΔT. W = 0. ΔU = nC_vΔT.</li><li><strong>Isobaric:</strong> Q = nC_pΔT. W = PΔV = nRΔT. ΔU = nC_vΔT.</li><li><strong>Isothermal:</strong> ΔU = 0. Q = W = nRT ln(V₂/V₁).</li><li><strong>Adiabatic:</strong> Q = 0. ΔU = −W = nC_vΔT. Also: TV^(γ−1) = const, PV^γ = const.</li></ul><h4>Adiabatic processes in detail</h4><p>For adiabatic: PV^γ = constant. Since γ > 1, adiabatic curves are steeper than isothermal on PV diagrams.</p><p>Also: T₁V₁^(γ−1) = T₂V₂^(γ−1). Expanding adiabatically → V increases → T decreases (gas cools). This is why air cools as it rises (adiabatic expansion due to decreasing atmospheric pressure) — driving weather patterns and cloud formation.</p><h4>Comparing isothermal and adiabatic expansion</h4><p>Starting from the same point on a PV diagram, expanding to the same final volume:</p><ul><li>Isothermal: T stays constant → pressure drops less → more work done (area under curve is larger)</li><li>Adiabatic: T decreases → pressure drops more → less work done</li></ul><p>The isothermal curve lies ABOVE the adiabatic curve (for expansion starting from the same point).</p>",
+        "keyPoints": [
+          "Isochoric: Q = nC_vΔT, W = 0",
+          "Isobaric: Q = nC_pΔT, W = nRΔT",
+          "Isothermal: Q = W = nRT ln(V₂/V₁), ΔU = 0",
+          "Adiabatic: Q = 0, PV^γ = const, TV^(γ−1) = const",
+          "Adiabatic curves are steeper than isothermal on PV diagrams"
+        ],
+        "examTrap": { "wrong": "In an isothermal process, no heat is added", "correct": "Isothermal means constant TEMPERATURE, not no heat. Heat IS added (or removed) — but exactly enough to compensate the work done, keeping ΔU = 0. For isothermal expansion: heat flows IN to replace the energy lost as work." },
+        "checkQuestions": [
+          { "question": "2 moles of monatomic ideal gas expand adiabatically. Temperature drops from 500 K to 300 K. Find ΔU and W.", "answer": "ΔU = nC_vΔT = 2 × (3/2 × 8.314) × (300 − 500) = 2 × 12.47 × (−200) = −4988 J. W = −ΔU = +4988 J (gas does ~5 kJ of work, cooling in the process)." }
+        ],
+        "checklist": [
+          "I can calculate Q, W, and ΔU for all four process types",
+          "I can apply adiabatic relations: PV^γ = const, TV^(γ−1) = const",
+          "I can compare isothermal and adiabatic processes on PV diagrams"
+        ]
+      },
+
+      "extension": { "title": "Degrees of freedom and the equipartition theorem", "content": "<p>The heat capacity C_v = f/2 R per mole, where f = degrees of freedom. Monatomic: f = 3 (translation) → C_v = 3/2 R. Diatomic: f = 5 (3 translation + 2 rotation) → C_v = 5/2 R. At high T, vibration adds 2 more → f = 7 → C_v = 7/2 R. The equipartition theorem assigns ½kT per quadratic degree of freedom. This explains why γ decreases with molecular complexity.</p>", "connections": ["B.3 KE & temperature: 3/2 kT comes from 3 translational DOF", "B.1 Specific heat capacity: c depends on how many modes store energy"], "checklist": ["I can explain C_v from degrees of freedom: C_v = f/2 R", "I can state γ = (f+2)/f"] },
+      "video": { "title": "First Law of Thermodynamics — IB HL", "duration": "10 min", "description": "ΔU = Q − W for all gas processes, C_p and C_v, and adiabatic relations", "embedId": "" },
+      "equations": [
+        { "formula": "ΔU = Q − W", "description": "First law of thermodynamics." },
+        { "formula": "C_p = C_v + R", "description": "Mayer's relation. C_p always exceeds C_v by R." },
+        { "formula": "γ = C_p/C_v", "description": "Heat capacity ratio. Monatomic: 5/3. Diatomic: 7/5." },
+        { "formula": "PV^γ = constant", "description": "Adiabatic process for an ideal gas." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "3 mol of diatomic gas (γ = 1.4) at 400 K, 200 kPa expand isobarically to double the volume. Find Q, W, ΔU.", "steps": [
+          { "label": "Temperature", "text": "V₂ = 2V₁ at constant P → T₂ = 2T₁ = 800 K (Charles's law)" },
+          { "label": "W", "text": "W = PΔV = nRΔT = 3 × 8.314 × 400 = 9977 J ≈ 10.0 kJ", "isEquation": true },
+          { "label": "ΔU", "text": "ΔU = nC_vΔT = 3 × (5/2 × 8.314) × 400 = 3 × 20.79 × 400 = 24,943 J ≈ 24.9 kJ", "isEquation": true },
+          { "label": "Q", "text": "Q = ΔU + W = 24.9 + 10.0 = 34.9 kJ", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "1 mol of monatomic gas at 300 K is heated at constant volume to 500 K. Find Q, W, ΔU.", "solution": "W = 0 (const V). ΔU = nC_vΔT = 1 × 3/2 × 8.314 × 200 = 2494 J. Q = ΔU = 2494 J." },
+        { "difficulty": "hard", "scope": "hl", "question": "2 mol of monatomic gas at 600 K, V = 0.05 m³ expand adiabatically to V = 0.1 m³. Find T₂ and W.", "solution": "TV^(γ−1) = const. γ = 5/3. 600 × 0.05^(2/3) = T₂ × 0.1^(2/3). T₂ = 600 × (0.05/0.1)^(2/3) = 600 × 0.5^(2/3) = 600 × 0.63 = 378 K. W = −ΔU = −nC_v(T₂−T₁) = −2 × 12.47 × (−222) = 5536 J." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Isothermal means no heat exchange", "explanation": "Isothermal = constant T. Adiabatic = no heat exchange. These are DIFFERENT. Isothermal requires heat to be added or removed to maintain constant T while doing work.", "correct": "Isothermal: T = const, Q ≠ 0. Adiabatic: Q = 0, T changes." }
+      ],
+      "examCorner": { "scope": "hl", "question": "2.0 mol of monatomic ideal gas undergo isothermal expansion at 400 K from 0.01 m³ to 0.04 m³.\n(a) Find the work done. [2]\n(b) Find ΔU. [1]\n(c) Find Q. [1]\n(d) Explain why heat must be supplied even though the temperature doesn't change. [2]", "marks": 6, "modelAnswer": "(a) W = nRT ln(V₂/V₁) = 2 × 8.314 × 400 × ln(4) = 6651 × 1.386 = 9218 J [2].\n(b) ΔU = 0 (isothermal, ideal gas → U depends only on T) [1].\n(c) Q = ΔU + W = 0 + 9218 = 9218 J [1].\n(d) The gas does work on the surroundings (pushes piston) [1]. Without heat input, this work would come from internal energy and the gas would cool. Heat must be supplied to replace the energy lost as work, maintaining constant temperature [1].", "examinerTip": "For isothermal ideal gas: ΔU = 0 is the key insight. Then Q = W directly. This is often a 'show that' question." }
+    },
+
+    {
+      "id": "b4_sub2",
+      "num": 2,
+      "title": "The Second Law of Thermodynamics & Entropy",
+      "group": "Laws of Thermodynamics",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "The First Law",
+      "nextTitle": "Heat Engines & Carnot Cycle",
+
+      "bigIdea": "The first law says energy is conserved. The second law says entropy always increases. A broken egg doesn't unbreak. A cold cup of coffee doesn't spontaneously reheat. Heat flows from hot to cold, never the reverse. The universe moves inexorably toward disorder — and this one-way arrow defines the direction of time itself.",
+
+      "foundation": {
+        "title": "Why some things never happen — even though energy would be conserved",
+        "content": "<h4>Statements of the second law</h4><p><strong>Clausius statement:</strong> Heat cannot spontaneously flow from a cold body to a hot body.</p><p><strong>Kelvin-Planck statement:</strong> No cyclic process can convert heat entirely into work (some must be rejected to a cold reservoir).</p><p><strong>Entropy statement:</strong> The total entropy of an isolated system can never decrease; it either increases or stays constant.</p><p>All three statements are equivalent — violating one violates all.</p><h4>What is entropy?</h4><p><strong>Entropy (S)</strong> is a measure of the disorder (or spread of energy) in a system. More precisely: it measures the number of microscopic arrangements (microstates) consistent with the macroscopic state.</p><p><strong>ΔS = Q/T</strong> (for a reversible process at constant T)</p><p>Unit: J/K. Adding heat increases entropy. Removing heat decreases entropy. But the 2nd law says: for any real process, the TOTAL entropy (system + surroundings) always increases.</p><h4>Irreversibility</h4><p>Real processes are irreversible: friction, mixing, heat conduction across a temperature difference. In each case, entropy increases. A perfectly reversible process (ΔS_total = 0) is an idealisation — real processes always create entropy.</p>",
+        "summary": "<p><strong>Second law:</strong> entropy of an isolated system never decreases.</p><p><strong>Entropy: ΔS = Q/T.</strong> Measures disorder / energy dispersal.</p><p><strong>Real processes:</strong> ΔS_total > 0 (irreversible). Ideal: ΔS_total = 0 (reversible).</p><p><strong>Consequence:</strong> heat flows hot → cold. Can't convert all heat to work. Time has a direction.</p>",
+        "checkQuestions": [
+          { "question": "500 J of heat flows from a hot reservoir at 500 K to a cold reservoir at 250 K. Find ΔS for each and the total.", "answer": "ΔS_hot = −Q/T_hot = −500/500 = −1 J/K. ΔS_cold = +Q/T_cold = +500/250 = +2 J/K. ΔS_total = −1 + 2 = +1 J/K > 0. Total entropy increases ✓ (irreversible heat flow)." }
+        ],
+        "checklist": [
+          "I can state the second law in Clausius, Kelvin-Planck, and entropy forms",
+          "I can define entropy: ΔS = Q/T for reversible processes",
+          "I can calculate entropy changes for heat transfer between reservoirs",
+          "I can explain irreversibility: real processes always increase total entropy"
+        ]
+      },
+
+      "core": {
+        "title": "Entropy calculations and the arrow of time",
+        "content": "<h4>Entropy change for an ideal gas</h4><p>For n moles of ideal gas changing from state 1 to state 2:</p><p><strong>ΔS = nC_v ln(T₂/T₁) + nR ln(V₂/V₁)</strong></p><p>Or equivalently: <strong>ΔS = nC_p ln(T₂/T₁) − nR ln(P₂/P₁)</strong></p><p>For isothermal: ΔS = nR ln(V₂/V₁) = Q/T. For adiabatic reversible: ΔS = 0 (isentropic).</p><h4>The entropy version of the second law</h4><p>For ANY process: <strong>ΔS_universe = ΔS_system + ΔS_surroundings ≥ 0</strong></p><p>Equality holds only for reversible processes. All real processes: strictly >.</p><h4>Statistical interpretation</h4><p><strong>S = k ln Ω</strong> (Boltzmann's entropy formula)</p><p>Where Ω = number of microstates (ways to arrange molecules while keeping the same macroscopic state). More microstates → higher entropy. A gas in a larger volume has more possible positions for each molecule → higher Ω → higher S. This is why gases expand to fill their container — it's overwhelmingly more probable than staying bunched in a corner.</p><h4>The arrow of time</h4><p>The 2nd law defines the direction of time. All other physics laws are time-symmetric (they work equally forward and backward). Only the 2nd law distinguishes past from future: entropy was lower in the past, is higher now, and will be higher still in the future. This is the thermodynamic arrow of time.</p>",
+        "keyPoints": [
+          "ΔS = nC_v ln(T₂/T₁) + nR ln(V₂/V₁) for ideal gas",
+          "ΔS_universe ≥ 0 always. = 0 only for reversible processes.",
+          "Boltzmann: S = k ln Ω. More microstates → higher entropy.",
+          "The 2nd law defines the arrow of time: entropy increases toward the future."
+        ],
+        "examTrap": { "wrong": "Entropy of a system can never decrease", "correct": "The entropy of a SYSTEM can decrease (e.g., freezing water → more ordered). But the entropy of the SURROUNDINGS increases by more. The TOTAL (system + surroundings) never decreases. The 2nd law applies to the total, not just the system." },
+        "checkQuestions": [
+          { "question": "1 mol of ideal gas expands isothermally from V₁ to 2V₁. Find ΔS.", "answer": "ΔS = nR ln(V₂/V₁) = 1 × 8.314 × ln(2) = 8.314 × 0.693 = 5.76 J/K." }
+        ],
+        "checklist": [
+          "I can calculate entropy changes for ideal gas processes",
+          "I can verify ΔS_total ≥ 0 for irreversible processes",
+          "I can state and interpret S = k ln Ω",
+          "I can explain the arrow of time in terms of entropy"
+        ]
+      },
+
+      "extension": { "title": "The heat death of the universe", "content": "<p>If entropy always increases: eventually the universe reaches maximum entropy — all energy is uniformly distributed, all temperatures are equal, no work can be done. This is the 'heat death' — not hot or cold, just uniform. Current estimates: 10¹⁰⁰+ years. Before that, stars burn out (~10¹⁴ years), black holes evaporate (~10⁶⁷ years). The arrow of time ends when there's nothing left to distinguish past from future.</p>", "connections": ["E.5 Fusion: stars are low-entropy energy sources fighting the heat death", "B.2 Greenhouse Effect: energy flows from hot Sun to cold space — entropy increases"], "checklist": ["I can describe the heat death as the state of maximum entropy"] },
+      "video": { "title": "Entropy & the Second Law — IB HL", "duration": "11 min", "description": "The second law, entropy calculations, S = k ln Ω, and the arrow of time", "embedId": "" },
+      "equations": [
+        { "formula": "ΔS = Q/T (reversible)", "description": "Entropy change for heat exchange at constant T." },
+        { "formula": "ΔS_total ≥ 0", "description": "Second law: total entropy never decreases." },
+        { "formula": "S = k ln Ω", "description": "Boltzmann's entropy. Ω = number of microstates." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "A 1 kW heater operates for 10 s, transferring heat from 300 K to 400 K. Find the entropy change of the universe.", "steps": [
+          { "label": "Q", "text": "Q = Pt = 1000 × 10 = 10,000 J" },
+          { "label": "ΔS_cold", "text": "ΔS_cold = −Q/T_cold = −10,000/300 = −33.3 J/K (loses heat)" },
+          { "label": "ΔS_hot", "text": "Wait — heat flows FROM the heater (hot) TO the room. ΔS_source = −Q/T_source. But a heater converts electrical energy to heat, not heat from a reservoir. Let's say the room at 300 K absorbs: ΔS_room = +Q/T = +10,000/300 = +33.3 J/K." },
+          { "label": "Total", "text": "The electrical energy was highly ordered (low entropy). Converting to heat at 300 K: ΔS_total = +33.3 J/K > 0 ✓", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "1000 J of heat flows from 600 K to 300 K. Find the entropy change of the universe.", "solution": "ΔS = −1000/600 + 1000/300 = −1.67 + 3.33 = +1.67 J/K. Positive → irreversible ✓." },
+        { "difficulty": "hard", "scope": "hl", "question": "Show that free expansion of an ideal gas (into vacuum) is irreversible even though ΔU = 0.", "solution": "Free expansion: Q = 0, W = 0, ΔU = 0 (no work against vacuum). But the gas now occupies a larger volume → more microstates → ΔS = nR ln(V₂/V₁) > 0. The surroundings have ΔS = 0 (no heat exchanged). ΔS_total > 0 → irreversible." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Entropy always increases in any system", "explanation": "System entropy CAN decrease (freezing, compressing). But surroundings' entropy increases by MORE. TOTAL entropy of the universe never decreases.", "correct": "ΔS_system can be < 0 if ΔS_surroundings > |ΔS_system|. Only ΔS_total ≥ 0 is required." }
+      ],
+      "examCorner": { "scope": "hl", "question": "State the second law of thermodynamics in terms of entropy. [1]\n200 J of heat flows from a reservoir at 400 K to one at 250 K.\n(a) Calculate the entropy change of each reservoir. [2]\n(b) Calculate the total entropy change. [1]\n(c) Explain why this process is irreversible. [1]", "marks": 5, "modelAnswer": "The total entropy of an isolated system can never decrease [1].\n(a) ΔS_hot = −200/400 = −0.50 J/K. ΔS_cold = +200/250 = +0.80 J/K [2].\n(b) ΔS_total = −0.50 + 0.80 = +0.30 J/K [1].\n(c) ΔS_total > 0 → irreversible. The reverse process would decrease total entropy, violating the second law [1].", "examinerTip": "For entropy problems: hot reservoir LOSES heat (ΔS negative). Cold reservoir GAINS heat (ΔS positive). Total is always positive for spontaneous heat flow." }
+    },
+
+    {
+      "id": "b4_sub3",
+      "num": 3,
+      "title": "Heat Engines & the Carnot Cycle",
+      "group": "Heat Engines",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Entropy",
+      "nextTitle": "Refrigerators & Heat Pumps",
+
+      "bigIdea": "A heat engine takes heat from a hot source, converts some to work, and dumps the rest into a cold sink. No engine can convert ALL heat to work — the 2nd law forbids it. The maximum possible efficiency was determined by Carnot in 1824: η = 1 − T_C/T_H. This fundamental limit governs every engine, power plant, and star in the universe.",
+
+      "foundation": {
+        "title": "Converting heat to work — with an unavoidable tax",
+        "content": "<h4>How a heat engine works</h4><p>A <strong>heat engine</strong> operates between a hot reservoir (T_H) and a cold reservoir (T_C):</p><ol><li>Absorbs heat Q_H from the hot reservoir</li><li>Converts some to useful work W</li><li>Rejects waste heat Q_C to the cold reservoir</li></ol><p>Energy conservation: <strong>Q_H = W + Q_C</strong> → <strong>W = Q_H − Q_C</strong></p><p><strong>Efficiency: η = W/Q_H = 1 − Q_C/Q_H</strong></p><h4>The Carnot limit</h4><p>The maximum possible efficiency for ANY heat engine operating between T_H and T_C:</p><p><strong>η_Carnot = 1 − T_C/T_H</strong></p><p>This is achieved only by a perfectly reversible (Carnot) engine. All real engines have η < η_Carnot.</p><h4>Why 100% efficiency is impossible</h4><p>For η = 100%: T_C = 0 K (absolute zero — unattainable) or T_H = ∞ (impossible). So 100% efficiency is fundamentally impossible. Every engine MUST reject some heat. This is the 2nd law in action.</p>",
+        "summary": "<p><strong>Heat engine:</strong> Q_H → W + Q_C. η = W/Q_H = 1 − Q_C/Q_H.</p><p><strong>Carnot limit: η_max = 1 − T_C/T_H.</strong> Maximum for any engine between these temperatures.</p><p><strong>100% is impossible</strong> — 2nd law requires Q_C > 0.</p>",
+        "checkQuestions": [
+          { "question": "A power plant operates between 600 K (steam) and 300 K (cooling water). Find the Carnot efficiency.", "answer": "η = 1 − T_C/T_H = 1 − 300/600 = 0.5 = 50%. Real efficiency will be lower (typically 30–40% for coal plants)." }
+        ],
+        "checklist": [
+          "I can describe a heat engine: Q_H → W + Q_C",
+          "I can calculate efficiency: η = W/Q_H = 1 − Q_C/Q_H",
+          "I can calculate Carnot efficiency: η = 1 − T_C/T_H",
+          "I can explain why 100% efficiency is impossible (2nd law)"
+        ]
+      },
+
+      "core": {
+        "title": "The Carnot cycle — the ideal engine",
+        "content": "<h4>The Carnot cycle on a PV diagram</h4><p>Four reversible steps forming a closed loop:</p><ol><li><strong>Isothermal expansion at T_H:</strong> Gas absorbs Q_H from hot reservoir. Expands doing work.</li><li><strong>Adiabatic expansion:</strong> Gas expands further, cooling from T_H to T_C. No heat exchange.</li><li><strong>Isothermal compression at T_C:</strong> Gas rejects Q_C to cold reservoir. Compressed.</li><li><strong>Adiabatic compression:</strong> Gas compressed further, heating from T_C to T_H. Returns to starting state.</li></ol><p>The net work = area enclosed by the cycle on the PV diagram.</p><h4>Why Carnot is the maximum</h4><p>Carnot's theorem: no engine operating between T_H and T_C can be more efficient than a Carnot engine. The proof uses the 2nd law: if a more efficient engine existed, you could couple it with a reversed Carnot engine (refrigerator) to transfer heat from cold to hot with no work input — violating Clausius's statement.</p><h4>Implications for real engines</h4><ul><li><strong>Car engine:</strong> T_H ≈ 2500 K (combustion), T_C ≈ 300 K. η_Carnot = 88%. Real: 25–30% (friction, incomplete combustion, heat losses).</li><li><strong>Nuclear plant:</strong> T_H ≈ 600 K, T_C ≈ 300 K. η_Carnot = 50%. Real: 33%.</li><li><strong>To increase efficiency:</strong> raise T_H or lower T_C. Material limits (melting) and environmental limits (cooling water) constrain both.</li></ul>",
+        "keyPoints": [
+          "Carnot cycle: two isothermals + two adiabatics (all reversible)",
+          "η_Carnot = 1 − T_C/T_H: maximum possible efficiency",
+          "Net work = area enclosed by the cycle on PV diagram",
+          "Real engines < Carnot due to irreversibilities (friction, heat losses)",
+          "Increase η: raise T_H or lower T_C"
+        ],
+        "examTrap": { "wrong": "The Carnot efficiency gives the actual efficiency of real engines", "correct": "Carnot gives the MAXIMUM POSSIBLE efficiency — an upper limit. Real engines are always less efficient due to friction, heat losses, and irreversibilities. A coal plant with η_Carnot = 50% might actually achieve 35%." },
+        "checkQuestions": [
+          { "question": "A Carnot engine absorbs 1000 J from a 500 K source and rejects heat to a 300 K sink. Find W, Q_C, and η.", "answer": "η = 1 − 300/500 = 0.4. W = ηQ_H = 0.4 × 1000 = 400 J. Q_C = Q_H − W = 600 J." }
+        ],
+        "checklist": [
+          "I can describe the four steps of the Carnot cycle",
+          "I can sketch the Carnot cycle on a PV diagram",
+          "I can prove (qualitatively) why no engine can exceed Carnot efficiency",
+          "I can compare Carnot efficiency with real engine efficiencies"
+        ]
+      },
+
+      "extension": { "title": "Carnot and the concept of temperature", "content": "<p>Carnot's theorem provides a way to DEFINE temperature: T_C/T_H = Q_C/Q_H for a reversible engine. This is the thermodynamic temperature scale — it defines temperature independently of any material property (unlike mercury thermometers). The kelvin scale is based on this: T is proportional to the heat exchanged in a Carnot cycle. This is why absolute temperature appears in all thermodynamic equations.</p>", "connections": ["B.1 Temperature: Kelvin defined through Carnot cycle", "A.3 Efficiency: Carnot sets the fundamental limit on energy conversion"], "checklist": ["I can explain how the Carnot cycle defines thermodynamic temperature"] },
+      "video": { "title": "Carnot Cycle — IB HL Physics", "duration": "10 min", "description": "The Carnot cycle, maximum efficiency, PV diagrams, and real engine comparisons", "embedId": "" },
+      "equations": [
+        { "formula": "η = W/Q_H = 1 − Q_C/Q_H", "description": "Heat engine efficiency." },
+        { "formula": "η_Carnot = 1 − T_C/T_H", "description": "Maximum efficiency for any engine between T_H and T_C." },
+        { "formula": "Q_H = W + Q_C", "description": "Energy conservation for a heat engine." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "A power plant: T_H = 800 K, T_C = 320 K, Q_H = 500 MJ per cycle. Find η_Carnot, W_max, and Q_C.", "steps": [
+          { "label": "Carnot efficiency", "text": "η = 1 − 320/800 = 0.60 = 60%", "isEquation": true },
+          { "label": "Maximum work", "text": "W = 0.60 × 500 = 300 MJ", "isEquation": true },
+          { "label": "Waste heat", "text": "Q_C = 500 − 300 = 200 MJ", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "hl", "question": "Find the Carnot efficiency for T_H = 1000 K, T_C = 400 K.", "solution": "η = 1 − 400/1000 = 0.60 = 60%." },
+        { "difficulty": "medium", "scope": "hl", "question": "A Carnot engine has η = 40% and rejects 600 J per cycle. Find Q_H and W.", "solution": "η = 1 − Q_C/Q_H → 0.4 = 1 − 600/Q_H → Q_H = 600/0.6 = 1000 J. W = 1000 − 600 = 400 J." },
+        { "difficulty": "hard", "scope": "hl", "question": "A real engine absorbs 800 J, does 200 J of work, with T_H = 500 K, T_C = 300 K. Find its actual efficiency and compare with Carnot.", "solution": "η_actual = 200/800 = 25%. η_Carnot = 1 − 300/500 = 40%. The engine operates at 25/40 = 62.5% of the Carnot limit." }
+      ],
+      "commonMistakes": [
+        { "wrong": "A heat engine can convert all heat to work if friction is eliminated", "explanation": "Even without friction, the 2nd law requires Q_C > 0. A Carnot engine (zero friction, perfectly reversible) still has η < 100% because T_C > 0. Friction makes things worse, but even perfection doesn't reach 100%.", "correct": "The Carnot limit exists regardless of friction. η = 1 only if T_C = 0 K (impossible)." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A heat engine operates between 700 K and 350 K.\n(a) Calculate the Carnot efficiency. [1]\n(b) The engine absorbs 2000 J per cycle. Calculate the maximum work output. [1]\n(c) In practice, the engine does 600 J of work per cycle. Calculate the actual efficiency. [1]\n(d) Explain why the actual efficiency is less than the Carnot efficiency. [2]", "marks": 5, "modelAnswer": "(a) η = 1 − 350/700 = 0.50 = 50% [1].\n(b) W_max = 0.50 × 2000 = 1000 J [1].\n(c) η = 600/2000 = 0.30 = 30% [1].\n(d) Real engines have irreversible processes: friction converts some work to heat [1], heat losses occur through imperfect insulation, and the gas doesn't undergo perfectly reversible processes (temperature gradients exist during heat exchange) [1].", "examinerTip": "For 'explain why actual < Carnot': mention specific irreversibilities — friction, heat losses, non-reversible processes. Don't just say 'it's not ideal' — name the problems." }
+    },
+
+    {
+      "id": "b4_sub4",
+      "num": 4,
+      "title": "Refrigerators, Heat Pumps & the COP",
+      "group": "Heat Engines",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Heat Engines & Carnot",
+      "nextTitle": "Entropy in Practice",
+
+      "bigIdea": "A refrigerator is a heat engine running backward: it uses work to move heat from cold to hot. Your fridge, your air conditioner, and a heat pump all do this. Their performance is measured by the coefficient of performance (COP) — how many joules of heat are moved per joule of work input. A good heat pump can deliver 3–5 times more heating energy than the electrical energy it consumes.",
+
+      "foundation": {
+        "title": "Moving heat the 'wrong way' — with work",
+        "content": "<h4>How a refrigerator works</h4><p>A <strong>refrigerator</strong> uses work to transfer heat from a cold space to a hot space — the reverse of natural heat flow.</p><ul><li>Absorbs Q_C from the cold interior</li><li>Work W is supplied (by the compressor)</li><li>Rejects Q_H to the hot surroundings (warm coils at the back)</li></ul><p>Energy conservation: <strong>Q_H = Q_C + W</strong></p><h4>Coefficient of performance (COP)</h4><p><strong>COP_refrigerator = Q_C/W = Q_C/(Q_H − Q_C)</strong> (how much cooling per unit work)</p><p><strong>COP_heat pump = Q_H/W = Q_H/(Q_H − Q_C)</strong> (how much heating per unit work)</p><p>Note: COP can be > 1 (unlike efficiency). A heat pump with COP = 4 delivers 4 kW of heating using only 1 kW of electrical input — the other 3 kW come from the outdoor environment.</p><h4>Carnot limits for COP</h4><p><strong>COP_Carnot(fridge) = T_C/(T_H − T_C)</strong></p><p><strong>COP_Carnot(heat pump) = T_H/(T_H − T_C)</strong></p><p>COP → ∞ as T_H → T_C (easy to move heat across a small temperature difference). COP → 0 as the gap widens.</p>",
+        "summary": "<p><strong>Refrigerator:</strong> uses W to move Q_C from cold to hot. COP = Q_C/W.</p><p><strong>Heat pump:</strong> uses W to deliver Q_H to hot space. COP = Q_H/W.</p><p><strong>Both COP > 1 is possible and normal.</strong></p><p><strong>Carnot COP(fridge) = T_C/(T_H − T_C).</strong></p>",
+        "checkQuestions": [
+          { "question": "A heat pump operates between 5°C (outside) and 25°C (inside). Find the maximum COP.", "answer": "COP_Carnot = T_H/(T_H − T_C) = 298/(298 − 278) = 298/20 = 14.9. Up to 14.9 kW of heating per kW of electricity — in theory." }
+        ],
+        "checklist": [
+          "I can describe a refrigerator: work input moves heat from cold to hot",
+          "I can calculate COP for refrigerators (Q_C/W) and heat pumps (Q_H/W)",
+          "I can calculate Carnot COP limits",
+          "I can explain why COP > 1 is possible"
+        ]
+      },
+
+      "core": {
+        "title": "Applications and comparisons",
+        "content": "<h4>Why heat pumps are efficient</h4><p>A resistive heater (space heater): η = 100% — 1 kW electricity → 1 kW heat. A heat pump with COP = 3: 1 kW electricity → 3 kW heat (2 kW from outside air). The heat pump is 3× more effective because it MOVES existing environmental heat rather than CREATING heat.</p><h4>Real-world COPs</h4><ul><li>Home refrigerator: COP ≈ 2–4</li><li>Air conditioner: COP ≈ 3–5</li><li>Ground-source heat pump: COP ≈ 3–5</li><li>Air-source heat pump: COP ≈ 2–4 (less in cold weather)</li></ul><h4>Relationship between heat engine and refrigerator</h4><p>For a Carnot engine: η = 1 − T_C/T_H. For a Carnot refrigerator: COP = T_C/(T_H − T_C) = (1−η)/η × T_C/T_C... Actually: COP_fridge = T_C/(T_H−T_C). Note: COP_heat pump = COP_fridge + 1 (since Q_H = Q_C + W).</p>",
+        "keyPoints": [
+          "Heat pump COP > 1: delivers more heat than the work input (extra comes from environment)",
+          "COP_heat pump = COP_fridge + 1",
+          "Real COPs: 2–5 for most applications",
+          "Heat pumps are more efficient than resistive heaters at the same task"
+        ],
+        "examTrap": { "wrong": "COP > 1 violates energy conservation", "correct": "COP > 1 does NOT violate conservation. The heat pump doesn't create energy — it MOVES environmental heat using work as input. Q_H = Q_C + W. Total energy is conserved. COP just measures the ratio of useful heat to work input." },
+        "checkQuestions": [
+          { "question": "A refrigerator has COP = 3 and does 200 J of work per cycle. Find Q_C and Q_H.", "answer": "COP = Q_C/W → Q_C = 3 × 200 = 600 J. Q_H = Q_C + W = 600 + 200 = 800 J." }
+        ],
+        "checklist": [
+          "I can explain why heat pumps are more efficient than resistive heaters",
+          "I can solve problems involving COP, Q_H, Q_C, and W",
+          "I can state COP_HP = COP_fridge + 1"
+        ]
+      },
+
+      "extension": { "title": "Refrigeration and the third law", "content": "<p>The 3rd law of thermodynamics: it's impossible to reach absolute zero (0 K) in a finite number of steps. As T_C → 0: COP → 0 and the work required → ∞. Each step of cooling requires more and more work for less and less temperature reduction. Temperatures of ~10⁻⁹ K have been achieved in laboratories using laser cooling and magnetic techniques, but 0 K remains forever out of reach.</p>", "connections": ["B.3 Ideal gas: at T → 0, gases liquefy and the ideal model fails", "E.2 Quantum Physics: at ultra-low T, quantum effects dominate (BEC, superfluidity)"], "checklist": ["I can state the 3rd law: absolute zero is unattainable", "I can explain why COP → 0 as T_C → 0"] },
+      "video": { "title": "Refrigerators & Heat Pumps — IB HL", "duration": "8 min", "description": "COP, Carnot limits, heat pumps vs heaters, and real-world applications", "embedId": "" },
+      "equations": [
+        { "formula": "COP_fridge = Q_C/W", "description": "Coefficient of performance (cooling)." },
+        { "formula": "COP_HP = Q_H/W", "description": "Coefficient of performance (heating)." },
+        { "formula": "COP_Carnot(fridge) = T_C/(T_H − T_C)", "description": "Maximum COP for a refrigerator." },
+        { "formula": "COP_Carnot(HP) = T_H/(T_H − T_C)", "description": "Maximum COP for a heat pump." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "A Carnot heat pump heats a house at 293 K using outdoor air at 273 K. Find COP and the heating power for 1 kW electrical input.", "steps": [
+          { "label": "COP", "text": "COP = T_H/(T_H − T_C) = 293/20 = 14.65", "isEquation": true },
+          { "label": "Heating", "text": "Q_H = COP × W = 14.65 × 1 kW = 14.65 kW of heating from 1 kW electricity", "isEquation": true },
+          { "label": "Reality", "text": "Real COP would be ~3–4 (irreversibilities reduce performance significantly)." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "A fridge maintains −20°C (253 K) in a 25°C (298 K) room. Find the Carnot COP and the minimum work to remove 1000 J from the interior.", "solution": "COP = T_C/(T_H − T_C) = 253/45 = 5.62. W = Q_C/COP = 1000/5.62 = 178 J." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Heat pumps violate the second law because they move heat from cold to hot", "explanation": "They move heat from cold to hot using WORK input — this is permitted. The 2nd law prohibits SPONTANEOUS heat flow from cold to hot. With work input: ΔS_total = Q_H/T_H − Q_C/T_C > 0 (for real devices). The total entropy still increases.", "correct": "Heat pumps are consistent with the 2nd law. Work input drives the non-spontaneous heat transfer." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A heat pump heats a building at 22°C using outdoor air at 2°C.\n(a) Calculate the maximum COP. [1]\n(b) If the electrical power input is 2.0 kW, calculate the maximum rate of heat delivery. [1]\n(c) Explain why a heat pump delivers more heat than a resistive heater using the same electrical power. [2]", "marks": 4, "modelAnswer": "(a) COP = T_H/(T_H − T_C) = 295/20 = 14.75 [1].\n(b) Q_H/t = COP × W/t = 14.75 × 2.0 = 29.5 kW [1].\n(c) A resistive heater converts electrical energy directly to heat (1 kW in → 1 kW heat) [1]. A heat pump uses the electrical energy to MOVE thermal energy from the outdoor air into the building. The heat delivered includes both the electrical input AND the environmental heat absorbed — so Q_H > W [1].", "examinerTip": "COP > 1 doesn't violate physics — it just means the device moves MORE environmental energy than the work input. Explain the source of the 'extra' heat." }
+    },
+
+    {
+      "id": "b4_sub5",
+      "num": 5,
+      "title": "Entropy in Practice — Free Expansion, Mixing & Phase Changes",
+      "group": "Entropy Applications",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Refrigerators",
+      "nextTitle": "TS Diagrams",
+
+      "bigIdea": "Entropy isn't just abstract — it governs everyday irreversible processes. When gas freely expands into vacuum, when hot and cold water mix, when ice melts — entropy increases in each case. Calculating these entropy changes confirms the 2nd law and reveals why these processes are one-way.",
+
+      "foundation": {
+        "title": "Calculating entropy changes for real processes",
+        "content": "<h4>Free expansion</h4><p>Gas expands into vacuum (Q = 0, W = 0, ΔU = 0). But entropy increases: ΔS = nR ln(V₂/V₁) > 0. The gas occupies more volume → more microstates → more disorder. This is irreversible — gas never spontaneously compresses back.</p><h4>Mixing</h4><p>Hot water at T_H mixed with cold water at T_C → final temperature T_f. ΔS_hot = mc ln(T_f/T_H) < 0 (hot cools). ΔS_cold = mc ln(T_f/T_C) > 0 (cold warms). Total: ΔS > 0 always (the increase from the cold exceeds the decrease from the hot).</p><h4>Phase changes</h4><p>Melting ice at 0°C: ΔS = mL_f/T = Q/T > 0 (adding heat increases entropy). Freezing: ΔS_water = −mL/T < 0, but ΔS_surroundings = +mL/T_surr > 0, and the total is positive (if T_surr < 273 K).</p>",
+        "summary": "<p><strong>Free expansion:</strong> ΔS = nR ln(V₂/V₁) > 0. Irreversible.</p><p><strong>Mixing:</strong> ΔS_total > 0. Hot loses entropy, cold gains more.</p><p><strong>Phase change:</strong> ΔS = Q/T. Melting increases entropy of the substance.</p>",
+        "checkQuestions": [
+          { "question": "1 mol of ideal gas doubles its volume by free expansion. Find ΔS.", "answer": "ΔS = nR ln(V₂/V₁) = 1 × 8.314 × ln(2) = 5.76 J/K." }
+        ],
+        "checklist": [
+          "I can calculate ΔS for free expansion: ΔS = nR ln(V₂/V₁)",
+          "I can calculate ΔS for mixing hot and cold fluids",
+          "I can calculate ΔS for phase changes: ΔS = mL/T"
+        ]
+      },
+
+      "core": {
+        "title": "Quantitative entropy problems",
+        "content": "<h4>General entropy calculation for ideal gas</h4><p><strong>ΔS = nC_v ln(T₂/T₁) + nR ln(V₂/V₁)</strong></p><p>This applies to ANY process (reversible or irreversible) between two equilibrium states — entropy is a state function (depends only on initial and final states, not the path).</p><h4>Entropy as a state function</h4><p>Unlike Q and W (which are path-dependent), ΔS between two states is ALWAYS the same regardless of the process used to get there. To calculate ΔS for an irreversible process: find a REVERSIBLE path between the same two states and calculate ΔS along that path.</p><h4>Example: free expansion revisited</h4><p>Free expansion: Q = 0, W = 0, ΔU = 0, T₁ = T₂. But ΔS = nR ln(V₂/V₁) ≠ 0. We calculate this using a reversible isothermal expansion between the same two states (where Q = nRT ln(V₂/V₁) and ΔS = Q/T = nR ln(V₂/V₁)). Same ΔS because S is a state function.</p>",
+        "keyPoints": [
+          "ΔS = nC_v ln(T₂/T₁) + nR ln(V₂/V₁) for any process of an ideal gas",
+          "Entropy is a state function: depends only on initial and final states",
+          "For irreversible processes: calculate ΔS using a reversible path between same states",
+          "Isentropic (ΔS = 0) ↔ reversible adiabatic"
+        ],
+        "examTrap": { "wrong": "In a free expansion, ΔS = 0 because Q = 0", "correct": "ΔS = Q/T applies only for REVERSIBLE heat exchange. Free expansion is irreversible — you can't use Q = 0 to conclude ΔS = 0. Instead: ΔS = nR ln(V₂/V₁) > 0, calculated via a reversible path between the same states." },
+        "checkQuestions": [
+          { "question": "2 mol of monatomic gas is heated from 300 K to 600 K at constant volume. Find ΔS.", "answer": "ΔS = nC_v ln(T₂/T₁) = 2 × (3/2 × 8.314) × ln(2) = 2 × 12.47 × 0.693 = 17.3 J/K." }
+        ],
+        "checklist": [
+          "I can use ΔS = nC_v ln(T₂/T₁) + nR ln(V₂/V₁) for ideal gas processes",
+          "I can explain why entropy is a state function",
+          "I can calculate ΔS for irreversible processes using reversible path equivalents"
+        ]
+      },
+
+      "extension": { "title": "Information entropy", "content": "<p>Shannon (1948) showed that information has entropy: S = −Σ p_i ln(p_i). This connects thermodynamic entropy to information theory. Erasing 1 bit of information generates at least kT ln 2 joules of heat (Landauer's principle). Computing has a thermodynamic cost. This connects physics to computer science and explains why Maxwell's demon (a thought experiment that seems to violate the 2nd law) doesn't actually work — the demon must process information, generating entropy.</p>", "connections": ["E.2 Quantum Physics: quantum information and qubits", "B.2 Climate: entropy of the universe increases as the Sun radiates"], "checklist": ["I can state Landauer's principle: erasing 1 bit ≥ kT ln 2 of heat"] },
+      "video": { "title": "Entropy Calculations — IB HL", "duration": "9 min", "description": "Free expansion, mixing, phase changes, state functions, and quantitative entropy", "embedId": "" },
+      "equations": [
+        { "formula": "ΔS = nC_v ln(T₂/T₁) + nR ln(V₂/V₁)", "description": "Entropy change for ideal gas (any process)." },
+        { "formula": "ΔS = mL/T", "description": "Entropy change for phase change at constant T." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "0.5 kg of ice melts at 273 K. Find the entropy change. (L_f = 334,000 J/kg)", "steps": [
+          { "label": "Q", "text": "Q = mL = 0.5 × 334,000 = 167,000 J" },
+          { "label": "ΔS", "text": "ΔS = Q/T = 167,000/273 = 612 J/K", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "1 kg of water at 80°C is mixed with 1 kg at 20°C. Find ΔS_total. (c = 4186)", "solution": "T_f = 50°C = 323 K. ΔS_hot = mc ln(T_f/T_H) = 4186 × ln(323/353) = 4186 × (−0.0888) = −372 J/K. ΔS_cold = 4186 × ln(323/293) = 4186 × 0.0975 = 408 J/K. ΔS_total = −372 + 408 = +36 J/K > 0 ✓." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using ΔS = Q/T for irreversible processes directly", "explanation": "ΔS = Q/T is valid only for reversible heat exchange. For irreversible: use the state function formula or find a reversible path. For the surroundings (large reservoir): ΔS_surr = Q/T_surr IS valid (the reservoir is barely disturbed).", "correct": "System: use ΔS formula. Surroundings (reservoir): ΔS = ±Q/T_reservoir." }
+      ],
+      "examCorner": { "scope": "hl", "question": "An ideal gas undergoes free expansion, doubling its volume.\n(a) State the values of Q, W, and ΔU. [3]\n(b) Calculate the entropy change of the gas (n = 2 mol). [2]\n(c) Explain why this process is irreversible. [1]", "marks": 6, "modelAnswer": "(a) Q = 0 (no container wall exchange in free expansion) [1]. W = 0 (no external pressure to push against in vacuum) [1]. ΔU = 0 (first law: ΔU = Q − W = 0) [1].\n(b) ΔS = nR ln(V₂/V₁) = 2 × 8.314 × ln(2) = 11.5 J/K [2].\n(c) ΔS_total > 0 (ΔS_gas = +11.5, ΔS_surr = 0). Since total entropy increased, the reverse process (gas spontaneously compressing into half the volume) would require ΔS_total < 0, violating the second law [1].", "examinerTip": "Free expansion is a favourite HL exam question. Key: Q = 0, W = 0, ΔU = 0, ΔT = 0, but ΔS > 0. The entropy increase comes from the increased volume (more microstates), not from heat exchange." }
+    },
+
+    {
+      "id": "b4_sub6",
+      "num": 6,
+      "title": "TS Diagrams & Thermodynamic Cycles",
+      "group": "Entropy Applications",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Entropy in Practice",
+      "nextTitle": "B.5 Current & Circuits",
+
+      "bigIdea": "PV diagrams show work (area under the curve). TS diagrams (temperature vs entropy) show heat (area under the curve). Together, they give the complete thermodynamic picture. The Carnot cycle on a TS diagram is a simple rectangle — making it visually obvious why it's the most efficient.",
+
+      "foundation": {
+        "title": "A new way to visualize thermodynamic processes",
+        "content": "<h4>What is a TS diagram?</h4><p>A <strong>TS diagram</strong> plots temperature (T, y-axis) against entropy (S, x-axis). Just as the area under a PV curve = work, the <strong>area under a TS curve = heat exchanged</strong>.</p><h4>Standard processes on TS diagrams</h4><ul><li><strong>Isothermal:</strong> horizontal line (constant T). Q = TΔS.</li><li><strong>Adiabatic (reversible):</strong> vertical line (constant S — isentropic). Q = 0.</li><li><strong>Isobaric:</strong> curved line (T and S both change). Q = area under curve.</li><li><strong>Isochoric:</strong> curved line (steeper than isobaric for the same ΔT).</li></ul><h4>The Carnot cycle on a TS diagram</h4><p>The Carnot cycle is a <strong>rectangle</strong> on the TS diagram:</p><ul><li>Top side: isothermal at T_H (absorbs Q_H = T_H × ΔS)</li><li>Right side: adiabatic (drops from T_H to T_C at constant S)</li><li>Bottom side: isothermal at T_C (rejects Q_C = T_C × ΔS)</li><li>Left side: adiabatic (rises from T_C to T_H at constant S)</li></ul><p>Area of rectangle = (T_H − T_C) × ΔS = Q_H − Q_C = W. Efficiency = W/Q_H = (T_H − T_C)/T_H = 1 − T_C/T_H.</p>",
+        "summary": "<p><strong>TS diagram:</strong> T vs S. Area under curve = heat Q.</p><p><strong>Isothermal:</strong> horizontal. <strong>Adiabatic:</strong> vertical.</p><p><strong>Carnot cycle:</strong> rectangle. W = area. η = 1 − T_C/T_H visually obvious.</p>",
+        "checkQuestions": [
+          { "question": "On a TS diagram, what does a vertical line represent?", "answer": "An adiabatic reversible (isentropic) process. Q = 0 → no area under the curve. S doesn't change. Temperature changes (up for compression, down for expansion)." }
+        ],
+        "checklist": [
+          "I can draw and interpret a TS diagram",
+          "I can identify isothermal (horizontal) and adiabatic (vertical) processes",
+          "I can draw the Carnot cycle as a rectangle on a TS diagram",
+          "I can read Q from the area under a TS curve"
+        ]
+      },
+
+      "core": {
+        "title": "Reading TS diagrams quantitatively",
+        "content": "<h4>Heat from TS diagrams</h4><p>For any process: <strong>Q = ∫T dS</strong> = area under the curve on the TS diagram.</p><p>For isothermal: Q = TΔS (rectangle). For other processes: the area depends on the shape of the curve.</p><h4>Comparing cycles on TS diagrams</h4><p>Real engine cycles (Otto, Diesel) are less rectangular than Carnot → smaller enclosed area relative to total area → lower efficiency. The further the cycle deviates from a rectangle spanning the full temperature range, the less efficient it is.</p><h4>Advantages of TS diagrams</h4><ul><li>Heat is immediately visible (area under curve) — on PV diagrams, heat is not directly visible</li><li>Carnot cycle is a simple rectangle → efficiency formula is geometrically obvious</li><li>Irreversibility appears as entropy generation (moving right without heat input)</li></ul>",
+        "keyPoints": [
+          "Q = area under TS curve (analogous to W = area under PV curve)",
+          "Carnot rectangle: W = (T_H − T_C) × ΔS",
+          "Real cycles are less rectangular → less efficient",
+          "TS diagrams make heat and entropy visible; PV diagrams make work visible"
+        ],
+        "examTrap": { "wrong": "The area enclosed by a cycle on a TS diagram is the heat absorbed", "correct": "The area ENCLOSED by a cycle on a TS diagram is the NET WORK done (W = Q_H − Q_C). The area UNDER the top curve is Q_H (heat absorbed). The area under the bottom curve is Q_C (heat rejected)." },
+        "checkQuestions": [
+          { "question": "A Carnot cycle operates between 500 K and 300 K with ΔS = 20 J/K. Find Q_H, Q_C, and W.", "answer": "Q_H = T_H × ΔS = 500 × 20 = 10,000 J. Q_C = T_C × ΔS = 300 × 20 = 6,000 J. W = Q_H − Q_C = 4,000 J. Or W = (T_H − T_C) × ΔS = 200 × 20 = 4,000 J ✓." }
+        ],
+        "checklist": [
+          "I can calculate heat from TS diagram areas: Q = TΔS (isothermal) or area under curve",
+          "I can calculate work from the enclosed area of a cycle on a TS diagram",
+          "I can compare cycle shapes to assess relative efficiency",
+          "I can explain advantages of TS over PV diagrams for thermodynamic analysis"
+        ]
+      },
+
+      "extension": { "title": "The Otto and Diesel cycles on TS diagrams", "content": "<p>The Otto cycle (petrol engine): two isochoric + two adiabatic processes. On a TS diagram: two vertical lines (adiabatic) connected by two curves (isochoric). The enclosed area is the work. The Diesel cycle replaces one isochoric with an isobaric, giving a different shape. Both are less efficient than Carnot for the same temperature range — their shapes are 'less rectangular.'</p>", "connections": ["A.3 Energy: practical engine cycles determine transportation efficiency", "B.4 Carnot: the theoretical limit that all real cycles approach from below"], "checklist": ["I can sketch Otto and Diesel cycles on PV and TS diagrams", "I can explain why real cycles are less efficient than Carnot"] },
+      "video": { "title": "TS Diagrams — IB HL Physics", "duration": "8 min", "description": "Drawing and interpreting TS diagrams, Carnot rectangle, and comparing cycles", "embedId": "" },
+      "equations": [
+        { "formula": "Q = TΔS (isothermal)", "description": "Heat exchanged = temperature × entropy change." },
+        { "formula": "W = (T_H − T_C)ΔS (Carnot)", "description": "Work = area of Carnot rectangle on TS diagram." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "On a TS diagram, a Carnot cycle is a rectangle with corners at (S₁, T_C), (S₂, T_C), (S₂, T_H), (S₁, T_H). T_H = 600 K, T_C = 200 K, ΔS = 15 J/K. Find everything.", "steps": [
+          { "label": "Q_H", "text": "Q_H = T_H × ΔS = 600 × 15 = 9000 J", "isEquation": true },
+          { "label": "Q_C", "text": "Q_C = T_C × ΔS = 200 × 15 = 3000 J", "isEquation": true },
+          { "label": "W", "text": "W = 9000 − 3000 = 6000 J", "isEquation": true },
+          { "label": "η", "text": "η = W/Q_H = 6000/9000 = 66.7% = 1 − 200/600 ✓", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "hl", "question": "On a TS diagram, what shape is the Carnot cycle? What do the horizontal and vertical sides represent?", "solution": "Rectangle. Horizontal sides: isothermal processes (top: T_H absorbs Q_H, bottom: T_C rejects Q_C). Vertical sides: adiabatic (isentropic) processes (no heat exchange, S constant)." },
+        { "difficulty": "medium", "scope": "hl", "question": "A TS diagram shows a cycle with Q_H = T_H × ΔS = 12,000 J (top isotherm at 400 K, ΔS = 30 J/K). T_C = 250 K. Find Q_C and η.", "solution": "Q_C = T_C × ΔS = 250 × 30 = 7500 J. η = 1 − Q_C/Q_H = 1 − 7500/12000 = 37.5%. Or: η = 1 − 250/400 = 37.5% ✓." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The area under the TS curve is work", "explanation": "Area under TS curve = HEAT (Q). Area ENCLOSED by a TS cycle = work (W = Q_H − Q_C). Don't confuse 'under' with 'enclosed.'", "correct": "Under the curve: Q. Enclosed by cycle: W." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A Carnot engine operates between 700 K and 280 K. The entropy change during the isothermal expansion is 25 J/K.\n(a) Sketch the cycle on a TS diagram, labelling the temperatures and entropy values. [2]\n(b) Calculate Q_H and Q_C. [2]\n(c) Calculate the work output and efficiency. [2]", "marks": 6, "modelAnswer": "(a) Rectangle: horizontal top at T = 700 K from S₁ to S₂ (ΔS = 25). Horizontal bottom at 280 K. Two vertical sides connecting them [2].\n(b) Q_H = 700 × 25 = 17,500 J. Q_C = 280 × 25 = 7,000 J [2].\n(c) W = 17,500 − 7,000 = 10,500 J. η = 10,500/17,500 = 60% (or 1 − 280/700 = 60%) [2].", "examinerTip": "For TS diagram questions: the Carnot cycle is ALWAYS a rectangle. Q_H = area under top edge. Q_C = area under bottom edge. W = enclosed area = Q_H − Q_C." }
+    }
+
+  ]
+},
+// ============================================================
+// B.5 CURRENT & CIRCUITS — COMPLETE (10 subtopics)
+// Ends with comma — ready for C1 (Theme C)
+// ============================================================
+
+"B5": {
+  "title": "Current & Circuits",
+  "code": "B.5",
+  "theme": "B",
+  "level": "SL + HL",
+  "subtopicCount": 10,
+  "subtopics": [
+
+    {
+      "id": "b5_sub1",
+      "num": 1,
+      "title": "Electric Current & Charge",
+      "group": "Circuit Fundamentals",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "B.4 Thermodynamics",
+      "nextTitle": "Potential Difference & EMF",
+
+      "bigIdea": "Electric current is simply charge flowing — billions of electrons drifting through a wire. Despite their tiny drift speed (~0.1 mm/s), the electric field that pushes them travels at nearly the speed of light, which is why the light turns on instantly when you flip a switch.",
+
+      "foundation": {
+        "title": "What is electric current?",
+        "content": "<h4>Current defined</h4><p><strong>Electric current (I)</strong> is the rate of flow of electric charge:</p><p><strong>I = ΔQ/Δt</strong></p><p>Where I = current (amperes, A), ΔQ = charge flowing (coulombs, C), Δt = time (s).</p><p>1 ampere = 1 coulomb per second. One coulomb is the charge of about 6.24 × 10¹⁸ electrons.</p><h4>Conventional current vs electron flow</h4><p><strong>Conventional current:</strong> flows from positive (+) to negative (−). This is the historical convention established before electrons were discovered.</p><p><strong>Electron flow:</strong> electrons actually move from negative (−) to positive (+) — opposite to conventional current.</p><p>IB Physics uses conventional current in all circuit analysis. Just remember: real electrons go the other way.</p><h4>Charge carriers</h4><ul><li><strong>Metals:</strong> free (delocalised) electrons carry the current</li><li><strong>Electrolytes:</strong> positive and negative ions carry current in both directions</li><li><strong>Semiconductors:</strong> electrons and 'holes' (positive charge carriers)</li><li><strong>Gases:</strong> ionised gas (plasma) — electrons and ions</li></ul><h4>Drift velocity</h4><p>In a metal wire, electrons move randomly at ~10⁶ m/s due to thermal energy. When a current flows, there's a small net drift in one direction. The drift velocity is surprisingly slow: ~0.1 mm/s for typical household currents. Despite this, the effect propagates at nearly light speed because the electric field travels through the wire at ~c.</p><p><strong>I = nAvd</strong></p><p>Where n = number density of charge carriers (m⁻³), A = cross-sectional area of wire (m²), v_d = drift velocity (m/s).</p>",
+        "summary": "<p><strong>I = ΔQ/Δt:</strong> current = charge/time. Unit: ampere (A).</p><p><strong>Conventional current:</strong> + to −. Electron flow: − to +.</p><p><strong>I = nAvd:</strong> current from drift velocity.</p><p><strong>Drift velocity ~0.1 mm/s.</strong> Electric field propagates at ~c.</p>",
+        "checkQuestions": [
+          { "question": "A charge of 30 C flows through a wire in 10 s. Find the current.", "answer": "I = Q/t = 30/10 = 3 A." },
+          { "question": "Why does a light bulb turn on instantly if drift velocity is only 0.1 mm/s?", "answer": "The electric field travels through the wire at nearly c (~3 × 10⁸ m/s). When you flip the switch, the field reaches all electrons almost instantly, and they ALL start drifting simultaneously. You don't wait for one electron to travel from the switch to the bulb — the signal (field) is what's fast, not the individual electrons." }
+        ],
+        "checklist": [
+          "I can define current: I = ΔQ/Δt (unit: A)",
+          "I can distinguish conventional current (+ to −) from electron flow (− to +)",
+          "I can apply I = nAvd and explain drift velocity",
+          "I can explain why circuits respond instantly despite slow drift velocity"
+        ]
+      },
+
+      "core": {
+        "title": "Charge quantisation, current in circuits, and conservation of charge",
+        "content": "<h4>Charge is quantised</h4><p>Electric charge comes in discrete units: <strong>e = 1.6 × 10⁻¹⁹ C</strong> (the elementary charge). All charges are integer multiples of e. You can't have 0.5e of charge.</p><p>An electron has charge −e = −1.6 × 10⁻¹⁹ C. A proton has charge +e = +1.6 × 10⁻¹⁹ C.</p><h4>Conservation of charge</h4><p>Charge is conserved — it can't be created or destroyed. In circuits: the charge entering a junction equals the charge leaving (Kirchhoff's first law). Current doesn't get 'used up' by components — the same current flows INTO and OUT OF a resistor.</p><h4>Calculating charge from current</h4><p>Q = It (charge = current × time). In t seconds at current I: Q = It coulombs. Number of electrons: N = Q/e = It/e.</p>",
+        "keyPoints": [
+          "e = 1.6 × 10⁻¹⁹ C: elementary charge. All charges are multiples of e.",
+          "Charge is conserved: current in = current out at any junction.",
+          "Q = It: charge from current and time.",
+          "Number of electrons: N = Q/e."
+        ],
+        "examTrap": { "wrong": "Current gets used up by a light bulb", "correct": "Current is the SAME entering and leaving a bulb. The bulb converts electrical energy to light and heat — it uses ENERGY, not current. Charge is conserved; energy is transferred." },
+        "checkQuestions": [
+          { "question": "A current of 0.5 A flows for 2 minutes. How many electrons pass a point?", "answer": "Q = It = 0.5 × 120 = 60 C. N = Q/e = 60/(1.6 × 10⁻¹⁹) = 3.75 × 10²⁰ electrons." }
+        ],
+        "checklist": [
+          "I can state the elementary charge: e = 1.6 × 10⁻¹⁹ C",
+          "I can calculate charge: Q = It, and number of electrons: N = Q/e",
+          "I can state that charge is conserved in circuits"
+        ]
+      },
+
+      "extension": { "title": "Current at the microscopic level", "content": "<p>In metals: n ≈ 10²⁸ − 10²⁹ carriers/m³. For copper (n = 8.5 × 10²⁸, A = 1 mm² = 10⁻⁶ m², I = 1 A): v_d = I/(nAe) = 1/(8.5 × 10²⁸ × 10⁻⁶ × 1.6 × 10⁻¹⁹) = 7.4 × 10⁻⁵ m/s ≈ 0.074 mm/s. Amazingly slow! In semiconductors, n is much smaller → v_d is much larger for the same current.</p>", "connections": ["D.2 Electric Fields: the field inside the wire drives the current", "B.1 Temperature: resistance increases with T because lattice vibrations increase"], "checklist": ["I can calculate drift velocity from I = nAvd for metals"] },
+      "video": { "title": "Electric Current — IB Physics", "duration": "7 min", "description": "I = Q/t, conventional vs electron flow, drift velocity, and charge quantisation", "embedId": "" },
+      "equations": [
+        { "formula": "I = ΔQ/Δt", "description": "Current = charge per second. Unit: ampere (A)." },
+        { "formula": "I = nAvd", "description": "Current from charge carrier density, area, and drift velocity." },
+        { "formula": "e = 1.6 × 10⁻¹⁹ C", "description": "Elementary charge." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A wire carries 3 A. How much charge flows in 5 minutes? How many electrons?", "steps": [
+          { "label": "Charge", "text": "Q = It = 3 × 300 = 900 C", "isEquation": true },
+          { "label": "Electrons", "text": "N = Q/e = 900/1.6 × 10⁻¹⁹ = 5.625 × 10²¹", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Define electric current and state its SI unit.", "solution": "Electric current is the rate of flow of electric charge: I = ΔQ/Δt. SI unit: ampere (A), where 1 A = 1 C/s." },
+        { "difficulty": "medium", "scope": "sl", "question": "A battery delivers 7200 C of charge in 1 hour. Find the current.", "solution": "I = Q/t = 7200/3600 = 2 A." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Electrons flow from + to −", "explanation": "Electrons flow from − to + (attracted to positive terminal). CONVENTIONAL current is defined as flowing from + to −. IB uses conventional current.", "correct": "Conventional current: + to −. Electron flow: − to +. Opposite directions." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A current of 0.20 A flows through a lamp for 5.0 minutes.\n(a) Calculate the charge that flows. [1]\n(b) Calculate the number of electrons. [1]\n(c) Explain why the current entering the lamp equals the current leaving it. [1]", "marks": 3, "modelAnswer": "(a) Q = It = 0.20 × 300 = 60 C [1].\n(b) N = Q/e = 60/1.6 × 10⁻¹⁹ = 3.75 × 10²⁰ [1].\n(c) Charge is conserved. Electrons are not created or destroyed in the lamp — they pass through it. The lamp converts electrical energy to heat and light, not current to energy [1].", "examinerTip": "The 'current is not used up' point is frequently tested. Always state charge conservation as the reason." }
+    },
+
+    {
+      "id": "b5_sub2",
+      "num": 2,
+      "title": "Potential Difference, EMF & Electrical Energy",
+      "group": "Circuit Fundamentals",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Current & Charge",
+      "nextTitle": "Resistance & Ohm's Law",
+
+      "bigIdea": "Voltage is the energy per unit charge. A 12 V battery gives 12 joules of energy to every coulomb of charge that passes through it. A 6 V bulb converts 6 joules per coulomb into light and heat. Voltage is the 'push' that drives current — without a potential difference, no current flows.",
+
+      "foundation": {
+        "title": "What voltage really means — energy per charge",
+        "content": "<h4>Potential difference (voltage)</h4><p><strong>Potential difference (V)</strong> between two points is the energy transferred per unit charge passing between them:</p><p><strong>V = W/Q = E/Q</strong></p><p>Where V = potential difference (volts, V), W = work/energy (joules, J), Q = charge (coulombs, C).</p><p><strong>1 volt = 1 joule per coulomb.</strong></p><h4>EMF (electromotive force)</h4><p><strong>EMF (ε)</strong> is the energy per unit charge SUPPLIED by the source (battery, generator, solar cell). It's the total 'push' the source provides.</p><p><strong>ε = W/Q</strong> (energy supplied per charge by the source)</p><p>EMF is NOT a force despite the name — it's a voltage (energy per charge). A 9 V battery has ε = 9 V: it provides 9 J of energy to each coulomb of charge.</p><h4>EMF vs terminal voltage</h4><p>Real batteries have <strong>internal resistance (r)</strong>. Some energy is lost inside the battery as heat. The voltage you measure at the terminals (terminal voltage V_t) is less than the EMF:</p><p><strong>ε = V_t + Ir</strong> → <strong>V_t = ε − Ir</strong></p><p>When no current flows (open circuit): V_t = ε. When current flows: V_t < ε (some voltage 'lost' across internal resistance).</p><h4>Energy and power in circuits</h4><p><strong>Energy: E = VIt</strong> (voltage × current × time)</p><p><strong>Power: P = VI</strong> (voltage × current)</p><p>Using V = IR: <strong>P = I²R = V²/R</strong> (alternative forms for resistive components).</p>",
+        "summary": "<p><strong>V = W/Q:</strong> voltage = energy per charge. Unit: volt (V) = J/C.</p><p><strong>EMF (ε):</strong> energy per charge from the source. V_t = ε − Ir.</p><p><strong>Power: P = VI = I²R = V²/R.</strong></p><p><strong>Energy: E = VIt = Pt.</strong></p>",
+        "checkQuestions": [
+          { "question": "A 12 V battery with internal resistance 0.5 Ω delivers 2 A. Find the terminal voltage and power lost internally.", "answer": "V_t = ε − Ir = 12 − 2(0.5) = 11 V. Power lost: P_internal = I²r = 4 × 0.5 = 2 W. Power delivered to circuit: P = V_t × I = 11 × 2 = 22 W." }
+        ],
+        "checklist": [
+          "I can define potential difference: V = W/Q (unit: volt)",
+          "I can define EMF as energy per charge from the source",
+          "I can apply V_t = ε − Ir for batteries with internal resistance",
+          "I can calculate power: P = VI = I²R = V²/R",
+          "I can calculate energy: E = VIt"
+        ]
+      },
+
+      "core": {
+        "title": "EMF, internal resistance, and power dissipation",
+        "content": "<h4>The complete circuit equation</h4><p>For a circuit with EMF ε, internal resistance r, and external resistance R:</p><p><strong>ε = I(R + r)</strong> → <strong>I = ε/(R + r)</strong></p><p>Terminal voltage: V_t = IR = εR/(R + r). Power to external circuit: P = I²R. Power lost internally: P_r = I²r.</p><h4>Short circuit</h4><p>If R = 0 (short circuit): I = ε/r (maximum current, limited only by internal resistance). All power is dissipated internally → battery heats up rapidly. This is dangerous for high-capacity batteries.</p><h4>Maximum power transfer</h4><p>The power delivered to the external resistance R is maximum when <strong>R = r</strong> (matched load). At this point: P_max = ε²/(4r). Half the total power goes to R, half to r. This is important in audio engineering and telecommunications.</p><h4>Measuring EMF and r experimentally</h4><p>Plot V_t vs I for different loads. V_t = ε − Ir → straight line with y-intercept = ε and gradient = −r.</p>",
+        "keyPoints": [
+          "I = ε/(R + r): current in a circuit with internal resistance",
+          "V_t = ε − Ir: terminal voltage drops with increasing current",
+          "Short circuit: I = ε/r (maximum current, all power internal)",
+          "Max power transfer when R = r: P_max = ε²/(4r)",
+          "V-I graph: intercept = ε, gradient = −r"
+        ],
+        "examTrap": { "wrong": "EMF is the voltage measured across a battery", "correct": "EMF is the voltage across the battery only when NO current flows (open circuit). When current flows, the TERMINAL voltage V_t = ε − Ir is less than ε due to internal resistance. EMF is a property of the source; terminal voltage depends on the current drawn." },
+        "checkQuestions": [
+          { "question": "A battery (ε = 6 V, r = 1 Ω) is connected to R = 5 Ω. Find I, V_t, and power to R.", "answer": "I = 6/(5+1) = 1 A. V_t = 6 − 1(1) = 5 V. P = I²R = 1² × 5 = 5 W." }
+        ],
+        "checklist": [
+          "I can solve circuits with internal resistance: I = ε/(R+r)",
+          "I can calculate terminal voltage: V_t = ε − Ir",
+          "I can explain short circuits and maximum power transfer",
+          "I can determine ε and r from a V-I graph"
+        ]
+      },
+
+      "extension": { "title": "The electron-volt", "content": "<p>1 eV = 1.6 × 10⁻¹⁹ J — the energy gained by one electron accelerated through 1 V. Since V = W/Q and Q = e: W = eV = 1.6 × 10⁻¹⁹ × 1 = 1.6 × 10⁻¹⁹ J. The eV is used throughout atomic, nuclear, and particle physics because the joule is inconveniently large at atomic scales.</p>", "connections": ["E.2 Quantum Physics: photon energies measured in eV", "A.5 Relativity: particle energies in MeV, GeV"], "checklist": ["I can define 1 eV = 1.6 × 10⁻¹⁹ J and convert between eV and J"] },
+      "video": { "title": "EMF, PD & Internal Resistance — IB Physics", "duration": "9 min", "description": "V = W/Q, EMF vs terminal voltage, internal resistance, and power", "embedId": "" },
+      "equations": [
+        { "formula": "V = W/Q", "description": "Potential difference = energy per charge. 1 V = 1 J/C." },
+        { "formula": "ε = V_t + Ir", "description": "EMF = terminal voltage + voltage lost across internal resistance." },
+        { "formula": "P = VI = I²R = V²/R", "description": "Electrical power." },
+        { "formula": "E = VIt", "description": "Electrical energy = power × time." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A battery has EMF 9.0 V and internal resistance 0.6 Ω. It powers a 3.4 Ω lamp. Find everything.", "steps": [
+          { "label": "Current", "text": "I = ε/(R+r) = 9.0/(3.4+0.6) = 9.0/4.0 = 2.25 A", "isEquation": true },
+          { "label": "Terminal voltage", "text": "V_t = ε − Ir = 9.0 − 2.25(0.6) = 9.0 − 1.35 = 7.65 V", "isEquation": true },
+          { "label": "Power to lamp", "text": "P = I²R = 2.25² × 3.4 = 17.2 W" },
+          { "label": "Power lost internally", "text": "P_r = I²r = 2.25² × 0.6 = 3.04 W" },
+          { "label": "Efficiency", "text": "η = P_lamp/P_total = 17.2/20.25 = 85%", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A 6 V battery delivers 3 A for 10 minutes. Find the energy delivered.", "solution": "E = VIt = 6 × 3 × 600 = 10,800 J = 10.8 kJ." },
+        { "difficulty": "medium", "scope": "sl", "question": "A battery (ε = 1.5 V, r = 0.3 Ω) is connected to a 2.7 Ω resistor. Find the current and terminal voltage.", "solution": "I = 1.5/(2.7+0.3) = 1.5/3.0 = 0.5 A. V_t = 1.5 − 0.5(0.3) = 1.35 V." },
+        { "difficulty": "hard", "scope": "sl", "question": "A V-I graph for a battery shows V = 12 when I = 0 and V = 10 when I = 4. Find ε and r.", "solution": "ε = y-intercept = 12 V. Gradient = −r = (10−12)/(4−0) = −0.5 → r = 0.5 Ω." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Voltage is used up by resistors like fuel", "explanation": "Voltage (PD) is DROPPED across resistors — meaning energy is transferred FROM the charge TO the resistor. The charge still flows (current is conserved). What's transferred is energy, not charge.", "correct": "Resistors convert electrical energy to heat. Charge flows through; energy is transferred." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A battery of EMF 6.0 V and internal resistance 0.50 Ω is connected to a lamp of resistance 5.5 Ω.\n(a) Calculate the current. [1]\n(b) Calculate the terminal voltage. [1]\n(c) Calculate the power dissipated in the lamp. [1]\n(d) The lamp is replaced by a lamp of lower resistance. State and explain the effect on the terminal voltage. [2]", "marks": 5, "modelAnswer": "(a) I = 6.0/(5.5+0.5) = 1.0 A [1].\n(b) V_t = 6.0 − 1.0(0.5) = 5.5 V [1].\n(c) P = I²R = 1.0² × 5.5 = 5.5 W [1].\n(d) Lower R → higher I (I = ε/(R+r)) [1]. Higher I → larger Ir drop → lower terminal voltage (V_t = ε − Ir decreases) [1].", "examinerTip": "For 'state and explain' about terminal voltage: always trace the chain: R changes → I changes → Ir changes → V_t changes." }
+    },
+
+    {
+      "id": "b5_sub3",
+      "num": 3,
+      "title": "Resistance & Ohm's Law",
+      "group": "Circuit Fundamentals",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Potential Difference & EMF",
+      "nextTitle": "Resistors in Series & Parallel",
+
+      "bigIdea": "Resistance is the opposition to current flow. Ohm's law — V = IR — is deceptively simple but applies only to 'ohmic' conductors where resistance is constant. Many real components (filament lamps, diodes, thermistors) are non-ohmic: their resistance changes with current, temperature, or direction.",
+
+      "foundation": {
+        "title": "Resistance and Ohm's law",
+        "content": "<h4>Resistance</h4><p><strong>Resistance (R)</strong> is the ratio of potential difference to current:</p><p><strong>R = V/I</strong></p><p>Unit: ohm (Ω). 1 Ω = 1 V/A. A resistor with R = 10 Ω needs 10 V to drive 1 A through it.</p><h4>Ohm's law</h4><p><strong>For an ohmic conductor (constant temperature): V ∝ I → V = IR</strong></p><p>Ohm's law states that current is proportional to voltage for a conductor at constant temperature. The V-I graph is a straight line through the origin with gradient = R.</p><h4>Ohmic vs non-ohmic components</h4><p><strong>Ohmic:</strong> V-I graph is a straight line through origin. R is constant. Example: metal resistors at constant temperature.</p><p><strong>Non-ohmic:</strong> V-I graph is NOT a straight line. R varies. Examples:</p><ul><li><strong>Filament lamp:</strong> R increases as it heats up (curve flattens — less current than expected at high V)</li><li><strong>Diode:</strong> conducts in one direction only. Very high R in reverse, low R in forward (above threshold ~0.6 V)</li><li><strong>Thermistor (NTC):</strong> R decreases as temperature increases (opposite to metals)</li><li><strong>LDR:</strong> R decreases as light intensity increases</li></ul><h4>Factors affecting resistance of a wire</h4><p><strong>R = ρL/A</strong></p><p>Where ρ = resistivity (Ω·m, material property), L = length (m), A = cross-sectional area (m²).</p><ul><li>Longer wire → more resistance (R ∝ L)</li><li>Thicker wire → less resistance (R ∝ 1/A)</li><li>Material with higher resistivity → more resistance</li></ul><p>Resistivity values: copper ≈ 1.7 × 10⁻⁸ Ω·m (very low — good conductor). Nichrome ≈ 1.1 × 10⁻⁶ (used in heating elements). Glass ≈ 10¹⁰ (insulator).</p>",
+        "summary": "<p><strong>R = V/I.</strong> Unit: ohm (Ω).</p><p><strong>Ohm's law: V = IR</strong> (ohmic conductors only — constant R).</p><p><strong>R = ρL/A:</strong> resistance from resistivity, length, and area.</p><p><strong>Non-ohmic:</strong> filament (R↑ with T), diode (one-way), thermistor (R↓ with T), LDR (R↓ with light).</p>",
+        "checkQuestions": [
+          { "question": "A wire has ρ = 5 × 10⁻⁷ Ω·m, L = 2 m, A = 1 mm² = 10⁻⁶ m². Find R.", "answer": "R = ρL/A = 5 × 10⁻⁷ × 2/10⁻⁶ = 1 Ω." },
+          { "question": "A filament lamp draws 0.5 A at 6 V. What is its resistance? Is it likely ohmic?", "answer": "R = V/I = 6/0.5 = 12 Ω at this operating point. Not ohmic — the filament's resistance at room temperature is much lower (~1 Ω). It increases as the filament heats up." }
+        ],
+        "checklist": [
+          "I can define resistance: R = V/I (unit: Ω)",
+          "I can state Ohm's law: V = IR for ohmic conductors",
+          "I can sketch V-I graphs for ohmic resistors, filament lamps, diodes, thermistors, LDRs",
+          "I can apply R = ρL/A and explain each factor",
+          "I can distinguish ohmic from non-ohmic behaviour"
+        ]
+      },
+
+      "core": {
+        "title": "Resistivity, V-I characteristics, and temperature effects",
+        "content": "<h4>V-I characteristics in detail</h4><p><strong>Ohmic resistor:</strong> straight line through origin. Gradient = 1/R (constant). Same in both directions.</p><p><strong>Filament lamp:</strong> passes through origin but curves — gradient decreases (R increases) at higher V/I because the filament heats up. Metals have positive temperature coefficient: hotter → more resistance (lattice vibrations impede electron flow).</p><p><strong>Diode:</strong> essentially zero current for reverse voltage. In forward bias: current begins at threshold (~0.6 V for silicon) then rises steeply (very low R once conducting).</p><p><strong>Thermistor (NTC):</strong> negative temperature coefficient — hotter → less resistance. Used in temperature sensors. R vs T graph: exponential decrease.</p><p><strong>LDR:</strong> R decreases with increasing light. Dark: R ~ MΩ. Bright: R ~ hundreds of Ω. Used in light sensors.</p><h4>Temperature and resistance</h4><p>For metals: R increases with temperature (positive coefficient). Approximation: R = R₀(1 + αΔT), where α is the temperature coefficient. For thermistors: R decreases exponentially with temperature.</p><h4>Superconductors</h4><p>Below a critical temperature T_c: resistance drops to EXACTLY zero. Current flows indefinitely without energy loss. Applications: MRI magnets, particle accelerators, maglev trains. T_c is typically very low (4 K for niobium) but 'high-temperature' superconductors work at ~90 K (still need liquid nitrogen).</p>",
+        "keyPoints": [
+          "R = ρL/A: resistivity × length / area",
+          "Metals: R increases with T (lattice vibrations impede electrons)",
+          "Thermistors (NTC): R decreases with T",
+          "Superconductors: R = 0 below critical temperature T_c",
+          "V-I characteristics: straight for ohmic, curved for filament, threshold for diode"
+        ],
+        "examTrap": { "wrong": "Ohm's law always applies to all components", "correct": "Ohm's law (V ∝ I, constant R) applies ONLY to ohmic conductors at constant temperature. Many components (lamps, diodes, thermistors) are non-ohmic. R = V/I can always be calculated, but it's only constant for ohmic devices." },
+        "checkQuestions": [
+          { "question": "A copper wire (ρ = 1.7 × 10⁻⁸, L = 50 m, d = 0.5 mm) carries current. Find R.", "answer": "A = π(d/2)² = π(0.00025)² = 1.96 × 10⁻⁷ m². R = ρL/A = 1.7 × 10⁻⁸ × 50/(1.96 × 10⁻⁷) = 4.34 Ω." }
+        ],
+        "checklist": [
+          "I can sketch and interpret V-I graphs for all standard components",
+          "I can explain how temperature affects resistance in metals and thermistors",
+          "I can describe superconductivity: R = 0 below T_c",
+          "I can calculate resistance from resistivity: R = ρL/A"
+        ]
+      },
+
+      "extension": { "title": "The Drude model of conduction", "content": "<p>The Drude model treats conduction electrons as a 'gas' of free particles accelerated by the electric field and scattered by lattice ions. Between collisions, electrons accelerate: a = eE/m. They reach a drift velocity before the next collision. The average drift velocity gives: v_d = eEτ/m, where τ is the mean time between collisions. This gives R = ρL/A with ρ = m/(ne²τ). Higher temperature → shorter τ (more scattering) → higher ρ → higher R.</p>", "connections": ["D.2 Electric Fields: E = V/L inside the wire drives the current", "B.3 Gas Laws: the electron 'gas' analogy"], "checklist": ["I can describe the Drude model: electrons accelerate between collisions with lattice ions"] },
+      "video": { "title": "Resistance & Ohm's Law — IB Physics", "duration": "9 min", "description": "R = V/I, Ohm's law, V-I characteristics, R = ρL/A, and non-ohmic components", "embedId": "" },
+      "equations": [
+        { "formula": "R = V/I", "description": "Resistance = voltage/current. Unit: ohm (Ω)." },
+        { "formula": "V = IR", "description": "Ohm's law (ohmic conductors, constant T)." },
+        { "formula": "R = ρL/A", "description": "Resistance from resistivity, length, and cross-sectional area." },
+        { "formula": "P = I²R = V²/R", "description": "Power dissipated in a resistor." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A wire (ρ = 4.9 × 10⁻⁷ Ω·m) needs R = 10 Ω. Length is 2 m. Find the required diameter.", "steps": [
+          { "label": "Area", "text": "A = ρL/R = 4.9 × 10⁻⁷ × 2/10 = 9.8 × 10⁻⁸ m²" },
+          { "label": "Diameter", "text": "A = πd²/4 → d = √(4A/π) = √(4 × 9.8 × 10⁻⁸/π) = 3.53 × 10⁻⁴ m = 0.35 mm", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A 12 V supply drives 0.5 A through a resistor. Find R and P.", "solution": "R = V/I = 12/0.5 = 24 Ω. P = VI = 12 × 0.5 = 6 W." },
+        { "difficulty": "medium", "scope": "sl", "question": "Sketch V-I graphs for: (a) ohmic resistor, (b) filament lamp, (c) diode. Label axes.", "solution": "(a) Straight line through origin (constant gradient). (b) Curve through origin — gradient decreases at higher V (R increases with T). (c) Near-zero current for negative V; current increases steeply above ~0.6 V forward threshold." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Halving the diameter halves the resistance", "explanation": "R ∝ 1/A and A ∝ d². So R ∝ 1/d². Halving d → A becomes ¼ → R becomes 4×. NOT halved.", "correct": "Halving diameter → R × 4. Doubling diameter → R ÷ 4. R ∝ 1/d²." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A wire has resistance 8.0 Ω. A second wire of the same material has twice the length and three times the cross-sectional area.\n(a) Find the resistance of the second wire. [2]\n(b) State what property of the material determines the resistance for a given geometry. [1]", "marks": 3, "modelAnswer": "(a) R = ρL/A. R₂ = ρ(2L)/(3A) = (2/3)ρL/A = (2/3) × 8.0 = 5.33 Ω [2].\n(b) Resistivity (ρ) — a material property measured in Ω·m [1].", "examinerTip": "For wire comparison questions: write R = ρL/A for both wires and take the ratio. All material properties cancel if they're the same material." }
+    },
+
+    {
+      "id": "b5_sub4",
+      "num": 4,
+      "title": "Resistors in Series & Parallel",
+      "group": "Circuit Analysis",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Resistance & Ohm's Law",
+      "nextTitle": "Kirchhoff's Laws",
+
+      "bigIdea": "Series resistors add: R_total = R₁ + R₂. Parallel resistors combine as reciprocals: 1/R = 1/R₁ + 1/R₂. Series increases resistance (one path, all current must go through both). Parallel decreases resistance (multiple paths, current splits). Every circuit, no matter how complex, can be reduced using these two rules.",
+
+      "foundation": {
+        "title": "Two ways to connect resistors — and why they behave differently",
+        "content": "<h4>Series connection</h4><p>Resistors in <strong>series</strong>: connected end-to-end, same current flows through all.</p><ul><li><strong>Current:</strong> same through all (I₁ = I₂ = I_total)</li><li><strong>Voltage:</strong> divides among them (V_total = V₁ + V₂)</li><li><strong>Total resistance:</strong> R_total = R₁ + R₂ + R₃ + ...</li></ul><p>Adding resistors in series INCREASES total resistance. More resistance → less current for the same voltage.</p><h4>Parallel connection</h4><p>Resistors in <strong>parallel</strong>: connected across the same two points, same voltage across all.</p><ul><li><strong>Voltage:</strong> same across all (V₁ = V₂ = V_total)</li><li><strong>Current:</strong> divides among them (I_total = I₁ + I₂)</li><li><strong>Total resistance:</strong> 1/R_total = 1/R₁ + 1/R₂ + 1/R₃ + ...</li></ul><p>For two resistors: <strong>R_total = R₁R₂/(R₁ + R₂)</strong> (product over sum).</p><p>Adding resistors in parallel DECREASES total resistance (more paths for current). The total R is always LESS than the smallest individual R.</p><h4>Why parallel decreases R</h4><p>Think of it as adding lanes to a highway: more lanes → less congestion → more cars flow → less overall resistance. Each parallel branch provides an additional path for current.</p>",
+        "summary": "<p><strong>Series:</strong> same I, V adds, R_total = R₁ + R₂ (R increases).</p><p><strong>Parallel:</strong> same V, I adds, 1/R = 1/R₁ + 1/R₂ (R decreases).</p><p><strong>Two in parallel:</strong> R = R₁R₂/(R₁ + R₂).</p><p><strong>Parallel R < smallest individual R.</strong></p>",
+        "checkQuestions": [
+          { "question": "Three resistors (4, 6, 12 Ω) are in parallel. Find R_total.", "answer": "1/R = 1/4 + 1/6 + 1/12 = 3/12 + 2/12 + 1/12 = 6/12 = 1/2. R = 2 Ω. Less than the smallest (4 Ω) ✓." },
+          { "question": "The same three resistors in series. Find R_total.", "answer": "R = 4 + 6 + 12 = 22 Ω." }
+        ],
+        "checklist": [
+          "I can state rules for series: same I, V adds, R adds",
+          "I can state rules for parallel: same V, I adds, 1/R adds",
+          "I can calculate R_total for series and parallel combinations",
+          "I can explain why parallel R < smallest individual R"
+        ]
+      },
+
+      "core": {
+        "title": "Solving combination circuits and potential dividers",
+        "content": "<h4>Combination circuits</h4><p>Most real circuits have BOTH series and parallel sections. Strategy:</p><ol><li>Identify which resistors are in series and which are in parallel</li><li>Simplify parallel groups first (combine into one equivalent R)</li><li>Then add series resistors</li><li>Repeat until you have one total R</li><li>Find total current: I = V/R_total</li><li>Work backwards to find individual voltages and currents</li></ol><h4>The potential divider</h4><p>Two resistors in series across a voltage V_in:</p><p><strong>V_out = V_in × R₂/(R₁ + R₂)</strong></p><p>This divides the voltage in the ratio of the resistances. Used everywhere in electronics:</p><ul><li>Volume control (variable resistor as R₂)</li><li>Temperature sensor (thermistor as R₂: T↑ → R₂↓ → V_out↓)</li><li>Light sensor (LDR as R₂: light↑ → R₂↓ → V_out↓)</li></ul><h4>Ammeters and voltmeters</h4><ul><li><strong>Ammeter:</strong> connected in SERIES. Has very LOW resistance (ideally 0) to not affect the current it measures.</li><li><strong>Voltmeter:</strong> connected in PARALLEL. Has very HIGH resistance (ideally ∞) to not draw current from the circuit.</li></ul>",
+        "keyPoints": [
+          "Combination circuits: simplify parallel first, then add series",
+          "Potential divider: V_out = V_in × R₂/(R₁ + R₂)",
+          "Ammeter: in series, low R. Voltmeter: in parallel, high R.",
+          "Thermistor/LDR in potential divider → voltage varies with T or light"
+        ],
+        "examTrap": { "wrong": "A voltmeter connected in series measures the voltage across a component", "correct": "A voltmeter must be connected in PARALLEL with the component. In series, it would add its (very high) resistance to the circuit, drastically reducing the current and changing the circuit behaviour." },
+        "checkQuestions": [
+          { "question": "A 12 V supply with R₁ = 4 kΩ and R₂ = 8 kΩ as a potential divider. Find V_out across R₂.", "answer": "V_out = 12 × 8/(4+8) = 12 × 8/12 = 8 V." }
+        ],
+        "checklist": [
+          "I can solve combination circuits (series + parallel)",
+          "I can apply the potential divider formula: V_out = V_in R₂/(R₁+R₂)",
+          "I can explain sensor circuits using thermistors and LDRs in potential dividers",
+          "I can state correct placement of ammeters (series) and voltmeters (parallel)"
+        ]
+      },
+
+      "extension": { "title": "Wheatstone bridge", "content": "<p>A Wheatstone bridge is a circuit with four resistors in a diamond configuration and a galvanometer across the middle. When balanced (no current through galvanometer): R₁/R₂ = R₃/R₄. This allows precise measurement of an unknown resistance by adjusting one known variable resistor until balance is achieved. Used in strain gauges, temperature measurements, and precision instrumentation.</p>", "connections": ["D.2 Electric Fields: Kirchhoff's laws govern bridge circuits", "B.5 Kirchhoff: the bridge is solved using KVL and KCL"], "checklist": ["I can describe the Wheatstone bridge and its balance condition: R₁/R₂ = R₃/R₄"] },
+      "video": { "title": "Series, Parallel & Potential Dividers — IB Physics", "duration": "10 min", "description": "Series/parallel rules, combination circuits, potential dividers, and ammeters/voltmeters", "embedId": "" },
+      "equations": [
+        { "formula": "R_series = R₁ + R₂ + R₃", "description": "Resistors in series: add directly." },
+        { "formula": "1/R_parallel = 1/R₁ + 1/R₂ + 1/R₃", "description": "Resistors in parallel: reciprocals add." },
+        { "formula": "V_out = V_in × R₂/(R₁ + R₂)", "description": "Potential divider output voltage." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A circuit: 6 Ω in series with (4 Ω and 12 Ω in parallel). Supply: 24 V. Find total R, total I, and V across each section.", "steps": [
+          { "label": "Parallel section", "text": "R_p = 4×12/(4+12) = 48/16 = 3 Ω", "isEquation": true },
+          { "label": "Total R", "text": "R = 6 + 3 = 9 Ω", "isEquation": true },
+          { "label": "Total I", "text": "I = V/R = 24/9 = 2.67 A" },
+          { "label": "V across 6 Ω", "text": "V₁ = IR₁ = 2.67 × 6 = 16 V" },
+          { "label": "V across parallel", "text": "V₂ = IR_p = 2.67 × 3 = 8 V. Check: 16 + 8 = 24 V ✓" }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Two 10 Ω resistors in parallel. Find the total resistance.", "solution": "R = R₁R₂/(R₁+R₂) = 100/20 = 5 Ω. (Equal resistors in parallel: R/n = 10/2 = 5 Ω.)" },
+        { "difficulty": "medium", "scope": "sl", "question": "A potential divider uses R₁ = 2 kΩ and an LDR as R₂. In darkness, R₂ = 10 kΩ. In bright light, R₂ = 500 Ω. Supply is 5 V. Find V_out in each case.", "solution": "Dark: V_out = 5 × 10/(2+10) = 5 × 10/12 = 4.17 V. Light: V_out = 5 × 0.5/(2+0.5) = 5 × 0.5/2.5 = 1.0 V. V_out drops from 4.17 to 1.0 V as light increases." },
+        { "difficulty": "hard", "scope": "sl", "question": "Three identical resistors R. Find the total resistance when: (a) all in series, (b) all in parallel, (c) two in parallel, combined in series with the third.", "solution": "(a) 3R. (b) R/3. (c) Parallel pair: R/2. Plus third in series: R/2 + R = 3R/2." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Adding parallel resistances directly: R = R₁ + R₂", "explanation": "In parallel, you add RECIPROCALS: 1/R = 1/R₁ + 1/R₂. Adding directly gives a value too high. The parallel combination must be LESS than the smallest single resistor.", "correct": "Series: R = R₁ + R₂. Parallel: 1/R = 1/R₁ + 1/R₂ (or R = R₁R₂/(R₁+R₂) for two)." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A 12 V battery (negligible internal resistance) is connected to a circuit where a 6.0 Ω resistor is in series with two resistors (4.0 Ω and 12 Ω) in parallel.\n(a) Calculate the total resistance. [2]\n(b) Calculate the current from the battery. [1]\n(c) Calculate the voltage across the parallel combination. [1]\n(d) Calculate the current through the 4.0 Ω resistor. [1]", "marks": 5, "modelAnswer": "(a) R_parallel = 4 × 12/(4+12) = 3.0 Ω. R_total = 6.0 + 3.0 = 9.0 Ω [2].\n(b) I = 12/9 = 1.33 A [1].\n(c) V_parallel = IR_p = 1.33 × 3.0 = 4.0 V [1].\n(d) I_4 = V_parallel/R₄ = 4.0/4.0 = 1.0 A [1].", "examinerTip": "For parallel sections: first find the equivalent R. Then find the voltage across the parallel group (V = IR_p). Then find individual currents using V/R for each resistor." }
+    },
+
+    {
+      "id": "b5_sub5",
+      "num": 5,
+      "title": "Kirchhoff's Laws",
+      "group": "Circuit Analysis",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Series & Parallel",
+      "nextTitle": "Electrical Power & Energy in Circuits",
+
+      "bigIdea": "Kirchhoff's two laws are conservation of charge and conservation of energy applied to circuits. First law: current into a junction equals current out (charge conservation). Second law: the sum of voltages around any closed loop equals zero (energy conservation). Together, they can solve ANY circuit, no matter how complex.",
+
+      "foundation": {
+        "title": "Two conservation laws for circuits",
+        "content": "<h4>Kirchhoff's First Law (KCL — Current Law)</h4><p><strong>The sum of currents entering a junction equals the sum of currents leaving.</strong></p><p><strong>ΣI_in = ΣI_out</strong></p><p>This is conservation of charge: charge doesn't accumulate at a junction.</p><h4>Kirchhoff's Second Law (KVL — Voltage Law)</h4><p><strong>The sum of EMFs around any closed loop equals the sum of potential drops.</strong></p><p><strong>Σε = ΣIR</strong> (around any closed loop)</p><p>Or equivalently: the algebraic sum of all voltages around a closed loop is zero.</p><p>This is conservation of energy: the energy gained by charge (from EMFs) equals the energy lost (across resistors) in one complete loop.</p>",
+        "summary": "<p><strong>KCL:</strong> ΣI_in = ΣI_out at any junction (charge conservation).</p><p><strong>KVL:</strong> Σε = ΣIR around any closed loop (energy conservation).</p>",
+        "checkQuestions": [
+          { "question": "At a junction: 3 A enters from one wire, 1 A enters from another. How much current leaves?", "answer": "ΣI_in = 3 + 1 = 4 A. By KCL: ΣI_out = 4 A." },
+          { "question": "A 12 V battery drives current through 3 Ω and 5 Ω in series. Apply KVL.", "answer": "KVL: 12 = I(3) + I(5) = 8I → I = 1.5 A. Voltage drops: V₁ = 4.5 V, V₂ = 7.5 V. Sum = 12 V = ε ✓." }
+        ],
+        "checklist": [
+          "I can state KCL: currents into a junction = currents out",
+          "I can state KVL: EMFs = voltage drops around any loop",
+          "I can explain KCL as charge conservation and KVL as energy conservation"
+        ]
+      },
+
+      "core": {
+        "title": "Applying Kirchhoff's laws to multi-loop circuits",
+        "content": "<h4>Solving complex circuits</h4><ol><li>Label all currents with directions (guess if needed — a negative answer means the real direction is opposite)</li><li>Apply KCL at each junction: write equations for current conservation</li><li>Apply KVL around each independent loop: write equations for voltage conservation</li><li>Solve the simultaneous equations for unknown currents and voltages</li></ol><h4>Sign conventions for KVL</h4><ul><li>Going through a battery from − to +: add ε (gain energy)</li><li>Going through a battery from + to −: subtract ε</li><li>Going through a resistor in the direction of current: subtract IR (lose energy)</li><li>Going through a resistor against the current: add IR</li></ul><h4>Example: two-battery circuit</h4><p>Two batteries (ε₁ = 12 V, ε₂ = 6 V) connected in a loop with three resistors. Set up currents, apply KCL at the junction, KVL around two loops → get simultaneous equations → solve.</p>",
+        "keyPoints": [
+          "Label currents → KCL at junctions → KVL around loops → solve simultaneously",
+          "Sign convention: + through battery (− to +), − through resistor (with current)",
+          "Number of independent equations needed = number of unknowns",
+          "Negative current → actual direction is opposite to assumed"
+        ],
+        "examTrap": { "wrong": "KVL only works for simple series circuits", "correct": "KVL works for ANY closed loop in ANY circuit — even complex multi-loop circuits with multiple batteries. Apply it to each independent loop. Combined with KCL, it can solve any circuit." },
+        "checkQuestions": [
+          { "question": "A circuit has two loops sharing a central resistor. How many KVL equations do you need?", "answer": "Two KVL equations (one for each loop) plus one KCL equation at the shared junction. This gives enough equations to solve for three unknown currents." }
+        ],
+        "checklist": [
+          "I can set up and solve multi-loop circuits using KCL and KVL",
+          "I can apply correct sign conventions in KVL loops",
+          "I can interpret negative currents (direction opposite to assumed)"
+        ]
+      },
+
+      "extension": { "title": "Mesh analysis and node analysis", "content": "<p>For complex circuits, systematic methods exist: mesh analysis (assign loop currents, apply KVL to each mesh) and node analysis (assign node voltages, apply KCL at each node). These are used extensively in electrical engineering. The number of equations = number of independent loops (mesh) or independent nodes (node). Both always give the same final answer.</p>", "connections": ["D.2 Electric Fields: Kirchhoff's laws come from E-field properties (conservative field → KVL)", "B.5 Capacitors: KVL applies to circuits with capacitors too"], "checklist": ["I can describe mesh and node analysis as systematic circuit-solving methods"] },
+      "video": { "title": "Kirchhoff's Laws — IB Physics", "duration": "10 min", "description": "KCL, KVL, sign conventions, multi-loop circuits, and simultaneous equations", "embedId": "" },
+      "equations": [
+        { "formula": "ΣI_in = ΣI_out", "description": "Kirchhoff's Current Law (junction rule). Charge conservation." },
+        { "formula": "Σε = ΣIR", "description": "Kirchhoff's Voltage Law (loop rule). Energy conservation." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A 9 V battery (r = 1 Ω) drives a circuit: 2 Ω in series with (3 Ω and 6 Ω in parallel). Find all currents.", "steps": [
+          { "label": "Parallel", "text": "R_p = 3×6/(3+6) = 2 Ω" },
+          { "label": "Total R", "text": "R_total = 1 + 2 + 2 = 5 Ω" },
+          { "label": "Total I", "text": "I = 9/5 = 1.8 A", "isEquation": true },
+          { "label": "V across parallel", "text": "V_p = 1.8 × 2 = 3.6 V" },
+          { "label": "Individual currents", "text": "I₃ = 3.6/3 = 1.2 A. I₆ = 3.6/6 = 0.6 A. Check: 1.2 + 0.6 = 1.8 ✓", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Currents of 5 A, 3 A, and 2 A enter a junction. One wire leaves. Find the leaving current.", "solution": "KCL: 5 + 3 + 2 = I_out → I_out = 10 A." },
+        { "difficulty": "medium", "scope": "sl", "question": "A loop contains a 6 V battery, a 2 Ω resistor, and a 4 Ω resistor in series. Find the current using KVL.", "solution": "KVL: 6 = I(2) + I(4) = 6I → I = 1 A." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Voltages add up to the battery voltage even in parallel branches", "explanation": "KVL applies to LOOPS, not individual branches. In parallel, the voltage across each branch equals the battery voltage (minus any series resistance). KVL around each loop: ε = V_series + V_parallel.", "correct": "Apply KVL to each closed LOOP separately. Each loop must independently satisfy Σε = ΣIR." }
+      ],
+      "examCorner": { "scope": "sl", "question": "At a junction in a circuit, three wires meet. Wire A carries 2.0 A into the junction. Wire B carries 0.8 A out.\n(a) State Kirchhoff's first law. [1]\n(b) Find the current in wire C and state its direction. [2]", "marks": 3, "modelAnswer": "(a) The sum of currents entering a junction equals the sum of currents leaving (conservation of charge) [1].\n(b) I_C = 2.0 − 0.8 = 1.2 A [1], leaving the junction [1].", "examinerTip": "KCL: total in = total out. Always state the physical basis: conservation of charge." }
+    },
+
+    {
+      "id": "b5_sub6",
+      "num": 6,
+      "title": "Electrical Power, Energy & Household Circuits",
+      "group": "Practical Circuits",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Kirchhoff's Laws",
+      "nextTitle": "Capacitance (AHL)",
+
+      "bigIdea": "Your electricity bill measures energy in kilowatt-hours. A 2 kW heater running for 3 hours uses 6 kWh of energy. Understanding power and energy in circuits connects the physics of P = VI to the real-world costs and safety of electrical systems.",
+
+      "foundation": {
+        "title": "Power and energy in circuits — from physics to your electricity bill",
+        "content": "<h4>Power dissipated</h4><p><strong>P = VI = I²R = V²/R</strong></p><p>Use whichever form is most convenient given the known quantities.</p><h4>Energy consumed</h4><p><strong>E = Pt = VIt</strong></p><p>In kWh: E(kWh) = P(kW) × t(hours). 1 kWh = 3.6 MJ.</p><h4>Household circuits</h4><ul><li><strong>Parallel wiring:</strong> All appliances are connected in parallel across the mains (230 V in most countries, 120 V in USA). Each gets the full voltage. Turning one off doesn't affect others.</li><li><strong>Fuses and circuit breakers:</strong> Safety devices that break the circuit if current exceeds a safe level. Fuse wire melts. Circuit breaker trips (resettable).</li><li><strong>Choosing a fuse:</strong> select the fuse rated just above the normal operating current. P = VI → I = P/V. A 2300 W heater at 230 V: I = 10 A. Choose a 13 A fuse.</li></ul>",
+        "summary": "<p><strong>P = VI = I²R = V²/R.</strong> E = Pt = VIt.</p><p><strong>kWh:</strong> P(kW) × t(h). 1 kWh = 3.6 MJ.</p><p><strong>Household:</strong> parallel wiring, fuses for safety, I = P/V for fuse selection.</p>",
+        "checkQuestions": [
+          { "question": "A 60 W bulb runs for 5 hours. Find the energy in kWh and joules.", "answer": "E = 0.06 kW × 5 h = 0.3 kWh = 0.3 × 3.6 × 10⁶ = 1.08 × 10⁶ J = 1.08 MJ." }
+        ],
+        "checklist": [
+          "I can calculate power: P = VI = I²R = V²/R",
+          "I can calculate energy: E = Pt in joules or kWh",
+          "I can explain why household appliances are wired in parallel",
+          "I can select appropriate fuse ratings: I = P/V"
+        ]
+      },
+
+      "core": {
+        "title": "Power calculations in circuits and cost of electricity",
+        "content": "<h4>Power distribution in circuits</h4><p>In series: the component with the LARGEST resistance dissipates the MOST power (P = I²R, same I).</p><p>In parallel: the component with the SMALLEST resistance dissipates the MOST power (P = V²/R, same V).</p><h4>Cost of electricity</h4><p><strong>Cost = Energy(kWh) × price per kWh</strong></p><p>Typical UK price: ~30p/kWh. A 3 kW shower for 10 minutes: E = 3 × (10/60) = 0.5 kWh. Cost = 0.5 × 30p = 15p.</p><h4>Efficiency of electrical devices</h4><p>η = useful power output / total power input × 100%. LED bulb: ~30–50% efficient (light). Incandescent: ~5% (mostly heat). Motor: ~85–95%.</p>",
+        "keyPoints": [
+          "Series: largest R gets most power (P = I²R, same I)",
+          "Parallel: smallest R gets most power (P = V²/R, same V)",
+          "Cost = kWh × price/kWh",
+          "Most electrical energy ends up as thermal energy eventually"
+        ],
+        "examTrap": { "wrong": "The brightest bulb in a series circuit has the least resistance", "correct": "In series: same current through all. P = I²R → the bulb with the HIGHEST R has the most power → is brightest. In parallel: same voltage. P = V²/R → the bulb with LOWEST R is brightest. Series and parallel give OPPOSITE results." },
+        "checkQuestions": [
+          { "question": "Two bulbs (40 W and 60 W) rated for 230 V are connected in series to 230 V. Which is brighter?", "answer": "In series: same current. R₄₀ = V²/P = 230²/40 = 1322.5 Ω. R₆₀ = 230²/60 = 881.7 Ω. P = I²R → the 40 W bulb (higher R) dissipates MORE power in series → it's brighter. The 60 W rating only applies at its rated 230 V, not in series." }
+        ],
+        "checklist": [
+          "I can determine which component gets the most power in series (largest R) and parallel (smallest R)",
+          "I can calculate electricity costs from power, time, and price per kWh",
+          "I can compare efficiencies of different electrical devices"
+        ]
+      },
+
+      "extension": { "title": "Three-phase power and AC vs DC", "content": "<p>Mains electricity is AC (alternating current): voltage oscillates sinusoidally at 50 or 60 Hz. The RMS (root mean square) voltage is quoted: 230 V RMS in the UK = 325 V peak. Power: P = V_rms × I_rms. Three-phase power (used in industry) uses three AC supplies offset by 120°, providing smoother power delivery and enabling large motors.</p>", "connections": ["D.4 Induction: AC is generated by electromagnetic induction", "B.5 AC circuits: impedance and reactance (university level)"], "checklist": ["I can explain the difference between AC and DC", "I can relate RMS and peak voltages: V_peak = √2 × V_rms"] },
+      "video": { "title": "Electrical Power & Energy — IB Physics", "duration": "8 min", "description": "P = VI, energy costs, household wiring, fuses, and power distribution in circuits", "embedId": "" },
+      "equations": [
+        { "formula": "P = VI = I²R = V²/R", "description": "Power dissipated in a component." },
+        { "formula": "E = Pt = VIt", "description": "Energy consumed. In kWh: P(kW) × t(h)." },
+        { "formula": "Cost = E(kWh) × price/kWh", "description": "Electricity cost." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A 2.5 kW kettle boils water for 4 minutes. Electricity costs 28p per kWh. Find the cost.", "steps": [
+          { "label": "Energy", "text": "E = 2.5 × 4/60 = 0.167 kWh" },
+          { "label": "Cost", "text": "0.167 × 28 = 4.67p ≈ 5p", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A 100 W bulb runs for 8 hours. Find energy in kWh.", "solution": "E = 0.1 kW × 8 h = 0.8 kWh." },
+        { "difficulty": "medium", "scope": "sl", "question": "A 3 kW immersion heater on a 230 V supply. Find the current and select an appropriate fuse (available: 3 A, 5 A, 10 A, 13 A).", "solution": "I = P/V = 3000/230 = 13.04 A. Select 13 A fuse — the lowest rating above the operating current. (In practice, the next size up would be chosen for safety margin.)" }
+      ],
+      "commonMistakes": [
+        { "wrong": "A kWh is a unit of power", "explanation": "kWh = kW × h = power × time = ENERGY. The kilowatt is power; the kilowatt-HOUR is energy.", "correct": "Power: kW. Energy: kWh. 1 kWh = 3.6 MJ." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A household circuit operates at 230 V.\n(a) A 2.0 kW heater and a 0.1 kW lamp are connected in parallel. Find the total current drawn. [2]\n(b) State why household appliances are connected in parallel, not series. [2]", "marks": 4, "modelAnswer": "(a) I_heater = P/V = 2000/230 = 8.7 A. I_lamp = 100/230 = 0.43 A. I_total = 8.7 + 0.43 = 9.1 A [2].\n(b) In parallel: each appliance gets the full mains voltage (230 V), so they operate at their designed power [1]. Turning one off doesn't affect others — they operate independently [1].", "examinerTip": "Two key reasons for parallel: (1) each gets full voltage, (2) independent operation." }
+    },
+
+    {
+      "id": "b5_sub7",
+      "num": 7,
+      "title": "Capacitance & Capacitors (AHL)",
+      "group": "AHL Circuits",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Power & Energy",
+      "nextTitle": "Capacitor Charging & Discharging",
+
+      "bigIdea": "A capacitor stores charge and energy in an electric field between two plates. Charge it up, disconnect it, and the energy stays — ready to be released in a flash. Camera flashes, defibrillators, and touchscreens all use capacitors. The key equation: C = Q/V — capacitance is how much charge you store per volt.",
+
+      "foundation": {
+        "title": "Storing charge and energy",
+        "content": "<h4>Capacitance</h4><p><strong>Capacitance (C)</strong> is the charge stored per unit voltage:</p><p><strong>C = Q/V</strong></p><p>Unit: farad (F). 1 F = 1 C/V. In practice: μF (10⁻⁶), nF (10⁻⁹), pF (10⁻¹²).</p><h4>Energy stored</h4><p><strong>E = ½CV² = ½QV = Q²/(2C)</strong></p><p>The energy is stored in the electric field between the plates.</p><h4>Parallel plate capacitor</h4><p><strong>C = ε₀A/d</strong> (for vacuum/air between plates)</p><p><strong>C = ε₀εᵣA/d</strong> (with a dielectric of relative permittivity εᵣ)</p><p>Where ε₀ = 8.85 × 10⁻¹² F/m, A = plate area (m²), d = plate separation (m).</p><p>Larger plates → more C. Closer plates → more C. Dielectric → more C.</p>",
+        "summary": "<p><strong>C = Q/V.</strong> Unit: farad (F).</p><p><strong>E = ½CV² = ½QV.</strong> Energy stored in the electric field.</p><p><strong>C = ε₀εᵣA/d.</strong> Parallel plate capacitor.</p>",
+        "checkQuestions": [
+          { "question": "A 100 μF capacitor is charged to 12 V. Find Q and E.", "answer": "Q = CV = 100 × 10⁻⁶ × 12 = 1.2 × 10⁻³ C = 1.2 mC. E = ½CV² = ½ × 10⁻⁴ × 144 = 7.2 × 10⁻³ J = 7.2 mJ." }
+        ],
+        "checklist": [
+          "I can define capacitance: C = Q/V (unit: farad)",
+          "I can calculate energy stored: E = ½CV² = ½QV",
+          "I can apply C = ε₀εᵣA/d for parallel plates"
+        ]
+      },
+
+      "core": {
+        "title": "Capacitors in series and parallel, and dielectrics",
+        "content": "<h4>Capacitors in parallel</h4><p><strong>C_total = C₁ + C₂ + C₃</strong> (add directly — opposite to resistors!)</p><p>Same voltage, charge adds. More capacitors in parallel → more total charge stored → more capacitance.</p><h4>Capacitors in series</h4><p><strong>1/C_total = 1/C₁ + 1/C₂ + 1/C₃</strong> (reciprocals add — opposite to resistors!)</p><p>Same charge on each, voltages add. Series reduces total capacitance.</p><h4>Dielectrics</h4><p>A <strong>dielectric</strong> is an insulating material placed between the plates. It increases capacitance by a factor εᵣ (relative permittivity): C = ε₀εᵣA/d. Common dielectrics: paper (εᵣ ≈ 3), glass (5–10), ceramics (100–10,000).</p><p>How it works: the dielectric's molecules polarise in the electric field, partially cancelling the field inside → same charge but lower voltage → C = Q/V increases.</p>",
+        "keyPoints": [
+          "Parallel capacitors: C adds (opposite to resistors!)",
+          "Series capacitors: 1/C adds (opposite to resistors!)",
+          "Dielectric increases C by factor εᵣ",
+          "Energy stored = ½CV² = area under Q-V graph (triangle)"
+        ],
+        "examTrap": { "wrong": "Capacitors in series add directly like resistors", "correct": "Capacitors combine OPPOSITE to resistors. Parallel: C adds (like R in series). Series: 1/C adds (like R in parallel). The formulas are swapped." },
+        "checkQuestions": [
+          { "question": "Two capacitors (10 μF and 15 μF) in parallel, then in series with 20 μF. Find total C.", "answer": "Parallel: 10 + 15 = 25 μF. Series with 20: 1/C = 1/25 + 1/20 = 4/100 + 5/100 = 9/100. C = 100/9 = 11.1 μF." }
+        ],
+        "checklist": [
+          "I can combine capacitors in parallel (add) and series (reciprocals add)",
+          "I can explain how dielectrics increase capacitance",
+          "I can calculate energy from the area under a Q-V graph"
+        ]
+      },
+
+      "extension": { "title": "Energy density and supercapacitors", "content": "<p>Capacitors store less energy per mass than batteries (~10 Wh/kg vs ~200 Wh/kg for lithium-ion). But they can charge/discharge MUCH faster (seconds vs hours). Supercapacitors (~100 F) bridge the gap: more energy than regular capacitors, faster than batteries. Used in regenerative braking, grid stabilisation, and burst-power applications.</p>", "connections": ["D.2 Electric Fields: E = V/d between capacitor plates", "A.3 Energy: capacitors as energy storage compared to batteries"], "checklist": ["I can compare capacitors and batteries for energy storage (density vs speed)"] },
+      "video": { "title": "Capacitance — IB HL Physics", "duration": "10 min", "description": "C = Q/V, energy ½CV², parallel plates, series/parallel combinations, and dielectrics", "embedId": "" },
+      "equations": [
+        { "formula": "C = Q/V", "description": "Capacitance = charge/voltage. Unit: farad (F)." },
+        { "formula": "E = ½CV² = ½QV = Q²/(2C)", "description": "Energy stored in a capacitor." },
+        { "formula": "C = ε₀εᵣA/d", "description": "Parallel plate capacitor. εᵣ = relative permittivity of dielectric." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "A parallel plate capacitor: A = 0.02 m², d = 0.5 mm, εᵣ = 4. Find C and the energy at 100 V.", "steps": [
+          { "label": "C", "text": "C = ε₀εᵣA/d = 8.85 × 10⁻¹² × 4 × 0.02/(5 × 10⁻⁴) = 1.42 × 10⁻⁹ F = 1.42 nF", "isEquation": true },
+          { "label": "Energy", "text": "E = ½CV² = ½ × 1.42 × 10⁻⁹ × 10000 = 7.1 × 10⁻⁶ J = 7.1 μJ", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "hl", "question": "A 47 μF capacitor is charged to 9 V. Find the charge stored and energy.", "solution": "Q = CV = 47 × 10⁻⁶ × 9 = 423 × 10⁻⁶ C = 423 μC. E = ½CV² = ½ × 47 × 10⁻⁶ × 81 = 1.90 × 10⁻³ J = 1.9 mJ." },
+        { "difficulty": "medium", "scope": "hl", "question": "Three 30 μF capacitors. Find C_total for: (a) all parallel, (b) all series.", "solution": "(a) C = 30 + 30 + 30 = 90 μF. (b) 1/C = 3/30 = 1/10 → C = 10 μF." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Capacitors in parallel combine like resistors in parallel (1/C = 1/C₁ + 1/C₂)", "explanation": "OPPOSITE. Capacitors in parallel ADD directly: C = C₁ + C₂. Capacitors in series use reciprocals: 1/C = 1/C₁ + 1/C₂. This is the reverse of resistors.", "correct": "Parallel caps: add C. Series caps: add 1/C. Opposite to resistors." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A 220 μF capacitor is charged to 15 V.\n(a) Calculate the charge stored. [1]\n(b) Calculate the energy stored. [1]\n(c) A dielectric with εᵣ = 3 is inserted (while disconnected from the supply). State and explain the effect on: (i) the charge, (ii) the capacitance, (iii) the voltage. [3]", "marks": 5, "modelAnswer": "(a) Q = CV = 220 × 10⁻⁶ × 15 = 3.3 × 10⁻³ C [1].\n(b) E = ½CV² = ½ × 220 × 10⁻⁶ × 225 = 0.0248 J [1].\n(c)(i) Charge stays the same (disconnected — no path for charge to flow) [1]. (ii) C increases by factor 3 (C = ε₀εᵣA/d) [1]. (iii) V = Q/C: Q same, C × 3 → V drops to 15/3 = 5 V [1].", "examinerTip": "Connected vs disconnected: if connected to supply, V stays constant (Q and E change). If disconnected, Q stays constant (V and E change). Always state which is held constant." }
+    },
+
+    {
+      "id": "b5_sub8",
+      "num": 8,
+      "title": "Capacitor Charging & Discharging (AHL)",
+      "group": "AHL Circuits",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Capacitance",
+      "nextTitle": "Magnetic Effects of Current",
+
+      "bigIdea": "Charge a capacitor through a resistor and it doesn't happen instantly — the current starts high and decays exponentially. The time constant τ = RC determines how fast: after one τ, the capacitor is 63% charged. After 5τ, it's effectively full. This RC circuit is everywhere: camera flash charging, touchscreen timing, and signal filtering.",
+
+      "foundation": {
+        "title": "The exponential charging and discharging of capacitors",
+        "content": "<h4>Charging through a resistor</h4><p>When a capacitor C is charged through a resistor R from a supply ε:</p><ul><li><strong>Voltage across C:</strong> V(t) = ε(1 − e^(−t/RC))</li><li><strong>Current:</strong> I(t) = (ε/R)e^(−t/RC)</li><li><strong>Charge:</strong> Q(t) = Cε(1 − e^(−t/RC))</li></ul><p>Starts uncharged → charges exponentially toward ε. Current starts at ε/R and decays to zero.</p><h4>Discharging through a resistor</h4><ul><li><strong>Voltage:</strong> V(t) = V₀e^(−t/RC)</li><li><strong>Current:</strong> I(t) = (V₀/R)e^(−t/RC)</li><li><strong>Charge:</strong> Q(t) = Q₀e^(−t/RC)</li></ul><p>Everything decays exponentially from initial value to zero.</p><h4>The time constant</h4><p><strong>τ = RC</strong> (seconds). After 1τ: 63% charged (or 37% remaining if discharging). After 5τ: ~99% (effectively complete).</p>",
+        "summary": "<p><strong>Charging:</strong> V = ε(1 − e^(−t/RC)). <strong>Discharging:</strong> V = V₀e^(−t/RC).</p><p><strong>Time constant τ = RC.</strong> After 1τ: 63% done. After 5τ: ~99% done.</p>",
+        "checkQuestions": [
+          { "question": "A 100 μF capacitor and 10 kΩ resistor. Find τ. How long to fully charge (approximately)?", "answer": "τ = RC = 10,000 × 100 × 10⁻⁶ = 1 s. Fully charged ≈ 5τ = 5 s." }
+        ],
+        "checklist": [
+          "I can state the charging equations: V = ε(1 − e^(−t/RC)), I = (ε/R)e^(−t/RC)",
+          "I can state the discharging equations: V = V₀e^(−t/RC), Q = Q₀e^(−t/RC)",
+          "I can calculate the time constant: τ = RC",
+          "I can state that after 1τ: 63% done, after 5τ: ~99% done"
+        ]
+      },
+
+      "core": {
+        "title": "RC circuit calculations and graphical analysis",
+        "content": "<h4>Finding τ from graphs</h4><p>On a V-t graph for discharging: τ is the time at which V drops to V₀/e = 0.368V₀. Or: draw a tangent at t = 0 — it intersects the time axis at t = τ.</p><h4>Half-life of discharge</h4><p>The time for V (or Q) to halve: t₁/₂ = τ ln 2 = 0.693τ = 0.693RC.</p><h4>Energy during charging</h4><p>When charging from ε: total energy from supply = Qε = Cε². Energy stored in capacitor = ½Cε². Energy dissipated in resistor = ½Cε². Exactly half the energy is 'lost' to heat in the resistor — regardless of R. This is a fundamental result.</p><h4>Logarithmic analysis</h4><p>For discharging: ln V = ln V₀ − t/(RC). Plot ln V vs t → straight line with gradient = −1/(RC) and y-intercept = ln V₀. This is how τ is found experimentally.</p>",
+        "keyPoints": [
+          "τ = RC: the time constant determines charging/discharging speed",
+          "t₁/₂ = 0.693RC: time for voltage/charge to halve",
+          "Energy: supply gives Cε², capacitor stores ½Cε², resistor dissipates ½Cε²",
+          "ln V vs t: straight line with gradient −1/RC"
+        ],
+        "examTrap": { "wrong": "All the energy from the supply goes into the capacitor", "correct": "Only HALF goes to the capacitor (½Cε²). The other half is dissipated as heat in the resistor. This is always exactly 50-50, regardless of R." },
+        "checkQuestions": [
+          { "question": "A 470 μF capacitor charged to 9 V is discharged through 2.2 kΩ. Find τ, and the voltage after 2 s.", "answer": "τ = RC = 2200 × 470 × 10⁻⁶ = 1.034 s. V(2) = 9 × e^(−2/1.034) = 9 × e^(−1.934) = 9 × 0.145 = 1.30 V." }
+        ],
+        "checklist": [
+          "I can read τ from a V-t graph (V drops to 37% of V₀)",
+          "I can calculate half-life: t₁/₂ = 0.693RC",
+          "I can explain why exactly ½ of supply energy goes to heat",
+          "I can use ln V vs t plots to find RC experimentally"
+        ]
+      },
+
+      "extension": { "title": "RC circuits in electronics", "content": "<p>RC circuits are fundamental in electronics: low-pass filters (pass slow signals, block fast ones: τ determines the cutoff frequency f_c = 1/(2πRC)), high-pass filters (opposite), timing circuits (555 timer uses RC for period), debouncing switches, and signal smoothing. The simple exponential response of RC circuits makes them the building blocks of analog electronics.</p>", "connections": ["D.4 Induction: RL circuits have similar exponential behaviour with τ = L/R", "E.3 Radioactive Decay: N = N₀e^(−λt) has the same exponential form as capacitor discharge"], "checklist": ["I can describe RC circuit applications: filters, timers, smoothing"] },
+      "video": { "title": "RC Circuits — IB HL Physics", "duration": "10 min", "description": "Charging/discharging equations, time constant, energy analysis, and ln V plots", "embedId": "" },
+      "equations": [
+        { "formula": "V = V₀e^(−t/RC) (discharge)", "description": "Exponential voltage decay." },
+        { "formula": "V = ε(1 − e^(−t/RC)) (charge)", "description": "Exponential voltage rise." },
+        { "formula": "τ = RC", "description": "Time constant. After 1τ: 63% done." },
+        { "formula": "t₁/₂ = 0.693RC", "description": "Half-life of charge/discharge." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "A 200 μF capacitor charges through 5 kΩ from 12 V. Find τ, current at t = 0, and voltage after 2 s.", "steps": [
+          { "label": "τ", "text": "τ = RC = 5000 × 200 × 10⁻⁶ = 1 s", "isEquation": true },
+          { "label": "I(0)", "text": "I₀ = ε/R = 12/5000 = 2.4 mA" },
+          { "label": "V(2)", "text": "V = 12(1 − e^(−2/1)) = 12(1 − 0.135) = 12 × 0.865 = 10.4 V", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "A charged capacitor (V₀ = 6 V, C = 330 μF) discharges through 4.7 kΩ. Find τ and the voltage after 3τ.", "solution": "τ = RC = 4700 × 330 × 10⁻⁶ = 1.551 s. V(3τ) = 6 × e⁻³ = 6 × 0.0498 = 0.30 V." },
+        { "difficulty": "hard", "scope": "hl", "question": "A 100 μF capacitor is charged to 20 V then discharged through R. After 0.5 s, V = 12 V. Find R.", "solution": "12 = 20e^(−0.5/RC). 0.6 = e^(−0.5/RC). ln(0.6) = −0.5/RC. −0.5108 = −0.5/RC. RC = 0.5/0.5108 = 0.979 s. R = 0.979/(100 × 10⁻⁶) = 9790 Ω ≈ 9.8 kΩ." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using the charging equation for discharging", "explanation": "Charging: V = ε(1 − e^(−t/RC)) (rises from 0). Discharging: V = V₀e^(−t/RC) (falls from V₀). They're different equations. Check: is V starting at 0 (charging) or V₀ (discharging)?", "correct": "Charging: 1 − e^(−t/RC). Discharging: e^(−t/RC). Different equations for different situations." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A 500 μF capacitor is charged to 10 V and then discharged through a 2.0 kΩ resistor.\n(a) Calculate the time constant. [1]\n(b) Calculate the initial discharge current. [1]\n(c) Calculate the charge remaining after 2.0 s. [2]\n(d) Sketch a graph of current vs time for the discharge. [2]", "marks": 6, "modelAnswer": "(a) τ = RC = 2000 × 500 × 10⁻⁶ = 1.0 s [1].\n(b) I₀ = V₀/R = 10/2000 = 5.0 mA [1].\n(c) Q₀ = CV₀ = 500 × 10⁻⁶ × 10 = 5.0 × 10⁻³ C. Q(2) = Q₀e^(−2/1) = 5 × 10⁻³ × 0.135 = 6.77 × 10⁻⁴ C ≈ 0.68 mC [2].\n(d) Exponential decay curve: starts at 5.0 mA, decays toward zero. At t = 1 s: I ≈ 1.84 mA (37% of initial). Approaches zero asymptotically [2].", "examinerTip": "For RC discharge graphs: always mark the initial value and the value at t = τ (37% of initial). Show a smooth exponential decay — not a straight line." }
+    },
+
+    {
+      "id": "b5_sub9",
+      "num": 9,
+      "title": "Magnetic Effects of Electric Current",
+      "group": "Electromagnetism Preview",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "RC Circuits",
+      "nextTitle": "Electromagnetic Induction Preview",
+
+      "bigIdea": "Every electric current creates a magnetic field around it. A straight wire creates circular field lines. A coil creates a field like a bar magnet. This connection between electricity and magnetism — electromagnetism — is the basis of motors, generators, transformers, and most of modern technology.",
+
+      "foundation": {
+        "title": "Current creates magnetism",
+        "content": "<h4>The magnetic field around a current-carrying wire</h4><p>When current flows through a wire, it creates a <strong>magnetic field</strong> in circles around the wire. The direction follows the <strong>right-hand grip rule</strong>: point your thumb in the direction of conventional current → your fingers curl in the direction of the magnetic field.</p><h4>The field around a solenoid (coil)</h4><p>A solenoid (coil of wire) creates a uniform magnetic field INSIDE it — identical to a bar magnet. One end is North, the other South. Use the right-hand grip rule with fingers curling in the direction of current → thumb points to North.</p><h4>Electromagnets</h4><p>A solenoid with a soft iron core becomes an electromagnet. Field strength increases with: more current, more turns, iron core. Electromagnets are switchable — unlike permanent magnets. Used in: doorbells, scrapyard cranes, MRI machines, particle accelerators.</p>",
+        "summary": "<p><strong>Current → magnetic field.</strong> Wire: circles around wire. Solenoid: uniform field like bar magnet.</p><p><strong>Right-hand grip:</strong> thumb = current → fingers = field direction.</p><p><strong>Electromagnets:</strong> solenoid + iron core. Switchable. Stronger with more I, more turns.</p>",
+        "checkQuestions": [
+          { "question": "How can you increase the strength of an electromagnet?", "answer": "Increase the current, increase the number of turns in the coil, add a soft iron core, and make the solenoid shorter (more turns per unit length)." }
+        ],
+        "checklist": [
+          "I can state that current creates a magnetic field",
+          "I can use the right-hand grip rule for field direction around a wire and solenoid",
+          "I can describe an electromagnet and how to increase its strength"
+        ]
+      },
+
+      "core": {
+        "title": "Force on a current in a magnetic field — the motor effect",
+        "content": "<h4>The motor effect</h4><p>When a current-carrying conductor is placed in an external magnetic field, it experiences a <strong>force</strong>:</p><p><strong>F = BIL sin θ</strong></p><p>Where B = magnetic flux density (tesla, T), I = current (A), L = length of conductor in the field (m), θ = angle between conductor and field.</p><p>Maximum force when θ = 90° (conductor perpendicular to field). Zero when θ = 0° (conductor parallel to field).</p><h4>Direction — Fleming's left-hand rule</h4><p>Hold your LEFT hand with thumb, first finger, and second finger at right angles:</p><ul><li><strong>First finger:</strong> Field direction (N to S)</li><li><strong>seCond finger:</strong> Current direction (conventional)</li><li><strong>thuMb:</strong> Motion (force on conductor)</li></ul><h4>Force on a moving charge</h4><p>A single charge q moving at speed v in a magnetic field B experiences:</p><p><strong>F = qvB sin θ</strong></p><p>This force is always perpendicular to both v and B → it changes the direction but not the speed → the charge follows a circular path.</p><p><strong>Centripetal force:</strong> qvB = mv²/r → <strong>r = mv/(qB)</strong></p>",
+        "keyPoints": [
+          "F = BIL sin θ: force on a current in a magnetic field",
+          "Fleming's left-hand rule: First = Field, seCond = Current, thuMb = Motion",
+          "F = qvB sin θ: force on a moving charge",
+          "Charged particle in B field: circular motion, r = mv/(qB)"
+        ],
+        "examTrap": { "wrong": "The magnetic force can speed up a charged particle", "correct": "The magnetic force is ALWAYS perpendicular to the velocity. It changes DIRECTION, not speed. Since F ⊥ v: work done = Fv cos 90° = 0. No work → no change in KE → no change in speed. The particle moves in a circle at constant speed." },
+        "checkQuestions": [
+          { "question": "A 0.3 m wire carrying 5 A is in a 0.2 T field at 90°. Find the force.", "answer": "F = BIL = 0.2 × 5 × 0.3 = 0.3 N." },
+          { "question": "An electron (m = 9.11 × 10⁻³¹, q = 1.6 × 10⁻¹⁹) at 2 × 10⁶ m/s in a 0.05 T field. Find the radius of its circular path.", "answer": "r = mv/(qB) = 9.11 × 10⁻³¹ × 2 × 10⁶/(1.6 × 10⁻¹⁹ × 0.05) = 1.822 × 10⁻²⁴/8 × 10⁻²¹ = 2.28 × 10⁻⁴ m = 0.228 mm." }
+        ],
+        "checklist": [
+          "I can apply F = BIL sin θ for force on a current-carrying conductor",
+          "I can use Fleming's left-hand rule for direction",
+          "I can apply F = qvB sin θ for force on a moving charge",
+          "I can calculate the radius of circular motion: r = mv/(qB)"
+        ]
+      },
+
+      "extension": { "title": "The Hall effect", "content": "<p>When current flows through a conductor in a magnetic field, charges are pushed to one side → voltage builds up across the conductor (Hall voltage: V_H = BI/(nqd), where d = thickness). The Hall effect is used to: measure magnetic field strength (Hall probe), identify charge carrier type (electrons vs holes in semiconductors), and make contactless switches.</p>", "connections": ["D.3 Motion in E&M Fields: detailed treatment of charges in magnetic fields", "D.2 Electric Fields: the Hall voltage balances the magnetic force with an electric force"], "checklist": ["I can describe the Hall effect and its applications"] },
+      "video": { "title": "Magnetic Effects of Current — IB Physics", "duration": "10 min", "description": "F = BIL, Fleming's left-hand rule, F = qvB, circular motion, and the motor effect", "embedId": "" },
+      "equations": [
+        { "formula": "F = BIL sin θ", "description": "Force on a current-carrying conductor in a magnetic field." },
+        { "formula": "F = qvB sin θ", "description": "Force on a moving charge in a magnetic field." },
+        { "formula": "r = mv/(qB)", "description": "Radius of circular motion for a charged particle in B." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A proton (m = 1.67 × 10⁻²⁷ kg) at 3 × 10⁶ m/s enters a 0.5 T field perpendicular. Find the radius and period.", "steps": [
+          { "label": "Radius", "text": "r = mv/(qB) = 1.67 × 10⁻²⁷ × 3 × 10⁶/(1.6 × 10⁻¹⁹ × 0.5) = 5.01 × 10⁻²¹/8 × 10⁻²⁰ = 0.0626 m = 6.26 cm", "isEquation": true },
+          { "label": "Period", "text": "T = 2πr/v = 2π × 0.0626/(3 × 10⁶) = 1.31 × 10⁻⁷ s = 131 ns", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A 0.5 m wire carrying 4 A is perpendicular to a 0.1 T field. Find the force.", "solution": "F = BIL = 0.1 × 4 × 0.5 = 0.2 N." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain why a charged particle in a uniform magnetic field moves in a circle at constant speed.", "solution": "The magnetic force (F = qvB) is always perpendicular to the velocity (acts as centripetal force). Perpendicular force changes direction but not speed (no work done: F ⊥ v). Constant speed + constant centripetal force = uniform circular motion." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using the right hand for the motor effect", "explanation": "The MOTOR effect (force on a current in a field) uses the LEFT hand (Fleming's left-hand rule). The RIGHT hand is for generators/induction (Fleming's right-hand rule). Left = motor, Right = generator.", "correct": "Motor: LEFT hand. Generator: RIGHT hand." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A wire of length 0.25 m carries a current of 6.0 A. It is placed in a uniform magnetic field of 0.40 T at 30° to the field.\n(a) Calculate the force on the wire. [2]\n(b) State the condition for maximum force. [1]\n(c) An electron enters the same field at 5.0 × 10⁶ m/s perpendicular to B. Calculate the radius of its path. [2]", "marks": 5, "modelAnswer": "(a) F = BIL sin θ = 0.40 × 6.0 × 0.25 × sin 30° = 0.60 × 0.5 = 0.30 N [2].\n(b) Maximum force when the wire is perpendicular to the field (θ = 90°, sin 90° = 1) [1].\n(c) r = mv/(qB) = 9.11 × 10⁻³¹ × 5 × 10⁶/(1.6 × 10⁻¹⁹ × 0.40) = 4.555 × 10⁻²⁴/6.4 × 10⁻²⁰ = 7.12 × 10⁻⁵ m = 0.071 mm [2].", "examinerTip": "Don't forget sin θ in F = BIL sin θ. At θ = 90°: sin = 1. At θ = 0°: sin = 0 (no force if wire is parallel to field)." }
+    },
+
+    {
+      "id": "b5_sub10",
+      "num": 10,
+      "title": "Electromagnetic Induction Preview",
+      "group": "Electromagnetism Preview",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Magnetic Effects",
+      "nextTitle": "C.1 Simple Harmonic Motion",
+
+      "bigIdea": "Move a magnet near a coil and a voltage appears — even with no battery. Change the magnetic field through a loop and current flows. This is electromagnetic induction, discovered by Faraday in 1831. It's the basis of every generator, transformer, and power station on Earth. Almost all the electricity you use was created by induction.",
+
+      "foundation": {
+        "title": "Changing magnetic fields create electricity",
+        "content": "<h4>Faraday's discovery</h4><p>In 1831, Michael Faraday found that a <strong>changing magnetic field</strong> through a coil induces a voltage (EMF) in the coil. No battery needed — the changing field IS the source of EMF.</p><h4>Magnetic flux</h4><p><strong>Magnetic flux (Φ):</strong> the 'amount' of magnetic field passing through an area.</p><p><strong>Φ = BA cos θ</strong></p><p>Where B = field strength (T), A = area (m²), θ = angle between B and the normal to the area. Unit: weber (Wb) = T·m².</p><h4>Faraday's law</h4><p><strong>The induced EMF equals the rate of change of magnetic flux:</strong></p><p><strong>ε = −NΔΦ/Δt</strong></p><p>Where N = number of turns, ΔΦ/Δt = rate of change of flux. The negative sign is Lenz's law (below).</p><h4>Lenz's law</h4><p><strong>The induced current flows in a direction that opposes the change that caused it.</strong></p><p>Push a magnet toward a coil → the induced current creates a field that repels the magnet. Pull it away → the induced current attracts it. This is conservation of energy: you must do work to move the magnet → that work becomes electrical energy.</p>",
+        "summary": "<p><strong>Φ = BA cos θ:</strong> magnetic flux. Unit: weber (Wb).</p><p><strong>ε = −NΔΦ/Δt:</strong> Faraday's law. Changing flux induces EMF.</p><p><strong>Lenz's law:</strong> induced current opposes the change causing it.</p><p><strong>More flux change → more EMF.</strong> Faster change → more EMF.</p>",
+        "checkQuestions": [
+          { "question": "A coil of 200 turns experiences a flux change of 0.05 Wb in 0.1 s. Find the induced EMF.", "answer": "ε = NΔΦ/Δt = 200 × 0.05/0.1 = 100 V." },
+          { "question": "Why does Lenz's law follow from conservation of energy?", "answer": "If the induced current aided the change (e.g., attracted an approaching magnet), the magnet would accelerate → more flux change → more current → more attraction → infinite acceleration. This would create energy from nothing, violating conservation. The opposition ensures energy is conserved: you must do work to change the flux." }
+        ],
+        "checklist": [
+          "I can define magnetic flux: Φ = BA cos θ (unit: Wb)",
+          "I can state Faraday's law: ε = −NΔΦ/Δt",
+          "I can state Lenz's law: induced current opposes the change",
+          "I can explain Lenz's law as a consequence of energy conservation"
+        ]
+      },
+
+      "core": {
+        "title": "Applications — generators, transformers, and AC",
+        "content": "<h4>AC generators</h4><p>A coil rotating in a magnetic field: the flux through the coil changes sinusoidally → the induced EMF is sinusoidal → alternating current (AC).</p><p>ε = ε₀ sin(ωt) = NBAω sin(ωt)</p><p>Where ε₀ = NBAω is the peak EMF, ω = angular velocity of rotation.</p><h4>Transformers</h4><p>Two coils wound on a shared iron core. AC in the primary coil creates a changing flux → induces EMF in the secondary coil.</p><p><strong>V_s/V_p = N_s/N_p</strong> (voltage ratio = turns ratio)</p><p>Step-up transformer: N_s > N_p → V_s > V_p (increases voltage). Step-down: N_s < N_p → V_s < V_p.</p><p>For an ideal transformer: P_in = P_out → V_p I_p = V_s I_s. Increasing voltage decreases current (and vice versa). This is why electricity is transmitted at high voltage: same power, less current, less I²R heating losses in transmission lines.</p><h4>Eddy currents</h4><p>When a conducting sheet moves through a magnetic field (or is in a changing field), circular currents are induced in the sheet. These eddy currents: dissipate energy as heat (used in induction cooktops), create opposing forces (used in electromagnetic braking), and cause energy losses in transformer cores (minimised by laminating the core).</p>",
+        "keyPoints": [
+          "AC generator: ε = NBAω sin(ωt). Rotating coil in B field.",
+          "Transformer: V_s/V_p = N_s/N_p. Ideal: V_p I_p = V_s I_s.",
+          "High voltage transmission: reduces current → reduces I²R losses.",
+          "Eddy currents: circular induced currents in bulk conductors. Cause heating and braking."
+        ],
+        "examTrap": { "wrong": "A transformer works with DC", "correct": "Transformers require CHANGING flux → AC only. DC creates a constant flux → no change → no induced EMF in the secondary. This is why AC won the 'war of currents' — transformers enable efficient long-distance power transmission." },
+        "checkQuestions": [
+          { "question": "A transformer steps 230 V down to 12 V. N_p = 920 turns. Find N_s.", "answer": "N_s/N_p = V_s/V_p → N_s = 920 × 12/230 = 48 turns." },
+          { "question": "Why is electricity transmitted at 400,000 V rather than 230 V?", "answer": "Power = VI. For the same power, higher V → lower I. Power loss in wires = I²R. Lower I → much less power lost as heat. Stepping up to 400 kV reduces the current (and losses) by a factor of ~1700² ≈ 3 million compared to 230 V." }
+        ],
+        "checklist": [
+          "I can describe an AC generator: rotating coil → sinusoidal EMF",
+          "I can apply the transformer equation: V_s/V_p = N_s/N_p",
+          "I can explain why high voltage reduces transmission losses (I²R)",
+          "I can describe eddy currents and their effects (heating, braking)"
+        ]
+      },
+
+      "extension": { "title": "Maxwell's equations and electromagnetic waves", "content": "<p>Faraday's law is one of Maxwell's four equations of electromagnetism. Together, they predict that changing electric fields create magnetic fields (and vice versa) — propagating as electromagnetic waves at speed c = 1/√(ε₀μ₀). This unified electricity, magnetism, and light into one theory. Maxwell's equations are the foundation of all EM technology: radio, TV, Wi-Fi, radar, fibre optics, and lasers.</p>", "connections": ["C.2 Wave Model: EM waves are self-propagating E and B field oscillations", "D.4 Induction: detailed treatment of Faraday's and Lenz's laws"], "checklist": ["I can state that Maxwell's equations unify electricity, magnetism, and light", "I can state c = 1/√(ε₀μ₀)"] },
+      "video": { "title": "Electromagnetic Induction — IB Physics", "duration": "11 min", "description": "Faraday's law, Lenz's law, generators, transformers, and power transmission", "embedId": "" },
+      "equations": [
+        { "formula": "Φ = BA cos θ", "description": "Magnetic flux. Unit: weber (Wb) = T·m²." },
+        { "formula": "ε = −NΔΦ/Δt", "description": "Faraday's law. Induced EMF from changing flux." },
+        { "formula": "V_s/V_p = N_s/N_p", "description": "Transformer equation. Voltage ratio = turns ratio." },
+        { "formula": "ε = NBAω sin(ωt)", "description": "AC generator EMF. ω = angular velocity of rotation." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A step-up transformer: V_p = 230 V, N_p = 500, N_s = 10,000. Find V_s and the current ratio.", "steps": [
+          { "label": "V_s", "text": "V_s = V_p × N_s/N_p = 230 × 10000/500 = 4600 V", "isEquation": true },
+          { "label": "Current ratio", "text": "I_p/I_s = N_s/N_p = 10000/500 = 20. Primary current is 20× secondary (power conserved).", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State Faraday's law of electromagnetic induction.", "solution": "The induced EMF in a circuit is equal to the negative rate of change of magnetic flux linkage through the circuit: ε = −NΔΦ/Δt." },
+        { "difficulty": "medium", "scope": "sl", "question": "A coil of 50 turns and area 0.04 m² is in a field that changes from 0.3 T to 0 in 0.2 s. Find the average induced EMF.", "solution": "ΔΦ = ΔB × A = 0.3 × 0.04 = 0.012 Wb. ε = NΔΦ/Δt = 50 × 0.012/0.2 = 3 V." },
+        { "difficulty": "hard", "scope": "sl", "question": "Power of 500 MW is transmitted at 400 kV through cables with total resistance 10 Ω. Find: (a) the current, (b) the power lost, (c) the efficiency.", "solution": "(a) I = P/V = 500 × 10⁶/400 × 10³ = 1250 A. (b) P_lost = I²R = 1250² × 10 = 15.6 MW. (c) η = (500 − 15.6)/500 = 96.9%. At 230 V: I = 2.17 × 10⁶ A → P_lost = 4.7 × 10¹³ W → impossible. High voltage is essential." }
+      ],
+      "commonMistakes": [
+        { "wrong": "A transformer can work with DC", "explanation": "DC creates a constant magnetic flux → ΔΦ/Δt = 0 → no induced EMF. Transformers need CHANGING flux → AC only. A DC input produces no output (except a brief spike when switched on/off).", "correct": "Transformers require AC. DC gives constant flux → no induction." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A transformer has 200 primary turns and 4000 secondary turns. The primary voltage is 12 V AC.\n(a) Calculate the secondary voltage. [1]\n(b) The secondary current is 0.05 A. Calculate the primary current (ideal transformer). [2]\n(c) Explain why the transformer does not work with DC. [2]", "marks": 5, "modelAnswer": "(a) V_s = V_p × N_s/N_p = 12 × 4000/200 = 240 V [1].\n(b) V_p I_p = V_s I_s → 12 × I_p = 240 × 0.05 = 12. I_p = 1.0 A [2].\n(c) A transformer works by electromagnetic induction — a changing flux in the primary induces an EMF in the secondary [1]. DC produces a constant current → constant magnetic flux → ΔΦ/Δt = 0 → no induced EMF in the secondary [1].", "examinerTip": "For 'explain why DC doesn't work': mention (1) DC → constant flux and (2) Faraday's law requires CHANGING flux. Two marks, two points." }
+    }
+
+  ]
+},
+// ============================================================
+// C.1 SIMPLE HARMONIC MOTION — COMPLETE (8 subtopics)
+// Ends with comma — ready for C2 to follow
+// ============================================================
+
+"C1": {
+  "title": "Simple Harmonic Motion",
+  "code": "C.1",
+  "theme": "C",
+  "level": "SL + HL",
+  "subtopicCount": 8,
+  "subtopics": [
+
+    {
+      "id": "c1_sub1",
+      "num": 1,
+      "title": "Conditions for SHM & the Defining Equation",
+      "group": "SHM Fundamentals",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "B.5 Current & Circuits",
+      "nextTitle": "SHM Graphs & Equations",
+
+      "bigIdea": "Pull a mass on a spring and let go. It oscillates back and forth, always pulled toward the centre. The further you pull, the harder it pulls back. This proportionality — force proportional to displacement — is the signature of simple harmonic motion. It appears everywhere: pendulums, guitar strings, atoms in crystals, even light itself.",
+
+      "foundation": {
+        "title": "What makes an oscillation 'simple harmonic'?",
+        "content": "<h4>Oscillations in everyday life</h4><p>A child on a swing, a vibrating guitar string, a bouncing spring, a pendulum clock — all oscillate. They move back and forth about a central position. But not all oscillations are the same. <strong>Simple harmonic motion (SHM)</strong> is a specific, mathematically elegant type of oscillation.</p><h4>Two conditions for SHM</h4><p>For an oscillation to be SHM, TWO conditions must be met:</p><ol><li>There must be a <strong>restoring force</strong> directed toward the equilibrium position</li><li>The restoring force must be <strong>proportional to the displacement</strong> from equilibrium</li></ol><p>If the force is proportional to displacement: F = −kx (the negative sign means it's restoring — always opposite to displacement). By Newton's 2nd law: ma = −kx → a = −(k/m)x.</p><p>Define ω² = k/m. Then:</p><p><strong>a = −ω²x</strong></p><p>This is the <strong>defining equation of SHM</strong>. Acceleration is proportional to displacement and directed toward equilibrium (opposite sign).</p><h4>Key terminology</h4><ul><li><strong>Displacement (x):</strong> distance from the equilibrium position (can be +, −, or 0)</li><li><strong>Amplitude (A):</strong> maximum displacement from equilibrium</li><li><strong>Period (T):</strong> time for one complete oscillation (s)</li><li><strong>Frequency (f):</strong> number of oscillations per second (Hz). f = 1/T</li><li><strong>Angular frequency (ω):</strong> ω = 2πf = 2π/T (rad/s)</li><li><strong>Equilibrium position:</strong> the centre, where x = 0 and the net force is zero</li></ul><h4>Examples of SHM</h4><ul><li><strong>Mass on a spring:</strong> F = −kx (Hooke's law) → SHM ✓. T = 2π√(m/k).</li><li><strong>Simple pendulum (small angles):</strong> Restoring force ≈ −(mg/L)x → SHM ✓. T = 2π√(L/g).</li><li><strong>Atoms in a crystal:</strong> vibrate about lattice positions with restoring force ≈ −kx → SHM ✓.</li></ul><h4>What is NOT SHM</h4><ul><li>A bouncing ball: force during bounce is NOT proportional to displacement</li><li>A pendulum at large angles: sin θ ≈ θ fails → force is not proportional to x</li><li>Damped oscillations: amplitude decreases → pure SHM has constant amplitude</li></ul>",
+        "summary": "<p><strong>SHM conditions:</strong> (1) restoring force, (2) force ∝ displacement.</p><p><strong>Defining equation: a = −ω²x.</strong> Acceleration proportional to and opposite to displacement.</p><p><strong>ω = 2πf = 2π/T.</strong> A = amplitude. T = period. f = frequency.</p>",
+        "checkQuestions": [
+          { "question": "A ball bounces up and down on the floor. Is this SHM? Why or why not?", "answer": "No. The force during the bounce (impact with floor) is not proportional to displacement — it's a sudden impulse. Between bounces, only gravity acts (constant force, not proportional to displacement from equilibrium). Neither condition for SHM is met." },
+          { "question": "State the defining equation of SHM and explain the significance of the negative sign.", "answer": "a = −ω²x. The negative sign means the acceleration is always OPPOSITE to the displacement — always directed toward the equilibrium position. This is the restoring nature: displaced right → accelerates left, displaced left → accelerates right." }
+        ],
+        "checklist": [
+          "I can state the two conditions for SHM: restoring force proportional to displacement",
+          "I can state the defining equation: a = −ω²x",
+          "I can define amplitude, period, frequency, and angular frequency",
+          "I can give examples of SHM (spring, pendulum) and non-SHM (bouncing ball)",
+          "I can explain the significance of the negative sign in a = −ω²x"
+        ]
+      },
+
+      "core": {
+        "title": "The defining equation and period formulas",
+        "content": "<h4>Deriving a = −ω²x</h4><p>For a mass m on a spring with spring constant k: F = −kx → ma = −kx → a = −(k/m)x. Comparing with a = −ω²x: <strong>ω² = k/m → ω = √(k/m) → T = 2π/ω = 2π√(m/k)</strong>.</p><p>For a simple pendulum (small angle θ): restoring force = −mg sin θ ≈ −mgθ = −mg(x/L). So a = −(g/L)x. Comparing: ω² = g/L → <strong>T = 2π√(L/g)</strong>.</p><h4>Key features of the period formulas</h4><p><strong>Mass-spring: T = 2π√(m/k)</strong></p><ul><li>T depends on mass and spring constant — NOT on amplitude</li><li>More mass → longer period (heavier = slower)</li><li>Stiffer spring (larger k) → shorter period (stiffer = faster)</li></ul><p><strong>Pendulum: T = 2π√(L/g)</strong></p><ul><li>T depends on length and g — NOT on mass or amplitude (for small angles)</li><li>Longer pendulum → longer period</li><li>Stronger gravity → shorter period</li></ul><h4>The independence of T from amplitude</h4><p>This is called <strong>isochronism</strong>: the period of SHM is the same regardless of amplitude. A pendulum swinging 5° has the same period as one swinging 15° (for small angles). Galileo discovered this in 1583 — it's why pendulum clocks work.</p><h4>Acceleration at key positions</h4><ul><li>At x = ±A (extremes): a = ∓ω²A (maximum magnitude, directed toward centre)</li><li>At x = 0 (equilibrium): a = 0 (no restoring force at the centre)</li></ul>",
+        "keyPoints": [
+          "a = −ω²x: defining equation. ω² = k/m (spring) or g/L (pendulum).",
+          "T = 2π√(m/k) for mass-spring. T = 2π√(L/g) for pendulum.",
+          "Period is independent of amplitude (isochronism).",
+          "Max a at extremes (x = ±A). Zero a at equilibrium (x = 0).",
+          "Max v at equilibrium. Zero v at extremes."
+        ],
+        "examTrap": { "wrong": "In SHM, acceleration is constant", "correct": "Acceleration VARIES continuously: a = −ω²x. It's maximum at the extremes and zero at the centre. Only ω is constant. Saying 'acceleration is constant' confuses SHM with uniform acceleration (SUVAT) — they're completely different." },
+        "checkQuestions": [
+          { "question": "A mass-spring system has m = 0.5 kg, k = 200 N/m. Find ω, T, and f.", "answer": "ω = √(k/m) = √400 = 20 rad/s. T = 2π/ω = 2π/20 = 0.314 s. f = 1/T = 3.18 Hz." },
+          { "question": "A pendulum has L = 1.0 m. Find T on Earth (g = 9.8) and on the Moon (g = 1.6).", "answer": "Earth: T = 2π√(1/9.8) = 2.01 s. Moon: T = 2π√(1/1.6) = 4.97 s. ~2.5× slower on the Moon." }
+        ],
+        "checklist": [
+          "I can derive ω from k/m (spring) and g/L (pendulum)",
+          "I can calculate T = 2π√(m/k) and T = 2π√(L/g)",
+          "I can state that T is independent of amplitude",
+          "I can find acceleration at any displacement: a = −ω²x"
+        ]
+      },
+
+      "extension": { "title": "SHM as a projection of circular motion", "content": "<p>Imagine a ball moving in a circle at constant speed. Its shadow on the wall oscillates back and forth — that shadow undergoes SHM. The connection: x = A cos(ωt + φ) is literally the x-projection of uniform circular motion with radius A and angular speed ω. This geometric link explains why sine and cosine describe oscillations — they ARE projections of circles.</p>", "connections": ["A.2 Circular Motion: SHM is the 1D projection of circular motion", "C.2 Wave Model: waves are SHM propagated through space"], "checklist": ["I can explain SHM as a projection of circular motion", "I can explain why sin/cos functions describe SHM"] },
+      "simulation": { "title": "PhET: Masses and Springs", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/masses-and-springs", "instructions": ["Hang a mass, pull down, release. Watch SHM. Change mass → period changes. Change amplitude → period stays the same (isochronism)."] },
+      "video": { "title": "SHM — Conditions & Defining Equation — IB Physics", "duration": "9 min", "description": "Two conditions, a = −ω²x, period formulas, and isochronism", "embedId": "" },
+      "equations": [
+        { "formula": "a = −ω²x", "description": "Defining equation of SHM." },
+        { "formula": "T = 2π√(m/k)", "description": "Period of a mass-spring system." },
+        { "formula": "T = 2π√(L/g)", "description": "Period of a simple pendulum (small angles)." },
+        { "formula": "ω = 2πf = 2π/T", "description": "Angular frequency." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A 0.2 kg mass on a spring (k = 50 N/m) oscillates with A = 0.1 m. Find T, f, ω, and the maximum acceleration.", "steps": [
+          { "label": "ω", "text": "ω = √(k/m) = √(250) = 15.8 rad/s" },
+          { "label": "T", "text": "T = 2π/15.8 = 0.398 s", "isEquation": true },
+          { "label": "f", "text": "f = 1/T = 2.51 Hz" },
+          { "label": "a_max", "text": "a_max = ω²A = 250 × 0.1 = 25 m/s²", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the two conditions for SHM.", "solution": "1. A restoring force directed toward the equilibrium position. 2. The restoring force is proportional to the displacement from equilibrium." },
+        { "difficulty": "medium", "scope": "sl", "question": "A pendulum on Earth has T = 2.0 s. Find its length.", "solution": "T = 2π√(L/g) → L = gT²/(4π²) = 9.8 × 4/(4π²) = 39.2/39.48 = 0.993 m ≈ 1.0 m." },
+        { "difficulty": "hard", "scope": "sl", "question": "A mass on a spring has T = 0.5 s and a_max = 8 m/s². Find the amplitude.", "solution": "ω = 2π/T = 2π/0.5 = 4π = 12.57 rad/s. a_max = ω²A → A = a_max/ω² = 8/(12.57²) = 8/158 = 0.0506 m ≈ 5.1 cm." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Doubling the amplitude doubles the period", "explanation": "Period does NOT depend on amplitude (isochronism). T depends on m and k (spring) or L and g (pendulum). Doubling amplitude gives larger oscillations at the same rate.", "correct": "T is independent of A. This is a fundamental property of SHM." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A mass of 0.40 kg oscillates on a spring (k = 160 N/m) with amplitude 6.0 cm.\n(a) Show that the motion is SHM. [2]\n(b) Calculate the period. [2]\n(c) Determine the maximum acceleration. [2]\n(d) State the displacement at which the speed is maximum. [1]", "marks": 7, "modelAnswer": "(a) The spring exerts F = −kx (Hooke's law) — a restoring force proportional to displacement [1]. Both conditions for SHM are met [1].\n(b) T = 2π√(m/k) = 2π√(0.4/160) = 2π√(0.0025) = 2π × 0.05 = 0.314 s [2].\n(c) ω = 2π/T = 20 rad/s. a_max = ω²A = 400 × 0.06 = 24 m/s² [2].\n(d) At the equilibrium position (x = 0) [1].", "examinerTip": "For 'show that it's SHM': state BOTH conditions — (1) restoring force and (2) proportional to displacement. Stating only one gets only 1 mark." }
+    },
+
+    {
+      "id": "c1_sub2",
+      "num": 2,
+      "title": "SHM Graphs — Displacement, Velocity & Acceleration",
+      "group": "SHM Fundamentals",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Conditions for SHM",
+      "nextTitle": "SHM Equations (AHL)",
+
+      "bigIdea": "In SHM, displacement follows a sine (or cosine) curve. Velocity is 90° ahead — maximum at equilibrium where displacement is zero. Acceleration is 180° ahead of displacement — maximum at the extremes, always pointing back to centre. These three sinusoidal graphs, shifted by quarter-cycles, tell the complete SHM story.",
+
+      "foundation": {
+        "title": "The three SHM graphs and how they relate",
+        "content": "<h4>Displacement-time graph</h4><p>x(t) = A sin(ωt) or x(t) = A cos(ωt), depending on where the oscillation starts. Sinusoidal, period T, amplitude A.</p><h4>Velocity-time graph</h4><p>Velocity is the gradient of the x-t graph. Since x = A sin(ωt): v = Aω cos(ωt). The velocity graph is a cosine — shifted 90° (¼ cycle) ahead of displacement.</p><ul><li>Maximum speed v_max = Aω, at x = 0 (equilibrium)</li><li>Zero speed at x = ±A (extremes — momentarily at rest)</li></ul><h4>Acceleration-time graph</h4><p>Acceleration is the gradient of the v-t graph. Since v = Aω cos(ωt): a = −Aω² sin(ωt) = −ω²x. The acceleration graph is a negative sine — shifted 180° from displacement.</p><ul><li>Maximum acceleration a_max = ω²A, at x = ±A (extremes)</li><li>Zero acceleration at x = 0 (equilibrium)</li></ul><h4>Phase relationships</h4><ul><li>v leads x by 90° (¼ cycle): when x = 0, v is maximum</li><li>a leads x by 180° (½ cycle): when x = +A, a = −ω²A (opposite direction)</li><li>a is proportional to x but opposite: a = −ω²x (the defining equation)</li></ul><h4>Key positions summary</h4><table><tr><th>Position</th><th>x</th><th>v</th><th>a</th></tr><tr><td>Equilibrium</td><td>0</td><td>±v_max</td><td>0</td></tr><tr><td>Positive extreme</td><td>+A</td><td>0</td><td>−ω²A</td></tr><tr><td>Negative extreme</td><td>−A</td><td>0</td><td>+ω²A</td></tr></table>",
+        "summary": "<p><strong>x = A sin(ωt):</strong> sinusoidal displacement.</p><p><strong>v = Aω cos(ωt):</strong> 90° ahead of x. Max at x = 0.</p><p><strong>a = −Aω² sin(ωt) = −ω²x:</strong> 180° from x. Max at x = ±A.</p><p><strong>At equilibrium:</strong> v = max, a = 0. <strong>At extremes:</strong> v = 0, a = max.</p>",
+        "checkQuestions": [
+          { "question": "At what displacement is the velocity maximum? At what displacement is the acceleration maximum?", "answer": "Velocity is maximum at x = 0 (equilibrium) — the object passes through the centre at full speed. Acceleration is maximum at x = ±A (extremes) — the restoring force is strongest at maximum displacement." },
+          { "question": "If x = A sin(ωt), what is the phase difference between x and a?", "answer": "180° (π radians). a = −ω²x = −ω²A sin(ωt). The minus sign means a is exactly anti-phase with x: when x is maximum positive, a is maximum negative (pointing back to centre)." }
+        ],
+        "checklist": [
+          "I can sketch x-t, v-t, and a-t graphs for SHM",
+          "I can state phase relationships: v leads x by 90°, a leads x by 180°",
+          "I can identify positions of max/zero for x, v, and a",
+          "I can state v_max = Aω and a_max = ω²A"
+        ]
+      },
+
+      "core": {
+        "title": "Reading SHM graphs and extracting physical quantities",
+        "content": "<h4>From the x-t graph</h4><ul><li>Amplitude A: read from the maximum displacement</li><li>Period T: read the time for one complete cycle</li><li>ω = 2π/T, f = 1/T</li><li>Velocity at any point: gradient of the x-t graph at that time</li></ul><h4>The v-x relationship</h4><p>From energy conservation (or from the equations): <strong>v = ±ω√(A² − x²)</strong></p><ul><li>At x = 0: v = ±ωA = ±v_max</li><li>At x = ±A: v = 0 (momentarily at rest)</li><li>The ± means two velocities at each x (one going right, one going left)</li></ul><h4>The a-x graph</h4><p>Since a = −ω²x: the a vs x graph is a <strong>straight line through the origin with gradient −ω²</strong>. This is the graphical test for SHM — if a-x is a straight line through the origin with negative gradient, the motion is SHM.</p><h4>Identifying SHM from graphs</h4><ul><li><strong>x-t is sinusoidal → SHM</strong></li><li><strong>a-x is a straight line through origin, negative gradient → SHM</strong></li><li>If either condition fails → not SHM (or not ideal SHM)</li></ul>",
+        "keyPoints": [
+          "v = ±ω√(A² − x²): velocity at any displacement",
+          "v_max = Aω at x = 0. v = 0 at x = ±A.",
+          "a vs x: straight line, gradient −ω², through origin → confirms SHM",
+          "a_max = ω²A at x = ±A. a = 0 at x = 0."
+        ],
+        "examTrap": { "wrong": "The velocity-time graph for SHM is a straight line", "correct": "The v-t graph is a COSINE (or sine) — it's sinusoidal, not straight. A straight v-t line would mean constant acceleration (SUVAT), which is NOT SHM. In SHM, acceleration (and therefore the rate of velocity change) varies continuously." },
+        "checkQuestions": [
+          { "question": "An oscillator has A = 0.08 m and f = 2 Hz. Find v_max and a_max.", "answer": "ω = 2πf = 4π = 12.57 rad/s. v_max = Aω = 0.08 × 12.57 = 1.01 m/s. a_max = ω²A = 158 × 0.08 = 12.6 m/s²." },
+          { "question": "Find the velocity when x = 0.05 m (same oscillator).", "answer": "v = ω√(A² − x²) = 12.57√(0.0064 − 0.0025) = 12.57√0.0039 = 12.57 × 0.0625 = 0.785 m/s." }
+        ],
+        "checklist": [
+          "I can extract A, T, ω, f from an x-t graph",
+          "I can apply v = ±ω√(A² − x²) to find velocity at any displacement",
+          "I can sketch and interpret the a-x graph (straight line, gradient −ω²)",
+          "I can determine if motion is SHM from graphs (sinusoidal x-t or linear a-x)"
+        ]
+      },
+
+      "extension": { "title": "Phase angle φ", "content": "<p>The general SHM equation: x = A sin(ωt + φ), where φ is the phase angle. φ sets the starting position: φ = 0 starts at x = 0 (sine), φ = π/2 starts at x = A (cosine), φ = π starts at x = 0 moving in −x direction. Phase difference between two oscillators: Δφ = φ₂ − φ₁. In phase: Δφ = 0. Antiphase: Δφ = π.</p>", "connections": ["C.2 Waves: wave equation includes phase", "C.4 Standing Waves: phase relationships between particles"], "checklist": ["I can explain the role of phase angle φ in x = A sin(ωt + φ)", "I can determine the phase difference between two oscillators"] },
+      "simulation": { "title": "PhET: Masses and Springs", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/masses-and-springs", "instructions": ["Turn on velocity and acceleration vectors. At centre: max v, zero a. At extremes: zero v, max a. Watch them 90° and 180° out of phase."] },
+      "video": { "title": "SHM Graphs — IB Physics", "duration": "10 min", "description": "x-t, v-t, a-t graphs, phase relationships, v-x equation, and a-x test for SHM", "embedId": "" },
+      "equations": [
+        { "formula": "x = A sin(ωt) or A cos(ωt)", "description": "Displacement in SHM." },
+        { "formula": "v = ±ω√(A² − x²)", "description": "Velocity at displacement x. Max: v_max = Aω at x = 0." },
+        { "formula": "v_max = Aω", "description": "Maximum speed (at equilibrium)." },
+        { "formula": "a_max = ω²A", "description": "Maximum acceleration (at extremes)." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "SHM: A = 0.05 m, T = 0.4 s. Find ω, v_max, a_max, and v at x = 0.03 m.", "steps": [
+          { "label": "ω", "text": "ω = 2π/0.4 = 5π = 15.71 rad/s" },
+          { "label": "v_max", "text": "v_max = Aω = 0.05 × 15.71 = 0.785 m/s", "isEquation": true },
+          { "label": "a_max", "text": "a_max = ω²A = 246.7 × 0.05 = 12.3 m/s²", "isEquation": true },
+          { "label": "v at x = 0.03", "text": "v = ω√(A²−x²) = 15.71√(0.0025−0.0009) = 15.71√0.0016 = 15.71 × 0.04 = 0.628 m/s", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "An SHM system has A = 0.1 m, ω = 10 rad/s. Find v_max and a_max.", "solution": "v_max = Aω = 0.1 × 10 = 1 m/s. a_max = ω²A = 100 × 0.1 = 10 m/s²." },
+        { "difficulty": "medium", "scope": "sl", "question": "Sketch x-t, v-t, and a-t graphs for one complete cycle of SHM, starting from x = A. Label the key features.", "solution": "x-t: cosine, starts at A, drops to 0 at T/4, reaches −A at T/2, returns to A at T. v-t: negative sine, starts at 0, reaches −v_max at T/4. a-t: negative cosine, starts at −a_max, reaches 0 at T/4, reaches +a_max at T/2." },
+        { "difficulty": "hard", "scope": "sl", "question": "At what displacement is the speed half of v_max?", "solution": "v = v_max/2 = Aω/2. ω√(A²−x²) = Aω/2 → √(A²−x²) = A/2 → A²−x² = A²/4 → x² = 3A²/4 → x = A√3/2 = 0.866A." }
+        ],
+      "commonMistakes": [
+        { "wrong": "Maximum velocity occurs at maximum displacement", "explanation": "Maximum velocity occurs at x = 0 (equilibrium), NOT at x = ±A. At the extremes, velocity is zero (the object momentarily stops before reversing).", "correct": "v = max at x = 0. v = 0 at x = ±A. a = max at x = ±A. a = 0 at x = 0. Everything is 'opposite' to what intuition suggests." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A particle undergoes SHM with amplitude 4.0 cm and frequency 5.0 Hz.\n(a) Calculate ω. [1]\n(b) Calculate the maximum speed. [1]\n(c) Calculate the speed when displacement is 2.0 cm. [2]\n(d) On an a-x graph, sketch the line and state its gradient. [2]", "marks": 6, "modelAnswer": "(a) ω = 2πf = 2π(5) = 31.4 rad/s [1].\n(b) v_max = Aω = 0.04 × 31.4 = 1.26 m/s [1].\n(c) v = ω√(A²−x²) = 31.4√(0.04²−0.02²) = 31.4√(0.0012) = 31.4 × 0.0346 = 1.09 m/s [2].\n(d) Straight line through origin with negative gradient. Gradient = −ω² = −(31.4)² = −987 s⁻² [2].", "examinerTip": "The a-x graph is the best test for SHM: it must be a straight line through the origin with negative gradient = −ω². If the graph is curved or doesn't pass through the origin, it's not SHM." }
+    },
+
+    {
+      "id": "c1_sub3",
+      "num": 3,
+      "title": "Energy in SHM",
+      "group": "SHM Energy",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "SHM Graphs",
+      "nextTitle": "SHM Equations (AHL)",
+
+      "bigIdea": "In SHM, energy shuttles between kinetic and potential. At the extremes: all PE, zero KE. At the centre: all KE, zero PE. The total energy stays constant (no friction). This energy dance — PE converting to KE and back — is the essence of every oscillation in physics.",
+
+      "foundation": {
+        "title": "The energy exchange in SHM",
+        "content": "<h4>KE and PE at different positions</h4><ul><li><strong>At x = 0 (equilibrium):</strong> KE = maximum = ½mv_max² = ½mω²A². PE = 0 (no displacement from equilibrium). Speed is maximum.</li><li><strong>At x = ±A (extremes):</strong> KE = 0 (momentarily at rest). PE = maximum = ½kA² = ½mω²A². All energy is stored as PE.</li><li><strong>At any x:</strong> KE = ½mω²(A² − x²). PE = ½mω²x². KE + PE = ½mω²A² = constant.</li></ul><h4>Total energy</h4><p><strong>E_total = ½mω²A² = ½kA²</strong> (for a spring)</p><p>Total energy depends on A² — double the amplitude, quadruple the energy. Total energy does NOT depend on where the object is in its cycle — it's the same at every position.</p><h4>Energy vs displacement graphs</h4><p>Plot KE, PE, and E_total vs x:</p><ul><li>KE: inverted parabola, maximum at x = 0, zero at x = ±A</li><li>PE: upright parabola, zero at x = 0, maximum at x = ±A</li><li>E_total: horizontal line (constant)</li><li>KE + PE = E_total at every x</li></ul><h4>Energy vs time graphs</h4><p>KE and PE oscillate as sin²(ωt) and cos²(ωt), both at TWICE the frequency of the displacement. Their sum = constant. The energy transfers between KE and PE twice per cycle.</p>",
+        "summary": "<p><strong>E_total = ½mω²A² = ½kA² = constant.</strong></p><p><strong>KE = ½mω²(A²−x²).</strong> Max at x = 0.</p><p><strong>PE = ½mω²x² = ½kx².</strong> Max at x = ±A.</p><p><strong>KE + PE = E_total always.</strong> Energy ∝ A².</p>",
+        "checkQuestions": [
+          { "question": "At what displacement is KE = PE?", "answer": "KE = PE when ½mω²(A²−x²) = ½mω²x² → A²−x² = x² → x² = A²/2 → x = A/√2 = 0.707A. At ~71% of the amplitude, the energy is equally split." },
+          { "question": "If the amplitude is tripled, by what factor does the total energy change?", "answer": "E ∝ A². Triple A → E × 9. The total energy increases by a factor of 9." }
+        ],
+        "checklist": [
+          "I can state E_total = ½mω²A² = ½kA² (constant, proportional to A²)",
+          "I can calculate KE and PE at any displacement",
+          "I can sketch energy vs displacement graphs (KE, PE, and total)",
+          "I can state where KE and PE are maximum and zero"
+        ]
+      },
+
+      "core": {
+        "title": "Quantitative energy calculations and graphs",
+        "content": "<h4>Energy equations summary</h4><ul><li>KE = ½mv² = ½mω²(A² − x²)</li><li>PE = ½kx² = ½mω²x²</li><li>E_total = ½mω²A² = ½kA²</li></ul><h4>Finding speed from energy</h4><p>From conservation: ½mv² + ½kx² = ½kA² → v² = (k/m)(A² − x²) = ω²(A² − x²) → v = ω√(A² − x²). This is the same v-x equation derived earlier — but the energy method gives physical insight into WHY.</p><h4>Energy and damping</h4><p>In real oscillations, friction removes energy → amplitude decreases → E_total decreases. This is <strong>damping</strong>. The total energy of a damped oscillator decreases exponentially: E(t) ∝ A(t)² ∝ e^(−t/τ).</p><p>In ideal (undamped) SHM: E_total is constant and A is constant.</p>",
+        "keyPoints": [
+          "KE + PE = E_total = ½mω²A² at all times",
+          "Speed from energy: v = ω√(A² − x²)",
+          "E ∝ A²: doubling amplitude quadruples energy",
+          "KE = PE at x = A/√2 ≈ 0.707A",
+          "Damping: energy decreases, amplitude decreases, frequency stays ~constant"
+        ],
+        "examTrap": { "wrong": "Doubling the amplitude doubles the energy", "correct": "E ∝ A². Doubling A → 4× energy. Tripling A → 9× energy. This is because both KE (from v_max = Aω) and PE (from ½kA²) scale as A²." },
+        "checkQuestions": [
+          { "question": "A 0.3 kg mass on a spring (k = 75 N/m) oscillates with A = 0.08 m. Find E_total, v_max, and KE at x = 0.05 m.", "answer": "E = ½kA² = ½(75)(0.0064) = 0.24 J. v_max = √(2E/m) = √(0.48/0.3) = √1.6 = 1.26 m/s. KE at 0.05 m: KE = E − PE = 0.24 − ½(75)(0.0025) = 0.24 − 0.094 = 0.146 J." }
+        ],
+        "checklist": [
+          "I can calculate E_total, KE, and PE at any displacement",
+          "I can derive v from energy conservation: v = ω√(A²−x²)",
+          "I can find the displacement where KE = PE",
+          "I can explain how damping affects energy and amplitude"
+        ]
+      },
+
+      "extension": { "title": "Damped and driven oscillations", "content": "<h4>Damping</h4><p><strong>Underdamped:</strong> oscillates with decreasing amplitude. Most common (pendulum in air).</p><p><strong>Critically damped:</strong> returns to equilibrium fastest without oscillating (car shock absorbers).</p><p><strong>Overdamped:</strong> returns to equilibrium slowly without oscillating (heavy door closer).</p><h4>Driven oscillations and resonance</h4><p>Driving an oscillator at its natural frequency f₀ produces <strong>resonance</strong>: amplitude becomes very large (maximum energy transfer from driver to oscillator). At resonance: driving frequency = natural frequency. Examples: pushing a swing at the right time, wine glass shattering at its resonant frequency, radio tuning to a station's frequency.</p><p>Damping reduces the resonance peak amplitude and broadens it (makes it less sharp).</p>", "connections": ["C.4 Standing Waves: resonance in strings and pipes", "B.5 RC Circuits: electrical resonance in LC circuits (HL)"], "checklist": ["I can distinguish underdamped, critically damped, and overdamped oscillations", "I can describe resonance: driving frequency = natural frequency → max amplitude", "I can explain the effect of damping on the resonance curve (lower, broader peak)"] },
+      "simulation": { "title": "PhET: Resonance", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/resonance", "instructions": ["Drive an oscillator at different frequencies. At the natural frequency: resonance — massive amplitude. Change damping: more damping → lower, broader peak."] },
+      "video": { "title": "Energy in SHM — IB Physics", "duration": "9 min", "description": "KE, PE, total energy, energy graphs, damping, and resonance", "embedId": "" },
+      "equations": [
+        { "formula": "E_total = ½mω²A² = ½kA²", "description": "Total energy of SHM. Constant. Proportional to A²." },
+        { "formula": "KE = ½mω²(A² − x²)", "description": "Kinetic energy at displacement x." },
+        { "formula": "PE = ½mω²x² = ½kx²", "description": "Potential energy at displacement x." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A pendulum: L = 0.5 m, A = 0.04 m, m = 0.1 kg. Find E_total and v_max.", "steps": [
+          { "label": "ω", "text": "ω = √(g/L) = √(9.8/0.5) = √19.6 = 4.43 rad/s" },
+          { "label": "E_total", "text": "E = ½mω²A² = ½(0.1)(19.6)(0.0016) = 1.568 × 10⁻³ J ≈ 1.6 mJ", "isEquation": true },
+          { "label": "v_max", "text": "v_max = Aω = 0.04 × 4.43 = 0.177 m/s", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "An oscillator has E_total = 0.5 J and A = 0.1 m. Find the spring constant.", "solution": "E = ½kA² → k = 2E/A² = 2(0.5)/0.01 = 100 N/m." },
+        { "difficulty": "medium", "scope": "sl", "question": "At x = A/2, what fraction of E_total is KE and what fraction is PE?", "solution": "PE = ½mω²(A/2)² = ½mω²A²/4 = E/4 = 25%. KE = E − PE = E − E/4 = 3E/4 = 75%. At half the amplitude: 75% KE, 25% PE." },
+        { "difficulty": "hard", "scope": "sl", "question": "Describe what happens to the resonance curve when (a) damping increases and (b) the driving force amplitude increases.", "solution": "(a) Increased damping: resonance peak becomes lower (less maximum amplitude) and broader (responds over a wider frequency range). The resonant frequency shifts slightly lower. (b) Increased driving amplitude: the entire curve scales up (all amplitudes increase proportionally). The resonant frequency doesn't change." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Energy is maximum at x = 0 and minimum at x = ±A", "explanation": "TOTAL energy is CONSTANT everywhere — it doesn't change with position. KE is max at x = 0, PE is max at x = ±A, but their SUM is always the same.", "correct": "E_total = constant. KE and PE exchange, but total never changes (in undamped SHM)." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A mass-spring system: m = 0.25 kg, k = 100 N/m, A = 0.06 m.\n(a) Calculate the total energy. [1]\n(b) Find the speed at x = 0.04 m. [2]\n(c) Find the displacement where KE = PE. [2]\n(d) Sketch a graph of KE and PE vs x. Label both curves and the total energy. [2]", "marks": 7, "modelAnswer": "(a) E = ½kA² = ½(100)(0.0036) = 0.18 J [1].\n(b) KE = E − PE = 0.18 − ½(100)(0.0016) = 0.18 − 0.08 = 0.10 J. v = √(2KE/m) = √(0.2/0.25) = √0.8 = 0.894 m/s [2].\n(c) KE = PE → each = E/2 = 0.09 J. ½kx² = 0.09 → x² = 0.0018 → x = 0.0424 m ≈ 4.2 cm = A/√2 [2].\n(d) PE: upright parabola from 0 at x = 0 to 0.18 J at x = ±0.06. KE: inverted parabola from 0.18 J at x = 0 to 0 at x = ±0.06. Total: horizontal line at 0.18 J [2].", "examinerTip": "For energy vs x graphs: BOTH KE and PE are parabolas. Their sum is always constant (horizontal line). The curves cross at x = A/√2. Label clearly." }
+    },
+
+    {
+      "id": "c1_sub4",
+      "num": 4,
+      "title": "SHM Equations — x(t), v(t), a(t) (AHL)",
+      "group": "AHL SHM",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Energy in SHM",
+      "nextTitle": "Damped Oscillations (AHL)",
+
+      "bigIdea": "At HL, you need the full time-dependent equations: x = A sin(ωt + φ), v = Aω cos(ωt + φ), a = −Aω² sin(ωt + φ). These let you find the exact displacement, velocity, and acceleration at any instant — and the phase angle φ lets you describe any starting condition.",
+
+      "foundation": {
+        "title": "The complete SHM equations",
+        "content": "<h4>Position</h4><p><strong>x(t) = A sin(ωt + φ)</strong> or equivalently <strong>x(t) = A cos(ωt + φ')</strong></p><p>φ is the phase angle — it sets the starting position at t = 0. Common choices:</p><ul><li>φ = 0: starts at x = 0, moving in +x direction (sine curve)</li><li>φ = π/2: starts at x = A (cosine curve)</li></ul><h4>Velocity</h4><p><strong>v(t) = Aω cos(ωt + φ)</strong> (derivative of x)</p><h4>Acceleration</h4><p><strong>a(t) = −Aω² sin(ωt + φ) = −ω²x</strong> (derivative of v)</p><h4>Finding φ from initial conditions</h4><p>If at t = 0: x = x₀ and v = v₀, then: x₀ = A sin(φ) and v₀ = Aω cos(φ). From these: tan(φ) = ωx₀/v₀ and A = √(x₀² + v₀²/ω²).</p>",
+        "summary": "<p><strong>x = A sin(ωt + φ), v = Aω cos(ωt + φ), a = −Aω² sin(ωt + φ).</strong></p><p><strong>φ</strong> sets the starting position. Found from initial conditions.</p>",
+        "checkQuestions": [
+          { "question": "x = 0.03 sin(4πt + π/6). Find A, ω, f, T, and x at t = 0.", "answer": "A = 0.03 m, ω = 4π ≈ 12.57 rad/s, f = ω/(2π) = 2 Hz, T = 0.5 s. At t = 0: x = 0.03 sin(π/6) = 0.03 × 0.5 = 0.015 m." }
+        ],
+        "checklist": [
+          "I can write x(t), v(t), a(t) for SHM with phase angle",
+          "I can determine A, ω, f, T from the equation",
+          "I can find the phase angle from initial conditions"
+        ]
+      },
+
+      "core": {
+        "title": "Applying the full SHM equations",
+        "content": "<h4>Reading the equation</h4><p>From x = 0.05 sin(10t + π/3):</p><ul><li>A = 0.05 m, ω = 10 rad/s, φ = π/3</li><li>f = 10/(2π) = 1.59 Hz, T = 0.628 s</li><li>At t = 0: x = 0.05 sin(π/3) = 0.05 × 0.866 = 0.0433 m</li><li>v(0) = 0.05 × 10 × cos(π/3) = 0.5 × 0.5 = 0.25 m/s</li><li>v_max = Aω = 0.5 m/s, a_max = ω²A = 5 m/s²</li></ul><h4>Calculating values at specific times</h4><p>Just substitute t into the equations. Remember to use RADIANS for the argument of sin/cos.</p><h4>Velocity as a function of position (from equations)</h4><p>From x = A sin(θ) and v = Aω cos(θ): since sin²θ + cos²θ = 1: (x/A)² + (v/(Aω))² = 1. This is an ellipse on the v-x phase plot.</p><p>Rearranging: v² = ω²(A² − x²) → v = ±ω√(A² − x²). Same as before.</p>",
+        "keyPoints": [
+          "Read A, ω, φ directly from x = A sin(ωt + φ)",
+          "Substitute any t to find x, v, a at that moment",
+          "Use RADIANS for sin/cos arguments",
+          "v-x phase plot is an ellipse: (x/A)² + (v/(Aω))² = 1"
+        ],
+        "examTrap": { "wrong": "Using degrees instead of radians in SHM equations", "correct": "ωt gives radians. If ω = 10 rad/s and t = 0.5 s: ωt = 5 radians (not degrees). Always use your calculator in RADIAN mode for SHM calculations." },
+        "checkQuestions": [
+          { "question": "x = 0.04 cos(8πt). Find v and a at t = 1/16 s.", "answer": "At t = 1/16: ωt = 8π/16 = π/2. x = 0.04 cos(π/2) = 0. v = −0.04 × 8π × sin(π/2) = −0.04 × 25.13 × 1 = −1.005 m/s. a = −ω²x = 0 (at x = 0)." }
+        ],
+        "checklist": [
+          "I can evaluate x(t), v(t), a(t) at any time t",
+          "I can always use radian mode for calculations",
+          "I can sketch the v-x phase diagram (ellipse)"
+        ]
+      },
+
+      "extension": { "title": "SHM as a differential equation", "content": "<p>a = −ω²x is the differential equation d²x/dt² = −ω²x. Its general solution: x = A sin(ωt + φ). This is a second-order ODE — the same mathematical structure appears in: LC circuits (charge oscillates), molecular vibrations, and wave equations. The ubiquity of SHM in physics comes from this simple differential equation appearing whenever a system has a linear restoring force.</p>", "connections": ["A.1 Kinematics: SHM is non-uniform acceleration (a depends on x)", "B.5 RC/LC circuits: electrical oscillations follow the same equation"], "checklist": ["I can state the SHM differential equation: d²x/dt² = −ω²x", "I can explain why SHM appears so often in physics (linear restoring forces)"] },
+      "video": { "title": "SHM Equations — IB HL Physics", "duration": "10 min", "description": "Full time-dependent equations, phase angle, and the phase space ellipse", "embedId": "" },
+      "equations": [
+        { "formula": "x = A sin(ωt + φ)", "description": "Displacement as a function of time with phase angle." },
+        { "formula": "v = Aω cos(ωt + φ)", "description": "Velocity. Max: v_max = Aω at x = 0." },
+        { "formula": "a = −Aω² sin(ωt + φ)", "description": "Acceleration. Max: a_max = ω²A at x = ±A." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "An oscillator: x = 0.06 sin(5πt + π/4). Find everything at t = 0.1 s.", "steps": [
+          { "label": "Parameters", "text": "A = 0.06 m, ω = 5π = 15.71 rad/s, φ = π/4" },
+          { "label": "Argument", "text": "ωt + φ = 5π(0.1) + π/4 = π/2 + π/4 = 3π/4 = 2.356 rad" },
+          { "label": "x", "text": "x = 0.06 sin(3π/4) = 0.06 × 0.707 = 0.0424 m", "isEquation": true },
+          { "label": "v", "text": "v = 0.06 × 15.71 × cos(3π/4) = 0.943 × (−0.707) = −0.667 m/s", "isEquation": true },
+          { "label": "a", "text": "a = −ω²x = −246.7 × 0.0424 = −10.5 m/s²", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "An object starts at x = +A and moves toward equilibrium. Write the displacement equation.", "solution": "Starting at x = A: x = A cos(ωt). (Cosine starts at maximum.) Or: x = A sin(ωt + π/2)." },
+        { "difficulty": "hard", "scope": "hl", "question": "At t = 0: x = 0.03 m, v = −0.4 m/s, ω = 10 rad/s. Find A and φ.", "solution": "A = √(x₀² + v₀²/ω²) = √(0.0009 + 0.16/100) = √(0.0009 + 0.0016) = √0.0025 = 0.05 m. tan φ = ωx₀/v₀ = 10(0.03)/(−0.4) = −0.75 → φ = π − 0.6435 = 2.498 rad (2nd quadrant because x > 0 but v < 0)." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Forgetting to check which quadrant φ is in", "explanation": "tan⁻¹ gives two possible angles (since tan is periodic with period π). Use the signs of x₀ and v₀ to determine the correct quadrant for φ.", "correct": "Check: sin(φ) = x₀/A (gives sign of x at t=0) and cos(φ) = v₀/(Aω) (gives sign of v at t=0). Both must be satisfied." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A body oscillates: x = 0.08 sin(4πt + π/3) (x in m, t in s).\n(a) State the amplitude and frequency. [2]\n(b) Find x and v at t = 0. [2]\n(c) Find the first time after t = 0 when x = 0. [2]", "marks": 6, "modelAnswer": "(a) A = 0.08 m [1]. f = ω/(2π) = 4π/(2π) = 2 Hz [1].\n(b) x(0) = 0.08 sin(π/3) = 0.08 × 0.866 = 0.0693 m [1]. v(0) = 0.08 × 4π × cos(π/3) = 1.005 × 0.5 = 0.503 m/s [1].\n(c) x = 0: sin(4πt + π/3) = 0 → 4πt + π/3 = π (first zero after π/3). 4πt = π − π/3 = 2π/3. t = 2π/(3 × 4π) = 1/6 = 0.167 s [2].", "examinerTip": "For 'first time when x = 0': solve sin(ωt + φ) = 0. The argument must equal nπ. Choose the smallest positive t after t = 0." }
+    },
+
+    {
+      "id": "c1_sub5",
+      "num": 5,
+      "title": "Damped Oscillations",
+      "group": "AHL SHM",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "SHM Equations",
+      "nextTitle": "Forced Oscillations & Resonance",
+
+      "bigIdea": "Real oscillations don't last forever. Friction and air resistance steal energy, causing the amplitude to decrease gradually. This is damping — and it comes in three flavours: underdamped (oscillates with decreasing amplitude), critically damped (returns fastest without oscillating), and overdamped (creeps back slowly without oscillating).",
+
+      "foundation": {
+        "title": "Why real oscillations die out",
+        "content": "<h4>What is damping?</h4><p><strong>Damping</strong> is the progressive reduction of amplitude due to resistive forces (friction, air resistance, viscosity). Energy is transferred from the oscillating system to the surroundings as heat.</p><h4>Three types of damping</h4><p><strong>1. Underdamped (light damping):</strong> The system oscillates with gradually decreasing amplitude. The envelope of the oscillation is an exponential decay. The frequency is slightly less than the natural frequency but approximately the same. Example: a pendulum in air.</p><p><strong>2. Critically damped:</strong> The system returns to equilibrium in the shortest possible time WITHOUT oscillating. No overshoot. Example: car shock absorbers (designed to be critically damped for comfort and safety).</p><p><strong>3. Overdamped (heavy damping):</strong> The system returns to equilibrium slowly without oscillating. Takes longer than critical damping. Example: a door closer on a heavy fire door.</p><h4>The underdamped x-t graph</h4><p>Sinusoidal oscillation inside an exponentially decaying envelope: x(t) = A₀e^(−t/τ) sin(ωt + φ). The amplitude decreases: A(t) = A₀e^(−t/τ). Energy: E(t) ∝ A(t)² ∝ e^(−2t/τ).</p>",
+        "summary": "<p><strong>Damping:</strong> amplitude decreases due to resistive forces.</p><p><strong>Underdamped:</strong> oscillates with decreasing A. <strong>Critical:</strong> fastest return, no oscillation. <strong>Overdamped:</strong> slow return, no oscillation.</p><p><strong>Underdamped envelope:</strong> A(t) = A₀e^(−t/τ).</p>",
+        "checkQuestions": [
+          { "question": "Sketch the x-t graphs for underdamped, critically damped, and overdamped motion.", "answer": "Underdamped: sinusoidal with decreasing amplitude (exponential envelope). Critically damped: returns to x = 0 fastest, no oscillation, no overshoot. Overdamped: returns to x = 0 very slowly, no oscillation, slower than critical." }
+        ],
+        "checklist": [
+          "I can define damping and explain its cause (resistive forces removing energy)",
+          "I can sketch x-t graphs for underdamped, critically damped, and overdamped",
+          "I can state that energy ∝ A² and both decrease exponentially in underdamping",
+          "I can give real-world examples of each damping type"
+        ]
+      },
+
+      "core": {
+        "title": "Quantifying damping and its effects",
+        "content": "<h4>The Q factor</h4><p>The <strong>quality factor (Q)</strong> measures how underdamped a system is:</p><p><strong>Q = 2π × energy stored / energy lost per cycle</strong></p><ul><li>High Q (>100): very little damping, oscillates many times before dying out. Example: tuning fork (Q ~ 1000)</li><li>Low Q (<10): heavy damping, dies out quickly. Example: car suspension (Q ~ 1)</li></ul><p>Q also determines the sharpness of the resonance peak: high Q → sharp peak, low Q → broad peak.</p><h4>Effects of damping on SHM</h4><ul><li>Amplitude: decreases exponentially</li><li>Frequency: slightly lower than undamped (but nearly the same for light damping)</li><li>Period: slightly longer</li><li>Energy: decreases exponentially (E ∝ A²)</li><li>The GRAPH shows a sinusoid with decaying envelope</li></ul>",
+        "keyPoints": [
+          "Q = 2π × E_stored / E_lost per cycle. High Q = low damping.",
+          "Amplitude decays exponentially: A(t) = A₀e^(−t/τ)",
+          "Frequency slightly decreases (negligible for light damping)",
+          "Energy ∝ A² → E decays exponentially too"
+        ],
+        "examTrap": { "wrong": "Damping changes the natural frequency significantly", "correct": "Light damping barely affects the frequency — the oscillation frequency is approximately equal to the natural frequency ω₀. Heavy damping reduces it noticeably. Critical and overdamping: no oscillation at all, so 'frequency' doesn't apply." },
+        "checkQuestions": [
+          { "question": "A damped oscillator loses 10% of its energy per cycle. Find Q.", "answer": "Q = 2π × E/(0.1E) = 2π/0.1 = 62.8. A moderately high Q — the system oscillates many times before significant decay." }
+        ],
+        "checklist": [
+          "I can define and calculate the Q factor",
+          "I can state the effects of damping on amplitude, frequency, and energy",
+          "I can classify damping as under, critical, or over"
+        ]
+      },
+
+      "extension": { "title": "Damping in engineering", "content": "<p>Engineers deliberately design damping into systems: car shock absorbers (critical damping for comfort), building tuned mass dampers (reduce earthquake oscillations), electrical filters (damping controls bandwidth). The Taipei 101 skyscraper has a 730-tonne tuned mass damper — a giant pendulum near the top that swings opposite to the building during earthquakes and typhoons, reducing sway by ~40%.</p>", "connections": ["A.2 Forces: damping force F = −bv (proportional to velocity)", "B.5 RC circuits: electrical damping in RLC circuits"], "checklist": ["I can describe practical applications of deliberate damping"] },
+      "video": { "title": "Damped Oscillations — IB Physics", "duration": "8 min", "description": "Three types of damping, exponential decay, Q factor, and practical applications", "embedId": "" },
+      "equations": [
+        { "formula": "A(t) = A₀e^(−t/τ)", "description": "Exponentially decaying amplitude for underdamped SHM." },
+        { "formula": "Q = 2π × E_stored / E_lost per cycle", "description": "Quality factor. High Q = low damping = sharp resonance." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State what happens to amplitude, frequency, and energy of a lightly damped oscillator.", "solution": "Amplitude: decreases exponentially. Frequency: approximately unchanged (very slightly lower). Energy: decreases exponentially (E ∝ A²)." },
+        { "difficulty": "medium", "scope": "sl", "question": "A car suspension is designed to be critically damped. Explain why this is optimal.", "solution": "Critically damped returns to equilibrium in the shortest time without oscillating (no bouncing). Underdamped would cause the car to bounce repeatedly after a bump (uncomfortable). Overdamped would take too long to recover, leaving the suspension compressed during subsequent bumps. Critical = fastest smooth return." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Critically damped means zero damping", "explanation": "Critical damping is a SPECIFIC amount of damping — the exact value that gives the fastest return to equilibrium without oscillation. Less = underdamped (oscillates). More = overdamped (too slow). Zero damping = undamped SHM (oscillates forever).", "correct": "Critical = perfect damping for fastest non-oscillating return. Not zero, not maximum." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Describe, with the aid of sketches, the difference between underdamped and critically damped oscillations. [4]", "marks": 4, "modelAnswer": "Underdamped: the system oscillates about equilibrium with decreasing amplitude [1]. The x-t graph shows a sinusoidal curve within a decaying exponential envelope [1]. Critically damped: the system returns to equilibrium in the shortest possible time without any oscillation [1]. The x-t graph shows a smooth curve approaching x = 0 asymptotically, without crossing it [1].", "examinerTip": "For damping sketches: underdamped MUST show oscillation with decreasing peaks. Critically damped MUST show NO oscillation and NO overshoot — a smooth approach to zero." }
+    },
+
+    {
+      "id": "c1_sub6",
+      "num": 6,
+      "title": "Forced Oscillations & Resonance",
+      "group": "Resonance",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Damped Oscillations",
+      "nextTitle": "SHM & Waves Connection",
+
+      "bigIdea": "Push a child on a swing at exactly the right frequency and the amplitude builds up dramatically — that's resonance. Drive any oscillating system at its natural frequency and it responds with maximum amplitude. Resonance can be beautiful (musical instruments) or catastrophic (bridges collapsing, wine glasses shattering). Understanding it is understanding how oscillators respond to external driving.",
+
+      "foundation": {
+        "title": "What happens when you drive an oscillator",
+        "content": "<h4>Forced oscillations</h4><p>A <strong>forced oscillation</strong> occurs when an external periodic force drives an oscillator. The driving force has its own frequency f_d. The system eventually oscillates at the DRIVING frequency f_d, not its natural frequency f₀.</p><h4>Resonance</h4><p><strong>Resonance</strong> occurs when the driving frequency equals the natural frequency: <strong>f_d = f₀</strong>. At resonance:</p><ul><li>Amplitude is MAXIMUM (energy transfer from driver to oscillator is most efficient)</li><li>The oscillator is 90° out of phase with the driver (velocity in phase with driving force)</li><li>Energy input per cycle from the driver equals energy lost per cycle to damping</li></ul><h4>The resonance curve</h4><p>Plot amplitude vs driving frequency:</p><ul><li>Peak at f_d = f₀ (natural frequency)</li><li>Amplitude drops off either side of the peak</li><li>More damping → lower peak, broader curve</li><li>Less damping → higher peak, sharper curve</li></ul><h4>Examples of resonance</h4><ul><li><strong>Swing:</strong> push at the natural frequency → amplitude grows</li><li><strong>Musical instruments:</strong> resonant cavities amplify specific frequencies</li><li><strong>Radio tuning:</strong> LC circuit resonates at the station's frequency</li><li><strong>Tacoma Narrows Bridge (1940):</strong> wind drove the bridge at its natural frequency → destructive resonance</li><li><strong>Wine glass shattering:</strong> sound at the glass's natural frequency → amplitude exceeds the glass's elastic limit</li><li><strong>MRI:</strong> radio waves at the resonant frequency of hydrogen nuclei in the body</li></ul>",
+        "summary": "<p><strong>Forced oscillation:</strong> external force drives the system at frequency f_d.</p><p><strong>Resonance:</strong> f_d = f₀ → maximum amplitude.</p><p><strong>More damping → lower, broader resonance peak.</strong></p><p><strong>At resonance:</strong> max energy transfer, 90° phase difference.</p>",
+        "checkQuestions": [
+          { "question": "What is the condition for resonance?", "answer": "The driving frequency must equal the natural frequency: f_d = f₀. At this frequency, the amplitude of the driven oscillation is maximum." },
+          { "question": "How does damping affect the resonance curve?", "answer": "Increased damping: (1) reduces the peak amplitude (less maximum response), (2) broadens the peak (responds over a wider frequency range), (3) slightly shifts the peak to a lower frequency. Decreased damping: sharper, taller peak." }
+        ],
+        "checklist": [
+          "I can define forced oscillation and resonance",
+          "I can state the resonance condition: f_d = f₀",
+          "I can sketch resonance curves with different amounts of damping",
+          "I can give examples of resonance (constructive and destructive)"
+        ]
+      },
+
+      "core": {
+        "title": "The resonance curve, phase, and applications",
+        "content": "<h4>Phase relationship at resonance</h4><ul><li><strong>Below resonance (f_d << f₀):</strong> oscillator is nearly in phase with driver (phase difference ≈ 0°). Amplitude is small.</li><li><strong>At resonance (f_d = f₀):</strong> oscillator lags driver by 90° (¼ cycle). Velocity is in phase with driving force → maximum power transfer.</li><li><strong>Above resonance (f_d >> f₀):</strong> oscillator is nearly 180° out of phase with driver (antiphase). Amplitude is small.</li></ul><h4>The effect of damping on resonance</h4><p>With NO damping: amplitude at resonance → ∞ (unrealistic — damping always exists). With light damping: tall, sharp peak. With heavy damping: low, broad peak.</p><p>The Q factor determines the sharpness: Q ≈ f₀/Δf, where Δf is the width of the resonance peak at half-maximum amplitude. High Q → narrow peak (selective). Low Q → broad peak (responsive over many frequencies).</p><h4>Useful vs harmful resonance</h4><p><strong>Useful:</strong> musical instruments (amplify desired frequencies), radio tuning (select one station), MRI (image specific nuclei), microwave ovens (resonate water molecules at 2.45 GHz).</p><p><strong>Harmful:</strong> structural failure (bridges, buildings in earthquakes), machine vibrations, rattling car parts. Engineers add damping to suppress harmful resonance.</p>",
+        "keyPoints": [
+          "Phase: 0° below resonance, 90° at resonance, 180° above resonance",
+          "Q ≈ f₀/Δf: quality factor determines peak sharpness",
+          "No damping → infinite amplitude at resonance (unphysical)",
+          "Engineers add damping to suppress harmful resonance"
+        ],
+        "examTrap": { "wrong": "At resonance, the oscillator vibrates at the natural frequency", "correct": "At resonance, the oscillator vibrates at the DRIVING frequency — which happens to EQUAL the natural frequency. In general, a driven oscillator always vibrates at the driving frequency (not its own natural frequency), but the amplitude is maximum when f_d = f₀." },
+        "checkQuestions": [
+          { "question": "Soldiers break step when crossing a bridge. Why?", "answer": "Marching in step applies a periodic force at a fixed frequency. If this frequency matches the bridge's natural frequency, resonance occurs → dangerously large oscillations → potential collapse. Breaking step removes the periodic driving force, preventing resonance." }
+        ],
+        "checklist": [
+          "I can describe the phase relationship at, below, and above resonance",
+          "I can connect Q factor to resonance peak width: Q ≈ f₀/Δf",
+          "I can give examples of useful and harmful resonance",
+          "I can explain how damping is used to control resonance"
+        ]
+      },
+
+      "extension": { "title": "Resonance in physics beyond mechanics", "content": "<p>Resonance appears throughout physics: electrical resonance in LC circuits (f₀ = 1/(2π√(LC))), atomic resonance (atoms absorb photons at specific frequencies), nuclear magnetic resonance (NMR/MRI), optical resonance (laser cavities), and even gravitational wave detectors (LIGO arms resonate with passing waves). The mathematical structure is identical: any system with a restoring force and inertia has a natural frequency and can resonate.</p>", "connections": ["B.5 LC circuits: electrical resonance", "E.2 Quantum Physics: atomic absorption lines as resonance", "C.4 Standing Waves: resonant modes of strings and pipes"], "checklist": ["I can describe resonance in non-mechanical systems (electrical, atomic, nuclear)"] },
+      "simulation": { "title": "PhET: Resonance", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/resonance", "instructions": ["Sweep the driving frequency. Watch amplitude peak at the natural frequency. Add damping: peak lowers and broadens."] },
+      "video": { "title": "Resonance — IB Physics", "duration": "9 min", "description": "Forced oscillations, resonance curves, phase, Q factor, and real-world examples", "embedId": "" },
+      "equations": [
+        { "formula": "Resonance: f_d = f₀", "description": "Maximum amplitude when driving frequency = natural frequency." },
+        { "formula": "Q ≈ f₀/Δf", "description": "Quality factor from resonance curve width." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the condition for resonance. What happens to the amplitude at resonance?", "solution": "Resonance occurs when the driving frequency equals the natural frequency (f_d = f₀). At resonance, the amplitude of oscillation is maximum." },
+        { "difficulty": "medium", "scope": "sl", "question": "Sketch two resonance curves on the same axes: one for light damping, one for heavy damping. Label the natural frequency.", "solution": "Both peak near f₀. Light damping: tall, narrow peak. Heavy damping: short, wide peak. Both curves approach zero amplitude at very low and very high frequencies. The peak of the heavily damped curve is slightly left of f₀." },
+        { "difficulty": "hard", "scope": "sl", "question": "A system has f₀ = 50 Hz and Q = 200. Estimate the width of the resonance peak.", "solution": "Q ≈ f₀/Δf → Δf = f₀/Q = 50/200 = 0.25 Hz. The peak is very narrow — the system responds strongly only in the range 49.875–50.125 Hz." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Resonance always causes damage", "explanation": "Resonance can be beneficial (musical instruments, radio tuning, MRI). It's harmful only when the amplitude exceeds what the structure can handle. Engineers use resonance deliberately in many applications.", "correct": "Resonance = maximum amplitude. Whether it's useful or harmful depends on the system." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A lightly damped oscillating system has a natural frequency of 20 Hz. It is driven by an external periodic force.\n(a) Define resonance. [1]\n(b) State the frequency at which resonance occurs. [1]\n(c) Describe the shape of the amplitude-frequency graph. [2]\n(d) Describe the effect on the graph of increasing damping. [2]", "marks": 6, "modelAnswer": "(a) Resonance is the condition where the driving frequency equals the natural frequency, resulting in maximum amplitude of oscillation [1].\n(b) 20 Hz [1].\n(c) The graph shows a sharp peak at f = 20 Hz, with amplitude dropping steeply on either side. The curve approaches zero at very low and very high frequencies. It is approximately symmetric around the peak [2].\n(d) Increased damping: the peak amplitude decreases (maximum response is reduced) [1]. The peak becomes broader (the system responds over a wider range of frequencies) and shifts slightly to a lower frequency [1].", "examinerTip": "For resonance sketches: always draw the UNDAMPED peak first (tallest, narrowest), then show damped versions as shorter and wider. Label f₀ on the x-axis." }
+    },
+
+    {
+      "id": "c1_sub7",
+      "num": 7,
+      "title": "SHM and Waves — The Connection",
+      "group": "SHM & Waves",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Resonance",
+      "nextTitle": "SHM Experiments",
+
+      "bigIdea": "A wave is SHM that propagates. Each particle in the medium oscillates with SHM about its equilibrium position. The wave carries the PATTERN of oscillation forward, but the particles themselves just oscillate in place. Understanding SHM is therefore the key to understanding all of wave physics.",
+
+      "foundation": {
+        "title": "How SHM becomes a wave",
+        "content": "<h4>From oscillation to wave</h4><p>Imagine a row of particles, each connected to its neighbours by springs. Displace the first particle — it oscillates with SHM. Through the spring connections, this oscillation is passed to the next particle (with a slight delay), then the next, and so on. The PATTERN of displacement moves along the row — that pattern is a <strong>wave</strong>.</p><p>Each particle undergoes SHM. The wave is the propagation of this SHM through the medium.</p><h4>Transverse vs longitudinal</h4><ul><li><strong>Transverse wave:</strong> particles oscillate PERPENDICULAR to the wave direction. Example: waves on a string, electromagnetic waves.</li><li><strong>Longitudinal wave:</strong> particles oscillate PARALLEL to the wave direction. Example: sound waves, slinky compressions.</li></ul><p>In both cases, each particle performs SHM about its equilibrium position.</p><h4>Wave parameters from SHM</h4><ul><li><strong>Amplitude (A):</strong> same as the SHM amplitude of each particle</li><li><strong>Frequency (f):</strong> same as the SHM frequency of each particle</li><li><strong>Period (T):</strong> same as the SHM period</li><li><strong>Wavelength (λ):</strong> the distance between equivalent points (crest to crest). NEW — not an SHM quantity.</li><li><strong>Wave speed:</strong> v = fλ = λ/T. The speed at which the pattern moves.</li></ul>",
+        "summary": "<p><strong>A wave = SHM that propagates through a medium.</strong></p><p><strong>Each particle oscillates with SHM.</strong> The wave carries the pattern, not the particles.</p><p><strong>v = fλ:</strong> wave speed = frequency × wavelength.</p>",
+        "checkQuestions": [
+          { "question": "A wave on a string has f = 5 Hz and λ = 0.3 m. Find the wave speed. What is the motion of each particle on the string?", "answer": "v = fλ = 5 × 0.3 = 1.5 m/s. Each particle oscillates vertically (perpendicular to the wave direction) with SHM at 5 Hz. The particles don't travel with the wave — they just oscillate in place." }
+        ],
+        "checklist": [
+          "I can explain that a wave is propagating SHM",
+          "I can distinguish transverse and longitudinal waves",
+          "I can relate wave parameters to SHM: A, f, T are the same",
+          "I can apply v = fλ"
+        ]
+      },
+
+      "core": {
+        "title": "The wave equation and connecting SHM to wave physics",
+        "content": "<h4>The wave equation</h4><p>For a transverse wave travelling in the +x direction: <strong>y(x,t) = A sin(ωt − kx)</strong></p><p>Where k = 2π/λ is the wave number (rad/m) and ω = 2πf is the angular frequency.</p><p>At a fixed x: y varies sinusoidally with t → SHM of that particle. At a fixed t: y varies sinusoidally with x → the wave's spatial shape (snapshot).</p><h4>v = ω/k = fλ</h4><p>The wave speed: v = ω/k = (2πf)/(2π/λ) = fλ. Alternatively: v = λ/T.</p><h4>Displacement-position graph vs displacement-time graph</h4><ul><li><strong>y vs x (snapshot at fixed t):</strong> shows the spatial shape of the wave. Distance between peaks = λ.</li><li><strong>y vs t (at fixed x):</strong> shows the SHM of one particle. Time between peaks = T.</li></ul><p>These are different graphs showing different things — don't confuse them.</p>",
+        "keyPoints": [
+          "Wave equation: y = A sin(ωt − kx). k = 2π/λ, ω = 2πf.",
+          "v = fλ = ω/k: wave speed from frequency and wavelength.",
+          "y-x graph: snapshot showing spatial shape (peaks separated by λ).",
+          "y-t graph: one particle's SHM (peaks separated by T)."
+        ],
+        "examTrap": { "wrong": "A y-x graph and a y-t graph show the same thing", "correct": "They show DIFFERENT things. y-x (snapshot): the spatial pattern of the wave at one instant — read λ. y-t (at one point): the oscillation of a single particle over time — read T. Never read T from a y-x graph or λ from a y-t graph." },
+        "checkQuestions": [
+          { "question": "From y = 0.02 sin(100πt − 5πx), find A, f, λ, and v.", "answer": "A = 0.02 m. ω = 100π → f = 50 Hz. k = 5π → λ = 2π/k = 2π/(5π) = 0.4 m. v = fλ = 50 × 0.4 = 20 m/s." }
+        ],
+        "checklist": [
+          "I can read A, ω, k, f, λ from the wave equation y = A sin(ωt − kx)",
+          "I can calculate wave speed: v = fλ = ω/k",
+          "I can distinguish y-x graphs (read λ) from y-t graphs (read T)",
+          "I can explain that the wave equation describes SHM at every point"
+        ]
+      },
+
+      "extension": { "title": "The wave equation as a PDE", "content": "<p>The full wave equation: ∂²y/∂t² = v² × ∂²y/∂x². This is a partial differential equation whose solutions are ANY functions of the form f(x − vt) or f(x + vt). Sine waves are just the simplest solutions. By Fourier's theorem: ANY wave shape can be built from a sum of sine waves — connecting SHM to all of wave physics.</p>", "connections": ["C.2 Wave Model: all wave phenomena come from the wave equation", "C.4 Standing Waves: standing waves are superpositions of two travelling waves"], "checklist": ["I can state the wave equation: ∂²y/∂t² = v²∂²y/∂x²", "I can state Fourier's theorem: any wave = sum of sine waves"] },
+      "video": { "title": "SHM & Waves — IB Physics", "duration": "8 min", "description": "Connecting SHM to wave propagation, the wave equation, and graphical interpretation", "embedId": "" },
+      "equations": [
+        { "formula": "y = A sin(ωt − kx)", "description": "Travelling wave equation. k = 2π/λ, ω = 2πf." },
+        { "formula": "v = fλ = ω/k", "description": "Wave speed from frequency and wavelength." },
+        { "formula": "k = 2π/λ", "description": "Wave number (spatial frequency). Unit: rad/m." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A wave has f = 200 Hz and λ = 1.5 m. Find the wave speed.", "solution": "v = fλ = 200 × 1.5 = 300 m/s." },
+        { "difficulty": "medium", "scope": "sl", "question": "A sound wave in air (v = 340 m/s) has period 0.002 s. Find f and λ.", "solution": "f = 1/T = 1/0.002 = 500 Hz. λ = v/f = 340/500 = 0.68 m." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Particles travel with the wave", "explanation": "Particles oscillate in place (SHM). The WAVE pattern travels, but the medium itself doesn't move along with the wave. A cork on a water wave bobs up and down — it doesn't travel with the wave.", "correct": "The wave transports energy and the pattern of disturbance, not matter." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A transverse wave on a string: y = 0.03 sin(40πt − 2πx) (SI units).\n(a) State the amplitude and frequency. [2]\n(b) Calculate the wavelength and wave speed. [2]\n(c) Describe the motion of a particle on the string. [1]", "marks": 5, "modelAnswer": "(a) A = 0.03 m [1]. f = ω/(2π) = 40π/(2π) = 20 Hz [1].\n(b) k = 2π → λ = 2π/k = 2π/2π = 1.0 m [1]. v = fλ = 20 × 1 = 20 m/s [1].\n(c) Each particle oscillates vertically (perpendicular to the wave direction) with SHM of amplitude 0.03 m and frequency 20 Hz [1].", "examinerTip": "From y = A sin(ωt − kx): A is the coefficient, ω is the coefficient of t, k is the coefficient of x. Read them directly." }
+    },
+
+    {
+      "id": "c1_sub8",
+      "num": 8,
+      "title": "SHM Experiments — Measuring T, f, and Verifying SHM",
+      "group": "Practical SHM",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "SHM & Waves",
+      "nextTitle": "C.2 Wave Model",
+
+      "bigIdea": "Physics is an experimental science. The elegant equations of SHM need to be verified in the lab. By measuring how the period of a pendulum changes with length, or how a mass-spring period changes with mass, you can verify the T formulas AND determine g or k from the gradient of a well-chosen graph.",
+
+      "foundation": {
+        "title": "Measuring SHM in the lab",
+        "content": "<h4>Pendulum experiment — finding g</h4><p>Measure T for different lengths L. Plot T² vs L. Since T = 2π√(L/g): T² = 4π²L/g. This is a straight line: gradient = 4π²/g → <strong>g = 4π²/gradient</strong>.</p><p>Method: time N oscillations (e.g., 20) to reduce timing error. Divide total time by N to get T. Repeat for different L values.</p><h4>Spring experiment — finding k</h4><p>Measure T for different masses m. Plot T² vs m. Since T = 2π√(m/k): T² = 4π²m/k. Gradient = 4π²/k → <strong>k = 4π²/gradient</strong>.</p><h4>Verifying SHM</h4><p>To confirm a system undergoes SHM: verify that T is independent of A (isochronism). Measure T for several amplitudes — T should be the same within experimental error.</p><p>For a more rigorous test: use a motion sensor to record x vs t. Plot a vs x: if it's a straight line through the origin with negative gradient, the system is SHM. Gradient = −ω².</p>",
+        "summary": "<p><strong>Pendulum:</strong> T² vs L → straight line. Gradient = 4π²/g.</p><p><strong>Spring:</strong> T² vs m → straight line. Gradient = 4π²/k.</p><p><strong>Verify SHM:</strong> check T independent of A, or plot a vs x (should be straight line through origin).</p>",
+        "checkQuestions": [
+          { "question": "You plot T² vs L for a pendulum and get a gradient of 4.05 s²/m. Find g.", "answer": "g = 4π²/gradient = 39.48/4.05 = 9.75 m/s². Close to the accepted 9.81 — good result." }
+        ],
+        "checklist": [
+          "I can describe the pendulum experiment to find g",
+          "I can describe the spring experiment to find k",
+          "I can explain why we plot T² vs L (or T² vs m) — to linearise the relationship",
+          "I can verify SHM by checking isochronism or plotting a vs x"
+        ]
+      },
+
+      "core": {
+        "title": "Data analysis and error handling for SHM experiments",
+        "content": "<h4>Why time multiple oscillations?</h4><p>Timing one oscillation with a stopwatch introduces a large percentage error (reaction time ~0.2 s, T ~1 s → 20% error). Timing 20 oscillations: total time ~20 s, error ~0.2 s → 1% error. Then T = total/20.</p><h4>Sources of error</h4><ul><li>Reaction time (use multiple oscillations to reduce)</li><li>Amplitude too large (pendulum: SHM approximation breaks for θ > ~15°)</li><li>Air resistance (damping — measure from the first few oscillations)</li><li>Parallax (measuring L to the centre of the bob)</li><li>Spring mass (affects the effective oscillating mass — add m_spring/3 to m)</li></ul><h4>Graphical analysis</h4><p>Linearising: T² = 4π²L/g → plot T² vs L. Use the gradient (not individual points) to find g. This reduces random errors and gives a more reliable result.</p><p>Check the y-intercept: for an ideal pendulum, it should be zero. A non-zero intercept suggests systematic error (e.g., incorrect L measurement or effective length issue).</p>",
+        "keyPoints": [
+          "Time multiple oscillations (≥20) to reduce percentage error",
+          "Linearise: plot T² vs L (or T² vs m) for a straight line",
+          "g = 4π²/gradient (pendulum). k = 4π²/gradient (spring).",
+          "Sources of error: timing, large amplitude, damping, parallax"
+        ],
+        "examTrap": { "wrong": "Plot T vs L for a pendulum experiment", "correct": "T vs L gives a CURVE (T ∝ √L). Plot T² vs L to get a straight line (T² ∝ L). The gradient of the straight line gives g = 4π²/gradient. Always linearise relationships for graphical analysis." },
+        "checkQuestions": [
+          { "question": "A student times 20 oscillations of a spring as 14.2 s. Find T. If the stopwatch uncertainty is ±0.2 s, find the percentage uncertainty in T.", "answer": "T = 14.2/20 = 0.71 s. Percentage uncertainty in total time: 0.2/14.2 × 100 = 1.4%. Since T = total/20, percentage uncertainty in T is the same: 1.4%." }
+        ],
+        "checklist": [
+          "I can explain why timing multiple oscillations reduces error",
+          "I can linearise T = 2π√(L/g) to T² = (4π²/g)L for graphical analysis",
+          "I can extract g or k from the gradient of a T² vs L (or m) graph",
+          "I can identify and explain sources of error in SHM experiments"
+        ]
+      },
+
+      "extension": { "title": "Advanced pendulum physics", "content": "<p>The 'simple' pendulum formula T = 2π√(L/g) is only valid for small angles (θ < ~15°). For larger angles: T = 2π√(L/g) × [1 + (1/4)sin²(θ/2) + ...]. At θ = 30°: T is ~1.7% longer. At 90°: ~18% longer. A physical (compound) pendulum: T = 2π√(I/(mgh)), where I = moment of inertia about the pivot and h = distance from pivot to centre of mass. The physical pendulum connects SHM to rotational mechanics (A.4).</p>", "connections": ["A.4 Rigid Body Mechanics: physical pendulum uses moment of inertia", "A.1 Kinematics: SHM experiments as contexts for kinematic measurements"], "checklist": ["I can explain why the pendulum formula fails at large angles", "I can state the physical pendulum formula: T = 2π√(I/(mgh))"] },
+      "video": { "title": "SHM Experiments — IB Physics", "duration": "8 min", "description": "Pendulum and spring experiments, T² vs L/m graphs, finding g and k, and error analysis", "embedId": "" },
+      "equations": [
+        { "formula": "T² = (4π²/g)L", "description": "Linearised pendulum equation. Plot T² vs L → gradient = 4π²/g." },
+        { "formula": "T² = (4π²/k)m", "description": "Linearised spring equation. Plot T² vs m → gradient = 4π²/k." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A pendulum experiment: L values and T² values give a T²-L graph with gradient 4.12 s²/m. Find g.", "steps": [
+          { "label": "From gradient", "text": "gradient = 4π²/g → g = 4π²/4.12 = 39.48/4.12 = 9.58 m/s²", "isEquation": true },
+          { "label": "Comparison", "text": "Accepted value: 9.81. Percentage error: (9.81 − 9.58)/9.81 × 100 = 2.3%. Good result." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Explain why a student should time 20 oscillations rather than 1.", "solution": "Human reaction time (~0.2 s) creates a large percentage error for a single oscillation (~1 s → 20% error). Timing 20 oscillations (~20 s total): the same 0.2 s uncertainty → only 1% error. Dividing by 20 gives a much more precise value of T." },
+        { "difficulty": "medium", "scope": "sl", "question": "A spring experiment gives T² = 0.025m + 0.002. The intercept should be zero. Suggest a reason for the non-zero intercept.", "solution": "The spring itself has mass, which also oscillates. The effective oscillating mass is m + m_spring/3 (approximately one-third of the spring mass oscillates). This shifts the T²-m graph upward, giving a positive y-intercept." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Plotting T vs L (not T² vs L) for a pendulum experiment", "explanation": "T vs L gives a CURVE (T = 2π√(L/g) ∝ √L). This is hard to analyse. T² vs L gives a STRAIGHT LINE through the origin, whose gradient directly gives g = 4π²/gradient.", "correct": "Always linearise: plot T² vs L (or T² vs m). The straight-line gradient gives the physical quantity directly." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A student measures T for a pendulum at five different lengths and plots T² vs L. The graph is a straight line through the origin with gradient 4.10 s²/m.\n(a) State the relationship between T and L for a simple pendulum. [1]\n(b) Explain why T² vs L gives a straight line. [1]\n(c) Determine g from the gradient. [2]\n(d) State one source of systematic error. [1]", "marks": 5, "modelAnswer": "(a) T = 2π√(L/g) [1].\n(b) Squaring both sides: T² = 4π²L/g. This is of the form y = mx (T² = gradient × L), which is a straight line through the origin [1].\n(c) gradient = 4π²/g → g = 4π²/4.10 = 39.48/4.10 = 9.63 m/s² [2].\n(d) Measuring L to the bottom of the bob instead of to its centre of mass → L is consistently overestimated → g is underestimated [1].", "examinerTip": "For practical questions: state the relationship FIRST, then show the linearisation step, then use the gradient. This sequence earns method marks." }
+    }
+
+  ]
+},
+// ============================================================
+// C.2 WAVE MODEL — COMPLETE (7 subtopics)
+// Ends with comma — ready for C3 to follow
+// ============================================================
+
+"C2": {
+  "title": "Wave Model",
+  "code": "C.2",
+  "theme": "C",
+  "level": "SL + HL",
+  "subtopicCount": 7,
+  "subtopics": [
+
+    {
+      "id": "c2_sub1",
+      "num": 1,
+      "title": "Transverse & Longitudinal Waves",
+      "group": "Wave Fundamentals",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "C.1 Simple Harmonic Motion",
+      "nextTitle": "Wave Speed, Frequency & Wavelength",
+
+      "bigIdea": "Waves come in two flavours. In transverse waves, particles oscillate perpendicular to the wave direction — like a Mexican wave in a stadium. In longitudinal waves, particles oscillate parallel — like pushing a slinky back and forth. Both carry energy without transporting matter, but their physics and behaviour differ in important ways.",
+
+      "foundation": {
+        "title": "Two types of wave — and what they have in common",
+        "content": "<h4>What is a wave?</h4><p>A <strong>wave</strong> is a disturbance that transfers energy from one place to another without transferring matter. The medium (if there is one) oscillates — each particle undergoes SHM — but doesn't travel with the wave.</p><h4>Transverse waves</h4><p>Particles oscillate <strong>perpendicular</strong> to the direction of wave propagation.</p><ul><li>Examples: waves on a string, water surface waves, electromagnetic waves, S-waves (earthquakes)</li><li>Can be polarised (oscillation restricted to one plane)</li><li>Have crests (maximum positive displacement) and troughs (maximum negative displacement)</li></ul><h4>Longitudinal waves</h4><p>Particles oscillate <strong>parallel</strong> to the direction of wave propagation.</p><ul><li>Examples: sound waves, P-waves (earthquakes), slinky compressions</li><li>Cannot be polarised</li><li>Have compressions (regions of high density/pressure) and rarefactions (regions of low density/pressure)</li></ul><h4>What both have in common</h4><ul><li>Both transfer energy without transferring matter</li><li>Both have amplitude, frequency, wavelength, period, and speed</li><li>Both obey v = fλ</li><li>Both can be reflected, refracted, and diffracted</li><li>Particles in both undergo SHM about equilibrium</li></ul><h4>Electromagnetic waves — a special case</h4><p>EM waves are transverse but don't need a medium — they propagate through vacuum. The oscillating quantities are the electric and magnetic fields (not particles). All EM waves travel at c = 3 × 10⁸ m/s in vacuum.</p>",
+        "summary": "<p><strong>Transverse:</strong> oscillation ⊥ wave direction. Crests and troughs. Can be polarised.</p><p><strong>Longitudinal:</strong> oscillation ∥ wave direction. Compressions and rarefactions. Cannot be polarised.</p><p><strong>Both:</strong> transfer energy (not matter), have A, f, λ, T, v, obey v = fλ.</p>",
+        "checkQuestions": [
+          { "question": "Sound is a longitudinal wave. What does this mean about how air molecules move?", "answer": "Air molecules oscillate PARALLEL to the direction the sound travels — back and forth along the same line. They create regions of compression (molecules pushed together) and rarefaction (molecules spread apart). The molecules don't travel from speaker to listener — only the energy does." },
+          { "question": "Can sound waves be polarised? Why?", "answer": "No. Polarisation restricts oscillation to one plane. Since longitudinal waves oscillate in only one direction (parallel to propagation), there's no 'plane' to restrict — the concept doesn't apply. Only transverse waves can be polarised." }
+        ],
+        "checklist": [
+          "I can define a wave as a disturbance that transfers energy without transferring matter",
+          "I can distinguish transverse (⊥) from longitudinal (∥) waves",
+          "I can give examples of each type",
+          "I can state that only transverse waves can be polarised",
+          "I can state that EM waves are transverse and need no medium"
+        ]
+      },
+
+      "core": {
+        "title": "Wave terminology and graphical representations",
+        "content": "<h4>Wave parameters</h4><ul><li><strong>Amplitude (A):</strong> maximum displacement from equilibrium. Determines energy: E ∝ A².</li><li><strong>Wavelength (λ):</strong> distance between two consecutive equivalent points (crest to crest, compression to compression).</li><li><strong>Period (T):</strong> time for one complete oscillation of a particle (or one complete wave to pass a point).</li><li><strong>Frequency (f):</strong> number of complete oscillations per second. f = 1/T. Unit: hertz (Hz).</li><li><strong>Wave speed (v):</strong> speed at which the wave pattern moves. <strong>v = fλ = λ/T</strong>.</li></ul><h4>Displacement-position graph (snapshot)</h4><p>Shows displacement vs position at one instant. For transverse: a sine wave. Distance between peaks = λ. Height of peaks = A. For longitudinal: displacement vs position is also sinusoidal — positive displacement means displaced to the right, negative to the left. Compressions occur where displacement crosses zero going from + to − (particles converging).</p><h4>Displacement-time graph (at one point)</h4><p>Shows displacement vs time for one particle. Sinusoidal. Distance between peaks = T.</p><h4>Wavefronts and rays</h4><p><strong>Wavefronts:</strong> lines connecting points of equal phase (e.g., all crests). Perpendicular to the direction of propagation. For a point source: circular (2D) or spherical (3D). For a distant source: approximately plane (flat) wavefronts.</p><p><strong>Rays:</strong> arrows showing the direction of wave propagation. Always perpendicular to wavefronts.</p>",
+        "keyPoints": [
+          "v = fλ: wave equation. Fundamental relationship.",
+          "λ from displacement-position graph. T from displacement-time graph.",
+          "Energy ∝ A² (double amplitude → 4× energy).",
+          "Wavefronts: lines of equal phase. Rays: direction of propagation (⊥ to wavefronts)."
+        ],
+        "examTrap": { "wrong": "Reading wavelength from a displacement-time graph", "correct": "Displacement-TIME graph: read T (period). Displacement-POSITION graph: read λ (wavelength). They look similar but show different things. Always check the x-axis label." },
+        "checkQuestions": [
+          { "question": "A wave has f = 400 Hz and λ = 0.85 m. Find v and T.", "answer": "v = fλ = 400 × 0.85 = 340 m/s (this is sound in air). T = 1/f = 1/400 = 0.0025 s = 2.5 ms." }
+        ],
+        "checklist": [
+          "I can define and calculate all wave parameters: A, λ, T, f, v",
+          "I can apply v = fλ",
+          "I can read λ from displacement-position and T from displacement-time graphs",
+          "I can draw and interpret wavefronts and rays"
+        ]
+      },
+
+      "extension": { "title": "Mechanical vs electromagnetic waves", "content": "<p>Mechanical waves (sound, water, seismic) require a medium — they're oscillations of the medium's particles. EM waves (light, radio, X-rays) need no medium — they're oscillations of electric and magnetic fields. All EM waves travel at c in vacuum. Their speed changes in media: v = c/n, where n is the refractive index. The EM spectrum ranges from radio (λ ~ km, f ~ kHz) to gamma rays (λ ~ pm, f ~ 10²⁰ Hz).</p>", "connections": ["C.3 Wave Phenomena: all waves diffract, reflect, refract", "E.2 Quantum Physics: EM waves are also particles (photons)"], "checklist": ["I can classify waves as mechanical (need medium) or electromagnetic (no medium)", "I can state the EM spectrum order by frequency/wavelength"] },
+      "simulation": { "title": "PhET: Wave on a String", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/wave-on-a-string", "instructions": ["Create transverse waves. Observe: particles move up/down while the wave moves horizontally. Measure λ and T from the display."] },
+      "video": { "title": "Transverse & Longitudinal Waves — IB Physics", "duration": "8 min", "description": "Wave types, parameters, graphical representations, wavefronts, and rays", "embedId": "" },
+      "equations": [
+        { "formula": "v = fλ = λ/T", "description": "Wave speed = frequency × wavelength." },
+        { "formula": "f = 1/T", "description": "Frequency = reciprocal of period." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A sound wave: f = 256 Hz, v = 340 m/s. Find λ and T.", "steps": [
+          { "label": "λ", "text": "λ = v/f = 340/256 = 1.33 m", "isEquation": true },
+          { "label": "T", "text": "T = 1/f = 1/256 = 3.91 × 10⁻³ s = 3.91 ms", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State two differences between transverse and longitudinal waves.", "solution": "1. Transverse: oscillation perpendicular to wave direction. Longitudinal: oscillation parallel. 2. Transverse can be polarised. Longitudinal cannot." },
+        { "difficulty": "medium", "scope": "sl", "question": "A wave on a string has v = 20 m/s and λ = 0.5 m. Find f. If the amplitude doubles, what happens to the speed?", "solution": "f = v/λ = 20/0.5 = 40 Hz. Speed is unchanged — v depends on the medium properties (tension, density), not amplitude." },
+        { "difficulty": "hard", "scope": "sl", "question": "A displacement-position graph shows 4 complete waves in 3.0 m. A displacement-time graph shows 5 complete oscillations in 0.2 s. Find λ, T, f, and v.", "solution": "λ = 3.0/4 = 0.75 m. T = 0.2/5 = 0.04 s. f = 1/0.04 = 25 Hz. v = fλ = 25 × 0.75 = 18.75 m/s." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Particles in a wave travel with the wave", "explanation": "Particles oscillate in place (SHM). Only the wave pattern (and energy) travels. A cork on a water wave bobs up and down — it doesn't travel horizontally with the wave.", "correct": "Waves transfer energy, not matter. Particles oscillate; the wave pattern propagates." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Distinguish between transverse and longitudinal waves. [2]\nA longitudinal wave has f = 500 Hz and v = 340 m/s.\n(a) Calculate the wavelength. [1]\n(b) State what represents 'wavelength' in a longitudinal wave. [1]", "marks": 4, "modelAnswer": "Transverse: oscillation perpendicular to wave direction [1]. Longitudinal: oscillation parallel to wave direction [1].\n(a) λ = v/f = 340/500 = 0.68 m [1].\n(b) The distance between consecutive compressions (or consecutive rarefactions) [1].", "examinerTip": "For longitudinal waves: λ = distance between adjacent compressions OR adjacent rarefactions. NOT from compression to rarefaction (that's λ/2)." }
+    },
+
+    {
+      "id": "c2_sub2",
+      "num": 2,
+      "title": "Wave Speed in Different Media",
+      "group": "Wave Fundamentals",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Transverse & Longitudinal Waves",
+      "nextTitle": "The Electromagnetic Spectrum",
+
+      "bigIdea": "Wave speed depends on the medium, not on the wave itself. Sound travels at 340 m/s in air, 1500 m/s in water, 5000 m/s in steel. Light travels at 3 × 10⁸ m/s in vacuum but slower in glass (2 × 10⁸ m/s). When a wave enters a new medium, its speed changes but its frequency stays the same — so the wavelength must change too.",
+
+      "foundation": {
+        "title": "What determines wave speed?",
+        "content": "<h4>Speed depends on the medium</h4><p>Wave speed is determined by the properties of the medium, NOT by the wave's frequency or amplitude.</p><p><strong>Sound in air:</strong> v ≈ 340 m/s (at 20°C). Increases with temperature (~0.6 m/s per °C).</p><p><strong>Sound in other media:</strong> faster in denser, stiffer media. Water: ~1500 m/s. Steel: ~5000 m/s. Sound travels faster in solids because particles are closer and forces are stronger.</p><p><strong>Light in vacuum:</strong> c = 3 × 10⁸ m/s (exact: 299,792,458 m/s). This is the cosmic speed limit.</p><p><strong>Light in media:</strong> v = c/n, where n is the refractive index. Glass (n ≈ 1.5): v ≈ 2 × 10⁸ m/s. Water (n ≈ 1.33): v ≈ 2.26 × 10⁸ m/s.</p><h4>What happens when a wave changes medium?</h4><p>When a wave enters a new medium:</p><ul><li><strong>Speed changes</strong> (determined by the new medium)</li><li><strong>Frequency stays the same</strong> (set by the source — the medium doesn't change how fast the source oscillates)</li><li><strong>Wavelength changes</strong> (since v = fλ and f is constant: λ = v/f changes with v)</li></ul><p>This is crucial for understanding refraction.</p><h4>Waves on a string</h4><p>v = √(T/μ), where T = tension (N) and μ = mass per unit length (kg/m). More tension → faster. Heavier string → slower.</p>",
+        "summary": "<p><strong>Speed depends on medium.</strong> Sound: ~340 m/s (air). Light: c/n in media.</p><p><strong>Crossing media:</strong> speed and λ change. Frequency stays the same.</p><p><strong>String:</strong> v = √(T/μ). More tension → faster.</p>",
+        "checkQuestions": [
+          { "question": "Sound at 1000 Hz enters water from air. v_air = 340 m/s, v_water = 1500 m/s. Find λ in each medium.", "answer": "In air: λ = v/f = 340/1000 = 0.34 m. In water: λ = 1500/1000 = 1.5 m. Frequency unchanged; wavelength increases with speed." }
+        ],
+        "checklist": [
+          "I can state that wave speed depends on the medium, not on frequency or amplitude",
+          "I can state typical speeds: sound ~340 m/s (air), light = c = 3 × 10⁸ m/s (vacuum)",
+          "I can explain that when a wave changes medium: v and λ change, f stays the same",
+          "I can apply v = √(T/μ) for waves on a string"
+        ]
+      },
+
+      "core": {
+        "title": "Refractive index and speed changes",
+        "content": "<h4>Refractive index</h4><p><strong>n = c/v</strong></p><p>Where n = refractive index (dimensionless, ≥ 1), c = speed of light in vacuum, v = speed in the medium.</p><p>Higher n → slower light. Vacuum: n = 1. Air: n ≈ 1.0003 ≈ 1. Water: n ≈ 1.33. Glass: n ≈ 1.5. Diamond: n ≈ 2.42.</p><h4>Snell's law preview</h4><p>When light crosses a boundary between media: n₁ sin θ₁ = n₂ sin θ₂. Light bends TOWARD the normal when entering a denser medium (higher n, slower speed) and AWAY from the normal when entering a less dense medium.</p><h4>Why does frequency stay constant?</h4><p>The frequency is set by the source. At the boundary between two media, the wave must be continuous — the number of wave crests arriving per second must equal the number leaving. If frequency changed at the boundary, crests would pile up or disappear — violating conservation. So f is constant across all media.</p>",
+        "keyPoints": [
+          "n = c/v: refractive index. Higher n → slower light.",
+          "f is constant across media. v and λ change.",
+          "λ₁/λ₂ = v₁/v₂ = n₂/n₁ (wavelength ratio = inverse of n ratio)",
+          "Snell's law: n₁ sin θ₁ = n₂ sin θ₂ (refraction at boundaries)"
+        ],
+        "examTrap": { "wrong": "Light speeds up when entering glass", "correct": "Light SLOWS DOWN in glass (n > 1 → v = c/n < c). It bends TOWARD the normal because it's slower. Light speeds up when leaving glass (back to air) and bends AWAY from the normal." },
+        "checkQuestions": [
+          { "question": "Light (λ = 600 nm in vacuum) enters glass (n = 1.5). Find v, f, and λ in the glass.", "answer": "v = c/n = 3 × 10⁸/1.5 = 2 × 10⁸ m/s. f = c/λ = 3 × 10⁸/600 × 10⁻⁹ = 5 × 10¹⁴ Hz (same in all media). λ_glass = v/f = 2 × 10⁸/5 × 10¹⁴ = 400 nm (shorter in glass)." }
+        ],
+        "checklist": [
+          "I can define refractive index: n = c/v",
+          "I can calculate speed and wavelength in a medium: v = c/n, λ = λ₀/n",
+          "I can explain why frequency doesn't change across media boundaries",
+          "I can state Snell's law: n₁ sin θ₁ = n₂ sin θ₂"
+        ]
+      },
+
+      "extension": { "title": "Dispersion and the speed of light", "content": "<p>In most media, n depends slightly on wavelength — this is dispersion. Blue light has higher n than red in glass → blue is slower → bends more. This is why prisms split white light into a spectrum. Also: the speed of light in vacuum (c) is exactly defined as 299,792,458 m/s — it's used to DEFINE the metre.</p>", "connections": ["C.3 Wave Phenomena: refraction and Snell's law in detail", "A.5 Relativity: c is the cosmic speed limit and is the same for all observers"], "checklist": ["I can explain dispersion: n depends on wavelength → different colours bend differently"] },
+      "video": { "title": "Wave Speed & Refractive Index — IB Physics", "duration": "8 min", "description": "Speed in different media, n = c/v, frequency conservation, and Snell's law preview", "embedId": "" },
+      "equations": [
+        { "formula": "v = fλ", "description": "Wave speed = frequency × wavelength." },
+        { "formula": "n = c/v", "description": "Refractive index. n ≥ 1. Higher n = slower light." },
+        { "formula": "v = √(T/μ)", "description": "Speed of wave on a string. T = tension, μ = linear density." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Light enters diamond (n = 2.42) from air. Find the speed and wavelength of 500 nm light in diamond.", "steps": [
+          { "label": "Speed", "text": "v = c/n = 3 × 10⁸/2.42 = 1.24 × 10⁸ m/s", "isEquation": true },
+          { "label": "λ in diamond", "text": "λ = λ₀/n = 500/2.42 = 207 nm", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Sound travels at 340 m/s in air and 5000 m/s in steel. A 1000 Hz sound enters steel. Find λ in each.", "solution": "Air: λ = 340/1000 = 0.34 m. Steel: λ = 5000/1000 = 5.0 m. Same frequency, much longer wavelength in steel." },
+        { "difficulty": "medium", "scope": "sl", "question": "Light of wavelength 700 nm in vacuum enters water (n = 1.33). Find the wavelength in water.", "solution": "λ_water = λ₀/n = 700/1.33 = 526 nm." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Frequency changes when a wave enters a new medium", "explanation": "Frequency is set by the SOURCE and stays constant across all media. Speed and wavelength change. v = fλ: if f is constant and v changes, λ must change proportionally.", "correct": "f is constant. v and λ change. λ = v/f." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A sound wave of frequency 440 Hz travels in air (v = 340 m/s) and enters water (v = 1480 m/s).\n(a) Calculate the wavelength in air. [1]\n(b) State the frequency in water. [1]\n(c) Calculate the wavelength in water. [1]\n(d) Explain why the frequency doesn't change. [2]", "marks": 5, "modelAnswer": "(a) λ = v/f = 340/440 = 0.773 m [1].\n(b) 440 Hz (unchanged) [1].\n(c) λ = 1480/440 = 3.36 m [1].\n(d) At the boundary, wave crests arrive at the rate set by the source (440 per second) [1]. The same number must leave — if frequency changed, crests would accumulate or vanish at the boundary, which is physically impossible [1].", "examinerTip": "The explanation of constant frequency is: continuity at the boundary. Same number of crests per second must enter and leave. This is a conservation argument." }
+    },
+
+    {
+      "id": "c2_sub3",
+      "num": 3,
+      "title": "The Electromagnetic Spectrum",
+      "group": "EM Waves",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Wave Speed in Media",
+      "nextTitle": "Intensity & the Inverse Square Law",
+
+      "bigIdea": "Radio waves, microwaves, infrared, visible light, ultraviolet, X-rays, and gamma rays — they're all the same thing: electromagnetic waves. They differ only in frequency (and therefore wavelength and photon energy). Together they form the electromagnetic spectrum, and understanding it is understanding how we see, communicate, cook, diagnose disease, and study the universe.",
+
+      "foundation": {
+        "title": "One family of waves — from radio to gamma",
+        "content": "<h4>What are EM waves?</h4><p>Electromagnetic waves are transverse waves consisting of oscillating electric and magnetic fields, perpendicular to each other and to the direction of propagation. They need no medium — they travel through vacuum at c = 3 × 10⁸ m/s.</p><h4>The EM spectrum (in order of increasing frequency)</h4><table><tr><th>Type</th><th>λ range</th><th>f range</th><th>Key uses</th></tr><tr><td>Radio</td><td>>1 m</td><td><3 × 10⁸ Hz</td><td>Broadcasting, communication</td></tr><tr><td>Microwave</td><td>1 mm – 1 m</td><td>3 × 10⁸ – 3 × 10¹¹</td><td>Cooking, mobile phones, radar</td></tr><tr><td>Infrared</td><td>700 nm – 1 mm</td><td>3 × 10¹¹ – 4 × 10¹⁴</td><td>Heating, thermal imaging, remotes</td></tr><tr><td>Visible</td><td>400 – 700 nm</td><td>4 – 7.5 × 10¹⁴</td><td>Vision, photography</td></tr><tr><td>Ultraviolet</td><td>10 – 400 nm</td><td>7.5 × 10¹⁴ – 3 × 10¹⁶</td><td>Sterilisation, fluorescence, sunburn</td></tr><tr><td>X-ray</td><td>0.01 – 10 nm</td><td>3 × 10¹⁶ – 3 × 10¹⁹</td><td>Medical imaging, security</td></tr><tr><td>Gamma</td><td><0.01 nm</td><td>>3 × 10¹⁹</td><td>Cancer treatment, nuclear imaging</td></tr></table><h4>Visible light — the tiny window</h4><p>The visible spectrum (400–700 nm) is a tiny fraction of the full EM spectrum. Red (~700 nm) has the longest wavelength and lowest frequency of visible light. Violet (~400 nm) has the shortest wavelength and highest frequency. ROYGBIV: Red, Orange, Yellow, Green, Blue, Indigo, Violet (increasing frequency).</p><h4>All EM waves share</h4><ul><li>Travel at c in vacuum</li><li>Transverse</li><li>Can be polarised</li><li>E = hf (photon energy — from E.2)</li><li>Carry energy and momentum</li></ul>",
+        "summary": "<p><strong>EM spectrum:</strong> radio → microwave → IR → visible → UV → X-ray → gamma (increasing f, decreasing λ).</p><p><strong>All travel at c</strong> in vacuum. <strong>All transverse.</strong> <strong>All can be polarised.</strong></p><p><strong>Higher f → higher energy</strong> per photon (E = hf).</p>",
+        "checkQuestions": [
+          { "question": "Which has more energy per photon: red light or blue light?", "answer": "Blue. E = hf. Blue has higher frequency than red → more energy per photon. This is why UV (even higher f) causes sunburn — each photon carries enough energy to damage DNA." }
+        ],
+        "checklist": [
+          "I can list the EM spectrum in order of frequency or wavelength",
+          "I can state that all EM waves travel at c in vacuum and are transverse",
+          "I can give uses and properties for each part of the spectrum",
+          "I can state that photon energy increases with frequency: E = hf"
+        ]
+      },
+
+      "core": {
+        "title": "Properties, uses, and hazards of EM radiation",
+        "content": "<h4>Detailed properties</h4><p><strong>Radio:</strong> Long wavelength → diffract around obstacles (hills, buildings) → good for broadcasting. Low energy → not harmful.</p><p><strong>Microwave:</strong> Absorbed by water molecules (resonance at ~2.45 GHz) → used in microwave ovens. Also: satellite communication, Wi-Fi, Bluetooth.</p><p><strong>Infrared:</strong> Emitted by all warm objects (thermal radiation). Detected by skin (warmth) and thermal cameras. Used in remote controls, fibre optics (some bands).</p><p><strong>Visible:</strong> The narrow band our eyes detect. Different wavelengths = different colours. Reflected and absorbed selectively by surfaces → colour perception.</p><p><strong>Ultraviolet:</strong> Higher energy → can ionise molecules → damages DNA → causes sunburn and skin cancer. Used: sterilisation, fluorescent lamps, detecting counterfeit currency.</p><p><strong>X-rays:</strong> High energy → penetrate soft tissue but absorbed by bone → medical imaging. Can cause cell damage → used carefully (lead shielding).</p><p><strong>Gamma:</strong> Highest energy. From nuclear decay. Most penetrating. Used: cancer treatment (radiotherapy), sterilisation of food/medical equipment. Highly dangerous to living tissue.</p><h4>Ionising vs non-ionising</h4><p>UV, X-rays, and gamma have enough energy per photon to ionise atoms → can damage DNA → are hazardous. Radio, microwave, IR, and visible are non-ionising (at normal intensities).</p>",
+        "keyPoints": [
+          "Radio: diffract well, broadcasting. Microwave: absorbed by water, cooking/comms.",
+          "IR: thermal radiation, heating. Visible: the narrow band for vision.",
+          "UV: ionising, sunburn, sterilisation. X-ray: penetrate tissue, imaging.",
+          "Gamma: most energetic, nuclear origin, radiotherapy.",
+          "Ionising (UV, X, γ): can damage DNA. Non-ionising (radio, μwave, IR, visible): generally safe."
+        ],
+        "examTrap": { "wrong": "Microwaves are dangerous because they're ionising", "correct": "Microwaves are NON-ionising. They heat water (and food) by making water molecules vibrate faster — NOT by ionising atoms. They can burn tissue through heating but not through ionisation. Only UV, X-ray, and gamma are ionising." },
+        "checkQuestions": [
+          { "question": "Why are X-rays useful for medical imaging but also hazardous?", "answer": "Useful: X-rays penetrate soft tissue but are absorbed by bone → create shadow images showing the skeleton. Hazardous: X-rays are ionising — they can damage DNA in cells, potentially causing cancer. This is why exposure is minimised and lead shielding is used." }
+        ],
+        "checklist": [
+          "I can state uses and hazards for each part of the EM spectrum",
+          "I can distinguish ionising (UV, X, γ) from non-ionising radiation",
+          "I can explain why different EM waves have different applications (based on λ, f, energy)"
+        ]
+      },
+
+      "extension": { "title": "The EM spectrum and the universe", "content": "<p>Astronomy uses the entire EM spectrum: radio telescopes detect cosmic microwave background radiation (from 380,000 years after the Big Bang), IR telescopes see through dust clouds to newborn stars, UV/X-ray telescopes observe hot gas around black holes, and gamma ray telescopes detect the most energetic events (gamma ray bursts from collapsing stars). Each part of the spectrum reveals something invisible to the others — which is why multi-wavelength astronomy is essential.</p>", "connections": ["E.5 Fusion & Stars: stars emit across the EM spectrum, peak determined by surface temperature (Wien's law)", "E.2 Quantum Physics: E = hf connects EM radiation to photon energy"], "checklist": ["I can explain why astronomers use different parts of the EM spectrum"] },
+      "video": { "title": "The EM Spectrum — IB Physics", "duration": "9 min", "description": "All seven regions, properties, uses, hazards, and ionising vs non-ionising", "embedId": "" },
+      "equations": [
+        { "formula": "c = fλ", "description": "For all EM waves in vacuum: c = 3 × 10⁸ m/s." },
+        { "formula": "E = hf = hc/λ", "description": "Photon energy. Higher f → more energy." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Find the frequency and photon energy of green light (λ = 550 nm).", "steps": [
+          { "label": "f", "text": "f = c/λ = 3 × 10⁸/550 × 10⁻⁹ = 5.45 × 10¹⁴ Hz", "isEquation": true },
+          { "label": "E", "text": "E = hf = 6.63 × 10⁻³⁴ × 5.45 × 10¹⁴ = 3.61 × 10⁻¹⁹ J = 2.26 eV", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "List the EM spectrum in order of increasing frequency.", "solution": "Radio, microwave, infrared, visible, ultraviolet, X-ray, gamma ray." },
+        { "difficulty": "medium", "scope": "sl", "question": "A radio station broadcasts at 100 MHz. Find the wavelength.", "solution": "λ = c/f = 3 × 10⁸/100 × 10⁶ = 3 m." },
+        { "difficulty": "hard", "scope": "sl", "question": "The Sun's peak emission is at 500 nm. The cosmic microwave background has peak at 1.06 mm. Find the ratio of their peak photon energies.", "solution": "E ∝ 1/λ. Ratio = λ_CMB/λ_Sun = 1.06 × 10⁻³/500 × 10⁻⁹ = 2120. The Sun's peak photons have 2120× more energy than CMB photons." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Different types of EM radiation are fundamentally different things", "explanation": "They're ALL electromagnetic waves — the same phenomenon at different frequencies. The boundaries (e.g., where IR ends and visible begins) are arbitrary human categories. The physics is continuous.", "correct": "One phenomenon, one spectrum, different frequencies. The names are human labels for convenience." }
+      ],
+      "examCorner": { "scope": "sl", "question": "State two properties common to all electromagnetic waves. [2]\nState one use each for: infrared, ultraviolet, X-rays. [3]", "marks": 5, "modelAnswer": "Common properties: all travel at c (3 × 10⁸ m/s) in vacuum [1]. All are transverse waves [1].\nIR: thermal imaging / remote controls / fibre optic communication [1]. UV: sterilisation / detecting counterfeit notes / fluorescent lighting [1]. X-rays: medical imaging (bone fractures) / security scanning [1].", "examinerTip": "For 'state a use' questions: be specific. 'Communication' is too vague for radio — say 'broadcasting radio/TV signals.' 'Heating' is vague for IR — say 'thermal imaging cameras' or 'remote controls.'" }
+    },
+
+    {
+      "id": "c2_sub4",
+      "num": 4,
+      "title": "Intensity & the Inverse Square Law",
+      "group": "Wave Energy",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "EM Spectrum",
+      "nextTitle": "Superposition & Interference",
+
+      "bigIdea": "Stand close to a speaker — it's loud. Walk away — it gets quieter. Not because energy is lost, but because it's spread over a larger area. The intensity of a wave from a point source decreases as the square of the distance: double the distance, quarter the intensity. This inverse square law governs everything from sound to light to gravity.",
+
+      "foundation": {
+        "title": "How wave energy spreads out",
+        "content": "<h4>Intensity defined</h4><p><strong>Intensity (I)</strong> is the power per unit area:</p><p><strong>I = P/A</strong></p><p>Unit: W/m². Intensity tells you how much energy arrives per second per square metre.</p><h4>The inverse square law</h4><p>A point source radiates equally in all directions (isotropically). At distance r, the energy is spread over a sphere of area 4πr²:</p><p><strong>I = P/(4πr²)</strong></p><p>Therefore: <strong>I ∝ 1/r²</strong>. Double the distance → ¼ the intensity. Triple → 1/9.</p><h4>Intensity and amplitude</h4><p><strong>I ∝ A²</strong>. The intensity of a wave is proportional to the square of its amplitude. This applies to all types of waves. Halve the amplitude → ¼ the intensity.</p><p>Combining: as a wave spreads from a point source, A decreases as 1/r (since I ∝ A² ∝ 1/r² → A ∝ 1/r).</p>",
+        "summary": "<p><strong>I = P/A = P/(4πr²).</strong> Unit: W/m².</p><p><strong>I ∝ 1/r²:</strong> inverse square law for point sources.</p><p><strong>I ∝ A²:</strong> intensity proportional to amplitude squared.</p>",
+        "checkQuestions": [
+          { "question": "A lamp radiates 100 W. Find the intensity at 2 m and 4 m.", "answer": "At 2 m: I = 100/(4π × 4) = 1.99 W/m². At 4 m: I = 100/(4π × 16) = 0.497 W/m². At double the distance: ¼ the intensity ✓." }
+        ],
+        "checklist": [
+          "I can define intensity: I = P/A (W/m²)",
+          "I can apply the inverse square law: I = P/(4πr²), I ∝ 1/r²",
+          "I can state I ∝ A² and explain that amplitude decreases as 1/r from a point source"
+        ]
+      },
+
+      "core": {
+        "title": "Applying the inverse square law and intensity ratios",
+        "content": "<h4>Comparing intensities at two distances</h4><p>I₁/I₂ = r₂²/r₁² (inverse square ratio). No need to know P — just the distance ratio.</p><h4>When the inverse square law doesn't apply</h4><ul><li>Near the source (not yet a point source — the source has finite size)</li><li>In a directed beam (laser, flashlight with reflector) — energy doesn't spread spherically</li><li>In a medium that absorbs (atmosphere, water) — intensity decreases faster than 1/r²</li><li>In a waveguide (fibre optic, pipe) — energy is confined, not spreading</li></ul><h4>Decibels (for sound)</h4><p>Sound intensity level: <strong>β = 10 log₁₀(I/I₀)</strong> dB, where I₀ = 10⁻¹² W/m² (threshold of hearing). Each 10 dB increase = 10× intensity. Each 3 dB increase ≈ 2× intensity. Normal conversation: ~60 dB. Jet engine: ~140 dB.</p>",
+        "keyPoints": [
+          "I₁/I₂ = r₂²/r₁²: compare intensities using distance ratio",
+          "Inverse square law: valid for point sources in a non-absorbing medium",
+          "Fails for: directed beams, absorbing media, waveguides",
+          "Decibels: β = 10 log(I/I₀). +10 dB = 10× intensity."
+        ],
+        "examTrap": { "wrong": "The inverse square law applies to all wave sources", "correct": "It applies only to POINT sources radiating ISOTROPICALLY (equally in all directions) in a NON-ABSORBING medium. Lasers, torches, and sources in fog don't obey it. Always check the conditions." },
+        "checkQuestions": [
+          { "question": "A sound has intensity 60 dB at 10 m. What is the intensity level at 100 m (no absorption)?", "answer": "Distance × 10 → intensity × 1/100. 60 dB at 10 m. ΔI = factor of 100 = 10². 10 log(1/100) = −20 dB. New level: 60 − 20 = 40 dB." }
+        ],
+        "checklist": [
+          "I can compare intensities at different distances using I₁/I₂ = r₂²/r₁²",
+          "I can state when the inverse square law doesn't apply",
+          "I can convert between intensity and decibels: β = 10 log(I/I₀)"
+        ]
+      },
+
+      "extension": { "title": "Intensity in 1D and 2D", "content": "<p>The inverse square law is for 3D spreading (spherical waves). In 2D (circular waves on water): I ∝ 1/r. In 1D (wave in a pipe): I is constant (no spreading). The dimension of spreading determines the exponent: I ∝ 1/r^(d−1) where d = dimensions of spreading.</p>", "connections": ["B.1 Stefan-Boltzmann: I = σT⁴ is power per area — intensity of thermal radiation", "D.1 Gravitational Fields: gravitational field strength also follows 1/r²"], "checklist": ["I can explain how the power law depends on the dimensionality of spreading"] },
+      "video": { "title": "Intensity & Inverse Square Law — IB Physics", "duration": "7 min", "description": "I = P/A, inverse square law, I ∝ A², and decibels", "embedId": "" },
+      "equations": [
+        { "formula": "I = P/A = P/(4πr²)", "description": "Intensity from a point source. Unit: W/m²." },
+        { "formula": "I ∝ 1/r²", "description": "Inverse square law for isotropic point source." },
+        { "formula": "I ∝ A²", "description": "Intensity proportional to amplitude squared." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A star has luminosity L = 4 × 10²⁶ W. Find the intensity at Earth (d = 1.5 × 10¹¹ m).", "steps": [
+          { "label": "I", "text": "I = L/(4πd²) = 4 × 10²⁶/(4π(1.5 × 10¹¹)²) = 4 × 10²⁶/2.83 × 10²³ = 1414 W/m²", "isEquation": true },
+          { "label": "Note", "text": "This is the solar constant (~1361 W/m²). The slight difference is rounding." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A 50 W lamp. Find the intensity at 3 m.", "solution": "I = P/(4πr²) = 50/(4π × 9) = 50/113.1 = 0.442 W/m²." },
+        { "difficulty": "medium", "scope": "sl", "question": "The intensity at 2 m from a source is 5 W/m². Find the intensity at 6 m.", "solution": "I₁/I₂ = r₂²/r₁² → 5/I₂ = 36/4 = 9 → I₂ = 5/9 = 0.556 W/m²." },
+        { "difficulty": "hard", "scope": "sl", "question": "At what distance from a 100 W source does the intensity equal 0.1 W/m²?", "solution": "0.1 = 100/(4πr²) → r² = 100/(4π × 0.1) = 79.6 → r = 8.92 m." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Doubling the distance halves the intensity", "explanation": "I ∝ 1/r². Doubling r → r² quadruples → intensity becomes ¼ (not ½). It's the SQUARE of the distance, not linear.", "correct": "Double distance → ¼ intensity. Triple → 1/9. The square makes it drop off rapidly." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A speaker emits sound with power 0.5 W uniformly in all directions.\n(a) Calculate the intensity at 4.0 m. [2]\n(b) At what distance is the intensity 10⁻⁴ W/m²? [2]\n(c) The amplitude of the sound wave at 4.0 m is A. State the amplitude at 8.0 m. [1]", "marks": 5, "modelAnswer": "(a) I = P/(4πr²) = 0.5/(4π × 16) = 0.5/201 = 2.49 × 10⁻³ W/m² [2].\n(b) 10⁻⁴ = 0.5/(4πr²) → r² = 0.5/(4π × 10⁻⁴) = 398 → r = 19.9 m [2].\n(c) I ∝ A² and I ∝ 1/r². At 8 m (2× distance): I → ¼. A² → ¼. A → A/2 [1].", "examinerTip": "Remember: I ∝ A² AND I ∝ 1/r² → A ∝ 1/r. Amplitude decreases as 1/r, not 1/r². The square only applies to intensity, not amplitude." }
+    },
+
+    {
+      "id": "c2_sub5",
+      "num": 5,
+      "title": "Superposition of Waves",
+      "group": "Wave Interactions",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Intensity",
+      "nextTitle": "Polarisation",
+
+      "bigIdea": "When two waves meet, they don't bounce off each other — they pass right through. At the moment they overlap, their displacements ADD. If both push up: bigger wave (constructive interference). If one pushes up and the other down: they cancel (destructive interference). After passing, they continue unchanged. This is the principle of superposition.",
+
+      "foundation": {
+        "title": "When waves meet — adding displacements",
+        "content": "<h4>The principle of superposition</h4><p><strong>When two or more waves overlap at a point, the resultant displacement is the vector sum of the individual displacements.</strong></p><p>This applies to ALL waves (sound, light, water) and is the basis of interference, standing waves, and beats.</p><h4>Constructive interference</h4><p>When two waves arrive <strong>in phase</strong> (crest meets crest): their amplitudes ADD. Resultant amplitude = A₁ + A₂. This is <strong>constructive interference</strong> — the combined wave is bigger.</p><h4>Destructive interference</h4><p>When two waves arrive <strong>in antiphase</strong> (crest meets trough): their amplitudes SUBTRACT. Resultant amplitude = |A₁ − A₂|. If A₁ = A₂: complete cancellation — the resultant is zero. This is <strong>destructive interference</strong>.</p><h4>Path difference and phase difference</h4><ul><li><strong>Path difference:</strong> the difference in distance travelled by two waves from their sources to a point. Measured in metres or in wavelengths.</li><li><strong>Phase difference:</strong> how 'out of step' two waves are. Measured in radians or degrees. Δφ = (2π/λ) × path difference.</li></ul><p>Constructive: path difference = nλ (integer wavelengths) → in phase. Destructive: path difference = (n + ½)λ → antiphase.</p>",
+        "summary": "<p><strong>Superposition:</strong> displacements add when waves overlap.</p><p><strong>Constructive:</strong> in phase → amplitudes add. Path difference = nλ.</p><p><strong>Destructive:</strong> antiphase → amplitudes subtract. Path difference = (n+½)λ.</p><p><strong>Phase difference:</strong> Δφ = 2π × (path difference)/λ.</p>",
+        "checkQuestions": [
+          { "question": "Two speakers emit sound in phase. At a point, one sound travels 3.0 m and the other 3.5 m. λ = 0.5 m. Constructive or destructive?", "answer": "Path difference = 3.5 − 3.0 = 0.5 m = λ. Path difference = 1λ = integer × λ → constructive interference." }
+        ],
+        "checklist": [
+          "I can state the principle of superposition",
+          "I can explain constructive (in phase, path diff = nλ) and destructive (antiphase, path diff = (n+½)λ) interference",
+          "I can relate path difference to phase difference: Δφ = 2π × Δpath/λ"
+        ]
+      },
+
+      "core": {
+        "title": "Interference patterns and coherence",
+        "content": "<h4>Conditions for observable interference</h4><p>To see a stable interference pattern, the two sources must be:</p><ol><li><strong>Coherent:</strong> same frequency AND constant phase difference. Two independent light bulbs are NOT coherent (random phase fluctuations) → no visible interference pattern. Laser light is coherent.</li><li><strong>Similar amplitude:</strong> for good contrast between maxima and minima (not strictly necessary but helps visibility)</li></ol><h4>Two-source interference</h4><p>Two coherent sources (e.g., two slits, two speakers) produce an interference pattern: alternating maxima (constructive) and minima (destructive).</p><p>At a maximum (bright fringe for light, loud spot for sound): path difference = nλ.</p><p>At a minimum (dark fringe, quiet spot): path difference = (n + ½)λ.</p><h4>Beats</h4><p>When two waves of slightly different frequencies overlap: the amplitude oscillates (gets louder and softer). The <strong>beat frequency</strong> = |f₁ − f₂|. Example: two tuning forks at 440 Hz and 442 Hz → beat frequency = 2 Hz (you hear the volume pulsing twice per second). Used to tune instruments.</p>",
+        "keyPoints": [
+          "Coherence: same f, constant phase difference. Required for stable interference.",
+          "Constructive: path difference = nλ. Destructive: path difference = (n+½)λ.",
+          "Beats: two close frequencies → amplitude oscillates at f_beat = |f₁ − f₂|.",
+          "Independent sources (light bulbs) are incoherent → no visible pattern."
+        ],
+        "examTrap": { "wrong": "Any two waves can produce an interference pattern", "correct": "Observable interference requires COHERENT sources (same frequency, constant phase relationship). Two different light bulbs produce no stable pattern because their phase relationship fluctuates randomly billions of times per second." },
+        "checkQuestions": [
+          { "question": "Two tuning forks: 256 Hz and 260 Hz. Find the beat frequency.", "answer": "f_beat = |260 − 256| = 4 Hz. You hear the volume pulsing 4 times per second." }
+        ],
+        "checklist": [
+          "I can state the conditions for observable interference (coherence)",
+          "I can explain constructive and destructive interference using path difference",
+          "I can calculate beat frequency: f_beat = |f₁ − f₂|"
+        ]
+      },
+
+      "extension": { "title": "Fourier analysis", "content": "<p>Any periodic wave — no matter how complex — can be decomposed into a sum of simple sine waves (Fourier's theorem). A square wave = fundamental + odd harmonics. A sawtooth = fundamental + all harmonics. This connects superposition to music (timbre is the combination of harmonics), signal processing, data compression, and quantum mechanics (wave packets from superposition of many frequencies).</p>", "connections": ["C.4 Standing Waves: harmonics are the Fourier components of standing waves", "E.2 Quantum Physics: wave packets and uncertainty from Fourier analysis"], "checklist": ["I can state Fourier's theorem: any periodic wave = sum of sinusoids"] },
+      "video": { "title": "Superposition & Interference — IB Physics", "duration": "9 min", "description": "Principle of superposition, constructive/destructive interference, coherence, and beats", "embedId": "" },
+      "equations": [
+        { "formula": "Constructive: path diff = nλ", "description": "n = 0, 1, 2... Maximum amplitude." },
+        { "formula": "Destructive: path diff = (n+½)λ", "description": "n = 0, 1, 2... Minimum (or zero) amplitude." },
+        { "formula": "f_beat = |f₁ − f₂|", "description": "Beat frequency from two close frequencies." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Two speakers in phase, λ = 0.85 m. Point P: distance from speaker 1 = 3.0 m, from speaker 2 = 4.7 m. Constructive or destructive?", "steps": [
+          { "label": "Path difference", "text": "Δ = 4.7 − 3.0 = 1.7 m" },
+          { "label": "In wavelengths", "text": "1.7/0.85 = 2.0 = 2λ = integer", "isEquation": true },
+          { "label": "Result", "text": "Path difference = 2λ → constructive interference (loud at P)." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the principle of superposition.", "solution": "When two or more waves overlap at a point, the resultant displacement at that point equals the algebraic (vector) sum of the individual displacements." },
+        { "difficulty": "medium", "scope": "sl", "question": "Two sources in phase, λ = 2 m. Path difference to a point = 5 m. Constructive or destructive?", "solution": "5/2 = 2.5 = (2 + ½)λ → destructive interference." },
+        { "difficulty": "hard", "scope": "sl", "question": "Two speakers emit 340 Hz sound in phase (v = 340 m/s). A listener is 5.0 m from one and 6.5 m from the other. Is the interference constructive or destructive?", "solution": "λ = v/f = 340/340 = 1.0 m. Path diff = 6.5 − 5.0 = 1.5 m = 1.5λ = (1+½)λ → destructive interference (quiet)." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Waves are destroyed when they interfere destructively", "explanation": "Waves pass THROUGH each other and continue unchanged after the overlap region. Destructive interference is temporary cancellation at a point — the waves still exist and carry on.", "correct": "Interference is addition of displacements at a point. The waves themselves are unaffected after passing." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Two coherent sources S₁ and S₂ emit waves of wavelength 0.50 m in phase. At point P: S₁P = 4.0 m, S₂P = 5.5 m.\n(a) Calculate the path difference. [1]\n(b) Determine the type of interference at P. [2]\n(c) State what happens to the interference pattern if the sources become incoherent. [1]", "marks": 4, "modelAnswer": "(a) Path difference = 5.5 − 4.0 = 1.5 m [1].\n(b) 1.5/0.50 = 3.0 = 3λ [1]. Integer number of wavelengths → constructive interference (maximum) [1].\n(c) The interference pattern disappears — the pattern fluctuates randomly and no stable maxima or minima are observed [1].", "examinerTip": "To determine interference type: (1) find path difference, (2) divide by λ. Integer → constructive. Half-integer → destructive." }
+    },
+
+    {
+      "id": "c2_sub6",
+      "num": 6,
+      "title": "Polarisation",
+      "group": "Wave Properties",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Superposition",
+      "nextTitle": "Wave Behaviour at Boundaries",
+
+      "bigIdea": "Unpolarised light vibrates in all directions perpendicular to its path. A polariser filters this, allowing only one direction through — like a fence with vertical slats only lets vertically-oriented sticks pass. Polarisation proves light is a transverse wave (longitudinal waves can't be polarised) and has applications from sunglasses to LCD screens to 3D cinema.",
+
+      "foundation": {
+        "title": "Filtering the direction of oscillation",
+        "content": "<h4>What is polarisation?</h4><p><strong>Polarisation</strong> restricts the oscillation of a transverse wave to a single plane. Unpolarised light oscillates in all directions perpendicular to propagation. Polarised light oscillates in one direction only.</p><h4>How to polarise light</h4><ul><li><strong>Polaroid filter:</strong> absorbs one component, transmits the other. Passing unpolarised light through a polariser reduces its intensity by half: I = I₀/2.</li><li><strong>Reflection:</strong> light reflected from a surface is partially polarised (oscillation parallel to surface). At Brewster's angle: completely polarised.</li><li><strong>Scattering:</strong> blue sky light is partially polarised (scattered by air molecules).</li></ul><h4>Malus's law</h4><p>When polarised light of intensity I₀ passes through a second polariser (analyser) at angle θ to the polarisation direction:</p><p><strong>I = I₀ cos²θ</strong></p><ul><li>θ = 0°: I = I₀ (fully transmitted — aligned)</li><li>θ = 90°: I = 0 (fully blocked — crossed polarisers)</li><li>θ = 45°: I = I₀/2 (half transmitted)</li></ul><h4>Why it proves light is transverse</h4><p>Only transverse waves can be polarised — the oscillation has multiple possible perpendicular directions to filter. Longitudinal waves oscillate in only one direction (parallel to propagation) — there's nothing to filter. Since light can be polarised → light is transverse.</p>",
+        "summary": "<p><strong>Polarisation:</strong> restricts oscillation to one plane. Only transverse waves.</p><p><strong>Malus's law: I = I₀ cos²θ.</strong> θ = angle between polariser and analyser.</p><p><strong>Through first polariser:</strong> I → I₀/2 (half intensity).</p><p><strong>Proves light is transverse</strong> (longitudinal waves can't be polarised).</p>",
+        "checkQuestions": [
+          { "question": "Unpolarised light (I₀ = 100 W/m²) passes through a polariser, then through an analyser at 60° to the polariser. Find the final intensity.", "answer": "After polariser: I₁ = I₀/2 = 50 W/m². After analyser: I₂ = I₁ cos²60° = 50 × 0.25 = 12.5 W/m²." }
+        ],
+        "checklist": [
+          "I can define polarisation and explain that only transverse waves can be polarised",
+          "I can state that passing unpolarised light through one polariser gives I₀/2",
+          "I can apply Malus's law: I = I₀ cos²θ",
+          "I can explain how polarisation proves light is transverse"
+        ]
+      },
+
+      "core": {
+        "title": "Malus's law calculations and applications",
+        "content": "<h4>Applying Malus's law</h4><p>For TWO polarisers at angle θ:</p><p>Unpolarised → Polariser 1 → I₁ = I₀/2 → Polariser 2 at θ → I₂ = (I₀/2)cos²θ</p><p>For THREE polarisers: the middle one at angle α to the first, the third at angle β to the middle:</p><p>I₃ = I₁ × cos²α × cos²β = (I₀/2) cos²α cos²β</p><p>A surprising result: with TWO crossed polarisers (90°): I = 0. But insert a THIRD polariser at 45° between them: I = (I₀/2) cos²45° cos²45° = (I₀/2)(½)(½) = I₀/8. Light gets through! The intermediate polariser 'rotates' the polarisation direction.</p><h4>Applications</h4><ul><li><strong>Polaroid sunglasses:</strong> block horizontally polarised reflected glare from roads and water</li><li><strong>LCD screens:</strong> use liquid crystals between polarisers to control light transmission</li><li><strong>3D cinema:</strong> two images projected with different polarisations, viewed through polarised glasses</li><li><strong>Stress analysis:</strong> stressed transparent materials rotate polarisation → colourful patterns between crossed polarisers show stress distribution</li><li><strong>Photography:</strong> polarising filters reduce reflections and enhance colours</li></ul>",
+        "keyPoints": [
+          "Malus: I = I₀ cos²θ. θ = 0° → max. θ = 90° → zero.",
+          "Through first polariser: I → I₀/2 always (unpolarised → polarised).",
+          "Three polarisers: intermediate one can allow light through crossed polarisers.",
+          "Applications: sunglasses, LCD, 3D cinema, stress analysis, photography."
+        ],
+        "examTrap": { "wrong": "Crossed polarisers always block all light", "correct": "Two crossed polarisers (90°) DO block all light. But inserting a THIRD polariser at an intermediate angle between them allows SOME light through. The intermediate polariser rotates the polarisation direction, so it's no longer exactly crossed with the final one." },
+        "checkQuestions": [
+          { "question": "Three polarisers: 1st vertical, 2nd at 30° to vertical, 3rd at 60° to vertical (90° to 1st). Find the final intensity as a fraction of I₀.", "answer": "After 1st: I₀/2. After 2nd (30° to 1st): I₀/2 × cos²30° = I₀/2 × 3/4 = 3I₀/8. After 3rd (30° to 2nd): 3I₀/8 × cos²30° = 3I₀/8 × 3/4 = 9I₀/32 ≈ 0.28I₀. About 28% gets through despite crossed first and third polarisers!" }
+        ],
+        "checklist": [
+          "I can solve problems with multiple polarisers using Malus's law sequentially",
+          "I can explain the three-polariser paradox (intermediate rotation)",
+          "I can describe practical applications of polarisation"
+        ]
+      },
+
+      "extension": { "title": "Brewster's angle and polarisation by reflection", "content": "<p>When light hits a surface at <strong>Brewster's angle θ_B</strong>: the reflected light is completely polarised (horizontal oscillation only). tan θ_B = n₂/n₁. For glass (n = 1.5): θ_B = tan⁻¹(1.5) = 56.3°. At Brewster's angle, the reflected and refracted rays are perpendicular: θ_B + θ_r = 90°. This is why polarising sunglasses are so effective at cutting glare from flat surfaces — the reflected light is strongly polarised.</p>", "connections": ["C.3 Wave Phenomena: reflection and refraction at boundaries", "E.2 Quantum Physics: photon polarisation states"], "checklist": ["I can state and apply Brewster's angle: tan θ_B = n₂/n₁"] },
+      "simulation": { "title": "PhET: Wave Polarisation Visualizer", "source": "Various", "url": "https://phet.colorado.edu/en/simulations/wave-on-a-string", "instructions": ["Visualise how a polariser filters oscillation direction. Rotate the analyser and observe intensity changing as cos²θ."] },
+      "video": { "title": "Polarisation — IB Physics", "duration": "8 min", "description": "Polarisation, Malus's law, applications, and why it proves transverse nature", "embedId": "" },
+      "equations": [
+        { "formula": "I = I₀ cos²θ", "description": "Malus's law. θ = angle between polariser and analyser." },
+        { "formula": "After first polariser: I = I₀/2", "description": "Unpolarised → polarised halves the intensity." },
+        { "formula": "tan θ_B = n₂/n₁", "description": "Brewster's angle for complete polarisation of reflected light." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Unpolarised light (80 W/m²) passes through two polarisers at 35° to each other. Find the final intensity.", "steps": [
+          { "label": "After 1st", "text": "I₁ = 80/2 = 40 W/m²" },
+          { "label": "After 2nd", "text": "I₂ = 40 cos²35° = 40 × 0.671 = 26.8 W/m²", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Explain how polarisation proves that light is a transverse wave.", "solution": "Only transverse waves can be polarised — their oscillation is perpendicular to propagation, so it can be restricted to one plane. Longitudinal waves oscillate parallel to propagation — no perpendicular plane to filter. Since light CAN be polarised → it must be transverse." },
+        { "difficulty": "medium", "scope": "sl", "question": "Unpolarised light passes through a polariser, then an analyser at 60°. Find the transmitted fraction.", "solution": "After polariser: I₀/2. After analyser: (I₀/2) cos²60° = (I₀/2)(1/4) = I₀/8. Transmitted: 1/8 = 12.5%." },
+        { "difficulty": "hard", "scope": "sl", "question": "Find Brewster's angle for light hitting water (n = 1.33).", "solution": "θ_B = tan⁻¹(n) = tan⁻¹(1.33) = 53.1°. At this angle, reflected light is completely polarised horizontally." }
+      ],
+      "commonMistakes": [
+        { "wrong": "A polariser reduces intensity to zero", "explanation": "A single polariser reduces unpolarised light to HALF intensity (I₀/2), not zero. It blocks half the oscillation directions. To get zero: use TWO crossed polarisers (90° apart).", "correct": "One polariser: I → I₀/2. Two crossed: I → 0. Angle between: I = (I₀/2)cos²θ." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Unpolarised light of intensity I₀ passes through a polariser P₁ and then through a second polariser P₂ at 40° to P₁.\n(a) State the intensity after P₁. [1]\n(b) Calculate the intensity after P₂ in terms of I₀. [2]\n(c) P₂ is rotated to 90° from P₁. State the intensity. [1]\n(d) Explain how this observation confirms light is a transverse wave. [2]", "marks": 6, "modelAnswer": "(a) I₀/2 [1].\n(b) I = (I₀/2) cos²40° = (I₀/2)(0.587) = 0.294I₀ [2].\n(c) I = (I₀/2) cos²90° = 0 [1].\n(d) Polarisation restricts oscillation to one plane — this is only possible for transverse waves where oscillation is perpendicular to propagation [1]. Longitudinal waves oscillate parallel to propagation and cannot be restricted to a plane, so cannot be polarised. Since light can be polarised, it must be transverse [1].", "examinerTip": "For 'explain how polarisation proves transverse': state (1) only transverse can be polarised (oscillation ⊥ to propagation allows plane restriction) AND (2) longitudinal cannot (oscillation ∥ to propagation). Both parts needed." }
+    },
+
+    {
+      "id": "c2_sub7",
+      "num": 7,
+      "title": "Wave Behaviour at Boundaries — Reflection, Refraction & Transmission",
+      "group": "Wave Interactions",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Polarisation",
+      "nextTitle": "C.3 Wave Phenomena",
+
+      "bigIdea": "When a wave hits a boundary between two media, three things can happen: some reflects (bounces back), some refracts (bends and continues into the new medium), and some is absorbed. The relative amounts depend on the wave type, the media, and the angle. Understanding these boundary behaviours is the key to optics, acoustics, and seismology.",
+
+      "foundation": {
+        "title": "What happens when a wave meets a boundary?",
+        "content": "<h4>Reflection</h4><p>The wave bounces back from the boundary into the original medium. The <strong>law of reflection</strong>: angle of incidence = angle of reflection (both measured from the normal to the surface).</p><p><strong>θ_i = θ_r</strong></p><h4>Refraction</h4><p>The wave enters the new medium and changes direction (bends). This happens because the wave speed changes in the new medium.</p><p><strong>Snell's law: n₁ sin θ₁ = n₂ sin θ₂</strong></p><ul><li>Entering a denser medium (higher n, slower): bends TOWARD the normal (θ₂ < θ₁)</li><li>Entering a less dense medium (lower n, faster): bends AWAY from the normal (θ₂ > θ₁)</li></ul><h4>Total internal reflection</h4><p>When light travels from a dense to a less dense medium: at the <strong>critical angle θ_c</strong>, the refracted ray travels along the boundary (θ₂ = 90°).</p><p><strong>sin θ_c = n₂/n₁</strong> (for n₁ > n₂)</p><p>For angles greater than θ_c: <strong>total internal reflection (TIR)</strong> — all light is reflected, none is transmitted. Applications: optical fibres, diamond sparkle, prism binoculars.</p><h4>Transmission and absorption</h4><p>Some energy passes through the boundary (transmission) and some is absorbed by the media (converted to thermal energy). The proportions depend on the materials and wavelength.</p>",
+        "summary": "<p><strong>Reflection:</strong> θ_i = θ_r. Wave bounces back.</p><p><strong>Refraction:</strong> n₁ sin θ₁ = n₂ sin θ₂. Wave bends due to speed change.</p><p><strong>TIR:</strong> sin θ_c = n₂/n₁. At θ > θ_c: all light reflected (no refraction).</p><p><strong>Bending:</strong> toward normal in denser medium, away in less dense.</p>",
+        "checkQuestions": [
+          { "question": "Light travels from glass (n = 1.5) to air (n = 1.0). Find the critical angle.", "answer": "sin θ_c = n₂/n₁ = 1.0/1.5 = 0.667 → θ_c = 41.8°. At angles > 41.8°: total internal reflection." },
+          { "question": "Light enters water (n = 1.33) from air at 30°. Find the angle of refraction.", "answer": "n₁ sin θ₁ = n₂ sin θ₂: 1.0 × sin 30° = 1.33 × sin θ₂. sin θ₂ = 0.5/1.33 = 0.376. θ₂ = 22.1°. Bends toward normal (entering denser medium) ✓." }
+        ],
+        "checklist": [
+          "I can state the law of reflection: θ_i = θ_r",
+          "I can apply Snell's law: n₁ sin θ₁ = n₂ sin θ₂",
+          "I can determine the direction of bending (toward/away from normal)",
+          "I can calculate the critical angle: sin θ_c = n₂/n₁",
+          "I can describe total internal reflection and give applications"
+        ]
+      },
+
+      "core": {
+        "title": "Snell's law applications and optical phenomena",
+        "content": "<h4>Deriving Snell's law from wave speed</h4><p>At a boundary: wavefronts slow down in the denser medium. The part that enters first slows first → the wavefront pivots → the wave bends. The geometry gives: sin θ₁/sin θ₂ = v₁/v₂ = n₂/n₁ → n₁ sin θ₁ = n₂ sin θ₂.</p><h4>Optical fibres</h4><p>Light enters a glass fibre at one end and bounces along the inside by TIR (always hitting the wall at > θ_c). Used in: telecommunications (data transmitted as light pulses), endoscopy (medical imaging inside the body), decorative lighting.</p><p>Step-index fibre: core of high n, cladding of lower n → TIR at the core-cladding boundary. Graded-index fibre: n decreases gradually from centre → light curves smoothly back to the axis.</p><h4>Dispersion at boundaries</h4><p>Different wavelengths have slightly different n → they refract by slightly different amounts. This splits white light into a spectrum: red bends least (lowest n), violet bends most (highest n). This is how prisms create rainbows and why lenses have chromatic aberration.</p><h4>Apparent depth</h4><p>An object underwater appears shallower than it actually is because light refracts away from the normal when leaving water → the image appears to come from a shallower depth. Apparent depth = real depth / n.</p>",
+        "keyPoints": [
+          "Snell's law from wavefront geometry: n₁ sin θ₁ = n₂ sin θ₂",
+          "TIR conditions: n₁ > n₂ and θ > θ_c",
+          "Optical fibres: TIR keeps light inside the core",
+          "Dispersion: different λ → different n → different bending → spectrum",
+          "Apparent depth = real depth / n"
+        ],
+        "examTrap": { "wrong": "Total internal reflection can occur when light enters a denser medium", "correct": "TIR only occurs when light goes from a DENSER to a LESS DENSE medium (n₁ > n₂). Going the other way: light bends toward the normal — it can always enter the denser medium, no matter the angle." },
+        "checkQuestions": [
+          { "question": "A fish is 2 m deep in water (n = 1.33). At what depth does it appear to be from above?", "answer": "Apparent depth = real depth / n = 2/1.33 = 1.50 m. The fish appears 0.5 m closer to the surface." }
+        ],
+        "checklist": [
+          "I can derive Snell's law from the wavefront speed change at a boundary",
+          "I can explain how optical fibres use TIR",
+          "I can explain dispersion: different λ refract differently",
+          "I can calculate apparent depth: d_apparent = d_real / n"
+        ]
+      },
+
+      "extension": { "title": "Huygens' principle and wavefront construction", "content": "<p>Huygens' principle: every point on a wavefront acts as a source of secondary spherical wavelets. The new wavefront is the envelope (tangent) of all these wavelets. This construction explains: reflection (wavelets bounce), refraction (wavelets travel at different speeds in different media → wavefront pivots), and diffraction (wavelets at the edge of an obstacle spread into the shadow). It's a powerful geometric tool that derives all wave boundary behaviour from a single principle.</p>", "connections": ["C.3 Wave Phenomena: diffraction explained by Huygens' construction", "E.2 Quantum Physics: the Feynman path integral generalises Huygens' principle to quantum mechanics"], "checklist": ["I can state Huygens' principle and use it to explain reflection and refraction"] },
+      "simulation": { "title": "PhET: Bending Light", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/bending-light", "instructions": ["Change the angle of incidence. Observe refraction and the critical angle. Set n₁ > n₂ and increase θ past θ_c to see total internal reflection."] },
+      "video": { "title": "Reflection, Refraction & TIR — IB Physics", "duration": "10 min", "description": "Laws of reflection and refraction, Snell's law, critical angle, TIR, optical fibres, and dispersion", "embedId": "" },
+      "equations": [
+        { "formula": "θ_i = θ_r", "description": "Law of reflection." },
+        { "formula": "n₁ sin θ₁ = n₂ sin θ₂", "description": "Snell's law of refraction." },
+        { "formula": "sin θ_c = n₂/n₁", "description": "Critical angle for total internal reflection (n₁ > n₂)." },
+        { "formula": "Apparent depth = real depth / n", "description": "Objects in denser media appear closer." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Light hits a glass block (n = 1.52) at 45° from air. Find the refraction angle and critical angle for the glass-air boundary.", "steps": [
+          { "label": "Refraction", "text": "sin θ₂ = sin 45°/1.52 = 0.707/1.52 = 0.465 → θ₂ = 27.7°", "isEquation": true },
+          { "label": "Critical angle", "text": "sin θ_c = 1/1.52 = 0.658 → θ_c = 41.1°", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State Snell's law and the law of reflection.", "solution": "Snell's law: n₁ sin θ₁ = n₂ sin θ₂ (for refraction). Law of reflection: angle of incidence = angle of reflection (θ_i = θ_r)." },
+        { "difficulty": "medium", "scope": "sl", "question": "Find the critical angle for diamond (n = 2.42) in air.", "solution": "sin θ_c = 1/2.42 = 0.413 → θ_c = 24.4°. Very small — light is easily trapped inside → diamond sparkles." },
+        { "difficulty": "hard", "scope": "sl", "question": "Light travels from glass (n = 1.5) into water (n = 1.33). (a) Find the critical angle. (b) Does TIR occur at 50°?", "solution": "(a) sin θ_c = n₂/n₁ = 1.33/1.5 = 0.887 → θ_c = 62.5°. (b) 50° < 62.5° → θ < θ_c → NO TIR. Light refracts into water." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Light bends away from the normal when entering a denser medium", "explanation": "Entering a DENSER medium (higher n): light SLOWS DOWN → bends TOWARD the normal → θ₂ < θ₁. Entering LESS dense: speeds up → bends AWAY from normal → θ₂ > θ₁.", "correct": "Denser → toward normal (slower). Less dense → away from normal (faster)." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Light travels from water (n = 1.33) into air.\n(a) Calculate the critical angle. [2]\n(b) A ray hits the boundary at 50°. Determine what happens. [2]\n(c) State one application of total internal reflection. [1]", "marks": 5, "modelAnswer": "(a) sin θ_c = n_air/n_water = 1.00/1.33 = 0.752 [1]. θ_c = 48.8° [1].\n(b) 50° > 48.8° → angle exceeds critical angle [1]. Total internal reflection occurs — the light is completely reflected back into the water [1].\n(c) Optical fibres for telecommunications / endoscopy for medical imaging / prism binoculars [1].", "examinerTip": "For TIR questions: always state TWO conditions: (1) light must go from denser to less dense medium (n₁ > n₂) AND (2) angle of incidence must exceed the critical angle (θ > θ_c). Both are required." }
+    }
+
+  ]
 };
+  
