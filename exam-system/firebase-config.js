@@ -20,7 +20,7 @@ if (!firebase.apps.length) {
 // Global references
 const auth = firebase.auth();
 const db   = firebase.firestore();
-const fns  = firebase.functions();
+const fns  = typeof firebase.functions === 'function' ? firebase.functions() : null;
 
 // Fix for WebChannel connection errors on some networks
 db.settings({
