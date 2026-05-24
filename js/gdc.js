@@ -303,12 +303,12 @@
     modal.style.display = 'none';
   };
 
-  launcher.addEventListener('click', window.openGDC);
-  closeBtn.addEventListener('click', window.closeGDC);
+  if (launcher) launcher.addEventListener('click', window.openGDC);
+  if (closeBtn) closeBtn.addEventListener('click', window.closeGDC);
 
   // 6. Window Controls (Minimize / Maximize)
-  minBtn.addEventListener('click', toggleMinimize);
-  maxBtn.addEventListener('click', toggleMaximize);
+  if (minBtn) minBtn.addEventListener('click', toggleMinimize);
+  if (maxBtn) maxBtn.addEventListener('click', toggleMaximize);
 
   function toggleMinimize() {
     const tabs = modal.querySelector('.gdc-tabs');
