@@ -5398,4 +5398,592 @@ const DP_STUDENT_DATA = {
 
   ]
 },
+// ============================================================
+// A.5 GALILEAN & SPECIAL RELATIVITY — COMPLETE (8 subtopics)
+// Ends with comma — ready for B1 to follow
+// ============================================================
 
+"A5": {
+  "title": "Galilean & Special Relativity",
+  "code": "A.5",
+  "theme": "A",
+  "level": "SL + HL",
+  "subtopicCount": 8,
+  "subtopics": [
+
+    {
+      "id": "a5_sub1",
+      "num": 1,
+      "title": "Reference Frames & Galilean Relativity",
+      "group": "Classical Relativity",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "A.4 Rigid Body Mechanics",
+      "nextTitle": "Einstein's Postulates",
+
+      "bigIdea": "You're on a smoothly moving train. You toss a ball straight up — it comes straight back down into your hand. To you, the ball went up and down. To someone on the platform, the ball traced a parabola. Both are correct. The physics is the same — the description depends on who's watching. This is the principle of relativity, and it's been true since Galileo.",
+
+      "foundation": {
+        "title": "No experiment can tell you if you're moving at constant velocity",
+        "content": "<h4>Inertial reference frames</h4><p>An <strong>inertial reference frame</strong> is one that is not accelerating — it moves at constant velocity (or is at rest). In an inertial frame, Newton's laws work perfectly without modification.</p><p>Examples: the ground (approximately), a train at constant speed, a spacecraft coasting in deep space. NOT inertial: an accelerating car, a spinning merry-go-round, a rocket during thrust.</p><h4>Galilean principle of relativity</h4><p><strong>The laws of mechanics are the same in all inertial reference frames.</strong></p><p>No mechanical experiment performed inside a closed, smoothly moving room can tell you whether you're moving or stationary. Toss a ball, swing a pendulum, roll a marble — everything behaves the same at rest as at 100 km/h (as long as the motion is constant and smooth).</p><h4>Galilean velocity addition</h4><p>If you walk at 2 m/s on a train moving at 30 m/s:</p><p><strong>v_ground = v_train + v_you = 30 + 2 = 32 m/s</strong></p><p>This is <strong>Galilean velocity addition</strong>: velocities simply add. It works perfectly for everyday speeds but fails near the speed of light (as Einstein showed).</p><h4>Why this matters</h4><p>The principle of relativity says there is no 'absolute rest' — all inertial frames are equally valid for describing physics. The Earth moves at 30 km/s around the Sun, the Sun moves at 220 km/s around the galaxy, but we don't feel any of this because the motion is (approximately) constant velocity. There is no experiment we can do inside our lab to detect this motion — and that's not a limitation of our instruments; it's a fundamental feature of the universe.</p>",
+        "summary": "<p><strong>Inertial frame:</strong> not accelerating. Newton's laws work without modification.</p><p><strong>Galilean relativity:</strong> laws of mechanics are identical in all inertial frames.</p><p><strong>Galilean velocity addition:</strong> v' = v + u (velocities simply add).</p><p><strong>No absolute rest:</strong> all constant-velocity frames are equivalent.</p>",
+        "checkQuestions": [
+          { "question": "You're in a windowless spaceship moving at 10,000 km/h at constant velocity. Can you determine your speed with any experiment done inside the ship?", "answer": "No. The principle of relativity says all inertial frames are equivalent. No experiment performed inside the ship can distinguish constant velocity from rest. You'd need to look outside (at another reference frame) to measure your speed relative to something." }
+        ],
+        "checklist": [
+          "I can define an inertial reference frame (non-accelerating)",
+          "I can state Galilean relativity: laws of mechanics are the same in all inertial frames",
+          "I can apply Galilean velocity addition: v' = v + u",
+          "I can explain that there is no absolute rest — only relative motion"
+        ]
+      },
+
+      "core": {
+        "title": "Galilean transformations and their limitations",
+        "content": "<h4>Galilean transformations</h4><p>If frame S' moves at velocity u relative to frame S (along x-axis):</p><ul><li><strong>x' = x − ut</strong> (position transforms)</li><li><strong>t' = t</strong> (time is absolute — same in all frames)</li><li><strong>v' = v − u</strong> (velocity transforms by subtraction)</li><li><strong>a' = a</strong> (acceleration is the same in all inertial frames)</li></ul><p>These assume time is universal — clocks tick at the same rate regardless of motion. This seems obvious but Einstein showed it's wrong at high speeds.</p><h4>The problem with light</h4><p>Maxwell's equations predict electromagnetic waves travel at c = 3 × 10⁸ m/s. But relative to what? Galilean relativity says if you move at 0.5c toward a light beam, the light should approach you at 1.5c. But experiments (Michelson-Morley, 1887) showed light ALWAYS travels at c, regardless of the observer's motion.</p><p>This contradiction between Galilean relativity and Maxwell's equations was the crisis that led Einstein to special relativity in 1905.</p>",
+        "keyPoints": [
+          "Galilean transformations: x' = x − ut, t' = t, v' = v − u, a' = a",
+          "Time is assumed absolute (same in all frames) — this is WRONG at high speeds",
+          "Acceleration is invariant under Galilean transformations",
+          "The speed of light doesn't obey Galilean velocity addition — this was the crisis"
+        ],
+        "examTrap": { "wrong": "Galilean velocity addition works for all speeds", "correct": "It fails for speeds near c. Light travels at c for ALL observers — it doesn't add or subtract. Galilean v' = v − u must be replaced by the relativistic formula at high speeds." },
+        "checkQuestions": [
+          { "question": "A spaceship moves at 0.6c. It fires a laser forward. What is the speed of the laser light relative to the ground?", "answer": "c — exactly. NOT 1.6c. The speed of light is c in all inertial frames. This violates Galilean addition but is experimentally confirmed." }
+        ],
+        "checklist": [
+          "I can write the Galilean transformation equations",
+          "I can state that Galilean transformations assume absolute time",
+          "I can explain how the constancy of c contradicts Galilean velocity addition",
+          "I can describe the Michelson-Morley experiment and its null result"
+        ]
+      },
+
+      "extension": { "title": "The aether hypothesis and its demise", "content": "<p>Before Einstein, physicists assumed light travels through a medium called the 'luminiferous aether.' The Michelson-Morley experiment tried to detect Earth's motion through this aether by measuring light speed in different directions. Result: no difference. The aether doesn't exist. Light doesn't need a medium — it's a self-sustaining electromagnetic wave. Einstein's genius was to take this result seriously and rebuild physics around it.</p>", "connections": ["C.2 Wave Model: light as an electromagnetic wave doesn't need a medium", "E.2 Quantum Physics: photons are particles of light — further challenging classical wave models"], "checklist": ["I can explain the aether hypothesis and why it was abandoned"] },
+      "simulation": { "title": "PhET: Special Relativity", "source": "Various educational tools", "url": "https://phet.colorado.edu/en/simulations/the-moving-man", "instructions": ["Compare motion descriptions from two reference frames. Notice: positions differ but acceleration is the same."] },
+      "video": { "title": "Galilean Relativity — IB Physics", "duration": "8 min", "description": "Reference frames, Galilean transformations, the problem with light, and the road to Einstein", "embedId": "" },
+      "equations": [
+        { "formula": "x' = x − ut", "description": "Galilean position transformation." },
+        { "formula": "v' = v − u", "description": "Galilean velocity addition." },
+        { "formula": "t' = t", "description": "Galilean time: absolute, same in all frames (WRONG at high speeds)." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A train moves at 25 m/s. A passenger throws a ball at 10 m/s forward. Find the ball's speed relative to the ground.", "steps": [
+          { "label": "Galilean addition", "text": "v_ground = v_train + v_ball = 25 + 10 = 35 m/s", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the Galilean principle of relativity.", "solution": "The laws of mechanics are the same in all inertial (non-accelerating) reference frames. No mechanical experiment can distinguish between constant velocity and rest." },
+        { "difficulty": "medium", "scope": "sl", "question": "A spaceship moves at 0.8c. It shines a light forward. According to Galilean addition, what would the light speed be? What is it actually?", "solution": "Galilean: c + 0.8c = 1.8c. Actually: c. The speed of light is the same in all inertial frames. Galilean addition fails here." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The Michelson-Morley experiment detected the aether", "explanation": "It detected NOTHING — a null result. No motion through the aether was found, because the aether doesn't exist.", "correct": "The null result of Michelson-Morley showed that light speed is the same in all directions, regardless of Earth's motion." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Explain why the Michelson-Morley experiment was significant for the development of special relativity. [3]", "marks": 3, "modelAnswer": "The experiment attempted to detect Earth's motion through the hypothetical aether by comparing light speeds in perpendicular directions [1]. The null result (no difference found) showed that the speed of light is the same regardless of the observer's motion [1]. This contradicted Galilean velocity addition and provided experimental support for Einstein's postulate that c is constant in all inertial frames [1].", "examinerTip": "For 'explain the significance' questions: state what was expected, what was found, and what it implied." }
+    },
+
+    {
+      "id": "a5_sub2",
+      "num": 2,
+      "title": "Einstein's Two Postulates of Special Relativity",
+      "group": "Special Relativity",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Reference Frames & Galilean Relativity",
+      "nextTitle": "Time Dilation",
+
+      "bigIdea": "In 1905, Einstein rebuilt physics on two simple postulates: (1) the laws of physics are the same in all inertial frames, and (2) the speed of light in a vacuum is the same for all observers. These sound harmless — but they lead to time slowing down, lengths contracting, and mass becoming energy. The universe is stranger than anyone imagined.",
+
+      "foundation": {
+        "title": "Two postulates that changed everything",
+        "content": "<h4>Postulate 1: The Principle of Relativity</h4><p><strong>The laws of physics are the same in all inertial reference frames.</strong></p><p>This is the same as Galilean relativity — but Einstein extended it from 'laws of mechanics' to ALL laws of physics, including electromagnetism and optics. No inertial frame is special. No experiment of ANY kind can detect absolute motion.</p><h4>Postulate 2: The Constancy of the Speed of Light</h4><p><strong>The speed of light in a vacuum is the same for all inertial observers, regardless of the motion of the light source or the observer.</strong></p><p>c = 3 × 10⁸ m/s — always, for everyone, no exceptions.</p><p>This is the radical postulate. It contradicts everyday intuition: if you run toward a light source, the light doesn't come at you faster. If you run away, it doesn't come slower. Light always arrives at c.</p><h4>Why these postulates are revolutionary</h4><p>Together, they force a complete rethinking of space and time:</p><ul><li>If c is the same for all observers, then <strong>time must pass at different rates</strong> for observers in relative motion (time dilation).</li><li>If c is the same for all observers, then <strong>lengths must be different</strong> for observers in relative motion (length contraction).</li><li>If c is the same for all observers, then <strong>simultaneity is relative</strong> — two events that are simultaneous in one frame may not be simultaneous in another.</li></ul><p>None of these effects are noticeable at everyday speeds (they're proportional to v²/c², which is negligibly small for v << c). But at speeds approaching c, they become dramatic.</p>",
+        "summary": "<p><strong>Postulate 1:</strong> Laws of physics are the same in all inertial frames.</p><p><strong>Postulate 2:</strong> Speed of light c is constant for all inertial observers.</p><p><strong>Consequences:</strong> time dilation, length contraction, relativity of simultaneity, E = mc².</p>",
+        "checkQuestions": [
+          { "question": "State Einstein's two postulates of special relativity.", "answer": "1. The laws of physics are the same in all inertial reference frames. 2. The speed of light in a vacuum (c = 3 × 10⁸ m/s) is the same for all inertial observers, regardless of the motion of the source or observer." },
+          { "question": "Why can't Galilean velocity addition be correct if the speed of light is constant?", "answer": "Galilean addition says v' = v + u. If v = c and u = 0.5c, it predicts v' = 1.5c. But postulate 2 says light is always c for all observers. So v' must equal c, not 1.5c. Galilean addition must be wrong at high speeds." }
+        ],
+        "checklist": [
+          "I can state both postulates of special relativity",
+          "I can explain that postulate 1 extends Galilean relativity to ALL physics (not just mechanics)",
+          "I can explain that postulate 2 contradicts Galilean velocity addition",
+          "I can list the consequences: time dilation, length contraction, relativity of simultaneity"
+        ]
+      },
+
+      "core": {
+        "title": "The Lorentz factor and its meaning",
+        "content": "<h4>The Lorentz factor γ</h4><p>All special relativity effects are governed by a single quantity:</p><p><strong>γ = 1 / √(1 − v²/c²)</strong></p><p>Properties of γ:</p><ul><li>At v = 0: γ = 1 (no relativistic effects)</li><li>At v = 0.1c: γ = 1.005 (0.5% effect — negligible)</li><li>At v = 0.5c: γ = 1.155 (15% effect — noticeable)</li><li>At v = 0.9c: γ = 2.294 (significant effects)</li><li>At v = 0.99c: γ = 7.089 (dramatic effects)</li><li>At v = 0.999c: γ = 22.37</li><li>As v → c: γ → ∞</li></ul><p>γ is always ≥ 1. It approaches 1 at low speeds (Newtonian limit) and approaches infinity as speed approaches c. The fact that γ → ∞ as v → c means that reaching the speed of light would require infinite energy — impossible for any object with mass.</p><h4>When do relativistic effects matter?</h4><p>At IB level, relativistic effects are significant when v ≥ 0.1c (about 30,000 km/s). For everyday speeds (cars, planes, rockets), v/c is so tiny that γ ≈ 1 and Newtonian physics works perfectly.</p><p>But in particle accelerators, cosmic rays, GPS satellites, and astrophysics, relativistic effects are essential for correct predictions.</p>",
+        "keyPoints": [
+          "γ = 1/√(1 − v²/c²): the Lorentz factor",
+          "γ ≥ 1 always. γ = 1 at rest. γ → ∞ as v → c.",
+          "At v << c: γ ≈ 1 (Newtonian limit). At v ≈ c: γ >> 1 (relativistic regime).",
+          "All SR effects (time dilation, length contraction, mass-energy) involve γ."
+        ],
+        "examTrap": { "wrong": "Special relativity only applies at the speed of light", "correct": "SR applies at ALL speeds — it's just that the effects are negligible at low speeds (γ ≈ 1). The effects become measurable above ~0.1c and dramatic above ~0.9c. SR is always correct; Newtonian mechanics is the approximation." },
+        "checkQuestions": [
+          { "question": "Calculate γ for v = 0.6c.", "answer": "γ = 1/√(1 − 0.36) = 1/√0.64 = 1/0.8 = 1.25." },
+          { "question": "At what speed is γ = 2?", "answer": "2 = 1/√(1 − v²/c²) → √(1 − v²/c²) = 0.5 → 1 − v²/c² = 0.25 → v²/c² = 0.75 → v = c√0.75 = 0.866c." }
+        ],
+        "checklist": [
+          "I can calculate the Lorentz factor γ for any speed",
+          "I can state the limiting values: γ = 1 at v = 0, γ → ∞ as v → c",
+          "I can determine when relativistic effects are significant (v > 0.1c)"
+        ]
+      },
+
+      "extension": { "title": "Why c is the cosmic speed limit", "content": "<p>As v → c: γ → ∞. Since relativistic momentum p = γmv → ∞ and relativistic KE = (γ−1)mc² → ∞, it takes infinite force and infinite energy to accelerate a massive object to c. This is not a technical limitation — it's a fundamental property of spacetime. Only massless particles (photons, gravitons) travel at exactly c. Everything with mass must travel slower, no matter how much energy is supplied.</p>", "connections": ["E.2 Quantum Physics: photons are massless and travel at exactly c", "D.3 E&M Fields: particle accelerators use enormous energy to approach (but never reach) c"], "checklist": ["I can explain why no massive object can reach c (γ → ∞ requires infinite energy)"] },
+      "simulation": { "title": "Relativistic Effects Visualizer", "source": "Various", "url": "https://phet.colorado.edu/en/simulations/the-moving-man", "instructions": ["Observe how γ changes with speed. Notice: very little effect below 0.5c, dramatic above 0.9c."] },
+      "video": { "title": "Einstein's Postulates — IB Physics", "duration": "9 min", "description": "The two postulates, the Lorentz factor, and why the universe has a speed limit", "embedId": "" },
+      "equations": [
+        { "formula": "γ = 1/√(1 − v²/c²)", "description": "Lorentz factor. Governs all special relativity effects." },
+        { "formula": "c = 3 × 10⁸ m/s", "description": "Speed of light in vacuum. Constant for all inertial observers." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A particle moves at 0.8c. Calculate γ.", "steps": [
+          { "label": "Substitute", "text": "γ = 1/√(1 − 0.64) = 1/√0.36 = 1/0.6 = 1.667", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Calculate γ for v = 0.5c.", "solution": "γ = 1/√(1 − 0.25) = 1/√0.75 = 1/0.866 = 1.155." },
+        { "difficulty": "medium", "scope": "sl", "question": "At what speed is γ = 3?", "solution": "3 = 1/√(1 − v²/c²) → 1 − v²/c² = 1/9 → v²/c² = 8/9 → v = c√(8/9) = 0.943c." }
+      ],
+      "commonMistakes": [
+        { "wrong": "γ can be less than 1", "explanation": "γ = 1/√(1 − v²/c²). Since v < c always for massive objects: v²/c² < 1 → the denominator is positive and < 1 → γ > 1 always.", "correct": "γ ≥ 1 always. It equals 1 only at v = 0." }
+      ],
+      "examCorner": { "scope": "sl", "question": "State Einstein's two postulates of special relativity. [2]\nA muon travels at 0.95c. Calculate γ. [2]", "marks": 4, "modelAnswer": "Postulate 1: The laws of physics are the same in all inertial frames [1]. Postulate 2: The speed of light in vacuum is constant (c) for all inertial observers [1]. γ = 1/√(1 − 0.9025) = 1/√0.0975 = 1/0.3122 = 3.20 [2].", "examinerTip": "State both postulates precisely — 'inertial frames' must appear in postulate 1, and 'constant for all observers' must appear in postulate 2." }
+    },
+
+    {
+      "id": "a5_sub3",
+      "num": 3,
+      "title": "Time Dilation — Moving Clocks Run Slow",
+      "group": "Special Relativity",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Einstein's Postulates",
+      "nextTitle": "Length Contraction",
+
+      "bigIdea": "A clock on a fast spaceship ticks slower than your clock on Earth. Not because it's broken — time itself passes more slowly for the moving clock. This is time dilation: moving clocks run slow. It's been confirmed to extraordinary precision by flying atomic clocks on jets and measuring cosmic ray muons reaching Earth's surface.",
+
+      "foundation": {
+        "title": "Time passes differently for observers in relative motion",
+        "content": "<h4>The light clock thought experiment</h4><p>Imagine a clock made of two mirrors with a light pulse bouncing between them. Each bounce = one 'tick.' For someone holding the clock (at rest relative to it), the light travels straight up and down: distance = 2d, time per tick = 2d/c.</p><p>Now watch the same clock moving sideways at speed v. The light must travel a LONGER diagonal path (Pythagoras) to go from bottom mirror to top mirror and back. But the speed of light is still c (postulate 2). Longer path at the same speed = more time per tick. <strong>The moving clock ticks slower.</strong></p><h4>The time dilation formula</h4><p><strong>Δt = γΔt₀</strong></p><p>Where:</p><ul><li>Δt₀ = <strong>proper time</strong> — the time measured by a clock that is PRESENT at both events (at rest in the frame where they occur at the same place)</li><li>Δt = the dilated time — measured by an observer who sees the clock moving</li><li>γ = 1/√(1 − v²/c²) ≥ 1</li></ul><p>Since γ ≥ 1: Δt ≥ Δt₀. The moving clock's time interval is LONGER (the clock ticks slower). This is called <strong>time dilation</strong>.</p><h4>Proper time — the key concept</h4><p><strong>Proper time</strong> is always the SHORTEST time — measured by the clock that's AT the events. Any other observer measures a longer (dilated) time. The word 'proper' doesn't mean 'correct' — it means 'own' (from the French 'propre').</p><h4>Evidence for time dilation</h4><ul><li><strong>Muon decay:</strong> Muons created in the upper atmosphere have a half-life of 1.56 μs. At their speed (~0.998c), they should travel only ~470 m before decaying. But they reach Earth's surface (~10 km). Time dilation: γ ≈ 15.8, so their lifetime as seen from Earth is 15.8 × 1.56 = 24.6 μs — enough time to reach the ground.</li><li><strong>Hafele-Keating experiment (1971):</strong> Atomic clocks flown around the world on jets showed time differences matching the predictions of special (and general) relativity to within 10%.</li><li><strong>GPS satellites:</strong> Clocks on GPS satellites tick faster than ground clocks (by ~38 μs/day due to combined SR and GR effects). Without relativistic corrections, GPS would be inaccurate by ~10 km/day.</li></ul>",
+        "summary": "<p><strong>Δt = γΔt₀.</strong> Moving clocks run slow (tick less frequently).</p><p><strong>Proper time Δt₀:</strong> measured by the clock present at both events. Always the shortest.</p><p><strong>Evidence:</strong> muon lifetimes, Hafele-Keating clocks, GPS corrections.</p>",
+        "checkQuestions": [
+          { "question": "A spaceship travels at 0.8c. An astronaut measures a journey as taking 10 years (proper time). How long does the journey take according to Earth observers?", "answer": "γ = 1/√(1 − 0.64) = 1/0.6 = 1.667. Δt = γΔt₀ = 1.667 × 10 = 16.67 years. Earth observers see the journey take longer — the astronaut's clock runs slow from Earth's perspective." },
+          { "question": "Which observer measures the proper time — the astronaut or Earth?", "answer": "The astronaut. The astronaut is present at both events (departure and arrival) — they happen at the same place in the astronaut's frame (inside the ship). Earth observers are at different positions for departure and arrival." }
+        ],
+        "checklist": [
+          "I can state time dilation: Δt = γΔt₀ (moving clocks run slow)",
+          "I can define proper time: measured by clock present at both events, always shortest",
+          "I can identify which observer measures proper time in a given scenario",
+          "I can describe evidence: muon decay, Hafele-Keating, GPS"
+        ]
+      },
+
+      "core": {
+        "title": "Calculating time dilation and identifying proper time",
+        "content": "<h4>How to solve time dilation problems</h4><ol><li><strong>Identify the two events</strong> (e.g., departure and arrival, or two ticks of a clock)</li><li><strong>Identify who measures proper time</strong> — the observer for whom the events happen at the SAME PLACE</li><li><strong>Calculate γ</strong> from the relative speed</li><li><strong>Apply Δt = γΔt₀</strong></li></ol><h4>The muon problem in detail</h4><p>Muons: rest lifetime τ₀ = 2.2 μs, speed v = 0.998c.</p><ul><li>Without relativity: distance = vτ₀ = 0.998 × 3 × 10⁸ × 2.2 × 10⁻⁶ = 659 m. But they're created at ~15 km altitude. They shouldn't reach the ground.</li><li>With time dilation: γ = 1/√(1 − 0.996) = 1/√0.004 = 15.8. Earth sees muon lifetime = 15.8 × 2.2 = 34.8 μs. Distance = 0.998c × 34.8 μs = 10,424 m ≈ 10 km. They reach the ground ✓.</li></ul><h4>The twin paradox</h4><p>Twin A stays on Earth. Twin B travels to a star at 0.9c and returns. Twin B is YOUNGER when they meet again. This is not a paradox — Twin B accelerated (changed frames), breaking the symmetry. The traveller ages less. This has been confirmed experimentally (Hafele-Keating).</p>",
+        "keyPoints": [
+          "Proper time: events at the same place in that frame. Always shortest.",
+          "Δt = γΔt₀: the 'moving' observer measures a longer time.",
+          "Muons reach Earth's surface because their lifetime is dilated by γ ≈ 16.",
+          "Twin paradox: the travelling twin ages less (confirmed experimentally)."
+        ],
+        "examTrap": { "wrong": "Time dilation means the moving clock is broken or wrong", "correct": "The moving clock works perfectly. Time ITSELF passes more slowly for the moving observer. This is not a mechanical effect — it's a property of spacetime. Both observers are correct in their own frames." },
+        "checkQuestions": [
+          { "question": "A particle has a proper lifetime of 5 × 10⁻⁸ s and travels at 0.95c. Find the lifetime measured in the lab.", "answer": "γ = 1/√(1 − 0.9025) = 1/√0.0975 = 3.20. Δt = 3.20 × 5 × 10⁻⁸ = 1.6 × 10⁻⁷ s." }
+        ],
+        "checklist": [
+          "I can solve time dilation problems: identify proper time, calculate γ, apply Δt = γΔt₀",
+          "I can explain the muon problem using time dilation",
+          "I can explain the twin paradox and why it's not really a paradox",
+          "I can explain that time dilation is real, not an illusion"
+        ]
+      },
+
+      "extension": { "title": "Experimental precision of time dilation", "content": "<p>Time dilation has been confirmed to extraordinary precision. At CERN, muons in storage rings have their lifetimes measured at various speeds — results match γΔt₀ to better than 0.1%. GPS satellite clocks require daily corrections of ~38 μs (7 μs from SR time dilation, 45 μs from GR gravitational time dilation) — without these, GPS errors would accumulate to ~10 km/day.</p>", "connections": ["D.1 Gravitational Fields: gravitational time dilation (GR) — clocks run faster in weaker gravity"], "checklist": ["I can describe how GPS relies on relativistic corrections for accuracy"] },
+      "simulation": { "title": "SR Time Dilation Visualizer", "source": "Various", "url": "https://phet.colorado.edu/en/simulations/the-moving-man", "instructions": ["Imagine two observers with identical clocks. One moves at high speed. The moving clock ticks slower."] },
+      "video": { "title": "Time Dilation — IB Physics", "duration": "10 min", "description": "Light clock derivation, Δt = γΔt₀, proper time, muons, twin paradox, and GPS", "embedId": "" },
+      "equations": [
+        { "formula": "Δt = γΔt₀", "description": "Time dilation. Δt₀ = proper time (shortest). Δt = dilated time (longer)." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A spaceship travels at 0.6c. The astronaut measures a nap lasting 2 hours. How long does the nap last according to Earth?", "steps": [
+          { "label": "Proper time", "text": "Δt₀ = 2 hours (astronaut is at rest relative to the nap — same location)" },
+          { "label": "γ", "text": "γ = 1/√(1 − 0.36) = 1/√0.64 = 1/0.8 = 1.25" },
+          { "label": "Dilated time", "text": "Δt = 1.25 × 2 = 2.5 hours", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Define proper time.", "solution": "Proper time is the time interval between two events as measured by a clock that is present at both events (i.e., the events occur at the same spatial location in that clock's frame). It is always the shortest measured time interval." },
+        { "difficulty": "medium", "scope": "sl", "question": "A muon has proper lifetime 2.2 μs and travels at 0.99c. Find γ and the observed lifetime.", "solution": "γ = 1/√(1 − 0.9801) = 1/√0.0199 = 7.09. Observed lifetime = 7.09 × 2.2 = 15.6 μs." },
+        { "difficulty": "hard", "scope": "sl", "question": "A clock on a spacecraft reads 5 years for a journey. Earth observers measure 13 years. Find the speed of the spacecraft.", "solution": "γ = Δt/Δt₀ = 13/5 = 2.6. 2.6 = 1/√(1 − v²/c²) → √(1 − v²/c²) = 1/2.6 = 0.385 → 1 − v²/c² = 0.148 → v²/c² = 0.852 → v = 0.923c." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The observer on Earth measures proper time for a spaceship journey", "explanation": "Earth observers are NOT at both events (departure from Earth and arrival at the star). The astronaut IS at both events (they happen inside the ship). The astronaut measures proper time.", "correct": "Proper time is measured by the clock present at BOTH events at the SAME location." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A spacecraft travels from Earth to a star 8.0 light-years away at 0.80c.\n(a) Calculate the Lorentz factor γ. [1]\n(b) Calculate the time of the journey as measured by an observer on Earth. [1]\n(c) Calculate the time as measured by an astronaut on the spacecraft. [2]\n(d) State which observer measures proper time. Justify. [2]", "marks": 6, "modelAnswer": "(a) γ = 1/√(1 − 0.64) = 1/0.6 = 1.667 [1].\n(b) t_Earth = distance/speed = 8.0/0.80 = 10 years [1].\n(c) t_astro = t_Earth/γ = 10/1.667 = 6.0 years [2].\n(d) The astronaut measures proper time [1]. Both events (departure and arrival) occur at the same place in the astronaut's frame — inside the spacecraft [1].", "examinerTip": "To identify proper time: ask 'for whom do both events happen at the SAME location?' That observer measures proper time." }
+    },
+
+    {
+      "id": "a5_sub4",
+      "num": 4,
+      "title": "Length Contraction — Moving Objects Are Shorter",
+      "group": "Special Relativity",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Time Dilation",
+      "nextTitle": "Relativistic Velocity Addition",
+
+      "bigIdea": "A spaceship moving past you at 0.9c appears shorter than when it's parked. Not because it's compressed — space itself contracts in the direction of motion. A 100 m ship at 0.9c appears only 43.6 m long. The astronaut sees the ship as its full 100 m — but sees the distance to the star contracted instead. Both are correct. This is length contraction.",
+
+      "foundation": {
+        "title": "Moving objects are shorter in the direction of motion",
+        "content": "<h4>Length contraction formula</h4><p><strong>L = L₀/γ = L₀√(1 − v²/c²)</strong></p><p>Where:</p><ul><li>L₀ = <strong>proper length</strong> — the length measured in the frame where the object is AT REST</li><li>L = the contracted length — measured by an observer who sees the object moving</li><li>γ ≥ 1, so L ≤ L₀ — the moving length is always shorter</li></ul><h4>Only in the direction of motion</h4><p>Length contraction occurs ONLY along the direction of motion. Perpendicular dimensions are unchanged. A sphere moving at high speed would appear as an oblate ellipsoid — squashed along the direction of travel.</p><h4>Proper length</h4><p><strong>Proper length</strong> is the length measured in the rest frame of the object — where the object is not moving. It's always the LONGEST measurement. Any observer seeing the object move measures a shorter length.</p><h4>The muon problem — from the muon's perspective</h4><p>We explained muon survival using time dilation (Earth sees muon lifetime extended). The muon sees it differently: in the muon's frame, the muon lives only 2.2 μs — but the distance to Earth's surface is LENGTH CONTRACTED. 15 km becomes 15/γ = 15/15.8 = 0.95 km. At 0.998c, the muon traverses 0.95 km in 3.2 μs — within its lifetime. Both explanations give the same result.</p>",
+        "summary": "<p><strong>L = L₀/γ:</strong> moving objects are shorter in the direction of motion.</p><p><strong>Proper length L₀:</strong> measured in the object's rest frame. Always the longest.</p><p><strong>Only along the direction of motion.</strong> Perpendicular dimensions unchanged.</p><p><strong>Muon:</strong> Earth sees time dilated. Muon sees distance contracted. Same result.</p>",
+        "checkQuestions": [
+          { "question": "A 200 m spaceship passes Earth at 0.8c. What length does an Earth observer measure?", "answer": "γ = 1/0.6 = 1.667. L = L₀/γ = 200/1.667 = 120 m. The ship appears 120 m long from Earth." },
+          { "question": "Who measures the proper length of the ship — the astronaut or Earth?", "answer": "The astronaut. The ship is at rest in the astronaut's frame. Proper length is measured in the rest frame of the object." }
+        ],
+        "checklist": [
+          "I can state length contraction: L = L₀/γ",
+          "I can define proper length: measured in the rest frame of the object (always longest)",
+          "I can explain that contraction is only along the direction of motion",
+          "I can explain the muon problem from the muon's frame using length contraction"
+        ]
+      },
+
+      "core": {
+        "title": "Length contraction calculations and the symmetry of SR",
+        "content": "<h4>Solving length contraction problems</h4><ol><li>Identify the object whose length is being measured</li><li>Identify who measures proper length (the frame where the object is AT REST)</li><li>Calculate γ from the relative speed</li><li>Apply L = L₀/γ</li></ol><h4>Symmetry of time dilation and length contraction</h4><p>Time dilation and length contraction are two sides of the same coin:</p><ul><li><strong>Earth frame (muon problem):</strong> muon lifetime is dilated (longer) → travels further → reaches ground</li><li><strong>Muon frame:</strong> atmosphere is contracted (shorter) → muon doesn't need to live as long → reaches ground</li></ul><p>Both frames agree on the observable fact: the muon reaches Earth's surface. They disagree on whether it's because time stretched or space compressed — but the physics is consistent.</p><h4>A journey as seen by both frames</h4><p>Spaceship travels from Earth to a star 10 ly away at 0.8c:</p><ul><li><strong>Earth frame:</strong> Distance = 10 ly. Time = 10/0.8 = 12.5 years. Ship is length-contracted but distance is proper (stars are at rest relative to Earth).</li><li><strong>Ship frame:</strong> Distance is contracted = 10/γ = 10/1.667 = 6 ly. Time = 6/0.8 = 7.5 years. This matches time dilation: Δt₀ = Δt/γ = 12.5/1.667 = 7.5 years ✓.</li></ul>",
+        "keyPoints": [
+          "L = L₀/γ. Proper length = longest (rest frame of object).",
+          "Time dilation and length contraction are consistent — same observable predictions from both frames.",
+          "Earth frame: time is dilated. Ship frame: distance is contracted. Both give the same journey time for the ship."
+        ],
+        "examTrap": { "wrong": "Length contraction and time dilation give contradictory results", "correct": "They give the SAME observable results from different perspectives. Time dilation (Earth frame) and length contraction (moving frame) are complementary explanations of the same phenomenon." },
+        "checkQuestions": [
+          { "question": "A particle accelerator tube is 3 km long. A proton at 0.999c travels through it. What length does the proton 'see'?", "answer": "γ = 1/√(1 − 0.998) = 1/√0.002 = 22.4. L = 3000/22.4 = 134 m. The proton sees a 134 m tube." }
+        ],
+        "checklist": [
+          "I can solve length contraction problems by identifying proper length and applying L = L₀/γ",
+          "I can show consistency between time dilation and length contraction for the same scenario",
+          "I can explain a journey from both the Earth frame and the traveller's frame"
+        ]
+      },
+
+      "extension": { "title": "Visual appearance vs measurement", "content": "<p>Length contraction is what you'd MEASURE, not what you'd SEE. What you'd actually see (photograph) is different due to the finite speed of light from different parts of the object reaching your eyes at different times. A sphere moving at relativistic speed would appear ROTATED (Penrose-Terrell rotation), not squashed. The measured contraction and the visual appearance are different things — IB tests the measurement, not the visual appearance.</p>", "connections": ["C.3 Wave Phenomena: aberration of light connects to the finite speed of light signals"], "checklist": ["I can distinguish between measured length contraction and visual appearance (Penrose-Terrell rotation)"] },
+      "simulation": { "title": "Relativistic Length Contraction Visualizer", "source": "Various", "url": "https://phet.colorado.edu/en/simulations/the-moving-man", "instructions": ["Compare object lengths at different speeds. Note: contraction only along the direction of motion."] },
+      "video": { "title": "Length Contraction — IB Physics", "duration": "8 min", "description": "L = L₀/γ, proper length, muon problem from both frames, and the journey to a star", "embedId": "" },
+      "equations": [
+        { "formula": "L = L₀/γ = L₀√(1 − v²/c²)", "description": "Length contraction. L₀ = proper length (rest frame). L = contracted (moving)." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Earth and a star are 12 ly apart. A ship at 0.9c travels between them. Find the distance in the ship's frame and the journey time in both frames.", "steps": [
+          { "label": "γ", "text": "γ = 1/√(1 − 0.81) = 1/√0.19 = 2.294" },
+          { "label": "Ship distance", "text": "L = 12/2.294 = 5.23 ly", "isEquation": true },
+          { "label": "Earth time", "text": "t_E = 12/0.9 = 13.33 years" },
+          { "label": "Ship time", "text": "t_ship = 5.23/0.9 = 5.81 years. Or: 13.33/2.294 = 5.81 years ✓", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A 50 m ship moves at 0.6c. Find its length as seen from Earth.", "solution": "γ = 1/0.8 = 1.25. L = 50/1.25 = 40 m." },
+        { "difficulty": "medium", "scope": "sl", "question": "A 2 km accelerator tunnel appears to be 500 m long to a particle inside it. Find the particle's speed.", "solution": "L/L₀ = 1/γ = 500/2000 = 0.25. γ = 4. 4 = 1/√(1−v²/c²) → 1−v²/c² = 1/16 → v = c√(15/16) = 0.968c." },
+        { "difficulty": "hard", "scope": "sl", "question": "Show that the muon problem gives the same answer using time dilation (Earth frame) and length contraction (muon frame). Muon: v = 0.998c, τ₀ = 2.2 μs, altitude = 15 km.", "solution": "Earth frame: γ = 15.8. Dilated lifetime = 15.8 × 2.2 = 34.8 μs. Distance at 0.998c in 34.8 μs = 0.998 × 3 × 10⁸ × 34.8 × 10⁻⁶ = 10,420 m ≈ 10.4 km. Muon frame: Distance contracted = 15,000/15.8 = 949 m. Time to travel 949 m at 0.998c = 949/(0.998 × 3 × 10⁸) = 3.17 × 10⁻⁶ s = 3.17 μs. Since 3.17 > 2.2 μs, many muons decay — but a significant fraction survive (exponential decay). Both frames predict muons reach the surface ✓." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The ship is 'really' 100 m and only 'appears' contracted", "explanation": "Length contraction is not an optical illusion. The ship IS 60 m in the observer's frame. There is no 'real' length — length depends on the frame. Both measurements are equally valid.", "correct": "Both lengths are real. Length is frame-dependent. Proper length is measured in the rest frame; contracted length is measured in any moving frame." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A spacecraft of proper length 150 m travels at 0.75c past a space station.\n(a) Calculate the length of the spacecraft as measured by the space station. [2]\n(b) Calculate the time for the spacecraft to pass a fixed point on the station, as measured by the station. [2]\n(c) Calculate the time for the same event as measured by the astronaut. Explain. [2]", "marks": 6, "modelAnswer": "(a) γ = 1/√(1−0.5625) = 1/√0.4375 = 1.512. L = 150/1.512 = 99.2 m [2].\n(b) Time = L/v = 99.2/(0.75 × 3 × 10⁸) = 4.41 × 10⁻⁷ s [2].\n(c) Astronaut measures proper length 150 m passing a point at 0.75c. t = 150/(0.75c) = 6.67 × 10⁻⁷ s [1]. This is longer because the astronaut measures the proper length of the ship (not contracted) [1].", "examinerTip": "Be careful about WHO measures proper length. The spacecraft's rest frame measures proper length of the SHIP. The station's rest frame measures proper length of the STATION. Neither measures the other's proper length." }
+    },
+
+    {
+      "id": "a5_sub5",
+      "num": 5,
+      "title": "Relativistic Velocity Addition",
+      "group": "Special Relativity",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Length Contraction",
+      "nextTitle": "Relativistic Momentum & Energy",
+
+      "bigIdea": "A ship at 0.8c fires a probe at 0.7c forward. Galilean addition gives 1.5c — faster than light. But that's impossible. Einstein's formula gives 0.96c — always less than c. No matter how you add velocities, the result never exceeds c. The speed of light is the ultimate limit.",
+
+      "foundation": {
+        "title": "Why you can't add velocities the simple way anymore",
+        "content": "<h4>The problem with Galilean addition at high speeds</h4><p>Galilean: v' = v + u. If a ship at u = 0.8c fires a probe at v = 0.7c: v' = 1.5c. This exceeds c — violating the second postulate.</p><h4>Einstein's relativistic velocity addition</h4><p><strong>v' = (v + u) / (1 + vu/c²)</strong></p><p>Where v' is the velocity relative to the ground, v is the velocity of the object relative to the ship, and u is the velocity of the ship relative to the ground.</p><p>Using the same numbers: v' = (0.7c + 0.8c) / (1 + 0.56) = 1.5c/1.56 = 0.962c. Less than c ✓.</p><h4>Key properties</h4><ul><li>If v = c (light): v' = (c + u)/(1 + u/c) = c(1 + u/c)/(1 + u/c) = c. Light always travels at c, regardless of the source's motion.</li><li>If both v and u are much less than c: vu/c² ≈ 0 → v' ≈ v + u (reduces to Galilean addition).</li><li>The result can NEVER exceed c, no matter what v and u are (as long as both < c).</li></ul>",
+        "summary": "<p><strong>v' = (v + u) / (1 + vu/c²):</strong> relativistic velocity addition.</p><p><strong>Always gives v' < c</strong> when both v < c and u < c.</p><p><strong>v = c → v' = c:</strong> light speed is invariant.</p><p><strong>At low speeds:</strong> reduces to Galilean v' = v + u.</p>",
+        "checkQuestions": [
+          { "question": "Ship at 0.5c fires probe at 0.5c forward. Find the probe's speed relative to Earth.", "answer": "v' = (0.5c + 0.5c)/(1 + 0.25) = c/1.25 = 0.8c. NOT c, as Galilean addition would give." }
+        ],
+        "checklist": [
+          "I can state the relativistic velocity addition formula: v' = (v+u)/(1+vu/c²)",
+          "I can show that adding any v < c to any u < c gives v' < c",
+          "I can show that v = c gives v' = c (light speed invariance)",
+          "I can show that at low speeds it reduces to Galilean addition"
+        ]
+      },
+
+      "core": {
+        "title": "Applying relativistic velocity addition",
+        "content": "<h4>Two spaceships approaching each other</h4><p>Ship A at 0.6c (east) and Ship B at 0.7c (west). From Ship A's frame, how fast is B approaching?</p><p>Here u = 0.6c (A's speed), v = −0.7c (B moves opposite). Speed of B relative to A:</p><p>v' = (−0.7c − 0.6c)/(1 + (−0.7)(−0.6)) = −1.3c/(1 + 0.42) = −1.3c/1.42 = −0.915c</p><p>They approach at 0.915c — NOT 1.3c.</p><h4>Proving light speed invariance</h4><p>A torch on a ship at 0.99c shines forward: v = c, u = 0.99c.</p><p>v' = (c + 0.99c)/(1 + 0.99c²/c²) = 1.99c/(1 + 0.99) = 1.99c/1.99 = c ✓</p><p>No matter the ship's speed, the light leaves at c relative to any observer.</p>",
+        "keyPoints": [
+          "v' = (v + u)/(1 + vu/c²) for objects moving in the same direction",
+          "For opposite directions: use negative sign for one velocity",
+          "Light: always gives v' = c regardless of source motion",
+          "At v << c: the denominator ≈ 1 and Galilean addition is recovered"
+        ],
+        "examTrap": { "wrong": "If two ships each move at 0.6c toward each other, their closing speed is 1.2c", "correct": "From one ship's frame: v' = (0.6c + 0.6c)/(1 + 0.36) = 1.2c/1.36 = 0.882c. The closing speed in any single frame never exceeds c. The '1.2c' would only be valid in a third frame using Galilean addition — but Galilean addition is wrong at these speeds." },
+        "checkQuestions": [
+          { "question": "A ship at 0.9c fires a laser backward. What is the laser's speed relative to Earth?", "answer": "v = −c (backward in ship frame), u = 0.9c (ship speed). v' = (−c + 0.9c)/(1 + (−c)(0.9c)/c²) = −0.1c/(1 − 0.9) = −0.1c/0.1 = −c. The laser goes at c backward relative to Earth. Light always travels at c." }
+        ],
+        "checklist": [
+          "I can apply relativistic velocity addition for same-direction and opposite-direction motion",
+          "I can prove that v' = c when v = c (light speed invariance)",
+          "I can solve problems with two ships approaching each other"
+        ]
+      },
+
+      "extension": { "title": "Velocity addition and the structure of spacetime", "content": "<p>The relativistic velocity addition formula comes from the Lorentz transformations: x' = γ(x − ut), t' = γ(t − ux/c²). Dividing dx'/dt' gives the velocity transformation. The key insight: because TIME transforms (t' ≠ t), velocities don't add simply. This is the deep reason — time dilation and length contraction modify both the numerator and denominator of v = Δx/Δt.</p>", "connections": ["A.5 Lorentz transformations: the full spacetime transformation from which velocity addition is derived"], "checklist": ["I can state that relativistic velocity addition follows from the Lorentz transformations"] },
+      "video": { "title": "Relativistic Velocity Addition — IB Physics", "duration": "7 min", "description": "The formula, examples, light speed invariance, and recovering Galilean addition", "embedId": "" },
+      "equations": [
+        { "formula": "v' = (v + u)/(1 + vu/c²)", "description": "Relativistic velocity addition. Always gives v' ≤ c." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Spaceship at 0.8c fires a probe at 0.6c forward. Find the probe's speed relative to Earth.", "steps": [
+          { "label": "Formula", "text": "v' = (0.6c + 0.8c)/(1 + 0.48) = 1.4c/1.48 = 0.946c", "isEquation": true },
+          { "label": "Galilean", "text": "Would give 1.4c — impossible. Relativistic result: 0.946c < c ✓." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A rocket at 0.4c fires a missile at 0.3c forward. Find the missile's speed relative to Earth.", "solution": "v' = (0.3 + 0.4)c/(1 + 0.12) = 0.7c/1.12 = 0.625c." },
+        { "difficulty": "medium", "scope": "sl", "question": "Two particles move toward each other, each at 0.9c relative to the lab. Find the speed of one relative to the other.", "solution": "v' = (0.9c + 0.9c)/(1 + 0.81) = 1.8c/1.81 = 0.994c." },
+        { "difficulty": "hard", "scope": "sl", "question": "Show that if v = c, then v' = c regardless of u.", "solution": "v' = (c + u)/(1 + uc/c²) = (c + u)/(1 + u/c) = c(1 + u/c)/(1 + u/c) = c. QED." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using Galilean addition for relativistic speeds", "explanation": "At speeds above ~0.1c, the Galilean formula v' = v + u gives noticeably wrong answers. At 0.5c + 0.5c: Galilean gives c, relativistic gives 0.8c.", "correct": "Always use v' = (v+u)/(1+vu/c²) for relativistic speeds. It automatically reduces to Galilean at low speeds." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Rocket A moves at 0.70c to the right. It fires a probe at 0.80c to the right relative to the rocket.\n(a) Use the relativistic velocity addition formula to find the probe's speed relative to Earth. [2]\n(b) State what the result would be using Galilean addition. [1]\n(c) Explain why the Galilean result is incorrect. [1]", "marks": 4, "modelAnswer": "(a) v' = (0.80c + 0.70c)/(1 + 0.56) = 1.50c/1.56 = 0.962c [2].\n(b) Galilean: 0.80c + 0.70c = 1.50c [1].\n(c) 1.50c exceeds c, which violates Einstein's second postulate (c is the maximum speed for all observers). The Galilean formula doesn't account for the effects of special relativity at high speeds [1].", "examinerTip": "Always show the full substitution into the formula. The IB awards marks for correct substitution even if the arithmetic is wrong." }
+    },
+
+    {
+      "id": "a5_sub6",
+      "num": 6,
+      "title": "Relativistic Momentum & Energy",
+      "group": "Special Relativity",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Velocity Addition",
+      "nextTitle": "Mass-Energy Equivalence",
+
+      "bigIdea": "At everyday speeds, momentum is p = mv and kinetic energy is ½mv². But as objects approach the speed of light, these formulas break down. Relativistic momentum is p = γmv — it goes to infinity as v approaches c. This is why you can never accelerate a massive object to c: the faster it goes, the more momentum (and energy) you need to add for the same speed increase. There is no finish line.",
+
+      "foundation": {
+        "title": "Why p = mv and KE = ½mv² fail at high speeds",
+        "content": "<h4>Relativistic momentum</h4><p><strong>p = γmv</strong></p><p>Where m is the rest mass (invariant mass), v is the velocity, and γ = 1/√(1 − v²/c²). At low speeds (γ ≈ 1): p ≈ mv (Newtonian). As v → c: γ → ∞ → p → ∞.</p><h4>Relativistic kinetic energy</h4><p><strong>KE = (γ − 1)mc²</strong></p><p>At low speeds: γ ≈ 1 + ½v²/c², so KE ≈ ½mv² (Newtonian limit). As v → c: KE → ∞.</p><h4>Total relativistic energy</h4><p><strong>E = γmc²</strong></p><p>This is the TOTAL energy: rest energy + kinetic energy. E = mc² + KE = mc² + (γ−1)mc² = γmc².</p><h4>The energy-momentum relation</h4><p><strong>E² = (pc)² + (mc²)²</strong></p><p>This is the relativistic version of the energy-momentum relationship. For a photon (m = 0): E = pc. For an object at rest (p = 0): E = mc².</p>",
+        "summary": "<p><strong>p = γmv:</strong> relativistic momentum. Goes to ∞ as v → c.</p><p><strong>KE = (γ−1)mc²:</strong> reduces to ½mv² at low speeds.</p><p><strong>E = γmc²:</strong> total energy = rest energy + KE.</p><p><strong>E² = (pc)² + (mc²)²:</strong> the master energy-momentum relation.</p>",
+        "checkQuestions": [
+          { "question": "An electron (m = 9.11 × 10⁻³¹ kg) moves at 0.99c. Find γ, the relativistic momentum, and the KE.", "answer": "γ = 1/√(1−0.9801) = 7.09. p = γmv = 7.09 × 9.11 × 10⁻³¹ × 0.99 × 3 × 10⁸ = 1.92 × 10⁻²¹ kg·m/s. KE = (γ−1)mc² = 6.09 × 9.11 × 10⁻³¹ × 9 × 10¹⁶ = 4.99 × 10⁻¹³ J = 3.12 MeV." }
+        ],
+        "checklist": [
+          "I can calculate relativistic momentum: p = γmv",
+          "I can calculate relativistic KE: KE = (γ−1)mc²",
+          "I can calculate total energy: E = γmc²",
+          "I can apply E² = (pc)² + (mc²)²",
+          "I can show these reduce to classical formulas at low speeds"
+        ]
+      },
+
+      "core": {
+        "title": "Applying relativistic energy and momentum — particle physics and accelerators",
+        "content": "<h4>Why particle accelerators can't reach c</h4><p>As v → c: γ → ∞ → p → ∞ → KE → ∞. Each additional m/s of speed requires exponentially more energy. At the LHC, protons reach 0.999999991c (γ ≈ 7500). Their KE is 7500× their rest energy. To reach 0.99999999999c would require even more energy. c itself requires infinite energy.</p><h4>Units in particle physics</h4><p>Particle physicists use eV (electron-volts) for energy and eV/c for momentum and eV/c² for mass:</p><ul><li>Electron rest energy: mc² = 0.511 MeV → m = 0.511 MeV/c²</li><li>Proton rest energy: mc² = 938.3 MeV → m = 938.3 MeV/c²</li></ul><p>In these units, E² = (pc)² + (mc²)² becomes: E² = p²c² + m²c⁴ (all in MeV).</p><h4>Photons — massless particles</h4><p>Photons have m = 0. From E² = (pc)² + 0: <strong>E = pc</strong> → <strong>p = E/c</strong>.</p><p>Photons carry momentum despite having no mass. This momentum is real — it creates radiation pressure (used in solar sails) and is transferred in the photoelectric effect.</p>",
+        "keyPoints": [
+          "p = γmv → ∞ as v → c: can never reach c",
+          "KE = (γ−1)mc²: at LHC, KE >> mc² for protons",
+          "Particle physics units: MeV, MeV/c, MeV/c²",
+          "Photons: E = pc, p = E/c (massless but carry momentum)"
+        ],
+        "examTrap": { "wrong": "Mass increases with speed (relativistic mass)", "correct": "Modern physics uses INVARIANT (rest) mass m, which does NOT change with speed. What increases with speed is the MOMENTUM (γmv) and ENERGY (γmc²), not the mass itself. The concept of 'relativistic mass' is outdated and no longer used in IB Physics." },
+        "checkQuestions": [
+          { "question": "A photon has energy 2 MeV. Find its momentum in MeV/c.", "answer": "For photon: E = pc → p = E/c = 2 MeV/c." }
+        ],
+        "checklist": [
+          "I can explain why c can never be reached (p and KE → ∞)",
+          "I can work in particle physics units (MeV, MeV/c, MeV/c²)",
+          "I can calculate photon momentum: p = E/c",
+          "I can explain that 'relativistic mass' is an outdated concept — use invariant mass"
+        ]
+      },
+
+      "extension": { "title": "The energy-momentum 4-vector", "content": "<p>In 4D spacetime, energy and momentum combine into a single 4-vector: (E/c, p_x, p_y, p_z). Its invariant magnitude is the rest energy: E² − (pc)² = (mc²)². This is why E² = (pc)² + (mc²)² is called the invariant mass relation — it's the same in ALL reference frames. This 4-vector formalism makes relativistic calculations elegant and frame-independent.</p>", "connections": ["E.3 Nuclear Physics: mass-energy equivalence in nuclear reactions", "E.2 Quantum Physics: photon momentum p = h/λ connects quantum and relativistic physics"], "checklist": ["I can state that the 4-momentum combines energy and momentum into a single invariant quantity"] },
+      "video": { "title": "Relativistic Momentum & Energy — IB Physics", "duration": "10 min", "description": "p = γmv, KE = (γ−1)mc², E² = (pc)² + (mc²)², and particle physics applications", "embedId": "" },
+      "equations": [
+        { "formula": "p = γmv", "description": "Relativistic momentum." },
+        { "formula": "KE = (γ − 1)mc²", "description": "Relativistic kinetic energy." },
+        { "formula": "E = γmc²", "description": "Total relativistic energy = rest energy + KE." },
+        { "formula": "E² = (pc)² + (mc²)²", "description": "Energy-momentum relation. For photons: E = pc." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A proton (m = 938 MeV/c²) has KE = 2000 MeV. Find γ, v, and p.", "steps": [
+          { "label": "γ", "text": "KE = (γ−1)mc² → 2000 = (γ−1)(938) → γ = 1 + 2000/938 = 3.13", "isEquation": true },
+          { "label": "v", "text": "γ = 1/√(1−v²/c²) → v = c√(1−1/γ²) = c√(1−0.102) = 0.948c", "isEquation": true },
+          { "label": "p", "text": "E = KE + mc² = 2938 MeV. p = √(E²−(mc²)²)/c = √(2938²−938²)/c = √(7556644)/c = 2749 MeV/c", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Find the rest energy of an electron (m = 9.11 × 10⁻³¹ kg) in joules and in MeV.", "solution": "E = mc² = 9.11 × 10⁻³¹ × 9 × 10¹⁶ = 8.20 × 10⁻¹⁴ J = 8.20 × 10⁻¹⁴/1.6 × 10⁻¹³ = 0.512 MeV." },
+        { "difficulty": "medium", "scope": "sl", "question": "A particle has total energy 5 times its rest energy. Find γ and v.", "solution": "E = γmc² = 5mc² → γ = 5. v = c√(1−1/25) = c√(24/25) = 0.980c." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using KE = ½mv² for particles at high speed", "explanation": "½mv² is the Newtonian approximation. At relativistic speeds, use KE = (γ−1)mc². The difference is enormous: at 0.9c, ½mv² gives 0.405mc², but the correct value is (2.294−1)mc² = 1.294mc² — more than 3× larger.", "correct": "For v > 0.1c: use KE = (γ−1)mc². Always check if γ ≈ 1 before using ½mv²." }
+      ],
+      "examCorner": { "scope": "sl", "question": "An electron is accelerated from rest through a potential difference of 3.0 MV.\n(a) Find the KE in MeV. [1]\n(b) Find γ. [2]\n(c) Find the speed as a fraction of c. [2]\n(d) Find the momentum in MeV/c. [2]", "marks": 7, "modelAnswer": "(a) KE = eV = 3.0 MeV (electron gains 1 eV per volt) [1].\n(b) KE = (γ−1)mc² → 3.0 = (γ−1)(0.511) → γ = 1 + 3.0/0.511 = 6.87 [2].\n(c) γ = 1/√(1−v²/c²) → v = c√(1−1/γ²) = c√(1−0.0212) = 0.989c [2].\n(d) E = KE + mc² = 3.511 MeV. p = √(E²−(mc²)²)/c = √(3.511²−0.511²)/c = √(12.33−0.261)/c = √12.07/c = 3.47 MeV/c [2].", "examinerTip": "In MeV units: E = KE + mc², then p = √(E²−(mc²)²)/c. This avoids converting to SI units. Always state mc² for the particle (electron = 0.511 MeV, proton = 938 MeV)." }
+    },
+
+    {
+      "id": "a5_sub7",
+      "num": 7,
+      "title": "Mass-Energy Equivalence: E = mc²",
+      "group": "Special Relativity",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Relativistic Momentum & Energy",
+      "nextTitle": "Spacetime Diagrams (AHL)",
+
+      "bigIdea": "Mass is energy. Energy is mass. E = mc² is the most famous equation in physics — and it's not just about nuclear bombs. Every time you heat water, the water gains mass (immeasurably tiny). Every time a spring is compressed, it gains mass. The Sun loses 4.3 million tonnes per second as mass converts to light. Mass and energy are the same thing, measured in different units.",
+
+      "foundation": {
+        "title": "Mass and energy are interchangeable",
+        "content": "<h4>E = mc² — what it means</h4><p><strong>The rest energy of an object: E₀ = mc²</strong></p><p>Every object with mass m has an energy equivalent mc², even when it's completely at rest. This is the rest energy — the energy stored in the mass itself.</p><p>c² = 9 × 10¹⁶ m²/s² — an enormous number. This means a tiny amount of mass corresponds to an enormous amount of energy.</p><h4>Scale of mass-energy equivalence</h4><ul><li>1 kg of mass = mc² = 9 × 10¹⁶ J = 90 petajoules. That's the energy of ~20 megatons of TNT — a large nuclear weapon.</li><li>In nuclear fission (E.4): 1 kg of uranium-235 converts ~0.001 kg to energy → ~10¹⁴ J (enough to power a city for months).</li><li>In nuclear fusion (E.5): the Sun converts 4.3 × 10⁹ kg/s of mass to energy → 3.85 × 10²⁶ W.</li><li>In chemical reactions: burning 1 kg of coal releases ~3 × 10⁷ J. The mass change: Δm = E/c² = 3 × 10⁷/(9 × 10¹⁶) = 3.3 × 10⁻¹⁰ kg. Unmeasurably tiny.</li></ul><h4>Mass defect and binding energy</h4><p>In nuclear physics (E.3–E.5): the mass of a nucleus is LESS than the sum of its individual protons and neutrons. The 'missing' mass (mass defect Δm) has been converted to binding energy: E_binding = Δmc². This binding energy holds the nucleus together — you'd need to supply that much energy to pull it apart.</p>",
+        "summary": "<p><strong>E = mc²:</strong> mass and energy are equivalent. 1 kg = 9 × 10¹⁶ J.</p><p><strong>Mass defect:</strong> mass of nucleus < sum of parts. Δm → binding energy Δmc².</p><p><strong>Nuclear reactions convert measurable mass to energy.</strong> Chemical reactions also, but Δm is immeasurably tiny.</p>",
+        "checkQuestions": [
+          { "question": "How much energy is released if 1 gram of matter is completely converted to energy?", "answer": "E = mc² = 0.001 × 9 × 10¹⁶ = 9 × 10¹³ J = 90 TJ. This is roughly the energy of the Hiroshima bomb." }
+        ],
+        "checklist": [
+          "I can state E = mc² and explain that mass is a form of energy",
+          "I can calculate rest energy from mass: E₀ = mc²",
+          "I can explain mass defect: nucleus mass < sum of parts → binding energy = Δmc²",
+          "I can give the scale: nuclear reactions convert ~0.1% of mass, chemical ~10⁻⁸%"
+        ]
+      },
+
+      "core": {
+        "title": "Applying E = mc² — nuclear reactions, pair production, and annihilation",
+        "content": "<h4>Mass-energy in nuclear reactions</h4><p>In any nuclear reaction: Σm_before ≠ Σm_after. The mass difference Δm converts to energy: ΔE = Δmc². If products are lighter: energy is released (exothermic). If products are heavier: energy must be supplied (endothermic).</p><h4>Pair production</h4><p>A photon with enough energy can create a particle-antiparticle pair (e.g., electron + positron). The photon's energy must exceed 2m_e c² = 1.022 MeV. Energy → mass. This happens in high-energy environments (near nuclei, in accelerators).</p><h4>Annihilation</h4><p>When a particle meets its antiparticle, they annihilate: their mass converts entirely to photon energy. e⁻ + e⁺ → 2γ. Total energy of photons = 2m_e c² = 1.022 MeV (minimum). Mass → energy. This is used in PET (Positron Emission Tomography) medical scanners.</p><h4>Binding energy per nucleon</h4><p>The binding energy per nucleon (BE/A) curve peaks at iron-56 (8.8 MeV/nucleon). Nuclei lighter than iron release energy by fusing (moving up the curve). Nuclei heavier than iron release energy by fissioning (also moving toward the peak). This curve explains why fusion powers stars and fission powers reactors.</p>",
+        "keyPoints": [
+          "Nuclear reactions: ΔE = Δmc² (mass defect → energy released or absorbed)",
+          "Pair production: photon → particle + antiparticle (E ≥ 2mc²)",
+          "Annihilation: particle + antiparticle → photons (E = 2mc²)",
+          "BE/A curve: peak at iron. Fusion (light nuclei) and fission (heavy nuclei) both release energy."
+        ],
+        "examTrap": { "wrong": "E = mc² only applies to nuclear reactions", "correct": "E = mc² applies to ALL energy. Heating water increases its mass. Compressing a spring increases its mass. Chemical reactions change mass (but immeasurably small). Nuclear reactions have measurable mass changes because nuclear energies are ~10⁶× chemical energies." },
+        "checkQuestions": [
+          { "question": "A positron (m = 0.511 MeV/c²) and an electron annihilate at rest. Find the total energy of the photons produced.", "answer": "E = 2mc² = 2 × 0.511 = 1.022 MeV. This energy is shared equally between two photons: 0.511 MeV each." }
+        ],
+        "checklist": [
+          "I can calculate energy from mass defect: ΔE = Δmc²",
+          "I can explain pair production: E_photon ≥ 2mc² → particle + antiparticle",
+          "I can explain annihilation: particle + antiparticle → photons (E = 2mc²)",
+          "I can interpret the binding energy per nucleon curve"
+        ]
+      },
+
+      "extension": { "title": "E = mc² and the universe", "content": "<p>E = mc² explains why the universe is luminous. Stars shine by converting mass to energy (fusion). Supernovae release ~10⁴⁶ J by converting ~0.05 solar masses to energy. The Big Bang created matter from pure energy (pair production on a cosmic scale). And the Higgs field gives particles their mass — which is itself a form of energy. At the deepest level, everything is energy in different forms.</p>", "connections": ["E.5 Fusion: Sun converts 4.3 × 10⁹ kg/s to energy via E = mc²", "E.4 Fission: nuclear reactors convert mass defect to electrical energy", "E.2 Quantum Physics: pair production demonstrates energy → mass"], "checklist": ["I can connect E = mc² to stellar energy, nuclear power, and cosmology"] },
+      "video": { "title": "E = mc² — IB Physics", "duration": "9 min", "description": "Mass-energy equivalence, nuclear reactions, pair production/annihilation, and binding energy", "embedId": "" },
+      "equations": [
+        { "formula": "E₀ = mc²", "description": "Rest energy. m = invariant (rest) mass." },
+        { "formula": "ΔE = Δmc²", "description": "Energy from mass defect in nuclear reactions." },
+        { "formula": "E_pair = 2mc²", "description": "Minimum photon energy for pair production." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "In D-T fusion: ²H + ³H → ⁴He + n. Mass before: 5.03015 u. Mass after: 5.01126 u. Find the energy released.", "steps": [
+          { "label": "Mass defect", "text": "Δm = 5.03015 − 5.01126 = 0.01889 u" },
+          { "label": "Energy", "text": "ΔE = 0.01889 × 931.5 MeV/u = 17.6 MeV", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Calculate the rest energy of a proton (m = 1.673 × 10⁻²⁷ kg) in joules and MeV.", "solution": "E = mc² = 1.673 × 10⁻²⁷ × 9 × 10¹⁶ = 1.506 × 10⁻¹⁰ J = 1.506 × 10⁻¹⁰/1.6 × 10⁻¹³ = 941 MeV ≈ 938 MeV (within rounding)." },
+        { "difficulty": "medium", "scope": "sl", "question": "The Sun loses mass at 4.3 × 10⁹ kg/s. Find the power output.", "solution": "P = Δm × c²/t = 4.3 × 10⁹ × 9 × 10¹⁶ = 3.87 × 10²⁶ W." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Only nuclear reactions involve E = mc²", "explanation": "ALL energy has a mass equivalent. Chemical reactions, heating, even lifting a book changes mass — by amounts too small to measure. Nuclear reactions have measurable mass changes because the energies are millions of times larger per reaction.", "correct": "E = mc² is universal. Nuclear reactions just make the mass change large enough to detect." }
+      ],
+      "examCorner": { "scope": "sl", "question": "In a nuclear reaction, the total mass of the products is 0.0023 u less than the total mass of the reactants.\n(a) State what has happened to the 'missing' mass. [1]\n(b) Calculate the energy released in MeV. (1 u = 931.5 MeV/c²) [2]\n(c) Calculate the energy released in joules. [1]", "marks": 4, "modelAnswer": "(a) The mass has been converted to energy (kinetic energy of products + photon energy) according to E = mc² [1].\n(b) ΔE = Δm × 931.5 = 0.0023 × 931.5 = 2.14 MeV [2].\n(c) 2.14 × 1.6 × 10⁻¹³ = 3.43 × 10⁻¹³ J [1].", "examinerTip": "For mass-energy problems: use 1 u = 931.5 MeV/c² to convert directly. This avoids needing to convert to kg first." }
+    },
+
+    {
+      "id": "a5_sub8",
+      "num": 8,
+      "title": "Spacetime Diagrams (AHL)",
+      "group": "AHL Relativity",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "E = mc²",
+      "nextTitle": "B.1 Thermal Energy",
+
+      "bigIdea": "A spacetime diagram puts space on the horizontal axis and time on the vertical. Every object traces a 'worldline' on this diagram. Light travels at 45° lines. Nothing can have a worldline steeper than 45° — that would mean exceeding c. Spacetime diagrams make time dilation, length contraction, and the relativity of simultaneity visually intuitive.",
+
+      "foundation": {
+        "title": "Visualizing spacetime",
+        "content": "<h4>What is a spacetime diagram?</h4><p>A <strong>spacetime diagram</strong> (Minkowski diagram) plots position (x) on the horizontal axis and time (ct) on the vertical axis. Using ct (not t) makes the axes have the same units (metres) and makes light travel at 45°.</p><h4>Worldlines</h4><p>Every object traces a path called a <strong>worldline</strong>:</p><ul><li><strong>Object at rest:</strong> vertical line (moves through time but not space)</li><li><strong>Object at constant velocity:</strong> straight line at an angle. Steeper = slower.</li><li><strong>Light:</strong> 45° line (travels 1 unit of space per 1 unit of ct)</li><li><strong>Accelerating object:</strong> curved worldline</li></ul><h4>The light cone</h4><p>At any event, the 45° lines define a <strong>light cone</strong>. Events inside the future light cone CAN be reached from the origin (they're in the causal future). Events outside the light cone CANNOT be reached — they're 'elsewhere.' This is the geometric statement that nothing travels faster than light.</p>",
+        "summary": "<p><strong>Spacetime diagram:</strong> x horizontal, ct vertical. Light at 45°.</p><p><strong>Worldline:</strong> an object's path through spacetime.</p><p><strong>Light cone:</strong> 45° boundary. Inside = reachable. Outside = unreachable.</p>",
+        "checkQuestions": [
+          { "question": "An object moves at 0.5c. What angle does its worldline make with the ct axis?", "answer": "tan θ = v/c = 0.5. θ = 26.6° from the ct (vertical) axis. Or 63.4° from the x axis. Since 0.5c < c, the worldline is steeper than 45° (inside the light cone) ✓." }
+        ],
+        "checklist": [
+          "I can draw a spacetime diagram with x horizontal and ct vertical",
+          "I can draw worldlines for objects at rest, constant velocity, and light",
+          "I can draw and interpret the light cone"
+        ]
+      },
+
+      "core": {
+        "title": "Using spacetime diagrams — simultaneity, time dilation, and length contraction",
+        "content": "<h4>Simultaneity on a spacetime diagram</h4><p>In frame S: simultaneous events lie on a horizontal line (same ct). In frame S' (moving at v): the line of simultaneity is TILTED. Events that are simultaneous in S are NOT simultaneous in S'. This is the <strong>relativity of simultaneity</strong> — the most counter-intuitive consequence of SR.</p><h4>The moving frame's axes</h4><p>For frame S' moving at v relative to S:</p><ul><li>The ct' axis is the worldline of S' origin (tilted at angle β = tan⁻¹(v/c) from ct axis)</li><li>The x' axis is tilted by the SAME angle β from the x axis (toward the light line)</li><li>Both axes tilt TOWARD the 45° light line</li></ul><h4>Reading time dilation from the diagram</h4><p>A clock at rest in S' ticks along the ct' axis. The interval between ticks appears LONGER when projected onto the ct axis (S frame). This is time dilation — visually demonstrated on the diagram.</p><h4>Reading length contraction</h4><p>A rod at rest in S' has its endpoints on the x' axis. Its length as measured in S is the projection onto the x axis at a single moment in S (a horizontal line). This projected length is SHORTER. Length contraction — visually demonstrated.</p><h4>The invariant interval</h4><p><strong>Δs² = (cΔt)² − Δx²</strong> is the same in all frames. This is the spacetime interval — the relativistic equivalent of distance. If Δs² > 0: timelike interval (events can be causally connected). If Δs² < 0: spacelike (no causal connection). If Δs² = 0: lightlike (connected by light).</p>",
+        "keyPoints": [
+          "Moving frame: both axes tilt toward the 45° light line by angle tan⁻¹(v/c)",
+          "Simultaneity is relative: horizontal in S is tilted in S'",
+          "Time dilation: seen as stretching of intervals along the ct axis",
+          "Length contraction: seen as shorter projection onto x axis",
+          "Invariant interval: Δs² = (cΔt)² − Δx² is frame-independent"
+        ],
+        "examTrap": { "wrong": "The x' axis is perpendicular to the ct' axis on a Minkowski diagram", "correct": "In a Minkowski diagram drawn in the S frame, the ct' and x' axes are NOT perpendicular — they're both tilted toward the 45° light line. They would be perpendicular in the S' frame's OWN diagram, but not when drawn on S's diagram." },
+        "checkQuestions": [
+          { "question": "Calculate the spacetime interval for Δx = 3 m, Δt = 5 × 10⁻⁹ s.", "answer": "cΔt = 3 × 10⁸ × 5 × 10⁻⁹ = 1.5 m. Δs² = 1.5² − 3² = 2.25 − 9 = −6.75 m². Negative → spacelike → no causal connection possible." }
+        ],
+        "checklist": [
+          "I can draw the ct' and x' axes for a moving frame on a spacetime diagram",
+          "I can show simultaneity is relative using tilted axes",
+          "I can demonstrate time dilation and length contraction on the diagram",
+          "I can calculate the invariant interval: Δs² = (cΔt)² − Δx²",
+          "I can classify intervals: timelike (Δs² > 0), spacelike (< 0), lightlike (= 0)"
+        ]
+      },
+
+      "extension": { "title": "Spacetime as a geometric structure", "content": "<p>Minkowski spacetime unifies space and time into a single 4D geometry. The invariant interval Δs² plays the role of 'distance' in spacetime — but with a minus sign that makes it fundamentally different from Euclidean distance. This geometry is the foundation of general relativity, where gravity curves spacetime itself. Einstein's greatest insight: gravity is not a force — it's the curvature of spacetime caused by mass and energy.</p>", "connections": ["D.1 Gravitational Fields: general relativity describes gravity as spacetime curvature"], "checklist": ["I can explain that spacetime is a 4D geometric structure with an invariant interval"] },
+      "video": { "title": "Spacetime Diagrams — IB HL Physics", "duration": "12 min", "description": "Minkowski diagrams, worldlines, light cones, simultaneity, and the invariant interval", "embedId": "" },
+      "equations": [
+        { "formula": "Δs² = (cΔt)² − Δx²", "description": "Spacetime interval. Invariant in all frames." },
+        { "formula": "tan β = v/c", "description": "Tilt angle of moving frame's axes on a Minkowski diagram." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "Event A occurs at (x=0, t=0). Event B at (x=4m, t=10ns). Find the spacetime interval and classify it.", "steps": [
+          { "label": "cΔt", "text": "3 × 10⁸ × 10 × 10⁻⁹ = 3 m" },
+          { "label": "Δs²", "text": "3² − 4² = 9 − 16 = −7 m²", "isEquation": true },
+          { "label": "Classification", "text": "Δs² < 0 → spacelike. The events cannot be causally connected — no signal (even light) can travel 4 m in 10 ns (light travels only 3 m)." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "Draw a spacetime diagram showing the worldlines of: (a) an object at rest, (b) an object at 0.5c, (c) a light pulse.", "solution": "(a) Vertical line along ct axis. (b) Straight line tilted at angle tan⁻¹(0.5) = 26.6° from ct axis. (c) 45° line from the origin." },
+        { "difficulty": "hard", "scope": "hl", "question": "Two events: A at (0, 0) and B at (x = 5 m, ct = 13 m). Find Δs² and state whether a slower-than-light signal could connect them.", "solution": "Δs² = 13² − 5² = 169 − 25 = 144 m². Positive → timelike. Yes, a signal travelling at v < c can connect them. The required speed: v/c = Δx/(cΔt) = 5/13 = 0.385. Since 0.385 < 1, a subluminal signal works." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Light cone shows where light HAS been", "explanation": "The future light cone shows where light CAN go (future). The past light cone shows where light COULD have come from (past). It's about possibility, not history.", "correct": "Future light cone: all events reachable by light or slower. Past light cone: all events that could have influenced the present event." }
+      ],
+      "examCorner": { "scope": "hl", "question": "Two events are separated by Δx = 600 m and Δt = 3.0 μs.\n(a) Calculate the spacetime interval. [2]\n(b) State whether the events are timelike, spacelike, or lightlike. [1]\n(c) Could one event have caused the other? Explain. [2]", "marks": 5, "modelAnswer": "(a) cΔt = 3 × 10⁸ × 3 × 10⁻⁶ = 900 m. Δs² = 900² − 600² = 810000 − 360000 = 450000 m² [2].\n(b) Δs² > 0 → timelike [1].\n(c) Yes. Timelike separation means a signal travelling slower than light (v = 600/3μs = 2 × 10⁸ m/s = 0.67c < c) could connect the events [1]. Since v < c, causal connection is possible [1].", "examinerTip": "Calculate cΔt first (convert Δt to metres by multiplying by c). Then compare with Δx. If cΔt > Δx: timelike (causally connected). If cΔt < Δx: spacelike (not connected). If equal: lightlike." }
+    }
+
+  ]
+},
+};
