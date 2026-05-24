@@ -111,16 +111,14 @@ body {
 
 /* SIDEBAR */
 .sidebar {
-  width: 290px;
-  background: var(--white);
-  background-image: linear-gradient(180deg, var(--white), var(--tint));
+  width: 260px;
+  background: linear-gradient(180deg, #1e3a5f 0%, #1a2744 100%);
+  color: white;
   height: 100vh;
   overflow-y: auto;
-  padding: 0;
-  border-right: 1px solid var(--tint-border);
-  flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 }
 .sidebar-header {
   padding: 20px;
@@ -183,30 +181,26 @@ body {
   margin-top: 4px;
 }
 .sidebar-item {
-  padding: 10px 14px;
-  border-radius: 12px;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.7);
   cursor: pointer;
-  font-size: 13px;
-  color: var(--text2);
-  font-weight: 500;
-  transition: all 0.25s;
-  margin-bottom: 4px;
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  border: 1px solid transparent;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  margin: 2px 8px;
+  transition: all 0.2s;
 }
 .sidebar-item:hover {
-  background: var(--glass);
-  border-color: var(--tint-border);
-  color: var(--accent);
-  box-shadow: 0 4px 16px rgba(59,130,246,0.05);
+  background: rgba(255,255,255,0.08);
+  color: white;
 }
 .sidebar-item.active {
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  background: rgba(96,165,250,0.2);
   color: white;
   font-weight: 600;
-  box-shadow: 0 4px 16px rgba(30,64,175,0.15);
+  border-left: 3px solid #60a5fa;
 }
 .si-top {
   display: flex;
@@ -1790,15 +1784,12 @@ body {
   
   <!-- Student Progress Summary in Sidebar (Only shown when logged in) -->
   
-  </div>
 
   <!-- Checklist Aggregate Progress in Sidebar -->
   
   <div class="checklist-summary" id="sidebarChecklistProgress" style="padding: 16px 20px; border-bottom: 1px solid var(--tint-border); background: rgba(255,255,255,0.15);">
     <div class="ps-text">Progress: <span id="checklist-progress-text" style="font-weight: 600;">0/0 checked</span></div>
     <div class="ps-bar-container"><div class="ps-bar-fill" id="checklist-bar-fill" style="width: 0%"></div></div>
-  </div>
-
   </div>
 
   <div class="sidebar-nav">
@@ -1878,7 +1869,42 @@ body {
 <script>
   function toggleChecklistPanel() {
     const panel = document.getElementById('checklistPanel');
-    if (panel) panel.classList.toggle('open');
+    if (!panel) return;
+    panel.classList.toggle('open');
+    
+    if (!panel.classList.contains('open') || !currentTopicData) return;
+    
+    const sub = currentTopicData.subtopics[currentLessonIdx];
+    if (!sub) return;
+    
+    let items = [];
+    if (sub.checklist) items = items.concat(sub.checklist);
+    if (sub.foundation && sub.foundation.checklist) items = items.concat(sub.foundation.checklist);
+    if (sub.extension && sub.extension.checklist) items = items.concat(sub.extension.checklist);
+    
+    const checklistKeyPrefix = `physicism_checklist_${activeTopicCode}_${sub.id}`;
+    
+    document.getElementById('checklist-container').innerHTML = items.map((item, i) => {
+      const checked = localStorage.getItem(`${checklistKeyPrefix}_${i}`) === 'true' ? 'checked' : '';
+      return `<label style="display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer;">
+        <input type="checkbox" ${checked} onchange="toggleCheckItemPanel('${checklistKeyPrefix}_${i}', this.checked)">
+        <span>${item}</span>
+      </label>`;
+    }).join('');
+  }
+
+  function toggleCheckItemPanel(key, checked) {
+    if (checked) {
+      localStorage.setItem(key, 'true');
+    } else {
+      localStorage.removeItem(key);
+    }
+    if (typeof updateSidebarChecklistProgress === 'function') updateSidebarChecklistProgress();
+    if (typeof renderActiveSubtopic === 'function') {
+      const scrollPos = document.getElementById('contentArea').scrollTop;
+      renderActiveSubtopic();
+      document.getElementById('contentArea').scrollTop = scrollPos;
+    }
   }
 </script>
 
@@ -1890,7 +1916,7 @@ body {
 <script src="exam-system/firebase-config.js?v=2"></script>
 
 <!-- Content and Progress Data Scripts -->
-<script src="js/dp-student-data.js?v=9"></script>
+<script src="js/dp-student-data.js?v=10"></script>
 <script src="js/dp-progress.js?v=2"></script>
 <script src="js/gdc.js"></script>
 
