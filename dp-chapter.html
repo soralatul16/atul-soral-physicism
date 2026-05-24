@@ -2030,10 +2030,18 @@ function renderSidebar() {
     
     let subChecked = 0;
     let subTotal = 0;
-    if (sub.checklist && Array.isArray(sub.checklist)) {
-      subTotal = sub.checklist.length;
+    let allChecklistItems = sub.checklist || [];
+    if (sub.foundation && sub.foundation.checklist) {
+      allChecklistItems = allChecklistItems.concat(sub.foundation.checklist);
+    }
+    if (sub.extension && sub.extension.checklist) {
+      allChecklistItems = allChecklistItems.concat(sub.extension.checklist);
+    }
+    
+    if (allChecklistItems.length > 0) {
+      subTotal = allChecklistItems.length;
       totalItems += subTotal;
-      sub.checklist.forEach((_, itemIdx) => {
+      allChecklistItems.forEach((_, itemIdx) => {
         const key = 'physicism_checklist_' + activeTopicCode + '_' + sub.id + '_' + itemIdx;
         if (localStorage.getItem(key) === 'true') {
           subChecked++;
@@ -3011,7 +3019,13 @@ function saveChecklistItem(sub, itemIdx, isChecked, isAhl) {
 }
 
 function getChecklistCounts(sub) {
-  const slItems = sub.checklist || [];
+  let slItems = sub.checklist || [];
+  if (sub.foundation && sub.foundation.checklist) {
+    slItems = slItems.concat(sub.foundation.checklist);
+  }
+  if (sub.extension && sub.extension.checklist) {
+    slItems = slItems.concat(sub.extension.checklist);
+  }
   const ahlItems = (currentLevel === 'hl' && sub.ahlChecklist) ? sub.ahlChecklist : [];
   const totalCount = slItems.length + ahlItems.length;
   
@@ -3146,12 +3160,25 @@ function updateSidebarChecklistProgress() {
   let totalItems = 0;
   
   currentTopicData.subtopics.forEach(sub => {
-    // Skip HL subtopics in SL mode
     if (currentLevel === 'sl' && sub.scope === 'hl') return;
     
-    const counts = getChecklistCounts(sub);
-    totalChecked += counts.checked;
-    totalItems += counts.total;
+    let allChecklistItems = sub.checklist || [];
+    if (sub.foundation && sub.foundation.checklist) {
+      allChecklistItems = allChecklistItems.concat(sub.foundation.checklist);
+    }
+    if (sub.extension && sub.extension.checklist) {
+      allChecklistItems = allChecklistItems.concat(sub.extension.checklist);
+    }
+    
+    let subChecked = 0;
+    allChecklistItems.forEach((_, i) => {
+      if (localStorage.getItem('physicism_checklist_' + activeTopicCode + '_' + sub.id + '_' + i) === 'true') {
+        subChecked++;
+      }
+    });
+    
+    totalChecked += subChecked;
+    totalItems += allChecklistItems.length;
   });
   
   const progressText = document.getElementById('checklist-progress-text');
@@ -3159,7 +3186,6 @@ function updateSidebarChecklistProgress() {
   const container = document.getElementById('sidebarChecklistProgress');
   
   if (totalItems === 0) {
-    // No checklist data exists — hide the sidebar section
     if (container) container.style.display = 'none';
     return;
   }
