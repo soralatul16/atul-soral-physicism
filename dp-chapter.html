@@ -17,6 +17,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
+  /* Reading font — clean, modern, great for long text */
+  --font-body: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  /* Headings — distinctive, premium feel */
+  --font-display: Georgia, 'Palatino Linotype', 'Times New Roman', serif;
+  /* Code/formulas — crisp and readable */
+  --font-mono: 'Menlo', 'Cascadia Code', 'Consolas', 'SF Mono', monospace;
   --bg: #f0f4f8;            /* Light blue-gray background */
   --white: #ffffff;
   --glass: rgba(255,255,255,0.6);
@@ -1799,6 +1805,50 @@ body {
   font-size: 0.65em;
   vertical-align: super;
 }
+/* Body text */
+#lessonContent {
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  line-height: 1.9;
+  letter-spacing: 0.01em;
+  color: var(--text2);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings */
+#lessonContent h2, #lessonContent h3, #lessonContent h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+#lessonContent h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 24px 0 10px;
+}
+
+/* Make paragraphs breathe */
+#lessonContent p {
+  font-size: 15px;
+  line-height: 1.9;
+  margin-bottom: 16px;
+}
+
+/* Lists slightly smaller */
+#lessonContent ul, #lessonContent ol {
+  padding-left: 22px;
+  margin-bottom: 16px;
+}
+#lessonContent li {
+  font-size: 14.5px;
+  line-height: 1.8;
+  margin-bottom: 8px;
+}
+
+#lessonContent strong {
+  color: var(--text);
+  font-weight: 600;
+}
 </style>
 
 </head>
@@ -1946,7 +1996,7 @@ body {
 <script src="exam-system/firebase-config.js?v=2"></script>
 
 <!-- Content and Progress Data Scripts -->
-<script src="js/dp-student-data.js?v=13"></script>
+<script src="js/dp-student-data.js?v=14"></script>
 <script src="js/dp-progress.js?v=2"></script>
 <script src="js/gdc.js"></script>
 
@@ -2199,15 +2249,31 @@ function formatFormula(formula) {
     let converted = match.split('').map(c => supMap[c] || c).join('');
     return `<sup>${converted}</sup>`;
   });
-             
-  // Detect (numerator) / (denominator) pattern
-  html = html.replace(/\(([^)]+)\)\s*\/\s*\(([^)]+)\)/g, '<div class="frac"><span class="num">$1</span><span class="den">$2</span></div>');
   
-  // Detect numerator / (denominator) without parens on top
-  html = html.replace(/([a-zA-Z0-9_]+)\s*\/\s*\(([^)]+)\)/g, '<div class="frac"><span class="num">$1</span><span class="den">$2</span></div>');
+  html = html
+    // Subscripts: _x or _{text} -> <sub>
+    .replace(/_\{([^}]+)\}/g, '<sub>$1</sub>')
+    .replace(/_([A-Za-z0-9])/g, '<sub>$1</sub>')
+    
+    // Superscripts: ^x or ^{text} -> <sup>
+    .replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>')
+    .replace(/\^([A-Za-z0-9])/g, '<sup>$1</sup>')
+    
+    // Fractions: (a)/(b) -> stacked
+    .replace(/\(([^)]+)\)\s*\/\s*\(([^)]+)\)/g, 
+      '<span class="frac"><span class="num">$1</span><span class="den">$2</span></span>')
+      
+    // Detect numerator / (denominator) without parens on top
+    .replace(/([a-zA-Z0-9_]+)\s*\/\s*\(([^)]+)\)/g, '<span class="frac"><span class="num">$1</span><span class="den">$2</span></span>')
   
-  // Detect (numerator) / denominator without parens on bottom
-  html = html.replace(/\(([^)]+)\)\s*\/\s*([a-zA-Z0-9_]+)/g, '<div class="frac"><span class="num">$1</span><span class="den">$2</span></div>');
+    // Detect (numerator) / denominator without parens on bottom
+    .replace(/\(([^)]+)\)\s*\/\s*([a-zA-Z0-9_]+)/g, '<span class="frac"><span class="num">$1</span><span class="den">$2</span></span>')
+    
+    // Square root
+    .replace(/√\(([^)]+)\)/g, '√<span class="sqrt-content">$1</span>')
+    
+    // Arrows: -> -> ->
+    .replace(/->/g, '→');
   
   // Wrap in math display
   return `<div class="math-display">${html}</div>`;
@@ -2442,7 +2508,7 @@ function renderActiveSubtopic() {
             <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 4px;">
               <span class="glass-badge-ahl" style="font-size: 9px; padding: 2px 6px;">AHL</span>
             </div>
-            <div class="eq-formula" style="color: var(--accent2);">${eq.formula}</div>
+            <div class="eq-formula" style="color: var(--accent2);">${formatFormula(eq.formula)}</div>
             <div class="eq-desc">${eq.description}</div>
           </div>
         `).join('') : ''}
@@ -2512,7 +2578,7 @@ function renderWorkedExamples(workedExamples) {
                     <div class="we-step-label">${step.label}</div>
                     <div class="we-step-content">
                       ${step.isEquation ? `
-                        <div class="we-calc-box">${step.text}</div>
+                        <div class="we-calc-box">${formatFormula(step.text)}</div>
                       ` : step.text}
                     </div>
                   </div>
@@ -2951,7 +3017,7 @@ function renderFormulaBooklet() {
     sectionDiv.innerHTML = `<h4>${currentTopicData.code} — ${currentTopicData.title}</h4>`;
     
     themeFormulas[activeTopicCodeFormatted].forEach(f => {
-      sectionDiv.innerHTML += `<div class="fs-row"><span>${f.name}</span><span>${f.formula}</span></div>`;
+      sectionDiv.innerHTML += `<div class="fs-row"><span>${f.name}</span><span>${formatFormula(f.formula)}</span></div>`;
     });
     sidebarContent.appendChild(sectionDiv);
   }
@@ -2963,7 +3029,7 @@ function renderFormulaBooklet() {
       sectionDiv.innerHTML = `<h4>${code}</h4>`;
       
       themeFormulas[code].forEach(f => {
-        sectionDiv.innerHTML += `<div class="fs-row"><span>${f.name}</span><span>${f.formula}</span></div>`;
+        sectionDiv.innerHTML += `<div class="fs-row"><span>${f.name}</span><span>${formatFormula(f.formula)}</span></div>`;
       });
       sidebarContent.appendChild(sectionDiv);
     }
