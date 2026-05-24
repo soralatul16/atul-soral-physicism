@@ -1810,8 +1810,10 @@ body {
 
   
   <div class="topbar">
-    <div class="topbar-left" style="display: flex; align-items: center; gap: 16px;">
-      <a href="index.html" class="topbar-brand"><span class="topbar-dot"></span> Atul Soral Physicism</a>
+    <div class="topbar-left">
+      <a href="index.html" class="topbar-brand">
+        <span class="topbar-dot"></span> Atul Soral Physicism
+      </a>
     </div>
     <div class="topbar-right" style="display: flex; gap: 12px; align-items: center;">
       <a href="dp-dashboard.html" class="glass-btn" style="text-decoration:none;">← Back</a>
@@ -1915,7 +1917,7 @@ body {
 <script src="exam-system/firebase-config.js?v=2"></script>
 
 <!-- Content and Progress Data Scripts -->
-<script src="js/dp-student-data.js?v=10"></script>
+<script src="js/dp-student-data.js?v=11"></script>
 <script src="js/dp-progress.js?v=2"></script>
 <script src="js/gdc.js"></script>
 
@@ -2210,7 +2212,7 @@ function renderActiveSubtopic() {
   `;
   
   // Concept cards content helpers
-  const fCheckQuestions = sub.foundation.checkQuestions && sub.foundation.checkQuestions.length > 0 ? `
+  const fCheckQuestions = (sub.foundation && sub.foundation.checkQuestions && sub.foundation.checkQuestions.length > 0) ? `
     <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px;">
       <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text);">Quick Check</h4>
       ${sub.foundation.checkQuestions.map((cq, cqIdx) => `
@@ -2226,7 +2228,22 @@ function renderActiveSubtopic() {
   ` : '';
   
   const foundationHtml = sub.foundation ? `
-    <div class="layer-card layer-card-foundation concept-layer-card"${p1}</div>
+    <div class="layer-card layer-card-foundation concept-layer-card" id="card-foundation" data-layer="foundation" onclick="handleCardClick('foundation', event)">
+      <div class="concept-card-header" style="margin-bottom: 0;">
+        <div class="concept-card-title-group">
+          <span class="concept-card-badge badge-foundation">FOUNDATION</span>
+          <h3 class="layer-card-title">${sub.foundation.title}</h3>
+        </div>
+        <span class="concept-card-trigger" id="trigger-foundation">Expand ▼</span>
+      </div>
+      <div class="concept-card-body" id="body-foundation">
+        <div style="font-size: 14.5px; line-height: 1.8; color: var(--text2);">${sub.foundation.content}</div>
+        <div class="nos-box" style="margin-top: 16px; border: 1.5px solid rgba(13,148,136,0.15); background: rgba(13,148,136,0.02);">
+          <div class="nos-box-title" style="color: #0d9488;">Foundation Summary</div>
+          <div style="font-size: 13.5px; line-height: 1.6; color: var(--text2);">${sub.foundation.summary}</div>
+        </div>
+        ${fCheckQuestions}
+      </div>
     </div>
   ` : '';
   
@@ -2255,12 +2272,54 @@ function renderActiveSubtopic() {
   ` : '';
   
   const coreHtml = sub.core ? `
-    <div class="layer-card layer-card-core concept-layer-card"${p1}</div>
+    <div class="layer-card layer-card-core concept-layer-card" id="card-core" data-layer="core" onclick="handleCardClick('core', event)">
+      <div class="concept-card-header" style="margin-bottom: 0;">
+        <div class="concept-card-title-group">
+          <span class="concept-card-badge badge-core">CORE</span>
+          <h3 class="layer-card-title">${sub.core.title}</h3>
+        </div>
+        <span class="concept-card-trigger" id="trigger-core">Expand ▼</span>
+      </div>
+      <div class="concept-card-body" id="body-core">
+        <div style="font-size: 14.5px; line-height: 1.8; color: var(--text2);">${sub.core.content}</div>
+        <div style="margin-top: 16px;">
+          <h4 style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--accent); letter-spacing: 0.5px; margin-bottom: 8px;">Key Takeaways</h4>
+          <ul style="padding-left: 20px;">
+            ${sub.core.keyPoints.map(kp => `<li>${kp}</li>`).join('')}
+          </ul>
+        </div>
+        ${sub.core.examTrap ? `
+          <div class="mistake-card" style="margin-top: 16px;">
+            <div style="font-weight: 700; color: var(--red); margin-bottom: 6px; font-size: 12px; text-transform: uppercase;">🚨 Exam Trap</div>
+            <p style="margin-bottom: 6px;"><strong style="color: var(--red);">❌ Common Misconception:</strong> ${sub.core.examTrap.wrong}</p>
+            <p style="margin-bottom: 0;"><strong style="color: var(--green);">✅ Correct Physics:</strong> ${sub.core.examTrap.correct}</p>
+          </div>
+        ` : ''}
+        ${coreAhlHtml}
+      </div>
     </div>
   ` : '';
   
   const extensionHtml = sub.extension ? `
-    <div class="layer-card layer-card-extension concept-layer-card"${p1}</div>
+    <div class="layer-card layer-card-extension concept-layer-card" id="card-extension" data-layer="extension" onclick="handleCardClick('extension', event)">
+      <div class="concept-card-header" style="margin-bottom: 0;">
+        <div class="concept-card-title-group">
+          <span class="concept-card-badge badge-extension">EXTENSION</span>
+          <h3 class="layer-card-title">${sub.extension.title}</h3>
+        </div>
+        <span class="concept-card-trigger" id="trigger-extension">Expand ▼</span>
+      </div>
+      <div class="concept-card-body" id="body-extension">
+        <div style="font-size: 14.5px; line-height: 1.8; color: var(--text2);">${sub.extension.content}</div>
+        ${sub.extension.connections && sub.extension.connections.length > 0 ? `
+          <div style="margin-top: 16px;">
+            <h4 style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: #7c3aed; letter-spacing: 0.5px; margin-bottom: 8px;">Syllabus Connections</h4>
+            <ul style="padding-left: 20px;">
+              ${sub.extension.connections.map(c => `<li>${c}</li>`).join('')}
+            </ul>
+          </div>
+        ` : ''}
+      </div>
     </div>
   ` : '';
   
