@@ -253,7 +253,7 @@
       <div class="gdc-resize-handle" id="gdcResizeHandle"></div>
     </div>
     
-    <button id="gdcLauncher" class="gdc-launcher" title="Open GDC Calculator">🧮</button>
+    
   `;
 
   // Inject into body
