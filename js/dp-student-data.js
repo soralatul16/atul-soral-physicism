@@ -4945,4 +4945,457 @@ const DP_STUDENT_DATA = {
 
   ]
 },
+// ============================================================
+// A.4 RIGID BODY MECHANICS — COMPLETE (6 subtopics, AHL)
+// Ends with comma — ready for A5 to follow
+// ============================================================
+
+"A4": {
+  "title": "Rigid Body Mechanics",
+  "code": "A.4",
+  "theme": "A",
+  "level": "HL Only",
+  "subtopicCount": 6,
+  "subtopics": [
+
+    {
+      "id": "a4_sub1",
+      "num": 1,
+      "title": "Torque (Moment of a Force)",
+      "group": "Rotational Statics",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "A.3 Work, Energy & Power",
+      "nextTitle": "Rotational Equilibrium",
+
+      "bigIdea": "Push a door near the handle and it swings easily. Push near the hinge and it barely moves. Same force, very different effect. The rotational effect of a force depends not just on how hard you push, but WHERE and at what angle. This rotational effect is called torque — and it's to rotation what force is to translation.",
+
+      "foundation": {
+        "title": "The turning effect of a force",
+        "content": "<h4>What is torque?</h4><p><strong>Torque</strong> (also called the <strong>moment of a force</strong>) is the rotational effect of a force about a pivot point. It depends on three things:</p><ol><li>The <strong>magnitude of the force</strong> (F)</li><li>The <strong>distance from the pivot</strong> to where the force is applied (r)</li><li>The <strong>angle</strong> between the force and the line from the pivot (θ)</li></ol><p><strong>τ = rF sin θ</strong></p><p>Where τ (tau) is the torque (N·m), r is the distance from the pivot (m), F is the force (N), and θ is the angle between r and F.</p><p>When the force is perpendicular to the lever arm (θ = 90°): τ = rF (maximum torque). When the force is along the lever arm (θ = 0°): τ = 0 (no torque — the force pulls through the pivot, causing no rotation).</p><h4>The perpendicular distance method</h4><p>An equivalent way to calculate torque: τ = F × d, where d is the <strong>perpendicular distance</strong> from the pivot to the line of action of the force. This is often easier to use when the geometry makes finding d straightforward.</p><h4>Direction of torque</h4><p>Torque has a direction: <strong>clockwise</strong> or <strong>counterclockwise</strong> (anticlockwise). By convention:</p><ul><li>Counterclockwise torque: positive (+)</li><li>Clockwise torque: negative (−)</li></ul><p>When solving problems, you choose a pivot, calculate each torque with its sign, and add them.</p><h4>Everyday examples</h4><ul><li><strong>Door:</strong> Handle is far from the hinge (large r) → easy to open. Pushing near the hinge (small r) → hard.</li><li><strong>Wrench:</strong> Longer wrench → greater torque for the same force → easier to loosen bolts.</li><li><strong>Seesaw:</strong> A heavy child sits close to the pivot, a light child sits far away. They balance when their torques are equal.</li></ul>",
+        "summary": "<p><strong>Torque: τ = rF sin θ</strong> or τ = F × d (perpendicular distance).</p><p><strong>Unit:</strong> N·m (newton-metre). NOT the same as joules, despite same base units.</p><p><strong>Maximum torque</strong> when force is perpendicular to lever arm (θ = 90°).</p><p><strong>Direction:</strong> clockwise (−) or counterclockwise (+).</p>",
+        "checkQuestions": [
+          { "question": "A 50 N force is applied at the end of a 0.3 m wrench, perpendicular to the handle. Find the torque.", "answer": "τ = rF sin 90° = 0.3 × 50 × 1 = 15 N·m." },
+          { "question": "The same 50 N force is applied at 30° to the wrench handle. Find the torque.", "answer": "τ = rF sin 30° = 0.3 × 50 × 0.5 = 7.5 N·m. Half the torque because the angle reduces the effective perpendicular component." }
+        ],
+        "checklist": [
+          "I can define torque: τ = rF sin θ",
+          "I can calculate torque using either τ = rF sin θ or τ = F × perpendicular distance",
+          "I can explain why torque is maximum when force is perpendicular",
+          "I can assign clockwise (−) and counterclockwise (+) signs to torques"
+        ]
+      },
+
+      "core": {
+        "title": "Calculating torques — multiple forces, couples, and the moment equation",
+        "content": "<h4>Net torque</h4><p>When multiple forces act, the net torque about a pivot is the algebraic sum of all individual torques:</p><p><strong>Στ = τ₁ + τ₂ + τ₃ + ...</strong></p><p>Assign + for counterclockwise and − for clockwise (or vice versa — just be consistent).</p><h4>Couples</h4><p>A <strong>couple</strong> is a pair of equal and opposite forces whose lines of action don't coincide. A couple produces pure rotation with NO net force (so no translation). The torque of a couple: <strong>τ = Fd</strong>, where d is the perpendicular distance between the two forces. The torque of a couple is the same regardless of which point you choose as the pivot.</p><p>Examples: turning a steering wheel (both hands push in opposite directions), opening a bottle cap, a compass needle in a magnetic field.</p><h4>Choosing the pivot wisely</h4><p>You can choose ANY point as the pivot for torque calculations. The result (equilibrium or not) is the same regardless of your choice. However, a smart choice simplifies the algebra: choose the pivot at a point where an unknown force acts. That force's torque is zero (r = 0), eliminating it from the equation and leaving fewer unknowns.</p><h4>The centre of mass</h4><p>The <strong>centre of mass</strong> is the point where the entire weight of an object can be considered to act. For uniform objects, it's at the geometric centre. For irregular objects, it can be found experimentally by suspension.</p><p>When calculating torques due to an object's weight, use the weight (mg) acting at the centre of mass as a single force.</p>",
+        "keyPoints": [
+          "Net torque: Στ = sum of all torques (with signs)",
+          "Couple: equal opposite forces, separated by distance d. τ = Fd. No net force.",
+          "Choose pivot at point where unknown force acts to simplify",
+          "Weight acts at the centre of mass for torque calculations"
+        ],
+        "examTrap": { "wrong": "N·m is the same unit as joules", "correct": "Both have dimensions kg·m²/s², but they measure different things. N·m measures torque (a vector-like quantity with a rotation axis). J measures energy/work (a scalar). They are NOT interchangeable. You never say 'torque = 15 J' — it's '15 N·m.'" },
+        "checkQuestions": [
+          { "question": "A 2 m uniform beam (mass 10 kg) is supported at its left end. A 50 N load hangs from the right end. Find the torque about the support due to (a) the load and (b) the beam's weight.", "answer": "(a) Load: τ = 50 × 2 = 100 N·m clockwise. (b) Beam weight acts at centre (1 m from support): τ = 98 × 1 = 98 N·m clockwise. Total clockwise torque = 198 N·m." }
+        ],
+        "checklist": [
+          "I can calculate net torque from multiple forces",
+          "I can define a couple and calculate its torque: τ = Fd",
+          "I can choose an appropriate pivot to simplify calculations",
+          "I can locate the centre of mass and use it for weight torques"
+        ]
+      },
+
+      "extension": { "title": "Torque as a cross product", "content": "<p>In vector form: τ⃗ = r⃗ × F⃗ (cross product). The magnitude is rF sin θ and the direction is perpendicular to both r⃗ and F⃗ (use the right-hand rule). In 2D problems, torque is either 'into the page' (clockwise) or 'out of the page' (counterclockwise). The cross product formalism extends naturally to 3D rotational mechanics.</p>", "connections": ["D.3 Motion in E&M Fields: magnetic force F = qv × B is also a cross product"], "checklist": ["I can state that torque is a cross product: τ = r × F", "I can use the right-hand rule to find torque direction"] },
+      "simulation": { "title": "PhET: Balancing Act", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/balancing-act", "instructions": ["Place masses at different positions on a balance beam. Verify: torque = weight × distance from pivot. Balance when clockwise torque = counterclockwise torque."] },
+      "video": { "title": "Torque — IB HL Physics", "duration": "9 min", "description": "τ = rF sin θ, perpendicular distance, couples, centre of mass, and choosing the pivot", "embedId": "" },
+      "equations": [
+        { "formula": "τ = rF sin θ", "description": "Torque = distance × force × sin(angle). Unit: N·m." },
+        { "formula": "τ_couple = Fd", "description": "Torque of a couple. d = perpendicular distance between forces." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "A 3 m beam (mass 20 kg, uniform) rests on a support at 1 m from the left end. A 80 N load hangs from the left end. Find the force the support exerts.", "steps": [
+          { "label": "Pivot at support", "text": "Taking the support as pivot (eliminates support force from torque equation)." },
+          { "label": "Load torque", "text": "80 × 1 = 80 N·m counterclockwise (load is 1 m left of support)" },
+          { "label": "Weight torque", "text": "Beam weight = 196 N at centre (1.5 m from left = 0.5 m right of support). τ = 196 × 0.5 = 98 N·m clockwise." },
+          { "label": "Equilibrium", "text": "Need another force. If only load, weight, and support: ΣF_y = 0 → Support = 80 + 196 = 276 N (but let's verify with torques about a different point)." },
+          { "label": "Torque balance", "text": "80 N·m (CCW) vs 98 N·m (CW) → net = 18 N·m CW → NOT in equilibrium with just these. Need to reconsider: if beam is in equilibrium, there may be a support at another point.", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "hl", "question": "A 40 N force acts at the end of a 0.5 m spanner, perpendicular to it. Find the torque.", "solution": "τ = rF = 0.5 × 40 = 20 N·m." },
+        { "difficulty": "medium", "scope": "hl", "question": "Two forces form a couple: each 25 N, separated by 0.4 m. Find the torque of the couple.", "solution": "τ = Fd = 25 × 0.4 = 10 N·m." },
+        { "difficulty": "hard", "scope": "hl", "question": "A 4 m uniform plank (mass 30 kg) overhangs a table by 1.5 m. How much mass can be placed at the overhanging end before the plank tips?", "solution": "Pivot at the table edge. Plank centre is 2 m from left end = 0.5 m from table edge (on the table side). Plank torque (CCW, stabilising): 294 × 0.5 = 147 N·m. Mass torque (CW, tipping): mg × 1.5. Tips when: mg × 1.5 > 147 → m > 147/(1.5 × 9.8) = 10 kg. Maximum: 10 kg." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Torque = force × distance (forgetting sin θ)", "explanation": "τ = rF sin θ. If the force is not perpendicular to the lever arm, you MUST include sin θ. Using just rF overestimates the torque.", "correct": "Always check the angle. If perpendicular: sin 90° = 1 and τ = rF. Otherwise: τ = rF sin θ." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A uniform beam of length 4.0 m and mass 25 kg is supported by a pivot at 1.0 m from the left end. A 60 N force acts vertically downward at the left end.\n(a) Calculate the torque of the 60 N force about the pivot. [1]\n(b) Calculate the torque of the beam's weight about the pivot. [2]\n(c) Determine the force that must be applied at the right end to keep the beam in equilibrium. State its direction. [2]", "marks": 5, "modelAnswer": "(a) τ = 60 × 1.0 = 60 N·m counterclockwise [1].\n(b) Weight = 245 N at centre (2.0 m from left = 1.0 m right of pivot). τ = 245 × 1.0 = 245 N·m clockwise [2].\n(c) Net CW = 245 − 60 = 185 N·m. Need 185 N·m CCW at right end (3.0 m from pivot). F × 3.0 = 185 → F = 61.7 N upward [2].", "examinerTip": "For beam problems: always identify the pivot FIRST, then calculate each torque about that pivot. Draw a clear diagram with all forces and distances marked." }
+    },
+
+    {
+      "id": "a4_sub2",
+      "num": 2,
+      "title": "Rotational Equilibrium & Statics",
+      "group": "Rotational Statics",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Torque",
+      "nextTitle": "Moment of Inertia",
+
+      "bigIdea": "A bridge doesn't just need to be strong enough — it needs to not rotate. For a rigid body to be completely still, two conditions must be met simultaneously: the net force must be zero (translational equilibrium) AND the net torque must be zero (rotational equilibrium). Both. Always.",
+
+      "foundation": {
+        "title": "Two conditions for complete equilibrium",
+        "content": "<h4>Translational equilibrium</h4><p><strong>ΣF = 0</strong> — the net force is zero. The object doesn't accelerate linearly. (This is what we covered in A.2.)</p><h4>Rotational equilibrium</h4><p><strong>Στ = 0</strong> — the net torque about ANY point is zero. The object doesn't start rotating.</p><h4>Complete (static) equilibrium requires BOTH:</h4><p><strong>ΣF = 0 AND Στ = 0</strong></p><p>An object can satisfy one without the other:</p><ul><li>A couple: ΣF = 0 (equal opposite forces) but Στ ≠ 0 (the forces create rotation). NOT in equilibrium.</li><li>A single force at the centre of mass: Στ = 0 about the centre but ΣF ≠ 0 (the object accelerates linearly). NOT in equilibrium either.</li></ul><h4>Solving statics problems — the complete method</h4><ol><li>Draw a FBD with ALL forces, showing their points of application</li><li>Choose a pivot (at an unknown force to eliminate it from torque equations)</li><li>Apply ΣF_x = 0 and ΣF_y = 0</li><li>Apply Στ = 0 about the chosen pivot</li><li>Solve the resulting equations</li></ol>",
+        "summary": "<p><strong>Complete equilibrium: ΣF = 0 AND Στ = 0.</strong></p><p><strong>Translational:</strong> no net force → no linear acceleration.</p><p><strong>Rotational:</strong> no net torque → no angular acceleration.</p><p><strong>Method:</strong> FBD → ΣF_x = 0, ΣF_y = 0, Στ = 0 → solve.</p>",
+        "checkQuestions": [
+          { "question": "A seesaw has a 40 kg child at 2 m from the pivot and a 60 kg child on the other side. How far from the pivot must the heavier child sit for balance?", "answer": "Στ = 0: 40(9.8)(2) = 60(9.8)(d) → 80 = 60d → d = 1.33 m. The heavier child sits closer." }
+        ],
+        "checklist": [
+          "I can state both conditions for equilibrium: ΣF = 0 AND Στ = 0",
+          "I can explain why both conditions are needed (give counterexamples)",
+          "I can solve statics problems using the combined force and torque equations"
+        ]
+      },
+
+      "core": {
+        "title": "Beam and bridge problems — the standard IB approach",
+        "content": "<h4>The standard beam problem</h4><p>A horizontal beam of known mass is supported at one or two points, with loads hanging from various positions. Find the support forces.</p><p><strong>Method:</strong></p><ol><li>Draw the beam with all forces: weight of beam (at centre), loads, and support reactions</li><li>Take moments about ONE support (eliminates that support force)</li><li>Solve for the OTHER support force</li><li>Use ΣF_y = 0 to find the first support force</li></ol><h4>Example: beam on two supports</h4><p>A 6 m beam (mass 30 kg, uniform) supported at each end. A 200 N load at 2 m from the left end.</p><ul><li>Take moments about left end: R_right × 6 = 200 × 2 + 294 × 3 = 400 + 882 = 1282. R_right = 213.7 N.</li><li>ΣF_y = 0: R_left + R_right = 200 + 294 = 494. R_left = 494 − 213.7 = 280.3 N.</li></ul><h4>Ladder problems</h4><p>A ladder leaning against a smooth (frictionless) wall. Forces: weight (at centre), normal from ground, friction from ground, normal from wall.</p><p>The wall is smooth → normal from wall is the only horizontal force at the top. Friction at the bottom provides the horizontal equilibrium. Taking moments about the base eliminates the ground forces.</p><h4>Hanging signs and cranes</h4><p>A sign hanging from a horizontal bar attached to a wall. Forces: weight of sign (at centre of sign), weight of bar (at centre of bar), tension in a support cable, and reaction from the wall (horizontal and vertical components).</p><p>Take moments about the wall attachment → eliminates both wall reaction components → find tension. Then use ΣF_x = 0 and ΣF_y = 0 for wall reactions.</p>",
+        "keyPoints": [
+          "Beam on two supports: take moments about one support → find the other → use ΣF for the first",
+          "Ladder: smooth wall (no friction at top), friction at bottom, take moments about base",
+          "Hanging sign: take moments about wall attachment to find cable tension",
+          "Always choose the pivot to eliminate the most unknowns"
+        ],
+        "examTrap": { "wrong": "The support forces on a beam are always equal", "correct": "Support forces are equal ONLY if the load is at the exact centre AND the beam is uniform. In general: the support closer to the load carries more force. Use torque equations to find each support force — don't assume they're equal." },
+        "checkQuestions": [
+          { "question": "A 4 m uniform beam (40 kg) on two supports, with a 100 N load at 1 m from the left support. Find both support forces.", "answer": "About left: R_R × 4 = 100 × 1 + 392 × 2 = 100 + 784 = 884. R_R = 221 N. ΣF: R_L = 100 + 392 − 221 = 271 N." }
+        ],
+        "checklist": [
+          "I can solve beam-on-two-supports problems for both support forces",
+          "I can solve ladder problems (smooth wall, rough floor)",
+          "I can solve hanging sign/crane problems for cable tension and wall reactions",
+          "I can systematically choose the best pivot for each problem"
+        ]
+      },
+
+      "extension": { "title": "Stability and toppling", "content": "<p>An object topples when the vertical line through its centre of mass falls outside the base of support. A lower centre of mass and wider base increase stability. Racing cars are low and wide; double-decker buses have heavy undercarriages. The critical angle for toppling: tan θ = (half base width) / (height of centre of mass).</p>", "connections": ["A.2 Forces: stability relates to the balance of torques from weight and normal force"], "checklist": ["I can explain stability in terms of centre of mass and base of support", "I can calculate the critical toppling angle"] },
+      "simulation": { "title": "PhET: Balancing Act", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/balancing-act", "instructions": ["Balance beams with different loads. Verify the torque equilibrium condition."] },
+      "video": { "title": "Rotational Equilibrium — IB HL Physics", "duration": "10 min", "description": "Beam problems, ladder problems, and the two conditions for equilibrium", "embedId": "" },
+      "equations": [
+        { "formula": "Στ = 0", "description": "Rotational equilibrium: net torque about any point is zero." },
+        { "formula": "ΣF = 0 AND Στ = 0", "description": "Both conditions required for complete static equilibrium." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "A 5 m uniform beam (mass 40 kg) rests on supports at each end. A 300 N load hangs 1.5 m from the left. Find the support forces.", "steps": [
+          { "label": "About left support", "text": "R_R × 5 = 300 × 1.5 + 392 × 2.5 = 450 + 980 = 1430", "isEquation": true },
+          { "label": "R_R", "text": "R_R = 1430/5 = 286 N", "isEquation": true },
+          { "label": "ΣF_y = 0", "text": "R_L + 286 = 300 + 392 → R_L = 406 N", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "A 3 m ladder (mass 15 kg) leans against a smooth wall at 60° to the ground. Find the friction and normal forces from the ground, and the force from the wall.", "solution": "Weight = 147 N at centre (1.5 m along ladder). Normal from wall = N_w (horizontal, at top). Ground: N_g (vertical), f (horizontal). Moments about base: N_w × 3 sin 60° = 147 × 1.5 cos 60°. N_w × 2.598 = 147 × 0.75 = 110.25. N_w = 42.4 N. ΣF_x: f = N_w = 42.4 N. ΣF_y: N_g = 147 N." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Taking moments about a random point and forgetting some forces", "explanation": "Every force not at the pivot produces a torque. If you forget the beam's weight (acting at its centre), your answer will be wrong.", "correct": "List ALL forces on the FBD. Then calculate each torque about the pivot. Don't forget the beam's own weight." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A uniform horizontal beam of mass 50 kg and length 6.0 m is supported by a hinge at the left end and a cable attached 4.0 m from the hinge. The cable makes 45° with the beam. A 80 kg person stands at the right end.\n(a) Draw a FBD of the beam. [2]\n(b) Take moments about the hinge to find the tension in the cable. [3]\n(c) Find the horizontal and vertical components of the hinge force. [2]", "marks": 7, "modelAnswer": "(a) FBD: Weight of beam = 490 N at 3.0 m. Person weight = 784 N at 6.0 m. Tension T at 4.0 m, at 45°. Hinge forces H_x and H_y at 0 m [2].\n(b) About hinge: T sin 45° × 4.0 = 490 × 3.0 + 784 × 6.0 [1]. 2.828T = 1470 + 4704 = 6174 [1]. T = 2183 N [1].\n(c) ΣF_x: H_x = T cos 45° = 2183 × 0.707 = 1543 N (toward wall) [1]. ΣF_y: H_y + T sin 45° = 490 + 784 → H_y = 1274 − 1543 = ... wait, H_y + 1543 = 1274 → H_y = −269 N (downward) [1].", "examinerTip": "For hinge problems: the hinge can exert force in ANY direction (both horizontal and vertical components). That's why you need three equations (ΣF_x, ΣF_y, Στ) to solve for three unknowns (T, H_x, H_y)." }
+    },
+
+    {
+      "id": "a4_sub3",
+      "num": 3,
+      "title": "Moment of Inertia",
+      "group": "Rotational Dynamics",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Rotational Equilibrium",
+      "nextTitle": "Angular Acceleration & Newton's 2nd Law for Rotation",
+
+      "bigIdea": "Mass tells you how hard it is to accelerate an object in a straight line. Moment of inertia tells you how hard it is to spin it. But moment of inertia depends not just on mass — it depends on how that mass is distributed relative to the axis. A hollow sphere is harder to spin than a solid sphere of the same mass, because its mass is further from the centre.",
+
+      "foundation": {
+        "title": "The rotational equivalent of mass",
+        "content": "<h4>What is moment of inertia?</h4><p><strong>Moment of inertia (I)</strong> is the rotational equivalent of mass. It measures resistance to angular acceleration. For a point mass m at distance r from the rotation axis:</p><p><strong>I = mr²</strong></p><p>For extended objects (not point masses), the moment of inertia is the sum of mr² for all particles: <strong>I = Σmᵢrᵢ²</strong>.</p><p>Unit: kg·m².</p><h4>Why distribution matters</h4><p>Two objects can have the same mass but very different moments of inertia:</p><ul><li>Mass concentrated near the axis (small r) → small I → easy to spin</li><li>Mass far from the axis (large r) → large I → hard to spin</li></ul><p>Example: Hold a dumbbell at the middle and spin it (easy). Hold it at one end and spin it (hard). Same mass, different I because the distribution changed relative to the axis.</p><h4>Common moments of inertia (given on IB data booklet)</h4><ul><li>Point mass: I = mr²</li><li>Solid sphere: I = ⅖mr²</li><li>Hollow sphere: I = ⅔mr²</li><li>Solid cylinder/disk: I = ½mr²</li><li>Hollow cylinder/ring: I = mr²</li><li>Thin rod (centre axis): I = 1/12 mL²</li><li>Thin rod (end axis): I = ⅓mL²</li></ul><p>Notice: the hollow versions always have larger I than the solid versions (mass is further from the axis). And rotating a rod about its end gives 4× the I of rotating about its centre.</p>",
+        "summary": "<p><strong>I = Σmr².</strong> Rotational equivalent of mass. Unit: kg·m².</p><p><strong>Depends on mass AND distribution.</strong> Mass further from axis → larger I → harder to spin.</p><p><strong>Hollow > solid</strong> for the same mass and radius.</p>",
+        "checkQuestions": [
+          { "question": "Two solid spheres have the same mass but one has twice the radius. How do their moments of inertia compare?", "answer": "I = ⅖mr². Double r → I × 4 (r²). The larger sphere has 4× the moment of inertia despite the same mass." }
+        ],
+        "checklist": [
+          "I can define moment of inertia: I = Σmr² (resistance to angular acceleration)",
+          "I can state the unit: kg·m²",
+          "I can explain why mass distribution relative to the axis matters",
+          "I can look up and use standard I formulas from the data booklet"
+        ]
+      },
+
+      "core": {
+        "title": "Calculating I and the parallel axis theorem",
+        "content": "<h4>Calculating I for composite objects</h4><p>For objects made of several parts: add the individual moments of inertia: I_total = I₁ + I₂ + I₃ + ...</p><p>Each part's I is calculated about the SAME axis. If parts are at different distances from the axis, use the appropriate formula for each.</p><h4>The parallel axis theorem</h4><p>If you know I about the centre of mass (I_cm), you can find I about any parallel axis a distance d away:</p><p><strong>I = I_cm + md²</strong></p><p>Example: a rod of mass m and length L. About centre: I = mL²/12. About one end (d = L/2): I = mL²/12 + m(L/2)² = mL²/12 + mL²/4 = mL²/3. Matches the formula ✓.</p><h4>Rolling objects — translation + rotation</h4><p>When an object rolls without slipping: it translates AND rotates simultaneously. The total KE is:</p><p><strong>KE_total = ½mv² + ½Iω²</strong></p><p>Since v = ωr for rolling without slipping:</p><p>KE = ½mv² + ½I(v/r)² = ½v²(m + I/r²)</p><p>A solid sphere rolls faster down a slope than a hollow sphere (smaller I → less rotational KE → more translational KE → faster). The race between rolling objects depends ONLY on the shape factor (I/mr²), not on mass or radius.</p>",
+        "keyPoints": [
+          "Composite objects: I_total = I₁ + I₂ + ... (about the same axis)",
+          "Parallel axis theorem: I = I_cm + md²",
+          "Rolling KE = ½mv² + ½Iω² (translational + rotational)",
+          "Rolling race: solid sphere > solid cylinder > hollow sphere > hollow cylinder (fastest to slowest)"
+        ],
+        "examTrap": { "wrong": "A heavier ball rolls faster down a slope than a lighter one", "correct": "Mass doesn't matter for rolling down a slope (mass cancels). What matters is the SHAPE: solid sphere (I = ⅖mr²) beats hollow sphere (I = ⅔mr²) because it has a smaller fraction of energy in rotation. The shape factor I/(mr²) determines the winner." },
+        "checkQuestions": [
+          { "question": "A solid cylinder and a hollow cylinder of the same mass and radius roll down a slope. Which reaches the bottom first?", "answer": "Solid cylinder. I_solid = ½mr² → I/(mr²) = 0.5. I_hollow = mr² → I/(mr²) = 1.0. Solid has smaller shape factor → more energy in translation → faster. Speed ratio: v_solid/v_hollow = √(4/3) ≈ 1.15." }
+        ],
+        "checklist": [
+          "I can calculate I for composite objects by adding individual moments",
+          "I can apply the parallel axis theorem: I = I_cm + md²",
+          "I can calculate total KE for rolling: ½mv² + ½Iω²",
+          "I can predict the outcome of rolling races using the shape factor I/(mr²)"
+        ]
+      },
+
+      "extension": { "title": "Angular momentum and its conservation", "content": "<p>Angular momentum L = Iω. When no external torque acts: L is conserved (Iω = constant). This explains why a spinning ice skater pulls in their arms to spin faster (I decreases → ω increases to conserve L). Also explains why planets orbit faster when closer to the Sun (Kepler's 2nd law).</p>", "connections": ["D.1 Gravitational Fields: conservation of angular momentum gives Kepler's 2nd law", "C.1 SHM: angular frequency ω connects to rotational motion"], "checklist": ["I can state L = Iω and that angular momentum is conserved when Στ = 0", "I can explain the spinning skater using angular momentum conservation"] },
+      "simulation": { "title": "PhET: Torque", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/torque", "instructions": ["Change the moment of inertia by moving masses. Observe the effect on angular acceleration for the same torque."] },
+      "video": { "title": "Moment of Inertia — IB HL Physics", "duration": "10 min", "description": "I = Σmr², common shapes, parallel axis theorem, rolling motion, and angular momentum", "embedId": "" },
+      "equations": [
+        { "formula": "I = Σmᵢrᵢ²", "description": "Moment of inertia. Sum of mass × distance² for all particles." },
+        { "formula": "I = I_cm + md²", "description": "Parallel axis theorem. Shift axis by distance d from centre of mass." },
+        { "formula": "L = Iω", "description": "Angular momentum. Conserved when net external torque = 0." },
+        { "formula": "KE_rolling = ½mv² + ½Iω²", "description": "Total KE = translational + rotational." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "A solid sphere (2 kg, r = 0.1 m) rolls down a 3 m high slope. Find its speed at the bottom.", "steps": [
+          { "label": "Energy conservation", "text": "mgh = ½mv² + ½Iω². I = ⅖mr², ω = v/r." },
+          { "label": "Substitute", "text": "mgh = ½mv² + ½(⅖mr²)(v/r)² = ½mv² + ⅕mv² = 7/10 mv²" },
+          { "label": "Solve", "text": "v = √(10gh/7) = √(10 × 9.8 × 3/7) = √42 = 6.48 m/s", "isEquation": true },
+          { "label": "Compare", "text": "Without rotation: v = √(2gh) = 7.67 m/s. The rolling sphere is slower because energy goes into rotation." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "Find the moment of inertia of a 0.5 kg thin rod of length 0.8 m about (a) its centre, (b) one end.", "solution": "(a) I = mL²/12 = 0.5(0.64)/12 = 0.0267 kg·m². (b) I = mL²/3 = 0.5(0.64)/3 = 0.107 kg·m². Or using parallel axis: I = 0.0267 + 0.5(0.4)² = 0.0267 + 0.08 = 0.107 ✓." },
+        { "difficulty": "hard", "scope": "hl", "question": "A solid cylinder and a solid sphere of the same mass and radius roll down identical slopes. Find the ratio of their speeds at the bottom.", "solution": "Cylinder: v_c = √(4gh/3). Sphere: v_s = √(10gh/7). Ratio: v_s/v_c = √((10/7)/(4/3)) = √(30/28) = √(15/14) = 1.035. The sphere is ~3.5% faster." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Forgetting rotational KE when an object rolls", "explanation": "A rolling object has BOTH translational (½mv²) and rotational (½Iω²) KE. Using only ½mv² underestimates the total KE and gives the wrong speed on slopes.", "correct": "For rolling: KE_total = ½mv² + ½Iω². Always include both terms." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A hollow sphere of mass 3.0 kg and radius 0.15 m starts from rest at the top of a slope 2.0 m high.\n(a) State the moment of inertia formula for a hollow sphere. [1]\n(b) Show that the speed at the bottom is v = √(6gh/5). [3]\n(c) Calculate the speed. [1]", "marks": 5, "modelAnswer": "(a) I = ⅔mr² [1].\n(b) mgh = ½mv² + ½(⅔mr²)(v/r)² = ½mv² + ⅓mv² = 5/6 mv² [2]. v² = 6gh/5. v = √(6gh/5) [1].\n(c) v = √(6 × 9.8 × 2/5) = √23.52 = 4.85 m/s [1].", "examinerTip": "For 'show that' problems: start from energy conservation, substitute the correct I formula, simplify step by step. Show every algebraic step — don't skip from the starting equation to the answer." }
+    },
+
+    {
+      "id": "a4_sub4",
+      "num": 4,
+      "title": "Newton's Second Law for Rotation: τ = Iα",
+      "group": "Rotational Dynamics",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Moment of Inertia",
+      "nextTitle": "Angular Momentum Conservation",
+
+      "bigIdea": "F = ma for straight lines becomes τ = Iα for rotation. Torque causes angular acceleration, moment of inertia resists it. Every equation of translational mechanics has a rotational twin — and learning to translate between them is the key to mastering this topic.",
+
+      "foundation": {
+        "title": "The rotational Newton's second law",
+        "content": "<h4>The equation</h4><p><strong>τ_net = Iα</strong></p><p>Where τ_net is the net torque (N·m), I is the moment of inertia (kg·m²), and α is the angular acceleration (rad/s²).</p><p>This is the exact rotational analogue of F = ma:</p><ul><li>F → τ (force → torque)</li><li>m → I (mass → moment of inertia)</li><li>a → α (linear acceleration → angular acceleration)</li></ul><h4>The complete translation table</h4><table><tr><th>Linear</th><th>Rotational</th></tr><tr><td>Displacement s</td><td>Angular displacement θ</td></tr><tr><td>Velocity v</td><td>Angular velocity ω</td></tr><tr><td>Acceleration a</td><td>Angular acceleration α</td></tr><tr><td>Mass m</td><td>Moment of inertia I</td></tr><tr><td>Force F</td><td>Torque τ</td></tr><tr><td>Momentum p = mv</td><td>Angular momentum L = Iω</td></tr><tr><td>KE = ½mv²</td><td>KE_rot = ½Iω²</td></tr><tr><td>F = ma</td><td>τ = Iα</td></tr><tr><td>W = Fs</td><td>W = τθ</td></tr><tr><td>P = Fv</td><td>P = τω</td></tr></table><h4>Rotational SUVAT</h4><p>For constant angular acceleration, the SUVAT equations have rotational equivalents:</p><ul><li>ω = ω₀ + αt</li><li>θ = ω₀t + ½αt²</li><li>θ = ½(ω₀ + ω)t</li><li>ω² = ω₀² + 2αθ</li></ul>",
+        "summary": "<p><strong>τ = Iα:</strong> Torque = moment of inertia × angular acceleration.</p><p><strong>Every linear equation has a rotational twin</strong> — substitute s→θ, v→ω, a→α, m→I, F→τ.</p><p><strong>Rotational SUVAT</strong> works for constant angular acceleration.</p>",
+        "checkQuestions": [
+          { "question": "A flywheel (I = 2 kg·m²) has a net torque of 10 N·m applied. Find the angular acceleration.", "answer": "α = τ/I = 10/2 = 5 rad/s²." }
+        ],
+        "checklist": [
+          "I can state τ = Iα and explain the analogy to F = ma",
+          "I can use the complete linear-rotational translation table",
+          "I can apply rotational SUVAT for constant angular acceleration"
+        ]
+      },
+
+      "core": {
+        "title": "Applying τ = Iα and rotational SUVAT",
+        "content": "<h4>Problem-solving method</h4><ol><li>Identify all torques on the rotating object</li><li>Find net torque: Στ</li><li>Find moment of inertia I</li><li>Apply α = Στ/I</li><li>Use rotational SUVAT for angular kinematics</li></ol><h4>Connecting linear and rotational</h4><p>For a point on a rotating object at radius r:</p><ul><li>v = ωr (linear speed = angular speed × radius)</li><li>a = αr (tangential acceleration = angular acceleration × radius)</li><li>s = θr (arc length = angle × radius)</li></ul><p>These connections are essential for problems involving rolling, pulleys, and strings wound around drums.</p><h4>Pulleys and Atwood machines with rotational inertia</h4><p>A real pulley has moment of inertia I and radius r. The tension on each side of the rope is DIFFERENT (unlike the ideal massless pulley). The net torque on the pulley: τ = (T₁ − T₂)r = Iα. Combined with F = ma for each hanging mass, this gives a system of equations to solve for a, T₁, and T₂.</p>",
+        "keyPoints": [
+          "α = Στ/I: angular acceleration from net torque",
+          "v = ωr, a = αr, s = θr: connecting linear and angular",
+          "Real pulleys: different tensions on each side, τ = (T₁−T₂)r = Iα",
+          "Rotational SUVAT: same structure as linear SUVAT with θ, ω, α"
+        ],
+        "examTrap": { "wrong": "Tension is the same on both sides of a pulley with mass", "correct": "Only for an IDEAL (massless) pulley. A real pulley has I ≠ 0, so a net torque is needed to accelerate it. This requires T₁ ≠ T₂. The difference (T₁ − T₂) provides the torque τ = (T₁ − T₂)r." },
+        "checkQuestions": [
+          { "question": "A disk (I = 0.5 kg·m², r = 0.2 m) has a string wound around it. A force of 25 N is applied to the string. Find the angular acceleration.", "answer": "τ = Fr = 25 × 0.2 = 5 N·m. α = τ/I = 5/0.5 = 10 rad/s²." }
+        ],
+        "checklist": [
+          "I can solve τ = Iα problems for disks, wheels, and pulleys",
+          "I can connect linear and angular quantities: v = ωr, a = αr, s = θr",
+          "I can solve pulley problems with rotational inertia",
+          "I can apply rotational SUVAT to find angular displacement, velocity, and time"
+        ]
+      },
+
+      "extension": { "title": "Rotational work and power", "content": "<p>Work done by a torque: W = τθ (analogous to W = Fs). Power: P = τω (analogous to P = Fv). These complete the energy picture for rotating systems. A motor producing torque τ at angular speed ω delivers power P = τω. This is how engine specifications connect torque and rpm to power output.</p>", "connections": ["A.3 Work & Energy: W = τθ and P = τω are rotational versions of W = Fs and P = Fv"], "checklist": ["I can calculate rotational work: W = τθ", "I can calculate rotational power: P = τω"] },
+      "simulation": { "title": "PhET: Torque", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/torque", "instructions": ["Apply different torques to objects with different I. Verify τ = Iα."] },
+      "video": { "title": "τ = Iα — Rotational Dynamics — IB HL", "duration": "10 min", "description": "Newton's 2nd law for rotation, translation table, rotational SUVAT, and pulley problems", "embedId": "" },
+      "equations": [
+        { "formula": "τ = Iα", "description": "Rotational Newton's 2nd law." },
+        { "formula": "v = ωr, a = αr, s = θr", "description": "Connecting linear and angular quantities." },
+        { "formula": "W = τθ, P = τω", "description": "Rotational work and power." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "A wheel (I = 3 kg·m²) accelerates from rest to 120 rad/s in 8 s. Find the torque and the number of revolutions.", "steps": [
+          { "label": "α", "text": "α = (ω − ω₀)/t = 120/8 = 15 rad/s²" },
+          { "label": "τ", "text": "τ = Iα = 3 × 15 = 45 N·m", "isEquation": true },
+          { "label": "θ", "text": "θ = ω₀t + ½αt² = 0 + ½(15)(64) = 480 rad", "isEquation": true },
+          { "label": "Revolutions", "text": "480/(2π) = 76.4 revolutions" }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "A torque of 20 N·m acts on a flywheel (I = 4 kg·m²) initially at rest. Find ω after 5 s and the angle turned.", "solution": "α = 20/4 = 5 rad/s². ω = 0 + 5(5) = 25 rad/s. θ = ½(5)(25) = 62.5 rad." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using F = ma for rotating objects", "explanation": "For rotation: use τ = Iα. F = ma describes linear (translational) motion only. For a rotating disk, the relevant quantities are torque and moment of inertia, not force and mass.", "correct": "Translation: F = ma. Rotation: τ = Iα. Don't mix them." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A solid cylinder (mass 4.0 kg, radius 0.20 m) has a string wound around it. A 3.0 kg mass hangs from the string.\n(a) State the moment of inertia of a solid cylinder. [1]\n(b) Draw FBDs for the cylinder and the hanging mass. [2]\n(c) Find the angular acceleration of the cylinder and the linear acceleration of the mass. [3]", "marks": 6, "modelAnswer": "(a) I = ½mr² = ½(4)(0.04) = 0.08 kg·m² [1].\n(b) Cylinder: tension T acting tangentially. Mass: weight 29.4 N down, tension T up [2].\n(c) For mass: mg − T = ma → 29.4 − T = 3a ... (1). For cylinder: Tr = Iα → T(0.2) = 0.08α. Since a = αr: α = a/0.2 = 5a. So: 0.2T = 0.08(5a) = 0.4a → T = 2a ... (2). Substitute (2) into (1): 29.4 − 2a = 3a → 29.4 = 5a → a = 5.88 m/s². α = 5(5.88) = 29.4 rad/s². T = 2(5.88) = 11.76 N [3].", "examinerTip": "For pulley-with-inertia problems: write F = ma for the hanging mass and τ = Iα for the pulley. Connect them using a = αr. You'll get simultaneous equations — solve for a, α, and T." }
+    },
+
+    {
+      "id": "a4_sub5",
+      "num": 5,
+      "title": "Angular Momentum & Its Conservation",
+      "group": "Rotational Dynamics",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "τ = Iα",
+      "nextTitle": "Rotational Kinetic Energy",
+
+      "bigIdea": "An ice skater pulls in her arms and spins faster. No external torque — so angular momentum is conserved. When I decreases, ω must increase to keep L = Iω constant. This same principle governs the collapse of stars into pulsars, the precession of gyroscopes, and the stability of bicycle wheels.",
+
+      "foundation": {
+        "title": "Angular momentum — the rotational equivalent of linear momentum",
+        "content": "<h4>Definition</h4><p><strong>Angular momentum: L = Iω</strong></p><p>Where I is moment of inertia (kg·m²) and ω is angular velocity (rad/s). Unit: kg·m²/s (or N·m·s).</p><p>Analogous to linear momentum p = mv.</p><h4>Conservation of angular momentum</h4><p>When no net external torque acts on a system:</p><p><strong>L = Iω = constant</strong></p><p><strong>I₁ω₁ = I₂ω₂</strong></p><p>If I changes (by redistributing mass), ω must change to compensate.</p><ul><li>Skater pulls arms in: I decreases → ω increases (spins faster)</li><li>Skater extends arms: I increases → ω decreases (spins slower)</li><li>Collapsing star: r shrinks enormously → I drops → ω increases enormously (neutron stars spin hundreds of times per second)</li></ul><h4>Impulse-momentum theorem for rotation</h4><p><strong>τΔt = ΔL = Iω₂ − Iω₁</strong></p><p>The rotational analogue of FΔt = Δp. Torque × time = change in angular momentum.</p>",
+        "summary": "<p><strong>L = Iω.</strong> Angular momentum. Unit: kg·m²/s.</p><p><strong>Conserved when Στ_ext = 0:</strong> I₁ω₁ = I₂ω₂.</p><p><strong>I decreases → ω increases</strong> (and vice versa).</p>",
+        "checkQuestions": [
+          { "question": "A skater (I = 4 kg·m²) spins at 3 rad/s with arms out. She pulls them in (I = 1.5 kg·m²). Find her new angular velocity.", "answer": "L conserved: 4 × 3 = 1.5 × ω₂ → ω₂ = 12/1.5 = 8 rad/s. She spins 2.67× faster." }
+        ],
+        "checklist": [
+          "I can define angular momentum: L = Iω",
+          "I can state the conservation law: L is conserved when no external torque acts",
+          "I can apply I₁ω₁ = I₂ω₂ for changing moment of inertia",
+          "I can give examples: skater, collapsing star, diver tucking"
+        ]
+      },
+
+      "core": {
+        "title": "Applications of angular momentum conservation",
+        "content": "<h4>Rotational collisions</h4><p>When two rotating objects collide and stick: I₁ω₁ + I₂ω₂ = (I₁ + I₂)ω_final. This is the rotational analogue of perfectly inelastic collisions.</p><p>KE is generally NOT conserved: ΔKE = ½I₁ω₁² + ½I₂ω₂² − ½(I₁+I₂)ω_final². Just like linear inelastic collisions.</p><h4>Angular momentum of a point mass</h4><p>A point mass m moving in a straight line at speed v has angular momentum about a point O: L = mvr sin θ = mvd, where d is the perpendicular distance from O to the line of motion.</p><p>This connects linear and angular momentum: even a non-rotating object has angular momentum about any point not on its line of motion.</p>",
+        "keyPoints": [
+          "Rotational collisions: I₁ω₁ + I₂ω₂ = (I₁+I₂)ω_f",
+          "Point mass angular momentum: L = mvd (d = perpendicular distance)",
+          "KE usually NOT conserved in rotational collisions (like inelastic)",
+          "Angular momentum is always conserved when Στ_ext = 0"
+        ],
+        "examTrap": { "wrong": "KE is conserved when angular momentum is conserved", "correct": "When a skater pulls in her arms: L is conserved but KE INCREASES (she does work by pulling her arms against centripetal acceleration). When objects collide rotationally: L is conserved but KE decreases. L conservation and KE conservation are independent." },
+        "checkQuestions": [
+          { "question": "Disk 1 (I = 2, ω = 10) and disk 2 (I = 3, at rest) are pressed together. Find ω_final and KE lost.", "answer": "L: 2(10) + 0 = 5ω → ω = 4 rad/s. KE_before = ½(2)(100) = 100 J. KE_after = ½(5)(16) = 40 J. Lost = 60 J." }
+        ],
+        "checklist": [
+          "I can solve rotational collision problems using L conservation",
+          "I can calculate angular momentum of a point mass about a point: L = mvd",
+          "I can calculate KE change in rotational collisions"
+        ]
+      },
+
+      "extension": { "title": "Gyroscopes and precession", "content": "<p>A spinning gyroscope resists changes to its axis of rotation. When tilted, instead of falling, it precesses — the axis slowly rotates around the vertical. This is because gravity provides a torque that changes the DIRECTION of L, not its magnitude. Precession rate: Ω = τ/(Iω). Faster spin → slower precession (more stable). Applications: navigation (gyrocompasses), bicycle stability, and Earth's axial precession (26,000 year cycle).</p>", "connections": ["D.1 Gravitational Fields: Earth's axial precession is a gyroscopic effect from the Sun/Moon's torque"], "checklist": ["I can explain gyroscopic precession qualitatively using angular momentum"] },
+      "simulation": { "title": "Rotational Momentum Simulator", "source": "Various", "url": "https://phet.colorado.edu/en/simulations/torque", "instructions": ["Set two disks to collide. Verify angular momentum conservation. Check that KE decreases for inelastic rotational collisions."] },
+      "video": { "title": "Angular Momentum — IB HL Physics", "duration": "9 min", "description": "L = Iω, conservation, skater example, rotational collisions, and gyroscopes", "embedId": "" },
+      "equations": [
+        { "formula": "L = Iω", "description": "Angular momentum. Unit: kg·m²/s." },
+        { "formula": "I₁ω₁ = I₂ω₂", "description": "Conservation when no external torque. I changes → ω changes." },
+        { "formula": "τΔt = ΔL", "description": "Angular impulse = change in angular momentum." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "A merry-go-round (I = 500 kg·m², ω = 2 rad/s) is joined by a child (30 kg) who jumps on at 2 m from the centre. Find the new ω.", "steps": [
+          { "label": "I_child", "text": "I_child = mr² = 30 × 4 = 120 kg·m²" },
+          { "label": "Conservation", "text": "500 × 2 = (500 + 120)ω₂ → 1000 = 620ω₂ → ω₂ = 1.61 rad/s", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "A figure skater has I = 5 kg·m² with arms out at ω = 2 rad/s. She pulls her arms in (I = 1.5 kg·m²). Find ω and the change in KE. Where does the extra KE come from?", "solution": "ω₂ = 5(2)/1.5 = 6.67 rad/s. KE₁ = ½(5)(4) = 10 J. KE₂ = ½(1.5)(44.4) = 33.3 J. ΔKE = +23.3 J. The extra KE comes from the work done by the skater's muscles pulling her arms inward against the centripetal acceleration." }
+      ],
+      "commonMistakes": [
+        { "wrong": "KE is conserved when L is conserved", "explanation": "Independent conservation laws. L is conserved whenever Στ = 0. KE can increase (skater pulling arms in — muscles do work) or decrease (rotational collision — energy to heat/deformation).", "correct": "L is conserved (no external torque). KE may or may not be conserved — check separately." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A uniform disk (I = 0.40 kg·m²) rotates at 15 rad/s. A ring (I = 0.10 kg·m²) is dropped onto it from rest.\n(a) Find the final angular velocity. [2]\n(b) Find the KE lost. [2]\n(c) Explain why KE is not conserved even though angular momentum is. [1]", "marks": 5, "modelAnswer": "(a) L: 0.40(15) + 0 = (0.40+0.10)ω → ω = 6/0.5 = 12 rad/s [2].\n(b) KE₁ = ½(0.4)(225) = 45 J. KE₂ = ½(0.5)(144) = 36 J. Lost = 9 J [2].\n(c) KE is converted to thermal energy through friction between the disk and ring surfaces as they reach the same angular velocity. Angular momentum conservation doesn't require KE conservation [1].", "examinerTip": "Rotational collisions follow the same pattern as linear: L (or p) is conserved, KE is usually not. Calculate both before and after to check." }
+    },
+
+    {
+      "id": "a4_sub6",
+      "num": 6,
+      "title": "Rotational Kinetic Energy & Rolling",
+      "group": "Rotational Dynamics",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Angular Momentum",
+      "nextTitle": "A.5 Galilean & Special Relativity",
+
+      "bigIdea": "A rolling ball has two types of energy: translational (½mv²) from moving forward, and rotational (½Iω²) from spinning. The split between them depends on the object's shape. This is why a solid sphere rolls faster than a hollow one down a slope — more of its energy goes into translation, less into rotation.",
+
+      "foundation": {
+        "title": "Two kinds of kinetic energy in rolling motion",
+        "content": "<h4>Rotational KE</h4><p><strong>KE_rot = ½Iω²</strong></p><p>This is energy stored in the spinning motion, analogous to KE_trans = ½mv² for linear motion.</p><h4>Total KE for rolling</h4><p>An object that rolls without slipping has both types:</p><p><strong>KE_total = ½mv² + ½Iω²</strong></p><p>With the rolling condition v = ωr, this becomes: KE_total = ½mv²(1 + I/(mr²)).</p><p>The factor I/(mr²) is called the <strong>shape factor</strong>. It determines what fraction of total KE goes into rotation:</p><ul><li>Solid sphere: I/(mr²) = 2/5 → 28.6% rotational</li><li>Solid cylinder: I/(mr²) = 1/2 → 33.3% rotational</li><li>Hollow sphere: I/(mr²) = 2/3 → 40% rotational</li><li>Hollow cylinder: I/(mr²) = 1 → 50% rotational</li></ul><h4>Rolling down a slope — the race</h4><p>Using energy conservation: mgh = ½mv²(1 + I/(mr²)). Solving: v = √(2gh/(1 + I/(mr²))).</p><p>Objects with SMALLER shape factor roll faster. So: solid sphere > solid cylinder > hollow sphere > hollow cylinder. Mass and size don't matter — only shape.</p>",
+        "summary": "<p><strong>KE_rot = ½Iω².</strong> KE_total = ½mv² + ½Iω² for rolling.</p><p><strong>Rolling condition:</strong> v = ωr (no slipping).</p><p><strong>Rolling race:</strong> smaller shape factor → faster. Solid beats hollow.</p>",
+        "checkQuestions": [
+          { "question": "A solid cylinder rolls at 4 m/s. Mass = 2 kg, r = 0.1 m. Find total KE.", "answer": "KE = ½mv²(1 + I/(mr²)) = ½(2)(16)(1 + 0.5) = 16 × 1.5 = 24 J. Or: KE_trans = 16 J, KE_rot = ½(½ × 2 × 0.01)(40²) = ½(0.01)(1600) = 8 J. Total = 24 J ✓." }
+        ],
+        "checklist": [
+          "I can calculate rotational KE: ½Iω²",
+          "I can calculate total KE for rolling: ½mv² + ½Iω²",
+          "I can apply the rolling condition v = ωr",
+          "I can predict rolling race outcomes using the shape factor I/(mr²)",
+          "I can solve energy conservation problems for rolling on slopes"
+        ]
+      },
+
+      "core": {
+        "title": "Energy methods for rolling — slopes, loops, and applications",
+        "content": "<h4>Energy conservation for rolling</h4><p>On a slope (height h): mgh = ½mv² + ½Iω² (no friction losses for rolling without slipping).</p><p>Note: the friction that causes rolling does NO work (the contact point has zero velocity at the instant of contact). So mechanical energy IS conserved for rolling without slipping, even though friction is present.</p><h4>Rolling up slopes and to a stop</h4><p>½mv² + ½Iω² = mgh (total KE converts to PE). Height reached: h = v²(1 + I/(mr²))/(2g).</p><p>A rolling object climbs LESS height than a sliding object at the same speed — because some KE is in rotation and must also convert to PE.</p><h4>Rolling through a loop</h4><p>Minimum speed at the top of a loop for a rolling sphere: v²/R = g at the top (contact maintained). Using energy: mgh_start = mg(2R) + ½mv²_top(1 + I/(mr²)). For a solid sphere: h_min = 2.7R (compare with h = 2.5R for a sliding object).</p>",
+        "keyPoints": [
+          "For rolling without slipping: friction does no work → energy IS conserved",
+          "mgh = ½mv² + ½Iω² (slope problems)",
+          "Rolling up: h = v²(1 + I/(mr²))/(2g)",
+          "Loop: h_min depends on the shape factor (rolling needs more height than sliding)"
+        ],
+        "examTrap": { "wrong": "Friction causes energy loss in rolling", "correct": "For rolling WITHOUT slipping: static friction acts at the contact point, but the contact point has zero velocity (it's instantaneously at rest). Since velocity = 0 at the point of force application, no work is done (W = F·v·dt = 0). Energy IS conserved." },
+        "checkQuestions": [
+          { "question": "A solid sphere rolling at 8 m/s encounters a slope. How high does it climb? (No slipping)", "answer": "h = v²(1 + 2/5)/(2g) = 64 × 1.4/19.6 = 89.6/19.6 = 4.57 m." }
+        ],
+        "checklist": [
+          "I can explain why friction does no work in rolling without slipping",
+          "I can solve rolling-on-slope problems using energy conservation",
+          "I can calculate the height reached by a rolling object",
+          "I can solve loop-the-loop problems for rolling objects"
+        ]
+      },
+
+      "extension": { "title": "Rotational energy in flywheels and engines", "content": "<p>Flywheels store energy as rotational KE (½Iω²). A flywheel with I = 100 kg·m² at 3000 rpm stores: ½(100)(100π)² = ½(100)(98696) ≈ 5 MJ — enough to power a car for several kilometres. Flywheel energy storage is used in hybrid buses, satellites (for attitude control), and grid-scale energy storage. The advantage: very fast charge/discharge, very high cycle life.</p>", "connections": ["A.3 Work & Energy: flywheel energy storage as practical application of ½Iω²", "B.5 Current & Circuits: regenerative braking converts KE to electrical or flywheel energy"], "checklist": ["I can calculate energy stored in a flywheel: KE = ½Iω²", "I can describe practical applications of rotational energy storage"] },
+      "simulation": { "title": "Rolling Race Simulator", "source": "Various", "url": "https://phet.colorado.edu/en/simulations/energy-skate-park", "instructions": ["Roll different shapes down a slope. Solid sphere always wins. Verify using energy conservation with the correct I formula."] },
+      "video": { "title": "Rotational KE & Rolling — IB HL Physics", "duration": "10 min", "description": "½Iω², rolling energy conservation, the rolling race, loops, and flywheel storage", "embedId": "" },
+      "equations": [
+        { "formula": "KE_rot = ½Iω²", "description": "Rotational kinetic energy." },
+        { "formula": "KE_total = ½mv² + ½Iω²", "description": "Total KE for rolling = translational + rotational." },
+        { "formula": "v = √(2gh/(1 + I/(mr²)))", "description": "Speed at bottom of slope for rolling object." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "A hollow cylinder (1.5 kg, r = 0.1 m) rolls down a 2 m slope. Find its speed at the bottom.", "steps": [
+          { "label": "I for hollow cylinder", "text": "I = mr² = 1.5 × 0.01 = 0.015 kg·m². Shape factor: I/(mr²) = 1." },
+          { "label": "Energy", "text": "mgh = ½mv²(1 + 1) = mv²" },
+          { "label": "Solve", "text": "v = √(gh) = √(9.8 × 2) = √19.6 = 4.43 m/s", "isEquation": true },
+          { "label": "Compare sliding", "text": "Without rotation: v = √(2gh) = √39.2 = 6.26 m/s. The hollow cylinder is 29% slower — half its energy is in rotation." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "A solid sphere and a solid cylinder start from rest at the same height. Find the ratio of their speeds at the bottom.", "solution": "v_sphere = √(10gh/7). v_cyl = √(4gh/3). Ratio = √((10/7)/(4/3)) = √(30/28) = √(15/14) = 1.035. Sphere is ~3.5% faster." },
+        { "difficulty": "hard", "scope": "hl", "question": "A solid sphere rolls at 6 m/s and hits a slope. It rolls up 1.8 m before stopping. Find g on this planet.", "solution": "½v²(1 + 2/5) = gh → ½(36)(1.4) = g(1.8) → 25.2 = 1.8g → g = 14 m/s²." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using KE = ½mv² for a rolling object", "explanation": "Rolling has BOTH translational and rotational KE. Using only ½mv² gives a speed that's too high for slope problems (you'd overestimate the speed because you ignored energy going into rotation).", "correct": "Always use KE = ½mv² + ½Iω² for rolling. Use v = ωr to connect the two terms." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A solid ball (mass 2.0 kg, radius 0.05 m) rolls without slipping down a 1.5 m high slope.\n(a) State the moment of inertia for a solid sphere. [1]\n(b) Derive an expression for the speed at the bottom. [3]\n(c) Calculate the speed. [1]\n(d) Calculate the fraction of total KE that is rotational. [1]", "marks": 6, "modelAnswer": "(a) I = ⅖mr² [1].\n(b) mgh = ½mv² + ½(⅖mr²)(v/r)² [1]. = ½mv² + ⅕mv² = 7/10 mv² [1]. v = √(10gh/7) [1].\n(c) v = √(10 × 9.8 × 1.5/7) = √21 = 4.58 m/s [1].\n(d) KE_rot/KE_total = (⅕mv²)/(7/10 mv²) = (1/5)/(7/10) = 2/7 = 28.6% [1].", "examinerTip": "For rolling problems: always start with energy conservation. The key step is substituting I and ω = v/r, then simplifying. The mass ALWAYS cancels for rolling on a slope — the answer depends only on shape (through I/(mr²)) and height." }
+    }
+
+  ]
+},
 
