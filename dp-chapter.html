@@ -1798,6 +1798,7 @@ body {
       <!-- Generated dynamically -->
     </div>
     <a class="sidebar-back" href="dp-dashboard.html">← DP Dashboard</a>
+  </div>
 </div>
 
 <!-- MAIN -->
@@ -1830,7 +1831,6 @@ body {
     <button class="glass-icon-btn" onclick="toggleFormulaSidebar()" title="Data Booklet">📘</button>
     <button class="glass-icon-btn" onclick="openCalc()" title="GDC Calculator">🧮</button>
     <button class="glass-icon-btn" onclick="toggleChecklistPanel()" title="Content Checklist">✅</button>
-  </div>
   </div>
 </div>
 
@@ -1917,7 +1917,7 @@ body {
 <script src="exam-system/firebase-config.js?v=2"></script>
 
 <!-- Content and Progress Data Scripts -->
-<script src="js/dp-student-data.js?v=11"></script>
+<script src="js/dp-student-data.js?v=12"></script>
 <script src="js/dp-progress.js?v=2"></script>
 <script src="js/gdc.js"></script>
 
@@ -3064,8 +3064,11 @@ function updateSidebarProgress() {
   });
 
   // Update top sidebar counts
-  document.getElementById('progress-lessons').textContent = `${viewedCount}/${activeSubtopicsCount}`;
-  document.getElementById('progress-time').textContent = `${totalMinutes} min`;
+  const elProgressLessons = document.getElementById('progress-lessons');
+  if (elProgressLessons) elProgressLessons.textContent = `${viewedCount}/${activeSubtopicsCount}`;
+  
+  const elProgressTime = document.getElementById('progress-time');
+  if (elProgressTime) elProgressTime.textContent = `${totalMinutes} min`;
   
   const pct = activeSubtopicsCount > 0 ? Math.round((viewedCount / activeSubtopicsCount) * 100) : 0;
   const barFill = document.getElementById('progress-bar-fill');
