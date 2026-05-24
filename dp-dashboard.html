@@ -147,7 +147,7 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="exam-system/firebase-config.js?v=2"></script>
-<script src="js/dp-student-data.js?v=5"></script>
+<script src="js/dp-student-data.js?v=6"></script>
 </head>
 <body>
 
@@ -387,42 +387,47 @@ function createProgressRing(percent) {
     + '<span style="position:absolute;font-size:8px;font-weight:700;color:var(--text2,#555);">' + percent + '%</span>';
 }
 
-function getTopicProgress(topicCode, progressData) {
-  var totalLessons = 4; // Fallback
-  if (typeof DP_STUDENT_DATA !== 'undefined' && DP_STUDENT_DATA[topicCode] && DP_STUDENT_DATA[topicCode].subtopics) {
-    totalLessons = DP_STUDENT_DATA[topicCode].subtopics.length;
+function getTopicProgress(topicCode) {
+  if (typeof DP_STUDENT_DATA === 'undefined' || !DP_STUDENT_DATA[topicCode] || !DP_STUDENT_DATA[topicCode].subtopics) {
+    return 0;
   }
-  let viewedCount = 0;
-  if (progressData && progressData.lessonsViewed) {
-    for (var i = 1; i <= totalLessons; i++) {
-      var key = topicCode + '-lesson' + i;
-      if (progressData.lessonsViewed[key] && progressData.lessonsViewed[key].viewed) {
-        viewedCount++;
-      }
+  
+  let totalItems = 0;
+  let checkedItems = 0;
+  
+  const subtopics = DP_STUDENT_DATA[topicCode].subtopics;
+  subtopics.forEach(sub => {
+    let allChecklistItems = [];
+    if (sub.checklist && Array.isArray(sub.checklist)) {
+      allChecklistItems = allChecklistItems.concat(sub.checklist);
     }
-  }
-  return totalLessons > 0 ? Math.round((viewedCount / totalLessons) * 100) : 0;
+    if (sub.foundation && sub.foundation.checklist && Array.isArray(sub.foundation.checklist)) {
+      allChecklistItems = allChecklistItems.concat(sub.foundation.checklist);
+    }
+    if (sub.extension && sub.extension.checklist && Array.isArray(sub.extension.checklist)) {
+      allChecklistItems = allChecklistItems.concat(sub.extension.checklist);
+    }
+    
+    totalItems += allChecklistItems.length;
+    
+    allChecklistItems.forEach((_, i) => {
+      const key = 'physicism_checklist_' + topicCode + '_' + sub.id + '_' + i;
+      if (localStorage.getItem(key) === 'true') {
+        checkedItems++;
+      }
+    });
+  });
+  
+  return totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0;
 }
 
 function loadStudentProgress(user) {
   document.querySelectorAll('.progress-ring-container').forEach(function(el) {
     el.style.display = 'flex';
+    var code = el.id.replace('progress-', '');
+    var pct = getTopicProgress(code);
+    el.innerHTML = createProgressRing(pct);
   });
-
-  if (typeof firebase !== 'undefined' && firebase.firestore) {
-    firebase.firestore().collection('dp-progress').doc(user.uid).get()
-      .then(function(doc) {
-        var progressData = doc.exists ? doc.data() : {};
-        document.querySelectorAll('.progress-ring-container').forEach(function(el) {
-          var code = el.id.replace('progress-', '');
-          var pct = getTopicProgress(code, progressData);
-          el.innerHTML = createProgressRing(pct);
-        });
-      })
-      .catch(function(err) {
-        console.error("Error loading DP progress:", err);
-      });
-  }
 }
 
 function hideStudentProgress() {
