@@ -1831,6 +1831,7 @@ body {
     </div>
   </div>
 
+  <div id="contentArea" style="flex: 1; overflow-y: auto; padding: 24px; position: relative;"></div>
 
     <!-- RIGHT PANEL — Quick tools -->
     <div class="right-panel" style="position: fixed; top: 100px; right: 24px; display: flex; flex-direction: column; gap: 12px; z-index: 100;">
@@ -1852,6 +1853,35 @@ body {
   </div>
 </div>
 
+<!-- ═══════════ CHECKLIST SIDEBAR ═══════════ -->
+<div class="formula-sidebar" id="checklistPanel">
+  <div class="formula-sidebar-header" style="background: linear-gradient(135deg, #059669, #047857);">
+    <h3>✅ Content Checklist</h3>
+    <button class="modal-close" onclick="toggleChecklistPanel()">✕</button>
+  </div>
+  <div class="formula-sidebar-body">
+    <div style="background:var(--white); border-radius:12px; padding:16px; border:1px solid var(--tint-border); margin-bottom:16px;">
+      <div style="font-size:13px; font-weight:600; color:var(--text); margin-bottom:8px; display:flex; justify-content:space-between;">
+        <span>Progress</span>
+        <span id="checklist-progress-text">0/0 checked</span>
+      </div>
+      <div style="height:6px; background:var(--tint); border-radius:4px; overflow:hidden;">
+        <div id="checklist-bar-fill" style="height:100%; background:#10b981; width:0%; transition:width 0.3s ease;"></div>
+      </div>
+    </div>
+    <div id="checklist-container">
+      <!-- Generated dynamically based on subtopics -->
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleChecklistPanel() {
+    const panel = document.getElementById('checklistPanel');
+    if (panel) panel.classList.toggle('open');
+  }
+</script>
+
 
 <!-- Firebase Compat SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -1860,7 +1890,7 @@ body {
 <script src="exam-system/firebase-config.js?v=2"></script>
 
 <!-- Content and Progress Data Scripts -->
-<script src="js/dp-student-data.js?v=8"></script>
+<script src="js/dp-student-data.js?v=9"></script>
 <script src="js/dp-progress.js?v=2"></script>
 <script src="js/gdc.js"></script>
 
@@ -2767,7 +2797,8 @@ function showLesson(idx) {
   const sidebarEl = document.getElementById(`sidebar-item-${idx}`);
   if (sidebarEl) sidebarEl.classList.add('active');
   
-  document.querySelector('.content').scrollTop = 0;
+  const contentArea = document.getElementById('contentArea');
+  if (contentArea) contentArea.scrollTop = 0;
   
   renderActiveSubtopic();
   updateSidebarProgress();
