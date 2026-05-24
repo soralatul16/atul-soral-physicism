@@ -596,9 +596,7 @@ const DP_STUDENT_DATA = {
         "I have solved all practice problems and corrected my errors",
         "I have attempted the exam corner question under timed conditions without notes"
       ]
-    }
-  ]
-}
+    },
     {
       "id": "e3_sub4",
       "num": 4,
