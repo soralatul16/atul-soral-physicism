@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9JDXQ282H8');
+</script>
+
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  })();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP Physics Pictionary | Atul Soral Physicism</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --bg-paper: #f9f6f1;
+    --accent: #c0392b;
+    --accent-dark: #922b21;
+    --text: #1a1a2e;
+    --text-muted: #7f8c8d;
+    --shadow: rgba(0,0,0,0.12);
+  }
+  [data-theme="dark"] {
+    --bg: #0f1119;
+    --bg-paper: #1a1c28;
+    --accent: #e05040;
+    --accent-dark: #c0392b;
+    --text: #e0ddd5;
+    --text-muted: #a0a0b0;
+    --shadow: rgba(255,255,255,0.06);
+  }
+  [data-theme="dark"] body { background: var(--bg); color: var(--text); }
+  [data-theme="dark"] img { opacity: 0.92; }
+  [data-theme="dark"] .navbar { background: rgba(30,32,45,0.85); border-bottom-color: rgba(255,255,255,0.06); }
+  [data-theme="dark"] .index-bar { background: rgba(30,32,45,0.5); border-bottom-color: rgba(255,255,255,0.04); }
+  [data-theme="dark"] .nav-btn, [data-theme="dark"] .ctrl-btn, [data-theme="dark"] .page-info, [data-theme="dark"] .zoom-container { background: #1e2030; color: var(--text); border-color: rgba(255,255,255,0.06); }
+  [data-theme="dark"] .nav-btn:hover, [data-theme="dark"] .ctrl-btn:hover:not(:disabled) { background: var(--accent); color: white; border-color: var(--accent); }
+  [data-theme="dark"] .idx-pill:hover { background: rgba(224,80,64,0.05); color: var(--accent); }
+  [data-theme="dark"] .spine { background: #1a1c28; box-shadow: -1px 0 3px rgba(255,255,255,0.04), 1px 0 3px rgba(255,255,255,0.04); }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* NAVBAR */
+  .navbar {
+    height: 56px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    position: relative;
+    z-index: 100;
+    flex-shrink: 0;
+  }
+  .navbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    margin-right: 12px;
+  }
+  .navbar-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    border-left: 1px solid rgba(0,0,0,0.1);
+    padding-left: 12px;
+    margin-right: auto;
+  }
+  .nav-btn {
+    padding: 7px 16px;
+    border-radius: 50px;
+    border: 1.5px solid rgba(0,0,0,0.06);
+    background: white;
+    color: #444;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s;
+    text-decoration: none;
+    margin-left: 8px;
+  }
+  .nav-btn:hover {
+    border-color: rgba(192,57,43,0.3);
+    color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+
+  /* HORIZONTAL A-Z INDEX BAR */
+  .index-bar {
+    height: 48px;
+    background: rgba(255,255,255,0.5);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    z-index: 90;
+    flex-shrink: 0;
+  }
+  .index-bar::-webkit-scrollbar { display: none; }
+  .index-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .idx-pill {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .idx-pill:hover {
+    background: rgba(192,57,43,0.05);
+    color: var(--accent);
+  }
+  .idx-pill.active {
+    background: var(--accent);
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(192,57,43,0.25);
+  }
+  .idx-pill.cover-pill {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    border-radius: 20px;
+    width: 58px;
+  }
+
+  /* WORKSPACE / DESK VIEW */
+  .workspace {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    padding: 20px;
+  }
+  .workspace::before {
+    content: 'Atul Soral Physicism';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) rotate(-35deg);
+    font-family: 'Playfair Display', serif;
+    font-size: 70px;
+    color: rgba(0,0,0,0.012);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* CLOSED COVER PAGE VIEW */
+  .closed-cover {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .closed-cover.opening {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(10deg) scale(0.95);
+    pointer-events: none;
+  }
+  .closed-cover.hidden {
+    display: none;
+  }
+
+  .closed-book {
+    position: relative;
+    width: min(70vw, 600px);
+    max-width: 600px;
+    aspect-ratio: 1.5 / 1;
+    border-radius: 4px 12px 12px 4px;
+    overflow: hidden;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.15),
+      0 8px 20px rgba(0,0,0,0.1),
+      4px 4px 0 rgba(0,0,0,0.03),
+      8px 8px 0 rgba(0,0,0,0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  .closed-book:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow:
+      0 28px 70px rgba(0,0,0,0.18),
+      0 12px 30px rgba(0,0,0,0.12),
+      4px 4px 0 rgba(0,0,0,0.03),
+      8px 8px 0 rgba(0,0,0,0.02);
+  }
+
+  /* FIX 1: CLOSED FRONT COVER - SPIRAL ON LEFT */
+  .cover-spiral-left {
+    position: absolute;
+    left: 0;
+    top: 2%;
+    bottom: 2%;
+    width: 20px;
+    z-index: 10;
+    background: linear-gradient(90deg, #c9c1b4 0%, #e0d9cf 40%, #c9c1b4 100%);
+    border-right: 1px solid rgba(0,0,0,0.05);
+  }
+  .cover-spiral-left::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: 4px;
+    width: 12px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 4px,
+      #a09888 4px,
+      #a09888 5.5px,
+      #7a7060 5.5px,
+      #7a7060 8px,
+      #a09888 8px,
+      #a09888 9.5px,
+      transparent 9.5px,
+      transparent 18px
+    );
+    border-radius: 6px;
+  }
+
+  /* FIX 2: CLOSED END COVER - SPIRAL ON RIGHT */
+  .cover-spiral-right {
+    position: absolute;
+    right: 0;
+    top: 2%;
+    bottom: 2%;
+    width: 20px;
+    z-index: 10;
+    background: linear-gradient(90deg, #c9c1b4 0%, #e0d9cf 40%, #c9c1b4 100%);
+    border-left: 1px solid rgba(0,0,0,0.05);
+  }
+  .cover-spiral-right::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    right: 4px;
+    width: 12px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 4px,
+      #a09888 4px,
+      #a09888 5.5px,
+      #7a7060 5.5px,
+      #7a7060 8px,
+      #a09888 8px,
+      #a09888 9.5px,
+      transparent 9.5px,
+      transparent 18px
+    );
+    border-radius: 6px;
+  }
+
+  /* Clip closed front cover images and round right edge */
+  #closed-cover .closed-book-front {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #c0392b 0%, #922b21 40%, #7f1d1d 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 20px;
+    padding-right: 0;
+  }
+  #closed-cover .closed-book-front .cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    border-radius: 0 12px 12px 0;
+  }
+
+  /* Clip closed end cover images and round left edge */
+  #end-cover .closed-book-front {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #c0392b 0%, #922b21 40%, #7f1d1d 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 20px;
+    padding-left: 0;
+  }
+  #end-cover .closed-book-front .cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    border-radius: 12px 0 0 12px;
+  }
+
+  /* Book edge — visible on right side to give thickness */
+  .closed-book-edge {
+    position: absolute;
+    right: -6px;
+    top: 4px;
+    bottom: 4px;
+    width: 6px;
+    background: linear-gradient(180deg,
+      #e8e0d4 0%, #d4ccc0 20%, #e8e0d4 40%,
+      #d4ccc0 60%, #e8e0d4 80%, #d4ccc0 100%
+    );
+    border-radius: 0 3px 3px 0;
+    box-shadow: 2px 0 4px rgba(0,0,0,0.08);
+  }
+  
+  /* Physical reverse layout for End Cover (back of notebook) */
+  #end-cover .closed-book-edge {
+    left: -6px;
+    right: auto;
+    border-radius: 3px 0 0 3px;
+    box-shadow: -2px 0 4px rgba(0,0,0,0.08);
+  }
+
+  /* Bottom edge for depth */
+  .closed-book::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 4px;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #d4ccc0, #e8e0d4, #d4ccc0);
+    border-radius: 0 0 3px 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  }
+  #end-cover .closed-book::after {
+    left: 0;
+    right: 4px;
+  }
+
+  .open-book-btn {
+    margin-top: 24px;
+    padding: 12px 36px;
+    background: linear-gradient(135deg, #c0392b, #922b21);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(192,57,43,0.25);
+    z-index: 10;
+  }
+  .open-book-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(192,57,43,0.35);
+  }
+
+  .open-hint {
+    margin-top: 10px;
+    font-size: 11px;
+    color: #aaa;
+    letter-spacing: 1px;
+  }
+
+  /* VIEWPORT & ZOOM WRAPPER */
+  .book-viewport {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc(100% - 64px);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center center;
+    z-index: 10;
+  }
+
+  /* OPEN BOOK SPREAD */
+  .book-spread {
+    display: flex;
+    width: 1100px;
+    height: 640px;
+    background: var(--bg-paper);
+    border-radius: 8px;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.15), 0 4px 15px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .book-spread.opened {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .book-spread.exit-left {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  .book-spread.exit-right {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  .book-spread.enter {
+    opacity: 0;
+    transform: translateX(0);
+  }
+
+  /* COVER SPREAD TEMPLATE */
+  .cover-spread {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* PAGES */
+  .page {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-paper);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  .left-page {
+    border-right: 1px solid rgba(0,0,0,0.05);
+    padding-right: 10px;
+    margin-right: 0;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.04);
+  }
+  .right-page {
+    border-left: 1px solid rgba(0,0,0,0.05);
+    padding-left: 10px;
+    margin-left: 0;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.04);
+  }
+
+  .left-page:hover { box-shadow: inset 6px 0 20px rgba(0,0,0,0.04), 2px 0 8px rgba(0,0,0,0.04); }
+  .right-page:hover { box-shadow: inset -6px 0 20px rgba(0,0,0,0.04), -2px 0 8px rgba(0,0,0,0.04); }
+
+  /* Page Curl Shadow near Spine */
+  .left-page::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 32px; height: 100%;
+    background: linear-gradient(to left, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.01) 60%, transparent 100%);
+    pointer-events: none;
+    z-index: 8;
+  }
+  .right-page::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 32px; height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.01) 60%, transparent 100%);
+    pointer-events: none;
+    z-index: 8;
+  }
+
+  /* Page turn shadow overlay — shows during transition */
+  .page-turn-shadow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    z-index: 15;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  /* Shadow on right edge of left page when going forward */
+  .left-page .page-turn-shadow {
+    right: 0;
+    background: linear-gradient(to left,
+      rgba(0,0,0,0.15) 0%,
+      rgba(0,0,0,0.06) 30%,
+      transparent 100%
+    );
+  }
+
+  /* Shadow on left edge of right page when going backward */
+  .right-page .page-turn-shadow {
+    left: 0;
+    background: linear-gradient(to right,
+      rgba(0,0,0,0.15) 0%,
+      rgba(0,0,0,0.06) 30%,
+      transparent 100%
+    );
+  }
+
+  /* Active during page turn */
+  .turning .page-turn-shadow {
+    opacity: 1;
+  }
+
+  /* Page lift effect during transition */
+  .spread-container.turning-forward .right-page {
+    transform-origin: left center;
+    animation: pageLiftRight 0.5s ease-in-out;
+  }
+  .spread-container.turning-backward .left-page {
+    transform-origin: right center;
+    animation: pageLiftLeft 0.5s ease-in-out;
+  }
+
+  @keyframes pageLiftRight {
+    0% { transform: perspective(1200px) rotateY(0deg); box-shadow: 0 0 0 rgba(0,0,0,0); }
+    30% { transform: perspective(1200px) rotateY(-8deg); box-shadow: -10px 0 30px rgba(0,0,0,0.15); }
+    100% { transform: perspective(1200px) rotateY(0deg); box-shadow: 0 0 0 rgba(0,0,0,0); }
+  }
+
+  @keyframes pageLiftLeft {
+    0% { transform: perspective(1200px) rotateY(0deg); box-shadow: 0 0 0 rgba(0,0,0,0); }
+    30% { transform: perspective(1200px) rotateY(8deg); box-shadow: 10px 0 30px rgba(0,0,0,0.15); }
+    100% { transform: perspective(1200px) rotateY(0deg); box-shadow: 0 0 0 rgba(0,0,0,0); }
+  }
+
+  /* IMAGE HOLDER */
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .page img, .page-img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    display: block;
+    background: var(--bg-paper);
+  }
+
+  /* Transparent Overlay to Prevent Downloads */
+  .image-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: transparent;
+    z-index: 5;
+    cursor: default;
+  }
+
+  /* COMING SOON / ERROR PLACEHOLDER */
+  .coming-soon {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-paper);
+    padding: 40px;
+    text-align: center;
+    z-index: 4;
+  }
+  .cs-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 140px;
+    font-weight: 700;
+    color: rgba(192,57,43,0.07);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .cs-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+  .cs-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* COVER SPREAD STYLING */
+  .cover-half {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    color: white;
+    position: relative;
+    cursor: pointer;
+  }
+  .cover-left-side {
+    background: linear-gradient(135deg, #c0392b 0%, #922b21 60%, #761c12 100%);
+    border-radius: 4px 0 0 4px;
+    padding-right: 20px;
+  }
+  .cover-right-side {
+    background: linear-gradient(225deg, #c0392b 0%, #922b21 60%, #761c12 100%);
+    border-radius: 0 4px 4px 0;
+    padding-left: 20px;
+  }
+  .cover-left-side:hover { box-shadow: inset 6px 0 20px rgba(0,0,0,0.04); }
+  .cover-right-side:hover { box-shadow: inset -6px 0 20px rgba(0,0,0,0.04); }
+
+  .cover-half h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 16px;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .cover-half h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 24px;
+    letter-spacing: 1px;
+  }
+  .cover-line {
+    width: 100px;
+    height: 1.5px;
+    background: rgba(255,255,255,0.25);
+    margin: 16px 0;
+  }
+  .cover-half .tag {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    position: absolute;
+    bottom: 40px;
+  }
+
+  /* PREMIUM WIRE-O CENTER SPIRAL BINDING */
+  .spine {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    z-index: 20;
+    background: #eae5dc;
+    box-shadow: -1px 0 3px rgba(0,0,0,0.04), 1px 0 3px rgba(0,0,0,0.04);
+  }
+
+  /* Wire rings — looks like actual coiled wire */
+  .spine::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 3px,
+      #b0a898 3px,
+      #b0a898 4px,
+      #8c8478 4px,
+      #8c8478 6px,
+      #b0a898 6px,
+      #b0a898 7px,
+      transparent 7px,
+      transparent 9px,
+      #706860 9px,
+      #706860 11px,
+      transparent 11px,
+      transparent 16px
+    );
+    border-radius: 7px;
+  }
+
+  /* Subtle shadow inside the spine groove */
+  .spine::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(0,0,0,0.05) 0%,
+      transparent 25%,
+      transparent 75%,
+      rgba(0,0,0,0.05) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* CONTROLS & BOTTOM BAR */
+  .controls-bar {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 50;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 12px;
+    flex-shrink: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  .controls-bar.opened {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .ctrl-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,0,0,0.06);
+    background: white;
+    color: var(--accent);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  }
+  .ctrl-btn:hover:not(:disabled) {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(192,57,43,0.2);
+  }
+  .ctrl-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  .ctrl-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .page-info {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    min-width: 160px;
+    text-align: center;
+    background: white;
+    padding: 11px 20px;
+    border-radius: 50px;
+    border: 1.5px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+
+  .zoom-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    padding: 4px;
+    border-radius: 50px;
+    border: 1.5px solid rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .zoom-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .zoom-btn:hover {
+    background: rgba(192,57,43,0.06);
+    color: var(--accent);
+  }
+  .zoom-val {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    min-width: 44px;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  .tips {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    opacity: 0.6;
+    margin-top: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  .tips.opened {
+    opacity: 0.6;
+    pointer-events: all;
+  }
+
+  /* FEEDBACK PANEL STYLING */
+  #fb-panel {
+    position: fixed;
+    bottom: 92px;
+    right: 28px;
+    z-index: 9000;
+    width: 310px;
+    background: #f5f0e8;
+    border: 1.5px solid rgba(0,0,0,0.06);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+    transform: translateY(20px) scale(.96);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .28s cubic-bezier(.22,.68,0,1.2), opacity .2s;
+  }
+  #fb-panel.open{
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: all;
+    z-index: 9500;
+  }
+  #fb-trigger.spinning{transform:rotate(90deg) scale(1.05);}
+  #fb-trigger:hover{transform:scale(1.12);box-shadow:0 6px 28px rgba(239,68,68,.7);}
+
+  /* RESPONSIVE MOBILE MODIFICATIONS */
+  @media (max-width: 900px) {
+    /* On mobile: show only ONE page at a time, full width */
+    .left-page { display: none !important; }
+    .spine { display: none !important; }
+    
+    .right-page {
+      width: 100% !important;
+      height: auto !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border-radius: 8px !important;
+      overflow: visible !important;
+      display: flex !important; /* Make sure right page is visible! */
+    }
+    
+    /* Let the book fill the width and the image dictate the height */
+    .book-spread, .book-container {
+      width: 95vw !important;
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      min-height: auto !important;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border-radius: 6px;
+      flex-direction: column;
+    }
+    
+    /* Image should be full width, natural height — NOT squeezed */
+    .page-img {
+      width: 100% !important;
+      height: auto !important;
+      object-fit: contain !important;
+    }
+    
+    .image-wrapper {
+      width: 100% !important;
+      height: auto !important;
+      display: block !important;
+    }
+    
+    /* Allow the page to scroll vertically to see full image */
+    .workspace, body {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      height: auto !important;
+      min-height: 100vh;
+    }
+    
+    /* Compact nav */
+    .navbar { padding: 0 10px; height: 44px; flex-wrap: wrap; }
+    .navbar-title { font-size: 11px; }
+    .nav-btn { font-size: 10px; padding: 4px 8px; }
+    
+    /* Letter index horizontal scroll */
+    .index-bar {
+      overflow-x: auto !important;
+      flex-wrap: nowrap !important;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 4px 8px;
+      gap: 3px;
+      height: 40px !important;
+      justify-content: flex-start !important;
+    }
+    .index-bar::-webkit-scrollbar { display: none; }
+    .index-container {
+      flex-wrap: nowrap !important;
+      gap: 3px !important;
+    }
+    .idx-pill {
+      min-width: 26px;
+      height: 26px;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+    .idx-pill.cover-pill {
+      width: 48px;
+    }
+    
+    /* Bottom controls */
+    .controls-bar { margin-top: 8px; gap: 10px; height: 50px !important; }
+
+    .zoom-container {
+      display: none;
+    }
+
+    .cover-spread {
+      flex-direction: column;
+    }
+    .cover-half {
+      padding: 30px;
+      height: auto;
+      min-height: 230px;
+      width: 100% !important;
+    }
+    .cover-half .tag {
+      position: static;
+      margin-top: 24px;
+    }
+
+    /* Keep closed covers responsive and beautiful */
+    .closed-cover {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      padding: 12px;
+    }
+    .closed-book {
+      width: 95vw !important;
+      height: auto !important;
+      aspect-ratio: 1.5 / 1 !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <a class="navbar-brand" href="index.html">Physicism</a>
+  <span class="navbar-title">Physics Pictionary</span>
+  <a class="nav-btn" href="dp-dashboard.html">MYP Dashboard</a>
+  <a class="nav-btn" href="index.html">Home</a>
+  <button id="themeToggle" class="nav-btn" onclick="toggleTheme()" style="cursor:pointer;font-size:12px;padding:7px 12px;margin-left:8px;display:inline-flex;align-items:center;justify-content:center;">🌓</button>
+</div>
+
+<!-- HORIZONTAL A-Z INDEX BAR -->
+<div class="index-bar">
+  <div class="index-container" id="indexContainer"></div>
+</div>
+
+<!-- WORKSPACE DESK AREA -->
+<div class="workspace">
+
+  <!-- CLOSED BOOK COVER — shown on first load -->
+  <div id="closed-cover" class="closed-cover">
+    <div class="closed-book" onclick="openTheBook()">
+      <div class="cover-spiral-left"></div>
+      <div class="closed-book-front">
+        <img src="Images/pictionary/main-cover-page.png" alt="Physics Pictionary Cover" class="cover-img"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="cover-fallback" style="display:none;">
+          <h2 style="font-family:'Playfair Display',serif;color:white;font-size:32px;">DP Physics<br>Pictionary</h2>
+          <p style="color:rgba(255,255,255,0.6);font-style:italic;margin-top:8px;">A to Z Glossary</p>
+          <div style="width:60px;height:1px;background:rgba(255,255,255,0.25);margin:16px auto;"></div>
+          <p style="color:rgba(255,255,255,0.3);font-size:10px;letter-spacing:3px;text-transform:uppercase;">Atul Soral Physicism</p>
+        </div>
+      </div>
+      <div class="closed-book-edge"></div>
+    </div>
+    <button class="open-book-btn" onclick="openTheBook()">Open Book</button>
+    <p class="open-hint">Click to open or press any letter above</p>
+  </div>
+
+  <!-- END BOOK COVER — shown past Y+Z or clicking End Button -->
+  <div id="end-cover" class="closed-cover hidden" style="opacity:0;">
+    <div class="closed-book" onclick="closeBookToStart()">
+      <div class="cover-spiral-right"></div>
+      <div class="closed-book-front">
+        <img src="Images/pictionary/main-end-page.png" alt="End — Atul Soral Physicism" class="cover-img"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="cover-fallback" style="display:none;">
+          <h2 style="font-family:'Playfair Display',serif;color:white;font-size:28px;">Thank You</h2>
+          <p style="color:rgba(255,255,255,0.6);font-style:italic;margin-top:8px;">Keep exploring, keep questioning.</p>
+          <div style="width:60px;height:1px;background:rgba(255,255,255,0.25);margin:16px auto;"></div>
+          <p style="color:rgba(255,255,255,0.3);font-size:10px;letter-spacing:3px;text-transform:uppercase;">Atul Soral Physicism</p>
+        </div>
+      </div>
+      <div class="closed-book-edge"></div>
+    </div>
+    <button class="open-book-btn" onclick="closeBookToStart()">Back to Cover</button>
+    <p class="open-hint">Click to return to the beginning</p>
+  </div>
+  
+  <div class="book-viewport" id="bookViewport">
+    <div class="book-spread book-container spread-container" id="bookSpread">
+      
+      <!-- COVER SPREAD TEMPLATE -->
+      <div class="cover-spread" id="coverContainer">
+        <div class="cover-half cover-left-side left-page" onclick="flipBackward()">
+          <h2>Physics Pictionary</h2>
+          <h3>A to Z Glossary</h3>
+          <div class="cover-line"></div>
+          <div class="tag">Atul Soral Physicism</div>
+        </div>
+        <div class="cover-half cover-right-side right-page" onclick="flipForward()">
+          <h2 style="font-size:24px;">Explore Core Physics</h2>
+          <p style="font-size:12px;opacity:0.8;text-align:center;line-height:1.6;max-width:320px;">Click any letter in the top bar to immediately flip to that concept's infographic revision poster.</p>
+          <div class="cover-line"></div>
+          <div class="tag" style="position:static;margin-top:16px;">Revision Companion</div>
+        </div>
+      </div>
+
+      <!-- SPREAD PAGES -->
+      <div class="page left-page" id="leftPage" style="display:none;" onclick="flipBackward()">
+        <div class="page-turn-shadow"></div>
+      </div>
+      <div class="page right-page" id="rightPage" style="display:none;" onclick="flipForward()">
+        <div class="page-turn-shadow"></div>
+      </div>
+
+      <!-- CENTER SPINE / SPIRAL BINDING -->
+      <div class="spine" id="spine"></div>
+
+    </div>
+  </div>
+
+  <!-- CONTROLS & NAVIGATION -->
+  <div class="controls-bar">
+    <button class="ctrl-btn" id="prevBtn" aria-label="Previous spread" onclick="flipBackward()">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    
+    <div class="page-info" id="pageInfo">Cover</div>
+
+    <div class="zoom-container">
+      <button class="zoom-btn" onclick="adjustZoom(-0.1)" title="Zoom Out">−</button>
+      <div class="zoom-val" id="zoomVal">100%</div>
+      <button class="zoom-btn" onclick="adjustZoom(0.1)" title="Zoom In">+</button>
+    </div>
+
+    <button class="ctrl-btn" id="nextBtn" aria-label="Next spread" onclick="flipForward()">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+  
+  <div class="tips">Use ← → arrow keys or click book edges</div>
+
+</div>
+
+<!-- FEEDBACK WIDGET HTML -->
+<button id="fb-trigger" title="Send feedback or report an error" style="position:fixed;bottom:28px;right:28px;z-index:9000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#ef4444,#7f1d1d);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(239,68,68,.5);display:flex;align-items:center;justify-content:center;font-size:1.3rem;transition:transform .2s,box-shadow .2s;color:white;">💬</button>
+<div id="fb-panel">
+  <div style="background:linear-gradient(135deg,#ef4444,#7f1d1d);padding:13px 18px;font-family:'DM Sans',sans-serif;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:white;display:flex;align-items:center;gap:8px;">📬 Feedback / Correction</div>
+  <div style="padding:16px;display:flex;flex-direction:column;gap:11px;">
+    <div style="font-size:.7rem;color:#888;background:#f0ebe2;padding:5px 10px;border-radius:6px;word-break:break-all;" id="fb-page-url"></div>
+    <input id="fb-email" type="email" placeholder="Your email (optional)" style="width:100%;background:white;border:1.5px solid rgba(0,0,0,0.06);border-radius:8px;color:#1a1a2e;font-family:'DM Sans',sans-serif;font-size:.86rem;padding:9px 12px;outline:none;">
+    <textarea id="fb-message" placeholder="Found a mistake? Suggestion? Tell me here…" style="width:100%;background:white;border:1.5px solid rgba(0,0,0,0.06);border-radius:8px;color:#1a1a2e;font-family:'DM Sans',sans-serif;font-size:.86rem;padding:9px 12px;height:88px;resize:none;outline:none;"></textarea>
+    <button id="fb-send-btn" style="background:linear-gradient(135deg,#ef4444,#991b1b);border:none;color:white;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;padding:10px;border-radius:8px;cursor:pointer;">Send Feedback</button>
+    <div id="fb-status" style="font-size:.78rem;text-align:center;min-height:16px;color:#888;"></div>
+  </div>
+</div>
+
+<!-- EmailJS SDK — must load BEFORE the feedback script -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+// Initialize EmailJS
+emailjs.init({ publicKey: 'jhfWQKIKtye-3eVpn' });
+
+// Set page URL display
+document.getElementById('fb-page-url').textContent = '📄 ' + window.location.pathname;
+
+// Feedback toggle
+var fbTrigger = document.getElementById('fb-trigger');
+var fbPanel = document.getElementById('fb-panel');
+
+fbTrigger.addEventListener('click', function(e) {
+  e.stopPropagation();
+  var isOpen = fbPanel.classList.toggle('open');
+  fbTrigger.textContent = isOpen ? '✕' : '💬';
+  if (isOpen) setTimeout(function() { document.getElementById('fb-message').focus(); }, 250);
+});
+
+document.addEventListener('click', function(e) {
+  if (!fbPanel.contains(e.target) && e.target !== fbTrigger) {
+    fbPanel.classList.remove('open');
+    fbTrigger.textContent = '💬';
+  }
+});
+
+// Send feedback
+document.getElementById('fb-send-btn').addEventListener('click', async function() {
+  var msg = document.getElementById('fb-message').value.trim();
+  var email = document.getElementById('fb-email').value.trim();
+  var status = document.getElementById('fb-status');
+  var btn = document.getElementById('fb-send-btn');
+
+  if (!msg) {
+    status.textContent = 'Please write something first.';
+    status.style.color = '#c0392b';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  status.textContent = '';
+
+  try {
+    await emailjs.send('service_ni72akl', 'template_xr522or', {
+      page: window.location.href,
+      message: msg,
+      email: email || '(not provided)',
+      sent_at: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+    });
+    status.textContent = '✓ Sent! Thank you.';
+    status.style.color = '#2e7d32';
+    document.getElementById('fb-message').value = '';
+    document.getElementById('fb-email').value = '';
+    setTimeout(function() {
+      fbPanel.classList.remove('open');
+      fbTrigger.textContent = '💬';
+      btn.disabled = false;
+      btn.textContent = 'Send Feedback';
+      status.textContent = '';
+    }, 2200);
+  } catch(err) {
+    console.error('Feedback error:', err);
+    status.textContent = '❌ Could not send. Check console.';
+    status.style.color = '#c0392b';
+    btn.disabled = false;
+    btn.textContent = 'Send Feedback';
+  }
+});
+</script>
+
+<script>
+var LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+var WORDS = {A:'Amazing',B:'Bewitching',C:'Captivating',D:'Divine',E:'Enchanting',F:'Fascinating',G:'Glorious',H:'Harmonious',I:'Incredible',J:'Joyful',K:'Kinetic',L:'Luminous',M:'Magnificent',N:'Noble',O:'Outstanding',P:'Powerful',Q:'Quantum',R:'Radiant',S:'Spectacular',T:'Thrilling',U:'Universal',V:'Vibrant',W:'Wonderful',X:'Xenial',Y:'Youthful',Z:'Zealous'};
+
+var currentSpread = 0;
+var currentPage = 0; // 0 = Cover, 1 = A, 2 = B ... 26 = Z
+var totalSpreads = 14; 
+var zoomLevel = 1.0;
+var isAnimating = false;
+var bookOpened = false;
+
+// BUILD INDEX HORIZONTAL PILLS
+var idxContainer = document.getElementById('indexContainer');
+
+var coverPill = document.createElement('button');
+coverPill.className = 'idx-pill index-letter active';
+coverPill.textContent = 'Cover';
+coverPill.setAttribute('data-letter', 'Cover');
+coverPill.setAttribute('id', 'idx-Cover');
+coverPill.addEventListener('click', function() { 
+  // If end cover is showing, close it
+  var endCover = document.getElementById('end-cover');
+  if (endCover && !endCover.classList.contains('hidden')) {
+    closeBookToStart();
+    return;
+  }
+  if (bookOpened) {
+    currentSpread = 0; // Go to the cover spread!
+    renderSpread();
+    updateIndexHighlight();
+  } else {
+    openTheBook();
+  }
+});
+idxContainer.appendChild(coverPill);
+
+LETTERS.forEach(function(letter) {
+  var pill = document.createElement('button');
+  pill.className = 'idx-pill index-letter';
+  pill.textContent = letter;
+  pill.setAttribute('data-letter', letter);
+  pill.setAttribute('id', 'idx-' + letter);
+  pill.addEventListener('click', function() { 
+    // Make sure end cover is hidden if they jump
+    var endCover = document.getElementById('end-cover');
+    if (endCover && !endCover.classList.contains('hidden')) {
+      endCover.classList.add('hidden');
+      endCover.style.opacity = '0';
+      
+      var startCover = document.getElementById('closed-cover');
+      startCover.classList.add('hidden');
+      
+      var bookContainer = document.querySelector('.book-container');
+      bookContainer.style.display = '';
+      bookContainer.style.opacity = '';
+    }
+
+    if (!bookOpened) {
+      openTheBook();
+      setTimeout(function() { goToLetter(letter); }, 700);
+      return;
+    }
+    goToLetter(letter); 
+  });
+  idxContainer.appendChild(pill);
+});
+
+// Append End Button after Z
+var endBtn = document.createElement('button');
+endBtn.className = 'idx-pill index-letter';
+endBtn.textContent = '✦';
+endBtn.title = 'End Page';
+endBtn.id = 'idx-end';
+endBtn.addEventListener('click', function() {
+  if (!bookOpened) return;
+  showEndCover();
+});
+idxContainer.appendChild(endBtn);
+
+function goToLetter(letter) {
+  var idx = LETTERS.indexOf(letter);
+  var targetPage = idx + 1; 
+  var targetSpread = Math.floor(idx / 2) + 1; 
+  navigateToSpread(targetSpread, targetPage);
+}
+
+function openTheBook() {
+  if (bookOpened) return;
+  bookOpened = true;
+  var cover = document.getElementById('closed-cover');
+  cover.classList.add('opening');
+
+  var spreadEl = document.getElementById('bookSpread');
+  spreadEl.classList.add('opened');
+
+  // Fade in control bars
+  document.querySelector('.controls-bar').classList.add('opened');
+  document.querySelector('.tips').classList.add('opened');
+
+  setTimeout(function() {
+    cover.classList.add('hidden');
+    currentSpread = 1; // Opens to Spread 1 (A+B) as requested
+    currentPage = 1;   // Initialize active letter to A (1) on opening
+    renderSpread();
+    updateIndexHighlight();
+  }, 600);
+}
+
+// Global exposure for onclick handlers
+window.openTheBook = openTheBook;
+
+function showEndCover() {
+  if (isAnimating) return;
+  
+  // Hide open book viewport
+  var spreadEl = document.getElementById('bookSpread');
+  spreadEl.classList.remove('opened');
+  
+  // Hide control bars
+  document.querySelector('.controls-bar').classList.remove('opened');
+  document.querySelector('.tips').classList.remove('opened');
+
+  setTimeout(function() {
+    // Show the end cover (reuse the closed-cover structure)
+    var endCover = document.getElementById('end-cover');
+    endCover.classList.remove('hidden', 'opening');
+    // Force reflow
+    endCover.offsetHeight;
+    endCover.style.opacity = '1';
+    
+    updateIndexHighlight();
+  }, 500);
+}
+
+// Global exposure
+window.showEndCover = showEndCover;
+
+function closeBookToStart() {
+  var endCover = document.getElementById('end-cover');
+  endCover.style.opacity = '0';
+  endCover.classList.add('opening');
+  
+  setTimeout(function() {
+    endCover.classList.add('hidden');
+    endCover.classList.remove('opening');
+    // Reset to start
+    bookOpened = false;
+    currentSpread = 0;
+    currentPage = 0;
+    
+    var startCover = document.getElementById('closed-cover');
+    startCover.classList.remove('hidden', 'opening');
+    // Force reflow
+    startCover.offsetHeight;
+    startCover.style.opacity = '1';
+
+    var spreadEl = document.getElementById('bookSpread');
+    spreadEl.classList.remove('opened');
+    
+    // Make sure controls are hidden
+    document.querySelector('.controls-bar').classList.remove('opened');
+    document.querySelector('.tips').classList.remove('opened');
+    
+    renderSpread();
+    updateIndexHighlight();
+  }, 600);
+}
+
+// Global exposure
+window.closeBookToStart = closeBookToStart;
+
+function navigateToSpread(targetSpread, targetPageForce) {
+  if (isAnimating) return;
+  if (targetSpread === currentSpread && targetPageForce === undefined) return;
+
+  isAnimating = true;
+
+  var isNext = targetSpread > currentSpread;
+  var exitClass = isNext ? 'exit-left' : 'exit-right';
+
+  var spreadEl = document.getElementById('bookSpread');
+  
+  // Phase 1: Exit slide out
+  spreadEl.classList.add(exitClass);
+
+  setTimeout(function() {
+    // Phase 2: Update variables
+    currentSpread = targetSpread;
+    if (targetPageForce !== undefined) {
+      currentPage = targetPageForce;
+    } else {
+      currentPage = (currentSpread === 0) ? 0 : (currentSpread - 1) * 2 + 1;
+    }
+
+    renderSpread();
+
+    // Prepare enter from the opposite side
+    spreadEl.classList.remove(exitClass);
+    var enterClass = isNext ? 'exit-right' : 'exit-left';
+    spreadEl.classList.add(enterClass);
+    
+    // Force DOM reflow
+    spreadEl.offsetHeight;
+
+    // Phase 3: Slide back in
+    spreadEl.classList.remove(enterClass);
+    isAnimating = false;
+  }, 350);
+}
+
+function renderSpread() {
+  var spreadEl = document.getElementById('bookSpread');
+  var leftPageEl = document.getElementById('leftPage');
+  var rightPageEl = document.getElementById('rightPage');
+  var coverContainerEl = document.getElementById('coverContainer');
+  var spineEl = document.getElementById('spine');
+
+  // Mobile single page view classes
+  spreadEl.classList.remove('show-left-only', 'show-right-only');
+  if (currentPage > 0) {
+    if (currentPage % 2 !== 0) {
+      spreadEl.classList.add('show-left-only');
+    } else {
+      spreadEl.classList.add('show-right-only');
+    }
+  }
+
+  if (currentSpread === 0) {
+    leftPageEl.style.display = 'none';
+    rightPageEl.style.display = 'none';
+    coverContainerEl.style.display = 'flex';
+    spineEl.style.display = 'block';
+    document.getElementById('pageInfo').textContent = 'Cover';
+  } else {
+    if (currentPage === 0) {
+      currentPage = 1;
+    }
+    if (window.innerWidth <= 900) {
+      leftPageEl.style.display = 'none';
+      rightPageEl.style.display = 'flex';
+      coverContainerEl.style.display = 'none';
+      spineEl.style.display = 'none';
+
+      var mobileIdx = currentPage - 1;
+      if (mobileIdx < 0) mobileIdx = 0;
+      loadPageContent(rightPageEl, mobileIdx);
+    } else {
+      leftPageEl.style.display = 'flex';
+      rightPageEl.style.display = 'flex';
+      coverContainerEl.style.display = 'none';
+      spineEl.style.display = 'block';
+
+      var leftIdx = (currentSpread - 1) * 2;
+      var rightIdx = leftIdx + 1;
+
+      loadPageContent(leftPageEl, leftIdx);
+      loadPageContent(rightPageEl, rightIdx);
+    }
+
+    // Responsive pagination text
+    if (window.innerWidth <= 900) {
+      var activeLetter = LETTERS[currentPage - 1];
+      document.getElementById('pageInfo').textContent = activeLetter + ' · ' + currentPage + ' / 26';
+    } else {
+      var lLetter = LETTERS[leftIdx];
+      var rLetter = LETTERS[rightIdx];
+      document.getElementById('pageInfo').textContent = lLetter + ' + ' + rLetter + ' · Spread ' + currentSpread + ' / 13';
+    }
+  }
+
+  // Update controls disabled state
+  document.getElementById('prevBtn').disabled = (window.innerWidth <= 900) ? (currentPage === 0) : (currentSpread === 0);
+  document.getElementById('nextBtn').disabled = (window.innerWidth <= 900) ? (currentPage >= 26) : (currentSpread >= 13);
+
+  updateIndexHighlight();
+}
+
+const dpImages = [
+  "A2-pictionary.png",
+  "B2-pictionary.png",
+  "C2-pictionary.png",
+  "D2-pictionary.png",
+  "E2-pictionary.png",
+  "F2-pictionary.png",
+  "G2-pictionary.png",
+  "H2-pictionary.png",
+  "I2-pictionary.png",
+  "J2-pictionary.png",
+  "K2-pictionary.png",
+  "L2-pictionary.png",
+  "M2-pictionary.png",
+  "N2-pictionary.png",
+  "O2-pictionary.png",
+  "P2-pictionary.png",
+  "Q2-pictionary.png",
+  "R2-pictionary.png",
+  "S2-pictionary.png",
+  "T2pictionary.png",
+  "U2-pictionary.png",
+  "V2-pictionary.png",
+  "W2-pictionary.png",
+  "X2-pictionary.png",
+  "Y2-pictionary.png",
+  "Z2-pictionary.png"
+];
+
+function loadPageContent(pageEl, letterIdx) {
+  var letter = LETTERS[letterIdx];
+  var word = WORDS[letter] || '';
+  var src = 'Images/pictionary/' + dpImages[letterIdx];
+
+  // Clear but keep or recreate page-turn-shadow!
+  pageEl.innerHTML = '<div class="page-turn-shadow"></div>';
+
+  var wrapper = document.createElement('div');
+  wrapper.className = 'image-wrapper';
+  wrapper.style.width = '100%';
+  wrapper.style.height = '100%';
+
+  var img = document.createElement('img');
+  img.src = src;
+  img.className = 'page-img';
+  img.alt = letter + ' is for ' + word + ' Physics';
+  img.draggable = false;
+  img.setAttribute('oncontextmenu', 'return false');
+
+  var overlay = document.createElement('div');
+  overlay.className = 'image-overlay';
+
+  img.onerror = function() {
+    wrapper.innerHTML = `
+      <div class="coming-soon">
+        <div class="cs-letter">${letter}</div>
+        <div class="cs-title">${letter} is for ${word} Physics</div>
+        <div class="cs-subtitle">Infographic Coming Soon</div>
+      </div>
+    `;
+  };
+
+  wrapper.appendChild(img);
+  wrapper.appendChild(overlay);
+  pageEl.appendChild(wrapper);
+}
+
+function updateIndexHighlight() {
+  document.querySelectorAll('.index-letter').forEach(function(btn) {
+    btn.classList.remove('active');
+  });
+
+  var endCover = document.getElementById('end-cover');
+  if (endCover && !endCover.classList.contains('hidden')) {
+    var eb = document.getElementById('idx-end');
+    if (eb) eb.classList.add('active');
+    return;
+  }
+
+  if (!bookOpened) {
+    var cb = document.getElementById('idx-Cover');
+    if (cb) cb.classList.add('active');
+    return;
+  }
+
+  if (currentSpread === 0) {
+    var cb = document.getElementById('idx-Cover');
+    if (cb) cb.classList.add('active');
+    return;
+  }
+
+  if (window.innerWidth <= 900) {
+    var activeLetter = LETTERS[currentPage - 1];
+    var activeBtn = document.getElementById('idx-' + activeLetter);
+    if (activeBtn) activeBtn.classList.add('active');
+  } else {
+    var leftIdx = (currentSpread - 1) * 2;
+    var rightIdx = leftIdx + 1;
+    var leftLetter = LETTERS[leftIdx];
+    var rightLetter = LETTERS[rightIdx];
+    
+    if (leftLetter) {
+      var lb = document.getElementById('idx-' + leftLetter);
+      if (lb) lb.classList.add('active');
+    }
+    if (rightLetter) {
+      var rb = document.getElementById('idx-' + rightLetter);
+      if (rb) rb.classList.add('active');
+    }
+  }
+
+  // Smooth scroll highlighted index item into view on mobile
+  var activePill = document.querySelector('.idx-pill.active');
+  if (activePill && window.innerWidth <= 900) {
+    activePill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+}
+
+function navigateForward() {
+  if (isAnimating) return;
+  if (currentSpread >= 13) {
+    showEndCover();
+    return;
+  }
+  
+  isAnimating = true;
+  var container = document.querySelector('.spread-container');
+  container.classList.add('turning', 'turning-forward');
+  
+  setTimeout(function() {
+    currentSpread++;
+    currentPage = (currentSpread === 0) ? 0 : (currentSpread - 1) * 2 + 1;
+
+    renderSpread();
+    container.classList.remove('turning', 'turning-forward');
+    isAnimating = false;
+  }, 450);
+}
+
+// Global exposure for onclick handlers
+window.navigateForward = navigateForward;
+
+function navigateBackward() {
+  if (isAnimating) return;
+  if (currentSpread <= 0) return; // Already on cover spread, do nothing
+  
+  isAnimating = true;
+  var container = document.querySelector('.spread-container');
+  container.classList.add('turning', 'turning-backward');
+  
+  setTimeout(function() {
+    currentSpread--;
+    currentPage = (currentSpread === 0) ? 0 : (currentSpread - 1) * 2 + 1;
+
+    renderSpread();
+    container.classList.remove('turning', 'turning-backward');
+    isAnimating = false;
+  }, 450);
+}
+
+// Global exposure for onclick handlers
+window.navigateBackward = navigateBackward;
+
+function flipForward() {
+  if (isAnimating) return;
+  if (window.innerWidth <= 900) {
+    if (currentPage >= 26) {
+      showEndCover();
+      return;
+    }
+    isAnimating = true;
+    var container = document.querySelector('.spread-container');
+    container.classList.add('turning', 'turning-forward');
+    setTimeout(function() {
+      currentPage++;
+      currentSpread = Math.floor((currentPage - 1) / 2) + 1;
+      renderSpread();
+      container.classList.remove('turning', 'turning-forward');
+      isAnimating = false;
+    }, 450);
+  } else {
+    navigateForward();
+  }
+}
+
+// Global exposure for onclick handlers
+window.flipForward = flipForward;
+
+function flipBackward() {
+  if (isAnimating) return;
+  if (window.innerWidth <= 900) {
+    if (currentPage <= 0) return;
+    isAnimating = true;
+    var container = document.querySelector('.spread-container');
+    container.classList.add('turning', 'turning-backward');
+    setTimeout(function() {
+      currentPage--;
+      currentSpread = (currentPage === 0) ? 0 : Math.floor((currentPage - 1) / 2) + 1;
+      renderSpread();
+      container.classList.remove('turning', 'turning-backward');
+      isAnimating = false;
+    }, 450);
+  } else {
+    navigateBackward();
+  }
+}
+
+// Global exposure for onclick handlers
+window.flipBackward = flipBackward;
+
+window.adjustZoom = function(amount) {
+  zoomLevel = Math.max(0.6, Math.min(1.5, zoomLevel + amount));
+  var wrapper = document.getElementById('bookViewport');
+  wrapper.style.transform = 'scale(' + zoomLevel + ')';
+  document.getElementById('zoomVal').textContent = Math.round(zoomLevel * 100) + '%';
+};
+
+function autoSizeBook() {
+  var bookEl = document.querySelector('.book-container');
+  if (!bookEl) return;
+
+  if (window.innerWidth <= 900) {
+    bookEl.style.width = '';
+    bookEl.style.height = '';
+    return;
+  }
+
+  var maxW = window.innerWidth - 40;
+  var maxH = window.innerHeight - 200; // room for top index and navbars
+  var spreadRatio = 2.6; // width / height
+  var w = maxW;
+  var h = w / spreadRatio;
+  if (h > maxH) {
+    h = maxH;
+    w = h * spreadRatio;
+  }
+  bookEl.style.width = w + 'px';
+  bookEl.style.height = h + 'px';
+}
+
+// Keyboard navigation listeners
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); flipForward(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); flipBackward(); }
+});
+
+// Touch swipe navigation
+var touchStartX = 0;
+var spreadEl = document.getElementById('bookSpread');
+spreadEl.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+spreadEl.addEventListener('touchend', function(e) {
+  var dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 60) { dx < 0 ? flipForward() : flipBackward(); }
+}, { passive: true });
+
+// Copy and save protection
+document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+
+// Layout updates on resize
+window.addEventListener('resize', function() {
+  autoSizeBook();
+  renderSpread();
+});
+
+// Initialization
+autoSizeBook();
+renderSpread();
+
+</script>
+
+<script>
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+</script>
+</body>
+</html>
