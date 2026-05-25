@@ -10138,6 +10138,205 @@ const DP_STUDENT_DATA = {
 
   ]
 },
+"C5": {
+  "title": "The Doppler Effect",
+  "code": "C.5",
+  "theme": "C",
+  "level": "SL + HL",
+  "subtopicCount": 3,
+  "subtopics": [
+
+    {
+      "id": "c5_sub1",
+      "num": 1,
+      "title": "The Doppler Effect for Sound",
+      "group": "Doppler",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "C.4 Standing Waves",
+      "nextTitle": "The Doppler Effect for Light",
+      "bigIdea": "When a source of sound moves toward you, the wavefronts are compressed — the pitch rises. When it moves away, they stretch — the pitch drops. This is the Doppler effect for sound, and it depends on whether the SOURCE or the OBSERVER is moving (unlike light, where only relative motion matters).",
+      "foundation": {
+        "title": "Why moving sources change pitch",
+        "content": "<h4>Moving source</h4><p>A source moving at v_s emits waves at frequency f. The wavefronts ahead are compressed (shorter λ → higher f). Behind: stretched (longer λ → lower f).</p><p><strong>f' = fv/(v ∓ v_s)</strong></p><p>− for approaching (higher f'), + for receding (lower f').</p><h4>Moving observer</h4><p>An observer moving toward a source encounters wavefronts more frequently → higher observed frequency. Moving away → less frequently → lower.</p><p><strong>f' = f(v ± v_o)/v</strong></p><p>+ for approaching, − for receding.</p><h4>Both moving</h4><p><strong>f' = f(v ± v_o)/(v ∓ v_s)</strong></p><p>Use upper signs for approaching, lower for receding.</p>",
+        "summary": "<p><strong>Source moving: f' = fv/(v ∓ v_s).</strong></p><p><strong>Observer moving: f' = f(v ± v_o)/v.</strong></p><p><strong>Both: f' = f(v ± v_o)/(v ∓ v_s).</strong></p>",
+        "checkQuestions": [
+          { "question": "A siren (f = 700 Hz) on an ambulance approaches at 25 m/s. v = 340 m/s. Find f'.", "answer": "f' = 700 × 340/(340 − 25) = 700 × 340/315 = 755 Hz." }
+        ],
+        "checklist": [
+          "I can apply the Doppler formula for a moving source",
+          "I can apply the Doppler formula for a moving observer",
+          "I can combine both for the general case"
+        ]
+      },
+      "core": {
+        "title": "Calculations and wavefront diagrams",
+        "content": "<h4>Wavefront diagrams</h4><p>Draw concentric circles (wavefronts) from a moving source. The centre of each circle is where the source WAS when it emitted that wavefront. Ahead: circles are close together (short λ). Behind: far apart (long λ). An observer ahead hears higher pitch; behind hears lower.</p><h4>The asymmetry of sound Doppler</h4><p>For sound: moving source and moving observer give DIFFERENT results (even for the same relative speed). This is because sound has a medium (air) — the physics depends on motion relative to the medium, not just relative motion between source and observer.</p><p>Example: source at 0.5v toward stationary observer: f' = f × v/(0.5v) = 2f (doubled). Observer at 0.5v toward stationary source: f' = f × 1.5v/v = 1.5f. Different results for the same relative speed.</p>",
+        "keyPoints": [
+          "Wavefront diagrams: compressed ahead, stretched behind",
+          "Sound Doppler is asymmetric: source moving ≠ observer moving (unlike light)",
+          "This asymmetry is because sound has a medium"
+        ],
+        "examTrap": { "wrong": "The Doppler formulas for moving source and moving observer are the same", "correct": "They're DIFFERENT for sound: f' = fv/(v−v_s) vs f' = f(v+v_o)/v. They give different results for the same speed. For light: only relative motion matters (no medium)." },
+        "checkQuestions": [
+          { "question": "Source at 30 m/s receding, observer at 20 m/s approaching. f = 500 Hz, v = 340 m/s. Find f'.", "answer": "f' = 500 × (340 + 20)/(340 + 30) = 500 × 360/370 = 486.5 Hz. Net effect: slight recession → frequency slightly lower." }
+        ],
+        "checklist": [
+          "I can draw wavefront diagrams for a moving source",
+          "I can explain the asymmetry of sound Doppler (medium-dependent)"
+        ]
+      },
+      "extension": { "title": "Sonic booms and the Mach cone", "content": "<p>When v_s > v (supersonic): the source outruns its own wavefronts → they pile up into a cone-shaped shock wave (Mach cone). The half-angle: sin θ = v/v_s = 1/M (Mach number M = v_s/v). Inside the cone: no sound heard yet. When the cone passes: a sudden 'boom.' All supersonic objects (jets, bullets, whip tips) create sonic booms.</p>", "connections": ["A.1 Kinematics: supersonic motion is simply v > v_sound", "C.2 Wave Model: the Mach cone is a special case of wave interference"], "checklist": ["I can describe sonic booms and calculate the Mach cone angle: sin θ = v/v_s"] },
+      "video": { "title": "Doppler Effect for Sound — IB Physics", "duration": "8 min", "description": "Moving source and observer, wavefront diagrams, and sonic booms", "embedId": "" },
+      "equations": [
+        { "formula": "f' = fv/(v ∓ v_s)", "description": "Moving source. − approaching, + receding." },
+        { "formula": "f' = f(v ± v_o)/v", "description": "Moving observer. + approaching, − receding." },
+        { "formula": "sin θ = v/v_s = 1/M", "description": "Mach cone half-angle. M = Mach number." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A car horn (500 Hz) passes you at 30 m/s. v = 340 m/s. Find f' approaching and receding.", "steps": [
+          { "label": "Approaching", "text": "f' = 500 × 340/310 = 548 Hz", "isEquation": true },
+          { "label": "Receding", "text": "f' = 500 × 340/370 = 459 Hz", "isEquation": true },
+          { "label": "Shift", "text": "548 − 459 = 89 Hz change as the car passes." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A train horn at 400 Hz approaches at 40 m/s (v = 340). Find the observed frequency.", "solution": "f' = 400 × 340/300 = 453 Hz." },
+        { "difficulty": "hard", "scope": "sl", "question": "A jet flies at Mach 2. Find the Mach cone half-angle.", "solution": "sin θ = 1/M = 1/2 = 0.5. θ = 30°." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using v + v_s for approaching source", "explanation": "Approaching SOURCE: use v − v_s in the denominator (wavefronts compressed → SMALLER denominator → HIGHER f). Receding: v + v_s.", "correct": "Approaching source: f' = fv/(v − v_s). Receding: fv/(v + v_s)." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A stationary observer hears a car horn change from 520 Hz to 480 Hz as the car passes. v = 340 m/s.\n(a) Find the speed of the car. [3]\n(b) Find the actual frequency of the horn. [1]", "marks": 4, "modelAnswer": "(a) f_approach = fv/(v−v_s) = 520. f_recede = fv/(v+v_s) = 480. Dividing: 520/480 = (v+v_s)/(v−v_s). 1.083 = (340+v_s)/(340−v_s). 1.083(340−v_s) = 340+v_s. 368.3 − 1.083v_s = 340 + v_s. 28.3 = 2.083v_s. v_s = 13.6 m/s [3].\n(b) f = f_approach(v−v_s)/v = 520 × 326.4/340 = 499 Hz ≈ 500 Hz [1].", "examinerTip": "For 'car passes' problems: set up two equations (approaching and receding) and divide to eliminate f. This gives v_s directly." }
+    },
+
+    {
+      "id": "c5_sub2",
+      "num": 2,
+      "title": "The Doppler Effect for Light — Redshift & Blueshift",
+      "group": "Doppler",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Sound Doppler",
+      "nextTitle": "Applications of the Doppler Effect",
+      "bigIdea": "Stars and galaxies moving away from us have their light shifted to longer wavelengths — redshift. Moving toward us: blueshift. Hubble discovered that distant galaxies are ALL redshifted, and the further away they are, the faster they recede. This means the universe is expanding — one of the greatest discoveries in the history of science.",
+      "foundation": {
+        "title": "Doppler shift of light and the expanding universe",
+        "content": "<h4>Light Doppler — only relative motion matters</h4><p>For electromagnetic waves (no medium): the Doppler shift depends only on the RELATIVE velocity between source and observer:</p><p><strong>Δf/f = Δλ/λ ≈ v/c</strong> (for v << c)</p><p>This is the redshift parameter: <strong>z = Δλ/λ = v/c</strong></p><p>Approaching: blueshift (z < 0, higher f, shorter λ). Receding: redshift (z > 0, lower f, longer λ).</p><h4>Hubble's law</h4><p><strong>v = H₀d</strong></p><p>Recession velocity is proportional to distance. H₀ ≈ 70 km/s/Mpc. More distant galaxies recede faster → the universe is expanding uniformly.</p><h4>Evidence</h4><p>Hubble (1929): measured redshifts of galaxies and their distances → linear relationship → all galaxies are receding → space itself is expanding. This implies: the universe was once very small and dense → the Big Bang (~13.8 billion years ago).</p>",
+        "summary": "<p><strong>z = Δλ/λ = v/c:</strong> redshift parameter. Positive = receding.</p><p><strong>Hubble's law: v = H₀d.</strong> H₀ ≈ 70 km/s/Mpc.</p><p><strong>Universe expanding:</strong> all distant galaxies are redshifted.</p>",
+        "checkQuestions": [
+          { "question": "A galaxy has z = 0.03. Find its velocity and distance.", "answer": "v = zc = 0.03 × 3 × 10⁵ = 9000 km/s. d = v/H₀ = 9000/70 = 128.6 Mpc ≈ 420 million light-years." }
+        ],
+        "checklist": [
+          "I can apply z = Δλ/λ = v/c for light Doppler",
+          "I can distinguish redshift (receding) from blueshift (approaching)",
+          "I can apply Hubble's law: v = H₀d",
+          "I can explain how redshift provides evidence for the expanding universe"
+        ]
+      },
+      "core": {
+        "title": "Cosmological redshift and the age of the universe",
+        "content": "<h4>Cosmological vs Doppler redshift</h4><p>Strictly: the redshift of distant galaxies is NOT a Doppler effect — it's cosmological. Space itself is expanding, stretching the wavelength of light as it travels. The result is the same (z = v/c for v << c), but the physics is different. For IB: treat it as Doppler (the formulas and results are equivalent at low z).</p><h4>Estimating the age of the universe</h4><p>If galaxies have been receding at constant speed since the Big Bang: t = d/v = 1/H₀. H₀ = 70 km/s/Mpc = 70/(3.086 × 10¹⁹) s⁻¹ = 2.27 × 10⁻¹⁸ s⁻¹. t = 1/H₀ = 4.4 × 10¹⁷ s ≈ 14 billion years. (Actual: 13.8 billion years — close, considering the simplifying assumptions.)</p><h4>The cosmic microwave background</h4><p>The CMB is thermal radiation from ~380,000 years after the Big Bang, redshifted by a factor of z ≈ 1100 (from ~3000 K visible light to ~2.7 K microwaves today). Its existence and properties are strong evidence for the Big Bang model.</p>",
+        "keyPoints": [
+          "z = v/c for v << c. For large z: use relativistic formula.",
+          "Age of universe ≈ 1/H₀ ≈ 14 billion years.",
+          "CMB: redshifted thermal radiation from early universe (z ≈ 1100, T = 2.7 K).",
+          "Cosmological redshift: space expands → λ stretches."
+        ],
+        "examTrap": { "wrong": "Hubble's law proves the Big Bang", "correct": "Hubble's law shows the universe is expanding. Extrapolating backward (everything was together) SUPPORTS the Big Bang model. But additional evidence (CMB, element abundances, galaxy evolution) is needed to establish the Big Bang. Hubble's law alone is necessary but not sufficient." },
+        "checkQuestions": [
+          { "question": "Estimate the age of the universe from H₀ = 70 km/s/Mpc.", "answer": "1 Mpc = 3.086 × 10²² m. H₀ = 70,000/(3.086 × 10²²) = 2.27 × 10⁻¹⁸ s⁻¹. t = 1/H₀ = 4.41 × 10¹⁷ s = 14.0 × 10⁹ years ≈ 14 billion years." }
+        ],
+        "checklist": [
+          "I can estimate the age of the universe: t ≈ 1/H₀",
+          "I can describe the CMB as evidence for the Big Bang",
+          "I can distinguish cosmological redshift from Doppler shift conceptually"
+        ]
+      },
+      "extension": { "title": "Dark energy and accelerating expansion", "content": "<p>In 1998, observations of distant supernovae showed the expansion is ACCELERATING — galaxies are moving apart faster now than in the past. This requires a repulsive 'dark energy' opposing gravity. Dark energy makes up ~68% of the universe's energy content. Its nature is unknown — the biggest mystery in modern physics.</p>", "connections": ["D.1 Gravitational Fields: gravity should slow the expansion — dark energy opposes this", "E.5 Stars: Type Ia supernovae are 'standard candles' for measuring cosmic distances"], "checklist": ["I can state that the expansion of the universe is accelerating (dark energy)"] },
+      "video": { "title": "Redshift & the Expanding Universe — IB Physics", "duration": "9 min", "description": "Light Doppler, z = v/c, Hubble's law, CMB, and the age of the universe", "embedId": "" },
+      "equations": [
+        { "formula": "z = Δλ/λ = v/c", "description": "Redshift parameter (v << c)." },
+        { "formula": "v = H₀d", "description": "Hubble's law. H₀ ≈ 70 km/s/Mpc." },
+        { "formula": "t ≈ 1/H₀", "description": "Approximate age of the universe." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Hydrogen-alpha line: lab λ = 656.3 nm. A galaxy shows it at 659.5 nm. Find z, v, and d.", "steps": [
+          { "label": "z", "text": "z = Δλ/λ = (659.5−656.3)/656.3 = 3.2/656.3 = 4.88 × 10⁻³", "isEquation": true },
+          { "label": "v", "text": "v = zc = 4.88 × 10⁻³ × 3 × 10⁵ = 1463 km/s", "isEquation": true },
+          { "label": "d", "text": "d = v/H₀ = 1463/70 = 20.9 Mpc ≈ 68 million light-years", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A galaxy is 200 Mpc away. Find its recession velocity.", "solution": "v = H₀d = 70 × 200 = 14,000 km/s." },
+        { "difficulty": "medium", "scope": "sl", "question": "A spectral line is observed at 510 nm instead of the lab value 500 nm. Is the source approaching or receding? Find v.", "solution": "λ increased → redshift → receding. z = 10/500 = 0.02. v = 0.02c = 6000 km/s." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Redshift means the object is red", "explanation": "Redshift means the light has shifted TOWARD the red end (longer λ). The object could emit any colour — its OBSERVED colour is shifted toward red. A blue star with z = 0.01 still looks blue — just very slightly less blue.", "correct": "Redshift = wavelength increased. Not necessarily red — just shifted in that direction." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A distant galaxy shows a spectral line at 412 nm. The same line measured in the laboratory is at 400 nm.\n(a) Calculate the redshift z. [1]\n(b) Calculate the galaxy's recession velocity. [1]\n(c) Estimate the galaxy's distance using H₀ = 70 km/s/Mpc. [1]\n(d) State what this observation tells us about the universe. [1]", "marks": 4, "modelAnswer": "(a) z = Δλ/λ = 12/400 = 0.030 [1].\n(b) v = zc = 0.030 × 3 × 10⁵ = 9000 km/s [1].\n(c) d = v/H₀ = 9000/70 = 129 Mpc [1].\n(d) The galaxy is moving away from us (redshifted). Combined with Hubble's law (more distant galaxies recede faster), this supports the conclusion that the universe is expanding [1].", "examinerTip": "For redshift questions: (1) calculate z from wavelength shift, (2) find v from z, (3) find d from Hubble's law. Three steps, three marks typically." }
+    },
+
+    {
+      "id": "c5_sub3",
+      "num": 3,
+      "title": "Applications of the Doppler Effect",
+      "group": "Doppler",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Light Doppler",
+      "nextTitle": "D.1 Gravitational Fields",
+      "bigIdea": "The Doppler effect isn't just physics theory — it's used every day. Police radar guns catch speeders. Doctors use Doppler ultrasound to measure blood flow. Astronomers detect exoplanets by the tiny wobble they cause in their star's light. Weather radar tracks storm movements. The Doppler effect is one of the most practically useful wave phenomena.",
+      "foundation": {
+        "title": "Real-world uses of the Doppler effect",
+        "content": "<h4>Speed measurement (radar guns)</h4><p>A radar gun emits microwaves at a car. The reflected signal has a Doppler-shifted frequency. The frequency change gives the car's speed: Δf/f = 2v/c (factor of 2 because the wave travels to the car AND back).</p><h4>Medical Doppler ultrasound</h4><p>Ultrasound is reflected off moving blood cells. The frequency shift reveals blood flow speed and direction. Used to: detect blocked arteries, measure heart valve function, monitor fetal heartbeat.</p><h4>Exoplanet detection (radial velocity method)</h4><p>A planet orbiting a star causes the star to 'wobble' — moving slightly toward and away from Earth. This creates a tiny periodic Doppler shift in the star's spectral lines (Δv ~ m/s). Over 5000 exoplanets have been found this way.</p><h4>Weather radar</h4><p>Doppler radar measures the speed of rain droplets and wind by their frequency shifts. Used to detect rotation in thunderstorms (tornadoes), wind shear, and precipitation movement.</p>",
+        "summary": "<p><strong>Radar guns:</strong> Δf/f = 2v/c (reflected signal, factor 2).</p><p><strong>Medical ultrasound:</strong> blood flow speed from Doppler shift.</p><p><strong>Exoplanets:</strong> star wobble detected as tiny periodic redshift/blueshift.</p><p><strong>Weather radar:</strong> wind and rain speed from Doppler shift.</p>",
+        "checkQuestions": [
+          { "question": "Why is the factor 2v/c used for radar guns instead of v/c?", "answer": "The signal travels TO the car (first Doppler shift) and then the reflection travels BACK (second Doppler shift). Each journey shifts the frequency by approximately v/c, so the total shift is approximately 2v/c." }
+        ],
+        "checklist": [
+          "I can explain how radar guns use the Doppler effect to measure speed",
+          "I can describe Doppler ultrasound for measuring blood flow",
+          "I can describe the radial velocity method for detecting exoplanets",
+          "I can explain Doppler weather radar"
+        ]
+      },
+      "core": {
+        "title": "Calculations for applications",
+        "content": "<h4>Radar gun calculation</h4><p>Radar frequency f₀ = 10 GHz. Car at 30 m/s. Δf = 2f₀v/c = 2 × 10¹⁰ × 30/(3 × 10⁸) = 2000 Hz = 2 kHz. This small shift is easily measurable electronically.</p><h4>Binary star Doppler</h4><p>A binary star system: one star moves toward us (blueshift), the other away (redshift). The orbital speed can be calculated from the maximum Doppler shift. Combined with the period: orbital radius → masses (using Kepler's 3rd law).</p><h4>Doppler broadening</h4><p>In a hot gas: atoms move in all directions at various speeds. Each atom's emission is Doppler-shifted by a different amount → spectral lines are broadened. The width of the broadened line gives the temperature of the gas. Used in astrophysics to measure stellar temperatures and gas dynamics.</p>",
+        "keyPoints": [
+          "Radar: Δf = 2f₀v/c (reflected signal doubles the shift)",
+          "Binary stars: periodic blueshift/redshift reveals orbital speeds and masses",
+          "Doppler broadening: hot gas → broad spectral lines → reveals temperature"
+        ],
+        "examTrap": { "wrong": "The Doppler effect only works with sound", "correct": "The Doppler effect applies to ALL waves: sound, light, radio, ultrasound, water waves. The formulas differ (sound has a medium, light doesn't) but the principle — relative motion changes observed frequency — is universal." },
+        "checkQuestions": [
+          { "question": "A radar gun (f = 24 GHz) measures a car at 40 m/s. Find the frequency shift.", "answer": "Δf = 2f₀v/c = 2 × 24 × 10⁹ × 40/(3 × 10⁸) = 6400 Hz = 6.4 kHz." }
+        ],
+        "checklist": [
+          "I can calculate Doppler shifts for reflected signals: Δf = 2f₀v/c",
+          "I can explain how binary star observations use the Doppler effect",
+          "I can explain Doppler broadening and its use in measuring gas temperature"
+        ]
+      },
+      "extension": { "title": "Gravitational Doppler and GPS", "content": "<p>General relativity predicts gravitational redshift: light climbing out of a gravitational field loses energy → frequency decreases. GPS satellites experience both special relativistic time dilation (clocks slower due to speed) and gravitational time dilation (clocks faster due to weaker gravity at altitude). The net effect: satellite clocks gain ~38 μs/day. Without relativistic corrections, GPS would be inaccurate by ~10 km/day.</p>", "connections": ["A.5 Relativity: time dilation and relativistic Doppler", "D.1 Gravitational Fields: gravitational potential affects clock rates"], "checklist": ["I can describe how GPS requires both SR and GR corrections"] },
+      "video": { "title": "Doppler Applications — IB Physics", "duration": "7 min", "description": "Radar, medical ultrasound, exoplanets, weather radar, and gravitational Doppler", "embedId": "" },
+      "equations": [
+        { "formula": "Δf = 2f₀v/c (radar)", "description": "Frequency shift for reflected Doppler (factor 2 for round trip)." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State two applications of the Doppler effect.", "solution": "1. Police radar guns measure vehicle speed by Doppler shift of reflected microwaves. 2. Medical Doppler ultrasound measures blood flow speed by frequency shift of reflected ultrasound from blood cells." },
+        { "difficulty": "medium", "scope": "sl", "question": "A radar gun (f = 10 GHz) detects a frequency shift of 3 kHz from a moving car. Find the car's speed.", "solution": "Δf = 2f₀v/c → v = Δfc/(2f₀) = 3000 × 3 × 10⁸/(2 × 10¹⁰) = 9 × 10¹¹/2 × 10¹⁰ = 45 m/s ≈ 162 km/h." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Forgetting the factor of 2 for reflected Doppler", "explanation": "When a signal bounces off a moving target: the Doppler shift occurs TWICE (once on the way out, once on the way back). So Δf = 2f₀v/c, not f₀v/c.", "correct": "For reflected signals (radar, ultrasound): use 2v/c, not v/c." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Describe how the Doppler effect is used in ONE of the following: speed measurement, medical imaging, or exoplanet detection. [3]", "marks": 3, "modelAnswer": "Speed measurement (radar gun): A microwave signal of known frequency f₀ is emitted toward a moving vehicle [1]. The signal reflects off the vehicle and returns with a Doppler-shifted frequency. The shift Δf = 2f₀v/c is proportional to the vehicle's speed [1]. By measuring Δf, the gun calculates the vehicle's speed v = Δfc/(2f₀) [1].", "examinerTip": "For application questions: (1) state what signal is used, (2) explain how the Doppler shift arises, (3) state what is measured and how speed/velocity is calculated. Three clear points for three marks." }
+    }
+
+  ]
+},  
 // ============================================================
 // D.1 GRAVITATIONAL FIELDS — COMPLETE (6 subtopics)
 // Ends with comma — ready for D2
@@ -10416,6 +10615,273 @@ const DP_STUDENT_DATA = {
 
   ]
 },
+"D2": {
+  "title": "Electric & Magnetic Fields",
+  "code": "D.2",
+  "theme": "D",
+  "level": "SL + HL",
+  "subtopicCount": 6,
+  "subtopics": [
+
+    {
+      "id": "d2_sub1", "num": 1, "title": "Coulomb's Law & Electric Force", "group": "Electric Fields", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "D.1 Gravitational Fields", "nextTitle": "Electric Field Strength",
+      "bigIdea": "Electric force between charges follows the same inverse square law as gravity — but it can attract OR repel, and it's enormously stronger. The electric force between the proton and electron in a hydrogen atom is 10³⁹ times stronger than the gravitational force between them.",
+      "foundation": {
+        "title": "The force between charges",
+        "content": "<h4>Coulomb's law</h4><p><strong>F = kq₁q₂/r²</strong></p><p>Where k = 8.99 × 10⁹ N m² C⁻² (= 1/(4πε₀)), q₁ and q₂ are the charges (C), r = distance between them (m).</p><p>Also written: <strong>F = q₁q₂/(4πε₀r²)</strong>, where ε₀ = 8.85 × 10⁻¹² F/m (permittivity of free space).</p><h4>Key differences from gravity</h4><ul><li>Can be attractive (opposite charges) OR repulsive (same charges) — gravity is always attractive</li><li>Much stronger than gravity for subatomic particles</li><li>Depends on charge (not mass)</li></ul><h4>Similarities to gravity</h4><ul><li>Inverse square law: F ∝ 1/r²</li><li>Acts between point charges (or spherical charge distributions)</li><li>Conservative force → potential energy exists</li></ul>",
+        "summary": "<p><strong>F = kq₁q₂/r²:</strong> Coulomb's law. k = 8.99 × 10⁹.</p><p><strong>Like charges repel, opposite attract.</strong></p><p><strong>Inverse square, much stronger than gravity.</strong></p>",
+        "checkQuestions": [
+          { "question": "Two charges +3 μC and −5 μC are 0.2 m apart. Find the force.", "answer": "F = kq₁q₂/r² = 8.99 × 10⁹ × 3 × 10⁻⁶ × 5 × 10⁻⁶/0.04 = 3.37 N. Attractive (opposite charges)." }
+        ],
+        "checklist": ["I can state Coulomb's law: F = kq₁q₂/r²", "I can distinguish attractive from repulsive forces", "I can compare electric and gravitational forces"]
+      },
+      "core": {
+        "title": "Applying Coulomb's law and comparing with gravity",
+        "content": "<h4>Calculations with Coulomb's law</h4><p>Same structure as gravitational problems but with charge instead of mass. Sign convention: positive F = repulsive, negative = attractive (or just state the nature separately).</p><h4>Superposition of electric forces</h4><p>Multiple charges: find the force from EACH charge on the test charge, then add as vectors. Same principle as gravitational superposition.</p><h4>The ratio F_E/F_G</h4><p>For proton-electron in hydrogen: F_E/F_G = ke²/(Gm_pm_e) = 2.3 × 10³⁹. Electric force is 10³⁹ times stronger. Gravity is irrelevant at atomic scales.</p>",
+        "keyPoints": ["F = kq₁q₂/r²: same inverse-square form as gravity", "Superposition: add forces as vectors", "F_electric >> F_gravitational at atomic scales"],
+        "examTrap": { "wrong": "The electric force between two protons is always repulsive", "correct": "Two PROTONS: yes, repulsive (both positive). But the question might involve an electron (negative) — then it's attractive. Always check the signs of BOTH charges." },
+        "checkQuestions": [
+          { "question": "Three charges in a line: +2 μC at x=0, +4 μC at x=0.3 m, −3 μC at x=0.5 m. Find the net force on the middle charge.", "answer": "Force from +2 μC: repulsive → pushes right. F₁ = k(2)(4)×10⁻¹²/0.09 = 0.80 N right. Force from −3 μC: attractive → pulls right. F₂ = k(4)(3)×10⁻¹²/0.04 = 2.70 N right. Net: 3.50 N to the right." }
+        ],
+        "checklist": ["I can solve Coulomb's law problems with multiple charges", "I can calculate the ratio of electric to gravitational force"]
+      },
+      "extension": { "title": "Coulomb's law in media", "content": "<p>In a medium with relative permittivity εᵣ: F = kq₁q₂/(εᵣr²). The force is reduced by factor εᵣ. Water (εᵣ ≈ 80) reduces electric forces 80× — this is why ionic compounds dissolve in water (the ions can separate because the electric attraction is weakened).</p>", "connections": ["B.5 Capacitance: dielectrics increase C by factor εᵣ", "E.1 Atomic Structure: Coulomb force binds electrons to nuclei"], "checklist": ["I can state how permittivity reduces electric force in media"] },
+      "video": { "title": "Coulomb's Law — IB Physics", "duration": "8 min", "description": "F = kq₁q₂/r², comparison with gravity, and superposition", "embedId": "" },
+      "equations": [
+        { "formula": "F = kq₁q₂/r² = q₁q₂/(4πε₀r²)", "description": "Coulomb's law. k = 8.99 × 10⁹ N m² C⁻²." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Two electrons 10⁻¹⁰ m apart. Find F and compare with their gravitational attraction.", "steps": [
+          { "label": "F_E", "text": "F = ke²/r² = 8.99 × 10⁹ × (1.6 × 10⁻¹⁹)²/(10⁻¹⁰)² = 2.30 × 10⁻⁸ N", "isEquation": true },
+          { "label": "F_G", "text": "F = Gm²/r² = 6.674 × 10⁻¹¹ × (9.11 × 10⁻³¹)²/(10⁻¹⁰)² = 5.54 × 10⁻⁵¹ N" },
+          { "label": "Ratio", "text": "F_E/F_G = 4.16 × 10⁴². Electric force is 10⁴² times stronger!", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State Coulomb's law and the meaning of each symbol.", "solution": "F = kq₁q₂/r². F = electric force (N). k = Coulomb constant (8.99 × 10⁹). q₁, q₂ = charges (C). r = distance between charge centres (m). Positive F = repulsive (like charges). Negative = attractive (unlike)." },
+        { "difficulty": "medium", "scope": "sl", "question": "Two identical charges experience 0.36 N repulsion at 0.1 m. Find the charge.", "solution": "F = kq²/r². q² = Fr²/k = 0.36 × 0.01/8.99 × 10⁹ = 4.0 × 10⁻¹³. q = 6.3 × 10⁻⁷ C = 0.63 μC." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using Coulomb's law with charges in μC without converting", "explanation": "q must be in coulombs (C). 1 μC = 10⁻⁶ C. Using 3 instead of 3 × 10⁻⁶ gives an answer 10¹² times too large.", "correct": "Always convert: μC → ×10⁻⁶, nC → ×10⁻⁹, pC → ×10⁻¹²." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Two point charges +4.0 μC and −6.0 μC are 0.30 m apart.\n(a) Calculate the force between them. [2]\n(b) State whether the force is attractive or repulsive. [1]", "marks": 3, "modelAnswer": "(a) F = kq₁q₂/r² = 8.99 × 10⁹ × 4 × 10⁻⁶ × 6 × 10⁻⁶/0.09 = 2.40 N [2].\n(b) Attractive (charges are opposite sign) [1].", "examinerTip": "Always convert μC to C before substituting. State 'attractive' or 'repulsive' explicitly." }
+    },
+
+    {
+      "id": "d2_sub2", "num": 2, "title": "Electric Field Strength & Field Lines", "group": "Electric Fields", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Coulomb's Law", "nextTitle": "Electric Potential",
+      "bigIdea": "Electric field strength E tells you the force per unit charge at any point. Field lines show the direction: they start on positive charges and end on negative charges. Between parallel plates: the field is uniform (constant E). Around a point charge: the field is radial (E = kQ/r²).",
+      "foundation": {
+        "title": "Force per unit charge",
+        "content": "<h4>Electric field strength</h4><p><strong>E = F/q</strong> (N/C or V/m). The force per unit positive test charge at a point.</p><p>From a point charge Q: <strong>E = kQ/r²</strong>. Direction: away from + charges, toward − charges.</p><h4>Uniform field between parallel plates</h4><p><strong>E = V/d</strong></p><p>Where V = potential difference between the plates, d = separation. The field is constant everywhere between the plates (ignoring edge effects). Field lines: parallel, equally spaced, from + plate to − plate.</p><h4>Field line rules</h4><ul><li>Start on + charges, end on − charges</li><li>Never cross</li><li>Closer spacing = stronger field</li><li>Perpendicular to conducting surfaces</li><li>Direction = direction of force on a positive test charge</li></ul>",
+        "summary": "<p><strong>E = F/q = kQ/r²</strong> (point charge). <strong>E = V/d</strong> (parallel plates).</p><p><strong>Field lines:</strong> + to −, never cross, spacing = strength.</p>",
+        "checkQuestions": [
+          { "question": "Two plates 5 cm apart with 100 V across them. Find E.", "answer": "E = V/d = 100/0.05 = 2000 V/m = 2000 N/C." }
+        ],
+        "checklist": ["I can define E = F/q", "I can calculate E from a point charge: E = kQ/r²", "I can calculate E between parallel plates: E = V/d", "I can draw field lines for point charges and parallel plates"]
+      },
+      "core": {
+        "title": "Field patterns, superposition, and motion of charges in fields",
+        "content": "<h4>Motion of a charge in a uniform field</h4><p>A charge q in uniform field E: F = qE (constant). Acceleration: a = qE/m (constant → SUVAT applies). An electron between plates: horizontal velocity unchanged, vertical acceleration qE/m → parabolic path (like projectile motion with electric 'gravity').</p><h4>Comparing electric and gravitational fields</h4><table><tr><th>Property</th><th>Gravitational</th><th>Electric</th></tr><tr><td>Source</td><td>Mass</td><td>Charge</td></tr><tr><td>Force law</td><td>F = GMm/r²</td><td>F = kq₁q₂/r²</td></tr><tr><td>Field strength</td><td>g = GM/r²</td><td>E = kQ/r²</td></tr><tr><td>Direction</td><td>Always attractive</td><td>Attractive or repulsive</td></tr><tr><td>Potential</td><td>V = −GM/r</td><td>V = kQ/r</td></tr></table>",
+        "keyPoints": ["Charge in uniform E: a = qE/m (constant → SUVAT)", "Parabolic path for charge entering perpendicular to E", "E and g fields are mathematically parallel (swap M↔Q, G↔k)"],
+        "examTrap": { "wrong": "Electric field lines start on negative charges", "correct": "Field lines start on POSITIVE and end on NEGATIVE. The direction is defined as the direction of force on a POSITIVE test charge — away from + and toward −." },
+        "checkQuestions": [
+          { "question": "An electron enters a uniform E = 5000 N/C perpendicular. Find its acceleration.", "answer": "a = eE/m = 1.6 × 10⁻¹⁹ × 5000/(9.11 × 10⁻³¹) = 8.78 × 10¹⁴ m/s² (toward the positive plate)." }
+        ],
+        "checklist": ["I can calculate force and acceleration of charges in electric fields", "I can describe the parabolic path of a charge in a uniform field", "I can compare electric and gravitational fields systematically"]
+      },
+      "extension": { "title": "Electric potential and potential energy", "content": "<h4>Electric potential</h4><p>V = kQ/r (for a point charge). Unlike gravitational potential (always negative), electric potential can be positive (near +Q) or negative (near −Q).</p><p><strong>E = −dV/dr</strong> (field = negative gradient of potential).</p><p><strong>PE = kq₁q₂/r</strong> (can be + for repulsion or − for attraction).</p><p>Equipotentials: surfaces of constant V. Perpendicular to field lines. No work done moving along them.</p>", "connections": ["D.1 Gravitational potential: same structure but always negative", "B.5 Capacitors: V = Q/C connects to electric potential"], "checklist": ["I can calculate V = kQ/r for point charges", "I can state E = −dV/dr", "I can draw equipotential lines and state they're ⊥ to field lines"] },
+      "video": { "title": "Electric Fields — IB Physics", "duration": "9 min", "description": "E = F/q, field lines, parallel plates, motion of charges, and electric potential", "embedId": "" },
+      "equations": [
+        { "formula": "E = F/q = kQ/r²", "description": "Electric field strength. Point charge." },
+        { "formula": "E = V/d", "description": "Uniform field between parallel plates." },
+        { "formula": "V = kQ/r", "description": "Electric potential from a point charge." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A proton enters a 0.02 m gap between plates (V = 200 V) with horizontal speed 10⁵ m/s. Find the vertical deflection.", "steps": [
+          { "label": "E", "text": "E = V/d = 200/0.02 = 10,000 N/C" },
+          { "label": "a", "text": "a = eE/m = 1.6 × 10⁻¹⁹ × 10⁴/(1.67 × 10⁻²⁷) = 9.58 × 10¹¹ m/s²" },
+          { "label": "Time in field", "text": "t = plate length/v_x. Need plate length — assume 0.05 m: t = 0.05/10⁵ = 5 × 10⁻⁷ s" },
+          { "label": "Deflection", "text": "y = ½at² = ½ × 9.58 × 10¹¹ × 2.5 × 10⁻¹³ = 0.12 m = 12 cm", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Sketch the electric field between two parallel plates with +100 V on the left and 0 V on the right.", "solution": "Parallel horizontal lines from left (+) to right (0/−). Equally spaced. Arrows point from + to −. E = V/d is constant between the plates." },
+        { "difficulty": "medium", "scope": "sl", "question": "Find E at 0.5 m from a +10 μC charge.", "solution": "E = kQ/r² = 8.99 × 10⁹ × 10⁻⁵/0.25 = 3.60 × 10⁵ N/C, pointing away from the charge." }
+      ],
+      "commonMistakes": [
+        { "wrong": "E = V/d applies to all electric fields", "explanation": "E = V/d is for UNIFORM fields (parallel plates) only. For point charges: E = kQ/r². For non-uniform fields: E = −dV/dr (calculus).", "correct": "Uniform (plates): E = V/d. Point charge: E = kQ/r². General: E = −dV/dr." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Two parallel plates are 4.0 cm apart with a PD of 500 V.\n(a) Calculate the electric field strength. [1]\n(b) An electron is released from rest at the negative plate. Calculate its speed when it reaches the positive plate. [2]", "marks": 3, "modelAnswer": "(a) E = V/d = 500/0.04 = 12,500 V/m [1].\n(b) Energy: eV = ½mv². v = √(2eV/m) = √(2 × 1.6 × 10⁻¹⁹ × 500/9.11 × 10⁻³¹) = √(1.76 × 10¹⁴) = 1.33 × 10⁷ m/s [2].", "examinerTip": "For 'electron accelerated through V': use eV = ½mv² directly. No need to find E or a." }
+    },
+
+    {
+      "id": "d2_sub3", "num": 3, "title": "Magnetic Fields & Forces", "group": "Magnetic Fields", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Electric Fields", "nextTitle": "Magnetic Force on Moving Charges",
+      "bigIdea": "Magnetic fields are created by moving charges (currents) and exert forces on moving charges. Unlike electric fields, magnetic forces are always perpendicular to the velocity — they change direction but never speed. This perpendicular force is what makes charged particles spiral in magnetic fields and is the basis of motors, generators, and particle accelerators.",
+      "foundation": {
+        "title": "Magnetic fields from currents and forces on currents",
+        "content": "<h4>Sources of magnetic fields</h4><p>Magnetic fields are produced by: (1) permanent magnets, (2) electric currents (moving charges). Field lines go from North to South outside the magnet.</p><h4>Force on a current in a B field</h4><p><strong>F = BIL sin θ</strong></p><p>B = magnetic flux density (tesla, T). I = current (A). L = length of conductor in field (m). θ = angle between I and B. Maximum when ⊥ (θ = 90°). Zero when ∥ (θ = 0°).</p><h4>Fleming's left-hand rule</h4><p>First finger = Field. seCond finger = Current. thuMb = Motion (force). The motor effect.</p><h4>Force on a moving charge</h4><p><strong>F = qvB sin θ</strong></p><p>Always perpendicular to v → changes direction, not speed → circular motion. Radius: r = mv/(qB).</p>",
+        "summary": "<p><strong>F = BIL sin θ:</strong> force on current. <strong>F = qvB sin θ:</strong> force on charge.</p><p><strong>Always ⊥ to velocity → circular motion.</strong> r = mv/(qB).</p><p><strong>Fleming's left-hand:</strong> Field, Current, Motion.</p>",
+        "checkQuestions": [
+          { "question": "A 0.5 m wire carries 3 A perpendicular to a 0.2 T field. Find the force.", "answer": "F = BIL sin 90° = 0.2 × 3 × 0.5 = 0.3 N." }
+        ],
+        "checklist": ["I can apply F = BIL sin θ and F = qvB sin θ", "I can use Fleming's left-hand rule", "I can calculate radius of circular motion: r = mv/(qB)"]
+      },
+      "core": {
+        "title": "Charged particles in magnetic fields — circular motion and applications",
+        "content": "<h4>Circular motion in B fields</h4><p>Magnetic force = centripetal: qvB = mv²/r → r = mv/(qB). Period: T = 2πm/(qB). Note: T is independent of speed! Faster particles make bigger circles but take the same time per revolution. This is the cyclotron principle.</p><h4>Applications</h4><ul><li><strong>Cyclotron:</strong> accelerates particles using alternating E field between two D-shaped magnets. Constant T → constant AC frequency.</li><li><strong>Mass spectrometer:</strong> separates ions by mass. r = mv/(qB) → different masses → different radii → land at different positions on detector.</li><li><strong>Velocity selector:</strong> crossed E and B fields. Only particles with v = E/B pass straight through (electric and magnetic forces balance).</li></ul>",
+        "keyPoints": ["r = mv/(qB): radius depends on momentum", "T = 2πm/(qB): period independent of speed", "Mass spectrometer: separates by m (different r)", "Velocity selector: v = E/B (forces balance)"],
+        "examTrap": { "wrong": "The magnetic force speeds up charged particles", "correct": "The magnetic force is ALWAYS ⊥ to velocity. F·v = 0 → no work done → KE unchanged → speed unchanged. It only changes DIRECTION. To change speed, you need an electric field." },
+        "checkQuestions": [
+          { "question": "A proton (m = 1.67 × 10⁻²⁷ kg) at 5 × 10⁶ m/s in B = 0.5 T. Find r and T.", "answer": "r = mv/(qB) = 1.67 × 10⁻²⁷ × 5 × 10⁶/(1.6 × 10⁻¹⁹ × 0.5) = 0.104 m. T = 2πr/v = 2π × 0.104/5 × 10⁶ = 1.31 × 10⁻⁷ s." }
+        ],
+        "checklist": ["I can derive r and T for circular motion in B", "I can describe cyclotron, mass spectrometer, and velocity selector", "I can explain why B does no work on charges"]
+      },
+      "extension": { "title": "The Lorentz force", "content": "<p>When both E and B fields are present: F = q(E + v × B) — the Lorentz force. This governs particle motion in accelerators, plasmas, and the magnetosphere. In crossed fields: if qE = qvB → forces balance → particle goes straight (velocity selector). The Hall effect also uses crossed E and B fields.</p>", "connections": ["B.5 Magnetic effects: F = BIL and F = qvB applied", "A.2 Circular motion: qvB = mv²/r"], "checklist": ["I can state the Lorentz force: F = q(E + v × B)"] },
+      "video": { "title": "Magnetic Forces — IB Physics", "duration": "10 min", "description": "F = BIL, F = qvB, circular motion, mass spectrometer, and velocity selector", "embedId": "" },
+      "equations": [
+        { "formula": "F = BIL sin θ", "description": "Force on a current-carrying conductor." },
+        { "formula": "F = qvB sin θ", "description": "Force on a moving charge." },
+        { "formula": "r = mv/(qB)", "description": "Radius of circular motion in B." },
+        { "formula": "T = 2πm/(qB)", "description": "Period of circular motion (independent of v)." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "In a mass spectrometer: B = 0.3 T, V_acc = 1000 V. Find r for a singly-charged ion of mass 3.82 × 10⁻²⁶ kg.", "steps": [
+          { "label": "Speed", "text": "qV = ½mv² → v = √(2qV/m) = √(2 × 1.6 × 10⁻¹⁹ × 1000/3.82 × 10⁻²⁶) = √(8.38 × 10⁶) = 2894 m/s" },
+          { "label": "Radius", "text": "r = mv/(qB) = 3.82 × 10⁻²⁶ × 2894/(1.6 × 10⁻¹⁹ × 0.3) = 2.30 × 10⁻³ m = 2.3 mm", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State why a magnetic field does no work on a moving charge.", "solution": "The magnetic force is always perpendicular to the velocity. Work = F·d cos θ. Since θ = 90°: cos 90° = 0 → W = 0. No work → no change in KE → no change in speed." },
+        { "difficulty": "medium", "scope": "sl", "question": "In a velocity selector, E = 20,000 V/m and B = 0.04 T. Find the selected speed.", "solution": "v = E/B = 20,000/0.04 = 500,000 m/s = 5 × 10⁵ m/s." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using the right hand for the motor effect", "explanation": "The motor effect (F on current in B) uses the LEFT hand (Fleming's). The right hand is for generators. Motor = Left.", "correct": "Motor: LEFT hand. Generator: RIGHT hand." }
+      ],
+      "examCorner": { "scope": "sl", "question": "An electron enters a 0.02 T magnetic field at 4 × 10⁶ m/s perpendicular to B.\n(a) Calculate the magnetic force. [1]\n(b) Calculate the radius of the circular path. [2]\n(c) Explain why the electron moves in a circle at constant speed. [2]", "marks": 5, "modelAnswer": "(a) F = qvB = 1.6 × 10⁻¹⁹ × 4 × 10⁶ × 0.02 = 1.28 × 10⁻¹⁴ N [1].\n(b) r = mv/(qB) = 9.11 × 10⁻³¹ × 4 × 10⁶/(1.6 × 10⁻¹⁹ × 0.02) = 1.14 × 10⁻³ m [2].\n(c) The force is always perpendicular to the velocity [1]. This provides centripetal acceleration (changes direction) but does no work (no speed change) — hence constant speed circular motion [1].", "examinerTip": "Two key points: (1) force ⊥ velocity → direction changes. (2) No work → speed constant." }
+    },
+
+    {
+      "id": "d2_sub4", "num": 4, "title": "Magnetic Flux & Magnetic Flux Density", "group": "Magnetic Fields", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Magnetic Forces", "nextTitle": "Comparing Fields",
+      "bigIdea": "Magnetic flux is the 'amount' of magnetic field passing through an area — like the number of field lines threading through a loop. It's the quantity that determines how much EMF is induced when it changes (Faraday's law). Flux density B is the flux per unit area — the strength of the field.",
+      "foundation": {
+        "title": "Flux and flux density",
+        "content": "<h4>Magnetic flux density (B)</h4><p>B = magnetic flux density = strength of the magnetic field. Unit: tesla (T). 1 T = 1 Wb/m² = 1 kg/(A·s²).</p><p>Typical values: Earth's field ≈ 50 μT. Fridge magnet ≈ 5 mT. MRI machine ≈ 1.5 T. Strongest lab magnets ≈ 45 T.</p><h4>Magnetic flux</h4><p><strong>Φ = BA cos θ</strong></p><p>Where Φ = flux (weber, Wb), B = flux density (T), A = area (m²), θ = angle between B and the normal to the area.</p><p>Maximum flux when B is perpendicular to the area (θ = 0°). Zero flux when B is parallel to the area (θ = 90°).</p><h4>Flux linkage</h4><p>For a coil of N turns: <strong>flux linkage = NΦ = NBA cos θ</strong>. This is the quantity in Faraday's law: ε = −d(NΦ)/dt.</p>",
+        "summary": "<p><strong>B:</strong> magnetic flux density (T). Strength of the field.</p><p><strong>Φ = BA cos θ:</strong> magnetic flux (Wb). 'Amount' of field through an area.</p><p><strong>Flux linkage = NΦ:</strong> for a coil of N turns.</p>",
+        "checkQuestions": [
+          { "question": "A 200-turn coil of area 0.05 m² is in a 0.3 T field with the field perpendicular to the coil. Find the flux and flux linkage.", "answer": "Φ = BA cos 0° = 0.3 × 0.05 = 0.015 Wb. Flux linkage = NΦ = 200 × 0.015 = 3.0 Wb turns." }
+        ],
+        "checklist": ["I can define B (flux density, tesla) and Φ (flux, weber)", "I can apply Φ = BA cos θ", "I can calculate flux linkage NΦ for coils"]
+      },
+      "core": {
+        "title": "Flux changes and connection to Faraday's law",
+        "content": "<h4>Changing flux → induced EMF</h4><p>Faraday's law: <strong>ε = −NΔΦ/Δt</strong>. An EMF is induced whenever the flux linkage changes — whether by changing B, A, θ, or N.</p><h4>Ways to change flux</h4><ul><li>Move a magnet near a coil (B changes at the coil)</li><li>Rotate a coil in a field (θ changes → Φ = BA cos θ changes)</li><li>Change the current in a nearby coil (B changes → Φ changes)</li><li>Change the area of the coil in the field</li></ul><h4>Magnetic field patterns</h4><ul><li><strong>Straight wire:</strong> concentric circles (right-hand grip: thumb = current → fingers = field)</li><li><strong>Solenoid:</strong> uniform inside, like a bar magnet outside</li><li><strong>Between poles of a magnet:</strong> parallel, uniform (from N to S)</li></ul>",
+        "keyPoints": ["ε = −NΔΦ/Δt: Faraday's law from flux change", "Flux changes from: B, A, θ, or N changing", "Wire: concentric circles. Solenoid: uniform inside."],
+        "examTrap": { "wrong": "EMF is induced only when a magnet moves", "correct": "EMF is induced whenever FLUX LINKAGE changes — by ANY means. Moving a magnet, rotating a coil, changing current in a nearby circuit, or even changing the coil's area. The cause doesn't matter — only the rate of flux change." },
+        "checkQuestions": [
+          { "question": "A coil of 50 turns and area 0.01 m² is in a field that changes from 0.5 T to 0 in 0.1 s. Find the induced EMF.", "answer": "ΔΦ = ΔB × A = 0.5 × 0.01 = 0.005 Wb. ε = NΔΦ/Δt = 50 × 0.005/0.1 = 2.5 V." }
+        ],
+        "checklist": ["I can apply Faraday's law: ε = −NΔΦ/Δt", "I can identify ways to change flux linkage", "I can draw field patterns for wires and solenoids"]
+      },
+      "extension": { "title": "Magnetic dipoles and the Earth's field", "content": "<p>Earth's magnetic field is approximately a dipole (like a bar magnet tilted 11° from the rotation axis). It shields us from solar wind and cosmic rays by deflecting charged particles toward the poles (causing auroras). The field has reversed many times in Earth's history — recorded in magnetised rocks on the ocean floor. Field strength: ~50 μT at the surface.</p>", "connections": ["E.5 Stars: stellar magnetic fields drive solar activity", "D.3 Motion in EM Fields: charged particles spiral along Earth's field lines"], "checklist": ["I can describe Earth's magnetic field as approximately dipolar"] },
+      "video": { "title": "Magnetic Flux — IB Physics", "duration": "8 min", "description": "Φ = BA cos θ, flux linkage, Faraday's law, and field patterns", "embedId": "" },
+      "equations": [
+        { "formula": "Φ = BA cos θ", "description": "Magnetic flux. θ = angle between B and area normal." },
+        { "formula": "ε = −NΔΦ/Δt", "description": "Faraday's law. Induced EMF from changing flux." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A circular coil (r = 0.1 m) is perpendicular to a 0.4 T field. Find the flux.", "solution": "A = πr² = π(0.01) = 0.0314 m². Φ = BA = 0.4 × 0.0314 = 0.01257 Wb ≈ 12.6 mWb." },
+        { "difficulty": "medium", "scope": "sl", "question": "A 100-turn coil in a 0.5 T field is rotated from perpendicular to parallel in 0.05 s. Find the average EMF.", "solution": "Φ₁ = BA cos 0° = 0.5A. Φ₂ = BA cos 90° = 0. ΔΦ = 0.5A. ε = NΔΦ/Δt = 100 × 0.5A/0.05 = 1000A V. (Need area to get numerical answer.)" }
+      ],
+      "commonMistakes": [
+        { "wrong": "Flux = B × A always", "explanation": "Φ = BA cos θ. The cos θ factor accounts for the angle. When B is parallel to the surface (θ = 90°): Φ = 0 even though B and A are non-zero.", "correct": "Always include cos θ. Φ = BA only when B is perpendicular to the surface (θ = 0°)." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A coil of 80 turns, area 0.02 m², is placed in a 0.6 T field with the plane of the coil perpendicular to the field. The field is reduced to zero in 0.4 s.\n(a) Calculate the initial flux linkage. [1]\n(b) Calculate the average induced EMF. [2]", "marks": 3, "modelAnswer": "(a) NΦ = NBA = 80 × 0.6 × 0.02 = 0.96 Wb turns [1].\n(b) ε = NΔΦ/Δt = 0.96/0.4 = 2.4 V [2].", "examinerTip": "Flux linkage = NΦ = NBA cos θ. EMF = rate of change of flux linkage." }
+    },
+
+    {
+      "id": "d2_sub5", "num": 5, "title": "Comparing Gravitational, Electric & Magnetic Fields", "group": "Field Comparison", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Magnetic Flux", "nextTitle": "Field Energy (AHL)",
+      "bigIdea": "Gravitational, electric, and magnetic fields share mathematical structure but have fundamental differences. Gravity acts on mass, is always attractive, and can't be shielded. Electric force acts on charge, can attract or repel, and can be shielded. Magnetic force acts on moving charges, is always perpendicular to velocity, and does no work.",
+      "foundation": {
+        "title": "Three fields compared",
+        "content": "<h4>The grand comparison</h4><table><tr><th></th><th>Gravitational</th><th>Electric</th><th>Magnetic</th></tr><tr><td>Source</td><td>Mass</td><td>Charge</td><td>Moving charge/current</td></tr><tr><td>Acts on</td><td>Mass</td><td>Charge</td><td>Moving charge</td></tr><tr><td>Force law</td><td>F = GMm/r²</td><td>F = kq₁q₂/r²</td><td>F = qvB sin θ</td></tr><tr><td>Nature</td><td>Always attractive</td><td>Attract or repel</td><td>⊥ to velocity</td></tr><tr><td>Work done</td><td>Yes (PE changes)</td><td>Yes (PE changes)</td><td>No (F ⊥ v)</td></tr><tr><td>Field strength</td><td>g = GM/r² (N/kg)</td><td>E = kQ/r² (N/C)</td><td>B (tesla)</td></tr><tr><td>Potential</td><td>V = −GM/r</td><td>V = kQ/r</td><td>No scalar potential</td></tr><tr><td>Can be shielded?</td><td>No</td><td>Yes (Faraday cage)</td><td>Partially (mu-metal)</td></tr></table>",
+        "summary": "<p><strong>Gravity:</strong> mass → mass. Always attractive. Can't shield.</p><p><strong>Electric:</strong> charge → charge. Attract/repel. Can shield.</p><p><strong>Magnetic:</strong> moving charge → moving charge. ⊥ to v. Does no work.</p>",
+        "checkQuestions": [
+          { "question": "Which field does no work on a particle?", "answer": "Magnetic. The force is always ⊥ to velocity → F·v = 0 → W = 0. Electric and gravitational fields CAN do work (they have components along the displacement)." }
+        ],
+        "checklist": ["I can compare all three fields in a table", "I can state key similarities and differences", "I can explain why magnetic force does no work"]
+      },
+      "core": {
+        "title": "Unified field concepts and analogies",
+        "content": "<h4>The field concept</h4><p>All three fields share the concept: a source creates a field in the surrounding space. A test object placed in the field experiences a force. The field exists whether or not the test object is there.</p><h4>Inverse square laws</h4><p>Both gravity and electric force follow 1/r². This is because they spread over spherical surfaces (area = 4πr²) in 3D space. Magnetic fields don't have a simple 1/r² force law because there are no magnetic monopoles — only dipoles.</p><h4>Field lines</h4><ul><li>Gravitational: always point inward (toward mass). Never start from anything (no positive 'gravitational charge').</li><li>Electric: start on + charges, end on − charges. Can be shielded.</li><li>Magnetic: continuous loops (no start or end — no monopoles). Always close on themselves.</li></ul><h4>Potential energy</h4><p>Gravity and electric fields have potential energy (conservative forces). Magnetic fields do not directly store PE in the same way (force ⊥ v → no work → no PE change from B force alone).</p>",
+        "keyPoints": ["All three: source → field → force on test object", "Gravity and electric: 1/r² (spherical spreading). Magnetic: no simple 1/r².", "Gravity field lines: only inward. Electric: + to −. Magnetic: closed loops.", "PE exists for gravity and electric. Not for magnetic (no work done)."],
+        "examTrap": { "wrong": "Magnetic field lines start at North and end at South", "correct": "Magnetic field lines are CONTINUOUS CLOSED LOOPS — they go from N to S outside the magnet and from S to N inside. They never start or end (no magnetic monopoles exist). This is unlike electric field lines which DO start and end (on charges)." },
+        "checkQuestions": [
+          { "question": "Why do gravitational field lines never start from anything?", "answer": "There is no 'positive gravitational charge' — only mass, which always attracts. Field lines point inward toward mass from infinity. In contrast, electric field lines start on + charges and end on − charges because two types of charge exist." }
+        ],
+        "checklist": ["I can explain the field concept for all three types", "I can compare field line patterns", "I can explain why magnetic field lines form closed loops (no monopoles)"]
+      },
+      "extension": { "title": "Unification of forces", "content": "<p>In the 1860s, Maxwell unified electricity and magnetism into electromagnetism. In the 1960s, Glashow, Weinberg, and Salam unified electromagnetism with the weak nuclear force (electroweak theory). Grand Unified Theories attempt to add the strong force. A 'Theory of Everything' would include gravity — but quantum gravity remains unsolved. Each unification reveals deeper symmetry in nature.</p>", "connections": ["A.5 Relativity: gravity is curved spacetime in GR", "E.3 Nuclear Physics: strong force holds nuclei together"], "checklist": ["I can describe the historical unification of forces: E&M → electroweak → (GUT → ToE)"] },
+      "video": { "title": "Comparing Fields — IB Physics", "duration": "7 min", "description": "Gravitational vs electric vs magnetic: comprehensive comparison", "embedId": "" },
+      "equations": [],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State one similarity and one difference between gravitational and electric fields.", "solution": "Similarity: both follow an inverse square law (F ∝ 1/r²) and have associated potential energy. Difference: gravity is always attractive; electric force can be attractive or repulsive." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain why a charged particle in a magnetic field moves at constant speed but changes direction.", "solution": "The magnetic force F = qvB is always perpendicular to the velocity. Perpendicular force changes direction (centripetal) but does no work (W = F·d cos 90° = 0). No work → no KE change → constant speed. Continuous direction change → circular path." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Magnetic monopoles exist (isolated N or S poles)", "explanation": "No magnetic monopole has ever been found. Every magnet has both N and S poles. Breaking a magnet in half gives two smaller magnets, each with N and S. Field lines are always closed loops.", "correct": "Magnetic monopoles have never been observed. All magnets are dipoles." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Compare gravitational and electric fields by stating:\n(a) one similarity [1]\n(b) two differences [2]", "marks": 3, "modelAnswer": "(a) Both obey an inverse square law: F ∝ 1/r² [1].\n(b) Gravitational force is always attractive; electric force can be attractive or repulsive [1]. Gravitational fields cannot be shielded; electric fields can be shielded (Faraday cage) [1].", "examinerTip": "For comparison questions: state parallel facts about BOTH fields. Don't just describe one." }
+    },
+
+    {
+      "id": "d2_sub6", "num": 6, "title": "Field Energy & Capacitor/Inductor Storage (AHL)", "group": "AHL Fields", "scope": "hl", "level": "HL Only",
+      "prevTitle": "Comparing Fields", "nextTitle": "D.3 Motion in EM Fields",
+      "bigIdea": "Energy can be stored in fields themselves — not just in particles. A capacitor stores energy in its electric field (E = ½CV²). An inductor stores energy in its magnetic field (E = ½LI²). These energy storage mechanisms are the basis of electronic circuits, power supplies, and electromagnetic radiation.",
+      "foundation": {
+        "title": "Energy stored in electric and magnetic fields",
+        "content": "<h4>Energy in a capacitor (electric field)</h4><p><strong>E = ½CV² = ½QV = Q²/(2C)</strong></p><p>The energy is stored in the electric field between the plates. Energy density: u_E = ½ε₀E² (J/m³).</p><h4>Energy in an inductor (magnetic field)</h4><p><strong>E = ½LI²</strong></p><p>Where L = inductance (henrys, H). The energy is stored in the magnetic field inside the inductor. Energy density: u_B = B²/(2μ₀) (J/m³).</p><h4>LC oscillations</h4><p>A capacitor and inductor in a circuit: energy oscillates between electric (capacitor) and magnetic (inductor) forms — exactly like KE and PE in SHM. Frequency: f = 1/(2π√(LC)). This is electrical resonance.</p>",
+        "summary": "<p><strong>Capacitor: E = ½CV².</strong> Energy in electric field.</p><p><strong>Inductor: E = ½LI².</strong> Energy in magnetic field.</p><p><strong>LC circuit:</strong> energy oscillates between E and B fields. f = 1/(2π√LC).</p>",
+        "checkQuestions": [
+          { "question": "A 100 μF capacitor charged to 50 V. Find the stored energy.", "answer": "E = ½CV² = ½ × 10⁻⁴ × 2500 = 0.125 J." }
+        ],
+        "checklist": ["I can calculate energy in a capacitor: E = ½CV²", "I can calculate energy in an inductor: E = ½LI²", "I can describe LC oscillations: f = 1/(2π√LC)"]
+      },
+      "core": {
+        "title": "Energy density and electromagnetic waves",
+        "content": "<h4>Energy density in fields</h4><p>Electric: u_E = ½ε₀E² (J/m³). Magnetic: u_B = B²/(2μ₀). In an EM wave: u_E = u_B (electric and magnetic energy densities are equal). Total: u = ε₀E² = B²/μ₀.</p><h4>Electromagnetic waves carry energy</h4><p>The intensity of an EM wave: I = cu = cε₀E₀²/2 (for peak field E₀). This connects field energy to wave intensity — the energy in the oscillating E and B fields propagates at c.</p><h4>Poynting vector</h4><p>S = E × B/μ₀: gives the direction and magnitude of energy flow in an EM wave. |S| = EB/μ₀ = intensity. This is how the Sun's energy reaches Earth — as energy stored in propagating EM fields.</p>",
+        "keyPoints": ["u_E = ½ε₀E², u_B = B²/(2μ₀)", "In EM waves: u_E = u_B (equal energy in E and B)", "Intensity: I = cε₀E₀²/2 = cB₀²/(2μ₀)", "Poynting vector: S = E×B/μ₀ (energy flow)"],
+        "examTrap": { "wrong": "EM wave energy is only in the electric field", "correct": "EM waves carry energy equally in BOTH E and B fields. u_E = u_B at any point. The total energy is the sum of both. Neither field carries the wave alone — they sustain each other." },
+        "checkQuestions": [
+          { "question": "An EM wave has E₀ = 100 V/m. Find B₀ and the intensity.", "answer": "B₀ = E₀/c = 100/3 × 10⁸ = 3.33 × 10⁻⁷ T. I = cε₀E₀²/2 = 3 × 10⁸ × 8.85 × 10⁻¹² × 10⁴/2 = 13.3 W/m²." }
+        ],
+        "checklist": ["I can calculate energy density in E and B fields", "I can calculate EM wave intensity from peak field values", "I can describe energy flow using the Poynting vector concept"]
+      },
+      "extension": { "title": "Electromagnetic energy and mass", "content": "<p>Since E = mc²: the energy stored in fields has equivalent mass. A charged capacitor is (immeasurably) heavier than an uncharged one. A magnetic field has gravitational effects (measurable for neutron stars). At the most fundamental level: ALL energy is equivalent to mass — fields, particles, motion, heat. This is the deepest consequence of E = mc².</p>", "connections": ["A.5 Relativity: E = mc² applies to field energy too", "E.5 Stars: neutron star magnetic fields are so strong they affect the star's gravity"], "checklist": ["I can explain that field energy has mass equivalence via E = mc²"] },
+      "video": { "title": "Field Energy — IB HL Physics", "duration": "8 min", "description": "Energy in capacitors and inductors, energy density, LC oscillations, and EM wave energy", "embedId": "" },
+      "equations": [
+        { "formula": "E = ½CV² = ½LI²", "description": "Energy in capacitor (electric) and inductor (magnetic)." },
+        { "formula": "u_E = ½ε₀E², u_B = B²/(2μ₀)", "description": "Energy density in electric and magnetic fields." },
+        { "formula": "f = 1/(2π√(LC))", "description": "Resonant frequency of LC circuit." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "An LC circuit: C = 10 nF, L = 2.5 mH. Find the resonant frequency.", "solution": "f = 1/(2π√(LC)) = 1/(2π√(2.5 × 10⁻³ × 10⁻⁸)) = 1/(2π√(2.5 × 10⁻¹¹)) = 1/(2π × 5 × 10⁻⁶) = 31,831 Hz ≈ 31.8 kHz." }
+      ],
+      "commonMistakes": [
+        { "wrong": "A capacitor stores charge", "explanation": "A capacitor stores ENERGY (in its electric field). The total charge on the capacitor is zero (+Q on one plate, −Q on the other). What's stored is the separation of charge — which creates the field — which stores the energy.", "correct": "Capacitors store energy (½CV²) in the electric field. The net charge is zero." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A 4700 μF capacitor is charged to 12 V.\n(a) Calculate the stored energy. [1]\n(b) It discharges through an inductor (L = 0.1 H). Find the peak current. [2]\n(c) Find the oscillation frequency. [1]", "marks": 4, "modelAnswer": "(a) E = ½CV² = ½ × 4700 × 10⁻⁶ × 144 = 0.338 J [1].\n(b) At peak current: all energy in inductor. ½LI² = 0.338. I = √(2 × 0.338/0.1) = √6.77 = 2.60 A [2].\n(c) f = 1/(2π√(LC)) = 1/(2π√(0.1 × 4.7 × 10⁻³)) = 1/(2π × 0.0217) = 7.35 Hz [1].", "examinerTip": "LC energy exchange: ½CV² (all in C, I = 0) ↔ ½LI² (all in L, V = 0). Like PE ↔ KE in SHM." }
+    }
+
+  ]
+},  
 // ============================================================
 // D.3 MOTION IN EM FIELDS — COMPLETE (4 subtopics)
 // Ends with comma — ready for D4
