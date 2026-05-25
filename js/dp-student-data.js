@@ -9372,6 +9372,2624 @@ const DP_STUDENT_DATA = {
     }
 
   ]
+},
+// ============================================================
+// C.3 WAVE PHENOMENA — COMPLETE (6 subtopics)
+// Ends with comma — ready for C4 to follow
+// ============================================================
+
+"C3": {
+  "title": "Wave Phenomena",
+  "code": "C.3",
+  "theme": "C",
+  "level": "SL + HL",
+  "subtopicCount": 6,
+  "subtopics": [
+
+    {
+      "id": "c3_sub1",
+      "num": 1,
+      "title": "Diffraction",
+      "group": "Wave Behaviour",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "C.2 Wave Model",
+      "nextTitle": "Single-Slit Diffraction",
+
+      "bigIdea": "Waves bend around obstacles and spread through gaps. Sound goes around corners; light doesn't seem to — but it does, just on a much smaller scale. This bending is diffraction, and it's most dramatic when the gap or obstacle is about the same size as the wavelength. It's why radio waves reach you behind a hill but light doesn't — radio has wavelengths of metres, light has wavelengths of nanometres.",
+
+      "foundation": {
+        "title": "Waves bending around corners and through gaps",
+        "content": "<h4>What is diffraction?</h4><p><strong>Diffraction</strong> is the spreading of waves when they pass through a gap or around an obstacle. All waves diffract — sound, light, water, radio.</p><h4>When is diffraction significant?</h4><p>Diffraction is most pronounced when the <strong>gap width (or obstacle size) is comparable to the wavelength</strong>: gap ≈ λ.</p><ul><li><strong>Gap >> λ:</strong> minimal diffraction — the wave passes through mostly straight, with slight bending at the edges.</li><li><strong>Gap ≈ λ:</strong> maximum diffraction — the wave spreads out in all directions after the gap, almost as if the gap is a new point source.</li><li><strong>Gap << λ:</strong> very little wave gets through — mostly reflected.</li></ul><h4>Examples</h4><ul><li><strong>Sound through a doorway:</strong> sound λ ≈ 0.02–17 m. Doorway ≈ 1 m. λ ≈ gap → significant diffraction → you hear sounds around corners.</li><li><strong>Light through a doorway:</strong> light λ ≈ 500 nm. Doorway ≈ 1 m. Gap >> λ → negligible diffraction → sharp shadows.</li><li><strong>Light through a narrow slit (~μm):</strong> gap ≈ λ → significant diffraction → light spreads into a pattern.</li><li><strong>Radio waves around buildings:</strong> FM radio λ ≈ 3 m. Buildings ≈ 10 m. Moderate diffraction. AM radio λ ≈ 300 m → diffracts around everything.</li></ul><h4>Diffraction and resolution</h4><p>Diffraction limits the resolution of any imaging system. The wave nature of light means that a perfect point source doesn't produce a perfect point image — it produces a diffraction pattern (Airy disk). Two sources are resolvable only if their patterns don't overlap too much. Smaller λ or larger aperture → better resolution.</p>",
+        "summary": "<p><strong>Diffraction:</strong> waves spread through gaps and around obstacles.</p><p><strong>Maximum when gap ≈ λ.</strong> Negligible when gap >> λ.</p><p><strong>All waves diffract.</strong> Sound diffracts easily (long λ). Light requires tiny gaps (short λ).</p><p><strong>Limits resolution</strong> of microscopes, telescopes, and cameras.</p>",
+        "checkQuestions": [
+          { "question": "Why can you hear someone talking around a corner but not see them?", "answer": "Sound has wavelengths comparable to doorway/corridor size (λ ≈ 0.3–3 m, gap ≈ 1 m) → significant diffraction → sound bends around the corner. Light has λ ≈ 500 nm — millions of times smaller than the gap → negligible diffraction → light travels in straight lines → you can't see around the corner." }
+        ],
+        "checklist": [
+          "I can define diffraction as the spreading of waves through gaps or around obstacles",
+          "I can state that diffraction is maximum when gap ≈ λ",
+          "I can explain why sound diffracts through doorways but light doesn't noticeably",
+          "I can state that diffraction limits the resolution of imaging systems"
+        ]
+      },
+
+      "core": {
+        "title": "Diffraction patterns and Huygens' explanation",
+        "content": "<h4>Huygens' principle explains diffraction</h4><p>Every point on a wavefront acts as a source of secondary wavelets. When a wave passes through a gap, only the wavelets within the gap survive. These wavelets spread out in all directions, and their superposition creates the diffraction pattern.</p><p>Narrow gap: fewer wavelets, more spreading. Wide gap: many wavelets, less spreading (edges spread but centre continues straight).</p><h4>The single-slit diffraction pattern</h4><p>Light through a single narrow slit produces a pattern on a screen: a bright central maximum, flanked by alternating dark and bright fringes (secondary maxima). The central maximum is TWICE as wide as the secondary maxima.</p><p>First minimum (dark fringe): <strong>sin θ = λ/b</strong>, where b = slit width.</p><p>For small angles: <strong>θ ≈ λ/b</strong> (in radians).</p><h4>Key features</h4><ul><li>Central maximum: brightest and widest (2× the width of secondary maxima)</li><li>Secondary maxima: progressively dimmer</li><li>Narrower slit → wider pattern (more spreading). Wider slit → narrower pattern.</li><li>Longer λ → wider pattern. Shorter λ → narrower pattern.</li></ul>",
+        "keyPoints": [
+          "Huygens: wavelets at the gap spread → diffraction pattern from superposition",
+          "Single slit first minimum: sin θ = λ/b. θ ≈ λ/b for small angles.",
+          "Narrower slit → wider pattern. Longer λ → wider pattern.",
+          "Central max is 2× wider and brighter than secondary maxima."
+        ],
+        "examTrap": { "wrong": "A narrower slit gives a narrower diffraction pattern", "correct": "OPPOSITE. A narrower slit → MORE spreading → WIDER diffraction pattern. This is counter-intuitive but fundamental. The formula sin θ = λ/b shows: smaller b → larger θ → wider pattern." },
+        "checkQuestions": [
+          { "question": "A slit of width 0.1 mm is illuminated with light of λ = 600 nm. Find the angle to the first minimum.", "answer": "sin θ = λ/b = 600 × 10⁻⁹ / 0.1 × 10⁻³ = 6 × 10⁻³. θ = sin⁻¹(0.006) = 0.344° ≈ 0.006 rad." }
+        ],
+        "checklist": [
+          "I can explain diffraction using Huygens' principle",
+          "I can describe the single-slit diffraction pattern (central max, secondary maxima)",
+          "I can apply sin θ = λ/b for the first minimum",
+          "I can predict how changing b or λ affects the pattern width"
+        ]
+      },
+
+      "extension": { "title": "Resolution and the Rayleigh criterion", "content": "<p>Two point sources are just resolvable when the central maximum of one falls on the first minimum of the other. For a circular aperture of diameter D: <strong>θ_min = 1.22λ/D</strong> (Rayleigh criterion). Larger aperture → better resolution (smaller θ_min). Shorter wavelength → better resolution. This is why telescopes are built as large as possible and why electron microscopes (tiny λ) resolve atoms.</p>", "connections": ["E.2 Quantum Physics: electron microscopes use de Broglie wavelength for resolution", "E.5 Stars: telescope resolution determines how much detail we can see"], "checklist": ["I can state the Rayleigh criterion: θ_min = 1.22λ/D", "I can explain why larger telescopes and shorter wavelengths give better resolution"] },
+      "simulation": { "title": "PhET: Wave Interference", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/wave-interference", "instructions": ["Use the single slit. Change slit width: narrower → wider pattern. Change wavelength: longer → wider pattern."] },
+      "video": { "title": "Diffraction — IB Physics", "duration": "9 min", "description": "Single-slit diffraction, Huygens' principle, sin θ = λ/b, and resolution", "embedId": "" },
+      "equations": [
+        { "formula": "sin θ = λ/b (first minimum)", "description": "Single-slit first dark fringe. b = slit width." },
+        { "formula": "θ_min = 1.22λ/D", "description": "Rayleigh criterion for circular aperture resolution." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Red light (λ = 700 nm) passes through a 0.05 mm slit. Find the angle and width of the central maximum on a screen 2 m away.", "steps": [
+          { "label": "Angle to first min", "text": "θ = λ/b = 700 × 10⁻⁹/5 × 10⁻⁵ = 0.014 rad", "isEquation": true },
+          { "label": "Central max half-width", "text": "y = L tan θ ≈ Lθ = 2 × 0.014 = 0.028 m = 28 mm" },
+          { "label": "Full width", "text": "Central max width = 2y = 56 mm", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State what happens to the diffraction pattern when the slit is made narrower.", "solution": "The pattern becomes wider (more spreading). The central maximum broadens and secondary maxima move further apart. The intensity of the maxima decreases (energy spread over larger area)." },
+        { "difficulty": "medium", "scope": "sl", "question": "A 0.2 mm slit produces a central maximum 40 mm wide on a screen 3 m away. Find the wavelength.", "solution": "Half-width y = 20 mm = 0.02 m. θ ≈ y/L = 0.02/3 = 6.67 × 10⁻³ rad. λ = bθ = 0.2 × 10⁻³ × 6.67 × 10⁻³ = 1.33 × 10⁻⁶ m? That's infrared — seems too long. Let me recheck: the central max width = 2Lλ/b → λ = width × b/(2L) = 0.04 × 0.0002/(2 × 3) = 8 × 10⁻⁶/6 = 1.33 × 10⁻⁶ m. Yes, IR. If the data meant the full width is 4 mm (not 40): λ = 0.004 × 0.0002/6 = 1.33 × 10⁻⁷ m = 133 nm (UV). For visible light (~500 nm): width ≈ 2 × 3 × 500 × 10⁻⁹/(0.2 × 10⁻³) = 15 mm." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Wider slit gives more diffraction", "explanation": "Wider slit → LESS diffraction (less spreading). The pattern becomes narrower and sharper. Think of it as: a very wide slit approaches 'no slit' → a straight beam → no spreading.", "correct": "Narrower slit → more diffraction. gap ≈ λ → maximum diffraction." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Monochromatic light of wavelength 500 nm passes through a slit of width 0.10 mm onto a screen 2.0 m away.\n(a) Calculate the angle to the first minimum. [1]\n(b) Calculate the width of the central maximum on the screen. [2]\n(c) The slit width is halved. State the effect on the central maximum. [1]", "marks": 4, "modelAnswer": "(a) θ = λ/b = 500 × 10⁻⁹/10⁻⁴ = 5 × 10⁻³ rad [1].\n(b) y = Lθ = 2 × 5 × 10⁻³ = 0.01 m = 10 mm. Width = 2y = 20 mm [2].\n(c) Halving the slit width doubles θ → the central maximum width doubles to 40 mm [1].", "examinerTip": "Central max width = 2Lλ/b. Inversely proportional to slit width. Halve the slit → double the pattern width." }
+    },
+
+    {
+      "id": "c3_sub2",
+      "num": 2,
+      "title": "Double-Slit Interference (Young's Experiment)",
+      "group": "Interference",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Diffraction",
+      "nextTitle": "Diffraction Gratings",
+
+      "bigIdea": "In 1801, Thomas Young shone light through two narrow slits and saw alternating bright and dark bands on a screen. This proved light is a wave — only waves interfere. The experiment is one of the most important in the history of physics, and the equation it yields (s = λD/d) lets you measure the wavelength of light with nothing more than two slits and a ruler.",
+
+      "foundation": {
+        "title": "Two slits, one of the most important experiments ever",
+        "content": "<h4>Young's double-slit experiment</h4><p>Coherent light passes through two narrow slits separated by distance d. On a screen at distance D, an <strong>interference pattern</strong> appears: alternating bright fringes (constructive interference) and dark fringes (destructive interference).</p><h4>Why the pattern forms</h4><p>Light from each slit travels a different distance to each point on the screen. Where the path difference = nλ: constructive (bright). Where path difference = (n + ½)λ: destructive (dark).</p><h4>The fringe spacing formula</h4><p><strong>s = λD/d</strong></p><p>Where s = fringe spacing (distance between adjacent bright fringes), λ = wavelength, D = slit-to-screen distance, d = slit separation.</p><h4>What affects the pattern</h4><ul><li>Longer λ → wider fringes (s ∝ λ)</li><li>Larger D → wider fringes (s ∝ D)</li><li>Larger d → narrower fringes (s ∝ 1/d)</li><li>White light → coloured fringes (each colour has different λ → different spacing)</li></ul>",
+        "summary": "<p><strong>s = λD/d:</strong> fringe spacing for double-slit interference.</p><p><strong>Bright fringes:</strong> path difference = nλ. <strong>Dark:</strong> (n+½)λ.</p><p><strong>Wider fringes with:</strong> longer λ, larger D, smaller d.</p>",
+        "checkQuestions": [
+          { "question": "Two slits: d = 0.5 mm, D = 2 m, λ = 600 nm. Find the fringe spacing.", "answer": "s = λD/d = 600 × 10⁻⁹ × 2 / 0.5 × 10⁻³ = 1.2 × 10⁻⁶/5 × 10⁻⁴ = 2.4 × 10⁻³ m = 2.4 mm." }
+        ],
+        "checklist": [
+          "I can describe Young's double-slit experiment",
+          "I can apply s = λD/d for fringe spacing",
+          "I can explain the pattern using path difference and constructive/destructive interference",
+          "I can predict effects of changing λ, D, and d on the pattern"
+        ]
+      },
+
+      "core": {
+        "title": "Deriving the formula and the double-slit + single-slit envelope",
+        "content": "<h4>Deriving s = λD/d</h4><p>For the nth bright fringe: path difference = nλ. Geometry: path difference = d sin θ. So d sin θ = nλ → sin θ ≈ θ ≈ nλ/d for small angles. Position on screen: y_n = Dθ = nλD/d. Spacing: s = y_n − y_{n-1} = λD/d.</p><h4>The double-slit pattern within the single-slit envelope</h4><p>Each slit also diffracts. The overall pattern is the double-slit interference pattern MODULATED by the single-slit diffraction envelope. The interference fringes (many, closely spaced) appear within the broader diffraction pattern (wide central maximum).</p><p>Missing orders: where a double-slit maximum would fall on a single-slit minimum, the fringe is missing. This happens when d/b = integer (where b = slit width).</p><h4>Conditions for a good pattern</h4><ul><li>Coherent source (laser or single slit before the double slit)</li><li>Slits narrow enough to diffract (b ≈ λ) but separated by d >> b</li><li>Screen far away (D >> d) for the small angle approximation to hold</li></ul>",
+        "keyPoints": [
+          "Bright fringe condition: d sin θ = nλ. Position: y = nλD/d.",
+          "Fringe spacing: s = λD/d. Independent of n (equally spaced).",
+          "Pattern is interference fringes inside a diffraction envelope.",
+          "Missing orders when d/b = integer."
+        ],
+        "examTrap": { "wrong": "Double-slit fringes are all the same brightness", "correct": "The fringes near the centre are brightest. Those further out are dimmer because they fall under the single-slit diffraction envelope which decreases in intensity. The overall pattern is interference MODULATED by diffraction." },
+        "checkQuestions": [
+          { "question": "In a double-slit experiment, the 3rd bright fringe is at angle θ to the central maximum. Express θ in terms of λ and d.", "answer": "d sin θ = 3λ → sin θ = 3λ/d. For small angles: θ ≈ 3λ/d." }
+        ],
+        "checklist": [
+          "I can derive s = λD/d from the path difference geometry",
+          "I can explain the intensity modulation by the single-slit envelope",
+          "I can identify missing orders in the pattern",
+          "I can state the conditions for a clear interference pattern"
+        ]
+      },
+
+      "extension": { "title": "Young's experiment and wave-particle duality", "content": "<p>The double-slit experiment with SINGLE photons (or electrons) is one of the most profound experiments in physics. Send photons one at a time: each lands as a single dot on the detector (particle behaviour). But over many photons, the dots build up an interference pattern (wave behaviour). Each photon seems to 'interfere with itself.' This wave-particle duality is at the heart of quantum mechanics and is explored in E.2.</p>", "connections": ["E.2 Quantum Physics: single-photon double-slit proves wave-particle duality", "E.2 de Broglie: electron double-slit confirms matter waves"], "checklist": ["I can describe the single-photon double-slit experiment and its implications for wave-particle duality"] },
+      "simulation": { "title": "PhET: Wave Interference", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/wave-interference", "instructions": ["Use double slits. Change λ, d, D and observe how the pattern changes. Switch to single photons to see quantum behaviour."] },
+      "video": { "title": "Young's Double Slit — IB Physics", "duration": "10 min", "description": "The experiment, s = λD/d, derivation, and the diffraction envelope", "embedId": "" },
+      "equations": [
+        { "formula": "s = λD/d", "description": "Double-slit fringe spacing." },
+        { "formula": "d sin θ = nλ", "description": "Condition for bright fringes (n = 0, 1, 2...)." },
+        { "formula": "d sin θ = (n+½)λ", "description": "Condition for dark fringes." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Double-slit: d = 0.25 mm, D = 1.5 m, s = 4.2 mm. Find the wavelength.", "steps": [
+          { "label": "Formula", "text": "λ = sd/D = 4.2 × 10⁻³ × 0.25 × 10⁻³ / 1.5" },
+          { "label": "Calculate", "text": "= 1.05 × 10⁻⁶ / 1.5 = 7.0 × 10⁻⁷ m = 700 nm (red light)", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State two conditions for observing a clear double-slit interference pattern.", "solution": "1. The light must be coherent (same frequency, constant phase difference — use a laser or a single slit before the double slits). 2. The slit separation d must be small (comparable to a few wavelengths) and the screen must be far away (D >> d)." },
+        { "difficulty": "medium", "scope": "sl", "question": "In a double-slit experiment, green light (λ = 550 nm) gives fringes 3.0 mm apart. The green light is replaced with violet (λ = 400 nm). Find the new fringe spacing.", "solution": "s ∝ λ. s₂ = s₁ × λ₂/λ₁ = 3.0 × 400/550 = 2.18 mm. Shorter wavelength → narrower fringes." },
+        { "difficulty": "hard", "scope": "sl", "question": "Two slits of separation 0.4 mm and width 0.1 mm are illuminated with 600 nm light. How many bright interference fringes are visible within the central diffraction maximum?", "solution": "Central diffraction max: half-angle θ_d = λ/b = 600 × 10⁻⁹/10⁻⁴ = 6 × 10⁻³ rad. Interference fringe angle: θ_i = λ/d = 600 × 10⁻⁹/4 × 10⁻⁴ = 1.5 × 10⁻³ rad. Number of fringes in central max: 2θ_d/θ_i = 2 × 6 × 10⁻³/1.5 × 10⁻³ = 8. But the edge fringes coincide with diffraction minima (missing orders at n = d/b = 4). So: 8 − 2 = 6 visible bright fringes plus the central one = 7 total." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Confusing slit separation d with slit width b", "explanation": "d = distance between the centres of the two slits (determines interference fringe spacing: s = λD/d). b = width of each individual slit (determines diffraction envelope: θ = λ/b). Different quantities, different effects.", "correct": "d → fringe spacing. b → envelope width. Both affect the overall pattern but in different ways." }
+      ],
+      "examCorner": { "scope": "sl", "question": "In a Young's double-slit experiment, coherent light of wavelength 480 nm illuminates two slits separated by 0.30 mm. The screen is 2.5 m away.\n(a) Calculate the fringe spacing. [2]\n(b) Calculate the path difference at the 4th bright fringe from the centre. [1]\n(c) State what would be observed if white light were used instead of monochromatic light. [2]", "marks": 5, "modelAnswer": "(a) s = λD/d = 480 × 10⁻⁹ × 2.5/(0.30 × 10⁻³) = 4.0 × 10⁻³ m = 4.0 mm [2].\n(b) Path difference = 4λ = 4 × 480 = 1920 nm [1].\n(c) The central fringe would be white (all colours constructive at zero path difference) [1]. The outer fringes would show coloured spectra because different wavelengths have different fringe spacings — blue (shorter λ) fringes closer together, red (longer λ) further apart. The pattern becomes washed out after a few orders [1].", "examinerTip": "For white light double-slit: central fringe = white (all λ constructive at path diff = 0). Side fringes = coloured (different λ → different positions). Higher orders → colours overlap → pattern fades." }
+    },
+
+    {
+      "id": "c3_sub3",
+      "num": 3,
+      "title": "Diffraction Gratings",
+      "group": "Interference",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Double-Slit Interference",
+      "nextTitle": "Thin-Film Interference (AHL)",
+
+      "bigIdea": "A diffraction grating is like a double slit on steroids — instead of two slits, it has thousands per millimetre. The result: the interference maxima become incredibly sharp and bright, allowing precise measurement of wavelength. Gratings are used in spectroscopy to analyse light from stars, atoms, and molecules — revealing their composition and properties.",
+
+      "foundation": {
+        "title": "Thousands of slits for razor-sharp spectra",
+        "content": "<h4>What is a diffraction grating?</h4><p>A <strong>diffraction grating</strong> is a surface with many parallel, equally spaced slits (typically 300–1000 slits per mm). Each slit acts as a source of secondary waves that interfere to produce very sharp, bright maxima at specific angles.</p><h4>The grating equation</h4><p><strong>d sin θ = nλ</strong></p><p>Where d = slit spacing (= 1/N, where N = number of slits per metre), θ = angle of the nth order maximum, n = order number (0, 1, 2...), λ = wavelength.</p><p>This is the SAME equation as for double slits — but because there are thousands of slits instead of two, the maxima are extremely sharp (narrow bright lines) with dark regions between them.</p><h4>Why gratings are better than double slits</h4><ul><li><strong>Sharper maxima:</strong> more slits → sharper peaks (constructive interference is more selective)</li><li><strong>Brighter maxima:</strong> more light → brighter peaks</li><li><strong>Better wavelength resolution:</strong> can distinguish very close wavelengths (important for spectroscopy)</li></ul><h4>Orders and maximum order</h4><p>The zeroth order (n = 0) is the straight-through beam at θ = 0°. First order (n = 1) is on either side. Second order (n = 2) further out. And so on.</p><p>Maximum possible order: sin θ ≤ 1 → nλ ≤ d → <strong>n_max = d/λ</strong> (rounded down to integer).</p>",
+        "summary": "<p><strong>d sin θ = nλ:</strong> grating equation. d = slit spacing, n = order.</p><p><strong>Gratings produce sharp, bright maxima</strong> (much better than double slit).</p><p><strong>Max order:</strong> n_max = floor(d/λ). Limited by sin θ ≤ 1.</p>",
+        "checkQuestions": [
+          { "question": "A grating has 500 lines per mm. Find d and the angle of the 2nd order maximum for λ = 600 nm.", "answer": "d = 1/500 mm = 2 × 10⁻⁶ m = 2 μm. d sin θ = nλ: 2 × 10⁻⁶ sin θ = 2 × 600 × 10⁻⁹ = 1.2 × 10⁻⁶. sin θ = 0.6. θ = 36.9°." },
+          { "question": "What is the maximum order visible for this grating and wavelength?", "answer": "n_max = d/λ = 2 × 10⁻⁶/600 × 10⁻⁹ = 3.33 → n_max = 3." }
+        ],
+        "checklist": [
+          "I can state the grating equation: d sin θ = nλ",
+          "I can calculate d from the number of lines per mm",
+          "I can find the angle for any order maximum",
+          "I can find the maximum order possible: n_max = floor(d/λ)"
+        ]
+      },
+
+      "core": {
+        "title": "Grating spectroscopy and resolving power",
+        "content": "<h4>Using gratings to measure wavelength</h4><p>Measure the angle θ of a maximum of known order n. Then: λ = d sin θ/n. This is one of the most precise methods for measuring wavelength — used in spectroscopy throughout physics, chemistry, and astronomy.</p><h4>Spectral analysis</h4><p>White light through a grating: each wavelength diffracts to a different angle → the orders appear as spectra (rainbows). In the first order: red at larger angles (longer λ), violet at smaller angles. Each order is a complete spectrum.</p><p>Atomic emission spectra: atoms emit light at specific wavelengths. Through a grating: each wavelength appears as a sharp line at a specific angle → the emission spectrum. This is how we determine the composition of stars, gases, and chemical compounds.</p><h4>Resolving power</h4><p><strong>R = nN</strong>, where n = order and N = total number of slits illuminated. Higher R → can distinguish closer wavelengths. R = λ/Δλ (where Δλ is the minimum resolvable wavelength difference).</p><p>Example: a grating with 5000 slits in the 2nd order: R = 2 × 5000 = 10,000. Can resolve wavelengths differing by λ/10,000 = 500/10,000 = 0.05 nm. Enough to see fine details in atomic spectra.</p>",
+        "keyPoints": [
+          "Measure λ from grating: λ = d sin θ/n",
+          "White light → spectra in each order (red at larger θ)",
+          "Atomic spectra: specific wavelengths → specific lines",
+          "Resolving power: R = nN = λ/Δλ (more slits → better resolution)"
+        ],
+        "examTrap": { "wrong": "Higher-order spectra are always sharper and better", "correct": "Higher orders spread the spectrum more (better angular separation) but are dimmer (less intense). Also, higher orders may overlap: the 2nd order red can overlap with the 3rd order violet. Choose the order that gives the best trade-off between resolution and intensity." },
+        "checkQuestions": [
+          { "question": "A grating produces the 1st order maximum at 17.5° for a certain wavelength. d = 2 μm. Find λ.", "answer": "λ = d sin θ/n = 2 × 10⁻⁶ × sin 17.5°/1 = 2 × 10⁻⁶ × 0.3007 = 6.01 × 10⁻⁷ m = 601 nm (orange-red)." }
+        ],
+        "checklist": [
+          "I can determine wavelength from grating measurements: λ = d sin θ/n",
+          "I can describe how a grating produces spectra from white light",
+          "I can explain how gratings are used for spectral analysis",
+          "I can calculate resolving power: R = nN"
+        ]
+      },
+
+      "extension": { "title": "Diffraction grating applications", "content": "<p>Gratings are used in: spectrometers (measuring emission and absorption spectra), monochromators (selecting one wavelength from a source), wavelength-division multiplexing in fibre optics (separating different communication channels), CDs/DVDs (the tracks act as a reflection grating → rainbow colours), and astronomical spectroscopy (measuring star compositions, velocities via Doppler shifts, and detecting exoplanets).</p>", "connections": ["E.1 Atomic Structure: emission spectra from electron energy level transitions", "E.5 Stars: stellar spectra reveal composition and temperature"], "checklist": ["I can describe practical applications of diffraction gratings"] },
+      "simulation": { "title": "PhET: Wave Interference", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/wave-interference", "instructions": ["Increase the number of slits from 2 to many. Watch: maxima become sharper. The grating gives precise, narrow peaks."] },
+      "video": { "title": "Diffraction Gratings — IB Physics", "duration": "9 min", "description": "d sin θ = nλ, spectroscopy, resolving power, and applications", "embedId": "" },
+      "equations": [
+        { "formula": "d sin θ = nλ", "description": "Grating equation. Same form as double-slit but much sharper peaks." },
+        { "formula": "n_max = floor(d/λ)", "description": "Maximum observable order." },
+        { "formula": "R = nN = λ/Δλ", "description": "Resolving power. N = total slits illuminated." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A grating with 600 lines/mm. Find the angles for the 1st and 2nd order maxima of 550 nm light.", "steps": [
+          { "label": "d", "text": "d = 1/(600 × 10³) = 1.667 × 10⁻⁶ m" },
+          { "label": "1st order", "text": "sin θ₁ = λ/d = 550 × 10⁻⁹/1.667 × 10⁻⁶ = 0.330 → θ₁ = 19.3°", "isEquation": true },
+          { "label": "2nd order", "text": "sin θ₂ = 2λ/d = 0.660 → θ₂ = 41.3°", "isEquation": true },
+          { "label": "3rd order", "text": "sin θ₃ = 3λ/d = 0.990 → θ₃ = 81.9° (barely visible)" },
+          { "label": "4th order", "text": "sin θ₄ = 1.320 > 1 → impossible. n_max = 3." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A grating has 300 lines per mm. Find the slit spacing d.", "solution": "d = 1/(300 × 10³) = 3.33 × 10⁻⁶ m = 3.33 μm." },
+        { "difficulty": "medium", "scope": "sl", "question": "The 2nd order maximum of yellow light (λ = 580 nm) is at 40°. Find d and the number of lines per mm.", "solution": "d = nλ/sin θ = 2 × 580 × 10⁻⁹/sin 40° = 1160 × 10⁻⁹/0.643 = 1.804 × 10⁻⁶ m. Lines/mm = 1/(1.804 × 10⁻³) = 554 lines/mm." },
+        { "difficulty": "hard", "scope": "sl", "question": "Can a grating with d = 1.5 μm produce a 3rd order maximum for λ = 600 nm?", "solution": "sin θ = nλ/d = 3 × 600 × 10⁻⁹/1.5 × 10⁻⁶ = 1.2. sin θ > 1 → impossible. No, the 3rd order doesn't exist for this grating and wavelength." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using the number of lines per mm as d", "explanation": "If a grating has 500 lines/mm: d = 1/500 mm = 0.002 mm = 2 × 10⁻⁶ m. The number of lines is NOT d — it's the RECIPROCAL of d (after unit conversion).", "correct": "d = 1/(lines per metre). Convert lines/mm to lines/m first: multiply by 10³." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A diffraction grating has 800 lines per mm. Monochromatic light produces a 1st order maximum at 24.2°.\n(a) Calculate the slit spacing. [1]\n(b) Determine the wavelength of the light. [2]\n(c) Find the maximum order observable. [2]", "marks": 5, "modelAnswer": "(a) d = 1/(800 × 10³) = 1.25 × 10⁻⁶ m [1].\n(b) λ = d sin θ/n = 1.25 × 10⁻⁶ × sin 24.2°/1 = 1.25 × 10⁻⁶ × 0.410 = 5.13 × 10⁻⁷ m = 513 nm [2].\n(c) n_max = d/λ = 1.25 × 10⁻⁶/5.13 × 10⁻⁷ = 2.44 → n_max = 2 [2].", "examinerTip": "For maximum order: calculate d/λ and round DOWN to the nearest integer (since sin θ can't exceed 1)." }
+    },
+
+    {
+      "id": "c3_sub4",
+      "num": 4,
+      "title": "Thin-Film Interference (AHL)",
+      "group": "AHL Interference",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Diffraction Gratings",
+      "nextTitle": "Single-Slit Diffraction Pattern (AHL Detail)",
+
+      "bigIdea": "The rainbow colours on a soap bubble, an oil slick, or a butterfly wing come from thin-film interference. Light reflects from the top and bottom surfaces of a thin film; these two reflected beams interfere. The colour you see depends on the film thickness and the wavelength — constructive interference for some colours, destructive for others.",
+
+      "foundation": {
+        "title": "Why thin films show colours",
+        "content": "<h4>How it works</h4><p>When light hits a thin transparent film (soap, oil, coating):</p><ol><li>Some reflects from the TOP surface</li><li>The rest enters the film, travels through, and reflects from the BOTTOM surface</li><li>The two reflected beams overlap and interfere</li></ol><p>The path difference between the two beams depends on: the film thickness (t), the refractive index of the film (n), and the angle of incidence.</p><h4>Phase changes on reflection</h4><p>Critical rule: when light reflects from a surface with HIGHER refractive index, it undergoes a <strong>phase change of π</strong> (equivalent to a path change of λ/2). Reflecting from a lower n surface: no phase change.</p><h4>Conditions for constructive/destructive</h4><p>For a film of thickness t, refractive index n, at near-normal incidence:</p><p>Path difference = 2nt (light goes through the film twice).</p><p>With ONE phase change (e.g., air-film-air where n_film > n_air):</p><ul><li><strong>Constructive: 2nt = (m + ½)λ</strong> (m = 0, 1, 2...)</li><li><strong>Destructive: 2nt = mλ</strong></li></ul><p>(The ½λ shift from the phase change means the conditions are 'reversed' compared to the case with no phase change.)</p>",
+        "summary": "<p><strong>Thin-film interference:</strong> reflection from top and bottom surfaces.</p><p><strong>Path difference = 2nt</strong> (double pass through film of thickness t, index n).</p><p><strong>Phase change of π</strong> when reflecting from higher n surface.</p><p><strong>Constructive/destructive depends on 2nt relative to λ and number of phase changes.</strong></p>",
+        "checkQuestions": [
+          { "question": "A soap film (n = 1.33, t = 200 nm) in air. For what visible wavelength is reflected light brightest?", "answer": "One phase change (air → soap = higher n). Constructive: 2nt = (m + ½)λ. 2(1.33)(200) = 532 nm = (m + ½)λ. For m = 0: λ = 532/0.5 = 1064 nm (IR, not visible). For m = 1: λ = 532/1.5 = 355 nm (UV). Hmm — let me recheck. 2nt = 532 nm. (m+½)λ = 532. For m = 0: λ = 1064 (IR). This film is too thin for visible constructive interference in reflection. At this thickness, it appears dark in reflection for most visible light." }
+        ],
+        "checklist": [
+          "I can explain thin-film interference using reflection from two surfaces",
+          "I can state the phase change rule: π shift when reflecting from higher n",
+          "I can apply 2nt = (m+½)λ or mλ depending on phase changes",
+          "I can explain the colours of soap bubbles and oil films"
+        ]
+      },
+
+      "core": {
+        "title": "Calculating thin-film conditions and applications",
+        "content": "<h4>Counting phase changes</h4><p>Zero or two phase changes: effective path difference = 2nt. Constructive: 2nt = mλ. Destructive: 2nt = (m+½)λ.</p><p>One phase change: effective path difference = 2nt + λ/2. Constructive: 2nt = (m+½)λ. Destructive: 2nt = mλ.</p><h4>Anti-reflection coatings</h4><p>Coating a lens with a thin film of intermediate n (n_air < n_film < n_glass). Both reflections have a phase change (both hit higher n). Path difference = 2nt. Destructive (minimum reflection): 2nt = (m+½)λ → minimum thickness t = λ/(4n). This eliminates reflection of one wavelength (typically green, λ ≈ 550 nm → coated lenses look purple/blue because red and blue aren't cancelled).</p><h4>Newton's rings</h4><p>An air film between a curved lens and a flat glass surface. Thickness varies → circular interference fringes (rings). Bright and dark rings alternate. Used to test the flatness of optical surfaces.</p>",
+        "keyPoints": [
+          "Count phase changes: 0 or 2 → standard conditions. 1 → inverted conditions.",
+          "Anti-reflection coating: t = λ/(4n) for destructive interference (minimum reflection).",
+          "Newton's rings: varying air film thickness → circular fringes.",
+          "The colour of reflected light depends on 2nt relative to λ."
+        ],
+        "examTrap": { "wrong": "Forgetting the phase change on reflection", "correct": "You MUST determine whether 0, 1, or 2 phase changes occur. Each phase change adds λ/2 to the effective path difference. Getting this wrong inverts the conditions (constructive ↔ destructive)." },
+        "checkQuestions": [
+          { "question": "An anti-reflection coating (n = 1.38) on glass (n = 1.52) for λ = 550 nm. Find the minimum thickness.", "answer": "Two phase changes (both surfaces: air→film and film→glass are both low→high n). Destructive: 2nt = (m+½)λ. Minimum (m = 0): t = λ/(4n) = 550/(4 × 1.38) = 99.6 nm ≈ 100 nm." }
+        ],
+        "checklist": [
+          "I can determine the number of phase changes for a given film configuration",
+          "I can calculate minimum thickness for anti-reflection coatings: t = λ/(4n)",
+          "I can explain Newton's rings",
+          "I can predict which wavelengths are enhanced or suppressed by a film"
+        ]
+      },
+
+      "extension": { "title": "Structural colour in nature", "content": "<p>Butterfly wings, peacock feathers, and beetle shells don't use pigments for their iridescent colours — they use thin-film interference from nanostructured layers. The colour changes with viewing angle (unlike pigment colours) because the effective thickness changes. This 'structural colour' is being mimicked in technology for non-fading paints, anti-counterfeiting measures, and display screens.</p>", "connections": ["E.2 Quantum Physics: photonic crystals use interference to control light at the quantum level"], "checklist": ["I can explain structural colour in nature using thin-film interference"] },
+      "video": { "title": "Thin-Film Interference — IB HL Physics", "duration": "9 min", "description": "Reflection phase changes, constructive/destructive conditions, anti-reflection coatings, and Newton's rings", "embedId": "" },
+      "equations": [
+        { "formula": "2nt = mλ or (m+½)λ", "description": "Thin-film interference. Choice depends on number of phase changes." },
+        { "formula": "t = λ/(4n)", "description": "Minimum thickness for anti-reflection coating." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "An oil film (n = 1.45) on water (n = 1.33) appears bright blue (λ = 470 nm). Find the minimum thickness.", "steps": [
+          { "label": "Phase changes", "text": "Air→oil: phase change (n increases). Oil→water: NO phase change (n decreases: 1.45 > 1.33). Total: ONE phase change." },
+          { "label": "Constructive", "text": "With 1 phase change: 2nt = (m+½)λ. Minimum (m=0): 2nt = λ/2." },
+          { "label": "Thickness", "text": "t = λ/(4n) = 470/(4 × 1.45) = 81.0 nm", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "A MgF₂ coating (n = 1.38) on glass (n = 1.52) is designed to suppress reflection at 550 nm. Find the minimum thickness.", "solution": "Both reflections hit higher n → two phase changes. Destructive for reflection: 2nt = (m+½)λ. Min (m=0): t = 550/(4 × 1.38) = 99.6 nm." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using the wavelength in air for thin-film calculations", "explanation": "Inside the film, the wavelength is λ_film = λ_air/n. The path difference 2nt already accounts for this (2t × n = 2t × λ_air/λ_film × λ_film/λ_air... actually 2nt = 2t × n, which equals the number of wavelengths in the film × λ_air). The formula 2nt = mλ uses λ in AIR (or vacuum). This is correct as written.", "correct": "Use λ in air (vacuum) in the formula 2nt = mλ. The factor n already converts the geometric thickness to optical path length." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A thin soap film (n = 1.33) in air appears bright green (λ = 530 nm) when viewed in reflected light.\n(a) State the number of phase changes that occur. [1]\n(b) Write the condition for constructive interference. [1]\n(c) Find the two smallest possible thicknesses. [2]", "marks": 4, "modelAnswer": "(a) One phase change (at the top surface: air → soap, n increases. Bottom: soap → air, n decreases → no phase change) [1].\n(b) 2nt = (m + ½)λ [1].\n(c) m = 0: t = λ/(4n) = 530/(4 × 1.33) = 99.6 nm [1]. m = 1: t = 3λ/(4n) = 3 × 530/(4 × 1.33) = 299 nm [1].", "examinerTip": "Always determine the number of phase changes FIRST. Then choose the correct formula. This is the most common source of error in thin-film problems." }
+    },
+
+    {
+      "id": "c3_sub5",
+      "num": 5,
+      "title": "Single-Slit Diffraction — Detailed Analysis (AHL)",
+      "group": "AHL Diffraction",
+      "scope": "hl",
+      "level": "HL Only",
+      "prevTitle": "Thin-Film Interference",
+      "nextTitle": "Multiple-Slit Patterns (AHL)",
+
+      "bigIdea": "The single-slit diffraction pattern can be understood by dividing the slit into many tiny zones and summing their contributions. Each zone acts as a Huygens source, and the path differences between zones determine where constructive and destructive interference occur. This analysis gives the exact intensity distribution — and explains why the central maximum is twice as wide as the others.",
+
+      "foundation": {
+        "title": "Why the central maximum is twice as wide",
+        "content": "<h4>The minima condition</h4><p>For a slit of width b: the mth dark fringe (minimum) occurs at:</p><p><strong>b sin θ = mλ</strong> (m = ±1, ±2, ±3...)</p><p>The central maximum spans from m = −1 to m = +1: angular width = 2λ/b. Each secondary maximum spans only λ/b → the central max is TWICE as wide.</p><h4>The intensity pattern</h4><p>I(θ) = I₀ [sin(β)/β]², where β = πb sin θ/λ. This gives: central peak, secondary peaks at about 4.5% and 1.6% of the central intensity. The secondary maxima are MUCH dimmer than the central one.</p>",
+        "summary": "<p><strong>Minima: b sin θ = mλ</strong> (m = 1, 2, 3...)</p><p><strong>Central max angular width: 2λ/b</strong> (twice the secondary max width).</p><p><strong>Intensity: I = I₀[sin β/β]².</strong> Secondary maxima much dimmer.</p>",
+        "checkQuestions": [
+          { "question": "A slit of width 0.08 mm, λ = 500 nm. Find the angular width of the central maximum.", "answer": "Half-angle: sin θ = λ/b = 500 × 10⁻⁹/8 × 10⁻⁵ = 6.25 × 10⁻³. Full angular width = 2θ = 2 × 6.25 × 10⁻³ = 0.0125 rad = 0.716°." }
+        ],
+        "checklist": [
+          "I can apply b sin θ = mλ for diffraction minima",
+          "I can state that central max width = 2× secondary max width",
+          "I can describe the intensity distribution qualitatively (central max >> secondary)"
+        ]
+      },
+
+      "core": {
+        "title": "Intensity distribution and combining with double-slit",
+        "content": "<h4>The sinc² function</h4><p>The single-slit intensity: I(θ) = I₀ (sin α/α)², where α = πb sin θ/λ. This 'sinc²' function: peaks at α = 0 (central), zeros at α = mπ (where b sin θ = mλ), secondary maxima at α ≈ 1.43π, 2.46π, etc.</p><h4>Double-slit pattern with diffraction</h4><p>The full double-slit pattern: I = I₀ cos²(πd sin θ/λ) × [sin(πb sin θ/λ)/(πb sin θ/λ)]². The first factor gives the interference fringes. The second is the diffraction envelope. The interference fringes are modulated by the diffraction pattern.</p><h4>Missing orders</h4><p>When an interference maximum coincides with a diffraction minimum: the fringe is missing. Condition: d/b = integer. If d = 4b: every 4th interference fringe is missing (at the diffraction minima).</p>",
+        "keyPoints": [
+          "Single-slit intensity: I = I₀(sin α/α)², α = πb sin θ/λ",
+          "Double-slit: interference (cos²) modulated by diffraction (sinc²)",
+          "Missing orders when d/b = integer",
+          "Diffraction envelope determines the overall intensity profile"
+        ],
+        "examTrap": { "wrong": "The double-slit pattern is just equally bright fringes", "correct": "The fringes are modulated by the single-slit envelope — they get dimmer further from the centre. The overall intensity follows the single-slit pattern; within that, the interference fringes appear." },
+        "checkQuestions": [
+          { "question": "Double-slit: d = 0.4 mm, b = 0.1 mm. Which interference orders are missing?", "answer": "d/b = 0.4/0.1 = 4. Every 4th order is missing: n = 4, 8, 12... (where the 4th interference maximum falls on the 1st diffraction minimum, etc.)." }
+        ],
+        "checklist": [
+          "I can state the single-slit intensity formula using the sinc function",
+          "I can explain the combined double-slit + single-slit pattern",
+          "I can predict missing orders from d/b ratio"
+        ]
+      },
+
+      "extension": { "title": "Diffraction from circular apertures", "content": "<p>A circular aperture (like a telescope mirror or camera lens) produces a circular diffraction pattern (Airy disk) with: first dark ring at sin θ = 1.22λ/D (Rayleigh criterion). This sets the fundamental resolution limit for all optical instruments. The factor 1.22 (vs 1.00 for a slit) comes from the circular geometry (involves Bessel functions).</p>", "connections": ["E.5 Stars: telescope resolution limited by diffraction of the primary mirror/lens"], "checklist": ["I can explain the Airy disk and apply θ = 1.22λ/D for circular apertures"] },
+      "video": { "title": "Single-Slit Diffraction Detail — IB HL", "duration": "8 min", "description": "Intensity distribution, sinc² function, double-slit modulation, and missing orders", "embedId": "" },
+      "equations": [
+        { "formula": "b sin θ = mλ (minima)", "description": "Single-slit dark fringes. m = 1, 2, 3..." },
+        { "formula": "I = I₀(sin α/α)²", "description": "Single-slit intensity. α = πb sin θ/λ." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "A single slit of width 0.12 mm produces a diffraction pattern. λ = 600 nm, screen 3 m away. Find the width of the central maximum.", "solution": "θ = λ/b = 600 × 10⁻⁹/1.2 × 10⁻⁴ = 5 × 10⁻³ rad. Width = 2Lθ = 2 × 3 × 5 × 10⁻³ = 0.03 m = 30 mm." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The formula b sin θ = nλ gives maxima for single slit", "explanation": "For a SINGLE slit: b sin θ = mλ gives MINIMA (dark fringes). For a GRATING or DOUBLE slit: d sin θ = nλ gives MAXIMA (bright fringes). Don't confuse them.", "correct": "Single slit: b sin θ = mλ → minima. Grating: d sin θ = nλ → maxima." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A single slit of width b is illuminated with light of wavelength λ.\n(a) State the condition for the first minimum. [1]\n(b) Sketch the intensity pattern, labelling the central and first secondary maxima. [2]\n(c) State how the pattern changes if b is decreased. [1]", "marks": 4, "modelAnswer": "(a) b sin θ = λ (first minimum: m = 1) [1].\n(b) Central maximum: tall, wide peak centred at θ = 0. First secondary maxima: much shorter peaks (~4.5% of central) on either side, between the 1st and 2nd minima [2].\n(c) Decreasing b increases θ (sin θ = λ/b) → the pattern spreads out (wider central maximum, wider spacing between minima) [1].", "examinerTip": "For single-slit sketches: the central peak must be (1) the tallest and (2) twice the width of secondary peaks. Secondary peaks are MUCH shorter. These are key marking points." }
+    },
+
+    {
+      "id": "c3_sub6",
+      "num": 6,
+      "title": "Resolution & the Doppler Effect",
+      "group": "Wave Applications",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Single-Slit Detail",
+      "nextTitle": "C.4 Standing Waves",
+
+      "bigIdea": "The Doppler effect changes the frequency of waves when the source and observer are in relative motion. An ambulance siren sounds higher-pitched as it approaches and lower as it moves away. The same effect with light: approaching objects appear bluer (blueshift), receding objects appear redder (redshift). Hubble used this to discover that galaxies are moving away from us — the universe is expanding.",
+
+      "foundation": {
+        "title": "Moving sources change the observed frequency",
+        "content": "<h4>The Doppler effect</h4><p>When a wave source moves toward you: wavefronts are compressed → shorter wavelength → higher frequency. Moving away: wavefronts are stretched → longer wavelength → lower frequency. This is the <strong>Doppler effect</strong>.</p><h4>For sound</h4><p><strong>Moving source:</strong></p><p>f' = f × v/(v ∓ v_s)</p><p>Where f = source frequency, v = wave speed in medium, v_s = source speed. − for source approaching (higher f'), + for source receding (lower f').</p><p><strong>Moving observer:</strong></p><p>f' = f × (v ± v_o)/v</p><p>+ for observer approaching (higher f'), − for receding (lower f').</p><h4>For light (electromagnetic Doppler)</h4><p>For sources moving at speed v relative to the observer:</p><p><strong>Δf/f = Δλ/λ ≈ v/c</strong> (for v << c)</p><p>Approaching: blueshift (shorter λ, higher f). Receding: redshift (longer λ, lower f).</p><h4>Applications</h4><ul><li><strong>Radar speed guns:</strong> reflect microwaves off moving cars, measure frequency shift → calculate speed</li><li><strong>Medical ultrasound:</strong> Doppler ultrasound measures blood flow velocity</li><li><strong>Astronomy:</strong> redshift of galaxies → universe is expanding (Hubble's law: v = H₀d)</li><li><strong>Exoplanet detection:</strong> tiny Doppler wobble in a star's light reveals orbiting planets</li></ul>",
+        "summary": "<p><strong>Doppler effect:</strong> relative motion → observed frequency changes.</p><p><strong>Approaching:</strong> higher f (shorter λ). <strong>Receding:</strong> lower f (longer λ).</p><p><strong>Sound:</strong> f' = f × v/(v ∓ v_s). <strong>Light:</strong> Δf/f ≈ v/c.</p><p><strong>Redshift (light):</strong> galaxies receding → universe expanding.</p>",
+        "checkQuestions": [
+          { "question": "An ambulance siren (f = 800 Hz) approaches at 30 m/s. v_sound = 340 m/s. Find the observed frequency.", "answer": "f' = f × v/(v − v_s) = 800 × 340/(340 − 30) = 800 × 340/310 = 877 Hz. Higher pitch when approaching." },
+          { "question": "A galaxy shows a hydrogen line at 660 nm instead of the lab value 656 nm. Is it approaching or receding? Find its speed.", "answer": "Wavelength increased → redshift → receding. Δλ/λ = (660−656)/656 = 4/656 = 6.10 × 10⁻³. v = cΔλ/λ = 3 × 10⁸ × 6.10 × 10⁻³ = 1.83 × 10⁶ m/s ≈ 1830 km/s." }
+        ],
+        "checklist": [
+          "I can explain the Doppler effect for sound and light",
+          "I can apply f' = f v/(v ∓ v_s) for moving source",
+          "I can apply Δf/f ≈ v/c for light (v << c)",
+          "I can distinguish blueshift (approaching) from redshift (receding)",
+          "I can describe applications: speed guns, ultrasound, astronomy"
+        ]
+      },
+
+      "core": {
+        "title": "Doppler calculations and cosmological redshift",
+        "content": "<h4>The Doppler formulas for sound</h4><p><strong>Source moving:</strong> f' = fv/(v − v_s) (approaching) or fv/(v + v_s) (receding).</p><p><strong>Observer moving:</strong> f' = f(v + v_o)/v (approaching) or f(v − v_o)/v (receding).</p><p><strong>Both moving:</strong> f' = f(v ± v_o)/(v ∓ v_s). Upper signs for approaching.</p><h4>Relativistic Doppler for light</h4><p>For v << c: Δf/f ≈ v/c or Δλ/λ ≈ v/c (non-relativistic approximation — sufficient for IB).</p><p>For v comparable to c: f' = f√((1+β)/(1−β)) where β = v/c (approaching). This is the relativistic Doppler formula from A.5.</p><h4>Hubble's law</h4><p><strong>v = H₀d</strong></p><p>Where v = recession velocity (from redshift), H₀ = Hubble constant (~70 km/s/Mpc), d = distance to the galaxy. More distant galaxies recede faster → the universe is expanding. This was Hubble's great discovery (1929), confirmed by the Doppler effect applied to galaxy spectra.</p><h4>Connection to the Big Bang</h4><p>If galaxies are moving apart now, they were closer together in the past. Extrapolating backward: everything was together ~13.8 billion years ago → the Big Bang. The cosmic microwave background (CMB) is the redshifted thermal radiation from this early era.</p>",
+        "keyPoints": [
+          "Sound Doppler: f' = fv/(v ∓ v_s) for moving source",
+          "Light Doppler: Δλ/λ ≈ v/c for v << c",
+          "Hubble's law: v = H₀d → universe expanding",
+          "Redshift of galaxies → Big Bang model"
+        ],
+        "examTrap": { "wrong": "The Doppler effect for sound and light work the same way", "correct": "For sound: it matters WHETHER the source or observer is moving (different formulas). For light: only RELATIVE motion matters (there's no medium, so no distinction between source and observer moving). The sound formulas are different for source-moving vs observer-moving; the light formula depends only on relative velocity." },
+        "checkQuestions": [
+          { "question": "A galaxy has redshift z = Δλ/λ = 0.05. Find its recession velocity and distance (H₀ = 70 km/s/Mpc).", "answer": "v = zc = 0.05 × 3 × 10⁵ = 15,000 km/s. d = v/H₀ = 15,000/70 = 214 Mpc." }
+        ],
+        "checklist": [
+          "I can solve Doppler problems for sound (source and observer moving)",
+          "I can apply z = Δλ/λ = v/c for cosmological redshift",
+          "I can apply Hubble's law: v = H₀d to find galaxy distances",
+          "I can connect the Doppler effect to the expansion of the universe"
+        ]
+      },
+
+      "extension": { "title": "Gravitational redshift and sonic booms", "content": "<p>Gravitational redshift: light climbing out of a gravitational field loses energy → frequency decreases → redshift. Predicted by general relativity, confirmed by Pound-Rebka (1959). GPS satellites correct for this. Sonic booms: when a source exceeds the wave speed (v_s > v), wavefronts pile up into a shock wave (Mach cone). The half-angle: sin θ = v/v_s = 1/M (Mach number M = v_s/v). This is why supersonic jets create a 'boom.'</p>", "connections": ["A.5 Relativity: relativistic Doppler and gravitational time dilation", "D.1 Gravitational Fields: gravitational redshift"], "checklist": ["I can describe sonic booms using Mach cones", "I can state that gravitational redshift is predicted by general relativity"] },
+      "simulation": { "title": "PhET: Sound Waves", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/sound", "instructions": ["Move the source toward and away from the listener. Observe wavefront compression (approaching) and stretching (receding). Hear the pitch change."] },
+      "video": { "title": "The Doppler Effect — IB Physics", "duration": "10 min", "description": "Sound Doppler formulas, light redshift/blueshift, Hubble's law, and the expanding universe", "embedId": "" },
+      "equations": [
+        { "formula": "f' = fv/(v ∓ v_s)", "description": "Sound Doppler: moving source. − approaching, + receding." },
+        { "formula": "Δf/f = Δλ/λ ≈ v/c", "description": "Light Doppler (v << c). Redshift z = Δλ/λ." },
+        { "formula": "v = H₀d", "description": "Hubble's law. H₀ ≈ 70 km/s/Mpc." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A car horn (f = 500 Hz) approaches at 25 m/s, then recedes. v = 340 m/s. Find f' in each case.", "steps": [
+          { "label": "Approaching", "text": "f' = 500 × 340/(340−25) = 500 × 340/315 = 540 Hz", "isEquation": true },
+          { "label": "Receding", "text": "f' = 500 × 340/(340+25) = 500 × 340/365 = 466 Hz", "isEquation": true },
+          { "label": "Shift", "text": "540 − 466 = 74 Hz difference between approaching and receding. This is the characteristic Doppler 'wooooo-eeee-ooooo' effect." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the Doppler effect and give one example.", "solution": "The Doppler effect is the change in observed frequency (or wavelength) when there is relative motion between a wave source and an observer. Example: an ambulance siren sounds higher-pitched when approaching and lower-pitched when receding." },
+        { "difficulty": "medium", "scope": "sl", "question": "A star shows a spectral line at 502 nm instead of the lab value 500 nm. Find the star's velocity and state if it's approaching or receding.", "solution": "Δλ = 502 − 500 = 2 nm. Δλ/λ = 2/500 = 0.004. v = 0.004 × c = 0.004 × 3 × 10⁸ = 1.2 × 10⁶ m/s = 1200 km/s. λ increased → redshift → receding." },
+        { "difficulty": "hard", "scope": "sl", "question": "A galaxy has z = 0.1. Find v, d (H₀ = 70 km/s/Mpc), and the look-back time (approximate).", "solution": "v = zc = 0.1 × 3 × 10⁵ = 30,000 km/s. d = v/H₀ = 30,000/70 = 429 Mpc = 1.4 × 10⁹ ly ≈ 1.4 billion light-years. Look-back time ≈ d/c ≈ 1.4 billion years (we see this galaxy as it was 1.4 billion years ago)." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using the light Doppler formula for sound or vice versa", "explanation": "Sound Doppler: f' = fv/(v ∓ v_s) uses the wave speed in the medium. Light Doppler: Δf/f = v/c uses the speed of light. They have different mathematical forms because sound needs a medium (source vs observer motion matters) but light doesn't.", "correct": "Sound: f' = fv/(v ∓ v_s). Light: Δf/f = v/c (v << c). Different formulas." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A source emitting sound at 600 Hz moves toward a stationary observer at 40 m/s. Speed of sound = 340 m/s.\n(a) Calculate the observed frequency. [2]\n(b) The source passes and moves away. Find the new observed frequency. [1]\n(c) A distant galaxy shows hydrogen emission at 662 nm instead of 656 nm. Determine the galaxy's speed and state whether it's approaching or receding. [3]", "marks": 6, "modelAnswer": "(a) f' = 600 × 340/(340−40) = 600 × 340/300 = 680 Hz [2].\n(b) f' = 600 × 340/(340+40) = 600 × 340/380 = 537 Hz [1].\n(c) Δλ = 662 − 656 = 6 nm. z = 6/656 = 9.15 × 10⁻³ [1]. v = zc = 9.15 × 10⁻³ × 3 × 10⁸ = 2.74 × 10⁶ m/s [1]. Wavelength increased → redshift → receding [1].", "examinerTip": "For sound Doppler: use v/(v−v_s) for approaching, v/(v+v_s) for receding. Remember: approaching gives HIGHER f (denominator smaller). Receding gives LOWER f (denominator larger)." }
+    }
+
+  ]
+},
+// ============================================================
+// C.4 STANDING WAVES — COMPLETE (5 subtopics)
+// Ends with comma — ready for C5 to follow
+// ============================================================
+
+"C4": {
+  "title": "Standing Waves & Resonance",
+  "code": "C.4",
+  "theme": "C",
+  "level": "SL + HL",
+  "subtopicCount": 5,
+  "subtopics": [
+
+    {
+      "id": "c4_sub1",
+      "num": 1,
+      "title": "Formation of Standing Waves",
+      "group": "Standing Waves",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "C.3 Wave Phenomena",
+      "nextTitle": "Harmonics on Strings",
+      "bigIdea": "When two identical waves travel in opposite directions, they don't just pass through each other — they create a standing wave. Some points vibrate with maximum amplitude (antinodes) while others remain permanently still (nodes). Unlike travelling waves, standing waves don't transport energy — they store it.",
+      "foundation": {
+        "title": "Two waves travelling in opposite directions",
+        "content": "<h4>How standing waves form</h4><p>A <strong>standing wave</strong> forms when two waves of the same frequency, amplitude, and speed travel in opposite directions through the same medium. This typically happens when a wave reflects back on itself — from a wall, a fixed end, or a boundary.</p><p>The superposition of the two waves creates a pattern that appears to stand still — hence 'standing wave.'</p><h4>Nodes and antinodes</h4><ul><li><strong>Nodes:</strong> points of zero displacement at all times. The two waves always cancel here. Spacing between adjacent nodes = λ/2.</li><li><strong>Antinodes:</strong> points of maximum displacement. The two waves always reinforce here. Located midway between nodes.</li></ul><h4>Standing vs travelling waves</h4><table><tr><th>Property</th><th>Travelling wave</th><th>Standing wave</th></tr><tr><td>Energy</td><td>Transported along wave</td><td>Stored, not transported</td></tr><tr><td>Amplitude</td><td>Same everywhere</td><td>Varies: 0 at nodes, max at antinodes</td></tr><tr><td>Phase</td><td>Changes continuously along wave</td><td>All points between two nodes are in phase</td></tr><tr><td>Wavelength</td><td>Distance between adjacent crests</td><td>2 × node spacing</td></tr></table>",
+        "summary": "<p><strong>Standing wave:</strong> two identical waves travelling in opposite directions.</p><p><strong>Nodes:</strong> zero displacement always. <strong>Antinodes:</strong> maximum displacement.</p><p><strong>Node spacing = λ/2.</strong> No energy transport.</p>",
+        "checkQuestions": [
+          { "question": "What is the distance between a node and the nearest antinode?", "answer": "λ/4. Nodes are spaced λ/2 apart, and antinodes are exactly halfway between adjacent nodes, so node-to-antinode = λ/4." }
+        ],
+        "checklist": [
+          "I can explain how standing waves form (two opposite-direction waves superpose)",
+          "I can define nodes (zero displacement) and antinodes (max displacement)",
+          "I can state that node spacing = λ/2",
+          "I can distinguish standing waves from travelling waves (energy, amplitude, phase)"
+        ]
+      },
+      "core": {
+        "title": "Mathematics of standing waves and boundary conditions",
+        "content": "<h4>Standing wave equation</h4><p>Superposition of y₁ = A sin(kx − ωt) and y₂ = A sin(kx + ωt):</p><p><strong>y = 2A sin(kx) cos(ωt)</strong></p><p>The spatial part sin(kx) determines the node/antinode pattern. The time part cos(ωt) makes the whole pattern oscillate. Nodes where sin(kx) = 0: x = 0, λ/2, λ, 3λ/2... Antinodes where sin(kx) = ±1: x = λ/4, 3λ/4, 5λ/4...</p><h4>Boundary conditions</h4><ul><li><strong>Fixed end:</strong> must be a NODE (displacement = 0). Example: string tied to a wall.</li><li><strong>Free/open end:</strong> must be an ANTINODE (maximum displacement). Example: open end of a pipe.</li></ul><p>These boundary conditions determine which wavelengths (and therefore which frequencies) can form standing waves → only certain frequencies are allowed → these are the <strong>harmonics</strong> or <strong>resonant frequencies</strong>.</p>",
+        "keyPoints": [
+          "y = 2A sin(kx) cos(ωt): standing wave equation",
+          "Nodes: sin(kx) = 0. Antinodes: sin(kx) = ±1.",
+          "Fixed end → node. Open end → antinode.",
+          "Only specific frequencies form standing waves → harmonics."
+        ],
+        "examTrap": { "wrong": "All frequencies can form standing waves on a string", "correct": "Only specific frequencies (harmonics) satisfy the boundary conditions. The string length must equal a whole number of half-wavelengths: L = nλ/2." },
+        "checkQuestions": [
+          { "question": "A string fixed at both ends has L = 1.2 m. What is the longest wavelength that forms a standing wave?", "answer": "Longest λ = fundamental: L = λ/2 → λ = 2L = 2.4 m." }
+        ],
+        "checklist": [
+          "I can write the standing wave equation: y = 2A sin(kx) cos(ωt)",
+          "I can state boundary conditions: fixed → node, open → antinode",
+          "I can explain why only certain frequencies are allowed (resonance)"
+        ]
+      },
+      "extension": { "title": "Standing waves in quantum mechanics", "content": "<p>Electrons in atoms form standing waves around the nucleus — only certain wavelengths 'fit' (nλ = 2πr for Bohr orbits). This quantisation of wavelengths → quantisation of energy → discrete energy levels → atomic spectra. Schrödinger's equation generalises this: electrons are standing waves in 3D potential wells. The entire periodic table follows from standing wave solutions.</p>", "connections": ["E.1 Atomic Structure: Bohr model uses standing electron waves", "E.2 Quantum Physics: Schrödinger equation is a standing wave equation"], "checklist": ["I can connect standing waves to electron energy quantisation in atoms"] },
+      "simulation": { "title": "PhET: Wave on a String", "source": "University of Colorado Boulder", "url": "https://phet.colorado.edu/en/simulations/wave-on-a-string", "instructions": ["Set to oscillate mode with fixed ends. Adjust frequency to find resonant frequencies — standing wave patterns appear. Count nodes to identify the harmonic."] },
+      "video": { "title": "Standing Waves — IB Physics", "duration": "9 min", "description": "Formation, nodes/antinodes, boundary conditions, and standing vs travelling", "embedId": "" },
+      "equations": [
+        { "formula": "y = 2A sin(kx) cos(ωt)", "description": "Standing wave equation from superposition." },
+        { "formula": "Node spacing = λ/2", "description": "Distance between adjacent nodes." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State two differences between standing and travelling waves.", "solution": "1. Standing waves don't transport energy; travelling waves do. 2. In standing waves, amplitude varies (zero at nodes, max at antinodes); in travelling waves, amplitude is the same everywhere." },
+        { "difficulty": "medium", "scope": "sl", "question": "A standing wave has nodes at x = 0, 0.3 m, 0.6 m, 0.9 m. Find the wavelength.", "solution": "Node spacing = 0.3 m = λ/2. λ = 0.6 m." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Nodes are points of maximum vibration", "explanation": "Nodes have ZERO displacement at all times. ANTINODES have maximum displacement. The names sound similar — don't mix them.", "correct": "Nodes = zero. Antinodes = maximum." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Explain how a standing wave is formed on a string fixed at both ends. [3]", "marks": 3, "modelAnswer": "A wave travels along the string and reflects at the fixed end [1]. The incident and reflected waves (same f, A, v but opposite directions) superpose [1]. At certain frequencies, constructive and destructive interference create fixed nodes (zero displacement) and antinodes (maximum displacement) — a standing wave [1].", "examinerTip": "Three marks: (1) reflection at fixed end, (2) superposition of two opposite waves, (3) nodes and antinodes formed." }
+    },
+
+    {
+      "id": "c4_sub2",
+      "num": 2,
+      "title": "Harmonics on Strings",
+      "group": "Standing Waves",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Formation of Standing Waves",
+      "nextTitle": "Harmonics in Pipes",
+      "bigIdea": "A guitar string can vibrate at many frequencies — but only special ones. The fundamental (1st harmonic) has nodes only at the ends. The 2nd harmonic has a node in the middle. The 3rd has two internal nodes. Each harmonic has a frequency that's an integer multiple of the fundamental. This is why musical strings produce harmonious sounds.",
+      "foundation": {
+        "title": "The harmonic series on a string fixed at both ends",
+        "content": "<h4>Boundary conditions</h4><p>A string fixed at both ends must have NODES at both ends. The standing waves that fit must have: L = nλ/2, where n = 1, 2, 3... (the harmonic number).</p><h4>The harmonics</h4><ul><li><strong>1st harmonic (fundamental, n=1):</strong> L = λ₁/2 → λ₁ = 2L. One antinode. f₁ = v/(2L).</li><li><strong>2nd harmonic (n=2):</strong> L = λ₂ → λ₂ = L. Two antinodes. f₂ = 2v/(2L) = 2f₁.</li><li><strong>3rd harmonic (n=3):</strong> L = 3λ₃/2 → λ₃ = 2L/3. Three antinodes. f₃ = 3f₁.</li><li><strong>nth harmonic:</strong> λₙ = 2L/n. fₙ = nv/(2L) = nf₁.</li></ul><p>All harmonics are present (n = 1, 2, 3, 4...). The frequencies form an arithmetic sequence: f₁, 2f₁, 3f₁, 4f₁...</p><h4>What determines the fundamental frequency?</h4><p>f₁ = v/(2L). The wave speed on a string: v = √(T/μ). So:</p><p><strong>f₁ = (1/2L)√(T/μ)</strong></p><p>Higher f₁ with: shorter string, higher tension, lighter string. This is how guitars work: frets shorten L, tuning pegs change T, different strings have different μ.</p>",
+        "summary": "<p><strong>String fixed at both ends:</strong> L = nλ/2. λₙ = 2L/n. fₙ = nf₁.</p><p><strong>f₁ = v/(2L) = (1/2L)√(T/μ).</strong></p><p><strong>All harmonics present:</strong> f₁, 2f₁, 3f₁, 4f₁...</p>",
+        "checkQuestions": [
+          { "question": "A string (L = 0.6 m, v = 300 m/s) is fixed at both ends. Find f₁, f₂, f₃.", "answer": "f₁ = v/(2L) = 300/1.2 = 250 Hz. f₂ = 500 Hz. f₃ = 750 Hz." }
+        ],
+        "checklist": [
+          "I can draw the first 3 harmonics for a string fixed at both ends",
+          "I can calculate λₙ = 2L/n and fₙ = nf₁",
+          "I can apply f₁ = v/(2L) and f₁ = (1/2L)√(T/μ)",
+          "I can explain how changing L, T, or μ affects f₁"
+        ]
+      },
+      "core": {
+        "title": "Overtones, timbre, and experimental verification",
+        "content": "<h4>Overtones and timbre</h4><p>The <strong>fundamental</strong> determines the pitch (note). The <strong>overtones</strong> (2nd, 3rd, 4th harmonics etc.) determine the timbre (quality/character). A violin and a flute playing the same note (same f₁) sound different because they have different relative strengths of overtones.</p><h4>Experimental verification — Melde's experiment</h4><p>A string is driven by a vibrator at known frequency. Adjust the tension or length until standing waves form. Count the nodes to determine the harmonic. Measure λ = 2L/n. Calculate v = fλ. Compare with v = √(T/μ).</p><h4>Relationship between harmonics</h4><p>For a string with ALL harmonics: the frequencies are f₁, 2f₁, 3f₁... The wavelengths are 2L, L, 2L/3... The number of antinodes = n (the harmonic number). The number of nodes = n + 1 (including the two at the ends).</p>",
+        "keyPoints": [
+          "Fundamental = pitch. Overtones = timbre.",
+          "Number of antinodes = n. Number of nodes = n + 1.",
+          "Melde's experiment: verify v = fλ = √(T/μ).",
+          "All harmonics present for both-ends-fixed."
+        ],
+        "examTrap": { "wrong": "The 2nd harmonic has 2 nodes", "correct": "The 2nd harmonic has 3 nodes (2 at the ends + 1 in the middle) and 2 antinodes. Always count the end nodes. Nodes = n + 1, antinodes = n." },
+        "checkQuestions": [
+          { "question": "A string vibrates in its 4th harmonic. How many nodes and antinodes?", "answer": "Antinodes = 4. Nodes = 5 (including both fixed ends)." }
+        ],
+        "checklist": [
+          "I can state the relationship between harmonics and overtones",
+          "I can count nodes (n+1) and antinodes (n) for the nth harmonic",
+          "I can describe Melde's experiment for verifying standing wave properties"
+        ]
+      },
+      "extension": { "title": "Guitar physics", "content": "<p>A guitar has 6 strings of different μ (thicker = lower pitch). Tuning pegs adjust T. Pressing a fret shortens L. The body acts as a resonant cavity, amplifying certain harmonics → gives the guitar its characteristic sound. Electric guitars use pickups (electromagnetic induction) to convert string vibration to electrical signals.</p>", "connections": ["B.5 Induction: electric guitar pickups use Faraday's law", "C.1 Resonance: guitar body resonates with string harmonics"], "checklist": ["I can explain how guitar design uses L, T, μ to produce different notes"] },
+      "video": { "title": "Harmonics on Strings — IB Physics", "duration": "8 min", "description": "Harmonic series, f = nv/(2L), nodes/antinodes, timbre, and Melde's experiment", "embedId": "" },
+      "equations": [
+        { "formula": "fₙ = nv/(2L) = nf₁", "description": "nth harmonic frequency. String fixed at both ends." },
+        { "formula": "λₙ = 2L/n", "description": "nth harmonic wavelength." },
+        { "formula": "f₁ = (1/2L)√(T/μ)", "description": "Fundamental frequency from tension and linear density." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A guitar string: L = 0.65 m, T = 100 N, μ = 0.005 kg/m. Find v, f₁, and the 3rd harmonic.", "steps": [
+          { "label": "v", "text": "v = √(T/μ) = √(100/0.005) = √20000 = 141.4 m/s", "isEquation": true },
+          { "label": "f₁", "text": "f₁ = v/(2L) = 141.4/1.3 = 108.8 Hz", "isEquation": true },
+          { "label": "f₃", "text": "f₃ = 3f₁ = 326.4 Hz" }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A 1.0 m string fixed at both ends vibrates at its fundamental. Sketch the standing wave and state the wavelength.", "solution": "One antinode in the middle, nodes at both ends. λ = 2L = 2.0 m." },
+        { "difficulty": "medium", "scope": "sl", "question": "The 3rd harmonic of a string is 900 Hz. Find f₁ and f₅.", "solution": "f₃ = 3f₁ → f₁ = 300 Hz. f₅ = 5 × 300 = 1500 Hz." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The fundamental wavelength equals the string length", "explanation": "λ₁ = 2L (not L). The fundamental has half a wavelength fitting in the string length: L = λ/2.", "correct": "Fundamental: λ = 2L. Second harmonic: λ = L. nth: λ = 2L/n." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A string of length 0.80 m is fixed at both ends. The speed of waves on the string is 200 m/s.\n(a) Calculate the fundamental frequency. [1]\n(b) Sketch the 3rd harmonic and state its frequency and wavelength. [3]", "marks": 4, "modelAnswer": "(a) f₁ = v/(2L) = 200/1.6 = 125 Hz [1].\n(b) f₃ = 3 × 125 = 375 Hz [1]. λ₃ = 2L/3 = 1.6/3 = 0.533 m [1]. Sketch: 3 antinodes, 4 nodes (including ends) [1].", "examinerTip": "For harmonic sketches: draw the correct number of antinodes (= n) with nodes at both ends. Label λ and indicate node spacing = λ/2." }
+    },
+
+    {
+      "id": "c4_sub3",
+      "num": 3,
+      "title": "Harmonics in Pipes (Open & Closed)",
+      "group": "Standing Waves",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Harmonics on Strings",
+      "nextTitle": "Resonance in Standing Waves",
+      "bigIdea": "Wind instruments produce standing waves in columns of air. An open pipe (both ends open) produces all harmonics — like a string. A closed pipe (one end closed) produces only odd harmonics — giving a distinctly different, 'hollow' sound. The boundary conditions at each end determine which harmonics exist.",
+      "foundation": {
+        "title": "Standing waves in air columns",
+        "content": "<h4>Open pipe (both ends open)</h4><p>Both ends are ANTINODES (air is free to oscillate at an open end).</p><ul><li><strong>1st harmonic:</strong> L = λ₁/2 → λ₁ = 2L. f₁ = v/(2L).</li><li><strong>nth harmonic:</strong> fₙ = nv/(2L) = nf₁. ALL harmonics present (n = 1, 2, 3...).</li></ul><p>Same formula as a string fixed at both ends — but with antinodes at the ends instead of nodes.</p><h4>Closed pipe (one end closed, one open)</h4><p>Closed end: NODE. Open end: ANTINODE.</p><ul><li><strong>1st harmonic:</strong> L = λ₁/4 → λ₁ = 4L. f₁ = v/(4L).</li><li><strong>3rd harmonic:</strong> L = 3λ/4 → f₃ = 3v/(4L) = 3f₁.</li><li><strong>Only ODD harmonics:</strong> fₙ = nv/(4L) where n = 1, 3, 5, 7...</li></ul><p>Even harmonics are missing because they don't satisfy the boundary conditions (node at closed end, antinode at open end).</p><h4>Comparing</h4><ul><li>Open pipe: f₁ = v/(2L), all harmonics → richer sound (flute, organ open pipe)</li><li>Closed pipe: f₁ = v/(4L), odd only → fundamental is lower (for same L), distinctive 'hollow' sound (clarinet, organ closed pipe)</li></ul>",
+        "summary": "<p><strong>Open pipe:</strong> antinodes at both ends. fₙ = nv/(2L). All harmonics.</p><p><strong>Closed pipe:</strong> node at closed, antinode at open. fₙ = nv/(4L), n = odd only.</p><p><strong>Closed pipe f₁ = half of open pipe f₁</strong> (for same L).</p>",
+        "checkQuestions": [
+          { "question": "A closed pipe of length 0.5 m. v = 340 m/s. Find f₁ and the next two harmonics.", "answer": "f₁ = v/(4L) = 340/2 = 170 Hz. Next: f₃ = 3 × 170 = 510 Hz. f₅ = 5 × 170 = 850 Hz. (Only odd harmonics.)" }
+        ],
+        "checklist": [
+          "I can draw harmonics for open pipes (antinodes at both ends) and closed pipes (node + antinode)",
+          "I can apply fₙ = nv/(2L) for open and fₙ = nv/(4L) for closed pipes",
+          "I can state that closed pipes have only odd harmonics",
+          "I can explain why closed pipes have a lower fundamental than open pipes of the same length"
+        ]
+      },
+      "core": {
+        "title": "End corrections and resonance tube experiments",
+        "content": "<h4>End correction</h4><p>The antinode at an open end doesn't occur exactly at the end — it's slightly outside the pipe. The effective length: L_eff = L + e, where e ≈ 0.6r (r = radius of pipe) is the <strong>end correction</strong>. For accurate calculations: use L_eff in the formulas.</p><h4>Resonance tube experiment</h4><p>A tuning fork of known f is held over a tube partially submerged in water (creating a closed pipe of adjustable length). Shorten the air column until resonance (loud sound) occurs.</p><p>First resonance: L₁ ≈ λ/4. Second resonance: L₂ ≈ 3λ/4. From these: λ = 2(L₂ − L₁). Then: v = fλ. This gives an accurate measurement of the speed of sound.</p><p>End correction: L₁ = λ/4 − e and L₂ = 3λ/4 − e. So: λ = 2(L₂ − L₁) (end correction cancels).</p>",
+        "keyPoints": [
+          "End correction: e ≈ 0.6r. Antinode is slightly beyond the open end.",
+          "Resonance tube: L₁ = λ/4, L₂ = 3λ/4. λ = 2(L₂ − L₁).",
+          "v = fλ from the resonance tube gives the speed of sound.",
+          "End correction cancels when using the difference L₂ − L₁."
+        ],
+        "examTrap": { "wrong": "The antinode forms exactly at the open end of a pipe", "correct": "The antinode is slightly BEYOND the open end (by the end correction e ≈ 0.6r). For most IB problems, this correction is ignored unless specifically asked. But for the resonance tube experiment, using λ = 2(L₂ − L₁) automatically cancels the end correction." },
+        "checkQuestions": [
+          { "question": "In a resonance tube experiment: f = 512 Hz, first resonance at L₁ = 16.0 cm, second at L₂ = 49.0 cm. Find λ and v.", "answer": "λ = 2(L₂ − L₁) = 2(0.49 − 0.16) = 2 × 0.33 = 0.66 m. v = fλ = 512 × 0.66 = 338 m/s." }
+        ],
+        "checklist": [
+          "I can explain the end correction for open pipes",
+          "I can describe the resonance tube experiment for measuring v_sound",
+          "I can calculate λ = 2(L₂ − L₁) from two resonance lengths"
+        ]
+      },
+      "extension": { "title": "Musical instrument acoustics", "content": "<p>Wind instruments modify standing wave patterns: flutes are open pipes (all harmonics), clarinets are effectively closed pipes (odd harmonics — giving a distinctive sound), brass instruments use conical bores and bells that couple harmonics differently. The overtone content determines the 'voice' of each instrument. Organ pipes range from 10 m (16 Hz) to 1 cm (16 kHz) — spanning the range of human hearing.</p>", "connections": ["C.1 Resonance: instrument bodies amplify resonant frequencies", "C.2 Wave Model: sound waves are longitudinal"], "checklist": ["I can explain how different instruments produce different timbres based on their harmonic content"] },
+      "video": { "title": "Harmonics in Pipes — IB Physics", "duration": "9 min", "description": "Open and closed pipes, harmonic series, end correction, and the resonance tube", "embedId": "" },
+      "equations": [
+        { "formula": "Open: fₙ = nv/(2L), n = 1,2,3...", "description": "All harmonics. Antinodes at both ends." },
+        { "formula": "Closed: fₙ = nv/(4L), n = 1,3,5...", "description": "Odd harmonics only. Node at closed end." },
+        { "formula": "λ = 2(L₂ − L₁)", "description": "From resonance tube experiment. End correction cancels." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "An open organ pipe: L = 0.85 m, v = 340 m/s. Find f₁, f₂, f₃. A closed pipe of same L: find f₁, f₃, f₅.", "steps": [
+          { "label": "Open f₁", "text": "f₁ = v/(2L) = 340/1.7 = 200 Hz. f₂ = 400 Hz. f₃ = 600 Hz.", "isEquation": true },
+          { "label": "Closed f₁", "text": "f₁ = v/(4L) = 340/3.4 = 100 Hz. f₃ = 300 Hz. f₅ = 500 Hz.", "isEquation": true },
+          { "label": "Note", "text": "Closed pipe f₁ = half of open pipe f₁. Closed pipe sounds an octave lower." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State which harmonics are present in (a) an open pipe and (b) a closed pipe.", "solution": "(a) All harmonics: n = 1, 2, 3, 4... (b) Odd harmonics only: n = 1, 3, 5, 7..." },
+        { "difficulty": "medium", "scope": "sl", "question": "A closed pipe produces its 3rd harmonic at 510 Hz. Find f₁ and the pipe length (v = 340 m/s).", "solution": "f₃ = 3f₁ → f₁ = 170 Hz. f₁ = v/(4L) → L = v/(4f₁) = 340/680 = 0.5 m." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using f = v/(2L) for a closed pipe", "explanation": "Closed pipe: f₁ = v/(4L), not v/(2L). The fundamental has λ = 4L (quarter wavelength fits in the pipe), not λ = 2L. Using v/(2L) gives the wrong fundamental.", "correct": "Open: f₁ = v/(2L). Closed: f₁ = v/(4L). Different formulas." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A closed pipe of length 0.40 m. Speed of sound = 340 m/s.\n(a) Calculate the fundamental frequency. [1]\n(b) State the frequency of the next harmonic. [1]\n(c) An open pipe has the same fundamental frequency. Find its length. [2]", "marks": 4, "modelAnswer": "(a) f₁ = v/(4L) = 340/1.6 = 212.5 Hz [1].\n(b) Next harmonic = 3rd (odd only): f₃ = 3 × 212.5 = 637.5 Hz [1].\n(c) Open pipe: f₁ = v/(2L_open) → L_open = v/(2f₁) = 340/(2 × 212.5) = 0.80 m [2].", "examinerTip": "The open pipe with the same f₁ is TWICE the length of the closed pipe. This is because λ_open = 2L but λ_closed = 4L → for same f: L_open = 2L_closed." }
+    },
+
+    {
+      "id": "c4_sub4",
+      "num": 4,
+      "title": "Resonance in Mechanical Systems",
+      "group": "Resonance",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Pipes",
+      "nextTitle": "Standing Wave Experiments",
+      "bigIdea": "Standing waves are resonant modes — the natural vibration patterns of a system. When you drive a system at one of its resonant frequencies, a standing wave builds up and the amplitude is maximum. This is resonance applied to standing waves: the bridge between the oscillation physics of C.1 and the wave physics of C.2–C.4.",
+      "foundation": {
+        "title": "Connecting standing waves to resonance",
+        "content": "<h4>Standing waves ARE resonance</h4><p>A string or pipe vibrates with maximum amplitude at its harmonic frequencies. These are its <strong>resonant frequencies</strong>. Driving the system at any other frequency: the wave doesn't build up (destructive interference over time). Driving at a harmonic: constructive interference over many reflections → large amplitude standing wave.</p><h4>Examples</h4><ul><li>Plucking a guitar string excites multiple harmonics simultaneously → complex standing wave → rich sound</li><li>Blowing across a bottle excites the fundamental of the air column → pure tone</li><li>A microwave oven creates standing EM waves → nodes (cold spots) and antinodes (hot spots) → turntable rotates food through the pattern</li><li>A resonance tube finds the resonant lengths for a given frequency</li></ul>",
+        "summary": "<p><strong>Resonant frequencies = harmonic frequencies.</strong> Standing waves form at these frequencies.</p><p><strong>Driving at resonance:</strong> constructive interference builds amplitude.</p><p><strong>Standing waves in everyday objects:</strong> instruments, microwaves, buildings (earthquake design).</p>",
+        "checkQuestions": [
+          { "question": "Why does a microwave oven need a turntable?", "answer": "The microwave oven creates standing EM waves. Nodes are cold spots (no energy). Antinodes are hot spots. Without the turntable, food at nodes would stay cold. Rotating moves food through nodes and antinodes, heating more evenly." }
+        ],
+        "checklist": [
+          "I can explain standing waves as resonance phenomena",
+          "I can give examples of standing wave resonance in everyday systems"
+        ]
+      },
+      "core": {
+        "title": "Frequency analysis and standing wave patterns",
+        "content": "<h4>Identifying the harmonic from the pattern</h4><p>Count the antinodes: this gives n (the harmonic number). Then: f = nf₁ and λ = 2L/n (strings, open pipes). For closed pipes: count nodes at the closed end + antinodes at the open end and use λ = 4L/n (odd n only).</p><h4>Frequency spectrum</h4><p>The set of all harmonic frequencies is the frequency spectrum. For a string or open pipe: f₁, 2f₁, 3f₁, 4f₁... (evenly spaced). For a closed pipe: f₁, 3f₁, 5f₁, 7f₁... (odd multiples, wider gaps).</p><h4>Two-dimensional standing waves</h4><p>Chladni patterns: sand on a vibrating plate collects at nodes (stationary lines) → beautiful geometric patterns. Different frequencies → different patterns. These are 2D standing waves — the same physics, extended to a surface.</p>",
+        "keyPoints": [
+          "Count antinodes → identify harmonic number n",
+          "String/open pipe: fₙ = nf₁ (all n). Closed pipe: fₙ = nf₁ (odd n only).",
+          "Chladni patterns: 2D standing waves visualised with sand."
+        ],
+        "examTrap": { "wrong": "The frequency of a standing wave depends on the amplitude", "correct": "Frequency depends on the harmonic number, the wave speed, and the length — NOT on amplitude. Larger amplitude means more energy stored in the standing wave, but the frequency stays the same." },
+        "checkQuestions": [
+          { "question": "A string shows 5 antinodes. If f₁ = 100 Hz, what frequency is the string vibrating at?", "answer": "5 antinodes → 5th harmonic → f₅ = 5 × 100 = 500 Hz." }
+        ],
+        "checklist": [
+          "I can identify the harmonic by counting antinodes",
+          "I can determine the frequency from the harmonic number and f₁",
+          "I can describe Chladni patterns as 2D standing waves"
+        ]
+      },
+      "extension": { "title": "Standing waves in laser cavities", "content": "<p>A laser cavity has mirrors at each end. Light bounces back and forth, forming standing EM waves. Only wavelengths that fit as standing waves between the mirrors are amplified (cavity modes). This is why lasers produce extremely pure frequencies — the cavity selects specific standing wave modes. The mirror spacing L determines the allowed frequencies: f = nc/(2L).</p>", "connections": ["E.2 Quantum Physics: stimulated emission + standing wave cavity = laser", "C.2 EM spectrum: laser light is coherent EM radiation"], "checklist": ["I can explain laser operation using standing EM waves in a cavity"] },
+      "video": { "title": "Resonance & Standing Waves — IB Physics", "duration": "7 min", "description": "Standing waves as resonance, harmonic identification, Chladni patterns", "embedId": "" },
+      "equations": [],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "sl", "question": "A string vibrating at 450 Hz shows 3 antinodes. Find f₁ and the speed if L = 0.9 m.", "solution": "3 antinodes → 3rd harmonic. f₃ = 3f₁ = 450 → f₁ = 150 Hz. λ₃ = 2L/3 = 0.6 m. v = fλ = 450 × 0.6 = 270 m/s." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Any frequency creates a standing wave", "explanation": "Only specific frequencies (harmonics) create standing waves. These are determined by the boundary conditions and the wave speed. Other frequencies produce destructive interference over time and don't build up.", "correct": "Standing waves form only at resonant (harmonic) frequencies." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A string vibrates in its 4th harmonic at 480 Hz. The string length is 1.0 m.\n(a) Find the fundamental frequency. [1]\n(b) Find the wavelength of the 4th harmonic. [1]\n(c) Find the wave speed. [1]", "marks": 3, "modelAnswer": "(a) f₁ = f₄/4 = 480/4 = 120 Hz [1].\n(b) λ₄ = 2L/4 = 2/4 = 0.5 m [1].\n(c) v = fλ = 480 × 0.5 = 240 m/s (or v = f₁ × 2L = 120 × 2 = 240 m/s) [1].", "examinerTip": "Quick check: v = f₁ × λ₁ = f₂ × λ₂ = fₙ × λₙ. Wave speed is the same for all harmonics — only f and λ change." }
+    },
+
+    {
+      "id": "c4_sub5",
+      "num": 5,
+      "title": "Standing Wave Experiments",
+      "group": "Practical",
+      "scope": "sl",
+      "level": "SL + HL",
+      "prevTitle": "Resonance",
+      "nextTitle": "C.5 Doppler Effect",
+      "bigIdea": "The best way to understand standing waves is to make them. Vibrate a string at different frequencies and watch harmonics appear. Lower a tube into water while holding a tuning fork and listen for resonance. These experiments connect the theory to physical reality and let you measure wave speed with simple equipment.",
+      "foundation": {
+        "title": "Making and measuring standing waves",
+        "content": "<h4>String experiments</h4><p>A string fixed at both ends is driven by a vibrator. Adjust the frequency: at harmonic frequencies, standing waves form visibly. Measure L and count nodes → find λ. With known f: v = fλ. With known T and μ: verify v = √(T/μ).</p><h4>Resonance tube experiment</h4><p>Hold a tuning fork (known f) over a tube in water. Raise the tube slowly from the water. At specific lengths: resonance → loud sound. First resonance: L₁ ≈ λ/4. Second: L₂ ≈ 3λ/4. Calculate: λ = 2(L₂ − L₁), v = fλ.</p><h4>Kundt's tube</h4><p>Sound standing waves in a tube with cork dust or lycopodium powder. The powder collects at nodes (no vibration). Node spacing = λ/2 → measure λ → find v = fλ. Used to measure the speed of sound in different gases.</p>",
+        "summary": "<p><strong>String:</strong> vibrator drives standing waves. Adjust f to find harmonics.</p><p><strong>Resonance tube:</strong> tuning fork over water tube. Find L₁, L₂ → λ = 2(L₂−L₁) → v = fλ.</p><p><strong>Kundt's tube:</strong> powder collects at nodes → measure λ directly.</p>",
+        "checkQuestions": [
+          { "question": "In a resonance tube, why do we measure TWO resonance lengths?", "answer": "To eliminate the end correction. L₁ = λ/4 − e, L₂ = 3λ/4 − e. The difference: L₂ − L₁ = λ/2 (e cancels). So λ = 2(L₂ − L₁) — no need to know e." }
+        ],
+        "checklist": [
+          "I can describe string vibration experiments for studying harmonics",
+          "I can describe the resonance tube experiment and calculate v_sound",
+          "I can explain how end correction is eliminated using L₂ − L₁"
+        ]
+      },
+      "core": {
+        "title": "Data analysis and sources of error",
+        "content": "<h4>Analysing resonance tube data</h4><p>For multiple tuning forks of different f: measure L₁ for each. Plot L₁ vs 1/f → straight line with gradient = v/4 → find v. This gives a more reliable result than a single measurement.</p><h4>Sources of error</h4><ul><li>Difficulty identifying exact resonance (maximum loudness): use slow adjustment</li><li>End correction varies with frequency (e ≈ 0.6r is approximate)</li><li>Temperature affects v_sound (v ≈ 331 + 0.6T_°C m/s)</li><li>Parallax reading the water level</li></ul>",
+        "keyPoints": [
+          "Plot L₁ vs 1/f for multiple frequencies → gradient = v/4",
+          "v_sound ≈ 331 + 0.6T (temperature correction)",
+          "End correction ~0.6r is approximate — use L₂ − L₁ to cancel it"
+        ],
+        "examTrap": { "wrong": "The speed of sound is exactly 340 m/s", "correct": "340 m/s is approximate at ~20°C. v varies with temperature: v ≈ 331 + 0.6T (°C). At 0°C: v ≈ 331 m/s. At 30°C: v ≈ 349 m/s. State the temperature if precision matters." },
+        "checkQuestions": [
+          { "question": "Room temperature is 25°C. Estimate the speed of sound.", "answer": "v ≈ 331 + 0.6 × 25 = 331 + 15 = 346 m/s." }
+        ],
+        "checklist": [
+          "I can use graphical methods (L vs 1/f) for better accuracy",
+          "I can apply the temperature correction for v_sound",
+          "I can identify and explain sources of error in standing wave experiments"
+        ]
+      },
+      "extension": { "title": "Standing waves and quantum dots", "content": "<p>Quantum dots are nanoscale semiconductor crystals where electrons are confined to a tiny space — forming 3D standing waves. The energy levels depend on the dot size (like harmonics depend on string length). Smaller dots → higher fundamental energy → shorter emission wavelength → bluer colour. This tunability makes quantum dots useful in displays (QLED TVs), solar cells, and biomedical imaging.</p>", "connections": ["E.2 Quantum Physics: particle-in-a-box is a standing wave problem", "E.1 Atomic Structure: electron standing waves determine energy levels"], "checklist": ["I can describe quantum dots as 3D standing wave systems"] },
+      "video": { "title": "Standing Wave Experiments — IB Physics", "duration": "7 min", "description": "String vibrations, resonance tube, Kundt's tube, and experimental techniques", "embedId": "" },
+      "equations": [
+        { "formula": "v ≈ 331 + 0.6T (°C)", "description": "Speed of sound in air. T in Celsius." },
+        { "formula": "λ = 2(L₂ − L₁)", "description": "From resonance tube (end correction cancels)." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "sl", "question": "A resonance tube at 20°C. Fork f = 440 Hz. First resonance at L₁ = 18.7 cm. Find the expected second resonance length.", "solution": "v ≈ 331 + 0.6(20) = 343 m/s. λ = v/f = 343/440 = 0.780 m. L₁ ≈ λ/4 = 0.195 m (close to 0.187 — difference is end correction). L₂ ≈ 3λ/4 = 0.585 m. Or: L₂ = L₁ + λ/2 = 0.187 + 0.390 = 0.577 m." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The resonance tube gives exact v without corrections", "explanation": "Temperature and end correction affect accuracy. Use λ = 2(L₂ − L₁) to cancel end correction. Correct for temperature using v ≈ 331 + 0.6T.", "correct": "Use L₂ − L₁ (cancels end correction) and state the temperature." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A resonance tube experiment: f = 512 Hz. First resonance: L₁ = 16.2 cm. Second: L₂ = 49.4 cm.\n(a) Calculate λ. [1]\n(b) Calculate the speed of sound. [1]\n(c) Estimate the room temperature. [1]", "marks": 3, "modelAnswer": "(a) λ = 2(L₂ − L₁) = 2(0.494 − 0.162) = 2 × 0.332 = 0.664 m [1].\n(b) v = fλ = 512 × 0.664 = 340 m/s [1].\n(c) v = 331 + 0.6T → 340 = 331 + 0.6T → T = 9/0.6 = 15°C [1].", "examinerTip": "This three-part question is a classic. Show the method clearly: (1) λ from the two lengths, (2) v from fλ, (3) T from v = 331 + 0.6T." }
+    }
+
+  ]
+},
+// ============================================================
+// D.1 GRAVITATIONAL FIELDS — COMPLETE (6 subtopics)
+// Ends with comma — ready for D2
+// ============================================================
+
+"D1": {
+  "title": "Gravitational Fields",
+  "code": "D.1",
+  "theme": "D",
+  "level": "SL + HL",
+  "subtopicCount": 6,
+  "subtopics": [
+
+    {
+      "id": "d1_sub1", "num": 1, "title": "Newton's Law of Gravitation", "group": "Gravitational Force", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "C.5 Doppler Effect", "nextTitle": "Gravitational Field Strength",
+      "bigIdea": "Every mass in the universe attracts every other mass. The force is proportional to both masses and inversely proportional to the square of the distance between them. This one law explains falling apples, orbiting moons, and the structure of galaxies.",
+      "foundation": {
+        "title": "The universal force of attraction",
+        "content": "<h4>Newton's law of universal gravitation</h4><p><strong>F = GMm/r²</strong></p><p>Where G = 6.674 × 10⁻¹¹ N m² kg⁻², M and m are the two masses, and r is the distance between their centres.</p><p>Key features:</p><ul><li>Always attractive (gravity only pulls, never pushes)</li><li>Acts between ALL masses — not just planets</li><li>Inverse square law: double the distance → ¼ the force</li><li>The force on M due to m equals the force on m due to M (Newton's 3rd law)</li></ul><h4>Why we don't feel gravitational attraction to nearby objects</h4><p>G is incredibly small. Two 1 kg masses 1 m apart: F = 6.674 × 10⁻¹¹ N — about the weight of a single bacterium. Gravity only becomes significant for astronomical-mass objects (planets, stars).</p><h4>The shell theorem</h4><p>A uniform sphere attracts external objects as if ALL its mass were concentrated at its centre. This is why we use r = distance between CENTRES, not surfaces. Inside a uniform hollow sphere: gravitational force = 0.</p>",
+        "summary": "<p><strong>F = GMm/r²:</strong> universal gravitation. G = 6.674 × 10⁻¹¹.</p><p><strong>Always attractive. Inverse square.</strong> r = centre-to-centre distance.</p>",
+        "checkQuestions": [
+          { "question": "Find the gravitational force between Earth (6 × 10²⁴ kg) and a 70 kg person on the surface (r = 6.4 × 10⁶ m).", "answer": "F = GMm/r² = 6.674 × 10⁻¹¹ × 6 × 10²⁴ × 70/(6.4 × 10⁶)² = 2.80 × 10¹⁶/4.10 × 10¹³ = 683 N ≈ mg = 686 N ✓" }
+        ],
+        "checklist": ["I can state Newton's law: F = GMm/r²", "I can state G = 6.674 × 10⁻¹¹ N m² kg⁻²", "I can explain the inverse square relationship", "I can explain why r is measured centre-to-centre"]
+      },
+      "core": {
+        "title": "Applying Newton's law and connecting to g",
+        "content": "<h4>Deriving g from Newton's law</h4><p>Weight = gravitational force: mg = GMm/r² → <strong>g = GM/r²</strong>. On Earth's surface: g = GM_E/R_E² = 6.674 × 10⁻¹¹ × 6 × 10²⁴/(6.4 × 10⁶)² = 9.77 m/s² ≈ 9.8 ✓.</p><h4>Variation of g</h4><ul><li>g ∝ 1/r² above the surface: at altitude h, g = GM/(R+h)²</li><li>At 2R from centre (one radius above surface): g = GM/(2R)² = g₀/4</li><li>On other planets: g = GM_planet/R_planet²</li></ul><h4>Gravitational field</h4><p>A <strong>gravitational field</strong> is the region around a mass where another mass experiences a gravitational force. <strong>Field strength g = F/m = GM/r²</strong> (units: N/kg = m/s²). Field lines point toward the mass (attractive). For a point mass: radial field lines, getting further apart with distance (weaker field).</p>",
+        "keyPoints": ["g = GM/r²: field strength from mass and distance", "g decreases with altitude: g ∝ 1/r²", "Field lines: radial, pointing inward, spacing shows strength", "g(N/kg) = g(m/s²): field strength = acceleration due to gravity"],
+        "examTrap": { "wrong": "g is constant everywhere", "correct": "g = 9.8 m/s² only at Earth's surface. It varies with altitude (∝ 1/r²), latitude (Earth's shape), and location (different planets have different g)." },
+        "checkQuestions": [
+          { "question": "Find g at altitude 6400 km above Earth (R_E = 6400 km).", "answer": "r = R + h = 12,800 km = 2R. g = GM/(2R)² = g₀/4 = 9.8/4 = 2.45 m/s²." }
+        ],
+        "checklist": ["I can derive g = GM/r²", "I can calculate g at different altitudes and on different planets", "I can draw and interpret gravitational field lines"]
+      },
+      "extension": { "title": "Measuring G — the Cavendish experiment", "content": "<p>Cavendish (1798) measured G using a torsion balance: two small lead spheres attracted to two large ones, twisting a wire. The twist angle gave the force, and knowing the masses and distances gave G. This was called 'weighing the Earth' because knowing G lets you calculate M_E from g = GM/R².</p>", "connections": ["A.2 Forces: gravity as one of the four fundamental forces", "E.5 Stars: stellar masses from gravitational interactions"], "checklist": ["I can describe the Cavendish experiment for measuring G"] },
+      "video": { "title": "Newton's Law of Gravitation — IB Physics", "duration": "9 min", "description": "F = GMm/r², deriving g, field lines, and variation with altitude", "embedId": "" },
+      "equations": [
+        { "formula": "F = GMm/r²", "description": "Newton's law of universal gravitation." },
+        { "formula": "g = GM/r²", "description": "Gravitational field strength at distance r from mass M." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Find the gravitational field strength on Mars (M = 6.4 × 10²³ kg, R = 3.4 × 10⁶ m).", "steps": [
+          { "label": "g", "text": "g = GM/R² = 6.674 × 10⁻¹¹ × 6.4 × 10²³/(3.4 × 10⁶)² = 4.27 × 10¹³/1.156 × 10¹³ = 3.69 m/s²", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State Newton's law of gravitation and the meaning of each symbol.", "solution": "F = GMm/r². F = gravitational force (N). G = gravitational constant (6.674 × 10⁻¹¹). M, m = masses (kg). r = distance between centres (m)." },
+        { "difficulty": "medium", "scope": "sl", "question": "At what altitude above Earth is g = 4.9 m/s²?", "solution": "g = GM/r² = g₀(R/r)². 4.9 = 9.8(R/r)² → (R/r)² = 0.5 → r = R√2 = 1.414R. Altitude = r − R = 0.414R = 0.414 × 6400 = 2650 km." },
+        { "difficulty": "hard", "scope": "sl", "question": "Find the point between Earth and Moon where g = 0. M_E = 6 × 10²⁴, M_M = 7.3 × 10²², d = 3.84 × 10⁸ m.", "solution": "GM_E/r² = GM_M/(d−r)² → M_E(d−r)² = M_M r² → √(M_E/M_M) = r/(d−r). √(6×10²⁴/7.3×10²²) = √82.2 = 9.07. r/(d−r) = 9.07 → r = 9.07d − 9.07r → 10.07r = 9.07d → r = 0.9d = 3.46 × 10⁸ m from Earth." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using r = distance between surfaces", "explanation": "r is the distance between the CENTRES of the two masses, not between their surfaces. For objects on a planet's surface: r = planet's radius.", "correct": "r = centre-to-centre distance. For surface problems: r = R (radius of planet)." }
+      ],
+      "examCorner": { "scope": "sl", "question": "The Moon orbits Earth at r = 3.84 × 10⁸ m. M_E = 6.0 × 10²⁴ kg.\n(a) Calculate g at the Moon's orbit. [2]\n(b) Show this equals the centripetal acceleration of the Moon (T = 27.3 days). [3]", "marks": 5, "modelAnswer": "(a) g = GM/r² = 6.674 × 10⁻¹¹ × 6 × 10²⁴/(3.84 × 10⁸)² = 4.00 × 10¹⁴/1.475 × 10¹⁷ = 2.71 × 10⁻³ m/s² [2].\n(b) a = 4π²r/T² = 4π² × 3.84 × 10⁸/(27.3 × 86400)² = 1.516 × 10¹⁰/5.566 × 10¹² = 2.72 × 10⁻³ m/s² [2]. g ≈ a ✓ — gravity provides the centripetal force [1].", "examinerTip": "This 'show that' question connects g = GM/r² with circular motion a = 4π²r/T². The key insight: gravity IS the centripetal force for orbits." }
+    },
+
+    {
+      "id": "d1_sub2", "num": 2, "title": "Gravitational Potential & Potential Energy", "group": "Gravitational PE", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Newton's Law", "nextTitle": "Orbital Mechanics",
+      "bigIdea": "Gravitational potential energy is negative — and that's not a mistake. With the reference at infinity (where PE = 0), any object bound by gravity has negative PE. The deeper you fall into a gravitational well, the more negative your PE becomes. Escape requires adding enough energy to reach PE = 0.",
+      "foundation": {
+        "title": "Energy in gravitational fields",
+        "content": "<h4>Gravitational potential energy (general)</h4><p>Near Earth's surface: GPE = mgh (approximate, valid for h << R). In general:</p><p><strong>GPE = −GMm/r</strong></p><p>Negative because we define PE = 0 at r = ∞. At the surface: PE < 0. To escape: add energy until PE = 0 → the object is free.</p><h4>Gravitational potential</h4><p><strong>V = −GM/r</strong> (potential = PE per unit mass). Units: J/kg. Always negative. V = 0 at infinity.</p><p>Potential difference ΔV between two points determines the work done per kg moving between them: W/m = ΔV.</p><h4>Escape velocity</h4><p>Minimum speed to escape a gravitational field (reach r = ∞ with v = 0):</p><p>½mv² = GMm/r → <strong>v_esc = √(2GM/r) = √(2gr)</strong></p><p>Earth: v_esc = √(2 × 9.8 × 6.4 × 10⁶) = 11.2 km/s. Moon: 2.4 km/s. Jupiter: 60 km/s.</p>",
+        "summary": "<p><strong>GPE = −GMm/r.</strong> Negative, zero at infinity.</p><p><strong>V = −GM/r:</strong> potential (J/kg). Always negative.</p><p><strong>v_esc = √(2GM/r):</strong> escape velocity.</p>",
+        "checkQuestions": [
+          { "question": "Find the escape velocity from Earth's surface.", "answer": "v_esc = √(2gR) = √(2 × 9.8 × 6.4 × 10⁶) = √(1.254 × 10⁸) = 11,200 m/s = 11.2 km/s." }
+        ],
+        "checklist": ["I can state GPE = −GMm/r and explain the negative sign", "I can define gravitational potential: V = −GM/r", "I can calculate escape velocity: v_esc = √(2GM/r)"]
+      },
+      "core": {
+        "title": "Potential wells, equipotential surfaces, and energy diagrams",
+        "content": "<h4>The gravitational potential well</h4><p>Plot V vs r: a curve that starts very negative near the mass and approaches zero at large r. An object at the surface sits at the bottom of this 'well.' To escape: it needs enough KE to climb out (reach V = 0).</p><h4>Equipotential surfaces</h4><p>Surfaces where V is constant. For a point mass: concentric spheres. Field lines are always perpendicular to equipotentials. No work is done moving along an equipotential (ΔV = 0).</p><h4>Connecting g and V</h4><p><strong>g = −dV/dr</strong> (field strength is the negative gradient of potential). On a V-r graph: the gradient at any point gives g at that distance. Steeper gradient → stronger field.</p><h4>Orbital energy</h4><p>For a circular orbit: KE = GMm/(2r), PE = −GMm/r, Total E = −GMm/(2r). Total energy is negative (bound orbit). KE = −E (KE = half |PE|). To move to a higher orbit: add energy (E becomes less negative).</p>",
+        "keyPoints": ["V vs r: curve approaching 0 from below", "g = −dV/dr: field from potential gradient", "Orbit: E_total = −GMm/(2r) < 0 (bound)", "KE = GMm/(2r), PE = −GMm/r, E = KE + PE = −GMm/(2r)"],
+        "examTrap": { "wrong": "An object in orbit has zero gravitational PE", "correct": "PE = −GMm/r < 0 for any orbit. The total energy E = −GMm/(2r) is also negative. ONLY at r = ∞ does PE = 0 (and the object is free). Negative total energy means the object is gravitationally bound." },
+        "checkQuestions": [
+          { "question": "A satellite orbits Earth at r = 2R. Find its total energy in terms of surface values.", "answer": "E = −GMm/(2 × 2R) = −GMm/(4R). Since g₀R = GM/R → GM = g₀R². E = −mg₀R/4." }
+        ],
+        "checklist": ["I can sketch and interpret V-r graphs", "I can state g = −dV/dr", "I can calculate orbital energy: E = −GMm/(2r)", "I can explain equipotential surfaces and why no work is done moving along them"]
+      },
+      "extension": { "title": "Black holes and escape velocity", "content": "<p>If v_esc = c: not even light can escape. This defines a black hole. The Schwarzschild radius: R_s = 2GM/c². For Earth: R_s = 8.9 mm. For the Sun: R_s = 3 km. Inside R_s: spacetime is so curved that all paths lead inward. The event horizon (r = R_s) is the point of no return.</p>", "connections": ["A.5 Relativity: black holes require general relativity", "E.5 Stars: stellar-mass black holes form from collapsing massive stars"], "checklist": ["I can derive the Schwarzschild radius: R_s = 2GM/c²"] },
+      "video": { "title": "Gravitational PE & Potential — IB Physics", "duration": "10 min", "description": "GPE = −GMm/r, potential V = −GM/r, escape velocity, and orbital energy", "embedId": "" },
+      "equations": [
+        { "formula": "GPE = −GMm/r", "description": "Gravitational PE. Negative, zero at infinity." },
+        { "formula": "V = −GM/r", "description": "Gravitational potential (J/kg)." },
+        { "formula": "v_esc = √(2GM/r)", "description": "Escape velocity." },
+        { "formula": "E_orbit = −GMm/(2r)", "description": "Total energy of a circular orbit." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A 500 kg satellite orbits at altitude 600 km above Earth (R = 6400 km, M = 6 × 10²⁴ kg). Find v, T, KE, PE, and E.", "steps": [
+          { "label": "r", "text": "r = 6400 + 600 = 7000 km = 7 × 10⁶ m" },
+          { "label": "v", "text": "v = √(GM/r) = √(6.674 × 10⁻¹¹ × 6 × 10²⁴/7 × 10⁶) = √(5.72 × 10⁷) = 7563 m/s", "isEquation": true },
+          { "label": "T", "text": "T = 2πr/v = 2π × 7 × 10⁶/7563 = 5816 s = 96.9 min", "isEquation": true },
+          { "label": "KE", "text": "KE = ½mv² = ½ × 500 × 7563² = 1.43 × 10¹⁰ J" },
+          { "label": "PE", "text": "PE = −GMm/r = −2.86 × 10¹⁰ J" },
+          { "label": "E", "text": "E = KE + PE = −1.43 × 10¹⁰ J", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State why gravitational PE is negative.", "solution": "PE is defined as zero at infinity (r = ∞). Any mass closer to another mass has LESS energy than at infinity (you'd need to ADD energy to move it to infinity). Since PE < PE_∞ = 0: PE is negative." },
+        { "difficulty": "medium", "scope": "sl", "question": "Find the escape velocity from the Moon (M = 7.3 × 10²² kg, R = 1.74 × 10⁶ m).", "solution": "v = √(2GM/R) = √(2 × 6.674 × 10⁻¹¹ × 7.3 × 10²²/1.74 × 10⁶) = √(5.59 × 10⁶) = 2364 m/s ≈ 2.4 km/s." },
+        { "difficulty": "hard", "scope": "sl", "question": "Show that for a circular orbit: KE = −E and PE = 2E.", "solution": "Gravity = centripetal: GMm/r² = mv²/r → mv² = GMm/r → KE = ½mv² = GMm/(2r). PE = −GMm/r = −2KE. E = KE + PE = KE − 2KE = −KE. So KE = −E and PE = 2E." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using GPE = mgh for satellite orbits", "explanation": "mgh is valid only near Earth's surface (h << R). For orbits: use GPE = −GMm/r. The two are connected: mgh ≈ −GMm/(R+h) + GMm/R for small h.", "correct": "Near surface: mgh. Orbits/large distances: −GMm/r." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A rocket of mass 2000 kg is launched from Earth (M = 6 × 10²⁴, R = 6.4 × 10⁶ m).\n(a) Calculate the escape velocity. [2]\n(b) Calculate the minimum KE needed to escape. [1]\n(c) Explain why the actual energy needed is greater. [1]", "marks": 4, "modelAnswer": "(a) v = √(2GM/R) = √(2 × 6.674 × 10⁻¹¹ × 6 × 10²⁴/6.4 × 10⁶) = 11,180 m/s [2].\n(b) KE = ½mv² = ½ × 2000 × 11180² = 1.25 × 10¹¹ J [1].\n(c) Air resistance dissipates energy as heat. Also, the rocket must do work against gravity during the launch (not all at once) and carry fuel (increasing effective mass) [1].", "examinerTip": "Escape velocity assumes: no air resistance, no rotation, all KE given instantaneously. Real launches need more energy due to drag, gravity losses, and fuel mass." }
+    },
+
+    {
+      "id": "d1_sub3", "num": 3, "title": "Orbital Mechanics", "group": "Orbits", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Gravitational PE", "nextTitle": "Kepler's Laws",
+      "bigIdea": "A satellite in orbit is falling — continuously. It falls toward Earth but moves sideways fast enough to keep missing. The orbital speed, period, and altitude are all connected through one equation: gravity = centripetal force. This single equation governs everything from the ISS to GPS satellites to the Moon.",
+      "foundation": {
+        "title": "Circular orbits — falling sideways",
+        "content": "<h4>The orbital condition</h4><p>For a circular orbit: gravitational force = centripetal force:</p><p><strong>GMm/r² = mv²/r</strong></p><p>This gives: <strong>v = √(GM/r)</strong> — orbital speed depends only on the central mass and orbital radius, NOT on the satellite's mass.</p><h4>Orbital period</h4><p>T = 2πr/v = 2πr/√(GM/r) = <strong>2π√(r³/(GM))</strong></p><p>Or: T² = 4π²r³/(GM) — this is Kepler's 3rd law.</p><h4>Key results</h4><ul><li>Higher orbit → SLOWER speed (v ∝ 1/√r) and LONGER period (T ∝ r^(3/2))</li><li>The Moon is slower than the ISS because it's further away</li><li>Orbital speed is independent of satellite mass (just like free-fall acceleration)</li></ul><h4>Geostationary orbit</h4><p>T = 24 hours = 86,400 s. Orbit must be equatorial, circular, and in the same direction as Earth's rotation. Altitude: ~36,000 km. Used for communication satellites — they stay fixed above one point on Earth.</p>",
+        "summary": "<p><strong>v = √(GM/r):</strong> orbital speed. Independent of satellite mass.</p><p><strong>T² = 4π²r³/(GM):</strong> Kepler's 3rd law. T ∝ r^(3/2).</p><p><strong>Geostationary:</strong> T = 24 h, equatorial, altitude ~36,000 km.</p>",
+        "checkQuestions": [
+          { "question": "The ISS orbits at altitude 400 km. Find v and T. (R_E = 6400 km, M_E = 6 × 10²⁴ kg)", "answer": "r = 6800 km = 6.8 × 10⁶ m. v = √(GM/r) = √(4.00 × 10¹⁴/6.8 × 10⁶) = √(5.88 × 10⁷) = 7668 m/s ≈ 7.7 km/s. T = 2πr/v = 2π × 6.8 × 10⁶/7668 = 5571 s = 92.9 min." }
+        ],
+        "checklist": ["I can derive v = √(GM/r) from gravity = centripetal", "I can derive T² = 4π²r³/(GM)", "I can calculate orbital speed and period for any orbit", "I can describe geostationary orbit and its conditions"]
+      },
+      "core": {
+        "title": "Kepler's laws, orbital energy, and satellite types",
+        "content": "<h4>Kepler's three laws</h4><ol><li><strong>1st law (orbits):</strong> planets orbit in ellipses with the Sun at one focus.</li><li><strong>2nd law (areas):</strong> a line from the Sun to a planet sweeps equal areas in equal times (faster when closer). This is conservation of angular momentum.</li><li><strong>3rd law (periods):</strong> T² ∝ r³. T²/r³ = 4π²/(GM) = constant for all objects orbiting the same central mass.</li></ol><h4>Using Kepler's 3rd law</h4><p>If you know T and r for one orbiting object, you can find T or r for another: T₁²/r₁³ = T₂²/r₂³.</p><h4>Types of satellite orbits</h4><ul><li><strong>Low Earth Orbit (LEO):</strong> 200–2000 km. T ≈ 90 min. Fast, close, good for imaging/ISS.</li><li><strong>Medium Earth Orbit (MEO):</strong> ~20,000 km. GPS satellites. T ≈ 12 hours.</li><li><strong>Geostationary (GEO):</strong> 36,000 km. T = 24 h. Communication satellites.</li><li><strong>Polar orbit:</strong> passes over both poles. Covers entire Earth as it rotates. Used for weather/mapping.</li></ul><h4>Weightlessness in orbit</h4><p>Astronauts on the ISS are NOT outside Earth's gravity (g ≈ 8.7 m/s² at ISS altitude). They feel weightless because they AND the ISS are in free fall together — no normal force, no contact force, hence no sensation of weight. Weightlessness = free fall, not zero gravity.</p>",
+        "keyPoints": ["Kepler's 3rd: T² = 4π²r³/(GM). T ∝ r^(3/2).", "Compare orbits: T₁²/r₁³ = T₂²/r₂³", "LEO ~90 min, GPS ~12 h, GEO = 24 h", "Weightlessness in orbit = free fall (g ≈ 8.7 at ISS, not zero)"],
+        "examTrap": { "wrong": "Astronauts float because there's no gravity in space", "correct": "At ISS altitude: g ≈ 8.7 m/s² (only 11% less than surface). Astronauts float because they're in FREE FALL — both they and the station fall at the same rate. There's no floor pushing up (no normal force), so they feel weightless." },
+        "checkQuestions": [
+          { "question": "Earth orbits the Sun (M_S = 2 × 10³⁰ kg) at r = 1.5 × 10¹¹ m. Find T.", "answer": "T = 2π√(r³/(GM)) = 2π√((1.5 × 10¹¹)³/(6.674 × 10⁻¹¹ × 2 × 10³⁰)) = 2π√(3.375 × 10³³/1.335 × 10²⁰) = 2π√(2.528 × 10¹³) = 2π × 5.03 × 10⁶ = 3.16 × 10⁷ s = 365.6 days ✓" }
+        ],
+        "checklist": ["I can state Kepler's three laws", "I can apply Kepler's 3rd law: T₁²/r₁³ = T₂²/r₂³", "I can describe LEO, MEO, GEO, and polar orbits", "I can explain weightlessness as free fall (not zero gravity)"]
+      },
+      "extension": { "title": "Orbital manoeuvres and Hohmann transfers", "content": "<p>To move to a higher orbit: fire engines to INCREASE speed → orbit becomes elliptical → at the high point, fire again to circularise. This Hohmann transfer is the most fuel-efficient way to change orbits. Paradoxically: you speed up to move to a higher orbit where you'll be SLOWER. The extra energy goes to GPE, not KE.</p>", "connections": ["A.3 Energy: orbital energy E = KE + PE = −GMm/(2r)", "A.2 Circular Motion: centripetal force for circular orbits"], "checklist": ["I can explain why speeding up leads to a higher (slower) orbit", "I can describe a Hohmann transfer orbit"] },
+      "video": { "title": "Orbital Mechanics — IB Physics", "duration": "10 min", "description": "Orbital speed, Kepler's laws, satellite types, and weightlessness", "embedId": "" },
+      "equations": [
+        { "formula": "v = √(GM/r)", "description": "Orbital speed. Independent of satellite mass." },
+        { "formula": "T² = 4π²r³/(GM)", "description": "Kepler's 3rd law." },
+        { "formula": "T₁²/r₁³ = T₂²/r₂³", "description": "Comparing two orbits around the same central mass." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Find the radius of a geostationary orbit. M_E = 6 × 10²⁴ kg, T = 86400 s.", "steps": [
+          { "label": "Kepler's 3rd", "text": "r³ = GMT²/(4π²) = 6.674 × 10⁻¹¹ × 6 × 10²⁴ × 86400²/(4π²)" },
+          { "label": "Calculate", "text": "= 4.00 × 10¹⁴ × 7.46 × 10⁹/39.48 = 7.56 × 10²² → r = 4.23 × 10⁷ m = 42,300 km", "isEquation": true },
+          { "label": "Altitude", "text": "h = r − R = 42,300 − 6,400 = 35,900 km ≈ 36,000 km ✓" }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State three conditions for a geostationary orbit.", "solution": "1. Period T = 24 hours. 2. Orbit must be in the equatorial plane. 3. Direction of orbit must be the same as Earth's rotation (west to east)." },
+        { "difficulty": "medium", "scope": "sl", "question": "Mars has a year of 687 Earth days and orbits at 2.28 × 10¹¹ m. Using Kepler's 3rd law, find Earth's orbital radius.", "solution": "T_E²/r_E³ = T_M²/r_M³. r_E³ = r_M³ × T_E²/T_M² = (2.28 × 10¹¹)³ × 365²/687² = 1.186 × 10³⁴ × 0.282 = 3.345 × 10³³. r_E = 1.495 × 10¹¹ m ≈ 1.5 × 10¹¹ m ✓." },
+        { "difficulty": "hard", "scope": "sl", "question": "Explain why astronauts on the ISS feel weightless even though g ≈ 8.7 m/s².", "solution": "The ISS and astronauts are in free fall — both accelerating toward Earth at g. Since they fall at the same rate, there's no relative acceleration between them. The astronaut doesn't press on the floor (no normal force). The sensation of weight comes from the normal force, not gravity. No normal force = no weight sensation = weightlessness. This is free fall, not absence of gravity." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Higher orbit means faster satellite", "explanation": "v = √(GM/r). Higher r → SLOWER speed. The ISS (400 km, v ≈ 7.7 km/s) is faster than the Moon (384,000 km, v ≈ 1 km/s). Higher also means LONGER period.", "correct": "Higher orbit → slower speed, longer period. v ∝ 1/√r, T ∝ r^(3/2)." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A satellite orbits Earth with period T₁ = 2 hours at radius r₁ = 8000 km. A second satellite orbits at r₂ = 27,000 km.\n(a) Find T₂ using Kepler's 3rd law. [2]\n(b) Determine which satellite moves faster and by what factor. [2]", "marks": 4, "modelAnswer": "(a) T₂²/T₁² = r₂³/r₁³. T₂ = T₁ × (r₂/r₁)^(3/2) = 2 × (27000/8000)^1.5 = 2 × 3.375^1.5 = 2 × 6.19 = 12.4 hours [2].\n(b) v = 2πr/T. v₁ = 2π(8000)/2 = 25,133 km/h. v₂ = 2π(27000)/12.4 = 13,677 km/h. v₁/v₂ = 1.84. Satellite 1 (closer) is 1.84× faster [2].", "examinerTip": "For Kepler comparisons: use (T₂/T₁)² = (r₂/r₁)³ directly — no need to calculate GM." }
+    },
+
+    {
+      "id": "d1_sub4", "num": 4, "title": "Gravitational Field Patterns & Superposition", "group": "Field Concepts", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Orbital Mechanics", "nextTitle": "Gravitational Potential Graphs (AHL)",
+      "bigIdea": "Gravitational fields can be uniform (near a planet's surface — flat Earth approximation) or radial (from a point mass). When multiple masses are present, their fields add as vectors — this superposition determines the net force at any point and locates the zero-gravity points between planets.",
+      "foundation": {
+        "title": "Field shapes and combinations",
+        "content": "<h4>Uniform fields</h4><p>Near Earth's surface: g is approximately constant in magnitude and direction (downward). Field lines are parallel, equally spaced. This approximation works for h << R_E.</p><h4>Radial fields</h4><p>Around a point mass (or outside a sphere): field lines radiate inward. Spacing decreases with distance (weaker field). g = GM/r².</p><h4>Superposition</h4><p>The gravitational field at any point due to multiple masses is the VECTOR sum of the individual fields. Between Earth and Moon: Earth's field pulls one way, Moon's the other. At the neutral point (Lagrange L1): they balance → net g = 0.</p>",
+        "summary": "<p><strong>Uniform:</strong> parallel lines, constant g. Near surface.</p><p><strong>Radial:</strong> inward lines, g = GM/r². Point/spherical mass.</p><p><strong>Superposition:</strong> add field vectors from multiple masses.</p>",
+        "checkQuestions": [
+          { "question": "Why are gravitational field lines always drawn pointing inward?", "answer": "Because gravity is always attractive. The field line direction indicates the direction of force on a test mass — always toward the source mass. There is no gravitational repulsion." }
+        ],
+        "checklist": ["I can draw uniform and radial gravitational fields", "I can apply vector superposition of fields from multiple masses", "I can locate neutral points where net field = 0"]
+      },
+      "core": {
+        "title": "Field line diagrams and quantitative superposition",
+        "content": "<h4>Drawing field lines</h4><ul><li>Lines start at infinity and end at the mass (always point inward)</li><li>Spacing indicates field strength: closer lines = stronger field</li><li>Lines never cross</li><li>For two masses: field lines curve, showing the combined effect</li></ul><h4>Between two masses</h4><p>At a point between M₁ and M₂ (separated by d), the field from M₁ points right and from M₂ points left (toward each mass). At the neutral point: GM₁/r₁² = GM₂/r₂², where r₁ + r₂ = d.</p><h4>Tidal forces</h4><p>The Moon's gravity pulls the near side of Earth more than the far side (inverse square law → gravity varies with distance). The difference creates tidal bulges — this is why we have tides. Tidal force ∝ M/r³ (not 1/r²).</p>",
+        "keyPoints": ["Field lines: inward, closer = stronger, never cross", "Neutral point: GM₁/r₁² = GM₂/r₂²", "Tidal forces: from differential gravity across an extended body"],
+        "examTrap": { "wrong": "The neutral point between Earth and Moon is halfway", "correct": "The neutral point is much closer to the Moon (smaller mass). Earth is 81× more massive → the neutral point is ~9× closer to the Moon than to Earth (r ∝ √M ratio)." },
+        "checkQuestions": [
+          { "question": "Draw field lines for two equal masses next to each other.", "answer": "Lines radiate inward toward each mass. Between the masses: a neutral point where lines from neither mass reach (field = 0). Far away: the pattern looks like a single mass of 2M." }
+        ],
+        "checklist": ["I can draw field lines for single and multiple masses", "I can find the neutral point between two masses", "I can explain tidal forces as differential gravity"]
+      },
+      "extension": { "title": "Lagrange points", "content": "<p>There are 5 Lagrange points (L1–L5) in any two-body gravitational system where a small object can maintain a stable position relative to the two large bodies. L1 is between them (for JWST). L2 is behind the smaller body. L4 and L5 form equilateral triangles with the two masses (Trojan asteroids at Jupiter's L4/L5). These points balance gravity and orbital mechanics.</p>", "connections": ["A.2 Circular Motion: Lagrange points require centripetal force balance too", "E.5 Stars: binary star systems have Lagrange points affecting mass transfer"], "checklist": ["I can describe the 5 Lagrange points and give examples of objects at each"] },
+      "video": { "title": "Gravitational Fields — Patterns & Superposition", "duration": "8 min", "description": "Uniform and radial fields, field line diagrams, superposition, and tidal forces", "embedId": "" },
+      "equations": [
+        { "formula": "g_net = g₁ + g₂ (vector sum)", "description": "Superposition of gravitational fields." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Sketch the gravitational field around Earth.", "solution": "Radial field lines pointing inward (toward Earth's centre) from all directions. Lines are closer together near the surface (stronger field) and further apart at distance (weaker). Arrows point inward." },
+        { "difficulty": "medium", "scope": "sl", "question": "Two masses M and 4M are 10 m apart. Find the neutral point.", "solution": "GM/r₁² = G(4M)/r₂². 1/r₁² = 4/r₂². r₂ = 2r₁. r₁ + r₂ = 10 → r₁ + 2r₁ = 10 → r₁ = 3.33 m from M (6.67 m from 4M)." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Gravitational field lines can point outward", "explanation": "Gravity is always attractive. Field lines always point TOWARD the mass (direction a test mass would be pulled). There is no repulsive gravity.", "correct": "All gravitational field lines point inward, toward the source mass." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Two stars M₁ = 2M and M₂ = 8M are separated by distance d.\n(a) Find the neutral point position in terms of d. [2]\n(b) State what happens to g at this point. [1]", "marks": 3, "modelAnswer": "(a) G(2M)/r₁² = G(8M)/(d−r₁)². 2/r₁² = 8/(d−r₁)². (d−r₁)/r₁ = 2. d−r₁ = 2r₁. d = 3r₁. r₁ = d/3 from M₁ [2].\n(b) g = 0 (the fields from both stars cancel) [1].", "examinerTip": "For neutral points: set the magnitudes equal and solve. Remember: the point is always closer to the SMALLER mass." }
+    },
+
+    {
+      "id": "d1_sub5", "num": 5, "title": "Gravitational Potential Graphs & Energy (AHL)", "group": "AHL Fields", "scope": "hl", "level": "HL Only",
+      "prevTitle": "Field Patterns", "nextTitle": "Orbits & Energy (AHL)",
+      "bigIdea": "A V-r graph is the gravitational 'landscape' — it shows the potential energy per unit mass at every distance. The gradient gives the field strength. The area between two points gives the work done. These graphs are powerful visual tools for understanding gravitational energy, orbits, and escape.",
+      "foundation": {
+        "title": "Reading gravitational potential graphs",
+        "content": "<h4>The V-r graph</h4><p>V = −GM/r. A curve that starts very negative near the mass and approaches zero at large r. Always below the x-axis (V < 0).</p><h4>Information from the graph</h4><ul><li><strong>Gradient at any point:</strong> g = −dV/dr (steeper = stronger field)</li><li><strong>ΔV between two points:</strong> work done per kg moving between them</li><li><strong>V = 0 at r = ∞:</strong> reference level</li></ul>",
+        "summary": "<p><strong>V = −GM/r:</strong> always negative, zero at infinity.</p><p><strong>g = −dV/dr:</strong> field strength from gradient.</p><p><strong>ΔV = work done per kg.</strong></p>",
+        "checkQuestions": [
+          { "question": "On a V-r graph, what does a steeper gradient mean physically?", "answer": "A steeper gradient means a stronger gravitational field (larger g = −dV/dr). Near the surface: the curve is steep (strong field). Far away: the curve flattens (weak field)." }
+        ],
+        "checklist": ["I can sketch V-r graphs for single and multiple masses", "I can extract g from the gradient: g = −dV/dr", "I can calculate work done from ΔV"]
+      },
+      "core": {
+        "title": "Potential graphs for multiple bodies and orbits",
+        "content": "<h4>Two-body potential</h4><p>For two masses: V_total = V₁ + V₂ = −GM₁/r₁ − GM₂/r₂. Between them: the potentials add (both negative) → a deep 'saddle' shape. The neutral point (g = 0) is where the gradient of V is zero — a local maximum in the potential well between the two masses.</p><h4>Orbital energy from V-r graphs</h4><p>For a circular orbit at radius r: V = −GM/r, KE = GMm/(2r) = −mV/2. Total E = mV/2. On the V-r graph: the orbital energy is at half the potential value at that radius.</p><h4>Bound vs unbound</h4><p>E < 0: bound orbit (ellipse or circle). E = 0: just escapes (parabolic trajectory). E > 0: unbound (hyperbolic trajectory — like interstellar probes).</p>",
+        "keyPoints": ["Two-body: V = V₁ + V₂ (scalar addition)", "Orbit: E = mV/2 at radius r", "Bound: E < 0. Escape: E = 0. Unbound: E > 0.", "Neutral point: dV/dr = 0 (local maximum between masses)"],
+        "examTrap": { "wrong": "Gravitational potential is a vector", "correct": "Potential V is a SCALAR — add potentials directly (no vector addition needed). Field STRENGTH g is a vector. This is why potential calculations are often simpler than force calculations." },
+        "checkQuestions": [
+          { "question": "At a point P: V₁ = −4 × 10⁷ J/kg from mass 1 and V₂ = −2 × 10⁷ J/kg from mass 2. Find V at P.", "answer": "V = V₁ + V₂ = −4 × 10⁷ + (−2 × 10⁷) = −6 × 10⁷ J/kg. (Scalar addition — just add the numbers.)" }
+        ],
+        "checklist": ["I can add potentials from multiple masses (scalar addition)", "I can identify bound, escape, and unbound conditions from total energy", "I can find orbital energy from the V-r graph"]
+      },
+      "extension": { "title": "Gravitational potential and general relativity", "content": "<p>In general relativity, gravitational potential curves spacetime. The stronger the potential (more negative V), the more spacetime is curved. Clocks tick slower in deeper potential wells (gravitational time dilation): Δt = Δt₀/√(1 + 2V/c²). Near a black hole (V → very negative): time nearly stops for a distant observer. GPS satellites at higher V (weaker field) have clocks that tick ~45 μs/day faster than on the surface.</p>", "connections": ["A.5 Relativity: gravitational time dilation from V", "E.5 Stars: stellar collapse into black holes = reaching extreme V"], "checklist": ["I can explain gravitational time dilation: clocks tick slower in deeper potential wells"] },
+      "video": { "title": "Gravitational Potential Graphs — IB HL", "duration": "9 min", "description": "V-r graphs, gradient = g, two-body potential, and orbital energy conditions", "embedId": "" },
+      "equations": [
+        { "formula": "V = −GM/r", "description": "Gravitational potential. Scalar, always negative." },
+        { "formula": "g = −dV/dr", "description": "Field strength from potential gradient." },
+        { "formula": "W = mΔV", "description": "Work done = mass × change in potential." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "At Earth's surface, V = −6.26 × 10⁷ J/kg. At altitude 1000 km, V = −5.38 × 10⁷ J/kg. Find the work needed to lift 1 kg from the surface to this altitude.", "solution": "W = mΔV = 1 × (−5.38 × 10⁷ − (−6.26 × 10⁷)) = 1 × 0.88 × 10⁷ = 8.8 × 10⁶ J = 8.8 MJ." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Potential is a vector like field strength", "explanation": "V is a SCALAR (J/kg). g is a VECTOR (N/kg with direction). Add potentials algebraically. Add fields vectorially.", "correct": "V: scalar, add directly. g: vector, add with direction." }
+      ],
+      "examCorner": { "scope": "hl", "question": "The gravitational potential at Earth's surface is −6.3 × 10⁷ J/kg.\n(a) Calculate the escape velocity using the potential. [2]\n(b) A 200 kg satellite is moved from the surface to an orbit where V = −3.15 × 10⁷ J/kg. Find the energy required. [2]", "marks": 4, "modelAnswer": "(a) To escape: KE = −mV (must reach V = 0). ½mv² = m × 6.3 × 10⁷. v = √(2 × 6.3 × 10⁷) = √(1.26 × 10⁸) = 11,225 m/s ≈ 11.2 km/s [2].\n(b) Energy = mΔV + ΔKE. ΔV = −3.15 × 10⁷ − (−6.3 × 10⁷) = 3.15 × 10⁷ J/kg. But satellite also gains KE in orbit. For orbit at V = −3.15 × 10⁷: E_orbit = mV/2 = 200 × (−3.15 × 10⁷)/2 = −3.15 × 10⁹ J. E_surface = mV/2... actually surface isn't orbiting. Total energy change = E_orbit − E_surface = −3.15 × 10⁹ − (−200 × 6.3 × 10⁷) = −3.15 × 10⁹ + 1.26 × 10¹⁰ = 9.45 × 10⁹ J [2].", "examinerTip": "Energy to orbit = final orbital energy − initial energy. Initial energy on surface: just PE = mV_surface (KE = 0 if starting from rest)." }
+    },
+
+    {
+      "id": "d1_sub6", "num": 6, "title": "Satellites, Orbits & Space Exploration", "group": "Applications", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Potential Graphs", "nextTitle": "D.2 Electric & Magnetic Fields",
+      "bigIdea": "From GPS to weather forecasting to the Hubble telescope, satellites are essential technology — all governed by the same gravitational physics. Understanding orbits lets us navigate, communicate, observe Earth, and explore the solar system.",
+      "foundation": {
+        "title": "Practical satellite physics",
+        "content": "<h4>Satellite applications</h4><ul><li><strong>GPS:</strong> 24+ satellites in MEO (~20,200 km). Measure distance from signal travel time. Need 4 satellites for 3D position + time.</li><li><strong>Communication:</strong> Geostationary satellites for TV/internet. Fixed above one point → dish antennas don't need to track.</li><li><strong>Earth observation:</strong> LEO and polar orbits for weather, mapping, climate monitoring, military surveillance.</li><li><strong>Science:</strong> Hubble (LEO), JWST (L2 point), LISA (heliocentric). Different orbits for different purposes.</li></ul><h4>Orbital decay</h4><p>LEO satellites experience slight atmospheric drag → lose energy → drop to lower orbit → speed UP (counterintuitive: losing energy makes you go faster in orbit because KE = GMm/(2r) increases as r decreases). Eventually: re-entry and burn-up.</p><h4>Space debris</h4><p>Over 30,000 tracked objects in orbit. Risk of collision (Kessler syndrome: collisions create more debris → more collisions). Active debris removal is a growing field of space engineering.</p>",
+        "summary": "<p><strong>GPS:</strong> MEO, 4 satellites for position. <strong>Comms:</strong> GEO, fixed above one point.</p><p><strong>Orbital decay:</strong> drag → lower orbit → faster → re-entry.</p><p><strong>Space debris:</strong> growing problem, risk of cascading collisions.</p>",
+        "checkQuestions": [
+          { "question": "Why does a satellite speed UP as it loses energy to drag?", "answer": "Total orbital energy E = −GMm/(2r). Losing energy → E becomes more negative → r decreases (lower orbit). But v = √(GM/r) → smaller r → larger v. The satellite drops to a lower, faster orbit. The energy lost to drag is more than offset by the conversion of PE to KE." }
+        ],
+        "checklist": ["I can describe applications of satellites in different orbits", "I can explain orbital decay: drag → lower orbit → higher speed", "I can explain the space debris problem"]
+      },
+      "core": {
+        "title": "Energy changes in orbital manoeuvres",
+        "content": "<h4>Changing orbits</h4><p>To move to a higher orbit: add energy (fire engines forward → increase v → orbit rises → end up SLOWER at higher orbit). To deorbit: fire engines backward (retrofire) → decrease v → orbit drops → eventually re-enter.</p><h4>Energy budget for orbit changes</h4><p>Energy difference between orbits: ΔE = E₂ − E₁ = −GMm/(2r₂) + GMm/(2r₁) = GMm(1/r₁ − 1/r₂)/2.</p><h4>Interplanetary travel</h4><p>Hohmann transfer: elliptical orbit touching the inner orbit at one point and the outer orbit at the other. Two engine burns: one to enter the transfer orbit, one to circularise at the destination. Most fuel-efficient method for orbit changes.</p>",
+        "keyPoints": ["Higher orbit: add energy, end up slower", "ΔE = GMm(1/r₁ − 1/r₂)/2 for orbit change", "Hohmann transfer: most efficient orbit change method", "Retrofire: opposite to velocity → orbit drops"],
+        "examTrap": { "wrong": "Firing engines forward makes a satellite go faster in its new orbit", "correct": "Firing forward INITIALLY speeds up the satellite. But it rises to a higher orbit where the equilibrium speed is SLOWER. The satellite trades KE for PE. In the final higher orbit: v is less than before the burn." },
+        "checkQuestions": [
+          { "question": "A satellite moves from orbit r₁ = 7000 km to r₂ = 10,000 km. Does KE increase or decrease?", "answer": "KE = GMm/(2r). Larger r → smaller KE. KE DECREASES. But PE increases by more → total energy increases (less negative). The satellite slows down but gains more PE than it loses in KE." }
+        ],
+        "checklist": ["I can calculate energy changes for orbit transfers", "I can explain Hohmann transfers", "I can explain why higher orbits have lower KE but higher total energy"]
+      },
+      "extension": { "title": "Escape trajectories and interstellar probes", "content": "<p>Voyager 1 (launched 1977) used gravitational slingshots (gravity assists) from Jupiter and Saturn to reach escape velocity from the Sun. It's now in interstellar space (~24 billion km away), still transmitting data. Its speed: ~17 km/s relative to the Sun. It will pass near another star in about 40,000 years. The physics: carefully planned flybys transfer orbital energy from the planet to the spacecraft.</p>", "connections": ["A.3 Energy: gravitational slingshots as energy transfer", "A.5 Relativity: at interstellar speeds, relativistic effects are negligible but not zero"], "checklist": ["I can explain gravitational slingshots as energy transfer from planet to spacecraft"] },
+      "video": { "title": "Satellites & Space — IB Physics", "duration": "8 min", "description": "Satellite types, orbital decay, orbit changes, and interplanetary travel", "embedId": "" },
+      "equations": [
+        { "formula": "ΔE = GMm(1/r₁ − 1/r₂)/2", "description": "Energy to change from orbit r₁ to r₂." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State two uses of geostationary satellites.", "solution": "1. Television broadcasting (satellite TV). 2. Telecommunications (internet, phone relay). They stay fixed above one point on Earth → ground antennas don't need to move." },
+        { "difficulty": "medium", "scope": "sl", "question": "A satellite orbits at r₁ = 7000 km. It needs to move to r₂ = 14,000 km. Find the ratio of orbital speeds v₂/v₁.", "solution": "v = √(GM/r). v₂/v₁ = √(r₁/r₂) = √(7000/14000) = √0.5 = 0.707. The satellite is ~29% slower at the higher orbit." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Satellites stay up because they're above gravity", "explanation": "Satellites are well within Earth's gravitational field (g ≈ 8.7 m/s² at ISS altitude). They stay up because they move SIDEWAYS fast enough that as they fall, the Earth curves away beneath them. They're in continuous free fall — perpetually falling but missing the ground.", "correct": "Satellites stay up by moving sideways fast enough. They're constantly falling — just missing Earth." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Explain why a satellite in low Earth orbit experiences orbital decay and eventually re-enters the atmosphere. [3]", "marks": 3, "modelAnswer": "At low altitude, the satellite encounters residual atmosphere (very thin but present) [1]. Atmospheric drag exerts a force opposing the satellite's motion, causing it to lose kinetic energy and total orbital energy [1]. As energy is lost, the satellite drops to a lower orbit where it moves faster but encounters denser atmosphere → more drag → accelerating spiral inward → eventually re-entry and burn-up [1].", "examinerTip": "Three marks: (1) atmosphere present at LEO, (2) drag removes energy, (3) lower orbit → faster → more drag → spiral in." }
+    }
+
+  ]
+},
+// ============================================================
+// D.3 MOTION IN EM FIELDS — COMPLETE (4 subtopics)
+// Ends with comma — ready for D4
+// ============================================================
+
+"D3": {
+  "title": "Motion in Electromagnetic Fields",
+  "code": "D.3",
+  "theme": "D",
+  "level": "SL + HL",
+  "subtopicCount": 4,
+  "subtopics": [
+
+    {
+      "id": "d3_sub1", "num": 1, "title": "Charged Particles in Electric Fields", "group": "Particle Motion", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "D.2 Electric & Magnetic Fields", "nextTitle": "Charged Particles in Magnetic Fields",
+      "bigIdea": "A charged particle in a uniform electric field accelerates in a straight line (like gravity on a mass). Enter sideways and the path is a parabola — exactly like projectile motion. The electric field replaces gravity, and the charge-to-mass ratio (q/m) replaces g.",
+      "foundation": {
+        "title": "Acceleration and deflection in electric fields",
+        "content": "<h4>Acceleration along the field</h4><p>A charge q in uniform field E: F = qE. Acceleration a = qE/m. If released from rest: v = at, s = ½at² (SUVAT applies — constant acceleration).</p><p>Energy gained: KE = qV (charge × potential difference). This gives: <strong>½mv² = qV → v = √(2qV/m)</strong>.</p><h4>Deflection perpendicular to the field</h4><p>A charge enters with velocity v₀ perpendicular to E: horizontal velocity unchanged, vertical acceleration a = qE/m → parabolic path. Same mathematics as projectile motion with 'g' replaced by qE/m.</p><h4>Applications</h4><ul><li><strong>CRT (cathode ray tube):</strong> electrons accelerated then deflected by E fields between plates</li><li><strong>Electron gun:</strong> accelerates electrons through V → KE = eV</li><li><strong>Ink-jet printer:</strong> charged droplets deflected to correct positions</li></ul>",
+        "summary": "<p><strong>Along E:</strong> a = qE/m. KE = qV → v = √(2qV/m).</p><p><strong>Across E:</strong> parabolic path (like projectile motion).</p>",
+        "checkQuestions": [
+          { "question": "An electron is accelerated through 500 V. Find its speed.", "answer": "½mv² = eV. v = √(2eV/m) = √(2 × 1.6 × 10⁻¹⁹ × 500/9.11 × 10⁻³¹) = √(1.76 × 10¹⁴) = 1.33 × 10⁷ m/s." }
+        ],
+        "checklist": ["I can calculate acceleration: a = qE/m", "I can apply KE = qV for accelerated charges", "I can describe parabolic deflection of charges crossing a uniform E field"]
+      },
+      "core": {
+        "title": "Quantitative deflection problems",
+        "content": "<h4>Deflection in parallel plates</h4><p>Charge enters with horizontal speed v₀ between plates of length L, separation d, voltage V.</p><ul><li>E = V/d. a = qE/m = qV/(md).</li><li>Time in field: t = L/v₀</li><li>Vertical deflection: y = ½at² = qVL²/(2mdv₀²)</li><li>Exit angle: tan θ = v_y/v₀ = at/v₀ = qVL/(mdv₀²)</li></ul><h4>After leaving the field</h4><p>No more force → straight line at the exit angle. Project forward to find where the particle hits a screen.</p>",
+        "keyPoints": ["y = qVL²/(2mdv₀²): deflection in plates", "Exit angle: tan θ = qVL/(mdv₀²)", "After plates: straight-line path at exit angle"],
+        "examTrap": { "wrong": "The particle follows a curved path after leaving the plates", "correct": "Inside the plates: parabolic (constant force). After leaving: straight line (no force). The path kinks at the plate edge." },
+        "checkQuestions": [
+          { "question": "An electron (v₀ = 10⁷ m/s) enters 5 cm long plates (d = 2 cm, V = 200 V). Find the deflection.", "answer": "a = eV/(md) = 1.6 × 10⁻¹⁹ × 200/(9.11 × 10⁻³¹ × 0.02) = 1.76 × 10¹⁵ m/s². t = 0.05/10⁷ = 5 × 10⁻⁹ s. y = ½at² = ½ × 1.76 × 10¹⁵ × 25 × 10⁻¹⁸ = 2.2 × 10⁻² m = 2.2 cm." }
+        ],
+        "checklist": ["I can solve parallel plate deflection problems quantitatively", "I can find the exit angle and subsequent straight-line path"]
+      },
+      "extension": { "title": "Thomson's experiment", "content": "<p>J.J. Thomson (1897) used crossed E and B fields to measure e/m for the electron. Velocity selector (E and B balanced): v = E/B. Then B only: r = mv/(eB) → e/m = v/(rB) = E/(rB²). He found e/m = 1.76 × 10¹¹ C/kg — confirming the electron as a particle with definite charge-to-mass ratio.</p>", "connections": ["E.1 Atomic Structure: Thomson's discovery of the electron", "D.2 Velocity selector: E and B fields balanced"], "checklist": ["I can describe Thomson's experiment for measuring e/m"] },
+      "video": { "title": "Charges in Electric Fields — IB Physics", "duration": "8 min", "description": "Acceleration, deflection, KE = qV, and Thomson's experiment", "embedId": "" },
+      "equations": [
+        { "formula": "KE = qV → v = √(2qV/m)", "description": "Speed of charge accelerated through PD V." },
+        { "formula": "y = qVL²/(2mdv₀²)", "description": "Deflection in parallel plates." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "sl", "question": "A proton is accelerated through 10 kV. Find its speed.", "solution": "v = √(2qV/m) = √(2 × 1.6 × 10⁻¹⁹ × 10⁴/1.67 × 10⁻²⁷) = √(1.92 × 10¹²) = 1.39 × 10⁶ m/s." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Using KE = ½mv² with V instead of qV", "explanation": "KE gained = qV (charge × voltage), not just V. Then ½mv² = qV → v = √(2qV/m). Don't forget the charge q.", "correct": "KE = qV. Then v = √(2qV/m)." }
+      ],
+      "examCorner": { "scope": "sl", "question": "An electron is accelerated from rest through 2000 V.\n(a) Calculate its kinetic energy in joules and eV. [2]\n(b) Calculate its speed. [2]", "marks": 4, "modelAnswer": "(a) KE = eV = 1.6 × 10⁻¹⁹ × 2000 = 3.2 × 10⁻¹⁶ J = 2000 eV = 2 keV [2].\n(b) v = √(2KE/m) = √(6.4 × 10⁻¹⁶/9.11 × 10⁻³¹) = √(7.03 × 10¹⁴) = 2.65 × 10⁷ m/s [2].", "examinerTip": "KE in eV = the accelerating voltage for a single charge. 2000 V → 2000 eV. No calculation needed for the eV part." }
+    },
+
+    {
+      "id": "d3_sub2", "num": 2, "title": "Charged Particles in Magnetic Fields", "group": "Particle Motion", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "E Field Motion", "nextTitle": "Crossed E & B Fields",
+      "bigIdea": "In a magnetic field, a charged particle moves in a circle (or helix if there's a velocity component along B). The radius reveals the momentum: r = mv/(qB). This is the basis of particle physics detectors — from Wilson cloud chambers to the LHC.",
+      "foundation": {
+        "title": "Circular motion from the magnetic force",
+        "content": "<h4>The circular path</h4><p>F = qvB (perpendicular) = centripetal force: qvB = mv²/r → <strong>r = mv/(qB) = p/(qB)</strong>.</p><p>Period: T = 2πm/(qB). Independent of speed — all particles with the same q/m spiral at the same frequency (cyclotron frequency).</p><h4>Direction of curvature</h4><p>Fleming's left-hand rule (or right-hand for positive charges): F ⊥ v and ⊥ B. Positive charges curve one way; negative charges curve the opposite way → this identifies the sign of the charge in detectors.</p><h4>Helical motion</h4><p>If the charge has a velocity component parallel to B: no force along B → constant velocity along B. Combined with circular motion perpendicular to B → helical (corkscrew) path. This is how charged particles spiral along Earth's magnetic field lines toward the poles → auroras.</p>",
+        "summary": "<p><strong>r = mv/(qB):</strong> radius from momentum and field.</p><p><strong>T = 2πm/(qB):</strong> period (independent of speed).</p><p><strong>Helical path</strong> when v has component along B.</p>",
+        "checkQuestions": [
+          { "question": "A particle with charge 2e and mass 6.64 × 10⁻²⁷ kg (alpha particle) enters a 0.5 T field at 2 × 10⁶ m/s perpendicular to B. Find r.", "answer": "r = mv/(qB) = 6.64 × 10⁻²⁷ × 2 × 10⁶/(2 × 1.6 × 10⁻¹⁹ × 0.5) = 1.328 × 10⁻²⁰/1.6 × 10⁻¹⁹ = 0.083 m = 8.3 cm." }
+        ],
+        "checklist": ["I can calculate r = mv/(qB) and T = 2πm/(qB)", "I can explain helical motion (v∥ unchanged, v⊥ gives circles)", "I can determine the direction of curvature for + and − charges"]
+      },
+      "core": {
+        "title": "Applications — particle detectors and accelerators",
+        "content": "<h4>Bubble/cloud chambers</h4><p>Charged particles leave visible tracks. In a magnetic field: tracks curve. From the curvature: r → p = qBr. Tighter curve = lower momentum. Direction of curve → sign of charge.</p><h4>Mass spectrometer</h4><p>Ions accelerated through V: KE = qV → v = √(2qV/m). Enter B field: r = mv/(qB). Substituting: <strong>r = (1/B)√(2mV/q)</strong>. Different masses → different radii → land at different positions → identify isotopes.</p><h4>Cyclotron</h4><p>D-shaped magnets with AC electric field between them. B gives circular motion. E accelerates the particle each half-revolution. T = 2πm/(qB) is constant → AC frequency is constant (for non-relativistic speeds). Radius grows with speed: r = mv/(qB). Used for medical isotope production and cancer therapy.</p>",
+        "keyPoints": ["Cloud chambers: r → p = qBr. Curvature direction → charge sign.", "Mass spectrometer: r = (1/B)√(2mV/q). Separates by mass.", "Cyclotron: constant frequency, growing radius, non-relativistic."],
+        "examTrap": { "wrong": "In a cyclotron, the particle gets faster because of the magnetic field", "correct": "The MAGNETIC field provides circular motion (doesn't change speed). The ELECTRIC field between the D's accelerates the particle each half-revolution. B curves, E accelerates." },
+        "checkQuestions": [
+          { "question": "In a mass spectrometer: V = 5000 V, B = 0.3 T. An ion (q = e) lands at r = 0.15 m. Find its mass.", "answer": "r = √(2mV/q)/B → r²B² = 2mV/q → m = r²B²q/(2V) = 0.15² × 0.09 × 1.6 × 10⁻¹⁹/(2 × 5000) = 3.24 × 10⁻²⁵ kg ≈ 195 u (platinum)." }
+        ],
+        "checklist": ["I can interpret particle tracks in detectors", "I can solve mass spectrometer problems", "I can describe cyclotron operation"]
+      },
+      "extension": { "title": "The Large Hadron Collider", "content": "<p>The LHC at CERN: 27 km circumference, B ≈ 8.3 T (superconducting magnets), protons at 0.999999991c (γ ≈ 7500). r = γmv/(qB) — the relativistic momentum requires enormous B fields even for a 27 km ring. Two beams circulate in opposite directions and collide at 4 points — recreating conditions fractions of a second after the Big Bang. The Higgs boson was discovered here in 2012.</p>", "connections": ["A.5 Relativity: LHC protons are highly relativistic (γ ≈ 7500)", "E.1 Atomic Structure: particle collisions reveal subatomic structure"], "checklist": ["I can describe LHC operation using relativistic circular motion"] },
+      "video": { "title": "Charges in Magnetic Fields — IB Physics", "duration": "9 min", "description": "Circular and helical motion, detectors, mass spectrometers, and cyclotrons", "embedId": "" },
+      "equations": [
+        { "formula": "r = mv/(qB)", "description": "Radius of circular motion in B. r = p/(qB)." },
+        { "formula": "T = 2πm/(qB)", "description": "Cyclotron period. Independent of speed." },
+        { "formula": "r = (1/B)√(2mV/q)", "description": "Mass spectrometer radius." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State why a charged particle moves in a circle in a uniform magnetic field.", "solution": "The magnetic force F = qvB is always perpendicular to the velocity. A force perpendicular to motion changes direction (not speed) → centripetal force → circular path." },
+        { "difficulty": "medium", "scope": "sl", "question": "Two particles enter the same B field. Particle A curves with r = 10 cm, particle B with r = 20 cm. Both have the same charge and speed. Find the mass ratio m_B/m_A.", "solution": "r = mv/(qB). Same v, q, B: r ∝ m. m_B/m_A = r_B/r_A = 20/10 = 2. B is twice as heavy." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The magnetic force accelerates the particle (increases speed)", "explanation": "F ⊥ v → no work → no KE change → no speed change. The particle's speed is constant. Only its direction changes.", "correct": "Magnetic force changes direction only. Speed is constant." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A singly-charged ion of mass 4.0 × 10⁻²⁶ kg is accelerated through 3000 V and enters a 0.20 T field.\n(a) Calculate the ion's speed. [2]\n(b) Calculate the radius of its path. [2]\n(c) A doubly-charged ion of the same mass enters at the same speed. State the effect on r. [1]", "marks": 5, "modelAnswer": "(a) v = √(2qV/m) = √(2 × 1.6 × 10⁻¹⁹ × 3000/4 × 10⁻²⁶) = √(2.4 × 10⁷) = 4899 m/s [2].\n(b) r = mv/(qB) = 4 × 10⁻²⁶ × 4899/(1.6 × 10⁻¹⁹ × 0.2) = 6.12 × 10⁻³ m = 6.1 mm [2].\n(c) Double charge → r halves (r ∝ 1/q): r = 3.1 mm [1].", "examinerTip": "Careful: if q doubles AND the ion is accelerated through the same V, its speed also changes (v ∝ √q). But if it enters at the same speed: r halves (r ∝ 1/q). Read the question carefully." }
+    },
+
+    {
+      "id": "d3_sub3", "num": 3, "title": "Crossed Electric & Magnetic Fields", "group": "Particle Motion", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "B Field Motion", "nextTitle": "Particle Accelerators",
+      "bigIdea": "When electric and magnetic fields are perpendicular, they can be balanced so that only particles with a specific velocity pass through undeflected. This velocity selector (v = E/B) is used in mass spectrometers and was key to Thomson's measurement of e/m.",
+      "foundation": {
+        "title": "Velocity selection — balancing E and B",
+        "content": "<h4>The velocity selector</h4><p>E field pushes charge one way (F_E = qE). B field pushes the other way (F_B = qvB). When balanced: qE = qvB → <strong>v = E/B</strong>. Only particles with this exact speed pass straight through. Faster → deflected by B. Slower → deflected by E.</p><h4>Applications</h4><ul><li>Input to mass spectrometers (ensures all ions have the same speed)</li><li>Thomson's e/m experiment (determines v for known E and B)</li></ul>",
+        "summary": "<p><strong>Velocity selector: v = E/B</strong> when electric and magnetic forces balance.</p><p>Only one speed passes through undeflected.</p>",
+        "checkQuestions": [
+          { "question": "E = 30,000 V/m, B = 0.06 T. What speed is selected?", "answer": "v = E/B = 30,000/0.06 = 5 × 10⁵ m/s." }
+        ],
+        "checklist": ["I can explain how a velocity selector works: v = E/B", "I can describe its use in mass spectrometers and Thomson's experiment"]
+      },
+      "core": {
+        "title": "Combining E and B for measurement and acceleration",
+        "content": "<h4>Thomson's determination of e/m</h4><ol><li>Velocity selector: v = E/B (crossed E and B fields, no deflection)</li><li>Remove E, keep B: electron moves in a circle, r = mv/(eB)</li><li>e/m = v/(rB) = E/(rB²)</li></ol><h4>The Hall effect</h4><p>Current flows through a conductor in a B field: charges accumulate on one side (pushed by F = qvB) → a voltage builds up across the conductor (Hall voltage V_H). At equilibrium: qE_H = qv_dB → E_H = v_dB → V_H = v_dBw = BI/(nqd), where d = thickness, w = width. Used for measuring B fields (Hall probe) and identifying charge carrier type.</p>",
+        "keyPoints": ["Thomson: e/m = E/(rB²)", "Hall effect: V_H = BI/(nqd) — measures B, identifies charge carrier sign", "Crossed fields balance at one specific velocity"],
+        "examTrap": { "wrong": "The Hall voltage is the same for positive and negative charge carriers", "correct": "The SIGN of V_H is opposite for positive vs negative carriers. This is how the Hall effect reveals that current in metals is carried by NEGATIVE electrons (not positive charges)." },
+        "checkQuestions": [
+          { "question": "In a Hall probe: B = 0.5 T, I = 20 mA, d = 0.5 mm, n = 5 × 10²⁵ m⁻³. Find V_H.", "answer": "V_H = BI/(nqd) = 0.5 × 0.02/(5 × 10²⁵ × 1.6 × 10⁻¹⁹ × 5 × 10⁻⁴) = 0.01/4 × 10³ = 2.5 × 10⁻⁶ V = 2.5 μV." }
+        ],
+        "checklist": ["I can describe Thomson's e/m determination", "I can explain the Hall effect: V_H = BI/(nqd)", "I can describe Hall probe use for measuring B"]
+      },
+      "extension": { "title": "Synchrotrons and relativistic corrections", "content": "<p>In a synchrotron (like the LHC): both B and the AC frequency must increase as the particle speeds up (γ increases → T = 2πγm/(qB) changes). Unlike a cyclotron where T is constant, a synchrotron adjusts continuously. This allows acceleration to much higher energies — the LHC reaches 6.5 TeV per beam.</p>", "connections": ["A.5 Relativity: p = γmv gives larger r at relativistic speeds", "E.1 Atomic Structure: accelerator experiments reveal fundamental particles"], "checklist": ["I can explain why synchrotrons need variable B and frequency (relativistic mass increase)"] },
+      "video": { "title": "Crossed Fields & the Hall Effect — IB Physics", "duration": "8 min", "description": "Velocity selector, Thomson's experiment, Hall effect, and Hall probes", "embedId": "" },
+      "equations": [
+        { "formula": "v = E/B", "description": "Velocity selector: E and B forces balance." },
+        { "formula": "e/m = E/(rB²)", "description": "Thomson's measurement." },
+        { "formula": "V_H = BI/(nqd)", "description": "Hall voltage." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "sl", "question": "A velocity selector has E = 50 kV/m and B = 0.1 T. What speed is selected? If an electron at this speed then enters a region with only B = 0.1 T, find the radius of its circular path.", "solution": "v = E/B = 50,000/0.1 = 5 × 10⁵ m/s. r = mv/(eB) = 9.11 × 10⁻³¹ × 5 × 10⁵/(1.6 × 10⁻¹⁹ × 0.1) = 2.85 × 10⁻⁵ m = 0.028 mm." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The velocity selector works because only the correct charge passes through", "explanation": "The selector chooses by SPEED, not by charge. All singly-charged particles at speed v = E/B pass through, regardless of mass. Different masses at the same speed are then separated by the B-only region.", "correct": "Velocity selector selects by speed (v = E/B). Mass spectrometer then separates by mass." }
+      ],
+      "examCorner": { "scope": "sl", "question": "In a velocity selector, E = 24,000 V/m and B = 0.08 T.\n(a) Calculate the selected speed. [1]\n(b) Explain how the selector works. [2]", "marks": 3, "modelAnswer": "(a) v = E/B = 24,000/0.08 = 3 × 10⁵ m/s [1].\n(b) The electric field exerts a force in one direction (F_E = qE) and the magnetic field exerts a force in the opposite direction (F_B = qvB) [1]. Only particles where these forces are equal (qE = qvB → v = E/B) pass through undeflected. Faster or slower particles are deflected and blocked [1].", "examinerTip": "State BOTH forces and their directions. Then state the balance condition. Then state what happens to wrong-speed particles." }
+    },
+
+    {
+      "id": "d3_sub4", "num": 4, "title": "Particle Accelerators & Detectors", "group": "Applications", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Crossed Fields", "nextTitle": "D.4 Induction",
+      "bigIdea": "Particle accelerators — linear accelerators, cyclotrons, synchrotrons — use electric fields to accelerate and magnetic fields to steer. They've revealed the quark structure of protons, the Higgs boson, and antimatter. They're also used practically: in cancer treatment, medical isotope production, and materials analysis.",
+      "foundation": {
+        "title": "How we accelerate and detect particles",
+        "content": "<h4>Types of accelerator</h4><ul><li><strong>Linear accelerator (linac):</strong> particles accelerated through a series of drift tubes with alternating voltages. No bending needed. Used as injectors for larger machines. Medical linacs for radiotherapy.</li><li><strong>Cyclotron:</strong> D-shaped magnets + AC electric field. Constant B, growing r. Non-relativistic limit. Good for medical isotopes.</li><li><strong>Synchrotron:</strong> Fixed-radius ring, variable B and frequency. Reaches highest energies. LHC: 27 km, 14 TeV collision energy.</li></ul><h4>Detectors</h4><ul><li><strong>Cloud/bubble chambers:</strong> visible tracks from ionisation. Curved in B fields.</li><li><strong>Wire chambers:</strong> arrays of wires detect charge from ionisation. Electronic readout.</li><li><strong>Calorimeters:</strong> absorb particles, measure total energy.</li><li><strong>Silicon detectors:</strong> precise tracking near the collision point.</li></ul>",
+        "summary": "<p><strong>Linac:</strong> straight, alternating voltages. <strong>Cyclotron:</strong> fixed B, growing r. <strong>Synchrotron:</strong> variable B, fixed r, highest E.</p><p><strong>Detectors:</strong> tracks (wire chambers, silicon), energy (calorimeters).</p>",
+        "checkQuestions": [
+          { "question": "Why can't a cyclotron accelerate protons to relativistic speeds?", "answer": "At relativistic speeds: m increases (γm), so T = 2πγm/(qB) increases. The AC frequency must stay constant in a cyclotron → it gets out of sync with the particle. A synchrotron adjusts B and frequency to compensate." }
+        ],
+        "checklist": ["I can describe linac, cyclotron, and synchrotron operation", "I can explain the role of E (accelerate) and B (steer) fields", "I can describe basic particle detector types"]
+      },
+      "core": {
+        "title": "Accelerator physics and discoveries",
+        "content": "<h4>Energy and momentum in collisions</h4><p>Fixed-target experiments: beam hits stationary target. Only √(2mc²E_beam) is available for new particles (most goes to KE of products). Collider experiments: two beams collide head-on. ALL energy (2E_beam) is available for new particles. This is why colliders (like LHC) are more efficient for discovery.</p><h4>Key discoveries from accelerators</h4><ul><li>Antielectron (positron): Anderson, 1932 (cosmic ray detector)</li><li>Quarks: SLAC, 1968 (deep inelastic scattering)</li><li>W and Z bosons: CERN, 1983 (SppS collider)</li><li>Higgs boson: CERN, 2012 (LHC)</li><li>Top quark: Fermilab, 1995 (Tevatron)</li></ul><h4>Medical applications</h4><p>Linacs: produce high-energy X-rays for cancer radiotherapy. Cyclotrons: produce medical isotopes (e.g., Tc-99m for SPECT, F-18 for PET). Proton therapy: precisely targeted radiation for tumours near sensitive structures.</p>",
+        "keyPoints": ["Fixed target: √(2mc²E) available. Collider: 2E available — much more efficient.", "Key discoveries: positron, quarks, W/Z, Higgs", "Medical: linacs for radiotherapy, cyclotrons for isotopes, proton therapy"],
+        "examTrap": { "wrong": "The LHC collides protons at the speed of light", "correct": "LHC protons reach 0.999999991c — very close to c but never exactly c (impossible for massive particles). γ ≈ 7500, so their energy is 7500× their rest mass energy." },
+        "checkQuestions": [
+          { "question": "Why do colliders produce more new particles than fixed-target experiments at the same beam energy?", "answer": "In a fixed target: momentum must be conserved → most energy goes to the KE of products moving forward. Only √(2mc²E) is available for new particles. In a collider: total momentum is zero (beams are opposite) → ALL collision energy (2E) is available for creating new particles." }
+        ],
+        "checklist": ["I can explain why colliders are more efficient than fixed-target", "I can list major particle physics discoveries from accelerators", "I can describe medical uses of accelerators"]
+      },
+      "extension": { "title": "Future accelerators", "content": "<p>Proposed future machines: International Linear Collider (ILC) for precision Higgs measurements, Future Circular Collider (FCC, 100 km, 100 TeV) for discovering new physics beyond the Standard Model, muon colliders for reaching the highest energies in a compact ring (muons are heavier than electrons → less synchrotron radiation). Each new machine pushes the energy frontier, revealing deeper layers of physical reality.</p>", "connections": ["E.1 Atomic Structure: accelerators probe subatomic structure", "A.5 Relativity: ultra-relativistic particles at accelerators"], "checklist": ["I can describe proposed future accelerators and their goals"] },
+      "video": { "title": "Particle Accelerators — IB Physics", "duration": "9 min", "description": "Linacs, cyclotrons, synchrotrons, detectors, discoveries, and medical applications", "embedId": "" },
+      "equations": [],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the roles of electric and magnetic fields in a particle accelerator.", "solution": "Electric fields ACCELERATE the particles (increase their speed/energy — F = qE does work). Magnetic fields STEER/BEND the particles' paths (change direction without changing speed — F ⊥ v, no work done)." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain why the LHC uses superconducting magnets.", "solution": "At 0.999999991c, proton momentum is enormous (p = γmv, γ ≈ 7500). To bend this into a 27 km ring: r = p/(qB) → need very large B. Superconducting magnets produce up to 8.3 T (impossible with normal magnets at this scale). Superconductivity also eliminates resistive energy losses in the magnets." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Magnetic fields in accelerators increase the particle's energy", "explanation": "B fields do NO work (F ⊥ v). They only bend the path. ALL energy gain comes from the ELECTRIC fields in the accelerating cavities.", "correct": "E fields → energy. B fields → direction. Always." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Describe the main features of a cyclotron. [3]\nState one medical application of a cyclotron. [1]", "marks": 4, "modelAnswer": "Two D-shaped hollow conductors (Dees) in a uniform magnetic field [1]. A high-frequency alternating voltage between the Dees accelerates particles each time they cross the gap [1]. The magnetic field causes circular motion with constant period T = 2πm/(qB); as the particle speeds up, its radius increases until it exits at the edge [1].\nMedical: production of radioactive isotopes for medical imaging (e.g., F-18 for PET scans) [1].", "examinerTip": "Three marks for cyclotron: (1) Dees in B field, (2) AC voltage accelerates at gap, (3) constant T, increasing r." }
+    }
+
+  ]
+},
+
+// ============================================================
+// D.4 ELECTROMAGNETIC INDUCTION — COMPLETE (4 subtopics)
+// Ends with comma — ready for E1 (Theme E)
+// ============================================================
+
+"D4": {
+  "title": "Electromagnetic Induction",
+  "code": "D.4",
+  "theme": "D",
+  "level": "SL + HL",
+  "subtopicCount": 4,
+  "subtopics": [
+
+    {
+      "id": "d4_sub1", "num": 1, "title": "Faraday's Law & Lenz's Law", "group": "Induction", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "D.3 Motion in EM Fields", "nextTitle": "Applications of Induction",
+      "bigIdea": "Change the magnetic flux through a circuit and an EMF appears — as if a battery was momentarily connected. The faster the change, the bigger the EMF. And the induced current always opposes the change that caused it — nature resists change. This is electromagnetic induction, and it powers most of the world's electricity.",
+      "foundation": {
+        "title": "Changing flux creates voltage",
+        "content": "<h4>Faraday's law</h4><p><strong>ε = −NΔΦ/Δt</strong></p><p>The induced EMF equals the rate of change of flux linkage. N = turns, ΔΦ = change in flux, Δt = time for the change.</p><h4>Lenz's law</h4><p><strong>The induced current opposes the change that caused it.</strong> The negative sign in Faraday's law represents this. Push a magnet toward a coil → the induced current creates a field that repels the magnet. Pull away → it attracts. This is conservation of energy: you must do work to change the flux.</p><h4>Ways to induce EMF</h4><ul><li>Move a magnet near a coil</li><li>Move a coil in a magnetic field</li><li>Rotate a coil in a field (generator)</li><li>Change the current in a nearby coil (transformer)</li><li>Change the field strength</li></ul>",
+        "summary": "<p><strong>ε = −NΔΦ/Δt:</strong> Faraday's law.</p><p><strong>Lenz's law:</strong> induced current opposes the change.</p><p><strong>EMF induced whenever flux linkage changes.</strong></p>",
+        "checkQuestions": [
+          { "question": "A magnet is pushed toward a coil. The induced current flows counterclockwise (viewed from the magnet). What happens when you pull the magnet away?", "answer": "The current reverses — flows clockwise. By Lenz's law: pushing in → induced field opposes (repels). Pulling out → induced field attracts (tries to maintain the flux). Direction reverses." }
+        ],
+        "checklist": ["I can state Faraday's law: ε = −NΔΦ/Δt", "I can state Lenz's law: induced current opposes the change", "I can list ways to change flux linkage"]
+      },
+      "core": {
+        "title": "Applying Faraday's and Lenz's laws",
+        "content": "<h4>EMF in a moving conductor</h4><p>A rod of length L moves at speed v perpendicular to a field B: ε = BLv. (The rod 'sweeps out' area at rate Lv → ΔΦ/Δt = BLv.)</p><h4>EMF in a rotating coil</h4><p>A coil of N turns, area A, rotates at angular velocity ω in field B:</p><p><strong>ε = NBAω sin(ωt)</strong></p><p>Peak EMF: ε₀ = NBAω. This is how AC generators work.</p><h4>Self-induction and inductance</h4><p>Changing current in a coil changes its OWN flux → induces an EMF that opposes the change (back-EMF). <strong>ε = −L dI/dt</strong>, where L = inductance (henrys, H). Large L → large back-EMF → resists current changes → used in chokes, filters, and energy storage.</p>",
+        "keyPoints": ["Moving rod: ε = BLv", "Rotating coil: ε = NBAω sin(ωt). Peak: ε₀ = NBAω.", "Self-induction: ε = −L dI/dt. L = inductance (H)."],
+        "examTrap": { "wrong": "The induced EMF depends on the flux, not its rate of change", "correct": "EMF depends on the RATE OF CHANGE of flux (ΔΦ/Δt), not the flux itself. A constant flux (no change) → no EMF. A rapidly changing flux → large EMF." },
+        "checkQuestions": [
+          { "question": "A 0.5 m rod moves at 4 m/s perpendicular to a 0.3 T field. Find the EMF.", "answer": "ε = BLv = 0.3 × 0.5 × 4 = 0.6 V." }
+        ],
+        "checklist": ["I can apply ε = BLv for a moving conductor", "I can apply ε = NBAω sin(ωt) for a generator", "I can define inductance: ε = −LdI/dt"]
+      },
+      "extension": { "title": "Mutual induction and transformers", "content": "<p>Changing current in coil 1 → changing flux → induces EMF in nearby coil 2. This is mutual induction — the basis of transformers. Mutual inductance M: ε₂ = −M dI₁/dt. For an ideal transformer: V₂/V₁ = N₂/N₁ and V₁I₁ = V₂I₂ (power conserved). Real transformers lose energy to: resistance (I²R in windings), eddy currents (reduced by lamination), hysteresis (magnetic domain switching), and flux leakage.</p>", "connections": ["B.5 Transformers: V₂/V₁ = N₂/N₁", "B.5 RC circuits: inductors in circuits have similar exponential behaviour"], "checklist": ["I can describe mutual induction", "I can list transformer energy losses and how to reduce them"] },
+      "video": { "title": "Electromagnetic Induction — IB Physics", "duration": "10 min", "description": "Faraday's law, Lenz's law, generators, self-induction, and transformers", "embedId": "" },
+      "equations": [
+        { "formula": "ε = −NΔΦ/Δt", "description": "Faraday's law." },
+        { "formula": "ε = BLv", "description": "EMF in a moving conductor." },
+        { "formula": "ε = NBAω sin(ωt)", "description": "AC generator EMF." },
+        { "formula": "ε = −LdI/dt", "description": "Self-induced EMF. L = inductance (H)." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A generator: N = 200, A = 0.05 m², B = 0.4 T, ω = 100π rad/s. Find ε₀ and f.", "steps": [
+          { "label": "ε₀", "text": "ε₀ = NBAω = 200 × 0.4 × 0.05 × 100π = 1257 V", "isEquation": true },
+          { "label": "f", "text": "f = ω/(2π) = 100π/(2π) = 50 Hz", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State Faraday's law and Lenz's law.", "solution": "Faraday: The induced EMF equals the negative rate of change of magnetic flux linkage: ε = −NΔΦ/Δt. Lenz: The direction of the induced current is such that it opposes the change in flux that caused it." },
+        { "difficulty": "medium", "scope": "sl", "question": "A coil of 100 turns and area 0.02 m² is in a 0.5 T field. It's removed from the field in 0.1 s. Find the average EMF.", "solution": "ΔΦ = BA = 0.5 × 0.02 = 0.01 Wb. ε = NΔΦ/Δt = 100 × 0.01/0.1 = 10 V." }
+      ],
+      "commonMistakes": [
+        { "wrong": "A stationary coil in a constant magnetic field has an induced EMF", "explanation": "No flux CHANGE → no induced EMF. Faraday's law: ε = −NΔΦ/Δt. If Φ is constant (nothing changes): ΔΦ = 0 → ε = 0.", "correct": "EMF requires a CHANGE in flux. Constant flux → zero EMF." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A magnet is dropped through a coil connected to a galvanometer.\n(a) Describe what the galvanometer shows. [3]\n(b) Explain using Lenz's law why the magnet's fall is slowed. [2]", "marks": 5, "modelAnswer": "(a) As the magnet approaches: deflection in one direction (flux increases → EMF induced) [1]. As it passes through: deflection momentarily drops to zero (flux maximum, rate of change = 0) then reverses direction [1]. As it leaves: deflection in the opposite direction (flux decreases) with a larger but briefer peak (magnet is falling faster) [1].\n(b) The induced current creates a magnetic field that opposes the change in flux [1]. Approaching: coil repels magnet (opposing increase in flux). Leaving: coil attracts magnet (opposing decrease). Both slow the fall. Energy is conserved: the magnet's KE is converted to electrical energy in the coil → heat in the resistance [1].", "examinerTip": "This is a classic 5-mark question. For the galvanometer: describe THREE stages (approach, pass through, leave). For Lenz: explain opposition AND energy conservation." }
+    },
+
+    {
+      "id": "d4_sub2", "num": 2, "title": "AC Generators & Transformers", "group": "Applications", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Faraday's & Lenz's Laws", "nextTitle": "Power Transmission",
+      "bigIdea": "Spin a coil in a magnetic field and you get alternating current. Put AC through one coil and you get AC in a nearby coil at a different voltage. Generators convert mechanical to electrical energy. Transformers convert one voltage to another. Together, they enable the entire electrical power system.",
+      "foundation": {
+        "title": "Generators and transformers — the workhorses of the power grid",
+        "content": "<h4>AC generator</h4><p>A coil rotates in a magnetic field. Flux changes sinusoidally → EMF is sinusoidal: ε = ε₀ sin(ωt). Peak: ε₀ = NBAω. Output is AC — voltage alternates positive and negative.</p><h4>Transformers</h4><p>Two coils (primary and secondary) on a shared iron core. AC in primary → changing flux → induces EMF in secondary.</p><p><strong>V_s/V_p = N_s/N_p</strong></p><p>Step-up: N_s > N_p → higher voltage. Step-down: N_s < N_p → lower voltage. Ideal: P_in = P_out → V_pI_p = V_sI_s.</p><h4>Why transformers need AC</h4><p>DC creates constant flux → ΔΦ/Δt = 0 → no induced EMF. Only CHANGING flux induces an EMF → transformers work only with AC.</p>",
+        "summary": "<p><strong>Generator: ε = NBAω sin(ωt).</strong> Mechanical → electrical.</p><p><strong>Transformer: V_s/V_p = N_s/N_p.</strong> Changes voltage (AC only).</p><p><strong>Ideal: V_pI_p = V_sI_s.</strong> Power conserved.</p>",
+        "checkQuestions": [
+          { "question": "A transformer: N_p = 400, N_s = 8000, V_p = 230 V. Find V_s and, if I_s = 0.1 A, find I_p.", "answer": "V_s = V_p × N_s/N_p = 230 × 20 = 4600 V. I_p = V_sI_s/V_p = 4600 × 0.1/230 = 2 A." }
+        ],
+        "checklist": ["I can describe AC generator operation", "I can apply V_s/V_p = N_s/N_p", "I can explain why transformers require AC"]
+      },
+      "core": {
+        "title": "RMS values and transformer losses",
+        "content": "<h4>RMS (root mean square)</h4><p>AC voltage varies sinusoidally. The RMS value gives the equivalent DC voltage for power calculations:</p><p><strong>V_rms = V₀/√2 ≈ 0.707V₀</strong></p><p><strong>I_rms = I₀/√2</strong></p><p>Power: P = V_rms × I_rms = V₀I₀/2. UK mains: V_rms = 230 V → V₀ = 325 V.</p><h4>Transformer losses</h4><ul><li><strong>Resistance (I²R):</strong> copper windings have resistance → energy lost as heat. Reduce: use thicker wire.</li><li><strong>Eddy currents:</strong> changing flux induces currents in the iron core → heating. Reduce: laminate the core (thin insulated layers).</li><li><strong>Flux leakage:</strong> not all flux links both coils. Reduce: tight winding, good core design.</li><li><strong>Hysteresis:</strong> energy lost as magnetic domains in the core switch direction. Reduce: use soft iron (low hysteresis).</li></ul>",
+        "keyPoints": ["V_rms = V₀/√2, I_rms = I₀/√2, P = V_rmsI_rms", "Losses: resistance (thick wire), eddy currents (lamination), flux leakage, hysteresis (soft iron)", "Real transformers: η ≈ 95–99%"],
+        "examTrap": { "wrong": "Peak voltage is what's quoted for mains electricity", "correct": "Mains voltage (230 V) is the RMS value. Peak is V₀ = 230√2 = 325 V. Power calculations use RMS values: P = V_rmsI_rms." },
+        "checkQuestions": [
+          { "question": "UK mains: V_rms = 230 V, f = 50 Hz. Find V₀ and the period.", "answer": "V₀ = 230√2 = 325 V. T = 1/f = 1/50 = 0.02 s = 20 ms." }
+        ],
+        "checklist": ["I can calculate V_rms = V₀/√2 and I_rms = I₀/√2", "I can list transformer losses and how to reduce each", "I can calculate power using RMS values"]
+      },
+      "extension": { "title": "Three-phase power and grid infrastructure", "content": "<p>Power stations generate three-phase AC: three coils at 120° → three sinusoidal voltages offset by 120°. This gives: smoother power delivery, more efficient transmission, and enables large industrial motors. The grid steps up to 400 kV for transmission (reduces I²R losses), then steps down to 230 V for homes. The entire system relies on transformers — which only work because of Faraday's law.</p>", "connections": ["B.5 Power transmission: P_loss = I²R reduced at high V", "A.3 Efficiency: grid losses ≈ 5–10% in modern systems"], "checklist": ["I can explain three-phase AC and why it's used", "I can explain the grid: generation → step-up → transmission → step-down → consumer"] },
+      "video": { "title": "Generators & Transformers — IB Physics", "duration": "10 min", "description": "AC generation, RMS values, transformer equation, losses, and the power grid", "embedId": "" },
+      "equations": [
+        { "formula": "V_rms = V₀/√2", "description": "RMS voltage from peak voltage." },
+        { "formula": "P = V_rmsI_rms", "description": "Average AC power." },
+        { "formula": "V_s/V_p = N_s/N_p", "description": "Transformer equation." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A generator produces peak voltage 340 V at 50 Hz. Find V_rms and the period.", "solution": "V_rms = 340/√2 = 240 V. T = 1/50 = 0.02 s." },
+        { "difficulty": "medium", "scope": "sl", "question": "A transformer steps 11 kV down to 230 V. N_p = 5000. Find N_s. If the primary current is 2 A, find the secondary current (ideal).", "solution": "N_s = N_p × V_s/V_p = 5000 × 230/11000 = 104.5 ≈ 105 turns. I_s = V_pI_p/V_s = 11000 × 2/230 = 95.7 A." }
+      ],
+      "commonMistakes": [
+        { "wrong": "A transformer can work with DC", "explanation": "DC creates constant flux → ΔΦ/Δt = 0 → no EMF induced in secondary. Transformers REQUIRE changing flux → AC only.", "correct": "Transformers need AC. DC → no induction." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A step-up transformer has 200 primary and 4000 secondary turns. V_p = 12 V AC.\n(a) Find V_s. [1]\n(b) The secondary current is 0.05 A. Find the primary current (ideal). [1]\n(c) State one reason why real transformers are less than 100% efficient. [1]", "marks": 3, "modelAnswer": "(a) V_s = 12 × 4000/200 = 240 V [1].\n(b) I_p = V_sI_s/V_p = 240 × 0.05/12 = 1.0 A [1].\n(c) Resistance of windings causes I²R heating losses / eddy currents in the core / flux leakage / hysteresis losses [1].", "examinerTip": "For efficiency question: name the loss AND the cause. E.g., 'resistance of copper windings causes I²R heating.'" }
+    },
+
+    {
+      "id": "d4_sub3", "num": 3, "title": "High-Voltage Power Transmission", "group": "Applications", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Generators & Transformers", "nextTitle": "Eddy Currents & Braking",
+      "bigIdea": "Electricity is transmitted at very high voltage (up to 400,000 V) for one reason: to reduce energy loss. Since power loss = I²R, and P = VI, transmitting at high V means low I → much less I²R loss. Transformers make this possible — step up at the power station, step down for consumers. Without transformers, the electrical grid couldn't exist.",
+      "foundation": {
+        "title": "Why high voltage saves energy",
+        "content": "<h4>The problem</h4><p>Transmission cables have resistance R. Current I through them wastes power: P_loss = I²R. For a 1000 MW power station sending power 100 km through cables with R = 10 Ω at 25 kV: I = P/V = 10⁹/25000 = 40,000 A. P_loss = 40,000² × 10 = 1.6 × 10¹⁰ W = 16,000 MW. More than the station produces! Impossible.</p><h4>The solution</h4><p>Step up to 400 kV: I = 10⁹/400,000 = 2,500 A. P_loss = 2500² × 10 = 62.5 MW. Only 6.25% lost. A 16× increase in voltage reduces losses by 16² = 256×.</p><p><strong>P_loss ∝ 1/V²</strong> (for the same power transmitted). Double V → quarter the loss.</p><h4>The complete system</h4><p>Power station (~25 kV) → step-up transformer → 400 kV transmission → step-down → 33 kV regional → step-down → 11 kV local → step-down → 230 V homes.</p>",
+        "summary": "<p><strong>P_loss = I²R.</strong> Higher V → lower I → much less loss.</p><p><strong>P_loss ∝ 1/V².</strong> 10× voltage → 100× less loss.</p><p><strong>Grid:</strong> step up for transmission, step down for consumers.</p>",
+        "checkQuestions": [
+          { "question": "500 MW is transmitted at 250 kV through cables with R = 5 Ω. Find the power loss and efficiency.", "answer": "I = P/V = 5 × 10⁸/250,000 = 2000 A. P_loss = I²R = 4 × 10⁶ × 5 = 20 MW. η = (500−20)/500 = 96%." }
+        ],
+        "checklist": ["I can explain why high voltage reduces transmission losses", "I can calculate P_loss = I²R and show P_loss ∝ 1/V²", "I can describe the voltage steps in the electrical grid"]
+      },
+      "core": {
+        "title": "Quantitative transmission problems",
+        "content": "<h4>The calculation method</h4><ol><li>Given: power P, transmission voltage V, cable resistance R</li><li>Find current: I = P/V</li><li>Find loss: P_loss = I²R</li><li>Find efficiency: η = (P − P_loss)/P</li></ol><h4>Comparing different voltages</h4><p>For the SAME power and cables: P_loss₁/P_loss₂ = (V₂/V₁)². Doubling V → ¼ loss. This is why the highest practical voltage is used.</p><h4>DC transmission</h4><p>Modern high-voltage DC (HVDC) is sometimes used for long undersea cables and interconnectors. Advantages: lower losses over very long distances, no reactive power losses, can connect different AC grids. But requires expensive converter stations. AC remains dominant for general transmission because transformers are simple and cheap.</p>",
+        "keyPoints": ["Method: I = P/V → P_loss = I²R → η = (P−P_loss)/P", "P_loss ∝ 1/V²: the key relationship", "HVDC for very long distances; AC for general grid"],
+        "examTrap": { "wrong": "High voltage is dangerous so we should transmit at low voltage", "correct": "High voltage IS dangerous — which is why transmission lines are high up on towers. But the energy savings are enormous (P_loss ∝ 1/V²). Safety is managed by keeping lines away from people, not by lowering voltage." },
+        "checkQuestions": [
+          { "question": "Power is transmitted at 100 kV with 4% loss. If the voltage is increased to 400 kV, find the new loss percentage.", "answer": "P_loss ∝ 1/V². Ratio: (100/400)² = 1/16. New loss = 4%/16 = 0.25%." }
+        ],
+        "checklist": ["I can calculate power loss for given V and R", "I can compare losses at different transmission voltages", "I can explain HVDC vs AC transmission"]
+      },
+      "extension": { "title": "The future grid", "content": "<p>The modern grid is evolving: smart grids (two-way communication, demand management), distributed generation (rooftop solar, wind → power flows both ways), energy storage (batteries, pumped hydro), and superconducting cables (zero resistance → zero I²R loss, but expensive cooling). The transition to renewable energy requires a smarter, more flexible grid.</p>", "connections": ["A.3 Energy Sources: renewable integration requires grid adaptation", "B.2 Climate: grid decarbonisation is essential for climate targets"], "checklist": ["I can describe how smart grids and energy storage will change the power system"] },
+      "video": { "title": "Power Transmission — IB Physics", "duration": "7 min", "description": "P_loss = I²R, high voltage transmission, grid structure, and HVDC", "embedId": "" },
+      "equations": [
+        { "formula": "P_loss = I²R = P²R/V²", "description": "Transmission power loss. P_loss ∝ 1/V²." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A 200 MW power station transmits at 400 kV through cables with total R = 8 Ω. Find I, P_loss, and η.", "steps": [
+          { "label": "I", "text": "I = P/V = 2 × 10⁸/4 × 10⁵ = 500 A", "isEquation": true },
+          { "label": "P_loss", "text": "P_loss = I²R = 250,000 × 8 = 2 × 10⁶ W = 2 MW", "isEquation": true },
+          { "label": "η", "text": "η = (200−2)/200 = 99%", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Explain why electricity is transmitted at high voltage.", "solution": "Power loss in cables = I²R. For the same power transmitted (P = VI): higher V → lower I → much less I²R loss. P_loss ∝ 1/V². Transformers step voltage up for transmission and down for consumers." },
+        { "difficulty": "hard", "scope": "sl", "question": "A 50 MW station transmits through R = 10 Ω cables. Find the power loss at (a) 25 kV and (b) 500 kV.", "solution": "(a) I = 5×10⁷/25000 = 2000 A. P_loss = 4×10⁶ × 10 = 40 MW (80% lost!). (b) I = 5×10⁷/500,000 = 100 A. P_loss = 10⁴ × 10 = 0.1 MW (0.2% lost). Ratio: 400× less loss at 20× higher voltage." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Transmitting at higher voltage uses more energy", "explanation": "Higher voltage doesn't mean more power — P = VI is constant (same power). Higher V means LOWER I, which reduces I²R losses. You SAVE energy by transmitting at high V.", "correct": "Same power, higher V → lower I → less I²R loss → more energy reaches consumers." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A 100 MW power station transmits electricity through cables with total resistance 4.0 Ω.\n(a) Calculate the power loss when transmitting at 200 kV. [2]\n(b) The voltage is doubled to 400 kV. Calculate the new power loss. [1]\n(c) By what factor has the loss decreased? [1]", "marks": 4, "modelAnswer": "(a) I = 10⁸/2×10⁵ = 500 A. P_loss = 500² × 4 = 1 × 10⁶ W = 1 MW [2].\n(b) I = 10⁸/4×10⁵ = 250 A. P_loss = 250² × 4 = 250,000 W = 0.25 MW [1].\n(c) Factor = 1/0.25 = 4. Loss reduced by factor 4 (= 2² — doubling V quarters the loss) [1].", "examinerTip": "Always show I = P/V first, then P_loss = I²R. The factor is always (V_old/V_new)²." }
+    },
+
+    {
+      "id": "d4_sub4", "num": 4, "title": "Eddy Currents, Braking & Applications", "group": "Applications", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Power Transmission", "nextTitle": "E.1 Structure of the Atom",
+      "bigIdea": "When a conducting sheet moves through a magnetic field (or is in a changing field), currents swirl inside it — eddy currents. They create forces that oppose the motion (Lenz's law) and generate heat. Nuisance in transformers (energy loss), but deliberately exploited in electromagnetic braking, induction cooktops, and metal detectors.",
+      "foundation": {
+        "title": "Currents inside conductors from changing flux",
+        "content": "<h4>What are eddy currents?</h4><p><strong>Eddy currents</strong> are loops of electric current induced within a bulk conductor by a changing magnetic flux. They flow in closed loops (eddies) perpendicular to the flux change.</p><h4>Effects of eddy currents</h4><ul><li><strong>Heating:</strong> I²R in the conductor → energy dissipated as heat. Used in induction cooktops.</li><li><strong>Braking force:</strong> by Lenz's law, eddy currents create fields that oppose the motion → electromagnetic braking.</li><li><strong>Energy loss:</strong> in transformer cores, eddy currents waste energy as heat → reduced by laminating the core.</li></ul><h4>Applications</h4><ul><li><strong>Electromagnetic braking:</strong> trains, roller coasters, exercise bikes. No friction, no wear, smooth braking. Force ∝ speed (harder braking at higher speed, gentle as you slow).</li><li><strong>Induction cooktop:</strong> AC in a coil under the surface → changing flux → eddy currents in the metal pan → pan heats up. The cooktop surface stays cool (only metal pans heat).</li><li><strong>Metal detector:</strong> AC coil creates changing flux → eddy currents in nearby metal → these create their own flux → detected by a second coil.</li><li><strong>Speedometer:</strong> rotating magnet induces eddy currents in an aluminium disk → creates a torque proportional to speed.</li></ul>",
+        "summary": "<p><strong>Eddy currents:</strong> induced in bulk conductors by changing flux.</p><p><strong>Effects:</strong> heating (I²R) and braking (Lenz's law opposition).</p><p><strong>Reduce in transformers:</strong> laminate the core (thin insulated layers break up the current loops).</p><p><strong>Applications:</strong> EM braking, induction cooking, metal detectors.</p>",
+        "checkQuestions": [
+          { "question": "Why does laminating a transformer core reduce eddy current losses?", "answer": "Laminating breaks the core into thin insulated layers. Eddy currents can only flow within each thin layer (not across layers). Thinner layers → smaller current loops → higher effective resistance → smaller currents → much less I²R heating." }
+        ],
+        "checklist": ["I can explain eddy currents as induced currents in bulk conductors", "I can describe the heating and braking effects", "I can explain why laminating a core reduces eddy current losses", "I can describe applications: EM braking, induction cooktops, metal detectors"]
+      },
+      "core": {
+        "title": "Quantitative eddy current effects and Lenz's law",
+        "content": "<h4>Braking force from eddy currents</h4><p>The braking force from eddy currents is proportional to speed: F ∝ v. At high speed: strong braking. As the object slows: braking decreases. The object never fully stops from EM braking alone (F → 0 as v → 0) — friction or other braking is needed for the final stop.</p><h4>Energy conversion</h4><p>In EM braking: KE of the moving object → electrical energy in eddy currents → heat in the conductor. Energy is conserved — KE is converted to thermal energy. In induction cooking: electrical energy (AC supply) → changing magnetic flux → eddy currents in pan → heat.</p><h4>Comparison with friction braking</h4><ul><li>EM braking: no contact → no wear, smooth, adjustable, force ∝ v</li><li>Friction braking: contact → wear, less smooth, force approximately constant</li><li>EM braking can't stop the object completely (F → 0 at v → 0)</li></ul>",
+        "keyPoints": ["Braking force ∝ speed. Can't fully stop an object.", "KE → eddy currents → heat (energy conservation)", "No contact, no wear — advantage over friction braking", "Lamination reduces eddy currents: thinner layers → smaller loops → less heating"],
+        "examTrap": { "wrong": "Electromagnetic braking can bring an object to a complete stop", "correct": "EM braking force ∝ speed. As the object slows: force decreases. At v = 0: F = 0. The object approaches rest asymptotically but never fully stops. A secondary braking mechanism (friction) is needed for the final stop." },
+        "checkQuestions": [
+          { "question": "A metal plate swings like a pendulum between the poles of a magnet. Why does it stop quickly?", "answer": "As the plate moves through the field, eddy currents are induced (changing flux through the plate). By Lenz's law: these currents create forces opposing the motion → the plate is braked. The KE is converted to heat in the plate. It stops much faster than it would from air resistance alone." }
+        ],
+        "checklist": ["I can explain why EM braking force decreases with speed", "I can trace the energy conversion: KE → electrical → thermal", "I can compare EM braking with friction braking"]
+      },
+      "extension": { "title": "Eddy currents in non-destructive testing", "content": "<p>Eddy current testing (ECT) is used to inspect metal components for cracks, corrosion, and material properties without damaging them. An AC coil near the surface induces eddy currents. Defects disrupt the current flow → change the impedance of the coil → detected electronically. Used in: aircraft inspection, pipeline monitoring, and quality control in manufacturing.</p>", "connections": ["B.5 Electromagnetic induction: eddy currents follow from Faraday's and Lenz's laws", "A.3 Energy: eddy current braking in regenerative systems"], "checklist": ["I can describe eddy current testing for non-destructive inspection"] },
+      "video": { "title": "Eddy Currents & Applications — IB Physics", "duration": "7 min", "description": "Eddy current formation, braking, heating, lamination, and applications", "embedId": "" },
+      "equations": [],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State two effects of eddy currents and give one application of each.", "solution": "1. Heating: used in induction cooktops (eddy currents in the metal pan → heat for cooking). 2. Braking: used in electromagnetic brakes on trains (eddy currents oppose motion → smooth deceleration without contact)." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain why a pendulum with a solid copper plate stops quickly between magnetic poles, but a slotted plate swings much longer.", "solution": "Solid plate: large eddy current loops → strong braking force → stops quickly. Slotted plate: the slots break up the current loops → smaller, weaker eddy currents → much less braking → swings longer. The slots act like lamination — disrupting the current paths." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Eddy currents are always harmful", "explanation": "In transformers: yes, they waste energy (reduce by lamination). But eddy currents are deliberately used in: EM braking, induction cooking, metal detectors, and speedometers. They're a feature, not just a bug.", "correct": "Eddy currents are harmful in transformers (waste heat) but useful in many applications (braking, cooking, detection)." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A solid aluminium disk is placed between the poles of a magnet and spun.\n(a) Explain why the disk slows down. [3]\n(b) Explain why the disk heats up. [1]\n(c) State how the disk could be modified to reduce this effect. [1]", "marks": 5, "modelAnswer": "(a) As the disk spins, the metal passes through the magnetic field [1]. The changing flux through the disk induces eddy currents (Faraday's law) [1]. By Lenz's law, these currents create magnetic fields that oppose the disk's motion, producing a braking force that slows it down [1].\n(b) The eddy currents flow through the resistive metal → I²R heating → the disk's kinetic energy is converted to thermal energy [1].\n(c) Cut slots in the disk (like a slotted wheel) to break up the eddy current paths [1].", "examinerTip": "For eddy current explanations: (1) identify the changing flux, (2) state Faraday's law (currents induced), (3) state Lenz's law (opposing motion). Three steps, three marks." }
+    }
+
+  ]
+},
+"E1": {
+  "title": "Structure of the Atom",
+  "code": "E.1",
+  "theme": "E",
+  "level": "SL + HL",
+  "subtopicCount": 6,
+  "subtopics": [
+
+    {
+      "id": "e1_sub1", "num": 1, "title": "The Nuclear Model of the Atom", "group": "Atomic Structure", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "D.4 Electromagnetic Induction", "nextTitle": "Atomic Spectra & Energy Levels",
+      "bigIdea": "Atoms are mostly empty space. A tiny, dense, positively charged nucleus contains almost all the mass, surrounded by a cloud of electrons at relatively enormous distances. Rutherford proved this in 1911 by firing alpha particles at gold foil — most went straight through (empty space), but a few bounced straight back (hit the nucleus).",
+      "foundation": {
+        "title": "How we discovered the structure of the atom",
+        "content": "<h4>Thomson's plum pudding model (1897)</h4><p>After discovering the electron, Thomson proposed: the atom is a sphere of positive charge with electrons embedded in it — like plums in a pudding. No nucleus. Positive charge spread throughout.</p><h4>Rutherford's gold foil experiment (1911)</h4><p>Geiger and Marsden fired alpha particles at thin gold foil and measured the scattering angles. Results:</p><ul><li><strong>Most alphas passed straight through</strong> → the atom is mostly empty space</li><li><strong>Some were deflected at small angles</strong> → they passed near something positive (electrostatic repulsion)</li><li><strong>A very few (~1 in 8000) bounced back</strong> → they hit something very small, very dense, and very positive</li></ul><p>Rutherford's conclusion: the atom has a <strong>tiny, dense, positively charged nucleus</strong> containing almost all the mass, with electrons orbiting at relatively large distances.</p><h4>The nuclear model</h4><ul><li><strong>Nucleus:</strong> ~10⁻¹⁵ m diameter. Contains protons (+) and neutrons (0). Carries all the positive charge and ~99.97% of the mass.</li><li><strong>Electrons:</strong> orbit the nucleus at ~10⁻¹⁰ m. Carry negative charge. Very light (1/1836 of a proton).</li><li><strong>Atom diameter:</strong> ~10⁻¹⁰ m = 100,000× the nucleus. If the nucleus were a marble, the atom would be a football stadium.</li></ul><h4>Nucleon number and notation</h4><p><strong>A</strong> = mass number = protons + neutrons. <strong>Z</strong> = atomic number = number of protons. Notation: ᴬ_Z X. Example: ²³⁸₉₂U = uranium with 92 protons and 238 − 92 = 146 neutrons.</p><p><strong>Isotopes:</strong> same Z (same element), different A (different number of neutrons). Example: ¹²C, ¹³C, ¹⁴C — all carbon (Z = 6), different neutron numbers.</p>",
+        "summary": "<p><strong>Nuclear model:</strong> tiny dense positive nucleus + orbiting electrons.</p><p><strong>Rutherford's evidence:</strong> most alphas through (empty space), few bounce (nucleus).</p><p><strong>Nucleus:</strong> ~10⁻¹⁵ m. Atom: ~10⁻¹⁰ m. Ratio: 10⁵.</p><p><strong>Notation:</strong> ᴬ_Z X. Isotopes: same Z, different A.</p>",
+        "checkQuestions": [
+          { "question": "In Rutherford's experiment, why did some alpha particles bounce back?", "answer": "They hit the nucleus head-on. The nucleus is very small, very dense, and carries a large positive charge. The electrostatic repulsion between the positive alpha particle (+2e) and the positive nucleus was strong enough to reverse the alpha's direction. This could only happen if the positive charge was concentrated in a tiny volume." }
+        ],
+        "checklist": ["I can describe Thomson's and Rutherford's atomic models", "I can explain how Rutherford's scattering experiment disproved the plum pudding model", "I can state the structure: nucleus (p+n) + electrons", "I can use nuclear notation ᴬ_Z X and define isotopes"]
+      },
+      "core": {
+        "title": "Nuclear structure, forces, and the closest approach calculation",
+        "content": "<h4>Protons, neutrons, and the strong force</h4><p>The nucleus contains protons (positive) that should repel each other (Coulomb's law). They're held together by the <strong>strong nuclear force</strong> — a short-range (≈ 10⁻¹⁵ m) attractive force between nucleons. It's ~100× stronger than the electromagnetic force at nuclear distances but negligible beyond ~3 × 10⁻¹⁵ m.</p><h4>Closest approach of an alpha particle</h4><p>An alpha with KE approaches a nucleus. At closest approach: all KE → electrical PE:</p><p><strong>½mv² = kZe(2e)/r_min</strong></p><p><strong>r_min = 2kZe²/KE</strong></p><p>This gives an upper bound on the nuclear radius. For gold (Z = 79), alpha KE = 7.7 MeV: r_min ≈ 3 × 10⁻¹⁴ m. The actual nuclear radius is ~7 × 10⁻¹⁵ m — about 4× smaller. So the closest approach method overestimates the radius (the alpha didn't actually reach the nucleus).</p><h4>Nuclear radius</h4><p><strong>R = R₀A^(1/3)</strong></p><p>Where R₀ ≈ 1.2 × 10⁻¹⁵ m (= 1.2 fm) and A = mass number. Since R ∝ A^(1/3) and volume V ∝ R³ ∝ A: <strong>nuclear density is constant</strong> (same for all nuclei) ≈ 2.3 × 10¹⁷ kg/m³. This is also the density of neutron star matter.</p>",
+        "keyPoints": ["Strong nuclear force: short-range (~fm), holds nucleus together", "Closest approach: r_min = 2kZe²/KE (KE → PE conversion)", "R = R₀A^(1/3), R₀ ≈ 1.2 fm", "Nuclear density ≈ 2.3 × 10¹⁷ kg/m³ = constant for all nuclei"],
+        "examTrap": { "wrong": "The closest approach distance equals the nuclear radius", "correct": "The closest approach for a given KE gives an UPPER LIMIT on the nuclear radius. The alpha runs out of KE before reaching the nucleus surface (unless KE is very high). Higher KE alphas get closer → better estimate." },
+        "checkQuestions": [
+          { "question": "Find the nuclear radius of iron-56.", "answer": "R = R₀A^(1/3) = 1.2 × 10⁻¹⁵ × 56^(1/3) = 1.2 × 10⁻¹⁵ × 3.83 = 4.59 × 10⁻¹⁵ m ≈ 4.6 fm." }
+        ],
+        "checklist": ["I can explain the strong nuclear force and its properties", "I can calculate closest approach: r_min = 2kZe²/KE", "I can calculate nuclear radius: R = R₀A^(1/3)", "I can explain why nuclear density is constant"]
+      },
+      "extension": { "title": "Deep inelastic scattering and quarks", "content": "<p>At higher energies (GeV), electrons probe INSIDE nucleons. SLAC (1968): electrons scattered off protons at unexpected angles → protons are NOT point particles — they contain smaller, point-like constituents: <strong>quarks</strong>. Proton = uud (up, up, down). Neutron = udd. Quarks are held together by gluons (the strong force carriers). This is the quark model — the current understanding of nuclear structure.</p>", "connections": ["D.3 Particle Accelerators: high-energy scattering reveals internal structure", "E.3 Nuclear Physics: binding energy depends on nucleon arrangement"], "checklist": ["I can state that nucleons are made of quarks (proton = uud, neutron = udd)"] },
+      "video": { "title": "Atomic Structure — IB Physics", "duration": "10 min", "description": "Thomson to Rutherford, nuclear model, notation, closest approach, and nuclear radius", "embedId": "" },
+      "equations": [
+        { "formula": "r_min = 2kZe²/(KE)", "description": "Closest approach of an alpha to a nucleus." },
+        { "formula": "R = R₀A^(1/3)", "description": "Nuclear radius. R₀ ≈ 1.2 × 10⁻¹⁵ m." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "An alpha (KE = 5 MeV) approaches a gold nucleus (Z = 79). Find the closest approach distance.", "steps": [
+          { "label": "Convert KE", "text": "KE = 5 × 10⁶ × 1.6 × 10⁻¹⁹ = 8 × 10⁻¹³ J" },
+          { "label": "r_min", "text": "r = 2kZe²/KE = 2 × 8.99 × 10⁹ × 79 × (1.6 × 10⁻¹⁹)²/8 × 10⁻¹³", "isEquation": true },
+          { "label": "Calculate", "text": "= 2 × 8.99 × 10⁹ × 79 × 2.56 × 10⁻³⁸/8 × 10⁻¹³ = 4.55 × 10⁻¹⁴ m ≈ 45.5 fm", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State three conclusions from Rutherford's scattering experiment.", "solution": "1. The atom is mostly empty space (most alphas pass through). 2. The positive charge is concentrated in a tiny nucleus (some alphas deflected or bounce back). 3. The nucleus is very dense (contains almost all the mass in a tiny volume)." },
+        { "difficulty": "medium", "scope": "sl", "question": "Find the radius and density of a carbon-12 nucleus. (m_nucleon ≈ 1.67 × 10⁻²⁷ kg)", "solution": "R = 1.2 × 10⁻¹⁵ × 12^(1/3) = 1.2 × 10⁻¹⁵ × 2.289 = 2.75 × 10⁻¹⁵ m. V = 4/3 πR³ = 8.71 × 10⁻⁴⁴ m³. Mass = 12 × 1.67 × 10⁻²⁷ = 2.004 × 10⁻²⁶ kg. ρ = m/V = 2.3 × 10¹⁷ kg/m³." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Electrons orbit the nucleus like planets orbit the Sun", "explanation": "The planetary model is useful but wrong in detail. Orbiting electrons should radiate energy (accelerating charges emit EM radiation) → spiral into the nucleus in ~10⁻¹¹ s. Quantum mechanics replaces orbits with probability clouds (orbitals).", "correct": "The Bohr/quantum model replaces orbits with quantised energy levels and probability distributions." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Describe two observations from the Rutherford scattering experiment and state what each observation tells us about atomic structure. [4]", "marks": 4, "modelAnswer": "1. Most alpha particles passed through the gold foil with little or no deflection [1]. This shows the atom is mostly empty space [1]. 2. A very small fraction of alphas were deflected through angles greater than 90° (bounced back) [1]. This shows the positive charge and most of the mass are concentrated in a very small, dense region — the nucleus [1].", "examinerTip": "For Rutherford questions: pair each OBSERVATION with its CONCLUSION. Two observations, two conclusions, four marks." }
+    },
+
+    {
+      "id": "e1_sub2", "num": 2, "title": "Atomic Spectra & Energy Levels", "group": "Energy Levels", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Nuclear Model", "nextTitle": "The Bohr Model (AHL)",
+      "bigIdea": "Heat a gas and it glows — but not with all colours. It emits only specific wavelengths, forming a line spectrum unique to that element. This can only be explained if electrons in atoms exist at specific, discrete energy levels. When an electron jumps between levels, it emits or absorbs a photon with energy exactly equal to the gap: E = hf.",
+      "foundation": {
+        "title": "Why atoms emit only certain colours of light",
+        "content": "<h4>Emission spectra</h4><p>When a gas is heated or excited electrically, it emits light at specific wavelengths — an <strong>emission line spectrum</strong>. Each element has a unique spectrum (fingerprint). Example: hydrogen emits red (656 nm), blue-green (486 nm), violet (434 nm), and deep violet (410 nm) in the visible range.</p><h4>Absorption spectra</h4><p>White light passing through a cool gas produces an <strong>absorption spectrum</strong> — dark lines at the exact same wavelengths as the emission lines. The gas absorbs those specific wavelengths and re-emits them in random directions.</p><h4>Energy levels</h4><p>Atoms have <strong>discrete energy levels</strong>: electrons can only exist at specific energies, not in between. The lowest level is the <strong>ground state</strong> (n = 1). Higher levels are <strong>excited states</strong> (n = 2, 3, 4...).</p><h4>Photon emission and absorption</h4><p>When an electron drops from a higher level (E₂) to a lower level (E₁):</p><p><strong>hf = E₂ − E₁</strong></p><p>A photon is emitted with frequency f and wavelength λ = c/f. When a photon with exactly the right energy is absorbed: the electron jumps UP.</p><h4>Why line spectra prove quantisation</h4><p>If any energy were allowed: you'd see a continuous spectrum (all colours). The fact that only specific wavelengths appear means only specific energy differences exist → energy levels are quantised (discrete, not continuous).</p>",
+        "summary": "<p><strong>Emission spectrum:</strong> specific wavelengths emitted by excited gas. Each element unique.</p><p><strong>Absorption spectrum:</strong> dark lines at same wavelengths in a continuous spectrum.</p><p><strong>hf = E₂ − E₁:</strong> photon energy = energy level difference.</p><p><strong>Quantised:</strong> only discrete energy levels exist → only specific transitions → only specific λ.</p>",
+        "checkQuestions": [
+          { "question": "A hydrogen electron drops from −1.51 eV to −3.40 eV. Find the photon energy, frequency, and wavelength.", "answer": "E = 3.40 − 1.51 = 1.89 eV = 1.89 × 1.6 × 10⁻¹⁹ = 3.02 × 10⁻¹⁹ J. f = E/h = 3.02 × 10⁻¹⁹/6.63 × 10⁻³⁴ = 4.56 × 10¹⁴ Hz. λ = c/f = 658 nm (red — this is the Hα line)." }
+        ],
+        "checklist": ["I can describe emission and absorption line spectra", "I can explain spectra using quantised energy levels", "I can apply hf = E₂ − E₁ for photon emission/absorption", "I can explain why line spectra prove energy quantisation"]
+      },
+      "core": {
+        "title": "Energy level diagrams and spectral series",
+        "content": "<h4>Energy level diagrams</h4><p>Draw horizontal lines at each energy level. The ground state at the bottom (most negative energy). Excited states above. Transitions shown as vertical arrows between levels. Downward arrow = photon emission. Upward = absorption.</p><h4>Hydrogen energy levels</h4><p>E_n = −13.6/n² eV (Bohr model, covered in AHL). n = 1: −13.6 eV (ground state). n = 2: −3.40 eV. n = 3: −1.51 eV. n = ∞: 0 eV (ionised — electron free).</p><h4>Spectral series</h4><ul><li><strong>Lyman series:</strong> transitions to n = 1. UV wavelengths.</li><li><strong>Balmer series:</strong> transitions to n = 2. Visible wavelengths (the ones you see).</li><li><strong>Paschen series:</strong> transitions to n = 3. Infrared.</li></ul><h4>Ionisation energy</h4><p>The energy needed to remove an electron from the ground state to infinity (n = ∞). For hydrogen: 13.6 eV. This is the binding energy of the electron.</p>",
+        "keyPoints": ["Energy level diagram: horizontal lines, transitions as arrows", "Hydrogen: E_n = −13.6/n² eV", "Lyman (UV, to n=1), Balmer (visible, to n=2), Paschen (IR, to n=3)", "Ionisation energy = energy from ground state to n = ∞ (13.6 eV for H)"],
+        "examTrap": { "wrong": "An electron can exist at any energy between levels", "correct": "Electrons can ONLY exist at the discrete energy levels. Between levels: forbidden. This is the core of quantum mechanics — energy is quantised, not continuous." },
+        "checkQuestions": [
+          { "question": "How many different photon energies can be emitted from an atom with 4 energy levels?", "answer": "Number of transitions = n(n−1)/2 = 4 × 3/2 = 6. Six different photon energies (and therefore six different wavelengths)." }
+        ],
+        "checklist": ["I can draw and interpret energy level diagrams", "I can identify spectral series (Lyman, Balmer, Paschen)", "I can calculate ionisation energy from the ground state energy level", "I can count possible transitions: n(n−1)/2"]
+      },
+      "extension": { "title": "The Bohr model", "content": "<h4>Bohr's postulates (1913)</h4><ol><li>Electrons orbit in circular paths at specific radii without radiating energy</li><li>Angular momentum is quantised: L = mvr = nℏ (ℏ = h/2π)</li><li>Photons are emitted/absorbed when electrons jump between orbits: hf = E₂ − E₁</li></ol><p>From these: E_n = −13.6/n² eV and r_n = 0.053n² nm (for hydrogen). The Bohr model correctly predicts hydrogen's spectrum but fails for multi-electron atoms. Quantum mechanics (Schrödinger equation) provides the full solution.</p>", "connections": ["E.2 Quantum Physics: wave-particle duality replaces Bohr orbits with probability clouds", "C.4 Standing Waves: electron standing waves determine allowed orbits"], "checklist": ["I can state Bohr's postulates", "I can apply E_n = −13.6/n² eV for hydrogen", "I can explain why the Bohr model fails for multi-electron atoms"] },
+      "video": { "title": "Atomic Spectra & Energy Levels — IB Physics", "duration": "10 min", "description": "Emission/absorption spectra, energy levels, hf = ΔE, Bohr model, and spectral series", "embedId": "" },
+      "equations": [
+        { "formula": "hf = E₂ − E₁", "description": "Photon energy = difference between energy levels." },
+        { "formula": "E_n = −13.6/n² eV", "description": "Hydrogen energy levels (Bohr model)." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Find the wavelength of light emitted when hydrogen transitions from n=3 to n=2.", "steps": [
+          { "label": "Energies", "text": "E₃ = −13.6/9 = −1.51 eV. E₂ = −13.6/4 = −3.40 eV." },
+          { "label": "ΔE", "text": "ΔE = 3.40 − 1.51 = 1.89 eV = 3.02 × 10⁻¹⁹ J" },
+          { "label": "λ", "text": "λ = hc/ΔE = 6.63 × 10⁻³⁴ × 3 × 10⁸/3.02 × 10⁻¹⁹ = 659 nm (red — Hα line)", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State what is meant by the ground state of an atom.", "solution": "The ground state is the lowest energy level of the atom — the state in which the electron has the minimum possible energy. For hydrogen: n = 1, E = −13.6 eV." },
+        { "difficulty": "medium", "scope": "sl", "question": "An atom has energy levels at −10 eV, −6 eV, −3 eV, and −1 eV. List all possible photon energies that can be emitted.", "solution": "Transitions: (−1 to −3) = 2 eV, (−1 to −6) = 5 eV, (−1 to −10) = 9 eV, (−3 to −6) = 3 eV, (−3 to −10) = 7 eV, (−6 to −10) = 4 eV. Six photon energies: 2, 3, 4, 5, 7, 9 eV." },
+        { "difficulty": "hard", "scope": "sl", "question": "The Lyman series in hydrogen consists of transitions to n = 1. Find the shortest wavelength in this series.", "answer": "Shortest λ = highest energy = transition from n = ∞ to n = 1. ΔE = 13.6 eV = 2.18 × 10⁻¹⁸ J. λ = hc/ΔE = 6.63 × 10⁻³⁴ × 3 × 10⁸/2.18 × 10⁻¹⁸ = 91.2 nm (deep UV)." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Emission spectra are continuous (all colours)", "explanation": "Emission from gases produces LINE spectra (specific wavelengths only). Only hot solids and dense gases produce continuous spectra. Line spectra prove energy quantisation.", "correct": "Gas emission = line spectrum. Hot solid = continuous spectrum." }
+      ],
+      "examCorner": { "scope": "sl", "question": "The energy levels of hydrogen are: n=1: −13.6 eV, n=2: −3.40 eV, n=3: −1.51 eV, n=4: −0.85 eV.\n(a) Calculate the wavelength of the photon emitted in the transition n=4 to n=2. [3]\n(b) State whether this photon is in the UV, visible, or IR range. [1]\n(c) Explain why this transition produces a specific wavelength rather than a range. [2]", "marks": 6, "modelAnswer": "(a) ΔE = |−0.85 − (−3.40)| = 2.55 eV = 2.55 × 1.6 × 10⁻¹⁹ = 4.08 × 10⁻¹⁹ J [1]. f = E/h = 4.08 × 10⁻¹⁹/6.63 × 10⁻³⁴ = 6.15 × 10¹⁴ Hz [1]. λ = c/f = 488 nm [1].\n(b) Visible (blue-green, 488 nm is in the visible range 400–700 nm) [1].\n(c) Energy levels are discrete (quantised) — electrons can only exist at specific energies [1]. A transition between two specific levels releases a photon with a single, specific energy (ΔE = hf), which corresponds to a single wavelength [1].", "examinerTip": "For 'explain why specific wavelength': state (1) levels are quantised and (2) each transition has a fixed ΔE → fixed f → fixed λ. Both points needed." }
+    },
+
+    {
+      "id": "e1_sub3", "num": 3, "title": "Nuclear Reactions & Conservation Laws", "group": "Nuclear Physics Intro", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Energy Levels", "nextTitle": "Radioactivity Preview",
+      "bigIdea": "In nuclear reactions, nucleons rearrange — but the total number of protons and neutrons is always conserved. Mass number A and atomic number Z must balance on both sides of every nuclear equation. This bookkeeping lets you predict the products of any nuclear reaction.",
+      "foundation": {
+        "title": "Balancing nuclear equations",
+        "content": "<h4>Conservation laws in nuclear reactions</h4><ul><li><strong>Mass number A:</strong> total nucleons conserved (protons + neutrons on each side must be equal)</li><li><strong>Atomic number Z:</strong> total charge conserved (protons + other charges must balance)</li><li><strong>Energy:</strong> total energy conserved (mass-energy equivalence: E = Δmc²)</li><li><strong>Momentum:</strong> conserved in all reactions</li></ul><h4>Types of nuclear reaction</h4><ul><li><strong>Alpha decay:</strong> ᴬ_Z X → ᴬ⁻⁴_(Z−2) Y + ⁴₂He. Loses 2p + 2n.</li><li><strong>Beta-minus decay:</strong> ᴬ_Z X → ᴬ_(Z+1) Y + ⁰₋₁e + ν̄. Neutron → proton + electron + antineutrino.</li><li><strong>Beta-plus decay:</strong> ᴬ_Z X → ᴬ_(Z−1) Y + ⁰₊₁e + ν. Proton → neutron + positron + neutrino.</li><li><strong>Gamma decay:</strong> ᴬ_Z X* → ᴬ_Z X + γ. Excited nucleus releases energy as a photon. No change in A or Z.</li></ul>",
+        "summary": "<p><strong>A and Z are conserved in all nuclear reactions.</strong></p><p><strong>α:</strong> A−4, Z−2. <strong>β⁻:</strong> A same, Z+1. <strong>β⁺:</strong> A same, Z−1. <strong>γ:</strong> no change.</p>",
+        "checkQuestions": [
+          { "question": "Write the equation for alpha decay of uranium-238.", "answer": "²³⁸₉₂U → ²³⁴₉₀Th + ⁴₂He. Check: A: 238 = 234 + 4 ✓. Z: 92 = 90 + 2 ✓." }
+        ],
+        "checklist": ["I can state conservation of A and Z in nuclear reactions", "I can write equations for alpha, beta-minus, beta-plus, and gamma decay", "I can balance nuclear equations"]
+      },
+      "core": {
+        "title": "Fission, fusion, and binding energy",
+        "content": "<h4>Nuclear fission</h4><p>A heavy nucleus splits into two lighter nuclei + neutrons + energy. Example: ²³⁵₉₂U + ¹₀n → ¹⁴¹₅₆Ba + ⁹²₃₆Kr + 3¹₀n + energy (~200 MeV). The released neutrons can trigger further fissions → chain reaction → nuclear reactor or bomb.</p><h4>Nuclear fusion</h4><p>Two light nuclei combine to form a heavier nucleus + energy. Example: ²₁H + ³₁H → ⁴₂He + ¹₀n + 17.6 MeV. Requires extreme temperatures (~10⁷ K) to overcome Coulomb repulsion. Powers the Sun.</p><h4>Binding energy</h4><p>The energy needed to completely separate a nucleus into individual nucleons. <strong>BE = Δmc²</strong>, where Δm = mass defect = (sum of individual nucleon masses) − (actual nuclear mass).</p><p><strong>Binding energy per nucleon (BE/A)</strong> peaks at iron-56 (~8.8 MeV/nucleon). Lighter nuclei → fusion releases energy (moving toward iron). Heavier nuclei → fission releases energy (also toward iron).</p>",
+        "keyPoints": ["Fission: heavy → lighter + neutrons + energy. Chain reaction possible.", "Fusion: light → heavier + energy. Needs extreme T.", "BE = Δmc². BE/A peaks at iron-56.", "Fusion (left of peak) and fission (right) both release energy."],
+        "examTrap": { "wrong": "Fission releases more energy per nucleon than fusion", "correct": "FUSION releases more energy per nucleon (~7 MeV for D-T fusion vs ~0.9 MeV for U-235 fission). But a single fission event releases more TOTAL energy (~200 MeV) than a single fusion event (~17.6 MeV) because the fissioning nucleus is much heavier." },
+        "checkQuestions": [
+          { "question": "Why does fusing iron NOT release energy?", "answer": "Iron-56 is at the PEAK of the BE/A curve. Fusing iron would produce nuclei with LOWER BE/A — requiring energy input, not releasing it. Iron is the 'ash' of nuclear burning — the endpoint of both fusion and fission." }
+        ],
+        "checklist": ["I can describe fission and fusion reactions with examples", "I can define binding energy and mass defect", "I can interpret the BE/A curve and explain why fusion and fission release energy"]
+      },
+      "extension": { "title": "Nuclear stability and the valley of stability", "content": "<p>Plotting N vs Z for stable nuclei: light nuclei have N ≈ Z (line of stability). Heavier nuclei need more neutrons for stability (N > Z). Nuclei above the line (too many neutrons) → β⁻ decay. Below (too many protons) → β⁺ decay or electron capture. Far from stability → alpha decay or fission. The 'valley of stability' on a 3D plot of binding energy is the landscape that governs all radioactive decay.</p>", "connections": ["E.3 Radioactive Decay: decay types determined by position relative to stability line", "E.5 Fusion: stellar nucleosynthesis builds elements up to iron"], "checklist": ["I can describe the N-Z diagram and predict decay modes from position relative to stability"] },
+      "video": { "title": "Nuclear Reactions — IB Physics", "duration": "10 min", "description": "Balancing equations, fission, fusion, binding energy, and the BE/A curve", "embedId": "" },
+      "equations": [
+        { "formula": "BE = Δmc²", "description": "Binding energy from mass defect." },
+        { "formula": "ΔE = Δmc² (= Δm × 931.5 MeV/u)", "description": "Energy released = mass defect × 931.5 MeV per u." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "In D-T fusion: ²H + ³H → ⁴He + n. Masses: ²H = 2.01410, ³H = 3.01605, ⁴He = 4.00260, n = 1.00866 u. Find energy released.", "steps": [
+          { "label": "Reactants", "text": "2.01410 + 3.01605 = 5.03015 u" },
+          { "label": "Products", "text": "4.00260 + 1.00866 = 5.01126 u" },
+          { "label": "Δm", "text": "5.03015 − 5.01126 = 0.01889 u" },
+          { "label": "Energy", "text": "ΔE = 0.01889 × 931.5 = 17.6 MeV", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Write the equation for beta-minus decay of carbon-14.", "solution": "¹⁴₆C → ¹⁴₇N + ⁰₋₁e + ν̄. A: 14 = 14 ✓. Z: 6 = 7 + (−1) ✓." },
+        { "difficulty": "medium", "scope": "sl", "question": "Using the BE/A curve, explain why fission of uranium releases energy.", "solution": "Uranium (A ≈ 235) has BE/A ≈ 7.6 MeV. Fission products (A ≈ 90–140) have BE/A ≈ 8.5 MeV. Products are MORE tightly bound → the difference in total BE is released as energy: ΔE ≈ 235 × (8.5 − 7.6) ≈ 210 MeV." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Energy is created in nuclear reactions", "explanation": "Energy is not created — it's converted from mass (E = mc²). The products have less total mass than the reactants. The 'missing' mass appears as energy (KE of products + photons).", "correct": "Mass → energy via E = mc². Total energy (including mass-energy) is conserved." }
+      ],
+      "examCorner": { "scope": "sl", "question": "The following nuclear reaction occurs: ²³⁵₉₂U + ¹₀n → ¹⁴⁴₅₆Ba + ⁸⁹₃₆Kr + x¹₀n.\n(a) Find x (number of neutrons released). [1]\n(b) Explain why this reaction releases energy, using the BE/A curve. [2]\n(c) State the name of this type of reaction. [1]", "marks": 4, "modelAnswer": "(a) A: 235 + 1 = 144 + 89 + x → x = 3 [1].\n(b) The products (Ba, Kr) have higher BE/A than the reactant (U) [1]. Moving from lower to higher BE/A releases energy — the products are more tightly bound, so the difference in binding energy is released [1].\n(c) Nuclear fission [1].", "examinerTip": "For 'explain using BE/A': state that products have HIGHER BE/A, meaning they're MORE tightly bound, and the difference is released as energy." }
+    },
+
+    {
+      "id": "e1_sub4", "num": 4, "title": "Radioactivity — Types & Properties", "group": "Radioactivity", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Nuclear Reactions", "nextTitle": "Half-Life Preview",
+      "bigIdea": "Unstable nuclei spontaneously emit radiation to become more stable. Three main types: alpha (helium nuclei — heavy, highly ionising, stopped by paper), beta (electrons — lighter, moderately ionising, stopped by aluminium), and gamma (photons — no mass, weakly ionising, reduced by lead). Each has different penetration, ionisation, and uses.",
+      "foundation": {
+        "title": "Alpha, beta, gamma — three types of nuclear radiation",
+        "content": "<h4>Alpha (α) radiation</h4><ul><li>Nature: ⁴₂He nucleus (2 protons + 2 neutrons)</li><li>Charge: +2e. Mass: 4u.</li><li>Penetration: stopped by paper, skin, or a few cm of air</li><li>Ionisation: VERY HIGH (~10⁵ ion pairs per cm in air)</li><li>Deflection: slight, toward negative plate (positive charge)</li></ul><h4>Beta (β⁻) radiation</h4><ul><li>Nature: electron (created when a neutron decays)</li><li>Charge: −1e. Mass: 1/1836 u.</li><li>Penetration: stopped by a few mm of aluminium</li><li>Ionisation: moderate (~10³ ion pairs per cm)</li><li>Deflection: strong, toward positive plate (negative, light → easy to deflect)</li></ul><h4>Gamma (γ) radiation</h4><ul><li>Nature: electromagnetic photon (high energy)</li><li>Charge: 0. Mass: 0.</li><li>Penetration: reduced (never fully stopped) by several cm of lead</li><li>Ionisation: LOW (~10 ion pairs per cm)</li><li>Deflection: none (no charge)</li></ul><h4>The inverse relationship</h4><p>High ionisation → short range (deposits energy quickly). Low ionisation → long range (passes through without interacting much). α is most dangerous internally; γ is most dangerous externally.</p>",
+        "summary": "<p><strong>α:</strong> He nucleus, +2e, paper stops, very ionising.</p><p><strong>β⁻:</strong> electron, −1e, aluminium stops, moderate ionisation.</p><p><strong>γ:</strong> photon, neutral, lead reduces, low ionisation.</p><p><strong>High ionisation ↔ low penetration.</strong></p>",
+        "checkQuestions": [
+          { "question": "Which radiation is most dangerous if swallowed? Which if external?", "answer": "Swallowed (internal): alpha — very high ionisation deposits ALL energy in a few cells → maximum DNA damage. External: gamma — penetrates to internal organs (alpha can't get through skin)." }
+        ],
+        "checklist": ["I can describe the nature, charge, mass, penetration, and ionisation of α, β, γ", "I can explain the inverse relationship between ionisation and penetration", "I can describe how each radiation is deflected in electric and magnetic fields"]
+      },
+      "core": {
+        "title": "Identifying radiation and nuclear equations",
+        "content": "<h4>Identifying radiation experimentally</h4><p>Place absorbers between source and detector:</p><ol><li>Paper: if count drops → α present</li><li>Aluminium (few mm): if count drops further → β present</li><li>Remaining count (above background) → γ present</li></ol><h4>Nuclear equations for each decay</h4><ul><li><strong>α:</strong> ᴬ_ZX → ᴬ⁻⁴_(Z-2)Y + ⁴₂He</li><li><strong>β⁻:</strong> ᴬ_ZX → ᴬ_(Z+1)Y + ⁰₋₁e + ν̄ₑ</li><li><strong>β⁺:</strong> ᴬ_ZX → ᴬ_(Z-1)Y + ⁰₊₁e + νₑ</li><li><strong>γ:</strong> ᴬ_ZX* → ᴬ_ZX + γ</li></ul><h4>Background radiation</h4><p>Always present from: cosmic rays (~13%), radon gas (~42%), food/drink (~12%), medical (~14%), building materials, ground. Must subtract background from all measurements.</p>",
+        "keyPoints": ["Absorption experiment: paper (α), Al (β), lead (γ)", "Write correct nuclear equations for each decay type", "Always subtract background radiation from measurements"],
+        "examTrap": { "wrong": "Gamma radiation is completely stopped by lead", "correct": "Gamma is REDUCED (attenuated) by lead, never completely stopped. Each cm of lead reduces intensity by a certain fraction (exponential attenuation). You can make it negligibly small but never zero." },
+        "checkQuestions": [
+          { "question": "Write the equation for alpha decay of radon-222 (Z = 86).", "answer": "²²²₈₆Rn → ²¹⁸₈₄Po + ⁴₂He." }
+        ],
+        "checklist": ["I can describe an absorption experiment to identify radiation types", "I can write nuclear equations for all decay types", "I can state sources of background radiation and the need to subtract it"]
+      },
+      "extension": { "title": "Neutrinos and beta decay energy", "content": "<p>Beta decay initially appeared to violate energy conservation — the electron's energy was variable, not fixed. Pauli (1930) proposed an invisible particle carrying the missing energy: the neutrino. Confirmed experimentally in 1956. Neutrinos have near-zero mass, no charge, and interact incredibly weakly — trillions pass through you every second from the Sun without any effect.</p>", "connections": ["A.5 Relativity: neutrino detection uses E = mc² for energy accounting", "A.2 Momentum: neutrino also carries momentum to conserve it in β decay"], "checklist": ["I can explain why the neutrino was postulated (energy conservation in β decay)"] },
+      "video": { "title": "Radioactivity — α, β, γ — IB Physics", "duration": "9 min", "description": "Properties, identification, nuclear equations, and background radiation", "embedId": "" },
+      "equations": [
+        { "formula": "α: ᴬ_ZX → ᴬ⁻⁴_(Z-2)Y + ⁴₂He", "description": "Alpha decay. A−4, Z−2." },
+        { "formula": "β⁻: ᴬ_ZX → ᴬ_(Z+1)Y + e⁻ + ν̄", "description": "Beta-minus decay. A same, Z+1." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State three properties of alpha radiation.", "solution": "1. Helium nucleus (2p + 2n), charge +2e. 2. Stopped by paper or few cm of air (low penetration). 3. Very high ionising power (~10⁵ ion pairs per cm)." },
+        { "difficulty": "medium", "scope": "sl", "question": "A source emits radiation. With no absorber: 500 cpm. With paper: 200 cpm. With 5 mm Al: 60 cpm. Background: 40 cpm. Identify the radiation types present.", "solution": "Background-corrected: no absorber = 460. Paper removes 300 → alpha present (300 cpm from α). Al removes 140 more → beta present (140 cpm from β). Remaining 20 above background → gamma present (20 cpm from γ). All three types present." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Alpha is the most dangerous radiation overall", "explanation": "It depends on exposure type. Internal (ingested/inhaled): alpha is most dangerous (deposits all energy locally). External: alpha is LEAST dangerous (can't penetrate skin). Gamma is most dangerous externally (penetrates to organs).", "correct": "Most dangerous depends on context. Internal: α. External: γ." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Compare alpha and gamma radiation in terms of:\n(a) nature [2]\n(b) penetrating power [2]\n(c) ionising ability [2]", "marks": 6, "modelAnswer": "(a) Alpha: helium-4 nucleus (2 protons, 2 neutrons), charge +2e, mass 4u [1]. Gamma: high-energy electromagnetic photon, no charge, no mass [1].\n(b) Alpha: very low penetration — stopped by paper or a few cm of air [1]. Gamma: very high penetration — only reduced (not stopped) by several cm of lead [1].\n(c) Alpha: very high ionising ability — creates ~10⁵ ion pairs per cm in air [1]. Gamma: very low ionising ability — creates ~10 ion pairs per cm [1].", "examinerTip": "For comparison questions: give parallel facts for BOTH radiations in each category. Use comparative language ('more than', 'less than') rather than absolute statements." }
+    },
+
+    {
+      "id": "e1_sub5", "num": 5, "title": "Half-Life & Radioactive Decay", "group": "Radioactivity", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Radiation Types", "nextTitle": "Nuclear Applications",
+      "bigIdea": "You can't predict when a single atom will decay — it's completely random. But with trillions of atoms, exactly half decay every half-life. This beautiful predictability from randomness gives us carbon dating, medical tracers, and nuclear waste management.",
+      "foundation": {
+        "title": "The clock of nuclear physics",
+        "content": "<h4>Half-life</h4><p><strong>Half-life (T₁/₂):</strong> the time for half the undecayed nuclei in a sample to decay. After 1 half-life: 50% remain. After 2: 25%. After 3: 12.5%. After n: (½)ⁿ remain.</p><p><strong>N = N₀ × (½)ⁿ</strong> where n = t/T₁/₂.</p><p>Half-life is constant for each isotope and unaffected by temperature, pressure, or chemical state.</p><h4>Activity</h4><p><strong>Activity (A):</strong> number of decays per second. Unit: becquerel (Bq). 1 Bq = 1 decay/s. Activity also halves each half-life: A = A₀ × (½)ⁿ.</p><h4>The exponential decay law (AHL)</h4><p><strong>N = N₀e⁻λt</strong> and <strong>A = λN = A₀e⁻λt</strong></p><p>Where λ = decay constant (s⁻¹). <strong>T₁/₂ = ln2/λ = 0.693/λ</strong>.</p>",
+        "summary": "<p><strong>T₁/₂:</strong> time for half to decay. N = N₀(½)ⁿ.</p><p><strong>Activity A = decays/s (Bq).</strong> Also halves each T₁/₂.</p><p><strong>AHL: N = N₀e⁻λt. T₁/₂ = 0.693/λ.</strong></p>",
+        "checkQuestions": [
+          { "question": "A sample has activity 800 Bq and T₁/₂ = 6 hours. Find the activity after 18 hours.", "answer": "n = 18/6 = 3 half-lives. A = 800 × (½)³ = 800/8 = 100 Bq." }
+        ],
+        "checklist": ["I can define half-life and apply N = N₀(½)ⁿ", "I can define activity (Bq) and apply A = A₀(½)ⁿ", "I can state T₁/₂ = 0.693/λ (AHL)"]
+      },
+      "core": {
+        "title": "Decay calculations, dating, and graphs",
+        "content": "<h4>Carbon dating</h4><p>Living organisms maintain a constant ratio of C-14 to C-12 (from atmospheric CO₂). When they die: C-14 decays (T₁/₂ = 5730 years) but C-12 doesn't. Measuring the remaining C-14 fraction gives the age. Example: 25% C-14 remaining = (½)² = 2 half-lives = 11,460 years old.</p><h4>Decay graphs</h4><p>N vs t: exponential decay curve. N drops by half each T₁/₂. The curve never reaches zero (asymptotic). On a log scale: ln N vs t is a straight line with gradient −λ.</p><h4>Medical tracers</h4><p>Tc-99m (T₁/₂ = 6 hours): injected, detected with a gamma camera. Short half-life → decays quickly → low patient dose. Gamma emitter → penetrates body for external detection.</p>",
+        "keyPoints": ["Carbon dating: C-14/C-12 ratio gives age. T₁/₂ = 5730 years.", "N-t graph: exponential decay, halves each T₁/₂.", "ln N vs t: straight line, gradient = −λ.", "Medical tracers: short T₁/₂, gamma emitter for detection."],
+        "examTrap": { "wrong": "After 2 half-lives, all atoms have decayed", "correct": "After 2 half-lives: 75% have decayed, 25% REMAIN. After 10: 0.1% remains. Decay is exponential — it APPROACHES zero but never reaches it." },
+        "checkQuestions": [
+          { "question": "A bone has 12.5% of its original C-14. How old is it?", "answer": "12.5% = (½)³ = 3 half-lives. Age = 3 × 5730 = 17,190 years." }
+        ],
+        "checklist": ["I can solve carbon dating problems", "I can sketch and interpret N-t decay curves", "I can describe medical uses of radioactive tracers"]
+      },
+      "extension": { "title": "Decay chains and secular equilibrium", "content": "<p>U-238 doesn't decay to a stable isotope in one step — it goes through 14 steps (8 alpha, 6 beta) to reach stable Pb-206 over 4.5 billion years. In decay chains: if the daughter's half-life is much shorter than the parent's, the daughter's activity reaches a constant value (secular equilibrium) equal to the parent's activity. This is important for radon (from uranium in rocks) — a health hazard in buildings.</p>", "connections": ["E.3 Radioactive Decay: detailed decay processes", "E.5 Stars: stellar nucleosynthesis creates the elements that later decay"], "checklist": ["I can describe decay chains", "I can explain secular equilibrium qualitatively"] },
+      "video": { "title": "Half-Life — IB Physics", "duration": "9 min", "description": "T₁/₂, decay calculations, carbon dating, graphs, and medical applications", "embedId": "" },
+      "equations": [
+        { "formula": "N = N₀(½)^(t/T₁/₂)", "description": "Remaining nuclei after time t." },
+        { "formula": "T₁/₂ = 0.693/λ", "description": "Half-life from decay constant (AHL)." },
+        { "formula": "A = λN", "description": "Activity = decay constant × number of undecayed nuclei." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Tc-99m (T₁/₂ = 6 h) is prepared at 8 AM with activity 400 MBq. Find the activity at 8 PM.", "steps": [
+          { "label": "Time elapsed", "text": "8 AM to 8 PM = 12 hours = 2 half-lives" },
+          { "label": "Activity", "text": "A = 400 × (½)² = 100 MBq", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Define half-life.", "solution": "Half-life is the time taken for half of the undecayed radioactive nuclei in a sample to decay, or equivalently, the time for the activity to decrease to half its initial value." },
+        { "difficulty": "medium", "scope": "sl", "question": "A sample's activity drops from 1200 Bq to 150 Bq in 9 hours. Find the half-life.", "solution": "150/1200 = 1/8 = (½)³ → 3 half-lives in 9 hours. T₁/₂ = 3 hours." },
+        { "difficulty": "hard", "scope": "sl", "question": "A radioactive isotope has T₁/₂ = 2.0 days and λ = 0.693/T₁/₂. A sample initially contains 10¹⁰ atoms. Find the activity and the activity after 5 days.", "solution": "λ = 0.693/(2 × 86400) = 4.01 × 10⁻⁶ s⁻¹. A₀ = λN₀ = 4.01 × 10⁻⁶ × 10¹⁰ = 4.01 × 10⁴ Bq. After 5 days: n = 5/2 = 2.5. A = A₀(½)^2.5 = 40,100 × 0.177 = 7098 Bq." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Half-life can be changed by heating or pressurising the sample", "explanation": "Radioactive decay is a nuclear process — determined by the internal structure of the nucleus. Chemical state, temperature, and pressure (which affect electron arrangements) have no effect on nuclear stability or half-life.", "correct": "Half-life is constant for each isotope. It cannot be changed by any external physical or chemical conditions." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A radioactive source has an initial activity of 960 Bq. After 15 minutes, the activity is 120 Bq.\n(a) Determine the number of half-lives that have occurred. [1]\n(b) Calculate the half-life. [1]\n(c) Sketch the activity-time graph. [2]", "marks": 4, "modelAnswer": "(a) 120/960 = 1/8 = (½)³ → 3 half-lives [1].\n(b) T₁/₂ = 15/3 = 5 minutes [1].\n(c) Exponential decay curve starting at 960, passing through 480 at 5 min, 240 at 10 min, 120 at 15 min. Curve approaches but never reaches zero [2].", "examinerTip": "For activity-time sketches: mark the initial activity and at least 2 half-life points. Show a smooth exponential decay (not linear segments)." }
+    },
+
+    {
+      "id": "e1_sub6", "num": 6, "title": "Nuclear Power, Safety & Applications", "group": "Applications", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Half-Life", "nextTitle": "E.2 Quantum Physics",
+      "bigIdea": "Nuclear physics has transformed the world — nuclear power provides ~10% of global electricity with no direct CO₂ emissions, but generates radioactive waste that lasts millennia. Medical applications save millions of lives annually through imaging and treatment. The physics is beautiful; the applications demand careful ethical and safety consideration.",
+      "foundation": {
+        "title": "Using nuclear physics — power, medicine, and safety",
+        "content": "<h4>Nuclear power</h4><p>Fission reactors: controlled chain reaction of U-235 or Pu-239. Components: fuel rods (fissile material), moderator (slows neutrons — water or graphite), control rods (absorb neutrons — boron or cadmium), coolant (removes heat — water or gas).</p><p>Advantages: very high energy density, low CO₂ during operation, reliable baseload power. Disadvantages: radioactive waste (long-lived), accident risk, high construction cost, nuclear proliferation concerns.</p><h4>Medical applications</h4><ul><li><strong>Diagnostic imaging:</strong> Tc-99m (gamma camera), PET scans (F-18 positron emitter), X-rays</li><li><strong>Therapy:</strong> Co-60 gamma radiation for cancer treatment, iodine-131 for thyroid cancer, proton therapy</li><li><strong>Sterilisation:</strong> gamma radiation sterilises medical equipment and food</li></ul><h4>Safety and waste</h4><ul><li><strong>Reducing exposure:</strong> time (minimise), distance (maximise — inverse square), shielding (lead, concrete)</li><li><strong>Waste categories:</strong> low-level (clothing, tools — shallow burial), intermediate (reactor components — concrete encapsulation), high-level (spent fuel — deep geological disposal, remains hazardous for ~100,000 years)</li></ul>",
+        "summary": "<p><strong>Reactor:</strong> fuel + moderator + control rods + coolant. Controlled fission.</p><p><strong>Medical:</strong> imaging (Tc-99m, PET), therapy (Co-60, I-131), sterilisation.</p><p><strong>Safety:</strong> time, distance, shielding. <strong>Waste:</strong> low, intermediate, high-level.</p>",
+        "checkQuestions": [
+          { "question": "Why does a nuclear reactor need a moderator?", "answer": "Fission neutrons are fast (~2 MeV). U-235 fissions most efficiently with SLOW (thermal) neutrons (~0.025 eV). The moderator (e.g., water) slows neutrons through elastic collisions without absorbing too many. Without a moderator: the chain reaction wouldn't sustain itself in most reactor designs." }
+        ],
+        "checklist": ["I can describe the components and operation of a fission reactor", "I can list medical applications of radioactivity", "I can state safety measures: time, distance, shielding", "I can describe the three categories of nuclear waste"]
+      },
+      "core": {
+        "title": "Reactor physics and the chain reaction",
+        "content": "<h4>The chain reaction</h4><p>Each fission produces 2–3 neutrons. If exactly 1 neutron causes another fission: sustained chain reaction (critical). Control rods absorb excess neutrons to maintain criticality. More rods inserted → fewer neutrons → reaction slows (subcritical). Rods withdrawn → reaction speeds up (supercritical — used momentarily to increase power).</p><h4>The moderator in detail</h4><p>Best moderators have: low mass number (efficient energy transfer in collisions — like billiard balls), low neutron absorption. Water (H₂O): good moderator, also serves as coolant. Heavy water (D₂O): better moderator (less absorption), used in CANDU reactors. Graphite: solid moderator, used in older designs.</p><h4>Energy output</h4><p>1 kg of U-235: ~8.2 × 10¹³ J (equivalent to ~3000 tonnes of coal). This enormous energy density is why nuclear power is so compact — a reactor the size of a house can power a city.</p>",
+        "keyPoints": ["Chain reaction: each fission → 2-3 neutrons → more fissions", "Control rods absorb neutrons → adjust power level", "Moderator slows fast neutrons to thermal energies", "1 kg U-235 ≈ 3000 tonnes coal in energy"],
+        "examTrap": { "wrong": "Nuclear reactors can explode like nuclear bombs", "correct": "Reactor fuel is ~3-5% U-235 (weapons-grade is >90%). A reactor can't produce a nuclear explosion — it's physically impossible with low-enriched fuel. Reactor accidents (Chernobyl, Fukushima) involve meltdowns and steam explosions, not nuclear detonations." },
+        "checkQuestions": [
+          { "question": "What is the role of control rods in a nuclear reactor?", "answer": "Control rods (boron or cadmium) absorb neutrons. Inserting them deeper: more neutrons absorbed → fewer fissions → power decreases. Withdrawing: more neutrons available → more fissions → power increases. They maintain the chain reaction at exactly critical (one neutron per fission causing the next fission)." }
+        ],
+        "checklist": ["I can explain the chain reaction and the concept of criticality", "I can explain the roles of moderator and control rods", "I can compare nuclear fuel energy density with fossil fuels"]
+      },
+      "extension": { "title": "Fusion power — the future?", "content": "<p>If fusion can be harnessed: virtually unlimited fuel (deuterium from seawater), no long-lived waste, no CO₂, no meltdown risk. But containing plasma at 150 million °C for long enough is the hardest engineering problem ever attempted. ITER (France, under construction) aims for Q = 10 (10× energy out vs in) by ~2035. NIF (USA) achieved ignition in 2022. Commercial fusion power may arrive by 2040–2050 — or may take longer. The physics is clear; the engineering is the challenge.</p>", "connections": ["E.5 Fusion & Stars: the pp chain powers the Sun", "B.2 Climate: fusion could provide limitless clean energy"], "checklist": ["I can describe the current status of fusion research (ITER, NIF)", "I can compare fission and fusion as energy sources"] },
+      "video": { "title": "Nuclear Power & Applications — IB Physics", "duration": "10 min", "description": "Reactor components, chain reactions, medical uses, safety, waste, and fusion prospects", "embedId": "" },
+      "equations": [],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the three ways to reduce exposure to radiation.", "solution": "1. Minimise TIME near the source. 2. Maximise DISTANCE from the source (intensity ∝ 1/r²). 3. Use SHIELDING (lead, concrete) between the source and people." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain the role of the moderator in a nuclear reactor.", "solution": "The moderator slows down fast neutrons (produced by fission at ~2 MeV) to thermal energies (~0.025 eV) through elastic collisions. Slow (thermal) neutrons are more likely to be captured by U-235 nuclei and cause further fission, sustaining the chain reaction. Common moderators: water, heavy water, graphite." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Nuclear waste becomes safe after a few years", "explanation": "Low-level waste: decades. Intermediate: centuries. High-level (spent fuel): contains isotopes with half-lives of thousands to millions of years. It remains hazardous for ~100,000 years. This is the main objection to nuclear power — no solution has been fully implemented for permanent disposal.", "correct": "High-level waste remains hazardous for ~100,000+ years. Long-term disposal is unsolved." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Describe the role of:\n(a) the fuel rods [1]\n(b) the moderator [2]\n(c) the control rods [2]\nin a nuclear fission reactor.", "marks": 5, "modelAnswer": "(a) Fuel rods contain the fissile material (e.g., enriched uranium-235) that undergoes fission, releasing energy [1].\n(b) The moderator (e.g., water, graphite) slows down fast neutrons produced by fission [1] to thermal energies, increasing the probability of further fission of U-235 [1].\n(c) Control rods (e.g., boron, cadmium) absorb neutrons [1]. By adjusting their insertion depth, the rate of the chain reaction is controlled — maintaining exactly one neutron per fission causing the next fission (criticality) [1].", "examinerTip": "For reactor questions: state the component, its material, AND its function. Each part needs both 'what it is' and 'what it does.'" }
+    }
+
+  ]
+},
+"E2": {
+  "title": "Quantum Physics",
+  "code": "E.2",
+  "theme": "E",
+  "level": "SL + HL",
+  "subtopicCount": 6,
+  "subtopics": [
+
+    {
+      "id": "e2_sub1", "num": 1, "title": "The Photon — E = hf", "group": "Photons", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "E.1 Structure of the Atom", "nextTitle": "The Photoelectric Effect",
+      "bigIdea": "Light doesn't flow like water — it arrives in packets called photons. Each photon carries energy E = hf, where h is Planck's constant and f is the frequency. Higher frequency = more energy per photon. This is why UV causes sunburn but visible light doesn't — UV photons individually carry enough energy to damage DNA.",
+      "foundation": {
+        "title": "Light comes in packets",
+        "content": "<h4>The photon</h4><p>Light is emitted and absorbed as discrete packets — <strong>photons</strong>. Each photon of frequency f has energy: <strong>E = hf = hc/λ</strong>. h = 6.63 × 10⁻³⁴ J·s (Planck's constant). Higher frequency → more energy per photon.</p><h4>Intensity vs photon energy</h4><p><strong>Intensity</strong> = number of photons per second × energy per photon. Brighter light = more photons, NOT higher energy per photon. Photon energy depends on frequency alone.</p><h4>The electron-volt</h4><p>1 eV = 1.6 × 10⁻¹⁹ J. Convenient for atomic-scale energies. A green photon ≈ 2.3 eV. An X-ray ≈ 10 keV.</p>",
+        "summary": "<p><strong>E = hf = hc/λ.</strong> h = 6.63 × 10⁻³⁴ J·s.</p><p><strong>Photon energy depends on frequency only.</strong> Intensity = number of photons/s.</p><p><strong>1 eV = 1.6 × 10⁻¹⁹ J.</strong></p>",
+        "checkQuestions": [
+          { "question": "Find the energy of a 500 nm photon in eV.", "answer": "E = hc/λ = 6.63 × 10⁻³⁴ × 3 × 10⁸/(500 × 10⁻⁹) = 3.98 × 10⁻¹⁹ J = 2.49 eV." }
+        ],
+        "checklist": ["I can apply E = hf = hc/λ", "I can convert between J and eV", "I can explain that photon energy depends on frequency, not intensity"]
+      },
+      "core": {
+        "title": "Photon momentum and the birth of quantum physics",
+        "content": "<h4>Photon momentum</h4><p><strong>p = h/λ = E/c</strong>. Photons have zero mass but carry momentum. Real effects: radiation pressure (solar sails), Compton scattering.</p><h4>Planck's quantum hypothesis</h4><p>Planck (1900): energy emitted in quanta E = hf to explain blackbody radiation. Einstein (1905): light IS quantized — photons. Nobel Prize 1921.</p><h4>Number of photons per second</h4><p>From a source of power P: n/t = P/E = P/(hf). A 60 W bulb at 600 nm: n/t = 60/(3.31 × 10⁻¹⁹) = 1.81 × 10²⁰ photons/s.</p>",
+        "keyPoints": ["p = h/λ = E/c: photon momentum (zero mass but real momentum)", "Planck: E = hf solved the UV catastrophe. Einstein: photons explain photoelectric effect.", "n/t = P/(hf): photons per second from a source of power P."],
+        "examTrap": { "wrong": "Brighter light has higher energy photons", "correct": "Brightness = number of photons/s. Photon energy = hf. They're independent. A dim UV lamp has fewer but MORE energetic photons than a bright red lamp." },
+        "checkQuestions": [
+          { "question": "A 100 W bulb at 550 nm. How many photons per second?", "answer": "E = hc/λ = 3.61 × 10⁻¹⁹ J. n/t = 100/3.61 × 10⁻¹⁹ = 2.77 × 10²⁰." }
+        ],
+        "checklist": ["I can calculate photon momentum: p = h/λ", "I can calculate photons per second: n/t = P/(hf)"]
+      },
+      "extension": { "title": "Compton scattering", "content": "<p>Compton (1923): X-ray photons scattered by electrons change wavelength. The wavelength shift depends on scattering angle: Δλ = (h/mc)(1 − cos θ). This proved photons carry momentum (p = h/λ) and interact as particles. It earned Compton the Nobel Prize in 1927.</p>", "connections": ["A.5 Relativity: E = pc for massless particles", "A.2 Momentum: photon momentum is real and conserved in collisions"], "checklist": ["I can describe Compton scattering as evidence for photon momentum"] },
+      "video": { "title": "The Photon — IB Physics", "duration": "8 min", "description": "E = hf, photon momentum, Planck, Einstein, and counting photons", "embedId": "" },
+      "equations": [
+        { "formula": "E = hf = hc/λ", "description": "Photon energy. h = 6.63 × 10⁻³⁴ J·s." },
+        { "formula": "p = h/λ = E/c", "description": "Photon momentum." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Calculate the energy of a photon of red light (λ = 700 nm) in eV.", "solution": "E = hc/λ = 6.63 × 10⁻³⁴ × 3 × 10⁸/(700 × 10⁻⁹) = 2.84 × 10⁻¹⁹ J = 1.78 eV." },
+        { "difficulty": "medium", "scope": "sl", "question": "A UV lamp (λ = 250 nm, P = 10 W). Find the number of photons emitted per second.", "solution": "E = hc/λ = 7.95 × 10⁻¹⁹ J. n/t = P/E = 10/7.95 × 10⁻¹⁹ = 1.26 × 10¹⁹ photons/s." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Photons have no momentum because they have no mass", "explanation": "p = h/λ = E/c. Zero mass but non-zero momentum. The classical p = mv doesn't apply to photons.", "correct": "Photons carry momentum p = h/λ despite having zero rest mass." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Light of wavelength 450 nm.\n(a) Calculate the photon energy in eV. [2]\n(b) A source emits this light at 0.50 W. Calculate the number of photons per second. [2]", "marks": 4, "modelAnswer": "(a) E = hc/λ = 6.63 × 10⁻³⁴ × 3 × 10⁸/450 × 10⁻⁹ = 4.42 × 10⁻¹⁹ J = 2.76 eV [2].\n(b) n/t = P/E = 0.5/4.42 × 10⁻¹⁹ = 1.13 × 10¹⁸ [2].", "examinerTip": "Show the full calculation for E, including unit conversion to eV if asked." }
+    },
+
+    {
+      "id": "e2_sub2", "num": 2, "title": "The Photoelectric Effect", "group": "Photons", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "The Photon", "nextTitle": "Matter Waves",
+      "bigIdea": "Shine UV on metal → electrons fly off. Brighter red light → nothing happens. Frequency matters, not intensity. This proves light is particles (photons), each delivering energy in one hit. Einstein explained it: KE_max = hf − φ. Nobel Prize. Quantum physics begins.",
+      "foundation": {
+        "title": "Einstein's photoelectric equation",
+        "content": "<h4>The experiment</h4><p>Light hits a metal surface. Above a threshold frequency f₀: electrons are emitted instantly. Below f₀: nothing, regardless of intensity.</p><h4>Einstein's equation</h4><p><strong>KE_max = hf − φ</strong></p><p>φ = work function (minimum energy to remove an electron). f₀ = φ/h (threshold frequency).</p><h4>Key observations wave theory can't explain</h4><ol><li>Threshold frequency exists</li><li>Emission is instantaneous</li><li>KE_max depends on f, not intensity</li><li>Intensity affects NUMBER of electrons, not their energy</li></ol>",
+        "summary": "<p><strong>KE_max = hf − φ.</strong> φ = work function. f₀ = φ/h.</p><p><strong>Stopping potential:</strong> eV₀ = KE_max.</p><p><strong>KE vs f graph:</strong> straight line, gradient h, x-intercept f₀, y-intercept −φ.</p>",
+        "checkQuestions": [
+          { "question": "φ = 2.3 eV. Light of f = 8 × 10¹⁴ Hz. Find KE_max and V₀.", "answer": "E = hf = 6.63 × 10⁻³⁴ × 8 × 10¹⁴ = 5.30 × 10⁻¹⁹ J = 3.31 eV. KE = 3.31 − 2.3 = 1.01 eV. V₀ = 1.01 V." }
+        ],
+        "checklist": ["I can state the 4 observations wave theory can't explain", "I can apply KE_max = hf − φ", "I can find threshold frequency: f₀ = φ/h", "I can interpret the KE vs f graph"]
+      },
+      "core": {
+        "title": "Calculations and the KE-f graph",
+        "content": "<h4>The KE vs f graph</h4><p>Plot KE_max vs f: straight line. Gradient = h. x-intercept = f₀. y-intercept = −φ. This graph gives THREE quantities from one experiment.</p><h4>Stopping potential</h4><p>Apply a reverse voltage V₀ to stop the fastest electrons: eV₀ = KE_max → V₀ = (hf − φ)/e.</p><h4>Effect of changing intensity and frequency</h4><ul><li>Higher intensity (same f): MORE electrons, SAME KE_max</li><li>Higher frequency (same intensity): SAME number, HIGHER KE_max</li><li>Below f₀: NO electrons regardless of intensity</li></ul>",
+        "keyPoints": ["KE-f graph: gradient = h, x-intercept = f₀, y-intercept = −φ", "eV₀ = KE_max: stopping potential", "Intensity → number of electrons. Frequency → energy per electron."],
+        "examTrap": { "wrong": "Increasing intensity increases KE_max", "correct": "Intensity affects the NUMBER of photoelectrons, NOT their maximum KE. KE_max = hf − φ depends only on FREQUENCY." },
+        "checkQuestions": [
+          { "question": "From a KE-f graph: gradient 6.7 × 10⁻³⁴, x-intercept 5 × 10¹⁴ Hz. Find h, f₀, φ.", "answer": "h = gradient = 6.7 × 10⁻³⁴ J·s. f₀ = 5 × 10¹⁴ Hz. φ = hf₀ = 3.35 × 10⁻¹⁹ J = 2.09 eV." }
+        ],
+        "checklist": ["I can extract h, f₀, φ from a KE-f graph", "I can calculate stopping potential", "I can explain intensity vs frequency effects on photoelectrons"]
+      },
+      "extension": { "title": "Applications of the photoelectric effect", "content": "<p>Solar cells: photons eject electrons → current flows → electricity. Light sensors: photodiodes, CCD cameras. Photomultiplier tubes: single photons detected and amplified. Automatic doors: breaking a light beam stops the photocurrent → door opens. All rely on E = hf and the photon model.</p>", "connections": ["B.5 Current: photoelectric effect generates current from light", "A.3 Energy: solar cells convert photon energy to electrical energy"], "checklist": ["I can describe applications of the photoelectric effect"] },
+      "video": { "title": "Photoelectric Effect — IB Physics", "duration": "10 min", "description": "Einstein's equation, threshold frequency, stopping potential, and the KE-f graph", "embedId": "" },
+      "equations": [
+        { "formula": "KE_max = hf − φ", "description": "Einstein's photoelectric equation." },
+        { "formula": "eV₀ = KE_max", "description": "Stopping potential." },
+        { "formula": "φ = hf₀", "description": "Work function from threshold frequency." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "UV light (λ = 200 nm) hits metal (φ = 4.5 eV). Find KE_max and V₀.", "steps": [
+          { "label": "E", "text": "E = hc/λ = 9.95 × 10⁻¹⁹ J = 6.22 eV" },
+          { "label": "KE", "text": "KE = 6.22 − 4.5 = 1.72 eV", "isEquation": true },
+          { "label": "V₀", "text": "V₀ = 1.72 V", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State two observations of the photoelectric effect that cannot be explained by wave theory.", "solution": "1. Threshold frequency: below f₀, no electrons regardless of intensity. 2. KE_max depends on frequency, not intensity." },
+        { "difficulty": "hard", "scope": "sl", "question": "Doubling the frequency from f to 2f increases V₀ from 1.0 V to 5.8 V. Find φ and f.", "solution": "eV₁ = hf − φ = 1.0 eV. eV₂ = 2hf − φ = 5.8 eV. Subtract: hf = 4.8 eV. φ = 4.8 − 1.0 = 3.8 eV. f = 4.8 × 1.6 × 10⁻¹⁹/(6.63 × 10⁻³⁴) = 1.16 × 10¹⁵ Hz." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Below threshold, electrons are emitted slowly", "explanation": "Below f₀: NO electrons AT ALL. Each photon must individually have enough energy (hf ≥ φ). No accumulation from multiple low-energy photons.", "correct": "Below f₀: zero emission. At or above: instantaneous." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Light of wavelength 250 nm hits metal (φ = 3.5 eV).\n(a) Show photon energy ≈ 5.0 eV. [2]\n(b) Find KE_max and V₀. [2]\n(c) Intensity is doubled. State effect on KE_max and number of electrons. [2]", "marks": 6, "modelAnswer": "(a) E = hc/λ = 6.63 × 10⁻³⁴ × 3 × 10⁸/250 × 10⁻⁹ = 7.96 × 10⁻¹⁹ J ÷ 1.6 × 10⁻¹⁹ = 4.97 ≈ 5.0 eV [2].\n(b) KE = 5.0 − 3.5 = 1.5 eV. V₀ = 1.5 V [2].\n(c) KE_max unchanged (depends on f, not intensity). Number of electrons doubles (more photons → more ejections) [2].", "examinerTip": "For 'show that': show ALL working. Don't start from the answer." }
+    },
+
+    {
+      "id": "e2_sub3", "num": 3, "title": "Matter Waves — de Broglie", "group": "Wave-Particle Duality", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Photoelectric Effect", "nextTitle": "Pair Production & Annihilation",
+      "bigIdea": "If light (a wave) can be a particle, can particles be waves? Yes. De Broglie (1924): every particle has a wavelength λ = h/p. Electrons diffract through crystals, confirming matter waves. This wave-particle duality is at the heart of quantum mechanics.",
+      "foundation": {
+        "title": "Everything has a wavelength",
+        "content": "<h4>De Broglie wavelength</h4><p><strong>λ = h/p = h/(mv)</strong></p><p>Every particle with momentum has an associated wavelength. Electrons: λ ~ atomic spacing → electron diffraction observed. Humans: λ ~ 10⁻³⁵ m → unobservable.</p><h4>Evidence — electron diffraction</h4><p>Davisson-Germer (1927): electrons scattered from nickel crystal showed diffraction pattern matching λ = h/p. Electrons ARE waves.</p><h4>Wave-particle duality</h4><p>Light: wave evidence (diffraction, interference) + particle evidence (photoelectric, Compton). Electrons: particle evidence (tracks, deflection) + wave evidence (diffraction). Both are both.</p>",
+        "summary": "<p><strong>λ = h/p = h/(mv):</strong> de Broglie wavelength.</p><p><strong>Electron diffraction</strong> confirms matter waves.</p><p><strong>Wave-particle duality:</strong> everything is both wave AND particle.</p>",
+        "checkQuestions": [
+          { "question": "An electron accelerated through 100 V. Find its de Broglie wavelength.", "answer": "KE = eV = 1.6 × 10⁻¹⁷ J. v = √(2KE/m) = 5.93 × 10⁶ m/s. λ = h/(mv) = 6.63 × 10⁻³⁴/(9.11 × 10⁻³¹ × 5.93 × 10⁶) = 1.23 × 10⁻¹⁰ m = 0.123 nm." }
+        ],
+        "checklist": ["I can apply λ = h/p = h/(mv)", "I can describe electron diffraction as evidence", "I can state wave-particle duality: everything shows both natures"]
+      },
+      "core": {
+        "title": "Accelerated electrons and the electron microscope",
+        "content": "<h4>De Broglie wavelength from accelerating voltage</h4><p>Electron through V: KE = eV → p = √(2meV) → <strong>λ = h/√(2meV)</strong>.</p><p>At 100 V: λ ≈ 0.12 nm. At 10,000 V: λ ≈ 0.012 nm. Higher V → shorter λ → better resolution.</p><h4>Electron microscopes</h4><p>Resolution ≈ λ. Light microscope: λ ≈ 500 nm → can't see below ~200 nm. Electron microscope at 10 kV: λ ≈ 0.012 nm → can resolve individual atoms. This is why electron microscopes are so powerful.</p><h4>Diffraction rings</h4><p>Electrons through a thin polycrystalline film: concentric rings on a screen (like X-ray diffraction). Higher voltage → shorter λ → rings contract. This confirms λ = h/p.</p>",
+        "keyPoints": ["λ = h/√(2meV) for electrons through voltage V", "Higher V → shorter λ → sharper diffraction rings (rings contract)", "Electron microscope: λ << visible light → resolves atoms"],
+        "examTrap": { "wrong": "Electrons are waves, not particles", "correct": "Electrons are BOTH. They show particle properties (mass, charge, tracks) AND wave properties (diffraction). Wave-particle duality means both are valid." },
+        "checkQuestions": [
+          { "question": "Why do electron microscopes have better resolution than light microscopes?", "answer": "Resolution ≈ λ. Electrons at typical voltages have λ ≈ 0.01 nm — about 50,000× shorter than visible light (~500 nm). Shorter wavelength → can resolve much finer details." }
+        ],
+        "checklist": ["I can calculate λ = h/√(2meV) for accelerated electrons", "I can explain why electron microscopes resolve better than optical", "I can describe electron diffraction patterns (rings contract with higher V)"]
+      },
+      "extension": { "title": "The double-slit experiment with single electrons", "content": "<p>Send electrons one at a time through two slits: each lands as a dot (particle). But over thousands: the dots build an interference pattern (wave). Each electron interferes with ITSELF. This is the most beautiful experiment in physics — it demonstrates that quantum objects are neither purely particle nor purely wave, but something fundamentally different from our everyday experience.</p>", "connections": ["C.3 Double slit: same interference physics applies to matter waves", "A.5 Relativity: de Broglie → relativistic quantum mechanics"], "checklist": ["I can describe the single-electron double-slit experiment and its implications"] },
+      "video": { "title": "De Broglie & Matter Waves — IB Physics", "duration": "9 min", "description": "λ = h/p, electron diffraction, wave-particle duality, and electron microscopes", "embedId": "" },
+      "equations": [
+        { "formula": "λ = h/p = h/(mv)", "description": "De Broglie wavelength." },
+        { "formula": "λ = h/√(2meV)", "description": "For electrons accelerated through voltage V." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the de Broglie hypothesis.", "solution": "Every particle with momentum p has an associated wavelength λ = h/p. This applies to all matter — electrons, protons, atoms, even macroscopic objects (though their wavelengths are immeasurably small)." },
+        { "difficulty": "medium", "scope": "sl", "question": "An electron is accelerated through 5000 V. Find its de Broglie wavelength.", "solution": "λ = h/√(2meV) = 6.63 × 10⁻³⁴/√(2 × 9.11 × 10⁻³¹ × 1.6 × 10⁻¹⁹ × 5000) = 6.63 × 10⁻³⁴/3.82 × 10⁻²³ = 1.74 × 10⁻¹¹ m = 0.017 nm." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Only electrons have de Broglie wavelengths", "explanation": "ALL particles have λ = h/p. Protons, neutrons, atoms, baseballs, humans. We only observe it for electrons because they're light enough to have λ comparable to atomic spacing.", "correct": "Universal: λ = h/p for everything. Observable only when λ ≈ relevant physical dimensions." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Electrons are accelerated through 3000 V and directed at a thin graphite film. Concentric rings appear on a screen.\n(a) Calculate the electron speed. [2]\n(b) Calculate the de Broglie wavelength. [1]\n(c) Explain why the rings provide evidence for the wave nature of electrons. [2]", "marks": 5, "modelAnswer": "(a) v = √(2eV/m) = √(2 × 1.6 × 10⁻¹⁹ × 3000/9.11 × 10⁻³¹) = 3.25 × 10⁷ m/s [2].\n(b) λ = h/(mv) = 6.63 × 10⁻³⁴/(9.11 × 10⁻³¹ × 3.25 × 10⁷) = 2.24 × 10⁻¹¹ m [1].\n(c) Concentric rings are a diffraction pattern [1]. Diffraction is a wave phenomenon — particles alone would not produce this pattern. The ring spacing matches λ = h/p, confirming the wave nature [1].", "examinerTip": "For 'evidence of wave nature': state the specific wave phenomenon (diffraction/interference) and connect it to λ = h/p." }
+    },
+
+    {
+      "id": "e2_sub4", "num": 4, "title": "Pair Production & Annihilation", "group": "Mass-Energy", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Matter Waves", "nextTitle": "The Heisenberg Uncertainty Principle (AHL)",
+      "bigIdea": "Energy can become matter: a high-energy photon can create a particle-antiparticle pair (pair production). Matter can become energy: a particle meeting its antiparticle annihilates into photons. E = mc² in action — mass and energy are truly interchangeable.",
+      "foundation": {
+        "title": "Creating and destroying matter",
+        "content": "<h4>Pair production</h4><p>A photon with sufficient energy → particle + antiparticle. Example: γ → e⁻ + e⁺. Minimum photon energy = 2m_e c² = 1.022 MeV (must create both masses). Must occur near a nucleus (conserves momentum).</p><h4>Annihilation</h4><p>Particle + antiparticle → photons. Example: e⁻ + e⁺ → 2γ. Energy of photons = 2m_e c² = 1.022 MeV (minimum, at rest). Two photons emitted in opposite directions (conserves momentum). Used in PET scanners.</p><h4>Conservation laws</h4><p>In both: charge conserved (particle + antiparticle = zero net charge). Energy conserved (E = mc²). Momentum conserved (2 photons in opposite directions for annihilation).</p>",
+        "summary": "<p><strong>Pair production:</strong> γ → particle + antiparticle. E_min = 2mc².</p><p><strong>Annihilation:</strong> particle + antiparticle → 2γ. E = 2mc².</p><p><strong>E = mc² demonstrated directly.</strong></p>",
+        "checkQuestions": [
+          { "question": "Minimum photon energy to create an electron-positron pair?", "answer": "E = 2m_e c² = 2 × 0.511 = 1.022 MeV." }
+        ],
+        "checklist": ["I can describe pair production and state E_min = 2mc²", "I can describe annihilation and explain why 2 photons are produced", "I can state the conservation laws that apply"]
+      },
+      "core": {
+        "title": "Calculations and PET scanning",
+        "content": "<h4>PET scanning</h4><p>A positron-emitting tracer (e.g., F-18) is injected. Positrons annihilate with electrons in the body → two 511 keV gamma photons in opposite directions. Detectors around the patient register coincident photon pairs → reconstruct the location of the annihilation → image of metabolic activity. Used to detect cancer, brain function, heart disease.</p><h4>Energy accounting</h4><p>Pair production: if photon energy > 2mc², the excess becomes KE of the produced particles: KE_total = E_photon − 2mc².</p><p>Annihilation: if particles have KE before annihilating, the photon energies are increased: E_photon = mc² + KE.</p>",
+        "keyPoints": ["Pair production: KE = E_photon − 2mc² (excess energy)", "Annihilation: 2 × 511 keV photons (at rest). More if particles have KE.", "PET: F-18 → positron → annihilation → 2γ → detected → image"],
+        "examTrap": { "wrong": "Pair production can create any particle", "correct": "Only particle-ANTIPARTICLE pairs (e.g., e⁻e⁺, pp̄, μ⁻μ⁺). Single particles can't be created because charge, lepton number, and baryon number must be conserved — a particle alone would violate these." },
+        "checkQuestions": [
+          { "question": "A 3 MeV photon creates an e⁻e⁺ pair. Find the total KE of the pair.", "answer": "KE = E − 2m_e c² = 3 − 1.022 = 1.978 MeV." }
+        ],
+        "checklist": ["I can calculate KE from pair production", "I can describe PET scanning using annihilation", "I can explain why pair production requires a nearby nucleus"]
+      },
+      "extension": { "title": "Antimatter and the matter-antimatter asymmetry", "content": "<p>The Big Bang should have created equal amounts of matter and antimatter — which would have annihilated, leaving nothing but photons. But the universe is made of matter. The tiny asymmetry (~1 extra matter particle per billion annihilation pairs) is one of the biggest unsolved problems in physics (baryogenesis). CP violation experiments at CERN and J-PARC are investigating this.</p>", "connections": ["A.5 Relativity: E = mc² governs pair production/annihilation", "E.1 Nuclear: pair production occurs in nuclear environments"], "checklist": ["I can describe the matter-antimatter asymmetry problem"] },
+      "video": { "title": "Pair Production & Annihilation — IB Physics", "duration": "7 min", "description": "Creating and destroying matter, PET scanning, and conservation laws", "embedId": "" },
+      "equations": [
+        { "formula": "E_min = 2mc² (pair production)", "description": "Minimum photon energy to create a particle-antiparticle pair." },
+        { "formula": "E = 2 × 0.511 MeV (e⁻e⁺ annihilation)", "description": "Energy of photons from electron-positron annihilation at rest." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the minimum photon energy for electron-positron pair production.", "solution": "E = 2m_e c² = 2 × 0.511 = 1.022 MeV." },
+        { "difficulty": "medium", "scope": "sl", "question": "In PET scanning, each annihilation produces two photons. What is the energy of each?", "solution": "Each photon has E = m_e c² = 0.511 MeV = 511 keV. They travel in opposite directions to conserve momentum." }
+      ],
+      "commonMistakes": [
+        { "wrong": "One photon is produced in annihilation", "explanation": "Two photons must be produced to conserve momentum. If the particle and antiparticle are at rest (total p = 0): a single photon would have p = E/c ≠ 0 — violating conservation. Two photons in opposite directions: total p = 0 ✓.", "correct": "Annihilation at rest: 2 photons in opposite directions. Conserves both energy and momentum." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A positron and electron annihilate at rest.\n(a) State the minimum number of photons produced. Explain. [2]\n(b) Calculate the energy of each photon. [1]\n(c) State one medical application of this process. [1]", "marks": 4, "modelAnswer": "(a) Two photons [1]. Momentum must be conserved: initial momentum is zero (at rest). One photon would have non-zero momentum. Two photons in opposite directions have equal and opposite momenta → total = 0 ✓ [1].\n(b) E = m_e c² = 0.511 MeV per photon [1].\n(c) PET (Positron Emission Tomography) scanning [1].", "examinerTip": "For 'explain why 2 photons': it's momentum conservation. One photon can't have zero momentum (p = E/c ≠ 0)." }
+    },
+
+    {
+      "id": "e2_sub5", "num": 5, "title": "The Heisenberg Uncertainty Principle (AHL)", "group": "AHL Quantum", "scope": "hl", "level": "HL Only",
+      "prevTitle": "Pair Production", "nextTitle": "Quantum Tunnelling (AHL)",
+      "bigIdea": "You can't know both where a particle is AND how fast it's moving — perfectly, simultaneously. The better you know one, the less you know the other. This isn't a measurement limitation — it's a fundamental property of nature. Heisenberg's uncertainty principle: Δx·Δp ≥ h/(4π). Reality at the quantum level is inherently fuzzy.",
+      "foundation": {
+        "title": "The fundamental limit on knowledge",
+        "content": "<h4>The uncertainty principle</h4><p><strong>ΔxΔp ≥ ℏ/2 = h/(4π)</strong></p><p>Δx = uncertainty in position. Δp = uncertainty in momentum. The product can never be smaller than h/(4π) ≈ 5.3 × 10⁻³⁵ J·s.</p><p>Also: <strong>ΔEΔt ≥ ℏ/2</strong> (energy-time uncertainty). A state that exists for a short time Δt has an inherent energy uncertainty ΔE ≥ ℏ/(2Δt).</p><h4>What it means</h4><p>If you know exactly where a particle is (Δx → 0): you know nothing about its momentum (Δp → ∞). If you know its momentum exactly: you don't know where it is. This is NOT about imperfect instruments — it's a fundamental property of quantum objects.</p><h4>Why it matters</h4><ul><li>Electrons in atoms: confined to ~10⁻¹⁰ m → Δp ≈ 10⁻²⁴ kg·m/s → KE ≈ few eV. This sets the scale of atomic physics.</li><li>Nuclear confinement: ~10⁻¹⁵ m → much larger Δp → MeV energies. Explains why nuclear energies >> atomic energies.</li></ul>",
+        "summary": "<p><strong>ΔxΔp ≥ h/(4π).</strong> Can't know both precisely.</p><p><strong>ΔEΔt ≥ h/(4π).</strong> Short-lived states have uncertain energy.</p><p><strong>Fundamental limit, not measurement error.</strong></p>",
+        "checkQuestions": [
+          { "question": "An electron is confined to Δx = 10⁻¹⁰ m. Estimate the minimum momentum uncertainty.", "answer": "Δp ≥ h/(4πΔx) = 6.63 × 10⁻³⁴/(4π × 10⁻¹⁰) = 5.27 × 10⁻²⁵ kg·m/s." }
+        ],
+        "checklist": ["I can state the uncertainty principle: ΔxΔp ≥ h/(4π)", "I can state ΔEΔt ≥ h/(4π)", "I can explain that this is a fundamental limit, not a measurement problem", "I can estimate minimum uncertainties from confinement"]
+      },
+      "core": {
+        "title": "Applications and implications",
+        "content": "<h4>Single-slit diffraction as uncertainty</h4><p>Passing an electron through a slit of width Δx: the electron diffracts (spreads). The angular spread θ ≈ λ/Δx = h/(pΔx). The transverse momentum gained: Δp_y ≈ pθ = h/Δx. So: ΔxΔp_y ≈ h. This is the uncertainty principle manifested as diffraction!</p><h4>Energy-time uncertainty</h4><p>A particle that exists for Δt has energy uncertainty ΔE ≥ ℏ/(2Δt). This allows 'virtual particles' to briefly violate energy conservation — as long as ΔE × Δt ≤ ℏ/2. This is the quantum vacuum: particles pop in and out of existence for extremely short times.</p><h4>Zero-point energy</h4><p>Even at 0 K, a particle in a box can't have zero energy — that would mean both Δx = 0 (known to be in the box) and Δp = 0 (no momentum) simultaneously. The minimum energy (zero-point energy) = h²/(8mL²) for a box of length L.</p>",
+        "keyPoints": ["Single-slit diffraction IS the uncertainty principle in action", "Virtual particles: exist for Δt ≤ ℏ/(2ΔE) — quantum vacuum fluctuations", "Zero-point energy: minimum energy even at 0 K (can't have Δx = Δp = 0)"],
+        "examTrap": { "wrong": "The uncertainty principle is about measurement disturbing the system", "correct": "It's NOT about clumsy measurements. Even with perfect instruments, ΔxΔp ≥ h/(4π). The particle genuinely doesn't HAVE a definite position AND momentum simultaneously. This is a property of wave-like objects (waves are inherently spread out in both position and momentum space)." },
+        "checkQuestions": [
+          { "question": "A pion has lifetime Δt = 2.6 × 10⁻⁸ s. Find the minimum energy uncertainty.", "answer": "ΔE ≥ ℏ/(2Δt) = 1.055 × 10⁻³⁴/(2 × 2.6 × 10⁻⁸) = 2.03 × 10⁻²⁷ J = 1.27 × 10⁻⁸ eV. Very small — pion energy is well-defined because it lives relatively long." }
+        ],
+        "checklist": ["I can connect single-slit diffraction to the uncertainty principle", "I can calculate energy uncertainty from particle lifetime", "I can explain zero-point energy from the uncertainty principle"]
+      },
+      "extension": { "title": "Quantum tunnelling", "content": "<h4>What is tunnelling?</h4><p>A particle can pass through a potential energy barrier that it classically shouldn't be able to cross (KE < barrier height). The probability decreases exponentially with barrier width and height. This is because the particle's wavefunction doesn't abruptly stop at the barrier — it decays exponentially inside, and if the barrier is thin enough, there's a non-zero probability of being found on the other side.</p><h4>Applications</h4><ul><li><strong>Alpha decay:</strong> alpha particles tunnel through the nuclear potential barrier</li><li><strong>Scanning tunnelling microscope (STM):</strong> electrons tunnel between tip and surface → image of individual atoms</li><li><strong>Nuclear fusion in stars:</strong> protons tunnel through the Coulomb barrier at temperatures much lower than classically required</li><li><strong>Flash memory:</strong> electrons tunnel through thin oxide layers to store/erase data</li></ul>", "connections": ["E.1 Nuclear: alpha decay as quantum tunnelling", "E.5 Fusion: quantum tunnelling enables fusion in stars at 'only' 15 million K"], "checklist": ["I can describe quantum tunnelling", "I can give examples: alpha decay, STM, fusion, flash memory", "I can explain that tunnelling probability decreases with barrier width and height"] },
+      "video": { "title": "Uncertainty Principle & Tunnelling — IB HL", "duration": "10 min", "description": "ΔxΔp ≥ ℏ/2, single-slit connection, virtual particles, zero-point energy, and tunnelling", "embedId": "" },
+      "equations": [
+        { "formula": "ΔxΔp ≥ h/(4π) = ℏ/2", "description": "Heisenberg uncertainty: position-momentum." },
+        { "formula": "ΔEΔt ≥ h/(4π) = ℏ/2", "description": "Energy-time uncertainty." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "An electron is confined to a hydrogen atom (Δx ≈ 10⁻¹⁰ m). Estimate its minimum KE.", "steps": [
+          { "label": "Δp", "text": "Δp ≥ h/(4πΔx) = 6.63 × 10⁻³⁴/(4π × 10⁻¹⁰) = 5.27 × 10⁻²⁵ kg·m/s" },
+          { "label": "KE", "text": "KE ≈ (Δp)²/(2m) = (5.27 × 10⁻²⁵)²/(2 × 9.11 × 10⁻³¹) = 1.52 × 10⁻¹⁹ J ≈ 0.95 eV", "isEquation": true },
+          { "label": "Context", "text": "The actual ground state KE of hydrogen's electron is ~13.6 eV — same order of magnitude. The uncertainty principle correctly predicts the energy scale of atomic physics." }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "A proton is confined to a nucleus (Δx ≈ 10⁻¹⁵ m). Estimate its minimum KE in MeV.", "solution": "Δp = h/(4πΔx) = 5.27 × 10⁻²⁰ kg·m/s. KE = (Δp)²/(2m) = (5.27 × 10⁻²⁰)²/(2 × 1.67 × 10⁻²⁷) = 8.31 × 10⁻¹³ J = 5.2 MeV. Nuclear energies are MeV-scale because nucleons are confined to ~fm dimensions — a direct consequence of the uncertainty principle." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The uncertainty principle means our instruments aren't good enough", "explanation": "It's not about instruments. A particle genuinely doesn't have a precise position AND precise momentum at the same time. This is inherent to wave-like objects — a wave spread over a region (defined position) must contain many wavelengths (undefined momentum), and vice versa.", "correct": "The uncertainty principle is a fundamental property of nature, not a limitation of measurement." }
+      ],
+      "examCorner": { "scope": "hl", "question": "State the Heisenberg uncertainty principle for position and momentum. [1]\nAn electron is confined to a region of 5.0 × 10⁻¹¹ m.\n(a) Calculate the minimum uncertainty in momentum. [1]\n(b) Estimate the minimum kinetic energy. [2]", "marks": 4, "modelAnswer": "ΔxΔp ≥ h/(4π) [1].\n(a) Δp = h/(4πΔx) = 6.63 × 10⁻³⁴/(4π × 5 × 10⁻¹¹) = 1.055 × 10⁻²⁴ kg·m/s [1].\n(b) KE = (Δp)²/(2m) = (1.055 × 10⁻²⁴)²/(2 × 9.11 × 10⁻³¹) = 6.11 × 10⁻¹⁹ J = 3.82 eV [2].", "examinerTip": "For estimation problems: use Δp ≈ h/(4πΔx), then KE ≈ (Δp)²/(2m). This gives the right ORDER OF MAGNITUDE — that's what's expected." }
+    },
+
+    {
+      "id": "e2_sub6", "num": 6, "title": "Wave Functions, Probability & the Quantum World (AHL)", "group": "AHL Quantum", "scope": "hl", "level": "HL Only",
+      "prevTitle": "Uncertainty Principle", "nextTitle": "E.3 Radioactive Decay",
+      "bigIdea": "In quantum mechanics, a particle is described by a wave function ψ. The probability of finding the particle at a location is proportional to |ψ|². The particle doesn't have a definite position until you measure it — it exists as a spread of probabilities. This isn't a lack of knowledge — it's the nature of reality at the quantum scale.",
+      "foundation": {
+        "title": "Probability replaces certainty",
+        "content": "<h4>The wave function</h4><p><strong>ψ(x,t)</strong> describes the quantum state of a particle. ψ itself is a complex number — not directly observable. What IS observable: <strong>|ψ|² = probability density</strong>. The probability of finding the particle between x and x + dx is |ψ|²dx.</p><h4>What this means</h4><p>Before measurement: the particle doesn't have a definite position — it has a probability DISTRIBUTION. After measurement: the wave function 'collapses' to the observed value. This is fundamentally different from classical physics, where objects always have definite positions.</p><h4>The Schrödinger equation</h4><p>The quantum equivalent of F = ma: <strong>iℏ ∂ψ/∂t = Ĥψ</strong> (the time-dependent Schrödinger equation). For stationary states: <strong>Ĥψ = Eψ</strong> (energy eigenvalue equation). Solutions give the allowed energy levels and wave functions.</p>",
+        "summary": "<p><strong>ψ(x,t):</strong> wave function. <strong>|ψ|²:</strong> probability density.</p><p><strong>Before measurement:</strong> particle exists as a probability distribution.</p><p><strong>After measurement:</strong> wave function collapses to the observed value.</p><p><strong>Schrödinger equation:</strong> predicts ψ and allowed energy levels.</p>",
+        "checkQuestions": [
+          { "question": "What does |ψ|² represent physically?", "answer": "The probability density — the probability per unit length (or volume) of finding the particle at that position. |ψ(x)|²dx = probability of finding the particle between x and x+dx." }
+        ],
+        "checklist": ["I can state that |ψ|² gives the probability density", "I can explain wave function collapse upon measurement", "I can state the Schrödinger equation as the quantum equation of motion"]
+      },
+      "core": {
+        "title": "Probability distributions and quantum confinement",
+        "content": "<h4>Particle in a box</h4><p>An electron confined to a box of length L: standing wave solutions exist. ψ_n = A sin(nπx/L). Energy levels: <strong>E_n = n²h²/(8mL²)</strong>. These are the same as standing wave harmonics — the particle IS a standing wave.</p><h4>The hydrogen atom</h4><p>The Schrödinger equation for hydrogen gives: E_n = −13.6/n² eV (same as Bohr). But also gives: the SHAPE of the electron probability cloud (orbitals). s-orbitals are spherical. p-orbitals are dumbbell-shaped. These shapes determine chemistry and bonding.</p><h4>The measurement problem</h4><p>Before measurement: the particle is in a superposition of states (Schrödinger's cat: alive AND dead simultaneously). Measurement forces one outcome. How does this happen? This is the 'measurement problem' — one of the deepest unsolved questions in physics.</p>",
+        "keyPoints": ["Particle in a box: E_n = n²h²/(8mL²) — quantised from standing waves", "Hydrogen: E_n = −13.6/n² AND orbital shapes from ψ", "Measurement collapses ψ to one state — the measurement problem"],
+        "examTrap": { "wrong": "The electron orbits the nucleus like a planet", "correct": "The electron exists as a probability cloud (|ψ|²). It doesn't have a trajectory. The cloud gives the probability of finding the electron at each point. For the ground state of hydrogen: the probability is highest at the Bohr radius (0.053 nm) but the electron can be found anywhere." },
+        "checkQuestions": [
+          { "question": "An electron in a 1D box of length 1 nm. Find the ground state energy.", "answer": "E₁ = h²/(8mL²) = (6.63 × 10⁻³⁴)²/(8 × 9.11 × 10⁻³¹ × (10⁻⁹)²) = 4.40 × 10⁻⁶⁸/7.29 × 10⁻⁴⁹ = 6.03 × 10⁻²⁰ J = 0.377 eV." }
+        ],
+        "checklist": ["I can describe the particle-in-a-box model and its energy levels", "I can state that hydrogen orbitals come from the Schrödinger equation", "I can describe the measurement problem and wave function collapse"]
+      },
+      "extension": { "title": "Quantum entanglement and quantum computing", "content": "<p>Two particles can be 'entangled' — their quantum states are correlated even across vast distances. Measuring one instantly determines the other's state. Einstein called this 'spooky action at a distance.' Bell's theorem (1964) and experiments (Aspect 1982, confirmed with loophole-free tests 2015) proved entanglement is real — not just hidden variables. Applications: quantum cryptography (unhackable communication), quantum computing (processing exponentially more information than classical computers), and quantum teleportation (transferring quantum states, not matter).</p>", "connections": ["A.5 Relativity: entanglement doesn't allow faster-than-light communication", "E.2 Uncertainty: entanglement is a consequence of quantum superposition"], "checklist": ["I can describe quantum entanglement qualitatively", "I can state applications: quantum cryptography, computing, teleportation"] },
+      "video": { "title": "Wave Functions & Quantum Mechanics — IB HL", "duration": "10 min", "description": "|ψ|², particle in a box, hydrogen orbitals, measurement problem, and entanglement", "embedId": "" },
+      "equations": [
+        { "formula": "|ψ|² = probability density", "description": "Probability of finding particle at position x." },
+        { "formula": "E_n = n²h²/(8mL²)", "description": "Energy levels for particle in a box of length L." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "An electron is in a 1D box of length 0.5 nm. Find the energy of the first three levels.", "solution": "E_n = n²h²/(8mL²). E₁ = h²/(8mL²) = (6.63 × 10⁻³⁴)²/(8 × 9.11 × 10⁻³¹ × (5 × 10⁻¹⁰)²) = 4.40 × 10⁻⁶⁸/1.82 × 10⁻⁴⁹ = 2.41 × 10⁻¹⁹ J = 1.51 eV. E₂ = 4 × 1.51 = 6.03 eV. E₃ = 9 × 1.51 = 13.6 eV." },
+        { "difficulty": "hard", "scope": "hl", "question": "Explain why quantum mechanics predicts that an electron confined to a very small box has very high energy.", "solution": "From the uncertainty principle: small Δx → large Δp → large KE ∝ (Δp)²/(2m). From the particle-in-a-box: E ∝ 1/L². Smaller confinement → higher energy levels. This is why nuclear energies (~MeV, confined to ~fm) >> atomic energies (~eV, confined to ~nm). The confinement energy scales as 1/L²." }
+      ],
+      "commonMistakes": [
+        { "wrong": "ψ gives the position of the particle", "explanation": "ψ is a COMPLEX number — not directly observable. |ψ|² gives the PROBABILITY DENSITY of finding the particle. The particle doesn't have a definite position until measured.", "correct": "|ψ|² = probability density. ψ itself is not directly observable." }
+      ],
+      "examCorner": { "scope": "hl", "question": "State what is meant by the wave function of a particle. [1]\nState what |ψ|² represents. [1]\nAn electron is confined to a 1D box of length L. State the expression for its ground state energy. [1]", "marks": 3, "modelAnswer": "The wave function ψ(x,t) is a mathematical function that contains all information about the quantum state of a particle [1].\n|ψ(x)|² is the probability density — the probability per unit length of finding the particle at position x [1].\nE₁ = h²/(8mL²) [1].", "examinerTip": "Three separate concepts: (1) ψ = quantum state, (2) |ψ|² = probability, (3) E₁ = h²/(8mL²) for the ground state. One mark each — be concise." }
+    }
+
+  ]
+},
+"E3": {
+  "title": "Radioactive Decay",
+  "code": "E.3",
+  "theme": "E",
+  "level": "SL + HL",
+  "subtopicCount": 6,
+  "subtopics": [
+
+    {
+      "id": "e3_sub1", "num": 1, "title": "The Random & Spontaneous Nature of Decay", "group": "Decay Fundamentals", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "E.2 Quantum Physics", "nextTitle": "The Decay Constant & Activity",
+      "bigIdea": "You cannot predict when a single nucleus will decay — it could be the next microsecond or a billion years from now. Radioactive decay is random (unpredictable for an individual nucleus) and spontaneous (not triggered by external conditions). Temperature, pressure, chemical bonds — none of these change the decay rate. Yet with enough atoms, statistical patterns emerge with stunning precision.",
+      "foundation": {
+        "title": "Why radioactive decay is fundamentally unpredictable",
+        "content": "<h4>Random</h4><p>Each undecayed nucleus has the same probability of decaying in the next second, regardless of how long it has already existed. You cannot predict WHICH nucleus will decay next or WHEN a specific nucleus will decay. This is genuinely random — not just 'hard to predict' but fundamentally unknowable, rooted in quantum mechanics.</p><h4>Spontaneous</h4><p>Decay is not triggered by any external cause. It is not affected by:</p><ul><li>Temperature or pressure</li><li>Chemical state (bonded or free)</li><li>Electric or magnetic fields</li><li>Time already elapsed (no 'aging')</li></ul><p>The nucleus decays because of internal quantum instability — the strong nuclear force can no longer hold the nucleus together against proton repulsion or energy considerations.</p><h4>Why does decay happen?</h4><p>A nucleus decays when a lower-energy configuration exists. The nucleus quantum-tunnels through an energy barrier to reach a more stable state. Alpha decay: the alpha particle tunnels out of the nuclear potential well. Beta decay: a quark flavour change (d → u or u → d) mediated by the weak force.</p><h4>Evidence for randomness</h4><p>Count decays with a Geiger-Müller tube over equal time intervals: the counts fluctuate randomly around an average. The fluctuations follow a Poisson distribution — the statistical fingerprint of random independent events.</p>",
+        "summary": "<p><strong>Random:</strong> can't predict which nucleus decays or when.</p><p><strong>Spontaneous:</strong> not caused or affected by external conditions.</p><p><strong>Quantum origin:</strong> tunnelling (alpha), weak force (beta).</p>",
+        "checkQuestions": [
+          { "question": "A teacher heats a radioactive sample from 20°C to 500°C. What happens to the decay rate?", "answer": "Nothing. The decay rate is unchanged. Radioactive decay is a nuclear process governed by the strong and weak nuclear forces — not by thermal energy. Temperature affects electron arrangements and chemical bonds but has no effect on nuclear stability." }
+        ],
+        "checklist": ["I can define 'random' and 'spontaneous' in the context of radioactive decay", "I can state that decay is unaffected by temperature, pressure, or chemical state", "I can explain the quantum origin of decay (tunnelling, weak force)"]
+      },
+      "core": {
+        "title": "Probability and large numbers",
+        "content": "<h4>Decay probability</h4><p>Each nucleus has a fixed probability of decaying per unit time. This probability is the <strong>decay constant λ</strong> (covered in the next subtopic). For a single nucleus: completely unpredictable. For 10²⁰ nuclei: the fraction decaying per second is extremely precise.</p><h4>Analogy — dice</h4><p>Roll one die: you can't predict if it lands on 6. Roll 6000 dice: about 1000 will show 6 (±~30). Roll 6 × 10²⁰ dice: the fraction showing 6 is 1/6 to extraordinary precision. Radioactive decay works the same way — unpredictable individually, precise statistically.</p><h4>Measuring randomness</h4><p>A GM tube near a source records counts in successive 10-second intervals: 47, 52, 38, 55, 43, 49... These fluctuate. The mean ≈ 47. The standard deviation ≈ √mean ≈ √47 ≈ 6.9. This √N relationship is characteristic of Poisson statistics — confirming random independent events.</p>",
+        "keyPoints": ["Each nucleus has the same fixed probability of decay per unit time", "Individual decay: unpredictable. Large samples: precise statistical behaviour.", "Count fluctuations follow Poisson statistics: σ ≈ √N̄"],
+        "examTrap": { "wrong": "A nucleus that hasn't decayed for a long time is 'due' to decay", "correct": "No memory effect. A nucleus that has existed for 1000 years has exactly the same probability of decaying in the next second as one created 1 second ago. Each moment is independent." },
+        "checkQuestions": [
+          { "question": "Why does a Geiger counter give slightly different readings in equal time intervals from the same source?", "answer": "Because radioactive decay is random. Each nucleus decays independently with a fixed probability. The number decaying in any time interval fluctuates randomly around a mean value. These statistical fluctuations follow a Poisson distribution." }
+        ],
+        "checklist": ["I can explain why decay is predictable for large samples but not individuals", "I can describe Poisson fluctuations in count rate measurements"]
+      },
+      "extension": { "title": "Quantum tunnelling and decay", "content": "<p>Alpha decay: the alpha particle inside the nucleus has KE less than the potential barrier height. Classically, it cannot escape. Quantum mechanically, its wavefunction extends through the barrier — there is a tiny but non-zero probability of being found outside. The tunnelling probability depends exponentially on barrier width and height. This explains why half-lives range from microseconds (thin, low barriers) to billions of years (thick, high barriers) — small changes in barrier parameters produce enormous changes in decay rate.</p>", "connections": ["E.2 Uncertainty Principle: tunnelling is a direct consequence of ΔxΔp ≥ ℏ/2", "E.1 Nuclear Model: the potential barrier is created by the strong force and Coulomb repulsion"], "checklist": ["I can explain alpha decay as quantum tunnelling through a potential barrier"] },
+      "video": { "title": "Radioactive Decay — Random & Spontaneous", "duration": "8 min", "description": "Why decay is random, quantum tunnelling, Poisson statistics, and evidence", "embedId": "" },
+      "equations": [],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State what is meant by saying radioactive decay is 'random' and 'spontaneous'.", "solution": "Random: it is impossible to predict which particular nucleus will decay next, or when a given nucleus will decay. Spontaneous: the decay is not caused or influenced by any external factor such as temperature, pressure, or chemical environment." },
+        { "difficulty": "medium", "scope": "sl", "question": "A student says 'This nucleus is very old so it must be about to decay.' Explain why this is wrong.", "solution": "Radioactive decay has no memory. The probability of a nucleus decaying in the next second is the same regardless of how long it has already existed. The decay constant λ (probability per unit time) is fixed — there is no 'aging' effect. Each moment is statistically independent of the past." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Radioactive decay can be slowed by cooling the sample", "explanation": "Decay is a nuclear process governed by the strong and weak nuclear forces. Temperature affects atomic/molecular motion and chemical bonds but has zero effect on nuclear structure or decay rates. Even at absolute zero, the decay rate is unchanged.", "correct": "No external physical or chemical condition can change the rate of radioactive decay." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A student measures the count rate from a radioactive source four times in successive one-minute intervals: 340, 318, 362, 327.\n(a) Explain why the readings are different each time. [2]\n(b) State one property of radioactive decay demonstrated by these results. [1]", "marks": 3, "modelAnswer": "(a) Radioactive decay is a random process [1]. The number of nuclei decaying in any given time interval varies unpredictably around a mean value — each nucleus decays independently with a fixed probability [1].\n(b) Radioactive decay is random [1].", "examinerTip": "For 'explain why readings differ': the key word is RANDOM. State that decay is random, then explain what random means (can't predict which/when individual nuclei decay)." }
+    },
+
+    {
+      "id": "e3_sub2", "num": 2, "title": "The Decay Constant & Activity", "group": "Decay Law", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Random Nature of Decay", "nextTitle": "The Exponential Decay Law",
+      "bigIdea": "The decay constant λ is the probability that any one nucleus decays per unit time. Activity A = λN tells you how many decays happen per second. More undecayed nuclei → higher activity. As nuclei decay, N drops → activity drops. This is the engine behind exponential decay.",
+      "foundation": {
+        "title": "Decay constant and activity — the two key quantities",
+        "content": "<h4>Decay constant λ</h4><p><strong>λ = probability of decay per nucleus per unit time.</strong> Unit: s⁻¹ (or min⁻¹, year⁻¹).</p><p>A large λ means each nucleus is very likely to decay quickly → short half-life. A small λ means each nucleus is very stable → long half-life.</p><h4>Activity A</h4><p><strong>A = λN</strong></p><p>Activity = number of decays per second. Unit: <strong>becquerel (Bq)</strong>. 1 Bq = 1 decay per second.</p><p>A depends on BOTH the decay constant (how unstable each nucleus is) AND the number of undecayed nuclei remaining (how many can still decay).</p><h4>Relationship between λ and T₁/₂</h4><p><strong>T₁/₂ = ln 2 / λ = 0.693 / λ</strong></p><p>Short half-life ↔ large λ ↔ high activity per atom. Long half-life ↔ small λ ↔ low activity per atom.</p><h4>Calculating N from sample information</h4><p>N = (mass / molar mass) × Nₐ. Example: 1 g of C-14 (molar mass 14 g/mol): N = (1/14) × 6.02 × 10²³ = 4.3 × 10²² atoms.</p>",
+        "summary": "<p><strong>λ:</strong> probability of decay per nucleus per second (s⁻¹).</p><p><strong>A = λN:</strong> activity in Bq (decays/s).</p><p><strong>T₁/₂ = 0.693/λ.</strong></p>",
+        "checkQuestions": [
+          { "question": "A sample contains 5.0 × 10²⁰ atoms with λ = 2.0 × 10⁻⁶ s⁻¹. Find the activity and half-life.", "answer": "A = λN = 2.0 × 10⁻⁶ × 5.0 × 10²⁰ = 1.0 × 10¹⁵ Bq. T₁/₂ = 0.693/λ = 0.693/(2.0 × 10⁻⁶) = 3.47 × 10⁵ s ≈ 4.0 days." }
+        ],
+        "checklist": ["I can define λ as probability of decay per nucleus per unit time", "I can apply A = λN", "I can relate λ and T₁/₂: T₁/₂ = 0.693/λ", "I can calculate N from mass, molar mass, and Avogadro's number"]
+      },
+      "core": {
+        "title": "Working with activity calculations",
+        "content": "<h4>Why activity decreases over time</h4><p>As nuclei decay, N decreases → A = λN decreases (λ is constant). Activity is proportional to N at all times. If N halves, A halves. So activity follows the same decay curve as N.</p><h4>Specific activity</h4><p>Activity per unit mass of a substance. Useful for comparing how 'active' different isotopes are. Co-60 (T₁/₂ = 5.27 years) has a much higher specific activity than U-238 (T₁/₂ = 4.5 billion years).</p><h4>Practical calculation</h4><p>Finding the activity of a sample: (1) Find N from mass and molar mass. (2) Find λ from half-life. (3) Calculate A = λN.</p>",
+        "keyPoints": ["Activity A = λN decreases as N decreases (λ stays constant)", "A and N follow the same exponential decay pattern", "Specific activity = activity per unit mass — higher for short-lived isotopes"],
+        "examTrap": { "wrong": "Activity is constant because λ is constant", "correct": "λ is constant but N decreases over time. Since A = λN, activity DECREASES as nuclei decay. The rate of decay slows down because there are fewer undecayed nuclei remaining." },
+        "checkQuestions": [
+          { "question": "A 2.0 g sample of Na-24 (molar mass 24, T₁/₂ = 15 h). Find the initial activity.", "answer": "N = (2/24) × 6.02 × 10²³ = 5.02 × 10²² atoms. λ = 0.693/(15 × 3600) = 1.28 × 10⁻⁵ s⁻¹. A = λN = 1.28 × 10⁻⁵ × 5.02 × 10²² = 6.4 × 10¹⁷ Bq = 6.4 × 10¹¹ MBq." }
+        ],
+        "checklist": ["I can explain why activity decreases over time", "I can calculate the activity of a sample from mass, molar mass, and half-life"]
+      },
+      "extension": { "title": "Decay rate and probability", "content": "<p>In a time interval Δt (much smaller than T₁/₂): the number of decays ΔN ≈ λNΔt. The fraction decaying: ΔN/N = λΔt. For λ = 10⁻⁸ s⁻¹ and Δt = 1 s: each nucleus has a 1 in 10⁸ chance of decaying. But with 10²⁰ nuclei: about 10¹² decay per second. This is why decay is unpredictable individually but precise statistically — the law of large numbers in action.</p>", "connections": ["E.2 Quantum: probability amplitudes govern decay at the quantum level", "E.3 Exponential Law: A = λN is the starting point for deriving N = N₀e⁻λt"], "checklist": ["I can explain ΔN/N = λΔt as the fractional decay in a short time interval"] },
+      "video": { "title": "Decay Constant & Activity — IB Physics", "duration": "9 min", "description": "λ, activity A = λN, half-life relationship, and practical calculations", "embedId": "" },
+      "equations": [
+        { "formula": "A = λN", "description": "Activity = decay constant × number of undecayed nuclei." },
+        { "formula": "T₁/₂ = ln2/λ = 0.693/λ", "description": "Half-life from decay constant." },
+        { "formula": "N = (m/M) × Nₐ", "description": "Number of atoms from mass, molar mass, and Avogadro's number." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Find the activity of 0.50 g of I-131 (T₁/₂ = 8.0 days, M = 131 g/mol).", "steps": [
+          { "label": "N", "text": "N = (0.50/131) × 6.02 × 10²³ = 2.30 × 10²¹ atoms" },
+          { "label": "λ", "text": "λ = 0.693/(8.0 × 86400) = 1.00 × 10⁻⁶ s⁻¹" },
+          { "label": "A", "text": "A = λN = 1.00 × 10⁻⁶ × 2.30 × 10²¹ = 2.30 × 10¹⁵ Bq = 2.3 PBq", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the relationship between half-life and decay constant.", "solution": "T₁/₂ = ln 2/λ = 0.693/λ. A larger decay constant means a shorter half-life (more probable decay → faster decay)." },
+        { "difficulty": "medium", "scope": "sl", "question": "Tc-99m has T₁/₂ = 6.0 hours. A hospital receives 5.0 × 10⁻⁹ g. Find the activity in MBq.", "solution": "N = (5.0 × 10⁻⁹/99) × 6.02 × 10²³ = 3.04 × 10¹³. λ = 0.693/(6 × 3600) = 3.21 × 10⁻⁵ s⁻¹. A = 3.21 × 10⁻⁵ × 3.04 × 10¹³ = 9.76 × 10⁸ Bq ≈ 976 MBq." }
+      ],
+      "commonMistakes": [
+        { "wrong": "A = λN means activity increases as more atoms are added", "explanation": "Adding more undecayed atoms DOES increase activity (more atoms → more decays/s). But for a fixed sample decaying over time, N decreases → A decreases. The formula works both ways — it tells you the instantaneous activity for whatever N currently is.", "correct": "A = λN at any instant. As N drops due to decay, A drops proportionally." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A radioactive isotope has a half-life of 12 hours.\n(a) Calculate the decay constant in s⁻¹. [1]\n(b) A sample contains 4.0 × 10¹⁸ atoms. Calculate the initial activity. [1]\n(c) State the activity after 36 hours. [2]", "marks": 4, "modelAnswer": "(a) λ = 0.693/(12 × 3600) = 1.60 × 10⁻⁵ s⁻¹ [1].\n(b) A = λN = 1.60 × 10⁻⁵ × 4.0 × 10¹⁸ = 6.4 × 10¹³ Bq [1].\n(c) 36 hours = 3 half-lives [1]. A = 6.4 × 10¹³ × (½)³ = 8.0 × 10¹² Bq [1].", "examinerTip": "Convert hours to seconds for λ in s⁻¹. Then count half-lives: 36/12 = 3 → multiply by (½)³." }
+    },
+
+    {
+      "id": "e3_sub3", "num": 3, "title": "The Exponential Decay Law", "group": "Decay Law", "scope": "hl", "level": "HL Only",
+      "prevTitle": "Decay Constant & Activity", "nextTitle": "Half-Life — Graphs & Measurement",
+      "bigIdea": "dN/dt = −λN. This single equation generates the exponential decay law: N = N₀e⁻λt. It says the rate of decay is proportional to how many undecayed nuclei remain. More nuclei → faster total decay. As they decay, fewer remain → the rate slows. This produces the characteristic exponential curve that appears everywhere in physics — from radioactive decay to capacitor discharge to cooling.",
+      "foundation": {
+        "title": "The mathematics of exponential decay",
+        "content": "<h4>The differential equation</h4><p><strong>dN/dt = −λN</strong></p><p>The rate of decrease of undecayed nuclei equals λ times the current number. The minus sign: N is decreasing.</p><h4>The solution</h4><p>Solving this differential equation: <strong>N = N₀e⁻λt</strong></p><p>Where N₀ = initial number at t = 0. The number decreases exponentially. After one time constant (1/λ), N drops to N₀/e ≈ 0.368N₀.</p><h4>Activity also decays exponentially</h4><p>Since A = λN: <strong>A = A₀e⁻λt</strong>. Activity follows the same exponential pattern.</p><h4>Deriving T₁/₂ = ln 2/λ</h4><p>At t = T₁/₂: N = N₀/2. So N₀/2 = N₀e^(−λT₁/₂). Cancel N₀: 1/2 = e^(−λT₁/₂). Take ln: ln(1/2) = −λT₁/₂. Therefore: <strong>T₁/₂ = ln 2/λ = 0.693/λ</strong>.</p>",
+        "summary": "<p><strong>dN/dt = −λN</strong> → <strong>N = N₀e⁻λt</strong></p><p><strong>A = A₀e⁻λt</strong></p><p><strong>T₁/₂ = 0.693/λ</strong></p>",
+        "checkQuestions": [
+          { "question": "A sample has N₀ = 10²⁰ and λ = 5 × 10⁻⁴ s⁻¹. Find N after 2000 s.", "answer": "N = 10²⁰ × e^(−5 × 10⁻⁴ × 2000) = 10²⁰ × e⁻¹ = 10²⁰ × 0.368 = 3.68 × 10¹⁹." }
+        ],
+        "checklist": ["I can state and use dN/dt = −λN", "I can apply N = N₀e⁻λt and A = A₀e⁻λt", "I can derive T₁/₂ = ln 2/λ from the exponential law"]
+      },
+      "core": {
+        "title": "Using the exponential law in calculations",
+        "content": "<h4>Finding time from remaining fraction</h4><p>If N/N₀ = f: N₀f = N₀e⁻λt → f = e⁻λt → ln f = −λt → <strong>t = −ln f / λ</strong>.</p><p>Example: How long for 10% to remain? f = 0.1. t = −ln(0.1)/λ = 2.303/λ = 2.303 × T₁/₂/0.693 = 3.32 T₁/₂.</p><h4>Non-integer half-lives</h4><p>After 2.5 half-lives: N = N₀ × (½)^2.5 = N₀ × 0.177 = 17.7% remaining. Or use exponential: N = N₀e^(−0.693 × 2.5/T₁/₂ × T₁/₂) = N₀e⁻¹·⁷³³ = 0.177N₀. Both methods give the same answer.</p><h4>The ln N vs t graph</h4><p>Take ln of N = N₀e⁻λt: <strong>ln N = ln N₀ − λt</strong>. This is y = c + mx form. Plotting ln N vs t gives a straight line with gradient = −λ and y-intercept = ln N₀. This is the best way to find λ experimentally.</p>",
+        "keyPoints": ["t = −ln(N/N₀)/λ to find time for any remaining fraction", "Non-integer half-lives: use (½)^n or the exponential form", "ln N vs t graph: straight line, gradient = −λ, intercept = ln N₀"],
+        "examTrap": { "wrong": "N = N₀e⁻λt only works for whole half-lives", "correct": "The exponential law works for ANY time t — integer half-lives, fractional half-lives, any value. The (½)^n formula N = N₀(½)^(t/T₁/₂) is just a rearrangement and also works for any t." },
+        "checkQuestions": [
+          { "question": "How long for the activity of a source (T₁/₂ = 5 days) to drop to 1% of its original value?", "answer": "A/A₀ = 0.01. t = −ln(0.01)/λ = 4.605/(0.693/5) = 4.605 × 5/0.693 = 33.2 days ≈ 6.64 half-lives." }
+        ],
+        "checklist": ["I can solve for time when given a remaining fraction", "I can handle non-integer half-life problems", "I can extract λ from a ln N vs t graph"]
+      },
+      "extension": { "title": "Comparing exponential processes", "content": "<p>Exponential decay appears in many physics contexts: radioactive decay (N = N₀e⁻λt), capacitor discharge (Q = Q₀e^(−t/RC)), cooling (Newton's law: ΔT = ΔT₀e^(−t/τ)), damped oscillations, attenuation of radiation through matter (I = I₀e^(−μx)). All share the same mathematics: the rate of change is proportional to the current value. The time constant (1/λ, RC, τ, 1/μ) plays the same role in each — it's the time or distance for the quantity to fall to 1/e ≈ 37% of its value.</p>", "connections": ["B.5 Capacitors: Q = Q₀e^(−t/RC) has the same mathematical form", "B.1 Thermal: Newton's law of cooling is exponential"], "checklist": ["I can identify the common mathematical structure across exponential processes"] },
+      "video": { "title": "Exponential Decay Law — IB HL Physics", "duration": "10 min", "description": "dN/dt = −λN, exponential solutions, ln graphs, and calculations", "embedId": "" },
+      "equations": [
+        { "formula": "N = N₀e⁻λt", "description": "Exponential decay of undecayed nuclei." },
+        { "formula": "A = A₀e⁻λt", "description": "Exponential decay of activity." },
+        { "formula": "ln N = ln N₀ − λt", "description": "Linearised form. Gradient of ln N vs t = −λ." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "hl", "title": "Sr-90 (T₁/₂ = 28.8 years). A sample has initial activity 4.0 × 10⁶ Bq. Find the activity after 50 years.", "steps": [
+          { "label": "λ", "text": "λ = 0.693/28.8 = 0.02406 year⁻¹" },
+          { "label": "A", "text": "A = 4.0 × 10⁶ × e^(−0.02406 × 50) = 4.0 × 10⁶ × e⁻¹·²⁰³", "isEquation": true },
+          { "label": "Calculate", "text": "= 4.0 × 10⁶ × 0.301 = 1.20 × 10⁶ Bq = 1.2 MBq", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "medium", "scope": "hl", "question": "A radioactive sample's activity drops from 800 Bq to 200 Bq in 40 minutes. Find λ and T₁/₂.", "solution": "A = A₀e⁻λt → 200 = 800e^(−λ×40) → 0.25 = e^(−40λ) → ln 0.25 = −40λ → λ = 1.386/40 = 0.0347 min⁻¹. T₁/₂ = 0.693/0.0347 = 20.0 min." },
+        { "difficulty": "hard", "scope": "hl", "question": "From a ln A vs t graph, the gradient is −0.0154 s⁻¹ and the y-intercept is 14.5. Find T₁/₂, A₀, and A after 200 s.", "solution": "λ = 0.0154 s⁻¹. T₁/₂ = 0.693/0.0154 = 45 s. ln A₀ = 14.5 → A₀ = e^14.5 = 1.98 × 10⁶ Bq. A(200) = 1.98 × 10⁶ × e^(−0.0154 × 200) = 1.98 × 10⁶ × 0.046 = 9.1 × 10⁴ Bq." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Plotting N vs t gives a straight line", "explanation": "N vs t is an exponential curve — it curves downward. To get a straight line, plot ln N vs t. The gradient of this straight line is −λ.", "correct": "ln N vs t is linear with gradient −λ. N vs t is an exponential curve." }
+      ],
+      "examCorner": { "scope": "hl", "question": "A radioactive isotope has a decay constant λ = 3.8 × 10⁻³ s⁻¹.\n(a) Calculate the half-life. [1]\n(b) A sample initially contains 6.0 × 10¹⁵ atoms. Calculate the number remaining after 500 s. [2]\n(c) State what graph would give a straight line and state its gradient. [2]", "marks": 5, "modelAnswer": "(a) T₁/₂ = 0.693/3.8 × 10⁻³ = 182 s ≈ 3.0 min [1].\n(b) N = 6.0 × 10¹⁵ × e^(−3.8 × 10⁻³ × 500) = 6.0 × 10¹⁵ × e⁻¹·⁹ = 6.0 × 10¹⁵ × 0.150 = 8.97 × 10¹⁴ [2].\n(c) ln N vs t gives a straight line [1]. Gradient = −λ = −3.8 × 10⁻³ s⁻¹ [1].", "examinerTip": "For e⁻¹·⁹: use your calculator. Show the exponent clearly. Common error: forgetting the minus sign in the gradient of the ln graph." }
+    },
+
+    {
+      "id": "e3_sub4", "num": 4, "title": "Half-Life — Graphs & Experimental Measurement", "group": "Decay Law", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Exponential Decay Law", "nextTitle": "Absorption & Detection",
+      "bigIdea": "Half-life can be read from a graph, calculated from data, or measured experimentally. The N-t curve shows exponential decay — halving each T₁/₂. The ln N-t line gives λ from the gradient. In the lab, measure activity over time, subtract background, and find T₁/₂ from the graph. These skills are essential for Paper 2 and practical work.",
+      "foundation": {
+        "title": "Reading and using decay graphs",
+        "content": "<h4>The N-t (or A-t) graph</h4><p>Shape: exponential decay curve, starting at N₀ (or A₀) and approaching zero asymptotically. To find T₁/₂: find N₀/2 on the y-axis, read across to the curve, then down to the t-axis. Repeat at N₀/4, N₀/8 to confirm T₁/₂ is constant.</p><h4>Reading T₁/₂ from a graph</h4><ol><li>Pick any point (N₁, t₁) on the curve</li><li>Find the time t₂ when N = N₁/2</li><li>T₁/₂ = t₂ − t₁</li><li>Check: repeat from a different starting point — should give the same T₁/₂</li></ol><h4>Simple half-life calculations</h4><p>After n half-lives: N = N₀ × (½)ⁿ. Count n = t/T₁/₂. This only works neatly for integer or simple fractional half-lives.</p><h4>From activity data</h4><p>Measure corrected count rate (subtract background) at regular intervals. Plot count rate vs time. Read T₁/₂ from the graph.</p>",
+        "summary": "<p><strong>N-t graph:</strong> exponential curve. Read T₁/₂ by finding time for N to halve.</p><p><strong>N = N₀(½)^(t/T₁/₂)</strong> for calculation.</p><p><strong>Always subtract background before plotting.</strong></p>",
+        "checkQuestions": [
+          { "question": "A count rate drops from 600 cpm to 75 cpm in 12 minutes. Background is negligible. Find T₁/₂.", "answer": "75/600 = 1/8 = (½)³. So 3 half-lives in 12 minutes. T₁/₂ = 4 minutes." }
+        ],
+        "checklist": ["I can read half-life from an N-t or A-t graph", "I can apply N = N₀(½)^n for integer half-lives", "I can determine the number of half-lives from initial and final values"]
+      },
+      "core": {
+        "title": "Experimental determination and ln graphs",
+        "content": "<h4>Experimental procedure (school lab)</h4><ol><li>Measure background count rate (source removed) for several minutes. Calculate average background rate.</li><li>Place source near GM tube. Record count rate at regular intervals (e.g., every 30 seconds for a short-lived source).</li><li>Subtract background from each reading: corrected rate = measured − background.</li><li>Plot corrected count rate vs time.</li><li>Read T₁/₂ from the graph (time for rate to halve).</li></ol><h4>The ln graph method (AHL)</h4><p>Plot ln(corrected rate) vs t. A straight line confirms exponential decay. Gradient = −λ. T₁/₂ = 0.693/λ. This is MORE ACCURATE than reading from the curve because:</p><ul><li>Straight line is easier to fit than an exponential</li><li>Gradient gives λ precisely</li><li>Deviations from linearity reveal non-exponential behaviour (e.g., two isotopes mixed)</li></ul><h4>Background subtraction</h4><p>If background is not subtracted: the graph levels off at the background rate instead of approaching zero. This makes T₁/₂ appear shorter than it actually is (the curve drops faster initially). Always subtract background BEFORE plotting.</p>",
+        "keyPoints": ["Measure background separately and subtract from all readings", "N-t or A-t graph: read T₁/₂ as time for any value to halve", "ln graph (AHL): straight line, gradient = −λ, more accurate", "Failure to subtract background → incorrect (shorter) T₁/₂"],
+        "examTrap": { "wrong": "Background radiation can be ignored if it's small", "correct": "Background MUST always be subtracted, even if small. As the source activity drops, the background becomes an increasingly significant fraction of the reading. At late times, most of your reading IS background — without correction, the graph won't approach zero and T₁/₂ will be wrong." },
+        "checkQuestions": [
+          { "question": "Explain why failure to subtract background gives a shorter apparent half-life.", "answer": "Without background subtraction, measured values are too high, especially at later times when source activity is low. The graph appears to level off at the background rate rather than approaching zero. The early part of the curve drops from a high value toward the background level more steeply than the true decay curve, making the halving time appear shorter." }
+        ],
+        "checklist": ["I can describe an experiment to measure half-life", "I can explain why background must be subtracted", "I can determine λ from a ln(count rate) vs t graph (AHL)"]
+      },
+      "extension": { "title": "Mixed sources and curve stripping", "content": "<p>If two isotopes are mixed, the ln A vs t graph is NOT linear — it curves. The long-lived component dominates at late times (when the short-lived has mostly decayed). 'Curve stripping': fit a straight line to the late-time data (long-lived component), extrapolate back, subtract from the original data to isolate the short-lived component. This gives two separate λ values. Nuclear physicists use this technique to identify unknown isotopes in reactor products and fallout samples.</p>", "connections": ["E.4 Fission: fission products are mixtures of many isotopes with different half-lives", "C.1 Superposition: concept of separating combined signals into components"], "checklist": ["I can describe qualitatively how to separate two exponential decays from mixed data"] },
+      "video": { "title": "Measuring Half-Life — IB Physics", "duration": "9 min", "description": "Decay graphs, experimental methods, background subtraction, and ln graphs", "embedId": "" },
+      "equations": [
+        { "formula": "N = N₀(½)^(t/T₁/₂)", "description": "Remaining nuclei using half-life formula." },
+        { "formula": "Corrected rate = measured rate − background rate", "description": "Background subtraction." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Background = 20 cpm. Corrected readings: t=0: 400, t=2min: 200, t=4min: 100, t=6min: 50. Find T₁/₂.", "steps": [
+          { "label": "Pattern", "text": "400 → 200 → 100 → 50: halves every 2 minutes" },
+          { "label": "T₁/₂", "text": "T₁/₂ = 2 minutes", "isEquation": true },
+          { "label": "Check", "text": "Consistent across all intervals — confirms single exponential decay" }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "From a decay graph, the count rate drops from 800 to 400 in 5 minutes and from 400 to 200 in another 5 minutes. What is the half-life?", "solution": "T₁/₂ = 5 minutes. Confirmed by consistent halving time across two intervals." },
+        { "difficulty": "medium", "scope": "sl", "question": "Measured count rates (cpm): t=0: 520, t=10min: 280, t=20min: 160, t=30min: 100. Background = 40 cpm. Find T₁/₂.", "solution": "Corrected: 480, 240, 120, 60. Pattern: 480→240→120→60 halves every 10 min. T₁/₂ = 10 minutes." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Read T₁/₂ from raw data without subtracting background", "explanation": "Raw readings include background radiation. At later times, most of the measured count IS background. Without subtracting it, the curve appears to level off and gives an incorrectly short T₁/₂.", "correct": "Always subtract background FIRST, then read T₁/₂ from the corrected data." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A student measures count rates from a source. Background rate = 30 cpm.\n\nTime (min): 0, 5, 10, 15, 20\nMeasured rate (cpm): 510, 270, 150, 90, 60\n\n(a) Calculate the corrected count rates. [1]\n(b) Determine the half-life. [2]\n(c) Predict the corrected count rate after 25 minutes. [1]", "marks": 4, "modelAnswer": "(a) Subtract 30: 480, 240, 120, 60, 30 cpm [1].\n(b) 480 → 240 in 5 min; 240 → 120 in 5 min; 120 → 60 in 5 min. Consistent halving every 5 minutes. T₁/₂ = 5 min [2].\n(c) After 25 min = 5 half-lives: 480 × (½)⁵ = 15 cpm [1].", "examinerTip": "Always show the corrected values. Check T₁/₂ is consistent across at least two intervals." }
+    },
+
+    {
+      "id": "e3_sub5", "num": 5, "title": "Absorption, Detection & Safety", "group": "Practical", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Half-Life Graphs", "nextTitle": "Applications of Radioactivity",
+      "bigIdea": "Different radiations are absorbed differently by materials. Alpha: stopped by paper. Beta: stopped by aluminium. Gamma: reduced exponentially by lead. These absorption properties determine how we detect, use, and protect against radiation. Safety comes down to three principles: minimise time, maximise distance, use shielding.",
+      "foundation": {
+        "title": "How radiation interacts with matter",
+        "content": "<h4>Alpha absorption</h4><p>Alpha particles are heavy (+2e, 4u) and interact strongly with matter, ionising almost every atom they pass. They lose energy rapidly → <strong>stopped by a few cm of air, a sheet of paper, or the dead outer layer of skin</strong>. Range is well-defined — all alphas of the same energy stop at almost the same distance.</p><h4>Beta absorption</h4><p>Beta particles are lighter (electrons, −1e) and interact less strongly. They penetrate further: <strong>stopped by a few mm of aluminium</strong>. Range is less well-defined than alpha — they scatter and take irregular paths. Continuous energy spectrum (0 to KE_max) means absorption is gradual rather than sharp.</p><h4>Gamma absorption</h4><p>Gamma photons have no charge and no mass. They interact weakly: <strong>intensity is reduced (never fully stopped) by dense materials like lead or concrete</strong>. Absorption follows: <strong>I = I₀e^(−μx)</strong> where μ = linear absorption coefficient and x = thickness. Each cm of lead reduces intensity by a fixed fraction.</p><h4>Inverse square law for gamma</h4><p>For a point source of gamma radiation (no absorption): <strong>I ∝ 1/r²</strong>. Double the distance → quarter the intensity. This is because gamma photons spread out over the surface area of a sphere (4πr²).</p>",
+        "summary": "<p><strong>α:</strong> paper/few cm air. Sharp range.</p><p><strong>β:</strong> few mm aluminium. Gradual absorption.</p><p><strong>γ:</strong> I = I₀e^(−μx). Lead reduces but never stops completely.</p><p><strong>Gamma in air:</strong> I ∝ 1/r² (inverse square law).</p>",
+        "checkQuestions": [
+          { "question": "Why does gamma radiation obey an exponential absorption law while alpha has a definite range?", "answer": "Gamma photons interact probabilistically — each photon has a fixed probability of being absorbed per cm of material. This gives exponential attenuation (each cm removes the same fraction). Alpha particles interact with almost every atom they pass (very high ionisation) and lose energy continuously until they stop — giving a well-defined range." }
+        ],
+        "checklist": ["I can describe absorption of α, β, γ by different materials", "I can state I = I₀e^(−μx) for gamma absorption", "I can apply the inverse square law I ∝ 1/r² for gamma from a point source"]
+      },
+      "core": {
+        "title": "Detection, safety, and dose",
+        "content": "<h4>Detectors</h4><ul><li><strong>Geiger-Müller (GM) tube:</strong> radiation ionises gas → avalanche of ions → pulse of current → counted. Detects all three types but most efficient for beta. Dead time ~100 μs between counts.</li><li><strong>Scintillation counter:</strong> radiation causes a flash of light in a crystal (NaI) → photomultiplier tube → electrical pulse. Measures ENERGY of each photon → gamma spectroscopy.</li><li><strong>Cloud/bubble chambers:</strong> radiation leaves visible tracks. Alpha: thick straight tracks. Beta: thin, curved (deflected by magnetic field). Gamma: no direct track (may produce electron tracks).</li></ul><h4>Safety measures</h4><ul><li><strong>Time:</strong> minimise exposure time. Dose ∝ time.</li><li><strong>Distance:</strong> maximise distance. Gamma: I ∝ 1/r². Double distance → quarter dose rate.</li><li><strong>Shielding:</strong> appropriate material between source and person. Lead aprons for medical X-rays. Concrete walls for reactors.</li></ul><h4>Dose quantities</h4><p><strong>Absorbed dose (D):</strong> energy absorbed per kg of tissue. Unit: gray (Gy). 1 Gy = 1 J/kg.</p><p><strong>Equivalent dose (H):</strong> H = D × w_R where w_R = radiation weighting factor (α: 20, β: 1, γ: 1). Unit: sievert (Sv). Accounts for biological damage — alpha does 20× more damage per Gy than gamma.</p>",
+        "keyPoints": ["GM tube: counts pulses from ionisation. Scintillation: measures photon energy.", "Safety: time, distance, shielding", "Absorbed dose (Gy) = energy/mass. Equivalent dose (Sv) = Gy × w_R.", "w_R: alpha = 20, beta = 1, gamma = 1"],
+        "examTrap": { "wrong": "Alpha radiation is always the most dangerous", "correct": "It depends on whether the source is internal or external. External: gamma is most dangerous (penetrates to organs; alpha can't penetrate skin). Internal (ingested/inhaled): alpha is most dangerous (very high ionisation deposits all energy in a few cells; w_R = 20 means 20× more biological damage per Gy)." },
+        "checkQuestions": [
+          { "question": "A worker receives 2 mGy of alpha radiation and 5 mGy of gamma. Calculate the total equivalent dose.", "answer": "H_α = 2 × 10⁻³ × 20 = 40 × 10⁻³ Sv = 40 mSv. H_γ = 5 × 10⁻³ × 1 = 5 mSv. Total = 45 mSv." }
+        ],
+        "checklist": ["I can describe the GM tube, scintillation counter, and cloud chamber", "I can state and apply the three safety measures", "I can calculate equivalent dose: H = D × w_R"]
+      },
+      "extension": { "title": "Half-value thickness", "content": "<p>The half-value thickness (HVT or x₁/₂) is the thickness of material that reduces gamma intensity to half. From I = I₀e^(−μx): at x = x₁/₂, I = I₀/2. So x₁/₂ = ln 2/μ = 0.693/μ — the same form as T₁/₂ = 0.693/λ. For lead with 1 MeV gammas: x₁/₂ ≈ 1.0 cm. After 3 HVTs: I = I₀/8 (12.5% remains). After 10: I = I₀/1024 (0.1%).</p>", "connections": ["E.3 Exponential Law: I = I₀e^(−μx) is the same mathematical form as N = N₀e⁻λt", "C.5 Doppler: inverse square law applies to sound and EM intensity"], "checklist": ["I can define and use half-value thickness: x₁/₂ = 0.693/μ"] },
+      "video": { "title": "Radiation Detection & Safety — IB Physics", "duration": "9 min", "description": "Detectors, absorption experiments, safety measures, and dose calculations", "embedId": "" },
+      "equations": [
+        { "formula": "I = I₀e^(−μx)", "description": "Gamma intensity after passing through thickness x." },
+        { "formula": "I ∝ 1/r²", "description": "Inverse square law for gamma from a point source." },
+        { "formula": "H = D × w_R", "description": "Equivalent dose (Sv) = absorbed dose (Gy) × radiation weighting factor." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State three ways to reduce exposure to radiation.", "solution": "1. Minimise TIME near the source. 2. Maximise DISTANCE (I ∝ 1/r²). 3. Use SHIELDING (lead, concrete) between source and person." },
+        { "difficulty": "medium", "scope": "sl", "question": "A gamma source gives a count rate of 400 cpm at 1 m. Predict the count rate at 3 m (ignoring background).", "solution": "I ∝ 1/r². At 3 m: I = 400 × (1/3)² = 400/9 = 44 cpm." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Lead completely blocks gamma radiation", "explanation": "Gamma follows exponential absorption: I = I₀e^(−μx). Each layer removes a fraction. You can make the intensity negligibly small with enough lead, but it never reaches exactly zero.", "correct": "Lead attenuates (reduces) gamma intensity exponentially. It never fully stops it." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A student stands 2.0 m from a gamma source. The equivalent dose rate is 8.0 μSv/h.\n(a) Calculate the dose rate at 4.0 m. [2]\n(b) State two other ways the student could reduce their dose. [2]", "marks": 4, "modelAnswer": "(a) I ∝ 1/r². Distance doubles (×2) → intensity × (1/4). Dose rate = 8.0/4 = 2.0 μSv/h [2].\n(b) 1. Reduce time spent near the source (dose ∝ time) [1]. 2. Place lead/concrete shielding between the source and the student [1].", "examinerTip": "For inverse square: if r doubles, I quarters. If r triples, I drops to 1/9. Show the factor explicitly." }
+    },
+
+    {
+      "id": "e3_sub6", "num": 6, "title": "Applications of Radioactivity", "group": "Applications", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Absorption & Safety", "nextTitle": "E.4 Fission",
+      "bigIdea": "Radioactivity isn't just a hazard — it's an incredibly useful tool. Carbon dating tells us the age of ancient artefacts. Medical tracers map disease inside the body. Industrial tracers find leaks in pipes. Smoke detectors save lives. Sterilisation kills bacteria. Each application exploits a specific property — the right isotope for the right job.",
+      "foundation": {
+        "title": "Matching isotope properties to applications",
+        "content": "<h4>Carbon dating</h4><p>Living organisms absorb C-14 from CO₂. At death, C-14 decays (T₁/₂ = 5730 years) while C-12 is stable. Measuring the C-14/C-12 ratio gives the age. Useful for organic material up to ~50,000 years (about 9 half-lives — below this, too little C-14 remains to measure accurately).</p><h4>Medical tracers</h4><p>Inject a radioactive isotope → detect from outside the body → image of where it concentrates. Requirements: gamma emitter (penetrates body for external detection), short half-life (decays quickly → low dose), non-toxic, metabolically useful.</p><ul><li><strong>Tc-99m:</strong> T₁/₂ = 6 h. Gamma emitter. Used in ~80% of nuclear medicine scans (bone, heart, kidney).</li><li><strong>F-18 (FDG):</strong> T₁/₂ = 110 min. Positron emitter → PET scans. Concentrates in metabolically active tissue → detects cancer.</li><li><strong>I-131:</strong> T₁/₂ = 8 days. Beta emitter. Concentrates in thyroid → used for diagnosis AND treatment of thyroid cancer.</li></ul><h4>Other applications</h4><ul><li><strong>Smoke detectors:</strong> Am-241 (alpha). Alpha particles ionise air between two plates → current flows. Smoke particles absorb alphas → current drops → alarm triggers.</li><li><strong>Industrial thickness gauges:</strong> Beta source above material, detector below. Count rate decreases as material gets thicker → monitors paper/metal thickness in manufacturing.</li><li><strong>Sterilisation:</strong> Co-60 gamma rays kill bacteria on medical equipment, food. Long range of gamma ensures penetration throughout the package.</li></ul>",
+        "summary": "<p><strong>Carbon dating:</strong> C-14, T₁/₂ = 5730 y. Up to ~50,000 years.</p><p><strong>Medical:</strong> Tc-99m (gamma, 6h), F-18 (PET), I-131 (thyroid).</p><p><strong>Industrial:</strong> Am-241 (smoke detectors), beta gauges, Co-60 (sterilisation).</p>",
+        "checkQuestions": [
+          { "question": "Why is Tc-99m ideal for medical imaging?", "answer": "1. Gamma emitter — penetrates body for external detection. 2. Short T₁/₂ (6 hours) — decays quickly → low radiation dose to patient. 3. The 'm' means metastable — it decays by gamma emission with no alpha or beta (pure gamma reduces dose). 4. Chemistry allows it to bind to many different molecules → versatile imaging." }
+        ],
+        "checklist": ["I can explain carbon dating including its range limitation", "I can state the properties required for a medical tracer", "I can match radiation types to appropriate applications"]
+      },
+      "core": {
+        "title": "Choosing the right isotope",
+        "content": "<h4>The selection criteria</h4><p>For each application, ask: (1) What type of radiation? (2) What half-life? (3) Any chemical requirements?</p><table><tr><th>Application</th><th>Type needed</th><th>T₁/₂ needed</th><th>Why</th></tr><tr><td>Medical imaging</td><td>Gamma</td><td>Hours</td><td>Penetrates body; decays quickly</td></tr><tr><td>Cancer therapy</td><td>Beta/gamma</td><td>Days-weeks</td><td>Targeted cell destruction</td></tr><tr><td>Smoke detector</td><td>Alpha</td><td>Very long (years)</td><td>Ionises air; doesn't need replacing often</td></tr><tr><td>Thickness gauge</td><td>Beta</td><td>Long (years)</td><td>Partially absorbed by material</td></tr><tr><td>Sterilisation</td><td>Gamma</td><td>Years</td><td>Penetrates packaging</td></tr><tr><td>Dating</td><td>Any (measure remaining)</td><td>Matches timescale</td><td>C-14: thousands of years. U-238: billions</td></tr></table><h4>Carbon dating calculations</h4><p>If the ratio N/N₀ = (current C-14)/(original C-14): age t = −T₁/₂ × ln(N/N₀)/ln 2. Or count half-lives: N/N₀ = (½)ⁿ → n = −log₂(N/N₀) → t = n × T₁/₂.</p><h4>Limitations of carbon dating</h4><ul><li>Only works for organic material (was once alive)</li><li>Maximum ~50,000 years (~9 half-lives — too little C-14 to measure)</li><li>Assumes atmospheric C-14 ratio was constant (calibration needed)</li><li>Contamination with modern carbon → gives artificially young ages</li></ul>",
+        "keyPoints": ["Match radiation type and T₁/₂ to application requirements", "Medical tracer: gamma + short T₁/₂. Smoke detector: alpha + long T₁/₂.", "Carbon dating age: t = −T₁/₂ × ln(N/N₀)/ln 2", "C-14 dating limited to ~50,000 years and organic material only"],
+        "examTrap": { "wrong": "A short half-life is always better for medical use", "correct": "It depends on the application. Imaging: short T₁/₂ (hours) minimises patient dose. Therapy: moderate T₁/₂ (days to weeks) needed so the isotope delivers radiation over the treatment period. Too short and it decays before treatment is complete." },
+        "checkQuestions": [
+          { "question": "A bone fragment has 6.25% of its original C-14. Estimate its age.", "answer": "6.25% = 1/16 = (½)⁴. So 4 half-lives. Age = 4 × 5730 = 22,920 years." }
+        ],
+        "checklist": ["I can select appropriate isotopes for different applications with justification", "I can perform carbon dating calculations", "I can state limitations of carbon dating"]
+      },
+      "extension": { "title": "Other radiometric dating methods", "content": "<p>For rocks and geological timescales, C-14 is useless (too short-lived). Instead: U-238 → Pb-206 (T₁/₂ = 4.5 × 10⁹ years) — dates the oldest rocks and meteorites. K-40 → Ar-40 (T₁/₂ = 1.25 × 10⁹ years) — dates volcanic rocks. Rb-87 → Sr-87 (T₁/₂ = 4.9 × 10¹⁰ years) — dates ancient igneous rocks. The age of the Earth (4.54 billion years) was determined using uranium-lead dating of meteorites.</p>", "connections": ["E.5 Stars: stellar nucleosynthesis created these heavy isotopes", "E.1 Nuclear Reactions: decay chains from U-238 to Pb-206 involve 14 steps"], "checklist": ["I can describe radiometric dating methods for geological timescales"] },
+      "video": { "title": "Applications of Radioactivity — IB Physics", "duration": "9 min", "description": "Carbon dating, medical tracers, industrial uses, and choosing the right isotope", "embedId": "" },
+      "equations": [
+        { "formula": "t = −(T₁/₂/ln 2) × ln(N/N₀)", "description": "Age from remaining fraction of radioactive isotope." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "A wooden artefact has 35% of the original C-14 remaining. Find its age.", "steps": [
+          { "label": "Formula", "text": "t = −(T₁/₂/ln 2) × ln(N/N₀)" },
+          { "label": "Substitute", "text": "t = −(5730/0.693) × ln(0.35) = −8268 × (−1.050)" },
+          { "label": "Calculate", "text": "t = 8680 years", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Why is an alpha source, not a gamma source, used in smoke detectors?", "solution": "Alpha particles ionise air strongly, creating a current between two plates. Smoke particles absorb the alphas, reducing the current → triggering the alarm. Gamma would pass through both air and smoke without much interaction — no change in current, so it wouldn't detect smoke." },
+        { "difficulty": "medium", "scope": "sl", "question": "A sample of ancient wood has a C-14 activity of 0.16 Bq per gram. Modern wood has 0.25 Bq per gram. Find the age.", "solution": "N/N₀ = A/A₀ = 0.16/0.25 = 0.64. t = −(5730/0.693) × ln(0.64) = −8268 × (−0.446) = 3688 years ≈ 3700 years." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Carbon dating can date rocks and fossils millions of years old", "explanation": "C-14 has T₁/₂ = 5730 years. After ~50,000 years (~9 half-lives), less than 0.2% remains — too little to measure. For older samples, use U-Pb (billions of years) or K-Ar (millions of years) dating.", "correct": "Carbon dating works for organic material up to ~50,000 years old. Use other isotopes for geological timescales." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Carbon-14 has a half-life of 5730 years. A sample of ancient cloth has 25% of the original C-14 content.\n(a) Determine the age of the cloth. [2]\n(b) Explain why carbon dating would not work for a rock sample. [1]\n(c) Suggest a suitable isotope for dating rocks. [1]", "marks": 4, "modelAnswer": "(a) 25% = (½)² = 2 half-lives [1]. Age = 2 × 5730 = 11,460 years [1].\n(b) Carbon dating requires organic material that was once alive (absorbed C-14 from CO₂). Rocks are not organic and do not contain C-14 from biological processes [1].\n(c) Uranium-238 (T₁/₂ = 4.5 × 10⁹ years) — suitable for rocks billions of years old [1].", "examinerTip": "For dating: 25% = (½)² is the fastest approach. For non-neat fractions, use t = −(T₁/₂/ln2) × ln(N/N₀)." }
+    }
+
+  ]
+},
+"E4": {
+  "title": "Fission",
+  "code": "E.4",
+  "theme": "E",
+  "level": "SL + HL",
+  "subtopicCount": 4,
+  "subtopics": [
+
+    {
+      "id": "e4_sub1", "num": 1, "title": "Mass Defect & Binding Energy", "group": "Nuclear Energy", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "E.3 Radioactive Decay", "nextTitle": "The Binding Energy per Nucleon Curve",
+      "bigIdea": "A nucleus weighs LESS than the sum of its individual protons and neutrons. The 'missing' mass — the mass defect — has been converted into binding energy via E = mc². This energy holds the nucleus together. To break a nucleus apart, you must supply exactly this much energy. The bigger the mass defect, the more tightly bound and stable the nucleus.",
+      "foundation": {
+        "title": "Where does the missing mass go?",
+        "content": "<h4>Mass defect</h4><p>Take a helium-4 nucleus: 2 protons + 2 neutrons. Add up their individual masses: 2(1.00728) + 2(1.00866) = 4.03188 u. Actual He-4 mass: 4.00260 u. The difference: <strong>Δm = 0.02928 u</strong>. This 'missing' mass is the <strong>mass defect</strong>.</p><h4>Where did the mass go?</h4><p>Einstein's equation: <strong>E = mc²</strong>. The mass defect has been converted into <strong>binding energy</strong> — the energy released when the nucleons came together to form the nucleus. This energy is what holds the nucleus together.</p><h4>Binding energy</h4><p><strong>BE = Δm × c²</strong></p><p>In atomic mass units: <strong>1 u = 931.5 MeV/c²</strong>. So BE = Δm × 931.5 MeV.</p><p>For He-4: BE = 0.02928 × 931.5 = 27.3 MeV. This is the energy you'd need to completely separate He-4 into 2 protons and 2 neutrons.</p><h4>Binding energy per nucleon</h4><p><strong>BE/A</strong> = binding energy divided by number of nucleons. For He-4: 27.3/4 = 6.82 MeV/nucleon. This measures how tightly bound each nucleon is — higher BE/A means more stable.</p>",
+        "summary": "<p><strong>Mass defect Δm</strong> = (sum of individual nucleon masses) − (actual nuclear mass).</p><p><strong>BE = Δm × 931.5 MeV</strong> (using 1 u = 931.5 MeV/c²).</p><p><strong>BE/A:</strong> binding energy per nucleon — measures stability.</p>",
+        "checkQuestions": [
+          { "question": "Calculate the mass defect and binding energy of C-12. Masses: p = 1.00728 u, n = 1.00866 u, C-12 = 12.00000 u.", "answer": "Δm = 6(1.00728) + 6(1.00866) − 12.00000 = 6.04368 + 6.05196 − 12.00000 = 0.09564 u. BE = 0.09564 × 931.5 = 89.1 MeV. BE/A = 89.1/12 = 7.42 MeV/nucleon." }
+        ],
+        "checklist": ["I can calculate mass defect from nucleon and nuclear masses", "I can convert mass defect to binding energy using 1 u = 931.5 MeV/c²", "I can calculate binding energy per nucleon"]
+      },
+      "core": {
+        "title": "Energy released in nuclear reactions",
+        "content": "<h4>Energy from mass difference</h4><p>In any nuclear reaction: <strong>energy released = (mass of reactants − mass of products) × 931.5 MeV</strong>. If products are lighter: energy is released (exothermic). If products are heavier: energy must be supplied (endothermic).</p><h4>Equivalently: from binding energies</h4><p><strong>Energy released = total BE of products − total BE of reactants</strong>. Products more tightly bound → energy released.</p><h4>Example: alpha decay of U-238</h4><p>²³⁸U → ²³⁴Th + ⁴He. Masses: U = 238.05079, Th = 234.04363, He = 4.00260 u. Δm = 238.05079 − 234.04363 − 4.00260 = 0.00456 u. Energy = 0.00456 × 931.5 = 4.25 MeV. This appears as KE of the alpha and recoil of the thorium nucleus.</p>",
+        "keyPoints": ["Energy released = Δm × 931.5 MeV (mass difference method)", "Energy released = BE_products − BE_reactants (binding energy method)", "Both methods give the same answer — use whichever data is provided", "Products lighter or more tightly bound → energy released"],
+        "examTrap": { "wrong": "Binding energy is the energy stored IN the nucleus", "correct": "Binding energy is the energy needed to TAKE THE NUCLEUS APART — to separate all nucleons. It's the energy that was released when the nucleus was formed. Higher BE = more energy needed to break it = more stable." },
+        "checkQuestions": [
+          { "question": "In D-T fusion: ²H + ³H → ⁴He + n. Masses: D = 2.01410, T = 3.01605, He = 4.00260, n = 1.00866 u. Find the energy released.", "answer": "Reactants: 2.01410 + 3.01605 = 5.03015 u. Products: 4.00260 + 1.00866 = 5.01126 u. Δm = 0.01889 u. Energy = 0.01889 × 931.5 = 17.6 MeV." }
+        ],
+        "checklist": ["I can calculate energy released from mass differences", "I can calculate energy released from binding energy differences", "I can explain why energy release requires products to be more tightly bound"]
+      },
+      "extension": { "title": "The semi-empirical mass formula", "content": "<p>The Bethe-Weizsäcker formula models nuclear mass using five terms: volume (strong force, proportional to A), surface (nucleons at the surface are less bound), Coulomb (proton repulsion, proportional to Z²/A^(1/3)), asymmetry (penalises N ≠ Z), and pairing (even-even nuclei are extra stable). This formula predicts nuclear masses and binding energies across the entire periodic table to ~1% accuracy. It explains the shape of the BE/A curve and predicts the most stable nucleus (iron-56).</p>", "connections": ["E.1 Nuclear Structure: strong force and Coulomb repulsion determine nuclear stability", "A.5 Relativity: E = mc² is the foundation of all nuclear energy calculations"], "checklist": ["I can describe qualitatively the five terms in the semi-empirical mass formula"] },
+      "video": { "title": "Mass Defect & Binding Energy — IB Physics", "duration": "10 min", "description": "Mass defect, BE = Δmc², BE/A, and energy calculations in nuclear reactions", "embedId": "" },
+      "equations": [
+        { "formula": "Δm = Σm_nucleons − m_nucleus", "description": "Mass defect." },
+        { "formula": "BE = Δm × 931.5 MeV", "description": "Binding energy from mass defect (1 u = 931.5 MeV/c²)." },
+        { "formula": "Energy released = Σm_reactants − Σm_products (× 931.5)", "description": "Energy from mass difference in a nuclear reaction." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Find the binding energy per nucleon of Fe-56. Mass of Fe-56 = 55.93494 u.", "steps": [
+          { "label": "Nucleons", "text": "26 protons + 30 neutrons. Σm = 26(1.00728) + 30(1.00866) = 26.18928 + 30.25980 = 56.44908 u" },
+          { "label": "Δm", "text": "Δm = 56.44908 − 55.93494 = 0.51414 u" },
+          { "label": "BE", "text": "BE = 0.51414 × 931.5 = 479.1 MeV", "isEquation": true },
+          { "label": "BE/A", "text": "BE/A = 479.1/56 = 8.56 MeV/nucleon — near the peak of the curve", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State what is meant by the mass defect of a nucleus.", "solution": "The mass defect is the difference between the total mass of the individual (separated) nucleons and the actual mass of the nucleus. Δm = Σm_nucleons − m_nucleus. It represents the mass equivalent of the binding energy (E = Δmc²)." },
+        { "difficulty": "medium", "scope": "sl", "question": "The mass defect of Li-7 is 0.04214 u. Calculate the binding energy and the binding energy per nucleon.", "solution": "BE = 0.04214 × 931.5 = 39.3 MeV. BE/A = 39.3/7 = 5.61 MeV/nucleon." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Mass defect means mass has been destroyed", "explanation": "Mass is not destroyed — it is converted into energy (E = mc²). The binding energy has mass equivalent Δm. If you supplied the binding energy to separate all nucleons, the total mass of the separated nucleons would be greater by exactly Δm.", "correct": "Mass defect = mass converted to binding energy via E = mc². Total mass-energy is conserved." }
+      ],
+      "examCorner": { "scope": "sl", "question": "The mass of a nitrogen-14 nucleus is 14.00307 u. The mass of a proton is 1.00728 u and a neutron is 1.00866 u.\n(a) Calculate the mass defect of nitrogen-14. [2]\n(b) Calculate the binding energy in MeV. [1]\n(c) Calculate the binding energy per nucleon. [1]", "marks": 4, "modelAnswer": "(a) N-14 has 7 protons and 7 neutrons. Σm = 7(1.00728) + 7(1.00866) = 7.05096 + 7.06062 = 14.11158 u [1]. Δm = 14.11158 − 14.00307 = 0.10851 u [1].\n(b) BE = 0.10851 × 931.5 = 101.1 MeV [1].\n(c) BE/A = 101.1/14 = 7.22 MeV/nucleon [1].", "examinerTip": "Show both the proton and neutron mass sums separately, then the total. This avoids arithmetic errors and earns method marks even if your final number is slightly off." }
+    },
+
+    {
+      "id": "e4_sub2", "num": 2, "title": "The Binding Energy per Nucleon Curve", "group": "Nuclear Energy", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Mass Defect & Binding Energy", "nextTitle": "Fission & Chain Reactions",
+      "bigIdea": "Plot BE/A against mass number A and you get the most important graph in nuclear physics. It peaks at iron-56 (~8.8 MeV/nucleon). To the LEFT: fusion releases energy (light nuclei combine toward iron). To the RIGHT: fission releases energy (heavy nuclei split toward iron). Everything in nuclear energy — reactors, bombs, stars — is explained by moving toward this peak.",
+      "foundation": {
+        "title": "The most important graph in nuclear physics",
+        "content": "<h4>Shape of the curve</h4><ul><li><strong>Low A (H, He, Li):</strong> BE/A rises steeply. Adding nucleons gives large stability gains.</li><li><strong>Peak at A ≈ 56 (iron):</strong> BE/A ≈ 8.8 MeV/nucleon. Most tightly bound. Most stable.</li><li><strong>High A (U, Pu):</strong> BE/A decreases slowly. Coulomb repulsion between many protons weakens the binding.</li></ul><h4>What the curve tells us</h4><ol><li><strong>Fusion releases energy</strong> for A < 56 (moving UP the left side toward iron). Example: H → He in stars.</li><li><strong>Fission releases energy</strong> for A > 56 (moving UP the right side toward iron). Example: U-235 → Ba + Kr.</li><li><strong>Iron is the endpoint</strong> — you can't extract energy by fusing or fissioning iron. Iron is nuclear 'ash'.</li></ol><h4>Calculating energy released from the curve</h4><p>Energy per reaction ≈ A × (BE/A of products − BE/A of reactants).</p><p>Fission of U-235: products have BE/A ≈ 8.5, uranium ≈ 7.6. Energy ≈ 235 × (8.5 − 7.6) ≈ 210 MeV.</p>",
+        "summary": "<p><strong>BE/A curve peaks at Fe-56</strong> (~8.8 MeV/nucleon).</p><p><strong>Left of peak:</strong> fusion releases energy. <strong>Right of peak:</strong> fission releases energy.</p><p><strong>Iron is maximally stable</strong> — the endpoint of both processes.</p>",
+        "checkQuestions": [
+          { "question": "Why can't you extract energy by fusing iron?", "answer": "Iron-56 is at the PEAK of the BE/A curve — maximum stability. Fusing iron would produce nuclei with LOWER BE/A, meaning the products are LESS tightly bound. This requires energy input rather than releasing energy. Iron is the nuclear 'ash' — the endpoint of energy-releasing nuclear processes." }
+        ],
+        "checklist": ["I can sketch and label the BE/A curve", "I can explain why fusion works for light nuclei and fission for heavy nuclei", "I can estimate energy released using BE/A values"]
+      },
+      "core": {
+        "title": "Explaining nuclear energetics with the curve",
+        "content": "<h4>Why fusion releases MORE energy per nucleon than fission</h4><p>The left side of the curve is steep: fusing H to He increases BE/A by ~7 MeV/nucleon. The right side is gentle: fissioning U increases BE/A by ~0.9 MeV/nucleon. So fusion releases ~7 MeV per nucleon vs ~0.9 MeV for fission. But a single fission event releases more TOTAL energy (~200 MeV) than a single fusion event (~17.6 MeV for D-T) because the fissioning nucleus has many more nucleons (235 vs 5).</p><h4>Notable points on the curve</h4><ul><li><strong>H-1:</strong> BE/A = 0 (single nucleon, nothing to bind)</li><li><strong>He-4:</strong> BE/A ≈ 7.07 MeV/nucleon (very stable — 'doubly magic')</li><li><strong>Fe-56:</strong> BE/A ≈ 8.79 MeV/nucleon (peak)</li><li><strong>Ni-62:</strong> Actually the highest BE/A at 8.795 — but iron is commonly cited</li><li><strong>U-235:</strong> BE/A ≈ 7.59 MeV/nucleon</li></ul><h4>He-4 anomaly</h4><p>He-4 sits above the smooth trend — it's unusually stable for its mass number. This is because 2 protons + 2 neutrons form a 'doubly magic' closed shell. Alpha particles are so tightly bound that they are emitted whole in alpha decay.</p>",
+        "keyPoints": ["Fusion: ~7 MeV/nucleon gain (steep left side)", "Fission: ~0.9 MeV/nucleon gain (gentle right side)", "He-4 anomaly: unusually stable due to magic numbers", "Total energy per fission event (~200 MeV) > per fusion event (~17.6 MeV)"],
+        "examTrap": { "wrong": "Fission releases more energy than fusion", "correct": "Per NUCLEON: fusion releases far more (~7 vs ~0.9 MeV/nucleon). Per EVENT: fission releases more total energy (~200 vs ~17.6 MeV) because the fissioning nucleus is much heavier. The question must specify 'per nucleon' or 'per reaction'." },
+        "checkQuestions": [
+          { "question": "From the curve: BE/A of U-235 ≈ 7.6, products ≈ 8.5 MeV/nucleon. Estimate the energy released per fission.", "answer": "ΔBE/A ≈ 8.5 − 7.6 = 0.9 MeV/nucleon. Total ≈ 235 × 0.9 ≈ 210 MeV. Close to the actual ~200 MeV." }
+        ],
+        "checklist": ["I can compare energy per nucleon for fusion vs fission using the curve", "I can explain the He-4 anomaly on the curve", "I can estimate energy per fission from BE/A values"]
+      },
+      "extension": { "title": "Why iron is the endpoint of stellar fusion", "content": "<p>Stars fuse H → He → C → O → Ne → Mg → Si → Fe in successive stages. Each stage releases less energy per nucleon because the curve flattens toward the peak. At iron: fusion ABSORBS energy. The star can no longer generate thermal pressure → the core collapses → supernova. Elements heavier than iron (gold, uranium, etc.) are made DURING the supernova explosion, where there is enough energy to force nucleons together past the iron peak. You are literally made of supernova debris.</p>", "connections": ["E.5 Fusion & Stars: stellar nucleosynthesis stops at iron", "A.3 Energy: mass-energy conservation governs all nuclear processes"], "checklist": ["I can explain why stellar fusion stops at iron"] },
+      "video": { "title": "The BE/A Curve — IB Physics", "duration": "10 min", "description": "Shape of the curve, fusion vs fission, iron peak, He-4 anomaly, and energy estimates", "embedId": "" },
+      "equations": [
+        { "formula": "Energy ≈ A × (BE/A_products − BE/A_reactants)", "description": "Estimate energy released from BE/A values." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Sketch the BE/A curve and label the region where fusion releases energy and the region where fission releases energy.", "solution": "Curve rises steeply from A = 1, peaks at A ≈ 56 (iron, ~8.8 MeV/nucleon), then decreases gently for high A. Label left of peak: 'Fusion releases energy (moving right/up)'. Right of peak: 'Fission releases energy (moving left/up)'." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain, using the BE/A curve, why energy is released in the fusion of hydrogen to helium.", "solution": "Hydrogen has BE/A = 0 (or very low for deuterium). Helium-4 has BE/A ≈ 7.1 MeV/nucleon. Moving from lower to higher BE/A means the products are more tightly bound. The increase in total binding energy (from ~0 to ~28 MeV for 4 nucleons) is released as kinetic energy of the products." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The BE/A curve shows that heavier nuclei are always more stable", "explanation": "BE/A PEAKS at iron-56, then DECREASES for heavier nuclei. Uranium (A = 235) has lower BE/A than iron. Very heavy nuclei are less stable because the long-range Coulomb repulsion between the many protons begins to overcome the short-range strong force.", "correct": "Stability peaks at iron. Both lighter AND heavier nuclei are less stable." }
+      ],
+      "examCorner": { "scope": "sl", "question": "The binding energy per nucleon of U-235 is 7.59 MeV and the average for its fission products is 8.50 MeV.\n(a) Explain why fission of U-235 releases energy, with reference to binding energy per nucleon. [2]\n(b) Estimate the energy released per fission of U-235. [2]", "marks": 4, "modelAnswer": "(a) The fission products have higher BE/A (8.50) than U-235 (7.59) [1]. The products are more tightly bound — the increase in total binding energy is released as kinetic energy of the products and radiation [1].\n(b) Increase in BE/A = 8.50 − 7.59 = 0.91 MeV/nucleon [1]. Total energy ≈ 235 × 0.91 ≈ 214 MeV ≈ 210 MeV [1].", "examinerTip": "For 'explain why energy is released': always compare BE/A of reactants and products. State products have HIGHER BE/A and explain that the difference is released." }
+    },
+
+    {
+      "id": "e4_sub3", "num": 3, "title": "Fission & Chain Reactions", "group": "Fission Process", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "The BE/A Curve", "nextTitle": "Nuclear Reactors",
+      "bigIdea": "Fire a slow neutron at a U-235 nucleus → it splits into two medium-sized nuclei plus 2-3 fast neutrons plus ~200 MeV. Those neutrons can split more U-235 → chain reaction. If exactly 1 neutron from each fission causes another: sustained, controlled reaction (reactor). If more than 1: exponential runaway (bomb). The physics is simple; controlling it is the challenge.",
+      "foundation": {
+        "title": "How fission works",
+        "content": "<h4>Induced fission</h4><p>A <strong>thermal (slow) neutron</strong> is absorbed by U-235 → the nucleus becomes U-236 (excited) → splits into two fission fragments + 2-3 fast neutrons + energy.</p><p>Example: ²³⁵U + ¹n → ¹⁴¹Ba + ⁹²Kr + 3n + ~200 MeV</p><p>The fission products vary — U-235 can split in ~40 different ways. Products are typically asymmetric (one fragment A ≈ 90-100, the other A ≈ 130-145).</p><h4>Why thermal neutrons?</h4><p>U-235 has a much larger cross-section (probability of capture) for slow neutrons (~580 barns) than fast neutrons (~1 barn). Slow neutrons spend more time near the nucleus → more likely to be captured. This is why a moderator is needed in reactors.</p><h4>Energy distribution</h4><p>The ~200 MeV per fission appears as:</p><ul><li>KE of fission fragments: ~165 MeV (83%)</li><li>KE of neutrons: ~5 MeV (2.5%)</li><li>Gamma rays (prompt): ~7 MeV (3.5%)</li><li>Beta/gamma from fission products: ~23 MeV (11.5%)</li></ul>",
+        "summary": "<p><strong>Fission:</strong> slow neutron + U-235 → 2 fragments + 2-3 neutrons + ~200 MeV.</p><p><strong>Thermal neutrons:</strong> much more likely to cause fission than fast neutrons.</p><p><strong>~83% of energy → KE of fragments → heat.</strong></p>",
+        "checkQuestions": [
+          { "question": "Why is U-235 used as nuclear fuel rather than U-238?", "answer": "U-235 undergoes fission with slow (thermal) neutrons — it has a large capture cross-section for them. U-238 requires fast neutrons with energy > 1 MeV to fission, and even then the cross-section is much smaller. In a thermal reactor, slow neutrons are abundant (thanks to the moderator), making U-235 the practical fuel." }
+        ],
+        "checklist": ["I can describe induced fission of U-235", "I can write a fission equation and balance A and Z", "I can explain why thermal neutrons are needed for U-235 fission"]
+      },
+      "core": {
+        "title": "The chain reaction and critical mass",
+        "content": "<h4>The chain reaction</h4><p>Each fission produces 2-3 neutrons. If at least one causes another fission → chain reaction. <strong>Multiplication factor k</strong>: average number of neutrons from one fission that cause another fission.</p><ul><li><strong>k < 1 (subcritical):</strong> reaction dies out</li><li><strong>k = 1 (critical):</strong> sustained reaction — constant power (reactor)</li><li><strong>k > 1 (supercritical):</strong> exponential increase — power surge or explosion</li></ul><h4>What happens to the neutrons?</h4><p>Of the 2-3 neutrons per fission, most are lost:</p><ul><li>Escape from the material (leakage)</li><li>Absorbed by U-238 (doesn't fission with slow neutrons)</li><li>Absorbed by impurities or structural materials</li><li>Absorbed by control rods</li></ul><p>Only ~1 must cause another U-235 fission for k = 1.</p><h4>Critical mass</h4><p>The minimum mass of fissile material needed for k ≥ 1 (sustained chain reaction). Below this mass: too many neutrons escape through the surface. For U-235: ~52 kg (bare sphere). Reduced by using a neutron reflector or increasing density (implosion).</p><h4>Enrichment</h4><p>Natural uranium: 99.3% U-238, 0.7% U-235. Reactor fuel: enriched to 3-5% U-235 (low-enriched). Weapons: >90% U-235 (highly enriched). Enrichment increases the probability that a neutron hits U-235 rather than U-238.</p>",
+        "keyPoints": ["Chain reaction: each fission → 2-3 neutrons → more fissions", "k = 1: critical (reactor). k > 1: supercritical. k < 1: subcritical.", "Critical mass: minimum for sustained reaction (~52 kg for U-235)", "Enrichment: natural 0.7% → reactor 3-5% → weapons >90% U-235"],
+        "examTrap": { "wrong": "Each fission neutron causes another fission", "correct": "Each fission produces 2-3 neutrons, but MOST are lost (escape, absorbed by U-238, control rods, etc.). Only ~1 per fission causes another fission in a critical reactor. If all 2-3 caused fissions, the reaction would be uncontrollably supercritical." },
+        "checkQuestions": [
+          { "question": "Explain the difference between subcritical, critical, and supercritical states.", "answer": "Subcritical (k < 1): fewer than 1 neutron per fission causes another fission → reaction rate decreases → dies out. Critical (k = 1): exactly 1 neutron per fission causes another → constant reaction rate → steady power output (normal reactor operation). Supercritical (k > 1): more than 1 neutron per fission causes another → exponential increase in reaction rate → used briefly to increase reactor power, or uncontrolled in a weapon." }
+        ],
+        "checklist": ["I can describe a chain reaction and explain the multiplication factor k", "I can distinguish subcritical, critical, and supercritical states", "I can define critical mass and state factors that affect it", "I can explain why enrichment is necessary"]
+      },
+      "extension": { "title": "Delayed neutrons and reactor control", "content": "<p>About 0.65% of fission neutrons are 'delayed' — emitted seconds to minutes after fission from the decay of fission products. This tiny fraction is crucial for reactor control. If the reactor is critical on prompt neutrons alone: the reaction time is ~10⁻⁴ s — far too fast to control mechanically. With delayed neutrons: the effective response time is ~seconds — slow enough for control rods to work. Reactors are designed to be critical only when delayed neutrons are included. Without delayed neutrons, nuclear power would be impossible.</p>", "connections": ["E.3 Radioactive Decay: delayed neutrons come from beta decay of fission products", "E.4 Reactors: control rods work because delayed neutrons slow the response time"], "checklist": ["I can explain why delayed neutrons are essential for reactor control"] },
+      "video": { "title": "Chain Reactions & Critical Mass — IB Physics", "duration": "10 min", "description": "Fission process, chain reactions, k factor, critical mass, and enrichment", "embedId": "" },
+      "equations": [
+        { "formula": "²³⁵U + ¹n → fission products + 2-3 n + ~200 MeV", "description": "General fission of U-235." },
+        { "formula": "k = 1 (critical)", "description": "Multiplication factor for sustained reaction." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Balance the fission equation: ²³⁵U + ¹n → ¹⁴⁴Ba + ? + 3¹n", "steps": [
+          { "label": "Mass number", "text": "A: 235 + 1 = 144 + A_unknown + 3(1) → A_unknown = 236 − 144 − 3 = 89" },
+          { "label": "Atomic number", "text": "Z: 92 + 0 = 56 + Z_unknown + 0 → Z_unknown = 36 (krypton)" },
+          { "label": "Answer", "text": "²³⁵₉₂U + ¹₀n → ¹⁴⁴₅₆Ba + ⁸⁹₃₆Kr + 3¹₀n", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State three things produced when U-235 undergoes fission.", "solution": "1. Two fission fragment nuclei (e.g., barium and krypton). 2. Two or three fast neutrons. 3. Energy (~200 MeV, mostly as kinetic energy of the fragments)." },
+        { "difficulty": "medium", "scope": "sl", "question": "In a reactor, each fission produces 2.5 neutrons on average. If 0.5 are absorbed by U-238, 0.3 escape, and 0.4 are absorbed by control rods, find k.", "answer": "Neutrons causing fission = 2.5 − 0.5 − 0.3 − 0.4 = 1.3. But if these 1.3 neutrons must hit U-235 specifically: k depends on the enrichment. As stated, k ≈ 1.3 — slightly supercritical. Control rods would be inserted slightly more to reduce k to 1.0." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Nuclear reactors can explode like atomic bombs", "explanation": "Reactor fuel is 3-5% U-235 (low-enriched). Weapons require >90% (highly enriched). A nuclear explosion requires supercritical mass of highly enriched material compressed together extremely rapidly. A reactor physically cannot achieve this — it lacks the enrichment and the compression mechanism. Reactor accidents involve meltdowns and steam/hydrogen explosions, not nuclear detonations.", "correct": "Reactors cannot produce nuclear explosions. Different fuel enrichment and no compression mechanism." }
+      ],
+      "examCorner": { "scope": "sl", "question": "In a nuclear reactor, the fission of U-235 produces neutrons.\n(a) State the typical number of neutrons produced per fission. [1]\n(b) Explain what is meant by a chain reaction. [2]\n(c) State what is meant by critical mass. [1]", "marks": 4, "modelAnswer": "(a) 2 or 3 (accept 2-3) [1].\n(b) Neutrons produced by one fission event [1] go on to cause further fission events in other U-235 nuclei, which produce more neutrons, continuing the process [1].\n(c) The minimum mass of fissile material required to sustain a chain reaction (k ≥ 1) [1].", "examinerTip": "For chain reaction: emphasize that products of one fission CAUSE further fissions. Use words like 'self-sustaining' and 'exponential'." }
+    },
+
+    {
+      "id": "e4_sub4", "num": 4, "title": "Nuclear Reactors — Design, Safety & Waste", "group": "Fission Process", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Chain Reactions", "nextTitle": "E.5 Fusion and Stars",
+      "bigIdea": "A nuclear reactor is a controlled chain reaction: fuel provides the fissions, a moderator slows the neutrons, control rods adjust the rate, and a coolant carries the heat to generate electricity. The physics is elegant; the engineering must handle extreme conditions; and the waste remains radioactive for thousands of years — the central ethical dilemma of nuclear power.",
+      "foundation": {
+        "title": "Inside a nuclear reactor",
+        "content": "<h4>Fuel rods</h4><p>Contain enriched uranium (3-5% U-235) in ceramic pellets stacked in metal tubes. The U-235 undergoes fission when hit by thermal neutrons.</p><h4>Moderator</h4><p>Slows fast neutrons (~2 MeV) to thermal energies (~0.025 eV). Fast neutrons are inefficient at causing U-235 fission. Best moderators: low mass number (efficient energy transfer — like a billiard ball hitting another billiard ball vs hitting a bowling ball), low neutron absorption.</p><ul><li><strong>Water (H₂O):</strong> good moderator + coolant. Used in PWR and BWR.</li><li><strong>Heavy water (D₂O):</strong> lower neutron absorption → can use natural (unenriched) uranium. CANDU reactors.</li><li><strong>Graphite:</strong> solid moderator. Used in older designs (e.g., Magnox, RBMK).</li></ul><h4>Control rods</h4><p>Made of neutron-absorbing material (boron or cadmium). Inserted deeper → absorb more neutrons → fewer fissions → power decreases. Withdrawn → more neutrons available → power increases. Maintains k = 1 (critical) during normal operation.</p><h4>Coolant</h4><p>Carries thermal energy from the reactor core to a heat exchanger → steam → turbine → generator → electricity. Most common: pressurised water (PWR). Also: heavy water, CO₂ gas, liquid sodium (fast reactors).</p><h4>Containment</h4><p>Thick concrete and steel structure surrounding the reactor. Prevents radiation escape during normal operation and contains radioactive material in an accident.</p>",
+        "summary": "<p><strong>Fuel:</strong> enriched U-235 (3-5%). <strong>Moderator:</strong> slows neutrons (water/graphite).</p><p><strong>Control rods:</strong> absorb neutrons (boron/cadmium). <strong>Coolant:</strong> removes heat.</p><p><strong>Containment:</strong> concrete/steel barrier.</p>",
+        "checkQuestions": [
+          { "question": "Explain the role of the moderator.", "answer": "The moderator slows fast neutrons (produced at ~2 MeV) to thermal energies (~0.025 eV) through elastic collisions. Thermal (slow) neutrons have a much higher probability of being captured by U-235 and causing fission (cross-section ~580 barns for thermal vs ~1 barn for fast). Without a moderator, a sustained chain reaction is not possible with low-enriched fuel." }
+        ],
+        "checklist": ["I can state the function of fuel rods, moderator, control rods, coolant, and containment", "I can explain why the moderator is essential", "I can describe how control rods regulate the chain reaction"]
+      },
+      "core": {
+        "title": "Safety, waste, and the nuclear debate",
+        "content": "<h4>Safety systems</h4><ul><li><strong>Emergency shutdown (SCRAM):</strong> all control rods fully inserted → absorbs enough neutrons to make k << 1 → reaction stops within seconds.</li><li><strong>Multiple barriers:</strong> fuel pellet → cladding → pressure vessel → containment building. Each contains radioactive material if the previous barrier fails.</li><li><strong>Emergency cooling:</strong> backup water systems to prevent fuel melting if the main coolant is lost.</li></ul><h4>Nuclear waste</h4><ul><li><strong>Low-level (LLW):</strong> clothing, tools, filters. Slightly radioactive. Shallow burial for decades.</li><li><strong>Intermediate-level (ILW):</strong> reactor components, chemical sludges. Encased in concrete. Stored for centuries.</li><li><strong>High-level (HLW):</strong> spent fuel rods containing fission products. Extremely radioactive, generates heat. Vitrified (mixed into glass), stored in stainless steel casks, destined for deep geological repositories. Remains hazardous for ~100,000 years.</li></ul><h4>Advantages and disadvantages of nuclear power</h4><table><tr><th>Advantages</th><th>Disadvantages</th></tr><tr><td>Very high energy density (1 kg U ≈ 3000 tonnes coal)</td><td>Long-lived radioactive waste</td></tr><tr><td>Low CO₂ during operation</td><td>High construction cost and time</td></tr><tr><td>Reliable baseload power (24/7)</td><td>Risk of accidents (Chernobyl, Fukushima)</td></tr><tr><td>Small land footprint</td><td>Nuclear proliferation concerns</td></tr><tr><td>Large fuel reserves</td><td>Public opposition and political difficulty</td></tr></table>",
+        "keyPoints": ["SCRAM: emergency full insertion of control rods → immediate shutdown", "Three waste categories: LLW (decades), ILW (centuries), HLW (~100,000 years)", "1 kg U-235 ≈ 8.2 × 10¹³ J ≈ 3000 tonnes coal", "Low CO₂ but long-lived waste — the central tradeoff"],
+        "examTrap": { "wrong": "Nuclear power produces no pollution", "correct": "Nuclear power produces no CO₂ during operation, but it generates radioactive waste that remains hazardous for thousands to hundreds of thousands of years. Mining, construction, and decommissioning also have environmental impacts. It's low-carbon, not zero-impact." },
+        "checkQuestions": [
+          { "question": "Explain why high-level waste is the most problematic.", "answer": "HLW contains fission products and transuranic elements with half-lives ranging from years to millions of years. It generates significant heat and intense radiation. It must be isolated from the biosphere for ~100,000 years. No country has yet completed a permanent geological repository (Finland's Onkalo is closest). The technical challenge is ensuring containment over timescales far longer than human civilisation." }
+        ],
+        "checklist": ["I can describe emergency shutdown and safety systems", "I can classify nuclear waste (LLW, ILW, HLW) with disposal methods", "I can discuss advantages and disadvantages of nuclear power"]
+      },
+      "extension": { "title": "Breeder reactors and the nuclear fuel cycle", "content": "<p>In a breeder reactor, U-238 (not fissile) captures a neutron → U-239 → beta decay → Np-239 → beta decay → Pu-239 (fissile). The reactor 'breeds' more fuel than it consumes. This could extend uranium fuel reserves by ~60×. Fast breeder reactors use fast neutrons (no moderator) and liquid sodium coolant. France operated Superphénix; Russia operates BN-800. Concerns: plutonium is weapons-usable, sodium coolant is reactive. The 'closed fuel cycle' reprocesses spent fuel to extract plutonium for re-use — controversial because of proliferation risk.</p>", "connections": ["E.3 Radioactive Decay: beta decay chain U-239 → Np-239 → Pu-239", "E.4 Chain Reactions: breeder reactors produce more fissile material than they consume"], "checklist": ["I can describe the breeding process: U-238 → Pu-239 via neutron capture and beta decay"] },
+      "video": { "title": "Nuclear Reactors — IB Physics", "duration": "10 min", "description": "Reactor components, moderator physics, safety systems, waste management, and the nuclear debate", "embedId": "" },
+      "equations": [],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the roles of the control rods and the moderator in a nuclear reactor.", "solution": "Control rods (boron/cadmium): absorb neutrons to regulate the chain reaction rate. Inserting them reduces power; withdrawing them increases power. Moderator (water/graphite): slows fast neutrons to thermal energies, increasing the probability of U-235 fission." },
+        { "difficulty": "medium", "scope": "sl", "question": "Compare the energy released per kilogram of nuclear fuel with coal. 1 kg U-235 releases ~8.2 × 10¹³ J. Coal: ~3 × 10⁷ J/kg.", "solution": "Ratio: 8.2 × 10¹³ / 3 × 10⁷ = 2.7 × 10⁶. Nuclear fuel releases about 2.7 million times more energy per kilogram than coal. This extreme energy density is why a small reactor can power a city." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The moderator slows down the reaction", "explanation": "The moderator slows down NEUTRONS (from fast to thermal). This actually HELPS the reaction by making neutrons more likely to cause fission. It's the control rods that slow the reaction rate. Confusing the moderator with control rods is a very common exam error.", "correct": "Moderator slows NEUTRONS → helps reaction. Control rods absorb NEUTRONS → slows/controls reaction." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Describe the function of each of the following components of a nuclear fission reactor:\n(a) the fuel rods [1]\n(b) the moderator [2]\n(c) the control rods [2]\n(d) State one advantage and one disadvantage of nuclear power compared to fossil fuels. [2]", "marks": 7, "modelAnswer": "(a) Fuel rods contain fissile material (enriched uranium-235) which undergoes fission, releasing energy [1].\n(b) The moderator (e.g., water or graphite) slows down fast neutrons [1] to thermal energies, increasing the probability of causing further fission of U-235 nuclei [1].\n(c) Control rods (e.g., boron or cadmium) absorb neutrons [1]. Adjusting their insertion depth controls the rate of the chain reaction — maintaining the multiplication factor k = 1 for steady power output [1].\n(d) Advantage: very high energy density (much more energy per kg than fossil fuels) / low CO₂ emissions during operation [1]. Disadvantage: produces long-lived radioactive waste that remains hazardous for thousands of years / risk of nuclear accidents [1].", "examinerTip": "For reactor components: state the material AND the function. For the moderator: two marks means two points — (1) what it does (slows neutrons) and (2) why (increases fission probability)." }
+    }
+
+  ]
+},
+"E5": {
+  "title": "Fusion and Stars",
+  "code": "E.5",
+  "theme": "E",
+  "level": "SL + HL",
+  "subtopicCount": 5,
+  "subtopics": [
+
+    {
+      "id": "e5_sub1", "num": 1, "title": "Nuclear Fusion — The Power Source of Stars", "group": "Fusion", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "E.4 Fission", "nextTitle": "The Main Sequence & Stellar Properties",
+      "bigIdea": "Fusion powers every star in the universe. Two light nuclei smash together at millions of degrees and combine into a heavier nucleus, releasing enormous energy. The Sun fuses 600 million tonnes of hydrogen every second, converting 4 million tonnes of mass into energy via E = mc². Harnessing this on Earth would provide virtually unlimited clean energy — if we can solve the engineering.",
+      "foundation": {
+        "title": "How fusion works and why it needs extreme conditions",
+        "content": "<h4>What is fusion?</h4><p>Two light nuclei combine to form a heavier nucleus + energy. Example: ²₁H + ³₁H → ⁴₂He + ¹₀n + 17.6 MeV. The products have higher BE/A than the reactants → they are more tightly bound → the difference is released as energy.</p><h4>The Coulomb barrier</h4><p>Both nuclei are positive → they repel each other (Coulomb force). To fuse, they must get close enough (~10⁻¹⁵ m) for the short-range strong nuclear force to take over. This requires overcoming the Coulomb barrier — an enormous electrostatic potential energy.</p><h4>Why extreme temperature?</h4><p>At high temperatures, nuclei have enough KE to approach each other despite repulsion. For D-T fusion: T ≈ 10⁸ K (100 million degrees). At these temperatures, matter is a <strong>plasma</strong> (ionised gas — electrons stripped from nuclei).</p><h4>Quantum tunnelling helps</h4><p>Even at 10⁸ K, most nuclei don't have enough energy to classically overcome the barrier. Fusion occurs because of <strong>quantum tunnelling</strong> — nuclei tunnel through the barrier with a small probability. The combination of high temperature (many collisions) and tunnelling (small probability per collision) produces a significant fusion rate.</p><h4>The pp chain (Sun)</h4><p>The Sun fuses hydrogen into helium via the proton-proton chain:</p><ol><li>p + p → ²H + e⁺ + ν (weak force, very slow — this is the bottleneck)</li><li>²H + p → ³He + γ</li><li>³He + ³He → ⁴He + 2p</li></ol><p>Net: 4p → ⁴He + 2e⁺ + 2ν + energy (26.7 MeV).</p>",
+        "summary": "<p><strong>Fusion:</strong> light nuclei → heavier + energy. Products have higher BE/A.</p><p><strong>Coulomb barrier:</strong> repulsion between positive nuclei. Overcome by extreme T.</p><p><strong>Quantum tunnelling:</strong> allows fusion below the classical barrier energy.</p><p><strong>pp chain:</strong> 4p → He + 2e⁺ + 2ν + 26.7 MeV.</p>",
+        "checkQuestions": [
+          { "question": "Why does fusion require temperatures of ~10⁸ K?", "answer": "At these temperatures, nuclei have enough kinetic energy (~10 keV) to overcome the electrostatic Coulomb repulsion between the positive nuclei and get close enough (~1 fm) for the strong nuclear force to bind them together. Even then, quantum tunnelling is needed because most nuclei still lack the full classical barrier energy." }
+        ],
+        "checklist": ["I can describe fusion and state conditions needed (high T, plasma)", "I can explain the Coulomb barrier and why it requires extreme temperature", "I can outline the pp chain and the net equation: 4p → He + energy"]
+      },
+      "core": {
+        "title": "Energy from fusion and the CNO cycle",
+        "content": "<h4>Energy calculations</h4><p>For D-T fusion: Δm = (2.01410 + 3.01605) − (4.00260 + 1.00866) = 0.01889 u. Energy = 0.01889 × 931.5 = 17.6 MeV.</p><p>Per nucleon: 17.6/5 = 3.5 MeV/nucleon — much more than fission's ~0.9 MeV/nucleon.</p><h4>The CNO cycle</h4><p>In stars heavier than the Sun (T > 1.5 × 10⁷ K), the CNO cycle dominates: carbon acts as a catalyst, cycling through C → N → O → C, with the net effect of fusing 4p → He + energy. Same net result as the pp chain but faster at high temperatures. The CNO cycle is extremely temperature-sensitive (rate ∝ T¹⁶).</p><h4>Solar luminosity</h4><p>The Sun converts 4.3 × 10⁹ kg of mass into energy every second: P = Δm × c² = 4.3 × 10⁹ × (3 × 10⁸)² = 3.85 × 10²⁶ W. This has continued for 4.6 billion years and will continue for another ~5 billion.</p><h4>Fusion on Earth</h4><p>Two approaches: <strong>magnetic confinement</strong> (tokamak — ITER) — magnetic fields contain the plasma in a doughnut shape. <strong>Inertial confinement</strong> (NIF) — powerful lasers compress a pellet of fuel. Neither has yet achieved sustained net energy gain for power generation.</p>",
+        "keyPoints": ["D-T fusion: 17.6 MeV per reaction. 3.5 MeV per nucleon (>> fission).", "pp chain: dominant in Sun. CNO cycle: dominant in hotter, heavier stars.", "Solar power: 3.85 × 10²⁶ W from converting 4.3 million kg/s of mass.", "Fusion on Earth: magnetic (ITER) and inertial (NIF) confinement."],
+        "examTrap": { "wrong": "Fusion produces dangerous long-lived radioactive waste", "correct": "Fusion produces helium (stable, non-radioactive) and neutrons. The neutrons activate structural materials, creating some low/intermediate-level waste, but there are NO long-lived fission products and NO risk of meltdown. The waste problem is vastly smaller than fission." },
+        "checkQuestions": [
+          { "question": "Calculate the energy released when 1 kg of deuterium undergoes D-T fusion.", "answer": "Each D-T reaction uses 5 nucleons and releases 17.6 MeV. 1 kg = 1000 g / 5 g/mol × 6.02 × 10²³ = 1.204 × 10²⁶ reactions. Energy = 1.204 × 10²⁶ × 17.6 × 10⁶ × 1.6 × 10⁻¹⁹ = 3.39 × 10¹⁴ J ≈ 3.4 × 10¹⁴ J. This is about 4× the energy from fissioning 1 kg of U-235." }
+        ],
+        "checklist": ["I can calculate energy released in fusion reactions from mass differences", "I can compare pp chain and CNO cycle", "I can describe magnetic and inertial confinement approaches"]
+      },
+      "extension": { "title": "ITER and the future of fusion", "content": "<p>ITER (International Thermonuclear Experimental Reactor) in France aims to achieve Q = 10 — producing 10× more energy than it consumes. Target: 500 MW of fusion power from 50 MW of input heating. Uses a tokamak with superconducting magnets to confine plasma at 150 million °C. First plasma scheduled for the late 2020s; D-T operations ~2035. Commercial fusion power plants may follow by 2040-2050. Challenges: plasma instabilities, neutron damage to walls, tritium breeding, and the sheer engineering difficulty of containing a 150-million-degree plasma indefinitely.</p>", "connections": ["D.2 Magnetic Fields: magnetic confinement uses B fields to control charged plasma", "E.4 Fission: fusion would replace fission with a cleaner energy source"], "checklist": ["I can describe ITER and the challenges of achieving sustained fusion"] },
+      "video": { "title": "Nuclear Fusion — IB Physics", "duration": "10 min", "description": "Fusion process, Coulomb barrier, pp chain, CNO cycle, and fusion on Earth", "embedId": "" },
+      "equations": [
+        { "formula": "4p → ⁴He + 2e⁺ + 2ν + 26.7 MeV", "description": "Net pp chain reaction in the Sun." },
+        { "formula": "²H + ³H → ⁴He + n + 17.6 MeV", "description": "D-T fusion — the easiest fusion reaction." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "In the pp chain, 4 protons fuse to form He-4. Masses: p = 1.00728 u, He = 4.00260 u, e⁺ = 0.00055 u. Find the energy released.", "steps": [
+          { "label": "Reactants", "text": "4 × 1.00728 = 4.02912 u" },
+          { "label": "Products", "text": "4.00260 + 2(0.00055) = 4.00370 u (He + 2 positrons)" },
+          { "label": "Δm", "text": "4.02912 − 4.00370 = 0.02542 u" },
+          { "label": "Energy", "text": "0.02542 × 931.5 = 23.7 MeV (rest goes to neutrinos)", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State two conditions necessary for nuclear fusion to occur.", "solution": "1. Extremely high temperature (~10⁸ K for D-T) to give nuclei enough kinetic energy to overcome Coulomb repulsion. 2. Sufficient density/confinement time so that nuclei collide frequently enough for a significant fusion rate." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain why the pp chain is the dominant fusion process in the Sun rather than the CNO cycle.", "solution": "The Sun's core temperature is ~1.5 × 10⁷ K. The CNO cycle rate is proportional to T¹⁶ — it dominates above ~1.7 × 10⁷ K. Below this, the pp chain dominates because it is less temperature-sensitive (rate ∝ T⁴). The Sun's temperature is just below the crossover, so ~99% of its energy comes from the pp chain." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Fusion is impossible because nuclei repel each other", "explanation": "The Coulomb repulsion is enormous but not insurmountable. At ~10⁸ K, nuclei have enough KE to approach closely, and quantum tunnelling allows them to 'pass through' the remaining barrier. The probability is tiny per collision, but at stellar densities, billions of collisions per second produce a significant fusion rate.", "correct": "Fusion requires extreme temperature to partly overcome Coulomb repulsion, plus quantum tunnelling to complete the process." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Hydrogen nuclei fuse in the Sun.\n(a) State the conditions necessary for fusion. [2]\n(b) Write the net equation for the proton-proton chain. [1]\n(c) Calculate the energy released using the mass data: 4 protons = 4.02912 u, He-4 = 4.00260 u. Ignore positron mass. [2]", "marks": 5, "modelAnswer": "(a) Very high temperature (~10⁷ K in the Sun's core) to provide nuclei with enough KE to overcome electrostatic (Coulomb) repulsion [1]. High density/pressure to ensure sufficient collision rate for fusion to sustain itself [1].\n(b) 4p → ⁴He + 2e⁺ + 2ν + energy [1].\n(c) Δm = 4.02912 − 4.00260 = 0.02652 u [1]. Energy = 0.02652 × 931.5 = 24.7 MeV [1].", "examinerTip": "For conditions: state BOTH temperature (to overcome Coulomb) and density/pressure (for collision rate). Two marks = two distinct conditions." }
+    },
+
+    {
+      "id": "e5_sub2", "num": 2, "title": "Stellar Properties — Luminosity, Temperature & Spectra", "group": "Stars", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Nuclear Fusion", "nextTitle": "The Hertzsprung-Russell Diagram",
+      "bigIdea": "Stars are classified by their surface temperature (colour) and luminosity (total power output). A star's colour tells you its temperature — blue-white is hot (~30,000 K), red is cool (~3000 K). Its luminosity depends on both temperature and size: L = σAT⁴. These two properties are the axes of the most important diagram in stellar physics — the HR diagram.",
+      "foundation": {
+        "title": "What we can measure about stars",
+        "content": "<h4>Luminosity (L)</h4><p><strong>Luminosity</strong> = total energy radiated per second (watts). The Sun: L☉ = 3.85 × 10²⁶ W. A luminous star might be 10⁶ L☉; a dim one might be 10⁻⁴ L☉.</p><h4>Surface temperature (T)</h4><p>Determined from the star's colour/spectrum. Stars are approximate <strong>black bodies</strong>:</p><ul><li>Cool stars (~3000 K): red</li><li>Medium stars (~6000 K): yellow-white (like the Sun)</li><li>Hot stars (~30,000 K): blue-white</li></ul><p><strong>Wien's law:</strong> λ_max = 2.9 × 10⁻³ / T. The peak wavelength of emission shifts with temperature. Hotter → shorter λ_max (bluer). Cooler → longer λ_max (redder).</p><h4>Stefan-Boltzmann law</h4><p><strong>L = σAT⁴ = 4πR²σT⁴</strong></p><p>σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴. Luminosity depends on surface area (∝ R²) and temperature (∝ T⁴). A star twice the radius → 4× the luminosity. A star twice the temperature → 16× the luminosity.</p><h4>Spectral classes</h4><p>OBAFGKM (Oh Be A Fine Girl/Guy Kiss Me). O = hottest (>30,000 K, blue). M = coolest (<3500 K, red). The Sun is G-type (~5800 K).</p>",
+        "summary": "<p><strong>Luminosity L</strong> = total power output (W).</p><p><strong>Wien's law:</strong> λ_max = 2.9 × 10⁻³/T.</p><p><strong>Stefan-Boltzmann:</strong> L = 4πR²σT⁴.</p><p><strong>Spectral classes:</strong> OBAFGKM (hot → cool).</p>",
+        "checkQuestions": [
+          { "question": "The Sun has T = 5800 K. Find its peak wavelength.", "answer": "λ_max = 2.9 × 10⁻³/5800 = 5.0 × 10⁻⁷ m = 500 nm (green — though the Sun appears yellow-white due to the broad spectrum)." }
+        ],
+        "checklist": ["I can define luminosity as total power radiated", "I can apply Wien's law: λ_max = 2.9 × 10⁻³/T", "I can apply Stefan-Boltzmann: L = 4πR²σT⁴", "I can list spectral classes OBAFGKM in order of decreasing temperature"]
+      },
+      "core": {
+        "title": "Comparing stars using luminosity and temperature",
+        "content": "<h4>Using Stefan-Boltzmann to compare stars</h4><p>Take the ratio: L₁/L₂ = (R₁/R₂)² × (T₁/T₂)⁴. This avoids needing to know σ.</p><p>Example: Star A has R = 10R☉ and T = 5800 K (same as Sun). L_A/L☉ = (10)² × (1)⁴ = 100. Star A is 100× more luminous than the Sun.</p><h4>Finding radius from L and T</h4><p>R = √(L / (4πσT⁴)). If you know L and T (from the spectrum), you can calculate R. This is how we determine the sizes of stars we can never visit.</p><h4>Apparent brightness vs luminosity</h4><p><strong>Apparent brightness b</strong> = power received per unit area at the observer: <strong>b = L/(4πd²)</strong>. A very luminous star far away may appear dim. A less luminous star nearby may appear bright. Apparent brightness depends on both luminosity AND distance.</p>",
+        "keyPoints": ["Ratio method: L₁/L₂ = (R₁/R₂)²(T₁/T₂)⁴", "Radius from luminosity: R = √(L/(4πσT⁴))", "Apparent brightness: b = L/(4πd²) — depends on luminosity AND distance"],
+        "examTrap": { "wrong": "A brighter-looking star is more luminous", "correct": "Apparent brightness depends on BOTH luminosity AND distance. A faint-looking star could be extremely luminous but very far away (like a distant quasar). A bright-looking star could be dim but nearby (like Proxima Centauri). Always distinguish apparent brightness (what we see) from luminosity (intrinsic power)." },
+        "checkQuestions": [
+          { "question": "Star X has T = 12,000 K and R = 3R☉. Find its luminosity in terms of L☉ (T☉ = 6000 K).", "answer": "L/L☉ = (R/R☉)² × (T/T☉)⁴ = 3² × (12000/6000)⁴ = 9 × 16 = 144. Star X is 144 times more luminous than the Sun." }
+        ],
+        "checklist": ["I can use the ratio method to compare stellar luminosities", "I can calculate stellar radius from L and T", "I can distinguish apparent brightness from luminosity"]
+      },
+      "extension": { "title": "Black body radiation and stellar spectra", "content": "<p>Stars emit approximately as black bodies — the spectrum peaks at λ_max given by Wien's law, with the total power given by Stefan-Boltzmann. But stellar spectra also show absorption lines — dark lines at specific wavelengths where atoms in the star's atmosphere absorb light. These absorption lines identify the elements present (H, He, Ca, Na, Fe, etc.) and reveal the star's composition, temperature, velocity (Doppler shift), magnetic fields (Zeeman splitting), and rotation rate (line broadening). Spectroscopy is the single most powerful tool in astrophysics.</p>", "connections": ["E.1 Energy Levels: absorption lines from electron transitions in stellar atmospheres", "C.5 Doppler: radial velocity of stars from spectral line shifts"], "checklist": ["I can describe how absorption lines reveal stellar composition and velocity"] },
+      "video": { "title": "Stellar Properties — IB Physics", "duration": "10 min", "description": "Luminosity, Wien's law, Stefan-Boltzmann, spectral classes, and apparent brightness", "embedId": "" },
+      "equations": [
+        { "formula": "λ_max = 2.9 × 10⁻³ / T", "description": "Wien's displacement law." },
+        { "formula": "L = 4πR²σT⁴", "description": "Stefan-Boltzmann law. σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴." },
+        { "formula": "b = L/(4πd²)", "description": "Apparent brightness from luminosity and distance." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Find the luminosity and peak wavelength of Sirius (R = 1.71R☉, T = 9940 K).", "steps": [
+          { "label": "λ_max", "text": "λ_max = 2.9 × 10⁻³/9940 = 2.92 × 10⁻⁷ m = 292 nm (UV)" },
+          { "label": "L/L☉", "text": "L/L☉ = (1.71)² × (9940/5800)⁴ = 2.92 × 8.63 = 25.2", "isEquation": true },
+          { "label": "Luminosity", "text": "L = 25.2 × 3.85 × 10²⁶ = 9.7 × 10²⁷ W", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "A star has a surface temperature of 4000 K. Calculate its peak emission wavelength and state its colour.", "solution": "λ_max = 2.9 × 10⁻³/4000 = 7.25 × 10⁻⁷ m = 725 nm. This is in the red part of the visible spectrum — the star appears reddish." },
+        { "difficulty": "medium", "scope": "sl", "question": "Two stars have the same luminosity. Star A has T = 10,000 K, Star B has T = 5000 K. Find the ratio of their radii.", "solution": "L = 4πR²σT⁴. Same L: R_A²T_A⁴ = R_B²T_B⁴. (R_A/R_B)² = (T_B/T_A)⁴ = (5000/10000)⁴ = (0.5)⁴ = 1/16. R_A/R_B = 1/4. Star B is 4× larger in radius than Star A." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Red stars are hotter than blue stars", "explanation": "The opposite. Blue/white stars are the hottest (T > 10,000 K). Red stars are the coolest (T < 3500 K). Wien's law: hotter → shorter peak wavelength → bluer. This is the same as a heated metal: dull red → orange → yellow → white → blue-white as temperature increases.", "correct": "Blue = hot (>10,000 K). Red = cool (<3500 K). Wien's law: λ_max ∝ 1/T." }
+      ],
+      "examCorner": { "scope": "sl", "question": "Star A has surface temperature 3000 K and radius 200R☉. Star B has temperature 30,000 K and radius 0.01R☉.\n(a) Calculate the peak wavelength for each star. [2]\n(b) Determine which star has a greater luminosity. [3]", "marks": 5, "modelAnswer": "(a) Star A: λ = 2.9 × 10⁻³/3000 = 967 nm (infrared) [1]. Star B: λ = 2.9 × 10⁻³/30000 = 96.7 nm (UV) [1].\n(b) L_A/L_B = (R_A/R_B)² × (T_A/T_B)⁴ = (200/0.01)² × (3000/30000)⁴ = (20000)² × (0.1)⁴ = 4 × 10⁸ × 10⁻⁴ = 40,000 [2]. Star A is 40,000× more luminous despite being much cooler — its enormous radius more than compensates for its low temperature [1].", "examinerTip": "This is the key insight: a cool giant can outshine a hot dwarf because L ∝ R²T⁴ — the R² factor wins if R is large enough." }
+    },
+
+    {
+      "id": "e5_sub3", "num": 3, "title": "The Hertzsprung-Russell Diagram", "group": "Stars", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Stellar Properties", "nextTitle": "Stellar Evolution",
+      "bigIdea": "Plot luminosity vs temperature for thousands of stars and a pattern emerges: most stars fall on a diagonal band called the main sequence. Giants and supergiants sit above (luminous, cool, large). White dwarfs sit below (dim, hot, tiny). The HR diagram is the master map of stellar astronomy — it reveals a star's size, age, and future.",
+      "foundation": {
+        "title": "Reading the master map of the stars",
+        "content": "<h4>The axes</h4><p>x-axis: <strong>surface temperature</strong> (decreasing left to right! Hot on the left, cool on the right). Or equivalently: spectral class (O, B, A, F, G, K, M).</p><p>y-axis: <strong>luminosity</strong> (increasing upward), often in units of L☉. Logarithmic scale (covers 10⁻⁴ to 10⁶ L☉).</p><h4>The main sequence</h4><p>A diagonal band from top-left (hot, luminous, blue) to bottom-right (cool, dim, red). About 90% of stars lie on the main sequence. These are stars in the stable phase of hydrogen fusion in their cores.</p><ul><li>Top-left: massive, hot, blue O/B stars (short-lived, ~millions of years)</li><li>Middle: Sun-like G stars (~10 billion years)</li><li>Bottom-right: small, cool, red M dwarfs (trillions of years)</li></ul><h4>Giants and supergiants</h4><p>Above the main sequence: cool but very luminous → must be very large (L = 4πR²σT⁴: low T but high L means huge R). Red giants: ~10-100 R☉. Red supergiants: ~100-1000 R☉ (e.g., Betelgeuse).</p><h4>White dwarfs</h4><p>Below the main sequence: hot but very dim → must be very small (~R_Earth). Dense remnants of dead stars. No fusion — glowing from residual heat.</p>",
+        "summary": "<p><strong>HR diagram:</strong> luminosity (y, up) vs temperature (x, decreasing right).</p><p><strong>Main sequence:</strong> diagonal band. ~90% of stars. H fusion.</p><p><strong>Giants/supergiants:</strong> above. Cool + luminous → very large.</p><p><strong>White dwarfs:</strong> below. Hot + dim → very small.</p>",
+        "checkQuestions": [
+          { "question": "A star is cool (3500 K) but has luminosity 1000 L☉. Where does it sit on the HR diagram and what type is it?", "answer": "Cool → right side of diagram. 1000 L☉ → well above the main sequence. This is a RED GIANT. It must be very large: L = 4πR²σT⁴. Low T but high L → R must be enormous (~50 R☉ or more)." }
+        ],
+        "checklist": ["I can sketch and label an HR diagram with axes, main sequence, giants, and white dwarfs", "I can identify a star's type from its position on the HR diagram", "I can deduce relative sizes from position (above main sequence = large, below = small)"]
+      },
+      "core": {
+        "title": "Mass-luminosity relation and main sequence lifetime",
+        "content": "<h4>Mass-luminosity relation (main sequence only)</h4><p><strong>L ∝ M^3.5</strong> (approximately). A star 10× the Sun's mass: L ≈ 10^3.5 ≈ 3000 L☉. A star 0.1× the Sun's mass: L ≈ 0.1^3.5 ≈ 0.0003 L☉.</p><h4>Main sequence lifetime</h4><p>Fuel available ∝ M. Rate of burning ∝ L ∝ M^3.5. Lifetime ∝ M/L ∝ M/M^3.5 = <strong>M⁻²·⁵</strong>.</p><p>The Sun: ~10 billion years. A 10M☉ star: ~10 × (10)⁻²·⁵ ≈ 30 million years. A 0.5M☉ star: ~10 × (0.5)⁻²·⁵ ≈ 57 billion years (longer than the age of the universe).</p><h4>Where mass appears on the main sequence</h4><p>Massive stars are at the top-left (hot, luminous, blue). Low-mass stars are at the bottom-right (cool, dim, red). Mass increases along the main sequence from bottom-right to top-left.</p>",
+        "keyPoints": ["L ∝ M^3.5 for main sequence stars", "Lifetime ∝ M⁻²·⁵ — massive stars die young", "10M☉ star lives ~30 million years. 0.5M☉ star: ~57 billion years.", "Mass increases from bottom-right (low) to top-left (high) on the main sequence"],
+        "examTrap": { "wrong": "Massive stars live longer because they have more fuel", "correct": "Massive stars have more fuel BUT burn it MUCH faster (L ∝ M^3.5). Net effect: lifetime ∝ M⁻²·⁵. A 20M☉ star lives only ~10 million years vs the Sun's 10 billion. Mass wins against fuel supply because the luminosity dependence is so steep." },
+        "checkQuestions": [
+          { "question": "A star has mass 4M☉. Estimate its luminosity and main sequence lifetime.", "answer": "L ≈ 4^3.5 ≈ 128 L☉. Lifetime ≈ 10 × 4⁻²·⁵ = 10/32 ≈ 0.31 billion years ≈ 310 million years." }
+        ],
+        "checklist": ["I can apply L ∝ M^3.5 to estimate stellar luminosity", "I can estimate main sequence lifetime from mass", "I can explain why massive stars are short-lived"]
+      },
+      "extension": { "title": "Binary stars and mass determination", "content": "<p>Most stars are in binary systems (two stars orbiting each other). By measuring orbital period and separation, we can determine the total mass (Kepler's third law: M₁ + M₂ = 4π²a³/(GT²)). If both orbits are visible (visual binary), individual masses can be found. This is the ONLY direct way to measure stellar masses — and the mass-luminosity relation was calibrated entirely from binary star data. Eclipsing binaries (one passes in front of the other) also give stellar radii and temperatures from light curve analysis.</p>", "connections": ["D.1 Gravitational Fields: Kepler's laws applied to binary orbits", "A.2 Forces: gravitational force provides centripetal force for orbital motion"], "checklist": ["I can explain how binary stars are used to determine stellar masses"] },
+      "video": { "title": "The HR Diagram — IB Physics", "duration": "10 min", "description": "HR diagram regions, main sequence, giants, white dwarfs, mass-luminosity, and stellar lifetimes", "embedId": "" },
+      "equations": [
+        { "formula": "L ∝ M^3.5", "description": "Mass-luminosity relation (main sequence stars only)." },
+        { "formula": "Lifetime ∝ M/L ∝ M⁻²·⁵", "description": "Main sequence lifetime." }
+      ],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "Sketch an HR diagram and label the main sequence, red giants, and white dwarfs.", "solution": "Axes: x = temperature (hot left, cool right), y = luminosity (low bottom, high top). Main sequence: diagonal band upper-left to lower-right. Red giants: upper-right region (cool but luminous). White dwarfs: lower-left region (hot but dim)." },
+        { "difficulty": "medium", "scope": "sl", "question": "A star has mass 0.25M☉. Estimate its luminosity and main sequence lifetime.", "solution": "L ≈ 0.25^3.5 = 0.0078 L☉ ≈ 0.008 L☉. Lifetime ≈ 10 × 0.25⁻²·⁵ = 10/0.03125 = 320 billion years. This star will outlive the current age of the universe by a factor of ~23." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The HR diagram temperature axis increases to the right", "explanation": "The HR diagram has temperature DECREASING to the right (opposite to a normal x-axis). Hot stars (O, B) are on the LEFT. Cool stars (K, M) are on the RIGHT. This is a historical convention from when spectral class was plotted first.", "correct": "Temperature decreases to the right: hot (blue) on left, cool (red) on right." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A star has surface temperature 4000 K and luminosity 400 L☉.\n(a) On an HR diagram, mark the approximate position of this star. [1]\n(b) State what type of star this is. [1]\n(c) Deduce whether the star is larger or smaller than the Sun. [2]", "marks": 4, "modelAnswer": "(a) Mark at right side (4000 K) and above main sequence (400 L☉) [1].\n(b) Red giant [1].\n(c) L = 4πR²σT⁴. L/L☉ = (R/R☉)²(T/T☉)⁴. 400 = (R/R☉)²(4000/5800)⁴ = (R/R☉)² × 0.226 [1]. (R/R☉)² = 400/0.226 = 1770. R/R☉ = 42. The star is about 42 times larger than the Sun [1].", "examinerTip": "For 'deduce': use the Stefan-Boltzmann ratio method. Low T and high L → large R. Always show the calculation." }
+    },
+
+    {
+      "id": "e5_sub4", "num": 4, "title": "Stellar Evolution — From Birth to Death", "group": "Stellar Evolution", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "The HR Diagram", "nextTitle": "Stellar Remnants",
+      "bigIdea": "Stars are born from collapsing gas clouds, live on the main sequence burning hydrogen, swell into giants when the hydrogen runs out, and die in ways that depend on their mass. Low-mass stars fade quietly as white dwarfs. Massive stars explode as supernovae. The star's mass at birth determines its entire life story — its luminosity, lifetime, death, and remnant.",
+      "foundation": {
+        "title": "The life cycle of a star",
+        "content": "<h4>Birth — from nebula to main sequence</h4><p>A <strong>nebula</strong> (cloud of gas and dust) collapses under gravity. As it contracts, it heats up. When the core reaches ~10⁷ K: hydrogen fusion ignites → a <strong>protostar</strong> becomes a main sequence star. Gravitational PE → thermal KE → radiation. The star reaches <strong>hydrostatic equilibrium</strong>: gravity inward = radiation/gas pressure outward.</p><h4>Main sequence — the stable phase</h4><p>The star fuses H → He in its core. This is the longest phase: ~10 billion years for the Sun, ~10 million years for a 20M☉ star. The star sits on the main sequence of the HR diagram throughout this phase.</p><h4>Red giant phase — hydrogen exhaustion</h4><p>Core H runs out → core contracts and heats → H fusion begins in a shell around the core → outer layers expand enormously → star becomes a <strong>red giant</strong> (moves right and up on the HR diagram). For stars > 0.5M☉: the core eventually reaches ~10⁸ K → helium fusion begins (triple-alpha process: 3 ⁴He → ¹²C).</p><h4>Death — depends on mass</h4><ul><li><strong>Low mass (< ~8M☉):</strong> outer layers ejected as a planetary nebula. Core remains as a <strong>white dwarf</strong>.</li><li><strong>High mass (> ~8M☉):</strong> fusion continues to heavier elements (C, O, Ne, Si, Fe). At iron: fusion stops (can't release energy past the BE/A peak). Core collapses → <strong>supernova</strong> → leaves behind a neutron star or black hole.</li></ul>",
+        "summary": "<p><strong>Nebula → protostar → main sequence</strong> (H fusion, equilibrium).</p><p><strong>H exhausted → red giant</strong> (shell burning, expansion).</p><p><strong>Low mass:</strong> planetary nebula → white dwarf.</p><p><strong>High mass:</strong> supernova → neutron star or black hole.</p>",
+        "checkQuestions": [
+          { "question": "Why does a star leave the main sequence?", "answer": "The core runs out of hydrogen fuel. Without H fusion, radiation pressure in the core drops. The core contracts under gravity and heats up. H fusion begins in a shell around the core, and the outer layers expand, turning the star into a red giant. The star moves off the main sequence to the right and upward on the HR diagram." }
+        ],
+        "checklist": ["I can describe the stages: nebula → protostar → main sequence → red giant → death", "I can explain hydrostatic equilibrium", "I can state how the death of a star depends on its mass"]
+      },
+      "core": {
+        "title": "Evolutionary tracks on the HR diagram",
+        "content": "<h4>Sun-like star (1M☉) evolutionary track</h4><ol><li><strong>Protostar:</strong> collapses from nebula. Moves toward main sequence from the right (cool, contracting).</li><li><strong>Main sequence:</strong> ~10 billion years at roughly the same position (G-type, ~L☉).</li><li><strong>Red giant:</strong> moves right and up (cooler surface, higher luminosity, ~100 R☉).</li><li><strong>Helium flash:</strong> He fusion ignites. Star briefly stabilises (horizontal branch).</li><li><strong>Asymptotic giant branch:</strong> second expansion. Outer layers ejected → planetary nebula.</li><li><strong>White dwarf:</strong> moves left and down (hot but tiny, ~R_Earth). Cools over billions of years.</li></ol><h4>Massive star (>8M☉) evolutionary track</h4><ol><li><strong>Main sequence:</strong> upper left. Short-lived (~millions of years).</li><li><strong>Supergiant:</strong> expands, may oscillate across the HR diagram.</li><li><strong>Onion-shell fusion:</strong> successive shells fuse H, He, C, O, Ne, Si. Iron core builds up.</li><li><strong>Core collapse:</strong> iron can't fuse exothermically. Core collapses in milliseconds → supernova. Outer layers blasted into space.</li><li><strong>Remnant:</strong> neutron star (if core < ~3M☉) or black hole (if core > ~3M☉).</li></ol><h4>Nucleosynthesis</h4><p>Elements up to iron are made by fusion in stellar cores. Elements BEYOND iron are made in supernovae (r-process and s-process neutron capture). Every atom in your body heavier than helium was made inside a star. Carl Sagan: 'We are made of star stuff.'</p>",
+        "keyPoints": ["Sun-like: main sequence → red giant → planetary nebula → white dwarf", "Massive: main sequence → supergiant → supernova → neutron star/black hole", "Elements up to Fe: stellar fusion. Beyond Fe: supernovae.", "Evolutionary tracks on HR diagram show movement through phases"],
+        "examTrap": { "wrong": "All stars end as black holes", "correct": "Only the most massive stars (initial mass > ~20-25M☉) leave a black hole. Stars like the Sun become white dwarfs. Stars 8-25M☉ typically become neutron stars. The remnant depends on the core mass after the outer layers are expelled." },
+        "checkQuestions": [
+          { "question": "Describe the evolutionary path of the Sun on the HR diagram after it leaves the main sequence.", "answer": "The Sun will move right and upward (becoming a red giant — cooler surface but much more luminous due to enormous size). After helium burning, it will eject its outer layers as a planetary nebula. The remaining core will be a white dwarf — moving to the lower-left (hot but tiny and dim). Over billions of years, the white dwarf will cool and dim, moving further down on the HR diagram." }
+        ],
+        "checklist": ["I can trace evolutionary paths on the HR diagram for low and high mass stars", "I can describe the onion-shell structure of a massive star before supernova", "I can explain nucleosynthesis of elements up to and beyond iron"]
+      },
+      "extension": { "title": "Planetary nebulae and supernova remnants", "content": "<p>A planetary nebula is the expelled outer layers of a dying Sun-like star, ionised and made to glow by UV from the hot white dwarf core. Beautiful examples: Ring Nebula, Cat's Eye Nebula. They disperse within ~20,000 years, enriching the interstellar medium with carbon, nitrogen, and oxygen. Supernova remnants (e.g., Crab Nebula from 1054 AD supernova) are the expanding debris from massive star explosions. They contain all the heavy elements (gold, platinum, uranium) and compress surrounding gas, triggering new star formation. Star death seeds the next generation of stars.</p>", "connections": ["E.4 BE/A curve: iron is the endpoint of exothermic fusion → supernova trigger", "E.3 Radioactivity: radioactive isotopes in supernova debris (e.g., Ni-56 → Co-56 → Fe-56 powers the supernova light curve)"], "checklist": ["I can describe planetary nebulae and supernova remnants and their role in element recycling"] },
+      "video": { "title": "Stellar Evolution — IB Physics", "duration": "12 min", "description": "Birth, main sequence, red giants, supernovae, evolutionary tracks, and nucleosynthesis", "embedId": "" },
+      "equations": [],
+      "workedExamples": [],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the sequence of stages in the life of a star like the Sun.", "solution": "Nebula → protostar → main sequence (~10 billion years) → red giant → planetary nebula → white dwarf." },
+        { "difficulty": "medium", "scope": "sl", "question": "Explain why a star becomes a red giant when its core hydrogen is exhausted.", "solution": "When H is exhausted in the core: (1) Core fusion stops → radiation pressure drops → core contracts under gravity. (2) Core contraction releases gravitational PE → heats the core and surrounding layers. (3) H fusion ignites in a shell around the core. (4) The extra energy from shell burning causes the outer layers to expand enormously. (5) As the surface expands, it cools (despite higher luminosity) → the star becomes red. (6) Net effect: much larger radius, lower surface temperature, higher luminosity = red giant." }
+      ],
+      "commonMistakes": [
+        { "wrong": "Stars explode because they run out of fuel", "explanation": "Only MASSIVE stars (>~8M☉) explode as supernovae, and not simply because fuel runs out — it's because they build an iron core that can't fuse exothermically. When the iron core exceeds the Chandrasekhar limit (~1.4M☉): electron degeneracy pressure can't support it → catastrophic collapse → bounce → supernova explosion. Sun-like stars don't explode — they gently shed their outer layers.", "correct": "Supernovae occur when iron cores collapse. Low-mass stars die quietly as white dwarfs." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A star has a mass of 15M☉.\n(a) State the main sequence lifetime compared to the Sun. [1]\n(b) Describe the stages of its evolution after leaving the main sequence. [3]\n(c) State the likely remnant. [1]", "marks": 5, "modelAnswer": "(a) Much shorter — approximately 10 × 15⁻²·⁵ ≈ 12 million years (vs Sun's 10 billion) [1].\n(b) After H exhaustion: the star expands to become a red supergiant [1]. The core undergoes successive stages of fusion: He, C, O, Ne, Si, building up an iron core in an onion-shell structure [1]. When the iron core can no longer fuse exothermically, it collapses → supernova explosion, ejecting the outer layers [1].\n(c) Neutron star (or possibly black hole if core mass > ~3M☉) [1].", "examinerTip": "For massive star evolution: mention (1) supergiant phase, (2) successive element fusion to iron, (3) core collapse and supernova. Three stages, three marks." }
+    },
+
+    {
+      "id": "e5_sub5", "num": 5, "title": "Stellar Remnants — White Dwarfs, Neutron Stars & Black Holes", "group": "Stellar Evolution", "scope": "sl", "level": "SL + HL",
+      "prevTitle": "Stellar Evolution", "nextTitle": "End of Course",
+      "bigIdea": "When a star dies, what remains depends on the core mass. Below ~1.4M☉: a white dwarf (electron degeneracy pressure supports it). Between ~1.4 and ~3M☉: a neutron star (neutron degeneracy pressure). Above ~3M☉: nothing can prevent collapse — a black hole forms, with gravity so strong that not even light can escape. These remnants represent the most extreme states of matter in the universe.",
+      "foundation": {
+        "title": "The three possible endings",
+        "content": "<h4>White dwarfs</h4><p>Remnant of a low/intermediate mass star (<~8M☉ initial mass). About the size of Earth but with mass ~0.5-1.4M☉. Density: ~10⁹ kg/m³ (a teaspoon ≈ 5 tonnes). Supported by <strong>electron degeneracy pressure</strong> — electrons resist compression due to the Pauli exclusion principle (no two electrons can occupy the same quantum state).</p><p>No fusion — the white dwarf glows from residual thermal energy and slowly cools over billions of years. Will eventually become a cold 'black dwarf' (but the universe isn't old enough for any to exist yet).</p><h4>Neutron stars</h4><p>Remnant of a massive star (~8-25M☉ initial) after a supernova. The core collapses so intensely that electrons and protons merge: p + e⁻ → n + ν. The entire star becomes a ball of neutrons. Radius: ~10 km. Mass: ~1.4-3M☉. Density: ~10¹⁷ kg/m³ (nuclear density — a teaspoon ≈ billions of tonnes). Supported by <strong>neutron degeneracy pressure</strong>.</p><p><strong>Pulsars:</strong> rapidly rotating neutron stars with strong magnetic fields. Emit beams of radiation from their poles — observed as regular pulses (periods ~ms to seconds).</p><h4>Black holes</h4><p>If the remnant core mass exceeds ~3M☉ (Tolman-Oppenheimer-Volkoff limit): even neutron degeneracy pressure fails. Nothing can prevent total gravitational collapse → <strong>black hole</strong>. The <strong>event horizon</strong> is the boundary beyond which the escape velocity exceeds c — nothing, not even light, can escape.</p><p><strong>Schwarzschild radius:</strong> R_s = 2GM/c². For 1M☉: R_s ≈ 3 km. For 10M☉: R_s ≈ 30 km.</p>",
+        "summary": "<p><strong>White dwarf:</strong> <1.4M☉ core. R ~ R_Earth. Electron degeneracy.</p><p><strong>Neutron star:</strong> 1.4-3M☉ core. R ~ 10 km. Neutron degeneracy. Pulsars.</p><p><strong>Black hole:</strong> >3M☉ core. R_s = 2GM/c². Nothing escapes.</p>",
+        "checkQuestions": [
+          { "question": "What determines whether a dying star leaves a white dwarf, neutron star, or black hole?", "answer": "The mass of the remnant core after the outer layers have been expelled. Core < 1.4M☉ (Chandrasekhar limit): white dwarf. Core 1.4-3M☉: neutron star. Core > 3M☉ (TOV limit): black hole. The initial mass of the star determines the core mass — more massive stars leave more massive remnants." }
+        ],
+        "checklist": ["I can describe the properties of white dwarfs, neutron stars, and black holes", "I can state the Chandrasekhar limit (~1.4M☉) and the TOV limit (~3M☉)", "I can state the Schwarzschild radius: R_s = 2GM/c²"]
+      },
+      "core": {
+        "title": "Mass limits and the Schwarzschild radius",
+        "content": "<h4>The Chandrasekhar limit</h4><p><strong>1.4M☉</strong> — the maximum mass of a white dwarf. Above this: electron degeneracy pressure cannot support the star against gravity → it collapses further. For an isolated white dwarf: it simply can't exist above 1.4M☉. In a binary system: a white dwarf accreting matter from a companion can reach this limit → collapse → Type Ia supernova (used as 'standard candles' to measure cosmic distances).</p><h4>The Tolman-Oppenheimer-Volkoff (TOV) limit</h4><p><strong>~2.5-3M☉</strong> (exact value uncertain) — the maximum mass of a neutron star. Above this: even neutron degeneracy pressure fails → black hole.</p><h4>Black hole properties</h4><p><strong>Event horizon:</strong> the sphere of radius R_s = 2GM/c² from which nothing can escape. Not a physical surface — it's a mathematical boundary in spacetime.</p><p><strong>Singularity:</strong> at the centre, density → ∞ and spacetime curvature → ∞ (in classical GR). Quantum gravity is needed to describe conditions at the singularity — we don't have a complete theory yet.</p><h4>Detecting black holes</h4><p>Black holes don't emit light, but we can detect them by:</p><ul><li>X-rays from hot matter spiralling in (accretion disk)</li><li>Gravitational effects on nearby stars</li><li>Gravitational waves from merging black holes (LIGO, 2015)</li><li>Direct imaging of the accretion disk shadow (Event Horizon Telescope, M87*, 2019)</li></ul>",
+        "keyPoints": ["Chandrasekhar limit: 1.4M☉ max for white dwarfs", "TOV limit: ~3M☉ max for neutron stars", "R_s = 2GM/c²: event horizon radius of a black hole", "Detection: accretion X-rays, gravitational lensing, gravitational waves, EHT imaging"],
+        "examTrap": { "wrong": "Black holes suck everything in like a vacuum cleaner", "correct": "A black hole has the same gravitational pull as any other object of the same mass at the same distance. If the Sun became a black hole (it can't — too low mass): Earth's orbit would be unchanged. You only fall in if you get closer than you would to a normal star. The danger zone is the event horizon at R_s = 2GM/c², which for a stellar-mass black hole is only a few km across." },
+        "checkQuestions": [
+          { "question": "Calculate the Schwarzschild radius of a black hole with mass 10M☉.", "answer": "R_s = 2GM/c² = 2 × 6.67 × 10⁻¹¹ × 10 × 1.99 × 10³⁰ / (3 × 10⁸)² = 2 × 6.67 × 10⁻¹¹ × 1.99 × 10³¹ / 9 × 10¹⁶ = 2.95 × 10⁴ m ≈ 30 km." }
+        ],
+        "checklist": ["I can state and apply the Chandrasekhar limit", "I can calculate Schwarzschild radius: R_s = 2GM/c²", "I can describe methods of detecting black holes"]
+      },
+      "extension": { "title": "Gravitational waves and multi-messenger astronomy", "content": "<p>LIGO detected gravitational waves from merging black holes on 14 September 2015 — confirming Einstein's 1916 prediction. In 2017, LIGO/Virgo detected waves from merging neutron stars (GW170817) — simultaneously observed as a gamma-ray burst and kilonova across the electromagnetic spectrum. This 'multi-messenger' event confirmed that neutron star mergers produce heavy elements (gold, platinum, uranium) via the r-process. We now have three ways to observe the universe: light, neutrinos, and gravitational waves.</p>", "connections": ["A.5 General Relativity: gravitational waves are ripples in spacetime predicted by GR", "E.1 Nuclear: heavy elements are synthesised in neutron star mergers"], "checklist": ["I can describe the detection of gravitational waves and its significance"] },
+      "video": { "title": "Stellar Remnants — IB Physics", "duration": "10 min", "description": "White dwarfs, neutron stars, black holes, mass limits, Schwarzschild radius, and detection methods", "embedId": "" },
+      "equations": [
+        { "formula": "R_s = 2GM/c²", "description": "Schwarzschild radius (event horizon of a non-rotating black hole)." },
+        { "formula": "M_Ch ≈ 1.4M☉", "description": "Chandrasekhar limit — maximum white dwarf mass." }
+      ],
+      "workedExamples": [
+        { "level": "core", "scope": "sl", "title": "Calculate the Schwarzschild radius and density of a 5M☉ black hole.", "steps": [
+          { "label": "R_s", "text": "R_s = 2GM/c² = 2 × 6.67 × 10⁻¹¹ × 5 × 1.99 × 10³⁰ / (3 × 10⁸)² = 1.47 × 10⁴ m ≈ 14.7 km" },
+          { "label": "Volume", "text": "V = 4/3 πR_s³ = 4/3 π (1.47 × 10⁴)³ = 1.33 × 10¹³ m³" },
+          { "label": "Density", "text": "ρ = M/V = 9.95 × 10³⁰ / 1.33 × 10¹³ = 7.5 × 10¹⁷ kg/m³ (≈ nuclear density)", "isEquation": true }
+        ]}
+      ],
+      "practiceProblems": [
+        { "difficulty": "easy", "scope": "sl", "question": "State the Chandrasekhar limit and explain its significance.", "solution": "The Chandrasekhar limit is approximately 1.4 solar masses — the maximum mass of a white dwarf. If a stellar remnant exceeds this mass, electron degeneracy pressure cannot support it against gravitational collapse. It will collapse further to become a neutron star (or black hole if it exceeds the TOV limit of ~3M☉)." },
+        { "difficulty": "medium", "scope": "sl", "question": "A neutron star has mass 2.0M☉ and radius 12 km. Calculate its average density.", "solution": "M = 2.0 × 1.99 × 10³⁰ = 3.98 × 10³⁰ kg. V = 4/3 π(12000)³ = 7.24 × 10¹² m³. ρ = 3.98 × 10³⁰ / 7.24 × 10¹² = 5.5 × 10¹⁷ kg/m³. This is comparable to nuclear density (~2.3 × 10¹⁷ kg/m³) — the entire star is essentially a giant atomic nucleus." }
+      ],
+      "commonMistakes": [
+        { "wrong": "The Chandrasekhar limit is the maximum mass of a star", "explanation": "The Chandrasekhar limit (1.4M☉) is the maximum mass of a WHITE DWARF — the remnant core, not the original star. The original star can be much more massive (up to ~8M☉ and still produce a white dwarf, because it loses most of its mass during the red giant phase via planetary nebulae).", "correct": "1.4M☉ is the max for a white dwarf REMNANT. The original star can be much more massive." }
+      ],
+      "examCorner": { "scope": "sl", "question": "A star with initial mass 25M☉ has reached the end of its life.\n(a) Describe how the star dies. [2]\n(b) State the type of remnant left behind. [1]\n(c) The remnant has mass 2.5M☉. Calculate its Schwarzschild radius and explain whether this object is a neutron star or black hole. [3]", "marks": 6, "modelAnswer": "(a) The star has fused elements up to iron in its core [1]. Iron cannot fuse exothermically, so the core collapses rapidly. The implosion bounces off the dense core, blasting the outer layers into space as a supernova [1].\n(b) Neutron star (core mass 2.5M☉ < TOV limit of ~3M☉) [1].\n(c) R_s = 2GM/c² = 2 × 6.67 × 10⁻¹¹ × 2.5 × 1.99 × 10³⁰ / (9 × 10¹⁶) = 7.4 × 10³ m ≈ 7.4 km [2]. Since the remnant mass (2.5M☉) is below the TOV limit (~3M☉), this is a neutron star with radius ~10-12 km, larger than R_s. If R > R_s: it is NOT a black hole. It becomes a black hole only if R < R_s (which requires mass > TOV limit) [1].", "examinerTip": "Calculating R_s for a neutron star is valid — but since the neutron star's actual radius (~10 km) > R_s (~7 km), it's NOT inside its own event horizon, so it's not a black hole. This is the key distinction." }
+    }
+
+  ]
 }
-};
+};  
+  
   
