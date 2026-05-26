@@ -237,28 +237,23 @@ h1{font-size:26px;font-weight:700;color:var(--text);line-height:1.25;letter-spac
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-  <div class="sidebar-header">
+  <div class="sidebar-head">
     <h2 id="topic-header-title">Topic Loading...</h2>
     <p id="topic-header-meta">Theme &middot; Hours</p>
   </div>
-  
-  <!-- Student Progress Summary in Sidebar (Only shown when logged in) -->
-  
 
-  <!-- Checklist Aggregate Progress in Sidebar -->
-  
-  <div class="checklist-summary" id="sidebarChecklistProgress" style="padding: 16px 20px; border-bottom: 1px solid var(--tint-border); background: rgba(255,255,255,0.15);">
-    <div class="ps-text">Progress: <span id="checklist-progress-text" style="font-weight: 600;">0/0 checked</span></div>
-    <div class="ps-bar-container"><div class="ps-bar-fill" id="checklist-bar-fill" style="width: 0%"></div></div>
-  </div>
-
-  <div class="sidebar-nav">
-    <div class="sidebar-section-title">Lessons</div>
-    <div id="sidebar-lessons-list">
-      <!-- Generated dynamically -->
+  <div class="sidebar-progress" id="sidebarChecklistProgress">
+    <div class="sidebar-progress-label"><span>Checklist Progress</span><span id="checklist-progress-text">0/0 checked</span></div>
+    <div class="sp-bar">
+      <div class="sp-fill" id="checklist-bar-fill"></div>
     </div>
-    <a class="sidebar-back" href="dp-dashboard.html">← DP Dashboard</a>
   </div>
+
+  <div class="s-section">Lessons</div>
+  <div id="sidebar-lessons-list">
+    <!-- Generated dynamically -->
+  </div>
+  <a class="sidebar-back" href="dp-dashboard.html">← DP Dashboard</a>
 </div>
 
 <!-- MAIN -->
@@ -269,28 +264,28 @@ h1{font-size:26px;font-weight:700;color:var(--text);line-height:1.25;letter-spac
     <button id="authBannerBtn" onclick="window.location.href='exam-system/student-login.html'">Sign In</button>
   </div>
 
-  
   <div class="topbar">
-    <div class="topbar-left">
-      <a href="index.html" class="topbar-brand">
-        <span class="topbar-dot"></span> Atul Soral Physicism
-      </a>
-    </div>
-    <div class="topbar-right" style="display: flex; gap: 12px; align-items: center;">
-      <a href="dp-dashboard.html" class="glass-btn" style="text-decoration:none;">← Back</a>
-      <a href="index.html" class="glass-btn" style="text-decoration:none; padding: 10px 16px;">Home</a>
-      <a href="dp-dashboard.html" class="glass-btn" style="text-decoration:none;">DP Dashboard</a>
-      <button onclick="toggleTheme()" class="glass-icon-btn" style="padding: 8px 12px; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor:pointer;" id="themeToggle" title="Toggle theme">🌙</button>
+    <a href="index.html" class="topbar-brand">
+      <span class="topbar-dot"></span> Atul Soral Physicism
+    </a>
+    <div class="tl">
+      <a href="dp-dashboard.html" class="gl-btn">← Back</a>
+      <a href="index.html" class="gl-btn">Home</a>
+      <a href="dp-dashboard.html" class="gl-btn">DP Dashboard</a>
+      <button onclick="toggleTheme()" class="gl-btn" style="font-size:13px;padding:4px 10px;" id="themeToggle" title="Toggle theme">🌙</button>
     </div>
   </div>
 
-  <div id="contentArea" style="flex: 1; overflow-y: auto; position: relative;"></div>
-
+  <div class="cw">
+    <div class="content">
+      <div class="li" id="contentArea"></div>
+    </div>
     <!-- RIGHT PANEL — Quick tools -->
-    <div class="right-panel" style="position: fixed; top: 100px; right: 24px; display: flex; flex-direction: column; gap: 12px; z-index: 100;">
-    <button class="glass-icon-btn" onclick="toggleFormulaSidebar()" title="Data Booklet">📘</button>
-    <button class="glass-icon-btn" onclick="openCalc()" title="GDC Calculator">🧮</button>
-    <button class="glass-icon-btn" onclick="toggleChecklistPanel()" title="Content Checklist">✅</button>
+    <div class="rp">
+      <button class="rp-btn" onclick="toggleFormulaSidebar()" title="Data Booklet">📘</button>
+      <button class="rp-btn" onclick="openCalc()" title="GDC Calculator">🧮</button>
+      <button class="rp-btn" onclick="toggleChecklistPanel()" title="Content Checklist">✅</button>
+    </div>
   </div>
 </div>
 
@@ -537,10 +532,10 @@ function initLessonViewer() {
 function renderComingSoon() {
   const contentArea = document.getElementById('contentArea');
   contentArea.innerHTML = `
-    <div class="error-card glass-card">
+    <div style="max-width:500px;margin:60px auto;padding:40px;background:white;border-radius:18px;border:1.5px solid rgba(14,165,233,0.08);text-align:center;">
       <h2>Coming Soon</h2>
-      <p>Content for this topic is currently being developed. Please check back later.</p>
-      <a href="dp-dashboard.html" class="glass-btn" style="display: inline-block;">Return to Dashboard</a>
+      <p style="margin:12px 0 20px;color:var(--text2);">Content for this topic is currently being developed. Please check back later.</p>
+      <a href="dp-dashboard.html" class="gl-btn" style="display: inline-block;">Return to Dashboard</a>
     </div>
   `;
   const tTitle = document.getElementById('topic-header-title');
@@ -586,14 +581,14 @@ function renderSidebar() {
     }
     
     const item = document.createElement('div');
-    item.className = `sidebar-item ${idx === currentLessonIdx ? 'active' : ''}`;
+    item.className = `si ${idx === currentLessonIdx ? 'active' : ''}`;
     item.id = `sidebar-item-${idx}`;
     item.onclick = () => showLesson(idx);
     
     let badgeText = subTotal > 0 ? `${subChecked}/${subTotal} ✓` : '';
     let badgeStyle = subChecked === subTotal && subTotal > 0 ? "background: rgba(22,163,74,0.1); color: var(--green);" : "background: rgba(0,0,0,0.04); color: var(--text3);";
     
-    const ahlLabel = (currentLevel === 'hl' && sub.scope === 'hl') ? `<span class="glass-badge-ahl" style="font-size: 8px; padding: 1px 4px; margin-left: 6px;">AHL</span>` : '';
+    const ahlLabel = (currentLevel === 'hl' && sub.scope === 'hl') ? `<span class="b-ahl" style="font-size: 8px; padding: 1px 4px; margin-left: 6px;">AHL</span>` : '';
     
     item.innerHTML = `
       <span class="si-top" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
@@ -1178,12 +1173,12 @@ function renderFooterNav() {
   const nextItem = activePos < activeSubtopics.length - 1 ? activeSubtopics[activePos + 1] : null;
   
   const prevHtml = prevItem 
-    ? `<button class="glass-btn" onclick="showLesson(${prevItem.index})">← Previous: ${prevItem.sub.title}</button>` 
+    ? `<button class="gl-btn" onclick="showLesson(${prevItem.index})">← Previous: ${prevItem.sub.title}</button>` 
     : '<span></span>';
     
   const nextHtml = nextItem 
-    ? `<button class="glass-btn" onclick="showLesson(${nextItem.index})">Next: ${nextItem.sub.title} →</button>` 
-    : `<a class="glass-btn" href="dp-dashboard.html">Back to Dashboard</a>`;
+    ? `<button class="gl-btn" onclick="showLesson(${nextItem.index})">Next: ${nextItem.sub.title} →</button>` 
+    : `<a class="gl-btn" href="dp-dashboard.html">Back to Dashboard</a>`;
     
   return `
     <div class="lesson-nav">
@@ -1364,7 +1359,7 @@ function setScopeLevel(level) {
 function showLesson(idx) {
   currentLessonIdx = idx;
   
-  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.si').forEach(s => s.classList.remove('active'));
   const sidebarEl = document.getElementById(`sidebar-item-${idx}`);
   if (sidebarEl) sidebarEl.classList.add('active');
   
@@ -1468,7 +1463,7 @@ function renderFormulaBooklet() {
   const fullBookletLink = document.createElement('div');
   fullBookletLink.style.margin = '20px 0 10px';
   fullBookletLink.style.textAlign = 'center';
-  fullBookletLink.innerHTML = `<a href="dp-data-booklet.html" class="glass-btn" style="display:inline-block; font-size:12px; padding:6px 16px; width:100%; border-radius:8px; text-decoration:none; text-align:center;">View full Data Booklet →</a>`;
+  fullBookletLink.innerHTML = `<a href="dp-data-booklet.html" class="gl-btn" style="display:inline-block; font-size:12px; padding:6px 16px; width:100%; border-radius:8px; text-decoration:none; text-align:center;">View full Data Booklet →</a>`;
   sidebarContent.appendChild(fullBookletLink);
 }
 
@@ -1720,7 +1715,7 @@ function renderChecklist(sub) {
     itemsHtml += `
       <hr class="cl-ahl-divider">
       <div class="cl-ahl-label">
-        <span class="glass-badge-ahl">AHL Checklist</span>
+        <span class="b-ahl" style="font-size:9px;padding:2px 6px;">AHL Checklist</span>
       </div>
     `;
     itemsHtml += ahlItems.map((text, i) => {
@@ -1737,7 +1732,7 @@ function renderChecklist(sub) {
   const { checked, total } = getChecklistCounts(sub);
   
   return `
-    <div class="glass-card checklist-card">
+    <div style="background:white;border-radius:14px;padding:16px;border:1px solid var(--border);">
       <div class="cl-header">
         <span>📋 Study Checklist</span>
         <span style="font-size: 12px; font-weight: 600; color: var(--text2); text-transform: none; letter-spacing: 0;">${checked}/${total} done</span>
