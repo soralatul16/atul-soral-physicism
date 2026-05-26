@@ -16,1272 +16,220 @@
 <title>Student Lesson Viewer | Physicism DP</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════
-   DP CHAPTER — COMPLETE VISUAL REDESIGN
-   Warm glass-morphism with purple-blue gradients
-   ═══════════════════════════════════════════ */
 
-:root {
-  --font-body: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
-  --font-display: Georgia, 'Palatino Linotype', 'Times New Roman', serif;
-  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
-  --bg: #f8fafb;
-  --white: #ffffff;
-  --glass: rgba(255,255,255,0.7);
-  --glass-border: rgba(255,255,255,0.8);
-  --glass-shadow: 0 8px 32px rgba(31,38,135,0.08);
-  --tint: rgba(102,126,234,0.06);
-  --tint-border: rgba(102,126,234,0.12);
-  --accent: #667eea;
-  --accent2: #764ba2;
-  --accent-pale: rgba(102,126,234,0.06);
-  --text: #1e293b;
-  --text2: #475569;
-  --text3: #94a3b8;
-  --red: #ef4444;
-  --green: #16a34a;
-  --border: rgba(0,0,0,0.04);
-  --cream: #f8fafc;
-  --card-bg: #ffffff;
-}
+@import url('data:text/css,');
+:root{--bg:#f0f7ff;--white:#ffffff;--text:#0f172a;--text2:#334155;--text3:#64748b;--border:rgba(56,189,248,0.08);--sky:#0ea5e9;--sky-light:#e0f2fe;--sky-pale:rgba(14,165,233,0.04);--sky-glow:rgba(14,165,233,0.06);--water:rgba(186,230,253,0.4);--water-border:rgba(56,189,248,0.2);--glass:rgba(255,255,255,0.65);--glass-strong:rgba(255,255,255,0.85);--gold:#d97706;--gold-bg:linear-gradient(135deg,#fffbeb,#fef3c7);--gold-border:rgba(217,119,6,0.15);--core-bg:#f8fafc;--core-border:rgba(15,23,42,0.08);--ext-bg:linear-gradient(135deg,#f0f9ff,#e0f2fe);--ext-border:rgba(14,165,233,0.12);--green:#059669;--red:#dc2626;--r:16px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Palatino Linotype','Book Antiqua',Palatino,serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;overflow:hidden;font-size:15.5px;line-height:1.9;-webkit-font-smoothing:antialiased;}
 
-[data-theme="dark"] {
-  --bg: #0f172a;
-  --white: #1e293b;
-  --glass: rgba(30,41,59,0.75);
-  --glass-border: rgba(51,65,85,0.5);
-  --tint: rgba(102,126,234,0.08);
-  --tint-border: rgba(102,126,234,0.18);
-  --text: #e2e8f0;
-  --text2: #94a3b8;
-  --text3: #64748b;
-  --cream: #1e293b;
-  --border: rgba(255,255,255,0.04);
-  --card-bg: #1e293b;
-}
-[data-theme="dark"] body { background: var(--bg); color: var(--text); }
+/* SIDEBAR — sky blue gradient, not purple */
+.sidebar{width:256px;background:linear-gradient(170deg,#0284c7 0%,#0369a1 40%,#075985 100%);color:white;height:100vh;overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column;box-shadow:4px 0 30px rgba(3,105,161,0.12);}
+.sidebar-head{padding:24px 20px 18px;}
+.sidebar-head h2{font-size:19px;font-weight:700;letter-spacing:-0.02em;margin-bottom:3px;}
+.sidebar-head p{font-size:10px;color:rgba(255,255,255,0.5);font-family:-apple-system,system-ui,sans-serif;letter-spacing:0.5px;}
+.sidebar-progress{margin:0 14px 8px;padding:10px 14px;background:rgba(255,255,255,0.07);border-radius:12px;border:1px solid rgba(255,255,255,0.08);}
+.sidebar-progress-label{font-size:11px;color:rgba(255,255,255,0.65);margin-bottom:5px;font-family:-apple-system,system-ui,sans-serif;display:flex;justify-content:space-between;}
+.sp-bar{height:3px;background:rgba(255,255,255,0.12);border-radius:3px;overflow:hidden;}
+.sp-fill{height:100%;width:0%;background:linear-gradient(90deg,#67e8f9,#22d3ee);border-radius:3px;transition:width 0.3s ease;}
+.s-section{font-size:8px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.3);padding:14px 20px 4px;font-family:-apple-system,system-ui,sans-serif;font-weight:700;}
+.si{padding:9px 14px;margin:2px 10px;border-radius:10px;font-size:12px;color:rgba(255,255,255,0.7);cursor:pointer;transition:all .2s;display:flex;justify-content:space-between;align-items:center;font-family:-apple-system,system-ui,sans-serif;}
+.si:hover{background:rgba(255,255,255,0.08);color:white;}
+.si.active{background:rgba(255,255,255,0.15);color:white;font-weight:600;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.12),0 2px 8px rgba(0,0,0,0.08);}
+.si-status-badge {font-size:9px;color:rgba(255,255,255,0.35);font-family:'Menlo',monospace;padding:2px 6px;border-radius:8px;}
+.sidebar-back{display:block;padding:14px 20px;text-decoration:none;font-size:11px;color:rgba(255,255,255,0.4);border-top:1px solid rgba(255,255,255,0.06);margin-top:auto;font-family:-apple-system,system-ui,sans-serif;}
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;height:100vh;min-width:0;position:relative;}
+.topbar{height:50px;background:var(--glass-strong);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(14,165,233,0.06);display:flex;align-items:center;justify-content:space-between;padding:0 28px;flex-shrink:0;}
+.topbar-brand{font-size:14px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-0.01em;}
+.topbar-dot{width:6px;height:6px;background:var(--sky);border-radius:50%;display:inline-block;margin-right:6px;box-shadow:0 0 8px var(--sky);}
+.tl{display:flex;gap:6px;align-items:center;}
+/* GLASS WATER-DROP BUTTONS */
+.gl-btn{padding:5px 16px;border-radius:50px;font-size:11px;font-weight:600;color:#0369a1;text-decoration:none;background:linear-gradient(135deg,rgba(186,230,253,0.35),rgba(125,211,252,0.15));border:1px solid rgba(56,189,248,0.2);cursor:pointer;transition:all .2s;font-family:-apple-system,system-ui,sans-serif;backdrop-filter:blur(6px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 1px 3px rgba(14,165,233,0.08);}
+.gl-btn:hover{background:linear-gradient(135deg,rgba(186,230,253,0.5),rgba(125,211,252,0.25));border-color:rgba(14,165,233,0.3);box-shadow:inset 0 1px 0 rgba(255,255,255,0.7),0 2px 8px rgba(14,165,233,0.12);transform:translateY(-1px);}
 
-body {
-  font-family: var(--font-body);
-  background: var(--bg);
-  color: var(--text);
-  display: flex;
-  min-height: 100vh;
-  overflow: hidden;
-  font-size: 15px;
-  line-height: 1.7;
-  transition: background 0.3s, color 0.3s;
-}
+.cw{flex:1;display:flex;overflow:hidden;}
+.content{flex:1;overflow-y:auto;background:var(--bg);}
+.li{max-width:780px;margin:0 auto;padding:24px 20px 80px;}
 
-/* ═══ AUTH BANNER ═══ */
-.auth-banner {
-  background: var(--glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--glass-border);
-  padding: 8px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 12.5px;
-  color: var(--text2);
-  position: relative;
-  z-index: 10;
-  gap: 12px;
-}
-.auth-banner a { color: var(--accent); font-weight: 600; text-decoration: none; }
-.auth-banner button {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white; border: none; padding: 5px 14px; border-radius: 50px;
-  cursor: pointer; font-weight: 600; font-size: 11px;
-  box-shadow: 0 4px 12px rgba(102,126,234,0.25); transition: all 0.2s;
-}
-.auth-banner button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(102,126,234,0.35);
-}
+/* RIGHT PANEL */
+.rp{width:48px;background:var(--glass);backdrop-filter:blur(12px);border-left:1px solid rgba(14,165,233,0.06);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:7px;flex-shrink:0;}
+.rp-btn{width:34px;height:34px;border-radius:10px;border:1px solid var(--water-border);background:linear-gradient(135deg,rgba(186,230,253,0.2),rgba(224,242,254,0.3));display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:all .15s;backdrop-filter:blur(4px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);}
+.rp-btn:hover{background:linear-gradient(135deg,rgba(186,230,253,0.4),rgba(224,242,254,0.5));border-color:rgba(14,165,233,0.3);transform:translateY(-1px);}
 
-/* ═══ 2. LEFT SIDEBAR — Warm gradient ═══ */
-.sidebar {
-  width: 260px;
-  background: linear-gradient(160deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  height: 100vh;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  box-shadow: 4px 0 24px rgba(102,126,234,0.15);
-}
-.sidebar-header {
-  padding: 24px 20px 18px;
-  border-bottom: 1px solid rgba(255,255,255,0.12);
-}
-.sidebar-header h2 {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 4px;
-}
-.sidebar-header p {
-  font-size: 11px;
-  color: rgba(255,255,255,0.6);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
+/* HEADER */
+.sub-badges{display:flex;gap:6px;margin-bottom:6px;align-items:center;}
+.sub-badges span{font-size:9px;padding:3px 10px;border-radius:50px;font-weight:700;font-family:-apple-system,system-ui,sans-serif;letter-spacing:.5px;}
+.b-code{background:rgba(14,165,233,0.08);color:var(--sky);}
+.b-level{background:rgba(5,150,105,0.06);color:var(--green);}
+.b-ahl{background:linear-gradient(135deg,#3b82f6,#2563eb);color:white;}
+h1{font-size:26px;font-weight:700;color:var(--text);line-height:1.25;letter-spacing:-0.02em;margin-bottom:4px;}
 
-/* Progress bar in sidebar */
-.progress-summary {
-  margin: 12px 16px;
-  padding: 10px 14px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-.ps-text {
-  font-size: 11.5px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.7);
-  margin-bottom: 8px;
-}
-.ps-bar-container {
-  height: 4px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 4px;
-  overflow: hidden;
-}
-[data-theme="dark"] .ps-bar-container { background: rgba(255,255,255,0.1); }
-.ps-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #4ade80, #22d3ee);
-  border-radius: 4px;
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* BIG IDEA */
+.big-idea{background:linear-gradient(135deg,rgba(224,242,254,0.5),rgba(186,230,253,0.2));border:1.5px solid rgba(14,165,233,0.1);border-radius:18px;padding:24px 28px;margin:14px 0 18px;position:relative;backdrop-filter:blur(6px);}
+.big-idea::before{content:'THE BIG IDEA';position:absolute;top:-9px;left:20px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:white;font-size:8.5px;font-weight:700;letter-spacing:1.5px;padding:2px 12px;border-radius:5px;font-family:-apple-system,system-ui,sans-serif;}
+.big-idea p{font-size:16px;line-height:1.85;color:var(--text2);margin-top:4px;}
 
-.sidebar-nav { padding: 12px; flex: 1; }
-.sidebar-section-title {
-  font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px;
-  color: rgba(255,255,255,0.45); font-weight: 700;
-  padding: 12px 10px 6px; margin-top: 4px;
-}
+/* TABS — water glass style */
+.tabs{display:flex;gap:0;border-bottom:2px solid rgba(14,165,233,0.06);margin:0;overflow-x:auto;position:sticky;top:0;z-index:50;background:var(--bg);padding-top:6px;}
+.tab{padding:9px 14px;font-size:11.5px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none;font-family:-apple-system,system-ui,sans-serif;}
+.tab:hover{color:var(--sky);}
+.tab.active{color:#0369a1;border-bottom-color:var(--sky);}
+.tp{display:none;padding-top:14px;}
+.tp.active{display:block;}
 
-/* Sidebar items — glass style */
-.sidebar-item {
-  padding: 10px 16px;
-  margin: 3px 10px;
-  border-radius: 10px;
-  font-size: 13px;
-  color: rgba(255,255,255,0.8);
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255,255,255,0.04);
-}
-.sidebar-item:hover {
-  background: rgba(255,255,255,0.12);
-  color: white;
-}
-.sidebar-item.active {
-  background: rgba(255,255,255,0.2);
-  color: white;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-}
-.si-top { display: flex; align-items: center; gap: 8px; }
-.si-num {
-  font-family: var(--font-mono);
-  font-size: 10.5px; font-weight: 700;
-  width: 24px; height: 24px; border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(255,255,255,0.15);
-  color: white;
-  flex-shrink: 0;
-}
-.sidebar-item.active .si-num {
-  background: rgba(255,255,255,0.3);
-  color: white;
-}
-.si-title {
-  flex: 1; white-space: nowrap; overflow: hidden;
-  text-overflow: ellipsis; max-width: 140px;
-  display: inline-block; vertical-align: middle;
-}
-.si-meta {
-  display: flex; justify-content: space-between; align-items: center;
-  font-size: 10px; color: rgba(255,255,255,0.45);
-  margin-top: 2px; padding-left: 32px;
-}
-.sidebar-item.active .si-meta { color: rgba(255,255,255,0.7); }
-.si-status-badge {
-  background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7);
-  font-weight: 700; padding: 1px 6px; border-radius: 4px;
-  font-size: 9px; text-transform: uppercase;
-}
-.sidebar-item.active .si-status-badge {
-  background: rgba(255,255,255,0.25); color: white;
-}
+/* LAYERS */
+.layer{border-radius:16px;margin:14px 0;overflow:hidden;border:1.5px solid;transition:box-shadow .2s;}
+.layer:hover{box-shadow:0 4px 20px rgba(0,0,0,0.03);}
+.lh{padding:14px 22px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;user-select:none;}
+.la{font-size:11px;opacity:.4;transition:transform .2s;}
+.layer.collapsed .lb{display:none;}
+.layer.collapsed .la{transform:rotate(-90deg);}
+.lb{padding:22px 28px;}
+.lb h4{font-size:17px;color:var(--text);margin:24px 0 10px;font-weight:700;letter-spacing:-0.01em;}
+.lb h4:first-child{margin-top:0;}
+.lb p{margin-bottom:14px;color:var(--text2);}
+.lb ul,.lb ol{padding-left:22px;margin-bottom:14px;}
+.lb li{margin-bottom:8px;font-size:14.5px;line-height:1.85;color:var(--text2);}
+.lb strong{color:var(--text);}
 
-.sidebar-back {
-  display: block; padding: 12px 20px; text-decoration: none;
-  font-size: 13px; font-weight: 500;
-  color: rgba(255,255,255,0.6);
-  border-top: 1px solid rgba(255,255,255,0.1);
-  transition: color 0.2s;
-}
-.sidebar-back:hover { color: white; }
+.l-f{border-color:var(--gold-border);}
+.l-f .lh{background:var(--gold-bg);color:#92400e;}
+.l-f .lb{background:#fffefb;}
+.l-c{border-color:var(--core-border);}
+.l-c .lh{background:var(--core-bg);color:var(--text);}
+.l-c .lb{background:white;}
+.l-e{border-color:var(--ext-border);}
+.l-e .lh{background:var(--ext-bg);color:#0369a1;}
+.l-e .lb{background:#f8fcff;}
 
-.sidebar-checklist-count {
-  color: rgba(255,255,255,0.5);
-  font-size: 10px;
-  font-family: var(--font-mono);
-}
+.l-badge{font-size:8.5px;font-weight:700;letter-spacing:1px;padding:3px 11px;border-radius:5px;margin-right:10px;color:white;font-family:-apple-system,system-ui,sans-serif;}
+.lb-f{background:linear-gradient(135deg,#f59e0b,#d97706);}
+.lb-c{background:linear-gradient(135deg,#475569,#334155);}
+.lb-e{background:linear-gradient(135deg,#0ea5e9,#0284c7);}
 
-/* ═══ MAIN AREA ═══ */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  min-width: 0;
-  overflow-y: auto;
-  background: var(--bg);
-}
+.ck{background:rgba(14,165,233,0.03);border-radius:12px;padding:14px 18px;margin-top:16px;border:1px solid rgba(14,165,233,0.06);}
+.ck-t{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;font-family:-apple-system,system-ui,sans-serif;}
 
-/* ═══ 3. TOP NAV BAR — Glass style ═══ */
-.topbar {
-  height: 54px;
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  flex-shrink: 0;
-}
-[data-theme="dark"] .topbar {
-  background: rgba(30,41,59,0.75);
-  border-bottom-color: rgba(255,255,255,0.06);
-}
-.topbar-left { display: flex; align-items: center; gap: 8px; }
-.topbar-brand {
-  font-family: var(--font-display);
-  font-size: 15px; font-weight: 700;
-  color: var(--text); text-decoration: none;
-  white-space: nowrap;
-}
-.topbar-dot {
-  width: 8px; height: 8px; background: var(--accent);
-  border-radius: 50%; display: inline-block;
-  box-shadow: 0 0 8px var(--accent);
-}
-.topbar-title {
-  font-size: 11px; color: var(--text3); letter-spacing: .5px;
-  text-transform: uppercase;
-  border-left: 1.5px solid rgba(102,126,234,0.2);
-  padding-left: 10px; margin-left: 6px;
-}
-.topbar-links { display: flex; gap: 6px; align-items: center; }
-.topbar-link {
-  padding: 6px 16px; border-radius: 50px; font-size: 12px;
-  font-weight: 600; color: #667eea; text-decoration: none;
-  background: rgba(102,126,234,0.06);
-  border: 1px solid rgba(102,126,234,0.12);
-  transition: all 0.2s; cursor: pointer;
-}
-.topbar-link:hover {
-  background: rgba(102,126,234,0.12);
-  border-color: rgba(102,126,234,0.25);
-}
-[data-theme="dark"] .topbar-link { color: #818cf8; }
+/* EQUATIONS — elegant math rendering */
+.eq{background:linear-gradient(135deg,rgba(224,242,254,0.3),rgba(186,230,253,0.15));border:1.5px solid rgba(14,165,233,0.08);border-left:4px solid var(--sky);border-radius:16px;padding:22px 26px;margin:14px 0;backdrop-filter:blur(4px);}
+.eq-t{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--sky);margin-bottom:14px;font-family:-apple-system,system-ui,sans-serif;}
+.eq-r{padding:12px 0;border-bottom:1px solid rgba(14,165,233,0.05);}
+.eq-r:last-child{border-bottom:none;}
+.eq-f{font-family:'Cambria Math','STIX Two Math',Georgia,'Times New Roman',serif;font-size:21px;color:#0c4a6e;font-weight:400;display:block;margin-bottom:4px;letter-spacing:0.3px;}
+.eq-f sub{font-size:0.65em;vertical-align:sub;}
+.eq-f sup{font-size:0.65em;vertical-align:super;}
+.eq-d{font-size:12px;color:var(--text3);font-family:-apple-system,system-ui,sans-serif;}
+.eq-f .frac { display: inline-flex; flex-direction: column; vertical-align: middle; margin: 0 4px; text-align: center; font-size: 0.85em; }
+.eq-f .num { padding: 0 2px; border-bottom: 1.5px solid currentColor; }
+.eq-f .den { padding: 0 2px; }
+.eq-f .sqrt-content { border-top: 1.5px solid currentColor; padding-top: 1px; margin-left: -2px; }
 
-/* ═══ SELECTORS STICKY BAR ═══ */
-.selectors-sticky-bar {
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(102,126,234,0.08);
-  padding: 10px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  z-index: 100;
-}
-[data-theme="dark"] .selectors-sticky-bar {
-  background: rgba(30,41,59,0.7);
-  border-bottom-color: rgba(255,255,255,0.06);
-}
+/* SIM */
+.sim{background:white;border:1.5px solid rgba(14,165,233,0.08);border-radius:16px;overflow:hidden;margin:14px 0;box-shadow:0 2px 12px rgba(0,0,0,0.02);}
+.sim-h{padding:14px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.sim-i{font-size:20px;}
+.sim-t{font-size:14px;font-weight:700;font-family:-apple-system,system-ui,sans-serif;}
+.sim-s{font-size:11px;color:var(--text3);font-family:-apple-system,system-ui,sans-serif;}
+.sim-b{padding:22px;}
+.sim-p{background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:2px dashed rgba(14,165,233,0.12);border-radius:14px;padding:40px 20px;text-align:center;color:var(--text3);}
+.sim-link{display:inline-block;margin-top:14px;padding:10px 26px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:white;border-radius:50px;text-decoration:none;font-size:13px;font-weight:600;transition:all .2s;box-shadow:0 4px 16px rgba(14,165,233,0.25);font-family:-apple-system,system-ui,sans-serif;}
+.sim-link:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(14,165,233,0.3);}
+.sim-ins{font-size:13.5px;color:var(--text2);margin-top:16px;text-align:left;line-height:1.75;}
+.sim-ins strong{color:var(--text);}
 
-.glass-toggle-bar {
-  background: var(--cream);
-  border: 1px solid rgba(102,126,234,0.12);
-  border-radius: 50px;
-  padding: 4px;
-  display: inline-flex;
-  gap: 4px;
-  align-items: center;
-}
-[data-theme="dark"] .glass-toggle-bar { background: rgba(0, 0, 0, 0.2); }
+/* VIDEO */
+.vid{background:white;border:1.5px solid rgba(220,38,38,0.08);border-radius:16px;overflow:hidden;margin:14px 0;}
+.vid-h{padding:14px 22px;border-bottom:1px solid var(--border);}
+.vid-t{font-size:14px;font-weight:700;font-family:-apple-system,system-ui,sans-serif;}
+.vid-m{font-size:11px;color:var(--text3);margin-top:2px;font-family:-apple-system,system-ui,sans-serif;}
+.vid-p{background:#0f172a;color:#475569;display:flex;align-items:center;justify-content:center;font-size:14px;flex-direction:column;gap:8px;font-family:-apple-system,system-ui,sans-serif;position:relative;width:100%;padding-bottom:56.25%;}
+.vid-p iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
 
-.glass-btn {
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 50px;
-  padding: 6px 16px;
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-  color: var(--text2);
-  transition: all 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.glass-btn:hover { color: var(--text); }
-.glass-btn.active {
-  background: var(--white);
-  color: var(--accent);
-  box-shadow: 0 4px 12px rgba(102,126,234,0.1);
-}
-[data-theme="dark"] .glass-btn.active {
-  background: var(--white);
-  color: #818cf8;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
+/* WORKED EXAMPLES */
+.we{background:white;border:1.5px solid rgba(5,150,105,0.1);border-radius:14px;margin:12px 0;overflow:hidden;}
+.we-h{padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s;font-family:-apple-system,system-ui,sans-serif;}
+.we-h:hover{background:rgba(5,150,105,0.02);}
+.we-b2{font-size:8.5px;font-weight:700;padding:3px 10px;border-radius:5px;letter-spacing:.5px;color:white;flex-shrink:0;font-family:-apple-system,system-ui,sans-serif;}
+.we-t2{font-size:13px;font-weight:600;color:var(--text);flex:1;}
+.we-a2{font-size:10px;color:var(--text3);transition:transform .2s;}
+.we.open .we-a2{transform:rotate(180deg);}
+.we-bd{display:none;padding:18px 24px;border-top:1px solid rgba(5,150,105,0.06);}
+.we.open .we-bd{display:block;}
+.we-st{padding:8px 0 8px 18px;border-left:2px solid rgba(5,150,105,0.12);margin:6px 0;font-size:14.5px;line-height:1.8;color:var(--text2);}
+.we-st strong{color:var(--text);}
+.we-eq2{font-family:'Cambria Math','STIX Two Math',Georgia,serif;font-size:16px;background:rgba(5,150,105,0.03);padding:5px 16px;border-radius:8px;display:inline-block;margin:3px 0;color:#065f46;}
+.we-ref{font-size:10px;color:var(--text3);font-style:italic;margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-family:-apple-system,system-ui,sans-serif;}
 
-/* ═══ LEVEL SCOPE BADGES ═══ */
-.glass-badge-ahl {
-  background: rgba(102, 126, 234, 0.1);
-  color: var(--accent);
-  border: 1px solid rgba(102, 126, 234, 0.25);
-  font-size: 9px; font-weight: 700; padding: 2px 8px;
-  border-radius: 4px; text-transform: uppercase;
-  letter-spacing: 0.5px; display: inline-flex; align-items: center;
-}
-.glass-badge-sl {
-  background: rgba(22, 163, 74, 0.08);
-  color: var(--green);
-  border: 1px solid rgba(22, 163, 74, 0.2);
-  font-size: 9px; font-weight: 700; padding: 2px 8px;
-  border-radius: 4px; text-transform: uppercase;
-  letter-spacing: 0.5px; display: inline-flex; align-items: center;
-}
+/* PRACTICE */
+.pq{background:white;border:1.5px solid rgba(14,165,233,0.06);border-radius:14px;padding:16px 22px;margin:10px 0;transition:all .15s;}
+.pq:hover{border-color:rgba(14,165,233,0.12);box-shadow:0 2px 12px rgba(14,165,233,0.04);}
+.pq-top{display:flex;align-items:flex-start;gap:10px;}
+.pq-bg{font-size:8.5px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:4px;font-family:-apple-system,system-ui,sans-serif;}
+.pq-e{background:#dcfce7;color:#166534;}.pq-m{background:#fef9c3;color:#854d0e;}.pq-h{background:#fecaca;color:#991b1b;}
+.pq-txt{font-size:14.5px;color:var(--text);flex:1;line-height:1.8;}
+.pq-sh{padding:5px 16px;border-radius:50px;border:1px solid var(--water-border);background:linear-gradient(135deg,rgba(186,230,253,0.2),rgba(224,242,254,0.15));color:#0369a1;font-size:11px;font-weight:600;cursor:pointer;margin-top:10px;font-family:-apple-system,system-ui,sans-serif;backdrop-filter:blur(4px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);transition:all .15s;}
+.pq-sh:hover{background:linear-gradient(135deg,rgba(186,230,253,0.35),rgba(224,242,254,0.25));}
+.pq-sl{display:none;background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:1px solid #bbf7d0;border-radius:12px;padding:16px 20px;margin-top:12px;font-size:13.5px;line-height:1.8;color:var(--text2);}
+.pq-sl.show{display:block;}
 
-/* Card buttons for layers */
-#btn-ability-foundation.active {
-  background: rgba(245,158,11,0.1);
-  color: #d97706;
-  border-color: rgba(245,158,11,0.25);
-}
-#btn-ability-core.active {
-  background: rgba(55,65,81,0.08);
-  color: #374151;
-  border-color: rgba(55,65,81,0.15);
-}
-[data-theme="dark"] #btn-ability-core.active { color: #d1d5db; border-color: rgba(209,213,219,0.3); }
-#btn-ability-extension.active {
-  background: rgba(102,126,234,0.12);
-  color: #667eea;
-  border-color: rgba(102,126,234,0.25);
-}
+/* MISTAKES */
+.mk{background:linear-gradient(135deg,#fef2f2,#fff5f5);border:1.5px solid rgba(220,38,38,0.08);border-left:4px solid #ef4444;border-radius:14px;padding:18px 22px;margin:10px 0;}
+.mk-w{color:#dc2626;font-weight:700;font-size:13.5px;font-family:-apple-system,system-ui,sans-serif;}
+.mk-x{font-size:13.5px;color:var(--text2);margin:8px 0;line-height:1.7;}
+.mk-r{color:#059669;font-weight:700;font-size:13.5px;font-family:-apple-system,system-ui,sans-serif;}
 
-/* ═══ CONTENT + RIGHT PANEL LAYOUT ═══ */
-.content-wrapper {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-}
-.content {
-  flex: 1;
-  overflow-y: auto;
-  min-width: 0;
-  scroll-behavior: smooth;
-}
+/* EXAM */
+.ex{background:white;border:2px solid #0f172a;border-radius:16px;overflow:hidden;margin:14px 0;}
+.ex-h{background:linear-gradient(135deg,#0f172a,#1e293b);color:white;padding:12px 22px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;font-family:-apple-system,system-ui,sans-serif;}
+.ex-mk{background:rgba(255,255,255,0.12);padding:3px 10px;border-radius:50px;font-size:10px;}
+.ex-bd{padding:22px 26px;}
+.ex-q{font-size:14.5px;color:var(--text);line-height:1.85;white-space:pre-line;}
+.ex-rv{padding:5px 16px;border-radius:50px;border:1px solid rgba(15,23,42,0.12);background:rgba(15,23,42,0.02);color:#334155;font-size:11px;font-weight:600;cursor:pointer;margin-top:14px;font-family:-apple-system,system-ui,sans-serif;transition:all .15s;}
+.ex-rv:hover{background:rgba(15,23,42,0.06);}
+.ex-an{display:none;margin-top:16px;padding:18px 22px;background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:1px solid #bbf7d0;border-radius:12px;font-size:14px;line-height:1.85;color:var(--text2);white-space:pre-line;}
+.ex-an.show{display:block;}
+.ex-tip{background:#fefce8;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin-top:12px;}
+.ex-tip-t{font-size:9px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;font-family:-apple-system,system-ui,sans-serif;}
+.ex-tip p{font-size:12.5px;color:#854d0e;line-height:1.6;}
 
-/* ═══ 9. RIGHT PANEL — Subtle glass icons ═══ */
-.right-panel {
-  width: 52px;
-  background: rgba(255,255,255,0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-left: 1px solid rgba(0,0,0,0.04);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 14px 0;
-  gap: 8px;
-  flex-shrink: 0;
-}
-[data-theme="dark"] .right-panel {
-  background: rgba(30,41,59,0.5);
-  border-left-color: rgba(255,255,255,0.04);
-}
-.right-btn {
-  width: 38px; height: 38px; border-radius: 10px;
-  border: 1px solid rgba(102,126,234,0.12);
-  background: rgba(102,126,234,0.04);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; cursor: pointer; transition: all 0.15s;
-  position: relative; color: var(--text2);
-}
-.right-btn:hover {
-  background: rgba(102,126,234,0.1);
-  border-color: rgba(102,126,234,0.25);
-  transform: translateY(-1px);
-}
-.right-btn-tooltip {
-  display: none; position: absolute; right: 48px;
-  background: var(--text); color: white;
-  padding: 4px 10px; border-radius: 6px;
-  font-size: 11px; white-space: nowrap;
-  pointer-events: none; box-shadow: var(--glass-shadow); z-index: 100;
-}
-.right-btn:hover .right-btn-tooltip { display: block; }
+/* IMAGE */
+.img-s{margin:14px 0;border-radius:var(--r);overflow:hidden;}
+.img-s img{width:100%;display:block;border-radius:var(--r);}
 
-/* ═══ CONTENT AREA — Kill dead space ═══ */
-#contentArea {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 24px 32px 80px;
-  width: 100%;
-  font-family: var(--font-body);
-  font-size: 15.5px;
-  line-height: 1.9;
-  color: var(--text2);
-  -webkit-font-smoothing: antialiased;
-}
-@media (max-width: 1200px) {
-  #contentArea {
-    max-width: 100%;
-    padding: 24px 24px 80px;
-  }
-}
+/* FLOAT */
+.fl{position:fixed;width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 16px rgba(0,0,0,0.12);transition:transform .2s;z-index:100;}
+.fl:hover{transform:scale(1.08);}
+.fl-ai{bottom:24px;right:24px;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:white;}
+.fl-fb{bottom:78px;right:24px;background:linear-gradient(135deg,#ef4444,#dc2626);color:white;}
 
-/* ═══ 10. TYPOGRAPHY — Readable, elegant ═══ */
-#contentArea h2, #contentArea h3, #contentArea h4 {
-  font-family: var(--font-display);
-  color: var(--text);
-  letter-spacing: -0.01em;
-}
-#contentArea h2 { font-size: 22px; margin: 32px 0 14px; }
-#contentArea h3 { font-size: 17px; margin: 24px 0 10px; }
-#contentArea h4 { font-size: 15px; margin: 20px 0 8px; color: #475569; }
-#contentArea p { font-size: 15px; margin-bottom: 14px; line-height: 1.9; }
-#contentArea ul, #contentArea ol { padding-left: 22px; margin-bottom: 14px; }
-#contentArea li { margin-bottom: 8px; font-size: 14.5px; line-height: 1.8; }
-#contentArea strong { color: var(--text); font-weight: 600; }
+/* TEACHER FORM */
+.teacher-form { background: #f8fafc; border: 1.5px solid rgba(14,165,233,0.3); border-radius: 12px; padding: 16px; margin-top: 16px; }
+.tf-row { margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px; }
+.tf-row label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text3); font-family: -apple-system,system-ui,sans-serif; }
+.tf-input { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--water-border); font-size: 14px; font-family: inherit; }
+.tf-btn { background: var(--sky); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+.tf-btn:hover { background: #0284c7; }
 
-/* ═══ LESSON SECTION RENDERER ═══ */
-.lesson {
-  padding: 24px 32px 80px;
-  max-width: 900px;
-  margin: 0 auto;
-  width: 100%;
-}
-.lesson-header {
-  margin-bottom: 28px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid var(--border);
-}
-.lesson-badge {
-  display: inline-flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
-}
-.lesson-badge span {
-  font-size: 9px; padding: 3px 10px; border-radius: 50px;
-  font-weight: 700; font-family: var(--font-mono);
-  letter-spacing: .5px; text-transform: uppercase;
-}
-.badge-topic { background: rgba(102,126,234,0.08); color: var(--accent); }
-.badge-sl { background: rgba(22,163,74,0.08); color: var(--green); }
-.badge-ao { background: rgba(239,68,68,0.08); color: var(--red); }
-.badge-hours { background: rgba(0,0,0,0.04); color: var(--text2); }
-[data-theme="dark"] .badge-hours { background: rgba(255,255,255,0.06); }
+/* MODALS / OVERLAYS (used by right panel elements) */
+.formula-sidebar{position:fixed;top:0;bottom:0;right:-380px;width:340px;background:var(--white);box-shadow:-4px 0 24px rgba(0,0,0,0.08);transition:right .3s ease;z-index:900;display:flex;flex-direction:column;border-left:1px solid var(--border);}
+.formula-sidebar.open{right:0;}
+.formula-sidebar-header{padding:16px 20px;background:linear-gradient(135deg,#0369a1,#075985);color:white;display:flex;justify-content:space-between;align-items:center;}
+.formula-sidebar-header h3{font-size:16px;margin:0;}
+.modal-close{background:rgba(255,255,255,.2);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.formula-sidebar-body{flex:1;overflow-y:auto;padding:20px;background:#f8fafc;}
+.fs-section{background:white;border-radius:12px;padding:14px;margin-bottom:14px;border:1px solid var(--border);}
+.fs-section h4{margin:0 0 10px;font-size:14px;color:var(--text);border-bottom:1px solid var(--border);padding-bottom:6px;}
+.fs-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:13.5px;color:var(--text2);border-bottom:1px dashed rgba(0,0,0,.05);}
+.fs-row:last-child{border-bottom:none;}
+.fs-row span:last-child{color:#0c4a6e;font-family:'Cambria Math',Georgia,serif;font-size:16px;}
 
-.lesson h1 {
-  font-family: var(--font-display);
-  font-size: 28px; font-weight: 700; color: var(--text);
-  margin-bottom: 8px; line-height: 1.3; letter-spacing: -0.5px;
-}
-.lesson-guiding {
-  font-size: 13.5px; color: var(--text2); font-style: italic; line-height: 1.5;
-}
-.lesson h2 {
-  font-family: var(--font-display);
-  font-size: 20px; color: var(--text); margin: 32px 0 14px;
-  padding-bottom: 6px; border-bottom: 1px solid var(--border); font-weight: 600;
-}
-.lesson h3 {
-  font-family: var(--font-display);
-  font-size: 16px; color: var(--text); margin: 24px 0 10px; font-weight: 600;
-}
-.lesson p { font-size: 14.5px; color: var(--text2); margin-bottom: 14px; line-height: 1.8; }
-.lesson ul, .lesson ol { padding-left: 20px; margin-bottom: 14px; color: var(--text2); font-size: 14.5px; }
-.lesson li { margin-bottom: 6px; line-height: 1.7; }
+.auth-banner { background: #0369a1; color: white; padding: 8px 24px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; font-family: -apple-system,system-ui,sans-serif; }
+.auth-banner button { background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 11px; }
 
-/* ═══ GLASS CARDS ═══ */
-.glass-card {
-  background: var(--glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  box-shadow: var(--glass-shadow);
-  padding: 20px 24px;
-  margin: 20px 0;
-  transition: opacity 0.3s ease, transform 0.25s, box-shadow 0.25s;
-}
-.glass-card:hover {
-  transform: translateY(-1.5px);
-  box-shadow: 0 12px 36px rgba(102,126,234,0.08);
-}
+@media(max-width:768px){.sidebar{display:none;}.li{padding:16px 14px 80px;}.rp{display:none;}}
+@media print{.sidebar,.topbar,.rp,.fl,.tabs{display:none;}.main{height:auto;}.content{overflow:visible;}.tp{display:block!important;}.lb{display:block!important;}}
 
-/* ═══ 4. CONTENT CARDS — Glass morphism ═══ */
-/* Big Idea */
-.big-idea-box {
-  background: linear-gradient(135deg, rgba(102,126,234,0.06), rgba(118,75,162,0.04));
-  border: 1.5px solid rgba(102,126,234,0.15);
-  border-radius: 18px;
-  padding: 24px 28px;
-  margin: 20px 0;
-  backdrop-filter: blur(8px);
-  position: relative;
-}
-.big-idea-badge {
-  position: absolute;
-  top: -10px; left: 20px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  font-size: 10px; font-weight: 700;
-  letter-spacing: 1.5px;
-  padding: 3px 14px; border-radius: 6px;
-  text-transform: uppercase;
-}
-.big-idea-text {
-  font-family: var(--font-display);
-  font-size: 18px; line-height: 1.7; color: var(--text);
-  font-style: italic; margin: 0;
-}
-
-/* Foundation card */
-.foundation-card, .layer-card-foundation {
-  background: linear-gradient(135deg, #fffbf0, #fff6e0) !important;
-  border: 1.5px solid rgba(234,179,8,0.2) !important;
-  border-radius: 16px !important;
-  padding: 24px 28px !important;
-  margin: 20px 0 !important;
-}
-[data-theme="dark"] .foundation-card, [data-theme="dark"] .layer-card-foundation {
-  background: rgba(234,179,8,0.06) !important;
-}
-.badge-foundation {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: white !important;
-  border: none !important;
-  font-size: 9px; font-weight: 700; letter-spacing: 1px;
-  padding: 3px 12px; border-radius: 5px;
-}
-
-/* Core card */
-.core-card, .layer-card-core {
-  background: var(--card-bg) !important;
-  border: 1.5px solid rgba(0,0,0,0.08) !important;
-  border-radius: 16px !important;
-  padding: 24px 28px !important;
-  margin: 20px 0 !important;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.03);
-}
-.badge-core {
-  background: linear-gradient(135deg, #374151, #1f2937);
-  color: white !important;
-  border: none !important;
-  font-size: 9px; font-weight: 700; letter-spacing: 1px;
-  padding: 3px 12px; border-radius: 5px;
-}
-[data-theme="dark"] .badge-core {
-  background: linear-gradient(135deg, #6b7280, #4b5563);
-}
-
-/* Extension card */
-.extension-card, .layer-card-extension {
-  background: linear-gradient(135deg, #eff6ff, #e0f2fe) !important;
-  border: 1.5px solid rgba(59,130,246,0.15) !important;
-  border-radius: 16px !important;
-  padding: 24px 28px !important;
-  margin: 20px 0 !important;
-}
-[data-theme="dark"] .extension-card, [data-theme="dark"] .layer-card-extension {
-  background: rgba(102,126,234,0.06) !important;
-}
-.badge-extension {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white !important;
-  border: none !important;
-  font-size: 9px; font-weight: 700; letter-spacing: 1px;
-  padding: 3px 12px; border-radius: 5px;
-}
-
-/* ═══ CONCEPT LAYERS ═══ */
-.concept-layer-card {
-  transition: opacity 0.3s ease, transform 0.25s, box-shadow 0.25s;
-}
-.concept-layer-card.dimmed { opacity: 0.65; }
-.concept-layer-card.dimmed:hover { opacity: 0.9; }
-.concept-layer-card.collapsed .concept-card-body { display: none; }
-.concept-layer-card.collapsed {
-  cursor: pointer; padding-top: 14px; padding-bottom: 14px;
-}
-.concept-card-header {
-  display: flex; justify-content: space-between; align-items: center;
-}
-.concept-card-title-group {
-  display: flex; align-items: center; gap: 10px;
-}
-.concept-card-badge {
-  font-size: 10px; font-weight: 700; text-transform: uppercase;
-  padding: 2px 8px; border-radius: 5px; letter-spacing: 0.5px;
-}
-.concept-card-trigger {
-  font-size: 12px; color: var(--text3); font-weight: 600;
-}
-
-.layer-card {
-  border-radius: 16px; padding: 24px 28px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.03);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.layer-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-.layer-card-title {
-  font-family: var(--font-display);
-  font-size: 22px; font-weight: 600;
-  margin: 12px 0 16px 0; color: var(--text);
-}
-
-/* ═══ 5. EQUATIONS — Proper math font ═══ */
-.equation-box {
-  background: linear-gradient(135deg, rgba(102,126,234,0.03), rgba(59,130,246,0.06));
-  border: 1.5px solid rgba(102,126,234,0.12);
-  border-left: 4px solid #667eea;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px rgba(102,126,234,0.04);
-  margin-top: 24px;
-}
-.equation-box-header {
-  padding: 12px 16px;
-  background: rgba(102,126,234,0.04);
-  border-bottom: 1px solid rgba(102,126,234,0.08);
-  font-size: 11px; font-weight: 700; color: #667eea;
-  letter-spacing: 1px; text-transform: uppercase;
-  display: flex; align-items: center; gap: 8px;
-}
-.eq-row {
-  display: flex; flex-direction: column; gap: 4px;
-  padding: 10px 16px;
-  border-bottom: 1px solid rgba(102,126,234,0.08);
-}
-.eq-row:last-child { border-bottom: none; }
-.eq-formula {
-  font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', Georgia, serif;
-  font-size: 20px; font-weight: 400;
-  color: #1e3a5f; letter-spacing: 0.5px;
-  padding: 8px 0; display: block;
-}
-[data-theme="dark"] .eq-formula { color: #93c5fd; }
-.eq-desc {
-  font-size: 12.5px; color: #6b7280; margin-top: 2px; line-height: 1.5;
-}
-
-/* Math display (formatFormula output) */
-.math-display {
-  font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif;
-  font-size: 1.35em;
-  text-align: center;
-  margin: 12px 0;
-  color: var(--text);
-  letter-spacing: 0.05em;
-}
-.frac {
-  display: inline-flex; flex-direction: column; vertical-align: middle;
-  text-align: center; font-size: 0.9em; margin: 0 6px; line-height: 1.2;
-}
-.frac .num { border-bottom: 1px solid currentColor; padding: 2px 4px; }
-.frac .den { padding: 2px 4px; }
-.math-display sup { font-size: 0.65em; vertical-align: super; }
-.sqrt-content { border-top: 1px solid currentColor; margin-left: 2px; padding-top: 1px; }
-
-/* ═══ 6. WORKED EXAMPLES — Glass cards ═══ */
-.worked-example, .worked-example-card {
-  background: white !important;
-  border: 1.5px solid rgba(34,197,94,0.15) !important;
-  border-radius: 14px !important;
-  margin: 14px 0 !important;
-  overflow: hidden !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.02);
-}
-[data-theme="dark"] .worked-example, [data-theme="dark"] .worked-example-card {
-  background: var(--card-bg) !important;
-}
-.worked-example.collapsed .we-body { display: none; }
-.worked-example-title {
-  font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
-  color: var(--green); font-weight: 700; margin-bottom: 10px;
-}
-.we-header {
-  padding: 14px 20px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; transition: background 0.15s;
-  border-bottom: 1px solid rgba(0,0,0,0.04);
-}
-.we-header:hover { background: rgba(34,197,94,0.03); }
-.we-body { padding: 16px 20px; }
-.we-question {
-  font-size: 14.5px; color: var(--text); margin-bottom: 14px;
-  padding-bottom: 10px; border-bottom: 1px solid var(--border); line-height: 1.7;
-}
-.we-step {
-  padding: 8px 0 8px 18px;
-  border-left: 2px solid rgba(34,197,94,0.2);
-  margin: 6px 0; font-size: 14px; line-height: 1.7;
-  color: var(--text2);
-}
-.we-step strong { color: var(--text); }
-.we-step-row { display: flex; gap: 16px; margin-bottom: 12px; }
-.we-step-label {
-  font-size: 12px; font-weight: 700; text-transform: uppercase;
-  color: var(--accent); min-width: 80px; padding-top: 2px;
-}
-.we-step-content {
-  flex: 1; font-size: 14.5px; color: var(--text); line-height: 1.6;
-}
-.we-calc-box {
-  font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif;
-  font-size: 16px;
-  background: rgba(34,197,94,0.04);
-  padding: 6px 14px; border-radius: 8px;
-  display: inline-block; margin: 4px 0; color: #166534;
-}
-[data-theme="dark"] .we-calc-box { background: rgba(34,197,94,0.08); color: #4ade80; }
-.we-final-answer { font-weight: 700; color: var(--green); }
-.practice-ref {
-  font-size: 10.5px; color: var(--text3); font-style: italic; margin-top: 12px;
-}
-
-/* ═══ 7. PRACTICE QUESTIONS ═══ */
-.practice-box, .practice-question, .practice-problem-card {
-  background: white !important;
-  border: 1.5px solid rgba(0,0,0,0.06) !important;
-  border-radius: 12px !important;
-  padding: 16px 20px !important;
-  margin: 10px 0 !important;
-  transition: border-color 0.2s;
-}
-[data-theme="dark"] .practice-box, [data-theme="dark"] .practice-question, [data-theme="dark"] .practice-problem-card {
-  background: var(--card-bg) !important;
-}
-.practice-question:hover, .practice-problem-card:hover {
-  border-color: rgba(102,126,234,0.2) !important;
-}
-.practice-problem-card {
-  border-left: 4px solid transparent;
-  transition: all 0.3s;
-}
-.practice-problem-card.highlighted-easy {
-  border-left-color: #f59e0b !important;
-  box-shadow: 0 4px 20px rgba(245,158,11,0.08);
-}
-.practice-problem-card.highlighted-medium {
-  border-left-color: #374151 !important;
-  box-shadow: 0 4px 20px rgba(55,65,81,0.08);
-}
-.practice-problem-card.highlighted-hard {
-  border-left-color: #667eea !important;
-  box-shadow: 0 4px 20px rgba(102,126,234,0.08);
-}
-.practice-title {
-  font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.5px;
-  color: var(--accent); font-weight: 700; margin-bottom: 14px;
-}
-.practice-q {
-  font-size: 14px; color: var(--text); margin-bottom: 12px;
-  padding-left: 24px; position: relative; line-height: 1.7;
-}
-.practice-q::before {
-  content: attr(data-num); position: absolute; left: 0;
-  color: var(--accent); font-weight: 700;
-  font-family: var(--font-mono); font-size: 12.5px;
-}
-.practice-solution-box {
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: 10px;
-  padding: 14px 18px;
-  margin-top: 12px;
-  font-size: 13.5px;
-  line-height: 1.7;
-}
-[data-theme="dark"] .practice-solution-box { background: rgba(22, 163, 74, 0.05); border-color: rgba(22,163,74,0.2); }
-.pq-difficulty {
-  display: inline-block; font-size: 9px; font-weight: 700;
-  padding: 2px 8px; border-radius: 4px; margin-right: 8px;
-}
-.pq-easy, .pq-badge-easy { background: #dcfce7; color: #166534; }
-.pq-medium, .pq-badge-medium { background: #fef9c3; color: #854d0e; }
-.pq-hard, .pq-badge-hard { background: #fecaca; color: #991b1b; }
-
-/* ═══ 8. COMMON MISTAKES — Red accent ═══ */
-.mistake-card, .mistake-box {
-  background: linear-gradient(135deg, #fff5f5, #fef2f2) !important;
-  border: 1.5px solid rgba(239,68,68,0.12) !important;
-  border-left: 4px solid #ef4444 !important;
-  border-radius: 12px !important;
-  padding: 16px 20px !important;
-  margin: 12px 0 !important;
-}
-[data-theme="dark"] .mistake-card, [data-theme="dark"] .mistake-box {
-  background: rgba(239,68,68,0.05) !important;
-}
-.mistake-wrong, .mistake-box-title { color: #dc2626; font-weight: 700; font-size: 13px; }
-.mistake-correct { color: #16a34a; font-weight: 700; font-size: 13px; margin-top: 10px; }
-.mistake-box p {
-  font-size: 13.5px; color: var(--text2); line-height: 1.7; margin-bottom: 6px;
-}
-.mistake-box p:last-child { margin-bottom: 0; }
-
-/* ═══ VARIOUS CONTENT BOXES ═══ */
-.ib-box {
-  background: linear-gradient(135deg, rgba(102,126,234,0.03), rgba(102,126,234,0.06));
-  border: 1.5px solid rgba(102,126,234,0.1);
-  border-radius: 16px; padding: 16px 20px; margin: 20px 0; font-size: 13.5px;
-}
-.ib-box-title {
-  font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.5px;
-  color: var(--accent); font-weight: 700; margin-bottom: 10px;
-}
-.concept-box {
-  background: var(--glass);
-  border: 1.5px solid var(--glass-border);
-  border-left: 4px solid var(--accent);
-  border-radius: 16px; padding: 18px 22px; margin: 20px 0;
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-}
-.concept-box h3 {
-  font-family: var(--font-display);
-  font-size: 16px; margin: 0 0 8px; color: var(--text);
-}
-.formula-card {
-  background: linear-gradient(135deg, rgba(102,126,234,0.03), rgba(102,126,234,0.06));
-  border: 1.5px solid rgba(102,126,234,0.12);
-  border-radius: 16px; padding: 20px; text-align: center;
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  margin: 20px 0;
-}
-.formula-card .formula {
-  font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif;
-  font-size: 22px; color: var(--accent); font-weight: 700; margin: 6px 0;
-}
-[data-theme="dark"] .formula-card .formula { color: #818cf8; }
-.formula-card .formula-label { font-size: 11px; color: var(--text3); }
-.formula-card .formula-note { font-size: 11.5px; color: var(--text2); margin-top: 6px; }
-
-.key-point {
-  background: rgba(239,68,68,0.03);
-  border: 1.5px solid rgba(239,68,68,0.1);
-  border-radius: 16px; padding: 14px 20px; margin: 16px 0;
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-}
-.key-point-title {
-  font-size: 10.5px; text-transform: uppercase; letter-spacing: 1px;
-  color: var(--red); font-weight: 700; margin-bottom: 6px;
-}
-.key-point p { font-size: 13.5px; color: var(--text); line-height: 1.7; }
-.cmd-term {
-  display: inline-block; background: rgba(239,68,68,0.06);
-  color: var(--red); padding: 1px 6px; border-radius: 4px;
-  font-size: 10px; font-weight: 700; font-family: var(--font-mono);
-  text-transform: uppercase;
-}
-
-.tok-box {
-  background: rgba(142,68,173,0.03); border: 1.5px solid rgba(142,68,173,0.12);
-  border-radius: 16px; padding: 16px 20px; margin: 20px 0;
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-}
-.tok-box-title {
-  font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.5px;
-  color: #8e44ad; font-weight: 700; margin-bottom: 8px;
-}
-.tok-box p { font-size: 13px; color: var(--text2); line-height: 1.6; }
-
-.linking-box {
-  background: rgba(245,158,11,0.03); border: 1.5px solid rgba(245,158,11,0.15);
-  border-radius: 16px; padding: 16px 20px; margin: 20px 0;
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-}
-.linking-box-title {
-  font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.5px;
-  color: #d97706; font-weight: 700; margin-bottom: 8px;
-}
-.linking-box p { font-size: 13px; color: var(--text2); line-height: 1.6; }
-
-.nos-box {
-  background: rgba(13,148,136,0.03); border: 1.5px solid rgba(13,148,136,0.12);
-  border-radius: 16px; padding: 16px 20px; margin: 20px 0;
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-}
-.nos-box-title {
-  font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.5px;
-  color: #0d9488; font-weight: 700; margin-bottom: 8px;
-}
-.nos-box p { font-size: 13px; color: var(--text2); line-height: 1.6; }
-
-.ia-box {
-  background: rgba(147,51,234,0.03); border: 1.5px solid rgba(147,51,234,0.12);
-  border-radius: 16px; padding: 16px 20px; margin: 20px 0;
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-}
-.ia-box-title {
-  font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.5px;
-  color: #7c3aed; font-weight: 700; margin-bottom: 8px;
-}
-.ia-box ul { padding-left: 16px; color: var(--text2); font-size: 13px; }
-
-.derivation {
-  background: rgba(102,126,234,0.02); border: 1px solid rgba(102,126,234,0.08);
-  border-radius: 16px; padding: 14px 18px; margin: 14px 0;
-  font-family: var(--font-mono); font-size: 13px; color: var(--accent); line-height: 2.2;
-}
-[data-theme="dark"] .derivation { color: #818cf8; }
-
-.data-table {
-  width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px;
-}
-.data-table th {
-  background: rgba(102,126,234,0.04); color: var(--text); font-weight: 600;
-  padding: 10px 14px; text-align: left;
-  border-bottom: 2px solid var(--border); font-size: 12.5px;
-}
-.data-table td {
-  padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text2);
-}
-
-.diagram-box {
-  background: var(--cream); border: 1.5px solid var(--glass-border);
-  border-radius: 16px; padding: 16px; margin: 16px 0; text-align: center;
-}
-.diagram-box svg { max-width: 100%; }
-.diagram-caption {
-  font-size: 11px; color: var(--text3); margin-top: 8px; font-style: italic;
-}
-
-.infographic-slot {
-  width: 100%; min-height: 60px; margin: 20px 0;
-  border-radius: 16px; overflow: hidden;
-  box-shadow: var(--glass-shadow); border: 1px solid var(--glass-border);
-}
-.infographic-slot img { width: 100%; display: block; border-radius: 16px; }
-
-.lesson-nav {
-  display: flex; justify-content: space-between;
-  margin-top: 36px; padding-top: 20px; border-top: 2px solid var(--border);
-}
-
-/* Practice more */
-.practice-more {
-  display: flex; gap: 12px; flex-wrap: wrap; margin: 24px 0; padding: 20px;
-  background: rgba(102,126,234,0.04); border-radius: 16px;
-  border: 1.5px solid rgba(102,126,234,0.12); justify-content: center;
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-}
-.practice-more a {
-  background: var(--glass); border: 1.5px solid rgba(102,126,234,0.12);
-  border-radius: 50px; padding: 10px 22px; color: var(--accent);
-  font-weight: 600; font-size: 12px; text-decoration: none;
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  transition: all 0.2s;
-}
-.practice-more a:hover {
-  background: rgba(102,126,234,0.08);
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(102,126,234,0.15);
-}
-[data-theme="dark"] .practice-more a { color: #818cf8; }
-[data-theme="dark"] .practice-more a:hover { color: white; }
-
-/* Nav buttons */
-.nav-btn {
-  background: var(--glass); border: 1.5px solid var(--glass-border);
-  border-radius: 50px; backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px); padding: 8px 22px;
-  color: var(--text2); font-size: 12.5px; font-weight: 600;
-  cursor: pointer; transition: all 0.2s; text-decoration: none;
-}
-.nav-btn:hover { border-color: var(--accent); color: var(--accent); }
-.nav-btn-primary {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white; border: none;
-  box-shadow: 0 4px 16px rgba(102,126,234,0.25);
-}
-.nav-btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(102,126,234,0.35);
-}
-
-/* ═══ MODALS ═══ */
-.modal-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(15,23,42,0.4); z-index: 500;
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-}
-.modal-overlay.open {
-  display: flex; justify-content: center; align-items: center;
-}
-.modal {
-  background: var(--white); border-radius: 20px; overflow: hidden;
-  box-shadow: 0 20px 50px rgba(15,23,42,0.15);
-  max-width: 90vw; max-height: 90vh;
-  border: 1px solid var(--glass-border);
-  animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@keyframes modalIn {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-.modal-header {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  padding: 16px 20px; color: white;
-  display: flex; justify-content: space-between; align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-.modal-header h3 { font-size: 15px; font-weight: 600; }
-.modal-close {
-  background: rgba(255,255,255,.15); border: none; color: white;
-  width: 32px; height: 32px; border-radius: 50%;
-  cursor: pointer; font-size: 14px;
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.2s;
-}
-.modal-close:hover { background: rgba(255,255,255,.25); }
-.modal-body { padding: 20px; overflow-y: auto; max-height: 75vh; }
-
-/* Calculator */
-.calc-grid {
-  display: grid; grid-template-columns: repeat(5, 1fr);
-  gap: 6px; max-width: 320px; margin: 0 auto;
-}
-.calc-btn {
-  padding: 12px; border: 1px solid var(--tint-border); border-radius: 10px;
-  background: var(--cream); font-size: 14px; cursor: pointer;
-  transition: all 0.15s; font-family: var(--font-mono);
-  color: var(--text); text-align: center; font-weight: 500;
-}
-.calc-btn:hover { background: var(--accent-pale); border-color: var(--accent); }
-.calc-btn-op { background: rgba(102,126,234,0.08); color: var(--accent); font-weight: 600; }
-.calc-btn-eq {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white; font-weight: 700; border: none;
-  box-shadow: 0 4px 12px rgba(102,126,234,0.2);
-}
-.calc-btn-fn { font-size: 11.5px; color: var(--text2); background: rgba(15,23,42,0.02); }
-[data-theme="dark"] .calc-btn-fn { background: rgba(255,255,255,0.02); }
-.calc-display {
-  background: var(--cream); border: 1.5px solid var(--tint-border);
-  border-radius: 12px; padding: 14px 18px; margin-bottom: 12px;
-  text-align: right; font-family: var(--font-mono); font-size: 24px;
-  color: var(--text); min-height: 58px; word-break: break-all;
-}
-.calc-sub {
-  font-size: 11px; color: var(--text3); text-align: right;
-  margin-bottom: 4px; font-family: var(--font-mono);
-}
-
-/* Formula sidebar */
-.formula-sidebar {
-  display: none; position: fixed; top: 0; right: 0;
-  width: 400px; height: 100vh; background: var(--white);
-  background-image: linear-gradient(180deg, var(--white), var(--tint));
-  border-left: 1.5px solid var(--tint-border);
-  z-index: 400; overflow-y: auto;
-  box-shadow: -8px 0 32px rgba(15,23,42,0.06);
-}
-.formula-sidebar.open {
-  display: block;
-  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
-.formula-sidebar-header {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  padding: 16px 20px; color: white;
-  display: flex; justify-content: space-between; align-items: center;
-  position: sticky; top: 0; z-index: 10;
-  box-shadow: 0 4px 12px rgba(102,126,234,0.15);
-}
-.formula-sidebar-header h3 { font-size: 15px; }
-.formula-sidebar-body { padding: 20px; }
-.fs-section { margin-bottom: 24px; }
-.fs-section h4 {
-  font-size: 12px; font-weight: 700; color: var(--accent);
-  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
-  padding-bottom: 4px; border-bottom: 1.5px solid var(--tint-border);
-}
-[data-theme="dark"] .fs-section h4 { color: #818cf8; }
-.fs-row {
-  display: flex; justify-content: space-between; padding: 8px 0;
-  font-size: 13.5px; border-bottom: 1px solid var(--border); gap: 12px;
-}
-.fs-row span:first-child { color: var(--text2); font-weight: 500; }
-.fs-row span:last-child {
-  font-family: 'Cambria Math', 'STIX Two Math', serif;
-  color: var(--accent); font-weight: 700; font-size: 13.5px;
-}
-[data-theme="dark"] .fs-row span:last-child { color: #818cf8; }
-
-/* Error card */
-.error-card { max-width: 500px; margin: 60px auto; text-align: center; }
-.error-card h2 { font-family: var(--font-display); font-size: 22px; margin-bottom: 12px; }
-.error-card p { color: var(--text2); margin-bottom: 20px; }
-
-/* ═══ CHECKLIST ═══ */
-.checklist-progress-card {
-  background: linear-gradient(135deg, rgba(102,126,234,0.06), rgba(118,75,162,0.04));
-  border: 1.5px solid var(--tint-border);
-  border-radius: 14px; padding: 18px 22px; margin-bottom: 20px;
-}
-.checklist-progress-card .cp-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 10px; flex-wrap: wrap; gap: 8px;
-}
-.checklist-progress-card .cp-title {
-  font-size: 13px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 1px; color: var(--accent);
-}
-.checklist-progress-card .cp-count {
-  font-size: 13px; font-weight: 600; color: var(--text2);
-}
-.checklist-progress-card .cp-bar {
-  width: 100%; height: 8px; border-radius: 4px;
-  background: rgba(0,0,0,0.06); overflow: hidden;
-}
-[data-theme="dark"] .checklist-progress-card .cp-bar { background: rgba(255,255,255,0.08); }
-.checklist-progress-card .cp-bar-fill {
-  height: 100%; border-radius: 4px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
-  transition: width 0.4s ease;
-}
-.checklist-card { border-left: 4px solid #764ba2; margin-top: 24px; }
-.checklist-card .cl-header {
-  font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
-  color: #764ba2; font-weight: 700; margin-bottom: 16px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.checklist-card .cl-items { display: flex; flex-direction: column; gap: 0; }
-.checklist-card .cl-item {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 10px 14px; border-radius: 8px; cursor: pointer;
-  transition: background 0.15s ease; user-select: none; -webkit-user-select: none;
-}
-.checklist-card .cl-item:hover { background: rgba(118,75,162,0.04); }
-.checklist-card .cl-item.checked { opacity: 0.55; }
-.checklist-card .cl-item.checked .cl-text {
-  text-decoration: line-through; text-decoration-color: var(--text3);
-}
-.checklist-card .cl-cb {
-  flex-shrink: 0; width: 20px; height: 20px;
-  border: 2px solid rgba(118,75,162,0.35); border-radius: 5px;
-  display: flex; align-items: center; justify-content: center;
-  margin-top: 1px; transition: all 0.2s ease; background: transparent;
-}
-.checklist-card .cl-item.checked .cl-cb {
-  background: #764ba2; border-color: #764ba2;
-}
-.checklist-card .cl-cb svg {
-  width: 12px; height: 12px; fill: none; stroke: #fff;
-  stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
-  opacity: 0; transform: scale(0.5); transition: all 0.2s ease;
-}
-.checklist-card .cl-item.checked .cl-cb svg { opacity: 1; transform: scale(1); }
-.checklist-card .cl-text {
-  font-size: 14px; line-height: 1.6; color: var(--text2);
-  transition: opacity 0.2s, text-decoration 0.2s;
-}
-.checklist-card .cl-ahl-divider {
-  border: none; border-top: 2px dashed rgba(102,126,234,0.2); margin: 16px 0 8px;
-}
-.checklist-card .cl-ahl-label {
-  display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 0 14px;
-}
-
-/* Exam corner */
-.exam-corner-box {
-  border-radius: 12px; overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-  border: 1px solid var(--tint-border); margin-top: 24px;
-}
-.exam-corner-header {
-  background: linear-gradient(135deg, #1e293b, #334155);
-  color: #FFFFFF; padding: 12px 20px;
-  display: flex; justify-content: space-between; align-items: center;
-}
-[data-theme="dark"] .exam-corner-header { background: linear-gradient(135deg, #334155, #475569); }
-.exam-corner-body { background: var(--card-bg); padding: 24px; }
-.examiner-tip-box {
-  background: rgba(245,158,11,0.06);
-  border: 1px solid rgba(245,158,11,0.2);
-  border-radius: 8px; padding: 14px 18px; margin-top: 16px;
-}
-[data-theme="dark"] .examiner-tip-box { background: rgba(245,158,11,0.05); }
-
-/* ═══ RESPONSIVE ═══ */
-@media(max-width:768px){
-  .sidebar{display:none;}
-  .topbar{padding:0 16px;}
-  .lesson{padding:24px 20px 80px;}
-  #contentArea{padding:20px 16px 80px;}
-  .right-panel{display:none;}
-  .formula-sidebar{width:100%;}
-  .selectors-sticky-bar{padding:10px 16px;}
-}
-
-@media print{
-  .selectors-sticky-bar, .sidebar, .topbar, .right-panel, .formula-sidebar, .auth-banner, .lesson-nav, .practice-more, .concept-card-trigger, .nav-btn {
-    display: none !important;
-  }
-  .main { height: auto; }
-  .content-wrapper { display: block; }
-  .content { overflow: visible; }
-  .lesson { max-width: 100%; padding: 0; display: block !important; }
-  .concept-layer-card.collapsed .concept-card-body,
-  .worked-example-card.collapsed .we-body,
-  .practice-problem-card .sol-body,
-  .exam-corner-card .sol-body { display: block !important; }
-  .concept-layer-card.collapsed,
-  .worked-example-card.collapsed { padding-top: 24px; padding-bottom: 24px; }
-  .concept-layer-card { opacity: 1 !important; transform: none !important; page-break-inside: avoid; }
-  .worked-example-card, .practice-problem-card, .mistake-box, .exam-corner-card { page-break-inside: avoid; }
-  .print-checkbox {
-    -webkit-appearance: none !important; -moz-appearance: none !important;
-    appearance: none !important; border: 1.5px solid #333 !important;
-    width: 14px !important; height: 14px !important; background: #ffffff !important;
-    border-radius: 2px !important; display: inline-block !important;
-    position: relative !important; vertical-align: middle !important;
-  }
-}
-
-/* Lesson image */
-.lesson-image img {
-  max-width: 100%; border-radius: 12px; margin: 12px 0;
-}
 </style>
 
 </head>
@@ -1705,6 +653,7 @@ function formatFormula(text) {
   return `<div class="math-display">${formatted}</div>`;
 }
 
+
 function renderActiveSubtopic() {
   const contentArea = document.getElementById('contentArea');
   contentArea.innerHTML = '';
@@ -1714,463 +663,504 @@ function renderActiveSubtopic() {
   const sub = currentTopicData.subtopics[currentLessonIdx];
   if (!sub) return;
   
-  const subtopicContainer = document.createElement('div');
-  subtopicContainer.className = 'lesson active';
-  subtopicContainer.id = `subtopic-${currentLessonIdx}`;
-  
-  // Banner
+  // Header
   const topicLevel = currentTopicData.level ? currentTopicData.level.toLowerCase() : '';
-  const isHlOnly = topicLevel.includes('hl only');
-  const isSlOnly = topicLevel.includes('sl only');
-  const levelSwitchHtml = (isHlOnly || isSlOnly) 
-    ? `<span style="font-size: 11.5px; font-weight: 600; color: var(--text3);">${isHlOnly ? 'Higher Level (AHL) Topic' : 'Standard Level (SL) Topic'}</span>`
-    : `<span style="font-size: 11.5px; font-weight: 600; cursor: pointer; text-decoration: none; color: var(--accent2);" onclick="setScopeLevel('${currentLevel === 'sl' ? 'hl' : 'sl'}')">Switch to ${currentLevel === 'sl' ? 'HL' : 'SL'}</span>`;
+  let badgeLevel = sub.level || 'SL + HL';
+  if (sub.scope === 'hl') badgeLevel = 'AHL ONLY';
 
-  const bannerHtml = `
-    <div class="glass-card" style="margin-top: 0; margin-bottom: 20px; padding: 12px 16px; border-color: var(--tint-border); background: var(--tint); display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--text2); border-radius: 12px;">
-      <span>👁️ Active View: <strong>${currentLevel.toUpperCase()}</strong> mode · Ability: <strong>${currentAbility.charAt(0).toUpperCase() + currentAbility.slice(1)}</strong></span>
-      ${levelSwitchHtml}
+  const subBadgesHtml = `
+    <div class="sub-badges">
+      <span class="b-code">${currentTopicData.code}.${sub.num}</span>
+      <span class="${sub.scope === 'hl' ? 'b-ahl' : 'b-level'}">${badgeLevel}</span>
+      <span style="font-size:11px;font-weight:600;color:var(--text3);font-family:-apple-system,system-ui,sans-serif;margin-left:auto;text-transform:none;">
+        👁️ Mode: ${currentLevel.toUpperCase()}
+      </span>
     </div>
   `;
   
-  // Hero Header
-  const headerHtml = `
-    <div class="lesson-header">
-      <div class="lesson-badge">
-        <span class="badge-topic">${currentTopicData.code}</span>
-        <span class="badge-sl">${sub.level}</span>
-        ${sub.scope === 'hl' ? `<span class="glass-badge-ahl">AHL ONLY</span>` : `<span class="badge-sl" style="background: rgba(22,163,74,0.08); color: var(--green);">SL + HL</span>`}
-      </div>
-      <h1>Subtopic ${currentTopicData.code}.${sub.num}: ${sub.title}</h1>
+  const headerHtml = `<h1>${sub.title}</h1>`;
+  const bigIdeaHtml = sub.bigIdea ? `<div class="big-idea"><p>${sub.bigIdea}</p></div>` : '';
+  const imageHtml = sub.image ? `<div class="img-s"><img src="Images/${sub.image}" onerror="this.parentElement.style.display='none'"></div>` : '';
+
+  // Tabs logic
+  const hasSim = sub.simulation && sub.simulation.url;
+  const hasVideo = (sub.video && sub.video.embedId) || (sub.videos && sub.videos.length > 0);
+  const hasEq = (sub.equations && sub.equations.length > 0) || (currentLevel === 'hl' && sub.ahlEquations && sub.ahlEquations.length > 0);
+  const hasExam = sub.examCorner || (currentLevel === 'hl' && sub.ahlExamCorner);
+
+  const tabsHtml = `
+    <div class="tabs">
+      <button class="tab active" data-tab="learn">📖 Learn</button>
+      ${hasSim ? '<button class="tab" data-tab="sim">🧪 Simulate</button>' : ''}
+      ${hasVideo ? '<button class="tab" data-tab="watch">🎥 Watch</button>' : ''}
+      ${hasEq ? '<button class="tab" data-tab="formulas">📐 Formulas</button>' : ''}
+      <button class="tab" data-tab="practice">✏️ Practice</button>
+      <button class="tab" data-tab="mistakes">⚠️ Mistakes</button>
+      ${hasExam ? '<button class="tab" data-tab="exam">📝 Exam</button>' : ''}
     </div>
   `;
-  
-  // Big Idea
-  const bigIdeaHtml = `
-    <div class="big-idea-box">
-      <div class="big-idea-badge">The Big Idea</div>
-      <p class="big-idea-text">"${sub.bigIdea}"</p>
-    </div>
-  `;
-  
-  // Layer Navigation Tabs
-  const layerTabsHtml = `
-    <div class="practice-more" style="justify-content: flex-start; margin: 20px 0; padding: 10px 16px; background: rgba(0,0,0,0.01); border-radius: 12px; border: 1px dashed var(--tint-border); gap: 8px;">
-      <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text3); margin-right: 8px; align-self: center;">Jump to Layer:</span>
-      <a href="#card-foundation" onclick="setAbilityLevel('foundation'); return true;" style="padding: 6px 14px; border-radius: 8px; font-size: 11.5px;">Foundation</a>
-      <a href="#card-core" onclick="setAbilityLevel('core'); return true;" style="padding: 6px 14px; border-radius: 8px; font-size: 11.5px;">Core</a>
-      <a href="#card-extension" onclick="setAbilityLevel('extension'); return true;" style="padding: 6px 14px; border-radius: 8px; font-size: 11.5px;">Extension</a>
-    </div>
-  `;
-  
-  // Concept cards content helpers
-  const fCheckQuestions = (sub.foundation && sub.foundation.checkQuestions && sub.foundation.checkQuestions.length > 0) ? `
-    <div style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px;">
-      <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text);">Quick Check</h4>
-      ${sub.foundation.checkQuestions.map((cq, cqIdx) => `
-        <div style="margin-bottom: 12px; background: rgba(0,0,0,0.01); border: 1.5px solid var(--border); border-radius: 8px; padding: 12px;">
-          <p style="font-weight: 600; font-size: 13.5px; margin-bottom: 8px;">Q: ${cq.question}</p>
-          <button class="glass-btn" style="padding: 4px 12px; font-size: 11px;" onclick="toggleAnswer('check-ans-${cqIdx}', this, event)">Show Answer</button>
-          <div id="check-ans-${cqIdx}" style="display: none; margin-top: 8px; font-size: 13.5px; color: var(--green); font-weight: 500;">
-            A: ${cq.answer}
-          </div>
-        </div>
-      `).join('')}
-    </div>
-  ` : '';
-  
+
+  // Learn Tab
   const foundationHtml = sub.foundation ? `
-    <div class="foundation-card concept-layer-card" id="card-foundation" data-layer="foundation" onclick="handleCardClick('foundation', event)">
-      <div class="concept-card-header" style="margin-bottom: 0;">
-        <div class="concept-card-title-group">
-          <span class="concept-card-badge badge-foundation">FOUNDATION</span>
-          <h3 class="layer-card-title">${sub.foundation.title}</h3>
-        </div>
-        <span class="concept-card-trigger" id="trigger-foundation">Expand ▼</span>
-      </div>
-      <div class="concept-card-body" id="body-foundation">
-        <div style="font-size: 14.5px; line-height: 1.8; color: var(--text2);">${sub.foundation.content}</div>
-        <div class="nos-box" style="margin-top: 16px; border: 1.5px solid rgba(13,148,136,0.15); background: rgba(13,148,136,0.02);">
-          <div class="nos-box-title" style="color: #0d9488;">Foundation Summary</div>
-          <div style="font-size: 13.5px; line-height: 1.6; color: var(--text2);">${sub.foundation.summary}</div>
-        </div>
-        ${fCheckQuestions}
+    <div class="layer l-f" onclick="this.classList.toggle('collapsed')">
+      <div class="lh"><div><span class="l-badge lb-f">FOUNDATION</span> ${sub.foundation.title || 'Basic Concepts'}</div><span class="la">▼</span></div>
+      <div class="lb">
+        ${sub.foundation.content}
+        ${sub.foundation.summary ? `<div class="ck"><div class="ck-t">Foundation Summary</div><p>${sub.foundation.summary}</p></div>` : ''}
       </div>
     </div>
   ` : '';
-  
+
   const coreAhlHtml = (currentLevel === 'hl' && sub.core && sub.core.ahlContent) ? `
-    <div style="margin-top: 24px; border-top: 2px dashed rgba(59, 130, 246, 0.2); padding-top: 20px;">
-      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-        <span class="glass-badge-ahl">AHL Content</span>
-      </div>
-      <div style="font-size: 14.5px; line-height: 1.8; color: var(--text2);">${sub.core.ahlContent}</div>
-      ${sub.core.ahlKeyPoints && sub.core.ahlKeyPoints.length > 0 ? `
-        <div style="margin-top: 14px;">
-          <h4 style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--accent2); letter-spacing: 0.5px; margin-bottom: 8px;">AHL Key Takeaways</h4>
-          <ul style="padding-left: 20px;">
-            ${sub.core.ahlKeyPoints.map(kp => `<li>${kp}</li>`).join('')}
-          </ul>
-        </div>
-      ` : ''}
-      ${sub.core.ahlExamTrap ? `
-        <div class="mistake-card" style="margin-top: 16px;">
-          <div style="font-weight: 700; color: var(--red); margin-bottom: 6px; font-size: 12px; text-transform: uppercase;">🚨 AHL Exam Trap</div>
-          <p style="margin-bottom: 6px;"><strong style="color: var(--red);">❌ Common Misconception:</strong> ${sub.core.ahlExamTrap.wrong}</p>
-          <p style="margin-bottom: 0;"><strong style="color: var(--green);">✅ Correct Physics:</strong> ${sub.core.ahlExamTrap.correct}</p>
-        </div>
-      ` : ''}
+    <div style="margin-top:20px;padding-top:16px;border-top:2px dashed rgba(14,165,233,0.2);">
+      <div style="display:inline-block;background:linear-gradient(135deg,#3b82f6,#2563eb);color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;margin-bottom:8px;font-family:-apple-system,system-ui,sans-serif;">AHL CONTENT</div>
+      ${sub.core.ahlContent}
     </div>
   ` : '';
-  
+
   const coreHtml = sub.core ? `
-    <div class="core-card concept-layer-card" id="card-core" data-layer="core" onclick="handleCardClick('core', event)">
-      <div class="concept-card-header" style="margin-bottom: 0;">
-        <div class="concept-card-title-group">
-          <span class="concept-card-badge badge-core">CORE</span>
-          <h3 class="layer-card-title">${sub.core.title}</h3>
-        </div>
-        <span class="concept-card-trigger" id="trigger-core">Expand ▼</span>
-      </div>
-      <div class="concept-card-body" id="body-core">
-        <div style="font-size: 14.5px; line-height: 1.8; color: var(--text2);">${sub.core.content}</div>
-        <div style="margin-top: 16px;">
-          <h4 style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--accent); letter-spacing: 0.5px; margin-bottom: 8px;">Key Takeaways</h4>
-          <ul style="padding-left: 20px;">
-            ${sub.core.keyPoints.map(kp => `<li>${kp}</li>`).join('')}
-          </ul>
-        </div>
-        ${sub.core.examTrap ? `
-          <div class="mistake-card" style="margin-top: 16px;">
-            <div style="font-weight: 700; color: var(--red); margin-bottom: 6px; font-size: 12px; text-transform: uppercase;">🚨 Exam Trap</div>
-            <p style="margin-bottom: 6px;"><strong style="color: var(--red);">❌ Common Misconception:</strong> ${sub.core.examTrap.wrong}</p>
-            <p style="margin-bottom: 0;"><strong style="color: var(--green);">✅ Correct Physics:</strong> ${sub.core.examTrap.correct}</p>
-          </div>
-        ` : ''}
+    <div class="layer l-c" onclick="this.classList.toggle('collapsed')">
+      <div class="lh"><div><span class="l-badge lb-c">CORE</span> ${sub.core.title || 'Main Concepts'}</div><span class="la">▼</span></div>
+      <div class="lb">
+        ${sub.core.content}
         ${coreAhlHtml}
       </div>
     </div>
   ` : '';
-  
+
   const extensionHtml = sub.extension ? `
-    <div class="extension-card concept-layer-card" id="card-extension" data-layer="extension" onclick="handleCardClick('extension', event)">
-      <div class="concept-card-header" style="margin-bottom: 0;">
-        <div class="concept-card-title-group">
-          <span class="concept-card-badge badge-extension">EXTENSION</span>
-          <h3 class="layer-card-title">${sub.extension.title}</h3>
-        </div>
-        <span class="concept-card-trigger" id="trigger-extension">Expand ▼</span>
-      </div>
-      <div class="concept-card-body" id="body-extension">
-        <div style="font-size: 14.5px; line-height: 1.8; color: var(--text2);">${sub.extension.content}</div>
-        ${sub.extension.connections && sub.extension.connections.length > 0 ? `
-          <div style="margin-top: 16px;">
-            <h4 style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: #7c3aed; letter-spacing: 0.5px; margin-bottom: 8px;">Syllabus Connections</h4>
-            <ul style="padding-left: 20px;">
-              ${sub.extension.connections.map(c => `<li>${c}</li>`).join('')}
-            </ul>
-          </div>
-        ` : ''}
+    <div class="layer l-e" onclick="this.classList.toggle('collapsed')">
+      <div class="lh"><div><span class="l-badge lb-e">EXTENSION</span> ${sub.extension.title || 'Beyond the Syllabus'}</div><span class="la">▼</span></div>
+      <div class="lb">
+        ${sub.extension.content}
       </div>
     </div>
   ` : '';
-  
-  const simHtml = sub.simulation ? `
-    <div class="glass-card" style="border-left: 4px solid var(--accent2); margin-top: 24px; padding: 24px;">
-      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent2); font-weight: 700; margin-bottom: 12px;">💻 Interactive Simulator</div>
-      <h3 style="font-size: 20px; margin-bottom: 8px; font-weight: 600;">${sub.simulation.title}</h3>
-      <p style="font-size: 13px; color: var(--text3); margin-bottom: 20px;">Source: ${sub.simulation.source}</p>
-      
-      <div style="background: rgba(0,0,0,0.02); border: 1px dashed var(--tint-border); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-        <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text);">Quick Exploration Guidelines:</h4>
-        <ol style="margin-bottom: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
-          ${sub.simulation.instructions.map(inst => `<li>${inst}</li>`).join('')}
-        </ol>
-      </div>
-      
-      ${sub.simulation.url ? `
-        <button class="glass-btn" style="background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: var(--accent2);" onclick="window.open('${sub.simulation.url}', '_blank')">
-          Open Simulation ↗
-        </button>
-      ` : ''}
+
+  const learnTab = `
+    <div class="tp active" id="tab-learn">
+      ${foundationHtml}
+      ${coreHtml}
+      ${extensionHtml}
     </div>
-  ` : '';
-  
-  const videoHtml = sub.video ? `
-    <div class="glass-card" style="border-left: 4px solid var(--red); margin-top: 24px; padding: 24px;">
-      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--red); font-weight: 700; margin-bottom: 12px;">📺 Watch & Learn</div>
-      <h3 style="font-size: 20px; margin-bottom: 8px; font-weight: 600;">${sub.video.title}</h3>
-      <p style="font-size: 13px; color: var(--text3); margin-bottom: 20px;">Duration: ${sub.video.duration} · ${sub.video.description}</p>
-      
-      ${sub.video.embedId ? `
-        <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; border-radius: 12px; overflow: hidden; border: 1px solid var(--tint-border);">
-          <iframe src="https://www.youtube.com/embed/${sub.video.embedId}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
-        </div>
-      ` : `
-        <div style="padding: 40px; text-align: center; background: rgba(0,0,0,0.02); border-radius: 12px; border: 1px dashed var(--tint-border);">
-          <span style="font-size: 24px; margin-bottom: 12px; display: block;">⏳</span>
-          <div style="font-weight: 600; color: var(--text2);">Video Coming Soon</div>
-        </div>
-      `}
-    </div>
-  ` : '';
-  
-  const equationsHtml = `
-    <div class="equation-box">
-      <div class="equation-box-header">
-        📐 Key Equations
-      </div>
-      <div style="display: flex; flex-direction: column;">
-        ${sub.equations && sub.equations.length > 0 ? sub.equations.map(eq => `
-          <div class="eq-row">
-            <div class="eq-formula">${formatFormula(eq.formula)}</div>
-            <div class="eq-desc">${eq.description}</div>
-          </div>
-        `).join('') : '<div style="padding: 16px; color: var(--text3); font-style: italic;">No equations for this subtopic</div>'}
-        
-        <!-- AHL Equations (Only in HL Mode) -->
-        ${(currentLevel === 'hl' && sub.ahlEquations && sub.ahlEquations.length > 0) ? sub.ahlEquations.map(eq => `
-          <div class="eq-row" style="background: rgba(59, 130, 246, 0.02);">
-            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 4px;">
-              <span class="glass-badge-ahl" style="font-size: 9px; padding: 2px 6px;">AHL</span>
+  `;
+
+  // Sim Tab
+  let simTab = '';
+  if (hasSim) {
+    simTab = `
+      <div class="tp" id="tab-sim">
+        <div class="sim">
+          <div class="sim-h">
+            <span class="sim-i">⚙️</span>
+            <div>
+              <div class="sim-t">${sub.simulation.title}</div>
+              <div class="sim-s">${sub.simulation.source || 'Interactive Simulation'}</div>
             </div>
-            <div class="eq-formula" style="color: var(--accent2);">${formatFormula(eq.formula)}</div>
-            <div class="eq-desc">${eq.description}</div>
           </div>
-        `).join('') : ''}
+          <div class="sim-b">
+            <div class="sim-p">
+              <p>Interactive simulation</p>
+              <a class="sim-link" href="${sub.simulation.url}" target="_blank">Open Simulation →</a>
+            </div>
+            ${sub.simulation.instructions && sub.simulation.instructions.length > 0 ? `
+              <div class="sim-ins">
+                <p><strong>Try this:</strong></p>
+                ${sub.simulation.instructions.map((inst, i) => `<p>${i+1}. ${inst}</p>`).join('')}
+              </div>
+            ` : ''}
+          </div>
+        </div>
       </div>
-    </div>
-  `;
-  
-  subtopicContainer.innerHTML = `
-    ${bannerHtml}
+    `;
+  }
+
+  // Watch Tab
+  let watchTab = '';
+  if (hasVideo) {
+    let videosHtml = '';
+    const vids = sub.videos && sub.videos.length > 0 ? sub.videos : (sub.video ? [sub.video] : []);
+    
+    videosHtml = vids.map(v => `
+      <div class="vid">
+        <div class="vid-h">
+          <div class="vid-t">${v.title}</div>
+          <div class="vid-m">${v.duration || ''} ${v.description ? '&middot; ' + v.description : ''}</div>
+        </div>
+        <div class="vid-p">
+          <iframe src="https://www.youtube.com/embed/${v.embedId}" allowfullscreen></iframe>
+        </div>
+      </div>
+    `).join('');
+
+    watchTab = `<div class="tp" id="tab-watch">${videosHtml}</div>`;
+  }
+
+  // Formulas Tab
+  let formulasTab = '';
+  if (hasEq) {
+    let eqsHtml = '';
+    if (sub.equations && sub.equations.length > 0) {
+      eqsHtml += sub.equations.map(eq => `
+        <div class="eq-r">
+          <span class="eq-f">${formatFormula(eq.formula)}</span>
+          <span class="eq-d">${eq.description}</span>
+        </div>
+      `).join('');
+    }
+    if (currentLevel === 'hl' && sub.ahlEquations && sub.ahlEquations.length > 0) {
+      eqsHtml += sub.ahlEquations.map(eq => `
+        <div class="eq-r" style="background:rgba(14,165,233,0.03);">
+          <span style="display:inline-block;background:#2563eb;color:white;font-size:8px;padding:1px 4px;border-radius:3px;margin-bottom:4px;font-family:-apple-system,system-ui,sans-serif;font-weight:700;">AHL</span>
+          <span class="eq-f" style="color:#0284c7;">${formatFormula(eq.formula)}</span>
+          <span class="eq-d">${eq.description}</span>
+        </div>
+      `).join('');
+    }
+    formulasTab = `
+      <div class="tp" id="tab-formulas">
+        <div class="eq">
+          <div class="eq-t">Key Equations</div>
+          ${eqsHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  // Practice Tab
+  let practiceTab = `<div class="tp" id="tab-practice"></div>`; // Will be filled dynamically
+
+  // Mistakes Tab
+  let mistakesTab = '';
+  let mistakesHtml = '';
+  if (sub.commonMistakes && sub.commonMistakes.length > 0) {
+    mistakesHtml += sub.commonMistakes.map(m => `
+      <div class="mk">
+        <div class="mk-w">✗ "${m.wrong}"</div>
+        <div class="mk-x">${m.explanation || ''}</div>
+        <div class="mk-r">✓ ${m.correct}</div>
+      </div>
+    `).join('');
+  } else {
+    mistakesHtml = '<div style="padding:20px;text-align:center;color:var(--text3);font-size:14px;background:white;border-radius:14px;border:1px dashed var(--border);">No common mistakes logged for this topic yet.</div>';
+  }
+  mistakesTab = `<div class="tp" id="tab-mistakes">${mistakesHtml}</div>`;
+
+  // Exam Tab
+  let examTab = '';
+  if (hasExam) {
+    let exHtml = '';
+    if (sub.examCorner) {
+      exHtml += renderExamStyleCard(sub.examCorner, 'SL + HL');
+    }
+    if (currentLevel === 'hl' && sub.ahlExamCorner) {
+      exHtml += renderExamStyleCard(sub.ahlExamCorner, 'AHL ONLY');
+    }
+    examTab = `<div class="tp" id="tab-exam">${exHtml}</div>`;
+  }
+
+  // Combine
+  contentArea.innerHTML = `
+    ${subBadgesHtml}
     ${headerHtml}
-    ${renderChecklistProgress(sub)}
     ${bigIdeaHtml}
-    ${layerTabsHtml}
-    ${foundationHtml}
-    ${coreHtml}
-    ${extensionHtml}
-    ${simHtml}
-    ${videoHtml}
-    ${equationsHtml}
-    ${renderWorkedExamples(sub.workedExamples)}
-    ${renderPracticeProblems(sub.practiceProblems)}
-    ${renderCommonMistakes(sub.commonMistakes)}
-    ${renderExamCorner(sub.examCorner, sub.ahlExamCorner)}
-    ${renderChecklist(sub)}
-    ${renderFooterNav()}
+    ${imageHtml}
+    ${tabsHtml}
+    ${learnTab}
+    ${simTab}
+    ${watchTab}
+    ${formulasTab}
+    ${practiceTab}
+    ${mistakesTab}
+    ${examTab}
   `;
+
+  // Apply tab logic
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.tp').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      const tabContent = document.getElementById('tab-' + t.dataset.tab);
+      if (tabContent) tabContent.classList.add('active');
+    });
+  });
+
+  // Render practice asynchronously (for firestore fetching)
+  renderPracticeTabContent(sub);
   
-  contentArea.appendChild(subtopicContainer);
+  // Also check if teacher to inject teacher button
+  checkTeacherAuth();
   
-  // Set initial visible classes and heights based on currentAbility level
-  setAbilityLevel(currentAbility);
-  
-  // Update sidebar checklist aggregate progress
+  // Update sidebar check
   updateSidebarChecklistProgress();
 }
 
-function renderWorkedExamples(workedExamples) {
-  if (!workedExamples || workedExamples.length === 0) return '';
-  
-  // Filter by scope
-  const filtered = workedExamples.filter(we => currentLevel === 'hl' || we.scope !== 'hl');
-  if (filtered.length === 0) return '';
-  
+function renderExamStyleCard(ex, levelLabel) {
+  if (!ex) return '';
   return `
-    <div class="glass-card" style="border-left: 4px solid var(--green); margin-top: 24px; padding: 24px;">
-      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--green); font-weight: 700; margin-bottom: 20px;">📝 Worked Examples</div>
-      
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-        ${filtered.map((we, idx) => {
-          const isMatching = we.level === currentAbility;
-          const isAhl = we.scope === 'hl';
-          
-          return `
-            <div class="worked-example-card worked-example ${isMatching ? 'expanded' : 'collapsed'}" id="we-card-${idx}" style="margin: 0; padding: 20px; border-radius: 12px; border-color: ${isAhl ? 'rgba(59, 130, 246, 0.3)' : 'rgba(22, 163, 74, 0.2)'};">
-              <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="toggleWorkedExample(${idx})">
-                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                  <span class="concept-card-badge badge-${we.level}">${we.level.toUpperCase()}</span>
-                  ${isAhl ? `<span class="glass-badge-ahl">AHL</span>` : ''}
-                  <strong style="font-size: 16px; color: var(--text);">${we.title}</strong>
-                </div>
-                <button class="glass-btn" style="padding: 6px 14px; font-size: 11px; border-radius: 20px;" id="we-btn-${idx}">${isMatching ? 'Hide Steps ▲' : 'Show Steps ▼'}</button>
-              </div>
-              
-              <div class="we-body" id="we-body-${idx}" style="display: ${isMatching ? 'block' : 'none'}; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px;">
-                ${renderImage(we.image)}
-                ${we.steps.map(step => `
-                  <div class="we-step-row">
-                    <div class="we-step-label">${step.label}</div>
-                    <div class="we-step-content">
-                      ${step.isEquation ? `
-                        <div class="we-calc-box">${formatFormula(step.text)}</div>
-                      ` : step.text}
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          `;
-        }).join('')}
+    <div class="ex">
+      <div class="ex-h">
+        <span>📝 IB Exam Style ${levelLabel !== 'SL + HL' ? '— ' + levelLabel : ''}</span>
+        <span class="ex-mk">${ex.marks} marks</span>
+      </div>
+      <div class="ex-bd">
+        <div class="ex-q">${ex.question}</div>
+        <button class="ex-rv" onclick="event.stopPropagation();var a=this.nextElementSibling;a.classList.toggle('show');this.textContent=a.classList.contains('show')?'Hide Model Answer':'Show Model Answer'">Show Model Answer</button>
+        <div class="ex-an">${ex.modelAnswer}</div>
+        ${ex.examinerTip ? `<div class="ex-tip"><div class="ex-tip-t">Examiner Tip</div><p>${ex.examinerTip}</p></div>` : ''}
       </div>
     </div>
   `;
 }
 
-function renderPracticeProblems(practiceProblems) {
-  if (!practiceProblems || practiceProblems.length === 0) return '';
-  
-  const filtered = practiceProblems.filter(p => currentLevel === 'hl' || p.scope !== 'hl');
-  if (filtered.length === 0) return '';
-  
-  return `
-    <div class="glass-card" style="border-left: 4px solid var(--accent2); margin-top: 24px; padding: 24px;">
-      <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent2); font-weight: 700; margin-bottom: 20px;">✍️ Practice Problems</div>
-      
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-        ${filtered.map((p, idx) => {
-          const isAhl = p.scope === 'hl';
-          let highlightClass = '';
-          if (currentAbility === 'foundation' && p.difficulty === 'easy') {
-            highlightClass = 'highlighted-easy';
-          } else if (currentAbility === 'core' && p.difficulty === 'medium') {
-            highlightClass = 'highlighted-medium';
-          } else if (currentAbility === 'extension' && p.difficulty === 'hard') {
-            highlightClass = 'highlighted-hard';
-          }
-          
-          return `
-            <div class="practice-problem-card practice-box ${highlightClass}" id="practice-card-${idx}" style="margin: 0; padding: 20px; border-radius: 12px;">
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <span class="concept-card-badge badge-${p.difficulty === 'easy' ? 'foundation' : (p.difficulty === 'medium' ? 'core' : 'extension')}" style="font-size: 11px;">${p.difficulty.toUpperCase()}</span>
-                  ${isAhl ? `<span class="glass-badge-ahl">AHL</span>` : ''}
-                </div>
-                <span style="font-size: 12px; color: var(--text3); font-weight: 600;">Problem ${idx + 1}</span>
-              </div>
-              
-              <div style="font-size: 15px; color: var(--text); margin-bottom: 20px; line-height: 1.7;">
-                ${p.question}
-                ${renderImage(p.image)}
-              </div>
-              
-              <button class="glass-btn" style="padding: 8px 16px; font-size: 12px; background: rgba(22, 163, 74, 0.05); border-color: rgba(22, 163, 74, 0.2); color: var(--green);" onclick="toggleAnswer('practice-ans-${idx}', this, event)">Show Solution</button>
-              
-              <div class="sol-body practice-solution-box" id="practice-ans-${idx}" style="display: none;">
-                <strong style="color: var(--text); display: block; margin-bottom: 8px;">Solution:</strong>
-                <span style="font-size: 14.5px; line-height: 1.6;">${p.solution}</span>
-              </div>
-            </div>
-          `;
-        }).join('')}
-      </div>
-      
-      <div class="practice-more" style="margin-top: 24px; margin-bottom: 0;">
-        <a href="dp-quiz.html?topic=${activeTopicCode}">📝 Paper 1A: MCQs</a>
-        <a href="dp-past-paper.html?topic=${activeTopicCode}&paper=1B">📊 Paper 1B: Data-Based</a>
-        <a href="dp-past-paper.html?topic=${activeTopicCode}&paper=2">✍️ Paper 2: Extended</a>
-        <a href="dp-flashcards.html?topic=${activeTopicCode}">🧠 Flashcards</a>
-      </div>
-    </div>
-  `;
+// Global state for custom questions
+let currentCustomQuestions = [];
+let isTeacherMode = false;
+const TEACHER_EMAIL = "atulsoralphysicism@gmail.com";
+
+function checkTeacherAuth() {
+  if (typeof firebase !== 'undefined' && firebase.auth) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user && user.email === TEACHER_EMAIL) {
+        isTeacherMode = true;
+      } else {
+        isTeacherMode = false;
+      }
+      // re-render practice tab if it was already rendered
+      const sub = currentTopicData && currentTopicData.subtopics ? currentTopicData.subtopics[currentLessonIdx] : null;
+      if (sub) {
+        renderPracticeTabContent(sub);
+      }
+    });
+  }
 }
 
-function renderCommonMistakes(commonMistakes) {
-  if (!commonMistakes || commonMistakes.length === 0) return '';
+async function renderPracticeTabContent(sub) {
+  const container = document.getElementById('tab-practice');
+  if (!container) return;
   
-  return `
-    <div style="margin-top: 32px;">
-      <h3 style="font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px;">🚨 Common Traps & Mistakes</h3>
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-        ${commonMistakes.map(cm => `
-          <div class="mistake-card">
-            <p style="margin-bottom: 8px; font-size: 14.5px;"><strong style="color: var(--red);">❌ Wrong:</strong> ${cm.wrong}</p>
-            <p style="margin-bottom: 8px; font-size: 13.5px; color: var(--text2); font-style: italic; padding-left: 24px;">${cm.explanation}</p>
-            <p style="margin-bottom: 0; font-size: 14.5px;"><strong style="color: var(--green);">✅ Right:</strong> ${cm.correct}</p>
+  container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text3);">Loading questions...</div>';
+
+  // 1. Base Worked Examples
+  let workedHtml = '';
+  if (sub.workedExamples && sub.workedExamples.length > 0) {
+    const filteredWE = sub.workedExamples.filter(we => currentLevel === 'hl' || we.scope !== 'hl');
+    if (filteredWE.length > 0) {
+      workedHtml += filteredWE.map((we, idx) => {
+        let label = 'C'; let bgClass = 'lb-c';
+        if (we.level === 'foundation') { label = 'F'; bgClass = 'lb-f'; }
+        else if (we.level === 'extension') { label = 'E'; bgClass = 'lb-e'; }
+        
+        let stepsHtml = we.steps.map(step => `
+          <div class="we-st">
+            <strong>${step.label}:</strong> ${step.isEquation ? '<br><span class="we-eq2">' + formatFormula(step.text) + '</span>' : step.text}
           </div>
-        `).join('')}
-      </div>
-    </div>
-  `;
-}
+        `).join('');
 
-function renderExamCorner(examCorner, ahlExamCorner) {
-  if (!examCorner && !ahlExamCorner) return '';
+        return `
+          <div class="we" onclick="this.classList.toggle('open')">
+            <div class="we-h">
+              <span class="we-b2 ${bgClass}">${label}</span>
+              ${we.scope === 'hl' ? '<span style="font-size:8.5px;background:#2563eb;color:white;padding:2px 6px;border-radius:4px;margin-right:6px;font-weight:700;">AHL</span>' : ''}
+              <span class="we-t2">${we.title}</span>
+              <span class="we-a2">▼</span>
+            </div>
+            <div class="we-bd">
+              ${we.image ? `<div class="img-s"><img src="Images/${we.image}"></div>` : ''}
+              ${stepsHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+
+  // 2. Base Practice Problems
+  let practiceHtml = '<h3 style="font-size:16px;margin:22px 0 10px;font-weight:700;">Practice Problems</h3>';
+  let baseQuestions = [];
+  if (sub.practiceProblems && sub.practiceProblems.length > 0) {
+    baseQuestions = sub.practiceProblems.filter(p => currentLevel === 'hl' || p.scope !== 'hl');
+  }
+
+  // 3. Fetch Custom Questions from Firestore
+  let customQuestions = [];
+  if (typeof firebase !== 'undefined' && firebase.firestore) {
+    const db = firebase.firestore();
+    const subtopicId = sub.id || String(sub.num);
+    try {
+      const qs = await db.collection('dp-custom-questions')
+                         .doc(activeTopicCode)
+                         .collection(subtopicId)
+                         .get();
+      qs.forEach(doc => {
+        customQuestions.push({ id: doc.id, ...doc.data() });
+      });
+    } catch(e) {
+      console.warn("Failed to load custom questions", e);
+    }
+  }
   
-  let html = `
-    <div class="exam-corner-box">
-      <div class="exam-corner-header">
-        <span style="font-weight: 700; letter-spacing: 1px;">🏆 IB-STYLE QUESTION</span>
-      </div>
-      <div class="exam-corner-body">
-        <div style="display: flex; flex-direction: column; gap: 32px;">
-  `;
-  
-  if (examCorner) {
-    html += `
-      <div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-          <span class="concept-card-badge" style="background: rgba(124, 58, 237, 0.08); color: #7c3aed; border: 1px solid rgba(124, 58, 237, 0.2);">Standard Level</span>
-          <span style="font-size: 13px; font-weight: 700; color: var(--text3);">[${examCorner.marks} marks]</span>
+  currentCustomQuestions = customQuestions; // store globally for deletion
+
+  // Render combined
+  const renderQuestion = (p, isCustom, docId) => {
+    let diffClass = 'pq-m';
+    if (p.difficulty === 'easy' || p.difficulty === 'foundation') diffClass = 'pq-e';
+    else if (p.difficulty === 'hard' || p.difficulty === 'extension') diffClass = 'pq-h';
+    else if (p.difficulty === 'exam') diffClass = 'pq-h'; // red
+
+    const delBtn = (isTeacherMode && isCustom) ? `
+      <button onclick="deleteCustomQuestion('${docId}', event)" style="margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;" title="Delete question">×</button>
+    ` : '';
+
+    return `
+      <div class="pq" id="pq-${docId || Math.random()}">
+        <div class="pq-top">
+          <span class="pq-bg ${diffClass}">${(p.difficulty || 'medium').toUpperCase()}</span>
+          ${p.scope === 'hl' ? '<span style="font-size:8px;background:#2563eb;color:white;padding:2px 6px;border-radius:4px;margin-top:4px;font-weight:700;">AHL</span>' : ''}
+          <div class="pq-txt">
+            ${p.question}
+            ${p.image ? `<br><img src="${p.image}" style="max-width:100%;border-radius:8px;margin-top:10px;">` : ''}
+          </div>
+          ${delBtn}
         </div>
+        <button class="pq-sh" onclick="event.stopPropagation();var s=this.nextElementSibling;s.classList.toggle('show');this.textContent=s.classList.contains('show')?'Hide solution':'Show solution'">Show solution</button>
+        <div class="pq-sl">${p.solution}</div>
+      </div>
+    `;
+  };
+
+  if (baseQuestions.length === 0 && customQuestions.length === 0) {
+    practiceHtml += '<div style="color:var(--text3);font-size:14px;">No practice problems added yet.</div>';
+  } else {
+    baseQuestions.forEach(p => { practiceHtml += renderQuestion(p, false); });
+    customQuestions.forEach(p => { practiceHtml += renderQuestion(p, true, p.id); });
+  }
+
+  // Teacher Add Button
+  let teacherHtml = '';
+  if (isTeacherMode) {
+    teacherHtml = `
+      <div style="margin-top:24px;border-top:1px solid var(--border);padding-top:16px;">
+        <button onclick="document.getElementById('teacherForm').style.display='block';this.style.display='none';" class="gl-btn" style="background:var(--sky);color:white;border:none;">➕ Add Custom Question</button>
         
-        <p style="font-size: 15px; color: var(--text); line-height: 1.7; margin-bottom: 20px;">
-          ${examCorner.question}
-        </p>
-        
-        <button class="glass-btn" style="padding: 8px 16px; font-size: 12px; border-radius: 8px;" onclick="toggleAnswer('exam-ans-sl', this, event)">Show Model Answer</button>
-        
-        <div class="sol-body" id="exam-ans-sl" style="display: none; margin-top: 20px;">
-          <strong style="display: block; font-size: 13px; color: var(--text2); margin-bottom: 8px;">Model Answer:</strong>
-          <div style="font-family: var(--font-mono); font-size: 14px; background: rgba(0,0,0,0.03); padding: 16px; border-radius: 8px; color: var(--text); line-height: 1.6;">
-            ${examCorner.modelAnswer}
+        <div id="teacherForm" class="teacher-form" style="display:none;">
+          <h4 style="font-size:14px;margin-bottom:12px;">Add Practice Question</h4>
+          <div class="tf-row">
+            <label>Difficulty</label>
+            <select id="tf-diff" class="tf-input">
+              <option value="easy">Easy (Foundation)</option>
+              <option value="medium" selected>Medium (Core)</option>
+              <option value="hard">Hard (Extension)</option>
+              <option value="exam">Exam Style</option>
+            </select>
           </div>
-          <div class="examiner-tip-box">
-            <strong style="color: #d97706; display: block; margin-bottom: 4px;">💡 Examiner Tip:</strong>
-            <span style="font-size: 14px; color: var(--text2); line-height: 1.5;">${examCorner.examinerTip}</span>
+          <div class="tf-row">
+            <label>Question Text (HTML allowed)</label>
+            <textarea id="tf-q" class="tf-input" rows="3"></textarea>
           </div>
+          <div class="tf-row">
+            <label>Solution Text (HTML allowed)</label>
+            <textarea id="tf-s" class="tf-input" rows="3"></textarea>
+          </div>
+          <div class="tf-row">
+            <label>Image URL (optional)</label>
+            <input type="text" id="tf-img" class="tf-input" placeholder="e.g. https://... or Images/...">
+          </div>
+          <div style="display:flex;gap:10px;margin-top:12px;">
+            <button onclick="saveCustomQuestion()" class="tf-btn">Save Question</button>
+            <button onclick="document.getElementById('teacherForm').style.display='none';this.parentElement.parentElement.previousElementSibling.style.display='inline-block';" class="tf-btn" style="background:transparent;color:var(--text3);border:1px solid var(--border);">Cancel</button>
+          </div>
+          <div id="tf-status" style="font-size:12px;color:var(--green);margin-top:8px;font-weight:600;"></div>
         </div>
       </div>
     `;
   }
+
+  container.innerHTML = workedHtml + practiceHtml + teacherHtml;
+}
+
+async function saveCustomQuestion() {
+  const diff = document.getElementById('tf-diff').value;
+  const q = document.getElementById('tf-q').value.trim();
+  const s = document.getElementById('tf-s').value.trim();
+  const img = document.getElementById('tf-img').value.trim();
+  const status = document.getElementById('tf-status');
   
-  if (currentLevel === 'hl' && ahlExamCorner) {
-    html += `
-      <div style="border-top: 1px dashed var(--tint-border); padding-top: 32px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-          <span class="glass-badge-ahl">Higher Level (AHL)</span>
-          <span style="font-size: 13px; font-weight: 700; color: var(--text3);">[${ahlExamCorner.marks} marks]</span>
-        </div>
-        
-        <p style="font-size: 15px; color: var(--text); line-height: 1.7; margin-bottom: 20px;">
-          ${ahlExamCorner.question}
-        </p>
-        
-        <button class="glass-btn" style="padding: 8px 16px; font-size: 12px; border-radius: 8px;" onclick="toggleAnswer('exam-ans-hl', this, event)">Show Model Answer</button>
-        
-        <div class="sol-body" id="exam-ans-hl" style="display: none; margin-top: 20px;">
-          <strong style="display: block; font-size: 13px; color: var(--text2); margin-bottom: 8px;">Model Answer:</strong>
-          <div style="font-family: var(--font-mono); font-size: 14px; background: rgba(0,0,0,0.03); padding: 16px; border-radius: 8px; color: var(--text); line-height: 1.6;">
-            ${ahlExamCorner.modelAnswer}
-          </div>
-          <div class="examiner-tip-box">
-            <strong style="color: #d97706; display: block; margin-bottom: 4px;">💡 Examiner Tip:</strong>
-            <span style="font-size: 14px; color: var(--text2); line-height: 1.5;">${ahlExamCorner.examinerTip}</span>
-          </div>
-        </div>
-      </div>
-    `;
+  if (!q || !s) {
+    status.style.color = 'var(--red)';
+    status.textContent = 'Question and Solution are required.';
+    return;
   }
   
-  html += `
-        </div>
-      </div>
-    </div>
-  `;
-  return html;
+  status.textContent = 'Saving...';
+  status.style.color = 'var(--text3)';
+  
+  const sub = currentTopicData.subtopics[currentLessonIdx];
+  const subtopicId = sub.id || String(sub.num);
+  
+  if (typeof firebase !== 'undefined' && firebase.firestore) {
+    const db = firebase.firestore();
+    try {
+      await db.collection('dp-custom-questions')
+              .doc(activeTopicCode)
+              .collection(subtopicId)
+              .add({
+                difficulty: diff,
+                question: q,
+                solution: s,
+                image: img || null,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+              });
+      
+      status.style.color = 'var(--green)';
+      status.textContent = 'Saved successfully!';
+      
+      // Reset form & re-render
+      document.getElementById('tf-q').value = '';
+      document.getElementById('tf-s').value = '';
+      document.getElementById('tf-img').value = '';
+      setTimeout(() => {
+        renderPracticeTabContent(sub);
+      }, 1000);
+      
+    } catch(e) {
+      status.style.color = 'var(--red)';
+      status.textContent = 'Error: ' + e.message;
+    }
+  }
 }
+
+async function deleteCustomQuestion(docId, event) {
+  event.stopPropagation();
+  if (!confirm("Are you sure you want to delete this custom question?")) return;
+  
+  const sub = currentTopicData.subtopics[currentLessonIdx];
+  const subtopicId = sub.id || String(sub.num);
+  
+  if (typeof firebase !== 'undefined' && firebase.firestore) {
+    const db = firebase.firestore();
+    try {
+      await db.collection('dp-custom-questions')
+              .doc(activeTopicCode)
+              .collection(subtopicId)
+              .doc(docId)
+              .delete();
+              
+      // Remove from DOM immediately for snappy feel
+      const el = document.getElementById('pq-' + docId);
+      if (el) el.remove();
+      
+    } catch(e) {
+      alert('Error deleting: ' + e.message);
+    }
+  }
+}
+
+// Dummy functions that were present and now removed from html to avoid reference errors:
+function handleCardClick() {}
+function setAbilityLevel() {}
 
 
 function renderFooterNav() {
