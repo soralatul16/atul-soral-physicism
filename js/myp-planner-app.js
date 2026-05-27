@@ -279,4 +279,10 @@
     return html;
   }
 
+  // Initialization
+  if (typeof MYP_PLANNER_DATA !== 'undefined') {
+    window.buildSidebar();
+    window.buildStats();
+  }
+
 })();
