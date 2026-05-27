@@ -17,11 +17,4 @@ const DP_SIMS = [
     description: "Explore how derived quantities are calculated from base measurements.",
     file: "sims/derived-quantities-lab.html"
   }
-
-  // To add a new simulator:
-  // 1. Create an HTML file in the sims/ folder
-  // 2. Add an object here with id, title, icon, topic, topicName, description, file
-  // 3. Commit and push — it appears automatically
-];
-  // 3. Commit and push — it appears automatically
 ];
