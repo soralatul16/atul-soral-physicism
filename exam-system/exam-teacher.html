@@ -20,6 +20,7 @@
 <meta charset="UTF-8">
 <title>MYP Teacher Panel</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/myp-planner.css">
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <style>
 :root {
@@ -517,6 +518,7 @@ body::after {
     <button class="nav-btn" onclick="switchTab(this); openGenerator()">🎯 Generate</button>
     <button class="nav-btn" onclick="switchTab(this); openLibrary()">📚 Library</button>
     <button class="nav-btn" onclick="switchTab(this); openUsers()">👥 Users</button>
+    <button class="nav-btn" id="tabPlanner" onclick="switchToPlanner(this)">📋 Planner</button>
     <button class="icon-btn" id="gradeNavBtn" onclick="markSubmissionsAsSeen(); window.location.href='exam-grading.html'">📝 Grade</button>
   </div>
   <div class="topbar-right">
@@ -529,6 +531,8 @@ body::after {
 </div>
 
 <div class="app-body">
+  <!-- EXAM BUILDER PANE -->
+  <div id="examPane" style="display:flex;flex:1;width:100%;">
 
   <!-- HOME -->
   <div id="homeScreen" style="flex:1;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px;padding:40px;">
@@ -985,6 +989,36 @@ body::after {
     </div>
   </div>
 
+  </div> <!-- end examPane -->
+
+  <!-- PLANNER PANE -->
+  <div id="plannerPane" style="display:none; width:100%; height:100%; flex-direction:column; overflow:hidden;">
+    <div class="lay" style="flex:1;">
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <!-- TABS -->
+        <div class="s-tabs">
+          <button class="s-tab active" id="tabRef" onclick="window.switchView('ref')">Topic Reference</button>
+          <button class="s-tab" id="tabUnit" onclick="window.switchView('unit')">Unit Plans</button>
+        </div>
+        <div class="s-scroll" id="sidebarContent"></div>
+      </div>
+      
+      <!-- MAIN VIEW -->
+      <div class="main-view">
+        <div class="welcome" id="welcomePane">
+          <div class="w-ico">🚀</div>
+          <h1 class="w-h">Welcome to MYP Physics Planner</h1>
+          <p class="w-p">Select a topic from the sidebar to view core concepts, inquiry questions, common misconceptions, and detailed unit plans.</p>
+          <div class="stats" id="welcomeStats"></div>
+        </div>
+        
+        <div class="topic-view" id="topicView" style="display:none; flex-direction:column;">
+          <!-- Content rendered here -->
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- CONFIRM MODAL -->
@@ -1037,6 +1071,10 @@ body::after {
 <script src="exam-builder.js"></script>
 <script src="exam-generator.js"></script>
 <script src="exam-guided-builder.js"></script>
+<!-- Planner Scripts -->
+<script src="../js/myp-planner-data.js"></script>
+<script src="../js/myp-units-data.js"></script>
+<script src="../js/myp-planner-app.js"></script>
 
 <script>
 // Image and Video content block inline edit functionality
@@ -1337,7 +1375,20 @@ function openGenerator() {
 
 function showHomePage() { showPage('home'); }
 
+
+function switchToPlanner(btn) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  var examPane = document.getElementById('examPane');
+  if(examPane) examPane.style.display = 'none';
+  var plannerPane = document.getElementById('plannerPane');
+  if(plannerPane) plannerPane.style.display = 'flex';
+}
 function switchTab(btn) {
+  var plannerPane = document.getElementById("plannerPane");
+  var examPane = document.getElementById("examPane");
+  if(plannerPane) plannerPane.style.display = "none";
+  if(examPane) examPane.style.display = "flex";
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
