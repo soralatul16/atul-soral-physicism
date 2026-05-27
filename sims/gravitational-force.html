@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -5,912 +6,453 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gravitational Force | Atul Soral Physicism</title>
 <style>
-:root{--bg:#f0f7ff;--card:#fff;--text:#1e293b;--text2:#475569;--accent:#0284c7;--accentDk:#075985;--accentLt:#38bdf8;--border:#bae6fd;--glass:rgba(186,230,253,0.3);--glassBd:rgba(186,230,253,0.6);--surface:#e0f2fe;--track:#bae6fd;--thumb:#0284c7;--canvasBg:#f8fafc}
-[data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--text:#e2e8f0;--text2:#94a3b8;--accent:#38bdf8;--accentDk:#0284c7;--accentLt:#7dd3fc;--border:rgba(56,189,248,0.3);--glass:rgba(56,189,248,0.1);--glassBd:rgba(56,189,248,0.25);--surface:#1e293b;--track:#334155;--thumb:#38bdf8;--canvasBg:#1e293b}
+:root{--bg:#f0f7ff;--card:#fff;--text:#1e293b;--text2:#475569;--accent:#0284c7;--accentDk:#075985;--accentLt:#38bdf8;--border:#bae6fd;--glass:rgba(186,230,253,0.3);--glassBd:rgba(186,230,253,0.6);--surface:#e0f2fe;--track:#bae6fd;--thumb:#0284c7;--canvasBg:#f8fafc;--ok:#059669;--okBg:rgba(5,150,105,0.08);--err:#dc2626;--errBg:rgba(220,38,38,0.06)}
+[data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--text:#e2e8f0;--text2:#94a3b8;--accent:#38bdf8;--accentDk:#0284c7;--accentLt:#7dd3fc;--border:rgba(56,189,248,0.3);--glass:rgba(56,189,248,0.1);--glassBd:rgba(56,189,248,0.25);--surface:#0f172a;--track:#334155;--thumb:#38bdf8;--canvasBg:#1e293b;--okBg:rgba(5,150,105,0.12);--errBg:rgba(220,38,38,0.1)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-nav{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:linear-gradient(135deg,#0284c7,#0369a1,#075985);color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(3,105,161,0.3)}
-nav a{color:rgba(255,255,255,0.85);text-decoration:none;font-size:.85rem}nav a:hover{color:#fff}
-.nav-left{display:flex;align-items:center;gap:16px}
-.nav-logo{font-family:Georgia,serif;font-size:1.15rem;font-weight:700;color:#fff!important}
-.nav-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:.8rem}
-.sim-header{padding:14px 20px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.sim-header h1{font-family:Georgia,serif;font-size:1.3rem;flex:1}
-.badge{font-size:.68rem;padding:3px 8px;border-radius:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;background:rgba(2,132,199,0.1);color:var(--accentDk)}
-[data-theme="dark"] .badge{background:rgba(56,189,248,0.15);color:var(--accentLt)}
-.equation-bar{background:var(--card);border:1px solid var(--border);border-radius:0;padding:8px 14px;font-family:Georgia,serif;font-size:.85rem;text-align:center;color:var(--text);line-height:1.5}
-.eq-hl{color:var(--accent);font-weight:700}
-.main{display:flex;gap:14px;padding:14px 20px;max-width:1440px;margin:0 auto}
-@media(max-width:900px){.main{flex-direction:column}}
-.canvas-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px}
-.ctrl-col{width:300px;flex-shrink:0;display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 130px);overflow-y:auto}
-@media(max-width:900px){.ctrl-col{width:100%;max-height:none}}
-.canvas-wrap{position:relative;aspect-ratio:16/9;background:var(--canvasBg);border-radius:12px;overflow:hidden;border:1px solid var(--border);cursor:default}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:100px}
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:8px 20px;background:linear-gradient(135deg,#0284c7,#0369a1,#075985);color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(3,105,161,0.3)}
+nav a{color:rgba(255,255,255,0.85);text-decoration:none;font-size:.82rem}nav a:hover{color:#fff}
+.nav-logo{font-family:Georgia,serif;font-size:1.1rem;font-weight:700;color:#fff!important}
+.nav-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:.78rem}
+/* HEADER */
+.sim-head{text-align:center;padding:16px 20px 10px}
+.sim-head h1{font-family:Georgia,serif;font-size:1.5rem;color:var(--accentDk);margin-bottom:4px}
+[data-theme="dark"] .sim-head h1{color:var(--accentLt)}
+.sim-head p{font-size:.9rem;color:var(--text2)}
+/* LAYOUT */
+.wrap{max-width:1280px;margin:0 auto;padding:0 16px}
+/* MAIN AREA — canvas + optional sidebar */
+.main-area{display:flex;gap:14px;margin-bottom:10px}
+.canvas-col{flex:1;min-width:0}
+.lab-sidebar{width:280px;flex-shrink:0;display:none;flex-direction:column;gap:8px;max-height:calc(100vh - 200px);overflow-y:auto}
+body.lab-on .lab-sidebar{display:flex}
+@media(max-width:900px){.main-area{flex-direction:column}.lab-sidebar{width:100%;max-height:none}}
+/* CANVAS */
+.canvas-area{margin-bottom:8px}
+.canvas-wrap{position:relative;aspect-ratio:16/9;background:var(--canvasBg);border-radius:14px;overflow:hidden;border:1px solid var(--border);cursor:default;box-shadow:0 4px 20px rgba(2,132,199,0.08)}
 .canvas-wrap canvas{display:block;width:100%;height:100%}
 .canvas-wrap.grabbing{cursor:grabbing}
-.playback{display:flex;gap:5px;flex-wrap:wrap}
-.pb{padding:7px 11px;border-radius:9px;cursor:pointer;font-size:.78rem;font-weight:600;border:1px solid var(--glassBd);background:linear-gradient(135deg,rgba(186,230,253,0.4),rgba(186,230,253,0.15));color:var(--text);transition:all .15s;white-space:nowrap}
-[data-theme="dark"] .pb{background:linear-gradient(135deg,rgba(56,189,248,0.15),rgba(56,189,248,0.05))}
-.pb:hover{border-color:var(--accent)}.pb.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.pb.rec{border-color:rgba(239,68,68,0.4)}.pb.rec:hover{background:rgba(239,68,68,0.1);border-color:#ef4444}
-.cs{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
-.cs h3{font-family:Georgia,serif;font-size:.82rem;margin-bottom:6px;color:var(--accent);display:flex;align-items:center;justify-content:space-between}
-.cs h3 button{font-size:.7rem;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface);color:var(--text);cursor:pointer}
-.cs h3 button:hover{border-color:var(--accent)}
+/* SIMPLE CONTROLS */
+.sim-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:stretch}
+.sc-slider{flex:1;min-width:130px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 12px}
+.sc-slider label{font-size:.73rem;color:var(--text2);display:flex;justify-content:space-between;margin-bottom:3px}
+.sc-slider .sv{font-weight:700;color:var(--accent)}
+.sc-slider input[type=range]{width:100%;height:5px;-webkit-appearance:none;appearance:none;background:var(--track);border-radius:3px;outline:none}
+.sc-slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--thumb);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.18)}
+.sc-btns{display:flex;gap:5px;align-items:center}
+.sb{padding:9px 14px;border-radius:10px;cursor:pointer;font-size:.8rem;font-weight:600;border:1px solid var(--glassBd);background:linear-gradient(135deg,rgba(186,230,253,0.4),rgba(186,230,253,0.15));color:var(--text);transition:all .15s}
+[data-theme="dark"] .sb{background:linear-gradient(135deg,rgba(56,189,248,0.15),rgba(56,189,248,0.05))}
+.sb:hover{border-color:var(--accent)}.sb.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* SIDEBAR SECTIONS */
+.side-section{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.side-section h4{font-family:Georgia,serif;font-size:.82rem;color:var(--accent);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.side-section h4 button{font-size:.68rem;padding:3px 7px;border:1px solid var(--border);border-radius:5px;background:var(--surface);color:var(--text);cursor:pointer}
+.side-section h4 button:hover{border-color:var(--accent)}
+/* LAB BOTTOM */
+.lab-bottom{display:none}
+body.lab-on .lab-bottom{display:block}
+.lab-bottom-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.lab-bottom-row>*{flex:1;min-width:200px}
+/* TABS */
+.tab-bar{display:flex;gap:2px;margin:0 0 8px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:4px;overflow-x:auto}
+.tab-btn{flex:1;padding:9px 6px;border:none;background:transparent;color:var(--text2);font-size:.78rem;font-weight:600;border-radius:8px;cursor:pointer;transition:all .15s;white-space:nowrap;text-align:center}
+.tab-btn:hover{color:var(--text);background:var(--surface)}
+.tab-btn.on{background:var(--accent);color:#fff}
+.tab-panel{display:none;padding:14px 0;animation:fadeIn .25s ease}
+.tab-panel.on{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* EXPLORE */
+.explore-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:640px){.explore-cards{grid-template-columns:1fr}}
+.e-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:transform .15s}
+.e-card:hover{transform:translateY(-2px)}
+.e-card .e-icon{font-size:1.6rem;margin-bottom:6px}
+.e-card h4{font-size:.85rem;margin-bottom:4px}
+.e-card p{font-size:.78rem;color:var(--text2);line-height:1.4}
+/* LEARN */
+.learn-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(max-width:640px){.learn-cards{grid-template-columns:1fr}}
+.l-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;border-left:4px solid var(--accent)}
+.l-card h4{font-family:Georgia,serif;font-size:.9rem;margin-bottom:6px}
+.l-card p{font-size:.82rem;color:var(--text2);line-height:1.5}
+.l-card .l-eq{font-family:Georgia,serif;font-weight:700;color:var(--accent);font-size:.95rem;margin-top:6px}
+/* FORMULA */
+.formula-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px}
+.f-main{font-family:Georgia,serif;font-size:1.3rem;text-align:center;margin-bottom:12px;letter-spacing:.5px}
+.f-vars{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:14px}
+.f-var{background:var(--surface);border-radius:8px;padding:8px 10px;font-size:.82rem}
+.f-var strong{display:block;font-family:Georgia,serif;margin-bottom:2px}
+.f-live{border-top:1px solid var(--border);padding-top:14px}
+.f-line{font-family:Georgia,serif;font-size:.92rem;line-height:1.8;text-align:center}
+.f-hl{transition:background .3s;border-radius:4px;padding:1px 4px}
+.f-hl.pulse{background:rgba(56,189,248,0.2)}
+.fm1{color:#3b82f6;font-weight:700}.fm2{color:#f97316;font-weight:700}
+.fr{color:#10b981;font-weight:700}.ff{color:#ef4444;font-weight:700}
+.f-result{font-size:1.1rem;font-weight:700;color:var(--accent)}
+.f-units{margin-top:10px;font-size:.78rem;color:var(--text2);text-align:center;font-family:Georgia,serif}
+/* PRACTICE */
+.prob{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px}
+.prob-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prob-head h4{font-family:Georgia,serif;font-size:.9rem}
+.prob-badge{font-size:.68rem;padding:2px 7px;border-radius:5px;font-weight:600}
+.prob-badge.easy{background:rgba(5,150,105,0.1);color:#059669}
+.prob-badge.med{background:rgba(217,119,6,0.1);color:#d97706}
+.prob-badge.hard{background:rgba(139,92,246,0.1);color:#7c3aed}
+.prob-given{font-size:.85rem;color:var(--text);margin-bottom:10px;line-height:1.5}
+.prob-given strong{color:var(--accent)}
+.prob-input-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.prob-input{flex:1;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);font-size:.85rem}
+.prob-input:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+.prob-check{padding:8px 16px;border:1px solid var(--accent);border-radius:8px;background:var(--accent);color:#fff;font-size:.82rem;font-weight:600;cursor:pointer}
+.prob-fb{padding:8px 10px;border-radius:8px;font-size:.82rem;margin-bottom:6px;display:none}
+.prob-fb.correct{display:block;background:var(--okBg);color:var(--ok);border:1px solid rgba(5,150,105,0.2)}
+.prob-fb.wrong{display:block;background:var(--errBg);color:var(--err);border:1px solid rgba(220,38,38,0.15)}
+.prob-solution{display:none;background:var(--surface);border-radius:8px;padding:10px 12px;font-size:.82rem;line-height:1.7;font-family:Georgia,serif}
+.prob-solution.show{display:block}
+.prob-sol-btn{background:none;border:none;color:var(--accent);font-size:.78rem;cursor:pointer;font-weight:600;padding:0}
+.prob-sol-btn:hover{text-decoration:underline}
+/* CHALLENGE */
+.ch-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;transition:all .3s}
+.ch-card.active-ch{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.ch-card.done-ch{border-color:var(--ok);background:var(--okBg)}
+.ch-dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;transition:all .3s}
+.ch-dot.done-dot{background:var(--ok);border-color:var(--ok);color:#fff}
+.ch-dot.active-dot{border-color:var(--accent);background:rgba(2,132,199,0.08)}
+.ch-body{flex:1}
+.ch-body h4{font-size:.88rem;margin-bottom:3px}
+.ch-body .ch-hint{font-size:.78rem;color:var(--text2);font-style:italic;margin-top:3px}
+.ch-body .ch-done-msg{font-size:.78rem;color:var(--ok);font-weight:600;margin-top:2px}
+@keyframes glow{0%{box-shadow:0 0 0 rgba(5,150,105,0)}50%{box-shadow:0 0 16px rgba(5,150,105,0.3)}100%{box-shadow:0 0 0 rgba(5,150,105,0)}}
+.ch-glow{animation:glow .7s ease}
+/* LAB TOOLS */
+.lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:640px){.lab-grid{grid-template-columns:1fr}}
+.lab-section{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.lab-section h4{font-family:Georgia,serif;font-size:.82rem;color:var(--accent);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.lab-section h4 button{font-size:.68rem;padding:3px 7px;border:1px solid var(--border);border-radius:5px;background:var(--surface);color:var(--text);cursor:pointer}
+.lab-section h4 button:hover{border-color:var(--accent)}
+.lab-full{grid-column:1/-1}
 .param{margin-bottom:8px}.param:last-child{margin-bottom:0}
-.param-lbl{display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:3px;color:var(--text2)}
+.param-lbl{display:flex;justify-content:space-between;font-size:.73rem;margin-bottom:3px;color:var(--text2)}
 .param-lbl .v{font-weight:700;color:var(--accent)}
 .param-row{display:flex;gap:6px;align-items:center}
 .param-row input[type=range]{flex:1;height:5px;-webkit-appearance:none;appearance:none;background:var(--track);border-radius:3px;outline:none}
 .param-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--thumb);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
-.ni{width:76px;padding:3px 5px;border:1px solid var(--border);border-radius:5px;background:var(--card);color:var(--text);font-size:.8rem;text-align:right}
-.ni:focus{outline:2px solid var(--accent);border-color:var(--accent)}
-.pu{font-size:.72rem;color:var(--text2);min-width:22px}
-.sel{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:7px;background:var(--card);color:var(--text);font-size:.8rem;cursor:pointer}
-.sel:focus{outline:2px solid var(--accent)}
+.ni{width:72px;padding:3px 5px;border:1px solid var(--border);border-radius:5px;background:var(--card);color:var(--text);font-size:.78rem;text-align:right}
+.ni:focus{outline:2px solid var(--accent)}
+.pu{font-size:.72rem;color:var(--text2);min-width:20px}
+.sel{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:7px;background:var(--card);color:var(--text);font-size:.78rem;cursor:pointer}
 .obj-pills{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
-.pill{padding:5px 10px;border-radius:7px;border:2px solid var(--border);cursor:pointer;font-size:.75rem;font-weight:600;transition:all .15s;display:flex;align-items:center;gap:4px}
-.pill:hover{border-color:var(--accent)}
-.pill.sel-pill{border-color:var(--accent);background:rgba(2,132,199,0.08)}
-[data-theme="dark"] .pill.sel-pill{background:rgba(56,189,248,0.12)}
-.pill .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.pill{padding:4px 8px;border-radius:6px;border:2px solid var(--border);cursor:pointer;font-size:.72rem;font-weight:600;display:flex;align-items:center;gap:4px;transition:all .15s}
+.pill:hover{border-color:var(--accent)}.pill.sp{border-color:var(--accent);background:rgba(2,132,199,0.08)}
+[data-theme="dark"] .pill.sp{background:rgba(56,189,248,0.12)}
+.pill .dot{width:9px;height:9px;border-radius:50%}
 .pill-add{border-style:dashed;color:var(--text2)}
-.pill-add:hover{color:var(--accent);border-color:var(--accent)}
-.color-row{display:flex;gap:5px;margin:4px 0}
-.cdot{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color .15s}
+.color-row{display:flex;gap:4px;margin:3px 0}
+.cdot{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid transparent}
 .cdot:hover,.cdot.ac{border-color:var(--text)}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
-.toggle-row label{font-size:.78rem}
-.toggle{position:relative;width:34px;height:18px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:3px 0}
+.toggle-row label{font-size:.76rem}
+.toggle{position:relative;width:32px;height:17px}
 .toggle input{opacity:0;width:0;height:0}
-.toggle-track{position:absolute;inset:0;background:var(--track);border-radius:9px;cursor:pointer;transition:background .2s}
-.toggle-track::after{content:'';position:absolute;left:2px;top:2px;width:14px;height:14px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 2px rgba(0,0,0,0.2)}
-.toggle input:checked+.toggle-track{background:var(--accent)}
-.toggle input:checked+.toggle-track::after{transform:translateX(16px)}
-.data-live{display:flex;gap:8px;flex-wrap:wrap;padding:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:10px}
-.di{display:flex;flex-direction:column;min-width:80px}
-.di .dl{font-size:.65rem;color:var(--text2);text-transform:uppercase;letter-spacing:.3px}
-.di .dv{font-size:.88rem;font-weight:700;font-family:Georgia,serif;color:var(--accentDk)}
+.ttr{position:absolute;inset:0;background:var(--track);border-radius:9px;cursor:pointer;transition:background .2s}
+.ttr::after{content:'';position:absolute;left:2px;top:2px;width:13px;height:13px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 2px rgba(0,0,0,0.15)}
+.toggle input:checked+.ttr{background:var(--accent)}
+.toggle input:checked+.ttr::after{transform:translateX(15px)}
+.rm-btn{width:100%;padding:5px;border:1px solid rgba(239,68,68,0.3);border-radius:5px;background:rgba(239,68,68,0.05);color:#ef4444;font-size:.75rem;cursor:pointer;margin-top:4px}
+.pb{padding:6px 10px;border-radius:8px;cursor:pointer;font-size:.75rem;font-weight:600;border:1px solid var(--glassBd);background:linear-gradient(135deg,rgba(186,230,253,0.4),rgba(186,230,253,0.15));color:var(--text);transition:all .15s;white-space:nowrap}
+[data-theme="dark"] .pb{background:linear-gradient(135deg,rgba(56,189,248,0.15),rgba(56,189,248,0.05))}
+.pb:hover{border-color:var(--accent)}.pb.active{background:var(--accent);color:#fff}
+.pb.rec{border-color:rgba(239,68,68,0.4)}
+.data-live{display:flex;gap:6px;flex-wrap:wrap;padding:6px 10px;background:var(--surface);border-radius:8px;margin-top:6px}
+.di{display:flex;flex-direction:column;min-width:70px}
+.di .dl{font-size:.62rem;color:var(--text2);text-transform:uppercase;letter-spacing:.3px}
+.di .dv{font-size:.82rem;font-weight:700;font-family:Georgia,serif;color:var(--accentDk)}
 [data-theme="dark"] .di .dv{color:var(--accentLt)}
-.table-section{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.table-hd{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border)}
-.table-hd h3{font-family:Georgia,serif;font-size:.85rem;color:var(--accent)}
-.table-hd button{padding:4px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface);color:var(--text);font-size:.72rem;cursor:pointer}
-.table-hd button:hover{border-color:var(--accent)}
-.tw{max-height:200px;overflow:auto}
-table{width:100%;border-collapse:collapse;font-size:.74rem}
-th{background:var(--surface);padding:5px 6px;text-align:left;font-weight:600;position:sticky;top:0;z-index:1;border-bottom:1px solid var(--border);white-space:nowrap}
-td{padding:4px 6px;border-bottom:1px solid var(--border);white-space:nowrap}
-tr:hover td{background:rgba(2,132,199,0.04)}
-.dr{background:none;border:none;color:#ef4444;cursor:pointer;font-size:.85rem;padding:0 3px}
-.nd{padding:16px;text-align:center;color:var(--text2);font-size:.82rem}
-.instr-section{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.instr-tog{width:100%;padding:10px 12px;border:none;background:none;color:var(--text);font-family:Georgia,serif;font-size:.85rem;text-align:left;cursor:pointer;display:flex;justify-content:space-between}
-.instr-tog:hover{background:var(--surface)}
-.instr-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
-.instr-body.open{max-height:900px}
-.instr-inner{padding:0 12px 12px}
-.instr-inner p{font-size:.82rem;color:var(--text2);line-height:1.5;margin-bottom:8px}
-.instr-inner h4{font-size:.85rem;margin-bottom:5px}
-.act{background:var(--surface);border-radius:7px;padding:8px 10px;margin-bottom:6px;font-size:.8rem;line-height:1.4;border-left:3px solid var(--accent)}
-.act strong{color:var(--accentDk)}[data-theme="dark"] .act strong{color:var(--accentLt)}
-.rm-btn{width:100%;padding:6px;border:1px solid rgba(239,68,68,0.3);border-radius:6px;background:rgba(239,68,68,0.05);color:#ef4444;font-size:.78rem;cursor:pointer;margin-top:4px}
-.rm-btn:hover{background:rgba(239,68,68,0.1);border-color:#ef4444}
-.scale-info{font-size:.72rem;color:var(--text2);margin-top:4px;line-height:1.4}
-.bottom-pad{height:60px}
-@media print{nav,.playback,.ctrl-col,.table-hd button,.instr-section,.bottom-pad{display:none!important}.main{flex-direction:column}.canvas-wrap{border:1px solid #ccc}.table-section,.data-live{break-inside:avoid}}
+.tw{max-height:180px;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:.72rem}
+th{background:var(--surface);padding:4px 5px;text-align:left;font-weight:600;position:sticky;top:0;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:3px 5px;border-bottom:1px solid var(--border);white-space:nowrap}
+.dr{background:none;border:none;color:#ef4444;cursor:pointer;font-size:.8rem}
+.nd{padding:14px;text-align:center;color:var(--text2);font-size:.8rem}
+/* CHALLENGE BAR (bottom) */
+.ch-bar{position:fixed;bottom:52px;left:16px;right:16px;max-width:928px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:8px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 -2px 16px rgba(0,0,0,0.06);z-index:50}
+.ch-bar .ch-b-icon{font-size:1.1rem}
+.ch-bar .ch-b-text{flex:1;font-size:.82rem;font-weight:600}
+.ch-bar .ch-b-progress{font-size:.72rem;color:var(--text2)}
+.ch-bar button{padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-size:.72rem;cursor:pointer}
+.ch-bar button:hover{border-color:var(--accent);color:var(--accent)}
+@media print{nav,.sim-controls,.tab-bar,.ch-bar,.lab-sidebar,.lab-bottom{display:none!important}.canvas-wrap{border:1px solid #ccc}.tab-panel{display:block!important}.tab-panel:not(#tab-formula){display:none!important}}
 </style>
 </head>
 <body>
-  <nav style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:linear-gradient(135deg,#0284c7,#0369a1,#075985);color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(3,105,161,0.3);">
-  <div style="display:flex;align-items:center;gap:16px;">
-    <a href="../index.html" style="font-family:Georgia,serif;font-size:1.1rem;font-weight:700;color:#fff;text-decoration:none;">Atul Soral Physicism</a>
+<nav>
+  <div style="display:flex;align-items:center;gap:14px">
+    <a href="../index.html" class="nav-logo">Atul Soral Physicism</a>
+    <a href="../dp-simulations.html">← All Simulations</a>
   </div>
   <div style="display:flex;gap:8px;align-items:center;">
-    <button id="themeBtn" style="padding:5px 12px;border-radius:8px;font-size:.8rem;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;cursor:pointer;">☀️ Light</button>
-    <a href="../dp-simulations.html" style="padding:5px 12px;border-radius:8px;font-size:.8rem;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;text-decoration:none;">← Back</a>
-    <a href="../index.html" style="padding:5px 12px;border-radius:8px;font-size:.8rem;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;text-decoration:none;">Home</a>
-    <a href="../myp-dashboard.html" style="padding:5px 12px;border-radius:8px;font-size:.8rem;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;text-decoration:none;">MYP</a>
-    <a href="../dp-dashboard.html" style="padding:5px 12px;border-radius:8px;font-size:.8rem;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;text-decoration:none;">DP</a>
+    <button class="nav-btn" id="themeBtn">☀️</button>
+    <a href="../dp-simulations.html" class="nav-btn" style="text-decoration:none;">← Back</a>
+    <a href="../index.html" class="nav-btn" style="text-decoration:none;">Home</a>
+    <a href="../myp-dashboard.html" class="nav-btn" style="text-decoration:none;">MYP</a>
+    <a href="../dp-dashboard.html" class="nav-btn" style="text-decoration:none;">DP</a>
   </div>
 </nav>
-<div class="sim-header">
-  <h1>Gravitational Force Simulation</h1>
-  <span class="badge">D.1 Gravitation</span>
+
+<div class="sim-head">
+  <h1>Gravitational Force Simulator</h1>
+  <p>Explore how mass and distance affect gravitational attraction.</p>
 </div>
-<div class="equation-bar">
-  F = G × m₁ × m₂ / r² &nbsp;|&nbsp; G = <span class="eq-hl">6.674 × 10⁻¹¹</span> N·m²/kg²
+
+<div class="wrap">
+
+<!-- 1. TAB BAR (top) -->
+<div class="tab-bar">
+  <button class="tab-btn on" data-t="explore">Explore</button>
+  <button class="tab-btn" data-t="learn">Learn</button>
+  <button class="tab-btn" data-t="formula">Formula</button>
+  <button class="tab-btn" data-t="practice">Practice</button>
+  <button class="tab-btn" data-t="challenge">Challenge</button>
+  <button class="tab-btn" data-t="lab">🔬 Lab</button>
 </div>
-<div class="main">
+
+<!-- 2. MAIN AREA: Canvas + Right Sidebar -->
+<div class="main-area">
   <div class="canvas-col">
-    <div class="canvas-wrap" id="canvasWrap"><canvas id="C"></canvas></div>
-    <div class="playback">
-      <button class="pb" id="playBtn">▶ Play</button>
-      <button class="pb" id="pauseBtn">⏸ Pause</button>
-      <button class="pb" id="stepBtn">Step →</button>
-      <button class="pb" id="resetBtn">↺ Reset</button>
-      <button class="pb rec" id="recBtn">🔴 Record</button>
-      <button class="pb" id="ssBtn">📷 Screenshot</button>
-    </div>
-    <div class="data-live" id="dataLive"></div>
-    <div class="table-section">
-      <div class="table-hd">
-        <h3>📋 Recorded Data</h3>
-        <div style="display:flex;gap:5px">
-          <button id="clearTbl">Clear</button>
-          <button id="exportCSV">Export CSV</button>
-        </div>
-      </div>
-      <div class="tw">
-        <table><thead id="tHead"></thead><tbody id="tBody"></tbody></table>
-        <div class="nd" id="noData">Click 🔴 Record to capture data points</div>
-      </div>
-    </div>
-    <div class="instr-section">
-      <button class="instr-tog" id="instrTog"><span>📖 Instructions & Activities</span><span id="instrArr">▼</span></button>
-      <div class="instr-body" id="instrBody">
-        <div class="instr-inner">
-          <h4>What This Shows</h4>
-          <p>Multiple objects attract each other via gravity: F = Gm₁m₂/r². Drag objects to reposition. Add up to 6 objects and watch the net forces update in real time.</p>
-          <h4>Controls</h4>
-          <p><strong>Drag & drop:</strong> Click and drag any object on the canvas.<br>
-          <strong>Add objects:</strong> Click the "+ Add" pill to add more masses (up to 6).<br>
-          <strong>Size:</strong> Each object has an adjustable visual size so you can represent different bodies.<br>
-          <strong>Shape:</strong> Choose circle, car, Sun, Earth, or Moon rendering per object.<br>
-          <strong>Scale:</strong> For planetary presets, 1 canvas unit maps to a large physical distance so F calculates correctly.<br>
-          <strong>Play:</strong> Animate gravitational attraction. <strong>Record:</strong> Save state to data table. <strong>Screenshot:</strong> Download canvas as PNG.</p>
-          <h4>Guided Activities</h4>
-          <div class="act"><strong>Activity 1:</strong> Start with 2 equal masses. Record F, then double one mass and record again. Verify F doubles.</div>
-          <div class="act"><strong>Activity 2:</strong> Drag objects to different distances. Record F at r = 2, 4, 6, 8 units. Plot F vs r — verify the inverse-square law.</div>
-          <div class="act"><strong>Activity 3:</strong> Select Earth–Sun preset. Note how the Sun is much larger. Compare the forces to everyday scales.</div>
-          <div class="act"><strong>Activity 4:</strong> Add a third object and press Play. Watch the three-body interaction — which object accelerates fastest?</div>
-          <div class="act"><strong>Activity 5:</strong> Use the Cars preset. Notice the car shapes. The gravitational force between two cars is incredibly tiny!</div>
+    <div class="canvas-area">
+      <div class="canvas-wrap" id="canvasWrap"><canvas id="C"></canvas></div>
+      <div class="sim-controls">
+        <div class="sc-slider"><label>Mass 1 <span class="sv" id="sm1v">100 kg</span></label><input type="range" id="sm1" min="10" max="1000" step="10" value="100"></div>
+        <div class="sc-slider"><label>Mass 2 <span class="sv" id="sm2v">100 kg</span></label><input type="range" id="sm2" min="10" max="1000" step="10" value="100"></div>
+        <div class="sc-btns">
+          <button class="sb" id="sPlay">▶ Play</button>
+          <button class="sb" id="sReset">↺ Reset</button>
         </div>
       </div>
     </div>
   </div>
-  <div class="ctrl-col">
-    <div class="cs">
-      <h3>⚙️ Presets</h3>
-      <select class="sel" id="presetSel">
-        <option value="custom">Custom</option>
-        <option value="bowling">Two Bowling Balls</option>
-        <option value="people">Two People</option>
-        <option value="cars">Two Cars</option>
-        <option value="earth-moon">Earth & Moon</option>
-        <option value="earth-sun">Earth & Sun</option>
-        <option value="three-body">Sun, Earth & Moon</option>
-      </select>
-    </div>
-    <div class="cs">
-      <h3>Objects <button id="addBtn">+ Add</button></h3>
-      <div id="objPills"></div>
-      <div id="objCtrl"></div>
-    </div>
-    <div class="cs">
-      <h3>Distance Scale</h3>
-      <div class="param">
-        <div class="param-lbl"><span>1 canvas unit =</span><span class="v" id="scaleLabel">1 m</span></div>
-        <div class="param-row">
-          <input type="number" class="ni" id="scaleInput" value="1" min="0.001" step="any" style="width:100%">
-          <span class="pu">m</span>
-        </div>
-      </div>
-      <div class="scale-info" id="scaleInfo">Lab scale: 1 unit = 1 metre</div>
-    </div>
-    <div class="cs">
-      <h3>Display</h3>
-      <div class="toggle-row"><label>Force Vectors</label><label class="toggle"><input type="checkbox" id="togV" checked><span class="toggle-track"></span></label></div>
-      <div class="toggle-row"><label>Distance Lines</label><label class="toggle"><input type="checkbox" id="togD" checked><span class="toggle-track"></span></label></div>
-      <div class="toggle-row"><label>Grid</label><label class="toggle"><input type="checkbox" id="togG" checked><span class="toggle-track"></span></label></div>
-      <div class="toggle-row"><label>Equation</label><label class="toggle"><input type="checkbox" id="togE" checked><span class="toggle-track"></span></label></div>
-      <div class="toggle-row"><label>Labels</label><label class="toggle"><input type="checkbox" id="togL" checked><span class="toggle-track"></span></label></div>
+
+  <!-- RIGHT SIDEBAR (visible only on Lab tab) -->
+  <div class="lab-sidebar" id="labSidebar">
+    <div class="side-section"><h4>Live Data</h4><div class="data-live" id="dataLive"></div></div>
+    <div class="side-section"><h4>Objects <button id="addBtn">+ Add</button></h4><div id="objPills"></div><div id="objCtrl"></div></div>
+    <div class="side-section"><h4>Display</h4>
+      <div class="toggle-row"><label>Force Vectors</label><label class="toggle"><input type="checkbox" id="togV" checked><span class="ttr"></span></label></div>
+      <div class="toggle-row"><label>Distance Lines</label><label class="toggle"><input type="checkbox" id="togD" checked><span class="ttr"></span></label></div>
+      <div class="toggle-row"><label>Grid</label><label class="toggle"><input type="checkbox" id="togG" checked><span class="ttr"></span></label></div>
+      <div class="toggle-row"><label>Labels</label><label class="toggle"><input type="checkbox" id="togL" checked><span class="ttr"></span></label></div>
     </div>
   </div>
 </div>
-<div class="bottom-pad"></div>
+
+<!-- TAB: EXPLORE -->
+<div class="tab-panel on" id="tab-explore">
+  <div class="explore-cards">
+    <div class="e-card"><div class="e-icon">🔵</div><h4>Change Mass</h4><p>Drag the sliders above to increase or decrease each object's mass.</p></div>
+    <div class="e-card"><div class="e-icon">📏</div><h4>Change Distance</h4><p>Click and drag either object on the canvas to move it closer or further.</p></div>
+    <div class="e-card"><div class="e-icon">▶️</div><h4>Watch Attraction</h4><p>Press Play and watch the objects pull toward each other through gravity.</p></div>
+  </div>
+</div>
+
+<!-- TAB: LEARN -->
+<div class="tab-panel" id="tab-learn">
+  <div class="learn-cards">
+    <div class="l-card"><h4>🌍 Everything attracts everything</h4><p>Every object with mass pulls on every other object with mass. You, your phone, the Moon — all connected by gravity. The attraction is always there, even if it's too small to notice.</p></div>
+    <div class="l-card"><h4>⬆️ More mass = stronger pull</h4><p>Double one object's mass and the gravitational force doubles too. The force is <em>directly proportional</em> to each mass.</p><div class="l-eq">F ∝ m</div></div>
+    <div class="l-card"><h4>📏 Distance matters — a lot</h4><p>Double the distance and the force drops to <strong>one quarter</strong>. This is called the <em>inverse-square law</em> — distance is squared in the denominator.</p><div class="l-eq">F ∝ 1/r²</div></div>
+    <div class="l-card"><h4>🔬 G is incredibly small</h4><p>The gravitational constant G = 6.674 × 10⁻¹¹ is a tiny number. That's why you don't feel gravitational pull from nearby furniture — only enormous masses like Earth produce noticeable gravity.</p><div class="l-eq">G = 6.674 × 10⁻¹¹ N·m²/kg²</div></div>
+  </div>
+</div>
+
+<!-- TAB: FORMULA -->
+<div class="tab-panel" id="tab-formula">
+  <div class="formula-box">
+    <div class="f-main">F = G × m₁ × m₂ / r²</div>
+    <div class="f-vars">
+      <div class="f-var"><strong class="ff">F</strong>Gravitational force (N)</div>
+      <div class="f-var"><strong style="color:var(--accent)">G</strong>6.674 × 10⁻¹¹ N·m²/kg²</div>
+      <div class="f-var"><strong class="fm1">m₁</strong>Mass of object 1 (kg)</div>
+      <div class="f-var"><strong class="fm2">m₂</strong>Mass of object 2 (kg)</div>
+      <div class="f-var"><strong class="fr">r</strong>Distance between centres (m)</div>
+      <div class="f-var"><strong class="fr">r²</strong>Distance squared (m²)</div>
+    </div>
+    <div class="f-live">
+      <div style="font-size:.78rem;color:var(--text2);text-align:center;margin-bottom:6px">Live calculation from current simulation values:</div>
+      <div class="f-line" id="fSub"></div>
+      <div class="f-line" style="color:var(--text2);font-size:.85rem" id="fStep"></div>
+      <div class="f-line f-result" id="fRes"></div>
+    </div>
+    <div class="f-units">[N] = [N·m²·kg⁻²] × [kg] × [kg] / [m²] ✓</div>
+  </div>
+</div>
+
+<!-- TAB: PRACTICE -->
+<div class="tab-panel" id="tab-practice">
+  <div id="problems"></div>
+</div>
+
+<!-- TAB: CHALLENGE -->
+<div class="tab-panel" id="tab-challenge">
+  <div id="challenges"></div>
+</div>
+
+<!-- TAB: LAB (now just a placeholder for tab switching) -->
+<div class="tab-panel" id="tab-lab">
+  <p style="font-size:.85rem;color:var(--text2);text-align:center;padding:6px 0">Use the sidebar panels on the right to edit objects, toggle display options, and view live data. Playback, presets, and recording tools are below.</p>
+</div>
+
+<!-- 5. LAB BOTTOM: Playback + Presets + Scale + Recorded Data (visible only on Lab tab) -->
+<div class="lab-bottom" id="labBottom">
+  <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px">
+    <button class="pb" id="playBtn">▶ Play</button>
+    <button class="pb" id="pauseBtn">⏸ Pause</button>
+    <button class="pb" id="stepBtn">Step →</button>
+    <button class="pb" id="resetBtn">↺ Reset</button>
+    <button class="pb rec" id="recBtn">🔴 Record</button>
+    <button class="pb" id="ssBtn">📷 Screenshot</button>
+  </div>
+  <div class="lab-bottom-row">
+    <div class="side-section"><h4>Presets</h4><select class="sel" id="presetSel"><option value="custom">Custom</option><option value="bowling">Bowling Balls</option><option value="people">Two People</option><option value="cars">Two Cars</option><option value="earth-moon">Earth & Moon</option><option value="earth-sun">Earth & Sun</option><option value="three-body">Sun, Earth & Moon</option></select></div>
+    <div class="side-section"><h4>Scale</h4><div class="param"><div class="param-lbl"><span>1 unit =</span><span class="v" id="scaleLabel">1 m</span></div><div class="param-row"><input type="number" class="ni" id="scaleInput" value="1" min="0.001" step="any" style="width:100%"><span class="pu">m</span></div></div></div>
+  </div>
+  <div class="side-section"><h4>Recorded Data <span style="display:flex;gap:4px"><button id="clearTbl">Clear</button><button id="exportCSV">CSV</button></span></h4><div class="tw"><table><thead id="tHead"></thead><tbody id="tBody"></tbody></table><div class="nd" id="noData">Click 🔴 Record to capture data</div></div></div>
+</div>
+</div>
+
+<!-- PERSISTENT CHALLENGE BAR -->
+<div class="ch-bar" id="chBar">
+  <span class="ch-b-icon">🎯</span>
+  <span class="ch-b-text" id="chBarText">Double the gravitational force</span>
+  <span class="ch-b-progress" id="chBarProg">0/3</span>
+  <button id="chBarHint">Hint</button>
+</div>
+
 <script>
-// ═════════════════════════════════════════
-// THEME
-// ═════════════════════════════════════════
 const $=id=>document.getElementById(id);
-const themeBtn=$('themeBtn');
-function setTheme(t){document.documentElement.dataset.theme=t;themeBtn.textContent=t==='dark'?'🌙 Dark':'☀️ Light';localStorage.setItem('phy-theme',t)}
-themeBtn.onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
-if(localStorage.getItem('phy-theme'))setTheme(localStorage.getItem('phy-theme'));
 function dk(){return document.documentElement.dataset.theme==='dark'}
-
-// ═════════════════════════════════════════
+// THEME
+$('themeBtn').onclick=()=>{const t=dk()?'light':'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️';localStorage.setItem('phy-theme',t);render()};
+if(localStorage.getItem('phy-theme')){const t=localStorage.getItem('phy-theme');document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️'}
+// TABS
+document.querySelectorAll('.tab-btn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('on'));$(('tab-'+b.dataset.t)).classList.add('on');const isLab=b.dataset.t==='lab';document.body.classList.toggle('lab-on',isLab);setTimeout(resize,60)});
 // CONSTANTS
-// ═════════════════════════════════════════
-const GC=6.674e-11;
-const COLORS=['#3b82f6','#f97316','#10b981','#8b5cf6','#ef4444','#ec4899'];
-const SHAPES=['circle','car','planet-sun','planet-earth','planet-moon'];
-const SHAPE_NAMES={'circle':'Circle','car':'Car','planet-sun':'Sun','planet-earth':'Earth','planet-moon':'Moon'};
-const viewW=20, viewH=11.25;
-
-// ═════════════════════════════════════════
+const GC=6.674e-11,COLORS=['#3b82f6','#f97316','#10b981','#8b5cf6','#ef4444','#ec4899'],SHAPES=['circle','car','planet-sun','planet-earth','planet-moon'],SNAMES={circle:'Circle',car:'Car','planet-sun':'Sun','planet-earth':'Earth','planet-moon':'Moon'},viewW=20,viewH=11.25;
 // STATE
-// ═════════════════════════════════════════
-let objects=[
-  {id:1,name:'Object 1',x:5,y:5.625,mass:100,size:25,color:'#3b82f6',shape:'circle',vx:0,vy:0,fx:0,fy:0,netF:0,acc:0},
-  {id:2,name:'Object 2',x:15,y:5.625,mass:100,size:25,color:'#f97316',shape:'circle',vx:0,vy:0,fx:0,fy:0,netF:0,acc:0},
-];
-let selId=1, nextId=3;
-let distScale=1;
-let showV=true,showD=true,showG=true,showEq=true,showLbl=true;
-let playing=false, dragging=null, animFrame=null;
-let records=[], recN=0;
-
-// ═════════════════════════════════════════
+let objects=[{id:1,name:'Object 1',x:5,y:5.625,mass:100,size:25,color:'#3b82f6',shape:'circle',vx:0,vy:0,fx:0,fy:0,netF:0,acc:0},{id:2,name:'Object 2',x:15,y:5.625,mass:100,size:25,color:'#f97316',shape:'circle',vx:0,vy:0,fx:0,fy:0,netF:0,acc:0}];
+let selId=1,nextId=3,distScale=1,showV=true,showD=true,showG=true,showLbl=true,playing=false,dragging=null,animFrame=null,records=[],recN=0;
 // CANVAS
-// ═════════════════════════════════════════
-const canvas=$('C'), ctx=canvas.getContext('2d'), wrap=$('canvasWrap');
-let dpr,cw,ch,pxPerUnit;
-function resize(){
-  dpr=window.devicePixelRatio||1;
-  const r=wrap.getBoundingClientRect();
-  cw=r.width;ch=r.height;
-  canvas.width=cw*dpr;canvas.height=ch*dpr;
-  ctx.setTransform(dpr,0,0,dpr,0,0);
-  pxPerUnit=cw/viewW;
-  render();
-}
+const canvas=$('C'),ctx=canvas.getContext('2d'),wrap=$('canvasWrap');
+let dpr,cw,ch,ppu;
+function resize(){dpr=window.devicePixelRatio||1;const r=wrap.getBoundingClientRect();cw=r.width;ch=r.height;canvas.width=cw*dpr;canvas.height=ch*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ppu=cw/viewW;render()}
 new ResizeObserver(resize).observe(wrap);
-function toS(x,y){return[x*pxPerUnit,y*pxPerUnit]}
-function toW(sx,sy){return[sx/pxPerUnit,sy/pxPerUnit]}
-
-// ═════════════════════════════════════════
+function toS(x,y){return[x*ppu,y*ppu]}function toW(sx,sy){return[sx/ppu,sy/ppu]}
 // UTILS
-// ═════════════════════════════════════════
-function sci(v,d=3){
-  if(v===0)return'0';const a=Math.abs(v);
-  if(a>=0.01&&a<1e5)return v.toFixed(Math.max(0,d-1-Math.floor(Math.log10(a))));
-  return v.toExponential(d-1);
-}
-function distBetween(a,b){const dx=b.x-a.x,dy=b.y-a.y;return Math.sqrt(dx*dx+dy*dy)}
-function physDist(a,b){return distBetween(a,b)*distScale}
-function drawArrow(x1,y1,x2,y2,col,lw,hl){
-  const dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy);if(len<2)return;
-  const a=Math.atan2(dy,dx);
-  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=col;ctx.lineWidth=lw;ctx.stroke();
-  ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-hl*Math.cos(a-.4),y2-hl*Math.sin(a-.4));ctx.lineTo(x2-hl*Math.cos(a+.4),y2-hl*Math.sin(a+.4));ctx.closePath();ctx.fillStyle=col;ctx.fill();
-}
-
-// ═════════════════════════════════════════
-// PHYSICS
-// ═════════════════════════════════════════
-function calcForces(){
-  for(const o of objects){o.fx=0;o.fy=0}
-  for(let i=0;i<objects.length;i++){
-    for(let j=i+1;j<objects.length;j++){
-      const a=objects[i],b=objects[j];
-      const dx=b.x-a.x,dy=b.y-a.y;
-      const rCanvas=Math.sqrt(dx*dx+dy*dy);
-      const rPhys=rCanvas*distScale;
-      if(rPhys<0.01)continue;
-      const F=GC*a.mass*b.mass/(rPhys*rPhys);
-      const nx=dx/rCanvas,ny=dy/rCanvas;
-      a.fx+=F*nx;a.fy+=F*ny;
-      b.fx-=F*nx;b.fy-=F*ny;
-    }
-  }
-  for(const o of objects){
-    o.netF=Math.sqrt(o.fx*o.fx+o.fy*o.fy);
-    o.acc=o.mass>0?o.netF/o.mass:0;
-  }
-}
-
-// ═════════════════════════════════════════
-// SHAPE DRAWING
-// ═════════════════════════════════════════
-function drawCircleObj(o,sx,sy){
-  const r=o.size,d=dk();
-  ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);
-  const g=ctx.createRadialGradient(sx-r*.3,sy-r*.3,2,sx,sy,r);
-  g.addColorStop(0,lighten(o.color,.3));g.addColorStop(1,o.color);
-  ctx.fillStyle=g;ctx.fill();
-  ctx.strokeStyle=lighten(o.color,.15);ctx.lineWidth=2;ctx.stroke();
-}
-
-function drawCar(o,sx,sy){
-  const s=o.size,d=dk();
-  const w=s*2.6,h=s*1.4,baseY=sy+h*.08;
-  const bodyH=h*.38,cabH=h*.36;
-  // Body
-  ctx.beginPath();
-  roundR(ctx,sx-w/2,baseY-bodyH,w,bodyH,4);
-  ctx.fillStyle=o.color;ctx.fill();
-  ctx.strokeStyle=darken(o.color,.2);ctx.lineWidth=1.5;ctx.stroke();
-  // Cabin
-  ctx.beginPath();
-  ctx.moveTo(sx-w*.32,baseY-bodyH);
-  ctx.lineTo(sx-w*.18,baseY-bodyH-cabH);
-  ctx.lineTo(sx+w*.22,baseY-bodyH-cabH);
-  ctx.lineTo(sx+w*.35,baseY-bodyH);
-  ctx.closePath();
-  ctx.fillStyle=lighten(o.color,.15);ctx.fill();
-  ctx.strokeStyle=darken(o.color,.2);ctx.lineWidth=1.5;ctx.stroke();
-  // Windows
-  ctx.fillStyle=d?'rgba(96,165,250,0.3)':'rgba(186,230,253,0.6)';
-  ctx.beginPath();ctx.moveTo(sx-w*.28,baseY-bodyH);ctx.lineTo(sx-w*.16,baseY-bodyH-cabH+3);
-  ctx.lineTo(sx-w*.02,baseY-bodyH-cabH+3);ctx.lineTo(sx-w*.02,baseY-bodyH);ctx.closePath();ctx.fill();
-  ctx.beginPath();ctx.moveTo(sx+w*.02,baseY-bodyH);ctx.lineTo(sx+w*.02,baseY-bodyH-cabH+3);
-  ctx.lineTo(sx+w*.19,baseY-bodyH-cabH+3);ctx.lineTo(sx+w*.31,baseY-bodyH);ctx.closePath();ctx.fill();
-  // Headlight / Taillight
-  ctx.fillStyle='#fde047';ctx.beginPath();ctx.arc(sx+w/2-3,baseY-bodyH*.5,2.5,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(sx-w/2+3,baseY-bodyH*.5,2.5,0,Math.PI*2);ctx.fill();
-  // Wheels
-  const wr=h*.16;
-  ctx.fillStyle='#1e293b';
-  ctx.beginPath();ctx.arc(sx-w*.28,baseY,wr,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(sx+w*.28,baseY,wr,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#94a3b8';
-  ctx.beginPath();ctx.arc(sx-w*.28,baseY,wr*.45,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(sx+w*.28,baseY,wr*.45,0,Math.PI*2);ctx.fill();
-}
-
-function drawSun(o,sx,sy){
-  const r=o.size;
-  // Glow
-  const gl=ctx.createRadialGradient(sx,sy,r*.6,sx,sy,r*1.8);
-  gl.addColorStop(0,'rgba(253,224,71,0.25)');gl.addColorStop(1,'rgba(253,224,71,0)');
-  ctx.beginPath();ctx.arc(sx,sy,r*1.8,0,Math.PI*2);ctx.fillStyle=gl;ctx.fill();
-  // Corona
-  const cr=ctx.createRadialGradient(sx,sy,r*.8,sx,sy,r*1.2);
-  cr.addColorStop(0,'rgba(249,115,22,0.2)');cr.addColorStop(1,'rgba(249,115,22,0)');
-  ctx.beginPath();ctx.arc(sx,sy,r*1.2,0,Math.PI*2);ctx.fillStyle=cr;ctx.fill();
-  // Body
-  const g=ctx.createRadialGradient(sx-r*.25,sy-r*.25,r*.1,sx,sy,r);
-  g.addColorStop(0,'#fef08a');g.addColorStop(0.4,'#fbbf24');g.addColorStop(1,'#d97706');
-  ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
-  // Surface detail
-  ctx.fillStyle='rgba(251,191,36,0.3)';
-  ctx.beginPath();ctx.arc(sx+r*.2,sy-r*.15,r*.15,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(sx-r*.25,sy+r*.3,r*.1,0,Math.PI*2);ctx.fill();
-}
-
-function drawEarth(o,sx,sy){
-  const r=o.size;
-  const g=ctx.createRadialGradient(sx-r*.3,sy-r*.3,r*.1,sx,sy,r);
-  g.addColorStop(0,'#60a5fa');g.addColorStop(1,'#1d4ed8');
-  ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
-  // Continents
-  ctx.fillStyle='#22c55e';
-  ctx.save();ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.clip();
-  ctx.beginPath();ctx.ellipse(sx-r*.3,sy-r*.15,r*.35,r*.25,-0.3,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.ellipse(sx+r*.25,sy+r*.2,r*.2,r*.3,0.2,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.ellipse(sx+r*.1,sy-r*.45,r*.15,r*.12,0,0,Math.PI*2);ctx.fill();
-  ctx.restore();
-  // Atmosphere
-  ctx.strokeStyle='rgba(96,165,250,0.3)';ctx.lineWidth=2;
-  ctx.beginPath();ctx.arc(sx,sy,r+2,0,Math.PI*2);ctx.stroke();
-}
-
-function drawMoon(o,sx,sy){
-  const r=o.size;
-  const g=ctx.createRadialGradient(sx-r*.2,sy-r*.2,r*.1,sx,sy,r);
-  g.addColorStop(0,'#e5e7eb');g.addColorStop(1,'#9ca3af');
-  ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
-  // Craters
-  ctx.fillStyle='rgba(107,114,128,0.3)';
-  ctx.beginPath();ctx.arc(sx+r*.25,sy-r*.3,r*.13,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(sx-r*.3,sy+r*.15,r*.09,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(sx+r*.1,sy+r*.35,r*.11,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(sx-r*.15,sy-r*.2,r*.06,0,Math.PI*2);ctx.fill();
-}
-
-function drawObj(o,sx,sy){
-  if(o.shape==='car')drawCar(o,sx,sy);
-  else if(o.shape==='planet-sun')drawSun(o,sx,sy);
-  else if(o.shape==='planet-earth')drawEarth(o,sx,sy);
-  else if(o.shape==='planet-moon')drawMoon(o,sx,sy);
-  else drawCircleObj(o,sx,sy);
-}
-
-function hitRadius(o){
-  if(o.shape==='car')return o.size*1.5;
-  if(o.shape==='planet-sun')return o.size*1.2;
-  return o.size+4;
-}
-
-function lighten(hex,amt){return adjustCol(hex,amt)}
-function darken(hex,amt){return adjustCol(hex,-amt)}
-function adjustCol(hex,amt){
-  let r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-  r=Math.min(255,Math.max(0,Math.round(r+(255-r)*amt)));
-  g=Math.min(255,Math.max(0,Math.round(g+(255-g)*amt)));
-  b=Math.min(255,Math.max(0,Math.round(b+(255-b)*amt)));
-  return'#'+[r,g,b].map(c=>c.toString(16).padStart(2,'0')).join('');
-}
+function sci(v,d=3){if(v===0)return'0';const a=Math.abs(v);if(a>=0.01&&a<1e5)return v.toFixed(Math.max(0,d-1-Math.floor(Math.log10(a))));return v.toExponential(d-1)}
+function distB(a,b){const dx=b.x-a.x,dy=b.y-a.y;return Math.sqrt(dx*dx+dy*dy)}
+function pDist(a,b){return distB(a,b)*distScale}
+function drawArrow(x1,y1,x2,y2,col,lw,hl){const dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy);if(len<2)return;const a=Math.atan2(dy,dx);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=col;ctx.lineWidth=lw;ctx.stroke();ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-hl*Math.cos(a-.4),y2-hl*Math.sin(a-.4));ctx.lineTo(x2-hl*Math.cos(a+.4),y2-hl*Math.sin(a+.4));ctx.closePath();ctx.fillStyle=col;ctx.fill()}
+function adjC(hex,amt){let r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);r=Math.min(255,Math.max(0,Math.round(r+(255-r)*amt)));g=Math.min(255,Math.max(0,Math.round(g+(255-g)*amt)));b=Math.min(255,Math.max(0,Math.round(b+(255-b)*amt)));return'#'+[r,g,b].map(c=>c.toString(16).padStart(2,'0')).join('')}
 function roundR(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.quadraticCurveTo(x+w,y,x+w,y+r);c.lineTo(x+w,y+h-r);c.quadraticCurveTo(x+w,y+h,x+w-r,y+h);c.lineTo(x+r,y+h);c.quadraticCurveTo(x,y+h,x,y+h-r);c.lineTo(x,y+r);c.quadraticCurveTo(x,y,x+r,y);c.closePath()}
-
-// ═════════════════════════════════════════
+// PHYSICS
+function calcF(){for(const o of objects){o.fx=0;o.fy=0}for(let i=0;i<objects.length;i++)for(let j=i+1;j<objects.length;j++){const a=objects[i],b=objects[j],dx=b.x-a.x,dy=b.y-a.y,rC=Math.sqrt(dx*dx+dy*dy),rP=rC*distScale;if(rP<.01)continue;const F=GC*a.mass*b.mass/(rP*rP),nx=dx/rC,ny=dy/rC;a.fx+=F*nx;a.fy+=F*ny;b.fx-=F*nx;b.fy-=F*ny}for(const o of objects){o.netF=Math.sqrt(o.fx*o.fx+o.fy*o.fy);o.acc=o.mass>0?o.netF/o.mass:0}}
+// SHAPES
+function drawCircle(o,sx,sy){const r=o.size;ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);const g=ctx.createRadialGradient(sx-r*.3,sy-r*.3,2,sx,sy,r);g.addColorStop(0,adjC(o.color,.3));g.addColorStop(1,o.color);ctx.fillStyle=g;ctx.fill();ctx.strokeStyle=adjC(o.color,.15);ctx.lineWidth=2;ctx.stroke()}
+function drawCar(o,sx,sy){const s=o.size,w=s*2.6,h=s*1.4,by=sy+h*.08,bh=h*.38,ch2=h*.36,d=dk();ctx.beginPath();roundR(ctx,sx-w/2,by-bh,w,bh,4);ctx.fillStyle=o.color;ctx.fill();ctx.strokeStyle=adjC(o.color,-.2);ctx.lineWidth=1.5;ctx.stroke();ctx.beginPath();ctx.moveTo(sx-w*.32,by-bh);ctx.lineTo(sx-w*.18,by-bh-ch2);ctx.lineTo(sx+w*.22,by-bh-ch2);ctx.lineTo(sx+w*.35,by-bh);ctx.closePath();ctx.fillStyle=adjC(o.color,.15);ctx.fill();ctx.stroke();ctx.fillStyle=d?'rgba(96,165,250,0.3)':'rgba(186,230,253,0.6)';ctx.beginPath();ctx.moveTo(sx-w*.28,by-bh);ctx.lineTo(sx-w*.16,by-bh-ch2+3);ctx.lineTo(sx-w*.02,by-bh-ch2+3);ctx.lineTo(sx-w*.02,by-bh);ctx.closePath();ctx.fill();ctx.beginPath();ctx.moveTo(sx+w*.02,by-bh);ctx.lineTo(sx+w*.02,by-bh-ch2+3);ctx.lineTo(sx+w*.19,by-bh-ch2+3);ctx.lineTo(sx+w*.31,by-bh);ctx.closePath();ctx.fill();ctx.fillStyle='#fde047';ctx.beginPath();ctx.arc(sx+w/2-3,by-bh*.5,2.5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(sx-w/2+3,by-bh*.5,2.5,0,Math.PI*2);ctx.fill();const wr=h*.16;ctx.fillStyle='#1e293b';ctx.beginPath();ctx.arc(sx-w*.28,by,wr,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(sx+w*.28,by,wr,0,Math.PI*2);ctx.fill();ctx.fillStyle='#94a3b8';ctx.beginPath();ctx.arc(sx-w*.28,by,wr*.45,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(sx+w*.28,by,wr*.45,0,Math.PI*2);ctx.fill()}
+function drawSun(o,sx,sy){const r=o.size;const gl=ctx.createRadialGradient(sx,sy,r*.6,sx,sy,r*1.8);gl.addColorStop(0,'rgba(253,224,71,0.25)');gl.addColorStop(1,'rgba(253,224,71,0)');ctx.beginPath();ctx.arc(sx,sy,r*1.8,0,Math.PI*2);ctx.fillStyle=gl;ctx.fill();const g=ctx.createRadialGradient(sx-r*.25,sy-r*.25,r*.1,sx,sy,r);g.addColorStop(0,'#fef08a');g.addColorStop(.4,'#fbbf24');g.addColorStop(1,'#d97706');ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill()}
+function drawEarth(o,sx,sy){const r=o.size;const g=ctx.createRadialGradient(sx-r*.3,sy-r*.3,r*.1,sx,sy,r);g.addColorStop(0,'#60a5fa');g.addColorStop(1,'#1d4ed8');ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();ctx.fillStyle='#22c55e';ctx.save();ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.clip();ctx.beginPath();ctx.ellipse(sx-r*.3,sy-r*.15,r*.35,r*.25,-.3,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(sx+r*.25,sy+r*.2,r*.2,r*.3,.2,0,Math.PI*2);ctx.fill();ctx.restore()}
+function drawMoon(o,sx,sy){const r=o.size;const g=ctx.createRadialGradient(sx-r*.2,sy-r*.2,r*.1,sx,sy,r);g.addColorStop(0,'#e5e7eb');g.addColorStop(1,'#9ca3af');ctx.beginPath();ctx.arc(sx,sy,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();ctx.fillStyle='rgba(107,114,128,0.3)';ctx.beginPath();ctx.arc(sx+r*.25,sy-r*.3,r*.13,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(sx-r*.3,sy+r*.15,r*.09,0,Math.PI*2);ctx.fill()}
+function drawO(o,sx,sy){if(o.shape==='car')drawCar(o,sx,sy);else if(o.shape==='planet-sun')drawSun(o,sx,sy);else if(o.shape==='planet-earth')drawEarth(o,sx,sy);else if(o.shape==='planet-moon')drawMoon(o,sx,sy);else drawCircle(o,sx,sy)}
+function hR(o){return o.shape==='car'?o.size*1.5:o.shape==='planet-sun'?o.size*1.2:o.size+4}
 // RENDER
-// ═════════════════════════════════════════
-function render(){
-  if(!cw)return;
-  calcForces();
-  const d=dk();
-  ctx.clearRect(0,0,cw,ch);
-  ctx.fillStyle=d?'#1e293b':'#f0f7ff';ctx.fillRect(0,0,cw,ch);
-
-  // Grid
-  if(showG){
-    ctx.strokeStyle=d?'rgba(148,163,184,0.08)':'rgba(2,132,199,0.06)';ctx.lineWidth=1;
-    for(let i=0;i<=viewW;i++){const x=i*pxPerUnit;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,ch);ctx.stroke()}
-    for(let j=0;j<=Math.ceil(viewH);j++){const y=j*pxPerUnit;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(cw,y);ctx.stroke()}
-    ctx.fillStyle=d?'#475569':'#94a3b8';ctx.font='9px sans-serif';ctx.textAlign='center';
-    for(let i=0;i<=viewW;i+=2)ctx.fillText(i,i*pxPerUnit,ch-4);
-  }
-
-  // Distance lines between all pairs
-  if(showD){
-    ctx.setLineDash([4,4]);ctx.lineWidth=1;
-    for(let i=0;i<objects.length;i++){
-      for(let j=i+1;j<objects.length;j++){
-        const a=objects[i],b=objects[j];
-        const[ax,ay]=toS(a.x,a.y),[bx,by]=toS(b.x,b.y);
-        ctx.strokeStyle=d?'rgba(16,185,129,0.4)':'rgba(5,150,105,0.3)';
-        ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.stroke();
-        if(showLbl){
-          const mx=(ax+bx)/2,my=(ay+by)/2-8;
-          ctx.fillStyle=d?'#34d399':'#059669';ctx.font='10px sans-serif';ctx.textAlign='center';
-          ctx.fillText('r='+sci(physDist(a,b))+' m',mx,my);
-        }
-      }
-    }
-    ctx.setLineDash([]);
-  }
-
-  // Force vectors
-  if(showV){
-    for(const o of objects){
-      if(o.netF<1e-30)continue;
-      const[sx,sy]=toS(o.x,o.y);
-      const fMag=o.netF;
-      const arrowLen=Math.min(70,25+Math.max(0,Math.log10(fMag+1e-30)*3+60));
-      const fLen=Math.sqrt(o.fx*o.fx+o.fy*o.fy);
-      if(fLen<1e-30)continue;
-      const nx=o.fx/fLen,ny=o.fy/fLen;
-      const hr=hitRadius(o);
-      drawArrow(sx+nx*hr,sy+ny*hr,sx+nx*(hr+arrowLen),sy+ny*(hr+arrowLen),'#ef4444',2,9);
-    }
-  }
-
-  // Objects (sorted by size desc so small ones render on top)
-  const sorted=[...objects].sort((a,b)=>b.size-a.size);
-  for(const o of sorted){
-    const[sx,sy]=toS(o.x,o.y);
-    drawObj(o,sx,sy);
-    if(showLbl){
-      ctx.fillStyle='#fff';ctx.font='bold 10px sans-serif';ctx.textAlign='center';
-      const hr=hitRadius(o);
-      ctx.fillText(o.name,sx,sy-hr-6);
-      ctx.font='9px sans-serif';
-      if(o.shape!=='car')ctx.fillText(sci(o.mass)+' kg',sx,sy+4);
-    }
-    // Selection ring
-    if(o.id===selId){
-      ctx.setLineDash([3,3]);ctx.strokeStyle=d?'#fbbf24':'#d97706';ctx.lineWidth=1.5;
-      const hr=hitRadius(o)+4;
-      ctx.beginPath();ctx.arc(sx,sy,hr,0,Math.PI*2);ctx.stroke();
-      ctx.setLineDash([]);
-    }
-  }
-
-  // Equation
-  if(showEq){
-    ctx.fillStyle=d?'rgba(148,163,184,0.5)':'rgba(71,85,105,0.35)';
-    ctx.font='10px Georgia,serif';ctx.textAlign='left';
-    ctx.fillText('F = G·m₁·m₂/r²',8,16);
-    ctx.fillText('G = 6.674×10⁻¹¹ N·m²/kg²',8,30);
-  }
-
-  // Hint
-  if(!playing&&!dragging){
-    ctx.fillStyle=d?'rgba(148,163,184,0.25)':'rgba(100,116,139,0.2)';
-    ctx.font='10px sans-serif';ctx.textAlign='center';
-    ctx.fillText('Drag objects to reposition • Click to select',cw/2,ch-8);
-  }
-
-  updateDataPanel();
-}
-
-// ═════════════════════════════════════════
-// DATA PANEL
-// ═════════════════════════════════════════
-function updateDataPanel(){
-  const dl=$('dataLive');
-  let html='';
-  // Pair forces
-  if(objects.length===2){
-    const a=objects[0],b=objects[1];
-    const r=physDist(a,b);
-    const F=r>0.01?GC*a.mass*b.mass/(r*r):0;
-    html+=di('Force F',sci(F)+' N')+di('Distance r',sci(r)+' m');
-    html+=di('a₁',sci(a.acc)+' m/s²')+di('a₂',sci(b.acc)+' m/s²');
-  } else {
-    for(const o of objects){
-      html+=di(o.name+' F_net',sci(o.netF)+' N');
-      html+=di(o.name+' a',sci(o.acc)+' m/s²');
-    }
-  }
-  dl.innerHTML=html;
-}
+function render(){if(!cw)return;calcF();const d=dk();ctx.clearRect(0,0,cw,ch);ctx.fillStyle=d?'#1e293b':'#f0f7ff';ctx.fillRect(0,0,cw,ch);
+if(showG){ctx.strokeStyle=d?'rgba(148,163,184,0.08)':'rgba(2,132,199,0.06)';ctx.lineWidth=1;for(let i=0;i<=viewW;i++){const x=i*ppu;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,ch);ctx.stroke()}for(let j=0;j<=Math.ceil(viewH);j++){const y=j*ppu;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(cw,y);ctx.stroke()}}
+if(showD){ctx.setLineDash([4,4]);ctx.lineWidth=1;for(let i=0;i<objects.length;i++)for(let j=i+1;j<objects.length;j++){const a=objects[i],b=objects[j],[ax,ay]=toS(a.x,a.y),[bx,by]=toS(b.x,b.y);ctx.strokeStyle=d?'rgba(16,185,129,0.4)':'rgba(5,150,105,0.3)';ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.stroke();if(showLbl){ctx.fillStyle=d?'#34d399':'#059669';ctx.font='10px sans-serif';ctx.textAlign='center';ctx.fillText('r = '+sci(pDist(a,b))+' m',(ax+bx)/2,(ay+by)/2-8)}}ctx.setLineDash([])}
+if(showV){for(const o of objects){if(o.netF<1e-30)continue;const[sx,sy]=toS(o.x,o.y),arrowLen=Math.min(70,25+Math.max(0,Math.log10(o.netF+1e-30)*3+60)),fL=Math.sqrt(o.fx*o.fx+o.fy*o.fy);if(fL<1e-30)continue;const nx=o.fx/fL,ny=o.fy/fL,hr=hR(o);drawArrow(sx+nx*hr,sy+ny*hr,sx+nx*(hr+arrowLen),sy+ny*(hr+arrowLen),'#ef4444',2,9)}}
+const sorted=[...objects].sort((a,b)=>b.size-a.size);
+for(const o of sorted){const[sx,sy]=toS(o.x,o.y);drawO(o,sx,sy);if(showLbl){ctx.fillStyle='#fff';ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.fillText(o.name,sx,sy-hR(o)-6);ctx.font='9px sans-serif';if(o.shape!=='car')ctx.fillText(sci(o.mass)+' kg',sx,sy+4)}if(o.id===selId){ctx.setLineDash([3,3]);ctx.strokeStyle=d?'#fbbf24':'#d97706';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(sx,sy,hR(o)+4,0,Math.PI*2);ctx.stroke();ctx.setLineDash([])}}
+if(!playing&&!dragging){ctx.fillStyle=d?'rgba(148,163,184,0.25)':'rgba(100,116,139,0.2)';ctx.font='10px sans-serif';ctx.textAlign='center';ctx.fillText('Drag objects to reposition',cw/2,ch-8)}
+updateFormula();updateData();checkCh()}
+// FORMULA
+function updateFormula(){if(objects.length<2)return;const a=objects[0],b=objects[1],r=pDist(a,b),F=r>.01?GC*a.mass*b.mass/(r*r):0;$('fSub').innerHTML='F = 6.674×10⁻¹¹ × <span class="fm1 f-hl" id="fhm1">'+sci(a.mass)+'</span> × <span class="fm2 f-hl" id="fhm2">'+sci(b.mass)+'</span> / <span class="fr f-hl" id="fhr">'+sci(r)+'</span>²';$('fStep').textContent='F = 6.674×10⁻¹¹ × '+sci(a.mass*b.mass)+' / '+sci(r*r);$('fRes').innerHTML='F = <span class="ff">'+sci(F)+'</span> N'}
+function pulseF(id){const el=$(id);if(!el)return;el.classList.add('pulse');setTimeout(()=>el.classList.remove('pulse'),600)}
+// DATA
+function updateData(){const dl=$('dataLive');if(!dl)return;let h='';if(objects.length===2){const a=objects[0],b=objects[1],r=pDist(a,b),F=r>.01?GC*a.mass*b.mass/(r*r):0;h+=di('Force',sci(F)+' N')+di('Dist',sci(r)+' m')+di('a₁',sci(a.acc)+' m/s²')+di('a₂',sci(b.acc)+' m/s²')}else for(const o of objects)h+=di(o.name,sci(o.netF)+' N');dl.innerHTML=h}
 function di(l,v){return'<div class="di"><span class="dl">'+l+'</span><span class="dv">'+v+'</span></div>'}
-
-// ═════════════════════════════════════════
-// OBJECT UI
-// ═════════════════════════════════════════
-function rebuildUI(){
-  buildPills();
-  buildObjControls();
-  buildTableHeader();
-  render();
-}
-
-function buildPills(){
-  const el=$('objPills');el.innerHTML='';
-  for(const o of objects){
-    const p=document.createElement('div');p.className='pill'+(o.id===selId?' sel-pill':'');
-    p.innerHTML='<span class="dot" style="background:'+o.color+'"></span>'+o.name;
-    p.onclick=()=>{selId=o.id;rebuildUI()};
-    el.appendChild(p);
-  }
-  if(objects.length<6){
-    const a=document.createElement('div');a.className='pill pill-add';a.textContent='+ Add';
-    a.onclick=addObject;el.appendChild(a);
-  }
-}
-
-function addObject(){
-  if(objects.length>=6)return;
-  const c=COLORS[objects.length%COLORS.length];
-  const x=2+Math.random()*16, y=1+Math.random()*9;
-  objects.push({id:nextId++,name:'Object '+(objects.length+1),x,y,mass:100,size:25,color:c,shape:'circle',vx:0,vy:0,fx:0,fy:0,netF:0,acc:0});
-  selId=objects[objects.length-1].id;
-  $('presetSel').value='custom';
-  rebuildUI();
-}
-
-function removeObject(id){
-  if(objects.length<=2)return;
-  objects=objects.filter(o=>o.id!==id);
-  if(selId===id)selId=objects[0].id;
-  rebuildUI();
-}
-
-function buildObjControls(){
-  const el=$('objCtrl');el.innerHTML='';
-  const o=objects.find(x=>x.id===selId);
-  if(!o)return;
-
-  // Name
-  const nDiv=document.createElement('div');nDiv.className='param';
-  nDiv.innerHTML='<div class="param-lbl"><span>Name</span></div>';
-  const nIn=document.createElement('input');nIn.className='ni';nIn.style.width='100%';nIn.value=o.name;
-  nIn.oninput=()=>{o.name=nIn.value;buildPills();render()};
-  nDiv.appendChild(nIn);el.appendChild(nDiv);
-
-  // Shape
-  const sDiv=document.createElement('div');sDiv.className='param';
-  sDiv.innerHTML='<div class="param-lbl"><span>Shape</span></div>';
-  const sSel=document.createElement('select');sSel.className='sel';
-  SHAPES.forEach(s=>{const op=document.createElement('option');op.value=s;op.textContent=SHAPE_NAMES[s];if(s===o.shape)op.selected=true;sSel.appendChild(op)});
-  sSel.onchange=()=>{o.shape=sSel.value;render()};
-  sDiv.appendChild(sSel);el.appendChild(sDiv);
-
-  // Color
-  const cDiv=document.createElement('div');cDiv.className='param';
-  cDiv.innerHTML='<div class="param-lbl"><span>Color</span></div>';
-  const cRow=document.createElement('div');cRow.className='color-row';
-  COLORS.forEach(c=>{
-    const d=document.createElement('div');d.className='cdot'+(c===o.color?' ac':'');d.style.background=c;
-    d.onclick=()=>{o.color=c;buildObjControls();render()};
-    cRow.appendChild(d);
-  });
-  cDiv.appendChild(cRow);el.appendChild(cDiv);
-
-  // Mass
-  buildDual(el,'Mass','kg',1,10000,1,o.mass,v=>{o.mass=v;render()});
-
-  // Size
-  buildDual(el,'Size (visual)','px',8,80,1,o.size,v=>{o.size=v;render()});
-
-  // Remove
-  if(objects.length>2){
-    const rm=document.createElement('button');rm.className='rm-btn';rm.textContent='🗑 Remove '+o.name;
-    rm.onclick=()=>removeObject(o.id);
-    el.appendChild(rm);
-  }
-}
-
-function buildDual(parent,label,unit,min,max,step,value,onChange){
-  const d=document.createElement('div');d.className='param';
-  const lbl=document.createElement('div');lbl.className='param-lbl';
-  const sp=document.createElement('span');sp.textContent=label;
-  const vl=document.createElement('span');vl.className='v';vl.textContent=sci(value)+' '+unit;
-  lbl.append(sp,vl);
-  const row=document.createElement('div');row.className='param-row';
-  const sl=document.createElement('input');sl.type='range';sl.min=min;sl.max=max;sl.step=step;
-  sl.value=Math.min(max,Math.max(min,value));
-  const ni=document.createElement('input');ni.type='number';ni.className='ni';ni.step='any';ni.value=value;
-  const u=document.createElement('span');u.className='pu';u.textContent=unit;
-  sl.oninput=()=>{const v=parseFloat(sl.value);ni.value=v;vl.textContent=sci(v)+' '+unit;onChange(v)};
-  ni.oninput=()=>{const v=parseFloat(ni.value);if(!isNaN(v)&&v>0){sl.value=Math.min(max,Math.max(min,v));vl.textContent=sci(v)+' '+unit;onChange(v)}};
-  row.append(sl,ni,u);d.append(lbl,row);parent.appendChild(d);
-}
-
-// ═════════════════════════════════════════
-// DRAG & DROP
-// ═════════════════════════════════════════
-function hitTest(sx,sy){
-  for(let i=objects.length-1;i>=0;i--){
-    const o=objects[i];
-    const[ox,oy]=toS(o.x,o.y);
-    const hr=hitRadius(o)+6;
-    if(Math.sqrt((sx-ox)**2+(sy-oy)**2)<=hr)return o.id;
-  }
-  return null;
-}
-
-canvas.addEventListener('mousedown',e=>{
-  const rect=canvas.getBoundingClientRect();
-  const sx=e.clientX-rect.left,sy=e.clientY-rect.top;
-  const hit=hitTest(sx,sy);
-  if(hit){
-    selId=hit;
-    if(!playing){dragging=hit;wrap.classList.add('grabbing')}
-    rebuildUI();
-  }
-});
-
-canvas.addEventListener('mousemove',e=>{
-  const rect=canvas.getBoundingClientRect();
-  const sx=e.clientX-rect.left,sy=e.clientY-rect.top;
-  if(dragging&&!playing){
-    const o=objects.find(x=>x.id===dragging);
-    if(o){const[mx,my]=toW(sx,sy);o.x=Math.max(.5,Math.min(viewW-.5,mx));o.y=Math.max(.5,Math.min(viewH-.5,my));render()}
-  } else {
-    canvas.style.cursor=hitTest(sx,sy)?'grab':'default';
-  }
-});
+// DRAG
+function hitTest(sx,sy){for(let i=objects.length-1;i>=0;i--){const o=objects[i],[ox,oy]=toS(o.x,o.y);if(Math.sqrt((sx-ox)**2+(sy-oy)**2)<=hR(o)+6)return o.id}return null}
+canvas.addEventListener('mousedown',e=>{const rect=canvas.getBoundingClientRect(),sx=e.clientX-rect.left,sy=e.clientY-rect.top,hit=hitTest(sx,sy);if(hit){selId=hit;if(!playing){dragging=hit;wrap.classList.add('grabbing')}render()}});
+canvas.addEventListener('mousemove',e=>{const rect=canvas.getBoundingClientRect(),sx=e.clientX-rect.left,sy=e.clientY-rect.top;if(dragging&&!playing){const o=objects.find(x=>x.id===dragging);if(o){const[mx,my]=toW(sx,sy);o.x=Math.max(.5,Math.min(viewW-.5,mx));o.y=Math.max(.5,Math.min(viewH-.5,my));render()}}else canvas.style.cursor=hitTest(sx,sy)?'grab':'default'});
 canvas.addEventListener('mouseup',()=>{dragging=null;wrap.classList.remove('grabbing')});
 canvas.addEventListener('mouseleave',()=>{dragging=null;wrap.classList.remove('grabbing')});
-
-canvas.addEventListener('touchstart',e=>{
-  const rect=canvas.getBoundingClientRect();const t=e.touches[0];
-  const hit=hitTest(t.clientX-rect.left,t.clientY-rect.top);
-  if(hit){selId=hit;if(!playing){dragging=hit;wrap.classList.add('grabbing')}rebuildUI();e.preventDefault()}
-},{passive:false});
-canvas.addEventListener('touchmove',e=>{
-  if(!dragging||playing)return;e.preventDefault();
-  const rect=canvas.getBoundingClientRect();const t=e.touches[0];
-  const o=objects.find(x=>x.id===dragging);
-  if(o){const[mx,my]=toW(t.clientX-rect.left,t.clientY-rect.top);o.x=Math.max(.5,Math.min(viewW-.5,mx));o.y=Math.max(.5,Math.min(viewH-.5,my));render()}
-},{passive:false});
+canvas.addEventListener('touchstart',e=>{const rect=canvas.getBoundingClientRect(),t=e.touches[0],hit=hitTest(t.clientX-rect.left,t.clientY-rect.top);if(hit){selId=hit;if(!playing){dragging=hit;wrap.classList.add('grabbing')}e.preventDefault()}},{passive:false});
+canvas.addEventListener('touchmove',e=>{if(!dragging||playing)return;e.preventDefault();const rect=canvas.getBoundingClientRect(),t=e.touches[0],o=objects.find(x=>x.id===dragging);if(o){const[mx,my]=toW(t.clientX-rect.left,t.clientY-rect.top);o.x=Math.max(.5,Math.min(viewW-.5,mx));o.y=Math.max(.5,Math.min(viewH-.5,my));render()}},{passive:false});
 canvas.addEventListener('touchend',()=>{dragging=null;wrap.classList.remove('grabbing')});
-
-// ═════════════════════════════════════════
+// SIMPLE CONTROLS
+$('sm1').oninput=()=>{const v=+$('sm1').value;$('sm1v').textContent=v+' kg';objects[0].mass=v;pulseF('fhm1');render()};
+$('sm2').oninput=()=>{const v=+$('sm2').value;$('sm2v').textContent=v+' kg';objects[1].mass=v;pulseF('fhm2');render()};
+$('sPlay').onclick=()=>{if(!playing)startPlay();else stopPlay();$('sPlay').textContent=playing?'⏸ Pause':'▶ Play';$('sPlay').classList.toggle('on',playing)};
+$('sReset').onclick=doReset;
 // ANIMATION
-// ═════════════════════════════════════════
-function startPlay(){
-  playing=true;$('playBtn').classList.add('active');
-  for(const o of objects){o.vx=0;o.vy=0}
-  let lastT=performance.now();
-  function loop(ts){
-    if(!playing)return;
-    const dt=Math.min((ts-lastT)/1000,0.05);lastT=ts;
-    stepPhysics(dt);render();
-    animFrame=requestAnimationFrame(loop);
-  }
-  animFrame=requestAnimationFrame(loop);
-}
-
-function stepPhysics(dt){
-  calcForces();
-  // Find max real acceleration for visual scaling
-  let maxA=0;
-  for(const o of objects)if(o.acc>maxA)maxA=o.acc;
-  const vs=maxA>0?1.2/maxA:1;
-  let anyClose=false;
-  for(const o of objects){
-    const fLen=Math.sqrt(o.fx*o.fx+o.fy*o.fy);
-    if(fLen<1e-30)continue;
-    const a=o.acc*vs;
-    const nx=o.fx/fLen,ny=o.fy/fLen;
-    o.vx+=a*nx*dt;o.vy+=a*ny*dt;
-  }
-  for(const o of objects){
-    o.x+=o.vx*dt;o.y+=o.vy*dt;
-    o.x=Math.max(.3,Math.min(viewW-.3,o.x));
-    o.y=Math.max(.3,Math.min(viewH-.3,o.y));
-  }
-  // Check collisions
-  for(let i=0;i<objects.length;i++){
-    for(let j=i+1;j<objects.length;j++){
-      if(distBetween(objects[i],objects[j])<0.3)anyClose=true;
-    }
-  }
-  if(anyClose)stopPlay();
-}
-
-function stopPlay(){
-  playing=false;$('playBtn').classList.remove('active');
-  if(animFrame)cancelAnimationFrame(animFrame);
-  for(const o of objects){o.vx=0;o.vy=0}
-}
-
-$('playBtn').onclick=()=>{if(!playing)startPlay()};
-$('pauseBtn').onclick=stopPlay;
-$('stepBtn').onclick=()=>{if(!playing){stepPhysics(1/60);render()}};
-$('resetBtn').onclick=()=>{
-  stopPlay();
-  objects=[
-    {id:1,name:'Object 1',x:5,y:5.625,mass:100,size:25,color:'#3b82f6',shape:'circle',vx:0,vy:0,fx:0,fy:0,netF:0,acc:0},
-    {id:2,name:'Object 2',x:15,y:5.625,mass:100,size:25,color:'#f97316',shape:'circle',vx:0,vy:0,fx:0,fy:0,netF:0,acc:0},
-  ];
-  selId=1;nextId=3;distScale=1;
-  $('scaleInput').value=1;$('scaleLabel').textContent='1 m';
-  $('scaleInfo').textContent='Lab scale: 1 unit = 1 metre';
-  $('presetSel').value='custom';
-  rebuildUI();
-};
-
-// ═════════════════════════════════════════
+function startPlay(){playing=true;$('playBtn').classList.add('active');$('sPlay').textContent='⏸ Pause';$('sPlay').classList.add('on');for(const o of objects){o.vx=0;o.vy=0}let lt=performance.now();function lp(ts){if(!playing)return;const dt=Math.min((ts-lt)/1000,.05);lt=ts;stepP(dt);render();animFrame=requestAnimationFrame(lp)}animFrame=requestAnimationFrame(lp)}
+function stepP(dt){calcF();let mx=0;for(const o of objects)if(o.acc>mx)mx=o.acc;const vs=mx>0?1.2/mx:1;for(const o of objects){const fL=Math.sqrt(o.fx*o.fx+o.fy*o.fy);if(fL<1e-30)continue;const a=o.acc*vs,nx=o.fx/fL,ny=o.fy/fL;o.vx+=a*nx*dt;o.vy+=a*ny*dt}let ac=false;for(const o of objects){o.x+=o.vx*dt;o.y+=o.vy*dt;o.x=Math.max(.3,Math.min(viewW-.3,o.x));o.y=Math.max(.3,Math.min(viewH-.3,o.y))}for(let i=0;i<objects.length;i++)for(let j=i+1;j<objects.length;j++)if(distB(objects[i],objects[j])<.3)ac=true;if(ac)stopPlay()}
+function stopPlay(){playing=false;$('playBtn').classList.remove('active');$('sPlay').textContent='▶ Play';$('sPlay').classList.remove('on');if(animFrame)cancelAnimationFrame(animFrame);for(const o of objects){o.vx=0;o.vy=0}}
+function doReset(){stopPlay();objects=[{id:1,name:'Object 1',x:5,y:5.625,mass:100,size:25,color:'#3b82f6',shape:'circle',vx:0,vy:0,fx:0,fy:0,netF:0,acc:0},{id:2,name:'Object 2',x:15,y:5.625,mass:100,size:25,color:'#f97316',shape:'circle',vx:0,vy:0,fx:0,fy:0,netF:0,acc:0}];selId=1;nextId=3;distScale=1;$('scaleInput').value=1;$('scaleLabel').textContent='1 m';$('presetSel').value='custom';$('sm1').value=100;$('sm1v').textContent='100 kg';$('sm2').value=100;$('sm2v').textContent='100 kg';initCh();rebuildUI()}
+$('playBtn').onclick=()=>{if(!playing)startPlay()};$('pauseBtn').onclick=stopPlay;$('stepBtn').onclick=()=>{if(!playing){stepP(1/60);render()}};$('resetBtn').onclick=doReset;
+// LAB UI
+function rebuildUI(){buildPills();buildObjCtrl();buildTH();render()}
+function buildPills(){const el=$('objPills');el.innerHTML='';for(const o of objects){const p=document.createElement('div');p.className='pill'+(o.id===selId?' sp':'');p.innerHTML='<span class="dot" style="background:'+o.color+'"></span>'+o.name;p.onclick=()=>{selId=o.id;rebuildUI()};el.appendChild(p)}if(objects.length<6){const a=document.createElement('div');a.className='pill pill-add';a.textContent='+ Add';a.onclick=addObj;el.appendChild(a)}}
+function addObj(){if(objects.length>=6)return;const c=COLORS[objects.length%COLORS.length];objects.push({id:nextId++,name:'Object '+(objects.length+1),x:2+Math.random()*16,y:1+Math.random()*9,mass:100,size:25,color:c,shape:'circle',vx:0,vy:0,fx:0,fy:0,netF:0,acc:0});selId=objects[objects.length-1].id;$('presetSel').value='custom';rebuildUI()}
+function rmObj(id){if(objects.length<=2)return;objects=objects.filter(o=>o.id!==id);if(selId===id)selId=objects[0].id;rebuildUI()}
+function buildObjCtrl(){const el=$('objCtrl');el.innerHTML='';const o=objects.find(x=>x.id===selId);if(!o)return;
+const nD=document.createElement('div');nD.className='param';nD.innerHTML='<div class="param-lbl"><span>Name</span></div>';const nI=document.createElement('input');nI.className='ni';nI.style.width='100%';nI.value=o.name;nI.oninput=()=>{o.name=nI.value;buildPills();render()};nD.appendChild(nI);el.appendChild(nD);
+const sD=document.createElement('div');sD.className='param';sD.innerHTML='<div class="param-lbl"><span>Shape</span></div>';const sS=document.createElement('select');sS.className='sel';SHAPES.forEach(s=>{const op=document.createElement('option');op.value=s;op.textContent=SNAMES[s];if(s===o.shape)op.selected=true;sS.appendChild(op)});sS.onchange=()=>{o.shape=sS.value;render()};sD.appendChild(sS);el.appendChild(sD);
+const cD=document.createElement('div');cD.className='param';cD.innerHTML='<div class="param-lbl"><span>Color</span></div>';const cR=document.createElement('div');cR.className='color-row';COLORS.forEach(c=>{const d=document.createElement('div');d.className='cdot'+(c===o.color?' ac':'');d.style.background=c;d.onclick=()=>{o.color=c;buildObjCtrl();render()};cR.appendChild(d)});cD.appendChild(cR);el.appendChild(cD);
+bDual(el,'Mass','kg',1,10000,1,o.mass,v=>{o.mass=v;render()});bDual(el,'Size','px',8,80,1,o.size,v=>{o.size=v;render()});
+if(objects.length>2){const rm=document.createElement('button');rm.className='rm-btn';rm.textContent='🗑 Remove';rm.onclick=()=>rmObj(o.id);el.appendChild(rm)}}
+function bDual(p,label,unit,min,max,step,value,onChange){const d=document.createElement('div');d.className='param';const l=document.createElement('div');l.className='param-lbl';const s=document.createElement('span');s.textContent=label;const v=document.createElement('span');v.className='v';v.textContent=sci(value)+' '+unit;l.append(s,v);const r=document.createElement('div');r.className='param-row';const sl=document.createElement('input');sl.type='range';sl.min=min;sl.max=max;sl.step=step;sl.value=Math.min(max,Math.max(min,value));const ni=document.createElement('input');ni.type='number';ni.className='ni';ni.step='any';ni.value=value;const u=document.createElement('span');u.className='pu';u.textContent=unit;sl.oninput=()=>{const x=parseFloat(sl.value);ni.value=x;v.textContent=sci(x)+' '+unit;onChange(x)};ni.oninput=()=>{const x=parseFloat(ni.value);if(!isNaN(x)&&x>0){sl.value=Math.min(max,Math.max(min,x));v.textContent=sci(x)+' '+unit;onChange(x)}};r.append(sl,ni,u);d.append(l,r);p.appendChild(d)}
 // RECORDING
-// ═════════════════════════════════════════
-function buildTableHeader(){
-  const th=$('tHead');
-  if(objects.length===2){
-    th.innerHTML='<tr><th>#</th><th>m₁ (kg)</th><th>m₂ (kg)</th><th>r (m)</th><th>F (N)</th><th>a₁ (m/s²)</th><th>a₂ (m/s²)</th><th></th></tr>';
-  } else {
-    let h='<tr><th>#</th>';
-    objects.forEach(o=>{h+='<th>'+o.name+' mass</th><th>'+o.name+' F_net</th>'});
-    h+='<th></th></tr>';
-    th.innerHTML=h;
-  }
-}
-
-function addRecord(){
-  calcForces();recN++;
-  if(objects.length===2){
-    const a=objects[0],b=objects[1],r=physDist(a,b);
-    const F=r>0.01?GC*a.mass*b.mass/(r*r):0;
-    records.push({n:recN,type:2,m1:a.mass,m2:b.mass,r,F,a1:a.acc,a2:b.acc});
-  } else {
-    const snap=objects.map(o=>({name:o.name,mass:o.mass,netF:o.netF,acc:o.acc}));
-    records.push({n:recN,type:'m',snap});
-  }
-  renderTable();
-}
-
-function renderTable(){
-  const tb=$('tBody'),nd=$('noData');
-  if(!records.length){tb.innerHTML='';nd.style.display='';return}
-  nd.style.display='none';
-  tb.innerHTML=records.map((d,i)=>{
-    let row='<tr><td>'+d.n+'</td>';
-    if(d.type===2){
-      row+='<td>'+sci(d.m1)+'</td><td>'+sci(d.m2)+'</td><td>'+sci(d.r)+'</td><td>'+sci(d.F)+'</td><td>'+sci(d.a1)+'</td><td>'+sci(d.a2)+'</td>';
-    } else {
-      d.snap.forEach(s=>{row+='<td>'+sci(s.mass)+'</td><td>'+sci(s.netF)+'</td>'});
-    }
-    row+='<td><button class="dr" data-i="'+i+'">×</button></td></tr>';
-    return row;
-  }).join('');
-  tb.querySelectorAll('.dr').forEach(b=>b.onclick=()=>{records.splice(+b.dataset.i,1);renderTable()});
-}
-
-$('recBtn').onclick=addRecord;
-$('clearTbl').onclick=()=>{records=[];recN=0;renderTable()};
-$('exportCSV').onclick=()=>{
-  if(!records.length)return;
-  let csv='';
-  if(records[0].type===2){
-    csv='#,m1(kg),m2(kg),r(m),F(N),a1(m/s2),a2(m/s2)\n';
-    records.forEach(d=>{if(d.type===2)csv+=d.n+','+d.m1+','+d.m2+','+d.r+','+d.F+','+d.a1+','+d.a2+'\n'});
-  } else {
-    const names=records[0].snap.map(s=>s.name);
-    csv='#,'+names.map(n=>n+' mass,'+n+' F_net').join(',')+'\n';
-    records.forEach(d=>{
-      if(d.type==='m')csv+=d.n+','+d.snap.map(s=>s.mass+','+s.netF).join(',')+'\n';
-    });
-  }
-  const blob=new Blob([csv],{type:'text/csv'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='gravitational-data.csv';a.click();
-};
-
-// ═════════════════════════════════════════
-// SCREENSHOT
-// ═════════════════════════════════════════
-$('ssBtn').onclick=()=>{render();const a=document.createElement('a');a.download='gravitational-force.png';a.href=canvas.toDataURL('image/png');a.click()};
-
-// ═════════════════════════════════════════
-// TOGGLES
-// ═════════════════════════════════════════
-$('togV').onchange=e=>{showV=e.target.checked;render()};
-$('togD').onchange=e=>{showD=e.target.checked;render()};
-$('togG').onchange=e=>{showG=e.target.checked;render()};
-$('togE').onchange=e=>{showEq=e.target.checked;render()};
-$('togL').onchange=e=>{showLbl=e.target.checked;render()};
-
-// ═════════════════════════════════════════
-// SCALE
-// ═════════════════════════════════════════
-$('scaleInput').oninput=()=>{
-  const v=parseFloat($('scaleInput').value);
-  if(!isNaN(v)&&v>0){
-    distScale=v;
-    $('scaleLabel').textContent=sci(v)+' m';
-    if(v===1)$('scaleInfo').textContent='Lab scale: 1 unit = 1 metre';
-    else if(v>1e6)$('scaleInfo').textContent='Space scale: distances in millions of km';
-    else $('scaleInfo').textContent='1 canvas unit = '+sci(v)+' metres';
-    render();
-  }
-};
-
-// ═════════════════════════════════════════
-// PRESETS
-// ═════════════════════════════════════════
-const PRESETS={
-  bowling:{scale:0.1,objs:[
-    {name:'Ball 1',mass:7,size:16,shape:'circle',color:'#3b82f6',x:7,y:5.625},
-    {name:'Ball 2',mass:7,size:16,shape:'circle',color:'#f97316',x:12,y:5.625},
-  ]},
-  people:{scale:0.2,objs:[
-    {name:'Person 1',mass:70,size:22,shape:'circle',color:'#3b82f6',x:7,y:5.625},
-    {name:'Person 2',mass:70,size:22,shape:'circle',color:'#f97316',x:12,y:5.625},
-  ]},
-  cars:{scale:1,objs:[
-    {name:'Car 1',mass:1500,size:28,shape:'car',color:'#3b82f6',x:5,y:6},
-    {name:'Car 2',mass:1500,size:28,shape:'car',color:'#ef4444',x:15,y:6},
-  ]},
-  'earth-moon':{scale:3.5e7,objs:[
-    {name:'Earth',mass:5.972e24,size:34,shape:'planet-earth',color:'#3b82f6',x:5,y:5.625},
-    {name:'Moon',mass:7.348e22,size:12,shape:'planet-moon',color:'#9ca3af',x:16,y:5.625},
-  ]},
-  'earth-sun':{scale:1.15e10,objs:[
-    {name:'Sun',mass:1.989e30,size:55,shape:'planet-sun',color:'#f59e0b',x:4,y:5.625},
-    {name:'Earth',mass:5.972e24,size:14,shape:'planet-earth',color:'#3b82f6',x:17,y:5.625},
-  ]},
-  'three-body':{scale:2.8e7,objs:[
-    {name:'Sun',mass:1.989e30,size:48,shape:'planet-sun',color:'#f59e0b',x:3,y:5.625},
-    {name:'Earth',mass:5.972e24,size:16,shape:'planet-earth',color:'#3b82f6',x:12,y:5.625},
-    {name:'Moon',mass:7.348e22,size:9,shape:'planet-moon',color:'#9ca3af',x:15,y:5.625},
-  ]},
-};
-
-$('presetSel').onchange=e=>{
-  const p=PRESETS[e.target.value];
-  if(!p)return;
-  stopPlay();
-  distScale=p.scale;
-  $('scaleInput').value=p.scale;
-  $('scaleLabel').textContent=sci(p.scale)+' m';
-  $('scaleInfo').textContent=p.scale===1?'Lab scale: 1 unit = 1 metre':'1 canvas unit = '+sci(p.scale)+' metres';
-  objects=p.objs.map((o,i)=>({...o,id:i+1,vx:0,vy:0,fx:0,fy:0,netF:0,acc:0}));
-  nextId=objects.length+1;
-  selId=objects[0].id;
-  rebuildUI();
-};
-
-// ═════════════════════════════════════════
-// INSTRUCTIONS
-// ═════════════════════════════════════════
-$('instrTog').onclick=()=>{$('instrBody').classList.toggle('open');$('instrArr').textContent=$('instrBody').classList.contains('open')?'▲':'▼'};
-$('addBtn').onclick=addObject;
-
-// ═════════════════════════════════════════
-// THEME OBSERVER
-// ═════════════════════════════════════════
-new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
-
-// ═════════════════════════════════════════
+function buildTH(){const th=$('tHead');if(objects.length===2)th.innerHTML='<tr><th>#</th><th>m₁</th><th>m₂</th><th>r</th><th>F</th><th>a₁</th><th>a₂</th><th></th></tr>';else{let h='<tr><th>#</th>';objects.forEach(o=>{h+='<th>'+o.name+'</th><th>F</th>'});h+='<th></th></tr>';th.innerHTML=h}}
+function addRec(){calcF();recN++;if(objects.length===2){const a=objects[0],b=objects[1],r=pDist(a,b),F=r>.01?GC*a.mass*b.mass/(r*r):0;records.push({n:recN,t:2,m1:a.mass,m2:b.mass,r,F,a1:a.acc,a2:b.acc})}else records.push({n:recN,t:'m',s:objects.map(o=>({n:o.name,m:o.mass,f:o.netF}))});renderTbl()}
+function renderTbl(){const tb=$('tBody'),nd=$('noData');if(!records.length){tb.innerHTML='';nd.style.display='';return}nd.style.display='none';tb.innerHTML=records.map((d,i)=>{let r='<tr><td>'+d.n+'</td>';if(d.t===2)r+='<td>'+sci(d.m1)+'</td><td>'+sci(d.m2)+'</td><td>'+sci(d.r)+'</td><td>'+sci(d.F)+'</td><td>'+sci(d.a1)+'</td><td>'+sci(d.a2)+'</td>';else d.s.forEach(s=>{r+='<td>'+sci(s.m)+'</td><td>'+sci(s.f)+'</td>'});r+='<td><button class="dr" data-i="'+i+'">×</button></td></tr>';return r}).join('');tb.querySelectorAll('.dr').forEach(b=>b.onclick=()=>{records.splice(+b.dataset.i,1);renderTbl()})}
+$('recBtn').onclick=addRec;$('clearTbl').onclick=()=>{records=[];recN=0;renderTbl()};
+$('exportCSV').onclick=()=>{if(!records.length)return;let c='';if(records[0].t===2){c='#,m1,m2,r,F,a1,a2\n';records.forEach(d=>{if(d.t===2)c+=d.n+','+d.m1+','+d.m2+','+d.r+','+d.F+','+d.a1+','+d.a2+'\n'})}else{c='#,'+records[0].s.map(x=>x.n+' mass,'+x.n+' F').join(',')+'\n';records.forEach(d=>{if(d.t==='m')c+=d.n+','+d.s.map(x=>x.m+','+x.f).join(',')+'\n'})}const b=new Blob([c],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='gravity-data.csv';a.click()};
+$('ssBtn').onclick=()=>{render();const a=document.createElement('a');a.download='gravity.png';a.href=canvas.toDataURL('image/png');a.click()};
+// TOGGLES & SCALE & PRESETS
+$('togV').onchange=e=>{showV=e.target.checked;render()};$('togD').onchange=e=>{showD=e.target.checked;render()};$('togG').onchange=e=>{showG=e.target.checked;render()};$('togL').onchange=e=>{showLbl=e.target.checked;render()};
+$('scaleInput').oninput=()=>{const v=parseFloat($('scaleInput').value);if(!isNaN(v)&&v>0){distScale=v;$('scaleLabel').textContent=sci(v)+' m';render()}};
+const PRESETS={bowling:{s:.1,o:[{name:'Ball 1',mass:7,size:16,shape:'circle',color:'#3b82f6',x:7,y:5.625},{name:'Ball 2',mass:7,size:16,shape:'circle',color:'#f97316',x:12,y:5.625}]},people:{s:.2,o:[{name:'Person 1',mass:70,size:22,shape:'circle',color:'#3b82f6',x:7,y:5.625},{name:'Person 2',mass:70,size:22,shape:'circle',color:'#f97316',x:12,y:5.625}]},cars:{s:1,o:[{name:'Car 1',mass:1500,size:28,shape:'car',color:'#3b82f6',x:5,y:6},{name:'Car 2',mass:1500,size:28,shape:'car',color:'#ef4444',x:15,y:6}]},'earth-moon':{s:3.5e7,o:[{name:'Earth',mass:5.972e24,size:34,shape:'planet-earth',color:'#3b82f6',x:5,y:5.625},{name:'Moon',mass:7.348e22,size:12,shape:'planet-moon',color:'#9ca3af',x:16,y:5.625}]},'earth-sun':{s:1.15e10,o:[{name:'Sun',mass:1.989e30,size:55,shape:'planet-sun',color:'#f59e0b',x:4,y:5.625},{name:'Earth',mass:5.972e24,size:14,shape:'planet-earth',color:'#3b82f6',x:17,y:5.625}]},'three-body':{s:2.8e7,o:[{name:'Sun',mass:1.989e30,size:48,shape:'planet-sun',color:'#f59e0b',x:3,y:5.625},{name:'Earth',mass:5.972e24,size:16,shape:'planet-earth',color:'#3b82f6',x:12,y:5.625},{name:'Moon',mass:7.348e22,size:9,shape:'planet-moon',color:'#9ca3af',x:15,y:5.625}]}};
+$('presetSel').onchange=e=>{const p=PRESETS[e.target.value];if(!p)return;stopPlay();distScale=p.s;$('scaleInput').value=p.s;$('scaleLabel').textContent=sci(p.s)+' m';objects=p.o.map((o,i)=>({...o,id:i+1,vx:0,vy:0,fx:0,fy:0,netF:0,acc:0}));nextId=objects.length+1;selId=objects[0].id;rebuildUI()};
+$('addBtn').onclick=addObj;
+// PRACTICE PROBLEMS
+const PROBS=[
+  {id:1,title:'Problem 1',diff:'easy',diffLabel:'Beginner',given:'m₁ = <strong>100 kg</strong>, m₂ = <strong>200 kg</strong>, r = <strong>5 m</strong>',q:'Calculate the gravitational force F between the two objects.',ans:GC*100*200/25,sol:['F = G × m₁ × m₂ / r²','F = 6.674 × 10⁻¹¹ × 100 × 200 / 5²','F = 6.674 × 10⁻¹¹ × 20,000 / 25','F = 6.674 × 10⁻¹¹ × 800','<strong>F = 5.34 × 10⁻⁸ N</strong>']},
+  {id:2,title:'Problem 2',diff:'med',diffLabel:'Intermediate',given:'m₁ = <strong>50 kg</strong>, m₂ = <strong>80 kg</strong>, r = <strong>3 m</strong>',q:'What is the gravitational force?',ans:GC*50*80/9,sol:['F = G × m₁ × m₂ / r²','F = 6.674 × 10⁻¹¹ × 50 × 80 / 3²','F = 6.674 × 10⁻¹¹ × 4,000 / 9','F = 6.674 × 10⁻¹¹ × 444.4','<strong>F = 2.97 × 10⁻⁸ N</strong>']},
+  {id:3,title:'Problem 3 (IB)',diff:'hard',diffLabel:'IB Application',given:'Earth mass = <strong>5.97 × 10²⁴ kg</strong><br>Moon mass = <strong>7.35 × 10²² kg</strong><br>Distance = <strong>3.84 × 10⁸ m</strong>',q:'Calculate the gravitational force between Earth and Moon.',ans:GC*5.97e24*7.35e22/(3.84e8*3.84e8),sol:['F = G × m₁ × m₂ / r²','F = 6.674 × 10⁻¹¹ × 5.97 × 10²⁴ × 7.35 × 10²² / (3.84 × 10⁸)²','F = 6.674 × 10⁻¹¹ × 4.388 × 10⁴⁷ / 1.475 × 10¹⁷','<strong>F ≈ 1.98 × 10²⁰ N</strong>']}
+];
+function buildProblems(){const el=$('problems');el.innerHTML='';PROBS.forEach(p=>{const d=document.createElement('div');d.className='prob';d.innerHTML=`<div class="prob-head"><h4>${p.title}</h4><span class="prob-badge ${p.diff}">${p.diffLabel}</span></div><div class="prob-given">${p.given}<br><em>${p.q}</em></div><div class="prob-input-row"><input class="prob-input" placeholder="e.g. 5.34e-8" id="pi${p.id}"><button class="prob-check" onclick="checkProb(${p.id})">Check</button></div><div class="prob-fb" id="pf${p.id}"></div><button class="prob-sol-btn" onclick="showSol(${p.id})">Show Step-by-Step Solution ▼</button><div class="prob-solution" id="ps${p.id}">${p.sol.map(s=>'<div>'+s+'</div>').join('')}</div>`;el.appendChild(d)})}
+window.checkProb=function(id){const p=PROBS.find(x=>x.id===id);const v=parseFloat($('pi'+id).value.replace(/×10/g,'e').replace(/[⁻⁰¹²³⁴⁵⁶⁷⁸⁹]/g,c=>'⁻⁰¹²³⁴⁵⁶⁷⁸⁹'.indexOf(c)<1?'-':'0123456789'['⁻⁰¹²³⁴⁵⁶⁷⁸⁹'.indexOf(c)]));const fb=$('pf'+id);if(isNaN(v)){fb.className='prob-fb wrong';fb.textContent='❌ Please enter a valid number (e.g. 5.34e-8)';return}const ratio=v/p.ans;if(ratio>.85&&ratio<1.15){fb.className='prob-fb correct';fb.textContent='✅ Correct! Great work.'}else{fb.className='prob-fb wrong';fb.textContent='❌ Not quite. Check your calculation and try again.'}};
+window.showSol=function(id){$('ps'+id).classList.toggle('show')};
+// CHALLENGES
+const CHS=[
+  {id:0,title:'Double the gravitational force',hint:'Try doubling one of the masses.',baseF:null,done:false},
+  {id:1,title:'Keep force constant while changing mass',hint:'If you increase mass, what must you also change?',baseF:null,baseM:null,done:false},
+  {id:2,title:'Make force 4× smaller',hint:'What happens when you double the distance?',baseF:null,done:false}
+];
+let activeCh=0;
+function initCh(){if(objects.length<2)return;const r=pDist(objects[0],objects[1]),F=r>.01?GC*objects[0].mass*objects[1].mass/(r*r):0;CHS.forEach(c=>{c.baseF=F;c.done=false});CHS[1].baseM=objects[0].mass;activeCh=0;renderCh();updateBar()}
+function renderCh(){const el=$('challenges');el.innerHTML='';CHS.forEach((c,i)=>{const d=document.createElement('div');d.className='ch-card'+(c.done?' done-ch':'')+(i===activeCh&&!c.done?' active-ch':'');const dot=document.createElement('div');dot.className='ch-dot'+(c.done?' done-dot':'')+(i===activeCh&&!c.done?' active-dot':'');dot.textContent=c.done?'✓':'';const body=document.createElement('div');body.className='ch-body';let h='<h4>'+(c.done?'✅ ':'🎯 ')+c.title+'</h4>';if(i===activeCh&&!c.done)h+='<div class="ch-hint">💡 '+c.hint+'</div>';if(c.done)h+='<div class="ch-done-msg">Completed!</div>';body.innerHTML=h;d.append(dot,body);el.appendChild(d)})}
+function checkCh(){if(objects.length<2)return;const r=pDist(objects[0],objects[1]),F=r>.01?GC*objects[0].mass*objects[1].mass/(r*r):0;const c=CHS[activeCh];if(!c||c.done)return;if(!c.baseF||c.baseF<1e-30)return;let pass=false;
+if(c.id===0){const ratio=F/c.baseF;pass=ratio>1.85&&ratio<2.15}
+else if(c.id===1){const mC=c.baseM&&Math.abs(objects[0].mass-c.baseM)/c.baseM>.3;const fS=Math.abs(F-c.baseF)/c.baseF<.12;pass=mC&&fS}
+else if(c.id===2){const ratio=F/c.baseF;pass=ratio>.2&&ratio<.3}
+if(pass){c.done=true;const el=$('challenges');if(el){el.classList.add('ch-glow');setTimeout(()=>el.classList.remove('ch-glow'),700)}if(activeCh<CHS.length-1)activeCh++;renderCh();updateBar()}}
+function updateBar(){const done=CHS.filter(c=>c.done).length;const c=CHS[activeCh];$('chBarText').textContent=c.done&&activeCh===CHS.length-1?'🎉 All challenges complete!':c.title;$('chBarProg').textContent=done+'/'+CHS.length;$('chBarHint').textContent=c.done?'Done':'Hint'}
+$('chBarHint').onclick=()=>{const c=CHS[activeCh];if(!c.done)alert('💡 Hint: '+c.hint)};
 // INIT
-// ═════════════════════════════════════════
-rebuildUI();
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+buildProblems();initCh();rebuildUI();
 setTimeout(()=>{resize();render()},50);
 </script>
 </body>
