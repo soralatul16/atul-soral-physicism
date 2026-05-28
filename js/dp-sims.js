@@ -39,7 +39,7 @@ const DP_SIMS = [
     id: "torque-lab",
     title: "Torque Lab",
     icon: "⚙️",
-    topic: "A.2",
+    topic: "A.4",
     topicName: "Forces – Torque & Moments",
     description: "Explore torque, levers, pulleys, and rotational equilibrium. Balance forces and discover the conditions for equilibrium.",
     file: "sims/torque-lab.html"
