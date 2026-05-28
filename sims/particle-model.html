@@ -3,394 +3,979 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Particle Model | Atul Soral Physicism</title>
 <style>
-:root{--bg:#f0f4f8;--card:rgba(255,255,255,.88);--text:#1e293b;--text2:#475569;--accent:#0284c7;--border:rgba(186,230,253,.7);--glass:rgba(255,255,255,.65);--glassBd:rgba(186,230,253,.5);--surface:rgba(224,242,254,.5);--canvasBg:#f8fafc;--ok:#22c55e;--okBg:rgba(34,197,94,.08);--err:#ef4444;--errBg:rgba(239,68,68,.06);--warm:#fb923c;--cold:#38bdf8;--hot:#ef4444}
-[data-theme="dark"]{--bg:#0f1729;--card:rgba(30,41,59,.88);--text:#e2e8f0;--text2:#94a3b8;--accent:#38bdf8;--border:rgba(56,189,248,.18);--glass:rgba(30,41,59,.75);--glassBd:rgba(56,189,248,.2);--surface:rgba(15,23,42,.6);--canvasBg:#131d2e;--okBg:rgba(34,197,94,.12);--errBg:rgba(239,68,68,.1)}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(180deg,#f0f4f8,#e2e8f0);background-image:linear-gradient(rgba(2,132,199,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(2,132,199,.03) 1px,transparent 1px);background-size:20px 20px;color:var(--text);min-height:100vh;padding-bottom:60px}
-[data-theme="dark"] body{background:linear-gradient(180deg,#0f1729,#0a101e);background-image:linear-gradient(rgba(56,189,248,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.02) 1px,transparent 1px);background-size:20px 20px}
-nav{display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95),rgba(7,89,133,.95));backdrop-filter:blur(12px);color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px}
+:root{--bg:#f0f4f8;--card:rgba(255,255,255,.88);--text:#1e293b;--text2:#475569;--text3:#94a3b8;--accent:#0284c7;--border:rgba(186,230,253,.7);--glass:rgba(255,255,255,.65);--glassBd:rgba(186,230,253,.5);--surface:rgba(224,242,254,.5);--cvsBg:#f8fafc;--ok:#22c55e;--okBg:rgba(34,197,94,.08);--err:#ef4444;--errBg:rgba(239,68,68,.06);--warm:#fb923c;--cold:#38bdf8;--graphBg:#0d1b2a;--mono:'SF Mono','Fira Code','Consolas',monospace}
+[data-theme="dark"]{--bg:#0f1729;--card:rgba(30,41,59,.88);--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--accent:#38bdf8;--border:rgba(56,189,248,.18);--glass:rgba(30,41,59,.75);--glassBd:rgba(56,189,248,.2);--surface:rgba(15,23,42,.6);--cvsBg:#131d2e;--okBg:rgba(34,197,94,.12);--errBg:rgba(239,68,68,.1)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px}
+[data-theme="light"] body{background-image:linear-gradient(rgba(2,132,199,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(2,132,199,.03) 1px,transparent 1px);background-size:20px 20px}
+[data-theme="dark"] body{background-image:linear-gradient(rgba(56,189,248,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.02) 1px,transparent 1px);background-size:20px 20px}
+nav{display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95),rgba(7,89,133,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px}
 nav a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem}nav a:hover{color:#fff}
 .nav-logo{font-family:Georgia,serif;font-size:1rem;font-weight:700;color:#fff!important}
 .nav-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:.73rem;text-decoration:none;display:inline-block}
-.wrap{max-width:960px;margin:0 auto;padding:0 12px}
-.head{text-align:center;padding:12px 16px 4px}
-.head h1{font-family:Georgia,serif;font-size:1.2rem;color:var(--accent)}
-.head p{font-size:.8rem;color:var(--text2)}
-.cvs{aspect-ratio:16/10;background:var(--canvasBg);border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.1);margin-bottom:6px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 12px}
+.head{text-align:center;padding:12px 16px 6px}
+.head h1{font-family:Georgia,serif;font-size:1.3rem;color:var(--accent)}
+.head p{font-size:.78rem;color:var(--text2)}
+.cvs{aspect-ratio:16/9;background:var(--cvsBg);border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.08);margin-bottom:8px}
 .cvs canvas{display:block;width:100%;height:100%}
-.wb{background:var(--glass);backdrop-filter:blur(8px);border:1px solid var(--glassBd);border-radius:10px;padding:8px 12px;margin-bottom:6px}
-.wb-r{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px}.wb-r:last-child{margin-bottom:0}
-.wb-l{font-size:.7rem;color:var(--text2);font-weight:600;text-transform:uppercase;min-width:45px}
+.wb{background:var(--glass);backdrop-filter:blur(8px);border:1px solid var(--glassBd);border-radius:12px;padding:8px 12px;margin-bottom:8px}
+.wb-r{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:5px}.wb-r:last-child{margin-bottom:0}
+.wb-l{font-size:.7rem;color:var(--text2);font-weight:700;text-transform:uppercase;min-width:48px;letter-spacing:.3px}
 .temp-slider{flex:1;height:8px;-webkit-appearance:none;appearance:none;background:linear-gradient(90deg,#38bdf8,#22c55e,#eab308,#f97316,#ef4444);border-radius:4px;outline:none}
 .temp-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}
-.temp-val{font-family:Georgia,serif;font-size:1.1rem;font-weight:700;min-width:70px;text-align:center}
-.btn{padding:6px 14px;border:none;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer}
+.temp-val{font-family:Georgia,serif;font-size:1.1rem;font-weight:700;min-width:65px;text-align:center}
+.btn{padding:5px 12px;border:none;border-radius:8px;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .15s;letter-spacing:.2px}
+.btn:hover{transform:translateY(-1px)}
 .btn-p{background:var(--accent);color:#fff}.btn-g{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.btn-ok{background:rgba(34,197,94,.15);color:#15803d;border:1px solid rgba(34,197,94,.3)}
+.btn-err{background:rgba(239,68,68,.1);color:#dc2626;border:1px solid rgba(239,68,68,.2)}
 .pp{display:flex;gap:3px;flex-wrap:wrap}
-.p{padding:4px 8px;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.66rem;font-weight:600;color:var(--text2);background:var(--surface)}
+.p{padding:4px 9px;border-radius:7px;border:1px solid var(--border);cursor:pointer;font-size:.68rem;font-weight:700;color:var(--text2);background:var(--surface);transition:all .12s}
 .p.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-.wb-i{padding:5px 8px;border:1px solid var(--border);border-radius:7px;background:var(--card);color:var(--text);font-size:.82rem;font-family:Georgia,serif;width:90px;text-align:center}
-.wb-i:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(56,189,248,.15)}
-.wb-i.ok{border-color:var(--ok);background:var(--okBg)}.wb-i.no{border-color:var(--err);background:var(--errBg)}
-.wb-u{font-size:.72rem;color:var(--text2)}
-.fb{padding:5px 10px;border-radius:7px;font-size:.78rem;text-align:center;margin-top:4px}
-.fb-ok{background:var(--okBg);color:var(--ok)}.fb-no{background:var(--errBg);color:var(--err)}.fb-h{background:rgba(251,191,36,.08);color:#f59e0b}
-.info-bar{display:flex;gap:6px;flex-wrap:wrap}
-.info-card{flex:1;min-width:80px;background:var(--surface);border-radius:8px;padding:6px 8px;text-align:center}
-.info-card .il{font-size:.58rem;color:var(--text2);text-transform:uppercase;letter-spacing:.3px}
-.info-card .iv{font-size:.9rem;font-weight:700;font-family:Georgia,serif;color:var(--accent)}
-.energy-bar{display:flex;align-items:center;gap:6px;margin-top:4px}
-.ebar-track{flex:1;height:10px;background:var(--surface);border-radius:5px;overflow:hidden}
-.ebar-fill{height:100%;border-radius:5px;transition:width .3s,background .3s}
-.ebar-label{font-size:.68rem;color:var(--text2);min-width:40px}
-.nbook{background:var(--glass);border:1px solid var(--glassBd);border-radius:10px;padding:8px 10px}
-.nbook h4{font-family:Georgia,serif;font-size:.75rem;color:var(--accent);margin-bottom:4px}
-.nb-c{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:5px 7px;margin-bottom:3px;font-size:.68rem;line-height:1.4}
-.nb-c b{color:var(--accent)}.nb-c .r{color:var(--ok);font-weight:700}
+.p:hover:not(.on){background:rgba(2,132,199,.08)}
+
+/* Info bar */
+.info-bar{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
+.info-card{flex:1;min-width:75px;background:var(--surface);border-radius:9px;padding:6px 7px;text-align:center;border:1px solid var(--border)}
+.info-card .il{font-size:.56rem;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;font-weight:700}
+.info-card .iv{font-size:.85rem;font-weight:700;font-family:Georgia,serif;color:var(--accent)}
+.energy-bar{display:flex;align-items:center;gap:6px}
+.ebar-track{flex:1;height:9px;background:var(--surface);border-radius:5px;overflow:hidden;border:1px solid var(--border)}
+.ebar-fill{height:100%;border-radius:4px;transition:width .3s,background .3s}
+.ebar-label{font-size:.65rem;color:var(--text2);font-weight:700;min-width:35px}
+
+/* Guess */
+.guess-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.guess-fb{font-size:.78rem;font-weight:700}
+
+/* Tabs */
+.tabs{display:flex;gap:2px;margin-bottom:8px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:6px}
+.tab{padding:5px 12px;border-radius:8px 8px 0 0;font-size:.7rem;font-weight:700;cursor:pointer;color:var(--text3);background:transparent;transition:all .12s;letter-spacing:.2px}
+.tab.on{color:var(--accent);background:var(--surface);border:1px solid var(--border);border-bottom:none}
+.tab:hover:not(.on){color:var(--text2)}
+.tc{display:none}.tc.on{display:block}
+
+/* Experiment section */
+.exp-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.exp-col{flex:1;min-width:200px}
+.exp-field{margin-bottom:6px}
+.exp-field label{font-size:.65rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px}
+.exp-field select,.exp-field input{width:100%;padding:6px 8px;border-radius:8px;border:1px solid var(--border);font-size:.78rem;font-weight:600;background:var(--card);color:var(--text);outline:none;font-family:inherit}
+.exp-field select:focus,.exp-field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(2,132,199,.1)}
+.cv-grid{display:flex;flex-wrap:wrap;gap:4px}
+.cv-check{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;background:var(--surface);border:1px solid var(--border);font-size:.68rem;font-weight:600;color:var(--text2);cursor:pointer}
+.cv-check input{accent-color:var(--accent)}
+.cv-check.checked{background:rgba(2,132,199,.08);border-color:var(--accent)}
+
+/* Data table */
+.data-wrap{overflow-x:auto;margin-top:8px}
+.dt{width:100%;border-collapse:collapse;font-size:.72rem;font-family:var(--mono)}
+.dt th{text-align:center;padding:6px 5px;font-size:.6rem;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--surface)}
+.dt td{padding:5px;text-align:center;border-bottom:1px solid var(--border)}
+.dt tr:hover td{background:rgba(2,132,199,.04)}
+.dt .mean{font-weight:700;color:var(--accent);background:rgba(2,132,199,.05)}
+.dt .unc{color:var(--warm);background:rgba(251,146,60,.05)}
+
+/* Graph */
+.graph-wrap{margin-top:8px}
+.graph-wrap canvas{width:100%;height:220px;display:block;border-radius:12px;border:1px solid var(--border)}
+
+/* Notebook */
+.nb{background:var(--glass);border:1px solid var(--glassBd);border-radius:10px;padding:8px 10px}
+.nb h4{font-family:Georgia,serif;font-size:.78rem;color:var(--accent);margin-bottom:5px}
+.nb-c{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:5px 8px;margin-bottom:4px;font-size:.7rem;line-height:1.5}
+.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+
+/* IB section */
+.ib-card{background:var(--surface);border-radius:10px;padding:10px;margin-bottom:6px;border:1px solid var(--border)}
+.ib-cmd{display:inline-block;font-size:.58rem;padding:2px 7px;border-radius:5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:rgba(2,132,199,.1);color:var(--accent);margin-bottom:4px}
+.ib-card h4{font-size:.78rem;font-weight:700;margin-bottom:3px}
+.ib-card p{font-size:.72rem;color:var(--text2);line-height:1.5;margin-bottom:5px}
+.ib-card textarea{width:100%;height:50px;border:1px solid var(--border);border-radius:6px;padding:5px;font-size:.72rem;font-family:inherit;resize:vertical;background:var(--card);color:var(--text);outline:none}
+.ib-card textarea:focus{border-color:var(--accent)}
+.ib-fb{padding:5px 8px;border-radius:7px;font-size:.72rem;font-weight:600;margin-top:4px;display:none}
+.ib-fb.show{display:block}
+.ib-fb.ok{background:var(--okBg);color:var(--ok)}.ib-fb.no{background:var(--errBg);color:var(--err)}.ib-fb.part{background:rgba(234,179,8,.08);color:#ca8a04}
+
+.results-summary{background:var(--surface);border-radius:10px;padding:10px;border:1px solid var(--border);margin-top:8px}
+.results-summary h4{font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:4px}
+.results-summary p{font-size:.72rem;line-height:1.6;color:var(--text2)}
+
+@media(max-width:600px){
+  .exp-row{flex-direction:column}
+  .info-bar{gap:3px}
+  .info-card{min-width:60px;padding:4px 5px}
+  .info-card .iv{font-size:.75rem}
+}
+@media print{
+  nav{display:none!important}
+  body{background:#fff!important;background-image:none!important}
+  .wb,.nb{backdrop-filter:none;background:#f8f8f8;border:1px solid #ddd}
+}
 </style>
 </head>
 <body>
-<script>var SIM_META={id:'particle-model',title:'Particle Model Viewer',topic:'Unit 1',topicName:'Exploring Matter',grade:['MYP4'],level:'both',theme:'particles',concepts:['particle model','kinetic theory','states of matter','temperature','energy'],difficulty:'beginner'};</script>
+<script>var SIM_META={id:'particle-model',title:'Particle Model',topic:'A.3',topicName:'Thermal Physics – Particle Model',grade:['MYP4','MYP5','DP'],level:'both',theme:'A',concepts:['particle model','kinetic theory','states of matter','temperature','kinetic energy','thermal expansion'],difficulty:'intermediate'};</script>
 <nav>
   <div style="display:flex;align-items:center;gap:14px"><a href="../index.html" class="nav-logo">Atul Soral Physicism</a><a href="../dp-simulations.html">← All Simulations</a></div>
-  <div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">☀️</button><a href="../dp-simulations.html" class="nav-btn" style="text-decoration:none">← Back</a><a href="../index.html" class="nav-btn" style="text-decoration:none">Home</a><a href="../myp-dashboard.html" class="nav-btn" style="text-decoration:none">MYP</a><a href="../dp-dashboard.html" class="nav-btn" style="text-decoration:none">DP</a></div>
+  <div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">☀️</button><a href="../dp-simulations.html" class="nav-btn">← Back</a><a href="../index.html" class="nav-btn">Home</a><a href="../myp-dashboard.html" class="nav-btn">MYP</a><a href="../dp-dashboard.html" class="nav-btn">DP</a></div>
 </nav>
 <div class="wrap">
-<div class="head"><h1>Particle Model Viewer</h1><p>Observe how particles behave. Change the temperature. Discover the states of matter.</p></div>
-<div class="cvs" id="cWrap"><canvas id="mainCanvas"></canvas></div>
+<div class="head"><h1>Particle Model</h1><p>Observe particles. Change variables. Discover kinetic theory yourself.</p></div>
+
+<div class="cvs" id="cWrap"><canvas id="C"></canvas></div>
+
+<!-- Controls -->
 <div class="wb">
   <div class="wb-r">
     <span class="wb-l">Temp</span>
-    <input type="range" class="temp-slider" id="tempSlider" min="0" max="500" value="25">
-    <span class="temp-val" id="tempVal" style="color:var(--cold)">25 K</span>
+    <input type="range" class="temp-slider" id="sTemp" min="0" max="500" value="25">
+    <span class="temp-val" id="vTemp" style="color:var(--cold)">25 K</span>
   </div>
   <div class="wb-r">
     <span class="wb-l">Material</span>
-    <div class="pp">
-      <div class="p on" onclick="setMat(this,0)">💧 Water</div>
-      <div class="p" onclick="setMat(this,1)">🔩 Iron</div>
-      <div class="p" onclick="setMat(this,2)">🫧 Nitrogen</div>
-    </div>
+    <div class="pp" id="matPills"></div>
+    <span style="flex:1"></span>
+    <span class="wb-l">Particles</span>
+    <input type="range" id="sNum" min="20" max="150" value="80" style="width:80px;accent-color:var(--accent)">
+    <span style="font-size:.78rem;font-weight:700;min-width:28px" id="vNum">80</span>
+  </div>
+  <div class="wb-r">
+    <span class="wb-l">Volume</span>
+    <input type="range" id="sVol" min="30" max="90" value="75" style="width:100px;accent-color:var(--accent)">
+    <span style="font-size:.78rem;font-weight:700;min-width:28px" id="vVol">75%</span>
     <span style="flex:1"></span>
     <button class="btn btn-p" onclick="recObs()">📝 Record</button>
-    <button class="btn btn-g" onclick="resetSim()">↺</button>
+    <button class="btn btn-g" onclick="resetSim()">↺ Reset</button>
   </div>
 </div>
+
+<!-- Info -->
 <div class="wb">
-  <div class="info-bar" id="infoBar">
-    <div class="info-card"><div class="il">State</div><div class="iv" id="stateLabel">?</div></div>
-    <div class="info-card"><div class="il">Arrangement</div><div class="iv" id="arrLabel">?</div></div>
-    <div class="info-card"><div class="il">Movement</div><div class="iv" id="moveLabel">?</div></div>
-    <div class="info-card"><div class="il">Spacing</div><div class="iv" id="spaceLabel">?</div></div>
-    <div class="info-card"><div class="il">Avg KE</div><div class="iv" id="keLabel">?</div></div>
+  <div class="info-bar">
+    <div class="info-card"><div class="il">State</div><div class="iv" id="iState">—</div></div>
+    <div class="info-card"><div class="il">Arrangement</div><div class="iv" id="iArr">—</div></div>
+    <div class="info-card"><div class="il">Movement</div><div class="iv" id="iMove">—</div></div>
+    <div class="info-card"><div class="il">Spacing</div><div class="iv" id="iSpace">—</div></div>
+    <div class="info-card"><div class="il">Avg KE</div><div class="iv" id="iKE">—</div></div>
+    <div class="info-card"><div class="il">Avg Speed</div><div class="iv" id="iSpd">—</div></div>
+    <div class="info-card"><div class="il">Pressure</div><div class="iv" id="iPres">—</div></div>
   </div>
   <div class="energy-bar">
     <span class="ebar-label">KE</span>
-    <div class="ebar-track"><div class="ebar-fill" id="keBar" style="width:5%;background:#38bdf8"></div></div>
+    <div class="ebar-track"><div class="ebar-fill" id="keBar" style="width:3%;background:var(--cold)"></div></div>
   </div>
 </div>
+
+<!-- Guess -->
 <div class="wb">
-  <div class="wb-r"><span style="font-size:.78rem">🤔 <strong>What do you observe?</strong> Look at the particles. How are they arranged? How do they move?</span></div>
   <div class="wb-r">
-    <span class="wb-l">State?</span>
-    <div class="pp">
-      <div class="p" id="gSolid" onclick="guessState('solid')">Solid</div>
-      <div class="p" id="gLiquid" onclick="guessState('liquid')">Liquid</div>
-      <div class="p" id="gGas" onclick="guessState('gas')">Gas</div>
-    </div>
-    <span id="guessFb" style="font-size:.78rem;font-weight:600"></span>
+    <span style="font-size:.78rem">🤔 <strong>What state is this?</strong> Look at the particles — how are they arranged and moving?</span>
+  </div>
+  <div class="guess-row">
+    <div class="p" id="gS" onclick="guess('solid')">Solid</div>
+    <div class="p" id="gL" onclick="guess('liquid')">Liquid</div>
+    <div class="p" id="gG" onclick="guess('gas')">Gas</div>
+    <span class="guess-fb" id="gFb"></span>
   </div>
 </div>
-<div class="nbook"><h4>📓 Lab Notebook</h4><div id="nbOut"></div></div>
+
+<!-- Tabs -->
+<div class="wb" style="padding:10px 12px">
+  <div class="tabs">
+    <div class="tab on" onclick="stab(this,0)">🔬 Experiment</div>
+    <div class="tab" onclick="stab(this,1)">📊 Data &amp; Graph</div>
+    <div class="tab" onclick="stab(this,2)">📝 IB Questions</div>
+    <div class="tab" onclick="stab(this,3)">📓 Notebook</div>
+  </div>
+
+  <!-- Tab 0: Experiment Design -->
+  <div class="tc on" id="t0">
+    <div class="exp-row">
+      <div class="exp-col">
+        <div class="exp-field">
+          <label>Independent Variable (what you change)</label>
+          <select id="selIV" onchange="updateVars()">
+            <option value="temp">Temperature (K)</option>
+            <option value="numParticles">Number of Particles</option>
+            <option value="volume">Container Volume (%)</option>
+            <option value="material">Material Type</option>
+          </select>
+        </div>
+        <div class="exp-field">
+          <label>Dependent Variable (what you measure)</label>
+          <select id="selDV" onchange="updateVars()">
+            <option value="avgKE">Average Kinetic Energy</option>
+            <option value="avgSpeed">Average Particle Speed</option>
+            <option value="pressure">Pressure (wall collisions/s)</option>
+            <option value="spacing">Average Particle Spacing</option>
+            <option value="state">State of Matter</option>
+          </select>
+        </div>
+      </div>
+      <div class="exp-col">
+        <div class="exp-field">
+          <label>Controlled Variables (check all you'll keep constant)</label>
+          <div class="cv-grid" id="cvGrid"></div>
+        </div>
+        <div class="exp-field" style="margin-top:6px">
+          <label>Hypothesis</label>
+          <input type="text" id="hypIn" placeholder="If [IV] increases, then [DV] will... because...">
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode toggle -->
+    <div style="display:flex;gap:4px;margin:8px 0 6px;border-bottom:1px solid var(--border);padding-bottom:6px">
+      <div class="p on" id="mManual" onclick="setExpMode('manual')">🖊 Manual Collection</div>
+      <div class="p" id="mAuto" onclick="setExpMode('auto')">⚡ Auto-Run</div>
+    </div>
+
+    <!-- Manual mode -->
+    <div id="expManual">
+      <div style="background:var(--surface);border-radius:10px;padding:10px;border:1px solid var(--border);margin-bottom:6px">
+        <p style="font-size:.75rem;line-height:1.6;color:var(--text2);margin-bottom:8px">
+          <strong>How to use:</strong> Change the IV using the sliders above. Observe the simulation. Read the DV from the info cards. Type your values below and click <strong>Add Reading</strong>. Repeat for each IV value.
+        </p>
+        <div class="exp-row" style="align-items:flex-end">
+          <div class="exp-col">
+            <div class="exp-field">
+              <label id="manIVLabel">IV Value (current from slider)</label>
+              <div style="display:flex;gap:6px;align-items:center">
+                <input type="number" id="manIV" step="any" style="flex:1" placeholder="Read from slider or type">
+                <button class="btn btn-g" onclick="readCurrentIV()" style="white-space:nowrap;font-size:.68rem">↻ Read Current</button>
+              </div>
+            </div>
+          </div>
+          <div class="exp-col">
+            <div class="exp-field">
+              <label id="manDVLabel">DV Value (observe and type)</label>
+              <div style="display:flex;gap:6px;align-items:center">
+                <input type="number" id="manDV" step="any" style="flex:1" placeholder="Type what you observe">
+                <button class="btn btn-g" onclick="readCurrentDV()" style="white-space:nowrap;font-size:.68rem">↻ Read Current</button>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:5px;min-width:auto;flex:0">
+            <button class="btn btn-p" onclick="addManualReading()" style="white-space:nowrap">+ Add Reading</button>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:.68rem;color:var(--text3);margin-bottom:4px" id="manStatus">Add readings to build your data table. At least 2 different IV values needed for a graph.</div>
+      <div id="manTable"></div>
+      <div style="display:flex;gap:6px;margin-top:6px">
+        <button class="btn btn-ok" onclick="plotManual()">📊 Plot Graph</button>
+        <button class="btn btn-err" onclick="clearManual()">Clear All</button>
+      </div>
+    </div>
+
+    <!-- Auto mode -->
+    <div id="expAuto" style="display:none">
+      <div class="exp-row" style="align-items:flex-end">
+        <div class="exp-col">
+          <div class="exp-field">
+            <label>IV Values to Test (comma separated)</label>
+            <input type="text" id="ivVals" placeholder="e.g. 50, 100, 150, 200, 250">
+          </div>
+        </div>
+        <div class="exp-col" style="display:flex;gap:6px;min-width:auto;flex:0">
+          <button class="btn btn-p" onclick="runExp()" style="white-space:nowrap">▶ Auto-Run All</button>
+          <button class="btn btn-err" onclick="clearExp()">Clear</button>
+        </div>
+      </div>
+      <div style="font-size:.68rem;color:var(--text3);margin-top:4px">The simulation will automatically set each IV value, run 5 trials, and collect DV measurements.</div>
+    </div>
+    <div id="expStatus" style="font-size:.72rem;color:var(--text2);margin-top:4px"></div>
+  </div>
+
+  <!-- Tab 1: Data & Graph -->
+  <div class="tc" id="t1">
+    <div class="data-wrap" id="dataWrap"><p style="font-size:.72rem;color:var(--text3);text-align:center;padding:16px">Run an experiment to see data here.</p></div>
+    <div class="graph-wrap"><canvas id="gCanvas"></canvas></div>
+    <div class="results-summary" id="resSummary" style="display:none">
+      <h4>Analysis</h4>
+      <p id="resText"></p>
+    </div>
+  </div>
+
+  <!-- Tab 2: IB Questions -->
+  <div class="tc" id="t2">
+    <div id="ibList"></div>
+  </div>
+
+  <!-- Tab 3: Notebook -->
+  <div class="tc" id="t3">
+    <div class="nb"><h4>📓 Lab Notebook</h4><div id="nbOut"></div></div>
+  </div>
+</div>
 </div>
 
 <script>
-var gel=function(id){return document.getElementById(id)};
-var isDark=function(){return document.documentElement.dataset.theme==='dark'};
-gel('themeBtn').onclick=function(){var t=isDark()?'light':'dark';document.documentElement.dataset.theme=t;gel('themeBtn').textContent=t==='dark'?'🌙':'☀️';localStorage.setItem('phy-theme',t)};
-(function(){var t=localStorage.getItem('phy-theme')||'light';document.documentElement.dataset.theme=t;gel('themeBtn').textContent=t==='dark'?'🌙':'☀️'})();
+// ===== HELPERS =====
+var $=function(id){return document.getElementById(id)};
+var dark=function(){return document.documentElement.dataset.theme==='dark'};
+$('themeBtn').onclick=function(){var t=dark()?'light':'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️';localStorage.setItem('phy-theme',t)};
+(function(){var t=localStorage.getItem('phy-theme')||'light';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️'})();
 
-var cvs=gel('mainCanvas'),ctx=cvs.getContext('2d'),cWrap=gel('cWrap');
+// ===== CANVAS =====
+var cvs=$('C'),ctx=cvs.getContext('2d'),cWrap=$('cWrap');
 var cW=0,cH=0,dpr=1;
 function onResize(){dpr=window.devicePixelRatio||1;var r=cWrap.getBoundingClientRect();cW=r.width;cH=r.height;cvs.width=cW*dpr;cvs.height=cH*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
 new ResizeObserver(onResize).observe(cWrap);
 
-// Materials: melting point, boiling point, particle color
+// ===== MATERIALS =====
 var MATS=[
-  {name:'Water',mp:273,bp:373,color:'#3b82f6',size:6},
-  {name:'Iron',mp:1811,bp:3134,color:'#94a3b8',size:7},
-  {name:'Nitrogen',mp:63,bp:77,color:'#a78bfa',size:5}
+  {name:'Water',mp:273,bp:373,color:'#3b82f6',size:6,emoji:'💧'},
+  {name:'Iron',mp:1811,bp:3134,color:'#94a3b8',size:7,emoji:'🔩'},
+  {name:'Nitrogen',mp:63,bp:77,color:'#a78bfa',size:5,emoji:'🫧'},
+  {name:'Ethanol',mp:159,bp:351,color:'#f59e0b',size:6,emoji:'🧪'}
 ];
-var matIdx=0,temp=25;
-var particles=[];
-var NUM=80;
+var matIdx=0,temp=25,numP=80,volPct=75;
+var particles=[],wallHits=0,wallHitTimer=0,pressure=0;
 var nbEntries=[];
+
+// Build material pills
+function buildMats(){
+  var h='';
+  MATS.forEach(function(m,i){h+='<div class="p'+(i===matIdx?' on':'')+'" onclick="setMat('+i+',this)">'+m.emoji+' '+m.name+'</div>'});
+  $('matPills').innerHTML=h;
+}
+buildMats();
+
+// ===== PARTICLES =====
+function getBox(){
+  var pad=cW*((100-volPct)/200);
+  return{l:cW*0.08+pad,r:cW*0.92-pad,t:cH*0.08+pad*0.5,b:cH*0.92-pad*0.5};
+}
 
 function initParticles(){
   particles=[];
-  var boxL=cW*0.12,boxR=cW*0.88,boxT=cH*0.12,boxB=cH*0.88;
-  for(var i=0;i<NUM;i++){
-    particles.push({
-      x:boxL+Math.random()*(boxR-boxL),
-      y:boxT+Math.random()*(boxB-boxT),
-      vx:(Math.random()-0.5)*2,
-      vy:(Math.random()-0.5)*2,
-      homeX:0,homeY:0
-    });
-  }
-  // Set home positions (grid for solid)
-  var cols=Math.ceil(Math.sqrt(NUM));
-  var rows=Math.ceil(NUM/cols);
-  var gapX=(boxR-boxL)/(cols+1);
-  var gapY=(boxB-boxT)/(rows+1);
-  for(var i=0;i<NUM;i++){
+  var b=getBox(),bw=b.r-b.l,bh=b.b-b.t;
+  var cols=Math.ceil(Math.sqrt(numP*bw/bh)),rows=Math.ceil(numP/cols);
+  var gx=bw/(cols+1),gy=bh/(rows+1);
+  for(var i=0;i<numP;i++){
     var col=i%cols,row=Math.floor(i/cols);
-    particles[i].homeX=boxL+gapX*(col+1);
-    particles[i].homeY=boxT+gapY*(row+1);
+    var hx=b.l+gx*(col+1),hy=b.t+gy*(row+1);
+    particles.push({x:b.l+Math.random()*bw,y:b.t+Math.random()*bh,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,hx:hx,hy:hy});
   }
+  wallHits=0;pressure=0;
 }
 
-function getState(){
-  var m=MATS[matIdx];
-  if(temp<m.mp)return'solid';
-  if(temp<m.bp)return'liquid';
-  return'gas';
-}
+function getState(){var m=MATS[matIdx];if(temp<m.mp)return'solid';if(temp<m.bp)return'liquid';return'gas'}
 
-function getStateInfo(){
-  var state=getState();
-  if(state==='solid')return{state:'Solid',arr:'Fixed pattern',move:'Vibrate in place',space:'Very close'};
-  if(state==='liquid')return{arr:'Random, close',move:'Slide past each other',space:'Close',state:'Liquid'};
-  return{state:'Gas',arr:'Random, spread',move:'Fast, all directions',space:'Far apart'};
-}
-
-// Physics update
-function updateParticles(){
-  var state=getState();
-  var m=MATS[matIdx];
-  var speed=Math.max(0.1,temp/80);
-  var boxL=cW*0.12,boxR=cW*0.88,boxT=cH*0.12,boxB=cH*0.88;
+function update(){
+  var st=getState(),m=MATS[matIdx],spd=Math.max(.08,temp/80);
+  var b=getBox(),r=m.size;
+  wallHitTimer++;
+  if(wallHitTimer>=60){pressure=wallHits;wallHits=0;wallHitTimer=0}
 
   for(var i=0;i<particles.length;i++){
     var p=particles[i];
-
-    if(state==='solid'){
-      // Vibrate around home position
-      var vibAmp=Math.min(8,speed*1.5);
-      p.vx+=(p.homeX-p.x)*0.05+(Math.random()-0.5)*vibAmp*0.3;
-      p.vy+=(p.homeY-p.y)*0.05+(Math.random()-0.5)*vibAmp*0.3;
-      p.vx*=0.85;p.vy*=0.85;
-    } else if(state==='liquid'){
-      // Move freely but stay close, attracted to neighbors
-      p.vx+=(Math.random()-0.5)*speed*0.8;
-      p.vy+=(Math.random()-0.5)*speed*0.8+0.05;
-      p.vx*=0.92;p.vy*=0.92;
-      // Soft attraction to center-bottom (gravity-like)
-      p.vy+=(boxB*0.7-p.y)*0.001;
-    } else {
-      // Gas: fast random movement
-      p.vx+=(Math.random()-0.5)*speed*1.5;
-      p.vy+=(Math.random()-0.5)*speed*1.5;
-      p.vx*=0.96;p.vy*=0.96;
+    if(st==='solid'){
+      var amp=Math.min(8,spd*1.5);
+      p.vx+=(p.hx-p.x)*.05+(Math.random()-.5)*amp*.3;
+      p.vy+=(p.hy-p.y)*.05+(Math.random()-.5)*amp*.3;
+      p.vx*=.85;p.vy*=.85;
+    }else if(st==='liquid'){
+      p.vx+=(Math.random()-.5)*spd*.8;p.vy+=(Math.random()-.5)*spd*.8+.04;
+      p.vx*=.92;p.vy*=.92;
+      p.vy+=(b.b*.7-p.y)*.001;
+    }else{
+      p.vx+=(Math.random()-.5)*spd*1.5;p.vy+=(Math.random()-.5)*spd*1.5;
+      p.vx*=.96;p.vy*=.96;
     }
-
     p.x+=p.vx;p.y+=p.vy;
+    if(p.x<b.l+r){p.x=b.l+r;p.vx*=-.8;wallHits++}
+    if(p.x>b.r-r){p.x=b.r-r;p.vx*=-.8;wallHits++}
+    if(p.y<b.t+r){p.y=b.t+r;p.vy*=-.8;wallHits++}
+    if(p.y>b.b-r){p.y=b.b-r;p.vy*=-.8;wallHits++}
 
-    // Wall bouncing
-    if(p.x<boxL+m.size){p.x=boxL+m.size;p.vx*=-0.8}
-    if(p.x>boxR-m.size){p.x=boxR-m.size;p.vx*=-0.8}
-    if(p.y<boxT+m.size){p.y=boxT+m.size;p.vy*=-0.8}
-    if(p.y>boxB-m.size){p.y=boxB-m.size;p.vy*=-0.8}
-
-    // Particle-particle repulsion (close range)
     for(var j=i+1;j<particles.length;j++){
-      var q=particles[j];
-      var dx=q.x-p.x,dy=q.y-p.y;
-      var dist=Math.sqrt(dx*dx+dy*dy);
-      var minDist=m.size*2.5;
-      if(state==='solid')minDist=m.size*3;
-      if(dist<minDist&&dist>0.1){
-        var force=(minDist-dist)/minDist*0.3;
-        var nx=dx/dist,ny=dy/dist;
-        p.vx-=nx*force;p.vy-=ny*force;
-        q.vx+=nx*force;q.vy+=ny*force;
+      var q=particles[j],dx=q.x-p.x,dy=q.y-p.y,dist=Math.sqrt(dx*dx+dy*dy);
+      var mn=r*2.5;if(st==='solid')mn=r*3;
+      if(dist<mn&&dist>.1){
+        var f=(mn-dist)/mn*.3,nx=dx/dist,ny=dy/dist;
+        p.vx-=nx*f;p.vy-=ny*f;q.vx+=nx*f;q.vy+=ny*f;
       }
     }
   }
 }
 
-// Render
+// ===== MEASURE =====
+function measure(){
+  var totalKE=0,totalSpd=0,totalDist=0,pairs=0;
+  for(var i=0;i<particles.length;i++){
+    var p=particles[i],s2=p.vx*p.vx+p.vy*p.vy;
+    totalKE+=.5*s2;totalSpd+=Math.sqrt(s2);
+    for(var j=i+1;j<particles.length;j++){
+      var dx=particles[j].x-p.x,dy=particles[j].y-p.y;
+      totalDist+=Math.sqrt(dx*dx+dy*dy);pairs++;
+    }
+  }
+  return{avgKE:totalKE/particles.length,avgSpeed:totalSpd/particles.length,pressure:pressure,spacing:pairs>0?totalDist/pairs:0,state:getState()};
+}
+
+// ===== RENDER =====
 function render(){
   if(!cW){requestAnimationFrame(render);return}
-  var dark=isDark();
-  updateParticles();
+  update();
+  var dk=dark(),m=MATS[matIdx],st=getState(),b=getBox();
 
   ctx.clearRect(0,0,cW,cH);
-  // Background
-  ctx.fillStyle=dark?'#131d2e':'#f8fafc';ctx.fillRect(0,0,cW,cH);
+  ctx.fillStyle=dk?'#131d2e':'#f8fafc';ctx.fillRect(0,0,cW,cH);
   // Grid
-  ctx.strokeStyle=dark?'rgba(56,189,248,.03)':'rgba(2,132,199,.04)';ctx.lineWidth=0.5;
+  ctx.strokeStyle=dk?'rgba(56,189,248,.03)':'rgba(2,132,199,.04)';ctx.lineWidth=.5;
   for(var gi=0;gi<cW;gi+=20){ctx.beginPath();ctx.moveTo(gi,0);ctx.lineTo(gi,cH);ctx.stroke()}
   for(var gj=0;gj<cH;gj+=20){ctx.beginPath();ctx.moveTo(0,gj);ctx.lineTo(cW,gj);ctx.stroke()}
 
-  var boxL=cW*0.12,boxR=cW*0.88,boxT=cH*0.12,boxB=cH*0.88;
-  var m=MATS[matIdx];
-  var state=getState();
-
   // Container
-  ctx.save();ctx.shadowColor='rgba(0,0,0,.06)';ctx.shadowBlur=8;
-  ctx.strokeStyle=dark?'rgba(148,163,184,.3)':'rgba(100,116,139,.2)';ctx.lineWidth=2;
-  ctx.strokeRect(boxL,boxT,boxR-boxL,boxB-boxT);
-  // Container wall thickness
-  ctx.fillStyle=dark?'rgba(30,41,59,.3)':'rgba(241,245,249,.5)';
-  ctx.fillRect(boxL-4,boxT-4,boxR-boxL+8,4);
-  ctx.fillRect(boxL-4,boxT,4,boxB-boxT);
-  ctx.fillRect(boxR,boxT,4,boxB-boxT);
-  ctx.fillRect(boxL-4,boxB,boxR-boxL+8,4);
+  ctx.save();ctx.shadowColor='rgba(0,0,0,.05)';ctx.shadowBlur=6;
+  ctx.strokeStyle=dk?'rgba(148,163,184,.25)':'rgba(100,116,139,.2)';ctx.lineWidth=2;
+  ctx.strokeRect(b.l,b.t,b.r-b.l,b.b-b.t);
+  var tf=temp/500;
+  ctx.fillStyle='rgba('+(Math.round(59+196*tf))+','+Math.round(130-80*tf)+','+Math.round(246-200*tf)+','+(0.03+tf*0.12)+')';
+  ctx.fillRect(b.l,b.t,b.r-b.l,b.b-b.t);
   ctx.restore();
 
-  // Temperature gradient glow on walls
-  var tempFrac=temp/500;
-  var wallGlow='rgba('+(Math.round(59+196*tempFrac))+','+Math.round(130-80*tempFrac)+','+Math.round(246-200*tempFrac)+','+(0.05+tempFrac*0.15)+')';
-  ctx.fillStyle=wallGlow;
-  ctx.fillRect(boxL,boxT,boxR-boxL,boxB-boxT);
+  // Bonds (solid)
+  if(st==='solid'){
+    ctx.strokeStyle=dk?'rgba(148,163,184,.1)':'rgba(100,116,139,.06)';ctx.lineWidth=1;
+    for(var i=0;i<particles.length;i++){
+      for(var j=i+1;j<particles.length;j++){
+        var dx=particles[j].x-particles[i].x,dy=particles[j].y-particles[i].y;
+        if(Math.sqrt(dx*dx+dy*dy)<m.size*4){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke()}
+      }
+    }
+  }
 
-  // Draw particles
+  // Particles
   for(var i=0;i<particles.length;i++){
-    var p=particles[i];
-    var speed2=Math.sqrt(p.vx*p.vx+p.vy*p.vy);
-
-    // 3D sphere with radial gradient
-    ctx.save();ctx.shadowColor='rgba(0,0,0,.1)';ctx.shadowBlur=3;ctx.shadowOffsetY=1;
+    var p=particles[i],spd2=Math.sqrt(p.vx*p.vx+p.vy*p.vy);
     var r=m.size;
-    var pg=ctx.createRadialGradient(p.x-r*0.3,p.y-r*0.3,r*0.1,p.x,p.y,r);
-    // Color shifts warm with speed
-    var warmth=Math.min(1,speed2/8);
-    var baseR=parseInt(m.color.slice(1,3),16);
-    var baseG=parseInt(m.color.slice(3,5),16);
-    var baseB=parseInt(m.color.slice(5,7),16);
-    var pr=Math.min(255,baseR+warmth*100);
-    var pgc=Math.max(0,baseG-warmth*40);
-    var pb=Math.max(0,baseB-warmth*80);
-    var particleCol='rgb('+Math.round(pr)+','+Math.round(pgc)+','+Math.round(pb)+')';
+    var warmth=Math.min(1,spd2/8);
+    var br=parseInt(m.color.slice(1,3),16),bg2=parseInt(m.color.slice(3,5),16),bb=parseInt(m.color.slice(5,7),16);
+    var pr=Math.min(255,br+warmth*100),pg=Math.max(0,bg2-warmth*40),pb=Math.max(0,bb-warmth*80);
+    var pc='rgb('+Math.round(pr)+','+Math.round(pg)+','+Math.round(pb)+')';
 
-    pg.addColorStop(0,'rgba(255,255,255,0.5)');
-    pg.addColorStop(0.3,particleCol);
-    pg.addColorStop(1,'rgba('+Math.round(pr*0.5)+','+Math.round(pgc*0.5)+','+Math.round(pb*0.5)+',1)');
-    ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);
-    ctx.fillStyle=pg;ctx.fill();
+    ctx.save();ctx.shadowColor='rgba(0,0,0,.08)';ctx.shadowBlur=3;
+    var grd=ctx.createRadialGradient(p.x-r*.3,p.y-r*.3,r*.1,p.x,p.y,r);
+    grd.addColorStop(0,'rgba(255,255,255,.45)');grd.addColorStop(.3,pc);
+    grd.addColorStop(1,'rgba('+Math.round(pr*.5)+','+Math.round(pg*.5)+','+Math.round(pb*.5)+',1)');
+    ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fillStyle=grd;ctx.fill();
     ctx.restore();
 
-    // Speed trail (gas only)
-    if(state==='gas'&&speed2>2){
-      ctx.strokeStyle='rgba('+Math.round(pr)+','+Math.round(pgc)+','+Math.round(pb)+',0.15)';
+    if(st==='gas'&&spd2>2){
+      ctx.strokeStyle='rgba('+Math.round(pr)+','+Math.round(pg)+','+Math.round(pb)+',.12)';
       ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-p.vx*3,p.y-p.vy*3);ctx.stroke();
     }
   }
 
-  // Bonds (solid state — draw lines between close neighbors)
-  if(state==='solid'){
-    ctx.strokeStyle=dark?'rgba(148,163,184,.12)':'rgba(100,116,139,.08)';ctx.lineWidth=1;
-    for(var i=0;i<particles.length;i++){
-      for(var j=i+1;j<particles.length;j++){
-        var dx=particles[j].x-particles[i].x,dy=particles[j].y-particles[i].y;
-        var dist=Math.sqrt(dx*dx+dy*dy);
-        if(dist<m.size*4){
-          ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();
-        }
-      }
-    }
-  }
+  // Thermometer
+  var thX=b.r+14,thY=b.t+16,thH=b.b-b.t-32,thW=7;
+  ctx.fillStyle=dk?'#1e293b':'#e2e8f0';ctx.fillRect(thX,thY,thW,thH);
+  var tg=ctx.createLinearGradient(0,thY+thH,0,thY);tg.addColorStop(0,'#38bdf8');tg.addColorStop(.5,'#eab308');tg.addColorStop(1,'#ef4444');
+  ctx.fillStyle=tg;ctx.fillRect(thX,thY+thH*(1-tf),thW,thH*tf);
+  ctx.strokeStyle=dk?'#475569':'#94a3b8';ctx.lineWidth=1;ctx.strokeRect(thX,thY,thW,thH);
+  ctx.beginPath();ctx.arc(thX+thW/2,thY+thH+7,5,0,Math.PI*2);ctx.fillStyle='#ef4444';ctx.fill();
 
-  // Labels on canvas
-  var m2=MATS[matIdx];
-  ctx.fillStyle=dark?'#94a3b8':'#64748b';ctx.font='9px sans-serif';ctx.textAlign='left';
-  ctx.fillText(m2.name+' · '+temp+' K',boxL+6,boxT-8);
-  // Phase markers
+  // Label
+  ctx.fillStyle=dk?'#94a3b8':'#64748b';ctx.font='9px sans-serif';ctx.textAlign='left';
+  ctx.fillText(m.name+' · '+temp+' K',b.l+5,b.t-7);
   ctx.textAlign='right';
-  if(state==='solid')ctx.fillText('❄️ Below melting point ('+m2.mp+' K)',boxR,boxT-8);
-  else if(state==='liquid')ctx.fillText('💧 Between '+m2.mp+' K and '+m2.bp+' K',boxR,boxT-8);
-  else ctx.fillText('♨️ Above boiling point ('+m2.bp+' K)',boxR,boxT-8);
+  if(st==='solid')ctx.fillText('Below melting point ('+m.mp+' K)',b.r,b.t-7);
+  else if(st==='liquid')ctx.fillText('Between '+m.mp+' K and '+m.bp+' K',b.r,b.t-7);
+  else ctx.fillText('Above boiling point ('+m.bp+' K)',b.r,b.t-7);
 
-  // Thermometer (right edge)
-  var thX=boxR+16,thY=boxT+20,thH=boxB-boxT-40,thW=8;
-  var tempFill=temp/500;
-  ctx.fillStyle=dark?'#1e293b':'#e2e8f0';ctx.fillRect(thX,thY,thW,thH);
-  var tg=ctx.createLinearGradient(0,thY+thH,0,thY);tg.addColorStop(0,'#38bdf8');tg.addColorStop(0.5,'#eab308');tg.addColorStop(1,'#ef4444');
-  ctx.fillStyle=tg;ctx.fillRect(thX,thY+thH*(1-tempFill),thW,thH*tempFill);
-  ctx.strokeStyle=dark?'#475569':'#94a3b8';ctx.lineWidth=1;ctx.strokeRect(thX,thY,thW,thH);
-  // Bulb
-  ctx.beginPath();ctx.arc(thX+thW/2,thY+thH+8,6,0,Math.PI*2);ctx.fillStyle='#ef4444';ctx.fill();
-
-  // Update info cards
-  updateInfo();
+  // Update info
+  var ms=measure();
+  var stInfo=st==='solid'?{s:'Solid',a:'Fixed lattice',m:'Vibrate',sp:'Very close'}:st==='liquid'?{s:'Liquid',a:'Random, close',m:'Slide',sp:'Close'}:{s:'Gas',a:'Random, spread',m:'Fly freely',sp:'Far apart'};
+  $('iState').textContent=stInfo.s;$('iState').style.color=st==='solid'?'#38bdf8':st==='liquid'?'#22c55e':'#ef4444';
+  $('iArr').textContent=stInfo.a;$('iMove').textContent=stInfo.m;$('iSpace').textContent=stInfo.sp;
+  $('iKE').textContent=ms.avgKE.toFixed(1);$('iSpd').textContent=ms.avgSpeed.toFixed(1);
+  $('iPres').textContent=ms.pressure;
+  var kf=Math.min(1,ms.avgKE/30);
+  $('keBar').style.width=(kf*100)+'%';
+  $('keBar').style.background=st==='solid'?'#38bdf8':st==='liquid'?'#22c55e':'#ef4444';
+  var r2=Math.round(56+199*tf),g3=Math.round(189-120*tf),b2=Math.round(248-200*tf);
+  $('vTemp').style.color='rgb('+r2+','+g3+','+b2+')';$('vTemp').textContent=temp+' K';
 
   requestAnimationFrame(render);
 }
 
-function updateInfo(){
-  var state=getState();
-  var info=getStateInfo();
-  var avgKE=0;
-  for(var i=0;i<particles.length;i++){var p=particles[i];avgKE+=0.5*(p.vx*p.vx+p.vy*p.vy)}
-  avgKE/=particles.length;
+// ===== CONTROLS =====
+$('sTemp').oninput=function(){temp=+this.value;clearGuess()};
+$('sNum').oninput=function(){numP=+this.value;$('vNum').textContent=numP;initParticles()};
+$('sVol').oninput=function(){volPct=+this.value;$('vVol').textContent=volPct+'%'};
+window.setMat=function(i,el){matIdx=i;buildMats();initParticles();clearGuess()};
+window.resetSim=function(){temp=25;$('sTemp').value=25;numP=80;$('sNum').value=80;$('vNum').textContent='80';volPct=75;$('sVol').value=75;$('vVol').textContent='75%';matIdx=0;buildMats();initParticles();clearGuess()};
 
-  gel('stateLabel').textContent=info.state;
-  gel('stateLabel').style.color=state==='solid'?'#38bdf8':state==='liquid'?'#22c55e':'#ef4444';
-  gel('arrLabel').textContent=info.arr;
-  gel('moveLabel').textContent=info.move;
-  gel('spaceLabel').textContent=info.space;
-  gel('keLabel').textContent=avgKE.toFixed(1)+' units';
-
-  var keFrac=Math.min(1,avgKE/30);
-  gel('keBar').style.width=(keFrac*100)+'%';
-  gel('keBar').style.background=state==='solid'?'#38bdf8':state==='liquid'?'#22c55e':'#ef4444';
-
-  // Temperature display color
-  var tempFrac=temp/500;
-  var r2=Math.round(56+199*tempFrac),g2=Math.round(189-120*tempFrac),b2=Math.round(248-200*tempFrac);
-  gel('tempVal').style.color='rgb('+r2+','+g2+','+b2+')';
-  gel('tempVal').textContent=temp+' K';
-}
-
-// Slider
-gel('tempSlider').oninput=function(){temp=parseInt(this.value);gel('guessFb').textContent='';document.querySelectorAll('#gSolid,#gLiquid,#gGas').forEach(function(e){e.classList.remove('on')})};
-
-// Material
-window.setMat=function(el,idx){matIdx=idx;document.querySelectorAll('.pp .p').forEach(function(e){e.classList.remove('on')});el.classList.add('on');initParticles();gel('guessFb').textContent='';document.querySelectorAll('#gSolid,#gLiquid,#gGas').forEach(function(e){e.classList.remove('on')})};
-
-// Guess state
-window.guessState=function(guess){
-  var actual=getState();
-  document.querySelectorAll('#gSolid,#gLiquid,#gGas').forEach(function(e){e.classList.remove('on')});
-  gel('g'+guess.charAt(0).toUpperCase()+guess.slice(1)).classList.add('on');
-  if(guess===actual){
-    gel('guessFb').textContent='✅ Correct! This is a '+actual+'.';
-    gel('guessFb').style.color='var(--ok)';
-  } else {
-    gel('guessFb').textContent='❌ Look again — how are the particles arranged?';
-    gel('guessFb').style.color='var(--err)';
-  }
+// Guess
+function clearGuess(){$('gFb').textContent='';document.querySelectorAll('#gS,#gL,#gG').forEach(function(e){e.classList.remove('on')})}
+window.guess=function(g){
+  var a=getState();clearGuess();
+  $('g'+g.charAt(0).toUpperCase()).classList.add('on');
+  if(g===a){$('gFb').textContent='✅ Correct! This is a '+a+'.';$('gFb').style.color='var(--ok)'}
+  else{$('gFb').textContent='❌ Look again — observe the arrangement and movement.';$('gFb').style.color='var(--err)'}
 };
 
 // Record
 window.recObs=function(){
-  var info=getStateInfo();
-  nbEntries.push({t:'🔬 '+MATS[matIdx].name+' at '+temp+' K',d:'State: '+info.state+' | '+info.arr+' | '+info.move,r:'Spacing: '+info.space});
+  var ms=measure(),info=getState();
+  nbEntries.push({t:MATS[matIdx].name+' at '+temp+' K',state:info,ke:ms.avgKE.toFixed(1),spd:ms.avgSpeed.toFixed(1),pres:ms.pressure,n:numP,vol:volPct});
   showNotes();
 };
-function showNotes(){gel('nbOut').innerHTML=nbEntries.length?nbEntries.map(function(n){return'<div class="nb-c"><b>'+n.t+'</b><br>'+n.d+'<br><span class="r">→ '+n.r+'</span></div>'}).join(''):'<div style="text-align:center;color:var(--text2);font-size:.72rem;font-style:italic;padding:8px">Record observations to fill your notebook</div>'}
+function showNotes(){
+  if(!nbEntries.length){$('nbOut').innerHTML='<p style="text-align:center;color:var(--text3);font-size:.72rem;padding:10px">Press 📝 Record to save observations here.</p>';return}
+  $('nbOut').innerHTML=nbEntries.map(function(n,i){return'<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>State: '+n.state+' | KE: '+n.ke+' | Speed: '+n.spd+' | Pressure: '+n.pres+'<br><span class="nr">N='+n.n+' | Vol='+n.vol+'%</span></div>'}).join('');
+}
 showNotes();
 
-window.resetSim=function(){temp=25;gel('tempSlider').value=25;initParticles();gel('guessFb').textContent='';document.querySelectorAll('#gSolid,#gLiquid,#gGas').forEach(function(e){e.classList.remove('on')})};
+// Tabs
+window.stab=function(el,i){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on')});
+  document.querySelectorAll('.tc').forEach(function(t){t.classList.remove('on')});
+  el.classList.add('on');$('t'+i).classList.add('on');
+  if(i===1){setTimeout(function(){initGraph();drawGraph()},80)}
+};
 
-// Init
-onResize();
-initParticles();
+// ===== EXPERIMENT ENGINE =====
+var ALL_VARS=[
+  {id:'temp',name:'Temperature (K)',unit:'K'},
+  {id:'numParticles',name:'Number of Particles',unit:''},
+  {id:'volume',name:'Container Volume (%)',unit:'%'},
+  {id:'material',name:'Material Type',unit:''}
+];
+var ALL_DVS=[
+  {id:'avgKE',name:'Average Kinetic Energy',unit:'units'},
+  {id:'avgSpeed',name:'Average Particle Speed',unit:'units'},
+  {id:'pressure',name:'Pressure (collisions/s)',unit:'/s'},
+  {id:'spacing',name:'Average Particle Spacing',unit:'px'},
+  {id:'state',name:'State of Matter',unit:''}
+];
+var expData=[];
+
+function updateVars(){
+  var iv=$('selIV').value;
+  var html='';
+  ALL_VARS.forEach(function(v){
+    if(v.id!==iv){
+      html+='<label class="cv-check"><input type="checkbox" checked> '+v.name+'</label>';
+    }
+  });
+  $('cvGrid').innerHTML=html;
+  // Default IV values
+  var defs={temp:'50, 100, 150, 200, 250, 300, 350, 400',numParticles:'20, 40, 60, 80, 100, 120',volume:'30, 45, 60, 75, 90',material:'0, 1, 2, 3'};
+  $('ivVals').value=defs[iv]||'';
+  $('ivVals').placeholder=iv==='material'?'0=Water, 1=Iron, 2=Nitrogen, 3=Ethanol':'Enter values separated by commas';
+  // Update manual labels
+  var ivN=ALL_VARS.find(function(v){return v.id===iv});
+  var dvN=ALL_DVS.find(function(v){return v.id===$('selDV').value});
+  if($('manIVLabel'))$('manIVLabel').textContent=ivN?ivN.name+' (type or read from slider)':'IV Value';
+  if($('manDVLabel'))$('manDVLabel').textContent=dvN?dvN.name+' (observe and type)':'DV Value';
+}
+updateVars();
+
+// ===== MANUAL COLLECTION =====
+var manualData=[]; // [{iv, dv}]
+var expMode='manual';
+
+window.setExpMode=function(m){
+  expMode=m;
+  $('mManual').classList.toggle('on',m==='manual');
+  $('mAuto').classList.toggle('on',m==='auto');
+  $('expManual').style.display=m==='manual'?'block':'none';
+  $('expAuto').style.display=m==='auto'?'block':'none';
+};
+
+window.readCurrentIV=function(){
+  var iv=$('selIV').value;
+  var val=0;
+  if(iv==='temp') val=temp;
+  else if(iv==='numParticles') val=numP;
+  else if(iv==='volume') val=volPct;
+  else if(iv==='material') val=matIdx;
+  $('manIV').value=val;
+};
+
+window.readCurrentDV=function(){
+  var dv=$('selDV').value;
+  var ms=measure();
+  var val=0;
+  if(dv==='avgKE') val=ms.avgKE;
+  else if(dv==='avgSpeed') val=ms.avgSpeed;
+  else if(dv==='pressure') val=ms.pressure;
+  else if(dv==='spacing') val=ms.spacing;
+  else if(dv==='state') val=ms.state==='solid'?0:ms.state==='liquid'?1:2;
+  $('manDV').value=+val.toFixed(2);
+};
+
+window.addManualReading=function(){
+  var ivVal=parseFloat($('manIV').value);
+  var dvVal=parseFloat($('manDV').value);
+  if(isNaN(ivVal)||isNaN(dvVal)){$('manStatus').textContent='⚠ Enter both IV and DV values.';$('manStatus').style.color='var(--err)';return}
+  manualData.push({iv:ivVal,dv:dvVal});
+  $('manIV').value='';$('manDV').value='';
+  $('manStatus').textContent='✅ Reading #'+manualData.length+' added. Keep collecting or click Plot Graph.';
+  $('manStatus').style.color='var(--ok)';
+  buildManualTable();
+  // Auto-update expData and graph live
+  syncManualToExpData();
+};
+
+function buildManualTable(){
+  if(!manualData.length){$('manTable').innerHTML='';return}
+  var iv=$('selIV').value,dv=$('selDV').value;
+  var ivName=ALL_VARS.find(function(v){return v.id===iv}).name;
+  var dvName=ALL_DVS.find(function(v){return v.id===dv}).name;
+
+  // Group by IV value
+  var groups={};
+  manualData.forEach(function(d){
+    var key=d.iv;
+    if(!groups[key])groups[key]=[];
+    groups[key].push(d.dv);
+  });
+
+  var keys=Object.keys(groups).map(Number).sort(function(a,b){return a-b});
+
+  // Each row shows only its own trials — no padding to maxTrials
+  var h='<table class="dt"><thead><tr><th>'+ivName+'</th><th>Readings</th><th class="mean">Mean</th><th class="unc">± Unc</th><th style="width:30px"></th></tr></thead><tbody>';
+
+  keys.forEach(function(k){
+    var vals=groups[k];
+    var mean=vals.reduce(function(a,b){return a+b},0)/vals.length;
+    var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals);
+    var unc=vals.length>=2?((mx-mn)/2).toFixed(2):'0.00';
+    h+='<tr><td style="font-weight:700">'+k+'</td>';
+    h+='<td>'+vals.join(', ')+'  <span style="color:var(--text3);font-size:.6rem">('+vals.length+' trial'+(vals.length>1?'s':'')+')</span></td>';
+    h+='<td class="mean">'+mean.toFixed(2)+'</td>';
+    h+='<td class="unc">'+unc+'</td>';
+    h+='<td><span style="cursor:pointer;color:var(--err);font-size:.7rem" onclick="removeIVGroup('+k+')">✕</span></td></tr>';
+  });
+  h+='</tbody></table>';
+  $('manTable').innerHTML=h;
+}
+
+window.removeIVGroup=function(ivVal){
+  manualData=manualData.filter(function(d){return d.iv!==ivVal});
+  buildManualTable();
+};
+
+window.clearManual=function(){
+  manualData=[];
+  buildManualTable();
+  $('manStatus').textContent='Cleared. Add readings to build your data table.';
+  $('manStatus').style.color='var(--text3)';
+};
+
+window.plotManual=function(){
+  if(!manualData.length){$('manStatus').textContent='⚠ Add at least 1 reading first.';$('manStatus').style.color='var(--err)';return}
+
+  // Build expData from manual data (grouped by IV)
+  var groups={};
+  manualData.forEach(function(d){
+    var key=d.iv;
+    if(!groups[key])groups[key]=[];
+    groups[key].push(d.dv);
+  });
+
+  expData=[];
+  var keys=Object.keys(groups).map(Number).sort(function(a,b){return a-b});
+  keys.forEach(function(k){
+    var vals=groups[k];
+    var mean=vals.reduce(function(a,b){return a+b},0)/vals.length;
+    var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals);
+    var unc=vals.length>=2?(mx-mn)/2:0;
+    expData.push({iv:k,trials:vals,mean:+mean.toFixed(2),unc:+unc.toFixed(2)});
+  });
+
+  buildDataTable();
+  drawGraph();
+  if(expData.length>=2) buildAnalysis();
+  // Switch to Data & Graph tab
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on')});
+  document.querySelectorAll('.tc').forEach(function(t){t.classList.remove('on')});
+  document.querySelectorAll('.tab')[1].classList.add('on');
+  $('t1').classList.add('on');
+  setTimeout(function(){initGraph();drawGraph()},80);
+  $('manStatus').textContent='✅ Graph plotted! See the Data & Graph tab.';
+  $('manStatus').style.color='var(--ok)';
+};
+
+function syncManualToExpData(){
+  if(!manualData.length){expData=[];return}
+  var groups={};
+  manualData.forEach(function(d){
+    var key=d.iv;
+    if(!groups[key])groups[key]=[];
+    groups[key].push(d.dv);
+  });
+  expData=[];
+  var keys=Object.keys(groups).map(Number).sort(function(a,b){return a-b});
+  keys.forEach(function(k){
+    var vals=groups[k];
+    var mean=vals.reduce(function(a,b){return a+b},0)/vals.length;
+    var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals);
+    var unc=vals.length>=2?(mx-mn)/2:0;
+    expData.push({iv:k,trials:vals,mean:+mean.toFixed(2),unc:+unc.toFixed(2)});
+  });
+  buildDataTable();
+  setTimeout(function(){initGraph();drawGraph()},30);
+}
+
+function runExp(){
+  var iv=$('selIV').value, dv=$('selDV').value;
+  var valsStr=$('ivVals').value;
+  if(!valsStr.trim()){$('expStatus').textContent='⚠ Enter IV values first.';return}
+  var vals=valsStr.split(',').map(function(v){return parseFloat(v.trim())}).filter(function(v){return!isNaN(v)});
+  if(!vals.length){$('expStatus').textContent='⚠ Invalid values.';return}
+
+  expData=[];
+  var trialsPerVal=5;
+  var origTemp=temp,origNum=numP,origVol=volPct,origMat=matIdx;
+
+  $('expStatus').textContent='Running '+vals.length+' data points × '+trialsPerVal+' trials...';
+
+  vals.forEach(function(val){
+    var row={iv:val,trials:[],mean:0,unc:0};
+    for(var t=0;t<trialsPerVal;t++){
+      // Set IV
+      if(iv==='temp') temp=val;
+      else if(iv==='numParticles'){numP=Math.round(val);initParticles();}
+      else if(iv==='volume') volPct=val;
+      else if(iv==='material'){matIdx=Math.round(val);initParticles();}
+
+      // Simulate for a bit to stabilize
+      for(var s=0;s<120;s++) update();
+
+      // Measure DV
+      var ms=measure();
+      var dvVal=0;
+      if(dv==='avgKE') dvVal=ms.avgKE;
+      else if(dv==='avgSpeed') dvVal=ms.avgSpeed;
+      else if(dv==='pressure') dvVal=ms.pressure;
+      else if(dv==='spacing') dvVal=ms.spacing;
+      else if(dv==='state') dvVal=ms.state==='solid'?0:ms.state==='liquid'?1:2;
+
+      // Add scatter
+      dvVal+=dvVal*(Math.random()-.5)*.08;
+      row.trials.push(+dvVal.toFixed(2));
+    }
+    row.mean=+(row.trials.reduce(function(a,b){return a+b},0)/trialsPerVal).toFixed(2);
+    var mn=Math.min.apply(null,row.trials),mx=Math.max.apply(null,row.trials);
+    row.unc=+((mx-mn)/2).toFixed(2);
+    expData.push(row);
+  });
+
+  // Restore
+  temp=origTemp;numP=origNum;volPct=origVol;matIdx=origMat;
+  $('sTemp').value=temp;$('sNum').value=numP;$('sVol').value=volPct;
+  initParticles();
+
+  $('expStatus').textContent='✅ Done! '+expData.length+' data points collected. Switch to "Data & Graph" tab.';
+  buildDataTable();
+  drawGraph();
+  buildAnalysis();
+}
+
+function clearExp(){expData=[];$('expStatus').textContent='';$('dataWrap').innerHTML='<p style="font-size:.72rem;color:var(--text3);text-align:center;padding:16px">Run an experiment to see data here.</p>';$('resSummary').style.display='none';drawGraph();}
+
+function buildDataTable(){
+  if(!expData.length)return;
+  var iv=$('selIV').value,dv=$('selDV').value;
+  var ivName=ALL_VARS.find(function(v){return v.id===iv}).name;
+  var dvName=ALL_DVS.find(function(v){return v.id===dv}).name;
+
+  var h='<table class="dt"><thead><tr><th>'+ivName+'</th>';
+  for(var t=1;t<=5;t++) h+='<th>Trial '+t+'</th>';
+  h+='<th class="mean">Mean</th><th class="unc">± Unc</th></tr></thead><tbody>';
+  expData.forEach(function(r){
+    h+='<tr><td style="font-weight:700">'+r.iv+'</td>';
+    r.trials.forEach(function(t){h+='<td>'+t+'</td>'});
+    h+='<td class="mean">'+r.mean+'</td><td class="unc">'+r.unc+'</td></tr>';
+  });
+  h+='</tbody></table>';
+  $('dataWrap').innerHTML=h;
+}
+
+// ===== GRAPH =====
+var gC,gx2;
+function initGraph(){
+  gC=$('gCanvas');
+  if(!gC)return false;
+  gx2=gC.getContext('2d');
+  var dp2=window.devicePixelRatio||1;
+  var r=gC.parentElement.getBoundingClientRect();
+  var w=r.width;
+  if(w<10) w=gC.parentElement.offsetWidth||gC.closest('.tc').offsetWidth-4||600;
+  if(w<10) return false;
+  gC.width=w*dp2;gC.height=220*dp2;
+  gC.style.width=w+'px';gC.style.height='220px';
+  gx2.setTransform(dp2,0,0,dp2,0,0);
+  return true;
+}
+
+function drawGraph(){
+  if(!gC||!gx2){if(!initGraph())return}
+  var w=parseInt(gC.style.width);
+  if(!w||w<10){if(!initGraph())return;w=parseInt(gC.style.width)}
+  var h=220;
+  var dk2=dark();
+  gx2.clearRect(0,0,w,h);
+  gx2.fillStyle=dk2?'#0d1b2a':'#f0f4f8';
+  gx2.beginPath();gx2.roundRect(0,0,w,h,12);gx2.fill();
+
+  var P={t:24,r:18,b:30,l:48},pW=w-P.l-P.r,pH=h-P.t-P.b;
+  // Axes
+  gx2.strokeStyle=dk2?'rgba(255,255,255,.12)':'rgba(0,0,0,.1)';gx2.lineWidth=1;
+  gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,h-P.b);gx2.lineTo(w-P.r,h-P.b);gx2.stroke();
+
+  if(!expData.length){
+    gx2.fillStyle=dk2?'rgba(255,255,255,.15)':'rgba(0,0,0,.15)';
+    gx2.font='12px sans-serif';gx2.textAlign='center';
+    gx2.fillText('Run an experiment to see the graph',w/2,h/2);
+    return;
+  }
+
+  var iv=$('selIV').value,dv=$('selDV').value;
+  var ivName=ALL_VARS.find(function(v){return v.id===iv}).name;
+  var dvName=ALL_DVS.find(function(v){return v.id===dv}).name;
+
+  // Labels
+  gx2.fillStyle=dk2?'rgba(255,255,255,.3)':'rgba(0,0,0,.35)';gx2.font='9px sans-serif';
+  gx2.textAlign='center';gx2.fillText(ivName,w/2,h-6);
+  gx2.save();gx2.translate(12,h/2);gx2.rotate(-Math.PI/2);gx2.fillText(dvName,0,0);gx2.restore();
+
+  var xs=expData.map(function(d){return d.iv}),ys=expData.map(function(d){return d.mean});
+  var uncs=expData.map(function(d){return d.unc});
+  var xMin=Math.min.apply(null,xs),xMax=Math.max.apply(null,xs);
+  var yMin=Math.min.apply(null,ys.map(function(y,i){return y-uncs[i]}))-1;
+  var yMax=Math.max.apply(null,ys.map(function(y,i){return y+uncs[i]}))+1;
+  // Handle single point: pad range so it's centered
+  if(xMax===xMin){xMin=xMin-1;xMax=xMax+1}
+  if(yMax<=yMin){yMin=yMin-1;yMax=yMin+2}
+
+  function tx(v){return P.l+((v-xMin)/(xMax-xMin))*pW}
+  function ty(v){return P.t+pH-((v-yMin)/(yMax-yMin))*pH}
+
+  // Grid
+  gx2.strokeStyle=dk2?'rgba(255,255,255,.04)':'rgba(0,0,0,.04)';
+  for(var gi=0;gi<=5;gi++){var gy=P.t+(gi/5)*pH;gx2.beginPath();gx2.moveTo(P.l,gy);gx2.lineTo(w-P.r,gy);gx2.stroke()}
+
+  // Y labels
+  gx2.fillStyle=dk2?'rgba(255,255,255,.25)':'rgba(0,0,0,.3)';gx2.font='8px sans-serif';gx2.textAlign='right';
+  for(var yi=0;yi<=5;yi++){var yv=yMin+(yi/5)*(yMax-yMin);gx2.fillText(yv.toFixed(1),P.l-4,ty(yv)+3)}
+  // X labels
+  gx2.textAlign='center';
+  xs.forEach(function(x){gx2.fillText(x,tx(x),h-P.b+14)});
+
+  // Best fit line (only if 2+ points)
+  var slope=0,intercept=0;
+  if(xs.length>=2){
+    var sumX=0,sumY=0,sumXY=0,sumXX=0,n=xs.length;
+    for(var i=0;i<n;i++){sumX+=xs[i];sumY+=ys[i];sumXY+=xs[i]*ys[i];sumXX+=xs[i]*xs[i]}
+    var denom=n*sumXX-sumX*sumX;
+    if(Math.abs(denom)>0.0001){
+      slope=(n*sumXY-sumX*sumY)/denom;
+      intercept=(sumY-slope*sumX)/n;
+      gx2.strokeStyle=dk2?'rgba(56,189,248,.3)':'rgba(2,132,199,.25)';gx2.lineWidth=1.5;gx2.setLineDash([5,4]);
+      gx2.beginPath();gx2.moveTo(tx(xMin),ty(slope*xMin+intercept));gx2.lineTo(tx(xMax),ty(slope*xMax+intercept));gx2.stroke();
+      gx2.setLineDash([]);
+    }
+  }
+
+  // Error bars + points
+  for(var i=0;i<expData.length;i++){
+    var px=tx(xs[i]),py=ty(ys[i]),ue=uncs[i];
+    // Error bar
+    gx2.strokeStyle=dk2?'rgba(251,146,60,.4)':'rgba(234,88,12,.3)';gx2.lineWidth=1.5;
+    gx2.beginPath();gx2.moveTo(px,ty(ys[i]-ue));gx2.lineTo(px,ty(ys[i]+ue));gx2.stroke();
+    gx2.beginPath();gx2.moveTo(px-4,ty(ys[i]-ue));gx2.lineTo(px+4,ty(ys[i]-ue));gx2.stroke();
+    gx2.beginPath();gx2.moveTo(px-4,ty(ys[i]+ue));gx2.lineTo(px+4,ty(ys[i]+ue));gx2.stroke();
+    // Glow
+    gx2.fillStyle=dk2?'rgba(56,189,248,.15)':'rgba(2,132,199,.12)';
+    gx2.beginPath();gx2.arc(px,py,6,0,Math.PI*2);gx2.fill();
+    // Dot
+    gx2.fillStyle=dk2?'#38bdf8':'#0284c7';
+    gx2.beginPath();gx2.arc(px,py,3.5,0,Math.PI*2);gx2.fill();
+  }
+
+  // Connect points
+  gx2.strokeStyle=dk2?'#38bdf8':'#0284c7';gx2.lineWidth=2;gx2.lineCap='round';gx2.lineJoin='round';
+  gx2.beginPath();
+  for(var i=0;i<expData.length;i++){var px=tx(xs[i]),py=ty(ys[i]);i===0?gx2.moveTo(px,py):gx2.lineTo(px,py)}
+  gx2.stroke();gx2.lineCap='butt';gx2.lineJoin='miter';
+
+  // Gradient label (only if 2+ points)
+  if(xs.length>=2){
+    gx2.fillStyle=dk2?'rgba(255,255,255,.2)':'rgba(0,0,0,.2)';gx2.font='8px sans-serif';gx2.textAlign='right';
+    gx2.fillText('gradient = '+slope.toFixed(3),w-P.r,P.t+12);
+  }
+}
+
+function buildAnalysis(){
+  var iv=$('selIV').value,dv=$('selDV').value;
+  var ivName=ALL_VARS.find(function(v){return v.id===iv}).name;
+  var dvName=ALL_DVS.find(function(v){return v.id===dv}).name;
+
+  var xs=expData.map(function(d){return d.iv}),ys=expData.map(function(d){return d.mean});
+  var n=xs.length,sumX=0,sumY=0,sumXY=0,sumXX=0;
+  for(var i=0;i<n;i++){sumX+=xs[i];sumY+=ys[i];sumXY+=xs[i]*ys[i];sumXX+=xs[i]*xs[i]}
+  var slope=((n*sumXY-sumX*sumY)/(n*sumXX-sumX*sumX)).toFixed(3);
+  var r2=0;
+  var meanY=sumY/n;
+  var ssTot=0,ssRes=0;
+  for(var i=0;i<n;i++){ssTot+=(ys[i]-meanY)*(ys[i]-meanY);var pred=slope*xs[i]+(sumY-slope*sumX)/n;ssRes+=(ys[i]-pred)*(ys[i]-pred)}
+  r2=ssTot>0?(1-ssRes/ssTot).toFixed(3):'—';
+
+  var rel='';
+  if(iv==='temp'&&dv==='avgKE') rel='KE ∝ T — kinetic energy is directly proportional to temperature. This is the foundation of kinetic theory.';
+  else if(iv==='temp'&&dv==='avgSpeed') rel='Speed increases with temperature but not linearly — since KE = ½mv², speed ∝ √T.';
+  else if(iv==='temp'&&dv==='pressure') rel='More temperature → faster particles → more wall collisions → higher pressure. This explains Gay-Lussac\'s law.';
+  else if(iv==='numParticles'&&dv==='pressure') rel='More particles → more collisions → higher pressure, at constant temperature and volume.';
+  else if(iv==='volume'&&dv==='pressure') rel='Smaller volume → less space → more frequent collisions → higher pressure. This is Boyle\'s law.';
+  else if(iv==='volume'&&dv==='spacing') rel='Larger volume → particles spread out → greater average spacing.';
+  else rel='Observe the trend. Does the DV increase, decrease, or stay constant as IV changes?';
+
+  $('resText').innerHTML='<strong>Gradient:</strong> '+slope+' | <strong>R²:</strong> '+r2+'<br><strong>Relationship:</strong> '+rel;
+  $('resSummary').style.display='block';
+}
+
+// ===== IB QUESTIONS =====
+var IB_QS=[
+  {cmd:'Define',q:'Define temperature in terms of particle motion.',type:'text',check:function(v){var l=v.toLowerCase();return(l.includes('kinetic energy')||l.includes('average'))&&(l.includes('particle')||l.includes('molecule'))?'ok':v.length>15?'part':'no'},fb:{ok:'Temperature is a measure of the average kinetic energy of the particles in a substance.',part:'On the right track — remember to mention average kinetic energy of particles specifically.',no:'Think about what temperature really measures at the particle level.'}},
+  {cmd:'Explain',q:'Explain why gases exert pressure on their container walls.',type:'text',check:function(v){var l=v.toLowerCase();return l.includes('collid')&&l.includes('wall')&&(l.includes('force')||l.includes('momentum'))?'ok':l.includes('collid')||l.includes('hit')?'part':'no'},fb:{ok:'Gas particles move randomly and collide with container walls. Each collision exerts a small force. The sum of billions of these collisions per second creates the pressure we measure.',part:'You mentioned collisions — now connect this to force. Each collision transfers momentum to the wall, creating a net force per unit area = pressure.',no:'Consider: what are the particles doing, and what happens when they hit the walls?'}},
+  {cmd:'Explain',q:'Why does thermal expansion occur in solids when heated?',type:'text',check:function(v){var l=v.toLowerCase();return(l.includes('vibrat')||l.includes('kinetic'))&&(l.includes('space')||l.includes('apart')||l.includes('expand'))?'ok':v.length>15?'part':'no'},fb:{ok:'As temperature increases, particles vibrate with greater amplitude, pushing neighbouring particles further apart. The material expands in all directions.',part:'Good start — be specific about how increased vibration leads to greater average separation between particles.',no:'Think about what happens to particle vibration as you add energy.'}},
+  {cmd:'State',q:'State the differences between solids, liquids, and gases in terms of particle arrangement and movement.',type:'text',check:function(v){var l=v.toLowerCase();return(l.includes('solid')||l.includes('fixed'))&&(l.includes('liquid')||l.includes('slide'))&&(l.includes('gas')||l.includes('free'))?'ok':v.length>25?'part':'no'},fb:{ok:'Solid: fixed positions, vibrate. Liquid: close but can slide past each other. Gas: far apart, move freely and randomly in all directions.',part:'Try to mention all three states and describe both arrangement AND movement for each.',no:'Use the simulation to observe each state. What do you see?'}},
+  {cmd:'Calculate',q:'If average KE doubles when temperature goes from 200 K to 400 K, what does this tell us about the KE-temperature relationship?',type:'text',check:function(v){var l=v.toLowerCase();return(l.includes('proportional')||l.includes('linear')||l.includes('∝')||l.includes('directly'))?'ok':v.length>10?'part':'no'},fb:{ok:'KE is directly proportional to absolute temperature (in Kelvin). Doubling T doubles KE. This is expressed as KE_avg = (3/2)kT.',part:'You\'re close — the key word is "directly proportional." If one doubles, the other doubles.',no:'Compare: T doubled (200→400), KE doubled. What mathematical relationship does that show?'}},
+  {cmd:'Deduce',q:'Using the simulation, run an experiment with Temperature as IV and Pressure as DV. What happens at phase transitions? Why?',type:'text',check:function(v){return v.length>30?'ok':v.length>10?'part':'no'},fb:{ok:'At phase transitions, added energy goes into breaking intermolecular bonds rather than increasing particle speed. Pressure may plateau or change rate during melting/boiling.',part:'Think about where the energy goes during a phase change — does it all become kinetic energy?',no:'Try the experiment! Set Temperature as IV, Pressure as DV, and run it.'}}
+];
+
+function buildIB(){
+  var h='';
+  IB_QS.forEach(function(q,i){
+    h+='<div class="ib-card"><div class="ib-cmd">'+q.cmd+'</div><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea id="ib'+i+'" placeholder="Write your answer..."></textarea><button class="btn btn-p" style="margin-top:4px" onclick="checkIB('+i+')">Check</button><div class="ib-fb" id="ibF'+i+'"></div></div>';
+  });
+  $('ibList').innerHTML=h;
+}
+
+window.checkIB=function(i){
+  var q=IB_QS[i],v=$('ib'+i).value.trim(),fb=$('ibF'+i);
+  if(!v){fb.className='ib-fb show no';fb.textContent='Write an answer first.';return}
+  var r=q.check(v);
+  fb.className='ib-fb show '+(r==='ok'?'ok':r==='part'?'part':'no');
+  fb.textContent=q.fb[r];
+};
+
+// ===== INIT =====
+onResize();initParticles();buildIB();
 requestAnimationFrame(render);
+setTimeout(function(){initGraph();drawGraph()},200);
+window.addEventListener('resize',function(){onResize();initGraph();drawGraph()});
 </script>
 </body>
 </html>
