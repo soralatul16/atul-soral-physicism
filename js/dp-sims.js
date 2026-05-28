@@ -39,9 +39,18 @@ const DP_SIMS = [
     id: "torque-lab",
     title: "Torque Lab",
     icon: "⚙️",
-    topic: "A.4",
+    topic: "A.2",
     topicName: "Forces – Torque & Moments",
     description: "Explore torque, levers, pulleys, and rotational equilibrium. Balance forces and discover the conditions for equilibrium.",
     file: "sims/torque-lab.html"
+  },
+  {
+    id: "moment-of-inertia",
+    title: "Moment of Inertia",
+    icon: "🔄",
+    topic: "A.2",
+    topicName: "Forces – Rotational Dynamics",
+    description: "Compare rotational inertia of different shapes. Explore angular acceleration, rolling, and the parallel axis theorem.",
+    file: "sims/moment-of-inertia.html"
   }
 ];
