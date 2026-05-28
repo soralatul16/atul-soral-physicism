@@ -248,12 +248,16 @@ h1{font-size:26px;font-weight:700;color:var(--text);line-height:1.25;letter-spac
 }
 .content-img-wrap { position: relative; margin: 12px 0; }
 .content-img {
-  max-width: 100%; width: auto; height: auto;
+  max-width: 100%; max-height: 350px; width: auto; height: auto;
   border-radius: 12px;
   border: 1px solid var(--border);
   box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   display: block;
+  cursor: zoom-in;
+  object-fit: contain;
+  transition: transform 0.2s;
 }
+.content-img:hover { transform: scale(1.02); }
 .img-delete-btn {
   position: absolute; top: 8px; right: 8px;
   background: rgba(239,68,68,0.9);
@@ -268,6 +272,21 @@ h1{font-size:26px;font-weight:700;color:var(--text);line-height:1.25;letter-spac
   font-style: italic; padding: 8px 0;
   font-family: -apple-system, sans-serif;
 }
+/* Fullscreen zoom overlay */
+.img-zoom-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(0,0,0,0.85);
+  display: flex; align-items: center; justify-content: center;
+  cursor: zoom-out;
+  animation: fadeIn 0.2s ease;
+}
+.img-zoom-overlay img {
+  max-width: 92vw; max-height: 92vh;
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  object-fit: contain;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 </style>
 
 
@@ -1965,6 +1984,20 @@ async function sendAIMsg(){
 
 
 <script>
+// ═══ CLICK-TO-ZOOM IMAGE VIEWER ═══
+function zoomImage(src) {
+  var overlay = document.createElement('div');
+  overlay.className = 'img-zoom-overlay';
+  overlay.innerHTML = '<img src="' + src + '">';
+  overlay.onclick = function() { overlay.remove(); };
+  document.body.appendChild(overlay);
+  // Close on Escape key
+  var closeOnEsc = function(e) {
+    if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', closeOnEsc); }
+  };
+  document.addEventListener('keydown', closeOnEsc);
+}
+
 // ═══ SECRET IMAGE UPLOAD MODE ═══
 let imageEditMode = false;
 
@@ -2128,7 +2161,7 @@ async function loadContentImages(topicCode, subtopicId, section) {
       var doc = docObj;
       var d = docObj.data;
       html += '<div class="content-img-wrap">';
-      html += '<img src="' + d.url + '" class="content-img" alt="' + (d.fileName || '') + '">';
+      html += '<img src="' + d.url + '" class="content-img" alt="' + (d.fileName || '') + '" onclick="zoomImage(this.src)">';
       if (imageEditMode) {
         html += '<button class="img-delete-btn" onclick="deleteContentImage(\'' + topicCode + '\',\'' + subtopicId + '\',\'' + doc.id + '\',\'' + (d.storagePath || '').replace(/\'/g, "\\'") + '\')">🗑 Remove</button>';
       }
