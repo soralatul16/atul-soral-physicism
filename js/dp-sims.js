@@ -25,5 +25,14 @@ const DP_SIMS = [
     topicName: "Thermal Energy Transfers",
     description: "Visualise how particles behave in solids, liquids, and gases. Explore temperature, energy, and state changes.",
     file: "sims/particle-model.html"
+  },
+  {
+    id: "motion-lab",
+    title: "Motion Lab",
+    icon: "🏃",
+    topic: "A.1",
+    topicName: "Kinematics",
+    description: "Explore distance, displacement, velocity, and acceleration with waypoints and real-time graphs.",
+    file: "sims/motion-lab.html"
   }
 ];
