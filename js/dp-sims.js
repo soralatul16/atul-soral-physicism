@@ -34,5 +34,14 @@ const DP_SIMS = [
     topicName: "Kinematics",
     description: "Explore distance, displacement, velocity, and acceleration with waypoints and real-time graphs.",
     file: "sims/motion-lab.html"
+  },
+  {
+    id: "torque-lab",
+    title: "Torque Lab",
+    icon: "⚙️",
+    topic: "A.2",
+    topicName: "Forces – Torque & Moments",
+    description: "Explore torque, levers, pulleys, and rotational equilibrium. Balance forces and discover the conditions for equilibrium.",
+    file: "sims/torque-lab.html"
   }
 ];
