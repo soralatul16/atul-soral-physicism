@@ -2026,10 +2026,14 @@ function injectImageButtons() {
 }
 
 async function uploadContentImage(file, topicCode, subtopicId, section) {
+  console.log('uploadContentImage triggered', {file: file.name, topicCode, subtopicId, section});
   if (!file || !imageEditMode) return;
   
   var existing = document.getElementById('imgExisting-' + section);
-  if (!existing) return;
+  if (!existing) {
+    console.error('existing container not found for section', section);
+    return;
+  }
   
   // Show uploading state
   var loadingDiv = document.createElement('div');
@@ -2038,12 +2042,16 @@ async function uploadContentImage(file, topicCode, subtopicId, section) {
   existing.appendChild(loadingDiv);
   
   try {
+    console.log('1. Initiating Storage upload to', 'content-images/' + topicCode + '/' + subtopicId + '/' + section + '/' + Date.now() + '_' + file.name);
     var storage = firebase.storage();
     var path = 'content-images/' + topicCode + '/' + subtopicId + '/' + section + '/' + Date.now() + '_' + file.name;
     var ref = storage.ref(path);
     await ref.put(file);
+    console.log('2. Storage upload complete. Getting URL...');
     var url = await ref.getDownloadURL();
+    console.log('3. URL retrieved:', url);
     
+    console.log('4. Saving to Firestore...');
     var db = firebase.firestore();
     await db.collection('dp-content-images')
             .doc(topicCode)
@@ -2055,11 +2063,13 @@ async function uploadContentImage(file, topicCode, subtopicId, section) {
               fileName: file.name,
               timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
+    console.log('5. Firestore save complete!');
     
     loadingDiv.remove();
     loadContentImages(topicCode, subtopicId, section);
     
   } catch(e) {
+    console.error('Upload Error:', e);
     loadingDiv.textContent = 'Upload failed: ' + e.message;
     loadingDiv.style.color = 'var(--err)';
   }
