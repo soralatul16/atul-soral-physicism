@@ -1,0 +1,1130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Motion Lab | Atul Soral Physicism</title>
+<style>
+:root {
+  --sky-top: #4A90D9;
+  --sky-mid: #7EC8E3;
+  --sky-bottom: #D4EEFF;
+  --glass-bg: rgba(255,255,255,0.18);
+  --glass-border: rgba(255,255,255,0.35);
+  --glass-shadow: rgba(31,38,135,0.18);
+  --glass-hover: rgba(255,255,255,0.32);
+  --accent: #2B7CE9;
+  --positive: #00C853;
+  --negative: #FF5252;
+  --warning: #FFB300;
+  --text: #0f1c2e;
+  --text-light: #4a5e78;
+  --text-muted: #8899aa;
+  --panel-radius: 18px;
+  --graph-bg: #0d1b2a;
+  --mono: 'SF Mono','Fira Code','Consolas',monospace;
+}
+nav{display:flex;align-items:center;justify-content:space-between;padding:8px 20px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95),rgba(7,89,133,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(3,105,161,.3)}
+nav a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.82rem}nav a:hover{color:#fff}
+.nav-logo{font-family:Georgia,serif;font-size:1.1rem;font-weight:700;color:#fff!important}
+.nav-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:.78rem}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',system-ui,sans-serif;
+  background: linear-gradient(180deg,var(--sky-top) 0%,var(--sky-mid) 25%,var(--sky-bottom) 50%,#b8e6b8 65%,#8fce8f 100%);
+  min-height:100vh; color:var(--text); overflow-x:hidden; -webkit-font-smoothing:antialiased;
+}
+.glass {
+  background:var(--glass-bg); backdrop-filter:blur(20px) saturate(1.4);
+  -webkit-backdrop-filter:blur(20px) saturate(1.4);
+  border:1px solid var(--glass-border); border-radius:var(--panel-radius);
+  box-shadow:0 8px 32px var(--glass-shadow),inset 0 1px 0 rgba(255,255,255,0.25);
+}
+header { position:relative; z-index:10; text-align:center; padding:14px 20px 6px; }
+header h1 {
+  font-size:24px; font-weight:800; letter-spacing:-1px;
+  background:linear-gradient(135deg,#0f1c2e 0%,#2B7CE9 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+header p { font-size:11px; color:var(--text-light); margin-top:1px; letter-spacing:.3px; font-weight:500; }
+
+.app {
+  position:relative; z-index:10; max-width:1280px; margin:0 auto;
+  padding:0 12px 80px;
+  display:grid; grid-template-columns:minmax(0,1fr) 260px; gap:10px;
+}
+
+/* Canvas */
+.sim-area { grid-column:1; grid-row:1; overflow:hidden; position:relative; }
+#simCanvas { width:100%; height:340px; display:block; cursor:grab; border-radius:var(--panel-radius); }
+#simCanvas:active { cursor:grabbing; }
+
+/* Controls */
+.controls-bar {
+  grid-column:1; grid-row:2; padding:8px 12px;
+  display:flex; flex-wrap:wrap; gap:5px; align-items:center;
+}
+.btn {
+  background:var(--glass-bg); backdrop-filter:blur(12px);
+  border:1px solid var(--glass-border); border-radius:10px;
+  padding:6px 12px; font-size:11px; font-weight:700; color:var(--text);
+  cursor:pointer; transition:all .15s; display:inline-flex; align-items:center; gap:4px;
+  letter-spacing:.2px;
+}
+.btn:hover { background:var(--glass-hover); transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,.08); }
+.btn:active { transform:translateY(0) scale(.98); }
+.btn.primary { background:rgba(43,124,233,.2); border-color:rgba(43,124,233,.35); color:#1a5bb8; }
+.btn.danger { background:rgba(255,82,82,.12); border-color:rgba(255,82,82,.25); color:#c62828; }
+.btn.success { background:rgba(0,200,83,.15); border-color:rgba(0,200,83,.3); color:#1b5e20; }
+
+.num-input {
+  display:flex; align-items:center; gap:4px; font-size:11px; font-weight:600; color:var(--text-light);
+}
+.num-input input {
+  width:52px; padding:5px; border-radius:8px;
+  border:1px solid rgba(43,124,233,.25); font-size:12px; font-weight:700;
+  text-align:center; background:rgba(255,255,255,.4); outline:none;
+  font-family:var(--mono);
+}
+.num-input input:focus { border-color:var(--accent); }
+
+.toggle-row { display:flex; align-items:center; gap:5px; font-size:10px; color:var(--text-light); font-weight:600; }
+.toggle {
+  width:32px; height:17px; background:rgba(0,0,0,.12); border-radius:9px;
+  position:relative; cursor:pointer; transition:background .2s;
+}
+.toggle.on { background:rgba(43,124,233,.45); }
+.toggle::after {
+  content:''; position:absolute; width:13px; height:13px; border-radius:50%;
+  background:#fff; top:2px; left:2px; transition:left .2s;
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+.toggle.on::after { left:17px; }
+
+.speed-ctrl { display:flex; align-items:center; gap:4px; font-size:10px; color:var(--text-light); font-weight:600; }
+.speed-ctrl input[type="range"] { width:60px; accent-color:var(--accent); }
+
+/* Metrics panel */
+.metrics-panel {
+  grid-column:2; grid-row:1/4; padding:12px;
+  display:flex; flex-direction:column; gap:8px;
+  max-height:calc(340px + 52px + 380px + 20px); overflow-y:auto;
+}
+.metrics-panel::-webkit-scrollbar { width:3px; }
+.metrics-panel::-webkit-scrollbar-thumb { background:rgba(0,0,0,.1); border-radius:2px; }
+
+.mc {
+  background:rgba(255,255,255,.25); border-radius:12px; padding:10px;
+  border:1px solid rgba(255,255,255,.35);
+}
+.mc h3 {
+  font-size:9px; text-transform:uppercase; letter-spacing:1.2px;
+  color:var(--text-muted); margin-bottom:4px; font-weight:700;
+}
+.mv { font-size:24px; font-weight:800; letter-spacing:-.5px; }
+.mv.dist { color:var(--warning); }
+.mv.disp { color:var(--accent); }
+.mu { font-size:12px; font-weight:500; color:var(--text-muted); }
+.ms {
+  font-size:9px; color:var(--text-muted); margin-top:2px;
+  font-family:var(--mono); line-height:1.4; word-break:break-all; letter-spacing:-.3px;
+}
+.dir-row { display:flex; align-items:center; gap:6px; font-size:11px; font-weight:700; margin-top:3px; }
+.dir-dot {
+  width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:12px; background:rgba(43,124,233,.12); border:1px solid rgba(43,124,233,.25);
+}
+
+.cg { display:grid; grid-template-columns:1fr 1fr; gap:5px; }
+.ci { background:rgba(255,255,255,.2); border-radius:7px; padding:5px 6px; text-align:center; }
+.ci .cl { font-size:8px; text-transform:uppercase; letter-spacing:.7px; color:var(--text-muted); font-weight:700; }
+.ci .cv { font-size:14px; font-weight:800; color:var(--text); margin-top:1px; font-family:var(--mono); }
+
+.eq-box {
+  background:rgba(13,27,42,.06); border-radius:8px; padding:7px;
+  font-family:var(--mono); font-size:9px; line-height:1.6; color:var(--text-light);
+}
+.eq-box .eq-active { color:var(--accent); font-weight:700; }
+
+.legend { font-size:9px; display:flex; flex-direction:column; gap:2px; }
+.legend-item { display:flex; align-items:center; gap:4px; }
+.legend-dot { width:7px; height:7px; border-radius:50%; }
+
+.score-row { display:flex; gap:8px; }
+.score-badge {
+  display:inline-flex; align-items:center; gap:3px;
+  padding:2px 8px; border-radius:7px; font-size:10px; font-weight:700;
+}
+
+/* Bottom area */
+.bottom-area { grid-column:1; grid-row:3; padding:12px; }
+.tabs { display:flex; gap:2px; margin-bottom:8px; flex-wrap:wrap; }
+.tab {
+  padding:4px 10px; border-radius:8px; font-size:10px; font-weight:700;
+  cursor:pointer; border:1px solid transparent;
+  background:rgba(255,255,255,.1); color:var(--text-muted); transition:all .15s;
+}
+.tab.active { background:rgba(255,255,255,.35); border-color:var(--glass-border); color:var(--text); }
+.tab:hover:not(.active) { background:rgba(255,255,255,.2); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* Dual graphs */
+.dual-graphs { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.graph-wrap { position:relative; }
+.graph-wrap canvas { width:100%; height:200px; display:block; border-radius:12px; background:var(--graph-bg); }
+.graph-label {
+  position:absolute; top:8px; left:12px; font-size:10px; font-weight:700;
+  color:rgba(255,255,255,.5); letter-spacing:.5px; text-transform:uppercase; pointer-events:none;
+}
+.gradient-info {
+  margin-top:6px; padding:8px; border-radius:8px;
+  background:rgba(13,27,42,.06); font-size:10px; line-height:1.5; display:none;
+}
+.gradient-info.show { display:block; }
+
+/* Experiment cards */
+.exp-card {
+  background:rgba(255,255,255,.2); border-radius:10px; padding:10px;
+  margin-bottom:6px; border:1px solid rgba(255,255,255,.3);
+  cursor:pointer; transition:all .15s;
+}
+.exp-card:hover { background:rgba(255,255,255,.35); transform:translateY(-1px); }
+.exp-card.active-exp { border-color:var(--accent); background:rgba(43,124,233,.08); }
+.exp-card h4 { font-size:11px; font-weight:700; margin-bottom:2px; }
+.exp-card p { font-size:9px; color:var(--text-light); line-height:1.4; }
+.diff-tag {
+  display:inline-block; font-size:8px; padding:2px 6px;
+  border-radius:5px; margin-top:4px; font-weight:700; letter-spacing:.3px;
+}
+.diff-tag.easy { background:rgba(0,200,83,.15); color:#1b5e20; }
+.diff-tag.medium { background:rgba(255,179,0,.15); color:#e65100; }
+.diff-tag.hard { background:rgba(255,82,82,.15); color:#b71c1c; }
+.diff-tag.dp { background:rgba(43,124,233,.12); color:#1a5bb8; }
+
+/* Story cards */
+.story-card {
+  background:linear-gradient(135deg,rgba(43,124,233,.06),rgba(0,200,83,.04));
+  border-radius:12px; padding:12px; margin-bottom:6px;
+  border:1px solid rgba(43,124,233,.12); cursor:pointer; transition:all .15s;
+}
+.story-card:hover { transform:translateY(-1px); border-color:rgba(43,124,233,.25); }
+.story-card.active-exp { border-color:var(--accent); box-shadow:0 0 12px rgba(43,124,233,.12); }
+.story-icon { font-size:18px; margin-bottom:4px; }
+.story-card h4 { font-size:12px; font-weight:700; margin-bottom:3px; }
+.story-card .sb { font-size:10px; color:var(--text-light); line-height:1.4; font-style:italic; }
+.story-card .st { font-size:9px; color:var(--text); margin-top:4px; font-weight:600; }
+
+/* IB Challenge */
+.ib-card {
+  background:rgba(255,255,255,.2); border-radius:12px; padding:12px;
+  margin-bottom:8px; border:1px solid rgba(255,255,255,.3);
+}
+.ib-card .ib-cmd {
+  display:inline-block; font-size:8px; padding:2px 7px; border-radius:5px;
+  font-weight:700; letter-spacing:.5px; text-transform:uppercase;
+  background:rgba(43,124,233,.1); color:var(--accent); margin-bottom:5px;
+}
+.ib-card h4 { font-size:12px; font-weight:700; margin-bottom:4px; }
+.ib-card p { font-size:10px; color:var(--text-light); line-height:1.5; margin-bottom:6px; }
+.ib-card .ib-input { display:flex; gap:5px; align-items:center; }
+.ib-card input,.ib-card textarea {
+  flex:1; padding:6px 8px; border-radius:8px;
+  border:1px solid rgba(0,0,0,.08); font-size:11px; font-family:inherit;
+  background:rgba(255,255,255,.5); outline:none;
+}
+.ib-card textarea { height:60px; resize:vertical; }
+.ib-card input:focus,.ib-card textarea:focus { border-color:var(--accent); }
+.ib-feedback {
+  margin-top:6px; padding:8px; border-radius:8px; font-size:10px;
+  font-weight:600; display:none; line-height:1.4;
+}
+.ib-feedback.show { display:block; }
+.ib-feedback.correct { background:rgba(0,200,83,.1); color:#1b5e20; }
+.ib-feedback.partial { background:rgba(255,179,0,.1); color:#e65100; }
+.ib-feedback.wrong { background:rgba(255,82,82,.1); color:#b71c1c; }
+.ib-marks { font-size:9px; color:var(--text-muted); margin-top:3px; }
+
+/* Path log */
+.path-log { width:100%; border-collapse:collapse; font-size:9px; }
+.path-log th {
+  text-align:left; padding:4px 6px; font-size:8px; text-transform:uppercase;
+  letter-spacing:.5px; color:var(--text-muted); border-bottom:1px solid rgba(0,0,0,.06); font-weight:700;
+}
+.path-log td { padding:3px 6px; border-bottom:1px solid rgba(0,0,0,.03); font-family:var(--mono); }
+
+/* Notebook */
+.nb-entry {
+  background:rgba(255,255,255,.2); border-radius:8px; padding:8px;
+  margin-bottom:5px; border:1px solid rgba(255,255,255,.3);
+}
+.nb-entry h4 { font-size:10px; font-weight:700; margin-bottom:3px; }
+.nb-entry p { font-size:9px; color:var(--text-light); font-family:var(--mono); }
+.nb-q {
+  background:rgba(43,124,233,.05); border-radius:7px; padding:7px;
+  margin-top:6px; border-left:3px solid var(--accent);
+}
+.nb-q p { font-size:10px; color:var(--text); font-weight:600; margin-bottom:4px; }
+.nb-q textarea {
+  width:100%; height:45px; border:1px solid rgba(0,0,0,.06);
+  border-radius:5px; padding:5px; font-size:10px; font-family:inherit;
+  resize:vertical; background:rgba(255,255,255,.5);
+}
+
+/* Accel mode panel */
+.accel-panel {
+  background:rgba(255,255,255,.2); border-radius:10px; padding:10px;
+  margin-bottom:8px; border:1px solid rgba(255,255,255,.3);
+}
+.accel-panel h4 { font-size:11px; font-weight:700; margin-bottom:6px; }
+.accel-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.accel-field label { font-size:9px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.5px; display:block; margin-bottom:2px; }
+.accel-field input {
+  width:100%; padding:5px; border-radius:6px; border:1px solid rgba(0,0,0,.08);
+  font-size:12px; font-weight:700; text-align:center; font-family:var(--mono);
+  background:rgba(255,255,255,.5); outline:none;
+}
+.accel-field input:focus { border-color:var(--accent); }
+
+/* Modal */
+.modal-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,.35); backdrop-filter:blur(6px);
+  z-index:100; align-items:center; justify-content:center;
+}
+.modal-overlay.show { display:flex; }
+.modal-box {
+  background:rgba(255,255,255,.92); backdrop-filter:blur(24px);
+  border-radius:22px; padding:24px; max-width:340px; width:90%;
+  text-align:center; border:1px solid rgba(255,255,255,.6);
+  box-shadow:0 20px 56px rgba(0,0,0,.18); animation:mIn .3s ease;
+}
+@keyframes mIn { from{opacity:0;transform:scale(.92) translateY(8px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.modal-box h3 { font-size:18px; font-weight:800; letter-spacing:-.5px; margin-bottom:5px; }
+.modal-box p { font-size:11px; color:var(--text-light); margin-bottom:12px; line-height:1.5; }
+.modal-box input[type="number"] {
+  width:100px; padding:8px; border-radius:10px; border:2px solid rgba(43,124,233,.25);
+  font-size:18px; text-align:center; font-weight:800; outline:none;
+  background:rgba(255,255,255,.5);
+}
+.modal-box input:focus { border-color:var(--accent); }
+.modal-actions { margin-top:12px; display:flex; gap:6px; justify-content:center; }
+.modal-result { margin-top:10px; padding:8px; border-radius:8px; font-size:11px; font-weight:700; display:none; }
+.modal-result.correct { background:rgba(0,200,83,.12); color:#1b5e20; display:block; }
+.modal-result.wrong { background:rgba(255,82,82,.12); color:#b71c1c; display:block; }
+
+/* Floating */
+.fab {
+  position:fixed; z-index:50; width:40px; height:40px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; font-weight:800; cursor:pointer;
+  backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.35);
+  transition:all .2s; box-shadow:0 4px 14px rgba(0,0,0,.08);
+}
+.fab:hover { transform:scale(1.1); }
+.fab-why { bottom:64px; right:14px; background:rgba(43,124,233,.2); color:var(--accent); }
+.tooltip-popup {
+  display:none; position:fixed; bottom:112px; right:14px; z-index:51;
+  max-width:280px; padding:12px; border-radius:14px;
+  background:rgba(255,255,255,.92); backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,.5); box-shadow:0 8px 28px rgba(0,0,0,.1);
+  font-size:11px; line-height:1.5; animation:mIn .2s ease;
+}
+.tooltip-popup.show { display:block; }
+.tooltip-popup h4 { font-size:12px; font-weight:700; margin-bottom:3px; color:var(--accent); }
+
+@media (max-width:900px) {
+  .app { grid-template-columns:1fr; }
+  .metrics-panel { grid-column:1; grid-row:2; flex-direction:row; flex-wrap:wrap; max-height:none; }
+  .controls-bar { grid-row:3; }
+  .bottom-area { grid-row:4; grid-column:1; }
+  .mc { flex:1; min-width:120px; }
+  .dual-graphs { grid-template-columns:1fr; }
+  #simCanvas { height:260px; }
+}
+@media (max-width:480px) {
+  header h1 { font-size:20px; }
+  .btn { padding:5px 8px; font-size:10px; }
+  .mv { font-size:20px; }
+}
+@media print {
+  body { background:#fff !important; }
+  .fab,.tooltip-popup,.modal-overlay { display:none !important; }
+  .glass { backdrop-filter:none; background:#f8f8f8; border:1px solid #ddd; box-shadow:none; }
+  .graph-wrap canvas { background:#1a2a3a !important; }
+  .app { display:block; }
+  .metrics-panel { flex-direction:row; flex-wrap:wrap; page-break-inside:avoid; }
+  .bottom-area { page-break-before:always; }
+}
+</style>
+</head>
+<body>
+
+<script>
+const SIM_META = {
+  id: 'motion-lab',
+  title: 'Motion Lab',
+  topic: 'A.1',
+  topicName: 'Kinematics',
+  grade: ['MYP4','MYP5','DP'],
+  level: 'both',
+  theme: 'A',
+  concepts: ['distance','displacement','velocity','acceleration','kinematics graphs'],
+  difficulty: 'intermediate'
+};
+</script>
+
+<nav>
+  <div style="display:flex;align-items:center;gap:14px">
+    <a href="../index.html" class="nav-logo">Atul Soral Physicism</a>
+    <a href="../dp-simulations.html">← All Simulations</a>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <button class="nav-btn" id="themeBtn">☀️</button>
+    <a href="../dp-simulations.html" class="nav-btn" style="text-decoration:none;">← Back</a>
+    <a href="../index.html" class="nav-btn" style="text-decoration:none;">Home</a>
+    <a href="../myp-dashboard.html" class="nav-btn" style="text-decoration:none;">MYP</a>
+    <a href="../dp-dashboard.html" class="nav-btn" style="text-decoration:none;">DP</a>
+  </div>
+</nav>
+<header>
+  <h1>Motion Lab</h1>
+  <p>Kinematics: Distance, Displacement, Velocity &amp; Acceleration</p>
+</header>
+
+<div class="app">
+  <div class="sim-area glass"><canvas id="simCanvas"></canvas></div>
+
+  <div class="controls-bar glass">
+    <button class="btn primary" id="btnPlay" onclick="togglePlay()">&#9654; Play</button>
+    <button class="btn" id="btnWP" onclick="addWPMode()">+ Waypoint</button>
+    <button class="btn danger" onclick="resetSim()">&#8635; Reset</button>
+    <button class="btn" onclick="undoLast()">&#8617; Undo</button>
+    <button class="btn success" onclick="takeSnap()">&#128247;</button>
+    <div class="num-input">
+      <span>Go to:</span>
+      <input type="number" id="numPos" step="0.5" min="-11" max="11" placeholder="0">
+      <button class="btn" onclick="goToPos()">Go</button>
+    </div>
+    <div class="toggle-row"><span>Grid</span><div class="toggle" id="tGrid" onclick="togGrid()"></div></div>
+    <div class="toggle-row"><span>Vectors</span><div class="toggle on" id="tVec" onclick="togVec()"></div></div>
+    <div class="speed-ctrl">
+      <span>Speed</span>
+      <input type="range" id="spdSlider" min="0.5" max="3" step="0.25" value="1">
+      <span id="spdLbl">1x</span>
+    </div>
+  </div>
+
+  <div class="metrics-panel glass">
+    <div class="mc">
+      <h3>Distance (scalar)</h3>
+      <div class="mv dist" id="vDist">0 <span class="mu">m</span></div>
+      <div class="ms" id="fDist">d = &Sigma;|&Delta;x| = 0</div>
+    </div>
+    <div class="mc">
+      <h3>Displacement (vector)</h3>
+      <div class="mv disp" id="vDisp">0 <span class="mu">m</span></div>
+      <div class="ms" id="fDisp">&Delta;x = x&#8346; &minus; x&#7522; = 0</div>
+    </div>
+    <div class="mc">
+      <h3>Position</h3>
+      <div class="mv" id="vPos" style="font-size:18px;">0 <span class="mu">m</span></div>
+      <div class="dir-row">
+        <div class="dir-dot" id="dDot">&bull;</div>
+        <span id="dLbl" style="font-size:10px;">At origin</span>
+      </div>
+    </div>
+    <div class="mc">
+      <h3>Kinematics</h3>
+      <div class="cg">
+        <div class="ci"><div class="cl">Avg Speed</div><div class="cv" id="kSpd">0</div></div>
+        <div class="ci"><div class="cl">Avg Velocity</div><div class="cv" id="kVel">0</div></div>
+        <div class="ci"><div class="cl">Inst. Vel</div><div class="cv" id="kIV">0</div></div>
+        <div class="ci"><div class="cl">Time</div><div class="cv" id="kTime">0 s</div></div>
+      </div>
+    </div>
+    <div class="mc">
+      <h3>Equations</h3>
+      <div class="eq-box" id="eqBox">
+        <div>v = &Delta;x / &Delta;t</div>
+        <div>speed = d / t</div>
+        <div>a = &Delta;v / &Delta;t</div>
+        <div>v = u + at</div>
+        <div>s = ut + &frac12;at&sup2;</div>
+        <div>v&sup2; = u&sup2; + 2as</div>
+      </div>
+    </div>
+    <div class="mc">
+      <h3>Vectors</h3>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#FF5252;"></div> Path (distance)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2B7CE9;"></div> Displacement</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#00C853;"></div> Active segment</div>
+      </div>
+    </div>
+    <div class="mc">
+      <h3>Score</h3>
+      <div class="score-row">
+        <span class="score-badge" style="background:rgba(0,200,83,.12);color:#1b5e20;" id="scOK">&#10003; 0</span>
+        <span class="score-badge" style="background:rgba(255,82,82,.12);color:#b71c1c;" id="scNO">&#10007; 0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-area glass">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this,'graphs')">Graphs</div>
+      <div class="tab" onclick="switchTab(this,'experiments')">Experiments</div>
+      <div class="tab" onclick="switchTab(this,'stories')">Stories</div>
+      <div class="tab" onclick="switchTab(this,'ib')">IB Challenges</div>
+      <div class="tab" onclick="switchTab(this,'accel')">Acceleration</div>
+      <div class="tab" onclick="switchTab(this,'log')">Log</div>
+      <div class="tab" onclick="switchTab(this,'notebook')">Notebook</div>
+      <div class="tab" onclick="switchTab(this,'snapshots')">Snapshots</div>
+    </div>
+
+    <div class="tab-content active" id="tab-graphs">
+      <div class="dual-graphs">
+        <div class="graph-wrap">
+          <canvas id="gPos"></canvas>
+          <div class="graph-label">Position &ndash; Time</div>
+        </div>
+        <div class="graph-wrap">
+          <canvas id="gVel"></canvas>
+          <div class="graph-label">Velocity &ndash; Time</div>
+        </div>
+      </div>
+      <div class="gradient-info" id="gradInfo">
+        <strong>Gradient Tool:</strong> Click two points on the position-time graph to calculate the gradient (= average velocity between those points).
+      </div>
+      <div style="margin-top:6px;display:flex;gap:6px;">
+        <button class="btn" id="btnGrad" onclick="toggleGradTool()">&#x2215; Gradient Tool</button>
+        <button class="btn" onclick="clearGrad()">Clear</button>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-experiments"><div id="expList"></div></div>
+    <div class="tab-content" id="tab-stories"><div id="storyList"></div></div>
+    <div class="tab-content" id="tab-ib"><div id="ibList"></div></div>
+
+    <div class="tab-content" id="tab-accel">
+      <div class="accel-panel">
+        <h4>Constant Acceleration Mode</h4>
+        <p style="font-size:10px;color:var(--text-light);margin-bottom:8px;">Set initial velocity (u) and acceleration (a). The character will move following kinematic equations. Watch how position-time becomes a curve and velocity-time stays linear.</p>
+        <div class="accel-grid">
+          <div class="accel-field"><label>Initial Velocity u (m/s)</label><input type="number" id="aU" value="2" step="0.5"></div>
+          <div class="accel-field"><label>Acceleration a (m/s&sup2;)</label><input type="number" id="aA" value="0.5" step="0.25"></div>
+        </div>
+        <div style="margin-top:8px;display:flex;gap:6px;">
+          <button class="btn primary" onclick="launchAccel()">Launch</button>
+          <button class="btn danger" onclick="resetSim()">Reset</button>
+        </div>
+        <div id="accelInfo" style="margin-top:8px;font-size:10px;color:var(--text-light);line-height:1.5;"></div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-log">
+      <table class="path-log"><thead><tr><th>#</th><th>From</th><th>To</th><th>Dir</th><th>|&Delta;x|</th><th>&Sigma;d</th><th>&Delta;x</th><th>v</th></tr></thead>
+      <tbody id="logBody"></tbody></table>
+      <p style="font-size:9px;color:var(--text-muted);margin-top:5px;" id="emptyLog">Move the character to see data.</p>
+    </div>
+
+    <div class="tab-content" id="tab-notebook">
+      <div id="nbTrials"></div>
+      <div class="nb-q"><p>Define: What is the difference between distance and displacement?</p><textarea id="rQ1" placeholder="Distance is a scalar quantity that measures..."></textarea></div>
+      <div class="nb-q" style="margin-top:5px;"><p>Explain: Why can displacement never exceed distance?</p><textarea id="rQ2" placeholder="Displacement measures the shortest path..."></textarea></div>
+      <div class="nb-q" style="margin-top:5px;"><p>Calculate: If average speed = 4 m/s and time = 5 s, what is the distance?</p><textarea id="rQ3" placeholder="d = speed × time = ..."></textarea></div>
+      <div style="margin-top:6px;display:flex;gap:6px;">
+        <button class="btn primary" onclick="saveNB()">Save</button>
+        <button class="btn" onclick="exportNB()">Print Lab Report</button>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-snapshots">
+      <div id="snapList"><p style="font-size:9px;color:var(--text-muted);">Take snapshots to compare.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="fab fab-why" onclick="toggleWhy()">?</div>
+<div class="tooltip-popup" id="whyPopup">
+  <h4>Why?</h4>
+  <p id="whyText">Drag the character to see a live explanation.</p>
+</div>
+
+<div class="modal-overlay" id="predModal">
+  <div class="modal-box">
+    <h3 id="pmTitle">Predict!</h3>
+    <p id="pmQ">What will the displacement be?</p>
+    <input type="number" id="pmIn" placeholder="0">
+    <span class="mu">m</span>
+    <div class="modal-actions">
+      <button class="btn primary" onclick="subPred()">Check</button>
+      <button class="btn" onclick="skipPred()">Skip</button>
+    </div>
+    <div class="modal-result" id="pmR"></div>
+  </div>
+</div>
+
+<script>
+// STATE
+const S = {
+  cx:0, sx:0, wp:[], ph:[], isDrag:false, isPlay:false,
+  grid:false, vec:true, td:0, posH:[], ts:0,
+  snaps:[], sc:{ok:0,no:0}, addWP:false, exp:null, wpi:0,
+  spd:1, lp:0, wf:0, wd:1, parts:[], at:0,
+  nbTrials:[], gHover:null, gradMode:false, gradPts:[],
+  accelMode:false,
+};
+
+const simC=document.getElementById('simCanvas'), sx=simC.getContext('2d');
+const gPC=document.getElementById('gPos'), gpx=gPC.getContext('2d');
+const gVC=document.getElementById('gVel'), gvx=gVC.getContext('2d');
+const MV=24;
+let cW=800,cH=340,gW=400,gH=200;
+
+function resize(){
+  const dpr=window.devicePixelRatio||1;
+  const sr=simC.parentElement.getBoundingClientRect();
+  cW=sr.width; cH=window.innerWidth<=900?260:340;
+  simC.width=cW*dpr; simC.height=cH*dpr;
+  simC.style.width=cW+'px'; simC.style.height=cH+'px';
+  sx.setTransform(dpr,0,0,dpr,0,0);
+  [gPC,gVC].forEach(c=>{
+    const r=c.parentElement.getBoundingClientRect();
+    gW=r.width; gH=200;
+    c.width=gW*dpr; c.height=gH*dpr;
+    c.style.width=gW+'px'; c.style.height=gH+'px';
+    c.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+  });
+}
+function m2p(m){return cW/2+m*(cW/MV);}
+function p2m(p){return(p-cW/2)/(cW/MV);}
+
+// Particles
+function initP(){S.parts=[];for(let i=0;i<25;i++)S.parts.push({x:Math.random()*cW,y:Math.random()*cH*.55,r:Math.random()*1.2+.4,vx:Math.random()*.25-.12,vy:Math.random()*-.12-.03,a:Math.random()*.35+.1});}
+
+// SCENE
+function drawScene(){
+  S.at++;
+  for(const p of S.parts){p.x+=p.vx;p.y+=p.vy;if(p.y<-5){p.y=cH*.5;p.x=Math.random()*cW;}if(p.x<-5)p.x=cW;if(p.x>cW+5)p.x=-5;}
+  sx.clearRect(0,0,cW,cH);
+
+  // Sky
+  const sg=sx.createLinearGradient(0,0,0,cH*.55);
+  sg.addColorStop(0,'#4A90D9');sg.addColorStop(.5,'#7EC8E3');sg.addColorStop(1,'#D4EEFF');
+  sx.fillStyle=sg;sx.fillRect(0,0,cW,cH*.55);
+
+  // Sun
+  const snX=cW*.85,snY=cH*.11,sp=1+Math.sin(S.at*.015)*.08;
+  for(let i=0;i<12;i++){const a=(i/12)*Math.PI*2+S.at*.003;sx.strokeStyle='rgba(255,223,100,.12)';sx.lineWidth=2.5;sx.beginPath();sx.moveTo(snX+Math.cos(a)*22*sp,snY+Math.sin(a)*22*sp);sx.lineTo(snX+Math.cos(a)*40*sp,snY+Math.sin(a)*40*sp);sx.stroke();}
+  const sgl=sx.createRadialGradient(snX,snY,6,snX,snY,45);sgl.addColorStop(0,'rgba(255,236,130,.5)');sgl.addColorStop(1,'rgba(255,223,100,0)');
+  sx.fillStyle=sgl;sx.beginPath();sx.arc(snX,snY,45,0,Math.PI*2);sx.fill();
+  sx.fillStyle='#FFEC82';sx.beginPath();sx.arc(snX,snY,12*sp,0,Math.PI*2);sx.fill();
+
+  // Clouds
+  drawCld(cW*.12+Math.sin(S.at*.004)*35,cH*.07,1);
+  drawCld(cW*.48+Math.sin(S.at*.003+2)*45,cH*.13,1.2);
+  drawCld(cW*.78+Math.sin(S.at*.005+4)*30,cH*.05,.8);
+
+  // Mountains
+  const mo=S.cx*-1.2;
+  sx.fillStyle='#94B8D6';sx.beginPath();sx.moveTo(-20,cH*.4);
+  [50,75,40,85,55,70,45,60].forEach((h,i)=>{sx.lineTo((i/7)*cW+mo*.3,cH*.4-h*(cH/380));});
+  sx.lineTo(cW+20,cH*.4);sx.fill();
+
+  // Hills
+  sx.fillStyle='#7DAF6A';sx.beginPath();sx.moveTo(-20,cH*.5);
+  [18,32,22,38,28,35,20,30].forEach((h,i)=>{sx.lineTo((i/7)*cW+mo*.5,cH*.5-h*(cH/380));});
+  sx.lineTo(cW+20,cH*.5);sx.fill();
+
+  // Ground
+  const gY=cH*.55;
+  const gg=sx.createLinearGradient(0,gY,0,cH);gg.addColorStop(0,'#6BBF59');gg.addColorStop(1,'#4A9A3A');
+  sx.fillStyle=gg;sx.fillRect(0,gY,cW,cH-gY);
+
+  // Buildings
+  drawBld(cW*.1+mo*.7,gY-60,36,60,'#B8C9D9');drawBld(cW*.24+mo*.7,gY-85,30,85,'#A0B4C8');
+  drawBld(cW*.54+mo*.7,gY-50,40,50,'#C5D3E0');drawBld(cW*.74+mo*.7,gY-72,34,72,'#9CAFC2');
+
+  // Trees
+  drawTr(cW*.06+mo*.8,gY-1,.85);drawTr(cW*.35+mo*.8,gY-2,1);drawTr(cW*.62+mo*.8,gY,0.75);drawTr(cW*.85+mo*.8,gY-1,.9);
+
+  // Road
+  const rY=gY+16,rH=42;
+  sx.fillStyle='#C8BEB4';sx.fillRect(0,rY-4,cW,rH+8);
+  const rg=sx.createLinearGradient(0,rY,0,rY+rH);rg.addColorStop(0,'#5A6370');rg.addColorStop(.5,'#4D5560');rg.addColorStop(1,'#5A6370');
+  sx.fillStyle=rg;sx.fillRect(0,rY,cW,rH);
+  sx.setLineDash([22,16]);sx.strokeStyle='#FFE082';sx.lineWidth=2.5;sx.beginPath();sx.moveTo(0,rY+rH/2);sx.lineTo(cW,rY+rH/2);sx.stroke();sx.setLineDash([]);
+
+  // Grid
+  if(S.grid){sx.strokeStyle='rgba(43,124,233,.1)';sx.lineWidth=1;for(let m=-12;m<=12;m++){const p=m2p(m);sx.beginPath();sx.moveTo(p,0);sx.lineTo(p,cH);sx.stroke();}}
+
+  // Ruler
+  sx.textAlign='center';
+  for(let m=-12;m<=12;m++){const p=m2p(m),b=m%5===0;sx.strokeStyle='rgba(255,255,255,.3)';sx.lineWidth=b?1.5:.7;sx.beginPath();sx.moveTo(p,rY+rH+2);sx.lineTo(p,rY+rH+(b?13:6));sx.stroke();if(m%2===0){sx.fillStyle='rgba(0,0,0,.4)';sx.font=(b?'bold ':'')+'9px -apple-system,system-ui,sans-serif';sx.fillText(m+'m',p,rY+rH+22);}}
+
+  // Origin
+  const oX=m2p(S.sx);
+  sx.fillStyle='rgba(43,124,233,.2)';sx.beginPath();sx.moveTo(oX,rY-5);sx.lineTo(oX-8,rY-20);sx.lineTo(oX+8,rY-20);sx.fill();
+  sx.fillStyle='#2B7CE9';sx.font='bold 9px -apple-system,system-ui,sans-serif';sx.fillText('START',oX,rY-24);
+
+  // Path trace
+  for(const s of S.ph){const f=m2p(s.from),t=m2p(s.to);sx.strokeStyle='rgba(255,82,82,.12)';sx.lineWidth=7;sx.beginPath();sx.moveTo(f,rY+rH/2-4);sx.lineTo(t,rY+rH/2-4);sx.stroke();sx.strokeStyle='rgba(255,82,82,.55)';sx.lineWidth=2.5;sx.setLineDash([4,3]);sx.beginPath();sx.moveTo(f,rY+rH/2-4);sx.lineTo(t,rY+rH/2-4);sx.stroke();sx.setLineDash([]);}
+
+  // Displacement arrow
+  if(S.vec&&S.cx!==S.sx){const f=m2p(S.sx),t=m2p(S.cx),aY=rY-40;sx.strokeStyle='rgba(43,124,233,.15)';sx.lineWidth=5;sx.beginPath();sx.moveTo(f,aY);sx.lineTo(t,aY);sx.stroke();sx.strokeStyle='#2B7CE9';sx.lineWidth=2.5;sx.beginPath();sx.moveTo(f,aY);sx.lineTo(t,aY);sx.stroke();const d=t>f?1:-1;sx.fillStyle='#2B7CE9';sx.beginPath();sx.moveTo(t,aY);sx.lineTo(t-d*9,aY-4);sx.lineTo(t-d*9,aY+4);sx.fill();const dp=S.cx-S.sx;sx.font='bold 11px -apple-system,system-ui,sans-serif';sx.fillText((dp>0?'+':'')+dp.toFixed(1)+'m',(f+t)/2,aY-9);}
+
+  // Waypoints
+  for(let i=0;i<S.wp.length;i++){const w=m2p(S.wp[i].x),dn=S.wpi>i;sx.fillStyle=dn?'rgba(0,200,83,.3)':'rgba(255,179,0,.45)';sx.beginPath();sx.arc(w,rY+rH/2,8,0,Math.PI*2);sx.fill();sx.strokeStyle=dn?'rgba(0,200,83,.5)':'rgba(255,179,0,.6)';sx.lineWidth=1.5;sx.beginPath();sx.arc(w,rY+rH/2,8,0,Math.PI*2);sx.stroke();sx.fillStyle='#fff';sx.font='bold 9px -apple-system,system-ui,sans-serif';sx.textBaseline='middle';sx.fillText(i+1,w,rY+rH/2);sx.textBaseline='alphabetic';}
+
+  // Particles
+  for(const p of S.parts){sx.fillStyle=`rgba(255,255,255,${Math.max(0,Math.min(.45,p.a))})`;sx.beginPath();sx.arc(p.x,p.y,p.r,0,Math.PI*2);sx.fill();}
+
+  // Character
+  drawChar(m2p(S.cx),rY-3);
+  requestAnimationFrame(drawScene);
+}
+
+function drawChar(x,foot){
+  const b=S.isDrag||S.isPlay?Math.sin(S.wf*.3)*2:0;
+  const ls=S.isDrag||S.isPlay?Math.sin(S.wf*.3)*7:0;
+  const y=foot+b;
+  sx.fillStyle='rgba(0,0,0,.07)';sx.beginPath();sx.ellipse(x,foot+3,13,3.5,0,0,Math.PI*2);sx.fill();
+  sx.strokeStyle='#2c3e50';sx.lineWidth=2.5;sx.lineCap='round';
+  sx.beginPath();sx.moveTo(x-4,y-6);sx.lineTo(x-4+ls*.35,foot+1);sx.stroke();
+  sx.beginPath();sx.moveTo(x+4,y-6);sx.lineTo(x+4-ls*.35,foot+1);sx.stroke();
+  const bg=sx.createLinearGradient(x-10,y-30,x+10,y-30);bg.addColorStop(0,'#1a6dd4');bg.addColorStop(1,'#2B7CE9');
+  sx.fillStyle=bg;sx.beginPath();sx.roundRect(x-10,y-30,20,25,4);sx.fill();
+  sx.strokeStyle='#1a6dd4';sx.lineWidth=2.5;
+  sx.beginPath();sx.moveTo(x-10,y-24);sx.lineTo(x-14-ls*.25,y-12);sx.stroke();
+  sx.beginPath();sx.moveTo(x+10,y-24);sx.lineTo(x+14+ls*.25,y-12);sx.stroke();
+  sx.fillStyle='#FFCC80';sx.beginPath();sx.arc(x,y-38,10,0,Math.PI*2);sx.fill();
+  sx.fillStyle='#5D4037';sx.beginPath();sx.arc(x,y-40,10,Math.PI,Math.PI*2);sx.fill();
+  const fo=S.wd*2;
+  sx.fillStyle='#222';sx.beginPath();sx.arc(x-3+fo,y-40,1.6,0,Math.PI*2);sx.arc(x+3+fo,y-40,1.6,0,Math.PI*2);sx.fill();
+  sx.strokeStyle='#222';sx.lineWidth=1;sx.beginPath();sx.arc(x+fo,y-35,3.5,.15*Math.PI,.85*Math.PI);sx.stroke();
+  sx.lineCap='butt';
+  if(S.isDrag||S.isPlay)S.wf++;
+}
+
+function drawCld(cx,cy,s){sx.fillStyle='rgba(255,255,255,.5)';sx.beginPath();sx.ellipse(cx,cy,38*s,12*s,0,0,Math.PI*2);sx.fill();sx.beginPath();sx.ellipse(cx-16*s,cy-3*s,18*s,14*s,0,0,Math.PI*2);sx.fill();sx.beginPath();sx.ellipse(cx+12*s,cy-5*s,24*s,16*s,0,0,Math.PI*2);sx.fill();}
+function drawTr(x,y,s){sx.fillStyle='#6D4C2E';sx.fillRect(x-2.5*s,y-1,5*s,18*s);['#388E3C','#43A047','#66BB6A'].forEach((c,i)=>{sx.fillStyle=c;sx.beginPath();sx.moveTo(x,y-8*s-i*9*s-10*s);sx.lineTo(x-(16-i*2)*s,y-8*s-i*9*s+5*s);sx.lineTo(x+(16-i*2)*s,y-8*s-i*9*s+5*s);sx.fill();});}
+function drawBld(x,y,w,h,c){sx.fillStyle=c;sx.beginPath();sx.roundRect(x,y,w,h,2);sx.fill();sx.fillStyle='rgba(255,255,255,.25)';for(let r=0;r<Math.floor(h/11);r++)for(let c2=0;c2<Math.floor(w/9);c2++)sx.fillRect(x+3+c2*8,y+4+r*10,4,5);}
+
+// GRAPHS
+function drawGraphs(){drawPosGraph();drawVelGraph();}
+
+function drawPosGraph(){
+  const c=gpx,w=gW,h=gH;
+  c.clearRect(0,0,w,h);c.fillStyle='#0d1b2a';c.beginPath();c.roundRect(0,0,w,h,12);c.fill();
+  const P={t:22,r:16,b:28,l:42},pW=w-P.l-P.r,pH=h-P.t-P.b;
+  c.strokeStyle='rgba(255,255,255,.05)';c.lineWidth=1;
+  for(let i=0;i<=5;i++){const y=P.t+(i/5)*pH;c.beginPath();c.moveTo(P.l,y);c.lineTo(P.l+pW,y);c.stroke();}
+  c.fillStyle='rgba(255,255,255,.3)';c.font='9px -apple-system,system-ui,sans-serif';
+  c.textAlign='center';c.fillText('t (steps)',w/2,h-6);
+  c.save();c.translate(12,h/2);c.rotate(-Math.PI/2);c.fillText('x (m)',0,0);c.restore();
+  c.strokeStyle='rgba(255,255,255,.15)';c.beginPath();c.moveTo(P.l,P.t);c.lineTo(P.l,h-P.b);c.lineTo(w-P.r,h-P.b);c.stroke();
+
+  if(S.posH.length<2){c.fillStyle='rgba(255,255,255,.15)';c.font='11px -apple-system,system-ui,sans-serif';c.textAlign='center';c.fillText('Move to see graph',w/2,h/2);return;}
+
+  const maxT=Math.max(S.posH.length-1,8);
+  const pos=S.posH.map(p=>p.pos);
+  const mn=Math.min(-2,...pos)-1,mx=Math.max(2,...pos)+1,rng=mx-mn;
+
+  c.fillStyle='rgba(255,255,255,.25)';c.font='8px -apple-system,system-ui,sans-serif';c.textAlign='right';
+  const ys=Math.ceil(rng/5)||1;
+  for(let p=Math.ceil(mn);p<=mx;p+=ys){const y=P.t+pH-((p-mn)/rng)*pH;c.fillText(p,P.l-4,y+3);}
+
+  if(mn<=0&&mx>=0){const zy=P.t+pH-((0-mn)/rng)*pH;c.strokeStyle='rgba(43,124,233,.15)';c.setLineDash([3,3]);c.beginPath();c.moveTo(P.l,zy);c.lineTo(P.l+pW,zy);c.stroke();c.setLineDash([]);}
+
+  const pts=S.posH.map((p,i)=>({x:P.l+(i/maxT)*pW,y:P.t+pH-((p.pos-mn)/rng)*pH,pos:p.pos,t:i}));
+
+  // Glow
+  c.strokeStyle='rgba(43,124,233,.12)';c.lineWidth=7;c.beginPath();pts.forEach((p,i)=>i===0?c.moveTo(p.x,p.y):c.lineTo(p.x,p.y));c.stroke();
+  c.strokeStyle='rgba(43,124,233,.25)';c.lineWidth=3.5;c.beginPath();pts.forEach((p,i)=>i===0?c.moveTo(p.x,p.y):c.lineTo(p.x,p.y));c.stroke();
+  // Line
+  c.strokeStyle='#4DA6FF';c.lineWidth=2;c.lineCap='round';c.lineJoin='round';c.beginPath();pts.forEach((p,i)=>i===0?c.moveTo(p.x,p.y):c.lineTo(p.x,p.y));c.stroke();
+
+  // Dots
+  for(const p of pts){c.fillStyle='rgba(43,124,233,.15)';c.beginPath();c.arc(p.x,p.y,5,0,Math.PI*2);c.fill();c.fillStyle='#4DA6FF';c.beginPath();c.arc(p.x,p.y,2.5,0,Math.PI*2);c.fill();}
+
+  // Gradient tool points
+  if(S.gradMode&&S.gradPts.length>0){
+    for(const gi of S.gradPts){
+      if(gi<pts.length){const p=pts[gi];c.fillStyle='#FFE082';c.beginPath();c.arc(p.x,p.y,5,0,Math.PI*2);c.fill();c.strokeStyle='#FFB300';c.lineWidth=1.5;c.beginPath();c.arc(p.x,p.y,5,0,Math.PI*2);c.stroke();}
+    }
+    if(S.gradPts.length===2){
+      const p1=pts[S.gradPts[0]],p2=pts[S.gradPts[1]];
+      c.strokeStyle='rgba(255,179,0,.6)';c.lineWidth=1.5;c.setLineDash([4,3]);c.beginPath();c.moveTo(p1.x,p1.y);c.lineTo(p2.x,p2.y);c.stroke();c.setLineDash([]);
+      const grad=(p2.pos-p1.pos)/(p2.t-p1.t);
+      c.fillStyle='rgba(0,0,0,.6)';c.beginPath();c.roundRect((p1.x+p2.x)/2-45,(p1.y+p2.y)/2-22,90,20,5);c.fill();
+      c.fillStyle='#FFE082';c.font='bold 10px -apple-system,system-ui,sans-serif';c.textAlign='center';
+      c.fillText('v = '+grad.toFixed(2)+' m/s',(p1.x+p2.x)/2,(p1.y+p2.y)/2-8);
+    }
+  }
+
+  // Hover
+  if(S.gHover!==null&&S.gHover<pts.length){
+    const hp=pts[S.gHover];
+    c.fillStyle='rgba(0,0,0,.65)';c.beginPath();c.roundRect(hp.x-35,hp.y-28,70,20,5);c.fill();
+    c.fillStyle='#fff';c.font='bold 9px -apple-system,system-ui,sans-serif';c.textAlign='center';
+    c.fillText('t='+S.gHover+' x='+hp.pos.toFixed(1)+'m',hp.x,hp.y-14);
+    c.fillStyle='#FFE082';c.beginPath();c.arc(hp.x,hp.y,4,0,Math.PI*2);c.fill();
+  }
+  c.lineCap='butt';c.lineJoin='miter';
+}
+
+function drawVelGraph(){
+  const c=gvx,w=gW,h=gH;
+  c.clearRect(0,0,w,h);c.fillStyle='#0d1b2a';c.beginPath();c.roundRect(0,0,w,h,12);c.fill();
+  const P={t:22,r:16,b:28,l:42},pW=w-P.l-P.r,pH=h-P.t-P.b;
+  c.strokeStyle='rgba(255,255,255,.05)';c.lineWidth=1;
+  for(let i=0;i<=5;i++){const y=P.t+(i/5)*pH;c.beginPath();c.moveTo(P.l,y);c.lineTo(P.l+pW,y);c.stroke();}
+  c.fillStyle='rgba(255,255,255,.3)';c.font='9px -apple-system,system-ui,sans-serif';
+  c.textAlign='center';c.fillText('t (steps)',w/2,h-6);
+  c.save();c.translate(12,h/2);c.rotate(-Math.PI/2);c.fillText('v (m/s)',0,0);c.restore();
+  c.strokeStyle='rgba(255,255,255,.15)';c.beginPath();c.moveTo(P.l,P.t);c.lineTo(P.l,h-P.b);c.lineTo(w-P.r,h-P.b);c.stroke();
+
+  if(S.posH.length<3){c.fillStyle='rgba(255,255,255,.15)';c.font='11px -apple-system,system-ui,sans-serif';c.textAlign='center';c.fillText('Need 3+ points',w/2,h/2);return;}
+
+  // Calculate velocities
+  const vels=[];
+  for(let i=1;i<S.posH.length;i++){vels.push({t:i,v:S.posH[i].pos-S.posH[i-1].pos});}
+
+  const maxT=Math.max(S.posH.length-1,8);
+  const vs=vels.map(v=>v.v);
+  const mn=Math.min(-2,...vs)-1,mx=Math.max(2,...vs)+1,rng=mx-mn;
+
+  c.fillStyle='rgba(255,255,255,.25)';c.font='8px -apple-system,system-ui,sans-serif';c.textAlign='right';
+  const ys=Math.ceil(rng/5)||1;
+  for(let p=Math.ceil(mn);p<=mx;p+=ys){const y=P.t+pH-((p-mn)/rng)*pH;c.fillText(p,P.l-4,y+3);}
+
+  // Zero line
+  if(mn<=0&&mx>=0){const zy=P.t+pH-((0-mn)/rng)*pH;c.strokeStyle='rgba(0,200,83,.2)';c.setLineDash([3,3]);c.beginPath();c.moveTo(P.l,zy);c.lineTo(P.l+pW,zy);c.stroke();c.setLineDash([]);}
+
+  const pts=vels.map(v=>({x:P.l+(v.t/maxT)*pW,y:P.t+pH-((v.v-mn)/rng)*pH,v:v.v,t:v.t}));
+
+  // Area under curve (displacement visualization)
+  if(mn<=0&&mx>=0){
+    const zy=P.t+pH-((0-mn)/rng)*pH;
+    for(const p of pts){
+      c.fillStyle=p.v>=0?'rgba(0,200,83,.08)':'rgba(255,82,82,.08)';
+      const bw=pW/maxT*.7;
+      c.fillRect(p.x-bw/2,Math.min(p.y,zy),bw,Math.abs(p.y-zy));
+    }
+  }
+
+  // Glow
+  c.strokeStyle='rgba(0,200,83,.1)';c.lineWidth=6;c.beginPath();pts.forEach((p,i)=>i===0?c.moveTo(p.x,p.y):c.lineTo(p.x,p.y));c.stroke();
+  // Line
+  c.strokeStyle='#66FF99';c.lineWidth=2;c.lineCap='round';c.lineJoin='round';c.beginPath();pts.forEach((p,i)=>i===0?c.moveTo(p.x,p.y):c.lineTo(p.x,p.y));c.stroke();
+
+  // Dots
+  for(const p of pts){
+    c.fillStyle=p.v>=0?'rgba(0,200,83,.2)':'rgba(255,82,82,.2)';c.beginPath();c.arc(p.x,p.y,5,0,Math.PI*2);c.fill();
+    c.fillStyle=p.v>=0?'#66FF99':'#FF8888';c.beginPath();c.arc(p.x,p.y,2.5,0,Math.PI*2);c.fill();
+  }
+  c.lineCap='butt';c.lineJoin='miter';
+}
+
+// Graph interaction
+gPC.addEventListener('mousemove',(e)=>{
+  if(S.posH.length<2)return;
+  const r=gPC.getBoundingClientRect(),mx=e.clientX-r.left;
+  const P={l:42,r:16},pW=gW-P.l-P.r,maxT=Math.max(S.posH.length-1,8);
+  const idx=Math.round(((mx-P.l)/pW)*maxT);
+  S.gHover=(idx>=0&&idx<S.posH.length)?idx:null;
+  drawGraphs();
+});
+gPC.addEventListener('mouseleave',()=>{S.gHover=null;drawGraphs();});
+
+// Gradient tool click
+gPC.addEventListener('click',(e)=>{
+  if(!S.gradMode||S.posH.length<2)return;
+  const r=gPC.getBoundingClientRect(),mx=e.clientX-r.left;
+  const P={l:42,r:16},pW=gW-P.l-P.r,maxT=Math.max(S.posH.length-1,8);
+  const idx=Math.round(((mx-P.l)/pW)*maxT);
+  if(idx>=0&&idx<S.posH.length){
+    if(S.gradPts.length>=2)S.gradPts=[];
+    S.gradPts.push(idx);
+    if(S.gradPts.length===2){
+      const p1=S.posH[S.gradPts[0]],p2=S.posH[S.gradPts[1]];
+      const dt=S.gradPts[1]-S.gradPts[0];
+      const grad=dt!==0?(p2.pos-p1.pos)/dt:0;
+      const gi=document.getElementById('gradInfo');
+      gi.innerHTML=`<strong>Gradient = &Delta;x / &Delta;t</strong> = (${p2.pos.toFixed(1)} &minus; ${p1.pos.toFixed(1)}) / (${S.gradPts[1]} &minus; ${S.gradPts[0]}) = <strong style="color:var(--accent);">${grad.toFixed(2)} m/s</strong><br>This is the <strong>average velocity</strong> between t=${S.gradPts[0]} and t=${S.gradPts[1]}.`;
+      gi.classList.add('show');
+    }
+    drawGraphs();
+  }
+});
+
+function toggleGradTool(){S.gradMode=!S.gradMode;S.gradPts=[];document.getElementById('btnGrad').style.background=S.gradMode?'rgba(255,179,0,.2)':'';document.getElementById('gradInfo').innerHTML=S.gradMode?'<strong>Gradient Tool Active.</strong> Click two points on the position-time graph.':'';document.getElementById('gradInfo').classList.toggle('show',S.gradMode);drawGraphs();}
+function clearGrad(){S.gradPts=[];document.getElementById('gradInfo').classList.remove('show');drawGraphs();}
+
+// INTERACTION
+simC.addEventListener('mousedown',(e)=>{
+  if(S.isPlay)return;
+  const r=simC.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  const cp=m2p(S.cx),rY=cH*.55+16-3;
+  if(S.addWP){S.wp.push({x:Math.round(p2m(mx)*2)/2});S.addWP=false;document.getElementById('btnWP').textContent='+ Waypoint';return;}
+  if(Math.abs(mx-cp)<26&&my>rY-50&&my<rY+12){S.isDrag=true;S.lp=S.cx;}
+});
+simC.addEventListener('mousemove',(e)=>{
+  if(!S.isDrag)return;
+  const r=simC.getBoundingClientRect(),mx=e.clientX-r.left;
+  const np=Math.round(p2m(mx)*2)/2,cl=Math.max(-11,Math.min(11,np));
+  if(cl!==S.cx){const old=S.cx;S.cx=cl;S.wd=cl>old?1:-1;recordMv(old,cl);updateUI();}
+});
+simC.addEventListener('mouseup',()=>{if(S.isDrag){S.isDrag=false;if(S.cx!==S.lp){S.posH.push({time:S.ts++,pos:S.cx});drawGraphs();}}});
+simC.addEventListener('mouseleave',()=>{S.isDrag=false;});
+simC.addEventListener('touchstart',(e)=>{e.preventDefault();const t=e.touches[0];simC.dispatchEvent(new MouseEvent('mousedown',{clientX:t.clientX,clientY:t.clientY}));},{passive:false});
+simC.addEventListener('touchmove',(e)=>{e.preventDefault();const t=e.touches[0];simC.dispatchEvent(new MouseEvent('mousemove',{clientX:t.clientX,clientY:t.clientY}));},{passive:false});
+simC.addEventListener('touchend',(e)=>{e.preventDefault();simC.dispatchEvent(new MouseEvent('mouseup'));},{passive:false});
+
+// Numerical position
+function goToPos(){
+  const v=parseFloat(document.getElementById('numPos').value);
+  if(isNaN(v))return;
+  const cl=Math.max(-11,Math.min(11,v));
+  if(cl===S.cx)return;
+  const old=S.cx;S.cx=cl;S.wd=cl>old?1:-1;
+  recordMv(old,cl);
+  S.posH.push({time:S.ts++,pos:S.cx});
+  updateUI();drawGraphs();
+  document.getElementById('numPos').value='';
+}
+document.getElementById('numPos').addEventListener('keydown',(e)=>{if(e.key==='Enter')goToPos();});
+
+// CORE LOGIC
+function recordMv(from,to){
+  if(from===to)return;
+  const last=S.ph[S.ph.length-1];
+  if(last&&((from<to&&last.from<last.to)||(from>to&&last.from>last.to))){S.td+=Math.abs(to-last.to);last.to=to;}
+  else{S.td+=Math.abs(to-from);S.ph.push({from,to});}
+  updateLog();updateWhy();
+}
+
+function updateUI(){
+  const d=S.cx-S.sx;
+  document.getElementById('vDist').innerHTML=S.td.toFixed(1)+' <span class="mu">m</span>';
+  document.getElementById('vDisp').innerHTML=(d>=0?'+':'')+d.toFixed(1)+' <span class="mu">m</span>';
+  document.getElementById('vPos').innerHTML=(S.cx>=0?'+':'')+S.cx.toFixed(1)+' <span class="mu">m</span>';
+
+  if(S.ph.length>0){
+    const segs=S.ph.map(s=>'|'+Math.abs(s.to-s.from).toFixed(1)+'|');
+    document.getElementById('fDist').textContent='d = '+segs.join(' + ')+' = '+S.td.toFixed(1);
+    document.getElementById('fDisp').textContent='Δx = '+S.cx.toFixed(1)+' − '+S.sx.toFixed(1)+' = '+d.toFixed(1);
+  }
+
+  const dot=document.getElementById('dDot'),lab=document.getElementById('dLbl');
+  if(d>0){dot.textContent='→';lab.textContent='Right of start';}
+  else if(d<0){dot.textContent='←';lab.textContent='Left of start';}
+  else{dot.textContent='•';lab.textContent=S.ph.length>0?'Back at start!':'At origin';}
+
+  const t=Math.max(S.posH.length-1,1);
+  const avgSpd=t>0?S.td/t:0;
+  const avgVel=t>0?d/t:0;
+  const iv=S.posH.length>=2?S.posH[S.posH.length-1].pos-S.posH[S.posH.length-2].pos:0;
+  document.getElementById('kSpd').textContent=avgSpd.toFixed(2);
+  document.getElementById('kVel').textContent=(avgVel>=0?'+':'')+avgVel.toFixed(2);
+  document.getElementById('kIV').textContent=(iv>=0?'+':'')+iv.toFixed(1);
+  document.getElementById('kTime').textContent=t+' s';
+}
+
+function updateLog(){
+  const tb=document.getElementById('logBody');tb.innerHTML='';let rd=0;
+  for(let i=0;i<S.ph.length;i++){
+    const s=S.ph[i],dm=Math.abs(s.to-s.from);rd+=dm;const dp=s.to-S.sx;
+    const v=dm/(1);
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${i+1}</td><td>${s.from.toFixed(1)}</td><td>${s.to.toFixed(1)}</td><td>${s.to>s.from?'→':'←'}</td><td>${dm.toFixed(1)}</td><td>${rd.toFixed(1)}</td><td>${(dp>=0?'+':'')+dp.toFixed(1)}</td><td>${(s.to>s.from?'+':'')+(s.to-s.from).toFixed(1)}</td>`;
+    tb.appendChild(tr);
+  }
+  document.getElementById('emptyLog').style.display=S.ph.length?'none':'block';
+}
+
+function updateWhy(){
+  const d=S.cx-S.sx,el=document.getElementById('whyText');
+  if(!S.ph.length){el.textContent='Drag the character to see a live explanation.';return;}
+  if(Math.abs(d)<.1&&S.td>0)el.innerHTML='<strong>Displacement = 0</strong> but distance = '+S.td.toFixed(1)+'m. You returned to your starting position. The vector sum of all movements cancels out.';
+  else if(S.td>Math.abs(d)*1.5)el.innerHTML='Distance ('+S.td.toFixed(1)+'m) > |Displacement| ('+Math.abs(d).toFixed(1)+'m). Direction changes add to distance but cancel in displacement. Check the velocity-time graph — positive and negative areas partially cancel.';
+  else el.innerHTML='Distance: '+S.td.toFixed(1)+'m | Displacement: '+(d>=0?'+':'')+d.toFixed(1)+'m. '+(S.posH.length>=3?'Check the gradient on the position graph — it equals velocity.':'');
+}
+
+// CONTROLS
+function togglePlay(){if(!S.wp.length)return;if(S.isPlay){S.isPlay=false;document.getElementById('btnPlay').innerHTML='&#9654; Play';return;}if(S.exp&&!S.exp.predicted){showPred();return;}startPlay();}
+function startPlay(){S.isPlay=true;S.wpi=0;document.getElementById('btnPlay').innerHTML='&#9724; Stop';animNext();}
+function animNext(){
+  if(!S.isPlay||S.wpi>=S.wp.length){S.isPlay=false;document.getElementById('btnPlay').innerHTML='&#9654; Play';return;}
+  const tgt=S.wp[S.wpi].x,spd=S.spd*.08;
+  function step(){
+    if(!S.isPlay)return;const diff=tgt-S.cx;
+    if(Math.abs(diff)<.1){const old=S.cx;S.cx=tgt;S.wd=tgt>=old?1:-1;if(old!==tgt)recordMv(old,tgt);S.posH.push({time:S.ts++,pos:S.cx});updateUI();drawGraphs();S.wpi++;setTimeout(animNext,280/S.spd);return;}
+    const old=S.cx;S.cx=Math.round((S.cx+Math.sign(diff)*Math.min(Math.abs(diff),spd))*2)/2;S.wd=S.cx>=old?1:-1;if(old!==S.cx)recordMv(old,S.cx);updateUI();requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function addWPMode(){S.addWP=!S.addWP;document.getElementById('btnWP').textContent=S.addWP?'Click road...':'+ Waypoint';}
+function resetSim(){
+  S.cx=0;S.sx=0;S.wp=[];S.ph=[];S.td=0;S.posH=[{time:0,pos:0}];S.ts=1;
+  S.isPlay=false;S.wpi=0;S.exp=null;S.addWP=false;S.wf=0;S.accelMode=false;S.gradPts=[];
+  document.getElementById('btnPlay').innerHTML='&#9654; Play';
+  document.getElementById('btnWP').textContent='+ Waypoint';
+  document.querySelectorAll('.exp-card,.story-card').forEach(c=>c.classList.remove('active-exp'));
+  document.getElementById('accelInfo').innerHTML='';
+  updateUI();updateLog();updateWhy();drawGraphs();
+}
+function undoLast(){if(!S.ph.length)return;const l=S.ph.pop();S.td-=Math.abs(l.to-l.from);S.cx=l.from;if(S.posH.length>1)S.posH.pop();updateUI();updateLog();updateWhy();drawGraphs();}
+function takeSnap(){
+  S.snaps.push({id:S.snaps.length+1,dist:S.td,disp:S.cx-S.sx,segs:S.ph.length,iv:S.posH.length>=2?S.posH[S.posH.length-1].pos-S.posH[S.posH.length-2].pos:0,time:new Date().toLocaleTimeString()});
+  renderSnaps();
+  S.nbTrials.push({id:S.nbTrials.length+1,dist:S.td,disp:S.cx-S.sx,path:[...S.ph],time:new Date().toLocaleTimeString()});
+  renderNB();
+}
+function renderSnaps(){
+  const el=document.getElementById('snapList');el.innerHTML='';
+  if(!S.snaps.length){el.innerHTML='<p style="font-size:9px;color:var(--text-muted);">Take snapshots to compare.</p>';return;}
+  for(const s of S.snaps){const d=document.createElement('div');d.className='exp-card';d.style.cursor='default';d.innerHTML=`<h4>#${s.id} <span style="font-weight:400;font-size:9px;color:var(--text-muted);">${s.time}</span></h4><p style="font-family:var(--mono);font-size:9px;">d=${s.dist.toFixed(1)}m | Δx=${(s.disp>=0?'+':'')+s.disp.toFixed(1)}m | vₗₐₛₜ=${s.iv.toFixed(1)} m/s</p>`;el.appendChild(d);}
+}
+function renderNB(){
+  const el=document.getElementById('nbTrials');el.innerHTML='';
+  for(const t of S.nbTrials){const d=document.createElement('div');d.className='nb-entry';d.innerHTML=`<h4>Trial #${t.id} <span style="font-weight:400;font-size:9px;color:var(--text-muted);">${t.time}</span></h4><p>d=${t.dist.toFixed(1)}m | Δx=${(t.disp>=0?'+':'')+t.disp.toFixed(1)}m | path: ${t.path.map(s=>s.from.toFixed(1)+'→'+s.to.toFixed(1)).join(', ')}</p>`;el.appendChild(d);}
+}
+function saveNB(){const b=event.target;b.textContent='Saved!';b.style.background='rgba(0,200,83,.2)';setTimeout(()=>{b.textContent='Save';b.style.background='';},1200);}
+function exportNB(){window.print();}
+
+function togGrid(){S.grid=!S.grid;document.getElementById('tGrid').classList.toggle('on',S.grid);}
+function togVec(){S.vec=!S.vec;document.getElementById('tVec').classList.toggle('on',S.vec);}
+function toggleWhy(){document.getElementById('whyPopup').classList.toggle('show');}
+
+document.getElementById('spdSlider').addEventListener('input',(e)=>{S.spd=parseFloat(e.target.value);document.getElementById('spdLbl').textContent=S.spd+'x';});
+
+function switchTab(el,name){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('tab-'+name).classList.add('active');if(name==='graphs')drawGraphs();}
+
+// EXPERIMENTS
+const exps=[
+  {title:'Round Trip',wp:[{x:8},{x:0}],q:'After +8m and back: displacement?',a:0,diff:'easy'},
+  {title:'Zig-Zag',wp:[{x:5},{x:-3},{x:7}],q:'+5, −3, +7. Displacement?',a:7,diff:'easy'},
+  {title:'Zero Displacement',wp:[{x:8},{x:-8},{x:0}],q:'Distance=24m. Displacement?',a:0,diff:'medium'},
+  {title:'Maximum Distance',wp:[{x:-6},{x:6},{x:-4},{x:2}],q:'−6, +6, −4, +2. Displacement?',a:2,diff:'hard'},
+  {title:'Negative Displacement',wp:[{x:3},{x:-6}],q:'+3 then −6. Displacement?',a:-6,diff:'medium'},
+  {title:'Velocity Trap',wp:[{x:2},{x:8},{x:5}],q:'Slow to +2, fast to +8, back to +5. Same displacement as going straight to +5 — but different velocity graph. Displacement?',a:5,diff:'dp'},
+  {title:'Graph Matching',wp:[{x:4},{x:4},{x:-2},{x:-2},{x:6}],q:'Watch the shape of the position-time graph. Where does velocity = 0? Final displacement?',a:6,diff:'dp'},
+];
+
+function buildExps(){
+  const el=document.getElementById('expList');
+  exps.forEach((e,i)=>{const d=document.createElement('div');d.className='exp-card';d.onclick=()=>loadExp(i);d.innerHTML=`<h4>${i+1}. ${e.title}</h4><p>${e.q}</p><span class="diff-tag ${e.diff}">${e.diff==='dp'?'DP Level':e.diff}</span>`;el.appendChild(d);});
+}
+function loadExp(i){resetSim();const e=exps[i];S.wp=e.wp.map(w=>({x:w.x}));S.exp={...e,predicted:false,idx:i};document.querySelectorAll('#expList .exp-card').forEach((c,j)=>c.classList.toggle('active-exp',j===i));}
+
+// STORIES
+const stories=[
+  {icon:'\u{1F916}',title:'Rescue Robot',brief:'Survey a disaster zone and return to base.',task:'+7m (survivor A), −5m (survivor B), back to 0m.',wp:[{x:7},{x:-5},{x:0}],q:'Robot returns to base. Displacement?',a:0},
+  {icon:'\u{1F3C3}',title:'Lost Runner',brief:'Runs past the finish line, doubles back.',task:'+10m (overshoot), back to +6m (finish).',wp:[{x:10},{x:6}],q:'Displacement?',a:6},
+  {icon:'\u{1F681}',title:'Drone Delivery',brief:'Three stops along a delivery route.',task:'−4m (pkg A), +8m (pkg B), +3m (drop-off).',wp:[{x:-4},{x:8},{x:3}],q:'Final displacement?',a:3},
+];
+
+function buildStories(){
+  const el=document.getElementById('storyList');
+  stories.forEach((s,i)=>{const d=document.createElement('div');d.className='story-card';d.onclick=()=>loadStory(i);d.innerHTML=`<div class="story-icon">${s.icon}</div><h4>${s.title}</h4><p class="sb">${s.brief}</p><p class="st">${s.task}</p>`;el.appendChild(d);});
+}
+function loadStory(i){resetSim();const s=stories[i];S.wp=s.wp.map(w=>({x:w.x}));S.exp={...s,predicted:false,idx:i};document.querySelectorAll('.story-card').forEach((c,j)=>c.classList.toggle('active-exp',j===i));}
+
+// IB CHALLENGES
+const ibChallenges=[
+  {cmd:'Define',q:'Define displacement.',type:'text',check:(v)=>{const l=v.toLowerCase();return(l.includes('vector')||l.includes('direction'))&&(l.includes('change in position')||l.includes('shortest')||l.includes('start')&&l.includes('finish'))?'correct':l.length>15?'partial':'wrong';},fb:{correct:'Displacement is a vector quantity measuring the change in position from start to finish, including direction.',partial:'You\'re on the right track. Remember: displacement is a vector (has direction) and measures the straight-line change in position.',wrong:'Try again. Think: scalar or vector? What does it measure?'},marks:2},
+  {cmd:'State',q:'State whether distance can ever be negative. Justify.',type:'text',check:(v)=>{const l=v.toLowerCase();return l.includes('no')&&(l.includes('scalar')||l.includes('magnitude'))?'correct':l.includes('no')?'partial':'wrong';},fb:{correct:'Correct. Distance is a scalar quantity — it has magnitude only, so it is always positive or zero.',partial:'Correct that it cannot be negative, but include WHY: distance is a scalar (magnitude only).',wrong:'Distance is a scalar quantity. It cannot be negative.'},marks:2},
+  {cmd:'Calculate',q:'An object moves +8m then −3m. Calculate: (a) total distance (b) displacement.',type:'calc',ans_a:11,ans_b:5,marks:4},
+  {cmd:'Explain',q:'Explain why an object can have zero displacement but non-zero distance.',type:'text',check:(v)=>{const l=v.toLowerCase();return(l.includes('return')||l.includes('back'))&&(l.includes('cancel')||l.includes('opposite')||l.includes('net'))?'correct':l.length>20?'partial':'wrong';},fb:{correct:'When an object returns to its starting position, the forward and backward displacements cancel, giving Δx = 0, while distance accumulates with every step.',partial:'Good start. Be more specific: movements in opposite directions cancel in displacement but add in distance.',wrong:'Think about what happens when you walk somewhere and walk back.'},marks:3},
+  {cmd:'Deduce',q:'From the velocity-time graph: if velocity is positive for 3s then negative for 3s with equal magnitude, deduce the displacement.',type:'num',ans:0,marks:3},
+  {cmd:'Calculate',q:'Average speed = 4 m/s, average velocity = −2 m/s, time = 5s. Calculate distance and displacement.',type:'calc',ans_a:20,ans_b:-10,marks:4},
+];
+
+function buildIB(){
+  const el=document.getElementById('ibList');
+  ibChallenges.forEach((ch,i)=>{
+    const d=document.createElement('div');d.className='ib-card';
+    let inputHTML='';
+    if(ch.type==='text')inputHTML=`<textarea id="ib${i}" placeholder="Write your answer..."></textarea>`;
+    else if(ch.type==='num')inputHTML=`<div class="ib-input"><input type="number" id="ib${i}" placeholder="0"><span class="mu">m</span></div>`;
+    else if(ch.type==='calc')inputHTML=`<div class="ib-input"><span style="font-size:10px;font-weight:600;">(a)</span><input type="number" id="ib${i}a" placeholder="0"><span class="mu">m</span><span style="font-size:10px;font-weight:600;margin-left:8px;">(b)</span><input type="number" id="ib${i}b" placeholder="0"><span class="mu">m</span></div>`;
+    d.innerHTML=`<div class="ib-cmd">${ch.cmd}</div><h4>Q${i+1}</h4><p>${ch.q}</p>${inputHTML}<button class="btn primary" style="margin-top:6px;" onclick="checkIB(${i})">Check [${ch.marks} marks]</button><div class="ib-feedback" id="ibFB${i}"></div>`;
+    el.appendChild(d);
+  });
+}
+
+function checkIB(i){
+  const ch=ibChallenges[i],fb=document.getElementById('ibFB'+i);
+  let result='wrong';
+  if(ch.type==='text'){
+    const v=document.getElementById('ib'+i).value.trim();
+    if(!v){fb.className='ib-feedback show wrong';fb.textContent='Please write an answer.';return;}
+    result=ch.check(v);
+    fb.innerHTML=ch.fb[result]+`<div class="ib-marks">${result==='correct'?ch.marks:result==='partial'?Math.ceil(ch.marks/2):0} / ${ch.marks} marks</div>`;
+  }else if(ch.type==='num'){
+    const v=parseFloat(document.getElementById('ib'+i).value);
+    if(isNaN(v)){fb.className='ib-feedback show wrong';fb.textContent='Enter a number.';return;}
+    result=Math.abs(v-ch.ans)<.1?'correct':'wrong';
+    fb.innerHTML=(result==='correct'?'Correct! ':'Incorrect. The answer is '+ch.ans+'m. ')+'Area under v-t graph = displacement. Equal positive and negative areas cancel.'+`<div class="ib-marks">${result==='correct'?ch.marks:0} / ${ch.marks} marks</div>`;
+  }else if(ch.type==='calc'){
+    const a=parseFloat(document.getElementById('ib'+i+'a').value),b=parseFloat(document.getElementById('ib'+i+'b').value);
+    if(isNaN(a)||isNaN(b)){fb.className='ib-feedback show wrong';fb.textContent='Fill in both answers.';return;}
+    const aOK=Math.abs(a-ch.ans_a)<.1,bOK=Math.abs(b-ch.ans_b)<.1;
+    result=aOK&&bOK?'correct':aOK||bOK?'partial':'wrong';
+    fb.innerHTML=`(a) ${aOK?'✓':'✗ = '+ch.ans_a+'m'} (b) ${bOK?'✓':'✗ = '+ch.ans_b+'m'}. Distance = sum of |segments|. Displacement = net change in position.`+`<div class="ib-marks">${aOK&&bOK?ch.marks:aOK||bOK?Math.ceil(ch.marks/2):0} / ${ch.marks} marks</div>`;
+  }
+  fb.className='ib-feedback show '+result;
+  if(result==='correct')S.sc.ok++;else if(result==='wrong')S.sc.no++;
+  document.getElementById('scOK').innerHTML='&#10003; '+S.sc.ok;
+  document.getElementById('scNO').innerHTML='&#10007; '+S.sc.no;
+}
+
+// ACCELERATION MODE
+function launchAccel(){
+  resetSim();S.accelMode=true;
+  const u=parseFloat(document.getElementById('aU').value)||0;
+  const a=parseFloat(document.getElementById('aA').value)||0;
+  const info=document.getElementById('accelInfo');
+  info.innerHTML=`<strong>Launching:</strong> u = ${u} m/s, a = ${a} m/s²<br>Watch: position-time is <strong>${a===0?'linear':'curved'}</strong>, velocity-time is <strong>linear</strong>.`;
+
+  let t=0;
+  const maxT=16;
+  S.posH=[{time:0,pos:0}];S.ts=1;
+
+  function step(){
+    t++;if(t>maxT){S.isPlay=false;S.accelMode=false;info.innerHTML+=`<br><br><strong>Results:</strong> Final position = ${S.cx.toFixed(1)}m | Final velocity = ${(u+a*t).toFixed(1)} m/s | Distance = ${S.td.toFixed(1)}m | Displacement = ${(S.cx-S.sx).toFixed(1)}m`;drawGraphs();return;}
+    const v=u+a*(t-1);
+    const newX=Math.round(Math.max(-11,Math.min(11,S.cx+v))* 2)/2;
+    const old=S.cx;S.cx=newX;S.wd=newX>=old?1:-1;
+    if(old!==newX)recordMv(old,newX);
+    S.posH.push({time:S.ts++,pos:S.cx});
+    updateUI();drawGraphs();
+    setTimeout(step,400/S.spd);
+  }
+  S.isPlay=true;step();
+}
+
+// PREDICTION
+function showPred(){document.getElementById('pmTitle').textContent='Predict!';document.getElementById('pmQ').textContent=S.exp.q;document.getElementById('pmIn').value='';document.getElementById('pmR').className='modal-result';document.getElementById('pmR').style.display='none';document.getElementById('predModal').classList.add('show');document.getElementById('pmIn').focus();}
+function subPred(){
+  const v=parseFloat(document.getElementById('pmIn').value);if(isNaN(v))return;
+  const ans=S.exp.a;const ok=Math.abs(v-ans)<.1;const r=document.getElementById('pmR');
+  if(ok){r.className='modal-result correct';r.textContent='Correct! Δx = '+ans+'m';S.sc.ok++;}
+  else{r.className='modal-result wrong';r.textContent='Not quite (you said '+v+'m). Watch and see.';S.sc.no++;}
+  r.style.display='block';document.getElementById('scOK').innerHTML='&#10003; '+S.sc.ok;document.getElementById('scNO').innerHTML='&#10007; '+S.sc.no;
+  S.exp.predicted=true;setTimeout(()=>{document.getElementById('predModal').classList.remove('show');startPlay();},1600);
+}
+function skipPred(){S.exp.predicted=true;document.getElementById('predModal').classList.remove('show');startPlay();}
+document.getElementById('pmIn').addEventListener('keydown',(e)=>{if(e.key==='Enter')subPred();});
+
+// INIT
+function init(){resize();initP();S.posH=[{time:0,pos:0}];buildExps();buildStories();buildIB();updateUI();drawGraphs();drawScene();}
+window.addEventListener('resize',()=>{resize();drawGraphs();});
+init();
+</script>
+</body>
+</html>
