@@ -2099,11 +2099,24 @@ async function loadContentImages(topicCode, subtopicId, section) {
                        .doc(topicCode)
                        .collection(subtopicId)
                        .where('section', '==', section)
-                       .orderBy('timestamp')
                        .get();
     
-    var html = '';
+    var docs = [];
     snap.forEach(function(doc) {
+      docs.push({ id: doc.id, data: doc.data() });
+    });
+    
+    // Sort manually in JS to avoid needing a composite index
+    docs.sort(function(a, b) {
+      var tA = a.data.timestamp ? a.data.timestamp.toMillis() : 0;
+      var tB = b.data.timestamp ? b.data.timestamp.toMillis() : 0;
+      return tA - tB;
+    });
+    
+    var html = '';
+    docs.forEach(function(docObj) {
+      var doc = docObj;
+      var d = docObj.data;
       var d = doc.data();
       html += '<div class="content-img-wrap">';
       html += '<img src="' + d.url + '" class="content-img" alt="' + (d.fileName || '') + '">';
