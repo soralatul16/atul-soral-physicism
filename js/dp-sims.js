@@ -16,5 +16,14 @@ const DP_SIMS = [
     topicName: "Measurements & Uncertainties",
     description: "Explore how derived quantities are calculated from base measurements.",
     file: "sims/derived-quantities-lab.html"
+  },
+  {
+    id: "particle-model",
+    title: "Particle Model",
+    icon: "🔬",
+    topic: "B.1",
+    topicName: "Thermal Energy Transfers",
+    description: "Visualise how particles behave in solids, liquids, and gases. Explore temperature, energy, and state changes.",
+    file: "sims/particle-model.html"
   }
 ];
