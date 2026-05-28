@@ -230,7 +230,46 @@ h1{font-size:26px;font-weight:700;color:var(--text);line-height:1.25;letter-spac
 @media(max-width:768px){.sidebar{display:none;}.li{padding:16px 14px 80px;}.rp{display:none;}}
 @media print{.sidebar,.topbar,.rp,.fl,.tabs{display:none;}.main{height:auto;}.content{overflow:visible;}.tp{display:block!important;}.lb{display:block!important;}}
 
+
+/* Inline Image Upload CSS */
+.img-upload-zone { margin-top: 16px; }
+.img-upload-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 18px; border-radius: 10px;
+  border: 2px dashed rgba(14,165,233,0.3);
+  background: rgba(14,165,233,0.04);
+  color: #0284c7; font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: -apple-system, sans-serif;
+  transition: all 0.2s;
+}
+.img-upload-btn:hover {
+  border-color: rgba(14,165,233,0.5);
+  background: rgba(14,165,233,0.08);
+}
+.content-img-wrap { position: relative; margin: 12px 0; }
+.content-img {
+  max-width: 100%; width: auto; height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  display: block;
+}
+.img-delete-btn {
+  position: absolute; top: 8px; right: 8px;
+  background: rgba(239,68,68,0.9);
+  border: none; color: #fff;
+  font-size: 11px; padding: 4px 10px;
+  border-radius: 6px; cursor: pointer;
+  opacity: 0; transition: opacity 0.2s;
+}
+.content-img-wrap:hover .img-delete-btn { opacity: 1; }
+.img-uploading {
+  color: var(--text3); font-size: 12px;
+  font-style: italic; padding: 8px 0;
+  font-family: -apple-system, sans-serif;
+}
 </style>
+
 
 </head>
 <body>
@@ -369,6 +408,7 @@ h1{font-size:26px;font-weight:700;color:var(--text);line-height:1.25;letter-spac
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 <script src="exam-system/firebase-config.js?v=2"></script>
 
 <!-- Content and Progress Data Scripts -->
@@ -1923,5 +1963,203 @@ async function sendAIMsg(){
 }
 </script>
 
+
+<script>
+// ═══ SECRET IMAGE UPLOAD MODE ═══
+let imageEditMode = false;
+
+document.addEventListener('keydown', function(e) {
+  // Ctrl+Shift+I (not the browser DevTools — we intercept it)
+  if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+    e.preventDefault();
+    if (imageEditMode) return;
+    const pw = prompt('Enter teacher password to enable image editing:');
+    if (pw === 'atul123') {
+      imageEditMode = true;
+      injectImageButtons();
+      showToast('Image editing enabled for this session');
+    }
+  }
+});
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#059669;color:#fff;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:9999;font-family:-apple-system,sans-serif;box-shadow:0 4px 16px rgba(0,0,0,0.15)';
+  document.body.appendChild(t);
+  setTimeout(function() { t.remove(); }, 2500);
+}
+
+function injectImageButtons() {
+  // Find all Foundation/Core/Extension content areas
+  document.querySelectorAll('.lb').forEach(function(lb) {
+    // Determine section type from parent
+    var layer = lb.closest('.layer');
+    if (!layer) return;
+    var section = 'foundation';
+    if (layer.classList.contains('l-c')) section = 'core';
+    if (layer.classList.contains('l-e')) section = 'extension';
+    
+    // Check if button already added
+    if (lb.querySelector('.img-upload-zone.has-btn')) return;
+    
+    // Also remove any view-only zone we injected earlier so we don't duplicate
+    var existingViewZone = lb.querySelector('.img-upload-zone.view-only');
+    if (existingViewZone) existingViewZone.remove();
+    
+    var sub = currentTopicData.subtopics[currentLessonIdx];
+    var subtopicId = sub.id || String(sub.num);
+    
+    var zone = document.createElement('div');
+    zone.className = 'img-upload-zone has-btn';
+    zone.innerHTML = '<div class="img-existing" id="imgExisting-' + section + '"></div>' +
+      '<label class="img-upload-btn">' +
+      '📷 Add Image' +
+      '<input type="file" accept="image/*" style="display:none" ' +
+      'onchange="uploadContentImage(this.files[0],\'' + activeTopicCode + '\',\'' + subtopicId + '\',\'' + section + '\')">' +
+      '</label>';
+    lb.appendChild(zone);
+    
+    // Load existing images
+    loadContentImages(activeTopicCode, subtopicId, section);
+  });
+}
+
+async function uploadContentImage(file, topicCode, subtopicId, section) {
+  if (!file || !imageEditMode) return;
+  
+  var existing = document.getElementById('imgExisting-' + section);
+  if (!existing) return;
+  
+  // Show uploading state
+  var loadingDiv = document.createElement('div');
+  loadingDiv.className = 'img-uploading';
+  loadingDiv.textContent = 'Uploading ' + file.name + '...';
+  existing.appendChild(loadingDiv);
+  
+  try {
+    var storage = firebase.storage();
+    var path = 'content-images/' + topicCode + '/' + subtopicId + '/' + section + '/' + Date.now() + '_' + file.name;
+    var ref = storage.ref(path);
+    await ref.put(file);
+    var url = await ref.getDownloadURL();
+    
+    var db = firebase.firestore();
+    await db.collection('dp-content-images')
+            .doc(topicCode)
+            .collection(subtopicId)
+            .add({
+              section: section,
+              url: url,
+              storagePath: path,
+              fileName: file.name,
+              timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+    
+    loadingDiv.remove();
+    loadContentImages(topicCode, subtopicId, section);
+    
+  } catch(e) {
+    loadingDiv.textContent = 'Upload failed: ' + e.message;
+    loadingDiv.style.color = 'var(--err)';
+  }
+}
+
+async function loadContentImages(topicCode, subtopicId, section) {
+  var existing = document.getElementById('imgExisting-' + section);
+  
+  if (!existing && !imageEditMode) {
+    // Inject read-only view container for students
+    const layers = document.querySelectorAll('.layer');
+    let targetLayer = null;
+    layers.forEach(l => {
+      if (section === 'foundation' && l.classList.contains('l-f')) targetLayer = l;
+      else if (section === 'core' && l.classList.contains('l-c')) targetLayer = l;
+      else if (section === 'extension' && l.classList.contains('l-e')) targetLayer = l;
+    });
+    
+    if (targetLayer) {
+      const lb = targetLayer.querySelector('.lb');
+      if (lb) {
+        var viewZone = document.createElement('div');
+        viewZone.className = 'img-upload-zone view-only';
+        viewZone.innerHTML = '<div class="img-existing" id="imgExisting-' + section + '"></div>';
+        lb.appendChild(viewZone);
+        existing = document.getElementById('imgExisting-' + section);
+      }
+    }
+  }
+  
+  if (!existing) return;
+  if (typeof firebase === 'undefined' || !firebase.firestore) return;
+  
+  var db = firebase.firestore();
+  try {
+    var snap = await db.collection('dp-content-images')
+                       .doc(topicCode)
+                       .collection(subtopicId)
+                       .where('section', '==', section)
+                       .orderBy('timestamp')
+                       .get();
+    
+    var html = '';
+    snap.forEach(function(doc) {
+      var d = doc.data();
+      html += '<div class="content-img-wrap">';
+      html += '<img src="' + d.url + '" class="content-img" alt="' + (d.fileName || '') + '">';
+      if (imageEditMode) {
+        html += '<button class="img-delete-btn" onclick="deleteContentImage(\'' + topicCode + '\',\'' + subtopicId + '\',\'' + doc.id + '\',\'' + (d.storagePath || '').replace(/\'/g, "\\'") + '\')">🗑 Remove</button>';
+      }
+      html += '</div>';
+    });
+    
+    existing.innerHTML = html;
+  } catch(e) {
+    // Silent fail
+  }
+}
+
+async function deleteContentImage(topicCode, subtopicId, docId, storagePath) {
+  if (!imageEditMode) return;
+  if (!confirm('Delete this image?')) return;
+  
+  try {
+    await firebase.firestore()
+                  .collection('dp-content-images')
+                  .doc(topicCode)
+                  .collection(subtopicId)
+                  .doc(docId)
+                  .delete();
+    
+    if (storagePath) {
+      try { await firebase.storage().ref(storagePath).delete(); } catch(e) {}
+    }
+    
+    // We re-render active subtopic instead of injecting buttons.
+    renderActiveSubtopic();
+    setTimeout(injectImageButtons, 100);
+  } catch(e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+// Override renderActiveSubtopic to load images right away for students
+var origRenderActiveSubtopic = typeof renderActiveSubtopic === 'function' ? renderActiveSubtopic : null;
+if (origRenderActiveSubtopic) {
+  var _origRender = renderActiveSubtopic;
+  renderActiveSubtopic = function() {
+    _origRender.apply(this, arguments);
+    var sub = currentTopicData.subtopics[currentLessonIdx];
+    if (sub) {
+      var subtopicId = sub.id || String(sub.num);
+      loadContentImages(activeTopicCode, subtopicId, 'foundation');
+      loadContentImages(activeTopicCode, subtopicId, 'core');
+      loadContentImages(activeTopicCode, subtopicId, 'extension');
+    }
+    if (imageEditMode) setTimeout(injectImageButtons, 100);
+  };
+}
+</script>
 </body>
+
 </html>
