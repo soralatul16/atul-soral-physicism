@@ -35,7 +35,8 @@ body{font-family:Georgia,'Palatino Linotype','Book Antiqua',Palatino,serif;backg
 .si{padding:9px 14px;margin:2px 10px;border-radius:10px;font-size:12px;color:rgba(255,255,255,0.7);cursor:pointer;transition:all .2s;display:flex;justify-content:space-between;align-items:center;font-family:-apple-system,system-ui,sans-serif;}
 .si:hover{background:rgba(255,255,255,0.08);color:white;}
 .si.active{background:rgba(255,255,255,0.15);color:white;font-weight:600;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.12),0 2px 8px rgba(0,0,0,0.08);}
-.si-status-badge {font-size:9px;color:rgba(255,255,255,0.35);font-family:'Menlo',monospace;padding:2px 6px;border-radius:8px;}
+.si-status-badge {font-size:9px;font-family:'Menlo',monospace;padding:2px 8px;border-radius:8px;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);}
+.si-status-badge.complete {background:rgba(34,197,94,0.2);color:#4ade80;}
 .sidebar-back{display:block;padding:14px 20px;text-decoration:none;font-size:11px;color:rgba(255,255,255,0.4);border-top:1px solid rgba(255,255,255,0.06);margin-top:auto;font-family:-apple-system,system-ui,sans-serif;}
 
 /* MAIN */
@@ -664,8 +665,16 @@ function renderSidebar() {
     item.id = `sidebar-item-${idx}`;
     item.onclick = () => showLesson(idx);
     
-    let badgeText = subTotal > 0 ? `${subChecked}/${subTotal} ✓` : '';
-    let badgeStyle = subChecked === subTotal && subTotal > 0 ? "background: rgba(22,163,74,0.1); color: var(--green);" : "background: rgba(0,0,0,0.04); color: var(--text3);";
+    let badgeText = '';
+    let badgeClass = 'si-status-badge';
+    if (subTotal > 0) {
+      if (subChecked === subTotal) {
+        badgeText = '✓ ' + subChecked + '/' + subTotal;
+        badgeClass = 'si-status-badge complete';
+      } else {
+        badgeText = subChecked + '/' + subTotal;
+      }
+    }
     
     const ahlLabel = (currentLevel === 'hl' && sub.scope === 'hl') ? `<span class="b-ahl" style="font-size: 8px; padding: 1px 4px; margin-left: 6px;">AHL</span>` : '';
     
@@ -675,7 +684,7 @@ function renderSidebar() {
           <span class="si-num">${sub.num}</span>
           <span class="si-title" title="${sub.title}">${sub.title} ${ahlLabel}</span>
         </span>
-        <span class="si-status-badge" style="${badgeStyle}">${badgeText}</span>
+        <span class="${badgeClass}">${badgeText}</span>
       </span>
     `;
     sidebarList.appendChild(item);
