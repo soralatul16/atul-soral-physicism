@@ -89,4 +89,13 @@ const DP_SIMS = [
     description: "Compare conduction, convection, and radiation. Explore Stefan-Boltzmann law, Newton's cooling, and emissivity.",
     file: "sims/heat-transfer-modes.html"
   },
+    {
+    id: "blackbody-radiation",
+    title: "Blackbody Radiation",
+    icon: "☀️",
+    topic: "B.1",
+    topicName: "Thermal Radiation & Quantum",
+    description: "Explore Planck curves, Wien's displacement law, Stefan-Boltzmann, and the ultraviolet catastrophe.",
+    file: "sims/blackbody-radiation.html"
+  },
 ];
