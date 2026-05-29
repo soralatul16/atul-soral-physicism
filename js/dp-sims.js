@@ -80,4 +80,13 @@ const DP_SIMS = [
     description: "Explore centre of gravity, base of support, stability conditions, and critical toppling angles in 3D.",
     file: "sims/stability-3d.html"
   },
+    {
+    id: "heat-transfer-modes",
+    title: "Heat Transfer Modes",
+    icon: "♨️",
+    topic: "B.1",
+    topicName: "Thermal Energy Transfers",
+    description: "Compare conduction, convection, and radiation. Explore Stefan-Boltzmann law, Newton's cooling, and emissivity.",
+    file: "sims/heat-transfer-modes.html"
+  },
 ];
