@@ -71,5 +71,13 @@ const DP_SIMS = [
     description: "Explore conduction, thermal conductivity, Fourier's law, R-values, and insulation with interactive experiments.",
     file: "sims/thermal-conduction.html"
   },
-
+    {
+    id: "stability-3d",
+    title: "Stability & Toppling 3D",
+    icon: "🧱",
+    topic: "A.4",
+    topicName: "Rigid Body Mechanics – Stability",
+    description: "Explore centre of gravity, base of support, stability conditions, and critical toppling angles in 3D.",
+    file: "sims/stability-3d.html"
+  },
 ];
