@@ -79,6 +79,434 @@ nav a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem}nav a:ho
 </style>
 </head>
 <body>
+<script>var SIM_META={id:'stability-3d',title:'Stability & Toppling 3D',topic:'A.2',topicName:'Forces – Stability',grade:['MYP5','DP'],level:'both',theme:'A',concepts:['centre of gravity','centre of mass','base of support','stability','toppling','tipping angle'],difficulty:'intermediate'};</script>
+<nav>
+  <div style="display:flex;align-items:center;gap:14px"><a href="../index.html" class="nav-logo">Atul Soral Physicism</a><a href="../dp-simulations.html">← All Simulations</a></div>
+  <div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">☀️</button><a href="../dp-simulations.html" class="nav-btn">← Back</a><a href="../index.html" class="nav-btn">Home</a><a href="../myp-dashboard.html" class="nav-btn">MYP</a><a href="../dp-dashboard.html" class="nav-btn">DP</a></div>
+</nav>
+<div class="w">
+<div class="hd"><h1>Stability &amp; Toppling — 3D Lab</h1><p>Centre of Mass, Base of Support &amp; The Tipping Point</p></div>
+<div class="grid">
+  <div>
+    <div class="view-wrap">
+      <div id="view3d"></div>
+      <div id="overlay">
+        <div class="o-title" id="oName">Racing Car</div>
+        <div class="o-angle" id="oAngle">0°</div>
+        <div class="o-status" id="oStatus" style="color:#22c55e">STABLE</div>
+      </div>
+    </div>
+    <div class="gp" id="ctrl"></div>
+    <div id="calc"></div>
+  </div>
+  <div class="rcol" id="rp"></div>
+</div>
+<div class="gp" style="padding:8px 10px">
+  <div class="btabs">
+    <div class="bt on" onclick="bts(this,0)">🔬 Experiment</div>
+    <div class="bt" onclick="bts(this,1)">📊 Data</div>
+    <div class="bt" onclick="bts(this,2)">📝 IB</div>
+    <div class="bt" onclick="bts(this,3)">📓 Notes</div>
+  </div>
+  <div class="btc on" id="b0"><div id="expC"></div></div>
+  <div class="btc" id="b1"><div id="dW"><p style="font-size:.64rem;color:var(--text3);text-align:center;padding:8px">Collect data first.</p></div><div class="graph-wrap"><canvas id="gC"></canvas></div></div>
+  <div class="btc" id="b2"><div id="ibL"></div></div>
+  <div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-size:.68rem;font-weight:700;color:var(--accent);font-family:var(--serif)">📓 Notebook</span><button class="btn btn-a" onclick="window.print()" style="font-size:.56rem;padding:2px 6px">Print</button></div><div id="nbO"></div></div>
+</div>
+</div>
+
+<script type="module">
+import * as THREE from 'https://artifactcdn.diabrowser.engineering/ajax/libs/three.js/three.module.js';
+
+const $=i=>document.getElementById(i);
+const dk=()=>document.documentElement.dataset.theme==='dark';
+$('themeBtn').onclick=()=>{const t=dk()?'light':'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️';localStorage.setItem('phy-theme',t);updateSceneBg()};
+(()=>{const t=localStorage.getItem('phy-theme')||'light';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️'})();
+
+// ===== PRESETS =====
+const PRESETS=[
+  {n:'Racing Car',bw:.8,h:.3,cog:.3,col:0xdc2626,type:'car',uniform:false,desc:'Non-uniform: heavy engine low, wide wheelbase',why:'Low CoG + wide base = very stable in corners',com:'COM below geometric centre — engine concentrates mass low'},
+  {n:'SUV',bw:.7,h:.7,cog:.5,col:0x2563eb,type:'suv',uniform:false,desc:'Non-uniform: raised body, higher suspension',why:'Higher CoG = rolls easier on turns',com:'COM near geometric centre but elevated'},
+  {n:'Double-Decker Bus',bw:.6,h:1.2,cog:.35,col:0xd97706,type:'bus',uniform:false,desc:'Non-uniform: batteries + engine in floor',why:'Heavy base lowers CoG despite tall body',com:'COM well below centre — design choice'},
+  {n:'Wine Bottle',bw:.25,h:.7,cog:.3,col:0x16a34a,type:'bottle',uniform:false,desc:'Non-uniform: thick glass base, thin neck',why:'Heavy base + narrow neck = stable when full',com:'COM drops when filled with liquid'},
+  {n:'Wine Glass',bw:.3,h:.5,cog:.25,col:0x8888cc,type:'glass',uniform:false,desc:'Non-uniform: heavy base, light stem',why:'Wide heavy base keeps it upright',com:'COM in stem area'},
+  {n:'Person',bw:.25,h:.9,cog:.55,col:0xf59e0b,type:'person',uniform:false,desc:'Non-uniform: CoG near navel, tiny base',why:'Narrow stance = unstable. Spread feet = stable',com:'COM near belly button — shifts with posture'},
+  {n:'Uniform Box',bw:.4,h:.6,cog:.5,col:0x3b82f6,type:'box',uniform:true,desc:'Uniform: mass evenly distributed',why:'CoG at geometric centre',com:'COM = geometric centre for uniform objects'},
+  {n:'Ball',bw:.4,h:.4,cog:.5,col:0x22c55e,type:'ball',uniform:true,desc:'Uniform sphere: CoG at centre',why:'Neutral stability — rolls, no preferred orientation',com:'COM at exact centre'}
+];
+
+let S={pi:0,angle:0,toppled:false,fallAngle:0,toppleAngle:0};
+
+function getTipAngle(){const p=PRESETS[S.pi];return Math.atan2(p.bw/2,p.h*p.cog)*180/Math.PI}
+function sci(v){return v.toFixed(1)}
+
+// ===== THREE.JS SETUP =====
+const container=$('view3d');
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(45,16/9,.1,100);
+camera.position.set(3,2.5,3);camera.lookAt(0,.5,0);
+
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+container.appendChild(renderer.domElement);
+
+function resizeRenderer(){
+  const w=container.clientWidth,h=container.clientHeight||w*9/16;
+  renderer.setSize(w,h);
+  camera.aspect=w/h;camera.updateProjectionMatrix();
+}
+new ResizeObserver(resizeRenderer).observe(container);
+resizeRenderer();
+
+// Lighting
+const ambLight=new THREE.AmbientLight(0xffffff,.5);scene.add(ambLight);
+const dirLight=new THREE.DirectionalLight(0xffffff,.8);
+dirLight.position.set(4,6,3);dirLight.castShadow=true;
+dirLight.shadow.mapSize.width=1024;dirLight.shadow.mapSize.height=1024;
+dirLight.shadow.camera.near=.5;dirLight.shadow.camera.far=20;
+dirLight.shadow.camera.left=-4;dirLight.shadow.camera.right=4;
+dirLight.shadow.camera.top=4;dirLight.shadow.camera.bottom=-4;
+scene.add(dirLight);
+const hemiLight=new THREE.HemisphereLight(0x87ceeb,0x362d1e,.3);scene.add(hemiLight);
+
+function updateSceneBg(){
+  scene.background=new THREE.Color(dk()?0x0f172a:0xdbeafe);
+  if(groundMesh)groundMesh.material.color.set(dk()?0x1e293b:0xc8d6e5);
+}
+
+// Ground
+const groundGeo=new THREE.PlaneGeometry(10,10);
+const groundMat=new THREE.MeshStandardMaterial({color:0xc8d6e5,roughness:.8});
+const groundMesh=new THREE.Mesh(groundGeo,groundMat);
+groundMesh.rotation.x=-Math.PI/2;groundMesh.receiveShadow=true;
+scene.add(groundMesh);
+// Grid
+const gridHelper=new THREE.GridHelper(10,.5,0x94a3b8,0x94a3b8);
+gridHelper.material.opacity=.15;gridHelper.material.transparent=true;
+scene.add(gridHelper);
+
+updateSceneBg();
+
+// ===== PLATFORM =====
+const platGeo=new THREE.BoxGeometry(2.5,.08,.8);
+const platMat=new THREE.MeshStandardMaterial({color:0x64748b,roughness:.4,metalness:.3});
+const platform=new THREE.Mesh(platGeo,platMat);
+platform.position.y=.3;platform.castShadow=true;platform.receiveShadow=true;
+scene.add(platform);
+// Pivot cylinder
+const pivotGeo=new THREE.CylinderGeometry(.04,.06,.3,16);
+const pivotMat=new THREE.MeshStandardMaterial({color:0xfbbf24,roughness:.3,metalness:.5});
+const pivot=new THREE.Mesh(pivotGeo,pivotMat);
+pivot.position.y=.15;pivot.castShadow=true;
+scene.add(pivot);
+
+// ===== OBJECT GROUP =====
+let objGroup=new THREE.Group();
+scene.add(objGroup);
+let cogMarker=null,plumbLine=null,baseMarkers=[];
+
+function createCogMarker(){
+  if(cogMarker){objGroup.remove(cogMarker)}
+  const geo=new THREE.SphereGeometry(.04,16,16);
+  const mat=new THREE.MeshStandardMaterial({color:0xdc2626,emissive:0xdc2626,emissiveIntensity:.3});
+  cogMarker=new THREE.Mesh(geo,mat);
+  objGroup.add(cogMarker);
+}
+
+function createPlumbLine(){
+  if(plumbLine){scene.remove(plumbLine)}
+  const mat=new THREE.LineBasicMaterial({color:0x22c55e,linewidth:2,transparent:true,opacity:.7});
+  const geo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0),new THREE.Vector3(0,-2,0)]);
+  plumbLine=new THREE.Line(geo,mat);
+  scene.add(plumbLine);
+}
+
+function clearObject(){
+  while(objGroup.children.length)objGroup.remove(objGroup.children[0]);
+  baseMarkers.forEach(m=>scene.remove(m));baseMarkers=[];
+}
+
+function buildObject(){
+  clearObject();
+  const p=PRESETS[S.pi];
+  const hw=p.bw/2,hh=p.h;
+
+  if(p.type==='box'){
+    const geo=new THREE.BoxGeometry(p.bw,p.h,p.bw*.6);
+    const mat=new THREE.MeshStandardMaterial({color:p.col,roughness:.5});
+    const mesh=new THREE.Mesh(geo,mat);mesh.position.y=hh/2;mesh.castShadow=true;
+    objGroup.add(mesh);
+  }else if(p.type==='car'){
+    // Body
+    const bodyGeo=new THREE.BoxGeometry(p.bw,p.h*.4,p.bw*.4);
+    const bodyMat=new THREE.MeshStandardMaterial({color:p.col,roughness:.3,metalness:.4});
+    const body=new THREE.Mesh(bodyGeo,bodyMat);body.position.y=p.h*.35;body.castShadow=true;
+    objGroup.add(body);
+    // Cabin
+    const cabGeo=new THREE.BoxGeometry(p.bw*.5,p.h*.4,p.bw*.35);
+    const cabMat=new THREE.MeshStandardMaterial({color:0x1e3a5f,roughness:.2,metalness:.3,transparent:true,opacity:.6});
+    const cab=new THREE.Mesh(cabGeo,cabMat);cab.position.y=p.h*.65;cab.castShadow=true;
+    objGroup.add(cab);
+    // Wheels
+    const wGeo=new THREE.CylinderGeometry(.06,.06,.04,16);
+    const wMat=new THREE.MeshStandardMaterial({color:0x111111,roughness:.8});
+    [[-hw*.6,.08,p.bw*.22],[hw*.6,.08,p.bw*.22],[-hw*.6,.08,-p.bw*.22],[hw*.6,.08,-p.bw*.22]].forEach(pos=>{
+      const w=new THREE.Mesh(wGeo,wMat);w.rotation.x=Math.PI/2;w.position.set(...pos);w.castShadow=true;objGroup.add(w);
+    });
+  }else if(p.type==='suv'){
+    const bodyGeo=new THREE.BoxGeometry(p.bw,p.h*.5,p.bw*.45);
+    const bodyMat=new THREE.MeshStandardMaterial({color:p.col,roughness:.35,metalness:.3});
+    const body=new THREE.Mesh(bodyGeo,bodyMat);body.position.y=p.h*.4;body.castShadow=true;objGroup.add(body);
+    const cabGeo=new THREE.BoxGeometry(p.bw*.6,p.h*.4,p.bw*.4);
+    const cabMat=new THREE.MeshStandardMaterial({color:p.col,roughness:.3});
+    const cab=new THREE.Mesh(cabGeo,cabMat);cab.position.y=p.h*.75;cab.castShadow=true;objGroup.add(cab);
+    const wGeo=new THREE.CylinderGeometry(.07,.07,.04,16);const wMat=new THREE.MeshStandardMaterial({color:0x111111});
+    [[-hw*.5,.1,p.bw*.24],[hw*.5,.1,p.bw*.24],[-hw*.5,.1,-p.bw*.24],[hw*.5,.1,-p.bw*.24]].forEach(pos=>{const w=new THREE.Mesh(wGeo,wMat);w.rotation.x=Math.PI/2;w.position.set(...pos);w.castShadow=true;objGroup.add(w)});
+  }else if(p.type==='bus'){
+    // Lower deck
+    const lGeo=new THREE.BoxGeometry(p.bw,p.h*.4,p.bw*.5);
+    const lMat=new THREE.MeshStandardMaterial({color:p.col,roughness:.4});
+    const lower=new THREE.Mesh(lGeo,lMat);lower.position.y=p.h*.3;lower.castShadow=true;objGroup.add(lower);
+    // Upper deck
+    const uGeo=new THREE.BoxGeometry(p.bw,p.h*.45,p.bw*.48);
+    const uMat=new THREE.MeshStandardMaterial({color:0xf0d080,roughness:.4});
+    const upper=new THREE.Mesh(uGeo,uMat);upper.position.y=p.h*.72;upper.castShadow=true;objGroup.add(upper);
+    // Windows
+    const winMat=new THREE.MeshStandardMaterial({color:0x93c5fd,transparent:true,opacity:.4,metalness:.5});
+    for(let i=0;i<4;i++){const wGeo2=new THREE.BoxGeometry(p.bw*.15,.08,.01);
+      const w1=new THREE.Mesh(wGeo2,winMat);w1.position.set(-hw+hw*.35+i*hw*.4,p.h*.35,p.bw*.251);objGroup.add(w1);
+      const w2=new THREE.Mesh(wGeo2,winMat);w2.position.set(-hw+hw*.35+i*hw*.4,p.h*.75,p.bw*.245);objGroup.add(w2)}
+    const wGeo3=new THREE.CylinderGeometry(.05,.05,.03,16);const wMat2=new THREE.MeshStandardMaterial({color:0x111111});
+    [[-hw*.55,.05,p.bw*.26],[hw*.55,.05,p.bw*.26],[-hw*.55,.05,-p.bw*.26],[hw*.55,.05,-p.bw*.26]].forEach(pos=>{const w=new THREE.Mesh(wGeo3,wMat2);w.rotation.x=Math.PI/2;w.position.set(...pos);objGroup.add(w)});
+  }else if(p.type==='bottle'){
+    // Body
+    const bGeo=new THREE.CylinderGeometry(hw*.8,hw,p.h*.6,16);
+    const bMat=new THREE.MeshStandardMaterial({color:p.col,roughness:.2,metalness:.1,transparent:true,opacity:.7});
+    const body=new THREE.Mesh(bGeo,bMat);body.position.y=p.h*.3;body.castShadow=true;objGroup.add(body);
+    // Neck
+    const nGeo=new THREE.CylinderGeometry(hw*.2,hw*.4,p.h*.35,16);
+    const neck=new THREE.Mesh(nGeo,bMat);neck.position.y=p.h*.78;neck.castShadow=true;objGroup.add(neck);
+    // Cap
+    const cGeo=new THREE.CylinderGeometry(hw*.22,hw*.22,.03,16);
+    const cMat=new THREE.MeshStandardMaterial({color:0xd4d4d4,metalness:.6});
+    const cap=new THREE.Mesh(cGeo,cMat);cap.position.y=p.h*.96;objGroup.add(cap);
+  }else if(p.type==='glass'){
+    // Base
+    const baseGeo=new THREE.CylinderGeometry(hw,hw*.9,.04,16);
+    const glassMat=new THREE.MeshStandardMaterial({color:0xaaaacc,roughness:.1,metalness:.2,transparent:true,opacity:.4});
+    const base=new THREE.Mesh(baseGeo,glassMat);base.position.y=.02;objGroup.add(base);
+    // Stem
+    const stemGeo=new THREE.CylinderGeometry(.015,.015,p.h*.4,8);
+    const stem=new THREE.Mesh(stemGeo,glassMat);stem.position.y=p.h*.25;objGroup.add(stem);
+    // Bowl
+    const bowlShape=new THREE.LatheGeometry([new THREE.Vector2(.01,0),new THREE.Vector2(hw*.6,.05),new THREE.Vector2(hw*.7,.15),new THREE.Vector2(hw*.5,.25)].map(p2=>new THREE.Vector2(p2.x,p2.y)),24);
+    const bowl=new THREE.Mesh(bowlShape,glassMat);bowl.position.y=p.h*.45;bowl.castShadow=true;objGroup.add(bowl);
+  }else if(p.type==='person'){
+    // Head
+    const headGeo=new THREE.SphereGeometry(.08,16,16);
+    const skinMat=new THREE.MeshStandardMaterial({color:0xffcc80,roughness:.7});
+    const head=new THREE.Mesh(headGeo,skinMat);head.position.y=p.h-.08;head.castShadow=true;objGroup.add(head);
+    // Hair
+    const hairGeo=new THREE.SphereGeometry(.082,16,8,0,Math.PI*2,0,Math.PI/2);
+    const hairMat=new THREE.MeshStandardMaterial({color:0x3d2510});
+    const hair=new THREE.Mesh(hairGeo,hairMat);hair.position.y=p.h-.06;objGroup.add(hair);
+    // Body
+    const bodyGeo=new THREE.BoxGeometry(.15,.25,.1);
+    const bodyMat=new THREE.MeshStandardMaterial({color:p.col,roughness:.6});
+    const body=new THREE.Mesh(bodyGeo,bodyMat);body.position.y=p.h-.28;body.castShadow=true;objGroup.add(body);
+    // Legs
+    const legGeo=new THREE.CylinderGeometry(.025,.03,.3,8);
+    const legMat=new THREE.MeshStandardMaterial({color:0x1e293b});
+    const lLeg=new THREE.Mesh(legGeo,legMat);lLeg.position.set(-.04,.15,0);lLeg.castShadow=true;objGroup.add(lLeg);
+    const rLeg=new THREE.Mesh(legGeo,legMat);rLeg.position.set(.04,.15,0);rLeg.castShadow=true;objGroup.add(rLeg);
+    // Arms
+    const armGeo=new THREE.CylinderGeometry(.02,.02,.2,8);
+    const lArm=new THREE.Mesh(armGeo,bodyMat);lArm.position.set(-.12,p.h-.35,0);lArm.castShadow=true;objGroup.add(lArm);
+    const rArm=new THREE.Mesh(armGeo,bodyMat);rArm.position.set(.12,p.h-.35,0);rArm.castShadow=true;objGroup.add(rArm);
+  }else if(p.type==='ball'){
+    const geo=new THREE.SphereGeometry(hw,24,24);
+    const mat=new THREE.MeshStandardMaterial({color:p.col,roughness:.6});
+    const mesh=new THREE.Mesh(geo,mat);mesh.position.y=hw;mesh.castShadow=true;objGroup.add(mesh);
+  }
+
+  createCogMarker();createPlumbLine();
+  // Base support markers
+  const markerGeo=new THREE.BoxGeometry(.02,platform.geometry.parameters.height+.02,.01);
+  const markerMat=new THREE.MeshStandardMaterial({color:0x22c55e,emissive:0x22c55e,emissiveIntensity:.3});
+  [-hw,hw].forEach(x=>{const m=new THREE.Mesh(markerGeo,markerMat);m.position.set(x,.3,0);baseMarkers.push(m);scene.add(m)});
+}
+
+// ===== ANIMATION LOOP =====
+function animate(){
+  requestAnimationFrame(animate);
+  const p=PRESETS[S.pi];
+  const tipA=getTipAngle();
+
+  // Topple physics
+  if(S.toppled)S.fallAngle=Math.min(90,S.fallAngle+.8);
+  const totalAngle=S.toppled?S.angle+S.fallAngle:S.angle;
+  const rad=-totalAngle*Math.PI/180;
+
+  // Platform tilt
+  platform.rotation.z=rad;
+
+  // Topple physics
+  if(S.toppled){
+    S.fallAngle=Math.min(90,S.fallAngle+1.2);
+    // Object falls independently — extra rotation + drops
+    const fallRad=-(S.angle+S.fallAngle)*Math.PI/180;
+    objGroup.rotation.z=fallRad;
+    // Drop the object as it falls
+    objGroup.position.y=.34-Math.min(.3,S.fallAngle*.004);
+  }else{
+    objGroup.position.set(0,.34,0);
+    objGroup.rotation.z=rad;
+  }
+
+  // CoG marker
+  if(cogMarker){cogMarker.position.y=p.h*p.cog}
+
+  // Plumb line (world-space vertical from CoG)
+  if(plumbLine){
+    const cogWorld=new THREE.Vector3(0,p.h*p.cog,0);
+    objGroup.localToWorld(cogWorld);
+    const pts=[cogWorld.clone(),cogWorld.clone()];
+    pts[1].y=0;
+    plumbLine.geometry.setFromPoints(pts);
+    plumbLine.material.color.set(S.toppled?0xdc2626:0x22c55e);
+  }
+
+  // Base markers follow platform
+  const hw2=p.bw/2;
+  baseMarkers.forEach((m,i)=>{
+    const x=(i===0?-hw2:hw2);
+    const px=x*Math.cos(rad);
+    const py=.34+x*Math.sin(-rad);
+    m.position.set(px,py,0);m.rotation.z=rad;
+  });
+
+  // Fixed camera — no rotation
+  renderer.render(scene,camera);
+
+  // Update overlay
+  $('oAngle').textContent=totalAngle.toFixed(0)+'°';
+  $('oStatus').textContent=S.toppled?'TOPPLED!':'STABLE';
+  $('oStatus').style.color=S.toppled?'#ef4444':'#22c55e';
+  $('oName').textContent=p.n;
+}
+
+// ===== UI =====
+function buildUI(){
+  S.angle=0;S.toppled=false;S.fallAngle=0;
+  const p=PRESETS[S.pi];
+  let pills='';PRESETS.forEach((pr,i)=>{pills+=`<div class="pill${i===S.pi?' on':''}" onclick="window.loadP(${i})">${pr.n}</div>`});
+  $('ctrl').innerHTML=`<div class="cr" style="gap:3px;flex-wrap:wrap">${pills}</div>`+
+    `<div class="cr"><div class="sr"><span class="cl" style="color:var(--accent);font-weight:800;font-size:.72rem">TILT</span><input type="range" min="0" max="60" step=".5" value="0" id="tiltS" oninput="window.setT(+this.value)" style="max-width:180px"><span class="sv" id="tiltV" style="color:var(--accent);font-size:.82rem">0°</span></div>`+
+    `<button class="btn btn-a" onclick="window.resetT()">↺ Reset</button></div>`;
+  const tipA=getTipAngle();
+  $('calc').innerHTML=`<div class="gp"><div class="cr"><span class="eq">θ_tip = arctan(½×${sci(p.bw)} / ${sci(p.h*p.cog)}) = </span><input class="inp" id="tipAns" placeholder="?"><span class="u">°</span><button class="btn btn-a" onclick="window.tipChk()">Check</button></div><div id="tipfb"></div></div>`;
+  $('rp').innerHTML=`<div class="rc"><h3>Tipping Angle</h3><div class="rv" id="rTip">${tipA.toFixed(1)}°</div><div class="fm">θ = arctan(½b / h_cog)</div></div>`+
+    `<div class="rc"><h3>Object Details</h3><div class="sg"><div class="si"><div class="sl">Base Width</div><div class="sv2">${sci(p.bw)} m</div></div><div class="si"><div class="sl">Height</div><div class="sv2">${sci(p.h)} m</div></div><div class="si"><div class="sl">CoG Height</div><div class="sv2">${sci(p.h*p.cog)} m</div></div><div class="si"><div class="sl">CoG Position</div><div class="sv2">${(p.cog*100).toFixed(0)}%</div></div></div></div>`+
+    `<div class="rc"><h3>Mass Distribution</h3><div class="rs" style="font-family:var(--serif);font-size:.64rem;line-height:1.7;color:var(--accent)">${p.uniform?'<strong>Uniform</strong>: mass evenly spread':'<strong>Non-uniform</strong>: '+p.desc}</div></div>`+
+    `<div class="rc"><h3>Centre of Mass</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.7">${p.com}</div></div>`+
+    `<div class="rc"><h3>Why This Stability?</h3><div class="rs" style="font-size:.62rem;line-height:1.6">${p.why}</div></div>`+
+    `<div class="rc"><h3>Stability Rule</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.7">Object topples when weight line exits base.<br>↑ Wider base → more stable<br>↓ Lower CoG → more stable</div></div>`;
+  buildObject();buildExp();buildIB();
+}
+
+window.loadP=i=>{S.pi=i;buildUI()};
+window.setT=v=>{if(S.toppled)return;S.angle=v;$('tiltV').textContent=v.toFixed(0)+'°';const tipA=getTipAngle();if(v>=tipA){S.toppled=true;S.toppleAngle=v}};
+window.resetT=()=>{S.angle=0;S.toppled=false;S.fallAngle=0;if($('tiltS'))$('tiltS').value=0;if($('tiltV'))$('tiltV').textContent='0°'};
+window.tipChk=()=>{const tipA=getTipAngle(),uv=parseFloat($('tipAns').value);if(isNaN(uv)){$('tipfb').innerHTML='<div class="fb fb-h">θ = arctan(½b ÷ h_cog)</div>';return}if(Math.abs(uv-tipA)<2){$('tipAns').className='inp ok';$('tipfb').innerHTML=`<div class="fb fb-ok">✓ θ = ${tipA.toFixed(1)}°</div>`;addN('📐 Tipping',`base=${sci(PRESETS[S.pi].bw)}m CoG=${sci(PRESETS[S.pi].h*PRESETS[S.pi].cog)}m`,`θ=${tipA.toFixed(1)}°`)}else{$('tipAns').className='inp no';$('tipfb').innerHTML=`<div class="fb fb-no">✗ ${tipA.toFixed(1)}°</div>`}};
+
+// Notebook
+let nb=[];function addN(t,d,r){nb.push({t,d,r});showN()}
+function showN(){$('nbO').innerHTML=nb.length?nb.map((n,i)=>`<div class="nb-c"><b>#${i+1} ${n.t}</b><br>${n.d}<br><span class="nr">→ ${n.r}</span></div>`).join(''):'<p style="text-align:center;color:var(--text3);font-size:.62rem;padding:6px">Complete experiments to record.</p>'}
+showN();
+
+// Experiment
+let expD=[],manD=[];
+const EIV=[{id:'bw',n:'Base Width (m)'},{id:'h',n:'Height (m)'},{id:'cog',n:'CoG Height (m)'}];
+const EDV=[{id:'tip',n:'Tipping Angle (°)'}];
+function buildExp(){
+  $('expC').innerHTML=`<div class="exp-row"><div class="exp-col"><div class="exp-field"><label>IV</label><select id="selIV">${EIV.map(v=>`<option value="${v.id}">${v.n}</option>`).join('')}</select></div><div class="exp-field"><label>DV</label><select id="selDV">${EDV.map(v=>`<option value="${v.id}">${v.n}</option>`).join('')}</select></div></div><div class="exp-col"><div class="exp-field"><label>CVs</label><div class="cv-grid">${EIV.map(v=>`<label class="cv-check"><input type="checkbox" checked>${v.n}</label>`).join('')}</div></div><div class="exp-field"><label>Hypothesis</label><input type="text" placeholder="If base width increases, tipping angle will..."></div></div></div>`+
+    `<div style="background:var(--surface);border-radius:6px;padding:5px;border:1px solid var(--border);margin-top:3px"><div class="exp-row" style="align-items:flex-end"><div class="exp-col"><div class="exp-field"><label>IV</label><div style="display:flex;gap:2px"><input type="number" id="mIV" step="any" style="flex:1"><button class="btn btn-o" onclick="window.rIV()" style="font-size:.55rem;padding:2px 4px">↻</button></div></div></div><div class="exp-col"><div class="exp-field"><label>DV</label><div style="display:flex;gap:2px"><input type="number" id="mDV" step="any" style="flex:1"><button class="btn btn-o" onclick="window.rDV()" style="font-size:.55rem;padding:2px 4px">↻</button></div></div></div><div style="flex:0;display:flex;gap:2px"><button class="btn btn-a" onclick="window.addR()" style="font-size:.6rem">+Add</button><button class="btn btn-o" onclick="window.aAdd()" style="font-size:.55rem">Auto</button></div></div></div><div id="mT"></div><div style="display:flex;gap:2px;margin-top:2px"><button class="btn btn-a" onclick="window.plotM()" style="font-size:.6rem">Plot</button><button class="btn btn-o" onclick="window.clrM()" style="font-size:.6rem">Clear</button></div><div id="mSt" style="font-size:.6rem;color:var(--text3);margin-top:2px"></div>`;
+}
+window.rIV=()=>{const iv=$('selIV')?.value||'bw';const p=PRESETS[S.pi];$('mIV').value=iv==='bw'?p.bw.toFixed(2):iv==='h'?p.h.toFixed(2):(p.h*p.cog).toFixed(2)};
+window.rDV=()=>{$('mDV').value=getTipAngle().toFixed(1)};
+window.aAdd=()=>{window.rIV();window.rDV();window.addR()};
+window.addR=()=>{const iv=parseFloat($('mIV')?.value),dv=parseFloat($('mDV')?.value);if(isNaN(iv)||isNaN(dv)){$('mSt').textContent='Enter both.';return}manD.push({iv,dv});$('mIV').value='';$('mDV').value='';$('mSt').textContent=`#${manD.length}`;$('mSt').style.color='var(--ok)';buildMT();syncM()};
+function buildMT(){if(!manD.length){$('mT').innerHTML='';return}const g={};manD.forEach(d=>{if(!g[d.iv])g[d.iv]=[];g[d.iv].push(d.dv)});const ks=Object.keys(g).map(Number).sort((a,b)=>a-b);$('mT').innerHTML=`<table class="dt"><thead><tr><th>IV</th><th>Readings</th><th class="mean">Mean</th><th></th></tr></thead><tbody>${ks.map(k=>{const v=g[k],mn=v.reduce((a,b)=>a+b,0)/v.length;return`<tr><td style="font-weight:700">${k}</td><td>${v.map(x=>x.toFixed(1)).join(', ')}</td><td class="mean">${mn.toFixed(1)}</td><td><span style="cursor:pointer;color:var(--err)" onclick="window.rmG(${k})">✕</span></td></tr>`}).join('')}</tbody></table>`}
+window.rmG=k=>{manD=manD.filter(d=>d.iv!==k);buildMT();syncM()};
+window.clrM=()=>{manD=[];buildMT();expD=[];$('mSt').textContent=''};
+function syncM(){if(!manD.length){expD=[];return}const g={};manD.forEach(d=>{if(!g[d.iv])g[d.iv]=[];g[d.iv].push(d.dv)});expD=Object.keys(g).map(Number).sort((a,b)=>a-b).map(k=>{const v=g[k];return{iv:k,mean:+(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1)}});buildDT();setTimeout(()=>{initGr();drawGr()},30)}
+window.plotM=()=>{if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.btc').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(()=>{initGr();drawGr()},80)};
+function buildDT(){if(!expD.length)return;$('dW').innerHTML=`<table class="dt"><thead><tr><th>IV</th><th class="mean">Mean DV</th></tr></thead><tbody>${expD.map(r=>`<tr><td>${r.iv}</td><td class="mean">${r.mean}</td></tr>`).join('')}</tbody></table>`}
+let gCv,gx2;
+function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');const d=devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)return;gCv.width=w*d;gCv.height=180*d;gCv.style.width=w+'px';gCv.style.height='180px';gx2.setTransform(d,0,0,d,0,0)}
+function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return}const w=parseInt(gCv.style.width)||500,h=180,d=dk();gx2.clearRect(0,0,w,h);gx2.fillStyle=d?'#0f172a':'#f0f4f8';gx2.beginPath();gx2.roundRect(0,0,w,h,8);gx2.fill();if(!expD.length){gx2.fillStyle=d?'rgba(148,163,184,.2)':'rgba(0,0,0,.08)';gx2.font='10px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data to plot',w/2,h/2);return}const P={t:18,r:12,b:22,l:36},pW=w-P.l-P.r,pH=h-P.t-P.b;gx2.strokeStyle=d?'rgba(148,163,184,.1)':'rgba(0,0,0,.06)';gx2.lineWidth=1;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,h-P.b);gx2.lineTo(w-P.r,h-P.b);gx2.stroke();const xs=expD.map(r2=>r2.iv),ys=expD.map(r2=>r2.mean);let xn=Math.min(...xs),xx=Math.max(...xs),yn=Math.min(...ys)-.5,yx=Math.max(...ys)+.5;if(xx===xn){xn-=1;xx+=1}if(yx<=yn){yn-=1;yx+=2}const tx=v=>P.l+((v-xn)/(xx-xn))*pW,ty=v=>P.t+pH-((v-yn)/(yx-yn))*pH;expD.forEach((r2,i)=>{gx2.fillStyle=d?'#38bdf8':'#0369a1';gx2.beginPath();gx2.arc(tx(xs[i]),ty(ys[i]),3.5,0,Math.PI*2);gx2.fill()});if(xs.length>=2){gx2.strokeStyle=d?'#38bdf8':'#0369a1';gx2.lineWidth=1.5;gx2.beginPath();expD.forEach((r2,i)=>{i===0?gx2.moveTo(tx(xs[i]),ty(ys[i])):gx2.lineTo(tx(xs[i]),ty(ys[i]))});gx2.stroke()}}
+
+// IB Questions
+const IB=[
+  {c:'Explain',q:'Why does a racing car have a low centre of gravity and wide wheelbase?',f:'Low CoG + wide base → arctan(½b/h_cog) gives large tipping angle → can corner at high speed without toppling.'},
+  {c:'Calculate',q:'A box: base 20cm, CoG at 30cm. Max tilt before toppling?',f:'θ = arctan(0.10/0.30) = arctan(0.333) = 18.4°'},
+  {c:'Explain',q:'A bus has heavy batteries in the floor. Effect on stability?',f:'Lowers overall CoG → increases tipping angle → more stable on slopes and curves.'}
+];
+function buildIB(){$('ibL').innerHTML=IB.map((q,i)=>`<div class="ib-card"><div class="ib-cmd">${q.c}</div><h4>Q${i+1}</h4><p>${q.q}</p><textarea id="ib${i}"></textarea><button class="btn btn-a" style="margin-top:2px;font-size:.58rem" onclick="window.sF(${i})">Answer</button><div class="ib-fb" id="iF${i}"></div></div>`).join('')}
+window.sF=i=>{$('iF'+i).className='ib-fb show ok';$('iF'+i).textContent=IB[i].f};
+window.bts=(el,i)=>{document.querySelectorAll('.bt').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.btc').forEach(t=>t.classList.remove('on'));el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(()=>{initGr();drawGr()},80)};
+
+// Init
+buildUI();animate();
+</script>
+</body>
+</html>.eq{font-family:var(--serif);font-size:.78rem;flex:1;color:var(--text2)}
+.fb{padding:5px 10px;border-radius:7px;font-size:.74rem;text-align:center;margin-top:4px;font-weight:600}
+.fb-ok{background:rgba(22,163,74,.07);color:var(--ok)}.fb-no{background:rgba(220,38,38,.05);color:var(--err)}.fb-h{background:rgba(3,105,161,.05);color:var(--accent)}
+.rcol{display:flex;flex-direction:column;gap:4px;max-height:600px;overflow-y:auto}
+.rcol::-webkit-scrollbar{width:3px}.rcol::-webkit-scrollbar-thumb{background:rgba(0,0,0,.08);border-radius:2px}
+.rc{background:var(--surface);border-radius:8px;padding:6px 7px;border:1px solid var(--border)}
+.rc h3{font-size:.52rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:2px;font-weight:700}
+.rc .rv{font-size:.95rem;font-weight:800;font-family:var(--serif);color:var(--accent)}
+.rc .rs{font-size:.6rem;color:var(--text2);margin-top:2px;line-height:1.5}
+.rc .fm{font-family:var(--serif);font-size:.78rem;color:var(--accent2);font-weight:700}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.si{background:var(--glass);border-radius:5px;padding:3px;text-align:center;border:1px solid var(--border)}
+.si .sl{font-size:.48rem;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);font-weight:700}
+.si .sv2{font-size:.72rem;font-weight:800;color:var(--text);font-family:var(--mono)}
+.btabs{display:flex;gap:2px;margin-bottom:4px;border-bottom:1px solid var(--border);padding-bottom:3px}
+.bt{padding:3px 8px;border-radius:6px 6px 0 0;font-size:.62rem;font-weight:700;cursor:pointer;color:var(--text3)}
+.bt.on{color:var(--accent);background:var(--surface);border:1px solid var(--border);border-bottom:none}
+.btc{display:none}.btc.on{display:block}
+.ib-card{background:var(--surface);border-radius:7px;padding:7px;margin-bottom:4px;border:1px solid var(--border)}
+.ib-cmd{display:inline-block;font-size:.5rem;padding:2px 5px;border-radius:3px;font-weight:700;text-transform:uppercase;background:rgba(3,105,161,.08);color:var(--accent);margin-bottom:2px}
+.ib-card h4{font-size:.7rem;font-weight:700;margin-bottom:2px}
+.ib-card p{font-size:.64rem;color:var(--text2);line-height:1.4;margin-bottom:3px}
+.ib-card textarea{width:100%;height:38px;border:1px solid var(--border);border-radius:4px;padding:3px;font-size:.64rem;font-family:inherit;resize:vertical;background:var(--glass);color:var(--text);outline:none}
+.ib-fb{padding:3px 5px;border-radius:4px;font-size:.62rem;font-weight:600;margin-top:2px;display:none}
+.ib-fb.show{display:block}.ib-fb.ok{background:rgba(22,163,74,.05);color:var(--ok)}
+.nb-c{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:3px 5px;margin-bottom:2px;font-size:.62rem;line-height:1.4}
+.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+.exp-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px}.exp-col{flex:1;min-width:160px}
+.exp-field{margin-bottom:3px}.exp-field label{font-size:.56rem;font-weight:700;color:var(--text2);text-transform:uppercase;display:block;margin-bottom:2px}
+.exp-field select,.exp-field input{width:100%;padding:3px 5px;border-radius:5px;border:1px solid var(--border);font-size:.7rem;font-weight:600;background:var(--glass);color:var(--text);outline:none;font-family:inherit}
+.cv-grid{display:flex;flex-wrap:wrap;gap:2px}.cv-check{display:flex;align-items:center;gap:2px;padding:2px 5px;border-radius:3px;background:var(--surface);border:1px solid var(--border);font-size:.58rem;font-weight:600;color:var(--text2)}.cv-check input{accent-color:var(--accent)}
+.dt{width:100%;border-collapse:collapse;font-size:.64rem;font-family:var(--mono)}
+.dt th{text-align:center;padding:3px;font-size:.52rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--surface)}
+.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border)}.dt .mean{font-weight:700;color:var(--accent)}
+.graph-wrap canvas{width:100%;height:180px;display:block;border-radius:8px;border:1px solid var(--border);margin-top:4px}
+#overlay{position:absolute;top:10px;left:10px;pointer-events:none;color:#fff;font-family:var(--serif)}
+#overlay .o-title{font-size:14px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+#overlay .o-angle{font-size:22px;font-weight:800;text-shadow:0 2px 6px rgba(0,0,0,.5)}
+#overlay .o-status{font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.view-wrap{position:relative;border-radius:14px;overflow:hidden}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.rcol{max-height:none;flex-direction:row;flex-wrap:wrap}.rcol .rc{flex:1;min-width:110px}}
+@media print{nav{display:none!important}body{background:#fff!important}}
+</style>
+</head>
+<body>
 <script>var SIM_META={id:'stability-3d',title:'Stability & Toppling 3D',topic:'A.4',topicName:'Forces – Stability',grade:['MYP5','DP'],level:'both',theme:'A',concepts:['centre of gravity','centre of mass','base of support','stability','toppling','tipping angle'],difficulty:'intermediate'};</script>
 <nav>
   <div style="display:flex;align-items:center;gap:14px"><a href="../index.html" class="nav-logo">Atul Soral Physicism</a><a href="../dp-simulations.html">← All Simulations</a><a href="../myp-dashboard.html" class="nav-btn">MYP</a></div>
