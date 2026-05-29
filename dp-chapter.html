@@ -373,10 +373,10 @@ h1{font-size:26px;font-weight:700;color:var(--text);line-height:1.25;letter-spac
     <div style="background:var(--white); border-radius:12px; padding:16px; border:1px solid var(--tint-border); margin-bottom:16px;">
       <div style="font-size:13px; font-weight:600; color:var(--text); margin-bottom:8px; display:flex; justify-content:space-between;">
         <span>Progress</span>
-        <span id="checklist-progress-text">0/0 checked</span>
+        <span id="panel-progress-text">0/0 checked</span>
       </div>
       <div style="height:6px; background:var(--tint); border-radius:4px; overflow:hidden;">
-        <div id="checklist-bar-fill" style="height:100%; background:#10b981; width:0%; transition:width 0.3s ease;"></div>
+        <div id="panel-bar-fill" style="height:100%; background:#10b981; width:0%; transition:width 0.3s ease;"></div>
       </div>
     </div>
     <div id="checklist-container">
@@ -410,6 +410,7 @@ h1{font-size:26px;font-weight:700;color:var(--text);line-height:1.25;letter-spac
         <span>${item}</span>
       </label>`;
     }).join('');
+    updatePanelProgress();
   }
 
   function toggleCheckItemPanel(key, checked) {
@@ -418,12 +419,26 @@ h1{font-size:26px;font-weight:700;color:var(--text);line-height:1.25;letter-spac
     } else {
       localStorage.removeItem(key);
     }
+    updatePanelProgress();
     if (typeof updateSidebarChecklistProgress === 'function') updateSidebarChecklistProgress();
+    // Also update sidebar badges
+    if (typeof renderSidebar === 'function') renderSidebar();
     if (typeof renderActiveSubtopic === 'function') {
       const scrollPos = document.getElementById('contentArea').scrollTop;
       renderActiveSubtopic();
       document.getElementById('contentArea').scrollTop = scrollPos;
     }
+  }
+
+  function updatePanelProgress() {
+    var checkboxes = document.querySelectorAll('#checklist-container input[type=checkbox]');
+    var total = checkboxes.length;
+    var checked = 0;
+    checkboxes.forEach(function(cb) { if (cb.checked) checked++; });
+    var el = document.getElementById('panel-progress-text');
+    if (el) el.textContent = checked + '/' + total + ' checked';
+    var bar = document.getElementById('panel-bar-fill');
+    if (bar) bar.style.width = (total > 0 ? Math.round(checked/total*100) : 0) + '%';
   }
 </script>
 
