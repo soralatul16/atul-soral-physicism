@@ -1,0 +1,575 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Thermal Conduction | Atul Soral Physicism</title>
+<style>
+:root{--bg:#faf8f5;--text:#2a1f14;--text2:#6b5c4d;--text3:#a8967f;--accent:#c45e10;--accent2:#0e7c6b;--border:rgba(160,140,110,.25);--glass:rgba(255,252,247,.72);--glassBd:rgba(160,140,110,.22);--surface:rgba(242,238,230,.55);--ok:#2d8a4e;--err:#c53030;--hot:#dc2626;--cold:#2563eb;--mono:'SF Mono','Fira Code','Consolas',monospace;--serif:Georgia,serif}
+[data-theme="dark"]{--bg:#1a1612;--text:#e8ddd0;--text2:#a89880;--text3:#7a6b5a;--accent:#f0a030;--accent2:#3dd4b8;--border:rgba(168,152,128,.18);--glass:rgba(36,30,24,.78);--glassBd:rgba(168,152,128,.16);--surface:rgba(42,35,28,.55);--hot:#ef4444;--cold:#60a5fa}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px}
+nav{display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px}
+nav a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem}nav a:hover{color:#fff}
+.nav-logo{font-family:var(--serif);font-size:1rem;font-weight:700;color:#fff!important}
+.nav-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:.73rem;text-decoration:none;display:inline-block}
+.w{max-width:1100px;margin:0 auto;padding:0 12px}
+.hd{text-align:center;padding:8px 16px 2px}
+.hd h1{font-family:var(--serif);font-size:1.2rem;color:var(--accent)}
+.hd p{font-size:.72rem;color:var(--text2)}
+.lvl{display:flex;justify-content:center;gap:3px;margin:4px 0}
+.lb{padding:5px 16px;border-radius:8px;font-size:.7rem;font-weight:700;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text3);transition:all .12s}
+.lb.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tbar{display:flex;gap:0;margin:6px 0;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--glass);backdrop-filter:blur(6px)}
+.tt{flex:1;padding:7px 3px;text-align:center;font-size:.56rem;font-weight:700;cursor:pointer;color:var(--text3);border-right:1px solid var(--border);transition:all .12s}
+.tt:last-child{border-right:none}.tt.on{background:var(--accent);color:#fff}.tt:hover:not(.on){background:var(--surface)}
+.grid{display:grid;grid-template-columns:1fr 210px;gap:8px;margin-bottom:8px}
+.cvs{border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 6px 24px rgba(0,0,0,.07)}
+.cvs canvas{display:block;width:100%;aspect-ratio:16/9;cursor:pointer}
+.gp{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glassBd);border-radius:10px;padding:6px 8px;margin-bottom:5px}
+.cr{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:2px}.cr:last-child{margin-bottom:0}
+.cl{font-size:.6rem;color:var(--text2);font-weight:700;text-transform:uppercase;min-width:28px}
+.inp{padding:4px 5px;border:2px solid var(--border);border-radius:6px;background:var(--glass);color:var(--text);font-size:.78rem;font-family:var(--serif);width:64px;text-align:center;outline:none;font-weight:700}
+.inp:focus{border-color:var(--accent)}.inp.ok{border-color:var(--ok)}.inp.no{border-color:var(--err)}
+.u{font-size:.66rem;color:var(--text3);font-family:var(--serif)}
+.eq{font-family:var(--serif);font-size:.76rem;flex:1;color:var(--text2)}
+.btn{padding:4px 10px;border:none;border-radius:6px;font-size:.66rem;font-weight:700;cursor:pointer;transition:all .12s}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.97)}
+.btn-a{background:var(--accent);color:#fff}.btn-t{background:var(--accent2);color:#fff}.btn-o{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.pill{padding:3px 7px;border-radius:5px;border:1px solid var(--border);cursor:pointer;font-size:.6rem;font-weight:700;color:var(--text3);background:var(--surface);display:inline-block}
+.pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.sr{display:flex;align-items:center;gap:3px;font-size:.6rem;font-weight:600;color:var(--text2)}
+.sr input[type="range"]{flex:1;accent-color:var(--accent);max-width:80px}
+.sr .sv{font-family:var(--mono);min-width:32px;font-weight:800;color:var(--text);font-size:.68rem}
+.fb{padding:4px 8px;border-radius:6px;font-size:.72rem;text-align:center;margin-top:3px;font-weight:600}
+.fb-ok{background:rgba(45,138,78,.07);color:var(--ok)}.fb-no{background:rgba(197,48,48,.05);color:var(--err)}.fb-h{background:rgba(196,94,16,.05);color:var(--accent)}
+.rcol{display:flex;flex-direction:column;gap:4px;max-height:600px;overflow-y:auto}
+.rcol::-webkit-scrollbar{width:3px}.rcol::-webkit-scrollbar-thumb{background:rgba(0,0,0,.08);border-radius:2px}
+.rc{background:var(--surface);border-radius:8px;padding:6px 7px;border:1px solid var(--border)}
+.rc h3{font-size:.5rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:2px;font-weight:700}
+.rc .rv{font-size:.88rem;font-weight:800;font-family:var(--serif);color:var(--accent)}
+.rc .rs{font-size:.56rem;color:var(--text2);margin-top:2px;font-family:var(--mono);line-height:1.5}
+.rc .fm{font-family:var(--serif);font-size:.76rem;color:var(--accent2);font-weight:700}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.si{background:var(--glass);border-radius:5px;padding:3px;text-align:center;border:1px solid var(--border)}
+.si .sl{font-size:.46rem;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);font-weight:700}
+.si .sv2{font-size:.7rem;font-weight:800;color:var(--text);font-family:var(--mono)}
+.btabs{display:flex;gap:2px;margin-bottom:4px;border-bottom:1px solid var(--border);padding-bottom:3px}
+.bt{padding:3px 8px;border-radius:6px 6px 0 0;font-size:.62rem;font-weight:700;cursor:pointer;color:var(--text3)}
+.bt.on{color:var(--accent);background:var(--surface);border:1px solid var(--border);border-bottom:none}
+.btc{display:none}.btc.on{display:block}
+.ib-card{background:var(--surface);border-radius:7px;padding:7px;margin-bottom:4px;border:1px solid var(--border)}
+.ib-cmd{display:inline-block;font-size:.5rem;padding:2px 5px;border-radius:3px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;background:rgba(196,94,16,.08);color:var(--accent);margin-bottom:2px}
+.ib-card h4{font-size:.7rem;font-weight:700;margin-bottom:2px}
+.ib-card p{font-size:.64rem;color:var(--text2);line-height:1.4;margin-bottom:3px}
+.ib-card textarea{width:100%;height:36px;border:1px solid var(--border);border-radius:4px;padding:3px;font-size:.64rem;font-family:inherit;resize:vertical;background:var(--glass);color:var(--text);outline:none}
+.ib-fb{padding:3px 5px;border-radius:4px;font-size:.62rem;font-weight:600;margin-top:2px;display:none}
+.ib-fb.show{display:block}.ib-fb.ok{background:rgba(45,138,78,.05);color:var(--ok)}
+.nb-c{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:3px 5px;margin-bottom:2px;font-size:.62rem;line-height:1.4}
+.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+.exp-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px}.exp-col{flex:1;min-width:160px}
+.exp-field{margin-bottom:3px}.exp-field label{font-size:.56rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:2px}
+.exp-field select,.exp-field input{width:100%;padding:3px 5px;border-radius:5px;border:1px solid var(--border);font-size:.7rem;font-weight:600;background:var(--glass);color:var(--text);outline:none;font-family:inherit}
+.cv-grid{display:flex;flex-wrap:wrap;gap:2px}.cv-check{display:flex;align-items:center;gap:2px;padding:2px 5px;border-radius:3px;background:var(--surface);border:1px solid var(--border);font-size:.58rem;font-weight:600;color:var(--text2)}.cv-check input{accent-color:var(--accent)}
+.dt{width:100%;border-collapse:collapse;font-size:.64rem;font-family:var(--mono)}
+.dt th{text-align:center;padding:3px;font-size:.52rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--surface)}
+.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border)}.dt .mean{font-weight:700;color:var(--accent)}
+.graph-wrap canvas{width:100%;height:180px;display:block;border-radius:8px;border:1px solid var(--border);margin-top:4px}
+.myp-hide{}.dp-hide{}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.rcol{max-height:none;flex-direction:row;flex-wrap:wrap}.rcol .rc{flex:1;min-width:110px}}
+@media print{nav,.tbar,.lvl{display:none!important}body{background:#fff!important}}
+</style>
+</head>
+<body>
+<script>var SIM_META={id:'thermal-conduction-v2',title:'Thermal Conduction',topic:'B.1',topicName:'Thermal Conduction',grade:['MYP4','MYP5','DP'],level:'both',theme:'B',concepts:['conduction','thermal conductivity','Fourier law','R-value','insulation'],difficulty:'intermediate'};</script>
+<nav>
+  <div style="display:flex;align-items:center;gap:14px"><a href="../index.html" class="nav-logo">Atul Soral Physicism</a><a href="../dp-simulations.html">← All Simulations</a></div>
+  <div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">☀️</button><a href="../dp-simulations.html" class="nav-btn">← Back</a><a href="../index.html" class="nav-btn">Home</a><a href="../myp-dashboard.html" class="nav-btn">MYP</a><a href="../dp-dashboard.html" class="nav-btn">DP</a></div>
+</nav>
+<div class="w">
+<div class="hd"><h1>Thermal Conduction Lab</h1><p>How does heat travel through materials? Explore, experiment, calculate.</p></div>
+<div class="tbar">
+  <div class="tt on" onclick="go('feel',this)">✋ Feel It</div>
+  <div class="tt" onclick="go('race',this)">🏁 Heat Race</div>
+  <div class="tt" onclick="go('fourier',this)">📐 Fourier</div>
+  <div class="tt" onclick="go('wall',this)">🏠 Wall</div>
+  <div class="tt" onclick="go('reflect',this)">💡 Think</div>
+</div>
+<div class="grid">
+  <div><div class="cvs" id="cW"><canvas id="C"></canvas></div><div class="gp" id="ctrl"></div><div id="calc"></div></div>
+  <div class="rcol" id="rp"></div>
+</div>
+<div class="gp" style="padding:8px 10px">
+  <div class="btabs">
+    <div class="bt on" onclick="bts(this,0)">🔬 Experiment</div>
+    <div class="bt" onclick="bts(this,1)">📊 Data</div>
+    <div class="bt" onclick="bts(this,2)">📝 IB</div>
+    <div class="bt" onclick="bts(this,3)">📓 Notes</div>
+  </div>
+  <div class="btc on" id="b0"><div id="expC"></div></div>
+  <div class="btc" id="b1"><div id="dW"><p style="font-size:.64rem;color:var(--text3);text-align:center;padding:8px">Collect data first.</p></div><div class="graph-wrap"><canvas id="gC"></canvas></div></div>
+  <div class="btc" id="b2"><div id="ibL"></div></div>
+  <div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-size:.68rem;font-weight:700;color:var(--accent);font-family:var(--serif)">📓 Notebook</span><button class="btn btn-a" onclick="window.print()" style="font-size:.56rem;padding:2px 6px">Print</button></div><div id="nbO"></div></div>
+</div>
+</div>
+<script>
+var $=function(i){return document.getElementById(i)},dk=function(){return document.documentElement.dataset.theme==='dark'},T='feel',af=0,lvl='myp';
+$('themeBtn').onclick=function(){var t=dk()?'light':'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️';localStorage.setItem('phy-theme',t)};
+(function(){var t=localStorage.getItem('phy-theme')||'light';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️'})();
+var cvs=$('C'),cx=cvs.getContext('2d'),W=0,H=0;
+function onR(){var d=window.devicePixelRatio||1,r=cvs.getBoundingClientRect();W=r.width;H=r.height;cvs.width=W*d;cvs.height=H*d;cx.setTransform(d,0,0,d,0,0)}
+new ResizeObserver(onR).observe(cvs);
+function xy(e){var r=cvs.getBoundingClientRect();return{x:(e.clientX-r.left)*(W/r.width),y:(e.clientY-r.top)*(H/r.height)}}
+function sci(v){if(v===0)return'0';var a=Math.abs(v);if(a>=.01&&a<1e6)return v.toFixed(Math.max(0,2-Math.floor(Math.log10(a))));return v.toExponential(2)}
+function tCol(t){var f=Math.max(0,Math.min(1,(t-10)/80));return'rgb('+Math.round(50+205*f)+','+Math.round(80+60*(1-Math.abs(f-.5)*2))+','+Math.round(230-200*f)+')'}
+window.setLvl=function(l){lvl=l;$('lM').classList.toggle('on',l==='myp');$('lD').classList.toggle('on',l==='dp');document.body.classList.toggle('dp-mode',l==='dp');build()};
+function go(t,el){T=t;document.querySelectorAll('.tt').forEach(function(b){b.classList.remove('on')});el.classList.add('on');build()}
+var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN()}
+function showN(){$('nbO').innerHTML=nb.length?nb.map(function(n,i){return'<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">→ '+n.r+'</span></div>'}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.62rem;padding:6px">Complete experiments to record.</p>'}
+showN();
+
+var MAT=[{n:'Copper',k:401,col:'#d97706'},{n:'Steel',k:50,col:'#6b7280'},{n:'Glass',k:0.8,col:'#93c5fd'},{n:'Wood',k:0.15,col:'#92400e'},{n:'Styrofoam',k:0.03,col:'#e5e5e5'},{n:'Brick',k:0.7,col:'#b45309'},{n:'Air',k:0.025,col:'#e0f2fe'}];
+
+// Heat particles system
+var hParts=[];
+function spawnHeat(x,y,vx,vy,col,life){hParts.push({x:x,y:y,vx:vx,vy:vy,col:col,life:life||1,maxLife:life||1})}
+function drawHeatParts(){
+  for(var i=hParts.length-1;i>=0;i--){
+    var p=hParts[i];p.x+=p.vx;p.y+=p.vy;p.life-=.008;
+    if(p.life<=0){hParts.splice(i,1);continue}
+    var a=p.life/p.maxLife;
+    cx.fillStyle=p.col.replace(')',','+a*.6+')').replace('rgb','rgba');
+    cx.beginPath();cx.arc(p.x,p.y,2+a*2,0,Math.PI*2);cx.fill();
+  }
+}
+
+// ===== LAB BACKGROUND =====
+function lab(){
+  var d=dk();cx.clearRect(0,0,W,H);
+  // Clean background — simple gradient, no heavy scene
+  cx.fillStyle=d?'#1a1612':'#f0ebe2';cx.fillRect(0,0,W,H);
+  // Subtle bottom bench strip
+  var bY=H*.88;
+  var bg=cx.createLinearGradient(0,bY,0,H);bg.addColorStop(0,d?'#3d2e1e':'#8B7355');bg.addColorStop(1,d?'#2a1f14':'#6B5340');
+  cx.fillStyle=bg;cx.fillRect(0,bY,W,H-bY);
+  cx.fillStyle=d?'rgba(255,255,255,.03)':'rgba(255,255,255,.08)';cx.fillRect(0,bY,W,2);
+}
+
+// ===== 1. FEEL IT =====
+var feel={hover:-1,revealed:false,handT:37};
+var FOBJ=[
+  {n:'Metal Railing',k:50,feel:'Ice cold!',type:'metal'},
+  {n:'Wooden Table',k:0.15,feel:'Room temp',type:'wood'},
+  {n:'Glass Window',k:0.8,feel:'Cool',type:'glass'},
+  {n:'Wool Carpet',k:0.04,feel:'Warm!',type:'carpet'}
+];
+
+function buildFeel(){
+  feel.hover=-1;feel.revealed=false;
+  $('ctrl').innerHTML='<div class="cr"><span style="font-size:.72rem">All objects are <strong style="color:var(--accent2)">20°C</strong>. Hover your cursor over each — your "hand" senses temperature. Which feels coldest?</span></div>'+
+    '<div class="cr"><button class="btn btn-a" onclick="feel.revealed=true">🤔 Why do they feel different?</button><button class="btn btn-o" onclick="feel.revealed=false;feel.hover=-1">↺</button></div>';
+  $('calc').innerHTML='';
+  $('rp').innerHTML='<div class="rc"><h3>All at 20°C!</h3><div class="rv" style="font-size:.82rem;color:var(--accent2)">Same temperature</div><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.6">Every object = 20°C<br>But they feel different!<br>Why?</div></div>'+
+    '<div class="rc" id="fReveal" style="'+(feel.revealed?'':'display:none')+'"><h3>The Answer</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.6;color:var(--accent)">Metal conducts heat FROM your hand fast → feels cold<br><br>Wood/carpet conduct slowly → hand stays warm → feels warm<br><br>The difference = thermal conductivity (k)</div></div>'+
+    '<div class="rc"><h3>Hand Temperature</h3><div class="rv" id="rHandT">37°C</div><div class="rs" style="font-family:var(--serif)">Your skin is always ~37°C.<br>Heat flows FROM warm TO cold.</div></div>'+
+    '<div class="rc"><h3>k Values</h3><div class="rs" style="font-family:var(--mono);font-size:.58rem;line-height:1.7">'+FOBJ.map(function(o){return o.n+': k='+o.k}).join('<br>')+'</div></div>';
+}
+
+cvs.addEventListener('mousemove',function(e){
+  if(T!=='feel')return;
+  var p=xy(e);
+  feel.hover=-1;
+  var gap=W/4;
+  for(var i=0;i<4;i++){
+    var ox=gap*i+gap*.1,oy=H*.18,ow=gap*.8,oh=H*.35;
+    if(p.x>ox&&p.x<ox+ow&&p.y>oy&&p.y<oy+oh)feel.hover=i;
+  }
+});
+
+function paintFeel(){
+  if(!W||!H)return;lab();var d=dk();af++;
+  var gap=W/4;
+  FOBJ.forEach(function(obj,i){
+    var ox=gap*i+gap*.1,oy=H*.18,ow=gap*.8,oh=H*.32;
+    var isHover=feel.hover===i;
+    // 3D objects with shadows and gradients
+    cx.save();
+    if(isHover){cx.shadowColor='rgba(196,94,16,.3)';cx.shadowBlur=12}
+    if(obj.type==='metal'){
+      // Metal railing — cylinder with metallic gradient
+      var mg=cx.createLinearGradient(ox,oy,ox+ow,oy);mg.addColorStop(0,'#9ca3af');mg.addColorStop(.3,'#e5e7eb');mg.addColorStop(.5,'#d1d5db');mg.addColorStop(.7,'#e5e7eb');mg.addColorStop(1,'#6b7280');
+      cx.fillStyle=mg;cx.beginPath();cx.roundRect(ox+ow*.2,oy+oh*.2,ow*.6,oh*.6,6);cx.fill();
+      // Support posts
+      cx.fillStyle=d?'#6b7280':'#9ca3af';
+      cx.fillRect(ox+ow*.25,oy+oh*.4,ow*.08,oh*.6);cx.fillRect(ox+ow*.67,oy+oh*.4,ow*.08,oh*.6);
+      // Reflection
+      cx.fillStyle='rgba(255,255,255,.12)';cx.fillRect(ox+ow*.3,oy+oh*.25,ow*.15,oh*.1);
+    }else if(obj.type==='wood'){
+      // Wooden table — 3D perspective
+      var wg=cx.createLinearGradient(ox,oy+oh*.3,ox,oy+oh*.5);wg.addColorStop(0,d?'#6b4420':'#a0744a');wg.addColorStop(1,d?'#4a2e10':'#7a5430');
+      cx.fillStyle=wg;cx.beginPath();cx.roundRect(ox+ow*.05,oy+oh*.3,ow*.9,oh*.15,3);cx.fill();
+      // Top surface
+      cx.fillStyle=d?'#7a5430':'#b8844a';
+      cx.beginPath();cx.moveTo(ox+ow*.05,oy+oh*.3);cx.lineTo(ox+ow*.15,oy+oh*.2);cx.lineTo(ox+ow*.85,oy+oh*.2);cx.lineTo(ox+ow*.95,oy+oh*.3);cx.fill();
+      // Legs
+      cx.fillStyle=d?'#4a2e10':'#6b4420';
+      cx.fillRect(ox+ow*.12,oy+oh*.45,ow*.06,oh*.55);cx.fillRect(ox+ow*.82,oy+oh*.45,ow*.06,oh*.55);
+      // Grain
+      cx.strokeStyle='rgba(0,0,0,.06)';cx.lineWidth=.5;
+      for(var g=0;g<3;g++){cx.beginPath();cx.moveTo(ox+ow*.1,oy+oh*.33+g*3);cx.lineTo(ox+ow*.9,oy+oh*.34+g*3);cx.stroke()}
+    }else if(obj.type==='glass'){
+      // Glass pane — transparent with reflections
+      cx.fillStyle=d?'rgba(147,197,253,.12)':'rgba(135,206,235,.2)';cx.beginPath();cx.roundRect(ox+ow*.1,oy+oh*.1,ow*.8,oh*.7,4);cx.fill();
+      cx.strokeStyle=d?'rgba(147,197,253,.3)':'rgba(100,160,200,.3)';cx.lineWidth=2;cx.beginPath();cx.roundRect(ox+ow*.1,oy+oh*.1,ow*.8,oh*.7,4);cx.stroke();
+      // Reflection streak
+      cx.fillStyle='rgba(255,255,255,.1)';cx.beginPath();cx.moveTo(ox+ow*.2,oy+oh*.15);cx.lineTo(ox+ow*.35,oy+oh*.15);cx.lineTo(ox+ow*.25,oy+oh*.65);cx.lineTo(ox+ow*.15,oy+oh*.65);cx.fill();
+      // Frame
+      cx.strokeStyle=d?'#5a4530':'#8B7355';cx.lineWidth=3;cx.beginPath();cx.roundRect(ox+ow*.08,oy+oh*.08,ow*.84,oh*.74,5);cx.stroke();
+    }else{
+      // Carpet — textured rectangle
+      cx.fillStyle=d?'#3d1e08':'#8B4513';cx.beginPath();cx.roundRect(ox+ow*.05,oy+oh*.5,ow*.9,oh*.4,4);cx.fill();
+      // Carpet texture
+      for(var ci=0;ci<6;ci++)for(var cj=0;cj<3;cj++){cx.fillStyle=d?'rgba(255,255,255,.02)':'rgba(255,255,255,.05)';cx.beginPath();cx.roundRect(ox+ow*.1+ci*ow*.13,oy+oh*.53+cj*oh*.11,ow*.1,oh*.08,2);cx.fill()}
+      // Fringe
+      cx.strokeStyle=d?'#5a3010':'#a06020';cx.lineWidth=1;
+      for(var fi=0;fi<8;fi++){cx.beginPath();cx.moveTo(ox+ow*.08+fi*ow*.11,oy+oh*.9);cx.lineTo(ox+ow*.08+fi*ow*.11,oy+oh*.95);cx.stroke()}
+    }
+    cx.restore();
+    // Name
+    cx.fillStyle=d?'#e8ddd0':'#2a1f14';cx.font='bold 9px var(--serif)';cx.textAlign='center';
+    cx.fillText(obj.n,ox+ow/2,oy+oh+12);
+    // Temperature badge
+    cx.fillStyle='rgba(14,124,107,.12)';cx.beginPath();cx.roundRect(ox+ow/2-14,oy-12,28,12,3);cx.fill();
+    cx.fillStyle='#0e7c6b';cx.font='bold 7px var(--mono)';cx.fillText('20°C',ox+ow/2,oy-3);
+    // Hover — heat flow visualization
+    if(isHover){
+      // Hand heat indicator
+      var heatRate=obj.k*10;
+      var sensation=37-heatRate*.3;
+      // Arrows showing heat flowing FROM hand INTO object
+      var nArr=Math.min(5,Math.max(1,Math.round(heatRate/10)));
+      for(var ai=0;ai<nArr;ai++){
+        var ax=ox+ow*.3+ai*ow*.1,ay=oy-4;
+        var pulse=Math.sin(af*.08+ai)*.5+.5;
+        cx.strokeStyle='rgba(220,38,38,'+(.2+pulse*.4)+')';cx.lineWidth=1.5;
+        cx.beginPath();cx.moveTo(ax,ay-12);cx.lineTo(ax,ay+6);cx.stroke();
+        cx.fillStyle='rgba(220,38,38,'+(.2+pulse*.4)+')';
+        cx.beginPath();cx.moveTo(ax,ay+6);cx.lineTo(ax-3,ay);cx.lineTo(ax+3,ay);cx.fill();
+      }
+      // Spawn particles
+      if(af%3===0)spawnHeat(ox+ow/2+Math.random()*20-10,oy-2,0,.8+Math.random(),'rgb(220,38,38)',.6);
+      // Feel label
+      cx.fillStyle=d?'#f0a030':'#c45e10';cx.font='bold 10px var(--serif)';
+      cx.fillText('Feels: '+obj.feel,ox+ow/2,oy+oh+24);
+      if(lvl==='dp'){cx.fillStyle=d?'#a89880':'#6b5c4d';cx.font='7px var(--mono)';cx.fillText('k = '+obj.k+' W/(m·K)',ox+ow/2,oy+oh+34)}
+      // Update hand temp
+      if($('rHandT'))$('rHandT').textContent=(37-obj.k*.2).toFixed(0)+'°C → '+(obj.k>1?'cooling fast!':'stays warm');
+    }
+  });
+  drawHeatParts();
+  if(feel.revealed&&$('fReveal'))$('fReveal').style.display='block';
+  cx.fillStyle=d?'#f0a030':'#c45e10';cx.font='bold 11px var(--serif)';cx.textAlign='center';
+  cx.fillText(feel.revealed?'Same T — different conductivity!':'Hover over each object. Which feels coldest?',W/2,H*.06);
+}
+
+// ===== 2. HEAT RACE =====
+var race={on:false,t:0,wax:[[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]],paused:false};
+var RM=[0,1,2]; // copper, steel, glass
+function buildRace(){
+  race.on=false;race.t=0;race.wax=[[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]];race.paused=false;
+  $('ctrl').innerHTML='<div class="cr"><span style="font-size:.7rem">Three rods heated from the left. Watch wax dots melt!</span></div>'+
+    '<div class="cr"><button class="btn btn-a" onclick="race.on=true;race.t=0;race.wax=[[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]]">🔥 Heat!</button>'+
+    '<button class="btn btn-t" onclick="race.paused=!race.paused">⏸</button>'+
+    '<button class="btn btn-o" onclick="race.on=false;race.t=0;race.wax=[[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]]">↺</button></div>';
+  $('calc').innerHTML='';
+  $('rp').innerHTML='<div class="rc"><h3>Rods</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.8">'+RM.map(function(m){return'<span style="color:'+MAT[m].col+'">● '+MAT[m].n+(lvl==='dp'?' (k='+MAT[m].k+')':'')+'</span>'}).join('<br>')+'</div></div>'+
+    '<div class="rc"><h3>Timer</h3><div class="rv" id="rRT">0.0 s</div></div>'+
+    '<div class="rc"><h3>Observe</h3><div class="rs" style="font-family:var(--serif);font-size:.64rem;line-height:1.7" id="rRO">Which rod melts all wax first? Why?</div></div>'+
+    '<div class="rc"><h3>Analysis</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.7">Rate of conduction ∝ k<br>Copper k=401 → fastest<br>Steel k=50 → medium<br>Glass k=0.8 → slowest</div></div>';
+}
+
+function paintRace(){
+  if(!W||!H)return;lab();var d=dk();af++;
+  if(race.on&&!race.paused)race.t+=.016;
+  var rodL=W*.52,rodH=H*.04,sx=W*.2,rGap=H*.11;
+  // Bunsen burner
+  var bx=sx-W*.05,by=H*.22;
+  cx.fillStyle=d?'#475569':'#94a3b8';cx.fillRect(bx+8,by+H*.1,8,H*.2);
+  cx.fillStyle=d?'#334155':'#6b7280';cx.beginPath();cx.roundRect(bx+2,by+H*.3,20,6,2);cx.fill();
+  if(race.on&&!race.paused){
+    var fh=16+Math.random()*6;
+    cx.fillStyle='#2563eb';cx.beginPath();cx.moveTo(bx+12,by+H*.1);cx.quadraticCurveTo(bx+2,by+H*.06,bx+12,by+H*.1-fh);cx.quadraticCurveTo(bx+22,by+H*.06,bx+12,by+H*.1);cx.fill();
+    cx.fillStyle='#60a5fa';cx.beginPath();cx.moveTo(bx+12,by+H*.1);cx.quadraticCurveTo(bx+7,by+H*.08,bx+12,by+H*.1-fh*.4);cx.quadraticCurveTo(bx+17,by+H*.08,bx+12,by+H*.1);cx.fill();
+    // Spawn heat particles
+    if(af%2===0)for(var ri=0;ri<3;ri++)spawnHeat(sx+2,H*.24+ri*rGap+rodH/2,1+Math.random()*MAT[RM[ri]].k*.005,0,'rgb(220,80,40)',.8);
+  }
+  // Rods with temperature gradient
+  RM.forEach(function(mi,ri){
+    var ry=H*.22+ri*rGap,m=MAT[mi];
+    var hDist=race.t*m.k*.12;
+    var hotFrac=Math.min(.99,hDist/(rodL));
+    // Rod body
+    var rg=cx.createLinearGradient(sx,0,sx+rodL,0);rg.addColorStop(0,tCol(90));
+    rg.addColorStop(hotFrac,tCol(20+70*(1-hotFrac)));
+    rg.addColorStop(Math.min(1,hotFrac+.02),m.col);rg.addColorStop(1,m.col);
+    cx.fillStyle=rg;cx.beginPath();cx.roundRect(sx,ry,rodL,rodH,3);cx.fill();
+    // 3D edge
+    cx.fillStyle='rgba(255,255,255,.06)';cx.fillRect(sx,ry,rodL,2);
+    cx.fillStyle='rgba(0,0,0,.06)';cx.fillRect(sx,ry+rodH-2,rodL,2);
+    // Label
+    cx.fillStyle=m.col;cx.font='bold 10px var(--serif)';cx.textAlign='right';cx.fillText(m.n,sx-6,ry+rodH/2+3);
+    // Wax dots
+    for(var wi=0;wi<5;wi++){
+      var wx=sx+rodL*(wi+1)/6,wDist=(wx-sx)/rodL;
+      var meltT=wDist/(m.k*.0008);
+      if(race.t>meltT)race.wax[ri][wi]=Math.max(0,race.wax[ri][wi]-.008);
+      var ws=race.wax[ri][wi];
+      if(ws>0){
+        // Thumbpin
+        cx.fillStyle=d?'#94a3b8':'#64748b';cx.beginPath();cx.arc(wx,ry-6,2.5,0,Math.PI*2);cx.fill();
+        cx.fillStyle=d?'#cbd5e1':'#374151';cx.fillRect(wx-.5,ry-4,1,5);
+        // Wax dot (3D sphere)
+        var wg=cx.createRadialGradient(wx-1,ry-2,1,wx,ry-1,3+ws*2);wg.addColorStop(0,'#fde68a');wg.addColorStop(1,'#eab308');
+        cx.fillStyle=wg;cx.beginPath();cx.arc(wx,ry-1,3+ws*2,0,Math.PI*2);cx.fill();
+      }
+      if(ws<1&&ws>0){// Dripping
+        cx.fillStyle='rgba(234,179,8,'+ws*.5+')';cx.beginPath();cx.ellipse(wx,ry+rodH+2+(1-ws)*5,2,2*(1-ws),0,0,Math.PI*2);cx.fill();
+      }
+      if(ws<=0){// Puddle
+        cx.fillStyle='rgba(234,179,8,.15)';cx.beginPath();cx.ellipse(wx,ry+rodH+5,5,2,0,0,Math.PI*2);cx.fill();
+      }
+    }
+  });
+  drawHeatParts();
+  // Timer
+  cx.fillStyle=d?'#f0a030':'#c45e10';cx.font='bold 15px var(--serif)';cx.textAlign='center';
+  cx.fillText(race.t.toFixed(1)+' s',W/2,H*.06);
+  if($('rRT'))$('rRT').textContent=race.t.toFixed(1)+' s';
+  // Winner
+  var wins=RM.map(function(mi,ri){return race.wax[ri].every(function(w){return w<=0})});
+  if(wins.some(function(w){return w})){var wi2=wins.indexOf(true);cx.fillStyle=d?'#3dd4b8':'#0e7c6b';cx.font='bold 13px var(--serif)';cx.fillText(MAT[RM[wi2]].n+' wins! Highest k = fastest conduction.',W/2,H*.13)}
+}
+
+// ===== 3. FOURIER'S LAW =====
+var fou={k:401,A:.01,dT:60,d:.05,parts:[]};
+function buildFourier(){
+  fou.parts=[];
+  $('ctrl').innerHTML='<div class="cr"><span style="font-size:.72rem"><strong>Investigate:</strong> Change each slider and watch the heat flow particles speed up or slow down.</span></div>'+
+    '<div class="cr"><div class="sr"><span class="cl">k</span><input type="range" min="0.03" max="401" step="1" value="'+fou.k+'" oninput="fou.k=+this.value"><span class="sv">'+fou.k+'</span></div>'+
+    '<div class="sr"><span class="cl">A</span><input type="range" min=".001" max=".05" step=".001" value="'+fou.A+'" oninput="fou.A=+this.value"><span class="sv">'+fou.A+'</span></div></div>'+
+    '<div class="cr"><div class="sr"><span class="cl">ΔT</span><input type="range" min="5" max="80" step="1" value="'+fou.dT+'" oninput="fou.dT=+this.value"><span class="sv">'+fou.dT+'°C</span></div>'+
+    '<div class="sr"><span class="cl">d</span><input type="range" min=".01" max=".2" step=".005" value="'+fou.d+'" oninput="fou.d=+this.value"><span class="sv">'+fou.d+'m</span></div></div>'+
+    '<div class="cr" style="font-size:.66rem;color:var(--accent)"><strong>Try:</strong> Set k=401 (copper) then k=0.03 (styrofoam). See the difference? Record both P values using Auto Add below.</div>';
+  var P=fou.k*fou.A*fou.dT/fou.d;
+  $('calc').innerHTML='<div class="gp"><div class="cr"><span class="eq">P = kAΔT/d = </span><input class="inp" id="fAns" placeholder="?"><span class="u">W</span><button class="btn btn-a" onclick="fChk()">Check</button></div><div id="ffb"></div></div>';
+  $('rp').innerHTML='<div class="rc"><h3>Heat Flow Rate</h3><div class="rv" id="rFP">'+sci(P)+' W</div><div class="fm">P = kAΔT / d</div></div>'+
+    '<div class="rc"><h3>Variables</h3><div class="sg"><div class="si"><div class="sl">k (conductivity)</div><div class="sv2" id="rfk">'+fou.k+'</div></div><div class="si"><div class="sl">A (area)</div><div class="sv2" id="rfA">'+fou.A+'</div></div><div class="si"><div class="sl">ΔT (temp diff)</div><div class="sv2" id="rfdT">'+fou.dT+'</div></div><div class="si"><div class="sl">d (thickness)</div><div class="sv2" id="rfd">'+fou.d+'</div></div></div></div>'+
+    '<div class="rc"><h3>What to Study</h3><div class="rs" style="font-family:var(--serif);font-size:.64rem;line-height:1.7">1. Change k → watch particle speed change<br>2. Change d → thicker = slower flow<br>3. Change ΔT → bigger difference = faster<br>4. Record P for each setting using Experiment tab</div></div>'+
+    '<div class="rc"><h3>Relationships</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.7">P ∝ k (better conductor → more)<br>P ∝ A (bigger area → more)<br>P ∝ ΔT (bigger difference → more)<br>P ∝ 1/d (thicker → less)</div></div>';
+}
+window.fChk=function(){var P=fou.k*fou.A*fou.dT/fou.d,uv=parseFloat($('fAns').value);if(isNaN(uv)){$('ffb').innerHTML='<div class="fb fb-h">P = k × A × ΔT ÷ d</div>';return}if(Math.abs(uv-P)/P<.1){$('fAns').className='inp ok';$('ffb').innerHTML='<div class="fb fb-ok">✓ P = '+sci(P)+' W</div>';addN('📐 Fourier','k='+fou.k+' A='+fou.A+' ΔT='+fou.dT+' d='+fou.d,'P='+sci(P)+' W')}else{$('fAns').className='inp no';$('ffb').innerHTML='<div class="fb fb-no">✗ P = '+sci(P)+' W</div>'}};
+
+function paintFourier(){
+  if(!W||!H)return;lab();var d=dk();af++;
+  var P=fou.k*fou.A*fou.dT/fou.d;
+  var slabX=W*.22,slabH2=H*.38,slabY=H*.1;
+  var slabW2=W*.35*(fou.d/.2);
+  // Hot wall
+  cx.fillStyle=tCol(20+fou.dT);cx.beginPath();cx.roundRect(slabX-W*.06,slabY,W*.06,slabH2,4);cx.fill();
+  cx.fillStyle='#fff';cx.font='bold 11px var(--serif)';cx.textAlign='center';
+  cx.fillText((20+fou.dT)+'°C',slabX-W*.03,slabY+slabH2/2);cx.font='8px sans-serif';cx.fillText('HOT',slabX-W*.03,slabY+slabH2/2+14);
+  // Slab with gradient
+  var sg=cx.createLinearGradient(slabX,0,slabX+slabW2,0);sg.addColorStop(0,tCol(20+fou.dT));sg.addColorStop(1,tCol(20));
+  cx.fillStyle=sg;cx.beginPath();cx.roundRect(slabX,slabY,slabW2,slabH2,4);cx.fill();
+  cx.strokeStyle=d?'rgba(255,255,255,.08)':'rgba(0,0,0,.06)';cx.lineWidth=1.5;cx.beginPath();cx.roundRect(slabX,slabY,slabW2,slabH2,4);cx.stroke();
+  // Cold wall
+  cx.fillStyle=tCol(20);cx.beginPath();cx.roundRect(slabX+slabW2,slabY,W*.06,slabH2,4);cx.fill();
+  cx.fillStyle='#fff';cx.font='bold 11px var(--serif)';cx.fillText('20°C',slabX+slabW2+W*.03,slabY+slabH2/2);cx.font='8px sans-serif';cx.fillText('COLD',slabX+slabW2+W*.03,slabY+slabH2/2+14);
+  // Animated heat particles flowing through slab
+  var pSpeed=Math.min(3,Math.log10(P+1)*.8);
+  if(af%Math.max(1,Math.round(4-pSpeed))===0){
+    var py=slabY+10+Math.random()*(slabH2-20);
+    spawnHeat(slabX+4,py,pSpeed+Math.random(),0,'rgb(220,80,40)',slabW2/(pSpeed*60+10));
+  }
+  drawHeatParts();
+  // Dimension labels
+  cx.fillStyle=d?'#e8ddd0':'#2a1f14';cx.font='bold 9px var(--serif)';cx.textAlign='center';
+  cx.fillText('d = '+fou.d+' m',slabX+slabW2/2,slabY+slabH2+14);
+  cx.fillText('A = '+fou.A+' m²',slabX+slabW2/2,slabY-6);
+  // Power display — large and clear
+  cx.fillStyle=d?'#f0a030':'#c45e10';cx.font='bold 16px var(--serif)';cx.textAlign='center';
+  cx.fillText('P = '+sci(P)+' W',W*.78,H*.18);
+  // Speed indicator with clear label
+  cx.fillStyle=d?'#e8ddd0':'#2a1f14';cx.font='bold 11px var(--serif)';
+  var speedText=P>1000?'🔥 Very fast heat flow':P>100?'Fast flow':P>10?'Moderate flow':'❄️ Very slow flow';
+  cx.fillText(speedText,W*.78,H*.28);
+  cx.fillStyle=d?'#a89880':'#6b5c4d';cx.font='10px var(--serif)';
+  cx.fillText('Particles show flow speed →',W*.78,H*.36);
+  // Flow meter visual
+  var meterH=H*.25,meterY=H*.32,meterX=W*.72,meterW=W*.12;
+  cx.fillStyle=d?'rgba(42,35,28,.4)':'rgba(242,238,230,.4)';cx.beginPath();cx.roundRect(meterX,meterY,meterW,meterH,4);cx.fill();
+  var fillFrac=Math.min(1,Math.log10(P+1)/4);
+  var fillCol=fillFrac>.7?'#dc2626':fillFrac>.4?'#d97706':'#2563eb';
+  cx.fillStyle=fillCol;cx.beginPath();cx.roundRect(meterX+2,meterY+meterH*(1-fillFrac),meterW-4,meterH*fillFrac,3);cx.fill();
+  cx.fillStyle=d?'#e8ddd0':'#2a1f14';cx.font='7px var(--mono)';cx.textAlign='center';cx.fillText('FLOW',meterX+meterW/2,meterY+meterH+10);
+  // Update right panel
+  if($('rFP'))$('rFP').textContent=sci(P)+' W';
+  if($('rfk'))$('rfk').textContent=fou.k;if($('rfA'))$('rfA').textContent=fou.A;
+  if($('rfdT'))$('rfdT').textContent=fou.dT;if($('rfd'))$('rfd').textContent=fou.d;
+}
+
+// ===== 4. WALL BUILDER =====
+var wall={layers:[{m:5,d:.1},{m:6,d:.05},{m:4,d:.05}],dT:30};
+function buildWall(){
+  var lHTML=wall.layers.map(function(l,i){return'<div class="cr" style="font-size:.64rem"><span style="color:'+MAT[l.m].col+';font-weight:700;min-width:50px">'+MAT[l.m].n+'</span><input class="inp" style="width:35px;font-size:.7rem" value="'+l.d+'" oninput="wall.layers['+i+'].d=+this.value">m <select onchange="wall.layers['+i+'].m=+this.value;buildWall()" style="padding:2px;border-radius:3px;font-size:.6rem;border:1px solid var(--border);background:var(--glass)">'+MAT.map(function(mt,mi){return'<option value="'+mi+'"'+(mi===l.m?' selected':'')+'>'+mt.n+'</option>'}).join('')+'</select><button class="btn btn-o" style="padding:1px 4px;font-size:.55rem" onclick="wall.layers.splice('+i+',1);buildWall()">✕</button></div>'}).join('');
+  $('ctrl').innerHTML=lHTML+'<div class="cr"><button class="btn btn-a" onclick="wall.layers.push({m:4,d:.05});buildWall()">+ Layer</button>'+
+    '<div class="sr"><span class="cl">ΔT</span><input type="range" min="5" max="50" value="'+wall.dT+'" oninput="wall.dT=+this.value"><span class="sv">'+wall.dT+'°C</span></div></div>';
+  var R=0;wall.layers.forEach(function(l){R+=l.d/MAT[l.m].k});var P2=wall.dT/R;
+  $('calc').innerHTML='<div class="gp"><div class="cr"><span class="eq">R = Σ(d/k) = '+R.toFixed(3)+' | P = ΔT/R = </span><input class="inp" id="wAns" placeholder="?"><span class="u">W/m²</span><button class="btn btn-a" onclick="wChk()">Check</button></div><div id="wfb"></div></div>';
+  $('rp').innerHTML='<div class="rc"><h3>Total R-value</h3><div class="rv">'+R.toFixed(3)+' m²·K/W</div><div class="fm">R = d / k (per layer)</div><div class="rs">Higher R = better insulation</div></div>'+
+    '<div class="rc"><h3>Heat Loss</h3><div class="rv" id="rWP" style="color:'+(P2>50?'var(--hot)':P2>20?'var(--accent)':'var(--accent2)')+'">'+sci(P2)+' W/m²</div><div class="rs" style="color:'+(P2>50?'var(--hot)':P2>20?'var(--accent)':'var(--accent2)')+'">'+
+    (P2>50?'⚠️ HIGH heat loss — needs more insulation!':P2>20?'Moderate heat loss':'✅ LOW heat loss — well insulated!')+'</div></div>'+
+    '<div class="rc"><h3>Layer Breakdown</h3><div class="rs" style="font-size:.58rem;line-height:1.7">'+wall.layers.map(function(l){var Rl=l.d/MAT[l.m].k;var pct=(Rl/R*100).toFixed(0);return MAT[l.m].n+': R='+Rl.toFixed(3)+' ('+pct+'% of total insulation)'}).join('<br>')+'</div></div>'+
+    '<div class="rc"><h3>Tips</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.7;color:var(--accent)">Add insulation layers to reduce P.<br>Air gap (k=0.025) is excellent!<br>Watch the particle speed slow down as you add layers.</div></div>';
+}
+window.wChk=function(){var R2=0;wall.layers.forEach(function(l){R2+=l.d/MAT[l.m].k});var P3=wall.dT/R2,uv=parseFloat($('wAns').value);if(isNaN(uv)){$('wfb').innerHTML='<div class="fb fb-h">P = ΔT ÷ R</div>';return}if(Math.abs(uv-P3)/P3<.1){$('wAns').className='inp ok';$('wfb').innerHTML='<div class="fb fb-ok">✓ '+sci(P3)+' W/m²</div>';addN('🏠 Wall','R='+R2.toFixed(3),'P='+sci(P3)+' W/m²')}else{$('wAns').className='inp no';$('wfb').innerHTML='<div class="fb fb-no">✗ '+sci(P3)+' W/m²</div>'}};
+
+function paintWall(){
+  if(!W||!H)return;var d=dk();cx.clearRect(0,0,W,H);af++;
+  // Outdoor (left)
+  var sg=cx.createLinearGradient(0,0,0,H);sg.addColorStop(0,d?'#1e3a5f':'#87CEEB');sg.addColorStop(.6,d?'#0d2a0d':'#558B2F');sg.addColorStop(1,d?'#0a1a0a':'#33691E');
+  cx.fillStyle=sg;cx.fillRect(0,0,W*.12,H);
+  cx.fillStyle='#fbbf24';cx.beginPath();cx.arc(W*.06,H*.12,10,0,Math.PI*2);cx.fill();//sun
+  // Indoor (right)
+  cx.fillStyle=d?'#2a2218':'#f5efe6';cx.fillRect(W*.88,0,W*.12,H);
+  // Lamp
+  cx.fillStyle='#fbbf24';cx.beginPath();cx.arc(W*.94,H*.2,4,0,Math.PI*2);cx.fill();
+  cx.fillStyle='rgba(251,191,36,.05)';cx.beginPath();cx.arc(W*.94,H*.2,25,0,Math.PI*2);cx.fill();
+  // Wall cross-section
+  var wX=W*.12,wW=W*.76,wY=H*.02,wH=H*.9;
+  var totalD=0;wall.layers.forEach(function(l){totalD+=l.d});
+  var R3=0;wall.layers.forEach(function(l){R3+=l.d/MAT[l.m].k});
+  var curX=wX,curT=20+wall.dT;
+  wall.layers.forEach(function(l,i){
+    var lw=wW*(l.d/totalD);
+    var Rl=l.d/MAT[l.m].k;
+    var tDrop=wall.dT*(Rl/R3);
+    var nextT=curT-tDrop;
+    // Layer with gradient
+    var lg=cx.createLinearGradient(curX,0,curX+lw,0);lg.addColorStop(0,tCol(curT));lg.addColorStop(1,tCol(nextT));
+    cx.fillStyle=lg;cx.fillRect(curX,wY,lw,wH);
+    // Material overlay
+    cx.fillStyle=MAT[l.m].col+'18';cx.fillRect(curX,wY,lw,wH);
+    // Border
+    cx.strokeStyle=d?'rgba(255,255,255,.06)':'rgba(0,0,0,.04)';cx.lineWidth=1;cx.strokeRect(curX,wY,lw,wH);
+    // Label
+    cx.save();cx.translate(curX+lw/2,wY+wH/2);if(lw<35)cx.rotate(-Math.PI/2);
+    cx.fillStyle='rgba(255,255,255,.8)';cx.font='bold '+(lw<25?'7':'9')+'px var(--serif)';cx.textAlign='center';
+    cx.fillText(MAT[l.m].n,0,-4);cx.fillStyle='rgba(255,255,255,.6)';cx.font=(lw<25?'6':'7')+'px var(--mono)';cx.fillText(l.d+'m',0,6);cx.restore();
+    // Temperature at boundary
+    cx.fillStyle=d?'#e8ddd0':'#2a1f14';cx.font='bold 7px var(--mono)';cx.textAlign='center';cx.fillText(Math.round(curT)+'°',curX,wY-3);
+    // Animated heat particles
+    var pSpd=Math.min(2,(tDrop/wall.dT)*3);
+    if(af%Math.max(2,Math.round(6-pSpd*2))===0)spawnHeat(curX+2,wY+20+Math.random()*(wH-40),pSpd+Math.random()*.5,0,'rgb(220,80,40)',lw/(pSpd*40+10));
+    curT=nextT;curX+=lw;
+  });
+  cx.fillText(Math.round(curT)+'°',curX,wY-3);
+  drawHeatParts();
+  // Labels
+  cx.fillStyle='#fff';cx.font='bold 10px var(--serif)';cx.textAlign='center';
+  cx.fillText('OUT '+(20+wall.dT)+'°C',W*.06,H*.5);cx.fillText('IN 20°C',W*.94,H*.5);
+  var P4=wall.dT/R3;
+  cx.fillStyle=d?'#f0a030':'#c45e10';cx.font='bold 13px var(--serif)';cx.fillText('Heat Loss: '+sci(P4)+' W/m²',W/2,wY+wH+14);
+  // Heat loss arrow — size proportional to P
+  var arrowLen=Math.min(H*.15,P4*.8);
+  var arrowX=W/2,arrowY=wY+wH+22;
+  cx.strokeStyle=P4>50?'#dc2626':P4>20?'#d97706':'#0e7c6b';cx.lineWidth=3;
+  cx.beginPath();cx.moveTo(arrowX,arrowY);cx.lineTo(arrowX,arrowY+arrowLen);cx.stroke();
+  cx.fillStyle=P4>50?'#dc2626':P4>20?'#d97706':'#0e7c6b';
+  cx.beginPath();cx.moveTo(arrowX,arrowY+arrowLen);cx.lineTo(arrowX-5,arrowY+arrowLen-8);cx.lineTo(arrowX+5,arrowY+arrowLen-8);cx.fill();
+  cx.font='bold 10px var(--serif)';cx.fillText(P4>50?'HIGH LOSS':P4>20?'MODERATE':'LOW LOSS',W/2,arrowY+arrowLen+12);
+  if($('rWP'))$('rWP').textContent=sci(P4)+' W/m²';
+}
+
+// ===== 5. REFLECT =====
+function buildReflect(){
+  $('ctrl').innerHTML='';$('calc').innerHTML='';
+  $('rp').innerHTML='<div class="rc"><h3>Connect</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.7">Think about conduction in your daily life.<br><br>Hover over each scenario on the canvas.</div></div>';
+}
+var reflQ=[
+  {q:'Why do metal pots have plastic handles?',a:'Metal conducts heat to your hand. Plastic insulates.',x:.1,y:.12,w:.35,h:.18,icon:'🍳'},
+  {q:'Why does your house have insulation?',a:'Low-k materials reduce heat loss through walls.',x:.55,y:.12,w:.35,h:.18,icon:'🏠'},
+  {q:'Why is double glazing better?',a:'Air gap between panes has very low k = 0.025.',x:.1,y:.38,w:.35,h:.18,icon:'🪟'},
+  {q:'Design the perfect travel mug.',a:'Double wall, vacuum gap, plastic lid — minimize conduction.',x:.55,y:.38,w:.35,h:.18,icon:'☕'}
+];
+var reflHov=-1;
+cvs.addEventListener('mousemove',function(e){
+  if(T!=='reflect')return;var p=xy(e);reflHov=-1;
+  reflQ.forEach(function(q,i){if(p.x>W*q.x&&p.x<W*(q.x+q.w)&&p.y>H*q.y&&p.y<H*(q.y+q.h))reflHov=i});
+});
+
+function paintReflect(){
+  if(!W||!H)return;lab();var d=dk();af++;
+  cx.fillStyle=d?'#f0a030':'#c45e10';cx.font='bold 12px var(--serif)';cx.textAlign='center';cx.fillText('Think & Connect — Hover over each card',W/2,H*.07);
+  reflQ.forEach(function(q,i){
+    var qx=W*q.x,qy=H*q.y,qw=W*q.w,qh=H*q.h;
+    var isH=reflHov===i;
+    cx.save();
+    if(isH){cx.shadowColor='rgba(196,94,16,.2)';cx.shadowBlur=10}
+    cx.fillStyle=isH?(d?'rgba(42,35,28,.8)':'rgba(255,252,247,.85)'):(d?'rgba(42,35,28,.5)':'rgba(255,252,247,.5)');
+    cx.beginPath();cx.roundRect(qx,qy,qw,qh,8);cx.fill();
+    cx.strokeStyle=isH?'var(--accent)':(d?'rgba(168,152,128,.15)':'rgba(0,0,0,.06)');cx.lineWidth=isH?2:1;
+    cx.beginPath();cx.roundRect(qx,qy,qw,qh,8);cx.stroke();cx.restore();
+    cx.fillStyle=d?'#e8ddd0':'#2a1f14';cx.font='16px sans-serif';cx.textAlign='left';cx.fillText(q.icon,qx+8,qy+qh*.45);
+    cx.font='bold 9px var(--serif)';cx.fillText(q.q,qx+30,qy+qh*.4);
+    if(isH){cx.fillStyle=d?'#3dd4b8':'#0e7c6b';cx.font='8px var(--serif)';cx.fillText('→ '+q.a,qx+30,qy+qh*.7)}
+  });
+}
+
+// ===== BUILD & RENDER =====
+function build(){
+  if(T==='feel')buildFeel();else if(T==='race')buildRace();else if(T==='fourier')buildFourier();else if(T==='wall')buildWall();else buildReflect();
+  buildExpEng();buildIB();
+}
+function render(){
+  if(!W){requestAnimationFrame(render);return}
+  if(T==='feel')paintFeel();else if(T==='race')paintRace();else if(T==='fourier')paintFourier();else if(T==='wall')paintWall();else paintReflect();
+  requestAnimationFrame(render);
+}
+
+// EXPERIMENT ENGINE
+var expD=[],manD=[];
+var EIV=[{id:'k',n:'Conductivity k'},{id:'d',n:'Thickness d (m)'},{id:'A',n:'Area A (m²)'},{id:'dT',n:'ΔT (°C)'}];
+var EDV=[{id:'P',n:'Heat Flow P (W)'},{id:'R',n:'R-value'},{id:'t',n:'Time (s)'}];
+function buildExpEng(){
+  $('expC').innerHTML='<div class="exp-row"><div class="exp-col"><div class="exp-field"><label>IV</label><select id="selIV">'+EIV.map(function(v){return'<option value="'+v.id+'">'+v.n+'</option>'}).join('')+'</select></div><div class="exp-field"><label>DV</label><select id="selDV">'+EDV.map(function(v){return'<option value="'+v.id+'">'+v.n+'</option>'}).join('')+'</select></div></div><div class="exp-col"><div class="exp-field"><label>CVs</label><div class="cv-grid">'+EIV.map(function(v){return'<label class="cv-check"><input type="checkbox" checked>'+v.n+'</label>'}).join('')+'</div></div><div class="exp-field"><label>Hypothesis</label><input type="text" placeholder="If IV increases, DV will..."></div></div></div>'+
+    '<div style="background:var(--surface);border-radius:6px;padding:5px;border:1px solid var(--border);margin-top:3px"><div class="exp-row" style="align-items:flex-end"><div class="exp-col"><div class="exp-field"><label>IV</label><div style="display:flex;gap:2px"><input type="number" id="mIV" step="any" style="flex:1"><button class="btn btn-o" onclick="rIV()" style="font-size:.55rem;padding:2px 4px">↻</button></div></div></div>'+
+    '<div class="exp-col"><div class="exp-field"><label>DV</label><div style="display:flex;gap:2px"><input type="number" id="mDV" step="any" style="flex:1"><button class="btn btn-o" onclick="rDV()" style="font-size:.55rem;padding:2px 4px">↻</button></div></div></div>'+
+    '<div style="flex:0;display:flex;gap:2px"><button class="btn btn-a" onclick="addR()" style="font-size:.6rem">+Add</button><button class="btn btn-t" onclick="aAdd()" style="font-size:.55rem">Auto</button></div></div></div>'+
+    '<div id="mT"></div><div style="display:flex;gap:2px;margin-top:2px"><button class="btn btn-t" onclick="plotM()" style="font-size:.6rem">Plot</button><button class="btn btn-o" onclick="clrM()" style="font-size:.6rem">Clear</button></div><div id="mSt" style="font-size:.6rem;color:var(--text3);margin-top:2px"></div>';
+}
+window.rIV=function(){var iv=$('selIV')?$('selIV').value:'k';var v=0;if(T==='fourier'){if(iv==='k')v=fou.k;else if(iv==='d')v=fou.d;else if(iv==='A')v=fou.A;else v=fou.dT}else if(T==='race')v=race.t;$('mIV').value=+v.toFixed(3)};
+window.rDV=function(){var dv=$('selDV')?$('selDV').value:'P';var v=0;if(T==='fourier'){if(dv==='P')v=fou.k*fou.A*fou.dT/fou.d;else if(dv==='R')v=fou.d/fou.k}else if(T==='wall'){var R4=0;wall.layers.forEach(function(l){R4+=l.d/MAT[l.m].k});if(dv==='P')v=wall.dT/R4;else v=R4}else if(T==='race')v=race.t;$('mDV').value=+v.toFixed(4)};
+window.aAdd=function(){rIV();rDV();addR()};
+window.addR=function(){var iv=parseFloat($('mIV').value),dv=parseFloat($('mDV').value);if(isNaN(iv)||isNaN(dv)){$('mSt').textContent='Enter both.';$('mSt').style.color='var(--err)';return}manD.push({iv:iv,dv:dv});$('mIV').value='';$('mDV').value='';$('mSt').textContent='#'+manD.length;$('mSt').style.color='var(--ok)';buildMT();syncM()};
+function buildMT(){if(!manD.length){$('mT').innerHTML='';return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});var ks=Object.keys(g).map(Number).sort(function(a,b){return a-b});var h='<table class="dt"><thead><tr><th>IV</th><th>Readings</th><th class="mean">Mean</th><th></th></tr></thead><tbody>';ks.forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length;h+='<tr><td style="font-weight:700">'+k+'</td><td>'+v.map(function(x){return x.toFixed(2)}).join(', ')+'</td><td class="mean">'+mn.toFixed(2)+'</td><td><span style="cursor:pointer;color:var(--err)" onclick="rmG('+k+')">✕</span></td></tr>'});$('mT').innerHTML=h+'</tbody></table>'}
+window.rmG=function(k){manD=manD.filter(function(d2){return d2.iv!==k});buildMT();syncM()};
+window.clrM=function(){manD=[];buildMT();expD=[];$('mSt').textContent=''};
+function syncM(){if(!manD.length){expD=[];return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});expD=[];Object.keys(g).map(Number).sort(function(a,b){return a-b}).forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length;expD.push({iv:k,mean:+mn.toFixed(3)})});buildDT();setTimeout(function(){initGr();drawGr()},30)}
+window.plotM=function(){if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(function(){initGr();drawGr()},80)};
+function buildDT(){if(!expD.length)return;$('dW').innerHTML='<table class="dt"><thead><tr><th>IV</th><th class="mean">Mean DV</th></tr></thead><tbody>'+expD.map(function(r){return'<tr><td>'+r.iv+'</td><td class="mean">'+r.mean+'</td></tr>'}).join('')+'</tbody></table>'}
+var gCv,gx2;
+function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');var d2=window.devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)w=500;gCv.width=w*d2;gCv.height=180*d2;gCv.style.width=w+'px';gCv.style.height='180px';gx2.setTransform(d2,0,0,d2,0,0)}
+function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return}var w=parseInt(gCv.style.width)||500,h=180,d2=dk();gx2.clearRect(0,0,w,h);gx2.fillStyle=d2?'#1e1a14':'#f5f0e6';gx2.beginPath();gx2.roundRect(0,0,w,h,8);gx2.fill();if(!expD.length){gx2.fillStyle=d2?'rgba(168,152,128,.2)':'rgba(0,0,0,.1)';gx2.font='10px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data to plot',w/2,h/2);return}var P2={t:18,r:12,b:22,l:36},pW=w-P2.l-P2.r,pH=h-P2.t-P2.b;gx2.strokeStyle=d2?'rgba(168,152,128,.1)':'rgba(0,0,0,.06)';gx2.lineWidth=1;gx2.beginPath();gx2.moveTo(P2.l,P2.t);gx2.lineTo(P2.l,h-P2.b);gx2.lineTo(w-P2.r,h-P2.b);gx2.stroke();var xs=expD.map(function(r2){return r2.iv}),ys=expD.map(function(r2){return r2.mean});var xn=Math.min.apply(null,xs),xx=Math.max.apply(null,xs),yn=Math.min.apply(null,ys)-.5,yx=Math.max.apply(null,ys)+.5;if(xx===xn){xn-=1;xx+=1}if(yx<=yn){yn-=1;yx+=2}function tx(v){return P2.l+((v-xn)/(xx-xn))*pW}function ty(v){return P2.t+pH-((v-yn)/(yx-yn))*pH}for(var i=0;i<expD.length;i++){gx2.fillStyle=d2?'#f0a030':'#c45e10';gx2.beginPath();gx2.arc(tx(xs[i]),ty(ys[i]),3,0,Math.PI*2);gx2.fill()}if(xs.length>=2){gx2.strokeStyle=d2?'#f0a030':'#c45e10';gx2.lineWidth=1.5;gx2.beginPath();for(var i=0;i<expD.length;i++){i===0?gx2.moveTo(tx(xs[i]),ty(ys[i])):gx2.lineTo(tx(xs[i]),ty(ys[i]))}gx2.stroke()}}
+
+// IB
+var IB={feel:[{c:'Explain',q:'Why does a metal spoon in hot soup feel hotter than the wooden handle?',f:'Metal has high k — it conducts heat rapidly to your skin. Wood has low k — heat transfers slowly, so your skin temperature changes less.'}],race:[{c:'Explain',q:'Rank copper, steel, and glass by conductivity. Explain using particle models.',f:'Copper > Steel > Glass. Metals have free electrons that transfer energy rapidly. Glass relies on slower lattice vibrations between bonded atoms.'}],fourier:[{c:'Calculate',q:'A copper rod (k=401, A=0.002m², d=0.1m, ΔT=50°C). Find P.',f:'P = kAΔT/d = 401 × 0.002 × 50 / 0.1 = 401 W'}],wall:[{c:'Calculate',q:'Brick (d=0.1, k=0.7) + insulation (d=0.05, k=0.03). ΔT=25°C. Find heat loss.',f:'R = 0.1/0.7 + 0.05/0.03 = 0.143 + 1.667 = 1.81. P = 25/1.81 = 13.8 W/m²'}],reflect:[{c:'Explain',q:'Why is still air a good insulator but wind makes you cold?',f:'Still air k=0.025 (excellent insulator). But wind removes the warm air layer by convection — a different heat transfer mechanism.'}]};
+function buildIB(){var qs=IB[T]||[];$('ibL').innerHTML=qs.map(function(q,i){return'<div class="ib-card"><div class="ib-cmd">'+q.c+'</div><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea id="ib'+i+'"></textarea><button class="btn btn-a" style="margin-top:2px;font-size:.58rem" onclick="sF('+i+')">Answer</button><div class="ib-fb" id="iF'+i+'"></div></div>'}).join('');window.sF=function(i){$('iF'+i).className='ib-fb show ok';$('iF'+i).textContent=(IB[T]||[])[i].f}}
+window.bts=function(el,i){document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on')});el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(function(){initGr();drawGr()},80)};
+
+onR();build();render();
+window.addEventListener('resize',onR);
+</script>
+</body>
+</html>
