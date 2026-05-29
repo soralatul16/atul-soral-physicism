@@ -1,0 +1,637 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Heat Transfer Modes | Atul Soral Physicism</title>
+<style>
+:root{--bg:#0f172a;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--accent:#38bdf8;--accent2:#34d399;--border:rgba(56,189,248,.12);--glass:rgba(15,23,42,.82);--glassBd:rgba(56,189,248,.1);--surface:rgba(30,41,59,.5);--ok:#22c55e;--err:#ef4444;--hot:#ef4444;--cold:#3b82f6;--mono:'SF Mono',monospace;--serif:Georgia,serif}
+[data-theme="light"]{--bg:#f0f4f8;--text:#1e293b;--text2:#475569;--text3:#94a3b8;--accent:#0369a1;--accent2:#0e7c6b;--border:rgba(100,140,180,.2);--glass:rgba(255,255,255,.75);--glassBd:rgba(100,140,180,.18);--surface:rgba(224,242,254,.4);--hot:#dc2626;--cold:#2563eb}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px}
+nav{display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px}
+nav a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem}nav a:hover{color:#fff}
+.nav-logo{font-family:var(--serif);font-size:1rem;font-weight:700;color:#fff!important}
+.nav-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:.73rem;text-decoration:none;display:inline-block}
+.w{max-width:1120px;margin:0 auto;padding:0 12px}
+.hd{text-align:center;padding:8px 16px 4px}
+.hd h1{font-family:var(--serif);font-size:1.2rem;color:var(--accent)}
+.hd p{font-size:.72rem;color:var(--text2)}
+.guide-bar{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;margin-bottom:6px;font-size:.68rem;color:var(--text2);line-height:1.6;display:flex;align-items:flex-start;gap:6px}
+.guide-bar .gi{font-size:1rem;flex-shrink:0}
+.guide-bar b{color:var(--accent)}
+.tbar{display:flex;gap:0;margin:6px 0;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--glass);backdrop-filter:blur(6px)}
+.tt{flex:1;padding:8px 4px;text-align:center;font-size:.56rem;font-weight:700;cursor:pointer;color:var(--text3);border-right:1px solid var(--border);transition:all .12s}
+.tt:last-child{border-right:none}.tt.on{background:var(--accent);color:#fff}.tt:hover:not(.on){background:var(--surface)}
+.grid{display:grid;grid-template-columns:1fr 220px;gap:8px;margin-bottom:8px}
+.cvs{border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 6px 24px rgba(0,0,0,.15);background:#0a0f1a}
+.cvs canvas{display:block;width:100%;aspect-ratio:16/9}
+.gp{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glassBd);border-radius:10px;padding:7px 10px;margin-bottom:6px}
+.cr{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:3px}.cr:last-child{margin-bottom:0}
+.cl{font-size:.64rem;color:var(--text2);font-weight:700;text-transform:uppercase;min-width:32px}
+.pill{padding:4px 9px;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.64rem;font-weight:700;color:var(--text3);background:var(--surface);display:inline-flex;align-items:center;gap:3px;transition:all .1s}
+.pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pill.cond{border-color:rgba(239,68,68,.3)}.pill.cond.on{background:#dc2626}
+.pill.conv{border-color:rgba(234,179,8,.3)}.pill.conv.on{background:#ca8a04}
+.pill.rad{border-color:rgba(168,85,247,.3)}.pill.rad.on{background:#7c3aed}
+.sr{display:flex;align-items:center;gap:3px;font-size:.64rem;font-weight:600;color:var(--text2)}
+.sr input[type="range"]{flex:1;accent-color:var(--accent);max-width:100px}
+.sr .sv{font-family:var(--mono);min-width:36px;font-weight:800;color:var(--text);font-size:.72rem}
+.btn{padding:5px 12px;border:none;border-radius:7px;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .12s}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.97)}
+.btn-a{background:var(--accent);color:#fff}.btn-t{background:var(--accent2);color:#fff}
+.btn-o{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.rcol{display:flex;flex-direction:column;gap:4px;max-height:600px;overflow-y:auto}
+.rcol::-webkit-scrollbar{width:3px}.rcol::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px}
+.rc{background:var(--surface);border-radius:8px;padding:7px 8px;border:1px solid var(--border)}
+.rc h3{font-size:.54rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:2px;font-weight:700}
+.rc .rv{font-size:.95rem;font-weight:800;font-family:var(--serif);color:var(--accent)}
+.rc .rs{font-size:.62rem;color:var(--text2);margin-top:2px;line-height:1.6}
+.rc .fm{font-family:var(--serif);font-size:.78rem;color:var(--accent2);font-weight:700}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.si{background:var(--glass);border-radius:5px;padding:4px;text-align:center;border:1px solid var(--border)}
+.si .sl{font-size:.48rem;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);font-weight:700}
+.si .sv2{font-size:.72rem;font-weight:800;color:var(--text);font-family:var(--mono)}
+.btabs{display:flex;gap:2px;margin-bottom:5px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.bt{padding:4px 10px;border-radius:7px 7px 0 0;font-size:.66rem;font-weight:700;cursor:pointer;color:var(--text3);transition:all .1s}
+.bt.on{color:var(--accent);background:var(--surface);border:1px solid var(--border);border-bottom:none}
+.btc{display:none}.btc.on{display:block}
+.ib-card{background:var(--surface);border-radius:7px;padding:8px;margin-bottom:5px;border:1px solid var(--border)}
+.ib-cmd{display:inline-block;font-size:.52rem;padding:2px 6px;border-radius:4px;font-weight:700;text-transform:uppercase;background:rgba(56,189,248,.08);color:var(--accent);margin-bottom:2px}
+.ib-card h4{font-size:.74rem;font-weight:700;margin-bottom:2px}
+.ib-card p{font-size:.68rem;color:var(--text2);line-height:1.4;margin-bottom:3px}
+.ib-card textarea{width:100%;height:40px;border:1px solid var(--border);border-radius:5px;padding:4px;font-size:.66rem;font-family:inherit;resize:vertical;background:var(--glass);color:var(--text);outline:none}
+.ib-fb{padding:4px 6px;border-radius:5px;font-size:.64rem;font-weight:600;margin-top:2px;display:none;line-height:1.5}
+.ib-fb.show{display:block}.ib-fb.ok{background:rgba(34,211,153,.06);color:var(--ok)}
+.nb-c{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 6px;margin-bottom:3px;font-size:.64rem;line-height:1.4}
+.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+.exp-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:5px}.exp-col{flex:1;min-width:170px}
+.exp-field{margin-bottom:4px}.exp-field label{font-size:.6rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:2px}
+.exp-field select,.exp-field input[type="text"],.exp-field input[type="number"]{width:100%;padding:4px 6px;border-radius:6px;border:1px solid var(--border);font-size:.74rem;font-weight:600;background:var(--glass);color:var(--text);outline:none;font-family:inherit}
+.cv-grid{display:flex;flex-wrap:wrap;gap:3px}.cv-check{display:flex;align-items:center;gap:3px;padding:2px 6px;border-radius:4px;background:var(--surface);border:1px solid var(--border);font-size:.62rem;font-weight:600;color:var(--text2)}.cv-check input{accent-color:var(--accent)}
+.dt{width:100%;border-collapse:collapse;font-size:.68rem;font-family:var(--mono)}
+.dt th{text-align:center;padding:4px;font-size:.56rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--surface)}
+.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border)}.dt .mean{font-weight:700;color:var(--accent)}.dt .unc{color:var(--accent2)}
+.graph-wrap canvas{width:100%;height:200px;display:block;border-radius:10px;border:1px solid var(--border);margin-top:5px}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.rcol{max-height:none;flex-direction:row;flex-wrap:wrap}.rcol .rc{flex:1;min-width:110px}}
+@media print{nav,.tbar,.guide-bar{display:none!important}body{background:#fff!important}}
+</style>
+</head>
+<body>
+<script>var SIM_META={id:'heat-transfer-modes',title:'Heat Transfer Modes',topic:'B.1',topicName:'Thermal Energy Transfers',grade:['MYP5','DP'],level:'both',theme:'B',concepts:['conduction','convection','radiation','Stefan-Boltzmann','Newton cooling','emissivity','Fourier law','Wien displacement'],difficulty:'intermediate'};</script>
+<nav>
+  <div style="display:flex;align-items:center;gap:14px"><a href="../index.html" class="nav-logo">Atul Soral Physicism</a><a href="../dp-simulations.html">← All Simulations</a></div>
+  <div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">🌙</button><a href="../dp-simulations.html" class="nav-btn">← Back</a><a href="../index.html" class="nav-btn">Home</a><a href="../myp-dashboard.html" class="nav-btn">MYP</a><a href="../dp-dashboard.html" class="nav-btn">DP</a></div>
+</nav>
+<div class="w">
+<div class="hd"><h1>Heat Transfer Modes</h1><p>Conduction, Convection &amp; Radiation — See Them, Toggle Them, Measure Them</p></div>
+<div class="guide-bar" id="guideBar"><span class="gi">💡</span><span id="guideText"></span></div>
+<div class="tbar">
+  <div class="tt on" onclick="go('coffee',this)">☕ Coffee Cup</div>
+  <div class="tt" onclick="go('cond',this)">🔥 Conduction</div>
+  <div class="tt" onclick="go('conv',this)">🌊 Convection</div>
+  <div class="tt" onclick="go('rad',this)">☀️ Radiation</div>
+  <div class="tt" onclick="go('compare',this)">📊 Compare</div>
+</div>
+<div class="grid">
+  <div><div class="cvs" id="cW"><canvas id="C"></canvas></div><div class="gp" id="ctrl"></div></div>
+  <div class="rcol" id="rp"></div>
+</div>
+<div class="gp" style="padding:10px 12px">
+  <div class="btabs">
+    <div class="bt on" onclick="bts(this,0)">🔬 Experiment</div>
+    <div class="bt" onclick="bts(this,1)">📊 Data &amp; Graph</div>
+    <div class="bt" onclick="bts(this,2)">📝 IB Questions</div>
+    <div class="bt" onclick="bts(this,3)">📓 Notebook</div>
+  </div>
+  <div class="btc on" id="b0"><div id="expC"></div></div>
+  <div class="btc" id="b1"><div id="dW"><p style="font-size:.68rem;color:var(--text3);text-align:center;padding:10px">Collect data to see results.</p></div><div class="graph-wrap"><canvas id="gC"></canvas></div></div>
+  <div class="btc" id="b2"><div id="ibL"></div></div>
+  <div class="btc" id="b3">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <span style="font-size:.72rem;font-weight:700;color:var(--accent);font-family:var(--serif)">📓 Lab Notebook</span>
+      <button class="btn btn-a" onclick="window.print()" style="font-size:.6rem;padding:3px 8px">Print</button>
+    </div>
+    <div id="nbO"></div>
+  </div>
+</div>
+</div>
+<script>
+var $=function(i){return document.getElementById(i)},dk=function(){return document.documentElement.dataset.theme==='dark'},T='coffee',af=0,lastTime=0;
+$('themeBtn').onclick=function(){var t=dk()?'light':'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️';localStorage.setItem('phy-theme',t)};
+(function(){var t=localStorage.getItem('phy-theme')||'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️'})();
+var cvs=$('C'),cx=cvs.getContext('2d'),W=0,H=0;
+function onR(){var d=window.devicePixelRatio||1,r=cvs.getBoundingClientRect();W=r.width;H=r.height;cvs.width=W*d;cvs.height=H*d;cx.setTransform(d,0,0,d,0,0)}
+new ResizeObserver(onR).observe(cvs);
+
+// Color for 20-100°C range
+function tCol(t){var f=Math.max(0,Math.min(1,(t-20)/80));return'rgb('+Math.round(50+205*f)+','+Math.round(60+60*(1-Math.abs(f-.5)*2))+','+Math.round(220-190*f)+')'}
+// Color for arbitrary temp range (used for conduction bar with high T)
+function tColW(t,lo,hi){var f=Math.max(0,Math.min(1,(t-lo)/(hi-lo)));return'rgb('+Math.round(50+205*f)+','+Math.round(60+60*(1-Math.abs(f-.5)*2))+','+Math.round(220-190*f)+')'}
+
+function go(t,el){T=t;document.querySelectorAll('.tt').forEach(function(b){b.classList.remove('on')});el.classList.add('on');manD=[];expD=[];updateGuide();build()}
+var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN()}
+function showN(){$('nbO').innerHTML=nb.length?nb.map(function(n,i){return'<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">→ '+n.r+'</span></div>'}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.64rem;padding:8px">Complete experiments and answer questions to record observations here.</p>'}
+showN();
+
+var GUIDES={
+  coffee:'<b>Coffee Cup:</b> Toggle each mechanism on/off with the coloured pills. Choose a <b>cup material</b> to see how it changes conduction and radiation. Watch Newton\'s cooling curve build live. Try isolating one mechanism at a time.',
+  cond:'<b>Conduction:</b> A bar heated at the left end. Watch the temperature gradient propagate through the material. Switch between <b>Copper, Iron, Glass, Wood</b> to see how thermal conductivity (k) affects the speed. The lattice inset shows atomic vibrations.',
+  conv:'<b>Convection:</b> Drag the <b>Heat</b> slider to set source temperature. Watch 200 particles form convection cells — hot (red) rises, cool (blue) sinks. Buoyancy depends on local density contrast with room temperature.',
+  rad:'<b>Radiation:</b> Adjust <b>temperature</b> and <b>emissivity (ε)</b>. The Wien\'s spectrum plot shows the emission curve shifting with temperature. Notice how doubling T gives 16× more power (P ∝ T⁴).',
+  compare:'<b>Compare:</b> Drag the <b>temperature slider</b> to see how each mechanism scales. All bars show <b>net</b> heat transfer rate. Watch radiation overtake convection at high temperatures.'
+};
+function updateGuide(){$('guideText').innerHTML=GUIDES[T]||GUIDES.coffee}
+
+// ===== CONSTANTS =====
+var SIGMA=5.67e-8,ROOM_T=22,ROOM_TK=295.15;
+var CUP_MATS=[
+  {n:'Ceramic',kF:1.0,eps:0.9,col:'#94a3b8'},
+  {n:'Metal',kF:3.0,eps:0.1,col:'#c0c0c0'},
+  {n:'Styrofoam',kF:0.15,eps:0.9,col:'#d4c8a0'},
+  {n:'Glass',kF:0.5,eps:0.85,col:'#87ceeb'}
+];
+var BAR_MATS=[
+  {n:'Copper',k:385,rho:8960,c:385,col:'#d97706',alpha:1.12e-4},
+  {n:'Iron',k:80,rho:7870,c:450,col:'#94a3b8',alpha:2.26e-5},
+  {n:'Glass',k:1.05,rho:2500,c:840,col:'#60a5fa',alpha:5e-7},
+  {n:'Wood',k:0.17,rho:600,c:2400,col:'#8B7355',alpha:1.18e-7}
+];
+var N_SEGS=30;
+
+// ===== STATE =====
+var coffee={temp:90,cond:true,conv:true,rad:true,running:true,elapsed:0,particles:[],waves:[],history:[],mat:0};
+var cond={segs:[],heatT:300,mat:0,running:true,elapsed:0};
+var conv={temp:80,particles:[]};
+var rad={temp:500,emissivity:1,surface:'black',waves:[]};
+var compare={temp:200};
+
+// ===== 1. COFFEE CUP =====
+function initCoffeeParticles(){
+  coffee.particles=[];
+  for(var i=0;i<80;i++)coffee.particles.push({x:W*.3+Math.random()*W*.15,y:H*.2+Math.random()*H*.3,vx:(Math.random()-.5)*.3,vy:-Math.random()*1.5-.5,life:Math.random()});
+}
+function buildCoffee(){
+  coffee.temp=90;coffee.elapsed=0;coffee.history=[];coffee.waves=[];
+  initCoffeeParticles();
+  var matPills=CUP_MATS.map(function(m,i){return'<div class="pill'+(i===coffee.mat?' on':'')+'" onclick="coffee.mat='+i+';buildCoffee()">'+m.n+'</div>'}).join(' ');
+  $('ctrl').innerHTML='<div class="cr">'+
+    '<div class="pill cond'+(coffee.cond?' on':'')+'" onclick="coffee.cond=!coffee.cond;this.classList.toggle(\'on\')">🔴 Conduction</div>'+
+    '<div class="pill conv'+(coffee.conv?' on':'')+'" onclick="coffee.conv=!coffee.conv;this.classList.toggle(\'on\')">🟡 Convection</div>'+
+    '<div class="pill rad'+(coffee.rad?' on':'')+'" onclick="coffee.rad=!coffee.rad;this.classList.toggle(\'on\')">🟣 Radiation</div>'+
+    '<span style="flex:1"></span>'+
+    '<button class="btn btn-a" onclick="coffee.running=!coffee.running">⏸/▶</button>'+
+    '<button class="btn btn-o" onclick="coffee.temp=90;coffee.elapsed=0;coffee.history=[];initCoffeeParticles()">↺</button></div>'+
+    '<div class="cr"><span class="cl">Cup</span>'+matPills+'</div>';
+  var cm=CUP_MATS[coffee.mat];
+  $('rp').innerHTML='<div class="rc"><h3>Coffee Temperature</h3><div class="rv" id="rCT" style="font-size:1.1rem">'+coffee.temp.toFixed(0)+'°C</div></div>'+
+    '<div class="rc"><h3>Cooling Rate (°C/s)</h3><div class="sg">'+
+      '<div class="si" style="border-color:rgba(239,68,68,.2)"><div class="sl">Conduction</div><div class="sv2" id="rCond" style="color:#ef4444">—</div></div>'+
+      '<div class="si" style="border-color:rgba(234,179,8,.2)"><div class="sl">Convection</div><div class="sv2" id="rConv" style="color:#eab308">—</div></div>'+
+      '<div class="si" style="border-color:rgba(168,85,247,.2)"><div class="sl">Radiation</div><div class="sv2" id="rRad" style="color:#a855f7">—</div></div>'+
+      '<div class="si"><div class="sl">Total</div><div class="sv2" id="rTot">—</div></div></div></div>'+
+    '<div class="rc"><h3>Time</h3><div class="rv" id="rTime">0 s</div></div>'+
+    '<div class="rc"><h3>Cup: '+cm.n+'</h3><div class="rs" style="font-family:var(--mono);font-size:.6rem;line-height:1.7">k factor: '+cm.kF+'<br>ε: '+cm.eps+'</div></div>'+
+    '<div class="rc"><h3>Newton\'s Cooling</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.7">dT/dt ∝ (T − T_room)<br>Hotter → cools faster</div></div>';
+}
+
+function paintCoffee(dt){
+  if(!W||!H)return;var d=dk();af++;cx.clearRect(0,0,W,H);
+  cx.fillStyle=d?'#0a0f1a':'#e8e4dc';cx.fillRect(0,0,W,H);
+  var tableY=H*.65;
+  var tg=cx.createLinearGradient(0,tableY,0,H);tg.addColorStop(0,d?'#2a1f14':'#8B7355');tg.addColorStop(1,d?'#1a1410':'#6B5340');
+  cx.fillStyle=tg;cx.fillRect(0,tableY,W,H-tableY);
+  var dT=coffee.temp-ROOM_T,cm=CUP_MATS[coffee.mat];
+  var hotK=coffee.temp+273.15;
+  // Physics-correct rates (°C/s)
+  var condR=coffee.cond?cm.kF*dT*0.003:0;
+  var convR=coffee.conv?dT*0.007:0;
+  var radR=coffee.rad?cm.eps*SIGMA*(Math.pow(hotK,4)-Math.pow(ROOM_TK,4))*5e-5:0;
+  var totalR=condR+convR+radR;
+  if(coffee.running&&coffee.temp>ROOM_T+.5){
+    coffee.temp-=totalR*dt;coffee.elapsed+=dt;
+    if(af%6===0)coffee.history.push({t:coffee.elapsed,temp:coffee.temp});
+  }
+  // Cup drawing
+  var cupX=W*.32,cupY=tableY-H*.28,cupW=W*.12,cupH=H*.28;
+  cx.fillStyle='rgba(0,0,0,.15)';cx.beginPath();cx.ellipse(cupX+cupW/2+4,tableY+4,cupW*.6,8,0,0,Math.PI*2);cx.fill();
+  var cupG=cx.createLinearGradient(cupX,cupY,cupX+cupW,cupY);
+  var cc=cm.col;cupG.addColorStop(0,d?cc:'#e2e8f0');cupG.addColorStop(.5,cc);cupG.addColorStop(1,d?'#475569':'#94a3b8');
+  cx.fillStyle=cupG;cx.beginPath();cx.moveTo(cupX,cupY);cx.lineTo(cupX+cupW*.05,tableY);cx.lineTo(cupX+cupW*.95,tableY);cx.lineTo(cupX+cupW,cupY);cx.closePath();cx.fill();
+  cx.fillStyle=d?'#94a3b8':'#cbd5e1';cx.beginPath();cx.ellipse(cupX+cupW/2,cupY,cupW/2,cupW*.12,0,0,Math.PI*2);cx.fill();
+  cx.fillStyle=tCol(coffee.temp);cx.beginPath();cx.ellipse(cupX+cupW/2,cupY+cupH*.08,cupW*.44,cupW*.09,0,0,Math.PI*2);cx.fill();
+  cx.strokeStyle=d?'#94a3b8':'#cbd5e1';cx.lineWidth=4;cx.beginPath();cx.arc(cupX+cupW+8,cupY+cupH*.4,cupH*.2,-.5*Math.PI,.5*Math.PI);cx.stroke();
+  if(coffee.temp>40){var sa=Math.min(.3,(coffee.temp-40)/100);for(var i=0;i<3;i++){var sx=cupX+cupW*.3+i*cupW*.2,sw=Math.sin(af*.03+i*2)*8;cx.strokeStyle=d?'rgba(200,200,255,'+sa+')':'rgba(100,100,120,'+(sa*.5)+')';cx.lineWidth=2;cx.beginPath();cx.moveTo(sx,cupY-5);cx.quadraticCurveTo(sx+sw,cupY-25,sx-sw*.5,cupY-45);cx.stroke()}}
+  cx.fillStyle='#fff';cx.font='bold 14px var(--serif)';cx.textAlign='center';cx.fillText(coffee.temp.toFixed(0)+'°C',cupX+cupW/2,cupY+cupH*.5);
+  // Conduction glow
+  if(coffee.cond&&dT>1){var cW2=Math.min(W*.3,dT*2);var cg=cx.createLinearGradient(cupX+cupW*.1,tableY,cupX+cupW*.1+cW2,tableY);cg.addColorStop(0,'rgba(239,68,68,.3)');cg.addColorStop(1,'rgba(239,68,68,0)');cx.fillStyle=cg;cx.fillRect(cupX+cupW*.1,tableY,cW2,H*.04);var cg2=cx.createLinearGradient(cupX+cupW*.1,tableY,cupX+cupW*.1-cW2,tableY);cg2.addColorStop(0,'rgba(239,68,68,.3)');cg2.addColorStop(1,'rgba(239,68,68,0)');cx.fillStyle=cg2;cx.fillRect(cupX+cupW*.1-cW2,tableY,cW2,H*.04);cx.fillStyle='#ef4444';cx.font='bold 10px var(--serif)';cx.textAlign='center';cx.fillText('CONDUCTION',cupX+cupW/2,tableY+H*.06)}
+  // Convection particles
+  if(coffee.conv&&dT>1){var pS=dT*.02;coffee.particles.forEach(function(p){p.y-=pS*(1+Math.random()*.5);p.x+=Math.sin(af*.02+p.x*.01)+(Math.random()-.5)*.5;p.life-=.008;if(p.life<=0||p.y<H*.05){p.x=cupX+cupW*.1+Math.random()*cupW*.8;p.y=cupY+Math.random()*10;p.life=1}var hf=1-(p.y-H*.05)/(cupY-H*.05),al=p.life*.4*Math.min(1,dT/30);cx.fillStyle='rgba(234,179,8,'+al+')';cx.beginPath();cx.arc(p.x,p.y,2+hf*2,0,Math.PI*2);cx.fill()});cx.fillStyle='#eab308';cx.font='bold 10px var(--serif)';cx.textAlign='left';cx.fillText('CONVECTION',cupX+cupW+30,cupY-20)}
+  // Radiation waves
+  if(coffee.rad&&dT>1){if(af%20===0)coffee.waves.push({r:cupW*.6,maxR:W*.25,cx:cupX+cupW/2,cy:cupY+cupH*.3});coffee.waves.forEach(function(w){w.r+=1.5;var al=Math.max(0,(1-w.r/w.maxR)*.3*(dT/60));cx.strokeStyle='rgba(168,85,247,'+al+')';cx.lineWidth=1.5;cx.beginPath();cx.arc(w.cx,w.cy,w.r,0,Math.PI*2);cx.stroke()});coffee.waves=coffee.waves.filter(function(w){return w.r<w.maxR});cx.fillStyle='#a855f7';cx.font='bold 10px var(--serif)';cx.textAlign='right';cx.fillText('RADIATION',cupX-15,cupY+cupH*.3)}
+  cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='10px var(--serif)';cx.textAlign='left';cx.fillText('Room: '+ROOM_T+'°C',10,H*.08);
+  // Newton's cooling curve
+  if(coffee.history.length>2){var gL=W*.6,gR=W*.95,gT=H*.08,gB=H*.5,gW=gR-gL,gH=gB-gT;cx.fillStyle=d?'rgba(10,15,26,.7)':'rgba(255,255,255,.5)';cx.beginPath();cx.roundRect(gL-4,gT-4,gW+8,gH+8,6);cx.fill();cx.strokeStyle=d?'rgba(56,189,248,.1)':'rgba(0,0,0,.06)';cx.lineWidth=1;cx.beginPath();cx.moveTo(gL,gT);cx.lineTo(gL,gB);cx.lineTo(gR,gB);cx.stroke();cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='7px sans-serif';cx.textAlign='center';cx.fillText('Time (s)',gL+gW/2,gB+12);var mxT=coffee.history[coffee.history.length-1].t||10;cx.strokeStyle=d?'#38bdf8':'#0369a1';cx.lineWidth=2;cx.beginPath();coffee.history.forEach(function(h,i){var px=gL+(h.t/mxT)*gW,py=gT+(1-(h.temp-20)/80)*gH;i===0?cx.moveTo(px,py):cx.lineTo(px,py)});cx.stroke();var rl=gT+(1-(ROOM_T-20)/80)*gH;cx.setLineDash([3,3]);cx.strokeStyle=d?'rgba(56,189,248,.2)':'rgba(0,0,0,.1)';cx.beginPath();cx.moveTo(gL,rl);cx.lineTo(gR,rl);cx.stroke();cx.setLineDash([]);cx.fillStyle=d?'#94a3b8':'#475569';cx.font='bold 9px var(--serif)';cx.textAlign='center';cx.fillText('Newton\'s Cooling Curve',gL+gW/2,gT-6)}
+  if($('rCT'))$('rCT').textContent=coffee.temp.toFixed(1)+'°C';
+  if($('rCond'))$('rCond').textContent=coffee.cond?condR.toFixed(2):'OFF';
+  if($('rConv'))$('rConv').textContent=coffee.conv?convR.toFixed(2):'OFF';
+  if($('rRad'))$('rRad').textContent=coffee.rad?radR.toFixed(3):'OFF';
+  if($('rTot'))$('rTot').textContent=totalR.toFixed(2)+' °C/s';
+  if($('rTime'))$('rTime').textContent=coffee.elapsed.toFixed(1)+' s';
+}
+
+// ===== 2. CONDUCTION BAR =====
+function initCondBar(){cond.segs=[];for(var i=0;i<N_SEGS;i++)cond.segs.push(ROOM_T)}
+function buildCond(){
+  initCondBar();cond.elapsed=0;cond.running=true;
+  var pills=BAR_MATS.map(function(m,i){return'<div class="pill'+(i===cond.mat?' on':'')+'" onclick="cond.mat='+i+';initCondBar();buildCond()">'+m.n+'</div>'}).join(' ');
+  $('ctrl').innerHTML='<div class="cr">'+
+    '<div class="sr"><span class="cl">Heat</span><input type="range" min="50" max="500" step="10" value="'+cond.heatT+'" oninput="cond.heatT=+this.value"><span class="sv">'+cond.heatT+'°C</span></div>'+
+    '<button class="btn btn-a" onclick="cond.running=!cond.running">⏸/▶</button>'+
+    '<button class="btn btn-o" onclick="initCondBar();cond.elapsed=0">↺</button></div>'+
+    '<div class="cr"><span class="cl">Bar</span>'+pills+'</div>';
+  var bm=BAR_MATS[cond.mat];
+  $('rp').innerHTML='<div class="rc"><h3>Material</h3><div class="rv" style="color:'+bm.col+'">'+bm.n+'</div><div class="rs" style="font-family:var(--mono);font-size:.58rem;line-height:1.7">k = '+bm.k+' W/(m·K)<br>ρ = '+bm.rho+' kg/m³<br>c = '+bm.c+' J/(kg·K)<br>α = '+(bm.alpha*1e4).toFixed(2)+'×10⁻⁴ m²/s</div></div>'+
+    '<div class="rc"><h3>Hot End</h3><div class="rv" id="rCdH">'+cond.heatT+'°C</div></div>'+
+    '<div class="rc"><h3>Cold End</h3><div class="rv" id="rCdC">'+ROOM_T+'°C</div></div>'+
+    '<div class="rc"><h3>Fourier\'s Law</h3><div class="fm">Q̇ = −kA(dT/dx)</div><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.6">Rate of heat flow is proportional to temperature gradient and thermal conductivity.<br>Higher k → faster propagation.</div></div>';
+}
+
+function paintCond(dt){
+  if(!W||!H)return;var d=dk();af++;cx.clearRect(0,0,W,H);
+  cx.fillStyle=d?'#0a0f1a':'#e8e4dc';cx.fillRect(0,0,W,H);
+  var bm=BAR_MATS[cond.mat],alpha=bm.alpha,dx=0.01,speedUp=50;
+  // Heat equation: multiple substeps for stability
+  if(cond.running){
+    cond.segs[0]=cond.heatT;
+    var nSub=10;var dtSub=dt/nSub;
+    for(var s=0;s<nSub;s++){
+      var next=cond.segs.slice();
+      for(var i=1;i<N_SEGS-1;i++){
+        next[i]+=alpha*speedUp*dtSub*(cond.segs[i-1]-2*cond.segs[i]+cond.segs[i+1])/(dx*dx);
+      }
+      next[N_SEGS-1]+=(ROOM_T-next[N_SEGS-1])*0.5*dt;
+      cond.segs=next;
+    }
+    cond.segs[0]=cond.heatT;
+    cond.elapsed+=dt;
+  }
+  // Draw bar
+  var barX=W*.06,barY=H*.2,barW=W*.7,barH=H*.12;
+  for(var i=0;i<N_SEGS;i++){
+    var segX=barX+i*(barW/N_SEGS),segW=barW/N_SEGS+1;
+    cx.fillStyle=tColW(cond.segs[i],ROOM_T,cond.heatT);
+    cx.fillRect(segX,barY,segW,barH);
+  }
+  cx.strokeStyle=d?'rgba(148,163,184,.3)':'rgba(0,0,0,.12)';cx.lineWidth=2;cx.beginPath();cx.roundRect(barX,barY,barW,barH,4);cx.stroke();
+  // Flame at left
+  var fx=barX-5,fy=barY+barH/2;
+  cx.fillStyle='#f97316';cx.beginPath();cx.moveTo(fx,fy+12);cx.quadraticCurveTo(fx-8,fy,fx,fy-12-Math.random()*5);cx.quadraticCurveTo(fx+6,fy,fx,fy+12);cx.fill();
+  cx.fillStyle='#fbbf24';cx.beginPath();cx.moveTo(fx,fy+6);cx.quadraticCurveTo(fx-4,fy,fx,fy-5-Math.random()*3);cx.quadraticCurveTo(fx+4,fy,fx,fy+6);cx.fill();
+  // Temperature scale below bar
+  cx.fillStyle=d?'#94a3b8':'#475569';cx.font='8px var(--mono)';cx.textAlign='center';
+  for(var i=0;i<=5;i++){var segI=Math.round(i*(N_SEGS-1)/5),px=barX+segI*(barW/N_SEGS)+barW/(N_SEGS*2);cx.fillText(cond.segs[segI].toFixed(0)+'°',px,barY+barH+14)}
+  // Labels
+  cx.fillStyle=d?'#ef4444':'#dc2626';cx.font='bold 12px var(--serif)';cx.textAlign='center';
+  cx.fillText(cond.heatT+'°C',barX-10,barY-10);
+  cx.fillStyle=d?'#60a5fa':'#2563eb';cx.fillText(cond.segs[N_SEGS-1].toFixed(0)+'°C',barX+barW+20,barY-10);
+  cx.fillStyle=d?'#e2e8f0':'#1e293b';cx.font='bold 11px var(--serif)';
+  cx.fillText(bm.n+' Bar — k = '+bm.k+' W/(m·K)',barX+barW/2,barY-28);
+  // Temperature profile graph
+  var gL=barX,gR=barX+barW,gT=H*.48,gB=H*.7,gW=gR-gL,gH=gB-gT;
+  cx.fillStyle=d?'rgba(10,15,26,.5)':'rgba(255,255,255,.4)';cx.beginPath();cx.roundRect(gL-2,gT-2,gW+4,gH+4,4);cx.fill();
+  cx.strokeStyle=d?'rgba(56,189,248,.1)':'rgba(0,0,0,.06)';cx.lineWidth=1;cx.beginPath();cx.moveTo(gL,gT);cx.lineTo(gL,gB);cx.lineTo(gR,gB);cx.stroke();
+  cx.strokeStyle=d?'#38bdf8':'#0369a1';cx.lineWidth=2;cx.beginPath();
+  for(var i=0;i<N_SEGS;i++){var px=gL+i/(N_SEGS-1)*gW,py=gB-(cond.segs[i]-ROOM_T)/(cond.heatT-ROOM_T)*gH;i===0?cx.moveTo(px,py):cx.lineTo(px,py)}cx.stroke();
+  cx.fillStyle=d?'#94a3b8':'#475569';cx.font='bold 9px var(--serif)';cx.textAlign='center';cx.fillText('Temperature Profile Along Bar',gL+gW/2,gT-6);
+  cx.font='7px sans-serif';cx.fillText('Position →',gL+gW/2,gB+12);
+  // Lattice vibration inset
+  var lx=W*.04,ly=H*.76,lw=W*.72,lh=H*.2;
+  cx.fillStyle=d?'rgba(30,41,59,.5)':'rgba(240,245,250,.5)';cx.beginPath();cx.roundRect(lx,ly,lw,lh,6);cx.fill();
+  cx.strokeStyle=d?'rgba(56,189,248,.08)':'rgba(0,0,0,.04)';cx.lineWidth=1;cx.beginPath();cx.roundRect(lx,ly,lw,lh,6);cx.stroke();
+  cx.fillStyle=d?'#94a3b8':'#475569';cx.font='bold 8px var(--serif)';cx.textAlign='center';cx.fillText('Microscopic View — Lattice Vibrations',lx+lw/2,ly+10);
+  var nAtoms=12,atomY=ly+lh*.55,atomSpacing=lw/(nAtoms+1);
+  for(var i=0;i<nAtoms;i++){
+    var segIdx=Math.floor(i/(nAtoms-1)*(N_SEGS-1)),aTemp=cond.segs[segIdx];
+    var amplitude=Math.min(6,(aTemp-ROOM_T)/(cond.heatT-ROOM_T)*8);
+    var ax=lx+atomSpacing*(i+1)+Math.sin(af*.08+i*1.7)*amplitude;
+    var ay=atomY+Math.cos(af*.1+i*2.3)*amplitude;
+    // Spring to next atom
+    if(i<nAtoms-1){var nSegIdx=Math.floor((i+1)/(nAtoms-1)*(N_SEGS-1)),nTemp=cond.segs[nSegIdx];var nAmp=Math.min(6,(nTemp-ROOM_T)/(cond.heatT-ROOM_T)*8);var nx=lx+atomSpacing*(i+2)+Math.sin(af*.08+(i+1)*1.7)*nAmp,ny=atomY+Math.cos(af*.1+(i+1)*2.3)*nAmp;cx.strokeStyle=d?'rgba(148,163,184,.15)':'rgba(0,0,0,.06)';cx.lineWidth=1;cx.beginPath();cx.moveTo(ax,ay);var midX=(ax+nx)/2,midY=(ay+ny)/2;cx.quadraticCurveTo(midX,midY-4,nx,ny);cx.stroke()}
+    cx.fillStyle=tColW(aTemp,ROOM_T,cond.heatT);cx.beginPath();cx.arc(ax,ay,4+amplitude*.3,0,Math.PI*2);cx.fill();
+    cx.strokeStyle=d?'rgba(255,255,255,.15)':'rgba(0,0,0,.08)';cx.lineWidth=.5;cx.beginPath();cx.arc(ax,ay,4+amplitude*.3,0,Math.PI*2);cx.stroke();
+  }
+  cx.fillStyle=d?'rgba(148,163,184,.3)':'rgba(0,0,0,.15)';cx.font='7px sans-serif';cx.textAlign='left';cx.fillText('← Hot (large vibrations)',lx+8,ly+lh-6);cx.textAlign='right';cx.fillText('Cool (small vibrations) →',lx+lw-8,ly+lh-6);
+  if($('rCdH'))$('rCdH').textContent=cond.heatT+'°C';
+  if($('rCdC'))$('rCdC').textContent=cond.segs[N_SEGS-1].toFixed(1)+'°C';
+}
+
+// ===== 3. CONVECTION =====
+function initConvParticles(){conv.particles=[];for(var i=0;i<200;i++)conv.particles.push({x:W*.15+Math.random()*W*.5,y:H*.1+Math.random()*H*.65,vx:0,vy:0,temp:22})}
+function buildConv(){
+  initConvParticles();
+  $('ctrl').innerHTML='<div class="cr"><div class="sr"><span class="cl">Heat</span><input type="range" min="22" max="100" step="1" value="'+conv.temp+'" oninput="conv.temp=+this.value"><span class="sv">'+conv.temp+'°C</span></div><button class="btn btn-o" onclick="conv.temp=22;initConvParticles()">↺</button></div>';
+  $('rp').innerHTML='<div class="rc"><h3>Heat Source</h3><div class="rv" id="rCV">'+conv.temp+'°C</div></div>'+
+    '<div class="rc"><h3>How Convection Works</h3><div class="rs" style="font-family:var(--serif);font-size:.64rem;line-height:1.7">1. Heat warms fluid at bottom<br>2. Warm fluid expands → less dense → rises<br>3. Cool fluid at top sinks<br>4. Circular convection current</div></div>'+
+    '<div class="rc"><h3>Key Fact</h3><div class="rs" style="font-family:var(--serif);font-size:.66rem;color:var(--accent)">Convection requires a fluid.<br>Cannot work in vacuum or solid.</div></div>';
+}
+function paintConv(dt){
+  if(!W||!H)return;var d=dk();af++;cx.clearRect(0,0,W,H);
+  cx.fillStyle=d?'#0a0f1a':'#e8e4dc';cx.fillRect(0,0,W,H);
+  var bx=W*.12,by=H*.08,bw=W*.56,bh=H*.7;
+  cx.strokeStyle=d?'rgba(148,163,184,.2)':'rgba(0,0,0,.1)';cx.lineWidth=3;cx.beginPath();cx.roundRect(bx,by,bw,bh,4);cx.stroke();
+  var heatFrac=Math.max(0,(conv.temp-ROOM_T)/78);
+  if(heatFrac>0){cx.fillStyle='rgba(239,68,68,'+(heatFrac*.4)+')';cx.fillRect(bx+2,by+bh-8,bw-4,8);var hg=cx.createLinearGradient(0,by+bh,0,by+bh-bh*.15);hg.addColorStop(0,'rgba(239,68,68,'+(heatFrac*.15)+')');hg.addColorStop(1,'rgba(239,68,68,0)');cx.fillStyle=hg;cx.fillRect(bx+2,by+bh-bh*.15,bw-4,bh*.15)}
+  // Buoyancy uses ROOM_T as reference density (fix: no arbitrary 40°C threshold)
+  conv.particles.forEach(function(p){
+    var yFrac=(p.y-by)/bh;
+    if(yFrac>.85)p.temp+=(conv.temp-p.temp)*.01;else p.temp+=(ROOM_T-p.temp)*.003;
+    var buoyancy=(p.temp-ROOM_T)*.01*heatFrac;
+    p.vy-=buoyancy;
+    var xCenter=(p.x-bx)/bw-.5;
+    if(p.y<by+bh*.3)p.vx+=xCenter*.03;
+    if(p.y>by+bh*.7)p.vx-=xCenter*.03;
+    p.vx*=.98;p.vy*=.98;p.x+=p.vx;p.y+=p.vy;
+    if(p.x<bx+4){p.x=bx+4;p.vx=Math.abs(p.vx)}if(p.x>bx+bw-4){p.x=bx+bw-4;p.vx=-Math.abs(p.vx)}
+    if(p.y<by+4){p.y=by+4;p.vy=Math.abs(p.vy)}if(p.y>by+bh-10){p.y=by+bh-10;p.vy=-Math.abs(p.vy)}
+    cx.fillStyle=tCol(p.temp);cx.globalAlpha=.6;cx.beginPath();cx.arc(p.x,p.y,2.5,0,Math.PI*2);cx.fill();cx.globalAlpha=1;
+  });
+  cx.fillStyle=d?'#ef4444':'#dc2626';cx.font='bold 12px var(--serif)';cx.textAlign='center';cx.fillText('Heat Source: '+conv.temp+'°C',bx+bw/2,by+bh+18);
+  cx.fillStyle=d?'#94a3b8':'#475569';cx.font='10px var(--serif)';cx.fillText('Hot rises (red) • Cool sinks (blue)',bx+bw/2,by-8);
+  var lgX=W*.75,lgY=H*.2,lgH=H*.4;cx.font='8px sans-serif';cx.textAlign='left';cx.fillStyle=d?'#64748b':'#94a3b8';cx.fillText('Temperature',lgX,lgY);
+  for(var i=0;i<lgH;i++){cx.fillStyle=tCol(90-i/lgH*70);cx.fillRect(lgX,lgY+5+i,12,1)}
+  cx.fillStyle=d?'#94a3b8':'#475569';cx.font='7px sans-serif';cx.fillText('90°C',lgX+16,lgY+10);cx.fillText('22°C',lgX+16,lgY+lgH);
+  if($('rCV'))$('rCV').textContent=conv.temp+'°C';
+}
+
+// ===== 4. RADIATION =====
+function buildRad(){
+  rad.waves=[];
+  $('ctrl').innerHTML='<div class="cr"><div class="sr"><span class="cl">Temp</span><input type="range" min="300" max="3000" step="50" value="'+rad.temp+'" oninput="rad.temp=+this.value"><span class="sv">'+rad.temp+' K</span></div><div class="sr"><span class="cl">ε</span><input type="range" min=".1" max="1" step=".1" value="'+rad.emissivity+'" oninput="rad.emissivity=+this.value"><span class="sv">'+rad.emissivity+'</span></div></div>'+
+  '<div class="cr"><div class="pill'+(rad.surface==='black'?' on':'')+'" onclick="rad.surface=\'black\';rad.emissivity=1;buildRad()">⬛ Black Body ε=1</div><div class="pill'+(rad.surface==='shiny'?' on':'')+'" onclick="rad.surface=\'shiny\';rad.emissivity=.1;buildRad()">🪞 Shiny ε=0.1</div></div>';
+  var P=SIGMA*rad.emissivity*Math.pow(rad.temp,4);
+  $('rp').innerHTML='<div class="rc"><h3>Radiated Power</h3><div class="rv" id="rRP">'+P.toFixed(0)+' W/m²</div><div class="fm">P = εσT⁴</div></div>'+
+    '<div class="rc"><h3>Stefan-Boltzmann</h3><div class="rs" style="font-family:var(--mono);font-size:.6rem;line-height:1.7">σ = 5.67×10⁻⁸ W/(m²·K⁴)<br>ε = '+rad.emissivity+'<br>T = '+rad.temp+' K<br>P = '+P.toFixed(0)+' W/m²</div></div>'+
+    '<div class="rc"><h3>Wien\'s Law</h3><div class="rs" style="font-family:var(--serif);font-size:.64rem;line-height:1.7">λ_max = 2.9×10⁶ / T nm<br>= '+(2.9e6/rad.temp).toFixed(0)+' nm<br>'+(rad.temp<800?'Infrared':rad.temp<1200?'Dull red':rad.temp<2000?'Orange-yellow':rad.temp<3000?'Bright white':'Blue-white')+'</div></div>';
+}
+function paintRad(dt){
+  if(!W||!H)return;var d=dk();af++;cx.clearRect(0,0,W,H);
+  cx.fillStyle=d?'#0a0f1a':'#e8e4dc';cx.fillRect(0,0,W,H);
+  var P=SIGMA*rad.emissivity*Math.pow(rad.temp,4);
+  var emX=W*.18,emY=H*.35,emR=28;
+  var glowR=emR+Math.min(55,P*.0001);
+  var glC=rad.temp<800?'rgba(100,20,20,':rad.temp<1200?'rgba(200,60,20,':rad.temp<2000?'rgba(240,160,40,':rad.temp<3000?'rgba(255,240,200,':'rgba(200,220,255,';
+  var gg=cx.createRadialGradient(emX,emY,emR*.5,emX,emY,glowR);gg.addColorStop(0,glC+'.6)');gg.addColorStop(.5,glC+'.2)');gg.addColorStop(1,glC+'0)');
+  cx.fillStyle=gg;cx.beginPath();cx.arc(emX,emY,glowR,0,Math.PI*2);cx.fill();
+  cx.fillStyle=rad.surface==='black'?'#1a1a1a':'#c0c0c0';cx.beginPath();cx.arc(emX,emY,emR,0,Math.PI*2);cx.fill();
+  cx.fillStyle='#fff';cx.font='bold 11px var(--serif)';cx.textAlign='center';cx.fillText(rad.temp+' K',emX,emY+4);
+  var wSpd=Math.min(3,P*.00005+.5);if(af%Math.max(3,Math.round(15-wSpd*4))===0)rad.waves.push({r:emR+5,a:1});
+  rad.waves.forEach(function(w){w.r+=wSpd;w.a=Math.max(0,1-w.r/(W*.35));cx.strokeStyle=glC+(w.a*.4)+')';cx.lineWidth=1.5;cx.beginPath();cx.arc(emX,emY,w.r,0,Math.PI*2);cx.stroke()});
+  rad.waves=rad.waves.filter(function(w){return w.a>0});
+  // Vacuum + absorber
+  var vacX=W*.42,vacW=W*.1;cx.fillStyle=d?'rgba(10,15,26,.8)':'rgba(240,240,240,.5)';cx.fillRect(vacX,H*.08,vacW,H*.55);cx.strokeStyle=d?'rgba(56,189,248,.15)':'rgba(0,0,0,.06)';cx.lineWidth=1;cx.strokeRect(vacX,H*.08,vacW,H*.55);cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='bold 8px var(--serif)';cx.textAlign='center';cx.fillText('VACUUM',vacX+vacW/2,H*.07);
+  var abX=W*.6,abY=H*.35;cx.fillStyle=d?'#334155':'#94a3b8';cx.beginPath();cx.arc(abX,abY,22,0,Math.PI*2);cx.fill();cx.fillStyle=d?'#94a3b8':'#475569';cx.font='8px var(--serif)';cx.fillText('Absorber',abX,abY+32);
+  cx.fillStyle=d?'#38bdf8':'#0369a1';cx.font='bold 13px var(--serif)';cx.textAlign='center';cx.fillText('P = '+P.toFixed(0)+' W/m²',W*.8,H*.1);cx.font='9px sans-serif';cx.fillText('P = εσT⁴',W*.8,H*.18);
+  // Wien's emission spectrum (bottom half)
+  var sL=W*.05,sR=W*.55,sT=H*.65,sB=H*.92,sW=sR-sL,sH=sB-sT;
+  cx.fillStyle=d?'rgba(10,15,26,.6)':'rgba(255,255,255,.4)';cx.beginPath();cx.roundRect(sL-3,sT-3,sW+6,sH+6,5);cx.fill();
+  cx.strokeStyle=d?'rgba(56,189,248,.1)':'rgba(0,0,0,.06)';cx.lineWidth=1;cx.beginPath();cx.moveTo(sL,sT);cx.lineTo(sL,sB);cx.lineTo(sR,sB);cx.stroke();
+  // Planck curve B(λ,T) — simplified normalized form
+  var h_=6.626e-34,c_=3e8,kB=1.381e-23,lMin=100,lMax=3000;
+  var maxB=0,bVals=[];
+  for(var l=lMin;l<=lMax;l+=20){var lm=l*1e-9;var ex=h_*c_/(lm*kB*rad.temp);var B2=ex<500?(1/Math.pow(lm,5))*(1/(Math.exp(ex)-1)):0;bVals.push({l:l,B:B2});if(B2>maxB)maxB=B2}
+  if(maxB>0){
+    // Draw visible spectrum band
+    cx.globalAlpha=.15;for(var l=380;l<=780;l+=5){var f2=(l-380)/400;var r2,g2,b2;if(l<440){r2=(440-l)/60;g2=0;b2=1}else if(l<490){r2=0;g2=(l-440)/50;b2=1}else if(l<510){r2=0;g2=1;b2=(510-l)/20}else if(l<580){r2=(l-510)/70;g2=1;b2=0}else if(l<645){r2=1;g2=(645-l)/65;b2=0}else{r2=1;g2=0;b2=0}var px2=sL+((l-lMin)/(lMax-lMin))*sW;cx.fillStyle='rgb('+Math.round(r2*255)+','+Math.round(g2*255)+','+Math.round(b2*255)+')';cx.fillRect(px2,sT,sW/(lMax-lMin)*5+1,sH)}
+    cx.globalAlpha=1;
+    // Draw Planck curve
+    cx.strokeStyle=d?'#f0a030':'#c45e10';cx.lineWidth=2;cx.beginPath();
+    bVals.forEach(function(v,i){var px=sL+((v.l-lMin)/(lMax-lMin))*sW,py=sB-(v.B/maxB)*sH*.9;i===0?cx.moveTo(px,py):cx.lineTo(px,py)});cx.stroke();
+    // Peak marker
+    var peakL=2.9e6/rad.temp;if(peakL>=lMin&&peakL<=lMax){var ppx=sL+((peakL-lMin)/(lMax-lMin))*sW;cx.setLineDash([3,3]);cx.strokeStyle=d?'rgba(239,68,68,.5)':'rgba(220,38,38,.3)';cx.beginPath();cx.moveTo(ppx,sT);cx.lineTo(ppx,sB);cx.stroke();cx.setLineDash([]);cx.fillStyle='#ef4444';cx.font='bold 8px var(--serif)';cx.textAlign='center';cx.fillText('λ_max='+peakL.toFixed(0)+'nm',ppx,sT+10)}
+  }
+  cx.fillStyle=d?'#94a3b8':'#475569';cx.font='bold 9px var(--serif)';cx.textAlign='center';cx.fillText('Emission Spectrum (Wien\'s Displacement)',sL+sW/2,sT-8);
+  cx.font='7px sans-serif';cx.fillText('Wavelength (nm)',sL+sW/2,sB+12);cx.fillText(lMin+'',sL,sB+12);cx.textAlign='right';cx.fillText(lMax+'',sR,sB+12);
+  // S-B graph (right side)
+  var gL=W*.65,gR=W*.92,gT2=H*.65,gB2=H*.92,gW2=gR-gL,gH2=gB2-gT2;
+  cx.fillStyle=d?'rgba(10,15,26,.5)':'rgba(255,255,255,.4)';cx.beginPath();cx.roundRect(gL-2,gT2-2,gW2+4,gH2+4,4);cx.fill();
+  cx.strokeStyle=d?'rgba(56,189,248,.1)':'rgba(0,0,0,.05)';cx.lineWidth=1;cx.beginPath();cx.moveTo(gL,gT2);cx.lineTo(gL,gB2);cx.lineTo(gR,gB2);cx.stroke();
+  cx.strokeStyle=d?'#a855f7':'#7c3aed';cx.lineWidth=2;cx.beginPath();
+  for(var t=300;t<=3000;t+=50){var pv=SIGMA*rad.emissivity*Math.pow(t,4);var px=gL+((t-300)/2700)*gW2;var py=gB2-(pv/5e6)*gH2;if(t===300)cx.moveTo(px,Math.max(gT2,py));else cx.lineTo(px,Math.max(gT2,py))}cx.stroke();
+  var cPx=gL+((rad.temp-300)/2700)*gW2,cPy=gB2-(P/5e6)*gH2;
+  cx.fillStyle='#ef4444';cx.beginPath();cx.arc(cPx,Math.max(gT2,cPy),4,0,Math.PI*2);cx.fill();
+  cx.fillStyle=d?'#94a3b8':'#475569';cx.font='bold 8px var(--serif)';cx.textAlign='center';cx.fillText('P vs T',gL+gW2/2,gT2-6);
+  if($('rRP'))$('rRP').textContent=P.toFixed(0)+' W/m²';
+}
+
+// ===== 5. COMPARE (interactive slider, net radiation) =====
+function buildCompare(){
+  $('ctrl').innerHTML='<div class="cr"><div class="sr"><span class="cl">Temp</span><input type="range" min="30" max="1500" step="10" value="'+compare.temp+'" oninput="compare.temp=+this.value"><span class="sv" id="cmpTv">'+compare.temp+'°C</span></div></div>'+
+    '<div class="cr" style="font-size:.66rem;color:var(--accent)">Drag slider to find where radiation overtakes convection.</div>';
+  $('rp').innerHTML='<div class="rc"><h3>Temperature</h3><div class="rv" id="rCmp">'+compare.temp+'°C</div></div>'+
+    '<div class="rc"><h3>Net Rates</h3><div class="sg"><div class="si" style="border-color:rgba(239,68,68,.2)"><div class="sl">Conduction</div><div class="sv2" id="rCmpCd" style="color:#ef4444">—</div></div><div class="si" style="border-color:rgba(234,179,8,.2)"><div class="sl">Convection</div><div class="sv2" id="rCmpCv" style="color:#eab308">—</div></div><div class="si" style="border-color:rgba(168,85,247,.2)"><div class="sl">Radiation</div><div class="sv2" id="rCmpRd" style="color:#a855f7">—</div></div></div></div>'+
+    '<div class="rc"><h3>Scaling Laws</h3><div class="rs" style="font-family:var(--serif);font-size:.64rem;line-height:1.7"><span style="color:#ef4444">Cond:</span> ∝ ΔT (linear)<br><span style="color:#eab308">Conv:</span> ∝ ΔT (linear)<br><span style="color:#a855f7">Rad:</span> ∝ (T⁴−T⁴_room) net</div></div>'+
+    '<div class="rc"><h3>Medium?</h3><div class="rs" style="font-family:var(--serif);font-size:.64rem;line-height:1.7">Cond: YES (solid best)<br>Conv: YES (fluid only)<br>Rad: NO (vacuum OK)</div></div>';
+}
+function paintCompare(dt){
+  if(!W||!H)return;var d=dk();af++;cx.clearRect(0,0,W,H);
+  cx.fillStyle=d?'#0a0f1a':'#e8e4dc';cx.fillRect(0,0,W,H);
+  var t=compare.temp,dT=t-ROOM_T,tK=t+273.15;
+  // Net rates (same basis for fair comparison)
+  var condV=dT*0.5;
+  var convV=dT*1.2;
+  var radV=SIGMA*(Math.pow(tK,4)-Math.pow(ROOM_TK,4))/100;
+  var maxV=Math.max(condV,convV,radV,1);
+  // Bars
+  var barX=W*.15,barW=W*.18,barY=H*.12,barH=H*.65,gap=W*.07;
+  var bars=[{v:condV,col:'#ef4444',n:'Conduction',f:'∝ ΔT'},{v:convV,col:'#eab308',n:'Convection',f:'∝ ΔT'},{v:radV,col:'#a855f7',n:'Radiation',f:'∝ T⁴−T⁴_room'}];
+  bars.forEach(function(b,i){
+    var x=barX+i*(barW+gap),bH=Math.min(barH,barH*(b.v/maxV));
+    cx.fillStyle=b.col+'33';cx.beginPath();cx.roundRect(x,barY,barW,barH,6);cx.fill();
+    cx.fillStyle=b.col;cx.beginPath();cx.roundRect(x,barY+barH-bH,barW,bH,6);cx.fill();
+    cx.fillStyle=d?'#e2e8f0':'#1e293b';cx.font='bold 11px var(--serif)';cx.textAlign='center';
+    cx.fillText(b.n,x+barW/2,barY+barH+16);cx.font='8px sans-serif';cx.fillStyle=d?'#94a3b8':'#475569';
+    cx.fillText(b.f,x+barW/2,barY+barH+28);
+    cx.fillStyle=b.col;cx.font='bold 10px var(--mono)';cx.fillText(b.v.toFixed(0),x+barW/2,barY+barH-bH-6);
+  });
+  cx.fillStyle=d?'#e2e8f0':'#1e293b';cx.font='bold 14px var(--serif)';cx.textAlign='center';
+  cx.fillText('Net Heat Transfer at '+t+'°C ('+tK.toFixed(0)+' K)',W/2,H*.06);
+  // Crossover indicator
+  if(radV>convV){cx.fillStyle=d?'#a855f7':'#7c3aed';cx.font='bold 11px var(--serif)';cx.fillText('⚡ Radiation dominates at this temperature!',W/2,H*.95)}
+  else{cx.fillStyle=d?'#eab308':'#ca8a04';cx.font='bold 11px var(--serif)';cx.fillText('Convection leads — increase temp to see radiation overtake',W/2,H*.95)}
+  if($('cmpTv'))$('cmpTv').textContent=t+'°C';
+  if($('rCmp'))$('rCmp').textContent=t+'°C ('+tK.toFixed(0)+' K)';
+  if($('rCmpCd'))$('rCmpCd').textContent=condV.toFixed(0);
+  if($('rCmpCv'))$('rCmpCv').textContent=convV.toFixed(0);
+  if($('rCmpRd'))$('rCmpRd').textContent=radV.toFixed(0);
+}
+
+// ===== BUILD & RENDER =====
+function build(){
+  if(T==='coffee')buildCoffee();else if(T==='cond')buildCond();else if(T==='conv')buildConv();else if(T==='rad')buildRad();else buildCompare();
+  buildExp();buildIB();
+}
+function render(now){
+  if(!now)now=performance.now();
+  var dt=lastTime?Math.min((now-lastTime)/1000,0.05):0.016;
+  lastTime=now;
+  if(!W){requestAnimationFrame(render);return}
+  if(T==='coffee')paintCoffee(dt);else if(T==='cond')paintCond(dt);else if(T==='conv')paintConv(dt);else if(T==='rad')paintRad(dt);else paintCompare(dt);
+  requestAnimationFrame(render);
+}
+
+// ===== EXPERIMENT ENGINE =====
+var expD=[],manD=[];
+// Tab-specific IV/DV options — only relevant variables shown per tab
+var TAB_EXP={
+  coffee:{
+    iv:[{id:'time',n:'Time (s)'},{id:'coffeeTemp',n:'Starting Temp (°C)'},{id:'cupMat',n:'Cup Material'}],
+    dv:[{id:'coffeeT',n:'Coffee Temperature (°C)'},{id:'totalRate',n:'Total Cooling Rate (°C/s)'},{id:'condRate',n:'Conduction Rate (°C/s)'},{id:'convRate',n:'Convection Rate (°C/s)'},{id:'radRate',n:'Radiation Rate (°C/s)'}],
+    cv:['Room temperature','Cup material','Liquid volume','Surface area','Wind speed']
+  },
+  cond:{
+    iv:[{id:'time',n:'Time (s)'},{id:'heatSrc',n:'Heat Source Temp (°C)'},{id:'barMat',n:'Bar Material'}],
+    dv:[{id:'coldEnd',n:'Cold End Temp (°C)'},{id:'midTemp',n:'Midpoint Temp (°C)'},{id:'avgTemp',n:'Average Bar Temp (°C)'},{id:'heatFlow',n:'Heat Flow at Hot End (W)'}],
+    cv:['Room temperature','Bar material','Bar length','Bar cross-section','Insulation']
+  },
+  conv:{
+    iv:[{id:'heatSrc',n:'Heat Source Temp (°C)'}],
+    dv:[{id:'avgFluid',n:'Avg Fluid Temp (°C)'},{id:'tempRise',n:'Temp Rise Above Room (°C)'}],
+    cv:['Room temperature','Fluid type','Container size','Fluid volume']
+  },
+  rad:{
+    iv:[{id:'emitterTemp',n:'Emitter Temp (K)'},{id:'emissivity',n:'Emissivity (ε)'}],
+    dv:[{id:'radPower',n:'Radiated Power (W/m²)'},{id:'peakWL',n:'Peak Wavelength (nm)'}],
+    cv:['Surface area','Distance to absorber','Surface colour','Room temperature']
+  },
+  compare:{
+    iv:[{id:'compareTemp',n:'Object Temperature (°C)'}],
+    dv:[{id:'netCond',n:'Net Conduction'},{id:'netConv',n:'Net Convection'},{id:'netRad',n:'Net Radiation'},{id:'netTotal',n:'Total Transfer'}],
+    cv:['Room temperature','Surface area','Material properties','Medium']
+  }
+};
+
+function buildExp(){
+  var te=TAB_EXP[T]||TAB_EXP.coffee;
+  var ivOpts=te.iv.map(function(v){return'<option value="'+v.id+'">'+v.n+'</option>'}).join('');
+  var dvOpts=te.dv.map(function(v){return'<option value="'+v.id+'">'+v.n+'</option>'}).join('');
+  var cvChecks=te.cv.map(function(v){return'<label class="cv-check"><input type="checkbox" checked> '+v+'</label>'}).join('');
+  $('expC').innerHTML='<div class="exp-row"><div class="exp-col"><div class="exp-field"><label>Independent Variable</label><select id="selIV">'+ivOpts+'</select></div><div class="exp-field"><label>Dependent Variable</label><select id="selDV">'+dvOpts+'</select></div></div><div class="exp-col"><div class="exp-field"><label>Controlled Variables</label><div class="cv-grid">'+cvChecks+'</div></div><div class="exp-field"><label>Hypothesis</label><input type="text" placeholder="If [IV] increases, then [DV] will..."></div></div></div>'+
+    '<div style="background:var(--surface);border-radius:7px;padding:7px;border:1px solid var(--border);margin-top:4px"><p style="font-size:.66rem;color:var(--text2);margin-bottom:4px"><strong>Data collection:</strong> Adjust IV with sliders above. Use <b>↻ Read</b> to capture the current value, or <b>↻ Auto Add</b> to read both and add a row.</p>'+
+    '<div class="exp-row" style="align-items:flex-end"><div class="exp-col"><div class="exp-field"><label>IV Value</label><div style="display:flex;gap:3px"><input type="number" id="mIV" step="any" style="flex:1"><button class="btn btn-o" onclick="readIV()" style="font-size:.6rem;padding:3px 6px">↻ Read</button></div></div></div>'+
+    '<div class="exp-col"><div class="exp-field"><label>DV Value</label><div style="display:flex;gap:3px"><input type="number" id="mDV" step="any" style="flex:1"><button class="btn btn-o" onclick="readDV()" style="font-size:.6rem;padding:3px 6px">↻ Read</button></div></div></div>'+
+    '<div style="flex:0;display:flex;flex-direction:column;gap:3px"><button class="btn btn-a" onclick="addR()">+ Add</button><button class="btn btn-t" onclick="autoAdd()" style="font-size:.6rem">↻ Auto Add</button></div></div></div>'+
+    '<div id="mT"></div><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-t" onclick="plotM()">Plot Graph</button><button class="btn btn-o" onclick="clrM()">Clear All</button></div><div id="mSt" style="font-size:.64rem;color:var(--text3);margin-top:2px"></div>';
+}
+
+window.readIV=function(){
+  var iv=$('selIV')?$('selIV').value:'time';var val=0;
+  if(T==='coffee'){
+    if(iv==='time')val=coffee.elapsed;
+    else if(iv==='coffeeTemp')val=coffee.temp;
+    else if(iv==='cupMat')val=coffee.mat;
+  }else if(T==='cond'){
+    if(iv==='time')val=cond.elapsed;
+    else if(iv==='heatSrc')val=cond.heatT;
+    else if(iv==='barMat')val=cond.mat;
+  }else if(T==='conv'){
+    if(iv==='heatSrc')val=conv.temp;
+  }else if(T==='rad'){
+    if(iv==='emitterTemp')val=rad.temp;
+    else if(iv==='emissivity')val=rad.emissivity;
+  }else if(T==='compare'){
+    if(iv==='compareTemp')val=compare.temp;
+  }
+  $('mIV').value=+val.toFixed(2);
+};
+window.readDV=function(){
+  var dv=$('selDV')?$('selDV').value:'';var val=0;
+  if(T==='coffee'){
+    var dT=coffee.temp-ROOM_T,cm=CUP_MATS[coffee.mat],hK=coffee.temp+273.15;
+    var cR=coffee.cond?cm.kF*dT*0.003:0;
+    var cvR=coffee.conv?dT*0.007:0;
+    var rR=coffee.rad?cm.eps*SIGMA*(Math.pow(hK,4)-Math.pow(ROOM_TK,4))*5e-5:0;
+    if(dv==='coffeeT')val=coffee.temp;
+    else if(dv==='totalRate')val=cR+cvR+rR;
+    else if(dv==='condRate')val=cR;
+    else if(dv==='convRate')val=cvR;
+    else if(dv==='radRate')val=rR;
+  }else if(T==='cond'){
+    var bm=BAR_MATS[cond.mat];
+    if(dv==='coldEnd')val=cond.segs[N_SEGS-1];
+    else if(dv==='midTemp')val=cond.segs[Math.floor(N_SEGS/2)];
+    else if(dv==='avgTemp'){var sm=0;for(var i=0;i<N_SEGS;i++)sm+=cond.segs[i];val=sm/N_SEGS}
+    else if(dv==='heatFlow')val=bm.k*0.001*(cond.segs[0]-cond.segs[1])/0.01;
+  }else if(T==='conv'){
+    var sm2=0;conv.particles.forEach(function(p){sm2+=p.temp});
+    var avgT=sm2/Math.max(1,conv.particles.length);
+    if(dv==='avgFluid')val=avgT;
+    else if(dv==='tempRise')val=avgT-ROOM_T;
+  }else if(T==='rad'){
+    var P2=SIGMA*rad.emissivity*Math.pow(rad.temp,4);
+    if(dv==='radPower')val=P2;
+    else if(dv==='peakWL')val=2.9e6/rad.temp;
+  }else if(T==='compare'){
+    var tK=compare.temp+273.15,dT2=compare.temp-ROOM_T;
+    if(dv==='netCond')val=dT2*0.5;
+    else if(dv==='netConv')val=dT2*1.2;
+    else if(dv==='netRad')val=SIGMA*(Math.pow(tK,4)-Math.pow(ROOM_TK,4))/100;
+    else if(dv==='netTotal')val=dT2*0.5+dT2*1.2+SIGMA*(Math.pow(tK,4)-Math.pow(ROOM_TK,4))/100;
+  }
+  $('mDV').value=+val.toFixed(2);
+};
+window.autoAdd=function(){readIV();readDV();addR()};
+window.addR=function(){var iv=parseFloat($('mIV').value),dv=parseFloat($('mDV').value);if(isNaN(iv)||isNaN(dv)){$('mSt').textContent='Enter both values.';$('mSt').style.color='var(--err)';return}manD.push({iv:iv,dv:dv});$('mIV').value='';$('mDV').value='';$('mSt').textContent='#'+manD.length+' added.';$('mSt').style.color='var(--ok)';buildMT();syncM()};
+function buildMT(){if(!manD.length){$('mT').innerHTML='';return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});var ks=Object.keys(g).map(Number).sort(function(a,b){return a-b});var h='<table class="dt"><thead><tr><th>IV</th><th>Readings</th><th class="mean">Mean</th><th class="unc">± Unc</th><th></th></tr></thead><tbody>';ks.forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length,u=v.length>=2?(Math.max.apply(null,v)-Math.min.apply(null,v))/2:0;h+='<tr><td style="font-weight:700">'+k+'</td><td>'+v.map(function(x){return x.toFixed(1)}).join(', ')+'</td><td class="mean">'+mn.toFixed(1)+'</td><td class="unc">'+u.toFixed(1)+'</td><td><span style="cursor:pointer;color:var(--err)" onclick="rmG('+k+')">✕</span></td></tr>'});$('mT').innerHTML=h+'</tbody></table>'}
+window.rmG=function(k){manD=manD.filter(function(d2){return d2.iv!==k});buildMT();syncM()};window.clrM=function(){manD=[];buildMT();expD=[];$('mSt').textContent=''};
+function syncM(){if(!manD.length){expD=[];return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});expD=[];Object.keys(g).map(Number).sort(function(a,b){return a-b}).forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length,u=v.length>=2?(Math.max.apply(null,v)-Math.min.apply(null,v))/2:0;expD.push({iv:k,mean:+mn.toFixed(2),unc:+u.toFixed(2)})});buildDT();setTimeout(function(){initGr();drawGr()},30)}
+window.plotM=function(){if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(function(){initGr();drawGr()},80)};
+function buildDT(){if(!expD.length)return;var ivN=$('selIV')?$('selIV').options[$('selIV').selectedIndex].text:'IV';var dvN=$('selDV')?$('selDV').options[$('selDV').selectedIndex].text:'DV';var h='<table class="dt"><thead><tr><th>'+ivN+'</th><th class="mean">Mean '+dvN+'</th><th class="unc">± Unc</th></tr></thead><tbody>';expD.forEach(function(r){h+='<tr><td>'+r.iv+'</td><td class="mean">'+r.mean+'</td><td class="unc">'+r.unc+'</td></tr>'});$('dW').innerHTML=h+'</tbody></table>'}
+var gCv,gx2;
+function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');var d2=window.devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)w=gCv.parentElement.offsetWidth||500;gCv.width=w*d2;gCv.height=200*d2;gCv.style.width=w+'px';gCv.style.height='200px';gx2.setTransform(d2,0,0,d2,0,0)}
+function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return}var w=parseInt(gCv.style.width)||500,h=200,d2=dk();gx2.clearRect(0,0,w,h);gx2.fillStyle=d2?'#0f172a':'#f0f4f8';gx2.beginPath();gx2.roundRect(0,0,w,h,10);gx2.fill();if(!expD.length){gx2.fillStyle=d2?'rgba(148,163,184,.2)':'rgba(0,0,0,.1)';gx2.font='11px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data to see graph',w/2,h/2);return}var P={t:20,r:14,b:24,l:44},pW=w-P.l-P.r,pH=h-P.t-P.b;gx2.strokeStyle=d2?'rgba(56,189,248,.1)':'rgba(0,0,0,.06)';gx2.lineWidth=1;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,h-P.b);gx2.lineTo(w-P.r,h-P.b);gx2.stroke();var xs=expD.map(function(r2){return r2.iv}),ys=expD.map(function(r2){return r2.mean}),us=expD.map(function(r2){return r2.unc});var xn=Math.min.apply(null,xs),xx=Math.max.apply(null,xs),yn=Math.min.apply(null,ys.map(function(y,i){return y-us[i]}))-.5,yx=Math.max.apply(null,ys.map(function(y,i){return y+us[i]}))+.5;if(xx===xn){xn-=1;xx+=1}if(yx<=yn){yn-=1;yx+=2}function tx(v){return P.l+((v-xn)/(xx-xn))*pW}function ty(v){return P.t+pH-((v-yn)/(yx-yn))*pH}var ivN=$('selIV')?$('selIV').options[$('selIV').selectedIndex].text:'IV';var dvN=$('selDV')?$('selDV').options[$('selDV').selectedIndex].text:'DV';gx2.fillStyle=d2?'#64748b':'#94a3b8';gx2.font='8px sans-serif';gx2.textAlign='center';gx2.fillText(ivN,P.l+pW/2,h-4);gx2.save();gx2.translate(8,P.t+pH/2);gx2.rotate(-Math.PI/2);gx2.fillText(dvN,0,0);gx2.restore();for(var i=0;i<expD.length;i++){var px=tx(xs[i]),py=ty(ys[i]),ue=us[i];if(ue>0){gx2.strokeStyle=d2?'rgba(52,211,153,.3)':'rgba(14,124,107,.2)';gx2.lineWidth=1.5;gx2.beginPath();gx2.moveTo(px,ty(ys[i]-ue));gx2.lineTo(px,ty(ys[i]+ue));gx2.stroke();gx2.beginPath();gx2.moveTo(px-3,ty(ys[i]-ue));gx2.lineTo(px+3,ty(ys[i]-ue));gx2.stroke();gx2.beginPath();gx2.moveTo(px-3,ty(ys[i]+ue));gx2.lineTo(px+3,ty(ys[i]+ue));gx2.stroke()}gx2.fillStyle=d2?'#38bdf8':'#0369a1';gx2.beginPath();gx2.arc(px,py,4,0,Math.PI*2);gx2.fill()}if(xs.length>=2){gx2.strokeStyle=d2?'#38bdf8':'#0369a1';gx2.lineWidth=1.5;gx2.beginPath();for(var i=0;i<expD.length;i++){var px=tx(xs[i]),py=ty(ys[i]);i===0?gx2.moveTo(px,py):gx2.lineTo(px,py)}gx2.stroke()}}
+
+// ===== IB QUESTIONS =====
+var IB={
+  coffee:[
+    {c:'Explain',q:'A cup of coffee cools faster on a windy day. Explain which mechanism is enhanced and why.',f:'Wind enhances convection — it removes the warm air layer above the coffee faster, replacing it with cooler air. This increases the temperature gradient at the surface and the rate of convective heat loss.'},
+    {c:'State',q:'State Newton\'s law of cooling and identify the key relationship.',f:'The rate of heat loss is proportional to (T − T_surroundings). Greater ΔT means faster cooling. The rate decreases as the object approaches room temperature.'},
+    {c:'Deduce',q:'Switching from a ceramic cup (ε=0.9) to a metal cup (ε=0.1), deduce the effect on radiative cooling.',f:'P_rad = εσT⁴. Reducing ε from 0.9 to 0.1 cuts radiative power by ~89%. However, the metal cup has higher k, increasing conduction through the walls. Net effect depends on which mechanism dominates.'},
+    {c:'Explain',q:'Why does wrapping the cup in aluminium foil reduce heat loss?',f:'Foil has very low emissivity (ε ≈ 0.05), reducing radiation. It also traps a stagnant air layer that limits convection. Combined, this significantly slows total heat loss.'}
+  ],
+  cond:[
+    {c:'Explain',q:'Why does a copper bar conduct heat much faster than a glass bar of the same dimensions?',f:'Copper has free electrons that can rapidly transfer kinetic energy along the bar. Glass relies solely on lattice vibrations (phonons), which transfer energy much more slowly. k_copper = 385 vs k_glass = 1.05 W/(m·K).'},
+    {c:'State',q:'State Fourier\'s law of heat conduction.',f:'The rate of heat flow Q̇ = −kA(dT/dx). It is proportional to thermal conductivity k, cross-sectional area A, and temperature gradient dT/dx. The negative sign indicates heat flows from hot to cold.'},
+    {c:'Calculate',q:'A copper bar (k=385, A=0.001 m², length 0.2 m) has ends at 200°C and 20°C. Find the heat flow rate.',f:'Q̇ = kA(ΔT/L) = 385 × 0.001 × (200−20)/0.2 = 385 × 0.001 × 900 = 346.5 W'},
+    {c:'Explain',q:'In the lattice vibration model, explain why temperature stays constant during conduction in steady state.',f:'In steady state, the rate of energy entering each segment equals the rate leaving it. The temperature gradient is constant (linear profile). Energy flows through without accumulating, so each point maintains a fixed temperature.'}
+  ],
+  conv:[
+    {c:'Explain',q:'Why does hot water rise in a heated container?',f:'Heating reduces fluid density (thermal expansion). Less dense fluid experiences a net upward buoyant force. Cooler, denser fluid at the top sinks to replace it, creating a convection current.'},
+    {c:'State',q:'State two conditions required for convection to occur.',f:'1) A fluid medium (liquid or gas) must be present. 2) A temperature difference must create density differences that drive fluid movement. Convection cannot occur in solids or vacuum.'},
+    {c:'Explain',q:'Why is convection more efficient than conduction in fluids?',f:'Convection physically transports bulk fluid, carrying thermal energy over large distances. Conduction relies on slow particle-to-particle collisions, which is inefficient in fluids where particles are widely spaced.'},
+    {c:'Distinguish',q:'Distinguish between natural and forced convection.',f:'Natural convection is driven by buoyancy from temperature-induced density differences. Forced convection uses an external force (fan, pump) to move the fluid, greatly increasing heat transfer rate.'}
+  ],
+  rad:[
+    {c:'Calculate',q:'A black body at 1000 K. Find the radiated power per m².',f:'P = εσT⁴ = 1 × 5.67×10⁻⁸ × 1000⁴ = 56,700 W/m²'},
+    {c:'Calculate',q:'Temperature doubles from 500 K to 1000 K. By what factor does power increase?',f:'P ∝ T⁴, so factor = (1000/500)⁴ = 2⁴ = 16. Radiated power increases 16-fold.'},
+    {c:'Explain',q:'Why does a shiny thermos flask reduce radiative heat loss?',f:'Low emissivity (ε ≈ 0.05) means very little energy radiated. Since P = εσT⁴, low ε directly reduces emission. The shiny surface also reflects incoming radiation.'},
+    {c:'State',q:'State Wien\'s displacement law and its significance.',f:'λ_max × T = 2.9 × 10⁶ nm·K. Peak emission wavelength decreases with temperature. Hot objects glow red → orange → white → blue as T increases.'}
+  ],
+  compare:[
+    {c:'Explain',q:'The Sun heats Earth across 150 million km of vacuum. Which mechanism?',f:'Radiation — the only mechanism without a medium. EM waves cross the vacuum at the speed of light. Conduction and convection require matter.'},
+    {c:'Explain',q:'A metal spoon in hot soup gets hot at the handle. Explain the mechanism.',f:'Conduction — heat transfers through the solid metal via free electron movement and lattice vibrations. Metals have high k because free electrons carry energy rapidly.'},
+    {c:'Compare',q:'Compare the three mechanisms at very high temperatures (>1000°C).',f:'Radiation dominates because P ∝ T⁴. At 1000°C (1273K), radiative transfer vastly exceeds the linear scaling of conduction and convection. This is why stellar energy transfer is almost entirely radiative.'},
+    {c:'Explain',q:'A double-glazed window with argon gas gap reduces heat loss through all three mechanisms. Explain.',f:'Conduction: argon has lower k than air. Convection: narrow gap suppresses circulation. Radiation: low-e coatings on glass reduce radiative transfer. Each design element targets a specific mechanism.'}
+  ]
+};
+
+function buildIB(){var qs=IB[T]||[];$('ibL').innerHTML=qs.map(function(q,i){return'<div class="ib-card"><div class="ib-cmd">'+q.c+'</div><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea id="ib'+i+'"></textarea><button class="btn btn-a" style="margin-top:2px;font-size:.62rem" onclick="sF('+i+')">Show Answer</button><div class="ib-fb" id="iF'+i+'"></div></div>'}).join('');window.sF=function(i){$('iF'+i).className='ib-fb show ok';$('iF'+i).textContent=(IB[T]||[])[i].f;addN('📝 Q'+(i+1)+' ('+T+')',(IB[T]||[])[i].q,(IB[T]||[])[i].f)}}
+
+window.bts=function(el,i){document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on')});el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(function(){initGr();drawGr()},80)};
+
+onR();updateGuide();build();render();
+window.addEventListener('resize',onR);
+</script>
+</body>
+</html>
