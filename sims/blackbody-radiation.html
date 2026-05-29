@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Blackbody Radiation | Atul Soral Physicism</title>
+<style>
+:root{--bg:#06080f;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--accent:#38bdf8;--accent2:#34d399;--border:rgba(56,189,248,.1);--glass:rgba(12,18,30,.85);--glassBd:rgba(56,189,248,.08);--surface:rgba(20,28,45,.6);--ok:#22c55e;--err:#ef4444;--mono:'SF Mono',monospace;--serif:Georgia,serif}
+[data-theme="light"]{--bg:#f0f4f8;--text:#1e293b;--text2:#475569;--text3:#94a3b8;--accent:#0369a1;--accent2:#0e7c6b;--border:rgba(100,140,180,.2);--glass:rgba(255,255,255,.75);--glassBd:rgba(100,140,180,.18);--surface:rgba(224,242,254,.4)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px}
+nav{display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px}
+nav a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem}nav a:hover{color:#fff}
+.nav-logo{font-family:var(--serif);font-size:1rem;font-weight:700;color:#fff!important}
+.nav-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:.73rem;text-decoration:none;display:inline-block}
+.w{max-width:1120px;margin:0 auto;padding:0 12px}
+.hd{text-align:center;padding:8px 16px 4px}.hd h1{font-family:var(--serif);font-size:1.2rem;color:var(--accent)}.hd p{font-size:.72rem;color:var(--text2)}
+.guide-bar{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;margin-bottom:6px;font-size:.68rem;color:var(--text2);line-height:1.6;display:flex;align-items:flex-start;gap:6px}.guide-bar .gi{font-size:1rem;flex-shrink:0}.guide-bar b{color:var(--accent)}
+.grid{display:grid;grid-template-columns:1fr 220px;gap:8px;margin-bottom:8px}
+.cvs{border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 6px 24px rgba(0,0,0,.3);background:#06080f}.cvs canvas{display:block;width:100%;aspect-ratio:16/9}
+.gp{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glassBd);border-radius:10px;padding:7px 10px;margin-bottom:6px}
+.cr{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:3px}.cr:last-child{margin-bottom:0}
+.cl{font-size:.64rem;color:var(--text2);font-weight:700;text-transform:uppercase;min-width:32px}
+.pill{padding:4px 9px;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.64rem;font-weight:700;color:var(--text3);background:var(--surface);display:inline-flex;align-items:center;gap:3px;transition:all .1s}.pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pill.star{border-color:rgba(251,191,36,.3)}.pill.star.on{background:#d97706}
+.sr{display:flex;align-items:center;gap:3px;font-size:.64rem;font-weight:600;color:var(--text2)}.sr input[type="range"]{flex:1;accent-color:var(--accent);max-width:120px}.sr .sv{font-family:var(--mono);min-width:48px;font-weight:800;color:var(--text);font-size:.72rem}
+.btn{padding:5px 12px;border:none;border-radius:7px;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .12s}.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.97)}.btn-a{background:var(--accent);color:#fff}.btn-t{background:var(--accent2);color:#fff}.btn-o{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.rcol{display:flex;flex-direction:column;gap:4px;max-height:600px;overflow-y:auto}.rcol::-webkit-scrollbar{width:3px}.rcol::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px}
+.rc{background:var(--surface);border-radius:8px;padding:7px 8px;border:1px solid var(--border)}.rc h3{font-size:.54rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:2px;font-weight:700}.rc .rv{font-size:.95rem;font-weight:800;font-family:var(--serif);color:var(--accent)}.rc .rs{font-size:.62rem;color:var(--text2);margin-top:2px;line-height:1.6}.rc .fm{font-family:var(--serif);font-size:.78rem;color:var(--accent2);font-weight:700}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:3px}.si{background:var(--glass);border-radius:5px;padding:4px;text-align:center;border:1px solid var(--border)}.si .sl{font-size:.48rem;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);font-weight:700}.si .sv2{font-size:.72rem;font-weight:800;color:var(--text);font-family:var(--mono)}
+.btabs{display:flex;gap:2px;margin-bottom:5px;border-bottom:1px solid var(--border);padding-bottom:4px}.bt{padding:4px 10px;border-radius:7px 7px 0 0;font-size:.66rem;font-weight:700;cursor:pointer;color:var(--text3);transition:all .1s}.bt.on{color:var(--accent);background:var(--surface);border:1px solid var(--border);border-bottom:none}.btc{display:none}.btc.on{display:block}
+.ib-card{background:var(--surface);border-radius:7px;padding:8px;margin-bottom:5px;border:1px solid var(--border)}.ib-cmd{display:inline-block;font-size:.52rem;padding:2px 6px;border-radius:4px;font-weight:700;text-transform:uppercase;background:rgba(56,189,248,.08);color:var(--accent);margin-bottom:2px}.ib-card h4{font-size:.74rem;font-weight:700;margin-bottom:2px}.ib-card p{font-size:.68rem;color:var(--text2);line-height:1.4;margin-bottom:3px}.ib-card textarea{width:100%;height:40px;border:1px solid var(--border);border-radius:5px;padding:4px;font-size:.66rem;font-family:inherit;resize:vertical;background:var(--glass);color:var(--text);outline:none}.ib-fb{padding:4px 6px;border-radius:5px;font-size:.64rem;font-weight:600;margin-top:2px;display:none;line-height:1.5}.ib-fb.show{display:block}.ib-fb.ok{background:rgba(34,211,153,.06);color:var(--ok)}
+.nb-c{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 6px;margin-bottom:3px;font-size:.64rem;line-height:1.4}.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+.exp-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:5px}.exp-col{flex:1;min-width:170px}.exp-field{margin-bottom:4px}.exp-field label{font-size:.6rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:2px}.exp-field select,.exp-field input[type="text"],.exp-field input[type="number"]{width:100%;padding:4px 6px;border-radius:6px;border:1px solid var(--border);font-size:.74rem;font-weight:600;background:var(--glass);color:var(--text);outline:none;font-family:inherit}
+.cv-grid{display:flex;flex-wrap:wrap;gap:3px}.cv-check{display:flex;align-items:center;gap:3px;padding:2px 6px;border-radius:4px;background:var(--surface);border:1px solid var(--border);font-size:.62rem;font-weight:600;color:var(--text2)}.cv-check input{accent-color:var(--accent)}
+.dt{width:100%;border-collapse:collapse;font-size:.68rem;font-family:var(--mono)}.dt th{text-align:center;padding:4px;font-size:.56rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--surface)}.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border)}.dt .mean{font-weight:700;color:var(--accent)}.dt .unc{color:var(--accent2)}
+.graph-wrap canvas{width:100%;height:200px;display:block;border-radius:10px;border:1px solid var(--border);margin-top:5px}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.rcol{max-height:none;flex-direction:row;flex-wrap:wrap}.rcol .rc{flex:1;min-width:110px}}
+@media print{nav,.guide-bar{display:none!important}body{background:#fff!important}}
+</style>
+</head>
+<body>
+<script>var SIM_META={id:'blackbody-radiation',title:'Blackbody Radiation',topic:'B.1 / E.2',topicName:'Thermal Radiation & Quantum',grade:['DP'],level:'DP',theme:'B',concepts:['Planck curve','Wien displacement','Stefan-Boltzmann','ultraviolet catastrophe','quantization','emissivity'],difficulty:'advanced'};</script>
+<nav>
+  <div style="display:flex;align-items:center;gap:14px"><a href="../index.html" class="nav-logo">Atul Soral Physicism</a><a href="../dp-simulations.html">← All Simulations</a><a href="../myp-dashboard.html" class="nav-btn">MYP</a>
+</div>
+  <div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">🌙</button><a href="../dp-simulations.html" class="nav-btn">← Back</a><a href="../index.html" class="nav-btn">Home</a><a href="../dp-dashboard.html" class="nav-btn">DP</a></div>
+</nav>
+<div class="w">
+<div class="hd"><h1>Blackbody Radiation</h1><p>Planck's Law, Wien's Displacement &amp; the Ultraviolet Catastrophe</p></div>
+<div class="guide-bar"><span class="gi">💡</span><span>Drag the <b>temperature slider</b> to reshape the Planck curve in real time. Use <b>star presets</b> for instant comparisons. Toggle <b>Rayleigh-Jeans</b> and <b>Wien's approximation</b> to see where classical physics fails. Click <b>Lock Ghost</b> to freeze a curve for comparison.</span></div>
+<div class="grid">
+  <div><div class="cvs"><canvas id="C"></canvas></div><div class="gp" id="ctrl"></div></div>
+  <div class="rcol" id="rp"></div>
+</div>
+<div class="gp" style="padding:10px 12px">
+  <div class="btabs">
+    <div class="bt on" onclick="bts(this,0)">🔬 Experiment</div>
+    <div class="bt" onclick="bts(this,1)">📊 Data &amp; Graph</div>
+    <div class="bt" onclick="bts(this,2)">📝 IB Questions</div>
+    <div class="bt" onclick="bts(this,3)">📓 Notebook</div>
+  </div>
+  <div class="btc on" id="b0"><div id="expC"></div></div>
+  <div class="btc" id="b1"><div id="dW"><p style="font-size:.68rem;color:var(--text3);text-align:center;padding:10px">Collect data to see results.</p></div><div class="graph-wrap"><canvas id="gC"></canvas></div></div>
+  <div class="btc" id="b2"><div id="ibL"></div></div>
+  <div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-size:.72rem;font-weight:700;color:var(--accent);font-family:var(--serif)">📓 Lab Notebook</span><button class="btn btn-a" onclick="window.print()" style="font-size:.6rem;padding:3px 8px">Print</button></div><div id="nbO"></div></div>
+</div>
+</div>
+<script>
+var $=function(i){return document.getElementById(i)},dk=function(){return document.documentElement.dataset.theme==='dark'},af=0,lastTime=0;
+$('themeBtn').onclick=function(){var t=dk()?'light':'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️';localStorage.setItem('phy-theme',t);paint()};
+(function(){var t=localStorage.getItem('phy-theme')||'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️'})();
+var cvs=$('C'),cx=cvs.getContext('2d'),W=0,H=0;
+function onR(){var d=window.devicePixelRatio||1,r=cvs.getBoundingClientRect();W=r.width;H=r.height;cvs.width=W*d;cvs.height=H*d;cx.setTransform(d,0,0,d,0,0)}
+// On-demand repaint on resize
+new ResizeObserver(function(){onR();paint()}).observe(cvs);
+
+// Constants
+var h_=6.626e-34,c_=3e8,kB=1.381e-23,SIGMA=5.67e-8;
+
+// State
+var st={temp:5800,eps:1,showRJ:false,showWien:false,showPlanck:true,ghost:null,absScale:false,logScale:false,mouseX:-1,mouseY:-1};
+// Reference normalization: peak of Planck at 5800K ε=1
+var REF_MAX=planck(Math.round(2.898e6/5800),5800,1);
+function wlMax(){var lm=2.898e6/st.temp;return Math.max(3000,Math.min(15000,lm*3.5))}
+
+// Physics
+function planck(lnm,T,eps){var l=lnm*1e-9;var x=h_*c_/(l*kB*T);if(x>500)return 0;return eps*(2*h_*c_*c_/Math.pow(l,5))*(1/(Math.exp(x)-1))}
+function rayleighJeans(lnm,T){var l=lnm*1e-9;return 2*c_*kB*T/Math.pow(l,4)}
+function wienApprox(lnm,T,eps){var l=lnm*1e-9;var x=h_*c_/(l*kB*T);if(x>500)return 0;return eps*(2*h_*c_*c_/Math.pow(l,5))*Math.exp(-x)}
+
+// Wavelength → RGB
+function wlRGB(l){var r=0,g=0,b=0;if(l>=380&&l<440){r=-(l-440)/(440-380);b=1}else if(l<490){g=(l-440)/(490-440);b=1}else if(l<510){g=1;b=-(l-510)/(510-490)}else if(l<580){r=(l-510)/(580-510);g=1}else if(l<645){r=1;g=-(l-645)/(645-580)}else if(l<780){r=1}var f=1;if(l>=380&&l<420)f=.3+.7*(l-380)/40;else if(l>=700&&l<780)f=.3+.7*(780-l)/80;else if(l<380||l>=780)f=0;return{r:Math.round(r*f*255),g:Math.round(g*f*255),b:Math.round(b*f*255)}}
+
+// Blackbody color for emitter (Tanner Helland approx)
+function bbCol(T){var t=T/100,r,g,b;if(t<=66){r=255;g=Math.max(0,Math.min(255,99.4708*Math.log(t)-161.1196));b=t<=19?0:Math.max(0,Math.min(255,138.5177*Math.log(t-10)-305.0448))}else{r=Math.max(0,Math.min(255,329.6987*Math.pow(t-60,-.1332)));g=Math.max(0,Math.min(255,288.1221*Math.pow(t-60,-.0755)));b=255}return{r:Math.round(r),g:Math.round(g),b:Math.round(b)}}
+
+var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN()}
+function showN(){$('nbO').innerHTML=nb.length?nb.map(function(n,i){return'<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">→ '+n.r+'</span></div>'}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.64rem;padding:8px">Record observations here.</p>'}
+showN();
+
+// Build UI
+function buildUI(){
+  $('ctrl').innerHTML='<div class="cr">'+
+    '<div class="sr"><span class="cl">Temp</span><input type="range" min="300" max="10000" step="50" value="'+st.temp+'" oninput="st.temp=+this.value;buildRP();paint()"><span class="sv" id="tvDisp">'+st.temp+' K</span></div>'+
+    '<div class="sr"><span class="cl">ε</span><input type="range" min=".1" max="1" step=".05" value="'+st.eps+'" oninput="st.eps=+this.value;buildRP();paint()"><span class="sv" id="evDisp">'+st.eps+'</span></div></div>'+
+    '<div class="cr"><span class="cl">Stars</span>'+
+    '<div class="pill star" onclick="st.temp=300;buildUI();buildRP();paint()">🧑 You 300K</div>'+
+    '<div class="pill star" onclick="st.temp=3500;buildUI();buildRP();paint()">🔴 Betelgeuse 3500K</div>'+
+    '<div class="pill star" onclick="st.temp=5800;buildUI();buildRP();paint()">☀️ Sun 5800K</div>'+
+    '<div class="pill star" onclick="st.temp=9900;buildUI();buildRP();paint()">🔵 Sirius 9900K</div></div>'+
+    '<div class="cr"><span class="cl">Show</span>'+
+    '<div class="pill'+(st.showPlanck?' on':'')+'" onclick="st.showPlanck=!st.showPlanck;this.classList.toggle(\'on\');paint()">Planck</div>'+
+    '<div class="pill'+(st.showRJ?' on':'')+'" onclick="st.showRJ=!st.showRJ;this.classList.toggle(\'on\');paint()" style="border-color:rgba(239,68,68,.3)">Rayleigh-Jeans</div>'+
+    '<div class="pill'+(st.showWien?' on':'')+'" onclick="st.showWien=!st.showWien;this.classList.toggle(\'on\');paint()" style="border-color:rgba(52,211,153,.3)">Wien Approx</div>'+
+    '<button class="btn btn-o" onclick="lockGhost();paint()">🔒 Lock Ghost</button>'+
+    '<button class="btn btn-o" onclick="st.ghost=null;paint()" style="font-size:.58rem">Clear Ghost</button>'+
+    '<div class="pill'+(st.absScale?' on':'')+'" onclick="st.absScale=!st.absScale;this.classList.toggle(\'on\');paint()" style="border-color:rgba(251,191,36,.3)">Absolute Scale</div>'+
+    '<div class="pill'+(st.logScale?' on':'')+'" onclick="st.logScale=!st.logScale;this.classList.toggle(\'on\');paint()" style="border-color:rgba(168,85,247,.3)">Log Scale</div></div>';
+  buildRP();
+}
+
+// Mouse tracking for crosshair — on-demand rendering
+cvs.addEventListener('mousemove',function(e){var r=cvs.getBoundingClientRect();st.mouseX=(e.clientX-r.left)*(W/r.width);st.mouseY=(e.clientY-r.top)*(H/r.height);paint()});
+cvs.addEventListener('mouseleave',function(){st.mouseX=-1;st.mouseY=-1;paint()});
+
+function buildRP(){
+  var lMax=2.898e6/st.temp,P=st.eps*SIGMA*Math.pow(st.temp,4);
+  var peakB=planck(lMax,st.temp,st.eps);
+  var region=lMax<380?'Ultraviolet':lMax<780?'Visible':'Infrared';
+  var col=bbCol(st.temp);
+  if($('tvDisp'))$('tvDisp').textContent=st.temp+' K';
+  if($('evDisp'))$('evDisp').textContent=st.eps.toFixed(2);
+  $('rp').innerHTML='<div class="rc"><h3>Temperature</h3><div class="rv" style="font-size:1.1rem">'+st.temp+' K</div><div class="rs">'+(st.temp-273).toFixed(0)+'°C</div></div>'+
+    '<div class="rc"><h3>Wien\'s Displacement</h3><div class="rv" id="rWien">λ_max = '+lMax.toFixed(0)+' nm</div><div class="fm">λ_max = 2.898×10⁶ / T</div><div class="rs" style="color:rgb('+col.r+','+col.g+','+col.b+')">Peak in: '+region+'</div></div>'+
+    '<div class="rc"><h3>Total Power</h3><div class="rv" id="rPow">'+P.toExponential(2)+' W/m²</div><div class="fm">P = εσT⁴</div></div>'+
+    '<div class="rc"><h3>Emissivity</h3><div class="rv">ε = '+st.eps.toFixed(2)+'</div><div class="rs">1.0 = perfect blackbody<br>Real surfaces: ε &lt; 1</div></div>'+
+    '<div class="rc"><h3>Emitter Color</h3><div style="width:100%;height:18px;border-radius:4px;background:rgb('+col.r+','+col.g+','+col.b+');margin:2px 0;border:1px solid rgba(255,255,255,.1)"></div><div class="rs">RGB('+col.r+','+col.g+','+col.b+')</div></div>'+
+    '<div class="rc"><h3>Quantum Connection</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.6">Planck: E = hf = hc/λ<br>Energy is quantized in packets.<br>This prevents the UV catastrophe<br>where classical theory predicts<br>infinite energy at short λ.</div></div>';
+}
+
+window.lockGhost=function(){
+  var pts=[],wm=wlMax();
+  for(var l=50;l<=wm;l+=Math.max(5,wm/600))pts.push({l:l,B:planck(l,st.temp,st.eps)});
+  st.ghost={temp:st.temp,eps:st.eps,pts:pts,wm:wm};
+};
+
+// Paint
+function paint(){
+  if(!W||!H)return;var d=dk();af++;cx.clearRect(0,0,W,H);
+  cx.fillStyle=d?'#06080f':'#f0f4f8';cx.fillRect(0,0,W,H);
+
+  // Layout
+  var emR=Math.min(W*.08,H*.18),emX=W*.09,emY=H*.35;
+  var pL=W*.2,pR=W*.96,pT=H*.06,pB=H*.78,pW=pR-pL,pH=pB-pT;
+
+  // Emitter circle
+  var col=bbCol(st.temp),cs='rgb('+col.r+','+col.g+','+col.b+')';
+  var glowR=emR*2.5;
+  var gg=cx.createRadialGradient(emX,emY,emR*.3,emX,emY,glowR);
+  gg.addColorStop(0,cs);gg.addColorStop(.3,'rgba('+col.r+','+col.g+','+col.b+',.3)');gg.addColorStop(1,'rgba('+col.r+','+col.g+','+col.b+',0)');
+  cx.fillStyle=gg;cx.beginPath();cx.arc(emX,emY,glowR,0,Math.PI*2);cx.fill();
+  cx.fillStyle=cs;cx.beginPath();cx.arc(emX,emY,emR,0,Math.PI*2);cx.fill();
+  cx.strokeStyle='rgba(255,255,255,.08)';cx.lineWidth=1;cx.beginPath();cx.arc(emX,emY,emR,0,Math.PI*2);cx.stroke();
+  cx.fillStyle='#fff';cx.font='bold 11px var(--serif)';cx.textAlign='center';
+  cx.fillText(st.temp+' K',emX,emY+emR+16);
+  cx.font='8px sans-serif';cx.fillStyle=d?'#64748b':'#94a3b8';
+  cx.fillText('ε = '+st.eps.toFixed(2),emX,emY+emR+28);
+
+  // Visible spectrum strip under plot
+  var specH=12;
+  for(var px=pL;px<=pR;px++){
+    var lnm=50+((px-pL)/pW)*2950;
+    if(lnm>=380&&lnm<=780){var rgb=wlRGB(lnm);cx.fillStyle='rgb('+rgb.r+','+rgb.g+','+rgb.b+')';cx.globalAlpha=.6;cx.fillRect(px,pB+2,1,specH);cx.globalAlpha=1}
+  }
+  cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='7px sans-serif';cx.textAlign='center';
+  cx.fillText('380',pL+((380-50)/2950)*pW,pB+specH+12);
+  cx.fillText('780',pL+((780-50)/2950)*pW,pB+specH+12);
+  cx.fillText('Visible',pL+((580-50)/2950)*pW,pB+specH+22);
+
+  // Plot axes
+  cx.strokeStyle=d?'rgba(56,189,248,.15)':'rgba(0,0,0,.08)';cx.lineWidth=1;
+  cx.beginPath();cx.moveTo(pL,pT);cx.lineTo(pL,pB);cx.lineTo(pR,pB);cx.stroke();
+  cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='7px sans-serif';cx.textAlign='center';
+  cx.fillText('Wavelength (nm)',pL+pW/2,pB+specH+32);
+  [500,1000,1500,2000,2500,3000].forEach(function(v){var x=pL+((v-50)/2950)*pW;cx.fillText(v+'',x,pB+specH+12);cx.beginPath();cx.moveTo(x,pB);cx.lineTo(x,pB+3);cx.stroke()});
+  // Y-axis label
+  cx.save();cx.translate(pL-14,pT+pH/2);cx.rotate(-Math.PI/2);cx.fillText(st.absScale?'Spectral Radiance (absolute — ref: 5800K)':'Spectral Radiance (relative)',0,0);cx.restore();
+
+  // Compute Planck curve
+  var samples=[],maxB=0;
+  for(var l=50;l<=3000;l+=5){var B=planck(l,st.temp,st.eps);samples.push({l:l,B:B});if(B>maxB)maxB=B}
+  if(maxB===0)maxB=1;
+  // Normalization: absolute uses REF_MAX (5800K peak), relative uses current max
+  var normMax=st.absScale?REF_MAX:maxB;
+  if(normMax===0)normMax=1;
+
+  // Ghost curve — uses SAME normalization as live curve
+  if(st.ghost){
+    var gNorm=normMax;
+    cx.setLineDash([4,4]);cx.strokeStyle=d?'rgba(148,163,184,.4)':'rgba(0,0,0,.15)';cx.lineWidth=1.5;cx.beginPath();
+    st.ghost.pts.forEach(function(p,i){var px=pL+((p.l-50)/2950)*pW;var py=pB-(p.B/gNorm)*pH*.92;py=Math.max(pT,py);i===0?cx.moveTo(px,py):cx.lineTo(px,py)});cx.stroke();cx.setLineDash([]);
+    // Ghost area fill
+    cx.globalAlpha=.04;cx.fillStyle=d?'#94a3b8':'#475569';cx.beginPath();cx.moveTo(pL,pB);
+    st.ghost.pts.forEach(function(p){var px=pL+((p.l-50)/2950)*pW;var py=pB-(p.B/gNorm)*pH*.92;cx.lineTo(px,Math.max(pT,py))});cx.lineTo(pR,pB);cx.closePath();cx.fill();cx.globalAlpha=1;
+    cx.fillStyle=d?'rgba(148,163,184,.4)':'rgba(0,0,0,.15)';cx.font='bold 8px var(--serif)';cx.textAlign='left';
+    var gPeakL=2.898e6/st.ghost.temp,gpx=pL+((gPeakL-50)/2950)*pW;
+    cx.fillText('Ghost: '+st.ghost.temp+'K (ε='+st.ghost.eps.toFixed(1)+')',Math.min(gpx+5,pR-80),pT+12);
+  }
+
+  // Rayleigh-Jeans overlay
+  if(st.showRJ){
+    cx.strokeStyle='rgba(239,68,68,.6)';cx.lineWidth=1.5;cx.beginPath();
+    var started=false;
+    for(var i=0;i<samples.length;i++){
+      var rj=rayleighJeans(samples[i].l,st.temp);
+      var px=pL+((samples[i].l-50)/2950)*pW;
+      var py=pB-(rj/normMax)*pH*.92;
+      if(py<pT-20)py=pT-20;
+      if(!started){cx.moveTo(px,Math.max(pT-10,py));started=true}else cx.lineTo(px,Math.max(pT-10,py));
+    }cx.stroke();
+    cx.fillStyle='#ef4444';cx.font='bold 8px var(--serif)';cx.textAlign='right';
+    cx.fillText('Rayleigh-Jeans (classical)',pR-5,pT+10);
+    cx.font='7px sans-serif';cx.fillText('→ UV Catastrophe!',pR-5,pT+20);
+  }
+
+  // Wien approximation overlay
+  if(st.showWien){
+    cx.strokeStyle='rgba(52,211,153,.6)';cx.lineWidth=1.5;cx.beginPath();
+    samples.forEach(function(s,i){var w=wienApprox(s.l,st.temp,st.eps);var px=pL+((s.l-50)/2950)*pW;var py=pB-(w/normMax)*pH*.92;i===0?cx.moveTo(px,Math.max(pT,py)):cx.lineTo(px,Math.max(pT,py))});cx.stroke();
+    cx.fillStyle='#34d399';cx.font='bold 8px var(--serif)';cx.textAlign='right';
+    cx.fillText('Wien approx',pR-5,pT+32);
+    // Annotate where Wien fails (long wavelength end)
+    var wFailX=pL+((2200-50)/2950)*pW;
+    cx.font='7px sans-serif';cx.textAlign='left';
+    cx.fillText('← Wien fails here (long λ)',wFailX,pB-pH*.08);
+  }
+
+  // Planck curve (main) with visible area fill
+  if(st.showPlanck){
+    // Area fill — P = σT⁴ visual
+    cx.globalAlpha=.12;cx.fillStyle=d?'#fbbf24':'#d97706';cx.beginPath();cx.moveTo(pL,pB);
+    samples.forEach(function(s){var px=pL+((s.l-50)/2950)*pW;var py=pB-(s.B/normMax)*pH*.92;cx.lineTo(px,Math.max(pT,py))});cx.lineTo(pR,pB);cx.closePath();cx.fill();cx.globalAlpha=1;
+    // Area label
+    cx.fillStyle=d?'rgba(251,191,36,.25)':'rgba(217,119,6,.15)';cx.font='bold 9px var(--serif)';cx.textAlign='center';
+    var areaLabelY=pB-pH*.15;if(maxB/normMax>.3)areaLabelY=pB-pH*.08;
+    cx.fillText('Area = P = εσT⁴',pL+pW*.6,areaLabelY);
+    // Curve line
+    cx.strokeStyle=d?'#fbbf24':'#d97706';cx.lineWidth=2.5;cx.beginPath();
+    samples.forEach(function(s,i){var px=pL+((s.l-50)/2950)*pW;var py=pB-(s.B/normMax)*pH*.92;i===0?cx.moveTo(px,Math.max(pT,py)):cx.lineTo(px,Math.max(pT,py))});cx.stroke();
+  }
+
+  // Peak wavelength marker
+  var lMax=2.898e6/st.temp;
+  if(lMax>=50&&lMax<=3000){
+    var peakX=pL+((lMax-50)/2950)*pW;
+    cx.setLineDash([3,3]);cx.strokeStyle=d?'rgba(251,191,36,.4)':'rgba(217,119,6,.3)';cx.lineWidth=1;
+    cx.beginPath();cx.moveTo(peakX,pT);cx.lineTo(peakX,pB);cx.stroke();cx.setLineDash([]);
+    cx.fillStyle=d?'#fbbf24':'#d97706';cx.font='bold 9px var(--serif)';cx.textAlign='center';
+    cx.fillText('λ_max = '+lMax.toFixed(0)+' nm',peakX,pT-4);
+  }
+
+  // Crosshair — hover to read (λ, B) at any point
+  if(st.mouseX>=pL&&st.mouseX<=pR&&st.mouseY>=pT&&st.mouseY<=pB){
+    var hoverL=50+((st.mouseX-pL)/pW)*2950;
+    var hoverB=planck(Math.round(hoverL),st.temp,st.eps);
+    // Vertical line
+    cx.setLineDash([2,2]);cx.strokeStyle=d?'rgba(255,255,255,.2)':'rgba(0,0,0,.1)';cx.lineWidth=1;
+    cx.beginPath();cx.moveTo(st.mouseX,pT);cx.lineTo(st.mouseX,pB);cx.stroke();cx.setLineDash([]);
+    // Dot on curve
+    var dotY=pB-(hoverB/normMax)*pH*.92;
+    if(dotY>=pT){cx.fillStyle='#fff';cx.beginPath();cx.arc(st.mouseX,dotY,3,0,Math.PI*2);cx.fill()}
+    // Tooltip
+    cx.fillStyle=d?'rgba(6,8,15,.85)':'rgba(255,255,255,.85)';var tipX=st.mouseX+10,tipY=Math.max(pT+20,st.mouseY-10);
+    if(tipX+100>pR)tipX=st.mouseX-110;
+    cx.beginPath();cx.roundRect(tipX,tipY,100,32,4);cx.fill();
+    cx.strokeStyle=d?'rgba(56,189,248,.2)':'rgba(0,0,0,.08)';cx.beginPath();cx.roundRect(tipX,tipY,100,32,4);cx.stroke();
+    cx.fillStyle=d?'#e2e8f0':'#1e293b';cx.font='bold 8px var(--mono)';cx.textAlign='left';
+    cx.fillText('λ = '+hoverL.toFixed(0)+' nm',tipX+5,tipY+12);
+    cx.fillText('B = '+hoverB.toExponential(2),tipX+5,tipY+24);
+  }
+
+  // Title
+  cx.fillStyle=d?'#e2e8f0':'#1e293b';cx.font='bold 12px var(--serif)';cx.textAlign='left';
+  cx.fillText('Planck\'s Radiation Curve — '+st.temp+' K'+(st.absScale?' [absolute]':''),pL,pT-14);
+  var P=st.eps*SIGMA*Math.pow(st.temp,4);
+  cx.fillStyle=d?'#94a3b8':'#475569';cx.font='9px var(--mono)';cx.textAlign='right';
+  cx.fillText('P = '+P.toExponential(2)+' W/m²',pR,pT-14);
+}
+
+// No continuous rAF — paint on demand
+
+// Experiment
+var expD=[],manD=[];
+var EXP_IV=[{id:'temp',n:'Temperature (K)'},{id:'eps',n:'Emissivity (ε)'}];
+var EXP_DV=[{id:'peakWL',n:'Peak Wavelength (nm)'},{id:'totalPow',n:'Total Power (W/m²)'},{id:'peakInt',n:'Peak Intensity'},{id:'region',n:'Spectrum Region (1=IR,2=Vis,3=UV)'}];
+
+function buildExp(){
+  $('expC').innerHTML='<div class="exp-row"><div class="exp-col"><div class="exp-field"><label>Independent Variable</label><select id="selIV">'+EXP_IV.map(function(v){return'<option value="'+v.id+'">'+v.n+'</option>'}).join('')+'</select></div><div class="exp-field"><label>Dependent Variable</label><select id="selDV">'+EXP_DV.map(function(v){return'<option value="'+v.id+'">'+v.n+'</option>'}).join('')+'</select></div></div><div class="exp-col"><div class="exp-field"><label>Controlled Variables</label><div class="cv-grid">'+
+    ['Emissivity','Surface area','Distance','Ambient temperature'].map(function(v){return'<label class="cv-check"><input type="checkbox" checked> '+v+'</label>'}).join('')+
+  '</div></div><div class="exp-field"><label>Hypothesis</label><input type="text" placeholder="If [IV] increases, then [DV] will..."></div></div></div>'+
+    '<div style="background:var(--surface);border-radius:7px;padding:7px;border:1px solid var(--border);margin-top:4px"><p style="font-size:.66rem;color:var(--text2);margin-bottom:4px"><strong>Data collection:</strong> Adjust IV with sliders. Use <b>↻ Read</b> to capture live values, or <b>↻ Auto Add</b> for both at once.</p>'+
+    '<div class="exp-row" style="align-items:flex-end"><div class="exp-col"><div class="exp-field"><label>IV Value</label><div style="display:flex;gap:3px"><input type="number" id="mIV" step="any" style="flex:1"><button class="btn btn-o" onclick="readIV()" style="font-size:.6rem;padding:3px 6px">↻ Read</button></div></div></div>'+
+    '<div class="exp-col"><div class="exp-field"><label>DV Value</label><div style="display:flex;gap:3px"><input type="number" id="mDV" step="any" style="flex:1"><button class="btn btn-o" onclick="readDV()" style="font-size:.6rem;padding:3px 6px">↻ Read</button></div></div></div>'+
+    '<div style="flex:0;display:flex;flex-direction:column;gap:3px"><button class="btn btn-a" onclick="addR()">+ Add</button><button class="btn btn-t" onclick="autoAdd()" style="font-size:.6rem">↻ Auto Add</button></div></div></div>'+
+    '<div id="mT"></div><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-t" onclick="plotM()">Plot Graph</button><button class="btn btn-o" onclick="clrM()">Clear All</button></div><div id="mSt" style="font-size:.64rem;color:var(--text3);margin-top:2px"></div>';
+}
+
+window.readIV=function(){var iv=$('selIV')?$('selIV').value:'temp';var val=0;if(iv==='temp')val=st.temp;else if(iv==='eps')val=st.eps;$('mIV').value=+val.toFixed(2)};
+window.readDV=function(){var dv=$('selDV')?$('selDV').value:'peakWL';var val=0;var lMax=2.898e6/st.temp;if(dv==='peakWL')val=lMax;else if(dv==='totalPow')val=st.eps*SIGMA*Math.pow(st.temp,4);else if(dv==='peakInt')val=planck(lMax,st.temp,st.eps);else if(dv==='region')val=lMax<380?3:lMax<780?2:1;$('mDV').value=+val.toFixed(2)};
+window.autoAdd=function(){readIV();readDV();addR()};
+window.addR=function(){var iv=parseFloat($('mIV').value),dv=parseFloat($('mDV').value);if(isNaN(iv)||isNaN(dv)){$('mSt').textContent='Enter both values.';$('mSt').style.color='var(--err)';return}manD.push({iv:iv,dv:dv});$('mIV').value='';$('mDV').value='';$('mSt').textContent='#'+manD.length+' added.';$('mSt').style.color='var(--ok)';buildMT();syncM()};
+function buildMT(){if(!manD.length){$('mT').innerHTML='';return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});var ks=Object.keys(g).map(Number).sort(function(a,b){return a-b});var h='<table class="dt"><thead><tr><th>IV</th><th>Readings</th><th class="mean">Mean</th><th class="unc">± Unc</th><th></th></tr></thead><tbody>';ks.forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length,u=v.length>=2?(Math.max.apply(null,v)-Math.min.apply(null,v))/2:0;h+='<tr><td style="font-weight:700">'+k+'</td><td>'+v.map(function(x){return(+x.toFixed(1))+''}).join(', ')+'</td><td class="mean">'+mn.toFixed(1)+'</td><td class="unc">'+u.toFixed(1)+'</td><td><span style="cursor:pointer;color:var(--err)" onclick="rmG('+k+')">✕</span></td></tr>'});$('mT').innerHTML=h+'</tbody></table>'}
+window.rmG=function(k){manD=manD.filter(function(d2){return d2.iv!==k});buildMT();syncM()};window.clrM=function(){manD=[];buildMT();expD=[];$('mSt').textContent=''};
+function syncM(){if(!manD.length){expD=[];return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});expD=[];Object.keys(g).map(Number).sort(function(a,b){return a-b}).forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length,u=v.length>=2?(Math.max.apply(null,v)-Math.min.apply(null,v))/2:0;expD.push({iv:k,mean:+mn.toFixed(2),unc:+u.toFixed(2)})});buildDT();setTimeout(function(){initGr();drawGr()},30)}
+window.plotM=function(){if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(function(){initGr();drawGr()},80)};
+function buildDT(){if(!expD.length)return;var ivN=$('selIV')?$('selIV').options[$('selIV').selectedIndex].text:'IV';var dvN=$('selDV')?$('selDV').options[$('selDV').selectedIndex].text:'DV';var h='<table class="dt"><thead><tr><th>'+ivN+'</th><th class="mean">Mean '+dvN+'</th><th class="unc">± Unc</th></tr></thead><tbody>';expD.forEach(function(r){h+='<tr><td>'+r.iv+'</td><td class="mean">'+r.mean+'</td><td class="unc">'+r.unc+'</td></tr>'});$('dW').innerHTML=h+'</tbody></table>'}
+var gCv,gx2;
+function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');var d2=window.devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)w=gCv.parentElement.offsetWidth||500;gCv.width=w*d2;gCv.height=200*d2;gCv.style.width=w+'px';gCv.style.height='200px';gx2.setTransform(d2,0,0,d2,0,0)}
+function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return}var w=parseInt(gCv.style.width)||500,h=200,d2=dk();gx2.clearRect(0,0,w,h);gx2.fillStyle=d2?'#06080f':'#f0f4f8';gx2.beginPath();gx2.roundRect(0,0,w,h,10);gx2.fill();if(!expD.length){gx2.fillStyle=d2?'rgba(148,163,184,.2)':'rgba(0,0,0,.1)';gx2.font='11px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data to see graph',w/2,h/2);return}var P={t:20,r:14,b:24,l:44},pW=w-P.l-P.r,pH=h-P.t-P.b;gx2.strokeStyle=d2?'rgba(56,189,248,.1)':'rgba(0,0,0,.06)';gx2.lineWidth=1;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,h-P.b);gx2.lineTo(w-P.r,h-P.b);gx2.stroke();var xs=expD.map(function(r2){return r2.iv}),ys=expD.map(function(r2){return r2.mean}),us=expD.map(function(r2){return r2.unc});var xn=Math.min.apply(null,xs),xx=Math.max.apply(null,xs),yn=Math.min.apply(null,ys.map(function(y,i){return y-us[i]}))-.5,yx=Math.max.apply(null,ys.map(function(y,i){return y+us[i]}))+.5;if(xx===xn){xn-=1;xx+=1}if(yx<=yn){yn-=1;yx+=2}function tx(v){return P.l+((v-xn)/(xx-xn))*pW}function ty(v){return P.t+pH-((v-yn)/(yx-yn))*pH}var ivN=$('selIV')?$('selIV').options[$('selIV').selectedIndex].text:'IV';var dvN=$('selDV')?$('selDV').options[$('selDV').selectedIndex].text:'DV';gx2.fillStyle=d2?'#64748b':'#94a3b8';gx2.font='8px sans-serif';gx2.textAlign='center';gx2.fillText(ivN,P.l+pW/2,h-4);gx2.save();gx2.translate(8,P.t+pH/2);gx2.rotate(-Math.PI/2);gx2.fillText(dvN,0,0);gx2.restore();for(var i=0;i<expD.length;i++){var px=tx(xs[i]),py=ty(ys[i]),ue=us[i];if(ue>0){gx2.strokeStyle=d2?'rgba(52,211,153,.3)':'rgba(14,124,107,.2)';gx2.lineWidth=1.5;gx2.beginPath();gx2.moveTo(px,ty(ys[i]-ue));gx2.lineTo(px,ty(ys[i]+ue));gx2.stroke();gx2.beginPath();gx2.moveTo(px-3,ty(ys[i]-ue));gx2.lineTo(px+3,ty(ys[i]-ue));gx2.stroke();gx2.beginPath();gx2.moveTo(px-3,ty(ys[i]+ue));gx2.lineTo(px+3,ty(ys[i]+ue));gx2.stroke()}gx2.fillStyle=d2?'#fbbf24':'#d97706';gx2.beginPath();gx2.arc(px,py,4,0,Math.PI*2);gx2.fill()}if(xs.length>=2){gx2.strokeStyle=d2?'#fbbf24':'#d97706';gx2.lineWidth=1.5;gx2.beginPath();for(var i=0;i<expD.length;i++){var px=tx(xs[i]),py=ty(ys[i]);i===0?gx2.moveTo(px,py):gx2.lineTo(px,py)}gx2.stroke()}}
+
+// IB Questions
+var IB=[
+  {c:'Calculate',q:'The Sun has surface temperature T = 5800 K. Find the peak emission wavelength using Wien\'s law.',f:'λ_max = 2.898 × 10⁶ / T = 2.898 × 10⁶ / 5800 = 500 nm. This is in the visible spectrum (green-yellow), which is why sunlight appears white — it peaks near the center of our visible range.'},
+  {c:'Explain',q:'Explain why the Rayleigh-Jeans law fails at short wavelengths (the "ultraviolet catastrophe").',f:'The Rayleigh-Jeans law treats energy as continuous, giving each mode equal energy (kT). At short wavelengths, the number of modes increases as 1/λ⁴, predicting infinite total energy. Planck resolved this by quantizing energy (E = hf), making high-frequency modes exponentially unlikely to be excited.'},
+  {c:'Calculate',q:'A star has λ_max = 350 nm. Find its surface temperature.',f:'T = 2.898 × 10⁶ / λ_max = 2.898 × 10⁶ / 350 = 8280 K. The peak is in the UV, so this star appears blue-white.'},
+  {c:'Calculate',q:'Compare the total radiated power of two stars: one at 3000 K and one at 6000 K (both with ε = 1).',f:'P ∝ T⁴. Ratio = (6000/3000)⁴ = 2⁴ = 16. The hotter star radiates 16 times more power per unit area. This is why small temperature differences produce enormous luminosity differences.'},
+  {c:'Explain',q:'Why does increasing temperature shift the peak to shorter wavelengths?',f:'Higher T means more energy per photon is available. The most probable photon energy increases with T, and since E = hc/λ, higher energy corresponds to shorter wavelength. The peak shifts as λ_max ∝ 1/T (Wien\'s law).'},
+  {c:'State',q:'State Planck\'s quantum hypothesis and explain its significance.',f:'Planck proposed that electromagnetic energy is emitted in discrete packets (quanta) of E = hf, where h = 6.626 × 10⁻³⁴ J·s. This prevents the ultraviolet catastrophe by making high-frequency radiation exponentially improbable. It was the foundation of quantum mechanics.'}
+];
+
+function buildIB(){$('ibL').innerHTML=IB.map(function(q,i){return'<div class="ib-card"><div class="ib-cmd">'+q.c+'</div><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea id="ib'+i+'"></textarea><button class="btn btn-a" style="margin-top:2px;font-size:.62rem" onclick="sF('+i+')">Show Answer</button><div class="ib-fb" id="iF'+i+'"></div></div>'}).join('');window.sF=function(i){$('iF'+i).className='ib-fb show ok';$('iF'+i).textContent=IB[i].f;addN('📝 Q'+(i+1),IB[i].q,IB[i].f)}}
+
+window.bts=function(el,i){document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on')});el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(function(){initGr();drawGr()},80)};
+
+onR();buildUI();buildExp();buildIB();paint();
+window.addEventListener('resize',function(){onR();paint()});
+</script>
+</body>
+</html>
