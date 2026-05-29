@@ -52,5 +52,14 @@ const DP_SIMS = [
     topicName: "Forces – Rotational Dynamics",
     description: "Compare rotational inertia of different shapes. Explore angular acceleration, rolling, and the parallel axis theorem.",
     file: "sims/moment-of-inertia.html"
+  },
+    {
+    id: "thermal-physics",
+    title: "Thermal Physics Lab",
+    icon: "🌡️",
+    topic: "B.1",
+    topicName: "Thermal Energy Transfers",
+    description: "Explore temperature, heat, specific heat capacity, latent heat, and heating curves with interactive experiments.",
+    file: "sims/thermal-physics.html"
   }
 ];
