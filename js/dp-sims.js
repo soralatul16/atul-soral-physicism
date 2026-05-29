@@ -61,5 +61,15 @@ const DP_SIMS = [
     topicName: "Thermal Energy Transfers",
     description: "Explore temperature, heat, specific heat capacity, latent heat, and heating curves with interactive experiments.",
     file: "sims/thermal-physics.html"
-  }
+  },
+    {
+    id: "thermal-conduction",
+    title: "Thermal Conduction",
+    icon: "🔥",
+    topic: "B.1",
+    topicName: "Thermal Conduction",
+    description: "Explore conduction, thermal conductivity, Fourier's law, R-values, and insulation with interactive experiments.",
+    file: "sims/thermal-conduction.html"
+  },
+
 ];
