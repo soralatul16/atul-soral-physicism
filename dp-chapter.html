@@ -785,7 +785,7 @@ function renderActiveSubtopic() {
 
   // Learn Tab
   const foundationHtml = sub.foundation ? `
-    <div class="layer l-f" onclick="this.classList.toggle('collapsed')">
+    <div class="layer l-f">
       <div class="lh"><div><span class="l-badge lb-f">FOUNDATION</span> ${sub.foundation.title || 'Basic Concepts'}</div><span class="la">▼</span></div>
       <div class="lb">
         ${sub.foundation.content}
@@ -802,7 +802,7 @@ function renderActiveSubtopic() {
   ` : '';
 
   const coreHtml = sub.core ? `
-    <div class="layer l-c" onclick="this.classList.toggle('collapsed')">
+    <div class="layer l-c">
       <div class="lh"><div><span class="l-badge lb-c">CORE</span> ${sub.core.title || 'Main Concepts'}</div><span class="la">▼</span></div>
       <div class="lb">
         ${sub.core.content}
@@ -812,7 +812,7 @@ function renderActiveSubtopic() {
   ` : '';
 
   const extensionHtml = sub.extension ? `
-    <div class="layer l-e" onclick="this.classList.toggle('collapsed')">
+    <div class="layer l-e">
       <div class="lh"><div><span class="l-badge lb-e">EXTENSION</span> ${sub.extension.title || 'Beyond the Syllabus'}</div><span class="la">▼</span></div>
       <div class="lb">
         ${sub.extension.content}
@@ -966,6 +966,15 @@ function renderActiveSubtopic() {
       t.classList.add('active');
       const tabContent = document.getElementById('tab-' + t.dataset.tab);
       if (tabContent) tabContent.classList.add('active');
+    });
+  });
+
+  // Collapse toggle — ONLY on .lh header, not the body
+  document.querySelectorAll('.lh').forEach(function(header) {
+    header.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var layer = header.closest('.layer');
+      if (layer) layer.classList.toggle('collapsed');
     });
   });
 
