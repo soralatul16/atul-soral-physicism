@@ -1,0 +1,686 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Thermal Physics Lab | Atul Soral Physicism</title>
+<style>
+:root{--bg:#faf8f5;--text:#2a1f14;--text2:#6b5c4d;--text3:#a8967f;--accent:#c45e10;--accent2:#0e7c6b;--border:rgba(160,140,110,.25);--glass:rgba(255,252,247,.72);--glassBd:rgba(160,140,110,.22);--surface:rgba(242,238,230,.55);--cvsBg:#f5f0e6;--ok:#2d8a4e;--err:#c53030;--hot:#dc2626;--cold:#2563eb;--mono:'SF Mono','Fira Code','Consolas',monospace;--serif:Georgia,'Times New Roman',serif}
+[data-theme="dark"]{--bg:#1a1612;--text:#e8ddd0;--text2:#a89880;--text3:#7a6b5a;--accent:#f0a030;--accent2:#3dd4b8;--border:rgba(168,152,128,.18);--glass:rgba(36,30,24,.78);--glassBd:rgba(168,152,128,.16);--surface:rgba(42,35,28,.55);--cvsBg:#1e1a14;--hot:#ef4444;--cold:#60a5fa}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px}
+nav{display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px}
+nav a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem}nav a:hover{color:#fff}
+.nav-logo{font-family:var(--serif);font-size:1rem;font-weight:700;color:#fff!important}
+.nav-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:.73rem;text-decoration:none;display:inline-block}
+.w{max-width:1120px;margin:0 auto;padding:0 12px}
+.hd{text-align:center;padding:10px 16px 4px}
+.hd h1{font-family:var(--serif);font-size:1.25rem;color:var(--accent)}
+.hd p{font-size:.74rem;color:var(--text2)}
+.tbar{display:flex;gap:0;margin:8px 0;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--glass);backdrop-filter:blur(6px)}
+.tt{flex:1;padding:8px 4px;text-align:center;font-size:.6rem;font-weight:700;cursor:pointer;color:var(--text3);border-right:1px solid var(--border);transition:all .12s}
+.tt:last-child{border-right:none}.tt.on{background:var(--accent);color:#fff}.tt:hover:not(.on){background:var(--surface)}
+.grid{display:grid;grid-template-columns:1fr 230px;gap:8px;margin-bottom:8px}
+.cvs{border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 6px 24px rgba(0,0,0,.07);background:var(--cvsBg)}
+.cvs canvas{display:block;width:100%;aspect-ratio:16/9}
+.gp{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glassBd);border-radius:10px;padding:7px 10px;margin-bottom:6px}
+.cr{display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-bottom:3px}.cr:last-child{margin-bottom:0}
+.cl{font-size:.62rem;color:var(--text2);font-weight:700;text-transform:uppercase;min-width:36px;letter-spacing:.3px}
+.inp{padding:5px 6px;border:2px solid var(--border);border-radius:7px;background:var(--glass);color:var(--text);font-size:.8rem;font-family:var(--serif);width:68px;text-align:center;outline:none;font-weight:700}
+.inp:focus{border-color:var(--accent)}.inp.ok{border-color:var(--ok)}.inp.no{border-color:var(--err)}
+.u{font-size:.68rem;color:var(--text3);font-family:var(--serif)}
+.eq{font-family:var(--serif);font-size:.8rem;flex:1;color:var(--text2)}
+.btn{padding:5px 12px;border:none;border-radius:7px;font-size:.68rem;font-weight:700;cursor:pointer;transition:all .12s}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.97)}
+.btn-a{background:var(--accent);color:#fff}.btn-t{background:var(--accent2);color:#fff}
+.btn-o{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.pill{padding:3px 8px;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.62rem;font-weight:700;color:var(--text3);background:var(--surface);display:inline-block;transition:all .1s}
+.pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.sr{display:flex;align-items:center;gap:4px;font-size:.62rem;font-weight:600;color:var(--text2)}
+.sr input[type="range"]{flex:1;accent-color:var(--accent);max-width:100px}
+.sr .sv{font-family:var(--mono);min-width:40px;font-weight:800;color:var(--text);font-size:.7rem}
+.fb{padding:5px 10px;border-radius:7px;font-size:.74rem;text-align:center;margin-top:4px;font-weight:600}
+.fb-ok{background:rgba(45,138,78,.07);color:var(--ok)}.fb-no{background:rgba(197,48,48,.05);color:var(--err)}.fb-h{background:rgba(196,94,16,.05);color:var(--accent)}
+.rcol{display:flex;flex-direction:column;gap:5px;max-height:650px;overflow-y:auto}
+.rcol::-webkit-scrollbar{width:3px}.rcol::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:2px}
+.rc{background:var(--surface);border-radius:9px;padding:7px 8px;border:1px solid var(--border)}
+.rc h3{font-size:.52rem;text-transform:uppercase;letter-spacing:1.1px;color:var(--text3);margin-bottom:3px;font-weight:700}
+.rc .rv{font-size:.95rem;font-weight:800;font-family:var(--serif);color:var(--accent)}
+.rc .rs{font-size:.58rem;color:var(--text2);margin-top:2px;font-family:var(--mono);line-height:1.5}
+.rc .fm{font-family:var(--serif);font-size:.8rem;color:var(--accent2);font-weight:700}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.si{background:var(--glass);border-radius:6px;padding:4px;text-align:center;border:1px solid var(--border)}
+.si .sl{font-size:.48rem;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);font-weight:700}
+.si .sv2{font-size:.74rem;font-weight:800;color:var(--text);font-family:var(--mono)}
+.btabs{display:flex;gap:2px;margin-bottom:5px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.bt{padding:4px 10px;border-radius:7px 7px 0 0;font-size:.64rem;font-weight:700;cursor:pointer;color:var(--text3);transition:all .1s}
+.bt.on{color:var(--accent);background:var(--surface);border:1px solid var(--border);border-bottom:none}
+.btc{display:none}.btc.on{display:block}
+.ib-card{background:var(--surface);border-radius:8px;padding:8px;margin-bottom:5px;border:1px solid var(--border)}
+.ib-cmd{display:inline-block;font-size:.52rem;padding:2px 6px;border-radius:4px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;background:rgba(196,94,16,.08);color:var(--accent);margin-bottom:2px}
+.ib-card h4{font-size:.72rem;font-weight:700;margin-bottom:2px}
+.ib-card p{font-size:.66rem;color:var(--text2);line-height:1.4;margin-bottom:3px}
+.ib-card textarea{width:100%;height:40px;border:1px solid var(--border);border-radius:5px;padding:3px;font-size:.66rem;font-family:inherit;resize:vertical;background:var(--glass);color:var(--text);outline:none}
+.ib-fb{padding:4px 6px;border-radius:5px;font-size:.65rem;font-weight:600;margin-top:2px;display:none}
+.ib-fb.show{display:block}.ib-fb.ok{background:rgba(45,138,78,.05);color:var(--ok)}
+.nb-c{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 6px;margin-bottom:3px;font-size:.64rem;line-height:1.4}
+.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+.exp-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:5px}.exp-col{flex:1;min-width:170px}
+.exp-field{margin-bottom:4px}.exp-field label{font-size:.58rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:2px}
+.exp-field select,.exp-field input[type="text"],.exp-field input[type="number"]{width:100%;padding:4px 6px;border-radius:6px;border:1px solid var(--border);font-size:.72rem;font-weight:600;background:var(--glass);color:var(--text);outline:none;font-family:inherit}
+.cv-grid{display:flex;flex-wrap:wrap;gap:3px}.cv-check{display:flex;align-items:center;gap:3px;padding:2px 6px;border-radius:4px;background:var(--surface);border:1px solid var(--border);font-size:.6rem;font-weight:600;color:var(--text2)}.cv-check input{accent-color:var(--accent)}
+.dt{width:100%;border-collapse:collapse;font-size:.66rem;font-family:var(--mono)}
+.dt th{text-align:center;padding:4px;font-size:.54rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--surface)}
+.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border)}.dt .mean{font-weight:700;color:var(--accent)}.dt .unc{color:var(--accent2)}
+.graph-wrap canvas{width:100%;height:200px;display:block;border-radius:10px;border:1px solid var(--border);margin-top:5px}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.rcol{max-height:none;flex-direction:row;flex-wrap:wrap}.rcol .rc{flex:1;min-width:120px}}
+@media print{nav,.tbar{display:none!important}body{background:#fff!important}}
+</style>
+</head>
+<body>
+<script>var SIM_META={id:'thermal-physics',title:'Thermal Physics Lab',topic:'B.1',topicName:'Thermal Energy Transfers',grade:['MYP5','DP'],level:'both',theme:'B',concepts:['temperature','heat','internal energy','specific heat capacity','latent heat','thermal equilibrium','heating curve'],difficulty:'intermediate'};</script>
+<nav>
+  <div style="display:flex;align-items:center;gap:14px"><a href="../index.html" class="nav-logo">Atul Soral Physicism</a><a href="../dp-simulations.html">← All Simulations</a><a href="../myp-dashboard.html" class="nav-btn">MYP</a>
+  <div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">☀️</button><a href="../dp-simulations.html" class="nav-btn">← Back</a><a href="../index.html" class="nav-btn">Home</a><a href="../dp-dashboard.html" class="nav-btn">DP</a></div>
+</nav>
+<div class="w">
+<div class="hd"><h1>Thermal Physics Lab</h1><p>Temperature, Heat &amp; Internal Energy — See the Difference</p></div>
+<div class="tbar">
+  <div class="tt on" onclick="go('contact',this)">🔥 Heat Transfer</div>
+  <div class="tt" onclick="go('curve',this)">📈 Heating Curve</div>
+  <div class="tt" onclick="go('shc',this)">🧪 Specific Heat</div>
+  <div class="tt" onclick="go('internal',this)">⚛️ Internal Energy</div>
+  <div class="tt" onclick="go('calor',this)">🌡️ Calorimetry</div>
+  <div class="tt" onclick="go('phase',this)">❄️→💧→♨️ Phase Calc</div>
+</div>
+<div class="grid">
+  <div><div class="cvs" id="cW"><canvas id="C"></canvas></div><div class="gp" id="ctrl"></div><div id="calc"></div></div>
+  <div class="rcol" id="rp"></div>
+</div>
+<div class="gp" style="padding:10px 12px">
+  <div class="btabs">
+    <div class="bt on" onclick="bts(this,0)">🔬 Experiment</div>
+    <div class="bt" onclick="bts(this,1)">📊 Data &amp; Graph</div>
+    <div class="bt" onclick="bts(this,2)">📝 IB Questions</div>
+    <div class="bt" onclick="bts(this,3)">📓 Notebook</div>
+  </div>
+  <div class="btc on" id="b0"><div id="expC"></div></div>
+  <div class="btc" id="b1"><div id="dW"><p style="font-size:.66rem;color:var(--text3);text-align:center;padding:10px">Collect data to see results.</p></div><div class="graph-wrap"><canvas id="gC"></canvas></div></div>
+  <div class="btc" id="b2"><div id="ibL"></div></div>
+  <div class="btc" id="b3">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <span style="font-size:.7rem;font-weight:700;color:var(--accent);font-family:var(--serif)">📓 Lab Notebook</span>
+      <button class="btn btn-a" onclick="window.print()" style="font-size:.58rem;padding:3px 8px">Print</button>
+    </div>
+    <div id="nbO"></div>
+  </div>
+</div>
+</div>
+<script>
+var $=function(i){return document.getElementById(i)},dk=function(){return document.documentElement.dataset.theme==='dark'},T='contact',af=0;
+$('themeBtn').onclick=function(){var t=dk()?'light':'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️';localStorage.setItem('phy-theme',t)};
+(function(){var t=localStorage.getItem('phy-theme')||'light';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️'})();
+var cvs=$('C'),cx=cvs.getContext('2d'),W=0,H=0;
+function onR(){var d=window.devicePixelRatio||1,r=cvs.getBoundingClientRect();W=r.width;H=r.height;cvs.width=W*d;cvs.height=H*d;cx.setTransform(d,0,0,d,0,0)}
+new ResizeObserver(onR).observe(cvs);
+function sci(v){if(v===0)return'0';var a=Math.abs(v);if(a>=.01&&a<1e6)return v.toFixed(Math.max(0,2-Math.floor(Math.log10(a))));return v.toExponential(2)}
+function tempCol(t){var f=Math.max(0,Math.min(1,(t+20)/140));return'rgb('+Math.round(60+195*f)+','+Math.round(100+50*(1-Math.abs(f-.5)*2))+','+Math.round(240-200*f)+')'}
+var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN()}
+function showN(){$('nbO').innerHTML=nb.length?nb.map(function(n,i){return'<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">→ '+n.r+'</span></div>'}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.64rem;padding:8px">Complete experiments to record.</p>'}
+showN();
+function go(t,el){T=t;document.querySelectorAll('.tt').forEach(function(b){b.classList.remove('on')});el.classList.add('on');build()}
+function labBg(){var d=dk();cx.clearRect(0,0,W,H);cx.fillStyle=d?'#1e1a14':'#e8e0d4';cx.fillRect(0,0,W,H);var bg=cx.createLinearGradient(0,H*.6,0,H*.68);bg.addColorStop(0,d?'#4a3828':'#8B7355');bg.addColorStop(1,d?'#3d2e1e':'#6B5340');cx.fillStyle=bg;cx.fillRect(0,H*.6,W,H*.08);cx.fillStyle=d?'#151210':'#ccc4b8';cx.fillRect(0,H*.68,W,H*.32)}
+
+// ==============================
+// 1. HEAT TRANSFER — Two Blocks
+// ==============================
+var ht={tA:80,tB:20,mA:1,mB:1,matA:0,matB:0,running:false,t:0,particles:[]};
+var HTMATS=[{n:'Water',c:4186,col:'#3b82f6'},{n:'Copper',c:385,col:'#d97706'},{n:'Iron',c:449,col:'#6b7280'},{n:'Aluminium',c:897,col:'#9ca3af'}];
+function initHtParts(){ht.particles=[];for(var i=0;i<30;i++){ht.particles.push({x:W*.08+Math.random()*W*.28,y:H*.15+Math.random()*H*.3,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,side:'hot'});ht.particles.push({x:W*.42+Math.random()*W*.28,y:H*.15+Math.random()*H*.3,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,side:'cold'})}}
+function buildContact(){
+  ht.running=false;ht.t=0;initHtParts();
+  var matPillsA='',matPillsB='';HTMATS.forEach(function(m,i){matPillsA+='<div class="pill'+(i===ht.matA?' on':'')+'" onclick="ht.matA='+i+';buildContact()">'+m.n+'</div>';matPillsB+='<div class="pill'+(i===ht.matB?' on':'')+'" onclick="ht.matB='+i+';buildContact()">'+m.n+'</div>'});
+  $('ctrl').innerHTML='<div class="cr"><span class="cl">Hot</span><div class="sr"><span>T</span><input type="range" min="50" max="100" value="'+ht.tA+'" oninput="ht.tA=+this.value"><span class="sv" style="color:var(--hot)">'+ht.tA+'°C</span></div>'+
+    '<div class="sr"><span>m</span><input type="range" min=".2" max="3" step=".2" value="'+ht.mA+'" oninput="ht.mA=+this.value"><span class="sv">'+ht.mA+'kg</span></div>'+matPillsA+'</div>'+
+    '<div class="cr"><span class="cl">Cold</span><div class="sr"><span>T</span><input type="range" min="0" max="30" value="'+ht.tB+'" oninput="ht.tB=+this.value"><span class="sv" style="color:var(--cold)">'+ht.tB+'°C</span></div>'+
+    '<div class="sr"><span>m</span><input type="range" min=".2" max="3" step=".2" value="'+ht.mB+'" oninput="ht.mB=+this.value"><span class="sv">'+ht.mB+'kg</span></div>'+matPillsB+'</div>'+
+    '<div class="cr"><button class="btn btn-a" onclick="ht.running=true;ht.t=0">🔥 Start</button><button class="btn btn-o" onclick="ht.running=false;ht.t=0;initHtParts()">↺</button></div>';
+  var cA=HTMATS[ht.matA].c,cB=HTMATS[ht.matB].c;
+  var eq=(ht.mA*cA*ht.tA+ht.mB*cB*ht.tB)/(ht.mA*cA+ht.mB*cB);
+  $('calc').innerHTML='<div class="gp"><div class="cr"><span class="eq">Q_lost = Q_gained → m₁c₁(T₁−T_f) = m₂c₂(T_f−T₂)</span></div>'+
+    '<div class="cr"><span class="eq">T_final = </span><input class="inp" id="htAns" placeholder="?"><span class="u">°C</span><button class="btn btn-a" onclick="htChk()">Check</button></div>'+
+    '<div class="cr" style="font-size:.64rem;color:var(--text3)">Hint: T_f = (m₁c₁T₁ + m₂c₂T₂) / (m₁c₁ + m₂c₂)</div><div id="htfb"></div></div>';
+  $('rp').innerHTML='<div class="rc"><h3>Hot Block</h3><div class="rv" id="rHA" style="color:var(--hot)">'+ht.tA+'°C</div><div class="rs">'+HTMATS[ht.matA].n+' | '+ht.mA+' kg | c='+cA+'</div></div>'+
+    '<div class="rc"><h3>Cold Block</h3><div class="rv" id="rHB" style="color:var(--cold)">'+ht.tB+'°C</div><div class="rs">'+HTMATS[ht.matB].n+' | '+ht.mB+' kg | c='+cB+'</div></div>'+
+    '<div class="rc"><h3>Equilibrium T</h3><div class="rv" id="rHEQ">'+eq.toFixed(1)+'°C</div><div class="rs" id="rHF">Press Start</div></div>'+
+    '<div class="rc"><h3>Key Insight</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.7;color:var(--accent)">T_final is NOT always the average!<br><br>If masses differ → heavier block dominates.<br>If materials differ → lower c heats/cools faster.<br><br>Try: 1kg water + 0.2kg copper</div></div>'+
+    '<div class="rc"><h3>Definitions</h3><div class="rs" style="font-family:var(--serif);font-size:.6rem;line-height:1.7"><strong style="color:var(--accent)">Temperature:</strong> avg KE of particles<br><strong style="color:var(--hot)">Heat:</strong> energy in transit<br><strong style="color:var(--accent2)">Internal Energy:</strong> total KE + PE</div></div>';
+}
+window.htChk=function(){var cA=HTMATS[ht.matA].c,cB=HTMATS[ht.matB].c;var eq=(ht.mA*cA*ht.tA+ht.mB*cB*ht.tB)/(ht.mA*cA+ht.mB*cB);var uv=parseFloat($('htAns').value);if(isNaN(uv)){$('htfb').innerHTML='<div class="fb fb-h">T_f = (m₁c₁T₁ + m₂c₂T₂) / (m₁c₁ + m₂c₂)</div>';return}if(Math.abs(uv-eq)<2){$('htAns').className='inp ok';var isAvg=Math.abs(eq-(ht.tA+ht.tB)/2)<2;$('htfb').innerHTML='<div class="fb fb-ok">✓ T_f = '+eq.toFixed(1)+'°C'+(isAvg?' (happens to be the average — equal mc products!)':' — NOT the simple average because mc products differ!')+'</div>';addN('🔥 Heat Transfer',HTMATS[ht.matA].n+' '+ht.mA+'kg '+ht.tA+'°C ↔ '+HTMATS[ht.matB].n+' '+ht.mB+'kg '+ht.tB+'°C','T_f='+eq.toFixed(1)+'°C')}else{$('htAns').className='inp no';$('htfb').innerHTML='<div class="fb fb-no">✗ ('+ht.mA+'×'+cA+'×'+ht.tA+' + '+ht.mB+'×'+cB+'×'+ht.tB+') / ('+ht.mA+'×'+cA+' + '+ht.mB+'×'+cB+') = '+eq.toFixed(1)+'°C</div>'}};
+
+function paintContact(){
+  labBg();var d=dk();af++;
+  var cA=HTMATS[ht.matA].c,cB=HTMATS[ht.matB].c;
+  var eq=(ht.mA*cA*ht.tA+ht.mB*cB*ht.tB)/(ht.mA*cA+ht.mB*cB);
+  if(ht.running){ht.t+=.004;var f=Math.min(1,ht.t);var tA2=ht.tA+(eq-ht.tA)*f;var tB2=ht.tB+(eq-ht.tB)*f}else{var tA2=ht.tA;var tB2=ht.tB}
+  // Block sizes based on mass
+  var sA=Math.sqrt(ht.mA)*W*.15,sB=Math.sqrt(ht.mB)*W*.15;
+  var bL=W*.08,bT=H*.12,bB=bT+Math.max(sA,sB)+H*.08;
+  // Hot block
+  cx.fillStyle=tempCol(tA2);cx.beginPath();cx.roundRect(bL,bT,sA,sA,6);cx.fill();
+  cx.strokeStyle='rgba(255,255,255,.15)';cx.lineWidth=1;cx.beginPath();cx.roundRect(bL,bT,sA,sA,6);cx.stroke();
+  cx.fillStyle='#fff';cx.font='bold '+Math.max(11,sA*.12)+'px var(--serif)';cx.textAlign='center';
+  cx.fillText(tA2.toFixed(0)+'°C',bL+sA/2,bT+sA/2+4);
+  cx.font='9px sans-serif';cx.fillText(HTMATS[ht.matA].n+' '+ht.mA+'kg',bL+sA/2,bT+sA+14);
+  // Cold block
+  var cL2=bL+sA+W*.04;
+  cx.fillStyle=tempCol(tB2);cx.beginPath();cx.roundRect(cL2,bT,sB,sB,6);cx.fill();
+  cx.strokeStyle='rgba(255,255,255,.15)';cx.lineWidth=1;cx.beginPath();cx.roundRect(cL2,bT,sB,sB,6);cx.stroke();
+  cx.fillStyle='#fff';cx.font='bold '+Math.max(11,sB*.12)+'px var(--serif)';cx.textAlign='center';
+  cx.fillText(tB2.toFixed(0)+'°C',cL2+sB/2,bT+sB/2+4);
+  cx.font='9px sans-serif';cx.fillText(HTMATS[ht.matB].n+' '+ht.mB+'kg',cL2+sB/2,bT+sB+14);
+  // Heat arrows
+  if(ht.running&&Math.abs(tA2-tB2)>1){
+    var arrowY=bT+Math.min(sA,sB)/2;var nArr=Math.max(1,Math.round(Math.abs(tA2-tB2)/12));
+    for(var i=0;i<nArr;i++){var ay=arrowY-8+i*8;var pulse=Math.sin(af*.08+i)*.5+.5;cx.strokeStyle='rgba(220,38,38,'+(.3+pulse*.4)+')';cx.lineWidth=2;cx.beginPath();cx.moveTo(bL+sA+2,ay);cx.lineTo(cL2-2,ay);cx.stroke();cx.fillStyle='rgba(220,38,38,'+(.3+pulse*.4)+')';cx.beginPath();cx.moveTo(cL2-2,ay);cx.lineTo(cL2-8,ay-3);cx.lineTo(cL2-8,ay+3);cx.fill()}
+    cx.fillStyle=d?'#f0a030':'#c45e10';cx.font='bold 10px var(--serif)';cx.textAlign='center';cx.fillText('HEAT →',(bL+sA+cL2)/2,bT-6);
+  }
+  // Particles
+  var spdA=Math.max(.3,tA2/25),spdB=Math.max(.3,tB2/25);
+  ht.particles.forEach(function(p){
+    var spd=p.side==='hot'?spdA:spdB;var pL2,pR2;
+    if(p.side==='hot'){pL2=bL+3;pR2=bL+sA-3;var pT2=bT+3;var pB2=bT+sA-3}
+    else{pL2=cL2+3;pR2=cL2+sB-3;var pT2=bT+3;var pB2=bT+sB-3}
+    p.x+=p.vx*spd*.25;p.y+=p.vy*spd*.25;
+    if(p.x<pL2){p.x=pL2;p.vx*=-1}if(p.x>pR2){p.x=pR2;p.vx*=-1}
+    if(p.y<pT2){p.y=pT2;p.vy*=-1}if(p.y>pB2){p.y=pB2;p.vy*=-1}
+    p.vx+=(Math.random()-.5)*.2;p.vy+=(Math.random()-.5)*.2;
+    cx.fillStyle=p.side==='hot'?tempCol(tA2):tempCol(tB2);cx.globalAlpha=.5;cx.beginPath();cx.arc(p.x,p.y,3,0,Math.PI*2);cx.fill();cx.globalAlpha=1;
+  });
+  if($('rHA'))$('rHA').textContent=tA2.toFixed(0)+'°C';if($('rHB'))$('rHB').textContent=tB2.toFixed(0)+'°C';
+  if($('rHEQ'))$('rHEQ').textContent=eq.toFixed(1)+'°C';
+  if($('rHF'))$('rHF').textContent=ht.running?(Math.abs(tA2-tB2)>1?'Heat flowing... ΔT='+(tA2-tB2).toFixed(0)+'°C':'Equilibrium!'):'Press Start';
+  if(ht.running&&Math.abs(tA2-tB2)<=1){cx.fillStyle=d?'#3dd4b8':'#0e7c6b';cx.font='bold 13px var(--serif)';cx.textAlign='center';cx.fillText('EQUILIBRIUM — T = '+eq.toFixed(1)+'°C',W/2,H*.06)}
+}
+
+// ==============================
+// 2. HEATING CURVE
+// ==============================
+var hc={energy:0,running:false,rate:2,mass:0.5,paused:false};
+function buildCurve(){
+  hc.energy=0;hc.running=false;hc.paused=false;
+  $('ctrl').innerHTML='<div class="cr"><div class="sr"><span class="cl">Mass</span><input type="range" min=".1" max="2" step=".1" value="'+hc.mass+'" oninput="hc.mass=+this.value"><span class="sv">'+hc.mass+' kg</span></div>'+
+    '<div class="sr"><span class="cl">Power</span><input type="range" min="1" max="5" step=".5" value="'+hc.rate+'" oninput="hc.rate=+this.value"><span class="sv">'+hc.rate+' kW</span></div>'+
+    '<button class="btn btn-a" onclick="hc.running=true;hc.paused=false">🔥 Heat</button>'+
+    '<button class="btn btn-t" onclick="hc.paused=!hc.paused">⏸ Pause</button>'+
+    '<button class="btn btn-o" onclick="hc.running=false;hc.energy=0">↺</button></div>';
+  $('calc').innerHTML='';
+  $('rp').innerHTML='<div class="rc"><h3>Temperature</h3><div class="rv" id="rHCT">-20°C</div></div>'+
+    '<div class="rc"><h3>Phase</h3><div class="rv" id="rHCP">Solid (Ice)</div></div>'+
+    '<div class="rc"><h3>Energy Added</h3><div class="rv" id="rHCE">0 kJ</div></div>'+
+    '<div class="rc"><h3>What\'s Happening</h3><div class="rs" id="rHCW" style="font-family:var(--serif);font-size:.64rem;line-height:1.7">Add heat to start</div></div>'+
+    '<div class="rc"><h3>Constants (Water)</h3><div class="rs" style="font-family:var(--mono);font-size:.58rem;line-height:1.7">c_ice = 2100 J/(kg·°C)<br>c_water = 4186 J/(kg·°C)<br>c_steam = 2010 J/(kg·°C)<br>L_f = 334,000 J/kg<br>L_v = 2,260,000 J/kg</div></div>';
+}
+
+function hcTemp(E){
+  var m=hc.mass;
+  // Phase 1: Heat ice from -20 to 0
+  var e1=m*2100*20;if(E<e1)return{t:-20+E/(m*2100),phase:'Solid',explain:'Heating ice — particles vibrate faster, KE increases'};E-=e1;
+  // Phase 2: Melt ice at 0
+  var e2=m*334000;if(E<e2)return{t:0,phase:'Melting',explain:'MELTING — temperature constant! Energy breaks bonds (increases PE, not KE)'};E-=e2;
+  // Phase 3: Heat water from 0 to 100
+  var e3=m*4186*100;if(E<e3)return{t:E/(m*4186),phase:'Liquid',explain:'Heating water — particles move faster, slide past each other'};E-=e3;
+  // Phase 4: Boil water at 100
+  var e4=m*2260000;if(E<e4)return{t:100,phase:'Boiling',explain:'BOILING — temperature constant again! Energy separates particles completely'};E-=e4;
+  // Phase 5: Heat steam
+  return{t:100+E/(m*2010),phase:'Gas',explain:'Heating steam — particles fly faster, gas expands'};
+}
+
+function paintCurve(){
+  labBg();var d=dk();af++;
+  if(hc.running&&!hc.paused)hc.energy+=hc.rate*50;
+  var st=hcTemp(hc.energy);
+  // Heating curve graph
+  var gL=W*.08,gR=W*.7,gT=H*.06,gB=H*.52,gW=gR-gL,gH=gB-gT;
+  cx.fillStyle=d?'rgba(30,26,20,.6)':'rgba(255,252,247,.6)';cx.beginPath();cx.roundRect(gL-4,gT-4,gW+8,gH+8,6);cx.fill();
+  cx.strokeStyle=d?'rgba(168,152,128,.15)':'rgba(0,0,0,.08)';cx.lineWidth=1;
+  cx.beginPath();cx.moveTo(gL,gT);cx.lineTo(gL,gB);cx.lineTo(gR,gB);cx.stroke();
+  // Y axis labels
+  cx.fillStyle=d?'#a89880':'#6b5c4d';cx.font='7px sans-serif';cx.textAlign='right';
+  [-20,0,20,40,60,80,100,120].forEach(function(t){var y=gB-((t+20)/140)*gH;cx.fillText(t+'°C',gL-4,y+3)});
+  // Draw curve
+  cx.strokeStyle=d?'#f0a030':'#c45e10';cx.lineWidth=2.5;cx.beginPath();
+  var maxE=hc.mass*(2100*20+334000+4186*100+2260000+2010*30);
+  var steps=200;
+  for(var i=0;i<=steps;i++){
+    var e=Math.min(hc.energy,maxE*i/steps);
+    var pt=hcTemp(e);
+    var px=gL+(i/steps)*gW;
+    var py=gB-((pt.t+20)/140)*gH;
+    if(i===0)cx.moveTo(px,py);else cx.lineTo(px,py);
+  }cx.stroke();
+  // Current position dot
+  var curFrac=hc.energy/maxE;
+  var curX=gL+Math.min(1,curFrac)*gW;
+  var curY=gB-((st.t+20)/140)*gH;
+  cx.fillStyle=d?'#f0a030':'#c45e10';cx.beginPath();cx.arc(curX,curY,5,0,Math.PI*2);cx.fill();
+  // Phase labels on graph
+  cx.fillStyle=d?'rgba(168,152,128,.4)':'rgba(0,0,0,.15)';cx.font='8px var(--serif)';cx.textAlign='center';
+  cx.fillText('Ice',gL+gW*.05,gB+12);cx.fillText('Melting',gL+gW*.15,gB+12);cx.fillText('Water',gL+gW*.4,gB+12);cx.fillText('Boiling',gL+gW*.7,gB+12);cx.fillText('Steam',gL+gW*.9,gB+12);
+  // 0°C and 100°C lines
+  var y0=gB-((0+20)/140)*gH,y100=gB-((100+20)/140)*gH;
+  cx.setLineDash([3,3]);cx.strokeStyle=d?'rgba(96,165,250,.2)':'rgba(37,99,235,.1)';cx.beginPath();cx.moveTo(gL,y0);cx.lineTo(gR,y0);cx.stroke();
+  cx.beginPath();cx.moveTo(gL,y100);cx.lineTo(gR,y100);cx.stroke();cx.setLineDash([]);
+  // Beaker with substance
+  var bkX=W*.78,bkY=H*.12,bkW=W*.14,bkH=H*.4;
+  cx.strokeStyle=d?'rgba(168,152,128,.3)':'rgba(0,0,0,.12)';cx.lineWidth=2;cx.beginPath();cx.roundRect(bkX,bkY,bkW,bkH,4);cx.stroke();
+  // Substance color based on phase
+  var subCol=st.phase==='Solid'||st.phase==='Melting'?d?'rgba(135,206,235,.3)':'rgba(173,216,230,.5)':st.phase==='Boiling'||st.phase==='Gas'?d?'rgba(200,200,200,.15)':'rgba(200,200,200,.1)':d?'rgba(59,130,246,.2)':'rgba(37,99,235,.12)';
+  cx.fillStyle=subCol;cx.fillRect(bkX+3,bkY+bkH*.2,bkW-6,bkH*.75);
+  // Bubbles during boiling
+  if(st.phase==='Boiling'||st.phase==='Gas'){for(var i=0;i<5;i++){var bx2=bkX+10+Math.random()*(bkW-20);var by2=bkY+bkH*.3+Math.random()*bkH*.5;cx.strokeStyle=d?'rgba(255,255,255,.1)':'rgba(0,0,0,.06)';cx.beginPath();cx.arc(bx2,by2-Math.sin(af*.05+i)*10,3+Math.random()*3,0,Math.PI*2);cx.stroke()}}
+  // Temperature display
+  cx.fillStyle=tempCol(st.t);cx.font='bold 14px var(--serif)';cx.textAlign='center';
+  cx.fillText(st.t.toFixed(0)+'°C',bkX+bkW/2,bkY-8);
+  // Flame
+  if(hc.running&&!hc.paused){var flameX=bkX+bkW/2,flameY=bkY+bkH+15;cx.fillStyle='#f97316';cx.beginPath();cx.moveTo(flameX,flameY+15);cx.quadraticCurveTo(flameX-8,flameY,flameX,flameY-10-Math.random()*5);cx.quadraticCurveTo(flameX+8,flameY,flameX,flameY+15);cx.fill();cx.fillStyle='#fbbf24';cx.beginPath();cx.moveTo(flameX,flameY+10);cx.quadraticCurveTo(flameX-4,flameY+2,flameX,flameY-3-Math.random()*3);cx.quadraticCurveTo(flameX+4,flameY+2,flameX,flameY+10);cx.fill()}
+  // Update right panel
+  if($('rHCT'))$('rHCT').textContent=st.t.toFixed(0)+'°C';if($('rHCP'))$('rHCP').textContent=st.phase;
+  if($('rHCE'))$('rHCE').textContent=(hc.energy/1000).toFixed(1)+' kJ';if($('rHCW'))$('rHCW').textContent=st.explain;
+}
+
+// ==============================
+// 3. SPECIFIC HEAT CAPACITY
+// ==============================
+var sh={mat:0,q:5000,mass:1,heating:false,elapsed:0,startT:20,curT:20};
+var MATS=[{n:'Water',c:4186,col:'#3b82f6'},{n:'Olive Oil',c:1970,col:'#84cc16'},{n:'Copper',c:385,col:'#d97706'},{n:'Aluminium',c:897,col:'#9ca3af'}];
+function buildShc(){
+  sh.heating=false;sh.elapsed=0;sh.curT=sh.startT;
+  var pills='';MATS.forEach(function(m,i){pills+='<div class="pill'+(i===sh.mat?' on':'')+'" onclick="sh.mat='+i+';sh.heating=false;sh.elapsed=0;sh.curT=sh.startT;buildShc()">'+m.n+'</div> '});
+  $('ctrl').innerHTML='<div class="cr">'+pills+'</div>'+
+    '<div class="cr"><div class="sr"><span class="cl">Mass</span><input type="range" min=".2" max="3" step=".2" value="'+sh.mass+'" oninput="sh.mass=+this.value"><span class="sv">'+sh.mass+' kg</span></div>'+
+    '<div class="sr"><span class="cl">Power</span><input type="range" min="1000" max="20000" step="500" value="'+sh.q+'" oninput="sh.q=+this.value"><span class="sv">'+sh.q+' W</span></div>'+
+    '<button class="btn btn-a" onclick="sh.heating=true">🔥 Heat</button>'+
+    '<button class="btn btn-t" onclick="sh.heating=false">⏸</button>'+
+    '<button class="btn btn-o" onclick="sh.heating=false;sh.elapsed=0;sh.curT=sh.startT">↺</button></div>';
+  $('calc').innerHTML='<div class="gp"><div class="cr"><span class="eq">After heating, ΔT = Q / (mc) = </span><input class="inp" id="shAns" placeholder="?"><span class="u">°C</span><button class="btn btn-a" onclick="shChk()">Check</button></div>'+
+    '<div class="cr" style="font-size:.64rem;color:var(--text3)">Q = Power × time = '+sh.q+' × <span id="shTime">0</span> s = <span id="shQ">0</span> J</div><div id="shfb"></div></div>';
+  $('rp').innerHTML='<div class="rc"><h3>Temperature</h3><div class="rv" id="rShT" style="font-size:1.1rem">'+sh.startT+'°C</div></div>'+
+    '<div class="rc"><h3>Material</h3><div class="rv" style="color:'+MATS[sh.mat].col+';font-size:.85rem">'+MATS[sh.mat].n+'</div><div class="rs">c = '+MATS[sh.mat].c+' J/(kg·°C)</div></div>'+
+    '<div class="rc"><h3>Live Data</h3><div class="sg"><div class="si"><div class="sl">Q added</div><div class="sv2" id="rShQ">0 J</div></div><div class="si"><div class="sl">ΔT</div><div class="sv2" id="rShDT">0°C</div></div><div class="si"><div class="sl">Time</div><div class="sv2" id="rShTm">0 s</div></div><div class="si"><div class="sl">Mass</div><div class="sv2">'+sh.mass+' kg</div></div></div></div>'+
+    '<div class="rc"><h3>Compare</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.7">Same power for same time:<br>'+MATS.map(function(m){return m.n+': c='+m.c}).join('<br>')+'<br><br>Higher c → slower temperature rise</div></div>'+
+    '<div class="rc"><h3>Formula</h3><div class="fm">Q = mcΔT</div></div>';
+}
+window.shChk=function(){var Q=sh.q*sh.elapsed;var dT=Q/(sh.mass*MATS[sh.mat].c);var uv=parseFloat($('shAns').value);if(sh.elapsed<1){$('shfb').innerHTML='<div class="fb fb-h">Heat the material first, then pause and calculate</div>';return}if(isNaN(uv)){$('shfb').innerHTML='<div class="fb fb-h">ΔT = Q ÷ (m × c) = '+sci(Q)+' ÷ ('+sh.mass+' × '+MATS[sh.mat].c+')</div>';return}if(Math.abs(uv-dT)/Math.max(dT,.1)<.1){$('shAns').className='inp ok';$('shfb').innerHTML='<div class="fb fb-ok">✓ ΔT = '+dT.toFixed(1)+'°C → T_final = '+(sh.startT+dT).toFixed(1)+'°C</div>';addN('🧪 SHC',MATS[sh.mat].n+' m='+sh.mass+'kg Q='+sci(Q)+'J','ΔT='+dT.toFixed(1)+'°C')}else{$('shAns').className='inp no';$('shfb').innerHTML='<div class="fb fb-no">✗ ΔT = '+sci(Q)+' ÷ ('+sh.mass+' × '+MATS[sh.mat].c+') = '+dT.toFixed(1)+'°C</div>'}};
+
+function paintShc(){
+  if(!W||!H)return;
+  labBg();var d=dk();af++;
+  if(sh.heating){sh.elapsed+=.016;var Q=sh.q*sh.elapsed;sh.curT=sh.startT+Q/(sh.mass*MATS[sh.mat].c)}
+  var Q=sh.q*sh.elapsed;var dT=sh.curT-sh.startT;
+  // Beaker
+  var bkX=W*.15,bkY=H*.08,bkW=W*.3,bkH=H*.38;
+  cx.strokeStyle=d?'rgba(168,152,128,.3)':'rgba(0,0,0,.12)';cx.lineWidth=2.5;cx.beginPath();cx.roundRect(bkX,bkY,bkW,bkH,5);cx.stroke();
+  // Liquid
+  cx.fillStyle=tempCol(sh.curT)+'55';cx.fillRect(bkX+3,bkY+bkH*.15,bkW-6,bkH*.8);
+  // Thermometer
+  var thX=bkX+bkW+12,thY=bkY,thH=bkH,rise=Math.min(1,(sh.curT+20)/140);
+  cx.fillStyle=d?'#2a2218':'#e2e8f0';cx.fillRect(thX,thY,8,thH);
+  cx.fillStyle=tempCol(sh.curT);cx.fillRect(thX,thY+thH*(1-rise),8,thH*rise);
+  cx.strokeStyle=d?'#5a4530':'#94a3b8';cx.lineWidth=1;cx.strokeRect(thX,thY,8,thH);
+  // Temp label — large and clear
+  cx.fillStyle=d?'#e8ddd0':'#2a1f14';cx.font='bold 20px var(--serif)';cx.textAlign='center';
+  cx.fillText(sh.curT.toFixed(1)+'°C',bkX+bkW/2,bkY-10);
+  // Material label
+  cx.fillStyle=MATS[sh.mat].col;cx.font='bold 12px var(--serif)';
+  cx.fillText(MATS[sh.mat].n,bkX+bkW/2,bkY+bkH/2);
+  cx.fillStyle=d?'#a89880':'#6b5c4d';cx.font='10px var(--mono)';
+  cx.fillText('c = '+MATS[sh.mat].c+' J/(kg·°C)',bkX+bkW/2,bkY+bkH/2+16);
+  // Flame
+  if(sh.heating){var fx=bkX+bkW/2,fy=bkY+bkH+12;cx.fillStyle='#f97316';cx.beginPath();cx.moveTo(fx,fy+14);cx.quadraticCurveTo(fx-10,fy,fx,fy-12-Math.random()*5);cx.quadraticCurveTo(fx+10,fy,fx,fy+14);cx.fill()}
+  // Info on canvas — larger text, positioned clearly
+  cx.fillStyle=d?'#f0a030':'#c45e10';cx.font='bold 14px var(--serif)';cx.textAlign='left';
+  cx.fillText('Q = '+sci(Q)+' J',W*.55,H*.18);cx.fillText('ΔT = '+dT.toFixed(1)+'°C',W*.55,H*.3);cx.fillText('Time = '+sh.elapsed.toFixed(1)+' s',W*.55,H*.42);
+  // Comparison bars — clear labels
+  cx.fillStyle=d?'#a89880':'#6b5c4d';cx.font='bold 10px var(--serif)';cx.fillText('Same Q for 1 kg:',W*.55,H*.54);
+  MATS.forEach(function(m,i){
+    var mDT=Q/(1*m.c);var barW2=Math.min(W*.18,mDT*1.5);
+    cx.fillStyle=m.col+'44';cx.fillRect(W*.55,H*.58+i*18,barW2,12);
+    cx.fillStyle=m.col;cx.font='9px var(--serif)';cx.textAlign='left';cx.fillText(m.n+': +'+mDT.toFixed(1)+'°C',W*.55+barW2+4,H*.58+i*18+9);
+  });
+  // Update right panel and calc area
+  if($('rShT'))$('rShT').textContent=sh.curT.toFixed(1)+'°C';
+  if($('rShQ'))$('rShQ').textContent=sci(Q)+' J';if($('rShDT'))$('rShDT').textContent=dT.toFixed(1)+'°C';if($('rShTm'))$('rShTm').textContent=sh.elapsed.toFixed(1)+' s';
+  if($('shTime'))$('shTime').textContent=sh.elapsed.toFixed(1);if($('shQ'))$('shQ').textContent=sci(Q);
+}
+
+// ==============================
+// 4. INTERNAL ENERGY
+// ==============================
+var ie={temp:20,heating:false,energy:0,parts:[]};
+function initIEParts(){ie.parts=[];for(var i=0;i<35;i++)ie.parts.push({x:W*.45+Math.random()*W*.32,y:H*.1+Math.random()*H*.4,vx:(Math.random()-.5),vy:(Math.random()-.5),hx:W*.45+((i%7)+1)*W*.32/8,hy:H*.1+((Math.floor(i/7))+1)*H*.4/6})}
+function buildInternal(){
+  ie.heating=false;ie.energy=0;ie.temp=20;initIEParts();
+  $('ctrl').innerHTML='<div class="cr"><div class="sr"><span class="cl">Add Heat</span><input type="range" min="0" max="100" step="1" value="0" id="ieSlider" oninput="ieAddHeat(+this.value)"><span class="sv" id="ieHV">0 kJ</span></div>'+
+    '<button class="btn btn-a" onclick="if(!ie.heating&&ie.energy===0)ie.energy=0;ie.heating=true;$(\'iePB\').textContent=\'⏸ Pause\'">🔥 Heat Slowly</button>'+
+    '<button class="btn btn-t" id="iePB" onclick="ie.heating=!ie.heating;this.textContent=ie.heating?\'⏸ Pause\':\'▶ Resume\'">'+(ie.heating?'⏸ Pause':'⏸ Pause')+'</button>'+
+    '<button class="btn btn-o" onclick="ie.energy=0;ie.temp=20;ie.heating=false;initIEParts()">↺</button></div>';
+  $('calc').innerHTML='';
+  $('rp').innerHTML='<div class="rc"><h3>Temperature</h3><div class="rv" id="rIT" style="font-size:1.1rem">20°C</div><div class="rs">= Average KE of particles</div></div>'+
+    '<div class="rc"><h3>Internal Energy</h3><div class="sg"><div class="si" style="background:rgba(220,38,38,.08)"><div class="sl">KE (motion)</div><div class="sv2" style="color:var(--hot)" id="rIKE">—</div></div><div class="si" style="background:rgba(37,99,235,.08)"><div class="sl">PE (bonds)</div><div class="sv2" style="color:var(--cold)" id="rIPE">—</div></div></div><div class="rv" id="rIU" style="margin-top:3px;font-size:.85rem">U = KE + PE</div></div>'+
+    '<div class="rc"><h3>Phase</h3><div class="rv" id="rIPh">Solid</div></div>'+
+    '<div class="rc"><h3>Key Insight</h3><div class="rs" style="font-family:var(--serif);font-size:.64rem;line-height:1.7;color:var(--accent)">During phase change:<br>• You add heat energy<br>• PE increases (bonds break)<br>• KE stays constant<br>• Temperature stays flat!<br><br>Watch the energy bars carefully during the phase change region.</div></div>';
+}
+window.ieAddHeat=function(v){ie.energy=v*500;ie.heating=false;if($('ieHV'))$('ieHV').textContent=(ie.energy/1000).toFixed(0)+' kJ'};
+
+function ieState(E){
+  // Simplified: solid → melting at 0°C → liquid → boiling at 100°C
+  var e1=5000;if(E<e1)return{t:-10+E/e1*30,phase:'solid',ke:E/100,pe:20};E-=e1;
+  var e2=8000;if(E<e2)return{t:0,phase:'melting',ke:50,pe:20+E/e2*80};E-=e2;
+  var e3=20000;if(E<e3)return{t:E/e3*100,phase:'liquid',ke:50+E/e3*100,pe:100};E-=e3;
+  var e4=15000;if(E<e4)return{t:100,phase:'boiling',ke:150,pe:100+E/e4*100};E-=e4;
+  return{t:100+E/2000*20,phase:'gas',ke:150+E/2000*30,pe:200};
+}
+
+function paintInternal(){
+  labBg();var d=dk();af++;
+  if(ie.heating)ie.energy=Math.min(50000,ie.energy+30);
+  var st=ieState(ie.energy);
+  // Energy bar chart — large and clear
+  var barX=W*.05,barW=W*.1,barY=H*.1,barH=H*.38;
+  cx.fillStyle=d?'rgba(30,26,20,.6)':'rgba(255,252,247,.6)';cx.beginPath();cx.roundRect(barX-4,barY-4,barW+8,barH+8,6);cx.fill();
+  var total=st.ke+st.pe;var keFrac=total>0?st.ke/total:0;var peFrac=total>0?st.pe/total:0;
+  var keH=barH*keFrac,peH=barH*peFrac;
+  // KE bar (red)
+  cx.fillStyle=d?'#ef4444':'#dc2626';cx.fillRect(barX,barY+barH-keH-peH,barW,keH);
+  // PE bar (blue)
+  cx.fillStyle=d?'#60a5fa':'#2563eb';cx.fillRect(barX,barY+barH-peH,barW,peH);
+  // Labels
+  cx.fillStyle='#fff';cx.font='bold 9px var(--serif)';cx.textAlign='center';
+  if(keH>15)cx.fillText('KE',barX+barW/2,barY+barH-peH-keH/2+4);
+  if(peH>15)cx.fillText('PE',barX+barW/2,barY+barH-peH/2+4);
+  cx.fillStyle=d?'#e8ddd0':'#2a1f14';cx.font='bold 10px var(--serif)';
+  cx.fillText('Internal',barX+barW/2,barY-10);cx.fillText('Energy',barX+barW/2,barY-0);
+  cx.fillText('U='+(st.ke+st.pe).toFixed(0),barX+barW/2,barY+barH+14);
+  cx.fillStyle=d?'#a89880':'#6b5c4d';cx.font='7px var(--serif)';cx.textAlign='left';
+  cx.fillText('KE:'+st.ke.toFixed(0),barX+barW+4,barY+barH*0.3);
+  cx.fillText('PE:'+st.pe.toFixed(0),barX+barW+4,barY+barH*0.7);
+  // Temperature display — positioned clearly to the right of bar
+  cx.fillStyle=tempCol(st.t);cx.font='bold 18px var(--serif)';cx.textAlign='center';
+  cx.fillText(st.t.toFixed(0)+'°C',W*.27,barY+14);
+  cx.fillStyle=d?'#a89880':'#6b5c4d';cx.font='bold 9px var(--serif)';
+  cx.fillText(st.phase.charAt(0).toUpperCase()+st.phase.slice(1),W*.27,barY+28);
+  // Phase change alert
+  if(st.phase==='melting'||st.phase==='boiling'){
+    cx.fillStyle=d?'#f0a030':'#c45e10';cx.font='bold 8px var(--serif)';
+    cx.fillText('T flat! → PE',W*.27,barY+40);
+  }
+  // Particle box
+  var pL=W*.42,pT=H*.06,pW2=W*.36,pH2=H*.46;
+  cx.strokeStyle=d?'rgba(168,152,128,.2)':'rgba(0,0,0,.08)';cx.lineWidth=1.5;cx.beginPath();cx.roundRect(pL,pT,pW2,pH2,4);cx.stroke();
+  // Particles with physics
+  var spd=Math.max(.2,st.ke/40);
+  ie.parts.forEach(function(p,i){
+    if(st.phase==='solid'){
+      p.x+=(p.hx-p.x)*.08+Math.sin(af*.04+i)*spd*1.5;
+      p.y+=(p.hy-p.y)*.08+Math.cos(af*.05+i)*spd*1.5;
+    }else if(st.phase==='melting'){
+      if(i<20){p.x+=(p.hx-p.x)*.05+Math.sin(af*.04+i)*spd*2;p.y+=(p.hy-p.y)*.05+Math.cos(af*.05+i)*spd*2}
+      else{p.x+=p.vx*spd*.2;p.y+=p.vy*spd*.2;p.vx+=(Math.random()-.5)*.2;p.vy+=(Math.random()-.5)*.2}
+    }else if(st.phase==='liquid'){
+      p.x+=p.vx*spd*.15;p.y+=p.vy*spd*.15;p.vx+=(Math.random()-.5)*.15;p.vy+=(Math.random()-.5)*.15+.01;
+    }else{
+      p.x+=p.vx*spd*.25;p.y+=p.vy*spd*.25;p.vx+=(Math.random()-.5)*.3;p.vy+=(Math.random()-.5)*.3;
+    }
+    if(p.x<pL+4){p.x=pL+4;p.vx*=-1}if(p.x>pL+pW2-4){p.x=pL+pW2-4;p.vx*=-1}
+    if(p.y<pT+4){p.y=pT+4;p.vy*=-1}if(p.y>pT+pH2-4){p.y=pT+pH2-4;p.vy*=-1}
+    cx.fillStyle=tempCol(st.t);cx.globalAlpha=.6;cx.beginPath();cx.arc(p.x,p.y,4,0,Math.PI*2);cx.fill();cx.globalAlpha=1;
+    // Bonds in solid
+    if(st.phase==='solid'&&i<ie.parts.length-1){
+      var p2=ie.parts[i+1];var dx=p2.x-p.x,dy=p2.y-p.y;
+      if(Math.sqrt(dx*dx+dy*dy)<pW2/5){cx.strokeStyle=d?'rgba(168,152,128,.08)':'rgba(0,0,0,.04)';cx.lineWidth=.5;cx.beginPath();cx.moveTo(p.x,p.y);cx.lineTo(p2.x,p2.y);cx.stroke()}
+    }
+  });
+  // Energy added indicator
+  cx.fillStyle=d?'#a89880':'#6b5c4d';cx.font='9px var(--serif)';cx.textAlign='center';
+  cx.fillText('Energy added: '+(ie.energy/1000).toFixed(1)+' kJ',W/2,H*.56);
+  // Update right
+  if($('rIT'))$('rIT').textContent=st.t.toFixed(0)+'°C';
+  if($('rIKE'))$('rIKE').textContent=st.ke.toFixed(0);if($('rIPE'))$('rIPE').textContent=st.pe.toFixed(0);
+  if($('rIU'))$('rIU').textContent='U = '+st.ke.toFixed(0)+' + '+st.pe.toFixed(0)+' = '+(st.ke+st.pe).toFixed(0);
+  if($('rIPh'))$('rIPh').textContent=st.phase.charAt(0).toUpperCase()+st.phase.slice(1);
+  if($('ieSlider'))$('ieSlider').value=Math.round(ie.energy/500);if($('ieHV'))$('ieHV').textContent=(ie.energy/1000).toFixed(0)+' kJ';
+}
+
+// ==============================
+// 5. CALORIMETRY
+// ==============================
+var cal={mH:.5,tH:80,mC:.5,tC:20,mixed:false,tF:0};
+function buildCalor(){
+  cal.mixed=false;
+  $('ctrl').innerHTML='<div class="cr"><div class="sr"><span class="cl">Hot m</span><input type="range" min=".1" max="2" step=".1" value="'+cal.mH+'" oninput="cal.mH=+this.value"><span class="sv">'+cal.mH+' kg</span></div>'+
+    '<div class="sr"><span class="cl">Hot T</span><input type="range" min="50" max="100" value="'+cal.tH+'" oninput="cal.tH=+this.value"><span class="sv" style="color:var(--hot)">'+cal.tH+'°C</span></div></div>'+
+    '<div class="cr"><div class="sr"><span class="cl">Cold m</span><input type="range" min=".1" max="2" step=".1" value="'+cal.mC+'" oninput="cal.mC=+this.value"><span class="sv">'+cal.mC+' kg</span></div>'+
+    '<div class="sr"><span class="cl">Cold T</span><input type="range" min="0" max="30" value="'+cal.tC+'" oninput="cal.tC=+this.value"><span class="sv" style="color:var(--cold)">'+cal.tC+'°C</span></div>'+
+    '<button class="btn btn-a" onclick="calMix()">🌡️ Mix!</button><button class="btn btn-o" onclick="cal.mixed=false;buildCalor()">↺</button></div>';
+  var tF=(cal.mH*cal.tH+cal.mC*cal.tC)/(cal.mH+cal.mC);
+  $('calc').innerHTML='<div class="gp"><div class="cr"><span class="eq">T_final = (m₁T₁ + m₂T₂) / (m₁ + m₂) = </span><input class="inp" id="calAns" placeholder="?"><span class="u">°C</span><button class="btn btn-a" onclick="calChk()">Check</button></div><div id="calfb"></div></div>';
+  $('rp').innerHTML='<div class="rc"><h3>Prediction</h3><div class="rv" id="rCF">?°C</div><div class="fm">Q_lost = Q_gained</div></div>'+
+    '<div class="rc"><h3>Hot Water</h3><div class="sg"><div class="si"><div class="sl">Mass</div><div class="sv2">'+cal.mH+' kg</div></div><div class="si"><div class="sl">Temp</div><div class="sv2" style="color:var(--hot)">'+cal.tH+'°C</div></div></div></div>'+
+    '<div class="rc"><h3>Cold Water</h3><div class="sg"><div class="si"><div class="sl">Mass</div><div class="sv2">'+cal.mC+' kg</div></div><div class="si"><div class="sl">Temp</div><div class="sv2" style="color:var(--cold)">'+cal.tC+'°C</div></div></div></div>'+
+    '<div class="rc"><h3>Principle</h3><div class="rs" style="font-family:var(--serif);font-size:.64rem;line-height:1.7">Energy lost by hot = Energy gained by cold<br>m₁c(T₁−T_f) = m₂c(T_f−T₂)<br><br>Since both are water (same c), it simplifies to weighted average.</div></div>';
+}
+window.calMix=function(){cal.tF=(cal.mH*cal.tH+cal.mC*cal.tC)/(cal.mH+cal.mC);cal.mixed=true;if($('rCF'))$('rCF').textContent=cal.tF.toFixed(1)+'°C'};
+window.calChk=function(){var tF=(cal.mH*cal.tH+cal.mC*cal.tC)/(cal.mH+cal.mC),uv=parseFloat($('calAns').value);if(isNaN(uv)){$('calfb').innerHTML='<div class="fb fb-h">T = (m₁T₁ + m₂T₂) / (m₁ + m₂)</div>';return}if(Math.abs(uv-tF)<2){$('calAns').className='inp ok';$('calfb').innerHTML='<div class="fb fb-ok">✓ T_final = '+tF.toFixed(1)+'°C</div>';addN('🌡️ Calorimetry','m₁='+cal.mH+'kg T₁='+cal.tH+'°C m₂='+cal.mC+'kg T₂='+cal.tC+'°C','T_f='+tF.toFixed(1)+'°C')}else{$('calAns').className='inp no';$('calfb').innerHTML='<div class="fb fb-no">✗ ('+cal.mH+'×'+cal.tH+'+'+cal.mC+'×'+cal.tC+')/('+cal.mH+'+'+cal.mC+')='+tF.toFixed(1)+'°C</div>'}};
+
+function paintCalor(){
+  labBg();var d=dk();af++;
+  var tF=(cal.mH*cal.tH+cal.mC*cal.tC)/(cal.mH+cal.mC);
+  // Layout: 3 beakers evenly spaced
+  var bW=W*.22,bH=H*.34,gap=W*.04;
+  var x1=W*.04,x2=x1+bW+gap,x3=x2+bW+gap,topY=H*.1;
+
+  // Helper: color intensity based on temperature
+  function hotCol(t){var f=Math.min(1,Math.max(0,(t-20)/80));return'rgba(220,38,38,'+(0.15+f*0.55)+')'}
+  function coldCol(t){var f=Math.min(1,Math.max(0,(30-t)/30));return'rgba(37,99,235,'+(0.15+f*0.55)+')'}
+  function mixCol(t){var f=(t-20)/60;if(f>.5)return'rgba(180,60,60,'+(0.15+f*0.35)+')';return'rgba(60,60,180,'+(0.15+(1-f)*0.35)+')'}
+
+  // HOT beaker
+  cx.fillStyle=hotCol(cal.tH);cx.beginPath();cx.roundRect(x1,topY,bW,bH,8);cx.fill();
+  cx.strokeStyle='rgba(220,38,38,.4)';cx.lineWidth=2;cx.beginPath();cx.roundRect(x1,topY,bW,bH,8);cx.stroke();
+  cx.fillStyle='#fff';cx.font='bold 22px var(--serif)';cx.textAlign='center';
+  cx.fillText(cal.tH+'°C',x1+bW/2,topY+bH/2-2);
+  cx.font='bold 12px var(--serif)';cx.fillText(cal.mH+' kg',x1+bW/2,topY+bH/2+18);
+  cx.font='bold 11px var(--serif)';cx.fillText('HOT',x1+bW/2,topY+bH+16);
+
+  // Arrow
+  cx.fillStyle=d?'#f0a030':'#c45e10';cx.font='bold 20px sans-serif';cx.textAlign='center';
+  cx.fillText('→',x1+bW+gap/2,topY+bH/2);
+
+  // COLD beaker
+  cx.fillStyle=coldCol(cal.tC);cx.beginPath();cx.roundRect(x2,topY,bW,bH,8);cx.fill();
+  cx.strokeStyle='rgba(37,99,235,.4)';cx.lineWidth=2;cx.beginPath();cx.roundRect(x2,topY,bW,bH,8);cx.stroke();
+  cx.fillStyle='#fff';cx.font='bold 22px var(--serif)';cx.textAlign='center';
+  cx.fillText(cal.tC+'°C',x2+bW/2,topY+bH/2-2);
+  cx.font='bold 12px var(--serif)';cx.fillText(cal.mC+' kg',x2+bW/2,topY+bH/2+18);
+  cx.font='bold 11px var(--serif)';cx.fillText('COLD',x2+bW/2,topY+bH+16);
+
+  // Arrow
+  cx.fillStyle=d?'#f0a030':'#c45e10';cx.font='bold 20px sans-serif';cx.fillText('→',x2+bW+gap/2,topY+bH/2);
+
+  // MIXED beaker
+  if(cal.mixed){
+    cx.fillStyle=mixCol(tF);cx.beginPath();cx.roundRect(x3,topY,bW,bH,8);cx.fill();
+    cx.strokeStyle=d?'rgba(168,152,128,.4)':'rgba(100,100,100,.3)';cx.lineWidth=2;cx.beginPath();cx.roundRect(x3,topY,bW,bH,8);cx.stroke();
+    cx.fillStyle='#fff';cx.font='bold 26px var(--serif)';cx.textAlign='center';
+    cx.fillText(tF.toFixed(1)+'°C',x3+bW/2,topY+bH/2-2);
+    cx.font='bold 12px var(--serif)';cx.fillText((cal.mH+cal.mC).toFixed(1)+' kg',x3+bW/2,topY+bH/2+20);
+  }else{
+    cx.fillStyle=d?'rgba(42,35,28,.4)':'rgba(230,225,218,.5)';cx.beginPath();cx.roundRect(x3,topY,bW,bH,8);cx.fill();
+    cx.strokeStyle=d?'rgba(168,152,128,.2)':'rgba(0,0,0,.08)';cx.lineWidth=2;cx.beginPath();cx.roundRect(x3,topY,bW,bH,8);cx.stroke();
+    cx.fillStyle=d?'#a89880':'#6b5c4d';cx.font='bold 28px var(--serif)';cx.textAlign='center';cx.fillText('?',x3+bW/2,topY+bH/2+8);
+  }
+  cx.fillStyle=d?'#e8ddd0':'#2a1f14';cx.font='bold 11px var(--serif)';cx.textAlign='center';cx.fillText('MIXED',x3+bW/2,topY+bH+16);
+}
+
+// ==============================
+// 6. PHASE CHANGE CALCULATOR
+// ==============================
+var phAnim={running:false,energy:0};
+function buildPhase(){
+  phAnim.running=false;phAnim.energy=0;
+  $('ctrl').innerHTML='<div class="cr"><span style="font-size:.72rem">Calculate the <strong>total energy</strong> to convert 0.5 kg of ice at −10°C to steam at 110°C.</span>'+
+    '<button class="btn btn-a" onclick="phAnim.running=true;phAnim.energy=0">▶ Animate</button>'+
+    '<button class="btn btn-t" onclick="phAnim.running=!phAnim.running">⏸</button>'+
+    '<button class="btn btn-o" onclick="phAnim.running=false;phAnim.energy=0">↺</button></div>';
+  $('calc').innerHTML='<div class="gp">'+
+    '<div class="cr"><span class="eq">Q₁ = mc_ice × ΔT = 0.5 × 2100 × 10 = </span><input class="inp" id="pq1" placeholder="?"><span class="u">J</span></div>'+
+    '<div class="cr"><span class="eq">Q₂ = mL_f = 0.5 × 334000 = </span><input class="inp" id="pq2" placeholder="?"><span class="u">J</span></div>'+
+    '<div class="cr"><span class="eq">Q₃ = mc_water × ΔT = 0.5 × 4186 × 100 = </span><input class="inp" id="pq3" placeholder="?"><span class="u">J</span></div>'+
+    '<div class="cr"><span class="eq">Q₄ = mL_v = 0.5 × 2260000 = </span><input class="inp" id="pq4" placeholder="?"><span class="u">J</span></div>'+
+    '<div class="cr"><span class="eq">Q₅ = mc_steam × ΔT = 0.5 × 2010 × 10 = </span><input class="inp" id="pq5" placeholder="?"><span class="u">J</span></div>'+
+    '<div class="cr"><span class="eq"><strong>Q_total = Q₁+Q₂+Q₃+Q₄+Q₅ = </strong></span><input class="inp" id="pqt" placeholder="?" style="width:90px"><span class="u">J</span><button class="btn btn-a" onclick="phChk()">Check All</button></div><div id="phfb"></div></div>';
+  $('rp').innerHTML='<div class="rc"><h3>The 5 Steps</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.8">1. Heat ice: −10→0°C<br>2. Melt ice at 0°C<br>3. Heat water: 0→100°C<br>4. Boil water at 100°C<br>5. Heat steam: 100→110°C</div></div>'+
+    '<div class="rc"><h3>Constants</h3><div class="rs" style="font-family:var(--mono);font-size:.56rem;line-height:1.7">c_ice = 2100<br>c_water = 4186<br>c_steam = 2010<br>L_f = 334,000<br>L_v = 2,260,000</div></div>';
+}
+window.phChk=function(){var ans=[.5*2100*10,.5*334000,.5*4186*100,.5*2260000,.5*2010*10];var tot=ans.reduce(function(a,b){return a+b},0);var allOk=true;
+  for(var i=0;i<5;i++){var uv=parseFloat($('pq'+(i+1)).value);$('pq'+(i+1)).className='inp '+(isNaN(uv)?'':(Math.abs(uv-ans[i])/ans[i]<.05?'ok':'no'));if(isNaN(uv)||Math.abs(uv-ans[i])/ans[i]>=.05)allOk=false}
+  var ut=parseFloat($('pqt').value);$('pqt').className='inp '+(isNaN(ut)?'':(Math.abs(ut-tot)/tot<.05?'ok':'no'));
+  if(allOk&&!isNaN(ut)&&Math.abs(ut-tot)/tot<.05){$('phfb').innerHTML='<div class="fb fb-ok">✓ Total = '+sci(tot)+' J = '+(tot/1000).toFixed(0)+' kJ. Most energy goes into boiling (L_v is huge)!</div>';addN('❄️→♨️ Phase Calc','0.5kg ice −10°C → steam 110°C','Q_total = '+sci(tot)+' J')}
+  else{$('phfb').innerHTML='<div class="fb fb-no">✗ Q₁='+sci(ans[0])+' Q₂='+sci(ans[1])+' Q₃='+sci(ans[2])+' Q₄='+sci(ans[3])+' Q₅='+sci(ans[4])+' Total='+sci(tot)+'</div>'}};
+
+function paintPhase(){
+  labBg();var d=dk();af++;
+  if(phAnim.running)phAnim.energy=Math.min(1550000,phAnim.energy+2000);
+  // Use hcTemp with mass=0.5 to get current state
+  var m=0.5,E=phAnim.energy;
+  var e1=m*2100*10,e2=m*334000,e3=m*4186*100,e4=m*2260000,e5=m*2010*10;
+  var totalE=e1+e2+e3+e4+e5;
+  var stepE=[e1,e2,e3,e4,e5];var stepNames=['Heat Ice','Melt','Heat Water','Boil','Heat Steam'];
+  var stepT=['-10→0°C','0°C','0→100°C','100°C','100→110°C'];
+
+  // Current step
+  var curE=E,curStep=0;
+  for(var i=0;i<5;i++){if(curE<=stepE[i])break;curE-=stepE[i];curStep=i+1}
+  curStep=Math.min(curStep,4);
+
+  // Progress bars for each step
+  var barX=W*.04,barW=W*.6,barY=H*.04,rowH=H*.085;
+  for(var i=0;i<5;i++){
+    var y=barY+i*rowH;
+    var filled=0;var eRemain=E;
+    for(var j=0;j<i;j++)eRemain-=stepE[j];
+    if(i<curStep)filled=1;else if(i===curStep)filled=Math.max(0,Math.min(1,eRemain/stepE[i]));
+    // Step label
+    cx.fillStyle=d?'#a89880':'#6b5c4d';cx.font='bold 9px var(--serif)';cx.textAlign='left';
+    cx.fillText('Q'+(i+1)+': '+stepNames[i],barX,y+10);
+    cx.fillStyle=d?'#7a6b5a':'#a8967f';cx.font='8px var(--mono)';
+    cx.fillText(stepT[i]+' | '+sci(stepE[i])+' J',barX,y+22);
+    // Bar background
+    var bx2=barX+W*.22,bw2=barW-W*.22;
+    cx.fillStyle=d?'rgba(42,35,28,.4)':'rgba(230,225,218,.5)';cx.beginPath();cx.roundRect(bx2,y+4,bw2,14,4);cx.fill();
+    // Bar fill
+    var col=i===1||i===3?'#2563eb':'#c45e10';
+    cx.fillStyle=col;cx.beginPath();cx.roundRect(bx2,y+4,bw2*filled,14,4);cx.fill();
+    // Value
+    cx.fillStyle=filled>0?'#fff':d?'#5a4a3a':'#b8a890';cx.font='bold 8px var(--mono)';cx.textAlign='right';
+    cx.fillText(sci(Math.min(stepE[i],Math.max(0,eRemain)))+' / '+sci(stepE[i]),barX+barW-2,y+15);
+    // Highlight current
+    if(i===curStep&&filled>0&&filled<1){cx.strokeStyle=col;cx.lineWidth=1.5;cx.beginPath();cx.roundRect(bx2-1,y+3,bw2+2,16,5);cx.stroke()}
+  }
+  // Total progress
+  var totalProg=Math.min(1,E/totalE);
+  cx.fillStyle=d?'#f0a030':'#c45e10';cx.font='bold 12px var(--serif)';cx.textAlign='left';
+  cx.fillText('Total: '+sci(E)+' / '+sci(totalE)+' J ('+(totalProg*100).toFixed(0)+'%)',barX,barY+5*rowH+14);
+  // Current temperature (from hcTemp logic)
+  var st=hcTemp(E);
+  cx.fillStyle=tempCol(st.t);cx.font='bold 16px var(--serif)';cx.textAlign='center';
+  cx.fillText(st.t.toFixed(0)+'°C — '+st.phase,W*.85,H*.15);
+  // Note about phase changes
+  if(st.phase==='Melting'||st.phase==='Boiling'){cx.fillStyle=d?'#3dd4b8':'#0e7c6b';cx.font='bold 10px var(--serif)';cx.fillText('T constant!',W*.85,H*.22);cx.fillText('Energy → bonds',W*.85,H*.28)}
+}
+
+// ===== SHARED =====
+function build(){
+  if(T==='contact')buildContact();else if(T==='curve')buildCurve();else if(T==='shc')buildShc();else if(T==='internal')buildInternal();else if(T==='calor')buildCalor();else buildPhase();
+  buildExp();buildIB();
+}
+function render(){
+  if(!W){requestAnimationFrame(render);return}
+  if(T==='contact')paintContact();else if(T==='curve')paintCurve();else if(T==='shc')paintShc();else if(T==='internal')paintInternal();else if(T==='calor')paintCalor();else paintPhase();
+  requestAnimationFrame(render);
+}
+
+// EXPERIMENT
+var expD=[],manD=[];
+var EIV=[{id:'temp',n:'Temperature (°C)'},{id:'mass',n:'Mass (kg)'},{id:'energy',n:'Energy (J)'},{id:'material',n:'Material'},{id:'hotT',n:'Hot Temperature (°C)'},{id:'coldT',n:'Cold Temperature (°C)'}];
+var EDV=[{id:'deltaT',n:'Temperature Change (°C)'},{id:'finalT',n:'Final Temperature (°C)'},{id:'energy',n:'Energy Required (J)'},{id:'phase',n:'Phase'},{id:'ke',n:'Average KE'},{id:'time',n:'Time to equilibrium (s)'}];
+function buildExp(){
+  $('expC').innerHTML='<div class="exp-row"><div class="exp-col"><div class="exp-field"><label>Independent Variable</label><select id="selIV">'+EIV.map(function(v){return'<option value="'+v.id+'">'+v.n+'</option>'}).join('')+'</select></div><div class="exp-field"><label>Dependent Variable</label><select id="selDV">'+EDV.map(function(v){return'<option value="'+v.id+'">'+v.n+'</option>'}).join('')+'</select></div></div><div class="exp-col"><div class="exp-field"><label>Controlled Variables</label><div class="cv-grid">'+EIV.map(function(v){return'<label class="cv-check"><input type="checkbox" checked> '+v.n+'</label>'}).join('')+'</div></div><div class="exp-field"><label>Hypothesis</label><input type="text" placeholder="If [IV] increases, then [DV] will..."></div></div></div>'+
+    '<div style="background:var(--surface);border-radius:7px;padding:7px;border:1px solid var(--border);margin-top:4px"><p style="font-size:.64rem;color:var(--text2);margin-bottom:4px"><strong>Manual:</strong> Change IV with sliders. Read DV from the right panel, or use ↻ Read buttons. Type below.</p>'+
+    '<div class="exp-row" style="align-items:flex-end"><div class="exp-col"><div class="exp-field"><label>IV Value</label><div style="display:flex;gap:3px"><input type="number" id="mIV" step="any" style="flex:1"><button class="btn btn-o" onclick="readIV()" style="font-size:.58rem;padding:3px 6px">↻ Read</button></div></div></div>'+
+    '<div class="exp-col"><div class="exp-field"><label>DV Value</label><div style="display:flex;gap:3px"><input type="number" id="mDV" step="any" style="flex:1"><button class="btn btn-o" onclick="readDV()" style="font-size:.58rem;padding:3px 6px">↻ Read</button></div></div></div>'+
+    '<div style="flex:0;display:flex;flex-direction:column;gap:3px"><button class="btn btn-a" onclick="addR()">+ Add</button><button class="btn btn-t" onclick="autoAdd()" style="font-size:.58rem">↻ Auto Add</button></div></div></div>'+
+    '<div id="mT"></div><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-t" onclick="plotM()">Plot Graph</button><button class="btn btn-o" onclick="clrM()">Clear</button></div><div id="mSt" style="font-size:.62rem;color:var(--text3);margin-top:2px"></div>';
+}
+window.readIV=function(){
+  var iv=$('selIV')?$('selIV').value:'temp';var val=0;
+  if(T==='contact'){
+    var cA=HTMATS[ht.matA].c,cB=HTMATS[ht.matB].c,eq3=(ht.mA*cA*ht.tA+ht.mB*cB*ht.tB)/(ht.mA*cA+ht.mB*cB);
+    var f=ht.running?Math.min(1,ht.t):0;var liveTA=ht.tA+(eq3-ht.tA)*f;var liveTB=ht.tB+(eq3-ht.tB)*f;
+    if(iv==='temp')val=liveTA;else if(iv==='mass')val=ht.mA;else if(iv==='material')val=ht.matA;else if(iv==='hotT')val=liveTA;else if(iv==='coldT')val=liveTB;
+  }else if(T==='curve'){
+    var st3=hcTemp(hc.energy);if(iv==='temp')val=st3.t;else if(iv==='energy')val=hc.energy;else if(iv==='mass')val=hc.mass;
+  }else if(T==='shc'){
+    if(iv==='temp')val=sh.curT;else if(iv==='mass')val=sh.mass;else if(iv==='energy')val=sh.q*sh.elapsed;else if(iv==='material')val=sh.mat;
+  }else if(T==='internal'){
+    var st4=ieState(ie.energy);if(iv==='energy')val=ie.energy;else if(iv==='temp')val=st4.t;
+  }else if(T==='calor'){
+    if(iv==='temp')val=cal.tH;else if(iv==='mass')val=cal.mH;else if(iv==='hotT')val=cal.tH;else if(iv==='coldT')val=cal.tC;
+  }else if(T==='phase'){
+    var st5=hcTemp(phAnim.energy);if(iv==='energy')val=phAnim.energy;else if(iv==='temp')val=st5.t;
+  }
+  $('mIV').value=+val.toFixed(2);
+};
+window.readDV=function(){
+  var dv=$('selDV')?$('selDV').value:'deltaT';var val=0;
+  if(T==='contact'){
+    var cA2=HTMATS[ht.matA].c,cB2=HTMATS[ht.matB].c,eq4=(ht.mA*cA2*ht.tA+ht.mB*cB2*ht.tB)/(ht.mA*cA2+ht.mB*cB2);
+    var f2=ht.running?Math.min(1,ht.t):0;var liveTA2=ht.tA+(eq4-ht.tA)*f2;
+    if(dv==='finalT')val=eq4;else if(dv==='deltaT')val=Math.abs(ht.tA-liveTA2);else if(dv==='energy')val=ht.mA*cA2*Math.abs(ht.tA-liveTA2);
+  }else if(T==='curve'){
+    var st6=hcTemp(hc.energy);if(dv==='finalT')val=st6.t;else if(dv==='deltaT')val=st6.t+20;else if(dv==='energy')val=hc.energy;else if(dv==='phase')val=st6.phase==='Solid'?0:st6.phase==='Melting'?1:st6.phase==='Liquid'?2:st6.phase==='Boiling'?3:4;
+  }else if(T==='shc'){
+    var Q3=sh.q*sh.elapsed;if(dv==='deltaT')val=sh.curT-sh.startT;else if(dv==='finalT')val=sh.curT;else if(dv==='energy')val=Q3;
+  }else if(T==='internal'){
+    var st7=ieState(ie.energy);if(dv==='ke')val=st7.ke;else if(dv==='finalT')val=st7.t;else if(dv==='deltaT')val=st7.t+10;else if(dv==='phase')val=st7.phase==='solid'?0:st7.phase==='melting'?1:st7.phase==='liquid'?2:st7.phase==='boiling'?3:4;
+  }else if(T==='calor'){
+    var tF3=(cal.mH*cal.tH+cal.mC*cal.tC)/(cal.mH+cal.mC);if(dv==='finalT')val=tF3;else if(dv==='deltaT')val=Math.abs(cal.tH-tF3);
+  }else if(T==='phase'){
+    var st8=hcTemp(phAnim.energy);if(dv==='finalT')val=st8.t;else if(dv==='energy')val=phAnim.energy;
+  }
+  $('mDV').value=+val.toFixed(2);
+};
+window.autoAdd=function(){readIV();readDV();addR()};
+window.addR=function(){var iv=parseFloat($('mIV').value),dv=parseFloat($('mDV').value);if(isNaN(iv)||isNaN(dv)){$('mSt').textContent='Enter both values.';$('mSt').style.color='var(--err)';return}manD.push({iv:iv,dv:dv});$('mIV').value='';$('mDV').value='';$('mSt').textContent='#'+manD.length+' added.';$('mSt').style.color='var(--ok)';buildMT();syncM()};
+function buildMT(){if(!manD.length){$('mT').innerHTML='';return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});var ks=Object.keys(g).map(Number).sort(function(a,b){return a-b});var h='<table class="dt"><thead><tr><th>IV</th><th>Readings</th><th class="mean">Mean</th><th class="unc">± Unc</th><th></th></tr></thead><tbody>';ks.forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length,u=v.length>=2?(Math.max.apply(null,v)-Math.min.apply(null,v))/2:0;h+='<tr><td style="font-weight:700">'+k+'</td><td>'+v.map(function(x){return x.toFixed(1)}).join(', ')+'</td><td class="mean">'+mn.toFixed(1)+'</td><td class="unc">'+u.toFixed(1)+'</td><td><span style="cursor:pointer;color:var(--err)" onclick="rmG('+k+')">✕</span></td></tr>'});$('mT').innerHTML=h+'</tbody></table>'}
+window.rmG=function(k){manD=manD.filter(function(d2){return d2.iv!==k});buildMT();syncM()};
+window.clrM=function(){manD=[];buildMT();expD=[];$('mSt').textContent=''};
+function syncM(){if(!manD.length){expD=[];return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});expD=[];Object.keys(g).map(Number).sort(function(a,b){return a-b}).forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length,u=v.length>=2?(Math.max.apply(null,v)-Math.min.apply(null,v))/2:0;expD.push({iv:k,mean:+mn.toFixed(2),unc:+u.toFixed(2)})});buildDT();setTimeout(function(){initGr();drawGr()},30)}
+window.plotM=function(){if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(function(){initGr();drawGr()},80)};
+function buildDT(){if(!expD.length)return;var h='<table class="dt"><thead><tr><th>IV</th><th class="mean">Mean DV</th><th class="unc">± Unc</th></tr></thead><tbody>';expD.forEach(function(r){h+='<tr><td>'+r.iv+'</td><td class="mean">'+r.mean+'</td><td class="unc">'+r.unc+'</td></tr>'});$('dW').innerHTML=h+'</tbody></table>'}
+var gCv,gx2;
+function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');var d2=window.devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)w=500;gCv.width=w*d2;gCv.height=200*d2;gCv.style.width=w+'px';gCv.style.height='200px';gx2.setTransform(d2,0,0,d2,0,0)}
+function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return}var w=parseInt(gCv.style.width)||500,h=200,d2=dk();gx2.clearRect(0,0,w,h);gx2.fillStyle=d2?'#1e1a14':'#f5f0e6';gx2.beginPath();gx2.roundRect(0,0,w,h,10);gx2.fill();if(!expD.length){gx2.fillStyle=d2?'rgba(168,152,128,.2)':'rgba(0,0,0,.1)';gx2.font='10px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data to see graph',w/2,h/2);return}var P={t:20,r:14,b:24,l:40},pW=w-P.l-P.r,pH=h-P.t-P.b;gx2.strokeStyle=d2?'rgba(168,152,128,.1)':'rgba(0,0,0,.06)';gx2.lineWidth=1;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,h-P.b);gx2.lineTo(w-P.r,h-P.b);gx2.stroke();var xs=expD.map(function(r2){return r2.iv}),ys=expD.map(function(r2){return r2.mean}),us=expD.map(function(r2){return r2.unc});var xn=Math.min.apply(null,xs),xx=Math.max.apply(null,xs),yn=Math.min.apply(null,ys.map(function(y,i){return y-us[i]}))-.5,yx=Math.max.apply(null,ys.map(function(y,i){return y+us[i]}))+.5;if(xx===xn){xn-=1;xx+=1}if(yx<=yn){yn-=1;yx+=2}function tx(v){return P.l+((v-xn)/(xx-xn))*pW}function ty(v){return P.t+pH-((v-yn)/(yx-yn))*pH}for(var i=0;i<expD.length;i++){var px=tx(xs[i]),py=ty(ys[i]),ue=us[i];if(ue>0){gx2.strokeStyle=d2?'rgba(61,212,184,.3)':'rgba(14,124,107,.2)';gx2.lineWidth=1.5;gx2.beginPath();gx2.moveTo(px,ty(ys[i]-ue));gx2.lineTo(px,ty(ys[i]+ue));gx2.stroke()}gx2.fillStyle=d2?'#f0a030':'#c45e10';gx2.beginPath();gx2.arc(px,py,3.5,0,Math.PI*2);gx2.fill()}if(xs.length>=2){gx2.strokeStyle=d2?'#f0a030':'#c45e10';gx2.lineWidth=1.5;gx2.beginPath();for(var i=0;i<expD.length;i++){var px=tx(xs[i]),py=ty(ys[i]);i===0?gx2.moveTo(px,py):gx2.lineTo(px,py)}gx2.stroke()}}
+
+// IB Questions
+var IB={contact:[{c:'Distinguish',q:'Distinguish between temperature and heat.',f:'Temperature: measure of average KE of particles (°C or K). Heat: energy transferred between objects due to a temperature difference (J). An object "has" temperature but doesn\'t "have" heat — heat only exists during transfer.'}],curve:[{c:'Explain',q:'Explain why temperature remains constant during boiling even though heat is being added.',f:'During boiling, added energy goes into breaking intermolecular bonds (increasing PE) rather than increasing particle speed (KE). Since temperature depends only on average KE, it stays constant until all liquid has become gas.'}],shc:[{c:'Calculate',q:'How much energy is needed to heat 2 kg of water from 20°C to 80°C? (c=4186)',f:'Q = mcΔT = 2 × 4186 × (80−20) = 2 × 4186 × 60 = 502,320 J ≈ 502 kJ'}],internal:[{c:'Explain',q:'Explain the difference between internal energy and temperature.',f:'Internal energy = total KE + PE of ALL particles. Temperature = average KE only. A large cold lake has more internal energy than a small hot spark, even though the spark has higher temperature.'}],calor:[{c:'Calculate',q:'200g of water at 90°C is mixed with 300g at 20°C. Find the final temperature.',f:'m₁cΔT₁ = m₂cΔT₂ → 0.2(90−T) = 0.3(T−20) → 18−0.2T = 0.3T−6 → 24 = 0.5T → T = 48°C'}],phase:[{c:'Calculate',q:'How much energy to melt 0.3 kg of ice at 0°C into water at 0°C?',f:'Q = mL_f = 0.3 × 334,000 = 100,200 J ≈ 100 kJ. Note: temperature stays at 0°C throughout!'}]};
+function buildIB(){var qs=IB[T]||[];$('ibL').innerHTML=qs.map(function(q,i){return'<div class="ib-card"><div class="ib-cmd">'+q.c+'</div><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea id="ib'+i+'"></textarea><button class="btn btn-a" style="margin-top:2px;font-size:.6rem" onclick="sF('+i+')">Show Answer</button><div class="ib-fb" id="iF'+i+'"></div></div>'}).join('');window.sF=function(i){$('iF'+i).className='ib-fb show ok';$('iF'+i).textContent=(IB[T]||[])[i].f}}
+window.bts=function(el,i){document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on')});el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(function(){initGr();drawGr()},80)};
+
+onR();build();render();
+window.addEventListener('resize',onR);
+</script>
+</body>
+</html>
