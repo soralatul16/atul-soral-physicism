@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0FWC22D8S"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H0FWC22D8S');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moment of Inertia 3D Lab | Atul Soral Physicism</title>
+<style>
+:root{--bg:#FAFAF7;--bg2:#F0EEE8;--card:#fff;--text:#1a1a1a;--text2:#555;--text3:#999;--accent:#8B2500;--accent2:#1A6847;--accent3:#2D5BA0;--border:rgba(0,0,0,.08);--ok:#1A6847;--err:#8B2500;--warn:#B8860B;--mono:'SF Mono','Consolas',monospace;--body:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,sans-serif;--display:Georgia,'Times New Roman',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.5}
+button{cursor:pointer;font-family:var(--body)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-t{font-family:var(--display);font-size:1rem;font-weight:700;color:var(--accent)}
+.nav-s{font-size:.65rem;color:var(--text3);margin-left:6px}
+.wrap{max-width:1200px;margin:0 auto;padding:6px 10px 60px}
+
+/* MODE TABS */
+.modes{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:6px;overflow-x:auto}
+.mode-btn{padding:7px 14px;font-size:.68rem;font-weight:700;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:.12s}
+.mode-btn:hover{color:var(--text)}
+.mode-btn.on{color:var(--accent);border-bottom-color:var(--accent)}
+.mode-panel{display:none}.mode-panel.on{display:block}
+
+/* LAYOUT */
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:8px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px}
+.card-t{font-size:.55rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);font-weight:700;margin-bottom:4px}
+.card-v{font-family:var(--display);font-size:1.1rem;font-weight:700;color:var(--accent)}
+
+/* 3D VIEW */
+.view-box{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:#1a1a2e;aspect-ratio:16/10}
+.view-box canvas{display:block;width:100%;height:100%}
+.ov{position:absolute;top:10px;left:12px;pointer-events:none}
+.ov-name{font-family:var(--display);font-size:14px;font-weight:700;color:#fff;text-shadow:0 1px 5px rgba(0,0,0,.6)}
+.ov-val{font-family:var(--mono);font-size:22px;font-weight:800;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+.ov-sub{font-size:11px;color:rgba(255,255,255,.7);font-family:var(--mono)}
+
+/* CONTROLS */
+.ctrl{display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-bottom:5px}
+.sl-g{display:flex;align-items:center;gap:5px}
+.sl-g label{font-size:.62rem;font-weight:700;color:var(--text2);min-width:60px;text-transform:uppercase;letter-spacing:.4px}
+.sl-g input[type="range"]{flex:1;accent-color:var(--accent);max-width:180px;height:3px}
+.sl-g .sv{font-family:var(--mono);font-size:.78rem;font-weight:800;color:var(--accent);min-width:55px;text-align:right}
+.preset-btn{padding:4px 9px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);font-size:.62rem;font-weight:600;color:var(--text2);transition:.12s}
+.preset-btn:hover{border-color:var(--accent);color:var(--accent)}
+.preset-btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn{padding:5px 11px;border:none;border-radius:6px;font-size:.66rem;font-weight:700;transition:.12s}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.97)}
+.btn-p{background:var(--accent);color:#fff}
+.btn-s{background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
+.btn-ok{background:var(--ok);color:#fff}
+.unit{font-size:.58rem;color:var(--text3);font-family:var(--display)}
+
+/* RIGHT INFO */
+.info-col{display:flex;flex-direction:column;gap:5px}
+.info-c{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:7px 9px}
+.info-c h4{font-size:.5rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);font-weight:700;margin-bottom:2px}
+.info-c .iv{font-family:var(--display);font-size:.9rem;font-weight:700;color:var(--accent)}
+.info-c .id{font-size:.6rem;color:var(--text2);line-height:1.5;margin-top:2px}
+.stat-g{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.si{background:var(--bg2);border-radius:4px;padding:3px 5px;text-align:center}
+.si .sl2{font-size:.46rem;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);font-weight:700}
+.si .sv2{font-family:var(--mono);font-size:.72rem;font-weight:800}
+
+/* RACE */
+.race-lane{display:flex;align-items:center;gap:8px;padding:5px 8px;background:var(--bg2);border-radius:6px;margin-bottom:3px;border:1px solid var(--border);position:relative;overflow:hidden}
+.race-lane .rn{font-size:.68rem;font-weight:700;min-width:100px}
+.race-lane .rf{font-family:var(--mono);font-size:.62rem;color:var(--text2);min-width:70px}
+.race-bar{height:6px;border-radius:3px;transition:width .3s;position:absolute;bottom:0;left:0}
+.race-predict{display:flex;gap:3px;align-items:center}
+.race-predict input[type="radio"]{accent-color:var(--accent)}
+.race-predict label{font-size:.6rem;font-weight:600;color:var(--text2)}
+
+/* SKATER */
+.skater-display{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin:8px 0}
+.skater-metric{text-align:center}
+.skater-metric .sm-v{font-family:var(--mono);font-size:1.4rem;font-weight:800;color:var(--accent)}
+.skater-metric .sm-l{font-size:.58rem;color:var(--text3);text-transform:uppercase;font-weight:700;letter-spacing:.5px}
+.skater-metric .sm-u{font-size:.52rem;color:var(--text3)}
+.conserved{background:rgba(26,104,71,.06);border:1px solid rgba(26,104,71,.15);border-radius:6px;padding:6px 10px;text-align:center;margin-top:4px}
+.conserved .cv{font-family:var(--mono);font-size:1rem;font-weight:800;color:var(--ok)}
+.conserved .cl{font-size:.55rem;color:var(--ok);text-transform:uppercase;font-weight:700}
+
+/* IB Q */
+.ib-card{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:9px 11px;margin-bottom:5px}
+.ib-cmd{display:inline-block;font-size:.5rem;padding:2px 6px;border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.ib-cmd-c{background:rgba(139,37,0,.06);color:var(--accent)}
+.ib-cmd-e{background:rgba(45,91,160,.06);color:var(--accent3)}
+.ib-cmd-s{background:rgba(26,104,71,.06);color:var(--accent2)}
+.ib-card h4{font-size:.74rem;font-weight:700;margin:3px 0}
+.ib-card p{font-size:.65rem;color:var(--text2);line-height:1.5;margin-bottom:5px}
+.ib-card textarea{width:100%;height:44px;border:1.5px solid var(--border);border-radius:5px;padding:5px 7px;font-size:.66rem;resize:vertical;background:var(--bg2);outline:none;font-family:var(--body);color:var(--text)}
+.ib-card textarea:focus{border-color:var(--accent)}
+.ib-ans{margin-top:5px;padding:7px 9px;border-radius:5px;background:rgba(26,104,71,.03);border:1px solid rgba(26,104,71,.08);font-size:.66rem;line-height:1.6;color:var(--text2);display:none}
+.ib-ans.show{display:block}
+.ib-ans strong{color:var(--ok)}
+
+/* DATA TABLE */
+.dt{width:100%;border-collapse:collapse;font-size:.66rem}
+.dt th{text-align:center;padding:4px;font-size:.52rem;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--bg2)}
+.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.66rem}
+.dt .mean{font-weight:800;color:var(--accent)}
+
+/* FORMULA REF */
+.fref{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-family:var(--display);font-size:.72rem;color:var(--text2);line-height:1.8}
+.fref strong{color:var(--accent)}
+
+.num-input{width:52px;padding:3px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg2);font-family:var(--mono);font-size:.72rem;font-weight:700;text-align:center;outline:none;color:var(--text)}
+.num-input:focus{border-color:var(--accent)}
+
+.fb{padding:4px 8px;border-radius:5px;font-size:.68rem;text-align:center;margin-top:3px;font-weight:600}
+.fb-ok{background:rgba(26,104,71,.05);color:var(--ok)}
+.fb-err{background:rgba(139,37,0,.05);color:var(--err)}
+.fb-hint{background:rgba(45,91,160,.05);color:var(--accent3)}
+
+/* BOTTOM TABS */
+.gp{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-top:8px}
+.btabs{display:flex;gap:2px;margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.bt{padding:4px 10px;border-radius:6px 6px 0 0;font-size:.64rem;font-weight:700;cursor:pointer;color:var(--text3);transition:.12s}
+.bt:hover{color:var(--text)}
+.bt.on{color:var(--accent);background:var(--bg2);border:1px solid var(--border);border-bottom:none}
+.btc{display:none}.btc.on{display:block}
+.nb-c{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:4px 6px;margin-bottom:3px;font-size:.64rem;line-height:1.5}
+.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+.graph-wrap{position:relative;width:100%;height:200px;margin-top:6px}
+.graph-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:6px;border:1px solid var(--border)}
+
+@media(max-width:800px){.grid2{grid-template-columns:1fr}.info-col{flex-direction:row;flex-wrap:wrap}.info-col .info-c{flex:1;min-width:120px}}
+@media print{.nav{display:none!important}}
+</style>
+</head>
+<body>
+<script>var SIM_META={id:'moment-of-inertia-3d',title:'Moment of Inertia 3D Lab',topic:'A.4',topicName:'Rigid Body Mechanics',grade:['DP'],level:'HL',theme:'A',concepts:['moment of inertia','angular momentum','rotational KE','parallel axis theorem','rolling','conservation of angular momentum'],difficulty:'intermediate'};</script>
+<div class="nav">
+  <div style="display:flex;align-items:baseline;gap:8px">
+    <a href="../index.html" class="nav-t" style="text-decoration:none">Atul Soral Physicism</a>
+    <a href="../dp-simulations.html" style="font-size:.65rem;color:var(--text3);text-decoration:none">← All Simulations</a>
+  </div>
+  <div style="display:flex;gap:5px;align-items:center">
+    <a href="../dp-simulations.html" class="preset-btn" style="text-decoration:none;font-size:.6rem">← Back</a>
+    <a href="../index.html" class="preset-btn" style="text-decoration:none;font-size:.6rem">Home</a>
+    <a href="../myp-dashboard.html" class="preset-btn" style="text-decoration:none;font-size:.6rem">MYP</a>
+    <a href="../dp-dashboard.html" class="preset-btn" style="text-decoration:none;font-size:.6rem">DP</a>
+  </div>
+</div>
+<div class="wrap">
+  <div class="modes" id="modes">
+    <div class="mode-btn on" onclick="switchMode(0)">Explore I</div>
+    <div class="mode-btn" onclick="switchMode(1)">Shape Race</div>
+    <div class="mode-btn" onclick="switchMode(2)">Parallel Axis</div>
+    <div class="mode-btn" onclick="switchMode(3)">Angular Momentum</div>
+  </div>
+
+  <!-- MODE 0: EXPLORE I -->
+  <div class="mode-panel on" id="m0">
+    <div class="grid2">
+      <div>
+        <div class="view-box" id="view0">
+          <div class="ov">
+            <div class="ov-name" id="e_name">Point Masses on Rod</div>
+            <div class="ov-val" id="e_ival">I = 0.000 kg·m²</div>
+            <div class="ov-sub" id="e_form">I = Σmr²</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-t">Shape Presets</div>
+          <div class="ctrl" id="ePresets"></div>
+          <div style="height:3px"></div>
+          <div class="card-t">Parameters</div>
+          <div class="ctrl">
+            <div class="sl-g"><label>Mass (m)</label><input type="range" id="eMass" min="0.5" max="10" step="0.1" value="2"><span class="sv" id="eMassV">2.0</span><span class="unit">kg</span></div>
+          </div>
+          <div class="ctrl">
+            <div class="sl-g"><label>Radius (r)</label><input type="range" id="eRad" min="0.05" max="0.8" step="0.01" value="0.3"><span class="sv" id="eRadV">0.30</span><span class="unit">m</span></div>
+          </div>
+          <div class="ctrl" id="eLenRow">
+            <div class="sl-g"><label>Length (L)</label><input type="range" id="eLen" min="0.2" max="2.0" step="0.01" value="1.0"><span class="sv" id="eLenV">1.00</span><span class="unit">m</span></div>
+          </div>
+          <div class="ctrl">
+            <div class="sl-g" style="flex:1"><label style="color:var(--accent);font-weight:800;font-size:.7rem">SPIN</label><input type="range" id="eSpin" min="0" max="10" step="0.1" value="2" style="max-width:200px"><span class="sv" id="eSpinV" style="color:var(--accent)">2.0</span><span class="unit">rad/s</span></div>
+            <button class="btn btn-p" onclick="eToggleSpin()">Start / Stop</button>
+          </div>
+        </div>
+      </div>
+      <div class="info-col" id="eInfo"></div>
+    </div>
+  </div>
+
+  <!-- MODE 1: SHAPE RACE -->
+  <div class="mode-panel" id="m1">
+    <div class="grid2">
+      <div>
+        <div class="view-box" id="view1">
+          <div class="ov">
+            <div class="ov-name">Rolling Race</div>
+            <div class="ov-sub" id="r_status">Set up your race below, then click GO</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-t">Ramp Setup</div>
+          <div class="ctrl">
+            <div class="sl-g"><label>Slope (°)</label><input type="range" id="rSlope" min="5" max="45" step="1" value="20"><span class="sv" id="rSlopeV">20</span><span class="unit">°</span></div>
+          </div>
+          <div class="card-t" style="margin-top:4px">Racers (check to include)</div>
+          <div id="rLanes"></div>
+          <div style="margin-top:6px;display:flex;gap:4px;align-items:center">
+            <span style="font-size:.62rem;font-weight:700;color:var(--text2)">Your prediction:</span>
+            <select id="rPredict" style="padding:3px 6px;border-radius:4px;border:1px solid var(--border);font-size:.64rem;font-weight:600;background:var(--bg2);outline:none"><option value="">— pick the winner —</option></select>
+          </div>
+          <div style="margin-top:5px;display:flex;gap:4px">
+            <button class="btn btn-p" onclick="startRace()">GO!</button>
+            <button class="btn btn-s" onclick="resetRace()">Reset</button>
+          </div>
+          <div id="rResult" style="margin-top:4px"></div>
+        </div>
+      </div>
+      <div class="info-col">
+        <div class="info-c"><h4>The Physics</h4><div class="id">When an object rolls without slipping, its KE splits between translation and rotation:<br><br><strong style="color:var(--accent)">KE = ½mv² + ½Iω²</strong><br><br>Since v = ωr: KE = ½v²(m + I/r²)<br><br>The <strong>shape factor c = I/(mr²)</strong> determines how much energy goes to spinning vs moving. Lower c = faster down the ramp.</div></div>
+        <div class="info-c"><h4>Shape Factors</h4>
+          <div class="stat-g">
+            <div class="si"><div class="sl2">Solid Sphere</div><div class="sv2" style="color:var(--ok)">c = 0.40</div></div>
+            <div class="si"><div class="sl2">Solid Cylinder</div><div class="sv2" style="color:var(--accent3)">c = 0.50</div></div>
+            <div class="si"><div class="sl2">Hollow Sphere</div><div class="sv2" style="color:var(--warn)">c = 0.67</div></div>
+            <div class="si"><div class="sl2">Ring</div><div class="sv2" style="color:var(--err)">c = 1.00</div></div>
+          </div>
+          <div class="id" style="margin-top:4px">Mass and radius don't matter — only shape. A marble and a bowling ball (both solid spheres) reach the bottom at the same time.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODE 2: PARALLEL AXIS -->
+  <div class="mode-panel" id="m2">
+    <div class="grid2">
+      <div>
+        <div class="view-box" id="view2">
+          <div class="ov">
+            <div class="ov-name">Parallel Axis Theorem</div>
+            <div class="ov-val" id="p_ival">I = 0.000 kg·m²</div>
+            <div class="ov-sub" id="p_form">I = I_cm + md²</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-t">Object</div>
+          <div class="ctrl" id="pPresets"></div>
+          <div class="ctrl">
+            <div class="sl-g"><label>Mass</label><input type="range" id="pMass" min="0.5" max="10" step="0.1" value="2"><span class="sv" id="pMassV">2.0</span><span class="unit">kg</span></div>
+          </div>
+          <div class="ctrl">
+            <div class="sl-g"><label>Size</label><input type="range" id="pSize" min="0.1" max="0.8" step="0.01" value="0.3"><span class="sv" id="pSizeV">0.30</span><span class="unit">m</span></div>
+          </div>
+          <div class="card-t" style="margin-top:4px">Axis Offset (d)</div>
+          <div class="ctrl">
+            <div class="sl-g" style="flex:1"><label style="color:var(--accent);font-weight:800">OFFSET d</label><input type="range" id="pD" min="0" max="1.0" step="0.01" value="0" style="max-width:220px"><span class="sv" id="pDV" style="color:var(--accent);font-size:.9rem">0.00</span><span class="unit">m</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="info-col" id="pInfo"></div>
+    </div>
+  </div>
+
+  <!-- MODE 3: ANGULAR MOMENTUM -->
+  <div class="mode-panel" id="m3">
+    <div class="grid2">
+      <div>
+        <div class="view-box" id="view3">
+          <div class="ov">
+            <div class="ov-name">Angular Momentum Conservation</div>
+            <div class="ov-sub" id="a_status">Drag the arm radius slider</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-t">Ice Skater Controls</div>
+          <div class="ctrl">
+            <div class="sl-g"><label>Body mass</label><input type="range" id="aBodyM" min="1" max="8" step="0.1" value="3"><span class="sv" id="aBodyMV">3.0</span><span class="unit">kg</span></div>
+          </div>
+          <div class="ctrl">
+            <div class="sl-g"><label>Arm mass</label><input type="range" id="aArmM" min="0.5" max="5" step="0.1" value="2"><span class="sv" id="aArmMV">2.0</span><span class="unit">kg (each)</span></div>
+          </div>
+          <div class="ctrl">
+            <div class="sl-g" style="flex:1"><label style="color:var(--accent);font-weight:800">ARM RADIUS</label><input type="range" id="aR" min="0.1" max="0.8" step="0.01" value="0.7" style="max-width:220px"><span class="sv" id="aRV" style="color:var(--accent);font-size:.9rem">0.70</span><span class="unit">m</span></div>
+          </div>
+          <div id="skaterDisplay"></div>
+        </div>
+      </div>
+      <div class="info-col">
+        <div class="info-c"><h4>The Physics</h4><div class="id"><strong style="color:var(--accent)">L = Iω = constant</strong> (no external torque)<br><br>When the skater pulls arms in:<br>• r decreases → I decreases<br>• ω must increase to keep L constant<br><br>This is why figure skaters spin faster with arms tucked in.</div></div>
+        <div class="info-c"><h4>Kepler's 2nd Law</h4><div class="id">Same principle: a planet moves faster when closer to the Sun (smaller r → smaller I → larger ω). Angular momentum is conserved because gravity exerts no torque about the Sun.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM TABS: Experiment / Data & Graph / IB Questions / Notebook -->
+  <div class="gp">
+    <div class="btabs">
+      <div class="bt on" onclick="bts(this,0)">🔬 Experiment</div>
+      <div class="bt" onclick="bts(this,1)">📊 Data & Graph</div>
+      <div class="bt" onclick="bts(this,2)">📝 IB Questions</div>
+      <div class="bt" onclick="bts(this,3)">📓 Notebook</div>
+    </div>
+    <div class="btc on" id="b0"><div id="expC"></div></div>
+    <div class="btc" id="b1">
+      <div id="dW"><p style="font-size:.64rem;color:var(--text3);text-align:center;padding:8px">Collect data first.</p></div>
+      <div class="graph-wrap"><canvas id="gC"></canvas></div>
+    </div>
+    <div class="btc" id="b2"><div id="ibL"></div></div>
+    <div class="btc" id="b3">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-family:var(--display);font-size:.78rem;font-weight:700;color:var(--accent)">📓 Notebook</span>
+        <button class="btn btn-s" onclick="window.print()" style="font-size:.56rem;padding:2px 6px">Print</button>
+      </div>
+      <div id="nbO"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'https://artifactcdn.diabrowser.engineering/ajax/libs/three.js/three.module.js';
+
+const $=id=>document.getElementById(id);
+
+// ===== MODE SWITCHING =====
+let currentMode = 0;
+window.switchMode = idx => {
+  currentMode = idx;
+  document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('on',i===idx));
+  document.querySelectorAll('.mode-panel').forEach((p,i)=>p.classList.toggle('on',i===idx));
+  if(idx===0) initExplore();
+  if(idx===1) initRace();
+  if(idx===2) initParallel();
+  if(idx===3) initSkater();
+};
+
+// ===== SHARED 3D SETUP =====
+function makeScene(containerId){
+  const c=$(containerId);
+  const scene=new THREE.Scene();
+  scene.background=new THREE.Color(0xe8e4df);
+  const cam=new THREE.PerspectiveCamera(40,16/10,.1,100);
+  cam.position.set(3,2.2,3);cam.lookAt(0,.3,0);
+  const ren=new THREE.WebGLRenderer({antialias:true});
+  ren.setPixelRatio(Math.min(devicePixelRatio,2));
+  ren.shadowMap.enabled=true;
+  c.appendChild(ren.domElement);
+  scene.add(new THREE.AmbientLight(0xffffff,.5));
+  const dl=new THREE.DirectionalLight(0xffffff,.7);
+  dl.position.set(4,6,3);dl.castShadow=true;scene.add(dl);
+  scene.add(new THREE.HemisphereLight(0x87ceeb,0x362d1e,.25));
+  const ground=new THREE.Mesh(new THREE.PlaneGeometry(10,10),new THREE.MeshStandardMaterial({color:0xd5d0c8,roughness:.8}));
+  ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
+  const grid=new THREE.GridHelper(10,20,0x999,0x999);grid.material.opacity=.06;grid.material.transparent=true;scene.add(grid);
+  function resize(){const w=c.clientWidth,h=c.clientHeight||w*10/16;ren.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix()}
+  new ResizeObserver(resize).observe(c);resize();
+  // Orbit
+  let drag=false,px=0,py=0,th=Math.PI/4,ph=Math.PI/5,dist=4.5;
+  function updCam(){cam.position.set(dist*Math.sin(ph)*Math.sin(th),dist*Math.cos(ph),dist*Math.sin(ph)*Math.cos(th));cam.lookAt(0,.4,0)}
+  updCam();
+  ren.domElement.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;ren.domElement.setPointerCapture(e.pointerId)});
+  ren.domElement.addEventListener('pointermove',e=>{if(!drag)return;th-=(e.clientX-px)*.008;ph=Math.max(.2,Math.min(Math.PI/2.1,ph+(e.clientY-py)*.008));px=e.clientX;py=e.clientY;updCam()});
+  ren.domElement.addEventListener('pointerup',e=>{drag=false;ren.domElement.releasePointerCapture(e.pointerId)});
+  ren.domElement.addEventListener('wheel',e=>{e.preventDefault();dist=Math.max(1.5,Math.min(8,dist+e.deltaY*.005));updCam()},{passive:false});
+  return{scene,cam,ren,resize};
+}
+
+// ===== MODE 0: EXPLORE I =====
+const E_SHAPES=[
+  {n:'Solid Disc',formula:'½mr²',factor:.5,type:'disc',col:0x3b82f6},
+  {n:'Ring',formula:'mr²',factor:1,type:'ring',col:0xef4444},
+  {n:'Solid Sphere',formula:'⅖mr²',factor:.4,type:'sphere',col:0x22c55e},
+  {n:'Hollow Sphere',formula:'⅔mr²',factor:2/3,type:'hsphere',col:0xf59e0b},
+  {n:'Rod (centre)',formula:'1/12 mL²',factor:1/12,type:'rod_c',col:0x8b5cf6,usesLen:true},
+  {n:'Rod (end)',formula:'⅓mL²',factor:1/3,type:'rod_e',col:0xec4899,usesLen:true}
+];
+let eState={si:0,spinning:false,angle:0},eScene=null,eObj=null,eAxisLine=null;
+
+function initExplore(){
+  if(!eScene){eScene=makeScene('view0')}
+  $('ePresets').innerHTML=E_SHAPES.map((s,i)=>`<button class="preset-btn${i===eState.si?' on':''}" onclick="window.eShape(${i})">${s.n}</button>`).join('');
+  buildEObj();updateEInfo();
+}
+
+window.eShape=i=>{eState.si=i;$('ePresets').innerHTML=E_SHAPES.map((s,j)=>`<button class="preset-btn${j===i?' on':''}" onclick="window.eShape(${j})">${s.n}</button>`).join('');const sh=E_SHAPES[i];$('eLenRow').style.display=sh.usesLen?'flex':'none';buildEObj();updateEInfo()};
+
+function getEI(){const sh=E_SHAPES[eState.si],m=parseFloat($('eMass').value),r=parseFloat($('eRad').value),L=parseFloat($('eLen').value);return sh.usesLen?sh.factor*m*L*L:sh.factor*m*r*r}
+
+function buildEObj(){
+  if(!eScene)return;
+  if(eObj){eScene.scene.remove(eObj);eObj=null}
+  if(eAxisLine){eScene.scene.remove(eAxisLine);eAxisLine=null}
+  const sh=E_SHAPES[eState.si],m=parseFloat($('eMass').value),r=parseFloat($('eRad').value),L=parseFloat($('eLen').value);
+  const mat=new THREE.MeshStandardMaterial({color:sh.col,roughness:.4,transparent:true,opacity:.7});
+  const markMat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.3,emissive:0xffffff,emissiveIntensity:.15});
+  const markMat2=new THREE.MeshStandardMaterial({color:0x111111,roughness:.5});
+  let mesh;
+  eObj=new THREE.Group();
+
+  if(sh.type==='disc'){
+    mesh=new THREE.Mesh(new THREE.CylinderGeometry(r,r,.04,32),mat);mesh.position.y=.5;eObj.add(mesh);
+    // Stripe across disc surface
+    const stripe=new THREE.Mesh(new THREE.BoxGeometry(r*2,.05,.02),markMat2);stripe.position.y=.5;eObj.add(stripe);
+    // Dot near edge
+    const dot=new THREE.Mesh(new THREE.SphereGeometry(.02,8,8),markMat);dot.position.set(r*.7,.53,0);eObj.add(dot);
+  }
+  else if(sh.type==='ring'){
+    mesh=new THREE.Mesh(new THREE.TorusGeometry(r,.02,8,32),mat);mesh.rotation.x=Math.PI/2;mesh.position.y=.5;eObj.add(mesh);
+    // Marker bead on ring
+    const bead=new THREE.Mesh(new THREE.SphereGeometry(.03,8,8),markMat);bead.position.set(r,.5,0);eObj.add(bead);
+    const bead2=new THREE.Mesh(new THREE.SphereGeometry(.025,8,8),markMat2);bead2.position.set(-r,.5,0);eObj.add(bead2);
+  }
+  else if(sh.type==='sphere'){
+    mesh=new THREE.Mesh(new THREE.SphereGeometry(r,24,24),mat);mesh.position.y=.5;eObj.add(mesh);
+    // Equator band
+    const band=new THREE.Mesh(new THREE.TorusGeometry(r,.008,6,32),markMat2);band.rotation.x=Math.PI/2;band.position.y=.5;eObj.add(band);
+    // Meridian band
+    const meridian=new THREE.Mesh(new THREE.TorusGeometry(r,.008,6,32),markMat);meridian.position.y=.5;eObj.add(meridian);
+    // Pole dot
+    const pole=new THREE.Mesh(new THREE.SphereGeometry(.02,8,8),markMat);pole.position.set(0,.5+r,0);eObj.add(pole);
+  }
+  else if(sh.type==='hsphere'){
+    mesh=new THREE.Mesh(new THREE.SphereGeometry(r,24,24),new THREE.MeshStandardMaterial({color:sh.col,roughness:.3,transparent:true,opacity:.35,side:THREE.DoubleSide}));mesh.position.y=.5;eObj.add(mesh);
+    // Visible latitude bands
+    const band=new THREE.Mesh(new THREE.TorusGeometry(r,.01,6,32),markMat2);band.rotation.x=Math.PI/2;band.position.y=.5;eObj.add(band);
+    const band2=new THREE.Mesh(new THREE.TorusGeometry(r*.7,.008,6,32),markMat2);band2.rotation.x=Math.PI/2;band2.position.y=.5+r*.71;eObj.add(band2);
+    // Meridian
+    const mer=new THREE.Mesh(new THREE.TorusGeometry(r,.01,6,32),new THREE.MeshStandardMaterial({color:sh.col,roughness:.3,emissive:sh.col,emissiveIntensity:.3}));mer.position.y=.5;eObj.add(mer);
+  }
+  else if(sh.type==='rod_c'||sh.type==='rod_e'){
+    mesh=new THREE.Mesh(new THREE.CylinderGeometry(.015,.015,L,8),mat);
+    mesh.rotation.z=Math.PI/2;mesh.position.y=.5;
+    if(sh.type==='rod_e')mesh.position.x=L/2;
+    eObj.add(mesh);
+    // End caps
+    const cap1=new THREE.Mesh(new THREE.SphereGeometry(.025,8,8),markMat);
+    const cap2=new THREE.Mesh(new THREE.SphereGeometry(.025,8,8),markMat2);
+    if(sh.type==='rod_c'){cap1.position.set(-L/2,.5,0);cap2.position.set(L/2,.5,0)}
+    else{cap1.position.set(0,.5,0);cap2.position.set(L,.5,0)}
+    eObj.add(cap1);eObj.add(cap2);
+  }
+  mesh.castShadow=true;
+  eObj.position.y=0;
+  eScene.scene.add(eObj);
+  // Axis line
+  const axGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,-.2,0),new THREE.Vector3(0,1.2,0)]);
+  const axMat=new THREE.LineBasicMaterial({color:0x8B2500,transparent:true,opacity:.5});
+  eAxisLine=new THREE.Line(axGeo,axMat);eScene.scene.add(eAxisLine);
+  if(E_SHAPES[eState.si].type==='rod_e')eAxisLine.position.x=0;
+}
+
+function updateEInfo(){
+  const sh=E_SHAPES[eState.si],I=getEI(),m=parseFloat($('eMass').value),r=parseFloat($('eRad').value),L=parseFloat($('eLen').value);
+  $('e_name').textContent=sh.n;
+  $('e_ival').textContent=`I = ${I.toFixed(4)} kg·m²`;
+  $('e_form').textContent=`I = ${sh.formula}`;
+  const sizeLabel=sh.usesLen?`L = ${L.toFixed(2)} m`:`r = ${r.toFixed(2)} m`;
+  $('eInfo').innerHTML=`
+    <div class="info-c"><h4>Moment of Inertia</h4><div class="iv">${I.toFixed(4)} kg·m²</div><div class="id">Formula: I = ${sh.formula}</div></div>
+    <div class="info-c"><h4>Parameters</h4><div class="stat-g">
+      <div class="si"><div class="sl2">Mass</div><div class="sv2">${m.toFixed(1)} kg</div></div>
+      <div class="si"><div class="sl2">${sh.usesLen?'Length':'Radius'}</div><div class="sv2">${sizeLabel.split('=')[1]}</div></div>
+      <div class="si"><div class="sl2">Factor</div><div class="sv2">${sh.factor.toFixed(3)}</div></div>
+      <div class="si"><div class="sl2">ω</div><div class="sv2">${parseFloat($('eSpin').value).toFixed(1)} rad/s</div></div>
+    </div></div>
+    <div class="info-c"><h4>Rotational KE</h4><div class="iv">${(0.5*I*parseFloat($('eSpin').value)**2).toFixed(3)} J</div><div class="id">KE = ½Iω²</div></div>
+    <div class="info-c"><h4>Angular Momentum</h4><div class="iv">${(I*parseFloat($('eSpin').value)).toFixed(4)} kg·m²/s</div><div class="id">L = Iω</div></div>
+    <div class="info-c"><h4>Why This Shape?</h4><div class="id">${sh.type==='disc'?'Mass distributed uniformly from centre to edge. Average r² = R²/2, giving factor ½.':sh.type==='ring'?'ALL mass at distance R from axis. Every particle contributes mR², giving factor 1 (maximum).':sh.type==='sphere'?'Mass distributed in 3D — some particles close to axis, some far. Integration gives ⅖.':sh.type==='hsphere'?'All mass on the shell surface. More mass far from axis than solid sphere → ⅔ > ⅖.':sh.type==='rod_c'?'Mass spread ±L/2 from centre. Integration of r² from -L/2 to L/2 gives mL²/12.':'Axis at end: all mass on one side, at distances 0 to L. Average r² is larger → mL²/3 = 4× the centre value.'}</div></div>`;
+}
+
+['eMass','eRad','eLen','eSpin'].forEach(id=>{
+  $(id)?.addEventListener('input',()=>{$(id.replace('e','e')+'V')||0;
+    if(id==='eMass')$('eMassV').textContent=parseFloat($('eMass').value).toFixed(1);
+    if(id==='eRad')$('eRadV').textContent=parseFloat($('eRad').value).toFixed(2);
+    if(id==='eLen')$('eLenV').textContent=parseFloat($('eLen').value).toFixed(2);
+    if(id==='eSpin')$('eSpinV').textContent=parseFloat($('eSpin').value).toFixed(1);
+    buildEObj();updateEInfo()})});
+
+window.eToggleSpin=()=>{eState.spinning=!eState.spinning};
+
+// ===== MODE 1: SHAPE RACE =====
+const RACERS=[
+  {n:'Solid Sphere',c:2/5,col:'#22c55e',formula:'⅖mr²'},
+  {n:'Solid Cylinder',c:1/2,col:'#3b82f6',formula:'½mr²'},
+  {n:'Hollow Sphere',c:2/3,col:'#f59e0b',formula:'⅔mr²'},
+  {n:'Ring / Hollow Cylinder',c:1,col:'#ef4444',formula:'mr²'}
+];
+let rScene=null,rState={running:false,t:0,positions:[0,0,0,0],finished:false,enabled:[true,true,true,true]};
+
+function initRace(){
+  if(!rScene)rScene=makeScene('view1');
+  $('rLanes').innerHTML=RACERS.map((r,i)=>`<div class="race-lane"><input type="checkbox" checked id="rCk${i}" style="accent-color:${r.col}"><span class="rn" style="color:${r.col}">${r.n}</span><span class="rf">c = ${r.c.toFixed(2)} | I = ${r.formula}</span></div>`).join('');
+  $('rPredict').innerHTML='<option value="">— pick the winner —</option>'+RACERS.map((r,i)=>`<option value="${i}">${r.n}</option>`).join('');
+  buildRaceScene();
+}
+
+function buildRaceScene(){
+  if(!rScene)return;
+  // Clear old objects
+  rScene.scene.children.filter(c=>c.userData?.isRacer||c.userData?.isRamp).forEach(c=>rScene.scene.remove(c));
+  const slope=parseFloat($('rSlope')?.value||20)*Math.PI/180;
+  // Ramp
+  const rampGeo=new THREE.BoxGeometry(3,.05,2);
+  const rampMat=new THREE.MeshStandardMaterial({color:0x888888,roughness:.5});
+  const ramp=new THREE.Mesh(rampGeo,rampMat);
+  ramp.rotation.z=slope;ramp.position.set(-Math.cos(slope)*1.5+1.5,.05+Math.sin(slope)*1.5,0);
+  ramp.receiveShadow=true;ramp.userData.isRamp=true;
+  rScene.scene.add(ramp);
+  // Racers at top
+  RACERS.forEach((r,i)=>{
+    const geo=i===0||i===2?new THREE.SphereGeometry(.1,16,16):i===1?new THREE.CylinderGeometry(.1,.1,.08,16):new THREE.TorusGeometry(.1,.015,8,24);
+    const mat=new THREE.MeshStandardMaterial({color:new THREE.Color(r.col),roughness:.4});
+    const mesh=new THREE.Mesh(geo,mat);
+    if(i===1)mesh.rotation.x=Math.PI/2;
+    if(i===3)mesh.rotation.y=Math.PI/2;
+    mesh.position.set(-1.2,.8+Math.sin(slope)*2,(i-1.5)*.25);
+    mesh.castShadow=true;mesh.userData.isRacer=true;mesh.userData.idx=i;
+    rScene.scene.add(mesh);
+  });
+}
+
+window.startRace=()=>{
+  if(rState.running)return;
+  rState.running=true;rState.t=0;rState.positions=[0,0,0,0];rState.finished=false;
+  rState.enabled=RACERS.map((_,i)=>$('rCk'+i)?.checked??true);
+  $('r_status').textContent='Racing...';$('rResult').innerHTML='';
+};
+window.resetRace=()=>{rState.running=false;rState.t=0;rState.positions=[0,0,0,0];rState.finished=false;$('r_status').textContent='Set up your race below, then click GO';$('rResult').innerHTML='';buildRaceScene()};
+
+// ===== MODE 2: PARALLEL AXIS =====
+const P_SHAPES=[
+  {n:'Disc',formula:'½mr²',factor:.5,type:'disc'},
+  {n:'Sphere',formula:'⅖mr²',factor:.4,type:'sphere'},
+  {n:'Rod',formula:'1/12 mL²',factor:1/12,type:'rod',usesLen:true}
+];
+let pScene=null,pState={si:0},pObj=null,pAxis=null;
+
+function initParallel(){
+  if(!pScene)pScene=makeScene('view2');
+  $('pPresets').innerHTML=P_SHAPES.map((s,i)=>`<button class="preset-btn${i===pState.si?' on':''}" onclick="window.pShape(${i})">${s.n}</button>`).join('');
+  buildPObj();updatePInfo();
+}
+window.pShape=i=>{pState.si=i;$('pPresets').innerHTML=P_SHAPES.map((s,j)=>`<button class="preset-btn${j===i?' on':''}" onclick="window.pShape(${j})">${s.n}</button>`).join('');buildPObj();updatePInfo()};
+
+function getPIcm(){const s=P_SHAPES[pState.si],m=parseFloat($('pMass').value),r=parseFloat($('pSize').value);return s.factor*m*r*r}
+function getPI(){const m=parseFloat($('pMass').value),d=parseFloat($('pD').value);return getPIcm()+m*d*d}
+
+function buildPObj(){
+  if(!pScene)return;
+  if(pObj)pScene.scene.remove(pObj);
+  if(pAxis)pScene.scene.remove(pAxis);
+  const s=P_SHAPES[pState.si],r=parseFloat($('pSize').value),d=parseFloat($('pD').value);
+  const mat=new THREE.MeshStandardMaterial({color:0x3b82f6,roughness:.4,transparent:true,opacity:.6});
+  let mesh;
+  if(s.type==='disc'){mesh=new THREE.Mesh(new THREE.CylinderGeometry(r,r,.03,32),mat);mesh.position.y=.5}
+  else if(s.type==='sphere'){mesh=new THREE.Mesh(new THREE.SphereGeometry(r,24,24),mat);mesh.position.y=.5}
+  else{mesh=new THREE.Mesh(new THREE.CylinderGeometry(.012,.012,r*2,8),mat);mesh.rotation.z=Math.PI/2;mesh.position.y=.5}
+  mesh.castShadow=true;
+  pObj=new THREE.Group();pObj.add(mesh);pObj.position.x=-d;
+  pScene.scene.add(pObj);
+  // Axis at origin
+  const axGeo=new THREE.CylinderGeometry(.015,.015,1.2,8);
+  const axMat=new THREE.MeshStandardMaterial({color:0x8B2500,emissive:0x8B2500,emissiveIntensity:.2});
+  pAxis=new THREE.Mesh(axGeo,axMat);pAxis.position.y=.5;
+  pScene.scene.add(pAxis);
+  // d line
+  if(d>0.01){
+    const dGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,.5,0),new THREE.Vector3(-d,.5,0)]);
+    const dMat=new THREE.LineBasicMaterial({color:0xB8860B});
+    const dLine=new THREE.Line(dGeo,dMat);pObj.userData.dLine=dLine;pScene.scene.add(dLine);
+  }
+}
+
+function updatePInfo(){
+  const s=P_SHAPES[pState.si],Icm=getPIcm(),I=getPI(),m=parseFloat($('pMass').value),d=parseFloat($('pD').value),r=parseFloat($('pSize').value);
+  $('p_ival').textContent=`I = ${I.toFixed(4)} kg·m²`;
+  $('p_form').textContent=d>0.01?`I = ${Icm.toFixed(4)} + ${m.toFixed(1)}×${d.toFixed(2)}² = ${I.toFixed(4)}`:`I = I_cm = ${Icm.toFixed(4)} kg·m²`;
+  $('pInfo').innerHTML=`
+    <div class="info-c"><h4>I at Centre of Mass</h4><div class="iv">${Icm.toFixed(4)} kg·m²</div><div class="id">I_cm = ${s.formula}</div></div>
+    <div class="info-c"><h4>Offset d</h4><div class="iv" style="color:var(--warn)">${d.toFixed(2)} m</div><div class="id">md² = ${(m*d*d).toFixed(4)} kg·m²</div></div>
+    <div class="info-c"><h4>Total I</h4><div class="iv" style="font-size:1.2rem">${I.toFixed(4)} kg·m²</div><div class="id">I = I_cm + md²<br>= ${Icm.toFixed(4)} + ${(m*d*d).toFixed(4)}</div></div>
+    <div class="info-c"><h4>Ratio I / I_cm</h4><div class="iv">${Icm>0?(I/Icm).toFixed(2):'—'}×</div><div class="id">${d>0.01?`Moving the axis ${d.toFixed(2)} m from the centre increased I by ${((I/Icm-1)*100).toFixed(0)}%.`:'Axis is at the centre of mass.'}</div></div>`;
+}
+
+['pMass','pSize','pD'].forEach(id=>{$(id)?.addEventListener('input',()=>{
+  if(id==='pMass')$('pMassV').textContent=parseFloat($('pMass').value).toFixed(1);
+  if(id==='pSize')$('pSizeV').textContent=parseFloat($('pSize').value).toFixed(2);
+  if(id==='pD')$('pDV').textContent=parseFloat($('pD').value).toFixed(2);
+  // Remove old d line
+  if(pObj?.userData?.dLine){pScene.scene.remove(pObj.userData.dLine);pObj.userData.dLine=null}
+  buildPObj();updatePInfo()})});
+
+// ===== MODE 3: ANGULAR MOMENTUM =====
+let aScene=null,aObj=null,aArms=[],aInitialL=null;
+
+function initSkater(){
+  if(!aScene)aScene=makeScene('view3');
+  aInitialL=null;
+  buildSkater();updateSkater();
+}
+
+function buildSkater(){
+  if(!aScene)return;
+  if(aObj)aScene.scene.remove(aObj);
+  aObj=new THREE.Group();
+  // Body (cylinder)
+  const bodyR=.08;
+  const body=new THREE.Mesh(new THREE.CylinderGeometry(bodyR,bodyR,.6,16),new THREE.MeshStandardMaterial({color:0x3b82f6,roughness:.5}));
+  body.position.y=.6;body.castShadow=true;aObj.add(body);
+  // Head
+  const head=new THREE.Mesh(new THREE.SphereGeometry(.06,16,16),new THREE.MeshStandardMaterial({color:0xffcc80,roughness:.6}));
+  head.position.y=.96;aObj.add(head);
+  // Arms
+  const armR=parseFloat($('aR')?.value||.7);
+  const armMat=new THREE.MeshStandardMaterial({color:0xef4444,roughness:.4});
+  const armGeo=new THREE.SphereGeometry(.04,12,12);
+  const a1=new THREE.Mesh(armGeo,armMat);a1.position.set(armR,.7,0);a1.castShadow=true;aObj.add(a1);
+  const a2=new THREE.Mesh(armGeo,armMat);a2.position.set(-armR,.7,0);a2.castShadow=true;aObj.add(a2);
+  // Arm rods
+  const rodGeo=new THREE.CylinderGeometry(.008,.008,armR-.08,4);
+  const rodMat=new THREE.MeshStandardMaterial({color:0x888888});
+  const r1=new THREE.Mesh(rodGeo,rodMat);r1.rotation.z=Math.PI/2;r1.position.set(armR/2+.04,.7,0);aObj.add(r1);
+  const r2=new THREE.Mesh(rodGeo,rodMat);r2.rotation.z=Math.PI/2;r2.position.set(-armR/2-.04,.7,0);aObj.add(r2);
+  aArms=[a1,a2];
+  // Axis
+  const ax=new THREE.Mesh(new THREE.CylinderGeometry(.008,.008,1.4,8),new THREE.MeshStandardMaterial({color:0x8B2500,transparent:true,opacity:.3}));
+  ax.position.y=.5;aObj.add(ax);
+  aObj.position.y=0;
+  aScene.scene.add(aObj);
+}
+
+function getSkaterI(){
+  const bodyM=parseFloat($('aBodyM')?.value||3),armM=parseFloat($('aArmM')?.value||2),r=parseFloat($('aR')?.value||.7);
+  const Ibody=.5*bodyM*.08*.08;
+  const Iarms=2*armM*r*r;
+  return Ibody+Iarms;
+}
+
+function updateSkater(){
+  const I=getSkaterI();
+  const bodyM=parseFloat($('aBodyM')?.value||3),armM=parseFloat($('aArmM')?.value||2),r=parseFloat($('aR')?.value||.7);
+  if(aInitialL===null){aInitialL=I*2.0}
+  const omega=aInitialL/I;
+  const KE=.5*I*omega*omega;
+  $('skaterDisplay').innerHTML=`
+    <div class="skater-display">
+      <div class="skater-metric"><div class="sm-v">${I.toFixed(4)}</div><div class="sm-l">Moment of Inertia</div><div class="sm-u">kg·m²</div></div>
+      <div class="skater-metric"><div class="sm-v" style="color:var(--accent3)">${omega.toFixed(2)}</div><div class="sm-l">Angular Velocity ω</div><div class="sm-u">rad/s</div></div>
+      <div class="skater-metric"><div class="sm-v" style="color:var(--warn)">${KE.toFixed(3)}</div><div class="sm-l">Rotational KE</div><div class="sm-u">J</div></div>
+    </div>
+    <div class="conserved"><div class="cl">Angular Momentum (Conserved)</div><div class="cv">L = Iω = ${aInitialL.toFixed(4)} kg·m²/s</div></div>
+    <div style="font-size:.62rem;color:var(--text2);margin-top:4px;text-align:center">I = ½M_body·R_body² + 2·m_arm·r²  =  ${(.5*bodyM*.08*.08).toFixed(4)} + 2×${armM.toFixed(1)}×${r.toFixed(2)}² = ${I.toFixed(4)} kg·m²</div>`;
+  return{I,omega};
+}
+
+['aBodyM','aArmM','aR'].forEach(id=>{$(id)?.addEventListener('input',()=>{
+  if(id==='aBodyM')$('aBodyMV').textContent=parseFloat($('aBodyM').value).toFixed(1);
+  if(id==='aArmM')$('aArmMV').textContent=parseFloat($('aArmM').value).toFixed(1);
+  if(id==='aR')$('aRV').textContent=parseFloat($('aR').value).toFixed(2);
+  buildSkater();updateSkater()})});
+
+// ===== BOTTOM TABS =====
+window.bts = function(el, i) {
+  document.querySelectorAll('.bt').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.btc').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  $('b' + i).classList.add('on');
+  if (i === 1) setTimeout(() => { initGr(); drawGr() }, 80);
+};
+
+// Experiment tab
+let manD = [], expD = [];
+const EIV = [{id:'mass',n:'Mass (kg)'},{id:'radius',n:'Radius (m)'},{id:'omega',n:'Angular velocity (rad/s)'}];
+const EDV = [{id:'I',n:'Moment of Inertia I (kg m2)'},{id:'KE',n:'Rotational KE (J)'},{id:'L',n:'Angular Momentum L (kg m2/s)'}];
+const ECVS = [{id:'mass',n:'Mass'},{id:'radius',n:'Radius'},{id:'omega',n:'Ang. velocity'},{id:'shape',n:'Shape'}];
+
+function getSimIV(){const iv=$('selIV')?.value||'mass',m=parseFloat($('eMass')?.value||2),r=parseFloat($('eRad')?.value||.3),w=parseFloat($('eSpin')?.value||2);return iv==='mass'?m:iv==='radius'?r:w}
+function getSimDV(){const dv=$('selDV')?.value||'I',sh=E_SHAPES[eState.si],m=parseFloat($('eMass')?.value||2),r=parseFloat($('eRad')?.value||.3),L2=parseFloat($('eLen')?.value||1),w=parseFloat($('eSpin')?.value||2);const I=sh.usesLen?sh.factor*m*L2*L2:sh.factor*m*r*r;return dv==='I'?I:dv==='KE'?.5*I*w*w:I*w}
+function getIVN(){return EIV.find(v=>v.id===($('selIV')?.value||'mass'))?.n||'IV'}
+function getDVN(){return EDV.find(v=>v.id===($('selDV')?.value||'I'))?.n||'DV'}
+
+function buildExp(){
+  const iv=$('selIV')?.value||'mass',cvs=ECVS.filter(c=>c.id!==iv);
+  $('expC').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:5px"><div><label style="font-size:.54rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:2px">Independent Variable</label><select id="selIV" onchange="buildExp()" style="width:100%;padding:4px 6px;border-radius:5px;border:1px solid var(--border);font-size:.66rem;font-weight:600;background:var(--bg2);outline:none">${EIV.map(v=>'<option value="'+v.id+'"'+(v.id===iv?' selected':'')+'>'+v.n+'</option>').join('')}</select></div><div><label style="font-size:.54rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:2px">Dependent Variable</label><select id="selDV" style="width:100%;padding:4px 6px;border-radius:5px;border:1px solid var(--border);font-size:.66rem;font-weight:600;background:var(--bg2);outline:none">${EDV.map(v=>'<option value="'+v.id+'">'+v.n+'</option>').join('')}</select></div></div><label style="font-size:.54rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:2px">Controlled Variables</label><div style="display:flex;gap:3px;flex-wrap:wrap;margin-bottom:5px">${cvs.map(c=>'<label style="display:flex;align-items:center;gap:2px;padding:2px 6px;border-radius:3px;background:var(--bg2);border:1px solid var(--border);font-size:.58rem;font-weight:600;color:var(--ok)"><input type="checkbox" checked disabled style="accent-color:var(--ok)"> '+c.n+'</label>').join('')}</div><label style="font-size:.54rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:2px">Hypothesis</label><textarea style="width:100%;height:32px;border:1px solid var(--border);border-radius:4px;padding:4px 6px;font-size:.64rem;resize:vertical;background:var(--bg2);outline:none;font-family:var(--body);color:var(--text)" placeholder="If I increase the ${getIVN().toLowerCase()}, then..."></textarea><div style="margin-top:6px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:6px 8px"><p style="font-size:.56rem;color:var(--text3);margin-bottom:4px">Change the IV using sliders above. Use Read to capture values, then + Add.</p><div class="ctrl" style="align-items:flex-end;gap:4px"><div style="flex:1"><label style="font-size:.52rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">IV Value</label><div style="display:flex;gap:2px"><input class="num-input" id="mIV" step="any" style="width:100%"><button class="btn btn-s" onclick="window.rIV()" style="font-size:.55rem;padding:3px 5px">Read</button></div></div><div style="flex:1"><label style="font-size:.52rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">DV Value</label><div style="display:flex;gap:2px"><input class="num-input" id="mDV" step="any" style="width:100%"><button class="btn btn-s" onclick="window.rDV()" style="font-size:.55rem;padding:3px 5px">Read</button></div></div><button class="btn btn-p" onclick="window.addR()">+ Add</button><button class="btn btn-ok" onclick="window.aAdd()">Auto Add</button></div></div><div id="mT" style="margin-top:4px"></div><div style="display:flex;gap:4px;margin-top:4px"><button class="btn btn-ok" onclick="window.plotM()">Plot Graph</button><button class="btn btn-s" onclick="window.clrM()">Clear All</button></div><div id="mSt" style="font-size:.6rem;color:var(--text3);margin-top:3px"></div>`;
+}
+window.rIV=()=>{if($('mIV'))$('mIV').value=getSimIV().toFixed(4)};
+window.rDV=()=>{if($('mDV'))$('mDV').value=getSimDV().toFixed(4)};
+window.aAdd=()=>{window.rIV();window.rDV();window.addR()};
+window.addR=()=>{const iv=parseFloat($('mIV')?.value),dv=parseFloat($('mDV')?.value);if(isNaN(iv)||isNaN(dv))return;manD.push({iv,dv});if($('mIV'))$('mIV').value='';if($('mDV'))$('mDV').value='';if($('mSt')){$('mSt').textContent='Added #'+manD.length;$('mSt').style.color='var(--ok)'}buildMT();syncM();addN('Data','IV='+iv.toFixed(4)+', DV='+dv.toFixed(4),'Point #'+manD.length)};
+function buildMT(){if(!manD.length){if($('mT'))$('mT').innerHTML='';return}const g={};manD.forEach((d,i)=>{const k=d.iv.toFixed(4);if(!g[k])g[k]=[];g[k].push({...d,idx:i})});const ks=Object.keys(g).map(Number).sort((a,b)=>a-b);let rows='';ks.forEach(k=>{const pts=g[k.toFixed(4)],dvs=pts.map(p=>p.dv),mn=dvs.reduce((a,b)=>a+b,0)/dvs.length,unc=dvs.length>1?(Math.max(...dvs)-Math.min(...dvs))/2:0;pts.forEach((p,j)=>{rows+='<tr><td>'+(j===0?k.toFixed(4):'')+'</td><td>'+p.dv.toFixed(4)+'</td><td><span style="cursor:pointer;color:var(--err);opacity:.5" onclick="window.rmPt('+p.idx+')">x</span></td></tr>'});rows+='<tr class="mean"><td>Mean</td><td class="mean">'+mn.toFixed(4)+(unc>0?' +/-'+unc.toFixed(4):'')+'</td><td></td></tr>'});if($('mT'))$('mT').innerHTML='<table class="dt"><thead><tr><th>'+getIVN()+'</th><th>'+getDVN()+'</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>'}
+window.rmPt=i=>{manD.splice(i,1);buildMT();syncM()};
+window.clrM=()=>{manD=[];expD=[];buildMT();if($('dW'))$('dW').innerHTML='<p style="font-size:.64rem;color:var(--text3);text-align:center;padding:8px">Collect data first.</p>';drawGr()};
+function syncM(){if(!manD.length){expD=[];return}const g={};manD.forEach(d=>{const k=d.iv.toFixed(4);if(!g[k])g[k]=[];g[k].push(d.dv)});expD=Object.keys(g).map(Number).sort((a,b)=>a-b).map(k=>{const v=g[k.toFixed(4)],mn=v.reduce((a,b)=>a+b,0)/v.length,unc=v.length>1?(Math.max(...v)-Math.min(...v))/2:0;return{iv:k,mean:mn,unc}});buildDT();setTimeout(()=>{initGr();drawGr()},30)}
+function buildDT(){if(!expD.length)return;$('dW').innerHTML='<table class="dt"><thead><tr><th>'+getIVN()+'</th><th>Mean '+getDVN()+'</th></tr></thead><tbody>'+expD.map(r2=>'<tr><td>'+r2.iv.toFixed(4)+'</td><td class="mean">'+r2.mean.toFixed(4)+'</td></tr>').join('')+'</tbody></table>'}
+window.plotM=()=>{if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.btc').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(()=>{initGr();drawGr()},80)};
+
+let gCv,gx2;
+function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');const d=devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)return;gCv.width=w*d;gCv.height=200*d;gCv.style.width=w+'px';gCv.style.height='200px';gx2.setTransform(d,0,0,d,0,0)}
+function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return}const w=parseInt(gCv.style.width)||500,h=200;gx2.clearRect(0,0,w,h);gx2.fillStyle='#fff';gx2.fillRect(0,0,w,h);if(!expD.length){gx2.fillStyle='#bbb';gx2.font='11px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data and click Plot Graph',w/2,h/2);return}const P={t:22,r:14,b:34,l:48},pW=w-P.l-P.r,pH=h-P.t-P.b;const xs=expD.map(r2=>r2.iv),ys=expD.map(r2=>r2.mean);let xn=Math.min(...xs),xx=Math.max(...xs),yn=Math.min(...ys),yx=Math.max(...ys);const xp=(xx-xn)*.1||.1,yp=(yx-yn)*.1||1;xn-=xp;xx+=xp;yn=Math.max(0,yn-yp);yx+=yp;const tx=v=>P.l+((v-xn)/(xx-xn))*pW,ty=v=>P.t+pH-((v-yn)/(yx-yn))*pH;gx2.strokeStyle='rgba(0,0,0,.06)';gx2.lineWidth=.5;for(let i=0;i<=5;i++){const v=xn+(xx-xn)*i/5;gx2.beginPath();gx2.moveTo(tx(v),P.t);gx2.lineTo(tx(v),P.t+pH);gx2.stroke()}for(let i=0;i<=5;i++){const v=yn+(yx-yn)*i/5;gx2.beginPath();gx2.moveTo(P.l,ty(v));gx2.lineTo(P.l+pW,ty(v));gx2.stroke()}gx2.strokeStyle='rgba(0,0,0,.25)';gx2.lineWidth=1.5;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,P.t+pH);gx2.lineTo(P.l+pW,P.t+pH);gx2.stroke();gx2.fillStyle='#888';gx2.font='9px sans-serif';gx2.textAlign='center';for(let i=0;i<=5;i++){const v=xn+(xx-xn)*i/5;gx2.fillText(v.toFixed(2),tx(v),P.t+pH+12)}gx2.textAlign='right';for(let i=0;i<=5;i++){const v=yn+(yx-yn)*i/5;gx2.fillText(v.toFixed(2),P.l-5,ty(v)+3)}gx2.fillStyle='#555';gx2.font='10px sans-serif';gx2.textAlign='center';gx2.fillText(getIVN(),P.l+pW/2,h-4);gx2.save();gx2.translate(10,P.t+pH/2);gx2.rotate(-Math.PI/2);gx2.fillText(getDVN(),0,0);gx2.restore();gx2.fillStyle='#1a1a1a';gx2.font='bold 11px sans-serif';gx2.fillText(getDVN()+' vs '+getIVN(),P.l+pW/2,14);if(xs.length>=2){const n2=xs.length,sx=xs.reduce((a,b)=>a+b,0),sy=ys.reduce((a,b)=>a+b,0),sxy=xs.reduce((a,x,i)=>a+x*ys[i],0),sxx=xs.reduce((a,x)=>a+x*x,0);const m2=(n2*sxy-sx*sy)/(n2*sxx-sx*sx),b2=(sy-m2*sx)/n2;gx2.strokeStyle='rgba(139,37,0,.25)';gx2.lineWidth=1.5;gx2.setLineDash([5,4]);gx2.beginPath();gx2.moveTo(tx(xn),ty(m2*xn+b2));gx2.lineTo(tx(xx),ty(m2*xx+b2));gx2.stroke();gx2.setLineDash([]);const ssRes=ys.reduce((a,y,i)=>a+(y-(m2*xs[i]+b2))**2,0),ssTot=ys.reduce((a,y)=>a+(y-sy/n2)**2,0),r2=ssTot===0?1:1-ssRes/ssTot;gx2.fillStyle='#8B2500';gx2.font='bold 9px monospace';gx2.textAlign='right';gx2.fillText('R2 = '+r2.toFixed(4),w-P.r,P.t+12)}if(xs.length>=2){gx2.strokeStyle='#8B2500';gx2.lineWidth=1.2;gx2.beginPath();expD.forEach((r2,i)=>{i===0?gx2.moveTo(tx(xs[i]),ty(ys[i])):gx2.lineTo(tx(xs[i]),ty(ys[i]))});gx2.stroke()}gx2.fillStyle='#8B2500';xs.forEach((x,i)=>{gx2.beginPath();gx2.arc(tx(x),ty(ys[i]),4,0,Math.PI*2);gx2.fill()})}
+
+// IB questions
+const IB=[{c:'Calculate',q:'A solid disc of mass 4.0 kg and radius 0.20 m rotates at 5.0 rad/s. Calculate I and KE.',f:'I = 0.5 x 4.0 x 0.04 = 0.080 kg m2. KE = 0.5 x 0.080 x 25 = 1.0 J'},{c:'Calculate',q:'A thin rod (m=2.0 kg, L=1.2 m) rotates about its centre. Find I. Then find I about one end using the parallel axis theorem.',f:'Centre: I = mL2/12 = 0.240 kg m2. End: I = 0.240 + 2.0 x 0.36 = 0.960 kg m2'},{c:'Explain',q:'A hollow sphere and solid sphere of the same mass and radius roll down a slope. Which reaches the bottom first?',f:'The solid sphere (shape factor 0.40 vs 0.67). It diverts less energy to rotation, leaving more for translation.'},{c:'Explain',q:'An ice skater spinning at 2.0 rad/s (I=4.0) pulls arms in (I=1.6). Find the new angular velocity and explain energy change.',f:'L = Iw = 8.0 = constant. w2 = 8.0/1.6 = 5.0 rad/s. KE increases from 8 J to 20 J. The extra energy comes from the work done by muscles pulling arms in.'},{c:'State',q:'State what is meant by the moment of inertia and explain why it depends on the axis of rotation.',f:'I is the resistance to angular acceleration. I = sum of mr2. Changing the axis changes r for each particle, so I changes.'},{c:'Calculate',q:'A flywheel (solid disc, m=8.0 kg, r=0.25 m) is accelerated from rest to 120 rad/s by torque 0.50 N m. Find I, alpha, and the time.',f:'I = 0.250 kg m2. alpha = 0.50/0.250 = 2.0 rad/s2. t = 120/2.0 = 60 s'}];
+function buildIB(){$('ibL').innerHTML=IB.map((q,i)=>'<div class="ib-card"><span class="ib-cmd ib-cmd-'+(q.c==='Calculate'?'c':q.c==='Explain'?'e':'s')+'">'+q.c+'</span><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea placeholder="Your answer..."></textarea><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-p" onclick="window.sF('+i+')" style="font-size:.6rem">Show Answer</button></div><div class="ib-ans" id="iF'+i+'">'+q.f+'</div></div>').join('')}
+window.sF=i=>{$('iF'+i).classList.toggle('show');if($('iF'+i).classList.contains('show'))addN('IB Q'+(i+1),IB[i].q.substring(0,60)+'...','Answer revealed')};
+
+// Notebook
+let nb=[];
+function addN(t,d,r){nb.push({t,d,r});showN()}
+function showN(){$('nbO').innerHTML=nb.length?nb.map((n,i)=>'<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">-> '+n.r+'</span></div>').join(''):'<p style="text-align:center;color:var(--text3);font-size:.62rem;padding:8px">Complete experiments to record.</p>'}
+
+buildExp();buildIB();showN();
+
+// ===== ANIMATION LOOP =====
+let clock=new THREE.Clock();
+function animate(){
+  requestAnimationFrame(animate);
+  const dt=clock.getDelta();
+
+  // Mode 0: Explore
+  if(currentMode===0&&eScene&&eObj){
+    if(eState.spinning){
+      eState.angle+=parseFloat($('eSpin')?.value||2)*dt;
+      eObj.rotation.y=eState.angle;
+    }
+    eScene.ren.render(eScene.scene,eScene.cam);
+  }
+  // Mode 1: Race
+  if(currentMode===1&&rScene){
+    if(rState.running&&!rState.finished){
+      const slope=parseFloat($('rSlope')?.value||20)*Math.PI/180;
+      const g=9.81;
+      rState.t+=dt;
+      const racers=rScene.scene.children.filter(c=>c.userData?.isRacer);
+      let anyRunning=false;
+      RACERS.forEach((r,i)=>{
+        if(!rState.enabled[i])return;
+        const a=g*Math.sin(slope)/(1+r.c);
+        const dist=.5*a*rState.t*rState.t;
+        rState.positions[i]=Math.min(dist,3);
+        if(dist<3)anyRunning=true;
+        const racer=racers.find(c=>c.userData.idx===i);
+        if(racer){
+          racer.position.x=-1.2+dist*Math.cos(slope);
+          racer.position.y=.8+Math.sin(slope)*2-dist*Math.sin(slope);
+        }
+      });
+      if(!anyRunning){
+        rState.finished=true;rState.running=false;
+        const order=RACERS.map((r,i)=>({i,c:r.c,n:r.n})).filter((_,i)=>rState.enabled[i]).sort((a,b)=>a.c-b.c);
+        const winner=order[0];
+        const pred=parseInt($('rPredict')?.value);
+        $('r_status').textContent=`Winner: ${winner.n}!`;
+        $('rResult').innerHTML=`<div class="fb ${pred===winner.i?'fb-ok':'fb-err'}">${pred===winner.i?'Correct! ':'Incorrect. '}${winner.n} wins (lowest shape factor c = ${winner.c.toFixed(2)}).<br>Finishing order: ${order.map((o,j)=>`${j+1}. ${o.n}`).join(' → ')}</div>`;
+      }
+    }
+    rScene.ren.render(rScene.scene,rScene.cam);
+  }
+  // Mode 2: Parallel axis
+  if(currentMode===2&&pScene){
+    if(pObj)pObj.rotation.y+=1.5*dt;
+    pScene.ren.render(pScene.scene,pScene.cam);
+  }
+  // Mode 3: Skater
+  if(currentMode===3&&aScene){
+    const{omega}=updateSkater();
+    if(aObj)aObj.rotation.y+=omega*dt*.3;
+    aScene.ren.render(aScene.scene,aScene.cam);
+  }
+}
+
+// ===== INIT =====
+initExplore();
+animate();
+</script>
+</body>
+</html>
