@@ -98,4 +98,13 @@ const DP_SIMS = [
     description: "Explore Planck curves, Wien's displacement law, Stefan-Boltzmann, and the ultraviolet catastrophe.",
     file: "sims/blackbody-radiation.html"
   },
+  {
+    id: "ideal-gas-law-2d",
+    title: "Ideal Gas Law Simulator",
+    icon: "💨",
+    topic: "B.3",
+    topicName: "Gas Laws",
+    description: "Explore Boyle's, Charles', and Gay-Lussac's laws. Visualise PV=nRT with kinetic particle model and Maxwell-Boltzmann distributions.",
+    file: "sims/ideal-gas-law.html"
+  },
 ];
