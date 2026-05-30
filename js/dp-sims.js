@@ -1,12 +1,12 @@
 const DP_SIMS = [
   {
-    id: "gravitational-force",
-    title: "Gravitational Force Simulator",
-    icon: "🌍",
+    id: "gravity-lab",
+    title: "Gravity Lab",
+    icon: "🪐",
     topic: "D.1",
     topicName: "Gravitational Fields",
-    description: "Explore gravitational attraction between masses. Adjust mass, distance, and see the force change in real time.",
-    file: "sims/gravitational-force.html"
+    description: "Explore gravitational force, inverse-square law, orbits, and drag in an interactive space environment.",
+    file: "sims/gravity-lab.html"
   },
   {
     id: "derived-quantities-lab",
