@@ -30,8 +30,8 @@ a{color:inherit}
 .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px}
 .card-t{font-size:.55rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);font-weight:700;margin-bottom:4px}
 
-.sim-box{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:#0a1628;aspect-ratio:16/9}
-.sim-box canvas{display:block;width:100%;height:100%}
+.sim-box{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:#0a1628;aspect-ratio:16/9;touch-action:none}
+.sim-box canvas{display:block;width:100%;height:100%;touch-action:none}
 
 .ctrl{display:flex;gap:5px;align-items:center;flex-wrap:wrap;margin-bottom:4px}
 .sl-g{display:flex;align-items:center;gap:5px;flex:1}
@@ -96,8 +96,42 @@ a{color:inherit}
 .ib-ans{margin-top:5px;padding:7px 9px;border-radius:5px;background:rgba(26,104,71,.03);border:1px solid rgba(26,104,71,.08);font-size:.64rem;line-height:1.6;color:var(--text2);display:none}
 .ib-ans.show{display:block}.ib-ans strong{color:var(--ok)}
 
-@media(max-width:860px){.main-grid{grid-template-columns:1fr}.info-col{flex-direction:row;flex-wrap:wrap}.info-col .info-c{flex:1;min-width:120px}}
-@media print{.nav{display:none!important}}
+@media(max-width:860px){
+  .main-grid{grid-template-columns:1fr}
+  .info-col{flex-direction:column}
+  .info-col .info-c{min-width:0}
+  .sim-box{aspect-ratio:4/3}
+  .graph-box{height:150px}
+  .ctrl{gap:4px}
+  .sl-g{flex-wrap:wrap}
+  .sl-g label{min-width:45px;font-size:.58rem}
+  .sl-g input[type="range"]{max-width:none;flex:1;min-width:80px}
+  .btabs{flex-wrap:wrap}
+  .bt{padding:5px 8px;font-size:.6rem}
+  .preset-btn{padding:5px 10px;font-size:.6rem}
+  .btn{padding:6px 12px;font-size:.64rem}
+  .mode-btn{padding:6px 10px;font-size:.62rem}
+  .stat-g{grid-template-columns:1fr 1fr}
+  .dt{font-size:.6rem}
+  .dt th{font-size:.48rem;padding:5px 3px}
+  .dt td{padding:4px 3px}
+  .num-input{width:60px;padding:4px;font-size:.68rem}
+  .ib-card textarea{height:50px;font-size:.66rem}
+  .eq-box{font-size:.7rem}
+  .gp{padding:8px}
+}
+@media(max-width:480px){
+  .main-grid{gap:4px}
+  .card{padding:8px}
+  .wrap{padding:4px 6px 60px}
+  .modes{gap:0}
+  .mode-btn{padding:5px 7px;font-size:.56rem}
+  .sim-box{aspect-ratio:1/1}
+  .sl-g label{font-size:.54rem;min-width:40px}
+  .ctrl{flex-direction:column;align-items:stretch}
+  .sl-g{width:100%}
+}
+@media print{nav{display:none!important}}
 </style>
 </head>
 <body>
@@ -173,6 +207,7 @@ let S = {
   paused: false, speed: 1, graphType: 'PV',
   lockV: false, lockP: false, lockT: false,
   constP: false, constP_target: 0, adiabatic: false,
+  traceInterval: 3,
   particles: [], collisions: 0, frames: 0,
   graphData: [], thermoPath: [],
   molarMass: 0.028
@@ -467,11 +502,18 @@ function updateSidebar() {
   let graphHtml = '';
   if(scene <= 4) {
     graphHtml = `<div class="info-c"><h4>Live Auto-Trace</h4>
-      <div style="font-size:.5rem;color:var(--text3);margin-bottom:3px">Auto-records every 10s as you interact.</div>
-      <div style="display:flex;gap:3px;margin-bottom:4px">
+      <div style="display:flex;gap:3px;margin-bottom:4px;flex-wrap:wrap">
         <button class="preset-btn${S.graphType==='PV'?' on':''}" id="gbPV" onclick="window.setGT('PV')">P-V</button>
         <button class="preset-btn${S.graphType==='PT'?' on':''}" id="gbPT" onclick="window.setGT('PT')">P-T</button>
         <button class="preset-btn${S.graphType==='VT'?' on':''}" id="gbVT" onclick="window.setGT('VT')">V-T</button>
+        <span style="flex:1"></span>
+        <button class="preset-btn" onclick="S.graphData=[]" style="font-size:.5rem">Clear</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;margin-bottom:4px">
+        <span style="font-size:.48rem;font-weight:700;color:var(--text3);text-transform:uppercase">Record every</span>
+        <input type="range" id="slTrace" min="1" max="10" step="1" value="${S.traceInterval}" style="flex:1;max-width:80px;accent-color:var(--accent);height:3px" oninput="S.traceInterval=+this.value;document.getElementById('vTrace').textContent=this.value">
+        <span id="vTrace" style="font-family:var(--mono);font-size:.7rem;font-weight:800;color:var(--accent);min-width:16px">${S.traceInterval}</span>
+        <span style="font-size:.48rem;color:var(--text3)">sec</span>
       </div>
       <div class="graph-box" id="liveGraphBox"><canvas id="liveGraph"></canvas></div>
     </div>`;
@@ -540,9 +582,10 @@ function drawLiveGraph() {
   cx.setTransform(dpr,0,0,dpr,0,0);
   cx.fillStyle='#fff';cx.fillRect(0,0,W,H);
 
-  // Record data point every ~2 seconds (120 frames at 60fps)
+  // Record data point at user-chosen interval
   const P=getPressure(), V=getVolume();
-  if(!S.paused && S.frames%120===0) {
+  const traceFrames = Math.round(S.traceInterval * 60);
+  if(!S.paused && traceFrames > 0 && S.frames % traceFrames === 0) {
     const last = S.graphData[S.graphData.length-1];
     const changed = !last || Math.abs(last.P-P)>0.3 || Math.abs(last.V-V)>0.2 || Math.abs(last.T-S.T)>1;
     if(changed) {
