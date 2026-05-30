@@ -107,4 +107,13 @@ const DP_SIMS = [
     description: "Explore Boyle's, Charles', and Gay-Lussac's laws. Visualise PV=nRT with kinetic particle model and Maxwell-Boltzmann distributions.",
     file: "sims/ideal-gas-law.html"
   },
+  {
+    id: "circuit-builder",
+    title: "Circuit Builder Lab",
+    icon: "⚡",
+    topic: "B.5",
+    topicName: "Current and Circuits",
+    description: "Build series and parallel circuits. Explore Ohm's law, Kirchhoff's rules, V-I characteristics, EMF and internal resistance.",
+    file: "sims/circuit-builder.html"
+  },
 ];
