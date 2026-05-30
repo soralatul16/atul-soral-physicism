@@ -1,502 +1,1845 @@
+
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stability &amp; Toppling 3D | Atul Soral Physicism</title>
 <style>
-:root{--bg:#f0f4f8;--text:#1e293b;--text2:#475569;--text3:#94a3b8;--accent:#0369a1;--accent2:#0e7c6b;--border:rgba(100,140,180,.2);--glass:rgba(255,255,255,.72);--glassBd:rgba(100,140,180,.18);--surface:rgba(224,242,254,.4);--ok:#16a34a;--err:#dc2626;--mono:'SF Mono',monospace;--serif:Georgia,serif}
-[data-theme="dark"]{--bg:#0f172a;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--accent:#38bdf8;--accent2:#34d399;--border:rgba(56,189,248,.15);--glass:rgba(15,23,42,.78);--glassBd:rgba(56,189,248,.12);--surface:rgba(30,41,59,.5);--ok:#22c55e;--err:#ef4444}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px}
-nav{display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px}
-nav a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem}nav a:hover{color:#fff}
-.nav-logo{font-family:var(--serif);font-size:1rem;font-weight:700;color:#fff!important}
-.nav-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:.73rem;text-decoration:none;display:inline-block}
-.w{max-width:1100px;margin:0 auto;padding:0 12px}
-.hd{text-align:center;padding:8px 16px 4px}
-.hd h1{font-family:var(--serif);font-size:1.2rem;color:var(--accent)}
-.hd p{font-size:.72rem;color:var(--text2)}
-.grid{display:grid;grid-template-columns:1fr 220px;gap:8px;margin-bottom:8px}
-#view3d{border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 6px 24px rgba(0,0,0,.08);aspect-ratio:16/9;background:#1a1a2e}
-.gp{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glassBd);border-radius:10px;padding:6px 8px;margin-bottom:5px}
-.cr{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:3px}.cr:last-child{margin-bottom:0}
-.cl{font-size:.62rem;color:var(--text2);font-weight:700;text-transform:uppercase;min-width:28px}
-.pill{padding:4px 9px;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.62rem;font-weight:700;color:var(--text3);background:var(--surface);display:inline-block;transition:all .1s}
-.pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-.sr{display:flex;align-items:center;gap:4px;font-size:.62rem;font-weight:600;color:var(--text2)}
-.sr input[type="range"]{flex:1;accent-color:var(--accent);max-width:100px}
-.sr .sv{font-family:var(--mono);min-width:36px;font-weight:800;color:var(--text);font-size:.72rem}
-.btn{padding:5px 12px;border:none;border-radius:7px;font-size:.68rem;font-weight:700;cursor:pointer;transition:all .12s}
-.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.97)}
-.btn-a{background:var(--accent);color:#fff}.btn-o{background:transparent;border:1px solid var(--border);color:var(--text2)}
-.inp{padding:4px 5px;border:2px solid var(--border);border-radius:6px;background:var(--glass);color:var(--text);font-size:.8rem;font-family:var(--serif);width:64px;text-align:center;outline:none;font-weight:700}
-.inp:focus{border-color:var(--accent)}.inp.ok{border-color:var(--ok)}.inp.no{border-color:var(--err)}
-.u{font-size:.66rem;color:var(--text3);font-family:var(--serif)}
-.eq{font-family:var(--serif);font-size:.78rem;flex:1;color:var(--text2)}
-.fb{padding:5px 10px;border-radius:7px;font-size:.74rem;text-align:center;margin-top:4px;font-weight:600}
-.fb-ok{background:rgba(22,163,74,.07);color:var(--ok)}.fb-no{background:rgba(220,38,38,.05);color:var(--err)}.fb-h{background:rgba(3,105,161,.05);color:var(--accent)}
-.rcol{display:flex;flex-direction:column;gap:4px;max-height:600px;overflow-y:auto}
-.rcol::-webkit-scrollbar{width:3px}.rcol::-webkit-scrollbar-thumb{background:rgba(0,0,0,.08);border-radius:2px}
-.rc{background:var(--surface);border-radius:8px;padding:6px 7px;border:1px solid var(--border)}
-.rc h3{font-size:.52rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:2px;font-weight:700}
-.rc .rv{font-size:.95rem;font-weight:800;font-family:var(--serif);color:var(--accent)}
-.rc .rs{font-size:.6rem;color:var(--text2);margin-top:2px;line-height:1.5}
-.rc .fm{font-family:var(--serif);font-size:.78rem;color:var(--accent2);font-weight:700}
-.sg{display:grid;grid-template-columns:1fr 1fr;gap:3px}
-.si{background:var(--glass);border-radius:5px;padding:3px;text-align:center;border:1px solid var(--border)}
-.si .sl{font-size:.48rem;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);font-weight:700}
-.si .sv2{font-size:.72rem;font-weight:800;color:var(--text);font-family:var(--mono)}
-.btabs{display:flex;gap:2px;margin-bottom:4px;border-bottom:1px solid var(--border);padding-bottom:3px}
-.bt{padding:3px 8px;border-radius:6px 6px 0 0;font-size:.62rem;font-weight:700;cursor:pointer;color:var(--text3)}
-.bt.on{color:var(--accent);background:var(--surface);border:1px solid var(--border);border-bottom:none}
-.btc{display:none}.btc.on{display:block}
-.ib-card{background:var(--surface);border-radius:7px;padding:7px;margin-bottom:4px;border:1px solid var(--border)}
-.ib-cmd{display:inline-block;font-size:.5rem;padding:2px 5px;border-radius:3px;font-weight:700;text-transform:uppercase;background:rgba(3,105,161,.08);color:var(--accent);margin-bottom:2px}
-.ib-card h4{font-size:.7rem;font-weight:700;margin-bottom:2px}
-.ib-card p{font-size:.64rem;color:var(--text2);line-height:1.4;margin-bottom:3px}
-.ib-card textarea{width:100%;height:38px;border:1px solid var(--border);border-radius:4px;padding:3px;font-size:.64rem;font-family:inherit;resize:vertical;background:var(--glass);color:var(--text);outline:none}
-.ib-fb{padding:3px 5px;border-radius:4px;font-size:.62rem;font-weight:600;margin-top:2px;display:none}
-.ib-fb.show{display:block}.ib-fb.ok{background:rgba(22,163,74,.05);color:var(--ok)}
-.nb-c{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:3px 5px;margin-bottom:2px;font-size:.62rem;line-height:1.4}
-.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
-.exp-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px}.exp-col{flex:1;min-width:160px}
-.exp-field{margin-bottom:3px}.exp-field label{font-size:.56rem;font-weight:700;color:var(--text2);text-transform:uppercase;display:block;margin-bottom:2px}
-.exp-field select,.exp-field input{width:100%;padding:3px 5px;border-radius:5px;border:1px solid var(--border);font-size:.7rem;font-weight:600;background:var(--glass);color:var(--text);outline:none;font-family:inherit}
-.cv-grid{display:flex;flex-wrap:wrap;gap:2px}.cv-check{display:flex;align-items:center;gap:2px;padding:2px 5px;border-radius:3px;background:var(--surface);border:1px solid var(--border);font-size:.58rem;font-weight:600;color:var(--text2)}.cv-check input{accent-color:var(--accent)}
-.dt{width:100%;border-collapse:collapse;font-size:.64rem;font-family:var(--mono)}
-.dt th{text-align:center;padding:3px;font-size:.52rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--surface)}
-.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border)}.dt .mean{font-weight:700;color:var(--accent)}
-.graph-wrap canvas{width:100%;height:180px;display:block;border-radius:8px;border:1px solid var(--border);margin-top:4px}
-#overlay{position:absolute;top:10px;left:10px;pointer-events:none;color:#fff;font-family:var(--serif)}
-#overlay .o-title{font-size:14px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.5)}
-#overlay .o-angle{font-size:22px;font-weight:800;text-shadow:0 2px 6px rgba(0,0,0,.5)}
-#overlay .o-status{font-size:13px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.5)}
-.view-wrap{position:relative;border-radius:14px;overflow:hidden}
-@media(max-width:768px){.grid{grid-template-columns:1fr}.rcol{max-height:none;flex-direction:row;flex-wrap:wrap}.rcol .rc{flex:1;min-width:110px}}
-@media print{nav{display:none!important}body{background:#fff!important}}
+:root {
+  --bg: #FAF8F5;
+  --bg2: #F0EDE8;
+  --text: #1a1a1a;
+  --text2: #555;
+  --text3: #888;
+  --accent: #B8430B;
+  --accent2: #1A6847;
+  --accent3: #2D5BA0;
+  --border: rgba(0,0,0,.08);
+  --glass: rgba(255,255,255,.85);
+  --card: #fff;
+  --ok: #1A6847;
+  --err: #B8430B;
+  --warn: #C48A1A;
+  --mono: 'SF Mono', 'Consolas', 'Menlo', monospace;
+  --body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --display: Georgia, 'Times New Roman', serif;
+}
+[data-theme="dark"] {
+  --bg: #141414;
+  --bg2: #1e1e1e;
+  --text: #e8e4df;
+  --text2: #aaa;
+  --text3: #666;
+  --accent: #E0733B;
+  --accent2: #3FBF8A;
+  --accent3: #5B9EE8;
+  --border: rgba(255,255,255,.08);
+  --glass: rgba(30,30,30,.9);
+  --card: #1e1e1e;
+  --ok: #3FBF8A;
+  --err: #E0733B;
+  --warn: #E8B84A;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: var(--body); background: var(--bg); color: var(--text); line-height: 1.5; }
+button { cursor: pointer; font-family: var(--body); }
+input, select, textarea { font-family: var(--body); color: var(--text); }
+
+/* NAV */
+.nav { display:flex; align-items:center; justify-content:space-between; padding:10px 20px; background: var(--card); border-bottom: 1px solid var(--border); position: sticky; top:0; z-index:100; }
+.nav-title { font-family: var(--display); font-size: 1.05rem; font-weight: 700; color: var(--accent); }
+.nav-sub { font-size: .7rem; color: var(--text3); margin-left: 8px; }
+.nav-actions { display:flex; gap:6px; align-items:center; }
+.nav-btn { background: var(--bg2); border: 1px solid var(--border); color: var(--text2); border-radius: 6px; padding: 5px 10px; font-size: .7rem; font-weight: 600; transition: all .15s; }
+.nav-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.nav-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* LAYOUT */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 8px 12px 60px; }
+.main-grid { display: grid; grid-template-columns: 1fr 260px; gap: 10px; }
+.left-col { min-width: 0; }
+
+/* 3D VIEW */
+.view-container { position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #1a1a2e; aspect-ratio: 16/10; }
+.view-container canvas { display: block; width: 100%; height: 100%; }
+.overlay { position: absolute; top: 12px; left: 14px; pointer-events: none; }
+.overlay .o-name { font-family: var(--display); font-size: 15px; font-weight: 700; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.6); }
+.overlay .o-angle { font-family: var(--mono); font-size: 28px; font-weight: 800; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.6); }
+.overlay .o-status { font-size: 12px; font-weight: 700; text-shadow: 0 1px 4px rgba(0,0,0,.5); letter-spacing: .5px; }
+.overlay-right { position: absolute; top: 12px; right: 14px; pointer-events: none; text-align: right; }
+.overlay-right div { font-size: .65rem; color: rgba(255,255,255,.7); font-family: var(--mono); }
+
+/* CARDS */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
+.card-title { font-size: .6rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text3); font-weight: 700; margin-bottom: 6px; }
+.card-value { font-family: var(--display); font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+
+/* CONTROLS */
+.ctrl-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
+.preset-btn { padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg2); font-size: .65rem; font-weight: 600; color: var(--text2); transition: all .12s; }
+.preset-btn:hover { border-color: var(--accent); color: var(--accent); }
+.preset-btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.slider-group { display: flex; align-items: center; gap: 6px; }
+.slider-group label { font-size: .65rem; font-weight: 700; color: var(--text2); min-width: 70px; text-transform: uppercase; letter-spacing: .5px; }
+.slider-group input[type="range"] { flex: 1; accent-color: var(--accent); max-width: 200px; height: 4px; }
+.slider-group .s-val { font-family: var(--mono); font-size: .8rem; font-weight: 800; color: var(--accent); min-width: 48px; text-align: right; }
+.num-input { width: 56px; padding: 3px 4px; border: 1.5px solid var(--border); border-radius: 5px; background: var(--bg2); font-family: var(--mono); font-size: .75rem; font-weight: 700; text-align: center; outline: none; }
+.num-input:focus { border-color: var(--accent); }
+.unit { font-size: .6rem; color: var(--text3); font-family: var(--display); }
+
+/* RIGHT COL */
+.right-col { display: flex; flex-direction: column; gap: 6px; max-height: 520px; overflow-y: auto; }
+.right-col::-webkit-scrollbar { width: 3px; }
+.right-col::-webkit-scrollbar-thumb { background: rgba(0,0,0,.1); border-radius: 2px; }
+.info-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+.info-card h4 { font-size: .52rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); font-weight: 700; margin-bottom: 3px; }
+.info-card .val { font-family: var(--display); font-size: .95rem; font-weight: 700; color: var(--accent); }
+.info-card .desc { font-size: .62rem; color: var(--text2); line-height: 1.5; margin-top: 3px; }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.stat-item { background: var(--bg2); border-radius: 5px; padding: 4px 6px; text-align: center; }
+.stat-item .stat-label { font-size: .48rem; text-transform: uppercase; letter-spacing: .5px; color: var(--text3); font-weight: 700; }
+.stat-item .stat-val { font-family: var(--mono); font-size: .75rem; font-weight: 800; color: var(--text); }
+
+/* TABS */
+.tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 8px; }
+.tab { padding: 6px 14px; font-size: .68rem; font-weight: 700; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all .12s; }
+.tab:hover { color: var(--text); }
+.tab.on { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-panel { display: none; }
+.tab-panel.on { display: block; }
+
+/* EXPERIMENT */
+.exp-section { margin-bottom: 8px; }
+.exp-section h3 { font-family: var(--display); font-size: .85rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.exp-field { margin-bottom: 6px; }
+.exp-field label { display: block; font-size: .58rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--text3); margin-bottom: 2px; }
+.exp-field select, .exp-field input[type="text"], .exp-field textarea {
+  width: 100%; padding: 6px 8px; border: 1.5px solid var(--border); border-radius: 6px;
+  background: var(--bg2); font-size: .72rem; outline: none;
+}
+.exp-field select:focus, .exp-field input:focus, .exp-field textarea:focus { border-color: var(--accent); }
+.exp-field textarea { height: 48px; resize: vertical; }
+
+/* DATA TABLE */
+.data-table { width: 100%; border-collapse: collapse; font-size: .68rem; }
+.data-table th { text-align: center; padding: 5px 4px; font-size: .54rem; text-transform: uppercase; letter-spacing: .5px; color: var(--text3); border-bottom: 2px solid var(--accent); font-weight: 700; background: var(--bg2); }
+.data-table td { padding: 4px; text-align: center; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: .68rem; }
+.data-table .mean-row { font-weight: 800; color: var(--accent); background: rgba(184,67,11,.04); }
+.data-table .del-btn { color: var(--err); cursor: pointer; font-weight: 700; opacity: .5; }
+.data-table .del-btn:hover { opacity: 1; }
+
+/* GRAPH */
+.graph-container { position: relative; width: 100%; height: 320px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-top: 6px; }
+.graph-container canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.graph-controls { display: flex; gap: 6px; align-items: center; margin-top: 4px; flex-wrap: wrap; }
+.graph-controls label { font-size: .62rem; font-weight: 600; color: var(--text2); display: flex; align-items: center; gap: 3px; }
+.graph-controls input[type="checkbox"] { accent-color: var(--accent); }
+
+/* IB QUESTIONS */
+.ib-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 6px; }
+.ib-cmd { display: inline-block; font-size: .52rem; padding: 2px 7px; border-radius: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+.ib-cmd-explain { background: rgba(45,91,160,.08); color: var(--accent3); }
+.ib-cmd-calc { background: rgba(184,67,11,.08); color: var(--accent); }
+.ib-cmd-state { background: rgba(26,104,71,.08); color: var(--accent2); }
+.ib-cmd-deduce { background: rgba(196,138,26,.08); color: var(--warn); }
+.ib-card h4 { font-size: .78rem; font-weight: 700; margin: 4px 0; }
+.ib-card p { font-size: .68rem; color: var(--text2); line-height: 1.5; margin-bottom: 6px; }
+.ib-card textarea { width: 100%; height: 50px; border: 1.5px solid var(--border); border-radius: 6px; padding: 6px 8px; font-size: .68rem; resize: vertical; background: var(--bg2); outline: none; }
+.ib-card textarea:focus { border-color: var(--accent); }
+.ib-answer { margin-top: 6px; padding: 8px 10px; border-radius: 6px; background: rgba(26,104,71,.04); border: 1px solid rgba(26,104,71,.1); font-size: .68rem; line-height: 1.6; color: var(--text2); display: none; }
+.ib-answer.show { display: block; }
+.ib-answer strong { color: var(--accent2); }
+
+/* NOTEBOOK */
+.nb-entry { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; margin-bottom: 4px; font-size: .65rem; line-height: 1.5; }
+.nb-entry .nb-title { font-weight: 700; color: var(--accent); }
+.nb-entry .nb-result { color: var(--ok); font-weight: 700; font-family: var(--mono); }
+
+/* RUBRIC */
+.rubric-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-bottom: 6px; }
+.rubric-card h4 { font-size: .72rem; font-weight: 700; margin-bottom: 4px; }
+.rubric-row { display: flex; gap: 6px; margin-bottom: 4px; font-size: .64rem; }
+.rubric-crit { font-weight: 700; color: var(--accent); min-width: 110px; font-size: .6rem; text-transform: uppercase; letter-spacing: .3px; }
+.rubric-desc { color: var(--text2); line-height: 1.5; }
+.rubric-check { display: flex; align-items: flex-start; gap: 4px; margin-bottom: 3px; font-size: .62rem; color: var(--text2); }
+.rubric-check input { accent-color: var(--accent2); margin-top: 2px; }
+
+/* BTN */
+.btn { padding: 5px 12px; border: none; border-radius: 6px; font-size: .68rem; font-weight: 700; transition: all .12s; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: scale(.97); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-secondary { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); }
+.btn-success { background: var(--ok); color: #fff; }
+
+/* FEEDBACK */
+.fb { padding: 5px 8px; border-radius: 6px; font-size: .7rem; text-align: center; margin-top: 4px; font-weight: 600; }
+.fb-ok { background: rgba(26,104,71,.06); color: var(--ok); }
+.fb-err { background: rgba(184,67,11,.06); color: var(--err); }
+.fb-hint { background: rgba(45,91,160,.06); color: var(--accent3); }
+
+/* CALC BOX */
+.calc-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin-top: 6px; }
+.calc-box .formula { font-family: var(--display); font-size: .82rem; color: var(--text2); }
+
+/* COG ACTIVITY */
+.cog-canvas-wrap { position: relative; width: 100%; height: 340px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; cursor: crosshair; margin-bottom: 6px; }
+.cog-canvas-wrap canvas { position: absolute; top:0; left:0; width:100%; height:100%; }
+.cog-act-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 6px; }
+.cog-act-card h4 { font-family: var(--display); font-size: .82rem; font-weight: 700; margin-bottom: 4px; }
+.cog-act-card p { font-size: .66rem; color: var(--text2); line-height: 1.6; margin-bottom: 6px; }
+.cog-score { display: inline-block; padding: 3px 10px; border-radius: 5px; font-family: var(--mono); font-size: .75rem; font-weight: 800; }
+.cog-score-ok { background: rgba(26,104,71,.08); color: var(--ok); }
+.cog-score-close { background: rgba(196,138,26,.08); color: var(--warn); }
+.cog-score-miss { background: rgba(184,67,11,.08); color: var(--err); }
+
+/* RESPONSIVE */
+@media (max-width: 800px) {
+  .main-grid { grid-template-columns: 1fr; }
+  .right-col { max-height: none; flex-direction: row; flex-wrap: wrap; }
+  .right-col .info-card { flex: 1; min-width: 140px; }
+}
+@media print {
+  .nav { display: none !important; }
+  .view-container { break-inside: avoid; }
+}
 </style>
 </head>
 <body>
-<script>var SIM_META={id:'stability-3d',title:'Stability & Toppling 3D',topic:'A.2',topicName:'Forces – Stability',grade:['MYP5','DP'],level:'both',theme:'A',concepts:['centre of gravity','centre of mass','base of support','stability','toppling','tipping angle'],difficulty:'intermediate'};</script>
-<nav>
-  <div style="display:flex;align-items:center;gap:14px"><a href="../index.html" class="nav-logo">Atul Soral Physicism</a><a href="../dp-simulations.html">← All Simulations</a></div>
-  <div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">☀️</button><a href="../dp-simulations.html" class="nav-btn">← Back</a><a href="../index.html" class="nav-btn">Home</a><a href="../myp-dashboard.html" class="nav-btn">MYP</a><a href="../dp-dashboard.html" class="nav-btn">DP</a></div>
-</nav>
-<div class="w">
-<div class="hd"><h1>Stability &amp; Toppling — 3D Lab</h1><p>Centre of Mass, Base of Support &amp; The Tipping Point</p></div>
-<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;margin-bottom:6px;font-size:.68rem;color:var(--text2);line-height:1.6;display:flex;align-items:flex-start;gap:6px"><span style="font-size:1rem">💡</span><span>Choose an object preset. Drag the <b style="color:var(--accent)">TILT slider</b> to tilt the platform. Watch the plumb line (green) move — the object topples when it exits the base of support. <b style="color:var(--accent)">Drag the 3D view</b> to orbit, scroll to zoom, right-drag to pan. <b style="color:var(--accent)">Ball</b> = neutral, <b style="color:var(--accent)">Inverted Cone</b> = unstable.</span></div>
-<div class="grid">
-  <div>
-    <div class="view-wrap">
-      <div id="view3d"></div>
-      <div id="overlay">
-        <div class="o-title" id="oName">Racing Car</div>
-        <div class="o-angle" id="oAngle">0°</div>
-        <div class="o-status" id="oStatus" style="color:#22c55e">STABLE</div>
+<script>var SIM_META={id:'stability-3d',title:'Stability & Toppling 3D',topic:'A.2',topicName:'Forces – Stability',grade:['MYP5','DP'],level:'both',theme:'A',concepts:['centre of gravity','centre of mass','base of support','stability','toppling','tipping angle','equilibrium types'],difficulty:'intermediate'};</script>
+
+<div class="nav">
+  <div style="display:flex;align-items:baseline;gap:8px">
+    <a href="../index.html" class="nav-title" style="text-decoration:none">Atul Soral Physicism</a>
+    <a href="../dp-simulations.html" style="font-size:.68rem;color:var(--text3);text-decoration:none">← All Simulations</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn" id="themeBtn" onclick="toggleTheme()">Dark</button>
+    <a href="../dp-simulations.html" class="nav-btn" style="text-decoration:none">← Back</a>
+    <a href="../index.html" class="nav-btn" style="text-decoration:none">Home</a>
+    <a href="../myp-dashboard.html" class="nav-btn" style="text-decoration:none">MYP</a>
+    <a href="../dp-dashboard.html" class="nav-btn" style="text-decoration:none">DP</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="main-grid">
+    <div class="left-col">
+      <!-- 3D VIEW -->
+      <div class="view-container" id="view3d">
+        <div class="overlay">
+          <div class="o-name" id="oName">Uniform Box</div>
+          <div class="o-angle" id="oAngle">0.0°</div>
+          <div class="o-status" id="oStatus" style="color:#3FBF8A">STABLE</div>
+        </div>
+        <div class="overlay-right">
+          <div id="oTip">θ_tip = —</div>
+          <div id="oEq">Equilibrium: —</div>
+        </div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="card">
+        <div class="card-title">Object Presets</div>
+        <div class="ctrl-row" id="presetRow"></div>
+        <div style="height:4px"></div>
+        <div class="card-title">Custom Dimensions</div>
+        <div class="ctrl-row">
+          <div class="slider-group">
+            <label>Base (b)</label>
+            <input type="range" id="slBW" min="0.10" max="1.20" step="0.01" value="0.40">
+            <span class="s-val" id="vBW">0.40</span><span class="unit">m</span>
+          </div>
+        </div>
+        <div class="ctrl-row">
+          <div class="slider-group">
+            <label>Height (h)</label>
+            <input type="range" id="slH" min="0.10" max="1.50" step="0.01" value="0.60">
+            <span class="s-val" id="vH">0.60</span><span class="unit">m</span>
+          </div>
+        </div>
+        <div class="ctrl-row">
+          <div class="slider-group">
+            <label>CoG frac</label>
+            <input type="range" id="slCoG" min="0.10" max="0.90" step="0.01" value="0.50">
+            <span class="s-val" id="vCoG">0.50</span><span class="unit">×h</span>
+          </div>
+        </div>
+        <div style="height:4px"></div>
+        <div class="ctrl-row">
+          <div class="slider-group" style="flex:1">
+            <label style="color:var(--accent);font-size:.72rem;font-weight:800">TILT</label>
+            <input type="range" id="slTilt" min="0" max="70" step="0.5" value="0" style="max-width:260px">
+            <span class="s-val" id="vTilt" style="font-size:.95rem;color:var(--accent)">0.0°</span>
+          </div>
+          <button class="btn btn-primary" onclick="resetTilt()">Reset</button>
+        </div>
+      </div>
+
+      <!-- CALC BOX -->
+      <div class="calc-box" id="calcBox">
+        <div class="ctrl-row">
+          <span class="formula">θ<sub>tip</sub> = arctan(½b ÷ h<sub>CoG</sub>) = arctan(<span id="calcHalf">—</span> ÷ <span id="calcHcog">—</span>) = </span>
+          <input class="num-input" id="tipAns" placeholder="?">
+          <span class="unit">°</span>
+          <button class="btn btn-primary" onclick="checkTipAnswer()">Check</button>
+        </div>
+        <div id="tipFb"></div>
+      </div>
+
+      <!-- BOTTOM TABS -->
+      <div class="card" style="margin-top:8px;padding:10px 12px">
+        <div class="tabs">
+          <div class="tab on" onclick="switchTab(this,0)">Experiment</div>
+          <div class="tab" onclick="switchTab(this,1)">Data & Graph</div>
+          <div class="tab" onclick="switchTab(this,2)">CoG Activity</div>
+          <div class="tab" onclick="switchTab(this,3)">IB Practice</div>
+          <div class="tab" onclick="switchTab(this,4)">Notebook</div>
+          <div class="tab" onclick="switchTab(this,5)">IA Rubric</div>
+        </div>
+
+        <!-- TAB 0: EXPERIMENT -->
+        <div class="tab-panel on" id="tp0">
+          <div class="exp-section">
+            <h3>Design Your Investigation</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+              <div class="exp-field">
+                <label>Independent Variable (IV)</label>
+                <select id="expIV">
+                  <option value="bw">Base width b (m)</option>
+                  <option value="h">Object height h (m)</option>
+                  <option value="cog">CoG height fraction</option>
+                </select>
+              </div>
+              <div class="exp-field">
+                <label>Dependent Variable (DV)</label>
+                <select id="expDV">
+                  <option value="tip">Tipping angle θ (°)</option>
+                </select>
+              </div>
+              <div class="exp-field">
+                <label>Controlled Variables</label>
+                <div id="cvList" style="font-size:.64rem;color:var(--text2);line-height:1.6"></div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div class="exp-field">
+                <label>Hypothesis</label>
+                <textarea id="expHypo" placeholder="If base width increases then the tipping angle will increase because..."></textarea>
+              </div>
+              <div class="exp-field">
+                <label>Method Notes</label>
+                <textarea id="expMethod" placeholder="1. Set height and CoG constant. 2. Vary base width from 0.2m to 1.0m in 0.1m steps. 3. Record 5 trials per value..."></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="exp-section">
+            <h3>Collect Data</h3>
+            <div class="ctrl-row" style="align-items:flex-end">
+              <div class="exp-field" style="margin:0;flex:1">
+                <label>IV Value</label>
+                <div style="display:flex;gap:3px">
+                  <input type="number" class="num-input" id="manIV" step="any" style="width:80px">
+                  <button class="btn btn-secondary" onclick="readIV()" title="Read from sim" style="font-size:.6rem;padding:2px 6px">Read</button>
+                </div>
+              </div>
+              <div class="exp-field" style="margin:0;flex:1">
+                <label>DV Value</label>
+                <div style="display:flex;gap:3px">
+                  <input type="number" class="num-input" id="manDV" step="any" style="width:80px">
+                  <button class="btn btn-secondary" onclick="readDV()" title="Read from sim" style="font-size:.6rem;padding:2px 6px">Read</button>
+                </div>
+              </div>
+              <div class="exp-field" style="margin:0">
+                <label>± Uncertainty</label>
+                <input type="number" class="num-input" id="manUnc" step="any" value="0.5" style="width:60px">
+              </div>
+              <button class="btn btn-primary" onclick="addDataPoint()">+ Add</button>
+              <button class="btn btn-secondary" onclick="autoAdd()">Auto-Read</button>
+            </div>
+            <div id="dataStatus" style="font-size:.62rem;color:var(--text3);margin-top:3px"></div>
+          </div>
+          <div id="rawTable"></div>
+        </div>
+
+        <!-- TAB 1: DATA & GRAPH -->
+        <div class="tab-panel" id="tp1">
+          <div id="processedTable"></div>
+          <div class="graph-controls">
+            <label><input type="checkbox" id="chkLinear" onchange="redrawGraph()"> Linearise (tan θ vs ½b/h<sub>CoG</sub>)</label>
+            <label><input type="checkbox" id="chkBestFit" checked onchange="redrawGraph()"> Best-fit line</label>
+            <label><input type="checkbox" id="chkErrors" checked onchange="redrawGraph()"> Error bars</label>
+            <span style="flex:1"></span>
+            <span id="rSquared" style="font-family:var(--mono);font-size:.7rem;font-weight:700;color:var(--accent)"></span>
+            <button class="btn btn-secondary" onclick="exportCSV()" style="font-size:.6rem">Export CSV</button>
+          </div>
+          <div class="graph-container" id="graphWrap">
+            <canvas id="graphCanvas"></canvas>
+          </div>
+        </div>
+
+        <!-- TAB 2: CoG & COM ACTIVITY -->
+        <div class="tab-panel" id="tp2">
+          <div id="cogActivity"></div>
+        </div>
+
+        <!-- TAB 3: IB PRACTICE -->
+        <div class="tab-panel" id="tp3" style="max-height:400px;overflow-y:auto">
+          <div id="ibQuestions"></div>
+        </div>
+
+        <!-- TAB 4: NOTEBOOK -->
+        <div class="tab-panel" id="tp4">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-family:var(--display);font-size:.8rem;font-weight:700;color:var(--accent)">Lab Notebook</span>
+            <div style="display:flex;gap:4px">
+              <button class="btn btn-secondary" onclick="addCustomNote()">+ Note</button>
+              <button class="btn btn-secondary" onclick="window.print()">Print</button>
+            </div>
+          </div>
+          <div class="exp-field">
+            <textarea id="customNote" placeholder="Type a qualitative observation, anomaly, or methodology note..." style="height:36px"></textarea>
+          </div>
+          <div id="nbOutput"></div>
+        </div>
+
+        <!-- TAB 5: IA RUBRIC -->
+        <div class="tab-panel" id="tp5">
+          <div id="rubricContent"></div>
+        </div>
       </div>
     </div>
-    <div class="gp" id="ctrl"></div>
-    <div id="calc"></div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="right-col" id="rightCol"></div>
   </div>
-  <div class="rcol" id="rp"></div>
-</div>
-<div class="gp" style="padding:8px 10px">
-  <div class="btabs">
-    <div class="bt on" onclick="bts(this,0)">🔬 Experiment</div>
-    <div class="bt" onclick="bts(this,1)">📊 Data</div>
-    <div class="bt" onclick="bts(this,2)">📝 IB</div>
-    <div class="bt" onclick="bts(this,3)">📓 Notes</div>
-  </div>
-  <div class="btc on" id="b0"><div id="expC"></div></div>
-  <div class="btc" id="b1"><div id="dW"><p style="font-size:.64rem;color:var(--text3);text-align:center;padding:8px">Collect data first.</p></div><div class="graph-wrap"><canvas id="gC"></canvas></div></div>
-  <div class="btc" id="b2"><div id="ibL"></div></div>
-  <div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-size:.68rem;font-weight:700;color:var(--accent);font-family:var(--serif)">📓 Notebook</span><button class="btn btn-a" onclick="window.print()" style="font-size:.56rem;padding:2px 6px">Print</button></div><div id="nbO"></div></div>
-</div>
 </div>
 
 <script type="module">
 import * as THREE from 'https://artifactcdn.diabrowser.engineering/ajax/libs/three.js/three.module.js';
-import { OrbitControls } from 'https://artifactcdn.diabrowser.engineering/ajax/libs/three.js/OrbitControls.js';
 
-const $=i=>document.getElementById(i);
-const dk=()=>document.documentElement.dataset.theme==='dark';
-$('themeBtn').onclick=()=>{const t=dk()?'light':'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️';localStorage.setItem('phy-theme',t);updateSceneBg()};
-(()=>{const t=localStorage.getItem('phy-theme')||'light';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️'})();
+// ============ GLOBALS ============
+const $ = id => document.getElementById(id);
+const isDark = () => document.documentElement.dataset.theme === 'dark';
 
-// ===== PRESETS =====
-const PRESETS=[
-  {n:'Racing Car',bw:.8,h:.3,cog:.3,col:0xdc2626,type:'car',uniform:false,eq:'stable',desc:'Non-uniform: heavy engine low, wide wheelbase',why:'Low CoG + wide base = very stable in corners',com:'COM below geometric centre — engine concentrates mass low'},
-  {n:'SUV',bw:.7,h:.7,cog:.5,col:0x2563eb,type:'suv',uniform:false,eq:'stable',desc:'Non-uniform: raised body, higher suspension',why:'Higher CoG = rolls easier on turns',com:'COM near geometric centre but elevated'},
-  {n:'Double-Decker Bus',bw:.6,h:1.2,cog:.35,col:0xd97706,type:'bus',uniform:false,eq:'stable',desc:'Non-uniform: batteries + engine in floor',why:'Heavy base lowers CoG despite tall body',com:'COM well below centre — design choice'},
-  {n:'Wine Bottle',bw:.25,h:.7,cog:.3,col:0x16a34a,type:'bottle',uniform:false,eq:'stable',desc:'Non-uniform: thick glass base, thin neck',why:'Heavy base + narrow neck = stable when full',com:'COM drops when filled with liquid'},
-  {n:'Wine Glass',bw:.3,h:.5,cog:.25,col:0x8888cc,type:'glass',uniform:false,eq:'stable',desc:'Non-uniform: heavy base, light stem',why:'Wide heavy base keeps it upright',com:'COM in stem area'},
-  {n:'Person',bw:.25,h:.9,cog:.55,col:0xf59e0b,type:'person',uniform:false,eq:'stable',desc:'Non-uniform: CoG near navel, tiny base',why:'Narrow stance = unstable. Spread feet = stable',com:'COM near belly button — shifts with posture'},
-  {n:'Uniform Box',bw:.4,h:.6,cog:.5,col:0x3b82f6,type:'box',uniform:true,eq:'stable',desc:'Uniform: mass evenly distributed',why:'CoG at geometric centre',com:'COM = geometric centre for uniform objects'},
-  {n:'Ball',bw:.4,h:.4,cog:.5,col:0x22c55e,type:'ball',uniform:true,eq:'neutral',desc:'Uniform sphere: CoG at centre',why:'Neutral equilibrium — rolls without toppling. No preferred orientation.',com:'COM stays at same height when displaced — no restoring force'},
-  {n:'Inverted Cone',bw:.1,h:.5,cog:.65,col:0xef4444,type:'cone',uniform:true,eq:'unstable',desc:'Uniform: balanced on apex',why:'Unstable — any tilt raises CoG then it falls. Cannot return to upright.',com:'COM above contact point — any displacement lowers PE'}
+// ============ THEME ============
+window.toggleTheme = () => {
+  const t = isDark() ? 'light' : 'dark';
+  document.documentElement.dataset.theme = t;
+  $('themeBtn').textContent = t === 'dark' ? 'Light' : 'Dark';
+  updateSceneBg();
+};
+
+// ============ PRESETS ============
+const PRESETS = [
+  { n:'Uniform Box', bw:.4, h:.6, cog:.5, col:0x3b82f6, type:'box', uniform:true, eq:'stable',
+    desc:'Mass evenly distributed throughout', why:'CoG at geometric centre. Moderate base-to-height ratio.',
+    com:'For uniform density, COM = geometric centre.' },
+  { n:'Racing Car', bw:.8, h:.3, cog:.3, col:0xdc2626, type:'car', uniform:false, eq:'stable',
+    desc:'Engine low, wide wheelbase', why:'Low CoG + wide base gives large tipping angle — corners at speed.',
+    com:'COM well below geometric centre due to heavy engine block.' },
+  { n:'SUV', bw:.7, h:.7, cog:.5, col:0x2563eb, type:'suv', uniform:false, eq:'stable',
+    desc:'Raised body, higher suspension', why:'Higher CoG than car. Rollover risk on sharp turns.',
+    com:'COM near geometric centre but elevated by suspension.' },
+  { n:'Double-Decker Bus', bw:.6, h:1.2, cog:.35, col:0xd97706, type:'bus', uniform:false, eq:'stable',
+    desc:'Batteries and engine in floor pan', why:'Despite height, heavy floor lowers CoG significantly.',
+    com:'COM well below geometric centre — intentional engineering.' },
+  { n:'Wine Bottle', bw:.25, h:.7, cog:.3, col:0x16a34a, type:'bottle', uniform:false, eq:'stable',
+    desc:'Thick glass base, thin neck', why:'Heavy base concentrates mass low. Stable when full.',
+    com:'COM drops further when filled with liquid.' },
+  { n:'Wine Glass', bw:.3, h:.5, cog:.25, col:0x7c7cb8, type:'glass', uniform:false, eq:'stable',
+    desc:'Heavy base, light stem and bowl', why:'Wide weighted base keeps it upright despite thin stem.',
+    com:'COM sits in the stem region.' },
+  { n:'Standing Person', bw:.25, h:.9, cog:.55, col:0xf59e0b, type:'person', uniform:false, eq:'stable',
+    desc:'CoG near navel, small base (feet)', why:'Narrow stance = low stability. Spread feet to widen base.',
+    com:'COM near belly button — shifts with posture and load.' },
+  { n:'Ball', bw:.4, h:.4, cog:.5, col:0x22c55e, type:'ball', uniform:true, eq:'neutral',
+    desc:'Uniform sphere, contact at single point', why:'Neutral equilibrium — CoG height unchanged when displaced.',
+    com:'No restoring force. No toppling force. Rolls indefinitely.' },
+  { n:'Inverted Cone', bw:.1, h:.5, cog:.65, col:0xef4444, type:'cone', uniform:true, eq:'unstable',
+    desc:'Balanced on apex', why:'Any displacement lowers CoG — object accelerates away from equilibrium.',
+    com:'COM above contact point. PE decreases on displacement.' }
 ];
 
-let S={pi:0,angle:0,toppled:false,fallAngle:0,toppleAngle:0};
+// ============ STATE ============
+let S = {
+  pi: 0, angle: 0, toppled: false, fallAngle: 0, fallVel: 0,
+  bw: .4, h: .6, cog: .5, customMode: false
+};
+let rawData = [];
+let notebook = [];
 
-function getTipAngle(){const p=PRESETS[S.pi];return Math.atan2(p.bw/2,p.h*p.cog)*180/Math.PI}
-function sci(v){return v.toFixed(1)}
+function getPreset() { return PRESETS[S.pi]; }
+function getCogH() { return S.h * S.cog; }
+function getTipAngle() {
+  const p = getPreset();
+  if (p.eq === 'neutral') return Infinity;
+  if (p.eq === 'unstable') return 0.5;
+  return Math.atan2(S.bw / 2, getCogH()) * 180 / Math.PI;
+}
 
-// ===== THREE.JS SETUP =====
-const container=$('view3d');
-const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(45,16/9,.1,100);
-camera.position.set(3,2.5,3);camera.lookAt(0,.5,0);
+// ============ THREE.JS ============
+const container = $('view3d');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(42, 16 / 10, 0.1, 100);
+camera.position.set(3, 2.5, 3);
 
-const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.shadowMap.enabled=true;
-renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 container.appendChild(renderer.domElement);
 
-// OrbitControls — rotate, zoom, pan
-const controls=new OrbitControls(camera,renderer.domElement);
-controls.target.set(0,.5,0);
-controls.enableDamping=true;
-controls.dampingFactor=.08;
-controls.minDistance=1.5;
-controls.maxDistance=8;
-controls.maxPolarAngle=Math.PI*.48;
+// Orbit (manual since OrbitControls may need separate import)
+let orbitState = { isDragging: false, prevX: 0, prevY: 0, theta: Math.PI/4, phi: Math.PI/5, dist: 4, target: new THREE.Vector3(0,.4,0) };
 
-function resizeRenderer(){
-  const w=container.clientWidth,h=container.clientHeight||w*9/16;
-  renderer.setSize(w,h);
-  camera.aspect=w/h;camera.updateProjectionMatrix();
+function updateCamera() {
+  const { theta, phi, dist, target } = orbitState;
+  camera.position.set(
+    target.x + dist * Math.sin(phi) * Math.sin(theta),
+    target.y + dist * Math.cos(phi),
+    target.z + dist * Math.sin(phi) * Math.cos(theta)
+  );
+  camera.lookAt(target);
+}
+updateCamera();
+
+renderer.domElement.addEventListener('pointerdown', e => {
+  orbitState.isDragging = true; orbitState.prevX = e.clientX; orbitState.prevY = e.clientY;
+  renderer.domElement.setPointerCapture(e.pointerId);
+});
+renderer.domElement.addEventListener('pointermove', e => {
+  if (!orbitState.isDragging) return;
+  const dx = e.clientX - orbitState.prevX, dy = e.clientY - orbitState.prevY;
+  orbitState.theta -= dx * 0.008;
+  orbitState.phi = Math.max(0.2, Math.min(Math.PI/2.1, orbitState.phi + dy * 0.008));
+  orbitState.prevX = e.clientX; orbitState.prevY = e.clientY;
+  updateCamera();
+});
+renderer.domElement.addEventListener('pointerup', e => {
+  orbitState.isDragging = false;
+  renderer.domElement.releasePointerCapture(e.pointerId);
+});
+renderer.domElement.addEventListener('wheel', e => {
+  e.preventDefault();
+  orbitState.dist = Math.max(1.5, Math.min(8, orbitState.dist + e.deltaY * 0.005));
+  updateCamera();
+}, { passive: false });
+
+function resizeRenderer() {
+  const w = container.clientWidth, h = container.clientHeight || w * 10 / 16;
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
 }
 new ResizeObserver(resizeRenderer).observe(container);
 resizeRenderer();
 
-// Lighting
-const ambLight=new THREE.AmbientLight(0xffffff,.5);scene.add(ambLight);
-const dirLight=new THREE.DirectionalLight(0xffffff,.8);
-dirLight.position.set(4,6,3);dirLight.castShadow=true;
-dirLight.shadow.mapSize.width=1024;dirLight.shadow.mapSize.height=1024;
-dirLight.shadow.camera.near=.5;dirLight.shadow.camera.far=20;
-dirLight.shadow.camera.left=-4;dirLight.shadow.camera.right=4;
-dirLight.shadow.camera.top=4;dirLight.shadow.camera.bottom=-4;
+// Lights
+scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+dirLight.position.set(4, 6, 3); dirLight.castShadow = true;
+dirLight.shadow.mapSize.set(1024, 1024);
+dirLight.shadow.camera.near = 0.5; dirLight.shadow.camera.far = 20;
+dirLight.shadow.camera.left = -4; dirLight.shadow.camera.right = 4;
+dirLight.shadow.camera.top = 4; dirLight.shadow.camera.bottom = -4;
 scene.add(dirLight);
-const hemiLight=new THREE.HemisphereLight(0x87ceeb,0x362d1e,.3);scene.add(hemiLight);
+scene.add(new THREE.HemisphereLight(0x87ceeb, 0x362d1e, 0.3));
 
-function updateSceneBg(){
-  scene.background=new THREE.Color(dk()?0x0f172a:0xdbeafe);
-  if(groundMesh)groundMesh.material.color.set(dk()?0x1e293b:0xc8d6e5);
+function updateSceneBg() {
+  scene.background = new THREE.Color(isDark() ? 0x141414 : 0xe8e4df);
+  if (ground) ground.material.color.set(isDark() ? 0x222222 : 0xd5d0c8);
 }
 
 // Ground
-const groundGeo=new THREE.PlaneGeometry(10,10);
-const groundMat=new THREE.MeshStandardMaterial({color:0xc8d6e5,roughness:.8});
-const groundMesh=new THREE.Mesh(groundGeo,groundMat);
-groundMesh.rotation.x=-Math.PI/2;groundMesh.receiveShadow=true;
-scene.add(groundMesh);
-// Grid
-const gridHelper=new THREE.GridHelper(10,.5,0x94a3b8,0x94a3b8);
-gridHelper.material.opacity=.15;gridHelper.material.transparent=true;
-scene.add(gridHelper);
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(10, 10),
+  new THREE.MeshStandardMaterial({ color: 0xd5d0c8, roughness: 0.8 })
+);
+ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true;
+scene.add(ground);
 
+const grid = new THREE.GridHelper(10, 20, 0x999, 0x999);
+grid.material.opacity = 0.08; grid.material.transparent = true;
+scene.add(grid);
 updateSceneBg();
 
-// ===== PLATFORM =====
-const platGeo=new THREE.BoxGeometry(2.5,.08,.8);
-const platMat=new THREE.MeshStandardMaterial({color:0x64748b,roughness:.4,metalness:.3});
-const platform=new THREE.Mesh(platGeo,platMat);
-platform.position.y=.3;platform.castShadow=true;platform.receiveShadow=true;
+// Platform
+const platform = new THREE.Mesh(
+  new THREE.BoxGeometry(2.5, 0.06, 0.8),
+  new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.4, metalness: 0.3 })
+);
+platform.position.y = 0.3; platform.castShadow = true; platform.receiveShadow = true;
 scene.add(platform);
-// Pivot cylinder
-const pivotGeo=new THREE.CylinderGeometry(.04,.06,.3,16);
-const pivotMat=new THREE.MeshStandardMaterial({color:0xfbbf24,roughness:.3,metalness:.5});
-const pivot=new THREE.Mesh(pivotGeo,pivotMat);
-pivot.position.y=.15;pivot.castShadow=true;
-scene.add(pivot);
 
-// ===== OBJECT GROUP =====
-let objGroup=new THREE.Group();
+// Pivot
+const pivotMesh = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.04, 0.06, 0.3, 16),
+  new THREE.MeshStandardMaterial({ color: 0xC48A1A, roughness: 0.3, metalness: 0.5 })
+);
+pivotMesh.position.y = 0.15; pivotMesh.castShadow = true;
+scene.add(pivotMesh);
+
+// Object group
+let objGroup = new THREE.Group();
 scene.add(objGroup);
-let cogMarker=null,plumbLine=null,baseMarkers=[];
+let cogMarker = null, plumbLine = null, baseMarkerL = null, baseMarkerR = null;
+let basePlane = null, dimLineGroup = null;
 
-function createCogMarker(){
-  if(cogMarker){objGroup.remove(cogMarker)}
-  const geo=new THREE.SphereGeometry(.04,16,16);
-  const mat=new THREE.MeshStandardMaterial({color:0xdc2626,emissive:0xdc2626,emissiveIntensity:.3});
-  cogMarker=new THREE.Mesh(geo,mat);
-  objGroup.add(cogMarker);
+function clearObj() {
+  while (objGroup.children.length) objGroup.remove(objGroup.children[0]);
+  if (basePlane && basePlane.userData.outline) scene.remove(basePlane.userData.outline);
+  [baseMarkerL, baseMarkerR, basePlane, dimLineGroup].forEach(m => { if (m) scene.remove(m); });
+  baseMarkerL = baseMarkerR = basePlane = dimLineGroup = null;
 }
 
-function createPlumbLine(){
-  if(plumbLine){scene.remove(plumbLine)}
-  const mat=new THREE.LineBasicMaterial({color:0x22c55e,linewidth:2,transparent:true,opacity:.7});
-  const geo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0),new THREE.Vector3(0,-2,0)]);
-  plumbLine=new THREE.Line(geo,mat);
-  scene.add(plumbLine);
-}
+function buildObject() {
+  clearObj();
+  const p = getPreset();
+  const hw = S.bw / 2;
 
-function clearObject(){
-  while(objGroup.children.length)objGroup.remove(objGroup.children[0]);
-  baseMarkers.forEach(m=>scene.remove(m));baseMarkers=[];
-}
+  const mainMat = new THREE.MeshStandardMaterial({ color: p.col, roughness: 0.5 });
+  const darkMat = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.8 });
+  const glassMat = new THREE.MeshStandardMaterial({ color: 0x1e3a5f, roughness: 0.2, metalness: 0.3, transparent: true, opacity: 0.5 });
+  const skinMat = new THREE.MeshStandardMaterial({ color: 0xffcc80, roughness: 0.7 });
 
-function buildObject(){
-  clearObject();
-  const p=PRESETS[S.pi];
-  const hw=p.bw/2,hh=p.h;
-
-  if(p.type==='box'){
-    const geo=new THREE.BoxGeometry(p.bw,p.h,p.bw*.6);
-    const mat=new THREE.MeshStandardMaterial({color:p.col,roughness:.5});
-    const mesh=new THREE.Mesh(geo,mat);mesh.position.y=hh/2;mesh.castShadow=true;
-    objGroup.add(mesh);
-  }else if(p.type==='car'){
-    // Body
-    const bodyGeo=new THREE.BoxGeometry(p.bw,p.h*.4,p.bw*.4);
-    const bodyMat=new THREE.MeshStandardMaterial({color:p.col,roughness:.3,metalness:.4});
-    const body=new THREE.Mesh(bodyGeo,bodyMat);body.position.y=p.h*.35;body.castShadow=true;
-    objGroup.add(body);
-    // Cabin
-    const cabGeo=new THREE.BoxGeometry(p.bw*.5,p.h*.4,p.bw*.35);
-    const cabMat=new THREE.MeshStandardMaterial({color:0x1e3a5f,roughness:.2,metalness:.3,transparent:true,opacity:.6});
-    const cab=new THREE.Mesh(cabGeo,cabMat);cab.position.y=p.h*.65;cab.castShadow=true;
-    objGroup.add(cab);
-    // Wheels
-    const wGeo=new THREE.CylinderGeometry(.06,.06,.04,16);
-    const wMat=new THREE.MeshStandardMaterial({color:0x111111,roughness:.8});
-    [[-hw*.6,.08,p.bw*.22],[hw*.6,.08,p.bw*.22],[-hw*.6,.08,-p.bw*.22],[hw*.6,.08,-p.bw*.22]].forEach(pos=>{
-      const w=new THREE.Mesh(wGeo,wMat);w.rotation.x=Math.PI/2;w.position.set(...pos);w.castShadow=true;objGroup.add(w);
+  if (p.type === 'box') {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(S.bw, S.h, S.bw * 0.6), mainMat);
+    m.position.y = S.h / 2; m.castShadow = true; objGroup.add(m);
+  } else if (p.type === 'car') {
+    const body = new THREE.Mesh(new THREE.BoxGeometry(S.bw, S.h * 0.4, S.bw * 0.4), mainMat);
+    body.position.y = S.h * 0.35; body.castShadow = true; objGroup.add(body);
+    const cab = new THREE.Mesh(new THREE.BoxGeometry(S.bw * 0.5, S.h * 0.4, S.bw * 0.35), glassMat);
+    cab.position.y = S.h * 0.65; cab.castShadow = true; objGroup.add(cab);
+    const wGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.04, 12);
+    [[-hw*0.6,0.08,S.bw*0.22],[hw*0.6,0.08,S.bw*0.22],[-hw*0.6,0.08,-S.bw*0.22],[hw*0.6,0.08,-S.bw*0.22]].forEach(pos => {
+      const w = new THREE.Mesh(wGeo, darkMat); w.rotation.x = Math.PI/2; w.position.set(...pos); w.castShadow = true; objGroup.add(w);
     });
-  }else if(p.type==='suv'){
-    const bodyGeo=new THREE.BoxGeometry(p.bw,p.h*.5,p.bw*.45);
-    const bodyMat=new THREE.MeshStandardMaterial({color:p.col,roughness:.35,metalness:.3});
-    const body=new THREE.Mesh(bodyGeo,bodyMat);body.position.y=p.h*.4;body.castShadow=true;objGroup.add(body);
-    const cabGeo=new THREE.BoxGeometry(p.bw*.6,p.h*.4,p.bw*.4);
-    const cabMat=new THREE.MeshStandardMaterial({color:p.col,roughness:.3});
-    const cab=new THREE.Mesh(cabGeo,cabMat);cab.position.y=p.h*.75;cab.castShadow=true;objGroup.add(cab);
-    const wGeo=new THREE.CylinderGeometry(.07,.07,.04,16);const wMat=new THREE.MeshStandardMaterial({color:0x111111});
-    [[-hw*.5,.1,p.bw*.24],[hw*.5,.1,p.bw*.24],[-hw*.5,.1,-p.bw*.24],[hw*.5,.1,-p.bw*.24]].forEach(pos=>{const w=new THREE.Mesh(wGeo,wMat);w.rotation.x=Math.PI/2;w.position.set(...pos);w.castShadow=true;objGroup.add(w)});
-  }else if(p.type==='bus'){
-    // Lower deck
-    const lGeo=new THREE.BoxGeometry(p.bw,p.h*.4,p.bw*.5);
-    const lMat=new THREE.MeshStandardMaterial({color:p.col,roughness:.4});
-    const lower=new THREE.Mesh(lGeo,lMat);lower.position.y=p.h*.3;lower.castShadow=true;objGroup.add(lower);
-    // Upper deck
-    const uGeo=new THREE.BoxGeometry(p.bw,p.h*.45,p.bw*.48);
-    const uMat=new THREE.MeshStandardMaterial({color:0xf0d080,roughness:.4});
-    const upper=new THREE.Mesh(uGeo,uMat);upper.position.y=p.h*.72;upper.castShadow=true;objGroup.add(upper);
-    // Windows
-    const winMat=new THREE.MeshStandardMaterial({color:0x93c5fd,transparent:true,opacity:.4,metalness:.5});
-    for(let i=0;i<4;i++){const wGeo2=new THREE.BoxGeometry(p.bw*.15,.08,.01);
-      const w1=new THREE.Mesh(wGeo2,winMat);w1.position.set(-hw+hw*.35+i*hw*.4,p.h*.35,p.bw*.251);objGroup.add(w1);
-      const w2=new THREE.Mesh(wGeo2,winMat);w2.position.set(-hw+hw*.35+i*hw*.4,p.h*.75,p.bw*.245);objGroup.add(w2)}
-    const wGeo3=new THREE.CylinderGeometry(.05,.05,.03,16);const wMat2=new THREE.MeshStandardMaterial({color:0x111111});
-    [[-hw*.55,.05,p.bw*.26],[hw*.55,.05,p.bw*.26],[-hw*.55,.05,-p.bw*.26],[hw*.55,.05,-p.bw*.26]].forEach(pos=>{const w=new THREE.Mesh(wGeo3,wMat2);w.rotation.x=Math.PI/2;w.position.set(...pos);objGroup.add(w)});
-  }else if(p.type==='bottle'){
-    // Body
-    const bGeo=new THREE.CylinderGeometry(hw*.8,hw,p.h*.6,16);
-    const bMat=new THREE.MeshStandardMaterial({color:p.col,roughness:.2,metalness:.1,transparent:true,opacity:.7});
-    const body=new THREE.Mesh(bGeo,bMat);body.position.y=p.h*.3;body.castShadow=true;objGroup.add(body);
-    // Neck
-    const nGeo=new THREE.CylinderGeometry(hw*.2,hw*.4,p.h*.35,16);
-    const neck=new THREE.Mesh(nGeo,bMat);neck.position.y=p.h*.78;neck.castShadow=true;objGroup.add(neck);
-    // Cap
-    const cGeo=new THREE.CylinderGeometry(hw*.22,hw*.22,.03,16);
-    const cMat=new THREE.MeshStandardMaterial({color:0xd4d4d4,metalness:.6});
-    const cap=new THREE.Mesh(cGeo,cMat);cap.position.y=p.h*.96;objGroup.add(cap);
-  }else if(p.type==='glass'){
-    // Base
-    const baseGeo=new THREE.CylinderGeometry(hw,hw*.9,.04,16);
-    const glassMat=new THREE.MeshStandardMaterial({color:0xaaaacc,roughness:.1,metalness:.2,transparent:true,opacity:.4});
-    const base=new THREE.Mesh(baseGeo,glassMat);base.position.y=.02;objGroup.add(base);
-    // Stem
-    const stemGeo=new THREE.CylinderGeometry(.015,.015,p.h*.4,8);
-    const stem=new THREE.Mesh(stemGeo,glassMat);stem.position.y=p.h*.25;objGroup.add(stem);
-    // Bowl
-    const bowlShape=new THREE.LatheGeometry([new THREE.Vector2(.01,0),new THREE.Vector2(hw*.6,.05),new THREE.Vector2(hw*.7,.15),new THREE.Vector2(hw*.5,.25)].map(p2=>new THREE.Vector2(p2.x,p2.y)),24);
-    const bowl=new THREE.Mesh(bowlShape,glassMat);bowl.position.y=p.h*.45;bowl.castShadow=true;objGroup.add(bowl);
-  }else if(p.type==='person'){
-    // Head
-    const headGeo=new THREE.SphereGeometry(.08,16,16);
-    const skinMat=new THREE.MeshStandardMaterial({color:0xffcc80,roughness:.7});
-    const head=new THREE.Mesh(headGeo,skinMat);head.position.y=p.h-.08;head.castShadow=true;objGroup.add(head);
-    // Hair
-    const hairGeo=new THREE.SphereGeometry(.082,16,8,0,Math.PI*2,0,Math.PI/2);
-    const hairMat=new THREE.MeshStandardMaterial({color:0x3d2510});
-    const hair=new THREE.Mesh(hairGeo,hairMat);hair.position.y=p.h-.06;objGroup.add(hair);
-    // Body
-    const bodyGeo=new THREE.BoxGeometry(.15,.25,.1);
-    const bodyMat=new THREE.MeshStandardMaterial({color:p.col,roughness:.6});
-    const body=new THREE.Mesh(bodyGeo,bodyMat);body.position.y=p.h-.28;body.castShadow=true;objGroup.add(body);
-    // Legs
-    const legGeo=new THREE.CylinderGeometry(.025,.03,.3,8);
-    const legMat=new THREE.MeshStandardMaterial({color:0x1e293b});
-    const lLeg=new THREE.Mesh(legGeo,legMat);lLeg.position.set(-.04,.15,0);lLeg.castShadow=true;objGroup.add(lLeg);
-    const rLeg=new THREE.Mesh(legGeo,legMat);rLeg.position.set(.04,.15,0);rLeg.castShadow=true;objGroup.add(rLeg);
-    // Arms
-    const armGeo=new THREE.CylinderGeometry(.02,.02,.2,8);
-    const lArm=new THREE.Mesh(armGeo,bodyMat);lArm.position.set(-.12,p.h-.35,0);lArm.castShadow=true;objGroup.add(lArm);
-    const rArm=new THREE.Mesh(armGeo,bodyMat);rArm.position.set(.12,p.h-.35,0);rArm.castShadow=true;objGroup.add(rArm);
-  }else if(p.type==='ball'){
-    const geo=new THREE.SphereGeometry(hw,24,24);
-    const mat=new THREE.MeshStandardMaterial({color:p.col,roughness:.6});
-    const mesh=new THREE.Mesh(geo,mat);mesh.position.y=hw;mesh.castShadow=true;objGroup.add(mesh);
-  }else if(p.type==='cone'){
-    const geo=new THREE.ConeGeometry(hw*2,p.h,24);
-    const mat=new THREE.MeshStandardMaterial({color:p.col,roughness:.4});
-    const mesh=new THREE.Mesh(geo,mat);mesh.position.y=p.h/2;mesh.rotation.x=Math.PI;mesh.castShadow=true;objGroup.add(mesh);
+  } else if (p.type === 'suv') {
+    const body = new THREE.Mesh(new THREE.BoxGeometry(S.bw, S.h*0.5, S.bw*0.45), mainMat);
+    body.position.y = S.h*0.4; body.castShadow = true; objGroup.add(body);
+    const cab = new THREE.Mesh(new THREE.BoxGeometry(S.bw*0.6, S.h*0.4, S.bw*0.4), new THREE.MeshStandardMaterial({color:p.col, roughness:0.3}));
+    cab.position.y = S.h*0.75; cab.castShadow = true; objGroup.add(cab);
+    const wGeo = new THREE.CylinderGeometry(0.07, 0.07, 0.04, 12);
+    [[-hw*0.5,0.1,S.bw*0.24],[hw*0.5,0.1,S.bw*0.24],[-hw*0.5,0.1,-S.bw*0.24],[hw*0.5,0.1,-S.bw*0.24]].forEach(pos => {
+      const w = new THREE.Mesh(wGeo, darkMat); w.rotation.x = Math.PI/2; w.position.set(...pos); objGroup.add(w);
+    });
+  } else if (p.type === 'bus') {
+    const lower = new THREE.Mesh(new THREE.BoxGeometry(S.bw, S.h*0.4, S.bw*0.5), mainMat);
+    lower.position.y = S.h*0.3; lower.castShadow = true; objGroup.add(lower);
+    const upper = new THREE.Mesh(new THREE.BoxGeometry(S.bw, S.h*0.45, S.bw*0.48), new THREE.MeshStandardMaterial({color:0xf0d080, roughness:0.4}));
+    upper.position.y = S.h*0.72; upper.castShadow = true; objGroup.add(upper);
+    const winMat2 = new THREE.MeshStandardMaterial({color:0x93c5fd, transparent:true, opacity:0.4, metalness:0.5});
+    for (let i = 0; i < 4; i++) {
+      const wg = new THREE.BoxGeometry(S.bw*0.15, 0.06, 0.01);
+      const w1 = new THREE.Mesh(wg, winMat2); w1.position.set(-hw+hw*0.35+i*hw*0.4, S.h*0.35, S.bw*0.251); objGroup.add(w1);
+      const w2 = new THREE.Mesh(wg, winMat2); w2.position.set(-hw+hw*0.35+i*hw*0.4, S.h*0.75, S.bw*0.245); objGroup.add(w2);
+    }
+  } else if (p.type === 'bottle') {
+    const bMat = new THREE.MeshStandardMaterial({color:p.col, roughness:0.2, metalness:0.1, transparent:true, opacity:0.7});
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(hw*0.8, hw, S.h*0.6, 16), bMat);
+    body.position.y = S.h*0.3; body.castShadow = true; objGroup.add(body);
+    const neck = new THREE.Mesh(new THREE.CylinderGeometry(hw*0.2, hw*0.4, S.h*0.35, 16), bMat);
+    neck.position.y = S.h*0.78; neck.castShadow = true; objGroup.add(neck);
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(hw*0.22, hw*0.22, 0.03, 16), new THREE.MeshStandardMaterial({color:0xd4d4d4, metalness:0.6}));
+    cap.position.y = S.h*0.96; objGroup.add(cap);
+  } else if (p.type === 'glass') {
+    const gm = new THREE.MeshStandardMaterial({color:0xaaaacc, roughness:0.1, metalness:0.2, transparent:true, opacity:0.4});
+    const base = new THREE.Mesh(new THREE.CylinderGeometry(hw, hw*0.9, 0.04, 16), gm);
+    base.position.y = 0.02; objGroup.add(base);
+    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, S.h*0.4, 8), gm);
+    stem.position.y = S.h*0.25; objGroup.add(stem);
+    const pts = [new THREE.Vector2(0.01,0), new THREE.Vector2(hw*0.6,0.05), new THREE.Vector2(hw*0.7,0.15), new THREE.Vector2(hw*0.5,0.25)];
+    const bowl = new THREE.Mesh(new THREE.LatheGeometry(pts, 24), gm);
+    bowl.position.y = S.h*0.45; bowl.castShadow = true; objGroup.add(bowl);
+  } else if (p.type === 'person') {
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.08, 16, 16), skinMat);
+    head.position.y = S.h - 0.08; head.castShadow = true; objGroup.add(head);
+    const bodyM = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.25, 0.1), mainMat);
+    bodyM.position.y = S.h - 0.28; bodyM.castShadow = true; objGroup.add(bodyM);
+    const legGeo = new THREE.CylinderGeometry(0.025, 0.03, 0.3, 8);
+    const legMat2 = new THREE.MeshStandardMaterial({color:0x1e293b});
+    [[-0.04, 0.15, 0],[0.04, 0.15, 0]].forEach(pos => {
+      const l = new THREE.Mesh(legGeo, legMat2); l.position.set(...pos); l.castShadow = true; objGroup.add(l);
+    });
+    const armGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.2, 8);
+    [[-0.12, S.h-0.35, 0],[0.12, S.h-0.35, 0]].forEach(pos => {
+      const a = new THREE.Mesh(armGeo, mainMat); a.position.set(...pos); objGroup.add(a);
+    });
+  } else if (p.type === 'ball') {
+    const m = new THREE.Mesh(new THREE.SphereGeometry(hw, 24, 24), mainMat);
+    m.position.y = hw; m.castShadow = true; objGroup.add(m);
+  } else if (p.type === 'cone') {
+    const m = new THREE.Mesh(new THREE.ConeGeometry(hw*2, S.h, 24), mainMat);
+    m.position.y = S.h/2; m.rotation.x = Math.PI; m.castShadow = true; objGroup.add(m);
   }
 
-  createCogMarker();createPlumbLine();
-  // Base support markers
-  const markerGeo=new THREE.BoxGeometry(.02,platform.geometry.parameters.height+.02,.01);
-  const markerMat=new THREE.MeshStandardMaterial({color:0x22c55e,emissive:0x22c55e,emissiveIntensity:.3});
-  [-hw,hw].forEach(x=>{const m=new THREE.Mesh(markerGeo,markerMat);m.position.set(x,.3,0);baseMarkers.push(m);scene.add(m)});
+  // CoG marker
+  if (cogMarker) objGroup.remove(cogMarker);
+  const cogGeo = new THREE.SphereGeometry(0.035, 16, 16);
+  const cogMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, emissive: 0xdc2626, emissiveIntensity: 0.3 });
+  cogMarker = new THREE.Mesh(cogGeo, cogMat);
+  cogMarker.position.y = getCogH();
+  objGroup.add(cogMarker);
+
+  // Plumb line — thick glowing cylinder + weight bob for visibility
+  if (plumbLine) scene.remove(plumbLine);
+  if (plumbLine?.userData?.bob) scene.remove(plumbLine.userData.bob);
+  if (plumbLine?.userData?.glow) scene.remove(plumbLine.userData.glow);
+  const plumbGroup = new THREE.Group();
+  const plCylGeo = new THREE.CylinderGeometry(0.012, 0.012, 2, 8);
+  const plCylMat = new THREE.MeshStandardMaterial({ color: 0x22c55e, emissive: 0x22c55e, emissiveIntensity: 0.5, transparent: true, opacity: 0.9 });
+  const plCyl = new THREE.Mesh(plCylGeo, plCylMat);
+  plCyl.position.y = -1;
+  plumbGroup.add(plCyl);
+  // Outer glow cylinder
+  const plGlowGeo = new THREE.CylinderGeometry(0.025, 0.025, 2, 8);
+  const plGlowMat = new THREE.MeshStandardMaterial({ color: 0x22c55e, emissive: 0x22c55e, emissiveIntensity: 0.3, transparent: true, opacity: 0.2 });
+  const plGlow = new THREE.Mesh(plGlowGeo, plGlowMat);
+  plGlow.position.y = -1;
+  plumbGroup.add(plGlow);
+  // Weight bob at bottom
+  const bobGeo = new THREE.SphereGeometry(0.03, 12, 12);
+  const bobMat = new THREE.MeshStandardMaterial({ color: 0x22c55e, emissive: 0x22c55e, emissiveIntensity: 0.4 });
+  const bob = new THREE.Mesh(bobGeo, bobMat);
+  bob.position.y = -2;
+  plumbGroup.add(bob);
+  plumbLine = plumbGroup;
+  scene.add(plumbLine);
+
+  // Base markers
+  [baseMarkerL, baseMarkerR, basePlane, dimLineGroup].forEach(m => { if (m) scene.remove(m); });
+  const bmGeo = new THREE.BoxGeometry(0.025, 0.08, 0.025);
+  const bmMat = new THREE.MeshStandardMaterial({ color: 0x22c55e, emissive: 0x22c55e, emissiveIntensity: 0.4 });
+  baseMarkerL = new THREE.Mesh(bmGeo, bmMat); baseMarkerL.position.set(-hw, 0.3, 0); scene.add(baseMarkerL);
+  baseMarkerR = new THREE.Mesh(bmGeo, bmMat); baseMarkerR.position.set(hw, 0.3, 0); scene.add(baseMarkerR);
+
+  // Base-of-support glowing rectangle on platform
+  const baseDepth = p.type === 'ball' || p.type === 'cone' ? 0.05 : Math.min(S.bw * 0.6, 0.5);
+  const bpGeo = new THREE.PlaneGeometry(S.bw, baseDepth);
+  const bpMat = new THREE.MeshStandardMaterial({
+    color: 0x22c55e, emissive: 0x22c55e, emissiveIntensity: 0.15,
+    transparent: true, opacity: 0.25, side: THREE.DoubleSide
+  });
+  basePlane = new THREE.Mesh(bpGeo, bpMat);
+  basePlane.rotation.x = -Math.PI / 2;
+  basePlane.position.y = 0.335;
+  scene.add(basePlane);
+
+  // Base outline edges for visibility
+  const outlinePoints = [
+    new THREE.Vector3(-hw, 0.336, -baseDepth/2),
+    new THREE.Vector3(hw, 0.336, -baseDepth/2),
+    new THREE.Vector3(hw, 0.336, baseDepth/2),
+    new THREE.Vector3(-hw, 0.336, baseDepth/2),
+    new THREE.Vector3(-hw, 0.336, -baseDepth/2)
+  ];
+  const outlineGeo = new THREE.BufferGeometry().setFromPoints(outlinePoints);
+  const outlineMat = new THREE.LineBasicMaterial({ color: 0x22c55e, transparent: true, opacity: 0.6 });
+  const baseOutline = new THREE.Line(outlineGeo, outlineMat);
+  scene.add(baseOutline);
+  // Store outline for cleanup — attach to basePlane userData
+  basePlane.userData.outline = baseOutline;
+
+  // Dimension lines showing base width
+  dimLineGroup = new THREE.Group();
+  const dlMat = new THREE.LineBasicMaterial({ color: 0x22c55e, transparent: true, opacity: 0.6 });
+  // Horizontal line
+  const hLine = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-hw, 0.28, 0.25), new THREE.Vector3(hw, 0.28, 0.25)]);
+  dimLineGroup.add(new THREE.Line(hLine, dlMat));
+  // Left tick
+  const lTick = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-hw, 0.26, 0.25), new THREE.Vector3(-hw, 0.30, 0.25)]);
+  dimLineGroup.add(new THREE.Line(lTick, dlMat));
+  // Right tick
+  const rTick = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(hw, 0.26, 0.25), new THREE.Vector3(hw, 0.30, 0.25)]);
+  dimLineGroup.add(new THREE.Line(rTick, dlMat));
+  // Vertical height line
+  const vMat = new THREE.LineBasicMaterial({ color: 0xC48A1A, transparent: true, opacity: 0.5 });
+  const vLine = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(hw + 0.08, 0.33, 0), new THREE.Vector3(hw + 0.08, 0.33 + S.h, 0)]);
+  dimLineGroup.add(new THREE.Line(vLine, vMat));
+  const vTickB = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(hw + 0.05, 0.33, 0), new THREE.Vector3(hw + 0.11, 0.33, 0)]);
+  dimLineGroup.add(new THREE.Line(vTickB, vMat));
+  const vTickT = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(hw + 0.05, 0.33 + S.h, 0), new THREE.Vector3(hw + 0.11, 0.33 + S.h, 0)]);
+  dimLineGroup.add(new THREE.Line(vTickT, vMat));
+  // CoG height tick
+  const cogTickMat = new THREE.LineBasicMaterial({ color: 0xdc2626, transparent: true, opacity: 0.5 });
+  const cogTick = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(hw + 0.05, 0.33 + getCogH(), 0), new THREE.Vector3(hw + 0.11, 0.33 + getCogH(), 0)]);
+  dimLineGroup.add(new THREE.Line(cogTick, cogTickMat));
+  scene.add(dimLineGroup);
 }
 
-// ===== ANIMATION LOOP =====
-let fallVel=0;
-function animate(){
+// ============ ANIMATION ============
+function animate() {
   requestAnimationFrame(animate);
-  const p=PRESETS[S.pi];
-  const tipA=getTipAngle();
+  const p = getPreset();
+  const tipA = getTipAngle();
 
-  // Ball (neutral) — rolls along platform, never topples
-  if(p.eq==='neutral'){
-    const rad=-S.angle*Math.PI/180;
-    platform.rotation.z=rad;
-    objGroup.position.set(0,.34,0);
-    objGroup.rotation.z=rad;
-    // Roll the ball sideways as platform tilts
-    const rollOffset=Math.sin(rad)*S.angle*.01;
-    objGroup.position.x=rollOffset*2;
-    if(cogMarker)cogMarker.position.y=p.h*p.cog;
-    if(plumbLine){const cw=new THREE.Vector3(0,p.h*p.cog,0);objGroup.localToWorld(cw);plumbLine.geometry.setFromPoints([cw.clone(),new THREE.Vector3(cw.x,0,cw.z)]);plumbLine.material.color.set(0xfbbf24)}
-    const hw2=p.bw/2;baseMarkers.forEach((m,i)=>{const x=(i===0?-hw2:hw2);m.position.set(x*Math.cos(rad),.34+x*Math.sin(-rad),0);m.rotation.z=rad});
-    controls.update();renderer.render(scene,camera);
-    $('oAngle').textContent=S.angle.toFixed(0)+'°';
-    $('oStatus').textContent='NEUTRAL — rolls';$('oStatus').style.color='#fbbf24';
-    $('oName').textContent=p.n;
+  if (p.eq === 'neutral') {
+    const rad = -S.angle * Math.PI / 180;
+    platform.rotation.z = rad;
+    objGroup.position.set(Math.sin(rad) * S.angle * 0.02, 0.33, 0);
+    objGroup.rotation.z = rad;
+    if (cogMarker) cogMarker.position.y = getCogH();
+    if (plumbLine) {
+      const cw = new THREE.Vector3(0, getCogH(), 0);
+      objGroup.localToWorld(cw);
+      plumbLine.position.set(cw.x, cw.y, cw.z);
+      plumbLine.children.forEach(c => {
+        if (c.material) { c.material.color.set(0xC48A1A); c.material.emissive?.set(0xC48A1A); }
+      });
+    }
+    const hw2 = S.bw / 2;
+    if (baseMarkerL) { baseMarkerL.position.set(-hw2 * Math.cos(rad), 0.33 - hw2 * Math.sin(rad), 0); baseMarkerL.rotation.z = rad; }
+    if (baseMarkerR) { baseMarkerR.position.set(hw2 * Math.cos(rad), 0.33 + hw2 * Math.sin(rad), 0); baseMarkerR.rotation.z = rad; }
+    if (basePlane) { basePlane.position.set(0, 0.335, 0); basePlane.rotation.x = -Math.PI/2; basePlane.rotation.z = 0; basePlane.rotation.y = rad; basePlane.position.y = 0.335; }
+    if (dimLineGroup) { dimLineGroup.rotation.z = rad; }
+    $('oStatus').textContent = 'NEUTRAL — rolls'; $('oStatus').style.color = '#C48A1A';
+  } else {
+    const effectiveTipA = p.eq === 'unstable' ? 0.5 : tipA;
+    if (S.toppled) {
+      S.fallVel += 0.15 + S.fallAngle * 0.008;
+      S.fallAngle = Math.min(90, S.fallAngle + S.fallVel * 0.1);
+    }
+    const totalAngle = S.toppled ? S.angle + S.fallAngle : S.angle;
+    const rad = -S.angle * Math.PI / 180;
+    platform.rotation.z = rad;
+
+    if (S.toppled) {
+      const fallRad = -(S.angle + S.fallAngle) * Math.PI / 180;
+      objGroup.rotation.z = fallRad;
+      objGroup.position.set(0, 0.33 - Math.min(0.3, S.fallAngle * 0.004), 0);
+    } else {
+      objGroup.position.set(0, 0.33, 0);
+      objGroup.rotation.z = rad;
+    }
+
+    if (cogMarker) cogMarker.position.y = getCogH();
+    if (plumbLine) {
+      const cw = new THREE.Vector3(0, getCogH(), 0);
+      objGroup.localToWorld(cw);
+      plumbLine.position.set(cw.x, cw.y, cw.z);
+      const plColor = S.toppled ? 0xdc2626 : 0x22c55e;
+      plumbLine.children.forEach(c => {
+        if (c.material) { c.material.color.set(plColor); c.material.emissive?.set(plColor); }
+      });
+    }
+    const hw2 = S.bw / 2;
+    if (baseMarkerL) { baseMarkerL.position.set(-hw2 * Math.cos(rad), 0.33 - hw2 * Math.sin(rad), 0); baseMarkerL.rotation.z = rad; }
+    if (baseMarkerR) { baseMarkerR.position.set(hw2 * Math.cos(rad), 0.33 + hw2 * Math.sin(rad), 0); baseMarkerR.rotation.z = rad; }
+    if (basePlane) { basePlane.rotation.set(-Math.PI/2, 0, 0); basePlane.position.set(0, 0.335, 0); }
+    if (dimLineGroup) { dimLineGroup.rotation.z = rad; }
+
+    if (S.toppled) { $('oStatus').textContent = 'TOPPLED'; $('oStatus').style.color = '#ef4444'; }
+    else if (p.eq === 'unstable') { $('oStatus').textContent = 'UNSTABLE'; $('oStatus').style.color = '#C48A1A'; }
+    else { $('oStatus').textContent = 'STABLE'; $('oStatus').style.color = '#3FBF8A'; }
+    $('oAngle').textContent = (S.toppled ? S.angle + S.fallAngle : S.angle).toFixed(1) + '°';
+  }
+
+  $('oName').textContent = getPreset().n;
+  const tipDisp = getPreset().eq === 'neutral' ? 'N/A' : getPreset().eq === 'unstable' ? '≈0°' : tipA.toFixed(1) + '°';
+  $('oTip').textContent = 'θ_tip = ' + tipDisp;
+  $('oEq').textContent = getPreset().eq.toUpperCase();
+
+  renderer.render(scene, camera);
+}
+
+// ============ SLIDER HANDLERS ============
+function syncSliders() {
+  $('slBW').value = S.bw; $('vBW').textContent = S.bw.toFixed(2);
+  $('slH').value = S.h; $('vH').textContent = S.h.toFixed(2);
+  $('slCoG').value = S.cog; $('vCoG').textContent = S.cog.toFixed(2);
+  updateCalcBox();
+  updateRightCol();
+}
+
+function onSlider(id, key, dispId) {
+  $(id).addEventListener('input', () => {
+    S[key] = parseFloat($(id).value);
+    $(dispId).textContent = S[key].toFixed(2);
+    S.customMode = true;
+    resetTiltState();
+    buildObject();
+    updateCalcBox();
+    updateRightCol();
+  });
+}
+onSlider('slBW', 'bw', 'vBW');
+onSlider('slH', 'h', 'vH');
+onSlider('slCoG', 'cog', 'vCoG');
+
+$('slTilt').addEventListener('input', () => {
+  if (S.toppled) return;
+  S.angle = parseFloat($('slTilt').value);
+  $('vTilt').textContent = S.angle.toFixed(1) + '°';
+  const p = getPreset();
+  if (p.eq === 'neutral') return;
+  const effectiveTipA = p.eq === 'unstable' ? 0.5 : getTipAngle();
+  if (S.angle >= effectiveTipA) {
+    S.toppled = true; S.fallVel = 0;
+  }
+});
+
+function resetTiltState() {
+  S.angle = 0; S.toppled = false; S.fallAngle = 0; S.fallVel = 0;
+  $('slTilt').value = 0; $('vTilt').textContent = '0.0°';
+}
+
+window.resetTilt = () => { resetTiltState(); };
+
+// ============ PRESETS UI ============
+function buildPresetRow() {
+  $('presetRow').innerHTML = PRESETS.map((p, i) =>
+    `<button class="preset-btn${i === S.pi ? ' on' : ''}" onclick="window.loadPreset(${i})">${p.n}</button>`
+  ).join('');
+}
+
+window.loadPreset = i => {
+  S.pi = i;
+  const p = PRESETS[i];
+  S.bw = p.bw; S.h = p.h; S.cog = p.cog;
+  S.customMode = false;
+  resetTiltState();
+  syncSliders();
+  buildPresetRow();
+  buildObject();
+  updateCVs();
+};
+
+// ============ CALC BOX ============
+function updateCalcBox() {
+  const p = getPreset();
+  $('calcHalf').textContent = (S.bw / 2).toFixed(3);
+  $('calcHcog').textContent = getCogH().toFixed(3);
+  if (p.eq === 'neutral' || p.eq === 'unstable') {
+    $('calcBox').style.opacity = '0.4';
+  } else {
+    $('calcBox').style.opacity = '1';
+  }
+}
+
+window.checkTipAnswer = () => {
+  const tipA = getTipAngle();
+  const uv = parseFloat($('tipAns').value);
+  if (isNaN(uv)) {
+    $('tipFb').innerHTML = '<div class="fb fb-hint">Hint: θ = arctan(½b ÷ h_CoG). Compute ½×' + S.bw.toFixed(2) + ' ÷ ' + getCogH().toFixed(3) + ', then take arctan.</div>';
+    return;
+  }
+  if (Math.abs(uv - tipA) < 1.5) {
+    $('tipAns').style.borderColor = 'var(--ok)';
+    $('tipFb').innerHTML = `<div class="fb fb-ok">Correct! θ = ${tipA.toFixed(1)}°</div>`;
+    addNote('Calculation', `θ_tip for b=${S.bw.toFixed(2)}m, h_CoG=${getCogH().toFixed(3)}m`, `${tipA.toFixed(1)}°`);
+  } else {
+    $('tipAns').style.borderColor = 'var(--err)';
+    $('tipFb').innerHTML = `<div class="fb fb-err">Not quite — expected ${tipA.toFixed(1)}°. Check: arctan(${(S.bw/2).toFixed(3)} ÷ ${getCogH().toFixed(3)})</div>`;
+  }
+};
+
+// ============ RIGHT COL ============
+function updateRightCol() {
+  const p = getPreset();
+  const tipA = getTipAngle();
+  const eqColors = { stable: 'var(--ok)', neutral: 'var(--warn)', unstable: 'var(--err)' };
+  const eqDescs = {
+    stable: 'Displaced → returns. CoG rises when tilted, creating restoring torque.',
+    neutral: 'Displaced → stays. CoG height unchanged. No restoring or toppling force.',
+    unstable: 'Displaced → falls further. CoG drops, accelerating away from equilibrium.'
+  };
+  const tipDisp = p.eq === 'neutral' ? 'N/A' : p.eq === 'unstable' ? '≈ 0°' : tipA.toFixed(1) + '°';
+  $('rightCol').innerHTML = `
+    <div class="info-card"><h4>Equilibrium</h4>
+      <div class="val" style="color:${eqColors[p.eq]};font-size:.85rem">${p.eq.toUpperCase()}</div>
+      <div class="desc">${eqDescs[p.eq]}</div></div>
+    <div class="info-card"><h4>Tipping Angle</h4>
+      <div class="val">${tipDisp}</div>
+      <div class="desc" style="font-family:var(--display);font-size:.72rem;color:var(--accent)">θ = arctan(½b / h<sub>CoG</sub>)</div></div>
+    <div class="info-card"><h4>Dimensions</h4>
+      <div class="stat-grid">
+        <div class="stat-item"><div class="stat-label">Base (b)</div><div class="stat-val">${S.bw.toFixed(2)} m</div></div>
+        <div class="stat-item"><div class="stat-label">Height (h)</div><div class="stat-val">${S.h.toFixed(2)} m</div></div>
+        <div class="stat-item"><div class="stat-label">CoG Height</div><div class="stat-val">${getCogH().toFixed(3)} m</div></div>
+        <div class="stat-item"><div class="stat-label">CoG %</div><div class="stat-val">${(S.cog*100).toFixed(0)}%</div></div>
+      </div></div>
+    <div class="info-card"><h4>Mass Distribution</h4>
+      <div class="desc">${p.uniform ? '<strong>Uniform</strong> — mass evenly spread.' : '<strong>Non-uniform</strong> — ' + p.desc}</div></div>
+    <div class="info-card"><h4>Centre of Mass</h4>
+      <div class="desc">${p.com}</div></div>
+    <div class="info-card"><h4>Why This Stability?</h4>
+      <div class="desc">${p.why}</div></div>
+    <div class="info-card"><h4>Key Rule</h4>
+      <div class="desc">An object topples when the vertical line through its CoG exits the base of support. Wider base or lower CoG → more stable.</div></div>
+    <div class="info-card"><h4>Assumption</h4>
+      <div class="desc" style="font-size:.58rem;color:var(--text3)">Infinite friction assumed — the object cannot slide. In reality, sliding occurs at θ > arctan(μ).</div></div>
+  `;
+}
+
+// ============ EXPERIMENT ============
+function updateCVs() {
+  const iv = $('expIV')?.value || 'bw';
+  const cvs = [
+    { id: 'bw', n: 'Base width (b)' },
+    { id: 'h', n: 'Object height (h)' },
+    { id: 'cog', n: 'CoG height fraction' }
+  ].filter(v => v.id !== iv);
+  $('cvList').innerHTML = cvs.map(v => `<div style="display:flex;align-items:center;gap:3px"><span style="color:var(--ok);font-weight:700">✓</span> ${v.n} = <strong>${v.id === 'bw' ? S.bw.toFixed(2) : v.id === 'h' ? S.h.toFixed(2) : S.cog.toFixed(2)}</strong></div>`).join('');
+}
+$('expIV')?.addEventListener('change', updateCVs);
+
+window.readIV = () => {
+  const iv = $('expIV')?.value || 'bw';
+  $('manIV').value = iv === 'bw' ? S.bw.toFixed(2) : iv === 'h' ? S.h.toFixed(2) : S.cog.toFixed(2);
+};
+
+window.readDV = () => {
+  $('manDV').value = getTipAngle() === Infinity ? '' : getTipAngle().toFixed(1);
+};
+
+window.autoAdd = () => {
+  window.readIV();
+  window.readDV();
+  window.addDataPoint();
+};
+
+window.addDataPoint = () => {
+  const iv = parseFloat($('manIV')?.value);
+  const dv = parseFloat($('manDV')?.value);
+  const unc = parseFloat($('manUnc')?.value) || 0.5;
+  if (isNaN(iv) || isNaN(dv)) { $('dataStatus').textContent = 'Enter both IV and DV values.'; return; }
+  rawData.push({ iv, dv, unc });
+  $('manIV').value = ''; $('manDV').value = '';
+  $('dataStatus').textContent = `Added point #${rawData.length}`;
+  $('dataStatus').style.color = 'var(--ok)';
+  buildRawTable();
+  addNote('Data', `IV=${iv}, DV=${dv}°, ±${unc}°`, `Point #${rawData.length}`);
+};
+
+function buildRawTable() {
+  if (!rawData.length) { $('rawTable').innerHTML = ''; return; }
+  const grouped = {};
+  rawData.forEach((d, i) => {
+    const k = d.iv.toFixed(3);
+    if (!grouped[k]) grouped[k] = [];
+    grouped[k].push({ ...d, idx: i });
+  });
+  const keys = Object.keys(grouped).map(Number).sort((a, b) => a - b);
+  let rows = '';
+  keys.forEach(k => {
+    const pts = grouped[k.toFixed(3)];
+    const dvs = pts.map(p => p.dv);
+    const mean = dvs.reduce((a, b) => a + b, 0) / dvs.length;
+    const maxUnc = Math.max(...pts.map(p => p.unc));
+    const spread = dvs.length > 1 ? (Math.max(...dvs) - Math.min(...dvs)) / 2 : 0;
+    const totalUnc = Math.max(maxUnc, spread);
+    pts.forEach((p, j) => {
+      rows += `<tr><td>${j === 0 ? k.toFixed(3) : ''}</td><td>${(j+1)}</td><td>${p.dv.toFixed(1)}</td><td>±${p.unc.toFixed(1)}</td>
+        <td><span class="del-btn" onclick="window.delPoint(${p.idx})">×</span></td></tr>`;
+    });
+    rows += `<tr class="mean-row"><td></td><td colspan="1">Mean</td><td>${mean.toFixed(1)}</td><td>±${totalUnc.toFixed(1)}</td><td></td></tr>`;
+  });
+  $('rawTable').innerHTML = `<table class="data-table" style="margin-top:6px"><thead><tr><th>IV</th><th>Trial</th><th>DV (°)</th><th>Unc</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+window.delPoint = idx => {
+  rawData.splice(idx, 1);
+  buildRawTable();
+};
+
+// ============ PROCESSED DATA & GRAPH ============
+function getProcessedData() {
+  if (!rawData.length) return [];
+  const grouped = {};
+  rawData.forEach(d => {
+    const k = d.iv.toFixed(3);
+    if (!grouped[k]) grouped[k] = [];
+    grouped[k].push(d);
+  });
+  return Object.keys(grouped).map(Number).sort((a, b) => a - b).map(k => {
+    const pts = grouped[k.toFixed(3)];
+    const dvs = pts.map(p => p.dv);
+    const mean = dvs.reduce((a, b) => a + b, 0) / dvs.length;
+    const maxUnc = Math.max(...pts.map(p => p.unc));
+    const spread = dvs.length > 1 ? (Math.max(...dvs) - Math.min(...dvs)) / 2 : 0;
+    const totalUnc = Math.max(maxUnc, spread);
+    return { iv: k, mean, unc: totalUnc, n: dvs.length };
+  });
+}
+
+function buildProcessedTable() {
+  const data = getProcessedData();
+  if (!data.length) {
+    $('processedTable').innerHTML = '<p style="font-size:.68rem;color:var(--text3);text-align:center;padding:12px">Collect data in the Experiment tab first.</p>';
+    return;
+  }
+  const isLin = $('chkLinear')?.checked;
+  const ivLabel = $('expIV')?.value === 'bw' ? 'b (m)' : $('expIV')?.value === 'h' ? 'h (m)' : 'CoG frac';
+  const dvLabel = isLin ? 'tan(θ)' : 'θ (°)';
+  const ivLabel2 = isLin ? '½b / h_CoG' : ivLabel;
+  let rows = data.map(d => {
+    const dy = isLin ? Math.tan(d.mean * Math.PI / 180) : d.mean;
+    const dx = isLin ? (d.iv / 2) / getCogH() : d.iv;
+    const uncY = isLin ? Math.abs(Math.tan((d.mean + d.unc) * Math.PI / 180) - Math.tan(d.mean * Math.PI / 180)) : d.unc;
+    return `<tr><td>${dx.toFixed(3)}</td><td>${dy.toFixed(3)}</td><td>±${uncY.toFixed(3)}</td><td>${d.n}</td></tr>`;
+  }).join('');
+  $('processedTable').innerHTML = `<table class="data-table"><thead><tr><th>${ivLabel2}</th><th>${dvLabel}</th><th>Unc</th><th>n</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function leastSquares(xs, ys) {
+  const n = xs.length;
+  if (n < 2) return { m: 0, b: 0, r2: 0 };
+  const sx = xs.reduce((a, b) => a + b, 0);
+  const sy = ys.reduce((a, b) => a + b, 0);
+  const sxy = xs.reduce((a, x, i) => a + x * ys[i], 0);
+  const sxx = xs.reduce((a, x) => a + x * x, 0);
+  const syy = ys.reduce((a, y) => a + y * y, 0);
+  const m = (n * sxy - sx * sy) / (n * sxx - sx * sx);
+  const b = (sy - m * sx) / n;
+  const ssRes = ys.reduce((a, y, i) => a + (y - (m * xs[i] + b)) ** 2, 0);
+  const ssTot = ys.reduce((a, y) => a + (y - sy / n) ** 2, 0);
+  const r2 = ssTot === 0 ? 1 : 1 - ssRes / ssTot;
+  return { m, b, r2 };
+}
+
+window.redrawGraph = () => {
+  buildProcessedTable();
+  drawGraph();
+};
+
+function drawGraph() {
+  const canvas = $('graphCanvas');
+  const wrap = $('graphWrap');
+  if (!canvas || !wrap) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = wrap.getBoundingClientRect();
+  const W = rect.width, H = rect.height;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const dark = isDark();
+  ctx.fillStyle = dark ? '#1e1e1e' : '#fff';
+  ctx.fillRect(0, 0, W, H);
+
+  const data = getProcessedData();
+  const isLin = $('chkLinear')?.checked;
+  const showBF = $('chkBestFit')?.checked;
+  const showErr = $('chkErrors')?.checked;
+
+  if (!data.length) {
+    ctx.fillStyle = dark ? '#555' : '#aaa';
+    ctx.font = '12px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('Collect data to see your graph here', W / 2, H / 2);
     return;
   }
 
-  // Unstable (inverted cone) — topples at any tilt > 0
-  const effectiveTipA=p.eq==='unstable'?0.5:tipA;
+  const PAD = { t: 30, r: 20, b: 45, l: 55 };
+  const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
 
-  // Accelerating fall (α ∝ sin(θ) — angular acceleration grows with angle)
-  if(S.toppled){
-    fallVel+=.15+S.fallAngle*.008;
-    S.fallAngle=Math.min(90,S.fallAngle+fallVel*.1);
-  }
-  const totalAngle=S.toppled?S.angle+S.fallAngle:S.angle;
-  const rad=-totalAngle*Math.PI/180;
+  let xs = [], ys = [], errs = [];
+  const ivName = $('expIV')?.value === 'bw' ? 'Base width b' : $('expIV')?.value === 'h' ? 'Height h' : 'CoG fraction';
+  let xLabel, yLabel, title;
 
-  platform.rotation.z=-S.angle*Math.PI/180;
-
-  if(S.toppled){
-    const fallRad=-(S.angle+S.fallAngle)*Math.PI/180;
-    objGroup.rotation.z=fallRad;
-    objGroup.position.y=.34-Math.min(.3,S.fallAngle*.004);
-  }else{
-    objGroup.position.set(0,.34,0);
-    objGroup.rotation.z=-S.angle*Math.PI/180;
-  }
-
-  if(cogMarker)cogMarker.position.y=p.h*p.cog;
-
-  if(plumbLine){
-    const cogWorld=new THREE.Vector3(0,p.h*p.cog,0);
-    objGroup.localToWorld(cogWorld);
-    const pts=[cogWorld.clone(),cogWorld.clone()];pts[1].y=0;
-    plumbLine.geometry.setFromPoints(pts);
-    plumbLine.material.color.set(S.toppled?0xdc2626:0x22c55e);
+  if (isLin) {
+    data.forEach(d => {
+      xs.push((d.iv / 2) / getCogH());
+      ys.push(Math.tan(d.mean * Math.PI / 180));
+      errs.push(Math.abs(Math.tan((d.mean + d.unc) * Math.PI / 180) - Math.tan(d.mean * Math.PI / 180)));
+    });
+    xLabel = '½b / h_CoG (dimensionless)';
+    yLabel = 'tan(θ)';
+    title = 'Linearised: tan(θ) vs ½b/h_CoG';
+  } else {
+    data.forEach(d => {
+      xs.push(d.iv);
+      ys.push(d.mean);
+      errs.push(d.unc);
+    });
+    const unit = $('expIV')?.value === 'cog' ? '' : ' (m)';
+    xLabel = ivName + unit;
+    yLabel = 'Tipping angle θ (°)';
+    title = `θ vs ${ivName}`;
   }
 
-  const hw2=p.bw/2;
-  baseMarkers.forEach((m,i)=>{
-    const x=(i===0?-hw2:hw2);
-    const pRad=-S.angle*Math.PI/180;
-    m.position.set(x*Math.cos(pRad),.34+x*Math.sin(-pRad),0);m.rotation.z=pRad;
+  let xMin = Math.min(...xs), xMax = Math.max(...xs);
+  let yMin = Math.min(...ys.map((y, i) => y - errs[i])), yMax = Math.max(...ys.map((y, i) => y + errs[i]));
+  const xPad = (xMax - xMin) * 0.12 || 0.1;
+  const yPad = (yMax - yMin) * 0.12 || 1;
+  xMin -= xPad; xMax += xPad; yMin = Math.max(0, yMin - yPad); yMax += yPad;
+
+  const tx = v => PAD.l + ((v - xMin) / (xMax - xMin)) * pW;
+  const ty = v => PAD.t + pH - ((v - yMin) / (yMax - yMin)) * pH;
+
+  // Grid
+  ctx.strokeStyle = dark ? 'rgba(255,255,255,.06)' : 'rgba(0,0,0,.06)';
+  ctx.lineWidth = 0.5;
+  const nTicksX = 6, nTicksY = 6;
+  for (let i = 0; i <= nTicksX; i++) {
+    const v = xMin + (xMax - xMin) * i / nTicksX;
+    ctx.beginPath(); ctx.moveTo(tx(v), PAD.t); ctx.lineTo(tx(v), PAD.t + pH); ctx.stroke();
+  }
+  for (let i = 0; i <= nTicksY; i++) {
+    const v = yMin + (yMax - yMin) * i / nTicksY;
+    ctx.beginPath(); ctx.moveTo(PAD.l, ty(v)); ctx.lineTo(PAD.l + pW, ty(v)); ctx.stroke();
+  }
+
+  // Axes
+  ctx.strokeStyle = dark ? 'rgba(255,255,255,.3)' : 'rgba(0,0,0,.25)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(PAD.l, PAD.t); ctx.lineTo(PAD.l, PAD.t + pH); ctx.lineTo(PAD.l + pW, PAD.t + pH); ctx.stroke();
+
+  // Tick labels
+  ctx.fillStyle = dark ? '#888' : '#888';
+  ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+  for (let i = 0; i <= nTicksX; i++) {
+    const v = xMin + (xMax - xMin) * i / nTicksX;
+    ctx.fillText(v.toFixed(2), tx(v), PAD.t + pH + 14);
+  }
+  ctx.textAlign = 'right';
+  for (let i = 0; i <= nTicksY; i++) {
+    const v = yMin + (yMax - yMin) * i / nTicksY;
+    ctx.fillText(v.toFixed(1), PAD.l - 6, ty(v) + 3);
+  }
+
+  // Axis labels
+  ctx.fillStyle = dark ? '#aaa' : '#555';
+  ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText(xLabel, PAD.l + pW / 2, H - 6);
+  ctx.save(); ctx.translate(13, PAD.t + pH / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillText(yLabel, 0, 0); ctx.restore();
+
+  // Title
+  ctx.fillStyle = dark ? '#e8e4df' : '#1a1a1a';
+  ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText(title, PAD.l + pW / 2, 16);
+
+  // Best-fit line
+  const fit = leastSquares(xs, ys);
+  if (showBF && xs.length >= 2) {
+    ctx.strokeStyle = dark ? 'rgba(224,115,59,.4)' : 'rgba(184,67,11,.3)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(tx(xMin), ty(fit.m * xMin + fit.b));
+    ctx.lineTo(tx(xMax), ty(fit.m * xMax + fit.b));
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  $('rSquared').textContent = xs.length >= 2 ? `R² = ${fit.r2.toFixed(4)}` : '';
+
+  // Error bars
+  if (showErr) {
+    ctx.strokeStyle = dark ? 'rgba(63,191,138,.5)' : 'rgba(26,104,71,.4)';
+    ctx.lineWidth = 1;
+    xs.forEach((x, i) => {
+      const cx2 = tx(x), cy2 = ty(ys[i]);
+      const top = ty(ys[i] + errs[i]), bot = ty(ys[i] - errs[i]);
+      ctx.beginPath(); ctx.moveTo(cx2, top); ctx.lineTo(cx2, bot); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx2 - 3, top); ctx.lineTo(cx2 + 3, top); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx2 - 3, bot); ctx.lineTo(cx2 + 3, bot); ctx.stroke();
+    });
+  }
+
+  // Data points
+  ctx.fillStyle = dark ? '#E0733B' : '#B8430B';
+  xs.forEach((x, i) => {
+    ctx.beginPath(); ctx.arc(tx(x), ty(ys[i]), 4, 0, Math.PI * 2); ctx.fill();
   });
 
-  controls.update();renderer.render(scene,camera);
-
-  $('oAngle').textContent=totalAngle.toFixed(0)+'°';
-  if(S.toppled){$('oStatus').textContent='TOPPLED!';$('oStatus').style.color='#ef4444'}
-  else if(p.eq==='unstable'){$('oStatus').textContent='UNSTABLE — will topple!';$('oStatus').style.color='#f59e0b'}
-  else{$('oStatus').textContent='STABLE';$('oStatus').style.color='#22c55e'}
-  $('oName').textContent=p.n;
+  // Connect
+  if (xs.length >= 2) {
+    ctx.strokeStyle = dark ? '#E0733B' : '#B8430B';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    xs.forEach((x, i) => { i === 0 ? ctx.moveTo(tx(x), ty(ys[i])) : ctx.lineTo(tx(x), ty(ys[i])); });
+    ctx.stroke();
+  }
 }
 
-// ===== UI =====
-function buildUI(){
-  S.angle=0;S.toppled=false;S.fallAngle=0;
-  const p=PRESETS[S.pi];
-  let pills='';PRESETS.forEach((pr,i)=>{pills+=`<div class="pill${i===S.pi?' on':''}" onclick="window.loadP(${i})">${pr.n}</div>`});
-  $('ctrl').innerHTML=`<div class="cr" style="gap:3px;flex-wrap:wrap">${pills}</div>`+
-    `<div class="cr"><div class="sr"><span class="cl" style="color:var(--accent);font-weight:800;font-size:.72rem">TILT</span><input type="range" min="0" max="60" step=".5" value="0" id="tiltS" oninput="window.setT(+this.value)" style="max-width:180px"><span class="sv" id="tiltV" style="color:var(--accent);font-size:.82rem">0°</span></div>`+
-    `<button class="btn btn-a" onclick="window.resetT()">↺ Reset</button></div>`;
-  const tipA=getTipAngle();
-  $('calc').innerHTML=`<div class="gp"><div class="cr"><span class="eq">θ_tip = arctan(½×${sci(p.bw)} / ${sci(p.h*p.cog)}) = </span><input class="inp" id="tipAns" placeholder="?"><span class="u">°</span><button class="btn btn-a" onclick="window.tipChk()">Check</button></div><div id="tipfb"></div></div>`;
-  const eqCol=p.eq==='stable'?'var(--ok)':p.eq==='neutral'?'#fbbf24':'var(--err)';
-  const eqLabel=p.eq==='stable'?'STABLE: Displaced → returns to original position. CoG rises when tilted.':p.eq==='neutral'?'NEUTRAL: Displaced → stays in new position. CoG height unchanged. No restoring force.':'UNSTABLE: Any displacement → CoG drops → object falls. Cannot self-correct.';
-  $('rp').innerHTML=`<div class="rc"><h3>Equilibrium Type</h3><div class="rv" style="color:${eqCol};font-size:.85rem">${p.eq.toUpperCase()}</div><div class="rs">${eqLabel}</div></div>`+
-    `<div class="rc"><h3>Tipping Angle</h3><div class="rv" id="rTip">${p.eq==='neutral'?'N/A (rolls)':p.eq==='unstable'?'≈ 0° (any tilt)':tipA.toFixed(1)+'°'}</div><div class="fm">θ = arctan(½b / h_cog)</div></div>`+
-    `<div class="rc"><h3>Object Details</h3><div class="sg"><div class="si"><div class="sl">Base Width</div><div class="sv2">${sci(p.bw)} m</div></div><div class="si"><div class="sl">Height</div><div class="sv2">${sci(p.h)} m</div></div><div class="si"><div class="sl">CoG Height</div><div class="sv2">${sci(p.h*p.cog)} m</div></div><div class="si"><div class="sl">CoG %</div><div class="sv2">${(p.cog*100).toFixed(0)}%</div></div></div></div>`+
-    `<div class="rc"><h3>Mass Distribution</h3><div class="rs" style="font-family:var(--serif);font-size:.64rem;line-height:1.7;color:var(--accent)">${p.uniform?'<strong>Uniform</strong>: mass evenly spread':'<strong>Non-uniform</strong>: '+p.desc}</div></div>`+
-    `<div class="rc"><h3>Centre of Mass</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.7">${p.com}</div></div>`+
-    `<div class="rc"><h3>Why This Stability?</h3><div class="rs" style="font-size:.62rem;line-height:1.6">${p.why}</div></div>`+
-    `<div class="rc"><h3>Stability Rule</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.7">Object topples when weight line exits base.<br>↑ Wider base → more stable<br>↓ Lower CoG → more stable</div></div>`+
-    `<div class="rc"><h3>Note</h3><div class="rs" style="font-size:.58rem;line-height:1.5;color:var(--text3)">This simulation assumes infinite friction — the object cannot slide. In reality, sliding occurs when tilt > arctan(μ).</div></div>`;
-  buildObject();buildExp();buildIB();
-}
+// Resize graph
+new ResizeObserver(() => { drawGraph(); }).observe($('graphWrap'));
 
-window.loadP=i=>{S.pi=i;buildUI()};
-window.setT=v=>{if(S.toppled)return;S.angle=v;$('tiltV').textContent=v.toFixed(0)+'°';const p=PRESETS[S.pi];if(p.eq==='neutral')return;const tipA=p.eq==='unstable'?0.5:getTipAngle();if(v>=tipA){S.toppled=true;S.toppleAngle=v;fallVel=0}};
-window.resetT=()=>{S.angle=0;S.toppled=false;S.fallAngle=0;fallVel=0;if($('tiltS'))$('tiltS').value=0;if($('tiltV'))$('tiltV').textContent='0°'};
-window.tipChk=()=>{const tipA=getTipAngle(),uv=parseFloat($('tipAns').value);if(isNaN(uv)){$('tipfb').innerHTML='<div class="fb fb-h">θ = arctan(½b ÷ h_cog)</div>';return}if(Math.abs(uv-tipA)<2){$('tipAns').className='inp ok';$('tipfb').innerHTML=`<div class="fb fb-ok">✓ θ = ${tipA.toFixed(1)}°</div>`;addN('📐 Tipping',`base=${sci(PRESETS[S.pi].bw)}m CoG=${sci(PRESETS[S.pi].h*PRESETS[S.pi].cog)}m`,`θ=${tipA.toFixed(1)}°`)}else{$('tipAns').className='inp no';$('tipfb').innerHTML=`<div class="fb fb-no">✗ ${tipA.toFixed(1)}°</div>`}};
+// ============ CSV EXPORT ============
+window.exportCSV = () => {
+  const data = getProcessedData();
+  if (!data.length) return;
+  const isLin = $('chkLinear')?.checked;
+  let csv = isLin ? '½b/h_CoG,tan(θ),±Uncertainty,n_trials\n' : 'IV,Mean_θ_deg,±Uncertainty,n_trials\n';
+  data.forEach(d => {
+    if (isLin) {
+      csv += `${((d.iv/2)/getCogH()).toFixed(4)},${Math.tan(d.mean*Math.PI/180).toFixed(4)},${Math.abs(Math.tan((d.mean+d.unc)*Math.PI/180)-Math.tan(d.mean*Math.PI/180)).toFixed(4)},${d.n}\n`;
+    } else {
+      csv += `${d.iv.toFixed(3)},${d.mean.toFixed(1)},${d.unc.toFixed(1)},${d.n}\n`;
+    }
+  });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'stability_data.csv';
+  a.click();
+};
 
-// Notebook
-let nb=[];function addN(t,d,r){nb.push({t,d,r});showN()}
-function showN(){$('nbO').innerHTML=nb.length?nb.map((n,i)=>`<div class="nb-c"><b>#${i+1} ${n.t}</b><br>${n.d}<br><span class="nr">→ ${n.r}</span></div>`).join(''):'<p style="text-align:center;color:var(--text3);font-size:.62rem;padding:6px">Complete experiments to record.</p>'}
-showN();
-
-// Experiment
-let expD=[],manD=[];
-const EIV=[{id:'bw',n:'Base Width (m)'},{id:'h',n:'Height (m)'},{id:'cog',n:'CoG Height (m)'}];
-const EDV=[{id:'tip',n:'Tipping Angle (°)'}];
-function buildExp(){
-  $('expC').innerHTML=`<div class="exp-row"><div class="exp-col"><div class="exp-field"><label>IV</label><select id="selIV">${EIV.map(v=>`<option value="${v.id}">${v.n}</option>`).join('')}</select></div><div class="exp-field"><label>DV</label><select id="selDV">${EDV.map(v=>`<option value="${v.id}">${v.n}</option>`).join('')}</select></div></div><div class="exp-col"><div class="exp-field"><label>CVs</label><div class="cv-grid">${EIV.map(v=>`<label class="cv-check"><input type="checkbox" checked>${v.n}</label>`).join('')}</div></div><div class="exp-field"><label>Hypothesis</label><input type="text" placeholder="If base width increases, tipping angle will..."></div></div></div>`+
-    `<div style="background:var(--surface);border-radius:6px;padding:5px;border:1px solid var(--border);margin-top:3px"><div class="exp-row" style="align-items:flex-end"><div class="exp-col"><div class="exp-field"><label>IV</label><div style="display:flex;gap:2px"><input type="number" id="mIV" step="any" style="flex:1"><button class="btn btn-o" onclick="window.rIV()" style="font-size:.55rem;padding:2px 4px">↻</button></div></div></div><div class="exp-col"><div class="exp-field"><label>DV</label><div style="display:flex;gap:2px"><input type="number" id="mDV" step="any" style="flex:1"><button class="btn btn-o" onclick="window.rDV()" style="font-size:.55rem;padding:2px 4px">↻</button></div></div></div><div style="flex:0;display:flex;gap:2px"><button class="btn btn-a" onclick="window.addR()" style="font-size:.6rem">+Add</button><button class="btn btn-o" onclick="window.aAdd()" style="font-size:.55rem">Auto</button></div></div></div><div id="mT"></div><div style="display:flex;gap:2px;margin-top:2px"><button class="btn btn-a" onclick="window.plotM()" style="font-size:.6rem">Plot</button><button class="btn btn-o" onclick="window.clrM()" style="font-size:.6rem">Clear</button></div><div id="mSt" style="font-size:.6rem;color:var(--text3);margin-top:2px"></div>`;
-}
-window.rIV=()=>{const iv=$('selIV')?.value||'bw';const p=PRESETS[S.pi];$('mIV').value=iv==='bw'?p.bw.toFixed(2):iv==='h'?p.h.toFixed(2):(p.h*p.cog).toFixed(2)};
-window.rDV=()=>{$('mDV').value=getTipAngle().toFixed(1)};
-window.aAdd=()=>{window.rIV();window.rDV();window.addR()};
-window.addR=()=>{const iv=parseFloat($('mIV')?.value),dv=parseFloat($('mDV')?.value);if(isNaN(iv)||isNaN(dv)){$('mSt').textContent='Enter both.';return}manD.push({iv,dv});$('mIV').value='';$('mDV').value='';$('mSt').textContent=`#${manD.length}`;$('mSt').style.color='var(--ok)';buildMT();syncM()};
-function buildMT(){if(!manD.length){$('mT').innerHTML='';return}const g={};manD.forEach(d=>{if(!g[d.iv])g[d.iv]=[];g[d.iv].push(d.dv)});const ks=Object.keys(g).map(Number).sort((a,b)=>a-b);$('mT').innerHTML=`<table class="dt"><thead><tr><th>IV</th><th>Readings</th><th class="mean">Mean</th><th></th></tr></thead><tbody>${ks.map(k=>{const v=g[k],mn=v.reduce((a,b)=>a+b,0)/v.length;return`<tr><td style="font-weight:700">${k}</td><td>${v.map(x=>x.toFixed(1)).join(', ')}</td><td class="mean">${mn.toFixed(1)}</td><td><span style="cursor:pointer;color:var(--err)" onclick="window.rmG(${k})">✕</span></td></tr>`}).join('')}</tbody></table>`}
-window.rmG=k=>{manD=manD.filter(d=>d.iv!==k);buildMT();syncM()};
-window.clrM=()=>{manD=[];buildMT();expD=[];$('mSt').textContent=''};
-function syncM(){if(!manD.length){expD=[];return}const g={};manD.forEach(d=>{if(!g[d.iv])g[d.iv]=[];g[d.iv].push(d.dv)});expD=Object.keys(g).map(Number).sort((a,b)=>a-b).map(k=>{const v=g[k];return{iv:k,mean:+(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1)}});buildDT();setTimeout(()=>{initGr();drawGr()},30)}
-window.plotM=()=>{if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.btc').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(()=>{initGr();drawGr()},80)};
-function buildDT(){if(!expD.length)return;$('dW').innerHTML=`<table class="dt"><thead><tr><th>IV</th><th class="mean">Mean DV</th></tr></thead><tbody>${expD.map(r=>`<tr><td>${r.iv}</td><td class="mean">${r.mean}</td></tr>`).join('')}</tbody></table>`}
-let gCv,gx2;
-function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');const d=devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)return;gCv.width=w*d;gCv.height=180*d;gCv.style.width=w+'px';gCv.style.height='180px';gx2.setTransform(d,0,0,d,0,0)}
-function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return}const w=parseInt(gCv.style.width)||500,h=180,d=dk();gx2.clearRect(0,0,w,h);gx2.fillStyle=d?'#0f172a':'#f0f4f8';gx2.beginPath();gx2.roundRect(0,0,w,h,8);gx2.fill();if(!expD.length){gx2.fillStyle=d?'rgba(148,163,184,.2)':'rgba(0,0,0,.08)';gx2.font='10px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data to plot',w/2,h/2);return}const P={t:18,r:12,b:22,l:36},pW=w-P.l-P.r,pH=h-P.t-P.b;gx2.strokeStyle=d?'rgba(148,163,184,.1)':'rgba(0,0,0,.06)';gx2.lineWidth=1;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,h-P.b);gx2.lineTo(w-P.r,h-P.b);gx2.stroke();const xs=expD.map(r2=>r2.iv),ys=expD.map(r2=>r2.mean);let xn=Math.min(...xs),xx=Math.max(...xs),yn=Math.min(...ys)-.5,yx=Math.max(...ys)+.5;if(xx===xn){xn-=1;xx+=1}if(yx<=yn){yn-=1;yx+=2}const tx=v=>P.l+((v-xn)/(xx-xn))*pW,ty=v=>P.t+pH-((v-yn)/(yx-yn))*pH;expD.forEach((r2,i)=>{gx2.fillStyle=d?'#38bdf8':'#0369a1';gx2.beginPath();gx2.arc(tx(xs[i]),ty(ys[i]),3.5,0,Math.PI*2);gx2.fill()});if(xs.length>=2){gx2.strokeStyle=d?'#38bdf8':'#0369a1';gx2.lineWidth=1.5;gx2.beginPath();expD.forEach((r2,i)=>{i===0?gx2.moveTo(tx(xs[i]),ty(ys[i])):gx2.lineTo(tx(xs[i]),ty(ys[i]))});gx2.stroke()}}
-
-// IB Questions
-const IB=[
-  {c:'Explain',q:'Why does a racing car have a low centre of gravity and wide wheelbase?',f:'Low CoG + wide base → arctan(½b/h_cog) gives a large tipping angle → the car can corner at high speed without toppling. The heavy engine placed low concentrates mass near the ground.'},
-  {c:'Calculate',q:'A uniform box has base width 20 cm and CoG at height 30 cm. Find the maximum tilt angle before it topples.',f:'θ = arctan(½b / h_cog) = arctan(0.10 / 0.30) = arctan(0.333) = 18.4°'},
-  {c:'Explain',q:'A double-decker bus has heavy batteries installed in the floor. Explain the effect on stability.',f:'The batteries lower the overall centre of gravity. Since θ_tip = arctan(½b / h_cog), reducing h_cog increases the tipping angle, making the bus more resistant to toppling on slopes and corners.'},
-  {c:'State',q:'State the conditions for an object to be in stable equilibrium.',f:'1) The object must return to its original position when displaced slightly. 2) The centre of gravity must rise when displaced (increasing PE). 3) The vertical line through the CoG (weight line) must remain within the base of support.'},
-  {c:'Distinguish',q:'Distinguish between stable, unstable, and neutral equilibrium with examples.',f:'Stable: displaced → returns (e.g. box on table). CoG rises when tilted, creating a restoring torque. Unstable: displaced → falls further (e.g. inverted cone). CoG drops, creating a toppling torque. Neutral: displaced → stays (e.g. ball on flat surface). CoG height unchanged, no net torque.'},
-  {c:'Deduce',q:'A bus has base width 2.4 m and CoG at 1.0 m. A roof rack with luggage raises the CoG to 1.3 m. Deduce the change in tipping angle.',f:'Before: θ = arctan(1.2/1.0) = 50.2°. After: θ = arctan(1.2/1.3) = 42.7°. The tipping angle decreases by 7.5° — the bus is significantly less stable. This is why loaded roof racks increase rollover risk.'}
+// ============ IB QUESTIONS ============
+const IB_QUESTIONS = [
+  { cmd: 'Explain', cmdClass: 'ib-cmd-explain', q: 'Why does a racing car have a low centre of gravity and wide wheelbase?',
+    a: '<strong>Low CoG + wide base → large tipping angle.</strong> θ_tip = arctan(½b/h_CoG). With b ≈ 1.8 m and h_CoG ≈ 0.3 m, θ ≈ 72°. The car can corner aggressively without the weight line leaving the base of support. The heavy engine block is placed as low as possible to minimise h_CoG.' },
+  { cmd: 'Calculate', cmdClass: 'ib-cmd-calc', q: 'A uniform box has base width 20 cm and centre of gravity at height 30 cm. Find the maximum tilt angle before it topples.',
+    a: '<strong>θ = arctan(½b / h_CoG) = arctan(0.10 / 0.30) = arctan(0.333) = 18.4°</strong><br>The box will topple when tilted beyond 18.4°, when the weight line through the CoG exits the base of support.' },
+  { cmd: 'Explain', cmdClass: 'ib-cmd-explain', q: 'A double-decker bus has heavy batteries installed in the floor. Explain the effect on stability.',
+    a: '<strong>Batteries lower the overall centre of gravity.</strong> Since θ_tip = arctan(½b / h_CoG), reducing h_CoG increases the tipping angle. The bus becomes more resistant to toppling on slopes and corners despite its tall profile.' },
+  { cmd: 'State', cmdClass: 'ib-cmd-state', q: 'State the conditions for an object to be in stable equilibrium.',
+    a: '<strong>Three conditions:</strong><br>1. The object returns to its original position when displaced slightly.<br>2. The centre of gravity rises when displaced, increasing gravitational PE.<br>3. The vertical line through the CoG (weight line) remains within the base of support, creating a restoring torque.' },
+  { cmd: 'Distinguish', cmdClass: 'ib-cmd-state', q: 'Distinguish between stable, unstable, and neutral equilibrium with examples from this simulation.',
+    a: '<strong>Stable (e.g. box, car):</strong> Displaced → CoG rises → restoring torque returns object. Weight line stays inside base.<br><strong>Unstable (e.g. inverted cone):</strong> Displaced → CoG drops → toppling torque accelerates fall. Any displacement is fatal.<br><strong>Neutral (e.g. ball):</strong> Displaced → CoG height unchanged → no net torque. Object stays in new position.' },
+  { cmd: 'Deduce', cmdClass: 'ib-cmd-deduce', q: 'A bus has base width 2.4 m and CoG at 1.0 m. A roof rack with luggage raises the CoG to 1.3 m. Deduce the change in tipping angle.',
+    a: '<strong>Before:</strong> θ = arctan(1.2 / 1.0) = 50.2°<br><strong>After:</strong> θ = arctan(1.2 / 1.3) = 42.7°<br><strong>Change: −7.5°</strong> — the bus is significantly less stable. This explains why loaded roof racks dramatically increase rollover risk, especially on curved roads.' },
+  { cmd: 'Calculate', cmdClass: 'ib-cmd-calc', q: 'A wine bottle (b = 0.08 m) is full (CoG at 0.12 m) then empty (CoG at 0.18 m). Calculate the tipping angle for each and explain the difference.',
+    a: '<strong>Full:</strong> θ = arctan(0.04 / 0.12) = 18.4°<br><strong>Empty:</strong> θ = arctan(0.04 / 0.18) = 12.5°<br>The full bottle is more stable by 5.9° because the liquid mass concentrates in the wide base, lowering the CoG.' },
+  { cmd: 'Explain', cmdClass: 'ib-cmd-explain', q: 'Why does a ball on a flat surface represent neutral equilibrium? Use energy considerations.',
+    a: '<strong>When displaced, the ball\'s CoG remains at the same height</strong> (it moves horizontally, not vertically). Since gravitational PE = mgh and h is constant, there is no change in PE. No PE gradient means no restoring force and no toppling force. The ball has no preferred position — it remains wherever it is placed.' }
 ];
-function buildIB(){$('ibL').innerHTML=IB.map((q,i)=>`<div class="ib-card"><div class="ib-cmd">${q.c}</div><h4>Q${i+1}</h4><p>${q.q}</p><textarea id="ib${i}"></textarea><button class="btn btn-a" style="margin-top:2px;font-size:.58rem" onclick="window.sF(${i})">Answer</button><div class="ib-fb" id="iF${i}"></div></div>`).join('')}
-window.sF=i=>{$('iF'+i).className='ib-fb show ok';$('iF'+i).textContent=IB[i].f};
-window.bts=(el,i)=>{document.querySelectorAll('.bt').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.btc').forEach(t=>t.classList.remove('on'));el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(()=>{initGr();drawGr()},80)};
 
-// Init
-buildUI();animate();
+function buildIBQuestions() {
+  $('ibQuestions').innerHTML = IB_QUESTIONS.map((q, i) => `
+    <div class="ib-card">
+      <span class="ib-cmd ${q.cmdClass}">${q.cmd}</span>
+      <h4>Q${i + 1}</h4>
+      <p>${q.q}</p>
+      <textarea id="ibA${i}" placeholder="Write your answer here..."></textarea>
+      <div style="display:flex;gap:4px;margin-top:4px">
+        <button class="btn btn-primary" onclick="window.showIBAnswer(${i})" style="font-size:.62rem">Show Model Answer</button>
+        <button class="btn btn-secondary" onclick="window.hideIBAnswer(${i})" style="font-size:.62rem">Hide</button>
+      </div>
+      <div class="ib-answer" id="ibM${i}">${q.a}</div>
+    </div>
+  `).join('');
+}
+
+window.showIBAnswer = i => { $('ibM' + i).classList.add('show'); };
+window.hideIBAnswer = i => { $('ibM' + i).classList.remove('show'); };
+
+// ============ NOTEBOOK ============
+function addNote(title, detail, result) {
+  const ts = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  notebook.push({ title, detail, result, ts });
+  renderNotebook();
+}
+
+window.addCustomNote = () => {
+  const text = $('customNote')?.value?.trim();
+  if (!text) return;
+  addNote('Observation', text, '—');
+  $('customNote').value = '';
+};
+
+function renderNotebook() {
+  $('nbOutput').innerHTML = notebook.length
+    ? notebook.map((n, i) => `<div class="nb-entry"><span class="nb-title">#${i+1} ${n.title}</span> <span style="color:var(--text3);font-size:.55rem">${n.ts}</span><br>${n.detail}<br><span class="nb-result">→ ${n.result}</span></div>`).join('')
+    : '<p style="text-align:center;color:var(--text3);font-size:.65rem;padding:8px">Complete experiments and add observations to build your notebook.</p>';
+}
+
+// ============ IA RUBRIC ============
+function buildRubric() {
+  const criteria = [
+    {
+      name: 'Personal Engagement',
+      marks: '0–2',
+      desc: 'Evidence of personal input and initiative in the design of the investigation.',
+      checks: [
+        'I chose a research question that interests me personally',
+        'I designed the method myself rather than following a textbook',
+        'I reflected on how the investigation connects to the real world',
+        'I noted unexpected observations and pursued them'
+      ]
+    },
+    {
+      name: 'Exploration',
+      marks: '0–6',
+      desc: 'A focused research question, relevant background, controlled methodology.',
+      checks: [
+        'Research question is clear, focused, and testable',
+        'Background theory is explained (θ = arctan(½b/h_CoG))',
+        'IV, DV, and CVs are clearly identified',
+        'Methodology describes 5+ IV values with multiple trials each',
+        'Sufficient relevant data is collected to address the RQ',
+        'Safety, ethical, and environmental considerations noted'
+      ]
+    },
+    {
+      name: 'Analysis',
+      marks: '0–6',
+      desc: 'Correct processing with uncertainties, appropriate graphing, interpretation.',
+      checks: [
+        'Raw data table includes units and uncertainties',
+        'Processed data shows means with propagated uncertainties',
+        'Graph has title, labelled axes with units, and error bars',
+        'Best-fit line or curve drawn and discussed',
+        'Linearisation attempted where appropriate (tan θ vs ½b/h)',
+        'R² value calculated and interpreted',
+        'Relationship between IV and DV described with evidence'
+      ]
+    },
+    {
+      name: 'Evaluation',
+      marks: '0–6',
+      desc: 'Conclusion, strengths/weaknesses, systematic errors, improvements.',
+      checks: [
+        'Conclusion directly answers the research question',
+        'Result compared to theoretical/accepted values',
+        'Systematic and random errors identified and discussed',
+        'Strengths and limitations of the method evaluated',
+        'Realistic, specific improvements suggested',
+        'Extensions or follow-up investigations proposed'
+      ]
+    },
+    {
+      name: 'Communication',
+      marks: '0–4',
+      desc: 'Clear structure, appropriate terminology, citations.',
+      checks: [
+        'Report follows standard scientific structure',
+        'Physics terminology used correctly throughout',
+        'Equations and symbols presented properly',
+        'Sources cited in accepted academic format'
+      ]
+    }
+  ];
+
+  $('rubricContent').innerHTML = criteria.map(c => `
+    <div class="rubric-card">
+      <h4>${c.name} <span style="font-size:.62rem;color:var(--text3);font-weight:400">(${c.marks} marks)</span></h4>
+      <p style="font-size:.64rem;color:var(--text2);margin-bottom:6px">${c.desc}</p>
+      ${c.checks.map(ch => `<div class="rubric-check"><input type="checkbox"><span>${ch}</span></div>`).join('')}
+    </div>
+  `).join('');
+}
+
+// ============ CoG & COM ACTIVITY ============
+const COG_CHALLENGES = [
+  {
+    id: 'uniform_rect',
+    title: 'Uniform Rectangle',
+    desc: 'A uniform steel plate has width 60 cm and height 40 cm. Click where the Centre of Mass is.',
+    solution: `<strong>For any uniform object, the COM is at the geometric centre.</strong><br><br>
+      x<sub>COM</sub> = width / 2 = 60 / 2 = <strong>30 cm from left edge</strong><br>
+      y<sub>COM</sub> = height / 2 = 40 / 2 = <strong>20 cm from bottom</strong><br><br>
+      The COM lies at the intersection of the two diagonals. This works for any uniform rectangle because mass is evenly distributed.`,
+    draw: (ctx, w, h) => {
+      const pad = 50;
+      const rw = w - pad * 2, rh = h - pad * 2;
+      const rx = pad, ry = pad;
+      ctx.fillStyle = '#3b82f6'; ctx.globalAlpha = 0.2; ctx.fillRect(rx, ry, rw, rh); ctx.globalAlpha = 1;
+      ctx.strokeStyle = isDark() ? '#5B9EE8' : '#2D5BA0'; ctx.lineWidth = 2.5; ctx.strokeRect(rx, ry, rw, rh);
+      ctx.fillStyle = isDark() ? '#5B9EE8' : '#2D5BA0';
+      ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('Uniform density', rx + rw/2, ry + rh/2);
+      const dimCol = isDark() ? '#ccc' : '#444'; ctx.strokeStyle = dimCol; ctx.fillStyle = dimCol; ctx.font = 'bold 12px sans-serif'; ctx.lineWidth = 1.5;
+      // Width dimension (bottom)
+      const ay = ry + rh + 18;
+      ctx.beginPath(); ctx.moveTo(rx, ay); ctx.lineTo(rx + rw, ay); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(rx, ay - 6); ctx.lineTo(rx, ay + 6); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(rx + rw, ay - 6); ctx.lineTo(rx + rw, ay + 6); ctx.stroke();
+      ctx.fillText('60 cm', rx + rw/2, ay + 16);
+      // Height dimension (left)
+      const ax = rx - 18;
+      ctx.beginPath(); ctx.moveTo(ax, ry); ctx.lineTo(ax, ry + rh); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ax - 6, ry); ctx.lineTo(ax + 6, ry); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ax - 6, ry + rh); ctx.lineTo(ax + 6, ry + rh); ctx.stroke();
+      ctx.save(); ctx.translate(ax - 14, ry + rh/2); ctx.rotate(-Math.PI/2); ctx.fillText('40 cm', 0, 0); ctx.restore();
+      ctx.fillStyle = isDark() ? '#888' : '#999'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+      ctx.fillText('(0, 0)', rx - 6, ry + rh + 40);
+      return { x: rx + rw / 2, y: ry + rh / 2 };
+    }
+  },
+  {
+    id: 'l_shape',
+    title: 'L-Shaped Plate',
+    desc: 'An L-shaped uniform plate is made of two pieces. Piece A is 20 cm × 60 cm (vertical). Piece B is 50 cm × 20 cm (horizontal) joined at the bottom-left. Where is the combined COM?',
+    solution: `<strong>Split into two rectangles and use the weighted-average formula.</strong><br><br>
+      <strong>Piece A</strong> (vertical): 20×60 cm → Area = 1200 cm²<br>
+      Centre of A: x₁ = 10 cm, y₁ = 30 cm (from bottom-left origin)<br><br>
+      <strong>Piece B</strong> (horizontal): 50×20 cm → Area = 1000 cm²<br>
+      Centre of B: x₂ = 25 cm, y₂ = 10 cm<br><br>
+      x<sub>COM</sub> = (1200 × 10 + 1000 × 25) / (1200 + 1000) = (12000 + 25000) / 2200 = <strong>16.8 cm</strong><br>
+      y<sub>COM</sub> = (1200 × 30 + 1000 × 10) / 2200 = (36000 + 10000) / 2200 = <strong>20.9 cm</strong><br><br>
+      The COM is closer to the larger piece (A), and sits slightly left-of-centre and just below midheight.`,
+    draw: (ctx, w, h) => {
+      // Scale to fill: L-shape spans 50cm wide x 60cm tall, fit into canvas with padding
+      const pad = 50;
+      const availW = w - pad * 2, availH = h - pad * 2;
+      const s = Math.min(availW / 50, availH / 60);
+      const totalW = 50 * s, totalH = 60 * s;
+      const ox = (w - totalW) / 2, oy = (h + totalH) / 2; // origin at bottom-left of L
+      const aw = 20*s, ah = 60*s, bw2 = 50*s, bh2 = 20*s;
+      const col = isDark() ? '#E0733B' : '#B8430B';
+      // Piece A (vertical)
+      ctx.fillStyle = col; ctx.globalAlpha = 0.2; ctx.fillRect(ox, oy - ah, aw, ah); ctx.globalAlpha = 1;
+      ctx.strokeStyle = col; ctx.lineWidth = 2.5; ctx.strokeRect(ox, oy - ah, aw, ah);
+      ctx.fillStyle = col; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('A', ox + aw/2, oy - ah/2);
+      // Piece B (horizontal)
+      ctx.fillStyle = col; ctx.globalAlpha = 0.15; ctx.fillRect(ox, oy - bh2, bw2, bh2); ctx.globalAlpha = 1;
+      ctx.strokeStyle = col; ctx.strokeRect(ox, oy - bh2, bw2, bh2);
+      ctx.fillText('B', ox + bw2/2, oy - bh2/2);
+      // Dimensions
+      const dc = isDark() ? '#ccc' : '#444'; ctx.fillStyle = dc; ctx.strokeStyle = dc; ctx.font = 'bold 11px sans-serif'; ctx.lineWidth = 1.5;
+      ctx.textAlign = 'center';
+      ctx.fillText('20 cm', ox + aw/2, oy - ah - 12);
+      ctx.save(); ctx.translate(ox - 16, oy - ah/2); ctx.rotate(-Math.PI/2); ctx.fillText('60 cm', 0, 0); ctx.restore();
+      ctx.fillText('50 cm', ox + bw2/2, oy + 18);
+      ctx.textAlign = 'left'; ctx.fillText('20 cm', ox + bw2 + 10, oy - bh2/2);
+      // Centre markers
+      ctx.fillStyle = isDark() ? '#aaa' : '#777'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+      ctx.fillText('Centre A: (10, 30)', ox + aw + 8, oy - ah/2);
+      ctx.fillText('Centre B: (25, 10)', ox + bw2/2 + 14, oy - bh2 - 8);
+      // Origin
+      ctx.fillText('Origin (0, 0)', ox - 6, oy + 34);
+      ctx.fillStyle = dc; ctx.beginPath(); ctx.arc(ox, oy, 4, 0, Math.PI*2); ctx.fill();
+      // COM
+      const a1 = 1200, a2 = 1000;
+      const cx1 = ox + 10*s, cy1 = oy - 30*s;
+      const cx2 = ox + 25*s, cy2 = oy - 10*s;
+      return { x: (a1*cx1 + a2*cx2)/(a1+a2), y: (a1*cy1 + a2*cy2)/(a1+a2) };
+    }
+  },
+  {
+    id: 'triangle',
+    title: 'Uniform Triangle',
+    desc: 'A uniform triangular plate has vertices at A(0, 0), B(80, 0), and C(40, 60). All lengths in cm. Where is the COM?',
+    solution: `<strong>The COM of a uniform triangle is at the centroid — the average of the three vertices.</strong><br><br>
+      x<sub>COM</sub> = (x<sub>A</sub> + x<sub>B</sub> + x<sub>C</sub>) / 3 = (0 + 80 + 40) / 3 = <strong>40.0 cm</strong><br>
+      y<sub>COM</sub> = (y<sub>A</sub> + y<sub>B</sub> + y<sub>C</sub>) / 3 = (0 + 0 + 60) / 3 = <strong>20.0 cm</strong><br><br>
+      The centroid is located ⅓ of the height from the base. It is also the intersection point of the three medians (lines from each vertex to the midpoint of the opposite side).`,
+    draw: (ctx, w, h) => {
+      // Triangle: 80cm base x 60cm tall — scale to fill canvas
+      const pad = 50;
+      const availW = w - pad * 2, availH = h - pad * 2;
+      const s = Math.min(availW / 80, availH / 60);
+      const totalW = 80 * s, totalH = 60 * s;
+      const ox = (w - totalW) / 2, oy = (h + totalH) / 2 - 10; // origin bottom-left
+      const ax2 = ox, ay2 = oy;
+      const bx2 = ox + 80*s, by2 = oy;
+      const cxp = ox + 40*s, cyp = oy - 60*s;
+      ctx.fillStyle = isDark() ? '#3FBF8A' : '#1A6847'; ctx.globalAlpha = 0.2;
+      ctx.beginPath(); ctx.moveTo(ax2, ay2); ctx.lineTo(bx2, by2); ctx.lineTo(cxp, cyp); ctx.closePath(); ctx.fill();
+      ctx.globalAlpha = 1; ctx.strokeStyle = isDark() ? '#3FBF8A' : '#1A6847'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(ax2, ay2); ctx.lineTo(bx2, by2); ctx.lineTo(cxp, cyp); ctx.closePath(); ctx.stroke();
+      // Vertex labels
+      const dc = isDark() ? '#ccc' : '#444'; ctx.fillStyle = dc; ctx.font = 'bold 12px sans-serif';
+      ctx.textAlign = 'right'; ctx.textBaseline = 'top'; ctx.fillText('A (0, 0)', ax2 - 8, ay2 + 6);
+      ctx.textAlign = 'left'; ctx.fillText('B (80, 0)', bx2 + 8, by2 + 6);
+      ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.fillText('C (40, 60)', cxp, cyp - 10);
+      // Base dimension
+      ctx.strokeStyle = dc; ctx.lineWidth = 1.5;
+      const dy2 = oy + 20;
+      ctx.beginPath(); ctx.moveTo(ax2, dy2); ctx.lineTo(bx2, dy2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ax2, dy2-5); ctx.lineTo(ax2, dy2+5); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(bx2, dy2-5); ctx.lineTo(bx2, dy2+5); ctx.stroke();
+      ctx.textBaseline = 'top'; ctx.fillText('80 cm', (ax2+bx2)/2, dy2 + 6);
+      // Height (dashed)
+      ctx.setLineDash([5,4]); ctx.strokeStyle = isDark() ? '#666' : '#aaa';
+      ctx.beginPath(); ctx.moveTo(cxp, cyp); ctx.lineTo(cxp, oy); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = dc; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText('60 cm', cxp + 10, (cyp + oy)/2);
+      // Hint
+      ctx.fillStyle = isDark() ? '#777' : '#999'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+      ctx.fillText('Hint: centroid = average of vertices', w - 16, h - 8);
+      return { x: (ax2 + bx2 + cxp) / 3, y: (ay2 + by2 + cyp) / 3 };
+    }
+  },
+  {
+    id: 'two_masses',
+    title: 'Two Point Masses on a Rod',
+    desc: 'A 3.0 kg mass at position x = 0 cm and a 1.0 kg mass at x = 80 cm are connected by a light rod. Where is the COM?',
+    solution: `<strong>Use the weighted average formula for point masses:</strong><br><br>
+      x<sub>COM</sub> = (m₁x₁ + m₂x₂) / (m₁ + m₂)<br>
+      x<sub>COM</sub> = (3.0 × 0 + 1.0 × 80) / (3.0 + 1.0)<br>
+      x<sub>COM</sub> = 80 / 4.0 = <strong>20.0 cm from the 3 kg mass</strong><br><br>
+      The COM is ¼ of the distance from the heavier mass. It always sits closer to the heavier object. If both masses were equal, the COM would be at 40 cm (the midpoint).`,
+    draw: (ctx, w, h) => {
+      const pad = 60;
+      const x1 = pad + 30, x2 = w - pad - 30, y = h / 2;
+      const dc = isDark() ? '#ccc' : '#444';
+      // Rod
+      ctx.strokeStyle = isDark() ? '#555' : '#bbb'; ctx.lineWidth = 6;
+      ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2, y); ctx.stroke();
+      // Ruler ticks
+      ctx.strokeStyle = dc; ctx.lineWidth = 1.5; ctx.fillStyle = dc; ctx.font = '11px sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      for (let i = 0; i <= 8; i++) {
+        const tx = x1 + (x2 - x1) * i / 8;
+        const tickH = i % 2 === 0 ? 10 : 5;
+        ctx.beginPath(); ctx.moveTo(tx, y + 18); ctx.lineTo(tx, y + 18 + tickH); ctx.stroke();
+        if (i % 2 === 0) ctx.fillText((i * 10) + '', tx, y + 32);
+      }
+      ctx.fillText('cm', x2 + 24, y + 32);
+      // 3 kg mass (big circle)
+      ctx.fillStyle = isDark() ? '#E0733B' : '#B8430B';
+      ctx.beginPath(); ctx.arc(x1, y, 36, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 16px sans-serif'; ctx.textBaseline = 'middle';
+      ctx.fillText('3.0 kg', x1, y);
+      // 1 kg mass (smaller circle)
+      ctx.fillStyle = isDark() ? '#5B9EE8' : '#2D5BA0';
+      ctx.beginPath(); ctx.arc(x2, y, 22, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 13px sans-serif';
+      ctx.fillText('1.0 kg', x2, y);
+      // Position labels
+      ctx.fillStyle = dc; ctx.font = 'bold 12px sans-serif'; ctx.textBaseline = 'bottom';
+      ctx.fillText('x = 0', x1, y - 44);
+      ctx.fillText('x = 80 cm', x2, y - 30);
+      // Distance arrow
+      ctx.strokeStyle = dc; ctx.lineWidth = 1.5;
+      const ly = y - 60;
+      ctx.beginPath(); ctx.moveTo(x1, ly); ctx.lineTo(x2, ly); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x1, ly-5); ctx.lineTo(x1, ly+5); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x2, ly-5); ctx.lineTo(x2, ly+5); ctx.stroke();
+      ctx.textBaseline = 'bottom'; ctx.fillText('80 cm', (x1+x2)/2, ly - 6);
+      return { x: (3 * x1 + 1 * x2) / 4, y };
+    }
+  },
+  {
+    id: 'composite',
+    title: 'Loaded Truck',
+    desc: 'A truck body (uniform, 2000 kg) is 6.0 m long. A 500 kg engine sits at the front, centred 0.8 m from the front edge. Where is the COM of the whole system?',
+    solution: `<strong>Treat the body and engine as two separate masses.</strong><br><br>
+      <strong>Body</strong> (uniform, 2000 kg): centre at x₁ = 6.0/2 = 3.0 m from front<br>
+      <strong>Engine</strong> (500 kg): centre at x₂ = 0.8 m from front<br><br>
+      x<sub>COM</sub> = (m₁x₁ + m₂x₂) / (m₁ + m₂)<br>
+      x<sub>COM</sub> = (2000 × 3.0 + 500 × 0.8) / (2000 + 500)<br>
+      x<sub>COM</sub> = (6000 + 400) / 2500 = <strong>2.56 m from front</strong><br><br>
+      The engine shifts the COM 0.44 m forward from the body's geometric centre. This is why front-engine vehicles have more weight on the front axle.`,
+    draw: (ctx, w, h) => {
+      const pad = 40;
+      const truckW = w - pad * 2, truckH = h * 0.38;
+      const tx = pad, ty = h/2 - truckH/2 + 5;
+      const mPerPx = 6.0 / truckW;
+      const dc = isDark() ? '#ccc' : '#444';
+      // Truck body
+      ctx.fillStyle = isDark() ? '#444' : '#cbd5e1'; ctx.globalAlpha = 0.3; ctx.fillRect(tx, ty, truckW, truckH); ctx.globalAlpha = 1;
+      ctx.strokeStyle = isDark() ? '#888' : '#64748b'; ctx.lineWidth = 2.5; ctx.strokeRect(tx, ty, truckW, truckH);
+      ctx.fillStyle = dc; ctx.font = '13px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('Body: 2000 kg (uniform)', tx + truckW/2, ty + truckH/2 + 20);
+      // Engine
+      const engCenter = 0.8 / mPerPx;
+      const engW2 = 1.2 / mPerPx, engH2 = truckH * 0.6;
+      const ex = tx + engCenter - engW2/2, ey = ty + (truckH - engH2)/2;
+      ctx.fillStyle = isDark() ? '#E0733B' : '#B8430B'; ctx.globalAlpha = 0.4; ctx.fillRect(ex, ey, engW2, engH2); ctx.globalAlpha = 1;
+      ctx.strokeStyle = isDark() ? '#E0733B' : '#B8430B'; ctx.lineWidth = 2; ctx.strokeRect(ex, ey, engW2, engH2);
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 13px sans-serif';
+      ctx.fillText('Engine', ex + engW2/2, ey + engH2/2 - 9);
+      ctx.fillText('500 kg', ex + engW2/2, ey + engH2/2 + 9);
+      // Wheels
+      ctx.fillStyle = isDark() ? '#333' : '#1e293b';
+      ctx.beginPath(); ctx.arc(tx + truckW * 0.12, ty + truckH + 12, 12, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(tx + truckW * 0.88, ty + truckH + 12, 12, 0, Math.PI*2); ctx.fill();
+      // Truck length dimension
+      ctx.strokeStyle = dc; ctx.fillStyle = dc; ctx.font = 'bold 12px sans-serif'; ctx.lineWidth = 1.5; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      const dy3 = ty + truckH + 32;
+      ctx.beginPath(); ctx.moveTo(tx, dy3); ctx.lineTo(tx + truckW, dy3); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(tx, dy3-5); ctx.lineTo(tx, dy3+5); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(tx+truckW, dy3-5); ctx.lineTo(tx+truckW, dy3+5); ctx.stroke();
+      ctx.fillText('6.0 m', tx + truckW/2, dy3 + 6);
+      // Engine position
+      ctx.textBaseline = 'bottom';
+      const edy = ty - 12;
+      ctx.beginPath(); ctx.moveTo(tx, edy); ctx.lineTo(tx + engCenter, edy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(tx, edy-5); ctx.lineTo(tx, edy+5); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(tx+engCenter, edy-5); ctx.lineTo(tx+engCenter, edy+5); ctx.stroke();
+      ctx.fillText('0.8 m', tx + engCenter/2, edy - 5);
+      // Body centre
+      ctx.setLineDash([4,3]); ctx.strokeStyle = isDark() ? '#555' : '#bbb';
+      ctx.beginPath(); ctx.moveTo(tx + truckW/2, ty); ctx.lineTo(tx + truckW/2, ty - 22); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = isDark() ? '#aaa' : '#888'; ctx.font = '10px sans-serif';
+      ctx.fillText('Body centre: 3.0 m', tx + truckW/2, ty - 26);
+      // Front/Rear
+      ctx.fillStyle = dc; ctx.font = 'bold 11px sans-serif'; ctx.textBaseline = 'top';
+      ctx.textAlign = 'left'; ctx.fillText('FRONT', tx, ty - 30);
+      ctx.textAlign = 'right'; ctx.fillText('REAR', tx + truckW, ty - 30);
+      // COM
+      const bcx = tx + truckW/2, bcy = ty + truckH/2;
+      const ecx = tx + engCenter, ecy = ty + truckH/2;
+      return { x: (2000 * bcx + 500 * ecx) / 2500, y: (2000 * bcy + 500 * ecy) / 2500 };
+    }
+  }
+];
+
+let cogChallengeIdx = 0, cogAnswer = null, cogUserClick = null, cogRevealed = false;
+
+function buildCogActivity() {
+  const ch = COG_CHALLENGES[cogChallengeIdx];
+  $('cogActivity').innerHTML = `
+    <div class="cog-act-card">
+      <h4>Activity ${cogChallengeIdx + 1} of ${COG_CHALLENGES.length}: ${ch.title}</h4>
+      <p>${ch.desc}</p>
+      <p style="font-size:.6rem;color:var(--text3)">Click on the diagram below to place your guess for the COM position.</p>
+    </div>
+    <div class="cog-canvas-wrap" id="cogCanvasWrap">
+      <canvas id="cogCanvas"></canvas>
+    </div>
+    <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="window.cogReveal()" id="cogRevealBtn">Reveal Answer</button>
+      <button class="btn btn-secondary" onclick="window.cogReset()">Reset</button>
+      <span style="flex:1"></span>
+      <button class="btn btn-secondary" onclick="window.cogPrev()" ${cogChallengeIdx === 0 ? 'disabled style="opacity:.4"' : ''}>← Previous</button>
+      <span style="font-size:.65rem;color:var(--text3);font-weight:700">${cogChallengeIdx + 1} / ${COG_CHALLENGES.length}</span>
+      <button class="btn btn-secondary" onclick="window.cogNext()" ${cogChallengeIdx === COG_CHALLENGES.length - 1 ? 'disabled style="opacity:.4"' : ''}>Next →</button>
+    </div>
+    <div id="cogFeedback" style="margin-top:6px"></div>
+    <div id="cogTheory" style="margin-top:4px"></div>
+  `;
+  cogUserClick = null;
+  cogRevealed = false;
+  setTimeout(drawCogChallenge, 30);
+
+  const canvas = $('cogCanvas');
+  if (canvas) {
+    canvas.addEventListener('click', e => {
+      if (cogRevealed) return;
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      const scaleX = (parseInt(canvas.style.width) || rect.width);
+      const scaleY = (parseInt(canvas.style.height) || rect.height);
+      cogUserClick = {
+        x: (e.clientX - rect.left) / rect.width * scaleX,
+        y: (e.clientY - rect.top) / rect.height * scaleY
+      };
+      drawCogChallenge();
+    });
+  }
+}
+
+function drawCogChallenge() {
+  const canvas = $('cogCanvas');
+  const wrap = $('cogCanvasWrap');
+  if (!canvas || !wrap) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = wrap.getBoundingClientRect();
+  const W = rect.width, H = rect.height;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const dark = isDark();
+  ctx.fillStyle = dark ? '#1e1e1e' : '#f5f3f0';
+  ctx.fillRect(0, 0, W, H);
+
+  // Grid
+  ctx.strokeStyle = dark ? 'rgba(255,255,255,.04)' : 'rgba(0,0,0,.04)';
+  ctx.lineWidth = 0.5;
+  for (let x = 0; x < W; x += 20) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+  for (let y = 0; y < H; y += 20) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+  const ch = COG_CHALLENGES[cogChallengeIdx];
+  cogAnswer = ch.draw(ctx, W, H);
+
+  // User click marker
+  if (cogUserClick) {
+    ctx.strokeStyle = isDark() ? '#5B9EE8' : '#2D5BA0';
+    ctx.lineWidth = 2;
+    const ux = cogUserClick.x, uy = cogUserClick.y;
+    ctx.beginPath(); ctx.moveTo(ux - 10, uy); ctx.lineTo(ux + 10, uy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ux, uy - 10); ctx.lineTo(ux, uy + 10); ctx.stroke();
+    ctx.beginPath(); ctx.arc(ux, uy, 8, 0, Math.PI * 2); ctx.stroke();
+    ctx.fillStyle = isDark() ? '#5B9EE8' : '#2D5BA0';
+    ctx.font = 'bold 9px sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+    ctx.fillText('Your guess', ux + 12, uy - 4);
+  }
+
+  // Reveal actual COM
+  if (cogRevealed && cogAnswer) {
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath(); ctx.arc(cogAnswer.x, cogAnswer.y, 6, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#dc2626';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(cogAnswer.x - 12, cogAnswer.y); ctx.lineTo(cogAnswer.x + 12, cogAnswer.y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cogAnswer.x, cogAnswer.y - 12); ctx.lineTo(cogAnswer.x, cogAnswer.y + 12); ctx.stroke();
+    ctx.fillStyle = '#dc2626';
+    ctx.font = 'bold 9px sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    ctx.fillText('Actual COM', cogAnswer.x + 14, cogAnswer.y + 4);
+
+    // Distance line
+    if (cogUserClick) {
+      ctx.setLineDash([4, 3]);
+      ctx.strokeStyle = 'rgba(220,38,38,.4)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(cogUserClick.x, cogUserClick.y); ctx.lineTo(cogAnswer.x, cogAnswer.y); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+}
+
+window.cogReveal = () => {
+  cogRevealed = true;
+  drawCogChallenge();
+  const ch = COG_CHALLENGES[cogChallengeIdx];
+
+  if (cogUserClick && cogAnswer) {
+    const dx = cogUserClick.x - cogAnswer.x, dy = cogUserClick.y - cogAnswer.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const wrap = $('cogCanvasWrap');
+    const maxDim = Math.max(wrap?.clientWidth || 400, wrap?.clientHeight || 280);
+    const pct = (dist / maxDim * 100).toFixed(1);
+
+    let scoreClass, scoreText;
+    if (dist < 15) { scoreClass = 'cog-score-ok'; scoreText = 'Excellent! Within ' + pct + '% — you nailed it.'; }
+    else if (dist < 35) { scoreClass = 'cog-score-close'; scoreText = 'Close! Off by ' + pct + '% — good intuition.'; }
+    else { scoreClass = 'cog-score-miss'; scoreText = 'Off by ' + pct + '% — review the theory below.'; }
+    $('cogFeedback').innerHTML = `<div class="cog-score ${scoreClass}">${scoreText}</div>`;
+    addNote('CoG Activity', `Challenge: ${ch.title}`, `Accuracy: ${pct}% offset`);
+  } else {
+    $('cogFeedback').innerHTML = '<div class="fb fb-hint">Click on the diagram first to place your guess, then reveal.</div>';
+  }
+
+  $('cogTheory').innerHTML = `<div class="cog-act-card" style="background:rgba(26,104,71,.03);border-color:rgba(26,104,71,.1)">
+    <h4 style="color:var(--ok);font-size:.72rem">Worked Solution</h4>
+    <p style="font-size:.66rem;line-height:1.7">${ch.solution}</p>
+  </div>`;
+};
+
+window.cogReset = () => {
+  cogUserClick = null;
+  cogRevealed = false;
+  $('cogFeedback').innerHTML = '';
+  $('cogTheory').innerHTML = '';
+  drawCogChallenge();
+};
+
+window.cogNext = () => {
+  if (cogChallengeIdx < COG_CHALLENGES.length - 1) { cogChallengeIdx++; buildCogActivity(); }
+};
+window.cogPrev = () => {
+  if (cogChallengeIdx > 0) { cogChallengeIdx--; buildCogActivity(); }
+};
+
+// ============ TABS ============
+window.switchTab = (el, idx) => {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.tab-panel').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  $('tp' + idx).classList.add('on');
+  if (idx === 1) {
+    buildProcessedTable();
+    setTimeout(drawGraph, 50);
+  }
+  if (idx === 2) {
+    buildCogActivity();
+  }
+};
+
+// ============ INIT ============
+buildPresetRow();
+syncSliders();
+buildObject();
+updateCVs();
+buildIBQuestions();
+buildCogActivity();
+renderNotebook();
+buildRubric();
+updateRightCol();
+updateCalcBox();
+animate();
 </script>
 </body>
 </html>
