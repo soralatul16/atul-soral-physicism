@@ -45,7 +45,7 @@ const DP_SIMS = [
     file: "sims/torque-lab.html"
   },
   {
-    id: "moment-of-inertia",
+    id: "moment-of-inertia-3d",
     title: "Moment of Inertia",
     icon: "🔄",
     topic: "A.4",
