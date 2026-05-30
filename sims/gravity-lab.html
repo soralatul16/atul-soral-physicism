@@ -1,11 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Gravity &amp; Orbits | Atul Soral Physicism</title>
+<title>Gravity Lab | Atul Soral Physicism</title>
 <style>
-:root{--bg:#050810;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--accent:#38bdf8;--accent2:#34d399;--border:rgba(56,189,248,.1);--glass:rgba(10,16,28,.85);--glassBd:rgba(56,189,248,.08);--surface:rgba(18,26,42,.6);--ok:#22c55e;--err:#ef4444;--mono:'SF Mono',monospace;--serif:Georgia,serif}
+:root{--bg:#050810;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--accent:#38bdf8;--accent2:#34d399;--border:rgba(56,189,248,.1);--glass:rgba(10,16,28,.85);--glassBd:rgba(56,189,248,.08);--surface:rgba(18,26,42,.6);--ok:#22c55e;--err:#ef4444;--warn:#fbbf24;--mono:'SF Mono',monospace;--serif:Georgia,serif}
 [data-theme="light"]{--bg:#f0f4f8;--text:#1e293b;--text2:#475569;--text3:#94a3b8;--accent:#0369a1;--accent2:#0e7c6b;--border:rgba(100,140,180,.2);--glass:rgba(255,255,255,.75);--glassBd:rgba(100,140,180,.18);--surface:rgba(224,242,254,.4)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px}
@@ -15,37 +16,49 @@ nav a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem}nav a:ho
 .nav-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:.73rem;text-decoration:none;display:inline-block}
 .w{max-width:1120px;margin:0 auto;padding:0 12px}
 .hd{text-align:center;padding:8px 16px 4px}.hd h1{font-family:var(--serif);font-size:1.2rem;color:var(--accent)}.hd p{font-size:.72rem;color:var(--text2)}
-.guide-bar{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;margin-bottom:6px;font-size:.68rem;color:var(--text2);line-height:1.6;display:flex;align-items:flex-start;gap:6px}.guide-bar .gi{font-size:1rem}.guide-bar b{color:var(--accent)}
-.grid{display:grid;grid-template-columns:1fr 220px;gap:8px;margin-bottom:8px}
-.cvs{border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 6px 24px rgba(0,0,0,.3);background:#050810}.cvs canvas{display:block;width:100%;aspect-ratio:4/3}
+.guide-bar{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;margin-bottom:6px;font-size:.7rem;color:var(--text2);line-height:1.6;display:flex;align-items:flex-start;gap:6px}.guide-bar .gi{font-size:1rem}.guide-bar b{color:var(--accent)}
+#predict{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:10px 14px;margin-bottom:6px;display:none}
+#predict .pq{font-size:.82rem;font-weight:700;color:var(--warn);margin-bottom:6px;font-family:var(--serif)}
+#predict .po{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+#predict .po .pill{font-size:.72rem;padding:6px 14px}
+#predict .pr{font-size:.72rem;color:var(--text);line-height:1.6;display:none;padding:6px 10px;background:var(--surface);border-radius:6px;margin-top:4px}
+.grid{display:grid;grid-template-columns:1fr 230px;gap:8px;margin-bottom:8px}
+.cvs{border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 6px 24px rgba(0,0,0,.3);background:#050810;position:relative}.cvs canvas{display:block;width:100%;aspect-ratio:4/3;cursor:crosshair}
 .gp{background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glassBd);border-radius:10px;padding:7px 10px;margin-bottom:6px}
-.cr{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:3px}.cr:last-child{margin-bottom:0}
-.cl{font-size:.64rem;color:var(--text2);font-weight:700;text-transform:uppercase;min-width:32px}
-.pill{padding:4px 9px;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.64rem;font-weight:700;color:var(--text3);background:var(--surface);display:inline-flex;align-items:center;gap:3px;transition:all .1s}.pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-.sr{display:flex;align-items:center;gap:3px;font-size:.64rem;font-weight:600;color:var(--text2)}.sr input[type="range"]{flex:1;accent-color:var(--accent);max-width:110px}.sr .sv{font-family:var(--mono);min-width:40px;font-weight:800;color:var(--text);font-size:.72rem}
-.btn{padding:5px 12px;border:none;border-radius:7px;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .12s}.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.97)}.btn-a{background:var(--accent);color:#fff}.btn-t{background:var(--accent2);color:#fff}.btn-o{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.cr{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:4px}.cr:last-child{margin-bottom:0}
+.cl{font-size:.66rem;color:var(--text2);font-weight:700;text-transform:uppercase;min-width:34px}
+.pill{padding:4px 10px;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.66rem;font-weight:700;color:var(--text3);background:var(--surface);display:inline-flex;align-items:center;gap:3px;transition:all .1s}.pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}.pill:hover{border-color:var(--accent)}
+.sr{display:flex;align-items:center;gap:4px;font-size:.66rem;font-weight:600;color:var(--text2)}.sr input[type="range"]{flex:1;accent-color:var(--accent);max-width:100px}.sr .sv{font-family:var(--mono);min-width:40px;font-weight:800;color:var(--text);font-size:.74rem}
+.btn{padding:5px 12px;border:none;border-radius:7px;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .12s}.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.97)}.btn-a{background:var(--accent);color:#fff}.btn-t{background:var(--accent2);color:#fff}.btn-o{background:transparent;border:1px solid var(--border);color:var(--text2)}.btn-w{background:var(--warn);color:#000}
+.tt{transition:all .12s}.tt.on{background:var(--accent);color:#fff}
 .rcol{display:flex;flex-direction:column;gap:4px;max-height:600px;overflow-y:auto}.rcol::-webkit-scrollbar{width:3px}.rcol::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px}
-.rc{background:var(--surface);border-radius:8px;padding:7px 8px;border:1px solid var(--border)}.rc h3{font-size:.54rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:2px;font-weight:700}.rc .rv{font-size:.95rem;font-weight:800;font-family:var(--serif);color:var(--accent)}.rc .rs{font-size:.62rem;color:var(--text2);margin-top:2px;line-height:1.6}.rc .fm{font-family:var(--serif);font-size:.78rem;color:var(--accent2);font-weight:700}
-.sg{display:grid;grid-template-columns:1fr 1fr;gap:3px}.si{background:var(--glass);border-radius:5px;padding:4px;text-align:center;border:1px solid var(--border)}.si .sl{font-size:.48rem;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);font-weight:700}.si .sv2{font-size:.72rem;font-weight:800;color:var(--text);font-family:var(--mono)}
+.rc{background:var(--surface);border-radius:8px;padding:7px 8px;border:1px solid var(--border)}.rc h3{font-size:.56rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:3px;font-weight:700}.rc .rv{font-size:.95rem;font-weight:800;font-family:var(--serif);color:var(--accent)}.rc .rs{font-size:.64rem;color:var(--text2);margin-top:2px;line-height:1.6}.rc .fm{font-family:var(--serif);font-size:.78rem;color:var(--accent2);font-weight:700}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:3px}.si{background:var(--glass);border-radius:5px;padding:4px;text-align:center;border:1px solid var(--border)}.si .sl{font-size:.5rem;text-transform:uppercase;letter-spacing:.4px;color:var(--text3);font-weight:700}.si .sv2{font-size:.74rem;font-weight:800;color:var(--text);font-family:var(--mono)}
+.obj-card{background:var(--surface);border-radius:8px;padding:6px 8px;border:2px solid var(--border);margin-bottom:4px;cursor:pointer;transition:border-color .1s}.obj-card.sel{border-color:var(--accent)}.obj-card .on{display:flex;align-items:center;gap:6px;margin-bottom:3px}.obj-card .od{font-size:.56rem;color:var(--text3);font-weight:700;text-transform:uppercase}.obj-card .ov{font-size:.72rem;font-weight:800;font-family:var(--mono);color:var(--text)}
 .btabs{display:flex;gap:2px;margin-bottom:5px;border-bottom:1px solid var(--border);padding-bottom:4px}.bt{padding:4px 10px;border-radius:7px 7px 0 0;font-size:.66rem;font-weight:700;cursor:pointer;color:var(--text3);transition:all .1s}.bt.on{color:var(--accent);background:var(--surface);border:1px solid var(--border);border-bottom:none}.btc{display:none}.btc.on{display:block}
-.ib-card{background:var(--surface);border-radius:7px;padding:8px;margin-bottom:5px;border:1px solid var(--border)}.ib-cmd{display:inline-block;font-size:.52rem;padding:2px 6px;border-radius:4px;font-weight:700;text-transform:uppercase;background:rgba(56,189,248,.08);color:var(--accent);margin-bottom:2px}.ib-card h4{font-size:.74rem;font-weight:700;margin-bottom:2px}.ib-card p{font-size:.68rem;color:var(--text2);line-height:1.4;margin-bottom:3px}.ib-card textarea{width:100%;height:40px;border:1px solid var(--border);border-radius:5px;padding:4px;font-size:.66rem;font-family:inherit;resize:vertical;background:var(--glass);color:var(--text);outline:none}.ib-fb{padding:4px 6px;border-radius:5px;font-size:.64rem;font-weight:600;margin-top:2px;display:none;line-height:1.5}.ib-fb.show{display:block}.ib-fb.ok{background:rgba(34,211,153,.06);color:var(--ok)}
-.nb-c{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 6px;margin-bottom:3px;font-size:.64rem;line-height:1.4}.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
-.exp-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:5px}.exp-col{flex:1;min-width:170px}.exp-field{margin-bottom:4px}.exp-field label{font-size:.6rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:2px}.exp-field select,.exp-field input[type="text"],.exp-field input[type="number"]{width:100%;padding:4px 6px;border-radius:6px;border:1px solid var(--border);font-size:.74rem;font-weight:600;background:var(--glass);color:var(--text);outline:none;font-family:inherit}
-.cv-grid{display:flex;flex-wrap:wrap;gap:3px}.cv-check{display:flex;align-items:center;gap:3px;padding:2px 6px;border-radius:4px;background:var(--surface);border:1px solid var(--border);font-size:.62rem;font-weight:600;color:var(--text2)}.cv-check input{accent-color:var(--accent)}
-.dt{width:100%;border-collapse:collapse;font-size:.68rem;font-family:var(--mono)}.dt th{text-align:center;padding:4px;font-size:.56rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--surface)}.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border)}.dt .mean{font-weight:700;color:var(--accent)}.dt .unc{color:var(--accent2)}
+.ib-card{background:var(--surface);border-radius:7px;padding:8px;margin-bottom:5px;border:1px solid var(--border)}.ib-cmd{display:inline-block;font-size:.52rem;padding:2px 6px;border-radius:4px;font-weight:700;text-transform:uppercase;background:rgba(56,189,248,.08);color:var(--accent);margin-bottom:2px}.ib-card h4{font-size:.76rem;font-weight:700;margin-bottom:2px}.ib-card p{font-size:.7rem;color:var(--text2);line-height:1.4;margin-bottom:3px}.ib-card textarea{width:100%;height:42px;border:1px solid var(--border);border-radius:5px;padding:4px;font-size:.68rem;font-family:inherit;resize:vertical;background:var(--glass);color:var(--text);outline:none}.ib-fb{padding:4px 6px;border-radius:5px;font-size:.66rem;font-weight:600;margin-top:2px;display:none;line-height:1.5}.ib-fb.show{display:block}.ib-fb.ok{background:rgba(34,211,153,.06);color:var(--ok)}
+.nb-c{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 6px;margin-bottom:3px;font-size:.66rem;line-height:1.4}.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+.exp-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:5px}.exp-col{flex:1;min-width:170px}.exp-field{margin-bottom:4px}.exp-field label{font-size:.62rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:2px}.exp-field select,.exp-field input[type="text"],.exp-field input[type="number"]{width:100%;padding:4px 6px;border-radius:6px;border:1px solid var(--border);font-size:.76rem;font-weight:600;background:var(--glass);color:var(--text);outline:none;font-family:inherit}
+.cv-grid{display:flex;flex-wrap:wrap;gap:3px}.cv-check{display:flex;align-items:center;gap:3px;padding:2px 6px;border-radius:4px;background:var(--surface);border:1px solid var(--border);font-size:.64rem;font-weight:600;color:var(--text2)}.cv-check input{accent-color:var(--accent)}
+.dt{width:100%;border-collapse:collapse;font-size:.7rem;font-family:var(--mono)}.dt th{text-align:center;padding:4px;font-size:.58rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--surface)}.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border)}.dt .mean{font-weight:700;color:var(--accent)}.dt .unc{color:var(--accent2)}
 .graph-wrap canvas{width:100%;height:200px;display:block;border-radius:10px;border:1px solid var(--border);margin-top:5px}
-@media(max-width:768px){.grid{grid-template-columns:1fr}.rcol{max-height:none;flex-direction:row;flex-wrap:wrap}.rcol .rc{flex:1;min-width:110px}}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.rcol{max-height:none;flex-direction:row;flex-wrap:wrap}.rcol .rc,.rcol .obj-card{flex:1;min-width:140px}}
 </style>
 </head>
 <body>
-<script>var SIM_META={id:'gravity-orbits',title:'Gravity & Orbits',topic:'D.1',topicName:'Gravitational Fields',grade:['DP'],level:'DP',theme:'D',concepts:['Newton gravitation','gravitational field','orbital mechanics','Kepler laws','escape velocity','gravitational PE','centripetal force'],difficulty:'advanced'};</script>
+<script>var SIM_META={id:'gravity-lab',title:'Gravity Lab',topic:'D.1',topicName:'Gravitational Fields',grade:['MYP5','DP'],level:'both',theme:'D',concepts:['gravitational force','inverse-square law','mass','distance','orbits','medium','drag'],difficulty:'intermediate'};</script>
 <nav>
   <div style="display:flex;align-items:center;gap:14px"><a href="../index.html" class="nav-logo">Atul Soral Physicism</a><a href="../dp-simulations.html">← All Simulations</a></div>
-  <div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">🌙</button><a href="../dp-simulations.html" class="nav-btn">← Back</a><a href="../index.html" class="nav-btn">Home</a><a href="../dp-dashboard.html" class="nav-btn">DP</a></div>
+  <div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">🌙</button><a href="../dp-simulations.html" class="nav-btn">← Back</a><a href="../index.html" class="nav-btn">Home</a><a href="../myp-dashboard.html" class="nav-btn">MYP</a><a href="../dp-dashboard.html" class="nav-btn">DP</a></div>
 </nav>
 <div class="w">
-<div class="hd"><h1>Gravity &amp; Orbits</h1><p>Newton's Law of Gravitation, Kepler's Laws &amp; Escape Velocity</p></div>
-<div class="guide-bar"><span class="gi">💡</span><span>Choose an orbit preset or adjust <b>launch speed</b> to explore circular, elliptical, escape, and hyperbolic trajectories. Toggle <b>vectors</b> to see forces and velocities. Watch the <b>energy bars</b> — when total energy crosses zero, the orbit changes from bound to unbound. Use <b>Kepler sweep</b> to see equal areas in equal times.</span></div>
+<div class="hd"><h1>Gravity Lab</h1><p>See How Every Object in the Universe Pulls on Every Other</p></div>
+<div class="guide-bar"><span class="gi">💡</span><span id="guideText"><b>Start here:</b> Two objects in space. Press <b>▶ Play</b> to watch gravity pull them together. Objects <b>collide and merge</b> when they touch. Switch to <b>🌍 Surface Drop</b> to drop objects on different planets.</span></div>
+<div class="tbar" style="margin:6px 0;display:flex;gap:0;border-radius:12px;overflow:hidden;border:1px solid var(--border);background:var(--glass)">
+  <div class="tt on" onclick="switchMode('space',this)" style="flex:1;padding:8px 4px;text-align:center;font-size:.7rem;font-weight:700;cursor:pointer;color:var(--text3);border-right:1px solid var(--border)">🌌 Space — Orbits &amp; Gravity</div>
+  <div class="tt" onclick="switchMode('drop',this)" style="flex:1;padding:8px 4px;text-align:center;font-size:.7rem;font-weight:700;cursor:pointer;color:var(--text3)">🌍 Surface Drop</div>
+</div>
+<div id="predict"></div>
 <div class="grid">
   <div><div class="cvs"><canvas id="C"></canvas></div><div class="gp" id="ctrl"></div></div>
   <div class="rcol" id="rp"></div>
@@ -58,246 +71,511 @@ nav a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem}nav a:ho
     <div class="bt" onclick="bts(this,3)">📓 Notebook</div>
   </div>
   <div class="btc on" id="b0"><div id="expC"></div></div>
-  <div class="btc" id="b1"><div id="dW"><p style="font-size:.68rem;color:var(--text3);text-align:center;padding:10px">Collect data to see results.</p></div><div class="graph-wrap"><canvas id="gC"></canvas></div></div>
+  <div class="btc" id="b1"><div id="dW"><p style="font-size:.7rem;color:var(--text3);text-align:center;padding:10px">Collect data to see results.</p></div><div class="graph-wrap"><canvas id="gC"></canvas></div></div>
   <div class="btc" id="b2"><div id="ibL"></div></div>
-  <div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-size:.72rem;font-weight:700;color:var(--accent);font-family:var(--serif)">📓 Lab Notebook</span><button class="btn btn-a" onclick="window.print()" style="font-size:.6rem;padding:3px 8px">Print</button></div><div id="nbO"></div></div>
+  <div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-size:.74rem;font-weight:700;color:var(--accent);font-family:var(--serif)">📓 Lab Notebook</span><button class="btn btn-a" onclick="window.print()" style="font-size:.62rem;padding:3px 8px">Print</button></div><div id="nbO"></div></div>
 </div>
 </div>
 <script>
-var $=function(i){return document.getElementById(i)},dk=function(){return document.documentElement.dataset.theme==='dark'},af=0;
+var $=function(i){return document.getElementById(i)},dk=function(){return document.documentElement.dataset.theme==='dark'};
 $('themeBtn').onclick=function(){var t=dk()?'light':'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️';localStorage.setItem('phy-theme',t)};
 (function(){var t=localStorage.getItem('phy-theme')||'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️'})();
 var cvs=$('C'),cx=cvs.getContext('2d'),W=0,H=0;
 function onR(){var d=window.devicePixelRatio||1,r=cvs.getBoundingClientRect();W=r.width;H=r.height;cvs.width=W*d;cvs.height=H*d;cx.setTransform(d,0,0,d,0,0)}
 new ResizeObserver(onR).observe(cvs);
 
-// Simulation constants (scaled for visual clarity)
-var G=5000,cX=0,cY=0;
+var G_SIM=800,nextId=2;
+var COLS=['#38bdf8','#f59e0b','#ef4444','#a855f7','#22c55e','#f472b6','#06b6d4','#84cc16'];
+var MEDIA=[
+  {id:'vacuum',n:'Space (Vacuum)',drag:0,desc:'No friction — only gravity acts.'},
+  {id:'air',n:'Air',drag:0.0003,desc:'Slight drag slows objects. Lighter objects affected more.'},
+  {id:'water',n:'Water',drag:0.008,desc:'Strong drag. Dense objects sink, light ones slow fast.'}
+];
 
-// State
-var sim={M:200,m:1,r0:150,vFrac:1.0,running:true,speed:1,trail:[],sweepWedges:[],sweepTimer:0,elapsed:0,showVec:true,showSweep:false,orbitType:'circular'};
-var body={x:0,y:0,vx:0,vy:0};
+var sim={running:false,speed:0.15,medium:0,sel:0,objects:[],af:0,predicting:false,view:'top',showField:false,mode:'space',camX:0,camY:0};
 
-function vCirc(r){return Math.sqrt(G*sim.M/r)}
-function vEsc(r){return Math.sqrt(2*G*sim.M/r)}
-
-function resetOrbit(){
-  cX=W/2;cY=H/2;
-  body.x=cX+sim.r0;body.y=cY;
-  var vc=vCirc(sim.r0);
-  var v=vc*sim.vFrac;
-  body.vx=0;body.vy=-v;
-  sim.trail=[];sim.sweepWedges=[];sim.sweepTimer=0;sim.elapsed=0;
-  // Determine orbit type
-  var ve=vEsc(sim.r0);
-  if(Math.abs(v-vc)<vc*.02)sim.orbitType='circular';
-  else if(v<vc)sim.orbitType='elliptical (sub-circular)';
-  else if(v<ve*.99)sim.orbitType='elliptical';
-  else if(v<ve*1.01)sim.orbitType='parabolic (escape)';
-  else sim.orbitType='hyperbolic';
+// SURFACE DROP STATE
+var PLANETS=[
+  {n:'Earth',g:9.8,col:'#3b82f6',ground:'#2d5016',sky:'#1a1a2e'},
+  {n:'Moon',g:1.6,col:'#94a3b8',ground:'#4a4a4a',sky:'#0a0a12'},
+  {n:'Mars',g:3.7,col:'#ef4444',ground:'#8b3a1a',sky:'#1a0a06'},
+  {n:'Jupiter',g:24.8,col:'#f59e0b',ground:'#8b6914',sky:'#1a1408'}
+];
+var drop={planet:0,airOn:false,objects:[],running:false,elapsed:0,vtData:[]};
+function makeDropObj(name,mass,radius,col,x){return{name:name,mass:mass,radius:radius,col:col,x:x,y:60,vy:0,landed:false}}
+function resetDrop(){
+  drop.objects=[makeDropObj('Heavy Ball',10,14,'#ef4444',W*.3),makeDropObj('Light Ball',1,14,'#38bdf8',W*.6)];
+  drop.running=false;drop.elapsed=0;drop.vtData=[];
 }
 
+window.switchMode=function(m,el){
+  sim.mode=m;
+  document.querySelectorAll('.tt').forEach(function(t){t.classList.remove('on')});
+  if(el)el.classList.add('on');
+  if(m==='drop'){resetDrop();$('guideText').innerHTML='<b>Surface Drop:</b> Drop objects on different planets. Toggle <b>Air</b> to see drag and terminal velocity. In vacuum, all objects fall at the same rate — Galileo\'s insight!'}
+  else{$('guideText').innerHTML='<b>Space:</b> Objects attract and <b>collide/merge</b> when they touch. Add objects, change masses, toggle field lines.'}
+  buildUI();buildRP();buildExp();
+};
+
+function makeObj(name,mass,radius,x,y,vx,vy,col){
+  return{id:nextId++,name:name,mass:mass,radius:radius,x:x,y:y,vx:vx||0,vy:vy||0,col:col||COLS[(nextId-1)%COLS.length],trail:[],fixed:false};
+}
+
+function defaultSetup(){
+  nextId=0;
+  sim.objects=[
+    makeObj('Object A',150,18,0,0,0,0,'#38bdf8'),
+    makeObj('Object B',150,18,0,0,0,0,'#f59e0b')
+  ];
+  sim.sel=0;sim.running=false;sim.speed=0.15;sim.medium=0;
+}
+
+function positionObjects(){
+  if(!W)return;
+  var obs=sim.objects;
+  if(obs.length>=2){obs[0].x=W*.32;obs[0].y=H*.5;obs[1].x=W*.68;obs[1].y=H*.5}
+  if(obs.length>=3){obs[2].x=W*.5;obs[2].y=H*.28}
+  for(var i=3;i<obs.length;i++){obs[i].x=W*.2+Math.random()*W*.6;obs[i].y=H*.2+Math.random()*H*.6}
+}
+
+// PRESETS
+var PRESETS={
+  'Free Play':{desc:'Two equal objects in space. See what gravity does.',objs:[{n:'Object A',m:150,r:18},{n:'Object B',m:150,r:18}]},
+  'Big + Small':{desc:'One massive object, one tiny. Who moves more?',objs:[{n:'Giant',m:500,r:30},{n:'Tiny',m:20,r:8}]},
+  'Earth + Moon':{desc:'Earth is 81× heavier than Moon. Watch the Moon orbit.',objs:[{n:'Earth',m:500,r:22,fixed:true},{n:'Moon',m:6,r:6,vy:-4.5}]},
+  'Sun + Planet':{desc:'A star with a planet. Try changing the planet\'s speed.',objs:[{n:'Sun',m:800,r:28,col:'#fbbf24',fixed:true},{n:'Planet',m:5,r:8,col:'#3b82f6',vy:-5.2}]},
+  'Binary Stars':{desc:'Two equal stars orbiting their common centre of mass.',objs:[{n:'Star A',m:300,r:16,col:'#fbbf24',vy:-2.2},{n:'Star B',m:300,r:16,col:'#f97316',vy:2.2}]},
+  'Three Bodies':{desc:'Three objects — chaos! Tiny changes = wildly different outcomes.',objs:[{n:'A',m:200,r:14},{n:'B',m:200,r:14},{n:'C',m:200,r:14}]},
+  'Person + Ball':{desc:'Can you feel gravity from a basketball? Let\'s find out.',objs:[{n:'Person (70kg)',m:70,r:14,col:'#f59e0b'},{n:'Basketball',m:0.6,r:10,col:'#ef4444'}]}
+};
+
+function loadPreset(name){
+  var p=PRESETS[name];if(!p)return;
+  nextId=0;sim.objects=[];
+  p.objs.forEach(function(o,i){
+    var obj=makeObj(o.n,o.m,o.r||14,0,0,o.vx||0,o.vy||0,o.col||COLS[i%COLS.length]);
+    if(o.fixed)obj.fixed=true;
+    sim.objects.push(obj);
+  });
+  sim.sel=0;sim.running=name!=='Free Play'&&name!=='Person + Ball';
+  positionObjects();
+  // Give orbital presets proper positions
+  if(name==='Earth + Moon'||name==='Sun + Planet'){sim.objects[1].x=W*.68;sim.objects[1].y=H*.5;sim.objects[0].x=W*.42;sim.objects[0].y=H*.5}
+  if(name==='Binary Stars'){sim.objects[0].x=W*.38;sim.objects[0].y=H*.5;sim.objects[1].x=W*.62;sim.objects[1].y=H*.5}
+  buildUI();buildRP();
+}
+
+// PREDICTION SYSTEM
+var predAnswer=-1;
+function showPrediction(fromMed,toMed){
+  sim.predicting=true;sim.running=false;predAnswer=-1;
+  var q='You changed from <b>'+MEDIA[fromMed].n+'</b> to <b>'+MEDIA[toMed].n+'</b>. Before we run it — what do you think will happen?';
+  var opts=['Objects move faster','Objects slow down','No change','Objects stop immediately'];
+  var correct=toMed>fromMed?1:0;
+  var explain=toMed===1?'Air creates a drag force opposing motion (F_drag ∝ v²). Objects slow down gradually — heavier objects are less affected because they have more inertia.':toMed===2?'Water creates much stronger drag than air. Objects slow dramatically. The drag force is proportional to v², so fast objects feel it most.':'Without drag, objects move freely under gravity alone. Removing the medium means nothing slows them down.';
+  if(fromMed>toMed){correct=0;explain='Less drag means objects can move more freely. Removing resistance lets gravity dominate.'}
+  if(fromMed===toMed)return;
+  $('predict').style.display='block';
+  $('predict').innerHTML='<div class="pq">🤔 '+q+'</div><div class="po">'+opts.map(function(o,i){return'<div class="pill" onclick="checkPred('+i+','+correct+')">'+o+'</div>'}).join('')+'</div><div class="pr" id="predR">'+explain+'</div>';
+}
+window.checkPred=function(pick,correct){
+  predAnswer=pick;
+  var r=$('predR');r.style.display='block';
+  if(pick===correct)r.innerHTML='<span style="color:var(--ok);font-weight:700">✓ Correct!</span> '+r.textContent;
+  else r.innerHTML='<span style="color:var(--err);font-weight:700">✗ Not quite.</span> '+r.textContent;
+  r.innerHTML+='<br><button class="btn btn-a" onclick="dismissPred()" style="margin-top:6px;font-size:.7rem">Continue →</button>';
+};
+window.dismissPred=function(){$('predict').style.display='none';sim.predicting=false;sim.running=true};
+
+// CANVAS INTERACTION
+var drag={active:false,id:-1,ox:0,oy:0};
+function getCanvasXY(e){var r=cvs.getBoundingClientRect();return{x:(e.clientX-r.left)*(W/r.width),y:(e.clientY-r.top)*(H/r.height)}}
+cvs.addEventListener('mousedown',function(e){var p=getCanvasXY(e);for(var i=sim.objects.length-1;i>=0;i--){var o=sim.objects[i];var dx=p.x-o.x,dy=p.y-o.y;if(dx*dx+dy*dy<(o.radius+6)*(o.radius+6)){drag.active=true;drag.id=o.id;drag.ox=dx;drag.oy=dy;sim.sel=i;buildRP();return}}});
+cvs.addEventListener('mousemove',function(e){if(!drag.active)return;var p=getCanvasXY(e);var o=sim.objects.find(function(ob){return ob.id===drag.id});if(o){o.x=p.x-drag.ox;o.y=p.y-drag.oy;o.vx=0;o.vy=0;o.trail=[]}});
+cvs.addEventListener('mouseup',function(){drag.active=false});
+cvs.addEventListener('mouseleave',function(){drag.active=false});
+
+// BUILD UI
 function buildUI(){
-  $('ctrl').innerHTML='<div class="cr"><span class="cl">Presets</span>'+
-    '<div class="pill" onclick="sim.vFrac=1.0;buildUI()">⭕ Circular</div>'+
-    '<div class="pill" onclick="sim.vFrac=0.7;buildUI()">🔵 Elliptical</div>'+
-    '<div class="pill" onclick="sim.vFrac=1.414;buildUI()">🚀 Escape</div>'+
-    '<div class="pill" onclick="sim.vFrac=1.8;buildUI()">💨 Hyperbolic</div></div>'+
+  if(sim.mode==='drop'){buildDropUI();return}
+  var presetPills=Object.keys(PRESETS).map(function(k){return'<div class="pill" onclick="loadPreset(\''+k+'\')">'+k+'</div>'}).join(' ');
+  var medPills=MEDIA.map(function(m,i){return'<div class="pill'+(i===sim.medium?' on':'')+'" onclick="changeMedium('+i+')">'+m.n+'</div>'}).join(' ');
+  $('ctrl').innerHTML='<div class="cr"><span class="cl">Scene</span>'+presetPills+'</div>'+
+    '<div class="cr"><span class="cl">Medium</span>'+medPills+'</div>'+
     '<div class="cr">'+
-    '<div class="sr"><span class="cl">Speed</span><input type="range" min="0.2" max="2.0" step="0.01" value="'+sim.vFrac+'" oninput="sim.vFrac=+this.value;resetOrbit();buildRP()"><span class="sv" id="vfDisp">'+(sim.vFrac).toFixed(2)+'×v_c</span></div>'+
-    '<div class="sr"><span class="cl">Mass</span><input type="range" min="50" max="500" step="10" value="'+sim.M+'" oninput="sim.M=+this.value;resetOrbit();buildRP()"><span class="sv">'+sim.M+'</span></div>'+
-    '<div class="sr"><span class="cl">r₀</span><input type="range" min="60" max="250" step="5" value="'+sim.r0+'" oninput="sim.r0=+this.value;resetOrbit();buildRP()"><span class="sv">'+sim.r0+'</span></div></div>'+
-    '<div class="cr">'+
-    '<div class="pill'+(sim.showVec?' on':'')+'" onclick="sim.showVec=!sim.showVec;this.classList.toggle(\'on\')">Vectors</div>'+
-    '<div class="pill'+(sim.showSweep?' on':'')+'" onclick="sim.showSweep=!sim.showSweep;this.classList.toggle(\'on\')" style="border-color:rgba(52,211,153,.3)">Kepler Sweep</div>'+
-    '<div class="sr"><span class="cl">Time</span><input type="range" min="0.5" max="4" step="0.5" value="'+sim.speed+'" oninput="sim.speed=+this.value"><span class="sv">'+sim.speed+'×</span></div>'+
-    '<button class="btn btn-a" onclick="sim.running=!sim.running">'+(sim.running?'⏸':'▶')+'</button>'+
-    '<button class="btn btn-o" onclick="resetOrbit()">↺</button></div>';
-  resetOrbit();buildRP();
+    '<div class="sr"><span class="cl">Speed</span><input type="range" min="0.02" max="1" step="0.01" value="'+sim.speed+'" oninput="sim.speed=+this.value"><span class="sv">'+(sim.speed<0.1?'very slow':sim.speed<0.3?'slow':sim.speed<0.6?'medium':'fast')+'</span></div>'+
+    '<button class="btn btn-a" onclick="sim.running=!sim.running;buildUI()">'+(sim.running?'⏸ Pause':'▶ Play')+'</button>'+
+    '<button class="btn btn-o" onclick="stepOnce()">⏭ Step</button>'+
+    '<button class="btn btn-o" onclick="loadPreset(\'Free Play\')">↺ Reset</button>'+
+    '<button class="btn btn-t" onclick="addObject()">+ Add Object</button></div>'+
+    '<div class="cr"><span class="cl">Show</span>'+
+    '<div class="pill on" id="tVec" onclick="this.classList.toggle(\'on\')">Force Arrows</div>'+
+    '<div class="pill on" id="tVel" onclick="this.classList.toggle(\'on\')">Velocity Arrows</div>'+
+    '<div class="pill" id="tDist" onclick="this.classList.toggle(\'on\')">Distance Lines</div>'+
+    '<div class="pill on" id="tTrail" onclick="this.classList.toggle(\'on\')">Trails</div>'+
+    '<div class="pill'+(sim.showField?' on':'')+'" onclick="sim.showField=!sim.showField;this.classList.toggle(\'on\')">Field Lines</div></div>'+
+    '<div class="cr"><span class="cl">View</span>'+
+    '<div class="pill'+(sim.view==="top"?' on':'')+'" onclick="sim.view=\'top\';buildUI()">Top View</div>'+
+    '<div class="pill'+(sim.view==="side"?' on':'')+'" onclick="sim.view=\'side\';buildUI()">Side View</div></div>';
 }
+
+function buildDropUI(){
+  var planetPills=PLANETS.map(function(p,i){return'<div class="pill'+(i===drop.planet?' on':'')+'" onclick="drop.planet='+i+';resetDrop();buildUI();buildRP()">'+p.n+' (g='+p.g+')</div>'}).join(' ');
+  $('ctrl').innerHTML='<div class="cr"><span class="cl">Planet</span>'+planetPills+'</div>'+
+    '<div class="cr"><span class="cl">Air</span><div class="pill'+(drop.airOn?' on':'')+'" onclick="drop.airOn=!drop.airOn;this.classList.toggle(\'on\');resetDrop()">Air Resistance '+(drop.airOn?'ON':'OFF')+'</div>'+
+    '<span style="flex:1"></span>'+
+    '<button class="btn btn-a" onclick="drop.running=true;buildUI()">▶ Drop!</button>'+
+    '<button class="btn btn-o" onclick="resetDrop();buildUI();buildRP()">↺ Reset</button></div>'+
+    '<div class="cr" style="font-size:.68rem;color:var(--accent)">In vacuum, <b>all objects fall at the same rate</b> regardless of mass. Toggle air to see the difference.</div>';
+  buildDropRP();
+}
+function buildDropRP(){
+  var p=PLANETS[drop.planet];
+  $('rp').innerHTML='<div class="rc"><h3>Planet</h3><div class="rv" style="color:'+p.col+'">'+p.n+'</div><div class="fm">g = '+p.g+' m/s²</div></div>'+
+    '<div class="rc"><h3>Air Resistance</h3><div class="rv">'+(drop.airOn?'ON — drag ∝ v²':'OFF — vacuum')+'</div><div class="rs">'+(drop.airOn?'F_drag = ½ρCdAv²<br>Lighter objects reach terminal velocity faster':'All objects fall at g regardless of mass<br>This is Galileo\'s key insight')+'</div></div>'+
+    drop.objects.map(function(o){return'<div class="rc"><h3>'+o.name+'</h3><div class="sg"><div class="si"><div class="sl">Mass</div><div class="sv2">'+o.mass+' kg</div></div><div class="si"><div class="sl">Speed</div><div class="sv2" id="dv_'+o.name.replace(/\s/g,'')+'">'+o.vy.toFixed(1)+' m/s</div></div></div>'+(o.landed?'<div class="rs" style="color:var(--ok);font-weight:700">LANDED</div>':'')+'</div>'}).join('')+
+    '<div class="rc"><h3>Key Physics</h3><div class="rs" style="font-family:var(--serif);font-size:.64rem;line-height:1.7">Without air: a = g for ALL objects<br>With air: terminal velocity when F_drag = mg<br>v_terminal = √(2mg / ρCdA)<br>Heavier objects → higher terminal velocity</div></div>';
+}
+
+window.changeMedium=function(i){
+  if(i===sim.medium)return;
+  var prev=sim.medium;
+  sim.medium=i;
+  showPrediction(prev,i);
+  buildUI();
+};
+
+window.addObject=function(){
+  if(sim.objects.length>=8)return;
+  var obj=makeObj('Object '+'CDEFGHIJ'[sim.objects.length-2],100+Math.random()*200,10+Math.random()*10,W*.3+Math.random()*W*.4,H*.25+Math.random()*H*.5);
+  sim.objects.push(obj);sim.sel=sim.objects.length-1;buildRP();
+};
+
+window.stepOnce=function(){
+  var wasRunning=sim.running;sim.running=true;physicsStep();sim.running=wasRunning;
+};
 
 function buildRP(){
-  var vc=vCirc(sim.r0),ve=vEsc(sim.r0),v=vc*sim.vFrac;
-  var dx=body.x-cX,dy=body.y-cY,r=Math.sqrt(dx*dx+dy*dy)||1;
-  var spd=Math.sqrt(body.vx*body.vx+body.vy*body.vy);
-  var KE=0.5*sim.m*spd*spd,PE=-G*sim.M*sim.m/r,TE=KE+PE;
-  if($('vfDisp'))$('vfDisp').textContent=sim.vFrac.toFixed(2)+'×v_c';
-  $('rp').innerHTML='<div class="rc"><h3>Orbit Type</h3><div class="rv" style="font-size:.82rem">'+sim.orbitType+'</div></div>'+
-    '<div class="rc"><h3>Launch Speed</h3><div class="sg"><div class="si"><div class="sl">v</div><div class="sv2" id="rV">'+v.toFixed(1)+'</div></div><div class="si"><div class="sl">v_circ</div><div class="sv2" style="color:#22c55e">'+vc.toFixed(1)+'</div></div><div class="si"><div class="sl">v_esc</div><div class="sv2" style="color:#ef4444">'+ve.toFixed(1)+'</div></div><div class="si"><div class="sl">v/v_c</div><div class="sv2">'+sim.vFrac.toFixed(2)+'</div></div></div></div>'+
-    '<div class="rc"><h3>Energy</h3><div class="sg"><div class="si" style="border-color:rgba(239,68,68,.2)"><div class="sl">KE</div><div class="sv2" style="color:#ef4444" id="rKE">'+KE.toFixed(0)+'</div></div><div class="si" style="border-color:rgba(96,165,250,.2)"><div class="sl">PE</div><div class="sv2" style="color:#60a5fa" id="rPE">'+PE.toFixed(0)+'</div></div></div><div class="si" style="margin-top:3px"><div class="sl">Total E</div><div class="sv2" id="rTE" style="color:'+(TE<0?'#22c55e':'#ef4444')+'">'+TE.toFixed(0)+(TE<0?' (bound)':' (unbound)')+'</div></div></div>'+
-    '<div class="rc"><h3>Formulas</h3><div class="rs" style="font-family:var(--mono);font-size:.58rem;line-height:1.8">F = GMm/r²<br>v_circ = √(GM/r)<br>v_esc = √(2GM/r) = v_c×√2<br>KE = ½mv²<br>PE = −GMm/r</div></div>'+
-    '<div class="rc"><h3>Kepler\'s Laws</h3><div class="rs" style="font-family:var(--serif);font-size:.62rem;line-height:1.7">1st: Orbits are ellipses (focus at M)<br>2nd: Equal areas in equal times<br>3rd: T² ∝ r³</div></div>'+
-    '<div class="rc"><h3>Live Data</h3><div class="sg"><div class="si"><div class="sl">Distance r</div><div class="sv2" id="rR">'+sim.r0+'</div></div><div class="si"><div class="sl">Speed</div><div class="sv2" id="rSpd">'+v.toFixed(1)+'</div></div><div class="si"><div class="sl">Time</div><div class="sv2" id="rT">0</div></div><div class="si"><div class="sl">Force</div><div class="sv2" id="rF">'+(G*sim.M*sim.m/(sim.r0*sim.r0)).toFixed(1)+'</div></div></div></div>';
+  var html='';
+  sim.objects.forEach(function(o,i){
+    var isSel=i===sim.sel;
+    html+='<div class="obj-card'+(isSel?' sel':'')+'" onclick="sim.sel='+i+';buildRP()" style="border-color:'+(isSel?o.col:'var(--border)')+'">'+
+      '<div class="on"><div style="width:14px;height:14px;border-radius:50%;background:'+o.col+'"></div><span style="font-size:.78rem;font-weight:800;color:'+o.col+'">'+o.name+'</span>'+(o.fixed?'<span style="font-size:.5rem;color:var(--text3)">FIXED</span>':'')+'</div>';
+    if(isSel){
+      var spd=Math.sqrt(o.vx*o.vx+o.vy*o.vy);
+      var gField=G_SIM*o.mass/(o.radius*o.radius);
+      html+='<div class="sr" style="margin:3px 0"><span class="od">Mass</span><input type="range" min="1" max="1000" step="1" value="'+o.mass+'" oninput="sim.objects['+i+'].mass=+this.value;buildRP()"><span class="sv">'+o.mass+'</span></div>'+
+        '<div class="sr" style="margin:3px 0"><span class="od">Size</span><input type="range" min="4" max="40" step="1" value="'+o.radius+'" oninput="sim.objects['+i+'].radius=+this.value"><span class="sv">'+o.radius+'</span></div>'+
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:3px 0">'+
+        '<div style="font-size:.56rem;color:var(--text3)">Speed: <span style="color:var(--accent);font-family:var(--mono);font-weight:800">'+spd.toFixed(1)+'</span></div>'+
+        '<div style="font-size:.56rem;color:var(--text3)">g at surface: <span style="color:var(--accent2);font-family:var(--mono);font-weight:800">'+gField.toFixed(1)+'</span></div>'+
+        '<div style="font-size:.56rem;color:var(--text3)">KE: <span style="color:#ef4444;font-family:var(--mono);font-weight:800">'+(0.5*o.mass*spd*spd).toFixed(0)+'</span></div>'+
+        '<div style="font-size:.56rem;color:var(--text3)">vx,vy: <span style="font-family:var(--mono);font-size:.5rem">'+o.vx.toFixed(1)+', '+o.vy.toFixed(1)+'</span></div></div>'+
+        '<div style="font-size:.6rem;color:var(--text3);margin-top:2px">Drag to reposition. '+(sim.objects.length>2?'<span style="cursor:pointer;color:var(--err)" onclick="removeObj('+i+')">Remove ✕</span>':'')+'</div>';
+    }else{
+      html+='<div style="font-size:.62rem;color:var(--text3)">Mass: '+o.mass+' | Size: '+o.radius+'</div>';
+    }
+    html+='</div>';
+  });
+  // Force between selected pair
+  if(sim.objects.length>=2){
+    var a=sim.objects[0],b=sim.objects[1];
+    var dx=b.x-a.x,dy=b.y-a.y,r=Math.sqrt(dx*dx+dy*dy)||1;
+    var F=G_SIM*a.mass*b.mass/(r*r);
+    var PE=-G_SIM*a.mass*b.mass/r;
+    var gA=G_SIM*b.mass/(r*r);
+    var gB=G_SIM*a.mass/(r*r);
+    html+='<div class="rc"><h3>Force: '+a.name+' ↔ '+b.name+'</h3><div class="rv" id="rF">'+F.toFixed(2)+'</div><div class="fm">F = Gm₁m₂/r²</div>'+
+      '<div class="sg" style="margin-top:3px"><div class="si"><div class="sl">Distance</div><div class="sv2">'+r.toFixed(0)+'</div></div><div class="si"><div class="sl">PE</div><div class="sv2" style="color:#60a5fa">'+PE.toFixed(0)+'</div></div>'+
+      '<div class="si"><div class="sl">g at '+a.name+'</div><div class="sv2" style="color:var(--accent2)">'+gA.toFixed(2)+'</div></div><div class="si"><div class="sl">g at '+b.name+'</div><div class="sv2" style="color:var(--accent2)">'+gB.toFixed(2)+'</div></div></div>'+
+      '<div class="rs">g = GM/r² (field strength — independent of test mass)</div></div>';
+  }
+  html+='<div class="rc"><h3>Medium</h3><div class="rv" style="font-size:.82rem">'+MEDIA[sim.medium].n+'</div><div class="rs">'+MEDIA[sim.medium].desc+'</div></div>';
+  html+='<div class="rc"><h3>The Rule</h3><div class="fm">F = Gm₁m₂/r²</div><div class="rs" style="font-family:var(--serif);font-size:.64rem;line-height:1.7">Every object with mass pulls on every other object.<br>More mass → stronger pull.<br>More distance → weaker pull (1/r²).<br>This is why planets orbit stars.</div></div>';
+  $('rp').innerHTML=html;
 }
 
+window.removeObj=function(i){if(sim.objects.length<=2)return;sim.objects.splice(i,1);if(sim.sel>=sim.objects.length)sim.sel=sim.objects.length-1;buildRP()};
+
+// PHYSICS
+function physicsStep(){
+  if(sim.mode==='drop'){dropPhysics();return}
+  if(!sim.running||sim.predicting)return;
+  var obs=sim.objects,n=obs.length,steps=Math.max(1,Math.round(sim.speed*8));
+  for(var s=0;s<steps;s++){
+    // Velocity Verlet step 1: half-kick
+    for(var i=0;i<n;i++){
+      if(obs[i].fixed)continue;
+      var ax=0,ay=0;
+      for(var j=0;j<n;j++){
+        if(i===j)continue;
+        var dx=obs[j].x-obs[i].x,dy=obs[j].y-obs[i].y;
+        var r=Math.sqrt(dx*dx+dy*dy);
+        var minR=obs[i].radius+obs[j].radius;if(r<minR)r=minR;
+        var F=G_SIM*obs[j].mass/(r*r);
+        ax+=F*dx/r;ay+=F*dy/r;
+      }
+      var dragC=MEDIA[sim.medium].drag;
+      if(dragC>0){var spd=Math.sqrt(obs[i].vx*obs[i].vx+obs[i].vy*obs[i].vy);if(spd>0.01){var dragF=dragC*spd*spd/Math.max(1,obs[i].mass*.01);obs[i].vx-=obs[i].vx/spd*dragF;obs[i].vy-=obs[i].vy/spd*dragF}}
+      obs[i].vx+=ax*.5;obs[i].vy+=ay*.5;
+    }
+    // Drift
+    for(var i=0;i<n;i++){if(!obs[i].fixed){obs[i].x+=obs[i].vx*sim.speed;obs[i].y+=obs[i].vy*sim.speed}}
+    // Half-kick 2
+    for(var i=0;i<n;i++){
+      if(obs[i].fixed)continue;
+      var ax=0,ay=0;
+      for(var j=0;j<n;j++){if(i===j)continue;var dx=obs[j].x-obs[i].x,dy=obs[j].y-obs[i].y;var r=Math.sqrt(dx*dx+dy*dy);var minR=obs[i].radius+obs[j].radius;if(r<minR)r=minR;var F=G_SIM*obs[j].mass/(r*r);ax+=F*dx/r;ay+=F*dy/r}
+      obs[i].vx+=ax*.5;obs[i].vy+=ay*.5;
+    }
+    // COLLISION: merge objects that touch
+    for(var i=0;i<obs.length;i++){for(var j=i+1;j<obs.length;j++){
+      var dx=obs[j].x-obs[i].x,dy=obs[j].y-obs[i].y,r=Math.sqrt(dx*dx+dy*dy);
+      if(r<obs[i].radius+obs[j].radius){
+        var mT=obs[i].mass+obs[j].mass;
+        obs[i].x=(obs[i].x*obs[i].mass+obs[j].x*obs[j].mass)/mT;
+        obs[i].y=(obs[i].y*obs[i].mass+obs[j].y*obs[j].mass)/mT;
+        obs[i].vx=(obs[i].vx*obs[i].mass+obs[j].vx*obs[j].mass)/mT;
+        obs[i].vy=(obs[i].vy*obs[i].mass+obs[j].vy*obs[j].mass)/mT;
+        obs[i].mass=mT;obs[i].radius=Math.min(40,Math.sqrt(obs[i].radius*obs[i].radius+obs[j].radius*obs[j].radius));
+        obs[i].name=obs[i].name+'+'+obs[j].name;obs[i].trail=[];
+        obs.splice(j,1);j--;n=obs.length;
+        if(sim.sel>=n)sim.sel=n-1;buildRP();
+      }
+    }}
+  }
+  sim.af++;if(sim.af%3===0){obs.forEach(function(o){o.trail.push({x:o.x,y:o.y});if(o.trail.length>600)o.trail.shift()})}
+  // Camera tracking: keep centre of mass on screen
+  if(obs.length>0){var cx2=0,cy2=0,mt=0;obs.forEach(function(o){cx2+=o.x*o.mass;cy2+=o.y*o.mass;mt+=o.mass});cx2/=mt;cy2/=mt;sim.camX+=(cx2-W/2)*.02;sim.camY+=(cy2-H/2)*.02;
+    obs.forEach(function(o){o.x-=sim.camX;o.y-=sim.camY;o.trail.forEach(function(p){p.x-=sim.camX;p.y-=sim.camY})});sim.camX=0;sim.camY=0}
+}
+
+// SURFACE DROP PHYSICS
+function dropPhysics(){
+  if(!drop.running)return;
+  var g=PLANETS[drop.planet].g,groundY=H*.82;
+  drop.elapsed+=0.016;
+  drop.objects.forEach(function(o){
+    if(o.landed)return;
+    var dragF=0;
+    if(drop.airOn){var area=Math.PI*o.radius*o.radius*0.0001;var cd=0.47;var rhoAir=1.225;dragF=0.5*rhoAir*cd*area*o.vy*o.vy*Math.sign(o.vy)/o.mass}
+    o.vy+=g*0.3-dragF;
+    o.y+=o.vy*0.3;
+    if(o.y+o.radius>=groundY){o.y=groundY-o.radius;o.vy=0;o.landed=true}
+  });
+  if(sim.af%2===0&&drop.objects.some(function(o){return!o.landed})){
+    drop.vtData.push({t:drop.elapsed,v1:drop.objects[0].vy,v2:drop.objects.length>1?drop.objects[1].vy:0});
+    if(drop.vtData.length>400)drop.vtData.shift();
+  }
+}
+
+// PAINT
+function viewY(y){if(sim.view==='side')return H/2+(y-H/2)*.12;return y}
 function paint(){
-  if(!W||!H)return;var d=dk();af++;cx.clearRect(0,0,W,H);
+  if(!W||!H)return;
+  if(sim.mode==='drop'){paintDrop();return}
+  var d=dk();cx.clearRect(0,0,W,H);
   cx.fillStyle=d?'#050810':'#f0f4f8';cx.fillRect(0,0,W,H);
-  cX=W/2;cY=H/2;
+  var obs=sim.objects;
+  var showVec=$('tVec')&&$('tVec').classList.contains('on');
+  var showVel=$('tVel')&&$('tVel').classList.contains('on');
+  var showDist=$('tDist')&&$('tDist').classList.contains('on');
+  var showTrail=$('tTrail')&&$('tTrail').classList.contains('on');
 
-  // Stars background
-  if(d&&af===1){for(var i=0;i<80;i++){cx.fillStyle='rgba(255,255,255,'+(Math.random()*.3+.05)+')';cx.fillRect(Math.random()*W,Math.random()*H,1,1)}}
+  // Side view label
+  if(sim.view==='side'){cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='bold 10px var(--serif)';cx.textAlign='center';cx.fillText('SIDE VIEW — orbit appears as a line',W/2,16);
+    cx.strokeStyle=d?'rgba(148,163,184,.1)':'rgba(0,0,0,.04)';cx.lineWidth=1;cx.beginPath();cx.moveTo(0,H/2);cx.lineTo(W,H/2);cx.stroke()}
 
-  // Physics step
-  if(sim.running){
-    var steps=Math.round(sim.speed*6);
-    for(var s=0;s<steps;s++){
-      var dx=body.x-cX,dy=body.y-cY;
-      var r=Math.sqrt(dx*dx+dy*dy);if(r<8)r=8;
-      var F=G*sim.M/(r*r);
-      var ax=-F*dx/r,ay=-F*dy/r;
-      body.vx+=ax*.5;body.vy+=ay*.5;
-      body.x+=body.vx;body.y+=body.vy;
-      var dx2=body.x-cX,dy2=body.y-cY,r2=Math.sqrt(dx2*dx2+dy2*dy2);if(r2<8)r2=8;
-      var F2=G*sim.M/(r2*r2);
-      body.vx+=-F2*dx2/r2*.5;body.vy+=-F2*dy2/r2*.5;
-    }
-    sim.elapsed+=0.016*sim.speed;
-    // Trail
-    if(af%2===0)sim.trail.push({x:body.x,y:body.y});
-    if(sim.trail.length>1500)sim.trail.shift();
-    // Kepler sweep wedges
-    if(sim.showSweep){
-      sim.sweepTimer+=0.016*sim.speed;
-      if(sim.sweepTimer>0.3){sim.sweepTimer=0;sim.sweepWedges.push({x:body.x,y:body.y});if(sim.sweepWedges.length>30)sim.sweepWedges.shift()}
-    }
+  // Gravitational field lines (grid of arrows)
+  if(sim.showField&&obs.length>0){
+    var gStep=Math.max(30,Math.min(50,W/16));
+    for(var gx=gStep/2;gx<W;gx+=gStep){for(var gy=gStep/2;gy<H;gy+=gStep){
+      var fx=0,fy=0;
+      for(var k=0;k<obs.length;k++){var ddx=obs[k].x-gx,ddy=obs[k].y-gy;var dr=Math.sqrt(ddx*ddx+ddy*ddy);if(dr<obs[k].radius*1.5)continue;var gF=G_SIM*obs[k].mass/(dr*dr);fx+=ddx/dr*gF;fy+=ddy/dr*gF}
+      var mag=Math.sqrt(fx*fx+fy*fy);if(mag<0.5)continue;
+      var len=Math.min(gStep*.6,mag*1.5);var nx=fx/mag*len,ny=fy/mag*len;
+      var alpha=Math.min(.35,mag*.02);
+      cx.strokeStyle=d?'rgba(52,211,153,'+alpha+')':'rgba(14,124,107,'+alpha+')';cx.lineWidth=1;
+      cx.beginPath();cx.moveTo(gx,viewY(gy));cx.lineTo(gx+nx,viewY(gy+ny));cx.stroke();
+      var ang=Math.atan2(viewY(gy+ny)-viewY(gy),nx);cx.fillStyle=cx.strokeStyle;cx.beginPath();cx.moveTo(gx+nx,viewY(gy+ny));cx.lineTo(gx+nx-4*Math.cos(ang-.4),viewY(gy+ny)-4*Math.sin(ang-.4));cx.lineTo(gx+nx-4*Math.cos(ang+.4),viewY(gy+ny)-4*Math.sin(ang+.4));cx.fill();
+    }}
   }
 
-  // Kepler sweep wedges
-  if(sim.showSweep&&sim.sweepWedges.length>1){
-    for(var i=0;i<sim.sweepWedges.length-1;i++){
-      cx.fillStyle='rgba(52,211,153,'+(0.08+i*.005)+')';
-      cx.beginPath();cx.moveTo(cX,cY);cx.lineTo(sim.sweepWedges[i].x,sim.sweepWedges[i].y);cx.lineTo(sim.sweepWedges[i+1].x,sim.sweepWedges[i+1].y);cx.closePath();cx.fill();
-    }
-  }
+  // Trails
+  if(showTrail){obs.forEach(function(o){if(o.trail.length<2)return;cx.strokeStyle=o.col+'40';cx.lineWidth=1.5;cx.beginPath();o.trail.forEach(function(p,i){var py=viewY(p.y);i===0?cx.moveTo(p.x,py):cx.lineTo(p.x,py)});cx.stroke()})}
 
-  // Trail
-  if(sim.trail.length>1){cx.strokeStyle=d?'rgba(56,189,248,.25)':'rgba(3,105,161,.15)';cx.lineWidth=1.5;cx.beginPath();sim.trail.forEach(function(p,i){i===0?cx.moveTo(p.x,p.y):cx.lineTo(p.x,p.y)});cx.stroke()}
+  // Distance lines
+  if(showDist){for(var i=0;i<obs.length;i++)for(var j=i+1;j<obs.length;j++){cx.setLineDash([3,3]);cx.strokeStyle=d?'rgba(148,163,184,.15)':'rgba(0,0,0,.06)';cx.lineWidth=1;cx.beginPath();cx.moveTo(obs[i].x,viewY(obs[i].y));cx.lineTo(obs[j].x,viewY(obs[j].y));cx.stroke();cx.setLineDash([]);var mx=(obs[i].x+obs[j].x)/2,my=viewY((obs[i].y+obs[j].y)/2);var dist=Math.sqrt(Math.pow(obs[j].x-obs[i].x,2)+Math.pow(obs[j].y-obs[i].y,2));cx.fillStyle=d?'rgba(148,163,184,.3)':'rgba(0,0,0,.12)';cx.font='9px var(--mono)';cx.textAlign='center';cx.fillText(dist.toFixed(0),mx,my-5)}}
 
-  // Central mass
-  var mRad=Math.max(8,Math.sqrt(sim.M)*.8);
-  var mg=cx.createRadialGradient(cX,cY,mRad*.2,cX,cY,mRad*2);
-  mg.addColorStop(0,'#fbbf24');mg.addColorStop(.4,'rgba(251,191,36,.15)');mg.addColorStop(1,'rgba(251,191,36,0)');
-  cx.fillStyle=mg;cx.beginPath();cx.arc(cX,cY,mRad*2,0,Math.PI*2);cx.fill();
-  cx.fillStyle='#fbbf24';cx.beginPath();cx.arc(cX,cY,mRad,0,Math.PI*2);cx.fill();
-  cx.fillStyle='#fff';cx.font='bold 9px var(--serif)';cx.textAlign='center';cx.fillText('M',cX,cY+3);
+  // Force arrows (red)
+  if(showVec){for(var i=0;i<obs.length;i++){var fx=0,fy=0;for(var j=0;j<obs.length;j++){if(i===j)continue;var dx=obs[j].x-obs[i].x,dy=obs[j].y-obs[i].y,r=Math.sqrt(dx*dx+dy*dy)||1;var F=G_SIM*obs[i].mass*obs[j].mass/(r*r);var scale=Math.min(45,F*.08);fx+=dx/r*scale;fy+=dy/r*scale}if(Math.abs(fx)+Math.abs(fy)>1){var oy=viewY(obs[i].y),ey=viewY(obs[i].y+fy);cx.strokeStyle='rgba(239,68,68,.7)';cx.lineWidth=2;cx.beginPath();cx.moveTo(obs[i].x,oy);cx.lineTo(obs[i].x+fx,ey);cx.stroke();var ang=Math.atan2(ey-oy,fx);cx.fillStyle='rgba(239,68,68,.7)';cx.beginPath();cx.moveTo(obs[i].x+fx,ey);cx.lineTo(obs[i].x+fx-7*Math.cos(ang-.35),ey-7*Math.sin(ang-.35));cx.lineTo(obs[i].x+fx-7*Math.cos(ang+.35),ey-7*Math.sin(ang+.35));cx.fill()}}}
 
-  // Orbiting body
-  cx.fillStyle='#38bdf8';cx.beginPath();cx.arc(body.x,body.y,5,0,Math.PI*2);cx.fill();
-  cx.fillStyle=d?'rgba(56,189,248,.2)':'rgba(3,105,161,.1)';cx.beginPath();cx.arc(body.x,body.y,10,0,Math.PI*2);cx.fill();
+  // Velocity arrows (blue)
+  if(showVel){obs.forEach(function(o){var spd=Math.sqrt(o.vx*o.vx+o.vy*o.vy);if(spd<0.3)return;var sc=8,vdx=o.vx*sc,vdy=o.vy*sc;var oy=viewY(o.y),ey=viewY(o.y+vdy);cx.strokeStyle='rgba(56,189,248,.7)';cx.lineWidth=2;cx.beginPath();cx.moveTo(o.x,oy);cx.lineTo(o.x+vdx,ey);cx.stroke();var ang=Math.atan2(ey-oy,vdx);cx.fillStyle='rgba(56,189,248,.7)';cx.beginPath();cx.moveTo(o.x+vdx,ey);cx.lineTo(o.x+vdx-7*Math.cos(ang-.35),ey-7*Math.sin(ang-.35));cx.lineTo(o.x+vdx-7*Math.cos(ang+.35),ey-7*Math.sin(ang+.35));cx.fill()})}
 
-  // Vectors
-  var dx=body.x-cX,dy=body.y-cY,r=Math.sqrt(dx*dx+dy*dy)||1;
-  if(sim.showVec){
-    // Gravity force (toward center — red)
-    var Fmag=G*sim.M*sim.m/(r*r);
-    var Fscale=Math.min(60,Fmag*2);
-    var fx=-dx/r*Fscale,fy=-dy/r*Fscale;
-    cx.strokeStyle='#ef4444';cx.lineWidth=2;cx.beginPath();cx.moveTo(body.x,body.y);cx.lineTo(body.x+fx,body.y+fy);cx.stroke();
-    // Arrowhead
-    var fAngle=Math.atan2(fy,fx);cx.fillStyle='#ef4444';cx.beginPath();cx.moveTo(body.x+fx,body.y+fy);cx.lineTo(body.x+fx-8*Math.cos(fAngle-.3),body.y+fy-8*Math.sin(fAngle-.3));cx.lineTo(body.x+fx-8*Math.cos(fAngle+.3),body.y+fy-8*Math.sin(fAngle+.3));cx.fill();
-    // Velocity (blue)
-    var vScale=8;
-    var vdx=body.vx*vScale,vdy=body.vy*vScale;
-    cx.strokeStyle='#38bdf8';cx.lineWidth=2;cx.beginPath();cx.moveTo(body.x,body.y);cx.lineTo(body.x+vdx,body.y+vdy);cx.stroke();
-    var vAngle=Math.atan2(vdy,vdx);cx.fillStyle='#38bdf8';cx.beginPath();cx.moveTo(body.x+vdx,body.y+vdy);cx.lineTo(body.x+vdx-8*Math.cos(vAngle-.3),body.y+vdy-8*Math.sin(vAngle-.3));cx.lineTo(body.x+vdx-8*Math.cos(vAngle+.3),body.y+vdy-8*Math.sin(vAngle+.3));cx.fill();
-    // Labels
-    cx.font='bold 8px var(--serif)';cx.fillStyle='#ef4444';cx.textAlign='left';cx.fillText('F',body.x+fx+5,body.y+fy);
-    cx.fillStyle='#38bdf8';cx.fillText('v',body.x+vdx+5,body.y+vdy);
-  }
+  // Objects
+  obs.forEach(function(o,i){
+    var oy=viewY(o.y),rad=sim.view==='side'?Math.max(3,o.radius*.3):o.radius;
+    var glow=cx.createRadialGradient(o.x,oy,rad*.3,o.x,oy,rad*2.5);
+    glow.addColorStop(0,o.col);glow.addColorStop(.4,o.col+'30');glow.addColorStop(1,o.col+'00');
+    cx.fillStyle=glow;cx.beginPath();cx.arc(o.x,oy,rad*2.5,0,Math.PI*2);cx.fill();
+    cx.fillStyle=o.col;cx.beginPath();cx.arc(o.x,oy,rad,0,Math.PI*2);cx.fill();
+    if(i===sim.sel){cx.strokeStyle='#fff';cx.lineWidth=2;cx.beginPath();cx.arc(o.x,oy,rad+4,0,Math.PI*2);cx.stroke()}
+    cx.fillStyle='#fff';cx.font='bold '+(rad>10?'9':'7')+'px var(--serif)';cx.textAlign='center';
+    cx.fillText(o.name,o.x,oy+rad+14);
+    if(rad>8){cx.font='7px var(--mono)';cx.fillStyle=d?'rgba(255,255,255,.5)':'rgba(0,0,0,.3)';cx.fillText('m='+o.mass,o.x,oy+3)}
+  });
 
-  // Energy bars (bottom-right)
-  var spd=Math.sqrt(body.vx*body.vx+body.vy*body.vy);
-  var KE=0.5*sim.m*spd*spd,PE=-G*sim.M*sim.m/r,TE=KE+PE;
-  var ebX=W-110,ebY=H-120,ebW=20,ebH=100;
-  var maxE=Math.max(Math.abs(KE),Math.abs(PE),1);
-  cx.fillStyle=d?'rgba(10,16,28,.7)':'rgba(255,255,255,.5)';cx.beginPath();cx.roundRect(ebX-8,ebY-18,100,ebH+30,6);cx.fill();
-  cx.fillStyle=d?'#94a3b8':'#475569';cx.font='bold 8px var(--serif)';cx.textAlign='center';
-  cx.fillText('Energy',ebX+42,ebY-6);
-  // KE bar (red, upward from baseline)
-  var baseline=ebY+ebH/2;
-  var keH=Math.min(ebH/2,(KE/maxE)*ebH/2);
-  cx.fillStyle='#ef4444';cx.fillRect(ebX,baseline-keH,ebW,keH);
-  cx.fillStyle=d?'#ef4444':'#dc2626';cx.font='7px var(--mono)';cx.fillText('KE',ebX+ebW/2,ebY+ebH+10);
-  // PE bar (blue, downward from baseline)
-  var peH=Math.min(ebH/2,(Math.abs(PE)/maxE)*ebH/2);
-  cx.fillStyle='#60a5fa';cx.fillRect(ebX+30,baseline,ebW,peH);
-  cx.fillStyle=d?'#60a5fa':'#2563eb';cx.fillText('PE',ebX+30+ebW/2,ebY+ebH+10);
-  // Total line
-  var teY=baseline-(TE/maxE)*ebH/2;
-  teY=Math.max(ebY,Math.min(ebY+ebH,teY));
-  cx.strokeStyle=TE<0?'#22c55e':'#ef4444';cx.lineWidth=2;cx.setLineDash([3,2]);
-  cx.beginPath();cx.moveTo(ebX-4,teY);cx.lineTo(ebX+ebW*2+14,teY);cx.stroke();cx.setLineDash([]);
-  cx.fillStyle=TE<0?'#22c55e':'#ef4444';cx.font='bold 8px var(--serif)';cx.textAlign='right';
-  cx.fillText('E='+(TE<0?'−':'+'),ebX-4,teY-3);
-  // Baseline
-  cx.strokeStyle=d?'rgba(255,255,255,.1)':'rgba(0,0,0,.05)';cx.lineWidth=1;cx.beginPath();cx.moveTo(ebX-4,baseline);cx.lineTo(ebX+ebW*2+14,baseline);cx.stroke();
-  cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='6px sans-serif';cx.textAlign='center';cx.fillText('0',ebX-6,baseline+3);
+  // Legend
+  cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='8px sans-serif';cx.textAlign='left';
+  var ly=12;
+  if(showVec){cx.fillStyle='#ef4444';cx.fillText('→ Force (gravity)',8,ly);ly+=12}
+  if(showVel){cx.fillStyle='#38bdf8';cx.fillText('→ Velocity',8,ly);ly+=12}
+  if(sim.showField){cx.fillStyle='#34d399';cx.fillText('→ Field (g = GM/r²)',8,ly)}
 
-  // Orbit type label
-  cx.fillStyle=d?'#e2e8f0':'#1e293b';cx.font='bold 11px var(--serif)';cx.textAlign='left';
-  cx.fillText(sim.orbitType.charAt(0).toUpperCase()+sim.orbitType.slice(1),12,20);
-  cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='9px var(--mono)';
-  cx.fillText('v = '+spd.toFixed(1)+'  r = '+r.toFixed(0)+'  t = '+sim.elapsed.toFixed(1)+'s',12,34);
+  // Status
+  cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='9px var(--mono)';cx.textAlign='left';
+  cx.fillText(sim.running?'▶ Running':'⏸ Paused — drag objects',8,H-8);
+  cx.textAlign='right';cx.fillText(MEDIA[sim.medium].n+'  |  '+obs.length+' objects  |  '+sim.view+' view',W-8,H-8);
 
-  // Update live readouts
-  if($('rR'))$('rR').textContent=r.toFixed(0);
-  if($('rSpd'))$('rSpd').textContent=spd.toFixed(1);
-  if($('rT'))$('rT').textContent=sim.elapsed.toFixed(1);
-  if($('rF'))$('rF').textContent=(G*sim.M*sim.m/(r*r)).toFixed(1);
-  if($('rKE'))$('rKE').textContent=KE.toFixed(0);
-  if($('rPE'))$('rPE').textContent=PE.toFixed(0);
-  if($('rTE')){$('rTE').textContent=TE.toFixed(0)+(TE<0?' (bound)':' (unbound)');$('rTE').style.color=TE<0?'#22c55e':'#ef4444'}
+  if(obs.length>=2){var a=obs[0],b=obs[1],dx=b.x-a.x,dy=b.y-a.y,r=Math.sqrt(dx*dx+dy*dy)||1;if($('rF'))$('rF').textContent=(G_SIM*a.mass*b.mass/(r*r)).toFixed(2)}
 }
 
-function render(){requestAnimationFrame(render);if(W)paint()}
+function paintDrop(){
+  var d=dk(),p=PLANETS[drop.planet],groundY=H*.82;
+  cx.clearRect(0,0,W,H);
+  // Sky
+  cx.fillStyle=p.sky;cx.fillRect(0,0,W,H);
+  // Ground
+  var gg=cx.createLinearGradient(0,groundY,0,H);
+  gg.addColorStop(0,p.ground);gg.addColorStop(1,d?'#0a0a0a':'#333');
+  cx.fillStyle=gg;cx.fillRect(0,groundY,W,H-groundY);
+  // Ground line
+  cx.strokeStyle='rgba(255,255,255,.15)';cx.lineWidth=2;cx.beginPath();cx.moveTo(0,groundY);cx.lineTo(W,groundY);cx.stroke();
+  // Planet label
+  cx.fillStyle=p.col;cx.font='bold 14px var(--serif)';cx.textAlign='center';
+  cx.fillText(p.n+'  —  g = '+p.g+' m/s²',W/2,groundY+24);
+  // Height markers
+  cx.fillStyle='rgba(255,255,255,.1)';cx.font='8px var(--mono)';cx.textAlign='right';
+  for(var h=0;h<groundY;h+=60){cx.fillText((groundY-h).toFixed(0)+'m',W-8,h+10);cx.beginPath();cx.moveTo(0,h);cx.lineTo(W,h);cx.stroke()}
+  // Air label
+  cx.fillStyle='rgba(255,255,255,.2)';cx.font='10px var(--serif)';cx.textAlign='left';
+  cx.fillText(drop.airOn?'Medium: Air (drag ON)':'Medium: Vacuum (no drag)',8,20);
+  // Objects
+  drop.objects.forEach(function(o){
+    // Trail
+    cx.fillStyle=o.col+'15';for(var t=Math.max(60,o.y-200);t<o.y;t+=8){cx.beginPath();cx.arc(o.x,t,o.radius*.7,0,Math.PI*2);cx.fill()}
+    // Object
+    cx.fillStyle=o.col;cx.beginPath();cx.arc(o.x,o.y,o.radius,0,Math.PI*2);cx.fill();
+    cx.fillStyle='#fff';cx.font='bold 8px var(--serif)';cx.textAlign='center';
+    cx.fillText(o.name,o.x,o.y-o.radius-6);
+    cx.font='9px var(--mono)';cx.fillText(o.vy.toFixed(1)+' m/s',o.x,o.y+3);
+    if(o.landed){cx.fillStyle='rgba(255,200,50,.3)';cx.beginPath();cx.ellipse(o.x,groundY,o.radius*1.5,4,0,0,Math.PI*2);cx.fill()}
+    // Speed readout in panel
+    var el=document.getElementById('dv_'+o.name.replace(/\s/g,''));if(el)el.textContent=o.vy.toFixed(1)+' m/s';
+  });
+  // v-t graph (bottom-left)
+  if(drop.vtData.length>2){
+    var gL=W*.05,gR=W*.45,gT=H*.05,gB=H*.35,gW=gR-gL,gH=gB-gT;
+    cx.fillStyle='rgba(0,0,0,.5)';cx.beginPath();cx.roundRect(gL-4,gT-4,gW+8,gH+8,6);cx.fill();
+    cx.strokeStyle='rgba(255,255,255,.1)';cx.lineWidth=1;cx.beginPath();cx.moveTo(gL,gT);cx.lineTo(gL,gB);cx.lineTo(gR,gB);cx.stroke();
+    cx.fillStyle='rgba(255,255,255,.3)';cx.font='bold 8px var(--serif)';cx.textAlign='center';cx.fillText('v-t graph',gL+gW/2,gT-6);
+    cx.font='7px sans-serif';cx.fillText('Time (s)',gL+gW/2,gB+12);
+    var maxT=drop.vtData[drop.vtData.length-1].t||1;
+    var maxV=1;drop.vtData.forEach(function(d2){maxV=Math.max(maxV,Math.abs(d2.v1),Math.abs(d2.v2))});
+    // Object 1 line
+    cx.strokeStyle=drop.objects[0].col;cx.lineWidth=2;cx.beginPath();
+    drop.vtData.forEach(function(d2,i){var px=gL+(d2.t/maxT)*gW,py=gB-(Math.abs(d2.v1)/maxV)*gH*.9;i===0?cx.moveTo(px,py):cx.lineTo(px,py)});cx.stroke();
+    // Object 2 line
+    if(drop.objects.length>1){cx.strokeStyle=drop.objects[1].col;cx.lineWidth=2;cx.beginPath();
+      drop.vtData.forEach(function(d2,i){var px=gL+(d2.t/maxT)*gW,py=gB-(Math.abs(d2.v2)/maxV)*gH*.9;i===0?cx.moveTo(px,py):cx.lineTo(px,py)});cx.stroke()}
+    // Legend
+    cx.font='7px var(--serif)';cx.textAlign='left';
+    cx.fillStyle=drop.objects[0].col;cx.fillText(drop.objects[0].name,gL+4,gT+10);
+    if(drop.objects.length>1){cx.fillStyle=drop.objects[1].col;cx.fillText(drop.objects[1].name,gL+4,gT+20)}
+    if(!drop.airOn){cx.fillStyle='rgba(255,255,255,.3)';cx.fillText('Both lines overlap — same g!',gL+4,gT+32)}
+    else{cx.fillStyle='rgba(255,255,255,.3)';cx.fillText('Different terminal velocities',gL+4,gT+32)}
+  }
+  // Status
+  cx.fillStyle='rgba(255,255,255,.3)';cx.font='9px var(--mono)';cx.textAlign='left';
+  cx.fillText(drop.running?'Falling...':'Ready — press Drop!',8,H-8);
+  cx.textAlign='right';cx.fillText('t = '+drop.elapsed.toFixed(1)+' s',W-8,H-8);
+}
 
-// Experiment
+function render(){requestAnimationFrame(render);if(!W)return;sim.af++;physicsStep();paint()}
+
+// EXPERIMENT
 var expD=[],manD=[];
 function buildExp(){
-  $('expC').innerHTML='<div class="exp-row"><div class="exp-col"><div class="exp-field"><label>Independent Variable</label><select id="selIV"><option value="r0">Orbital Radius</option><option value="vFrac">Launch Speed (×v_c)</option><option value="M">Central Mass</option></select></div><div class="exp-field"><label>Dependent Variable</label><select id="selDV"><option value="vCirc">Circular Speed</option><option value="vEsc">Escape Speed</option><option value="period">Orbital Period</option><option value="force">Gravitational Force</option><option value="totalE">Total Energy</option></select></div></div><div class="exp-col"><div class="exp-field"><label>Controlled Variables</label><div class="cv-grid">'+
-    ['Central mass','Orbital radius','Launch direction','Orbiter mass'].map(function(v){return'<label class="cv-check"><input type="checkbox" checked> '+v+'</label>'}).join('')+
-  '</div></div><div class="exp-field"><label>Hypothesis</label><input type="text" placeholder="If [IV] increases, then [DV] will..."></div></div></div>'+
-    '<div style="background:var(--surface);border-radius:7px;padding:7px;border:1px solid var(--border);margin-top:4px"><p style="font-size:.66rem;color:var(--text2);margin-bottom:4px"><strong>Data collection:</strong> Adjust IV, let orbit stabilize, then use <b>↻ Read</b> or <b>↻ Auto Add</b>.</p>'+
-    '<div class="exp-row" style="align-items:flex-end"><div class="exp-col"><div class="exp-field"><label>IV Value</label><div style="display:flex;gap:3px"><input type="number" id="mIV" step="any" style="flex:1"><button class="btn btn-o" onclick="readIV()" style="font-size:.6rem;padding:3px 6px">↻ Read</button></div></div></div>'+
-    '<div class="exp-col"><div class="exp-field"><label>DV Value</label><div style="display:flex;gap:3px"><input type="number" id="mDV" step="any" style="flex:1"><button class="btn btn-o" onclick="readDV()" style="font-size:.6rem;padding:3px 6px">↻ Read</button></div></div></div>'+
-    '<div style="flex:0;display:flex;flex-direction:column;gap:3px"><button class="btn btn-a" onclick="addR()">+ Add</button><button class="btn btn-t" onclick="autoAdd()" style="font-size:.6rem">↻ Auto Add</button></div></div></div>'+
-    '<div id="mT"></div><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-t" onclick="plotM()">Plot Graph</button><button class="btn btn-o" onclick="clrM()">Clear All</button></div><div id="mSt" style="font-size:.64rem;color:var(--text3);margin-top:2px"></div>';
+  $('expC').innerHTML='<div class="exp-row"><div class="exp-col"><div class="exp-field"><label>Independent Variable</label><select id="selIV"><option value="mass">Mass of Object A</option><option value="massB">Mass of Object B</option><option value="dist">Distance Between Objects</option><option value="radius">Radius of Object A</option><option value="speed">Speed of Object A</option></select></div><div class="exp-field"><label>Dependent Variable</label><select id="selDV"><option value="force">Gravitational Force (F)</option><option value="accel">Acceleration of A</option><option value="gA">Field Strength at A (g)</option><option value="gB">Field Strength at B (g)</option><option value="PE">Gravitational PE</option><option value="KE">Kinetic Energy of A</option><option value="speedA">Speed of A</option><option value="speedB">Speed of B</option></select></div></div><div class="exp-col"><div class="exp-field"><label>Controlled Variables</label><div class="cv-grid">'+
+    ['Mass of B','Distance','Medium','Radius','Number of objects','Initial velocity'].map(function(v){return'<label class="cv-check"><input type="checkbox" checked> '+v+'</label>'}).join('')+
+  '</div></div><div class="exp-field"><label>Hypothesis</label><input type="text" placeholder="If I double the mass, the force will..."></div></div></div>'+
+    '<div style="background:var(--surface);border-radius:7px;padding:7px;border:1px solid var(--border);margin-top:4px"><p style="font-size:.68rem;color:var(--text2);margin-bottom:4px"><strong>How to collect data:</strong> Pause the simulation. Change the IV using sliders in the right panel. Use <b>↻ Read</b> to capture values, then <b>+ Add</b>.</p>'+
+    '<div class="exp-row" style="align-items:flex-end"><div class="exp-col"><div class="exp-field"><label>IV Value</label><div style="display:flex;gap:3px"><input type="number" id="mIV" step="any" style="flex:1"><button class="btn btn-o" onclick="readIV()" style="font-size:.62rem;padding:3px 6px">↻ Read</button></div></div></div>'+
+    '<div class="exp-col"><div class="exp-field"><label>DV Value</label><div style="display:flex;gap:3px"><input type="number" id="mDV" step="any" style="flex:1"><button class="btn btn-o" onclick="readDV()" style="font-size:.62rem;padding:3px 6px">↻ Read</button></div></div></div>'+
+    '<div style="flex:0;display:flex;flex-direction:column;gap:3px"><button class="btn btn-a" onclick="addR()">+ Add</button><button class="btn btn-t" onclick="autoAdd()" style="font-size:.62rem">↻ Auto Add</button></div></div></div>'+
+    '<div id="mT"></div><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-t" onclick="plotM()">Plot Graph</button><button class="btn btn-o" onclick="clrM()">Clear All</button></div><div id="mSt" style="font-size:.66rem;color:var(--text3);margin-top:2px"></div>';
 }
-window.readIV=function(){var iv=$('selIV')?$('selIV').value:'r0';var val=0;if(iv==='r0')val=sim.r0;else if(iv==='vFrac')val=sim.vFrac;else if(iv==='M')val=sim.M;$('mIV').value=+val.toFixed(2)};
-window.readDV=function(){var dv=$('selDV')?$('selDV').value:'vCirc';var val=0;var r=sim.r0;
-  if(dv==='vCirc')val=vCirc(r);else if(dv==='vEsc')val=vEsc(r);
-  else if(dv==='force')val=G*sim.M*sim.m/(r*r);
-  else if(dv==='totalE'){var spd=Math.sqrt(body.vx*body.vx+body.vy*body.vy);var dx=body.x-cX,dy=body.y-cY,rd=Math.sqrt(dx*dx+dy*dy)||1;val=0.5*sim.m*spd*spd-G*sim.M*sim.m/rd}
-  else if(dv==='period'){val=2*Math.PI*r/vCirc(r)}
-  $('mDV').value=+val.toFixed(2)};
+window.readIV=function(){var iv=$('selIV')?$('selIV').value:'mass';var val=0;var obs=sim.objects;
+  if(sim.mode==='drop'){
+    if(iv==='mass')val=drop.objects[0]?drop.objects[0].mass:0;
+    else if(iv==='dist')val=PLANETS[drop.planet].g;
+    else if(iv==='speed')val=drop.objects[0]?Math.abs(drop.objects[0].vy):0;
+    $('mIV').value=+val.toFixed(1);return}
+  if(iv==='mass')val=obs[0]?obs[0].mass:0;
+  else if(iv==='massB')val=obs[1]?obs[1].mass:0;
+  else if(iv==='dist'&&obs.length>=2){var dx=obs[1].x-obs[0].x,dy=obs[1].y-obs[0].y;val=Math.sqrt(dx*dx+dy*dy)}
+  else if(iv==='radius')val=obs[0]?obs[0].radius:0;
+  else if(iv==='speed'&&obs[0])val=Math.sqrt(obs[0].vx*obs[0].vx+obs[0].vy*obs[0].vy);
+  $('mIV').value=+val.toFixed(1)};
+window.readDV=function(){var dv=$('selDV')?$('selDV').value:'force';var val=0;var obs=sim.objects;
+  if(sim.mode==='drop'){
+    if(dv==='speedA')val=drop.objects[0]?Math.abs(drop.objects[0].vy):0;
+    else if(dv==='speedB')val=drop.objects[1]?Math.abs(drop.objects[1].vy):0;
+    else if(dv==='accel')val=PLANETS[drop.planet].g;
+    else if(dv==='force')val=drop.objects[0]?drop.objects[0].mass*PLANETS[drop.planet].g:0;
+    $('mDV').value=+val.toFixed(3);return}
+  if(obs.length>=2){
+    var dx=obs[1].x-obs[0].x,dy=obs[1].y-obs[0].y,r=Math.sqrt(dx*dx+dy*dy)||1;
+    if(dv==='force')val=G_SIM*obs[0].mass*obs[1].mass/(r*r);
+    else if(dv==='accel')val=G_SIM*obs[1].mass/(r*r);
+    else if(dv==='gA')val=G_SIM*obs[1].mass/(r*r);
+    else if(dv==='gB')val=G_SIM*obs[0].mass/(r*r);
+    else if(dv==='PE')val=-G_SIM*obs[0].mass*obs[1].mass/r;
+    else if(dv==='KE')val=0.5*obs[0].mass*(obs[0].vx*obs[0].vx+obs[0].vy*obs[0].vy);
+    else if(dv==='speedA')val=Math.sqrt(obs[0].vx*obs[0].vx+obs[0].vy*obs[0].vy);
+    else if(dv==='speedB')val=Math.sqrt(obs[1].vx*obs[1].vx+obs[1].vy*obs[1].vy);
+  }
+  $('mDV').value=+val.toFixed(3)};
 window.autoAdd=function(){readIV();readDV();addR()};
 window.addR=function(){var iv=parseFloat($('mIV').value),dv=parseFloat($('mDV').value);if(isNaN(iv)||isNaN(dv)){$('mSt').textContent='Enter both.';$('mSt').style.color='var(--err)';return}manD.push({iv:iv,dv:dv});$('mIV').value='';$('mDV').value='';$('mSt').textContent='#'+manD.length+' added.';$('mSt').style.color='var(--ok)';buildMT();syncM()};
-function buildMT(){if(!manD.length){$('mT').innerHTML='';return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});var ks=Object.keys(g).map(Number).sort(function(a,b){return a-b});var h='<table class="dt"><thead><tr><th>IV</th><th>Readings</th><th class="mean">Mean</th><th class="unc">± Unc</th><th></th></tr></thead><tbody>';ks.forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length,u=v.length>=2?(Math.max.apply(null,v)-Math.min.apply(null,v))/2:0;h+='<tr><td style="font-weight:700">'+k+'</td><td>'+v.map(function(x){return(+x.toFixed(1))+''}).join(', ')+'</td><td class="mean">'+mn.toFixed(1)+'</td><td class="unc">'+u.toFixed(1)+'</td><td><span style="cursor:pointer;color:var(--err)" onclick="rmG('+k+')">✕</span></td></tr>'});$('mT').innerHTML=h+'</tbody></table>'}
+function buildMT(){if(!manD.length){$('mT').innerHTML='';return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});var ks=Object.keys(g).map(Number).sort(function(a,b){return a-b});var h='<table class="dt"><thead><tr><th>IV</th><th>Readings</th><th class="mean">Mean</th><th class="unc">± Unc</th><th></th></tr></thead><tbody>';ks.forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length,u=v.length>=2?(Math.max.apply(null,v)-Math.min.apply(null,v))/2:0;h+='<tr><td style="font-weight:700">'+k+'</td><td>'+v.map(function(x){return(+x.toFixed(2))+''}).join(', ')+'</td><td class="mean">'+mn.toFixed(2)+'</td><td class="unc">'+u.toFixed(2)+'</td><td><span style="cursor:pointer;color:var(--err)" onclick="rmG('+k+')">✕</span></td></tr>'});$('mT').innerHTML=h+'</tbody></table>'}
 window.rmG=function(k){manD=manD.filter(function(d2){return d2.iv!==k});buildMT();syncM()};window.clrM=function(){manD=[];buildMT();expD=[];$('mSt').textContent=''};
-function syncM(){if(!manD.length){expD=[];return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});expD=[];Object.keys(g).map(Number).sort(function(a,b){return a-b}).forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length,u=v.length>=2?(Math.max.apply(null,v)-Math.min.apply(null,v))/2:0;expD.push({iv:k,mean:+mn.toFixed(2),unc:+u.toFixed(2)})});buildDT();setTimeout(function(){initGr();drawGr()},30)}
+function syncM(){if(!manD.length){expD=[];return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});expD=[];Object.keys(g).map(Number).sort(function(a,b){return a-b}).forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length,u=v.length>=2?(Math.max.apply(null,v)-Math.min.apply(null,v))/2:0;expD.push({iv:k,mean:+mn.toFixed(3),unc:+u.toFixed(3)})});buildDT();setTimeout(function(){initGr();drawGr()},30)}
 window.plotM=function(){if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(function(){initGr();drawGr()},80)};
 function buildDT(){if(!expD.length)return;var ivN=$('selIV')?$('selIV').options[$('selIV').selectedIndex].text:'IV';var dvN=$('selDV')?$('selDV').options[$('selDV').selectedIndex].text:'DV';var h='<table class="dt"><thead><tr><th>'+ivN+'</th><th class="mean">Mean '+dvN+'</th><th class="unc">± Unc</th></tr></thead><tbody>';expD.forEach(function(r){h+='<tr><td>'+r.iv+'</td><td class="mean">'+r.mean+'</td><td class="unc">'+r.unc+'</td></tr>'});$('dW').innerHTML=h+'</tbody></table>'}
 var gCv,gx2;
 function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');var d2=window.devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)w=gCv.parentElement.offsetWidth||500;gCv.width=w*d2;gCv.height=200*d2;gCv.style.width=w+'px';gCv.style.height='200px';gx2.setTransform(d2,0,0,d2,0,0)}
-function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return}var w=parseInt(gCv.style.width)||500,h=200,d2=dk();gx2.clearRect(0,0,w,h);gx2.fillStyle=d2?'#050810':'#f0f4f8';gx2.beginPath();gx2.roundRect(0,0,w,h,10);gx2.fill();if(!expD.length){gx2.fillStyle=d2?'rgba(148,163,184,.2)':'rgba(0,0,0,.1)';gx2.font='11px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data to see graph',w/2,h/2);return}var P={t:20,r:14,b:24,l:44},pW=w-P.l-P.r,pH=h-P.t-P.b;gx2.strokeStyle=d2?'rgba(56,189,248,.1)':'rgba(0,0,0,.06)';gx2.lineWidth=1;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,h-P.b);gx2.lineTo(w-P.r,h-P.b);gx2.stroke();var xs=expD.map(function(r2){return r2.iv}),ys=expD.map(function(r2){return r2.mean}),us=expD.map(function(r2){return r2.unc});var xn=Math.min.apply(null,xs),xx=Math.max.apply(null,xs),yn=Math.min.apply(null,ys.map(function(y,i){return y-us[i]}))-.5,yx=Math.max.apply(null,ys.map(function(y,i){return y+us[i]}))+.5;if(xx===xn){xn-=1;xx+=1}if(yx<=yn){yn-=1;yx+=2}function tx(v){return P.l+((v-xn)/(xx-xn))*pW}function ty(v){return P.t+pH-((v-yn)/(yx-yn))*pH}gx2.fillStyle=d2?'#64748b':'#94a3b8';gx2.font='8px sans-serif';gx2.textAlign='center';for(var i=0;i<expD.length;i++){var px=tx(xs[i]),py=ty(ys[i]),ue=us[i];if(ue>0){gx2.strokeStyle=d2?'rgba(52,211,153,.3)':'rgba(14,124,107,.2)';gx2.lineWidth=1.5;gx2.beginPath();gx2.moveTo(px,ty(ys[i]-ue));gx2.lineTo(px,ty(ys[i]+ue));gx2.stroke()}gx2.fillStyle=d2?'#fbbf24':'#d97706';gx2.beginPath();gx2.arc(px,py,4,0,Math.PI*2);gx2.fill()}if(xs.length>=2){gx2.strokeStyle=d2?'#fbbf24':'#d97706';gx2.lineWidth=1.5;gx2.beginPath();for(var i=0;i<expD.length;i++){var px=tx(xs[i]),py=ty(ys[i]);i===0?gx2.moveTo(px,py):gx2.lineTo(px,py)}gx2.stroke()}}
+function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return}var w=parseInt(gCv.style.width)||500,h=200,d2=dk();gx2.clearRect(0,0,w,h);gx2.fillStyle=d2?'#050810':'#f0f4f8';gx2.beginPath();gx2.roundRect(0,0,w,h,10);gx2.fill();if(!expD.length){gx2.fillStyle=d2?'rgba(148,163,184,.2)':'rgba(0,0,0,.1)';gx2.font='11px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data to see graph',w/2,h/2);return}var P={t:20,r:14,b:24,l:50},pW=w-P.l-P.r,pH=h-P.t-P.b;gx2.strokeStyle=d2?'rgba(56,189,248,.1)':'rgba(0,0,0,.06)';gx2.lineWidth=1;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,h-P.b);gx2.lineTo(w-P.r,h-P.b);gx2.stroke();var xs=expD.map(function(r2){return r2.iv}),ys=expD.map(function(r2){return r2.mean}),us=expD.map(function(r2){return r2.unc});var xn=Math.min.apply(null,xs),xx=Math.max.apply(null,xs),yn=Math.min.apply(null,ys.map(function(y,i){return y-us[i]}))-.01,yx=Math.max.apply(null,ys.map(function(y,i){return y+us[i]}))+.01;if(xx===xn){xn-=1;xx+=1}if(yx<=yn){yn-=.1;yx+=.1}function tx(v){return P.l+((v-xn)/(xx-xn))*pW}function ty(v){return P.t+pH-((v-yn)/(yx-yn))*pH}var ivN=$('selIV')?$('selIV').options[$('selIV').selectedIndex].text:'IV';var dvN=$('selDV')?$('selDV').options[$('selDV').selectedIndex].text:'DV';gx2.fillStyle=d2?'#64748b':'#94a3b8';gx2.font='8px sans-serif';gx2.textAlign='center';gx2.fillText(ivN,P.l+pW/2,h-4);gx2.save();gx2.translate(8,P.t+pH/2);gx2.rotate(-Math.PI/2);gx2.fillText(dvN,0,0);gx2.restore();for(var i=0;i<expD.length;i++){var px=tx(xs[i]),py=ty(ys[i]),ue=us[i];if(ue>0){gx2.strokeStyle=d2?'rgba(52,211,153,.3)':'rgba(14,124,107,.2)';gx2.lineWidth=1.5;gx2.beginPath();gx2.moveTo(px,ty(ys[i]-ue));gx2.lineTo(px,ty(ys[i]+ue));gx2.stroke()}gx2.fillStyle=d2?'#38bdf8':'#0369a1';gx2.beginPath();gx2.arc(px,py,4,0,Math.PI*2);gx2.fill()}if(xs.length>=2){gx2.strokeStyle=d2?'#38bdf8':'#0369a1';gx2.lineWidth=1.5;gx2.beginPath();for(var i=0;i<expD.length;i++){var px=tx(xs[i]),py=ty(ys[i]);i===0?gx2.moveTo(px,py):gx2.lineTo(px,py)}gx2.stroke()}}
 
-// IB Questions
+// IB QUESTIONS
 var IB=[
-  {c:'Calculate',q:'A satellite orbits Earth (M = 5.97×10²⁴ kg) at radius 6.77×10⁶ m. Find the orbital speed. (G = 6.67×10⁻¹¹)',f:'v = √(GM/r) = √(6.67×10⁻¹¹ × 5.97×10²⁴ / 6.77×10⁶) = √(5.88×10⁷) = 7670 m/s ≈ 7.67 km/s'},
-  {c:'Calculate',q:'Find the escape velocity from Earth\'s surface (R = 6.37×10⁶ m).',f:'v_esc = √(2GM/R) = √(2 × 6.67×10⁻¹¹ × 5.97×10²⁴ / 6.37×10⁶) = √(1.25×10⁸) = 11,180 m/s ≈ 11.2 km/s. This is v_circ × √2.'},
-  {c:'Explain',q:'A satellite in elliptical orbit moves faster at periapsis than apoapsis. Explain using energy conservation.',f:'Total energy (KE + PE) is constant. At periapsis, r is smaller → PE is more negative → KE must be larger to conserve total energy → speed is higher. At apoapsis, r is larger → PE less negative → KE smaller → speed lower.'},
-  {c:'State',q:'State Kepler\'s three laws of planetary motion.',f:'1st: Planets orbit in ellipses with the Sun at one focus. 2nd: A line from Sun to planet sweeps equal areas in equal times (conservation of angular momentum). 3rd: T² ∝ a³ — the square of the orbital period is proportional to the cube of the semi-major axis.'},
-  {c:'Explain',q:'Why does the total energy determine whether an orbit is bound or unbound?',f:'If E_total < 0: KE cannot overcome PE at any distance, the body is gravitationally bound (elliptical orbit). If E_total = 0: body barely escapes to infinity with zero final speed (parabolic). If E_total > 0: body escapes with residual speed (hyperbolic). The sign of total energy is the dividing line.'},
-  {c:'Deduce',q:'Show that v_escape = √2 × v_circular for the same orbital radius.',f:'v_circ = √(GM/r). For escape: KE = |PE| → ½mv² = GMm/r → v² = 2GM/r → v_esc = √(2GM/r) = √2 × √(GM/r) = √2 × v_circ. The slider shows this: v/v_c = 1.414 = √2 is exactly the escape threshold.'}
+  {c:'State',q:'State Newton\'s law of universal gravitation in words.',f:'Every object in the universe attracts every other object with a force that is proportional to the product of their masses and inversely proportional to the square of the distance between them. F = Gm₁m₂/r².'},
+  {c:'Explain',q:'You doubled the mass of Object A. What happened to the gravitational force? Explain why.',f:'The force doubled. F = Gm₁m₂/r² — force is directly proportional to each mass. If m₁ doubles while everything else stays the same, F doubles. Try it in the simulation to verify.'},
+  {c:'Explain',q:'You moved the objects twice as far apart. What happened to the force? Why is it not just halved?',f:'The force dropped to one quarter (¼). Because F ∝ 1/r², doubling r means F ∝ 1/(2r)² = 1/4r². This is the "inverse-square law" — distance has a squared effect on force.'},
+  {c:'Explain',q:'In the "Person + Ball" preset, the gravitational force is tiny. Why can\'t you feel gravity pulling you toward a basketball?',f:'F = G×70×0.6/r² ≈ 10⁻⁹ N at 1 metre. This is about a billionth of a newton — far too small to feel. You only notice gravity from objects with enormous mass (like Earth: 6×10²⁴ kg). Gravity is the weakest of the four fundamental forces.'},
+  {c:'Explain',q:'When you switched from vacuum to water, the objects slowed down. Why?',f:'Water creates a drag force (F_drag ∝ v²) that opposes motion. This removes kinetic energy from the objects. Gravity still pulls them, but drag converts kinetic energy to heat. In vacuum, there is nothing to create drag.'},
+  {c:'Deduce',q:'Object A has mass 200, Object B has mass 50. They are released from rest. Which one moves faster? Deduce using Newton\'s third law.',f:'They experience equal and opposite forces (Newton\'s 3rd law: F_AB = −F_BA). But a = F/m (Newton\'s 2nd law). Object B has ¼ the mass, so it gets 4× the acceleration. Object B moves faster. The lighter object always accelerates more — this is why the Moon orbits Earth, not the other way around.'}
 ];
-function buildIB(){$('ibL').innerHTML=IB.map(function(q,i){return'<div class="ib-card"><div class="ib-cmd">'+q.c+'</div><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea id="ib'+i+'"></textarea><button class="btn btn-a" style="margin-top:2px;font-size:.62rem" onclick="sF('+i+')">Show Answer</button><div class="ib-fb" id="iF'+i+'"></div></div>'}).join('');window.sF=function(i){$('iF'+i).className='ib-fb show ok';$('iF'+i).textContent=IB[i].f;addN('📝 Q'+(i+1),IB[i].q,IB[i].f)}}
+function buildIB(){$('ibL').innerHTML=IB.map(function(q,i){return'<div class="ib-card"><div class="ib-cmd">'+q.c+'</div><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea id="ib'+i+'"></textarea><button class="btn btn-a" style="margin-top:2px;font-size:.64rem" onclick="sF('+i+')">Show Answer</button><div class="ib-fb" id="iF'+i+'"></div></div>'}).join('');window.sF=function(i){$('iF'+i).className='ib-fb show ok';$('iF'+i).textContent=IB[i].f;addN('📝 Q'+(i+1),IB[i].q,IB[i].f)}}
 var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN()}
-function showN(){$('nbO').innerHTML=nb.length?nb.map(function(n,i){return'<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">→ '+n.r+'</span></div>'}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.64rem;padding:8px">Record observations here.</p>'}
+function showN(){$('nbO').innerHTML=nb.length?nb.map(function(n,i){return'<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">→ '+n.r+'</span></div>'}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.66rem;padding:8px">Record observations here.</p>'}
 showN();
 window.bts=function(el,i){document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on')});el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(function(){initGr();drawGr()},80)};
 
-onR();buildUI();buildExp();buildIB();render();
+// INIT
+onR();defaultSetup();
+setTimeout(function(){positionObjects();buildUI();buildExp();buildIB();render()},50);
 window.addEventListener('resize',onR);
 </script>
 </body>
