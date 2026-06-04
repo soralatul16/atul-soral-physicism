@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Circuit Builder Lab | Atul Soral Physicism</title>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0FWC22D8S"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H0FWC22D8S');</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
 <style>
 :root{--bg:#F8F7F4;--bg2:#EDEAE4;--card:#fff;--text:#1a1a1a;--text2:#555;--text3:#999;--accent:#1565C0;--accent2:#1A6847;--accent3:#C62828;--border:rgba(0,0,0,.08);--ok:#2E7D32;--err:#C62828;--warn:#E65100;--mono:'SF Mono','Consolas',monospace;--body:'Trebuchet MS','Lucida Grande','Lucida Sans',sans-serif;--display:'Palatino Linotype','Book Antiqua',Palatino,serif}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -253,15 +253,17 @@ window.startDragNew = (type, e) => {
   dragComp = comp;
   const moveHandler = ev => {
     const t = ev.touches ? ev.touches[0] : ev;
-    const cx = t.clientX - rect.left, cy = t.clientY - rect.top;
-    comp.x = Math.round(cx / GRID) * GRID;
-    comp.y = Math.round(cy / GRID) * GRID;
+    const cx2 = t.clientX - rect.left, cy2 = t.clientY - rect.top;
+    comp.x = cx2;
+    comp.y = cy2;
   };
   const upHandler = () => {
     document.removeEventListener('pointermove', moveHandler);
     document.removeEventListener('pointerup', upHandler);
     document.removeEventListener('touchmove', moveHandler);
     document.removeEventListener('touchend', upHandler);
+    comp.x = Math.round(comp.x / GRID) * GRID;
+    comp.y = Math.round(comp.y / GRID) * GRID;
     if(comp.x > 0 && comp.y > 0 && comp.x < cW && comp.y < cH) {
       components.push(comp);
       solveCircuit();
@@ -362,13 +364,15 @@ canvas.addEventListener('pointermove', e => {
   mouseX = e.clientX - rect.left;
   mouseY = e.clientY - rect.top;
   if(movingComp) {
-    movingComp.x = Math.round(mouseX / GRID) * GRID;
-    movingComp.y = Math.round(mouseY / GRID) * GRID;
+    movingComp.x = mouseX;
+    movingComp.y = mouseY;
   }
 });
 
 canvas.addEventListener('pointerup', e => {
   if(movingComp) {
+    movingComp.x = Math.round(movingComp.x / GRID) * GRID;
+    movingComp.y = Math.round(movingComp.y / GRID) * GRID;
     canvas.releasePointerCapture(e.pointerId);
     movingComp = null;
     solveCircuit();
@@ -382,10 +386,11 @@ function solveCircuit() {
   solvedVoltages = {};
   terminalV = {};
   running = false;
-  if(!components.length) { buildSidebar(); return; }
+  if(!components.length) { buildSidebar(); buildExp(); return; }
 
   solveOnce();
   buildSidebar();
+  buildExp();
 }
 
 function solveOnce() {
@@ -1137,17 +1142,18 @@ function buildSidebar() {
   // Selected component controls
   if(selectedComp) {
     const ct = COMP_TYPES[selectedComp.type];
-    html += `<div class="sc" style="border-color:rgba(21,101,192,.2)"><h4 style="color:var(--accent)">Edit: ${ct.name} #${selectedComp.id}</h4>`;
+    const sid = selectedComp.id;
+    html += '<div class="sc" style="border-color:rgba(21,101,192,.2)"><h4 style="color:var(--accent)">Edit: ' + ct.name + ' #' + sid + '</h4>';
     if(selectedComp.type === 'battery') {
-      html += `<div class="ctrl"><div class="sl-g"><label>EMF</label><input type="range" min="1" max="24" step="0.5" value="${selectedComp.value}" oninput="updateComp(${selectedComp.id},'value',+this.value);this.nextElementSibling.textContent=this.value"><span class="sv2">${selectedComp.value}</span><span class="unit">V</span></div></div>`;
-      html += `<div class="ctrl"><div class="sl-g"><label>Int R</label><input type="range" min="0.1" max="5" step="0.1" value="${selectedComp.intR}" oninput="updateComp(${selectedComp.id},'intR',+this.value);this.nextElementSibling.textContent=this.value"><span class="sv2">${selectedComp.intR}</span><span class="unit">&Omega;</span></div></div>`;
+      html += '<div class="ctrl"><div class="sl-g"><label>EMF</label><input type="range" min="0.5" max="24" step="0.1" value="' + selectedComp.value + '" oninput="updateComp(' + sid + ',\'value\',+this.value);this.nextElementSibling.value=this.value"><input type="number" class="num-input" min="0.1" max="50" step="0.1" value="' + selectedComp.value + '" onchange="updateComp(' + sid + ',\'value\',+this.value);this.previousElementSibling.value=this.value" style="width:50px"><span class="unit">V</span></div></div>';
+      html += '<div class="ctrl"><div class="sl-g"><label>Int R</label><input type="range" min="0.01" max="10" step="0.01" value="' + selectedComp.intR + '" oninput="updateComp(' + sid + ',\'intR\',+this.value);this.nextElementSibling.value=this.value"><input type="number" class="num-input" min="0.01" max="20" step="0.01" value="' + selectedComp.intR + '" onchange="updateComp(' + sid + ',\'intR\',+this.value);this.previousElementSibling.value=this.value" style="width:50px"><span class="unit">&Omega;</span></div></div>';
     } else if(selectedComp.type === 'resistor' || selectedComp.type === 'variable' || selectedComp.type === 'lamp') {
-      html += `<div class="ctrl"><div class="sl-g"><label>R</label><input type="range" min="1" max="1000" step="1" value="${selectedComp.value}" oninput="updateComp(${selectedComp.id},'value',+this.value);this.nextElementSibling.textContent=this.value"><span class="sv2">${selectedComp.value}</span><span class="unit">&Omega;</span></div></div>`;
+      html += '<div class="ctrl"><div class="sl-g"><label>R</label><input type="range" min="1" max="1000" step="0.5" value="' + selectedComp.value + '" oninput="updateComp(' + sid + ',\'value\',+this.value);this.nextElementSibling.value=this.value"><input type="number" class="num-input" min="0.1" max="10000" step="0.1" value="' + selectedComp.value + '" onchange="updateComp(' + sid + ',\'value\',+this.value);this.previousElementSibling.value=this.value" style="width:60px"><span class="unit">&Omega;</span></div></div>';
     } else if(selectedComp.type === 'switch_') {
-      html += `<div class="ctrl"><button class="btn ${selectedComp.closed?'btn-ok':'btn-err'}" onclick="toggleSwitch(${selectedComp.id})">${selectedComp.closed?'ON (Closed)':'OFF (Open)'}</button><span style="font-size:.54rem;color:var(--text3);margin-left:4px">or click switch on canvas</span></div>`;
+      html += '<div class="ctrl"><button class="btn ' + (selectedComp.closed?'btn-ok':'btn-err') + '" onclick="toggleSwitch(' + sid + ')">' + (selectedComp.closed?'ON (Closed)':'OFF (Open)') + '</button><span style="font-size:.54rem;color:var(--text3);margin-left:4px">or click switch on canvas</span></div>';
     } else if(selectedComp.type === 'fuse') {
-      html += `<div class="ctrl"><div class="sl-g"><label>Rating</label><input type="range" min="0.5" max="5" step="0.5" value="${selectedComp.value}" oninput="updateComp(${selectedComp.id},'value',+this.value);this.nextElementSibling.textContent=this.value"><span class="sv2">${selectedComp.value}</span><span class="unit">A</span></div></div>`;
-      if(selectedComp.blown) html += `<button class="btn btn-s" onclick="resetFuse(${selectedComp.id})">Replace Fuse</button>`;
+      html += '<div class="ctrl"><div class="sl-g"><label>Rating</label><input type="range" min="0.1" max="10" step="0.1" value="' + selectedComp.value + '" oninput="updateComp(' + sid + ',\'value\',+this.value);this.nextElementSibling.value=this.value"><input type="number" class="num-input" min="0.1" max="20" step="0.1" value="' + selectedComp.value + '" onchange="updateComp(' + sid + ',\'value\',+this.value);this.previousElementSibling.value=this.value" style="width:50px"><span class="unit">A</span></div></div>';
+      if(selectedComp.blown) html += '<button class="btn btn-s" onclick="resetFuse(' + sid + ')">Replace Fuse</button>';
     }
     html += '<div style="display:flex;gap:3px;margin-top:4px"><button class="btn btn-p" onclick="rotateComp(' + selectedComp.id + ')" style="font-size:.54rem">Rotate 90</button><button class="btn btn-err" onclick="deleteComp(' + selectedComp.id + ')" style="font-size:.54rem">Delete</button></div>';
     html += '</div>';
@@ -1474,16 +1480,26 @@ const EDV = [
 ];
 const ECVS = [{id:'V',n:'Voltage'},{id:'R',n:'Resistance'},{id:'n',n:'Components'},{id:'T',n:'Temperature'}];
 
+function getSelectedAm() {
+  var selId = $('selAm')?.value;
+  if(selId) return components.find(function(c){return c.id == selId && c.type==='ammeter'});
+  return components.find(function(c){return c.type==='ammeter'});
+}
+function getSelectedVm() {
+  var selId = $('selVm')?.value;
+  if(selId) return components.find(function(c){return c.id == selId && c.type==='voltmeter'});
+  return components.find(function(c){return c.type==='voltmeter'});
+}
+
 function getSimIV() {
   const iv = $('selIV')?.value || 'VmPD';
   if(iv === 'VmPD') {
-    // Read from first voltmeter (or selected voltmeter)
-    var vm = components.find(function(c){return c.type==='voltmeter'});
+    var vm = getSelectedVm();
     if(vm && solvedVoltages[vm.id]) return Math.abs(solvedVoltages[vm.id].drop);
     return 0;
   }
   if(iv === 'AmI') {
-    var am = components.find(function(c){return c.type==='ammeter'});
+    var am = getSelectedAm();
     if(am) return Math.abs(solvedCurrents[am.id] || 0);
     return 0;
   }
@@ -1500,18 +1516,18 @@ function getSimIV() {
 function getSimDV() {
   const dv = $('selDV')?.value || 'AmI';
   if(dv === 'AmI') {
-    var am = components.find(function(c){return c.type==='ammeter'});
+    var am = getSelectedAm();
     if(am) return Math.abs(solvedCurrents[am.id] || 0);
     return 0;
   }
   if(dv === 'VmPD') {
-    var vm = components.find(function(c){return c.type==='voltmeter'});
+    var vm = getSelectedVm();
     if(vm && solvedVoltages[vm.id]) return Math.abs(solvedVoltages[vm.id].drop);
     return 0;
   }
   if(dv === 'P') {
-    var am2 = components.find(function(c){return c.type==='ammeter'});
-    var vm2 = components.find(function(c){return c.type==='voltmeter'});
+    var am2 = getSelectedAm();
+    var vm2 = getSelectedVm();
     var I3 = am2 ? Math.abs(solvedCurrents[am2.id] || 0) : 0;
     var V3 = vm2 && solvedVoltages[vm2.id] ? Math.abs(solvedVoltages[vm2.id].drop) : 0;
     return I3 * V3;
@@ -1527,8 +1543,19 @@ function getIVN() { return EIV.find(v => v.id === ($('selIV')?.value || 'V'))?.n
 function getDVN() { return EDV.find(v => v.id === ($('selDV')?.value || 'I'))?.n || 'DV'; }
 
 function buildExp() {
-  const iv = $('selIV')?.value || 'V', cvs = ECVS.filter(c => c.id !== iv);
-  $('expC').innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:4px"><div><label style="font-size:.5rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">Independent Variable</label><select id="selIV" onchange="buildExp()" style="width:100%;padding:3px 5px;border-radius:4px;border:1px solid var(--border);font-size:.62rem;font-weight:600;background:var(--bg2);outline:none">' + EIV.map(v => '<option value="' + v.id + '"' + (v.id === iv ? ' selected' : '') + '>' + v.n + '</option>').join('') + '</select></div><div><label style="font-size:.5rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">Dependent Variable</label><select id="selDV" style="width:100%;padding:3px 5px;border-radius:4px;border:1px solid var(--border);font-size:.62rem;font-weight:600;background:var(--bg2);outline:none">' + EDV.map(v => '<option value="' + v.id + '">' + v.n + '</option>').join('') + '</select></div></div><label style="font-size:.5rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">Controlled Variables</label><div style="display:flex;gap:2px;flex-wrap:wrap;margin-bottom:4px">' + cvs.map(c => '<label style="display:flex;align-items:center;gap:2px;padding:2px 5px;border-radius:3px;background:var(--bg2);border:1px solid var(--border);font-size:.54rem;font-weight:600;color:var(--ok)"><input type="checkbox" checked disabled style="accent-color:var(--ok)"> ' + c.n + '</label>').join('') + '</div><div style="background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:4px 6px"><div class="ctrl" style="align-items:flex-end;gap:3px"><div style="flex:1"><label style="font-size:.48rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">IV</label><div style="display:flex;gap:2px"><input class="num-input" id="mIV" step="any" style="width:100%"><button class="btn btn-s" onclick="rIV()" style="font-size:.5rem;padding:2px 4px">Read</button></div></div><div style="flex:1"><label style="font-size:.48rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">DV</label><div style="display:flex;gap:2px"><input class="num-input" id="mDV" step="any" style="width:100%"><button class="btn btn-s" onclick="rDV()" style="font-size:.5rem;padding:2px 4px">Read</button></div></div><button class="btn btn-p" onclick="addR()">+Add</button><button class="btn btn-ok" onclick="aAdd()">Auto</button></div></div><div id="mT" style="margin-top:3px"></div><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-ok" onclick="plotM()">Plot</button><button class="btn btn-s" onclick="clrM()">Clear</button></div>';
+  const iv = $('selIV')?.value || 'VmPD', cvs = ECVS.filter(c => c.id !== iv);
+  // Build meter selector options
+  var amOptions = '', vmOptions = '';
+  components.forEach(function(c2) {
+    if(c2.type === 'ammeter') amOptions += '<option value="' + c2.id + '">Ammeter A' + c2.id + ' (' + Math.abs(solvedCurrents[c2.id]||0).toFixed(3) + 'A)</option>';
+    if(c2.type === 'voltmeter') vmOptions += '<option value="' + c2.id + '">Voltmeter V' + c2.id + ' (' + Math.abs(solvedVoltages[c2.id]?.drop||0).toFixed(2) + 'V)</option>';
+  });
+  if(!amOptions) amOptions = '<option value="">No ammeter in circuit</option>';
+  if(!vmOptions) vmOptions = '<option value="">No voltmeter in circuit</option>';
+
+  $('expC').innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:4px"><div><label style="font-size:.5rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">Independent Variable</label><select id="selIV" onchange="buildExp()" style="width:100%;padding:3px 5px;border-radius:4px;border:1px solid var(--border);font-size:.62rem;font-weight:600;background:var(--bg2);outline:none">' + EIV.map(function(v){return '<option value="' + v.id + '"' + (v.id === iv ? ' selected' : '') + '>' + v.n + '</option>'}).join('') + '</select></div><div><label style="font-size:.5rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">Dependent Variable</label><select id="selDV" style="width:100%;padding:3px 5px;border-radius:4px;border:1px solid var(--border);font-size:.62rem;font-weight:600;background:var(--bg2);outline:none">' + EDV.map(function(v){return '<option value="' + v.id + '">' + v.n + '</option>'}).join('') + '</select></div></div>' +
+  '<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:4px"><div><label style="font-size:.48rem;font-weight:700;text-transform:uppercase;color:var(--accent)">Read Ammeter from</label><select id="selAm" style="width:100%;padding:2px 4px;border-radius:4px;border:1px solid var(--border);font-size:.6rem;font-weight:600;background:var(--bg2);outline:none">' + amOptions + '</select></div><div><label style="font-size:.48rem;font-weight:700;text-transform:uppercase;color:var(--accent2)">Read Voltmeter from</label><select id="selVm" style="width:100%;padding:2px 4px;border-radius:4px;border:1px solid var(--border);font-size:.6rem;font-weight:600;background:var(--bg2);outline:none">' + vmOptions + '</select></div></div>' +
+  '<label style="font-size:.5rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">Controlled Variables</label><div style="display:flex;gap:2px;flex-wrap:wrap;margin-bottom:4px">' + cvs.map(function(c2){return '<label style="display:flex;align-items:center;gap:2px;padding:2px 5px;border-radius:3px;background:var(--bg2);border:1px solid var(--border);font-size:.54rem;font-weight:600;color:var(--ok)"><input type="checkbox" checked style="accent-color:var(--ok)"> ' + c2.n + '</label>'}).join('') + '</div><div style="background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:4px 6px"><div class="ctrl" style="align-items:flex-end;gap:3px"><div style="flex:1"><label style="font-size:.48rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">IV</label><div style="display:flex;gap:2px"><input class="num-input" id="mIV" step="any" style="width:100%"><button class="btn btn-s" onclick="rIV()" style="font-size:.5rem;padding:2px 4px">Read</button></div></div><div style="flex:1"><label style="font-size:.48rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">DV</label><div style="display:flex;gap:2px"><input class="num-input" id="mDV" step="any" style="width:100%"><button class="btn btn-s" onclick="rDV()" style="font-size:.5rem;padding:2px 4px">Read</button></div></div><button class="btn btn-p" onclick="addR()">+Add</button><button class="btn btn-ok" onclick="aAdd()">Auto</button></div></div><div id="mT" style="margin-top:3px"></div><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-ok" onclick="plotM()">Plot</button><button class="btn btn-s" onclick="clrM()">Clear</button></div>';
 }
 
 window.rIV = () => { if($('mIV')) $('mIV').value = getSimIV().toFixed(2); };
