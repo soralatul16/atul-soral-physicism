@@ -116,4 +116,14 @@ const DP_SIMS = [
     description: "Build series and parallel circuits. Explore Ohm's law, Kirchhoff's rules, V-I characteristics, EMF and internal resistance.",
     file: "sims/circuit-builder.html"
   },
+  {
+    id: "shm",
+    title: "Simple Harmonic Motion",
+    icon: "〰️",
+    topic: "C.1",
+    topicName: "Simple Harmonic Motion",
+    description: "Explore springs, pendulums, damping, and resonance. Visualise amplitude, period, energy transfer, and phase space.",
+    file: "sims/shm.html"
+  },
+
 ];
