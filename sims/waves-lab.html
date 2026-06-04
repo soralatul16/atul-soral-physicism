@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waves and Oscillations Lab | Atul Soral Physicism</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<style>
+:root{--bg:#FAFAF7;--bg2:#EDEAE4;--card:#fff;--text:#1a1a1a;--text2:#555;--text3:#999;--accent:#6A1B9A;--accent2:#00695C;--accent3:#D84315;--border:rgba(0,0,0,.08);--ok:#2E7D32;--err:#C62828;--mono:'SF Mono','Consolas',monospace;--body:'Trebuchet MS','Lucida Grande',sans-serif;--display:'Palatino Linotype','Book Antiqua',Palatino,serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.5}
+button{cursor:pointer;font-family:var(--body)}
+.wrap{max-width:1260px;margin:0 auto;padding:4px 10px 60px}
+.modes{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:4px;overflow-x:auto}
+.mb{padding:6px 11px;font-size:.62rem;font-weight:700;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.mb:hover{color:var(--text)}.mb.on{color:var(--accent);border-bottom-color:var(--accent)}
+.guide{background:rgba(106,27,154,.04);border:1px solid rgba(106,27,154,.1);border-radius:6px;padding:5px 10px;font-size:.6rem;color:var(--text2);line-height:1.6;margin-bottom:4px}
+.guide b{color:var(--accent)}
+.main-row{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:6px}
+.sim-wrap{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.sim-wrap canvas{display:block;width:100%;touch-action:none}
+.graph-wrap{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--card);margin-top:4px}
+.graph-wrap canvas{display:block;width:100%}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:4px}
+.card-t{font-size:.52rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);font-weight:700;margin-bottom:3px}
+.ctrl{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:3px}
+.sl-g{display:flex;align-items:center;gap:4px;flex:1}
+.sl-g label{font-size:.58rem;font-weight:700;color:var(--text2);min-width:50px;text-transform:uppercase}
+.sl-g input[type="range"]{flex:1;accent-color:var(--accent);max-width:140px;height:3px}
+.sl-g .sv{font-family:var(--mono);font-size:.74rem;font-weight:800;color:var(--accent);min-width:40px;text-align:right}
+.unit{font-size:.52rem;color:var(--text3)}
+.btn{padding:4px 10px;border:none;border-radius:5px;font-size:.62rem;font-weight:700;transition:.12s}
+.btn:hover{transform:translateY(-1px)}
+.btn-p{background:var(--accent);color:#fff}.btn-s{background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
+.btn-ok{background:var(--ok);color:#fff}
+.preset-btn{padding:3px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);font-size:.58rem;font-weight:600;color:var(--text2);transition:.12s}
+.preset-btn:hover{border-color:var(--accent);color:var(--accent)}
+.preset-btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.side{display:flex;flex-direction:column;gap:4px}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:6px 8px}
+.sc h4{font-size:.48rem;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);font-weight:700;margin-bottom:2px}
+.sc .sv2{font-family:var(--mono);font-size:.82rem;font-weight:800;color:var(--accent)}
+.sc .sd{font-size:.58rem;color:var(--text2);line-height:1.5;margin-top:2px}
+.eq-box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-family:var(--display);font-size:.76rem;color:var(--text2);line-height:1.7}
+.eq-box strong{color:var(--accent)}
+.stat-g{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.si{background:var(--bg2);border-radius:4px;padding:3px 5px;text-align:center}
+.si .sl2{font-size:.44rem;text-transform:uppercase;color:var(--text3);font-weight:700}
+.si .sv3{font-family:var(--mono);font-size:.7rem;font-weight:800}
+.num-input{width:50px;padding:3px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg2);font-family:var(--mono);font-size:.68rem;font-weight:700;text-align:center;outline:none;color:var(--text)}
+.gp{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin-top:6px}
+.btabs{display:flex;gap:2px;margin-bottom:5px;border-bottom:1px solid var(--border);padding-bottom:3px}
+.bt{padding:4px 9px;border-radius:5px 5px 0 0;font-size:.6rem;font-weight:700;cursor:pointer;color:var(--text3)}
+.bt:hover{color:var(--text)}.bt.on{color:var(--accent);background:var(--bg2);border:1px solid var(--border);border-bottom:none}
+.btc{display:none}.btc.on{display:block}
+.nb-c{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:3px 6px;margin-bottom:2px;font-size:.6rem;line-height:1.5}
+.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+.graph-wrap2{position:relative;width:100%;height:180px;margin-top:4px}
+.graph-wrap2 canvas{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:6px;border:1px solid var(--border)}
+.dt{width:100%;border-collapse:collapse;font-size:.62rem}
+.dt th{text-align:center;padding:3px;font-size:.48rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--bg2)}
+.dt td{padding:2px;text-align:center;border-bottom:1px solid var(--border);font-family:var(--mono)}
+.dt .mean{font-weight:800;color:var(--accent)}
+.ib-card{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-bottom:4px}
+.ib-cmd{display:inline-block;font-size:.46rem;padding:2px 5px;border-radius:3px;font-weight:700;text-transform:uppercase}
+.ib-cmd-c{background:rgba(216,67,21,.06);color:var(--accent3)}.ib-cmd-e{background:rgba(106,27,154,.06);color:var(--accent)}.ib-cmd-s{background:rgba(0,105,92,.06);color:var(--accent2)}
+.ib-card h4{font-size:.7rem;font-weight:700;margin:2px 0}.ib-card p{font-size:.62rem;color:var(--text2);line-height:1.5;margin-bottom:4px}
+.ib-card textarea{width:100%;height:36px;border:1.5px solid var(--border);border-radius:4px;padding:4px 6px;font-size:.62rem;resize:vertical;background:var(--bg2);outline:none;font-family:var(--body);color:var(--text)}
+.ib-ans{margin-top:4px;padding:6px 8px;border-radius:5px;background:rgba(0,105,92,.03);border:1px solid rgba(0,105,92,.08);font-size:.62rem;line-height:1.6;color:var(--text2);display:none}
+.ib-ans.show{display:block}.ib-ans strong{color:var(--ok)}
+@media(max-width:860px){.main-row{grid-template-columns:1fr}}
+@media print{nav{display:none!important}}
+</style>
+</head>
+<body>
+<script>var SIM_META={id:'waves-lab-v3',title:'Waves and Oscillations Lab',topic:'C.2',topicName:'Wave Model',grade:['DP'],level:'both',theme:'C',concepts:['transverse','longitudinal','water waves','sound waves','light','string','spring','wavelength','frequency','amplitude','wave speed'],difficulty:'intermediate'};</script>
+
+<nav style="display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px">
+  <div style="display:flex;align-items:center;gap:14px">
+    <a href="../index.html" style="font-family:Georgia,serif;font-size:1rem;font-weight:700;color:#fff;text-decoration:none">Atul Soral Physicism</a>
+    <a href="../dp-simulations.html" style="color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem">← All Simulations</a>
+  </div>
+  <div style="display:flex;gap:6px;align-items:center">
+    <a href="../dp-simulations.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">← Back</a>
+    <a href="../index.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">Home</a>
+    <a href="../myp-dashboard.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">MYP</a>
+    <a href="../dp-dashboard.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">DP</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="modes" id="modes"></div>
+  <div id="guideBar" class="guide"></div>
+  <div class="main-row">
+    <div style="min-width:0">
+      <div class="sim-wrap" id="simWrap"><canvas id="waveCanvas" height="340"></canvas></div>
+      <div class="graph-wrap"><canvas id="graphCanvas" height="180"></canvas></div>
+      <div class="card" id="controls"></div>
+    </div>
+    <div class="side" id="sidebar"></div>
+  </div>
+  <div class="gp">
+    <div class="btabs">
+      <div class="bt on" onclick="bts(this,0)">Experiment</div>
+      <div class="bt" onclick="bts(this,1)">Data & Graph</div>
+      <div class="bt" onclick="bts(this,2)">IB Questions</div>
+      <div class="bt" onclick="bts(this,3)">Notebook</div>
+    </div>
+    <div class="btc on" id="b0"><div id="expC"></div></div>
+    <div class="btc" id="b1"><div id="dW"><p style="font-size:.6rem;color:var(--text3);text-align:center;padding:6px">Collect data first.</p></div><div class="graph-wrap2"><canvas id="gC"></canvas></div></div>
+    <div class="btc" id="b2"><div id="ibL"></div></div>
+    <div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-family:var(--display);font-size:.74rem;font-weight:700;color:var(--accent)">Notebook</span><button class="btn btn-s" onclick="window.print()" style="font-size:.52rem;padding:2px 5px">Print</button></div><div id="nbO"></div></div>
+  </div>
+</div>
+
+<script>
+// roundRect polyfill for older canvas implementations
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
+    if(typeof r==='number')r=[r,r,r,r];
+    if(!Array.isArray(r))r=[0,0,0,0];
+    this.moveTo(x+r[0],y);this.lineTo(x+w-r[1],y);
+    this.arcTo(x+w,y,x+w,y+r[1],r[1]);this.lineTo(x+w,y+h-r[2]);
+    this.arcTo(x+w,y+h,x+w-r[2],y+h,r[2]);this.lineTo(x+r[3],y+h);
+    this.arcTo(x,y+h,x,y+h-r[3],r[3]);this.lineTo(x,y+r[0]);
+    this.arcTo(x,y,x+r[0],y,r[0]);this.closePath();
+  };
+}
+var $=function(id){return document.getElementById(id)};
+var SCENES=[
+  {n:'What is a Wave?',bg:'#E8EAF6',type:'string',guide:'<b>A wave transfers energy without transferring matter.</b> Watch the wavefront propagate from the hand. The red tracked particle oscillates in place — energy travels, matter does not.'},
+  {n:'String Wave',bg:'#FFF3E0',type:'string',guide:'<b>A vibrating string creates transverse waves.</b> Particles move perpendicular to wave direction. The thick rope shows a 3D cylindrical appearance. Click any particle to track it.'},
+  {n:'Spring Wave',bg:'#E0F2F1',type:'spring',guide:'<b>Push-pull a spring to create longitudinal waves.</b> Watch metallic coils compress and stretch. Darker regions = compressions (C). Lighter regions = rarefactions (R).'},
+  {n:'Water Wave',bg:'#E3F2FD',type:'water',guide:'<b>Water waves are a mix of transverse and longitudinal.</b> Particles move in circular orbits. The boat bobs but does not travel. Notice foam at the crests.'},
+  {n:'Sound Wave',bg:'#FCE4EC',type:'sound',guide:'<b>Sound is a longitudinal wave in a medium.</b> The speaker cone pumps in and out, creating pressure bands. Dark bands = high pressure (compression). Air itself is invisible — you see pressure variations.'},
+  {n:'Light Wave',bg:'#F3E5F5',type:'light',guide:'<b>Light is a transverse electromagnetic wave.</b> It does not need a medium. Electric (blue) and magnetic (red) fields oscillate perpendicular to each other and to the direction of travel.'},
+  {n:'IA Experiment',bg:'#FAFAF7',type:'string',guide:'<b>Design your own wave investigation.</b> Choose IV and DV, collect data, and plot graphs.'}
+];
+var scene=0;
+$('modes').innerHTML=SCENES.map(function(s,i){return '<div class="mb'+(i===0?' on':'')+'" onclick="setScene('+i+')">'+s.n+'</div>'}).join('');
+
+var S={freq:1.2,amp:35,speed:80,nP:45,time:0,paused:false,simSpeed:0.4,tracked:-1,showSide:false,showTop:false};
+function getWL(){return S.speed/S.freq}
+function getT(){return 1/S.freq}
+
+var wc=$('waveCanvas'),wx=wc.getContext('2d');
+var gc=$('graphCanvas'),gx=gc.getContext('2d');
+var cW,cH,gW,gH;
+function resize(){
+  var wp=wc.parentElement,gp=gc.parentElement;
+  var dpr=devicePixelRatio||1;
+  cW=wp.clientWidth;cH=340;
+  wc.width=cW*dpr;wc.height=cH*dpr;wc.style.width=cW+'px';wc.style.height=cH+'px';
+  wx.setTransform(dpr,0,0,dpr,0,0);
+  gW=gp.clientWidth;gH=180;
+  gc.width=gW*dpr;gc.height=gH*dpr;gc.style.width=gW+'px';gc.style.height=gH+'px';
+  gx.setTransform(dpr,0,0,dpr,0,0);
+}
+new ResizeObserver(resize).observe(wc.parentElement);
+resize();
+
+wc.addEventListener('click',function(e){
+  var rect=wc.getBoundingClientRect();
+  var mx=e.clientX-rect.left;
+  var spacing=cW/S.nP;
+  S.tracked=Math.round(mx/spacing);
+  if(S.tracked<0)S.tracked=0;
+  if(S.tracked>=S.nP)S.tracked=S.nP-1;
+});
+
+function getDisp(i,t){
+  var x=i*(cW/S.nP);
+  var k=2*Math.PI/getWL();
+  var w=2*Math.PI*S.freq;
+  var d=S.amp*Math.sin(k*x-w*t);
+  var wfX=S.speed*t;
+  var ramp=Math.max(15,getWL()*0.5);
+  d*=Math.min(1,Math.max(0,(wfX-x)/ramp));
+  return d;
+}
+
+function getDispX(xPos,t){
+  return getDisp(xPos*S.nP/cW,t);
+}
+
+// ===== DRAW =====
+function drawWave(){
+  var sc=SCENES[scene];
+  wx.fillStyle=sc.bg;wx.fillRect(0,0,cW,cH);
+  wx.strokeStyle='rgba(0,0,0,.04)';wx.lineWidth=0.5;
+  for(var g1=0;g1<cW;g1+=40){wx.beginPath();wx.moveTo(g1,0);wx.lineTo(g1,cH);wx.stroke()}
+  for(var g2=0;g2<cH;g2+=40){wx.beginPath();wx.moveTo(0,g2);wx.lineTo(cW,g2);wx.stroke()}
+
+  var midY=cH*0.44;
+  var spacing=cW/S.nP;
+  var type=sc.type;
+
+  if(type!=='water'&&type!=='light'){
+    wx.strokeStyle='rgba(0,0,0,.06)';wx.lineWidth=1;wx.setLineDash([5,5]);
+    wx.beginPath();wx.moveTo(0,midY);wx.lineTo(cW,midY);wx.stroke();wx.setLineDash([]);
+  }
+
+  if(type==='string'){
+    // ===== STRING / ROPE — Thick cylindrical rope with hand source =====
+    var ropeStart=28,ropeEnd=cW-14;
+
+    // Fixed wall on right — brick pattern
+    wx.fillStyle='#5D4037';wx.fillRect(cW-14,midY-32,14,64);
+    wx.strokeStyle='#4E342E';wx.lineWidth=0.6;
+    for(var bk=midY-32;bk<midY+32;bk+=8){
+      wx.beginPath();wx.moveTo(cW-14,bk);wx.lineTo(cW,bk);wx.stroke();
+    }
+    for(var bk2=midY-28;bk2<midY+32;bk2+=16){
+      wx.beginPath();wx.moveTo(cW-7,bk2);wx.lineTo(cW-7,bk2+8);wx.stroke();
+    }
+
+    // Driving hand on left
+    var handD=getDisp(0,S.time);
+    var handY=midY-handD;
+    wx.fillStyle='#8D6E63';wx.fillRect(-4,handY-5,22,10);
+    wx.fillStyle='#FFCCBC';wx.beginPath();wx.roundRect(14,handY-9,16,18,5);wx.fill();
+    wx.strokeStyle='rgba(141,110,99,.3)';wx.lineWidth=0.5;
+    wx.beginPath();wx.moveTo(16,handY-3);wx.lineTo(28,handY-3);wx.stroke();
+    wx.beginPath();wx.moveTo(16,handY+3);wx.lineTo(28,handY+3);wx.stroke();
+
+    // Build rope path points with normals
+    var nSeg=180,ropeW=5;
+    var rPts=[];
+    for(var ri=0;ri<=nSeg;ri++){
+      var rx=ropeStart+(ropeEnd-ropeStart)*ri/nSeg;
+      var rfi=rx/spacing;
+      var rd=getDisp(rfi,S.time);
+      var rx2=ropeStart+(ropeEnd-ropeStart)*Math.min(ri+1,nSeg)/nSeg;
+      var rfi2=rx2/spacing;
+      var rd2=getDisp(rfi2,S.time);
+      var tdx=rx2-rx||1,tdy=-(rd2-rd);
+      var tlen=Math.sqrt(tdx*tdx+tdy*tdy);
+      rPts.push({x:rx,y:midY-rd,nx:-tdy/tlen,ny:tdx/tlen});
+    }
+
+    // Shadow
+    wx.save();
+    wx.globalAlpha=0.15;
+    wx.fillStyle='#000';
+    wx.beginPath();
+    for(var ri2=0;ri2<rPts.length;ri2++){
+      var p=rPts[ri2];
+      if(ri2===0)wx.moveTo(p.x-p.nx*(ropeW+2),p.y-p.ny*(ropeW+2)+6);
+      else wx.lineTo(p.x-p.nx*(ropeW+2),p.y-p.ny*(ropeW+2)+6);
+    }
+    for(var ri3=rPts.length-1;ri3>=0;ri3--){
+      var p2=rPts[ri3];
+      wx.lineTo(p2.x+p2.nx*(ropeW+2),p2.y+p2.ny*(ropeW+2)+6);
+    }
+    wx.closePath();wx.fill();
+    wx.restore();
+
+    // Rope body — filled band with cylindrical gradient
+    wx.beginPath();
+    for(var ri4=0;ri4<rPts.length;ri4++){
+      var p3=rPts[ri4];
+      var tx=p3.x-p3.nx*ropeW,ty=p3.y-p3.ny*ropeW;
+      if(ri4===0)wx.moveTo(tx,ty);else wx.lineTo(tx,ty);
+    }
+    for(var ri5=rPts.length-1;ri5>=0;ri5--){
+      var p4=rPts[ri5];
+      wx.lineTo(p4.x+p4.nx*ropeW,p4.y+p4.ny*ropeW);
+    }
+    wx.closePath();
+    var ropeGrad=wx.createLinearGradient(0,midY-S.amp-ropeW,0,midY+S.amp+ropeW);
+    ropeGrad.addColorStop(0,'#BCAAA4');
+    ropeGrad.addColorStop(0.2,'#A1887F');
+    ropeGrad.addColorStop(0.45,'#8D6E63');
+    ropeGrad.addColorStop(0.7,'#6D4C41');
+    ropeGrad.addColorStop(1,'#4E342E');
+    wx.fillStyle=ropeGrad;wx.fill();
+
+    // Highlight on top edge
+    wx.strokeStyle='rgba(215,204,200,.45)';wx.lineWidth=1.5;
+    wx.beginPath();
+    for(var ri6=0;ri6<rPts.length;ri6++){
+      var p5=rPts[ri6];
+      var hx=p5.x-p5.nx*(ropeW-1.5),hy=p5.y-p5.ny*(ropeW-1.5);
+      if(ri6===0)wx.moveTo(hx,hy);else wx.lineTo(hx,hy);
+    }
+    wx.stroke();
+
+    // Rope texture — subtle fiber lines
+    wx.strokeStyle='rgba(78,52,46,.12)';wx.lineWidth=0.4;
+    for(var fib=-2;fib<=2;fib+=2){
+      wx.beginPath();
+      for(var ri7=0;ri7<rPts.length;ri7+=2){
+        var p6=rPts[ri7];
+        var fx=p6.x+p6.nx*fib,fy=p6.y+p6.ny*fib;
+        if(ri7===0)wx.moveTo(fx,fy);else wx.lineTo(fx,fy);
+      }
+      wx.stroke();
+    }
+
+    // Particles on rope
+    for(var pi=0;pi<S.nP;pi+=2){
+      var pd=getDisp(pi,S.time);
+      var ppx=pi*spacing,ppy=midY-pd;
+      if(ppx<ropeStart||ppx>ropeEnd)continue;
+      var isT=pi===S.tracked;
+      if(isT){
+        wx.fillStyle='#C62828';wx.beginPath();wx.arc(ppx,ppy,6,0,Math.PI*2);wx.fill();
+        wx.strokeStyle='rgba(198,40,40,.25)';wx.lineWidth=1;wx.setLineDash([3,3]);
+        wx.beginPath();wx.moveTo(ppx,midY);wx.lineTo(ppx,ppy);wx.stroke();wx.setLineDash([]);
+        wx.fillStyle='#C62828';wx.font='bold 9px sans-serif';wx.textAlign='center';
+        wx.fillText('y = '+(pd>0?'+':'')+pd.toFixed(1),ppx,Math.min(ppy,midY)-14);
+      }else{
+        wx.fillStyle='rgba(78,52,46,.45)';wx.beginPath();wx.arc(ppx,ppy,2,0,Math.PI*2);wx.fill();
+      }
+    }
+
+    // Wavelength & amplitude annotations
+    var wl=getWL();
+    if(S.speed*S.time>wl*1.5){
+      var fcX=-1;
+      for(var fi=2;fi<S.nP-2;fi++){
+        var da=getDisp(fi-0.5,S.time),db=getDisp(fi,S.time),dc=getDisp(fi+0.5,S.time);
+        if(db>da&&db>dc&&db>S.amp*0.5&&fi*spacing>ropeStart+30){fcX=fi*spacing;break;}
+      }
+      if(fcX>0&&fcX+wl<ropeEnd-30){
+        var annY=midY-S.amp-22;
+        wx.strokeStyle='rgba(106,27,154,.4)';wx.fillStyle='rgba(106,27,154,.55)';wx.lineWidth=1;
+        wx.beginPath();wx.moveTo(fcX,annY);wx.lineTo(fcX+wl,annY);wx.stroke();
+        wx.beginPath();wx.moveTo(fcX+4,annY-3);wx.lineTo(fcX,annY);wx.lineTo(fcX+4,annY+3);wx.fill();
+        wx.beginPath();wx.moveTo(fcX+wl-4,annY-3);wx.lineTo(fcX+wl,annY);wx.lineTo(fcX+wl-4,annY+3);wx.fill();
+        wx.font='bold 9px sans-serif';wx.textAlign='center';
+        wx.fillText('λ = '+wl.toFixed(0)+' px',fcX+wl/2,annY-5);
+        var ampX=fcX+wl*0.55;
+        wx.strokeStyle='rgba(0,105,92,.4)';wx.fillStyle='rgba(0,105,92,.55)';
+        wx.beginPath();wx.moveTo(ampX,midY);wx.lineTo(ampX,midY-S.amp);wx.stroke();
+        wx.beginPath();wx.moveTo(ampX-3,midY-4);wx.lineTo(ampX,midY);wx.lineTo(ampX+3,midY-4);wx.fill();
+        wx.beginPath();wx.moveTo(ampX-3,midY-S.amp+4);wx.lineTo(ampX,midY-S.amp);wx.lineTo(ampX+3,midY-S.amp+4);wx.fill();
+        wx.font='bold 8px sans-serif';wx.fillText('A',ampX+10,midY-S.amp/2+3);
+      }
+    }
+
+    // Direction labels
+    wx.fillStyle='rgba(0,0,0,.4)';wx.font='bold 10px sans-serif';wx.textAlign='left';
+    wx.fillText('Wave →',ropeStart,cH-16);wx.fillText('Particle ↕',ropeStart,cH-4);
+
+  }else if(type==='spring'){
+    // ===== SPRING / SLINKY — Metallic elliptical coils =====
+    var spStartX=50,spEndX=cW-16;
+
+    // Fixed wall on right
+    wx.fillStyle='#455A64';wx.fillRect(cW-12,midY-30,12,60);
+    wx.strokeStyle='#37474F';wx.lineWidth=0.5;
+    for(var sw=midY-30;sw<midY+30;sw+=6){wx.beginPath();wx.moveTo(cW-12,sw);wx.lineTo(cW,sw);wx.stroke();}
+
+    // Piston/hand on left
+    var hDisp=getDisp(0,S.time);
+    var pistonFace=12+hDisp*0.8;
+    wx.fillStyle='#78909C';wx.fillRect(-4,midY-6,pistonFace+4,12);
+    wx.fillStyle='#455A64';
+    wx.beginPath();wx.roundRect(pistonFace-4,midY-18,10,36,3);wx.fill();
+    wx.fillStyle='#546E7A';wx.beginPath();wx.roundRect(pistonFace-2,midY-14,6,28,2);wx.fill();
+
+    // Coil ring positions
+    var nCoils=S.nP;
+    var eqSp=(spEndX-spStartX)/nCoils;
+    var coilH=24;
+
+    // Density shading behind coils
+    for(var ci=0;ci<nCoils-1;ci++){
+      var ceq1=spStartX+ci*eqSp,ceq2=spStartX+(ci+1)*eqSp;
+      var cd1=getDispX(ceq1,S.time),cd2=getDispX(ceq2,S.time);
+      var cx1=ceq1+cd1,cx2=ceq2+cd2;
+      var gap=cx2-cx1;
+      var density=Math.max(0.05,Math.min(1,eqSp/Math.max(gap,0.5)));
+      wx.fillStyle='rgba(106,27,154,'+(density*0.1)+')';
+      wx.fillRect(Math.min(cx1,cx2),midY-coilH-4,Math.abs(gap)+1,coilH*2+8);
+    }
+
+    // C and R labels
+    for(var ci2=3;ci2<nCoils-3;ci2+=4){
+      var ceqL=spStartX+ci2*eqSp;
+      var cdL=getDispX(ceqL,S.time);
+      var ddL=getDispX(spStartX+(ci2+1)*eqSp,S.time)-getDispX(spStartX+(ci2-1)*eqSp,S.time);
+      var lxL=ceqL+cdL;
+      if(ddL<-S.amp*0.1){wx.fillStyle='rgba(106,27,154,.5)';wx.font='bold 10px sans-serif';wx.textAlign='center';wx.fillText('C',lxL,midY-coilH-8);}
+      if(ddL>S.amp*0.1){wx.fillStyle='rgba(0,105,92,.5)';wx.font='bold 10px sans-serif';wx.textAlign='center';wx.fillText('R',lxL,midY-coilH-8);}
+    }
+
+    // Draw coil rings as metallic ellipses
+    for(var ci3=0;ci3<nCoils;ci3++){
+      var ceq3=spStartX+ci3*eqSp;
+      var cd3=getDispX(ceq3,S.time);
+      var cx3=ceq3+cd3;
+
+      // Local compression for ring width
+      var prevCX=ci3>0?(spStartX+(ci3-1)*eqSp+getDispX(spStartX+(ci3-1)*eqSp,S.time)):cx3-eqSp;
+      var nextCX=ci3<nCoils-1?(spStartX+(ci3+1)*eqSp+getDispX(spStartX+(ci3+1)*eqSp,S.time)):cx3+eqSp;
+      var localGap=(nextCX-prevCX)/2;
+      var ringW=Math.max(1.5,Math.min(5,localGap*0.22));
+
+      var isT=ci3===S.tracked;
+
+      // Metallic gradient per ring
+      var mGrad=wx.createLinearGradient(cx3-ringW-1,0,cx3+ringW+1,0);
+      mGrad.addColorStop(0,'#546E7A');
+      mGrad.addColorStop(0.2,'#90A4AE');
+      mGrad.addColorStop(0.45,'#ECEFF1');
+      mGrad.addColorStop(0.55,'#CFD8DC');
+      mGrad.addColorStop(0.8,'#90A4AE');
+      mGrad.addColorStop(1,'#546E7A');
+
+      wx.fillStyle=isT?'#C62828':mGrad;
+      wx.beginPath();wx.ellipse(cx3,midY,ringW,coilH,0,0,Math.PI*2);wx.fill();
+      wx.strokeStyle=isT?'#B71C1C':'rgba(55,71,79,0.45)';
+      wx.lineWidth=isT?1.5:0.5;wx.stroke();
+
+      if(isT){
+        wx.fillStyle='#C62828';wx.font='bold 9px sans-serif';wx.textAlign='center';
+        wx.fillText('x = '+(cd3>0?'+':'')+cd3.toFixed(1),cx3,midY+coilH+16);
+      }
+    }
+
+    // Connecting wire along center
+    wx.strokeStyle='rgba(120,144,156,.2)';wx.lineWidth=1;
+    wx.beginPath();
+    for(var ci4=0;ci4<nCoils;ci4++){
+      var ceq4=spStartX+ci4*eqSp;
+      var cx4=ceq4+getDispX(ceq4,S.time);
+      if(ci4===0)wx.moveTo(cx4,midY);else wx.lineTo(cx4,midY);
+    }
+    wx.stroke();
+
+    // Direction labels
+    wx.fillStyle='rgba(0,0,0,.4)';wx.font='bold 10px sans-serif';wx.textAlign='left';
+    wx.fillText('Wave →',spStartX,cH-16);wx.fillText('Particle ↔',spStartX,cH-4);
+
+  }else if(type==='water'){
+    // ===== WATER WAVE — Depth gradient, foam, boat with reflection =====
+
+    // Sky gradient
+    var skyG=wx.createLinearGradient(0,0,0,midY-S.amp);
+    skyG.addColorStop(0,'#90CAF9');skyG.addColorStop(0.5,'#BBDEFB');skyG.addColorStop(1,'#E1F5FE');
+    wx.fillStyle=skyG;wx.fillRect(0,0,cW,midY+S.amp+30);
+
+    // Water body with deep gradient
+    var waterG=wx.createLinearGradient(0,midY-S.amp,0,cH);
+    waterG.addColorStop(0,'rgba(66,165,245,.85)');
+    waterG.addColorStop(0.15,'#2196F3');
+    waterG.addColorStop(0.4,'#1976D2');
+    waterG.addColorStop(0.7,'#1565C0');
+    waterG.addColorStop(1,'#0D47A1');
+    wx.fillStyle=waterG;wx.beginPath();wx.moveTo(0,cH);
+    for(var wi=0;wi<=200;wi++){
+      var wfi=wi*(S.nP-1)/200;
+      var wd=getDisp(wfi,S.time);
+      wx.lineTo(wi*cW/200,midY-wd);
+    }
+    wx.lineTo(cW,cH);wx.closePath();wx.fill();
+
+    // Surface highlight
+    wx.strokeStyle='rgba(255,255,255,.45)';wx.lineWidth=2.5;wx.beginPath();
+    for(var wi2=0;wi2<=200;wi2++){
+      var wfi2=wi2*(S.nP-1)/200;var wd2=getDisp(wfi2,S.time);
+      if(wi2===0)wx.moveTo(0,midY-wd2);else wx.lineTo(wi2*cW/200,midY-wd2);
+    }
+    wx.stroke();
+    wx.strokeStyle='rgba(30,136,229,.3)';wx.lineWidth=1;wx.beginPath();
+    for(var wi3=0;wi3<=200;wi3++){
+      var wfi3=wi3*(S.nP-1)/200;var wd3=getDisp(wfi3,S.time);
+      if(wi3===0)wx.moveTo(0,midY-wd3+3);else wx.lineTo(wi3*cW/200,midY-wd3+3);
+    }
+    wx.stroke();
+
+    // Foam particles at crests
+    for(var fi=1;fi<S.nP-1;fi++){
+      var fd=getDisp(fi,S.time);
+      if(fd>S.amp*0.45){
+        var foamX=fi*spacing,foamY=midY-fd;
+        var nFoam=Math.floor((fd/S.amp)*6);
+        for(var fc=0;fc<nFoam;fc++){
+          var fx=foamX+Math.sin(fi*7.3+fc*3.1)*8;
+          var fy=foamY+Math.cos(fi*5.7+fc*2.3)*3-2;
+          var fAlpha=0.25+(fd/S.amp)*0.4;
+          var fSize=1+Math.sin(fi*3.3+fc*1.7)*0.8;
+          wx.fillStyle='rgba(255,255,255,'+fAlpha+')';
+          wx.beginPath();wx.arc(fx,fy,Math.max(0.5,fSize),0,Math.PI*2);wx.fill();
+        }
+      }
+    }
+
+    // Underwater depth particles (light caustics effect)
+    wx.fillStyle='rgba(255,255,255,.04)';
+    for(var uc=0;uc<15;uc++){
+      var ucx=(Math.sin(uc*5.1+S.time*0.3)*0.5+0.5)*cW;
+      var ucy=midY+40+uc*12;
+      wx.beginPath();wx.ellipse(ucx,ucy,8+uc*2,3,Math.sin(uc)*0.3,0,Math.PI*2);wx.fill();
+    }
+
+    // Circular orbit particles
+    for(var oi=0;oi<S.nP;oi+=3){
+      var oPhase=2*Math.PI*S.freq*S.time-2*Math.PI*oi*spacing/getWL();
+      var orbR=S.amp*0.38;
+      var owfX=S.speed*S.time;
+      var oEnv=Math.min(1,Math.max(0,(owfX-oi*spacing)/Math.max(15,getWL()*0.5)));
+      var aOrbR=orbR*oEnv;
+      var opx=oi*spacing+Math.cos(oPhase)*aOrbR;
+      var opy=midY-Math.sin(oPhase)*aOrbR;
+      var oIsT=oi===S.tracked||oi===S.tracked-1||oi===S.tracked+1;
+      if(oEnv>0.05){
+        wx.strokeStyle='rgba(255,255,255,.1)';wx.lineWidth=0.5;
+        wx.beginPath();wx.arc(oi*spacing,midY,aOrbR,0,Math.PI*2);wx.stroke();
+      }
+      wx.fillStyle=oIsT?'#C62828':'rgba(255,255,255,.55)';
+      wx.beginPath();wx.arc(opx,opy,oIsT?4.5:2.5,0,Math.PI*2);wx.fill();
+      if(oIsT){
+        var oTd=getDisp(oi,S.time);
+        wx.fillStyle='#C62828';wx.font='bold 9px sans-serif';wx.textAlign='center';
+        wx.fillText('y = '+(oTd>0?'+':'')+oTd.toFixed(1),oi*spacing,midY-aOrbR-10);
+      }
+    }
+
+    // Boat with hull
+    var boatX=cW*0.62,boatI2=Math.round(boatX/spacing);
+    var boatD=getDisp(boatI2,S.time);
+    var boatSlope=(getDisp(boatI2+0.5,S.time)-getDisp(boatI2-0.5,S.time))*0.02;
+    var bBaseY=midY-boatD;
+
+    // Boat reflection first (under water, faded)
+    wx.save();wx.globalAlpha=0.12;
+    wx.fillStyle='#5D4037';
+    wx.beginPath();
+    wx.moveTo(boatX-20,bBaseY+4);wx.quadraticCurveTo(boatX-24,bBaseY+16,boatX-14,bBaseY+18);
+    wx.lineTo(boatX+14,bBaseY+18);wx.quadraticCurveTo(boatX+24,bBaseY+16,boatX+20,bBaseY+4);
+    wx.closePath();wx.fill();
+    wx.restore();
+
+    // Hull
+    wx.save();wx.translate(boatX,bBaseY);wx.rotate(boatSlope);
+    wx.fillStyle='#5D4037';
+    wx.beginPath();
+    wx.moveTo(-20,-3);wx.quadraticCurveTo(-24,9,-14,11);
+    wx.lineTo(14,11);wx.quadraticCurveTo(24,9,20,-3);wx.closePath();wx.fill();
+    wx.strokeStyle='#4E342E';wx.lineWidth=0.8;wx.stroke();
+    // Deck
+    wx.fillStyle='#8D6E63';wx.fillRect(-12,-3,24,3);
+    // Cabin
+    wx.fillStyle='#A1887F';wx.fillRect(-5,-11,10,8);
+    wx.fillStyle='#BCAAA4';wx.fillRect(-3,-9,6,4);
+    // Mast
+    wx.strokeStyle='#4E342E';wx.lineWidth=1.5;
+    wx.beginPath();wx.moveTo(0,-11);wx.lineTo(0,-30);wx.stroke();
+    // Sail
+    wx.fillStyle='rgba(255,255,255,.85)';
+    wx.beginPath();wx.moveTo(1,-28);wx.lineTo(15,-16);wx.lineTo(1,-13);wx.closePath();wx.fill();
+    wx.strokeStyle='rgba(78,52,46,.2)';wx.lineWidth=0.5;wx.stroke();
+    wx.restore();
+
+    // Labels
+    wx.fillStyle='rgba(0,0,0,.35)';wx.font='bold 10px sans-serif';wx.textAlign='left';
+    wx.fillText('Wave →',8,18);wx.fillText('Particle ⟳ (circular orbits)',8,30);
+
+  }else if(type==='sound'){
+    // ===== SOUND WAVE — Speaker cone + pressure shading (no visible molecules) =====
+
+    // Speaker cabinet
+    var cabX=6,cabW=30,cabH=74;
+    wx.fillStyle='#1a1a1a';
+    wx.beginPath();wx.roundRect(cabX,midY-cabH/2,cabW,cabH,6);wx.fill();
+    // Cabinet edge bevel
+    var cabBev=wx.createLinearGradient(cabX,0,cabX+cabW,0);
+    cabBev.addColorStop(0,'#333');cabBev.addColorStop(0.1,'#222');cabBev.addColorStop(0.9,'#111');cabBev.addColorStop(1,'#333');
+    wx.fillStyle=cabBev;
+    wx.beginPath();wx.roundRect(cabX+2,midY-cabH/2+2,cabW-4,cabH-4,4);wx.fill();
+    // Grille mesh pattern
+    wx.strokeStyle='rgba(80,80,80,.4)';wx.lineWidth=0.3;
+    for(var gs=midY-cabH/2+6;gs<midY+cabH/2-4;gs+=3){
+      wx.beginPath();wx.moveTo(cabX+5,gs);wx.lineTo(cabX+cabW-5,gs);wx.stroke();
+    }
+    // Screws
+    wx.fillStyle='#555';
+    [[cabX+6,midY-cabH/2+6],[cabX+cabW-6,midY-cabH/2+6],[cabX+6,midY+cabH/2-6],[cabX+cabW-6,midY+cabH/2-6]].forEach(function(s){
+      wx.beginPath();wx.arc(s[0],s[1],1.8,0,Math.PI*2);wx.fill();
+    });
+
+    // Speaker cone — pumps in/out
+    var spPhase=2*Math.PI*S.freq*S.time;
+    var coneD=Math.sin(spPhase)*12;
+    var coneFace=cabX+cabW;
+    var coneTip=coneFace+18+coneD;
+
+    // Cone surround (rubber)
+    wx.fillStyle='#333';
+    wx.beginPath();
+    wx.moveTo(coneFace,midY-28);wx.lineTo(coneFace+4,midY-32);
+    wx.lineTo(coneTip+2,midY-34);wx.lineTo(coneTip+2,midY+34);
+    wx.lineTo(coneFace+4,midY+32);wx.lineTo(coneFace,midY+28);wx.closePath();wx.fill();
+
+    // Cone body
+    var coneG=wx.createLinearGradient(coneFace,midY-30,coneTip,midY+30);
+    coneG.addColorStop(0,'#78909C');coneG.addColorStop(0.3,'#B0BEC5');
+    coneG.addColorStop(0.6,'#90A4AE');coneG.addColorStop(1,'#607D8B');
+    wx.fillStyle=coneG;
+    wx.beginPath();
+    wx.moveTo(coneFace+2,midY-26);wx.lineTo(coneTip,midY-30);
+    wx.lineTo(coneTip,midY+30);wx.lineTo(coneFace+2,midY+26);wx.closePath();wx.fill();
+    wx.strokeStyle='#455A64';wx.lineWidth=0.8;wx.stroke();
+
+    // Cone ribs (concentric arcs for detail)
+    wx.strokeStyle='rgba(69,90,100,.2)';wx.lineWidth=0.5;
+    for(var cr=8;cr<=22;cr+=7){
+      wx.beginPath();wx.arc(coneTip-2,midY,cr,Math.PI*0.65,Math.PI*1.35);wx.stroke();
+    }
+
+    // Dust cap
+    wx.fillStyle='#37474F';wx.beginPath();wx.arc(coneTip-3,midY,8,0,Math.PI*2);wx.fill();
+    var dcG=wx.createRadialGradient(coneTip-4,midY-2,0,coneTip-3,midY,8);
+    dcG.addColorStop(0,'#546E7A');dcG.addColorStop(1,'#263238');
+    wx.fillStyle=dcG;wx.beginPath();wx.arc(coneTip-3,midY,7,0,Math.PI*2);wx.fill();
+
+    // Speaker label
+    wx.fillStyle='rgba(55,71,79,.5)';wx.font='bold 7px sans-serif';wx.textAlign='center';
+    wx.fillText('SPEAKER',cabX+cabW/2,midY+cabH/2+12);
+
+    // Pressure shading bands (Schlieren-style visualization)
+    var sndStart=coneTip+12;
+    for(var sx=sndStart;sx<cW-8;sx+=3){
+      var sfi=(sx-sndStart)*S.nP/(cW-sndStart);
+      var sd1=getDisp(sfi-0.4,S.time);
+      var sd2=getDisp(sfi+0.4,S.time);
+      var pressure=-(sd2-sd1)/0.8;
+      var pNorm=pressure/S.amp;
+      var bandH=70+Math.abs(pNorm)*25;
+      if(pNorm>0.02){
+        wx.fillStyle='rgba(38,50,56,'+Math.min(0.22,pNorm*0.18)+')';
+        wx.fillRect(sx,midY-bandH/2,3,bandH);
+      }else if(pNorm<-0.02){
+        wx.fillStyle='rgba(255,235,210,'+Math.min(0.18,Math.abs(pNorm)*0.14)+')';
+        wx.fillRect(sx,midY-bandH/2,3,bandH);
+      }
+    }
+
+    // Concentric pressure arcs traveling outward
+    var arcWL=getWL()*(cW-sndStart)/cW;
+    if(arcWL>5){
+      for(var ai=0;ai<10;ai++){
+        var arcR=((S.speed*S.time*(cW-sndStart)/cW)%Math.max(1,arcWL))+ai*arcWL;
+        if(arcR<8||arcR>cW-sndStart)continue;
+        var arcA=Math.max(0,0.18*(1-arcR/(cW-sndStart)));
+        wx.strokeStyle='rgba(106,27,154,'+arcA+')';wx.lineWidth=1.2;
+        wx.beginPath();wx.arc(sndStart,midY,arcR,-Math.PI*0.38,Math.PI*0.38);wx.stroke();
+      }
+    }
+
+    // Pressure labels
+    for(var pi2=5;pi2<S.nP-5;pi2+=6){
+      var pd1=getDisp(pi2-1,S.time),pd2=getDisp(pi2+1,S.time);
+      var pVal=-(pd2-pd1)/2;
+      var plx=sndStart+pi2*(cW-sndStart)/S.nP;
+      if(pVal>S.amp*0.06){
+        wx.fillStyle='rgba(106,27,154,.4)';wx.font='bold 9px sans-serif';wx.textAlign='center';
+        wx.fillText('High P',plx,midY-50);
+      }
+      if(pVal<-S.amp*0.06){
+        wx.fillStyle='rgba(0,105,92,.4)';wx.font='bold 9px sans-serif';wx.textAlign='center';
+        wx.fillText('Low P',plx,midY-50);
+      }
+    }
+
+    // Direction labels
+    wx.fillStyle='rgba(0,0,0,.4)';wx.font='bold 10px sans-serif';wx.textAlign='left';
+    wx.fillText('Wave →',sndStart+8,cH-16);wx.fillText('Particle ↔  (air molecules oscillate)',sndStart+8,cH-4);
+
+  }else if(type==='light'){
+    // ===== LIGHT WAVE (EM) — Abstract is correct =====
+    var emStart=50;
+
+    // Light source glow
+    var srcGlow=wx.createRadialGradient(25,midY,0,25,midY,22);
+    srcGlow.addColorStop(0,'rgba(255,249,196,.6)');srcGlow.addColorStop(0.5,'rgba(253,216,53,.3)');srcGlow.addColorStop(1,'rgba(249,168,37,0)');
+    wx.fillStyle=srcGlow;wx.beginPath();wx.arc(25,midY,22,0,Math.PI*2);wx.fill();
+
+    var srcG=wx.createRadialGradient(25,midY,0,25,midY,14);
+    srcG.addColorStop(0,'#FFF9C4');srcG.addColorStop(0.5,'#FDD835');srcG.addColorStop(1,'#F9A825');
+    wx.fillStyle=srcG;wx.beginPath();wx.arc(25,midY,14,0,Math.PI*2);wx.fill();
+    wx.fillStyle='#FFF';wx.beginPath();wx.arc(25,midY,5,0,Math.PI*2);wx.fill();
+    wx.fillStyle='#555';wx.font='bold 7px sans-serif';wx.textAlign='center';wx.fillText('SOURCE',25,midY+24);
+
+    // E field (vertical oscillation, blue)
+    wx.strokeStyle='#1565C0';wx.lineWidth=2.5;wx.beginPath();
+    for(var ei=0;ei<200;ei++){
+      var efi=ei*(S.nP/200);var ed=getDisp(efi,S.time);
+      var elx=emStart+(cW-emStart-20)*ei/200;
+      if(ei===0)wx.moveTo(elx,midY-ed*0.8);else wx.lineTo(elx,midY-ed*0.8);
+    }
+    wx.stroke();
+    // E field fill (subtle)
+    wx.fillStyle='rgba(21,101,192,.06)';wx.beginPath();
+    wx.moveTo(emStart,midY);
+    for(var ei2=0;ei2<200;ei2++){
+      var efi2=ei2*(S.nP/200);var ed2=getDisp(efi2,S.time);
+      wx.lineTo(emStart+(cW-emStart-20)*ei2/200,midY-ed2*0.8);
+    }
+    wx.lineTo(emStart+(cW-emStart-20),midY);wx.closePath();wx.fill();
+
+    // B field (perspective, red)
+    wx.strokeStyle='#C62828';wx.lineWidth=2;wx.beginPath();
+    for(var bi=0;bi<200;bi++){
+      var bfi=bi*(S.nP/200);var bd=getDisp(bfi,S.time);
+      var blx=emStart+(cW-emStart-20)*bi/200;
+      if(bi===0)wx.moveTo(blx,midY+bd*0.3);else wx.lineTo(blx,midY+bd*0.3);
+    }
+    wx.stroke();
+
+    // Propagation arrow
+    wx.strokeStyle='#4CAF50';wx.lineWidth=2;
+    wx.beginPath();wx.moveTo(emStart,midY);wx.lineTo(cW-30,midY);wx.stroke();
+    wx.fillStyle='#4CAF50';wx.beginPath();
+    wx.moveTo(cW-36,midY-5);wx.lineTo(cW-28,midY);wx.lineTo(cW-36,midY+5);wx.fill();
+
+    // Labels
+    wx.font='bold 11px sans-serif';
+    wx.fillStyle='#1565C0';wx.textAlign='left';wx.fillText('E field ↕',emStart,20);
+    wx.fillStyle='#C62828';wx.fillText('B field (into/out of screen)',emStart,34);
+    wx.fillStyle='#4CAF50';wx.fillText('Direction of propagation →',emStart,48);
+    wx.fillStyle='#555';wx.font='9px sans-serif';
+    wx.fillText('No medium needed — travels through vacuum at c = 3×10⁸ m/s',emStart,cH-8);
+  }
+
+  // Tracked particle info box (string, spring, sound)
+  if(S.tracked>=0&&type!=='light'&&type!=='water'){
+    var trd=getDisp(S.tracked,S.time);
+    wx.fillStyle='rgba(0,0,0,.6)';wx.beginPath();wx.roundRect(cW-174,cH-40,164,34,6);wx.fill();
+    wx.fillStyle='#fff';wx.font='bold 9px sans-serif';wx.textAlign='left';
+    wx.fillText('Particle #'+S.tracked+':  y = '+trd.toFixed(1)+' px',cW-168,cH-22);
+    wx.fillStyle='rgba(255,255,255,.6)';wx.font='8px sans-serif';
+    wx.fillText('Click any particle to track',cW-168,cH-10);
+  }
+
+  // Side view panel
+  if(S.showSide){
+    var svW=70,svH=110,svX=cW-svW-8,svY=8;
+    wx.fillStyle='rgba(255,255,255,.92)';wx.beginPath();wx.roundRect(svX,svY,svW,svH,6);wx.fill();
+    wx.strokeStyle='rgba(0,0,0,.1)';wx.lineWidth=1;wx.stroke();
+    wx.fillStyle='#333';wx.font='bold 8px sans-serif';wx.textAlign='center';wx.fillText('SIDE VIEW',svX+svW/2,svY+12);
+    var svMid=svY+svH/2+8;
+    for(var sv=S.nP-6;sv<S.nP;sv++){
+      var svd=getDisp(sv,S.time);var depth=(S.nP-sv)/6;
+      wx.fillStyle='rgba(92,107,192,'+(0.15+depth*0.15)+')';var svr=2+depth*2.5;
+      if(type==='spring'||type==='sound'){wx.beginPath();wx.arc(svX+svW/2+svd*0.4,svMid,svr,0,Math.PI*2);wx.fill();}
+      else{wx.beginPath();wx.arc(svX+svW/2,svMid-svd*0.4,svr,0,Math.PI*2);wx.fill();}
+    }
+  }
+  if(S.showTop){
+    var tvW=70,tvH=60,tvX=cW-tvW-8,tvY=S.showSide?128:8;
+    wx.fillStyle='rgba(255,255,255,.92)';wx.beginPath();wx.roundRect(tvX,tvY,tvW,tvH,6);wx.fill();
+    wx.strokeStyle='rgba(0,0,0,.1)';wx.lineWidth=1;wx.stroke();
+    wx.fillStyle='#333';wx.font='bold 8px sans-serif';wx.textAlign='center';wx.fillText('TOP VIEW',tvX+tvW/2,tvY+12);
+    for(var tv=0;tv<10;tv++){
+      var tvi=tv*Math.floor(S.nP/10);var tvd=getDisp(tvi,S.time);
+      var tvpx=tvX+6+tv*(tvW-12)/10;
+      if(type==='spring'||type==='sound'){wx.fillStyle='#5C6BC0';wx.beginPath();wx.arc(tvpx+tvd*0.25,tvY+tvH/2+8,2.5,0,Math.PI*2);wx.fill();}
+      else{wx.fillStyle='#5C6BC0';wx.beginPath();wx.arc(tvpx,tvY+tvH/2+8,2.5,0,Math.PI*2);wx.fill();}
+    }
+  }
+}
+
+// ===== GRAPH =====
+function drawGraph(){
+  gx.fillStyle='#fff';gx.fillRect(0,0,gW,gH);
+  var pad={t:16,b:28,l:48,r:14},pW2=gW-pad.l-pad.r,pH2=gH-pad.t-pad.b;
+  var midY3=pad.t+pH2/2;
+  gx.strokeStyle='rgba(0,0,0,.05)';gx.lineWidth=0.5;
+  var xStep=getWL()>20?getWL():50;
+  gx.fillStyle='#aaa';gx.font='7px sans-serif';gx.textAlign='center';
+  for(var xg=0;xg<=cW;xg+=xStep){var gxp=pad.l+(xg/cW)*pW2;gx.beginPath();gx.moveTo(gxp,pad.t);gx.lineTo(gxp,pad.t+pH2);gx.stroke();gx.fillText(xg.toFixed(0),gxp,pad.t+pH2+10);}
+  gx.textAlign='right';
+  [-S.amp,-S.amp/2,0,S.amp/2,S.amp].forEach(function(yv){
+    var gyp=midY3-yv*(pH2/2)/S.amp*0.8;
+    gx.strokeStyle=yv===0?'rgba(0,0,0,.12)':'rgba(0,0,0,.04)';gx.lineWidth=yv===0?1:0.5;
+    gx.beginPath();gx.moveTo(pad.l,gyp);gx.lineTo(pad.l+pW2,gyp);gx.stroke();
+    gx.fillStyle='#888';gx.fillText(yv.toFixed(0),pad.l-4,gyp+3);
+  });
+  gx.strokeStyle='rgba(0,0,0,.2)';gx.lineWidth=1.5;gx.beginPath();gx.moveTo(pad.l,pad.t);gx.lineTo(pad.l,pad.t+pH2);gx.lineTo(pad.l+pW2,pad.t+pH2);gx.stroke();
+  gx.fillStyle='#555';gx.font='9px sans-serif';gx.textAlign='center';gx.fillText('Position x (px)',pad.l+pW2/2,gH-4);
+  gx.save();gx.translate(12,pad.t+pH2/2);gx.rotate(-Math.PI/2);gx.fillText('Displacement y (px)',0,0);gx.restore();
+  gx.fillStyle='#1a1a1a';gx.font='bold 10px sans-serif';gx.fillText('y(x, t='+S.time.toFixed(2)+'s)',pad.l+pW2/2,10);
+  gx.strokeStyle='#1565C0';gx.lineWidth=2;gx.beginPath();
+  for(var i=0;i<=200;i++){var fi=i*(S.nP-1)/200;var d=getDisp(fi,S.time);var gx2=pad.l+(i/200)*pW2;var gy=midY3-d*(pH2/2)/S.amp*0.8;if(i===0)gx.moveTo(gx2,gy);else gx.lineTo(gx2,gy);}
+  gx.stroke();
+  if(S.tracked>=0){var td=getDisp(S.tracked,S.time);var tgx=pad.l+(S.tracked/S.nP)*pW2;var tgy=midY3-td*(pH2/2)/S.amp*0.8;gx.fillStyle='#C62828';gx.beginPath();gx.arc(tgx,tgy,5,0,Math.PI*2);gx.fill();}
+}
+
+// ===== CONTROLS =====
+function buildControls(){
+  var wl=getWL(),T=getT();
+  var h='<div class="ctrl"><div class="sl-g"><label>Freq</label><input type="range" min="0.3" max="6" step="0.1" value="'+S.freq+'" oninput="S.freq=+this.value;$(\'vF\').textContent=S.freq.toFixed(1)"><span class="sv" id="vF">'+S.freq.toFixed(1)+'</span><span class="unit">Hz</span></div></div>';
+  h+='<div class="ctrl"><div class="sl-g"><label>Amp</label><input type="range" min="5" max="60" step="1" value="'+S.amp+'" oninput="S.amp=+this.value;$(\'vA\').textContent=S.amp"><span class="sv" id="vA">'+S.amp+'</span><span class="unit">px</span></div></div>';
+  h+='<div class="ctrl"><div class="sl-g"><label>Speed</label><input type="range" min="20" max="250" step="5" value="'+S.speed+'" oninput="S.speed=+this.value;$(\'vVS\').textContent=S.speed"><span class="sv" id="vVS">'+S.speed+'</span><span class="unit">px/s</span></div></div>';
+  h+='<div class="ctrl"><div class="sl-g"><label style="color:var(--accent3)">Slow Mo</label><input type="range" min="0.1" max="2" step="0.1" value="'+S.simSpeed+'" oninput="S.simSpeed=+this.value;$(\'vSS\').textContent=this.value"><span class="sv" id="vSS">'+S.simSpeed+'</span><span class="unit">×</span></div></div>';
+  h+='<div class="ctrl">';
+  h+='<button class="btn '+(S.paused?'btn-ok':'btn-s')+'" onclick="S.paused=!S.paused;buildControls()">'+(S.paused?'▶ Play':'⏸ Pause')+'</button>';
+  h+='<button class="btn btn-s" onclick="S.time=0">Reset</button>';
+  h+='<label style="font-size:.56rem;display:flex;align-items:center;gap:2px;margin-left:8px"><input type="checkbox" '+(S.showSide?'checked':'')+' onchange="S.showSide=this.checked"> Side View</label>';
+  h+='<label style="font-size:.56rem;display:flex;align-items:center;gap:2px"><input type="checkbox" '+(S.showTop?'checked':'')+' onchange="S.showTop=this.checked"> Top View</label>';
+  h+='</div>';
+  h+='<div class="eq-box"><strong>v = fλ</strong>  →  '+S.speed+' = '+S.freq.toFixed(1)+' × '+wl.toFixed(1)+'  |  <strong>T = 1/f</strong> = '+T.toFixed(3)+' s  |  <strong>λ = v/f</strong> = '+wl.toFixed(1)+' px</div>';
+  $('controls').innerHTML=h;
+}
+
+function buildSidebar(){
+  var wl=getWL(),T=getT(),sc=SCENES[scene];
+  $('sidebar').innerHTML=
+    '<div class="sc"><h4>Wave Properties</h4><div class="stat-g">'+
+    '<div class="si"><div class="sl2">Frequency</div><div class="sv3">'+S.freq.toFixed(1)+' Hz</div></div>'+
+    '<div class="si"><div class="sl2">Wavelength</div><div class="sv3">'+wl.toFixed(1)+' px</div></div>'+
+    '<div class="si"><div class="sl2">Speed</div><div class="sv3">'+S.speed+' px/s</div></div>'+
+    '<div class="si"><div class="sl2">Period</div><div class="sv3">'+T.toFixed(3)+' s</div></div>'+
+    '<div class="si"><div class="sl2">Amplitude</div><div class="sv3">'+S.amp+' px</div></div>'+
+    '<div class="si"><div class="sl2">Wave Type</div><div class="sv3">'+sc.n+'</div></div>'+
+    '</div></div>'+
+    '<div class="sc"><h4>About This Wave</h4><div class="sd">'+
+    (sc.type==='string'?'<strong>String/Rope:</strong> Transverse wave. Particles move up-down. Speed depends on tension and mass per unit length: v = √(T/μ).':
+     sc.type==='spring'?'<strong>Slinky/Spring:</strong> Longitudinal wave. Particles move left-right. Compressions (coils close together) and rarefactions (coils spread apart) travel along the spring.':
+     sc.type==='water'?'<strong>Water:</strong> Surface particles move in circular orbits — a combination of transverse and longitudinal. Deeper particles have smaller orbits. Boats bob up and down but do not travel with the wave.':
+     sc.type==='sound'?'<strong>Sound:</strong> Longitudinal wave through air. Cannot travel through vacuum. Speed in air ≈ 343 m/s. Frequency determines pitch. Amplitude determines loudness.':
+     '<strong>Light:</strong> Transverse electromagnetic wave. E and B fields oscillate perpendicular to each other and to propagation direction. Does not need a medium. Speed in vacuum: c = 3×10⁸ m/s.')+
+    '</div></div>'+
+    (S.tracked>=0?'<div class="sc"><h4>Tracked Particle #'+S.tracked+'</h4><div class="sd">Displacement: <strong>'+getDisp(S.tracked,S.time).toFixed(1)+' px</strong><br>This particle oscillates in place. Energy passes through it without carrying it along.</div></div>':'');
+}
+
+function setScene(i){
+  scene=i;S.tracked=-1;S.time=0;
+  document.querySelectorAll('.mb').forEach(function(b,j){b.classList.toggle('on',j===i);});
+  $('guideBar').innerHTML=SCENES[i].guide;
+  if(i===0){S.freq=1.2;S.amp=35;S.speed=80;S.simSpeed=0.4;}
+  if(i===1){S.freq=1.5;S.amp=35;S.speed=80;S.simSpeed=0.4;}
+  if(i===2){S.freq=1.5;S.amp=25;S.speed=80;S.simSpeed=0.4;}
+  if(i===3){S.freq=1;S.amp=30;S.speed=60;S.simSpeed=0.3;}
+  if(i===4){S.freq=2;S.amp=20;S.speed=100;S.simSpeed=0.4;}
+  if(i===5){S.freq=2;S.amp=30;S.speed=150;S.simSpeed=0.5;}
+  buildControls();buildSidebar();
+}
+window.setScene=setScene;
+
+var lastT=0;
+function animate(ts){
+  requestAnimationFrame(animate);
+  var dt=(ts-lastT)/1000;lastT=ts;
+  if(!S.paused&&dt<0.1)S.time+=dt*S.simSpeed;
+  drawWave();drawGraph();
+  if(Math.floor(S.time*10)%15===0)buildSidebar();
+}
+
+window.bts=function(el,i){document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on');});el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(function(){initGr();drawGr();},80);};
+
+var manD=[],expD=[];
+var EIV=[{id:'f',n:'Frequency (Hz)'},{id:'wl',n:'Wavelength (px)'},{id:'v',n:'Wave Speed (px/s)'},{id:'A',n:'Amplitude (px)'}];
+var EDV=[{id:'wl',n:'Wavelength (px)'},{id:'f',n:'Frequency (Hz)'},{id:'T',n:'Period (s)'},{id:'v',n:'Wave Speed (px/s)'}];
+function getSimIV(){var iv=$('selIV')?$('selIV').value:'f';if(iv==='f')return S.freq;if(iv==='wl')return getWL();if(iv==='v')return S.speed;return S.amp;}
+function getSimDV(){var dv=$('selDV')?$('selDV').value:'wl';if(dv==='wl')return getWL();if(dv==='f')return S.freq;if(dv==='T')return getT();return S.speed;}
+function getIVN(){var v=$('selIV')?$('selIV').value:'f';for(var i=0;i<EIV.length;i++){if(EIV[i].id===v)return EIV[i].n;}return'IV';}
+function getDVN(){var v=$('selDV')?$('selDV').value:'wl';for(var i=0;i<EDV.length;i++){if(EDV[i].id===v)return EDV[i].n;}return'DV';}
+function buildExp(){var iv=$('selIV')?$('selIV').value:'f';$('expC').innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:4px"><div><label style="font-size:.5rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">IV</label><select id="selIV" onchange="buildExp()" style="width:100%;padding:3px;border-radius:4px;border:1px solid var(--border);font-size:.62rem;background:var(--bg2)">'+EIV.map(function(v){return '<option value="'+v.id+'"'+(v.id===iv?' selected':'')+'>'+v.n+'</option>';}).join('')+'</select></div><div><label style="font-size:.5rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">DV</label><select id="selDV" style="width:100%;padding:3px;border-radius:4px;border:1px solid var(--border);font-size:.62rem;background:var(--bg2)">'+EDV.map(function(v){return '<option value="'+v.id+'">'+v.n+'</option>';}).join('')+'</select></div></div><div style="background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:4px 6px"><div class="ctrl" style="gap:3px"><div style="flex:1"><label style="font-size:.48rem;font-weight:700;color:var(--text3)">IV</label><div style="display:flex;gap:2px"><input class="num-input" id="mIV" step="any" style="width:100%"><button class="btn btn-s" onclick="rIV()" style="font-size:.5rem;padding:2px 4px">Read</button></div></div><div style="flex:1"><label style="font-size:.48rem;font-weight:700;color:var(--text3)">DV</label><div style="display:flex;gap:2px"><input class="num-input" id="mDV" step="any" style="width:100%"><button class="btn btn-s" onclick="rDV()" style="font-size:.5rem;padding:2px 4px">Read</button></div></div><button class="btn btn-p" onclick="addR()">+Add</button><button class="btn btn-ok" onclick="aAdd()">Auto</button></div></div><div id="mT" style="margin-top:3px"></div><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-ok" onclick="plotM()">Plot</button><button class="btn btn-s" onclick="clrM()">Clear</button></div>';}
+window.rIV=function(){if($('mIV'))$('mIV').value=getSimIV().toFixed(2);};window.rDV=function(){if($('mDV'))$('mDV').value=getSimDV().toFixed(2);};window.aAdd=function(){rIV();rDV();addR();};
+window.addR=function(){var iv=parseFloat($('mIV')?$('mIV').value:0),dv=parseFloat($('mDV')?$('mDV').value:0);if(isNaN(iv)||isNaN(dv))return;manD.push({iv:iv,dv:dv});if($('mIV'))$('mIV').value='';if($('mDV'))$('mDV').value='';buildMT();syncM();addN('Data','IV='+iv.toFixed(2)+', DV='+dv.toFixed(2),'#'+manD.length);};
+function buildMT(){if(!manD.length){if($('mT'))$('mT').innerHTML='';return;}var g={};manD.forEach(function(d,i){var k=d.iv.toFixed(2);if(!g[k])g[k]=[];g[k].push({iv:d.iv,dv:d.dv,idx:i});});var ks=Object.keys(g).map(Number).sort(function(a,b2){return a-b2;});var rows='';ks.forEach(function(k){var pts=g[k.toFixed(2)],dvs=pts.map(function(p){return p.dv;}),mn=dvs.reduce(function(a,b2){return a+b2;},0)/dvs.length;pts.forEach(function(p,j){rows+='<tr><td>'+(j===0?k.toFixed(2):'')+'</td><td>'+p.dv.toFixed(2)+'</td><td><span style="cursor:pointer;color:var(--err);opacity:.5" onclick="rmPt('+p.idx+')">x</span></td></tr>';});rows+='<tr class="mean"><td>Mean</td><td class="mean">'+mn.toFixed(2)+'</td><td></td></tr>';});if($('mT'))$('mT').innerHTML='<table class="dt"><thead><tr><th>'+getIVN()+'</th><th>'+getDVN()+'</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';}
+window.rmPt=function(i){manD.splice(i,1);buildMT();syncM();};window.clrM=function(){manD=[];expD=[];buildMT();if($('dW'))$('dW').innerHTML='<p style="font-size:.6rem;color:var(--text3);text-align:center;padding:6px">Collect data first.</p>';drawGr();};
+function syncM(){if(!manD.length){expD=[];return;}var g={};manD.forEach(function(d){var k=d.iv.toFixed(2);if(!g[k])g[k]=[];g[k].push(d.dv);});expD=Object.keys(g).map(Number).sort(function(a,b2){return a-b2;}).map(function(k){var v=g[k.toFixed(2)],mn=v.reduce(function(a,b2){return a+b2;},0)/v.length;return{iv:k,mean:mn};});buildDT();setTimeout(function(){initGr();drawGr();},30);}
+function buildDT(){if(!expD.length)return;$('dW').innerHTML='<table class="dt"><thead><tr><th>'+getIVN()+'</th><th>Mean '+getDVN()+'</th></tr></thead><tbody>'+expD.map(function(r){return '<tr><td>'+r.iv.toFixed(2)+'</td><td class="mean">'+r.mean.toFixed(2)+'</td></tr>';}).join('')+'</tbody></table>';}
+window.plotM=function(){if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(function(){initGr();drawGr();},80);};
+var gCv,gx2;function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');var d=devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)return;gCv.width=w*d;gCv.height=180*d;gCv.style.width=w+'px';gCv.style.height='180px';gx2.setTransform(d,0,0,d,0,0);}
+function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return;}var w=parseInt(gCv.style.width)||500,h=180;gx2.clearRect(0,0,w,h);gx2.fillStyle='#fff';gx2.fillRect(0,0,w,h);if(!expD.length){gx2.fillStyle='#bbb';gx2.font='10px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data and click Plot',w/2,h/2);return;}var P={t:18,r:10,b:30,l:44},pW3=w-P.l-P.r,pH3=h-P.t-P.b;var xs=expD.map(function(r2){return r2.iv;}),ys=expD.map(function(r2){return r2.mean;});var xn=Math.min.apply(null,xs),xx=Math.max.apply(null,xs),yn=Math.min.apply(null,ys),yx=Math.max.apply(null,ys);if(xx-xn<.01){xn-=1;xx+=1;}if(yx-yn<.01){yn=Math.max(0,yn-1);yx+=1;}var xp=(xx-xn)*.1,yp=(yx-yn)*.1;xn-=xp;xx+=xp;yn=Math.max(0,yn-yp);yx+=yp;var tx3=function(v){return P.l+((v-xn)/(xx-xn))*pW3;},ty3=function(v){return P.t+pH3-((v-yn)/(yx-yn))*pH3;};gx2.strokeStyle='rgba(0,0,0,.06)';gx2.lineWidth=.5;for(var i=0;i<=5;i++){gx2.beginPath();gx2.moveTo(tx3(xn+(xx-xn)*i/5),P.t);gx2.lineTo(tx3(xn+(xx-xn)*i/5),P.t+pH3);gx2.stroke();}for(var i2=0;i2<=5;i2++){gx2.beginPath();gx2.moveTo(P.l,ty3(yn+(yx-yn)*i2/5));gx2.lineTo(P.l+pW3,ty3(yn+(yx-yn)*i2/5));gx2.stroke();}gx2.strokeStyle='rgba(0,0,0,.2)';gx2.lineWidth=1.5;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,P.t+pH3);gx2.lineTo(P.l+pW3,P.t+pH3);gx2.stroke();gx2.fillStyle='#888';gx2.font='8px sans-serif';gx2.textAlign='center';for(var i3=0;i3<=5;i3++){gx2.fillText((xn+(xx-xn)*i3/5).toFixed(1),tx3(xn+(xx-xn)*i3/5),P.t+pH3+11);}gx2.textAlign='right';for(var i4=0;i4<=5;i4++){gx2.fillText((yn+(yx-yn)*i4/5).toFixed(1),P.l-3,ty3(yn+(yx-yn)*i4/5)+3);}gx2.fillStyle='#555';gx2.font='9px sans-serif';gx2.textAlign='center';gx2.fillText(getIVN(),P.l+pW3/2,h-4);gx2.save();gx2.translate(8,P.t+pH3/2);gx2.rotate(-Math.PI/2);gx2.fillText(getDVN(),0,0);gx2.restore();if(xs.length>=2){gx2.strokeStyle='#6A1B9A';gx2.lineWidth=1.2;gx2.beginPath();expD.forEach(function(r2,i5){i5===0?gx2.moveTo(tx3(xs[i5]),ty3(ys[i5])):gx2.lineTo(tx3(xs[i5]),ty3(ys[i5]));});gx2.stroke();}gx2.fillStyle='#6A1B9A';xs.forEach(function(x,i5){gx2.beginPath();gx2.arc(tx3(x),ty3(ys[i5]),3.5,0,Math.PI*2);gx2.fill();});}
+
+var IB=[
+  {c:'State',q:'State the difference between transverse and longitudinal waves, giving one example of each.',f:'Transverse: particle displacement perpendicular to wave direction. Example: light, water surface, string. Longitudinal: particle displacement parallel to wave direction. Example: sound, spring compression.'},
+  {c:'Explain',q:'Explain why sound cannot travel through a vacuum but light can.',f:'Sound is a mechanical wave — it needs particles to transmit compressions and rarefactions. In vacuum, there are no particles. Light is an electromagnetic wave — oscillating E and B fields that propagate without a medium.'},
+  {c:'Calculate',q:'A wave has frequency 4.0 Hz and wavelength 0.50 m. Find the wave speed and period.',f:'v = fλ = 4.0 × 0.50 = 2.0 m/s. T = 1/f = 1/4.0 = 0.25 s.'},
+  {c:'Explain',q:'A boat on a lake bobs up and down as waves pass. Explain why it does not move horizontally with the wave.',f:'Water waves transfer energy, not matter. Each water particle moves in a circular orbit, returning to its starting position after each cycle. The boat follows the particle motion — up at crests, down at troughs — but has no net horizontal displacement.'},
+  {c:'Calculate',q:'The speed of sound in air is 343 m/s and in steel is 5100 m/s. A 440 Hz note is played. Find the wavelength in each medium.',f:'Air: λ = v/f = 343/440 = 0.780 m. Steel: λ = 5100/440 = 11.6 m. Same frequency, different wavelength because the speed is different.'},
+  {c:'Explain',q:'Why does the speed of sound increase from air to water to steel?',f:'Sound speed depends on v = √(B/ρ). Steel has a much higher bulk modulus (stiffness) than water or air. Although steel is denser, the stiffness increase dominates. Particles in solids are closer and more strongly bonded, transmitting vibrations faster.'}
+];
+function buildIB(){$('ibL').innerHTML=IB.map(function(q,i){var cls=q.c==='Calculate'?'c':q.c==='Explain'?'e':'s';return '<div class="ib-card"><span class="ib-cmd ib-cmd-'+cls+'">'+q.c+'</span><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea placeholder="Your answer..."></textarea><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-p" onclick="sF('+i+')" style="font-size:.56rem">Show Answer</button></div><div class="ib-ans" id="iF'+i+'">'+q.f+'</div></div>';}).join('');}
+window.sF=function(i){$('iF'+i).classList.toggle('show');if($('iF'+i).classList.contains('show'))addN('IB Q'+(i+1),IB[i].q.substring(0,50)+'...','Answered');};
+var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN();}
+function showN(){$('nbO').innerHTML=nb.length?nb.map(function(n,i){return '<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">-> '+n.r+'</span></div>';}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.58rem;padding:6px">Complete experiments to record.</p>';}
+
+$('guideBar').innerHTML=SCENES[0].guide;
+buildControls();buildSidebar();buildExp();buildIB();showN();
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>
