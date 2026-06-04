@@ -134,5 +134,14 @@ const DP_SIMS = [
     description: "Explore transverse, longitudinal, water, sound, and light waves. Visualise wavelength, frequency, amplitude, and wave speed.",
     file: "sims/waves-lab.html"
   },
+    {
+    id: "wave-phenomena-v3",
+    title: "Wave Phenomena Lab",
+    icon: "🔮",
+    topic: "C.3",
+    topicName: "Wave Phenomena",
+    description: "Explore reflection, refraction, diffraction, interference, and dispersion. Visualise wavefronts and Snell's law.",
+    file: "sims/wave-phenomena.html"
+  },
 
 ];
