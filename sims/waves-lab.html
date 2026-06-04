@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -23,7 +24,6 @@ button{cursor:pointer;font-family:var(--body)}
 .graph-wrap{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--card);margin-top:4px}
 .graph-wrap canvas{display:block;width:100%}
 .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:4px}
-.card-t{font-size:.52rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);font-weight:700;margin-bottom:3px}
 .ctrl{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:3px}
 .sl-g{display:flex;align-items:center;gap:4px;flex:1}
 .sl-g label{font-size:.58rem;font-weight:700;color:var(--text2);min-width:50px;text-transform:uppercase}
@@ -34,13 +34,9 @@ button{cursor:pointer;font-family:var(--body)}
 .btn:hover{transform:translateY(-1px)}
 .btn-p{background:var(--accent);color:#fff}.btn-s{background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
 .btn-ok{background:var(--ok);color:#fff}
-.preset-btn{padding:3px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);font-size:.58rem;font-weight:600;color:var(--text2);transition:.12s}
-.preset-btn:hover{border-color:var(--accent);color:var(--accent)}
-.preset-btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .side{display:flex;flex-direction:column;gap:4px}
 .sc{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:6px 8px}
 .sc h4{font-size:.48rem;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);font-weight:700;margin-bottom:2px}
-.sc .sv2{font-family:var(--mono);font-size:.82rem;font-weight:800;color:var(--accent)}
 .sc .sd{font-size:.58rem;color:var(--text2);line-height:1.5;margin-top:2px}
 .eq-box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-family:var(--display);font-size:.76rem;color:var(--text2);line-height:1.7}
 .eq-box strong{color:var(--accent)}
@@ -115,32 +111,30 @@ button{cursor:pointer;font-family:var(--body)}
 </div>
 
 <script>
-// roundRect polyfill for older canvas implementations
+// roundRect polyfill
 if(!CanvasRenderingContext2D.prototype.roundRect){
   CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
-    if(typeof r==='number')r=[r,r,r,r];
-    if(!Array.isArray(r))r=[0,0,0,0];
-    this.moveTo(x+r[0],y);this.lineTo(x+w-r[1],y);
-    this.arcTo(x+w,y,x+w,y+r[1],r[1]);this.lineTo(x+w,y+h-r[2]);
-    this.arcTo(x+w,y+h,x+w-r[2],y+h,r[2]);this.lineTo(x+r[3],y+h);
-    this.arcTo(x,y+h,x,y+h-r[3],r[3]);this.lineTo(x,y+r[0]);
-    this.arcTo(x,y,x+r[0],y,r[0]);this.closePath();
+    if(typeof r==='number')r=[r,r,r,r];if(!Array.isArray(r))r=[0,0,0,0];
+    this.moveTo(x+r[0],y);this.lineTo(x+w-r[1],y);this.arcTo(x+w,y,x+w,y+r[1],r[1]);
+    this.lineTo(x+w,y+h-r[2]);this.arcTo(x+w,y+h,x+w-r[2],y+h,r[2]);
+    this.lineTo(x+r[3],y+h);this.arcTo(x,y+h,x,y+h-r[3],r[3]);
+    this.lineTo(x,y+r[0]);this.arcTo(x,y,x+r[0],y,r[0]);this.closePath();
   };
 }
 var $=function(id){return document.getElementById(id)};
 var SCENES=[
   {n:'What is a Wave?',bg:'#E8EAF6',type:'string',guide:'<b>A wave transfers energy without transferring matter.</b> Watch the wavefront propagate from the hand. The red tracked particle oscillates in place — energy travels, matter does not.'},
-  {n:'String Wave',bg:'#FFF3E0',type:'string',guide:'<b>A vibrating string creates transverse waves.</b> Particles move perpendicular to wave direction. The thick rope shows a 3D cylindrical appearance. Click any particle to track it.'},
+  {n:'String Wave',bg:'#FFF3E0',type:'string',guide:'<b>A vibrating string creates transverse waves.</b> Particles move perpendicular to wave direction. Toggle Top View to see the wave from above.'},
   {n:'Spring Wave',bg:'#E0F2F1',type:'spring',guide:'<b>Push-pull a spring to create longitudinal waves.</b> Watch metallic coils compress and stretch. Darker regions = compressions (C). Lighter regions = rarefactions (R).'},
-  {n:'Water Wave',bg:'#E3F2FD',type:'water',guide:'<b>Water waves are a mix of transverse and longitudinal.</b> Particles move in circular orbits. The boat bobs but does not travel. Notice foam at the crests.'},
-  {n:'Sound Wave',bg:'#FCE4EC',type:'sound',guide:'<b>Sound is a longitudinal wave in a medium.</b> The speaker cone pumps in and out, creating pressure bands. Dark bands = high pressure (compression). Air itself is invisible — you see pressure variations.'},
-  {n:'Light Wave',bg:'#F3E5F5',type:'light',guide:'<b>Light is a transverse electromagnetic wave.</b> It does not need a medium. Electric (blue) and magnetic (red) fields oscillate perpendicular to each other and to the direction of travel.'},
+  {n:'Water Wave',bg:'#E3F2FD',type:'water',guide:'<b>Water waves are a mix of transverse and longitudinal.</b> Particles move in circular orbits. Toggle Top View to see wave crests from above.'},
+  {n:'Sound Wave',bg:'#FCE4EC',type:'sound',guide:'<b>Sound is a longitudinal wave in a medium.</b> The speaker cone pumps in and out, creating pressure bands. Toggle Top View to see circular wavefronts from above.'},
+  {n:'Light Wave',bg:'#F3E5F5',type:'light',guide:'<b>Light is a transverse electromagnetic wave.</b> It does not need a medium. E (blue) and B (red) fields oscillate perpendicular to each other and to propagation.'},
   {n:'IA Experiment',bg:'#FAFAF7',type:'string',guide:'<b>Design your own wave investigation.</b> Choose IV and DV, collect data, and plot graphs.'}
 ];
 var scene=0;
 $('modes').innerHTML=SCENES.map(function(s,i){return '<div class="mb'+(i===0?' on':'')+'" onclick="setScene('+i+')">'+s.n+'</div>'}).join('');
 
-var S={freq:1.2,amp:35,speed:80,nP:45,time:0,paused:false,simSpeed:0.4,tracked:-1,showSide:false,showTop:false};
+var S={freq:1.2,amp:35,speed:80,nP:45,time:0,paused:false,simSpeed:0.4,tracked:-1,showTop:false};
 function getWL(){return S.speed/S.freq}
 function getT(){return 1/S.freq}
 
@@ -174,23 +168,253 @@ function getDisp(i,t){
   var k=2*Math.PI/getWL();
   var w=2*Math.PI*S.freq;
   var d=S.amp*Math.sin(k*x-w*t);
-  var wfX=S.speed*t;
-  var ramp=Math.max(15,getWL()*0.5);
-  d*=Math.min(1,Math.max(0,(wfX-x)/ramp));
+  if(x>1){
+    var wfX=S.speed*t;
+    var ramp=Math.max(15,getWL()*0.5);
+    d*=Math.min(1,Math.max(0,(wfX-x)/ramp));
+  }
   return d;
 }
+function getDispX(xPos,t){return getDisp(xPos*S.nP/cW,t);}
 
-function getDispX(xPos,t){
-  return getDisp(xPos*S.nP/cW,t);
+// ===== TOP VIEW (full canvas) =====
+function drawTopView(){
+  var sc=SCENES[scene],type=sc.type;
+  var midY=cH/2;
+
+  if(type==='string'){
+    // Top-down view of transverse wave: rope is a horizontal line, displacement shown as color
+    wx.fillStyle='#E8E0D8';wx.fillRect(0,0,cW,cH);
+    // Subtle floor
+    var floorG=wx.createLinearGradient(0,0,0,cH);
+    floorG.addColorStop(0,'#D7CCC8');floorG.addColorStop(0.5,'#EFEBE9');floorG.addColorStop(1,'#D7CCC8');
+    wx.fillStyle=floorG;wx.fillRect(0,0,cW,cH);
+
+    // Wall on right
+    wx.fillStyle='#8D6E63';wx.fillRect(cW-12,midY-40,12,80);
+
+    // Hand on left
+    wx.fillStyle='#FFCCBC';wx.beginPath();wx.arc(16,midY,10,0,Math.PI*2);wx.fill();
+    wx.fillStyle='#D7CCC8';wx.font='bold 7px sans-serif';wx.textAlign='center';
+    wx.fillText('HAND',16,midY+18);
+
+    // Rope from above — straight line with colored particles
+    var ropeX1=28,ropeX2=cW-16;
+    wx.strokeStyle='#8D6E63';wx.lineWidth=6;
+    wx.beginPath();wx.moveTo(ropeX1,midY);wx.lineTo(ropeX2,midY);wx.stroke();
+    wx.strokeStyle='#A1887F';wx.lineWidth=2;
+    wx.beginPath();wx.moveTo(ropeX1,midY-1);wx.lineTo(ropeX2,midY-1);wx.stroke();
+
+    // Particles colored by vertical displacement
+    var spacing=cW/S.nP;
+    for(var i=0;i<S.nP;i++){
+      var px=i*spacing;
+      if(px<ropeX1||px>ropeX2)continue;
+      var d=getDisp(i,S.time);
+      var norm=d/S.amp;
+      var r,g,b;
+      if(norm>0){r=Math.round(200+55*norm);g=Math.round(80-40*norm);b=Math.round(80-40*norm);}
+      else{r=Math.round(80+40*norm);g=Math.round(80+40*norm);b=Math.round(200-55*norm);}
+      var isT=i===S.tracked;
+      var rad=isT?8:4+Math.abs(norm)*3;
+      wx.fillStyle='rgb('+r+','+g+','+b+')';
+      wx.beginPath();wx.arc(px,midY,rad,0,Math.PI*2);wx.fill();
+      if(isT){wx.strokeStyle='#fff';wx.lineWidth=2;wx.stroke();}
+      // Displacement arrow (perpendicular to screen)
+      if(Math.abs(norm)>0.3&&i%3===0){
+        var arrowLen=norm*18;
+        wx.strokeStyle='rgba(0,0,0,.25)';wx.lineWidth=1;
+        wx.beginPath();wx.moveTo(px,midY);wx.lineTo(px,midY-arrowLen);wx.stroke();
+        wx.fillStyle='rgba(0,0,0,.3)';wx.font='7px sans-serif';wx.textAlign='center';
+        wx.fillText(norm>0?'↑':'↓',px,midY-arrowLen-(norm>0?3:-8));
+      }
+    }
+
+    // Legend
+    wx.fillStyle='rgba(0,0,0,.5)';wx.font='bold 11px sans-serif';wx.textAlign='left';
+    wx.fillText('TOP VIEW — Looking down at the string',ropeX1,24);
+    wx.font='9px sans-serif';wx.fillStyle='rgba(0,0,0,.4)';
+    wx.fillText('Red = displaced upward (toward you)   Blue = displaced downward (away from you)',ropeX1,38);
+    // Color bar legend
+    var barX=cW/2-60,barY=cH-30,barW=120,barH=10;
+    for(var lb=0;lb<barW;lb++){
+      var lnorm=(lb/barW)*2-1;
+      var lr,lg,lbb;
+      if(lnorm>0){lr=Math.round(200+55*lnorm);lg=Math.round(80-40*lnorm);lbb=Math.round(80-40*lnorm);}
+      else{lr=Math.round(80+40*lnorm);lg=Math.round(80+40*lnorm);lbb=Math.round(200-55*lnorm);}
+      wx.fillStyle='rgb('+lr+','+lg+','+lbb+')';wx.fillRect(barX+lb,barY,1,barH);
+    }
+    wx.strokeStyle='rgba(0,0,0,.2)';wx.lineWidth=0.5;wx.strokeRect(barX,barY,barW,barH);
+    wx.fillStyle='rgba(0,0,0,.4)';wx.font='7px sans-serif';wx.textAlign='center';
+    wx.fillText('↓ down',barX,barY-2);wx.fillText('0',barX+barW/2,barY-2);wx.fillText('↑ up',barX+barW,barY-2);
+
+  }else if(type==='spring'){
+    // Top-down view of spring — dots moving horizontally (same view essentially)
+    wx.fillStyle='#D0E8E0';wx.fillRect(0,0,cW,cH);
+    wx.fillStyle='#455A64';wx.fillRect(cW-10,midY-30,10,60);
+    var spStart=50,spEnd=cW-14,nCoils=S.nP,eqSp2=(spEnd-spStart)/nCoils;
+
+    // Density shading
+    for(var ci=0;ci<nCoils-1;ci++){
+      var eq1=spStart+ci*eqSp2,eq2=spStart+(ci+1)*eqSp2;
+      var d1=getDispX(eq1,S.time),d2=getDispX(eq2,S.time);
+      var x1=eq1+d1,x2=eq2+d2;
+      var gap=x2-x1;var dens=Math.max(0.05,Math.min(1,eqSp2/Math.max(gap,0.5)));
+      wx.fillStyle='rgba(106,27,154,'+(dens*0.12)+')';
+      wx.fillRect(Math.min(x1,x2),midY-35,Math.abs(gap)+1,70);
+    }
+    // Coil dots from above
+    for(var ci2=0;ci2<nCoils;ci2++){
+      var eq=spStart+ci2*eqSp2;
+      var dd=getDispX(eq,S.time);
+      var cx=eq+dd;
+      var isT2=ci2===S.tracked;
+      wx.fillStyle=isT2?'#C62828':'#78909C';
+      wx.beginPath();wx.arc(cx,midY,isT2?7:4,0,Math.PI*2);wx.fill();
+      wx.strokeStyle=isT2?'#B71C1C':'#546E7A';wx.lineWidth=1;wx.stroke();
+    }
+    // Labels
+    wx.fillStyle='rgba(0,0,0,.5)';wx.font='bold 11px sans-serif';wx.textAlign='left';
+    wx.fillText('TOP VIEW — Looking down at the spring',spStart,24);
+    wx.font='9px sans-serif';wx.fillStyle='rgba(0,0,0,.4)';
+    wx.fillText('Dots represent coil rings seen from above. They compress and stretch horizontally.',spStart,38);
+    wx.fillText('Wave →',spStart,cH-8);wx.fillText('Particle ↔',spStart+70,cH-8);
+
+  }else if(type==='water'){
+    // Top-down view of water — color map showing wave crests/troughs
+    for(var tx=0;tx<cW;tx+=2){
+      var tfi=tx*S.nP/cW;
+      var td=getDisp(tfi,S.time);
+      var norm2=td/S.amp;
+      var bright=0.5+norm2*0.35;
+      var wr=Math.round(20+bright*50);
+      var wg=Math.round(120+bright*80);
+      var wb=Math.round(180+bright*60);
+      wx.fillStyle='rgb('+wr+','+wg+','+wb+')';
+      wx.fillRect(tx,0,2,cH);
+    }
+    // Wave crest lines (white highlights)
+    for(var fi2=1;fi2<S.nP-1;fi2++){
+      var fd2=getDisp(fi2,S.time);
+      if(fd2>S.amp*0.7){
+        var flx=fi2*(cW/S.nP);
+        wx.strokeStyle='rgba(255,255,255,'+(0.2+(fd2/S.amp)*0.3)+')';wx.lineWidth=2;
+        wx.beginPath();wx.moveTo(flx,0);wx.lineTo(flx,cH);wx.stroke();
+      }
+    }
+    // Foam dots at crests
+    for(var fi3=0;fi3<S.nP;fi3++){
+      var fd3=getDisp(fi3,S.time);
+      if(fd3>S.amp*0.5){
+        var fx2=fi3*(cW/S.nP);
+        for(var fy2=20;fy2<cH-20;fy2+=25){
+          var foamAlpha=0.15+(fd3/S.amp)*0.25;
+          wx.fillStyle='rgba(255,255,255,'+foamAlpha+')';
+          wx.beginPath();wx.arc(fx2+Math.sin(fi3*3.7+fy2*0.3)*5,fy2+Math.cos(fi3*2.3+fy2*0.5)*5,1.5,0,Math.PI*2);wx.fill();
+        }
+      }
+    }
+    // Boat from above
+    var boatX=cW*0.62;
+    wx.fillStyle='#5D4037';
+    wx.beginPath();wx.ellipse(boatX,midY,6,16,0,0,Math.PI*2);wx.fill();
+    wx.strokeStyle='#4E342E';wx.lineWidth=1;wx.stroke();
+    wx.fillStyle='#8D6E63';wx.beginPath();wx.ellipse(boatX,midY,3,8,0,0,Math.PI*2);wx.fill();
+    // Labels
+    wx.fillStyle='rgba(255,255,255,.7)';wx.font='bold 11px sans-serif';wx.textAlign='left';
+    wx.fillText('TOP VIEW — Looking down at the water surface',12,22);
+    wx.font='9px sans-serif';
+    wx.fillText('Lighter bands = wave crests    Darker bands = wave troughs    Wave direction →',12,36);
+
+  }else if(type==='sound'){
+    // Top-down view of sound — semicircular pressure wavefronts from speaker
+    wx.fillStyle='#F8E8EC';wx.fillRect(0,0,cW,cH);
+    // Speaker from above
+    var spkX=30;
+    wx.fillStyle='#263238';wx.fillRect(4,midY-16,spkX-4,32);
+    wx.fillStyle='#546E7A';wx.beginPath();wx.arc(spkX,midY,6,0,Math.PI*2);wx.fill();
+    // Pressure wavefronts as concentric semicircles
+    var sndWL=getWL();
+    for(var ar=10;ar<cW;ar+=3){
+      var aPhase=2*Math.PI*(ar/sndWL)-2*Math.PI*S.freq*S.time;
+      var pNorm=Math.sin(aPhase);
+      // Apply wavefront
+      var wfR=S.speed*S.time;
+      if(ar>wfR)continue;
+      var rampEnv=Math.min(1,Math.max(0,(wfR-ar)/(sndWL*0.5)));
+      pNorm*=rampEnv;
+      if(pNorm>0.02){
+        wx.strokeStyle='rgba(38,50,56,'+Math.min(0.2,pNorm*0.15)+')';
+      }else if(pNorm<-0.02){
+        wx.strokeStyle='rgba(255,200,150,'+Math.min(0.15,Math.abs(pNorm)*0.12)+')';
+      }else{continue;}
+      wx.lineWidth=2;wx.beginPath();wx.arc(spkX,midY,ar,Math.PI*-0.48,Math.PI*0.48);wx.stroke();
+    }
+    // High P / Low P labels on the front
+    for(var al=1;al<8;al++){
+      var alR=al*sndWL;if(alR>wfR||alR>cW-40)continue;
+      var alPhase=2*Math.PI*(alR/sndWL)-2*Math.PI*S.freq*S.time;
+      var alP=Math.sin(alPhase);
+      if(Math.abs(alP)>0.4){
+        wx.fillStyle=alP>0?'rgba(106,27,154,.35)':'rgba(0,105,92,.35)';
+        wx.font='bold 9px sans-serif';wx.textAlign='center';
+        wx.fillText(alP>0?'High P':'Low P',spkX+alR,midY-8);
+      }
+    }
+    wx.fillStyle='rgba(0,0,0,.5)';wx.font='bold 11px sans-serif';wx.textAlign='left';
+    wx.fillText('TOP VIEW — Sound pressure wavefronts from above',spkX+20,22);
+    wx.font='9px sans-serif';wx.fillStyle='rgba(0,0,0,.4)';
+    wx.fillText('Dark arcs = compression (high pressure)   Light arcs = rarefaction (low pressure)',spkX+20,36);
+
+  }else if(type==='light'){
+    // EM wave top view — E field as vertical bars, B as horizontal
+    wx.fillStyle='#EDE7F6';wx.fillRect(0,0,cW,cH);
+    // Source
+    wx.fillStyle='#FDD835';wx.beginPath();wx.arc(20,midY,10,0,Math.PI*2);wx.fill();
+    // E field bars (vertical) — representing oscillation in/out of screen
+    for(var ei=0;ei<200;ei++){
+      var efi=ei*(S.nP/200);var ed=getDisp(efi,S.time);
+      var elx=40+(cW-60)*ei/200;
+      var eNorm=ed/S.amp;
+      if(Math.abs(eNorm)>0.05){
+        var eAlpha=Math.abs(eNorm)*0.3;
+        wx.strokeStyle=eNorm>0?'rgba(21,101,192,'+eAlpha+')':'rgba(21,101,192,'+eAlpha+')';
+        wx.lineWidth=1.5;
+        var eLen=Math.abs(eNorm)*30;
+        wx.beginPath();wx.moveTo(elx,midY-eLen);wx.lineTo(elx,midY+eLen);wx.stroke();
+      }
+    }
+    // Propagation arrow
+    wx.strokeStyle='#4CAF50';wx.lineWidth=2;
+    wx.beginPath();wx.moveTo(40,midY);wx.lineTo(cW-30,midY);wx.stroke();
+    wx.fillStyle='#4CAF50';wx.beginPath();wx.moveTo(cW-36,midY-5);wx.lineTo(cW-28,midY);wx.lineTo(cW-36,midY+5);wx.fill();
+    wx.fillStyle='rgba(0,0,0,.5)';wx.font='bold 11px sans-serif';wx.textAlign='left';
+    wx.fillText('TOP VIEW — EM wave from above',40,22);
+    wx.font='9px sans-serif';wx.fillStyle='rgba(0,0,0,.4)';
+    wx.fillText('Blue bars = E field oscillation amplitude (vertical, into/out of screen from this view)',40,36);
+    wx.fillStyle='#4CAF50';wx.fillText('Green arrow = propagation direction →',40,cH-10);
+  }
+  // Top view tracked particle info
+  if(S.tracked>=0&&type!=='light'){
+    var trd=getDisp(S.tracked,S.time);
+    wx.fillStyle='rgba(0,0,0,.6)';wx.beginPath();wx.roundRect(cW-174,cH-40,164,34,6);wx.fill();
+    wx.fillStyle='#fff';wx.font='bold 9px sans-serif';wx.textAlign='left';
+    wx.fillText('Particle #'+S.tracked+':  y = '+trd.toFixed(1)+' px',cW-168,cH-22);
+    wx.fillStyle='rgba(255,255,255,.6)';wx.font='8px sans-serif';
+    wx.fillText('Click any particle to track',cW-168,cH-10);
+  }
 }
 
-// ===== DRAW =====
+// ===== SIDE VIEW (default) =====
 function drawWave(){
   var sc=SCENES[scene];
   wx.fillStyle=sc.bg;wx.fillRect(0,0,cW,cH);
+
+  if(S.showTop){drawTopView();return;}
+
   wx.strokeStyle='rgba(0,0,0,.04)';wx.lineWidth=0.5;
-  for(var g1=0;g1<cW;g1+=40){wx.beginPath();wx.moveTo(g1,0);wx.lineTo(g1,cH);wx.stroke()}
-  for(var g2=0;g2<cH;g2+=40){wx.beginPath();wx.moveTo(0,g2);wx.lineTo(cW,g2);wx.stroke()}
+  for(var g1=0;g1<cW;g1+=40){wx.beginPath();wx.moveTo(g1,0);wx.lineTo(g1,cH);wx.stroke();}
+  for(var g2=0;g2<cH;g2+=40){wx.beginPath();wx.moveTo(0,g2);wx.lineTo(cW,g2);wx.stroke();}
 
   var midY=cH*0.44;
   var spacing=cW/S.nP;
@@ -202,107 +426,89 @@ function drawWave(){
   }
 
   if(type==='string'){
-    // ===== STRING / ROPE — Thick cylindrical rope with hand source =====
-    var ropeStart=28,ropeEnd=cW-14;
-
-    // Fixed wall on right — brick pattern
-    wx.fillStyle='#5D4037';wx.fillRect(cW-14,midY-32,14,64);
-    wx.strokeStyle='#4E342E';wx.lineWidth=0.6;
-    for(var bk=midY-32;bk<midY+32;bk+=8){
-      wx.beginPath();wx.moveTo(cW-14,bk);wx.lineTo(cW,bk);wx.stroke();
-    }
-    for(var bk2=midY-28;bk2<midY+32;bk2+=16){
-      wx.beginPath();wx.moveTo(cW-7,bk2);wx.lineTo(cW-7,bk2+8);wx.stroke();
-    }
-
-    // Driving hand on left
+    // ===== STRING / ROPE =====
+    var handGripX=26,ropeEnd=cW-14;
+    // The hand IS the source — drives the rope
     var handD=getDisp(0,S.time);
     var handY=midY-handD;
-    wx.fillStyle='#8D6E63';wx.fillRect(-4,handY-5,22,10);
-    wx.fillStyle='#FFCCBC';wx.beginPath();wx.roundRect(14,handY-9,16,18,5);wx.fill();
-    wx.strokeStyle='rgba(141,110,99,.3)';wx.lineWidth=0.5;
-    wx.beginPath();wx.moveTo(16,handY-3);wx.lineTo(28,handY-3);wx.stroke();
-    wx.beginPath();wx.moveTo(16,handY+3);wx.lineTo(28,handY+3);wx.stroke();
 
-    // Build rope path points with normals
+    // Fixed wall on right
+    wx.fillStyle='#5D4037';wx.fillRect(cW-14,midY-32,14,64);
+    wx.strokeStyle='#4E342E';wx.lineWidth=0.6;
+    for(var bk=midY-32;bk<midY+32;bk+=8){wx.beginPath();wx.moveTo(cW-14,bk);wx.lineTo(cW,bk);wx.stroke();}
+    for(var bk2=midY-28;bk2<midY+32;bk2+=16){wx.beginPath();wx.moveTo(cW-7,bk2);wx.lineTo(cW-7,bk2+8);wx.stroke();}
+
+    // Build rope path — first point matches hand position exactly
     var nSeg=180,ropeW=5;
     var rPts=[];
     for(var ri=0;ri<=nSeg;ri++){
-      var rx=ropeStart+(ropeEnd-ropeStart)*ri/nSeg;
-      var rfi=rx/spacing;
-      var rd=getDisp(rfi,S.time);
-      var rx2=ropeStart+(ropeEnd-ropeStart)*Math.min(ri+1,nSeg)/nSeg;
-      var rfi2=rx2/spacing;
-      var rd2=getDisp(rfi2,S.time);
+      var rx=handGripX+(ropeEnd-handGripX)*ri/nSeg;
+      var rd;
+      if(ri===0){
+        rd=handD;
+      }else{
+        rd=getDisp(rx/spacing,S.time);
+      }
+      var rx2=handGripX+(ropeEnd-handGripX)*Math.min(ri+1,nSeg)/nSeg;
+      var rd2=(ri+1>=nSeg)?rd:getDisp(rx2/spacing,S.time);
+      if(ri===0&&nSeg>1){rd2=getDisp(rx2/spacing,S.time);}
       var tdx=rx2-rx||1,tdy=-(rd2-rd);
-      var tlen=Math.sqrt(tdx*tdx+tdy*tdy);
+      var tlen=Math.sqrt(tdx*tdx+tdy*tdy)||1;
       rPts.push({x:rx,y:midY-rd,nx:-tdy/tlen,ny:tdx/tlen});
     }
 
     // Shadow
-    wx.save();
-    wx.globalAlpha=0.15;
-    wx.fillStyle='#000';
-    wx.beginPath();
+    wx.save();wx.globalAlpha=0.15;wx.fillStyle='#000';wx.beginPath();
     for(var ri2=0;ri2<rPts.length;ri2++){
       var p=rPts[ri2];
       if(ri2===0)wx.moveTo(p.x-p.nx*(ropeW+2),p.y-p.ny*(ropeW+2)+6);
       else wx.lineTo(p.x-p.nx*(ropeW+2),p.y-p.ny*(ropeW+2)+6);
     }
     for(var ri3=rPts.length-1;ri3>=0;ri3--){
-      var p2=rPts[ri3];
-      wx.lineTo(p2.x+p2.nx*(ropeW+2),p2.y+p2.ny*(ropeW+2)+6);
+      var p2=rPts[ri3];wx.lineTo(p2.x+p2.nx*(ropeW+2),p2.y+p2.ny*(ropeW+2)+6);
     }
-    wx.closePath();wx.fill();
-    wx.restore();
+    wx.closePath();wx.fill();wx.restore();
 
-    // Rope body — filled band with cylindrical gradient
+    // Rope body
     wx.beginPath();
     for(var ri4=0;ri4<rPts.length;ri4++){
       var p3=rPts[ri4];
-      var tx=p3.x-p3.nx*ropeW,ty=p3.y-p3.ny*ropeW;
-      if(ri4===0)wx.moveTo(tx,ty);else wx.lineTo(tx,ty);
+      if(ri4===0)wx.moveTo(p3.x-p3.nx*ropeW,p3.y-p3.ny*ropeW);
+      else wx.lineTo(p3.x-p3.nx*ropeW,p3.y-p3.ny*ropeW);
     }
     for(var ri5=rPts.length-1;ri5>=0;ri5--){
-      var p4=rPts[ri5];
-      wx.lineTo(p4.x+p4.nx*ropeW,p4.y+p4.ny*ropeW);
+      var p4=rPts[ri5];wx.lineTo(p4.x+p4.nx*ropeW,p4.y+p4.ny*ropeW);
     }
     wx.closePath();
     var ropeGrad=wx.createLinearGradient(0,midY-S.amp-ropeW,0,midY+S.amp+ropeW);
-    ropeGrad.addColorStop(0,'#BCAAA4');
-    ropeGrad.addColorStop(0.2,'#A1887F');
-    ropeGrad.addColorStop(0.45,'#8D6E63');
-    ropeGrad.addColorStop(0.7,'#6D4C41');
-    ropeGrad.addColorStop(1,'#4E342E');
+    ropeGrad.addColorStop(0,'#BCAAA4');ropeGrad.addColorStop(0.2,'#A1887F');
+    ropeGrad.addColorStop(0.45,'#8D6E63');ropeGrad.addColorStop(0.7,'#6D4C41');ropeGrad.addColorStop(1,'#4E342E');
     wx.fillStyle=ropeGrad;wx.fill();
 
-    // Highlight on top edge
-    wx.strokeStyle='rgba(215,204,200,.45)';wx.lineWidth=1.5;
-    wx.beginPath();
+    // Highlight
+    wx.strokeStyle='rgba(215,204,200,.45)';wx.lineWidth=1.5;wx.beginPath();
     for(var ri6=0;ri6<rPts.length;ri6++){
       var p5=rPts[ri6];
-      var hx=p5.x-p5.nx*(ropeW-1.5),hy=p5.y-p5.ny*(ropeW-1.5);
-      if(ri6===0)wx.moveTo(hx,hy);else wx.lineTo(hx,hy);
+      if(ri6===0)wx.moveTo(p5.x-p5.nx*(ropeW-1.5),p5.y-p5.ny*(ropeW-1.5));
+      else wx.lineTo(p5.x-p5.nx*(ropeW-1.5),p5.y-p5.ny*(ropeW-1.5));
     }
     wx.stroke();
 
-    // Rope texture — subtle fiber lines
+    // Fiber lines
     wx.strokeStyle='rgba(78,52,46,.12)';wx.lineWidth=0.4;
-    for(var fib=-2;fib<=2;fib+=2){
-      wx.beginPath();
-      for(var ri7=0;ri7<rPts.length;ri7+=2){
-        var p6=rPts[ri7];
-        var fx=p6.x+p6.nx*fib,fy=p6.y+p6.ny*fib;
-        if(ri7===0)wx.moveTo(fx,fy);else wx.lineTo(fx,fy);
-      }
-      wx.stroke();
-    }
+    for(var fib=-2;fib<=2;fib+=2){wx.beginPath();for(var ri7=0;ri7<rPts.length;ri7+=2){var p6=rPts[ri7];if(ri7===0)wx.moveTo(p6.x+p6.nx*fib,p6.y+p6.ny*fib);else wx.lineTo(p6.x+p6.nx*fib,p6.y+p6.ny*fib);}wx.stroke();}
+
+    // Draw hand AFTER rope so it appears gripping the rope
+    wx.fillStyle='#8D6E63';wx.fillRect(-4,handY-5,22,10);
+    wx.fillStyle='#FFCCBC';wx.beginPath();wx.roundRect(14,handY-9,14,18,5);wx.fill();
+    wx.strokeStyle='rgba(141,110,99,.3)';wx.lineWidth=0.5;
+    wx.beginPath();wx.moveTo(16,handY-3);wx.lineTo(26,handY-3);wx.stroke();
+    wx.beginPath();wx.moveTo(16,handY+3);wx.lineTo(26,handY+3);wx.stroke();
 
     // Particles on rope
     for(var pi=0;pi<S.nP;pi+=2){
-      var pd=getDisp(pi,S.time);
-      var ppx=pi*spacing,ppy=midY-pd;
-      if(ppx<ropeStart||ppx>ropeEnd)continue;
+      var pd=getDisp(pi,S.time);var ppx=pi*spacing,ppy=midY-pd;
+      if(ppx<handGripX||ppx>ropeEnd)continue;
       var isT=pi===S.tracked;
       if(isT){
         wx.fillStyle='#C62828';wx.beginPath();wx.arc(ppx,ppy,6,0,Math.PI*2);wx.fill();
@@ -319,9 +525,9 @@ function drawWave(){
     var wl=getWL();
     if(S.speed*S.time>wl*1.5){
       var fcX=-1;
-      for(var fi=2;fi<S.nP-2;fi++){
-        var da=getDisp(fi-0.5,S.time),db=getDisp(fi,S.time),dc=getDisp(fi+0.5,S.time);
-        if(db>da&&db>dc&&db>S.amp*0.5&&fi*spacing>ropeStart+30){fcX=fi*spacing;break;}
+      for(var fci=2;fci<S.nP-2;fci++){
+        var da=getDisp(fci-0.5,S.time),db=getDisp(fci,S.time),dc=getDisp(fci+0.5,S.time);
+        if(db>da&&db>dc&&db>S.amp*0.5&&fci*spacing>handGripX+30){fcX=fci*spacing;break;}
       }
       if(fcX>0&&fcX+wl<ropeEnd-30){
         var annY=midY-S.amp-22;
@@ -339,429 +545,135 @@ function drawWave(){
         wx.font='bold 8px sans-serif';wx.fillText('A',ampX+10,midY-S.amp/2+3);
       }
     }
-
-    // Direction labels
     wx.fillStyle='rgba(0,0,0,.4)';wx.font='bold 10px sans-serif';wx.textAlign='left';
-    wx.fillText('Wave →',ropeStart,cH-16);wx.fillText('Particle ↕',ropeStart,cH-4);
+    wx.fillText('Wave →',handGripX+4,cH-16);wx.fillText('Particle ↕',handGripX+4,cH-4);
 
   }else if(type==='spring'){
-    // ===== SPRING / SLINKY — Metallic elliptical coils =====
+    // ===== SPRING =====
     var spStartX=50,spEndX=cW-16;
-
-    // Fixed wall on right
     wx.fillStyle='#455A64';wx.fillRect(cW-12,midY-30,12,60);
-    wx.strokeStyle='#37474F';wx.lineWidth=0.5;
-    for(var sw=midY-30;sw<midY+30;sw+=6){wx.beginPath();wx.moveTo(cW-12,sw);wx.lineTo(cW,sw);wx.stroke();}
-
-    // Piston/hand on left
     var hDisp=getDisp(0,S.time);
     var pistonFace=12+hDisp*0.8;
     wx.fillStyle='#78909C';wx.fillRect(-4,midY-6,pistonFace+4,12);
-    wx.fillStyle='#455A64';
-    wx.beginPath();wx.roundRect(pistonFace-4,midY-18,10,36,3);wx.fill();
+    wx.fillStyle='#455A64';wx.beginPath();wx.roundRect(pistonFace-4,midY-18,10,36,3);wx.fill();
     wx.fillStyle='#546E7A';wx.beginPath();wx.roundRect(pistonFace-2,midY-14,6,28,2);wx.fill();
 
-    // Coil ring positions
-    var nCoils=S.nP;
-    var eqSp=(spEndX-spStartX)/nCoils;
-    var coilH=24;
-
-    // Density shading behind coils
+    var nCoils=S.nP,eqSp=(spEndX-spStartX)/nCoils,coilH=24;
     for(var ci=0;ci<nCoils-1;ci++){
       var ceq1=spStartX+ci*eqSp,ceq2=spStartX+(ci+1)*eqSp;
       var cd1=getDispX(ceq1,S.time),cd2=getDispX(ceq2,S.time);
-      var cx1=ceq1+cd1,cx2=ceq2+cd2;
-      var gap=cx2-cx1;
+      var cx1=ceq1+cd1,cx2=ceq2+cd2,gap=cx2-cx1;
       var density=Math.max(0.05,Math.min(1,eqSp/Math.max(gap,0.5)));
       wx.fillStyle='rgba(106,27,154,'+(density*0.1)+')';
       wx.fillRect(Math.min(cx1,cx2),midY-coilH-4,Math.abs(gap)+1,coilH*2+8);
     }
-
-    // C and R labels
     for(var ci2=3;ci2<nCoils-3;ci2+=4){
-      var ceqL=spStartX+ci2*eqSp;
-      var cdL=getDispX(ceqL,S.time);
+      var ceqL=spStartX+ci2*eqSp,cdL=getDispX(ceqL,S.time);
       var ddL=getDispX(spStartX+(ci2+1)*eqSp,S.time)-getDispX(spStartX+(ci2-1)*eqSp,S.time);
-      var lxL=ceqL+cdL;
-      if(ddL<-S.amp*0.1){wx.fillStyle='rgba(106,27,154,.5)';wx.font='bold 10px sans-serif';wx.textAlign='center';wx.fillText('C',lxL,midY-coilH-8);}
-      if(ddL>S.amp*0.1){wx.fillStyle='rgba(0,105,92,.5)';wx.font='bold 10px sans-serif';wx.textAlign='center';wx.fillText('R',lxL,midY-coilH-8);}
+      if(ddL<-S.amp*0.1){wx.fillStyle='rgba(106,27,154,.5)';wx.font='bold 10px sans-serif';wx.textAlign='center';wx.fillText('C',ceqL+cdL,midY-coilH-8);}
+      if(ddL>S.amp*0.1){wx.fillStyle='rgba(0,105,92,.5)';wx.font='bold 10px sans-serif';wx.textAlign='center';wx.fillText('R',ceqL+cdL,midY-coilH-8);}
     }
-
-    // Draw coil rings as metallic ellipses
     for(var ci3=0;ci3<nCoils;ci3++){
-      var ceq3=spStartX+ci3*eqSp;
-      var cd3=getDispX(ceq3,S.time);
-      var cx3=ceq3+cd3;
-
-      // Local compression for ring width
+      var ceq3=spStartX+ci3*eqSp,cd3=getDispX(ceq3,S.time),cx3=ceq3+cd3;
       var prevCX=ci3>0?(spStartX+(ci3-1)*eqSp+getDispX(spStartX+(ci3-1)*eqSp,S.time)):cx3-eqSp;
       var nextCX=ci3<nCoils-1?(spStartX+(ci3+1)*eqSp+getDispX(spStartX+(ci3+1)*eqSp,S.time)):cx3+eqSp;
-      var localGap=(nextCX-prevCX)/2;
-      var ringW=Math.max(1.5,Math.min(5,localGap*0.22));
-
-      var isT=ci3===S.tracked;
-
-      // Metallic gradient per ring
+      var ringW=Math.max(1.5,Math.min(5,(nextCX-prevCX)/2*0.22));
+      var isT3=ci3===S.tracked;
       var mGrad=wx.createLinearGradient(cx3-ringW-1,0,cx3+ringW+1,0);
-      mGrad.addColorStop(0,'#546E7A');
-      mGrad.addColorStop(0.2,'#90A4AE');
-      mGrad.addColorStop(0.45,'#ECEFF1');
-      mGrad.addColorStop(0.55,'#CFD8DC');
-      mGrad.addColorStop(0.8,'#90A4AE');
-      mGrad.addColorStop(1,'#546E7A');
-
-      wx.fillStyle=isT?'#C62828':mGrad;
-      wx.beginPath();wx.ellipse(cx3,midY,ringW,coilH,0,0,Math.PI*2);wx.fill();
-      wx.strokeStyle=isT?'#B71C1C':'rgba(55,71,79,0.45)';
-      wx.lineWidth=isT?1.5:0.5;wx.stroke();
-
-      if(isT){
-        wx.fillStyle='#C62828';wx.font='bold 9px sans-serif';wx.textAlign='center';
-        wx.fillText('x = '+(cd3>0?'+':'')+cd3.toFixed(1),cx3,midY+coilH+16);
-      }
+      mGrad.addColorStop(0,'#546E7A');mGrad.addColorStop(0.2,'#90A4AE');mGrad.addColorStop(0.45,'#ECEFF1');
+      mGrad.addColorStop(0.55,'#CFD8DC');mGrad.addColorStop(0.8,'#90A4AE');mGrad.addColorStop(1,'#546E7A');
+      wx.fillStyle=isT3?'#C62828':mGrad;wx.beginPath();wx.ellipse(cx3,midY,ringW,coilH,0,0,Math.PI*2);wx.fill();
+      wx.strokeStyle=isT3?'#B71C1C':'rgba(55,71,79,0.45)';wx.lineWidth=isT3?1.5:0.5;wx.stroke();
+      if(isT3){wx.fillStyle='#C62828';wx.font='bold 9px sans-serif';wx.textAlign='center';wx.fillText('x = '+(cd3>0?'+':'')+cd3.toFixed(1),cx3,midY+coilH+16);}
     }
-
-    // Connecting wire along center
-    wx.strokeStyle='rgba(120,144,156,.2)';wx.lineWidth=1;
-    wx.beginPath();
-    for(var ci4=0;ci4<nCoils;ci4++){
-      var ceq4=spStartX+ci4*eqSp;
-      var cx4=ceq4+getDispX(ceq4,S.time);
-      if(ci4===0)wx.moveTo(cx4,midY);else wx.lineTo(cx4,midY);
-    }
-    wx.stroke();
-
-    // Direction labels
+    wx.strokeStyle='rgba(120,144,156,.2)';wx.lineWidth=1;wx.beginPath();
+    for(var ci4=0;ci4<nCoils;ci4++){var ceq4=spStartX+ci4*eqSp;var cx4=ceq4+getDispX(ceq4,S.time);if(ci4===0)wx.moveTo(cx4,midY);else wx.lineTo(cx4,midY);}wx.stroke();
     wx.fillStyle='rgba(0,0,0,.4)';wx.font='bold 10px sans-serif';wx.textAlign='left';
     wx.fillText('Wave →',spStartX,cH-16);wx.fillText('Particle ↔',spStartX,cH-4);
 
   }else if(type==='water'){
-    // ===== WATER WAVE — Depth gradient, foam, boat with reflection =====
-
-    // Sky gradient
+    // ===== WATER =====
     var skyG=wx.createLinearGradient(0,0,0,midY-S.amp);
     skyG.addColorStop(0,'#90CAF9');skyG.addColorStop(0.5,'#BBDEFB');skyG.addColorStop(1,'#E1F5FE');
     wx.fillStyle=skyG;wx.fillRect(0,0,cW,midY+S.amp+30);
-
-    // Water body with deep gradient
     var waterG=wx.createLinearGradient(0,midY-S.amp,0,cH);
-    waterG.addColorStop(0,'rgba(66,165,245,.85)');
-    waterG.addColorStop(0.15,'#2196F3');
-    waterG.addColorStop(0.4,'#1976D2');
-    waterG.addColorStop(0.7,'#1565C0');
-    waterG.addColorStop(1,'#0D47A1');
+    waterG.addColorStop(0,'rgba(66,165,245,.85)');waterG.addColorStop(0.15,'#2196F3');
+    waterG.addColorStop(0.4,'#1976D2');waterG.addColorStop(0.7,'#1565C0');waterG.addColorStop(1,'#0D47A1');
     wx.fillStyle=waterG;wx.beginPath();wx.moveTo(0,cH);
-    for(var wi=0;wi<=200;wi++){
-      var wfi=wi*(S.nP-1)/200;
-      var wd=getDisp(wfi,S.time);
-      wx.lineTo(wi*cW/200,midY-wd);
-    }
+    for(var wi=0;wi<=200;wi++){wx.lineTo(wi*cW/200,midY-getDisp(wi*(S.nP-1)/200,S.time));}
     wx.lineTo(cW,cH);wx.closePath();wx.fill();
-
-    // Surface highlight
     wx.strokeStyle='rgba(255,255,255,.45)';wx.lineWidth=2.5;wx.beginPath();
-    for(var wi2=0;wi2<=200;wi2++){
-      var wfi2=wi2*(S.nP-1)/200;var wd2=getDisp(wfi2,S.time);
-      if(wi2===0)wx.moveTo(0,midY-wd2);else wx.lineTo(wi2*cW/200,midY-wd2);
-    }
-    wx.stroke();
-    wx.strokeStyle='rgba(30,136,229,.3)';wx.lineWidth=1;wx.beginPath();
-    for(var wi3=0;wi3<=200;wi3++){
-      var wfi3=wi3*(S.nP-1)/200;var wd3=getDisp(wfi3,S.time);
-      if(wi3===0)wx.moveTo(0,midY-wd3+3);else wx.lineTo(wi3*cW/200,midY-wd3+3);
-    }
-    wx.stroke();
-
-    // Foam particles at crests
-    for(var fi=1;fi<S.nP-1;fi++){
-      var fd=getDisp(fi,S.time);
-      if(fd>S.amp*0.45){
-        var foamX=fi*spacing,foamY=midY-fd;
-        var nFoam=Math.floor((fd/S.amp)*6);
-        for(var fc=0;fc<nFoam;fc++){
-          var fx=foamX+Math.sin(fi*7.3+fc*3.1)*8;
-          var fy=foamY+Math.cos(fi*5.7+fc*2.3)*3-2;
-          var fAlpha=0.25+(fd/S.amp)*0.4;
-          var fSize=1+Math.sin(fi*3.3+fc*1.7)*0.8;
-          wx.fillStyle='rgba(255,255,255,'+fAlpha+')';
-          wx.beginPath();wx.arc(fx,fy,Math.max(0.5,fSize),0,Math.PI*2);wx.fill();
-        }
-      }
-    }
-
-    // Underwater depth particles (light caustics effect)
-    wx.fillStyle='rgba(255,255,255,.04)';
-    for(var uc=0;uc<15;uc++){
-      var ucx=(Math.sin(uc*5.1+S.time*0.3)*0.5+0.5)*cW;
-      var ucy=midY+40+uc*12;
-      wx.beginPath();wx.ellipse(ucx,ucy,8+uc*2,3,Math.sin(uc)*0.3,0,Math.PI*2);wx.fill();
-    }
-
-    // Circular orbit particles
-    for(var oi=0;oi<S.nP;oi+=3){
-      var oPhase=2*Math.PI*S.freq*S.time-2*Math.PI*oi*spacing/getWL();
-      var orbR=S.amp*0.38;
-      var owfX=S.speed*S.time;
-      var oEnv=Math.min(1,Math.max(0,(owfX-oi*spacing)/Math.max(15,getWL()*0.5)));
-      var aOrbR=orbR*oEnv;
-      var opx=oi*spacing+Math.cos(oPhase)*aOrbR;
-      var opy=midY-Math.sin(oPhase)*aOrbR;
-      var oIsT=oi===S.tracked||oi===S.tracked-1||oi===S.tracked+1;
-      if(oEnv>0.05){
-        wx.strokeStyle='rgba(255,255,255,.1)';wx.lineWidth=0.5;
-        wx.beginPath();wx.arc(oi*spacing,midY,aOrbR,0,Math.PI*2);wx.stroke();
-      }
-      wx.fillStyle=oIsT?'#C62828':'rgba(255,255,255,.55)';
-      wx.beginPath();wx.arc(opx,opy,oIsT?4.5:2.5,0,Math.PI*2);wx.fill();
-      if(oIsT){
-        var oTd=getDisp(oi,S.time);
-        wx.fillStyle='#C62828';wx.font='bold 9px sans-serif';wx.textAlign='center';
-        wx.fillText('y = '+(oTd>0?'+':'')+oTd.toFixed(1),oi*spacing,midY-aOrbR-10);
-      }
-    }
-
-    // Boat with hull
-    var boatX=cW*0.62,boatI2=Math.round(boatX/spacing);
-    var boatD=getDisp(boatI2,S.time);
-    var boatSlope=(getDisp(boatI2+0.5,S.time)-getDisp(boatI2-0.5,S.time))*0.02;
-    var bBaseY=midY-boatD;
-
-    // Boat reflection first (under water, faded)
-    wx.save();wx.globalAlpha=0.12;
-    wx.fillStyle='#5D4037';
-    wx.beginPath();
-    wx.moveTo(boatX-20,bBaseY+4);wx.quadraticCurveTo(boatX-24,bBaseY+16,boatX-14,bBaseY+18);
-    wx.lineTo(boatX+14,bBaseY+18);wx.quadraticCurveTo(boatX+24,bBaseY+16,boatX+20,bBaseY+4);
-    wx.closePath();wx.fill();
-    wx.restore();
-
-    // Hull
+    for(var wi2=0;wi2<=200;wi2++){var wd2=getDisp(wi2*(S.nP-1)/200,S.time);if(wi2===0)wx.moveTo(0,midY-wd2);else wx.lineTo(wi2*cW/200,midY-wd2);}wx.stroke();
+    for(var fi=1;fi<S.nP-1;fi++){var fd=getDisp(fi,S.time);if(fd>S.amp*0.45){var foamX=fi*spacing,foamY=midY-fd;for(var fc=0;fc<Math.floor((fd/S.amp)*6);fc++){wx.fillStyle='rgba(255,255,255,'+(0.25+(fd/S.amp)*0.4)+')';wx.beginPath();wx.arc(foamX+Math.sin(fi*7.3+fc*3.1)*8,foamY+Math.cos(fi*5.7+fc*2.3)*3-2,Math.max(0.5,1+Math.sin(fi*3.3+fc*1.7)*0.8),0,Math.PI*2);wx.fill();}}}
+    for(var oi=0;oi<S.nP;oi+=3){var oPhase=2*Math.PI*S.freq*S.time-2*Math.PI*oi*spacing/getWL();var orbR=S.amp*0.38;var owfX=S.speed*S.time;var oEnv=Math.min(1,Math.max(0,(owfX-oi*spacing)/Math.max(15,getWL()*0.5)));var aOrbR=orbR*oEnv;if(oEnv>0.05){wx.strokeStyle='rgba(255,255,255,.1)';wx.lineWidth=0.5;wx.beginPath();wx.arc(oi*spacing,midY,aOrbR,0,Math.PI*2);wx.stroke();}var oIsT=oi===S.tracked||oi===S.tracked-1||oi===S.tracked+1;wx.fillStyle=oIsT?'#C62828':'rgba(255,255,255,.55)';wx.beginPath();wx.arc(oi*spacing+Math.cos(oPhase)*aOrbR,midY-Math.sin(oPhase)*aOrbR,oIsT?4.5:2.5,0,Math.PI*2);wx.fill();}
+    var boatX=cW*0.62,boatI2=Math.round(boatX/spacing),boatD=getDisp(boatI2,S.time);
+    var boatSlope=(getDisp(boatI2+0.5,S.time)-getDisp(boatI2-0.5,S.time))*0.02,bBaseY=midY-boatD;
+    wx.save();wx.globalAlpha=0.12;wx.fillStyle='#5D4037';wx.beginPath();wx.moveTo(boatX-20,bBaseY+4);wx.quadraticCurveTo(boatX-24,bBaseY+16,boatX-14,bBaseY+18);wx.lineTo(boatX+14,bBaseY+18);wx.quadraticCurveTo(boatX+24,bBaseY+16,boatX+20,bBaseY+4);wx.closePath();wx.fill();wx.restore();
     wx.save();wx.translate(boatX,bBaseY);wx.rotate(boatSlope);
-    wx.fillStyle='#5D4037';
-    wx.beginPath();
-    wx.moveTo(-20,-3);wx.quadraticCurveTo(-24,9,-14,11);
-    wx.lineTo(14,11);wx.quadraticCurveTo(24,9,20,-3);wx.closePath();wx.fill();
-    wx.strokeStyle='#4E342E';wx.lineWidth=0.8;wx.stroke();
-    // Deck
-    wx.fillStyle='#8D6E63';wx.fillRect(-12,-3,24,3);
-    // Cabin
-    wx.fillStyle='#A1887F';wx.fillRect(-5,-11,10,8);
-    wx.fillStyle='#BCAAA4';wx.fillRect(-3,-9,6,4);
-    // Mast
-    wx.strokeStyle='#4E342E';wx.lineWidth=1.5;
-    wx.beginPath();wx.moveTo(0,-11);wx.lineTo(0,-30);wx.stroke();
-    // Sail
-    wx.fillStyle='rgba(255,255,255,.85)';
-    wx.beginPath();wx.moveTo(1,-28);wx.lineTo(15,-16);wx.lineTo(1,-13);wx.closePath();wx.fill();
-    wx.strokeStyle='rgba(78,52,46,.2)';wx.lineWidth=0.5;wx.stroke();
+    wx.fillStyle='#5D4037';wx.beginPath();wx.moveTo(-20,-3);wx.quadraticCurveTo(-24,9,-14,11);wx.lineTo(14,11);wx.quadraticCurveTo(24,9,20,-3);wx.closePath();wx.fill();
+    wx.fillStyle='#8D6E63';wx.fillRect(-12,-3,24,3);wx.fillStyle='#A1887F';wx.fillRect(-5,-11,10,8);
+    wx.strokeStyle='#4E342E';wx.lineWidth=1.5;wx.beginPath();wx.moveTo(0,-11);wx.lineTo(0,-30);wx.stroke();
+    wx.fillStyle='rgba(255,255,255,.85)';wx.beginPath();wx.moveTo(1,-28);wx.lineTo(15,-16);wx.lineTo(1,-13);wx.closePath();wx.fill();
     wx.restore();
-
-    // Labels
     wx.fillStyle='rgba(0,0,0,.35)';wx.font='bold 10px sans-serif';wx.textAlign='left';
-    wx.fillText('Wave →',8,18);wx.fillText('Particle ⟳ (circular orbits)',8,30);
+    wx.fillText('Wave →',8,18);wx.fillText('Particle ⟳',8,30);
 
   }else if(type==='sound'){
-    // ===== SOUND WAVE — Speaker cone + pressure shading (no visible molecules) =====
-
-    // Speaker cabinet
+    // ===== SOUND =====
     var cabX=6,cabW=30,cabH=74;
-    wx.fillStyle='#1a1a1a';
-    wx.beginPath();wx.roundRect(cabX,midY-cabH/2,cabW,cabH,6);wx.fill();
-    // Cabinet edge bevel
+    wx.fillStyle='#1a1a1a';wx.beginPath();wx.roundRect(cabX,midY-cabH/2,cabW,cabH,6);wx.fill();
     var cabBev=wx.createLinearGradient(cabX,0,cabX+cabW,0);
     cabBev.addColorStop(0,'#333');cabBev.addColorStop(0.1,'#222');cabBev.addColorStop(0.9,'#111');cabBev.addColorStop(1,'#333');
-    wx.fillStyle=cabBev;
-    wx.beginPath();wx.roundRect(cabX+2,midY-cabH/2+2,cabW-4,cabH-4,4);wx.fill();
-    // Grille mesh pattern
+    wx.fillStyle=cabBev;wx.beginPath();wx.roundRect(cabX+2,midY-cabH/2+2,cabW-4,cabH-4,4);wx.fill();
     wx.strokeStyle='rgba(80,80,80,.4)';wx.lineWidth=0.3;
-    for(var gs=midY-cabH/2+6;gs<midY+cabH/2-4;gs+=3){
-      wx.beginPath();wx.moveTo(cabX+5,gs);wx.lineTo(cabX+cabW-5,gs);wx.stroke();
-    }
-    // Screws
+    for(var gs=midY-cabH/2+6;gs<midY+cabH/2-4;gs+=3){wx.beginPath();wx.moveTo(cabX+5,gs);wx.lineTo(cabX+cabW-5,gs);wx.stroke();}
     wx.fillStyle='#555';
-    [[cabX+6,midY-cabH/2+6],[cabX+cabW-6,midY-cabH/2+6],[cabX+6,midY+cabH/2-6],[cabX+cabW-6,midY+cabH/2-6]].forEach(function(s){
-      wx.beginPath();wx.arc(s[0],s[1],1.8,0,Math.PI*2);wx.fill();
-    });
-
-    // Speaker cone — pumps in/out
-    var spPhase=2*Math.PI*S.freq*S.time;
-    var coneD=Math.sin(spPhase)*12;
-    var coneFace=cabX+cabW;
-    var coneTip=coneFace+18+coneD;
-
-    // Cone surround (rubber)
-    wx.fillStyle='#333';
-    wx.beginPath();
-    wx.moveTo(coneFace,midY-28);wx.lineTo(coneFace+4,midY-32);
-    wx.lineTo(coneTip+2,midY-34);wx.lineTo(coneTip+2,midY+34);
-    wx.lineTo(coneFace+4,midY+32);wx.lineTo(coneFace,midY+28);wx.closePath();wx.fill();
-
-    // Cone body
+    [[cabX+6,midY-cabH/2+6],[cabX+cabW-6,midY-cabH/2+6],[cabX+6,midY+cabH/2-6],[cabX+cabW-6,midY+cabH/2-6]].forEach(function(s){wx.beginPath();wx.arc(s[0],s[1],1.8,0,Math.PI*2);wx.fill();});
+    var spPhase=2*Math.PI*S.freq*S.time,coneD=Math.sin(spPhase)*12;
+    var coneFace=cabX+cabW,coneTip=coneFace+18+coneD;
+    wx.fillStyle='#333';wx.beginPath();wx.moveTo(coneFace,midY-28);wx.lineTo(coneFace+4,midY-32);wx.lineTo(coneTip+2,midY-34);wx.lineTo(coneTip+2,midY+34);wx.lineTo(coneFace+4,midY+32);wx.lineTo(coneFace,midY+28);wx.closePath();wx.fill();
     var coneG=wx.createLinearGradient(coneFace,midY-30,coneTip,midY+30);
-    coneG.addColorStop(0,'#78909C');coneG.addColorStop(0.3,'#B0BEC5');
-    coneG.addColorStop(0.6,'#90A4AE');coneG.addColorStop(1,'#607D8B');
-    wx.fillStyle=coneG;
-    wx.beginPath();
-    wx.moveTo(coneFace+2,midY-26);wx.lineTo(coneTip,midY-30);
-    wx.lineTo(coneTip,midY+30);wx.lineTo(coneFace+2,midY+26);wx.closePath();wx.fill();
-    wx.strokeStyle='#455A64';wx.lineWidth=0.8;wx.stroke();
-
-    // Cone ribs (concentric arcs for detail)
-    wx.strokeStyle='rgba(69,90,100,.2)';wx.lineWidth=0.5;
-    for(var cr=8;cr<=22;cr+=7){
-      wx.beginPath();wx.arc(coneTip-2,midY,cr,Math.PI*0.65,Math.PI*1.35);wx.stroke();
-    }
-
-    // Dust cap
-    wx.fillStyle='#37474F';wx.beginPath();wx.arc(coneTip-3,midY,8,0,Math.PI*2);wx.fill();
-    var dcG=wx.createRadialGradient(coneTip-4,midY-2,0,coneTip-3,midY,8);
-    dcG.addColorStop(0,'#546E7A');dcG.addColorStop(1,'#263238');
+    coneG.addColorStop(0,'#78909C');coneG.addColorStop(0.3,'#B0BEC5');coneG.addColorStop(0.6,'#90A4AE');coneG.addColorStop(1,'#607D8B');
+    wx.fillStyle=coneG;wx.beginPath();wx.moveTo(coneFace+2,midY-26);wx.lineTo(coneTip,midY-30);wx.lineTo(coneTip,midY+30);wx.lineTo(coneFace+2,midY+26);wx.closePath();wx.fill();wx.strokeStyle='#455A64';wx.lineWidth=0.8;wx.stroke();
+    wx.strokeStyle='rgba(69,90,100,.2)';wx.lineWidth=0.5;for(var cr=8;cr<=22;cr+=7){wx.beginPath();wx.arc(coneTip-2,midY,cr,Math.PI*0.65,Math.PI*1.35);wx.stroke();}
+    var dcG=wx.createRadialGradient(coneTip-4,midY-2,0,coneTip-3,midY,8);dcG.addColorStop(0,'#546E7A');dcG.addColorStop(1,'#263238');
     wx.fillStyle=dcG;wx.beginPath();wx.arc(coneTip-3,midY,7,0,Math.PI*2);wx.fill();
-
-    // Speaker label
-    wx.fillStyle='rgba(55,71,79,.5)';wx.font='bold 7px sans-serif';wx.textAlign='center';
-    wx.fillText('SPEAKER',cabX+cabW/2,midY+cabH/2+12);
-
-    // Pressure shading bands (Schlieren-style visualization)
+    wx.fillStyle='rgba(55,71,79,.5)';wx.font='bold 7px sans-serif';wx.textAlign='center';wx.fillText('SPEAKER',cabX+cabW/2,midY+cabH/2+12);
     var sndStart=coneTip+12;
-    for(var sx=sndStart;sx<cW-8;sx+=3){
-      var sfi=(sx-sndStart)*S.nP/(cW-sndStart);
-      var sd1=getDisp(sfi-0.4,S.time);
-      var sd2=getDisp(sfi+0.4,S.time);
-      var pressure=-(sd2-sd1)/0.8;
-      var pNorm=pressure/S.amp;
-      var bandH=70+Math.abs(pNorm)*25;
-      if(pNorm>0.02){
-        wx.fillStyle='rgba(38,50,56,'+Math.min(0.22,pNorm*0.18)+')';
-        wx.fillRect(sx,midY-bandH/2,3,bandH);
-      }else if(pNorm<-0.02){
-        wx.fillStyle='rgba(255,235,210,'+Math.min(0.18,Math.abs(pNorm)*0.14)+')';
-        wx.fillRect(sx,midY-bandH/2,3,bandH);
-      }
-    }
-
-    // Concentric pressure arcs traveling outward
+    for(var sx=sndStart;sx<cW-8;sx+=3){var sfi=(sx-sndStart)*S.nP/(cW-sndStart);var sd1=getDisp(sfi-0.4,S.time),sd2=getDisp(sfi+0.4,S.time);var pressure=-(sd2-sd1)/0.8;var pNorm=pressure/S.amp;var bandH=70+Math.abs(pNorm)*25;if(pNorm>0.02){wx.fillStyle='rgba(38,50,56,'+Math.min(0.22,pNorm*0.18)+')';wx.fillRect(sx,midY-bandH/2,3,bandH);}else if(pNorm<-0.02){wx.fillStyle='rgba(255,235,210,'+Math.min(0.18,Math.abs(pNorm)*0.14)+')';wx.fillRect(sx,midY-bandH/2,3,bandH);}}
     var arcWL=getWL()*(cW-sndStart)/cW;
-    if(arcWL>5){
-      for(var ai=0;ai<10;ai++){
-        var arcR=((S.speed*S.time*(cW-sndStart)/cW)%Math.max(1,arcWL))+ai*arcWL;
-        if(arcR<8||arcR>cW-sndStart)continue;
-        var arcA=Math.max(0,0.18*(1-arcR/(cW-sndStart)));
-        wx.strokeStyle='rgba(106,27,154,'+arcA+')';wx.lineWidth=1.2;
-        wx.beginPath();wx.arc(sndStart,midY,arcR,-Math.PI*0.38,Math.PI*0.38);wx.stroke();
-      }
-    }
-
-    // Pressure labels
-    for(var pi2=5;pi2<S.nP-5;pi2+=6){
-      var pd1=getDisp(pi2-1,S.time),pd2=getDisp(pi2+1,S.time);
-      var pVal=-(pd2-pd1)/2;
-      var plx=sndStart+pi2*(cW-sndStart)/S.nP;
-      if(pVal>S.amp*0.06){
-        wx.fillStyle='rgba(106,27,154,.4)';wx.font='bold 9px sans-serif';wx.textAlign='center';
-        wx.fillText('High P',plx,midY-50);
-      }
-      if(pVal<-S.amp*0.06){
-        wx.fillStyle='rgba(0,105,92,.4)';wx.font='bold 9px sans-serif';wx.textAlign='center';
-        wx.fillText('Low P',plx,midY-50);
-      }
-    }
-
-    // Direction labels
-    wx.fillStyle='rgba(0,0,0,.4)';wx.font='bold 10px sans-serif';wx.textAlign='left';
-    wx.fillText('Wave →',sndStart+8,cH-16);wx.fillText('Particle ↔  (air molecules oscillate)',sndStart+8,cH-4);
+    if(arcWL>5){for(var ai=0;ai<10;ai++){var arcR=((S.speed*S.time*(cW-sndStart)/cW)%Math.max(1,arcWL))+ai*arcWL;if(arcR<8||arcR>cW-sndStart)continue;wx.strokeStyle='rgba(106,27,154,'+Math.max(0,0.18*(1-arcR/(cW-sndStart)))+')';wx.lineWidth=1.2;wx.beginPath();wx.arc(sndStart,midY,arcR,-Math.PI*0.38,Math.PI*0.38);wx.stroke();}}
+    for(var pi2=5;pi2<S.nP-5;pi2+=6){var pd1=getDisp(pi2-1,S.time),pd2=getDisp(pi2+1,S.time);var pVal=-(pd2-pd1)/2;var plx=sndStart+pi2*(cW-sndStart)/S.nP;if(pVal>S.amp*0.06){wx.fillStyle='rgba(106,27,154,.4)';wx.font='bold 9px sans-serif';wx.textAlign='center';wx.fillText('High P',plx,midY-50);}if(pVal<-S.amp*0.06){wx.fillStyle='rgba(0,105,92,.4)';wx.font='bold 9px sans-serif';wx.textAlign='center';wx.fillText('Low P',plx,midY-50);}}
+    wx.fillStyle='rgba(0,0,0,.4)';wx.font='bold 10px sans-serif';wx.textAlign='left';wx.fillText('Wave →',sndStart+8,cH-16);wx.fillText('Particle ↔',sndStart+8,cH-4);
 
   }else if(type==='light'){
-    // ===== LIGHT WAVE (EM) — Abstract is correct =====
+    // ===== LIGHT =====
     var emStart=50;
-
-    // Light source glow
-    var srcGlow=wx.createRadialGradient(25,midY,0,25,midY,22);
-    srcGlow.addColorStop(0,'rgba(255,249,196,.6)');srcGlow.addColorStop(0.5,'rgba(253,216,53,.3)');srcGlow.addColorStop(1,'rgba(249,168,37,0)');
+    var srcGlow=wx.createRadialGradient(25,midY,0,25,midY,22);srcGlow.addColorStop(0,'rgba(255,249,196,.6)');srcGlow.addColorStop(0.5,'rgba(253,216,53,.3)');srcGlow.addColorStop(1,'rgba(249,168,37,0)');
     wx.fillStyle=srcGlow;wx.beginPath();wx.arc(25,midY,22,0,Math.PI*2);wx.fill();
-
-    var srcG=wx.createRadialGradient(25,midY,0,25,midY,14);
-    srcG.addColorStop(0,'#FFF9C4');srcG.addColorStop(0.5,'#FDD835');srcG.addColorStop(1,'#F9A825');
+    var srcG=wx.createRadialGradient(25,midY,0,25,midY,14);srcG.addColorStop(0,'#FFF9C4');srcG.addColorStop(0.5,'#FDD835');srcG.addColorStop(1,'#F9A825');
     wx.fillStyle=srcG;wx.beginPath();wx.arc(25,midY,14,0,Math.PI*2);wx.fill();
     wx.fillStyle='#FFF';wx.beginPath();wx.arc(25,midY,5,0,Math.PI*2);wx.fill();
     wx.fillStyle='#555';wx.font='bold 7px sans-serif';wx.textAlign='center';wx.fillText('SOURCE',25,midY+24);
-
-    // E field (vertical oscillation, blue)
     wx.strokeStyle='#1565C0';wx.lineWidth=2.5;wx.beginPath();
-    for(var ei=0;ei<200;ei++){
-      var efi=ei*(S.nP/200);var ed=getDisp(efi,S.time);
-      var elx=emStart+(cW-emStart-20)*ei/200;
-      if(ei===0)wx.moveTo(elx,midY-ed*0.8);else wx.lineTo(elx,midY-ed*0.8);
-    }
-    wx.stroke();
-    // E field fill (subtle)
-    wx.fillStyle='rgba(21,101,192,.06)';wx.beginPath();
-    wx.moveTo(emStart,midY);
-    for(var ei2=0;ei2<200;ei2++){
-      var efi2=ei2*(S.nP/200);var ed2=getDisp(efi2,S.time);
-      wx.lineTo(emStart+(cW-emStart-20)*ei2/200,midY-ed2*0.8);
-    }
-    wx.lineTo(emStart+(cW-emStart-20),midY);wx.closePath();wx.fill();
-
-    // B field (perspective, red)
-    wx.strokeStyle='#C62828';wx.lineWidth=2;wx.beginPath();
-    for(var bi=0;bi<200;bi++){
-      var bfi=bi*(S.nP/200);var bd=getDisp(bfi,S.time);
-      var blx=emStart+(cW-emStart-20)*bi/200;
-      if(bi===0)wx.moveTo(blx,midY+bd*0.3);else wx.lineTo(blx,midY+bd*0.3);
-    }
-    wx.stroke();
-
-    // Propagation arrow
-    wx.strokeStyle='#4CAF50';wx.lineWidth=2;
-    wx.beginPath();wx.moveTo(emStart,midY);wx.lineTo(cW-30,midY);wx.stroke();
-    wx.fillStyle='#4CAF50';wx.beginPath();
-    wx.moveTo(cW-36,midY-5);wx.lineTo(cW-28,midY);wx.lineTo(cW-36,midY+5);wx.fill();
-
-    // Labels
-    wx.font='bold 11px sans-serif';
-    wx.fillStyle='#1565C0';wx.textAlign='left';wx.fillText('E field ↕',emStart,20);
+    for(var ei=0;ei<200;ei++){var efi=ei*(S.nP/200);var ed=getDisp(efi,S.time);var elx=emStart+(cW-emStart-20)*ei/200;if(ei===0)wx.moveTo(elx,midY-ed*0.8);else wx.lineTo(elx,midY-ed*0.8);}wx.stroke();
+    wx.fillStyle='rgba(21,101,192,.06)';wx.beginPath();wx.moveTo(emStart,midY);for(var ei2=0;ei2<200;ei2++){wx.lineTo(emStart+(cW-emStart-20)*ei2/200,midY-getDisp(ei2*(S.nP/200),S.time)*0.8);}wx.lineTo(emStart+(cW-emStart-20),midY);wx.closePath();wx.fill();
+    wx.strokeStyle='#C62828';wx.lineWidth=2;wx.beginPath();for(var bi=0;bi<200;bi++){var bfi=bi*(S.nP/200);var bd=getDisp(bfi,S.time);if(bi===0)wx.moveTo(emStart+(cW-emStart-20)*bi/200,midY+bd*0.3);else wx.lineTo(emStart+(cW-emStart-20)*bi/200,midY+bd*0.3);}wx.stroke();
+    wx.strokeStyle='#4CAF50';wx.lineWidth=2;wx.beginPath();wx.moveTo(emStart,midY);wx.lineTo(cW-30,midY);wx.stroke();
+    wx.fillStyle='#4CAF50';wx.beginPath();wx.moveTo(cW-36,midY-5);wx.lineTo(cW-28,midY);wx.lineTo(cW-36,midY+5);wx.fill();
+    wx.font='bold 11px sans-serif';wx.fillStyle='#1565C0';wx.textAlign='left';wx.fillText('E field ↕',emStart,20);
     wx.fillStyle='#C62828';wx.fillText('B field (into/out of screen)',emStart,34);
     wx.fillStyle='#4CAF50';wx.fillText('Direction of propagation →',emStart,48);
-    wx.fillStyle='#555';wx.font='9px sans-serif';
-    wx.fillText('No medium needed — travels through vacuum at c = 3×10⁸ m/s',emStart,cH-8);
+    wx.fillStyle='#555';wx.font='9px sans-serif';wx.fillText('No medium needed — travels through vacuum at c = 3×10⁸ m/s',emStart,cH-8);
   }
 
-  // Tracked particle info box (string, spring, sound)
+  // Tracked particle info
   if(S.tracked>=0&&type!=='light'&&type!=='water'){
     var trd=getDisp(S.tracked,S.time);
     wx.fillStyle='rgba(0,0,0,.6)';wx.beginPath();wx.roundRect(cW-174,cH-40,164,34,6);wx.fill();
     wx.fillStyle='#fff';wx.font='bold 9px sans-serif';wx.textAlign='left';
     wx.fillText('Particle #'+S.tracked+':  y = '+trd.toFixed(1)+' px',cW-168,cH-22);
-    wx.fillStyle='rgba(255,255,255,.6)';wx.font='8px sans-serif';
-    wx.fillText('Click any particle to track',cW-168,cH-10);
-  }
-
-  // Side view panel
-  if(S.showSide){
-    var svW=70,svH=110,svX=cW-svW-8,svY=8;
-    wx.fillStyle='rgba(255,255,255,.92)';wx.beginPath();wx.roundRect(svX,svY,svW,svH,6);wx.fill();
-    wx.strokeStyle='rgba(0,0,0,.1)';wx.lineWidth=1;wx.stroke();
-    wx.fillStyle='#333';wx.font='bold 8px sans-serif';wx.textAlign='center';wx.fillText('SIDE VIEW',svX+svW/2,svY+12);
-    var svMid=svY+svH/2+8;
-    for(var sv=S.nP-6;sv<S.nP;sv++){
-      var svd=getDisp(sv,S.time);var depth=(S.nP-sv)/6;
-      wx.fillStyle='rgba(92,107,192,'+(0.15+depth*0.15)+')';var svr=2+depth*2.5;
-      if(type==='spring'||type==='sound'){wx.beginPath();wx.arc(svX+svW/2+svd*0.4,svMid,svr,0,Math.PI*2);wx.fill();}
-      else{wx.beginPath();wx.arc(svX+svW/2,svMid-svd*0.4,svr,0,Math.PI*2);wx.fill();}
-    }
-  }
-  if(S.showTop){
-    var tvW=70,tvH=60,tvX=cW-tvW-8,tvY=S.showSide?128:8;
-    wx.fillStyle='rgba(255,255,255,.92)';wx.beginPath();wx.roundRect(tvX,tvY,tvW,tvH,6);wx.fill();
-    wx.strokeStyle='rgba(0,0,0,.1)';wx.lineWidth=1;wx.stroke();
-    wx.fillStyle='#333';wx.font='bold 8px sans-serif';wx.textAlign='center';wx.fillText('TOP VIEW',tvX+tvW/2,tvY+12);
-    for(var tv=0;tv<10;tv++){
-      var tvi=tv*Math.floor(S.nP/10);var tvd=getDisp(tvi,S.time);
-      var tvpx=tvX+6+tv*(tvW-12)/10;
-      if(type==='spring'||type==='sound'){wx.fillStyle='#5C6BC0';wx.beginPath();wx.arc(tvpx+tvd*0.25,tvY+tvH/2+8,2.5,0,Math.PI*2);wx.fill();}
-      else{wx.fillStyle='#5C6BC0';wx.beginPath();wx.arc(tvpx,tvY+tvH/2+8,2.5,0,Math.PI*2);wx.fill();}
-    }
+    wx.fillStyle='rgba(255,255,255,.6)';wx.font='8px sans-serif';wx.fillText('Click any particle to track',cW-168,cH-10);
   }
 }
 
@@ -801,8 +713,7 @@ function buildControls(){
   h+='<div class="ctrl">';
   h+='<button class="btn '+(S.paused?'btn-ok':'btn-s')+'" onclick="S.paused=!S.paused;buildControls()">'+(S.paused?'▶ Play':'⏸ Pause')+'</button>';
   h+='<button class="btn btn-s" onclick="S.time=0">Reset</button>';
-  h+='<label style="font-size:.56rem;display:flex;align-items:center;gap:2px;margin-left:8px"><input type="checkbox" '+(S.showSide?'checked':'')+' onchange="S.showSide=this.checked"> Side View</label>';
-  h+='<label style="font-size:.56rem;display:flex;align-items:center;gap:2px"><input type="checkbox" '+(S.showTop?'checked':'')+' onchange="S.showTop=this.checked"> Top View</label>';
+  h+='<label style="font-size:.58rem;display:flex;align-items:center;gap:3px;margin-left:10px;font-weight:700;color:var(--accent2)"><input type="checkbox" '+(S.showTop?'checked':'')+' onchange="S.showTop=this.checked"> Top View</label>';
   h+='</div>';
   h+='<div class="eq-box"><strong>v = fλ</strong>  →  '+S.speed+' = '+S.freq.toFixed(1)+' × '+wl.toFixed(1)+'  |  <strong>T = 1/f</strong> = '+T.toFixed(3)+' s  |  <strong>λ = v/f</strong> = '+wl.toFixed(1)+' px</div>';
   $('controls').innerHTML=h;
@@ -817,14 +728,14 @@ function buildSidebar(){
     '<div class="si"><div class="sl2">Speed</div><div class="sv3">'+S.speed+' px/s</div></div>'+
     '<div class="si"><div class="sl2">Period</div><div class="sv3">'+T.toFixed(3)+' s</div></div>'+
     '<div class="si"><div class="sl2">Amplitude</div><div class="sv3">'+S.amp+' px</div></div>'+
-    '<div class="si"><div class="sl2">Wave Type</div><div class="sv3">'+sc.n+'</div></div>'+
+    '<div class="si"><div class="sl2">View</div><div class="sv3">'+(S.showTop?'Top':'Side')+'</div></div>'+
     '</div></div>'+
     '<div class="sc"><h4>About This Wave</h4><div class="sd">'+
     (sc.type==='string'?'<strong>String/Rope:</strong> Transverse wave. Particles move up-down. Speed depends on tension and mass per unit length: v = √(T/μ).':
      sc.type==='spring'?'<strong>Slinky/Spring:</strong> Longitudinal wave. Particles move left-right. Compressions (coils close together) and rarefactions (coils spread apart) travel along the spring.':
      sc.type==='water'?'<strong>Water:</strong> Surface particles move in circular orbits — a combination of transverse and longitudinal. Deeper particles have smaller orbits. Boats bob up and down but do not travel with the wave.':
      sc.type==='sound'?'<strong>Sound:</strong> Longitudinal wave through air. Cannot travel through vacuum. Speed in air ≈ 343 m/s. Frequency determines pitch. Amplitude determines loudness.':
-     '<strong>Light:</strong> Transverse electromagnetic wave. E and B fields oscillate perpendicular to each other and to propagation direction. Does not need a medium. Speed in vacuum: c = 3×10⁸ m/s.')+
+     '<strong>Light:</strong> Transverse EM wave. E and B fields oscillate perpendicular to each other and to propagation. Does not need a medium. Speed in vacuum: c = 3×10⁸ m/s.')+
     '</div></div>'+
     (S.tracked>=0?'<div class="sc"><h4>Tracked Particle #'+S.tracked+'</h4><div class="sd">Displacement: <strong>'+getDisp(S.tracked,S.time).toFixed(1)+' px</strong><br>This particle oscillates in place. Energy passes through it without carrying it along.</div></div>':'');
 }
