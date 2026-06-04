@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -70,7 +71,7 @@ var SCENES=[
 var scene=0;
 $('modes').innerHTML=SCENES.map(function(s,i){return '<div class="mb'+(i===0?' on':'')+'" onclick="setScene('+i+')">'+s.n+'</div>';}).join('');
 
-var MATERIALS=[{n:'Crown Glass',nr:1.510,nv:1.540},{n:'Flint Glass',nr:1.620,nv:1.670},{n:'Diamond',nr:2.410,nv:2.450},{n:'Water',nr:1.330,nv:1.343},{n:'Ice',nr:1.309,nv:1.317}];
+var MATERIALS=[{n:'Crown Glass',nr:1.485,nv:1.555},{n:'Flint Glass',nr:1.600,nv:1.700},{n:'Diamond',nr:2.390,nv:2.470},{n:'Water',nr:1.320,nv:1.350},{n:'Ice',nr:1.300,nv:1.325}];
 var MEDIA=[{n:'Air',v:1.00},{n:'Water',v:1.33},{n:'Glass',v:1.50},{n:'Diamond',v:2.42},{n:'Ice',v:1.31}];
 
 var S={freq:4,speed:120,time:0,paused:false,simSpeed:0.6,
@@ -78,7 +79,7 @@ var S={freq:4,speed:120,time:0,paused:false,simSpeed:0.6,
   incAngle:30,barType:'flat',showNormal:true,
   n1:1.0,n2:1.5,refAngle:30,
   gapWidth:3,slitSep:80,
-  prismAngle:60,rayEntryY:0.45,rayIncAngle:45,showPrismNormals:true,matIdx:0};
+  prismAngle:60,rayEntryY:0.45,rayIncAngle:45,showPrismNormals:true,matIdx:1};
 
 var sources=[];var dragIdx=-1;
 function getWL(){return S.speed/S.freq;}
@@ -98,14 +99,18 @@ cv.addEventListener('mousedown',function(e){var rect=cv.getBoundingClientRect();
   if(scene===5){
     var pCy=cH*0.5,pSz=cH*(S.prismSize||0.42),A=rad(S.prismAngle);
     var pCx2=cW*0.38,p1y=pCy-pSz*0.55,lfdx=-pSz*Math.sin(A/2),lfdy=pSz;
+    var lfLen=Math.sqrt(lfdx*lfdx+lfdy*lfdy);
     var entX=pCx2+lfdx*S.rayEntryY,entY=p1y+lfdy*S.rayEntryY;
-    if(dst(mx,my,entX,entY)<20){dragIdx=99;return;}
-    // Angle drag handle (~80px along incident ray)
-    var inN2={x:lfdy/Math.sqrt(lfdx*lfdx+lfdy*lfdy),y:-lfdx/Math.sqrt(lfdx*lfdx+lfdy*lfdy)};
+    // Compute incident direction (CW rotation — must match drawing code)
+    var inNx=lfdy/lfLen,inNy=-lfdx/lfLen;
     var ca2=Math.cos(rad(S.rayIncAngle)),sa2=Math.sin(rad(S.rayIncAngle));
-    var iDir={x:inN2.x*ca2-inN2.y*sa2,y:inN2.x*sa2+inN2.y*ca2};
-    var ahx=entX-iDir.x*80,ahy=entY-iDir.y*80;
-    if(dst(mx,my,ahx,ahy)<25){dragIdx=98;return;}
+    var iDx=inNx*ca2+inNy*sa2,iDy=-inNx*sa2+inNy*ca2;
+    // Check along the incident ray (anywhere within 30px of the ray line, up to 200px back)
+    for(var dd=40;dd<=200;dd+=20){
+      var px=entX-iDx*dd,py=entY-iDy*dd;
+      if(dst(mx,my,px,py)<30){dragIdx=98;return;}
+    }
+    if(dst(mx,my,entX,entY)<20){dragIdx=99;return;}
   }
   if(scene===0||scene===4||scene===6){for(var i=0;i<sources.length;i++){if(dst(mx,my,sources[i].x,sources[i].y)<15){dragIdx=i;return;}}if(S.srcType==='point'||scene===4||scene===6){sources.push({x:mx,y:my});S.time=0;}}
 });
@@ -116,12 +121,15 @@ cv.addEventListener('mousemove',function(e){if(dragIdx<0)return;var rect=cv.getB
     var pCx3=cW*0.38,p1y2=pCy2-pSz2*0.55,lfdx2=-pSz2*Math.sin(A2/2),lfdy2=pSz2;
     var lfL2=Math.sqrt(lfdx2*lfdx2+lfdy2*lfdy2);
     var entX2=pCx3+lfdx2*S.rayEntryY,entY2=p1y2+lfdy2*S.rayEntryY;
-    var lN3={x:-lfdy2/lfL2,y:lfdx2/lfL2};
+    // Inward normal (must match drawing)
+    var inNx2=lfdy2/lfL2,inNy2=-lfdx2/lfL2;
+    // Direction from mouse to entry point = incident ray direction
     var dx=entX2-mx,dy=entY2-my;
     var dL=Math.sqrt(dx*dx+dy*dy);if(dL<1)return;
     dx/=dL;dy/=dL;
-    var cosA=dx*(-lN3.x)+dy*(-lN3.y);
-    S.rayIncAngle=Math.round(Math.max(5,Math.min(80,deg(Math.acos(Math.max(-1,Math.min(1,cosA)))))));
+    // Angle between this direction and inward normal
+    var cosA2=dx*inNx2+dy*inNy2;
+    S.rayIncAngle=Math.round(Math.max(5,Math.min(80,deg(Math.acos(Math.max(-1,Math.min(1,cosA2)))))));
     buildControls();return;
   }
   if(dragIdx<sources.length){sources[dragIdx].x=mx;sources[dragIdx].y=my;}
@@ -312,13 +320,15 @@ function drawDisp(){
   cx.beginPath();cx.moveTo(entryP.x,entryP.y);cx.lineTo(entryP.x+incDir.x*500,entryP.y+incDir.y*500);cx.stroke();cx.setLineDash([]);
   cx.fillStyle='rgba(255,255,255,.4)';cx.font='bold 9px sans-serif';cx.textAlign='left';
   cx.fillText('White Light',entryP.x-incDir.x*240,entryP.y-incDir.y*240-8);
-  // Drag handle
-  cx.fillStyle='rgba(255,255,255,.6)';cx.beginPath();cx.arc(entryP.x,entryP.y,6,0,Math.PI*2);cx.fill();
-  cx.strokeStyle='rgba(255,255,255,.3)';cx.lineWidth=1;cx.stroke();
-  // Angle drag handle (further from entry along incident ray)
-  var angH={x:entryP.x-incDir.x*80,y:entryP.y-incDir.y*80};
-  cx.fillStyle='rgba(255,200,50,.5)';cx.beginPath();cx.arc(angH.x,angH.y,5,0,Math.PI*2);cx.fill();
-  cx.fillStyle='rgba(255,200,50,.4)';cx.font='7px sans-serif';cx.textAlign='center';cx.fillText('drag to change angle',angH.x,angH.y-9);
+  // Drag handle for entry point
+  cx.fillStyle='rgba(255,255,255,.6)';cx.beginPath();cx.arc(entryP.x,entryP.y,7,0,Math.PI*2);cx.fill();
+  cx.strokeStyle='rgba(255,255,255,.4)';cx.lineWidth=1.5;cx.stroke();
+  // Drag instruction along the ray — highlight the draggable ray
+  cx.strokeStyle='rgba(255,200,50,.35)';cx.lineWidth=8;
+  cx.beginPath();cx.moveTo(entryP.x-incDir.x*160,entryP.y-incDir.y*160);cx.lineTo(entryP.x-incDir.x*40,entryP.y-incDir.y*40);cx.stroke();
+  cx.fillStyle='rgba(255,200,50,.6)';cx.font='bold 9px sans-serif';cx.textAlign='center';
+  var labelX=entryP.x-incDir.x*100,labelY=entryP.y-incDir.y*100;
+  cx.fillText('← DRAG RAY TO CHANGE ANGLE →',labelX,labelY-12);
   // Normals
   if(S.showPrismNormals){cx.strokeStyle='rgba(255,255,255,.25)';cx.lineWidth=1;cx.setLineDash([4,4]);cx.beginPath();cx.moveTo(entryP.x+lN.x*65,entryP.y+lN.y*65);cx.lineTo(entryP.x-lN.x*40,entryP.y-lN.y*40);cx.stroke();cx.setLineDash([]);cx.fillStyle='rgba(255,255,255,.2)';cx.font='7px sans-serif';cx.textAlign='center';cx.fillText('N₁',entryP.x+lN.x*72,entryP.y+lN.y*72);}
   // Compute Snell at entry
