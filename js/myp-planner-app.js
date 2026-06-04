@@ -1,4 +1,4 @@
-var curYear='y1', curView='ref';
+var curYear='y5', curView='ref';
 function authCheck(){
   var p=document.getElementById('authPw').value;
   if(p==='physicism2025'||p==='myp2025'||p==='teacher'){
@@ -121,7 +121,7 @@ function showTopic(id){
   document.getElementById('topicView').style.display='flex';
   document.querySelectorAll('.t-link').forEach(function(l){l.classList.remove('active')});
   var a=document.querySelector('.t-link[data-id="'+id+'"]');if(a)a.classList.add('active');
-  window._curTopic=tp;window._curStrand=strand;curYear='y1';renderTopic();
+  window._curTopic=tp;window._curStrand=strand;curYear='y5';renderTopic();
 }
 function switchGlobalYear(yr){curYear=yr;renderTopic()}
 function renderTopic(){
