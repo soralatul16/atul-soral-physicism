@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wave Phenomena Lab | Atul Soral Physicism</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<style>
+:root{--bg:#FAFAF7;--bg2:#EDEAE4;--card:#fff;--text:#1a1a1a;--text2:#555;--text3:#999;--accent:#0277BD;--accent2:#00695C;--accent3:#E65100;--border:rgba(0,0,0,.08);--ok:#2E7D32;--err:#C62828;--mono:'SF Mono','Consolas',monospace;--body:'Trebuchet MS','Lucida Grande',sans-serif;--display:'Palatino Linotype','Book Antiqua',Palatino,serif}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.5}button{cursor:pointer;font-family:var(--body)}
+.wrap{max-width:1260px;margin:0 auto;padding:4px 10px 60px}
+.modes{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:4px;overflow-x:auto}.mb{padding:6px 11px;font-size:.62rem;font-weight:700;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap}.mb:hover{color:var(--text)}.mb.on{color:var(--accent);border-bottom-color:var(--accent)}
+.guide{background:rgba(2,119,189,.04);border:1px solid rgba(2,119,189,.12);border-radius:6px;padding:5px 10px;font-size:.6rem;color:var(--text2);line-height:1.6;margin-bottom:4px}.guide b{color:var(--accent)}
+.main-row{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:6px}
+.sim-wrap{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border)}.sim-wrap canvas{display:block;width:100%;touch-action:none}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:4px}
+.ctrl{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:3px}
+.sl-g{display:flex;align-items:center;gap:4px;flex:1}.sl-g label{font-size:.56rem;font-weight:700;color:var(--text2);min-width:45px;text-transform:uppercase}.sl-g input[type="range"]{flex:1;accent-color:var(--accent);max-width:130px;height:3px}.sl-g .sv{font-family:var(--mono);font-size:.72rem;font-weight:800;color:var(--accent);min-width:36px;text-align:right}.unit{font-size:.5rem;color:var(--text3)}
+.btn{padding:4px 10px;border:none;border-radius:5px;font-size:.6rem;font-weight:700;transition:.12s}.btn:hover{transform:translateY(-1px)}.btn-p{background:var(--accent);color:#fff}.btn-s{background:var(--bg2);color:var(--text2);border:1px solid var(--border)}.btn-ok{background:var(--ok);color:#fff}
+.tb{padding:3px 7px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);font-size:.56rem;font-weight:600;color:var(--text2)}.tb:hover{border-color:var(--accent);color:var(--accent)}.tb.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.side{display:flex;flex-direction:column;gap:4px;overflow-y:auto;max-height:600px}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:6px 8px}.sc h4{font-size:.46rem;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);font-weight:700;margin-bottom:2px}.sc .sd{font-size:.56rem;color:var(--text2);line-height:1.5;margin-top:2px}
+.eq-box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:4px 7px;font-family:var(--display);font-size:.68rem;color:var(--text2);line-height:1.6}.eq-box strong{color:var(--accent)}
+.stat-g{display:grid;grid-template-columns:1fr 1fr;gap:3px}.si{background:var(--bg2);border-radius:4px;padding:3px 5px;text-align:center}.si .sl2{font-size:.42rem;text-transform:uppercase;color:var(--text3);font-weight:700}.si .sv3{font-family:var(--mono);font-size:.68rem;font-weight:800}
+.rd{font-size:.54rem;color:var(--text2);line-height:1.6;margin-top:3px}.rd b{color:var(--accent)}.rd .val{font-family:var(--mono);font-weight:800;color:var(--accent)}
+.num-input{width:50px;padding:3px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg2);font-family:var(--mono);font-size:.68rem;font-weight:700;text-align:center;outline:none;color:var(--text)}
+.gp{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin-top:6px}
+.btabs{display:flex;gap:2px;margin-bottom:5px;border-bottom:1px solid var(--border);padding-bottom:3px}.bt{padding:4px 9px;border-radius:5px 5px 0 0;font-size:.6rem;font-weight:700;cursor:pointer;color:var(--text3)}.bt:hover{color:var(--text)}.bt.on{color:var(--accent);background:var(--bg2);border:1px solid var(--border);border-bottom:none}.btc{display:none}.btc.on{display:block}
+.nb-c{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:3px 6px;margin-bottom:2px;font-size:.6rem;line-height:1.5}.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+.graph-wrap2{position:relative;width:100%;height:180px;margin-top:4px}.graph-wrap2 canvas{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:6px;border:1px solid var(--border)}
+.dt{width:100%;border-collapse:collapse;font-size:.62rem}.dt th{text-align:center;padding:3px;font-size:.46rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--bg2)}.dt td{padding:2px;text-align:center;border-bottom:1px solid var(--border);font-family:var(--mono)}.dt .mean{font-weight:800;color:var(--accent)}
+.ib-card{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-bottom:4px}.ib-cmd{display:inline-block;font-size:.44rem;padding:2px 5px;border-radius:3px;font-weight:700;text-transform:uppercase}.ib-cmd-c{background:rgba(230,81,0,.06);color:var(--accent3)}.ib-cmd-e{background:rgba(2,119,189,.06);color:var(--accent)}.ib-cmd-s{background:rgba(0,105,92,.06);color:var(--accent2)}.ib-card h4{font-size:.68rem;font-weight:700;margin:2px 0}.ib-card p{font-size:.6rem;color:var(--text2);line-height:1.5;margin-bottom:4px}.ib-card textarea{width:100%;height:36px;border:1.5px solid var(--border);border-radius:4px;padding:4px 6px;font-size:.6rem;resize:vertical;background:var(--bg2);outline:none;font-family:var(--body);color:var(--text)}.ib-ans{margin-top:4px;padding:6px 8px;border-radius:5px;background:rgba(0,105,92,.03);border:1px solid rgba(0,105,92,.08);font-size:.6rem;line-height:1.6;color:var(--text2);display:none}.ib-ans.show{display:block}.ib-ans strong{color:var(--ok)}
+@media(max-width:860px){.main-row{grid-template-columns:1fr}.side{max-height:none}}
+@media print{nav{display:none!important}}
+</style>
+</head>
+<body>
+<script>var SIM_META={id:'wave-phenomena-v3',title:'Wave Phenomena Lab',topic:'C.3',topicName:'Wave Phenomena',grade:['DP'],level:'both',theme:'C',concepts:['wavefronts','reflection','refraction','diffraction','interference','dispersion','Snell law','Huygens'],difficulty:'intermediate'};</script>
+<nav style="display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,119,189,.95),rgba(1,87,155,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(2,119,189,.3);flex-wrap:wrap;gap:5px">
+<div style="display:flex;align-items:center;gap:14px"><a href="../index.html" style="font-family:Palatino,serif;font-size:1rem;font-weight:700;color:#fff;text-decoration:none">Atul Soral Physicism</a><a href="../dp-simulations.html" style="color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem">← All Simulations</a></div>
+<div style="display:flex;gap:6px;align-items:center"><a href="../dp-simulations.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">← Back</a><a href="../index.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">Home</a><a href="../dp-dashboard.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">DP</a><a href="../myp-dashboard.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">MYP</a>
+</div></nav>
+<div class="wrap">
+<div class="modes" id="modes"></div>
+<div id="guideBar" class="guide"></div>
+<div class="main-row"><div style="min-width:0">
+<div class="sim-wrap"><canvas id="cv" height="380"></canvas></div>
+<div class="card" id="controls"></div>
+</div><div class="side" id="sidebar"></div></div>
+<div class="gp">
+<div class="btabs"><div class="bt on" onclick="bts(this,0)">Experiment</div><div class="bt" onclick="bts(this,1)">Data & Graph</div><div class="bt" onclick="bts(this,2)">IB Questions</div><div class="bt" onclick="bts(this,3)">Notebook</div></div>
+<div class="btc on" id="b0"><div id="expC"></div></div>
+<div class="btc" id="b1"><div id="dW"><p style="font-size:.6rem;color:var(--text3);text-align:center;padding:6px">Collect data first.</p></div><div class="graph-wrap2"><canvas id="gC"></canvas></div></div>
+<div class="btc" id="b2"><div id="ibL"></div></div>
+<div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-family:var(--display);font-size:.74rem;font-weight:700;color:var(--accent)">Notebook</span><button class="btn btn-s" onclick="window.print()" style="font-size:.5rem;padding:2px 5px">Print</button></div><div id="nbO"></div></div>
+</div></div>
+<script>
+if(!CanvasRenderingContext2D.prototype.roundRect){CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){if(typeof r==='number')r=[r,r,r,r];this.moveTo(x+r[0],y);this.lineTo(x+w-r[1],y);this.arcTo(x+w,y,x+w,y+r[1],r[1]);this.lineTo(x+w,y+h-r[2]);this.arcTo(x+w,y+h,x+w-r[2],y+h,r[2]);this.lineTo(x+r[3],y+h);this.arcTo(x,y+h,x,y+h-r[3],r[3]);this.lineTo(x,y+r[0]);this.arcTo(x,y,x+r[0],y,r[0]);this.closePath();};}
+var $=function(id){return document.getElementById(id)};
+var SCENES=[
+{n:'Wavefronts',guide:'<b>Click anywhere to add point sources. Drag to move.</b> Toggle Huygens\' construction and ray overlays.'},
+{n:'Reflection',guide:'<b>Wavefronts propagate from the left, hit the barrier, and reflect back.</b> θᵢ = θᵣ. Toggle normal and rays.'},
+{n:'Refraction',guide:'<b>Snell\'s law: n₁ sin θ₁ = n₂ sin θ₂.</b> Choose medium presets or set custom n values. Watch for TIR!'},
+{n:'Diffraction',guide:'<b>Plane waves spread through a gap.</b> Max diffraction when gap ≈ λ. First minimum at sin θ = λ/b.'},
+{n:'Interference',guide:'<b>Click to add sources.</b> Constructive: path diff = nλ. Destructive: path diff = (n+½)λ.'},
+{n:'Dispersion',guide:'<b>Drag the entry point on the prism face. Adjust incident angle.</b> Each colour bends differently. Choose material presets.'},
+{n:'IA Experiment',guide:'<b>Design your own investigation.</b> Choose IV and DV, collect data, and plot.'}
+];
+var scene=0;
+$('modes').innerHTML=SCENES.map(function(s,i){return '<div class="mb'+(i===0?' on':'')+'" onclick="setScene('+i+')">'+s.n+'</div>';}).join('');
+
+var MATERIALS=[{n:'Crown Glass',nr:1.510,nv:1.540},{n:'Flint Glass',nr:1.620,nv:1.670},{n:'Diamond',nr:2.410,nv:2.450},{n:'Water',nr:1.330,nv:1.343},{n:'Ice',nr:1.309,nv:1.317}];
+var MEDIA=[{n:'Air',v:1.00},{n:'Water',v:1.33},{n:'Glass',v:1.50},{n:'Diamond',v:2.42},{n:'Ice',v:1.31}];
+
+var S={freq:4,speed:120,time:0,paused:false,simSpeed:0.6,
+  srcType:'point',showHuygens:false,showRays:false,showWavefronts:true,
+  incAngle:30,barType:'flat',showNormal:true,
+  n1:1.0,n2:1.5,refAngle:30,
+  gapWidth:3,slitSep:80,
+  prismAngle:60,rayEntryY:0.45,rayIncAngle:45,showPrismNormals:true,matIdx:0};
+
+var sources=[];var dragIdx=-1;
+function getWL(){return S.speed/S.freq;}
+function getK(){return 2*Math.PI/getWL();}
+function getW(){return 2*Math.PI*S.freq;}
+function dst(x1,y1,x2,y2){var a=x1-x2,b=y1-y2;return Math.sqrt(a*a+b*b);}
+function dcy(r){return 1/(1+r*0.004);}
+function deg(r){return r*180/Math.PI;}
+function rad(d){return d*Math.PI/180;}
+
+var cv=$('cv'),cx=cv.getContext('2d');var cW,cH,GS=3;
+var offCv=document.createElement('canvas'),offX=offCv.getContext('2d');
+function resize(){var wp=cv.parentElement;var dpr=devicePixelRatio||1;cW=wp.clientWidth;cH=380;cv.width=cW*dpr;cv.height=cH*dpr;cv.style.width=cW+'px';cv.style.height=cH+'px';cx.setTransform(dpr,0,0,dpr,0,0);}
+new ResizeObserver(resize).observe(cv.parentElement);resize();
+
+cv.addEventListener('mousedown',function(e){var rect=cv.getBoundingClientRect();var mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  if(scene===5){
+    var pCy=cH*0.5,pSz=cH*(S.prismSize||0.42),A=rad(S.prismAngle);
+    var pCx2=cW*0.38,p1y=pCy-pSz*0.55,lfdx=-pSz*Math.sin(A/2),lfdy=pSz;
+    var entX=pCx2+lfdx*S.rayEntryY,entY=p1y+lfdy*S.rayEntryY;
+    if(dst(mx,my,entX,entY)<20){dragIdx=99;return;}
+    // Angle drag handle (~80px along incident ray)
+    var inN2={x:lfdy/Math.sqrt(lfdx*lfdx+lfdy*lfdy),y:-lfdx/Math.sqrt(lfdx*lfdx+lfdy*lfdy)};
+    var ca2=Math.cos(rad(S.rayIncAngle)),sa2=Math.sin(rad(S.rayIncAngle));
+    var iDir={x:inN2.x*ca2-inN2.y*sa2,y:inN2.x*sa2+inN2.y*ca2};
+    var ahx=entX-iDir.x*80,ahy=entY-iDir.y*80;
+    if(dst(mx,my,ahx,ahy)<25){dragIdx=98;return;}
+  }
+  if(scene===0||scene===4||scene===6){for(var i=0;i<sources.length;i++){if(dst(mx,my,sources[i].x,sources[i].y)<15){dragIdx=i;return;}}if(S.srcType==='point'||scene===4||scene===6){sources.push({x:mx,y:my});S.time=0;}}
+});
+cv.addEventListener('mousemove',function(e){if(dragIdx<0)return;var rect=cv.getBoundingClientRect();var mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  if(dragIdx===99){var pCy=cH*0.5,pSz=cH*(S.prismSize||0.42);S.rayEntryY=Math.max(0.15,Math.min(0.85,(my-(pCy-pSz*0.55))/pSz));return;}
+  if(dragIdx===98){
+    var pCy2=cH*0.5,pSz2=cH*(S.prismSize||0.42),A2=rad(S.prismAngle);
+    var pCx3=cW*0.38,p1y2=pCy2-pSz2*0.55,lfdx2=-pSz2*Math.sin(A2/2),lfdy2=pSz2;
+    var lfL2=Math.sqrt(lfdx2*lfdx2+lfdy2*lfdy2);
+    var entX2=pCx3+lfdx2*S.rayEntryY,entY2=p1y2+lfdy2*S.rayEntryY;
+    var lN3={x:-lfdy2/lfL2,y:lfdx2/lfL2};
+    var dx=entX2-mx,dy=entY2-my;
+    var dL=Math.sqrt(dx*dx+dy*dy);if(dL<1)return;
+    dx/=dL;dy/=dL;
+    var cosA=dx*(-lN3.x)+dy*(-lN3.y);
+    S.rayIncAngle=Math.round(Math.max(5,Math.min(80,deg(Math.acos(Math.max(-1,Math.min(1,cosA)))))));
+    buildControls();return;
+  }
+  if(dragIdx<sources.length){sources[dragIdx].x=mx;sources[dragIdx].y=my;}
+});
+cv.addEventListener('mouseup',function(){dragIdx=-1;});
+
+function renderWave(fn){
+  var gw=Math.ceil(cW/GS),gh=Math.ceil(cH/GS);
+  if(offCv.width!==gw||offCv.height!==gh){offCv.width=gw;offCv.height=gh;}
+  var img=offX.createImageData(gw,gh),d=img.data;
+  for(var gy=0;gy<gh;gy++){for(var gx=0;gx<gw;gx++){
+    var v=fn(gx*GS,gy*GS);v=v<-1?-1:v>1?1:v;
+    var t=(v+1)*0.5;t=t*t*(3-2*t);
+    var idx=(gy*gw+gx)*4;d[idx]=6+t*230|0;d[idx+1]=24+t*228|0;d[idx+2]=58+t*197|0;d[idx+3]=255;
+  }}
+  offX.putImageData(img,0,0);cx.imageSmoothingEnabled=true;cx.drawImage(offCv,0,0,cW,cH);
+}
+
+// ===== WAVE COMPUTERS =====
+function compWF(x,y){var k=getK(),w=getW(),t=S.time,v=0;
+  if(S.srcType==='point'){for(var i=0;i<sources.length;i++){var r=dst(x,y,sources[i].x,sources[i].y);if(r<1)r=1;if(r>S.speed*t)continue;v+=Math.sin(k*r-w*t)*dcy(r);}return Math.max(-1,Math.min(1,v/Math.max(1,Math.sqrt(sources.length))));}
+  var wf=S.speed*t;if(x>wf)return 0;return Math.sin(k*x-w*t);
+}
+
+function compRef(x,y){
+  var k=getK(),w=getW(),t=S.time,th=rad(S.incAngle),bx=cW*0.6;
+  var ct=Math.cos(th),st=Math.sin(th),kx=k*ct,ky=k*st,vt=S.speed*t;
+  // Incident wave across FULL screen
+  var incProj=x*ct+y*st;
+  var inc=incProj<vt?Math.sin(kx*x+ky*y-w*t):0;
+  if(S.barType==='none')return inc;
+  // Reflected wave only on source side
+  var ref=0;
+  if(S.barType==='flat'){
+    if(x<bx){var refProj=(2*bx-x)*ct+y*st;if(refProj<vt)ref=-Math.sin(-kx*x+ky*y+2*kx*bx-w*t);}
+  }else{
+    var R=130,cxB=S.barType==='concave'?bx+R:bx-R,cyB=cH/2;
+    var nPts=20;
+    for(var i=0;i<nPts;i++){
+      var ang=-0.55+1.1*i/(nPts-1);
+      var sx=cxB+(S.barType==='concave'?-R:R)*Math.cos(ang);
+      var sy=cyB+R*Math.sin(ang);
+      var bProj=sx*ct+sy*st;
+      if(bProj>vt)continue;
+      if((S.barType==='concave'&&x>sx)||(S.barType==='convex'&&x<sx))continue;
+      var rr=dst(x,y,sx,sy);if(rr<1)rr=1;
+      ref-=Math.sin(k*rr+kx*sx+ky*sy-w*t)*dcy(rr)/nPts*3;
+    }
+  }
+  return Math.max(-1,Math.min(1,(inc+ref)*0.45));
+}
+
+function compRfr(x,y){
+  var k1=getK(),w=getW(),t=S.time,by=cH*0.45;
+  var th1=rad(S.refAngle),k2=k1*S.n2/S.n1;
+  var sinTh2=S.n1*Math.sin(th1)/S.n2,tir=Math.abs(sinTh2)>1;
+  var kx=k1*Math.sin(th1),ky1=k1*Math.cos(th1);
+  if(y<=by){var inc=Math.sin(kx*x+ky1*y-w*t);if(tir){return(inc-Math.sin(kx*x-ky1*(y-2*by)-w*t))*0.5;}return inc;}
+  if(tir)return 0;
+  var th2=Math.asin(sinTh2),ky2=k2*Math.cos(th2);
+  return Math.sin(kx*x+ky2*(y-by)+ky1*by-w*t);
+}
+
+function compDif(x,y){
+  var k=getK(),w=getW(),t=S.time,bx=cW*0.35,gapH=S.gapWidth*getWL(),cy2=cH/2;
+  if(x<=bx)return Math.sin(k*x-w*t);
+  var nSrc=Math.max(8,Math.round(S.gapWidth*6));if(nSrc>40)nSrc=40;
+  var v=0,gt=cy2-gapH/2;
+  for(var i=0;i<nSrc;i++){var sy=gt+gapH*i/(nSrc-1);var r=dst(x,y,bx,sy);if(r<1)r=1;v+=Math.sin(k*r-w*t)*dcy(r)/nSrc*1.5;}
+  return Math.max(-1,Math.min(1,v));
+}
+
+function compInt(x,y){
+  var k=getK(),w=getW(),t=S.time,v=0,wf=S.speed*t;
+  for(var i=0;i<sources.length;i++){var r=dst(x,y,sources[i].x,sources[i].y);if(r<1)r=1;if(r>wf)continue;v+=Math.sin(k*r-w*t)*dcy(r);}
+  return Math.max(-1,Math.min(1,v/Math.max(1,Math.sqrt(sources.length))*0.8));
+}
+
+// ===== DRAW =====
+function draw(){
+  cx.fillStyle='#0a1929';cx.fillRect(0,0,cW,cH);
+  if(scene===5){drawDisp();return;}
+  var fn=[compWF,compRef,compRfr,compDif,compInt,null,compWF][scene]||compWF;
+  if(S.showWavefronts)renderWave(fn);
+  if(scene===0)ovWF();else if(scene===1)ovRef();else if(scene===2)ovRfr();else if(scene===3)ovDif();else if(scene===4)ovInt();
+  if((scene===0&&S.srcType==='point')||scene===4||scene===6){
+    for(var i=0;i<sources.length;i++){cx.fillStyle='#FDD835';cx.strokeStyle='rgba(255,255,255,.5)';cx.lineWidth=1.5;cx.beginPath();cx.arc(sources[i].x,sources[i].y,6,0,Math.PI*2);cx.fill();cx.stroke();cx.fillStyle='rgba(255,255,255,.7)';cx.font='bold 8px sans-serif';cx.textAlign='center';cx.fillText('S'+(i+1),sources[i].x,sources[i].y-10);}
+  }
+}
+
+function ovWF(){
+  if(S.srcType==='plane'){cx.fillStyle='rgba(255,255,255,.5)';cx.font='bold 9px sans-serif';cx.textAlign='left';cx.fillText('Plane Source →',8,20);}
+  if(S.showHuygens&&S.srcType==='point'&&sources.length>0){var wl=getWL(),sx=sources[0].x,sy=sources[0].y,r0=S.speed*S.time-wl;if(r0>wl){for(var i=0;i<16;i++){var a=Math.PI*2*i/16;cx.strokeStyle='rgba(255,200,50,.2)';cx.lineWidth=0.8;cx.beginPath();cx.arc(sx+r0*Math.cos(a),sy+r0*Math.sin(a),wl,0,Math.PI*2);cx.stroke();}cx.strokeStyle='rgba(255,200,50,.4)';cx.lineWidth=1.5;cx.setLineDash([4,4]);cx.beginPath();cx.arc(sx,sy,r0,0,Math.PI*2);cx.stroke();cx.setLineDash([]);}}
+  if(S.showRays&&S.srcType==='point'){for(var si=0;si<sources.length;si++){cx.strokeStyle='rgba(255,255,100,.3)';cx.lineWidth=1;for(var ra=0;ra<8;ra++){var a2=Math.PI*2*ra/8;cx.beginPath();cx.moveTo(sources[si].x,sources[si].y);cx.lineTo(sources[si].x+250*Math.cos(a2),sources[si].y+250*Math.sin(a2));cx.stroke();}}}
+  cx.fillStyle='rgba(255,255,255,.35)';cx.font='8px sans-serif';cx.textAlign='left';cx.fillText('Click to add · Drag to move',8,cH-8);
+}
+
+function ovRef(){
+  var bx=cW*0.6,th=rad(S.incAngle);
+  if(S.barType==='flat'){
+    var bg=cx.createLinearGradient(bx,0,bx+12,0);bg.addColorStop(0,'#78909C');bg.addColorStop(1,'#37474F');
+    cx.fillStyle=bg;cx.fillRect(bx,0,12,cH);
+    for(var bl=0;bl<cH;bl+=6){cx.strokeStyle='rgba(255,255,255,.06)';cx.lineWidth=0.5;cx.beginPath();cx.moveTo(bx,bl);cx.lineTo(bx+12,bl+3);cx.stroke();}
+  }else if(S.barType!=='none'){
+    var R=130,cxB=S.barType==='concave'?bx+R:bx-R;
+    var aStart=S.barType==='concave'?Math.PI-0.55:(-0.55);
+    var aEnd=S.barType==='concave'?Math.PI+0.55:0.55;
+    // Mirror surface
+    cx.strokeStyle='#90A4AE';cx.lineWidth=10;cx.lineCap='round';cx.beginPath();cx.arc(cxB,cH/2,R,aStart,aEnd);cx.stroke();
+    cx.strokeStyle='#B0BEC5';cx.lineWidth=4;cx.beginPath();cx.arc(cxB,cH/2,R,aStart,aEnd);cx.stroke();
+    // Hatch marks on back of mirror
+    for(var hm=0;hm<8;hm++){var ha=aStart+(aEnd-aStart)*hm/7;var hx=cxB+R*Math.cos(ha),hy=cH/2+R*Math.sin(ha);var hdx=Math.cos(ha)*(S.barType==='concave'?-8:8),hdy=Math.sin(ha)*8;cx.strokeStyle='rgba(255,255,255,.12)';cx.lineWidth=1;cx.beginPath();cx.moveTo(hx,hy);cx.lineTo(hx+hdx,hy+hdy);cx.stroke();}
+    // Focal point
+    var fX=S.barType==='concave'?bx-R/2:bx+R/2;
+    cx.fillStyle='rgba(255,200,50,.5)';cx.beginPath();cx.arc(fX,cH/2,4,0,Math.PI*2);cx.fill();
+    cx.fillStyle='rgba(255,255,255,.35)';cx.font='bold 8px sans-serif';cx.textAlign='center';
+    cx.fillText('F',fX,cH/2-8);
+    // Center of curvature
+    cx.fillStyle='rgba(100,200,255,.3)';cx.beginPath();cx.arc(cxB,cH/2,3,0,Math.PI*2);cx.fill();
+    cx.fillStyle='rgba(255,255,255,.25)';cx.fillText('C',cxB,cH/2-8);
+  }
+  if(S.barType!=='none'){
+    if(S.showNormal){cx.strokeStyle='rgba(255,255,255,.3)';cx.lineWidth=1;cx.setLineDash([5,5]);cx.beginPath();cx.moveTo(bx-180,cH/2);cx.lineTo(bx+30,cH/2);cx.stroke();cx.setLineDash([]);cx.fillStyle='rgba(255,255,255,.3)';cx.font='7px sans-serif';cx.textAlign='right';cx.fillText('Normal',bx-4,cH/2-6);}
+    var ar=55;cx.strokeStyle='rgba(255,200,50,.5)';cx.lineWidth=1.5;cx.beginPath();cx.arc(bx,cH/2,ar,Math.PI-th,Math.PI);cx.stroke();
+    cx.strokeStyle='rgba(100,200,255,.5)';cx.beginPath();cx.arc(bx,cH/2,ar,Math.PI,Math.PI+th);cx.stroke();
+    cx.fillStyle='rgba(255,200,50,.6)';cx.font='bold 9px sans-serif';cx.textAlign='right';cx.fillText('θᵢ='+S.incAngle+'°',bx-ar-6,cH/2-8);
+    cx.fillStyle='rgba(100,200,255,.6)';cx.fillText('θᵣ='+S.incAngle+'°',bx-ar-6,cH/2+16);
+  }
+  if(S.showRays&&S.barType!=='none'){cx.strokeStyle='rgba(255,200,50,.7)';cx.lineWidth=2;cx.beginPath();cx.moveTo(20,cH/2-(bx-20)*Math.tan(th));cx.lineTo(bx,cH/2);cx.stroke();cx.strokeStyle='rgba(100,200,255,.7)';cx.beginPath();cx.moveTo(bx,cH/2);cx.lineTo(20,cH/2+(bx-20)*Math.tan(th));cx.stroke();}
+  cx.fillStyle='rgba(255,255,255,.25)';cx.font='8px sans-serif';cx.textAlign='left';
+  cx.fillText(S.barType==='none'?'No surface — free propagation':'Surface: '+S.barType,8,cH-8);
+}
+
+function ovRfr(){
+  var by=cH*0.45;cx.strokeStyle='rgba(255,255,255,.2)';cx.lineWidth=2;cx.beginPath();cx.moveTo(0,by);cx.lineTo(cW,by);cx.stroke();
+  cx.fillStyle='rgba(100,180,255,.04)';cx.fillRect(0,0,cW,by);cx.fillStyle='rgba(0,80,160,.06)';cx.fillRect(0,by,cW,cH-by);
+  cx.fillStyle='rgba(255,255,255,.45)';cx.font='bold 9px sans-serif';cx.textAlign='left';
+  cx.fillText('n₁ = '+S.n1.toFixed(2),10,18);cx.fillText('n₂ = '+S.n2.toFixed(2),10,by+16);
+  cx.strokeStyle='rgba(255,255,255,.2)';cx.lineWidth=1;cx.setLineDash([4,4]);cx.beginPath();cx.moveTo(cW/2,by-100);cx.lineTo(cW/2,by+100);cx.stroke();cx.setLineDash([]);
+}
+
+function ovDif(){
+  var bx=cW*0.35,gapH=S.gapWidth*getWL(),cy2=cH/2;
+  var bg2=cx.createLinearGradient(bx-4,0,bx+4,0);bg2.addColorStop(0,'#607D8B');bg2.addColorStop(1,'#455A64');
+  cx.fillStyle=bg2;cx.fillRect(bx-4,0,8,cy2-gapH/2);cx.fillRect(bx-4,cy2+gapH/2,8,cH-cy2-gapH/2);
+  cx.strokeStyle='rgba(255,200,50,.5)';cx.lineWidth=1;cx.beginPath();cx.moveTo(bx+10,cy2-gapH/2);cx.lineTo(bx+16,cy2-gapH/2);cx.lineTo(bx+16,cy2+gapH/2);cx.lineTo(bx+10,cy2+gapH/2);cx.stroke();
+  cx.fillStyle='rgba(255,200,50,.5)';cx.font='7px sans-serif';cx.textAlign='left';cx.fillText('b',bx+18,cy2+3);
+}
+
+function ovInt(){
+  cx.fillStyle='rgba(255,255,255,.3)';cx.font='8px sans-serif';cx.textAlign='left';cx.fillText('Click to add · Drag to move · Sources: '+sources.length,8,cH-8);
+  if(sources.length>=2){
+    var wl=getWL(),screenX=cW*0.85,d=dst(sources[0].x,sources[0].y,sources[1].x,sources[1].y);
+    cx.strokeStyle='rgba(255,255,255,.1)';cx.lineWidth=1;cx.setLineDash([3,5]);cx.beginPath();cx.moveTo(screenX,0);cx.lineTo(screenX,cH);cx.stroke();cx.setLineDash([]);
+    if(d>1){var D=screenX-Math.min(sources[0].x,sources[1].x),midY=(sources[0].y+sources[1].y)/2;
+      for(var n=-4;n<=4;n++){var yy=midY+n*wl*D/d;if(yy>10&&yy<cH-10){cx.fillStyle=n===0?'rgba(100,255,100,.5)':'rgba(100,255,100,.25)';cx.beginPath();cx.arc(screenX,yy,3,0,Math.PI*2);cx.fill();}}}
+  }
+}
+
+// ===== DISPERSION =====
+function drawDisp(){
+  cx.fillStyle='#141820';cx.fillRect(0,0,cW,cH);
+  var A=rad(S.prismAngle),pCx=cW*0.38,pCy=cH*0.5,pSz=cH*(S.prismSize||0.42);
+  var p1={x:pCx,y:pCy-pSz*0.55};
+  var p2={x:pCx-pSz*Math.sin(A/2),y:pCy+pSz*0.45};
+  var p3={x:pCx+pSz*Math.sin(A/2),y:pCy+pSz*0.45};
+  var pG=cx.createLinearGradient(p1.x,p1.y,pCx,p2.y);pG.addColorStop(0,'rgba(180,210,240,.22)');pG.addColorStop(1,'rgba(140,170,210,.12)');
+  cx.fillStyle=pG;cx.beginPath();cx.moveTo(p1.x,p1.y);cx.lineTo(p2.x,p2.y);cx.lineTo(p3.x,p3.y);cx.closePath();cx.fill();
+  cx.strokeStyle='rgba(200,220,255,.4)';cx.lineWidth=1.5;cx.stroke();
+  var lf={dx:p2.x-p1.x,dy:p2.y-p1.y},lfL=Math.sqrt(lf.dx*lf.dx+lf.dy*lf.dy);
+  var lN={x:-lf.dy/lfL,y:lf.dx/lfL};
+  var rf={dx:p3.x-p1.x,dy:p3.y-p1.y},rfL=Math.sqrt(rf.dx*rf.dx+rf.dy*rf.dy);
+  var rN={x:rf.dy/rfL,y:-rf.dx/rfL};
+  var btf={dx:p3.x-p2.x,dy:p3.y-p2.y},btfL=Math.sqrt(btf.dx*btf.dx+btf.dy*btf.dy);
+  var bN={x:-btf.dy/btfL,y:btf.dx/btfL};
+  var entryP={x:p1.x+lf.dx*S.rayEntryY,y:p1.y+lf.dy*S.rayEntryY};
+  var mat=MATERIALS[S.matIdx];
+  // Incident direction: inward normal rotated CW by angle (ray comes from below-left)
+  var inN={x:-lN.x,y:-lN.y};
+  var ca=Math.cos(rad(S.rayIncAngle)),sa=Math.sin(rad(S.rayIncAngle));
+  var incDir={x:inN.x*ca+inN.y*sa,y:-inN.x*sa+inN.y*ca};
+  var iL=Math.sqrt(incDir.x*incDir.x+incDir.y*incDir.y);incDir.x/=iL;incDir.y/=iL;
+  // White incident beam
+  cx.strokeStyle='rgba(255,255,255,.75)';cx.lineWidth=4;
+  cx.beginPath();cx.moveTo(entryP.x-incDir.x*300,entryP.y-incDir.y*300);cx.lineTo(entryP.x,entryP.y);cx.stroke();
+  // Dashed original direction
+  cx.strokeStyle='rgba(255,255,255,.1)';cx.lineWidth=1;cx.setLineDash([6,4]);
+  cx.beginPath();cx.moveTo(entryP.x,entryP.y);cx.lineTo(entryP.x+incDir.x*500,entryP.y+incDir.y*500);cx.stroke();cx.setLineDash([]);
+  cx.fillStyle='rgba(255,255,255,.4)';cx.font='bold 9px sans-serif';cx.textAlign='left';
+  cx.fillText('White Light',entryP.x-incDir.x*240,entryP.y-incDir.y*240-8);
+  // Drag handle
+  cx.fillStyle='rgba(255,255,255,.6)';cx.beginPath();cx.arc(entryP.x,entryP.y,6,0,Math.PI*2);cx.fill();
+  cx.strokeStyle='rgba(255,255,255,.3)';cx.lineWidth=1;cx.stroke();
+  // Angle drag handle (further from entry along incident ray)
+  var angH={x:entryP.x-incDir.x*80,y:entryP.y-incDir.y*80};
+  cx.fillStyle='rgba(255,200,50,.5)';cx.beginPath();cx.arc(angH.x,angH.y,5,0,Math.PI*2);cx.fill();
+  cx.fillStyle='rgba(255,200,50,.4)';cx.font='7px sans-serif';cx.textAlign='center';cx.fillText('drag to change angle',angH.x,angH.y-9);
+  // Normals
+  if(S.showPrismNormals){cx.strokeStyle='rgba(255,255,255,.25)';cx.lineWidth=1;cx.setLineDash([4,4]);cx.beginPath();cx.moveTo(entryP.x+lN.x*65,entryP.y+lN.y*65);cx.lineTo(entryP.x-lN.x*40,entryP.y-lN.y*40);cx.stroke();cx.setLineDash([]);cx.fillStyle='rgba(255,255,255,.2)';cx.font='7px sans-serif';cx.textAlign='center';cx.fillText('N₁',entryP.x+lN.x*72,entryP.y+lN.y*72);}
+  // Compute Snell at entry
+  var lN2={x:lN.x,y:lN.y};
+  var cosI=-(incDir.x*lN2.x+incDir.y*lN2.y);
+  if(cosI<0){lN2.x=-lN2.x;lN2.y=-lN2.y;cosI=-cosI;}
+  var eFaces=[{ax:p1.x,ay:p1.y,bx:p3.x,by:p3.y,nx:rN.x,ny:rN.y},{ax:p2.x,ay:p2.y,bx:p3.x,by:p3.y,nx:bN.x,ny:bN.y}];
+  var colors=[{name:'Red',rgb:'#FF1744',f:0},{name:'Orange',rgb:'#FF9100',f:0.2},{name:'Yellow',rgb:'#FFEA00',f:0.33},{name:'Green',rgb:'#00E676',f:0.5},{name:'Blue',rgb:'#2979FF',f:0.75},{name:'Violet',rgb:'#AA00FF',f:1}];
+  // Phase 1: compute all ray paths
+  var rays=[];
+  colors.forEach(function(c){
+    var n=mat.nr+(mat.nv-mat.nr)*c.f;
+    var nR=1/n,sin2R=nR*nR*(1-cosI*cosI);if(sin2R>1){rays.push({c:c,n:n,tir1:true});return;}
+    var cosR=Math.sqrt(1-sin2R);
+    var refD={x:nR*incDir.x+(nR*cosI-cosR)*lN2.x,y:nR*incDir.y+(nR*cosI-cosR)*lN2.y};
+    var rL=Math.sqrt(refD.x*refD.x+refD.y*refD.y);refD.x/=rL;refD.y/=rL;
+    var bestT=1e9,bestF=-1;
+    for(var fi=0;fi<eFaces.length;fi++){var ef=eFaces[fi],fdx=ef.bx-ef.ax,fdy=ef.by-ef.ay;
+      var den=refD.x*fdy-refD.y*fdx;if(Math.abs(den)<0.001)continue;
+      var tt=((ef.ax-entryP.x)*fdy-(ef.ay-entryP.y)*fdx)/den;
+      var ss=((ef.ax-entryP.x)*refD.y-(ef.ay-entryP.y)*refD.x)/den;
+      if(tt>1&&ss>=0&&ss<=1&&tt<bestT){bestT=tt;bestF=fi;}}
+    if(bestF<0){rays.push({c:c,n:n,noExit:true});return;}
+    var exitP={x:entryP.x+refD.x*bestT,y:entryP.y+refD.y*bestT};
+    var eN={x:eFaces[bestF].nx,y:eFaces[bestF].ny};
+    var cosI2=-(refD.x*eN.x+refD.y*eN.y);
+    if(cosI2<0){eN.x=-eN.x;eN.y=-eN.y;cosI2=-cosI2;}
+    var nR2=n,sin2R2=nR2*nR2*(1-cosI2*cosI2);
+    if(sin2R2>1){
+      var tirD={x:refD.x+2*cosI2*eN.x,y:refD.y+2*cosI2*eN.y};var tL=Math.sqrt(tirD.x*tirD.x+tirD.y*tirD.y);tirD.x/=tL;tirD.y/=tL;
+      rays.push({c:c,n:n,exitP:exitP,refD:refD,tir2:true,tirD:tirD,face:bestF});return;}
+    var cosR2=Math.sqrt(1-sin2R2);
+    var exitD={x:nR2*refD.x+(nR2*cosI2-cosR2)*eN.x,y:nR2*refD.y+(nR2*cosI2-cosR2)*eN.y};
+    var eL2=Math.sqrt(exitD.x*exitD.x+exitD.y*exitD.y);exitD.x/=eL2;exitD.y/=eL2;
+    rays.push({c:c,n:n,exitP:exitP,refD:refD,exitD:exitD,face:bestF});
+  });
+  // Phase 2: Draw white beam inside prism (average path)
+  var validRays=rays.filter(function(r){return r.exitP&&!r.tir1;});
+  if(validRays.length>0){
+    var avgExit={x:0,y:0};validRays.forEach(function(r){avgExit.x+=r.exitP.x;avgExit.y+=r.exitP.y;});
+    avgExit.x/=validRays.length;avgExit.y/=validRays.length;
+    // Draw thick white beam from entry to average exit (white light inside prism)
+    cx.strokeStyle='rgba(255,255,255,.4)';cx.lineWidth=6;
+    cx.beginPath();cx.moveTo(entryP.x,entryP.y);cx.lineTo(avgExit.x,avgExit.y);cx.stroke();
+    // Subtle rainbow gradient near exit to show colors beginning to separate
+    var firstExit=validRays[0].exitP,lastExit=validRays[validRays.length-1].exitP;
+    if(dst(firstExit.x,firstExit.y,lastExit.x,lastExit.y)>3){
+      cx.strokeStyle='rgba(255,255,255,.15)';cx.lineWidth=1;
+      cx.beginPath();cx.moveTo(entryP.x,entryP.y);cx.lineTo(firstExit.x,firstExit.y);cx.stroke();
+      cx.beginPath();cx.moveTo(entryP.x,entryP.y);cx.lineTo(lastExit.x,lastExit.y);cx.stroke();
+    }
+  }
+  // Phase 3: Draw exit rays (thick, vivid colors) or TIR — NO colored rays inside prism
+  var tirC=0;
+  rays.forEach(function(r){
+    if(r.tir1)return;
+    if(!r.exitP)return;
+    if(r.tir2){
+      tirC++;
+      cx.strokeStyle=r.c.rgb;cx.lineWidth=2;cx.globalAlpha=0.6;cx.setLineDash([6,4]);
+      cx.beginPath();cx.moveTo(r.exitP.x,r.exitP.y);cx.lineTo(r.exitP.x+r.tirD.x*120,r.exitP.y+r.tirD.y*120);cx.stroke();
+      cx.setLineDash([]);cx.globalAlpha=1;
+      // Big TIR label
+      cx.fillStyle='rgba(0,0,0,.7)';cx.beginPath();cx.roundRect(r.exitP.x+8,r.exitP.y-18,38,18,4);cx.fill();
+      cx.fillStyle=r.c.rgb;cx.font='bold 11px sans-serif';cx.textAlign='left';
+      cx.fillText('TIR',r.exitP.x+12,r.exitP.y-4);
+      return;
+    }
+    if(r.exitD){
+      cx.strokeStyle=r.c.rgb;cx.lineWidth=3;cx.globalAlpha=0.85;
+      cx.beginPath();cx.moveTo(r.exitP.x,r.exitP.y);cx.lineTo(r.exitP.x+r.exitD.x*420,r.exitP.y+r.exitD.y*420);cx.stroke();cx.globalAlpha=1;
+      // Normal at exit (first ray only)
+      if(S.showPrismNormals&&r.c.f===0){cx.strokeStyle='rgba(255,255,255,.2)';cx.lineWidth=0.8;cx.setLineDash([3,3]);var ef=eFaces[r.face];cx.beginPath();cx.moveTo(r.exitP.x+ef.nx*45,r.exitP.y+ef.ny*45);cx.lineTo(r.exitP.x-ef.nx*28,r.exitP.y-ef.ny*28);cx.stroke();cx.setLineDash([]);cx.fillStyle='rgba(255,255,255,.2)';cx.font='7px sans-serif';cx.fillText('N₂',r.exitP.x+ef.nx*52,r.exitP.y+ef.ny*52);}
+      var lx=r.exitP.x+r.exitD.x*220,ly=r.exitP.y+r.exitD.y*220;
+      if(lx>10&&lx<cW-5&&ly>10&&ly<cH-10){cx.fillStyle=r.c.rgb;cx.font='bold 8px sans-serif';cx.textAlign='left';cx.fillText(r.c.name+' n='+r.n.toFixed(3),lx+6,ly-3);}
+    }
+  });
+  cx.fillStyle='rgba(255,255,255,.45)';cx.font='bold 10px sans-serif';cx.textAlign='center';
+  cx.fillText(MATERIALS[S.matIdx].n+' Prism (A='+S.prismAngle+'°)',pCx,p2.y+20);
+  if(tirC>0){cx.fillStyle='#FF5252';cx.font='bold 11px sans-serif';cx.fillText('TOTAL INTERNAL REFLECTION for '+tirC+' colour(s)',pCx,p2.y+36);}
+  cx.fillStyle='rgba(255,255,255,.25)';cx.font='8px sans-serif';cx.fillText('Drag entry point · Drag yellow handle to change angle',pCx,cH-10);
+  cx.fillStyle='rgba(255,200,50,.4)';cx.font='bold 8px sans-serif';cx.fillText('θᵢ = '+S.rayIncAngle+'°',entryP.x+lN.x*40+10,entryP.y+lN.y*40);
+}
+
+// ===== CONTROLS =====
+function buildControls(){
+  var wl=getWL();
+  var h='<div class="ctrl"><div class="sl-g"><label>Freq</label><input type="range" min="1" max="8" step="0.5" value="'+S.freq+'" oninput="S.freq=+this.value;uc(\'vF\',S.freq.toFixed(1))"><span class="sv" id="vF">'+S.freq.toFixed(1)+'</span><span class="unit">Hz</span></div></div>';
+  h+='<div class="ctrl"><div class="sl-g"><label>Speed</label><input type="range" min="40" max="250" step="5" value="'+S.speed+'" oninput="S.speed=+this.value;uc(\'vSp\',S.speed)"><span class="sv" id="vSp">'+S.speed+'</span><span class="unit">px/s</span></div></div>';
+
+  if(scene===0){
+    h+='<div class="ctrl" style="gap:3px"><span style="font-size:.5rem;font-weight:700;color:var(--text3)">SRC:</span><button class="tb'+(S.srcType==='point'?' on':'')+'" onclick="S.srcType=\'point\';S.time=0;buildControls()">Point</button><button class="tb'+(S.srcType==='plane'?' on':'')+'" onclick="S.srcType=\'plane\';S.time=0;buildControls()">Plane</button>';
+    h+='<label style="font-size:.52rem;display:flex;align-items:center;gap:2px;margin-left:3px"><input type="checkbox" '+(S.showHuygens?'checked':'')+' onchange="S.showHuygens=this.checked">Huygens</label>';
+    h+='<label style="font-size:.52rem;display:flex;align-items:center;gap:2px"><input type="checkbox" '+(S.showRays?'checked':'')+' onchange="S.showRays=this.checked">Rays</label></div>';
+  }else if(scene===1){
+    h+='<div class="ctrl"><div class="sl-g"><label>θ incid</label><input type="range" min="0" max="75" step="5" value="'+S.incAngle+'" oninput="S.incAngle=+this.value;S.time=0;uc(\'vA\',S.incAngle)"><span class="sv" id="vA">'+S.incAngle+'</span><span class="unit">°</span></div></div>';
+    h+='<div class="ctrl" style="gap:3px"><span style="font-size:.5rem;font-weight:700;color:var(--text3)">SURFACE:</span><button class="tb'+(S.barType==='none'?' on':'')+'" onclick="S.barType=\'none\';S.time=0;buildControls()">None</button><button class="tb'+(S.barType==='flat'?' on':'')+'" onclick="S.barType=\'flat\';S.time=0;buildControls()">Flat</button><button class="tb'+(S.barType==='concave'?' on':'')+'" onclick="S.barType=\'concave\';S.time=0;buildControls()">Concave</button><button class="tb'+(S.barType==='convex'?' on':'')+'" onclick="S.barType=\'convex\';S.time=0;buildControls()">Convex</button>';
+    h+='<label style="font-size:.52rem;display:flex;align-items:center;gap:2px;margin-left:3px"><input type="checkbox" '+(S.showRays?'checked':'')+' onchange="S.showRays=this.checked">Rays</label>';
+    h+='<label style="font-size:.52rem;display:flex;align-items:center;gap:2px"><input type="checkbox" '+(S.showNormal?'checked':'')+' onchange="S.showNormal=this.checked">Normal</label></div>';
+  }else if(scene===2){
+    h+='<div class="ctrl"><div class="sl-g"><label>θ₁</label><input type="range" min="0" max="85" step="1" value="'+S.refAngle+'" oninput="S.refAngle=+this.value;uc(\'vRA\',S.refAngle)"><span class="sv" id="vRA">'+S.refAngle+'</span><span class="unit">°</span></div></div>';
+    h+='<div class="ctrl"><div class="sl-g"><label>n₁</label><input type="range" min="1.0" max="2.5" step="0.05" value="'+S.n1+'" oninput="S.n1=+this.value;uc(\'vN1\',S.n1.toFixed(2))"><span class="sv" id="vN1">'+S.n1.toFixed(2)+'</span></div><div class="sl-g"><label>n₂</label><input type="range" min="1.0" max="2.5" step="0.05" value="'+S.n2+'" oninput="S.n2=+this.value;uc(\'vN2\',S.n2.toFixed(2))"><span class="sv" id="vN2">'+S.n2.toFixed(2)+'</span></div></div>';
+    h+='<div class="ctrl" style="gap:3px"><span style="font-size:.5rem;font-weight:700;color:var(--text3)">PRESET:</span>';
+    MEDIA.forEach(function(m,i){h+='<button class="tb" onclick="S.n2='+m.v+';buildControls()">'+m.n+'</button>';});
+    h+='</div>';
+  }else if(scene===3){
+    h+='<div class="ctrl"><div class="sl-g"><label>Gap/λ</label><input type="range" min="0.5" max="10" step="0.5" value="'+S.gapWidth+'" oninput="S.gapWidth=+this.value;uc(\'vGW\',S.gapWidth.toFixed(1))"><span class="sv" id="vGW">'+S.gapWidth.toFixed(1)+'</span><span class="unit">λ</span></div></div>';
+  }else if(scene===4){
+    h+='<div class="ctrl"><div class="sl-g"><label>Sep d</label><input type="range" min="20" max="200" step="5" value="'+S.slitSep+'" oninput="S.slitSep=+this.value;initS2();uc(\'vSS2\',S.slitSep)"><span class="sv" id="vSS2">'+S.slitSep+'</span><span class="unit">px</span></div></div>';
+  }else if(scene===5){
+    h+='<div class="ctrl"><div class="sl-g"><label>Apex A</label><input type="range" min="30" max="90" step="5" value="'+S.prismAngle+'" oninput="S.prismAngle=+this.value;uc(\'vPA\',S.prismAngle)"><span class="sv" id="vPA">'+S.prismAngle+'</span><span class="unit">°</span></div></div>';
+    h+='<div class="ctrl"><div class="sl-g"><label>θ incid</label><input type="range" min="10" max="80" step="1" value="'+S.rayIncAngle+'" oninput="S.rayIncAngle=+this.value;uc(\'vRI\',S.rayIncAngle)"><span class="sv" id="vRI">'+S.rayIncAngle+'</span><span class="unit">°</span></div></div>';
+    h+='<div class="ctrl"><div class="sl-g"><label>Size</label><input type="range" min="0.25" max="0.6" step="0.05" value="'+(S.prismSize||0.42)+'" oninput="S.prismSize=+this.value"><span class="sv">'+(S.prismSize||0.42).toFixed(2)+'</span></div></div>';
+    h+='<div class="ctrl" style="gap:3px"><span style="font-size:.5rem;font-weight:700;color:var(--text3)">MATERIAL:</span>';
+    MATERIALS.forEach(function(m,i){h+='<button class="tb'+(S.matIdx===i?' on':'')+'" onclick="S.matIdx='+i+';buildControls();buildSidebar()">'+m.n+'</button>';});
+    h+='</div>';
+    h+='<div class="ctrl"><label style="font-size:.52rem;display:flex;align-items:center;gap:2px"><input type="checkbox" '+(S.showPrismNormals?'checked':'')+' onchange="S.showPrismNormals=this.checked">Normals</label></div>';
+  }
+
+  h+='<div class="ctrl"><button class="btn '+(S.paused?'btn-ok':'btn-s')+'" onclick="S.paused=!S.paused;buildControls()">'+(S.paused?'▶ Play':'⏸ Pause')+'</button><button class="btn btn-s" onclick="S.time=0">Reset</button>';
+  if((scene===0||scene===4)&&sources.length>1)h+='<button class="btn btn-s" style="color:var(--err)" onclick="sources.pop();S.time=0">−Source</button>';
+  h+='</div>';
+  h+='<div class="eq-box"><strong>v = fλ</strong> → '+S.speed+' = '+S.freq.toFixed(1)+' × '+wl.toFixed(1)+' | <strong>λ</strong> = '+wl.toFixed(1)+' px</div>';
+  $('controls').innerHTML=h;
+}
+window.uc=function(id,v){var el=$(id);if(el)el.textContent=v;};
+window.initS2=function(){if(scene===4&&sources.length>=2){sources[0].y=cH/2-S.slitSep/2;sources[1].y=cH/2+S.slitSep/2;S.time=0;}};
+
+// ===== SIDEBAR WITH READINGS =====
+function buildSidebar(){
+  var wl=getWL(),h='';
+
+  // Properties card
+  h+='<div class="sc"><h4>Properties</h4><div class="stat-g">';
+  h+='<div class="si"><div class="sl2">λ</div><div class="sv3">'+wl.toFixed(1)+'</div></div>';
+  h+='<div class="si"><div class="sl2">f</div><div class="sv3">'+S.freq.toFixed(1)+' Hz</div></div>';
+  h+='<div class="si"><div class="sl2">v</div><div class="sv3">'+S.speed+'</div></div>';
+  h+='<div class="si"><div class="sl2">Scene</div><div class="sv3" style="font-size:.55rem">'+SCENES[scene].n+'</div></div>';
+  h+='</div></div>';
+
+  // Scene-specific readings
+  if(scene===1){
+    h+='<div class="sc"><h4>Reflection Readings</h4><div class="rd">';
+    h+='<b>θᵢ</b> = <span class="val">'+S.incAngle+'°</span><br>';
+    h+='<b>θᵣ</b> = <span class="val">'+S.incAngle+'°</span><br>';
+    h+='<b>Law:</b> θᵢ = θᵣ (always)<br>';
+    h+='The incident ray, reflected ray, and normal all lie in the same plane.';
+    h+='</div></div>';
+    h+='<div class="sc"><h4>Formula</h4><div class="eq-box"><strong>θᵢ = θᵣ</strong><br>Angle measured from the normal to the surface.</div></div>';
+  }
+
+  if(scene===2){
+    var th1=rad(S.refAngle),sinTh2=S.n1*Math.sin(th1)/S.n2,tir=Math.abs(sinTh2)>1;
+    var th2D=tir?'TIR':deg(Math.asin(sinTh2)).toFixed(1);
+    var wl2=(wl*S.n1/S.n2).toFixed(1);
+    var v2=(S.speed*S.n1/S.n2).toFixed(0);
+    h+='<div class="sc"><h4>Refraction Readings</h4><div class="rd">';
+    h+='<b>θ₁</b> = <span class="val">'+S.refAngle+'°</span><br>';
+    h+='<b>θ₂</b> = <span class="val">'+(tir?'TIR':th2D+'°')+'</span><br>';
+    h+='<b>n₁</b> = <span class="val">'+S.n1.toFixed(2)+'</span> | <b>n₂</b> = <span class="val">'+S.n2.toFixed(2)+'</span><br>';
+    h+='<b>λ₁</b> = <span class="val">'+wl.toFixed(1)+'</span> → <b>λ₂</b> = <span class="val">'+wl2+'</span> px<br>';
+    h+='<b>v₂</b> = <span class="val">'+v2+'</span> px/s<br>';
+    if(S.n1>S.n2){var thC=deg(Math.asin(S.n2/S.n1));h+='<b>Critical angle</b> θc = <span class="val">'+thC.toFixed(1)+'°</span><br>';}
+    if(tir)h+='<span style="color:var(--err);font-weight:700">Total Internal Reflection!</span>';
+    h+='</div></div>';
+    h+='<div class="sc"><h4>Formulas</h4><div class="eq-box"><strong>n₁ sin θ₁ = n₂ sin θ₂</strong><br>'+S.n1.toFixed(2)+' × sin('+S.refAngle+'°) = <strong>'+(S.n1*Math.sin(th1)).toFixed(3)+'</strong><br><strong>θc = arcsin(n₂/n₁)</strong><br><strong>v = c/n</strong> | <strong>λ = v/f</strong></div></div>';
+  }
+
+  if(scene===3){
+    var gapPx=(S.gapWidth*wl).toFixed(0);
+    var th1Min=S.gapWidth>0?deg(Math.asin(Math.min(1,1/S.gapWidth))).toFixed(1):'—';
+    h+='<div class="sc"><h4>Diffraction Readings</h4><div class="rd">';
+    h+='<b>Gap width b</b> = <span class="val">'+S.gapWidth.toFixed(1)+'λ</span> = <span class="val">'+gapPx+' px</span><br>';
+    h+='<b>λ</b> = <span class="val">'+wl.toFixed(1)+' px</span><br>';
+    h+='<b>b/λ</b> = <span class="val">'+S.gapWidth.toFixed(1)+'</span><br>';
+    h+='<b>1st minimum angle:</b><br>sin θ = λ/b → θ = <span class="val">'+th1Min+'°</span><br>';
+    if(S.gapWidth<=1.5)h+='<span style="color:var(--accent3);font-weight:700">Strong diffraction (b ≈ λ)</span>';
+    else if(S.gapWidth>5)h+='<span style="color:var(--accent2)">Weak diffraction (b >> λ)</span>';
+    h+='</div></div>';
+    h+='<div class="sc"><h4>Formulas</h4><div class="eq-box"><strong>sin θ = nλ/b</strong> (minima)<br>n = 1 for 1st min<br><strong>Central max width</strong> = 2λD/b</div></div>';
+  }
+
+  if(scene===4){
+    var d2=sources.length>=2?dst(sources[0].x,sources[0].y,sources[1].x,sources[1].y):S.slitSep;
+    var D=cW*0.6,fringeS=d2>1?wl*D/d2:0;
+    h+='<div class="sc"><h4>Interference Readings</h4><div class="rd">';
+    h+='<b>Sources</b> = <span class="val">'+sources.length+'</span><br>';
+    h+='<b>Separation d</b> = <span class="val">'+d2.toFixed(0)+' px</span><br>';
+    h+='<b>λ</b> = <span class="val">'+wl.toFixed(1)+' px</span><br>';
+    h+='<b>Screen dist D</b> = <span class="val">'+D.toFixed(0)+' px</span><br>';
+    h+='<b>Fringe spacing Δy</b> = <span class="val">'+fringeS.toFixed(1)+' px</span><br>';
+    h+='<b>Constructive:</b> path diff = nλ<br><b>Destructive:</b> path diff = (n+½)λ';
+    h+='</div></div>';
+    h+='<div class="sc"><h4>Formulas</h4><div class="eq-box"><strong>Δy = λD/d</strong><br>Constructive: d sin θ = nλ<br>Destructive: d sin θ = (n+½)λ<br><strong>Path diff</strong> = d sin θ</div></div>';
+  }
+
+  if(scene===5){
+    var mat=MATERIALS[S.matIdx],A=S.prismAngle;
+    var nAvg=(mat.nr+mat.nv)/2;
+    var dMin=2*deg(Math.asin(nAvg*Math.sin(rad(A/2))))-A;
+    h+='<div class="sc"><h4>Dispersion Readings</h4><div class="rd">';
+    h+='<b>Material:</b> <span class="val">'+mat.n+'</span><br>';
+    h+='<b>n(red)</b> = <span class="val">'+mat.nr.toFixed(3)+'</span><br>';
+    h+='<b>n(violet)</b> = <span class="val">'+mat.nv.toFixed(3)+'</span><br>';
+    h+='<b>Apex angle A</b> = <span class="val">'+A+'°</span><br>';
+    h+='<b>Incident angle θᵢ</b> = <span class="val">'+S.rayIncAngle+'°</span><br>';
+    // Compute refraction angle at face 1 for average n
+    var sinR1=Math.sin(rad(S.rayIncAngle))/nAvg;
+    if(Math.abs(sinR1)<=1){
+      var r1=deg(Math.asin(sinR1));
+      var r2=A-r1;
+      if(r2>0){
+        var sinE=nAvg*Math.sin(rad(r2));
+        if(Math.abs(sinE)<=1){
+          var eAng=deg(Math.asin(sinE));
+          var deviation=S.rayIncAngle+eAng-A;
+          h+='<b>θ refraction (face 1)</b> = <span class="val">'+r1.toFixed(1)+'°</span><br>';
+          h+='<b>θ incidence (face 2)</b> = <span class="val">'+r2.toFixed(1)+'°</span><br>';
+          h+='<b>θ emergence</b> = <span class="val">'+eAng.toFixed(1)+'°</span><br>';
+          h+='<b>Deviation δ</b> = <span class="val">'+deviation.toFixed(1)+'°</span><br>';
+        }
+      }
+    }
+    if(!isNaN(dMin)&&dMin>0)h+='<b>Min deviation δₘ</b> = <span class="val">'+dMin.toFixed(1)+'°</span><br>';
+    h+='<b>Dispersive power:</b> Δn = <span class="val">'+(mat.nv-mat.nr).toFixed(3)+'</span>';
+    h+='</div></div>';
+    h+='<div class="sc"><h4>Formulas</h4><div class="eq-box"><strong>δ = θᵢ + θₑ − A</strong><br><strong>δₘ = 2 arcsin(n sin A/2) − A</strong><br><strong>n = sin((A+δₘ)/2) / sin(A/2)</strong><br>Cauchy: <strong>n = A + B/λ²</strong></div></div>';
+  }
+
+  if(scene===0){
+    h+='<div class="sc"><h4>Key Concept</h4><div class="sd"><strong>Wavefronts</strong> are lines of constant phase. For point sources: circular. For plane sources: straight. Far from a point source, circular → plane (Huygens). Click canvas to add sources.</div></div>';
+  }
+  if(scene===6){h+='<div class="sc"><h4>IA Mode</h4><div class="sd">Choose IV and DV in the Experiment tab below. Adjust sliders and record measurements.</div></div>';}
+
+  $('sidebar').innerHTML=h;
+}
+
+function setScene(i){
+  scene=i;S.time=0;S.showWavefronts=true;S.showRays=(i===1);
+  document.querySelectorAll('.mb').forEach(function(b,j){b.classList.toggle('on',j===i);});
+  $('guideBar').innerHTML=SCENES[i].guide;
+  if(i===0){S.freq=4;S.speed=120;S.simSpeed=0.6;S.srcType='point';sources=[{x:cW*0.35,y:cH*0.5}];}
+  if(i===1){S.freq=4;S.speed=180;S.simSpeed=0.7;S.incAngle=30;S.showNormal=true;S.showRays=true;}
+  if(i===2){S.freq=4;S.speed=120;S.simSpeed=0.5;S.refAngle=30;S.n1=1.0;S.n2=1.5;}
+  if(i===3){S.freq=4;S.speed=120;S.simSpeed=0.5;S.gapWidth=3;}
+  if(i===4){S.freq=4;S.speed=120;S.simSpeed=0.5;sources=[{x:cW*0.25,y:cH/2-40},{x:cW*0.25,y:cH/2+40}];}
+  if(i===5){S.freq=4;S.speed=120;S.simSpeed=0.5;S.rayEntryY=0.45;S.rayIncAngle=45;}
+  if(i===6){S.freq=4;S.speed=120;S.simSpeed=0.5;sources=[{x:cW*0.35,y:cH*0.5}];}
+  buildControls();buildSidebar();
+}
+window.setScene=setScene;
+
+var lastT=0;
+function animate(ts){requestAnimationFrame(animate);var dt=(ts-lastT)/1000;lastT=ts;if(!S.paused&&dt<0.1)S.time+=dt*S.simSpeed;draw();if(Math.floor(S.time*10)%20===0)buildSidebar();}
+
+window.bts=function(el,i){document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on');});el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(function(){initGr();drawGr();},80);};
+
+var manD=[],expD=[];
+var EIV=[{id:'ang',n:'Angle (°)'},{id:'gap',n:'Gap Width (λ)'},{id:'sep',n:'Slit Sep (px)'},{id:'wl',n:'Wavelength (px)'},{id:'n2',n:'n₂'}];
+var EDV=[{id:'angR',n:'Refracted Angle (°)'},{id:'fringeS',n:'Fringe Spacing (px)'},{id:'wl2',n:'λ₂ (px)'}];
+function getSimIV(){var iv=$('selIV')?$('selIV').value:'ang';if(iv==='ang')return S.refAngle;if(iv==='gap')return S.gapWidth;if(iv==='sep')return S.slitSep;if(iv==='wl')return getWL();if(iv==='n2')return S.n2;return 0;}
+function getSimDV(){var dv=$('selDV')?$('selDV').value:'angR';if(dv==='angR'){var s=S.n1*Math.sin(rad(S.refAngle))/S.n2;return Math.abs(s)>1?90:deg(Math.asin(s));}if(dv==='fringeS'){var d2=sources.length>=2?dst(sources[0].x,sources[0].y,sources[1].x,sources[1].y):S.slitSep;return getWL()*cW*0.6/Math.max(1,d2);}if(dv==='wl2')return getWL()*S.n1/S.n2;return 0;}
+function getIVN(){var v=$('selIV')?$('selIV').value:'ang';for(var i=0;i<EIV.length;i++){if(EIV[i].id===v)return EIV[i].n;}return'IV';}
+function getDVN(){var v=$('selDV')?$('selDV').value:'angR';for(var i=0;i<EDV.length;i++){if(EDV[i].id===v)return EDV[i].n;}return'DV';}
+function buildExp(){var iv=$('selIV')?$('selIV').value:'ang';$('expC').innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:4px"><div><label style="font-size:.5rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">IV</label><select id="selIV" onchange="buildExp()" style="width:100%;padding:3px;border-radius:4px;border:1px solid var(--border);font-size:.6rem;background:var(--bg2)">'+EIV.map(function(v){return '<option value="'+v.id+'"'+(v.id===iv?' selected':'')+'>'+v.n+'</option>';}).join('')+'</select></div><div><label style="font-size:.5rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:1px">DV</label><select id="selDV" style="width:100%;padding:3px;border-radius:4px;border:1px solid var(--border);font-size:.6rem;background:var(--bg2)">'+EDV.map(function(v){return '<option value="'+v.id+'">'+v.n+'</option>';}).join('')+'</select></div></div><div style="background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:4px 6px"><div class="ctrl" style="gap:3px"><div style="flex:1"><label style="font-size:.46rem;font-weight:700;color:var(--text3)">IV</label><div style="display:flex;gap:2px"><input class="num-input" id="mIV" step="any" style="width:100%"><button class="btn btn-s" onclick="rIV()" style="font-size:.48rem;padding:2px 4px">Read</button></div></div><div style="flex:1"><label style="font-size:.46rem;font-weight:700;color:var(--text3)">DV</label><div style="display:flex;gap:2px"><input class="num-input" id="mDV" step="any" style="width:100%"><button class="btn btn-s" onclick="rDV()" style="font-size:.48rem;padding:2px 4px">Read</button></div></div><button class="btn btn-p" onclick="addR()">+Add</button><button class="btn btn-ok" onclick="aAdd()">Auto</button></div></div><div id="mT" style="margin-top:3px"></div><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-ok" onclick="plotM()">Plot</button><button class="btn btn-s" onclick="clrM()">Clear</button></div>';}
+window.rIV=function(){if($('mIV'))$('mIV').value=getSimIV().toFixed(2);};window.rDV=function(){if($('mDV'))$('mDV').value=getSimDV().toFixed(2);};window.aAdd=function(){rIV();rDV();addR();};
+window.addR=function(){var iv=parseFloat($('mIV')?$('mIV').value:0),dv=parseFloat($('mDV')?$('mDV').value:0);if(isNaN(iv)||isNaN(dv))return;manD.push({iv:iv,dv:dv});if($('mIV'))$('mIV').value='';if($('mDV'))$('mDV').value='';buildMT();syncM();addN('Data','IV='+iv.toFixed(2)+', DV='+dv.toFixed(2),'#'+manD.length);};
+function buildMT(){if(!manD.length){if($('mT'))$('mT').innerHTML='';return;}var g={};manD.forEach(function(d,i){var k=d.iv.toFixed(2);if(!g[k])g[k]=[];g[k].push({iv:d.iv,dv:d.dv,idx:i});});var ks=Object.keys(g).map(Number).sort(function(a,b){return a-b;});var rows='';ks.forEach(function(k){var pts=g[k.toFixed(2)],dvs=pts.map(function(p){return p.dv;}),mn=dvs.reduce(function(a,b){return a+b;},0)/dvs.length;pts.forEach(function(p,j){rows+='<tr><td>'+(j===0?k.toFixed(2):'')+'</td><td>'+p.dv.toFixed(2)+'</td><td><span style="cursor:pointer;color:var(--err);opacity:.5" onclick="rmPt('+p.idx+')">x</span></td></tr>';});rows+='<tr class="mean"><td>Mean</td><td class="mean">'+mn.toFixed(2)+'</td><td></td></tr>';});if($('mT'))$('mT').innerHTML='<table class="dt"><thead><tr><th>'+getIVN()+'</th><th>'+getDVN()+'</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';}
+window.rmPt=function(i){manD.splice(i,1);buildMT();syncM();};window.clrM=function(){manD=[];expD=[];buildMT();if($('dW'))$('dW').innerHTML='<p style="font-size:.6rem;color:var(--text3);text-align:center;padding:6px">Collect data first.</p>';drawGr();};
+function syncM(){if(!manD.length){expD=[];return;}var g={};manD.forEach(function(d){var k=d.iv.toFixed(2);if(!g[k])g[k]=[];g[k].push(d.dv);});expD=Object.keys(g).map(Number).sort(function(a,b){return a-b;}).map(function(k){var v=g[k.toFixed(2)],mn=v.reduce(function(a,b){return a+b;},0)/v.length;return{iv:k,mean:mn};});buildDT();setTimeout(function(){initGr();drawGr();},30);}
+function buildDT(){if(!expD.length)return;$('dW').innerHTML='<table class="dt"><thead><tr><th>'+getIVN()+'</th><th>Mean '+getDVN()+'</th></tr></thead><tbody>'+expD.map(function(r){return '<tr><td>'+r.iv.toFixed(2)+'</td><td class="mean">'+r.mean.toFixed(2)+'</td></tr>';}).join('')+'</tbody></table>';}
+window.plotM=function(){if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(function(){initGr();drawGr();},80);};
+var gCv,gx2;function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');var d=devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)return;gCv.width=w*d;gCv.height=180*d;gCv.style.width=w+'px';gCv.style.height='180px';gx2.setTransform(d,0,0,d,0,0);}
+function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return;}var w=parseInt(gCv.style.width)||500,h=180;gx2.clearRect(0,0,w,h);gx2.fillStyle='#fff';gx2.fillRect(0,0,w,h);if(!expD.length){gx2.fillStyle='#bbb';gx2.font='10px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data and click Plot',w/2,h/2);return;}var P={t:18,r:10,b:30,l:44},pW=w-P.l-P.r,pH=h-P.t-P.b;var xs=expD.map(function(r2){return r2.iv;}),ys=expD.map(function(r2){return r2.mean;});var xn=Math.min.apply(null,xs),xx=Math.max.apply(null,xs),yn=Math.min.apply(null,ys),yx=Math.max.apply(null,ys);if(xx-xn<.01){xn-=1;xx+=1;}if(yx-yn<.01){yn-=1;yx+=1;}var xp=(xx-xn)*.1,yp=(yx-yn)*.1;xn-=xp;xx+=xp;yn-=yp;yx+=yp;var tx=function(v){return P.l+((v-xn)/(xx-xn))*pW;},ty=function(v){return P.t+pH-((v-yn)/(yx-yn))*pH;};gx2.strokeStyle='rgba(0,0,0,.06)';gx2.lineWidth=.5;for(var i=0;i<=5;i++){gx2.beginPath();gx2.moveTo(tx(xn+(xx-xn)*i/5),P.t);gx2.lineTo(tx(xn+(xx-xn)*i/5),P.t+pH);gx2.stroke();}for(var i2=0;i2<=5;i2++){gx2.beginPath();gx2.moveTo(P.l,ty(yn+(yx-yn)*i2/5));gx2.lineTo(P.l+pW,ty(yn+(yx-yn)*i2/5));gx2.stroke();}gx2.strokeStyle='rgba(0,0,0,.2)';gx2.lineWidth=1.5;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,P.t+pH);gx2.lineTo(P.l+pW,P.t+pH);gx2.stroke();gx2.fillStyle='#888';gx2.font='8px sans-serif';gx2.textAlign='center';for(var i3=0;i3<=5;i3++)gx2.fillText((xn+(xx-xn)*i3/5).toFixed(1),tx(xn+(xx-xn)*i3/5),P.t+pH+11);gx2.textAlign='right';for(var i4=0;i4<=5;i4++)gx2.fillText((yn+(yx-yn)*i4/5).toFixed(1),P.l-3,ty(yn+(yx-yn)*i4/5)+3);gx2.fillStyle='#555';gx2.font='9px sans-serif';gx2.textAlign='center';gx2.fillText(getIVN(),P.l+pW/2,h-4);gx2.save();gx2.translate(8,P.t+pH/2);gx2.rotate(-Math.PI/2);gx2.fillText(getDVN(),0,0);gx2.restore();if(xs.length>=2){gx2.strokeStyle='#0277BD';gx2.lineWidth=1.2;gx2.beginPath();expD.forEach(function(r2,i5){i5===0?gx2.moveTo(tx(xs[i5]),ty(ys[i5])):gx2.lineTo(tx(xs[i5]),ty(ys[i5]));});gx2.stroke();}gx2.fillStyle='#0277BD';xs.forEach(function(x,i5){gx2.beginPath();gx2.arc(tx(x),ty(ys[i5]),3.5,0,Math.PI*2);gx2.fill();});}
+
+var IB=[
+{c:'State',q:'State the law of reflection.',f:'θᵢ = θᵣ. Both measured from the normal. Incident ray, reflected ray, and normal lie in the same plane.'},
+{c:'Explain',q:'Using Huygens\' principle, explain why a wave bends toward the normal when entering a denser medium.',f:'Each wavefront point acts as a secondary source. In the denser medium, wavelets have shorter λ (smaller radii). The envelope tilts toward the normal.'},
+{c:'Calculate',q:'Light goes from glass (n=1.50) to air. Find the critical angle.',f:'sin θc = n₂/n₁ = 1/1.50 = 0.667. θc = arcsin(0.667) = 41.8°.'},
+{c:'Explain',q:'Why does sound diffract through doorways but light does not?',f:'Diffraction significant when gap ≈ λ. Sound: λ~1m ≈ door. Light: λ~500nm << door → gap/λ ≈ 2×10⁶.'},
+{c:'Calculate',q:'Double slit: λ=550nm, d=0.25mm, D=2.0m. Find Δy.',f:'Δy = λD/d = (550×10⁻⁹ × 2.0)/(0.25×10⁻³) = 4.4 mm.'},
+{c:'Explain',q:'How does a prism produce a spectrum?',f:'n depends on λ. Violet: higher n → bends more. Red: lower n → bends less. Two refractions separate the colours.'},
+{c:'Distinguish',q:'Distinguish constructive and destructive interference.',f:'Constructive: path diff = nλ, in phase, max amplitude. Destructive: path diff = (n+½)λ, antiphase, cancellation.'}
+];
+function buildIB(){$('ibL').innerHTML=IB.map(function(q,i){var cls=q.c==='Calculate'?'c':q.c==='Explain'?'e':'s';return '<div class="ib-card"><span class="ib-cmd ib-cmd-'+cls+'">'+q.c+'</span><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea placeholder="Your answer..."></textarea><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-p" onclick="sF('+i+')" style="font-size:.54rem">Show Answer</button></div><div class="ib-ans" id="iF'+i+'">'+q.f+'</div></div>';}).join('');}
+window.sF=function(i){$('iF'+i).classList.toggle('show');if($('iF'+i).classList.contains('show'))addN('IB Q'+(i+1),IB[i].q.substring(0,50)+'...','Answered');};
+var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN();}
+function showN(){$('nbO').innerHTML=nb.length?nb.map(function(n,i){return '<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">-> '+n.r+'</span></div>';}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.56rem;padding:6px">Complete experiments to record.</p>';}
+
+sources=[{x:250,y:190}];
+$('guideBar').innerHTML=SCENES[0].guide;
+buildControls();buildSidebar();buildExp();buildIB();showN();
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>
