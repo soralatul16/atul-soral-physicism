@@ -327,3 +327,92 @@ exports.generateExamPipeline = onCall({ region: "us-central1" }, async (request)
 const teacherFeedback = require("./teacher-feedback");
 exports.submitTeacherFeedback = teacherFeedback.submitTeacherFeedback;
 exports.saveTrustedTemplate = teacherFeedback.saveTrustedTemplate;
+
+/* ═══════════════════════════════════════════════════════════
+   AI CHAT PROXY — Keeps Groq API key server-side
+   Called by client-side AI tutor widgets across the site.
+   ═══════════════════════════════════════════════════════════ */
+exports.aiChat = onCall(
+  { cors: [/soralatul16\.github\.io$/, /localhost/] },
+  async (request) => {
+    // Auth guard — only logged-in users can call AI
+    if (!request.auth) {
+      throw new HttpsError("unauthenticated", "Must be logged in to use AI tutor.");
+    }
+
+    const { messages, temperature = 0.7, maxTokens = 300, model, responseFormat } = request.data || {};
+
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      throw new HttpsError("invalid-argument", "messages array is required.");
+    }
+
+    // Safety cap: max 4096 tokens for any request
+    const safeMaxTokens = Math.min(maxTokens || 300, 4096);
+
+    const envVars = getEnv();
+    const key = envVars.GROQ_API_KEY;
+    if (!key) {
+      throw new HttpsError("failed-precondition", "AI service not configured. Contact administrator.");
+    }
+
+    // Use requested model or default
+    const useModel = model || "llama-3.3-70b-versatile";
+    const fallbackModel = "llama-3.1-8b-instant";
+    
+    // Prepare Groq payload
+    const payload = {
+      model: useModel,
+      messages,
+      temperature,
+      max_tokens: safeMaxTokens
+    };
+    if (responseFormat === "json" || responseFormat === "json_object") {
+      payload.response_format = { type: "json_object" };
+    }
+
+    let lastError = null;
+    for (const m of [useModel, fallbackModel]) {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 60000); // 60s for JSON generation
+
+        payload.model = m;
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": "Bearer " + key },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeout);
+
+        if (response.status === 429 && m === useModel) {
+          // Rate limited on primary model, try fallback
+          await new Promise(r => setTimeout(r, 2000));
+          continue;
+        }
+
+        if (!response.ok) {
+          lastError = "API error " + response.status;
+          continue;
+        }
+
+        const data = await response.json();
+        const reply = data.choices?.[0]?.message?.content;
+
+        if (!reply) {
+          lastError = "Empty response from " + m;
+          continue;
+        }
+
+        return { reply, model: m };
+
+      } catch (err) {
+        lastError = err.name === "AbortError" ? "Request timed out" : err.message;
+        continue;
+      }
+    }
+
+    throw new HttpsError("internal", "AI request failed: " + lastError);
+  }
+);

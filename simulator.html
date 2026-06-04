@@ -182,6 +182,7 @@ h1 {
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
 <script src="exam-system/firebase-config.js?v=2"></script>
 </head>
 <body>
@@ -678,39 +679,23 @@ function sendAITutor() {
   messages.innerHTML += '<div id="' + loadingId + '" style="margin-bottom:8px;"><span style="background:var(--cream,#f9f6f1);padding:8px 14px;border-radius:12px 12px 12px 2px;display:inline-block;font-size:12px;color:var(--text3,#888);">Thinking...</span></div>';
   messages.scrollTop = messages.scrollHeight;
   
-  var key = localStorage.getItem('groq_api_key') || localStorage.getItem('ia_api_key');
-  if (!key) {
-    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Please set your Groq API key in the Exam Generator first.</span>';
+  // Call AI via Cloud Function (API key stays server-side)
+  if(!firebase.auth().currentUser){
+    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Please log in to use the AI tutor.</span>';
     return;
   }
-  
-  fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key},
-    body: JSON.stringify({
-      model: 'llama-3.3-70b-versatile',
-      messages: [
-        {role: 'system', content: 'You are a friendly IB MYP Physics tutor for Grade 6-10 students. Give clear, concise answers. Use simple language. Include formulas when relevant. Keep answers under 150 words. If asked about non-physics topics, politely redirect to physics. Always encourage the student.'},
-        {role: 'user', content: msg}
-      ],
-      temperature: 0.7,
-      max_tokens: 300
-    })
-  }).then(function(r) {
-    if (r.status === 429) {
-      document.getElementById(loadingId).innerHTML = '<span style="background:rgba(230,168,23,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#e6a817;">Rate limited — wait a minute and try again.</span>';
-      return;
-    }
-    return r.json();
-  }).then(function(data) {
-    if (!data) return;
-    var reply = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+  var aiChat=firebase.functions().httpsCallable('aiChat');
+  aiChat({messages:[
+    {role:'system',content:'You are a friendly IB MYP Physics tutor for Grade 6-10 students. Give clear, concise answers. Use simple language. Include formulas when relevant. Keep answers under 150 words. If asked about non-physics topics, politely redirect to physics. Always encourage the student.'},
+    {role:'user',content:msg}
+  ],temperature:0.7,maxTokens:300}).then(function(result){
+    var reply = result.data.reply;
     if (reply) {
       document.getElementById(loadingId).innerHTML = '<span style="background:var(--cream,#f9f6f1);padding:10px 14px;border-radius:12px 12px 12px 2px;display:inline-block;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;line-height:1.6;text-align:left;">' + reply.replace(/\n/g, '<br>') + '</span>';
     }
     messages.scrollTop = messages.scrollHeight;
-  }).catch(function(err) {
-    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Error: ' + err.message + '</span>';
+  }).catch(function(err){
+    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Error: ' + (err.message||'AI service unavailable') + '</span>';
   });
 }
 

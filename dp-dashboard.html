@@ -297,6 +297,7 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
 <script src="exam-system/firebase-config.js?v=2"></script>
 <script src="js/dp-student-data.js?v=14"></script>
 </head>
@@ -714,20 +715,19 @@ async function sendAIMsg(){
   container.innerHTML+='<div style="background:rgba(239,68,68,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;align-self:flex-end;">'+msg+'</div>';
   input.value='';
   container.scrollTop=container.scrollHeight;
-  // Call Groq API
-  var key=localStorage.getItem('groq_api_key')||localStorage.getItem('ia_api_key');
-  if(!key){container.innerHTML+='<div style="background:rgba(26,35,126,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;align-self:flex-start;">Please set your API key in the Exam Generator first.</div>';return;}
+  // Call AI via Cloud Function (API key stays server-side)
+  if(!firebase.auth().currentUser){container.innerHTML+='<div style="background:rgba(26,35,126,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;align-self:flex-start;">Please log in to use the AI tutor.</div>';return;}
   container.innerHTML+='<div id="ai-typing" style="background:rgba(26,35,126,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text3,#888);max-width:85%;align-self:flex-start;">Thinking...</div>';
   container.scrollTop=container.scrollHeight;
   try{
-    var resp=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:'You are a friendly IB DP Physics tutor. Answer ONLY physics questions related to the IB DP Physics syllabus (2025 onwards, themes A-E). Keep answers concise (2-4 sentences). Use formulas where relevant. If asked non-physics questions, politely redirect to physics. Use emojis sparingly.'},{role:'user',content:msg}],temperature:0.7,max_tokens:300})});
-    var data=await resp.json();
-    var reply=data.choices?.[0]?.message?.content||'Sorry, I could not process that.';
+    var aiChat=firebase.functions().httpsCallable('aiChat');
+    var result=await aiChat({messages:[{role:'system',content:'You are a friendly IB DP Physics tutor. Answer ONLY physics questions related to the IB DP Physics syllabus (2025 onwards, themes A-E). Keep answers concise (2-4 sentences). Use formulas where relevant. If asked non-physics questions, politely redirect to physics. Use emojis sparingly.'},{role:'user',content:msg}],temperature:0.7,maxTokens:300});
+    var reply=result.data.reply||'Sorry, I could not process that.';
     var typing=document.getElementById('ai-typing');
     if(typing)typing.outerHTML='<div style="background:rgba(26,35,126,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;align-self:flex-start;line-height:1.6;">'+reply+'</div>';
   }catch(e){
     var typing=document.getElementById('ai-typing');
-    if(typing)typing.outerHTML='<div style="background:rgba(239,68,68,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:#c0392b;max-width:85%;align-self:flex-start;">Error: '+e.message+'</div>';
+    if(typing)typing.outerHTML='<div style="background:rgba(239,68,68,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:#c0392b;max-width:85%;align-self:flex-start;">Error: '+(e.message||'AI service unavailable')+'</div>';
   }
   container.scrollTop=container.scrollHeight;
 }
