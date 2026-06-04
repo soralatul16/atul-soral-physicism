@@ -1,12 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Circuit Builder Lab | Atul Soral Physicism</title>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0FWC22D8S"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H0FWC22D8S');</script>
 <style>
 :root{--bg:#F8F7F4;--bg2:#EDEAE4;--card:#fff;--text:#1a1a1a;--text2:#555;--text3:#999;--accent:#1565C0;--accent2:#1A6847;--accent3:#C62828;--border:rgba(0,0,0,.08);--ok:#2E7D32;--err:#C62828;--warn:#E65100;--mono:'SF Mono','Consolas',monospace;--body:'Trebuchet MS','Lucida Grande','Lucida Sans',sans-serif;--display:'Palatino Linotype','Book Antiqua',Palatino,serif}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -130,12 +129,16 @@ button{cursor:pointer;font-family:var(--body)}
       <div class="bt on" onclick="bts(this,0)">Experiment</div>
       <div class="bt" onclick="bts(this,1)">Data & Graph</div>
       <div class="bt" onclick="bts(this,2)">IB Questions</div>
-      <div class="bt" onclick="bts(this,3)">Notebook</div>
+      <div class="bt" onclick="bts(this,3)">Challenges</div>
+      <div class="bt" onclick="bts(this,4)">Real World</div>
+      <div class="bt" onclick="bts(this,5)">Notebook</div>
     </div>
     <div class="btc on" id="b0"><div id="expC"></div></div>
     <div class="btc" id="b1"><div id="dW"><p style="font-size:.6rem;color:var(--text3);text-align:center;padding:6px">Collect data first.</p></div><div class="graph-wrap"><canvas id="gC"></canvas></div></div>
     <div class="btc" id="b2"><div id="ibL"></div></div>
-    <div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-family:var(--display);font-size:.74rem;font-weight:700;color:var(--accent)">Notebook</span><button class="btn btn-s" onclick="window.print()" style="font-size:.52rem;padding:2px 5px">Print</button></div><div id="nbO"></div></div>
+    <div class="btc" id="b3"><div id="challengeContent"></div></div>
+    <div class="btc" id="b4"><div id="realWorldContent"></div></div>
+    <div class="btc" id="b5"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-family:var(--display);font-size:.74rem;font-weight:700;color:var(--accent)">Notebook</span><button class="btn btn-s" onclick="window.print()" style="font-size:.52rem;padding:2px 5px">Print</button></div><div id="nbO"></div></div>
   </div>
 </div>
 
@@ -184,6 +187,7 @@ let solvedCurrents = {};
 let solvedVoltages = {};
 let terminalV = {};
 let warnings = [];
+let flowMode = 'conventional'; // 'conventional' or 'electron'
 
 // ========== CANVAS ==========
 const canvas = $('circuitCanvas');
@@ -242,7 +246,7 @@ window.startDragNew = (type, e) => {
   const rect = canvas.getBoundingClientRect();
   const touch = e.touches ? e.touches[0] : e;
   const comp = {
-    id: nextId++, type, x: 0, y: 0,
+    id: nextId++, type, x: 0, y: 0, rotation: 0,
     value: COMP_TYPES[type].defaultVal,
     closed: type === 'switch_', blown: false, intR: 0.5
   };
@@ -273,9 +277,11 @@ window.startDragNew = (type, e) => {
 // ========== COMPONENT TERMINALS ==========
 function getTerminals(comp) {
   const w = GRID * 1.5;
+  const rot = (comp.rotation || 0) * Math.PI / 180;
+  const dx = Math.cos(rot) * w/2, dy = Math.sin(rot) * w/2;
   return [
-    {x: comp.x - w/2, y: comp.y, id: comp.id + '_L'},
-    {x: comp.x + w/2, y: comp.y, id: comp.id + '_R'}
+    {x: comp.x - dx, y: comp.y - dy, id: comp.id + '_L'},
+    {x: comp.x + dx, y: comp.y + dy, id: comp.id + '_R'}
   ];
 }
 
@@ -314,9 +320,10 @@ canvas.addEventListener('pointerdown', e => {
   for(const comp of components) {
     if(Math.hypot(mx - comp.x, my - comp.y) < 30) {
       if(comp.type === 'switch_') {
+        // Toggle switch AND select it (so rotate button appears)
         comp.closed = !comp.closed;
+        selectedComp = comp;
         solveCircuit();
-        buildSidebar();
         return;
       }
       selectedComp = comp;
@@ -373,6 +380,15 @@ function solveCircuit() {
   warnings = [];
   solvedCurrents = {};
   solvedVoltages = {};
+  terminalV = {};
+  running = false;
+  if(!components.length) { buildSidebar(); return; }
+
+  solveOnce();
+  buildSidebar();
+}
+
+function solveOnce() {
   if(!components.length) return;
 
   // Build node map from wires
@@ -400,12 +416,35 @@ function solveCircuit() {
     const terms = getTerminals(comp);
     for(const t of terms) { if(uf[t.id] === undefined) uf[t.id] = t.id; }
   }
-  // Merge via wires
+  // Merge via wires (for MNA node mapping — NOT through components)
   for(const w of wires) { union(w.from, w.to); }
 
-  // Map to node indices
+  // Separate connectivity check (includes component pass-through) for 'running' flag
+  const uf2 = {};
+  function find2(x) { if(uf2[x] === undefined) uf2[x] = x; return uf2[x] === x ? x : (uf2[x] = find2(uf2[x])); }
+  function union2(a, b) { uf2[find2(a)] = find2(b); }
+  for(const comp of components) {
+    const terms = getTerminals(comp);
+    for(const t of terms) { if(uf2[t.id] === undefined) uf2[t.id] = t.id; }
+  }
+  for(const w of wires) { union2(w.from, w.to); }
+  for(const comp of components) {
+    if(comp.type === 'switch_' && !comp.closed) continue;
+    if(comp.type === 'fuse' && comp.blown) continue;
+    const terms = getTerminals(comp);
+    union2(terms[0].id, terms[1].id);
+  }
+
+  // Map to node indices — ensure battery negative terminal is node 0 (ground)
   const nodeIndex = {};
   let nIdx = 0;
+  // First, find battery negative terminal and assign it node 0
+  const battComp = components.find(c => c.type === 'battery');
+  if(battComp) {
+    const battTerms = getTerminals(battComp);
+    const negRoot = find(battTerms[0].id); // _L = negative
+    nodeIndex[negRoot] = nIdx++;
+  }
   for(const comp of components) {
     const terms = getTerminals(comp);
     for(const t of terms) {
@@ -424,9 +463,8 @@ function solveCircuit() {
   const resistors = components.filter(c => c.type !== 'battery');
 
   // Simple solver for resistive networks with voltage sources
-  // G * V = I (conductance matrix)
-  const G = Array.from({length: N}, () => new Float64Array(N));
-  const I = new Float64Array(N);
+  const G = Array.from({length: N}, () => Array(N).fill(0));
+  const Ivec = Array(N).fill(0);
 
   for(const comp of components) {
     const terms = getTerminals(comp);
@@ -440,27 +478,26 @@ function solveCircuit() {
       const g = 1 / r;
       G[n1][n1] += g; G[n2][n2] += g;
       G[n1][n2] -= g; G[n2][n1] -= g;
-      I[n2] += comp.value / r;
-      I[n1] -= comp.value / r;
+      Ivec[n2] += comp.value / r;
+      Ivec[n1] -= comp.value / r;
     } else if(comp.type === 'switch_') {
       if(comp.closed) {
         const g = 1 / 0.001;
         G[n1][n1] += g; G[n2][n2] += g; G[n1][n2] -= g; G[n2][n1] -= g;
       }
     } else if(comp.type === 'diode' || comp.type === 'led') {
-      // Diode: only conducts forward above ~0.7V, blocks reverse
-      // Use iterative: check voltage from previous solve, set conductance accordingly
+      // Diode: _L = anode, _R = cathode. Forward bias when V_L > V_R → vDrop < 0
       const prevV = solvedVoltages[comp.id];
       const vDrop = prevV ? prevV.drop : 0;
       const threshold = comp.type === 'led' ? 1.8 : 0.7;
-      if(vDrop > threshold) {
-        const g = 1 / 5; // low forward resistance
+      if(vDrop < -threshold) {
+        const g = 1 / 5;
         G[n1][n1] += g; G[n2][n2] += g; G[n1][n2] -= g; G[n2][n1] -= g;
-      } else if(vDrop > 0) {
-        const g = 1 / 1e5; // very high resistance below threshold
+      } else if(vDrop < 0) {
+        const g = 1 / 1e5;
         G[n1][n1] += g; G[n2][n2] += g; G[n1][n2] -= g; G[n2][n1] -= g;
       } else {
-        const g = 1 / 1e7; // reverse blocking
+        const g = 1 / 1e7;
         G[n1][n1] += g; G[n2][n2] += g; G[n1][n2] -= g; G[n2][n1] -= g;
       }
     } else if(comp.type === 'fuse') {
@@ -481,12 +518,15 @@ function solveCircuit() {
     }
   }
 
-  // Ground node 0
+  // Regularize: add tiny conductance to prevent singular matrix
+  for(let i = 0; i < N; i++) { G[i][i] += 1e-9; }
+
+  // Ground node 0 (battery negative)
   for(let j = 0; j < N; j++) { G[0][j] = 0; }
-  G[0][0] = 1; I[0] = 0;
+  G[0][0] = 1; Ivec[0] = 0;
 
   // Gaussian elimination
-  const A = G.map((row, i) => [...row, I[i]]);
+  const A = G.map((row, i) => [...row, Ivec[i]]);
   for(let col = 0; col < N; col++) {
     let maxRow = col;
     for(let row = col + 1; row < N; row++) { if(Math.abs(A[row][col]) > Math.abs(A[maxRow][col])) maxRow = row; }
@@ -497,7 +537,7 @@ function solveCircuit() {
       for(let j = col; j <= N; j++) A[row][j] -= f * A[col][j];
     }
   }
-  const V = new Float64Array(N);
+  const V = Array(N).fill(0);
   for(let i = N - 1; i >= 0; i--) {
     if(Math.abs(A[i][i]) < 1e-12) continue;
     V[i] = A[i][N];
@@ -510,6 +550,7 @@ function solveCircuit() {
   for(const comp of components) {
     const terms = getTerminals(comp);
     const n1 = termNode(terms[0].id), n2 = termNode(terms[1].id);
+    if(n1 === undefined || n2 === undefined) { solvedCurrents[comp.id] = 0; solvedVoltages[comp.id] = {v1:0,v2:0,drop:0}; continue; }
     const v1 = V[n1] || 0, v2 = V[n2] || 0;
     const vDrop = v2 - v1;
     solvedVoltages[comp.id] = {v1, v2, drop: vDrop};
@@ -518,7 +559,7 @@ function solveCircuit() {
 
     if(comp.type === 'battery') {
       const r = Math.max(comp.intR || 0.5, 0.01);
-      solvedCurrents[comp.id] = (comp.value - Math.abs(vDrop)) / r;
+      solvedCurrents[comp.id] = (comp.value - (v2 - v1)) / r;
     } else if(comp.type === 'switch_' && !comp.closed) {
       solvedCurrents[comp.id] = 0;
     } else if(comp.type === 'fuse' && comp.blown) {
@@ -527,31 +568,54 @@ function solveCircuit() {
       const r = comp.type === 'ammeter' ? 0.001 : comp.type === 'voltmeter' ? 1e6 : comp.type === 'switch_' ? 0.001 : comp.type === 'fuse' ? 0.01 : Math.max(comp.value || 1, 0.001);
       solvedCurrents[comp.id] = vDrop / r;
     }
+  }
 
-    // Fuse check
-    if(comp.type === 'fuse' && !comp.blown && Math.abs(solvedCurrents[comp.id]) > comp.value) {
-      comp.blown = true;
-      warnings.push(`Fuse ${comp.id} blew! (I=${Math.abs(solvedCurrents[comp.id]).toFixed(2)}A > ${comp.value}A rating)`);
-      solveCircuit();
-      return;
-    }
-
-    // Ammeter in parallel check
-    if(comp.type === 'ammeter' && Math.abs(solvedCurrents[comp.id]) > 50) {
-      warnings.push('Ammeter has near-zero resistance. Placing it in parallel creates a short circuit!');
-    }
-
-    // Short circuit: battery delivering extreme current (only limited by internal R)
-    if(comp.type === 'battery' && Math.abs(solvedCurrents[comp.id]) > comp.value / (comp.intR + 0.01) * 0.9) {
-      const shortI = Math.abs(solvedCurrents[comp.id]);
-      if(shortI > 5) {
-        warnings.push('SHORT CIRCUIT! Current = ' + shortI.toFixed(1) + 'A. The battery terminals are connected with almost no resistance. In reality this would: overheat the wires, damage the battery, and risk fire. Add a resistor or load to the circuit.');
-      }
+  // Zero out floating (disconnected) components — use uf2 (full connectivity)
+  for(const comp of components) {
+    const terms = getTerminals(comp);
+    if(find2(terms[0].id) !== find2(terms[1].id)) {
+      solvedCurrents[comp.id] = 0;
+      solvedVoltages[comp.id] = {v1:0, v2:0, drop:0};
     }
   }
 
-  running = components.some(c => c.type === 'battery') && wires.length > 0;
-  buildSidebar();
+  // Check if circuit is running — any component has non-zero current
+  running = false;
+  for(const c of components) {
+    if(Math.abs(solvedCurrents[c.id] || 0) > 0.0001) { running = true; break; }
+  }
+  for(const comp of components) {
+    if(Math.abs(solvedCurrents[comp.id] || 0) < 0.0001) continue;
+
+    if(comp.type === 'fuse' && !comp.blown && Math.abs(solvedCurrents[comp.id]) > comp.value) {
+      comp.blown = true;
+      warnings.push('Fuse blew! (I=' + Math.abs(solvedCurrents[comp.id]).toFixed(2) + 'A > ' + comp.value + 'A rating)');
+    }
+
+    if(comp.type === 'ammeter' && Math.abs(solvedCurrents[comp.id]) > 50) {
+      warnings.push('Ammeter has near-zero resistance. Placing it in parallel creates a short circuit! Ammeters must be connected IN SERIES.');
+    }
+
+    // Voltmeter in series check — voltmeter has very high R, so if it carries significant current it is in series
+    if(comp.type === 'voltmeter' && Math.abs(solvedCurrents[comp.id]) > 0.01) {
+      warnings.push('Voltmeter appears to be in series. Voltmeters have very high resistance and should be connected IN PARALLEL across the component you want to measure.');
+    }
+
+    // Ammeter placement hint — if ammeter voltage drop is very high, it might be in parallel
+    if(comp.type === 'ammeter') {
+      const vd = Math.abs(solvedVoltages[comp.id]?.drop || 0);
+      if(vd > 0.1 && Math.abs(solvedCurrents[comp.id]) < 0.001) {
+        warnings.push('Ammeter is not reading current. Make sure it is connected IN SERIES so current flows through it.');
+      }
+    }
+
+    if(comp.type === 'battery' && Math.abs(solvedCurrents[comp.id]) > comp.value / (comp.intR + 0.01) * 0.9) {
+      const shortI = Math.abs(solvedCurrents[comp.id]);
+      if(shortI > 5) {
+        warnings.push('SHORT CIRCUIT! Current = ' + shortI.toFixed(1) + 'A. Add a resistor or load.');
+      }
+    }
+  }
 }
 
 // ========== DRAWING ==========
@@ -589,6 +653,14 @@ function draw() {
   }
 
   if(running) animPhase += 0.04;
+
+  // Current convention label
+  if(running) {
+    const isElectron = flowMode === 'electron';
+    ctx.fillStyle = isElectron ? 'rgba(79,195,247,.8)' : 'rgba(255,213,79,.8)';
+    ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(isElectron ? 'Electron Flow (− to +)' : 'Conventional Current (+ to −)', cW - 10, cH - 8);
+  }
 
   // Draw wires
   for(let wi = 0; wi < wires.length; wi++) {
@@ -635,16 +707,13 @@ function draw() {
         if(fc) {
           const fcI = solvedCurrents[fc.id] || 0;
           if(fc.type === 'battery') {
-            // Battery pushes current out of _R (+) terminal
             dir = w.from.endsWith('_R') ? 1 : -1;
           } else {
-            // For passive components: current enters _L, exits _R (when I > 0)
-            // If wire starts from _R: current is leaving this component → flows along wire
-            // If wire starts from _L: current is entering this component → flows against wire
+            // Passive: current enters _R (high V), exits _L (low V) when I>0
             if(fcI >= 0) {
-              dir = w.from.endsWith('_R') ? 1 : -1;
-            } else {
               dir = w.from.endsWith('_R') ? -1 : 1;
+            } else {
+              dir = w.from.endsWith('_R') ? 1 : -1;
             }
           }
         } else if(tc) {
@@ -653,24 +722,59 @@ function draw() {
             dir = w.to.endsWith('_L') ? 1 : -1;
           } else {
             if(tcI >= 0) {
-              dir = w.to.endsWith('_L') ? 1 : -1;
-            } else {
               dir = w.to.endsWith('_L') ? -1 : 1;
+            } else {
+              dir = w.to.endsWith('_L') ? 1 : -1;
             }
           }
         }
+
+        // Flip direction for electron flow (electrons go opposite to conventional)
+        if(flowMode === 'electron') dir = -dir;
 
         const dx = toT.x - fromT.x, dy = toT.y - fromT.y;
         const len = Math.hypot(dx, dy);
         const dots = Math.max(3, Math.floor(len / 22));
         const speed = Math.min(maxI * 0.5, 2.5);
+        const dotColor = flowMode === 'electron' ? '#4FC3F7' : '#FFD54F';
+        const flowAngle = Math.atan2(dy, dx) * (dir > 0 ? 1 : 1) + (dir < 0 ? Math.PI : 0);
+
+        // Static midpoint chevron — always visible even when paused
+        const midX = (fromT.x + toT.x) / 2, midY = (fromT.y + toT.y) / 2;
+        ctx.strokeStyle = dotColor; ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(midX - Math.cos(flowAngle + 0.5) * 8, midY - Math.sin(flowAngle + 0.5) * 8);
+        ctx.lineTo(midX, midY);
+        ctx.lineTo(midX - Math.cos(flowAngle - 0.5) * 8, midY - Math.sin(flowAngle - 0.5) * 8);
+        ctx.stroke();
+
+        // Arrow-shaped dots with comet trails
         for(let i = 0; i < dots; i++) {
           const t = ((i / dots + animPhase * speed * dir) % 1 + 1) % 1;
           const px = fromT.x + dx * t, py = fromT.y + dy * t;
-          ctx.fillStyle = '#FFD54F';
-          ctx.beginPath(); ctx.arc(px, py, 4.5, 0, Math.PI * 2); ctx.fill();
-          ctx.strokeStyle = 'rgba(255,255,255,.2)'; ctx.lineWidth = 1;
-          ctx.beginPath(); ctx.arc(px, py, 4.5, 0, Math.PI * 2); ctx.stroke();
+
+          // Comet trail (3 trailing dots)
+          for(let trail = 3; trail >= 1; trail--) {
+            const trailT = ((i / dots + animPhase * speed * dir - trail * 0.015 * dir) % 1 + 1) % 1;
+            const trailX = fromT.x + dx * trailT, trailY = fromT.y + dy * trailT;
+            ctx.globalAlpha = 0.12 * (4 - trail);
+            ctx.fillStyle = dotColor;
+            ctx.beginPath(); ctx.arc(trailX, trailY, 3, 0, Math.PI * 2); ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+
+          // Arrow-shaped triangle pointing in flow direction
+          ctx.save();
+          ctx.translate(px, py);
+          ctx.rotate(flowAngle);
+          ctx.fillStyle = dotColor;
+          ctx.beginPath();
+          ctx.moveTo(7, 0);
+          ctx.lineTo(-4, -4.5);
+          ctx.lineTo(-4, 4.5);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
         }
       }
     }
@@ -773,6 +877,28 @@ function draw() {
       ctx.fillText((i === 0 ? '⚠ ' : '   ') + l, boxX + 10, boxY + 16 + i * 15);
     });
   }
+
+  // Circuit analysis overlay — bottom-left of canvas
+  if(running) {
+    const batt = components.find(c => c.type === 'battery');
+    if(batt && solvedCurrents[batt.id]) {
+      const battI = Math.abs(solvedCurrents[batt.id]);
+      const battV = batt.value;
+      const totalR2 = battI > 0.0001 ? (battV / battI).toFixed(1) : '--';
+      const oLines = [
+        'EMF = ' + battV + ' V',
+        'I = ' + battI.toFixed(3) + ' A',
+        'R total = ' + totalR2 + ' Ω',
+        'P = ' + (battI * battV).toFixed(2) + ' W'
+      ];
+      ctx.fillStyle = 'rgba(0,0,0,.55)';
+      ctx.beginPath(); ctx.roundRect(8, cH - 78, 160, 70, 6); ctx.fill();
+      ctx.fillStyle = '#4FC3F7'; ctx.font = 'bold 9px sans-serif'; ctx.textAlign = 'left';
+      ctx.fillText('CIRCUIT ANALYSIS', 14, cH - 65);
+      ctx.fillStyle = '#fff'; ctx.font = '11px monospace';
+      oLines.forEach(function(l, i) { ctx.fillText(l, 14, cH - 50 + i * 14); });
+    }
+  }
 }
 
 function drawComponent(comp) {
@@ -783,19 +909,33 @@ function drawComponent(comp) {
   const current = solvedCurrents[comp.id] || 0;
   const voltage = solvedVoltages[comp.id];
   const isSelected = selectedComp && selectedComp.id === comp.id;
+  const rot = (comp.rotation || 0) * Math.PI / 180;
 
+  // Draw terminals BEFORE rotation (they use real screen coords)
+  for(const t of terms) {
+    ctx.fillStyle = wireStart || wireMode ? '#4CAF50' : '#B0BEC5';
+    const tR = wireStart || wireMode ? 8 : 6;
+    ctx.beginPath(); ctx.arc(t.x, t.y, tR, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = wireStart || wireMode ? '#2E7D32' : '#78909C';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(t.x, t.y, tR, 0, Math.PI * 2); ctx.stroke();
+  }
+
+  // Selection highlight (in screen coords)
   if(isSelected) {
     ctx.strokeStyle = 'rgba(21,101,192,.35)';
     ctx.lineWidth = 2;
     ctx.setLineDash([4, 2]);
-    ctx.strokeRect(x - w/2 - 8, y - 22, w + 16, 44);
+    ctx.beginPath(); ctx.arc(x, y, w/2 + 10, 0, Math.PI * 2); ctx.stroke();
     ctx.setLineDash([]);
   }
 
+  // Component body (rotation not yet applied to drawing - terminals handle rotation)
   // Lead wires to terminals
+  const t0 = terms[0], t1 = terms[1];
   ctx.strokeStyle = '#aaa'; ctx.lineWidth = 3;
-  ctx.beginPath(); ctx.moveTo(x - w/2, y); ctx.lineTo(x - 26, y); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(x + 26, y); ctx.lineTo(x + w/2, y); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(t0.x, t0.y); ctx.lineTo(x, y); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(t1.x, t1.y); ctx.stroke();
 
   if(comp.type === 'battery') {
     const bw = 44, bh = 26;
@@ -821,12 +961,17 @@ function drawComponent(comp) {
     ctx.fillStyle = grad;
     ctx.beginPath(); ctx.roundRect(x - rw/2, y - rh/2, rw, rh, rh/2); ctx.fill();
     ctx.strokeStyle = '#6D4C41'; ctx.lineWidth = 1.5; ctx.stroke();
-    const bands = [[-12,'#C62828'],[-4,'#E65100'],[4,'#FFD54F'],[12,'#795548']];
+    // Dynamic color bands based on resistance value
+    const bandColors = ['#000','#795548','#C62828','#E65100','#FFD54F','#4CAF50','#1565C0','#6A1B9A','#616161','#fff'];
+    const rVal = Math.round(comp.value);
+    const d1 = Math.floor(rVal / 100) % 10, d2 = Math.floor(rVal / 10) % 10, mult = rVal < 10 ? 0 : rVal < 100 ? 1 : 2;
+    const b1 = bandColors[d1] || '#000', b2 = bandColors[d2] || '#000', b3 = bandColors[mult] || '#000';
+    const bands = [[-12, b1],[-4, b2],[4, b3],[12, '#B8860B']];
     bands.forEach(([dx, col]) => { ctx.fillStyle = col; ctx.fillRect(x + dx - 2, y - rh/2 + 1, 4, rh - 2); });
     ctx.strokeStyle = '#9E9E9E'; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(x - rw/2, y); ctx.lineTo(x - 26, y); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(x + rw/2, y); ctx.lineTo(x + 26, y); ctx.stroke();
-    ctx.fillStyle = '#ddd'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
     ctx.fillText(comp.value + 'Ω', x, y + rh/2 + 5);
     if(comp.type === 'variable') {
       ctx.strokeStyle = '#6A1B9A'; ctx.lineWidth = 2;
@@ -841,7 +986,7 @@ function drawComponent(comp) {
     }
 
   } else if(comp.type === 'lamp') {
-    const brightness = Math.min(1, Math.abs(current) * Math.abs(voltage?.drop || 0) / 3);
+    const brightness = Math.min(1, Math.abs(current) * Math.abs(voltage?.drop || 0) / 0.8);
     if(brightness > 0.05) {
       const glowR = 24 + brightness * 12;
       const grd = ctx.createRadialGradient(x, y, 5, x, y, glowR);
@@ -900,7 +1045,7 @@ function drawComponent(comp) {
     ctx.beginPath(); ctx.moveTo(x, y + 5); ctx.lineTo(x + Math.cos(needleAngle) * 12, y + 5 + Math.sin(needleAngle) * 12); ctx.stroke();
     ctx.fillStyle = mColor; ctx.font = 'bold 15px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText(comp.type === 'ammeter' ? 'A' : 'V', x, y - 6);
-    ctx.fillStyle = mColor; ctx.font = 'bold 11px monospace'; ctx.textBaseline = 'top';
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 12px monospace'; ctx.textBaseline = 'top';
     ctx.fillText(reading.toFixed(2) + (comp.type === 'ammeter' ? 'A' : 'V'), x, y + 27);
 
   } else if(comp.type === 'fuse') {
@@ -912,12 +1057,12 @@ function drawComponent(comp) {
     ctx.fillRect(x - fw/2 - 4, y - fh/2 - 1, 6, fh + 2);
     ctx.fillRect(x + fw/2 - 2, y - fh/2 - 1, 6, fh + 2);
     if(comp.blown) {
-      ctx.fillStyle = '#C62828'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.fillStyle = '#FF5252'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
       ctx.fillText('BLOWN', x, y + fh/2 + 6);
     } else {
       ctx.strokeStyle = '#9E9E9E'; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(x - fw/2 + 4, y); ctx.lineTo(x + fw/2 - 4, y); ctx.stroke();
-      ctx.fillStyle = '#bbb'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
       ctx.fillText(comp.value + 'A', x, y + fh/2 + 5);
     }
 
@@ -928,7 +1073,7 @@ function drawComponent(comp) {
     ctx.beginPath(); ctx.roundRect(x - dw/2, y - dh/2, dw, dh, 3); ctx.fill();
     ctx.fillStyle = '#ccc';
     ctx.fillRect(x + dw/2 - 5, y - dh/2, 4, dh);
-    if(comp.type === 'led' && voltage && voltage.drop > 1.8 && current > 0) {
+    if(comp.type === 'led' && voltage && voltage.drop < -1.8) {
       const grd = ctx.createRadialGradient(x, y, 4, x, y, 28);
       grd.addColorStop(0, 'rgba(255,50,50,.5)'); grd.addColorStop(1, 'rgba(255,50,50,0)');
       ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(x, y, 28, 0, Math.PI * 2); ctx.fill();
@@ -975,9 +1120,9 @@ function buildSidebar() {
       const ct = COMP_TYPES[comp.type];
       const I_val = solvedCurrents[comp.id] || 0;
       const V_val = solvedVoltages[comp.id];
-      const vDrop = V_val ? Math.abs(V_val.drop) : 0;
-      const P = Math.abs(I_val) * vDrop;
-      html += `<div class="measure-row"><span class="ml">${ct.symbol}${comp.id}</span><span class="mv">${Math.abs(I_val).toFixed(3)}A  ${vDrop.toFixed(2)}V  ${P.toFixed(2)}W</span></div>`;
+      const vDrop = V_val ? V_val.drop : 0;
+      const P = Math.abs(I_val) * Math.abs(vDrop);
+      html += '<div class="measure-row"><span class="ml">' + ct.symbol + comp.id + '</span><span class="mv">' + Math.abs(I_val).toFixed(3) + 'A ' + Math.abs(vDrop).toFixed(2) + 'V ' + P.toFixed(2) + 'W</span></div>';
     }
   }
   html += '</div>';
@@ -1004,7 +1149,7 @@ function buildSidebar() {
       html += `<div class="ctrl"><div class="sl-g"><label>Rating</label><input type="range" min="0.5" max="5" step="0.5" value="${selectedComp.value}" oninput="updateComp(${selectedComp.id},'value',+this.value);this.nextElementSibling.textContent=this.value"><span class="sv2">${selectedComp.value}</span><span class="unit">A</span></div></div>`;
       if(selectedComp.blown) html += `<button class="btn btn-s" onclick="resetFuse(${selectedComp.id})">Replace Fuse</button>`;
     }
-    html += `<button class="btn btn-err" onclick="deleteComp(${selectedComp.id})" style="margin-top:4px;font-size:.54rem">Delete Component</button>`;
+    html += '<div style="display:flex;gap:3px;margin-top:4px"><button class="btn btn-p" onclick="rotateComp(' + selectedComp.id + ')" style="font-size:.54rem">Rotate 90</button><button class="btn btn-err" onclick="deleteComp(' + selectedComp.id + ')" style="font-size:.54rem">Delete</button></div>';
     html += '</div>';
   } else if(selectedWireIdx < 0) {
     html += '<div class="sc"><h4>Tip</h4><div class="sd">Click any component to edit its value. Click a wire to select and delete it. Click a switch to toggle it.</div></div>';
@@ -1023,6 +1168,8 @@ function buildSidebar() {
     <div class="measure-row"><span class="ml">Components</span><span class="mv">${components.length}</span></div>
     <div class="measure-row"><span class="ml">Wires</span><span class="mv">${wires.length}</span></div>
     <div class="measure-row"><span class="ml">Total R</span><span class="mv">${totalR}</span></div>
+    <div class="measure-row"><span class="ml">Running</span><span class="mv">${running}</span></div>
+    <div class="measure-row"><span class="ml">Debug</span><span class="mv" style="font-size:.45rem">${JSON.stringify(Object.keys(solvedCurrents).map(k=>k+':'+solvedCurrents[k]?.toFixed(4)))}</span></div>
   </div>`;
 
   // Live V-I Graph — shows V vs I for all voltmeters/ammeters
@@ -1050,42 +1197,66 @@ function drawVIGraph() {
   cx.setTransform(dpr, 0, 0, dpr, 0, 0);
   cx.fillStyle = '#1a2332'; cx.fillRect(0, 0, W, H);
 
-  // Collect data: for each component that has both V and I, record a point
   const dataLines = [];
   const colors = ['#4FC3F7','#FF8A65','#81C784','#CE93D8','#FFD54F','#ef5350'];
   let ci = 0;
 
-  for(const comp of components) {
-    if(comp.type === 'battery' || comp.type === 'switch_' || comp.type === 'fuse') continue;
-    const I_val = solvedCurrents[comp.id];
-    const V_val = solvedVoltages[comp.id];
-    if(I_val === undefined || !V_val) continue;
-    const ct = COMP_TYPES[comp.type];
-    const absI = Math.abs(I_val);
-    const absV = Math.abs(V_val.drop);
-    if(absI < 0.00001 && absV < 0.001) continue;
+  // Collect all ammeters and voltmeters
+  const ammeters = components.filter(function(c2){return c2.type==='ammeter'});
+  const voltmeters = components.filter(function(c2){return c2.type==='voltmeter'});
 
-    // Find or create history for this component
-    let hist = viHistory.find(h => h.id === comp.id);
-    if(!hist) { hist = {id: comp.id, name: ct.symbol + comp.id, points: [], color: colors[ci % colors.length]}; viHistory.push(hist); }
-    hist.color = colors[ci % colors.length];
-    hist.name = ct.symbol + comp.id;
-    // Add current point if different from last
-    const last = hist.points[hist.points.length - 1];
-    if(!last || Math.abs(last.v - absV) > 0.01 || Math.abs(last.i - absI) > 0.001) {
-      hist.points.push({v: absV, i: absI});
-      if(hist.points.length > 50) hist.points.shift();
+  // Pair each ammeter with each voltmeter for V-I curves
+  for(var ai = 0; ai < ammeters.length; ai++) {
+    for(var vi2 = 0; vi2 < voltmeters.length; vi2++) {
+      var am2 = ammeters[ai], vm2 = voltmeters[vi2];
+      var amI = Math.abs(solvedCurrents[am2.id] || 0);
+      var vmV = Math.abs(solvedVoltages[vm2.id]?.drop || 0);
+      if(amI < 0.00001 && vmV < 0.001) continue;
+      var pairName = 'A' + am2.id + '+V' + vm2.id;
+      var hist = viHistory.find(function(h){return h.name === pairName});
+      if(!hist) { hist = {id: pairName, name: pairName, points: [], color: colors[ci % colors.length]}; viHistory.push(hist); }
+      hist.color = colors[ci % colors.length];
+      var last = hist.points[hist.points.length - 1];
+      if(!last || Math.abs(last.v - vmV) > 0.01 || Math.abs(last.i - amI) > 0.001) {
+        hist.points.push({v: vmV, i: amI});
+        if(hist.points.length > 50) hist.points.shift();
+      }
+      dataLines.push(hist);
+      ci++;
     }
-    dataLines.push(hist);
+  }
+
+  // Also plot resistors/lamps/variable resistors (self-contained V and I)
+  for(var k = 0; k < components.length; k++) {
+    var comp = components[k];
+    if(comp.type !== 'resistor' && comp.type !== 'variable' && comp.type !== 'lamp') continue;
+    var compI = Math.abs(solvedCurrents[comp.id] || 0);
+    var compV = Math.abs(solvedVoltages[comp.id]?.drop || 0);
+    if(compI < 0.00001 && compV < 0.001) continue;
+    var ct2 = COMP_TYPES[comp.type];
+    var cName = ct2.symbol + comp.id;
+    var hist2 = viHistory.find(function(h){return h.name === cName});
+    if(!hist2) { hist2 = {id: comp.id, name: cName, points: [], color: colors[ci % colors.length]}; viHistory.push(hist2); }
+    hist2.color = colors[ci % colors.length];
+    var last2 = hist2.points[hist2.points.length - 1];
+    if(!last2 || Math.abs(last2.v - compV) > 0.01 || Math.abs(last2.i - compI) > 0.001) {
+      hist2.points.push({v: compV, i: compI});
+      if(hist2.points.length > 50) hist2.points.shift();
+    }
+    dataLines.push(hist2);
     ci++;
   }
 
-  // Clean up removed components
-  viHistory = viHistory.filter(h => components.some(c => c.id === h.id));
+  // Clean up removed components/pairs
+  viHistory = viHistory.filter(function(h) {
+    if(typeof h.id === 'string' && h.id.includes('+')) return true; // keep pairs
+    return components.some(function(c2){return c2.id === h.id});
+  });
 
   if(!dataLines.length) {
     cx.fillStyle = 'rgba(255,255,255,.3)'; cx.font = '10px sans-serif'; cx.textAlign = 'center';
     cx.fillText('V-I data will appear here', W/2, H/2);
+    cx.fillText('Add ammeter + voltmeter, then change R', W/2, H/2 + 14);
     return;
   }
 
@@ -1165,6 +1336,15 @@ window.resetFuse = id => {
   const comp = components.find(c => c.id === id);
   if(comp) { comp.blown = false; solveCircuit(); }
 };
+window.rotateComp = id => {
+  const comp = components.find(c => c.id === id);
+  if(comp) { comp.rotation = ((comp.rotation || 0) + 90) % 360; solveCircuit(); }
+};
+document.addEventListener('keydown', e => {
+  if(e.key === 'r' || e.key === 'R') {
+    if(selectedComp) { selectedComp.rotation = ((selectedComp.rotation || 0) + 90) % 360; solveCircuit(); }
+  }
+});
 window.deleteComp = id => {
   components = components.filter(c => c.id !== id);
   wires = wires.filter(w => !w.from.startsWith(id + '_') && !w.to.startsWith(id + '_'));
@@ -1179,42 +1359,63 @@ function loadPreset(scene) {
   const cy = Math.floor(cH / 2 / GRID) * GRID;
 
   if(scene === 0) {
-    // Scene 0: Just battery + wire (no resistor yet) — simplest possible current
+    // Scene 0: Battery + lamp + switch — simplest circuit
     const b = {id:nextId++,type:'battery',x:cx,y:cy-GRID,value:6,closed:true,blown:false,intR:0.5};
-    const sw = {id:nextId++,type:'switch_',x:cx,y:cy+GRID,value:1,closed:true,blown:false,intR:0};
-    components.push(b, sw);
-    const bt = getTerminals(b), st = getTerminals(sw);
-    wires.push({from:bt[1].id, to:st[1].id});
-    wires.push({from:bt[0].id, to:st[0].id});
+    const lmp = {id:nextId++,type:'lamp',x:cx,y:cy+GRID,value:30,closed:true,blown:false,intR:0};
+    components.push(b, lmp);
+    const bt = getTerminals(b), lt = getTerminals(lmp);
+    wires.push({from:bt[0].id, to:lt[0].id}); // left sides connected
+    wires.push({from:bt[1].id, to:lt[1].id}); // right sides connected
   } else if(scene === 1) {
-    // Scene 1: Battery + Resistor + Ammeter + Voltmeter
-    const b = {id:nextId++,type:'battery',x:cx,y:cy-GRID*1.5,value:6,closed:true,blown:false,intR:0.5};
-    const r = {id:nextId++,type:'resistor',x:cx,y:cy+GRID*1.5,value:100,closed:true,blown:false,intR:0};
-    components.push(b, r);
-    const bt = getTerminals(b), rt = getTerminals(r);
-    wires.push({from:bt[1].id, to:rt[1].id});
-    wires.push({from:bt[0].id, to:rt[0].id});
+    // Ohm's Law: rectangular loop
+    // Top: Battery(left) --- Switch(right)
+    // Left side: Ammeter (vertical)
+    // Bottom: R2(left) --- R1(right)
+    // Voltmeter across R2 (parallel)
+    const G2 = GRID;
+    const b  = {id:nextId++,type:'battery',  x:cx-G2, y:cy-G2, rotation:0, value:6,closed:true,blown:false,intR:0.5};
+    const sw = {id:nextId++,type:'switch_',  x:cx+G2, y:cy-G2, rotation:0, value:1,closed:true,blown:false,intR:0};
+    const am = {id:nextId++,type:'ammeter',  x:cx-G2*2, y:cy, rotation:90, value:0.001,closed:true,blown:false,intR:0};
+    const r1 = {id:nextId++,type:'resistor', x:cx+G2, y:cy+G2, rotation:0, value:100,closed:true,blown:false,intR:0};
+    const r2 = {id:nextId++,type:'lamp', x:cx-G2, y:cy+G2, rotation:0, value:100,closed:true,blown:false,intR:0};
+    const vm = {id:nextId++,type:'voltmeter',x:cx-G2, y:cy+G2*2, rotation:0, value:1e6,closed:true,blown:false,intR:0};
+    components.push(b, sw, am, r1, r2, vm);
+    const bt=getTerminals(b),swt=getTerminals(sw),at=getTerminals(am),r1t=getTerminals(r1),r2t=getTerminals(r2),vmt=getTerminals(vm);
+    // Top: Batt_R → Switch_L
+    wires.push({from:bt[1].id, to:swt[0].id});
+    // Right drop: Switch_R → R1_R
+    wires.push({from:swt[1].id, to:r1t[1].id});
+    // Bottom: R1_L → R2_R
+    wires.push({from:r1t[0].id, to:r2t[1].id});
+    // Left side: R2_L → Ammeter bottom (terminal 1)
+    wires.push({from:r2t[0].id, to:at[1].id});
+    // Ammeter top (terminal 0) → Battery_L
+    wires.push({from:at[0].id, to:bt[0].id});
+    // Voltmeter parallel across R2
+    wires.push({from:vmt[0].id, to:r2t[0].id});
+    wires.push({from:vmt[1].id, to:r2t[1].id});
   } else if(scene === 2) {
-    // Series: Battery + R1 + R2
-    const b = {id:nextId++,type:'battery',x:cx,y:cy-GRID*2,value:12,closed:true,blown:false,intR:0.5};
-    const r1 = {id:nextId++,type:'resistor',x:cx-GRID,y:cy+GRID,value:100,closed:true,blown:false,intR:0};
-    const r2 = {id:nextId++,type:'resistor',x:cx+GRID*2,y:cy+GRID,value:200,closed:true,blown:false,intR:0};
+    // Series: Battery → R1 → R2 in loop
+    const b = {id:nextId++,type:'battery',x:cx,y:cy-GRID*1.5,value:12,closed:true,blown:false,intR:0.5};
+    const r1 = {id:nextId++,type:'resistor',x:cx-GRID*1.5,y:cy+GRID,value:100,closed:true,blown:false,intR:0};
+    const r2 = {id:nextId++,type:'resistor',x:cx+GRID*1.5,y:cy+GRID,value:200,closed:true,blown:false,intR:0};
     components.push(b, r1, r2);
     const bt = getTerminals(b), r1t = getTerminals(r1), r2t = getTerminals(r2);
-    wires.push({from:bt[0].id, to:r1t[0].id});
-    wires.push({from:r1t[1].id, to:r2t[0].id});
-    wires.push({from:r2t[1].id, to:bt[1].id});
+    wires.push({from:bt[1].id, to:r1t[0].id}); // Batt+ → R1_L
+    wires.push({from:r1t[1].id, to:r2t[0].id}); // R1_R → R2_L
+    wires.push({from:r2t[1].id, to:bt[0].id}); // R2_R → Batt-
   } else if(scene === 3) {
-    // Parallel: Battery + R1 || R2
-    const b = {id:nextId++,type:'battery',x:cx,y:cy-GRID*2,value:12,closed:true,blown:false,intR:0.5};
-    const r1 = {id:nextId++,type:'resistor',x:cx-GRID,y:cy+GRID,value:100,closed:true,blown:false,intR:0};
-    const r2 = {id:nextId++,type:'resistor',x:cx+GRID*2,y:cy+GRID,value:200,closed:true,blown:false,intR:0};
+    // Parallel: Battery with R1 and R2 in parallel
+    const b = {id:nextId++,type:'battery',x:cx,y:cy-GRID*1.5,value:12,closed:true,blown:false,intR:0.5};
+    const r1 = {id:nextId++,type:'resistor',x:cx-GRID*1.5,y:cy+GRID,value:100,closed:true,blown:false,intR:0};
+    const r2 = {id:nextId++,type:'resistor',x:cx+GRID*1.5,y:cy+GRID,value:200,closed:true,blown:false,intR:0};
     components.push(b, r1, r2);
     const bt = getTerminals(b), r1t = getTerminals(r1), r2t = getTerminals(r2);
-    wires.push({from:bt[0].id, to:r1t[0].id});
-    wires.push({from:bt[0].id, to:r2t[0].id});
-    wires.push({from:r1t[1].id, to:bt[1].id});
-    wires.push({from:r2t[1].id, to:bt[1].id});
+    // Both R_L connect to Batt+, both R_R connect to Batt-
+    wires.push({from:bt[1].id, to:r1t[0].id});
+    wires.push({from:bt[1].id, to:r2t[0].id});
+    wires.push({from:r1t[1].id, to:bt[0].id});
+    wires.push({from:r2t[1].id, to:bt[0].id});
   } else if(scene === 5) {
     // EMF & Internal Resistance: battery with visible r + load resistor
     const b = {id:nextId++,type:'battery',x:cx,y:cy-GRID*1.5,value:9,closed:true,blown:false,intR:2.0};
@@ -1238,11 +1439,16 @@ window.setScene = i => {
 
 function buildControls() {
   let html = '';
-  if(scene <= 4) {
-    html += `<div class="ctrl" style="margin-top:4px"><button class="btn btn-p" onclick="clearAll()">Clear Canvas</button><button class="btn btn-s" onclick="loadPreset(${scene})">Reset Preset</button></div>`;
-  }
+  html += `<div class="ctrl" style="margin-top:4px;gap:6px">
+    <button class="btn ${flowMode==='conventional'?'btn-p':'btn-s'}" onclick="setFlow('conventional')" style="font-size:.6rem">⊕ Conventional Current (+ to −)</button>
+    <button class="btn ${flowMode==='electron'?'btn-ok':'btn-s'}" onclick="setFlow('electron')" style="font-size:.6rem">⊖ Electron Flow (− to +)</button>
+    <span style="flex:1"></span>
+    <button class="btn btn-p" onclick="clearAll()">Clear Canvas</button>
+    <button class="btn btn-s" onclick="loadPreset(scene)">Reset Preset</button>
+  </div>`;
   $('controlsArea').innerHTML = html;
 }
+window.setFlow = mode => { flowMode = mode; buildControls(); };
 window.clearAll = () => { components=[]; wires=[]; selectedComp=null; warnings=[]; solveCircuit(); };
 
 // ========== BOTTOM TABS ==========
@@ -1254,24 +1460,67 @@ window.bts = function(el, i) {
 };
 
 let manD = [], expD = [];
-const EIV = [{id:'V',n:'Voltage (V)'},{id:'R',n:'Resistance (Ohm)'},{id:'EMF',n:'EMF (V)'}];
-const EDV = [{id:'I',n:'Current (A)'},{id:'Vt',n:'Terminal Voltage (V)'},{id:'P',n:'Power (W)'}];
+const EIV = [
+  {id:'VmPD',n:'Voltmeter PD (V)'},
+  {id:'R',n:'Resistance (Ohm)'},
+  {id:'EMF',n:'Battery EMF (V)'},
+  {id:'AmI',n:'Ammeter Current (A)'}
+];
+const EDV = [
+  {id:'AmI',n:'Ammeter Current (A)'},
+  {id:'VmPD',n:'Voltmeter PD (V)'},
+  {id:'P',n:'Power (W)'},
+  {id:'Vt',n:'Terminal Voltage (V)'}
+];
 const ECVS = [{id:'V',n:'Voltage'},{id:'R',n:'Resistance'},{id:'n',n:'Components'},{id:'T',n:'Temperature'}];
 
 function getSimIV() {
-  const iv = $('selIV')?.value || 'V';
-  const batt = components.find(c => c.type === 'battery');
-  if(iv === 'V' && batt) return batt.value;
-  if(iv === 'R') { const r = components.find(c => c.type === 'resistor'); return r ? r.value : 0; }
-  if(iv === 'EMF' && batt) return batt.value;
+  const iv = $('selIV')?.value || 'VmPD';
+  if(iv === 'VmPD') {
+    // Read from first voltmeter (or selected voltmeter)
+    var vm = components.find(function(c){return c.type==='voltmeter'});
+    if(vm && solvedVoltages[vm.id]) return Math.abs(solvedVoltages[vm.id].drop);
+    return 0;
+  }
+  if(iv === 'AmI') {
+    var am = components.find(function(c){return c.type==='ammeter'});
+    if(am) return Math.abs(solvedCurrents[am.id] || 0);
+    return 0;
+  }
+  if(iv === 'R') {
+    var r = components.find(function(c){return c.type==='resistor'||c.type==='variable'||c.type==='lamp'});
+    return r ? r.value : 0;
+  }
+  if(iv === 'EMF') {
+    var batt = components.find(function(c){return c.type==='battery'});
+    return batt ? batt.value : 0;
+  }
   return 0;
 }
 function getSimDV() {
-  const dv = $('selDV')?.value || 'I';
-  const batt = components.find(c => c.type === 'battery');
-  if(dv === 'I' && batt) return Math.abs(solvedCurrents[batt.id] || 0);
-  if(dv === 'Vt' && batt) { const v = solvedVoltages[batt.id]; return v ? Math.abs(v.drop) : 0; }
-  if(dv === 'P' && batt) { const I2 = Math.abs(solvedCurrents[batt.id] || 0); return I2 * batt.value; }
+  const dv = $('selDV')?.value || 'AmI';
+  if(dv === 'AmI') {
+    var am = components.find(function(c){return c.type==='ammeter'});
+    if(am) return Math.abs(solvedCurrents[am.id] || 0);
+    return 0;
+  }
+  if(dv === 'VmPD') {
+    var vm = components.find(function(c){return c.type==='voltmeter'});
+    if(vm && solvedVoltages[vm.id]) return Math.abs(solvedVoltages[vm.id].drop);
+    return 0;
+  }
+  if(dv === 'P') {
+    var am2 = components.find(function(c){return c.type==='ammeter'});
+    var vm2 = components.find(function(c){return c.type==='voltmeter'});
+    var I3 = am2 ? Math.abs(solvedCurrents[am2.id] || 0) : 0;
+    var V3 = vm2 && solvedVoltages[vm2.id] ? Math.abs(solvedVoltages[vm2.id].drop) : 0;
+    return I3 * V3;
+  }
+  if(dv === 'Vt') {
+    var batt = components.find(function(c){return c.type==='battery'});
+    if(batt && solvedVoltages[batt.id]) return Math.abs(solvedVoltages[batt.id].drop);
+    return 0;
+  }
   return 0;
 }
 function getIVN() { return EIV.find(v => v.id === ($('selIV')?.value || 'V'))?.n || 'IV'; }
@@ -1318,9 +1567,41 @@ function showN() { $('nbO').innerHTML = nb.length ? nb.map((n,i) => '<div class=
 // ========== INIT ==========
 $('guideBar').innerHTML = SCENES[0].guide;
 buildTray();
+// ========== CHALLENGES ==========
+function buildChallenges() {
+  const challenges = [
+    {title:'Find the Resistance',desc:'Build a circuit where: Battery = 12V, Current = 0.05A. What resistance do you need?',hint:'R = V/I = 12/0.05 = 240 Ohm. Build: Battery(12V) + Resistor(240 Ohm) in series.',difficulty:'Easy'},
+    {title:'Parallel Split',desc:'Create a parallel circuit where Branch 1 carries MORE current than Branch 2. Both branches must have resistors.',hint:'Use a smaller resistance in Branch 1 (e.g. 50 Ohm) and larger in Branch 2 (e.g. 200 Ohm). More current flows through less resistance.',difficulty:'Medium'},
+    {title:'Voltage Divider',desc:'Build a circuit with two resistors in series. Make the voltage across the second resistor exactly half the battery voltage.',hint:'Use two equal resistors. V2 = EMF x R2/(R1+R2). If R1=R2, V2 = EMF/2.',difficulty:'Medium'},
+    {title:'Protect the Lamp',desc:'A lamp rated at 0.5A is connected to a 12V battery. Add a fuse that will protect the lamp from overcurrent.',hint:'The lamp draws I = V/R. Add a fuse rated just above the normal operating current (e.g. 0.5A or 1A).',difficulty:'Medium'},
+    {title:'Maximum Power',desc:'With a 9V battery (internal resistance 1 Ohm), find the load resistance that gives maximum power dissipation in the load.',hint:'Maximum power transfer occurs when R_load = r_internal. Try R = 1 Ohm. P = I^2 x R.',difficulty:'Hard'},
+    {title:'Mystery Circuit',desc:'Build a circuit where the ammeter reads 0.1A and the voltmeter reads 5V across a single resistor. What is R?',hint:'R = V/I = 5/0.1 = 50 Ohm. You need a battery with enough EMF to provide 5V across R after internal resistance drop.',difficulty:'Easy'}
+  ];
+  $('challengeContent').innerHTML = challenges.map(function(c, i) {
+    return '<div class="ib-card"><span class="ib-cmd ib-cmd-' + (c.difficulty==='Easy'?'s':c.difficulty==='Medium'?'e':'c') + '">' + c.difficulty + '</span><h4>Challenge ' + (i+1) + ': ' + c.title + '</h4><p>' + c.desc + '</p><button class="btn btn-p" onclick="document.getElementById(\'ch' + i + '\').classList.toggle(\'show\')" style="font-size:.56rem">Show Hint</button><div class="ib-ans" id="ch' + i + '">' + c.hint + '</div></div>';
+  }).join('');
+}
+
+// ========== REAL WORLD APPLICATIONS ==========
+function buildRealWorld() {
+  const apps = [
+    {title:'House Wiring',icon:'🏠',desc:'Your home uses parallel circuits. Each room is a branch — turning off one light does not affect others. The main fuse box protects each circuit with a fuse or circuit breaker rated at 13A (UK) or 15-20A (other countries). Ring mains use two wires to each socket for lower resistance.'},
+    {title:'Phone Charging',icon:'📱',desc:'Your phone charger converts 230V AC to 5V DC using a transformer and rectifier circuit. The USB cable has resistance (about 0.5 Ohm) which causes a voltage drop — this is why cheap cables charge slowly. Fast charging uses higher voltage (9V or 12V) to push more power: P = VI.'},
+    {title:'Automotive Circuits',icon:'🚗',desc:'A car battery (12V lead-acid) powers everything through parallel circuits: headlights, radio, wipers. Each circuit has its own fuse. The starter motor draws up to 200A — that is why the battery needs very low internal resistance. A flat battery has increased r, giving low terminal voltage under load.'},
+    {title:'LED Lighting',icon:'💡',desc:'LEDs need a current-limiting resistor in series. An LED has a forward voltage of about 2V and typical current of 20mA. For a 5V supply: R = (5 - 2) / 0.020 = 150 Ohm. Without this resistor, the LED draws too much current and burns out instantly.'},
+    {title:'Fuses and Circuit Breakers',icon:'⚡',desc:'A fuse is a thin wire that melts when current exceeds its rating, breaking the circuit. This protects wiring from overheating and fires. Circuit breakers do the same job but can be reset. The fuse rating must be above normal operating current but below the wire damage threshold.'},
+    {title:'Solar Panels',icon:'☀️',desc:'Solar cells are connected in series to increase voltage (each cell gives about 0.5V) and in parallel to increase current capacity. A 12V panel needs about 24 cells in series. Bypass diodes protect against shading — if one cell is shaded, current flows around it through the diode.'}
+  ];
+  $('realWorldContent').innerHTML = '<div style="font-family:var(--display);font-size:.76rem;font-weight:700;color:var(--accent);margin-bottom:6px">Where are circuits used?</div>' + apps.map(function(a) {
+    return '<div class="ib-card" style="margin-bottom:4px"><h4>' + a.icon + ' ' + a.title + '</h4><p>' + a.desc + '</p></div>';
+  }).join('');
+}
+
 loadPreset(0);
 buildExp();
 buildIB();
+buildChallenges();
+buildRealWorld();
 showN();
 buildControls();
 draw();
