@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Simple Harmonic Motion | Atul Soral Physicism</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<style>
+:root{--bg:#f0f4f8;--text:#1e293b;--text2:#475569;--text3:#94a3b8;--accent:#0369a1;--accent2:#0e7c6b;--border:rgba(100,140,180,.2);--glass:rgba(255,255,255,.75);--surface:rgba(224,242,254,.4);--card:#fff;--ok:#16a34a;--err:#dc2626;--warn:#d97706;--mono:'SF Mono',monospace;--serif:Georgia,serif;--body:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+[data-theme="dark"]{--bg:#0f172a;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--accent:#38bdf8;--accent2:#34d399;--border:rgba(56,189,248,.12);--glass:rgba(15,23,42,.8);--surface:rgba(30,41,59,.5);--card:#1e293b;--ok:#22c55e;--err:#ef4444;--warn:#fbbf24}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px}
+nav{display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px}
+nav a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem}nav a:hover{color:#fff}
+.nav-logo{font-family:var(--serif);font-size:1rem;font-weight:700;color:#fff!important}
+.nav-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:.73rem;text-decoration:none;display:inline-block}
+.w{max-width:1140px;margin:0 auto;padding:0 12px}
+.hd{text-align:center;padding:8px 16px 4px}.hd h1{font-family:var(--serif);font-size:1.2rem;color:var(--accent)}.hd p{font-size:.72rem;color:var(--text2)}
+.guide{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;margin-bottom:6px;font-size:.7rem;color:var(--text2);line-height:1.6;display:flex;align-items:flex-start;gap:6px}.guide b{color:var(--accent)}
+.modes{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:6px;overflow-x:auto}
+.mode{padding:7px 10px;font-size:.62rem;font-weight:700;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:.12s}.mode:hover{color:var(--text)}.mode.on{color:var(--accent);border-bottom-color:var(--accent)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}
+.cbox{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.cbox canvas{display:block;width:100%}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin-bottom:6px}
+.cr{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:4px}.cr:last-child{margin-bottom:0}
+.cl{font-size:.64rem;color:var(--text2);font-weight:700;text-transform:uppercase;min-width:28px}
+.sr{display:flex;align-items:center;gap:4px;font-size:.64rem;font-weight:600;color:var(--text2)}.sr input[type="range"]{flex:1;accent-color:var(--accent);max-width:100px}.sr .sv{font-family:var(--mono);min-width:40px;font-weight:800;color:var(--text);font-size:.74rem}
+.pill{padding:4px 9px;border-radius:6px;border:1px solid var(--border);cursor:pointer;font-size:.64rem;font-weight:700;color:var(--text3);background:var(--surface);transition:all .1s}.pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn{padding:5px 12px;border:none;border-radius:7px;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .12s}.btn:hover{transform:translateY(-1px)}.btn-a{background:var(--accent);color:#fff}.btn-o{background:transparent;border:1px solid var(--border);color:var(--text2)}.btn-t{background:var(--accent2);color:#fff}
+.btabs{display:flex;gap:2px;margin-bottom:5px;border-bottom:1px solid var(--border);padding-bottom:4px}.bt{padding:4px 10px;border-radius:7px 7px 0 0;font-size:.66rem;font-weight:700;cursor:pointer;color:var(--text3);transition:all .1s}.bt.on{color:var(--accent);background:var(--surface);border:1px solid var(--border);border-bottom:none}.btc{display:none}.btc.on{display:block}
+.ib-card{background:var(--surface);border-radius:7px;padding:8px;margin-bottom:5px;border:1px solid var(--border)}.ib-cmd{display:inline-block;font-size:.52rem;padding:2px 6px;border-radius:4px;font-weight:700;text-transform:uppercase;background:rgba(56,189,248,.08);color:var(--accent);margin-bottom:2px}.ib-card h4{font-size:.74rem;font-weight:700;margin-bottom:2px}.ib-card p{font-size:.68rem;color:var(--text2);line-height:1.4;margin-bottom:3px}.ib-card textarea{width:100%;height:40px;border:1px solid var(--border);border-radius:5px;padding:4px;font-size:.66rem;font-family:inherit;resize:vertical;background:var(--glass);color:var(--text);outline:none}.ib-fb{padding:4px 6px;border-radius:5px;font-size:.64rem;font-weight:600;margin-top:2px;display:none;line-height:1.5}.ib-fb.show{display:block}.ib-fb.ok{background:rgba(34,211,153,.06);color:var(--ok)}
+.nb-c{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 6px;margin-bottom:3px;font-size:.64rem;line-height:1.4}.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+.exp-field{margin-bottom:4px}.exp-field label{font-size:.6rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:2px}.exp-field select,.exp-field input[type="text"],.exp-field input[type="number"]{width:100%;padding:4px 6px;border-radius:6px;border:1px solid var(--border);font-size:.74rem;font-weight:600;background:var(--glass);color:var(--text);outline:none;font-family:inherit}
+.cv-grid{display:flex;flex-wrap:wrap;gap:3px}.cv-check{display:flex;align-items:center;gap:3px;padding:2px 6px;border-radius:4px;background:var(--surface);border:1px solid var(--border);font-size:.62rem;font-weight:600;color:var(--text2)}.cv-check input{accent-color:var(--accent)}
+.dt{width:100%;border-collapse:collapse;font-size:.68rem;font-family:var(--mono)}.dt th{text-align:center;padding:4px;font-size:.56rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--surface)}.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border)}.dt .mean{font-weight:700;color:var(--accent)}.dt .unc{color:var(--accent2)}
+.graph-wrap canvas{width:100%;height:200px;display:block;border-radius:10px;border:1px solid var(--border);margin-top:5px}
+@media(max-width:800px){.split{grid-template-columns:1fr}}
+@media print{nav,.modes{display:none!important}}
+</style>
+</head>
+<body>
+<script>var SIM_META={id:'shm',title:'Simple Harmonic Motion',topic:'C.1',topicName:'Simple Harmonic Motion',grade:['MYP5','DP'],level:'both',theme:'C',concepts:['SHM','spring','pendulum','amplitude','period','frequency','damping','resonance','energy','circular motion','phase space'],difficulty:'intermediate'};</script>
+<nav>
+  <div style="display:flex;align-items:center;gap:14px"><a href="../index.html" class="nav-logo">Atul Soral Physicism</a><a href="../dp-simulations.html">← All Simulations</a></div>
+  <div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">☀️</button><a href="../dp-simulations.html" class="nav-btn">← Back</a><a href="../index.html" class="nav-btn">Home</a><a href="../myp-dashboard.html" class="nav-btn">MYP</a><a href="../dp-dashboard.html" class="nav-btn">DP</a></div>
+</nav>
+<div class="w">
+<div class="hd"><h1>Simple Harmonic Motion</h1><p>Watch It Oscillate. See the Sine Wave Form. Feel the Phase Shift.</p></div>
+<div class="guide"><span style="font-size:1rem">💡</span><span id="guideT"><b>Click and drag the mass</b> sideways, then release to set the amplitude. Watch x, v, a graphs build in sync. Pause at maximum displacement — v=0, a=max.</span></div>
+<div class="modes" id="modeBar"></div>
+<div id="sceneArea"></div>
+<div class="panel" style="padding:10px 12px">
+  <div class="btabs">
+    <div class="bt on" onclick="bts(this,0)">🔬 Experiment</div>
+    <div class="bt" onclick="bts(this,1)">📊 Data &amp; Graph</div>
+    <div class="bt" onclick="bts(this,2)">📝 IB Questions</div>
+    <div class="bt" onclick="bts(this,3)">📓 Notebook</div>
+  </div>
+  <div class="btc on" id="b0"><div id="expC"></div></div>
+  <div class="btc" id="b1"><div id="dW"><p style="font-size:.68rem;color:var(--text3);text-align:center;padding:10px">Collect data to see results.</p></div><div class="graph-wrap"><canvas id="gC"></canvas></div></div>
+  <div class="btc" id="b2"><div id="ibL"></div></div>
+  <div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-size:.74rem;font-weight:700;color:var(--accent);font-family:var(--serif)">📓 Lab Notebook</span><button class="btn btn-a" onclick="window.print()" style="font-size:.6rem;padding:3px 8px">Print</button></div><div id="nbO"></div></div>
+</div>
+</div>
+<script>
+var $=function(i){return document.getElementById(i)},dk=function(){return document.documentElement.dataset.theme==='dark'};
+$('themeBtn').onclick=function(){var t=dk()?'light':'dark';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️';localStorage.setItem('phy-theme',t)};
+(function(){var t=localStorage.getItem('phy-theme')||'light';document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'🌙':'☀️'})();
+
+// ===== STATE =====
+var scene=0,ti=0,running=true,speed=1,dt=0.002;
+var sp={k:20,m:2,A:0.6,b:0,Fd:0,wd:0};
+var num={x:0.6,v:0}; // numerical state — position and velocity
+var pend={L:1,g:9.8,theta0:0.4,th:0.4,om:0}; // numerical pendulum
+var hist=[],pendHist=[],maxHist=500;
+var dragging=false,dragTarget='spring';
+var resCurves=[]; // resonance auto-sweep data
+
+var SCENES=[
+  {n:'🌀 What is SHM?',guide:'<b>Click and drag the mass</b> to set amplitude, then release. Watch x (blue), v (green), a (red) graphs build with a synchronized time cursor.'},
+  {n:'⭕ Circular Motion',guide:'SHM = <b>projection of circular motion</b>. The dot on the circle and the spring mass move at the same horizontal position. ω of the circle = ω of the oscillation.'},
+  {n:'🔄 Pendulum vs Spring',guide:'Change <b>mass</b>: spring period changes, pendulum does NOT. At large angles, the pendulum deviates from SHM — watch the overlay.'},
+  {n:'⚡ Energy',guide:'KE (red) + PE (blue) = Total (green, constant). Phase space (v vs x) traces an ellipse. At x=max: all PE. At x=0: all KE.'},
+  {n:'📉 Damping',guide:'Adjust <b>b</b>. Underdamped: decaying oscillation. Critical: fastest return without oscillation. Phase space spirals inward.'},
+  {n:'📡 Resonance',guide:'Set driving force F₀ and frequency ω_d. Click <b>Auto-Sweep</b> to build the resonance curve. Watch amplitude peak at ω_d ≈ ω₀.'}
+];
+
+function omega0(){return Math.sqrt(sp.k/sp.m)}
+function period(){return 2*Math.PI/omega0()}
+
+// ===== NUMERICAL INTEGRATION (Velocity Verlet) =====
+function springAccel(x,v,time){
+  var a=-sp.k/sp.m*x-sp.b/sp.m*v;
+  if(scene===5&&sp.Fd>0)a+=sp.Fd/sp.m*Math.sin(sp.wd*time);
+  return a;
+}
+
+function stepSpring(){
+  var a=springAccel(num.x,num.v,ti);
+  num.v+=a*dt*0.5;
+  num.x+=num.v*dt;
+  ti+=dt;
+  var a2=springAccel(num.x,num.v,ti);
+  num.v+=a2*dt*0.5;
+}
+
+function stepPendulum(){
+  // Exact equation: α = -(g/L)*sin(θ) — no small-angle approximation
+  var a1=-(pend.g/pend.L)*Math.sin(pend.th);
+  pend.om+=a1*dt*0.5;
+  pend.th+=pend.om*dt;
+  var a2=-(pend.g/pend.L)*Math.sin(pend.th);
+  pend.om+=a2*dt*0.5;
+}
+
+function resetSim(){
+  ti=0;hist=[];pendHist=[];num.x=sp.A;num.v=0;
+  pend.th=pend.theta0;pend.om=0;
+}
+
+// ===== CANVASES =====
+var simC,simX,grC,grX,W1=0,H1=0,W2=0,H2=0;
+function setupCanvases(){
+  simC=$('simCanvas');grC=$('grCanvas');
+  if(!simC||!grC)return;
+  simX=simC.getContext('2d');grX=grC.getContext('2d');
+  function resize(){var d=window.devicePixelRatio||1;[simC,grC].forEach(function(c){var r=c.getBoundingClientRect();c.width=r.width*d;c.height=r.height*d;c.getContext('2d').setTransform(d,0,0,d,0,0);c.style.width=r.width+'px';c.style.height=r.height+'px'});W1=parseInt(simC.style.width);H1=parseInt(simC.style.height);W2=parseInt(grC.style.width);H2=parseInt(grC.style.height)}
+  new ResizeObserver(resize).observe(simC);setTimeout(resize,30);
+  // DRAG TO RELEASE — works in all scenes
+  function getXY(e){var r=simC.getBoundingClientRect();var cx2=e.clientX||(e.touches&&e.touches[0]?e.touches[0].clientX:0);var cy2=e.clientY||(e.touches&&e.touches[0]?e.touches[0].clientY:0);return{x:(cx2-r.left)*(W1/r.width),y:(cy2-r.top)*(H1/r.height)}}
+  function getMassX(){var midX=W1/2,scale=W1*.3;return midX+num.x*scale}
+  simC.addEventListener('mousedown',function(e){var p=getXY(e);var massX=getMassX(),midY=H1/2;if(Math.abs(p.x-massX)<35&&Math.abs(p.y-midY)<35){dragging=true;running=false;e.preventDefault()}});
+  simC.addEventListener('mousemove',function(e){if(!dragging)return;var p=getXY(e),midX=W1/2,scale=W1*.3;num.x=Math.max(-1.5,Math.min(1.5,(p.x-midX)/scale));num.v=0;sp.A=Math.abs(num.x)});
+  simC.addEventListener('mouseup',function(){if(dragging){dragging=false;running=true;ti=0;hist=[];pendHist=[]}});
+  simC.addEventListener('mouseleave',function(){if(dragging){dragging=false;running=true;ti=0;hist=[];pendHist=[]}});
+  // Touch support
+  simC.addEventListener('touchstart',function(e){var p=getXY(e);var massX=getMassX(),midY=H1/2;if(Math.abs(p.x-massX)<45&&Math.abs(p.y-midY)<45){dragging=true;running=false;e.preventDefault()}},{passive:false});
+  simC.addEventListener('touchmove',function(e){if(!dragging)return;e.preventDefault();var p=getXY(e),midX=W1/2,scale=W1*.3;num.x=Math.max(-1.5,Math.min(1.5,(p.x-midX)/scale));num.v=0;sp.A=Math.abs(num.x)},{passive:false});
+  simC.addEventListener('touchend',function(){if(dragging){dragging=false;running=true;ti=0;hist=[];pendHist=[]}});
+  simC.style.cursor='grab';simC.style.touchAction='none';
+}
+
+// ===== PAINT SIMULATION =====
+function paintSim(){
+  if(!W1||!simX)return;var d=dk(),cx=simX;
+  cx.clearRect(0,0,W1,H1);cx.fillStyle=d?'#1e293b':'#fff';cx.fillRect(0,0,W1,H1);
+  var midX=W1/2,midY=H1/2,scale=W1*.3;
+  var curA=springAccel(num.x,num.v,ti);
+
+  if(scene!==1&&scene!==2){
+    // Spring + mass
+    var massX=midX+num.x*scale;
+    cx.fillStyle=d?'#475569':'#94a3b8';cx.fillRect(W1*.06,midY-25,6,50);
+    cx.strokeStyle=d?'#64748b':'#94a3b8';cx.lineWidth=2;cx.beginPath();
+    var wallX=W1*.06+6;for(var i=0;i<=12;i++){cx.lineTo(wallX+(massX-15-wallX)*i/12,midY+(i%2===0?-7:7))}cx.stroke();
+    // Mass
+    cx.fillStyle=dragging?(d?'#fbbf24':'#d97706'):(d?'#38bdf8':'#0369a1');
+    cx.beginPath();cx.roundRect(massX-15,midY-15,30,30,6);cx.fill();
+    cx.fillStyle='#fff';cx.font='bold 9px var(--mono)';cx.textAlign='center';cx.fillText('m',massX,midY+3);
+    // Equilibrium
+    cx.setLineDash([3,3]);cx.strokeStyle=d?'rgba(148,163,184,.2)':'rgba(0,0,0,.06)';cx.beginPath();cx.moveTo(midX,midY-35);cx.lineTo(midX,midY+35);cx.stroke();cx.setLineDash([]);
+    cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='7px sans-serif';cx.fillText('x=0',midX,midY+48);
+    // Force arrow
+    if(Math.abs(num.x)>0.02){var fLen=Math.min(50,-num.x*scale*.4);cx.strokeStyle='#ef4444';cx.lineWidth=2.5;cx.beginPath();cx.moveTo(massX,midY);cx.lineTo(massX+fLen,midY);cx.stroke();var ang=fLen>0?0:Math.PI;cx.fillStyle='#ef4444';cx.beginPath();cx.moveTo(massX+fLen,midY);cx.lineTo(massX+fLen-7*Math.cos(ang-.35),midY-7*Math.sin(ang-.35));cx.lineTo(massX+fLen-7*Math.cos(ang+.35),midY+7*Math.sin(ang+.35));cx.fill()}
+    // Displacement marker
+    if(Math.abs(num.x)>0.02){cx.strokeStyle=d?'rgba(56,189,248,.3)':'rgba(3,105,161,.2)';cx.lineWidth=1;cx.setLineDash([2,2]);cx.beginPath();cx.moveTo(midX,midY+26);cx.lineTo(massX,midY+26);cx.stroke();cx.setLineDash([])}
+    // Readouts
+    cx.fillStyle=d?'#e2e8f0':'#1e293b';cx.font='bold 10px var(--serif)';cx.textAlign='left';
+    cx.fillText('x = '+num.x.toFixed(3)+' m',8,18);cx.fillText('v = '+num.v.toFixed(3)+' m/s',8,32);cx.fillText('a = '+curA.toFixed(2)+' m/s²',8,46);
+    cx.fillStyle=d?'#94a3b8':'#475569';cx.font='9px var(--mono)';cx.textAlign='right';
+    cx.fillText('T = '+period().toFixed(3)+' s  ω₀ = '+omega0().toFixed(2),W1-8,18);
+    if(dragging){cx.fillStyle=d?'#fbbf24':'#d97706';cx.font='bold 10px var(--serif)';cx.textAlign='center';cx.fillText('Release to start!',midX,H1-12)}
+  }
+
+  // Scene 1: Circular motion — FIXED projection
+  if(scene===1){
+    var massX=midX*.55+num.x*scale*.5;
+    // Spring (left, same Y as projection)
+    var projY=H1*.6;
+    cx.fillStyle=d?'#475569':'#94a3b8';cx.fillRect(W1*.04,projY-12,6,24);
+    cx.strokeStyle=d?'#64748b':'#94a3b8';cx.lineWidth=2;cx.beginPath();
+    for(var i=0;i<=8;i++){cx.lineTo(W1*.04+6+(massX-W1*.04-6)*i/8,projY+(i%2===0?-5:5))}cx.stroke();
+    cx.fillStyle=d?'#38bdf8':'#0369a1';cx.beginPath();cx.arc(massX,projY,8,0,Math.PI*2);cx.fill();
+    // Circle
+    var cX=W1*.7,cY=H1*.35,cR=Math.min(W1*.18,H1*.25);
+    cx.strokeStyle=d?'rgba(148,163,184,.15)':'rgba(0,0,0,.06)';cx.lineWidth=1.5;cx.beginPath();cx.arc(cX,cY,cR,0,Math.PI*2);cx.stroke();
+    var angle=omega0()*ti;
+    var dotX=cX+cR*Math.cos(angle),dotY=cY-cR*Math.sin(angle);
+    cx.fillStyle='#f59e0b';cx.beginPath();cx.arc(dotX,dotY,7,0,Math.PI*2);cx.fill();
+    // Project DOWN to the horizontal projection line at projY
+    var projX=cX+cR*Math.cos(angle); // horizontal position = x-projection of circle
+    cx.setLineDash([3,3]);cx.strokeStyle='rgba(245,158,11,.25)';cx.beginPath();cx.moveTo(dotX,dotY);cx.lineTo(projX,projY);cx.stroke();cx.setLineDash([]);
+    cx.fillStyle='#f59e0b';cx.beginPath();cx.arc(projX,projY,6,0,Math.PI*2);cx.fill();
+    // Horizontal sync line between spring mass and projected dot
+    cx.strokeStyle='rgba(56,189,248,.15)';cx.lineWidth=1;cx.setLineDash([2,2]);cx.beginPath();cx.moveTo(massX,projY);cx.lineTo(projX,projY);cx.stroke();cx.setLineDash([]);
+    // Labels
+    cx.fillStyle=d?'#f59e0b':'#d97706';cx.font='bold 9px var(--serif)';cx.textAlign='center';
+    cx.fillText('ω = '+omega0().toFixed(2)+' rad/s',cX,cY-cR-10);
+    cx.fillText('A = '+sp.A.toFixed(2),cX,cY+cR+16);
+    cx.fillStyle=d?'#94a3b8':'#475569';cx.font='8px sans-serif';cx.fillText('x-projection of circle = SHM',W1/2,H1-8);
+  }
+
+  // Scene 2: Pendulum vs Spring
+  if(scene===2){
+    // Spring (left)
+    var sx=W1*.22,sy=H1*.5,sMassX=sx+num.x*scale*.6;
+    cx.fillStyle=d?'#475569':'#94a3b8';cx.fillRect(W1*.04,sy-12,6,24);
+    cx.strokeStyle=d?'#64748b':'#94a3b8';cx.lineWidth=2;cx.beginPath();
+    for(var i=0;i<=8;i++){cx.lineTo(W1*.04+6+(sMassX-W1*.04-6)*i/8,sy+(i%2===0?-5:5))}cx.stroke();
+    cx.fillStyle=d?'#38bdf8':'#0369a1';cx.beginPath();cx.arc(sMassX,sy,10,0,Math.PI*2);cx.fill();
+    cx.fillStyle=d?'#94a3b8':'#475569';cx.font='bold 8px var(--serif)';cx.textAlign='center';
+    cx.fillText('Spring: T=2π√(m/k)='+(2*Math.PI/omega0()).toFixed(3)+'s',W1*.22,18);
+    // Pendulum (right) — numerical, large-angle capable
+    var px=W1*.72,py=H1*.1,pLen=H1*.4;
+    var bobX=px+pLen*Math.sin(pend.th),bobY=py+pLen*Math.cos(pend.th);
+    cx.strokeStyle=d?'#64748b':'#94a3b8';cx.lineWidth=2;cx.beginPath();cx.moveTo(px,py);cx.lineTo(bobX,bobY);cx.stroke();
+    cx.fillStyle=d?'#f59e0b':'#d97706';cx.beginPath();cx.arc(bobX,bobY,10,0,Math.PI*2);cx.fill();
+    cx.fillStyle=d?'#94a3b8':'#475569';cx.font='bold 8px var(--serif)';
+    cx.fillText('Pendulum: T=2π√(L/g)='+(2*Math.PI*Math.sqrt(pend.L/pend.g)).toFixed(3)+'s',W1*.72,18);
+    // Small-angle overlay (analytical)
+    var thAnalytic=pend.theta0*Math.cos(Math.sqrt(pend.g/pend.L)*ti);
+    var abX=px+pLen*Math.sin(thAnalytic),abY=py+pLen*Math.cos(thAnalytic);
+    cx.strokeStyle='rgba(239,68,68,.2)';cx.lineWidth=1;cx.setLineDash([3,3]);cx.beginPath();cx.moveTo(px,py);cx.lineTo(abX,abY);cx.stroke();cx.setLineDash([]);
+    cx.fillStyle='rgba(239,68,68,.3)';cx.beginPath();cx.arc(abX,abY,5,0,Math.PI*2);cx.fill();
+    cx.fillStyle=d?'#ef4444':'#dc2626';cx.font='7px sans-serif';cx.textAlign='left';
+    cx.fillText('Red = small-angle approx',W1*.55,H1-24);cx.fillText('Yellow = exact (numerical)',W1*.55,H1-12);
+    cx.fillText('Mass does NOT affect pendulum period!',W1*.55,H1*.88);
+  }
+
+  // Energy bars (scene 3)
+  if(scene===3){
+    var KE=0.5*sp.m*num.v*num.v,PE=0.5*sp.k*num.x*num.x,TE=KE+PE,maxE=0.5*sp.k*sp.A*sp.A||1;
+    var bx=W1*.7,bw=W1*.06,bh=H1*.3,by2=H1*.8;
+    cx.fillStyle='rgba(239,68,68,.6)';cx.fillRect(bx,by2-bh*(KE/maxE),bw,bh*(KE/maxE));
+    cx.fillStyle='rgba(96,165,250,.6)';cx.fillRect(bx+bw+4,by2-bh*(PE/maxE),bw,bh*(PE/maxE));
+    cx.strokeStyle=d?'#22c55e':'#16a34a';cx.lineWidth=2;cx.beginPath();cx.moveTo(bx-4,by2-bh*(TE/maxE));cx.lineTo(bx+bw*2+8,by2-bh*(TE/maxE));cx.stroke();
+    cx.fillStyle=d?'#e2e8f0':'#1e293b';cx.font='bold 7px var(--serif)';cx.textAlign='center';
+    cx.fillText('KE',bx+bw/2,by2+10);cx.fillText('PE',bx+bw+4+bw/2,by2+10);cx.fillStyle=d?'#22c55e':'#16a34a';cx.fillText('Total',bx+bw+2,by2-bh*(TE/maxE)-5);
+  }
+
+  // Resonance sweep plot (scene 5)
+  if(scene===5&&resCurves.length>0){
+    var rL=W1*.55,rR=W1*.95,rT=H1*.05,rB=H1*.65,rW=rR-rL,rH=rB-rT;
+    cx.fillStyle=d?'rgba(15,23,42,.6)':'rgba(255,255,255,.6)';cx.beginPath();cx.roundRect(rL-4,rT-4,rW+8,rH+8,6);cx.fill();
+    cx.strokeStyle=d?'rgba(56,189,248,.1)':'rgba(0,0,0,.06)';cx.lineWidth=1;cx.beginPath();cx.moveTo(rL,rT);cx.lineTo(rL,rB);cx.lineTo(rR,rB);cx.stroke();
+    cx.fillStyle=d?'#94a3b8':'#475569';cx.font='bold 8px var(--serif)';cx.textAlign='center';cx.fillText('Resonance Curve: A vs ω_d',rL+rW/2,rT-6);
+    cx.font='7px sans-serif';cx.fillText('ω_d',rL+rW/2,rB+12);
+    var colors=['#ef4444','#f59e0b','#22c55e','#38bdf8','#a855f7'];
+    resCurves.forEach(function(rc,ci){
+      var maxA=0;rc.pts.forEach(function(p){if(p.A>maxA)maxA=p.A});if(maxA<.001)return;
+      cx.strokeStyle=colors[ci%colors.length];cx.lineWidth=1.5;cx.beginPath();
+      rc.pts.forEach(function(p,i){var px=rL+((p.wd-rc.pts[0].wd)/(rc.pts[rc.pts.length-1].wd-rc.pts[0].wd))*rW;var py=rB-(p.A/maxA)*rH*.9;i===0?cx.moveTo(px,py):cx.lineTo(px,py)});cx.stroke();
+      cx.fillStyle=colors[ci%colors.length];cx.font='7px var(--mono)';cx.textAlign='left';cx.fillText('b='+rc.b.toFixed(1),rL+4,rT+10+ci*10);
+    });
+  }
+}
+
+// ===== PAINT GRAPHS (x, v, a + phase space) =====
+function paintGraphs(){
+  if(!W2||!grX)return;var d=dk(),cx=grX;
+  cx.clearRect(0,0,W2,H2);cx.fillStyle=d?'#1e293b':'#fff';cx.fillRect(0,0,W2,H2);
+  if(hist.length<2){cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='10px sans-serif';cx.textAlign='center';cx.fillText('Drag the mass and release to build graphs',W2/2,H2/2);return}
+  var nG=scene===3?4:3,usePhase=scene===3||scene===4;
+  if(usePhase)nG=4;
+  var gH=H2/nG-4,pad={l:32,r:6,t:2,b:2};
+  var graphs=[{key:'x',col:d?'#38bdf8':'#0369a1',label:'x (m)'},{key:'v',col:d?'#22c55e':'#16a34a',label:'v (m/s)'},{key:'a',col:d?'#ef4444':'#dc2626',label:'a (m/s²)'}];
+  if(usePhase)graphs.push({key:'phase',col:d?'#fbbf24':'#d97706',label:'v vs x'});
+
+  // Sliding time window: show last ~3 periods (or 6 seconds min)
+  var winSize=Math.max(6,period()*3);
+  var tEnd=ti,tStart=Math.max(0,ti-winSize);
+  // Filter history to window
+  var wHist=hist.filter(function(h){return h.t>=tStart&&h.t<=tEnd});
+  if(wHist.length<2)wHist=hist;
+  // Current values for readouts
+  var curSt=wHist[wHist.length-1]||{x:0,v:0,a:0};
+
+  graphs.forEach(function(g,gi){
+    var gy=gi*(gH+4)+2,pW=W2-pad.l-pad.r,pH=gH-pad.t-pad.b;
+    // Axis
+    cx.strokeStyle=d?'rgba(148,163,184,.08)':'rgba(0,0,0,.04)';cx.lineWidth=1;
+    cx.beginPath();cx.moveTo(pad.l,gy+pad.t);cx.lineTo(pad.l,gy+gH-pad.b);cx.lineTo(W2-pad.r,gy+gH-pad.b);cx.stroke();
+    // Label
+    cx.fillStyle=d?'#64748b':'#94a3b8';cx.font='bold 7px var(--serif)';cx.textAlign='left';cx.fillText(g.label,pad.l+2,gy+10);
+
+    if(g.key==='phase'){
+      var xs=wHist.map(function(h){return h.x}),vs=wHist.map(function(h){return h.v});
+      var xMax=Math.max.apply(null,xs.map(Math.abs))||1,vMax=Math.max.apply(null,vs.map(Math.abs))||1;
+      cx.strokeStyle=g.col;cx.lineWidth=1.2;cx.beginPath();
+      wHist.forEach(function(h,i){var px=pad.l+pW/2+(h.x/xMax)*pW*.45;var py=gy+gH/2-(h.v/vMax)*pH*.4;i===0?cx.moveTo(px,py):cx.lineTo(px,py)});cx.stroke();
+      cx.setLineDash([2,2]);cx.strokeStyle=d?'rgba(148,163,184,.1)':'rgba(0,0,0,.04)';
+      cx.beginPath();cx.moveTo(pad.l,gy+gH/2);cx.lineTo(W2-pad.r,gy+gH/2);cx.stroke();
+      cx.beginPath();cx.moveTo(pad.l+pW/2,gy+pad.t);cx.lineTo(pad.l+pW/2,gy+gH-pad.b);cx.stroke();cx.setLineDash([]);
+      // Current point dot
+      var cpx=pad.l+pW/2+(curSt.x/xMax)*pW*.45,cpy=gy+gH/2-(curSt.v/vMax)*pH*.4;
+      cx.fillStyle=g.col;cx.beginPath();cx.arc(cpx,cpy,3,0,Math.PI*2);cx.fill();
+    }else{
+      var zero=gy+gH/2;cx.setLineDash([2,2]);cx.strokeStyle=d?'rgba(148,163,184,.08)':'rgba(0,0,0,.03)';cx.beginPath();cx.moveTo(pad.l,zero);cx.lineTo(W2-pad.r,zero);cx.stroke();cx.setLineDash([]);
+      var vals=wHist.map(function(h){return h[g.key]});
+      var maxV=Math.max.apply(null,vals.map(Math.abs))||1;
+      // Y-axis scale labels
+      cx.fillStyle=d?'rgba(148,163,184,.3)':'rgba(0,0,0,.12)';cx.font='6px var(--mono)';cx.textAlign='right';
+      cx.fillText('+'+maxV.toFixed(2),pad.l-2,gy+pad.t+8);
+      cx.fillText('-'+maxV.toFixed(2),pad.l-2,gy+gH-pad.b-2);
+      cx.fillText('0',pad.l-2,zero+3);
+      // Draw curve
+      cx.strokeStyle=g.col;cx.lineWidth=1.5;cx.beginPath();
+      vals.forEach(function(val,i){var px=pad.l+((wHist[i].t-tStart)/(tEnd-tStart))*pW;var py=zero-(val/maxV)*(pH/2);i===0?cx.moveTo(px,py):cx.lineTo(px,py)});cx.stroke();
+      // Time cursor at right edge + current value readout
+      var curVal=curSt[g.key];
+      var curX=W2-pad.r;
+      var curY=zero-(curVal/maxV)*(pH/2);
+      // Dot at current position
+      cx.fillStyle=g.col;cx.beginPath();cx.arc(curX,curY,3.5,0,Math.PI*2);cx.fill();
+      // Value label
+      cx.fillStyle=g.col;cx.font='bold 8px var(--mono)';cx.textAlign='right';
+      cx.fillText(curVal.toFixed(3),W2-pad.r-4,gy+gH-pad.b-3);
+      // Time labels (start and end)
+      if(gi===0){cx.fillStyle=d?'rgba(148,163,184,.3)':'rgba(0,0,0,.12)';cx.font='6px var(--mono)';cx.textAlign='left';cx.fillText(tStart.toFixed(1)+'s',pad.l,gy+gH+8);cx.textAlign='right';cx.fillText(tEnd.toFixed(1)+'s',W2-pad.r,gy+gH+8)}
+    }
+  });
+}
+
+// ===== RESONANCE AUTO-SWEEP =====
+window.autoSweep=function(){
+  resCurves=[];
+  var w0=omega0(),bVals=[0.5,1,2,5];
+  bVals.forEach(function(bv){
+    var pts=[];
+    for(var wd=w0*0.2;wd<w0*2.5;wd+=w0*0.05){
+      var g2=bv/(2*sp.m);
+      var denom=Math.sqrt(Math.pow(w0*w0-wd*wd,2)+Math.pow(2*g2*wd,2));
+      var A=denom>0?sp.Fd/sp.m/denom:0;
+      pts.push({wd:wd,A:A});
+    }
+    resCurves.push({b:bv,pts:pts});
+  });
+};
+
+// ===== BUILD SCENE =====
+function buildScene(){
+  var sc=SCENES[scene];$('guideT').innerHTML=sc.guide;
+  $('modeBar').innerHTML=SCENES.map(function(s,i){return'<div class="mode'+(i===scene?' on':'')+'" onclick="switchScene('+i+')">'+s.n+'</div>'}).join('');
+  var ctrl='<div class="cr"><div class="sr"><span class="cl">k</span><input type="range" min="1" max="80" step="1" value="'+sp.k+'" id="slK" oninput="sp.k=+this.value;$(\'vK\').textContent=sp.k;num.x=sp.A;num.v=0;ti=0;hist=[];pendHist=[]"><span class="sv" id="vK">'+sp.k+' N/m</span></div>'+
+    '<div class="sr"><span class="cl">m</span><input type="range" min="0.5" max="10" step="0.1" value="'+sp.m+'" id="slM" oninput="sp.m=+this.value;$(\'vM\').textContent=sp.m.toFixed(1);num.x=sp.A;num.v=0;ti=0;hist=[];pendHist=[]"><span class="sv" id="vM">'+sp.m.toFixed(1)+' kg</span></div>'+
+    '<div class="sr"><span class="cl">A</span><input type="range" min="0.1" max="1.5" step="0.05" value="'+sp.A+'" id="slA" oninput="sp.A=+this.value;$(\'vA\').textContent=sp.A.toFixed(2);num.x=sp.A;num.v=0;ti=0;hist=[];pendHist=[]"><span class="sv" id="vA">'+sp.A.toFixed(2)+' m</span></div>';
+  if(scene===2)ctrl+='<div class="sr"><span class="cl">L</span><input type="range" min="0.2" max="3" step="0.1" value="'+pend.L+'" id="slL" oninput="pend.L=+this.value;$(\'vL\').textContent=pend.L.toFixed(1);pend.th=pend.theta0;pend.om=0;pendHist=[]"><span class="sv" id="vL">'+pend.L.toFixed(1)+' m</span></div>'+
+    '<div class="sr"><span class="cl">θ₀</span><input type="range" min="0.05" max="1.2" step="0.05" value="'+pend.theta0+'" id="slTh" oninput="pend.theta0=+this.value;$(\'vTh\').textContent=(+this.value).toFixed(2);pend.th=pend.theta0;pend.om=0;pendHist=[]"><span class="sv" id="vTh">'+pend.theta0.toFixed(2)+' rad</span></div>'+
+    '<div class="sr"><span class="cl">g</span><input type="range" min="1" max="25" step="0.1" value="'+pend.g+'" id="slG" oninput="pend.g=+this.value;$(\'vG\').textContent=(+this.value).toFixed(1)"><span class="sv" id="vG">'+pend.g.toFixed(1)+' m/s²</span></div>';
+  if(scene>=4)ctrl+='<div class="sr"><span class="cl">b</span><input type="range" min="0" max="20" step="0.1" value="'+sp.b+'" id="slB" oninput="sp.b=+this.value;$(\'vB\').textContent=(+this.value).toFixed(1)"><span class="sv" id="vB">'+sp.b.toFixed(1)+'</span></div>';
+  if(scene===5)ctrl+='<div class="sr"><span class="cl">F₀</span><input type="range" min="0" max="30" step="0.5" value="'+sp.Fd+'" id="slFd" oninput="sp.Fd=+this.value;$(\'vFd\').textContent=(+this.value).toFixed(1)"><span class="sv" id="vFd">'+sp.Fd.toFixed(1)+' N</span></div>'+
+    '<div class="sr"><span class="cl">ω_d</span><input type="range" min="0.5" max="15" step="0.1" value="'+sp.wd+'" id="slWd" oninput="sp.wd=+this.value;$(\'vWd\').textContent=(+this.value).toFixed(1)"><span class="sv" id="vWd">'+sp.wd.toFixed(1)+' rad/s</span></div>';
+  ctrl+='</div><div class="cr"><button class="btn btn-a" onclick="running=!running">'+(running?'⏸ Pause':'▶ Play')+'</button><button class="btn btn-o" onclick="stepFwd()">⏭ Step</button><button class="btn btn-o" onclick="resetSim()">↺ Reset</button>'+
+    '<div class="sr"><span class="cl">Speed</span><input type="range" min="0.2" max="3" step="0.1" value="'+speed+'" oninput="speed=+this.value"><span class="sv">'+(speed<0.5?'slow':speed<1.5?'×1':'fast')+'</span></div>';
+  if(scene===4)ctrl+='<div class="pill" onclick="sp.b=2*Math.sqrt(sp.k*sp.m);buildScene()">Critical b='+(2*Math.sqrt(sp.k*sp.m)).toFixed(1)+'</div>';
+  if(scene===5)ctrl+='<div class="pill" onclick="sp.wd=omega0();buildScene()">ω_d=ω₀</div><button class="btn btn-t" onclick="autoSweep()">Auto-Sweep Resonance</button>';
+  ctrl+='</div>';
+  $('sceneArea').innerHTML='<div class="split"><div class="cbox"><canvas id="simCanvas" style="aspect-ratio:4/3"></canvas></div><div class="cbox"><canvas id="grCanvas" style="aspect-ratio:4/3"></canvas></div></div><div class="panel">'+ctrl+'</div>';
+  setupCanvases();resetSim();buildExp();
+}
+
+window.switchScene=function(i){scene=i;sp.b=i>=4?2:0;sp.Fd=i===5?8:0;sp.wd=i===5?omega0():0;resCurves=[];buildScene()};
+window.stepFwd=function(){for(var i=0;i<Math.round(speed*10);i++){stepSpring();if(scene===2)stepPendulum()}var a=springAccel(num.x,num.v,ti);hist.push({t:ti,x:num.x,v:num.v,a:a});if(hist.length>maxHist)hist.shift();pendHist.push({t:ti,th:pend.th});if(pendHist.length>maxHist)pendHist.shift()};
+
+// ===== RENDER =====
+function render(){
+  requestAnimationFrame(render);
+  if(running&&!dragging){
+    for(var i=0;i<Math.round(speed*10);i++){stepSpring();stepPendulum()}
+    var a=springAccel(num.x,num.v,ti);
+    hist.push({t:ti,x:num.x,v:num.v,a:a});if(hist.length>maxHist)hist.shift();
+    pendHist.push({t:ti,th:pend.th});if(pendHist.length>maxHist)pendHist.shift();
+  }
+  paintSim();paintGraphs();
+}
+
+// ===== EXPERIMENT ENGINE =====
+var manD=[],expD=[];
+function buildExp(){
+  $('expC').innerHTML='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:5px"><div style="flex:1;min-width:140px"><div class="exp-field"><label>Independent Variable</label><select id="selIV" onchange="updateHypo()"><option value="m">Mass m (kg)</option><option value="k">Spring constant k</option><option value="A">Amplitude A (m)</option><option value="L">Pendulum L (m)</option><option value="b">Damping b</option><option value="wd">Driving ω_d</option></select></div><div class="exp-field"><label>Dependent Variable</label><select id="selDV" onchange="updateHypo()"><option value="T">Period T (s)</option><option value="f">Frequency f (Hz)</option><option value="w">ω (rad/s)</option><option value="vmax">Max velocity</option><option value="amax">Max acceleration</option><option value="E">Total energy (J)</option></select></div></div><div style="flex:1;min-width:140px"><div class="exp-field"><label>Controlled Variables</label><div class="cv-grid">'+['Mass','Spring k','Amplitude','Damping','Gravity'].map(function(v){return'<label class="cv-check"><input type="checkbox" checked> '+v+'</label>'}).join('')+'</div></div><div class="exp-field"><label>Hypothesis</label><input type="text" id="hypoField" placeholder="If Mass m (kg) increases, then Period T (s) will..."></div></div></div>'+
+    '<div style="background:var(--surface);border-radius:7px;padding:7px;border:1px solid var(--border);margin-top:4px"><p style="font-size:.66rem;color:var(--text2);margin-bottom:4px"><b>Data collection:</b> Adjust IV, let oscillation stabilize, then <b>↻ Read</b> or <b>↻ Auto Add</b>.</p><div style="display:flex;gap:4px;align-items:flex-end;flex-wrap:wrap"><div style="flex:1;min-width:80px"><div class="exp-field"><label>IV</label><div style="display:flex;gap:3px"><input type="number" id="mIV" step="any" style="flex:1"><button class="btn btn-o" onclick="readIV()" style="font-size:.6rem;padding:3px 6px">↻</button></div></div></div><div style="flex:1;min-width:80px"><div class="exp-field"><label>DV</label><div style="display:flex;gap:3px"><input type="number" id="mDV" step="any" style="flex:1"><button class="btn btn-o" onclick="readDV()" style="font-size:.6rem;padding:3px 6px">↻</button></div></div></div><button class="btn btn-a" onclick="addR()">+ Add</button><button class="btn btn-t" onclick="autoAdd()" style="font-size:.6rem">↻ Auto</button></div></div><div id="mT"></div><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-t" onclick="plotM()">Plot</button><button class="btn btn-o" onclick="clrM()">Clear</button></div><div id="mSt" style="font-size:.62rem;color:var(--text3);margin-top:2px"></div>';
+}
+// Measure period from actual zero-crossings in history
+function measuredPeriod(){
+  if(hist.length<10)return period();
+  var crossings=[];
+  for(var i=1;i<hist.length;i++){if(hist[i-1].x<=0&&hist[i].x>0)crossings.push(hist[i].t)}
+  if(crossings.length>=2)return crossings[crossings.length-1]-crossings[crossings.length-2];
+  return period();
+}
+function pendPeriod(){
+  // Measure from actual zero-crossings of θ in pendulum history
+  if(pendHist.length>20){
+    var crossings=[];
+    for(var i=1;i<pendHist.length;i++){if(pendHist[i-1].th<=0&&pendHist[i].th>0)crossings.push(pendHist[i].t)}
+    if(crossings.length>=2)return crossings[crossings.length-1]-crossings[crossings.length-2];
+  }
+  return 2*Math.PI*Math.sqrt(pend.L/pend.g); // fallback before enough data
+}
+function isPendIV(){var iv=$('selIV')?$('selIV').value:'m';return iv==='L'}
+
+window.readIV=function(){var iv=$('selIV')?$('selIV').value:'m';var v=0;if(iv==='m')v=sp.m;else if(iv==='k')v=sp.k;else if(iv==='A')v=sp.A;else if(iv==='L')v=pend.L;else if(iv==='b')v=sp.b;else if(iv==='wd')v=sp.wd;$('mIV').value=+v.toFixed(3)};
+window.readDV=function(){var dv=$('selDV')?$('selDV').value:'T';var v=0;
+  var usePend=isPendIV();
+  if(dv==='T'){v=usePend?pendPeriod():measuredPeriod()}
+  else if(dv==='f'){v=1/(usePend?pendPeriod():measuredPeriod())}
+  else if(dv==='w'){v=2*Math.PI/(usePend?pendPeriod():measuredPeriod())}
+  else if(dv==='vmax'){if(usePend){v=pend.theta0*Math.sqrt(pend.g/pend.L)*pend.L}else{var mv=0;hist.forEach(function(h){var av=Math.abs(h.v);if(av>mv)mv=av});v=mv}}
+  else if(dv==='amax'){if(usePend){v=pend.theta0*pend.g}else{var ma=0;hist.forEach(function(h){var aa=Math.abs(h.a);if(aa>ma)ma=aa});v=ma}}
+  else if(dv==='E'){v=usePend?0.5*sp.m*pend.L*pend.L*pend.om*pend.om+sp.m*pend.g*pend.L*(1-Math.cos(pend.th)):0.5*sp.m*num.v*num.v+0.5*sp.k*num.x*num.x}
+  $('mDV').value=+v.toFixed(4)};
+window.updateHypo=function(){
+  var iv=$('selIV')?$('selIV').options[$('selIV').selectedIndex].text:'mass';
+  var dv=$('selDV')?$('selDV').options[$('selDV').selectedIndex].text:'period';
+  var h=$('hypoField');if(h)h.placeholder='If '+iv+' increases, then '+dv+' will...';};
+window.autoAdd=function(){readIV();readDV();addR()};
+window.addR=function(){var iv=parseFloat($('mIV').value),dv=parseFloat($('mDV').value);if(isNaN(iv)||isNaN(dv)){$('mSt').textContent='Enter both.';$('mSt').style.color='var(--err)';return}manD.push({iv:iv,dv:dv});$('mIV').value='';$('mDV').value='';$('mSt').textContent='#'+manD.length;$('mSt').style.color='var(--ok)';buildMT();syncM()};
+function buildMT(){if(!manD.length){$('mT').innerHTML='';return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});var ks=Object.keys(g).map(Number).sort(function(a,b){return a-b});var ivN=$('selIV')?$('selIV').options[$('selIV').selectedIndex].text:'IV';var dvN=$('selDV')?$('selDV').options[$('selDV').selectedIndex].text:'DV';$('mT').innerHTML='<table class="dt"><thead><tr><th>'+ivN+'</th><th>'+dvN+' Readings</th><th class="mean">Mean</th><th class="unc">± Unc</th><th></th></tr></thead><tbody>'+ks.map(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length,u=v.length>=2?(Math.max.apply(null,v)-Math.min.apply(null,v))/2:0;return'<tr><td style="font-weight:700">'+k+'</td><td>'+v.map(function(x){return(+x.toFixed(3))+''}).join(', ')+'</td><td class="mean">'+mn.toFixed(3)+'</td><td class="unc">'+u.toFixed(3)+'</td><td><span style="cursor:pointer;color:var(--err)" onclick="rmG('+k+')">✕</span></td></tr>'}).join('')+'</tbody></table>'}
+window.rmG=function(k){manD=manD.filter(function(d2){return d2.iv!==k});buildMT();syncM()};window.clrM=function(){manD=[];buildMT();expD=[];$('mSt').textContent=''};
+function syncM(){if(!manD.length){expD=[];return}var g={};manD.forEach(function(d2){if(!g[d2.iv])g[d2.iv]=[];g[d2.iv].push(d2.dv)});expD=[];Object.keys(g).map(Number).sort(function(a,b){return a-b}).forEach(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b},0)/v.length,u=v.length>=2?(Math.max.apply(null,v)-Math.min.apply(null,v))/2:0;expD.push({iv:k,mean:+mn.toFixed(4),unc:+u.toFixed(4)})});buildDT();setTimeout(function(){initGr();drawGr()},30)}
+window.plotM=function(){if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(function(t2){t2.classList.remove('on')});document.querySelectorAll('.btc').forEach(function(t2){t2.classList.remove('on')});document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(function(){initGr();drawGr()},80)};
+function buildDT(){if(!expD.length)return;var ivN=$('selIV')?$('selIV').options[$('selIV').selectedIndex].text:'IV';var dvN=$('selDV')?$('selDV').options[$('selDV').selectedIndex].text:'DV';$('dW').innerHTML='<table class="dt"><thead><tr><th>'+ivN+'</th><th class="mean">Mean '+dvN+'</th><th class="unc">± Unc</th></tr></thead><tbody>'+expD.map(function(r){return'<tr><td>'+r.iv+'</td><td class="mean">'+r.mean+'</td><td class="unc">'+r.unc+'</td></tr>'}).join('')+'</tbody></table>'}
+var gCv,gx2;function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');var d=window.devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)w=500;gCv.width=w*d;gCv.height=200*d;gCv.style.width=w+'px';gCv.style.height='200px';gx2.setTransform(d,0,0,d,0,0)}
+function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return}var w=parseInt(gCv.style.width)||500,h=200,d=dk();gx2.clearRect(0,0,w,h);gx2.fillStyle=d?'#0f172a':'#f0f4f8';gx2.beginPath();gx2.roundRect(0,0,w,h,10);gx2.fill();if(!expD.length){gx2.fillStyle=d?'rgba(148,163,184,.2)':'rgba(0,0,0,.1)';gx2.font='11px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data to see graph',w/2,h/2);return}var P={t:20,r:14,b:24,l:44},pW=w-P.l-P.r,pH=h-P.t-P.b;gx2.strokeStyle=d?'rgba(56,189,248,.1)':'rgba(0,0,0,.06)';gx2.lineWidth=1;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,h-P.b);gx2.lineTo(w-P.r,h-P.b);gx2.stroke();var xs=expD.map(function(r2){return r2.iv}),ys=expD.map(function(r2){return r2.mean}),us=expD.map(function(r2){return r2.unc});var xn=Math.min.apply(null,xs),xx=Math.max.apply(null,xs),yn=Math.min.apply(null,ys.map(function(y,i){return y-us[i]}))-.001,yx=Math.max.apply(null,ys.map(function(y,i){return y+us[i]}))+.001;if(xx===xn){xn-=.1;xx+=.1}if(yx<=yn){yn-=.01;yx+=.01}function tx(v){return P.l+((v-xn)/(xx-xn))*pW}function ty(v){return P.t+pH-((v-yn)/(yx-yn))*pH}var ivN=$('selIV')?$('selIV').options[$('selIV').selectedIndex].text:'IV';var dvN=$('selDV')?$('selDV').options[$('selDV').selectedIndex].text:'DV';gx2.fillStyle=d?'#64748b':'#94a3b8';gx2.font='8px sans-serif';gx2.textAlign='center';gx2.fillText(ivN,P.l+pW/2,h-4);gx2.save();gx2.translate(8,P.t+pH/2);gx2.rotate(-Math.PI/2);gx2.fillText(dvN,0,0);gx2.restore();for(var i=0;i<expD.length;i++){var px=tx(xs[i]),py=ty(ys[i]),ue=us[i];if(ue>0){gx2.strokeStyle=d?'rgba(52,211,153,.3)':'rgba(14,124,107,.2)';gx2.lineWidth=1.5;gx2.beginPath();gx2.moveTo(px,ty(ys[i]-ue));gx2.lineTo(px,ty(ys[i]+ue));gx2.stroke()}gx2.fillStyle=d?'#38bdf8':'#0369a1';gx2.beginPath();gx2.arc(px,py,4,0,Math.PI*2);gx2.fill()}if(xs.length>=2){gx2.strokeStyle=d?'#38bdf8':'#0369a1';gx2.lineWidth=1.5;gx2.beginPath();for(var i=0;i<expD.length;i++){var px=tx(xs[i]),py=ty(ys[i]);i===0?gx2.moveTo(px,py):gx2.lineTo(px,py)}gx2.stroke()}}
+
+// IB QUESTIONS
+var IB=[
+  {c:'State',q:'State the conditions for simple harmonic motion.',f:'SHM occurs when: 1) The restoring force is proportional to displacement. 2) The force always acts toward equilibrium. Mathematically: a = −ω²x.'},
+  {c:'Calculate',q:'A spring (k = 40 N/m) has a 2.0 kg mass. Find the period.',f:'T = 2π√(m/k) = 2π√(2.0/40) = 2π × 0.224 = 1.40 s'},
+  {c:'Explain',q:'At maximum displacement, velocity is zero but acceleration is maximum. Explain.',f:'At x = x₀: all energy is PE, KE = 0, so v = 0. The spring is maximally stretched → F = −kx₀ is maximum → a = F/m is maximum, directed toward equilibrium.'},
+  {c:'Explain',q:'A pendulum\'s period does not depend on mass. Explain.',f:'Restoring force ≈ mgθ. Acceleration = gθ. Mass cancels — heavier bobs have more force but equal inertia increase. T = 2π√(L/g).'},
+  {c:'Distinguish',q:'Distinguish between underdamped, critically damped, and overdamped.',f:'Underdamped: oscillates with decaying amplitude. Critical: fastest return without oscillation. Overdamped: slow return, no oscillation.'},
+  {c:'Explain',q:'Why does amplitude peak when ω_d = ω₀ (resonance)?',f:'At resonance, the driving force is in phase with velocity — energy transfers maximally each cycle. Low damping → energy accumulates → large amplitude.'}
+];
+function buildIB(){$('ibL').innerHTML=IB.map(function(q,i){return'<div class="ib-card"><div class="ib-cmd">'+q.c+'</div><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea id="ib'+i+'"></textarea><button class="btn btn-a" style="margin-top:2px;font-size:.62rem" onclick="sF('+i+')">Show Answer</button><div class="ib-fb" id="iF'+i+'"></div></div>'}).join('');window.sF=function(i){$('iF'+i).className='ib-fb show ok';$('iF'+i).textContent=IB[i].f;addN('📝 Q'+(i+1),IB[i].q,IB[i].f)}}
+var nb=[];function addN(t2,d,r){nb.push({t:t2,d:d,r:r});showN()}
+function showN(){$('nbO').innerHTML=nb.length?nb.map(function(n,i){return'<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">→ '+n.r+'</span></div>'}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.64rem;padding:8px">Record observations here.</p>'}
+showN();
+window.bts=function(el,i){document.querySelectorAll('.bt').forEach(function(t2){t2.classList.remove('on')});document.querySelectorAll('.btc').forEach(function(t2){t2.classList.remove('on')});el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(function(){initGr();drawGr()},80)};
+buildScene();buildIB();render();
+</script>
+</body>
+</html>
