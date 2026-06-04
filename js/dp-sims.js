@@ -125,5 +125,14 @@ const DP_SIMS = [
     description: "Explore springs, pendulums, damping, and resonance. Visualise amplitude, period, energy transfer, and phase space.",
     file: "sims/shm.html"
   },
+  {
+    id: "waves-lab-v3",
+    title: "Waves and Oscillations Lab",
+    icon: "🌊",
+    topic: "C.2",
+    topicName: "Wave Model",
+    description: "Explore transverse, longitudinal, water, sound, and light waves. Visualise wavelength, frequency, amplitude, and wave speed.",
+    file: "sims/waves-lab.html"
+  },
 
 ];
