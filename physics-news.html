@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics in the News | Atul Soral Physicism</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+
+<style>
+:root {
+  --bg: #f8fafc;
+  --text: #0f172a;
+  --text2: #475569;
+  --accent: #0284c7;
+  --border: rgba(0,0,0,.08);
+  --glass: rgba(255,255,255,0.7);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Nav Bar */
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 18px;
+  background: linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95));
+  color: #fff;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 16px rgba(3,105,161,.3);
+  flex-wrap: wrap; gap: 5px;
+}
+.nav-left { display: flex; align-items: center; gap: 14px; }
+.nav-brand { font-family: Georgia, serif; font-size: 1rem; font-weight: 700; color: #fff; text-decoration: none; }
+.nav-right { display: flex; gap: 6px; align-items: center; }
+.nav-link { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); color: #fff; border-radius: 7px; padding: 4px 10px; font-size: .73rem; text-decoration: none; }
+#authBtn { background: linear-gradient(135deg,#22c55e,#16a34a); color: #fff; border: none; padding: 5px 14px; border-radius: 7px; font-size: .75rem; font-weight: 600; cursor: pointer; transition: opacity .2s; }
+#authBtn:hover { opacity: 0.9; }
+
+/* Main Container */
+main { max-width: 1200px; margin: 0 auto; padding: 40px 20px; flex: 1; width: 100%; }
+.page-header { margin-bottom: 30px; }
+.page-title { font-family: Georgia, serif; font-size: 2.2rem; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+.page-subtitle { font-size: 1.1rem; color: #64748b; }
+
+/* Filter Buttons */
+.news-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
+.nf { padding: 7px 16px; border-radius: 50px; border: 1px solid var(--border); background: var(--glass); color: var(--text2); font-size: .78rem; font-weight: 600; cursor: pointer; transition: all .2s; font-family: -apple-system, sans-serif; }
+.nf:hover { border-color: var(--accent); color: var(--accent); }
+.nf.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.nf.refresh { background: rgba(5,150,105,.08); color: #059669; border-color: rgba(5,150,105,.2); margin-left: auto; }
+.nf.refresh:hover { background: rgba(5,150,105,.15); }
+
+/* News Grid */
+.news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+
+/* News Card */
+.news-card { background: #fff; border: 1.5px solid rgba(0,0,0,.06); border-radius: 16px; padding: 20px; transition: all .3s; cursor: default; position: relative; overflow: hidden; }
+.news-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,.08); border-color: rgba(14,165,233,.2); }
+.nc-emoji { font-size: 36px; margin-bottom: 10px; }
+.nc-meta { display: flex; gap: 10px; font-size: .72rem; color: #94a3b8; margin-bottom: 8px; font-family: -apple-system, sans-serif; }
+.nc-source { font-weight: 600; color: #0284c7; }
+.nc-title { font-family: Georgia, serif; font-size: 16px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; color: #0f172a; }
+.nc-desc { font-size: 13.5px; color: #475569; line-height: 1.7; margin-bottom: 12px; }
+.nc-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.nc-theme { font-size: .68rem; font-weight: 700; padding: 3px 10px; border-radius: 50px; background: rgba(14,165,233,.08); color: #0284c7; font-family: -apple-system, sans-serif; letter-spacing: .3px; }
+.nc-subtopic { font-size: .68rem; font-weight: 600; padding: 3px 10px; border-radius: 50px; background: rgba(5,150,105,.06); color: #059669; font-family: -apple-system, sans-serif; }
+
+/* Loading State */
+.news-loading { text-align: center; padding: 40px; color: #94a3b8; font-size: 14px; font-family: -apple-system, sans-serif; }
+.news-loading .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid rgba(14,165,233,.2); border-top-color: #0284c7; border-radius: 50%; animation: spin .8s linear infinite; margin-right: 8px; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Footer */
+.site-footer { text-align: center; padding: 24px; font-size: 12px; color: #94a3b8; font-family: -apple-system, sans-serif; font-weight: 600; letter-spacing: 1px; }
+
+/* Teacher Modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(4px); }
+.modal-content { background: #fff; padding: 24px; border-radius: 12px; width: 400px; max-width: 90vw; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+.modal-content h3 { margin-bottom: 16px; font-family: Georgia, serif; }
+.modal-content input, .modal-content textarea, .modal-content select { width: 100%; margin-bottom: 12px; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: -apple-system, sans-serif; font-size: 14px; }
+.modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 10px; }
+.modal-btns button { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+.btn-cancel { background: #e2e8f0; color: #475569; }
+.btn-save { background: #0284c7; color: #fff; }
+
+/* Responsive */
+@media(max-width:600px){
+  .nf.refresh { margin-left: 0; width: 100%; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-brand">Atul Soral Physicism</a>
+  </div>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="myp-dashboard.html" class="nav-link">MYP</a>
+    <a href="dp-dashboard.html" class="nav-link">DP</a>
+    <button id="authBtn">👤 Sign In</button>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1 class="page-title">Physics in the News</h1>
+    <p class="page-subtitle">Real-world science stories mapped to your IB Physics syllabus.</p>
+  </div>
+  
+  <div class="news-filters">
+    <button class="nf active" data-f="all" onclick="filterNews('all')">All</button>
+    <button class="nf" data-f="A" onclick="filterNews('A')">Theme A — Mechanics</button>
+    <button class="nf" data-f="B" onclick="filterNews('B')">Theme B — Thermal &amp; Energy</button>
+    <button class="nf" data-f="C" onclick="filterNews('C')">Theme C — Waves</button>
+    <button class="nf" data-f="D" onclick="filterNews('D')">Theme D — Fields</button>
+    <button class="nf" data-f="E" onclick="filterNews('E')">Theme E — Nuclear &amp; Quantum</button>
+    <button class="nf refresh" onclick="refreshNews()">🔄 Refresh News</button>
+  </div>
+  
+  <div id="newsLoading" class="news-loading" style="display:none;"></div>
+  
+  <div id="newsGrid" class="news-grid"></div>
+</main>
+
+<div class="site-footer">
+  &copy; 2026 ATUL SORAL PHYSICISM
+</div>
+
+<!-- Teacher Modal -->
+<div id="teacherModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Add Manual Story</h3>
+    <input type="text" id="tTitle" placeholder="Headline (max 15 words)">
+    <textarea id="tDesc" rows="3" placeholder="Description (connect to IB Physics concept)"></textarea>
+    <div style="display:flex;gap:8px">
+      <input type="text" id="tEmoji" placeholder="Emoji (e.g. 🔭)" style="flex:1">
+      <select id="tTheme" style="flex:2">
+        <option value="A">Theme A</option>
+        <option value="B">Theme B</option>
+        <option value="C">Theme C</option>
+        <option value="D">Theme D</option>
+        <option value="E">Theme E</option>
+      </select>
+    </div>
+    <input type="text" id="tSubtopic" placeholder="Subtopic (e.g. Kinematics)">
+    <input type="text" id="tSource" placeholder="Source (e.g. BBC Science)">
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeTeacherModal()">Cancel</button>
+      <button class="btn-save" id="tSubmitBtn" onclick="submitTeacherStory()">Add Story</button>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
+<script src="exam-system/firebase-config.js?v=2"></script>
+
+<script>
+let allStories = [];
+let currentFilter = 'all';
+let currentUser = null;
+
+// Auth State Listener
+firebase.auth().onAuthStateChanged(user => {
+  currentUser = user;
+  const btn = document.getElementById('authBtn');
+  if (user) {
+    const name = user.displayName ? user.displayName.split(' ')[0] : 'Student';
+    btn.innerHTML = '<span style="display:flex;align-items:center;gap:6px">' + name + '<span style="width:8px;height:8px;background:#22c55e;border-radius:50%;box-shadow:0 0 6px #22c55e"></span></span>';
+    btn.onclick = () => firebase.auth().signOut();
+    if (user.email === 'atulsoralphysicism@gmail.com') {
+      document.body.classList.add('is-teacher');
+    } else {
+      document.body.classList.remove('is-teacher');
+    }
+  } else {
+    btn.innerHTML = '👤 Sign In';
+    btn.onclick = () => firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    document.body.classList.remove('is-teacher');
+  }
+});
+
+// Load News
+async function loadNews() {
+  document.getElementById('newsGrid').innerHTML = '';
+  const loader = document.getElementById('newsLoading');
+  loader.style.display = 'block';
+  loader.innerHTML = '<div class="spinner"></div>Loading physics news...';
+  
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    let snapshot = await db.collection('physicism_news')
+      .where('date', '==', today)
+      .get();
+      
+    if(snapshot.empty) {
+      const d = new Date();
+      d.setDate(d.getDate() - 3);
+      const threeDaysAgo = d.toISOString().split('T')[0];
+      
+      snapshot = await db.collection('physicism_news')
+        .where('date', '>=', threeDaysAgo)
+        .get();
+    }
+    
+    if(snapshot.empty) {
+      if(!currentUser) {
+        loader.innerHTML = 'No recent stories found. <a href="#" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());return false;" style="color:#0284c7;font-weight:600;text-decoration:none">Sign in</a> to fetch the latest news.';
+        return;
+      }
+      await generateNews();
+      return;
+    }
+    
+    processStories(snapshot);
+  } catch(e) {
+    console.error("Error loading news:", e);
+    loader.innerHTML = 'Error loading news.';
+  }
+}
+
+function processStories(snapshot) {
+  allStories = [];
+  snapshot.forEach(doc => {
+    let data = doc.data();
+    data.id = doc.id;
+    allStories.push(data);
+  });
+  
+  // Sort: Teacher first, AI next. Within group, newest first (generated desc)
+  allStories.sort((a,b) => {
+    if(a.createdBy === 'ATUL' && b.createdBy !== 'ATUL') return -1;
+    if(a.createdBy !== 'ATUL' && b.createdBy === 'ATUL') return 1;
+    const da = new Date(a.generated || a.date).getTime();
+    const dbTime = new Date(b.generated || b.date).getTime();
+    return dbTime - da;
+  });
+  
+  document.getElementById('newsLoading').style.display = 'none';
+  renderNews();
+}
+
+function renderNews() {
+  const grid = document.getElementById('newsGrid');
+  grid.innerHTML = '';
+  
+  const filtered = currentFilter === 'all' ? allStories : allStories.filter(s => s.theme === currentFilter);
+  
+  if(filtered.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#64748b">No news found for this filter.</div>';
+    return;
+  }
+  
+  filtered.forEach(story => {
+    const isTeacher = story.createdBy === 'ATUL';
+    const borderStyle = isTeacher ? 'border-left:4px solid #f59e0b;' : '';
+    
+    const d = new Date(story.date);
+    const dateStr = d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+    
+    const delBtn = document.body.classList.contains('is-teacher') ? 
+      `<button onclick="deleteStory('${story.id}')" style="position:absolute;top:15px;right:15px;background:none;border:none;color:#ef4444;cursor:pointer;font-size:16px;z-index:10" title="Delete Story">🗑</button>` : '';
+
+    grid.innerHTML += `
+      <div class="news-card" data-theme="${story.theme}" style="${borderStyle}">
+        ${delBtn}
+        <div class="nc-emoji">${story.emoji}</div>
+        <div class="nc-meta">
+          <span class="nc-date">${dateStr}</span>
+          <span class="nc-source">${story.source}</span>
+        </div>
+        <h3 class="nc-title">${story.title}</h3>
+        <p class="nc-desc">${story.desc}</p>
+        <div class="nc-tags">
+          <span class="nc-theme">Theme ${story.theme}</span>
+          <span class="nc-subtopic">${story.subtopic}</span>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function filterNews(theme) {
+  currentFilter = theme;
+  document.querySelectorAll('.nf').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`.nf[data-f="${theme}"]`).classList.add('active');
+  renderNews();
+}
+
+async function refreshNews() {
+  if(!currentUser) {
+    alert("Please sign in to fetch the latest news.");
+    firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    return;
+  }
+  document.getElementById('newsGrid').innerHTML = '';
+  document.getElementById('newsLoading').style.display = 'block';
+  await generateNews();
+}
+
+async function generateNews() {
+  document.getElementById('newsLoading').innerHTML = '<div class="spinner"></div>Extracting the latest physics news...';
+  try {
+    const aiChat = firebase.functions().httpsCallable('aiChat');
+    const result = await aiChat({
+      messages: [
+        {
+          role: 'system',
+          content: 'You are an IB Physics (2025 syllabus) current affairs expert. Generate 5 recent science/physics news stories from the last week. Each story must be mapped to a specific IB DP Physics theme (A through E). Return ONLY a valid JSON array, no markdown, no explanation. Each object must have: emoji (single emoji), title (headline, max 15 words), desc (2-3 sentences connecting the news to a specific IB Physics concept), theme (single letter: A, B, C, D, or E), subtopic (specific topic name like "Kinematics" or "Wave Phenomena"), source (credible source like Nature, BBC Science, PhysicsWorld, New Scientist, Space.com).'
+        },
+        {
+          role: 'user',
+          content: 'Generate 5 physics news stories for today, ' + new Date().toISOString().split('T')[0]
+        }
+      ],
+      responseFormat: 'json',
+      maxTokens: 1500,
+      temperature: 0.9
+    });
+    
+    let rawData = result.data.content || result.data;
+    if(typeof rawData === 'string') {
+        rawData = rawData.replace(/```json/g, '').replace(/```/g, '').trim();
+    }
+    const stories = typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
+    
+    for(let story of stories) {
+      await db.collection('physicism_news').add({
+        emoji: story.emoji || '📰',
+        title: story.title || 'Untitled',
+        desc: story.desc || '',
+        theme: story.theme || 'A',
+        subtopic: story.subtopic || 'General',
+        source: story.source || 'News',
+        date: new Date().toISOString().split('T')[0],
+        createdBy: 'AI',
+        generated: new Date().toISOString()
+      });
+    }
+    
+    loadNews();
+  } catch(e) {
+    console.error("AI Generation Error:", e);
+    document.getElementById('newsLoading').innerHTML = 'Failed to extract news. Try again later.';
+  }
+}
+
+async function deleteStory(id) {
+  if(confirm("Delete this story?")) {
+    try {
+      await db.collection('physicism_news').doc(id).delete();
+      loadNews();
+    } catch(e) {
+      console.error(e);
+      alert("Error deleting story.");
+    }
+  }
+}
+
+// Teacher Add Logic
+document.addEventListener('keydown', e => {
+  if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'n') {
+    e.preventDefault();
+    const pwd = prompt("Teacher Password:");
+    if(pwd === 'atul123') {
+      document.getElementById('teacherModal').style.display = 'flex';
+    }
+  }
+});
+
+async function submitTeacherStory() {
+  const emoji = document.getElementById('tEmoji').value;
+  const title = document.getElementById('tTitle').value;
+  const desc = document.getElementById('tDesc').value;
+  const theme = document.getElementById('tTheme').value;
+  const subtopic = document.getElementById('tSubtopic').value;
+  const source = document.getElementById('tSource').value;
+  
+  if(!title || !desc || !theme) return alert("Fill required fields");
+  
+  document.getElementById('tSubmitBtn').textContent = 'Saving...';
+  
+  try {
+    await db.collection('physicism_news').add({
+      emoji: emoji || '📰',
+      title: title,
+      desc: desc,
+      theme: theme,
+      subtopic: subtopic || 'General',
+      source: source || 'Teacher Note',
+      date: new Date().toISOString().split('T')[0],
+      createdBy: 'ATUL',
+      generated: new Date().toISOString()
+    });
+    
+    closeTeacherModal();
+    ['tEmoji','tTitle','tDesc','tSubtopic','tSource'].forEach(id => document.getElementById(id).value = '');
+    loadNews();
+  } catch(e) {
+    console.error(e);
+    alert("Error saving story.");
+  } finally {
+    document.getElementById('tSubmitBtn').textContent = 'Add Story';
+  }
+}
+function closeTeacherModal() {
+  document.getElementById('teacherModal').style.display = 'none';
+}
+
+window.onload = loadNews;
+</script>
+</body>
+</html>
