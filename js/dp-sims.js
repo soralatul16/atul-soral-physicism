@@ -143,5 +143,14 @@ const DP_SIMS = [
     description: "Explore reflection, refraction, diffraction, interference, and dispersion. Visualise wavefronts and Snell's law.",
     file: "sims/wave-phenomena.html"
   },
+    {
+    id: "kepler-laws",
+    title: "Kepler's Laws",
+    icon: "🪐",
+    topic: "D.1",
+    topicName: "Gravitational Fields",
+    description: "Explore elliptical orbits, equal areas in equal times, and the T²∝a³ relationship. Visualise orbital mechanics.",
+    file: "sims/kepler-laws.html"
+  },
 
 ];
