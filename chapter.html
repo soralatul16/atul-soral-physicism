@@ -764,7 +764,11 @@ function sendAITutor() {
   
   // Call AI via Cloud Function (API key stays server-side)
   if(!firebase.auth().currentUser){
-    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Please log in to use the AI tutor.</span>';
+    document.getElementById(loadingId).innerHTML = '<div class="tutor-msg bot" style="background:rgba(192,57,43,0.06);padding:12px 16px;border-radius:12px;display:inline-block;font-size:13px;color:#c0392b;">' +
+      '🔒 Please sign in to use the AI tutor.<br><br>' +
+      '<button onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" ' +
+      'style="background:#0284c7;color:#fff;border:none;padding:8px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;margin-top:8px;">' +
+      'Sign in with Google</button></div>';
     return;
   }
   var aiChat=firebase.functions().httpsCallable('aiChat');

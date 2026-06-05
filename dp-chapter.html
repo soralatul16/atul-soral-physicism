@@ -2004,7 +2004,11 @@ async function sendAIMsg(){
   input.value='';
   container.scrollTop=container.scrollHeight;
   // Call AI via Cloud Function (API key stays server-side)
-  if(!firebase.auth().currentUser){container.innerHTML+='<div style="background:rgba(26,35,126,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;align-self:flex-start;">Please log in to use the AI tutor.</div>';return;}
+  if(!firebase.auth().currentUser){container.innerHTML+='<div class="tutor-msg bot" style="background:rgba(26,35,126,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;align-self:flex-start;">' +
+      '🔒 Please sign in to use the AI tutor.<br><br>' +
+      '<button onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" ' +
+      'style="background:#0284c7;color:#fff;border:none;padding:8px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px">' +
+      'Sign in with Google</button></div>';return;}
   container.innerHTML+='<div id="ai-typing" style="background:rgba(26,35,126,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text3,#888);max-width:85%;align-self:flex-start;">Thinking...</div>';
   container.scrollTop=container.scrollHeight;
   try{

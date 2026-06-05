@@ -382,7 +382,12 @@ h1 {
     <a class="nav-link" href="myp-dashboard.html">📘 Dashboard</a>
     <a class="nav-link" href="index.html">🏠 Home</a>
     <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:14px;transition:all .2s;color:var(--text2);" title="Toggle dark/light mode">🌙</button>
-  </div>
+  
+    <button id="authBtn" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" 
+      style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:5px 14px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px">
+      👤 Sign In
+    </button>
+</div>
 </div>
 
 <div class="main">
@@ -895,5 +900,29 @@ function toggleTheme() {
 })();
 </script>
 
+
+<script>
+if (typeof firebase !== 'undefined' && firebase.auth) {
+  firebase.auth().onAuthStateChanged(function(user) {
+    var btn = document.getElementById('authBtn');
+    if (!btn) return;
+    if (user) {
+      var name = user.displayName || user.email.split('@')[0];
+      btn.outerHTML = '<div id="authBtn" style="display:flex;align-items:center;gap:8px;margin-left:8px;">' +
+        '<span style="font-size:.73rem;color:rgba(255,255,255,.9);display:flex;align-items:center;gap:5px">' +
+          '<span style="width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block"></span>' +
+          name +
+        '</span>' +
+        '<button onclick="firebase.auth().signOut().then(function(){location.reload()})" ' +
+        'style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:3px 10px;font-size:.7rem;cursor:pointer">Sign Out</button>' +
+      '</div>';
+    } else {
+      btn.outerHTML = '<button id="authBtn" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" ' +
+        'style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:5px 14px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;margin-left:8px;">' +
+        '👤 Sign In</button>';
+    }
+  });
+}
+</script>
 </body>
 </html>

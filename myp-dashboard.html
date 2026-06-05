@@ -518,7 +518,12 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
     <a class="nav-link" href="myp-flashcards.html">Flashcards</a>
     <a class="nav-link" id="myProgressBtn" href="student-dashboard.html" style="display:none;">📊 My Progress</a>
     <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:14px;transition:all .2s;color:var(--text2);" title="Toggle dark/light mode">🌙</button>
-  </div>
+  
+    <button id="authBtn" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" 
+      style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:5px 14px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px">
+      👤 Sign In
+    </button>
+</div>
 </div>
 
 <!-- HERO -->
@@ -897,7 +902,11 @@ function sendAITutor() {
   
   // Call AI via Cloud Function (API key stays server-side)
   if(!firebase.auth().currentUser){
-    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Please log in to use the AI tutor.</span>';
+    document.getElementById(loadingId).innerHTML = '<div class="tutor-msg bot" style="background:rgba(192,57,43,0.06);padding:12px 16px;border-radius:12px;display:inline-block;font-size:13px;color:#c0392b;">' +
+      '🔒 Please sign in to use the AI tutor.<br><br>' +
+      '<button onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" ' +
+      'style="background:#0284c7;color:#fff;border:none;padding:8px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;margin-top:8px;">' +
+      'Sign in with Google</button></div>';
     return;
   }
   var aiChat=firebase.functions().httpsCallable('aiChat');
@@ -1123,6 +1132,31 @@ if (typeof firebase !== 'undefined' && firebase.auth) {
 } else {
   // Firebase not loaded on this page — use localStorage only
   showProgressFromLocalStorage();
+}
+</script>
+
+
+<script>
+if (typeof firebase !== 'undefined' && firebase.auth) {
+  firebase.auth().onAuthStateChanged(function(user) {
+    var btn = document.getElementById('authBtn');
+    if (!btn) return;
+    if (user) {
+      var name = user.displayName || user.email.split('@')[0];
+      btn.outerHTML = '<div id="authBtn" style="display:flex;align-items:center;gap:8px;margin-left:8px;">' +
+        '<span style="font-size:.73rem;color:rgba(255,255,255,.9);display:flex;align-items:center;gap:5px">' +
+          '<span style="width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block"></span>' +
+          name +
+        '</span>' +
+        '<button onclick="firebase.auth().signOut().then(function(){location.reload()})" ' +
+        'style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:3px 10px;font-size:.7rem;cursor:pointer">Sign Out</button>' +
+      '</div>';
+    } else {
+      btn.outerHTML = '<button id="authBtn" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" ' +
+        'style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:5px 14px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;margin-left:8px;">' +
+        '👤 Sign In</button>';
+    }
+  });
 }
 </script>
 
