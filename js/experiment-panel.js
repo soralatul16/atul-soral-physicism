@@ -51,12 +51,8 @@ window.ExperimentPanel = {
         
         <div style="margin-bottom:12px;">
           <label style="font-size:0.65rem; font-weight:700; color:var(--text2); display:block; margin-bottom:4px;">Control Variables (Keep Constant)</label>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            ${v.cv.map(opt => `
-              <label style="font-size:0.65rem; color:var(--text); display:flex; align-items:center; gap:4px; background:var(--bg); padding:4px 8px; border-radius:4px; border:1px solid var(--border);">
-                <input type="checkbox" value="${opt.id}" class="ep_cv" onchange="ExperimentPanel.onVarChange()"> ${opt.name}
-              </label>
-            `).join('')}
+          <div id="ep_cv_container" style="display:flex; gap:8px; flex-wrap:wrap;">
+            <!-- CVs injected dynamically -->
           </div>
         </div>
 
@@ -78,11 +74,32 @@ window.ExperimentPanel = {
            <button onclick="ExperimentPanel.clearData()" style="background:transparent; border:1px solid var(--border); color:var(--text2); padding:6px 12px; border-radius:6px; font-size:0.7rem; font-weight:700; cursor:pointer;">🗑 Clear Data</button>
         </div>
       </div>
-    `;
     expC.innerHTML = html;
 
-    // Setup initial hypothesis text
+    // Setup initial state
+    this.updateCVVisibility();
     this.updateHypothesis();
+  },
+
+  updateCVVisibility: function() {
+    const cvC = document.getElementById('ep_cv_container');
+    if (!cvC) return;
+    const v = window.SIM_VARIABLES;
+    let cvHtml = '';
+    v.cv.forEach(opt => {
+      // Exclude if it shares an ID or very similar name to the active IV/DV
+      const isIV = (opt.id === this.iv);
+      const isDV = (opt.id === this.dv);
+      if (!isIV && !isDV) {
+        const isChecked = this.cvs.includes(opt.id) ? 'checked' : '';
+        cvHtml += `
+          <label style="font-size:0.65rem; color:var(--text); display:flex; align-items:center; gap:4px; background:var(--bg); padding:4px 8px; border-radius:4px; border:1px solid var(--border);">
+            <input type="checkbox" value="${opt.id}" class="ep_cv" onchange="ExperimentPanel.onVarChange()" ${isChecked}> ${opt.name}
+          </label>
+        `;
+      }
+    });
+    cvC.innerHTML = cvHtml;
   },
 
   onVarChange: function() {
@@ -105,6 +122,7 @@ window.ExperimentPanel = {
     
     this.cvs = Array.from(document.querySelectorAll('.ep_cv:checked')).map(cb => cb.value);
     
+    this.updateCVVisibility();
     this.updateHypothesis();
     this.updateChartLabels();
     this.renderTable();
@@ -164,7 +182,10 @@ window.ExperimentPanel = {
     let html = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding:0 4px;">
         <span style="font-size:0.7rem; font-weight:700; color:var(--text2);">Data Table</span>
-        <button onclick="ExperimentPanel.downloadCSV()" style="background:var(--surface); border:1px solid var(--border); color:var(--text2); padding:3px 8px; border-radius:4px; font-size:0.65rem; cursor:pointer;">⬇️ CSV</button>
+        <div style="display:flex; gap:4px;">
+          <button onclick="ExperimentPanel.downloadCSV()" style="background:var(--surface); border:1px solid var(--border); color:var(--text2); padding:3px 8px; border-radius:4px; font-size:0.65rem; cursor:pointer;">⬇️ CSV</button>
+          <button onclick="ExperimentPanel.downloadPDF()" style="background:var(--surface); border:1px solid var(--border); color:var(--text2); padding:3px 8px; border-radius:4px; font-size:0.65rem; cursor:pointer;">📄 PDF</button>
+        </div>
       </div>
       <div style="overflow-x:auto;">
         <table class="dt" style="width:100%;">
@@ -206,6 +227,64 @@ window.ExperimentPanel = {
     a.setAttribute('href', url);
     a.setAttribute('download', 'experiment_data.csv');
     a.click();
+  },
+
+  downloadPDF: function() {
+    if(this.data.length === 0) return;
+    const iv = document.getElementById('ep_iv');
+    const dv = document.getElementById('ep_dv');
+    const ivName = iv ? iv.options[iv.selectedIndex].text : 'IV';
+    const dvName = dv ? dv.options[dv.selectedIndex].text : 'DV';
+    
+    const canvas = document.getElementById('gC');
+    const graphImage = canvas ? canvas.toDataURL('image/png') : null;
+    
+    const rows = [];
+    document.querySelectorAll('.dt tr').forEach(tr => {
+      const cells = [];
+      tr.querySelectorAll('td, th').forEach(td => cells.push(td.textContent));
+      rows.push(cells);
+    });
+    
+    const win = window.open('', '_blank');
+    win.document.write(`
+      <html>
+      <head><title>Experiment Data — Atul Soral Physicism</title>
+      <style>
+        body{font-family:Georgia,serif;padding:40px;color:#1a1a1a;max-width:800px;margin:0 auto}
+        h1{font-size:20px;margin-bottom:4px}
+        h2{font-size:14px;color:#475569;font-weight:normal;margin-bottom:20px}
+        .meta{font-size:12px;color:#94a3b8;margin-bottom:16px}
+        .var-box{display:inline-block;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600;margin:2px 4px}
+        .iv{background:#dbeafe;color:#1d4ed8}.dv{background:#fee2e2;color:#991b1b}.cv{background:#dcfce7;color:#166534}
+        table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
+        th{background:#f1f5f9;padding:8px 12px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+        td{padding:8px 12px;border-bottom:1px solid #f1f5f9}
+        .graph-img{max-width:100%;border:1px solid #e2e8f0;border-radius:8px;margin:16px 0}
+        .footer{margin-top:30px;padding-top:12px;border-top:1px solid #e2e8f0;font-size:10px;color:#94a3b8;text-align:center}
+        @media print{body{padding:20px}}
+      </style></head>
+      <body>
+        <h1>${typeof SIM_META !== 'undefined' ? SIM_META.title : 'Experiment'} — Lab Report</h1>
+        <h2>Atul Soral Physicism</h2>
+        <div class="meta">Date: ${new Date().toLocaleDateString()} | Topic: ${typeof SIM_META !== 'undefined' ? SIM_META.topicName : ''}</div>
+        
+        <p><span class="var-box iv">IV: ${ivName}</span>
+        <span class="var-box dv">DV: ${dvName}</span></p>
+        
+        <h3 style="font-size:14px;margin:20px 0 8px">Recorded Data</h3>
+        <table>
+          ${rows.map((row, i) => '<tr>' + row.map(cell => i === 0 ? '<th>' + cell + '</th>' : '<td>' + cell + '</td>').join('') + '</tr>').join('')}
+        </table>
+        
+        ${graphImage ? '<h3 style="font-size:14px;margin:20px 0 8px">Graph</h3><img class="graph-img" src="' + graphImage + '">' : ''}
+        
+        <div class="footer">Generated by Atul Soral Physicism | IB Physics Lab Data</div>
+      </body></html>
+    `);
+    win.document.close();
+    win.focus();
+    setTimeout(() => { win.print(); }, 250);
   },
 
   setupChart: function() {

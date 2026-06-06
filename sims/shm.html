@@ -492,13 +492,12 @@ window.drawGr = function() {};
 window.plotM = function() { if(window.ExperimentPanel) window.ExperimentPanel.updateChart(); };
 
 
-window.SIM_VARIABLES = {
-  iv: [{id:'m', name:'Mass'}, {id:'k', name:'Spring constant'}, {id:'A', name:'Amplitude'}, {id:'L', name:'Length (pendulum)'}],
-  dv: [{id:'T', name:'Period'}, {id:'f', name:'Frequency'}, {id:'vmax', name:'Max velocity'}, {id:'E', name:'Max KE'}],
-  cv: [{id:'grav', name:'Gravity'}, {id:'damp', name:'Damping'}, {id:'ang', name:'Angle'}],
 
+window.SIM_VARIABLES = {
+  iv: [{id:'m', name:'Mass', unit:'kg'}, {id:'k', name:'Spring constant', unit:'N/m'}, {id:'A', name:'Amplitude', unit:'m'}, {id:'L', name:'Length (pendulum)', unit:'m'}],
+  dv: [{id:'T', name:'Period', unit:'s'}, {id:'f', name:'Frequency', unit:'Hz'}, {id:'vmax', name:'Max velocity', unit:'m/s'}, {id:'E', name:'Max KE', unit:'J'}],
+  cv: [{id:'grav', name:'Gravity', unit:'m/s²'}, {id:'damp', name:'Damping', unit:''}, {id:'ang', name:'Angle', unit:'°'}],
   getVar: function(id) {
-    // Hidden inputs mechanism to leverage existing simulation physics
     let hDiv = document.getElementById('ep_hidden');
     if (!hDiv) {
       hDiv = document.createElement('div');
@@ -506,12 +505,10 @@ window.SIM_VARIABLES = {
       hDiv.style.display = 'none';
       hDiv.innerHTML = '<select id="selIV"></select><select id="selDV"></select><input id="mIV"><input id="mDV">';
       document.body.appendChild(hDiv);
-      // Populate select options from SIM_VARIABLES
       window.SIM_VARIABLES.iv.forEach(v => document.getElementById('selIV').innerHTML += `<option value="${v.id}"></option>`);
       window.SIM_VARIABLES.dv.forEach(v => document.getElementById('selDV').innerHTML += `<option value="${v.id}"></option>`);
     }
     
-    // Check if it's IV or DV
     const isIV = window.SIM_VARIABLES.iv.some(x => x.id === id);
     const isDV = window.SIM_VARIABLES.dv.some(x => x.id === id);
     
@@ -522,7 +519,6 @@ window.SIM_VARIABLES = {
       else if (typeof window.getSimIV === 'function') document.getElementById('mIV').value = window.getSimIV();
       return parseFloat(document.getElementById('mIV').value || 0);
     }
-    
     if (isDV) {
       document.getElementById('selDV').value = id;
       if (typeof window.readDV === 'function') window.readDV();
