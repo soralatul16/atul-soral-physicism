@@ -152,5 +152,13 @@ const DP_SIMS = [
     description: "Explore elliptical orbits, equal areas in equal times, and the T²∝a³ relationship. Visualise orbital mechanics.",
     file: "sims/kepler-laws.html"
   },
-
+    {
+    id: "doppler-effect",
+    title: "Doppler Effect Lab",
+    icon: "🔊",
+    topic: "C.5",
+    topicName: "Doppler Effect",
+    description: "Explore the Doppler effect for sound and light. Visualise moving sources, shock waves, Mach cones, and redshift.",
+    file: "sims/doppler-effect.html"
+  },
 ];
