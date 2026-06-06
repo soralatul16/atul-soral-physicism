@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Atul Soral Physicism">
+<title>Doppler Effect Lab | Atul Soral Physicism</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<style>
+:root{--bg:#FAFAF7;--bg2:#EDEAE4;--card:#fff;--text:#1a1a1a;--text2:#555;--text3:#999;--accent:#0284C7;--accent2:#00695C;--accent3:#E65100;--border:rgba(0,0,0,.08);--ok:#2E7D32;--err:#C62828;--mono:'SF Mono','Menlo','Consolas',monospace;--body:-apple-system,'Segoe UI','Helvetica Neue',system-ui,sans-serif;--brand:'Georgia','Times New Roman',serif}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}button{cursor:pointer;font-family:var(--body)}
+.wrap{max-width:1260px;margin:0 auto;padding:4px 10px 60px}
+.modes{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:4px;overflow-x:auto}.mb{padding:7px 12px;font-size:.72rem;font-weight:700;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap}.mb:hover{color:var(--text)}.mb.on{color:var(--accent);border-bottom-color:var(--accent)}
+.guide{background:rgba(2,132,199,.04);border:1px solid rgba(2,132,199,.12);border-radius:6px;padding:6px 12px;font-size:.72rem;color:var(--text2);line-height:1.6;margin-bottom:4px}.guide b{color:var(--accent)}
+.main-row{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:6px}
+.sim-wrap{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--border)}.sim-wrap canvas{display:block;width:100%;touch-action:none}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:4px}
+.ctrl{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-bottom:4px}
+.sl-g{display:flex;align-items:center;gap:4px;flex:1}.sl-g label{font-size:.66rem;font-weight:700;color:var(--text2);min-width:52px;text-transform:uppercase}.sl-g input[type=range]{flex:1;accent-color:var(--accent);max-width:125px;height:4px}.sl-g .sv{font-family:var(--mono);font-size:.82rem;font-weight:800;color:var(--accent);min-width:36px;text-align:right}.unit{font-size:.65rem;color:var(--text3)}
+.btn{padding:5px 10px;border:none;border-radius:5px;font-size:.7rem;font-weight:700;transition:.12s}.btn:hover{transform:translateY(-1px)}.btn-p{background:var(--accent);color:#fff}.btn-s{background:var(--bg2);color:var(--text2);border:1px solid var(--border)}.btn-ok{background:var(--ok);color:#fff}
+.tb{padding:4px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);font-size:.66rem;font-weight:600;color:var(--text2)}.tb:hover{border-color:var(--accent);color:var(--accent)}.tb.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.side{display:flex;flex-direction:column;gap:4px;overflow-y:auto;max-height:600px}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:6px 8px}.sc h4{font-size:.65rem;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);font-weight:700;margin-bottom:3px}.sc .sd{font-size:.68rem;color:var(--text2);line-height:1.5;margin-top:2px}
+.eq-box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:.78rem;color:var(--text2);line-height:1.6}.eq-box strong{color:var(--accent)}
+.stat-g{display:grid;grid-template-columns:1fr 1fr;gap:3px}.si{background:var(--bg2);border-radius:4px;padding:4px 6px;text-align:center}.si .sl2{font-size:.65rem;text-transform:uppercase;color:var(--text3);font-weight:700}.si .sv3{font-family:var(--mono);font-size:.78rem;font-weight:800}
+.rd{font-size:.64rem;color:var(--text2);line-height:1.6;margin-top:3px}.rd b{color:var(--accent)}.rd .val{font-family:var(--mono);font-weight:800;color:var(--accent)}
+.num-input{width:55px;padding:4px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg2);font-family:var(--mono);font-size:.78rem;font-weight:700;text-align:center;outline:none;color:var(--text)}
+.exp-panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px}
+.exp-title{font-family:Georgia,serif;font-size:.82rem;color:var(--accent);margin-bottom:8px;font-weight:700}
+.exp-var{margin-bottom:8px}
+.exp-label{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px}
+.exp-label.iv{color:#2563eb}.exp-label.dv{color:#dc2626}.exp-label.cv{color:#059669}.exp-label.hyp{color:#7c3aed}
+.exp-select{width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text);font-size:.72rem}
+.exp-cv-list{display:flex;flex-wrap:wrap;gap:4px}
+.exp-cv-item{display:flex;align-items:center;gap:3px;font-size:.68rem;padding:2px 6px;border-radius:5px;background:rgba(5,150,105,.06);color:#059669;cursor:pointer}
+.exp-cv-item input{accent-color:#059669;width:12px;height:12px}
+.exp-hypothesis{font-size:.76rem;color:var(--text2);line-height:1.5;padding:8px 10px;background:rgba(124,58,237,.04);border:1px solid rgba(124,58,237,.1);border-radius:6px;border-left:3px solid #7c3aed}
+.iv-hl{color:#2563eb}.dv-hl{color:#dc2626}.cv-hl{color:#059669}
+.hyp-dir{border:1px solid var(--border);border-radius:4px;padding:1px 4px;font-size:.72rem}
+.exp-data{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px}
+.exp-graph{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.exp-graph-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:4px}
+.exp-graph-header h4{font-family:Georgia,serif;font-size:.82rem;color:var(--accent);font-weight:700}
+.exp-graph-toggles{display:flex;gap:3px;flex-wrap:wrap}
+.plot-toggle{font-size:.6rem;padding:2px 6px;border-radius:4px;border:2px solid;background:transparent;cursor:pointer;font-weight:600}
+.plot-toggle.on{color:#fff}
+.exp-graph-controls{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}
+.exp-btn{padding:3px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:.65rem;font-weight:600;cursor:pointer}
+.exp-btn:hover{border-color:var(--accent);color:var(--accent)}
+.gp{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 11px;margin-top:6px}
+.btabs{display:flex;gap:2px;margin-bottom:5px;border-bottom:1px solid var(--border);padding-bottom:3px}.bt{padding:5px 10px;border-radius:5px 5px 0 0;font-size:.7rem;font-weight:700;cursor:pointer;color:var(--text3)}.bt:hover{color:var(--text)}.bt.on{color:var(--accent);background:var(--bg2);border:1px solid var(--border);border-bottom:none}.btc{display:none}.btc.on{display:block}
+.nb-c{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:4px 7px;margin-bottom:2px;font-size:.7rem;line-height:1.5}.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+.graph-wrap2{position:relative;width:100%;height:180px;margin-top:4px}.graph-wrap2 canvas{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:6px;border:1px solid var(--border)}
+.dt{width:100%;border-collapse:collapse;font-size:.72rem}.dt th{text-align:center;padding:4px;font-size:.65rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--bg2)}.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border);font-family:var(--mono)}.dt .mean{font-weight:800;color:var(--accent)}
+.ib-card{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:8px 10px;margin-bottom:4px}.ib-cmd{display:inline-block;font-size:.65rem;padding:2px 6px;border-radius:3px;font-weight:700;text-transform:uppercase}.ib-cmd-c{background:rgba(230,81,0,.06);color:var(--accent3)}.ib-cmd-e{background:rgba(2,132,199,.06);color:var(--accent)}.ib-cmd-s{background:rgba(0,105,92,.06);color:var(--accent2)}.ib-card h4{font-size:.78rem;font-weight:700;margin:2px 0}.ib-card p{font-size:.7rem;color:var(--text2);line-height:1.5;margin-bottom:4px}.ib-card textarea{width:100%;height:38px;border:1.5px solid var(--border);border-radius:4px;padding:5px 7px;font-size:.7rem;resize:vertical;background:var(--bg2);outline:none;font-family:var(--body);color:var(--text)}.ib-ans{margin-top:4px;padding:6px 8px;border-radius:5px;background:rgba(0,105,92,.03);border:1px solid rgba(0,105,92,.08);font-size:.7rem;line-height:1.6;color:var(--text2);display:none}.ib-ans.show{display:block}.ib-ans strong{color:var(--ok)}
+@media(max-width:860px){.main-row{grid-template-columns:1fr}.side{max-height:none}}
+@media print{nav{display:none!important}}
+</style>
+</head>
+<body>
+<script>var SIM_META={id:'doppler-effect',title:'Doppler Effect Lab',topic:'C.5',topicName:'Doppler Effect',grade:['DP'],level:'both',theme:'C',concepts:['Doppler effect','moving source','shock wave','Mach cone','redshift','radar'],difficulty:'intermediate'};</script>
+
+<nav style="display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px">
+<div style="display:flex;align-items:center;gap:14px"><a href="../index.html" style="font-family:Georgia,serif;font-size:1rem;font-weight:700;color:#fff;text-decoration:none">Atul Soral Physicism</a><a href="../dp-simulations.html" style="color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem">&larr; All Simulations</a></div>
+<div style="display:flex;gap:6px;align-items:center"><a href="../dp-simulations.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">&larr; Back</a><a href="../index.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">Home</a><a href="../myp-dashboard.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">MYP</a><a href="../dp-dashboard.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">DP</a></div>
+</nav>
+
+<div class="wrap"><div class="modes" id="modes"></div><div id="guideBar" class="guide"></div>
+<div class="main-row"><div style="min-width:0"><div class="sim-wrap"><canvas id="cv" height="400"></canvas></div><div class="card" id="controls"></div></div><div class="side" id="sidebar"></div></div>
+<div class="gp"><div class="btabs"><div class="bt on" onclick="bts(this,0)">Experiment</div><div class="bt" onclick="bts(this,1)">Data &amp; Graph</div><div class="bt" onclick="bts(this,2)">IB Questions</div><div class="bt" onclick="bts(this,3)">Notebook</div></div>
+<div class="btc on" id="b0"><div id="expC"></div></div>
+<div class="btc" id="b1"><div id="dW"><p style="font-size:.58rem;color:var(--text3);text-align:center;padding:6px">Collect data first.</p></div><div class="graph-wrap2"><canvas id="gC"></canvas></div><div class="exp-graph-controls"><button class="exp-btn" onclick="togGrid()">Grid</button><button class="exp-btn" onclick="togBF()">Best Fit</button><button class="exp-btn" onclick="expCSV()">Export CSV</button><button class="exp-btn" onclick="savePlot()">Save PNG</button></div></div>
+<div class="btc" id="b2"><div id="ibL"></div></div>
+<div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-family:Georgia,serif;font-size:.74rem;font-weight:700;color:var(--accent)">Notebook</span><button class="btn btn-s" onclick="window.print()" style="font-size:.65rem;padding:2px 5px">Print</button></div><div id="nbO"></div></div></div></div>
+
+<script>
+if(!CanvasRenderingContext2D.prototype.roundRect){CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){if(typeof r==='number')r=[r,r,r,r];this.moveTo(x+r[0],y);this.lineTo(x+w-r[1],y);this.arcTo(x+w,y,x+w,y+r[1],r[1]);this.lineTo(x+w,y+h-r[2]);this.arcTo(x+w,y+h,x+w-r[2],y+h,r[2]);this.lineTo(x+r[3],y+h);this.arcTo(x,y+h,x,y+h-r[3],r[3]);this.lineTo(x,y+r[0]);this.arcTo(x,y,x+r[0],y,r[0]);this.closePath();};}
+var $=function(id){return document.getElementById(id)};
+var SCENES=[
+{n:'Ambulance Demo',g:'<b>Watch &amp; listen!</b> Ambulance drives on the road past the observer. Frequency gradually rises, then drops sharply at the crossing. Drag observer. Click 🔊 Sound ON.'},
+{n:'Shock Waves',g:'<b>Increase speed past Mach 1.</b> Study wavefronts at subsonic, transonic, and supersonic speeds. Ground observer hears silence then a boom.'},
+{n:'Applications',g:'<b>Measure &amp; calculate!</b> Each application gives you real data. Use the Doppler formula to figure out the hidden value. Collect data across rounds to discover the pattern.'},
+{n:'IA Experiment',g:'<b>Design your investigation.</b> IV/DV options match the current scene. Pause, read, collect, plot.'}
+];
+var scene=0;
+$('modes').innerHTML=SCENES.map(function(s,i){return '<div class="mb'+(i===0?' on':'')+'" onclick="setScene('+i+')">'+s.n+'</div>';}).join('');
+var S={time:0,paused:false,simSpeed:1,srcSpeed:80,srcFreq:3,soundSpeed:200,srcX:0,srcY:0,audioOn:false,audioFreq:300,appMode:'radar',appSpeed:80,appZ:0.05,appBloodV:30,obsXPos:0,probeOn:false,probeX:-1,probeY:-1,challengeAns:'',challengeChecked:false,obsMoving:false,obsVel:50,
+  radarSpd:Math.round(40+Math.random()*200),radarShow:false,radarAns:'',radarOk:0,radarTot:0,
+  galIdx:0,galZs:[0.01,0.03,0.08,0.15],galZ:0.01,rsAns:['','',''],rsChecked:false,
+  usSpd:Math.round(15+Math.random()*120),usShow:false,usAns:'',usOk:0,usTot:0,usAngle:0};
+var dispF=300,dragWhat='';
+var cv=$('cv'),cx=cv.getContext('2d'),cW,cH;
+function resize(){var wp=cv.parentElement,dpr=devicePixelRatio||1;cW=wp.clientWidth;cH=400;cv.width=cW*dpr;cv.height=cH*dpr;cv.style.width=cW+'px';cv.style.height=cH+'px';cx.setTransform(dpr,0,0,dpr,0,0);}
+new ResizeObserver(resize).observe(cv.parentElement);resize();
+var wfs=[],lastEmit=-1;function resetWFs(){wfs=[];lastEmit=-1;}
+
+// Audio — plays EXACT displayed frequency
+var audioCtx,oscNode,gainNode;
+function initAudio(){if(audioCtx)return;audioCtx=new(window.AudioContext||window.webkitAudioContext)();oscNode=audioCtx.createOscillator();gainNode=audioCtx.createGain();oscNode.connect(gainNode);gainNode.connect(audioCtx.destination);gainNode.gain.value=0;oscNode.type='sine';oscNode.frequency.value=300;oscNode.start();}
+function playF(f,v){if(!oscNode||!S.audioOn)return;oscNode.frequency.setTargetAtTime(Math.max(100,Math.min(2500,f)),audioCtx.currentTime,0.008);gainNode.gain.setTargetAtTime(Math.max(0,Math.min(0.4,v)),audioCtx.currentTime,0.008);}
+
+var roadY;
+// 2D Doppler: gradual rise, tight drop at crossing (perpD=12px)
+function calcF(sx,svx,ox,ovx){
+  var dx=ox-sx,perpD=48;
+  var d=Math.sqrt(dx*dx+perpD*perpD);if(d<1)d=1;
+  var cosA=dx/d;
+  var vo=ovx||0;
+  return S.audioFreq*(S.soundSpeed+vo*cosA)/(S.soundSpeed-svx*cosA);
+}
+
+function drawRoad(){
+  roadY=cH*0.72;
+  var sg=cx.createLinearGradient(0,0,0,roadY-30);sg.addColorStop(0,'#4A90D9');sg.addColorStop(0.5,'#7BB3E0');sg.addColorStop(1,'#D4E4F0');cx.fillStyle=sg;cx.fillRect(0,0,cW,roadY-30);
+  cx.fillStyle='#8BA89A';cx.beginPath();cx.moveTo(0,roadY-28);for(var h=0;h<=cW;h+=25)cx.lineTo(h,roadY-30+Math.sin(h*0.007)*14+Math.cos(h*0.003)*8);cx.lineTo(cW,roadY-20);cx.lineTo(0,roadY-20);cx.closePath();cx.fill();
+  cx.fillStyle='#6B8F7B';cx.beginPath();cx.moveTo(0,roadY-22);for(var h2=0;h2<=cW;h2+=18)cx.lineTo(h2,roadY-22+Math.sin(h2*0.01+1)*8);cx.lineTo(cW,roadY-15);cx.lineTo(0,roadY-15);cx.closePath();cx.fill();
+  cx.fillStyle='#5A7A4A';cx.fillRect(0,roadY-15,cW,15);
+  var rg=cx.createLinearGradient(0,roadY,0,roadY+55);rg.addColorStop(0,'#4a4a4a');rg.addColorStop(1,'#333');cx.fillStyle=rg;cx.fillRect(0,roadY,cW,55);
+  cx.fillStyle='#ccc';cx.fillRect(0,roadY,cW,2);cx.fillRect(0,roadY+53,cW,2);
+  cx.strokeStyle='#FFD54F';cx.lineWidth=2;cx.setLineDash([22,18]);cx.beginPath();cx.moveTo(0,roadY+27);cx.lineTo(cW,roadY+27);cx.stroke();cx.setLineDash([]);
+  cx.fillStyle='#9E9E9E';cx.fillRect(0,roadY+55,cW,12);cx.fillStyle='#4A6B3A';cx.fillRect(0,roadY+67,cW,cH-roadY-67);
+  for(var ti=0;ti<6;ti++){var tx=80+ti*(cW-160)/5;cx.fillStyle='#4E342E';cx.fillRect(tx-2,roadY-45,4,30);cx.fillStyle='#2E7D32';cx.beginPath();cx.arc(tx,roadY-52,14,0,Math.PI*2);cx.fill();}
+}
+function drawAmb(x,y,s){
+  var w=100*s,h=45*s,bx=x-w/2,by=y-h;cx.save();
+  // Shadow for depth
+  cx.shadowColor='rgba(0,0,0,0.18)';cx.shadowBlur=6;cx.shadowOffsetY=4;
+  cx.fillStyle='rgba(0,0,0,.15)';cx.beginPath();cx.ellipse(x,y+3*s,w*0.45,5*s,0,0,Math.PI*2);cx.fill();
+  cx.shadowBlur=0;cx.shadowOffsetY=0;
+  // Body with gradient
+  var bg=cx.createLinearGradient(bx,by,bx,by+h);bg.addColorStop(0,'#F8F8F8');bg.addColorStop(0.3,'#F0F0F0');bg.addColorStop(0.6,'#E0E0E0');bg.addColorStop(1,'#C0C0C0');
+  cx.shadowColor='rgba(0,0,0,0.12)';cx.shadowBlur=4;
+  cx.fillStyle=bg;cx.beginPath();cx.roundRect(bx+4*s,by+6*s,w*0.65,h-14*s,3*s);cx.fill();
+  cx.shadowBlur=0;
+  cx.fillStyle='#C62828';cx.fillRect(bx+4*s,by+h*0.42,w*0.65,5*s);cx.fillStyle='#FF6F00';cx.fillRect(bx+4*s,by+h*0.42+5*s,w*0.65,2*s);
+  cx.fillStyle='#90CAF9';for(var wi=0;wi<3;wi++){cx.beginPath();cx.roundRect(bx+(7+wi*18)*s,by+9*s,13*s,11*s,2*s);cx.fill();}
+  cx.fillStyle='#C62828';cx.fillRect(bx+25*s,by+12*s,3*s,8*s);cx.fillRect(bx+22*s,by+14*s,8*s,3*s);
+  cx.fillStyle='#212121';cx.beginPath();cx.arc(bx+14*s,by+h-4*s,7*s,0,Math.PI*2);cx.fill();cx.beginPath();cx.arc(bx+w*0.78,by+h-4*s,7*s,0,Math.PI*2);cx.fill();
+  cx.fillStyle='#999';cx.beginPath();cx.arc(bx+14*s,by+h-4*s,4*s,0,Math.PI*2);cx.fill();cx.beginPath();cx.arc(bx+w*0.78,by+h-4*s,4*s,0,Math.PI*2);cx.fill();
+  var lp=Math.sin(S.time*8);cx.fillStyle='#424242';cx.beginPath();cx.roundRect(bx+w*0.18,by+1*s,w*0.35,6*s,2*s);cx.fill();
+  cx.fillStyle=lp>0?'#F44336':'#7B1A1A';cx.beginPath();cx.roundRect(bx+w*0.2,by+1*s,7*s,5*s,2*s);cx.fill();
+  cx.fillStyle=lp<0?'#2196F3':'#143A5A';cx.beginPath();cx.roundRect(bx+w*0.37,by+1*s,7*s,5*s,2*s);cx.fill();
+  var gl=cx.createRadialGradient(bx+w*0.26,by+4*s,0,bx+w*0.26,by+4*s,18*s);gl.addColorStop(0,lp>0?'rgba(244,67,54,.5)':'rgba(33,150,243,.5)');gl.addColorStop(1,'transparent');cx.fillStyle=gl;cx.beginPath();cx.arc(bx+w*0.26,by+4*s,18*s,0,Math.PI*2);cx.fill();
+  cx.restore();
+}
+function drawObs(x,y,lbl){
+  cx.save();
+  // Head
+  cx.fillStyle='#5D4037';cx.beginPath();cx.arc(x,y-28,6,0,Math.PI*2);cx.fill();
+  // Hair
+  cx.fillStyle='#3E2723';cx.beginPath();cx.arc(x,y-30,6,Math.PI,0);cx.fill();
+  // Body/torso
+  cx.fillStyle='#37474F';
+  cx.beginPath();cx.moveTo(x-7,y-22);cx.lineTo(x+7,y-22);cx.lineTo(x+6,y-6);cx.lineTo(x-6,y-6);cx.closePath();cx.fill();
+  // Arms
+  cx.strokeStyle='#455A64';cx.lineWidth=2.5;cx.lineCap='round';
+  cx.beginPath();cx.moveTo(x-7,y-20);cx.lineTo(x-11,y-12);cx.stroke();
+  cx.beginPath();cx.moveTo(x+7,y-20);cx.lineTo(x+10,y-16);cx.quadraticCurveTo(x+12,y-14,x+10,y-12);cx.stroke();
+  // Headphone/ear icon on right hand
+  cx.strokeStyle='#0284C7';cx.lineWidth=1.5;cx.beginPath();cx.arc(x+10,y-14,3,-0.5,2);cx.stroke();
+  // Legs
+  cx.strokeStyle='#263238';cx.lineWidth=2.5;
+  cx.beginPath();cx.moveTo(x-3,y-6);cx.lineTo(x-4,y+2);cx.stroke();
+  cx.beginPath();cx.moveTo(x+3,y-6);cx.lineTo(x+4,y+2);cx.stroke();
+  // Shoes
+  cx.fillStyle='#212121';cx.fillRect(x-6,y+1,5,3);cx.fillRect(x+2,y+1,5,3);
+  // Label
+  if(lbl){cx.fillStyle='rgba(0,0,0,.6)';cx.beginPath();cx.roundRect(x-32,y-44,64,14,4);cx.fill();cx.fillStyle='#fff';cx.font='bold 10px sans-serif';cx.textAlign='center';cx.fillText(lbl,x,y-34);}
+  cx.restore();
+}
+function drawJet(x,y,s){cx.save();cx.translate(x,y);cx.scale(s,s);cx.fillStyle='#B0BEC5';cx.beginPath();cx.moveTo(30,0);cx.quadraticCurveTo(20,-6,-30,-4);cx.lineTo(-30,4);cx.quadraticCurveTo(20,6,30,0);cx.fill();cx.fillStyle='#78909C';cx.beginPath();cx.moveTo(-5,-4);cx.lineTo(-15,-20);cx.lineTo(5,-18);cx.lineTo(5,-4);cx.fill();cx.beginPath();cx.moveTo(-5,4);cx.lineTo(-15,20);cx.lineTo(5,18);cx.lineTo(5,4);cx.fill();if(S.srcSpeed>50){var eg=cx.createRadialGradient(-32,0,0,-32,0,12);eg.addColorStop(0,'rgba(255,160,0,.6)');eg.addColorStop(1,'transparent');cx.fillStyle=eg;cx.beginPath();cx.arc(-32,0,12,0,Math.PI*2);cx.fill();}cx.restore();}
+function emitWFs(){if(S.srcFreq<=0)return;var p=1/S.srcFreq;if(lastEmit<0)lastEmit=S.time;while(S.time-lastEmit>=p){lastEmit+=p;wfs.push({x:S.srcX,y:S.srcY,t:lastEmit});}wfs=wfs.filter(function(w){return(S.time-w.t)*S.soundSpeed<Math.max(cW,cH)*1.2;});}
+function drawWFs(){for(var i=0;i<wfs.length;i++){var w=wfs[i],r=(S.time-w.t)*S.soundSpeed;if(r<1)continue;cx.strokeStyle='rgba(100,200,255,'+(Math.max(0.04,0.22-r*0.0002))+')';cx.lineWidth=1.2;cx.beginPath();cx.arc(w.x,w.y,r,0,Math.PI*2);cx.stroke();}}
+function freqBar(x,y,f){var w=130,h=10,bx2=x-w/2;cx.fillStyle='rgba(0,0,0,.7)';cx.beginPath();cx.roundRect(bx2-6,y-32,w+12,44,6);cx.fill();cx.fillStyle=f>S.audioFreq?'#4FC3F7':'#FF8A65';cx.font='bold 15px sans-serif';cx.textAlign='center';cx.fillText(f.toFixed(0)+' Hz',x,y-16);cx.fillStyle='rgba(255,255,255,.15)';cx.fillRect(bx2,y,w,h);var ratio=Math.min(2,Math.max(0.3,f/S.audioFreq));cx.fillStyle=ratio>1?'#4FC3F7':'#FF8A65';cx.fillRect(bx2,y,w*ratio/2,h);cx.fillStyle='#fff';cx.fillRect(bx2+w/2-1,y-2,2,h+4);cx.fillStyle='rgba(255,255,255,.45)';cx.font='10px sans-serif';cx.fillText(f>S.audioFreq?'Approaching':'Receding',x,y+h+12);}
+
+// Mouse handlers
+cv.addEventListener('mousedown',function(e){var r=cv.getBoundingClientRect();var mx=e.clientX-r.left,my=e.clientY-r.top;if(mx>cW-65&&my<30&&scene<=1){togA();return;}if(scene===0&&Math.abs(mx-S.obsXPos)<25&&Math.abs(my-(roadY+62))<25){dragWhat='obs';return;}if(S.probeOn&&scene===0){S.probeX=mx;S.probeY=my;}});
+cv.addEventListener('mousemove',function(e){if(!dragWhat)return;var r=cv.getBoundingClientRect();if(dragWhat==='obs')S.obsXPos=Math.max(50,Math.min(cW-50,e.clientX-r.left));});
+cv.addEventListener('mouseup',function(){dragWhat='';});
+
+function draw(){
+  cx.fillStyle='#E8EAF0';cx.fillRect(0,0,cW,cH);
+  if(scene===0){
+    drawRoad();var ambY=roadY+14,obsY=roadY+62;
+    S.srcX=-100+(S.time*S.srcSpeed)%(cW+200);S.srcY=ambY;
+    emitWFs();drawWFs();
+    // Fade ambulance at edges for smooth wrap
+    var edgeFade=1;if(S.srcX<-30)edgeFade=Math.max(0,(S.srcX+100)/70);if(S.srcX>cW+30)edgeFade=Math.max(0,(cW+100-S.srcX)/70);
+    cx.globalAlpha=edgeFade;drawAmb(S.srcX,ambY,0.75);cx.globalAlpha=1;
+    var ox=S.obsXPos;
+    // Moving observer mode
+    if(S.obsMoving){ox=50+((S.time*S.obsVel)%(cW-100));S.obsXPos=ox;}
+    drawObs(ox,obsY,S.obsMoving?'Observer →':'Drag me');
+    var obsVx=S.obsMoving?S.obsVel:0;
+    dispF=calcF(S.srcX,S.srcSpeed,ox,obsVx);
+    freqBar(ox,obsY-52,dispF);
+    var dist=Math.sqrt((S.srcX-ox)*(S.srcX-ox)+48*48);
+    playF(dispF,0.38*Math.exp(-dist*dist/60000));
+    // Live formula overlay
+    var dx=ox-S.srcX,perpD2=48,r2=Math.sqrt(dx*dx+perpD2*perpD2),cosA=r2>1?dx/r2:0;
+    cx.fillStyle='rgba(0,0,0,.6)';cx.beginPath();cx.roundRect(8,8,250,62,6);cx.fill();
+    cx.fillStyle='#fff';cx.font='bold 11px sans-serif';cx.textAlign='left';
+    cx.fillText('cos θ = '+cosA.toFixed(3)+'   v_r(src) = '+(S.srcSpeed*cosA).toFixed(1),14,24);
+    if(S.obsMoving){cx.fillText('f\' = '+S.audioFreq+'×('+S.soundSpeed+'+'+S.obsVel+'×'+cosA.toFixed(2)+')/('+S.soundSpeed+'−'+S.srcSpeed+'×'+cosA.toFixed(2)+')',14,40);}
+    else{cx.fillText('f\' = '+S.audioFreq+' × '+S.soundSpeed+'/('+S.soundSpeed+' − '+S.srcSpeed+'×'+cosA.toFixed(2)+')',14,40);}
+    cx.fillStyle='#4FC3F7';cx.font='bold 13px sans-serif';cx.fillText('= '+dispF.toFixed(1)+' Hz',14,58);
+    // Lambda
+    if(wfs.length>=2){var wl=S.soundSpeed/S.srcFreq;cx.fillStyle='rgba(0,0,0,.6)';cx.beginPath();cx.roundRect(8,cH-38,340,32,4);cx.fill();cx.fillStyle='#4FC3F7';cx.font='bold 11px sans-serif';cx.textAlign='left';cx.fillText('λ = v/f = '+S.soundSpeed+'/'+S.srcFreq+' = '+wl.toFixed(1)+' px (wavefront spacing)',14,cH-23);cx.fillStyle='rgba(255,255,255,.4)';cx.font='10px sans-serif';cx.fillText('Visual wavefronts illustrative — not scaled to '+S.audioFreq+' Hz audio',14,cH-10);}
+    // Probe
+    if(S.probeOn&&S.probeX>0){var pf=calcF(S.srcX,S.srcSpeed,S.probeX);cx.fillStyle='rgba(0,200,100,.7)';cx.beginPath();cx.arc(S.probeX,S.probeY,6,0,Math.PI*2);cx.fill();cx.strokeStyle='#fff';cx.lineWidth=1.5;cx.stroke();cx.fillStyle='rgba(0,0,0,.7)';cx.beginPath();cx.roundRect(S.probeX+10,S.probeY-10,80,18,4);cx.fill();cx.fillStyle='#4CAF50';cx.font='bold 11px sans-serif';cx.textAlign='left';cx.fillText('f\'='+pf.toFixed(0)+' Hz',S.probeX+14,S.probeY+3);}
+  }else if(scene===1){
+    var skyG=cx.createLinearGradient(0,0,0,cH);skyG.addColorStop(0,'#0D47A1');skyG.addColorStop(0.5,'#42A5F5');skyG.addColorStop(1,'#BBDEFB');cx.fillStyle=skyG;cx.fillRect(0,0,cW,cH);
+    cx.fillStyle='#5A7A4A';cx.fillRect(0,cH*0.85,cW,cH*0.15);
+    var midY=cH*0.45;S.srcY=midY;S.srcX=-100+(S.time*S.srcSpeed)%(cW+200);
+    emitWFs();drawWFs();var mach=S.srcSpeed/S.soundSpeed;
+    if(mach>=1){var ha=Math.asin(Math.min(1,1/mach));cx.strokeStyle='rgba(255,200,50,.6)';cx.lineWidth=3;cx.beginPath();cx.moveTo(S.srcX,midY);cx.lineTo(S.srcX-600,midY-600*Math.tan(ha));cx.stroke();cx.beginPath();cx.moveTo(S.srcX,midY);cx.lineTo(S.srcX-600,midY+600*Math.tan(ha));cx.stroke();cx.fillStyle='rgba(255,200,50,.05)';cx.beginPath();cx.moveTo(S.srcX,midY);cx.lineTo(S.srcX-600,midY-600*Math.tan(ha));cx.lineTo(S.srcX-600,midY+600*Math.tan(ha));cx.closePath();cx.fill();}
+    drawJet(S.srcX,midY,1.3);drawObs(cW*0.5,cH*0.88,'Ground');
+    cx.fillStyle='rgba(0,0,0,.65)';cx.beginPath();cx.roundRect(10,10,cW*0.44,cH*0.48,8);cx.fill();
+    cx.fillStyle='#fff';cx.font='bold 15px sans-serif';cx.textAlign='left';cx.fillText('Shock Waves & Sonic Boom',20,32);
+    cx.fillStyle=mach<1?'#4FC3F7':mach<1.05?'#FFD54F':'#FF5252';cx.font='bold 11px sans-serif';cx.fillText('Mach '+mach.toFixed(2)+' — '+(mach<1?'SUBSONIC':mach<1.05?'TRANSONIC':'SUPERSONIC'),20,50);
+    cx.fillStyle='rgba(255,255,255,.75)';cx.font='10px sans-serif';
+    var sl;if(mach<0.5)sl=['Jet is slow. Wavefronts expand as','normal concentric circles.','','Observer hears normal Doppler-shifted sound.','','→ Increase source speed to see compression.'];
+    else if(mach<1)sl=['Wavefronts compress ahead of the jet.','Approaching Mach 1, they bunch up','tighter and tighter in front.','','Observer hears rising pitch as','the jet approaches.'];
+    else if(mach<1.1)sl=['SOUND BARRIER! All wavefronts pile up','at the nose. A wall of compressed air.','','sin θ = v/vₛ = 1/M   θ = 90°','Jet moves as fast as its own sound.'];
+    else{var ha2=Math.round(Math.asin(1/mach)*180/Math.PI);sl=['SUPERSONIC! Jet outruns its sound.','Wavefronts trail in a V-shaped cone.','','Mach cone half-angle: θ = '+ha2+'°','sin θ = 1/M = 1/'+mach.toFixed(1),'','Ground observer hears SILENCE until the','cone sweeps past — then a sudden BOOM.'];}
+    sl.forEach(function(l,i){cx.fillText(l,20,68+i*15);});
+    if(mach>=1){var ha3=Math.asin(Math.min(1,1/mach)),cpX=cW*0.5+Math.tan(ha3)*(cH*0.88-midY),heard=S.srcX>cpX;cx.fillStyle=heard?'rgba(255,50,50,.7)':'rgba(80,80,80,.5)';cx.beginPath();cx.roundRect(cW*0.5-40,cH*0.88-52,80,18,4);cx.fill();cx.fillStyle='#fff';cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillText(heard?'💥 BOOM!':'🔇 Silence',cW*0.5,cH*0.88-39);playF(200,heard?0.3:0);}
+    else{var fG=calcF(S.srcX,S.srcSpeed,cW*0.5);dispF=fG;cx.fillStyle='rgba(0,0,0,.5)';cx.beginPath();cx.roundRect(cW*0.5-35,cH*0.88-52,70,18,4);cx.fill();cx.fillStyle='#fff';cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillText(fG.toFixed(0)+' Hz',cW*0.5,cH*0.88-39);playF(fG,0.25);}
+  }else if(scene===2){
+    cx.fillStyle='#1a1a2e';cx.fillRect(0,0,cW,cH);
+    if(S.appMode==='radar'){
+      // Road + car at hidden speed
+      cx.fillStyle='#2d2d44';cx.fillRect(0,cH*0.42,cW,cH*0.18);cx.strokeStyle='#FFE082';cx.lineWidth=2;cx.setLineDash([12,10]);cx.beginPath();cx.moveTo(0,cH*0.51);cx.lineTo(cW,cH*0.51);cx.stroke();cx.setLineDash([]);
+      var carX=-80+(S.time*S.radarSpd*0.4)%(cW+160);
+      cx.save();cx.translate(carX,cH*0.52);cx.fillStyle='#E53935';cx.beginPath();cx.roundRect(-25,-12,50,18,4);cx.fill();cx.fillStyle='#B71C1C';cx.beginPath();cx.roundRect(-15,-18,30,8,3);cx.fill();cx.fillStyle='#222';cx.beginPath();cx.arc(-14,8,5,0,Math.PI*2);cx.fill();cx.beginPath();cx.arc(14,8,5,0,Math.PI*2);cx.fill();cx.restore();
+      // Radar gun
+      var gx2=cW*0.85,gy2=cH*0.38;cx.fillStyle='#455A64';cx.beginPath();cx.roundRect(gx2-5,gy2-3,24,6,2);cx.fill();cx.fillStyle='#78909C';cx.beginPath();cx.arc(gx2,gy2,8,0,Math.PI*2);cx.fill();
+      cx.strokeStyle='rgba(76,175,80,.15)';cx.lineWidth=25;cx.beginPath();cx.moveTo(gx2,gy2);cx.lineTo(carX,cH*0.52);cx.stroke();
+      // Speed display — hidden until revealed
+      cx.fillStyle='rgba(0,0,0,.8)';cx.beginPath();cx.roundRect(gx2-45,gy2-42,90,30,5);cx.fill();
+      if(S.radarShow){cx.fillStyle='#4CAF50';cx.font='bold 16px monospace';cx.textAlign='center';cx.fillText(Math.round(S.radarSpd*343/S.soundSpeed*3.6)+' km/h',gx2,gy2-20);}
+      else{cx.fillStyle='#FFD54F';cx.font='bold 14px sans-serif';cx.textAlign='center';cx.fillText('??? km/h',gx2,gy2-20);}
+      cx.fillStyle='rgba(255,255,255,.3)';cx.font='10px sans-serif';cx.fillText('RADAR',gx2,gy2-12);
+      // Waveform display — transmitted vs reflected
+      var wY=cH*0.66,wH=cH*0.28,wX=cW*0.05,wW=cW*0.9;
+      cx.fillStyle='rgba(0,0,0,.5)';cx.beginPath();cx.roundRect(wX-4,wY-4,wW+8,wH+8,6);cx.fill();cx.fillStyle='#0a0a15';cx.fillRect(wX,wY,wW,wH);
+      // Grid
+      cx.strokeStyle='#1a1a30';cx.lineWidth=0.5;for(var gg=0;gg<10;gg++){cx.beginPath();cx.moveTo(wX,wY+wH*gg/10);cx.lineTo(wX+wW,wY+wH*gg/10);cx.stroke();}
+      var radarDf=Math.round(2*10e9*S.radarSpd*343/S.soundSpeed/3e8);
+      // Transmitted (blue)
+      cx.strokeStyle='#4FC3F7';cx.lineWidth=2;cx.beginPath();for(var rw=0;rw<wW;rw++){cx.lineTo(wX+rw,wY+wH*0.25+Math.sin(rw*0.08+S.time*8)*wH*0.15);}cx.stroke();
+      // Reflected (red, shifted)
+      var rSf=1+radarDf/10e9;cx.strokeStyle='#FF5252';cx.lineWidth=2;cx.beginPath();for(var rw2=0;rw2<wW;rw2++){cx.lineTo(wX+rw2,wY+wH*0.7+Math.sin(rw2*0.08*rSf+S.time*8*rSf)*wH*0.12);}cx.stroke();
+      cx.fillStyle='#4FC3F7';cx.font='bold 11px sans-serif';cx.textAlign='left';cx.fillText('Transmitted: f₀ = 10 GHz',wX+5,wY+14);
+      cx.fillStyle='#FF5252';cx.fillText('Reflected: f₀ + Δf',wX+5,wY+wH*0.52+14);
+      cx.fillStyle='#FFD54F';cx.font='bold 12px sans-serif';cx.fillText('Δf = '+radarDf+' Hz',wX+wW-120,wY+wH-8);
+      // Title
+      cx.fillStyle='rgba(255,255,255,.6)';cx.font='bold 14px sans-serif';cx.textAlign='center';cx.fillText('🎯 You Are the Speed Gun',cW*0.5,20);cx.font='11px sans-serif';cx.fillStyle='rgba(255,255,255,.35)';cx.fillText('Read Δf from the waveform. Calculate the car speed.',cW*0.5,36);
+      cx.fillText('Score: '+S.radarOk+'/'+S.radarTot,cW*0.5,cH*0.64);
+    }else if(S.appMode==='redshift'){
+      var gz=S.galZ,galNames=['Galaxy A','Galaxy B','Galaxy C','Galaxy D'];
+      // Stars
+      for(var si=0;si<60;si++){cx.fillStyle='rgba(255,255,255,'+(0.12+Math.sin(si*3.7+S.time*0.15)*0.12)+')';cx.beginPath();cx.arc((Math.sin(si*7.3)*0.5+0.5)*cW,(Math.cos(si*5.1)*0.5+0.5)*cH*0.38,Math.max(0.3,0.5+Math.sin(si)*0.5),0,Math.PI*2);cx.fill();}
+      // Earth (left side)
+      var earthX=cW*0.1,earthY=cH*0.2;
+      cx.fillStyle='#4FC3F7';cx.beginPath();cx.arc(earthX,earthY,16,0,Math.PI*2);cx.fill();cx.fillStyle='#66BB6A';cx.beginPath();cx.arc(earthX,earthY,16,0.3,1.8);cx.fill();
+      cx.fillStyle='rgba(255,255,255,.5)';cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillText('Earth',earthX,earthY+28);
+      // Galaxy — position and size depend on z
+      var galX2=cW*0.25+Math.min(gz*4,0.65)*cW;
+      var galScale=Math.max(0.35,1-gz*4);
+      var galR=20*galScale;
+      cx.save();cx.translate(galX2,earthY);
+      for(var sp2=0;sp2<3;sp2++){cx.strokeStyle='rgba(200,180,255,'+(0.15-sp2*0.04)+')';cx.lineWidth=2.5*galScale;cx.beginPath();cx.arc(0,0,(12+sp2*9)*galScale,S.time*0.3+sp2*0.5,S.time*0.3+sp2*0.5+3);cx.stroke();}
+      var gG2=cx.createRadialGradient(0,0,0,0,0,galR);gG2.addColorStop(0,'rgba(255,220,150,.6)');gG2.addColorStop(0.5,'rgba(255,200,120,.2)');gG2.addColorStop(1,'transparent');cx.fillStyle=gG2;cx.beginPath();cx.arc(0,0,galR,0,Math.PI*2);cx.fill();
+      cx.restore();
+      cx.fillStyle='rgba(255,255,255,.5)';cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillText(galNames[S.galIdx],galX2,earthY+galR+16);
+      // Recession arrows between Earth and Galaxy
+      if(gz>0.001){
+        var arrowStartX=earthX+22,arrowEndX=galX2-galR-8;
+        if(arrowEndX>arrowStartX+20){
+          cx.strokeStyle='rgba(255,100,100,.35)';cx.lineWidth=1.5;cx.setLineDash([5,4]);cx.beginPath();cx.moveTo(arrowStartX,earthY);cx.lineTo(arrowEndX,earthY);cx.stroke();cx.setLineDash([]);
+          // Arrowhead pointing right (receding)
+          cx.fillStyle='rgba(255,100,100,.5)';cx.beginPath();cx.moveTo(arrowEndX,earthY);cx.lineTo(arrowEndX-8,earthY-4);cx.lineTo(arrowEndX-8,earthY+4);cx.closePath();cx.fill();
+          // Distance label
+          var distKm=gz*3e5/70;
+          cx.fillStyle='rgba(255,255,255,.3)';cx.font='10px sans-serif';cx.textAlign='center';
+          cx.fillText('d ~ '+(distKm<1?distKm.toFixed(2):distKm.toFixed(0))+' Mpc',(arrowStartX+arrowEndX)/2,earthY-10);
+          cx.fillText('v = '+(gz*3e5).toFixed(0)+' km/s',(arrowStartX+arrowEndX)/2,earthY+14);
+        }
+      }
+      // z label on canvas
+      cx.fillStyle='rgba(255,200,50,.6)';cx.font='bold 12px monospace';cx.textAlign='center';cx.fillText('z = '+gz.toFixed(4),cW*0.5,cH*0.38-2);
+      // Reference spectrum (top — rest wavelengths)
+      var spY1=cH*0.42,spY2=cH*0.6,spH2=24;
+      cx.fillStyle='rgba(255,255,255,.04)';cx.fillRect(cW*0.06,spY1,cW*0.88,spH2);cx.fillRect(cW*0.06,spY2,cW*0.88,spH2);
+      ['#8B00FF','#4400FF','#0044FF','#00AAFF','#00FF88','#88FF00','#FFFF00','#FFAA00','#FF4400','#FF0000'].forEach(function(c,i){cx.fillStyle=c;cx.globalAlpha=0.15;cx.fillRect(cW*0.06+i*(cW*0.88/10),spY1,cW*0.88/10,spH2);cx.fillRect(cW*0.06+i*(cW*0.88/10),spY2,cW*0.88/10,spH2);});cx.globalAlpha=1;
+      cx.fillStyle='rgba(255,255,255,.45)';cx.font='bold 11px sans-serif';cx.textAlign='left';cx.fillText('Reference (lab):',cW*0.06,spY1-5);cx.fillText(galNames[S.galIdx]+' (observed):',cW*0.06,spY2-5);
+      // Hydrogen lines
+      var hLines=[{n:'Hα',wl:656},{n:'Hβ',wl:486},{n:'Hγ',wl:434},{n:'Hδ',wl:410}];
+      hLines.forEach(function(hl){
+        var frac=(hl.wl-380)/(750-380);var rx=cW*0.06+frac*cW*0.88;
+        cx.strokeStyle='rgba(255,255,255,.55)';cx.lineWidth=2;cx.beginPath();cx.moveTo(rx,spY1);cx.lineTo(rx,spY1+spH2);cx.stroke();
+        cx.fillStyle='rgba(255,255,255,.4)';cx.font='10px sans-serif';cx.textAlign='center';cx.fillText(hl.n+' '+hl.wl+'nm',rx,spY1+spH2+12);
+        // Shifted line
+        var shWl=hl.wl*(1+gz);var sfrac=(shWl-380)/(750-380);var sx2=cW*0.06+sfrac*cW*0.88;
+        cx.strokeStyle='#FF5252';cx.lineWidth=2.5;cx.beginPath();cx.moveTo(sx2,spY2);cx.lineTo(sx2,spY2+spH2);cx.stroke();
+        cx.fillStyle='#FF5252';cx.font='10px sans-serif';cx.fillText(shWl.toFixed(0)+'nm',sx2,spY2+spH2+12);
+        // Dashed connector
+        cx.strokeStyle='rgba(255,100,100,.18)';cx.lineWidth=1;cx.setLineDash([3,3]);cx.beginPath();cx.moveTo(rx,spY1+spH2);cx.lineTo(sx2,spY2);cx.stroke();cx.setLineDash([]);
+      });
+      cx.fillStyle='rgba(255,255,255,.5)';cx.font='bold 13px sans-serif';cx.textAlign='center';cx.fillText('🎯 You Are the Astronomer',cW*0.5,16);
+      cx.font='10px sans-serif';cx.fillStyle='rgba(255,255,255,.3)';cx.fillText('Measure the shift. Calculate z, velocity, and distance.',cW*0.5,32);
+    }else{
+      // Ultrasound — hidden blood velocity
+      cx.fillStyle='#1a1020';cx.fillRect(0,0,cW,cH);cx.fillStyle='rgba(180,100,100,.06)';cx.fillRect(0,0,cW,cH);
+      cx.strokeStyle='#8B0000';cx.lineWidth=35;cx.lineCap='round';cx.beginPath();cx.moveTo(cW*0.1,cH*0.38);cx.bezierCurveTo(cW*0.35,cH*0.22,cW*0.65,cH*0.22,cW*0.9,cH*0.38);cx.stroke();
+      cx.strokeStyle='#E53935';cx.lineWidth=18;cx.beginPath();cx.moveTo(cW*0.1,cH*0.38);cx.bezierCurveTo(cW*0.35,cH*0.22,cW*0.65,cH*0.22,cW*0.9,cH*0.38);cx.stroke();
+      var bv2=S.usSpd;for(var ci2=0;ci2<10;ci2++){var ct2=((S.time*bv2*0.002+ci2/10)%1);var px2=cW*0.1+(cW*0.8)*ct2;var py2=cH*0.38-Math.sin(ct2*Math.PI)*cH*0.16*0.5;cx.fillStyle='#B71C1C';cx.beginPath();cx.ellipse(px2,py2,5,2.5,ct2*0.3,0,Math.PI*2);cx.fill();}
+      cx.fillStyle='#607D8B';cx.beginPath();cx.roundRect(cW*0.44,cH*0.04,18,42,4);cx.fill();
+      cx.fillStyle='rgba(100,200,255,.08)';cx.beginPath();cx.moveTo(cW*0.52,cH*0.16);cx.lineTo(cW*0.6,cH*0.3);cx.lineTo(cW*0.44,cH*0.3);cx.closePath();cx.fill();
+      cx.fillStyle='rgba(255,255,255,.4)';cx.font='bold 12px sans-serif';cx.textAlign='center';cx.fillText('Patient: Routine Vascular Scan',cW*0.5,cH*0.02+12);
+      // Waveform
+      var uY=cH*0.52,uH=cH*0.38,uX=cW*0.05,uW=cW*0.9;
+      cx.fillStyle='rgba(0,0,0,.5)';cx.beginPath();cx.roundRect(uX-4,uY-4,uW+8,uH+8,6);cx.fill();cx.fillStyle='#0a0a12';cx.fillRect(uX,uY,uW,uH);
+      cx.strokeStyle='#1a1a28';cx.lineWidth=0.5;for(var ug=0;ug<8;ug++){cx.beginPath();cx.moveTo(uX,uY+uH*ug/8);cx.lineTo(uX+uW,uY+uH*ug/8);cx.stroke();}
+      var usDf=Math.round(2*5e6*bv2*0.01*Math.cos(S.usAngle*Math.PI/180)/1540);
+      cx.strokeStyle='#4FC3F7';cx.lineWidth=2;cx.beginPath();for(var uw=0;uw<uW;uw++){cx.lineTo(uX+uw,uY+uH*0.28+Math.sin(uw*0.08+S.time*8)*uH*0.15);}cx.stroke();
+      var usf2=1+usDf/5e6;cx.strokeStyle='#FF5252';cx.lineWidth=2;cx.beginPath();for(var uw2=0;uw2<uW;uw2++){cx.lineTo(uX+uw2,uY+uH*0.68+Math.sin(uw2*0.08*usf2+S.time*8*usf2)*uH*0.12);}cx.stroke();
+      cx.fillStyle='#4FC3F7';cx.font='bold 11px sans-serif';cx.textAlign='left';cx.fillText('Transmitted: f₀ = 5 MHz',uX+5,uY+14);
+      cx.fillStyle='#FF5252';cx.fillText('Reflected: f₀ + Δf',uX+5,uY+uH*0.5+14);
+      cx.fillStyle='#FFD54F';cx.font='bold 12px sans-serif';cx.fillText('Δf = '+usDf+' Hz',uX+uW-120,uY+uH-8);
+      if(S.usShow){cx.fillStyle='#4CAF50';cx.font='bold 11px sans-serif';cx.fillText('Blood velocity: '+bv2+' cm/s'+(bv2<20?' (Low)':bv2>60?' (Elevated)':' (Normal)'),uX+5,uY+uH-8);}
+      cx.fillStyle='rgba(255,255,255,.5)';cx.font='bold 13px sans-serif';cx.textAlign='center';cx.fillText('🎯 You Are the Sonographer',cW*0.5,cH*0.48);
+      cx.font='10px sans-serif';cx.fillStyle='rgba(255,255,255,.3)';cx.fillText('Score: '+S.usOk+'/'+S.usTot,cW*0.5,uY-8);
+    }
+  }
+  if(scene<=1){cx.fillStyle=S.audioOn?'rgba(76,175,80,.8)':'rgba(100,100,100,.6)';cx.beginPath();cx.roundRect(cW-60,6,54,20,5);cx.fill();cx.fillStyle='#fff';cx.font='bold 11px sans-serif';cx.textAlign='center';cx.fillText(S.audioOn?'🔊 ON':'🔇 OFF',cW-33,20);}
+}
+
+function buildControls(){var h='';
+  if(scene===0){h+='<div class="ctrl"><div class="sl-g"><label>v source</label><input type="range" min="10" max="300" step="5" value="'+S.srcSpeed+'" oninput="S.srcSpeed=+this.value;uc(\'v0\',S.srcSpeed)"><span class="sv" id="v0">'+S.srcSpeed+'</span><span class="unit">px/s</span></div></div>';
+    if(S.obsMoving)h+='<div class="ctrl"><div class="sl-g"><label>v obs</label><input type="range" min="0" max="100" step="5" value="'+S.obsVel+'" oninput="S.obsVel=+this.value;uc(\'vo\',S.obsVel)"><span class="sv" id="vo">'+S.obsVel+'</span><span class="unit">px/s</span></div></div>';}
+  if(scene===1){h+='<div class="ctrl"><div class="sl-g"><label>v source</label><input type="range" min="10" max="500" step="5" value="'+S.srcSpeed+'" oninput="S.srcSpeed=+this.value;uc(\'v1\',S.srcSpeed)"><span class="sv" id="v1">'+S.srcSpeed+'</span><span class="unit">px/s</span></div></div>';}
+  if(scene<=1){h+='<div class="ctrl"><div class="sl-g"><label>f₀</label><input type="range" min="200" max="800" step="10" value="'+S.audioFreq+'" oninput="S.audioFreq=+this.value;uc(\'vf\',S.audioFreq)"><span class="sv" id="vf">'+S.audioFreq+'</span><span class="unit">Hz</span></div></div>';h+='<div class="ctrl"><div class="sl-g"><label>v sound</label><input type="range" min="100" max="400" step="10" value="'+S.soundSpeed+'" oninput="S.soundSpeed=+this.value;uc(\'vs\',S.soundSpeed)"><span class="sv" id="vs">'+S.soundSpeed+'</span><span class="unit">px/s</span></div></div>';h+='<div class="ctrl"><button class="btn '+(S.audioOn?'btn-ok':'btn-p')+'" onclick="togA()">'+(S.audioOn?'🔊 ON':'🔇 OFF')+'</button><button class="btn btn-s" onclick="S.time=0;resetWFs()">Reset</button><button class="btn '+(S.paused?'btn-ok':'btn-s')+'" onclick="togPause()">'+(S.paused?'▶ Play':'⏸ Pause')+'</button><button class="btn '+(S.probeOn?'btn-ok':'btn-s')+'" onclick="S.probeOn=!S.probeOn;S.probeX=-1;buildControls()">🔍</button>'+(scene===0?'<button class="btn '+(S.obsMoving?'btn-ok':'btn-s')+'" onclick="S.obsMoving=!S.obsMoving;buildControls()">🏃</button>':'')+'</div>';}
+  if(scene===2){h+='<div class="ctrl" style="gap:3px"><span style="font-size:.65rem;font-weight:700;color:var(--text3)">APP:</span><button class="tb'+(S.appMode==='radar'?' on':'')+'" onclick="S.appMode=\'radar\';buildControls();buildSidebar();buildExp()">Radar</button><button class="tb'+(S.appMode==='redshift'?' on':'')+'" onclick="S.appMode=\'redshift\';buildControls();buildSidebar();buildExp()">Redshift</button><button class="tb'+(S.appMode==='ultrasound'?' on':'')+'" onclick="S.appMode=\'ultrasound\';buildControls();buildSidebar();buildExp()">Ultrasound</button></div>';
+    if(S.appMode==='radar')h+='<div class="ctrl"><button class="btn btn-p" onclick="newCar()">🚗 New Car</button><button class="btn btn-s" onclick="S.radarShow=true;buildSidebar()">Show Answer</button></div>';
+    if(S.appMode==='redshift')h+='<div class="ctrl" style="gap:3px">'+['A','B','C','D'].map(function(g,i){return '<button class="tb'+(S.galIdx===i?' on':'')+'" onclick="setGal('+i+')">Galaxy '+g+'</button>';}).join('')+'</div><div class="ctrl"><div class="sl-g"><label>z</label><input type="range" min="0" max="0.20" step="0.001" value="'+S.galZ+'" oninput="setZ(+this.value)"><span class="sv" id="vz">'+S.galZ.toFixed(3)+'</span></div></div>';
+    if(S.appMode==='ultrasound')h+='<div class="ctrl"><button class="btn btn-p" onclick="newPatient()">🩺 New Patient</button><button class="btn btn-s" onclick="S.usShow=true;buildSidebar()">Show Answer</button><div class="sl-g"><label>θ angle</label><input type="range" min="0" max="60" step="5" value="'+S.usAngle+'" oninput="S.usAngle=+this.value;uc(\'ua\',S.usAngle)"><span class="sv" id="ua">'+S.usAngle+'</span><span class="unit">°</span></div></div>';
+    h+='<div class="ctrl"><button class="btn btn-s" onclick="S.time=0">Reset</button><button class="btn '+(S.paused?'btn-ok':'btn-s')+'" onclick="togPause()">'+(S.paused?'▶ Play':'⏸ Pause')+'</button></div>';}
+  h+='<div class="eq-box"><strong>f\' = f₀ × v / (v − vₛ cos θ)</strong></div>';$('controls').innerHTML=h;}
+window.uc=function(id,v){var el=$(id);if(el)el.textContent=v;};
+window.togA=function(){if(!S.audioOn){initAudio();S.audioOn=true;}else{S.audioOn=false;if(gainNode)gainNode.gain.setTargetAtTime(0,audioCtx.currentTime,0.05);}buildControls();};
+window.togPause=function(){S.paused=!S.paused;if(S.paused){var ivV=getSimIV(),dvV=getSimDV();if($('mIV'))$('mIV').value=fmtV(ivV);if($('mDV'))$('mDV').value=fmtV(dvV);}buildControls();};
+window.checkCh=function(){S.challengeAns=$('chAns')?$('chAns').value:'';S.challengeChecked=true;buildSidebar();};
+window.newCar=function(){S.radarSpd=Math.round(40+Math.random()*200);S.radarShow=false;S.radarAns='';buildControls();buildSidebar();};
+window.newPatient=function(){S.usSpd=Math.round(15+Math.random()*120);S.usShow=false;S.usAns='';S.usAngle=Math.round(Math.random()*40);buildControls();buildSidebar();};
+window.checkRadar=function(){S.radarAns=$('rAns')?$('rAns').value:'';S.radarShow=true;S.radarTot++;var actual=Math.round(S.radarSpd*343/S.soundSpeed*3.6);if(Math.abs(parseFloat(S.radarAns)-actual)<10)S.radarOk++;buildSidebar();};
+window.checkUS=function(){S.usAns=$('uAns')?$('uAns').value:'';S.usShow=true;S.usTot++;if(Math.abs(parseFloat(S.usAns)-S.usSpd)<5)S.usOk++;buildSidebar();};
+window.checkRS=function(){S.rsAns=[$('rz')?$('rz').value:'',$('rv')?$('rv').value:'',$('rd')?$('rd').value:''];S.rsChecked=true;buildSidebar();};
+window.setGal=function(i){S.galIdx=i;S.galZ=S.galZs[i];S.rsChecked=false;S.rsAns=['','',''];buildControls();buildSidebar();};
+window.setZ=function(v){S.galZ=v;var el=$('vz');if(el)el.textContent=v.toFixed(3);buildSidebar();};
+
+function buildSidebar(){var h='',mach=S.srcSpeed/S.soundSpeed;
+  h+='<div class="sc"><h4>Readings</h4><div class="stat-g"><div class="si"><div class="sl2">f₀</div><div class="sv3">'+S.audioFreq+' Hz</div></div><div class="si"><div class="sl2">v sound</div><div class="sv3">'+S.soundSpeed+'</div></div>';
+  if(scene<=1)h+='<div class="si"><div class="sl2">v src</div><div class="sv3">'+S.srcSpeed+'</div></div><div class="si"><div class="sl2">f\' now</div><div class="sv3" style="color:var(--accent)">'+dispF.toFixed(0)+'</div></div>';
+  h+='</div></div>';
+  if(scene===0){var fAh=S.srcSpeed<S.soundSpeed?(S.audioFreq*S.soundSpeed/(S.soundSpeed-S.srcSpeed)).toFixed(1):'∞';var fBh=(S.audioFreq*S.soundSpeed/(S.soundSpeed+S.srcSpeed)).toFixed(1);
+    h+='<div class="sc"><h4>Live Frequency</h4><div class="rd"><b>Current f\'</b> = <span class="val" style="font-size:.8rem">'+dispF.toFixed(1)+' Hz</span><br><b>Max (far ahead)</b> = <span class="val">'+fAh+' Hz</span><br><b>At closest</b> = <span class="val">'+S.audioFreq+' Hz</span> (= f₀)<br><b>Min (far behind)</b> = <span class="val">'+fBh+' Hz</span><br><b>Total drop</b> = <span class="val">'+(S.srcSpeed<S.soundSpeed?(parseFloat(fAh)-parseFloat(fBh)).toFixed(1):'∞')+' Hz</span></div></div>';
+    h+='<div class="sc"><h4>2D Doppler Formula</h4><div class="eq-box"><strong>f\' = f₀ × v / (v − vₛ cos θ)</strong><br><br>cos θ = Δx / √(Δx² + d²)<br><br>cos θ → +1 (far ahead): f\' → '+fAh+'<br>cos θ = 0 (beside): f\' = f₀<br>cos θ → −1 (far behind): f\' → '+fBh+'</div></div>';
+    h+='<div class="sc"><h4>What to observe</h4><div class="sd">1. Turn sound ON<br>2. Drag the observer left/right<br>3. Watch frequency rise as ambulance approaches<br>4. Listen — pitch rises with it<br>5. Sharp drop when ambulance passes<br>6. Use 🔍 Probe to click anywhere</div></div>';
+    h+='<div class="sc"><h4>🎯 Challenge</h4><div class="sd"><b>Predict:</b> If vₛ = '+S.srcSpeed+', what f\' when ambulance is far ahead?<br><br><input class="num-input" id="chAns" placeholder="f\'=?" style="width:70px" value="'+S.challengeAns+'"> Hz <button class="btn btn-p" onclick="checkCh()" style="font-size:.5rem;padding:2px 6px">Check</button>';
+    if(S.challengeChecked){var correct=S.audioFreq*S.soundSpeed/(S.soundSpeed-S.srcSpeed);h+='<br><span style="color:'+(Math.abs(parseFloat(S.challengeAns)-correct)<5?'var(--ok)':'var(--err)')+'">Answer: '+correct.toFixed(1)+' Hz '+(Math.abs(parseFloat(S.challengeAns)-correct)<5?'✓ Correct!':'✗ Use f\' = f₀v/(v−vₛ)')+'</span>';}h+='</div></div>';}
+  if(scene===1){h+='<div class="sc"><h4>Mach Number</h4><div class="rd"><b>M</b> = vₛ/v = '+mach.toFixed(2)+'<br>'+(mach<1?'Subsonic':mach<1.05?'Transonic — sound barrier':'Supersonic — cone θ='+Math.round(Math.asin(1/mach)*180/Math.PI)+'°')+'</div></div>';h+='<div class="sc"><h4>Formula</h4><div class="eq-box"><strong>sin θ = v/vₛ = 1/M</strong><br>Shock wave when M ≥ 1</div></div>';h+='<div class="sc"><h4>What to study</h4><div class="sd">1. Low speed — normal circles<br>2. Increase — front compresses<br>3. Mach 1 — all pile up at nose<br>4. Past Mach 1 — V cone forms<br>5. Ground: SILENCE then BOOM</div></div>';}
+  if(scene===2){
+    if(S.appMode==='radar'){
+      var rDf=Math.round(2*10e9*S.radarSpd*343/S.soundSpeed/3e8);var rActual=Math.round(S.radarSpd*343/S.soundSpeed*3.6);
+      h+='<div class="sc"><h4>🎯 Speed Gun Task</h4><div class="rd"><b>Step 1:</b> f₀ = 10 GHz (given)<br><b>Step 2:</b> Read Δf from waveform: <span class="val">'+rDf+' Hz</span><br><b>Step 3:</b> Calculate speed:<br>v = Δf × c / (2f₀)<br><br><input class="num-input" id="rAns" placeholder="km/h" style="width:70px" value="'+S.radarAns+'"> km/h <button class="btn btn-p" onclick="checkRadar()" style="padding:2px 8px">Check</button>';
+      if(S.radarShow){h+='<br><br><span style="color:'+(Math.abs(parseFloat(S.radarAns)-rActual)<10?'var(--ok)':'var(--err)')+'"><b>Actual: '+rActual+' km/h</b> '+(Math.abs(parseFloat(S.radarAns)-rActual)<10?'✓ Correct!':'✗ Try again')+'</span>';}
+      h+='</div></div>';
+      h+='<div class="sc"><h4>Formula</h4><div class="eq-box"><strong>Δf = 2f₀v/c</strong><br><strong>v = Δf·c/(2f₀)</strong></div></div>';
+      h+='<div class="sc"><h4>Score</h4><div class="rd">'+S.radarOk+' / '+S.radarTot+' correct</div></div>';
+    }else if(S.appMode==='redshift'){
+      var gz2=S.galZ,gv=gz2*3e5,gd=gv/70;
+      h+='<div class="sc"><h4>🎯 Astronomer Task — Galaxy '+['A','B','C','D'][S.galIdx]+'</h4><div class="rd">';
+      h+='<b>Step 1:</b> Rest λ of Hα = 656 nm<br>';
+      h+='<b>Step 2:</b> Observed λ = <span class="val">'+(656*(1+gz2)).toFixed(0)+' nm</span> (read from spectrum)<br>';
+      h+='<b>Step 3:</b> Calculate z = (λ−λ₀)/λ₀<br><input class="num-input" id="rz" placeholder="z" style="width:60px" value="'+S.rsAns[0]+'"><br>';
+      h+='<b>Step 4:</b> v = z × c (km/s)<br><input class="num-input" id="rv" placeholder="v" style="width:70px" value="'+S.rsAns[1]+'"><br>';
+      h+='<b>Step 5:</b> d = v/H₀ (H₀=70 km/s/Mpc)<br><input class="num-input" id="rd" placeholder="Mpc" style="width:60px" value="'+S.rsAns[2]+'"><br>';
+      h+='<button class="btn btn-p" onclick="checkRS()" style="margin-top:4px;padding:3px 10px">Check All</button>';
+      if(S.rsChecked){
+        var zOk=Math.abs(parseFloat(S.rsAns[0])-gz2)<0.005;var vOk=Math.abs(parseFloat(S.rsAns[1])-gv)<500;var dOk=Math.abs(parseFloat(S.rsAns[2])-gd)<5;
+        h+='<br><span style="color:'+(zOk?'var(--ok)':'var(--err)')+'">z = '+gz2.toFixed(3)+' '+(zOk?'✓':'✗')+'</span>';
+        h+='<br><span style="color:'+(vOk?'var(--ok)':'var(--err)')+'">v = '+gv.toFixed(0)+' km/s '+(vOk?'✓':'✗')+'</span>';
+        h+='<br><span style="color:'+(dOk?'var(--ok)':'var(--err)')+'">d = '+gd.toFixed(1)+' Mpc '+(dOk?'✓':'✗')+'</span>';
+      }
+      h+='</div></div>';
+      h+='<div class="sc"><h4>Formulas</h4><div class="eq-box"><strong>z = (λ−λ₀)/λ₀</strong><br><strong>v = z × c</strong><br><strong>d = v/H₀</strong> (H₀=70)</div></div>';
+    }else{
+      var uDf2=Math.round(2*5e6*S.usSpd*0.01*Math.cos(S.usAngle*Math.PI/180)/1540);
+      h+='<div class="sc"><h4>🎯 Sonographer Task</h4><div class="rd"><b>Step 1:</b> f₀ = 5 MHz, c = 1540 m/s<br><b>Step 2:</b> θ = '+S.usAngle+'°, cos θ = '+Math.cos(S.usAngle*Math.PI/180).toFixed(3)+'<br><b>Step 3:</b> Read Δf: <span class="val">'+uDf2+' Hz</span><br><b>Step 4:</b> Calculate blood velocity:<br>v = Δf×c/(2f₀ cos θ)<br><br><input class="num-input" id="uAns" placeholder="cm/s" style="width:70px" value="'+S.usAns+'"> cm/s <button class="btn btn-p" onclick="checkUS()" style="padding:2px 8px">Check</button>';
+      if(S.usShow){
+        h+='<br><br><span style="color:'+(Math.abs(parseFloat(S.usAns)-S.usSpd)<5?'var(--ok)':'var(--err)')+'"><b>Actual: '+S.usSpd+' cm/s</b> '+(Math.abs(parseFloat(S.usAns)-S.usSpd)<5?'✓':'✗')+'</span>';
+        h+='<br>'+(S.usSpd<20?'⚠️ Low flow':'')+(S.usSpd>60?'⚠️ Elevated flow':'')+(S.usSpd>=20&&S.usSpd<=60?'✅ Normal range':'');
+      }
+      h+='</div></div>';
+      h+='<div class="sc"><h4>Formula</h4><div class="eq-box"><strong>Δf = 2f₀v cosθ / c</strong><br><strong>v = Δf·c/(2f₀ cosθ)</strong></div></div>';
+      h+='<div class="sc"><h4>Score</h4><div class="rd">'+S.usOk+' / '+S.usTot+' correct<br>Normal: 20–60 cm/s</div></div>';
+    }
+  }
+  $('sidebar').innerHTML=h;}
+
+function setScene(i){scene=i;S.time=0;resetWFs();if(S.audioOn&&gainNode)gainNode.gain.setTargetAtTime(0,audioCtx.currentTime,0.05);
+  document.querySelectorAll('.mb').forEach(function(b,j){b.classList.toggle('on',j===i);});$('guideBar').innerHTML=SCENES[i].g;
+  if(i===0){S.srcSpeed=80;S.srcFreq=3;S.soundSpeed=200;S.audioFreq=300;S.obsXPos=cW*0.65;S.challengeChecked=false;S.challengeAns='';S.probeX=-1;}
+  if(i===1){S.srcSpeed=250;S.srcFreq=4;S.soundSpeed=200;S.audioFreq=300;}
+  if(i===2){S.appSpeed=80;S.appMode='radar';}
+  buildControls();buildSidebar();buildExp();}
+window.setScene=setScene;
+var lastT=0;function animate(ts){requestAnimationFrame(animate);var dt=(ts-lastT)/1000;lastT=ts;if(!S.paused&&dt<0.1)S.time+=dt*S.simSpeed;draw();if(Math.floor(S.time*5)%8===0)buildSidebar();}
+window.bts=function(el,i){document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on');});el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(function(){initGr();drawGr();},80);};
+
+var SIM_VARS={
+  'ambulance':{
+    iv:[{id:'vs',n:'Source Speed (px/s)'},{id:'f0',n:'Source Frequency f₀ (Hz)'},{id:'vsnd',n:'Sound Speed (px/s)'}],
+    dv:[{id:'fobs',n:'f\' observed (Hz)'},{id:'fah',n:'f\' max ahead (Hz)'},{id:'fbh',n:'f\' min behind (Hz)'},{id:'wl',n:'Wavelength λ (px)'}],
+    allVars:['Source Speed','Source Frequency','Sound Speed','Observer Position','Medium (air)','Temperature','Perpendicular distance','Observer velocity']
+  },
+  'shockwaves':{
+    iv:[{id:'vs',n:'Source Speed (px/s)'},{id:'vsnd',n:'Sound Speed (px/s)'}],
+    dv:[{id:'mach',n:'Mach Number'},{id:'angle',n:'Cone angle (°)'},{id:'fgnd',n:'f\' at ground (Hz)'}],
+    allVars:['Source Speed','Sound Speed','Medium','Altitude','Temperature','Observer distance','Source frequency']
+  },
+  'radar':{
+    iv:[{id:'rdf',n:'Frequency shift Δf (Hz)'},{id:'rspd',n:'Car Speed (km/h)'}],
+    dv:[{id:'rspd',n:'Car Speed (km/h)'},{id:'rdf',n:'Frequency shift Δf (Hz)'}],
+    allVars:['Car Speed','Radar frequency f₀ (10 GHz)','Speed of light c','Radar position','Beam angle','Temperature','Car direction','Signal strength']
+  },
+  'redshift':{
+    iv:[{id:'rsz',n:'Redshift z'},{id:'rsv',n:'Recession velocity (km/s)'},{id:'rsd',n:'Distance (Mpc)'}],
+    dv:[{id:'rsv',n:'Recession velocity (km/s)'},{id:'rsd',n:'Distance (Mpc)'},{id:'rslam',n:'Observed Hα λ (nm)'}],
+    allVars:['Redshift z','Hubble constant H₀ (70)','Speed of light c','Rest wavelength λ₀','Galaxy type','Telescope aperture','Integration time','Cosmic expansion rate']
+  },
+  'ultrasound':{
+    iv:[{id:'udf',n:'Frequency shift Δf (Hz)'},{id:'uspd',n:'Blood velocity (cm/s)'},{id:'uth',n:'Probe angle θ (°)'}],
+    dv:[{id:'uspd',n:'Blood velocity (cm/s)'},{id:'udf',n:'Frequency shift Δf (Hz)'}],
+    allVars:['Blood velocity','Probe frequency f₀ (5 MHz)','Speed of sound c (1540 m/s)','Probe angle θ','Vessel diameter','Blood density','Patient position','Coupling gel']
+  }
+};
+function getMode(){if(scene===0)return'ambulance';if(scene===1)return'shockwaves';return S.appMode;}
+function getVars(){return SIM_VARS[getMode()]||SIM_VARS['ambulance'];}
+function getIVN(){var vs=getVars().iv,v=$('expIV')?$('expIV').value:'';for(var i=0;i<vs.length;i++){if(vs[i].id===v)return vs[i].n;}return vs[0].n;}
+function getDVN(){var vs=getVars().dv,v=$('expDV')?$('expDV').value:'';for(var i=0;i<vs.length;i++){if(vs[i].id===v)return vs[i].n;}return vs[0].n;}
+function getSimIV(){
+  var iv=$('expIV')?$('expIV').value:'';
+  if(scene===0){if(iv==='vs')return S.srcSpeed;if(iv==='f0')return S.audioFreq;if(iv==='vsnd')return S.soundSpeed;return S.srcSpeed;}
+  if(scene===1){if(iv==='vs')return S.srcSpeed;if(iv==='vsnd')return S.soundSpeed;return S.srcSpeed;}
+  if(S.appMode==='radar'){var rDf=Math.round(2*10e9*S.radarSpd*343/S.soundSpeed/3e8);var rSpd=Math.round(S.radarSpd*343/S.soundSpeed*3.6);if(iv==='rdf')return rDf;if(iv==='rspd')return rSpd;return rDf;}
+  if(S.appMode==='redshift'){var gz=S.galZ,gv=gz*3e5,gd=gv/70;if(iv==='rsz')return gz;if(iv==='rsv')return gv;if(iv==='rsd')return gd;return gz;}
+  if(S.appMode==='ultrasound'){var uDf=Math.round(2*5e6*S.usSpd*0.01*Math.cos(S.usAngle*Math.PI/180)/1540);if(iv==='udf')return uDf;if(iv==='uspd')return S.usSpd;if(iv==='uth')return S.usAngle;return uDf;}
+  return 0;
+}
+function getSimDV(){
+  var dv=$('expDV')?$('expDV').value:'';
+  if(scene===0){if(dv==='fobs')return dispF;if(dv==='fah')return S.srcSpeed<S.soundSpeed?S.audioFreq*S.soundSpeed/(S.soundSpeed-S.srcSpeed):9999;if(dv==='fbh')return S.audioFreq*S.soundSpeed/(S.soundSpeed+S.srcSpeed);if(dv==='wl')return S.soundSpeed/S.srcFreq;return dispF;}
+  if(scene===1){var m=S.srcSpeed/S.soundSpeed;if(dv==='mach')return m;if(dv==='angle')return m>=1?Math.asin(1/m)*180/Math.PI:0;if(dv==='fgnd')return m>=1?0:calcF(S.srcX,S.srcSpeed,cW*0.5);return m;}
+  if(S.appMode==='radar'){var rDf2=Math.round(2*10e9*S.radarSpd*343/S.soundSpeed/3e8);var rSpd2=Math.round(S.radarSpd*343/S.soundSpeed*3.6);if(dv==='rspd')return rSpd2;if(dv==='rdf')return rDf2;return rSpd2;}
+  if(S.appMode==='redshift'){var gz2=S.galZ,gv2=gz2*3e5,gd2=gv2/70;if(dv==='rsv')return gv2;if(dv==='rsd')return gd2;if(dv==='rslam')return 656*(1+gz2);return gv2;}
+  if(S.appMode==='ultrasound'){var uDf2=Math.round(2*5e6*S.usSpd*0.01*Math.cos(S.usAngle*Math.PI/180)/1540);if(dv==='uspd')return S.usSpd;if(dv==='udf')return uDf2;return S.usSpd;}
+  return 0;
+}
+function fmtV(v){if(Math.abs(v)<0.01&&v!==0)return v.toExponential(3);if(Math.abs(v)>=1e6)return v.toExponential(3);return parseFloat(v.toFixed(4)).toString();}
+
+var manD=[],expD=[],showGrid=true,showBF=false;
+var PLOT_COLORS=['#0284C7','#DC2626','#059669','#D97706','#7C3AED','#DB2777'];
+
+function buildExp(){
+  var vs=getVars(),ivSel=$('expIV')?$('expIV').value:vs.iv[0].id,dvSel=$('expDV')?$('expDV').value:vs.dv[0].id;
+  var ivN=getIVN(),dvN=getDVN();
+  var cvItems=vs.allVars.filter(function(v){return v!==ivN&&v!==dvN;});
+  var h='<div class="exp-panel">';
+  h+='<div class="exp-title">Experiment Variables</div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">';
+  h+='<div class="exp-var"><label class="exp-label iv">Independent Variable (IV)</label><select class="exp-select" id="expIV" onchange="buildExp()">'+vs.iv.map(function(v){return '<option value="'+v.id+'"'+(v.id===ivSel?' selected':'')+'>'+v.n+'</option>';}).join('')+'</select></div>';
+  h+='<div class="exp-var"><label class="exp-label dv">Dependent Variable (DV)</label><select class="exp-select" id="expDV" onchange="buildExp()">'+vs.dv.map(function(v){return '<option value="'+v.id+'"'+(v.id===dvSel?' selected':'')+'>'+v.n+'</option>';}).join('')+'</select></div>';
+  h+='</div>';
+  h+='<div class="exp-var"><label class="exp-label cv">Controlled Variables (CV)</label><div class="exp-cv-list" id="expCVs">';
+  cvItems.forEach(function(v){h+='<label class="exp-cv-item"><input type="checkbox" checked> '+v+'</label>';});
+  h+='</div></div>';
+  var hypDir=$('hypDir')?$('hypDir').value:'increase';
+  h+='<div class="exp-var"><label class="exp-label hyp">Hypothesis</label><div class="exp-hypothesis">';
+  h+='"If <strong class="iv-hl">'+ivN+'</strong> is increased, then <strong class="dv-hl">'+dvN+'</strong> will ';
+  h+='<select class="hyp-dir" id="hypDir"><option'+(hypDir==='increase'?' selected':'')+'>increase</option><option'+(hypDir==='decrease'?' selected':'')+'>decrease</option><option'+(hypDir==='remain constant'?' selected':'')+'>remain constant</option></select>';
+  var checkedCVs=[];cvItems.forEach(function(v){checkedCVs.push(v);});
+  h+=', while keeping <strong class="cv-hl">'+checkedCVs.join(', ')+'</strong> constant."';
+  h+='</div></div>';
+  h+='</div>';
+  h+='<div class="exp-data"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-family:Georgia,serif;font-size:.8rem;font-weight:700;color:var(--accent)">Data Collection</span><span style="font-size:.6rem;color:var(--text3)">Pause sim to auto-record</span></div>';
+  h+='<div style="display:flex;gap:3px;align-items:end;margin-bottom:4px">';
+  h+='<div style="flex:1"><label style="font-size:.62rem;font-weight:700;color:#2563eb">IV</label><div style="display:flex;gap:2px"><input class="num-input" id="mIV" step="any" style="width:100%"><button class="btn btn-s" onclick="rIV()" style="font-size:.6rem;padding:2px 4px">Read</button></div></div>';
+  h+='<div style="flex:1"><label style="font-size:.62rem;font-weight:700;color:#dc2626">DV</label><div style="display:flex;gap:2px"><input class="num-input" id="mDV" step="any" style="width:100%"><button class="btn btn-s" onclick="rDV()" style="font-size:.6rem;padding:2px 4px">Read</button></div></div>';
+  h+='<button class="btn btn-p" onclick="addR()" style="font-size:.6rem;padding:3px 6px">+Add</button><button class="btn btn-ok" onclick="aAdd()" style="font-size:.6rem;padding:3px 6px">Auto</button>';
+  h+='</div>';
+  h+='<div id="mT"></div>';
+  h+='<div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-ok" onclick="plotM()">Plot</button><button class="btn btn-s" onclick="clrM()">Clear</button><button class="btn btn-s" onclick="expCSV()">Export CSV</button></div>';
+  h+='</div>';
+  $('expC').innerHTML=h;
+}
+
+window.rIV=function(){if($('mIV'))$('mIV').value=fmtV(getSimIV());};
+window.rDV=function(){if($('mDV'))$('mDV').value=fmtV(getSimDV());};
+window.aAdd=function(){rIV();rDV();addR();};
+window.addR=function(){var iv=parseFloat($('mIV')?$('mIV').value:0),dv=parseFloat($('mDV')?$('mDV').value:0);if(isNaN(iv)||isNaN(dv))return;manD.push({iv:iv,dv:dv});if($('mIV'))$('mIV').value='';if($('mDV'))$('mDV').value='';buildMT();syncM();addN('Data','IV='+fmtV(iv)+', DV='+fmtV(dv),'#'+manD.length);};
+
+function buildMT(){if(!manD.length){if($('mT'))$('mT').innerHTML='';return;}
+  var g={};manD.forEach(function(d,i){var k=fmtV(d.iv);if(!g[k])g[k]=[];g[k].push({iv:d.iv,dv:d.dv,idx:i});});
+  var ks=Object.keys(g).sort(function(a,b){return parseFloat(a)-parseFloat(b);});
+  var rows='';ks.forEach(function(k){var pts=g[k],dvs=pts.map(function(p){return p.dv;}),mn=dvs.reduce(function(a,b){return a+b;},0)/dvs.length;
+    pts.forEach(function(p,j){rows+='<tr><td>'+(j===0?fmtV(p.iv):'')+'</td><td>'+fmtV(p.dv)+'</td><td><span style="cursor:pointer;color:var(--err);opacity:.5" onclick="rmPt('+p.idx+')">x</span></td></tr>';});
+    if(pts.length>1)rows+='<tr class="mean"><td></td><td class="mean">Mean: '+fmtV(mn)+'</td><td></td></tr>';
+  });
+  if($('mT'))$('mT').innerHTML='<table class="dt"><thead><tr><th>'+getIVN()+'</th><th>'+getDVN()+'</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
+}
+window.rmPt=function(i){manD.splice(i,1);buildMT();syncM();};
+window.clrM=function(){manD=[];expD=[];buildMT();if($('dW'))$('dW').innerHTML='<p style="font-size:.58rem;color:var(--text3);text-align:center;padding:6px">Collect data first.</p>';drawGr();};
+
+function syncM(){if(!manD.length){expD=[];return;}
+  var g={};manD.forEach(function(d){var k=fmtV(d.iv);if(!g[k])g[k]=[];g[k].push(d.dv);});
+  expD=Object.keys(g).sort(function(a,b){return parseFloat(a)-parseFloat(b);}).map(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b;},0)/v.length;return{iv:parseFloat(k),mean:mn};});
+  buildDT();setTimeout(function(){initGr();drawGr();},30);
+}
+function buildDT(){if(!expD.length)return;$('dW').innerHTML='<table class="dt"><thead><tr><th>'+getIVN()+'</th><th>Mean '+getDVN()+'</th></tr></thead><tbody>'+expD.map(function(r){return '<tr><td>'+fmtV(r.iv)+'</td><td class="mean">'+fmtV(r.mean)+'</td></tr>';}).join('')+'</tbody></table>';}
+window.plotM=function(){if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(function(){initGr();drawGr();},80);};
+
+window.expCSV=function(){if(!manD.length)return;var csv=getIVN()+','+getDVN()+'\n';manD.forEach(function(d){csv+=fmtV(d.iv)+','+fmtV(d.dv)+'\n';});
+  var blob=new Blob([csv],{type:'text/csv'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='doppler_data.csv';a.click();};
+window.savePlot=function(){if(!gCv)return;var a=document.createElement('a');a.href=gCv.toDataURL('image/png');a.download='doppler_plot.png';a.click();};
+window.togGrid=function(){showGrid=!showGrid;drawGr();};
+window.togBF=function(){showBF=!showBF;drawGr();};
+
+var gCv,gx2;
+function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');var d=devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)return;gCv.width=w*d;gCv.height=200*d;gCv.style.width=w+'px';gCv.style.height='200px';gx2.setTransform(d,0,0,d,0,0);}
+function drawGr(){
+  if(!gCv||!gx2){initGr();if(!gCv)return;}
+  var w=parseInt(gCv.style.width)||500,h=200;
+  gx2.clearRect(0,0,w,h);gx2.fillStyle='#fff';gx2.fillRect(0,0,w,h);
+  if(!expD.length){gx2.fillStyle='#bbb';gx2.font='11px sans-serif';gx2.textAlign='center';gx2.fillText('Collect data and click Plot',w/2,h/2);return;}
+  var P={t:20,r:15,b:36,l:55},pW=w-P.l-P.r,pH=h-P.t-P.b;
+  var xs=expD.map(function(r2){return r2.iv;}),ys=expD.map(function(r2){return r2.mean;});
+  var xn=Math.min.apply(null,xs),xx=Math.max.apply(null,xs),yn=Math.min.apply(null,ys),yx=Math.max.apply(null,ys);
+  if(xx-xn<1e-9){xn-=1;xx+=1;}if(yx-yn<1e-9){yn-=1;yx+=1;}
+  var xp=(xx-xn)*.1,yp=(yx-yn)*.1;xn-=xp;xx+=xp;yn-=yp;yx+=yp;
+  var tx=function(v){return P.l+((v-xn)/(xx-xn))*pW;},ty=function(v){return P.t+pH-((v-yn)/(yx-yn))*pH;};
+  if(showGrid){gx2.strokeStyle='rgba(0,0,0,.06)';gx2.lineWidth=.5;for(var i=0;i<=5;i++){var gxv=xn+(xx-xn)*i/5;gx2.beginPath();gx2.moveTo(tx(gxv),P.t);gx2.lineTo(tx(gxv),P.t+pH);gx2.stroke();}for(var i2=0;i2<=5;i2++){var gyv=yn+(yx-yn)*i2/5;gx2.beginPath();gx2.moveTo(P.l,ty(gyv));gx2.lineTo(P.l+pW,ty(gyv));gx2.stroke();}}
+  gx2.strokeStyle='rgba(0,0,0,.25)';gx2.lineWidth=1.5;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,P.t+pH);gx2.lineTo(P.l+pW,P.t+pH);gx2.stroke();
+  gx2.fillStyle='#888';gx2.font='9px sans-serif';gx2.textAlign='center';
+  for(var i3=0;i3<=5;i3++){var xv=xn+(xx-xn)*i3/5;gx2.fillText(fmtV(xv),tx(xv),P.t+pH+12);}
+  gx2.textAlign='right';for(var i4=0;i4<=5;i4++){var yv=yn+(yx-yn)*i4/5;gx2.fillText(fmtV(yv),P.l-4,ty(yv)+3);}
+  gx2.fillStyle='#555';gx2.font='bold 10px sans-serif';gx2.textAlign='center';gx2.fillText(getIVN(),P.l+pW/2,h-4);
+  gx2.save();gx2.translate(10,P.t+pH/2);gx2.rotate(-Math.PI/2);gx2.fillText(getDVN(),0,0);gx2.restore();
+  if(showBF&&xs.length>=2){var n=xs.length,sx=0,sy=0,sxy=0,sx2=0;for(var bf=0;bf<n;bf++){sx+=xs[bf];sy+=ys[bf];sxy+=xs[bf]*ys[bf];sx2+=xs[bf]*xs[bf];}
+    var bfM=(n*sxy-sx*sy)/(n*sx2-sx*sx),bfB=(sy-bfM*sx)/n;
+    gx2.strokeStyle='rgba(220,38,38,.4)';gx2.lineWidth=1.5;gx2.setLineDash([6,4]);gx2.beginPath();gx2.moveTo(tx(xn),ty(bfM*xn+bfB));gx2.lineTo(tx(xx),ty(bfM*xx+bfB));gx2.stroke();gx2.setLineDash([]);
+    gx2.fillStyle='rgba(220,38,38,.5)';gx2.font='9px sans-serif';gx2.textAlign='right';gx2.fillText('y = '+bfM.toFixed(2)+'x + '+bfB.toFixed(2),P.l+pW,P.t+12);
+  }
+  if(xs.length>=2){gx2.strokeStyle='#0284C7';gx2.lineWidth=1.5;gx2.beginPath();expD.forEach(function(r2,i5){i5===0?gx2.moveTo(tx(r2.iv),ty(r2.mean)):gx2.lineTo(tx(r2.iv),ty(r2.mean));});gx2.stroke();}
+  gx2.fillStyle='#0284C7';xs.forEach(function(x,i5){gx2.beginPath();gx2.arc(tx(x),ty(ys[i5]),4.5,0,Math.PI*2);gx2.fill();gx2.strokeStyle='#fff';gx2.lineWidth=1.5;gx2.stroke();});
+  manD.forEach(function(d){gx2.fillStyle='rgba(2,132,199,.25)';gx2.beginPath();gx2.arc(tx(d.iv),ty(d.dv),3,0,Math.PI*2);gx2.fill();});
+}
+
+var IB=[
+{c:'State',q:'State the Doppler effect.',f:'The change in observed frequency when there is relative motion between source and observer.'},
+{c:'Explain',q:'Why does a siren sound higher as it approaches?',f:'Wavefronts compress ahead of the moving source → shorter λ → higher f detected.'},
+{c:'Calculate',q:'f₀=400Hz, car at 30m/s toward observer, v=340m/s. Find f\'.',f:'f\'=f₀v/(v−vₛ)=400×340/310=438.7 Hz.'},
+{c:'Calculate',q:'Observer at 10m/s toward siren. f₀=500Hz, v=340m/s.',f:'f\'=f₀(v+v₀)/v=500×350/340=514.7 Hz.'},
+{c:'Explain',q:'What is a shock wave?',f:'When vₛ>v (M>1), wavefronts pile up into a cone. Half-angle: sinθ=1/M.'},
+{c:'Calculate',q:'Jet at Mach 2.0. Find cone angle.',f:'sinθ=1/2=0.5 → θ=30°.'},
+{c:'Explain',q:'How does a radar gun measure speed?',f:'Emits microwaves at f₀. Reflected wave shifted by Δf=2f₀v/c. Speed v=Δfc/(2f₀).'}
+];
+function buildIB(){$('ibL').innerHTML=IB.map(function(q,i){var cls=q.c==='Calculate'?'c':q.c==='Explain'?'e':'s';return '<div class="ib-card"><span class="ib-cmd ib-cmd-'+cls+'">'+q.c+'</span><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea placeholder="Your answer..."></textarea><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-p" onclick="sF('+i+')" style="font-size:.65rem">Show Answer</button></div><div class="ib-ans" id="iF'+i+'">'+q.f+'</div></div>';}).join('');}
+window.sF=function(i){$('iF'+i).classList.toggle('show');if($('iF'+i).classList.contains('show'))addN('IB Q'+(i+1),IB[i].q.substring(0,50)+'...','Answered');};
+var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN();}
+function showN(){$('nbO').innerHTML=nb.length?nb.map(function(n,i){return '<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">→ '+n.r+'</span></div>';}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.56rem;padding:6px">Complete experiments to record.</p>';}
+
+S.obsXPos=350;$('guideBar').innerHTML=SCENES[0].g;buildControls();buildSidebar();buildExp();buildIB();showN();requestAnimationFrame(animate);
+</script>
+<div style="text-align:center;padding:16px 0 8px;font-family:Georgia,serif;font-size:11px;color:rgba(0,0,0,0.15);letter-spacing:2px;text-transform:uppercase;user-select:none">ATUL SORAL PHYSICISM</div>
+</body>
+</html>
