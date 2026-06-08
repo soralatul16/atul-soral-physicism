@@ -7,6 +7,8 @@
 <title>Take Test | Atul Soral Physicism</title>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<link rel="stylesheet" href="../js/gdc.css">
+<script src="../js/gdc.js"></script>
 <style>
 :root{--bg:#f8f7f4;--card:#fff;--text:#1a1a2e;--text2:#4a5568;--text3:#94a3b8;--accent:#c0392b;--accent2:#2563eb;--green:#16a34a;--red:#dc2626;--orange:#d97706;--border:rgba(0,0,0,.06);--r:14px;--shadow:0 2px 12px rgba(0,0,0,.04);--font:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--serif:Georgia,'Times New Roman',serif;--mono:'SF Mono','Consolas',monospace}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -75,6 +77,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .match-item{padding:10px 14px;border-radius:8px;font-size:13px;border:1.5px solid var(--border);background:#fafafa}
 .match-drop{min-height:38px;border:2px dashed #e2e8f0;border-radius:8px;padding:8px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text3);transition:all .2s}
 .match-drop.has-item{border-style:solid;border-color:var(--accent2);background:rgba(37,99,235,.04)}
+.match-drop.over{border-color:var(--accent);background:rgba(192,57,43,.04)}
 .match-pool{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding:12px;background:#f8f9fa;border-radius:10px;min-height:44px}
 .match-drag{padding:8px 14px;border-radius:8px;background:var(--card);border:1.5px solid var(--border);font-size:13px;cursor:grab;transition:all .15s;user-select:none}
 .match-drag:hover{border-color:var(--accent2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
@@ -87,6 +90,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .fill-input:focus{border-bottom-color:var(--accent);background:rgba(192,57,43,.02)}
 
 /* LONG/SHORT ANSWER */
+.rich-toolbar{display:flex;flex-wrap:wrap;gap:2px;padding:6px 8px;background:#f8f9fa;border:1.5px solid var(--border);border-bottom:none;border-radius:10px 10px 0 0;margin-top:10px}
+.rich-btn{background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;font-size:13px;font-weight:500;color:var(--text2);transition:all .1s}
+.rich-btn:hover{background:rgba(0,0,0,0.05);color:var(--text)}
 .answer-area{width:100%;min-height:120px;border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;font-size:14px;font-family:var(--font);resize:vertical;outline:none;line-height:1.7}
 .answer-area:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(37,99,235,.06)}
 .word-count{font-size:11px;color:var(--text3);text-align:right;margin-top:4px}
@@ -141,6 +147,50 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .lib-tag{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600;background:#f1f5f9;color:var(--text3)}
 .lib-tag.green{background:rgba(22,163,74,.08);color:var(--green)}
 
+.graph-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.graph-modal.open {
+  display: flex;
+}
+.graph-card {
+  background: var(--card);
+  border-radius: var(--r);
+  width: 700px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border: 1px solid var(--border);
+}
+.graph-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.data-table-input {
+  max-height: 180px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+  background: #fafafa;
+}
+.graph-canvas-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @media(max-width:768px){
   .sidebar{display:none}
   .main{padding:16px}
@@ -177,6 +227,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   <div style="max-width:900px;margin:0 auto;padding:24px">
     <h1 style="font-family:var(--serif);font-size:22px;margin-bottom:16px">Question Library</h1>
     <div class="lib-grid" id="libGrid"></div>
+    <h1 style="font-family:var(--serif);font-size:22px;margin:32px 0 16px">My Attempts</h1>
+    <div class="lib-grid" id="attemptsGrid"></div>
   </div>
 </div>
 
@@ -185,6 +237,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   <nav class="nav">
     <a class="nav-brand">Atul Soral Physicism</a>
     <div class="nav-right">
+      <button onclick="openGDC()" class="nav-btn">🧮 Calc</button>
       <span class="timer" id="timerDisplay">00:00</span>
       <button class="nav-btn red" onclick="submitTest()">Submit</button>
     </div>
@@ -219,6 +272,58 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     </div>
   </nav>
   <div style="max-width:800px;margin:0 auto;padding:24px" id="resultsContent"></div>
+</div>
+
+<!-- GRAPH PLOTTER MODAL -->
+<div class="graph-modal" id="graphPlotterModal">
+  <div class="graph-card" style="width: 750px; max-width: 95vw;">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px;">
+      <h3 style="font-family:var(--serif); font-size:18px;">📈 Inline Graph Plotter</h3>
+      <button type="button" onclick="closeGraphPlotter()" style="background:none; border:none; font-size:20px; cursor:pointer; color:var(--text2);">✕</button>
+    </div>
+    <div class="graph-grid">
+      <div>
+        <div style="font-size:12px; font-weight:700; color:var(--text2); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">1. Enter Data Points</div>
+        <div class="data-table-input">
+          <table style="width:100%; border-collapse:collapse;">
+            <thead>
+              <tr style="border-bottom:1px solid var(--border);">
+                <th style="text-align:left; font-size:11px; padding:4px;">X Value</th>
+                <th style="text-align:left; font-size:11px; padding:4px;">Y Value</th>
+                <th style="width:40px; padding:4px;"></th>
+              </tr>
+            </thead>
+            <tbody id="plotterPointsBody"></tbody>
+          </table>
+        </div>
+        <button type="button" class="nav-btn" onclick="addPlotterPoint()" style="width:100%; margin-top:8px;">+ Add Data Point</button>
+        
+        <div style="margin-top:16px;">
+          <div style="font-size:12px; font-weight:700; color:var(--text2); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">2. Labels & Line Of Best Fit</div>
+          <div class="form-row" style="margin-bottom:10px;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label style="font-size:10px;">X-Axis Label</label>
+              <input type="text" id="graphXLabel" class="fill-input" style="width:100%; text-align:left; margin:0;" oninput="drawGraphOnCanvas()">
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label style="font-size:10px;">Y-Axis Label</label>
+              <input type="text" id="graphYLabel" class="fill-input" style="width:100%; text-align:left; margin:0;" oninput="drawGraphOnCanvas()">
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; margin-top:12px;">
+            <input type="checkbox" id="graphBestFit" checked onchange="drawGraphOnCanvas()" style="width:16px; height:16px; cursor:pointer;">
+            <label for="graphBestFit" style="font-size:12px; color:var(--text2); cursor:pointer; user-select:none;">Draw Best-Fit Line (Linear Regression)</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="graph-canvas-wrap">
+        <div style="font-size:12px; font-weight:700; color:var(--text2); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px; align-self:flex-start;">3. Preview</div>
+        <canvas id="plotterCanvas" style="border:1.5px solid var(--border); border-radius:10px; background:#fff; max-width:100%; box-shadow:var(--shadow);"></canvas>
+        <button type="button" class="submit-btn" onclick="saveGraphToTextarea()" style="width:100%; margin-top:16px; background:var(--accent2);">Save & Insert Graph</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- FIREBASE -->
@@ -291,6 +396,53 @@ async function showLibrary() {
       </div>
     </div>`;
   }).join('');
+
+  // Fetch and display attempts
+  const attGrid = document.getElementById('attemptsGrid');
+  if (attGrid && currentUser) {
+    try {
+      const attSnap = await db.collection('attempts')
+        .where('studentEmail', '==', currentUser.email.toLowerCase())
+        .get();
+      const attemptsList = [];
+      attSnap.forEach(doc => {
+        attemptsList.push({ id: doc.id, ...doc.data() });
+      });
+      
+      // Sort attempts by date descending
+      attemptsList.sort((a,b) => (b.endTime || b.startedAt || 0) - (a.endTime || a.startedAt || 0));
+
+      if (attemptsList.length === 0) {
+        attGrid.innerHTML = `<p style="grid-column: 1/-1; color: var(--text3); font-size: 13px; padding: 10px 0;">No past attempts found.</p>`;
+      } else {
+        attGrid.innerHTML = attemptsList.map(a => {
+          const isGraded = a.status === 'graded';
+          const dateStr = new Date(a.endTime || a.startedAt).toLocaleDateString();
+          const badgeColor = isGraded ? 'green' : 'orange';
+          const badgeText = isGraded ? '✓ Graded' : '⏳ Pending Review';
+          
+          let scoreText = '';
+          let clickHandler = `alert('This test is pending review by your teacher. Results will be released soon.');`;
+          if (isGraded) {
+            scoreText = `<span class="lib-tag">${a.earnedMarks || 0} / ${a.totalMarks || 0} marks (${a.percentScore || 0}%)</span>`;
+            clickHandler = `showGradedResults('${a.id}')`;
+          }
+          
+          return `<div class="lib-card" onclick="${clickHandler}">
+            <h3>${a.setTitle || 'Untitled Test'}</h3>
+            <div class="lib-card-meta">
+              <span class="lib-tag ${badgeColor}">${badgeText}</span>
+              <span class="lib-tag">${dateStr}</span>
+              ${scoreText}
+            </div>
+          </div>`;
+        }).join('');
+      }
+    } catch(err) {
+      console.error('Error fetching attempts:', err);
+      attGrid.innerHTML = `<p style="grid-column: 1/-1; color: var(--red); font-size: 13px;">Error loading attempts: ${err.message}</p>`;
+    }
+  }
 }
 
 // ═══════════════════════════════════════
@@ -363,6 +515,43 @@ function startTimer() {
 // ═══════════════════════════════════════
 // RENDER QUESTION
 // ═══════════════════════════════════════
+function resolveRelativeUrl(url) {
+  if (!url) return '';
+  let trimmed = url.trim();
+  if (trimmed.startsWith('<svg')) return trimmed; // inline SVG
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('data:') || trimmed.startsWith('/') || trimmed.startsWith('../')) {
+    return trimmed;
+  }
+  if (trimmed.startsWith('./')) {
+    return '../' + trimmed.substring(2);
+  }
+  return '../' + trimmed;
+}
+
+function renderMediaInline(mediaArr) {
+  if (!mediaArr || !mediaArr.length) return '';
+  return mediaArr.map(m => {
+    if (m.type === 'image' || m.type === 'Image') {
+      if (m.url && m.url.trim().startsWith('<svg')) {
+        return `<div class="content-block">${m.url}${m.caption ? '<div class="content-image-caption">' + m.caption + '</div>' : ''}</div>`;
+      }
+      const resolvedUrl = resolveRelativeUrl(m.url);
+      return `<div class="content-block"><img class="content-image" src="${resolvedUrl}" alt="${m.alt || m.caption || ''}"><div class="content-image-caption">${m.caption || ''}</div></div>`;
+    }
+    if (m.type === 'video') {
+      const yt = (m.url || '').match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
+      if (yt) return `<div class="content-block"><iframe width="100%" height="350" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen style="border-radius:8px;"></iframe></div>`;
+      const resolvedUrl = resolveRelativeUrl(m.url);
+      return `<div class="content-block"><video src="${resolvedUrl}" controls style="max-width:100%;border-radius:8px;" poster="${m.poster || ''}"></video></div>`;
+    }
+    if (m.type === 'audio') {
+      const resolvedUrl = resolveRelativeUrl(m.url);
+      return `<div class="content-block"><audio src="${resolvedUrl}" controls style="width:100%;"></audio></div>`;
+    }
+    return '';
+  }).join('');
+}
+
 function renderQuestion(idx) {
   const q = questions[idx];
   const allBlocks = currentSet.blocks || [];
@@ -384,20 +573,42 @@ function renderQuestion(idx) {
     }
   }
 
+  // Also render per-question media[] if present
+  const mediaAbove = renderMediaInline((q.media || []).filter(m => m.position !== 'below' && m.position !== 'beside'));
+  const mediaBelow = renderMediaInline((q.media || []).filter(m => m.position === 'below'));
+  const mediaBeside = (q.media || []).filter(m => m.position === 'beside');
+  const hasBeside = mediaBeside.length > 0;
+  const besideHTML = hasBeside ? renderMediaInline(mediaBeside) : '';
+
   // Question header
   html += `<div class="q-card">`;
   html += `<div class="q-label"><span>Question ${idx + 1} · ${q.type || 'Question'}</span><span class="q-marks">${q.meta?.marks || '?'} marks</span></div>`;
 
+  let qBody = '';
+  if (mediaAbove) {
+    qBody += mediaAbove;
+  }
+
   // Question text
   if (q.data?.question) {
-    html += `<div class="q-text">${formatQuestionText(q.data.question)}</div>`;
+    qBody += `<div class="q-text">${formatQuestionText(q.data.question)}</div>`;
+  }
+
+  if (mediaBelow) {
+    qBody += mediaBelow;
   }
 
   // Question input based on type
-  html += renderQuestionInput(q, idx);
+  qBody += renderQuestionInput(q, idx);
 
   // Resource links
-  html += renderResources(q.meta);
+  qBody += renderResources(q.meta);
+
+  if (hasBeside) {
+    html += `<div style="display:flex;gap:16px;flex-wrap:wrap;"><div style="flex:1;min-width:300px;">${qBody}</div><div style="flex:0 0 300px;max-width:40%;">${besideHTML}</div></div>`;
+  } else {
+    html += qBody;
+  }
 
   // Actions
   html += `<div class="q-actions">
@@ -422,7 +633,8 @@ function renderContentBlock(block) {
     if (block.data.url.trim().startsWith('<svg')) {
       return `<div class="content-block">${block.data.url}${block.data.caption ? '<div class="content-image-caption">' + block.data.caption + '</div>' : ''}</div>`;
     }
-    return `<div class="content-block"><img class="content-image" src="${block.data.url}" alt="${block.data.caption || ''}"><div class="content-image-caption">${block.data.caption || ''}</div></div>`;
+    const resolvedUrl = resolveRelativeUrl(block.data.url);
+    return `<div class="content-block"><img class="content-image" src="${resolvedUrl}" alt="${block.data.caption || ''}"><div class="content-image-caption">${block.data.caption || ''}</div></div>`;
   }
   return '';
 }
@@ -456,17 +668,50 @@ function renderQuestionInput(q, idx) {
   if (type === 'match' || type === 'match the following') {
     const pairs = q.ui?.matchPairs || [];
     const validPairs = pairs.filter(p => p.a && p.b);
-    const shuffled = [...validPairs].sort(() => Math.random() - 0.5);
+    
+    // Seeded shuffle for consistency
+    const shuffled = [...validPairs];
+    let seed = idx * 2654435761;
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      seed = (seed * 16807 + 12345) & 0x7fffffff;
+      const j = seed % (i + 1);
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+
+    const matches = answers[idx]?.matches || {};
+    const placedValues = new Set(Object.values(matches));
 
     let html = `<div class="match-container">
       <div class="match-left">
         <div class="match-col-title">Scenario</div>
-        ${validPairs.map((p, i) => `<div class="match-item" data-idx="${i}">${p.a}<div class="match-drop" data-target="${i}" onclick="matchDropClick(${idx},${i})">${answers[idx]?.matches?.[i] || '<span style="color:var(--text3)">Drop here</span>'}</div></div>`).join('')}
+        ${validPairs.map((p, i) => {
+          const matchedVal = matches[i];
+          const dropInner = matchedVal 
+            ? `<div class="match-drag" draggable="true" ondragstart="handleDragStart(event, ${idx}, '${matchedVal.replace(/'/g, "\\'")}', ${i})" onclick="matchSelect(${idx}, '${matchedVal.replace(/'/g, "\\'")}', ${i}); event.stopPropagation();">${matchedVal}</div>`
+            : '<span style="color:var(--text3)">Drop here</span>';
+          return `<div class="match-item" data-idx="${i}">${p.a}
+            <div class="match-drop ${matchedVal ? 'has-item' : ''}" data-target="${i}"
+                 ondragover="handleDragOver(event)"
+                 ondragenter="handleDragEnter(event)"
+                 ondragleave="handleDragLeave(event)"
+                 ondrop="handleDrop(event, ${idx}, ${i})"
+                 onclick="matchDropClick(${idx}, ${i})">${dropInner}</div>
+          </div>`;
+        }).join('')}
       </div>
       <div class="match-right">
-        <div class="match-col-title">Answer (click to place)</div>
-        <div class="match-pool" id="matchPool${idx}">
-          ${shuffled.map((p, i) => `<div class="match-drag" onclick="matchSelect(${idx},'${p.b.replace(/'/g,"\\'")}')" data-val="${p.b}">${p.b}</div>`).join('')}
+        <div class="match-col-title">Answer (drag or click to place)</div>
+        <div class="match-pool" id="matchPool${idx}"
+             ondragover="handleDragOver(event)" 
+             ondrop="handleDropToPool(event, ${idx})"
+             onclick="matchPoolClick(${idx})">
+          ${shuffled.map((p, i) => {
+            const isPlaced = placedValues.has(p.b);
+            return `<div class="match-drag ${isPlaced ? 'placed' : ''}" 
+                         draggable="${!isPlaced}"
+                         ondragstart="handleDragStart(event, ${idx}, '${p.b.replace(/'/g, "\\'")}', -1)"
+                         onclick="if(!${isPlaced}) { matchSelect(${idx}, '${p.b.replace(/'/g, "\\'")}', -1); event.stopPropagation(); }">${p.b}</div>`;
+          }).join('')}
         </div>
       </div>
     </div>`;
@@ -477,7 +722,40 @@ function renderQuestionInput(q, idx) {
     const fillText = q.data?.fillText || '';
     let blankIdx = 0;
     const html = fillText.replace(/_{2,}|\.\.\.|(\[blank\])/g, () => {
-      return `<input type="text" class="fill-input" data-blank="${blankIdx++}" oninput="saveFill(${idx})" placeholder="...">`;
+      const curIdx = blankIdx++;
+      const savedVal = (answers[idx] && Array.isArray(answers[idx]) ? answers[idx][curIdx] : '') || '';
+      return `<input type="text" class="fill-input" data-blank="${curIdx}" oninput="saveFill(${idx})" placeholder="..." value="${savedVal.replace(/"/g, '&quot;')}">`;
+    });
+    return `<div class="fill-container">${html}</div>`;
+  }
+
+  if (type === 'fill dropdown') {
+    const fillText = q.data?.fillText || '';
+    const dropOpts = q.ui?.dropdownOptions || q.data?.dropdownOptions || [];
+    let blankIdx = 0;
+    const html = fillText.replace(/_{2,}|\.\.\.|(\[blank\])/g, () => {
+      const curIdx = blankIdx++;
+      let opts = [];
+      if (Array.isArray(dropOpts[curIdx])) {
+        opts = dropOpts[curIdx];
+      } else if (Array.isArray(dropOpts) && dropOpts.length > 0) {
+        if (Array.isArray(dropOpts[0])) {
+          opts = dropOpts[0];
+        } else {
+          opts = dropOpts;
+        }
+      } else if (typeof dropOpts === 'string') {
+        opts = dropOpts.split(',').map(o => o.trim());
+      }
+      const savedVal = (answers[idx] && Array.isArray(answers[idx]) ? answers[idx][curIdx] : '') || '';
+      let selectHTML = `<select class="fill-input" data-blank="${curIdx}" onchange="saveFill(${idx})" style="width: auto; padding: 2px 4px; border: none; border-bottom: 2px solid var(--accent2); background: transparent; font-size:14px; outline:none; font-family:var(--font);">`;
+      selectHTML += `<option value="">Select...</option>`;
+      opts.forEach(opt => {
+        const selectedAttr = savedVal === opt ? 'selected' : '';
+        selectHTML += `<option value="${opt.replace(/"/g, '&quot;')}" ${selectedAttr}>${opt}</option>`;
+      });
+      selectHTML += `</select>`;
+      return selectHTML;
     });
     return `<div class="fill-container">${html}</div>`;
   }
@@ -491,16 +769,306 @@ function renderQuestionInput(q, idx) {
 
   // Default: text area (Short / Long)
   const minH = type === 'long' ? '160px' : '80px';
-  return `<textarea class="answer-area" id="ansArea${idx}" style="min-height:${minH}" oninput="saveText(${idx})" placeholder="Type your answer here..."></textarea>
+  const toolbar = renderRichToolbar(idx);
+  return `${toolbar}<textarea class="answer-area" id="ansArea${idx}" style="min-height:${minH}; border-top-left-radius:0; border-top-right-radius:0; border-top:none;" oninput="saveText(${idx})" placeholder="Type your answer here..."></textarea>
     <div class="word-count" id="wc${idx}">0 words</div>`;
 }
 
 function renderResources(meta) {
   if (!meta) return '';
   let html = '';
-  if (meta.simulationLink) html += `<a href="${meta.simulationLink}" target="_blank" class="q-link sim">🔬 Open Simulation</a>`;
-  if (meta.videoLink) html += `<a href="${meta.videoLink}" target="_blank" class="q-link vid">🎥 Watch Video</a>`;
+  if (meta.simulationLink) {
+    let simLink = meta.simulationLink.trim();
+    if (!simLink.startsWith('http') && !simLink.startsWith('../') && !simLink.startsWith('/')) {
+      if (simLink.startsWith('sims/')) {
+        simLink = '../' + simLink;
+      } else {
+        simLink = '../sims/' + simLink;
+      }
+    }
+    html += `<a href="${simLink}" target="_blank" rel="noopener" class="q-link sim">🔬 Open Simulation</a>`;
+  }
+  if (meta.videoLink) {
+    html += `<a href="${meta.videoLink}" target="_blank" rel="noopener" class="q-link vid">🎥 Watch Video</a>`;
+  }
   return html ? `<div class="q-resources">${html}</div>` : '';
+}
+
+// ═══════════════════════════════════════
+// RICH TOOLBAR & PLOTTER HELPERS
+// ═══════════════════════════════════════
+function renderRichToolbar(idx) {
+  const textareaId = 'ansArea' + idx;
+  return `
+    <div class="rich-toolbar">
+      <button type="button" class="rich-btn" onclick="applyFormatting('${textareaId}', 'b')" style="font-weight:700;" title="Bold">B</button>
+      <button type="button" class="rich-btn" onclick="applyFormatting('${textareaId}', 'i')" style="font-style:italic;" title="Italic">I</button>
+      <button type="button" class="rich-btn" onclick="applyFormatting('${textareaId}', 'u')" style="text-decoration:underline;" title="Underline">U</button>
+      <span style="width:1px; background:var(--border); margin:4px 2px;"></span>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '²')" title="Superscript">x²</button>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '₂')" title="Subscript">x₂</button>
+      <span style="width:1px; background:var(--border); margin:4px 2px;"></span>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '√')" title="Square Root">√</button>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', 'π')" title="Pi">π</button>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', 'Δ')" title="Delta">Δ</button>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '°')" title="Degrees">°</button>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '×')" title="Multiply">×</button>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '÷')" title="Divide">÷</button>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '≈')" title="Approximately equal to">≈</button>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', 'θ')" title="Theta">θ</button>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', 'λ')" title="Lambda">λ</button>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', 'μ')" title="Mu">μ</button>
+      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', 'Ω')" title="Ohm">Ω</button>
+      <span style="width:1px; background:var(--border); margin:4px 2px;"></span>
+      <button type="button" class="rich-btn" onclick="insertTableDialog('${textareaId}')" title="Insert Table">📋 +Table</button>
+      <button type="button" class="rich-btn" onclick="openGraphPlotter('${textareaId}')" title="Plot Graph">📈 Graph</button>
+    </div>
+  `;
+}
+
+function applyFormatting(textareaId, tag) {
+  const txt = document.getElementById(textareaId);
+  if (!txt) return;
+  const start = txt.selectionStart;
+  const end = txt.selectionEnd;
+  const val = txt.value;
+  const selected = val.substring(start, end);
+  const formatted = `<${tag}>${selected}</${tag}>`;
+  txt.value = val.substring(0, start) + formatted + val.substring(end);
+  txt.selectionStart = txt.selectionEnd = start + formatted.length;
+  txt.focus();
+  
+  const qIdx = parseInt(textareaId.replace('ansArea', ''));
+  saveText(qIdx);
+}
+
+function insertTextAtCursor(textareaId, text) {
+  const txt = document.getElementById(textareaId);
+  if (!txt) return;
+  const start = txt.selectionStart;
+  const end = txt.selectionEnd;
+  const val = txt.value;
+  txt.value = val.substring(0, start) + text + val.substring(end);
+  txt.selectionStart = txt.selectionEnd = start + text.length;
+  txt.focus();
+  
+  const qIdx = parseInt(textareaId.replace('ansArea', ''));
+  saveText(qIdx);
+}
+
+function insertTableDialog(textareaId) {
+  const rows = parseInt(prompt("Enter number of rows:", "3") || "0");
+  const cols = parseInt(prompt("Enter number of columns:", "3") || "0");
+  if (rows <= 0 || cols <= 0) return;
+  
+  let tableHTML = '\n<table border="1" style="border-collapse:collapse; width:100%; margin: 10px 0;">\n';
+  tableHTML += '  <tr>\n';
+  for (let c = 0; c < cols; c++) {
+    tableHTML += `    <th>Header ${c + 1}</th>\n`;
+  }
+  tableHTML += '  </tr>\n';
+  for (let r = 0; r < rows; r++) {
+    tableHTML += '  <tr>\n';
+    for (let c = 0; c < cols; c++) {
+      tableHTML += '    <td>—</td>\n';
+    }
+    tableHTML += '  </tr>\n';
+  }
+  tableHTML += '</table>\n';
+  
+  insertTextAtCursor(textareaId, tableHTML);
+}
+
+let plotterPoints = [];
+let plotterTargetTextareaId = '';
+
+function openGraphPlotter(textareaId) {
+  plotterTargetTextareaId = textareaId;
+  plotterPoints = [{ x: '', y: '' }];
+  document.getElementById('graphXLabel').value = 'Time (s)';
+  document.getElementById('graphYLabel').value = 'Distance (m)';
+  document.getElementById('graphBestFit').checked = true;
+  document.getElementById('graphPlotterModal').classList.add('open');
+  renderPlotterPointsList();
+  drawGraphOnCanvas();
+}
+
+function closeGraphPlotter() {
+  document.getElementById('graphPlotterModal').classList.remove('open');
+}
+
+function renderPlotterPointsList() {
+  const tbody = document.getElementById('plotterPointsBody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  plotterPoints.forEach((pt, i) => {
+    const xVal = pt.x === '' ? '' : pt.x;
+    const yVal = pt.y === '' ? '' : pt.y;
+    tbody.innerHTML += `
+      <tr>
+        <td style="padding:4px;"><input type="number" step="any" class="fill-input" style="width:100%; text-align:left; margin:0;" value="${xVal}" oninput="updatePlotterPoint(${i}, 'x', this.value)"></td>
+        <td style="padding:4px;"><input type="number" step="any" class="fill-input" style="width:100%; text-align:left; margin:0;" value="${yVal}" oninput="updatePlotterPoint(${i}, 'y', this.value)"></td>
+        <td style="padding:4px; text-align:center;"><button type="button" onclick="removePlotterPoint(${i})" style="border:none;background:none;cursor:pointer;color:var(--red);font-weight:bold;font-size:14px;">✕</button></td>
+      </tr>
+    `;
+  });
+}
+
+function addPlotterPoint() {
+  plotterPoints.push({ x: '', y: '' });
+  renderPlotterPointsList();
+}
+
+function updatePlotterPoint(idx, field, value) {
+  plotterPoints[idx][field] = value === '' ? '' : parseFloat(value);
+  drawGraphOnCanvas();
+}
+
+function removePlotterPoint(idx) {
+  plotterPoints.splice(idx, 1);
+  if (plotterPoints.length === 0) plotterPoints.push({ x: '', y: '' });
+  renderPlotterPointsList();
+  drawGraphOnCanvas();
+}
+
+function drawGraphOnCanvas() {
+  const canvas = document.getElementById('plotterCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  canvas.width = 400;
+  canvas.height = 300;
+  const width = canvas.width;
+  const height = canvas.height;
+  
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, width, height);
+  
+  const margin = { top: 30, right: 30, bottom: 50, left: 60 };
+  const graphWidth = width - margin.left - margin.right;
+  const graphHeight = height - margin.top - margin.bottom;
+  
+  const pts = plotterPoints.filter(p => typeof p.x === 'number' && typeof p.y === 'number' && !isNaN(p.x) && !isNaN(p.y));
+  
+  let minX = 0, maxX = 10;
+  let minY = 0, maxY = 10;
+  
+  if (pts.length > 0) {
+    const xs = pts.map(p => p.x);
+    const ys = pts.map(p => p.y);
+    maxX = Math.max(...xs, 0.1) * 1.15;
+    maxY = Math.max(...ys, 0.1) * 1.15;
+    minX = Math.min(...xs, 0);
+    if (minX < 0) minX *= 1.15;
+    minY = Math.min(...ys, 0);
+    if (minY < 0) minY *= 1.15;
+  }
+  
+  function toPxX(x) {
+    return margin.left + ((x - minX) / (maxX - minX)) * graphWidth;
+  }
+  function toPxY(y) {
+    return margin.top + graphHeight - ((y - minY) / (maxY - minY)) * graphHeight;
+  }
+  
+  ctx.strokeStyle = '#f1f5f9';
+  ctx.lineWidth = 1;
+  ctx.fillStyle = '#64748b';
+  ctx.font = '10px sans-serif';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+  
+  const yTicks = 5;
+  for (let i = 0; i <= yTicks; i++) {
+    const val = minY + (i / yTicks) * (maxY - minY);
+    const yPx = toPxY(val);
+    ctx.beginPath();
+    ctx.moveTo(margin.left, yPx);
+    ctx.lineTo(width - margin.right, yPx);
+    ctx.stroke();
+    ctx.fillText(val.toFixed(1), margin.left - 8, yPx);
+  }
+  
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  const xTicks = 5;
+  for (let i = 0; i <= xTicks; i++) {
+    const val = minX + (i / xTicks) * (maxX - minX);
+    const xPx = toPxX(val);
+    ctx.beginPath();
+    ctx.moveTo(xPx, margin.top);
+    ctx.lineTo(xPx, margin.top + graphHeight);
+    ctx.stroke();
+    ctx.fillText(val.toFixed(1), xPx, margin.top + graphHeight + 6);
+  }
+  
+  ctx.strokeStyle = '#475569';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(margin.left, margin.top);
+  ctx.lineTo(margin.left, margin.top + graphHeight);
+  ctx.lineTo(width - margin.right, margin.top + graphHeight);
+  ctx.stroke();
+  
+  ctx.fillStyle = '#1e293b';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  
+  const xLabel = document.getElementById('graphXLabel').value || 'X-Axis';
+  ctx.fillText(xLabel, margin.left + graphWidth / 2, height - 16);
+  
+  const yLabel = document.getElementById('graphYLabel').value || 'Y-Axis';
+  ctx.save();
+  ctx.translate(16, margin.top + graphHeight / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText(yLabel, 0, 0);
+  ctx.restore();
+  
+  const showBestFit = document.getElementById('graphBestFit').checked;
+  if (showBestFit && pts.length >= 2) {
+    const n = pts.length;
+    let sumX = 0, sumY = 0, sumXX = 0, sumXY = 0;
+    pts.forEach(p => {
+      sumX += p.x;
+      sumY += p.y;
+      sumXX += p.x * p.x;
+      sumXY += p.x * p.y;
+    });
+    const denom = n * sumXX - sumX * sumX;
+    if (Math.abs(denom) > 1e-8) {
+      const slope = (n * sumXY - sumX * sumY) / denom;
+      const intercept = (sumY - slope * sumX) / n;
+      const xStart = minX;
+      const yStart = slope * xStart + intercept;
+      const xEnd = maxX;
+      const yEnd = slope * xEnd + intercept;
+      ctx.strokeStyle = '#2563eb';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(toPxX(xStart), toPxY(yStart));
+      ctx.lineTo(toPxX(xEnd), toPxY(yEnd));
+      ctx.stroke();
+    }
+  }
+  
+  ctx.fillStyle = '#dc2626';
+  pts.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(toPxX(p.x), toPxY(p.y), 4, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+}
+
+function saveGraphToTextarea() {
+  drawGraphOnCanvas();
+  const canvas = document.getElementById('plotterCanvas');
+  const dataURL = canvas.toDataURL('image/png');
+  const imgHTML = `\n<img src="${dataURL}" style="max-width:100%; border:1px solid rgba(0,0,0,0.1); border-radius:8px; margin:10px 0; display:block;" alt="Student Plot">\n`;
+  insertTextAtCursor(plotterTargetTextareaId, imgHTML);
+  closeGraphPlotter();
 }
 
 // ═══════════════════════════════════════
@@ -517,30 +1085,118 @@ function selectMCQ(qIdx, optIdx) {
   updateProgress();
 }
 
-function matchSelect(qIdx, val) {
+let draggedValue = null;
+let draggedQIdx = null;
+let draggedSourceIdx = -1; // -1 for pool, index if from drop zone
+
+function handleDragStart(e, qIdx, val, srcIdx) {
+  draggedValue = val;
+  draggedQIdx = qIdx;
+  draggedSourceIdx = srcIdx;
+  e.dataTransfer.setData('text/plain', val);
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+}
+
+function handleDragEnter(e) {
+  e.preventDefault();
+  const dropZone = e.target.closest('.match-drop');
+  if (dropZone) dropZone.classList.add('over');
+}
+
+function handleDragLeave(e) {
+  const dropZone = e.target.closest('.match-drop');
+  if (dropZone) dropZone.classList.remove('over');
+}
+
+function handleDrop(e, qIdx, targetIdx) {
+  e.preventDefault();
+  const dropZone = e.target.closest('.match-drop');
+  if (dropZone) dropZone.classList.remove('over');
+  
+  if (draggedQIdx !== qIdx || !draggedValue) return;
+  placeMatchItem(qIdx, targetIdx, draggedValue, draggedSourceIdx);
+  
+  draggedValue = null;
+  draggedQIdx = null;
+  draggedSourceIdx = -1;
+}
+
+function handleDropToPool(e, qIdx) {
+  e.preventDefault();
+  if (draggedQIdx !== qIdx || !draggedValue || draggedSourceIdx === -1) return;
+  
+  // Remove from source drop zone
+  if (answers[qIdx] && answers[qIdx].matches) {
+    delete answers[qIdx].matches[draggedSourceIdx];
+  }
+  renderQuestion(qIdx);
+  buildSidebar();
+  updateProgress();
+  
+  draggedValue = null;
+  draggedQIdx = null;
+  draggedSourceIdx = -1;
+}
+
+function placeMatchItem(qIdx, targetIdx, val, srcIdx) {
+  if (!answers[qIdx]) answers[qIdx] = { matches: {} };
+  if (!answers[qIdx].matches) answers[qIdx].matches = {};
+  
+  // Clear val from other spots if it was already matched
+  Object.keys(answers[qIdx].matches).forEach(k => {
+    if (answers[qIdx].matches[k] === val) {
+      delete answers[qIdx].matches[k];
+    }
+  });
+  
+  // If it was dragged from another drop zone, clear that zone
+  if (srcIdx !== -1 && srcIdx !== undefined && srcIdx !== null) {
+    delete answers[qIdx].matches[srcIdx];
+  }
+  
+  answers[qIdx].matches[targetIdx] = val;
+  
+  renderQuestion(qIdx);
+  buildSidebar();
+  updateProgress();
+}
+
+// Click-to-place fallback
+let matchSelectedQIdx = null;
+let matchSelectedSourceIdx = -1;
+
+function matchSelect(qIdx, val, srcIdx) {
   matchSelected = val;
+  matchSelectedQIdx = qIdx;
+  matchSelectedSourceIdx = srcIdx;
   document.querySelectorAll('.match-drag').forEach(d => d.style.outline = '');
   event.target.style.outline = '2px solid var(--accent2)';
 }
 
 function matchDropClick(qIdx, targetIdx) {
-  if (!matchSelected) return;
-  if (!answers[qIdx]) answers[qIdx] = { matches: {} };
-  answers[qIdx].matches[targetIdx] = matchSelected;
-
-  // Update display
-  const drop = event.target.closest('.match-drop');
-  if (drop) { drop.innerHTML = matchSelected; drop.classList.add('has-item'); }
-
-  // Mark as placed
-  document.querySelectorAll('.match-drag').forEach(d => {
-    if (d.dataset.val === matchSelected) d.classList.add('placed');
-    d.style.outline = '';
-  });
-
+  if (!matchSelected || matchSelectedQIdx !== qIdx) return;
+  placeMatchItem(qIdx, targetIdx, matchSelected, matchSelectedSourceIdx);
   matchSelected = null;
-  buildSidebar();
-  updateProgress();
+  matchSelectedQIdx = null;
+  matchSelectedSourceIdx = -1;
+}
+
+function matchPoolClick(qIdx) {
+  if (matchSelected && matchSelectedQIdx === qIdx && matchSelectedSourceIdx !== -1) {
+    if (answers[qIdx] && answers[qIdx].matches) {
+      delete answers[qIdx].matches[matchSelectedSourceIdx];
+    }
+    renderQuestion(qIdx);
+    buildSidebar();
+    updateProgress();
+    matchSelected = null;
+    matchSelectedQIdx = null;
+    matchSelectedSourceIdx = -1;
+  }
 }
 
 function saveFill(qIdx) {
@@ -650,9 +1306,9 @@ async function submitTest() {
       correctAnswer = pairs.map(p => p.a + ' → ' + p.b).join('; ');
     }
 
-    if (type === 'fill text' || type === 'fill in the blank') {
+    if (type === 'fill text' || type === 'fill in the blank' || type === 'fill dropdown') {
       autoGraded = true;
-      const expected = (q.data?.answers || '').split(',').map(a => a.trim().toLowerCase());
+      const expected = (q.data?.answers || q.data?.correct || '').split(',').map(a => a.trim().toLowerCase());
       const student = (answers[idx] || []).map(a => (a || '').trim().toLowerCase());
       let correctCount = 0;
       expected.forEach((exp, i) => {
@@ -673,7 +1329,7 @@ async function submitTest() {
     studentName: currentUser.displayName || '',
     setId: currentSet._docId || currentSet.id,
     setTitle: currentSet.heading,
-    status: 'completed',
+    status: 'submitted',
     startedAt: Date.now() - (elapsedSeconds * 1000),
     endTime: Date.now(),
     duration: elapsedSeconds,
@@ -688,10 +1344,103 @@ async function submitTest() {
     await db.collection('attempts').doc(attempt.id).set(attempt);
   } catch(e) { console.error('Save error:', e); }
 
-  showResults(results, totalEarned, totalMax);
+  showSubmissionMessage();
 }
 
-function showResults(results, earned, total) {
+function showSubmissionMessage() {
+  document.getElementById('testScreen').style.display = 'none';
+  document.getElementById('resultsScreen').style.display = 'block';
+  
+  const container = document.getElementById('resultsContent');
+  container.innerHTML = `
+    <div style="text-align:center; padding: 40px 20px;">
+      <div style="font-size:48px; margin-bottom: 20px;">📝</div>
+      <h2 style="font-family:var(--serif); font-size:24px; margin-bottom:12px; color:var(--green);">Test submitted successfully</h2>
+      <p style="color:var(--text2); font-size: 15px; max-width: 500px; margin: 0 auto 24px; line-height:1.6">
+        Your teacher will review and release your results.
+      </p>
+      <button class="nav-btn" onclick="showLibrary()" style="padding: 10px 20px; font-size: 14px;">Return to Library</button>
+    </div>
+  `;
+}
+
+function isFillBlankCorrect(given, expected) {
+  if (!expected) return false;
+  const g = (given || '').toLowerCase().trim();
+  const e = expected.toLowerCase().trim();
+  return g === e;
+}
+
+async function showGradedResults(attemptId) {
+  const doc = await db.collection('attempts').doc(attemptId).get();
+  if (!doc.exists) { alert('Attempt not found'); return; }
+  const attempt = doc.data();
+  
+  if (attempt.status !== 'graded') {
+    alert('This attempt has not been released yet.');
+    return;
+  }
+  
+  const setDoc = await db.collection('questionSets').doc(attempt.setId).get();
+  if (!setDoc.exists) { alert('Question set details are no longer available.'); return; }
+  let set = setDoc.data();
+  if (set.dataJson) { try { set = JSON.parse(set.dataJson); } catch(e) {} }
+  
+  currentSet = set;
+  questions = (set.blocks || []).filter(b => b.mode === 'question');
+  answers = attempt.answers || {};
+  elapsedSeconds = attempt.duration || 0;
+  
+  let totalEarned = attempt.earnedMarks || 0;
+  let totalMax = attempt.totalMarks || 0;
+  
+  const results = questions.map((q, idx) => {
+    const type = (q.type || '').toLowerCase();
+    const maxMarks = parseInt(q.meta?.marks) || 0;
+    let earned = 0;
+    let autoGraded = false;
+    let correctAnswer = '';
+    
+    if (attempt.grades && attempt.grades[idx] !== undefined && attempt.grades[idx] !== null) {
+      earned = Number(attempt.grades[idx]);
+    } else {
+      if (type === 'mcq' || type === 'true/false') {
+        autoGraded = true;
+        const correct = q.data?.correct;
+        correctAnswer = q.ui?.mcqOptions?.[correct] || '';
+        if (answers[idx] === correct) earned = maxMarks;
+      }
+      else if (type === 'match' || type === 'match the following') {
+        autoGraded = true;
+        const pairs = (q.ui?.matchPairs || []).filter(p => p.a && p.b);
+        const studentMatches = answers[idx]?.matches || {};
+        let correctCount = 0;
+        pairs.forEach((p, i) => {
+          if (studentMatches[i] === p.b) correctCount++;
+        });
+        earned = Math.round((correctCount / pairs.length) * maxMarks);
+        correctAnswer = pairs.map(p => p.a + ' → ' + p.b).join('; ');
+      }
+      else if (type === 'fill text' || type === 'fill in the blank' || type === 'fill dropdown') {
+        autoGraded = true;
+        const expected = (q.data?.answers || q.data?.correct || '').split(',').map(a => a.trim().toLowerCase());
+        const student = (answers[idx] || []).map(a => (a || '').trim().toLowerCase());
+        let correctCount = 0;
+        expected.forEach((exp, i) => {
+          if (student[i] === exp) correctCount++;
+        });
+        earned = expected.length > 0 ? Math.round((correctCount / expected.length) * maxMarks) : 0;
+        correctAnswer = expected.join(', ');
+      }
+    }
+    
+    return { q, idx, type, maxMarks, earned, autoGraded, correctAnswer, studentAnswer: answers[idx], feedback: attempt.teacherFeedback?.[idx] };
+  });
+  
+  showResults(results, totalEarned, totalMax, attempt);
+}
+
+function showResults(results, earned, total, attempt) {
   document.getElementById('testScreen').style.display = 'none';
   document.getElementById('resultsScreen').style.display = 'block';
 
@@ -699,7 +1448,7 @@ function showResults(results, earned, total) {
   const container = document.getElementById('resultsContent');
 
   let html = `<div style="text-align:center;margin-bottom:24px">
-    <h1 style="font-family:var(--serif);font-size:28px">Test Complete</h1>
+    <h1 style="font-family:var(--serif);font-size:28px">Test Results</h1>
     <p style="font-size:36px;font-weight:700;color:${pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--orange)' : 'var(--red)'};margin:12px 0">${pct}%</p>
     <p style="color:var(--text2)">${earned} / ${total} marks · ${Math.floor(elapsedSeconds/60)} min ${elapsedSeconds%60} sec</p>
   </div>`;
@@ -708,15 +1457,66 @@ function showResults(results, earned, total) {
     const cls = r.earned === r.maxMarks ? 'correct' : r.earned === 0 ? 'wrong' : 'partial';
     const scoreCls = r.earned === r.maxMarks ? 'full' : r.earned === 0 ? 'zero' : 'partial';
 
+    let studentAnsHTML = '';
+    const ans = r.studentAnswer;
+    if (r.type === 'mcq' || r.type === 'true/false') {
+      const isCorrect = r.earned === r.maxMarks;
+      const label = r.type === 'true/false' ? (ans === 0 ? 'True' : 'False') : String.fromCharCode(65 + ans);
+      studentAnsHTML = `<div style="font-size:13px; color:var(--text2); margin-top:6px;"><strong>Your Answer:</strong> <span style="color:${isCorrect ? 'var(--green)' : 'var(--red)'}">${label}</span></div>`;
+    } else if (r.type === 'match' || r.type === 'match the following') {
+      const matches = ans?.matches || {};
+      const pairs = r.q.ui?.matchPairs || [];
+      studentAnsHTML = `<div style="font-size:13px; color:var(--text2); margin-top:6px;"><strong>Your Matches:</strong><ul style="padding-left:20px; list-style-type:circle;">`;
+      pairs.forEach((p, pi) => {
+        const studentVal = matches[pi];
+        const correctVal = p.b;
+        const isPairCorrect = studentVal === correctVal;
+        studentAnsHTML += `<li style="color:${isPairCorrect ? 'var(--green)' : 'var(--red)'}">${p.a} ➔ ${studentVal || '(no match)'} ${isPairCorrect ? '✓' : '✗'}</li>`;
+      });
+      studentAnsHTML += `</ul></div>`;
+    } else if (r.type === 'fill text' || r.type === 'fill in the blank' || r.type === 'fill dropdown') {
+      const expected = (r.q.data?.answers || r.q.data?.correct || '').split(',').map(a => a.trim().toLowerCase());
+      const student = (ans || []).map(a => (a || '').trim().toLowerCase());
+      studentAnsHTML = `<div style="font-size:13px; color:var(--text2); margin-top:6px;"><strong>Your Blanks:</strong><ol style="padding-left:20px;">`;
+      expected.forEach((exp, bi) => {
+        const val = student[bi] || '';
+        const correct = isFillBlankCorrect(val, exp);
+        studentAnsHTML += `<li style="color:${correct ? 'var(--green)' : 'var(--red)'}">"${val}" ${correct ? '✓' : '✗ (expected: "' + exp + '")'}</li>`;
+      });
+      studentAnsHTML += `</ol></div>`;
+    } else {
+      studentAnsHTML = `<div style="font-size:13px; color:var(--text2); margin-top:6px; white-space:pre-wrap;"><strong>Your Answer:</strong><br>${ans || '(no answer)'}</div>`;
+    }
+
     html += `<div class="result-card ${cls}">
-      <div class="q-label"><span>Q${i+1} · ${r.type}</span><span class="result-score ${scoreCls}">${r.earned}/${r.maxMarks}</span></div>
-      <div class="q-text">${formatQuestionText(r.q.data?.question || r.q.data?.fillText || '')}</div>`;
+      <div class="q-label"><span>Q${i+1} · ${r.q.type || 'Question'}</span><span class="result-score ${scoreCls}">${r.earned}/${r.maxMarks}</span></div>
+      <div class="q-text">${formatQuestionText(r.q.data?.question || r.q.data?.fillText || '')}</div>
+      ${studentAnsHTML}`;
 
     if (r.autoGraded && r.correctAnswer) {
       html += `<div class="ms-box"><div class="ms-title">Correct Answer</div>${r.correctAnswer}</div>`;
     }
     if (r.q.meta?.markScheme) {
       html += `<div class="ms-box" style="background:#f0f9ff;border-color:#bae6fd"><div class="ms-title" style="color:var(--accent2)">Mark Scheme</div>${formatQuestionText(r.q.meta.markScheme)}</div>`;
+    }
+
+    if (r.feedback) {
+      html += `<div class="ms-box" style="background:#fffbeb; border-color:#fef3c7; color:#b45309;"><div class="ms-title" style="color:#b45309;">👨‍🏫 Teacher Feedback</div>${r.feedback}</div>`;
+    }
+    
+    // Detailed bullet points feedback (Gained / Lost)
+    if (attempt && attempt.aiGrading?.results?.[i]) {
+      const res = attempt.aiGrading.results[i];
+      if (res.marksGained && res.marksGained.length > 0) {
+        html += `<div style="margin-top:10px; font-size:13px;"><strong style="color:var(--green)">✓ Gained:</strong><ul style="padding-left:20px; color:#16a34a; margin-top:2px;">`;
+        res.marksGained.forEach(pt => { html += `<li>${pt}</li>`; });
+        html += `</ul></div>`;
+      }
+      if (res.marksLost && res.marksLost.length > 0) {
+        html += `<div style="margin-top:8px; font-size:13px;"><strong style="color:var(--red)">✗ Missing/Incorrect:</strong><ul style="padding-left:20px; color:#dc2626; margin-top:2px;">`;
+        res.marksLost.forEach(pt => { html += `<li>${pt}</li>`; });
+        html += `</ul></div>`;
+      }
     }
 
     html += `</div>`;
