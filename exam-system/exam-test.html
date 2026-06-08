@@ -92,8 +92,20 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
 /* RICH EDITOR — 3-ROW IB TOOLBAR */
 .rich-editor-wrap{margin-top:10px}
-.rich-toolbar{display:flex;flex-direction:column;gap:0;border:1.5px solid var(--border);border-bottom:none;border-radius:10px 10px 0 0;background:#f8f9fa;overflow:hidden}
-.rich-toolbar-row{display:flex;flex-wrap:wrap;gap:1px;padding:4px 6px;border-bottom:1px solid rgba(0,0,0,.06)}
+.rich-toolbar { display:flex; flex-direction:row; align-items:center; gap:2px; border:1.5px solid var(--border); border-bottom:none; border-radius:10px 10px 0 0; background:#f8f9fa; padding:4px 6px; position:sticky; top:0; z-index:10; }
+.rich-toolbar-row { display:flex; flex-wrap:wrap; align-items:center; gap:2px; width:100%; }
+.rich-toolbar .rich-dropdown-panel { position:absolute; top:100%; left:0; z-index:99; background:var(--white); border:1.5px solid var(--border); border-radius:8px; box-shadow:0 8px 30px rgba(0,0,0,0.15); padding:10px; display:none; max-width:400px; }
+.rich-toolbar .rich-dropdown-panel.open { display:block; }
+.rich-toolbar .dropdown-wrapper { position:relative; }
+.rich-dropdown-grid { display:flex; flex-wrap:wrap; gap:4px; }
+.rich-dropdown-grid button { width:32px; height:32px; border:1px solid var(--border); border-radius:6px; background:var(--white); cursor:pointer; font-size:14px; transition:all 0.15s; }
+.rich-dropdown-grid button:hover { background:rgba(37,99,235,.08); border-color:var(--accent2); }
+.inline-calc-panel { display:flex; flex-direction:column; gap:8px; width:220px; }
+.inline-calc-panel input { width:100%; padding:8px 10px; border:1.5px solid var(--border); border-radius:6px; font-size:13px; font-family:monospace; }
+.inline-calc-panel .calc-res { font-size:16px; font-weight:700; color:var(--text); text-align:right; font-family:monospace; }
+.inline-calc-panel button { width:100%; padding:8px; border-radius:6px; background:var(--accent2); color:white; border:none; font-weight:600; font-size:12px; cursor:pointer; }
+.rich-btn.active-format { background:rgba(37,99,235,.15); color:var(--accent2); border:1px solid rgba(37,99,235,.3); border-radius:6px; }
+
 .rich-toolbar-row:last-child{border-bottom:none}
 .rich-sep{width:1px;background:rgba(0,0,0,.1);margin:3px 3px;align-self:stretch}
 .rich-btn{background:none;border:none;cursor:pointer;padding:4px 7px;border-radius:4px;font-size:12.5px;font-weight:500;color:var(--text2);transition:all .1s;white-space:nowrap;line-height:1.4}
@@ -1308,69 +1320,66 @@ function renderRichToolbar(idx) {
   const aId = 'ansArea' + idx;
   return `
   <div class="rich-toolbar">
-    <!-- ROW 1: TEXT FORMATTING & ACTIONS -->
     <div class="rich-toolbar-row">
-      <button type="button" class="rich-btn" data-cmd="bold" onclick="toggleFormat('bold')" title="Bold (Ctrl+B)"><b>B</b></button>
-      <button type="button" class="rich-btn" data-cmd="italic" onclick="toggleFormat('italic')" title="Italic (Ctrl+I)"><i>I</i></button>
-      <button type="button" class="rich-btn" data-cmd="underline" onclick="toggleFormat('underline')" title="Underline (Ctrl+U)"><u>U</u></button>
+      <button type="button" class="rich-btn format-bold" data-cmd="bold" onclick="toggleFormat('bold')" title="Bold (Ctrl+B)"><b>B</b></button>
+      <button type="button" class="rich-btn format-italic" data-cmd="italic" onclick="toggleFormat('italic')" title="Italic (Ctrl+I)"><i>I</i></button>
+      <button type="button" class="rich-btn format-underline" data-cmd="underline" onclick="toggleFormat('underline')" title="Underline (Ctrl+U)"><u>U</u></button>
+      <button type="button" class="rich-btn format-superscript" data-cmd="superscript" onclick="toggleFormat('superscript')" title="Superscript">x<sup>2</sup></button>
+      <button type="button" class="rich-btn format-subscript" data-cmd="subscript" onclick="toggleFormat('subscript')" title="Subscript">x<sub>2</sub></button>
       <div class="rich-sep"></div>
-      <button type="button" class="rich-btn" data-cmd="superscript" onclick="toggleFormat('superscript')" title="Superscript">x<sup>2</sup></button>
-      <button type="button" class="rich-btn" data-cmd="subscript" onclick="toggleFormat('subscript')" title="Subscript">x<sub>2</sub></button>
-      <button type="button" class="rich-btn" onclick="fmt('removeFormat')" title="Clear Formatting" style="font-size:11px">T<sub>✕</sub></button>
-      <div class="rich-sep"></div>
-      <button type="button" class="rich-btn" onclick="fmt('insertUnorderedList')" title="Bullet List">≡•</button>
-      <button type="button" class="rich-btn" onclick="fmt('insertOrderedList')" title="Numbered List">≡1</button>
-      <div class="rich-sep"></div>
-      <button type="button" class="rich-btn" onclick="fmt('justifyLeft')" title="Align Left">⬅</button>
-      <button type="button" class="rich-btn" onclick="fmt('justifyCenter')" title="Center">≡</button>
-      <button type="button" class="rich-btn" onclick="fmt('justifyRight')" title="Align Right">➡</button>
-      <div class="rich-sep"></div>
-      <button type="button" class="rich-btn" onclick="showColorPicker('${aId}',event)" title="Text Color" style="font-size:15px">A&#773;</button>
-      <div class="rich-sep"></div>
-      <button type="button" class="rich-btn" onclick="fmt('undo')" title="Undo">↩</button>
-      <button type="button" class="rich-btn" onclick="fmt('redo')" title="Redo">↪</button>
+      
+      <!-- Dropdowns -->
+      <div class="dropdown-wrapper">
+        <button type="button" class="rich-btn math-btn" onclick="toggleToolbarDropdown('${aId}-greek', event)">Ω Greek ▼</button>
+        <div id="${aId}-greek" class="rich-dropdown-panel" onclick="event.stopPropagation()">
+          <div style="font-size:11px; color:var(--text3); margin-bottom:6px; font-weight:600;">LOWERCASE</div>
+          <div class="rich-dropdown-grid" style="margin-bottom:10px;">
+            ${'α β γ δ ε ζ η θ ι κ λ μ ν ξ π ρ σ τ φ χ ψ ω'.split(' ').map(c=>`<button type="button" onclick="insertChar('${c}')">${c}</button>`).join('')}
+          </div>
+          <div style="font-size:11px; color:var(--text3); margin-bottom:6px; font-weight:600;">UPPERCASE</div>
+          <div class="rich-dropdown-grid">
+            ${'Α Β Γ Δ Ε Ζ Η Θ Κ Λ Μ Ν Ξ Π Ρ Σ Τ Φ Χ Ψ Ω'.split(' ').map(c=>`<button type="button" onclick="insertChar('${c}')">${c}</button>`).join('')}
+          </div>
+        </div>
+      </div>
+      
+      <div class="dropdown-wrapper">
+        <button type="button" class="rich-btn math-btn" onclick="toggleToolbarDropdown('${aId}-math', event)">∑ Math ▼</button>
+        <div id="${aId}-math" class="rich-dropdown-panel" onclick="event.stopPropagation()">
+          <div class="rich-dropdown-grid">
+            ${'± × ÷ ≈ ≠ ≡ ≤ ≥ ∝ ∞ √ ∫ ∑ ∂ ∇ ∈ ∉ ∪ ∩ ⊂ ⊃ ∅ ∀ ∃ ¬ ∧ ∨ ² ³ ⁴ ⁻¹ ⁻² ½ ¼ ¾'.split(' ').map(c=>`<button type="button" onclick="insertChar('${c}')">${c}</button>`).join('')}
+          </div>
+        </div>
+      </div>
+
+      <div class="dropdown-wrapper">
+        <button type="button" class="rich-btn math-btn" onclick="toggleToolbarDropdown('${aId}-units', event)">📐 Units ▼</button>
+        <div id="${aId}-units" class="rich-dropdown-panel" onclick="event.stopPropagation()">
+          <div class="rich-dropdown-grid">
+            ${'° · → ← ↑ ↓ ⇌ △ Å m s kg N J W Pa Hz V A Ω F H m/s m/s² kg/m³ N/m² J/kg W/m²'.split(' ').map(c=>`<button type="button" style="width:auto;padding:0 8px;font-size:12px;" onclick="insertChar('${c}')">${c}</button>`).join('')}
+          </div>
+        </div>
+      </div>
+
       <div class="rich-sep"></div>
       <button type="button" class="rich-btn" onclick="insertRichTable('${aId}')" title="Insert Table">⊞ Table</button>
       <button type="button" class="rich-btn" onclick="openGraphPlotter('${aId}')" title="Plot Graph">📈 Graph</button>
-    </div>
-    <!-- ROW 2: SYMBOLS & MATH COMPACT -->
-    <div class="rich-toolbar-row">
-      <span style="font-size:10px;color:var(--text3);padding:4px 6px;font-weight:600;letter-spacing:.5px;text-transform:uppercase">Symbols:</span>
-      <button type="button" class="rich-btn" onclick="insertChar('α')">α</button>
-      <button type="button" class="rich-btn" onclick="insertChar('β')">β</button>
-      <button type="button" class="rich-btn" onclick="insertChar('γ')">γ</button>
-      <button type="button" class="rich-btn" onclick="insertChar('θ')">θ</button>
-      <button type="button" class="rich-btn" onclick="insertChar('λ')">λ</button>
-      <button type="button" class="rich-btn" onclick="insertChar('π')">π</button>
-      <button type="button" class="rich-btn" onclick="insertChar('Δ')">Δ</button>
-      <button type="button" class="rich-btn" onclick="insertChar('Σ')">Σ</button>
+      
+      <div class="dropdown-wrapper">
+        <button type="button" class="rich-btn math-btn" onclick="toggleToolbarDropdown('${aId}-calc', event)">🧮 Calc</button>
+        <div id="${aId}-calc" class="rich-dropdown-panel" onclick="event.stopPropagation()">
+          <div class="inline-calc-panel">
+            <div style="font-size:11px; color:var(--text3); font-weight:600;">CALCULATOR</div>
+            <input type="text" id="${aId}-calc-in" placeholder="e.g. 5000 * 9.8" oninput="evalInlineCalc('${aId}')" onkeydown="if(event.key==='Enter') pasteInlineCalc('${aId}')">
+            <div class="calc-res" id="${aId}-calc-res">= 0</div>
+            <button type="button" onclick="pasteInlineCalc('${aId}')">📋 Paste to Answer</button>
+          </div>
+        </div>
+      </div>
+
       <div class="rich-sep"></div>
-      <button type="button" class="rich-btn" onclick="insertChar('±')">±</button>
-      <button type="button" class="rich-btn" onclick="insertChar('×')">×</button>
-      <button type="button" class="rich-btn" onclick="insertChar('÷')">÷</button>
-      <button type="button" class="rich-btn" onclick="insertChar('≈')">≈</button>
-      <button type="button" class="rich-btn" onclick="insertChar('≤')">≤</button>
-      <button type="button" class="rich-btn" onclick="insertChar('≥')">≥</button>
-      <button type="button" class="rich-btn" onclick="insertChar('°')">°</button>
-      <button type="button" class="rich-btn" onclick="insertChar('→')">→</button>
-      <div class="rich-sep"></div>
-      <button type="button" class="rich-btn math-btn" onclick="showSpecialChars(event)" title="All special characters">Ω+ More...</button>
-    </div>
-    <!-- ROW 3: MATH TEMPLATES -->
-    <div class="rich-toolbar-row">
-      <span style="font-size:10px;color:var(--text3);padding:4px 6px;font-weight:600;letter-spacing:.5px;text-transform:uppercase">Math:</span>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('frac')" title="Fraction"><span style="display:inline-flex;flex-direction:column;align-items:center;font-size:11px;line-height:1.1"><span style="border-bottom:1.5px solid currentColor;padding:0 3px">a</span><span style="padding:0 3px">b</span></span></button>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('sqrt')" title="Square Root">√x̄</button>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('pow')" title="Power">xⁿ</button>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('sub')" title="Subscript">xₙ</button>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('integral')" title="Integral">∫</button>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('limit')" title="Limit">lim</button>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('deriv')" title="Derivative">dy/dx</button>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('vec')" title="Vector">v⃗</button>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('abs')" title="Absolute Value">|x|</button>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('matrix2')" title="2×2 Matrix">[M]</button>
-      <div class="rich-sep"></div>
-      <button type="button" class="rich-btn math-btn" onclick="openMathEditor()" title="Full Equation Editor">∑ Editor ▾</button>
+      <button type="button" class="rich-btn" onclick="fmt('undo')" title="Undo">↩</button>
+      <button type="button" class="rich-btn" onclick="fmt('redo')" title="Redo">↪</button>
     </div>
   </div>`;
 }
@@ -1381,6 +1390,101 @@ function renderRichToolbar(idx) {
 let activeAnswerIdx = null;
 let savedRange = null;
 
+
+// ═══════════════════════════════════════
+// TOOLBAR LOGIC
+// ═══════════════════════════════════════
+function toggleToolbarDropdown(panelId, event) {
+  event.stopPropagation();
+  const panel = document.getElementById(panelId);
+  const isOpen = panel.classList.contains('open');
+  
+  // Close all other dropdowns
+  document.querySelectorAll('.rich-dropdown-panel.open').forEach(p => p.classList.remove('open'));
+  
+  if (!isOpen) {
+    panel.classList.add('open');
+    if(panelId.includes('-calc')) {
+      setTimeout(() => document.getElementById(panelId.replace('-calc', '-calc-in')).focus(), 50);
+    }
+  }
+}
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.rich-dropdown-panel.open').forEach(p => p.classList.remove('open'));
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.rich-dropdown-panel.open').forEach(p => p.classList.remove('open'));
+  }
+});
+
+function evalInlineCalc(aId) {
+  const inp = document.getElementById(aId + '-calc-in').value;
+  const resEl = document.getElementById(aId + '-calc-res');
+  try {
+    if (!inp.trim()) { resEl.textContent = '= 0'; return; }
+    // Clean string for safe basic math eval
+    let safeInp = inp.replace(/[^-()\d/*+.]/g, '');
+    let res = new Function('return ' + safeInp)();
+    // format to max 4 decimal places
+    if (typeof res === 'number') res = parseFloat(res.toFixed(4));
+    resEl.textContent = '= ' + res;
+    resEl.dataset.res = res;
+  } catch(e) {
+    resEl.textContent = 'Err';
+    resEl.dataset.res = '';
+  }
+}
+
+function pasteInlineCalc(aId) {
+  const inp = document.getElementById(aId + '-calc-in').value.trim();
+  const resEl = document.getElementById(aId + '-calc-res');
+  const res = resEl.dataset.res;
+  if (inp && res !== undefined && res !== '') {
+    // format paste string
+    let pasteStr = `${inp} = ${res}`;
+    // Replace * with × for nicer display
+    pasteStr = pasteStr.replace(/\*/g, '×');
+    insertText(pasteStr);
+    
+    // Close dropdown
+    document.querySelectorAll('.rich-dropdown-panel.open').forEach(p => p.classList.remove('open'));
+  }
+}
+
+// Track active formatting states
+document.addEventListener('selectionchange', () => {
+  const sel = window.getSelection();
+  if (!sel || !sel.rangeCount) return;
+  const el = sel.anchorNode;
+  if (!el) return;
+  // Make sure we're in an answer area
+  let isAnswer = false;
+  let curr = el;
+  while(curr && curr !== document.body) {
+    if(curr.classList && curr.classList.contains('answer-area')) {
+      isAnswer = true;
+      break;
+    }
+    curr = curr.parentNode;
+  }
+  
+  if(isAnswer) {
+    const isSup = document.queryCommandState('superscript');
+    const isSub = document.queryCommandState('subscript');
+    const isBold = document.queryCommandState('bold');
+    const isItalic = document.queryCommandState('italic');
+    const isUnderline = document.queryCommandState('underline');
+    
+    document.querySelectorAll('.format-superscript').forEach(btn => btn.classList.toggle('active-format', isSup));
+    document.querySelectorAll('.format-subscript').forEach(btn => btn.classList.toggle('active-format', isSub));
+    document.querySelectorAll('.format-bold').forEach(btn => btn.classList.toggle('active-format', isBold));
+    document.querySelectorAll('.format-italic').forEach(btn => btn.classList.toggle('active-format', isItalic));
+    document.querySelectorAll('.format-underline').forEach(btn => btn.classList.toggle('active-format', isUnderline));
+  }
+});
+
 function setActiveAnswer(idx) {
   activeAnswerIdx = idx;
 }
@@ -1390,6 +1494,15 @@ function getActiveEl() {
   return document.getElementById('ansArea' + activeAnswerIdx);
 }
 
+function insertText(txt) {
+  if (activeAnswerIdx === null) return;
+  const el = document.getElementById('ansArea' + activeAnswerIdx);
+  el.focus();
+  restoreSelRange(el);
+  document.execCommand('insertText', false, txt);
+  saveSelRange();
+  updateFormatState();
+}
 function saveSelRange() {
   const sel = window.getSelection();
   if (sel && sel.rangeCount > 0) savedRange = sel.getRangeAt(0).cloneRange();
