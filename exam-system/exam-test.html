@@ -90,12 +90,62 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .fill-input{width:120px;border:none;border-bottom:2px solid var(--accent2);background:transparent;font-size:14px;text-align:center;padding:2px 6px;margin:0 4px;outline:none;font-family:var(--font)}
 .fill-input:focus{border-bottom-color:var(--accent);background:rgba(192,57,43,.02)}
 
-/* LONG/SHORT ANSWER */
-.rich-toolbar{display:flex;flex-wrap:wrap;gap:2px;padding:6px 8px;background:#f8f9fa;border:1.5px solid var(--border);border-bottom:none;border-radius:10px 10px 0 0;margin-top:10px}
-.rich-btn{background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;font-size:13px;font-weight:500;color:var(--text2);transition:all .1s}
-.rich-btn:hover{background:rgba(0,0,0,0.05);color:var(--text)}
-.answer-area{width:100%;min-height:120px;border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;font-size:14px;font-family:var(--font);resize:vertical;outline:none;line-height:1.7}
+/* RICH EDITOR — 3-ROW IB TOOLBAR */
+.rich-editor-wrap{margin-top:10px}
+.rich-toolbar{display:flex;flex-direction:column;gap:0;border:1.5px solid var(--border);border-bottom:none;border-radius:10px 10px 0 0;background:#f8f9fa;overflow:hidden}
+.rich-toolbar-row{display:flex;flex-wrap:wrap;gap:1px;padding:4px 6px;border-bottom:1px solid rgba(0,0,0,.06)}
+.rich-toolbar-row:last-child{border-bottom:none}
+.rich-sep{width:1px;background:rgba(0,0,0,.1);margin:3px 3px;align-self:stretch}
+.rich-btn{background:none;border:none;cursor:pointer;padding:4px 7px;border-radius:4px;font-size:12.5px;font-weight:500;color:var(--text2);transition:all .1s;white-space:nowrap;line-height:1.4}
+.rich-btn:hover{background:rgba(37,99,235,.08);color:var(--accent2)}
+.rich-btn.active{background:rgba(37,99,235,.1);color:var(--accent2)}
+.rich-btn.math-btn{font-size:11px;background:rgba(192,57,43,.05);color:var(--accent);border:1px solid rgba(192,57,43,.15)}
+.rich-btn.math-btn:hover{background:rgba(192,57,43,.12)}
+/* Answer contenteditable */
+.answer-area{width:100%;min-height:120px;border:1.5px solid var(--border);border-radius:0 0 10px 10px;padding:12px 16px;font-size:14px;font-family:var(--font);outline:none;line-height:1.8;background:var(--card);overflow-y:auto;max-height:420px}
 .answer-area:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(37,99,235,.06)}
+.answer-area[contenteditable=true]:empty:before{content:attr(placeholder);color:#94a3b8;pointer-events:none}
+.answer-area b{font-weight:700}
+.answer-area i{font-style:italic}
+.answer-area u{text-decoration:underline}
+.answer-area sup{font-size:.7em;vertical-align:super}
+.answer-area sub{font-size:.7em;vertical-align:sub}
+/* Math inline elements */
+.m-frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px;font-size:.9em;line-height:1.1}
+.m-frac>.m-num{border-bottom:1.5px solid currentColor;padding:0 4px;text-align:center;min-width:20px}
+.m-frac>.m-den{padding:0 4px;text-align:center;min-width:20px}
+.m-sqrt{display:inline-flex;align-items:center;margin:0 2px;vertical-align:middle}
+.m-sqrt>.m-rad{border-top:1.5px solid currentColor;border-left:1.5px solid currentColor;padding:1px 4px 0 2px;margin-left:4px;font-size:.9em}
+.m-sqrt>.m-sign{font-size:1.1em;line-height:1;margin-right:-2px}
+/* Special chars panel */
+.sc-panel{position:fixed;z-index:9999;background:var(--card);border:1.5px solid var(--border);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.15);padding:0;min-width:320px;max-width:400px;display:none}
+.sc-panel.open{display:block}
+.sc-tabs{display:flex;border-bottom:1px solid var(--border)}
+.sc-tab{flex:1;padding:7px;font-size:11px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;transition:all .15s}
+.sc-tab.active{color:var(--accent2);border-bottom:2px solid var(--accent2);background:rgba(37,99,235,.03)}
+.sc-grid{display:flex;flex-wrap:wrap;gap:3px;padding:10px;max-height:200px;overflow-y:auto}
+.sc-char{padding:5px 8px;border-radius:6px;cursor:pointer;font-size:16px;border:1.5px solid var(--border);background:var(--card);transition:all .1s;min-width:36px;text-align:center;line-height:1.2}
+.sc-char:hover{background:rgba(37,99,235,.08);border-color:var(--accent2)}
+/* Math formula editor */
+.math-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:10001;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.math-modal.open{display:flex}
+.math-card{background:var(--card);border-radius:14px;width:680px;max-width:95vw;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.math-card-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.math-card-header h3{font-family:var(--serif);font-size:17px;margin:0}
+.math-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);background:#fafafa;overflow-x:auto}
+.math-tab{padding:9px 16px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--text3);white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s}
+.math-tab.active{color:var(--accent2);border-bottom-color:var(--accent2);background:rgba(37,99,235,.04)}
+.math-template-grid{display:flex;flex-wrap:wrap;gap:8px;padding:14px;overflow-y:auto;flex:1}
+.math-tpl{padding:8px 14px;border-radius:8px;border:1.5px solid var(--border);cursor:pointer;font-size:13px;background:var(--card);text-align:center;min-width:80px;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:4px}
+.math-tpl:hover{border-color:var(--accent2);background:rgba(37,99,235,.04)}
+.math-tpl .tpl-preview{font-size:18px;line-height:1.4}
+.math-tpl .tpl-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.3px}
+.math-input-row{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center}
+.math-input-row input{flex:1;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:var(--font);outline:none}
+.math-input-row input:focus{border-color:var(--accent2)}
+.math-preview-row{padding:6px 16px 10px;border-top:1px solid var(--border);font-size:13px;color:var(--text3);min-height:36px}
+.math-preview-row .preview-label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.math-preview-val{font-size:16px;color:var(--text);font-family:var(--serif)}
 .word-count{font-size:11px;color:var(--text3);text-align:right;margin-top:4px}
 
 /* RESOURCE LINKS */
@@ -276,6 +326,44 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     </div>
   </nav>
   <div style="max-width:800px;margin:0 auto;padding:24px" id="resultsContent"></div>
+</div>
+
+<!-- SPECIAL CHARS PANEL (floating) -->
+<div class="sc-panel" id="scPanel">
+  <div class="sc-tabs">
+    <button class="sc-tab active" onclick="scSwitchTab('greek',this)">Greek</button>
+    <button class="sc-tab" onclick="scSwitchTab('math',this)">Math</button>
+    <button class="sc-tab" onclick="scSwitchTab('units',this)">Units</button>
+    <button class="sc-tab" onclick="scSwitchTab('arrows',this)">Arrows</button>
+  </div>
+  <div class="sc-grid" id="scGrid"></div>
+</div>
+
+<!-- MATH FORMULA EDITOR MODAL -->
+<div class="math-modal" id="mathModal">
+  <div class="math-card">
+    <div class="math-card-header">
+      <h3>∑ Math Formula Editor</h3>
+      <button onclick="closeMathEditor()" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--text2)">✕</button>
+    </div>
+    <div class="math-tabs">
+      <button class="math-tab active" onclick="mathSwitchTab('basic',this)">Basic Math</button>
+      <button class="math-tab" onclick="mathSwitchTab('greek',this)">Greek</button>
+      <button class="math-tab" onclick="mathSwitchTab('calculus',this)">Calculus</button>
+      <button class="math-tab" onclick="mathSwitchTab('physics',this)">Physics</button>
+      <button class="math-tab" onclick="mathSwitchTab('matrix',this)">Matrix</button>
+    </div>
+    <div class="math-template-grid" id="mathTemplateGrid"></div>
+    <div class="math-preview-row" id="mathPreviewRow">
+      <div class="preview-label">Preview</div>
+      <div class="math-preview-val" id="mathPreviewVal">Select a template above to see preview</div>
+    </div>
+    <div class="math-input-row">
+      <input type="text" id="mathCustomInput" placeholder="Or type LaTeX-style: \frac{a}{b}, x^2, F_{net}, \sqrt{x}" oninput="mathLivePreview(this.value)">
+      <button class="nav-btn" onclick="insertMathFromInput()">Insert ↵</button>
+      <button class="nav-btn red" onclick="closeMathEditor()">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <!-- GRAPH PLOTTER MODAL -->
@@ -847,11 +935,10 @@ function renderQuestionInput(q, idx) {
     </div>`;
   }
 
-  // Default: text area (Short / Long)
-  const minH = type === 'long' ? '160px' : '80px';
+  // Default: contenteditable rich area (Short / Long)
+  const minH = type === 'long' ? '160px' : '90px';
   const toolbar = renderRichToolbar(idx);
-  return `${toolbar}<textarea class="answer-area" id="ansArea${idx}" style="min-height:${minH}; border-top-left-radius:0; border-top-right-radius:0; border-top:none;" oninput="saveText(${idx})" placeholder="Type your answer here..."></textarea>
-    <div class="word-count" id="wc${idx}">0 words</div>`;
+  return `<div class="rich-editor-wrap">${toolbar}<div class="answer-area" id="ansArea${idx}" contenteditable="true" style="min-height:${minH};border-top-left-radius:0;border-top-right-radius:0;border-top:none;" placeholder="Type your answer here…" oninput="saveText(${idx})" onfocus="setActiveAnswer(${idx})"></div><div class="word-count" id="wc${idx}">0 words</div></div>`;
 }
 
 function renderResources(meta) {
@@ -875,88 +962,190 @@ function renderResources(meta) {
 }
 
 // ═══════════════════════════════════════
-// RICH TOOLBAR & PLOTTER HELPERS
+// RICH TOOLBAR (3-ROW IB EDITOR)
 // ═══════════════════════════════════════
 function renderRichToolbar(idx) {
-  const textareaId = 'ansArea' + idx;
+  const aId = 'ansArea' + idx;
   return `
-    <div class="rich-toolbar">
-      <button type="button" class="rich-btn" onclick="applyFormatting('${textareaId}', 'b')" style="font-weight:700;" title="Bold">B</button>
-      <button type="button" class="rich-btn" onclick="applyFormatting('${textareaId}', 'i')" style="font-style:italic;" title="Italic">I</button>
-      <button type="button" class="rich-btn" onclick="applyFormatting('${textareaId}', 'u')" style="text-decoration:underline;" title="Underline">U</button>
-      <span style="width:1px; background:var(--border); margin:4px 2px;"></span>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '²')" title="Superscript">x²</button>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '₂')" title="Subscript">x₂</button>
-      <span style="width:1px; background:var(--border); margin:4px 2px;"></span>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '√')" title="Square Root">√</button>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', 'π')" title="Pi">π</button>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', 'Δ')" title="Delta">Δ</button>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '°')" title="Degrees">°</button>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '×')" title="Multiply">×</button>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '÷')" title="Divide">÷</button>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', '≈')" title="Approximately equal to">≈</button>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', 'θ')" title="Theta">θ</button>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', 'λ')" title="Lambda">λ</button>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', 'μ')" title="Mu">μ</button>
-      <button type="button" class="rich-btn" onclick="insertTextAtCursor('${textareaId}', 'Ω')" title="Ohm">Ω</button>
-      <span style="width:1px; background:var(--border); margin:4px 2px;"></span>
-      <button type="button" class="rich-btn" onclick="insertTableDialog('${textareaId}')" title="Insert Table">📋 +Table</button>
-      <button type="button" class="rich-btn" onclick="openGraphPlotter('${textareaId}')" title="Plot Graph">📈 Graph</button>
+  <div class="rich-toolbar">
+    <!-- ROW 1: TEXT FORMATTING -->
+    <div class="rich-toolbar-row">
+      <button type="button" class="rich-btn" onclick="fmt('bold')" title="Bold (Ctrl+B)"><b>B</b></button>
+      <button type="button" class="rich-btn" onclick="fmt('italic')" title="Italic (Ctrl+I)"><i>I</i></button>
+      <button type="button" class="rich-btn" onclick="fmt('underline')" title="Underline (Ctrl+U)"><u>U</u></button>
+      <div class="rich-sep"></div>
+      <button type="button" class="rich-btn" onclick="fmt('superscript')" title="Superscript">x<sup>2</sup></button>
+      <button type="button" class="rich-btn" onclick="fmt('subscript')" title="Subscript">x<sub>2</sub></button>
+      <button type="button" class="rich-btn" onclick="fmt('removeFormat')" title="Clear Formatting" style="font-size:11px">T<sub>✕</sub></button>
+      <div class="rich-sep"></div>
+      <button type="button" class="rich-btn" onclick="fmt('insertUnorderedList')" title="Bullet List">≡•</button>
+      <button type="button" class="rich-btn" onclick="fmt('insertOrderedList')" title="Numbered List">≡1</button>
+      <div class="rich-sep"></div>
+      <button type="button" class="rich-btn" onclick="fmt('justifyLeft')" title="Align Left">⬅</button>
+      <button type="button" class="rich-btn" onclick="fmt('justifyCenter')" title="Center">≡</button>
+      <button type="button" class="rich-btn" onclick="fmt('justifyRight')" title="Align Right">➡</button>
+      <div class="rich-sep"></div>
+      <button type="button" class="rich-btn" onclick="showColorPicker('${aId}',event)" title="Text Color" style="font-size:15px">A&#773;</button>
+      <div class="rich-sep"></div>
+      <button type="button" class="rich-btn" onclick="fmt('undo')" title="Undo">↩</button>
+      <button type="button" class="rich-btn" onclick="fmt('redo')" title="Redo">↪</button>
+      <div class="rich-sep"></div>
+      <button type="button" class="rich-btn" onclick="insertRichTable('${aId}')" title="Insert Table">⊞ Table</button>
+      <button type="button" class="rich-btn" onclick="openGraphPlotter('${aId}')" title="Plot Graph">📈 Graph</button>
     </div>
-  `;
+    <!-- ROW 2: SPECIAL CHARACTERS -->
+    <div class="rich-toolbar-row">
+      <span style="font-size:10px;color:var(--text3);padding:4px 6px;font-weight:600;letter-spacing:.5px;text-transform:uppercase">Chars:</span>
+      <button type="button" class="rich-btn" onclick="insertChar('α')">α</button>
+      <button type="button" class="rich-btn" onclick="insertChar('β')">β</button>
+      <button type="button" class="rich-btn" onclick="insertChar('γ')">γ</button>
+      <button type="button" class="rich-btn" onclick="insertChar('δ')">δ</button>
+      <button type="button" class="rich-btn" onclick="insertChar('θ')">θ</button>
+      <button type="button" class="rich-btn" onclick="insertChar('λ')">λ</button>
+      <button type="button" class="rich-btn" onclick="insertChar('μ')">μ</button>
+      <button type="button" class="rich-btn" onclick="insertChar('π')">π</button>
+      <button type="button" class="rich-btn" onclick="insertChar('Δ')">Δ</button>
+      <button type="button" class="rich-btn" onclick="insertChar('Ω')">Ω</button>
+      <button type="button" class="rich-btn" onclick="insertChar('Σ')">Σ</button>
+      <button type="button" class="rich-btn" onclick="insertChar('ρ')">ρ</button>
+      <button type="button" class="rich-btn" onclick="insertChar('φ')">φ</button>
+      <button type="button" class="rich-btn" onclick="insertChar('ψ')">ψ</button>
+      <div class="rich-sep"></div>
+      <button type="button" class="rich-btn" onclick="insertChar('×')">×</button>
+      <button type="button" class="rich-btn" onclick="insertChar('÷')">÷</button>
+      <button type="button" class="rich-btn" onclick="insertChar('±')">±</button>
+      <button type="button" class="rich-btn" onclick="insertChar('≠')">≠</button>
+      <button type="button" class="rich-btn" onclick="insertChar('≈')">≈</button>
+      <button type="button" class="rich-btn" onclick="insertChar('≤')">≤</button>
+      <button type="button" class="rich-btn" onclick="insertChar('≥')">≥</button>
+      <button type="button" class="rich-btn" onclick="insertChar('√')">√</button>
+      <button type="button" class="rich-btn" onclick="insertChar('∞')">∞</button>
+      <button type="button" class="rich-btn" onclick="insertChar('°')">°</button>
+      <button type="button" class="rich-btn" onclick="insertChar('·')">·</button>
+      <button type="button" class="rich-btn" onclick="insertChar('⇌')">⇌</button>
+      <button type="button" class="rich-btn" onclick="insertChar('→')">→</button>
+      <button type="button" class="rich-btn" onclick="insertChar('∝')">∝</button>
+      <div class="rich-sep"></div>
+      <button type="button" class="rich-btn math-btn" onclick="showSpecialChars(event)" title="All special characters">Ω+ ▾</button>
+    </div>
+    <!-- ROW 3: MATH FORMULAS -->
+    <div class="rich-toolbar-row">
+      <span style="font-size:10px;color:var(--text3);padding:4px 6px;font-weight:600;letter-spacing:.5px;text-transform:uppercase">Math:</span>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('frac')" title="Fraction"><span style="display:inline-flex;flex-direction:column;align-items:center;font-size:11px;line-height:1.1"><span style="border-bottom:1.5px solid currentColor;padding:0 3px">a</span><span style="padding:0 3px">b</span></span></button>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('sqrt')" title="Square Root">√x̄</button>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('nsqrt')" title="nth Root">ⁿ√x</button>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('pow')" title="Power">xⁿ</button>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('sub')" title="Subscript">xₙ</button>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('sum')" title="Summation">Σ</button>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('integral')" title="Integral">∫</button>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('limit')" title="Limit">lim</button>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('deriv')" title="Derivative">dy/dx</button>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('partial')" title="Partial Derivative">∂y/∂x</button>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('vec')" title="Vector">v⃗</button>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('abs')" title="Absolute Value">|x|</button>
+      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('matrix2')" title="2×2 Matrix">[M]</button>
+      <div class="rich-sep"></div>
+      <button type="button" class="rich-btn math-btn" onclick="openMathEditor()" title="Full Equation Editor">∑ Editor ▾</button>
+    </div>
+  </div>`;
 }
 
-function applyFormatting(textareaId, tag) {
-  const txt = document.getElementById(textareaId);
-  if (!txt) return;
-  const start = txt.selectionStart;
-  const end = txt.selectionEnd;
-  const val = txt.value;
-  const selected = val.substring(start, end);
-  const formatted = `<${tag}>${selected}</${tag}>`;
-  txt.value = val.substring(0, start) + formatted + val.substring(end);
-  txt.selectionStart = txt.selectionEnd = start + formatted.length;
-  txt.focus();
-  
-  const qIdx = parseInt(textareaId.replace('ansArea', ''));
-  saveText(qIdx);
+// ═══════════════════════════════════════
+// ACTIVE ANSWER TRACKING
+// ═══════════════════════════════════════
+let activeAnswerIdx = null;
+let savedRange = null;
+
+function setActiveAnswer(idx) {
+  activeAnswerIdx = idx;
 }
 
-function insertTextAtCursor(textareaId, text) {
-  const txt = document.getElementById(textareaId);
-  if (!txt) return;
-  const start = txt.selectionStart;
-  const end = txt.selectionEnd;
-  const val = txt.value;
-  txt.value = val.substring(0, start) + text + val.substring(end);
-  txt.selectionStart = txt.selectionEnd = start + text.length;
-  txt.focus();
-  
-  const qIdx = parseInt(textareaId.replace('ansArea', ''));
-  saveText(qIdx);
+function getActiveEl() {
+  if (activeAnswerIdx === null) return null;
+  return document.getElementById('ansArea' + activeAnswerIdx);
 }
 
-function insertTableDialog(textareaId) {
-  const rows = parseInt(prompt("Enter number of rows:", "3") || "0");
-  const cols = parseInt(prompt("Enter number of columns:", "3") || "0");
+function saveSelRange() {
+  const sel = window.getSelection();
+  if (sel && sel.rangeCount > 0) savedRange = sel.getRangeAt(0).cloneRange();
+}
+
+function restoreSelRange(el) {
+  if (!el) return;
+  el.focus();
+  if (savedRange) {
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(savedRange);
+  }
+}
+
+function fmt(cmd, val) {
+  const el = getActiveEl();
+  if (!el) {
+    // Try to find any active answer area
+    const areas = document.querySelectorAll('.answer-area[contenteditable]');
+    if (areas.length === 1) { areas[0].focus(); }
+  }
+  document.execCommand(cmd, false, val || null);
+  if (activeAnswerIdx !== null) saveText(activeAnswerIdx);
+}
+
+function insertChar(ch) {
+  const el = getActiveEl();
+  if (!el) return;
+  el.focus();
+  document.execCommand('insertText', false, ch);
+  if (activeAnswerIdx !== null) saveText(activeAnswerIdx);
+}
+
+function insertHTML(html) {
+  const el = getActiveEl();
+  if (!el) return;
+  el.focus();
+  document.execCommand('insertHTML', false, html);
+  if (activeAnswerIdx !== null) saveText(activeAnswerIdx);
+}
+
+function showColorPicker(aId, e) {
+  e.stopPropagation();
+  // Parse aId to get question idx
+  const idx = parseInt(aId.replace('ansArea', ''));
+  activeAnswerIdx = idx;
+  const colors = ['#000000','#1e293b','#1d4ed8','#dc2626','#16a34a','#d97706','#7c3aed','#db2777','#0891b2','#374151','#6b7280','#9ca3af'];
+  const existing = document.getElementById('colorPickerPop');
+  if (existing) existing.remove();
+  const pop = document.createElement('div');
+  pop.id = 'colorPickerPop';
+  pop.style.cssText = `position:fixed;z-index:9999;background:var(--card);border:1.5px solid var(--border);border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:5px;box-shadow:0 4px 20px rgba(0,0,0,.15);width:168px`;
+  const rect = e.target.getBoundingClientRect();
+  pop.style.top = (rect.bottom + 4) + 'px';
+  pop.style.left = rect.left + 'px';
+  colors.forEach(c => {
+    const btn = document.createElement('button');
+    btn.style.cssText = `width:22px;height:22px;border-radius:50%;background:${c};border:2px solid rgba(255,255,255,.6);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.2)`;
+    btn.onclick = (ev) => { ev.stopPropagation(); saveSelRange(); restoreSelRange(getActiveEl()); fmt('foreColor', c); pop.remove(); };
+    pop.appendChild(btn);
+  });
+  document.body.appendChild(pop);
+  setTimeout(() => document.addEventListener('click', () => pop.remove(), { once: true }), 100);
+}
+
+function insertRichTable(aId) {
+  const idx = parseInt(aId.replace('ansArea', ''));
+  activeAnswerIdx = idx;
+  const rows = parseInt(prompt('Rows:', '3') || '0');
+  const cols = parseInt(prompt('Columns:', '3') || '0');
   if (rows <= 0 || cols <= 0) return;
-  
-  let tableHTML = '\n<table border="1" style="border-collapse:collapse; width:100%; margin: 10px 0;">\n';
-  tableHTML += '  <tr>\n';
-  for (let c = 0; c < cols; c++) {
-    tableHTML += `    <th>Header ${c + 1}</th>\n`;
-  }
-  tableHTML += '  </tr>\n';
+  let html = '<table style="border-collapse:collapse;width:100%;margin:10px 0">';
+  html += '<tr>' + Array.from({length:cols}).map((_,c) => `<th style="border:1px solid #94a3b8;padding:6px 8px;background:#f1f5f9">Col ${c+1}</th>`).join('') + '</tr>';
   for (let r = 0; r < rows; r++) {
-    tableHTML += '  <tr>\n';
-    for (let c = 0; c < cols; c++) {
-      tableHTML += '    <td>—</td>\n';
-    }
-    tableHTML += '  </tr>\n';
+    html += '<tr>' + Array.from({length:cols}).map(() => '<td style="border:1px solid #94a3b8;padding:6px 8px;min-width:60px">&nbsp;</td>').join('') + '</tr>';
   }
-  tableHTML += '</table>\n';
-  
-  insertTextAtCursor(textareaId, tableHTML);
+  html += '</table><br>';
+  const el = document.getElementById(aId);
+  if (el) { el.focus(); }
+  insertHTML(html);
 }
 
 let plotterPoints = [];
@@ -1146,8 +1335,16 @@ function saveGraphToTextarea() {
   drawGraphOnCanvas();
   const canvas = document.getElementById('plotterCanvas');
   const dataURL = canvas.toDataURL('image/png');
-  const imgHTML = `\n<img src="${dataURL}" style="max-width:100%; border:1px solid rgba(0,0,0,0.1); border-radius:8px; margin:10px 0; display:block;" alt="Student Plot">\n`;
-  insertTextAtCursor(plotterTargetTextareaId, imgHTML);
+  const imgHTML = `<img src="${dataURL}" style="max-width:100%; border:1px solid rgba(0,0,0,0.1); border-radius:8px; margin:10px 0; display:block;" alt="Student Plot"><br>`;
+  // Insert into active contenteditable answer area
+  const targetId = plotterTargetTextareaId;
+  const el = document.getElementById(targetId);
+  if (el) {
+    const idx = parseInt(targetId.replace('ansArea', ''));
+    activeAnswerIdx = idx;
+    el.focus();
+    insertHTML(imgHTML);
+  }
   closeGraphPlotter();
 }
 
@@ -1291,8 +1488,11 @@ function saveFill(qIdx) {
 function saveText(qIdx) {
   const area = document.getElementById('ansArea' + qIdx);
   if (area) {
-    answers[qIdx] = area.value;
-    const words = area.value.trim().split(/\s+/).filter(w => w).length;
+    // Support both contenteditable and textarea
+    const content = area.contentEditable === 'true' ? area.innerHTML : area.value;
+    answers[qIdx] = content;
+    const text = area.contentEditable === 'true' ? area.innerText : area.value;
+    const words = text.trim().split(/\s+/).filter(w => w).length;
     const wc = document.getElementById('wc' + qIdx);
     if (wc) wc.textContent = words + ' words';
   }
@@ -1309,7 +1509,10 @@ function saveCurrentAnswer() {
     const type = (q?.type || '').toLowerCase();
     if (type === 'short' || type === 'long') {
       const area = document.getElementById('ansArea' + qi);
-      if (area && area.value) answers[qi] = area.value;
+      if (area) {
+        const content = area.contentEditable === 'true' ? area.innerHTML : area.value;
+        if (content && content !== '<br>' && content !== '&nbsp;') answers[qi] = content;
+      }
     }
   });
 }
@@ -1326,7 +1529,18 @@ function restoreAnswer(idx) {
   }
   if ((type === 'short' || type === 'long') && typeof ans === 'string') {
     const area = document.getElementById('ansArea' + idx);
-    if (area) { area.value = ans; saveText(idx); }
+    if (area) {
+      if (area.contentEditable === 'true') {
+        area.innerHTML = ans;
+        // Update word count
+        const words = area.innerText.trim().split(/\s+/).filter(w => w).length;
+        const wc = document.getElementById('wc' + idx);
+        if (wc) wc.textContent = words + ' words';
+      } else {
+        area.value = ans;
+        saveText(idx);
+      }
+    }
   }
 }
 
@@ -1636,6 +1850,244 @@ function downloadResults() {
   win.document.close();
   win.print();
 }
+
+// ═══════════════════════════════════════
+// SPECIAL CHARACTERS PANEL
+// ═══════════════════════════════════════
+const SC_DATA = {
+  greek: ['α','β','γ','δ','ε','ζ','η','θ','ι','κ','λ','μ','ν','ξ','π','ρ','σ','τ','φ','χ','ψ','ω','Δ','Ω','Σ','Π','Θ','Λ','Γ','Φ'],
+  math: ['+','−','×','÷','±','=','≠','≈','≡','<','>','≤','≥','∝','∞','√','∫','∑','∂','∇','∈','∉','∪','∩','⊂','⊃','∅','∀','∃','¬','∧','∨'],
+  units: ['°','·','²','³','⁻¹','⁻²','½','¼','¾','‰','μ','n','k','M','G','ℏ','℃','℉','Å','Ω','Σ'],
+  arrows: ['→','←','↑','↓','↔','⇌','⇒','⇔','↗','↘','⟶','⟵','⟺','⇀','↽','△','▽','▲','▼','⃗']
+};
+
+let scCurrentTab = 'greek';
+
+function showSpecialChars(e) {
+  e.stopPropagation();
+  const panel = document.getElementById('scPanel');
+  const rect = e.target.getBoundingClientRect();
+  // Position below the button
+  panel.style.top = (rect.bottom + 6) + 'px';
+  panel.style.left = Math.min(rect.left, window.innerWidth - 410) + 'px';
+  panel.classList.toggle('open');
+  renderScGrid(scCurrentTab);
+  if (panel.classList.contains('open')) {
+    setTimeout(() => document.addEventListener('click', closeScPanel, { once: true }), 100);
+  }
+}
+
+function closeScPanel() {
+  document.getElementById('scPanel')?.classList.remove('open');
+}
+
+function scSwitchTab(tab, btn) {
+  scCurrentTab = tab;
+  document.querySelectorAll('.sc-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderScGrid(tab);
+}
+
+function renderScGrid(tab) {
+  const grid = document.getElementById('scGrid');
+  if (!grid) return;
+  const chars = SC_DATA[tab] || [];
+  grid.innerHTML = chars.map(c =>
+    `<button class="sc-char" onclick="insertChar('${c.replace(/'/g,"\\'")}');closeScPanel();" title="${c}">${c}</button>`
+  ).join('');
+}
+
+// ═══════════════════════════════════════
+// MATH FORMULA EDITOR
+// ═══════════════════════════════════════
+const MATH_TEMPLATES = {
+  basic: [
+    { key:'frac',   preview:'<span style="display:inline-flex;flex-direction:column;align-items:center;font-size:18px"><span style="border-bottom:2px solid;padding:0 4px">a</span><span style="padding:0 4px">b</span></span>', label:'Fraction', html:'<span class="m-frac"><span class="m-num">a</span><span class="m-den">b</span></span>', text:'(a/b)' },
+    { key:'sqrt',   preview:'√x̄', label:'Square Root', html:'<span class="m-sqrt"><span class="m-sign">√</span><span class="m-rad">x</span></span>', text:'√(x)' },
+    { key:'nsqrt',  preview:'ⁿ√x', label:'nth Root', html:'<sup>n</sup><span class="m-sqrt"><span class="m-sign">√</span><span class="m-rad">x</span></span>', text:'ⁿ√(x)' },
+    { key:'pow',    preview:'x<sup>n</sup>', label:'Power', html:'x<sup>n</sup>', text:'xⁿ' },
+    { key:'sub',    preview:'x<sub>n</sub>', label:'Subscript', html:'x<sub>n</sub>', text:'xₙ' },
+    { key:'abs',    preview:'|x|', label:'Absolute', html:'|x|', text:'|x|' },
+    { key:'plusmin',preview:'±', label:'Plus-Minus', html:'±', text:'±' },
+    { key:'approx', preview:'≈', label:'Approx', html:'≈', text:'≈' },
+    { key:'neq',    preview:'≠', label:'Not Equal', html:'≠', text:'≠' },
+    { key:'leq',    preview:'≤', label:'Less/Equal', html:'≤', text:'≤' },
+    { key:'geq',    preview:'≥', label:'Greater/Eq', html:'≥', text:'≥' },
+    { key:'infty',  preview:'∞', label:'Infinity', html:'∞', text:'∞' },
+  ],
+  greek: [
+    ...'α β γ δ ε ζ η θ ι κ λ μ ν ξ π ρ σ τ φ χ ψ ω Δ Ω Σ Π Θ Λ Γ Φ'.split(' ').map(c => ({ key:c, preview:c, label:c, html:c, text:c }))
+  ],
+  calculus: [
+    { key:'integral', preview:'∫', label:'Integral', html:'∫<sub>a</sub><sup>b</sup> f(x) dx', text:'∫f(x)dx' },
+    { key:'limit',   preview:'lim', label:'Limit', html:'lim<sub>x→a</sub>', text:'lim(x→a)' },
+    { key:'sum',     preview:'Σ', label:'Summation', html:'∑<sub>i=0</sub><sup>n</sup>', text:'Σᵢ₌₀ⁿ' },
+    { key:'prod',    preview:'∏', label:'Product', html:'∏<sub>i=1</sub><sup>n</sup>', text:'∏ᵢ₌₁ⁿ' },
+    { key:'deriv',   preview:'dy/dx', label:'Derivative', html:'<span class="m-frac"><span class="m-num">dy</span><span class="m-den">dx</span></span>', text:'dy/dx' },
+    { key:'partial', preview:'∂y/∂x', label:'Partial Deriv', html:'<span class="m-frac"><span class="m-num">∂y</span><span class="m-den">∂x</span></span>', text:'∂y/∂x' },
+    { key:'del',     preview:'∇', label:'Nabla/Del', html:'∇', text:'∇' },
+    { key:'int_def', preview:'∫₀ᵀ', label:'Definite Int', html:'∫<sub>0</sub><sup>T</sup> f(t) dt', text:'∫₀ᵀ f(t)dt' },
+    { key:'d2',      preview:'d²y/dx²', label:'2nd Deriv', html:'<span class="m-frac"><span class="m-num">d²y</span><span class="m-den">dx²</span></span>', text:'d²y/dx²' },
+  ],
+  physics: [
+    { key:'vec',    preview:'v⃗', label:'Vector', html:'<span style="position:relative;display:inline-block">v<span style="position:absolute;top:-.3em;left:0;font-size:.8em">⃗</span></span>', text:'v⃗' },
+    { key:'fnet',   preview:'F<sub>net</sub>', label:'F net', html:'F<sub>net</sub>', text:'Fₙₑₜ' },
+    { key:'delta',  preview:'Δx', label:'Delta x', html:'Δx', text:'Δx' },
+    { key:'deltaE', preview:'ΔE', label:'Delta E', html:'ΔE', text:'ΔE' },
+    { key:'dvdt',   preview:'dv/dt', label:'dv/dt', html:'<span class="m-frac"><span class="m-num">dv</span><span class="m-den">dt</span></span>', text:'dv/dt' },
+    { key:'fma',    preview:'F=ma', label:'F = ma', html:'F = ma', text:'F = ma' },
+    { key:'emc2',   preview:'E=mc²', label:'E = mc²', html:'E = mc<sup>2</sup>', text:'E = mc²' },
+    { key:'ekinetic',preview:'½mv²', label:'KE = ½mv²', html:'<span class="m-frac"><span class="m-num">1</span><span class="m-den">2</span></span>mv<sup>2</sup>', text:'½mv²' },
+    { key:'pe',     preview:'mgh', label:'PE = mgh', html:'mgh', text:'mgh' },
+    { key:'ohm',    preview:'V=IR', label:'V = IR', html:'V = IR', text:'V = IR' },
+    { key:'wave',   preview:'v=fλ', label:'v = fλ', html:'v = f<span>λ</span>', text:'v = fλ' },
+    { key:'snell',  preview:'n₁sin θ₁', label:"Snell's", html:'n<sub>1</sub>sinθ<sub>1</sub> = n<sub>2</sub>sinθ<sub>2</sub>', text:'n₁sinθ₁ = n₂sinθ₂' },
+  ],
+  matrix: [
+    { key:'matrix2', preview:'[2×2]', label:'2×2 Matrix', html:'<table style="display:inline-table;border-collapse:collapse;vertical-align:middle;margin:0 4px"><tr><td style="border:1px solid #94a3b8;padding:3px 6px">a</td><td style="border:1px solid #94a3b8;padding:3px 6px">b</td></tr><tr><td style="border:1px solid #94a3b8;padding:3px 6px">c</td><td style="border:1px solid #94a3b8;padding:3px 6px">d</td></tr></table>', text:'|a b; c d|' },
+    { key:'matrix3', preview:'[3×3]', label:'3×3 Matrix', html:'<table style="display:inline-table;border-collapse:collapse;vertical-align:middle;margin:0 4px">' + [['a','b','c'],['d','e','f'],['g','h','i']].map(row => '<tr>' + row.map(c => `<td style="border:1px solid #94a3b8;padding:3px 6px">${c}</td>`).join('') + '</tr>').join('') + '</table>', text:'3×3 matrix' },
+    { key:'det',    preview:'|A|', label:'Determinant', html:'|A|', text:'|A|' },
+    { key:'transpose', preview:'Aᵀ', label:'Transpose', html:'A<sup>T</sup>', text:'Aᵀ' },
+    { key:'colvec', preview:'[x; y]', label:'Column Vector', html:'<table style="display:inline-table;border-collapse:collapse;vertical-align:middle;border:1px solid #94a3b8;margin:0 4px"><tr><td style="padding:3px 8px">x</td></tr><tr><td style="padding:3px 8px">y</td></tr></table>', text:'(x; y)' },
+  ]
+};
+
+let mathCurrentTab = 'basic';
+
+function openMathEditor() {
+  document.getElementById('mathModal').classList.add('open');
+  document.getElementById('mathCustomInput').value = '';
+  document.getElementById('mathPreviewVal').innerHTML = 'Select a template above or type below';
+  mathSwitchTab('basic', document.querySelector('.math-tab.active'));
+}
+
+function closeMathEditor() {
+  document.getElementById('mathModal').classList.remove('open');
+}
+
+function mathSwitchTab(tab, btn) {
+  mathCurrentTab = tab;
+  document.querySelectorAll('.math-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const grid = document.getElementById('mathTemplateGrid');
+  const templates = MATH_TEMPLATES[tab] || [];
+  grid.innerHTML = templates.map(t => `
+    <div class="math-tpl" onclick="applyMathTemplate('${t.key}')" title="${t.label}">
+      <div class="tpl-preview">${t.preview}</div>
+      <div class="tpl-label">${t.label}</div>
+    </div>
+  `).join('');
+}
+
+function applyMathTemplate(key) {
+  const allTemplates = Object.values(MATH_TEMPLATES).flat();
+  const tpl = allTemplates.find(t => t.key === key);
+  if (!tpl) return;
+  // Show preview
+  document.getElementById('mathPreviewVal').innerHTML = tpl.html;
+  // Insert into active answer
+  insertHTML(tpl.html);
+  closeMathEditor();
+}
+
+function insertMathTemplate(key) {
+  // Called directly from toolbar buttons for common templates
+  applyMathTemplate(key);
+}
+
+function mathLivePreview(input) {
+  const preview = parseLaTeX(input);
+  document.getElementById('mathPreviewVal').innerHTML = preview || '<span style="color:#94a3b8">Preview appears here</span>';
+}
+
+function insertMathFromInput() {
+  const val = document.getElementById('mathCustomInput').value.trim();
+  if (!val) return;
+  const html = parseLaTeX(val);
+  insertHTML(html);
+  closeMathEditor();
+}
+
+// LaTeX-style parser for the custom input field
+function parseLaTeX(input) {
+  if (!input) return '';
+  let s = input;
+  // \frac{a}{b}
+  s = s.replace(/\\frac\{([^}]*)\}\{([^}]*)\}/g, (_,n,d) =>
+    `<span class="m-frac"><span class="m-num">${n}</span><span class="m-den">${d}</span></span>`);
+  // \sqrt{x}
+  s = s.replace(/\\sqrt\{([^}]*)\}/g, (_,x) =>
+    `<span class="m-sqrt"><span class="m-sign">√</span><span class="m-rad">${x}</span></span>`);
+  // x^{n} or x^n
+  s = s.replace(/([a-zA-Z0-9])\^\{([^}]*)\}/g, (_,b,e) => `${b}<sup>${e}</sup>`);
+  s = s.replace(/([a-zA-Z0-9])\^([a-zA-Z0-9])/g, (_,b,e) => `${b}<sup>${e}</sup>`);
+  // x_{n} or x_n
+  s = s.replace(/([a-zA-Z0-9])_\{([^}]*)\}/g, (_,b,sub) => `${b}<sub>${sub}</sub>`);
+  s = s.replace(/([a-zA-Z0-9])_([a-zA-Z0-9]+)/g, (_,b,sub) => `${b}<sub>${sub}</sub>`);
+  // \int_a^b
+  s = s.replace(/\\int_([^\\s^]+)\^([^\\s]+)/g, (_,lo,hi) => `∫<sub>${lo}</sub><sup>${hi}</sup>`);
+  s = s.replace(/\\int/g, '∫');
+  // \sum, \prod, \lim, \infty, \partial, \nabla, \pm, \times, \div, \cdot
+  const subs = { '\\sum':'Σ','\\prod':'∏','\\lim':'lim','\\infty':'∞','\\partial':'∂','\\nabla':'∇','\\pm':'±','\\times':'×','\\div':'÷','\\cdot':'·','\\alpha':'α','\\beta':'β','\\gamma':'γ','\\delta':'δ','\\theta':'θ','\\lambda':'λ','\\mu':'μ','\\pi':'π','\\Omega':'Ω','\\sigma':'σ','\\phi':'φ','\\psi':'ψ','\\Delta':'Δ','\\Sigma':'Σ','\\approx':'≈','\\neq':'≠','\\leq':'≤','\\geq':'≥','\\to':'→','\\rightarrow':'→','\\leftarrow':'←' };
+  Object.entries(subs).forEach(([k,v]) => { s = s.replaceAll(k, v); });
+  return s;
+}
+
+// ═══════════════════════════════════════
+// GDC PASTE TO ANSWER
+// ═══════════════════════════════════════
+function gdcPasteToAnswer() {
+  const resultEl = document.getElementById('gdcResult');
+  const inputEl = document.getElementById('gdcInput');
+  if (!resultEl) return;
+  const result = resultEl.textContent.trim();
+  const expr = inputEl ? inputEl.textContent.trim() : '';
+  if (!result || result === '0' || result === 'Error') {
+    alert('No result to paste. Perform a calculation first.');
+    return;
+  }
+  const pasteText = expr && expr !== result ? `${expr} = ${result}` : result;
+  // Paste into active answer area
+  const el = getActiveEl();
+  if (!el) {
+    // Fallback: try to find any visible answer area
+    const areas = document.querySelectorAll('.answer-area[contenteditable]');
+    if (areas.length > 0) {
+      areas[areas.length - 1].focus();
+      activeAnswerIdx = parseInt(areas[areas.length - 1].id.replace('ansArea', ''));
+    } else {
+      alert('Click inside an answer box first, then use GDC.');
+      return;
+    }
+  }
+  insertHTML(`<strong>${pasteText}</strong>`);
+}
+
+// Inject "Paste to Answer" button into GDC after it loads
+document.addEventListener('DOMContentLoaded', () => {
+  // Wait a tick for GDC to be injected
+  setTimeout(() => {
+    const gdcScreen = document.querySelector('.gdc-calc-screen');
+    if (gdcScreen && !document.getElementById('gdcPasteBtn')) {
+      const pasteBtn = document.createElement('button');
+      pasteBtn.id = 'gdcPasteBtn';
+      pasteBtn.innerHTML = '📋 Paste Result to Answer';
+      pasteBtn.style.cssText = 'width:100%;padding:6px 10px;margin-top:6px;background:rgba(37,99,235,.08);color:#1d4ed8;border:1.5px solid rgba(37,99,235,.2);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s';
+      pasteBtn.onmouseover = () => pasteBtn.style.background = 'rgba(37,99,235,.15)';
+      pasteBtn.onmouseout = () => pasteBtn.style.background = 'rgba(37,99,235,.08)';
+      pasteBtn.onclick = gdcPasteToAnswer;
+      gdcScreen.appendChild(pasteBtn);
+    }
+  }, 500);
+});
+
+// Close special chars panel and math editor on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeScPanel();
+    closeMathEditor();
+  }
+});
 
 </script>
 </body>
