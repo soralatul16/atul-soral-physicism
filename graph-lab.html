@@ -504,7 +504,9 @@ details[open] summary {
     Atul Soral Physicism — <span>Graph Lab</span>
   </a>
   <div class="nav-links">
-    <button class="nav-link" onclick="toggleTheme()" style="font-size: 14px;">🌓 Toggle Theme</button>
+    <button class="nav-link" onclick="exportPDF()" style="font-size: 14px;">📄 PDF Report</button>
+    <button class="nav-link" onclick="toggleTheme()" style="font-size: 14px;">🌓 Theme</button>
+    <button class="nav-link" onclick="openShortcutHelp()" style="font-size: 14px; font-weight: bold; background: rgba(78,205,196,0.15); border-radius: 50%; width: 28px; height: 28px; padding: 0; display: inline-flex; align-items: center; justify-content: center;">?</button>
   </div>
 </nav>
 
@@ -523,13 +525,67 @@ details[open] summary {
       <!-- CARD 1: PRESETS -->
       <div class="lab-card">
         <div class="lab-card-title">🔬 Load Presets</div>
-        <div class="presets-grid">
-          <span class="preset-tag" onclick="loadPreset('ohms')">Ohm's Law (V vs I)</span>
-          <span class="preset-tag" onclick="loadPreset('kinematics')">Kinematics (s vs t²)</span>
-          <span class="preset-tag" onclick="loadPreset('friction')">Friction (F_f vs F_N)</span>
-          <span class="preset-tag" onclick="loadPreset('boyles')">Boyle's Law (P vs 1/V)</span>
-          <span class="preset-tag" onclick="loadPreset('decay')">Radioactive Decay (semi-log)</span>
+        <div class="control-group">
+          <select id="presetSelect" class="select-input" onchange="loadPreset(this.value)">
+            <option value="">-- Select a Physics Preset --</option>
+            <optgroup label="Mechanics">
+              <option value="ohms">Ohm’s Law: I (A) vs V (V)</option>
+              <option value="hookes">Spring (Hooke’s Law): Extension (m) vs Force (N)</option>
+              <option value="ke_vs_v">KE vs Velocity: v (m/s) vs KE (J)</option>
+              <option value="ke_lin">KE linearized: v² (m²/s²) vs KE (J)</option>
+              <option value="stop_dist">Stopping distance vs Speed: v (m/s) vs d (m)</option>
+              <option value="stop_dist_lin">Stopping distance linearized: v² vs d</option>
+              <option value="friction">Friction: F_N (N) vs F_f (N)</option>
+            </optgroup>
+            <optgroup label="Gravity & Fields">
+              <option value="grav_force">Gravitational Force vs Distance: r (m) vs F (N)</option>
+              <option value="grav_force_lin">Gravitational Force linearized: 1/r² (m⁻²) vs F (N)</option>
+              <option value="grav_field">Gravitational Field vs r: r (m) vs g (N/kg)</option>
+              <option value="grav_pe">Gravitational PE vs r: r (m) vs E_p (J)</option>
+              <option value="grav_pe_lin">Gravitational PE linearized: 1/r (m⁻¹) vs E_p (J)</option>
+              <option value="orbit_period">Orbital period (Kepler’s 3rd): r (m) vs T (s)</option>
+              <option value="orbit_period_lin">Kepler’s 3rd linearized: r³ (m³) vs T² (s²)</option>
+              <option value="escape_vel">Escape velocity vs Mass: M (kg) vs v_esc (m/s)</option>
+            </optgroup>
+            <optgroup label="Electricity">
+              <option value="elec_force">Electric Force vs Distance: r (m) vs F (N)</option>
+              <option value="elec_force_lin">Electric Force linearized: 1/r² vs F</option>
+              <option value="elec_pot">Electric Potential vs r: r (m) vs V (V)</option>
+              <option value="elec_pot_lin">Electric Potential linearized: 1/r vs V</option>
+              <option value="intensity_dist">Intensity vs Distance: d (m) vs I (W/m²)</option>
+              <option value="intensity_dist_inv_d">Intensity vs 1/d: 1/d vs I (curved)</option>
+              <option value="intensity_dist_inv_d2">Intensity vs 1/d²: 1/d² vs I (straight)</option>
+              <option value="filament_lamp">Non-ohmic (filament lamp): V (V) vs I (A)</option>
+              <option value="cap_discharge">Capacitor discharge: t (s) vs V (V)</option>
+            </optgroup>
+            <optgroup label="Waves & SHM">
+              <option value="pendulum_t">Pendulum T vs L: L (m) vs T (s)</option>
+              <option value="pendulum_t2">Pendulum T² vs L: L (m) vs T² (s²)</option>
+              <option value="pendulum_t_sqrt">Pendulum T vs √L: √L vs T</option>
+              <option value="freq_string">Frequency vs String Length: L (m) vs f (Hz)</option>
+              <option value="freq_string_lin">Frequency linearized: 1/L (m⁻¹) vs f (Hz)</option>
+              <option value="shm_disp">SHM Displacement: t (s) vs x (m)</option>
+              <option value="diffraction_slit">Diffraction single slit: θ (°) vs Intensity</option>
+              <option value="photoelectric">Photoelectric effect: f (Hz) vs KE_max (eV)</option>
+            </optgroup>
+            <optgroup label="Thermal">
+              <option value="heating_water">Heating curve (water): Time (s) vs Temp (°C)</option>
+              <option value="cooling_curve">Cooling curve: Time (s) vs Temp (°C)</option>
+              <option value="cooling_curve_lin">Cooling linearized: Time (s) vs ln(T - T_room)</option>
+              <option value="boyles_law">Boyle’s Law P vs V: V (m³) vs P (Pa)</option>
+              <option value="boyles_law_lin">Boyle’s Law linearized: 1/V (m⁻³) vs P (Pa)</option>
+              <option value="charles_law">Charles’s Law: T (K) vs V (m³)</option>
+              <option value="stefan_boltzmann">Stefan-Boltzmann: T (K) vs Power (W)</option>
+              <option value="stefan_boltzmann_lin">Stefan-Boltzmann linearized: T⁴ (K⁴) vs Power (W)</option>
+            </optgroup>
+            <optgroup label="Nuclear">
+              <option value="radioactive_decay">Radioactive decay: t (s) vs N</option>
+              <option value="decay_lin">Decay linearized (semi-log): t (s) vs ln(N)</option>
+              <option value="half_life">Half-life visualization: t (half-lives) vs N/N₀</option>
+            </optgroup>
+          </select>
         </div>
+        <div id="presetInfo" style="margin-top: 4px; font-size: 11px; font-weight: 600; min-height: 16px; color: var(--coral);"></div>
       </div>
 
       <!-- CARD 2: DATA TABLE -->
@@ -557,6 +613,46 @@ details[open] summary {
         <div class="button-grid">
           <button class="btn btn-secondary" onclick="addDataRow()">+ Add Row</button>
           <button class="btn btn-danger" onclick="clearData()">✕ Clear All</button>
+        </div>
+      </div>
+
+      <!-- CARD: PROGRESS & TOOLS -->
+      <div class="lab-card">
+        <div class="lab-card-title">💾 Progress &amp; Tools</div>
+        <div class="button-grid">
+          <button class="btn btn-primary" onclick="saveProgress()">💾 Save</button>
+          <button class="btn btn-secondary" onclick="loadProgress()">📂 Load</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('csvFileInput').click()">📥 Import CSV</button>
+          <button class="btn btn-danger" onclick="clearProgress()" style="font-size:10px;">✕ Reset Save</button>
+          <input type="file" id="csvFileInput" accept=".csv" style="display:none;" onchange="importCSV(this)">
+        </div>
+        <button class="btn btn-secondary" style="width:100%; justify-content:center; background: rgba(78,205,196,0.1); border-color: var(--teal-soft); color: var(--teal-mid);" onclick="suggestLinearization()">💡 Suggest Linearization</button>
+        
+        <div style="border-top: 1px solid var(--glass-border); padding-top: 10px; margin-top: 10px;">
+          <label class="control-label">⚡ Compute Column Values</label>
+          <div style="display:flex; gap:6px; margin-top: 4px; flex-wrap: wrap;">
+            <select id="calcOperator" class="select-input" style="flex: 1.2; font-size:11px; padding: 4px 6px;">
+              <option value="sq">Square (x²)</option>
+              <option value="inv">Inverse (1/x)</option>
+              <option value="ln">Natural Log (ln)</option>
+              <option value="log">Log10 (log)</option>
+              <option value="sqrt">Square Root (√)</option>
+            </select>
+            <span style="font-size: 11px; align-self: center; font-weight: bold;">of</span>
+            <select id="calcSource" class="select-input" style="flex: 0.8; font-size:11px; padding: 4px 6px;">
+              <option value="x">X</option>
+              <option value="y">Y</option>
+            </select>
+            <span style="font-size: 11px; align-self: center; font-weight: bold;">→</span>
+            <select id="calcTarget" class="select-input" style="flex: 1; font-size:11px; padding: 4px 6px;">
+              <option value="x">X</option>
+              <option value="y">Y</option>
+              <option value="y2">Y2</option>
+              <option value="dx">dx</option>
+              <option value="dy">dy</option>
+            </select>
+            <button class="btn btn-secondary" onclick="applyComputedColumn()" style="padding: 6px 12px; font-size:11px;">Go</button>
+          </div>
         </div>
       </div>
 
@@ -696,6 +792,9 @@ details[open] summary {
     <!-- RIGHT PANEL: GRAPH RENDERING & MATH STATS -->
     <div class="graph-display">
       
+      <!-- ALERT PANEL -->
+      <div id="alertPanel" style="display:none; flex-direction:column; gap:10px; width:100%;"></div>
+
       <!-- GRAPH VIEWPORT -->
       <div class="lab-card canvas-card">
         <canvas id="graphCanvas"></canvas>
@@ -730,9 +829,12 @@ details[open] summary {
             <label class="control-label" for="bestFitTypeSelect">Fitting Equation</label>
             <select id="bestFitTypeSelect" class="select-input" onchange="toggleFittingMode()">
               <option value="linear">Linear (y = mx + c)</option>
+              <option value="proportional">Proportional (y = kx, through origin)</option>
               <option value="exponential">Exponential (y = a · e^(bx))</option>
               <option value="logarithmic">Logarithmic (y = a · ln(x) + b)</option>
               <option value="inverse">Inverse (y = a/x + b)</option>
+              <option value="power">Power (y = ax^n)</option>
+              <option value="sinusoidal">Sinusoidal (y = A·sin(wx + phi) + D)</option>
               <option value="custom">Custom Formula Fitting</option>
             </select>
           </div>
@@ -755,6 +857,22 @@ details[open] summary {
               <input type="checkbox" id="showResidualsCheck" onchange="drawGraph()">
               <label for="showResidualsCheck">Plot Residuals Subplot</label>
             </div>
+            <div class="checkbox-row" style="margin-top: 8px;">
+              <input type="checkbox" id="showY2FitCheck" onchange="drawGraph()">
+              <label for="showY2FitCheck">Draw Best-Fit Line for Series 2 (Y2)</label>
+            </div>
+            <div class="checkbox-row" style="margin-top: 8px;">
+              <input type="checkbox" id="showUncPercentCheck" onchange="drawGraph()">
+              <label for="showUncPercentCheck">Show % uncertainty next to error bars</label>
+            </div>
+          </div>
+
+          <div class="control-group" style="border-top: 1px solid var(--glass-border); padding-top: 12px; margin-top: 8px;">
+            <div class="checkbox-row">
+              <input type="checkbox" id="showComparisonCheck" onchange="drawGraph()">
+              <label for="showComparisonCheck"><strong>Theoretical Curve Overlay</strong></label>
+            </div>
+            <input type="text" id="comparisonEquationInput" class="text-input" style="margin-top: 6px; font-family: var(--font-mono); font-size:12px;" placeholder="e.g. 4.9 * x^2" oninput="drawGraph()">
           </div>
         </div>
       </div>
@@ -871,74 +989,670 @@ let undoStack = [];
 let redoStack = [];
 
 const PRESETS = {
+  // Mechanics
   ohms: {
-    title: "Ohm's Law Verification",
+    title: "Ohm's Law: I (A) vs V (V)",
     xLabel: "Current, I (A)",
     yLabel: "Voltage, V (V)",
+    defaultFit: "linear",
     data: [
-      { x: 0.1, y: 1.02, y2: '', dx: 0.02, dy: 0.05 },
-      { x: 0.2, y: 1.98, y2: '', dx: 0.02, dy: 0.05 },
-      { x: 0.3, y: 3.01, y2: '', dx: 0.02, dy: 0.05 },
-      { x: 0.4, y: 4.05, y2: '', dx: 0.02, dy: 0.05 },
-      { x: 0.5, y: 4.97, y2: '', dx: 0.02, dy: 0.05 }
-    ]
+      { x: 0.10, y: 0.52, y2: '', dx: 0.01, dy: 0.05 },
+      { x: 0.20, y: 1.01, y2: '', dx: 0.01, dy: 0.05 },
+      { x: 0.30, y: 1.48, y2: '', dx: 0.01, dy: 0.05 },
+      { x: 0.40, y: 2.03, y2: '', dx: 0.01, dy: 0.05 },
+      { x: 0.50, y: 2.49, y2: '', dx: 0.01, dy: 0.05 },
+      { x: 0.60, y: 3.02, y2: '', dx: 0.01, dy: 0.05 }
+    ],
+    note: "✓ Linearized form of Ohm's Law (already linear)"
   },
-  kinematics: {
-    title: "Kinematics Analysis (Constant Acceleration)",
-    xLabel: "Time squared, t² (s²)",
-    yLabel: "Displacement, s (m)",
+  hookes: {
+    title: "Spring Constant (Hooke's Law)",
+    xLabel: "Extension, x (m)",
+    yLabel: "Force, F (N)",
+    defaultFit: "linear",
     data: [
-      { x: 0.0, y: 0.0, y2: '', dx: 0.1, dy: 0.1 },
-      { x: 1.0, y: 2.1, y2: '', dx: 0.1, dy: 0.3 },
-      { x: 4.0, y: 7.9, y2: '', dx: 0.1, dy: 0.5 },
-      { x: 9.0, y: 18.2, y2: '', dx: 0.1, dy: 0.8 },
-      { x: 16.0, y: 32.1, y2: '', dx: 0.1, dy: 1.2 }
-    ]
+      { x: 0.05, y: 2.45, y2: '', dx: 0.005, dy: 0.1 },
+      { x: 0.10, y: 5.02, y2: '', dx: 0.005, dy: 0.1 },
+      { x: 0.15, y: 7.41, y2: '', dx: 0.005, dy: 0.1 },
+      { x: 0.20, y: 9.98, y2: '', dx: 0.005, dy: 0.1 },
+      { x: 0.25, y: 12.55, y2: '', dx: 0.005, dy: 0.1 },
+      { x: 0.30, y: 15.01, y2: '', dx: 0.005, dy: 0.1 }
+    ],
+    note: "✓ Linearized form of Hooke's Law"
+  },
+  ke_vs_v: {
+    title: "KE vs Velocity",
+    xLabel: "Velocity, v (m/s)",
+    yLabel: "Kinetic Energy, E_k (J)",
+    defaultFit: "linear",
+    data: [
+      { x: 1.0, y: 1.05, y2: '', dx: 0.1, dy: 0.5 },
+      { x: 2.0, y: 3.95, y2: '', dx: 0.1, dy: 0.5 },
+      { x: 3.0, y: 9.10, y2: '', dx: 0.1, dy: 0.5 },
+      { x: 4.0, y: 16.05, y2: '', dx: 0.1, dy: 0.5 },
+      { x: 5.0, y: 24.90, y2: '', dx: 0.1, dy: 0.5 },
+      { x: 6.0, y: 35.85, y2: '', dx: 0.1, dy: 0.5 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  ke_lin: {
+    title: "KE vs Velocity Squared",
+    xLabel: "v² (m²/s²)",
+    yLabel: "Kinetic Energy, E_k (J)",
+    defaultFit: "linear",
+    data: [
+      { x: 1.0, y: 1.05, y2: '', dx: 0.2, dy: 0.5 },
+      { x: 4.0, y: 3.95, y2: '', dx: 0.4, dy: 0.5 },
+      { x: 9.0, y: 9.10, y2: '', dx: 0.6, dy: 0.5 },
+      { x: 16.0, y: 16.05, y2: '', dx: 0.8, dy: 0.5 },
+      { x: 25.0, y: 24.90, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 36.0, y: 35.85, y2: '', dx: 1.2, dy: 0.5 }
+    ],
+    note: "✓ Linearized form of KE vs Velocity"
+  },
+  stop_dist: {
+    title: "Stopping Distance vs Speed",
+    xLabel: "Speed, v (m/s)",
+    yLabel: "Stopping Distance, d (m)",
+    defaultFit: "linear",
+    data: [
+      { x: 10.0, y: 6.1, y2: '', dx: 0.5, dy: 0.8 },
+      { x: 15.0, y: 13.9, y2: '', dx: 0.5, dy: 1.2 },
+      { x: 20.0, y: 24.8, y2: '', dx: 0.5, dy: 1.5 },
+      { x: 25.0, y: 38.6, y2: '', dx: 0.5, dy: 2.0 },
+      { x: 30.0, y: 56.1, y2: '', dx: 0.5, dy: 2.5 },
+      { x: 35.0, y: 76.5, y2: '', dx: 0.5, dy: 3.0 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  stop_dist_lin: {
+    title: "Stopping Distance linearized",
+    xLabel: "v² (m²/s²)",
+    yLabel: "Stopping Distance, d (m)",
+    defaultFit: "linear",
+    data: [
+      { x: 100, y: 6.1, y2: '', dx: 10, dy: 0.8 },
+      { x: 225, y: 13.9, y2: '', dx: 15, dy: 1.2 },
+      { x: 400, y: 24.8, y2: '', dx: 20, dy: 1.5 },
+      { x: 625, y: 38.6, y2: '', dx: 25, dy: 2.0 },
+      { x: 900, y: 56.1, y2: '', dx: 30, dy: 2.5 },
+      { x: 1225, y: 76.5, y2: '', dx: 35, dy: 3.0 }
+    ],
+    note: "✓ Linearized form of Stopping distance vs Speed"
   },
   friction: {
-    title: "Static Friction vs Normal Force",
+    title: "Friction: F_N (N) vs F_f (N)",
     xLabel: "Normal Force, F_N (N)",
-    yLabel: "Limiting Friction, F_f (N)",
+    yLabel: "Frictional Force, F_f (N)",
+    defaultFit: "linear",
     data: [
-      { x: 1.0, y: 0.32, y2: 0.25, dx: 0.05, dy: 0.04 },
-      { x: 2.0, y: 0.58, y2: 0.48, dx: 0.05, dy: 0.04 },
-      { x: 3.0, y: 0.91, y2: 0.72, dx: 0.05, dy: 0.04 },
-      { x: 4.0, y: 1.22, y2: 0.98, dx: 0.05, dy: 0.04 },
-      { x: 5.0, y: 1.48, y2: 1.22, dx: 0.05, dy: 0.04 }
-    ]
+      { x: 2.0, y: 0.62, y2: '', dx: 0.1, dy: 0.05 },
+      { x: 4.0, y: 1.25, y2: '', dx: 0.1, dy: 0.05 },
+      { x: 6.0, y: 1.82, y2: '', dx: 0.1, dy: 0.05 },
+      { x: 8.0, y: 2.45, y2: '', dx: 0.1, dy: 0.05 },
+      { x: 10.0, y: 3.08, y2: '', dx: 0.1, dy: 0.05 },
+      { x: 12.0, y: 3.72, y2: '', dx: 0.1, dy: 0.05 }
+    ],
+    note: "✓ Linearized form of Friction"
   },
-  boyles: {
-    title: "Boyle's Law Plot",
-    xLabel: "Inverse Volume, 1/V (cm⁻³)",
-    yLabel: "Pressure, P (kPa)",
+  
+  // Gravity & Fields
+  grav_force: {
+    title: "Gravitational Force vs Distance",
+    xLabel: "Distance, r (m)",
+    yLabel: "Gravitational Force, F (N)",
+    defaultFit: "inverse",
     data: [
-      { x: 0.05, y: 100, y2: '', dx: 0.005, dy: 5 },
-      { x: 0.08, y: 155, y2: '', dx: 0.005, dy: 5 },
-      { x: 0.11, y: 215, y2: '', dx: 0.005, dy: 5 },
-      { x: 0.14, y: 280, y2: '', dx: 0.005, dy: 5 },
-      { x: 0.17, y: 345, y2: '', dx: 0.005, dy: 5 }
-    ]
+      { x: 1.0, y: 100.2, y2: '', dx: 0.05, dy: 1.5 },
+      { x: 2.0, y: 25.1, y2: '', dx: 0.05, dy: 1.5 },
+      { x: 3.0, y: 11.2, y2: '', dx: 0.05, dy: 1.5 },
+      { x: 4.0, y: 6.3, y2: '', dx: 0.05, dy: 1.5 },
+      { x: 5.0, y: 4.1, y2: '', dx: 0.05, dy: 1.5 },
+      { x: 6.0, y: 2.8, y2: '', dx: 0.05, dy: 1.5 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
   },
-  decay: {
-    title: "Radioactive Decay curve",
+  grav_force_lin: {
+    title: "Gravitational Force linearized",
+    xLabel: "1/r² (m⁻²)",
+    yLabel: "Gravitational Force, F (N)",
+    defaultFit: "linear",
+    data: [
+      { x: 1.000, y: 100.2, y2: '', dx: 0.01, dy: 1.5 },
+      { x: 0.250, y: 25.1, y2: '', dx: 0.01, dy: 1.5 },
+      { x: 0.111, y: 11.2, y2: '', dx: 0.01, dy: 1.5 },
+      { x: 0.063, y: 6.3, y2: '', dx: 0.01, dy: 1.5 },
+      { x: 0.040, y: 4.1, y2: '', dx: 0.01, dy: 1.5 },
+      { x: 0.028, y: 2.8, y2: '', dx: 0.01, dy: 1.5 }
+    ],
+    note: "✓ Linearized form of Gravitational Force vs Distance"
+  },
+  grav_field: {
+    title: "Gravitational Field Strength vs r",
+    xLabel: "Distance, r (m)",
+    yLabel: "Field Strength, g (N/kg)",
+    defaultFit: "inverse",
+    data: [
+      { x: 1.0, y: 9.81, y2: '', dx: 0.05, dy: 0.1 },
+      { x: 2.0, y: 2.45, y2: '', dx: 0.05, dy: 0.1 },
+      { x: 3.0, y: 1.09, y2: '', dx: 0.05, dy: 0.1 },
+      { x: 4.0, y: 0.61, y2: '', dx: 0.05, dy: 0.1 },
+      { x: 5.0, y: 0.39, y2: '', dx: 0.05, dy: 0.1 },
+      { x: 6.0, y: 0.27, y2: '', dx: 0.05, dy: 0.1 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  grav_pe: {
+    title: "Gravitational PE vs r",
+    xLabel: "Distance, r (m)",
+    yLabel: "Potential Energy, E_p (MJ)",
+    defaultFit: "inverse",
+    data: [
+      { x: 1.0, y: -60.1, y2: '', dx: 0.05, dy: 0.5 },
+      { x: 2.0, y: -30.2, y2: '', dx: 0.05, dy: 0.5 },
+      { x: 3.0, y: -19.9, y2: '', dx: 0.05, dy: 0.5 },
+      { x: 4.0, y: -15.1, y2: '', dx: 0.05, dy: 0.5 },
+      { x: 5.0, y: -12.0, y2: '', dx: 0.05, dy: 0.5 },
+      { x: 6.0, y: -9.9, y2: '', dx: 0.05, dy: 0.5 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  grav_pe_lin: {
+    title: "Gravitational PE linearized",
+    xLabel: "1/r (m⁻¹)",
+    yLabel: "Potential Energy, E_p (MJ)",
+    defaultFit: "linear",
+    data: [
+      { x: 1.00, y: -60.1, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.50, y: -30.2, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.33, y: -19.9, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.25, y: -15.1, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.20, y: -12.0, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.17, y: -9.9, y2: '', dx: 0.01, dy: 0.5 }
+    ],
+    note: "✓ Linearized form of Gravitational PE vs r"
+  },
+  orbit_period: {
+    title: "Orbital Period vs Orbit Radius",
+    xLabel: "Radius, r (10^6 m)",
+    yLabel: "Period, T (10^3 s)",
+    defaultFit: "power",
+    data: [
+      { x: 2.0, y: 2.8, y2: '', dx: 0.1, dy: 0.5 },
+      { x: 4.0, y: 8.0, y2: '', dx: 0.1, dy: 0.5 },
+      { x: 6.0, y: 14.7, y2: '', dx: 0.1, dy: 0.5 },
+      { x: 8.0, y: 22.6, y2: '', dx: 0.1, dy: 0.5 },
+      { x: 10.0, y: 31.6, y2: '', dx: 0.1, dy: 0.5 },
+      { x: 12.0, y: 41.6, y2: '', dx: 0.1, dy: 0.5 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  orbit_period_lin: {
+    title: "Kepler's 3rd Law linearized",
+    xLabel: "r³ (10^18 m³)",
+    yLabel: "T² (10^6 s²)",
+    defaultFit: "linear",
+    data: [
+      { x: 8, y: 7.8, y2: '', dx: 2, dy: 1.0 },
+      { x: 64, y: 64.0, y2: '', dx: 5, dy: 2.0 },
+      { x: 216, y: 216.1, y2: '', dx: 10, dy: 5.0 },
+      { x: 512, y: 510.8, y2: '', dx: 20, dy: 10.0 },
+      { x: 1000, y: 998.6, y2: '', dx: 30, dy: 15.0 },
+      { x: 1728, y: 1730.5, y2: '', dx: 45, dy: 20.0 }
+    ],
+    note: "✓ Linearized form of Orbital period (Kepler’s 3rd)"
+  },
+  escape_vel: {
+    title: "Escape Velocity vs Planetary Mass",
+    xLabel: "Mass, M (10^24 kg)",
+    yLabel: "Escape Velocity, v_esc (km/s)",
+    defaultFit: "power",
+    data: [
+      { x: 1.0, y: 3.2, y2: '', dx: 0.05, dy: 0.1 },
+      { x: 2.0, y: 4.5, y2: '', dx: 0.05, dy: 0.1 },
+      { x: 3.0, y: 5.5, y2: '', dx: 0.05, dy: 0.1 },
+      { x: 4.0, y: 6.4, y2: '', dx: 0.05, dy: 0.1 },
+      { x: 5.0, y: 7.1, y2: '', dx: 0.05, dy: 0.1 },
+      { x: 6.0, y: 7.8, y2: '', dx: 0.05, dy: 0.1 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  
+  // Electricity
+  elec_force: {
+    title: "Electric Force vs Separation",
+    xLabel: "Distance, r (m)",
+    yLabel: "Electric Force, F (uN)",
+    defaultFit: "inverse",
+    data: [
+      { x: 0.1, y: 90.5, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.2, y: 22.6, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.3, y: 10.1, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.4, y: 5.7, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.5, y: 3.6, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.6, y: 2.5, y2: '', dx: 0.01, dy: 0.5 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  elec_force_lin: {
+    title: "Electric Force linearized",
+    xLabel: "1/r² (m⁻²)",
+    yLabel: "Electric Force, F (uN)",
+    defaultFit: "linear",
+    data: [
+      { x: 100, y: 90.5, y2: '', dx: 2.0, dy: 0.5 },
+      { x: 25, y: 22.6, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 11.1, y: 10.1, y2: '', dx: 0.5, dy: 0.5 },
+      { x: 6.25, y: 5.7, y2: '', dx: 0.3, dy: 0.5 },
+      { x: 4.0, y: 3.6, y2: '', dx: 0.2, dy: 0.5 },
+      { x: 2.78, y: 2.5, y2: '', dx: 0.1, dy: 0.5 }
+    ],
+    note: "✓ Linearized form of Electric Force vs Distance"
+  },
+  elec_pot: {
+    title: "Electric Potential vs Separation",
+    xLabel: "Distance, r (m)",
+    yLabel: "Potential, V (V)",
+    defaultFit: "inverse",
+    data: [
+      { x: 0.1, y: 10.0, y2: '', dx: 0.01, dy: 0.1 },
+      { x: 0.2, y: 5.1, y2: '', dx: 0.01, dy: 0.1 },
+      { x: 0.3, y: 3.3, y2: '', dx: 0.01, dy: 0.1 },
+      { x: 0.4, y: 2.5, y2: '', dx: 0.01, dy: 0.1 },
+      { x: 0.5, y: 2.0, y2: '', dx: 0.01, dy: 0.1 },
+      { x: 0.6, y: 1.7, y2: '', dx: 0.01, dy: 0.1 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  elec_pot_lin: {
+    title: "Electric Potential linearized",
+    xLabel: "1/r (m⁻¹)",
+    yLabel: "Potential, V (V)",
+    defaultFit: "linear",
+    data: [
+      { x: 10.0, y: 10.0, y2: '', dx: 0.1, dy: 0.1 },
+      { x: 5.0, y: 5.1, y2: '', dx: 0.1, dy: 0.1 },
+      { x: 3.33, y: 3.3, y2: '', dx: 0.1, dy: 0.1 },
+      { x: 2.5, y: 2.5, y2: '', dx: 0.1, dy: 0.1 },
+      { x: 2.0, y: 2.0, y2: '', dx: 0.1, dy: 0.1 },
+      { x: 1.67, y: 1.7, y2: '', dx: 0.1, dy: 0.1 }
+    ],
+    note: "✓ Linearized form of Electric Potential vs r"
+  },
+  intensity_dist: {
+    title: "Light Intensity vs Distance",
+    xLabel: "Distance, d (m)",
+    yLabel: "Intensity, I (W/m²)",
+    defaultFit: "inverse",
+    data: [
+      { x: 1.0, y: 36.1, y2: '', dx: 0.05, dy: 0.5 },
+      { x: 2.0, y: 9.0, y2: '', dx: 0.05, dy: 0.5 },
+      { x: 3.0, y: 4.0, y2: '', dx: 0.05, dy: 0.5 },
+      { x: 4.0, y: 2.2, y2: '', dx: 0.05, dy: 0.5 },
+      { x: 5.0, y: 1.4, y2: '', dx: 0.05, dy: 0.5 },
+      { x: 6.0, y: 1.0, y2: '', dx: 0.05, dy: 0.5 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  intensity_dist_inv_d: {
+    title: "Light Intensity vs 1/d",
+    xLabel: "1/d (m⁻¹)",
+    yLabel: "Intensity, I (W/m²)",
+    defaultFit: "linear",
+    data: [
+      { x: 1.00, y: 36.1, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.50, y: 9.0, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.33, y: 4.0, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.25, y: 2.2, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.20, y: 1.4, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.17, y: 1.0, y2: '', dx: 0.01, dy: 0.5 }
+    ],
+    note: "✓ Linearized form of Intensity vs Distance (curved)",
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  intensity_dist_inv_d2: {
+    title: "Light Intensity vs 1/d²",
+    xLabel: "1/d² (m⁻²)",
+    yLabel: "Intensity, I (W/m²)",
+    defaultFit: "linear",
+    data: [
+      { x: 1.00, y: 36.1, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.25, y: 9.0, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.111, y: 4.0, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.063, y: 2.2, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.040, y: 1.4, y2: '', dx: 0.01, dy: 0.5 },
+      { x: 0.028, y: 1.0, y2: '', dx: 0.01, dy: 0.5 }
+    ],
+    note: "✓ Linearized form of Intensity vs Distance"
+  },
+  filament_lamp: {
+    title: "Non-Ohmic Filament Lamp",
+    xLabel: "Voltage, V (V)",
+    yLabel: "Current, I (A)",
+    defaultFit: "custom",
+    data: [
+      { x: 1.0, y: 0.25, y2: '', dx: 0.05, dy: 0.01 },
+      { x: 2.0, y: 0.42, y2: '', dx: 0.05, dy: 0.01 },
+      { x: 3.0, y: 0.55, y2: '', dx: 0.05, dy: 0.01 },
+      { x: 4.0, y: 0.65, y2: '', dx: 0.05, dy: 0.01 },
+      { x: 5.0, y: 0.73, y2: '', dx: 0.05, dy: 0.01 },
+      { x: 6.0, y: 0.80, y2: '', dx: 0.05, dy: 0.01 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  cap_discharge: {
+    title: "Capacitor Discharge Decay",
     xLabel: "Time, t (s)",
-    yLabel: "Counts, N",
+    yLabel: "Voltage, V (V)",
+    defaultFit: "exponential",
     data: [
-      { x: 0, y: 1000, y2: '', dx: 0.5, dy: 30 },
-      { x: 10, y: 620, y2: '', dx: 0.5, dy: 25 },
-      { x: 20, y: 370, y2: '', dx: 0.5, dy: 20 },
-      { x: 30, y: 230, y2: '', dx: 0.5, dy: 15 },
-      { x: 40, y: 140, y2: '', dx: 0.5, dy: 10 },
-      { x: 50, y: 85, y2: '', dx: 0.5, dy: 8 }
+      { x: 0.0, y: 9.0, y2: '', dx: 0.2, dy: 0.1 },
+      { x: 5.0, y: 5.5, y2: '', dx: 0.2, dy: 0.1 },
+      { x: 10.0, y: 3.3, y2: '', dx: 0.2, dy: 0.1 },
+      { x: 15.0, y: 2.0, y2: '', dx: 0.2, dy: 0.1 },
+      { x: 20.0, y: 1.2, y2: '', dx: 0.2, dy: 0.1 },
+      { x: 25.0, y: 0.7, y2: '', dx: 0.2, dy: 0.1 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  
+  // Waves & SHM
+  pendulum_t: {
+    title: "Pendulum Period vs Length",
+    xLabel: "Length, L (m)",
+    yLabel: "Period, T (s)",
+    defaultFit: "power",
+    data: [
+      { x: 0.2, y: 0.90, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 0.4, y: 1.27, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 0.6, y: 1.55, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 0.8, y: 1.79, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 1.0, y: 2.01, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 1.2, y: 2.20, y2: '', dx: 0.01, dy: 0.02 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  pendulum_t2: {
+    title: "Pendulum Period squared vs L",
+    xLabel: "Length, L (m)",
+    yLabel: "Period squared, T² (s²)",
+    defaultFit: "linear",
+    data: [
+      { x: 0.2, y: 0.81, y2: '', dx: 0.01, dy: 0.05 },
+      { x: 0.4, y: 1.61, y2: '', dx: 0.01, dy: 0.05 },
+      { x: 0.6, y: 2.40, y2: '', dx: 0.01, dy: 0.05 },
+      { x: 0.8, y: 3.20, y2: '', dx: 0.01, dy: 0.05 },
+      { x: 1.0, y: 4.04, y2: '', dx: 0.01, dy: 0.05 },
+      { x: 1.2, y: 4.84, y2: '', dx: 0.01, dy: 0.05 }
+    ],
+    note: "✓ Linearized form of Pendulum T vs L"
+  },
+  pendulum_t_sqrt: {
+    title: "Pendulum Period vs Square Root L",
+    xLabel: "√L (m^0.5)",
+    yLabel: "Period, T (s)",
+    defaultFit: "linear",
+    data: [
+      { x: 0.45, y: 0.90, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 0.63, y: 1.27, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 0.77, y: 1.55, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 0.89, y: 1.79, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 1.00, y: 2.01, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 1.10, y: 2.20, y2: '', dx: 0.01, dy: 0.02 }
+    ],
+    note: "✓ Linearized form of Pendulum T vs L"
+  },
+  freq_string: {
+    title: "Frequency vs String Length",
+    xLabel: "Length, L (m)",
+    yLabel: "Frequency, f (Hz)",
+    defaultFit: "inverse",
+    data: [
+      { x: 0.2, y: 500, y2: '', dx: 0.005, dy: 5 },
+      { x: 0.3, y: 333, y2: '', dx: 0.005, dy: 5 },
+      { x: 0.4, y: 250, y2: '', dx: 0.005, dy: 5 },
+      { x: 0.5, y: 200, y2: '', dx: 0.005, dy: 5 },
+      { x: 0.6, y: 167, y2: '', dx: 0.005, dy: 5 },
+      { x: 0.7, y: 143, y2: '', dx: 0.005, dy: 5 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  freq_string_lin: {
+    title: "Frequency vs 1/L",
+    xLabel: "1/L (m⁻¹)",
+    yLabel: "Frequency, f (Hz)",
+    defaultFit: "linear",
+    data: [
+      { x: 5.00, y: 500, y2: '', dx: 0.05, dy: 5 },
+      { x: 3.33, y: 333, y2: '', dx: 0.05, dy: 5 },
+      { x: 2.50, y: 250, y2: '', dx: 0.05, dy: 5 },
+      { x: 2.00, y: 200, y2: '', dx: 0.05, dy: 5 },
+      { x: 1.67, y: 167, y2: '', dx: 0.05, dy: 5 },
+      { x: 1.43, y: 143, y2: '', dx: 0.05, dy: 5 }
+    ],
+    note: "✓ Linearized form of Frequency vs String Length"
+  },
+  shm_disp: {
+    title: "SHM Displacement vs Time",
+    xLabel: "Time, t (s)",
+    yLabel: "Displacement, x (m)",
+    defaultFit: "sinusoidal",
+    data: [
+      { x: 0.0, y: 0.00, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 0.1, y: 0.59, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 0.2, y: 0.95, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 0.3, y: 0.95, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 0.4, y: 0.59, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 0.5, y: 0.00, y2: '', dx: 0.01, dy: 0.02 },
+      { x: 0.6, y: -0.59, y2: '', dx: 0.01, dy: 0.02 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  diffraction_slit: {
+    title: "Diffraction Intensity Slit",
+    xLabel: "Angle, θ (°)",
+    yLabel: "Intensity, I (a.u.)",
+    defaultFit: "custom",
+    data: [
+      { x: -15, y: 0.04, y2: '', dx: 0.5, dy: 0.02 },
+      { x: -10, y: 0.12, y2: '', dx: 0.5, dy: 0.02 },
+      { x: -5, y: 0.48, y2: '', dx: 0.5, dy: 0.02 },
+      { x: 0, y: 1.00, y2: '', dx: 0.5, dy: 0.02 },
+      { x: 5, y: 0.48, y2: '', dx: 0.5, dy: 0.02 },
+      { x: 10, y: 0.12, y2: '', dx: 0.5, dy: 0.02 },
+      { x: 15, y: 0.04, y2: '', dx: 0.5, dy: 0.02 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  photoelectric: {
+    title: "Photoelectric Max KE vs Frequency",
+    xLabel: "Frequency, f (10^14 Hz)",
+    yLabel: "Max KE, KE_max (eV)",
+    defaultFit: "linear",
+    data: [
+      { x: 5.0, y: 0.10, y2: '', dx: 0.1, dy: 0.05 },
+      { x: 6.0, y: 0.51, y2: '', dx: 0.1, dy: 0.05 },
+      { x: 7.0, y: 0.92, y2: '', dx: 0.1, dy: 0.05 },
+      { x: 8.0, y: 1.35, y2: '', dx: 0.1, dy: 0.05 },
+      { x: 9.0, y: 1.78, y2: '', dx: 0.1, dy: 0.05 },
+      { x: 10.0, y: 2.20, y2: '', dx: 0.1, dy: 0.05 }
     ]
+  },
+  
+  // Thermal
+  heating_water: {
+    title: "Water Heating Phase Change",
+    xLabel: "Time, t (s)",
+    yLabel: "Temperature, T (°C)",
+    defaultFit: "linear",
+    data: [
+      { x: 0, y: 20.1, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 30, y: 45.2, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 60, y: 70.3, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 90, y: 95.1, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 120, y: 100.0, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 150, y: 100.0, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 180, y: 100.0, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 210, y: 100.0, y2: '', dx: 1.0, dy: 0.5 }
+    ]
+  },
+  cooling_curve: {
+    title: "Newtonian Cooling Curve",
+    xLabel: "Time, t (s)",
+    yLabel: "Temperature, T (°C)",
+    defaultFit: "exponential",
+    data: [
+      { x: 0, y: 80.2, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 60, y: 56.4, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 120, y: 41.8, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 180, y: 32.9, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 240, y: 27.5, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 300, y: 24.2, y2: '', dx: 1.0, dy: 0.5 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  cooling_curve_lin: {
+    title: "Newtonian Cooling linearized",
+    xLabel: "Time, t (s)",
+    yLabel: "ln(T - T_room)",
+    defaultFit: "linear",
+    data: [
+      { x: 0, y: 4.10, y2: '', dx: 1.0, dy: 0.05 },
+      { x: 60, y: 3.59, y2: '', dx: 1.0, dy: 0.05 },
+      { x: 120, y: 3.08, y2: '', dx: 1.0, dy: 0.05 },
+      { x: 180, y: 2.56, y2: '', dx: 1.0, dy: 0.05 },
+      { x: 240, y: 2.01, y2: '', dx: 1.0, dy: 0.05 },
+      { x: 300, y: 1.44, y2: '', dx: 1.0, dy: 0.05 }
+    ],
+    note: "✓ Linearized form of Cooling curve"
+  },
+  boyles_law: {
+    title: "Boyle's Law: P vs V",
+    xLabel: "Volume, V (cm³)",
+    yLabel: "Pressure, P (kPa)",
+    defaultFit: "inverse",
+    data: [
+      { x: 10.0, y: 300.0, y2: '', dx: 0.5, dy: 2.0 },
+      { x: 15.0, y: 201.0, y2: '', dx: 0.5, dy: 2.0 },
+      { x: 20.0, y: 150.0, y2: '', dx: 0.5, dy: 2.0 },
+      { x: 25.0, y: 120.0, y2: '', dx: 0.5, dy: 2.0 },
+      { x: 30.0, y: 99.0, y2: '', dx: 0.5, dy: 2.0 },
+      { x: 35.0, y: 85.0, y2: '', dx: 0.5, dy: 2.0 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  boyles_law_lin: {
+    title: "Boyle's Law linearized",
+    xLabel: "1/V (cm⁻³)",
+    yLabel: "Pressure, P (kPa)",
+    defaultFit: "linear",
+    data: [
+      { x: 0.100, y: 300.0, y2: '', dx: 0.002, dy: 2.0 },
+      { x: 0.067, y: 201.0, y2: '', dx: 0.002, dy: 2.0 },
+      { x: 0.050, y: 150.0, y2: '', dx: 0.002, dy: 2.0 },
+      { x: 0.040, y: 120.0, y2: '', dx: 0.002, dy: 2.0 },
+      { x: 0.033, y: 99.0, y2: '', dx: 0.002, dy: 2.0 },
+      { x: 0.029, y: 85.0, y2: '', dx: 0.002, dy: 2.0 }
+    ],
+    note: "✓ Linearized form of Boyle's Law P vs V"
+  },
+  charles_law: {
+    title: "Charles's Law: V vs T",
+    xLabel: "Temperature, T (K)",
+    yLabel: "Volume, V (cm³)",
+    defaultFit: "linear",
+    data: [
+      { x: 273.0, y: 54.6, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 300.0, y: 60.1, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 330.0, y: 65.9, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 360.0, y: 72.2, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 390.0, y: 78.1, y2: '', dx: 1.0, dy: 0.5 },
+      { x: 420.0, y: 84.2, y2: '', dx: 1.0, dy: 0.5 }
+    ]
+  },
+  stefan_boltzmann: {
+    title: "Stefan-Boltzmann T⁴ law",
+    xLabel: "Temperature, T (K)",
+    yLabel: "Radiated Power, P (W)",
+    defaultFit: "power",
+    data: [
+      { x: 300.0, y: 4.6, y2: '', dx: 5.0, dy: 1.0 },
+      { x: 400.0, y: 14.5, y2: '', dx: 5.0, dy: 1.0 },
+      { x: 500.0, y: 35.3, y2: '', dx: 5.0, dy: 1.0 },
+      { x: 600.0, y: 73.1, y2: '', dx: 5.0, dy: 1.0 },
+      { x: 700.0, y: 136.0, y2: '', dx: 5.0, dy: 1.0 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  stefan_boltzmann_lin: {
+    title: "Stefan-Boltzmann linearized",
+    xLabel: "T⁴ (10^9 K⁴)",
+    yLabel: "Radiated Power, P (W)",
+    defaultFit: "linear",
+    data: [
+      { x: 8.1, y: 4.6, y2: '', dx: 0.5, dy: 1.0 },
+      { x: 25.6, y: 14.5, y2: '', dx: 1.0, dy: 1.0 },
+      { x: 62.5, y: 35.3, y2: '', dx: 2.0, dy: 1.0 },
+      { x: 129.6, y: 73.1, y2: '', dx: 4.0, dy: 1.0 },
+      { x: 240.1, y: 136.0, y2: '', dx: 6.0, dy: 1.0 }
+    ],
+    note: "✓ Linearized form of Stefan-Boltzmann"
+  },
+  
+  // Nuclear
+  radioactive_decay: {
+    title: "Radioactive Decay Curve",
+    xLabel: "Time, t (s)",
+    yLabel: "Active Nuclei, N",
+    defaultFit: "exponential",
+    data: [
+      { x: 0.0, y: 1000.0, y2: '', dx: 0.5, dy: 10.0 },
+      { x: 10.0, y: 605.0, y2: '', dx: 0.5, dy: 10.0 },
+      { x: 20.0, y: 368.0, y2: '', dx: 0.5, dy: 10.0 },
+      { x: 30.0, y: 223.0, y2: '', dx: 0.5, dy: 10.0 },
+      { x: 40.0, y: 135.0, y2: '', dx: 0.5, dy: 10.0 },
+      { x: 50.0, y: 82.0, y2: '', dx: 0.5, dy: 10.0 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
+  },
+  decay_lin: {
+    title: "Radioactive Decay (semi-log)",
+    xLabel: "Time, t (s)",
+    yLabel: "ln(N)",
+    defaultFit: "linear",
+    data: [
+      { x: 0.0, y: 6.91, y2: '', dx: 0.5, dy: 0.05 },
+      { x: 10.0, y: 6.41, y2: '', dx: 0.5, dy: 0.05 },
+      { x: 20.0, y: 5.91, y2: '', dx: 0.5, dy: 0.05 },
+      { x: 30.0, y: 5.41, y2: '', dx: 0.5, dy: 0.05 },
+      { x: 40.0, y: 4.91, y2: '', dx: 0.5, dy: 0.05 },
+      { x: 50.0, y: 4.41, y2: '', dx: 0.5, dy: 0.05 }
+    ],
+    note: "✓ Linearized form of Radioactive decay"
+  },
+  half_life: {
+    title: "Half-Life Decay N/N₀",
+    xLabel: "Time, t (half-lives)",
+    yLabel: "Fraction Remaining, N/N₀",
+    defaultFit: "exponential",
+    data: [
+      { x: 0.0, y: 1.00, y2: '', dx: 0.1, dy: 0.01 },
+      { x: 1.0, y: 0.50, y2: '', dx: 0.1, dy: 0.01 },
+      { x: 2.0, y: 0.25, y2: '', dx: 0.1, dy: 0.01 },
+      { x: 3.0, y: 0.12, y2: '', dx: 0.1, dy: 0.01 },
+      { x: 4.0, y: 0.06, y2: '', dx: 0.1, dy: 0.01 },
+      { x: 5.0, y: 0.03, y2: '', dx: 0.1, dy: 0.01 }
+    ],
+    tooltip: "💡 Try linearizing this! Use the transform options."
   }
 };
+
 
 function saveState() {
   const currentState = JSON.stringify(coordinates);
   if (undoStack.length === 0 || undoStack[undoStack.length - 1] !== currentState) {
     undoStack.push(currentState);
-    redoStack = []; // Clear redo stack on modification
+    redoStack = []; 
   }
 }
 
@@ -963,13 +1677,56 @@ function redo() {
 }
 
 window.addEventListener('keydown', (e) => {
-  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
-    e.preventDefault();
-    if (e.shiftKey) redo(); else undo();
+  // Escape key closes modal
+  if (e.key === 'Escape') {
+    closeShortcutHelp();
   }
-  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') {
+
+  // Keyboard shortcuts (Ctrl/Cmd based)
+  if (e.ctrlKey || e.metaKey) {
+    const key = e.key.toLowerCase();
+    if (key === 'z') {
+      e.preventDefault();
+      if (e.shiftKey) redo(); else undo();
+    } else if (key === 'y') {
+      e.preventDefault();
+      redo();
+    } else if (key === 's') {
+      e.preventDefault();
+      saveProgress();
+    } else if (key === 'e') {
+      e.preventDefault();
+      downloadGraphPNG();
+    }
+  }
+
+  // Enter key navigation in table
+  if (e.key === 'Enter' && e.target && e.target.classList.contains('data-input')) {
     e.preventDefault();
-    redo();
+    const idMatch = e.target.id.match(/^cell-([a-z0-9]+)-(\d+)$/);
+    if (idMatch) {
+      const field = idMatch[1];
+      const rowIdx = parseInt(idMatch[2], 10);
+      const nextRowIdx = rowIdx + 1;
+      const nextInput = document.getElementById(`cell-${field}-${nextRowIdx}`);
+      if (nextInput) {
+        nextInput.focus();
+        nextInput.select();
+      } else {
+        // If on the last row, add a new row
+        if (rowIdx === coordinates.length - 1) {
+          addDataRow();
+          // Focus the new row's first cell (x)
+          setTimeout(() => {
+            const newCell = document.getElementById(`cell-x-${nextRowIdx}`);
+            if (newCell) {
+              newCell.focus();
+              newCell.select();
+            }
+          }, 50);
+        }
+      }
+    }
   }
 });
 
@@ -978,18 +1735,26 @@ window.addEventListener('keydown', (e) => {
 // ═══════════════════════════════════════
 function renderDataTable() {
   const tbody = document.getElementById('dataTableBody');
+  if (!tbody) return;
   tbody.innerHTML = '';
   coordinates.forEach((pt, i) => {
-    tbody.innerHTML += `
-      <tr>
-        <td><input type="number" step="any" class="data-input" value="${pt.x}" oninput="updatePoint(${i}, 'x', this.value)"></td>
-        <td><input type="number" step="any" class="data-input" value="${pt.y}" oninput="updatePoint(${i}, 'y', this.value)"></td>
-        <td><input type="number" step="any" class="data-input" value="${pt.y2 === undefined ? '' : pt.y2}" placeholder="—" oninput="updatePoint(${i}, 'y2', this.value)"></td>
-        <td><input type="number" step="any" class="data-input" value="${pt.dx === undefined ? '' : pt.dx}" placeholder="0" oninput="updatePoint(${i}, 'dx', this.value)"></td>
-        <td><input type="number" step="any" class="data-input" value="${pt.dy === undefined ? '' : pt.dy}" placeholder="0" oninput="updatePoint(${i}, 'dy', this.value)"></td>
-        <td><button class="delete-btn" onclick="deletePoint(${i})">✕</button></td>
-      </tr>
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="number" step="any" class="data-input" id="cell-x-${i}" oninput="updatePoint(${i}, 'x', this.value)"></td>
+      <td><input type="number" step="any" class="data-input" id="cell-y-${i}" oninput="updatePoint(${i}, 'y', this.value)"></td>
+      <td><input type="number" step="any" class="data-input" id="cell-y2-${i}" placeholder="—" oninput="updatePoint(${i}, 'y2', this.value)"></td>
+      <td><input type="number" step="any" class="data-input" id="cell-dx-${i}" placeholder="0" oninput="updatePoint(${i}, 'dx', this.value)"></td>
+      <td><input type="number" step="any" class="data-input" id="cell-dy-${i}" placeholder="0" oninput="updatePoint(${i}, 'dy', this.value)"></td>
+      <td><button class="delete-btn" onclick="deletePoint(${i})">✕</button></td>
     `;
+    tbody.appendChild(tr);
+    
+    // Explicitly assign values to prevent empty inputs when loading preset
+    document.getElementById(`cell-x-${i}`).value = (pt.x === undefined || pt.x === null || pt.x === '') ? '' : pt.x;
+    document.getElementById(`cell-y-${i}`).value = (pt.y === undefined || pt.y === null || pt.y === '') ? '' : pt.y;
+    document.getElementById(`cell-y2-${i}`).value = (pt.y2 === undefined || pt.y2 === null || pt.y2 === '') ? '' : pt.y2;
+    document.getElementById(`cell-dx-${i}`).value = (pt.dx === undefined || pt.dx === null || pt.dx === '') ? '' : pt.dx;
+    document.getElementById(`cell-dy-${i}`).value = (pt.dy === undefined || pt.dy === null || pt.dy === '') ? '' : pt.dy;
   });
 }
 
@@ -1027,25 +1792,32 @@ function clearData() {
 }
 
 function loadPreset(key) {
+  if (!key) return;
   const p = PRESETS[key];
   if (!p) return;
   saveState();
-  document.getElementById('graphTitleInput').value = p.title;
-  document.getElementById('graphXLabelInput').value = p.xLabel;
-  document.getElementById('graphYLabelInput').value = p.yLabel;
+  document.getElementById('graphTitleInput').value = p.title || 'Experimental Data Plot';
+  document.getElementById('graphXLabelInput').value = p.xLabel || 'Independent Variable, x';
+  document.getElementById('graphYLabelInput').value = p.yLabel || 'Dependent Variable, y';
   
   // Set transforms to none initially
   document.getElementById('linearizeXSelect').value = 'none';
   document.getElementById('linearizeYSelect').value = 'none';
   
-  if (key === 'decay') {
-    document.getElementById('bestFitTypeSelect').value = 'exponential';
-  } else {
-    document.getElementById('bestFitTypeSelect').value = 'linear';
-  }
-  
+  document.getElementById('bestFitTypeSelect').value = p.defaultFit || 'linear';
   toggleFittingMode();
   
+  const infoEl = document.getElementById('presetInfo');
+  if (infoEl) {
+    if (p.tooltip) {
+      infoEl.innerHTML = `<span style="color:var(--coral);">${p.tooltip}</span>`;
+    } else if (p.note) {
+      infoEl.innerHTML = `<span style="color:var(--teal-mid);">${p.note}</span>`;
+    } else {
+      infoEl.textContent = '';
+    }
+  }
+
   coordinates = JSON.parse(JSON.stringify(p.data));
   renderDataTable();
   drawGraph();
@@ -1209,30 +1981,37 @@ function solveXForY(fit, y) {
   const m = fit.slope;
   const c = fit.intercept;
   
+  if (bestFitType === 'proportional') {
+    if (m === 0) return NaN;
+    return y / m;
+  }
   if (bestFitType === 'linear') {
     if (m === 0) return NaN;
     return (y - c) / m;
   }
   if (bestFitType === 'exponential') {
-    // y = a * e^(b * x) => x = ln(y/a) / b
-    const a = fit.a;
-    const b = fit.b;
+    const a = fit.intercept; // a stored in intercept
+    const b = fit.slope;     // b stored in slope
     if (b === 0 || y / a <= 0) return NaN;
     return Math.log(y / a) / b;
   }
   if (bestFitType === 'logarithmic') {
-    // y = a * ln(x) + b => ln(x) = (y - b)/a => x = e^((y-b)/a)
-    const a = fit.a;
-    const b = fit.b;
+    const a = fit.slope;     // a stored in slope
+    const b = fit.intercept; // b stored in intercept
     if (a === 0) return NaN;
     return Math.exp((y - b) / a);
   }
   if (bestFitType === 'inverse') {
-    // y = a/x + b => y - b = a/x => x = a / (y - b)
-    const a = fit.a;
-    const b = fit.b;
+    const a = fit.slope;     // a stored in slope
+    const b = fit.intercept; // b stored in intercept
     if (y - b === 0) return NaN;
     return a / (y - b);
+  }
+  if (bestFitType === 'power') {
+    const a = fit.intercept; // a stored in intercept
+    const b = fit.slope;     // b stored in slope
+    if (a === 0 || b === 0 || y / a <= 0) return NaN;
+    return Math.pow(y / a, 1 / b);
   }
   
   // Custom: Numerical approximation (Bisection method)
@@ -1420,6 +2199,52 @@ function calculateFitParameters(pts, bestFitType) {
       }
     }
   }
+  else if (bestFitType === 'proportional') {
+    const denom = sumXX;
+    if (Math.abs(denom) > 1e-8) {
+      slope = sumXY / denom;
+      intercept = 0;
+      valid = true;
+      evaluate = (x) => slope * x;
+      formulaStr = `y = ${slope.toFixed(4)}x`;
+    }
+  }
+  else if (bestFitType === 'power') {
+    const validPowerPts = pts.filter(p => p.x > 0 && p.y > 0);
+    if (validPowerPts.length >= 2) {
+      const n2 = validPowerPts.length;
+      let sLnX = 0, sLnY = 0, sLnXX = 0, sLnXY = 0;
+      validPowerPts.forEach(p => {
+        const lnX = Math.log(p.x);
+        const lnY = Math.log(p.y);
+        sLnX += lnX;
+        sLnY += lnY;
+        sLnXX += lnX * lnX;
+        sLnXY += lnX * lnY;
+      });
+      const denom = n2 * sLnXX - sLnX * sLnX;
+      if (Math.abs(denom) > 1e-8) {
+        const b = (n2 * sLnXY - sLnX * sLnY) / denom;
+        const lnA = (sLnY - b * sLnX) / n2;
+        const a = Math.exp(lnA);
+        slope = b;
+        intercept = a;
+        valid = true;
+        evaluate = (x) => x > 0 ? a * Math.pow(x, b) : NaN;
+        formulaStr = `y = ${a.toFixed(4)} · x^(${b.toFixed(4)})`;
+      }
+    }
+  }
+  else if (bestFitType === 'sinusoidal') {
+    const result = runSinusoidalSolver(pts);
+    if (result && result.valid) {
+      valid = true;
+      slope = result.amplitude;
+      intercept = result.offset;
+      evaluate = (x) => result.evaluate(x);
+      formulaStr = `y = ${result.amplitude.toFixed(3)}·sin(${result.omega.toFixed(3)}x + ${result.phi.toFixed(3)}) + ${result.offset.toFixed(3)}`;
+    }
+  }
   else if (bestFitType === 'custom') {
     const customEq = document.getElementById('customEquationInput').value;
     const result = runCustomSolver(pts, customEq);
@@ -1531,6 +2356,71 @@ function runCustomSolver(pts, equationStr) {
     valid: isFinite(bestLoss),
     a, b, c,
     evaluate: (x) => evaluateEquation(x, a, b, c)
+  };
+}
+
+// ═══════════════════════════════════════
+// SINUSOIDAL SOLVER
+// ═══════════════════════════════════════
+function runSinusoidalSolver(pts) {
+  const ys = pts.map(p => p.y);
+  const xs = pts.map(p => p.x);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  
+  let amp = (maxY - minY) / 2 || 1.0;
+  let offset = (maxY + minY) / 2 || 0.0;
+  let omega = (2 * Math.PI / (maxX - minX)) || 1.0;
+  let phi = 0.0;
+  
+  function loss(a, w, p, o) {
+    let sum = 0;
+    for (let pt of pts) {
+      const pred = a * Math.sin(w * pt.x + p) + o;
+      sum += (pt.y - pred) * (pt.y - pred);
+    }
+    return sum;
+  }
+  
+  let bestLoss = loss(amp, omega, phi, offset);
+  let step = 0.5;
+  for (let iter = 0; iter < 200; iter++) {
+    let improved = false;
+    const dirs = [
+      [step, 0, 0, 0], [-step, 0, 0, 0],
+      [0, step, 0, 0], [0, -step, 0, 0],
+      [0, 0, step, 0], [0, 0, -step, 0],
+      [0, 0, 0, step], [0, 0, 0, -step]
+    ];
+    for (let d of dirs) {
+      const ta = amp + d[0];
+      const tw = omega + d[1];
+      const tp = phi + d[2];
+      const to = offset + d[3];
+      const l = loss(ta, tw, tp, to);
+      if (l < bestLoss) {
+        bestLoss = l;
+        amp = ta;
+        omega = tw;
+        phi = tp;
+        offset = to;
+        improved = true;
+      }
+    }
+    if (!improved) {
+      step *= 0.5;
+      if (step < 1e-5) break;
+    }
+  }
+  return {
+    valid: isFinite(bestLoss),
+    amplitude: amp,
+    omega: omega,
+    phi: phi,
+    offset: offset,
+    evaluate: (x) => amp * Math.sin(omega * x + phi) + offset
   };
 }
 
@@ -1886,6 +2776,23 @@ function drawGraph() {
   const showBestFit = document.getElementById('showBestFitCheck').checked;
   const fit = calculateFitParameters(pts, bestFitType);
 
+  // Calculate anomalies (>2 SD of Residuals)
+  let anomalies = [];
+  if (pts.length > 2 && fit.valid) {
+    const residuals = pts.map((p, idx) => ({ idx: idx + 1, val: p.y - fit.evaluate(p.x) }));
+    const meanRes = residuals.reduce((sum, r) => sum + r.val, 0) / residuals.length;
+    const sumSqRes = residuals.reduce((sum, r) => sum + Math.pow(r.val - meanRes, 2), 0);
+    const sdRes = Math.sqrt(sumSqRes / (residuals.length - 2));
+    
+    if (sdRes > 1e-6) {
+      residuals.forEach(r => {
+        if (Math.abs(r.val - meanRes) > 2 * sdRes) {
+          anomalies.push(r.idx);
+        }
+      });
+    }
+  }
+
   // Draw Best Fit Line
   if (showBestFit && fit.valid) {
     ctx.strokeStyle = colorRegression;
@@ -1916,7 +2823,8 @@ function drawGraph() {
 
   // Calculate Y2 Best Fit Curve (Secondary Axis)
   let fitY2 = null;
-  if (hasSecondary && showBestFit) {
+  const showY2Fit = document.getElementById('showY2FitCheck').checked;
+  if (hasSecondary && showY2Fit) {
     const y2Pts = pts.filter(p => p.hasY2 && !isNaN(p.y2)).map(p => ({ x: p.x, y: p.y2 }));
     fitY2 = calculateFitParameters(y2Pts, 'linear'); // Standard linear fit for Y2
     if (fitY2.valid) {
@@ -1929,6 +2837,52 @@ function drawGraph() {
       ctx.stroke();
       ctx.setLineDash([]);
     }
+  }
+
+  // Draw Theoretical Comparison Curve
+  const showComparison = document.getElementById('showComparisonCheck').checked;
+  const comparisonEqStr = document.getElementById('comparisonEquationInput').value;
+  if (showComparison && comparisonEqStr) {
+    ctx.strokeStyle = '#8a2be2'; // purple
+    ctx.lineWidth = 1.8;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    
+    const segments = 120;
+    let started = false;
+    for (let i = 0; i <= segments; i++) {
+      const xVal = minX + (i / segments) * (maxX - minX);
+      
+      let yVal = NaN;
+      try {
+        const expr = comparisonEqStr
+          .replace(/\b(x)\b/g, xVal)
+          .replace(/\^/g, '**');
+        const mathExpr = expr
+          .replace(/\b(sin|cos|tan|log|ln|exp|sqrt|pow|pi|e)\b/g, 'Math.$1')
+          .replace(/Math\.ln/g, 'Math.log')
+          .replace(/Math\.pi/g, 'Math.PI')
+          .replace(/Math\.e/g, 'Math.E');
+        yVal = Function('return (' + mathExpr + ')')();
+      } catch(e) {
+        yVal = NaN;
+      }
+      
+      if (!isNaN(yVal) && isFinite(yVal)) {
+        const px = toPxX(xVal);
+        const py = toPxY(yVal);
+        if (px >= margin.left && px <= displayWidth - margin.right && py >= margin.top && py <= margin.top + graphHeight) {
+          if (!started) {
+            ctx.moveTo(px, py);
+            started = true;
+          } else {
+            ctx.lineTo(px, py);
+          }
+        }
+      }
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
   }
 
   // ═══════════════════════════════════════
@@ -1975,6 +2929,7 @@ function drawGraph() {
       const { ex, ey } = getPointErrors(p);
       const px = toPxX(p.x);
       const py = toPxY(p.y);
+      const showUncPercent = document.getElementById('showUncPercentCheck').checked;
 
       // Y Error Bars (Vertical)
       if (ey > 0) {
@@ -1990,6 +2945,14 @@ function drawGraph() {
         ctx.moveTo(px - 4, topY); ctx.lineTo(px + 4, topY);
         ctx.moveTo(px - 4, botY); ctx.lineTo(px + 4, botY);
         ctx.stroke();
+
+        if (showUncPercent && p.y !== 0) {
+          ctx.fillStyle = isDark ? '#b0b0c4' : '#555570';
+          ctx.font = '7px sans-serif';
+          ctx.textAlign = 'left';
+          const pct = Math.abs((ey / p.y) * 100).toFixed(1);
+          ctx.fillText(`±${pct}%`, px + 6, topY + 4);
+        }
       }
 
       // X Error Bars (Horizontal)
@@ -2006,6 +2969,14 @@ function drawGraph() {
         ctx.moveTo(leftX, py - 4); ctx.lineTo(leftX, py + 4);
         ctx.moveTo(rightX, py - 4); ctx.lineTo(rightX, py + 4);
         ctx.stroke();
+
+        if (showUncPercent && p.x !== 0) {
+          ctx.fillStyle = isDark ? '#b0b0c4' : '#555570';
+          ctx.font = '7px sans-serif';
+          ctx.textAlign = 'center';
+          const pct = Math.abs((ex / p.x) * 100).toFixed(1);
+          ctx.fillText(`±${pct}%`, rightX, py - 6);
+        }
       }
     });
   }
@@ -2039,12 +3010,13 @@ function drawGraph() {
   }
 
   // Draw raw points & Labels
-  ctx.fillStyle = colorPlot;
   pts.forEach((p, idx) => {
     const px = toPxX(p.x);
     const py = toPxY(p.y);
+    const isAnomaly = anomalies.includes(idx + 1);
 
     if (chartType !== 'bar') {
+      ctx.fillStyle = isAnomaly ? '#e67e22' : colorPlot;
       ctx.beginPath();
       ctx.arc(px, py, 4.5, 0, 2 * Math.PI);
       ctx.fill();
@@ -2053,17 +3025,19 @@ function drawGraph() {
       ctx.stroke();
     }
 
-    // Secondary series points
+    // Secondary series points (green triangles)
     if (hasSecondary && p.hasY2 && !isNaN(p.y2)) {
       const py2 = toPxY2(p.y2);
       ctx.fillStyle = colorY2;
       ctx.beginPath();
-      ctx.arc(px, py2, 4.5, 0, 2 * Math.PI);
+      ctx.moveTo(px, py2 - 5);
+      ctx.lineTo(px - 5, py2 + 4);
+      ctx.lineTo(px + 5, py2 + 4);
+      ctx.closePath();
       ctx.fill();
       ctx.strokeStyle = colorBg;
       ctx.lineWidth = 1;
       ctx.stroke();
-      ctx.fillStyle = colorPlot; // reset
     }
 
     // Node labels
@@ -2079,6 +3053,28 @@ function drawGraph() {
       ctx.fillText(labelText, px + 8, py - 4);
     }
   });
+
+  // Centroid marker (✕)
+  if (pts.length > 0) {
+    const centroidX = pts.reduce((sum, p) => sum + p.x, 0) / pts.length;
+    const centroidY = pts.reduce((sum, p) => sum + p.y, 0) / pts.length;
+    const cx = toPxX(centroidX);
+    const cy = toPxY(centroidY);
+    
+    ctx.strokeStyle = isDark ? '#ffffff' : '#000000';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - 6, cy - 6);
+    ctx.lineTo(cx + 6, cy + 6);
+    ctx.moveTo(cx - 6, cy + 6);
+    ctx.lineTo(cx + 6, cy - 6);
+    ctx.stroke();
+    
+    ctx.fillStyle = isDark ? '#ffffff' : '#000000';
+    ctx.font = 'bold 9px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(" Centroid (x̄,ȳ)", cx + 8, cy);
+  }
 
   const sortedPts = [...pts].sort((a, b) => a.x - b.x);
   
@@ -2211,40 +3207,75 @@ function drawGraph() {
     lx = margin.left + 10; ly = margin.top + graphHeight - 90;
   }
 
-  ctx.fillStyle = isDark ? 'rgba(30, 32, 45, 0.9)' : 'rgba(255, 255, 255, 0.9)';
-  ctx.strokeStyle = colorBorder;
-  ctx.lineWidth = 1;
-  ctx.fillRect(lx, ly, 135, 75);
-  ctx.strokeRect(lx, ly, 135, 75);
-
-  ctx.fillStyle = colorText;
-  ctx.font = '10px sans-serif';
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'middle';
-
-  // Series 1
-  ctx.fillStyle = colorPlot;
-  ctx.beginPath(); ctx.arc(lx + 12, ly + 15, 4, 0, 2*Math.PI); ctx.fill();
-  ctx.fillStyle = colorText;
-  ctx.fillText("Series 1 (Points)", lx + 24, ly + 15);
-
-  // Best fit
-  ctx.strokeStyle = colorRegression; ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(lx + 6, ly + 35); ctx.lineTo(lx + 18, ly + 35); ctx.stroke();
-  ctx.fillText("Best-Fit Line", lx + 24, ly + 35);
-
-  // Min/Max bounds or Y2
+  const legendEntries = [];
+  legendEntries.push({ type: 'point', color: colorPlot, label: 'Series 1' });
+  if (showBestFit && fit.valid) {
+    legendEntries.push({ type: 'line', color: colorRegression, label: 'Fit (Series 1)' });
+  }
   if (hasSecondary) {
-    ctx.fillStyle = colorY2;
-    ctx.beginPath(); ctx.arc(lx + 12, ly + 55, 4, 0, 2*Math.PI); ctx.fill();
-    ctx.fillStyle = colorText;
-    ctx.fillText("Series 2 (Y2)", lx + 24, ly + 55);
-  } else if (showMinMaxLines && maxSlopeValid) {
-    ctx.strokeStyle = 'rgba(235, 99, 37, 0.8)';
-    ctx.beginPath(); ctx.moveTo(lx + 6, ly + 55); ctx.lineTo(lx + 18, ly + 55); ctx.stroke();
-    ctx.fillText("Min/Max Limits", lx + 24, ly + 55);
-  } else {
-    ctx.fillText("Atul Soral Lab", lx + 12, ly + 55);
+    legendEntries.push({ type: 'triangle', color: colorY2, label: 'Series 2 (Y2)' });
+  }
+  if (hasSecondary && showY2Fit && fitY2 && fitY2.valid) {
+    legendEntries.push({ type: 'dash', color: colorY2, label: 'Fit (Series 2)' });
+  }
+  if (showMinMaxLines && maxSlopeValid) {
+    legendEntries.push({ type: 'line', color: 'rgba(235, 99, 37, 0.8)', label: 'Min/Max Limits' });
+  }
+  if (showComparison && comparisonEqStr) {
+    legendEntries.push({ type: 'dash', color: '#8a2be2', label: 'Theoretical' });
+  }
+  
+  if (legendEntries.length > 0) {
+    const entryHeight = 16;
+    const padding = 10;
+    const legendWidth = 145;
+    const legendHeight = legendEntries.length * entryHeight + padding * 2;
+    
+    let adjustedLy = ly;
+    if (legendPos === 'bottom-right' || legendPos === 'bottom-left') {
+      adjustedLy = margin.top + graphHeight - legendHeight - 10;
+    }
+    
+    ctx.fillStyle = isDark ? 'rgba(30, 32, 45, 0.9)' : 'rgba(255, 255, 255, 0.9)';
+    ctx.strokeStyle = colorBorder;
+    ctx.lineWidth = 1;
+    ctx.fillRect(lx, adjustedLy, legendWidth, legendHeight);
+    ctx.strokeRect(lx, adjustedLy, legendWidth, legendHeight);
+    
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    
+    legendEntries.forEach((entry, eIdx) => {
+      const ey = adjustedLy + padding + eIdx * entryHeight + entryHeight / 2;
+      ctx.fillStyle = colorText;
+      
+      if (entry.type === 'point') {
+        ctx.fillStyle = entry.color;
+        ctx.beginPath(); ctx.arc(lx + 12, ey, 3.5, 0, 2*Math.PI); ctx.fill();
+      } else if (entry.type === 'triangle') {
+        ctx.fillStyle = entry.color;
+        ctx.beginPath();
+        ctx.moveTo(lx + 12, ey - 4);
+        ctx.lineTo(lx + 8, ey + 4);
+        ctx.lineTo(lx + 16, ey + 4);
+        ctx.closePath();
+        ctx.fill();
+      } else if (entry.type === 'line') {
+        ctx.strokeStyle = entry.color;
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(lx + 4, ey); ctx.lineTo(lx + 20, ey); ctx.stroke();
+      } else if (entry.type === 'dash') {
+        ctx.strokeStyle = entry.color;
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(lx + 4, ey); ctx.lineTo(lx + 20, ey); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+      
+      ctx.fillStyle = colorText;
+      ctx.fillText(entry.label, lx + 26, ey);
+    });
   }
 
   // ═══════════════════════════════════════
@@ -2310,6 +3341,32 @@ function drawGraph() {
       ctx.lineTo(px, py);
       ctx.stroke();
     });
+  }
+
+  // Graph Watermark (subtle at bottom-right corner)
+  ctx.fillStyle = isDark ? 'rgba(255,255,255,0.15)' : 'rgba(26,26,46,0.15)';
+  ctx.font = 'italic 10px sans-serif';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'bottom';
+  ctx.fillText("Physicism Graph Lab", displayWidth - margin.right - 10, displayHeight - 10);
+
+  // Anomaly warnings update
+  const anomalyEl = document.getElementById('anomalyAlert');
+  if (anomalyEl) {
+    if (anomalies.length > 0) {
+      anomalyEl.style.display = 'block';
+      anomalyEl.innerHTML = `
+        <div style="border-left: 5px solid var(--coral); background: var(--pink-pale); color: var(--ink); padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); border: 1.5px solid var(--glass-border);">
+          <div>
+            <span style="font-size: 14px; margin-right: 6px;">⚠️</span>
+            <strong>Possible Anomaly Detected</strong>: Point(s) ${anomalies.map(a => '#' + a).join(', ')} exceed 2 standard deviations from the best-fit regression curve.
+          </div>
+          <button onclick="document.getElementById('anomalyAlert').style.display='none'" style="background:none; border:none; color:var(--ink-3); font-weight:bold; cursor:pointer; font-size:16px; margin-left:12px;">✕</button>
+        </div>
+      `;
+    } else {
+      anomalyEl.style.display = 'none';
+    }
   }
 
   // ═══════════════════════════════════════
@@ -2388,13 +3445,686 @@ function drawGraph() {
 }
 
 // ═══════════════════════════════════════
+// NEW ADVANCED HELPER FUNCTIONS
+// ═══════════════════════════════════════
+
+function saveProgress() {
+  const data = {
+    coordinates: coordinates,
+    graphTitle: document.getElementById('graphTitleInput').value,
+    xLabel: document.getElementById('graphXLabelInput').value,
+    yLabel: document.getElementById('graphYLabelInput').value,
+    linearizeX: document.getElementById('linearizeXSelect').value,
+    linearizeY: document.getElementById('linearizeYSelect').value,
+    bestFitType: document.getElementById('bestFitTypeSelect').value,
+    autoScale: document.getElementById('autoScaleCheck').checked,
+    xMin: document.getElementById('xMinInput').value,
+    xMax: document.getElementById('xMaxInput').value,
+    xStep: document.getElementById('xStepInput').value,
+    yMin: document.getElementById('yMinInput').value,
+    yMax: document.getElementById('yMaxInput').value,
+    yStep: document.getElementById('yStepInput').value,
+    logScaleX: document.getElementById('logScaleXCheck').checked,
+    logScaleY: document.getElementById('logScaleYCheck').checked,
+    showPointLabels: document.getElementById('showPointLabelsCheck').checked,
+    showPointNumbers: document.getElementById('showPointNumbersCheck').checked,
+    showGrid: document.getElementById('showGridCheck').checked,
+    showBestFit: document.getElementById('showBestFitCheck').checked,
+    showMinMaxLines: document.getElementById('showMinMaxLinesCheck').checked,
+    showResiduals: document.getElementById('showResidualsCheck').checked,
+    showY2Fit: document.getElementById('showY2FitCheck').checked,
+    showUncPercent: document.getElementById('showUncPercentCheck').checked,
+    showComparison: document.getElementById('showComparisonCheck').checked,
+    comparisonEquation: document.getElementById('comparisonEquationInput') ? document.getElementById('comparisonEquationInput').value : '',
+    presetSelect: document.getElementById('presetSelect').value,
+    errorBarType: document.getElementById('errorBarTypeSelect').value,
+    errorBarValue: document.getElementById('errorBarValueInput').value
+  };
+  localStorage.setItem('graph-lab-progress', JSON.stringify(data));
+  
+  const alertEl = document.getElementById('anomalyAlert');
+  if (alertEl) {
+    alertEl.style.display = 'block';
+    alertEl.innerHTML = `
+      <div style="border-left: 5px solid var(--teal-mid); background: var(--glass-bg); color: var(--ink); padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); border: 1.5px solid var(--glass-border);">
+        <div>
+          <span style="font-size: 14px; margin-right: 6px;">💾</span>
+          <strong>Progress Saved Successfully</strong>. Your coordinates and configurations have been stored in local storage.
+        </div>
+        <button onclick="document.getElementById('anomalyAlert').style.display='none'" style="background:none; border:none; color:var(--ink-3); font-weight:bold; cursor:pointer; font-size:16px; margin-left:12px;">✕</button>
+      </div>
+    `;
+    setTimeout(() => {
+      if (alertEl.innerText.includes('Progress Saved')) {
+        alertEl.style.display = 'none';
+      }
+    }, 4000);
+  }
+}
+
+function loadProgress(isAuto = false) {
+  const raw = localStorage.getItem('graph-lab-progress');
+  if (!raw) {
+    if (!isAuto) {
+      alert("No saved progress found.");
+    }
+    return;
+  }
+  try {
+    saveState();
+    const data = JSON.parse(raw);
+    if (data.coordinates) coordinates = data.coordinates;
+    if (data.graphTitle !== undefined) document.getElementById('graphTitleInput').value = data.graphTitle;
+    if (data.xLabel !== undefined) document.getElementById('graphXLabelInput').value = data.xLabel;
+    if (data.yLabel !== undefined) document.getElementById('graphYLabelInput').value = data.yLabel;
+    if (data.linearizeX !== undefined) document.getElementById('linearizeXSelect').value = data.linearizeX;
+    if (data.linearizeY !== undefined) document.getElementById('linearizeYSelect').value = data.linearizeY;
+    if (data.bestFitType !== undefined) document.getElementById('bestFitTypeSelect').value = data.bestFitType;
+    
+    if (data.autoScale !== undefined) {
+      document.getElementById('autoScaleCheck').checked = data.autoScale;
+      toggleAutoScale();
+    }
+    if (data.xMin !== undefined) document.getElementById('xMinInput').value = data.xMin;
+    if (data.xMax !== undefined) document.getElementById('xMaxInput').value = data.xMax;
+    if (data.xStep !== undefined) document.getElementById('xStepInput').value = data.xStep;
+    if (data.yMin !== undefined) document.getElementById('yMinInput').value = data.yMin;
+    if (data.yMax !== undefined) document.getElementById('yMaxInput').value = data.yMax;
+    if (data.yStep !== undefined) document.getElementById('yStepInput').value = data.yStep;
+    
+    if (data.logScaleX !== undefined) document.getElementById('logScaleXCheck').checked = data.logScaleX;
+    if (data.logScaleY !== undefined) document.getElementById('logScaleYCheck').checked = data.logScaleY;
+    if (data.showPointLabels !== undefined) document.getElementById('showPointLabelsCheck').checked = data.showPointLabels;
+    if (data.showPointNumbers !== undefined) document.getElementById('showPointNumbersCheck').checked = data.showPointNumbers;
+    if (data.showGrid !== undefined) document.getElementById('showGridCheck').checked = data.showGrid;
+    if (data.showBestFit !== undefined) document.getElementById('showBestFitCheck').checked = data.showBestFit;
+    if (data.showMinMaxLines !== undefined) document.getElementById('showMinMaxLinesCheck').checked = data.showMinMaxLines;
+    if (data.showResiduals !== undefined) document.getElementById('showResidualsCheck').checked = data.showResiduals;
+    if (data.showY2Fit !== undefined) document.getElementById('showY2FitCheck').checked = data.showY2Fit;
+    if (data.showUncPercent !== undefined) document.getElementById('showUncPercentCheck').checked = data.showUncPercent;
+    if (data.showComparison !== undefined) document.getElementById('showComparisonCheck').checked = data.showComparison;
+    
+    if (data.comparisonEquation !== undefined && document.getElementById('comparisonEquationInput')) {
+      document.getElementById('comparisonEquationInput').value = data.comparisonEquation;
+    }
+    if (data.presetSelect !== undefined) {
+      document.getElementById('presetSelect').value = data.presetSelect;
+      const p = PRESETS[data.presetSelect];
+      const infoEl = document.getElementById('presetInfo');
+      if (infoEl) {
+        if (p && p.tooltip) infoEl.innerHTML = `<span style="color:var(--coral);">${p.tooltip}</span>`;
+        else if (p && p.note) infoEl.innerHTML = `<span style="color:var(--teal-mid);">${p.note}</span>`;
+        else infoEl.textContent = '';
+      }
+    }
+    if (data.errorBarType !== undefined) {
+      document.getElementById('errorBarTypeSelect').value = data.errorBarType;
+      toggleErrorBarMode();
+    }
+    if (data.errorBarValue !== undefined) {
+      document.getElementById('errorBarValueInput').value = data.errorBarValue;
+    }
+    
+    toggleFittingMode();
+    renderDataTable();
+    drawGraph();
+    
+    if (!isAuto) {
+      const alertEl = document.getElementById('anomalyAlert');
+      if (alertEl) {
+        alertEl.style.display = 'block';
+        alertEl.innerHTML = `
+          <div style="border-left: 5px solid var(--teal-mid); background: var(--glass-bg); color: var(--ink); padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); border: 1.5px solid var(--glass-border);">
+            <div>
+              <span style="font-size: 14px; margin-right: 6px;">📂</span>
+              <strong>Progress Loaded Successfully</strong>. All values have been restored.
+            </div>
+            <button onclick="document.getElementById('anomalyAlert').style.display='none'" style="background:none; border:none; color:var(--ink-3); font-weight:bold; cursor:pointer; font-size:16px; margin-left:12px;">✕</button>
+          </div>
+        `;
+        setTimeout(() => {
+          if (alertEl.innerText.includes('Progress Loaded')) {
+            alertEl.style.display = 'none';
+          }
+        }, 4000);
+      }
+    }
+  } catch(e) {
+    console.error("Error loading progress: ", e);
+  }
+}
+
+function clearProgress() {
+  if (confirm("Are you sure you want to delete your saved progress?")) {
+    localStorage.removeItem('graph-lab-progress');
+    alert("Saved progress cleared!");
+  }
+}
+
+function suggestLinearization() {
+  const pts = coordinates.filter(p => typeof p.x === 'number' && typeof p.y === 'number' && !isNaN(p.x) && !isNaN(p.y));
+  if (pts.length < 3) {
+    alert("Please enter at least 3 data points to analyze for linearization.");
+    return;
+  }
+
+  function rSq(pairs) {
+    const n = pairs.length;
+    if (n < 2) return 0;
+    let sumU = 0, sumV = 0, sumUU = 0, sumVV = 0, sumUV = 0;
+    pairs.forEach(p => {
+      sumU += p.u;
+      sumV += p.v;
+      sumUU += p.u * p.u;
+      sumVV += p.v * p.v;
+      sumUV += p.u * p.v;
+    });
+    const denom = (n * sumUU - sumU * sumU) * (n * sumVV - sumV * sumV);
+    if (denom <= 0) return 0;
+    const r = (n * sumUV - sumU * sumV) / Math.sqrt(denom);
+    return r * r;
+  }
+
+  const options = [
+    { name: "No Transform (y vs x)", x: "none", y: "none", pairs: pts.map(p => ({ u: p.x, v: p.y })) },
+    { name: "Square X (y vs x²)", x: "sq", y: "none", pairs: pts.map(p => ({ u: p.x * p.x, v: p.y })) },
+    { name: "Inverse X (y vs 1/x)", x: "inv", y: "none", pairs: pts.filter(p => p.x !== 0).map(p => ({ u: 1 / p.x, v: p.y })) },
+    { name: "Natural Log X (y vs ln(x))", x: "ln", y: "none", pairs: pts.filter(p => p.x > 0).map(p => ({ u: Math.log(p.x), v: p.y })) },
+    { name: "Natural Log Y (ln(y) vs x)", x: "none", y: "ln", pairs: pts.filter(p => p.y > 0).map(p => ({ u: p.x, v: Math.log(p.y) })) },
+    { name: "Log-Log (ln(y) vs ln(x))", x: "ln", y: "ln", pairs: pts.filter(p => p.x > 0 && p.y > 0).map(p => ({ u: Math.log(p.x), v: Math.log(p.y) })) }
+  ];
+
+  let best = options[0];
+  let maxRSq = 0;
+  options.forEach(opt => {
+    opt.rSquared = rSq(opt.pairs);
+    if (opt.rSquared > maxRSq) {
+      maxRSq = opt.rSquared;
+      best = opt;
+    }
+  });
+
+  const anomalyEl = document.getElementById('anomalyAlert');
+  if (anomalyEl) {
+    anomalyEl.style.display = 'block';
+    anomalyEl.innerHTML = `
+      <div style="border-left: 5px solid var(--teal-mid); background: var(--glass-bg); color: var(--ink); padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); border: 1.5px solid var(--glass-border);">
+        <div>
+          <span style="font-size: 14px; margin-right: 6px;">💡</span>
+          <strong>Linearization Suggestion</strong>: The best fit is <strong>${best.name}</strong> with R² = ${best.rSquared.toFixed(4)}.
+        </div>
+        <div style="display:flex; gap: 8px; align-items:center;">
+          <button class="btn btn-primary" style="padding: 4px 8px; font-size:11px;" onclick="applySuggestedLinearization('${best.x}', '${best.y}')">Apply</button>
+          <button onclick="document.getElementById('anomalyAlert').style.display='none'" style="background:none; border:none; color:var(--ink-3); font-weight:bold; cursor:pointer; font-size:16px; margin-left:12px;">✕</button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function applySuggestedLinearization(xVal, yVal) {
+  document.getElementById('linearizeXSelect').value = xVal;
+  document.getElementById('linearizeYSelect').value = yVal;
+  drawGraph();
+  const alertEl = document.getElementById('anomalyAlert');
+  if (alertEl) alertEl.style.display = 'none';
+}
+
+function applyComputedColumn() {
+  const op = document.getElementById('calcOperator').value;
+  const src = document.getElementById('calcSource').value;
+  const target = document.getElementById('calcTarget').value;
+
+  saveState();
+  let transformedAny = false;
+
+  coordinates = coordinates.map(pt => {
+    const rawVal = pt[src];
+    if (rawVal === undefined || rawVal === null || rawVal === '') {
+      return pt;
+    }
+    const val = parseFloat(rawVal);
+    if (isNaN(val)) {
+      return pt;
+    }
+
+    let result = '';
+    if (op === 'sq') {
+      result = val * val;
+    } else if (op === 'inv') {
+      result = val === 0 ? '' : 1 / val;
+    } else if (op === 'ln') {
+      result = val <= 0 ? '' : Math.log(val);
+    } else if (op === 'log') {
+      result = val <= 0 ? '' : Math.log10(val);
+    } else if (op === 'sqrt') {
+      result = val < 0 ? '' : Math.sqrt(val);
+    }
+
+    if (result !== '') {
+      result = parseFloat(result.toFixed(6));
+    }
+
+    const newPt = { ...pt };
+    newPt[target] = result;
+    transformedAny = true;
+    return newPt;
+  });
+
+  if (transformedAny) {
+    renderDataTable();
+    drawGraph();
+  } else {
+    alert("No valid data found in source column to transform.");
+  }
+}
+
+function importCSV(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const text = e.target.result;
+    const lines = text.split(/\r?\n/);
+    if (lines.length === 0) {
+      alert("The selected CSV file is empty.");
+      return;
+    }
+
+    saveState();
+    const newCoords = [];
+    let isFirstLine = true;
+    let headerColumns = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line) continue;
+
+      let separator = ',';
+      if (line.includes('\t')) separator = '\t';
+      else if (line.includes(';')) separator = ';';
+
+      const cols = line.split(separator).map(s => s.trim().replace(/^["']|["']$/g, ''));
+
+      if (isFirstLine) {
+        isFirstLine = false;
+        const hasLetters = cols.some(c => /[a-zA-Z]/.test(c));
+        if (hasLetters) {
+          headerColumns = cols.map(c => c.toLowerCase());
+          continue;
+        }
+      }
+
+      let x = '', y = '', y2 = '', dx = 0, dy = 0;
+      
+      if (headerColumns.length > 0) {
+        headerColumns.forEach((colName, idx) => {
+          const val = cols[idx];
+          if (val === undefined || val === '') return;
+          const numVal = parseFloat(val);
+          if (isNaN(numVal)) return;
+
+          if (colName.includes('x') && !colName.includes('dx') && !colName.includes('±')) x = numVal;
+          else if (colName.includes('y2')) y2 = numVal;
+          else if (colName.includes('y') && !colName.includes('dy') && !colName.includes('±')) y = numVal;
+          else if (colName.includes('dx') || (colName.includes('x') && (colName.includes('error') || colName.includes('unc') || colName.includes('±')))) dx = numVal;
+          else if (colName.includes('dy') || (colName.includes('y') && (colName.includes('error') || colName.includes('unc') || colName.includes('±')))) dy = numVal;
+        });
+      } else {
+        if (cols[0] !== undefined && cols[0] !== '') x = parseFloat(cols[0]);
+        if (cols[1] !== undefined && cols[1] !== '') y = parseFloat(cols[1]);
+        if (cols[2] !== undefined && cols[2] !== '') y2 = parseFloat(cols[2]);
+        if (cols[3] !== undefined && cols[3] !== '') dx = parseFloat(cols[3]);
+        if (cols[4] !== undefined && cols[4] !== '') dy = parseFloat(cols[4]);
+      }
+
+      if ((x !== '' && !isNaN(x)) || (y !== '' && !isNaN(y))) {
+        newCoords.push({
+          x: isNaN(x) ? '' : x,
+          y: isNaN(y) ? '' : y,
+          y2: isNaN(y2) ? '' : y2,
+          dx: isNaN(dx) ? 0 : dx,
+          dy: isNaN(dy) ? 0 : dy
+        });
+      }
+    }
+
+    if (newCoords.length > 0) {
+      coordinates = newCoords;
+      renderDataTable();
+      drawGraph();
+      alert(`Successfully imported ${newCoords.length} data rows from ${file.name}!`);
+    } else {
+      alert("Failed to parse any valid data points from the file. Please check format.");
+    }
+    
+    input.value = '';
+  };
+  reader.onerror = function() {
+    alert("Error reading CSV file.");
+  };
+  reader.readAsText(file);
+}
+
+function exportPDF() {
+  drawGraph();
+  const canvas = document.getElementById('graphCanvas');
+  const imgData = canvas.toDataURL('image/png');
+
+  const title = document.getElementById('graphTitleInput').value || 'Physics Investigation Report';
+  const xLabel = document.getElementById('graphXLabelInput').value || 'Independent Variable';
+  const yLabel = document.getElementById('graphYLabelInput').value || 'Dependent Variable';
+
+  const bestFitType = document.getElementById('bestFitTypeSelect').value;
+
+  const slope = document.getElementById('statsSlope').textContent;
+  const slopeUnc = document.getElementById('statsSlopeUnc').textContent;
+  const intercept = document.getElementById('statsIntercept').textContent;
+  const rSquared = document.getElementById('statsRSquared').textContent;
+  const equation = document.getElementById('statsEquation').textContent;
+
+  const dateStr = new Date().toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+  });
+
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) {
+    alert("Please allow pop-ups to export the PDF report.");
+    return;
+  }
+
+  let tableRowsHtml = '';
+  coordinates.forEach((pt, idx) => {
+    tableRowsHtml += `
+      <tr>
+        <td>${idx + 1}</td>
+        <td>${pt.x}</td>
+        <td>${pt.y}</td>
+        <td>${pt.y2 !== undefined && pt.y2 !== '' ? pt.y2 : '—'}</td>
+        <td>±${pt.dx || 0}</td>
+        <td>±${pt.dy || 0}</td>
+      </tr>
+    `;
+  });
+
+  const stat_mean_x = document.getElementById('stat_mean_x').textContent;
+  const stat_sd_x = document.getElementById('stat_sd_x').textContent;
+  const stat_se_x = document.getElementById('stat_se_x').textContent;
+  const stat_unc_x = document.getElementById('stat_uncertainty_x').textContent;
+
+  const stat_mean_y = document.getElementById('stat_mean_y').textContent;
+  const stat_sd_y = document.getElementById('stat_sd_y').textContent;
+  const stat_se_y = document.getElementById('stat_se_y').textContent;
+  const stat_unc_y = document.getElementById('stat_uncertainty_y').textContent;
+
+  const stat_correlation = document.getElementById('stat_correlation').textContent;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>${title}</title>
+      <style>
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          color: #1a1a2e;
+          background: #ffffff;
+          margin: 0;
+          padding: 40px;
+          line-height: 1.5;
+        }
+        .header {
+          border-bottom: 2px solid #1a1a2e;
+          padding-bottom: 12px;
+          margin-bottom: 24px;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+        }
+        .header h1 {
+          margin: 0;
+          font-size: 26px;
+          font-weight: 800;
+          letter-spacing: -0.5px;
+        }
+        .header .meta {
+          text-align: right;
+          font-size: 12px;
+          color: #555;
+        }
+        .section-title {
+          font-size: 16px;
+          font-weight: 700;
+          margin-top: 24px;
+          margin-bottom: 12px;
+          border-bottom: 1px solid #e2e8f0;
+          padding-bottom: 6px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        .chart-container {
+          text-align: center;
+          margin: 20px 0;
+        }
+        .chart-img {
+          max-width: 100%;
+          height: auto;
+          border: 1px solid #cbd5e1;
+          border-radius: 6px;
+        }
+        .stats-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+          margin-bottom: 20px;
+        }
+        .stats-card {
+          border: 1px solid #e2e8f0;
+          border-radius: 8px;
+          padding: 16px;
+          background: #f8fafc;
+        }
+        .stats-card h3 {
+          margin: 0 0 10px 0;
+          font-size: 14px;
+          color: #334155;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 13px;
+          margin-bottom: 20px;
+        }
+        th, td {
+          border: 1px solid #cbd5e1;
+          padding: 8px 12px;
+          text-align: left;
+        }
+        th {
+          background-color: #f1f5f9;
+          font-weight: 600;
+        }
+        .footer {
+          margin-top: 40px;
+          border-top: 1px solid #e2e8f0;
+          padding-top: 12px;
+          font-size: 11px;
+          color: #64748b;
+          text-align: center;
+        }
+        @media print {
+          body {
+            padding: 20px;
+          }
+          .no-print {
+            display: none;
+          }
+          .page-break {
+            page-break-before: always;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <div>
+          <h1>${title}</h1>
+          <div style="font-size: 14px; margin-top: 4px; font-weight: 600; color: #4a5568;">Physics Lab Report Export</div>
+        </div>
+        <div class="meta">
+          <div>Date: ${dateStr}</div>
+          <div>Generated by Atul Soral Physicism</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <img class="chart-img" src="${imgData}" alt="Plotted Chart">
+      </div>
+
+      <div class="stats-grid">
+        <div class="stats-card">
+          <h3>📈 Regression Parameters</h3>
+          <div style="font-size:13px; display:flex; flex-direction:column; gap:6px;">
+            <div><strong>Best Fit Curve:</strong> ${bestFitType.toUpperCase()}</div>
+            <div><strong>Equation Model:</strong> ${equation}</div>
+            <div><strong>Slope (Gradient):</strong> ${slope} ${slopeUnc ? slopeUnc : ''}</div>
+            <div><strong>Y-Intercept:</strong> ${intercept}</div>
+            <div><strong>Coefficient of Determination (R²):</strong> ${rSquared}</div>
+          </div>
+        </div>
+        <div class="stats-card">
+          <h3>📊 Distribution Overview</h3>
+          <table style="margin: 0; font-size:11px;">
+            <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Mean</th>
+                <th>SD (σ)</th>
+                <th>SE (SE)</th>
+                <th>Avg. Unc (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>X (${xLabel})</strong></td>
+                <td>${stat_mean_x}</td>
+                <td>${stat_sd_x}</td>
+                <td>${stat_se_x}</td>
+                <td>${stat_unc_x}</td>
+              </tr>
+              <tr>
+                <td><strong>Y (${yLabel})</strong></td>
+                <td>${stat_mean_y}</td>
+                <td>${stat_sd_y}</td>
+                <td>${stat_se_y}</td>
+                <td>${stat_unc_y}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="font-size:11px; margin-top: 8px;"><strong>Pearson Correlation Coefficient (r):</strong> ${stat_correlation}</div>
+        </div>
+      </div>
+
+      <div class="page-break"></div>
+
+      <div class="section-title">🔢 Experimental Raw Data</div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px;">Point</th>
+            <th>X-Coordinate</th>
+            <th>Y-Coordinate</th>
+            <th>Y2-Coordinate</th>
+            <th>X Uncertainty (dx)</th>
+            <th>Y Uncertainty (dy)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tableRowsHtml}
+        </tbody>
+      </table>
+
+      <div class="footer">
+        Physicism Graph Lab — Developed by Atul Soral. All analytical derivations and slope bounds calculated in real time.
+      </div>
+
+      <script>
+        window.onload = function() {
+          setTimeout(() => {
+            window.print();
+          }, 300);
+        };
+      <\/script>
+    </body>
+    </html>
+  `;
+
+  printWindow.document.open();
+  printWindow.document.write(htmlContent);
+  printWindow.document.close();
+}
+
+function openShortcutHelp() {
+  const modal = document.getElementById('shortcutHelpModal');
+  if (modal) modal.style.display = 'flex';
+}
+
+function closeShortcutHelp() {
+  const modal = document.getElementById('shortcutHelpModal');
+  if (modal) modal.style.display = 'none';
+}
+
+// ═══════════════════════════════════════
 // INITIALIZATION
 // ═══════════════════════════════════════
 window.addEventListener('DOMContentLoaded', () => {
-  renderDataTable();
-  drawGraph();
+  // Load progress on startup if present
+  loadProgress(true);
+  
+  // Render and draw if no progress was loaded
+  if (!localStorage.getItem('graph-lab-progress')) {
+    renderDataTable();
+    drawGraph();
+  }
   window.addEventListener('resize', drawGraph);
 });
 </script>
+
+<!-- KEYBOARD SHORTCUTS MODAL -->
+<div id="shortcutHelpModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter:blur(8px); z-index:9999; justify-content:center; align-items:center;">
+  <div style="background:var(--card-bg, #ffffff); border:1.5px solid var(--glass-border, #e2e8f0); border-radius:20px; max-width:500px; width:90%; padding:28px; box-shadow:var(--shadow-lg, 0 10px 30px rgba(0,0,0,0.1)); position:relative; color:var(--ink, #1a1a2e); font-family:sans-serif;">
+    <button onclick="closeShortcutHelp()" style="position:absolute; top:20px; right:20px; background:none; border:none; color:var(--ink-3, #555); font-size:20px; font-weight:bold; cursor:pointer; width:30px; height:30px; display:flex; align-items:center; justify-content:center;">✕</button>
+    <h3 style="margin-top:0; margin-bottom:20px; font-size:20px; font-weight:800; display:flex; align-items:center; gap:8px;">⌨️ Keyboard Shortcuts &amp; Navigation</h3>
+    
+    <div style="display:flex; flex-direction:column; gap:12px; font-size:14px; line-height:1.6;">
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--glass-border, #e2e8f0); padding-bottom:8px;">
+        <span style="font-weight:600;">Save Progress</span>
+        <span style="background:var(--input-bg, #f1f5f9); padding:2px 8px; border-radius:4px; font-family:monospace; font-size:12px; border:1px solid #cbd5e1;">Ctrl + S</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--glass-border, #e2e8f0); padding-bottom:8px;">
+        <span style="font-weight:600;">Export PNG Image</span>
+        <span style="background:var(--input-bg, #f1f5f9); padding:2px 8px; border-radius:4px; font-family:monospace; font-size:12px; border:1px solid #cbd5e1;">Ctrl + E</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--glass-border, #e2e8f0); padding-bottom:8px;">
+        <span style="font-weight:600;">Undo Last Change</span>
+        <span style="background:var(--input-bg, #f1f5f9); padding:2px 8px; border-radius:4px; font-family:monospace; font-size:12px; border:1px solid #cbd5e1;">Ctrl + Z</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--glass-border, #e2e8f0); padding-bottom:8px;">
+        <span style="font-weight:600;">Redo Change</span>
+        <span style="background:var(--input-bg, #f1f5f9); padding:2px 8px; border-radius:4px; font-family:monospace; font-size:12px; border:1px solid #cbd5e1;">Ctrl + Shift + Z / Ctrl + Y</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--glass-border, #e2e8f0); padding-bottom:8px;">
+        <span style="font-weight:600;">Close Modal Help</span>
+        <span style="background:var(--input-bg, #f1f5f9); padding:2px 8px; border-radius:4px; font-family:monospace; font-size:12px; border:1px solid #cbd5e1;">Esc</span>
+      </div>
+      <div style="margin-top:10px; padding:12px; background:rgba(78,205,196,0.1); border-radius:10px; border:1px solid var(--teal-soft); font-size:13px; color:var(--ink-2, #333);">
+        <strong>💡 Table Keyboard Navigation:</strong> Pressing <strong>Enter</strong> in any coordinate input cell will automatically move focus to the cell directly below it. If you are on the last row, pressing <strong>Enter</strong> will automatically add a new row and focus the first cell.
+      </div>
+    </div>
+    <button onclick="closeShortcutHelp()" class="btn btn-primary" style="margin-top:24px; width:100%; justify-content:center;">Got it, thanks!</button>
+  </div>
+</div>
+
 </body>
 </html>
