@@ -697,7 +697,7 @@ details[open] summary {
 
       <!-- CARD 4: ERROR BARS -->
       <div class="lab-card">
-        <div class="lab-card-title">⚠️ Error Bars (Excel style)</div>
+        <div class="lab-card-title">📏 Error Bars</div>
         <div class="control-group">
           <label class="control-label" for="errorBarTypeSelect">Error Calculation Mode</label>
           <select id="errorBarTypeSelect" class="select-input" onchange="toggleErrorBarMode()">
@@ -3366,6 +3366,13 @@ function deletePoint(idx) {
 function clearData() {
   saveState();
   coordinates = [{ x: '', y: '', y2: '', dx: 0, dy: 0 }];
+  
+  // Reset the preset select dropdown to avoid select onchange lock
+  const presetSel = document.getElementById('presetSelect');
+  if (presetSel) presetSel.value = '';
+  const infoEl = document.getElementById('presetInfo');
+  if (infoEl) infoEl.textContent = '';
+
   renderDataTable();
   drawGraph();
 }
@@ -3374,7 +3381,15 @@ function loadPreset(key) {
   if (!key) return;
   const p = PRESETS[key];
   if (!p) return;
+  
+  // Clear any existing localStorage progress when a preset is selected
+  localStorage.removeItem('graph-lab-progress');
+  
   saveState();
+  
+  // Log preset data to console to verify unique numbers
+  console.log("presetData:", p.data);
+  
   document.getElementById('graphTitleInput').value = p.title || 'Experimental Data Plot';
   document.getElementById('graphXLabelInput').value = p.xLabel || 'Independent Variable, x';
   document.getElementById('graphYLabelInput').value = p.yLabel || 'Dependent Variable, y';
