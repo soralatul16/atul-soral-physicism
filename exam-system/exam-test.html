@@ -100,10 +100,19 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .rich-dropdown-grid { display:flex; flex-wrap:wrap; gap:4px; }
 .rich-dropdown-grid button { width:32px; height:32px; border:1px solid var(--border); border-radius:6px; background:var(--white); cursor:pointer; font-size:14px; transition:all 0.15s; }
 .rich-dropdown-grid button:hover { background:rgba(37,99,235,.08); border-color:var(--accent2); }
-.inline-calc-panel { display:flex; flex-direction:column; gap:8px; width:220px; }
-.inline-calc-panel input { width:100%; padding:8px 10px; border:1.5px solid var(--border); border-radius:6px; font-size:13px; font-family:monospace; }
-.inline-calc-panel .calc-res { font-size:16px; font-weight:700; color:var(--text); text-align:right; font-family:monospace; }
-.inline-calc-panel button { width:100%; padding:8px; border-radius:6px; background:var(--accent2); color:white; border:none; font-weight:600; font-size:12px; cursor:pointer; }
+
+.inline-calc-panel { display:flex; flex-direction:column; gap:8px; width:100%; }
+.inline-calc-panel input { width:100%; padding:8px 10px; border:1.5px solid var(--border); border-radius:6px; font-size:13px; font-family:monospace; box-sizing:border-box; }
+
+
+.kpad-btn { background:#f1f5f9 !important; color:#334155 !important; border:1px solid #cbd5e1 !important; border-radius:4px !important; padding:6px !important; font-size:12px !important; transition:0.1s; }
+.kpad-btn:active { background:#e2e8f0 !important; }
+.kpad-btn.num { background:white !important; font-weight:bold !important; font-size:14px !important; }
+.kpad-btn.op { background:#e0e7ff !important; color:#4338ca !important; }
+
+
+
+
 .rich-btn.active-format { background:rgba(37,99,235,.15); color:var(--accent2); border:1px solid rgba(37,99,235,.3); border-radius:6px; }
 
 .rich-toolbar-row:last-child{border-bottom:none}
@@ -926,59 +935,42 @@ async function startTest(docId) {
 // ═══════════════════════════════════════
 function buildSections(allBlocks) {
   const secs = [];
-  let currentSec = null;
-  // Track global question index across all blocks
   let qGlobalIdx = 0;
 
-  for (let i = 0; i < allBlocks.length; i++) {
-    const block = allBlocks[i];
-
-    if (block.mode === 'content') {
-      // If previous section already had questions, start a new section
-      if (currentSec && currentSec.questionIndices.length > 0) {
-        secs.push(currentSec);
-        currentSec = null;
+  // Use defined sections array if available
+  if (currentSet.sections && currentSet.sections.length > 0) {
+    currentSet.sections.forEach(secData => {
+      let sec = { label: secData.name || 'Section', blocks: [], questionIndices: [] };
+      allBlocks.forEach(b => {
+        // loose equality to handle string vs int
+        if (b.sectionId == secData.id || (!b.sectionId && secData.id == 1)) {
+          if (b.mode === 'question') {
+             sec.blocks.push({ ...b, _gIdx: qGlobalIdx });
+             sec.questionIndices.push(qGlobalIdx);
+             qGlobalIdx++;
+          } else {
+             sec.blocks.push({ ...b, _gIdx: null });
+          }
+        }
+      });
+      // only push if there's actually content, or if it's the first section
+      if (sec.blocks.length > 0 || secs.length === 0) secs.push(sec);
+    });
+  } else {
+    // Fallback: one continuous section
+    let sec = { label: 'Section 1', blocks: [], questionIndices: [] };
+    allBlocks.forEach(b => {
+      if (b.mode === 'question') {
+        sec.blocks.push({ ...b, _gIdx: qGlobalIdx });
+        sec.questionIndices.push(qGlobalIdx);
+        qGlobalIdx++;
+      } else {
+        sec.blocks.push({ ...b, _gIdx: null });
       }
-      if (!currentSec) {
-        currentSec = { label: '', blocks: [], questionIndices: [] };
-      }
-      // Use content text as section label if not set yet
-      if (!currentSec.label) {
-        const txt = block.data?.text || block.data?.caption || '';
-        const stripped = txt.replace(/<[^>]+>/g, '').trim();
-        currentSec.label = stripped.substring(0, 60) || 'Section ' + (secs.length + 1);
-      }
-      currentSec.blocks.push({ ...block, _gIdx: null });
-    } else if (block.mode === 'question') {
-      if (!currentSec) {
-        // Question with no preceding content: start a new section
-        currentSec = { label: '', blocks: [], questionIndices: [] };
-      }
-      if (!currentSec.label) {
-        currentSec.label = 'Section ' + (secs.length + 1);
-      }
-      currentSec.blocks.push({ ...block, _gIdx: qGlobalIdx });
-      currentSec.questionIndices.push(qGlobalIdx);
-      qGlobalIdx++;
-    }
+    });
+    secs.push(sec);
   }
-  if (currentSec && (currentSec.blocks.length > 0)) {
-    secs.push(currentSec);
-  }
-
-  // If no sections built, create one containing all blocks
-  if (secs.length === 0) {
-    const fallback = { label: 'Section 1', blocks: allBlocks.map((b, gi) => b.mode === 'question' ? { ...b, _gIdx: gi } : { ...b, _gIdx: null }), questionIndices: [] };
-    let qi = 0;
-    fallback.blocks.forEach(b => { if (b.mode === 'question') { b._gIdx = qi; fallback.questionIndices.push(qi); qi++; } });
-    secs.push(fallback);
-  }
-
-  // Assign human-readable labels based on section number
-  secs.forEach((sec, i) => {
-    if (!sec.label || sec.label.length < 3) sec.label = 'Section ' + (i + 1);
-  });
-
+  
   return secs;
 }
 
@@ -1367,12 +1359,50 @@ function renderRichToolbar(idx) {
       
       <div class="dropdown-wrapper">
         <button type="button" class="rich-btn math-btn" onclick="toggleToolbarDropdown('${aId}-calc', event)">🧮 Calc</button>
-        <div id="${aId}-calc" class="rich-dropdown-panel" onclick="event.stopPropagation()">
+        <div id="${aId}-calc" class="rich-dropdown-panel" onclick="event.stopPropagation()" style="width:260px;">
           <div class="inline-calc-panel">
-            <div style="font-size:11px; color:var(--text3); font-weight:600;">CALCULATOR</div>
-            <input type="text" id="${aId}-calc-in" placeholder="e.g. 5000 * 9.8" oninput="evalInlineCalc('${aId}')" onkeydown="if(event.key==='Enter') pasteInlineCalc('${aId}')">
-            <div class="calc-res" id="${aId}-calc-res">= 0</div>
-            <button type="button" onclick="pasteInlineCalc('${aId}')">📋 Paste to Answer</button>
+            <div style="font-size:11px; color:var(--text3); font-weight:600; margin-bottom:4px;">CALCULATOR</div>
+            <input type="text" id="${aId}-calc-in" placeholder="Expression" oninput="evalInlineCalc('${aId}')" onkeydown="if(event.key==='Enter') pasteInlineCalc('${aId}')" style="font-size:16px; padding:10px;">
+            <div class="calc-res" id="${aId}-calc-res" style="font-size:18px; margin-bottom:8px;">= 0</div>
+            
+            <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:4px; margin-bottom:12px;">
+              <button type="button" class="kpad-btn" onclick="appendCalc('${aId}', 'sin(')">sin</button>
+              <button type="button" class="kpad-btn" onclick="appendCalc('${aId}', 'cos(')">cos</button>
+              <button type="button" class="kpad-btn" onclick="appendCalc('${aId}', 'tan(')">tan</button>
+              <button type="button" class="kpad-btn" onclick="appendCalc('${aId}', 'Math.PI')">π</button>
+              <button type="button" class="kpad-btn" onclick="appendCalc('${aId}', 'Math.E')">e</button>
+              
+              <button type="button" class="kpad-btn" onclick="appendCalc('${aId}', 'log(')">log</button>
+              <button type="button" class="kpad-btn" onclick="appendCalc('${aId}', 'ln(')">ln</button>
+              <button type="button" class="kpad-btn" onclick="appendCalc('${aId}', 'sqrt(')">√</button>
+              <button type="button" class="kpad-btn" onclick="appendCalc('${aId}', '^2')">x²</button>
+              <button type="button" class="kpad-btn" onclick="appendCalc('${aId}', '^')">xⁿ</button>
+              
+              <button type="button" class="kpad-btn num" onclick="appendCalc('${aId}', '7')">7</button>
+              <button type="button" class="kpad-btn num" onclick="appendCalc('${aId}', '8')">8</button>
+              <button type="button" class="kpad-btn num" onclick="appendCalc('${aId}', '9')">9</button>
+              <button type="button" class="kpad-btn op" onclick="appendCalc('${aId}', '/')">÷</button>
+              <button type="button" class="kpad-btn op" onclick="appendCalc('${aId}', '(')">(</button>
+              
+              <button type="button" class="kpad-btn num" onclick="appendCalc('${aId}', '4')">4</button>
+              <button type="button" class="kpad-btn num" onclick="appendCalc('${aId}', '5')">5</button>
+              <button type="button" class="kpad-btn num" onclick="appendCalc('${aId}', '6')">6</button>
+              <button type="button" class="kpad-btn op" onclick="appendCalc('${aId}', '*')">×</button>
+              <button type="button" class="kpad-btn op" onclick="appendCalc('${aId}', ')')">)</button>
+              
+              <button type="button" class="kpad-btn num" onclick="appendCalc('${aId}', '1')">1</button>
+              <button type="button" class="kpad-btn num" onclick="appendCalc('${aId}', '2')">2</button>
+              <button type="button" class="kpad-btn num" onclick="appendCalc('${aId}', '3')">3</button>
+              <button type="button" class="kpad-btn op" onclick="appendCalc('${aId}', '-')">−</button>
+              <button type="button" class="kpad-btn clear" onclick="clearCalc('${aId}')" style="background:#e2e8f0;color:#1e293b;">C</button>
+              
+              <button type="button" class="kpad-btn num" onclick="appendCalc('${aId}', '0')">0</button>
+              <button type="button" class="kpad-btn num" onclick="appendCalc('${aId}', '.')">.</button>
+              <button type="button" class="kpad-btn op" onclick="evalInlineCalc('${aId}', true)" style="grid-column: span 2; background:#3b82f6; color:white;">=</button>
+              <button type="button" class="kpad-btn op" onclick="appendCalc('${aId}', '+')">+</button>
+            </div>
+
+            <button type="button" onclick="pasteInlineCalc('${aId}')" style="background:var(--accent); font-size:13px; padding:10px;">📋 Paste to Answer</button>
           </div>
         </div>
       </div>
@@ -1419,21 +1449,47 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-function evalInlineCalc(aId) {
+function appendCalc(aId, val) {
+  const inp = document.getElementById(aId + '-calc-in');
+  inp.value += val;
+  evalInlineCalc(aId);
+}
+
+function clearCalc(aId) {
+  document.getElementById(aId + '-calc-in').value = '';
+  document.getElementById(aId + '-calc-res').textContent = '= 0';
+  document.getElementById(aId + '-calc-res').dataset.res = '';
+}
+
+function evalInlineCalc(aId, forceEqual=false) {
   const inp = document.getElementById(aId + '-calc-in').value;
   const resEl = document.getElementById(aId + '-calc-res');
   try {
     if (!inp.trim()) { resEl.textContent = '= 0'; return; }
-    // Clean string for safe basic math eval
-    let safeInp = inp.replace(/[^-()\d/*+.]/g, '');
-    let res = new Function('return ' + safeInp)();
-    // format to max 4 decimal places
-    if (typeof res === 'number') res = parseFloat(res.toFixed(4));
+    
+    // Parse expression
+    let exp = inp;
+    exp = exp.replace(/sin\(/g, 'Math.sin(');
+    exp = exp.replace(/cos\(/g, 'Math.cos(');
+    exp = exp.replace(/tan\(/g, 'Math.tan(');
+    exp = exp.replace(/log\(/g, 'Math.log10(');
+    exp = exp.replace(/ln\(/g, 'Math.log(');
+    exp = exp.replace(/sqrt\(/g, 'Math.sqrt(');
+    exp = exp.replace(/\^2/g, '**2');
+    exp = exp.replace(/\^/g, '**');
+
+    // Clean for security
+    let safeExp = exp.replace(/[^-()\d/*+. MathEPIsincotlagqrx*]/g, '');
+    let res = new Function('return ' + safeExp)();
+    
+    if (typeof res === 'number') {
+      res = parseFloat(res.toFixed(6));
+    }
+    
     resEl.textContent = '= ' + res;
     resEl.dataset.res = res;
   } catch(e) {
-    resEl.textContent = 'Err';
-    resEl.dataset.res = '';
+    resEl.textContent = '...';
   }
 }
 
