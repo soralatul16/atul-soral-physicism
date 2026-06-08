@@ -157,11 +157,30 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .q-link.vid:hover{background:rgba(220,38,38,.1)}
 
 /* ACTIONS */
-.q-actions{display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.q-actions{display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);flex-wrap:wrap}
 .q-action{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:var(--card);font-size:11px;font-weight:600;cursor:pointer;color:var(--text2)}
 .q-action:hover{border-color:var(--accent)}
 .q-action.flag{color:var(--orange);border-color:rgba(217,119,6,.2)}
 .q-action.flag.active{background:rgba(217,119,6,.06)}
+.q-action.help-btn{color:#0369a1;border-color:rgba(3,105,161,.25);background:rgba(14,165,233,.04)}
+.q-action.help-btn:hover{background:rgba(14,165,233,.1);border-color:rgba(14,165,233,.4)}
+.q-action.help-btn.used{color:#16a34a;border-color:rgba(22,163,74,.3);background:rgba(22,163,74,.05)}
+/* HELP PANEL */
+.help-panel{margin-top:12px;border:1.5px solid rgba(14,165,233,.25);border-radius:10px;overflow:hidden;user-select:none;-webkit-user-select:none}
+.help-panel-header{background:linear-gradient(135deg,rgba(14,165,233,.08),rgba(37,99,235,.06));padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+.help-panel-header h4{font-size:13px;font-weight:700;color:#0369a1;margin:0}
+.help-panel-body{padding:14px;display:flex;flex-direction:column;gap:10px;background:rgba(248,250,252,.8)}
+.help-concept{font-size:13px;line-height:1.7;padding:10px 12px;background:rgba(255,255,255,.8);border-radius:8px;border-left:3px solid #38bdf8}
+.help-formula{font-size:13px;line-height:1.7;padding:10px 12px;background:rgba(254,249,195,.7);border-radius:8px;border-left:3px solid #eab308;font-family:var(--mono)}
+.help-example{font-size:13px;line-height:1.7;padding:10px 12px;background:rgba(240,253,244,.7);border-radius:8px;border-left:3px solid #22c55e}
+.help-note{font-size:11px;color:#64748b;margin:0;text-align:center;padding:6px;font-style:italic}
+.help-resources{display:flex;gap:8px;flex-wrap:wrap;padding-top:4px}
+/* ANTI-CHEAT WARNING */
+.cheat-warning{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 8px 30px rgba(0,0,0,.3);display:flex;align-items:center;gap:10px;max-width:480px;animation:slideDown .3s ease}
+@keyframes slideDown{from{opacity:0;transform:translateX(-50%) translateY(-10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.cheat-warning .warn-icon{font-size:18px}
+/* HELP USED BADGE */
+.help-badge{display:inline-block;font-size:10px;background:rgba(14,165,233,.1);color:#0369a1;border:1px solid rgba(14,165,233,.2);border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle}
 
 /* SUBMIT BAR */
 .submit-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);padding:10px 24px;display:flex;justify-content:space-between;align-items:center;z-index:99}
@@ -572,6 +591,10 @@ async function startTest(docId) {
   buildSidebar();
   renderSection(0);
   startTimer();
+  
+  // Anti-cheat & time tracking
+  initAntiCheat();
+  trackSectionStart(sections[0]);
 }
 
 // ═══════════════════════════════════════
@@ -656,9 +679,15 @@ function buildSidebar() {
 }
 
 function goToSection(idx) {
+  if (currentSectionIdx !== undefined && sections[currentSectionIdx]) {
+    trackSectionEnd(sections[currentSectionIdx]);
+    saveCurrentAnswer(); // auto-save on navigation
+  }
   currentSectionIdx = idx;
   renderSection(idx);
   buildSidebar();
+  trackSectionStart(sections[idx]);
+  
   // Scroll main content to top
   const main = document.getElementById('qMain');
   if (main) main.scrollTop = 0;
@@ -774,7 +803,9 @@ function renderSection(secIdx) {
       html += `<div class="q-actions">
         <button class="q-action flag${flags[gIdx] ? ' active' : ''}" onclick="toggleFlag(${gIdx})">★ ${flags[gIdx] ? 'Unflag' : 'Flag'}</button>
         <button class="q-action" onclick="clearAnswer(${gIdx})">✕ Clear</button>
-      </div>`;
+        <button class="q-action help-btn${helpUsed.has(gIdx) ? ' used' : ''}" id="helpBtn${gIdx}" onclick="toggleHelp(${gIdx})">${helpUsed.has(gIdx) ? '✓ Reviewed Help' : '📖 Need Help?'}</button>
+      </div>
+      <div class="help-panel" id="helpPanel${gIdx}" style="display:none">${buildHelpContent(q, gIdx)}</div>`;
 
       html += `</div>`; // close q-card
     }
@@ -1579,6 +1610,199 @@ function updateProgress() {
 // ═══════════════════════════════════════
 // SUBMIT & GRADE
 // ═══════════════════════════════════════
+// ═══════════════════════════════════════
+// ANALYTICS & ANTI-CHEAT STATE
+// ═══════════════════════════════════════
+let helpUsed = new Set();           // set of question indices where help was opened
+let tabSwitchCount = 0;
+let pasteAttempts = 0;
+let timePerQuestion = {};           // { [gIdx]: seconds }
+let questionStartTimes = {};        // { [gIdx]: timestamp }
+let antiCheatInitialized = false;
+
+// Start tracking time for all visible questions in a section
+function trackSectionStart(sec) {
+  const now = Date.now();
+  sec.questionIndices.forEach(qi => {
+    if (!questionStartTimes[qi]) questionStartTimes[qi] = now;
+  });
+}
+
+// Stop tracking time for all questions in section (called before navigating away)
+function trackSectionEnd(sec) {
+  const now = Date.now();
+  if (!sec) return;
+  sec.questionIndices.forEach(qi => {
+    if (questionStartTimes[qi]) {
+      const elapsed = Math.round((now - questionStartTimes[qi]) / 1000);
+      timePerQuestion[qi] = (timePerQuestion[qi] || 0) + elapsed;
+      delete questionStartTimes[qi]; // reset so it doesn't double-count
+    }
+  });
+}
+
+// ═══════════════════════════════════════
+// HELP PANEL
+// ═══════════════════════════════════════
+function toggleHelp(gIdx) {
+  const panel = document.getElementById('helpPanel' + gIdx);
+  const btn   = document.getElementById('helpBtn'   + gIdx);
+  if (!panel) return;
+
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+
+  if (!isOpen) {
+    // First time opening — mark as used
+    if (!helpUsed.has(gIdx)) {
+      helpUsed.add(gIdx);
+      if (btn) { btn.classList.add('used'); btn.textContent = '✓ Reviewed Help'; }
+      // Record in attempt analytics
+      console.log('[Help] Student opened help for Q' + (gIdx + 1));
+    }
+  }
+}
+
+function buildHelpContent(q, gIdx) {
+  const meta   = q.meta   || {};
+  const data   = q.data   || {};
+  const strand = meta.strand    || meta.criterion || meta.topic || '';
+  const concept= meta.concept   || '';
+  const qText  = (data.question || '').replace(/<[^>]+>/g, '').substring(0, 120);
+
+  // Build title
+  const title = strand ? `📖 Quick Review: ${strand}` : '📖 Exam Hint';
+
+  // Build concept section — use markingGuidance if available
+  const keyIdea = meta.keyIdea || meta.guidance
+    || (concept ? concept : `This question is about <em>${strand || 'physics concepts'}</em>. Re-read any relevant notes before answering.`);
+
+  // Formula — from meta.formula or generate placeholder
+  const formula = meta.formula
+    ? `<div class="help-formula"><strong>Formula:</strong> ${meta.formula}</div>`
+    : '';
+
+  // Example — from meta.example
+  const example = meta.example
+    ? `<div class="help-example"><strong>Example:</strong> ${meta.example}</div>`
+    : '';
+
+  // Resource links
+  let resources = '';
+  if (meta.simulationLink) {
+    let simLink = meta.simulationLink.trim();
+    if (!simLink.startsWith('http') && !simLink.startsWith('../')) simLink = '../sims/' + simLink;
+    resources += `<a href="${simLink}" target="_blank" class="q-link sim" style="font-size:11px">🔬 Try the simulation first</a>`;
+  }
+  if (meta.videoLink) {
+    resources += `<a href="${meta.videoLink}" target="_blank" class="q-link vid" style="font-size:11px">🎥 Watch a quick explanation</a>`;
+  }
+  if (meta.lessonUrl || meta.lessonLink) {
+    resources += `<a href="${meta.lessonUrl || meta.lessonLink}" target="_blank" class="q-link sim" style="font-size:11px">📚 Open lesson notes</a>`;
+  }
+
+  return `
+    <div class="help-panel-header">
+      <h4>${title}</h4>
+      <button onclick="toggleHelp(${gIdx})" style="background:none;border:none;cursor:pointer;font-size:14px;color:#64748b">✕</button>
+    </div>
+    <div class="help-panel-body" oncopy="return false" oncontextmenu="return false">
+      <div class="help-concept"><strong>Key Idea:</strong> ${keyIdea}</div>
+      ${formula}
+      ${example}
+      ${resources ? '<div class="help-resources">' + resources + '</div>' : ''}
+      <p class="help-note">💡 Read, understand, then write YOUR explanation in your own words below.</p>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════
+// ANTI-CHEAT
+// ═══════════════════════════════════════
+function showWarning(msg) {
+  // Remove existing warning if any
+  const existing = document.getElementById('cheatWarning');
+  if (existing) existing.remove();
+
+  const div = document.createElement('div');
+  div.id = 'cheatWarning';
+  div.className = 'cheat-warning';
+  div.innerHTML = `<span class="warn-icon">⚠️</span><span>${msg}</span>`;
+  document.body.appendChild(div);
+  setTimeout(() => div.remove(), 5000);
+}
+
+function logCheatAttempt(type, detail) {
+  console.warn('[Anti-Cheat]', type, detail);
+  // We store in the analytics object which gets saved on submit
+  window._cheatLog = window._cheatLog || [];
+  window._cheatLog.push({ type, detail, time: Date.now() });
+}
+
+function initAntiCheat() {
+  if (antiCheatInitialized) return;
+  antiCheatInitialized = true;
+
+  // ── Paste interception for answer areas ──
+  document.addEventListener('paste', function(e) {
+    const el = e.target;
+    // Only intercept if inside an answer area
+    if (!el.closest('.answer-area, [contenteditable]')) return;
+    // Allow GDC internal paste
+    if (window._internalPaste) { window._internalPaste = false; return; }
+
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+
+    // Allow short pastes (numbers, formulas, own notes)
+    if (text.length <= 200) return;
+
+    // Block long paste
+    e.preventDefault();
+    pasteAttempts++;
+    showWarning('Long paste detected (' + text.length + ' chars). Please write your answer in your own words.');
+    logCheatAttempt('long_paste', text.substring(0, 60));
+  }, true);
+
+  // ── AI pattern detection on paste ──
+  document.addEventListener('paste', function(e) {
+    const el = e.target;
+    if (!el.closest('.answer-area, [contenteditable]')) return;
+    if (window._internalPaste) return;
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    const aiPatterns = /\bas an ai\b|certainly[,!]|i'd be happy|here's a|in conclusion,|it's important to note|additionally,|furthermore,|to summarize/i;
+    if (aiPatterns.test(text)) {
+      e.preventDefault();
+      pasteAttempts++;
+      showWarning('This appears to be AI-generated text. Please write in your own words.');
+      logCheatAttempt('ai_paste', text.substring(0, 60));
+    }
+  }, true);
+
+  // ── Block selection in help panels ──
+  document.addEventListener('selectstart', function(e) {
+    if (e.target.closest('.help-panel')) e.preventDefault();
+  });
+  document.addEventListener('copy', function(e) {
+    if (document.activeElement?.closest('.help-panel') ||
+        window.getSelection()?.anchorNode?.parentElement?.closest('.help-panel')) {
+      e.preventDefault();
+    }
+  });
+
+  // ── Tab-switch detection ──
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      tabSwitchCount++;
+      logCheatAttempt('tab_switch', 'count: ' + tabSwitchCount);
+      if (tabSwitchCount === 3) {
+        showWarning('⚠️ Multiple tab switches detected. Your teacher will be notified in your attempt data.');
+      } else if (tabSwitchCount > 1) {
+        showWarning('Tab switch #' + tabSwitchCount + ' recorded.');
+      }
+    }
+  });
+}
+
 async function submitTest() {
   if (!confirm('Are you sure you want to submit?')) return;
   saveCurrentAnswer();
@@ -1626,8 +1850,20 @@ async function submitTest() {
     }
 
     totalEarned += earned;
-    return { q, idx, type, maxMarks, earned, autoGraded, correctAnswer, studentAnswer: answers[idx] };
+    return { q, idx, type, maxMarks, earned, autoGraded, correctAnswer, studentAnswer: answers[idx], helpUsed: helpUsed.has(idx) };
   });
+
+  // Stop time tracking for current section
+  trackSectionEnd(sections[currentSectionIdx]);
+
+  // Build analytics payload
+  const analytics = {
+    helpUsed: Array.from(helpUsed),               // [0, 2, 4] — question indices
+    tabSwitches: tabSwitchCount,
+    pasteAttempts: pasteAttempts,
+    timePerQuestion: timePerQuestion,             // { '0': 45, '2': 120 } seconds
+    cheatLog: window._cheatLog || []
+  };
 
   // Save attempt
   const attempt = {
@@ -1644,7 +1880,8 @@ async function submitTest() {
     totalMarks: totalMax,
     percentScore: totalMax > 0 ? Math.round((totalEarned / totalMax) * 100) : 0,
     answers: answers,
-    dataJson: JSON.stringify({ answers, flags, results: results.map(r => ({ earned: r.earned, max: r.maxMarks })) })
+    analytics: analytics,
+    dataJson: JSON.stringify({ answers, flags, results: results.map(r => ({ earned: r.earned, max: r.maxMarks, helpUsed: r.helpUsed })), analytics })
   };
 
   try {
@@ -1795,8 +2032,10 @@ function showResults(results, earned, total, attempt) {
       studentAnsHTML = `<div style="font-size:13px; color:var(--text2); margin-top:6px; white-space:pre-wrap;"><strong>Your Answer:</strong><br>${ans || '(no answer)'}</div>`;
     }
 
+    const helpBadge = r.helpUsed ? '<span class="help-badge" title="Help was used for this question">🔖 Help Used</span>' : '';
+
     html += `<div class="result-card ${cls}">
-      <div class="q-label"><span>Q${i+1} · ${r.q.type || 'Question'}</span><span class="result-score ${scoreCls}">${r.earned}/${r.maxMarks}</span></div>
+      <div class="q-label"><span>Q${i+1} · ${r.q.type || 'Question'}${helpBadge}</span><span class="result-score ${scoreCls}">${r.earned}/${r.maxMarks}</span></div>
       <div class="q-text">${formatQuestionText(r.q.data?.question || r.q.data?.fillText || '')}</div>
       ${studentAnsHTML}`;
 
