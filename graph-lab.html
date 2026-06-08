@@ -4034,6 +4034,32 @@ function runSinusoidalSolver(pts) {
   };
 }
 
+function formatEquation(fit, type) {
+  if (!fit.valid) return 'N/A';
+  const s = fit.slope.toFixed(2);
+  const c = fit.intercept.toFixed(2);
+  const cSign = fit.intercept >= 0 ? '+' : '-';
+  const cAbs = Math.abs(fit.intercept).toFixed(2);
+  
+  if (type === 'linear') {
+    return `y = ${s}x ${cSign} ${cAbs}`;
+  } else if (type === 'proportional') {
+    return `y = ${s}x`;
+  } else if (type === 'exponential') {
+    return `y = ${c} · e^(${s}x)`;
+  } else if (type === 'logarithmic') {
+    return `y = ${s} · ln(x) ${cSign} ${cAbs}`;
+  } else if (type === 'inverse') {
+    return `y = ${s}/x ${cSign} ${cAbs}`;
+  } else if (type === 'power') {
+    return `y = ${c} · x^(${s})`;
+  } else if (type === 'sinusoidal') {
+    return fit.formulaStr;
+  } else {
+    return fit.formulaStr;
+  }
+}
+
 // ═══════════════════════════════════════
 // PLOTTING AND GRAPH RENDERING
 // ═══════════════════════════════════════
@@ -4802,6 +4828,45 @@ function drawGraph() {
     ctx.arc(px, py, 6, 0, 2 * Math.PI);
     ctx.fill();
   }
+
+  // ═══════════════════════════════════════
+  // DRAW EQUATIONS ON CANVAS (Top-Left of Plot Area)
+  // ═══════════════════════════════════════
+  let eqY = margin.top + 20;
+  const eqX = margin.left + 15;
+  ctx.save();
+  ctx.font = '12px monospace';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  
+  if (showBestFit && fit.valid) {
+    ctx.fillStyle = colorRegression;
+    const bestFitText = `${formatEquation(fit, bestFitType)}  |  R² = ${fit.rSquared.toFixed(4)}`;
+    ctx.fillText(bestFitText, eqX, eqY);
+    eqY += 18;
+  }
+  
+  if (showMinMaxLines && maxSlopeValid) {
+    // Max gradient line
+    ctx.fillStyle = '#eb6325'; // Orange
+    const maxSign = maxIntercept >= 0 ? '+' : '-';
+    const maxLineText = `m_max: y = ${maxSlope.toFixed(2)}x ${maxSign} ${Math.abs(maxIntercept).toFixed(2)}`;
+    ctx.fillText(maxLineText, eqX, eqY);
+    eqY += 18;
+    
+    // Min gradient line
+    ctx.fillStyle = '#db9db3'; // Pink
+    const minSign = minIntercept >= 0 ? '+' : '-';
+    const minLineText = `m_min: y = ${minSlope.toFixed(2)}x ${minSign} ${Math.abs(minIntercept).toFixed(2)}`;
+    ctx.fillText(minLineText, eqX, eqY);
+    eqY += 18;
+    
+    // Uncertainty parameters
+    ctx.fillStyle = isDark ? '#a0a0b0' : '#7f8c8d'; // Gray
+    const uncertaintyText = `Δm = ±${deltaSlope.toFixed(2)}  |  Δc = ±${deltaIntercept.toFixed(2)}`;
+    ctx.fillText(uncertaintyText, eqX, eqY);
+  }
+  ctx.restore();
 
   // ═══════════════════════════════════════
   // LEGEND overlay
