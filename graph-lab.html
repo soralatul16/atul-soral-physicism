@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9JDXQ282H8');
+</script>
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('physicism-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  })();
+</script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Graph Plotting Lab | Atul Soral Physicism</title>
+<style>
+:root {
+  --cream: #f7f3ed;
+  --white: #ffffff;
+  --ink: #1a1a2e;
+  --ink-2: #2d2d44;
+  --ink-3: #555570;
+  --ink-4: #8888a0;
+  --ink-5: #b0b0c4;
+  --teal: #4ecdc4;
+  --teal-mid: #3db8b0;
+  --teal-pale: #e0f7f5;
+  --teal-soft: #b2ece6;
+  --blue: #5b9bd5;
+  --blue-pale: #deeaf6;
+  --pink: #f28b82;
+  --pink-pale: #fde8e6;
+  --pink-soft: #f7c5c0;
+  --coral: #ff8a65;
+  --coral-pale: #ffe0d0;
+  --purple: #b39ddb;
+  --purple-pale: #ede7f6;
+  --purple-soft: #d1c4e9;
+  --green: #81c784;
+  --green-pale: #e8f5e9;
+  --amber: #ffd54f;
+  --amber-pale: #fff8e1;
+  --glass: rgba(255,255,255,0.65);
+  --glass-border: rgba(255,255,255,0.7);
+  --glass-hover: rgba(255,255,255,0.85);
+  --shadow-sm: 0 2px 12px rgba(26,26,46,0.06);
+  --shadow-md: 0 8px 30px rgba(26,26,46,0.08);
+  --shadow-lg: 0 16px 50px rgba(26,26,46,0.1);
+  --r: 20px;
+  --r-lg: 28px;
+  --font-display: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  --font-body: 'Avenir Next', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+[data-theme="dark"] {
+  --cream: #0f1119;
+  --white: #1e2030;
+  --ink: #e0ddd5;
+  --ink-2: #c0c0d8;
+  --ink-3: #a0a0b0;
+  --ink-4: #6a6a7a;
+  --ink-5: #4a4a58;
+  --teal: #4ecdc4;
+  --teal-mid: #3db8b0;
+  --teal-pale: rgba(78,205,196,0.06);
+  --teal-soft: rgba(78,205,196,0.3);
+  --blue: #5b9bd5;
+  --blue-pale: rgba(91,155,213,0.06);
+  --pink: #f28b82;
+  --pink-pale: rgba(242,139,130,0.06);
+  --pink-soft: rgba(242,139,130,0.3);
+  --coral: #ff8a65;
+  --coral-pale: rgba(255,138,101,0.06);
+  --purple: #b39ddb;
+  --purple-pale: rgba(179,157,219,0.06);
+  --purple-soft: rgba(179,157,219,0.3);
+  --green: #81c784;
+  --green-pale: rgba(129,199,132,0.06);
+  --amber: #ffd54f;
+  --amber-pale: rgba(255,213,79,0.06);
+  --glass: rgba(30,32,45,0.85);
+  --glass-border: rgba(255,255,255,0.06);
+  --glass-hover: rgba(30,32,45,0.95);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-bottom: 60px;
+}
+
+/* NAVBAR */
+.navbar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--glass);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 0 40px; height: 64px;
+  display: flex; align-items: center;
+}
+.nav-brand {
+  font-family: var(--font-display); font-size: 20px; font-weight: 600;
+  color: var(--ink); text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-brand-icon {
+  width: 38px; height: 38px; border-radius: 11px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-mid));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: white;
+  box-shadow: 0 3px 14px rgba(78,205,196,0.3);
+  transition: transform 0.3s;
+}
+.nav-brand:hover .nav-brand-icon { transform: rotate(20deg) scale(1.08); }
+.nav-brand span { color: var(--teal); }
+.nav-links { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.nav-link {
+  padding: 8px 18px; border-radius: 50px; font-size: 13px; font-weight: 600;
+  color: var(--ink-3); text-decoration: none; transition: all 0.25s;
+  background: none; border: none; cursor: pointer;
+}
+.nav-link:hover { background: rgba(78,205,196,0.12); color: var(--teal); }
+
+/* MAIN CONTENT */
+.container {
+  max-width: 1200px;
+  margin: 30px auto 0;
+  padding: 0 20px;
+}
+.header-area {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.header-area h1 {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.header-area p {
+  color: var(--ink-3);
+  font-size: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.lab-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* CARDS */
+.lab-card {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid var(--glass-border);
+  border-radius: var(--r);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lab-card-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 8px;
+  color: var(--ink);
+}
+
+/* DATA TABLE */
+.table-wrapper {
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  background: var(--white);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th {
+  background: rgba(0,0,0,0.02);
+  color: var(--ink-3);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--glass-border);
+}
+td {
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+.data-input {
+  width: 100%;
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 6px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+  outline: none;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.data-input:focus {
+  background: rgba(78,205,196,0.05);
+  border-color: var(--teal-soft);
+}
+.delete-btn {
+  background: none;
+  border: none;
+  color: var(--pink);
+  font-weight: bold;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.delete-btn:hover {
+  background: var(--pink-pale);
+}
+
+/* BUTTONS */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1.5px solid transparent;
+  text-decoration: none;
+  font-family: var(--font-body);
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--teal), var(--teal-mid));
+  color: white;
+  box-shadow: 0 4px 12px rgba(78,205,196,0.2);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(78,205,196,0.3);
+}
+.btn-secondary {
+  background: var(--glass);
+  border-color: var(--glass-border);
+  color: var(--ink-2);
+}
+.btn-secondary:hover {
+  background: var(--glass-hover);
+  border-color: var(--teal-soft);
+}
+.btn-danger {
+  background: rgba(242,139,130,0.15);
+  color: var(--pink);
+}
+.btn-danger:hover {
+  background: rgba(242,139,130,0.25);
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* OPTIONS PANEL */
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.control-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.text-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1.5px solid var(--glass-border);
+  background: var(--white);
+  color: var(--ink);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+}
+.text-input:focus {
+  border-color: var(--teal-soft);
+}
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ink-2);
+  user-select: none;
+}
+.checkbox-row input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--teal);
+  cursor: pointer;
+}
+
+/* PRESETS */
+.presets-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.preset-tag {
+  background: rgba(0,0,0,0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--ink-3);
+  transition: all 0.2s;
+}
+.preset-tag:hover {
+  background: rgba(78,205,196,0.1);
+  color: var(--teal-mid);
+  border-color: var(--teal-soft);
+}
+
+/* GRAPH DISPLAY */
+.graph-display {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.canvas-card {
+  align-items: center;
+  justify-content: center;
+}
+canvas {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--glass-border);
+}
+
+/* STATS ROW */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+.stat-box {
+  background: var(--white);
+  border: 1px solid var(--glass-border);
+  padding: 14px 18px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.stat-box-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ink-4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.stat-box-val {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--teal-mid);
+  margin-top: 4px;
+}
+
+@media(max-width: 900px) {
+  .lab-layout {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="nav-brand" href="index.html">
+    <div class="nav-brand-icon">&#9883;</div>
+    Atul Soral <span>Physicism</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="myp-dashboard.html">MYP Dashboard</a>
+    <a class="nav-link" href="dp-dashboard.html">DP Dashboard</a>
+    <a class="nav-link" href="index.html">Home</a>
+    <button class="nav-link" onclick="toggleTheme()" style="font-size: 14px;">🌓</button>
+  </div>
+</nav>
+
+<!-- MAIN CONTAINER -->
+<div class="container">
+  <div class="header-area">
+    <h1>📈 Graph Plotting Lab</h1>
+    <p>A quick, interactive plotting tool designed for MYP & DP Physics experimental data analysis. Enter coordinates, customize labels, calculate lines of best fit, and export charts.</p>
+  </div>
+
+  <div class="lab-layout">
+    
+    <!-- LEFT PANEL: CONTROLS -->
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      
+      <!-- CARD 1: PRESETS -->
+      <div class="lab-card">
+        <div class="lab-card-title">🔬 Load Presets</div>
+        <div class="presets-grid">
+          <span class="preset-tag" onclick="loadPreset('ohms')">Ohm's Law (V vs I)</span>
+          <span class="preset-tag" onclick="loadPreset('kinematics')">Kinematics (s vs t²)</span>
+          <span class="preset-tag" onclick="loadPreset('friction')">Friction (F_f vs F_N)</span>
+          <span class="preset-tag" onclick="loadPreset('boyles')">Boyle's Law (P vs 1/V)</span>
+        </div>
+      </div>
+
+      <!-- CARD 2: DATA -->
+      <div class="lab-card">
+        <div class="lab-card-title">🔢 Data Coordinates</div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>X Value</th>
+                <th>Y Value</th>
+                <th style="width: 40px;"></th>
+              </tr>
+            </thead>
+            <tbody id="dataTableBody"></tbody>
+          </table>
+        </div>
+        
+        <div class="button-grid">
+          <button class="btn btn-secondary" onclick="addDataRow()">+ Add Row</button>
+          <button class="btn btn-danger" onclick="clearData()">✕ Clear All</button>
+        </div>
+      </div>
+
+      <!-- CARD 3: CONFIG -->
+      <div class="lab-card">
+        <div class="lab-card-title">⚙️ Graph Customization</div>
+        
+        <div class="control-group">
+          <label class="control-label" for="graphTitleInput">Graph Title</label>
+          <input type="text" id="graphTitleInput" class="text-input" value="Experimental Data Plot" oninput="drawGraph()">
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="graphXLabelInput">X-Axis Label (Units)</label>
+          <input type="text" id="graphXLabelInput" class="text-input" value="Time, t (s)" oninput="drawGraph()">
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="graphYLabelInput">Y-Axis Label (Units)</label>
+          <input type="text" id="graphYLabelInput" class="text-input" value="Distance, s (m)" oninput="drawGraph()">
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="showBestFitCheck" checked onchange="drawGraph()">
+          <label for="showBestFitCheck">Line of Best Fit</label>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="showGridCheck" checked onchange="drawGraph()">
+          <label for="showGridCheck">Show Grid Lines</label>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL: GRAPH -->
+    <div class="graph-display">
+      
+      <!-- CANVAS -->
+      <div class="lab-card canvas-card">
+        <canvas id="graphCanvas"></canvas>
+        
+        <div style="display:flex; gap:10px; width:100%; margin-top: 10px;">
+          <button class="btn btn-primary" onclick="downloadGraphPNG()" style="flex:1;">💾 Download Graph (PNG)</button>
+          <button class="btn btn-secondary" onclick="copyDataClipboard()" style="flex:1;">📋 Copy Coordinates</button>
+        </div>
+      </div>
+
+      <!-- IA ANALYSIS STATS -->
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-box-lbl">Regression Formula</div>
+          <div class="stat-box-val" id="statsEquation">y = mx + c</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-lbl">R² (Coef. of Determination)</div>
+          <div class="stat-box-val" id="statsRSquared">0.000</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-lbl">Slope (Gradient, m)</div>
+          <div class="stat-box-val" id="statsSlope">0.000</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-lbl">Y-Intercept (c)</div>
+          <div class="stat-box-val" id="statsIntercept">0.000</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// THEME SWITCHER
+// ═══════════════════════════════════════
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('physicism-theme', newTheme);
+  drawGraph();
+}
+
+// ═══════════════════════════════════════
+// DATA STATE & PRESETS
+// ═══════════════════════════════════════
+let coordinates = [
+  { x: 1.0, y: 2.1 },
+  { x: 2.0, y: 3.9 },
+  { x: 3.0, y: 6.2 },
+  { x: 4.0, y: 7.8 },
+  { x: 5.0, y: 10.1 }
+];
+
+const PRESETS = {
+  ohms: {
+    title: "Ohm's Law Verification",
+    xLabel: "Current, I (A)",
+    yLabel: "Voltage, V (V)",
+    data: [
+      { x: 0.1, y: 1.02 },
+      { x: 0.2, y: 1.98 },
+      { x: 0.3, y: 3.01 },
+      { x: 0.4, y: 4.05 },
+      { x: 0.5, y: 4.97 }
+    ]
+  },
+  kinematics: {
+    title: "Kinematics Analysis (Constant Acceleration)",
+    xLabel: "Time squared, t² (s²)",
+    yLabel: "Displacement, s (m)",
+    data: [
+      { x: 0.0, y: 0.0 },
+      { x: 1.0, y: 2.1 },
+      { x: 4.0, y: 7.9 },
+      { x: 9.0, y: 18.2 },
+      { x: 16.0, y: 32.1 }
+    ]
+  },
+  friction: {
+    title: "Static Friction vs Normal Force",
+    xLabel: "Normal Force, F_N (N)",
+    yLabel: "Limiting Friction, F_f (N)",
+    data: [
+      { x: 1.0, y: 0.32 },
+      { x: 2.0, y: 0.58 },
+      { x: 3.0, y: 0.91 },
+      { x: 4.0, y: 1.22 },
+      { x: 5.0, y: 1.48 }
+    ]
+  },
+  boyles: {
+    title: "Boyle's Law Plot",
+    xLabel: "Inverse Volume, 1/V (cm⁻³)",
+    yLabel: "Pressure, P (kPa)",
+    data: [
+      { x: 0.05, y: 100 },
+      { x: 0.08, y: 155 },
+      { x: 0.11, y: 215 },
+      { x: 0.14, y: 280 },
+      { x: 0.17, y: 345 }
+    ]
+  }
+};
+
+function loadPreset(key) {
+  const p = PRESETS[key];
+  if (!p) return;
+  document.getElementById('graphTitleInput').value = p.title;
+  document.getElementById('graphXLabelInput').value = p.xLabel;
+  document.getElementById('graphYLabelInput').value = p.yLabel;
+  coordinates = JSON.parse(JSON.stringify(p.data));
+  renderDataTable();
+  drawGraph();
+}
+
+// ═══════════════════════════════════════
+// VIEW / TABLE OPERATIONS
+// ═══════════════════════════════════════
+function renderDataTable() {
+  const tbody = document.getElementById('dataTableBody');
+  tbody.innerHTML = '';
+  coordinates.forEach((pt, i) => {
+    tbody.innerHTML += `
+      <tr>
+        <td><input type="number" step="any" class="data-input" value="${pt.x}" oninput="updatePoint(${i}, 'x', this.value)"></td>
+        <td><input type="number" step="any" class="data-input" value="${pt.y}" oninput="updatePoint(${i}, 'y', this.value)"></td>
+        <td><button class="delete-btn" onclick="deletePoint(${i})">✕</button></td>
+      </tr>
+    `;
+  });
+}
+
+function addDataRow() {
+  coordinates.push({ x: '', y: '' });
+  renderDataTable();
+}
+
+function updatePoint(idx, field, value) {
+  coordinates[idx][field] = value === '' ? '' : parseFloat(value);
+  drawGraph();
+}
+
+function deletePoint(idx) {
+  coordinates.splice(idx, 1);
+  if (coordinates.length === 0) {
+    coordinates.push({ x: '', y: '' });
+  }
+  renderDataTable();
+  drawGraph();
+}
+
+function clearData() {
+  coordinates = [{ x: '', y: '' }];
+  renderDataTable();
+  drawGraph();
+}
+
+function copyDataClipboard() {
+  const validPts = coordinates.filter(p => typeof p.x === 'number' && typeof p.y === 'number' && !isNaN(p.x) && !isNaN(p.y));
+  const tsv = validPts.map(p => `${p.x}\t${p.y}`).join('\n');
+  navigator.clipboard.writeText(tsv).then(() => {
+    alert("Coordinates copied as tab-separated values!");
+  });
+}
+
+function downloadGraphPNG() {
+  drawGraph();
+  const canvas = document.getElementById('graphCanvas');
+  const link = document.createElement('a');
+  link.download = 'physics-graph-export.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+// ═══════════════════════════════════════
+// PLOTTING CALCULATIONS & RENDERING
+// ═══════════════════════════════════════
+function drawGraph() {
+  const canvas = document.getElementById('graphCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  // High-dpi canvas sizing
+  const scaleFactor = window.devicePixelRatio || 1;
+  const displayWidth = Math.min(canvas.parentElement.clientWidth - 48, 650);
+  const displayHeight = Math.round(displayWidth * 0.75); // 4:3 Aspect Ratio
+  
+  canvas.style.width = displayWidth + 'px';
+  canvas.style.height = displayHeight + 'px';
+  canvas.width = displayWidth * scaleFactor;
+  canvas.height = displayHeight * scaleFactor;
+  ctx.scale(scaleFactor, scaleFactor);
+
+  const theme = document.documentElement.getAttribute('data-theme') || 'light';
+  const isDark = theme === 'dark';
+
+  // Theme colors
+  const colorBg = isDark ? '#1e2030' : '#ffffff';
+  const colorText = isDark ? '#e0ddd5' : '#1a1a2e';
+  const colorGrid = isDark ? '#2d2d44' : '#f1f5f9';
+  const colorBorder = isDark ? '#4a4a58' : '#e2e8f0';
+  const colorPlot = '#c0392b';
+  const colorRegression = '#2563eb';
+
+  ctx.fillStyle = colorBg;
+  ctx.fillRect(0, 0, displayWidth, displayHeight);
+
+  const margin = { top: 50, right: 40, bottom: 60, left: 70 };
+  const graphWidth = displayWidth - margin.left - margin.right;
+  const graphHeight = displayHeight - margin.top - margin.bottom;
+
+  // Filter valid data points
+  const pts = coordinates.filter(p => typeof p.x === 'number' && typeof p.y === 'number' && !isNaN(p.x) && !isNaN(p.y));
+
+  // Default axes ranges
+  let minX = 0, maxX = 10;
+  let minY = 0, maxY = 10;
+
+  if (pts.length > 0) {
+    const xs = pts.map(p => p.x);
+    const ys = pts.map(p => p.y);
+    const minD = 1e-6;
+    
+    let actualMinX = Math.min(...xs, 0);
+    let actualMaxX = Math.max(...xs, 0.1);
+    let actualMinY = Math.min(...ys, 0);
+    let actualMaxY = Math.max(...ys, 0.1);
+
+    if (Math.abs(actualMaxX - actualMinX) < minD) actualMaxX += 1;
+    if (Math.abs(actualMaxY - actualMinY) < minD) actualMaxY += 1;
+
+    // Pad limits slightly
+    const padX = (actualMaxX - actualMinX) * 0.12;
+    const padY = (actualMaxY - actualMinY) * 0.12;
+
+    minX = actualMinX;
+    maxX = actualMaxX + padX;
+    minY = actualMinY;
+    maxY = actualMaxY + padY;
+  }
+
+  function toPxX(x) {
+    return margin.left + ((x - minX) / (maxX - minX)) * graphWidth;
+  }
+  function toPxY(y) {
+    return margin.top + graphHeight - ((y - minY) / (maxY - minY)) * graphHeight;
+  }
+
+  // Draw Grid Lines
+  const showGrid = document.getElementById('showGridCheck').checked;
+  if (showGrid) {
+    ctx.strokeStyle = colorGrid;
+    ctx.lineWidth = 1;
+    ctx.fillStyle = isDark ? '#a0a0b0' : '#8888a0';
+    ctx.font = '10px sans-serif';
+
+    // X Axis ticks & grid
+    const xTicks = 6;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    for (let i = 0; i <= xTicks; i++) {
+      const val = minX + (i / xTicks) * (maxX - minX);
+      const px = toPxX(val);
+      ctx.beginPath();
+      ctx.moveTo(px, margin.top);
+      ctx.lineTo(px, margin.top + graphHeight);
+      ctx.stroke();
+      ctx.fillText(val.toFixed(2), px, margin.top + graphHeight + 8);
+    }
+
+    // Y Axis ticks & grid
+    const yTicks = 6;
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    for (let i = 0; i <= yTicks; i++) {
+      const val = minY + (i / yTicks) * (maxY - minY);
+      const py = toPxY(val);
+      ctx.beginPath();
+      ctx.moveTo(margin.left, py);
+      ctx.lineTo(displayWidth - margin.right, py);
+      ctx.stroke();
+      ctx.fillText(val.toFixed(2), margin.left - 8, py);
+    }
+  }
+
+  // Draw Primary Axes Borders
+  ctx.strokeStyle = colorBorder;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(margin.left, margin.top);
+  ctx.lineTo(margin.left, margin.top + graphHeight);
+  ctx.lineTo(displayWidth - margin.right, margin.top + graphHeight);
+  ctx.stroke();
+
+  // Axis Labels & Title
+  ctx.fillStyle = colorText;
+  ctx.font = 'bold 12px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  const titleVal = document.getElementById('graphTitleInput').value || 'Data Plot';
+  const xLabelVal = document.getElementById('graphXLabelInput').value || 'X Axis';
+  const yLabelVal = document.getElementById('graphYLabelInput').value || 'Y Axis';
+
+  // Title
+  ctx.font = 'bold 14px Georgia, serif';
+  ctx.fillText(titleVal, margin.left + graphWidth / 2, 24);
+
+  // X Axis Label
+  ctx.font = 'bold 12px sans-serif';
+  ctx.fillText(xLabelVal, margin.left + graphWidth / 2, displayHeight - 20);
+
+  // Y Axis Label
+  ctx.save();
+  ctx.translate(24, margin.top + graphHeight / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText(yLabelVal, 0, 0);
+  ctx.restore();
+
+  // Regression Calculation
+  const showBestFit = document.getElementById('showBestFitCheck').checked;
+  let slope = 0, intercept = 0, rSquared = 0;
+  let formulaStr = 'N/A';
+  let equationValid = false;
+
+  if (pts.length >= 2) {
+    const n = pts.length;
+    let sumX = 0, sumY = 0, sumXX = 0, sumYY = 0, sumXY = 0;
+    pts.forEach(p => {
+      sumX += p.x;
+      sumY += p.y;
+      sumXX += p.x * p.x;
+      sumYY += p.y * p.y;
+      sumXY += p.x * p.y;
+    });
+
+    const denom = n * sumXX - sumX * sumX;
+    if (Math.abs(denom) > 1e-8) {
+      slope = (n * sumXY - sumX * sumY) / denom;
+      intercept = (sumY - slope * sumX) / n;
+      equationValid = true;
+
+      // Calculate RSquared
+      const yMean = sumY / n;
+      let ssTot = 0, ssRes = 0;
+      pts.forEach(p => {
+        const fitY = slope * p.x + intercept;
+        ssTot += (p.y - yMean) * (p.y - yMean);
+        ssRes += (p.y - fitY) * (p.y - fitY);
+      });
+
+      if (ssTot > 1e-8) {
+        rSquared = 1 - (ssRes / ssTot);
+      } else {
+        rSquared = 1.0;
+      }
+      
+      const interceptSign = intercept >= 0 ? '+' : '-';
+      const absIntercept = Math.abs(intercept);
+      formulaStr = `y = ${slope.toFixed(3)}x ${interceptSign} ${absIntercept.toFixed(3)}`;
+    }
+  }
+
+  // Draw Regression Line
+  if (showBestFit && equationValid) {
+    ctx.strokeStyle = colorRegression;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(toPxX(minX), toPxY(slope * minX + intercept));
+    ctx.lineTo(toPxX(maxX), toPxY(slope * maxX + intercept));
+    ctx.stroke();
+  }
+
+  // Draw Scatter Points
+  ctx.fillStyle = colorPlot;
+  pts.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(toPxX(p.x), toPxY(p.y), 5, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.strokeStyle = colorBg;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  });
+
+  // Update Stats UI
+  document.getElementById('statsSlope').textContent = equationValid ? slope.toFixed(4) : '0.0000';
+  document.getElementById('statsIntercept').textContent = equationValid ? intercept.toFixed(4) : '0.0000';
+  document.getElementById('statsRSquared').textContent = equationValid ? rSquared.toFixed(4) : '0.0000';
+  document.getElementById('statsEquation').textContent = formulaStr;
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  renderDataTable();
+  drawGraph();
+});
+</script>
+</body>
+</html>
