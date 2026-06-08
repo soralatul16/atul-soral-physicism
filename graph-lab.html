@@ -3382,23 +3382,39 @@ function loadPreset(key) {
   const p = PRESETS[key];
   if (!p) return;
   
-  // Clear any existing localStorage progress when a preset is selected
+  // 1. Assign coordinates first so all downstream state checks and graph drawing use the new data
+  coordinates = JSON.parse(JSON.stringify(p.data));
+  
+  // 2. Clear any existing localStorage progress when a preset is selected
   localStorage.removeItem('graph-lab-progress');
   
-  saveState();
+  // 3. Log the loaded preset details as requested
+  console.log('Loading preset:', key, p.data);
   
-  // Log preset data to console to verify unique numbers
-  console.log("presetData:", p.data);
+  // 4. Update the select element value to keep it in sync
+  const presetSel = document.getElementById('presetSelect');
+  if (presetSel) presetSel.value = key;
   
+  // 5. Update titles and labels
   document.getElementById('graphTitleInput').value = p.title || 'Experimental Data Plot';
   document.getElementById('graphXLabelInput').value = p.xLabel || 'Independent Variable, x';
   document.getElementById('graphYLabelInput').value = p.yLabel || 'Dependent Variable, y';
   
-  // Set transforms to none initially
+  // 6. Set transforms to none initially
   document.getElementById('linearizeXSelect').value = 'none';
   document.getElementById('linearizeYSelect').value = 'none';
   
+  // 7. Set default fit type
   document.getElementById('bestFitTypeSelect').value = p.defaultFit || 'linear';
+  
+  // 8. Auto-enable custom error calculation if preset contains uncertainties
+  const hasUncertainties = p.data.some(pt => (pt.dx && pt.dx !== 0) || (pt.dy && pt.dy !== 0));
+  const errSelect = document.getElementById('errorBarTypeSelect');
+  if (errSelect) {
+    errSelect.value = hasUncertainties ? 'custom' : 'none';
+    toggleErrorBarMode();
+  }
+  
   toggleFittingMode();
   
   const infoEl = document.getElementById('presetInfo');
@@ -3412,7 +3428,7 @@ function loadPreset(key) {
     }
   }
 
-  coordinates = JSON.parse(JSON.stringify(p.data));
+  saveState();
   renderDataTable();
   drawGraph();
 }
@@ -4719,6 +4735,7 @@ function drawGraph() {
 
       // Draw min/max slope lines
       if (showMinMaxLines) {
+        console.log('Drawing min/max lines');
         ctx.strokeStyle = 'rgba(235, 99, 37, 0.4)'; // Orange max line
         ctx.lineWidth = 1.2;
         ctx.setLineDash([2, 2]);
