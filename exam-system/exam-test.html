@@ -999,14 +999,14 @@ function renderRichToolbar(idx) {
   const aId = 'ansArea' + idx;
   return `
   <div class="rich-toolbar">
-    <!-- ROW 1: TEXT FORMATTING -->
+    <!-- ROW 1: TEXT FORMATTING & ACTIONS -->
     <div class="rich-toolbar-row">
-      <button type="button" class="rich-btn" onclick="fmt('bold')" title="Bold (Ctrl+B)"><b>B</b></button>
-      <button type="button" class="rich-btn" onclick="fmt('italic')" title="Italic (Ctrl+I)"><i>I</i></button>
-      <button type="button" class="rich-btn" onclick="fmt('underline')" title="Underline (Ctrl+U)"><u>U</u></button>
+      <button type="button" class="rich-btn" data-cmd="bold" onclick="toggleFormat('bold')" title="Bold (Ctrl+B)"><b>B</b></button>
+      <button type="button" class="rich-btn" data-cmd="italic" onclick="toggleFormat('italic')" title="Italic (Ctrl+I)"><i>I</i></button>
+      <button type="button" class="rich-btn" data-cmd="underline" onclick="toggleFormat('underline')" title="Underline (Ctrl+U)"><u>U</u></button>
       <div class="rich-sep"></div>
-      <button type="button" class="rich-btn" onclick="fmt('superscript')" title="Superscript">x<sup>2</sup></button>
-      <button type="button" class="rich-btn" onclick="fmt('subscript')" title="Subscript">x<sub>2</sub></button>
+      <button type="button" class="rich-btn" data-cmd="superscript" onclick="toggleFormat('superscript')" title="Superscript">x<sup>2</sup></button>
+      <button type="button" class="rich-btn" data-cmd="subscript" onclick="toggleFormat('subscript')" title="Subscript">x<sub>2</sub></button>
       <button type="button" class="rich-btn" onclick="fmt('removeFormat')" title="Clear Formatting" style="font-size:11px">T<sub>✕</sub></button>
       <div class="rich-sep"></div>
       <button type="button" class="rich-btn" onclick="fmt('insertUnorderedList')" title="Bullet List">≡•</button>
@@ -1024,54 +1024,39 @@ function renderRichToolbar(idx) {
       <button type="button" class="rich-btn" onclick="insertRichTable('${aId}')" title="Insert Table">⊞ Table</button>
       <button type="button" class="rich-btn" onclick="openGraphPlotter('${aId}')" title="Plot Graph">📈 Graph</button>
     </div>
-    <!-- ROW 2: SPECIAL CHARACTERS -->
+    <!-- ROW 2: SYMBOLS & MATH COMPACT -->
     <div class="rich-toolbar-row">
-      <span style="font-size:10px;color:var(--text3);padding:4px 6px;font-weight:600;letter-spacing:.5px;text-transform:uppercase">Chars:</span>
+      <span style="font-size:10px;color:var(--text3);padding:4px 6px;font-weight:600;letter-spacing:.5px;text-transform:uppercase">Symbols:</span>
       <button type="button" class="rich-btn" onclick="insertChar('α')">α</button>
       <button type="button" class="rich-btn" onclick="insertChar('β')">β</button>
       <button type="button" class="rich-btn" onclick="insertChar('γ')">γ</button>
-      <button type="button" class="rich-btn" onclick="insertChar('δ')">δ</button>
       <button type="button" class="rich-btn" onclick="insertChar('θ')">θ</button>
       <button type="button" class="rich-btn" onclick="insertChar('λ')">λ</button>
-      <button type="button" class="rich-btn" onclick="insertChar('μ')">μ</button>
       <button type="button" class="rich-btn" onclick="insertChar('π')">π</button>
       <button type="button" class="rich-btn" onclick="insertChar('Δ')">Δ</button>
-      <button type="button" class="rich-btn" onclick="insertChar('Ω')">Ω</button>
       <button type="button" class="rich-btn" onclick="insertChar('Σ')">Σ</button>
-      <button type="button" class="rich-btn" onclick="insertChar('ρ')">ρ</button>
-      <button type="button" class="rich-btn" onclick="insertChar('φ')">φ</button>
-      <button type="button" class="rich-btn" onclick="insertChar('ψ')">ψ</button>
       <div class="rich-sep"></div>
+      <button type="button" class="rich-btn" onclick="insertChar('±')">±</button>
       <button type="button" class="rich-btn" onclick="insertChar('×')">×</button>
       <button type="button" class="rich-btn" onclick="insertChar('÷')">÷</button>
-      <button type="button" class="rich-btn" onclick="insertChar('±')">±</button>
-      <button type="button" class="rich-btn" onclick="insertChar('≠')">≠</button>
       <button type="button" class="rich-btn" onclick="insertChar('≈')">≈</button>
       <button type="button" class="rich-btn" onclick="insertChar('≤')">≤</button>
       <button type="button" class="rich-btn" onclick="insertChar('≥')">≥</button>
-      <button type="button" class="rich-btn" onclick="insertChar('√')">√</button>
-      <button type="button" class="rich-btn" onclick="insertChar('∞')">∞</button>
       <button type="button" class="rich-btn" onclick="insertChar('°')">°</button>
-      <button type="button" class="rich-btn" onclick="insertChar('·')">·</button>
-      <button type="button" class="rich-btn" onclick="insertChar('⇌')">⇌</button>
       <button type="button" class="rich-btn" onclick="insertChar('→')">→</button>
-      <button type="button" class="rich-btn" onclick="insertChar('∝')">∝</button>
       <div class="rich-sep"></div>
-      <button type="button" class="rich-btn math-btn" onclick="showSpecialChars(event)" title="All special characters">Ω+ ▾</button>
+      <button type="button" class="rich-btn math-btn" onclick="showSpecialChars(event)" title="All special characters">Ω+ More...</button>
     </div>
-    <!-- ROW 3: MATH FORMULAS -->
+    <!-- ROW 3: MATH TEMPLATES -->
     <div class="rich-toolbar-row">
       <span style="font-size:10px;color:var(--text3);padding:4px 6px;font-weight:600;letter-spacing:.5px;text-transform:uppercase">Math:</span>
       <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('frac')" title="Fraction"><span style="display:inline-flex;flex-direction:column;align-items:center;font-size:11px;line-height:1.1"><span style="border-bottom:1.5px solid currentColor;padding:0 3px">a</span><span style="padding:0 3px">b</span></span></button>
       <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('sqrt')" title="Square Root">√x̄</button>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('nsqrt')" title="nth Root">ⁿ√x</button>
       <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('pow')" title="Power">xⁿ</button>
       <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('sub')" title="Subscript">xₙ</button>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('sum')" title="Summation">Σ</button>
       <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('integral')" title="Integral">∫</button>
       <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('limit')" title="Limit">lim</button>
       <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('deriv')" title="Derivative">dy/dx</button>
-      <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('partial')" title="Partial Derivative">∂y/∂x</button>
       <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('vec')" title="Vector">v⃗</button>
       <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('abs')" title="Absolute Value">|x|</button>
       <button type="button" class="rich-btn math-btn" onclick="insertMathTemplate('matrix2')" title="2×2 Matrix">[M]</button>
@@ -1111,6 +1096,36 @@ function restoreSelRange(el) {
   }
 }
 
+function resetCursor() {
+  const sel = window.getSelection();
+  if (sel.rangeCount) {
+    sel.collapseToEnd();
+  }
+}
+
+function updateFormatState() {
+  const cmds = ['bold', 'italic', 'underline', 'superscript', 'subscript'];
+  cmds.forEach(cmd => {
+    const isActive = document.queryCommandState(cmd);
+    document.querySelectorAll(`[data-cmd="${cmd}"]`).forEach(btn => {
+      btn.classList.toggle('active', isActive);
+    });
+  });
+}
+
+function toggleFormat(command) {
+  const el = getActiveEl();
+  if (!el) {
+    const areas = document.querySelectorAll('.answer-area[contenteditable]');
+    if (areas.length === 1) areas[0].focus();
+    else return;
+  }
+  document.execCommand(command, false, null);
+  resetCursor(); // Collapse selection to end after applying format
+  updateFormatState();
+  if (activeAnswerIdx !== null) saveText(activeAnswerIdx);
+}
+
 function fmt(cmd, val) {
   const el = getActiveEl();
   if (!el) {
@@ -1119,6 +1134,7 @@ function fmt(cmd, val) {
     if (areas.length === 1) { areas[0].focus(); }
   }
   document.execCommand(cmd, false, val || null);
+  if (cmd === 'removeFormat') updateFormatState();
   if (activeAnswerIdx !== null) saveText(activeAnswerIdx);
 }
 
@@ -2327,6 +2343,8 @@ document.addEventListener('keydown', e => {
     closeMathEditor();
   }
 });
+// Update format toolbar active states when cursor moves or selection changes
+document.addEventListener('selectionchange', updateFormatState);
 
 </script>
 </body>
