@@ -989,661 +989,2240 @@ let undoStack = [];
 let redoStack = [];
 
 const PRESETS = {
-  // Mechanics
-  ohms: {
-    title: "Ohm's Law: I (A) vs V (V)",
-    xLabel: "Current, I (A)",
-    yLabel: "Voltage, V (V)",
-    defaultFit: "linear",
-    data: [
-      { x: 0.10, y: 0.52, y2: '', dx: 0.01, dy: 0.05 },
-      { x: 0.20, y: 1.01, y2: '', dx: 0.01, dy: 0.05 },
-      { x: 0.30, y: 1.48, y2: '', dx: 0.01, dy: 0.05 },
-      { x: 0.40, y: 2.03, y2: '', dx: 0.01, dy: 0.05 },
-      { x: 0.50, y: 2.49, y2: '', dx: 0.01, dy: 0.05 },
-      { x: 0.60, y: 3.02, y2: '', dx: 0.01, dy: 0.05 }
+  "ohms": {
+    "title": "Ohm's Law: I (A) vs V (V)",
+    "xLabel": "Current, I (A)",
+    "yLabel": "Voltage, V (V)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 0.1,
+        "y": 1.0084,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.1
+      },
+      {
+        "x": 0.2,
+        "y": 1.943,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.1
+      },
+      {
+        "x": 0.3,
+        "y": 2.9595,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.1
+      },
+      {
+        "x": 0.4,
+        "y": 3.9336,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.1
+      },
+      {
+        "x": 0.5,
+        "y": 5.0709,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.1
+      },
+      {
+        "x": 0.6,
+        "y": 6.0636,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.1
+      }
     ],
-    note: "✓ Linearized form of Ohm's Law (already linear)"
+    "note": "\u2713 Linear relationship showing Ohm's Law (constant resistance)"
   },
-  hookes: {
-    title: "Spring Constant (Hooke's Law)",
-    xLabel: "Extension, x (m)",
-    yLabel: "Force, F (N)",
-    defaultFit: "linear",
-    data: [
-      { x: 0.05, y: 2.45, y2: '', dx: 0.005, dy: 0.1 },
-      { x: 0.10, y: 5.02, y2: '', dx: 0.005, dy: 0.1 },
-      { x: 0.15, y: 7.41, y2: '', dx: 0.005, dy: 0.1 },
-      { x: 0.20, y: 9.98, y2: '', dx: 0.005, dy: 0.1 },
-      { x: 0.25, y: 12.55, y2: '', dx: 0.005, dy: 0.1 },
-      { x: 0.30, y: 15.01, y2: '', dx: 0.005, dy: 0.1 }
+  "hookes": {
+    "title": "Spring Constant (Hooke's Law)",
+    "xLabel": "Extension, x (m)",
+    "yLabel": "Force, F (N)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 0.05,
+        "y": 2.549,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.2
+      },
+      {
+        "x": 0.1,
+        "y": 4.8967,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.2
+      },
+      {
+        "x": 0.15,
+        "y": 7.4707,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.2
+      },
+      {
+        "x": 0.2,
+        "y": 9.7649,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.2
+      },
+      {
+        "x": 0.25,
+        "y": 12.3241,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.2
+      },
+      {
+        "x": 0.3,
+        "y": 15.004,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.2
+      }
     ],
-    note: "✓ Linearized form of Hooke's Law"
+    "note": "\u2713 Linear relationship showing Hooke's Law (constant k)"
   },
-  ke_vs_v: {
-    title: "KE vs Velocity",
-    xLabel: "Velocity, v (m/s)",
-    yLabel: "Kinetic Energy, E_k (J)",
-    defaultFit: "linear",
-    data: [
-      { x: 1.0, y: 1.05, y2: '', dx: 0.1, dy: 0.5 },
-      { x: 2.0, y: 3.95, y2: '', dx: 0.1, dy: 0.5 },
-      { x: 3.0, y: 9.10, y2: '', dx: 0.1, dy: 0.5 },
-      { x: 4.0, y: 16.05, y2: '', dx: 0.1, dy: 0.5 },
-      { x: 5.0, y: 24.90, y2: '', dx: 0.1, dy: 0.5 },
-      { x: 6.0, y: 35.85, y2: '', dx: 0.1, dy: 0.5 }
+  "ke_vs_v": {
+    "title": "KE vs Velocity",
+    "xLabel": "Velocity, v (m/s)",
+    "yLabel": "Kinetic Energy, E_k (J)",
+    "defaultFit": "power",
+    "data": [
+      {
+        "x": 1.0,
+        "y": 0.9716,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.5
+      },
+      {
+        "x": 2.0,
+        "y": 3.9277,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.5
+      },
+      {
+        "x": 3.0,
+        "y": 9.0809,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.5
+      },
+      {
+        "x": 4.0,
+        "y": 16.0431,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.5
+      },
+      {
+        "x": 5.0,
+        "y": 24.5807,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.5
+      },
+      {
+        "x": 6.0,
+        "y": 36.1928,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.5
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Try linearizing this! Plot v\u00b2 on the X-axis."
   },
-  ke_lin: {
-    title: "KE vs Velocity Squared",
-    xLabel: "v² (m²/s²)",
-    yLabel: "Kinetic Energy, E_k (J)",
-    defaultFit: "linear",
-    data: [
-      { x: 1.0, y: 1.05, y2: '', dx: 0.2, dy: 0.5 },
-      { x: 4.0, y: 3.95, y2: '', dx: 0.4, dy: 0.5 },
-      { x: 9.0, y: 9.10, y2: '', dx: 0.6, dy: 0.5 },
-      { x: 16.0, y: 16.05, y2: '', dx: 0.8, dy: 0.5 },
-      { x: 25.0, y: 24.90, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 36.0, y: 35.85, y2: '', dx: 1.2, dy: 0.5 }
+  "ke_lin": {
+    "title": "KE vs Velocity Squared (Linearized)",
+    "xLabel": "v\u00b2 (m\u00b2/s\u00b2)",
+    "yLabel": "Kinetic Energy, E_k (J)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 1.0,
+        "y": 0.9716,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 0.5
+      },
+      {
+        "x": 4.0,
+        "y": 3.9277,
+        "y2": "",
+        "dx": 0.4,
+        "dy": 0.5
+      },
+      {
+        "x": 9.0,
+        "y": 9.0809,
+        "y2": "",
+        "dx": 0.6,
+        "dy": 0.5
+      },
+      {
+        "x": 16.0,
+        "y": 16.0431,
+        "y2": "",
+        "dx": 0.8,
+        "dy": 0.5
+      },
+      {
+        "x": 25.0,
+        "y": 24.5807,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 36.0,
+        "y": 36.1928,
+        "y2": "",
+        "dx": 1.2,
+        "dy": 0.5
+      }
     ],
-    note: "✓ Linearized form of KE vs Velocity"
+    "note": "\u2713 Linearized form of Kinetic Energy vs Velocity"
   },
-  stop_dist: {
-    title: "Stopping Distance vs Speed",
-    xLabel: "Speed, v (m/s)",
-    yLabel: "Stopping Distance, d (m)",
-    defaultFit: "linear",
-    data: [
-      { x: 10.0, y: 6.1, y2: '', dx: 0.5, dy: 0.8 },
-      { x: 15.0, y: 13.9, y2: '', dx: 0.5, dy: 1.2 },
-      { x: 20.0, y: 24.8, y2: '', dx: 0.5, dy: 1.5 },
-      { x: 25.0, y: 38.6, y2: '', dx: 0.5, dy: 2.0 },
-      { x: 30.0, y: 56.1, y2: '', dx: 0.5, dy: 2.5 },
-      { x: 35.0, y: 76.5, y2: '', dx: 0.5, dy: 3.0 }
+  "stop_dist": {
+    "title": "Stopping Distance vs Speed",
+    "xLabel": "Speed, v (m/s)",
+    "yLabel": "Stopping Distance, d (m)",
+    "defaultFit": "power",
+    "data": [
+      {
+        "x": 10.0,
+        "y": 10.446,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 1.5
+      },
+      {
+        "x": 15.0,
+        "y": 22.0303,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 1.5
+      },
+      {
+        "x": 20.0,
+        "y": 41.7723,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 1.5
+      },
+      {
+        "x": 25.0,
+        "y": 64.7204,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 1.5
+      },
+      {
+        "x": 30.0,
+        "y": 90.5706,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 1.5
+      },
+      {
+        "x": 35.0,
+        "y": 121.4309,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 1.5
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Try linearizing this! Plot v\u00b2 on the X-axis."
   },
-  stop_dist_lin: {
-    title: "Stopping Distance linearized",
-    xLabel: "v² (m²/s²)",
-    yLabel: "Stopping Distance, d (m)",
-    defaultFit: "linear",
-    data: [
-      { x: 100, y: 6.1, y2: '', dx: 10, dy: 0.8 },
-      { x: 225, y: 13.9, y2: '', dx: 15, dy: 1.2 },
-      { x: 400, y: 24.8, y2: '', dx: 20, dy: 1.5 },
-      { x: 625, y: 38.6, y2: '', dx: 25, dy: 2.0 },
-      { x: 900, y: 56.1, y2: '', dx: 30, dy: 2.5 },
-      { x: 1225, y: 76.5, y2: '', dx: 35, dy: 3.0 }
+  "stop_dist_lin": {
+    "title": "Stopping Distance vs Speed Squared",
+    "xLabel": "v\u00b2 (m\u00b2/s\u00b2)",
+    "yLabel": "Stopping Distance, d (m)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 100.0,
+        "y": 10.446,
+        "y2": "",
+        "dx": 10.0,
+        "dy": 1.5
+      },
+      {
+        "x": 225.0,
+        "y": 22.0303,
+        "y2": "",
+        "dx": 15.0,
+        "dy": 1.5
+      },
+      {
+        "x": 400.0,
+        "y": 41.7723,
+        "y2": "",
+        "dx": 20.0,
+        "dy": 1.5
+      },
+      {
+        "x": 625.0,
+        "y": 64.7204,
+        "y2": "",
+        "dx": 25.0,
+        "dy": 1.5
+      },
+      {
+        "x": 900.0,
+        "y": 90.5706,
+        "y2": "",
+        "dx": 30.0,
+        "dy": 1.5
+      },
+      {
+        "x": 1225.0,
+        "y": 121.4309,
+        "y2": "",
+        "dx": 35.0,
+        "dy": 1.5
+      }
     ],
-    note: "✓ Linearized form of Stopping distance vs Speed"
+    "note": "\u2713 Linearized form of Stopping distance vs Speed"
   },
-  friction: {
-    title: "Friction: F_N (N) vs F_f (N)",
-    xLabel: "Normal Force, F_N (N)",
-    yLabel: "Frictional Force, F_f (N)",
-    defaultFit: "linear",
-    data: [
-      { x: 2.0, y: 0.62, y2: '', dx: 0.1, dy: 0.05 },
-      { x: 4.0, y: 1.25, y2: '', dx: 0.1, dy: 0.05 },
-      { x: 6.0, y: 1.82, y2: '', dx: 0.1, dy: 0.05 },
-      { x: 8.0, y: 2.45, y2: '', dx: 0.1, dy: 0.05 },
-      { x: 10.0, y: 3.08, y2: '', dx: 0.1, dy: 0.05 },
-      { x: 12.0, y: 3.72, y2: '', dx: 0.1, dy: 0.05 }
+  "friction": {
+    "title": "Friction: F_N (N) vs F_f (N)",
+    "xLabel": "Normal Force, F_N (N)",
+    "yLabel": "Frictional Force, F_f (N)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 2.0,
+        "y": 0.7192,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      },
+      {
+        "x": 4.0,
+        "y": 1.3863,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      },
+      {
+        "x": 6.0,
+        "y": 2.0487,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      },
+      {
+        "x": 8.0,
+        "y": 2.7322,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      },
+      {
+        "x": 10.0,
+        "y": 3.573,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      },
+      {
+        "x": 12.0,
+        "y": 4.2261,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      }
     ],
-    note: "✓ Linearized form of Friction"
+    "note": "\u2713 Linear relationship giving friction coefficient as gradient"
   },
-  
-  // Gravity & Fields
-  grav_force: {
-    title: "Gravitational Force vs Distance",
-    xLabel: "Distance, r (m)",
-    yLabel: "Gravitational Force, F (N)",
-    defaultFit: "inverse",
-    data: [
-      { x: 1.0, y: 100.2, y2: '', dx: 0.05, dy: 1.5 },
-      { x: 2.0, y: 25.1, y2: '', dx: 0.05, dy: 1.5 },
-      { x: 3.0, y: 11.2, y2: '', dx: 0.05, dy: 1.5 },
-      { x: 4.0, y: 6.3, y2: '', dx: 0.05, dy: 1.5 },
-      { x: 5.0, y: 4.1, y2: '', dx: 0.05, dy: 1.5 },
-      { x: 6.0, y: 2.8, y2: '', dx: 0.05, dy: 1.5 }
+  "grav_force": {
+    "title": "Gravitational Force vs Distance",
+    "xLabel": "Distance, r (m)",
+    "yLabel": "Gravitational Force, F (N)",
+    "defaultFit": "inverse",
+    "data": [
+      {
+        "x": 1.0,
+        "y": 101.8428,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 1.0
+      },
+      {
+        "x": 1.5,
+        "y": 45.0571,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 1.0
+      },
+      {
+        "x": 2.0,
+        "y": 25.0543,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 1.0
+      },
+      {
+        "x": 2.5,
+        "y": 16.4542,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 1.0
+      },
+      {
+        "x": 3.0,
+        "y": 11.0301,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 1.0
+      },
+      {
+        "x": 3.5,
+        "y": 8.1888,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 1.0
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Try linearizing this! Plot 1/r\u00b2 on the X-axis."
   },
-  grav_force_lin: {
-    title: "Gravitational Force linearized",
-    xLabel: "1/r² (m⁻²)",
-    yLabel: "Gravitational Force, F (N)",
-    defaultFit: "linear",
-    data: [
-      { x: 1.000, y: 100.2, y2: '', dx: 0.01, dy: 1.5 },
-      { x: 0.250, y: 25.1, y2: '', dx: 0.01, dy: 1.5 },
-      { x: 0.111, y: 11.2, y2: '', dx: 0.01, dy: 1.5 },
-      { x: 0.063, y: 6.3, y2: '', dx: 0.01, dy: 1.5 },
-      { x: 0.040, y: 4.1, y2: '', dx: 0.01, dy: 1.5 },
-      { x: 0.028, y: 2.8, y2: '', dx: 0.01, dy: 1.5 }
+  "grav_force_lin": {
+    "title": "Gravitational Force vs Inverse Square Distance",
+    "xLabel": "1/r\u00b2 (m\u207b\u00b2)",
+    "yLabel": "Gravitational Force, F (N)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 1.0,
+        "y": 101.8428,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 1.0
+      },
+      {
+        "x": 0.4444,
+        "y": 45.0571,
+        "y2": "",
+        "dx": 0.0296,
+        "dy": 1.0
+      },
+      {
+        "x": 0.25,
+        "y": 25.0543,
+        "y2": "",
+        "dx": 0.0125,
+        "dy": 1.0
+      },
+      {
+        "x": 0.16,
+        "y": 16.4542,
+        "y2": "",
+        "dx": 0.0064,
+        "dy": 1.0
+      },
+      {
+        "x": 0.1111,
+        "y": 11.0301,
+        "y2": "",
+        "dx": 0.0037,
+        "dy": 1.0
+      },
+      {
+        "x": 0.0816,
+        "y": 8.1888,
+        "y2": "",
+        "dx": 0.0023,
+        "dy": 1.0
+      }
     ],
-    note: "✓ Linearized form of Gravitational Force vs Distance"
+    "note": "\u2713 Linearized form of Gravitational Force vs Distance"
   },
-  grav_field: {
-    title: "Gravitational Field Strength vs r",
-    xLabel: "Distance, r (m)",
-    yLabel: "Field Strength, g (N/kg)",
-    defaultFit: "inverse",
-    data: [
-      { x: 1.0, y: 9.81, y2: '', dx: 0.05, dy: 0.1 },
-      { x: 2.0, y: 2.45, y2: '', dx: 0.05, dy: 0.1 },
-      { x: 3.0, y: 1.09, y2: '', dx: 0.05, dy: 0.1 },
-      { x: 4.0, y: 0.61, y2: '', dx: 0.05, dy: 0.1 },
-      { x: 5.0, y: 0.39, y2: '', dx: 0.05, dy: 0.1 },
-      { x: 6.0, y: 0.27, y2: '', dx: 0.05, dy: 0.1 }
+  "grav_field": {
+    "title": "Gravitational Field Strengths vs Distance",
+    "xLabel": "Normalized Distance, r",
+    "yLabel": "Field Strength, g (N/kg)",
+    "defaultFit": "inverse",
+    "data": [
+      {
+        "x": 1.0,
+        "y": 9.9716,
+        "y2": "",
+        "dx": 0.02,
+        "dy": 0.1
+      },
+      {
+        "x": 1.2,
+        "y": 6.8529,
+        "y2": "",
+        "dx": 0.02,
+        "dy": 0.1
+      },
+      {
+        "x": 1.4,
+        "y": 5.0956,
+        "y2": "",
+        "dx": 0.02,
+        "dy": 0.1
+      },
+      {
+        "x": 1.6,
+        "y": 3.8469,
+        "y2": "",
+        "dx": 0.02,
+        "dy": 0.1
+      },
+      {
+        "x": 1.8,
+        "y": 3.0587,
+        "y2": "",
+        "dx": 0.02,
+        "dy": 0.1
+      },
+      {
+        "x": 2.0,
+        "y": 2.3968,
+        "y2": "",
+        "dx": 0.02,
+        "dy": 0.1
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Try linearizing this! Plot 1/r\u00b2 on the X-axis."
   },
-  grav_pe: {
-    title: "Gravitational PE vs r",
-    xLabel: "Distance, r (m)",
-    yLabel: "Potential Energy, E_p (MJ)",
-    defaultFit: "inverse",
-    data: [
-      { x: 1.0, y: -60.1, y2: '', dx: 0.05, dy: 0.5 },
-      { x: 2.0, y: -30.2, y2: '', dx: 0.05, dy: 0.5 },
-      { x: 3.0, y: -19.9, y2: '', dx: 0.05, dy: 0.5 },
-      { x: 4.0, y: -15.1, y2: '', dx: 0.05, dy: 0.5 },
-      { x: 5.0, y: -12.0, y2: '', dx: 0.05, dy: 0.5 },
-      { x: 6.0, y: -9.9, y2: '', dx: 0.05, dy: 0.5 }
+  "grav_pe": {
+    "title": "Gravitational PE vs Distance",
+    "xLabel": "Distance, r (m)",
+    "yLabel": "Potential Energy, E_p (MJ)",
+    "defaultFit": "inverse",
+    "data": [
+      {
+        "x": 1.0,
+        "y": -98.3674,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.5
+      },
+      {
+        "x": 2.0,
+        "y": -49.3682,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.5
+      },
+      {
+        "x": 3.0,
+        "y": -32.4929,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.5
+      },
+      {
+        "x": 4.0,
+        "y": -24.5992,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.5
+      },
+      {
+        "x": 5.0,
+        "y": -19.5212,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.5
+      },
+      {
+        "x": 6.0,
+        "y": -16.4446,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.5
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Try linearizing this! Plot 1/r on the X-axis."
   },
-  grav_pe_lin: {
-    title: "Gravitational PE linearized",
-    xLabel: "1/r (m⁻¹)",
-    yLabel: "Potential Energy, E_p (MJ)",
-    defaultFit: "linear",
-    data: [
-      { x: 1.00, y: -60.1, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.50, y: -30.2, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.33, y: -19.9, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.25, y: -15.1, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.20, y: -12.0, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.17, y: -9.9, y2: '', dx: 0.01, dy: 0.5 }
+  "grav_pe_lin": {
+    "title": "Gravitational PE vs Inverse Distance",
+    "xLabel": "1/r (m\u207b\u00b9)",
+    "yLabel": "Potential Energy, E_p (MJ)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 1.0,
+        "y": -98.3674,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.5
+      },
+      {
+        "x": 0.5,
+        "y": -49.3682,
+        "y2": "",
+        "dx": 0.0125,
+        "dy": 0.5
+      },
+      {
+        "x": 0.3333,
+        "y": -32.4929,
+        "y2": "",
+        "dx": 0.0056,
+        "dy": 0.5
+      },
+      {
+        "x": 0.25,
+        "y": -24.5992,
+        "y2": "",
+        "dx": 0.0031,
+        "dy": 0.5
+      },
+      {
+        "x": 0.2,
+        "y": -19.5212,
+        "y2": "",
+        "dx": 0.002,
+        "dy": 0.5
+      },
+      {
+        "x": 0.1667,
+        "y": -16.4446,
+        "y2": "",
+        "dx": 0.0014,
+        "dy": 0.5
+      }
     ],
-    note: "✓ Linearized form of Gravitational PE vs r"
+    "note": "\u2713 Linearized form of Gravitational PE vs r"
   },
-  orbit_period: {
-    title: "Orbital Period vs Orbit Radius",
-    xLabel: "Radius, r (10^6 m)",
-    yLabel: "Period, T (10^3 s)",
-    defaultFit: "power",
-    data: [
-      { x: 2.0, y: 2.8, y2: '', dx: 0.1, dy: 0.5 },
-      { x: 4.0, y: 8.0, y2: '', dx: 0.1, dy: 0.5 },
-      { x: 6.0, y: 14.7, y2: '', dx: 0.1, dy: 0.5 },
-      { x: 8.0, y: 22.6, y2: '', dx: 0.1, dy: 0.5 },
-      { x: 10.0, y: 31.6, y2: '', dx: 0.1, dy: 0.5 },
-      { x: 12.0, y: 41.6, y2: '', dx: 0.1, dy: 0.5 }
+  "orbit_period": {
+    "title": "Orbital Period vs Orbit Radius",
+    "xLabel": "Radius, r (10^6 m)",
+    "yLabel": "Period, T (10^3 s)",
+    "defaultFit": "power",
+    "data": [
+      {
+        "x": 2.0,
+        "y": 5.7029,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 1.0
+      },
+      {
+        "x": 4.0,
+        "y": 15.8702,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 1.0
+      },
+      {
+        "x": 6.0,
+        "y": 29.1649,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 1.0
+      },
+      {
+        "x": 8.0,
+        "y": 44.4661,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 1.0
+      },
+      {
+        "x": 10.0,
+        "y": 62.3613,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 1.0
+      },
+      {
+        "x": 12.0,
+        "y": 85.3166,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 1.0
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Kepler's 3rd Law! Plot r\u00b3 vs T\u00b2 to linearize."
   },
-  orbit_period_lin: {
-    title: "Kepler's 3rd Law linearized",
-    xLabel: "r³ (10^18 m³)",
-    yLabel: "T² (10^6 s²)",
-    defaultFit: "linear",
-    data: [
-      { x: 8, y: 7.8, y2: '', dx: 2, dy: 1.0 },
-      { x: 64, y: 64.0, y2: '', dx: 5, dy: 2.0 },
-      { x: 216, y: 216.1, y2: '', dx: 10, dy: 5.0 },
-      { x: 512, y: 510.8, y2: '', dx: 20, dy: 10.0 },
-      { x: 1000, y: 998.6, y2: '', dx: 30, dy: 15.0 },
-      { x: 1728, y: 1730.5, y2: '', dx: 45, dy: 20.0 }
+  "orbit_period_lin": {
+    "title": "Kepler's 3rd Law (Linearized)",
+    "xLabel": "r\u00b3 (10^18 m\u00b3)",
+    "yLabel": "T\u00b2 (10^6 s\u00b2)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 8.0,
+        "y": 32.52,
+        "y2": "",
+        "dx": 1.2,
+        "dy": 11.41
+      },
+      {
+        "x": 64.0,
+        "y": 251.86,
+        "y2": "",
+        "dx": 4.8,
+        "dy": 31.74
+      },
+      {
+        "x": 216.0,
+        "y": 850.59,
+        "y2": "",
+        "dx": 10.8,
+        "dy": 58.33
+      },
+      {
+        "x": 512.0,
+        "y": 1977.23,
+        "y2": "",
+        "dx": 19.2,
+        "dy": 88.93
+      },
+      {
+        "x": 1000.0,
+        "y": 3888.93,
+        "y2": "",
+        "dx": 30.0,
+        "dy": 124.72
+      },
+      {
+        "x": 1728.0,
+        "y": 7278.92,
+        "y2": "",
+        "dx": 43.2,
+        "dy": 170.63
+      }
     ],
-    note: "✓ Linearized form of Orbital period (Kepler’s 3rd)"
+    "note": "\u2713 Kepler's 3rd Law: T\u00b2 is proportional to r\u00b3"
   },
-  escape_vel: {
-    title: "Escape Velocity vs Planetary Mass",
-    xLabel: "Mass, M (10^24 kg)",
-    yLabel: "Escape Velocity, v_esc (km/s)",
-    defaultFit: "power",
-    data: [
-      { x: 1.0, y: 3.2, y2: '', dx: 0.05, dy: 0.1 },
-      { x: 2.0, y: 4.5, y2: '', dx: 0.05, dy: 0.1 },
-      { x: 3.0, y: 5.5, y2: '', dx: 0.05, dy: 0.1 },
-      { x: 4.0, y: 6.4, y2: '', dx: 0.05, dy: 0.1 },
-      { x: 5.0, y: 7.1, y2: '', dx: 0.05, dy: 0.1 },
-      { x: 6.0, y: 7.8, y2: '', dx: 0.05, dy: 0.1 }
+  "escape_vel": {
+    "title": "Escape Velocity vs Planetary Mass",
+    "xLabel": "Mass, M (10^24 kg)",
+    "yLabel": "Escape Velocity, v_esc (km/s)",
+    "defaultFit": "power",
+    "data": [
+      {
+        "x": 1.0,
+        "y": 4.611,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.15
+      },
+      {
+        "x": 2.0,
+        "y": 6.5083,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.15
+      },
+      {
+        "x": 3.0,
+        "y": 7.7974,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.15
+      },
+      {
+        "x": 4.0,
+        "y": 9.2591,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.15
+      },
+      {
+        "x": 5.0,
+        "y": 10.0625,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.15
+      },
+      {
+        "x": 6.0,
+        "y": 11.144,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.15
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Escape velocity is proportional to \u221aM."
   },
-  
-  // Electricity
-  elec_force: {
-    title: "Electric Force vs Separation",
-    xLabel: "Distance, r (m)",
-    yLabel: "Electric Force, F (uN)",
-    defaultFit: "inverse",
-    data: [
-      { x: 0.1, y: 90.5, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.2, y: 22.6, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.3, y: 10.1, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.4, y: 5.7, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.5, y: 3.6, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.6, y: 2.5, y2: '', dx: 0.01, dy: 0.5 }
+  "elec_force": {
+    "title": "Electric Force vs Separation",
+    "xLabel": "Distance, r (m)",
+    "yLabel": "Electric Force, F (\u03bcN)",
+    "defaultFit": "inverse",
+    "data": [
+      {
+        "x": 0.1,
+        "y": 102.9371,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.5
+      },
+      {
+        "x": 0.2,
+        "y": 25.21,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.5
+      },
+      {
+        "x": 0.3,
+        "y": 11.1491,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.5
+      },
+      {
+        "x": 0.4,
+        "y": 6.3192,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.5
+      },
+      {
+        "x": 0.5,
+        "y": 4.0823,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.5
+      },
+      {
+        "x": 0.6,
+        "y": 2.8238,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.5
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Coulomb's Law! Plot 1/r\u00b2 to linearize."
   },
-  elec_force_lin: {
-    title: "Electric Force linearized",
-    xLabel: "1/r² (m⁻²)",
-    yLabel: "Electric Force, F (uN)",
-    defaultFit: "linear",
-    data: [
-      { x: 100, y: 90.5, y2: '', dx: 2.0, dy: 0.5 },
-      { x: 25, y: 22.6, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 11.1, y: 10.1, y2: '', dx: 0.5, dy: 0.5 },
-      { x: 6.25, y: 5.7, y2: '', dx: 0.3, dy: 0.5 },
-      { x: 4.0, y: 3.6, y2: '', dx: 0.2, dy: 0.5 },
-      { x: 2.78, y: 2.5, y2: '', dx: 0.1, dy: 0.5 }
+  "elec_force_lin": {
+    "title": "Electric Force vs Inverse Square Distance",
+    "xLabel": "1/r\u00b2 (m\u207b\u00b2)",
+    "yLabel": "Electric Force, F (\u03bcN)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 100.0,
+        "y": 102.9371,
+        "y2": "",
+        "dx": 10.0,
+        "dy": 0.5
+      },
+      {
+        "x": 25.0,
+        "y": 25.21,
+        "y2": "",
+        "dx": 1.25,
+        "dy": 0.5
+      },
+      {
+        "x": 11.11,
+        "y": 11.1491,
+        "y2": "",
+        "dx": 0.37,
+        "dy": 0.5
+      },
+      {
+        "x": 6.25,
+        "y": 6.3192,
+        "y2": "",
+        "dx": 0.16,
+        "dy": 0.5
+      },
+      {
+        "x": 4.0,
+        "y": 4.0823,
+        "y2": "",
+        "dx": 0.08,
+        "dy": 0.5
+      },
+      {
+        "x": 2.78,
+        "y": 2.8238,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.5
+      }
     ],
-    note: "✓ Linearized form of Electric Force vs Distance"
+    "note": "\u2713 Linearized form of Electric Force vs Distance"
   },
-  elec_pot: {
-    title: "Electric Potential vs Separation",
-    xLabel: "Distance, r (m)",
-    yLabel: "Potential, V (V)",
-    defaultFit: "inverse",
-    data: [
-      { x: 0.1, y: 10.0, y2: '', dx: 0.01, dy: 0.1 },
-      { x: 0.2, y: 5.1, y2: '', dx: 0.01, dy: 0.1 },
-      { x: 0.3, y: 3.3, y2: '', dx: 0.01, dy: 0.1 },
-      { x: 0.4, y: 2.5, y2: '', dx: 0.01, dy: 0.1 },
-      { x: 0.5, y: 2.0, y2: '', dx: 0.01, dy: 0.1 },
-      { x: 0.6, y: 1.7, y2: '', dx: 0.01, dy: 0.1 }
+  "elec_pot": {
+    "title": "Electric Potential vs Separation",
+    "xLabel": "Distance, r (m)",
+    "yLabel": "Potential, V (V)",
+    "defaultFit": "inverse",
+    "data": [
+      {
+        "x": 0.1,
+        "y": 9.8645,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.1
+      },
+      {
+        "x": 0.2,
+        "y": 4.883,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.1
+      },
+      {
+        "x": 0.3,
+        "y": 3.3026,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.1
+      },
+      {
+        "x": 0.4,
+        "y": 2.471,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.1
+      },
+      {
+        "x": 0.5,
+        "y": 1.9711,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.1
+      },
+      {
+        "x": 0.6,
+        "y": 1.7036,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.1
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Potential decreases with 1/r. Plot 1/r to linearize."
   },
-  elec_pot_lin: {
-    title: "Electric Potential linearized",
-    xLabel: "1/r (m⁻¹)",
-    yLabel: "Potential, V (V)",
-    defaultFit: "linear",
-    data: [
-      { x: 10.0, y: 10.0, y2: '', dx: 0.1, dy: 0.1 },
-      { x: 5.0, y: 5.1, y2: '', dx: 0.1, dy: 0.1 },
-      { x: 3.33, y: 3.3, y2: '', dx: 0.1, dy: 0.1 },
-      { x: 2.5, y: 2.5, y2: '', dx: 0.1, dy: 0.1 },
-      { x: 2.0, y: 2.0, y2: '', dx: 0.1, dy: 0.1 },
-      { x: 1.67, y: 1.7, y2: '', dx: 0.1, dy: 0.1 }
+  "elec_pot_lin": {
+    "title": "Electric Potential vs Inverse Distance",
+    "xLabel": "1/r (m\u207b\u00b9)",
+    "yLabel": "Potential, V (V)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 10.0,
+        "y": 9.8645,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 0.1
+      },
+      {
+        "x": 5.0,
+        "y": 4.883,
+        "y2": "",
+        "dx": 0.12,
+        "dy": 0.1
+      },
+      {
+        "x": 3.33,
+        "y": 3.3026,
+        "y2": "",
+        "dx": 0.06,
+        "dy": 0.1
+      },
+      {
+        "x": 2.5,
+        "y": 2.471,
+        "y2": "",
+        "dx": 0.03,
+        "dy": 0.1
+      },
+      {
+        "x": 2.0,
+        "y": 1.9711,
+        "y2": "",
+        "dx": 0.02,
+        "dy": 0.1
+      },
+      {
+        "x": 1.67,
+        "y": 1.7036,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.1
+      }
     ],
-    note: "✓ Linearized form of Electric Potential vs r"
+    "note": "\u2713 Linearized form of Electric Potential vs r"
   },
-  intensity_dist: {
-    title: "Light Intensity vs Distance",
-    xLabel: "Distance, d (m)",
-    yLabel: "Intensity, I (W/m²)",
-    defaultFit: "inverse",
-    data: [
-      { x: 1.0, y: 36.1, y2: '', dx: 0.05, dy: 0.5 },
-      { x: 2.0, y: 9.0, y2: '', dx: 0.05, dy: 0.5 },
-      { x: 3.0, y: 4.0, y2: '', dx: 0.05, dy: 0.5 },
-      { x: 4.0, y: 2.2, y2: '', dx: 0.05, dy: 0.5 },
-      { x: 5.0, y: 1.4, y2: '', dx: 0.05, dy: 0.5 },
-      { x: 6.0, y: 1.0, y2: '', dx: 0.05, dy: 0.5 }
+  "intensity_dist": {
+    "title": "Light Intensity vs Distance",
+    "xLabel": "Distance, d (m)",
+    "yLabel": "Intensity, I (W/m\u00b2)",
+    "defaultFit": "inverse",
+    "data": [
+      {
+        "x": 1.0,
+        "y": 102.6346,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.8
+      },
+      {
+        "x": 1.5,
+        "y": 43.8679,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.8
+      },
+      {
+        "x": 2.0,
+        "y": 25.272,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.8
+      },
+      {
+        "x": 2.5,
+        "y": 15.8831,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.8
+      },
+      {
+        "x": 3.0,
+        "y": 11.4335,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.8
+      },
+      {
+        "x": 3.5,
+        "y": 8.1398,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.8
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Inverse Square Law! Plot 1/d\u00b2 to linearize."
   },
-  intensity_dist_inv_d: {
-    title: "Light Intensity vs 1/d",
-    xLabel: "1/d (m⁻¹)",
-    yLabel: "Intensity, I (W/m²)",
-    defaultFit: "linear",
-    data: [
-      { x: 1.00, y: 36.1, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.50, y: 9.0, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.33, y: 4.0, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.25, y: 2.2, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.20, y: 1.4, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.17, y: 1.0, y2: '', dx: 0.01, dy: 0.5 }
+  "intensity_dist_inv_d": {
+    "title": "Light Intensity vs Inverse Distance",
+    "xLabel": "Inverse Distance, 1/d (m\u207b\u00b9)",
+    "yLabel": "Intensity, I (W/m\u00b2)",
+    "defaultFit": "power",
+    "data": [
+      {
+        "x": 1.0,
+        "y": 102.6346,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.8
+      },
+      {
+        "x": 0.667,
+        "y": 43.8679,
+        "y2": "",
+        "dx": 0.022,
+        "dy": 0.8
+      },
+      {
+        "x": 0.5,
+        "y": 25.272,
+        "y2": "",
+        "dx": 0.013,
+        "dy": 0.8
+      },
+      {
+        "x": 0.4,
+        "y": 15.8831,
+        "y2": "",
+        "dx": 0.008,
+        "dy": 0.8
+      },
+      {
+        "x": 0.333,
+        "y": 11.4335,
+        "y2": "",
+        "dx": 0.006,
+        "dy": 0.8
+      },
+      {
+        "x": 0.286,
+        "y": 8.1398,
+        "y2": "",
+        "dx": 0.004,
+        "dy": 0.8
+      }
     ],
-    note: "✓ Linearized form of Intensity vs Distance (curved)",
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 This is still curved because Intensity is proportional to 1/d\u00b2, not 1/d."
   },
-  intensity_dist_inv_d2: {
-    title: "Light Intensity vs 1/d²",
-    xLabel: "1/d² (m⁻²)",
-    yLabel: "Intensity, I (W/m²)",
-    defaultFit: "linear",
-    data: [
-      { x: 1.00, y: 36.1, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.25, y: 9.0, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.111, y: 4.0, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.063, y: 2.2, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.040, y: 1.4, y2: '', dx: 0.01, dy: 0.5 },
-      { x: 0.028, y: 1.0, y2: '', dx: 0.01, dy: 0.5 }
+  "intensity_dist_inv_d2": {
+    "title": "Light Intensity vs Inverse Square Distance",
+    "xLabel": "Inverse Square Distance, 1/d\u00b2 (m\u207b\u00b2)",
+    "yLabel": "Intensity, I (W/m\u00b2)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 1.0,
+        "y": 102.6346,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.8
+      },
+      {
+        "x": 0.444,
+        "y": 43.8679,
+        "y2": "",
+        "dx": 0.03,
+        "dy": 0.8
+      },
+      {
+        "x": 0.25,
+        "y": 25.272,
+        "y2": "",
+        "dx": 0.013,
+        "dy": 0.8
+      },
+      {
+        "x": 0.16,
+        "y": 15.8831,
+        "y2": "",
+        "dx": 0.006,
+        "dy": 0.8
+      },
+      {
+        "x": 0.111,
+        "y": 11.4335,
+        "y2": "",
+        "dx": 0.004,
+        "dy": 0.8
+      },
+      {
+        "x": 0.082,
+        "y": 8.1398,
+        "y2": "",
+        "dx": 0.002,
+        "dy": 0.8
+      }
     ],
-    note: "✓ Linearized form of Intensity vs Distance"
+    "note": "\u2713 Linear relationship showing the inverse-square law"
   },
-  filament_lamp: {
-    title: "Non-Ohmic Filament Lamp",
-    xLabel: "Voltage, V (V)",
-    yLabel: "Current, I (A)",
-    defaultFit: "custom",
-    data: [
-      { x: 1.0, y: 0.25, y2: '', dx: 0.05, dy: 0.01 },
-      { x: 2.0, y: 0.42, y2: '', dx: 0.05, dy: 0.01 },
-      { x: 3.0, y: 0.55, y2: '', dx: 0.05, dy: 0.01 },
-      { x: 4.0, y: 0.65, y2: '', dx: 0.05, dy: 0.01 },
-      { x: 5.0, y: 0.73, y2: '', dx: 0.05, dy: 0.01 },
-      { x: 6.0, y: 0.80, y2: '', dx: 0.05, dy: 0.01 }
+  "filament_lamp": {
+    "title": "Non-Ohmic Filament Lamp",
+    "xLabel": "Voltage, V (V)",
+    "yLabel": "Current, I (A)",
+    "defaultFit": "power",
+    "data": [
+      {
+        "x": 1.0,
+        "y": 0.2958,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.01
+      },
+      {
+        "x": 2.0,
+        "y": 0.4478,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.01
+      },
+      {
+        "x": 3.0,
+        "y": 0.5821,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.01
+      },
+      {
+        "x": 4.0,
+        "y": 0.6794,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.01
+      },
+      {
+        "x": 5.0,
+        "y": 0.792,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.01
+      },
+      {
+        "x": 6.0,
+        "y": 0.9,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.01
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 The filament heats up, increasing resistance, so current bends away."
   },
-  cap_discharge: {
-    title: "Capacitor Discharge Decay",
-    xLabel: "Time, t (s)",
-    yLabel: "Voltage, V (V)",
-    defaultFit: "exponential",
-    data: [
-      { x: 0.0, y: 9.0, y2: '', dx: 0.2, dy: 0.1 },
-      { x: 5.0, y: 5.5, y2: '', dx: 0.2, dy: 0.1 },
-      { x: 10.0, y: 3.3, y2: '', dx: 0.2, dy: 0.1 },
-      { x: 15.0, y: 2.0, y2: '', dx: 0.2, dy: 0.1 },
-      { x: 20.0, y: 1.2, y2: '', dx: 0.2, dy: 0.1 },
-      { x: 25.0, y: 0.7, y2: '', dx: 0.2, dy: 0.1 }
+  "cap_discharge": {
+    "title": "Capacitor Discharge Decay",
+    "xLabel": "Time, t (s)",
+    "yLabel": "Voltage, V (V)",
+    "defaultFit": "exponential",
+    "data": [
+      {
+        "x": 0.0,
+        "y": 9.9497,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      },
+      {
+        "x": 4.0,
+        "y": 7.0648,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      },
+      {
+        "x": 8.0,
+        "y": 5.2619,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      },
+      {
+        "x": 12.0,
+        "y": 3.6805,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      },
+      {
+        "x": 16.0,
+        "y": 2.5821,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      },
+      {
+        "x": 20.0,
+        "y": 1.846,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      },
+      {
+        "x": 24.0,
+        "y": 1.3269,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.1
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Exponential decay! Take natural log of V to linearize."
   },
-  
-  // Waves & SHM
-  pendulum_t: {
-    title: "Pendulum Period vs Length",
-    xLabel: "Length, L (m)",
-    yLabel: "Period, T (s)",
-    defaultFit: "power",
-    data: [
-      { x: 0.2, y: 0.90, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 0.4, y: 1.27, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 0.6, y: 1.55, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 0.8, y: 1.79, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 1.0, y: 2.01, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 1.2, y: 2.20, y2: '', dx: 0.01, dy: 0.02 }
+  "pendulum_t": {
+    "title": "Pendulum Period vs Length",
+    "xLabel": "Length, L (m)",
+    "yLabel": "Period, T (s)",
+    "defaultFit": "power",
+    "data": [
+      {
+        "x": 0.25,
+        "y": 1.0107,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.05
+      },
+      {
+        "x": 0.5,
+        "y": 1.4434,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.05
+      },
+      {
+        "x": 0.75,
+        "y": 1.7292,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.05
+      },
+      {
+        "x": 1.0,
+        "y": 1.9535,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.05
+      },
+      {
+        "x": 1.25,
+        "y": 2.2269,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.05
+      },
+      {
+        "x": 1.5,
+        "y": 2.5301,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.05
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Period is proportional to \u221aL. Plot L vs T\u00b2 or \u221aL vs T to linearize."
   },
-  pendulum_t2: {
-    title: "Pendulum Period squared vs L",
-    xLabel: "Length, L (m)",
-    yLabel: "Period squared, T² (s²)",
-    defaultFit: "linear",
-    data: [
-      { x: 0.2, y: 0.81, y2: '', dx: 0.01, dy: 0.05 },
-      { x: 0.4, y: 1.61, y2: '', dx: 0.01, dy: 0.05 },
-      { x: 0.6, y: 2.40, y2: '', dx: 0.01, dy: 0.05 },
-      { x: 0.8, y: 3.20, y2: '', dx: 0.01, dy: 0.05 },
-      { x: 1.0, y: 4.04, y2: '', dx: 0.01, dy: 0.05 },
-      { x: 1.2, y: 4.84, y2: '', dx: 0.01, dy: 0.05 }
+  "pendulum_t2": {
+    "title": "Pendulum Period Squared vs Length (Linearized)",
+    "xLabel": "Length, L (m)",
+    "yLabel": "Period Squared, T\u00b2 (s\u00b2)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 0.25,
+        "y": 1.02,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.1
+      },
+      {
+        "x": 0.5,
+        "y": 2.08,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.14
+      },
+      {
+        "x": 0.75,
+        "y": 2.99,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.17
+      },
+      {
+        "x": 1.0,
+        "y": 3.82,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.2
+      },
+      {
+        "x": 1.25,
+        "y": 4.96,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.22
+      },
+      {
+        "x": 1.5,
+        "y": 6.4,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.25
+      }
     ],
-    note: "✓ Linearized form of Pendulum T vs L"
+    "note": "\u2713 Linearized: Gradient relates to gravitational acceleration g"
   },
-  pendulum_t_sqrt: {
-    title: "Pendulum Period vs Square Root L",
-    xLabel: "√L (m^0.5)",
-    yLabel: "Period, T (s)",
-    defaultFit: "linear",
-    data: [
-      { x: 0.45, y: 0.90, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 0.63, y: 1.27, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 0.77, y: 1.55, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 0.89, y: 1.79, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 1.00, y: 2.01, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 1.10, y: 2.20, y2: '', dx: 0.01, dy: 0.02 }
+  "pendulum_t_sqrt": {
+    "title": "Pendulum Period vs Square Root Length (Linearized)",
+    "xLabel": "\u221aL (m^0.5)",
+    "yLabel": "Period, T (s)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 0.5,
+        "y": 1.0107,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.05
+      },
+      {
+        "x": 0.707,
+        "y": 1.4434,
+        "y2": "",
+        "dx": 0.007,
+        "dy": 0.05
+      },
+      {
+        "x": 0.866,
+        "y": 1.7292,
+        "y2": "",
+        "dx": 0.006,
+        "dy": 0.05
+      },
+      {
+        "x": 1.0,
+        "y": 1.9535,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 0.05
+      },
+      {
+        "x": 1.118,
+        "y": 2.2269,
+        "y2": "",
+        "dx": 0.004,
+        "dy": 0.05
+      },
+      {
+        "x": 1.225,
+        "y": 2.5301,
+        "y2": "",
+        "dx": 0.004,
+        "dy": 0.05
+      }
     ],
-    note: "✓ Linearized form of Pendulum T vs L"
+    "note": "\u2713 Linearized: Gradient equals 2\u03c0/\u221ag"
   },
-  freq_string: {
-    title: "Frequency vs String Length",
-    xLabel: "Length, L (m)",
-    yLabel: "Frequency, f (Hz)",
-    defaultFit: "inverse",
-    data: [
-      { x: 0.2, y: 500, y2: '', dx: 0.005, dy: 5 },
-      { x: 0.3, y: 333, y2: '', dx: 0.005, dy: 5 },
-      { x: 0.4, y: 250, y2: '', dx: 0.005, dy: 5 },
-      { x: 0.5, y: 200, y2: '', dx: 0.005, dy: 5 },
-      { x: 0.6, y: 167, y2: '', dx: 0.005, dy: 5 },
-      { x: 0.7, y: 143, y2: '', dx: 0.005, dy: 5 }
+  "freq_string": {
+    "title": "Frequency vs String Length",
+    "xLabel": "Length, L (m)",
+    "yLabel": "Frequency, f (Hz)",
+    "defaultFit": "inverse",
+    "data": [
+      {
+        "x": 0.2,
+        "y": 500.7279,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 4.0
+      },
+      {
+        "x": 0.3,
+        "y": 341.1846,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 4.0
+      },
+      {
+        "x": 0.4,
+        "y": 254.5097,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 4.0
+      },
+      {
+        "x": 0.5,
+        "y": 195.1148,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 4.0
+      },
+      {
+        "x": 0.6,
+        "y": 168.506,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 4.0
+      },
+      {
+        "x": 0.7,
+        "y": 144.1551,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 4.0
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Frequency is inversely proportional to L. Plot 1/L to linearize."
   },
-  freq_string_lin: {
-    title: "Frequency vs 1/L",
-    xLabel: "1/L (m⁻¹)",
-    yLabel: "Frequency, f (Hz)",
-    defaultFit: "linear",
-    data: [
-      { x: 5.00, y: 500, y2: '', dx: 0.05, dy: 5 },
-      { x: 3.33, y: 333, y2: '', dx: 0.05, dy: 5 },
-      { x: 2.50, y: 250, y2: '', dx: 0.05, dy: 5 },
-      { x: 2.00, y: 200, y2: '', dx: 0.05, dy: 5 },
-      { x: 1.67, y: 167, y2: '', dx: 0.05, dy: 5 },
-      { x: 1.43, y: 143, y2: '', dx: 0.05, dy: 5 }
+  "freq_string_lin": {
+    "title": "Frequency vs Inverse String Length (Linearized)",
+    "xLabel": "1/L (m\u207b\u00b9)",
+    "yLabel": "Frequency, f (Hz)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 5.0,
+        "y": 500.7279,
+        "y2": "",
+        "dx": 0.12,
+        "dy": 4.0
+      },
+      {
+        "x": 3.33,
+        "y": 341.1846,
+        "y2": "",
+        "dx": 0.06,
+        "dy": 4.0
+      },
+      {
+        "x": 2.5,
+        "y": 254.5097,
+        "y2": "",
+        "dx": 0.03,
+        "dy": 4.0
+      },
+      {
+        "x": 2.0,
+        "y": 195.1148,
+        "y2": "",
+        "dx": 0.02,
+        "dy": 4.0
+      },
+      {
+        "x": 1.67,
+        "y": 168.506,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 4.0
+      },
+      {
+        "x": 1.43,
+        "y": 144.1551,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 4.0
+      }
     ],
-    note: "✓ Linearized form of Frequency vs String Length"
+    "note": "\u2713 Linearized: Gradient equals v/2"
   },
-  shm_disp: {
-    title: "SHM Displacement vs Time",
-    xLabel: "Time, t (s)",
-    yLabel: "Displacement, x (m)",
-    defaultFit: "sinusoidal",
-    data: [
-      { x: 0.0, y: 0.00, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 0.1, y: 0.59, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 0.2, y: 0.95, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 0.3, y: 0.95, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 0.4, y: 0.59, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 0.5, y: 0.00, y2: '', dx: 0.01, dy: 0.02 },
-      { x: 0.6, y: -0.59, y2: '', dx: 0.01, dy: 0.02 }
+  "shm_disp": {
+    "title": "SHM Displacement vs Time",
+    "xLabel": "Time, t (s)",
+    "yLabel": "Displacement, x (m)",
+    "defaultFit": "sinusoidal",
+    "data": [
+      {
+        "x": 0.0,
+        "y": 0.0015,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.02
+      },
+      {
+        "x": 0.2,
+        "y": 0.5796,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.02
+      },
+      {
+        "x": 0.4,
+        "y": 0.9591,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.02
+      },
+      {
+        "x": 0.6,
+        "y": 0.9289,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.02
+      },
+      {
+        "x": 0.8,
+        "y": 0.5855,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.02
+      },
+      {
+        "x": 1.0,
+        "y": -0.0019,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.02
+      },
+      {
+        "x": 1.2,
+        "y": -0.6038,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.02
+      },
+      {
+        "x": 1.4,
+        "y": -0.9725,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.02
+      },
+      {
+        "x": 1.6,
+        "y": -0.9376,
+        "y2": "",
+        "dx": 0.01,
+        "dy": 0.02
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Classic sinusoidal motion in simple harmonic systems."
   },
-  diffraction_slit: {
-    title: "Diffraction Intensity Slit",
-    xLabel: "Angle, θ (°)",
-    yLabel: "Intensity, I (a.u.)",
-    defaultFit: "custom",
-    data: [
-      { x: -15, y: 0.04, y2: '', dx: 0.5, dy: 0.02 },
-      { x: -10, y: 0.12, y2: '', dx: 0.5, dy: 0.02 },
-      { x: -5, y: 0.48, y2: '', dx: 0.5, dy: 0.02 },
-      { x: 0, y: 1.00, y2: '', dx: 0.5, dy: 0.02 },
-      { x: 5, y: 0.48, y2: '', dx: 0.5, dy: 0.02 },
-      { x: 10, y: 0.12, y2: '', dx: 0.5, dy: 0.02 },
-      { x: 15, y: 0.04, y2: '', dx: 0.5, dy: 0.02 }
+  "diffraction_slit": {
+    "title": "Diffraction Single Slit Intensity",
+    "xLabel": "Angle, \u03b8 (\u00b0)",
+    "yLabel": "Intensity, I (a.u.)",
+    "defaultFit": "sinusoidal",
+    "data": [
+      {
+        "x": -15,
+        "y": 0.04,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 0.02
+      },
+      {
+        "x": -10,
+        "y": 0.1461,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 0.02
+      },
+      {
+        "x": -5,
+        "y": 0.5165,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 0.02
+      },
+      {
+        "x": 0,
+        "y": 1.0296,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 0.02
+      },
+      {
+        "x": 5,
+        "y": 0.4919,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 0.02
+      },
+      {
+        "x": 10,
+        "y": 0.1517,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 0.02
+      },
+      {
+        "x": 15,
+        "y": 0.0403,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 0.02
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Single slit diffraction pattern envelope."
   },
-  photoelectric: {
-    title: "Photoelectric Max KE vs Frequency",
-    xLabel: "Frequency, f (10^14 Hz)",
-    yLabel: "Max KE, KE_max (eV)",
-    defaultFit: "linear",
-    data: [
-      { x: 5.0, y: 0.10, y2: '', dx: 0.1, dy: 0.05 },
-      { x: 6.0, y: 0.51, y2: '', dx: 0.1, dy: 0.05 },
-      { x: 7.0, y: 0.92, y2: '', dx: 0.1, dy: 0.05 },
-      { x: 8.0, y: 1.35, y2: '', dx: 0.1, dy: 0.05 },
-      { x: 9.0, y: 1.78, y2: '', dx: 0.1, dy: 0.05 },
-      { x: 10.0, y: 2.20, y2: '', dx: 0.1, dy: 0.05 }
-    ]
-  },
-  
-  // Thermal
-  heating_water: {
-    title: "Water Heating Phase Change",
-    xLabel: "Time, t (s)",
-    yLabel: "Temperature, T (°C)",
-    defaultFit: "linear",
-    data: [
-      { x: 0, y: 20.1, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 30, y: 45.2, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 60, y: 70.3, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 90, y: 95.1, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 120, y: 100.0, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 150, y: 100.0, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 180, y: 100.0, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 210, y: 100.0, y2: '', dx: 1.0, dy: 0.5 }
-    ]
-  },
-  cooling_curve: {
-    title: "Newtonian Cooling Curve",
-    xLabel: "Time, t (s)",
-    yLabel: "Temperature, T (°C)",
-    defaultFit: "exponential",
-    data: [
-      { x: 0, y: 80.2, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 60, y: 56.4, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 120, y: 41.8, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 180, y: 32.9, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 240, y: 27.5, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 300, y: 24.2, y2: '', dx: 1.0, dy: 0.5 }
+  "photoelectric": {
+    "title": "Photoelectric Effect: Max KE vs Frequency",
+    "xLabel": "Frequency, f (10^14 Hz)",
+    "yLabel": "Max KE, KE_max (eV)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 5.5,
+        "y": 0.2691,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.05
+      },
+      {
+        "x": 6.0,
+        "y": 0.4892,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.05
+      },
+      {
+        "x": 6.5,
+        "y": 0.69,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.05
+      },
+      {
+        "x": 7.0,
+        "y": 0.9102,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.05
+      },
+      {
+        "x": 7.5,
+        "y": 1.104,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.05
+      },
+      {
+        "x": 8.0,
+        "y": 1.2696,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.05
+      },
+      {
+        "x": 8.5,
+        "y": 1.4996,
+        "y2": "",
+        "dx": 0.1,
+        "dy": 0.05
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "note": "\u2713 Linear relationship: Gradient equals h, X-intercept is threshold frequency"
   },
-  cooling_curve_lin: {
-    title: "Newtonian Cooling linearized",
-    xLabel: "Time, t (s)",
-    yLabel: "ln(T - T_room)",
-    defaultFit: "linear",
-    data: [
-      { x: 0, y: 4.10, y2: '', dx: 1.0, dy: 0.05 },
-      { x: 60, y: 3.59, y2: '', dx: 1.0, dy: 0.05 },
-      { x: 120, y: 3.08, y2: '', dx: 1.0, dy: 0.05 },
-      { x: 180, y: 2.56, y2: '', dx: 1.0, dy: 0.05 },
-      { x: 240, y: 2.01, y2: '', dx: 1.0, dy: 0.05 },
-      { x: 300, y: 1.44, y2: '', dx: 1.0, dy: 0.05 }
+  "heating_water": {
+    "title": "Heating Curve of Water",
+    "xLabel": "Time, t (s)",
+    "yLabel": "Temperature, T (\u00b0C)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 0,
+        "y": 19.4234,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 30,
+        "y": 27.8695,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 60,
+        "y": 35.1203,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 90,
+        "y": 42.336,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 120,
+        "y": 48.1178,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 150,
+        "y": 54.3686,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 180,
+        "y": 64.4493,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 210,
+        "y": 72.0723,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      }
     ],
-    note: "✓ Linearized form of Cooling curve"
+    "note": "\u2713 Linear heating phase before boiling limit"
   },
-  boyles_law: {
-    title: "Boyle's Law: P vs V",
-    xLabel: "Volume, V (cm³)",
-    yLabel: "Pressure, P (kPa)",
-    defaultFit: "inverse",
-    data: [
-      { x: 10.0, y: 300.0, y2: '', dx: 0.5, dy: 2.0 },
-      { x: 15.0, y: 201.0, y2: '', dx: 0.5, dy: 2.0 },
-      { x: 20.0, y: 150.0, y2: '', dx: 0.5, dy: 2.0 },
-      { x: 25.0, y: 120.0, y2: '', dx: 0.5, dy: 2.0 },
-      { x: 30.0, y: 99.0, y2: '', dx: 0.5, dy: 2.0 },
-      { x: 35.0, y: 85.0, y2: '', dx: 0.5, dy: 2.0 }
+  "cooling_curve": {
+    "title": "Newtonian Cooling Curve",
+    "xLabel": "Time, t (s)",
+    "yLabel": "Temperature, T (\u00b0C)",
+    "defaultFit": "exponential",
+    "data": [
+      {
+        "x": 0,
+        "y": 78.3426,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 60,
+        "y": 64.4039,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 120,
+        "y": 51.7886,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 180,
+        "y": 44.9726,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 240,
+        "y": 38.5777,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 300,
+        "y": 32.7674,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 Temperature decays exponentially towards room temperature (20\u00b0C)."
   },
-  boyles_law_lin: {
-    title: "Boyle's Law linearized",
-    xLabel: "1/V (cm⁻³)",
-    yLabel: "Pressure, P (kPa)",
-    defaultFit: "linear",
-    data: [
-      { x: 0.100, y: 300.0, y2: '', dx: 0.002, dy: 2.0 },
-      { x: 0.067, y: 201.0, y2: '', dx: 0.002, dy: 2.0 },
-      { x: 0.050, y: 150.0, y2: '', dx: 0.002, dy: 2.0 },
-      { x: 0.040, y: 120.0, y2: '', dx: 0.002, dy: 2.0 },
-      { x: 0.033, y: 99.0, y2: '', dx: 0.002, dy: 2.0 },
-      { x: 0.029, y: 85.0, y2: '', dx: 0.002, dy: 2.0 }
+  "cooling_curve_lin": {
+    "title": "Newtonian Cooling (Linearized)",
+    "xLabel": "Time, t (s)",
+    "yLabel": "ln(T - T_room)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 0,
+        "y": 4.066,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.05
+      },
+      {
+        "x": 60,
+        "y": 3.793,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.05
+      },
+      {
+        "x": 120,
+        "y": 3.459,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.05
+      },
+      {
+        "x": 180,
+        "y": 3.218,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.05
+      },
+      {
+        "x": 240,
+        "y": 2.922,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.05
+      },
+      {
+        "x": 300,
+        "y": 2.547,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.05
+      }
     ],
-    note: "✓ Linearized form of Boyle's Law P vs V"
+    "note": "\u2713 Linearized: Gradient equals cooling rate constant -k"
   },
-  charles_law: {
-    title: "Charles's Law: V vs T",
-    xLabel: "Temperature, T (K)",
-    yLabel: "Volume, V (cm³)",
-    defaultFit: "linear",
-    data: [
-      { x: 273.0, y: 54.6, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 300.0, y: 60.1, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 330.0, y: 65.9, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 360.0, y: 72.2, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 390.0, y: 78.1, y2: '', dx: 1.0, dy: 0.5 },
-      { x: 420.0, y: 84.2, y2: '', dx: 1.0, dy: 0.5 }
-    ]
-  },
-  stefan_boltzmann: {
-    title: "Stefan-Boltzmann T⁴ law",
-    xLabel: "Temperature, T (K)",
-    yLabel: "Radiated Power, P (W)",
-    defaultFit: "power",
-    data: [
-      { x: 300.0, y: 4.6, y2: '', dx: 5.0, dy: 1.0 },
-      { x: 400.0, y: 14.5, y2: '', dx: 5.0, dy: 1.0 },
-      { x: 500.0, y: 35.3, y2: '', dx: 5.0, dy: 1.0 },
-      { x: 600.0, y: 73.1, y2: '', dx: 5.0, dy: 1.0 },
-      { x: 700.0, y: 136.0, y2: '', dx: 5.0, dy: 1.0 }
+  "boyles_law": {
+    "title": "Boyle's Law: P vs V",
+    "xLabel": "Volume, V (cm\u00b3)",
+    "yLabel": "Pressure, P (kPa)",
+    "defaultFit": "inverse",
+    "data": [
+      {
+        "x": 10.0,
+        "y": 299.5551,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 2.0
+      },
+      {
+        "x": 15.0,
+        "y": 200.5976,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 2.0
+      },
+      {
+        "x": 20.0,
+        "y": 147.8855,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 2.0
+      },
+      {
+        "x": 25.0,
+        "y": 122.6815,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 2.0
+      },
+      {
+        "x": 30.0,
+        "y": 99.5388,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 2.0
+      },
+      {
+        "x": 35.0,
+        "y": 84.2321,
+        "y2": "",
+        "dx": 0.5,
+        "dy": 2.0
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "tooltip": "\ud83d\udca1 P is inversely proportional to V. Plot 1/V to linearize."
   },
-  stefan_boltzmann_lin: {
-    title: "Stefan-Boltzmann linearized",
-    xLabel: "T⁴ (10^9 K⁴)",
-    yLabel: "Radiated Power, P (W)",
-    defaultFit: "linear",
-    data: [
-      { x: 8.1, y: 4.6, y2: '', dx: 0.5, dy: 1.0 },
-      { x: 25.6, y: 14.5, y2: '', dx: 1.0, dy: 1.0 },
-      { x: 62.5, y: 35.3, y2: '', dx: 2.0, dy: 1.0 },
-      { x: 129.6, y: 73.1, y2: '', dx: 4.0, dy: 1.0 },
-      { x: 240.1, y: 136.0, y2: '', dx: 6.0, dy: 1.0 }
+  "boyles_law_lin": {
+    "title": "Boyle's Law (Linearized)",
+    "xLabel": "1/V (cm\u207b\u00b3)",
+    "yLabel": "Pressure, P (kPa)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 0.1,
+        "y": 299.5551,
+        "y2": "",
+        "dx": 0.005,
+        "dy": 2.0
+      },
+      {
+        "x": 0.067,
+        "y": 200.5976,
+        "y2": "",
+        "dx": 0.0022,
+        "dy": 2.0
+      },
+      {
+        "x": 0.05,
+        "y": 147.8855,
+        "y2": "",
+        "dx": 0.0013,
+        "dy": 2.0
+      },
+      {
+        "x": 0.04,
+        "y": 122.6815,
+        "y2": "",
+        "dx": 0.0008,
+        "dy": 2.0
+      },
+      {
+        "x": 0.033,
+        "y": 99.5388,
+        "y2": "",
+        "dx": 0.0006,
+        "dy": 2.0
+      },
+      {
+        "x": 0.029,
+        "y": 84.2321,
+        "y2": "",
+        "dx": 0.0004,
+        "dy": 2.0
+      }
     ],
-    note: "✓ Linearized form of Stefan-Boltzmann"
+    "note": "\u2713 Linearized Boyle's Law: P is proportional to 1/V"
   },
-  
-  // Nuclear
-  radioactive_decay: {
-    title: "Radioactive Decay Curve",
-    xLabel: "Time, t (s)",
-    yLabel: "Active Nuclei, N",
-    defaultFit: "exponential",
-    data: [
-      { x: 0.0, y: 1000.0, y2: '', dx: 0.5, dy: 10.0 },
-      { x: 10.0, y: 605.0, y2: '', dx: 0.5, dy: 10.0 },
-      { x: 20.0, y: 368.0, y2: '', dx: 0.5, dy: 10.0 },
-      { x: 30.0, y: 223.0, y2: '', dx: 0.5, dy: 10.0 },
-      { x: 40.0, y: 135.0, y2: '', dx: 0.5, dy: 10.0 },
-      { x: 50.0, y: 82.0, y2: '', dx: 0.5, dy: 10.0 }
+  "charles_law": {
+    "title": "Charles's Law: V vs T",
+    "xLabel": "Temperature, T (K)",
+    "yLabel": "Volume, V (cm\u00b3)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 273.0,
+        "y": 54.7073,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 300.0,
+        "y": 60.6898,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 330.0,
+        "y": 65.0138,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 360.0,
+        "y": 71.3222,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 390.0,
+        "y": 79.9311,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      },
+      {
+        "x": 420.0,
+        "y": 84.6295,
+        "y2": "",
+        "dx": 1.0,
+        "dy": 0.5
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "note": "\u2713 Linear relationship: Extrapolation gives absolute zero (-273.15\u00b0C)"
   },
-  decay_lin: {
-    title: "Radioactive Decay (semi-log)",
-    xLabel: "Time, t (s)",
-    yLabel: "ln(N)",
-    defaultFit: "linear",
-    data: [
-      { x: 0.0, y: 6.91, y2: '', dx: 0.5, dy: 0.05 },
-      { x: 10.0, y: 6.41, y2: '', dx: 0.5, dy: 0.05 },
-      { x: 20.0, y: 5.91, y2: '', dx: 0.5, dy: 0.05 },
-      { x: 30.0, y: 5.41, y2: '', dx: 0.5, dy: 0.05 },
-      { x: 40.0, y: 4.91, y2: '', dx: 0.5, dy: 0.05 },
-      { x: 50.0, y: 4.41, y2: '', dx: 0.5, dy: 0.05 }
+  "stefan_boltzmann": {
+    "title": "Stefan-Boltzmann T\u2074 Law",
+    "xLabel": "Temperature, T (K)",
+    "yLabel": "Radiated Power, P (W)",
+    "defaultFit": "power",
+    "data": [
+      {
+        "x": 300.0,
+        "y": 16.1398,
+        "y2": "",
+        "dx": 5.0,
+        "dy": 1.0
+      },
+      {
+        "x": 400.0,
+        "y": 51.254,
+        "y2": "",
+        "dx": 5.0,
+        "dy": 1.0
+      },
+      {
+        "x": 500.0,
+        "y": 122.1575,
+        "y2": "",
+        "dx": 5.0,
+        "dy": 1.0
+      },
+      {
+        "x": 600.0,
+        "y": 254.9185,
+        "y2": "",
+        "dx": 5.0,
+        "dy": 1.0
+      },
+      {
+        "x": 700.0,
+        "y": 475.5349,
+        "y2": "",
+        "dx": 5.0,
+        "dy": 1.0
+      }
     ],
-    note: "✓ Linearized form of Radioactive decay"
+    "tooltip": "\ud83d\udca1 Power increases as T\u2074. Plot T\u2074 to linearize."
   },
-  half_life: {
-    title: "Half-Life Decay N/N₀",
-    xLabel: "Time, t (half-lives)",
-    yLabel: "Fraction Remaining, N/N₀",
-    defaultFit: "exponential",
-    data: [
-      { x: 0.0, y: 1.00, y2: '', dx: 0.1, dy: 0.01 },
-      { x: 1.0, y: 0.50, y2: '', dx: 0.1, dy: 0.01 },
-      { x: 2.0, y: 0.25, y2: '', dx: 0.1, dy: 0.01 },
-      { x: 3.0, y: 0.12, y2: '', dx: 0.1, dy: 0.01 },
-      { x: 4.0, y: 0.06, y2: '', dx: 0.1, dy: 0.01 },
-      { x: 5.0, y: 0.03, y2: '', dx: 0.1, dy: 0.01 }
+  "stefan_boltzmann_lin": {
+    "title": "Stefan-Boltzmann Law (Linearized)",
+    "xLabel": "T\u2074 (10^9 K\u2074)",
+    "yLabel": "Radiated Power, P (W)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 8.1,
+        "y": 16.1398,
+        "y2": "",
+        "dx": 0.54,
+        "dy": 1.0
+      },
+      {
+        "x": 25.6,
+        "y": 51.254,
+        "y2": "",
+        "dx": 1.28,
+        "dy": 1.0
+      },
+      {
+        "x": 62.5,
+        "y": 122.1575,
+        "y2": "",
+        "dx": 2.5,
+        "dy": 1.0
+      },
+      {
+        "x": 129.6,
+        "y": 254.9185,
+        "y2": "",
+        "dx": 4.32,
+        "dy": 1.0
+      },
+      {
+        "x": 240.1,
+        "y": 475.5349,
+        "y2": "",
+        "dx": 6.86,
+        "dy": 1.0
+      }
     ],
-    tooltip: "💡 Try linearizing this! Use the transform options."
+    "note": "\u2713 Linearized Stefan-Boltzmann relationship"
+  },
+  "radioactive_decay": {
+    "title": "Radioactive Decay Curve",
+    "xLabel": "Time, t (s)",
+    "yLabel": "Active Nuclei, N",
+    "defaultFit": "exponential",
+    "data": [
+      {
+        "x": 0.0,
+        "y": 1005.0,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 10.0
+      },
+      {
+        "x": 10.0,
+        "y": 659.0,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 10.0
+      },
+      {
+        "x": 20.0,
+        "y": 442.0,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 10.0
+      },
+      {
+        "x": 30.0,
+        "y": 293.0,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 10.0
+      },
+      {
+        "x": 40.0,
+        "y": 203.0,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 10.0
+      },
+      {
+        "x": 50.0,
+        "y": 133.0,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 10.0
+      }
+    ],
+    "tooltip": "\ud83d\udca1 Exponential decay. Take natural log of N to linearize."
+  },
+  "decay_lin": {
+    "title": "Radioactive Decay (Linearized)",
+    "xLabel": "Time, t (s)",
+    "yLabel": "ln(N)",
+    "defaultFit": "linear",
+    "data": [
+      {
+        "x": 0.0,
+        "y": 6.913,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 0.05
+      },
+      {
+        "x": 10.0,
+        "y": 6.491,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 0.05
+      },
+      {
+        "x": 20.0,
+        "y": 6.091,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 0.05
+      },
+      {
+        "x": 30.0,
+        "y": 5.68,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 0.05
+      },
+      {
+        "x": 40.0,
+        "y": 5.313,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 0.05
+      },
+      {
+        "x": 50.0,
+        "y": 4.89,
+        "y2": "",
+        "dx": 0.2,
+        "dy": 0.05
+      }
+    ],
+    "note": "\u2713 Linearized: Gradient equals decay constant -lambda"
+  },
+  "half_life": {
+    "title": "Half-Life Decay Fraction",
+    "xLabel": "Time, t (half-lives)",
+    "yLabel": "Fraction Remaining, N/N\u2080",
+    "defaultFit": "exponential",
+    "data": [
+      {
+        "x": 0.0,
+        "y": 1.0203,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.01
+      },
+      {
+        "x": 1.0,
+        "y": 0.509,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.01
+      },
+      {
+        "x": 2.0,
+        "y": 0.2446,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.01
+      },
+      {
+        "x": 3.0,
+        "y": 0.1234,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.01
+      },
+      {
+        "x": 4.0,
+        "y": 0.063,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.01
+      },
+      {
+        "x": 5.0,
+        "y": 0.0308,
+        "y2": "",
+        "dx": 0.05,
+        "dy": 0.01
+      }
+    ],
+    "tooltip": "\ud83d\udca1 Shows decay as a function of half-life intervals."
   }
 };
 
