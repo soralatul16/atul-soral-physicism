@@ -20,6 +20,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .nav-right{display:flex;gap:8px;align-items:center}
 .nav-btn{padding:5px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;text-decoration:none}
 .nav-btn:hover{border-color:var(--accent);color:var(--accent)}
+.nav-btn:disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
 .nav-btn.red{background:var(--accent);color:#fff;border-color:var(--accent)}
 
 /* LAYOUT */
@@ -253,10 +254,13 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     </div>
   </div>
   <div class="submit-bar">
-    <span class="progress-text" id="progressText">0/0 answered</span>
-    <div style="display:flex;gap:8px">
-      <button class="nav-btn" onclick="prevQ()">← Prev</button>
-      <button class="nav-btn" onclick="nextQ()">Next →</button>
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <span class="progress-text" id="progressText">0/0 answered</span>
+      <span style="font-size:11px;color:var(--text3)" id="sectionProgressText">Section 1 of 1</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="nav-btn" id="prevSectionBtn" onclick="prevQ()">← Prev Section</button>
+      <button class="nav-btn" id="nextSectionBtn" onclick="nextQ()">Next Section →</button>
       <button class="submit-btn" onclick="submitTest()">Submit Test</button>
     </div>
   </div>
@@ -338,10 +342,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 // ═══════════════════════════════════════
 let currentUser = null;
 let currentSet = null;
-let questions = [];
+let questions = []; // flat list of question blocks (for answer tracking by original index)
+let sections = [];  // grouped sections: [{label, blocks: [{mode, ...}], questionIndices: [...]}]
 let answers = {};
 let flags = {};
-let currentQIdx = 0;
+let currentSectionIdx = 0;
 let timerInterval = null;
 let elapsedSeconds = 0;
 
@@ -460,21 +465,89 @@ async function startTest(docId) {
   questions = (data.blocks || []).filter(b => b.mode === 'question');
   answers = {};
   flags = {};
-  currentQIdx = 0;
+  currentSectionIdx = 0;
   elapsedSeconds = 0;
+
+  // Build sections from all blocks
+  sections = buildSections(data.blocks || []);
 
   document.getElementById('libScreen').style.display = 'none';
   document.getElementById('testScreen').style.display = 'block';
   document.getElementById('testTitle').textContent = data.heading || 'Test';
   document.getElementById('testMeta').innerHTML = `
     <span>${data.chapter || ''}</span>
+    <span>${sections.length} section${sections.length !== 1 ? 's' : ''}</span>
     <span>${questions.length} questions</span>
     <span>${data.totalMarks || 0} marks</span>
   `;
 
   buildSidebar();
-  renderQuestion(0);
+  renderSection(0);
   startTimer();
+}
+
+// ═══════════════════════════════════════
+// BUILD SECTIONS
+// Group consecutive content+question blocks into logical sections.
+// A new section starts whenever a content block follows one or more
+// question blocks, or when questions have no preceding content.
+// ═══════════════════════════════════════
+function buildSections(allBlocks) {
+  const secs = [];
+  let currentSec = null;
+  // Track global question index across all blocks
+  let qGlobalIdx = 0;
+
+  for (let i = 0; i < allBlocks.length; i++) {
+    const block = allBlocks[i];
+
+    if (block.mode === 'content') {
+      // If previous section already had questions, start a new section
+      if (currentSec && currentSec.questionIndices.length > 0) {
+        secs.push(currentSec);
+        currentSec = null;
+      }
+      if (!currentSec) {
+        currentSec = { label: '', blocks: [], questionIndices: [] };
+      }
+      // Use content text as section label if not set yet
+      if (!currentSec.label) {
+        const txt = block.data?.text || block.data?.caption || '';
+        const stripped = txt.replace(/<[^>]+>/g, '').trim();
+        currentSec.label = stripped.substring(0, 60) || 'Section ' + (secs.length + 1);
+      }
+      currentSec.blocks.push({ ...block, _gIdx: null });
+    } else if (block.mode === 'question') {
+      if (!currentSec) {
+        // Question with no preceding content: start a new section
+        currentSec = { label: '', blocks: [], questionIndices: [] };
+      }
+      if (!currentSec.label) {
+        currentSec.label = 'Section ' + (secs.length + 1);
+      }
+      currentSec.blocks.push({ ...block, _gIdx: qGlobalIdx });
+      currentSec.questionIndices.push(qGlobalIdx);
+      qGlobalIdx++;
+    }
+  }
+  if (currentSec && (currentSec.blocks.length > 0)) {
+    secs.push(currentSec);
+  }
+
+  // If no sections built, create one containing all blocks
+  if (secs.length === 0) {
+    const fallback = { label: 'Section 1', blocks: allBlocks.map((b, gi) => b.mode === 'question' ? { ...b, _gIdx: gi } : { ...b, _gIdx: null }), questionIndices: [] };
+    let qi = 0;
+    fallback.blocks.forEach(b => { if (b.mode === 'question') { b._gIdx = qi; fallback.questionIndices.push(qi); qi++; } });
+    secs.push(fallback);
+  }
+
+  // Assign human-readable labels based on section number
+  secs.forEach((sec, i) => {
+    if (!sec.label || sec.label.length < 3) sec.label = 'Section ' + (i + 1);
+  });
+
+  return secs;
 }
 
 // ═══════════════════════════════════════
@@ -482,22 +555,28 @@ async function startTest(docId) {
 // ═══════════════════════════════════════
 function buildSidebar() {
   const sb = document.getElementById('qSidebar');
-  sb.innerHTML = '<div class="sb-title">Questions</div>' + questions.map((q, i) => {
-    return `<div class="sb-item${i === currentQIdx ? ' active' : ''}${answers[i] !== undefined ? ' answered' : ''}${flags[i] ? ' flagged' : ''}" onclick="goToQ(${i})" id="sbItem${i}">
-      <span class="sb-num">${i + 1}</span>
-      <span style="font-size:12px">${(q.type || 'Q').substring(0,8)}</span>
+  sb.innerHTML = '<div class="sb-title">Sections</div>' + sections.map((sec, i) => {
+    // Determine answered state: true if ALL questions in section answered
+    const qIdxList = sec.questionIndices;
+    const allAnswered = qIdxList.length > 0 && qIdxList.every(qi => answers[qi] !== undefined && answers[qi] !== null && answers[qi] !== '');
+    const anyFlagged = qIdxList.some(qi => flags[qi]);
+    return `<div class="sb-item${i === currentSectionIdx ? ' active' : ''}${allAnswered ? ' answered' : ''}${anyFlagged ? ' flagged' : ''}" onclick="goToSection(${i})" id="sbSection${i}">
+      <span class="sb-num" style="font-size:10px;width:28px;">${i + 1}</span>
+      <span style="font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1" title="${sec.label.replace(/"/g,'&quot;')}">${sec.label.substring(0, 28)}${sec.label.length > 28 ? '…' : ''}</span>
     </div>`;
   }).join('');
 }
 
-function goToQ(idx) {
-  saveCurrentAnswer();
-  currentQIdx = idx;
-  renderQuestion(idx);
+function goToSection(idx) {
+  currentSectionIdx = idx;
+  renderSection(idx);
   buildSidebar();
+  // Scroll main content to top
+  const main = document.getElementById('qMain');
+  if (main) main.scrollTop = 0;
 }
-function prevQ() { if (currentQIdx > 0) goToQ(currentQIdx - 1); }
-function nextQ() { if (currentQIdx < questions.length - 1) goToQ(currentQIdx + 1); }
+function prevQ() { if (currentSectionIdx > 0) goToSection(currentSectionIdx - 1); }
+function nextQ() { if (currentSectionIdx < sections.length - 1) goToSection(currentSectionIdx + 1); }
 
 // ═══════════════════════════════════════
 // TIMER
@@ -552,77 +631,78 @@ function renderMediaInline(mediaArr) {
   }).join('');
 }
 
-function renderQuestion(idx) {
-  const q = questions[idx];
-  const allBlocks = currentSet.blocks || [];
+// ═══════════════════════════════════════
+// RENDER SECTION (shows ALL blocks in section)
+// ═══════════════════════════════════════
+function renderSection(secIdx) {
+  const sec = sections[secIdx];
+  if (!sec) return;
   const container = document.getElementById('qContent');
 
-  // Find content blocks before this question
+  // Build a local question counter within section for display
+  // (global question index is tracked via _gIdx on each block)
   let html = '';
-  const qBlockIdx = allBlocks.indexOf(q);
 
-  // Look backward for content blocks that belong to this question
-  let contentStart = qBlockIdx - 1;
-  while (contentStart >= 0 && allBlocks[contentStart].mode === 'content') { contentStart--; }
-  contentStart++;
-
-  // Only show content for the first question or if content is directly above
-  if (contentStart < qBlockIdx) {
-    for (let i = contentStart; i < qBlockIdx; i++) {
-      html += renderContentBlock(allBlocks[i]);
-    }
-  }
-
-  // Also render per-question media[] if present
-  const mediaAbove = renderMediaInline((q.media || []).filter(m => m.position !== 'below' && m.position !== 'beside'));
-  const mediaBelow = renderMediaInline((q.media || []).filter(m => m.position === 'below'));
-  const mediaBeside = (q.media || []).filter(m => m.position === 'beside');
-  const hasBeside = mediaBeside.length > 0;
-  const besideHTML = hasBeside ? renderMediaInline(mediaBeside) : '';
-
-  // Question header
-  html += `<div class="q-card">`;
-  html += `<div class="q-label"><span>Question ${idx + 1} · ${q.type || 'Question'}</span><span class="q-marks">${q.meta?.marks || '?'} marks</span></div>`;
-
-  let qBody = '';
-  if (mediaAbove) {
-    qBody += mediaAbove;
-  }
-
-  // Question text
-  if (q.data?.question) {
-    qBody += `<div class="q-text">${formatQuestionText(q.data.question)}</div>`;
-  }
-
-  if (mediaBelow) {
-    qBody += mediaBelow;
-  }
-
-  // Question input based on type
-  qBody += renderQuestionInput(q, idx);
-
-  // Resource links
-  qBody += renderResources(q.meta);
-
-  if (hasBeside) {
-    html += `<div style="display:flex;gap:16px;flex-wrap:wrap;"><div style="flex:1;min-width:300px;">${qBody}</div><div style="flex:0 0 300px;max-width:40%;">${besideHTML}</div></div>`;
-  } else {
-    html += qBody;
-  }
-
-  // Actions
-  html += `<div class="q-actions">
-    <button class="q-action flag${flags[idx] ? ' active' : ''}" onclick="toggleFlag(${idx})">★ ${flags[idx] ? 'Unflag' : 'Flag'}</button>
-    <button class="q-action" onclick="clearAnswer(${idx})">✕ Clear</button>
+  // Section header pill
+  html += `<div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+    <span style="background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.5px">Section ${secIdx + 1} of ${sections.length}</span>
+    <span style="font-size:12px;color:var(--text3)">${sec.questionIndices.length} question${sec.questionIndices.length !== 1 ? 's' : ''} · ${sections[secIdx].questionIndices.reduce((sum, qi) => sum + (parseInt(questions[qi]?.meta?.marks) || 0), 0)} marks</span>
   </div>`;
 
-  html += `</div>`;
+  for (let bi = 0; bi < sec.blocks.length; bi++) {
+    const block = sec.blocks[bi];
+
+    if (block.mode === 'content') {
+      html += renderContentBlock(block);
+    } else if (block.mode === 'question') {
+      const gIdx = block._gIdx; // global question index used for answers/flags
+      const q = questions[gIdx];
+      if (!q) continue;
+
+      // Per-question media
+      const mediaAbove = renderMediaInline((q.media || []).filter(m => m.position !== 'below' && m.position !== 'beside'));
+      const mediaBelow = renderMediaInline((q.media || []).filter(m => m.position === 'below'));
+      const mediaBeside = (q.media || []).filter(m => m.position === 'beside');
+      const hasBeside = mediaBeside.length > 0;
+      const besideHTML = hasBeside ? renderMediaInline(mediaBeside) : '';
+
+      html += `<div class="q-card" id="qCard${gIdx}">`;
+      html += `<div class="q-label"><span>Question ${gIdx + 1} · ${q.type || 'Question'}</span><span class="q-marks">${q.meta?.marks || '?'} marks</span></div>`;
+
+      let qBody = '';
+      if (mediaAbove) qBody += mediaAbove;
+      if (q.data?.question) qBody += `<div class="q-text">${formatQuestionText(q.data.question)}</div>`;
+      if (mediaBelow) qBody += mediaBelow;
+
+      qBody += renderQuestionInput(q, gIdx);
+      qBody += renderResources(q.meta);
+
+      if (hasBeside) {
+        html += `<div style="display:flex;gap:16px;flex-wrap:wrap;"><div style="flex:1;min-width:300px;">${qBody}</div><div style="flex:0 0 300px;max-width:40%;">${besideHTML}</div></div>`;
+      } else {
+        html += qBody;
+      }
+
+      html += `<div class="q-actions">
+        <button class="q-action flag${flags[gIdx] ? ' active' : ''}" onclick="toggleFlag(${gIdx})">★ ${flags[gIdx] ? 'Unflag' : 'Flag'}</button>
+        <button class="q-action" onclick="clearAnswer(${gIdx})">✕ Clear</button>
+      </div>`;
+
+      html += `</div>`; // close q-card
+    }
+  }
 
   container.innerHTML = html;
   updateProgress();
 
-  // Restore saved answer
-  restoreAnswer(idx);
+  // Restore saved answers for all questions in this section
+  sec.questionIndices.forEach(qi => restoreAnswer(qi));
+}
+
+// Legacy single-question render kept for compatibility (used in match/drag-drop re-render)
+function renderQuestion(gIdx) {
+  // Re-render the whole section to refresh a single question card
+  renderSection(currentSectionIdx);
 }
 
 function renderContentBlock(block) {
@@ -1221,12 +1301,17 @@ function saveText(qIdx) {
 }
 
 function saveCurrentAnswer() {
-  const q = questions[currentQIdx];
-  const type = (q?.type || '').toLowerCase();
-  if (type === 'short' || type === 'long') {
-    const area = document.getElementById('ansArea' + currentQIdx);
-    if (area && area.value) answers[currentQIdx] = area.value;
-  }
+  // Save all text answers visible in the current section
+  const sec = sections[currentSectionIdx];
+  if (!sec) return;
+  sec.questionIndices.forEach(qi => {
+    const q = questions[qi];
+    const type = (q?.type || '').toLowerCase();
+    if (type === 'short' || type === 'long') {
+      const area = document.getElementById('ansArea' + qi);
+      if (area && area.value) answers[qi] = area.value;
+    }
+  });
 }
 
 function restoreAnswer(idx) {
@@ -1248,7 +1333,7 @@ function restoreAnswer(idx) {
 function toggleFlag(idx) {
   flags[idx] = !flags[idx];
   buildSidebar();
-  renderQuestion(currentQIdx);
+  renderSection(currentSectionIdx);
 }
 
 // Fixed function declaration to match standard exam system's interface
@@ -1267,6 +1352,14 @@ function updateProgress() {
     return true;
   }).length;
   document.getElementById('progressText').textContent = answered + '/' + questions.length + ' answered';
+  // Update section counter
+  const secText = document.getElementById('sectionProgressText');
+  if (secText) secText.textContent = 'Section ' + (currentSectionIdx + 1) + ' of ' + sections.length;
+  // Update prev/next button disabled states
+  const prevBtn = document.getElementById('prevSectionBtn');
+  const nextBtn = document.getElementById('nextSectionBtn');
+  if (prevBtn) prevBtn.disabled = currentSectionIdx === 0;
+  if (nextBtn) nextBtn.disabled = currentSectionIdx === sections.length - 1;
 }
 
 // ═══════════════════════════════════════
