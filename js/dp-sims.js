@@ -161,4 +161,16 @@ const DP_SIMS = [
     description: "Explore the Doppler effect for sound and light. Visualise moving sources, shock waves, Mach cones, and redshift.",
     file: "sims/doppler-effect.html"
   },
+  {
+  id: 'density-lab',
+  title: 'Density Lab',
+  topic: 'B.3',
+  topicName: 'Matter & States',
+  grade: ['DP', 'MYP'],
+  level: 'both',
+  theme: 'B',
+  concepts: ['density', 'buoyancy', 'Archimedes principle', 'floating', 'sinking', 'mass', 'volume'],
+  difficulty: 'foundational',
+  path: 'sims/density-lab.html'
+},
 ];
