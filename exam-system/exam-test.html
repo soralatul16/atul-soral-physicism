@@ -312,6 +312,70 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .stat-label { font-size:13px; color:var(--text2); text-transform:uppercase; letter-spacing:1px; font-weight:600; }
 .chart-container { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:20px; }
 .chart-container h3 { font-size:15px; margin-bottom:16px; color:var(--text); font-family:var(--serif); }
+
+.symbol-panel-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+}
+.symbol-btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #f1f5f9;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  background: white;
+  padding: 0;
+  transition: 0.1s;
+}
+.symbol-btn:hover {
+  background: #f0f9ff;
+  border-color: #0ea5e9;
+}
+
+.symbol-dropdown {
+  display: none;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2px;
+  padding: 8px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  min-width: 280px;
+}
+
+.symbol-dropdown.open {
+  display: grid !important;
+}
+
+.symbol-dropdown button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background: #f9fafb;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+.symbol-dropdown button:hover {
+  background: #e0e7ff;
+  border-color: #6366f1;
+}
 </style>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -443,9 +507,23 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 </div>
 
 
+<!-- REVIEW SCREEN -->
+<div id="reviewScreen" style="display:none; height:100vh; overflow-y:auto; background:var(--cream);">
+  <nav class="nav" style="position:sticky; top:0; z-index:100;">
+    <a href="index.html" class="nav-brand">Atul Soral Physicism</a>
+    <div class="nav-right">
+      <button class="nav-btn" onclick="showLibrary()">← Back to Library</button>
+    </div>
+  </nav>
+  <div style="max-width:800px; margin:40px auto; padding:0 20px;" id="reviewContent">
+    <!-- Rendered review goes here -->
+  </div>
+</div>
+
 <!-- TEST SCREEN -->
 <div id="testScreen" style="display:none">
   <nav class="nav">
+    <button class="nav-btn" onclick="backToLibraryFromTest()" style="margin-right: 12px; background: transparent; border: 1px solid var(--border); color: var(--text2);">← Back to Library</button>
     <a class="nav-brand">Atul Soral Physicism</a>
     <div class="nav-right">
       <button onclick="openGDC()" class="nav-btn">🧮 Calc</button>
@@ -636,12 +714,125 @@ firebase.auth().onAuthStateChanged(user => {
 let globalSets = [];
 let globalAttempts = [];
 
+let currentChapterFilter = null;
+let currentTopicFilter = null;
+let expandedChapters = new Set();
+
+const MYP_CHAPTERS = [
+  "Exploring Matter",
+  "Forces & Motion",
+  "Work, Power & Gravity",
+  "Energy & Environment",
+  "The Nature of Waves",
+  "Atomic Physics",
+  "Electromagnetism",
+  "Thermal Physics",
+  "Astrophysics"
+];
+
+function getChapterKeyword(chap) {
+  if (chap === "Exploring Matter") return "matter";
+  if (chap === "Forces & Motion") return "force";
+  if (chap === "Work, Power & Gravity") return "work";
+  if (chap === "Energy & Environment") return "energy";
+  if (chap === "The Nature of Waves") return "wave";
+  if (chap === "Atomic Physics") return "atomic";
+  if (chap === "Electromagnetism") return "electro";
+  if (chap === "Thermal Physics") return "thermal";
+  if (chap === "Astrophysics") return "astro";
+  return chap.toLowerCase();
+}
+
+function matchesChapter(setObj, chapName) {
+  const kw = getChapterKeyword(chapName);
+  const c = (setObj.chapter || '').toLowerCase();
+  const t = (setObj.topic || '').toLowerCase();
+  return c.includes(kw) || t.includes(kw) || c.includes(chapName.toLowerCase());
+}
+
+function renderChapterSidebar() {
+  const container = document.getElementById('filterChapters');
+  if (!container) return;
+  
+  let html = '';
+  MYP_CHAPTERS.forEach(chap => {
+    const matchedSets = globalSets.filter(s => matchesChapter(s, chap));
+    const count = matchedSets.length;
+    
+    if (count === 0) {
+      html += `<div style="padding:6px 0; color:#94a3b8; font-size:13px; cursor:not-allowed; display:flex; align-items:center;">
+        <span style="width:16px;"></span> ${chap} (0)
+      </div>`;
+      return;
+    }
+    
+    // Get unique topics for this chapter
+    const topicsMap = new Map();
+    matchedSets.forEach(s => {
+      const t = s.topic ? s.topic.trim() : 'General';
+      topicsMap.set(t, (topicsMap.get(t) || 0) + 1);
+    });
+    
+    const isExpanded = expandedChapters.has(chap);
+    const chevron = isExpanded ? '▼' : '▶';
+    const isActiveChap = (currentChapterFilter === chap && !currentTopicFilter);
+    const chapColor = isActiveChap ? 'var(--accent)' : 'var(--text2)';
+    const chapWeight = isActiveChap ? '700' : '500';
+    
+    html += `<div style="padding:6px 0; font-size:13px; color:${chapColor}; font-weight:${chapWeight}; cursor:pointer; display:flex; align-items:center; transition:0.2s;" onclick="toggleChapter('${chap}')">
+      <span style="width:16px; font-size:10px; color:var(--text3);">${chevron}</span> ${chap} (${count})
+    </div>`;
+    
+    if (isExpanded) {
+      html += `<div style="padding-left:24px; margin-bottom:4px;">`;
+      Array.from(topicsMap.entries()).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([tName, tCount]) => {
+        const isActiveTopic = (currentChapterFilter === chap && currentTopicFilter === tName);
+        const tColor = isActiveTopic ? 'var(--accent)' : 'var(--text3)';
+        const tWeight = isActiveTopic ? '600' : '400';
+        html += `<div style="padding:4px 0; font-size:12px; color:${tColor}; font-weight:${tWeight}; cursor:pointer; transition:0.2s;" onclick="selectTopic('${chap}', '${tName.replace(/'/g, "\\'")}')">
+          ${tName} (${tCount})
+        </div>`;
+      });
+      html += `</div>`;
+    }
+  });
+  
+  container.innerHTML = html;
+}
+
+function toggleChapter(chap) {
+  if (currentChapterFilter === chap && !currentTopicFilter) {
+    currentChapterFilter = null;
+    currentTopicFilter = null;
+    expandedChapters.delete(chap);
+  } else {
+    currentChapterFilter = chap;
+    currentTopicFilter = null;
+    expandedChapters.add(chap);
+  }
+  renderChapterSidebar();
+  applyFilters();
+}
+
+function selectTopic(chap, topic) {
+  if (currentChapterFilter === chap && currentTopicFilter === topic) {
+    currentTopicFilter = null; // toggle off topic
+  } else {
+    currentChapterFilter = chap;
+    currentTopicFilter = topic;
+  }
+  renderChapterSidebar();
+  applyFilters();
+}
+
 async function showLibrary() {
   document.getElementById('libScreen').style.display = 'block';
   document.getElementById('testScreen').style.display = 'none';
   document.getElementById('resultsScreen').style.display = 'none';
   const aScreen = document.getElementById('analyticsScreen');
   if(aScreen) aScreen.style.display = 'none';
+  const rScreen = document.getElementById('reviewScreen');
+  if(rScreen) rScreen.style.display = 'none';
 
   // 1. Fetch Question Sets
   const snap = await db.collection('questionSets').where('status','==','Published').get();
@@ -669,27 +860,22 @@ async function showLibrary() {
     }
   }
 
-  // Generate dynamic Chapter checkboxes
-  const chaptersMap = new Set();
-  globalSets.forEach(s => { if(s.chapter) chaptersMap.add(s.chapter); });
-  const chapContainer = document.getElementById('filterChapters');
-  chapContainer.innerHTML = Array.from(chaptersMap).sort().map(c => 
-    `<label><input type="checkbox" value="${c}" onchange="applyFilters()"> ${c} <span class="f-count"></span></label>`
-  ).join('');
-
+  renderChapterSidebar();
   applyFilters();
 }
 
 function clearFilters() {
   document.getElementById('libSearch').value = '';
   document.querySelectorAll('.filter-group input[type="checkbox"]').forEach(cb => cb.checked = false);
+  currentChapterFilter = null;
+  currentTopicFilter = null;
+  renderChapterSidebar();
   applyFilters();
 }
 
 function applyFilters() {
   const searchQ = document.getElementById('libSearch').value.toLowerCase();
   
-  const selectedChapters = Array.from(document.querySelectorAll('#filterChapters input:checked')).map(cb => cb.value);
   const selectedCriteria = Array.from(document.querySelectorAll('#filterCriteria input:checked')).map(cb => cb.value);
   const selectedDifficulty = Array.from(document.querySelectorAll('#filterDifficulty input:checked')).map(cb => cb.value);
   const selectedStatus = Array.from(document.querySelectorAll('#filterStatus input:checked')).map(cb => cb.value);
@@ -714,28 +900,39 @@ function applyFilters() {
     // 1. Search
     if (searchQ && !(s.heading || '').toLowerCase().includes(searchQ)) return false;
     
-    // 2. Chapters (OR)
-    if (selectedChapters.length > 0 && !selectedChapters.includes(s.chapter)) return false;
+    // 2. Chapters & Topics
+    if (currentChapterFilter) {
+      if (!matchesChapter(s, currentChapterFilter)) return false;
+      if (currentTopicFilter) {
+        const t = s.topic ? s.topic.trim() : 'General';
+        if (t !== currentTopicFilter) return false;
+      }
+    }
     
     // 3. Criteria (OR)
-    // A set has a criteria if ANY block in the set has that criteria
     if (selectedCriteria.length > 0) {
-      let setCriteria = new Set();
-      (s.blocks || []).forEach(b => { if(b.criterion) setCriteria.add(b.criterion); });
       let hasMatch = false;
+      const blocks = s.blocks || (s.dataJson ? JSON.parse(s.dataJson).blocks : []) || [];
       for (let c of selectedCriteria) {
-        if (setCriteria.has(c)) { hasMatch = true; break; }
+        if (blocks.some(b => b.mode === 'question' && b.meta && b.meta.criterion && b.meta.criterion.toUpperCase() === c.toUpperCase())) {
+          hasMatch = true;
+          break;
+        }
       }
       if (!hasMatch) return false;
     }
     
     // 4. Difficulty (OR)
-    // Assume difficulty is 'Medium' by default if not set
-    // In our sets, maybe we don't have explicit difficulty, let's just skip filtering if not present,
-    // or map it from marks. For now, if no difficulty field, assume 'Medium'
     if (selectedDifficulty.length > 0) {
-      let diff = s.difficulty || 'Medium';
-      if (!selectedDifficulty.includes(diff)) return false;
+      let hasMatch = false;
+      const blocks = s.blocks || (s.dataJson ? JSON.parse(s.dataJson).blocks : []) || [];
+      for (let d of selectedDifficulty) {
+        if (blocks.some(b => b.mode === 'question' && b.meta && b.meta.difficulty && b.meta.difficulty.toLowerCase() === d.toLowerCase())) {
+          hasMatch = true;
+          break;
+        }
+      }
+      if (!hasMatch) return false;
     }
     
     // 5. Status (OR)
@@ -758,33 +955,38 @@ function applyFilters() {
     if (status === 'in-progress') {
       borderClass = 'status-in-progress';
       badgeHtml = `<span class="lib-tag orange">⏳ In Progress</span>`;
-      attemptHtml = `<span class="lib-tag">Attempted ${count}x</span>`;
+      attemptHtml = `<button class="nav-btn" style="border:1px solid #f59e0b; color:#f59e0b; background:transparent; padding:4px 10px; font-size:12px; margin-left:8px;" onclick="event.stopPropagation(); startTest('${s._docId || s.id}')">Resume</button>`;
     } else if (status === 'submitted') {
       borderClass = 'status-submitted';
       badgeHtml = `<span class="lib-tag blue">📤 Submitted</span>`;
-      attemptHtml = `<span class="lib-tag">Attempted ${count}x</span>`;
+      attemptHtml = `<button class="nav-btn" style="border:1px solid #3b82f6; color:#3b82f6; background:transparent; padding:4px 10px; font-size:12px; margin-left:8px;" onclick="event.stopPropagation(); showAttemptReview('${latest.id}', '${s._docId || s.id}')">View Submission</button>`;
     } else if (status === 'graded') {
       borderClass = 'status-graded';
       badgeHtml = `<span class="lib-tag green">✓ Graded — ${latest.percentScore || 0}%</span>`;
-      attemptHtml = `<span class="lib-tag">Attempted ${count}x</span>`;
+      attemptHtml = `<button class="nav-btn" style="border:1px solid #10b981; color:#10b981; background:transparent; padding:4px 10px; font-size:12px; margin-left:8px;" onclick="event.stopPropagation(); showAttemptReview('${latest.id}', '${s._docId || s.id}')">View Results</button>`;
+    } else if (status === 'completed') {
+      borderClass = '';
+      badgeHtml = `<span class="lib-tag" style="background:#e2e8f0; color:#475569;">📥 Downloaded</span>`;
+      attemptHtml = `<button class="nav-btn" style="border:1px solid #94a3b8; color:#475569; background:transparent; padding:4px 10px; font-size:12px; margin-left:8px;" onclick="event.stopPropagation(); showAttemptReview('${latest.id}', '${s._docId || s.id}')">View</button>`;
+    }
+    
+    if (status === 'graded' || status === 'submitted' || status === 'completed') {
+      attemptHtml += `<button class="nav-btn" style="margin-left:8px; padding:4px 10px; font-size:12px;" onclick="event.stopPropagation(); startTest('${s._docId || s.id}')">Retake Test</button>`;
     }
 
-    return `<div class="lib-card ${borderClass}" onclick="startTest('${s._docId || s.id}')">
+    return `<div class="lib-card ${borderClass}" onclick="onSetClick('${s._docId || s.id}')">
       <h3>${s.heading || 'Untitled'}</h3>
       <div class="lib-card-meta">
         <span class="lib-tag">${s.chapter || ''}</span>
         <span class="lib-tag">${qCount} questions</span>
         <span class="lib-tag">${s.totalMarks || 0} marks</span>
         ${badgeHtml}
-        ${attemptHtml}
+        <div style="margin-top:8px;">${attemptHtml}</div>
       </div>
     </div>`;
   }).join('');
   
   document.getElementById('libResultCount').textContent = `${filtered.length} set${filtered.length !== 1 ? 's' : ''} found`;
-  
-  // Also update counts on filters (skip for now to avoid complexity, or calculate easily)
-  // Let's implement full counts update later if needed.
 }
 
 async function showAnalytics() {
@@ -902,7 +1104,30 @@ function renderCharts(attempts) {
 // ═══════════════════════════════════════
 // START TEST
 // ═══════════════════════════════════════
-async function startTest(docId) {
+
+window.onSetClick = function(setId) {
+  const attempts = globalAttempts.filter(a => a.setId === setId);
+  if (attempts.length > 0) {
+    const lastAttempt = attempts[0];
+    if (lastAttempt.status === 'in-progress') {
+      startTest(setId, 'test', lastAttempt.id);
+    } else {
+      startTest(setId, 'review', lastAttempt.id);
+    }
+  } else {
+    startTest(setId, 'test');
+  }
+};
+
+window.showAttemptReview = async function(attemptId, setId) {
+  startTest(setId, 'review', attemptId);
+};
+
+let isReviewMode = false;
+let currentReviewAttempt = null;
+
+async function startTest(docId, mode = 'test', attemptId = null) {
+  isReviewMode = (mode === 'review');
   const doc = await db.collection('questionSets').doc(docId).get();
   if (!doc.exists) { alert('Set not found'); return; }
 
@@ -917,26 +1142,76 @@ async function startTest(docId) {
   currentSectionIdx = 0;
   elapsedSeconds = 0;
 
-  // Build sections from all blocks
+  if (isReviewMode && attemptId) {
+    currentReviewAttempt = globalAttempts.find(a => a.id === attemptId);
+    if (currentReviewAttempt) {
+      if (currentReviewAttempt.answers) answers = currentReviewAttempt.answers;
+      if (currentReviewAttempt.dataJson) {
+         try { 
+           const p = JSON.parse(currentReviewAttempt.dataJson);
+           if(p.answers) answers = p.answers;
+           if(p.flags) flags = p.flags;
+         } catch(e) {}
+      }
+    }
+  } else {
+    const existingAttempt = globalAttempts.find(a => a.setId === docId && a.status === 'in-progress');
+    if (existingAttempt) {
+      if (existingAttempt.answers) answers = existingAttempt.answers;
+      if (existingAttempt.dataJson) {
+         try { 
+           const p = JSON.parse(existingAttempt.dataJson);
+           if(p.answers) answers = p.answers;
+           if(p.flags) flags = p.flags;
+         } catch(e) {}
+      }
+      elapsedSeconds = existingAttempt.duration || 0;
+    }
+  }
+
   sections = buildSections(data.blocks || []);
 
   document.getElementById('libScreen').style.display = 'none';
+  if (document.getElementById('reviewScreen')) document.getElementById('reviewScreen').style.display = 'none';
   document.getElementById('testScreen').style.display = 'block';
   document.getElementById('testTitle').textContent = data.heading || 'Test';
-  document.getElementById('testMeta').innerHTML = `
-    <span>${data.chapter || ''}</span>
-    <span>${sections.length} section${sections.length !== 1 ? 's' : ''}</span>
-    <span>${questions.length} questions</span>
-    <span>${data.totalMarks || 0} marks</span>
-  `;
+
+  const testMeta = document.getElementById('testMeta');
+  const navRight = document.querySelector('#testScreen .nav-right');
+
+  if (isReviewMode && currentReviewAttempt) {
+    const dateStr = new Date(currentReviewAttempt.endTime || currentReviewAttempt.startedAt).toLocaleString('en-IN', {day:'numeric', month:'short', year:'numeric', hour:'numeric', minute:'2-digit'});
+    let scoreStr = '';
+    if (currentReviewAttempt.status === 'graded') scoreStr = ` • Score: ${currentReviewAttempt.percentScore || 0}%`;
+    testMeta.innerHTML = `<span style="background:var(--blue); color:white; padding:2px 8px; border-radius:4px;">📋 Submitted Attempt — ${dateStr}${scoreStr}</span>`;
+    
+    navRight.innerHTML = `<button onclick="downloadAttemptPDF('${currentReviewAttempt.id}', '${docId}')" class="nav-btn" style="background:var(--blue); color:white;">📥 Download PDF</button>`;
+    
+    clearInterval(timerInterval);
+    if (document.getElementById('timerDisplay')) document.getElementById('timerDisplay').style.display = 'none';
+  } else {
+    testMeta.innerHTML = `
+      <span>${data.chapter || ''}</span>
+      <span>${sections.length} section${sections.length !== 1 ? 's' : ''}</span>
+      <span>${questions.length} questions</span>
+      <span>${data.totalMarks || 0} marks</span>
+    `;
+    navRight.innerHTML = `
+      <button onclick="openGDC()" class="nav-btn">🧮 Calc</button>
+      <span class="timer" id="timerDisplay">00:00</span>
+      <button class="nav-btn red" onclick="submitTest()">Submit</button>
+    `;
+    if (document.getElementById('timerDisplay')) document.getElementById('timerDisplay').style.display = 'block';
+  }
 
   buildSidebar();
   renderSection(0);
-  startTimer();
   
-  // Anti-cheat & time tracking
-  initAntiCheat();
-  trackSectionStart(sections[0]);
+  if (!isReviewMode) {
+    startTimer();
+    initAntiCheat();
+    trackSectionStart(sections[0]);
+  }
 }
 
 // ═══════════════════════════════════════
@@ -1141,6 +1416,17 @@ function renderSection(secIdx) {
 
   // Restore saved answers for all questions in this section
   sec.questionIndices.forEach(qi => restoreAnswer(qi));
+
+  if (isReviewMode) {
+    setTimeout(() => {
+      document.querySelectorAll('#qContent input, #qContent select, #qContent button, #qContent textarea').forEach(el => el.disabled = true);
+      document.querySelectorAll('#qContent .answer-area').forEach(el => {
+        el.setAttribute('contenteditable', 'false');
+        el.style.background = '#f1f5f9';
+      });
+      document.querySelectorAll('#qContent .rich-toolbar').forEach(el => el.style.display = 'none');
+    }, 50);
+  }
 }
 
 // Legacy single-question render kept for compatibility (used in match/drag-drop re-render)
@@ -1169,6 +1455,8 @@ function formatQuestionText(text) {
   // \n to line breaks
   html = html.replace(/\\n\\n/g, '<br><br>');
   html = html.replace(/\\n/g, '<br>');
+  html = html.replace(/\n\n/g, '<br><br>');
+  html = html.replace(/\n/g, '<br>');
   // Style (a), (b), (c) parts
   html = html.replace(/\(([a-z])\)/g, '<span class="part"><span class="part-label">($1)</span></span>');
   // Style [1], [2] marks
@@ -1335,32 +1623,26 @@ function renderRichToolbar(idx) {
       <!-- Dropdowns -->
       <div class="dropdown-wrapper">
         <button type="button" class="rich-btn math-btn" onclick="toggleToolbarDropdown('${aId}-greek', event)">Ω Greek ▼</button>
-        <div id="${aId}-greek" class="rich-dropdown-panel" onclick="event.stopPropagation()">
-          <div style="font-size:11px; color:var(--text3); margin-bottom:6px; font-weight:600;">LOWERCASE</div>
-          <div class="rich-dropdown-grid" style="margin-bottom:10px;">
-            ${'α β γ δ ε ζ η θ ι κ λ μ ν ξ π ρ σ τ φ χ ψ ω'.split(' ').map(c=>`<button type="button" onclick="insertChar('${c}')">${c}</button>`).join('')}
-          </div>
-          <div style="font-size:11px; color:var(--text3); margin-bottom:6px; font-weight:600;">UPPERCASE</div>
-          <div class="rich-dropdown-grid">
-            ${'Α Β Γ Δ Ε Ζ Η Θ Κ Λ Μ Ν Ξ Π Ρ Σ Τ Φ Χ Ψ Ω'.split(' ').map(c=>`<button type="button" onclick="insertChar('${c}')">${c}</button>`).join('')}
-          </div>
+        <div id="${aId}-greek" class="rich-dropdown-panel symbol-dropdown" onclick="event.stopPropagation()">
+          <div style="grid-column: 1 / -1; font-size:11px; color:var(--text3); margin-top:4px; margin-bottom:4px; font-weight:600;">LOWERCASE</div>
+          ${'α β γ δ ε ζ η θ ι κ λ μ ν ξ π ρ σ τ φ χ ψ ω'.split(' ').map(c=>`<button type="button" onclick="insertChar('${c}')">${c}</button>`).join('')}
+          <div style="grid-column: 1 / -1; font-size:11px; color:var(--text3); margin-top:8px; margin-bottom:4px; font-weight:600;">UPPERCASE</div>
+          ${'Α Β Γ Δ Ε Ζ Η Θ Κ Λ Μ Ν Ξ Π Ρ Σ Τ Φ Χ Ψ Ω'.split(' ').map(c=>`<button type="button" onclick="insertChar('${c}')">${c}</button>`).join('')}
         </div>
       </div>
       
       <div class="dropdown-wrapper">
         <button type="button" class="rich-btn math-btn" onclick="toggleToolbarDropdown('${aId}-math', event)">∑ Math ▼</button>
-        <div id="${aId}-math" class="rich-dropdown-panel" onclick="event.stopPropagation()">
-          <div class="rich-dropdown-grid">
-            ${'± × ÷ ≈ ≠ ≡ ≤ ≥ ∝ ∞ √ ∫ ∑ ∂ ∇ ∈ ∉ ∪ ∩ ⊂ ⊃ ∅ ∀ ∃ ¬ ∧ ∨ ² ³ ⁴ ⁻¹ ⁻² ½ ¼ ¾'.split(' ').map(c=>`<button type="button" onclick="insertChar('${c}')">${c}</button>`).join('')}
-          </div>
+        <div id="${aId}-math" class="rich-dropdown-panel symbol-dropdown" onclick="event.stopPropagation()">
+          ${'± × ÷ ≈ ≠ ≡ ≤ ≥ ∝ ∞ √ ∫ ∑ ∂ ∇ ∈ ∉ ∪ ∩ ⊂ ⊃ ∅ ∀ ∃ ¬ ∧ ∨ ² ³ ⁴ ⁻¹ ⁻² ½ ¼ ¾'.split(' ').map(c=>`<button type="button" onclick="insertChar('${c}')">${c}</button>`).join('')}
         </div>
       </div>
 
       <div class="dropdown-wrapper">
         <button type="button" class="rich-btn math-btn" onclick="toggleToolbarDropdown('${aId}-units', event)">📐 Units ▼</button>
-        <div id="${aId}-units" class="rich-dropdown-panel" onclick="event.stopPropagation()">
-          <div class="rich-dropdown-grid">
-            ${'° · → ← ↑ ↓ ⇌ △ Å m s kg N J W Pa Hz V A Ω F H m/s m/s² kg/m³ N/m² J/kg W/m²'.split(' ').map(c=>`<button type="button" style="width:auto;padding:0 8px;font-size:12px;" onclick="insertChar('${c}')">${c}</button>`).join('')}
+        <div id="${aId}-units" class="rich-dropdown-panel" style="width: 290px;" onclick="event.stopPropagation()">
+          <div class="symbol-panel-grid" style="grid-template-columns: repeat(5, 1fr);">
+            ${'° · → ← ↑ ↓ ⇌ △ Å m s kg N J W Pa Hz V A Ω F H m/s m/s² kg/m³ N/m² J/kg W/m²'.split(' ').map(c=>`<button type="button" class="symbol-btn" style="width:auto;padding:0 4px;font-size:12px;" onclick="insertChar('${c}')">${c}</button>`).join('')}
           </div>
         </div>
       </div>
@@ -2309,6 +2591,53 @@ function initAntiCheat() {
   });
 }
 
+
+async function backToLibraryFromTest() {
+  if (isReviewMode) {
+    document.getElementById('testScreen').style.display = 'none';
+    showLibrary();
+    return;
+  }
+
+  if (!confirm("Are you sure you want to leave? Your progress will be saved.")) return;
+  saveCurrentAnswer();
+  clearInterval(timerInterval);
+  
+  if (currentUser) {
+    const existingAttempt = globalAttempts.find(a => a.setId === currentSet._docId && a.status === 'in-progress');
+    const attemptId = existingAttempt ? existingAttempt.id : db.collection('attempts').doc().id;
+    
+    const attempt = {
+      id: attemptId,
+      studentEmail: currentUser.email.toLowerCase(),
+      studentName: currentUser.displayName || currentUser.email,
+      setId: currentSet._docId,
+      setTitle: currentSet.heading,
+      status: 'in-progress',
+      startedAt: existingAttempt ? existingAttempt.startedAt : Date.now(),
+      endTime: Date.now(),
+      duration: elapsedSeconds,
+      answers: answers,
+      dataJson: JSON.stringify({ answers, flags })
+    };
+    
+    try {
+      await db.collection('attempts').doc(attempt.id).set(attempt);
+      
+      // Update globalAttempts to reflect the new state so library shows Resume immediately
+      const idx = globalAttempts.findIndex(a => a.id === attempt.id);
+      if (idx !== -1) {
+        globalAttempts[idx] = attempt;
+      } else {
+        globalAttempts.push(attempt);
+      }
+      
+    } catch(e) { console.error('Exit save error:', e); }
+  }
+  
+  showLibrary();
+}
+
 async function submitTest() {
   if (!confirm('Are you sure you want to submit?')) return;
   saveCurrentAnswer();
@@ -2371,21 +2700,17 @@ async function submitTest() {
     cheatLog: window._cheatLog || []
   };
 
-  // Save attempt
-  if (!currentUser) {
-    alert('Preview mode: Test auto-graded but submission not saved to database.');
-    showSubmissionMessage();
-    return;
-  }
+  // Determine attempt ID
+  const existingAttempt = globalAttempts.find(a => a.setId === (currentSet._docId || currentSet.id) && a.status === 'in-progress');
+  const attemptId = existingAttempt ? existingAttempt.id : db.collection('attempts').doc().id;
 
-  const attempt = {
-    id: 'att_' + Date.now(),
-    studentEmail: currentUser.email.toLowerCase(),
-    studentName: currentUser.displayName || '',
+  pendingAttempt = {
+    id: attemptId,
+    studentEmail: currentUser ? currentUser.email.toLowerCase() : 'preview@physicism.com',
+    studentName: currentUser ? (currentUser.displayName || '') : 'Preview',
     setId: currentSet._docId || currentSet.id,
     setTitle: currentSet.heading,
-    status: 'submitted',
-    startedAt: Date.now() - (elapsedSeconds * 1000),
+    startedAt: existingAttempt ? existingAttempt.startedAt : (Date.now() - (elapsedSeconds * 1000)),
     endTime: Date.now(),
     duration: elapsedSeconds,
     earnedMarks: totalEarned,
@@ -2396,12 +2721,10 @@ async function submitTest() {
     dataJson: JSON.stringify({ answers, flags, results: results.map(r => ({ earned: r.earned, max: r.maxMarks, helpUsed: r.helpUsed })), analytics })
   };
 
-  try {
-    await db.collection('attempts').doc(attempt.id).set(attempt);
-  } catch(e) { console.error('Save error:', e); }
-
   showSubmissionMessage();
 }
+
+let pendingAttempt = null;
 
 function showSubmissionMessage() {
   document.getElementById('testScreen').style.display = 'none';
@@ -2409,16 +2732,76 @@ function showSubmissionMessage() {
   
   const container = document.getElementById('resultsContent');
   container.innerHTML = `
-    <div style="text-align:center; padding: 40px 20px;">
-      <div style="font-size:48px; margin-bottom: 20px;">📝</div>
-      <h2 style="font-family:var(--serif); font-size:24px; margin-bottom:12px; color:var(--green);">Test submitted successfully</h2>
-      <p style="color:var(--text2); font-size: 15px; max-width: 500px; margin: 0 auto 24px; line-height:1.6">
-        Your teacher will review and release your results.
-      </p>
-      <button class="nav-btn" onclick="showLibrary()" style="padding: 10px 20px; font-size: 14px;">Return to Library</button>
+    <div style="max-width: 600px; margin: 40px auto; background: var(--white); border-radius: 16px; padding: 40px; border: 1.5px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+      <div style="text-align:center;">
+        <div style="font-size:48px; margin-bottom: 20px;">✅</div>
+        <h2 style="font-family:var(--serif); font-size:24px; margin-bottom:12px; color:var(--text);">Test Submitted Successfully!</h2>
+        <p style="color:var(--text2); font-size: 15px; margin-bottom: 30px;">What would you like to do next?</p>
+      </div>
+
+      <div style="display:grid; gap: 16px;">
+        <button onclick="finalizeSubmission('grade')" style="text-align:left; padding: 20px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--white); cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px;">📝 Request Grading</div>
+          <div style="font-size: 13px; color: var(--text2); line-height: 1.5;">Your teacher will review and grade within 24 hours. You'll get feedback.</div>
+        </button>
+
+        <button onclick="finalizeSubmission('download')" style="text-align:left; padding: 20px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--white); cursor: pointer; transition: 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px;">📥 Download Only</div>
+          <div style="font-size: 13px; color: var(--text2); line-height: 1.5;">Save your answers as PDF for personal reference. Teacher can still see your attempt but won't grade it.</div>
+        </button>
+      </div>
     </div>
   `;
 }
+
+window.finalizeSubmission = async function(choice) {
+  if (!pendingAttempt) return;
+
+  const isPreview = !currentUser;
+
+  if (choice === 'grade') {
+    pendingAttempt.status = 'submitted';
+    pendingAttempt.gradeRequested = true;
+    
+    if (!isPreview) {
+      try { await db.collection('attempts').doc(pendingAttempt.id).set(pendingAttempt); } catch(e) {}
+    }
+    
+    const container = document.getElementById('resultsContent');
+    container.innerHTML = `
+      <div style="text-align:center; padding: 40px 20px;">
+        <div style="font-size:48px; margin-bottom: 20px;">✉️</div>
+        <h2 style="font-family:var(--serif); font-size:24px; margin-bottom:12px; color:var(--text);">Submitted for Grading</h2>
+        <p style="color:var(--text2); font-size: 15px; max-width: 500px; margin: 0 auto 24px; line-height:1.6">
+          Your answers have been submitted for grading. You will receive feedback within 24 hours.
+        </p>
+        <button class="nav-btn" onclick="showLibrary()" style="padding: 10px 20px; font-size: 14px;">Return to Library</button>
+      </div>
+    `;
+  } else if (choice === 'download') {
+    pendingAttempt.status = 'completed';
+    pendingAttempt.gradeRequested = false;
+
+    if (!isPreview) {
+      try { await db.collection('attempts').doc(pendingAttempt.id).set(pendingAttempt); } catch(e) {}
+    }
+
+    const container = document.getElementById('resultsContent');
+    container.innerHTML = `
+      <div style="text-align:center; padding: 40px 20px;">
+        <div style="font-size:48px; margin-bottom: 20px;">📥</div>
+        <h2 style="font-family:var(--serif); font-size:24px; margin-bottom:12px; color:var(--text);">Download Preparing...</h2>
+        <p style="color:var(--text2); font-size: 15px; max-width: 500px; margin: 0 auto 24px; line-height:1.6">
+          Your PDF is being generated. You can now return to the library.
+        </p>
+        <button class="nav-btn" onclick="showLibrary()" style="padding: 10px 20px; font-size: 14px;">Return to Library</button>
+      </div>
+    `;
+    
+    downloadResults();
+  }
+}
+
 
 function isFillBlankCorrect(given, expected) {
   if (!expected) return false;
@@ -2586,22 +2969,27 @@ function showResults(results, earned, total, attempt) {
 // ═══════════════════════════════════════
 // PDF DOWNLOAD
 // ═══════════════════════════════════════
+window.downloadAttemptPDF = function(attemptId, setId) {
+  const attempt = globalAttempts.find(a => a.id === attemptId);
+  const setData = globalSets.find(s => (s._docId || s.id) === setId);
+  if (!attempt || !setData) return;
+  generatePdfForAttempt(attempt, setData);
+};
+
 function downloadResults() {
-  let pdfHtml = document.getElementById('resultsContent').innerHTML;
-  // Make sure we include SVGs properly by rewriting image tags if they were missed,
-  // Actually, we can just replace the whole downloadResults if we want to iterate over blocks.
-  // Wait, the user said:
-  // "When generating the PDF, iterate through ALL blocks (including mode:'content', type:'Image') and embed them"
-  
-  // Let's build the pdf content natively from questions array:
+  if (!pendingAttempt) return;
+  generatePdfForAttempt(pendingAttempt, currentSet);
+}
+
+function generatePdfForAttempt(attempt, setData) {
   let contentHtml = `<div class="result-header">
-    <h1>${currentSet.heading || 'Test Results'}</h1>
-    <p>${currentUser.displayName || currentUser.email} — ${new Date().toLocaleDateString()}</p>
-    <p>Score: ${document.getElementById('resScore').textContent}</p>
+    <h1>${setData.heading || 'Test Results'}</h1>
+    <p>${attempt.studentName || attempt.studentEmail} — ${new Date(attempt.endTime || attempt.startedAt || Date.now()).toLocaleDateString('en-IN')}</p>
+    <p>Score: ${attempt.percentScore !== undefined ? attempt.percentScore + '%' : (attempt.earnedMarks || 0) + ' / ' + (attempt.totalMarks || 0)}</p>
+    <p>Status: ${attempt.status === 'graded' ? 'Graded' : attempt.status === 'submitted' ? 'Pending Grading' : 'Practice / Download Only'}</p>
   </div>`;
   
-  // Re-render blocks for PDF
-  (currentSet.blocks || []).forEach((block, index) => {
+  (setData.blocks || []).forEach((block, index) => {
     if (block.mode === 'content' && block.type === 'Image') {
       if (block.data && block.data.url) {
         if (block.data.url.trim().startsWith('<svg')) {
@@ -2613,60 +3001,68 @@ function downloadResults() {
     } else if (block.mode === 'content') {
       contentHtml += `<div style="margin:16px 0;">${block.data?.html || ''}</div>`;
     } else if (block.mode === 'question') {
-      let qNum = (currentSet.blocks.filter(b=>b.mode==='question').indexOf(block)) + 1;
-      let ans = answers[index];
-      let isCorrect = ans && block.data.correctAnswer && ans.trim().toLowerCase() === block.data.correctAnswer.trim().toLowerCase();
-      let color = isCorrect ? '#16a34a' : '#dc2626';
+      let qNum = (setData.blocks.filter(b=>b.mode==='question').indexOf(block)) + 1;
+      let ans = attempt.answers?.[qNum - 1] || '';
+      if (typeof ans === 'object') ans = JSON.stringify(ans);
+      if (typeof ans === 'string' && ans.startsWith('data:image')) {
+        ans = `<img src="${ans}" style="max-width:100%; border-radius:8px;">`;
+      }
+      
+      let marks = attempt.grades?.[qNum - 1];
+      let maxMarks = Number(block.meta?.marks || 1);
+      
+      let color = '#94a3b8'; // default gray
+      let gradeStr = '';
+      if (attempt.status === 'graded' && marks !== undefined) {
+        if (marks === maxMarks) color = '#16a34a';
+        else if (marks > 0) color = '#d97706';
+        else color = '#dc2626';
+        gradeStr = `<span style="color:${color}; font-weight:700;">[ ${marks} / ${maxMarks} ]</span>`;
+      }
       
       contentHtml += `
       <div class="result-card" style="border-left: 4px solid ${color};">
-        <div class="q-label">Question ${qNum} <span>${block.data.marks || 1} mark(s)</span></div>
-        <div style="margin-bottom:10px;">${block.data.html || ''}</div>
+        <div class="q-label">Question ${qNum} <span>${block.meta?.marks || 1} mark(s) ${gradeStr}</span></div>
+        <div style="margin-bottom:10px;">${block.data?.html || block.data?.text || ''}</div>
         <div class="ms-box">
-          <strong>Your Answer:</strong> ${ans || '<i>No answer provided</i>'}<br>
-          <strong>Correct Answer:</strong> ${block.data.correctAnswer || '<i>Not specified</i>'}
+          <strong>Your Answer:</strong> ${ans || '<i>No answer provided</i>'}
         </div>
+        ${attempt.teacherFeedback?.[qNum - 1] ? `<div style="margin-top:8px; font-size:12px; color:#c0392b;"><strong>Teacher Feedback:</strong> ${attempt.teacherFeedback[qNum - 1]}</div>` : ''}
       </div>`;
     }
   });
 
   const win = window.open('','_blank');
-  win.document.write(`<html><head><title>Results — ${currentSet.heading}</title>
+  win.document.write(`<html><head><title>Results — ${setData.heading}</title>
     <style>body{font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:30px;font-size:14px;line-height:1.6}
     .result-card{border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin:10px 0}
-    .result-card.correct{border-left:4px solid #16a34a}.result-card.wrong{border-left:4px solid #dc2626}.result-card.partial{border-left:4px solid #d97706}
-    .ms-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:10px;margin-top:8px;font-size:12px}
+    .ms-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:10px;margin-top:8px;font-size:12px}
     .q-label{font-size:11px;font-weight:700;color:#c0392b;margin-bottom:4px;display:flex;justify-content:space-between}
-    .result-score{font-family:monospace;font-weight:700}
+    .result-header{margin-bottom:30px; border-bottom:2px solid #e2e8f0; padding-bottom:20px;}
+    .result-header h1{font-family:sans-serif; margin:0 0 10px 0; font-size:24px;}
+    .result-header p{margin:4px 0; color:#475569;}
     .footer{text-align:center;margin-top:30px;color:#94a3b8;font-size:10px;letter-spacing:2px;text-transform:uppercase}
-/* Library Layout & Sidebar */
-.lib-layout { display:flex; gap:30px; max-width:1200px; margin:0 auto; padding:30px 24px; align-items:flex-start; }
-.lib-sidebar { width:260px; flex-shrink:0; background:var(--white); border-radius:12px; border:1px solid var(--border); padding:20px; position:sticky; top:20px; }
-.lib-main { flex:1; min-width:0; }
-
-.filter-group { margin-bottom:24px; }
-.filter-group h4 { font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; font-weight:700; }
-.filter-group label { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text2); margin-bottom:8px; cursor:pointer; }
-.filter-group label input { accent-color:var(--accent); width:14px; height:14px; cursor:pointer; }
-.filter-group .f-count { margin-left:auto; font-size:11px; color:var(--text3); background:var(--bg); padding:2px 6px; border-radius:10px; }
-
-/* Status Badges */
-.status-in-progress { border-left:4px solid #f59e0b !important; }
-.status-submitted { border-left:4px solid #3b82f6 !important; }
-.status-graded { border-left:4px solid #10b981 !important; }
-
-/* Analytics */
-.analytics-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; }
-.stat-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:24px; text-align:center; display:flex; flex-direction:column; gap:8px; }
-.stat-num { font-size:36px; font-weight:700; color:var(--text); font-family:var(--serif); }
-.stat-label { font-size:13px; color:var(--text2); text-transform:uppercase; letter-spacing:1px; font-weight:600; }
-.chart-container { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:20px; }
-.chart-container h3 { font-size:15px; margin-bottom:16px; color:var(--text); font-family:var(--serif); }
-</style>
-</head>
+    @media print {
+      body::before {
+        content: "Atul Soral Physicism";
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        font-size: 80px;
+        color: rgba(200, 200, 200, 0.25);
+        font-family: 'Monotype Corsiva', 'Apple Chancery', cursive;
+        white-space: nowrap;
+        z-index: -1;
+        pointer-events: none;
+      }
+    }
+    </style>
+    </head>
     <body>${contentHtml}<div class="footer">ATUL SORAL PHYSICISM</div></body></html>`);
   win.document.close();
-  win.print();
+  // Small delay to allow images to load before printing
+  setTimeout(() => win.print(), 500);
 }
 
 // ═══════════════════════════════════════

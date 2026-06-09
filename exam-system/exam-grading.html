@@ -139,6 +139,7 @@ body::before{content:'';position:fixed;inset:0;background:rgba(247,243,237,0.88)
         <button class="filter-tab active" onclick="filterAttempts('all',this)">All</button>
         <button class="filter-tab" onclick="filterAttempts('pending',this)">Pending</button>
         <button class="filter-tab" onclick="filterAttempts('graded',this)">Graded</button>
+        <button class="filter-tab" onclick="filterAttempts('practice',this)">Practice</button>
       </div>
       <input type="text" class="sidebar-search" id="searchInput" placeholder="Search student or set name…" oninput="renderSidebar()">
       <select class="sidebar-search" id="sortSelect" onchange="loadAttempts();renderSidebar();" style="margin-top:8px;">
@@ -207,7 +208,7 @@ let _submissionsCache = [];
 
 function loadAttempts() {
   const sort = document.getElementById('sortSelect')?.value || 'newest';
-  allAttempts = fetchAttempts().filter(a => a.status === "completed");
+  allAttempts = fetchAttempts().filter(a => ['completed', 'submitted', 'graded'].includes(a.status) || (!a.status && a.endTime));
   
   // Merge submissions
   _submissionsCache.forEach(sub => {
@@ -297,8 +298,14 @@ function renderSidebar() {
   const list = document.getElementById('attemptList');
 
   let filtered = allAttempts.filter(a => {
-    if (currentFilter === 'pending' && a.gradingStatus === 'graded') return false;
-    if (currentFilter === 'graded' && a.gradingStatus !== 'graded') return false;
+    const isPractice = a.status === 'completed' || a.wantsGrading === false || a.gradeRequested === false;
+    const isGraded = a.gradingStatus === 'graded' || a.status === 'graded';
+    const isPending = (a.status === 'submitted' || a.gradeRequested === true) && !isGraded && !isPractice;
+    
+    if (currentFilter === 'pending' && !isPending) return false;
+    if (currentFilter === 'graded' && !isGraded) return false;
+    if (currentFilter === 'practice' && !isPractice) return false;
+
     if (search) {
       const name = (a.studentName || '').toLowerCase();
       const title = (a.setTitle || '').toLowerCase();
@@ -309,19 +316,21 @@ function renderSidebar() {
 
   if (filtered.length === 0) {
     list.innerHTML = `<div style="padding:20px;text-align:center;color:var(--text2);font-size:13px;">
-      ${allAttempts.length === 0 ? 'No completed submissions yet.<br><br>Students need to complete a test for submissions to appear here.' : 'No submissions match your filter.'}
+      ${allAttempts.length === 0 ? 'No submissions yet.' : 'No submissions match your filter.'}
     </div>`;
     return;
   }
 
   const countHTML = '<div style="padding:6px 12px;font-size:11px;color:var(--text3);font-weight:600;border-bottom:1px solid var(--border);margin-bottom:4px;">' + filtered.length + ' submission' + (filtered.length !== 1 ? 's' : '') + '</div>';
   list.innerHTML = countHTML + filtered.map(a => {
-    const isGraded = a.gradingStatus === 'graded';
-    const date = new Date(a.endTime || a.startTime).toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+    const isPractice = a.status === 'completed' || a.wantsGrading === false || a.gradeRequested === false;
+    const isGraded = a.gradingStatus === 'graded' || a.status === 'graded';
+    const date = new Date(a.endTime || a.startedAt || a.startTime || Date.now()).toLocaleDateString('en-IN', { day:'numeric', month:'short' });
     const duration = a.duration ? `${Math.floor(a.duration/60)}m` : '';
+    
     let statusBadge = '';
-    if (a.wantsGrading === false) {
-      statusBadge = '<span class="badge red">Do Not Grade</span>';
+    if (isPractice) {
+      statusBadge = '<span class="badge blue">Practice</span>';
     } else if (isGraded) {
       statusBadge = '<span class="badge green">✓ Graded</span>';
     } else {
@@ -443,9 +452,12 @@ function openAttempt(attemptId) {
 
   // HEADER
   let headerStatusBadge = '';
-  if (a.wantsGrading === false) {
-    headerStatusBadge = '<span class="badge red" style="font-size:12px;padding:4px 12px;">Do Not Grade</span>';
-  } else if (a.gradingStatus === 'graded') {
+  const isPractice = a.status === 'completed' || a.wantsGrading === false || a.gradeRequested === false;
+  const isGraded = a.gradingStatus === 'graded' || a.status === 'graded';
+  
+  if (isPractice) {
+    headerStatusBadge = '<span class="badge blue" style="font-size:12px;padding:4px 12px;">Practice (No Grade)</span>';
+  } else if (isGraded) {
     headerStatusBadge = '<span class="badge green" style="font-size:12px;padding:4px 12px;">✓ Graded</span>';
   } else {
     headerStatusBadge = '<span class="badge yellow" style="font-size:12px;padding:4px 12px;">Pending</span>';
