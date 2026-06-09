@@ -257,13 +257,24 @@
   `;
 
   // Inject into body
-  const container = document.createElement('div');
-  container.innerHTML = modalHTML;
-  while (container.firstChild) {
-    document.body.appendChild(container.firstChild);
+  function injectGDC() {
+    if (document.getElementById('gdcModal')) return;
+    const container = document.createElement('div');
+    container.innerHTML = modalHTML;
+    while (container.firstChild) {
+      document.body.appendChild(container.firstChild);
+    }
+    initGDCState();
+  }
+
+  if (document.body) {
+    injectGDC();
+  } else {
+    document.addEventListener('DOMContentLoaded', injectGDC);
   }
 
   // 3. State Variables
+  function initGDCState() {
   let calcDisplay = '';
   let calcAns = 0;
   let degMode = true;
@@ -1922,4 +1933,5 @@
 
   // Initialize display
   updateDisplay();
+  } // End of initGDCState()
 })();

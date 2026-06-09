@@ -1419,15 +1419,19 @@ function renderSection(secIdx) {
           const savedAns = (answers[gIdx] && answers[gIdx][i] !== undefined) ? answers[gIdx][i] : '';
           const wordCount = typeof savedAns === 'string' ? savedAns.trim().split(/\s+/).filter(w=>w).length : 0;
           
+          const toolbar = renderRichToolbar(`${gIdx}_part${i}`);
           qBody += `
             <div class="question-part" style="margin-top:12px; padding:12px; background:#f8fafc; border-left:3px solid #3b82f6; border-radius:6px;">
               <div class="part-text q-text">${formatQuestionText(part.trim())}</div>
-              <textarea class="answer-area answer-input" id="ansArea${gIdx}_part${i}" 
-                placeholder="Answer for part (${partLetter})..." 
-                oninput="savePartText(${gIdx}, ${i})"
-                onfocus="setActiveAnswer('${gIdx}_part${i}')"
-                style="display:block; width:100%; min-height:${minH}; margin-top:8px; padding:10px; border:1px solid #e2e8f0; border-radius:6px; font-family:var(--font); font-size:14px; resize:vertical; background:#fff; outline:none; line-height:1.6;">${savedAns}</textarea>
-              <div class="word-count" id="wc${gIdx}_part${i}" style="text-align:right; font-size:11px; color:#94a3b8; margin-top:4px;">${wordCount} words</div>
+              <div class="rich-editor-wrap">
+                ${toolbar}
+                <textarea class="answer-area answer-input" id="ansArea${gIdx}_part${i}" 
+                  placeholder="Answer for part (${partLetter})..." 
+                  oninput="savePartText(${gIdx}, ${i})"
+                  onfocus="setActiveAnswer('${gIdx}_part${i}')"
+                  style="display:block; width:100%; min-height:${minH}; padding:10px; border:1px solid #e2e8f0; font-family:var(--font); font-size:14px; resize:vertical; background:#fff; outline:none; line-height:1.6; border-top:none; border-top-left-radius:0; border-top-right-radius:0;">${savedAns}</textarea>
+                <div class="word-count" id="wc${gIdx}_part${i}" style="text-align:right; font-size:11px; color:#94a3b8; margin-top:4px;">${wordCount} words</div>
+              </div>
             </div>`;
         });
       } else {
@@ -1576,13 +1580,38 @@ function renderQuestionInput(q, idx) {
 
   if (type === 'fill text' || type === 'fill in the blank') {
     const fillText = q.data?.fillText || '';
+    let correctAnswers = [];
+    if (Array.isArray(q.data?.answers)) {
+      correctAnswers = q.data.answers;
+    } else if (typeof q.data?.answers === 'string') {
+      correctAnswers = q.data.answers.split(',').map(s => s.trim());
+    }
+    const distractors = q.data?.distractors || [];
+    
     let blankIdx = 0;
     const html = fillText.replace(/_{2,}|\.\.\.|(\[blank\])/g, () => {
       const curIdx = blankIdx++;
       const savedVal = (answers[idx] && Array.isArray(answers[idx]) ? answers[idx][curIdx] : '') || '';
-      return `<input type="text" class="fill-input" data-blank="${curIdx}" oninput="saveFill(${idx})" placeholder="..." value="${savedVal.replace(/"/g, '&quot;')}">`;
+      
+      const correct = correctAnswers[curIdx] || '';
+      const wrongOpts = distractors[curIdx] || [];
+      
+      let opts = [correct, ...wrongOpts].filter(Boolean);
+      // shuffle opts deterministically or pseudo-randomly
+      opts = opts.sort(() => Math.random() - 0.5);
+      
+      let selectHTML = `<select class="fill-input fill-dropdown" data-blank="${curIdx}" onchange="saveFill(${idx})" style="width:auto; min-width:120px; padding:6px 10px; border:1.5px solid #3b82f6; border-radius:6px; background:#fff; font-size:14px; outline:none; font-family:var(--font); margin:0 4px; display:inline-block; vertical-align:middle; cursor:pointer;">`;
+      selectHTML += `<option value="">Select...</option>`;
+      // remove duplicates just in case
+      opts = [...new Set(opts)];
+      opts.forEach(opt => {
+        const selectedAttr = savedVal === opt ? 'selected' : '';
+        selectHTML += `<option value="${opt.replace(/"/g, '&quot;')}" ${selectedAttr}>${opt}</option>`;
+      });
+      selectHTML += `</select>`;
+      return selectHTML;
     });
-    return `<div class="fill-container">${html}</div>`;
+    return `<div class="fill-container" style="line-height:2.4; font-size:15px;">${html}</div>`;
   }
 
   if (type === 'fill dropdown') {
@@ -3153,7 +3182,41 @@ function generatePdfForAttempt(attempt, setData) {
       let qNum = (setData.blocks.filter(b=>b.mode==='question').indexOf(block)) + 1;
       let ans = attempt.answers?.[qNum - 1] || '';
       let ansHtml = '';
-      if (typeof ans === 'object' && ans !== null && !Array.isArray(ans) && !ans.matches) {
+      const bType = (block.type || '').toLowerCase();
+      
+      if (bType === 'fill text' || bType === 'fill in the blank' || bType === 'fill dropdown') {
+        if (Array.isArray(ans)) {
+          const parts = ans.map((val, i) => val ? `Blank ${i+1}: ${val}` : null).filter(Boolean);
+          ansHtml = parts.length ? parts.join(', ') : '<i>No answer provided</i>';
+        } else {
+          ansHtml = ans || '<i>No answer provided</i>';
+        }
+      } else if (bType === 'match' || bType === 'match the following') {
+        const matches = ans?.matches || {};
+        const pairs = block.ui?.matchPairs || [];
+        const validPairs = pairs.filter(p => p.a && p.b);
+        const parts = [];
+        validPairs.forEach((p, i) => {
+          if (matches[i]) parts.push(`<strong>${p.a}</strong> &rarr; ${matches[i]}`);
+        });
+        ansHtml = parts.length ? parts.join('<br>') : '<i>No answer provided</i>';
+      } else if (bType === 'mcq') {
+        const options = block.ui?.mcqOptions || [];
+        const letters = ['A','B','C','D','E','F'];
+        if (Array.isArray(ans)) {
+          const parts = ans.map(idx => options[idx] ? `(${letters[idx]}) ${options[idx]}` : null).filter(Boolean);
+          ansHtml = parts.length ? parts.join(', ') : '<i>No answer provided</i>';
+        } else if (typeof ans === 'number' || typeof ans === 'string') {
+          const idx = parseInt(ans, 10);
+          if (!isNaN(idx) && options[idx]) {
+            ansHtml = `(${letters[idx]}) ${options[idx]}`;
+          } else {
+            ansHtml = ans || '<i>No answer provided</i>';
+          }
+        } else {
+          ansHtml = '<i>No answer provided</i>';
+        }
+      } else if (typeof ans === 'object' && ans !== null && !Array.isArray(ans) && !ans.matches) {
          ansHtml = Object.keys(ans).map(k => `<strong>Part (${String.fromCharCode(97+Number(k))}):</strong><br>${ans[k]}`).join('<br><br>');
       } else {
          if (typeof ans === 'object') ans = JSON.stringify(ans);
