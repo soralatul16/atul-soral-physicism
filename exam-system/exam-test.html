@@ -2982,9 +2982,14 @@ function downloadResults() {
 }
 
 function generatePdfForAttempt(attempt, setData) {
+  const attemptDate = new Date(attempt.endTime || attempt.startedAt || Date.now());
+  const dateStr = attemptDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+  const timeStr = attemptDate.toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true }).toUpperCase();
+  const formattedDateStr = `${dateStr} at ${timeStr}`;
+
   let contentHtml = `<div class="result-header">
     <h1>${setData.heading || 'Test Results'}</h1>
-    <p>${attempt.studentName || attempt.studentEmail} — ${new Date(attempt.endTime || attempt.startedAt || Date.now()).toLocaleDateString('en-IN')}</p>
+    <p>${attempt.studentName || attempt.studentEmail} — ${formattedDateStr}</p>
     <p>Score: ${attempt.percentScore !== undefined ? attempt.percentScore + '%' : (attempt.earnedMarks || 0) + ' / ' + (attempt.totalMarks || 0)}</p>
     <p>Status: ${attempt.status === 'graded' ? 'Graded' : attempt.status === 'submitted' ? 'Pending Grading' : 'Practice / Download Only'}</p>
   </div>`;
