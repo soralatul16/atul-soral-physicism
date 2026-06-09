@@ -605,16 +605,28 @@ document.getElementById('loginBtn').onclick = () => {
   firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
 };
 
+const params = new URLSearchParams(window.location.search);
+const previewSetId = params.get('preview');
+
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     currentUser = user;
     document.getElementById('authScreen').style.display = 'none';
     document.getElementById('userName').textContent = user.displayName || user.email;
-    showLibrary();
+    if (previewSetId) {
+      startTest(previewSetId);
+    } else {
+      showLibrary();
+    }
   } else {
-    document.getElementById('authScreen').style.display = 'flex';
-    document.getElementById('libScreen').style.display = 'none';
-    document.getElementById('testScreen').style.display = 'none';
+    if (previewSetId) {
+      document.getElementById('authScreen').style.display = 'none';
+      startTest(previewSetId);
+    } else {
+      document.getElementById('authScreen').style.display = 'flex';
+      document.getElementById('libScreen').style.display = 'none';
+      document.getElementById('testScreen').style.display = 'none';
+    }
   }
 });
 
@@ -2360,6 +2372,12 @@ async function submitTest() {
   };
 
   // Save attempt
+  if (!currentUser) {
+    alert('Preview mode: Test auto-graded but submission not saved to database.');
+    showSubmissionMessage();
+    return;
+  }
+
   const attempt = {
     id: 'att_' + Date.now(),
     studentEmail: currentUser.email.toLowerCase(),
