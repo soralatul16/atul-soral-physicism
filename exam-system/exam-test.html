@@ -3160,9 +3160,18 @@ function generatePdfForAttempt(attempt, setData) {
   
   const formattedDateStr = `${day} ${month} ${year} at ${hours}:${minutes} ${ampm}`;
 
+  let timeTakenStr = '';
+  if (attempt.duration !== undefined) {
+    const dMin = Math.floor(attempt.duration / 60);
+    const dSec = attempt.duration % 60;
+    timeTakenStr = `<p>Time taken: ${dMin} min ${dSec} sec</p>`;
+  }
+
   let contentHtml = `<div class="result-header">
     <h1>${setData.heading || 'Test Results'}</h1>
-    <p>${attempt.studentName || attempt.studentEmail} — ${formattedDateStr}</p>
+    <p>Student Name: ${attempt.studentName || attempt.studentEmail}</p>
+    <p>Set: ${setData.heading || 'Test Results'}</p>
+    ${timeTakenStr}
     <p>Score: ${attempt.percentScore !== undefined ? attempt.percentScore + '%' : (attempt.earnedMarks || 0) + ' / ' + (attempt.totalMarks || 0)}</p>
     <p>Status: ${attempt.status === 'graded' ? 'Graded' : attempt.status === 'submitted' ? 'Pending Grading' : 'Practice / Download Only'}</p>
   </div>`;
