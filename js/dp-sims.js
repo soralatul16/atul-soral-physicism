@@ -188,6 +188,15 @@ const DP_SIMS = [
     description: "Simulate radioactive decay with real isotopes. Explore half-life, activity, nuclear equations, dice analogy, carbon dating, and side-by-side isotope comparison.",
     file: "sims/radioactive-decay.html"
   },
+    {
+    id: "electromagnetism-lab",
+    title: "Electromagnetism Lab",
+    icon: "🧲",
+    topic: "D.3",
+    topicName: "Motion in EM Fields",
+    description: "Explore magnetic fields, motor effect, electromagnetic induction, generators, and transformers. Probe field strength, move magnets through coils, and build AC waveforms.",
+    file: "sims/electromagnetism.html"
+  },
 
  
 ];
