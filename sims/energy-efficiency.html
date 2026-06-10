@@ -1,0 +1,1155 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Atul Soral Physicism">
+<title>Energy Efficiency Lab | Atul Soral Physicism</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#F5F2EE;--surface:#fff;--text:#1A1A2E;--text2:#6B7280;
+  --primary:#059669;--primary-light:#ECFDF5;--primary-dark:#065F46;
+  --danger:#EF4444;--danger-light:#FEF2F2;
+  --accent:#F59E0B;--accent-light:#FFFBEB;
+  --border:#E5E1DC;--shadow:0 2px 12px rgba(0,0,0,0.07);
+  --radius:14px;--radius-sm:8px;
+}
+[data-theme="dark"]{
+  --bg:#0F172A;--surface:#1E293B;--text:#F1F5F9;--text2:#94A3B8;
+  --primary-light:#064E3B;--primary-dark:#6EE7B7;
+  --border:#334155;--shadow:0 2px 12px rgba(0,0,0,0.3);
+}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.app{max-width:1260px;margin:0 auto;padding:12px 24px 10px}
+.nav-btn{padding:5px 12px;border-radius:6px;background:rgba(255,255,255,.18);color:#fff;font-size:.75rem;font-weight:600;border:none;cursor:pointer;transition:background .2s;line-height:1.4}
+.nav-btn:hover{background:rgba(255,255,255,.3)}
+.gp{background:var(--surface);border-radius:var(--radius);padding:14px 16px;margin-top:12px;box-shadow:var(--shadow)}
+.btabs{display:flex;gap:2px;margin-bottom:8px;border-bottom:1.5px solid var(--border);padding-bottom:3px}.bt{padding:6px 14px;border-radius:6px 6px 0 0;font-size:.74rem;font-weight:700;cursor:pointer;color:var(--text2);background:transparent;border:none}.bt:hover{color:var(--text)}.bt.on{color:var(--primary);background:var(--bg);border:1px solid var(--border);border-bottom:none}.btc{display:none}.btc.on{display:block}
+.sim-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.sim-header h1{font-size:1.55rem;font-weight:700;letter-spacing:-0.03em}
+.sim-header h1 em{color:var(--primary);font-weight:800;font-style:normal}
+.header-right{display:flex;gap:8px;flex-wrap:wrap}
+.tbtn{padding:7px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:.78rem;font-weight:600;color:var(--text2);cursor:pointer;transition:all .25s}
+.tbtn:hover{border-color:var(--primary);color:var(--primary)}
+.tbtn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.tbtn.thermal-btn.active{background:#EF4444;border-color:#EF4444}
+.devices-bar{display:flex;gap:7px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+.dev-pill{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);cursor:pointer;transition:all .25s;font-size:.8rem;font-weight:600;white-space:nowrap;flex-shrink:0}
+.dev-pill:hover{border-color:var(--primary);transform:translateY(-1px);box-shadow:0 4px 12px rgba(5,150,105,.1)}
+.dev-pill.active{border-color:var(--primary);background:var(--primary-light);color:var(--primary-dark)}
+.dev-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.dev-eff{font-size:.68rem;color:var(--text2);font-weight:400;margin-left:2px}
+.main{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:start}
+.sankey-section{position:relative}
+.canvas-wrap{position:relative;width:100%;aspect-ratio:16/9;background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.canvas-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%}
+.data-panel{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)}
+.eff-hero{text-align:center;padding:22px 18px}
+.eff-label{font-size:.82rem;color:var(--text2);font-weight:500;margin-bottom:2px}
+.eff-number{font-size:3rem;font-weight:800;letter-spacing:-0.04em;line-height:1.1;transition:color .3s}
+.eff-number.high{color:var(--primary)}
+.eff-number.mid{color:var(--accent)}
+.eff-number.low{color:var(--danger)}
+.eff-sub{font-size:.78rem;color:var(--text2);margin-top:4px}
+.eff-cop{font-size:.82rem;color:var(--accent);font-weight:700;margin-top:6px}
+.ebar-title{font-size:.72rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.ebar-track{height:28px;border-radius:14px;display:flex;overflow:hidden;background:var(--bg)}
+.ebar-seg{height:100%;transition:width .6s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;overflow:hidden;white-space:nowrap;min-width:0}
+.ebar-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.ebar-leg-item{display:flex;align-items:center;gap:4px;font-size:.7rem;color:var(--text2)}
+.ebar-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.measures{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.m-box{text-align:center;padding:10px;border-radius:var(--radius-sm);background:var(--bg)}
+.m-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text2);font-weight:600;margin-bottom:2px}
+.m-val{font-size:1.15rem;font-weight:700;font-variant-numeric:tabular-nums}
+.cost-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)}
+.cost-row:last-child{border-bottom:none}
+.cost-label{font-size:.78rem;color:var(--text2)}
+.cost-val{font-size:.85rem;font-weight:700;font-variant-numeric:tabular-nums}
+.cost-input{width:70px;padding:3px 6px;border:1.5px solid var(--border);border-radius:5px;font-size:.8rem;font-weight:600;text-align:right;background:var(--bg);color:var(--text)}
+.cost-select{padding:3px 6px;border:1.5px solid var(--border);border-radius:5px;font-size:.78rem;font-weight:600;background:var(--bg);color:var(--text);cursor:pointer}
+.slider-row{margin-top:6px}
+.slider-hdr{display:flex;justify-content:space-between;margin-bottom:4px}
+.slider-lbl{font-size:.75rem;font-weight:600}
+.slider-val{font-size:.75rem;font-weight:700;color:var(--primary)}
+input[type=range]{width:100%;height:6px;-webkit-appearance:none;appearance:none;border-radius:3px;background:var(--border);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--primary);cursor:pointer;border:3px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,.15)}
+.chain-section{margin-top:18px}
+.chain-card{background:var(--surface);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.chain-title{font-size:.82rem;font-weight:700;margin-bottom:14px;color:var(--text)}
+.chain-flow{display:flex;align-items:center;gap:0;overflow-x:auto;padding-bottom:8px}
+.chain-stage{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.chain-box{padding:8px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface);text-align:center;min-width:80px}
+.chain-box-name{font-size:.72rem;font-weight:700;color:var(--text)}
+.chain-box-eff{font-size:.68rem;color:var(--primary);font-weight:600;margin-top:1px}
+.chain-arrow{display:flex;flex-direction:column;align-items:center;padding:0 4px;flex-shrink:0}
+.chain-arrow-line{width:30px;height:3px;border-radius:2px;position:relative}
+.chain-arrow-line::after{content:'';position:absolute;right:-3px;top:-4px;border:5px solid transparent;border-left-color:var(--primary)}
+.chain-arrow-type{font-size:.6rem;color:var(--text2);margin-top:2px;white-space:nowrap}
+.chain-arrow-val{font-size:.65rem;font-weight:700;color:var(--text);margin-bottom:2px;white-space:nowrap}
+.chain-overall{margin-top:12px;text-align:center;font-size:.85rem;font-weight:700;padding:8px;border-radius:var(--radius-sm);background:var(--primary-light);color:var(--primary-dark)}
+
+/* Questions */
+.q-section{margin-top:18px}
+.q-card{background:var(--surface);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.q-title{font-size:.82rem;font-weight:700;margin-bottom:14px;color:var(--text)}
+.q-item{border:1.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden}
+.q-header{display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:pointer;transition:background .2s}
+.q-header:hover{background:var(--bg)}
+.q-cmd{padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;flex-shrink:0}
+.q-cmd-state{background:#DBEAFE;color:#1E40AF}
+.q-cmd-calc{background:#DCFCE7;color:#166534}
+.q-cmd-explain{background:#FEF3C7;color:#92400E}
+.q-cmd-discuss{background:#F3E8FF;color:#6B21A8}
+.q-text{flex:1;font-size:.82rem;font-weight:500}
+.q-marks{font-size:.7rem;color:var(--text2);flex-shrink:0}
+.q-toggle{font-size:.7rem;font-weight:600;color:var(--primary);flex-shrink:0;padding:3px 8px;border-radius:4px;background:var(--primary-light)}
+.q-answer{display:none;padding:10px 14px;border-top:1px solid var(--border);font-size:.8rem;line-height:1.6;color:var(--text2);background:var(--bg)}
+.q-answer.open{display:block}
+.q-answer strong{color:var(--text);font-weight:700}
+
+/* Predict Mode */
+.predict-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(245,242,238,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;border-radius:var(--radius);opacity:0;pointer-events:none;transition:opacity .3s}
+[data-theme="dark"] .predict-overlay{background:rgba(15,23,42,.97)}
+.predict-overlay.visible{opacity:1;pointer-events:auto}
+.predict-prompt{text-align:center;max-width:320px}
+.predict-prompt h3{font-size:1rem;font-weight:700;margin-bottom:8px}
+.predict-prompt p{font-size:.82rem;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.predict-input-row{display:flex;gap:8px;align-items:center;justify-content:center}
+.predict-input{width:80px;padding:8px;border:2px solid var(--primary);border-radius:var(--radius-sm);font-size:1.1rem;font-weight:700;text-align:center;background:var(--bg);color:var(--text)}
+.predict-result{margin-top:12px;font-size:.85rem;font-weight:600;padding:8px 16px;border-radius:var(--radius-sm)}
+.predict-correct{background:#DCFCE7;color:#166534}
+.predict-close{background:#FEF2F2;color:#991B1B}
+.predict-exact{background:#DBEAFE;color:#1E40AF}
+
+/* Energy Accumulation */
+.accum-section{margin-top:14px}
+.accum-card{background:var(--surface);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow)}
+.accum-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.accum-title{font-size:.78rem;font-weight:700}
+.accum-time{display:flex;align-items:center;gap:8px}
+.accum-time label{font-size:.72rem;color:var(--text2);font-weight:600}
+.accum-bars{display:flex;flex-direction:column;gap:8px}
+.accum-bar-row{display:flex;align-items:center;gap:10px}
+.accum-bar-label{font-size:.72rem;font-weight:600;width:60px;text-align:right;color:var(--text2)}
+.accum-bar-track{flex:1;height:22px;border-radius:11px;background:var(--bg);overflow:hidden;position:relative}
+.accum-bar-fill{height:100%;border-radius:11px;transition:width .4s ease;display:flex;align-items:center;padding-left:8px;font-size:.65rem;font-weight:700;color:#fff;white-space:nowrap}
+.accum-bar-val{font-size:.78rem;font-weight:700;width:80px;font-variant-numeric:tabular-nums}
+.accum-formula{font-size:.72rem;color:var(--text2);margin-top:8px;text-align:center}
+
+/* Side-by-Side */
+.compare-section{margin-top:14px}
+.compare-card{background:var(--surface);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow)}
+.compare-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.compare-title{font-size:.78rem;font-weight:700}
+.compare-selects{display:flex;gap:8px;align-items:center}
+.compare-selects span{font-size:.72rem;color:var(--text2);font-weight:600}
+.compare-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:stretch}
+.compare-side{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:12px;text-align:center}
+.compare-side h4{font-size:.82rem;font-weight:700;margin-bottom:6px}
+.compare-side .compare-eff{font-size:1.8rem;font-weight:800;margin-bottom:6px}
+.compare-side .compare-bar{height:20px;border-radius:10px;display:flex;overflow:hidden;background:var(--bg);margin-bottom:6px}
+.compare-side .compare-bar div{height:100%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff}
+.compare-side .compare-cost{font-size:.75rem;color:var(--text2)}
+.compare-vs{display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;color:var(--text2)}
+
+/* Experiment Panel */
+.exp-section{margin-top:18px}
+.exp-card{background:var(--surface);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.exp-card-title{font-size:.82rem;font-weight:700;margin-bottom:14px;color:var(--text)}
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.exp-panel{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px}
+.exp-var{margin-bottom:10px}
+.exp-var:last-child{margin-bottom:0}
+.exp-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:4px}
+.exp-label.iv{color:#2563eb}
+.exp-label.dv{color:#dc2626}
+.exp-label.cv{color:#059669}
+.exp-label.hyp{color:#7c3aed}
+.exp-select{width:100%;padding:6px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:.8rem;font-weight:500}
+.exp-cv-list{display:flex;flex-wrap:wrap;gap:6px}
+.exp-cv-item{display:flex;align-items:center;gap:4px;font-size:.72rem;padding:3px 8px;border-radius:6px;background:rgba(5,150,105,.06);color:#059669;cursor:pointer}
+.exp-cv-item input{accent-color:#059669;width:13px;height:13px}
+.exp-hypothesis{font-size:.82rem;color:var(--text2);line-height:1.6;padding:10px;background:rgba(124,58,237,.04);border:1px solid rgba(124,58,237,.1);border-radius:var(--radius-sm);border-left:3px solid #7c3aed}
+.iv-hl{color:#2563eb}.dv-hl{color:#dc2626}.cv-hl{color:#059669}
+.hyp-dir{border:1px solid var(--border);border-radius:4px;padding:1px 4px;font-size:.78rem;background:var(--bg);color:var(--text)}
+.exp-data-section{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px}
+.exp-table-wrap{max-height:200px;overflow-y:auto;margin-bottom:10px}
+.exp-table{width:100%;border-collapse:collapse;font-size:.75rem}
+.exp-table th{position:sticky;top:0;background:var(--surface);padding:6px 8px;text-align:left;font-weight:700;font-size:.68rem;text-transform:uppercase;letter-spacing:.03em;color:var(--text2);border-bottom:2px solid var(--border)}
+.exp-table td{padding:5px 8px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
+.exp-table tr:hover td{background:var(--bg)}
+.exp-plot-wrap{position:relative;height:220px;margin:10px 0}
+.exp-controls{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.exp-btn{padding:5px 12px;border-radius:6px;border:1.5px solid var(--border);background:var(--surface);color:var(--text2);font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s}
+.exp-btn:hover{border-color:var(--primary);color:var(--primary)}
+.exp-btn.record{background:var(--primary);color:#fff;border-color:var(--primary)}
+.exp-btn.record:hover{opacity:.9}
+.exp-graph-toggles{display:flex;gap:4px;flex-wrap:wrap}
+.plot-toggle{font-size:.65rem;padding:3px 8px;border-radius:5px;border:2px solid;background:transparent;cursor:pointer;font-weight:600;transition:all .2s}
+.plot-toggle.on{color:#fff}
+.exp-stats{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
+.exp-stat{font-size:.72rem;color:var(--text2)}
+.exp-stat strong{color:var(--text)}
+.nb-c{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 8px;margin-bottom:3px;font-size:.72rem;line-height:1.5}.nb-c b{color:var(--primary)}.nb-c .nr{color:var(--primary-dark);font-weight:700}
+
+@media(max-width:800px){.main{grid-template-columns:1fr}.canvas-wrap{aspect-ratio:4/3}.exp-grid{grid-template-columns:1fr}}
+@media print{body{background:#fff}.tbtn,.nav-btn,input[type=range],.exp-btn{display:none}.card,.chain-card,.q-card,.exp-card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}.canvas-wrap{break-inside:avoid}.q-answer{display:block!important}}
+</style>
+</head>
+<body>
+<script>
+var SIM_META={id:'energy-efficiency-lab',title:'Energy Efficiency Lab',topic:'B.2',topicName:'Energy Transfers',grade:['MYP5','DP'],level:'both',theme:'B',concepts:['efficiency','energy-transfer','sankey-diagrams','power','cost'],difficulty:'intermediate'};
+</script>
+<nav style="display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px">
+  <div style="display:flex;align-items:center;gap:14px">
+    <a href="../index.html" style="font-family:Georgia,serif;font-size:1rem;font-weight:700;color:#fff;text-decoration:none">Atul Soral Physicism</a>
+    <a href="../dp-simulations.html" style="color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem">&larr; All Simulations</a>
+  </div>
+  <div style="display:flex;gap:6px;align-items:center">
+    <button class="nav-btn" id="themeBtn">☀️</button>
+    <a href="../dp-simulations.html" class="nav-btn" style="text-decoration:none">&larr; Back</a>
+    <a href="../index.html" class="nav-btn" style="text-decoration:none">Home</a>
+    <a href="../myp-dashboard.html" class="nav-btn" style="text-decoration:none">MYP</a>
+    <a href="../dp-dashboard.html" class="nav-btn" style="text-decoration:none">DP</a>
+  </div>
+</nav>
+<div class="app">
+  <div class="sim-header">
+    <h1><em>Energy</em> Efficiency Lab</h1>
+    <div class="header-right">
+      <button class="tbtn" id="predictBtn">Predict Mode</button>
+      <button class="tbtn thermal-btn" id="thermalBtn">Thermal View</button>
+    </div>
+  </div>
+  <div class="devices-bar" id="devicesBar"></div>
+  <div class="main">
+    <div class="sankey-section">
+      <div class="canvas-wrap" id="canvasWrap">
+        <canvas id="sankeyCanvas"></canvas>
+        <div class="predict-overlay" id="predictOverlay">
+          <div class="predict-prompt">
+            <h3>Calculate the efficiency</h3>
+            <p id="predictQ"></p>
+            <div class="predict-input-row">
+              <span>η =</span>
+              <input class="predict-input" id="predictInput" type="number" min="0" max="300" step="0.1" placeholder="?">
+              <span>%</span>
+              <button class="tbtn" id="predictCheckBtn" style="padding:8px 16px">Check</button>
+            </div>
+            <div class="predict-result" id="predictResult"></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:10px">
+        <div class="slider-row">
+          <div class="slider-hdr"><span class="slider-lbl">Load / Operating Power</span><span class="slider-val" id="loadVal">60 W</span></div>
+          <input type="range" id="loadSlider" min="10" max="200" step="1" value="60">
+        </div>
+      </div>
+    </div>
+    <div class="data-panel">
+      <div class="card eff-hero">
+        <div class="eff-label">Efficiency</div>
+        <div class="eff-number" id="effNum">&mdash;</div>
+        <div class="eff-sub" id="effSub"></div>
+        <div class="eff-cop" id="effCop"></div>
+      </div>
+      <div class="card">
+        <div class="ebar-title">Energy Distribution</div>
+        <div class="ebar-track" id="ebarTrack"></div>
+        <div class="ebar-legend" id="ebarLegend"></div>
+      </div>
+      <div class="card">
+        <div class="measures">
+          <div class="m-box"><div class="m-label">Input Power</div><div class="m-val" id="inputPow">&mdash;</div></div>
+          <div class="m-box"><div class="m-label">Useful Output</div><div class="m-val" id="usefulPow">&mdash;</div></div>
+          <div class="m-box"><div class="m-label">Wasted</div><div class="m-val" id="wastedPow">&mdash;</div></div>
+          <div class="m-box"><div class="m-label">Run Time</div><div class="m-val" id="runTimeVal">1 hr</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ebar-title">Running Cost</div>
+        <div class="cost-row"><span class="cost-label">Currency</span><select class="cost-select" id="currSelect"><option value="$" data-rate="0.12">$ USD</option><option value="€" data-rate="0.25">€ EUR</option><option value="£" data-rate="0.28">£ GBP</option><option value="₹" data-rate="8.00" selected>₹ INR</option><option value="A$" data-rate="0.30">A$ AUD</option><option value="C$" data-rate="0.13">C$ CAD</option><option value="¥" data-rate="27">¥ JPY</option><option value="AED" data-rate="0.38">AED</option></select></div>
+        <div class="cost-row"><span class="cost-label">Rate/kWh</span><input class="cost-input" id="rateInput" type="number" min="0.01" max="100" step="0.01" value="8.00"></div>
+        <div class="cost-row"><span class="cost-label">Run time</span><select class="cost-select" id="runTimeSelect"><option value="1">1 hour</option><option value="4">4 hours</option><option value="8" selected>8 hours/day</option><option value="24">24 hours</option></select></div>
+        <div class="cost-row"><span class="cost-label">Per day</span><span class="cost-val" id="costDay">&mdash;</span></div>
+        <div class="cost-row"><span class="cost-label">Per year</span><span class="cost-val" id="costYr">&mdash;</span></div>
+        <div class="cost-row"><span class="cost-label">Wasted per year</span><span class="cost-val" id="costWaste" style="color:var(--danger)">&mdash;</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="chain-section" id="chainSection"></div>
+  <div class="accum-section">
+    <div class="accum-card">
+      <div class="accum-header">
+        <span class="accum-title">Energy Accumulation (E = P × t)</span>
+        <div class="accum-time">
+          <label>Time:</label>
+          <input type="range" id="accumSlider" min="0" max="3600" step="10" value="60" style="width:160px">
+          <span class="slider-val" id="accumTimeVal" style="min-width:50px">1.0 min</span>
+        </div>
+      </div>
+      <div class="accum-bars">
+        <div class="accum-bar-row"><span class="accum-bar-label">Input</span><div class="accum-bar-track"><div class="accum-bar-fill" id="accumInput" style="background:#6B7280"></div></div><span class="accum-bar-val" id="accumInputVal">—</span></div>
+        <div class="accum-bar-row"><span class="accum-bar-label">Useful</span><div class="accum-bar-track"><div class="accum-bar-fill" id="accumUseful" style="background:var(--primary)"></div></div><span class="accum-bar-val" id="accumUsefulVal">—</span></div>
+        <div class="accum-bar-row"><span class="accum-bar-label">Wasted</span><div class="accum-bar-track"><div class="accum-bar-fill" id="accumWasted" style="background:var(--danger)"></div></div><span class="accum-bar-val" id="accumWastedVal">—</span></div>
+      </div>
+      <div class="accum-formula" id="accumFormula"></div>
+    </div>
+  </div>
+  <div class="compare-section">
+    <div class="compare-card">
+      <div class="compare-header">
+        <span class="compare-title">Side-by-Side Comparison</span>
+        <div class="compare-selects">
+          <select class="cost-select" id="compareA"></select>
+          <span>vs</span>
+          <select class="cost-select" id="compareB"></select>
+        </div>
+      </div>
+      <div class="compare-grid" id="compareGrid"></div>
+    </div>
+  </div>
+  <div class="gp">
+    <div class="btabs">
+      <button class="bt on" onclick="bts(this,0)">Experiment</button>
+      <button class="bt" onclick="bts(this,1)">IB Questions</button>
+      <button class="bt" onclick="bts(this,2)">Notebook</button>
+    </div>
+    <div class="btc on" id="bt0">
+      <div class="exp-grid">
+        <div class="exp-panel">
+          <div class="exp-var"><label class="exp-label iv">Independent Variable (IV)</label><select class="exp-select" id="expIV"></select></div>
+          <div class="exp-var"><label class="exp-label dv">Dependent Variable (DV)</label><select class="exp-select" id="expDV"></select></div>
+          <div class="exp-var"><label class="exp-label cv">Controlled Variables (CV)</label><div id="expCVs" class="exp-cv-list"></div></div>
+          <div class="exp-var"><label class="exp-label hyp">Hypothesis</label><div class="exp-hypothesis" id="expHypothesis"></div></div>
+        </div>
+        <div class="exp-data-section">
+          <div class="exp-controls" style="margin-top:0;margin-bottom:10px">
+            <button class="exp-btn record" id="recordExpBtn">Record Data Point</button>
+            <button class="exp-btn" onclick="clearExpData()">Clear All</button>
+            <button class="exp-btn" onclick="exportCSV()">Export CSV</button>
+            <button class="exp-btn" onclick="savePlotPNG()">Save PNG</button>
+          </div>
+          <div class="exp-table-wrap"><table class="exp-table"><thead><tr><th>#</th><th id="thIV">IV</th><th id="thDV">DV</th><th>Device</th></tr></thead><tbody id="expTbody"></tbody></table></div>
+          <div class="exp-plot-wrap"><canvas id="expPlot"></canvas></div>
+          <div class="exp-controls"><div class="exp-graph-toggles" id="graphToggles"></div><label style="font-size:.7rem;display:flex;align-items:center;gap:4px;color:var(--text2);cursor:pointer"><input type="checkbox" id="bestFitToggle" onchange="renderExpPlot()" style="accent-color:var(--primary)"> Best fit line</label></div>
+          <div class="exp-stats" id="expStats"></div>
+        </div>
+      </div>
+    </div>
+    <div class="btc" id="bt1">
+      <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-state">State</span><span class="q-text">Define efficiency.</span><span class="q-marks">[1]</span><span class="q-toggle">Show</span></div><div class="q-answer"><strong>Efficiency</strong> is the ratio of useful energy (or power) output to total energy (or power) input: <strong>η = useful output / total input × 100%</strong>.</div></div>
+      <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-calc">Calculate</span><span class="q-text">An electric motor draws 500 W and lifts a 10 kg mass at 2.0 m/s. Find the efficiency.</span><span class="q-marks">[3]</span><span class="q-toggle">Show</span></div><div class="q-answer"><strong>Useful power</strong> = Fv = mgv = 10 × 9.81 × 2.0 = <strong>196 W</strong><br><strong>η</strong> = 196/500 × 100% = <strong>39.2%</strong><br>The remaining 304 W is dissipated as heat and sound.</div></div>
+      <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-explain">Explain</span><span class="q-text">A heat pump has COP = 3.0. Explain how this is consistent with conservation of energy.</span><span class="q-marks">[3]</span><span class="q-toggle">Show</span></div><div class="q-answer">COP 3.0 means 3 kW heat delivered per 1 kW electrical input. Not a violation — the pump draws <strong>2 kW from the environment</strong>. Total output (3 kW) = total input (1 kW electrical + 2 kW environmental). Energy is <strong>transferred, not created</strong>.</div></div>
+      <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-calc">Calculate</span><span class="q-text">A coal station: boiler 88%, turbine 41%, generator 95%, transformer 99%. Input = 1000 MW. Find output.</span><span class="q-marks">[4]</span><span class="q-toggle">Show</span></div><div class="q-answer"><strong>Overall η</strong> = 0.88 × 0.41 × 0.95 × 0.99 = <strong>33.9%</strong><br><strong>Output</strong> = 1000 × 0.339 = <strong>339 MW</strong><br>Key: efficiencies <strong>multiply</strong>, not add. 661 MW lost across stages.</div></div>
+      <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-discuss">Discuss</span><span class="q-text">Solar panel 20% vs gas turbine 40%. Is gas "better"? Discuss.</span><span class="q-marks">[4]</span><span class="q-toggle">Show</span></div><div class="q-answer"><strong>Efficiency ≠ sustainability.</strong> Gas converts more input to output, but uses finite, CO₂-producing fuel. Solar's input (sunlight) is unlimited and free. Lower conversion from an infinite source still delivers energy indefinitely. "Better" depends on criteria: <strong>thermodynamic efficiency favours gas; sustainability favours solar</strong>.</div></div>
+    </div>
+    <div class="btc" id="bt2">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-family:Georgia,serif;font-size:.78rem;font-weight:700;color:var(--primary)">Notebook</span><button class="exp-btn" onclick="window.print()">Print</button></div>
+      <div id="nbO"><p style="text-align:center;color:var(--text2);font-size:.7rem;padding:8px">Record data points to log observations.</p></div>
+    </div>
+  </div>
+</div>
+<div style="text-align:center;padding:16px 0 8px;font-family:Georgia,serif;font-size:11px;color:rgba(0,0,0,0.15);letter-spacing:2px;text-transform:uppercase;user-select:none">ATUL SORAL PHYSICISM</div>
+<script src="https://artifactcdn.diabrowser.engineering/ajax/libs/Chart.js/chart.umd.js"></script>
+
+<script>
+// ===== THEME TOGGLE =====
+document.getElementById('themeBtn').addEventListener('click',function(){
+  const html=document.documentElement;
+  const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+  html.setAttribute('data-theme',next);
+  this.textContent=next==='dark'?'🌙':'☀️';
+});
+function toggleQ(el){
+  const ans=el.nextElementSibling;
+  ans.classList.toggle('open');
+  el.querySelector('.q-toggle').textContent=ans.classList.contains('open')?'Hide':'Show';
+}
+function bts(el,i){document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on');});el.classList.add('on');document.getElementById('bt'+i).classList.add('on');if(i===0)setTimeout(function(){if(expPlotChart)expPlotChart.resize();},80);}
+var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN();}
+function showN(){var el=document.getElementById('nbO');if(!el)return;el.innerHTML=nb.length?nb.map(function(n,i){return '<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">→ '+n.r+'</span></div>';}).join(''):'<p style="text-align:center;color:var(--text2);font-size:.7rem;padding:8px">Record data points to log observations.</p>';}
+
+// ===== DEVICE DATA =====
+const DEVICES=[
+  {id:'filament',name:'Filament Bulb',power:60,unit:'W',inputType:'Electrical',
+    branches:[{name:'Light',pct:5,useful:true,color:'#FBBF24'},{name:'Heat (radiation)',pct:70,useful:false,color:'#EF4444'},{name:'Heat (convection)',pct:20,useful:false,color:'#F97316'},{name:'Infrared',pct:5,useful:false,color:'#DC2626'}],
+    loadRange:[20,100],effAtLoad:l=>5,icon:'💡',iconBg:'#FEF3C7'},
+  {id:'led',name:'LED Bulb',power:10,unit:'W',inputType:'Electrical',
+    branches:[{name:'Light',pct:40,useful:true,color:'#FBBF24'},{name:'Heat (driver)',pct:50,useful:false,color:'#EF4444'},{name:'Infrared',pct:10,useful:false,color:'#F97316'}],
+    loadRange:[5,20],effAtLoad:l=>40,icon:'💡',iconBg:'#DBEAFE'},
+  {id:'motor',name:'Electric Motor',power:500,unit:'W',inputType:'Electrical',
+    branches:[{name:'Kinetic (useful)',pct:85,useful:true,color:'#3B82F6'},{name:'Heat (friction)',pct:10,useful:false,color:'#EF4444'},{name:'Sound',pct:3,useful:false,color:'#F59E0B'},{name:'Heat (I²R)',pct:2,useful:false,color:'#F97316'}],
+    loadRange:[100,1000],effAtLoad:l=>{const r=l/500;return Math.round(Math.min(85,85*(1-0.15*Math.pow(r-0.75,2))));},icon:'⚙️',iconBg:'#DBEAFE'},
+  {id:'kettle',name:'Electric Kettle',power:2000,unit:'W',inputType:'Electrical',
+    branches:[{name:'Heat (water)',pct:90,useful:true,color:'#EF4444'},{name:'Heat (body)',pct:7,useful:false,color:'#F97316'},{name:'Sound',pct:2,useful:false,color:'#F59E0B'},{name:'Steam lost',pct:1,useful:false,color:'#94A3B8'}],
+    loadRange:[1000,3000],effAtLoad:l=>90,icon:'☕',iconBg:'#FEF3C7'},
+  {id:'human',name:'Human Body',power:100,unit:'W',inputType:'Chemical (food)',
+    branches:[{name:'Mechanical work',pct:25,useful:true,color:'#3B82F6'},{name:'Heat',pct:75,useful:false,color:'#EF4444'}],
+    loadRange:[75,400],effAtLoad:l=>(l<120?25:l<250?22:18),icon:'🏃',iconBg:'#ECFDF5'},
+  {id:'coal',name:'Coal Power Station',power:1000,unit:'MW',inputType:'Chemical (coal)',
+    branches:[{name:'Electrical',pct:34,useful:true,color:'#06B6D4'},{name:'Waste heat (cooling)',pct:50,useful:false,color:'#EF4444'},{name:'Exhaust gases',pct:10,useful:false,color:'#94A3B8'},{name:'Other losses',pct:6,useful:false,color:'#F97316'}],
+    loadRange:[200,1500],effAtLoad:l=>34,icon:'🏭',iconBg:'#F3F4F6',
+    multiStage:[{name:'Boiler',eff:88,input:'Chemical',output:'Thermal'},{name:'Turbine',eff:41,input:'Thermal',output:'Kinetic'},{name:'Generator',eff:95,input:'Kinetic',output:'Electrical'},{name:'Transformer',eff:99,input:'Electrical',output:'Grid'}]},
+  {id:'solar',name:'Solar Panel',power:300,unit:'W',inputType:'Solar radiation',
+    branches:[{name:'Electrical',pct:20,useful:true,color:'#06B6D4'},{name:'Reflected',pct:15,useful:false,color:'#94A3B8'},{name:'Heat',pct:55,useful:false,color:'#EF4444'},{name:'Transmitted',pct:10,useful:false,color:'#D4D4D8'}],
+    loadRange:[50,1000],effAtLoad:l=>20,icon:'☀️',iconBg:'#FEF3C7'},
+  {id:'heatpump',name:'Heat Pump',power:1000,unit:'W',inputType:'Electrical',
+    isCOP:true,cop:3.0,dualInput:true,
+    inputStreams:[{name:'Electrical',fraction:1/3,color:'#06B6D4'},{name:'Environmental Heat',fraction:2/3,color:'#84CC16'}],
+    branches:[{name:'Heat delivered',pct:91.7,useful:true,color:'#EF4444'},{name:'Compressor waste',pct:6.6,useful:false,color:'#F97316'},{name:'Sound',pct:1.7,useful:false,color:'#F59E0B'}],
+    loadRange:[500,2000],effAtLoad:l=>300,icon:'🌡️',iconBg:'#DBEAFE',
+    copNote:'COP = 3.0 — 1 kW electrical + 2 kW environmental = 3 kW heat delivered'},
+];
+
+// ===== STATE =====
+let currentDevice=DEVICES[0];
+let thermalMode=false;
+let loadPower=60;
+let time=0;
+const particles=[];
+const PARTICLE_COUNT=180;
+
+// ===== CANVAS =====
+const canvas=document.getElementById('sankeyCanvas');
+const ctx=canvas.getContext('2d');
+let W,H,dpr,layout=null;
+
+function isDarkCanvas(){return thermalMode||document.documentElement.getAttribute('data-theme')==='dark';}
+function resize(){const wrap=document.getElementById('canvasWrap');const r=wrap.getBoundingClientRect();dpr=window.devicePixelRatio||1;W=r.width;H=r.height;canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0);computeLayout();}
+window.addEventListener('resize',resize);
+
+// ===== HELPERS =====
+function lerp(a,b,t){return a+(b-a)*t}
+function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v))}
+function hexToRgb(h){return{r:parseInt(h.slice(1,3),16),g:parseInt(h.slice(3,5),16),b:parseInt(h.slice(5,7),16)}}
+function bezier(t,p0,p1,p2,p3){const m=1-t;return{x:m*m*m*p0.x+3*m*m*t*p1.x+3*m*t*t*p2.x+t*t*t*p3.x,y:m*m*m*p0.y+3*m*m*t*p1.y+3*m*t*t*p2.y+t*t*t*p3.y}}
+
+function getEfficiency(){
+  const d=currentDevice;
+  if(d.effAtLoad)return typeof d.effAtLoad==='function'?d.effAtLoad(loadPower):d.effAtLoad;
+  return d.branches.filter(b=>b.useful).reduce((s,b)=>s+b.pct,0);
+}
+
+// ===== DYNAMIC BRANCHES =====
+function getAdjustedBranches(){
+  const d=currentDevice;
+  if(d.dualInput)return d.branches;
+  const baseUseful=d.branches.filter(b=>b.useful).reduce((s,b)=>s+b.pct,0);
+  const curEff=getEfficiency();
+  if(Math.abs(baseUseful-curEff)<0.5||baseUseful===0)return d.branches;
+  const baseWaste=d.branches.filter(b=>!b.useful).reduce((s,b)=>s+b.pct,0);
+  const newWaste=100-curEff;
+  return d.branches.map(b=>({...b,pct:b.useful?(b.pct*curEff/baseUseful):(baseWaste>0?b.pct*newWaste/baseWaste:b.pct)}));
+}
+
+// ===== LAYOUT =====
+function computeLayout(){
+  if(!W||!H)return;
+  const d=currentDevice;
+  const branches=getAdjustedBranches();
+  const cx=W*0.42,cy=H*0.5;
+  const bw=W*0.16,bh=Math.min(70,H*0.18);
+  const maxW=H*0.55;
+
+  // Input path(s)
+  let inputs;
+  if(d.dualInput&&d.inputStreams){
+    let inputY=cy-maxW/2;
+    inputs=d.inputStreams.map((is,i)=>{
+      const pw=maxW*is.fraction;
+      const sy=inputY+pw/2;
+      inputY+=pw;
+      const spread=maxW*0.35;
+      const originY=i===0?cy-spread:cy+spread;
+      return{p0:{x:0,y:originY},p1:{x:W*0.1,y:originY},p2:{x:W*0.24,y:sy},p3:{x:cx-bw/2,y:sy},width:pw,color:is.color,name:is.name,fraction:is.fraction};
+    });
+  }else{
+    inputs=[{p0:{x:0,y:cy},p1:{x:W*0.14,y:cy},p2:{x:W*0.26,y:cy},p3:{x:cx-bw/2,y:cy},width:maxW,color:getInputColor(d.inputType),name:d.inputType}];
+  }
+
+  // Output paths
+  const totalRight=H*0.85;
+  const startFanY=(H-totalRight)/2;
+  let stackY=cy-maxW/2;
+  const outs=branches.map((b,i)=>{
+    const pw=maxW*(b.pct/100);
+    const sy=stackY+pw/2;
+    stackY+=pw;
+    const ey=startFanY+totalRight*((i+0.5)/branches.length);
+    return{p0:{x:cx+bw/2,y:sy},p1:{x:W*0.62,y:sy},p2:{x:W*0.78,y:ey},p3:{x:W*0.97,y:ey},width:pw,endWidth:Math.max(4,pw*0.7),color:b.color,name:b.name,pct:b.pct,useful:b.useful};
+  });
+
+  layout={inputs:inputs,outputs:outs,device:{x:cx-bw/2,y:cy-bh/2,w:bw,h:bh}};
+}
+
+function getInputColor(type){
+  if(type.includes('Electrical'))return'#06B6D4';
+  if(type.includes('Chemical'))return'#84CC16';
+  if(type.includes('Solar'))return'#FBBF24';
+  return'#94A3B8';
+}
+
+// ===== PARTICLES =====
+function initParticles(){
+  particles.length=0;
+  for(let i=0;i<PARTICLE_COUNT;i++)particles.push(makeParticle(true));
+}
+function makeParticle(rs){
+  return{t:rs?Math.random():0,phase:'input',inputIdx:assignInputStream(),branch:-1,speed:0.003+Math.random()*0.0025,offset:(Math.random()-0.5)*0.55,size:1.5+Math.random()*2,alpha:0.5+Math.random()*0.5};
+}
+function assignInputStream(){
+  if(!currentDevice.dualInput||!currentDevice.inputStreams)return 0;
+  const r=Math.random();let cum=0;
+  for(let i=0;i<currentDevice.inputStreams.length;i++){cum+=currentDevice.inputStreams[i].fraction;if(r<=cum)return i;}
+  return 0;
+}
+function assignBranch(){
+  const br=getAdjustedBranches();const total=br.reduce((s,b)=>s+b.pct,0);
+  const r=Math.random()*total;let cum=0;
+  for(let i=0;i<br.length;i++){cum+=br[i].pct;if(r<=cum)return i;}
+  return br.length-1;
+}
+function updateParticles(){
+  for(const p of particles){
+    p.t+=p.speed;
+    if(p.phase==='input'&&p.t>=1){p.phase='output';p.t=0;p.branch=assignBranch();p.offset=(Math.random()-0.5)*0.55;}
+    if(p.phase==='output'&&p.t>=1){p.phase='input';p.t=0;p.branch=-1;p.inputIdx=assignInputStream();p.offset=(Math.random()-0.5)*0.55;}
+  }
+}
+
+// ===== RENDER =====
+function render(){
+  ctx.clearRect(0,0,W,H);if(!layout)return;time+=0.016;
+  const dark=isDarkCanvas();
+  if(dark){ctx.fillStyle=thermalMode?'#0F172A':'#1E293B';ctx.fillRect(0,0,W,H);}
+  drawSankeyPaths(dark);drawParticlesOnCanvas(dark);drawDeviceVisual(dark);drawLabels(dark);
+}
+
+function drawSankeyPaths(dark){
+  for(const inp of layout.inputs)drawPath(inp.p0,inp.p1,inp.p2,inp.p3,inp.width,inp.width,inp.color,1,dark);
+  for(const o of layout.outputs){const alpha=thermalMode?(o.useful?0.3:1):1;drawPath(o.p0,o.p1,o.p2,o.p3,o.width,o.endWidth,o.color,alpha,dark);}
+}
+function drawPath(p0,p1,p2,p3,w0,w1,color,alpha,dark){
+  const hw0=w0/2,hw1=(w1||w0)/2,steps=40,topPts=[],botPts=[];
+  for(let i=0;i<=steps;i++){const t=i/steps;const pt=bezier(t,p0,p1,p2,p3);const hw=lerp(hw0,hw1,t);topPts.push({x:pt.x,y:pt.y-hw});botPts.push({x:pt.x,y:pt.y+hw});}
+  ctx.save();ctx.globalAlpha=(dark?0.4:0.2)*alpha;
+  ctx.beginPath();ctx.moveTo(topPts[0].x,topPts[0].y);
+  for(let i=1;i<topPts.length;i++)ctx.lineTo(topPts[i].x,topPts[i].y);
+  for(let i=botPts.length-1;i>=0;i--)ctx.lineTo(botPts[i].x,botPts[i].y);
+  ctx.closePath();
+  const grad=ctx.createLinearGradient(p0.x,0,p3.x,0);const rgb=hexToRgb(color);
+  grad.addColorStop(0,`rgba(${rgb.r},${rgb.g},${rgb.b},0.6)`);grad.addColorStop(1,`rgba(${rgb.r},${rgb.g},${rgb.b},0.25)`);
+  ctx.fillStyle=grad;ctx.fill();
+  ctx.globalAlpha=(dark?0.15:0.08)*alpha;ctx.strokeStyle=color;ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(topPts[0].x,topPts[0].y);for(let i=1;i<topPts.length;i++)ctx.lineTo(topPts[i].x,topPts[i].y);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(botPts[0].x,botPts[0].y);for(let i=1;i<botPts.length;i++)ctx.lineTo(botPts[i].x,botPts[i].y);ctx.stroke();
+  ctx.restore();
+}
+
+function drawParticlesOnCanvas(dark){
+  for(const p of particles){
+    let path,pw,color;
+    if(p.phase==='input'){
+      const idx=Math.min(p.inputIdx||0,layout.inputs.length-1);
+      const inp=layout.inputs[idx];
+      path=[inp.p0,inp.p1,inp.p2,inp.p3];pw=inp.width;color=inp.color;
+    }else{
+      if(p.branch<0||p.branch>=layout.outputs.length)continue;
+      const o=layout.outputs[p.branch];
+      path=[o.p0,o.p1,o.p2,o.p3];pw=lerp(o.width,o.endWidth,p.t);color=o.color;
+    }
+    const pt=bezier(p.t,path[0],path[1],path[2],path[3]);pt.y+=p.offset*pw;
+    ctx.save();const fadeIn=Math.min(1,p.t*8);const fadeOut=Math.min(1,(1-p.t)*8);
+    ctx.globalAlpha=p.alpha*fadeIn*fadeOut*(dark?0.9:0.7);
+    if(thermalMode){
+      const rgb=hexToRgb(color);const grad=ctx.createRadialGradient(pt.x,pt.y,0,pt.x,pt.y,p.size*2.5);
+      grad.addColorStop(0,`rgba(${rgb.r},${rgb.g},${rgb.b},0.8)`);grad.addColorStop(1,'transparent');
+      ctx.fillStyle=grad;ctx.fillRect(pt.x-p.size*2.5,pt.y-p.size*2.5,p.size*5,p.size*5);
+    }else{ctx.beginPath();ctx.arc(pt.x,pt.y,p.size,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();}
+    ctx.restore();
+  }
+}
+
+// ===== DEVICE VISUALS =====
+function drawDeviceVisual(dark){
+  const d=layout.device;const cx=d.x+d.w/2,cy=d.y+d.h/2;
+  ctx.save();
+  // Glow
+  const glowColor=thermalMode?'#EF4444':getAdjustedBranches().find(b=>b.useful)?.color||'#059669';
+  ctx.globalAlpha=thermalMode?0.15:0.06;
+  const glow=ctx.createRadialGradient(cx,cy,10,cx,cy,d.w*1.1);
+  glow.addColorStop(0,glowColor);glow.addColorStop(1,'transparent');
+  ctx.fillStyle=glow;ctx.fillRect(d.x-d.w*0.5,d.y-d.h*0.5,d.w*2,d.h*2);
+  // Box
+  ctx.globalAlpha=1;ctx.fillStyle=dark?'#1E293B':'#fff';ctx.strokeStyle=dark?'#475569':'#E5E7EB';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.roundRect(d.x,d.y,d.w,d.h,10);ctx.fill();ctx.stroke();
+  ctx.restore();
+  // Device-specific illustration
+  drawDeviceIcon(cx,cy,d.w,d.h,dark);
+  // Device name below box
+  ctx.save();ctx.fillStyle=dark?'#94A3B8':'#6B7280';ctx.font='600 9px system-ui';ctx.textAlign='center';
+  ctx.fillText(currentDevice.name,cx,d.y+d.h+12);ctx.restore();
+}
+
+function drawDeviceIcon(cx,cy,bw,bh,dark){
+  ctx.save();
+  const id=currentDevice.id;
+  if(id==='filament'){
+    // Bulb outline
+    ctx.strokeStyle=dark?'#94A3B8':'#9CA3AF';ctx.lineWidth=1.2;
+    ctx.beginPath();ctx.arc(cx,cy-4,14,Math.PI*1.15,Math.PI*-0.15);ctx.lineTo(cx+7,cy+10);ctx.lineTo(cx-7,cy+10);ctx.closePath();ctx.stroke();
+    // Filament zigzag
+    ctx.strokeStyle='#FBBF24';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(cx-5,cy+6);
+    for(let i=0;i<6;i++)ctx.lineTo(cx-5+i*2,cy-6+(i%2?8:0));
+    ctx.lineTo(cx+5,cy+6);ctx.stroke();
+    // Glow
+    const g=ctx.createRadialGradient(cx,cy-2,3,cx,cy-2,18);
+    g.addColorStop(0,'rgba(251,191,36,0.25)');g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.fillRect(cx-20,cy-22,40,40);
+    // Heat waves
+    ctx.strokeStyle='rgba(239,68,68,0.3)';ctx.lineWidth=1;
+    for(let i=0;i<3;i++){const a=-0.8+i*0.8;const dist=18+Math.sin(time*3+i*2)*3;
+      ctx.beginPath();ctx.arc(cx+Math.cos(a)*dist,cy-4+Math.sin(a)*dist,4,a-0.4,a+0.4);ctx.stroke();}
+  }else if(id==='led'){
+    ctx.strokeStyle=dark?'#94A3B8':'#9CA3AF';ctx.lineWidth=1.2;
+    ctx.beginPath();ctx.arc(cx,cy-4,14,Math.PI*1.15,Math.PI*-0.15);ctx.lineTo(cx+7,cy+10);ctx.lineTo(cx-7,cy+10);ctx.closePath();ctx.stroke();
+    // LED chip
+    ctx.fillStyle='#60A5FA';ctx.fillRect(cx-3,cy-2,6,6);
+    // Cool glow
+    const g=ctx.createRadialGradient(cx,cy-2,2,cx,cy-2,16);
+    g.addColorStop(0,'rgba(96,165,250,0.2)');g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.fillRect(cx-18,cy-20,36,36);
+  }else if(id==='motor'){
+    // Body
+    ctx.fillStyle=dark?'#334155':'#E5E7EB';ctx.fillRect(cx-14,cy-8,28,16);ctx.strokeStyle=dark?'#64748B':'#9CA3AF';ctx.lineWidth=1;ctx.strokeRect(cx-14,cy-8,28,16);
+    // Shaft (rotating)
+    const angle=time*4;ctx.strokeStyle='#3B82F6';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(angle)*10,cy+Math.sin(angle)*10);ctx.stroke();
+    // Shaft circle
+    ctx.beginPath();ctx.arc(cx,cy,3,0,Math.PI*2);ctx.fillStyle='#3B82F6';ctx.fill();
+  }else if(id==='kettle'){
+    // Body
+    ctx.fillStyle=dark?'#334155':'#E2E8F0';ctx.beginPath();ctx.roundRect(cx-12,cy-10,24,22,4);ctx.fill();
+    ctx.strokeStyle=dark?'#64748B':'#9CA3AF';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(cx-12,cy-10,24,22,4);ctx.stroke();
+    // Water level
+    ctx.fillStyle='rgba(96,165,250,0.3)';ctx.fillRect(cx-11,cy-2,22,13);
+    // Bubbles
+    for(let i=0;i<3;i++){const bx=cx-6+i*6;const by=cy+4-Math.abs(Math.sin(time*3+i*1.5))*8;
+      ctx.beginPath();ctx.arc(bx,by,1.5,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.5)';ctx.fill();}
+    // Steam
+    ctx.strokeStyle='rgba(148,163,184,0.4)';ctx.lineWidth=1;
+    for(let i=0;i<2;i++){const sx=cx-3+i*6;ctx.beginPath();ctx.moveTo(sx,cy-10);
+      ctx.quadraticCurveTo(sx+3*Math.sin(time*2+i),cy-16,sx+Math.sin(time*3+i)*2,cy-20);ctx.stroke();}
+  }else if(id==='human'){
+    ctx.strokeStyle=dark?'#94A3B8':'#6B7280';ctx.lineWidth=1.5;
+    // Head
+    ctx.beginPath();ctx.arc(cx,cy-10,5,0,Math.PI*2);ctx.stroke();
+    // Body
+    ctx.beginPath();ctx.moveTo(cx,cy-5);ctx.lineTo(cx,cy+6);ctx.stroke();
+    // Arms
+    ctx.beginPath();ctx.moveTo(cx-8,cy-1);ctx.lineTo(cx+8,cy-1);ctx.stroke();
+    // Legs
+    ctx.beginPath();ctx.moveTo(cx,cy+6);ctx.lineTo(cx-6,cy+14);ctx.moveTo(cx,cy+6);ctx.lineTo(cx+6,cy+14);ctx.stroke();
+    // Inner glow
+    const g=ctx.createRadialGradient(cx,cy,2,cx,cy,12);
+    g.addColorStop(0,'rgba(239,68,68,0.15)');g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.fillRect(cx-14,cy-14,28,28);
+  }else if(id==='coal'){
+    // Building
+    ctx.fillStyle=dark?'#334155':'#D1D5DB';ctx.fillRect(cx-14,cy-4,20,16);ctx.strokeStyle=dark?'#64748B':'#9CA3AF';ctx.lineWidth=1;ctx.strokeRect(cx-14,cy-4,20,16);
+    // Chimney
+    ctx.fillStyle=dark?'#475569':'#9CA3AF';ctx.fillRect(cx+4,cy-14,6,14);
+    // Smoke particles
+    ctx.fillStyle='rgba(148,163,184,0.3)';
+    for(let i=0;i<4;i++){const sy=cy-16-i*5-Math.sin(time*1.5+i)*3;const sx=cx+7+Math.sin(time*2+i*1.3)*3;
+      ctx.beginPath();ctx.arc(sx,sy,2+i*0.5,0,Math.PI*2);ctx.fill();}
+  }else if(id==='solar'){
+    // Panel (angled)
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(-0.3);
+    ctx.fillStyle=dark?'#1E3A5F':'#1E40AF';ctx.fillRect(-14,-8,28,16);
+    ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=0.5;
+    for(let i=1;i<4;i++){ctx.beginPath();ctx.moveTo(-14+i*7,-8);ctx.lineTo(-14+i*7,8);ctx.stroke();}
+    for(let i=1;i<3;i++){ctx.beginPath();ctx.moveTo(-14,-8+i*5.3);ctx.lineTo(14,-8+i*5.3);ctx.stroke();}
+    ctx.restore();
+    // Sun rays
+    ctx.strokeStyle='rgba(251,191,36,0.3)';ctx.lineWidth=1;
+    for(let i=0;i<3;i++){const a=-1.2+i*0.4;ctx.beginPath();ctx.moveTo(cx+Math.cos(a)*20,cy+Math.sin(a)*20);ctx.lineTo(cx+Math.cos(a)*14,cy+Math.sin(a)*14);ctx.stroke();}
+  }else if(id==='heatpump'){
+    // Box
+    ctx.fillStyle=dark?'#334155':'#E2E8F0';ctx.fillRect(cx-12,cy-10,24,20);ctx.strokeStyle=dark?'#64748B':'#9CA3AF';ctx.lineWidth=1;ctx.strokeRect(cx-12,cy-10,24,20);
+    // Coil
+    ctx.strokeStyle='#06B6D4';ctx.lineWidth=1.2;ctx.beginPath();
+    for(let i=0;i<8;i++){ctx.lineTo(cx-6+i*1.7,cy-4+(i%2?5:0));}ctx.stroke();
+    // Arrow: env heat in
+    ctx.fillStyle='#84CC16';ctx.beginPath();ctx.moveTo(cx-16,cy+4);ctx.lineTo(cx-12,cy+2);ctx.lineTo(cx-12,cy+6);ctx.closePath();ctx.fill();
+    // Arrow: heat out
+    ctx.fillStyle='#EF4444';ctx.beginPath();ctx.moveTo(cx+12,cy-4);ctx.lineTo(cx+16,cy-2);ctx.lineTo(cx+12,cy);ctx.closePath();ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawLabels(dark){
+  ctx.save();
+  // Input labels
+  for(let i=0;i<layout.inputs.length;i++){
+    const inp=layout.inputs[i];
+    const labelY=inp.p0.y;
+    ctx.fillStyle=dark?'#94A3B8':'#6B7280';ctx.font='600 10px system-ui';ctx.textAlign='left';ctx.textBaseline='middle';
+    ctx.fillText(inp.name,8,labelY-8);
+    ctx.font='700 10px system-ui';ctx.fillStyle=dark?'#F1F5F9':'#1A1A2E';
+    if(currentDevice.dualInput){
+      const totalP=loadPower/currentDevice.inputStreams[0].fraction;
+      ctx.fillText(formatPower(totalP*inp.fraction,currentDevice.unit),8,labelY+6);
+    }else{
+      ctx.fillText(formatPower(loadPower,currentDevice.unit),8,labelY+6);
+    }
+  }
+  // Output labels
+  ctx.textAlign='right';
+  const adjBranches=getAdjustedBranches();
+  for(let i=0;i<layout.outputs.length;i++){
+    const o=layout.outputs[i];const endY=o.p3.y;
+    ctx.font='600 10px system-ui';ctx.fillStyle=o.color;
+    ctx.fillText(o.name,W-6,endY-7);
+    ctx.font='700 10px system-ui';ctx.fillStyle=dark?'#E2E8F0':'#1A1A2E';
+    let pw;
+    if(currentDevice.dualInput){
+      const totalP=loadPower/currentDevice.inputStreams[0].fraction;
+      pw=totalP*adjBranches[i].pct/100;
+    }else{pw=loadPower*adjBranches[i].pct/100;}
+    ctx.fillText(`${adjBranches[i].pct<1?adjBranches[i].pct.toFixed(1):Math.round(adjBranches[i].pct)}% · ${formatPower(pw,currentDevice.unit)}`,W-6,endY+7);
+  }
+  ctx.restore();
+}
+
+function formatPower(v,unit){
+  if(!unit)unit='W';
+  if(unit==='MW')return v>=1000?(v/1000).toFixed(1)+' GW':v.toFixed(0)+' MW';
+  if(v>=1000)return(v/1000).toFixed(2)+' kW';
+  if(v<10)return v.toFixed(1)+' W';
+  return v.toFixed(0)+' W';
+}
+
+// ===== UI =====
+function buildUI(){
+  const bar=document.getElementById('devicesBar');
+  bar.innerHTML=DEVICES.map(d=>`<div class="dev-pill${d.id===currentDevice.id?' active':''}" data-id="${d.id}"><div class="dev-icon" style="background:${d.iconBg}">${d.icon}</div>${d.name}<span class="dev-eff">${d.branches.filter(b=>b.useful).reduce((s,b)=>s+b.pct,0)<100?d.branches.filter(b=>b.useful).reduce((s,b)=>s+b.pct,0).toFixed(0)+'%':''}</span></div>`).join('');
+  bar.querySelectorAll('.dev-pill').forEach(el=>el.addEventListener('click',()=>{
+    currentDevice=DEVICES.find(d=>d.id===el.dataset.id);loadPower=currentDevice.power;
+    const ls=document.getElementById('loadSlider');
+    ls.min=currentDevice.loadRange?currentDevice.loadRange[0]:Math.round(currentDevice.power*0.2);
+    ls.max=currentDevice.loadRange?currentDevice.loadRange[1]:Math.round(currentDevice.power*2);
+    ls.value=loadPower;
+    computeLayout();initParticles();buildUI();updateReadouts();buildChain();updateAccum();renderCompare();if(predictMode)generatePredictQ();
+  }));
+  document.getElementById('thermalBtn').className='tbtn thermal-btn'+(thermalMode?' active':'');
+  document.getElementById('thermalBtn').onclick=()=>{thermalMode=!thermalMode;buildUI();};
+  const ls=document.getElementById('loadSlider');
+  ls.oninput=()=>{loadPower=parseFloat(ls.value);computeLayout();initParticles();updateReadouts();updateAccum();if(predictMode)generatePredictQ();};
+  document.getElementById('rateInput').oninput=()=>{updateReadouts();renderCompare();};
+  document.getElementById('runTimeSelect').onchange=()=>{updateReadouts();renderCompare();};
+  document.getElementById('currSelect').onchange=()=>{var opt=document.getElementById('currSelect').selectedOptions[0];document.getElementById('rateInput').value=opt.dataset.rate;updateReadouts();renderCompare();};
+  updateReadouts();
+}
+
+function updateReadouts(){
+  const eff=getEfficiency();const effEl=document.getElementById('effNum');
+  effEl.textContent=eff+'%';effEl.className='eff-number '+(eff>=60?'high':eff>=30?'mid':'low');
+  document.getElementById('effSub').textContent='η = useful output ÷ total input';
+  const copEl=document.getElementById('effCop');
+  if(currentDevice.isCOP){copEl.textContent=currentDevice.copNote||'COP = '+currentDevice.cop;copEl.style.display='block';}else{copEl.style.display='none';}
+
+  const u=currentDevice.unit||'W';
+  let totalInput=loadPower,useful,wasted;
+  if(currentDevice.dualInput){
+    totalInput=loadPower/currentDevice.inputStreams[0].fraction;
+    useful=totalInput*getAdjustedBranches().filter(b=>b.useful).reduce((s,b)=>s+b.pct,0)/100;
+    wasted=totalInput-useful;
+  }else{useful=loadPower*eff/100;wasted=loadPower-useful;}
+
+  document.getElementById('inputPow').textContent=formatPower(currentDevice.dualInput?totalInput:loadPower,u)+(currentDevice.dualInput?' (total)':'');
+  document.getElementById('usefulPow').textContent=formatPower(Math.max(0,useful),u);
+  document.getElementById('wastedPow').textContent=formatPower(Math.max(0,wasted),u);
+  document.getElementById('loadVal').textContent=formatPower(loadPower,u)+(currentDevice.dualInput?' (elec)':'');
+  const hrs=parseFloat(document.getElementById('runTimeSelect').value);
+  document.getElementById('runTimeVal').textContent=hrs+' hr'+(hrs>1?'s':'');
+
+  // Energy bar
+  const adjB=getAdjustedBranches();
+  document.getElementById('ebarTrack').innerHTML=adjB.map(b=>`<div class="ebar-seg" style="width:${b.pct}%;background:${b.color}">${b.pct>=8?Math.round(b.pct)+'%':''}</div>`).join('');
+  document.getElementById('ebarLegend').innerHTML=adjB.map(b=>`<div class="ebar-leg-item"><div class="ebar-leg-dot" style="background:${b.color}"></div>${b.name} ${b.pct<1?b.pct.toFixed(1):Math.round(b.pct)}%${b.useful?' ✓':''}</div>`).join('');
+
+  // Cost
+  const rate=parseFloat(document.getElementById('rateInput').value)||0.12;
+  let powerW=currentDevice.dualInput?loadPower:loadPower;// cost is only electrical
+  if(currentDevice.unit==='MW')powerW=powerW*1e6;
+  const kW=powerW/1000;const costDay=kW*rate*hrs;const costYr=costDay*365;
+  const wasteRatio=currentDevice.dualInput?Math.max(0,wasted/totalInput):Math.max(0,1-eff/100);
+  const curr=document.getElementById('currSelect')?document.getElementById('currSelect').value:'$';
+  document.getElementById('costDay').textContent=currentDevice.unit==='MW'?fmtBig(costDay,curr):(curr+costDay.toFixed(2));
+  document.getElementById('costYr').textContent=currentDevice.unit==='MW'?fmtBig(costYr,curr):(curr+costYr.toFixed(0));
+  document.getElementById('costWaste').textContent=currentDevice.unit==='MW'?fmtBig(costYr*wasteRatio,curr):(curr+(costYr*wasteRatio).toFixed(0));
+}
+function fmtBig(v,c){c=c||'$';if(v>=1e6)return c+(v/1e6).toFixed(1)+'M';if(v>=1e3)return c+(v/1e3).toFixed(0)+'K';return c+v.toFixed(0);}
+
+// ===== CHAIN =====
+function buildChain(){
+  const sec=document.getElementById('chainSection');
+  if(!currentDevice.multiStage){sec.innerHTML='';return;}
+  const stages=currentDevice.multiStage;let energy=loadPower;const u=currentDevice.unit||'W';
+  let html='<div class="chain-card"><div class="chain-title">Multi-Stage Efficiency Chain</div><div class="chain-flow">';
+  html+='<div class="chain-stage"><div class="chain-box"><div class="chain-box-name">'+stages[0].input+'</div><div class="chain-box-eff">'+formatPower(energy,u)+'</div></div></div>';
+  let overall=1;
+  for(const s of stages){const eff=s.eff/100;overall*=eff;const outE=energy*eff;
+    const aw=clamp(30*(outE/loadPower),6,30);
+    html+='<div class="chain-arrow"><div class="chain-arrow-val">'+s.eff+'%</div><div class="chain-arrow-line" style="height:'+aw+'px;background:var(--primary);opacity:0.4"></div><div class="chain-arrow-type">'+s.name+'</div></div>';
+    energy=outE;html+='<div class="chain-stage"><div class="chain-box"><div class="chain-box-name">'+s.output+'</div><div class="chain-box-eff">'+formatPower(energy,u)+'</div></div></div>';}
+  html+='</div><div class="chain-overall">Overall: '+stages.map(s=>s.eff+'%').join(' × ')+' = '+(overall*100).toFixed(1)+'% — Only '+formatPower(loadPower*overall,u)+' of '+formatPower(loadPower,u)+' reaches the end</div></div>';
+  sec.innerHTML=html;
+}
+
+// ===== PREDICT MODE =====
+let predictMode=false;
+
+function initPredict(){
+  document.getElementById('predictBtn').onclick=()=>{
+    predictMode=!predictMode;
+    document.getElementById('predictBtn').classList.toggle('active',predictMode);
+    document.getElementById('predictOverlay').classList.toggle('visible',predictMode);
+    if(predictMode)generatePredictQ();
+    document.getElementById('predictResult').textContent='';
+    document.getElementById('predictInput').value='';
+  };
+  document.getElementById('predictCheckBtn').onclick=checkPredict;
+  document.getElementById('predictInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkPredict();});
+}
+
+function generatePredictQ(){
+  const eff=getEfficiency();
+  const u=currentDevice.unit||'W';
+  let q;
+  if(currentDevice.dualInput){
+    const totalP=loadPower/currentDevice.inputStreams[0].fraction;
+    q=`The ${currentDevice.name} draws ${formatPower(loadPower,u)} of electrical power and ${formatPower(totalP-loadPower,u)} from the environment. The useful heat delivered is ${formatPower(totalP*getAdjustedBranches().filter(b=>b.useful).reduce((s,b)=>s+b.pct,0)/100,u)}. What is the COP (as a percentage)?`;
+  }else{
+    const useful=loadPower*eff/100;
+    q=`The ${currentDevice.name} draws ${formatPower(loadPower,u)} from the supply. Its useful output is ${formatPower(useful,u)}. Calculate the efficiency.`;
+  }
+  document.getElementById('predictQ').textContent=q;
+}
+
+function checkPredict(){
+  const guess=parseFloat(document.getElementById('predictInput').value);
+  if(isNaN(guess))return;
+  const actual=getEfficiency();
+  const diff=Math.abs(guess-actual);
+  const el=document.getElementById('predictResult');
+  if(diff<0.5){
+    el.textContent=`Correct! η = ${actual}%`;el.className='predict-result predict-exact';
+  }else if(diff<5){
+    el.textContent=`Close! Your answer: ${guess}%. Actual: ${actual}% (within ${diff.toFixed(1)}%)`;el.className='predict-result predict-correct';
+  }else{
+    el.textContent=`Not quite. Your answer: ${guess}%. Actual: ${actual}%. Difference: ${diff.toFixed(1)}%`;el.className='predict-result predict-close';
+  }
+}
+
+// ===== ENERGY ACCUMULATION =====
+function initAccum(){
+  const slider=document.getElementById('accumSlider');
+  slider.oninput=()=>updateAccum();
+  updateAccum();
+}
+
+function updateAccum(){
+  const t=parseFloat(document.getElementById('accumSlider').value);
+  // Time display
+  let tLabel;
+  if(t<60)tLabel=t.toFixed(0)+' s';
+  else if(t<3600)tLabel=(t/60).toFixed(1)+' min';
+  else tLabel=(t/3600).toFixed(1)+' hr';
+  document.getElementById('accumTimeVal').textContent=tLabel;
+
+  const eff=getEfficiency();
+  let inputP=loadPower,usefulP,wastedP;
+  if(currentDevice.dualInput){
+    const totalP=loadPower/currentDevice.inputStreams[0].fraction;
+    inputP=totalP;
+    usefulP=totalP*getAdjustedBranches().filter(b=>b.useful).reduce((s,b)=>s+b.pct,0)/100;
+    wastedP=totalP-usefulP;
+  }else{usefulP=inputP*eff/100;wastedP=inputP-usefulP;}
+
+  // Energy in joules
+  const mult=currentDevice.unit==='MW'?1e6:1;
+  const eIn=inputP*mult*t;
+  const eUse=usefulP*mult*t;
+  const eWaste=wastedP*mult*t;
+
+  // Display
+  const maxE=eIn||1;
+  document.getElementById('accumInput').style.width='100%';
+  document.getElementById('accumUseful').style.width=(eUse/maxE*100)+'%';
+  document.getElementById('accumWasted').style.width=(eWaste/maxE*100)+'%';
+
+  document.getElementById('accumInputVal').textContent=formatEnergy(eIn);
+  document.getElementById('accumUsefulVal').textContent=formatEnergy(eUse);
+  document.getElementById('accumWastedVal').textContent=formatEnergy(eWaste);
+
+  const u=currentDevice.unit||'W';
+  document.getElementById('accumFormula').textContent=
+    `E = P × t = ${formatPower(inputP,u)} × ${tLabel} = ${formatEnergy(eIn)}`;
+}
+
+function formatEnergy(j){
+  if(j>=3.6e9)return(j/3.6e6).toFixed(1)+' kWh';
+  if(j>=3.6e6)return(j/3.6e6).toFixed(3)+' kWh';
+  if(j>=1e6)return(j/1e6).toFixed(1)+' MJ';
+  if(j>=1e3)return(j/1e3).toFixed(1)+' kJ';
+  return j.toFixed(0)+' J';
+}
+
+// ===== SIDE-BY-SIDE COMPARISON =====
+function initCompare(){
+  const selA=document.getElementById('compareA');
+  const selB=document.getElementById('compareB');
+  selA.innerHTML=DEVICES.map((d,i)=>`<option value="${i}"${i===0?' selected':''}>${d.name}</option>`).join('');
+  selB.innerHTML=DEVICES.map((d,i)=>`<option value="${i}"${i===1?' selected':''}>${d.name}</option>`).join('');
+  selA.onchange=renderCompare;
+  selB.onchange=renderCompare;
+  renderCompare();
+}
+
+function renderCompare(){
+  const dA=DEVICES[document.getElementById('compareA').value];
+  const dB=DEVICES[document.getElementById('compareB').value];
+  const rate=parseFloat(document.getElementById('rateInput').value)||0.12;
+  const hrs=parseFloat(document.getElementById('runTimeSelect').value)||8;
+  const curr2=document.getElementById('currSelect')?document.getElementById('currSelect').value:'$';
+
+  function side(d){
+    const eff=d.branches.filter(b=>b.useful).reduce((s,b)=>s+b.pct,0);
+    const effLabel=d.isCOP?'COP '+(d.cop||3.0):eff+'%';
+    const effClass=eff>=60?'high':eff>=30?'mid':'low';
+    const u=d.unit||'W';
+    let pw=d.power;if(d.unit==='MW')pw*=1e6;
+    const costYr=(pw/1000)*rate*hrs*365;
+
+    let bar=d.branches.map(b=>`<div style="width:${b.pct}%;background:${b.color}">${b.pct>=10?Math.round(b.pct)+'%':''}</div>`).join('');
+
+    return `<div class="compare-side">
+      <h4>${d.name}</h4>
+      <div class="compare-eff eff-number ${effClass}">${effLabel}</div>
+      <div class="compare-bar">${bar}</div>
+      <div class="compare-cost">Input: ${formatPower(d.power,d.unit)} · Cost/yr: ${d.unit==='MW'?fmtBig(costYr,curr2):curr2+costYr.toFixed(0)}</div>
+    </div>`;
+  }
+
+  document.getElementById('compareGrid').innerHTML=side(dA)+'<div class="compare-vs">vs</div>'+side(dB);
+}
+
+// ===== EXPERIMENT PANEL =====
+const EXP_VARS={
+  ivOptions:['Load power','Device type'],
+  dvOptions:['Efficiency (%)','Useful power output','Wasted power','Cost per day ($)'],
+  allVars:['Load power','Device type','Electricity rate','Run time','Supply voltage','Ambient temperature','Device age','Insulation quality']
+};
+const PLOT_COLORS=['#2563EB','#DC2626','#059669','#F59E0B','#8B5CF6','#EC4899','#06B6D4','#84CC16'];
+let expPlotChart=null;
+let plotSeries={};
+let expRowCount=0;
+
+function initExpPanel(){
+  const ivSel=document.getElementById('expIV');
+  ivSel.innerHTML=EXP_VARS.ivOptions.map(v=>'<option value="'+v+'">'+v+'</option>').join('');
+  const dvSel=document.getElementById('expDV');
+  dvSel.innerHTML=EXP_VARS.dvOptions.map(v=>'<option value="'+v+'">'+v+'</option>').join('');
+  ivSel.onchange=()=>{updateExpCVs();updateExpHypothesis();updateExpHeaders();};
+  dvSel.onchange=()=>{updateExpHypothesis();updateExpHeaders();};
+  document.getElementById('recordExpBtn').onclick=recordExpPoint;
+  updateExpCVs();updateExpHypothesis();updateExpHeaders();initExpPlot();
+}
+
+function updateExpCVs(){
+  const iv=document.getElementById('expIV').value;
+  const dv=document.getElementById('expDV').value;
+  const cvs=EXP_VARS.allVars.filter(v=>v!==iv&&!dv.toLowerCase().includes(v.toLowerCase()));
+  document.getElementById('expCVs').innerHTML=cvs.map(v=>'<label class="exp-cv-item"><input type="checkbox" checked onchange="updateExpHypothesis()"> '+v+'</label>').join('');
+}
+
+function updateExpHypothesis(){
+  const iv=document.getElementById('expIV').value;
+  const dv=document.getElementById('expDV').value;
+  const checkedCVs=[];
+  document.querySelectorAll('#expCVs input:checked').forEach(cb=>{checkedCVs.push(cb.parentElement.textContent.trim());});
+  const cvText=checkedCVs.length>0?checkedCVs.join(', '):'(none selected)';
+  document.getElementById('expHypothesis').innerHTML='<span>"If <strong class="iv-hl">'+iv+'</strong> is increased, then <strong class="dv-hl">'+dv+'</strong> will <select class="hyp-dir" onchange="updateExpHypothesis()"><option>increase</option><option>decrease</option><option>remain constant</option></select>, while keeping <strong class="cv-hl">'+cvText+'</strong> constant."</span>';
+}
+
+function updateExpHeaders(){
+  document.getElementById('thIV').textContent=document.getElementById('expIV').value;
+  document.getElementById('thDV').textContent=document.getElementById('expDV').value;
+}
+
+function getCurrentIVValue(){
+  const iv=document.getElementById('expIV').value;
+  if(iv==='Load power')return loadPower;
+  if(iv==='Device type')return currentDevice.name;
+  return loadPower;
+}
+
+function getCurrentDVValue(){
+  const dv=document.getElementById('expDV').value;
+  const eff=getEfficiency();
+  if(dv.includes('Efficiency'))return eff;
+  if(dv.includes('Useful')){
+    if(currentDevice.dualInput){const t=loadPower/currentDevice.inputStreams[0].fraction;return t*getAdjustedBranches().filter(b=>b.useful).reduce((s,b)=>s+b.pct,0)/100;}
+    return loadPower*eff/100;
+  }
+  if(dv.includes('Wasted')){
+    if(currentDevice.dualInput){const t=loadPower/currentDevice.inputStreams[0].fraction;const u=t*getAdjustedBranches().filter(b=>b.useful).reduce((s,b)=>s+b.pct,0)/100;return t-u;}
+    return loadPower*(1-eff/100);
+  }
+  if(dv.includes('Cost')){
+    const rate=parseFloat(document.getElementById('rateInput').value)||0.12;
+    const hrs=parseFloat(document.getElementById('runTimeSelect').value);
+    let pw=loadPower;if(currentDevice.unit==='MW')pw*=1e6;
+    return pw/1000*rate*hrs;
+  }
+  return eff;
+}
+
+function recordExpPoint(){
+  const ivVal=getCurrentIVValue();
+  const dvVal=getCurrentDVValue();
+  const seriesName=currentDevice.name;
+  expRowCount++;
+
+  // Add to table
+  const tbody=document.getElementById('expTbody');
+  const tr=document.createElement('tr');
+  const ivDisplay=typeof ivVal==='number'?ivVal.toFixed(1):ivVal;
+  const dvDisplay=typeof dvVal==='number'?dvVal.toFixed(2):dvVal;
+  tr.innerHTML='<td>'+expRowCount+'</td><td>'+ivDisplay+'</td><td>'+dvDisplay+'</td><td>'+seriesName+'</td>';
+  tbody.appendChild(tr);
+
+  // Add to plot series
+  if(!plotSeries[seriesName]){
+    plotSeries[seriesName]={color:PLOT_COLORS[Object.keys(plotSeries).length%PLOT_COLORS.length],visible:true,points:[]};
+    updateGraphToggles();
+  }
+  if(typeof ivVal==='number'&&typeof dvVal==='number'){
+    plotSeries[seriesName].points.push({x:ivVal,y:dvVal});
+  }
+  renderExpPlot();
+  updateExpStats();
+  addN(seriesName,document.getElementById('expIV').value+'='+ivDisplay,document.getElementById('expDV').value+'='+dvDisplay);
+}
+
+function updateGraphToggles(){
+  const el=document.getElementById('graphToggles');
+  el.innerHTML=Object.keys(plotSeries).map(name=>{
+    const s=plotSeries[name];
+    return '<button class="plot-toggle'+(s.visible?' on':'')+'" style="border-color:'+s.color+(s.visible?';background:'+s.color+';color:#fff':'')+'" onclick="toggleExpSeries(\''+name.replace(/'/g,"\\'")+ '\')">'+name+'</button>';
+  }).join('');
+}
+
+function toggleExpSeries(name){plotSeries[name].visible=!plotSeries[name].visible;updateGraphToggles();renderExpPlot();}
+
+function initExpPlot(){
+  const cctx=document.getElementById('expPlot').getContext('2d');
+  expPlotChart=new Chart(cctx,{
+    type:'scatter',
+    data:{datasets:[]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: (${c.parsed.x.toFixed(1)}, ${c.parsed.y.toFixed(2)})`}}},
+      scales:{
+        x:{title:{display:true,text:document.getElementById('expIV').value,font:{size:11,weight:'600',family:'system-ui'}},grid:{color:'rgba(0,0,0,0.05)'}},
+        y:{title:{display:true,text:document.getElementById('expDV').value,font:{size:11,weight:'600',family:'system-ui'}},grid:{color:'rgba(0,0,0,0.05)'}}
+      }
+    }
+  });
+}
+
+function renderExpPlot(){
+  if(!expPlotChart)return;
+  const datasets=[];
+  const showBestFit=document.getElementById('bestFitToggle').checked;
+
+  Object.keys(plotSeries).forEach(name=>{
+    const s=plotSeries[name];
+    if(!s.visible||s.points.length===0)return;
+    datasets.push({label:name,data:s.points.map(p=>({x:p.x,y:p.y})),backgroundColor:s.color,borderColor:s.color,pointRadius:6,pointHoverRadius:8,showLine:false});
+    if(showBestFit&&s.points.length>=2){
+      const lr=linearRegression(s.points);
+      const xs=s.points.map(p=>p.x);
+      const xMin=Math.min(...xs),xMax=Math.max(...xs);
+      datasets.push({label:name+' fit',data:[{x:xMin,y:lr.m*xMin+lr.b},{x:xMax,y:lr.m*xMax+lr.b}],borderColor:s.color+'88',borderWidth:2,borderDash:[6,3],pointRadius:0,showLine:true,type:'line'});
+    }
+  });
+
+  expPlotChart.data.datasets=datasets;
+  expPlotChart.options.scales.x.title.text=document.getElementById('expIV').value;
+  expPlotChart.options.scales.y.title.text=document.getElementById('expDV').value;
+  expPlotChart.update();
+}
+
+function linearRegression(pts){
+  const n=pts.length;let sx=0,sy=0,sxy=0,sx2=0;
+  pts.forEach(p=>{sx+=p.x;sy+=p.y;sxy+=p.x*p.y;sx2+=p.x*p.x;});
+  const m=(n*sxy-sx*sy)/(n*sx2-sx*sx);
+  const b=(sy-m*sx)/n;
+  const yMean=sy/n;let ssTot=0,ssRes=0;
+  pts.forEach(p=>{ssTot+=(p.y-yMean)**2;ssRes+=(p.y-(m*p.x+b))**2;});
+  const r2=ssTot>0?1-ssRes/ssTot:0;
+  return{m,b,r2};
+}
+
+function updateExpStats(){
+  const el=document.getElementById('expStats');
+  const parts=[];
+  Object.keys(plotSeries).forEach(name=>{
+    const s=plotSeries[name];
+    if(s.points.length>=2){
+      const lr=linearRegression(s.points);
+      parts.push('<span class="exp-stat">'+name+': slope=<strong>'+lr.m.toFixed(3)+'</strong> R²=<strong>'+lr.r2.toFixed(3)+'</strong> (n='+s.points.length+')</span>');
+    }else if(s.points.length===1){
+      parts.push('<span class="exp-stat">'+name+': 1 point</span>');
+    }
+  });
+  el.innerHTML=parts.join('');
+}
+
+function clearExpData(){
+  plotSeries={};expRowCount=0;
+  document.getElementById('expTbody').innerHTML='';
+  document.getElementById('graphToggles').innerHTML='';
+  document.getElementById('expStats').innerHTML='';
+  renderExpPlot();
+}
+
+function exportCSV(){
+  const iv=document.getElementById('expIV').value;
+  const dv=document.getElementById('expDV').value;
+  let csv='#,'+iv+','+dv+',Device\n';
+  const rows=document.getElementById('expTbody').querySelectorAll('tr');
+  rows.forEach(tr=>{const cells=tr.querySelectorAll('td');csv+=Array.from(cells).map(c=>c.textContent).join(',')+'\n';});
+  const blob=new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='efficiency_experiment.csv';a.click();
+}
+
+function savePlotPNG(){
+  if(!expPlotChart)return;
+  const a=document.createElement('a');a.href=expPlotChart.canvas.toDataURL('image/png');a.download='efficiency_plot.png';a.click();
+}
+
+// ===== LOOP =====
+function loop(){updateParticles();render();requestAnimationFrame(loop);}
+resize();initParticles();buildUI();buildChain();initPredict();initAccum();initCompare();initExpPanel();requestAnimationFrame(loop);
+</script>
+</body>
+</html>
