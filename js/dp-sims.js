@@ -161,29 +161,23 @@ const DP_SIMS = [
     description: "Explore the Doppler effect for sound and light. Visualise moving sources, shock waves, Mach cones, and redshift.",
     file: "sims/doppler-effect.html"
   },
+    {
+    id: "density-lab",
+    title: "Density Lab",
+    icon: "⚖️",
+    topic: "B.3",
+    topicName: "Matter & States",
+    description: "Explore density, buoyancy, and Archimedes' principle. Drop objects into different fluids, adjust mass and volume, and observe floating vs sinking.",
+    file: "sims/density-lab.html"
+  },
   {
-  id: 'density-lab',
-  title: 'Density Lab',
-  topic: 'B.3',
-  topicName: 'Matter & States',
-  grade: ['DP', 'MYP'],
-  level: 'both',
-  theme: 'B',
-  concepts: ['density', 'buoyancy', 'Archimedes principle', 'floating', 'sinking', 'mass', 'volume'],
-  difficulty: 'foundational',
-  path: 'sims/density-lab.html'
-},
- {
-  id: 'energy-efficiency-lab',
-  title: 'Energy Efficiency Lab',
-  topic: 'B.2',
-  topicName: 'Energy Transfers',
-  grade: ['MYP5', 'DP'],
-  level: 'both',
-  theme: 'B',
-  concepts: ['efficiency', 'energy-transfer', 'sankey-diagrams', 'power', 'cost'],
-  difficulty: 'intermediate',
-  path: 'sims/energy-efficiency.html'
-},
+    id: "energy-efficiency-lab",
+    title: "Energy Efficiency Lab",
+    icon: "⚡",
+    topic: "B.2",
+    topicName: "Energy Transfers",
+    description: "Compare efficiency of different devices with animated Sankey diagrams. Explore energy transfers, calculate running costs, and investigate load effects.",
+    file: "sims/energy-efficiency.html"
+  },
  
 ];
