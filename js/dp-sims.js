@@ -179,5 +179,15 @@ const DP_SIMS = [
     description: "Compare efficiency of different devices with animated Sankey diagrams. Explore energy transfers, calculate running costs, and investigate load effects.",
     file: "sims/energy-efficiency.html"
   },
+    {
+    id: "radioactive-decay-lab",
+    title: "Radioactive Decay Lab",
+    icon: "☢️",
+    topic: "E.3",
+    topicName: "Radioactive Decay",
+    description: "Simulate radioactive decay with real isotopes. Explore half-life, activity, nuclear equations, dice analogy, carbon dating, and side-by-side isotope comparison.",
+    file: "sims/radioactive-decay.html"
+  },
+
  
 ];
