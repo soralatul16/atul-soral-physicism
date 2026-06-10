@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP Question Bank | Atul Soral Physicism</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<style>
+:root{--bg:#F5F2EE;--card:#fff;--text:#1A1A2E;--text2:#6B7280;--text3:#9CA3AF;--accent:#0B7285;--border:#E5E1DC;--shadow:0 2px 12px rgba(0,0,0,.06);--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+nav{display:flex;align-items:center;justify-content:space-between;padding:8px 20px;background:linear-gradient(135deg,rgba(11,114,133,.95),rgba(6,86,102,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(6,86,102,.3)}
+nav a{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
+.wrap{max-width:1300px;margin:0 auto;padding:16px 20px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.header h1{font-family:Georgia,serif;font-size:1.6rem;font-weight:700}
+.header h1 span{color:var(--accent)}
+.stats{font-size:.82rem;color:var(--text2)}
+.layout{display:grid;grid-template-columns:240px 1fr;gap:16px}
+.filters{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);position:sticky;top:70px;max-height:calc(100vh - 90px);overflow-y:auto}
+.filters h3{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin:12px 0 6px}
+.filters h3:first-child{margin-top:0}
+.f-group{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+.f-btn{padding:4px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer;background:var(--card);color:var(--text2);transition:.2s}
+.f-btn:hover{border-color:var(--accent);color:var(--accent)}
+.f-btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.f-clear{font-size:.68rem;color:var(--accent);cursor:pointer;font-weight:600;margin-left:auto}
+.search{width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.8rem;margin-bottom:12px;background:var(--bg);outline:none}
+.search:focus{border-color:var(--accent)}
+.q-list{display:flex;flex-direction:column;gap:10px}
+.q-card{background:var(--card);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow);border-left:4px solid var(--accent)}
+.q-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.q-id{font-family:'SF Mono',monospace;font-size:.68rem;color:var(--text3)}
+.q-tags{display:flex;gap:4px;flex-wrap:wrap}
+.tag{padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:600}
+.tag-topic{background:#DBEAFE;color:#1E40AF}
+.tag-paper{background:#FEF3C7;color:#92400E}
+.tag-marks{background:#DCFCE7;color:#166534}
+.tag-diff{background:#F3E8FF;color:#6B21A8}
+.tag-cmd{background:#FFE4E6;color:#9F1239}
+.q-text{font-size:.88rem;line-height:1.6;margin-bottom:10px}
+.q-options{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+.q-opt{padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.8rem;cursor:default;transition:.2s}
+.q-opt.correct{border-color:#059669;background:#ECFDF5;font-weight:600}
+.q-img{margin:10px 0;text-align:center}
+.q-img svg{max-width:100%;height:auto;border-radius:8px}
+.ms-toggle{font-size:.75rem;font-weight:600;color:var(--accent);cursor:pointer;padding:4px 12px;border:1.5px solid var(--accent);border-radius:6px;background:transparent;transition:.2s}
+.ms-toggle:hover{background:var(--accent);color:#fff}
+.ms-box{display:none;margin-top:10px;padding:12px;background:#F0FDFA;border:1px solid #99F6E4;border-radius:8px;font-size:.8rem;line-height:1.6;color:#134E4A}
+.ms-box.show{display:block}
+.q-select{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+.gen-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:2px solid var(--border);padding:10px 20px;display:none;align-items:center;justify-content:space-between;z-index:50;box-shadow:0 -4px 20px rgba(0,0,0,.08)}
+.gen-bar.show{display:flex}
+.gen-btn{padding:10px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer}
+.gen-btn:hover{opacity:.9}
+.lock-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000}
+.lock-box{background:var(--card);padding:40px;border-radius:16px;box-shadow:var(--shadow);text-align:center;max-width:360px}
+.lock-box h2{font-family:Georgia,serif;margin-bottom:16px;color:var(--accent)}
+.lock-box input{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;margin-bottom:12px;text-align:center}
+.lock-box button{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer}
+.empty{text-align:center;padding:60px 20px;color:var(--text3);font-size:.9rem}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.filters{position:static;max-height:none}.q-options{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-box">
+    <h2>DP Question Bank</h2>
+    <p style="color:var(--text2);margin-bottom:16px;font-size:.85rem">Teacher access only</p>
+    <input type="password" id="pwInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')unlock()">
+    <button onclick="unlock()">Enter</button>
+  </div>
+</div>
+
+<nav>
+  <div style="display:flex;align-items:center;gap:14px">
+    <span style="font-family:Georgia,serif;font-size:1rem;font-weight:700">Atul Soral Physicism</span>
+    <span style="font-size:.78rem;opacity:.8">DP Question Bank</span>
+  </div>
+  <div style="display:flex;gap:6px">
+    <a href="index.html">Home</a>
+    <a href="dp-dashboard.html">DP</a>
+    <a href="exam-system/exam-teacher.html">MYP Teacher</a>
+  </div>
+</nav>
+
+<div class="wrap" id="mainContent" style="display:none">
+  <div class="header">
+    <div><h1><span>DP</span> Question Bank</h1><div class="stats" id="statsBar">Loading...</div></div>
+    <div style="display:flex;gap:8px">
+      <button class="ms-toggle" onclick="toggleAllMS()">Show All Mark Schemes</button>
+      <button class="gen-btn" onclick="generatePaper()" style="font-size:.78rem;padding:8px 16px">Generate Paper</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="filters">
+      <input class="search" type="text" id="searchBox" placeholder="Search questions..." oninput="applyFilters()">
+      
+      <h3>Paper</h3>
+      <div class="f-group" id="fPaper"></div>
+
+      <h3>Topic</h3>
+      <div class="f-group" id="fTopic"></div>
+
+      <h3>Difficulty</h3>
+      <div class="f-group" id="fDiff"></div>
+
+      <h3>Marks</h3>
+      <div class="f-group" id="fMarks"></div>
+
+      <h3>Level</h3>
+      <div class="f-group" id="fLevel"></div>
+
+      <h3>Command Term</h3>
+      <div class="f-group" id="fCmd"></div>
+
+      <div style="margin-top:16px"><span class="f-clear" onclick="clearFilters()">Clear All Filters</span></div>
+    </div>
+
+    <div class="q-list" id="qList">
+      <div class="empty">Loading questions...</div>
+    </div>
+  </div>
+</div>
+
+<div class="gen-bar" id="genBar">
+  <span id="selCount">0 questions selected</span>
+  <div style="display:flex;gap:8px">
+    <button class="ms-toggle" onclick="clearSelection()">Clear Selection</button>
+    <button class="gen-btn" onclick="generatePaper()">Generate Paper PDF</button>
+  </div>
+</div>
+
+<script src="exam-system/firebase-config.js"></script>
+<script>
+var allQuestions=[],filtered=[],selected=new Set();
+var filters={paper:[],topic:[],diff:[],marks:[],level:[],cmd:[]};
+
+function unlock(){
+  var pw=document.getElementById('pwInput').value;
+  if(pw==='atul123'){
+    document.getElementById('lockScreen').style.display='none';
+    document.getElementById('mainContent').style.display='block';
+    sessionStorage.setItem('dpAuth','true');
+    loadQuestions();
+  } else {alert('Incorrect password');}
+}
+if(sessionStorage.getItem('dpAuth')==='true'){
+  document.getElementById('lockScreen').style.display='none';
+  document.getElementById('mainContent').style.display='block';
+  window.addEventListener('DOMContentLoaded',loadQuestions);
+}
+
+function loadQuestions(){
+  firebase.firestore().collection('dpQuestions').get().then(function(snap){
+    allQuestions=[];
+    snap.forEach(function(doc){allQuestions.push(doc.data());});
+    allQuestions.sort(function(a,b){return (a.topic+a.qNum).localeCompare(b.topic+b.qNum);});
+    buildFilters();
+    applyFilters();
+  });
+}
+
+function buildFilters(){
+  var papers=new Set(),topics=new Set(),diffs=new Set(),marks=new Set(),levels=new Set(),cmds=new Set();
+  allQuestions.forEach(function(q){
+    if(q.paper)papers.add(q.paper);
+    if(q.topic)topics.add(q.topic+' '+q.topicName);
+    if(q.difficulty)diffs.add(q.difficulty);
+    if(q.marks)marks.add(q.marks);
+    if(q.level)levels.add(q.level);
+    if(q.commandTerm)cmds.add(q.commandTerm);
+  });
+  renderFilterGroup('fPaper',Array.from(papers).sort(),'paper');
+  renderFilterGroup('fTopic',Array.from(topics).sort(),'topic');
+  renderFilterGroup('fDiff',['Easy','Medium','Hard'],'diff');
+  renderFilterGroup('fMarks',Array.from(marks).sort(function(a,b){return a-b;}),'marks');
+  renderFilterGroup('fLevel',Array.from(levels).sort(),'level');
+  renderFilterGroup('fCmd',Array.from(cmds).sort(),'cmd');
+}
+
+function renderFilterGroup(elId,items,key){
+  var el=document.getElementById(elId);
+  el.innerHTML=items.map(function(item){
+    return '<div class="f-btn" onclick="toggleFilter(this,\''+key+'\',\''+item+'\')">'+item+'</div>';
+  }).join('');
+}
+
+function toggleFilter(el,key,val){
+  el.classList.toggle('on');
+  var idx=filters[key].indexOf(val);
+  if(idx>-1)filters[key].splice(idx,1);else filters[key].push(val);
+  applyFilters();
+}
+
+function clearFilters(){
+  filters={paper:[],topic:[],diff:[],marks:[],level:[],cmd:[]};
+  document.querySelectorAll('.f-btn').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('searchBox').value='';
+  applyFilters();
+}
+
+function applyFilters(){
+  var search=document.getElementById('searchBox').value.toLowerCase();
+  filtered=allQuestions.filter(function(q){
+    if(filters.paper.length&&filters.paper.indexOf(q.paper)===-1)return false;
+    if(filters.topic.length&&!filters.topic.some(function(t){return t.startsWith(q.topic);}))return false;
+    if(filters.diff.length&&filters.diff.indexOf(q.difficulty)===-1)return false;
+    if(filters.marks.length&&filters.marks.indexOf(q.marks)===-1)return false;
+    if(filters.level.length&&filters.level.indexOf(q.level)===-1)return false;
+    if(filters.cmd.length&&filters.cmd.indexOf(q.commandTerm)===-1)return false;
+    if(search&&q.text.toLowerCase().indexOf(search)===-1&&(q.topicName||'').toLowerCase().indexOf(search)===-1)return false;
+    return true;
+  });
+  renderQuestions();
+  document.getElementById('statsBar').textContent=filtered.length+' of '+allQuestions.length+' questions shown';
+}
+
+function renderQuestions(){
+  var el=document.getElementById('qList');
+  if(!filtered.length){el.innerHTML='<div class="empty">No questions match your filters.</div>';return;}
+  el.innerHTML=filtered.map(function(q,i){
+    var optionsHtml='';
+    if(q.options&&q.options.length){
+      optionsHtml='<div class="q-options">'+q.options.map(function(opt,oi){
+        var letter=String.fromCharCode(65+oi);
+        return '<div class="q-opt'+(oi===q.correct?' correct':'')+'"><strong>'+letter+'.</strong> '+opt+'</div>';
+      }).join('')+'</div>';
+    }
+    var imgHtml='';
+    if(q.image&&q.image.length>10){
+      imgHtml='<div class="q-img">'+q.image+'</div>';
+    }
+    return '<div class="q-card" id="qc-'+q.id+'">'+
+      '<div class="q-top">'+
+        '<div style="display:flex;align-items:center;gap:8px"><input type="checkbox" class="q-select" onchange="toggleSelect(\''+q.id+'\')"'+(selected.has(q.id)?' checked':'')+'><span class="q-id">'+q.id+'</span></div>'+
+        '<div class="q-tags">'+
+          '<span class="tag tag-topic">'+q.topic+' '+(q.topicName||'')+'</span>'+
+          '<span class="tag tag-paper">'+q.paper+' '+q.level+'</span>'+
+          '<span class="tag tag-marks">'+q.marks+' mark'+(q.marks>1?'s':'')+'</span>'+
+          '<span class="tag tag-diff">'+q.difficulty+'</span>'+
+          '<span class="tag tag-cmd">'+q.commandTerm+'</span>'+
+        '</div>'+
+      '</div>'+
+      '<div class="q-text">Q'+q.qNum+'. '+q.text+'</div>'+
+      imgHtml+optionsHtml+
+      '<button class="ms-toggle" onclick="toggleMS(\'ms-'+q.id+'\')">Mark Scheme</button>'+
+      '<div class="ms-box" id="ms-'+q.id+'">'+q.markScheme+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function toggleMS(id){document.getElementById(id).classList.toggle('show');}
+function toggleAllMS(){document.querySelectorAll('.ms-box').forEach(function(el){el.classList.toggle('show');});}
+
+function toggleSelect(id){
+  if(selected.has(id))selected.delete(id);else selected.add(id);
+  document.getElementById('selCount').textContent=selected.size+' questions selected';
+  document.getElementById('genBar').classList.toggle('show',selected.size>0);
+}
+function clearSelection(){
+  selected.clear();
+  document.querySelectorAll('.q-select').forEach(function(cb){cb.checked=false;});
+  document.getElementById('genBar').classList.remove('show');
+}
+
+function generatePaper(){
+  if(!selected.size){alert('Select questions first');return;}
+  var qs=allQuestions.filter(function(q){return selected.has(q.id);});
+  var totalMarks=qs.reduce(function(s,q){return s+(q.marks||1);},0);
+  var w=window.open('','_blank');
+  var html='<! DOCTYPE html><html><head><title>Generated Paper</title><style>body{font-family:Georgia,serif;padding:40px;max-width:800px;margin:0 auto;line-height:1.7}h1{font-size:1.4rem;text-align:center;margin-bottom:4px}h2{font-size:1rem;text-align:center;color:#666;margin-bottom:30px;font-weight:normal}.q{margin-bottom:24px;page-break-inside:avoid}.q-num{font-weight:bold;margin-bottom:4px}.q-body{margin-left:20px}.opts{margin:8px 0 0 20px;list-style-type:upper-alpha}.opts li{margin-bottom:4px}.marks{float:right;color:#666;font-size:.85rem}.img-wrap{margin:10px 0;text-align:center}.footer{text-align:center;margin-top:40px;font-size:.8rem;color:#999;border-top:1px solid #ddd;padding-top:10px}@media print{body{padding:20px}}</style></head><body>';
+  html+='<h1>IB Physics — Practice Paper</h1>';
+  html+='<h2>'+qs.length+' questions · '+totalMarks+' marks · Atul Soral Physicism</h2>';
+  qs.forEach(function(q,i){
+    html+='<div class="q"><div class="q-num">'+(i+1)+'. <span class="marks">['+q.marks+']</span></div><div class="q-body">'+q.text+'</div>';
+    if(q.image&&q.image.length>10)html+='<div class="img-wrap">'+q.image+'</div>';
+    if(q.options&&q.options.length){html+='<ol class="opts">';q.options.forEach(function(o){html+='<li>'+o+'</li>';});html+='</ol>';}
+    html+='</div>';
+  });
+  html+='<div class="footer">Generated by Atul Soral Physicism · '+new Date().toLocaleDateString()+'</div></body></html>';
+  w.document.write(html);w.document.close();
+}
+</script>
+<div style="text-align:center;padding:16px 0;font-family:Georgia,serif;font-size:11px;color:rgba(0,0,0,.12);letter-spacing:2px;text-transform:uppercase">ATUL SORAL PHYSICISM</div>
+</body>
+</html>
