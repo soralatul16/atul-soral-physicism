@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,283 +11,592 @@
 <style>
 :root{--bg:#F5F2EE;--bg2:#EDEAE4;--card:#fff;--text:#1A1A2E;--text2:#6B7280;--text3:#9CA3AF;--accent:#0B7285;--accent2:#00695C;--accent3:#E65100;--border:#E5E1DC;--ok:#065F46;--err:#991B1B;--mono:'SF Mono','Menlo','Consolas',monospace;--body:system-ui,-apple-system,'Segoe UI',sans-serif;--brand:'Georgia','Times New Roman',serif;--shadow:0 2px 12px rgba(0,0,0,0.07);--radius:14px;--radius-sm:8px}
 *{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1200px;margin:0 auto;padding:4px 16px 60px}
-.mat-bar{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;overflow-x:auto;padding-bottom:4px}
-.mat-pill{display:flex;align-items:center;gap:6px;padding:6px 12px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--card);cursor:pointer;transition:all .2s;font-size:.78rem;font-weight:600;white-space:nowrap}
-.mat-pill:hover{border-color:var(--accent);transform:translateY(-1px)}.mat-pill.on{border-color:var(--accent);background:rgba(11,114,133,.06);color:var(--accent)}
-.mat-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1px solid rgba(0,0,0,.08)}
-.mat-d{font-size:.65rem;color:var(--text3);font-weight:400;margin-left:2px}
+.wrap{max-width:1200px;margin:0 auto;padding:4px 16px 72px}
+nav{display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(11,114,133,.95),rgba(6,86,102,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(6,86,102,.3);flex-wrap:wrap;gap:5px}
+nav a{color:#fff;text-decoration:none}
+.nav-brand{font-family:var(--brand);font-size:1rem;font-weight:700}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-links a{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:4px 10px;font-size:.73rem}
+.lab-tabs{display:flex;gap:3px;margin:10px 0 8px;overflow-x:auto;padding-bottom:2px}
+.lab-tab{flex:1;min-width:120px;padding:10px 12px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius-sm) var(--radius-sm) 0 0;cursor:pointer;transition:all .2s;text-align:center;border-bottom:3px solid transparent}
+.lab-tab:hover{border-color:var(--accent);border-bottom-color:var(--accent)}
+.lab-tab.on{border-color:var(--accent);border-bottom-color:var(--accent);background:rgba(11,114,133,.04)}
+.lab-tab-name{font-family:var(--brand);font-size:.82rem;font-weight:700;color:var(--text)}
+.lab-tab.on .lab-tab-name{color:var(--accent)}
+.lab-tab-desc{font-size:.6rem;color:var(--text3);margin-top:1px;line-height:1.3}
+.lab-content{position:relative}.lab-pane{display:none}.lab-pane.on{display:block}
+.intro-bar{background:rgba(11,114,133,.04);border:1px solid rgba(11,114,133,.12);border-radius:8px;padding:6px 12px;font-size:.72rem;color:var(--text2);line-height:1.6;margin-bottom:10px}
+.intro-bar b{color:var(--accent)}
 .main-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px;align-items:start}
 .tank-sec{display:flex;flex-direction:column;gap:8px}
-.cv-wrap{position:relative;width:100%;aspect-ratio:4/5;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.cv-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%}
+.cv-wrap{position:relative;width:100%;aspect-ratio:4/5;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.cv-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%}
 .tank-ctrls{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.ctrl-sel{padding:6px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--card);font-size:.78rem;font-weight:600;color:var(--text);cursor:pointer;outline:none}
 .sh-g{display:flex;gap:3px}
-.sh-btn{width:36px;height:36px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--text2);transition:.2s}.sh-btn:hover{border-color:var(--accent)}.sh-btn.on{border-color:var(--accent);background:rgba(11,114,133,.06);color:var(--accent)}.sh-btn svg{width:18px;height:18px}
-.fl-sel{padding:6px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--card);font-size:.78rem;font-weight:600;color:var(--text);cursor:pointer}
+.sh-btn{width:36px;height:36px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--text2);transition:.2s}
+.sh-btn:hover{border-color:var(--accent)}.sh-btn.on{border-color:var(--accent);background:rgba(11,114,133,.06);color:var(--accent)}
+.sh-btn svg{width:18px;height:18px}
 .act-btn{padding:7px 16px;border:none;border-radius:var(--radius-sm);font-size:.8rem;font-weight:700;cursor:pointer;transition:.2s}
 .drop-btn{background:var(--accent);color:#fff;flex:1}.drop-btn:hover{background:#065666;transform:translateY(-1px)}
 .rst-btn{background:var(--card);color:var(--text2);border:1.5px solid var(--border)}.rst-btn:hover{border-color:var(--text2)}
-.tog-btn{padding:5px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--card);font-size:.75rem;font-weight:600;color:var(--text2);cursor:pointer;transition:.2s}.tog-btn:hover{border-color:var(--accent);color:var(--accent)}.tog-btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tog-btn{padding:5px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--card);font-size:.75rem;font-weight:600;color:var(--text2);cursor:pointer;transition:.2s}
+.tog-btn:hover{border-color:var(--accent);color:var(--accent)}.tog-btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .info-panel{display:flex;flex-direction:column;gap:10px}
 .pc{background:var(--card);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
 .dn-hero{text-align:center;padding:16px 12px}
-.dn-formula{font-size:.85rem;color:var(--text2);margin-bottom:2px;font-weight:500}.dn-formula em{font-style:italic;color:var(--accent);font-weight:700}
-.dn-num{font-size:2.4rem;font-weight:800;letter-spacing:-.03em;color:var(--text);line-height:1.1}.dn-unit{font-size:.8rem;color:var(--text2);font-weight:500;margin-top:2px}
-.verdict{margin-top:8px;font-size:.88rem;font-weight:700;padding:4px 14px;border-radius:16px;display:inline-block}.v-float{background:#ECFDF5;color:#065F46}.v-sink{background:#FEF2F2;color:#991B1B}.v-hover{background:#EFF6FF;color:#1E40AF}
+.dn-formula{font-size:.85rem;color:var(--text2);margin-bottom:2px;font-weight:500}
+.dn-formula em{font-style:italic;color:var(--accent);font-weight:700}
+.dn-num{font-size:2.4rem;font-weight:800;letter-spacing:-.03em;color:var(--text);line-height:1.1}
+.dn-unit{font-size:.8rem;color:var(--text2);font-weight:500;margin-top:2px}
+.verdict{margin-top:8px;font-size:.88rem;font-weight:700;padding:4px 14px;border-radius:16px;display:inline-block}
+.v-float{background:#ECFDF5;color:#065F46}.v-sink{background:#FEF2F2;color:#991B1B}.v-hover{background:#EFF6FF;color:#1E40AF}
 .meas{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.meas-box{text-align:center;padding:8px;border-radius:var(--radius-sm);background:var(--bg)}.meas-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);font-weight:600;margin-bottom:2px}.meas-val{font-size:1rem;font-weight:700;font-variant-numeric:tabular-nums}
-.arch-box{background:rgba(11,114,133,.04);border:1px solid rgba(11,114,133,.1);border-radius:var(--radius-sm);padding:8px 10px;font-size:.72rem;line-height:1.6;color:var(--text2)}.arch-box strong{color:var(--accent)}
-.sl-row{margin-bottom:10px}.sl-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}.sl-lbl{font-size:.74rem;font-weight:600;color:var(--text)}.sl-val{font-size:.74rem;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.meas-box{text-align:center;padding:8px;border-radius:var(--radius-sm);background:var(--bg)}
+.meas-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);font-weight:600;margin-bottom:2px}
+.meas-val{font-size:1rem;font-weight:700;font-variant-numeric:tabular-nums}
+.arch-box{background:rgba(11,114,133,.04);border:1px solid rgba(11,114,133,.1);border-radius:var(--radius-sm);padding:8px 10px;font-size:.72rem;line-height:1.6;color:var(--text2)}
+.arch-box strong{color:var(--accent)}
+.sl-row{margin-bottom:10px}
+.sl-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.sl-lbl{font-size:.74rem;font-weight:600;color:var(--text)}
+.sl-val{font-size:.74rem;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
 input[type=range]{width:100%;height:5px;-webkit-appearance:none;appearance:none;border-radius:3px;background:var(--border);outline:none}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.15)}
 .gp{background:var(--card);border-radius:var(--radius);padding:12px 14px;margin-top:10px;box-shadow:var(--shadow)}
-.btabs{display:flex;gap:2px;margin-bottom:6px;border-bottom:1.5px solid var(--border);padding-bottom:3px}.bt{padding:5px 10px;border-radius:6px 6px 0 0;font-size:.72rem;font-weight:700;cursor:pointer;color:var(--text3)}.bt:hover{color:var(--text)}.bt.on{color:var(--accent);background:var(--bg2);border:1px solid var(--border);border-bottom:none}.btc{display:none}.btc.on{display:block}
+.btabs{display:flex;gap:2px;margin-bottom:6px;border-bottom:1.5px solid var(--border);padding-bottom:3px}
+.bt{padding:5px 10px;border-radius:6px 6px 0 0;font-size:.72rem;font-weight:700;cursor:pointer;color:var(--text3)}.bt:hover{color:var(--text)}.bt.on{color:var(--accent);background:var(--bg2);border:1px solid var(--border);border-bottom:none}
+.btc{display:none}.btc.on{display:block}
 .exp-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:6px}
 .exp-title{font-family:var(--brand);font-size:.82rem;color:var(--accent);margin-bottom:8px;font-weight:700}
-.exp-var{margin-bottom:8px}.exp-label{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px}.exp-label.iv{color:#2563eb}.exp-label.dv{color:#dc2626}.exp-label.cv{color:#059669}.exp-label.hyp{color:#7c3aed}
+.exp-label{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px}
+.exp-label.iv{color:#2563eb}.exp-label.dv{color:#dc2626}.exp-label.cv{color:#059669}.exp-label.hyp{color:#7c3aed}
 .exp-select{width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font-size:.72rem}
-.exp-cv-list{display:flex;flex-wrap:wrap;gap:4px}.exp-cv-item{display:flex;align-items:center;gap:3px;font-size:.66rem;padding:2px 6px;border-radius:5px;background:rgba(5,150,105,.06);color:#059669;cursor:pointer}.exp-cv-item input{accent-color:#059669;width:12px;height:12px}
-.exp-hypothesis{font-size:.74rem;color:var(--text2);line-height:1.5;padding:8px 10px;background:rgba(124,58,237,.04);border:1px solid rgba(124,58,237,.1);border-radius:6px;border-left:3px solid #7c3aed}.iv-hl{color:#2563eb}.dv-hl{color:#dc2626}.cv-hl{color:#059669}
+.exp-cv-list{display:flex;flex-wrap:wrap;gap:4px}
+.exp-cv-item{display:flex;align-items:center;gap:3px;font-size:.66rem;padding:2px 6px;border-radius:5px;background:rgba(5,150,105,.06);color:#059669;cursor:pointer}
+.exp-cv-item input{accent-color:#059669;width:12px;height:12px}
+.exp-hypothesis{font-size:.74rem;color:var(--text2);line-height:1.5;padding:8px 10px;background:rgba(124,58,237,.04);border:1px solid rgba(124,58,237,.1);border-radius:6px;border-left:3px solid #7c3aed}
 .hyp-dir{border:1px solid var(--border);border-radius:4px;padding:1px 4px;font-size:.72rem}
-.exp-data{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:6px}
 .num-input{width:55px;padding:4px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg);font-family:var(--mono);font-size:.78rem;font-weight:700;text-align:center;outline:none;color:var(--text)}
-.btn{padding:5px 10px;border:none;border-radius:5px;font-size:.68rem;font-weight:700;cursor:pointer;transition:.12s}.btn:hover{transform:translateY(-1px)}.btn-p{background:var(--accent);color:#fff}.btn-s{background:var(--bg2);color:var(--text2);border:1px solid var(--border)}.btn-ok{background:var(--ok);color:#fff}
-.exp-btn{padding:3px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:.65rem;font-weight:600;cursor:pointer}.exp-btn:hover{border-color:var(--accent);color:var(--accent)}
-.graph-wrap2{position:relative;width:100%;height:200px;margin-top:4px}.graph-wrap2 canvas{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:6px;border:1px solid var(--border)}
+.btn{padding:5px 10px;border:none;border-radius:5px;font-size:.68rem;font-weight:700;cursor:pointer;transition:.12s}.btn:hover{transform:translateY(-1px)}
+.btn-p{background:var(--accent);color:#fff}.btn-s{background:var(--bg2);color:var(--text2);border:1px solid var(--border)}.btn-ok{background:var(--ok);color:#fff}
+.exp-btn{padding:3px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:.65rem;font-weight:600;cursor:pointer}
+.exp-btn:hover{border-color:var(--accent);color:var(--accent)}
+.graph-wrap2{position:relative;width:100%;height:200px;margin-top:4px}
+.graph-wrap2 canvas{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:6px;border:1px solid var(--border)}
 .exp-graph-controls{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}
-.dt{width:100%;border-collapse:collapse;font-size:.72rem}.dt th{text-align:center;padding:4px;font-size:.63rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--bg2)}.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border);font-family:var(--mono)}.dt .mean{font-weight:800;color:var(--accent)}
-.ib-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:4px}.ib-cmd{display:inline-block;font-size:.63rem;padding:2px 6px;border-radius:3px;font-weight:700;text-transform:uppercase}.ib-cmd-c{background:rgba(230,81,0,.06);color:var(--accent3)}.ib-cmd-e{background:rgba(11,114,133,.06);color:var(--accent)}.ib-cmd-s{background:rgba(0,105,92,.06);color:var(--accent2)}.ib-card h4{font-size:.78rem;font-weight:700;margin:2px 0}.ib-card p{font-size:.7rem;color:var(--text2);line-height:1.5;margin-bottom:4px}.ib-card textarea{width:100%;height:38px;border:1.5px solid var(--border);border-radius:4px;padding:5px 7px;font-size:.7rem;resize:vertical;background:var(--bg);outline:none;font-family:var(--body);color:var(--text)}.ib-ans{margin-top:4px;padding:6px 8px;border-radius:5px;background:rgba(0,105,92,.03);border:1px solid rgba(0,105,92,.08);font-size:.7rem;line-height:1.6;color:var(--text2);display:none}.ib-ans.show{display:block}.ib-ans strong{color:var(--ok)}
-.nb-c{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:4px 7px;margin-bottom:2px;font-size:.7rem;line-height:1.5}.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
-.po{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(245,242,238,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:var(--radius);opacity:0;pointer-events:none;transition:opacity .3s}.po.vis{opacity:1;pointer-events:auto}
+.dt{width:100%;border-collapse:collapse;font-size:.72rem}
+.dt th{text-align:center;padding:4px;font-size:.63rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--bg2)}
+.dt td{padding:3px;text-align:center;border-bottom:1px solid var(--border);font-family:var(--mono)}
+.dt .mean{font-weight:800;color:var(--accent)}
+.ib-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:4px}
+.ib-cmd{display:inline-block;font-size:.63rem;padding:2px 6px;border-radius:3px;font-weight:700;text-transform:uppercase}
+.ib-cmd-c{background:rgba(230,81,0,.06);color:var(--accent3)}.ib-cmd-e{background:rgba(11,114,133,.06);color:var(--accent)}.ib-cmd-s{background:rgba(0,105,92,.06);color:var(--accent2)}
+.ib-card h4{font-size:.78rem;font-weight:700;margin:2px 0}
+.ib-card p{font-size:.7rem;color:var(--text2);line-height:1.5;margin-bottom:4px}
+.ib-card textarea{width:100%;height:38px;border:1.5px solid var(--border);border-radius:4px;padding:5px 7px;font-size:.7rem;resize:vertical;background:var(--bg);outline:none;font-family:var(--body);color:var(--text)}
+.ib-ans{margin-top:4px;padding:6px 8px;border-radius:5px;background:rgba(0,105,92,.03);border:1px solid rgba(0,105,92,.08);font-size:.7rem;line-height:1.6;color:var(--text2);display:none}
+.ib-ans.show{display:block}.ib-ans strong{color:var(--ok)}
+.nb-c{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:4px 7px;margin-bottom:2px;font-size:.7rem;line-height:1.5}
+.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+.po{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(245,242,238,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:var(--radius);opacity:0;pointer-events:none;transition:opacity .3s}
+.po.vis{opacity:1;pointer-events:auto}
 .po-cw{width:180px;height:180px;border-radius:50%;overflow:hidden;border:3px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.1)}
-@media(max-width:780px){.main-grid{grid-template-columns:1fr}.cv-wrap{aspect-ratio:1/1}}
-@media print{nav{display:none!important}.act-btn,.tog-btn,input[type=range]{display:none}.cv-wrap{break-inside:avoid;max-height:60vh}.pc{break-inside:avoid;box-shadow:none;border:1px solid #ddd}}
+
+.col-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
+.col-cv{aspect-ratio:2/5;min-height:400px}
+.density-ladder{display:flex;flex-direction:column;gap:0}
+.ladder-row{display:flex;align-items:center;gap:8px;padding:6px 10px;border-left:3px solid transparent;font-size:.75rem;transition:.2s}
+.ladder-row.here{border-left-color:var(--accent);background:rgba(11,114,133,.06);font-weight:700}
+.ladder-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1px solid rgba(0,0,0,.08)}
+.ladder-d{font-family:var(--mono);font-size:.68rem;color:var(--text3);margin-left:auto}
+
+.mystery-center{max-width:500px;margin:0 auto}
+.mystery-obj{width:120px;height:120px;margin:0 auto 16px;border-radius:50%;background:var(--bg2);border:3px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:800;color:var(--text3)}
+.mystery-given{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.mystery-stat{text-align:center;padding:14px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border)}
+.mystery-stat-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);font-weight:600}
+.mystery-stat-val{font-size:1.4rem;font-weight:800;font-variant-numeric:tabular-nums;margin-top:2px}
+.mystery-input{display:flex;gap:8px;align-items:end;margin-bottom:10px;flex-wrap:wrap}
+.mystery-field{flex:1;min-width:120px}
+.mystery-field label{display:block;font-size:.68rem;font-weight:700;color:var(--text2);margin-bottom:3px}
+.mystery-field input,.mystery-field select{width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);font-size:.85rem;font-weight:600;outline:none;color:var(--text)}
+.mystery-feedback{padding:10px 14px;border-radius:var(--radius-sm);font-size:.82rem;font-weight:600;margin-bottom:10px;display:none}
+.mystery-feedback.correct{display:block;background:#ECFDF5;color:#065F46;border:1px solid rgba(6,95,70,.15)}
+.mystery-feedback.wrong{display:block;background:#FEF2F2;color:#991B1B;border:1px solid rgba(153,27,27,.15)}
+.score-bar{display:flex;gap:10px;align-items:center;justify-content:center;padding:8px;background:var(--bg);border-radius:var(--radius-sm);font-size:.78rem;font-weight:700}
+.score-bar .s-right{color:var(--ok)}.score-bar .s-total{color:var(--text3)}
+
+.measure-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.measure-cv{aspect-ratio:3/4;min-height:300px}
+.measure-steps{counter-reset:step}
+.measure-step{position:relative;padding:8px 10px 8px 32px;margin-bottom:6px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.75rem;counter-increment:step}
+.measure-step::before{content:counter(step);position:absolute;left:8px;top:8px;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.measure-step.done{border-color:var(--ok);background:rgba(6,95,70,.03)}
+.measure-step.done::before{background:var(--ok)}
+.measure-result{padding:10px 14px;border-radius:var(--radius-sm);margin-top:8px;font-size:.78rem}
+
+.comp-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;align-items:start}
+.comp-cv{aspect-ratio:5/4;min-height:300px}
+.comp-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.comp-card{padding:10px 12px;background:var(--card);border-radius:var(--radius-sm);border:2px solid var(--border);text-align:center}
+.comp-card-title{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.comp-card .dn-num{font-size:1.6rem}
+.comp-card .dn-unit{font-size:.68rem}
+.comp-vs{display:flex;align-items:center;justify-content:center;font-family:var(--brand);font-size:.9rem;font-weight:700;color:var(--text3);padding:4px 0}
+
+@media(max-width:780px){.main-grid,.col-grid,.measure-grid,.comp-grid{grid-template-columns:1fr}.cv-wrap{aspect-ratio:1/1}.lab-tabs{gap:2px}.lab-tab{min-width:80px;padding:6px 8px}.lab-tab-desc{display:none}}
+@media print{nav,.lab-tabs,.act-btn,.tog-btn,input[type=range]{display:none!important}.cv-wrap,.col-cv,.measure-cv,.comp-cv{break-inside:avoid;max-height:60vh}.pc{break-inside:avoid;box-shadow:none;border:1px solid #ddd}}
 </style>
 </head>
 <body>
-<script>var SIM_META={id:'density-lab',title:'Density Lab',topic:'B.3',topicName:'Matter & States',grade:['DP','MYP'],level:'both',theme:'B',concepts:['density','buoyancy','Archimedes principle','floating','sinking','mass','volume'],difficulty:'foundational'};</script>
-<nav style="display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(11,114,133,.95),rgba(6,86,102,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(6,86,102,.3);flex-wrap:wrap;gap:5px">
-<div style="display:flex;align-items:center;gap:14px"><a href="../index.html" style="font-family:Georgia,serif;font-size:1rem;font-weight:700;color:#fff;text-decoration:none">Atul Soral Physicism</a><a href="../dp-simulations.html" style="color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem">&larr; All Simulations</a></div>
-<div style="display:flex;gap:6px;align-items:center"><a href="../dp-simulations.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">&larr; Back</a><a href="../index.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">Home</a><a href="../myp-dashboard.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">MYP</a><a href="../dp-dashboard.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">DP</a></div>
+<nav>
+<div style="display:flex;align-items:center;gap:14px"><a href="../index.html" class="nav-brand">Atul Soral Physicism</a><a href="../dp-simulations.html" style="color:rgba(255,255,255,.85);font-size:.78rem">&larr; All Simulations</a></div>
+<div class="nav-links"><a href="../dp-simulations.html">&larr; Back</a><a href="../index.html">Home</a><a href="../myp-dashboard.html">MYP</a><a href="../dp-dashboard.html">DP</a></div>
 </nav>
 <div class="wrap">
-<div style="background:rgba(11,114,133,.04);border:1px solid rgba(11,114,133,.12);border-radius:8px;padding:6px 12px;font-size:.72rem;color:var(--text2);line-height:1.6;margin:8px 0"><b style="color:var(--accent)">Drop objects into fluids.</b> Change material, shape, mass, and volume. Observe floating, sinking, and buoyancy forces. Record data to discover the density relationship.</div>
-<div class="mat-bar" id="matBar"></div>
-<div class="main-grid">
-<div class="tank-sec">
-  <div class="cv-wrap" id="cvWrap"><canvas id="tCv"></canvas>
-    <div class="po" id="pOver"><div class="po-cw"><canvas id="pCv" width="180" height="180"></canvas></div><div style="margin-top:10px;font-size:.82rem;font-weight:600" id="pLbl">Aluminum</div><div style="font-size:.7rem;color:var(--text2);margin-top:2px" id="pSub">2,700 kg/m³</div></div>
-  </div>
-  <div class="tank-ctrls">
-    <div class="sh-g" id="shG"></div>
-    <select class="fl-sel" id="flSel"></select>
-    <button class="act-btn drop-btn" id="dropBtn">Drop Object</button>
-    <button class="act-btn rst-btn" id="rstBtn">Reset</button>
-    <button class="tog-btn" id="togF">Forces</button>
-    <button class="tog-btn" id="togP">Particles</button>
-  </div>
-</div>
-<div class="info-panel">
-  <div class="pc dn-hero"><div class="dn-formula"><em>&rho;</em> = m &divide; V</div><div class="dn-num" id="dnNum">&mdash;</div><div class="dn-unit">kg/m&sup3;</div><div class="verdict" id="verd"></div></div>
-  <div class="pc"><div class="meas"><div class="meas-box"><div class="meas-lbl">Mass</div><div class="meas-val" id="mV">&mdash;</div></div><div class="meas-box"><div class="meas-lbl">Volume</div><div class="meas-val" id="vV">&mdash;</div></div><div class="meas-box"><div class="meas-lbl">Fluid &rho;</div><div class="meas-val" id="fV">&mdash;</div></div></div></div>
-  <div class="pc" id="archCard"><div class="arch-box" id="archBox">Drop an object to see Archimedes' calculation.</div></div>
-  <div class="pc" style="padding:12px 16px"><div class="sl-row"><div class="sl-hdr"><span class="sl-lbl">Mass</span><span class="sl-val" id="msV">2.70 kg</span></div><input type="range" id="msSl" min="0.05" max="30" step="0.05" value="2.7"></div><div class="sl-row"><div class="sl-hdr"><span class="sl-lbl">Volume</span><span class="sl-val" id="vsV">1000 cm&sup3;</span></div><input type="range" id="vsSl" min="50" max="8000" step="10" value="1000"></div></div>
-</div></div>
-<div class="gp"><div class="btabs"><div class="bt on" onclick="bts(this,0)">Experiment</div><div class="bt" onclick="bts(this,1)">Data &amp; Graph</div><div class="bt" onclick="bts(this,2)">IB Questions</div><div class="bt" onclick="bts(this,3)">Notebook</div></div>
-<div class="btc on" id="b0"><div id="expC"></div></div>
-<div class="btc" id="b1"><div id="dW"><p style="font-size:.58rem;color:var(--text3);text-align:center;padding:6px">Record data points first.</p></div><div class="graph-wrap2"><canvas id="gC"></canvas></div><div class="exp-graph-controls"><button class="exp-btn" onclick="togGrid()">Grid</button><button class="exp-btn" onclick="togBF()">Best Fit</button><button class="exp-btn" onclick="expCSV()">Export CSV</button><button class="exp-btn" onclick="savePlot()">Save PNG</button></div></div>
-<div class="btc" id="b2"><div id="ibL"></div></div>
-<div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-family:Georgia,serif;font-size:.74rem;font-weight:700;color:var(--accent)">Notebook</span><button class="btn btn-s" onclick="window.print()" style="font-size:.65rem;padding:2px 5px">Print</button></div><div id="nbO"></div></div></div>
+<div class="lab-tabs" id="labTabs"></div>
+<div class="lab-content" id="labContent"></div>
 </div>
 
 <script>
 var $=function(id){return document.getElementById(id)};
 var MATS={cork:{n:'Cork',d:200,c:'#D4A373'},pine:{n:'Pine Wood',d:500,c:'#A0785A'},ice:{n:'Ice',d:917,c:'#B3E5FC'},plastic:{n:'Plastic',d:950,c:'#EC407A'},rubber:{n:'Rubber',d:1150,c:'#546E7A'},aluminum:{n:'Aluminum',d:2700,c:'#90A4AE'},steel:{n:'Steel',d:7800,c:'#455A64'},copper:{n:'Copper',d:8960,c:'#E65100'},gold:{n:'Gold',d:19300,c:'#FFD600'}};
+var MATKEYS=Object.keys(MATS);
 var FLUIDS={oil:{n:'Vegetable Oil',d:920,c:'#F9A825',dc:'#F57F17',a:.55},water:{n:'Water',d:1000,c:'#4FC3F7',dc:'#0288D1',a:.5},honey:{n:'Honey',d:1420,c:'#FFB300',dc:'#E65100',a:.65},mercury:{n:'Mercury',d:13600,c:'#B0BEC5',dc:'#607D8B',a:.85}};
 var SHAPES=[{id:'cube',lbl:'Cube',ic:'<rect x="6" y="6" width="14" height="14" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>'},{id:'sphere',lbl:'Sphere',ic:'<circle cx="13" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>'},{id:'cylinder',lbl:'Cylinder',ic:'<ellipse cx="13" cy="7" rx="7" ry="3" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="6" y1="7" x2="6" y2="19" stroke="currentColor" stroke-width="1.8"/><line x1="20" y1="7" x2="20" y2="19" stroke="currentColor" stroke-width="1.8"/><ellipse cx="13" cy="19" rx="7" ry="3" fill="none" stroke="currentColor" stroke-width="1.8"/>'}];
+var LABS=[{n:'Tank Lab',d:'Sink & float simulation'},{n:'Density Column',d:'Layered fluids & interfaces'},{n:'Mystery Material',d:'Calculate & identify'},{n:'Measurement Lab',d:'Balance & graduated cylinder'},{n:'Comparison',d:'Two objects, one tank'}];
 
-var S={mat:'aluminum',shape:'cube',fluid:'water',mass:2.7,vol:1000,showF:false,showP:false,custom:false,uncert:0.5};
-var obj={x:0,y:0,vy:0,on:false,splD:false};
-var bubs=[],splsh=[],time=0;
-var cv=$('tCv'),cx=cv.getContext('2d'),W,H,dpr,tL,tR,tT,tB,wY;
+var time=0,activeLab=0;
+function h2r(h){return{r:parseInt(h.slice(1,3),16),g:parseInt(h.slice(3,5),16),b:parseInt(h.slice(5,7),16)}}
+function lerp(a,b,t){return a+(b-a)*t}
+function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v))}
+function fmtV(v){if(Math.abs(v)<.01&&v!==0)return v.toExponential(3);if(Math.abs(v)>=1e6)return v.toExponential(3);return parseFloat(v.toFixed(4)).toString();}
+function fmtN(v){return v<100?v.toFixed(1):Math.round(v).toLocaleString();}
+function matOpts(sel){return MATKEYS.map(function(k){return '<option value="'+k+'"'+(k===sel?' selected':'')+'>'+MATS[k].n+' ('+MATS[k].d.toLocaleString()+' kg/m³)</option>';}).join('');}
+function fluidOpts(sel){return Object.keys(FLUIDS).map(function(k){return '<option value="'+k+'"'+(k===sel?' selected':'')+'>'+FLUIDS[k].n+' ('+FLUIDS[k].d.toLocaleString()+' kg/m³)</option>';}).join('');}
+function setupCv(cv,wrap){var r=wrap.getBoundingClientRect(),dpr=devicePixelRatio||1,w=r.width,h=r.height;cv.width=w*dpr;cv.height=h*dpr;cv.style.width=w+'px';cv.style.height=h+'px';var cx=cv.getContext('2d');cx.setTransform(dpr,0,0,dpr,0,0);return{cx:cx,w:w,h:h};}
 
-function rsz(){var wp=$('cvWrap'),r=wp.getBoundingClientRect();dpr=devicePixelRatio||1;W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';cx.setTransform(dpr,0,0,dpr,0,0);tL=W*.1;tR=W*.9;tT=H*.08;tB=H*.92;wY=tT+(tB-tT)*.35;if(obj.on)obj.x=(tL+tR)/2;}
-window.addEventListener('resize',rsz);
+function drawTankBg(cx,tL,tR,tT,tB){cx.fillStyle='#FAFAF8';cx.beginPath();cx.moveTo(tL,tT);cx.lineTo(tL,tB-10);cx.quadraticCurveTo(tL,tB,tL+10,tB);cx.lineTo(tR-10,tB);cx.quadraticCurveTo(tR,tB,tR,tB-10);cx.lineTo(tR,tT);cx.closePath();cx.fill();}
+function drawFluidFill(cx,tL,tR,tT,tB,wY,fl){var c1=h2r(fl.c),c2=h2r(fl.dc);cx.save();cx.beginPath();for(var x=tL;x<=tR;x++){var wv=Math.sin(x*.025+time*1.8)*2.2+Math.sin(x*.045+time*2.7)*1.1+Math.sin(x*.012+time*1.2)*2.8;x===tL?cx.moveTo(x,wY+wv):cx.lineTo(x,wY+wv);}cx.lineTo(tR,tB);cx.lineTo(tL,tB);cx.closePath();var gr=cx.createLinearGradient(0,wY,0,tB);gr.addColorStop(0,'rgba('+c1.r+','+c1.g+','+c1.b+','+(fl.a*.7)+')');gr.addColorStop(.3,'rgba('+((c1.r+c2.r)/2|0)+','+((c1.g+c2.g)/2|0)+','+((c1.b+c2.b)/2|0)+','+(fl.a*.8)+')');gr.addColorStop(1,'rgba('+c2.r+','+c2.g+','+c2.b+','+fl.a+')');cx.fillStyle=gr;cx.fill();cx.beginPath();for(var x2=tL;x2<=tR;x2++){var wv2=Math.sin(x2*.025+time*1.8)*2.2+Math.sin(x2*.045+time*2.7)*1.1+Math.sin(x2*.012+time*1.2)*2.8;x2===tL?cx.moveTo(x2,wY+wv2):cx.lineTo(x2,wY+wv2);}cx.strokeStyle='rgba(255,255,255,'+(fl.a*.6)+')';cx.lineWidth=2;cx.stroke();cx.globalAlpha=.04;for(var i=0;i<6;i++){cx.beginPath();cx.arc(tL+(tR-tL)*(.1+i*.15+Math.sin(time*.7+i)*.05),tB-20+Math.sin(time*1.2+i*1.5)*8,15+Math.sin(time+i)*5,0,Math.PI*2);cx.fillStyle='#fff';cx.fill();}cx.globalAlpha=1;cx.restore();}
+function drawTankWalls(cx,tL,tR,tT,tB){cx.strokeStyle='rgba(180,180,190,.6)';cx.lineWidth=2.5;cx.lineCap='round';cx.beginPath();cx.moveTo(tL,tT);cx.lineTo(tL,tB-10);cx.quadraticCurveTo(tL,tB,tL+10,tB);cx.lineTo(tR-10,tB);cx.quadraticCurveTo(tR,tB,tR,tB-10);cx.lineTo(tR,tT);cx.stroke();cx.strokeStyle='rgba(255,255,255,.3)';cx.lineWidth=1.5;cx.beginPath();cx.moveTo(tL+3,tT+10);cx.lineTo(tL+3,tB-15);cx.stroke();cx.strokeStyle='rgba(160,160,170,.4)';cx.lineWidth=1;cx.font='500 9px system-ui';cx.fillStyle='rgba(120,120,130,.6)';cx.textAlign='right';for(var i=1;i<10;i++){var yy=tT+(tB-tT)*i/10;cx.beginPath();cx.moveTo(tR,yy);cx.lineTo(tR-(i%2===0?14:8),yy);cx.stroke();if(i%2===0)cx.fillText((10-i)*100+'',tR-16,yy+3);}}
+function drawObj3D(cx,x,y,shape,sz,mc){var half=sz/2,rgb=h2r(mc);cx.save();cx.translate(x,y);if(shape==='cube'){var d=sz*.22;cx.beginPath();cx.moveTo(-half,-half);cx.lineTo(-half+d,-half-d);cx.lineTo(half+d,-half-d);cx.lineTo(half,-half);cx.closePath();cx.fillStyle='rgba('+(Math.min(255,rgb.r+40))+','+(Math.min(255,rgb.g+40))+','+(Math.min(255,rgb.b+40))+',.9)';cx.fill();cx.strokeStyle='rgba(0,0,0,.1)';cx.lineWidth=.5;cx.stroke();cx.beginPath();cx.moveTo(half,-half);cx.lineTo(half+d,-half-d);cx.lineTo(half+d,half-d);cx.lineTo(half,half);cx.closePath();cx.fillStyle='rgba('+(Math.max(0,rgb.r-30))+','+(Math.max(0,rgb.g-30))+','+(Math.max(0,rgb.b-30))+',.9)';cx.fill();cx.stroke();var fg=cx.createLinearGradient(-half,-half,half,half);fg.addColorStop(0,'rgba('+rgb.r+','+rgb.g+','+rgb.b+',.95)');fg.addColorStop(1,'rgba('+(Math.max(0,rgb.r-20))+','+(Math.max(0,rgb.g-20))+','+(Math.max(0,rgb.b-20))+',.95)');cx.fillStyle=fg;cx.fillRect(-half,-half,sz,sz);cx.strokeRect(-half,-half,sz,sz);cx.fillStyle='rgba(255,255,255,.15)';cx.fillRect(-half+2,-half+2,sz*.4,sz*.15);}else if(shape==='sphere'){var sg=cx.createRadialGradient(-half*.3,-half*.3,half*.1,0,0,half);sg.addColorStop(0,'rgba('+(Math.min(255,rgb.r+60))+','+(Math.min(255,rgb.g+60))+','+(Math.min(255,rgb.b+60))+',1)');sg.addColorStop(.5,mc);sg.addColorStop(1,'rgba('+(Math.max(0,rgb.r-50))+','+(Math.max(0,rgb.g-50))+','+(Math.max(0,rgb.b-50))+',1)');cx.beginPath();cx.arc(0,0,half,0,Math.PI*2);cx.fillStyle=sg;cx.fill();cx.beginPath();cx.arc(-half*.25,-half*.3,half*.18,0,Math.PI*2);cx.fillStyle='rgba(255,255,255,.35)';cx.fill();}else{var rX=half*.85,rY=half*.28,bH=sz*.75;var bg=cx.createLinearGradient(-rX,0,rX,0);bg.addColorStop(0,'rgba('+(Math.max(0,rgb.r-30))+','+(Math.max(0,rgb.g-30))+','+(Math.max(0,rgb.b-30))+',.95)');bg.addColorStop(.4,mc);bg.addColorStop(1,'rgba('+(Math.max(0,rgb.r-40))+','+(Math.max(0,rgb.g-40))+','+(Math.max(0,rgb.b-40))+',.95)');cx.fillStyle=bg;cx.beginPath();cx.moveTo(-rX,-bH/2);cx.lineTo(-rX,bH/2);cx.ellipse(0,bH/2,rX,rY,0,Math.PI,0,true);cx.lineTo(rX,-bH/2);cx.closePath();cx.fill();cx.beginPath();cx.ellipse(0,-bH/2,rX,rY,0,0,Math.PI*2);cx.fillStyle='rgba('+(Math.min(255,rgb.r+30))+','+(Math.min(255,rgb.g+30))+','+(Math.min(255,rgb.b+30))+',.95)';cx.fill();}cx.restore();}
+function drawArr(cx,x1,y1,x2,y2,c,l){var dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy);if(len<3)return;var ux=dx/len,uy=dy/len,hl=Math.min(10,len*.3);cx.save();cx.strokeStyle=c;cx.fillStyle=c;cx.lineWidth=2.5;cx.lineCap='round';cx.beginPath();cx.moveTo(x1,y1);cx.lineTo(x2-ux*hl*.5,y2-uy*hl*.5);cx.stroke();var px=-uy,py=ux;cx.beginPath();cx.moveTo(x2,y2);cx.lineTo(x2-ux*hl+px*hl*.35,y2-uy*hl+py*hl*.35);cx.lineTo(x2-ux*hl-px*hl*.35,y2-uy*hl-py*hl*.35);cx.closePath();cx.fill();cx.font='600 11px system-ui';cx.textAlign='left';cx.fillText(l,x2+6,y2-2);cx.restore();}
 
-function gD(){return S.mass/(S.vol/1e6);}
-function gSz(){return Math.max(30,Math.min(90,Math.pow(S.vol,1/3)*5.5));}
-function lerp(a,b,t){return a+(b-a)*t;}
-function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
-function h2r(h){return{r:parseInt(h.slice(1,3),16),g:parseInt(h.slice(3,5),16),b:parseInt(h.slice(5,7),16)};}
-
-function buildUI(){
-  var bar=$('matBar');bar.innerHTML=Object.keys(MATS).map(function(k){var m=MATS[k];return '<div class="mat-pill'+(k===S.mat?' on':'')+'" onclick="pickMat(\''+k+'\')"><div class="mat-dot" style="background:'+m.c+'"></div>'+m.n+'<span class="mat-d">'+m.d.toLocaleString()+'</span></div>';}).join('');
-  var sg=$('shG');sg.innerHTML=SHAPES.map(function(s){return '<button class="sh-btn'+(s.id===S.shape?' on':'')+'" onclick="pickSh(\''+s.id+'\')" title="'+s.lbl+'"><svg viewBox="0 0 26 26">'+s.ic+'</svg></button>';}).join('');
-  var fs=$('flSel');fs.innerHTML=Object.keys(FLUIDS).map(function(k){var f=FLUIDS[k];return '<option value="'+k+'"'+(k===S.fluid?' selected':'')+'>'+f.n+' ('+f.d.toLocaleString()+' kg/m³)</option>';}).join('');
-  fs.onchange=function(){S.fluid=fs.value;updRead();};
-  $('dropBtn').onclick=dropObj;$('rstBtn').onclick=rstObj;
-  var fb=$('togF');fb.className='tog-btn'+(S.showF?' on':'');fb.onclick=function(){S.showF=!S.showF;buildUI();};
-  var pb=$('togP');pb.className='tog-btn'+(S.showP?' on':'');pb.onclick=function(){S.showP=!S.showP;$('pOver').classList.toggle('vis',S.showP);buildUI();if(S.showP)drawPV();};
-  var ms=$('msSl'),vs=$('vsSl');ms.value=S.mass;vs.value=S.vol;
-  ms.oninput=function(){S.mass=+ms.value;S.custom=true;updRead();};
-  vs.oninput=function(){S.vol=+vs.value;S.custom=true;updRead();};
-  updRead();
-}
-window.pickMat=function(k){S.mat=k;S.custom=false;var m=MATS[k],v=S.vol/1e6;S.mass=+(m.d*v).toFixed(3);$('msSl').value=S.mass;buildUI();};
-window.pickSh=function(id){S.shape=id;buildUI();};
-function updRead(){
-  var d=gD(),fd=FLUIDS[S.fluid].d;
-  $('dnNum').textContent=isFinite(d)?d<100?d.toFixed(1):Math.round(d).toLocaleString():'—';
-  $('mV').textContent=S.mass<1?(S.mass*1000).toFixed(0)+' g':S.mass.toFixed(2)+' kg';
-  $('vV').textContent=S.vol.toFixed(0)+' cm³';
-  $('fV').textContent=fd.toLocaleString();
-  $('msV').textContent=S.mass<1?(S.mass*1000).toFixed(0)+' g':S.mass.toFixed(2)+' kg';
-  $('vsV').textContent=S.vol.toFixed(0)+' cm³';
-  var v=$('verd');if(!isFinite(d)){v.textContent='';v.className='verdict';return;}
+// ===================== TAB 1: TANK LAB =====================
+var T1={mat:'aluminum',shape:'cube',fluid:'water',mass:2.7,vol:1000,showF:false,showP:false,custom:false,uncert:0.5};
+var t1obj={x:0,y:0,vy:0,on:false,splD:false};
+var t1bubs=[],t1splsh=[];
+var t1cv,t1cx,t1W,t1H,t1L,t1R,t1T,t1B,t1wY;
+function t1gD(){return T1.mass/(T1.vol/1e6);}
+function t1gSz(){return Math.max(30,Math.min(90,Math.pow(T1.vol,1/3)*5.5));}
+function t1rsz(){var wp=$('t1Wrap');if(!wp)return;var r=wp.getBoundingClientRect();t1W=r.width;t1H=r.height;var dpr=devicePixelRatio||1;t1cv=$('t1Cv');t1cv.width=t1W*dpr;t1cv.height=t1H*dpr;t1cv.style.width=t1W+'px';t1cv.style.height=t1H+'px';t1cx=t1cv.getContext('2d');t1cx.setTransform(dpr,0,0,dpr,0,0);t1L=t1W*.1;t1R=t1W*.9;t1T=t1H*.08;t1B=t1H*.92;t1wY=t1T+(t1B-t1T)*.35;if(t1obj.on)t1obj.x=(t1L+t1R)/2;}
+function t1updRead(){
+  var d=t1gD(),fd=FLUIDS[T1.fluid].d;
+  $('t1dnNum').textContent=isFinite(d)?fmtN(d):'—';
+  $('t1mV').textContent=T1.mass<1?(T1.mass*1000).toFixed(0)+' g':T1.mass.toFixed(2)+' kg';
+  $('t1vV').textContent=T1.vol.toFixed(0)+' cm³';
+  $('t1fV').textContent=fd.toLocaleString();
+  $('t1msV').textContent=T1.mass<1?(T1.mass*1000).toFixed(0)+' g':T1.mass.toFixed(2)+' kg';
+  $('t1vsV').textContent=T1.vol.toFixed(0)+' cm³';
+  var v=$('t1verd');if(!isFinite(d)){v.textContent='';v.className='verdict';return;}
   var r2=d/fd;v.textContent=r2<.98?'Floats':r2>1.02?'Sinks':'Neutral Buoyancy';
   v.className='verdict '+(r2<.98?'v-float':r2>1.02?'v-sink':'v-hover');
-  updArch();if(S.showP)drawPV();
+  t1updArch();if(T1.showP)t1drawPV();
 }
-function updArch(){
-  var d=gD(),fd=FLUIDS[S.fluid].d,sz=gSz(),half=sz/2;
-  if(!obj.on){$('archBox').innerHTML='Drop an object to see Archimedes\' calculation.';return;}
-  var subF=clamp((obj.y+half-wY)/sz,0,1);var Vdisp=(S.vol/1e6)*subF;var Fb=fd*Vdisp*9.81;var W2=S.mass*9.81;
-  $('archBox').innerHTML='<strong>Archimedes\' Principle</strong><br>Submerged: '+(subF*100).toFixed(0)+'%<br>V<sub>displaced</sub> = '+(Vdisp*1e6).toFixed(0)+' cm³<br><strong>F<sub>b</sub> = ρ<sub>fluid</sub> × V<sub>disp</sub> × g = '+fd+' × '+Vdisp.toFixed(6)+' × 9.81 = '+Fb.toFixed(2)+' N</strong><br>Weight = mg = '+S.mass+' × 9.81 = '+W2.toFixed(2)+' N<br>'+(Math.abs(Fb-W2)<0.1?'<strong style="color:var(--ok)">F<sub>b</sub> ≈ W → Equilibrium!</strong>':Fb>W2?'F<sub>b</sub> > W → Rising':'F<sub>b</sub> < W → Sinking');
+function t1updArch(){
+  var d=t1gD(),fd=FLUIDS[T1.fluid].d,sz=t1gSz(),half=sz/2;
+  if(!t1obj.on){$('t1archBox').innerHTML='Drop an object to see Archimedes\' calculation.';return;}
+  var subF=clamp((t1obj.y+half-t1wY)/sz,0,1),Vdisp=(T1.vol/1e6)*subF,Fb=fd*Vdisp*9.81,W2=T1.mass*9.81;
+  $('t1archBox').innerHTML='<strong>Archimedes\' Principle</strong><br>Submerged: '+(subF*100).toFixed(0)+'%<br>V<sub>displaced</sub> = '+(Vdisp*1e6).toFixed(0)+' cm³<br><strong>F<sub>b</sub> = ρ<sub>fluid</sub> × V<sub>disp</sub> × g = '+fd+' × '+Vdisp.toFixed(6)+' × 9.81 = '+Fb.toFixed(2)+' N</strong><br>Weight = mg = '+T1.mass+' × 9.81 = '+W2.toFixed(2)+' N<br>'+(Math.abs(Fb-W2)<0.1?'<strong style="color:var(--ok)">F<sub>b</sub> ≈ W → Equilibrium!</strong>':Fb>W2?'F<sub>b</sub> > W → Rising':'F<sub>b</sub> < W → Sinking');
 }
-
-function dropObj(){obj.on=true;obj.x=(tL+tR)/2;obj.y=tT-gSz();obj.vy=0;obj.splD=false;bubs=[];splsh=[];addN('Drop',MATS[S.mat]?MATS[S.mat].n:'Custom','m='+S.mass+' V='+S.vol);}
-function rstObj(){obj.on=false;obj.vy=0;bubs=[];splsh=[];}
-
-function updPh(){
-  if(!obj.on)return;var sz=gSz(),half=sz/2,d=gD(),fd=FLUIDS[S.fluid].d;
-  var subF=obj.y+half>wY?clamp((obj.y+half-wY)/sz,0,1):0;
-  var ay=0.22-(fd/d)*subF*0.22;
-  ay-=obj.vy*(subF>0?0.06:0.002);
-  obj.vy+=ay;obj.vy*=0.985;obj.y+=obj.vy;
-  if(!obj.splD&&obj.y+half>wY&&obj.vy>1){obj.splD=true;for(var i=0;i<12;i++){var a=-Math.PI+Math.random()*Math.PI,sp=1.5+Math.random()*3;splsh.push({x:obj.x+(Math.random()-.5)*sz*.6,y:wY,vx:Math.cos(a)*sp,vy:-Math.abs(Math.sin(a))*sp-1,l:1,s:2+Math.random()*3});}}
-  if(subF>0&&Math.abs(obj.vy)>.3&&Math.random()<.3)bubs.push({x:obj.x+(Math.random()-.5)*sz*.5,y:obj.y+(Math.random()-.5)*sz*.3,r:1.5+Math.random()*3,vy:-.4-Math.random()*.8,vx:(Math.random()-.5)*.3,l:1});
-  if(obj.y+half>tB-8){obj.y=tB-8-half;obj.vy=Math.abs(obj.vy)>.5?-obj.vy*.25:0;}
-  if(obj.y-half<tT+4){obj.y=tT+4+half;obj.vy=Math.abs(obj.vy)>.5?-obj.vy*.1:0;}
-  for(var i=bubs.length-1;i>=0;i--){var b=bubs[i];b.y+=b.vy;b.x+=b.vx+Math.sin(time*4+i)*.15;b.l-=.008;if(b.y<wY||b.l<=0)bubs.splice(i,1);}
-  for(var i=splsh.length-1;i>=0;i--){var s=splsh[i];s.x+=s.vx;s.y+=s.vy;s.vy+=.15;s.l-=.025;if(s.l<=0)splsh.splice(i,1);}
-  if(Math.floor(time*5)%12===0)updArch();
+function t1pickMat(k){T1.mat=k;T1.custom=false;var m=MATS[k],v=T1.vol/1e6;T1.mass=+(m.d*v).toFixed(3);$('t1msSl').value=T1.mass;t1updRead();}
+function t1drop(){t1obj.on=true;t1obj.x=(t1L+t1R)/2;t1obj.y=t1T-t1gSz();t1obj.vy=0;t1obj.splD=false;t1bubs=[];t1splsh=[];t1addN('Drop',MATS[T1.mat]?MATS[T1.mat].n:'Custom','m='+T1.mass+' V='+T1.vol);}
+function t1rst(){t1obj.on=false;t1obj.vy=0;t1bubs=[];t1splsh=[];}
+function t1updPh(){
+  if(!t1obj.on)return;var sz=t1gSz(),half=sz/2,d=t1gD(),fd=FLUIDS[T1.fluid].d;
+  var subF=t1obj.y+half>t1wY?clamp((t1obj.y+half-t1wY)/sz,0,1):0;
+  var ay=0.22-(fd/d)*subF*0.22;ay-=t1obj.vy*(subF>0?0.06:0.002);
+  t1obj.vy+=ay;t1obj.vy*=0.985;t1obj.y+=t1obj.vy;
+  if(!t1obj.splD&&t1obj.y+half>t1wY&&t1obj.vy>1){t1obj.splD=true;for(var i=0;i<12;i++){var a=-Math.PI+Math.random()*Math.PI,sp=1.5+Math.random()*3;t1splsh.push({x:t1obj.x+(Math.random()-.5)*sz*.6,y:t1wY,vx:Math.cos(a)*sp,vy:-Math.abs(Math.sin(a))*sp-1,l:1,s:2+Math.random()*3});}}
+  if(subF>0&&Math.abs(t1obj.vy)>.3&&Math.random()<.3)t1bubs.push({x:t1obj.x+(Math.random()-.5)*sz*.5,y:t1obj.y+(Math.random()-.5)*sz*.3,r:1.5+Math.random()*3,vy:-.4-Math.random()*.8,vx:(Math.random()-.5)*.3,l:1});
+  if(t1obj.y+half>t1B-8){t1obj.y=t1B-8-half;t1obj.vy=Math.abs(t1obj.vy)>.5?-t1obj.vy*.25:0;}
+  if(t1obj.y-half<t1T+4){t1obj.y=t1T+4+half;t1obj.vy=Math.abs(t1obj.vy)>.5?-t1obj.vy*.1:0;}
+  for(var i2=t1bubs.length-1;i2>=0;i2--){var b=t1bubs[i2];b.y+=b.vy;b.x+=b.vx+Math.sin(time*4+i2)*.15;b.l-=.008;if(b.y<t1wY||b.l<=0)t1bubs.splice(i2,1);}
+  for(var i3=t1splsh.length-1;i3>=0;i3--){var s=t1splsh[i3];s.x+=s.vx;s.y+=s.vy;s.vy+=.15;s.l-=.025;if(s.l<=0)t1splsh.splice(i3,1);}
+  if(Math.floor(time*5)%12===0)t1updArch();
 }
-
-function render(){
-  cx.clearRect(0,0,W,H);time+=0.016;
-  // Tank bg
-  cx.fillStyle='#FAFAF8';cx.beginPath();cx.moveTo(tL,tT);cx.lineTo(tL,tB-10);cx.quadraticCurveTo(tL,tB,tL+10,tB);cx.lineTo(tR-10,tB);cx.quadraticCurveTo(tR,tB,tR,tB-10);cx.lineTo(tR,tT);cx.closePath();cx.fill();
-  // Fluid
-  var fl=FLUIDS[S.fluid],c1=h2r(fl.c),c2=h2r(fl.dc);
-  cx.save();cx.beginPath();
-  for(var x=tL;x<=tR;x++){var wv=Math.sin(x*.025+time*1.8)*2.2+Math.sin(x*.045+time*2.7)*1.1+Math.sin(x*.012+time*1.2)*2.8;x===tL?cx.moveTo(x,wY+wv):cx.lineTo(x,wY+wv);}
-  cx.lineTo(tR,tB);cx.lineTo(tL,tB);cx.closePath();
-  var gr=cx.createLinearGradient(0,wY,0,tB);gr.addColorStop(0,'rgba('+c1.r+','+c1.g+','+c1.b+','+(fl.a*.7)+')');gr.addColorStop(.3,'rgba('+((c1.r+c2.r)/2|0)+','+((c1.g+c2.g)/2|0)+','+((c1.b+c2.b)/2|0)+','+(fl.a*.8)+')');gr.addColorStop(1,'rgba('+c2.r+','+c2.g+','+c2.b+','+fl.a+')');
-  cx.fillStyle=gr;cx.fill();
-  cx.beginPath();for(var x=tL;x<=tR;x++){var wv=Math.sin(x*.025+time*1.8)*2.2+Math.sin(x*.045+time*2.7)*1.1+Math.sin(x*.012+time*1.2)*2.8;x===tL?cx.moveTo(x,wY+wv):cx.lineTo(x,wY+wv);}cx.strokeStyle='rgba(255,255,255,'+(fl.a*.6)+')';cx.lineWidth=2;cx.stroke();
-  cx.globalAlpha=.04;for(var i=0;i<6;i++){cx.beginPath();cx.arc(tL+(tR-tL)*(.1+i*.15+Math.sin(time*.7+i)*.05),tB-20+Math.sin(time*1.2+i*1.5)*8,15+Math.sin(time+i)*5,0,Math.PI*2);cx.fillStyle='#fff';cx.fill();}cx.globalAlpha=1;cx.restore();
-  // Object
-  if(obj.on)drawObj();
-  // Bubbles
-  bubs.forEach(function(b){cx.save();cx.globalAlpha=b.l*.5;cx.beginPath();cx.arc(b.x,b.y,b.r,0,Math.PI*2);cx.fillStyle='rgba(255,255,255,.6)';cx.fill();cx.beginPath();cx.arc(b.x-b.r*.2,b.y-b.r*.3,b.r*.25,0,Math.PI*2);cx.fillStyle='rgba(255,255,255,.8)';cx.fill();cx.restore();});
-  // Splashes
-  splsh.forEach(function(s){cx.save();cx.globalAlpha=s.l*.7;cx.beginPath();cx.arc(s.x,s.y,s.s,0,Math.PI*2);cx.fillStyle=FLUIDS[S.fluid].c;cx.fill();cx.restore();});
-  // Forces
-  if(obj.on&&S.showF){var sz=gSz(),half=sz/2,d=gD(),fd=FLUIDS[S.fluid].d,subF=clamp((obj.y+half-wY)/sz,0,1);var gLen=40,bLen=40*(fd/d)*subF;
-    if(gLen>5)drawArr(obj.x-15,obj.y,obj.x-15,obj.y+gLen,'#EF4444','W');
-    if(bLen>5)drawArr(obj.x+15,obj.y,obj.x+15,obj.y-bLen,'#3B82F6','Fb');}
-  // Tank walls
-  cx.strokeStyle='rgba(180,180,190,.6)';cx.lineWidth=2.5;cx.lineCap='round';cx.beginPath();cx.moveTo(tL,tT);cx.lineTo(tL,tB-10);cx.quadraticCurveTo(tL,tB,tL+10,tB);cx.lineTo(tR-10,tB);cx.quadraticCurveTo(tR,tB,tR,tB-10);cx.lineTo(tR,tT);cx.stroke();
-  cx.strokeStyle='rgba(255,255,255,.3)';cx.lineWidth=1.5;cx.beginPath();cx.moveTo(tL+3,tT+10);cx.lineTo(tL+3,tB-15);cx.stroke();
-  cx.strokeStyle='rgba(160,160,170,.4)';cx.lineWidth=1;cx.font='500 9px system-ui';cx.fillStyle='rgba(120,120,130,.6)';cx.textAlign='right';
-  for(var i=1;i<10;i++){var yy=tT+(tB-tT)*i/10;cx.beginPath();cx.moveTo(tR,yy);cx.lineTo(tR-(i%2===0?14:8),yy);cx.stroke();if(i%2===0)cx.fillText((10-i)*100+'',tR-16,yy+3);}
+function t1render(){
+  if(!t1cx)return;t1cx.clearRect(0,0,t1W,t1H);
+  drawTankBg(t1cx,t1L,t1R,t1T,t1B);
+  drawFluidFill(t1cx,t1L,t1R,t1T,t1B,t1wY,FLUIDS[T1.fluid]);
+  if(t1obj.on){var mc=T1.custom?'#E8A838':MATS[T1.mat].c;drawObj3D(t1cx,t1obj.x,t1obj.y,T1.shape,t1gSz(),mc);}
+  t1bubs.forEach(function(b){t1cx.save();t1cx.globalAlpha=b.l*.5;t1cx.beginPath();t1cx.arc(b.x,b.y,b.r,0,Math.PI*2);t1cx.fillStyle='rgba(255,255,255,.6)';t1cx.fill();t1cx.beginPath();t1cx.arc(b.x-b.r*.2,b.y-b.r*.3,b.r*.25,0,Math.PI*2);t1cx.fillStyle='rgba(255,255,255,.8)';t1cx.fill();t1cx.restore();});
+  t1splsh.forEach(function(s){t1cx.save();t1cx.globalAlpha=s.l*.7;t1cx.beginPath();t1cx.arc(s.x,s.y,s.s,0,Math.PI*2);t1cx.fillStyle=FLUIDS[T1.fluid].c;t1cx.fill();t1cx.restore();});
+  if(t1obj.on&&T1.showF){var sz=t1gSz(),half=sz/2,d=t1gD(),fd=FLUIDS[T1.fluid].d,subF=clamp((t1obj.y+half-t1wY)/sz,0,1);var gLen=40,bLen=40*(fd/d)*subF;if(gLen>5)drawArr(t1cx,t1obj.x-15,t1obj.y,t1obj.x-15,t1obj.y+gLen,'#EF4444','W');if(bLen>5)drawArr(t1cx,t1obj.x+15,t1obj.y,t1obj.x+15,t1obj.y-bLen,'#3B82F6','Fb');}
+  drawTankWalls(t1cx,t1L,t1R,t1T,t1B);
 }
+function t1drawPV(){var pc=$('t1pCv');if(!pc)return;var px=pc.getContext('2d'),s=180;px.clearRect(0,0,s,s);var d=t1gD(),mc=T1.custom?'#E8A838':MATS[T1.mat]?MATS[T1.mat].c:'#999',rgb=h2r(mc);px.fillStyle='#F8F6F3';px.beginPath();px.arc(s/2,s/2,s/2,0,Math.PI*2);px.fill();var logD=Math.log10(Math.max(100,d)),cnt=Math.round(lerp(8,80,clamp((logD-2)/2.3,0,1))),pr=lerp(12,6,clamp((logD-2)/2.3,0,1));var cols=Math.ceil(Math.sqrt(cnt*1.2)),sp=(s-20)/cols,count=0;for(var row=0;row<cols+2&&count<cnt;row++){for(var col=0;col<cols&&count<cnt;col++){var ppx=10+col*sp+sp/2+Math.sin(time*3+count*.7)*1.5,ppy=10+row*sp+sp/2+Math.cos(time*2.5+count*1.1)*1.5;if(Math.sqrt(Math.pow(ppx-s/2,2)+Math.pow(ppy-s/2,2))>s/2-pr-2)continue;var g=px.createRadialGradient(ppx-pr*.2,ppy-pr*.2,0,ppx,ppy,pr);g.addColorStop(0,'rgba('+(Math.min(255,rgb.r+50))+','+(Math.min(255,rgb.g+50))+','+(Math.min(255,rgb.b+50))+',.9)');g.addColorStop(1,'rgba('+rgb.r+','+rgb.g+','+rgb.b+',.8)');px.beginPath();px.arc(ppx,ppy,pr,0,Math.PI*2);px.fillStyle=g;px.fill();count++;}}$('t1pLbl').textContent=T1.custom?'Custom':MATS[T1.mat]?MATS[T1.mat].n:'Custom';$('t1pSub').textContent=Math.round(d).toLocaleString()+' kg/m³ — '+(d>5000?'very tightly packed':d>1500?'tightly packed':d>500?'moderately packed':'loosely packed');}
 
-function drawObj(){
-  var sz=gSz(),half=sz/2,mc=S.custom?'#E8A838':MATS[S.mat].c,rgb=h2r(mc);
-  cx.save();cx.translate(obj.x,obj.y);
-  var subF=clamp((obj.y+half-wY)/sz,0,1);
-  if(subF>0){cx.save();cx.globalAlpha=.08*subF;cx.beginPath();cx.ellipse(0,tB-8-obj.y,sz*.4,4,0,0,Math.PI*2);cx.fillStyle='#000';cx.fill();cx.restore();}
-  if(S.shape==='cube'){var d=sz*.22;cx.beginPath();cx.moveTo(-half,-half);cx.lineTo(-half+d,-half-d);cx.lineTo(half+d,-half-d);cx.lineTo(half,-half);cx.closePath();cx.fillStyle='rgba('+(Math.min(255,rgb.r+40))+','+(Math.min(255,rgb.g+40))+','+(Math.min(255,rgb.b+40))+',.9)';cx.fill();cx.strokeStyle='rgba(0,0,0,.1)';cx.lineWidth=.5;cx.stroke();
-    cx.beginPath();cx.moveTo(half,-half);cx.lineTo(half+d,-half-d);cx.lineTo(half+d,half-d);cx.lineTo(half,half);cx.closePath();cx.fillStyle='rgba('+(Math.max(0,rgb.r-30))+','+(Math.max(0,rgb.g-30))+','+(Math.max(0,rgb.b-30))+',.9)';cx.fill();cx.stroke();
-    var fg=cx.createLinearGradient(-half,-half,half,half);fg.addColorStop(0,'rgba('+rgb.r+','+rgb.g+','+rgb.b+',.95)');fg.addColorStop(1,'rgba('+(Math.max(0,rgb.r-20))+','+(Math.max(0,rgb.g-20))+','+(Math.max(0,rgb.b-20))+',.95)');cx.fillStyle=fg;cx.fillRect(-half,-half,sz,sz);cx.strokeRect(-half,-half,sz,sz);cx.fillStyle='rgba(255,255,255,.15)';cx.fillRect(-half+2,-half+2,sz*.4,sz*.15);
-  }else if(S.shape==='sphere'){var sg=cx.createRadialGradient(-half*.3,-half*.3,half*.1,0,0,half);sg.addColorStop(0,'rgba('+(Math.min(255,rgb.r+60))+','+(Math.min(255,rgb.g+60))+','+(Math.min(255,rgb.b+60))+',1)');sg.addColorStop(.5,mc);sg.addColorStop(1,'rgba('+(Math.max(0,rgb.r-50))+','+(Math.max(0,rgb.g-50))+','+(Math.max(0,rgb.b-50))+',1)');cx.beginPath();cx.arc(0,0,half,0,Math.PI*2);cx.fillStyle=sg;cx.fill();cx.beginPath();cx.arc(-half*.25,-half*.3,half*.18,0,Math.PI*2);cx.fillStyle='rgba(255,255,255,.35)';cx.fill();
-  }else{var rX=half*.85,rY=half*.28,bH=sz*.75;var bg=cx.createLinearGradient(-rX,0,rX,0);bg.addColorStop(0,'rgba('+(Math.max(0,rgb.r-30))+','+(Math.max(0,rgb.g-30))+','+(Math.max(0,rgb.b-30))+',.95)');bg.addColorStop(.4,mc);bg.addColorStop(1,'rgba('+(Math.max(0,rgb.r-40))+','+(Math.max(0,rgb.g-40))+','+(Math.max(0,rgb.b-40))+',.95)');cx.fillStyle=bg;cx.beginPath();cx.moveTo(-rX,-bH/2);cx.lineTo(-rX,bH/2);cx.ellipse(0,bH/2,rX,rY,0,Math.PI,0,true);cx.lineTo(rX,-bH/2);cx.closePath();cx.fill();cx.beginPath();cx.ellipse(0,-bH/2,rX,rY,0,0,Math.PI*2);cx.fillStyle='rgba('+(Math.min(255,rgb.r+30))+','+(Math.min(255,rgb.g+30))+','+(Math.min(255,rgb.b+30))+',.95)';cx.fill();}
-  cx.restore();
-}
-function drawArr(x1,y1,x2,y2,c,l){var dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy),ux=dx/len,uy=dy/len,hl=Math.min(10,len*.3);cx.save();cx.strokeStyle=c;cx.fillStyle=c;cx.lineWidth=2.5;cx.lineCap='round';cx.beginPath();cx.moveTo(x1,y1);cx.lineTo(x2-ux*hl*.5,y2-uy*hl*.5);cx.stroke();var px=-uy,py=ux;cx.beginPath();cx.moveTo(x2,y2);cx.lineTo(x2-ux*hl+px*hl*.35,y2-uy*hl+py*hl*.35);cx.lineTo(x2-ux*hl-px*hl*.35,y2-uy*hl-py*hl*.35);cx.closePath();cx.fill();cx.font='600 11px system-ui';cx.textAlign='left';cx.fillText(l,x2+6,y2-2);cx.restore();}
-
-function drawPV(){var pc=$('pCv'),px=pc.getContext('2d'),s=180;px.clearRect(0,0,s,s);var d=gD(),mc=S.custom?'#E8A838':MATS[S.mat]?MATS[S.mat].c:'#999',rgb=h2r(mc);
-  px.fillStyle='#F8F6F3';px.beginPath();px.arc(s/2,s/2,s/2,0,Math.PI*2);px.fill();
-  var logD=Math.log10(Math.max(100,d)),cnt=Math.round(lerp(8,80,clamp((logD-2)/2.3,0,1))),pr=lerp(12,6,clamp((logD-2)/2.3,0,1));
-  var cols=Math.ceil(Math.sqrt(cnt*1.2)),sp=(s-20)/cols,count=0;
-  for(var row=0;row<cols+2&&count<cnt;row++){for(var col=0;col<cols&&count<cnt;col++){var ppx=10+col*sp+sp/2+Math.sin(time*3+count*.7)*1.5,ppy=10+row*sp+sp/2+Math.cos(time*2.5+count*1.1)*1.5;
-    if(Math.sqrt(Math.pow(ppx-s/2,2)+Math.pow(ppy-s/2,2))>s/2-pr-2)continue;
-    var g=px.createRadialGradient(ppx-pr*.2,ppy-pr*.2,0,ppx,ppy,pr);g.addColorStop(0,'rgba('+(Math.min(255,rgb.r+50))+','+(Math.min(255,rgb.g+50))+','+(Math.min(255,rgb.b+50))+',.9)');g.addColorStop(1,'rgba('+rgb.r+','+rgb.g+','+rgb.b+',.8)');px.beginPath();px.arc(ppx,ppy,pr,0,Math.PI*2);px.fillStyle=g;px.fill();count++;}}
-  $('pLbl').textContent=S.custom?'Custom':MATS[S.mat]?MATS[S.mat].n:'Custom';
-  $('pSub').textContent=Math.round(d).toLocaleString()+' kg/m³ — '+(d>5000?'very tightly packed':d>1500?'tightly packed':d>500?'moderately packed':'loosely packed');
-}
-
-// === EXPERIMENT PANEL ===
+// Experiment panel
 var SIM_VARS={iv:[{id:'mass',n:'Mass (kg)'},{id:'vol',n:'Volume (cm³)'},{id:'fd',n:'Fluid Density (kg/m³)'}],dv:[{id:'dens',n:'Density (kg/m³)'},{id:'sink',n:'Float/Sink (1=float,0=sink)'},{id:'subf',n:'Submerged Fraction'},{id:'fb',n:'Buoyant Force (N)'}],allVars:['Mass','Volume','Fluid type','Shape','Object material','Temperature','Container size','Gravity','Atmospheric pressure']};
 function getIVN(){var v=$('expIV')?$('expIV').value:'mass';for(var i=0;i<SIM_VARS.iv.length;i++){if(SIM_VARS.iv[i].id===v)return SIM_VARS.iv[i].n;}return SIM_VARS.iv[0].n;}
 function getDVN(){var v=$('expDV')?$('expDV').value:'dens';for(var i=0;i<SIM_VARS.dv.length;i++){if(SIM_VARS.dv[i].id===v)return SIM_VARS.dv[i].n;}return SIM_VARS.dv[0].n;}
-function fmtV(v){if(Math.abs(v)<.01&&v!==0)return v.toExponential(3);if(Math.abs(v)>=1e6)return v.toExponential(3);return parseFloat(v.toFixed(4)).toString();}
-function getSimIV(){var iv=$('expIV')?$('expIV').value:'mass';if(iv==='mass')return S.mass;if(iv==='vol')return S.vol;if(iv==='fd')return FLUIDS[S.fluid].d;return S.mass;}
-function getSimDV(){var dv=$('expDV')?$('expDV').value:'dens';var d=gD(),fd=FLUIDS[S.fluid].d;if(dv==='dens')return d;if(dv==='sink')return d<fd?1:0;if(dv==='subf'){if(!obj.on)return 0;var sz=gSz(),half=sz/2;return clamp((obj.y+half-wY)/sz,0,1);}if(dv==='fb'){var subF2=obj.on?clamp((obj.y+gSz()/2-wY)/gSz(),0,1):0;return fd*(S.vol/1e6)*subF2*9.81;}return d;}
-
+function getSimIV(){var iv=$('expIV')?$('expIV').value:'mass';if(iv==='mass')return T1.mass;if(iv==='vol')return T1.vol;if(iv==='fd')return FLUIDS[T1.fluid].d;return T1.mass;}
+function getSimDV(){var dv=$('expDV')?$('expDV').value:'dens';var d=t1gD(),fd=FLUIDS[T1.fluid].d;if(dv==='dens')return d;if(dv==='sink')return d<fd?1:0;if(dv==='subf'){if(!t1obj.on)return 0;var sz=t1gSz(),half=sz/2;return clamp((t1obj.y+half-t1wY)/sz,0,1);}if(dv==='fb'){var subF2=t1obj.on?clamp((t1obj.y+t1gSz()/2-t1wY)/t1gSz(),0,1):0;return fd*(T1.vol/1e6)*subF2*9.81;}return d;}
 var manD=[],expD=[],showGrid=true,showBF=false;
 function buildExp(){
   var ivSel=$('expIV')?$('expIV').value:SIM_VARS.iv[0].id,dvSel=$('expDV')?$('expDV').value:SIM_VARS.dv[0].id;
   var ivN=getIVN(),dvN=getDVN();var cvItems=SIM_VARS.allVars.filter(function(v){return v!==ivN&&v!==dvN;});
   var h='<div class="exp-panel"><div class="exp-title">Experiment Variables</div>';
   h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">';
-  h+='<div class="exp-var"><label class="exp-label iv">Independent Variable (IV)</label><select class="exp-select" id="expIV" onchange="buildExp()">'+SIM_VARS.iv.map(function(v){return '<option value="'+v.id+'"'+(v.id===ivSel?' selected':'')+'>'+v.n+'</option>';}).join('')+'</select></div>';
-  h+='<div class="exp-var"><label class="exp-label dv">Dependent Variable (DV)</label><select class="exp-select" id="expDV" onchange="buildExp()">'+SIM_VARS.dv.map(function(v){return '<option value="'+v.id+'"'+(v.id===dvSel?' selected':'')+'>'+v.n+'</option>';}).join('')+'</select></div></div>';
-  h+='<div class="exp-var"><label class="exp-label cv">Controlled Variables (CV)</label><div class="exp-cv-list">';cvItems.forEach(function(v){h+='<label class="exp-cv-item"><input type="checkbox" checked> '+v+'</label>';});h+='</div></div>';
+  h+='<div><label class="exp-label iv">Independent Variable (IV)</label><select class="exp-select" id="expIV" onchange="buildExp()">'+SIM_VARS.iv.map(function(v){return '<option value="'+v.id+'"'+(v.id===ivSel?' selected':'')+'>'+v.n+'</option>';}).join('')+'</select></div>';
+  h+='<div><label class="exp-label dv">Dependent Variable (DV)</label><select class="exp-select" id="expDV" onchange="buildExp()">'+SIM_VARS.dv.map(function(v){return '<option value="'+v.id+'"'+(v.id===dvSel?' selected':'')+'>'+v.n+'</option>';}).join('')+'</select></div></div>';
+  h+='<div style="margin-bottom:8px"><label class="exp-label cv">Controlled Variables (CV)</label><div class="exp-cv-list">';cvItems.forEach(function(v){h+='<label class="exp-cv-item"><input type="checkbox" checked> '+v+'</label>';});h+='</div></div>';
   var hypDir=$('hypDir')?$('hypDir').value:'increase';
-  h+='<div class="exp-var"><label class="exp-label hyp">Hypothesis</label><div class="exp-hypothesis">"If <strong class="iv-hl">'+ivN+'</strong> is increased, then <strong class="dv-hl">'+dvN+'</strong> will <select class="hyp-dir" id="hypDir"><option'+(hypDir==='increase'?' selected':'')+'>increase</option><option'+(hypDir==='decrease'?' selected':'')+'>decrease</option><option'+(hypDir==='remain constant'?' selected':'')+'>remain constant</option></select>, while keeping <strong class="cv-hl">'+cvItems.join(', ')+'</strong> constant."</div></div></div>';
-  h+='<div class="exp-data"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-family:Georgia,serif;font-size:.8rem;font-weight:700;color:var(--accent)">Data Collection</span></div>';
+  h+='<div><label class="exp-label hyp">Hypothesis</label><div class="exp-hypothesis">"If <strong style="color:#2563eb">'+ivN+'</strong> is increased, then <strong style="color:#dc2626">'+dvN+'</strong> will <select class="hyp-dir" id="hypDir"><option'+(hypDir==='increase'?' selected':'')+'>increase</option><option'+(hypDir==='decrease'?' selected':'')+'>decrease</option><option'+(hypDir==='remain constant'?' selected':'')+'>remain constant</option></select>, while keeping <strong style="color:#059669">'+cvItems.join(', ')+'</strong> constant."</div></div></div>';
+  h+='<div class="exp-panel" style="margin-top:6px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span class="exp-title" style="margin-bottom:0">Data Collection</span></div>';
   h+='<div style="display:flex;gap:3px;align-items:end;margin-bottom:4px"><div style="flex:1"><label style="font-size:.62rem;font-weight:700;color:#2563eb">IV</label><div style="display:flex;gap:2px"><input class="num-input" id="mIV" step="any" style="width:100%"><button class="btn btn-s" onclick="rIV()" style="font-size:.6rem;padding:2px 4px">Read</button></div></div>';
   h+='<div style="flex:1"><label style="font-size:.62rem;font-weight:700;color:#dc2626">DV</label><div style="display:flex;gap:2px"><input class="num-input" id="mDV" step="any" style="width:100%"><button class="btn btn-s" onclick="rDV()" style="font-size:.6rem;padding:2px 4px">Read</button></div></div>';
   h+='<button class="btn btn-p" onclick="addR()" style="font-size:.6rem;padding:3px 6px">+Add</button><button class="btn btn-ok" onclick="aAdd()" style="font-size:.6rem;padding:3px 6px">Auto</button></div>';
-  h+='<div style="display:flex;gap:4px;align-items:center;margin-bottom:4px"><span style="font-size:.6rem;font-weight:700;color:var(--text3)">± Uncertainty:</span><div style="flex:1;display:flex;align-items:center;gap:4px"><input type="range" min="0.1" max="5" step="0.1" value="'+S.uncert+'" oninput="S.uncert=+this.value;document.getElementById(\'vunc\').textContent=S.uncert.toFixed(1)" style="max-width:100px"><span id="vunc" style="font-family:var(--mono);font-size:.72rem;font-weight:700;color:var(--accent)">'+S.uncert.toFixed(1)+'</span><span style="font-size:.6rem;color:var(--text3)">%</span></div></div>';
+  h+='<div style="display:flex;gap:4px;align-items:center;margin-bottom:4px"><span style="font-size:.6rem;font-weight:700;color:var(--text3)">± Uncertainty:</span><div style="flex:1;display:flex;align-items:center;gap:4px"><input type="range" min="0.1" max="5" step="0.1" value="'+T1.uncert+'" oninput="T1.uncert=+this.value;document.getElementById(\'vunc\').textContent=T1.uncert.toFixed(1)" style="max-width:100px"><span id="vunc" style="font-family:var(--mono);font-size:.72rem;font-weight:700;color:var(--accent)">'+T1.uncert.toFixed(1)+'</span><span style="font-size:.6rem;color:var(--text3)">%</span></div></div>';
   h+='<div id="mT"></div><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-ok" onclick="plotM()">Plot</button><button class="btn btn-s" onclick="clrM()">Clear</button><button class="btn btn-s" onclick="expCSV()">Export CSV</button></div></div>';
   $('expC').innerHTML=h;
 }
 window.rIV=function(){if($('mIV'))$('mIV').value=fmtV(getSimIV());};
 window.rDV=function(){if($('mDV'))$('mDV').value=fmtV(getSimDV());};
 window.aAdd=function(){rIV();rDV();addR();};
-window.addR=function(){var iv=parseFloat($('mIV')?$('mIV').value:0),dv=parseFloat($('mDV')?$('mDV').value:0);if(isNaN(iv)||isNaN(dv))return;manD.push({iv:iv,dv:dv});if($('mIV'))$('mIV').value='';if($('mDV'))$('mDV').value='';buildMT();syncM();addN('Data','IV='+fmtV(iv)+', DV='+fmtV(dv),'#'+manD.length);};
-function buildMT(){if(!manD.length){if($('mT'))$('mT').innerHTML='';return;}var g={};manD.forEach(function(d,i){var k=fmtV(d.iv);if(!g[k])g[k]=[];g[k].push({iv:d.iv,dv:d.dv,idx:i});});var ks=Object.keys(g).sort(function(a,b){return parseFloat(a)-parseFloat(b);});var rows='';ks.forEach(function(k){var pts=g[k],dvs=pts.map(function(p){return p.dv;}),mn=dvs.reduce(function(a,b){return a+b;},0)/dvs.length;pts.forEach(function(p,j){var uD=Math.abs(p.dv*S.uncert/100);rows+='<tr><td>'+(j===0?fmtV(p.iv):'')+'</td><td>'+fmtV(p.dv)+'<span style="color:#999;font-size:.55rem"> ±'+fmtV(uD)+'</span></td><td><span style="cursor:pointer;color:var(--err);opacity:.5" onclick="rmPt('+p.idx+')">x</span></td></tr>';});if(pts.length>1)rows+='<tr class="mean"><td></td><td class="mean">Mean: '+fmtV(mn)+'</td><td></td></tr>';});if($('mT'))$('mT').innerHTML='<table class="dt"><thead><tr><th>'+getIVN()+'</th><th>'+getDVN()+' (±)</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';}
-window.rmPt=function(i){manD.splice(i,1);buildMT();syncM();};window.clrM=function(){manD=[];expD=[];buildMT();if($('dW'))$('dW').innerHTML='<p style="font-size:.58rem;color:var(--text3);text-align:center;padding:6px">Record data points first.</p>';drawGr();};
+window.addR=function(){var iv=parseFloat($('mIV')?$('mIV').value:0),dv=parseFloat($('mDV')?$('mDV').value:0);if(isNaN(iv)||isNaN(dv))return;manD.push({iv:iv,dv:dv});if($('mIV'))$('mIV').value='';if($('mDV'))$('mDV').value='';buildMT();syncM();t1addN('Data','IV='+fmtV(iv)+', DV='+fmtV(dv),'#'+manD.length);};
+function buildMT(){if(!manD.length){if($('mT'))$('mT').innerHTML='';return;}var g={};manD.forEach(function(d,i){var k=fmtV(d.iv);if(!g[k])g[k]=[];g[k].push({iv:d.iv,dv:d.dv,idx:i});});var ks=Object.keys(g).sort(function(a,b){return parseFloat(a)-parseFloat(b);});var rows='';ks.forEach(function(k){var pts=g[k],dvs=pts.map(function(p){return p.dv;}),mn=dvs.reduce(function(a,b){return a+b;},0)/dvs.length;pts.forEach(function(p,j){var uD=Math.abs(p.dv*T1.uncert/100);rows+='<tr><td>'+(j===0?fmtV(p.iv):'')+'</td><td>'+fmtV(p.dv)+'<span style="color:#999;font-size:.55rem"> ±'+fmtV(uD)+'</span></td><td><span style="cursor:pointer;color:var(--err);opacity:.5" onclick="rmPt('+p.idx+')">x</span></td></tr>';});if(pts.length>1)rows+='<tr class="mean"><td></td><td class="mean">Mean: '+fmtV(mn)+'</td><td></td></tr>';});if($('mT'))$('mT').innerHTML='<table class="dt"><thead><tr><th>'+getIVN()+'</th><th>'+getDVN()+' (±)</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';}
+window.rmPt=function(i){manD.splice(i,1);buildMT();syncM();};
+window.clrM=function(){manD=[];expD=[];buildMT();if($('dW'))$('dW').innerHTML='<p style="font-size:.58rem;color:var(--text3);text-align:center;padding:6px">Record data points first.</p>';drawGr();};
 function syncM(){if(!manD.length){expD=[];return;}var g={};manD.forEach(function(d){var k=fmtV(d.iv);if(!g[k])g[k]=[];g[k].push(d.dv);});expD=Object.keys(g).sort(function(a,b){return parseFloat(a)-parseFloat(b);}).map(function(k){var v=g[k],mn=v.reduce(function(a,b){return a+b;},0)/v.length;return{iv:parseFloat(k),mean:mn};});buildDT();setTimeout(function(){initGr();drawGr();},30);}
 function buildDT(){if(!expD.length)return;$('dW').innerHTML='<table class="dt"><thead><tr><th>'+getIVN()+'</th><th>Mean '+getDVN()+'</th></tr></thead><tbody>'+expD.map(function(r){return '<tr><td>'+fmtV(r.iv)+'</td><td class="mean">'+fmtV(r.mean)+'</td></tr>';}).join('')+'</tbody></table>';}
-window.plotM=function(){if(!manD.length)return;syncM();document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(function(){initGr();drawGr();},80);};
-window.expCSV=function(){if(!manD.length)return;var csv=getIVN()+',±IV,'+getDVN()+',±DV\n';manD.forEach(function(d){csv+=fmtV(d.iv)+','+fmtV(Math.abs(d.iv*S.uncert/100))+','+fmtV(d.dv)+','+fmtV(Math.abs(d.dv*S.uncert/100))+'\n';});var blob=new Blob([csv],{type:'text/csv'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='density_data.csv';a.click();};
-window.savePlot=function(){if(!gCv)return;var a=document.createElement('a');a.href=gCv.toDataURL('image/png');a.download='density_plot.png';a.click();};
-window.togGrid=function(){showGrid=!showGrid;drawGr();};window.togBF=function(){showBF=!showBF;drawGr();};
-window.bts=function(el,i){document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on');});el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(function(){initGr();drawGr();},80);};
-
-var gCv,gx2;function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');var d=devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)return;gCv.width=w*d;gCv.height=200*d;gCv.style.width=w+'px';gCv.style.height='200px';gx2.setTransform(d,0,0,d,0,0);}
-function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return;}var w=parseInt(gCv.style.width)||500,h=200;gx2.clearRect(0,0,w,h);gx2.fillStyle='#fff';gx2.fillRect(0,0,w,h);if(!expD.length){gx2.fillStyle='#bbb';gx2.font='11px sans-serif';gx2.textAlign='center';gx2.fillText('Record data and click Plot',w/2,h/2);return;}var P={t:20,r:15,b:36,l:55},pW=w-P.l-P.r,pH=h-P.t-P.b;var xs=expD.map(function(r2){return r2.iv;}),ys=expD.map(function(r2){return r2.mean;});var xn=Math.min.apply(null,xs),xx=Math.max.apply(null,xs),yn=Math.min.apply(null,ys),yx=Math.max.apply(null,ys);if(xx-xn<1e-9){xn-=1;xx+=1;}if(yx-yn<1e-9){yn-=1;yx+=1;}var xp=(xx-xn)*.1,yp=(yx-yn)*.1;xn-=xp;xx+=xp;yn-=yp;yx+=yp;var tx=function(v){return P.l+((v-xn)/(xx-xn))*pW;},ty=function(v){return P.t+pH-((v-yn)/(yx-yn))*pH;};if(showGrid){gx2.strokeStyle='rgba(0,0,0,.06)';gx2.lineWidth=.5;for(var i=0;i<=5;i++){gx2.beginPath();gx2.moveTo(tx(xn+(xx-xn)*i/5),P.t);gx2.lineTo(tx(xn+(xx-xn)*i/5),P.t+pH);gx2.stroke();}for(var i2=0;i2<=5;i2++){gx2.beginPath();gx2.moveTo(P.l,ty(yn+(yx-yn)*i2/5));gx2.lineTo(P.l+pW,ty(yn+(yx-yn)*i2/5));gx2.stroke();}}gx2.strokeStyle='rgba(0,0,0,.25)';gx2.lineWidth=1.5;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,P.t+pH);gx2.lineTo(P.l+pW,P.t+pH);gx2.stroke();gx2.fillStyle='#888';gx2.font='9px sans-serif';gx2.textAlign='center';for(var i3=0;i3<=5;i3++)gx2.fillText(fmtV(xn+(xx-xn)*i3/5),tx(xn+(xx-xn)*i3/5),P.t+pH+12);gx2.textAlign='right';for(var i4=0;i4<=5;i4++)gx2.fillText(fmtV(yn+(yx-yn)*i4/5),P.l-4,ty(yn+(yx-yn)*i4/5)+3);gx2.fillStyle='#555';gx2.font='bold 10px sans-serif';gx2.textAlign='center';gx2.fillText(getIVN(),P.l+pW/2,h-4);gx2.save();gx2.translate(10,P.t+pH/2);gx2.rotate(-Math.PI/2);gx2.fillText(getDVN(),0,0);gx2.restore();if(showBF&&xs.length>=2){var n=xs.length,sx=0,sy=0,sxy=0,sx2=0;for(var bf=0;bf<n;bf++){sx+=xs[bf];sy+=ys[bf];sxy+=xs[bf]*ys[bf];sx2+=xs[bf]*xs[bf];}var bfM=(n*sxy-sx*sy)/(n*sx2-sx*sx),bfB=(sy-bfM*sx)/n;var ssRes=0,ssTot=0,yMean=sy/n;for(var bf2=0;bf2<n;bf2++){var yPred=bfM*xs[bf2]+bfB;ssRes+=(ys[bf2]-yPred)*(ys[bf2]-yPred);ssTot+=(ys[bf2]-yMean)*(ys[bf2]-yMean);}var r2=ssTot>0?1-ssRes/ssTot:0;gx2.strokeStyle='rgba(220,38,38,.4)';gx2.lineWidth=1.5;gx2.setLineDash([6,4]);gx2.beginPath();gx2.moveTo(tx(xn),ty(bfM*xn+bfB));gx2.lineTo(tx(xx),ty(bfM*xx+bfB));gx2.stroke();gx2.setLineDash([]);gx2.fillStyle='rgba(220,38,38,.5)';gx2.font='9px sans-serif';gx2.textAlign='right';gx2.fillText('y = '+bfM.toFixed(2)+'x + '+bfB.toFixed(2)+' R² = '+r2.toFixed(4),P.l+pW,P.t+12);}if(xs.length>=2){gx2.strokeStyle='#0B7285';gx2.lineWidth=1.5;gx2.beginPath();expD.forEach(function(r2,i5){i5===0?gx2.moveTo(tx(r2.iv),ty(r2.mean)):gx2.lineTo(tx(r2.iv),ty(r2.mean));});gx2.stroke();}gx2.fillStyle='#0B7285';xs.forEach(function(x,i5){gx2.beginPath();gx2.arc(tx(x),ty(ys[i5]),4.5,0,Math.PI*2);gx2.fill();gx2.strokeStyle='#fff';gx2.lineWidth=1.5;gx2.stroke();var uY2=Math.abs(ys[i5]*S.uncert/100);if(uY2>1e-9){gx2.strokeStyle='rgba(11,114,133,.35)';gx2.lineWidth=1;gx2.beginPath();gx2.moveTo(tx(x),ty(ys[i5]-uY2));gx2.lineTo(tx(x),ty(ys[i5]+uY2));gx2.stroke();gx2.beginPath();gx2.moveTo(tx(x)-3,ty(ys[i5]-uY2));gx2.lineTo(tx(x)+3,ty(ys[i5]-uY2));gx2.stroke();gx2.beginPath();gx2.moveTo(tx(x)-3,ty(ys[i5]+uY2));gx2.lineTo(tx(x)+3,ty(ys[i5]+uY2));gx2.stroke();}});manD.forEach(function(d){gx2.fillStyle='rgba(11,114,133,.2)';gx2.beginPath();gx2.arc(tx(d.iv),ty(d.dv),3,0,Math.PI*2);gx2.fill();});}
-
-var IB=[
-{c:'State',q:'Define density and give its SI unit.',f:'Density is mass per unit volume: ρ = m/V. SI unit: kg/m³.'},
-{c:'Explain',q:'Why does an object float in a fluid?',f:'An object floats when its density is less than the fluid density. The buoyant force (equal to the weight of displaced fluid) exceeds the object\'s weight, producing a net upward force until equilibrium.'},
-{c:'Calculate',q:'A cube of side 10 cm has mass 2.7 kg. Find its density.',f:'V = (0.10)³ = 0.001 m³ = 1000 cm³. ρ = m/V = 2.7/0.001 = 2700 kg/m³. This is aluminum.'},
-{c:'Calculate',q:'A 500 g wooden block floats in water with 60% submerged. Find the wood\'s density.',f:'At equilibrium: ρ_wood = submerged fraction × ρ_water = 0.60 × 1000 = 600 kg/m³.'},
-{c:'Explain',q:'Why does a steel ship float despite steel being denser than water?',f:'The ship\'s hull encloses air, making the average density of the ship (steel + air) less than water. The total volume displaced creates enough buoyant force to support the weight.'},
-{c:'Explain',q:'State Archimedes\' principle.',f:'A body immersed in a fluid experiences an upward buoyant force equal to the weight of the fluid displaced: F_b = ρ_fluid × V_displaced × g.'},
-{c:'Calculate',q:'An object of volume 200 cm³ and density 3000 kg/m³ is submerged in water. Find the buoyant force.',f:'V = 200 × 10⁻⁶ = 2×10⁻⁴ m³. F_b = ρ_water × V × g = 1000 × 2×10⁻⁴ × 9.81 = 1.96 N.'}
-];
+window.plotM=function(){if(!manD.length)return;syncM();document.querySelectorAll('#lab0 .bt').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('#lab0 .btc').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('#lab0 .bt')[1].classList.add('on');$('b1').classList.add('on');setTimeout(function(){initGr();drawGr();},80);};
+window.expCSV=function(){if(!manD.length)return;var csv=getIVN()+',±IV,'+getDVN()+',±DV\n';manD.forEach(function(d){csv+=fmtV(d.iv)+','+fmtV(Math.abs(d.iv*T1.uncert/100))+','+fmtV(d.dv)+','+fmtV(Math.abs(d.dv*T1.uncert/100))+'\n';});var blob=new Blob([csv],{type:'text/csv'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='density_data.csv';a.click();};
+window.savePlot=function(){var gc=$('gC');if(!gc)return;var a=document.createElement('a');a.href=gc.toDataURL('image/png');a.download='density_plot.png';a.click();};
+window.togGrid=function(){showGrid=!showGrid;drawGr();};
+window.togBF=function(){showBF=!showBF;drawGr();};
+window.bts=function(el,i){document.querySelectorAll('#lab0 .bt').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('#lab0 .btc').forEach(function(t){t.classList.remove('on');});el.classList.add('on');$('b'+i).classList.add('on');if(i===1)setTimeout(function(){initGr();drawGr();},80);};
+var gCv,gx2;function initGr(){gCv=$('gC');if(!gCv)return;gx2=gCv.getContext('2d');var d2=devicePixelRatio||1,r=gCv.parentElement.getBoundingClientRect(),w=r.width;if(w<10)return;gCv.width=w*d2;gCv.height=200*d2;gCv.style.width=w+'px';gCv.style.height='200px';gx2.setTransform(d2,0,0,d2,0,0);}
+function drawGr(){if(!gCv||!gx2){initGr();if(!gCv)return;}var w=parseInt(gCv.style.width)||500,h=200;gx2.clearRect(0,0,w,h);gx2.fillStyle='#fff';gx2.fillRect(0,0,w,h);if(!expD.length){gx2.fillStyle='#bbb';gx2.font='11px sans-serif';gx2.textAlign='center';gx2.fillText('Record data and click Plot',w/2,h/2);return;}var P={t:20,r:15,b:36,l:55},pW=w-P.l-P.r,pH=h-P.t-P.b;var xs=expD.map(function(r2){return r2.iv;}),ys=expD.map(function(r2){return r2.mean;});var xn=Math.min.apply(null,xs),xx=Math.max.apply(null,xs),yn=Math.min.apply(null,ys),yx=Math.max.apply(null,ys);if(xx-xn<1e-9){xn-=1;xx+=1;}if(yx-yn<1e-9){yn-=1;yx+=1;}var xp=(xx-xn)*.1,yp=(yx-yn)*.1;xn-=xp;xx+=xp;yn-=yp;yx+=yp;var tx=function(v){return P.l+((v-xn)/(xx-xn))*pW;},ty=function(v){return P.t+pH-((v-yn)/(yx-yn))*pH;};if(showGrid){gx2.strokeStyle='rgba(0,0,0,.06)';gx2.lineWidth=.5;for(var i=0;i<=5;i++){gx2.beginPath();gx2.moveTo(tx(xn+(xx-xn)*i/5),P.t);gx2.lineTo(tx(xn+(xx-xn)*i/5),P.t+pH);gx2.stroke();}for(var i2=0;i2<=5;i2++){gx2.beginPath();gx2.moveTo(P.l,ty(yn+(yx-yn)*i2/5));gx2.lineTo(P.l+pW,ty(yn+(yx-yn)*i2/5));gx2.stroke();}}gx2.strokeStyle='rgba(0,0,0,.25)';gx2.lineWidth=1.5;gx2.beginPath();gx2.moveTo(P.l,P.t);gx2.lineTo(P.l,P.t+pH);gx2.lineTo(P.l+pW,P.t+pH);gx2.stroke();gx2.fillStyle='#888';gx2.font='9px sans-serif';gx2.textAlign='center';for(var i3=0;i3<=5;i3++)gx2.fillText(fmtV(xn+(xx-xn)*i3/5),tx(xn+(xx-xn)*i3/5),P.t+pH+12);gx2.textAlign='right';for(var i4=0;i4<=5;i4++)gx2.fillText(fmtV(yn+(yx-yn)*i4/5),P.l-4,ty(yn+(yx-yn)*i4/5)+3);gx2.fillStyle='#555';gx2.font='bold 10px sans-serif';gx2.textAlign='center';gx2.fillText(getIVN(),P.l+pW/2,h-4);gx2.save();gx2.translate(10,P.t+pH/2);gx2.rotate(-Math.PI/2);gx2.fillText(getDVN(),0,0);gx2.restore();if(showBF&&xs.length>=2){var n=xs.length,sx=0,sy=0,sxy=0,sx2=0;for(var bf=0;bf<n;bf++){sx+=xs[bf];sy+=ys[bf];sxy+=xs[bf]*ys[bf];sx2+=xs[bf]*xs[bf];}var bfM=(n*sxy-sx*sy)/(n*sx2-sx*sx),bfB=(sy-bfM*sx)/n;var ssRes=0,ssTot=0,yMean=sy/n;for(var bf2=0;bf2<n;bf2++){var yPred=bfM*xs[bf2]+bfB;ssRes+=(ys[bf2]-yPred)*(ys[bf2]-yPred);ssTot+=(ys[bf2]-yMean)*(ys[bf2]-yMean);}var r2v=ssTot>0?1-ssRes/ssTot:0;gx2.strokeStyle='rgba(220,38,38,.4)';gx2.lineWidth=1.5;gx2.setLineDash([6,4]);gx2.beginPath();gx2.moveTo(tx(xn),ty(bfM*xn+bfB));gx2.lineTo(tx(xx),ty(bfM*xx+bfB));gx2.stroke();gx2.setLineDash([]);gx2.fillStyle='rgba(220,38,38,.5)';gx2.font='9px sans-serif';gx2.textAlign='right';gx2.fillText('y = '+bfM.toFixed(2)+'x + '+bfB.toFixed(2)+' R² = '+r2v.toFixed(4),P.l+pW,P.t+12);}if(xs.length>=2){gx2.strokeStyle='#0B7285';gx2.lineWidth=1.5;gx2.beginPath();expD.forEach(function(r2,i5){i5===0?gx2.moveTo(tx(r2.iv),ty(r2.mean)):gx2.lineTo(tx(r2.iv),ty(r2.mean));});gx2.stroke();}gx2.fillStyle='#0B7285';xs.forEach(function(x,i5){gx2.beginPath();gx2.arc(tx(x),ty(ys[i5]),4.5,0,Math.PI*2);gx2.fill();gx2.strokeStyle='#fff';gx2.lineWidth=1.5;gx2.stroke();var uY2=Math.abs(ys[i5]*T1.uncert/100);if(uY2>1e-9){gx2.strokeStyle='rgba(11,114,133,.35)';gx2.lineWidth=1;gx2.beginPath();gx2.moveTo(tx(x),ty(ys[i5]-uY2));gx2.lineTo(tx(x),ty(ys[i5]+uY2));gx2.stroke();gx2.beginPath();gx2.moveTo(tx(x)-3,ty(ys[i5]-uY2));gx2.lineTo(tx(x)+3,ty(ys[i5]-uY2));gx2.stroke();gx2.beginPath();gx2.moveTo(tx(x)-3,ty(ys[i5]+uY2));gx2.lineTo(tx(x)+3,ty(ys[i5]+uY2));gx2.stroke();}});manD.forEach(function(d){gx2.fillStyle='rgba(11,114,133,.2)';gx2.beginPath();gx2.arc(tx(d.iv),ty(d.dv),3,0,Math.PI*2);gx2.fill();});}
+var IB=[{c:'State',q:'Define density and give its SI unit.',f:'Density is mass per unit volume: ρ = m/V. SI unit: kg/m³.'},{c:'Explain',q:'Why does an object float in a fluid?',f:'An object floats when its density is less than the fluid density. The buoyant force (equal to the weight of displaced fluid) exceeds the object\'s weight, producing a net upward force until equilibrium.'},{c:'Calculate',q:'A cube of side 10 cm has mass 2.7 kg. Find its density.',f:'V = (0.10)³ = 0.001 m³ = 1000 cm³. ρ = m/V = 2.7/0.001 = 2700 kg/m³. This is aluminum.'},{c:'Calculate',q:'A 500 g wooden block floats in water with 60% submerged. Find the wood\'s density.',f:'At equilibrium: ρ_wood = submerged fraction × ρ_water = 0.60 × 1000 = 600 kg/m³.'},{c:'Explain',q:'Why does a steel ship float despite steel being denser than water?',f:'The ship\'s hull encloses air, making the average density of the ship (steel + air) less than water. The total volume displaced creates enough buoyant force to support the weight.'},{c:'Explain',q:'State Archimedes\' principle.',f:'A body immersed in a fluid experiences an upward buoyant force equal to the weight of the fluid displaced: F_b = ρ_fluid × V_displaced × g.'},{c:'Calculate',q:'An object of volume 200 cm³ and density 3000 kg/m³ is submerged in water. Find the buoyant force.',f:'V = 200 × 10⁻⁶ = 2×10⁻⁴ m³. F_b = ρ_water × V × g = 1000 × 2×10⁻⁴ × 9.81 = 1.96 N.'}];
 function buildIB(){$('ibL').innerHTML=IB.map(function(q,i){var cls=q.c==='Calculate'?'c':q.c==='Explain'?'e':'s';return '<div class="ib-card"><span class="ib-cmd ib-cmd-'+cls+'">'+q.c+'</span><h4>Q'+(i+1)+'</h4><p>'+q.q+'</p><textarea placeholder="Your answer..."></textarea><div style="display:flex;gap:3px;margin-top:3px"><button class="btn btn-p" onclick="sF('+i+')" style="font-size:.65rem">Show Answer</button></div><div class="ib-ans" id="iF'+i+'">'+q.f+'</div></div>';}).join('');}
 window.sF=function(i){$('iF'+i).classList.toggle('show');};
-var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN();}
-function showN(){$('nbO').innerHTML=nb.length?nb.map(function(n,i){return '<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">→ '+n.r+'</span></div>';}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.56rem;padding:6px">Drop objects to record observations.</p>';}
+var t1nb=[];function t1addN(t,d,r){t1nb.push({t:t,d:d,r:r});showNB();}
+function showNB(){$('nbO').innerHTML=t1nb.length?t1nb.map(function(n,i){return '<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">→ '+n.r+'</span></div>';}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.56rem;padding:6px">Drop objects to record observations.</p>';}
 
-function loop(){updPh();render();requestAnimationFrame(loop);}
-rsz();buildUI();buildExp();buildIB();showN();requestAnimationFrame(loop);
+// ===================== TAB 2: DENSITY COLUMN =====================
+var COL_FLUIDS=[{n:'Vegetable Oil',d:920,c:'#F9A825',dc:'#F57F17',a:.6},{n:'Water',d:1000,c:'#4FC3F7',dc:'#0288D1',a:.55},{n:'Honey',d:1420,c:'#FFB300',dc:'#E65100',a:.7},{n:'Mercury',d:13600,c:'#B0BEC5',dc:'#607D8B',a:.9}];
+var T2={mat:'aluminum',dropped:false};
+var t2obj={x:0,y:0,vy:0,on:false};
+var t2bubs=[];
+function t2getFluidAt(y,tT,tB){
+  var zone=(y-tT)/(tB-tT);
+  if(zone<.22)return COL_FLUIDS[0];
+  if(zone<.45)return COL_FLUIDS[1];
+  if(zone<.68)return COL_FLUIDS[2];
+  return COL_FLUIDS[3];
+}
+function t2getZoneBounds(tT,tB){
+  var h=tB-tT;return[tT,tT+h*.22,tT+h*.45,tT+h*.68,tB];
+}
+function t2drop(){
+  t2obj.on=true;t2obj.vy=0;t2obj.y=0;t2bubs=[];T2.dropped=true;
+  var el=$('t2info');if(el)el.innerHTML='<div class="arch-box">Dropping '+MATS[T2.mat].n+' (ρ = '+MATS[T2.mat].d.toLocaleString()+' kg/m³)...<br>Watch where it settles!</div>';
+}
+function t2rst(){t2obj.on=false;t2obj.vy=0;t2bubs=[];T2.dropped=false;var el=$('t2info');if(el)el.innerHTML='<div class="arch-box">Select a material and drop it into the density column to see where it settles.</div>';}
+
+// ===================== TAB 3: MYSTERY MATERIAL =====================
+var T3={targetMat:null,targetVol:0,score:0,total:0,revealed:false};
+function t3newMystery(){
+  var keys=MATKEYS.slice();var k=keys[Math.floor(Math.random()*keys.length)];
+  T3.targetMat=k;T3.targetVol=200+Math.floor(Math.random()*2800);T3.revealed=false;
+  var m=MATS[k],mass=m.d*(T3.targetVol/1e6);
+  $('t3mass').textContent=mass<1?(mass*1000).toFixed(1)+' g':mass.toFixed(3)+' kg';
+  $('t3vol').textContent=T3.targetVol.toLocaleString()+' cm³';
+  $('t3densInput').value='';$('t3matGuess').value='';
+  $('t3fb').className='mystery-feedback';$('t3fb').textContent='';
+  $('t3obj').textContent='?';$('t3obj').style.background='var(--bg2)';$('t3obj').style.color='var(--text3)';
+}
+function t3check(){
+  var userD=parseFloat($('t3densInput').value),userMat=$('t3matGuess').value;
+  if(isNaN(userD)&&!userMat){$('t3fb').className='mystery-feedback wrong';$('t3fb').textContent='Enter your calculated density or guess the material.';return;}
+  var actual=MATS[T3.targetMat],actualD=actual.d;
+  T3.total++;T3.revealed=true;
+  var dCorrect=!isNaN(userD)&&Math.abs(userD-actualD)/actualD<0.05;
+  var mCorrect=userMat===T3.targetMat;
+  if(dCorrect||mCorrect){T3.score++;$('t3fb').className='mystery-feedback correct';$('t3fb').textContent='✓ Correct! It\'s '+actual.n+' (ρ = '+actualD.toLocaleString()+' kg/m³)'+(dCorrect?' — Your calculation: '+userD.toFixed(0)+' kg/m³':'')+'.';}else{$('t3fb').className='mystery-feedback wrong';$('t3fb').textContent='✗ Not quite. It\'s '+actual.n+' (ρ = '+actualD.toLocaleString()+' kg/m³). Actual density = '+(actual.d*(T3.targetVol/1e6)).toFixed(3)+' / '+(T3.targetVol/1e6).toFixed(6)+' = '+actualD.toLocaleString()+' kg/m³.';}
+  $('t3obj').textContent=actual.n.charAt(0);$('t3obj').style.background=actual.c;$('t3obj').style.color='#fff';
+  $('t3score').textContent=T3.score;$('t3total').textContent=T3.total;
+}
+
+// ===================== TAB 4: MEASUREMENT LAB =====================
+var T4={mat:null,vol:0,mass:0,waterInit:50,waterFinal:50,dropped:false,userMass:'',userV1:'',userV2:'',checked:false};
+function t4newSample(){
+  var k=MATKEYS[Math.floor(Math.random()*MATKEYS.length)];T4.mat=k;
+  T4.vol=100+Math.floor(Math.random()*400);
+  T4.mass=MATS[k].d*(T4.vol/1e6);T4.waterInit=50;T4.waterFinal=50;T4.dropped=false;T4.checked=false;
+  $('t4userMass').value='';$('t4userV1').value='';$('t4userV2').value='';
+  var el=$('t4result');if(el){el.style.display='none';el.innerHTML='';}
+  $('t4dropBtn').disabled=false;$('t4dropBtn').textContent='Drop into Cylinder';
+}
+function t4dropIntoCyl(){
+  T4.dropped=true;T4.waterFinal=T4.waterInit+(T4.vol/1000)*50;
+  $('t4dropBtn').disabled=true;$('t4dropBtn').textContent='Dropped!';
+}
+function t4checkMeasurement(){
+  var um=parseFloat($('t4userMass').value),uv1=parseFloat($('t4userV1').value),uv2=parseFloat($('t4userV2').value);
+  var el=$('t4result');el.style.display='block';T4.checked=true;
+  if(isNaN(um)||isNaN(uv1)||isNaN(uv2)){el.innerHTML='<div style="color:var(--err)">Fill in all three measurements first.</div>';el.style.background='#FEF2F2';el.style.border='1px solid rgba(153,27,27,.15)';return;}
+  var userVol=uv2-uv1,userDens=um/(userVol>0?userVol/1000/1000:1);
+  var actualD=MATS[T4.mat].d;var pctErr=Math.abs(userDens-actualD)/actualD*100;
+  var massInG=T4.mass*1000,actualVolMl=T4.vol/1000;
+  var h='<strong>Your Measurements:</strong><br>';
+  h+='Mass = '+um.toFixed(1)+' g (actual: '+massInG.toFixed(1)+' g)<br>';
+  h+='Volume = '+(uv2-uv1).toFixed(1)+' mL (actual: '+actualVolMl.toFixed(1)+' mL)<br>';
+  h+='Your ρ = '+um.toFixed(1)+' / '+(uv2-uv1).toFixed(1)+' = '+(um/(uv2-uv1)).toFixed(0)+' g/mL = '+Math.round(um/(uv2-uv1)*1000)+' kg/m³<br>';
+  h+='Actual ρ = '+actualD.toLocaleString()+' kg/m³ ('+MATS[T4.mat].n+')<br>';
+  h+='Error: '+pctErr.toFixed(1)+'%';
+  if(pctErr<5){el.style.background='#ECFDF5';el.style.border='1px solid rgba(6,95,70,.15)';h='<span style="color:var(--ok)">✓ Excellent!</span> '+h;}else if(pctErr<15){el.style.background='#FFFBEB';el.style.border='1px solid rgba(146,64,14,.15)';h='<span style="color:#92400E">⚠ Close!</span> '+h;}else{el.style.background='#FEF2F2';el.style.border='1px solid rgba(153,27,27,.15)';h='<span style="color:var(--err)">✗ Check your readings.</span> '+h;}
+  el.innerHTML=h;
+}
+
+// ===================== TAB 5: COMPARISON =====================
+var T5={matA:'cork',matB:'steel',fluid:'water',shape:'cube',volA:1000,volB:1000};
+var t5objA={x:0,y:0,vy:0,on:false,splD:false};
+var t5objB={x:0,y:0,vy:0,on:false,splD:false};
+var t5bubs=[],t5splsh=[];
+function t5drop(){
+  var wp=$('t5Wrap');if(!wp)return;var r=wp.getBoundingClientRect();
+  var tL=r.width*.1,tR=r.width*.9,tT=r.height*.08,tB=r.height*.92,wY2=tT+(tB-tT)*.35;
+  var cx2=(tL+tR)/2;
+  t5objA.on=true;t5objA.x=cx2-50;t5objA.y=tT-40;t5objA.vy=0;t5objA.splD=false;
+  t5objB.on=true;t5objB.x=cx2+50;t5objB.y=tT-40;t5objB.vy=0;t5objB.splD=false;
+  t5bubs=[];t5splsh=[];
+}
+function t5rst(){t5objA.on=false;t5objB.on=false;t5objA.vy=0;t5objB.vy=0;t5bubs=[];t5splsh=[];}
+
+// ===================== BUILD ALL TABS =====================
+function buildTabs(){
+  var th='';LABS.forEach(function(l,i){th+='<div class="lab-tab'+(i===0?' on':'')+'" onclick="switchLab('+i+')"><div class="lab-tab-name">'+l.n+'</div><div class="lab-tab-desc">'+l.d+'</div></div>';});$('labTabs').innerHTML=th;
+  var ch='';
+  // Tab 0: Tank Lab
+  ch+='<div class="lab-pane on" id="lab0"><div class="intro-bar"><b>Drop objects into fluids.</b> Change material, shape, mass, and volume. Observe floating, sinking, and buoyancy forces. Record data to discover the density relationship.</div><div class="main-grid"><div class="tank-sec"><div class="cv-wrap" id="t1Wrap"><canvas id="t1Cv"></canvas><div class="po" id="t1pOver"><div class="po-cw"><canvas id="t1pCv" width="180" height="180"></canvas></div><div style="margin-top:10px;font-size:.82rem;font-weight:600" id="t1pLbl">Aluminum</div><div style="font-size:.7rem;color:var(--text2);margin-top:2px" id="t1pSub">2,700 kg/m³</div></div></div>';
+  ch+='<div class="tank-ctrls"><select class="ctrl-sel" id="t1MatSel" onchange="t1pickMat(this.value)">'+matOpts(T1.mat)+'</select><div class="sh-g" id="t1ShG">'+SHAPES.map(function(s){return '<button class="sh-btn'+(s.id===T1.shape?' on':'')+'" onclick="pickT1Sh(\''+s.id+'\')" title="'+s.lbl+'"><svg viewBox="0 0 26 26">'+s.ic+'</svg></button>';}).join('')+'</div><select class="ctrl-sel" id="t1FlSel" onchange="T1.fluid=this.value;t1updRead()">'+fluidOpts(T1.fluid)+'</select></div>';
+  ch+='<div class="tank-ctrls"><button class="act-btn drop-btn" onclick="t1drop()">Drop Object</button><button class="act-btn rst-btn" onclick="t1rst()">Reset</button><button class="tog-btn'+(T1.showF?' on':'')+'" id="t1togF" onclick="T1.showF=!T1.showF;this.classList.toggle(\'on\')">Forces</button><button class="tog-btn'+(T1.showP?' on':'')+'" id="t1togP" onclick="T1.showP=!T1.showP;this.classList.toggle(\'on\');document.getElementById(\'t1pOver\').classList.toggle(\'vis\',T1.showP);if(T1.showP)t1drawPV();">Particles</button></div></div>';
+  ch+='<div class="info-panel"><div class="pc dn-hero"><div class="dn-formula"><em>ρ</em> = m ÷ V</div><div class="dn-num" id="t1dnNum">—</div><div class="dn-unit">kg/m³</div><div class="verdict" id="t1verd"></div></div>';
+  ch+='<div class="pc"><div class="meas"><div class="meas-box"><div class="meas-lbl">Mass</div><div class="meas-val" id="t1mV">—</div></div><div class="meas-box"><div class="meas-lbl">Volume</div><div class="meas-val" id="t1vV">—</div></div><div class="meas-box"><div class="meas-lbl">Fluid ρ</div><div class="meas-val" id="t1fV">—</div></div></div></div>';
+  ch+='<div class="pc" id="t1archCard"><div class="arch-box" id="t1archBox">Drop an object to see Archimedes\' calculation.</div></div>';
+  ch+='<div class="pc" style="padding:12px 16px"><div class="sl-row"><div class="sl-hdr"><span class="sl-lbl">Mass</span><span class="sl-val" id="t1msV">2.70 kg</span></div><input type="range" id="t1msSl" min="0.05" max="30" step="0.05" value="2.7" oninput="T1.mass=+this.value;T1.custom=true;t1updRead()"></div><div class="sl-row"><div class="sl-hdr"><span class="sl-lbl">Volume</span><span class="sl-val" id="t1vsV">1000 cm³</span></div><input type="range" id="t1vsSl" min="50" max="8000" step="10" value="1000" oninput="T1.vol=+this.value;T1.custom=true;t1updRead()"></div></div></div></div>';
+  // Bottom tabs
+  ch+='<div class="gp"><div class="btabs"><div class="bt on" onclick="bts(this,0)">Experiment</div><div class="bt" onclick="bts(this,1)">Data &amp; Graph</div><div class="bt" onclick="bts(this,2)">IB Questions</div><div class="bt" onclick="bts(this,3)">Notebook</div></div>';
+  ch+='<div class="btc on" id="b0"><div id="expC"></div></div>';
+  ch+='<div class="btc" id="b1"><div id="dW"><p style="font-size:.58rem;color:var(--text3);text-align:center;padding:6px">Record data points first.</p></div><div class="graph-wrap2"><canvas id="gC"></canvas></div><div class="exp-graph-controls"><button class="exp-btn" onclick="togGrid()">Grid</button><button class="exp-btn" onclick="togBF()">Best Fit</button><button class="exp-btn" onclick="expCSV()">Export CSV</button><button class="exp-btn" onclick="savePlot()">Save PNG</button></div></div>';
+  ch+='<div class="btc" id="b2"><div id="ibL"></div></div>';
+  ch+='<div class="btc" id="b3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-family:var(--brand);font-size:.74rem;font-weight:700;color:var(--accent)">Notebook</span><button class="btn btn-s" onclick="window.print()" style="font-size:.65rem;padding:2px 5px">Print</button></div><div id="nbO"></div></div></div></div>';
+
+  // Tab 1: Density Column
+  ch+='<div class="lab-pane" id="lab1"><div class="intro-bar"><b>Density Column.</b> Four fluids layered by density. Drop objects and watch them settle at the interface where their density matches. Oil (920) → Water (1,000) → Honey (1,420) → Mercury (13,600 kg/m³).</div><div class="col-grid"><div class="tank-sec"><div class="cv-wrap col-cv" id="t2Wrap"><canvas id="t2Cv"></canvas></div><div class="tank-ctrls"><select class="ctrl-sel" id="t2MatSel" onchange="T2.mat=this.value">'+matOpts(T2.mat)+'</select><button class="act-btn drop-btn" onclick="t2drop()">Drop Object</button><button class="act-btn rst-btn" onclick="t2rst()">Reset</button></div></div><div class="info-panel"><div class="pc"><div class="exp-title">Where Will It Settle?</div><div id="t2info"><div class="arch-box">Select a material and drop it into the density column to see where it settles.</div></div></div><div class="pc"><div class="exp-title">Density Ladder</div><div class="density-ladder" id="t2ladder"></div></div></div></div></div>';
+
+  // Tab 2: Mystery Material
+  ch+='<div class="lab-pane" id="lab2"><div class="intro-bar"><b>Mystery Material.</b> You\'re given the mass and volume of an unknown object. Calculate its density, identify the material, then reveal the answer.</div><div class="mystery-center"><div class="pc" style="text-align:center;padding:20px"><div class="mystery-obj" id="t3obj">?</div><div class="mystery-given"><div class="mystery-stat"><div class="mystery-stat-lbl">Mass</div><div class="mystery-stat-val" id="t3mass">—</div></div><div class="mystery-stat"><div class="mystery-stat-lbl">Volume</div><div class="mystery-stat-val" id="t3vol">—</div></div></div>';
+  ch+='<div style="text-align:left;margin-bottom:10px"><div class="arch-box" style="font-size:.78rem">ρ = m ÷ V &nbsp;&mdash;&nbsp; Calculate the density, then guess the material.</div></div>';
+  ch+='<div class="mystery-input"><div class="mystery-field"><label>Your Density (kg/m³)</label><input type="number" id="t3densInput" placeholder="e.g. 2700"></div><div class="mystery-field"><label>Material Guess</label><select id="t3matGuess"><option value="">Pick one...</option>'+MATKEYS.map(function(k){return '<option value="'+k+'">'+MATS[k].n+'</option>';}).join('')+'</select></div></div>';
+  ch+='<div class="mystery-feedback" id="t3fb"></div>';
+  ch+='<div style="display:flex;gap:6px;justify-content:center;margin-bottom:12px"><button class="btn btn-p" onclick="t3check()" style="padding:8px 20px;font-size:.85rem">Check Answer</button><button class="btn btn-s" onclick="t3newMystery()" style="padding:8px 20px;font-size:.85rem">New Mystery</button></div>';
+  ch+='<div class="score-bar">Score: <span class="s-right" id="t3score">0</span> / <span class="s-total" id="t3total">0</span></div></div></div></div>';
+
+  // Tab 3: Measurement Lab
+  ch+='<div class="lab-pane" id="lab3"><div class="intro-bar"><b>Measurement Lab.</b> Read the mass from the digital balance and the volume from the graduated cylinder. Calculate density from your own measurements — just like a real lab.</div><div class="measure-grid"><div class="tank-sec"><div class="cv-wrap measure-cv" id="t4Wrap"><canvas id="t4Cv"></canvas></div><div class="tank-ctrls"><button class="act-btn drop-btn" id="t4dropBtn" onclick="t4dropIntoCyl()">Drop into Cylinder</button><button class="act-btn rst-btn" onclick="t4newSample()">New Sample</button></div></div>';
+  ch+='<div class="info-panel"><div class="pc"><div class="exp-title">Your Measurements</div><div class="measure-steps"><div class="measure-step">Read the <strong>mass</strong> from the balance display (in grams)<br><input class="num-input" id="t4userMass" style="width:100px;margin-top:4px" placeholder="g"></div><div class="measure-step">Read the <strong>initial water level</strong> on the cylinder (in mL)<br><input class="num-input" id="t4userV1" style="width:100px;margin-top:4px" placeholder="mL"></div><div class="measure-step">Drop the object in, then read the <strong>final water level</strong><br><input class="num-input" id="t4userV2" style="width:100px;margin-top:4px" placeholder="mL"></div><div class="measure-step">Calculate: Volume = V₂ − V₁, then ρ = m ÷ V</div></div><div style="margin-top:8px"><button class="btn btn-ok" onclick="t4checkMeasurement()" style="padding:6px 16px;font-size:.8rem">Check My Work</button></div><div class="measure-result" id="t4result" style="display:none"></div></div></div></div></div>';
+
+  // Tab 4: Comparison
+  ch+='<div class="lab-pane" id="lab4"><div class="intro-bar"><b>Comparison.</b> Drop two objects into the same fluid simultaneously. Same volume, different materials — which sinks first? Compare densities side by side.</div><div class="comp-grid"><div class="tank-sec"><div class="cv-wrap comp-cv" id="t5Wrap"><canvas id="t5Cv"></canvas></div><div class="tank-ctrls"><select class="ctrl-sel" onchange="T5.matA=this.value;t5updInfo()">'+MATKEYS.map(function(k){return '<option value="'+k+'"'+(k==='cork'?' selected':'')+'>A: '+MATS[k].n+'</option>';}).join('')+'</select><select class="ctrl-sel" onchange="T5.matB=this.value;t5updInfo()">'+MATKEYS.map(function(k){return '<option value="'+k+'"'+(k==='steel'?' selected':'')+'>B: '+MATS[k].n+'</option>';}).join('')+'</select><select class="ctrl-sel" onchange="T5.fluid=this.value;t5updInfo()">'+fluidOpts(T5.fluid)+'</select></div><div class="tank-ctrls"><button class="act-btn drop-btn" onclick="t5drop()">Drop Both</button><button class="act-btn rst-btn" onclick="t5rst()">Reset</button></div></div>';
+  ch+='<div class="info-panel"><div class="comp-cards"><div class="comp-card" style="border-color:#3B82F6"><div class="comp-card-title" style="color:#3B82F6">Object A</div><div class="dn-num" id="t5dA">—</div><div class="dn-unit">kg/m³</div><div class="verdict" id="t5vA" style="margin-top:6px"></div></div><div class="comp-vs">vs</div><div class="comp-card" style="border-color:#EF4444"><div class="comp-card-title" style="color:#EF4444">Object B</div><div class="dn-num" id="t5dB">—</div><div class="dn-unit">kg/m³</div><div class="verdict" id="t5vB" style="margin-top:6px"></div></div></div><div class="pc" style="margin-top:10px"><div class="arch-box" id="t5explain">Drop both objects to compare their behavior.</div></div></div></div></div>';
+
+  $('labContent').innerHTML=ch;
+}
+window.switchLab=function(i){
+  activeLab=i;
+  document.querySelectorAll('.lab-tab').forEach(function(t,j){t.classList.toggle('on',j===i);});
+  document.querySelectorAll('.lab-pane').forEach(function(p,j){p.classList.toggle('on',j===i);});
+  setTimeout(function(){
+    if(i===0)t1rsz();
+    if(i===1)t2rsz();
+    if(i===3)t4rsz();
+    if(i===4)t5rsz();
+  },50);
+};
+window.pickT1Sh=function(id){T1.shape=id;document.querySelectorAll('#t1ShG .sh-btn').forEach(function(b,i){b.classList.toggle('on',SHAPES[i].id===id);});};
+
+// ===================== TAB 2 RENDER =====================
+var t2cv,t2cx,t2W,t2H;
+function t2rsz(){var wp=$('t2Wrap');if(!wp)return;var r=wp.getBoundingClientRect();t2W=r.width;t2H=r.height;t2cv=$('t2Cv');var dpr=devicePixelRatio||1;t2cv.width=t2W*dpr;t2cv.height=t2H*dpr;t2cv.style.width=t2W+'px';t2cv.style.height=t2H+'px';t2cx=t2cv.getContext('2d');t2cx.setTransform(dpr,0,0,dpr,0,0);}
+function t2render(){
+  if(!t2cx)return;t2cx.clearRect(0,0,t2W,t2H);
+  var tL=t2W*.15,tR=t2W*.85,tT=t2H*.04,tB=t2H*.96;
+  var bounds=t2getZoneBounds(tT,tB);
+  // Tank bg
+  t2cx.fillStyle='#FAFAF8';t2cx.beginPath();t2cx.moveTo(tL,tT);t2cx.lineTo(tL,tB-8);t2cx.quadraticCurveTo(tL,tB,tL+8,tB);t2cx.lineTo(tR-8,tB);t2cx.quadraticCurveTo(tR,tB,tR,tB-8);t2cx.lineTo(tR,tT);t2cx.closePath();t2cx.fill();
+  // Draw 4 fluid layers
+  for(var fi=0;fi<4;fi++){var fl=COL_FLUIDS[fi],yTop=bounds[fi],yBot=bounds[fi+1],c1=h2r(fl.c),c2=h2r(fl.dc);
+    t2cx.save();t2cx.beginPath();
+    if(fi===0){for(var x=tL;x<=tR;x++){var wv=Math.sin(x*.03+time*2)*1.5+Math.sin(x*.05+time*2.5)*.8;x===tL?t2cx.moveTo(x,yTop+wv):t2cx.lineTo(x,yTop+wv);}t2cx.lineTo(tR,yBot);t2cx.lineTo(tL,yBot);}else{t2cx.rect(tL,yTop,tR-tL,yBot-yTop);}
+    t2cx.closePath();var gr=t2cx.createLinearGradient(0,yTop,0,yBot);gr.addColorStop(0,'rgba('+c1.r+','+c1.g+','+c1.b+','+fl.a*.8+')');gr.addColorStop(1,'rgba('+c2.r+','+c2.g+','+c2.b+','+fl.a+')');t2cx.fillStyle=gr;t2cx.fill();t2cx.restore();
+    // Interface line
+    if(fi>0){t2cx.strokeStyle='rgba(255,255,255,.25)';t2cx.lineWidth=1;t2cx.setLineDash([4,4]);t2cx.beginPath();t2cx.moveTo(tL,yTop);t2cx.lineTo(tR,yTop);t2cx.stroke();t2cx.setLineDash([]);}
+    // Fluid label
+    t2cx.fillStyle='rgba(0,0,0,.4)';t2cx.font='600 10px system-ui';t2cx.textAlign='left';t2cx.fillText(fl.n,tL+6,yTop+(yBot-yTop)/2+3);t2cx.font='500 9px system-ui';t2cx.fillStyle='rgba(0,0,0,.25)';t2cx.fillText(fl.d.toLocaleString()+' kg/m³',tL+6,yTop+(yBot-yTop)/2+15);
+  }
+  // Object
+  if(t2obj.on){var sz=45,mc=MATS[T2.mat].c;var objX=(tL+tR)/2;drawObj3D(t2cx,objX,t2obj.y,T1.shape,sz,mc);}
+  // Bubbles
+  t2bubs.forEach(function(b){t2cx.save();t2cx.globalAlpha=b.l*.5;t2cx.beginPath();t2cx.arc(b.x,b.y,b.r,0,Math.PI*2);t2cx.fillStyle='rgba(255,255,255,.6)';t2cx.fill();t2cx.restore();});
+  // Tank walls
+  t2cx.strokeStyle='rgba(180,180,190,.6)';t2cx.lineWidth=2.5;t2cx.lineCap='round';t2cx.beginPath();t2cx.moveTo(tL,tT);t2cx.lineTo(tL,tB-8);t2cx.quadraticCurveTo(tL,tB,tL+8,tB);t2cx.lineTo(tR-8,tB);t2cx.quadraticCurveTo(tR,tB,tR,tB-8);t2cx.lineTo(tR,tT);t2cx.stroke();
+}
+function t2updPh(){
+  if(!t2obj.on)return;
+  var wp=$('t2Wrap');if(!wp)return;var r=wp.getBoundingClientRect();
+  var tT=r.height*.04,tB=r.height*.96,tL=r.width*.15,tR=r.width*.85;
+  var sz=45,half=sz/2;
+  if(t2obj.y<tT){t2obj.y=tT-half;t2obj.x=(tL+tR)/2;}
+  var d=MATS[T2.mat].d;
+  var fl=t2getFluidAt(t2obj.y+half,tT,tB);var fd=fl.d;
+  var subF=0;var bounds=t2getZoneBounds(tT,tB);
+  for(var fi=0;fi<4;fi++){if(t2obj.y+half>=bounds[fi]&&t2obj.y+half<bounds[fi+1]){var zFl=COL_FLUIDS[fi];fd=zFl.d;subF=clamp((t2obj.y+half-bounds[fi])/sz,0,1);break;}}
+  if(t2obj.y-half<bounds[0]){subF=0;fd=1;}
+  var ay=0.15-(fd/d)*subF*0.15;ay-=t2obj.vy*(subF>0?0.08:0.002);
+  t2obj.vy+=ay;t2obj.vy*=0.98;t2obj.y+=t2obj.vy;
+  if(subF>0&&Math.abs(t2obj.vy)>.2&&Math.random()<.2){t2bubs.push({x:(tL+tR)/2+(Math.random()-.5)*sz*.5,y:t2obj.y,r:1.5+Math.random()*2.5,vy:-.3-Math.random()*.6,l:1});}
+  if(t2obj.y+half>tB-6){t2obj.y=tB-6-half;t2obj.vy=Math.abs(t2obj.vy)>.3?-t2obj.vy*.2:0;}
+  if(t2obj.y-half<tT+4){t2obj.y=tT+4+half;t2obj.vy=Math.abs(t2obj.vy)>.3?-t2obj.vy*.1:0;}
+  for(var i=t2bubs.length-1;i>=0;i--){var b=t2bubs[i];b.y+=b.vy;b.l-=.01;if(b.l<=0)t2bubs.splice(i,1);}
+  // Update info when settled
+  if(Math.abs(t2obj.vy)<0.05&&T2.dropped){
+    var settledFluid='the bottom';for(var fi2=0;fi2<4;fi2++){if(t2obj.y+half>=bounds[fi2]&&t2obj.y+half<bounds[fi2+1]){settledFluid=COL_FLUIDS[fi2].n;break;}}
+    var above='air',below=settledFluid;for(var fi3=0;fi3<4;fi3++){if(t2obj.y+half>=bounds[fi3]&&t2obj.y+half<bounds[fi3+1]){if(fi3>0)above=COL_FLUIDS[fi3-1].n;else above='air';below=COL_FLUIDS[fi3].n;break;}}
+    var el=$('t2info');if(el)el.innerHTML='<div class="arch-box"><strong>'+MATS[T2.mat].n+'</strong> (ρ = '+MATS[T2.mat].d.toLocaleString()+' kg/m³)<br>Settled at the <strong>'+above+' / '+below+'</strong> interface.<br>'+MATS[T2.mat].n+' is denser than '+above+(fi3>0?' ('+COL_FLUIDS[fi3-1].d+' kg/m³)':'')+' but less dense than '+below+' ('+COL_FLUIDS[fi3].d+' kg/m³).'+(d>13600?'<br><strong style="color:var(--accent3)">Gold is denser than mercury — it sinks all the way to the bottom!</strong>':'')+'</div>';
+  }
+  // Update ladder
+  t2buildLadder();
+}
+function t2buildLadder(){
+  var d=MATS[T2.mat].d;
+  var items=COL_FLUIDS.map(function(f){return{n:f.n,d:f.d,c:f.c,type:'fluid'};}).concat(MATKEYS.map(function(k){return{n:MATS[k].n,d:MATS[k].d,c:MATS[k].c,type:'mat',key:k};}));
+  items.sort(function(a,b){return a.d-b.d;});
+  $('t2ladder').innerHTML=items.map(function(it){var isCur=it.type==='mat'&&it.key===T2.mat;return '<div class="ladder-row'+(isCur?' here':'')+'"><div class="ladder-dot" style="background:'+it.c+'"></div><span style="font-size:.72rem;'+(it.type==='fluid'?'font-style:italic;color:var(--text2)':'')+'">'+it.n+'</span><span class="ladder-d">'+it.d.toLocaleString()+'</span></div>';}).join('');
+}
+
+// ===================== TAB 4 RENDER =====================
+var t4cv,t4cx,t4W,t4H;
+function t4rsz(){var wp=$('t4Wrap');if(!wp)return;var r=wp.getBoundingClientRect();t4W=r.width;t4H=r.height;t4cv=$('t4Cv');var dpr=devicePixelRatio||1;t4cv.width=t4W*dpr;t4cv.height=t4H*dpr;t4cv.style.width=t4W+'px';t4cv.style.height=t4H+'px';t4cx=t4cv.getContext('2d');t4cx.setTransform(dpr,0,0,dpr,0,0);}
+function t4render(){
+  if(!t4cx||!T4.mat)return;t4cx.clearRect(0,0,t4W,t4H);
+  var mc=MATS[T4.mat].c,massG=T4.mass*1000;
+  // === LEFT HALF: Balance ===
+  var bL=10,bR=t4W*.48,bY=t4H*.7;
+  // Platform
+  t4cx.fillStyle='#E0E0E0';t4cx.fillRect(bL+20,bY,bR-bL-40,8);
+  t4cx.fillStyle='#BDBDBD';t4cx.fillRect(bL+40,bY+8,bR-bL-80,4);
+  // Base
+  t4cx.fillStyle='#9E9E9E';var baseW=bR-bL-60;t4cx.beginPath();t4cx.moveTo((bL+bR)/2-baseW/2,bY+12);t4cx.lineTo((bL+bR)/2+baseW/2,bY+12);t4cx.lineTo((bL+bR)/2+baseW/2+10,t4H*.88);t4cx.lineTo((bL+bR)/2-baseW/2-10,t4H*.88);t4cx.closePath();t4cx.fill();
+  // Digital display
+  var dX=(bL+bR)/2,dY=t4H*.85;t4cx.fillStyle='#1B5E20';t4cx.fillRect(dX-40,dY-12,80,24);t4cx.fillStyle='#69F0AE';t4cx.font='bold 14px var(--mono)';t4cx.textAlign='center';t4cx.fillText(massG.toFixed(1)+' g',dX,dY+5);
+  // Object on platform
+  var objSz=Math.max(20,Math.min(40,Math.pow(T4.vol,1/3)*3));
+  drawObj3D(t4cx,(bL+bR)/2,bY-objSz/2-2,'cube',objSz,mc);
+  // Label
+  t4cx.fillStyle='var(--text2)';t4cx.font='600 11px system-ui';t4cx.textAlign='center';t4cx.fillText('Digital Balance',dX,t4H*.95);
+
+  // === RIGHT HALF: Graduated Cylinder ===
+  var cL=t4W*.55,cR=t4W*.85,cX=(cL+cR)/2,cylW=(cR-cL)*.5,cylT=t4H*.1,cylB=t4H*.88;
+  // Cylinder glass
+  t4cx.strokeStyle='rgba(150,150,160,.5)';t4cx.lineWidth=2;t4cx.beginPath();t4cx.moveTo(cX-cylW/2,cylT);t4cx.lineTo(cX-cylW/2,cylB-5);t4cx.quadraticCurveTo(cX-cylW/2,cylB,cX-cylW/2+5,cylB);t4cx.lineTo(cX+cylW/2-5,cylB);t4cx.quadraticCurveTo(cX+cylW/2,cylB,cX+cylW/2,cylB-5);t4cx.lineTo(cX+cylW/2,cylT);t4cx.stroke();
+  // Graduations
+  var totalMl=100,mlPerPx=(cylB-cylT)/totalMl;
+  t4cx.font='500 8px system-ui';t4cx.fillStyle='rgba(100,100,110,.5)';t4cx.textAlign='right';t4cx.strokeStyle='rgba(150,150,160,.3)';t4cx.lineWidth=.5;
+  for(var ml=0;ml<=totalMl;ml+=10){var gy=cylB-(ml*mlPerPx);t4cx.beginPath();t4cx.moveTo(cX+cylW/2,gy);t4cx.lineTo(cX+cylW/2+(ml%20===0?12:6),gy);t4cx.stroke();if(ml%20===0)t4cx.fillText(ml+'',cX+cylW/2+28,gy+3);}
+  // Water fill
+  var wLevel=T4.dropped?T4.waterFinal:T4.waterInit;
+  var wTop=cylB-(wLevel*mlPerPx);
+  t4cx.save();t4cx.beginPath();
+  for(var wx=cX-cylW/2+1;wx<=cX+cylW/2-1;wx++){var wv=Math.sin(wx*.06+time*2)*1+Math.sin(wx*.1+time*3)*.5;wx===cX-cylW/2+1?t4cx.moveTo(wx,wTop+wv):t4cx.lineTo(wx,wTop+wv);}
+  t4cx.lineTo(cX+cylW/2-1,cylB-1);t4cx.lineTo(cX-cylW/2+1,cylB-1);t4cx.closePath();
+  var wgr=t4cx.createLinearGradient(0,wTop,0,cylB);wgr.addColorStop(0,'rgba(79,195,247,.4)');wgr.addColorStop(1,'rgba(2,136,209,.55)');t4cx.fillStyle=wgr;t4cx.fill();t4cx.restore();
+  // Object in cylinder
+  if(T4.dropped){var oSz=Math.max(12,Math.min(cylW*.6,Math.pow(T4.vol,1/3)*2));drawObj3D(t4cx,cX,cylB-20-oSz/2,'sphere',oSz,mc);}
+  // Label
+  t4cx.fillStyle='var(--text2)';t4cx.font='600 11px system-ui';t4cx.textAlign='center';t4cx.fillText('Graduated Cylinder',cX,t4H*.95);
+}
+
+// ===================== TAB 5 RENDER =====================
+var t5cv,t5cx,t5W,t5H;
+function t5rsz(){var wp=$('t5Wrap');if(!wp)return;var r=wp.getBoundingClientRect();t5W=r.width;t5H=r.height;t5cv=$('t5Cv');var dpr=devicePixelRatio||1;t5cv.width=t5W*dpr;t5cv.height=t5H*dpr;t5cv.style.width=t5W+'px';t5cv.style.height=t5H+'px';t5cx=t5cv.getContext('2d');t5cx.setTransform(dpr,0,0,dpr,0,0);}
+function t5updPh(){
+  if(!t5cv)return;
+  var tL=t5W*.08,tR=t5W*.92,tT=t5H*.08,tB=t5H*.92,wY2=tT+(tB-tT)*.35;
+  var sz=45,half=sz/2,fd=FLUIDS[T5.fluid].d;
+  function updObj(obj,matKey){
+    if(!obj.on)return;var d=MATS[matKey].d;
+    var subF=obj.y+half>wY2?clamp((obj.y+half-wY2)/sz,0,1):0;
+    var ay=0.22-(fd/d)*subF*0.22;ay-=obj.vy*(subF>0?0.06:0.002);
+    obj.vy+=ay;obj.vy*=0.985;obj.y+=obj.vy;
+    if(!obj.splD&&obj.y+half>wY2&&obj.vy>1){obj.splD=true;for(var i=0;i<8;i++){var a=-Math.PI+Math.random()*Math.PI,sp=1+Math.random()*2;t5splsh.push({x:obj.x+(Math.random()-.5)*sz*.4,y:wY2,vx:Math.cos(a)*sp,vy:-Math.abs(Math.sin(a))*sp-1,l:1,s:2+Math.random()*2});}}
+    if(subF>0&&Math.abs(obj.vy)>.3&&Math.random()<.2)t5bubs.push({x:obj.x+(Math.random()-.5)*sz*.4,y:obj.y,r:1+Math.random()*2,vy:-.3-Math.random()*.5,l:1});
+    if(obj.y+half>tB-8){obj.y=tB-8-half;obj.vy=Math.abs(obj.vy)>.5?-obj.vy*.25:0;}
+    if(obj.y-half<tT+4){obj.y=tT+4+half;obj.vy=0;}
+  }
+  updObj(t5objA,T5.matA);updObj(t5objB,T5.matB);
+  for(var i=t5bubs.length-1;i>=0;i--){var b=t5bubs[i];b.y+=b.vy;b.l-=.01;if(b.l<=0)t5bubs.splice(i,1);}
+  for(var i2=t5splsh.length-1;i2>=0;i2--){var s=t5splsh[i2];s.x+=s.vx;s.y+=s.vy;s.vy+=.15;s.l-=.025;if(s.l<=0)t5splsh.splice(i2,1);}
+}
+function t5render(){
+  if(!t5cx)return;t5cx.clearRect(0,0,t5W,t5H);
+  var tL=t5W*.08,tR=t5W*.92,tT=t5H*.08,tB=t5H*.92,wY2=tT+(tB-tT)*.35;
+  drawTankBg(t5cx,tL,tR,tT,tB);drawFluidFill(t5cx,tL,tR,tT,tB,wY2,FLUIDS[T5.fluid]);
+  if(t5objA.on)drawObj3D(t5cx,t5objA.x,t5objA.y,T5.shape,45,MATS[T5.matA].c);
+  if(t5objB.on)drawObj3D(t5cx,t5objB.x,t5objB.y,T5.shape,45,MATS[T5.matB].c);
+  // Labels
+  if(t5objA.on){t5cx.fillStyle='#3B82F6';t5cx.font='bold 11px system-ui';t5cx.textAlign='center';t5cx.fillText('A',t5objA.x,t5objA.y-30);}
+  if(t5objB.on){t5cx.fillStyle='#EF4444';t5cx.font='bold 11px system-ui';t5cx.textAlign='center';t5cx.fillText('B',t5objB.x,t5objB.y-30);}
+  t5bubs.forEach(function(b){t5cx.save();t5cx.globalAlpha=b.l*.5;t5cx.beginPath();t5cx.arc(b.x,b.y,b.r,0,Math.PI*2);t5cx.fillStyle='rgba(255,255,255,.6)';t5cx.fill();t5cx.restore();});
+  t5splsh.forEach(function(s){t5cx.save();t5cx.globalAlpha=s.l*.7;t5cx.beginPath();t5cx.arc(s.x,s.y,s.s,0,Math.PI*2);t5cx.fillStyle=FLUIDS[T5.fluid].c;t5cx.fill();t5cx.restore();});
+  drawTankWalls(t5cx,tL,tR,tT,tB);
+}
+function t5updInfo(){
+  var dA=MATS[T5.matA].d,dB=MATS[T5.matB].d,fd=FLUIDS[T5.fluid].d;
+  $('t5dA').textContent=dA.toLocaleString();$('t5dB').textContent=dB.toLocaleString();
+  var rA=dA/fd,rB=dB/fd;
+  $('t5vA').textContent=rA<.98?'Floats':rA>1.02?'Sinks':'Neutral';$('t5vA').className='verdict '+(rA<.98?'v-float':rA>1.02?'v-sink':'v-hover');
+  $('t5vB').textContent=rB<.98?'Floats':rB>1.02?'Sinks':'Neutral';$('t5vB').className='verdict '+(rB<.98?'v-float':rB>1.02?'v-sink':'v-hover');
+  var h='<strong>'+MATS[T5.matA].n+'</strong> ('+dA.toLocaleString()+') vs <strong>'+MATS[T5.matB].n+'</strong> ('+dB.toLocaleString()+') in '+FLUIDS[T5.fluid].n+' ('+fd.toLocaleString()+')<br>';
+  if(dA>dB)h+=MATS[T5.matA].n+' is '+(dA/dB).toFixed(1)+'× denser than '+MATS[T5.matB].n+'.';
+  else if(dB>dA)h+=MATS[T5.matB].n+' is '+(dB/dA).toFixed(1)+'× denser than '+MATS[T5.matA].n+'.';
+  else h+='Both have the same density!';
+  $('t5explain').innerHTML=h;
+}
+
+// ===================== MAIN LOOP =====================
+function mainLoop(){
+  time+=0.016;
+  if(activeLab===0){t1updPh();t1render();}
+  else if(activeLab===1){t2updPh();t2render();}
+  else if(activeLab===3){t4render();}
+  else if(activeLab===4){t5updPh();t5render();}
+  requestAnimationFrame(mainLoop);
+}
+
+// ===================== INIT =====================
+buildTabs();
+t1rsz();t1updRead();buildExp();buildIB();showNB();
+t2rsz();t2buildLadder();
+t3newMystery();
+t4newSample();t4rsz();
+t5rsz();t5updInfo();
+window.addEventListener('resize',function(){t1rsz();t2rsz();t4rsz();t5rsz();});
+requestAnimationFrame(mainLoop);
 </script>
 <div style="text-align:center;padding:16px 0 8px;font-family:Georgia,serif;font-size:11px;color:rgba(0,0,0,0.15);letter-spacing:2px;text-transform:uppercase;user-select:none">ATUL SORAL PHYSICISM</div>
 </body>
