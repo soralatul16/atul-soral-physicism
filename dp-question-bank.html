@@ -561,8 +561,15 @@ function buildPaperHTML(mcqs, structured) {
       html+='<div class="q"><div class="q-top"><div class="q-num">'+(startNum+i)+'.</div><div class="q-content">';
       if(g.stem) html+='<div class="q-stem">'+g.stem+'</div>';
       
-      var firstImgPart = g.parts.find(function(p) { return p.image && p.image.length > 10; });
-      if(firstImgPart) html+='<div class="img-wrap">'+firstImgPart.image+'</div>';
+      var groupImage = '';
+      g.parts.forEach(function(q){
+        if(q.image && q.image.length > 10 && !groupImage){
+          groupImage = q.image;
+        }
+      });
+      if(groupImage){
+        html += '<div class="img-wrap" style="margin:10px 0;text-align:center">' + groupImage + '</div>';
+      }
       
       g.parts.forEach(function(p, pi) {
         var numMatch = p.text.match(/^(\([a-z]+\)(\([iv]+\))?)/);
@@ -572,7 +579,11 @@ function buildPaperHTML(mcqs, structured) {
         }
         
         html+='<div class="q-part">';
-        html+='<div class="q-part-text">'+pText+'</div>';
+        html+='<div class="q-part-text">'+pText;
+        if(p.image && p.image.length > 10 && p.image !== groupImage) {
+            html += '<div class="img-wrap" style="margin:10px 0;text-align:center">' + p.image + '</div>';
+        }
+        html+='</div>';
         html+='<div class="marks">['+(p.marks||1)+']</div>';
         html+='</div>';
       });
@@ -613,6 +624,16 @@ function generateMarkScheme(){
     var stemPrev = g.stem ? g.stem.substring(0, 100) + '...' : (g.parts[0] ? g.parts[0].text.substring(0,100)+'...' : '');
     html+='<div class="q-stem">'+stemPrev+'</div>';
     
+    var groupImage = '';
+    g.parts.forEach(function(q){
+      if(q.image && q.image.length > 10 && !groupImage){
+        groupImage = q.image;
+      }
+    });
+    if(groupImage){
+      html += '<div class="img-wrap" style="margin:10px 0;text-align:center">' + groupImage + '</div>';
+    }
+    
     if(g.type === 'MCQ' && g.parts.length === 1) {
       var p = g.parts[0];
       var ansLetter = p.correct !== undefined ? String.fromCharCode(65+p.correct) : 'N/A';
@@ -622,6 +643,11 @@ function generateMarkScheme(){
         var numMatch = p.text.match(/^(\([a-z]+\)(\([iv]+\))?)/);
         var label = numMatch ? numMatch[0] : '('+(pi+1)+')';
         html+='<div class="q-part"><div class="p-label">'+label+' <span style="color:#666;font-weight:normal;font-size:.8rem">['+(p.marks||1)+']</span></div>';
+        
+        if(p.image && p.image.length > 10 && p.image !== groupImage) {
+            html += '<div class="img-wrap" style="margin:10px 0;text-align:center">' + p.image + '</div>';
+        }
+        
         html+='<div class="ms">'+(p.markScheme||'<em>No mark scheme provided</em>')+'</div></div>';
       });
     }
