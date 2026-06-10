@@ -173,4 +173,17 @@ const DP_SIMS = [
   difficulty: 'foundational',
   path: 'sims/density-lab.html'
 },
+ {
+  id: 'energy-efficiency-lab',
+  title: 'Energy Efficiency Lab',
+  topic: 'B.2',
+  topicName: 'Energy Transfers',
+  grade: ['MYP5', 'DP'],
+  level: 'both',
+  theme: 'B',
+  concepts: ['efficiency', 'energy-transfer', 'sankey-diagrams', 'power', 'cost'],
+  difficulty: 'intermediate',
+  path: 'sims/energy-efficiency.html'
+},
+ 
 ];
