@@ -266,17 +266,16 @@ function groupQuestions(questions) {
 }
 
 function buildFilters(){
-  var papers=new Set(),diffs=new Set(),marks=new Set(),levels=new Set();
+  var papers=new Set(),diffs=new Set(),marks=new Set();
   allGroups.forEach(function(g){
     if(g.paper)papers.add(g.paper);
     if(g.difficulty)diffs.add(g.difficulty);
     if(g.totalMarks)marks.add(g.totalMarks);
-    if(g.level)levels.add(g.level);
   });
   renderFilterGroup('fPaper',Array.from(papers).sort(),'paper');
   renderFilterGroup('fDiff',['Easy','Medium','Hard'],'diff');
   renderFilterGroup('fMarks',Array.from(marks).sort(function(a,b){return a-b;}),'marks');
-  renderFilterGroup('fLevel',Array.from(levels).sort(),'level');
+  renderFilterGroup('fLevel',['SL', 'HL'],'level');
   
   buildTopicFilter();
 }
@@ -365,14 +364,11 @@ function clearFilters(){
 function applyFilters(){
   var search=document.getElementById('searchBox').value.toLowerCase();
   filteredGroups=allGroups.filter(function(g){
-    if(filters.paper.length&&filters.paper.indexOf(g.paper)===-1)return false;
-    
-    if(filters.topic.length && !g.parts.some(function(p) { return filters.topic.some(function(t) { return p.topic && p.topic.startsWith(t); }); })) return false;
-    
-    if(filters.diff.length&&filters.diff.indexOf(g.difficulty)===-1)return false;
-    if(filters.marks.length&&filters.marks.indexOf(g.totalMarks)===-1)return false;
-    
-    if(filters.level.length&&!filters.level.some(function(l){return g.level&&g.level.indexOf(l)>-1;}))return false;
+    if(filters.paper.length && !filters.paper.some(p => g.paper === p)) return false;
+    if(filters.topic.length && !filters.topic.some(t => g.parts.some(q => q.topic && q.topic.startsWith(t)))) return false;
+    if(filters.level.length && !filters.level.some(l => g.parts.some(q => q.level && q.level.indexOf(l) > -1) || (g.level && g.level.indexOf(l) > -1))) return false;
+    if(filters.diff.length && !filters.diff.some(d => g.parts.some(q => q.difficulty === d) || g.difficulty === d)) return false;
+    if(filters.marks.length && !filters.marks.some(m => g.totalMarks == m)) return false;
     
     if(search) {
       var stemMatch = g.stem && g.stem.toLowerCase().indexOf(search)>-1;
