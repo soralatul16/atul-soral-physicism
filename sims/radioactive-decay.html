@@ -1,0 +1,601 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Atul Soral Physicism">
+<title>Radioactive Decay Lab | Atul Soral Physicism</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#F5F2EE;--surface:#fff;--text:#1A1A2E;--text2:#6B7280;--primary:#7C3AED;--primary-light:#F3E8FF;--primary-dark:#5B21B6;--danger:#EF4444;--accent:#F59E0B;--border:#E5E1DC;--shadow:0 2px 12px rgba(0,0,0,.07);--radius:14px;--radius-sm:8px}
+[data-theme="dark"]{--bg:#0F172A;--surface:#1E293B;--text:#F1F5F9;--text2:#94A3B8;--primary-light:#2E1065;--primary-dark:#C4B5FD;--border:#334155;--shadow:0 2px 12px rgba(0,0,0,.3)}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.app{max-width:1300px;margin:0 auto;padding:16px 24px 10px}
+.nav-btn{padding:5px 12px;border-radius:6px;background:rgba(255,255,255,.18);color:#fff;font-size:.75rem;font-weight:600;border:none;cursor:pointer;transition:background .2s;line-height:1.4}.nav-btn:hover{background:rgba(255,255,255,.3)}
+/* Header */
+.sim-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.sim-header h1{font-size:1.45rem;font-weight:700;letter-spacing:-.03em}.sim-header h1 em{color:var(--primary);font-weight:800;font-style:normal}
+/* Tabs */
+.tab-bar{display:flex;gap:4px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px;border-bottom:2px solid var(--border)}
+.tab-btn{padding:8px 16px;border:none;background:none;font-size:.8rem;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;white-space:nowrap}
+.tab-btn:hover{color:var(--primary)}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary)}
+.tab-pane{display:none}.tab-pane.active{display:block}
+/* Buttons */
+.pbtn{width:34px;height:34px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.pbtn:hover{border-color:var(--primary)}.pbtn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.sel{padding:5px 8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:.75rem;font-weight:600;background:var(--surface);color:var(--text);cursor:pointer}
+.btn{padding:6px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text)}
+.btn:hover{border-color:var(--primary);color:var(--primary)}
+.btn-p{background:var(--primary);color:#fff;border-color:var(--primary)}
+/* Layout */
+.main-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:14px;align-items:start}
+.card{background:var(--surface);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);margin-bottom:12px}
+.card-title{font-size:.72rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+/* Canvas */
+.canvas-wrap{position:relative;width:100%;aspect-ratio:4/3;background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:10px}
+.canvas-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%}
+/* Controls */
+.ctrl-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.ctrl-group{flex:1;min-width:120px}
+.ctrl-lbl{font-size:.68rem;font-weight:600;color:var(--text2);margin-bottom:2px;display:flex;justify-content:space-between}
+.ctrl-v{font-weight:700;color:var(--primary)}
+input[type=range]{width:100%;height:5px;-webkit-appearance:none;appearance:none;border-radius:3px;background:var(--border);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--primary);cursor:pointer;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+/* Readouts */
+.readouts{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ro{text-align:center;padding:7px;border-radius:var(--radius-sm);background:var(--bg)}
+.ro-l{font-size:.62rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);font-weight:600;margin-bottom:1px}
+.ro-v{font-size:1.05rem;font-weight:700;font-variant-numeric:tabular-nums}
+/* Graph */
+.graph-wrap{position:relative;height:190px}
+/* Equation */
+.eq-card{text-align:center;padding:14px}
+.eq-display{font-size:1.1rem;line-height:2}
+.nuclide{display:inline-flex;align-items:center;margin:0 4px}
+.nuc-nums{display:flex;flex-direction:column;font-size:.6em;line-height:1.05;text-align:right;margin-right:1px;font-weight:700}
+.nuc-sym{font-size:1.25em;font-weight:800}
+.eq-arrow{margin:0 5px;font-size:1.2em;color:var(--text2)}
+.eq-check{font-size:.68rem;color:var(--primary);margin-top:4px}
+.iso-info{font-size:.75rem;color:var(--text2);margin-top:5px;line-height:1.5}
+/* Dice */
+.dice-grid{display:flex;flex-wrap:wrap;gap:3px;margin:8px 0;max-height:140px;overflow-y:auto}
+.die{width:20px;height:20px;border-radius:3px;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;transition:all .3s}
+.die.out{background:var(--border);color:var(--text2);opacity:.35}
+/* Compare */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.comp-side{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:12px}
+.comp-side h4{font-size:.82rem;font-weight:700;text-align:center;margin-bottom:6px}
+.comp-ro{display:flex;justify-content:space-around;gap:6px;font-size:.78rem;margin-top:8px;flex-wrap:wrap}
+.comp-ro span{font-weight:700}
+/* Dating */
+.dating-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dating-result{font-size:1.5rem;font-weight:800;color:var(--primary);margin:8px 0}
+.dating-formula{font-size:.78rem;color:var(--text2);line-height:1.6;padding:12px;background:var(--bg);border-radius:var(--radius-sm)}
+/* Questions */
+.q-item{border:1.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden}
+.q-header{display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:pointer;transition:background .2s}.q-header:hover{background:var(--bg)}
+.q-cmd{padding:2px 8px;border-radius:4px;font-size:.63rem;font-weight:700;text-transform:uppercase;flex-shrink:0}
+.q-cmd-state{background:#DBEAFE;color:#1E40AF}.q-cmd-calc{background:#DCFCE7;color:#166534}.q-cmd-explain{background:#FEF3C7;color:#92400E}.q-cmd-discuss{background:#F3E8FF;color:#6B21A8}
+.q-text{flex:1;font-size:.8rem;font-weight:500}.q-marks{font-size:.68rem;color:var(--text2);flex-shrink:0}
+.q-toggle{font-size:.68rem;font-weight:600;color:var(--primary);flex-shrink:0;padding:2px 8px;border-radius:4px;background:var(--primary-light)}
+.q-answer{display:none;padding:10px 14px;border-top:1px solid var(--border);font-size:.78rem;line-height:1.6;color:var(--text2);background:var(--bg)}.q-answer.open{display:block}.q-answer strong{color:var(--text)}
+/* Experiment */
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.exp-panel{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px}
+.exp-var{margin-bottom:8px}.exp-label{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:3px}
+.exp-label.iv{color:#2563eb}.exp-label.dv{color:#dc2626}.exp-label.cv{color:#059669}.exp-label.hyp{color:#7c3aed}
+.exp-select{width:100%;padding:5px 8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:.78rem}
+.exp-cv-list{display:flex;flex-wrap:wrap;gap:5px}
+.exp-cv-item{display:flex;align-items:center;gap:3px;font-size:.7rem;padding:2px 7px;border-radius:5px;background:rgba(5,150,105,.06);color:#059669;cursor:pointer}
+.exp-cv-item input{accent-color:#059669;width:12px;height:12px}
+.exp-hypothesis{font-size:.8rem;color:var(--text2);line-height:1.5;padding:8px;background:rgba(124,58,237,.04);border:1px solid rgba(124,58,237,.1);border-radius:var(--radius-sm);border-left:3px solid #7c3aed}
+.iv-hl{color:#2563eb}.dv-hl{color:#dc2626}.cv-hl{color:#059669}
+.hyp-dir{border:1px solid var(--border);border-radius:4px;padding:1px 4px;font-size:.75rem;background:var(--bg);color:var(--text)}
+.exp-data{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px}
+.exp-tw{max-height:160px;overflow-y:auto;margin-bottom:8px}
+.exp-table{width:100%;border-collapse:collapse;font-size:.72rem}
+.exp-table th{position:sticky;top:0;background:var(--surface);padding:4px 6px;text-align:left;font-weight:700;font-size:.63rem;text-transform:uppercase;color:var(--text2);border-bottom:2px solid var(--border)}
+.exp-table td{padding:3px 6px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
+.exp-pw{position:relative;height:170px;margin:6px 0}
+.btab-pane{display:none}.btab-pane.active{display:block}
+.nb-c{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 8px;margin-bottom:3px;font-size:.72rem;line-height:1.5}.nb-c b{color:var(--primary)}.nb-c .nr{color:var(--primary-dark);font-weight:700}
+@media(max-width:800px){.main-grid,.comp-grid,.exp-grid,.dating-grid{grid-template-columns:1fr}}
+@media print{body{background:#fff}.pbtn,.nav-btn,.btn,input[type=range]{display:none}.card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}.q-answer{display:block!important}.tab-pane{display:block!important}}
+</style>
+</head>
+<body>
+<script>var SIM_META={id:'radioactive-decay-lab',title:'Radioactive Decay Lab',topic:'E.3',topicName:'Radioactive Decay',grade:['DP'],level:'both',theme:'E',concepts:['half-life','decay-constant','activity','exponential-decay','nuclear-equations'],difficulty:'intermediate'};</script>
+<nav style="display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px"><div style="display:flex;align-items:center;gap:14px"><a href="../index.html" style="font-family:Georgia,serif;font-size:1rem;font-weight:700;color:#fff;text-decoration:none">Atul Soral Physicism</a><a href="../dp-simulations.html" style="color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem">&larr; All Simulations</a></div><div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">☀️</button><a href="../dp-simulations.html" class="nav-btn" style="text-decoration:none">&larr; Back</a><a href="../index.html" class="nav-btn" style="text-decoration:none">Home</a><a href="../myp-dashboard.html" class="nav-btn" style="text-decoration:none">MYP</a><a href="../dp-dashboard.html" class="nav-btn" style="text-decoration:none">DP</a></div></nav>
+
+<div class="app">
+<div class="sim-header"><h1><em>Radioactive</em> Decay Lab</h1></div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="sim">Decay Sim</button>
+  <button class="tab-btn" data-tab="dice">Dice Lab</button>
+  <button class="tab-btn" data-tab="dating">Dating Tool</button>
+  <button class="tab-btn" data-tab="compare">Comparison</button>
+</div>
+
+<!-- ====== TAB: DECAY SIM ====== -->
+<div class="tab-pane active" id="tab-sim">
+  <div class="main-grid">
+    <div>
+      <div class="canvas-wrap" id="canvasWrap"><canvas id="atomCanvas"></canvas></div>
+      <div class="ctrl-row">
+        <div style="display:flex;gap:5px;align-items:center">
+          <button class="pbtn" id="playBtn" title="Play/Pause">▶</button>
+          <button class="pbtn" id="stepBtn" title="Step">⏭</button>
+          <button class="pbtn" id="resetBtn" title="Reset">↺</button>
+          <select class="sel" id="speedSel"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="5">5×</option><option value="10">10×</option></select>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:.72rem;font-weight:600;color:var(--text2)">Isotope</span>
+          <select class="sel" id="isoSelect" style="min-width:130px"></select>
+        </div>
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-group"><div class="ctrl-lbl">N₀ <span class="ctrl-v" id="n0Val">500</span></div><input type="range" id="n0Slider" min="20" max="5000" step="10" value="500"></div>
+        <div class="ctrl-group"><div class="ctrl-lbl">Sim t½ <span class="ctrl-v" id="thVal">10 s</span></div><input type="range" id="thSlider" min="1" max="30" step="0.5" value="10"></div>
+      </div>
+      <div class="card eq-card"><div class="eq-display" id="eqDisplay"></div><div class="eq-check" id="eqCheck"></div><div class="iso-info" id="isoInfo"></div></div>
+    </div>
+    <div>
+      <div class="card"><div class="readouts">
+        <div class="ro"><div class="ro-l">Remaining (N)</div><div class="ro-v" id="roN">500</div></div>
+        <div class="ro"><div class="ro-l">Decayed</div><div class="ro-v" id="roD">0</div></div>
+        <div class="ro"><div class="ro-l">λ (s⁻¹)</div><div class="ro-v" id="roL">0.0693</div></div>
+        <div class="ro"><div class="ro-l">Activity (s⁻¹)</div><div class="ro-v" id="roA">34.7</div></div>
+        <div class="ro"><div class="ro-l">Time (s)</div><div class="ro-v" id="roT">0.0</div></div>
+        <div class="ro"><div class="ro-l">Half-lives</div><div class="ro-v" id="roHL">0.00</div></div>
+      </div></div>
+      <div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div class="card-title" style="margin:0">N vs t</div><button class="btn" id="lnToggle" style="font-size:.65rem;padding:3px 10px" onclick="toggleLnN()">Show ln(N)</button></div><div class="graph-wrap"><canvas id="decayGraph"></canvas></div></div>
+      <div class="card"><div class="card-title">Activity vs t</div><div class="graph-wrap" style="height:130px"><canvas id="actGraph"></canvas></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== TAB: DICE LAB ====== -->
+<div class="tab-pane" id="tab-dice">
+  <div class="main-grid">
+    <div>
+      <div class="card">
+        <div class="card-title">Dice Analogy — Randomness → Exponential</div>
+        <div class="ctrl-row">
+          <button class="btn btn-p" id="diceRollBtn">Roll All Dice</button>
+          <button class="btn" id="diceAutoBtn">Auto-Roll</button>
+          <button class="btn" id="diceResetBtn">Reset</button>
+          <span style="font-size:.72rem;color:var(--text2)">Remove if ≤</span>
+          <select class="sel" id="diceThresh"><option value="1">1 (p=1/6)</option><option value="2">2 (p=2/6)</option><option value="3">3 (p=3/6)</option></select>
+          <span style="font-size:.72rem;color:var(--text2)">Dice:</span>
+          <select class="sel" id="diceCount"><option value="20">20</option><option value="50">50</option><option value="100" selected>100</option><option value="200">200</option></select>
+        </div>
+        <div class="dice-grid" id="diceGrid"></div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:.78rem;color:var(--text2)">
+          <span id="diceStatus">100 remaining · Round 0</span>
+          <span id="diceTH">Theoretical t½ ≈ 4.16 rolls</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card"><div class="card-title">Remaining Dice vs Round</div><div class="graph-wrap"><canvas id="diceGraph"></canvas></div></div>
+      <div class="card"><p style="font-size:.8rem;color:var(--text2);line-height:1.6">Each die has a fixed probability of being removed — just like each nucleus has a fixed probability of decaying. No die "knows" when its turn comes. Yet from this randomness, the same exponential shape emerges. The <strong>dashed line</strong> shows the theoretical prediction: N = N₀ × (1−p)<sup>round</sup>. Your experimental data scatters around it.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== TAB: DATING TOOL ====== -->
+<div class="tab-pane" id="tab-dating">
+  <div class="dating-grid">
+    <div class="card">
+      <div class="card-title">Carbon-14 Dating Calculator</div>
+      <div class="ctrl-lbl" style="margin-bottom:4px">C-14 Remaining (%) <span class="ctrl-v" id="datingPct">50</span></div>
+      <input type="range" id="datingSlider" min="1" max="99" step="1" value="50">
+      <div class="dating-result" id="datingAge">5,730 years</div>
+      <div style="font-size:.78rem;color:var(--text2)">Estimated age of sample</div>
+      <div style="margin-top:14px;font-size:.75rem;color:var(--text2);line-height:1.6"><strong>Range:</strong> Effective up to ~50,000 years (≈ 9 half-lives, <0.2% remaining). Beyond this, the signal is indistinguishable from background.<br><br><strong>Limitation:</strong> Only works on organic material. Cannot date rocks, metals, or anything that never contained carbon from the atmosphere.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Working</div>
+      <div class="dating-formula">
+        <strong>N = N₀ × e<sup>−λt</sup></strong><br><br>
+        <strong>t = −ln(N/N₀) / λ</strong><br><br>
+        λ = ln2 / t½ = ln2 / 5730 = 1.21 × 10⁻⁴ yr⁻¹<br><br>
+        <span id="datingWork"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== TAB: COMPARISON ====== -->
+<div class="tab-pane" id="tab-compare">
+  <div class="card">
+    <div class="ctrl-row">
+      <select class="sel" id="compSelA" style="min-width:130px"></select>
+      <span style="font-size:.82rem;font-weight:700;color:var(--text2)">vs</span>
+      <select class="sel" id="compSelB" style="min-width:130px"></select>
+      <div style="flex:1"></div>
+      <span style="font-size:.72rem;color:var(--text2)">N₀</span>
+      <select class="sel" id="compN0"><option value="100">100</option><option value="200" selected>200</option><option value="500">500</option></select>
+      <button class="pbtn" id="compPlayBtn">▶</button>
+      <button class="pbtn" id="compResetBtn">↺</button>
+      <select class="sel" id="compSpeed"><option value="1">1×</option><option value="2">2×</option><option value="5" selected>5×</option><option value="10">10×</option></select>
+    </div>
+    <div class="ctrl-row" style="margin-bottom:0">
+      <div class="ctrl-group"><div class="ctrl-lbl">t½ A <span class="ctrl-v" id="compThAVal">10 s</span></div><input type="range" id="compThA" min="1" max="30" step="0.5" value="10"></div>
+      <div class="ctrl-group"><div class="ctrl-lbl">t½ B <span class="ctrl-v" id="compThBVal">3 s</span></div><input type="range" id="compThB" min="1" max="30" step="0.5" value="3"></div>
+    </div>
+  </div>
+  <div class="comp-grid">
+    <div class="comp-side"><h4 id="compNameA">Carbon-14</h4><div class="canvas-wrap" style="aspect-ratio:3/2"><canvas id="compCanvasA"></canvas></div><div class="comp-ro" id="compRoA"></div></div>
+    <div class="comp-side"><h4 id="compNameB">Iodine-131</h4><div class="canvas-wrap" style="aspect-ratio:3/2"><canvas id="compCanvasB"></canvas></div><div class="comp-ro" id="compRoB"></div></div>
+  </div>
+  <div class="card" style="margin-top:12px"><div class="card-title">Overlaid Decay Curves</div><div class="graph-wrap"><canvas id="compGraph"></canvas></div></div>
+</div>
+
+<!-- ====== BOTTOM TABS ====== -->
+<div class="card" style="margin-top:14px;padding:14px 16px">
+  <div class="tab-bar" style="margin-bottom:10px">
+    <button class="tab-btn active" data-btab="exp">Experiment</button>
+    <button class="tab-btn" data-btab="ib">IB Questions</button>
+    <button class="tab-btn" data-btab="notes">Notebook</button>
+  </div>
+  <div class="btab-pane active" id="btab-exp">
+    <div class="exp-grid">
+      <div class="exp-panel">
+        <div class="exp-var"><label class="exp-label iv">Independent Variable (IV)</label><select class="exp-select" id="expIV"></select></div>
+        <div class="exp-var"><label class="exp-label dv">Dependent Variable (DV)</label><select class="exp-select" id="expDV"></select></div>
+        <div class="exp-var"><label class="exp-label cv">Controlled Variables (CV)</label><div id="expCVs" class="exp-cv-list"></div></div>
+        <div class="exp-var"><label class="exp-label hyp">Hypothesis</label><div class="exp-hypothesis" id="expHypothesis"></div></div>
+      </div>
+      <div class="exp-data">
+        <div class="ctrl-row" style="margin-bottom:6px">
+          <button class="btn btn-p" id="recordExpBtn">Record Point</button>
+          <button class="btn" onclick="clearExpData()">Clear</button>
+          <button class="btn" onclick="exportCSV()">CSV</button>
+        </div>
+        <div class="exp-tw"><table class="exp-table"><thead><tr><th>#</th><th id="thIV">IV</th><th id="thDV">DV</th></tr></thead><tbody id="expTbody"></tbody></table></div>
+        <div class="exp-pw"><canvas id="expPlot"></canvas></div>
+      </div>
+    </div>
+  </div>
+  <div class="btab-pane" id="btab-ib" style="display:none">
+    <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-state">State</span><span class="q-text">Define half-life.</span><span class="q-marks">[1]</span><span class="q-toggle">Show</span></div><div class="q-answer"><strong>Half-life</strong> is the time taken for half the undecayed nuclei in a sample to decay, or equivalently, the time for the activity of a source to fall to half its initial value.</div></div>
+    <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-calc">Calculate</span><span class="q-text">A sample has activity 800 Bq. After 24 days it is 100 Bq. Find the half-life.</span><span class="q-marks">[3]</span><span class="q-toggle">Show</span></div><div class="q-answer">800/100 = <strong>8 = 2³</strong> → 3 half-lives in 24 days → t½ = 24/3 = <strong>8 days</strong>.</div></div>
+    <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-calc">Calculate</span><span class="q-text">A bone contains 12% of its original C-14 (t½ = 5730 yr). Estimate its age.</span><span class="q-marks">[3]</span><span class="q-toggle">Show</span></div><div class="q-answer">λ = ln2/5730 = 1.21×10⁻⁴ yr⁻¹<br>t = −ln(0.12)/λ = 2.12/1.21×10⁻⁴ ≈ <strong>17,500 years</strong></div></div>
+    <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-explain">Explain</span><span class="q-text">Why does activity never reach exactly zero?</span><span class="q-marks">[2]</span><span class="q-toggle">Show</span></div><div class="q-answer">Decay is <strong>exponential</strong>: N = N₀e<sup>−λt</sup> approaches zero asymptotically but never equals it. As long as any undecayed nucleus exists, there is a non-zero probability of further decay.</div></div>
+    <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-explain">Explain</span><span class="q-text">Why can we not predict when a specific nucleus will decay?</span><span class="q-marks">[2]</span><span class="q-toggle">Show</span></div><div class="q-answer">Decay is <strong>spontaneous and random</strong>, governed by quantum mechanics. Each nucleus has a fixed probability λ of decaying per unit time, but the exact moment is fundamentally unpredictable. Only the statistical behaviour of large numbers is predictable.</div></div>
+    <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-discuss">Discuss</span><span class="q-text">Compare I-131 (t½ = 8 d) and Co-60 (t½ = 5.27 yr) for medical imaging.</span><span class="q-marks">[4]</span><span class="q-toggle">Show</span></div><div class="q-answer"><strong>I-131</strong>: short t½ limits dose but also the imaging window; emits β⁻ and γ.<br><strong>Co-60</strong>: long t½ = prolonged exposure; used for external beam therapy.<br>For imaging, <strong>Tc-99m (t½ = 6 hr, γ only)</strong> is preferred — minimal dose, optimal γ energy.</div></div>
+  </div>
+  <div class="btab-pane" id="btab-notes" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-family:Georgia,serif;font-size:.78rem;font-weight:700;color:var(--primary)">Notebook</span><button class="btn" onclick="window.print()" style="font-size:.65rem">Print</button></div>
+    <div id="nbO"><p style="text-align:center;color:var(--text2);font-size:.72rem;padding:8px">Record data points to log observations here.</p></div>
+  </div>
+</div>
+</div>
+
+<div style="text-align:center;padding:16px 0 8px;font-family:Georgia,serif;font-size:11px;color:rgba(0,0,0,0.15);letter-spacing:2px;text-transform:uppercase;user-select:none">ATUL SORAL PHYSICISM</div>
+<script src="https://artifactcdn.diabrowser.engineering/ajax/libs/Chart.js/chart.umd.js"></script>
+<script>
+// ===== THEME + TABS =====
+document.getElementById('themeBtn').addEventListener('click',function(){const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);this.textContent=n==='dark'?'🌙':'☀️';});
+function toggleQ(el){const a=el.nextElementSibling;a.classList.toggle('open');el.querySelector('.q-toggle').textContent=a.classList.contains('open')?'Hide':'Show';}
+
+// Bottom tabs (Experiment / IB / Notebook)
+document.querySelectorAll('[data-btab]').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('[data-btab]').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.btab-pane').forEach(p=>{p.classList.remove('active');p.style.display='none';});
+  btn.classList.add('active');
+  const pane=document.getElementById('btab-'+btn.dataset.btab);
+  pane.classList.add('active');pane.style.display='block';
+  if(btn.dataset.btab==='exp'&&expChart)setTimeout(()=>expChart.resize(),80);
+}));
+
+var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN();}
+function showN(){var el=document.getElementById('nbO');if(!el)return;el.innerHTML=nb.length?nb.map(function(n,i){return '<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">'+n.r+'</span></div>';}).join(''):'<p style="text-align:center;color:var(--text2);font-size:.72rem;padding:8px">Record data points to log observations here.</p>';}
+
+let currentTab='sim';
+document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  currentTab=btn.dataset.tab;
+  if(currentTab==='compare')resizeComp();
+  if(currentTab==='dice'&&diceChart)diceChart.resize();
+  refreshExpForTab();
+}));
+
+// ===== ISOTOPE DATA =====
+const ISO=[
+  {id:'c14',name:'Carbon-14',sym:'C',Z:6,A:14,halfLife:'5,730 years',decay:'β⁻',dSym:'N',dZ:7,dA:14,particle:'e',pZ:-1,pA:0,extra:' + ν̄<sub>e</sub>',use:'Carbon dating of organic material',color:'#3B82F6',dColor:'#94A3B8',pType:'beta'},
+  {id:'u238',name:'Uranium-238',sym:'U',Z:92,A:238,halfLife:'4.5 Gyr',decay:'α',dSym:'Th',dZ:90,dA:234,particle:'He',pZ:2,pA:4,extra:'',use:'Geological dating; nuclear fuel',color:'#059669',dColor:'#94A3B8',pType:'alpha'},
+  {id:'i131',name:'Iodine-131',sym:'I',Z:53,A:131,halfLife:'8.02 days',decay:'β⁻',dSym:'Xe',dZ:54,dA:131,particle:'e',pZ:-1,pA:0,extra:' + ν̄<sub>e</sub>',use:'Thyroid cancer treatment',color:'#8B5CF6',dColor:'#94A3B8',pType:'beta'},
+  {id:'co60',name:'Cobalt-60',sym:'Co',Z:27,A:60,halfLife:'5.27 years',decay:'β⁻, γ',dSym:'Ni',dZ:28,dA:60,particle:'e',pZ:-1,pA:0,extra:' + ν̄<sub>e</sub> + γ',use:'Radiotherapy; food sterilisation',color:'#EC4899',dColor:'#94A3B8',pType:'beta'},
+  {id:'ra226',name:'Radium-226',sym:'Ra',Z:88,A:226,halfLife:'1,600 years',decay:'α',dSym:'Rn',dZ:86,dA:222,particle:'He',pZ:2,pA:4,extra:'',use:'Historical — Curie\'s research',color:'#F59E0B',dColor:'#94A3B8',pType:'alpha'},
+  {id:'tc99m',name:'Technetium-99m',sym:'Tc',Z:43,A:99,halfLife:'6.01 hours',decay:'γ',dSym:'Tc',dZ:43,dA:99,particle:'γ',pZ:0,pA:0,extra:' + γ',use:'Medical imaging (most common)',color:'#06B6D4',dColor:'#64748B',pType:'gamma',metastable:true},
+  {id:'po210',name:'Polonium-210',sym:'Po',Z:84,A:210,halfLife:'138 days',decay:'α',dSym:'Pb',dZ:82,dA:206,particle:'He',pZ:2,pA:4,extra:'',use:'Historical poisoning cases',color:'#EF4444',dColor:'#94A3B8',pType:'alpha'},
+];
+
+// ===== DECAY SIM STATE =====
+let iso=ISO[0],N0=500,simTH=10,speed=1,playing=false;
+let lambda=Math.LN2/simTH;
+let atoms=[],emitted=[],simTime=0,remaining=N0;
+let graphData=[],actData=[];
+
+// ===== CANVAS =====
+const cvs=document.getElementById('atomCanvas'),ctx=cvs.getContext('2d');
+let W,H,dpr;
+function resize(){const wr=document.getElementById('canvasWrap').getBoundingClientRect();dpr=window.devicePixelRatio||1;W=wr.width;H=wr.height;cvs.width=W*dpr;cvs.height=H*dpr;cvs.style.width=W+'px';cvs.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0);}
+window.addEventListener('resize',resize);
+
+function initAtoms(){atoms=[];emitted=[];simTime=0;remaining=N0;graphData=[{x:0,y:N0}];actData=[{x:0,y:lambda*N0}];const p=12;for(let i=0;i<N0;i++)atoms.push({x:p+Math.random()*(W-2*p),y:p+Math.random()*(H-2*p),decayed:false,flash:0});}
+function atomR(){return Math.max(2,Math.min(10,Math.sqrt(W*H/N0)*0.28));}
+
+// ===== PHYSICS =====
+function simStep(dt){
+  const isSingle=(dt===Infinity);
+  if(!isSingle){simTime+=dt*speed;const p=1-Math.exp(-lambda*dt*speed);for(const a of atoms){if(!a.decayed&&Math.random()<p)decayAtom(a);}}
+  else{const un=atoms.filter(a=>!a.decayed);if(un.length){decayAtom(un[Math.floor(Math.random()*un.length)]);simTime+=0.01;}}
+  for(let i=emitted.length-1;i>=0;i--){const e=emitted[i];e.x+=e.vx;e.y+=e.vy;e.life-=0.025;if(e.life<=0)emitted.splice(i,1);}
+  for(const a of atoms)if(a.flash>0)a.flash-=0.05;
+  if(graphData.length===0||simTime-graphData[graphData.length-1].x>simTH*0.015){graphData.push({x:simTime,y:remaining});actData.push({x:simTime,y:lambda*remaining});}
+}
+function decayAtom(a){a.decayed=true;a.flash=1;remaining--;const ang=Math.random()*Math.PI*2;const spd=iso.pType==='alpha'?1.2:iso.pType==='gamma'?5:3;emitted.push({x:a.x,y:a.y,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,type:iso.pType,life:1,color:iso.pType==='alpha'?'#EF4444':iso.pType==='gamma'?'#A855F7':'#10B981'});}
+
+// ===== RENDER =====
+function render(){const dark=document.documentElement.getAttribute('data-theme')==='dark';ctx.clearRect(0,0,W,H);const r=atomR();
+  for(const a of atoms){if(a.flash>0){ctx.save();ctx.globalAlpha=a.flash*0.5;ctx.beginPath();ctx.arc(a.x,a.y,r*3,0,Math.PI*2);ctx.fillStyle='#FBBF24';ctx.fill();ctx.restore();}ctx.beginPath();ctx.arc(a.x,a.y,r,0,Math.PI*2);ctx.fillStyle=a.decayed?iso.dColor:iso.color;ctx.fill();if(r>3&&!a.decayed){ctx.beginPath();ctx.arc(a.x-r*.2,a.y-r*.25,r*.3,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.2)';ctx.fill();}}
+  for(const e of emitted){ctx.save();ctx.globalAlpha=e.life;if(e.type==='alpha'){for(let i=0;i<4;i++){ctx.beginPath();ctx.arc(e.x+(i%2-.5)*4,e.y+(Math.floor(i/2)-.5)*4,2.5,0,Math.PI*2);ctx.fillStyle=i<2?'#EF4444':'#3B82F6';ctx.fill();}}else if(e.type==='beta'){ctx.beginPath();ctx.arc(e.x,e.y,1.8,0,Math.PI*2);ctx.fillStyle='#10B981';ctx.fill();ctx.beginPath();ctx.moveTo(e.x-e.vx*3,e.y-e.vy*3);ctx.lineTo(e.x,e.y);ctx.strokeStyle='rgba(16,185,129,.4)';ctx.lineWidth=1;ctx.stroke();}else{ctx.strokeStyle='#A855F7';ctx.lineWidth=1.5;ctx.beginPath();for(let j=0;j<8;j++){const px=e.x-e.vx*6*(j/8),py=e.y-e.vy*6*(j/8)+Math.sin(j*Math.PI)*3;j===0?ctx.moveTo(px,py):ctx.lineTo(px,py);}ctx.stroke();}ctx.restore();}
+  ctx.save();ctx.font='600 10px system-ui';ctx.textBaseline='top';ctx.fillStyle=iso.color;ctx.fillRect(8,8,10,10);ctx.fillStyle=dark?'#E2E8F0':'#1A1A2E';ctx.fillText(iso.sym+'-'+iso.A+' (parent)',22,8);ctx.fillStyle=iso.dColor;ctx.fillRect(8,22,10,10);ctx.fillStyle=dark?'#94A3B8':'#6B7280';ctx.fillText(iso.dSym+'-'+iso.dA+' (daughter)',22,22);ctx.font='700 12px system-ui';ctx.textAlign='right';ctx.fillStyle=dark?'#E2E8F0':'#1A1A2E';ctx.fillText('N='+remaining+'/'+N0,W-8,12);ctx.restore();
+}
+
+// ===== CHARTS =====
+let decayChart,actChart,expChart,diceChart,compChart;
+let frameCount=0;
+function initCharts(){
+  const o=yL=>({responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false}},scales:{x:{type:'linear',title:{display:true,text:'Time (s)',font:{size:10,weight:'600'}},min:0,grid:{color:'rgba(0,0,0,.05)'}},y:{title:{display:true,text:yL,font:{size:10,weight:'600'}},min:0,grid:{color:'rgba(0,0,0,.05)'}}}});
+  decayChart=new Chart(document.getElementById('decayGraph'),{type:'scatter',data:{datasets:[{data:[],showLine:true,borderColor:iso.color,backgroundColor:iso.color+'20',borderWidth:2,pointRadius:0,fill:true}]},options:o('N (remaining)')});
+  actChart=new Chart(document.getElementById('actGraph'),{type:'scatter',data:{datasets:[{data:[],showLine:true,borderColor:'#EF4444',borderWidth:2,pointRadius:0}]},options:o('Activity (s⁻¹)')});
+  diceChart=new Chart(document.getElementById('diceGraph'),{type:'scatter',data:{datasets:[{label:'Experimental',data:[],showLine:true,borderColor:'#7C3AED',borderWidth:2,pointRadius:4,pointBackgroundColor:'#7C3AED'},{label:'Theoretical',data:[],showLine:true,borderColor:'rgba(124,58,237,.25)',borderWidth:1.5,borderDash:[5,4],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,font:{size:10}}}},scales:{x:{type:'linear',title:{display:true,text:'Round',font:{size:10,weight:'600'}},min:0,grid:{color:'rgba(0,0,0,.05)'}},y:{title:{display:true,text:'Remaining',font:{size:10,weight:'600'}},min:0,grid:{color:'rgba(0,0,0,.05)'}}}}});
+  compChart=new Chart(document.getElementById('compGraph'),{type:'scatter',data:{datasets:[{data:[],showLine:true,borderWidth:2,pointRadius:0},{data:[],showLine:true,borderWidth:2,pointRadius:0}]},options:o('N (remaining)')});
+  expChart=new Chart(document.getElementById('expPlot'),{type:'scatter',data:{datasets:[]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false}},scales:{x:{title:{display:true,text:'IV',font:{size:10,weight:'600'}},grid:{color:'rgba(0,0,0,.05)'}},y:{title:{display:true,text:'DV',font:{size:10,weight:'600'}},grid:{color:'rgba(0,0,0,.05)'}}}}});
+}
+function updateCharts(){
+  const plotData=showLnN?graphData.map(p=>({x:p.x,y:p.y>0?Math.log(p.y):0})):graphData.slice();
+  decayChart.data.datasets=[{data:plotData,showLine:true,borderColor:iso.color,backgroundColor:iso.color+'20',borderWidth:2,pointRadius:0,fill:!showLnN}];
+  decayChart.options.scales.y.title.text=showLnN?'ln(N)':'N (remaining)';
+  for(let i=1;i<=5;i++){const t=simTH*i;if(t>simTime*2&&i>1)break;const yTop=showLnN?Math.log(N0):N0;decayChart.data.datasets.push({data:[{x:t,y:0},{x:t,y:yTop}],showLine:true,borderColor:'rgba(124,58,237,.2)',borderWidth:1,borderDash:[5,4],pointRadius:0});}
+  decayChart.update('none');actChart.data.datasets[0].data=actData.slice();actChart.update('none');
+}
+
+// ===== UI =====
+function buildIsoSelect(){const s=document.getElementById('isoSelect');s.innerHTML=ISO.map(i=>`<option value="${i.id}"${i.id===iso.id?' selected':''}>${i.name} (${i.decay})</option>`).join('');s.onchange=()=>{iso=ISO.find(i=>i.id===s.value);resetSim();updateEquation();};}
+function updateReadouts(){document.getElementById('roN').textContent=remaining;document.getElementById('roD').textContent=N0-remaining;document.getElementById('roL').textContent=lambda.toFixed(4);document.getElementById('roA').textContent=(lambda*remaining).toFixed(1);document.getElementById('roT').textContent=simTime.toFixed(1);document.getElementById('roHL').textContent=(simTime/simTH).toFixed(2);}
+function updateEquation(){const i=iso;const nuc=(s,z,a,m)=>`<span class="nuclide"><span class="nuc-nums"><span>${a}</span><span>${z}</span></span><span class="nuc-sym">${s}${m?'<sup style="font-size:.55em">m</sup>':''}</span></span>`;
+  let eq=nuc(i.sym,i.Z,i.A,i.metastable)+`<span class="eq-arrow">→</span>`+nuc(i.dSym,i.dZ,i.dA);
+  if(i.pA>0)eq+=' + '+nuc(i.particle,i.pZ,i.pA);
+  if(i.extra)eq+=i.extra;
+  document.getElementById('eqDisplay').innerHTML=eq;
+  document.getElementById('eqCheck').innerHTML=`Mass: ${i.A} = ${i.dA}+${i.pA} ${i.A===i.dA+i.pA?'✓':'✗'} · Charge: ${i.Z} = ${i.dZ}+${i.pZ} ${i.Z===i.dZ+i.pZ?'✓':'✗'}`;
+  document.getElementById('isoInfo').innerHTML=`<strong>${i.name}</strong> — Real t½: ${i.halfLife} · Decay: ${i.decay} · ${i.use}`;}
+function resetSim(){playing=false;document.getElementById('playBtn').textContent='▶';document.getElementById('playBtn').classList.remove('active');N0=parseInt(document.getElementById('n0Slider').value);simTH=parseFloat(document.getElementById('thSlider').value);lambda=Math.LN2/simTH;initAtoms();updateReadouts();updateCharts();}
+function bindControls(){document.getElementById('playBtn').onclick=()=>{playing=!playing;document.getElementById('playBtn').textContent=playing?'⏸':'▶';document.getElementById('playBtn').classList.toggle('active',playing);};
+  document.getElementById('stepBtn').onclick=()=>{simStep(Infinity);updateReadouts();updateCharts();};
+  document.getElementById('resetBtn').onclick=resetSim;
+  document.getElementById('speedSel').onchange=e=>speed=parseFloat(e.target.value);
+  document.getElementById('n0Slider').oninput=e=>document.getElementById('n0Val').textContent=e.target.value;
+  document.getElementById('n0Slider').onchange=resetSim;
+  document.getElementById('thSlider').oninput=e=>document.getElementById('thVal').textContent=parseFloat(e.target.value).toFixed(1)+' s';
+  document.getElementById('thSlider').onchange=resetSim;}
+
+// ===== DICE LAB =====
+let dice=[],diceRound=0,diceAutoId=null;
+function initDice(){const n=parseInt(document.getElementById('diceCount').value);dice=[];for(let i=0;i<n;i++)dice.push({val:0,out:false});diceRound=0;diceGraphData=[];renderDice();updateDiceGraph();}
+let diceGraphData=[];
+function rollDice(){const thr=parseInt(document.getElementById('diceThresh').value);diceRound++;dice.forEach(d=>{if(!d.out){d.val=Math.floor(Math.random()*6)+1;if(d.val<=thr)d.out=true;}});const rem=dice.filter(d=>!d.out).length;diceGraphData.push({x:diceRound,y:rem});renderDice();updateDiceGraph();if(rem===0&&diceAutoId){clearInterval(diceAutoId);diceAutoId=null;document.getElementById('diceAutoBtn').textContent='Auto-Roll';}}
+function renderDice(){const rem=dice.filter(d=>!d.out).length;document.getElementById('diceGrid').innerHTML=dice.map(d=>`<div class="die${d.out?' out':''}">${d.val||'·'}</div>`).join('');document.getElementById('diceStatus').textContent=rem+' remaining · Round '+diceRound;}
+function updateDiceGraph(){if(!diceChart)return;const n0=dice.length;const thr=parseInt(document.getElementById('diceThresh').value);const p=thr/6;const maxR=Math.max(diceRound,10);const theo=[];for(let r=0;r<=maxR;r++)theo.push({x:r,y:n0*Math.pow(1-p,r)});
+  diceChart.data.datasets[0].data=diceGraphData.slice();diceChart.data.datasets[1].data=theo;diceChart.update('none');
+  const th=(Math.LN2/(-Math.log(1-p))).toFixed(2);document.getElementById('diceTH').textContent='Theoretical t½ ≈ '+th+' rolls';}
+function initDiceUI(){document.getElementById('diceRollBtn').onclick=rollDice;
+  document.getElementById('diceAutoBtn').onclick=()=>{if(diceAutoId){clearInterval(diceAutoId);diceAutoId=null;document.getElementById('diceAutoBtn').textContent='Auto-Roll';}else{diceAutoId=setInterval(()=>{const rem=dice.filter(d=>!d.out).length;if(rem>0)rollDice();else{clearInterval(diceAutoId);diceAutoId=null;document.getElementById('diceAutoBtn').textContent='Auto-Roll';}},300);document.getElementById('diceAutoBtn').textContent='Stop';}};
+  document.getElementById('diceResetBtn').onclick=()=>{if(diceAutoId){clearInterval(diceAutoId);diceAutoId=null;document.getElementById('diceAutoBtn').textContent='Auto-Roll';}initDice();};
+  document.getElementById('diceCount').onchange=initDice;document.getElementById('diceThresh').onchange=initDice;initDice();}
+
+// ===== DATING =====
+function initDating(){document.getElementById('datingSlider').oninput=updateDating;updateDating();}
+function updateDating(){const pct=parseInt(document.getElementById('datingSlider').value);document.getElementById('datingPct').textContent=pct;const f=pct/100,lam=Math.LN2/5730,age=-Math.log(f)/lam;document.getElementById('datingAge').textContent=Math.round(age).toLocaleString()+' years';document.getElementById('datingWork').innerHTML=`t = −ln(${f.toFixed(2)}) / (1.21×10⁻⁴)<br>= ${(-Math.log(f)).toFixed(3)} / 1.21×10⁻⁴<br><strong>≈ ${Math.round(age).toLocaleString()} years</strong>`;}
+
+// ===== COMPARISON =====
+let compState={a:{atoms:[],remaining:0,graphData:[]},b:{atoms:[],remaining:0,graphData:[]},n0:200,time:0,playing:false,speed:5};
+function initComp(){const sA=document.getElementById('compSelA'),sB=document.getElementById('compSelB');
+  sA.innerHTML=ISO.map((i,idx)=>`<option value="${idx}"${idx===0?' selected':''}>${i.name}</option>`).join('');
+  sB.innerHTML=ISO.map((i,idx)=>`<option value="${idx}"${idx===2?' selected':''}>${i.name}</option>`).join('');
+  sA.onchange=sB.onchange=resetComp;document.getElementById('compN0').onchange=resetComp;
+  document.getElementById('compThA').oninput=e=>{document.getElementById('compThAVal').textContent=parseFloat(e.target.value).toFixed(1)+' s';};
+  document.getElementById('compThB').oninput=e=>{document.getElementById('compThBVal').textContent=parseFloat(e.target.value).toFixed(1)+' s';};
+  document.getElementById('compThA').onchange=resetComp;
+  document.getElementById('compThB').onchange=resetComp;
+  document.getElementById('compPlayBtn').onclick=()=>{compState.playing=!compState.playing;document.getElementById('compPlayBtn').textContent=compState.playing?'⏸':'▶';document.getElementById('compPlayBtn').classList.toggle('active',compState.playing);};
+  document.getElementById('compResetBtn').onclick=resetComp;document.getElementById('compSpeed').onchange=e=>compState.speed=parseFloat(e.target.value);resetComp();}
+
+function resetComp(){compState.playing=false;document.getElementById('compPlayBtn').textContent='▶';document.getElementById('compPlayBtn').classList.remove('active');
+  compState.n0=parseInt(document.getElementById('compN0').value);compState.time=0;compState.speed=parseFloat(document.getElementById('compSpeed').value);
+  const iA=ISO[document.getElementById('compSelA').value],iB=ISO[document.getElementById('compSelB').value];
+  document.getElementById('compNameA').textContent=iA.name;document.getElementById('compNameB').textContent=iB.name;
+  ['a','b'].forEach(k=>{const s=compState[k];s.atoms=[];s.remaining=compState.n0;s.graphData=[{x:0,y:compState.n0}];});
+  resizeComp();compUpdateGraph();}
+
+let compWA,compHA,compWB,compHB;
+const compCvsA=document.getElementById('compCanvasA'),compCtxA=compCvsA.getContext('2d');
+const compCvsB=document.getElementById('compCanvasB'),compCtxB=compCvsB.getContext('2d');
+function resizeComp(){[['compCanvasA','a'],['compCanvasB','b']].forEach(([id,k])=>{const c=document.getElementById(id);const wr=c.parentElement.getBoundingClientRect();const d=window.devicePixelRatio||1;c.width=wr.width*d;c.height=wr.height*d;c.style.width=wr.width+'px';c.style.height=wr.height+'px';c.getContext('2d').setTransform(d,0,0,d,0,0);if(k==='a'){compWA=wr.width;compHA=wr.height;}else{compWB=wr.width;compHB=wr.height;}});
+  // Init atoms if empty
+  ['a','b'].forEach(k=>{const s=compState[k];if(s.atoms.length===0){const w=k==='a'?compWA:compWB,h=k==='a'?compHA:compHB,p=10;for(let i=0;i<compState.n0;i++)s.atoms.push({x:p+Math.random()*((w||200)-2*p),y:p+Math.random()*((h||200)-2*p),decayed:false,flash:0});}});}
+
+function compStep(dt){if(!compState.playing)return;compState.time+=dt*compState.speed;
+  const thA=parseFloat(document.getElementById('compThA').value);
+  const thB=parseFloat(document.getElementById('compThB').value);
+  [{key:'a',th:thA},{key:'b',th:thB}].forEach(({key:k,th})=>{
+    const lam=Math.LN2/th;const p=1-Math.exp(-lam*dt*compState.speed);const s=compState[k];
+    for(const a of s.atoms){if(!a.decayed&&Math.random()<p){a.decayed=true;a.flash=1;s.remaining--;}}
+    for(const a of s.atoms)if(a.flash>0)a.flash-=0.05;
+    s.graphData.push({x:compState.time,y:s.remaining});});}
+
+function compRender(){
+  [{cvs:compCvsA,ctx:compCtxA,w:compWA,h:compHA,key:'a',isoIdx:document.getElementById('compSelA').value},
+   {cvs:compCvsB,ctx:compCtxB,w:compWB,h:compHB,key:'b',isoIdx:document.getElementById('compSelB').value}].forEach(({ctx:c,w,h,key:k,isoIdx})=>{
+    if(!w)return;const is=ISO[isoIdx];const s=compState[k];c.clearRect(0,0,w,h);
+    const r=Math.max(2,Math.min(8,Math.sqrt(w*h/compState.n0)*0.28));
+    for(const a of s.atoms){if(a.flash>0){c.save();c.globalAlpha=a.flash*.5;c.beginPath();c.arc(a.x,a.y,r*3,0,Math.PI*2);c.fillStyle='#FBBF24';c.fill();c.restore();}
+      c.beginPath();c.arc(a.x,a.y,r,0,Math.PI*2);c.fillStyle=a.decayed?is.dColor:is.color;c.fill();}
+    c.save();c.font='700 11px system-ui';c.textAlign='right';c.fillStyle=document.documentElement.getAttribute('data-theme')==='dark'?'#E2E8F0':'#1A1A2E';c.fillText('N='+s.remaining,w-6,14);c.restore();
+    document.getElementById('compRo'+k.toUpperCase()).innerHTML=`N=<span>${s.remaining}</span> / ${compState.n0} · <span>${((1-s.remaining/compState.n0)*100).toFixed(1)}%</span> decayed`;});}
+
+function compUpdateGraph(){if(!compChart)return;const iA=ISO[document.getElementById('compSelA').value],iB=ISO[document.getElementById('compSelB').value];
+  compChart.data.datasets=[{data:compState.a.graphData.slice(),showLine:true,borderColor:iA.color,borderWidth:2,pointRadius:0,label:iA.name},{data:compState.b.graphData.slice(),showLine:true,borderColor:iB.color,borderWidth:2,pointRadius:0,label:iB.name}];
+  compChart.options.plugins.legend={display:true,position:'bottom',labels:{boxWidth:10,font:{size:10}}};compChart.update('none');}
+
+// ===== LN(N) TOGGLE =====
+let showLnN=false;
+function toggleLnN(){showLnN=!showLnN;document.getElementById('lnToggle').textContent=showLnN?'Show N':'Show ln(N)';updateCharts();}
+
+// ===== EXPERIMENT (context-dependent per tab) =====
+const EXP_BY_TAB={
+  sim:{
+    iv:['Initial atoms (N₀)','Sim half-life (t½)','Decay type','Isotope'],
+    dv:['Time to reach N₀/2','Remaining at t = t½','Activity at t = 0','Activity at t = t½','Measured t½ from graph','Decay constant λ'],
+    all:['Initial atoms','Sim half-life','Decay type','Isotope','Sim speed','Ambient temperature','Pressure','Background radiation']
+  },
+  dice:{
+    iv:['Number of dice','Removal threshold (p)','Number of sides'],
+    dv:['Remaining after 10 rolls','Rolls to remove half','Measured t½ (rolls)','Final remaining count'],
+    all:['Number of dice','Removal threshold','Number of sides','Rolling method','Starting arrangement','Dice material']
+  },
+  dating:{
+    iv:['C-14 remaining (%)','Initial C-14 amount'],
+    dv:['Calculated age (years)','Number of half-lives elapsed','Decay constant used'],
+    all:['Half-life of C-14','Background contamination','Calibration curve','Sample preparation','Measurement technique','Lab temperature']
+  },
+  compare:{
+    iv:['t½ of isotope A','t½ of isotope B','Initial atoms (N₀)'],
+    dv:['Remaining A at end','Remaining B at end','Ratio remaining (A/B)','Time for A to reach N₀/2','Time for B to reach N₀/2'],
+    all:['Isotope A type','Isotope B type','Sim speed','Initial atoms','Decay type A','Decay type B','Ambient conditions']
+  }
+};
+let expRows=0;
+
+function initExp(){
+  document.getElementById('expIV').onchange=()=>{updateExpCVs();updateExpHyp();updateExpHdr();};
+  document.getElementById('expDV').onchange=()=>{updateExpHyp();updateExpHdr();};
+  document.getElementById('recordExpBtn').onclick=recordExp;
+  refreshExpForTab();
+}
+
+function refreshExpForTab(){
+  const vars=EXP_BY_TAB[currentTab]||EXP_BY_TAB.sim;
+  const iv=document.getElementById('expIV'),dv=document.getElementById('expDV');
+  iv.innerHTML=vars.iv.map(v=>'<option>'+v+'</option>').join('');
+  dv.innerHTML=vars.dv.map(v=>'<option>'+v+'</option>').join('');
+  updateExpCVs();updateExpHyp();updateExpHdr();
+}
+
+function updateExpCVs(){
+  const vars=EXP_BY_TAB[currentTab]||EXP_BY_TAB.sim;
+  const iv=document.getElementById('expIV').value,dv=document.getElementById('expDV').value;
+  const cvs=vars.all.filter(v=>!iv.toLowerCase().includes(v.toLowerCase())&&!dv.toLowerCase().includes(v.toLowerCase()));
+  document.getElementById('expCVs').innerHTML=cvs.map(v=>'<label class="exp-cv-item"><input type="checkbox" checked onchange="updateExpHyp()"> '+v+'</label>').join('');
+}
+
+function updateExpHyp(){const iv=document.getElementById('expIV').value,dv=document.getElementById('expDV').value;const cvs=[];document.querySelectorAll('#expCVs input:checked').forEach(c=>cvs.push(c.parentElement.textContent.trim()));document.getElementById('expHypothesis').innerHTML='"If <strong class="iv-hl">'+iv+'</strong> increases, <strong class="dv-hl">'+dv+'</strong> will <select class="hyp-dir"><option>increase</option><option>decrease</option><option>remain constant</option></select>, keeping <strong class="cv-hl">'+(cvs.length?cvs.join(', '):'(none)')+'</strong> constant."';}
+function updateExpHdr(){document.getElementById('thIV').textContent=document.getElementById('expIV').value;document.getElementById('thDV').textContent=document.getElementById('expDV').value;}
+
+function getExpIV(){
+  const ivS=document.getElementById('expIV').value;
+  if(currentTab==='sim'){
+    if(ivS.includes('N₀'))return N0;
+    if(ivS.includes('t½'))return simTH;
+    if(ivS.includes('Decay type'))return iso.decay;
+    if(ivS.includes('Isotope'))return iso.name;
+  }else if(currentTab==='dice'){
+    if(ivS.includes('dice'))return parseInt(document.getElementById('diceCount').value);
+    if(ivS.includes('threshold'))return parseInt(document.getElementById('diceThresh').value)/6;
+    return 6;
+  }else if(currentTab==='dating'){
+    if(ivS.includes('remaining'))return parseInt(document.getElementById('datingSlider').value);
+    return 100;
+  }else if(currentTab==='compare'){
+    if(ivS.includes('A'))return parseFloat(document.getElementById('compThA').value);
+    if(ivS.includes('B'))return parseFloat(document.getElementById('compThB').value);
+    return parseInt(document.getElementById('compN0').value);
+  }
+  return N0;
+}
+
+function getExpDV(){
+  const dvS=document.getElementById('expDV').value;
+  if(currentTab==='sim'){
+    if(dvS.includes('N₀/2')){const t=graphData.find(p=>p.y<=N0/2);return t?parseFloat(t.x.toFixed(2)):'—';}
+    if(dvS.includes('Remaining'))return remaining;
+    if(dvS.includes('Activity at t = 0'))return parseFloat((lambda*N0).toFixed(1));
+    if(dvS.includes('Activity at t = t½'))return parseFloat((lambda*N0/2).toFixed(1));
+    if(dvS.includes('Measured')){const t=graphData.find(p=>p.y<=N0/2);return t?parseFloat(t.x.toFixed(2)):'—';}
+    if(dvS.includes('λ'))return parseFloat(lambda.toFixed(4));
+    return parseFloat((lambda*remaining).toFixed(1));
+  }else if(currentTab==='dice'){
+    const rem=dice.filter(d=>!d.out).length;
+    if(dvS.includes('after 10'))return rem;
+    if(dvS.includes('half')){const halfN=dice.length/2;const pt=diceGraphData.find(p=>p.y<=halfN);return pt?pt.x:'—';}
+    if(dvS.includes('Measured')){const halfN=dice.length/2;const pt=diceGraphData.find(p=>p.y<=halfN);return pt?pt.x:'—';}
+    return rem;
+  }else if(currentTab==='dating'){
+    const pct=parseInt(document.getElementById('datingSlider').value);
+    const f=pct/100,lam=Math.LN2/5730,age=-Math.log(f)/lam;
+    if(dvS.includes('age'))return Math.round(age);
+    if(dvS.includes('half-lives'))return parseFloat((age/5730).toFixed(2));
+    return parseFloat(lam.toExponential(2));
+  }else if(currentTab==='compare'){
+    if(dvS.includes('Remaining A'))return compState.a.remaining;
+    if(dvS.includes('Remaining B'))return compState.b.remaining;
+    if(dvS.includes('Ratio'))return compState.b.remaining>0?parseFloat((compState.a.remaining/compState.b.remaining).toFixed(2)):'—';
+    if(dvS.includes('A to reach')){const t=compState.a.graphData.find(p=>p.y<=compState.n0/2);return t?parseFloat(t.x.toFixed(2)):'—';}
+    if(dvS.includes('B to reach')){const t=compState.b.graphData.find(p=>p.y<=compState.n0/2);return t?parseFloat(t.x.toFixed(2)):'—';}
+    return compState.a.remaining;
+  }
+  return '—';
+}
+
+function recordExp(){
+  const iv=getExpIV(),dv=getExpDV();
+  expRows++;
+  document.getElementById('expTbody').innerHTML+='<tr><td>'+expRows+'</td><td>'+iv+'</td><td>'+dv+'</td></tr>';
+  addN(currentTab+' #'+expRows,document.getElementById('expIV').value+'='+iv,document.getElementById('expDV').value+'='+dv);
+  if(typeof iv==='number'&&typeof dv==='number'){
+    const existing=expChart.data.datasets[0]?.data||[];
+    expChart.data.datasets=[{data:[...existing,{x:iv,y:dv}],backgroundColor:iso.color,borderColor:iso.color,pointRadius:6,showLine:false}];
+    expChart.options.scales.x.title.text=document.getElementById('expIV').value;
+    expChart.options.scales.y.title.text=document.getElementById('expDV').value;
+    expChart.update('none');
+  }
+}
+function clearExpData(){expRows=0;document.getElementById('expTbody').innerHTML='';expChart.data.datasets=[];expChart.update('none');}
+function exportCSV(){let csv='#,'+document.getElementById('expIV').value+','+document.getElementById('expDV').value+'\n';document.querySelectorAll('#expTbody tr').forEach(r=>{csv+=Array.from(r.querySelectorAll('td')).map(c=>c.textContent).join(',')+'\n';});const b=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='decay_experiment.csv';a.click();}
+
+// ===== MAIN LOOP =====
+let lastTime=0;
+function loop(ts){const dt=Math.min((ts-lastTime)/1000,0.05);lastTime=ts;
+  if(playing){simStep(dt);updateReadouts();frameCount++;if(frameCount%6===0)updateCharts();}
+  render();
+  if(compState.playing){compStep(dt);compRender();frameCount++;if(frameCount%6===0)compUpdateGraph();}
+  requestAnimationFrame(loop);}
+
+// ===== INIT =====
+resize();initAtoms();buildIsoSelect();updateEquation();bindControls();initCharts();updateCharts();initDiceUI();initDating();initComp();initExp();requestAnimationFrame(loop);
+</script>
+</body>
+</html>
