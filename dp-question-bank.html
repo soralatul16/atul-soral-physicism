@@ -12,12 +12,14 @@
 body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 nav{display:flex;align-items:center;justify-content:space-between;padding:8px 20px;background:linear-gradient(135deg,rgba(11,114,133,.95),rgba(6,86,102,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(6,86,102,.3)}
 nav a{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
-.wrap{max-width:1300px;margin:0 auto;padding:16px 20px}
+.wrap{max-width:1400px;margin:0 auto;padding:16px 20px}
 .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
 .header h1{font-family:Georgia,serif;font-size:1.6rem;font-weight:700}
 .header h1 span{color:var(--accent)}
 .stats{font-size:.82rem;color:var(--text2)}
-.layout{display:grid;grid-template-columns:240px 1fr;gap:16px}
+.layout{display:grid;grid-template-columns:240px 1fr 280px;gap:16px;align-items:start}
+
+/* Filters */
 .filters{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);position:sticky;top:70px;max-height:calc(100vh - 90px);overflow-y:auto}
 .filters h3{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;margin:12px 0 6px}
 .filters h3:first-child{margin-top:0}
@@ -30,46 +32,88 @@ nav a{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px;border-r
 .f-clear{font-size:.68rem;color:var(--accent);cursor:pointer;font-weight:600;margin-left:auto}
 .search{width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.8rem;margin-bottom:12px;background:var(--bg);outline:none}
 .search:focus{border-color:var(--accent)}
-.q-list{display:flex;flex-direction:column;gap:10px}
-.q-card{background:var(--card);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow);border-left:4px solid var(--accent)}
-.q-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px}
-.q-id{font-family:'SF Mono',monospace;font-size:.68rem;color:var(--text3)}
+
+/* Themes Accordion */
+.theme-group{margin-bottom:4px}
+.theme-header{padding:6px 10px;font-size:.75rem;font-weight:700;color:var(--text);cursor:pointer;border-radius:6px;transition:background .2s}
+.theme-header:hover{background:var(--bg)}
+.theme-arrow{font-size:.65rem;color:var(--accent);display:inline-block;width:12px}
+.theme-subs{display:flex;flex-direction:column;gap:2px;padding-left:20px;margin-top:2px}
+.f-sub{font-size:.7rem;padding:4px 10px}
+
+/* Questions Area */
+.q-list{display:flex;flex-direction:column;gap:16px}
+.q-card{background:var(--card);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow);border-left:4px solid var(--accent);display:flex;flex-direction:column;gap:12px}
+.q-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+.q-id{font-family:'SF Mono',monospace;font-size:.68rem;color:var(--text3);font-weight:600}
 .q-tags{display:flex;gap:4px;flex-wrap:wrap}
 .tag{padding:2px 8px;border-radius:4px;font-size:.65rem;font-weight:600}
 .tag-topic{background:#DBEAFE;color:#1E40AF}
 .tag-paper{background:#FEF3C7;color:#92400E}
 .tag-marks{background:#DCFCE7;color:#166534}
 .tag-diff{background:#F3E8FF;color:#6B21A8}
-.tag-cmd{background:#FFE4E6;color:#9F1239}
-.q-text{font-size:.88rem;line-height:1.6;margin-bottom:10px}
-.q-options{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
-.q-opt{padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.8rem;cursor:default;transition:.2s}
-.q-opt.correct{border-color:#059669;background:#ECFDF5;font-weight:600}
+.tag-type{background:#F1F5F9;color:#475569}
+
+.q-stem{font-size:.9rem;line-height:1.6;font-weight:500}
 .q-img{margin:10px 0;text-align:center}
 .q-img svg{max-width:100%;height:auto;border-radius:8px}
-.ms-toggle{font-size:.75rem;font-weight:600;color:var(--accent);cursor:pointer;padding:4px 12px;border:1.5px solid var(--accent);border-radius:6px;background:transparent;transition:.2s}
-.ms-toggle:hover{background:var(--accent);color:#fff}
-.ms-box{display:none;margin-top:10px;padding:12px;background:#F0FDFA;border:1px solid #99F6E4;border-radius:8px;font-size:.8rem;line-height:1.6;color:#134E4A}
-.ms-box.show{display:block}
-.q-select{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
-.sel-panel{position:fixed;top:60px;right:0;width:280px;height:calc(100vh - 60px);background:var(--card);border-left:2px solid var(--border);padding:16px;overflow-y:auto;box-shadow:-4px 0 20px rgba(0,0,0,.05);transform:translateX(100%);transition:transform .3s;z-index:50}
-.sel-panel.open{transform:translateX(0)}
-.sel-toggle{position:fixed;top:70px;right:10px;padding:8px 14px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.78rem;font-weight:700;cursor:pointer;z-index:51;box-shadow:0 2px 8px rgba(0,0,0,.15)}
-.sel-toggle.has-items{animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 2px 8px rgba(0,0,0,.15)}50%{box-shadow:0 2px 16px rgba(11,114,133,.4)}}
-.sel-item{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border:1px solid var(--border);border-radius:6px;margin-bottom:4px;font-size:.72rem}
-.sel-item .sel-topic{font-size:.6rem;color:var(--accent);font-weight:600}
-.sel-item .sel-remove{cursor:pointer;color:#dc2626;font-weight:700;font-size:.8rem}
-.sel-summary{font-size:.75rem;color:var(--text2);margin-bottom:10px;padding:8px;background:var(--bg);border-radius:6px}
-.gen-btn{padding:10px 24px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer}
+
+.q-part{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;line-height:1.5;padding-top:8px;border-top:1px solid var(--border)}
+.q-part-text{flex:1}
+.q-part-marks{font-size:.75rem;color:var(--text3);font-weight:600;white-space:nowrap}
+
+/* MCQs */
+.q-options{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.q-opt{padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.8rem;cursor:default}
+.q-opt.correct{border-color:#059669;background:#ECFDF5;font-weight:600}
+
+.add-btn{align-self:flex-start;padding:6px 14px;background:var(--bg);color:var(--text);border:1.5px solid var(--border);border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.add-btn:hover{border-color:var(--accent);color:var(--accent)}
+.add-btn.added{background:#ECFDF5;border-color:#059669;color:#059669}
+
+/* Selection Panel */
+.sel-panel{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);position:sticky;top:70px;max-height:calc(100vh - 90px);display:flex;flex-direction:column}
+.sel-summary{font-size:.75rem;color:var(--text2);margin-bottom:12px;padding:10px;background:var(--bg);border-radius:8px;line-height:1.5}
+.sel-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:12px;padding-right:4px}
+.sel-item{display:flex;justify-content:space-between;align-items:flex-start;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--card)}
+.sel-item-content{flex:1;min-width:0}
+.sel-item-top{display:flex;justify-content:space-between;margin-bottom:4px}
+.sel-item-id{font-size:.7rem;font-weight:700;color:var(--text)}
+.sel-item-marks{font-size:.65rem;color:var(--accent);font-weight:600;background:#E0F2FE;padding:2px 6px;border-radius:4px}
+.sel-item-stem{font-size:.75rem;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sel-item-actions{display:flex;flex-direction:column;align-items:center;gap:4px;margin-left:8px}
+.sel-btn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.9rem;line-height:1}
+.sel-btn:hover{color:var(--text)}
+.sel-btn.rm:hover{color:#dc2626}
+
+.gen-btn{padding:10px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer;width:100%;text-align:center;transition:opacity .2s}
 .gen-btn:hover{opacity:.9}
+.ms-btn{background:#059669;margin-top:8px}
+.clear-btn{background:none;color:var(--text2);border:1px solid var(--border);margin-top:8px}
+.clear-btn:hover{background:var(--bg)}
+
+.sel-toggle{display:none;position:fixed;bottom:20px;right:20px;padding:12px 20px;background:var(--accent);color:#fff;border:none;border-radius:30px;font-size:.9rem;font-weight:700;cursor:pointer;z-index:101;box-shadow:0 4px 12px rgba(11,114,133,.3)}
+.sel-toggle.has-items{animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 4px 12px rgba(11,114,133,.3)}50%{box-shadow:0 4px 24px rgba(11,114,133,.6)}}
+
+@media(max-width:1000px){
+  .layout{grid-template-columns:240px 1fr;}
+  .sel-panel{position:fixed;bottom:0;left:0;right:0;top:auto;width:100%;height:70vh;border-radius:24px 24px 0 0;transform:translateY(100%);transition:transform .3s;z-index:100;box-shadow:0 -10px 40px rgba(0,0,0,.15)}
+  .sel-panel.open{transform:translateY(0)}
+  .sel-toggle{display:block}
+}
+@media(max-width:800px){
+  .layout{grid-template-columns:1fr;}
+  .filters{position:static;max-height:none;margin-bottom:16px}
+}
+
+/* Lock */
 .lock-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000}
 .lock-box{background:var(--card);padding:40px;border-radius:16px;box-shadow:var(--shadow);text-align:center;max-width:360px}
 .lock-box h2{font-family:Georgia,serif;margin-bottom:16px;color:var(--accent)}
 .lock-box input{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;margin-bottom:12px;text-align:center}
 .lock-box button{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer}
 .empty{text-align:center;padding:60px 20px;color:var(--text3);font-size:.9rem}
-@media(max-width:800px){.layout{grid-template-columns:1fr}.filters{position:static;max-height:none}.q-options{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -98,13 +142,10 @@ nav a{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px;border-r
 <div class="wrap" id="mainContent" style="display:none">
   <div class="header">
     <div><h1><span>DP</span> Question Bank</h1><div class="stats" id="statsBar">Loading...</div></div>
-    <div style="display:flex;gap:8px">
-      <button class="ms-toggle" onclick="toggleAllMS()">Show All Mark Schemes</button>
-      <button class="gen-btn" onclick="generatePaper()" style="font-size:.78rem;padding:8px 16px">Generate Paper</button>
-    </div>
   </div>
 
   <div class="layout">
+    <!-- FILTERS -->
     <div class="filters">
       <input class="search" type="text" id="searchBox" placeholder="Search questions..." oninput="applyFilters()">
       
@@ -112,7 +153,10 @@ nav a{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px;border-r
       <div class="f-group" id="fPaper"></div>
 
       <h3>Topic</h3>
-      <div class="f-group" id="fTopic"></div>
+      <div id="fTopic"></div>
+
+      <h3>Level</h3>
+      <div class="f-group" id="fLevel"></div>
 
       <h3>Difficulty</h3>
       <div class="f-group" id="fDiff"></div>
@@ -120,22 +164,33 @@ nav a{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px;border-r
       <h3>Marks</h3>
       <div class="f-group" id="fMarks"></div>
 
-      <h3>Level</h3>
-      <div class="f-group" id="fLevel"></div>
-
-      <h3>Command Term</h3>
-      <div class="f-group" id="fCmd"></div>
-
       <div style="margin-top:16px"><span class="f-clear" onclick="clearFilters()">Clear All Filters</span></div>
     </div>
 
+    <!-- QUESTIONS -->
     <div class="q-list" id="qList">
       <div class="empty">Loading questions...</div>
     </div>
+
+    <!-- SELECTION PANEL -->
+    <div>
+      <button class="sel-toggle" id="selToggle" onclick="toggleSelPanel()">📋 Selected (0)</button>
+      <div class="sel-panel" id="selPanel">
+        <h3 style="font-size:.9rem;font-weight:700;margin-bottom:8px">Selected Questions</h3>
+        <div class="sel-summary" id="selSummary">No questions selected. Use the + Add buttons to build a paper.</div>
+        <div class="sel-list" id="selList"></div>
+        
+        <div style="margin-top:auto;padding-top:12px;border-top:1px solid var(--border)">
+          <button class="gen-btn" onclick="generatePaper()">Generate Paper</button>
+          <button class="gen-btn ms-btn" onclick="generateMarkScheme()">Mark Scheme</button>
+          <button class="gen-btn clear-btn" onclick="clearSelection()">Clear All</button>
+        </div>
+      </div>
+    </div>
   </div>
+  
+  <div style="text-align:center;padding:40px 0 20px;font-family:Georgia,serif;font-size:11px;color:rgba(0,0,0,.2);letter-spacing:2px;text-transform:uppercase">ATUL SORAL PHYSICISM</div>
 </div>
-
-
 
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -146,10 +201,17 @@ firebase.initializeApp({
   projectId:"soral-atul-physicism",
   storageBucket:"soral-atul-physicism.appspot.com"
 });
-</script>
-<script>
-var allQuestions=[],filtered=[],selected=new Set();
-var filters={paper:[],topic:[],diff:[],marks:[],level:[],cmd:[]};
+
+var THEMES = {
+  'A': {name:'Space, Time & Motion', topics:['A.1','A.2','A.3','A.4','A.5']},
+  'B': {name:'Particulate Nature of Matter', topics:['B.1','B.2','B.3','B.4','B.5']},
+  'C': {name:'Wave Behaviour', topics:['C.1','C.2','C.3','C.4','C.5']},
+  'D': {name:'Fields', topics:['D.1','D.2','D.3','D.4']},
+  'E': {name:'Nuclear & Quantum', topics:['E.1','E.2','E.3','E.4','E.5']}
+};
+
+var allQuestions=[], allGroups=[], filteredGroups=[], selectedGroups=[];
+var filters={paper:[],topic:[],diff:[],marks:[],level:[]};
 
 function unlock(){
   var pw=document.getElementById('pwInput').value;
@@ -171,39 +233,118 @@ function loadQuestions(){
     allQuestions=[];
     snap.forEach(function(doc){allQuestions.push(doc.data());});
     allQuestions.sort(function(a,b){return (a.topic+a.qNum).localeCompare(b.topic+b.qNum);});
+    
+    allGroups = groupQuestions(allQuestions);
+    
     buildFilters();
     applyFilters();
   });
 }
 
+function groupQuestions(questions) {
+  var groups = {};
+  questions.forEach(function(q) {
+    var gid = q.questionGroup || q.id;
+    if (!groups[gid]) {
+      groups[gid] = {
+        id: gid,
+        stem: q.stem || '',
+        topic: q.topic,
+        topicName: q.topicName,
+        paper: q.paper,
+        level: q.level,
+        difficulty: q.difficulty,
+        type: q.type,
+        totalMarks: 0,
+        parts: []
+      };
+    }
+    groups[gid].parts.push(q);
+    groups[gid].totalMarks += (q.marks || 1);
+  });
+  return Object.values(groups);
+}
+
 function buildFilters(){
-  var papers=new Set(),topics=new Set(),diffs=new Set(),marks=new Set(),levels=new Set(),cmds=new Set();
-  allQuestions.forEach(function(q){
-    if(q.paper)papers.add(q.paper);
-    if(q.topic)topics.add(q.topic+' '+q.topicName);
-    if(q.difficulty)diffs.add(q.difficulty);
-    if(q.marks)marks.add(q.marks);
-    if(q.level)levels.add(q.level);
-    if(q.commandTerm)cmds.add(q.commandTerm);
+  var papers=new Set(),diffs=new Set(),marks=new Set(),levels=new Set();
+  allGroups.forEach(function(g){
+    if(g.paper)papers.add(g.paper);
+    if(g.difficulty)diffs.add(g.difficulty);
+    if(g.totalMarks)marks.add(g.totalMarks);
+    if(g.level)levels.add(g.level);
   });
   renderFilterGroup('fPaper',Array.from(papers).sort(),'paper');
-  renderFilterGroup('fTopic',Array.from(topics).sort(),'topic');
   renderFilterGroup('fDiff',['Easy','Medium','Hard'],'diff');
   renderFilterGroup('fMarks',Array.from(marks).sort(function(a,b){return a-b;}),'marks');
   renderFilterGroup('fLevel',Array.from(levels).sort(),'level');
-  renderFilterGroup('fCmd',Array.from(cmds).sort(),'cmd');
+  
+  buildTopicFilter();
 }
 
 function renderFilterGroup(elId,items,key){
   var el=document.getElementById(elId);
-  var isCol=(key==='topic'||key==='cmd');
-  el.className=isCol?'f-group-col':'f-group';
   el.innerHTML=items.map(function(item){
     return '<div class="f-btn" onclick="toggleFilter(this,\''+key+'\',\''+item+'\')">'+item+'</div>';
   }).join('');
 }
 
+function buildTopicFilter(){
+  var el = document.getElementById('fTopic');
+  el.innerHTML = Object.keys(THEMES).map(function(key){
+    var theme = THEMES[key];
+    return '<div class="theme-group">' +
+      '<div class="theme-header" onclick="toggleTheme(this,\''+key+'\')">' +
+        '<span class="theme-arrow">▶</span> ' + key + ': ' + theme.name +
+      '</div>' +
+      '<div class="theme-subs" style="display:none">' +
+        theme.topics.map(function(t){
+          return '<div class="f-btn f-sub" onclick="toggleFilter(this,\'topic\',\''+t+'\')">'+t+'</div>';
+        }).join('') +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function toggleTheme(el, key){
+  var subs = el.nextElementSibling;
+  var arrow = el.querySelector('.theme-arrow');
+  if(subs.style.display === 'none'){
+    subs.style.display = 'flex';
+    arrow.textContent = '▼';
+    
+    // Clicking the theme header selects ALL topics under it
+    var themeTopics = THEMES[key].topics;
+    var allSelected = themeTopics.every(function(t) { return filters.topic.indexOf(t) > -1; });
+    
+    if(!allSelected) {
+      themeTopics.forEach(function(t) {
+        if(filters.topic.indexOf(t) === -1) {
+          filters.topic.push(t);
+          var subBtns = subs.querySelectorAll('.f-sub');
+          subBtns.forEach(function(btn) { if(btn.textContent === t) btn.classList.add('on'); });
+        }
+      });
+      applyFilters();
+    }
+  } else {
+    subs.style.display = 'none';
+    arrow.textContent = '▶';
+    
+    // Deselect all topics in theme
+    var themeTopics = THEMES[key].topics;
+    themeTopics.forEach(function(t) {
+      var idx = filters.topic.indexOf(t);
+      if(idx > -1) filters.topic.splice(idx, 1);
+      var subBtns = subs.querySelectorAll('.f-sub');
+      subBtns.forEach(function(btn) { btn.classList.remove('on'); });
+    });
+    applyFilters();
+  }
+}
+
 function toggleFilter(el,key,val){
+  if(event) event.stopPropagation();
+  
   el.classList.toggle('on');
   var idx=filters[key].indexOf(val);
   if(idx>-1)filters[key].splice(idx,1);else filters[key].push(val);
@@ -211,91 +352,142 @@ function toggleFilter(el,key,val){
 }
 
 function clearFilters(){
-  filters={paper:[],topic:[],diff:[],marks:[],level:[],cmd:[]};
+  filters={paper:[],topic:[],diff:[],marks:[],level:[]};
   document.querySelectorAll('.f-btn').forEach(function(b){b.classList.remove('on');});
+  document.querySelectorAll('.theme-subs').forEach(function(subs){
+    subs.style.display='none';
+    subs.previousElementSibling.querySelector('.theme-arrow').textContent='▶';
+  });
   document.getElementById('searchBox').value='';
   applyFilters();
 }
 
 function applyFilters(){
   var search=document.getElementById('searchBox').value.toLowerCase();
-  filtered=allQuestions.filter(function(q){
-    if(filters.paper.length&&filters.paper.indexOf(q.paper)===-1)return false;
-    if(filters.topic.length&&!filters.topic.some(function(t){return t.startsWith(q.topic);}))return false;
-    if(filters.diff.length&&filters.diff.indexOf(q.difficulty)===-1)return false;
-    if(filters.marks.length&&filters.marks.indexOf(q.marks)===-1)return false;
-    if(filters.level.length&&!filters.level.some(function(l){return q.level&&q.level.indexOf(l)>-1;}))return false;
-    if(filters.cmd.length&&filters.cmd.indexOf(q.commandTerm)===-1)return false;
-    if(search&&q.text.toLowerCase().indexOf(search)===-1&&(q.topicName||'').toLowerCase().indexOf(search)===-1)return false;
+  filteredGroups=allGroups.filter(function(g){
+    if(filters.paper.length&&filters.paper.indexOf(g.paper)===-1)return false;
+    
+    if(filters.topic.length && !g.parts.some(function(p) { return filters.topic.some(function(t) { return p.topic && p.topic.startsWith(t); }); })) return false;
+    
+    if(filters.diff.length&&filters.diff.indexOf(g.difficulty)===-1)return false;
+    if(filters.marks.length&&filters.marks.indexOf(g.totalMarks)===-1)return false;
+    
+    if(filters.level.length&&!filters.level.some(function(l){return g.level&&g.level.indexOf(l)>-1;}))return false;
+    
+    if(search) {
+      var stemMatch = g.stem && g.stem.toLowerCase().indexOf(search)>-1;
+      var partsMatch = g.parts.some(function(p) { return p.text && p.text.toLowerCase().indexOf(search)>-1; });
+      var idMatch = g.id.toLowerCase().indexOf(search)>-1;
+      if(!stemMatch && !partsMatch && !idMatch) return false;
+    }
+    
     return true;
   });
   renderQuestions();
-  document.getElementById('statsBar').textContent=filtered.length+' of '+allQuestions.length+' questions shown';
+  document.getElementById('statsBar').textContent=filteredGroups.length+' of '+allGroups.length+' question sets shown';
 }
 
 function renderQuestions(){
   var el=document.getElementById('qList');
-  if(!filtered.length){el.innerHTML='<div class="empty">No questions match your filters.</div>';return;}
-  el.innerHTML=filtered.map(function(q,i){
-    var optionsHtml='';
-    if(q.options&&q.options.length){
-      optionsHtml='<div class="q-options">'+q.options.map(function(opt,oi){
-        var letter=String.fromCharCode(65+oi);
-        return '<div class="q-opt'+(oi===q.correct?' correct':'')+'"><strong>'+letter+'.</strong> '+opt+'</div>';
-      }).join('')+'</div>';
-    }
+  if(!filteredGroups.length){el.innerHTML='<div class="empty">No questions match your filters.</div>';return;}
+  
+  el.innerHTML=filteredGroups.map(function(g){
+    var isAdded = selectedGroups.indexOf(g.id) > -1;
+    var btnHtml = isAdded 
+      ? '<button class="add-btn added" onclick="removeGroup(\''+g.id+'\')">✓ Added to Paper</button>'
+      : '<button class="add-btn" onclick="addGroup(\''+g.id+'\')">+ Add to Paper</button>';
+
     var imgHtml='';
-    if(q.image&&q.image.length>10){
-      imgHtml='<div class="q-img">'+q.image+'</div>';
+    var firstImgPart = g.parts.find(function(p) { return p.image && p.image.length > 10; });
+    if(firstImgPart){
+      imgHtml='<div class="q-img">'+firstImgPart.image+'</div>';
     }
-    return '<div class="q-card" id="qc-'+q.id+'">'+
+
+    var partsHtml = '';
+    if (g.type === 'MCQ' && g.parts.length === 1) {
+      var p = g.parts[0];
+      if(p.options && p.options.length) {
+        partsHtml = '<div class="q-options">'+p.options.map(function(opt,oi){
+          var letter=String.fromCharCode(65+oi);
+          return '<div class="q-opt'+(oi===p.correct?' correct':'')+'"><strong>'+letter+'.</strong> '+opt+'</div>';
+        }).join('')+'</div>';
+      }
+    } else {
+      partsHtml = g.parts.map(function(p, i) {
+        var numMatch = p.text.match(/^(\([a-z]+\)(\([iv]+\))?)/);
+        var pText = p.text;
+        if(numMatch) pText = pText.replace(numMatch[0], '<strong>'+numMatch[0]+'</strong>');
+        else if(g.parts.length > 1) pText = '<strong>('+(i+1)+')</strong> ' + pText;
+        
+        return '<div class="q-part">' +
+               '<div class="q-part-text">' + pText + '</div>' +
+               '<div class="q-part-marks">[' + (p.marks||1) + ']</div>' +
+               '</div>';
+      }).join('');
+    }
+
+    var stemHtml = '';
+    if(g.stem) stemHtml = '<div class="q-stem">'+g.stem+'</div>';
+    else if(g.parts[0] && g.type==='MCQ') stemHtml = '<div class="q-stem">'+g.parts[0].text+'</div>';
+
+    return '<div class="q-card" id="qc-'+g.id+'">'+
       '<div class="q-top">'+
-        '<div style="display:flex;align-items:center;gap:8px"><input type="checkbox" class="q-select" onchange="toggleSelect(\''+q.id+'\')"'+(selected.has(q.id)?' checked':'')+'><span class="q-id">'+q.id+'</span></div>'+
+        '<span class="q-id">'+g.id+'</span>'+
         '<div class="q-tags">'+
-          '<span class="tag tag-topic">'+q.topic+' '+(q.topicName||'')+'</span>'+
-          '<span class="tag tag-paper">'+q.paper+' '+q.level+'</span>'+
-          '<span class="tag tag-marks">'+q.marks+' mark'+(q.marks>1?'s':'')+'</span>'+
-          '<span class="tag tag-diff">'+q.difficulty+'</span>'+
-          '<span class="tag tag-cmd">'+q.commandTerm+'</span>'+
+          '<span class="tag tag-type">'+(g.type||'Structured')+'</span>'+
+          '<span class="tag tag-topic">'+(g.topic||'')+'</span>'+
+          '<span class="tag tag-paper">'+(g.paper||'')+' '+(g.level||'')+'</span>'+
+          '<span class="tag tag-marks">'+g.totalMarks+' marks</span>'+
         '</div>'+
       '</div>'+
-      '<div class="q-text">Q'+q.qNum+'. '+q.text+'</div>'+
-      imgHtml+optionsHtml+
-      '<button class="ms-toggle" onclick="toggleMS(\'ms-'+q.id+'\')">Mark Scheme</button>'+
-      '<div class="ms-box" id="ms-'+q.id+'">'+q.markScheme+'</div>'+
+      stemHtml +
+      imgHtml + 
+      partsHtml +
+      btnHtml +
     '</div>';
   }).join('');
 }
 
-function toggleMS(id){document.getElementById(id).classList.toggle('show');}
-function toggleAllMS(){document.querySelectorAll('.ms-box').forEach(function(el){el.classList.toggle('show');});}
-
-function toggleSelect(id){
-  if(selected.has(id))selected.delete(id);else selected.add(id);
-  updateSelPanel();
+function updateCardStates() {
+  renderQuestions();
 }
+
+function addGroup(groupId) {
+  if (selectedGroups.indexOf(groupId) === -1) {
+    selectedGroups.push(groupId);
+    updateSelPanel();
+    updateCardStates();
+  }
+}
+
+function removeGroup(groupId) {
+  selectedGroups = selectedGroups.filter(function(g) { return g !== groupId; });
+  updateSelPanel();
+  updateCardStates();
+}
+
+function moveGroupUp(groupId) {
+  var idx = selectedGroups.indexOf(groupId);
+  if(idx > 0) {
+    selectedGroups.splice(idx, 1);
+    selectedGroups.splice(idx - 1, 0, groupId);
+    updateSelPanel();
+  }
+}
+
+function moveGroupDown(groupId) {
+  var idx = selectedGroups.indexOf(groupId);
+  if(idx > -1 && idx < selectedGroups.length - 1) {
+    selectedGroups.splice(idx, 1);
+    selectedGroups.splice(idx + 1, 0, groupId);
+    updateSelPanel();
+  }
+}
+
 function clearSelection(){
-  selected.clear();
-  document.querySelectorAll('.q-select').forEach(function(cb){cb.checked=false;});
+  selectedGroups = [];
   updateSelPanel();
-}
-
-function generatePaper(){
-  if(!selected.size){alert('Select questions first');return;}
-  var qs=allQuestions.filter(function(q){return selected.has(q.id);});
-  var totalMarks=qs.reduce(function(s,q){return s+(q.marks||1);},0);
-  var w=window.open('','_blank');
-  var html='<! DOCTYPE html><html><head><title>Generated Paper</title><style>body{font-family:Georgia,serif;padding:40px;max-width:800px;margin:0 auto;line-height:1.7}h1{font-size:1.4rem;text-align:center;margin-bottom:4px}h2{font-size:1rem;text-align:center;color:#666;margin-bottom:30px;font-weight:normal}.q{margin-bottom:24px;page-break-inside:avoid}.q-num{font-weight:bold;margin-bottom:4px}.q-body{margin-left:20px}.opts{margin:8px 0 0 20px;list-style-type:upper-alpha}.opts li{margin-bottom:4px}.marks{float:right;color:#666;font-size:.85rem}.img-wrap{margin:10px 0;text-align:center}.footer{text-align:center;margin-top:40px;font-size:.8rem;color:#999;border-top:1px solid #ddd;padding-top:10px}@media print{body{padding:20px}}</style></head><body>';
-  html+='<h1>IB Physics — Practice Paper</h1>';
-  html+='<h2>'+qs.length+' questions · '+totalMarks+' marks · Atul Soral Physicism</h2>';
-  qs.forEach(function(q,i){
-    html+='<div class="q"><div class="q-num">'+(i+1)+'. <span class="marks">['+q.marks+']</span></div><div class="q-body">'+q.text+'</div>';
-    if(q.image&&q.image.length>10)html+='<div class="img-wrap">'+q.image+'</div>';
-    if(q.options&&q.options.length){html+='<ol class="opts">';q.options.forEach(function(o){html+='<li>'+o+'</li>';});html+='</ol>';}
-    html+='</div>';
-  });
-  html+='<div class="footer">Generated by Atul Soral Physicism · '+new Date().toLocaleDateString()+'</div></body></html>';
-  w.document.write(html);w.document.close();
+  updateCardStates();
 }
 
 function toggleSelPanel(){
@@ -303,64 +495,147 @@ function toggleSelPanel(){
 }
 
 function updateSelPanel(){
-  var count = selected.size;
-  document.getElementById('selToggle').textContent = '📋 Selected (' + count + ')';
-  document.getElementById('selToggle').className = 'sel-toggle' + (count > 0 ? ' has-items' : '');
+  var count = selectedGroups.length;
+  var selToggle = document.getElementById('selToggle');
+  selToggle.textContent = '📋 Selected (' + count + ')';
+  selToggle.className = 'sel-toggle' + (count > 0 ? ' has-items' : '');
   
   if(!count){
-    document.getElementById('selSummary').textContent = 'No questions selected. Use checkboxes to add.';
+    document.getElementById('selSummary').textContent = 'No questions selected. Use the + Add buttons to build a paper.';
     document.getElementById('selList').innerHTML = '';
     return;
   }
   
-  var selQs = allQuestions.filter(function(q){return selected.has(q.id);});
-  var totalMarks = selQs.reduce(function(s,q){return s+(q.marks||1);},0);
+  var selQs = selectedGroups.map(function(gid) { return allGroups.find(function(g) { return g.id === gid; }); });
+  var totalMarks = selQs.reduce(function(s,g){return s+g.totalMarks;},0);
   var topics = new Set();
-  selQs.forEach(function(q){topics.add(q.topic);});
+  selQs.forEach(function(g){ if(g.topic) topics.add(g.topic.split('.')[0]); });
   
-  document.getElementById('selSummary').innerHTML = '<strong>'+count+'</strong> questions · <strong>'+totalMarks+'</strong> marks · '+topics.size+' topics';
+  document.getElementById('selSummary').innerHTML = '<strong>'+count+'</strong> question sets · <strong>'+totalMarks+'</strong> marks · '+topics.size+' topics';
   
-  document.getElementById('selList').innerHTML = selQs.map(function(q){
-    return '<div class="sel-item"><div><div>Q'+q.qNum+' · '+q.id.split('-').slice(-1)+'</div><div class="sel-topic">'+q.topic+' · '+q.marks+'mk</div></div><span class="sel-remove" onclick="removeFromSel(\''+q.id+'\')">✕</span></div>';
+  document.getElementById('selList').innerHTML = selQs.map(function(g){
+    var stemPrev = g.stem ? g.stem.substring(0, 45) + '...' : (g.parts[0] ? g.parts[0].text.substring(0,45)+'...' : '');
+    return '<div class="sel-item">' +
+      '<div class="sel-item-content">' +
+        '<div class="sel-item-top">' +
+          '<span class="sel-item-id">' + (g.topic||'') + '</span>' +
+          '<span class="sel-item-marks">' + g.totalMarks + ' marks</span>' +
+        '</div>' +
+        '<div class="sel-item-stem">' + stemPrev + '</div>' +
+      '</div>' +
+      '<div class="sel-item-actions">' +
+        '<button class="sel-btn rm" onclick="removeGroup(\''+g.id+'\')">✕</button>' +
+        '<button class="sel-btn" onclick="moveGroupUp(\''+g.id+'\')">↑</button>' +
+        '<button class="sel-btn" onclick="moveGroupDown(\''+g.id+'\')">↓</button>' +
+      '</div>' +
+    '</div>';
   }).join('');
 }
 
-function removeFromSel(id){
-  selected.delete(id);
-  var cb = document.querySelector('#qc-'+id+' .q-select');
-  if(cb) cb.checked = false;
-  updateSelPanel();
+function buildPaperHTML(mcqs, structured) {
+  var totalMarks = mcqs.reduce(function(s,g){return s+g.totalMarks;},0) + structured.reduce(function(s,g){return s+g.totalMarks;},0);
+  
+  var html='<!DOCTYPE html><html><head><title>Generated Paper</title><style>body{font-family:Georgia,serif;padding:40px;max-width:800px;margin:0 auto;line-height:1.7}h1{font-size:1.4rem;text-align:center;margin-bottom:4px}h2{font-size:1rem;text-align:center;color:#666;margin-bottom:30px;font-weight:normal}.sec-title{font-size:1.2rem;border-bottom:2px solid #000;margin:30px 0 20px;padding-bottom:4px}.q{margin-bottom:24px;page-break-inside:avoid}.q-top{display:flex}.q-num{font-weight:bold;margin-right:12px;min-width:20px}.q-content{flex:1}.q-stem{margin-bottom:8px}.q-part{display:flex;margin-top:8px;align-items:flex-start}.q-part-text{flex:1}.marks{margin-left:12px;font-weight:bold;white-space:nowrap}.opts{margin:8px 0 0 0;list-style-type:none;padding:0}.opts li{margin-bottom:6px}.img-wrap{margin:12px 0;text-align:center}.img-wrap svg{max-width:100%;height:auto}.footer{text-align:center;margin-top:40px;font-size:.8rem;color:#999;border-top:1px solid #ddd;padding-top:10px}@media print{body{padding:20px}}</style></head><body>';
+  html+='<h1>IB Physics Practice Paper</h1>';
+  html+='<h2>'+(mcqs.length+structured.length)+' questions · '+totalMarks+' marks · Atul Soral Physicism</h2>';
+
+  if(mcqs.length > 0) {
+    html+='<div class="sec-title">Section A (Multiple Choice)</div>';
+    mcqs.forEach(function(g, i) {
+      var p = g.parts[0];
+      html+='<div class="q"><div class="q-top"><div class="q-num">'+(i+1)+'.</div><div class="q-content">';
+      html+='<div class="q-stem">'+p.text+'</div>';
+      if(p.image && p.image.length > 10) html+='<div class="img-wrap">'+p.image+'</div>';
+      if(p.options && p.options.length){
+        html+='<ul class="opts">';
+        p.options.forEach(function(o, oi) {
+          var letter=String.fromCharCode(65+oi);
+          html+='<li><strong>'+letter+'.</strong> '+o+'</li>';
+        });
+        html+='</ul>';
+      }
+      html+='</div></div></div>';
+    });
+  }
+
+  if(structured.length > 0) {
+    var startNum = mcqs.length + 1;
+    html+='<div class="sec-title">Section B (Structured Questions)</div>';
+    structured.forEach(function(g, i) {
+      html+='<div class="q"><div class="q-top"><div class="q-num">'+(startNum+i)+'.</div><div class="q-content">';
+      if(g.stem) html+='<div class="q-stem">'+g.stem+'</div>';
+      
+      var firstImgPart = g.parts.find(function(p) { return p.image && p.image.length > 10; });
+      if(firstImgPart) html+='<div class="img-wrap">'+firstImgPart.image+'</div>';
+      
+      g.parts.forEach(function(p, pi) {
+        var numMatch = p.text.match(/^(\([a-z]+\)(\([iv]+\))?)/);
+        var pText = p.text;
+        if(!numMatch && g.parts.length > 1) {
+          pText = '<strong>('+(pi+1)+')</strong> ' + pText;
+        }
+        
+        html+='<div class="q-part">';
+        html+='<div class="q-part-text">'+pText+'</div>';
+        html+='<div class="marks">['+(p.marks||1)+']</div>';
+        html+='</div>';
+      });
+      
+      html+='</div></div></div>';
+    });
+  }
+
+  html+='<div class="footer">Generated on '+new Date().toLocaleDateString()+' · Atul Soral Physicism</div></body></html>';
+  return html;
+}
+
+function generatePaper() {
+  if(!selectedGroups.length){alert('Select questions first');return;}
+  var groups = selectedGroups.map(function(gid) { return allGroups.find(function(g) { return g.id === gid; }); });
+  var mcqs = groups.filter(function(g) { return g.type === 'MCQ'; });
+  var structured = groups.filter(function(g) { return g.type !== 'MCQ'; });
+  
+  var html = buildPaperHTML(mcqs, structured);
+  var w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
 }
 
 function generateMarkScheme(){
-  if(!selected.size){alert('Select questions first');return;}
-  var qs=allQuestions.filter(function(q){return selected.has(q.id);});
-  var totalMarks=qs.reduce(function(s,q){return s+(q.marks||1);},0);
+  if(!selectedGroups.length){alert('Select questions first');return;}
+  var groups = selectedGroups.map(function(gid) { return allGroups.find(function(g) { return g.id === gid; }); });
+  var totalMarks=groups.reduce(function(s,g){return s+g.totalMarks;},0);
   var w=window.open('','_blank');
-  var html='<!DOCTYPE html><html><head><title>Mark Scheme</title><style>body{font-family:Georgia,serif;padding:40px;max-width:800px;margin:0 auto;line-height:1.8}h1{font-size:1.4rem;text-align:center;margin-bottom:4px}h2{font-size:1rem;text-align:center;color:#666;margin-bottom:30px;font-weight:normal}.q{margin-bottom:20px;page-break-inside:avoid;border-bottom:1px solid #eee;padding-bottom:12px}.q-num{font-weight:bold;color:#0B7285}.ms{background:#f0fdfa;border-left:3px solid #0B7285;padding:8px 12px;margin-top:6px;font-size:.9rem;line-height:1.6}.footer{text-align:center;margin-top:40px;font-size:.8rem;color:#999}@media print{body{padding:20px}}</style></head><body>';
+  
+  var html='<!DOCTYPE html><html><head><title>Mark Scheme</title><style>body{font-family:Georgia,serif;padding:40px;max-width:800px;margin:0 auto;line-height:1.8}h1{font-size:1.4rem;text-align:center;margin-bottom:4px}h2{font-size:1rem;text-align:center;color:#666;margin-bottom:30px;font-weight:normal}.q{margin-bottom:24px;page-break-inside:avoid;border-bottom:1px solid #eee;padding-bottom:16px}.q-num{font-weight:bold;color:#0B7285;font-size:1.1rem;margin-bottom:8px}.q-stem{font-size:.85rem;color:#555;margin-bottom:12px;font-style:italic}.q-part{margin-top:12px}.p-label{font-weight:bold}.ms{background:#f0fdfa;border-left:3px solid #0B7285;padding:8px 12px;margin-top:6px;font-size:.9rem;line-height:1.6}.marks{float:right;font-weight:bold;color:#0B7285}.footer{text-align:center;margin-top:40px;font-size:.8rem;color:#999}@media print{body{padding:20px}}</style></head><body>';
   html+='<h1>Mark Scheme</h1>';
-  html+='<h2>'+qs.length+' questions · '+totalMarks+' marks</h2>';
-  qs.forEach(function(q,i){
-    html+='<div class="q"><div class="q-num">'+(i+1)+'. ['+q.marks+' mark'+(q.marks>1?'s':'')+'] '+q.topic+'</div>';
-    html+='<div style="margin:4px 0;font-size:.85rem;color:#555">'+q.text.substring(0,100)+'...</div>';
-    html+='<div class="ms">'+q.markScheme+'</div></div>';
+  html+='<h2>'+groups.length+' questions · '+totalMarks+' marks</h2>';
+  
+  groups.forEach(function(g, i){
+    html+='<div class="q"><div class="q-num">Question '+(i+1)+' <span class="marks">['+g.totalMarks+']</span></div>';
+    
+    var stemPrev = g.stem ? g.stem.substring(0, 100) + '...' : (g.parts[0] ? g.parts[0].text.substring(0,100)+'...' : '');
+    html+='<div class="q-stem">'+stemPrev+'</div>';
+    
+    if(g.type === 'MCQ' && g.parts.length === 1) {
+      var p = g.parts[0];
+      var ansLetter = p.correct !== undefined ? String.fromCharCode(65+p.correct) : 'N/A';
+      html+='<div class="ms"><strong>Correct Answer:</strong> '+ansLetter+'<br>'+(p.markScheme||'')+'</div>';
+    } else {
+      g.parts.forEach(function(p, pi){
+        var numMatch = p.text.match(/^(\([a-z]+\)(\([iv]+\))?)/);
+        var label = numMatch ? numMatch[0] : '('+(pi+1)+')';
+        html+='<div class="q-part"><div class="p-label">'+label+' <span style="color:#666;font-weight:normal;font-size:.8rem">['+(p.marks||1)+']</span></div>';
+        html+='<div class="ms">'+(p.markScheme||'<em>No mark scheme provided</em>')+'</div></div>';
+      });
+    }
+    
+    html+='</div>';
   });
+  
   html+='<div class="footer">Mark Scheme · Atul Soral Physicism · '+new Date().toLocaleDateString()+'</div></body></html>';
   w.document.write(html);w.document.close();
 }
 </script>
-<button class="sel-toggle" id="selToggle" onclick="toggleSelPanel()">📋 Selected (0)</button>
-<div class="sel-panel" id="selPanel">
-  <h3 style="font-size:.9rem;font-weight:700;margin-bottom:8px">Selected Questions</h3>
-  <div class="sel-summary" id="selSummary">No questions selected yet. Use checkboxes to add questions from any filter view.</div>
-  <div id="selList"></div>
-  <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap">
-    <button class="gen-btn" onclick="generatePaper()" style="flex:1;font-size:.78rem;padding:8px">Generate Paper</button>
-    <button class="gen-btn" onclick="generateMarkScheme()" style="flex:1;font-size:.78rem;padding:8px;background:#059669">Mark Scheme</button>
-  </div>
-  <button class="ms-toggle" onclick="clearSelection()" style="width:100%;margin-top:8px">Clear All</button>
-</div>
-
-<div style="text-align:center;padding:16px 0;font-family:Georgia,serif;font-size:11px;color:rgba(0,0,0,.12);letter-spacing:2px;text-transform:uppercase">ATUL SORAL PHYSICISM</div>
 </body>
 </html>
