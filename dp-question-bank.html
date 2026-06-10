@@ -222,7 +222,7 @@ function applyFilters(){
     if(filters.topic.length&&!filters.topic.some(function(t){return t.startsWith(q.topic);}))return false;
     if(filters.diff.length&&filters.diff.indexOf(q.difficulty)===-1)return false;
     if(filters.marks.length&&filters.marks.indexOf(q.marks)===-1)return false;
-    if(filters.level.length&&filters.level.indexOf(q.level)===-1)return false;
+    if(filters.level.length&&!filters.level.some(function(l){return q.level&&q.level.indexOf(l)>-1;}))return false;
     if(filters.cmd.length&&filters.cmd.indexOf(q.commandTerm)===-1)return false;
     if(search&&q.text.toLowerCase().indexOf(search)===-1&&(q.topicName||'').toLowerCase().indexOf(search)===-1)return false;
     return true;
