@@ -512,6 +512,33 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
   </div>
 </div>
 
+<!-- EDIT STUDENT MODAL -->
+<div class="modal-overlay" id="editStudentModal">
+  <div class="modal" style="max-width: 500px; width: 90%; text-align: left;">
+    <h3 id="editModalTitle">✏️ Edit Student</h3>
+    <p style="font-size:.82rem;color:var(--text2);margin-bottom:14px">Update the level and tags for this student.</p>
+    
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Level</label>
+      <select id="editStuLevel" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:8px;outline:none;">
+        <option value="DP-SL">DP SL</option>
+        <option value="DP-HL">DP HL</option>
+        <option value="MYP">MYP</option>
+      </select>
+    </div>
+    
+    <div class="form-group" style="margin-bottom:14px">
+      <label>Tags (click to select)</label>
+      <div class="tag-chips" id="editStudentTagsContainer"></div>
+    </div>
+    
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
+      <button class="btn btn-outline" onclick="closeModal('editStudentModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveStudentEdits()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
 <!-- CONFIRM DELETE MODAL -->
 <div class="modal-overlay" id="confirmDeleteModal">
   <div class="modal">
@@ -812,22 +839,26 @@ function addStudent(){
   });
 }
 
+var activeEditingStudent = null;
+var selectedEditTags = [];
+
 function loadStudents(){
-  db.collection('dpStudents').orderBy('createdAt','desc').get().then(function(snap){
+  db.collection('dpStudents').get().then(function(snap){
     allStudents = [];
     snap.forEach(function(doc){
       allStudents.push(Object.assign({id: doc.id}, doc.data()));
     });
+    // Sort client-side by createdAt desc (if missing, defaults to oldest)
+    allStudents.sort(function(a, b){
+      var da = a.createdAt ? (a.createdAt.toDate ? a.createdAt.toDate() : new Date(a.createdAt)) : new Date(0);
+      var db = b.createdAt ? (b.createdAt.toDate ? b.createdAt.toDate() : new Date(b.createdAt)) : new Date(0);
+      return db - da;
+    });
     renderStudentTable();
   }).catch(function(err){
-    // If createdAt index not ready, try without ordering
-    db.collection('dpStudents').get().then(function(snap){
-      allStudents = [];
-      snap.forEach(function(doc){
-        allStudents.push(Object.assign({id: doc.id}, doc.data()));
-      });
-      renderStudentTable();
-    });
+    console.error('Error loading students:', err);
+    allStudents = [];
+    renderStudentTable();
   });
 }
 
@@ -857,11 +888,25 @@ function renderStudentTable(){
   }
 
   tbody.innerHTML = filtered.map(function(s){
+    var isSelfRegistered = (s.tags || []).indexOf('self-registered') > -1;
+    
     var tagHtml = (s.tags||[]).map(function(t){
-      var tagObj = allTags.find(function(at){return at.name===t;});
-      var color = tagObj ? tagObj.color : '#6B7280';
+      var color = '#6B7280';
+      if (t === 'self-registered') {
+        color = '#EA580C'; // Distinct orange
+      } else {
+        var tagObj = allTags.find(function(at){return at.name===t;});
+        if (tagObj) color = tagObj.color;
+      }
       return '<span style="display:inline-block;padding:2px 8px;border-radius:50px;font-size:.65rem;font-weight:600;background:'+hexToLight(color)+';color:'+color+';margin:1px 2px">'+t+'</span>';
     }).join('');
+
+    var actionBtnHtml = '';
+    if (isSelfRegistered) {
+      actionBtnHtml = '<button class="btn btn-primary btn-sm" style="background:#EA580C;border-color:#EA580C;" onclick="openEditStudentModal(\''+s.id+'\')">Approve</button> ';
+    } else {
+      actionBtnHtml = '<button class="btn btn-outline btn-sm" onclick="openEditStudentModal(\''+s.id+'\')">✏️</button> ';
+    }
 
     return '<tr>'+
       '<td style="font-weight:600">'+escHtml(s.name||'')+'</td>'+
@@ -870,11 +915,61 @@ function renderStudentTable(){
       '<td>'+tagHtml+'</td>'+
       '<td style="font-size:.78rem;color:var(--text2)">'+escHtml(s.email||'')+'</td>'+
       '<td>'+
+        actionBtnHtml +
         '<button class="btn btn-outline btn-sm" onclick="showCredentials(\''+escHtml(s.studentId||'')+'\',\''+escHtml(s.password||'')+'\')">🔑</button> '+
         '<button class="btn btn-danger btn-sm" onclick="confirmDeleteStudent(\''+s.id+'\',\''+escHtml(s.name||'')+'\')">✕</button>'+
       '</td>'+
     '</tr>';
   }).join('');
+}
+
+function openEditStudentModal(docId){
+  var s = allStudents.find(function(item){ return item.id === docId; });
+  if(!s) return;
+  
+  activeEditingStudent = s;
+  var isSelfRegistered = (s.tags || []).indexOf('self-registered') > -1;
+  document.getElementById('editModalTitle').textContent = isSelfRegistered ? '✨ Approve Student: ' + (s.name || '') : '✏️ Edit Student: ' + (s.name || '');
+  document.getElementById('editStuLevel').value = s.level || 'DP-SL';
+  
+  // Uncheck/remove self-registered tag by default so that saving automatically approves them
+  selectedEditTags = (s.tags || []).filter(function(t){ return t !== 'self-registered'; });
+  
+  renderEditTagsUI();
+  openModal('editStudentModal');
+}
+
+function renderEditTagsUI(){
+  var container = document.getElementById('editStudentTagsContainer');
+  container.innerHTML = allTags.map(function(tag){
+    if (tag.name === 'self-registered') return ''; // Don't show self-registered as a selectable option
+    var sel = selectedEditTags.indexOf(tag.name) > -1;
+    return '<span class="tag-chip'+(sel?' selected':'')+'" style="background:'+hexToLight(tag.color)+';color:'+tag.color+'"'+
+      ' onclick="toggleEditTag(\''+tag.name+'\')">'+tag.name+'</span>';
+  }).join('');
+}
+
+function toggleEditTag(tagName){
+  var idx = selectedEditTags.indexOf(tagName);
+  if(idx > -1) selectedEditTags.splice(idx, 1);
+  else selectedEditTags.push(tagName);
+  renderEditTagsUI();
+}
+
+function saveStudentEdits(){
+  if(!activeEditingStudent) return;
+  var docId = activeEditingStudent.id;
+  var level = document.getElementById('editStuLevel').value;
+  
+  db.collection('dpStudents').doc(docId).update({
+    level: level,
+    tags: selectedEditTags
+  }).then(function(){
+    closeModal('editStudentModal');
+    loadStudents();
+  }).catch(function(err){
+    alert('Error updating student: ' + err.message);
+  });
 }
 
 function showCredentials(id, pw){
