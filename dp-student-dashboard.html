@@ -100,6 +100,268 @@ nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px
   .task-grid{grid-template-columns:1fr}
   .nav-name{display:none}
 }
+
+/* ATTEMPT VIEW */
+.attempt-view {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 150;
+  display: none;
+  flex-direction: column;
+}
+.attempt-view.open {
+  display: flex;
+}
+.attempt-header {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow);
+}
+.attempt-header-left h2 {
+  font-family: Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.attempt-student-info {
+  font-size: .75rem;
+  color: var(--text2);
+  margin-top: 2px;
+}
+.attempt-header-center {
+  background: #FEE2E2;
+  color: var(--danger);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: .85rem;
+}
+.attempt-header-center.hw-mode {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.attempt-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+.attempt-sidebar {
+  width: 200px;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  padding: 16px;
+  overflow-y: auto;
+}
+.attempt-sidebar h3 {
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+.q-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.q-nav-item {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: .8rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--bg);
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.q-nav-item.active {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.q-nav-item.answered::after {
+  content: '✓';
+  color: var(--success);
+  font-weight: bold;
+}
+.attempt-main {
+  flex: 1;
+  padding: 24px 30px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+.attempt-q-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24px 24px 24px 32px;
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+  border-left: 4px solid var(--accent);
+  position: relative;
+}
+.attempt-q-num {
+  position: absolute;
+  left: -12px;
+  top: 20px;
+  background: var(--accent);
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(11,114,133,.4);
+}
+.attempt-q-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: .75rem;
+  color: var(--text3);
+  font-weight: 600;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 6px;
+}
+.attempt-q-stem {
+  font-size: .95rem;
+  line-height: 1.6;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+.attempt-q-img {
+  text-align: center;
+  margin: 14px 0;
+}
+.attempt-q-img svg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.attempt-part {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--bg);
+}
+.attempt-part-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: .85rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.attempt-part-text {
+  flex: 1;
+  line-height: 1.5;
+}
+.attempt-part-marks {
+  color: var(--text3);
+  margin-left: 10px;
+  white-space: nowrap;
+}
+/* TEXT ANSWER */
+.attempt-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: .85rem;
+  font-family: inherit;
+  margin-top: 8px;
+  resize: vertical;
+  background: var(--bg);
+  transition: .2s;
+  outline: none;
+}
+.attempt-textarea:focus {
+  border-color: var(--accent);
+  background: var(--card);
+}
+/* MCQ Choice Options */
+.attempt-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+.attempt-opt {
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: .82rem;
+  cursor: pointer;
+  background: var(--card);
+  transition: .2s;
+  font-weight: 500;
+  text-align: left;
+}
+.attempt-opt:hover {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+.attempt-opt.selected {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* CONFIRM MODAL & OFFLINE OVERLAY */
+.confirm-overlay, .offline-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 300;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.confirm-overlay.open, .offline-overlay.open {
+  display: flex;
+}
+.confirm-modal, .offline-box {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 28px;
+  max-width: 440px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0,0,0,.2);
+  text-align: center;
+}
+.confirm-modal h3 {
+  font-family: Georgia, serif;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+.confirm-modal p {
+  font-size: .85rem;
+  color: var(--text2);
+  line-height: 1.5;
+}
+.offline-box h3 {
+  font-family: Georgia, serif;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: var(--danger);
+}
+.offline-box p {
+  font-size: .85rem;
+  color: var(--text2);
+  line-height: 1.5;
+}
 </style>
 </head>
 <body>
@@ -173,6 +435,61 @@ nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px
     <button class="fb-close" onclick="closeFeedback()">✕</button>
     <h3 id="fbTitle">Feedback</h3>
     <div id="fbContent"></div>
+  </div>
+</div>
+
+<!-- CONFIRMATION MODAL -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-modal">
+    <h3 id="confirmTitle">Start Test?</h3>
+    <div id="confirmMessage" style="font-size: .85rem; color: var(--text2); line-height: 1.5; margin-bottom: 20px;">You are about to start a timed test. Are you ready?</div>
+    <div style="display:flex;justify-content:center;gap:10px">
+      <button class="btn btn-outline" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-primary" id="confirmStartBtn">Yes, Start Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- OFFLINE OVERLAY -->
+<div class="offline-overlay" id="offlineOverlay">
+  <div class="offline-box">
+    <div style="font-size:3rem;margin-bottom:16px">📶⚠️</div>
+    <h3>Connection Lost</h3>
+    <p>Please check your internet connection. Reconnecting in <span id="offlineSeconds" style="font-weight:700;color:var(--danger)">30</span> seconds...</p>
+    <p style="font-size:.78rem;color:var(--text2);margin-top:10px">If you remain offline, your progress will be locked.</p>
+  </div>
+</div>
+
+<!-- ATTEMPT INTERFACE -->
+<div class="attempt-view" id="attemptView">
+  <div class="attempt-header">
+    <div class="attempt-header-left">
+      <h2 id="attemptTitle">Assignment Title</h2>
+      <div class="attempt-student-info" id="attemptStudentInfo">STU-12345 · Student Name</div>
+    </div>
+    <div class="attempt-header-center" id="attemptTimerContainer">
+      <span class="attempt-timer" id="attemptTimer">⏱️ Loading timer...</span>
+    </div>
+    <div class="attempt-header-right" style="display:flex;gap:8px">
+      <button class="btn btn-outline" id="btnDownloadPDF" style="display:none" onclick="downloadPDF()">📥 PDF</button>
+      <button class="btn btn-outline" id="btnSaveDraft" style="display:none" onclick="saveDraftAnswers(true)">💾 Save Draft</button>
+      <button class="btn btn-outline" id="btnSaveClose" style="display:none" onclick="saveAndCloseHW()">💾 Save & Exit</button>
+      <button class="btn btn-success" id="btnSubmit" onclick="confirmSubmit()">Submit Paper</button>
+    </div>
+  </div>
+  <div class="attempt-body">
+    <!-- LEFT SIDEBAR: QUESTION NAV -->
+    <div class="attempt-sidebar">
+      <h3>Questions</h3>
+      <div class="q-nav-list" id="qNavList">
+        <!-- Question nav buttons -->
+      </div>
+    </div>
+    <!-- MAIN WORK AREA -->
+    <div class="attempt-main" id="attemptMain">
+      <!-- RENDERED QUESTIONS -->
+      <div id="attemptQuestionsList"></div>
+    </div>
   </div>
 </div>
 
@@ -402,21 +719,70 @@ function renderTaskGrid(gridId, items, mode){
 }
 
 // ==================== TASK ACTIONS ====================
-function startTask(assignmentId){
-  // Store assignment ID and redirect — Phase 4 will handle the test/hw view
-  sessionStorage.setItem('dpCurrentAssignment', assignmentId);
-  
-  // For now, create a draft submission
-  var existing = allSubmissions.find(function(s){ return s.assignmentId === assignmentId; });
-  if(existing){
-    sessionStorage.setItem('dpCurrentSubmission', existing.id);
-    // Redirect to test view (Phase 4)
-    alert('Task already started. Redirecting to continue...');
-    return;
-  }
+var attemptingAssignment = null;
+var attemptingSubmission = null;
+var attemptingQuestions = [];
+var currentAnswers = {};
+var testTimer = null;
+var autosaveTimer = null;
+var offlineTimer = null;
+var offlineRemaining = 30;
+var focusLossCount = 0;
+var focusLog = [];
+var qNavItems = [];
+var submitting = false;
+var isShowingDialog = false;
 
+function safeAlert(msg) {
+  isShowingDialog = true;
+  alert(msg);
+  setTimeout(function(){
+    isShowingDialog = false;
+  }, 150);
+}
+
+function safeConfirm(msg) {
+  isShowingDialog = true;
+  var res = confirm(msg);
+  setTimeout(function(){
+    isShowingDialog = false;
+  }, 150);
+  return res;
+}
+
+function startTask(assignmentId){
+  var a = allAssignments.find(function(item){ return item.id === assignmentId; });
+  if(!a) return;
+  
+  if (a.type === 'hw') {
+    proceedToStartTask(a);
+  } else {
+    document.getElementById('confirmTitle').textContent = 'Start Timed Test';
+    var timeStr = a.timeLimit ? a.timeLimit + ' minutes' : 'unlimited time';
+    document.getElementById('confirmMessage').innerHTML = 
+      'You are about to start the test: <strong>' + escHtml(a.title) + '</strong>.<br><br>' +
+      '• Time Limit: <strong>' + timeStr + '</strong><br>' +
+      '• Questions: <strong>' + (a.questionIds || []).length + ' sets</strong><br>' +
+      '• Focus limit: <strong>3 strikes</strong> (exiting tab/window auto-submits)<br><br>' +
+      'Are you ready to begin? The timer starts immediately.';
+      
+    var confirmModal = document.getElementById('confirmOverlay');
+    confirmModal.classList.add('open');
+    
+    document.getElementById('confirmStartBtn').onclick = function() {
+      confirmModal.classList.remove('open');
+      proceedToStartTask(a);
+    };
+  }
+}
+
+function closeConfirm() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+}
+
+function proceedToStartTask(a) {
   var subDoc = {
-    assignmentId: assignmentId,
+    assignmentId: a.id,
     studentId: studentId,
     studentDocId: studentDocId,
     answers: {},
@@ -429,19 +795,539 @@ function startTask(assignmentId){
 
   db.collection('dpSubmissions').add(subDoc).then(function(docRef){
     sessionStorage.setItem('dpCurrentSubmission', docRef.id);
-    // Phase 4: will redirect to test/hw page
-    alert('Task started! The test/homework view will be available in Phase 4.');
-    loadAssignmentsAndSubmissions();
+    sessionStorage.setItem('dpCurrentAssignment', a.id);
+    resumeActiveAttempt(a.id, docRef.id);
   }).catch(function(err){
-    alert('Error starting task: '+err.message);
+    safeAlert('Error starting task: ' + err.message);
   });
 }
 
 function continueTask(submissionId, assignmentId){
   sessionStorage.setItem('dpCurrentAssignment', assignmentId);
   sessionStorage.setItem('dpCurrentSubmission', submissionId);
-  // Phase 4: redirect to test/hw page
-  alert('Continuing task... The test/homework view will be available in Phase 4.');
+  resumeActiveAttempt(assignmentId, submissionId);
+}
+
+function resumeActiveAttempt(asgnId, subId){
+  loadAttemptData(asgnId, subId, function(assignment, submission, questions){
+    attemptingAssignment = assignment;
+    attemptingSubmission = submission;
+    attemptingQuestions = questions;
+    currentAnswers = submission.answers || {};
+    submitting = false;
+    
+    enterAttemptMode(assignment, submission, questions);
+  });
+}
+
+function loadAttemptData(assignmentId, submissionId, callback){
+  var p1 = db.collection('dpAssignments').doc(assignmentId).get();
+  var p2 = db.collection('dpSubmissions').doc(submissionId).get();
+  var p3 = db.collection('dpQuestions').get();
+
+  Promise.all([p1, p2, p3]).then(function(results){
+    var asgnDoc = results[0].data();
+    if(!asgnDoc) { safeAlert('Assignment not found'); return; }
+    asgnDoc.id = results[0].id;
+
+    var subDoc = results[1].data();
+    if(!subDoc) { safeAlert('Submission not found'); return; }
+    subDoc.id = results[1].id;
+
+    var qs = [];
+    results[2].forEach(function(doc){
+      qs.push(doc.data());
+    });
+    qs.sort(function(a,b){return (a.topic+a.qNum).localeCompare(b.topic+b.qNum);});
+    var grouped = groupQuestions(qs);
+
+    // Keep only the groups that are in asgnDoc.questionIds
+    var asgnGroups = [];
+    var qIds = asgnDoc.questionIds || [];
+    qIds.forEach(function(gid){
+      var g = grouped.find(function(item){ return item.id === gid; });
+      if(g) asgnGroups.push(g);
+    });
+
+    callback(asgnDoc, subDoc, asgnGroups);
+  }).catch(function(err){
+    console.error('Error loading attempt data:', err);
+    safeAlert('Error loading attempt data: ' + err.message);
+  });
+}
+
+// Global scope listener functions for clean lifecycle
+var visListener = function(){
+  if (document.hidden) {
+    handleFocusLoss('tab_hidden');
+  }
+};
+
+var blurListener = function(){
+  handleFocusLoss('window_blur');
+};
+
+var offlineListener = function(){
+  document.getElementById('offlineOverlay').classList.add('open');
+  document.getElementById('offlineSeconds').textContent = '30';
+  offlineRemaining = 30;
+  
+  if (offlineTimer) clearInterval(offlineTimer);
+  offlineTimer = setInterval(function(){
+    offlineRemaining--;
+    document.getElementById('offlineSeconds').textContent = offlineRemaining;
+    if (offlineRemaining <= 0) {
+      clearInterval(offlineTimer);
+      document.getElementById('offlineOverlay').classList.remove('open');
+      handleFocusLoss('offline_grace_expired');
+    }
+  }, 1000);
+};
+
+var onlineListener = function(){
+  if (offlineTimer) {
+    clearInterval(offlineTimer);
+    offlineTimer = null;
+  }
+  document.getElementById('offlineOverlay').classList.remove('open');
+};
+
+function handleFocusLoss(eventDesc) {
+  if (submitting || isShowingDialog || !attemptingAssignment || attemptingAssignment.type === 'hw') return;
+  focusLossCount++;
+  var now = new Date();
+  focusLog.push({ event: eventDesc, timestamp: now.toISOString() });
+  
+  // Autosave focus loss status immediately
+  db.collection('dpSubmissions').doc(attemptingSubmission.id).update({
+    focusLossCount: focusLossCount,
+    focusLog: focusLog
+  }).catch(console.error);
+
+  if (focusLossCount >= 3) {
+    safeAlert('Focus Loss Strike ' + focusLossCount + '/3: Focus limit exceeded. Your test will now be submitted automatically.');
+    autoSubmitTest();
+  } else {
+    safeAlert('Warning: Focus loss detected (Strike ' + focusLossCount + '/3).\n\nPlease stay on this window to avoid automatic submission of your test.');
+  }
+}
+
+function enterAttemptMode(assignment, submission, questions){
+  document.querySelector('.wrap').style.display = 'none';
+  document.querySelector('nav').style.display = 'none';
+  document.getElementById('attemptView').classList.add('open');
+  
+  document.getElementById('attemptTitle').textContent = assignment.title;
+  document.getElementById('attemptStudentInfo').textContent = studentId + ' · ' + studentName;
+  
+  // Build Question Navigation sidebar
+  qNavItems = [];
+  questions.forEach(function(g, gIdx) {
+    var qNum = gIdx + 1;
+    if (g.parts.length === 1) {
+      var p = g.parts[0];
+      qNavItems.push({
+        id: p.id,
+        label: 'Question ' + qNum,
+        targetId: 'att-q-' + p.id
+      });
+    } else {
+      g.parts.forEach(function(p, pIdx) {
+        var letter = String.fromCharCode(97 + pIdx);
+        qNavItems.push({
+          id: p.id,
+          label: 'Q' + qNum + '(' + letter + ')',
+          targetId: 'att-part-' + p.id
+        });
+      });
+    }
+  });
+
+  document.getElementById('qNavList').innerHTML = qNavItems.map(function(item) {
+    return '<button class="q-nav-item" id="nav-btn-' + item.id + '" onclick="scrollToQuestion(\'' + item.targetId + '\', \'' + item.id + '\')">' +
+      item.label +
+      '</button>';
+  }).join('');
+
+  // Render Questions list
+  var questionsHtml = questions.map(function(g, gIdx) {
+    var qNum = gIdx + 1;
+    var stemHtml = g.stem ? '<div class="attempt-q-stem">' + g.stem + '</div>' : '';
+    var imgHtml = '';
+    
+    var firstImgPart = g.parts.find(function(p) { return p.image && p.image.length > 10; });
+    if(firstImgPart){
+      imgHtml = '<div class="attempt-q-img">' + firstImgPart.image + '</div>';
+    }
+
+    var partsHtml = g.parts.map(function(p, pIdx) {
+      var letter = String.fromCharCode(97 + pIdx);
+      var numLabel = g.parts.length > 1 ? '<strong>(' + letter + ')</strong> ' : '';
+      var cleanText = p.text || '';
+      var numMatch = cleanText.match(/^(\([a-z]+\)(\([iv]+\))?)/);
+      if(numMatch) {
+        cleanText = cleanText.replace(numMatch[0], '');
+        numLabel = '<strong>' + numMatch[0] + '</strong> ';
+      }
+      
+      var innerImgHtml = '';
+      if (p.image && p.image.length > 10 && p.image !== (firstImgPart ? firstImgPart.image : '')) {
+        innerImgHtml = '<div class="attempt-q-img">' + p.image + '</div>';
+      }
+
+      var inputHtml = '';
+      if (g.type === 'MCQ') {
+        inputHtml = '<div class="attempt-options">' + (p.options || []).map(function(opt, oi) {
+          var optLetter = String.fromCharCode(65 + oi);
+          var isSelected = currentAnswers[p.id] === oi;
+          return '<button class="attempt-opt' + (isSelected ? ' selected' : '') + '" onclick="selectMCQ(\'' + p.id + '\', ' + oi + ', this)">' +
+            '<strong>' + optLetter + '.</strong> ' + escHtml(opt) +
+            '</button>';
+        }).join('') + '</div>';
+      } else {
+        var val = currentAnswers[p.id] || '';
+        inputHtml = '<textarea class="attempt-textarea" placeholder="Type your answer here..." oninput="saveTextAnswer(\'' + p.id + '\', this)">' + escHtml(val) + '</textarea>';
+      }
+
+      return '<div class="attempt-part" id="att-part-' + p.id + '">' +
+        '<div class="attempt-part-header">' +
+          '<div class="attempt-part-text">' + numLabel + cleanText + '</div>' +
+          '<span class="attempt-part-marks">[' + (p.marks || 1) + ' marks]</span>' +
+        '</div>' +
+        innerImgHtml +
+        inputHtml +
+      '</div>';
+    }).join('');
+
+    return '<div class="attempt-q-card" id="att-q-' + g.parts[0].id + '">' +
+      '<div class="attempt-q-num">' + qNum + '</div>' +
+      '<div class="attempt-q-header">' +
+        '<span>' + (g.topic || '') + ' · ' + (g.type || 'Structured') + '</span>' +
+        '<span>' + g.totalMarks + ' marks</span>' +
+      '</div>' +
+      stemHtml +
+      imgHtml +
+      partsHtml +
+    '</div>';
+  }).join('');
+
+  document.getElementById('attemptQuestionsList').innerHTML = questionsHtml || '<div class="empty-state">No questions found in this assignment.</div>';
+  updateNavStates();
+
+  // Clear timers/listeners
+  if(testTimer) { clearInterval(testTimer); testTimer = null; }
+  if(autosaveTimer) { clearInterval(autosaveTimer); autosaveTimer = null; }
+  if(offlineTimer) { clearInterval(offlineTimer); offlineTimer = null; }
+  document.removeEventListener('visibilitychange', visListener);
+  window.removeEventListener('blur', blurListener);
+  window.removeEventListener('offline', offlineListener);
+  window.removeEventListener('online', onlineListener);
+
+  focusLossCount = submission.focusLossCount || 0;
+  focusLog = submission.focusLog || [];
+
+  if (assignment.type === 'hw') {
+    document.getElementById('btnDownloadPDF').style.display = 'inline-flex';
+    document.getElementById('btnSaveDraft').style.display = 'inline-flex';
+    document.getElementById('btnSaveClose').style.display = 'inline-flex';
+    document.getElementById('attemptTimerContainer').classList.add('hw-mode');
+    document.getElementById('attemptTimer').textContent = '🏠 Homework Mode';
+    
+    // Autosave draft every 30s
+    autosaveTimer = setInterval(function(){
+      saveDraftAnswers(false);
+    }, 30000);
+  } else {
+    document.getElementById('btnDownloadPDF').style.display = 'none';
+    document.getElementById('btnSaveDraft').style.display = 'none';
+    document.getElementById('btnSaveClose').style.display = 'none';
+    document.getElementById('attemptTimerContainer').classList.remove('hw-mode');
+    
+    // Test mode focus listeners and connection listeners
+    document.addEventListener('visibilitychange', visListener);
+    window.addEventListener('blur', blurListener);
+    window.addEventListener('offline', offlineListener);
+    window.addEventListener('online', onlineListener);
+    
+    var startedAt = submission.startedAt;
+    var startTime = startedAt ? (startedAt.toDate ? startedAt.toDate() : new Date(startedAt)) : new Date();
+    var totalSeconds = (assignment.timeLimit || 30) * 60;
+    var elapsedSeconds = (Date.now() - startTime.getTime()) / 1000;
+    var remainingSeconds = Math.max(0, Math.floor(totalSeconds - elapsedSeconds));
+    
+    function updateTimerDisplay(sec) {
+      var m = Math.floor(sec / 60);
+      var s = sec % 60;
+      document.getElementById('attemptTimer').textContent = '⏱️ ' + m + ':' + (s < 10 ? '0' : '') + s + ' remaining';
+    }
+    
+    updateTimerDisplay(remainingSeconds);
+    
+    testTimer = setInterval(function(){
+      remainingSeconds--;
+      if(remainingSeconds <= 0){
+        clearInterval(testTimer);
+        testTimer = null;
+        updateTimerDisplay(0);
+        safeAlert('Time is up! Your answers are being submitted.');
+        autoSubmitTest();
+      } else {
+        updateTimerDisplay(remainingSeconds);
+      }
+    }, 1000);
+  }
+}
+
+function selectMCQ(partId, optIndex, el) {
+  if (submitting) return;
+  currentAnswers[partId] = optIndex;
+  
+  var container = el.parentElement;
+  container.querySelectorAll('.attempt-opt').forEach(function(btn){
+    btn.classList.remove('selected');
+  });
+  el.classList.add('selected');
+  
+  updateNavStates();
+}
+
+function saveTextAnswer(partId, el) {
+  if (submitting) return;
+  currentAnswers[partId] = el.value;
+  updateNavStates();
+}
+
+function scrollToQuestion(targetId, partId) {
+  var el = document.getElementById(targetId);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' });
+    document.querySelectorAll('.q-nav-item').forEach(function(btn){
+      btn.classList.remove('active');
+    });
+    var navBtn = document.getElementById('nav-btn-' + partId);
+    if(navBtn) navBtn.classList.add('active');
+  }
+}
+
+function updateNavStates() {
+  qNavItems.forEach(function(item) {
+    var btn = document.getElementById('nav-btn-' + item.id);
+    if (btn) {
+      var ans = currentAnswers[item.id];
+      if (ans !== undefined && ans !== null && String(ans).trim() !== '') {
+        btn.classList.add('answered');
+      } else {
+        btn.classList.remove('answered');
+      }
+    }
+  });
+}
+
+function saveDraftAnswers(showFeedback) {
+  if (!attemptingSubmission) return;
+  db.collection('dpSubmissions').doc(attemptingSubmission.id).update({
+    answers: currentAnswers
+  }).then(function(){
+    if (showFeedback) {
+      safeAlert('Draft saved successfully!');
+    }
+  }).catch(function(err){
+    console.error('Error saving draft:', err);
+    if (showFeedback) {
+      safeAlert('Error saving draft: ' + err.message);
+    }
+  });
+}
+
+function saveAndCloseHW() {
+  if (submitting) return;
+  submitting = true;
+  if (autosaveTimer) { clearInterval(autosaveTimer); autosaveTimer = null; }
+  
+  db.collection('dpSubmissions').doc(attemptingSubmission.id).update({
+    answers: currentAnswers
+  }).then(function(){
+    safeAlert('Progress saved! Returning to dashboard.');
+    exitAttemptMode();
+  }).catch(function(err){
+    console.error('Error saving progress:', err);
+    safeAlert('Error saving progress: ' + err.message);
+    submitting = false;
+  });
+}
+
+function confirmSubmit() {
+  var unansCount = 0;
+  qNavItems.forEach(function(item) {
+    var ans = currentAnswers[item.id];
+    if (ans === undefined || ans === null || String(ans).trim() === '') {
+      unansCount++;
+    }
+  });
+  
+  var msg = 'Are you sure you want to submit your answers?';
+  if (unansCount > 0) {
+    msg += '\n\n⚠️ You have left ' + unansCount + ' unanswered questions!';
+  }
+  msg += '\n\nYou will not be able to edit your answers after submitting.';
+  
+  if (safeConfirm(msg)) {
+    submitAttempt();
+  }
+}
+
+// Separate submission endpoint for automated events to bypass double trigger and confirm loop
+function autoSubmitTest() {
+  submitting = true;
+  submitAttempt();
+}
+
+function submitAttempt() {
+  submitting = true;
+  
+  if (testTimer) { clearInterval(testTimer); testTimer = null; }
+  if (autosaveTimer) { clearInterval(autosaveTimer); autosaveTimer = null; }
+  document.removeEventListener('visibilitychange', visListener);
+  window.removeEventListener('blur', blurListener);
+  window.removeEventListener('offline', offlineListener);
+  window.removeEventListener('online', onlineListener);
+  if (offlineTimer) { clearInterval(offlineTimer); offlineTimer = null; }
+  document.getElementById('offlineOverlay').classList.remove('open');
+  
+  var assignmentId = attemptingAssignment.id;
+  var submissionId = attemptingSubmission.id;
+  
+  var startedAt = attemptingSubmission.startedAt;
+  var startTime = startedAt ? (startedAt.toDate ? startedAt.toDate() : new Date(startedAt)) : new Date();
+  var timeTaken = Math.max(1, Math.round((Date.now() - startTime.getTime()) / 60000));
+  
+  var batch = db.batch();
+  var subRef = db.collection('dpSubmissions').doc(submissionId);
+  var asgnRef = db.collection('dpAssignments').doc(assignmentId);
+  
+  batch.update(subRef, {
+    answers: currentAnswers,
+    status: 'submitted',
+    timeTaken: timeTaken,
+    submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    focusLossCount: focusLossCount,
+    focusLog: focusLog
+  });
+  
+  batch.update(asgnRef, {
+    submittedCount: firebase.firestore.FieldValue.increment(1)
+  });
+  
+  batch.commit().then(function(){
+    safeAlert('Assignment submitted successfully!');
+    exitAttemptMode();
+  }).catch(function(err){
+    console.error('Error committing submission:', err);
+    safeAlert('Error submitting assignment: ' + err.message);
+    submitting = false;
+  });
+}
+
+function exitAttemptMode() {
+  sessionStorage.removeItem('dpCurrentAssignment');
+  sessionStorage.removeItem('dpCurrentSubmission');
+  
+  attemptingAssignment = null;
+  attemptingSubmission = null;
+  attemptingQuestions = [];
+  currentAnswers = {};
+  
+  document.getElementById('attemptView').classList.remove('open');
+  document.querySelector('.wrap').style.display = 'block';
+  document.querySelector('nav').style.display = 'flex';
+  
+  loadAssignmentsAndSubmissions();
+}
+
+function downloadPDF() {
+  if(!attemptingAssignment) return;
+  var a = attemptingAssignment;
+  var groups = attemptingQuestions;
+  
+  var html = '<!DOCTYPE html><html><head><title>' + escHtml(a.title) + '</title>';
+  html += '<style>';
+  html += 'body{font-family:Georgia,serif;padding:40px;max-width:800px;margin:0 auto;line-height:1.7}';
+  html += 'h1{font-size:1.4rem;text-align:center;margin-bottom:4px}';
+  html += 'h2{font-size:1rem;text-align:center;color:#666;margin-bottom:30px;font-weight:normal}';
+  html += '.student-info{margin-bottom:24px;padding:12px;border:1px solid #ccc;display:flex;justify-content:space-between}';
+  html += '.q{margin-bottom:30px;page-break-inside:avoid}';
+  html += '.q-top{display:flex;justify-content:space-between;margin-bottom:8px;border-bottom:1px solid #eee;padding-bottom:4px}';
+  html += '.q-num{font-weight:bold}';
+  html += '.q-stem{margin-bottom:12px;font-weight:500}';
+  html += '.q-part{margin-top:12px}';
+  html += '.q-part-header{display:flex;justify-content:space-between}';
+  html += '.q-part-text{flex:1}';
+  html += '.marks{font-weight:bold;margin-left:12px}';
+  html += '.write-in{border:1px solid #ccc;height:120px;margin-top:10px;border-radius:4px}';
+  html += '.opts{list-style-type:none;padding:0;margin:10px 0}';
+  html += '.opts li{margin-bottom:8px}';
+  html += '.img-wrap{text-align:center;margin:12px 0}';
+  html += '.img-wrap svg{max-width:100%;height:auto}';
+  html += '.footer{text-align:center;margin-top:40px;font-size:.8rem;color:#999;border-top:1px solid #ddd;padding-top:10px}';
+  html += '@media print{body{padding:20px}}';
+  html += '</style></head><body>';
+  
+  html += '<h1>' + escHtml(a.title) + '</h1>';
+  html += '<h2>DP Physics Assignment · Atul Soral Physicism</h2>';
+  html += '<div class="student-info">';
+  html += '<span><strong>Student Name:</strong> ' + escHtml(studentName) + '</span>';
+  html += '<span><strong>Student ID:</strong> ' + escHtml(studentId) + '</span>';
+  html += '</div>';
+  
+  groups.forEach(function(g, i) {
+    html += '<div class="q">';
+    html += '<div class="q-top"><span class="q-num">Question ' + (i + 1) + '</span><span style="color:#666">[' + g.totalMarks + ' marks]</span></div>';
+    if(g.stem) html += '<div class="q-stem">' + g.stem + '</div>';
+    
+    var groupImage = '';
+    g.parts.forEach(function(p){
+      if(p.image && p.image.length > 10 && !groupImage) groupImage = p.image;
+    });
+    if(groupImage) html += '<div class="img-wrap">' + groupImage + '</div>';
+    
+    if (g.type === 'MCQ' && g.parts.length === 1) {
+      var p = g.parts[0];
+      if(p.options && p.options.length) {
+        html += '<ul class="opts">';
+        p.options.forEach(function(opt, oi) {
+          var letter = String.fromCharCode(65 + oi);
+          html += '<li><strong>' + letter + '.</strong> ' + escHtml(opt) + '</li>';
+        });
+        html += '</ul>';
+      }
+    } else {
+      g.parts.forEach(function(p, pi) {
+        var numMatch = p.text.match(/^(\([a-z]+\)(\([iv]+\))?)/);
+        var pText = p.text;
+        if(!numMatch && g.parts.length > 1) {
+          pText = '<strong>(' + (pi + 1) + ')</strong> ' + pText;
+        }
+        html += '<div class="q-part">';
+        html += '<div class="q-part-header">';
+        html += '<div class="q-part-text">' + pText + '</div>';
+        html += '<span class="marks">[' + (p.marks || 1) + ']</span>';
+        html += '</div>';
+        if(p.image && p.image.length > 10 && p.image !== groupImage) {
+          html += '<div class="img-wrap">' + p.image + '</div>';
+        }
+        html += '<div class="write-in"></div>';
+        html += '</div>';
+      });
+    }
+    html += '</div>';
+  });
+  
+  html += '<div class="footer">Printed from Atul Soral Physicism Student Dashboard</div>';
+  html += '</body></html>';
+  
+  var w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
 }
 
 function viewFeedback(submissionId, assignmentId){
@@ -472,7 +1358,7 @@ function viewFeedback(submissionId, assignmentId){
           '<span class="fb-q-label">Question '+(i+1)+'</span>' +
           '<span class="fb-q-marks">'+(g.marks||0)+' marks</span>' +
         '</div>' +
-        '<div class="fb-q-answer"><strong>Your answer:</strong> '+(answer ? escHtml(String(answer)) : '<em>No answer</em>')+'</div>' +
+        '<div class="fb-q-answer"><strong>Your answer:</strong> '+(answer !== undefined && answer !== null && answer !== '' ? escHtml(String(answer)) : '<em>No answer</em>')+'</div>' +
         (g.comment ? '<div class="fb-q-comment">'+escHtml(g.comment)+'</div>' : '') +
       '</div>';
     });
@@ -484,6 +1370,30 @@ function viewFeedback(submissionId, assignmentId){
 
 function closeFeedback(){
   document.getElementById('feedbackOverlay').classList.remove('open');
+}
+
+function groupQuestions(questions) {
+  var groups = {};
+  questions.forEach(function(q) {
+    var gid = q.questionGroup || q.id;
+    if (!groups[gid]) {
+      groups[gid] = {
+        id: gid,
+        stem: q.stem || '',
+        topic: q.topic,
+        topicName: q.topicName,
+        paper: q.paper,
+        level: q.level,
+        difficulty: q.difficulty,
+        type: q.type,
+        totalMarks: 0,
+        parts: []
+      };
+    }
+    groups[gid].parts.push(q);
+    groups[gid].totalMarks += (q.marks || 1);
+  });
+  return Object.values(groups);
 }
 
 // ==================== LOGOUT ====================
@@ -500,12 +1410,23 @@ function logout(){
 
 // ==================== UTILS ====================
 function escHtml(str){
+  if(str === undefined || str === null) return '';
   var div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
 }
 
 // ==================== START ====================
+function initDashboard(){
+  loadAssignmentsAndSubmissions();
+  
+  var activeAsgnId = sessionStorage.getItem('dpCurrentAssignment');
+  var activeSubId = sessionStorage.getItem('dpCurrentSubmission');
+  if(activeAsgnId && activeSubId){
+    resumeActiveAttempt(activeAsgnId, activeSubId);
+  }
+}
+
 initDashboard();
 </script>
 </body>
