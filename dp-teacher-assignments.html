@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP Teacher Assignments | Atul Soral Physicism</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<style>
+:root{--bg:#F5F2EE;--card:#fff;--text:#1A1A2E;--text2:#6B7280;--text3:#9CA3AF;--accent:#0B7285;--accent-light:#E0F7FA;--border:#E5E1DC;--shadow:0 2px 12px rgba(0,0,0,.06);--radius:12px;--danger:#DC2626;--success:#059669;--warning:#D97706}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:8px 20px;background:linear-gradient(135deg,rgba(11,114,133,.95),rgba(6,86,102,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(6,86,102,.3)}
+nav a{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2)}
+.nav-title{font-family:Georgia,serif;font-size:1rem;font-weight:700}
+.nav-sub{font-size:.78rem;opacity:.8}
+
+/* LOCK */
+.lock-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000}
+.lock-box{background:var(--card);padding:40px;border-radius:16px;box-shadow:var(--shadow);text-align:center;max-width:360px}
+.lock-box h2{font-family:Georgia,serif;margin-bottom:16px;color:var(--accent)}
+.lock-box input{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;margin-bottom:12px;text-align:center;outline:none}
+.lock-box input:focus{border-color:var(--accent)}
+.lock-box button{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer}
+
+/* TABS */
+.tabs{display:flex;gap:4px;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--border)}
+.tab{padding:10px 24px;border:none;background:none;font-size:.85rem;font-weight:600;color:var(--text2);cursor:pointer;border-radius:8px;transition:.2s}
+.tab:hover{background:var(--bg);color:var(--text)}
+.tab.active{background:var(--accent);color:#fff}
+.tab-panel{display:none;padding:20px;max-width:1200px;margin:0 auto}
+.tab-panel.active{display:block}
+
+/* CARDS & FORMS */
+.card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.card h3{font-family:Georgia,serif;font-size:1.1rem;font-weight:700;margin-bottom:14px;color:var(--accent);display:flex;align-items:center;gap:8px}
+.form-row{display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap;align-items:flex-end}
+.form-group{display:flex;flex-direction:column;gap:4px;flex:1;min-width:150px}
+.form-group label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3)}
+.form-group input,.form-group select{padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;outline:none;background:var(--bg)}
+.form-group input:focus,.form-group select:focus{border-color:var(--accent)}
+.btn{padding:8px 18px;border:none;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{opacity:.9}
+.btn-danger{background:#FEE2E2;color:var(--danger);border:1px solid #FECACA}
+.btn-danger:hover{background:#FECACA}
+.btn-outline{background:var(--card);color:var(--text2);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.btn-sm{padding:5px 12px;font-size:.75rem}
+.btn-success{background:var(--success);color:#fff}
+
+/* TAGS */
+.tag-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.tag-chip{padding:3px 10px;border-radius:50px;font-size:.7rem;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:.2s;user-select:none}
+.tag-chip:hover{opacity:.8}
+.tag-chip.selected{border-color:var(--text);box-shadow:0 0 0 2px rgba(11,114,133,.2)}
+.tag-chip-remove{margin-left:4px;cursor:pointer;opacity:.6;font-weight:700}
+.tag-chip-remove:hover{opacity:1}
+
+/* TABLE */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+thead th{text-align:left;padding:10px 12px;background:var(--bg);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:700;border-bottom:2px solid var(--border)}
+tbody td{padding:10px 12px;border-bottom:1px solid var(--border)}
+tbody tr:hover{background:rgba(11,114,133,.03)}
+.search-bar{display:flex;gap:10px;margin-bottom:14px;align-items:center}
+.search-bar input{flex:1;padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;outline:none;background:var(--card)}
+.search-bar input:focus{border-color:var(--accent)}
+.search-bar select{padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.82rem;background:var(--card);outline:none}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--card);border-radius:16px;padding:28px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.15);transform:translateY(20px);transition:transform .2s}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal h3{font-family:Georgia,serif;font-size:1.1rem;margin-bottom:16px;color:var(--accent)}
+.modal-id{font-family:'SF Mono',monospace;font-size:1.3rem;font-weight:700;color:var(--accent);background:var(--accent-light);padding:12px;border-radius:8px;text-align:center;margin:12px 0;letter-spacing:.08em}
+.modal-pw{font-family:'SF Mono',monospace;font-size:1rem;color:var(--text);background:var(--bg);padding:10px;border-radius:8px;text-align:center;margin:8px 0}
+.copy-btn{padding:6px 14px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;margin:4px}
+.copy-btn:hover{opacity:.85}
+.modal-close{margin-top:16px;width:100%;padding:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer}
+
+/* EMPTY */
+.empty{text-align:center;padding:40px;color:var(--text3);font-size:.9rem}
+
+/* TAG MANAGER */
+.tag-manager{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.tag-manager-item{display:flex;align-items:center;gap:4px;padding:4px 12px;border-radius:50px;font-size:.75rem;font-weight:600;border:1.5px solid var(--border)}
+.tag-color-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.add-tag-row{display:flex;gap:8px;align-items:center;margin-top:10px}
+.add-tag-row input{padding:6px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:.82rem;outline:none;width:140px}
+.add-tag-row input[type="color"]{width:36px;height:30px;padding:2px;border-radius:6px;cursor:pointer}
+
+/* RESPONSIVE */
+@media(max-width:700px){.form-row{flex-direction:column}.tabs{overflow-x:auto;white-space:nowrap}}
+</style>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-box">
+    <h2>🔐 Teacher Assignments</h2>
+    <p style="color:var(--text2);margin-bottom:16px;font-size:.85rem">Teacher access only</p>
+    <input type="password" id="pwInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')unlock()">
+    <button onclick="unlock()">Enter</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav" style="display:none">
+  <div style="display:flex;align-items:center;gap:14px">
+    <span class="nav-title">Atul Soral Physicism</span>
+    <span class="nav-sub">DP Teacher Assignments</span>
+  </div>
+  <div style="display:flex;gap:6px">
+    <a href="index.html">Home</a>
+    <a href="dp-dashboard.html">DP</a>
+    <a href="dp-question-bank.html">Question Bank</a>
+  </div>
+</nav>
+
+<!-- TABS -->
+<div class="tabs" id="mainTabs" style="display:none">
+  <button class="tab active" onclick="switchTab('students')">👥 Students</button>
+  <button class="tab" onclick="switchTab('assignments')">📝 Assignments</button>
+  <button class="tab" onclick="switchTab('grading')">✅ Grading</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent" style="display:none">
+
+  <!-- STUDENTS TAB -->
+  <div class="tab-panel active" id="panel-students">
+
+    <!-- ADD STUDENT -->
+    <div class="card">
+      <h3>➕ Add Student</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="stuName" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="stuEmail" placeholder="student@school.com">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" id="stuPhone" placeholder="+91 98765 43210">
+        </div>
+        <div class="form-group" style="min-width:120px">
+          <label>Level</label>
+          <select id="stuLevel">
+            <option value="DP-SL">DP SL</option>
+            <option value="DP-HL">DP HL</option>
+            <option value="MYP">MYP</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Tags (click to select)</label>
+        <div class="tag-chips" id="addStudentTags"></div>
+      </div>
+      <button class="btn btn-primary" onclick="addStudent()">+ Add Student</button>
+    </div>
+
+    <!-- STUDENT LIST -->
+    <div class="card">
+      <h3>📋 Student List <span id="studentCount" style="font-size:.75rem;color:var(--text3);font-weight:400;margin-left:auto"></span></h3>
+      <div class="search-bar">
+        <input type="text" id="stuSearch" placeholder="Search by name, ID, or email..." oninput="renderStudentTable()">
+        <select id="stuTagFilter" onchange="renderStudentTable()">
+          <option value="">All Tags</option>
+        </select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Student ID</th>
+              <th>Level</th>
+              <th>Tags</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="stuTableBody">
+            <tr><td colspan="6" class="empty">Loading students...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAG MANAGEMENT -->
+    <div class="card">
+      <h3>🏷️ Tag Management</h3>
+      <p style="font-size:.78rem;color:var(--text2);margin-bottom:10px">Create tags to organize students into groups. Assign tags when adding students or use bulk actions.</p>
+      <div class="tag-manager" id="tagManagerList"></div>
+      <div class="add-tag-row">
+        <input type="text" id="newTagName" placeholder="Tag name...">
+        <input type="color" id="newTagColor" value="#0B7285">
+        <button class="btn btn-primary btn-sm" onclick="createTag()">+ Create Tag</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASSIGNMENTS TAB (Phase 2) -->
+  <div class="tab-panel" id="panel-assignments">
+    <div class="card">
+      <h3>📝 Assignments</h3>
+      <div class="empty">Assignments tab coming in Phase 2.</div>
+    </div>
+  </div>
+
+  <!-- GRADING TAB (Phase 5) -->
+  <div class="tab-panel" id="panel-grading">
+    <div class="card">
+      <h3>✅ Grading</h3>
+      <div class="empty">Grading tab coming in Phase 5.</div>
+    </div>
+  </div>
+</div>
+
+<!-- STUDENT CREATED MODAL -->
+<div class="modal-overlay" id="stuCreatedModal">
+  <div class="modal">
+    <h3>✅ Student Created!</h3>
+    <p style="font-size:.85rem;color:var(--text2);margin-bottom:12px">Share these credentials with the student. They will need them to log in.</p>
+    <div style="font-size:.75rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em">Student ID</div>
+    <div class="modal-id" id="modalStuId">STU-XXXXX</div>
+    <button class="copy-btn" onclick="copyText('modalStuId')">📋 Copy ID</button>
+    <div style="font-size:.75rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:12px">Password</div>
+    <div class="modal-pw" id="modalStuPw">physicsXXXX</div>
+    <button class="copy-btn" onclick="copyText('modalStuPw')">📋 Copy Password</button>
+    <button class="modal-close" onclick="closeModal('stuCreatedModal')">Close</button>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE MODAL -->
+<div class="modal-overlay" id="confirmDeleteModal">
+  <div class="modal">
+    <h3>⚠️ Delete Student?</h3>
+    <p style="font-size:.85rem;color:var(--text2);margin-bottom:16px">This will permanently remove the student and all their data. This action cannot be undone.</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-danger" id="confirmDeleteBtn" style="flex:1">Delete</button>
+      <button class="btn btn-outline" onclick="closeModal('confirmDeleteModal')" style="flex:1">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:40px 0 20px;font-family:Georgia,serif;font-size:11px;color:rgba(0,0,0,.15);letter-spacing:2px;text-transform:uppercase" id="footer" style="display:none">ATUL SORAL PHYSICISM</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyC3B2VEkYQy8DBN_jFNGPUWpJBqRNOP7gM",
+  authDomain:"soral-atul-physicism.firebaseapp.com",
+  projectId:"soral-atul-physicism",
+  storageBucket:"soral-atul-physicism.appspot.com"
+});
+var db = firebase.firestore();
+
+// ==================== AUTH ====================
+function unlock(){
+  if(document.getElementById('pwInput').value==='atul123'){
+    document.getElementById('lockScreen').style.display='none';
+    document.getElementById('mainNav').style.display='flex';
+    document.getElementById('mainTabs').style.display='flex';
+    document.getElementById('mainContent').style.display='block';
+    sessionStorage.setItem('dpTeacherAuth','true');
+    initApp();
+  } else { alert('Incorrect password'); }
+}
+if(sessionStorage.getItem('dpTeacherAuth')==='true'){
+  document.getElementById('lockScreen').style.display='none';
+  document.getElementById('mainNav').style.display='flex';
+  document.getElementById('mainTabs').style.display='flex';
+  document.getElementById('mainContent').style.display='block';
+  window.addEventListener('DOMContentLoaded', initApp);
+}
+
+// ==================== TABS ====================
+function switchTab(tabName){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});
+  document.getElementById('panel-'+tabName).classList.add('active');
+  // Find the matching tab button
+  document.querySelectorAll('.tab').forEach(function(t){
+    if(t.textContent.toLowerCase().indexOf(tabName)>-1) t.classList.add('active');
+  });
+}
+
+// ==================== GLOBAL STATE ====================
+var allStudents = [];
+var allTags = [];
+var selectedAddTags = [];
+
+var DEFAULT_TAGS = [
+  {name:'DP-SL', color:'#0B7285'},
+  {name:'DP-HL', color:'#7C3AED'},
+  {name:'MYP', color:'#D97706'},
+  {name:'Grade-9', color:'#059669'},
+  {name:'Grade-10', color:'#2563EB'},
+  {name:'Grade-11', color:'#DC2626'},
+  {name:'Grade-12', color:'#9333EA'},
+  {name:'self-registered', color:'#6B7280'}
+];
+
+// ==================== INIT ====================
+function initApp(){
+  loadTags();
+  loadStudents();
+}
+
+// ==================== TAGS ====================
+function loadTags(){
+  db.collection('dpTags').get().then(function(snap){
+    allTags = [];
+    snap.forEach(function(doc){
+      allTags.push(Object.assign({id: doc.id}, doc.data()));
+    });
+    // Seed defaults if empty
+    if(allTags.length === 0){
+      seedDefaultTags();
+    } else {
+      renderTagUI();
+    }
+  });
+}
+
+function seedDefaultTags(){
+  var batch = db.batch();
+  DEFAULT_TAGS.forEach(function(tag){
+    var ref = db.collection('dpTags').doc();
+    batch.set(ref, {name: tag.name, color: tag.color});
+  });
+  batch.commit().then(function(){
+    loadTags();
+  });
+}
+
+function renderTagUI(){
+  // Tag manager list
+  var mgr = document.getElementById('tagManagerList');
+  mgr.innerHTML = allTags.map(function(tag){
+    return '<div class="tag-manager-item" style="background:'+hexToLight(tag.color)+';border-color:'+tag.color+'">'+
+      '<span class="tag-color-dot" style="background:'+tag.color+'"></span>'+
+      '<span>'+tag.name+'</span>'+
+      '<span class="tag-chip-remove" onclick="deleteTag(\''+tag.id+'\')">✕</span>'+
+    '</div>';
+  }).join('');
+
+  // Add student tag chips
+  var chips = document.getElementById('addStudentTags');
+  chips.innerHTML = allTags.map(function(tag){
+    var sel = selectedAddTags.indexOf(tag.name) > -1;
+    return '<span class="tag-chip'+(sel?' selected':'')+'" style="background:'+hexToLight(tag.color)+';color:'+tag.color+'"'+
+      ' onclick="toggleAddTag(\''+tag.name+'\')">'+tag.name+'</span>';
+  }).join('');
+
+  // Filter dropdown
+  var filter = document.getElementById('stuTagFilter');
+  var currentVal = filter.value;
+  filter.innerHTML = '<option value="">All Tags</option>';
+  allTags.forEach(function(tag){
+    filter.innerHTML += '<option value="'+tag.name+'"'+(currentVal===tag.name?' selected':'')+'>'+tag.name+'</option>';
+  });
+}
+
+function toggleAddTag(tagName){
+  var idx = selectedAddTags.indexOf(tagName);
+  if(idx > -1) selectedAddTags.splice(idx, 1);
+  else selectedAddTags.push(tagName);
+  renderTagUI();
+}
+
+function createTag(){
+  var name = document.getElementById('newTagName').value.trim();
+  var color = document.getElementById('newTagColor').value;
+  if(!name){alert('Enter a tag name');return;}
+  // Check duplicate
+  if(allTags.some(function(t){return t.name.toLowerCase()===name.toLowerCase();})){
+    alert('Tag "'+name+'" already exists');return;
+  }
+  db.collection('dpTags').add({name: name, color: color}).then(function(){
+    document.getElementById('newTagName').value='';
+    loadTags();
+  });
+}
+
+function deleteTag(tagId){
+  if(!confirm('Delete this tag? Students with this tag will not be affected.')) return;
+  db.collection('dpTags').doc(tagId).delete().then(function(){
+    loadTags();
+  });
+}
+
+// ==================== STUDENTS ====================
+function generateStudentId(){
+  var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  var id = 'STU-';
+  for(var i=0;i<5;i++) id += chars.charAt(Math.floor(Math.random()*chars.length));
+  return id;
+}
+
+function generatePassword(){
+  return 'physics' + String(Math.floor(1000 + Math.random()*9000));
+}
+
+function addStudent(){
+  var name = document.getElementById('stuName').value.trim();
+  var email = document.getElementById('stuEmail').value.trim();
+  var phone = document.getElementById('stuPhone').value.trim();
+  var level = document.getElementById('stuLevel').value;
+
+  if(!name){alert('Please enter student name');return;}
+
+  var studentId = generateStudentId();
+  var password = generatePassword();
+
+  // Auto-add level tag
+  var tags = selectedAddTags.slice();
+  if(tags.indexOf(level)===-1) tags.push(level);
+
+  var studentDoc = {
+    studentId: studentId,
+    name: name,
+    email: email,
+    phone: phone,
+    password: password,
+    level: level,
+    tags: tags,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  db.collection('dpStudents').add(studentDoc).then(function(){
+    // Show modal
+    document.getElementById('modalStuId').textContent = studentId;
+    document.getElementById('modalStuPw').textContent = password;
+    openModal('stuCreatedModal');
+
+    // Reset form
+    document.getElementById('stuName').value='';
+    document.getElementById('stuEmail').value='';
+    document.getElementById('stuPhone').value='';
+    selectedAddTags = [];
+    renderTagUI();
+    loadStudents();
+  }).catch(function(err){
+    alert('Error adding student: '+err.message);
+  });
+}
+
+function loadStudents(){
+  db.collection('dpStudents').orderBy('createdAt','desc').get().then(function(snap){
+    allStudents = [];
+    snap.forEach(function(doc){
+      allStudents.push(Object.assign({id: doc.id}, doc.data()));
+    });
+    renderStudentTable();
+  }).catch(function(err){
+    // If createdAt index not ready, try without ordering
+    db.collection('dpStudents').get().then(function(snap){
+      allStudents = [];
+      snap.forEach(function(doc){
+        allStudents.push(Object.assign({id: doc.id}, doc.data()));
+      });
+      renderStudentTable();
+    });
+  });
+}
+
+function renderStudentTable(){
+  var search = document.getElementById('stuSearch').value.toLowerCase();
+  var tagFilter = document.getElementById('stuTagFilter').value;
+  var tbody = document.getElementById('stuTableBody');
+
+  var filtered = allStudents.filter(function(s){
+    if(search){
+      var match = (s.name||'').toLowerCase().indexOf(search)>-1 ||
+                  (s.studentId||'').toLowerCase().indexOf(search)>-1 ||
+                  (s.email||'').toLowerCase().indexOf(search)>-1;
+      if(!match) return false;
+    }
+    if(tagFilter){
+      if(!s.tags || s.tags.indexOf(tagFilter)===-1) return false;
+    }
+    return true;
+  });
+
+  document.getElementById('studentCount').textContent = filtered.length + ' of ' + allStudents.length + ' students';
+
+  if(!filtered.length){
+    tbody.innerHTML = '<tr><td colspan="6" class="empty">No students found.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(function(s){
+    var tagHtml = (s.tags||[]).map(function(t){
+      var tagObj = allTags.find(function(at){return at.name===t;});
+      var color = tagObj ? tagObj.color : '#6B7280';
+      return '<span style="display:inline-block;padding:2px 8px;border-radius:50px;font-size:.65rem;font-weight:600;background:'+hexToLight(color)+';color:'+color+';margin:1px 2px">'+t+'</span>';
+    }).join('');
+
+    return '<tr>'+
+      '<td style="font-weight:600">'+escHtml(s.name||'')+'</td>'+
+      '<td><code style="font-size:.78rem;background:var(--bg);padding:2px 6px;border-radius:4px">'+escHtml(s.studentId||'')+'</code></td>'+
+      '<td>'+escHtml(s.level||'')+'</td>'+
+      '<td>'+tagHtml+'</td>'+
+      '<td style="font-size:.78rem;color:var(--text2)">'+escHtml(s.email||'')+'</td>'+
+      '<td>'+
+        '<button class="btn btn-outline btn-sm" onclick="showCredentials(\''+escHtml(s.studentId||'')+'\',\''+escHtml(s.password||'')+'\')">🔑</button> '+
+        '<button class="btn btn-danger btn-sm" onclick="confirmDeleteStudent(\''+s.id+'\',\''+escHtml(s.name||'')+'\')">✕</button>'+
+      '</td>'+
+    '</tr>';
+  }).join('');
+}
+
+function showCredentials(id, pw){
+  document.getElementById('modalStuId').textContent = id;
+  document.getElementById('modalStuPw').textContent = pw;
+  openModal('stuCreatedModal');
+}
+
+function confirmDeleteStudent(docId, name){
+  document.getElementById('confirmDeleteBtn').onclick = function(){
+    db.collection('dpStudents').doc(docId).delete().then(function(){
+      closeModal('confirmDeleteModal');
+      loadStudents();
+    });
+  };
+  openModal('confirmDeleteModal');
+}
+
+// ==================== MODALS ====================
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+}
+
+// ==================== UTILS ====================
+function copyText(elId){
+  var text = document.getElementById(elId).textContent;
+  navigator.clipboard.writeText(text).then(function(){
+    var btn = event.target;
+    btn.textContent = '✓ Copied!';
+    setTimeout(function(){ btn.textContent = '📋 Copy'; }, 1500);
+  });
+}
+
+function hexToLight(hex){
+  // Convert hex to a light background version
+  var r = parseInt(hex.slice(1,3),16);
+  var g = parseInt(hex.slice(3,5),16);
+  var b = parseInt(hex.slice(5,7),16);
+  return 'rgba('+r+','+g+','+b+',0.1)';
+}
+
+function escHtml(str){
+  var div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+</script>
+</body>
+</html>
