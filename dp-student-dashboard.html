@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP Student Dashboard | Atul Soral Physicism</title>
+<meta name="description" content="Student dashboard for DP Physics assignments — view pending tasks, attempt tests, and check grades.">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<style>
+:root{--bg:#F5F2EE;--card:#fff;--text:#1A1A2E;--text2:#6B7280;--text3:#9CA3AF;--accent:#0B7285;--accent-light:#E0F7FA;--border:#E5E1DC;--shadow:0 2px 12px rgba(0,0,0,.06);--radius:14px;--danger:#DC2626;--success:#059669;--warning:#D97706}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:linear-gradient(135deg,rgba(11,114,133,.95),rgba(6,86,102,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(6,86,102,.3)}
+nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);cursor:pointer}
+.nav-title{font-family:Georgia,serif;font-size:1rem;font-weight:700}
+.nav-sub{font-size:.78rem;opacity:.8}
+.nav-user{display:flex;align-items:center;gap:8px}
+.nav-avatar{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700}
+.nav-name{font-size:.82rem;font-weight:600}
+
+/* WRAP */
+.wrap{max-width:900px;margin:0 auto;padding:24px 20px}
+
+/* WELCOME */
+.welcome{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:20px;display:flex;align-items:center;gap:16px}
+.welcome-icon{font-size:2rem}
+.welcome h2{font-family:Georgia,serif;font-size:1.2rem;font-weight:700}
+.welcome h2 span{color:var(--accent)}
+.welcome-meta{font-size:.78rem;color:var(--text2);margin-top:2px}
+.welcome-stats{margin-left:auto;display:flex;gap:16px}
+.stat-box{text-align:center;padding:8px 14px;background:var(--bg);border-radius:8px;min-width:60px}
+.stat-num{font-size:1.2rem;font-weight:700;color:var(--accent)}
+.stat-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:600}
+
+/* SECTION */
+.section{margin-bottom:24px}
+.section-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.section-header h3{font-family:Georgia,serif;font-size:1rem;font-weight:700}
+.section-count{font-size:.72rem;background:var(--accent-light);color:var(--accent);padding:2px 8px;border-radius:50px;font-weight:700}
+
+/* TASK CARDS */
+.task-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.task-card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);border-left:4px solid var(--accent);transition:.2s;cursor:default}
+.task-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1);transform:translateY(-2px)}
+.task-card.urgent{border-left-color:var(--danger)}
+.task-card.done{border-left-color:var(--success);opacity:.85}
+.task-title{font-family:Georgia,serif;font-size:.92rem;font-weight:700;margin-bottom:6px}
+.task-meta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.task-badge{padding:2px 8px;border-radius:50px;font-size:.65rem;font-weight:700;text-transform:uppercase}
+.badge-hw{background:#DBEAFE;color:#1E40AF}
+.badge-formative{background:#FEF3C7;color:#92400E}
+.badge-summative{background:#F3E8FF;color:#6B21A8}
+.badge-marks{background:var(--bg);color:var(--text2)}
+.badge-timer{background:#FEE2E2;color:var(--danger)}
+.task-due{font-size:.75rem;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:4px}
+.task-due.overdue{color:var(--danger);font-weight:600}
+.task-actions{display:flex;gap:8px;margin-top:auto}
+.btn{padding:8px 16px;border:none;border-radius:8px;font-size:.78rem;font-weight:700;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:4px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{opacity:.9}
+.btn-outline{background:var(--card);color:var(--text2);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.btn-success{background:var(--success);color:#fff}
+.btn-sm{padding:6px 12px;font-size:.72rem}
+
+/* GRADE DISPLAY */
+.grade-display{display:flex;align-items:center;gap:8px;margin-top:8px}
+.grade-score{font-size:1.1rem;font-weight:700;color:var(--accent)}
+.grade-bar{flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden}
+.grade-fill{height:100%;background:var(--accent);border-radius:3px}
+.grade-pct{font-size:.75rem;color:var(--text2);font-weight:600}
+
+/* FEEDBACK VIEW */
+.feedback-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center}
+.feedback-overlay.open{display:flex}
+.feedback-modal{background:var(--card);border-radius:16px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.feedback-modal h3{font-family:Georgia,serif;font-size:1.1rem;color:var(--accent);margin-bottom:16px}
+.fb-close{float:right;background:var(--bg);border:1.5px solid var(--border);border-radius:50%;width:30px;height:30px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fb-q{background:var(--bg);border-radius:8px;padding:12px;margin-bottom:10px}
+.fb-q-header{display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:6px}
+.fb-q-label{font-weight:700;color:var(--text)}
+.fb-q-marks{color:var(--accent);font-weight:700}
+.fb-q-answer{font-size:.82rem;color:var(--text2);margin-bottom:4px}
+.fb-q-comment{font-size:.78rem;color:var(--text);font-style:italic;padding:6px 10px;background:var(--card);border-left:3px solid var(--accent);border-radius:4px;margin-top:4px}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text3)}
+.empty-state .icon{font-size:2.5rem;margin-bottom:8px}
+.empty-state p{font-size:.85rem}
+
+/* FOOTER */
+.footer{text-align:center;padding:30px 0 20px;font-family:Georgia,serif;font-size:11px;color:rgba(0,0,0,.15);letter-spacing:2px;text-transform:uppercase}
+
+@media(max-width:600px){
+  .welcome{flex-direction:column;text-align:center;gap:10px}
+  .welcome-stats{margin-left:0}
+  .task-grid{grid-template-columns:1fr}
+  .nav-name{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div style="display:flex;align-items:center;gap:14px">
+    <span class="nav-title">Atul Soral Physicism</span>
+    <span class="nav-sub">Student Dashboard</span>
+  </div>
+  <div class="nav-user">
+    <div class="nav-avatar" id="navAvatar">?</div>
+    <span class="nav-name" id="navName">Student</span>
+    <button class="nav-btn" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- WELCOME CARD -->
+  <div class="welcome">
+    <div class="welcome-icon">📚</div>
+    <div>
+      <h2>Welcome, <span id="welcomeName">Student</span></h2>
+      <div class="welcome-meta" id="welcomeMeta">DP SL · Loading...</div>
+    </div>
+    <div class="welcome-stats">
+      <div class="stat-box"><div class="stat-num" id="statPending">0</div><div class="stat-label">Pending</div></div>
+      <div class="stat-box"><div class="stat-num" id="statDone">0</div><div class="stat-label">Done</div></div>
+      <div class="stat-box"><div class="stat-num" id="statAvg">—</div><div class="stat-label">Avg %</div></div>
+    </div>
+  </div>
+
+  <!-- PENDING TASKS -->
+  <div class="section">
+    <div class="section-header">
+      <h3>📝 Pending Tasks</h3>
+      <span class="section-count" id="pendingCount">0</span>
+    </div>
+    <div class="task-grid" id="pendingGrid">
+      <div class="empty-state"><div class="icon">✨</div><p>No pending tasks. You're all caught up!</p></div>
+    </div>
+  </div>
+
+  <!-- IN PROGRESS -->
+  <div class="section">
+    <div class="section-header">
+      <h3>⏳ In Progress</h3>
+      <span class="section-count" id="progressCount">0</span>
+    </div>
+    <div class="task-grid" id="progressGrid">
+      <div class="empty-state"><div class="icon">💤</div><p>No tasks in progress.</p></div>
+    </div>
+  </div>
+
+  <!-- COMPLETED & GRADED -->
+  <div class="section">
+    <div class="section-header">
+      <h3>✅ Completed & Graded</h3>
+      <span class="section-count" id="doneCount">0</span>
+    </div>
+    <div class="task-grid" id="doneGrid">
+      <div class="empty-state"><div class="icon">📭</div><p>No completed tasks yet.</p></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FEEDBACK MODAL -->
+<div class="feedback-overlay" id="feedbackOverlay">
+  <div class="feedback-modal">
+    <button class="fb-close" onclick="closeFeedback()">✕</button>
+    <h3 id="fbTitle">Feedback</h3>
+    <div id="fbContent"></div>
+  </div>
+</div>
+
+<div class="footer">ATUL SORAL PHYSICISM</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyC3B2VEkYQy8DBN_jFNGPUWpJBqRNOP7gM",
+  authDomain:"soral-atul-physicism.firebaseapp.com",
+  projectId:"soral-atul-physicism",
+  storageBucket:"soral-atul-physicism.appspot.com"
+});
+var db = firebase.firestore();
+
+// ==================== AUTH CHECK ====================
+var studentId = sessionStorage.getItem('dpStudentId');
+var studentName = sessionStorage.getItem('dpStudentName');
+var studentDocId = sessionStorage.getItem('dpStudentDocId');
+var studentLevel = sessionStorage.getItem('dpStudentLevel') || '';
+var studentTags = [];
+try { studentTags = JSON.parse(sessionStorage.getItem('dpStudentTags')||'[]'); } catch(e){}
+
+if(!studentId){
+  window.location.href = 'dp-student-portal.html';
+}
+
+// ==================== INIT ====================
+document.getElementById('navAvatar').textContent = studentName ? studentName.charAt(0).toUpperCase() : '?';
+document.getElementById('navName').textContent = studentName || 'Student';
+document.getElementById('welcomeName').textContent = (studentName||'Student').split(' ')[0];
+document.getElementById('welcomeMeta').textContent = studentLevel + ' · ' + studentId;
+
+var allAssignments = [];
+var allSubmissions = [];
+
+function initDashboard(){
+  loadAssignmentsAndSubmissions();
+}
+
+// ==================== DATA LOADING ====================
+function loadAssignmentsAndSubmissions(){
+  // Load all assignments where this student is included
+  // Firestore doesn't support array-contains with ordering well, so load all active assignments
+  // and filter client-side
+  var p1 = db.collection('dpAssignments').get();
+  var p2 = db.collection('dpSubmissions').where('studentId','==',studentId).get();
+
+  Promise.all([p1, p2]).then(function(results){
+    allAssignments = [];
+    results[0].forEach(function(doc){
+      var d = doc.data();
+      d.id = doc.id;
+      // Only include if this student is in the list
+      if(d.studentIds && d.studentIds.indexOf(studentDocId) > -1){
+        allAssignments.push(d);
+      }
+    });
+
+    allSubmissions = [];
+    results[1].forEach(function(doc){
+      var d = doc.data();
+      d.id = doc.id;
+      allSubmissions.push(d);
+    });
+
+    renderDashboard();
+  }).catch(function(err){
+    console.error('Error loading dashboard:', err);
+  });
+}
+
+// ==================== RENDER ====================
+function renderDashboard(){
+  // Build lookup: assignmentId -> submission
+  var subsByAsgn = {};
+  allSubmissions.forEach(function(s){
+    subsByAsgn[s.assignmentId] = s;
+  });
+
+  var pending = [];
+  var inProgress = [];
+  var completed = [];
+
+  allAssignments.forEach(function(a){
+    var sub = subsByAsgn[a.id];
+    if(!sub){
+      // No submission at all — pending
+      pending.push(a);
+    } else if(sub.status === 'draft'){
+      // Draft — in progress
+      inProgress.push({assignment: a, submission: sub});
+    } else {
+      // submitted / graded / released
+      completed.push({assignment: a, submission: sub});
+    }
+  });
+
+  // Sort pending by due date
+  pending.sort(function(a,b){
+    if(!a.dueDate) return 1;
+    if(!b.dueDate) return -1;
+    return new Date(a.dueDate) - new Date(b.dueDate);
+  });
+
+  // Sort completed by submission date (newest first)
+  completed.sort(function(a,b){
+    var ta = a.submission.submittedAt ? a.submission.submittedAt.toDate ? a.submission.submittedAt.toDate() : new Date(a.submission.submittedAt) : new Date(0);
+    var tb = b.submission.submittedAt ? b.submission.submittedAt.toDate ? b.submission.submittedAt.toDate() : new Date(b.submission.submittedAt) : new Date(0);
+    return tb - ta;
+  });
+
+  // Stats
+  document.getElementById('statPending').textContent = pending.length;
+  document.getElementById('statDone').textContent = completed.length;
+  document.getElementById('pendingCount').textContent = pending.length;
+  document.getElementById('progressCount').textContent = inProgress.length;
+  document.getElementById('doneCount').textContent = completed.length;
+
+  // Avg score
+  var scored = completed.filter(function(c){ return c.submission.totalScore !== undefined && c.submission.totalScore !== null; });
+  if(scored.length > 0){
+    var avgPct = scored.reduce(function(sum, c){
+      var total = c.assignment.totalMarks || 1;
+      return sum + (c.submission.totalScore / total * 100);
+    }, 0) / scored.length;
+    document.getElementById('statAvg').textContent = Math.round(avgPct) + '%';
+  }
+
+  // Render pending
+  renderTaskGrid('pendingGrid', pending.map(function(a){
+    return {assignment: a, submission: null};
+  }), 'pending');
+
+  // Render in progress
+  renderTaskGrid('progressGrid', inProgress, 'progress');
+
+  // Render completed
+  renderTaskGrid('doneGrid', completed, 'done');
+}
+
+function renderTaskGrid(gridId, items, mode){
+  var grid = document.getElementById(gridId);
+  if(!items.length){
+    var msgs = {
+      pending: '<div class="icon">✨</div><p>No pending tasks. You\'re all caught up!</p>',
+      progress: '<div class="icon">💤</div><p>No tasks in progress.</p>',
+      done: '<div class="icon">📭</div><p>No completed tasks yet.</p>'
+    };
+    grid.innerHTML = '<div class="empty-state">' + msgs[mode] + '</div>';
+    return;
+  }
+
+  grid.innerHTML = items.map(function(item){
+    var a = item.assignment;
+    var s = item.submission;
+    var typeBadge = '<span class="task-badge badge-'+a.type+'">'+(a.type||'hw').toUpperCase()+'</span>';
+    var marksBadge = '<span class="task-badge badge-marks">'+(a.totalMarks||0)+' marks</span>';
+    var timerBadge = '';
+    if(a.timeLimit && a.type !== 'hw'){
+      timerBadge = '<span class="task-badge badge-timer">⏱ '+a.timeLimit+' min</span>';
+    }
+
+    var dueHtml = '';
+    var isUrgent = false;
+    if(a.dueDate){
+      var dueDate = new Date(a.dueDate);
+      var now = new Date();
+      var diff = dueDate - now;
+      var overdue = diff < 0;
+      var dueStr = dueDate.toLocaleDateString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+      
+      if(overdue && mode === 'pending'){
+        dueHtml = '<div class="task-due overdue">⚠️ Overdue — was due '+dueStr+'</div>';
+        isUrgent = true;
+      } else if(diff < 86400000 && mode === 'pending'){
+        dueHtml = '<div class="task-due overdue">🔥 Due soon — '+dueStr+'</div>';
+        isUrgent = true;
+      } else {
+        dueHtml = '<div class="task-due">📅 Due: '+dueStr+'</div>';
+      }
+    }
+
+    var actionsHtml = '';
+    if(mode === 'pending'){
+      if(a.status === 'closed'){
+        actionsHtml = '<span class="btn btn-sm btn-outline" style="opacity:.5;cursor:not-allowed">🔒 Closed</span>';
+      } else if(a.type === 'hw'){
+        actionsHtml = '<button class="btn btn-sm btn-primary" onclick="startTask(\''+a.id+'\')">📝 Start</button>';
+      } else {
+        actionsHtml = '<button class="btn btn-sm btn-primary" onclick="startTask(\''+a.id+'\')">🚀 Start Test</button>';
+      }
+    } else if(mode === 'progress'){
+      actionsHtml = '<button class="btn btn-sm btn-primary" onclick="continueTask(\''+s.id+'\',\''+a.id+'\')">Continue</button>';
+    } else if(mode === 'done'){
+      var statusLabel = '';
+      if(s.status === 'submitted') statusLabel = '<span class="task-badge" style="background:#FEF3C7;color:#92400E">Awaiting Grade</span>';
+      else if(s.status === 'graded') statusLabel = '<span class="task-badge" style="background:#DBEAFE;color:#1E40AF">Graded</span>';
+      else if(s.status === 'released') statusLabel = '<span class="task-badge" style="background:#DCFCE7;color:#166534">Released</span>';
+
+      actionsHtml = statusLabel;
+      if(s.status === 'released' && s.totalScore !== undefined){
+        actionsHtml += ' <button class="btn btn-sm btn-outline" onclick="viewFeedback(\''+s.id+'\',\''+a.id+'\')">View Feedback</button>';
+      }
+    }
+
+    var gradeHtml = '';
+    if(mode === 'done' && s.totalScore !== undefined && (s.status === 'graded' || s.status === 'released')){
+      var pct = a.totalMarks > 0 ? Math.round(s.totalScore / a.totalMarks * 100) : 0;
+      gradeHtml = '<div class="grade-display">' +
+        '<span class="grade-score">'+s.totalScore+'/'+a.totalMarks+'</span>' +
+        '<div class="grade-bar"><div class="grade-fill" style="width:'+pct+'%"></div></div>' +
+        '<span class="grade-pct">'+pct+'%</span>' +
+      '</div>';
+    }
+
+    return '<div class="task-card'+(isUrgent?' urgent':'')+(mode==='done'?' done':'')+'">' +
+      '<div class="task-title">'+escHtml(a.title||'Untitled')+'</div>' +
+      '<div class="task-meta">'+typeBadge+marksBadge+timerBadge+'</div>' +
+      dueHtml +
+      gradeHtml +
+      '<div class="task-actions">'+actionsHtml+'</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ==================== TASK ACTIONS ====================
+function startTask(assignmentId){
+  // Store assignment ID and redirect — Phase 4 will handle the test/hw view
+  sessionStorage.setItem('dpCurrentAssignment', assignmentId);
+  
+  // For now, create a draft submission
+  var existing = allSubmissions.find(function(s){ return s.assignmentId === assignmentId; });
+  if(existing){
+    sessionStorage.setItem('dpCurrentSubmission', existing.id);
+    // Redirect to test view (Phase 4)
+    alert('Task already started. Redirecting to continue...');
+    return;
+  }
+
+  var subDoc = {
+    assignmentId: assignmentId,
+    studentId: studentId,
+    studentDocId: studentDocId,
+    answers: {},
+    timeTaken: 0,
+    focusLossCount: 0,
+    focusLog: [],
+    status: 'draft',
+    startedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  db.collection('dpSubmissions').add(subDoc).then(function(docRef){
+    sessionStorage.setItem('dpCurrentSubmission', docRef.id);
+    // Phase 4: will redirect to test/hw page
+    alert('Task started! The test/homework view will be available in Phase 4.');
+    loadAssignmentsAndSubmissions();
+  }).catch(function(err){
+    alert('Error starting task: '+err.message);
+  });
+}
+
+function continueTask(submissionId, assignmentId){
+  sessionStorage.setItem('dpCurrentAssignment', assignmentId);
+  sessionStorage.setItem('dpCurrentSubmission', submissionId);
+  // Phase 4: redirect to test/hw page
+  alert('Continuing task... The test/homework view will be available in Phase 4.');
+}
+
+function viewFeedback(submissionId, assignmentId){
+  var sub = allSubmissions.find(function(s){ return s.id === submissionId; });
+  var asgn = allAssignments.find(function(a){ return a.id === assignmentId; });
+  if(!sub || !asgn) return;
+
+  document.getElementById('fbTitle').textContent = 'Feedback: ' + (asgn.title || 'Assignment');
+
+  var html = '<div style="margin-bottom:12px;padding:10px;background:var(--bg);border-radius:8px">' +
+    '<strong>Score:</strong> '+(sub.totalScore||0)+'/'+(asgn.totalMarks||0)+' ('+
+    (asgn.totalMarks > 0 ? Math.round(sub.totalScore/asgn.totalMarks*100) : 0)+'%)' +
+    '</div>';
+
+  if(sub.comments){
+    html += '<div style="margin-bottom:12px;padding:10px;background:#F0FDF4;border-left:3px solid var(--success);border-radius:4px;font-size:.85rem">' +
+      '<strong>Teacher Comment:</strong> '+escHtml(sub.comments)+'</div>';
+  }
+
+  // Show per-question grades if available
+  if(sub.grades){
+    var qIds = Object.keys(sub.grades);
+    qIds.forEach(function(qId, i){
+      var g = sub.grades[qId];
+      var answer = sub.answers ? sub.answers[qId] : '';
+      html += '<div class="fb-q">' +
+        '<div class="fb-q-header">' +
+          '<span class="fb-q-label">Question '+(i+1)+'</span>' +
+          '<span class="fb-q-marks">'+(g.marks||0)+' marks</span>' +
+        '</div>' +
+        '<div class="fb-q-answer"><strong>Your answer:</strong> '+(answer ? escHtml(String(answer)) : '<em>No answer</em>')+'</div>' +
+        (g.comment ? '<div class="fb-q-comment">'+escHtml(g.comment)+'</div>' : '') +
+      '</div>';
+    });
+  }
+
+  document.getElementById('fbContent').innerHTML = html;
+  document.getElementById('feedbackOverlay').classList.add('open');
+}
+
+function closeFeedback(){
+  document.getElementById('feedbackOverlay').classList.remove('open');
+}
+
+// ==================== LOGOUT ====================
+function logout(){
+  sessionStorage.removeItem('dpStudentId');
+  sessionStorage.removeItem('dpStudentName');
+  sessionStorage.removeItem('dpStudentDocId');
+  sessionStorage.removeItem('dpStudentLevel');
+  sessionStorage.removeItem('dpStudentTags');
+  sessionStorage.removeItem('dpCurrentAssignment');
+  sessionStorage.removeItem('dpCurrentSubmission');
+  window.location.href = 'dp-student-portal.html';
+}
+
+// ==================== UTILS ====================
+function escHtml(str){
+  var div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ==================== START ====================
+initDashboard();
+</script>
+</body>
+</html>
