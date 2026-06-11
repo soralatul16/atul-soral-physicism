@@ -22,9 +22,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Atul Soral Physicism</title>
 
-<!-- Firebase SDKs for Auth -->
+<!-- Firebase SDKs for Auth & Firestore -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="exam-system/firebase-config.js?v=2"></script>
 <style>
 :root {
@@ -630,6 +631,21 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
 <!-- CONTENT -->
 <div class="content">
 
+  <!-- PHYSICS IN THE NEWS PREVIEW -->
+  <section class="reveal" style="margin-bottom:40px;">
+    <div style="background:var(--white);border-radius:12px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid var(--glass-border)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h2 style="font-family:Georgia,serif;font-size:1.2rem;margin:0;color:var(--ink)">📰 Physics in the News</h2>
+        <a href="physics-news.html" style="font-size:.8rem;color:#0B7285;font-weight:600;text-decoration:none">View All →</a>
+      </div>
+      <p style="color:var(--ink-3);font-size:.85rem;margin-bottom:15px;margin-top:0;">Real-world science stories mapped to your IB Physics syllabus.</p>
+      
+      <div id="news-preview-container" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:15px;margin-top:15px;">
+        <!-- Loaded dynamically via script -->
+      </div>
+    </div>
+  </section>
+
   <!-- Learning path connector -->
   <div class="section-connector"></div>
 
@@ -1126,6 +1142,98 @@ if (typeof firebase !== 'undefined' && firebase.auth) {
     }
   });
 }
+</script>
+
+<script>
+// Load latest 2-3 news items for the "Physics in the News" preview section
+(async function() {
+  var container = document.getElementById('news-preview-container');
+  if (!container) return;
+  
+  try {
+    container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--ink-3);font-size:.9rem;padding:20px 0;">Loading news preview...</div>';
+    
+    // Safety check for DB connection
+    if (typeof db === 'undefined') {
+      container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--ink-3);font-size:.9rem;padding:20px 0;">Database not initialized.</div>';
+      return;
+    }
+    
+    // Fetch stories
+    var snapshot = await db.collection('physicism_news').get();
+    if (snapshot.empty) {
+      container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--ink-3);font-size:.85rem;padding:20px 0;">No recent stories found. <a href="physics-news.html" style="color:#0B7285;font-weight:600;text-decoration:none;">Go to News page →</a></div>';
+      return;
+    }
+    
+    var allStories = [];
+    snapshot.forEach(function(doc) {
+      var data = doc.data();
+      data.id = doc.id;
+      allStories.push(data);
+    });
+    
+    // Sort in memory (newest first)
+    allStories.sort(function(a, b) {
+      var da = new Date(a.generated || a.date || 0).getTime();
+      var dbTime = new Date(b.generated || b.date || 0).getTime();
+      return dbTime - da;
+    });
+    
+    // Get latest 3
+    var latest = allStories.slice(0, 3);
+    
+    container.innerHTML = '';
+    
+    var themeColors = {
+      'A': 'card-teal',
+      'B': 'card-coral',
+      'C': 'card-blue',
+      'D': 'card-purple',
+      'E': 'card-pink'
+    };
+    
+    latest.forEach(function(story) {
+      var colorClass = themeColors[story.theme] || 'card-amber';
+      
+      var cardEl = document.createElement('a');
+      cardEl.className = 'card ' + colorClass;
+      cardEl.href = 'physics-news.html';
+      cardEl.style.textDecoration = 'none';
+      cardEl.style.display = 'flex';
+      cardEl.style.flexDirection = 'column';
+      
+      cardEl.innerHTML = `
+        <div class="card-top" style="margin-bottom:12px;">
+          <div class="card-icon" style="display:flex;align-items:center;justify-content:center;background:var(--white);border-radius:12px;width:40px;height:40px;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">${story.emoji || '📰'}</div>
+          <div class="card-arrow" style="font-size:14px;color:var(--ink-3);">&#8599;</div>
+        </div>
+        <h3 style="margin-bottom:8px;font-size:16px;font-family:var(--font-display);font-weight:600;color:var(--ink);line-height:1.35;">${story.title}</h3>
+        <p style="margin-bottom:15px;font-size:13px;color:var(--ink-3);line-height:1.6;flex-grow:1;">${story.desc}</p>
+        <div class="card-bottom" style="margin-top:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span class="card-pill pill-dp" style="font-size:10px;">Theme ${story.theme}</span>
+          <span class="card-tag" style="font-size:10px;">${story.source}</span>
+        </div>
+      `;
+      container.appendChild(cardEl);
+    });
+    
+    // Wire up tilt and animations
+    container.querySelectorAll('.card').forEach(function(card){
+      card.addEventListener('mousemove',function(e){
+        var r=card.getBoundingClientRect();
+        var x=(e.clientX-r.left)/r.width-0.5;
+        var y=(e.clientY-r.top)/r.height-0.5;
+        card.style.transform='translateY(-6px) perspective(600px) rotateX('+(y*-5)+'deg) rotateY('+(x*5)+'deg)';
+      });
+      card.addEventListener('mouseleave',function(){card.style.transform='';});
+    });
+    
+  } catch (err) {
+    console.error('Error loading news preview:', err);
+    container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--ink-3);font-size:.9rem;padding:20px 0;">Could not load news preview.</div>';
+  }
+})();
 </script>
 </body>
 </html>
