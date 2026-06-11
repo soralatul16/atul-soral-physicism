@@ -504,6 +504,9 @@ details[open] summary {
     Atul Soral Physicism — <span>Graph Lab</span>
   </a>
   <div class="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="myp-dashboard.html" class="nav-link">MYP</a>
+    <a href="dp-dashboard.html" class="nav-link">DP</a>
     <button class="nav-link" onclick="exportPDF()" style="font-size: 14px;">📄 PDF Report</button>
     <button class="nav-link" onclick="toggleTheme()" style="font-size: 14px;">🌓 Theme</button>
     <button class="nav-link" onclick="openShortcutHelp()" style="font-size: 14px; font-weight: bold; background: rgba(78,205,196,0.15); border-radius: 50%; width: 28px; height: 28px; padding: 0; display: inline-flex; align-items: center; justify-content: center;">?</button>
@@ -3326,14 +3329,15 @@ function renderDataTable() {
       <td><input type="number" step="any" class="data-input" id="cell-dy-${i}" placeholder="0" oninput="updatePoint(${i}, 'dy', this.value)"></td>
       <td><button class="delete-btn" onclick="deletePoint(${i})">✕</button></td>
     `;
-    tbody.appendChild(tr);
     
     // Explicitly assign values to prevent empty inputs when loading preset
-    document.getElementById(`cell-x-${i}`).value = (pt.x === undefined || pt.x === null || pt.x === '') ? '' : pt.x;
-    document.getElementById(`cell-y-${i}`).value = (pt.y === undefined || pt.y === null || pt.y === '') ? '' : pt.y;
-    document.getElementById(`cell-y2-${i}`).value = (pt.y2 === undefined || pt.y2 === null || pt.y2 === '') ? '' : pt.y2;
-    document.getElementById(`cell-dx-${i}`).value = (pt.dx === undefined || pt.dx === null || pt.dx === '') ? '' : pt.dx;
-    document.getElementById(`cell-dy-${i}`).value = (pt.dy === undefined || pt.dy === null || pt.dy === '') ? '' : pt.dy;
+    tr.querySelector(`#cell-x-${i}`).value = (pt.x === undefined || pt.x === null || pt.x === '') ? '' : pt.x;
+    tr.querySelector(`#cell-y-${i}`).value = (pt.y === undefined || pt.y === null || pt.y === '') ? '' : pt.y;
+    tr.querySelector(`#cell-y2-${i}`).value = (pt.y2 === undefined || pt.y2 === null || pt.y2 === '') ? '' : pt.y2;
+    tr.querySelector(`#cell-dx-${i}`).value = (pt.dx === undefined || pt.dx === null || pt.dx === '') ? '' : pt.dx;
+    tr.querySelector(`#cell-dy-${i}`).value = (pt.dy === undefined || pt.dy === null || pt.dy === '') ? '' : pt.dy;
+    
+    tbody.appendChild(tr);
   });
 }
 
@@ -3381,6 +3385,9 @@ function loadPreset(key) {
   if (!key) return;
   const p = PRESETS[key];
   if (!p) return;
+  
+  // Clear existing data
+  clearData();
   
   // 1. Assign coordinates first so all downstream state checks and graph drawing use the new data
   coordinates = JSON.parse(JSON.stringify(p.data));
@@ -5156,7 +5163,7 @@ function saveProgress() {
     comparisonEquation: document.getElementById('comparisonEquationInput') ? document.getElementById('comparisonEquationInput').value : '',
     presetSelect: document.getElementById('presetSelect').value,
     errorBarType: document.getElementById('errorBarTypeSelect').value,
-    errorBarValue: document.getElementById('errorBarValueInput').value
+    errorBarValue: document.getElementById('errorBarValInput').value
   };
   localStorage.setItem('graph-lab-progress', JSON.stringify(data));
   
@@ -5240,7 +5247,7 @@ function loadProgress(isAuto = false) {
       toggleErrorBarMode();
     }
     if (data.errorBarValue !== undefined) {
-      document.getElementById('errorBarValueInput').value = data.errorBarValue;
+      document.getElementById('errorBarValInput').value = data.errorBarValue;
     }
     
     toggleFittingMode();
