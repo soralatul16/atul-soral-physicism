@@ -155,8 +155,76 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
 .ss-student input[type='checkbox']{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
 .ss-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg)}
 
-/* RESPONSIVE */
 @media(max-width:700px){.form-row{flex-direction:column}.tabs{overflow-x:auto;white-space:nowrap}.qb-body{flex-direction:column}.qb-filters{width:100%;max-height:200px;border-right:none;border-bottom:1px solid var(--border)}}
+
+
+/* GRADING CARDS */
+.grade-card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.grade-card-q {
+  font-size: .88rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+.grade-card-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.grade-col {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 12px;
+}
+.grade-col-title {
+  font-size: .72rem;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.grade-col-body {
+  font-size: .82rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.grade-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+  flex-wrap: wrap;
+}
+.grade-marks-select {
+  padding: 4px 8px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: .8rem;
+  outline: none;
+}
+.grade-comment-input {
+  flex: 1;
+  padding: 4px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: .8rem;
+  outline: none;
+}
+@media(max-width: 600px) {
+  .grade-card-split {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -336,11 +404,97 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
 
   <!-- GRADING TAB (Phase 5) -->
   <div class="tab-panel" id="panel-grading">
+    <div class="card" style="margin-bottom:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h3>📝 Needs Grading</h3>
+        <span class="section-count" style="background:var(--accent-light);color:var(--accent);font-weight:700;font-size:.75rem;padding:2px 8px;border-radius:50px" id="needsGradingCount">0</span>
+      </div>
+      <div class="table-wrap">
+        <table class="stu-table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Assignment</th>
+              <th>Type</th>
+              <th>Submitted At</th>
+              <th>Strikes</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="needsGradingList">
+            <tr><td colspan="6" class="empty">Loading submissions...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
     <div class="card">
-      <h3>✅ Grading</h3>
-      <div class="empty">Grading tab coming in Phase 5.</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h3>✅ Graded & Released</h3>
+        <span class="section-count" style="background:#E5E1DC;color:var(--text2);font-weight:700;font-size:.75rem;padding:2px 8px;border-radius:50px" id="gradedCount">0</span>
+      </div>
+      <div class="table-wrap">
+        <table class="stu-table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Assignment</th>
+              <th>Type</th>
+              <th>Score</th>
+              <th>Status</th>
+              <th>Graded At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="gradedList">
+            <tr><td colspan="7" class="empty">No graded submissions yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
+
+<!-- GRADING WORKSPACE MODAL -->
+<div class="modal-overlay" id="gradingOverlay" style="z-index: 500;">
+  <div class="modal" style="max-width: 1000px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; padding: 24px; text-align: left;">
+    <!-- HEADER -->
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:16px">
+      <div>
+        <h3 id="gradeStudentName" style="font-family:Georgia,serif;font-size:1.2rem;color:var(--accent)">Grade Student Submission</h3>
+        <div id="gradeAssignmentInfo" style="font-size:.8rem;color:var(--text2);margin-top:2px">Assignment details...</div>
+      </div>
+      <button class="fb-close" onclick="closeGradingOverlay()" style="background:var(--bg);border:1.5px solid var(--border);border-radius:50%;width:30px;height:30px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+    </div>
+    
+    <!-- SYSTEM SUMMARY (STRIKES, TIME TAKEN) -->
+    <div style="display:flex;gap:12px;flex-wrap:wrap;background:var(--bg);padding:10px 14px;border-radius:8px;margin-bottom:16px;font-size:.8rem" id="gradeSummaryBanner">
+      <!-- Summary details -->
+    </div>
+    
+    <!-- SIDE-BY-SIDE GRADING CARDS WORKSPACE -->
+    <div style="flex:1;overflow-y:auto;padding-right:8px" id="gradingCardsContainer">
+      <!-- Rendered question parts side by side -->
+    </div>
+    
+    <!-- OVERALL FEEDBACK & SUMMIT SECTION -->
+    <div style="border-top:1px solid var(--border);padding-top:16px;margin-top:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div style="flex:1;min-width:300px">
+        <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:4px">Overall Comments</label>
+        <textarea id="overallComments" style="width:100%;height:60px;padding:8px;border:1.5px solid var(--border);border-radius:8px;font-size:.8rem;resize:none;outline:none" placeholder="Feedback on the overall performance..."></textarea>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px">
+        <div style="font-size:1.1rem;font-weight:700">
+          Total Score: <span id="gradeTotalScore" style="color:var(--accent)">0</span> / <span id="gradeMaxMarks">0</span>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-outline" onclick="closeGradingOverlay()">Cancel</button>
+          <button class="btn btn-outline" style="border-color:#D97706;color:#D97706" onclick="saveGrade('graded')">💾 Save Draft</button>
+          <button class="btn btn-success" onclick="saveGrade('released')">🚀 Release Grade</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 <!-- STUDENT CREATED MODAL -->
@@ -461,6 +615,10 @@ function switchTab(tabName){
   document.querySelectorAll('.tab').forEach(function(t){
     if(t.textContent.toLowerCase().indexOf(tabName)>-1) t.classList.add('active');
   });
+  
+  if (tabName === 'grading') {
+    loadSubmissions();
+  }
 }
 
 // ==================== GLOBAL STATE ====================
@@ -1115,6 +1273,350 @@ function confirmSSSelection(){
   asgnSelectedStudents = Object.keys(ssChecked).filter(function(k){return ssChecked[k];});
   document.getElementById('asgnSBtn').textContent = '👥 Select Students ('+asgnSelectedStudents.length+')';
   closeSSModal();
+}
+
+// ==================== GRADING TAB (Phase 5) ====================
+var allSubmissions = [];
+var activeGradingSubmission = null;
+var activeGradingAssignment = null;
+var activeGradingQuestions = [];
+var activeGradingMarks = {};
+
+function loadSubmissions(){
+  var p1 = db.collection('dpSubmissions').get();
+  var p2 = db.collection('dpStudents').get();
+  
+  Promise.all([p1, p2]).then(function(results){
+    var studentsMap = {};
+    results[1].forEach(function(doc){
+      var s = doc.data();
+      studentsMap[s.studentId] = s.name || 'Unknown';
+    });
+
+    allSubmissions = [];
+    results[0].forEach(function(doc){
+      var sub = doc.data();
+      sub.id = doc.id;
+      sub.studentName = studentsMap[sub.studentId] || 'Unknown Student';
+      
+      var asgn = allAssignments.find(function(a){ return a.id === sub.assignmentId; });
+      sub.assignmentTitle = asgn ? asgn.title : 'Deleted Assignment';
+      sub.assignmentType = asgn ? asgn.type : 'hw';
+      sub.totalMarks = asgn ? asgn.totalMarks : 0;
+      
+      allSubmissions.push(sub);
+    });
+
+    renderSubmissionsGrid();
+  }).catch(function(err){
+    console.error('Error loading submissions:', err);
+    alert('Error loading submissions: ' + err.message);
+  });
+}
+
+function renderSubmissionsGrid(){
+  var needsGradingList = document.getElementById('needsGradingList');
+  var gradedList = document.getElementById('gradedList');
+
+  var pending = allSubmissions.filter(function(s){ return s.status === 'submitted'; });
+  var graded = allSubmissions.filter(function(s){ return s.status === 'graded' || s.status === 'released'; });
+
+  document.getElementById('needsGradingCount').textContent = pending.length;
+  document.getElementById('gradedCount').textContent = graded.length;
+
+  // Render pending
+  if (pending.length === 0) {
+    needsGradingList.innerHTML = '<tr><td colspan="6" class="empty">No submissions need grading.</td></tr>';
+  } else {
+    pending.sort(function(a,b){
+      var ta = a.submittedAt ? (a.submittedAt.toDate ? a.submittedAt.toDate() : new Date(a.submittedAt)) : new Date(0);
+      var tb = b.submittedAt ? (b.submittedAt.toDate ? b.submittedAt.toDate() : new Date(b.submittedAt)) : new Date(0);
+      return tb - ta;
+    });
+
+    needsGradingList.innerHTML = pending.map(function(s){
+      var timeStr = s.submittedAt ? (s.submittedAt.toDate ? s.submittedAt.toDate() : new Date(s.submittedAt)).toLocaleDateString('en-IN', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}) : '—';
+      var typeBadge = '<span class="asgn-badge badge-' + s.assignmentType + '">' + s.assignmentType.toUpperCase() + '</span>';
+      var strikeLabel = s.focusLossCount !== undefined ? s.focusLossCount : 0;
+      var strikesClass = strikeLabel >= 2 ? 'style="color:var(--danger);font-weight:700"' : '';
+
+      return '<tr>' +
+        '<td><strong>' + escHtml(s.studentName) + '</strong><br><span style="font-size:.7rem;color:var(--text3)">' + escHtml(s.studentId) + '</span></td>' +
+        '<td>' + escHtml(s.assignmentTitle) + '</td>' +
+        '<td>' + typeBadge + '</td>' +
+        '<td style="font-size:.75rem">' + timeStr + '</td>' +
+        '<td ' + strikesClass + '>' + strikeLabel + '</td>' +
+        '<td><button class="btn btn-sm btn-primary" onclick="openGradingWorkspace(\'' + s.id + '\')">Grade</button></td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  // Render graded
+  if (graded.length === 0) {
+    gradedList.innerHTML = '<tr><td colspan="7" class="empty">No graded submissions yet.</td></tr>';
+  } else {
+    graded.sort(function(a,b){
+      var ta = a.gradedAt ? (a.gradedAt.toDate ? a.gradedAt.toDate() : new Date(a.gradedAt)) : new Date(0);
+      var tb = b.gradedAt ? (b.gradedAt.toDate ? b.gradedAt.toDate() : new Date(b.gradedAt)) : new Date(0);
+      return tb - ta;
+    });
+
+    gradedList.innerHTML = graded.map(function(s){
+      var timeStr = s.submittedAt ? (s.submittedAt.toDate ? s.submittedAt.toDate() : new Date(s.submittedAt)).toLocaleDateString('en-IN', {day:'numeric',month:'short'}) : '—';
+      var typeBadge = '<span class="asgn-badge badge-' + s.assignmentType + '">' + s.assignmentType.toUpperCase() + '</span>';
+      var statusBadge = '';
+      if(s.status === 'graded') statusBadge = '<span class="asgn-badge" style="background:#FEF3C7;color:#92400E">Draft Grade</span>';
+      else if(s.status === 'released') statusBadge = '<span class="asgn-badge" style="background:#DCFCE7;color:#166534">Released</span>';
+
+      var scoreStr = (s.totalScore !== undefined ? s.totalScore : 0) + ' / ' + (s.totalMarks || 0);
+      var pct = s.totalMarks > 0 ? Math.round((s.totalScore || 0) / s.totalMarks * 100) : 0;
+
+      var releaseBtn = '';
+      if (s.status === 'graded') {
+        releaseBtn = ' <button class="btn btn-sm btn-success" style="padding:4px 8px;font-size:.7rem" onclick="releaseSubmissionGrade(\'' + s.id + '\')">Release</button>';
+      }
+
+      return '<tr>' +
+        '<td><strong>' + escHtml(s.studentName) + '</strong><br><span style="font-size:.7rem;color:var(--text3)">' + escHtml(s.studentId) + '</span></td>' +
+        '<td>' + escHtml(s.assignmentTitle) + '</td>' +
+        '<td>' + typeBadge + '</td>' +
+        '<td><strong>' + scoreStr + '</strong> <span style="font-size:.7rem;color:var(--text3)">(' + pct + '%)</span></td>' +
+        '<td>' + statusBadge + '</td>' +
+        '<td style="font-size:.75rem">' + timeStr + '</td>' +
+        '<td>' +
+          '<button class="btn btn-sm btn-outline" onclick="openGradingWorkspace(\'' + s.id + '\')">Re-grade</button>' +
+          releaseBtn +
+        '</td>' +
+      '</tr>';
+    }).join('');
+  }
+}
+
+function releaseSubmissionGrade(subId){
+  if(!confirm('Release this grade to the student? They will be able to see their score and feedback immediately.')) return;
+  db.collection('dpSubmissions').doc(subId).update({
+    status: 'released',
+    releasedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    loadSubmissions();
+  }).catch(function(err){
+    alert('Error releasing grade: ' + err.message);
+  });
+}
+
+function openGradingWorkspace(submissionId){
+  var sub = allSubmissions.find(function(s){ return s.id === submissionId; });
+  if(!sub) return;
+
+  activeGradingSubmission = sub;
+  activeGradingAssignment = allAssignments.find(function(a){ return a.id === sub.assignmentId; });
+  activeGradingMarks = sub.grades || {};
+  
+  db.collection('dpQuestions').get().then(function(snap){
+    var qs = [];
+    snap.forEach(function(doc){ qs.push(doc.data()); });
+    qs.sort(function(a,b){return (a.topic+a.qNum).localeCompare(b.topic+b.qNum);});
+    var grouped = groupQuestions(qs);
+
+    activeGradingQuestions = [];
+    var qIds = activeGradingAssignment ? activeGradingAssignment.questionIds || [] : [];
+    qIds.forEach(function(gid){
+      var g = grouped.find(function(x){ return x.id === gid; });
+      if(g) activeGradingQuestions.push(g);
+    });
+
+    renderGradingWorkspace();
+  }).catch(function(err){
+    alert('Error loading questions for grading: ' + err.message);
+  });
+}
+
+function renderGradingWorkspace(){
+  var sub = activeGradingSubmission;
+  var a = activeGradingAssignment;
+  
+  document.getElementById('gradeStudentName').textContent = 'Grading: ' + sub.studentName;
+  document.getElementById('gradeAssignmentInfo').textContent = (a ? a.title : 'Assignment') + ' · ' + sub.studentId;
+
+  var durationStr = sub.timeTaken ? sub.timeTaken + ' minutes' : 'unknown';
+  var strikes = sub.focusLossCount || 0;
+  var bannerHtml = '<span>⏱️ <strong>Time Taken:</strong> ' + durationStr + '</span>' +
+    '<span style="margin-left:20px">⚠️ <strong>Focus Loss Strikes:</strong> ' + strikes + '/3</span>';
+  
+  if (sub.focusLog && sub.focusLog.length > 0) {
+    var logDetails = sub.focusLog.map(function(l){
+      var d = new Date(l.timestamp).toLocaleTimeString();
+      return l.event + ' (' + d + ')';
+    }).join(', ');
+    bannerHtml += '<div style="width:100%;margin-top:4px;color:var(--danger)"><strong>Focus Log:</strong> ' + escHtml(logDetails) + '</div>';
+  }
+  document.getElementById('gradeSummaryBanner').innerHTML = bannerHtml;
+
+  document.getElementById('overallComments').value = sub.comments || '';
+
+  var cardsHtml = activeGradingQuestions.map(function(g, gIdx){
+    var qNum = gIdx + 1;
+    var stemHtml = g.stem ? '<div style="font-size:.9rem;font-weight:500;margin-bottom:10px">' + g.stem + '</div>' : '';
+    
+    var imgHtml = '';
+    var firstImgPart = g.parts.find(function(p) { return p.image && p.image.length > 10; });
+    if(firstImgPart){
+      imgHtml = '<div style="text-align:center;margin:10px 0">' + firstImgPart.image + '</div>';
+    }
+
+    var partsHtml = g.parts.map(function(p, pIdx){
+      var letter = String.fromCharCode(97 + pIdx);
+      var numLabel = g.parts.length > 1 ? '<strong>(' + letter + ')</strong> ' : '';
+      var cleanText = p.text || '';
+      var numMatch = cleanText.match(/^(\([a-z]+\)(\([iv]+\))?)/);
+      if(numMatch) {
+        cleanText = cleanText.replace(numMatch[0], '');
+        numLabel = '<strong>' + numMatch[0] + '</strong> ';
+      }
+
+      var innerImgHtml = '';
+      if(p.image && p.image.length > 10 && p.image !== (firstImgPart ? firstImgPart.image : '')){
+        innerImgHtml = '<div style="text-align:center;margin:10px 0">' + p.image + '</div>';
+      }
+
+      var maxMarks = p.marks || 1;
+      var currentAwarded = activeGradingMarks[p.id] ? (activeGradingMarks[p.id].marks || 0) : 0;
+      var comment = activeGradingMarks[p.id] ? (activeGradingMarks[p.id].comment || '') : '';
+
+      var studentAnsHtml = '';
+      var msHtml = '';
+      
+      if (g.type === 'MCQ') {
+        var selectedIdx = sub.answers ? sub.answers[p.id] : null;
+        var correctIdx = p.correct;
+        var selectedLetter = selectedIdx !== null && selectedIdx !== undefined ? String.fromCharCode(65 + selectedIdx) : 'No answer';
+        var correctLetter = String.fromCharCode(65 + correctIdx);
+        var isCorrect = selectedIdx === correctIdx;
+        
+        studentAnsHtml = '<div>Selected: <strong style="font-size:1.1rem; color:' + (isCorrect ? 'var(--success)' : 'var(--danger)') + '">' + selectedLetter + '</strong></div>';
+        if(p.options && p.options[selectedIdx]){
+          studentAnsHtml += '<div style="margin-top:4px;font-style:italic">"' + escHtml(p.options[selectedIdx]) + '"</div>';
+        }
+        
+        msHtml = '<div>Correct Option: <strong>' + correctLetter + '</strong></div>';
+        if(p.options && p.options[correctIdx]){
+          msHtml += '<div style="margin-top:4px;font-style:italic">"' + escHtml(p.options[correctIdx]) + '"</div>';
+        }
+        if(p.markScheme){
+          msHtml += '<div style="margin-top:6px;border-top:1px dashed var(--border);padding-top:6px;font-size:.78rem">' + p.markScheme + '</div>';
+        }
+        
+        if (activeGradingMarks[p.id] === undefined && selectedIdx !== null && selectedIdx !== undefined) {
+          currentAwarded = isCorrect ? maxMarks : 0;
+        }
+      } else {
+        var rawAns = sub.answers ? sub.answers[p.id] : '';
+        studentAnsHtml = rawAns ? escHtml(rawAns) : '<em>No answer submitted</em>';
+        msHtml = p.markScheme || '<em>No mark scheme provided</em>';
+      }
+
+      var dropdownOpts = '';
+      for (var m = 0; m <= maxMarks; m++) {
+        var sel = currentAwarded === m ? 'selected' : '';
+        dropdownOpts += '<option value="' + m + '" ' + sel + '>' + m + '</option>';
+      }
+
+      return '<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">' +
+        '<div style="font-size:.85rem;font-weight:600;margin-bottom:8px;display:flex;justify-content:space-between">' +
+          '<span>' + numLabel + cleanText + '</span>' +
+          '<span style="color:var(--accent)">[' + maxMarks + ' marks]</span>' +
+        '</div>' +
+        innerImgHtml +
+        '<div class="grade-card-split">' +
+          '<div class="grade-col">' +
+            '<div class="grade-col-title">Student Answer</div>' +
+            '<div class="grade-col-body">' + studentAnsHtml + '</div>' +
+          '</div>' +
+          '<div class="grade-col" style="background:#F0FDF4">' +
+            '<div class="grade-col-title" style="color:#166534">Mark Scheme</div>' +
+            '<div class="grade-col-body" style="color:#166534">' + msHtml + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="grade-card-actions">' +
+          '<label style="font-size:.75rem;font-weight:600;color:var(--text2)">Award Marks: ' +
+            '<select class="grade-marks-select" data-partid="' + p.id + '" onchange="recalcGradingScore()">' + dropdownOpts + '</select>' +
+          '</label>' +
+          '<input type="text" class="grade-comment-input" data-partid="' + p.id + '" value="' + escHtml(comment) + '" placeholder="Comment on this part...">' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    return '<div class="grade-card">' +
+      '<div class="grade-card-q">' +
+        'Question ' + qNum + ' <span style="font-size:.75rem;color:var(--text3);font-weight:normal">(' + (g.topic || '') + ')</span>' +
+      '</div>' +
+      stemHtml +
+      imgHtml +
+      partsHtml +
+    '</div>';
+  }).join('');
+
+  document.getElementById('gradingCardsContainer').innerHTML = cardsHtml;
+  document.getElementById('gradeMaxMarks').textContent = a ? a.totalMarks || 0 : 0;
+  
+  recalcGradingScore();
+  document.getElementById('gradingOverlay').classList.add('open');
+}
+
+function recalcGradingScore(){
+  var score = 0;
+  document.querySelectorAll('.grade-marks-select').forEach(function(select){
+    score += parseInt(select.value) || 0;
+  });
+  document.getElementById('gradeTotalScore').textContent = score;
+}
+
+function closeGradingOverlay(){
+  document.getElementById('gradingOverlay').classList.remove('open');
+  activeGradingSubmission = null;
+  activeGradingAssignment = null;
+  activeGradingQuestions = [];
+}
+
+function saveGrade(status){
+  if (!activeGradingSubmission) return;
+  var subId = activeGradingSubmission.id;
+  
+  var grades = {};
+  var totalScore = 0;
+  
+  document.querySelectorAll('.grade-marks-select').forEach(function(select){
+    var partId = select.getAttribute('data-partid');
+    var marks = parseInt(select.value) || 0;
+    totalScore += marks;
+    
+    if (!grades[partId]) grades[partId] = {};
+    grades[partId].marks = marks;
+  });
+
+  document.querySelectorAll('.grade-comment-input').forEach(function(input){
+    var partId = input.getAttribute('data-partid');
+    var comment = input.value.trim();
+    
+    if (!grades[partId]) grades[partId] = {};
+    grades[partId].comment = comment;
+  });
+
+  var comments = document.getElementById('overallComments').value.trim();
+
+  db.collection('dpSubmissions').doc(subId).update({
+    grades: grades,
+    totalScore: totalScore,
+    comments: comments,
+    status: status,
+    gradedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    alert('Grade saved successfully' + (status === 'released' ? ' and released to student!' : ' as draft.'));
+    closeGradingOverlay();
+    loadSubmissions();
+  }).catch(function(err){
+    alert('Error saving grade: ' + err.message);
+  });
 }
 </script>
 </body>
