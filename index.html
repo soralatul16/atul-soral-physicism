@@ -1085,11 +1085,9 @@ document.querySelectorAll('.btn').forEach(function(btn){
 // Announcements — add new entries at the TOP of this array
 // The first entry is always shown
 var announcements = [
-  {date: '2026-05-20', icon: '🧠', text: 'AI Tutor Chat — ask any physics question and get instant answers'},
-  {date: '2026-05-19', icon: '📖', text: 'Physics Pictionary A-Z — 26 illustrated pages now live in the interactive book'},
-  {date: '2026-05-17', icon: '⚡', text: 'Forces & Motion question set just dropped — 12 Criterion A questions ready to go'},
-  {date: '2026-05-15', icon: '🎯', text: 'Scientific calculator now available for quick physics calculations'},
-  {date: '2026-05-14', icon: '🌙', text: 'Dark mode now available — toggle in the top-right corner of every page'}
+  {date: '2026-06-11', icon: '🆕', text: 'DP Question Bank — 400+ past paper questions with mark schemes'},
+  {date: '2026-06-10', icon: '📝', text: 'Student Portal — Login, attempt tests, get graded'},
+  {date: '2026-06-09', icon: '🧪', text: 'New Simulators — Density Lab, Energy Efficiency, Electromagnetism, Radioactive Decay'}
 ];
 
 function updateWhatsNew() {
@@ -1150,38 +1148,67 @@ if (typeof firebase !== 'undefined' && firebase.auth) {
   var container = document.getElementById('news-preview-container');
   if (!container) return;
   
+  var staticNews = [
+    {
+      emoji: "🔭",
+      title: "James Webb Telescope confirms high-redshift galaxies",
+      desc: "Observations from JWST show mature galaxies in the early universe, challenging previous cosmological models of galactic structure and evolution under gravity.",
+      theme: "E",
+      subtopic: "E.5 Structure of the Universe",
+      source: "NASA / Webb",
+      date: new Date().toISOString().split('T')[0]
+    },
+    {
+      emoji: "💥",
+      title: "CERN reports new particle collision data at 13.6 TeV",
+      desc: "High-luminosity runs at the Large Hadron Collider provide precise measurements of Higgs boson decay channels, verifying Standard Model predictions at record energy levels.",
+      theme: "E",
+      subtopic: "E.1 Structure of Matter",
+      source: "CERN Courier",
+      date: new Date().toISOString().split('T')[0]
+    },
+    {
+      emoji: "☀️",
+      title: "Solar eclipse 2025: How to calculate totality duration",
+      desc: "Astronomers map the precise moon shadow using gravitational orbits, allowing students to apply Keplerian motion and angular size calculations to solar alignment events.",
+      theme: "D",
+      subtopic: "D.1 Gravitational Fields",
+      source: "Space.com",
+      date: new Date().toISOString().split('T')[0]
+    }
+  ];
+
   try {
     container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--ink-3);font-size:.9rem;padding:20px 0;">Loading news preview...</div>';
     
-    // Safety check for DB connection
-    if (typeof db === 'undefined') {
-      container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--ink-3);font-size:.9rem;padding:20px 0;">Database not initialized.</div>';
-      return;
-    }
-    
-    // Fetch stories
-    var snapshot = await db.collection('physicism_news').get();
-    if (snapshot.empty) {
-      container.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--ink-3);font-size:.85rem;padding:20px 0;">No recent stories found. <a href="physics-news.html" style="color:#0B7285;font-weight:600;text-decoration:none;">Go to News page →</a></div>';
-      return;
-    }
-    
     var allStories = [];
-    snapshot.forEach(function(doc) {
-      var data = doc.data();
-      data.id = doc.id;
-      allStories.push(data);
-    });
     
-    // Sort in memory (newest first)
-    allStories.sort(function(a, b) {
-      var da = new Date(a.generated || a.date || 0).getTime();
-      var dbTime = new Date(b.generated || b.date || 0).getTime();
-      return dbTime - da;
-    });
+    // Fetch stories from DB if initialized
+    if (typeof db !== 'undefined') {
+      try {
+        var snapshot = await db.collection('physicism_news').get();
+        if (snapshot && !snapshot.empty) {
+          snapshot.forEach(function(doc) {
+            var data = doc.data();
+            data.id = doc.id;
+            allStories.push(data);
+          });
+          
+          // Sort in memory (newest first)
+          allStories.sort(function(a, b) {
+            var da = new Date(a.generated || a.date || 0).getTime();
+            var dbTime = new Date(b.generated || b.date || 0).getTime();
+            return dbTime - da;
+          });
+        }
+      } catch (dbErr) {
+        console.warn("Firestore news fetch failed, using fallback:", dbErr);
+      }
+    }
     
-    // Get latest 3
-    var latest = allStories.slice(0, 3);
+    if (allStories.length === 0) {
+      allStories = staticNews;
+    }
     
     container.innerHTML = '';
     
@@ -1192,6 +1219,8 @@ if (typeof firebase !== 'undefined' && firebase.auth) {
       'D': 'card-purple',
       'E': 'card-pink'
     };
+    
+    var latest = allStories.slice(0, 3);
     
     latest.forEach(function(story) {
       var colorClass = themeColors[story.theme] || 'card-amber';

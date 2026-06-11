@@ -174,6 +174,39 @@ let allStories = [];
 let currentFilter = 'all';
 let currentUser = null;
 
+const staticNews = [
+  {
+    emoji: "🔭",
+    title: "James Webb Telescope confirms high-redshift galaxies",
+    desc: "Observations from JWST show mature galaxies in the early universe, challenging previous cosmological models of galactic structure and evolution under gravity.",
+    theme: "E",
+    subtopic: "E.5 Structure of the Universe",
+    source: "NASA / Webb",
+    date: new Date().toISOString().split('T')[0],
+    createdBy: "ATUL"
+  },
+  {
+    emoji: "💥",
+    title: "CERN reports new particle collision data at 13.6 TeV",
+    desc: "High-luminosity runs at the Large Hadron Collider provide precise measurements of Higgs boson decay channels, verifying Standard Model predictions at record energy levels.",
+    theme: "E",
+    subtopic: "E.1 Structure of Matter",
+    source: "CERN Courier",
+    date: new Date().toISOString().split('T')[0],
+    createdBy: "ATUL"
+  },
+  {
+    emoji: "☀️",
+    title: "Solar eclipse 2025: How to calculate totality duration",
+    desc: "Astronomers map the precise moon shadow using gravitational orbits, allowing students to apply Keplerian motion and angular size calculations to solar alignment events.",
+    theme: "D",
+    subtopic: "D.1 Gravitational Fields",
+    source: "Space.com",
+    date: new Date().toISOString().split('T')[0],
+    createdBy: "ATUL"
+  }
+];
+
 // Auth State Listener
 firebase.auth().onAuthStateChanged(user => {
   currentUser = user;
@@ -218,18 +251,20 @@ async function loadNews() {
     }
     
     if(snapshot.empty) {
-      if(!currentUser) {
-        loader.innerHTML = 'No recent stories found. <a href="#" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());return false;" style="color:#0284c7;font-weight:600;text-decoration:none">Sign in</a> to fetch the latest news.';
-        return;
-      }
-      await generateNews();
+      // Use fallback static curated items instead of calling generateNews()
+      allStories = [...staticNews];
+      document.getElementById('newsLoading').style.display = 'none';
+      renderNews();
       return;
     }
     
     processStories(snapshot);
   } catch(e) {
     console.error("Error loading news:", e);
-    loader.innerHTML = 'Error loading news.';
+    // Use fallback static curated items on error
+    allStories = [...staticNews];
+    document.getElementById('newsLoading').style.display = 'none';
+    renderNews();
   }
 }
 
@@ -355,7 +390,10 @@ async function generateNews() {
     loadNews();
   } catch(e) {
     console.error("AI Generation Error:", e);
-    document.getElementById('newsLoading').innerHTML = 'Failed to extract news. Try again later.';
+    alert("Failed to extract latest news. Showing fallback curated stories.");
+    allStories = [...staticNews];
+    document.getElementById('newsLoading').style.display = 'none';
+    renderNews();
   }
 }
 
