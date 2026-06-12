@@ -4,7 +4,7 @@
 ═══════════════════════════════════════════════════ */
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC3B2VEkYQy8DBN_jFNGPUWpJBqRNOP7gM",
+  apiKey: "AIzaSyCLw65yB0sPSf5lgSkom27PTN4DrS1CBFc",
   authDomain: "soral-atul-physicism.firebaseapp.com",
   projectId: "soral-atul-physicism",
   storageBucket: "soral-atul-physicism.firebasestorage.app",
