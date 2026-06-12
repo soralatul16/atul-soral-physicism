@@ -347,6 +347,14 @@ async function refreshNews() {
   await generateNews();
 }
 
+function showFallbackStories(err) {
+  if (err) console.error("AI Generation Error:", err);
+  alert("Failed to extract latest news. Showing fallback curated stories.");
+  allStories = [...staticNews];
+  document.getElementById('newsLoading').style.display = 'none';
+  renderNews();
+}
+
 async function generateNews() {
   document.getElementById('newsLoading').innerHTML = '<div class="spinner"></div>Extracting the latest physics news...';
   try {
@@ -367,20 +375,19 @@ async function generateNews() {
       temperature: 0.9
     });
     
-    let rawData = result.data.content || result.data;
-    if(typeof rawData === 'string') {
-        rawData = rawData.replace(/```json/g, '').replace(/```/g, '').trim();
-        try { rawData = JSON.parse(rawData); } catch(e) {}
-    }
-    
+    let rawData = result?.data?.content || result?.data;
     let stories = rawData;
-    if (!Array.isArray(stories)) {
-      stories = stories?.stories || stories?.articles || stories?.news || [];
+    if (!stories) { showFallbackStories("No data returned"); return; }
+    
+    if (typeof stories === 'string') {
+        stories = stories.replace(/```json/g, '').replace(/```/g, '').trim();
+        try { stories = JSON.parse(stories); } catch(e) { showFallbackStories(e); return; }
     }
     
-    if (!Array.isArray(stories)) {
-      throw new Error("AI returned non-array");
-    }
+    if (stories.stories) stories = stories.stories;
+    if (stories.articles) stories = stories.articles;
+    if (stories.news) stories = stories.news;
+    if (!Array.isArray(stories)) { showFallbackStories("Data is not an array"); return; }
     
     for(let story of stories) {
       await db.collection('physicism_news').add({
@@ -398,11 +405,7 @@ async function generateNews() {
     
     loadNews();
   } catch(e) {
-    console.error("AI Generation Error:", e);
-    alert("Failed to extract latest news. Showing fallback curated stories.");
-    allStories = [...staticNews];
-    document.getElementById('newsLoading').style.display = 'none';
-    renderNews();
+    showFallbackStories(e);
   }
 }
 
