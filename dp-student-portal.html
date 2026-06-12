@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DP Student Portal | Atul Soral Physicism</title>
+<title>Student Portal | Atul Soral Physicism</title>
 <meta name="description" content="Student login portal for DP Physics assignments and tests by Atul Soral Physicism.">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
@@ -67,7 +67,7 @@ nav a{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px;border-r
 <nav>
   <div style="display:flex;align-items:center;gap:14px">
     <span class="nav-title">Atul Soral Physicism</span>
-    <span class="nav-sub">DP Student Portal</span>
+    <span class="nav-sub">Student Portal</span>
   </div>
   <div style="display:flex;gap:6px">
     <a href="index.html">Home</a>
@@ -129,17 +129,16 @@ PhysicismAuth.onAuthReady(function(user) {
     // Check if profile is complete (has level set)
     PhysicismAuth.getStudentProfile(user.uid).then(function(profile) {
       if (profile && profile.level) {
-        window.location.href = 'dp-student-dashboard.html';
+        window.location.href = profile.level === 'MYP' ? 'myp-dashboard.html' : 'dp-student-dashboard.html';
       } else {
-        // Show profile completion modal
         PhysicismAuth.showProfileModal(function(level) {
-          window.location.href = 'dp-student-dashboard.html';
+          window.location.href = level === 'MYP' ? 'myp-dashboard.html' : 'dp-student-dashboard.html';
         });
       }
     });
   }
 });
-
+});
 function handleGoogleSignIn() {
   var btn = document.getElementById('googleSignInBtn');
   var msgEl = document.getElementById('errorMsg');
@@ -153,16 +152,14 @@ function handleGoogleSignIn() {
     btn.disabled = false;
 
     if (result.isNewUser || !result.profile.level) {
-      // First sign-in or level not set — show profile completion
       PhysicismAuth.showProfileModal(function(level) {
-        window.location.href = 'dp-student-dashboard.html';
+        window.location.href = level === 'MYP' ? 'myp-dashboard.html' : 'dp-student-dashboard.html';
       });
     } else {
-      // Returning user — go straight to dashboard
       msgEl.className = 'msg success';
       msgEl.textContent = 'Welcome back, ' + result.user.displayName + '! Redirecting...';
       setTimeout(function() {
-        window.location.href = 'dp-student-dashboard.html';
+        window.location.href = result.profile.level === 'MYP' ? 'myp-dashboard.html' : 'dp-student-dashboard.html';
       }, 600);
     }
   }).catch(function(err) {
