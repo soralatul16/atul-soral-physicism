@@ -370,8 +370,17 @@ async function generateNews() {
     let rawData = result.data.content || result.data;
     if(typeof rawData === 'string') {
         rawData = rawData.replace(/```json/g, '').replace(/```/g, '').trim();
+        try { rawData = JSON.parse(rawData); } catch(e) {}
     }
-    const stories = typeof rawData === 'string' ? JSON.parse(rawData) : rawData;
+    
+    let stories = rawData;
+    if (!Array.isArray(stories)) {
+      stories = stories?.stories || stories?.articles || stories?.news || [];
+    }
+    
+    if (!Array.isArray(stories)) {
+      throw new Error("AI returned non-array");
+    }
     
     for(let story of stories) {
       await db.collection('physicism_news').add({
