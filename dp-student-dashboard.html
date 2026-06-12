@@ -497,40 +497,44 @@ nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="js/auth.js"></script>
 <script>
-firebase.initializeApp({
-  apiKey:"AIzaSyC3B2VEkYQy8DBN_jFNGPUWpJBqRNOP7gM",
-  authDomain:"soral-atul-physicism.firebaseapp.com",
-  projectId:"soral-atul-physicism",
-  storageBucket:"soral-atul-physicism.appspot.com"
-});
-var db = firebase.firestore();
+PhysicismAuth.requireAuth('dp-student-portal.html');
+var db = PhysicismAuth.db;
 
 // ==================== AUTH CHECK ====================
-var studentId = sessionStorage.getItem('dpStudentId');
-var studentName = sessionStorage.getItem('dpStudentName');
-var studentDocId = sessionStorage.getItem('dpStudentDocId');
-var studentLevel = sessionStorage.getItem('dpStudentLevel') || '';
+var studentId = null;
+var studentName = '';
+var studentDocId = null;
+var studentLevel = '';
 var studentTags = [];
-try { studentTags = JSON.parse(sessionStorage.getItem('dpStudentTags')||'[]'); } catch(e){}
-
-if(!studentId){
-  window.location.href = 'dp-student-portal.html';
-}
-
-// ==================== INIT ====================
-document.getElementById('navAvatar').textContent = studentName ? studentName.charAt(0).toUpperCase() : '?';
-document.getElementById('navName').textContent = studentName || 'Student';
-document.getElementById('welcomeName').textContent = (studentName||'Student').split(' ')[0];
-document.getElementById('welcomeMeta').textContent = studentLevel + ' · ' + studentId;
 
 var allAssignments = [];
 var allSubmissions = [];
 
-function initDashboard(){
-  loadAssignmentsAndSubmissions();
-}
+PhysicismAuth.onAuthReady(function(user) {
+  if (user) {
+    studentId = user.uid;
+    studentDocId = user.uid;
+    studentName = user.displayName || user.email.split('@')[0];
+    
+    PhysicismAuth.getStudentProfile(user.uid).then(function(profile) {
+      if (profile) {
+        studentLevel = profile.level || '';
+        studentTags = profile.tags || [];
+      }
+      
+      document.getElementById('navAvatar').textContent = studentName.charAt(0).toUpperCase();
+      document.getElementById('navName').textContent = studentName;
+      document.getElementById('welcomeName').textContent = studentName.split(' ')[0];
+      document.getElementById('welcomeMeta').textContent = studentLevel;
+      
+      initDashboard();
+    });
+  }
+});
 
 // ==================== DATA LOADING ====================
 function loadAssignmentsAndSubmissions(){
@@ -1398,14 +1402,9 @@ function groupQuestions(questions) {
 
 // ==================== LOGOUT ====================
 function logout(){
-  sessionStorage.removeItem('dpStudentId');
-  sessionStorage.removeItem('dpStudentName');
-  sessionStorage.removeItem('dpStudentDocId');
-  sessionStorage.removeItem('dpStudentLevel');
-  sessionStorage.removeItem('dpStudentTags');
   sessionStorage.removeItem('dpCurrentAssignment');
   sessionStorage.removeItem('dpCurrentSubmission');
-  window.location.href = 'dp-student-portal.html';
+  PhysicismAuth.signOut('dp-student-portal.html');
 }
 
 // ==================== UTILS ====================
@@ -1426,8 +1425,6 @@ function initDashboard(){
     resumeActiveAttempt(activeAsgnId, activeSubId);
   }
 }
-
-initDashboard();
 </script>
 </body>
 </html>
