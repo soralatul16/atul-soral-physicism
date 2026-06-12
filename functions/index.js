@@ -416,3 +416,73 @@ exports.aiChat = onCall(
     throw new HttpsError("internal", "AI request failed: " + lastError);
   }
 );
+
+// ─── Real Physics News ───────────────────────────────────────────────
+exports.fetchPhysicsNews = onCall(
+  { cors: [/soralatul16\.github\.io$/, /localhost/], secrets: ["GROQ_API_KEY", "GNEWS_API_KEY"] },
+  async (request) => {
+    if (!request.auth) {
+      throw new HttpsError("unauthenticated", "Must be logged in.");
+    }
+
+    const envVars = getEnv();
+    const gnewsKey = envVars.GNEWS_API_KEY;
+    const groqKey = envVars.GROQ_API_KEY;
+
+    if (!gnewsKey || !groqKey) {
+      throw new HttpsError("failed-precondition", "News service not configured.");
+    }
+
+    // Fetch real science/physics news
+    const newsUrl = `https://gnews.io/api/v4/search?q=physics OR quantum OR particle OR space OR astronomy&lang=en&max=10&apikey=${gnewsKey}`;
+    const newsResponse = await fetch(newsUrl);
+    if (!newsResponse.ok) {
+      throw new HttpsError("internal", "Failed to fetch news.");
+    }
+    const newsData = await newsResponse.json();
+    const articles = newsData.articles || [];
+
+    if (articles.length === 0) {
+      throw new HttpsError("not-found", "No physics news found today.");
+    }
+
+    // Send real articles to Groq for IB Physics categorization
+    const articleList = articles.map((a, i) =>
+      `${i+1}. "${a.title}" - ${a.description || ''} (Source: ${a.source?.name}, URL: ${a.url}, Date: ${a.publishedAt})`
+    ).join('\n');
+
+    const groqResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + groqKey },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          { role: "system", content: "You are an IB DP Physics (2025 syllabus) expert. Given real news articles, select the 5 most relevant to IB Physics and categorize them. Return ONLY a valid JSON object with a \"stories\" array." },
+          { role: "user", content: `Categorize these real news articles by IB Physics theme:\n\n${articleList}\n\nReturn JSON with "stories" array. Each object needs: title (real headline), desc (2-3 sentences connecting to IB Physics), theme (A/B/C/D/E), subtopic (e.g. "A.2 Forces and Momentum"), source (real source name), url (real article URL), date (publication date).` }
+        ],
+        temperature: 0.3,
+        max_tokens: 2000,
+        response_format: { type: "json_object" }
+      })
+    });
+
+    if (!groqResponse.ok) {
+      throw new HttpsError("internal", "AI categorization failed.");
+    }
+
+    const groqData = await groqResponse.json();
+    const reply = groqData.choices?.[0]?.message?.content;
+    if (!reply) throw new HttpsError("internal", "Empty AI response.");
+
+    let stories;
+    try {
+      const parsed = JSON.parse(reply);
+      stories = parsed.stories || parsed.articles || parsed.news || parsed;
+      if (!Array.isArray(stories)) stories = [stories];
+    } catch (e) {
+      throw new HttpsError("internal", "Failed to parse AI response.");
+    }
+
+    return { stories };
+  }
+);

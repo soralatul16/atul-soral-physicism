@@ -324,6 +324,12 @@ function renderNews() {
           <span class="nc-theme">Theme ${story.theme}</span>
           <span class="nc-subtopic">${story.subtopic}</span>
         </div>
+        ${story.url ? `<a href="${story.url}" target="_blank" style="display:inline-block;margin-top:10px;color:#0ea5e9;font-size:13px;font-weight:500;text-decoration:none">Read article \u2192</a>` : ""}
+        </div>
+        ${story.url ? `<a href="${story.url}" target="_blank" style="display:inline-block;margin-top:10px;color:\#0ea5e9;font-size:13px;font-weight:500;text-decoration:none">Read article →</a>` : ""}
+        </div>
+        ${story.url ? `<a href="${story.url}" target="_blank" style="display:inline-block;margin-top:10px;color:#0ea5e9;font-size:13px;font-weight:500;text-decoration:none">Read article →</a>` : ""}
+        </div>
       </div>
     `;
   });
@@ -358,30 +364,11 @@ function showFallbackStories(err) {
 async function generateNews() {
   document.getElementById('newsLoading').innerHTML = '<div class="spinner"></div>Extracting the latest physics news...';
   try {
-    const aiChat = firebase.functions().httpsCallable('aiChat');
-    const result = await aiChat({
-      messages: [
-        {
-          role: 'system',
-          content: 'You are an IB Physics (2025 syllabus) current affairs expert. Generate 5 recent science/physics news stories from the last week. Each story must be mapped to a specific IB DP Physics theme (A through E). Return ONLY a valid JSON array, no markdown, no explanation. Each object must have: emoji (single emoji), title (headline, max 15 words), desc (2-3 sentences connecting the news to a specific IB Physics concept), theme (single letter: A, B, C, D, or E), subtopic (specific topic name like "Kinematics" or "Wave Phenomena"), source (credible source like Nature, BBC Science, PhysicsWorld, New Scientist, Space.com).'
-        },
-        {
-          role: 'user',
-          content: 'Generate 5 physics news stories for today, ' + new Date().toISOString().split('T')[0]
-        }
-      ],
-      responseFormat: 'json',
-      maxTokens: 1500,
-      temperature: 0.9
-    });
-    
-    let stories = result?.data?.reply || result?.data;
-    if (!stories) { showFallbackStories(); return; }
-    if (typeof stories === 'string') try { stories = JSON.parse(stories); } catch(e) { showFallbackStories(); return; }
-    if (stories.stories) stories = stories.stories;
-    if (stories.articles) stories = stories.articles;  
-    if (stories.news) stories = stories.news;
-    if (!Array.isArray(stories)) { showFallbackStories(); return; }
+    const fetchNews = firebase.functions().httpsCallable('fetchPhysicsNews');
+    const result = await fetchNews();
+
+    let stories = result?.data?.stories || [];
+    if (!stories.length) { showFallbackStories(); return; }
     
     for(let story of stories) {
       await db.collection('physicism_news').add({
@@ -391,6 +378,7 @@ async function generateNews() {
         theme: story.theme || 'A',
         subtopic: story.subtopic || 'General',
         source: story.source || 'News',
+        url: story.url || '',
         date: new Date().toISOString().split('T')[0],
         createdBy: 'AI',
         generated: new Date().toISOString()
