@@ -266,35 +266,9 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
   <div class="tab-panel active" id="panel-students">
 
     <!-- ADD STUDENT -->
-    <div class="card">
-      <h3>➕ Add Student</h3>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Full Name</label>
-          <input type="text" id="stuName" placeholder="John Doe">
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="stuEmail" placeholder="student@school.com">
-        </div>
-        <div class="form-group">
-          <label>Phone</label>
-          <input type="tel" id="stuPhone" placeholder="+91 98765 43210">
-        </div>
-        <div class="form-group" style="min-width:120px">
-          <label>Level</label>
-          <select id="stuLevel">
-            <option value="DP-SL">DP SL</option>
-            <option value="DP-HL">DP HL</option>
-            <option value="MYP">MYP</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group" style="margin-bottom:14px">
-        <label>Tags (click to select)</label>
-        <div class="tag-chips" id="addStudentTags"></div>
-      </div>
-      <button class="btn btn-primary" onclick="addStudent()">+ Add Student</button>
+    <div class="card" style="text-align: center; padding: 30px;">
+      <h3 style="justify-content: center; margin-bottom: 8px;">➕ Add Student</h3>
+      <p style="color: var(--text2); font-size: .9rem;">Students self-register by signing in with Google on the <a href="dp-student-portal.html" style="color: var(--accent); text-decoration: none; font-weight: 600;">Student Portal</a>.</p>
     </div>
 
     <!-- STUDENT LIST -->
@@ -497,20 +471,7 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
 </div>
 </div>
 
-<!-- STUDENT CREATED MODAL -->
-<div class="modal-overlay" id="stuCreatedModal">
-  <div class="modal">
-    <h3>✅ Student Created!</h3>
-    <p style="font-size:.85rem;color:var(--text2);margin-bottom:12px">Share these credentials with the student. They will need them to log in.</p>
-    <div style="font-size:.75rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em">Student ID</div>
-    <div class="modal-id" id="modalStuId">STU-XXXXX</div>
-    <button class="copy-btn" onclick="copyText('modalStuId')">📋 Copy ID</button>
-    <div style="font-size:.75rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:12px">Password</div>
-    <div class="modal-pw" id="modalStuPw">physicsXXXX</div>
-    <button class="copy-btn" onclick="copyText('modalStuPw')">📋 Copy Password</button>
-    <button class="modal-close" onclick="closeModal('stuCreatedModal')">Close</button>
-  </div>
-</div>
+
 
 <!-- EDIT STUDENT MODAL -->
 <div class="modal-overlay" id="editStudentModal">
@@ -539,17 +500,7 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
   </div>
 </div>
 
-<!-- CONFIRM DELETE MODAL -->
-<div class="modal-overlay" id="confirmDeleteModal">
-  <div class="modal">
-    <h3>⚠️ Delete Student?</h3>
-    <p style="font-size:.85rem;color:var(--text2);margin-bottom:16px">This will permanently remove the student and all their data. This action cannot be undone.</p>
-    <div style="display:flex;gap:10px">
-      <button class="btn btn-danger" id="confirmDeleteBtn" style="flex:1">Delete</button>
-      <button class="btn btn-outline" onclick="closeModal('confirmDeleteModal')" style="flex:1">Cancel</button>
-    </div>
-  </div>
-</div>
+
 
 <!-- QUESTION BANK MODAL -->
 <div class="qb-overlay" id="qbOverlay">
@@ -784,66 +735,15 @@ function deleteTag(tagId){
 }
 
 // ==================== STUDENTS ====================
-function generateStudentId(){
-  var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  var id = 'STU-';
-  for(var i=0;i<5;i++) id += chars.charAt(Math.floor(Math.random()*chars.length));
-  return id;
-}
-
-function generatePassword(){
-  return 'physics' + String(Math.floor(1000 + Math.random()*9000));
-}
-
-function addStudent(){
-  var name = document.getElementById('stuName').value.trim();
-  var email = document.getElementById('stuEmail').value.trim();
-  var phone = document.getElementById('stuPhone').value.trim();
-  var level = document.getElementById('stuLevel').value;
-
-  if(!name){alert('Please enter student name');return;}
-
-  var studentId = generateStudentId();
-  var password = generatePassword();
-
-  // Auto-add level tag
-  var tags = selectedAddTags.slice();
-  if(tags.indexOf(level)===-1) tags.push(level);
-
-  var studentDoc = {
-    studentId: studentId,
-    name: name,
-    email: email,
-    phone: phone,
-    password: password,
-    level: level,
-    tags: tags,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  };
-
-  db.collection('dpStudents').add(studentDoc).then(function(){
-    // Show modal
-    document.getElementById('modalStuId').textContent = studentId;
-    document.getElementById('modalStuPw').textContent = password;
-    openModal('stuCreatedModal');
-
-    // Reset form
-    document.getElementById('stuName').value='';
-    document.getElementById('stuEmail').value='';
-    document.getElementById('stuPhone').value='';
-    selectedAddTags = [];
-    renderTagUI();
-    loadStudents();
-  }).catch(function(err){
-    alert('Error adding student: '+err.message);
-  });
-}
+function generateStudentId(){ return ''; }
+function generatePassword(){ return ''; }
+function addStudent(){ return; }
 
 var activeEditingStudent = null;
 var selectedEditTags = [];
 
 function loadStudents(){
-  db.collection('dpStudents').get().then(function(snap){
+  db.collection('students').get().then(function(snap){
     allStudents = [];
     snap.forEach(function(doc){
       allStudents.push(Object.assign({id: doc.id}, doc.data()));
@@ -910,14 +810,12 @@ function renderStudentTable(){
 
     return '<tr>'+
       '<td style="font-weight:600">'+escHtml(s.name||'')+'</td>'+
-      '<td><code style="font-size:.78rem;background:var(--bg);padding:2px 6px;border-radius:4px">'+escHtml(s.studentId||'')+'</code></td>'+
+      '<td><code style="font-size:.78rem;background:var(--bg);padding:2px 6px;border-radius:4px">'+escHtml(s.uid||'')+'</code></td>'+
       '<td>'+escHtml(s.level||'')+'</td>'+
       '<td>'+tagHtml+'</td>'+
       '<td style="font-size:.78rem;color:var(--text2)">'+escHtml(s.email||'')+'</td>'+
       '<td>'+
         actionBtnHtml +
-        '<button class="btn btn-outline btn-sm" onclick="showCredentials(\''+escHtml(s.studentId||'')+'\',\''+escHtml(s.password||'')+'\')">🔑</button> '+
-        '<button class="btn btn-danger btn-sm" onclick="confirmDeleteStudent(\''+s.id+'\',\''+escHtml(s.name||'')+'\')">✕</button>'+
       '</td>'+
     '</tr>';
   }).join('');
@@ -961,7 +859,7 @@ function saveStudentEdits(){
   var docId = activeEditingStudent.id;
   var level = document.getElementById('editStuLevel').value;
   
-  db.collection('dpStudents').doc(docId).update({
+  db.collection('students').doc(docId).update({
     level: level,
     tags: selectedEditTags
   }).then(function(){
@@ -972,21 +870,6 @@ function saveStudentEdits(){
   });
 }
 
-function showCredentials(id, pw){
-  document.getElementById('modalStuId').textContent = id;
-  document.getElementById('modalStuPw').textContent = pw;
-  openModal('stuCreatedModal');
-}
-
-function confirmDeleteStudent(docId, name){
-  document.getElementById('confirmDeleteBtn').onclick = function(){
-    db.collection('dpStudents').doc(docId).delete().then(function(){
-      closeModal('confirmDeleteModal');
-      loadStudents();
-    });
-  };
-  openModal('confirmDeleteModal');
-}
 
 // ==================== MODALS ====================
 function openModal(id){
@@ -1379,13 +1262,13 @@ var activeGradingMarks = {};
 
 function loadSubmissions(){
   var p1 = db.collection('dpSubmissions').get();
-  var p2 = db.collection('dpStudents').get();
+  var p2 = db.collection('students').get();
   
   Promise.all([p1, p2]).then(function(results){
     var studentsMap = {};
     results[1].forEach(function(doc){
       var s = doc.data();
-      studentsMap[s.studentId] = s.name || 'Unknown';
+      studentsMap[doc.id] = s.name || 'Unknown';
     });
 
     allSubmissions = [];
