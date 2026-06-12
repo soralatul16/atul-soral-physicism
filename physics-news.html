@@ -375,19 +375,13 @@ async function generateNews() {
       temperature: 0.9
     });
     
-    let rawData = result?.data?.content || result?.data;
-    let stories = rawData;
-    if (!stories) { showFallbackStories("No data returned"); return; }
-    
-    if (typeof stories === 'string') {
-        stories = stories.replace(/```json/g, '').replace(/```/g, '').trim();
-        try { stories = JSON.parse(stories); } catch(e) { showFallbackStories(e); return; }
-    }
-    
+    let stories = result?.data;
+    if (!stories) { showFallbackStories(); return; }
+    if (typeof stories === 'string') try { stories = JSON.parse(stories); } catch(e) { showFallbackStories(); return; }
     if (stories.stories) stories = stories.stories;
-    if (stories.articles) stories = stories.articles;
+    if (stories.articles) stories = stories.articles;  
     if (stories.news) stories = stories.news;
-    if (!Array.isArray(stories)) { showFallbackStories("Data is not an array"); return; }
+    if (!Array.isArray(stories)) { showFallbackStories(); return; }
     
     for(let story of stories) {
       await db.collection('physicism_news').add({
