@@ -298,10 +298,7 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
     <button class="nav-link" onclick="logout()">Sign Out</button>
     <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:14px;transition:all .2s;color:var(--text2);" title="Toggle dark/light mode">🌙</button>
   
-    <button id="authBtn" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" 
-      style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:5px 14px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px">
-      👤 Sign In
-    </button>
+    <div id="authBtnContainer" style="margin-left:8px;"></div>
 </div>
 </div>
 
@@ -412,6 +409,7 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="exam-system/firebase-config.js?v=2"></script>
+<script src="js/auth.js"></script>
 
 <!-- Question Bank for mapping -->
 <script src="quiz/question-bank.js"></script>
@@ -537,28 +535,19 @@ var dbAttempts = [];
 var currentUser = null;
 
 // Auth check
-if (typeof firebase !== 'undefined' && firebase.auth) {
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (!user) {
-      alert("Please login first to view your dashboard!");
-      window.location.href = "myp-dashboard.html";
-    } else {
-      currentUser = user;
-      document.getElementById('welcome-title').textContent = "Welcome, " + (user.displayName || user.email);
-      document.getElementById('welcome-subtitle').textContent = "Atul Soral Physicism Student Progress";
-      loadDashboardData(user);
-    }
-  });
-} else {
-  alert("Firebase configuration missing or invalid.");
-  window.location.href = "myp-dashboard.html";
-}
+PhysicismAuth.requireAuth('myp-dashboard.html');
+PhysicismAuth.onAuthReady(function(user) {
+  if (user) {
+    currentUser = user;
+    document.getElementById('welcome-title').textContent = "Welcome, " + (user.displayName || user.email.split('@')[0]);
+    document.getElementById('welcome-subtitle').textContent = "Atul Soral Physicism Student Progress";
+    loadDashboardData(user);
+  }
+});
 
 function logout() {
   if (confirm("Are you sure you want to sign out?")) {
-    firebase.auth().signOut().then(function() {
-      window.location.href = "myp-dashboard.html";
-    });
+    PhysicismAuth.signOut('myp-dashboard.html');
   }
 }
 
@@ -796,27 +785,7 @@ function createProgressRing(percent) {
 
 
 <script>
-if (typeof firebase !== 'undefined' && firebase.auth) {
-  firebase.auth().onAuthStateChanged(function(user) {
-    var btn = document.getElementById('authBtn');
-    if (!btn) return;
-    if (user) {
-      var name = user.displayName || user.email.split('@')[0];
-      btn.outerHTML = '<div id="authBtn" style="display:flex;align-items:center;gap:8px;margin-left:8px;">' +
-        '<span style="font-size:.73rem;color:rgba(255,255,255,.9);display:flex;align-items:center;gap:5px">' +
-          '<span style="width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block"></span>' +
-          name +
-        '</span>' +
-        '<button onclick="firebase.auth().signOut().then(function(){location.reload()})" ' +
-        'style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:3px 10px;font-size:.7rem;cursor:pointer">Sign Out</button>' +
-      '</div>';
-    } else {
-      btn.outerHTML = '<button id="authBtn" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" ' +
-        'style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:5px 14px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;margin-left:8px;">' +
-        '👤 Sign In</button>';
-    }
-  });
-}
+PhysicismAuth.renderAuthButton('authBtnContainer');
 </script>
 
 </body>
