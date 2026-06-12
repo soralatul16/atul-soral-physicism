@@ -37,6 +37,7 @@ function getEnv() {
   
   return {
     GROQ_API_KEY: fbConfig.api?.groq || process.env.GROQ_API_KEY || "",
+    GNEWS_API_KEY: process.env.GNEWS_API_KEY || "",
     GEMINI_API_KEY: fbConfig.api?.gemini || process.env.GEMINI_API_KEY || "",
     ENV: fbConfig.app?.env || process.env.NODE_ENV || "production"
   };
