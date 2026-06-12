@@ -333,7 +333,7 @@ exports.saveTrustedTemplate = teacherFeedback.saveTrustedTemplate;
    Called by client-side AI tutor widgets across the site.
    ═══════════════════════════════════════════════════════════ */
 exports.aiChat = onCall(
-  { cors: [/soralatul16\.github\.io$/, /localhost/] },
+  { cors: [/soralatul16\.github\.io$/, /localhost/], secrets: ["GROQ_API_KEY"] },
   async (request) => {
     // Auth guard — only logged-in users can call AI
     if (!request.auth) {
