@@ -595,7 +595,7 @@ nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px
       <button class="tool-close" onclick="closeDataBooklet()">✕</button>
     </div>
     <div class="tool-modal-body">
-      <iframe src="dp-data-booklet.html" width="100%" height="100%" frameborder="0" style="pointer-events: auto;"></iframe>
+      <iframe src="dp-data-booklet.html?embed=true" width="100%" height="100%" frameborder="0" style="pointer-events: auto;"></iframe>
     </div>
   </div>
 </div>
@@ -1031,13 +1031,17 @@ function loadAttemptData(assignmentId, submissionId, callback){
 }
 
 // Global scope listener functions for clean lifecycle
+var toolModalOpen = false;
+
 var visListener = function(){
+  if (toolModalOpen) return;
   if (document.hidden) {
     handleFocusLoss('tab_hidden');
   }
 };
 
 var blurListener = function(){
+  if (toolModalOpen) return;
   handleFocusLoss('window_blur');
 };
 
@@ -1725,10 +1729,10 @@ function escHtml(str){
 }
 
 // ==================== STUDENT TOOLS ====================
-function openGDC() { document.getElementById('gdcModal').classList.add('open'); }
-function closeGDC() { document.getElementById('gdcModal').classList.remove('open'); }
-function openDataBooklet() { document.getElementById('dbModal').classList.add('open'); }
-function closeDataBooklet() { document.getElementById('dbModal').classList.remove('open'); }
+function openGDC() { toolModalOpen = true; document.getElementById('gdcModal').classList.add('open'); }
+function closeGDC() { toolModalOpen = false; document.getElementById('gdcModal').classList.remove('open'); }
+function openDataBooklet() { toolModalOpen = true; document.getElementById('dbModal').classList.add('open'); }
+function closeDataBooklet() { toolModalOpen = false; document.getElementById('dbModal').classList.remove('open'); }
 
 function makeDraggable(modalId, headerId) {
   var modal = document.getElementById(modalId);
