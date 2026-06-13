@@ -359,12 +359,21 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
         </div>
       </div>
 
-      <div style="display:flex;gap:8px;align-items:center;margin-top:6px;padding:10px;background:var(--bg);border-radius:8px;font-size:.78rem;color:var(--text2)" id="asgnSettingsPreview">
-        <span>⚙️</span>
-        <span id="asgnSettingsText">HW: No lock, no timer, PDF download allowed</span>
+      <div class="form-row" style="background:#F9FAFB;padding:12px;border-radius:8px;margin-top:10px">
+        <div class="form-group" style="flex-direction:row;align-items:center;gap:8px;margin-bottom:0">
+          <input type="checkbox" id="asgnAllowRetest" onchange="toggleMaxAttempts()">
+          <label for="asgnAllowRetest" style="margin-bottom:0;font-weight:600">Allow Retest</label>
+        </div>
+        <div class="form-group" style="max-width:160px;margin-bottom:0;margin-left:20px" id="maxAttemptsGroup">
+          <label style="margin-bottom:2px">Max Attempts</label>
+          <input type="number" id="asgnMaxAttempts" min="1" placeholder="Unlimited" style="padding:6px;border-radius:6px">
+        </div>
       </div>
 
-      <button class="btn btn-primary" style="margin-top:14px" onclick="createAssignment()">🚀 Create Assignment</button>
+      <div style="font-size:.8rem;color:var(--text3);margin:16px 0" id="asgnSettingsText">
+        HW: No lock, no timer, PDF download allowed
+      </div>
+      <button class="btn btn-primary" onclick="createAssignment()">🚀 Create Assignment</button>
     </div>
 
     <!-- ASSIGNMENT LIST -->
@@ -473,12 +482,62 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
 
 
 
+<!-- EDIT ASSIGNMENT MODAL -->
+<div class="modal-overlay" id="editAssignmentModal">
+  <div class="modal" style="max-width: 500px; width: 90%; text-align: left;">
+    <h3 id="editAsgnModalTitle">✏️ Edit Assignment</h3>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Title</label>
+      <input type="text" id="editAsgnTitle" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:8px;outline:none;">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Type</label>
+        <select id="editAsgnType" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:8px;outline:none;">
+          <option value="hw">Homework</option>
+          <option value="formative">Formative Test</option>
+          <option value="summative">Summative Test</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Time Limit (min)</label>
+        <input type="number" id="editAsgnTime" min="1" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:8px;outline:none;">
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Due Date</label>
+      <input type="datetime-local" id="editAsgnDue" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:8px;outline:none;">
+    </div>
+    
+    <div class="form-row" style="background:#F9FAFB;padding:12px;border-radius:8px;margin-bottom:12px">
+      <div class="form-group" style="flex-direction:row;align-items:center;gap:8px;margin-bottom:0">
+        <input type="checkbox" id="editAsgnAllowRetest" onchange="document.getElementById('editAsgnMaxAttempts').disabled = !this.checked">
+        <label for="editAsgnAllowRetest" style="margin-bottom:0;font-weight:600">Allow Retest</label>
+      </div>
+      <div class="form-group" style="max-width:160px;margin-bottom:0;margin-left:20px">
+        <label style="margin-bottom:2px">Max Attempts</label>
+        <input type="number" id="editAsgnMaxAttempts" min="1" placeholder="Unlimited" style="padding:6px;border-radius:6px">
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
+      <button class="btn btn-outline" onclick="closeModal('editAssignmentModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveAssignmentEdits()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
 <!-- EDIT STUDENT MODAL -->
 <div class="modal-overlay" id="editStudentModal">
   <div class="modal" style="max-width: 500px; width: 90%; text-align: left;">
     <h3 id="editModalTitle">✏️ Edit Student</h3>
     <p style="font-size:.82rem;color:var(--text2);margin-bottom:14px">Update the level and tags for this student.</p>
     
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Student ID</label>
+      <input type="text" id="editStuId" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:8px;outline:none;" placeholder="e.g. DP-HL-2026-001">
+    </div>
+
     <div class="form-group" style="margin-bottom:12px">
       <label>Level</label>
       <select id="editStuLevel" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:8px;outline:none;">
@@ -555,15 +614,11 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="exam-system/firebase-config.js?v=2"></script>
 <script>
-firebase.initializeApp({
-  apiKey:"AIzaSyCLw65yB0sPSf5lgSkom27PTN4DrS1CBFc",
-  authDomain:"soral-atul-physicism.firebaseapp.com",
-  projectId:"soral-atul-physicism",
-  storageBucket:"soral-atul-physicism.appspot.com"
-});
-var db = firebase.firestore();
+// db is already initialized in firebase-config.js
 
 // ==================== AUTH ====================
 function unlock(){
@@ -743,7 +798,9 @@ var activeEditingStudent = null;
 var selectedEditTags = [];
 
 function loadStudents(){
+  console.log("Starting to load students from Firestore collection 'students'...");
   db.collection('students').get().then(function(snap){
+    console.log('Students loaded:', snap.size);
     allStudents = [];
     snap.forEach(function(doc){
       allStudents.push(Object.assign({id: doc.id}, doc.data()));
@@ -757,6 +814,7 @@ function loadStudents(){
     renderStudentTable();
   }).catch(function(err){
     console.error('Error loading students:', err);
+    alert('Failed to load students. Check console for details. Error: ' + err.message);
     allStudents = [];
     renderStudentTable();
   });
@@ -811,7 +869,7 @@ function renderStudentTable(){
 
     return '<tr>'+
       '<td style="font-weight:600">'+escHtml(s.name||'')+'</td>'+
-      '<td><code style="font-size:.78rem;background:var(--bg);padding:2px 6px;border-radius:4px">'+escHtml(s.uid||'')+'</code></td>'+
+      '<td><code style="font-size:.78rem;background:var(--bg);padding:2px 6px;border-radius:4px">'+escHtml(s.studentId||s.uid||'')+'</code></td>'+
       '<td>'+escHtml(s.level||'')+'</td>'+
       '<td>'+tagHtml+'</td>'+
       '<td style="font-size:.78rem;color:var(--text2)">'+escHtml(s.email||'')+'</td>'+
@@ -829,6 +887,7 @@ function openEditStudentModal(docId){
   activeEditingStudent = s;
   var isSelfRegistered = (s.tags || []).indexOf('self-registered') > -1;
   document.getElementById('editModalTitle').textContent = isSelfRegistered ? '✨ Approve Student: ' + (s.name || '') : '✏️ Edit Student: ' + (s.name || '');
+  document.getElementById('editStuId').value = s.studentId || '';
   document.getElementById('editStuLevel').value = s.level || 'DP-SL';
   
   // Uncheck/remove self-registered tag by default so that saving automatically approves them
@@ -857,13 +916,17 @@ function toggleEditTag(tagName){
 
 function saveStudentEdits(){
   if(!activeEditingStudent) return;
-  var docId = activeEditingStudent.id;
   var level = document.getElementById('editStuLevel').value;
+  var stuId = document.getElementById('editStuId').value.trim();
   
-  db.collection('students').doc(docId).update({
+  var updateData = {
     level: level,
     tags: selectedEditTags
-  }).then(function(){
+  };
+  
+  if (stuId) updateData.studentId = stuId;
+
+  db.collection('students').doc(activeEditingStudent.id).update(updateData).then(function(){
     closeModal('editStudentModal');
     loadStudents();
   }).catch(function(err){
@@ -924,6 +987,22 @@ function updateTypeSettings(){
   };
   document.getElementById('asgnSettingsText').textContent = texts[type];
   recalcTime();
+
+  var allowRetest = document.getElementById('asgnAllowRetest');
+  var maxAttempts = document.getElementById('asgnMaxAttempts');
+  
+  if (type === 'hw') {
+    allowRetest.checked = true;
+    maxAttempts.value = ''; // Unlimited
+  } else {
+    allowRetest.checked = false;
+    maxAttempts.value = '2';
+  }
+  toggleMaxAttempts();
+}
+
+function toggleMaxAttempts() {
+  document.getElementById('asgnMaxAttempts').disabled = !document.getElementById('asgnAllowRetest').checked;
 }
 
 function recalcTime(){
@@ -969,10 +1048,17 @@ function renderAssignmentGrid(){
     var marksText = (a.totalMarks||0)+' marks';
     if(a.timeLimit) marksText += ' · '+a.timeLimit+' min';
 
-    var closeBtnHtml = '';
-    if(a.status === 'active'){
-      closeBtnHtml = '<button class="btn btn-sm btn-outline" onclick="closeAssignment(\''+a.id+'\');event.stopPropagation()">🔒 Close</button>';
+    var actionsHtml = '<select class="btn btn-sm btn-outline" style="padding:4px;width:30px" onchange="handleAssignmentAction(this, \''+a.id+'\'); event.stopPropagation();">' +
+      '<option value="">⋮</option>' +
+      '<option value="edit">Edit</option>' +
+      '<option value="duplicate">Duplicate</option>';
+      
+    if(a.status === 'active') {
+      actionsHtml += '<option value="close">Close</option>';
+    } else {
+      actionsHtml += '<option value="reopen">Reopen</option>';
     }
+    actionsHtml += '<option value="delete">Delete</option></select>';
 
     return '<div class="asgn-card">'+
       '<div class="asgn-title">'+escHtml(a.title||'Untitled')+'</div>'+
@@ -982,17 +1068,101 @@ function renderAssignmentGrid(){
         '<div class="asgn-progress-bar"><div class="asgn-progress-fill" style="width:'+pct+'%"></div></div>'+
         '<div class="asgn-progress-text">'+submitted+'/'+total+' submitted ('+pct+'%)</div>'+
       '</div>'+
-      '<div class="asgn-footer">'+
+      '<div class="asgn-footer" style="display:flex;justify-content:space-between;align-items:center">'+
         '<span style="font-size:.72rem;color:var(--text3)">'+(a.questionIds||[]).length+' questions · '+total+' students</span>'+
-        closeBtnHtml+
+        actionsHtml+
       '</div>'+
     '</div>';
   }).join('');
 }
 
-function closeAssignment(id){
-  if(!confirm('Close this assignment? No new submissions will be accepted.')) return;
-  db.collection('dpAssignments').doc(id).update({status:'closed'}).then(function(){
+function handleAssignmentAction(selectEl, id) {
+  var action = selectEl.value;
+  selectEl.value = ""; // Reset select
+  if (!action) return;
+
+  if (action === 'close') {
+    if(!confirm('Close this assignment? No new submissions will be accepted.')) return;
+    db.collection('dpAssignments').doc(id).update({status:'closed'}).then(loadAssignments);
+  } else if (action === 'reopen') {
+    db.collection('dpAssignments').doc(id).update({status:'active'}).then(loadAssignments);
+  } else if (action === 'duplicate') {
+    duplicateAssignment(id);
+  } else if (action === 'edit') {
+    openEditAssignmentModal(id);
+  } else if (action === 'delete') {
+    deleteAssignment(id);
+  }
+}
+
+function deleteAssignment(id) {
+  if(!confirm('Delete this assignment? All associated submissions will also be deleted permanently.')) return;
+  db.collection('dpAssignments').doc(id).delete().then(function() {
+    // Batch delete submissions
+    db.collection('dpSubmissions').where('assignmentId', '==', id).get().then(function(snap) {
+      if (snap.size === 0) return;
+      var batch = db.batch();
+      snap.forEach(function(doc) {
+        batch.delete(doc.ref);
+      });
+      return batch.commit();
+    }).then(function() {
+      loadAssignments();
+    });
+  });
+}
+
+function duplicateAssignment(id) {
+  var a = allAssignments.find(function(x) { return x.id === id; });
+  if(!a) return;
+  var doc = Object.assign({}, a);
+  delete doc.id;
+  doc.title = doc.title + ' (Copy)';
+  doc.status = 'active';
+  doc.submittedCount = 0;
+  doc.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+  
+  db.collection('dpAssignments').add(doc).then(function() {
+    alert('Assignment duplicated successfully!');
+    loadAssignments();
+  });
+}
+
+var activeEditingAssignment = null;
+function openEditAssignmentModal(id) {
+  var a = allAssignments.find(function(x) { return x.id === id; });
+  if(!a) return;
+  activeEditingAssignment = a;
+  
+  document.getElementById('editAsgnTitle').value = a.title || '';
+  document.getElementById('editAsgnType').value = a.type || 'hw';
+  document.getElementById('editAsgnTime').value = a.timeLimit || '';
+  document.getElementById('editAsgnDue').value = a.dueDate || '';
+  document.getElementById('editAsgnAllowRetest').checked = !!a.allowRetest;
+  document.getElementById('editAsgnMaxAttempts').disabled = !a.allowRetest;
+  document.getElementById('editAsgnMaxAttempts').value = a.maxAttempts || '';
+  
+  openModal('editAssignmentModal');
+}
+
+function saveAssignmentEdits() {
+  if(!activeEditingAssignment) return;
+  var title = document.getElementById('editAsgnTitle').value.trim();
+  var type = document.getElementById('editAsgnType').value;
+  var time = parseInt(document.getElementById('editAsgnTime').value) || 0;
+  var due = document.getElementById('editAsgnDue').value;
+  var allowRetest = document.getElementById('editAsgnAllowRetest').checked;
+  var maxAttempts = parseInt(document.getElementById('editAsgnMaxAttempts').value) || null;
+
+  db.collection('dpAssignments').doc(activeEditingAssignment.id).update({
+    title: title,
+    type: type,
+    timeLimit: type === 'hw' ? 0 : time,
+    dueDate: due || null,
+    allowRetest: allowRetest,
+    maxAttempts: maxAttempts
+  }).then(function() {
+    closeModal('editAssignmentModal');
     loadAssignments();
   });
 }
@@ -1011,6 +1181,9 @@ function createAssignment(){
   var settings = TYPE_SETTINGS[type];
   var studentIds = asgnSelectedStudents.slice();
 
+  var allowRetest = document.getElementById('asgnAllowRetest').checked;
+  var maxAttempts = parseInt(document.getElementById('asgnMaxAttempts').value) || null;
+
   var doc = {
     title: title,
     type: type,
@@ -1021,6 +1194,8 @@ function createAssignment(){
     dueDate: due || null,
     status: 'active',
     settings: settings,
+    allowRetest: allowRetest,
+    maxAttempts: maxAttempts,
     submittedCount: 0,
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
@@ -1328,9 +1503,10 @@ function renderSubmissionsGrid(){
       var strikeLabel = s.focusLossCount !== undefined ? s.focusLossCount : 0;
       var strikesClass = strikeLabel >= 2 ? 'style="color:var(--danger);font-weight:700"' : '';
 
+      var attemptLabel = s.attemptNumber > 1 ? ' <span style="font-size:0.75rem;color:var(--text3)">(Attempt ' + s.attemptNumber + ')</span>' : '';
       return '<tr>' +
         '<td><strong>' + escHtml(s.studentName) + '</strong><br><span style="font-size:.7rem;color:var(--text3)">' + escHtml(s.studentId) + '</span></td>' +
-        '<td>' + escHtml(s.assignmentTitle) + '</td>' +
+        '<td>' + escHtml(s.assignmentTitle) + attemptLabel + '</td>' +
         '<td>' + typeBadge + '</td>' +
         '<td style="font-size:.75rem">' + timeStr + '</td>' +
         '<td ' + strikesClass + '>' + strikeLabel + '</td>' +
@@ -1343,6 +1519,16 @@ function renderSubmissionsGrid(){
   if (graded.length === 0) {
     gradedList.innerHTML = '<tr><td colspan="7" class="empty">No graded submissions yet.</td></tr>';
   } else {
+    // Group graded by studentId + assignmentId for Best Score
+    var gradedGroups = {};
+    graded.forEach(function(s) {
+      var key = s.studentId + '_' + s.assignmentId;
+      if (!gradedGroups[key] || (s.totalScore || 0) > (gradedGroups[key].totalScore || 0)) {
+        gradedGroups[key] = s;
+      }
+    });
+    graded = Object.values(gradedGroups);
+
     graded.sort(function(a,b){
       var ta = a.gradedAt ? (a.gradedAt.toDate ? a.gradedAt.toDate() : new Date(a.gradedAt)) : new Date(0);
       var tb = b.gradedAt ? (b.gradedAt.toDate ? b.gradedAt.toDate() : new Date(b.gradedAt)) : new Date(0);
@@ -1364,9 +1550,11 @@ function renderSubmissionsGrid(){
         releaseBtn = ' <button class="btn btn-sm btn-success" style="padding:4px 8px;font-size:.7rem" onclick="releaseSubmissionGrade(\'' + s.id + '\')">Release</button>';
       }
 
+      var attemptLabel = s.attemptNumber > 1 ? ' <span style="font-size:0.75rem;color:var(--text3)">(Attempt ' + s.attemptNumber + ' - Best)</span>' : '';
+
       return '<tr>' +
         '<td><strong>' + escHtml(s.studentName) + '</strong><br><span style="font-size:.7rem;color:var(--text3)">' + escHtml(s.studentId) + '</span></td>' +
-        '<td>' + escHtml(s.assignmentTitle) + '</td>' +
+        '<td>' + escHtml(s.assignmentTitle) + attemptLabel + '</td>' +
         '<td>' + typeBadge + '</td>' +
         '<td><strong>' + scoreStr + '</strong> <span style="font-size:.7rem;color:var(--text3)">(' + pct + '%)</span></td>' +
         '<td>' + statusBadge + '</td>' +
@@ -1404,7 +1592,7 @@ function openGradingWorkspace(submissionId){
     var qs = [];
     snap.forEach(function(doc){ qs.push(doc.data()); });
     qs.sort(function(a,b){return (a.topic+a.qNum).localeCompare(b.topic+b.qNum);});
-    var grouped = groupQuestions(qs);
+    var grouped = qbGroupQuestions(qs);
 
     activeGradingQuestions = [];
     var qIds = activeGradingAssignment ? activeGradingAssignment.questionIds || [] : [];
@@ -1438,6 +1626,28 @@ function renderGradingWorkspace(){
     }).join(', ');
     bannerHtml += '<div style="width:100%;margin-top:4px;color:var(--danger)"><strong>Focus Log:</strong> ' + escHtml(logDetails) + '</div>';
   }
+
+  var studentAttempts = allSubmissions.filter(function(s) { 
+    return s.studentId === sub.studentId && s.assignmentId === sub.assignmentId;
+  }).sort(function(a,b) {
+    return (a.attemptNumber || 1) - (b.attemptNumber || 1);
+  });
+  
+  if (studentAttempts.length > 1) {
+    bannerHtml += '<div style="width:100%;margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.1);font-size:0.85rem">';
+    bannerHtml += '<strong>All Attempts:</strong><ul style="margin:4px 0 0 20px;padding:0">';
+    studentAttempts.forEach(function(att) {
+      var scoreStr = att.totalScore !== undefined ? (att.totalScore + '/' + (att.totalMarks || (a ? a.totalMarks : 0))) : 'Pending';
+      var isCurrent = att.id === sub.id;
+      var statusStr = att.status === 'draft' ? 'Draft' : att.status === 'submitted' ? 'Needs Grading' : att.status === 'graded' ? 'Draft Grade' : 'Released';
+      bannerHtml += '<li style="' + (isCurrent ? 'font-weight:bold;color:var(--primary)' : 'color:var(--text2)') + '">' +
+        'Attempt ' + (att.attemptNumber || 1) + ': <strong>' + scoreStr + '</strong> (' + statusStr + ')' +
+        (isCurrent ? ' ← Currently Viewing' : '') +
+        '</li>';
+    });
+    bannerHtml += '</ul></div>';
+  }
+
   document.getElementById('gradeSummaryBanner').innerHTML = bannerHtml;
 
   document.getElementById('overallComments').value = sub.comments || '';

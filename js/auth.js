@@ -43,12 +43,6 @@ var PhysicismAuth = (function() {
   function signIn() {
     return auth.signInWithPopup(provider).then(function(result) {
       return ensureStudentProfile(result.user);
-    }).catch(function(error) {
-      if (error.code === "auth/popup-blocked" || error.code === "auth/cancelled-popup-request") {
-        throw new Error("Popup was blocked. Please allow popups for this site and try again.");
-      }
-      throw error;
-      throw error;
     });
   }
 
@@ -286,14 +280,22 @@ var PhysicismAuth = (function() {
 
     var tags = [level, 'self-registered'];
 
-    updateProfile(user.uid, {
-      name: user.displayName || "",
-      email: user.email || "",
-      photoURL: user.photoURL || "",
-      uid: user.uid,
-      registeredAt: new Date().toISOString(),
-      level: level,
-      tags: firebase.firestore.FieldValue.arrayUnion(...tags)
+    db.collection('students').get().then(function(snap) {
+      var seq = snap.size + 1;
+      var padSeq = String(seq).padStart(3, '0');
+      var year = new Date().getFullYear();
+      var customId = level + '-' + year + '-' + padSeq;
+
+      return updateProfile(user.uid, {
+        name: user.displayName || "",
+        email: user.email || "",
+        photoURL: user.photoURL || "",
+        uid: user.uid,
+        studentId: customId,
+        registeredAt: new Date().toISOString(),
+        level: level,
+        tags: firebase.firestore.FieldValue.arrayUnion(...tags)
+      });
     }).then(function() {
       var overlay = document.getElementById('profileCompletionOverlay');
       if (overlay) {

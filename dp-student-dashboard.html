@@ -362,6 +362,85 @@ nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px
   color: var(--text2);
   line-height: 1.5;
 }
+
+/* STUDENT TOOLS */
+.student-tools {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  gap: 12px;
+  z-index: 200;
+}
+.tool-btn {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 10px 16px;
+  border-radius: 50px;
+  font-size: .85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: .2s;
+  color: var(--text);
+}
+.tool-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+
+.tool-modal {
+  position: absolute;
+  bottom: 80px;
+  right: 24px;
+  width: 400px;
+  height: 500px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  display: none;
+  flex-direction: column;
+  z-index: 210;
+  overflow: hidden;
+  resize: both;
+}
+.tool-modal.open {
+  display: flex;
+}
+.tool-modal-header {
+  background: var(--bg);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .85rem;
+  font-weight: 700;
+  cursor: grab;
+}
+.tool-modal-header:active {
+  cursor: grabbing;
+}
+.tool-modal-body {
+  flex: 1;
+  background: #fff;
+}
+.tool-close {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--text2);
+}
+.tool-close:hover {
+  color: var(--danger);
+}
 </style>
 </head>
 <body>
@@ -491,6 +570,34 @@ nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px
       <div id="attemptQuestionsList"></div>
     </div>
   </div>
+
+  <!-- STUDENT TOOLS -->
+  <div class="student-tools" id="studentTools">
+    <button class="tool-btn" onclick="openGDC()">📊 GDC</button>
+    <button class="tool-btn" onclick="openDataBooklet()">📖 Data Booklet</button>
+  </div>
+  
+  <!-- GDC MODAL -->
+  <div class="tool-modal" id="gdcModal" style="bottom:80px; right:24px;">
+    <div class="tool-modal-header" id="gdcModalHeader">
+      <span>📊 Scientific Calculator</span>
+      <button class="tool-close" onclick="closeGDC()">✕</button>
+    </div>
+    <div class="tool-modal-body">
+      <iframe src="https://www.desmos.com/scientific" width="100%" height="100%" frameborder="0" style="pointer-events: auto;"></iframe>
+    </div>
+  </div>
+
+  <!-- DATA BOOKLET MODAL -->
+  <div class="tool-modal" id="dbModal" style="bottom:80px; right:24px; width:600px; height:600px;">
+    <div class="tool-modal-header" id="dbModalHeader">
+      <span>📖 IB Data Booklet</span>
+      <button class="tool-close" onclick="closeDataBooklet()">✕</button>
+    </div>
+    <div class="tool-modal-body">
+      <iframe src="dp-data-booklet.html" width="100%" height="100%" frameborder="0" style="pointer-events: auto;"></iframe>
+    </div>
+  </div>
 </div>
 
 <div class="footer">ATUL SORAL PHYSICISM</div>
@@ -524,6 +631,7 @@ PhysicismAuth.onAuthReady(function(user) {
       if (profile) {
         studentLevel = profile.level || '';
         studentTags = profile.tags || [];
+        studentId = profile.studentId || user.uid;
       }
       
       document.getElementById('navAvatar').textContent = studentName.charAt(0).toUpperCase();
@@ -700,6 +808,15 @@ function renderTaskGrid(gridId, items, mode){
       if(s.status === 'released' && s.totalScore !== undefined){
         actionsHtml += ' <button class="btn btn-sm btn-outline" onclick="viewFeedback(\''+s.id+'\',\''+a.id+'\')">View Feedback</button>';
       }
+      
+      // Retake Logic
+      if(a.allowRetest && a.status === 'active') {
+        var previousAttempts = allSubmissions.filter(function(sub) { return sub.assignmentId === a.id; }).length;
+        var max = a.maxAttempts || 999;
+        if(previousAttempts < max) {
+          actionsHtml += ' <button class="btn btn-sm btn-primary" onclick="startTask(\''+a.id+'\', '+ (previousAttempts + 1) +')">Retake</button>';
+        }
+      }
     }
 
     var gradeHtml = '';
@@ -754,14 +871,15 @@ function safeConfirm(msg) {
   return res;
 }
 
-function startTask(assignmentId){
+function startTask(assignmentId, attemptNumber){
+  attemptNumber = attemptNumber || 1;
   var a = allAssignments.find(function(item){ return item.id === assignmentId; });
   if(!a) return;
   
   if (a.type === 'hw') {
-    proceedToStartTask(a);
+    proceedToStartTask(a, attemptNumber);
   } else {
-    document.getElementById('confirmTitle').textContent = 'Start Timed Test';
+    document.getElementById('confirmTitle').textContent = attemptNumber > 1 ? 'Start Retake' : 'Start Timed Test';
     var timeStr = a.timeLimit ? a.timeLimit + ' minutes' : 'unlimited time';
     document.getElementById('confirmMessage').innerHTML = 
       'You are about to start the test: <strong>' + escHtml(a.title) + '</strong>.<br><br>' +
@@ -775,7 +893,7 @@ function startTask(assignmentId){
     
     document.getElementById('confirmStartBtn').onclick = function() {
       confirmModal.classList.remove('open');
-      proceedToStartTask(a);
+      proceedToStartTask(a, attemptNumber);
     };
   }
 }
@@ -784,7 +902,7 @@ function closeConfirm() {
   document.getElementById('confirmOverlay').classList.remove('open');
 }
 
-function proceedToStartTask(a) {
+function proceedToStartTask(a, attemptNumber) {
   var subDoc = {
     assignmentId: a.id,
     studentId: studentId,
@@ -794,6 +912,7 @@ function proceedToStartTask(a) {
     focusLossCount: 0,
     focusLog: [],
     status: 'draft',
+    attemptNumber: attemptNumber || 1,
     startedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
@@ -824,6 +943,18 @@ function resumeActiveAttempt(asgnId, subId){
   });
 }
 
+function shuffleArray(array) {
+  var currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    var temp = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temp;
+  }
+  return array;
+}
+
 function loadAttemptData(assignmentId, submissionId, callback){
   var p1 = db.collection('dpAssignments').doc(assignmentId).get();
   var p2 = db.collection('dpSubmissions').doc(submissionId).get();
@@ -848,10 +979,48 @@ function loadAttemptData(assignmentId, submissionId, callback){
     // Keep only the groups that are in asgnDoc.questionIds
     var asgnGroups = [];
     var qIds = asgnDoc.questionIds || [];
+    
+    // Retest Logic: Shuffle Questions and Options
+    var needsShuffleSave = false;
+    if (subDoc.attemptNumber && subDoc.attemptNumber > 1) {
+      if (!subDoc.shuffledQuestionIds) {
+        subDoc.shuffledQuestionIds = shuffleArray(qIds.slice());
+        needsShuffleSave = true;
+      }
+      qIds = subDoc.shuffledQuestionIds;
+    }
+
     qIds.forEach(function(gid){
       var g = grouped.find(function(item){ return item.id === gid; });
-      if(g) asgnGroups.push(g);
+      if(g) {
+        var gClone = JSON.parse(JSON.stringify(g));
+        if (subDoc.attemptNumber && subDoc.attemptNumber > 1) {
+          if (!subDoc.shuffledOptions) subDoc.shuffledOptions = {};
+          
+          gClone.parts.forEach(function(p) {
+            if (gClone.type === 'MCQ' && p.options) {
+              if (!subDoc.shuffledOptions[p.id]) {
+                var indices = p.options.map(function(o, i) { return i; });
+                subDoc.shuffledOptions[p.id] = shuffleArray(indices);
+                needsShuffleSave = true;
+              }
+              var optMap = subDoc.shuffledOptions[p.id];
+              var shuffledOpts = optMap.map(function(origIdx) { return p.options[origIdx]; });
+              p.options = shuffledOpts;
+              p.shuffledMap = optMap;
+            }
+          });
+        }
+        asgnGroups.push(gClone);
+      }
     });
+    
+    if (needsShuffleSave) {
+      db.collection('dpSubmissions').doc(submissionId).update({
+        shuffledQuestionIds: subDoc.shuffledQuestionIds,
+        shuffledOptions: subDoc.shuffledOptions
+      });
+    }
 
     callback(asgnDoc, subDoc, asgnGroups);
   }).catch(function(err){
@@ -983,8 +1152,9 @@ function enterAttemptMode(assignment, submission, questions){
       if (g.type === 'MCQ') {
         inputHtml = '<div class="attempt-options">' + (p.options || []).map(function(opt, oi) {
           var optLetter = String.fromCharCode(65 + oi);
-          var isSelected = currentAnswers[p.id] === oi;
-          return '<button class="attempt-opt' + (isSelected ? ' selected' : '') + '" onclick="selectMCQ(\'' + p.id + '\', ' + oi + ', this)">' +
+          var originalIdx = p.shuffledMap ? p.shuffledMap[oi] : oi;
+          var isSelected = currentAnswers[p.id] === originalIdx;
+          return '<button class="attempt-opt' + (isSelected ? ' selected' : '') + '" onclick="selectMCQ(\'' + p.id + '\', ' + originalIdx + ', this)">' +
             '<strong>' + optLetter + '.</strong> ' + escHtml(opt) +
             '</button>';
         }).join('') + '</div>';
@@ -1414,6 +1584,65 @@ function escHtml(str){
   div.textContent = str;
   return div.innerHTML;
 }
+
+// ==================== STUDENT TOOLS ====================
+function openGDC() { document.getElementById('gdcModal').classList.add('open'); }
+function closeGDC() { document.getElementById('gdcModal').classList.remove('open'); }
+function openDataBooklet() { document.getElementById('dbModal').classList.add('open'); }
+function closeDataBooklet() { document.getElementById('dbModal').classList.remove('open'); }
+
+function makeDraggable(modalId, headerId) {
+  var modal = document.getElementById(modalId);
+  var header = document.getElementById(headerId);
+  var isDragging = false;
+  var startX, startY, initialX, initialY;
+
+  header.addEventListener('mousedown', function(e) {
+    if (e.target.tagName.toLowerCase() === 'button') return;
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    
+    // Convert absolute bottom/right to left/top for dragging
+    var style = window.getComputedStyle(modal);
+    if (style.bottom !== 'auto') {
+      modal.style.top = (window.innerHeight - modal.offsetHeight - parseInt(style.bottom)) + 'px';
+      modal.style.bottom = 'auto';
+    }
+    if (style.right !== 'auto') {
+      modal.style.left = (window.innerWidth - modal.offsetWidth - parseInt(style.right)) + 'px';
+      modal.style.right = 'auto';
+    }
+    
+    initialX = modal.offsetLeft;
+    initialY = modal.offsetTop;
+    
+    var iframe = modal.querySelector('iframe');
+    if(iframe) iframe.style.pointerEvents = 'none';
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    var dx = e.clientX - startX;
+    var dy = e.clientY - startY;
+    modal.style.left = (initialX + dx) + 'px';
+    modal.style.top = (initialY + dy) + 'px';
+  });
+
+  document.addEventListener('mouseup', function() {
+    if(isDragging) {
+      isDragging = false;
+      var iframe = modal.querySelector('iframe');
+      if(iframe) iframe.style.pointerEvents = 'auto';
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  makeDraggable('gdcModal', 'gdcModalHeader');
+  makeDraggable('dbModal', 'dbModalHeader');
+});
 
 // ==================== START ====================
 function initDashboard(){
