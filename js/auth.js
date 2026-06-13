@@ -48,7 +48,7 @@ var PhysicismAuth = (function() {
 
   // ── Sign In with Google ──
   function signIn() {
-    return auth.signInWithRedirect(provider);
+    return auth.signInWithPopup(provider).then(function(result) { return ensureStudentProfile(result.user); });
   }
 
   // ── Sign Out ──
