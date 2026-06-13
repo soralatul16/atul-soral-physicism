@@ -104,7 +104,7 @@ var PhysicismAuth = (function() {
 
   // ── Update student profile fields ──
   function updateProfile(uid, fields) {
-    return db.collection('students').doc(uid).update(fields);
+    return db.collection('students').doc(uid).set(fields, { merge: true });
   }
 
   // ── Auth state listener wrapper ──
