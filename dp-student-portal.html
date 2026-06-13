@@ -37,6 +37,32 @@ nav a{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px;border-r
 .google-btn.loading span{display:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* TABS */
+.auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+.auth-tab { flex: 1; padding: 12px; background: none; border: none; font-size: .9rem; font-weight: 600; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; transition: .2s; }
+.auth-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.auth-tab:hover:not(.active) { color: var(--text); }
+
+/* FORMS */
+.auth-form { display: none; text-align: left; }
+.auth-form.active { display: block; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: .75rem; font-weight: 700; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+.form-group input { width: 100%; padding: 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: .95rem; outline: none; background: var(--bg); transition: .2s; }
+.form-group input:focus { border-color: var(--accent); }
+.auth-btn { width: 100%; padding: 14px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-size: .95rem; font-weight: 700; cursor: pointer; transition: .2s; margin-bottom: 12px; }
+.auth-btn:hover { opacity: .9; transform: translateY(-1px); }
+.auth-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+.forgot-link { font-size: .75rem; color: var(--accent); text-decoration: none; font-weight: 600; float: right; margin-top: 4px; cursor: pointer; }
+.forgot-link:hover { text-decoration: underline; }
+
+/* VERIFICATION SCREEN */
+.verification-screen { display: none; text-align: center; }
+.verification-screen h2 { font-family: Georgia, serif; font-size: 1.3rem; margin-bottom: 12px; color: var(--accent); }
+.verification-screen p { font-size: .85rem; color: var(--text2); line-height: 1.5; margin-bottom: 20px; }
+.verification-screen .spam-warning { background: #FEF3C7; color: #92400E; padding: 10px; border-radius: 8px; font-size: .8rem; margin-bottom: 20px; font-weight: 600; }
+
 /* DIVIDER */
 .divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--text3);font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
@@ -83,34 +109,86 @@ nav a{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px;border-r
 
     <div class="msg" id="errorMsg"></div>
 
-    <!-- GOOGLE SIGN-IN BUTTON -->
-    <button class="google-btn" id="googleSignInBtn" onclick="handleGoogleSignIn()">
-      <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-      <span>Sign in with Google</span>
-      <div class="spinner"></div>
-    </button>
+    <!-- AUTH CONTAINER -->
+    <div id="mainAuthContainer">
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuthTab('signin')">Sign In</button>
+        <button class="auth-tab" onclick="switchAuthTab('signup')">Create Account</button>
+      </div>
 
-    <div class="divider">What you get</div>
+      <!-- SIGN IN FORM -->
+      <div id="signinForm" class="auth-form active">
+        <form onsubmit="handleEmailSignIn(event)">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="siEmail" required>
+          </div>
+          <div class="form-group">
+            <a class="forgot-link" onclick="handleForgotPassword()">Forgot Password?</a>
+            <label>Password</label>
+            <input type="password" id="siPassword" required>
+          </div>
+          <button type="submit" class="auth-btn" id="siBtn">Sign In</button>
+        </form>
+      </div>
 
-    <div class="feature-list">
-      <div class="feature-item">
-        <span class="icon">📝</span>
-        <span>Access teacher-assigned tests & homework</span>
+      <!-- SIGN UP FORM -->
+      <div id="signupForm" class="auth-form">
+        <form onsubmit="handleEmailSignUp(event)">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="suName" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="suEmail" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="suPassword" required minlength="6">
+          </div>
+          <button type="submit" class="auth-btn" id="suBtn">Create Account</button>
+        </form>
       </div>
-      <div class="feature-item">
-        <span class="icon">📊</span>
-        <span>Track your grades and performance</span>
+
+      <div class="divider">Or continue with</div>
+
+      <!-- GOOGLE SIGN-IN BUTTON -->
+      <button class="google-btn" id="googleSignInBtn" onclick="handleGoogleSignIn()">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <span>Sign in with Google</span>
+        <div class="spinner"></div>
+      </button>
+
+      <div class="feature-list">
+        <div class="feature-item">
+          <span class="icon">📝</span>
+          <span>Access teacher-assigned tests & homework</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">📊</span>
+          <span>Track your grades and performance</span>
+        </div>
+        <div class="feature-item">
+          <span class="icon">🔒</span>
+          <span>Secure timed tests with focus monitoring</span>
+        </div>
       </div>
-      <div class="feature-item">
-        <span class="icon">🔒</span>
-        <span>Secure timed tests with focus monitoring</span>
-      </div>
+
+      <p class="portal-info">
+        <a href="index.html">← Back to Homepage</a>
+      </p>
     </div>
 
-    <p class="portal-info">
-      Your Google account is all you need. No separate registration required.<br>
-      <a href="dp-dashboard.html">← Back to DP Dashboard</a>
-    </p>
+    <!-- VERIFICATION SCREEN -->
+    <div id="verificationScreen" class="verification-screen">
+      <h2>✉️ Verify Your Email</h2>
+      <p>We've sent a verification link to your email address. Please click the link to activate your account.</p>
+      <div class="spam-warning">⚠️ Be sure to check your Spam or Junk folder!</div>
+      <button class="auth-btn" id="resendBtn" onclick="handleResendVerification()">Resend Email</button>
+      <button class="auth-btn" style="background:var(--bg);color:var(--text);border:1.5px solid var(--border);margin-top:8px" onclick="location.reload()">I have verified</button>
+      <p class="portal-info" style="margin-top:20px"><a href="#" onclick="PhysicismAuth.signOut()">Sign out</a></p>
+    </div>
   </div>
 </div>
 
@@ -126,18 +204,113 @@ nav a{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px;border-r
 // If already signed in, redirect to dashboard
 PhysicismAuth.onAuthReady(function(user) {
   if (user) {
-    // Check if profile is complete (has level set)
     PhysicismAuth.getStudentProfile(user.uid).then(function(profile) {
-      if (profile && profile.level) {
-        window.location.href = profile.level === 'MYP' ? 'myp-dashboard.html' : 'dp-student-dashboard.html';
-      } else {
-        PhysicismAuth.showProfileModal(function(level) {
-          window.location.href = level === 'MYP' ? 'myp-dashboard.html' : 'dp-student-dashboard.html';
-        });
-      }
+      checkVerificationAndRedirect(user, profile);
     });
   }
 });
+
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+  if (tab === 'signin') {
+    document.querySelectorAll('.auth-tab')[0].classList.add('active');
+    document.getElementById('signinForm').classList.add('active');
+  } else {
+    document.querySelectorAll('.auth-tab')[1].classList.add('active');
+    document.getElementById('signupForm').classList.add('active');
+  }
+  document.getElementById('errorMsg').style.display = 'none';
+}
+
+function showMsg(msg, isSuccess) {
+  var msgEl = document.getElementById('errorMsg');
+  msgEl.className = isSuccess ? 'msg success' : 'msg error';
+  msgEl.textContent = msg;
+  msgEl.style.display = 'block';
+}
+
+function handleEmailSignIn(e) {
+  e.preventDefault();
+  var email = document.getElementById('siEmail').value;
+  var pass = document.getElementById('siPassword').value;
+  var btn = document.getElementById('siBtn');
+  btn.disabled = true;
+  btn.textContent = 'Signing in...';
+
+  PhysicismAuth.signInWithEmail(email, pass).then(function(result) {
+    checkVerificationAndRedirect(result.user, result.profile);
+  }).catch(function(err) {
+    btn.disabled = false;
+    btn.textContent = 'Sign In';
+    showMsg('Sign-in failed: ' + err.message, false);
+  });
+}
+
+function handleEmailSignUp(e) {
+  e.preventDefault();
+  var name = document.getElementById('suName').value;
+  var email = document.getElementById('suEmail').value;
+  var pass = document.getElementById('suPassword').value;
+  var btn = document.getElementById('suBtn');
+  btn.disabled = true;
+  btn.textContent = 'Creating account...';
+
+  PhysicismAuth.signUpWithEmail(email, pass, name).then(function(result) {
+    checkVerificationAndRedirect(result.user, result.profile);
+  }).catch(function(err) {
+    btn.disabled = false;
+    btn.textContent = 'Create Account';
+    showMsg('Registration failed: ' + err.message, false);
+  });
+}
+
+function handleForgotPassword() {
+  var email = document.getElementById('siEmail').value;
+  if (!email) {
+    showMsg('Please enter your email address first.', false);
+    return;
+  }
+  PhysicismAuth.resetPassword(email).then(function() {
+    showMsg('Password reset email sent! Check your inbox/spam.', true);
+  }).catch(function(err) {
+    showMsg('Error: ' + err.message, false);
+  });
+}
+
+function handleResendVerification() {
+  var btn = document.getElementById('resendBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  PhysicismAuth.sendVerificationEmail().then(function() {
+    btn.textContent = 'Email Sent!';
+    setTimeout(() => { btn.disabled = false; btn.textContent = 'Resend Email'; }, 3000);
+  }).catch(function(err) {
+    btn.disabled = false;
+    btn.textContent = 'Resend Email';
+    alert('Error sending email: ' + err.message);
+  });
+}
+
+function checkVerificationAndRedirect(user, profile) {
+  if (!user.emailVerified && user.providerData && user.providerData.every(p => p.providerId === 'password')) {
+    document.getElementById('mainAuthContainer').style.display = 'none';
+    document.getElementById('verificationScreen').style.display = 'block';
+    return;
+  }
+  
+  if (profile && profile.level) {
+    showMsg('Welcome back, ' + user.displayName + '! Redirecting...', true);
+    setTimeout(function() {
+      window.location.href = profile.level === 'MYP' ? 'myp-dashboard.html' : 'dp-student-dashboard.html';
+    }, 600);
+  } else {
+    document.getElementById('mainAuthContainer').style.display = 'none';
+    PhysicismAuth.showProfileModal(function(level) {
+      window.location.href = level === 'MYP' ? 'myp-dashboard.html' : 'dp-student-dashboard.html';
+    });
+  }
+}
 function handleGoogleSignIn() {
   var btn = document.getElementById('googleSignInBtn');
   var msgEl = document.getElementById('errorMsg');
@@ -149,18 +322,7 @@ function handleGoogleSignIn() {
   PhysicismAuth.signIn().then(function(result) {
     btn.classList.remove('loading');
     btn.disabled = false;
-
-    if (result.isNewUser || !result.profile.level) {
-      PhysicismAuth.showProfileModal(function(level) {
-        window.location.href = level === 'MYP' ? 'myp-dashboard.html' : 'dp-student-dashboard.html';
-      });
-    } else {
-      msgEl.className = 'msg success';
-      msgEl.textContent = 'Welcome back, ' + result.user.displayName + '! Redirecting...';
-      setTimeout(function() {
-        window.location.href = result.profile.level === 'MYP' ? 'myp-dashboard.html' : 'dp-student-dashboard.html';
-      }, 600);
-    }
+    checkVerificationAndRedirect(result.user, result.profile);
   }).catch(function(err) {
     btn.classList.remove('loading');
     btn.disabled = false;

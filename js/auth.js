@@ -48,7 +48,48 @@ var PhysicismAuth = (function() {
 
   // ── Sign In with Google ──
   function signIn() {
-    return auth.signInWithPopup(provider).then(function(result) { return ensureStudentProfile(result.user); });
+    return auth.signInWithPopup(provider).then(function(result) {
+      return ensureStudentProfile(result.user);
+    }).catch(function(error) {
+      if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request' || error.code === 'auth/web-storage-unsupported') {
+        console.warn('Popup blocked or failed, falling back to redirect...');
+        return auth.signInWithRedirect(provider);
+      }
+      throw error;
+    });
+  }
+
+  // ── Sign Up with Email ──
+  function signUpWithEmail(email, password, name) {
+    return auth.createUserWithEmailAndPassword(email, password).then(function(result) {
+      var user = result.user;
+      return user.updateProfile({ displayName: name }).then(function() {
+        return user.sendEmailVerification().then(function() {
+          return ensureStudentProfile(user, name);
+        });
+      });
+    });
+  }
+
+  // ── Sign In with Email ──
+  function signInWithEmail(email, password) {
+    return auth.signInWithEmailAndPassword(email, password).then(function(result) {
+      return ensureStudentProfile(result.user);
+    });
+  }
+
+  // ── Resend Verification Email ──
+  function sendVerificationEmail() {
+    var user = auth.currentUser;
+    if (user) {
+      return user.sendEmailVerification();
+    }
+    return Promise.reject(new Error("No authenticated user"));
+  }
+
+  // ── Reset Password ──
+  function resetPassword(email) {
+    return auth.sendPasswordResetEmail(email);
   }
 
   // ── Sign Out ──
@@ -64,31 +105,37 @@ var PhysicismAuth = (function() {
 
   // ── Ensure student profile exists in Firestore ──
   // Returns a promise that resolves with { user, profile, isNewUser }
-  function ensureStudentProfile(user) {
+  function ensureStudentProfile(user, fallbackName) {
     var docRef = db.collection('students').doc(user.uid);
     return docRef.get().then(function(doc) {
+      var displayName = user.displayName || fallbackName || '';
       if (doc.exists) {
-        // Update lastLogin
-        docRef.update({
+        // Update lastLogin and merge
+        var updateData = {
           lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-          name: user.displayName || doc.data().name,
+          name: displayName || doc.data().name,
           email: user.email || doc.data().email,
           photoURL: user.photoURL || doc.data().photoURL || ''
+        };
+        return docRef.set(updateData, { merge: true }).then(function() {
+          return docRef.get();
+        }).then(function(updatedDoc) {
+          return { user: user, profile: updatedDoc.data(), isNewUser: false };
         });
-        return { user: user, profile: doc.data(), isNewUser: false };
       } else {
         // Create new student profile
         var profile = {
           uid: user.uid,
-          name: user.displayName || '',
+          name: displayName,
           email: user.email || '',
           photoURL: user.photoURL || '',
           level: '',  // Will be set via profile completion modal
           tags: ['self-registered'],
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+          lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+          registeredAt: new Date().toISOString()
         };
-        return docRef.set(profile).then(function() {
+        return docRef.set(profile, { merge: true }).then(function() {
           return { user: user, profile: profile, isNewUser: true };
         });
       }
@@ -253,7 +300,7 @@ var PhysicismAuth = (function() {
       uid: user.uid,
       registeredAt: new Date().toISOString(),
       level: level,
-      tags: tags
+      tags: firebase.firestore.FieldValue.arrayUnion(...tags)
     }).then(function() {
       var overlay = document.getElementById('profileCompletionOverlay');
       if (overlay) {
@@ -284,6 +331,10 @@ var PhysicismAuth = (function() {
   // ── Public API ──
   return {
     signIn: signIn,
+    signUpWithEmail: signUpWithEmail,
+    signInWithEmail: signInWithEmail,
+    sendVerificationEmail: sendVerificationEmail,
+    resetPassword: resetPassword,
     signOut: signOut,
     ensureStudentProfile: ensureStudentProfile,
     getStudentProfile: getStudentProfile,

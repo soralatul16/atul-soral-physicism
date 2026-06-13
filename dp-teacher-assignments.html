@@ -807,6 +807,7 @@ function renderStudentTable(){
     } else {
       actionBtnHtml = '<button class="btn btn-outline btn-sm" onclick="openEditStudentModal(\''+s.id+'\')">✏️</button> ';
     }
+    actionBtnHtml += '<button class="btn btn-danger btn-sm" onclick="deleteStudent(\''+s.id+'\')">🗑️</button>';
 
     return '<tr>'+
       '<td style="font-weight:600">'+escHtml(s.name||'')+'</td>'+
@@ -867,6 +868,15 @@ function saveStudentEdits(){
     loadStudents();
   }).catch(function(err){
     alert('Error updating student: ' + err.message);
+  });
+}
+
+function deleteStudent(docId) {
+  if(!confirm('Delete this student? This action cannot be undone.')) return;
+  db.collection('students').doc(docId).delete().then(function() {
+    loadStudents();
+  }).catch(function(err) {
+    alert('Error deleting student: ' + err.message);
   });
 }
 

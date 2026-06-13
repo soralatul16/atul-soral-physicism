@@ -435,7 +435,7 @@ exports.fetchPhysicsNews = onCall(
     }
 
     // Fetch real science/physics news
-    const newsUrl = `https://gnews.io/api/v4/search?q=physics OR quantum OR particle OR space OR astronomy&lang=en&max=10&apikey=${gnewsKey}`;
+    const newsUrl = `https://gnews.io/api/v4/search?q=physics OR quantum OR particle OR space OR astronomy&lang=en&max=10&category=science&apikey=${gnewsKey}`;
     const newsResponse = await fetch(newsUrl);
     if (!newsResponse.ok) {
       throw new HttpsError("internal", "Failed to fetch news.");
