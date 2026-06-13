@@ -39,22 +39,15 @@ var PhysicismAuth = (function() {
   var provider = new firebase.auth.GoogleAuthProvider();
 
 
-  // Handle redirect result
-  auth.getRedirectResult().then(function(result) {
-    if (result && result.user) {
-      ensureStudentProfile(result.user);
-    }
-  }).catch(function(err) { console.error("Redirect error:", err); });
-
   // ── Sign In with Google ──
   function signIn() {
     return auth.signInWithPopup(provider).then(function(result) {
       return ensureStudentProfile(result.user);
     }).catch(function(error) {
-      if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request' || error.code === 'auth/web-storage-unsupported') {
-        console.warn('Popup blocked or failed, falling back to redirect...');
-        return auth.signInWithRedirect(provider);
+      if (error.code === "auth/popup-blocked" || error.code === "auth/cancelled-popup-request") {
+        throw new Error("Popup was blocked. Please allow popups for this site and try again.");
       }
+      throw error;
       throw error;
     });
   }
