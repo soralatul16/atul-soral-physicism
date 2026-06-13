@@ -810,7 +810,8 @@ function renderTaskGrid(gridId, items, mode){
       }
       
       // Retake Logic
-      if(a.allowRetest && a.status === 'active') {
+      var allowRetake = a.allowRetest === undefined ? true : a.allowRetest;
+      if(allowRetake && a.status === 'active') {
         var previousAttempts = allSubmissions.filter(function(sub) { return sub.assignmentId === a.id; }).length;
         var max = a.maxAttempts || 999;
         if(previousAttempts < max) {
@@ -1504,42 +1505,180 @@ function downloadPDF() {
   w.document.close();
 }
 
-function viewFeedback(submissionId, assignmentId){
+async function viewFeedback(submissionId, assignmentId){
   var sub = allSubmissions.find(function(s){ return s.id === submissionId; });
   var asgn = allAssignments.find(function(a){ return a.id === assignmentId; });
   if(!sub || !asgn) return;
 
-  document.getElementById('fbTitle').textContent = 'Feedback: ' + (asgn.title || 'Assignment');
-
-  var html = '<div style="margin-bottom:12px;padding:10px;background:var(--bg);border-radius:8px">' +
-    '<strong>Score:</strong> '+(sub.totalScore||0)+'/'+(asgn.totalMarks||0)+' ('+
-    (asgn.totalMarks > 0 ? Math.round(sub.totalScore/asgn.totalMarks*100) : 0)+'%)' +
-    '</div>';
-
-  if(sub.comments){
-    html += '<div style="margin-bottom:12px;padding:10px;background:#F0FDF4;border-left:3px solid var(--success);border-radius:4px;font-size:.85rem">' +
-      '<strong>Teacher Comment:</strong> '+escHtml(sub.comments)+'</div>';
-  }
-
-  // Show per-question grades if available
-  if(sub.grades){
-    var qIds = Object.keys(sub.grades);
-    qIds.forEach(function(qId, i){
-      var g = sub.grades[qId];
-      var answer = sub.answers ? sub.answers[qId] : '';
-      html += '<div class="fb-q">' +
-        '<div class="fb-q-header">' +
-          '<span class="fb-q-label">Question '+(i+1)+'</span>' +
-          '<span class="fb-q-marks">'+(g.marks||0)+' marks</span>' +
-        '</div>' +
-        '<div class="fb-q-answer"><strong>Your answer:</strong> '+(answer !== undefined && answer !== null && answer !== '' ? escHtml(String(answer)) : '<em>No answer</em>')+'</div>' +
-        (g.comment ? '<div class="fb-q-comment">'+escHtml(g.comment)+'</div>' : '') +
-      '</div>';
-    });
-  }
-
-  document.getElementById('fbContent').innerHTML = html;
+  var fbTitle = document.getElementById('fbTitle');
+  var fbContent = document.getElementById('fbContent');
+  
+  fbTitle.textContent = 'Feedback: ' + (asgn.title || 'Assignment');
+  fbContent.innerHTML = '<div style="text-align:center;padding:20px;">Loading feedback data... ⏳</div>';
   document.getElementById('feedbackOverlay').classList.add('open');
+
+  try {
+    var qSnap = await db.collection('dpQuestions').get();
+    var qs = [];
+    qSnap.forEach(function(doc){ qs.push(doc.data()); });
+    qs.sort(function(a,b){return (a.topic+a.qNum).localeCompare(b.topic+b.qNum);});
+    var grouped = groupQuestions(qs);
+
+    var asgnGroups = [];
+    var qIds = asgn.questionIds || [];
+    var displayQIds = sub.shuffledQuestionIds || qIds;
+    displayQIds.forEach(function(gid){
+      if(grouped[gid]) asgnGroups.push(grouped[gid]);
+    });
+
+    var topicBreakdown = {};
+    
+    var html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">' + 
+      '<div style="padding:10px;background:var(--bg);border-radius:8px;flex:1">' +
+      '<strong>Overall Score:</strong> '+(sub.totalScore||0)+'/'+(asgn.totalMarks||0)+' ('+
+      (asgn.totalMarks > 0 ? Math.round(sub.totalScore/asgn.totalMarks*100) : 0)+'%)' +
+      '</div>' +
+      '<button class="btn btn-sm btn-outline" style="border-color:var(--danger);color:var(--danger);" onclick="toggleMistakesOnly(this)">🔍 Review Mistakes</button>' +
+      '</div>';
+
+    if(sub.comments){
+      html += '<div style="margin-bottom:16px;padding:12px;background:#F0FDF4;border-left:4px solid var(--success);border-radius:4px;font-size:.9rem">' +
+        '<strong>Teacher Comment:</strong><br/>'+escHtml(sub.comments).replace(/\n/g, '<br/>')+'</div>';
+    }
+
+    var qListHtml = '<div id="fbQuestionsList">';
+
+    asgnGroups.forEach(function(g, gIdx) {
+      g.parts.forEach(function(p, pIdx) {
+        var isMCQ = (g.type === 'MCQ');
+        var qNumStr = 'Q' + (gIdx + 1) + (g.parts.length > 1 ? String.fromCharCode(97 + pIdx) : '');
+        var topic = g.topic || 'General';
+        
+        var maxMarks = p.marks || 1;
+        var gradeData = sub.grades && sub.grades[p.id] ? sub.grades[p.id] : { marks: 0, comment: '' };
+        var awarded = gradeData.marks || 0;
+        
+        if (!topicBreakdown[topic]) topicBreakdown[topic] = { scored: 0, total: 0 };
+        topicBreakdown[topic].scored += awarded;
+        topicBreakdown[topic].total += maxMarks;
+
+        var studentAnsIdx = sub.answers && sub.answers[p.id] !== undefined ? sub.answers[p.id] : null;
+        var isFullMarks = (awarded === maxMarks);
+        var qClass = isFullMarks ? 'fb-q fb-correct' : 'fb-q fb-incorrect';
+        
+        qListHtml += '<div class="' + qClass + '" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;position:relative">';
+        
+        // Header
+        qListHtml += '<div style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--border);padding-bottom:8px;margin-bottom:12px;font-size:.85rem;color:var(--text2);font-weight:600">';
+        qListHtml += '<span>' + qNumStr + ' (' + topic + ')</span>';
+        qListHtml += '<span style="color:' + (isFullMarks ? 'var(--success)' : 'var(--danger)') + '">' + awarded + '/' + maxMarks + (isFullMarks ? ' ✓' : ' ✗') + '</span>';
+        qListHtml += '</div>';
+        
+        // Question text
+        qListHtml += '<div style="font-size:.95rem;margin-bottom:12px">' + (p.text || '') + '</div>';
+        if (p.image) {
+          qListHtml += '<div style="text-align:center;margin-bottom:12px"><img src="'+escHtml(p.image)+'" style="max-width:100%;border-radius:6px"/></div>';
+        }
+
+        // Student's answer
+        if (isMCQ) {
+          var displayStudentAns = '<em>No answer</em>';
+          var isStudentCorrect = false;
+          if (studentAnsIdx !== null && studentAnsIdx !== undefined && p.options) {
+             isStudentCorrect = (studentAnsIdx === p.correct);
+             var visualIdx = studentAnsIdx;
+             if (sub.shuffledOptions && sub.shuffledOptions[p.id]) {
+               visualIdx = sub.shuffledOptions[p.id].indexOf(studentAnsIdx);
+               if (visualIdx === -1) visualIdx = studentAnsIdx;
+             }
+             displayStudentAns = String.fromCharCode(65 + visualIdx) + '. ' + escHtml(p.options[studentAnsIdx]);
+          }
+          
+          qListHtml += '<div style="margin-bottom:8px;font-size:.9rem">';
+          if (studentAnsIdx !== null && studentAnsIdx !== undefined) {
+             if (isStudentCorrect) {
+               qListHtml += '<strong>Your answer:</strong> <span style="color:var(--success);background:#DCFCE7;padding:2px 6px;border-radius:4px">' + displayStudentAns + ' ✓ CORRECT</span>';
+             } else {
+               qListHtml += '<strong>Your answer:</strong> <span style="color:var(--danger);background:#FEE2E2;padding:2px 6px;border-radius:4px">' + displayStudentAns + ' ✗ INCORRECT</span>';
+             }
+          } else {
+             qListHtml += '<strong>Your answer:</strong> ' + displayStudentAns;
+          }
+          qListHtml += '</div>';
+
+          if (!isStudentCorrect && p.correct !== undefined && p.options && p.options[p.correct] !== undefined) {
+             var visualCorrectIdx = p.correct;
+             if (sub.shuffledOptions && sub.shuffledOptions[p.id]) {
+               visualCorrectIdx = sub.shuffledOptions[p.id].indexOf(p.correct);
+               if (visualCorrectIdx === -1) visualCorrectIdx = p.correct;
+             }
+             var correctAnsStr = String.fromCharCode(65 + visualCorrectIdx) + '. ' + escHtml(p.options[p.correct]);
+             qListHtml += '<div style="margin-bottom:12px;font-size:.9rem"><strong>Correct answer:</strong> <span style="color:var(--success)">' + correctAnsStr + ' ✓</span></div>';
+          }
+        } else {
+          var rawAns = studentAnsIdx;
+          qListHtml += '<div style="margin-bottom:12px;font-size:.9rem"><strong>Your answer:</strong> <div style="background:var(--bg);padding:8px;border-radius:6px;margin-top:4px">' + (rawAns ? escHtml(rawAns).replace(/\n/g, '<br/>') : '<em>No answer</em>') + '</div></div>';
+        }
+
+        // Mark Scheme
+        qListHtml += '<div style="border-top:1px solid var(--border);padding-top:12px;margin-top:12px;font-size:.85rem">';
+        qListHtml += '<div style="font-weight:600;margin-bottom:4px;color:var(--text2)">── Mark Scheme ──</div>';
+        if (p.markScheme) {
+          qListHtml += '<div>' + p.markScheme + '</div>';
+        } else {
+          qListHtml += '<em>No mark scheme provided</em>';
+        }
+        qListHtml += '</div>';
+
+        // Teacher Comment
+        if (gradeData.comment) {
+          qListHtml += '<div style="margin-top:12px;background:#F3F4F6;padding:8px;border-radius:6px;font-size:.85rem;border-left:3px solid var(--accent)">';
+          qListHtml += '💬 <strong>Teacher:</strong> ' + escHtml(gradeData.comment);
+          qListHtml += '</div>';
+        }
+
+        qListHtml += '</div>';
+      });
+    });
+    
+    qListHtml += '</div>';
+
+    // Topic Summary
+    var summaryHtml = '<div style="margin-bottom:16px;padding:10px;background:var(--bg);border-radius:8px;font-size:.85rem">';
+    summaryHtml += '<strong>Topic Breakdown:</strong> ';
+    var topicStrs = [];
+    Object.keys(topicBreakdown).sort().forEach(function(t) {
+      topicStrs.push(t + ': ' + topicBreakdown[t].scored + '/' + topicBreakdown[t].total);
+    });
+    summaryHtml += topicStrs.join(', ');
+    summaryHtml += '</div>';
+
+    html = html + summaryHtml + qListHtml;
+    fbContent.innerHTML = html;
+
+  } catch(err) {
+    console.error(err);
+    fbContent.innerHTML = '<div style="color:var(--danger);padding:20px;text-align:center;">Error loading feedback details: ' + err.message + '</div>';
+  }
+}
+
+var showMistakesOnly = false;
+function toggleMistakesOnly(btn) {
+  showMistakesOnly = !showMistakesOnly;
+  btn.innerHTML = showMistakesOnly ? '🔍 Show All' : '🔍 Review Mistakes';
+  
+  var qCards = document.querySelectorAll('#fbQuestionsList .fb-q');
+  qCards.forEach(function(card) {
+    if (showMistakesOnly) {
+      if (card.classList.contains('fb-correct')) {
+        card.style.display = 'none';
+      } else {
+        card.style.display = 'block';
+      }
+    } else {
+      card.style.display = 'block';
+    }
+  });
 }
 
 function closeFeedback(){
