@@ -38,11 +38,17 @@ var PhysicismAuth = (function() {
   var db = firebase.firestore();
   var provider = new firebase.auth.GoogleAuthProvider();
 
+
+  // Handle redirect result
+  auth.getRedirectResult().then(function(result) {
+    if (result && result.user) {
+      ensureStudentProfile(result.user);
+    }
+  }).catch(function(err) { console.error("Redirect error:", err); });
+
   // ── Sign In with Google ──
   function signIn() {
-    return auth.signInWithPopup(provider).then(function(result) {
-      return ensureStudentProfile(result.user);
-    });
+    return auth.signInWithRedirect(provider);
   }
 
   // ── Sign Out ──
