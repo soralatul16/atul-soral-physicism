@@ -993,7 +993,9 @@ function loadAttemptData(assignmentId, submissionId, callback){
 
     var qs = [];
     results[2].forEach(function(doc){
-      qs.push(doc.data());
+      var d = doc.data();
+      d.id = doc.id;
+      qs.push(d);
     });
     qs.sort(function(a,b){return (a.topic+a.qNum).localeCompare(b.topic+b.qNum);});
     var grouped = groupQuestions(qs);
@@ -1572,12 +1574,16 @@ async function viewFeedback(assignmentId, submissionId = null){
     });
     qs.sort(function(a,b){return (a.topic+a.qNum).localeCompare(b.topic+b.qNum);});
     var grouped = groupQuestions(qs);
+    
+    // groupQuestions returns an array, but we need to look up by group ID
+    var groupedDict = {};
+    grouped.forEach(function(g) { groupedDict[g.id] = g; });
 
     var asgnGroups = [];
     var qIds = asgn.questionIds || [];
     var displayQIds = sub.shuffledQuestionIds || qIds;
     displayQIds.forEach(function(gid){
-      if(grouped[gid]) asgnGroups.push(grouped[gid]);
+      if(groupedDict[gid]) asgnGroups.push(groupedDict[gid]);
     });
 
     var topicBreakdown = {};
@@ -1621,6 +1627,7 @@ async function viewFeedback(assignmentId, submissionId = null){
         var isMCQ = (g.type === 'MCQ');
         var qNumStr = 'Q' + (gIdx + 1) + (g.parts.length > 1 ? String.fromCharCode(97 + pIdx) : '');
         var topic = g.topic || 'General';
+        if (g.topicName) topic += ' ' + g.topicName;
         
         var maxMarks = p.marks || 1;
         var gradeData = sub.grades && sub.grades[p.id] ? sub.grades[p.id] : { marks: 0, comment: '' };
