@@ -247,6 +247,11 @@ var PhysicismAuth = (function() {
     var tags = [level, 'self-registered'];
 
     updateProfile(user.uid, {
+      name: user.displayName || "",
+      email: user.email || "",
+      photoURL: user.photoURL || "",
+      uid: user.uid,
+      registeredAt: new Date().toISOString(),
       level: level,
       tags: tags
     }).then(function() {
