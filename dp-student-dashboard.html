@@ -678,10 +678,11 @@ function loadAssignmentsAndSubmissions(){
 
 // ==================== RENDER ====================
 function renderDashboard(){
-  // Build lookup: assignmentId -> submission
+  // Build lookup: assignmentId -> array of submissions
   var subsByAsgn = {};
   allSubmissions.forEach(function(s){
-    subsByAsgn[s.assignmentId] = s;
+    if (!subsByAsgn[s.assignmentId]) subsByAsgn[s.assignmentId] = [];
+    subsByAsgn[s.assignmentId].push(s);
   });
 
   var pending = [];
@@ -689,16 +690,29 @@ function renderDashboard(){
   var completed = [];
 
   allAssignments.forEach(function(a){
-    var sub = subsByAsgn[a.id];
-    if(!sub){
+    var subList = subsByAsgn[a.id] || [];
+    
+    if(subList.length === 0){
       // No submission at all — pending
       pending.push(a);
-    } else if(sub.status === 'draft'){
-      // Draft — in progress
-      inProgress.push({assignment: a, submission: sub});
     } else {
-      // submitted / graded / released
-      completed.push({assignment: a, submission: sub});
+      var draftSub = subList.find(function(s) { return s.status === 'draft'; });
+      var completedSubs = subList.filter(function(s) { return s.status !== 'draft'; });
+      
+      if(draftSub){
+        inProgress.push({assignment: a, submission: draftSub, allSubs: subList});
+      }
+      
+      if(completedSubs.length > 0){
+        // Find best attempt
+        var bestSub = completedSubs[0];
+        for(var i=1; i<completedSubs.length; i++){
+          if((completedSubs[i].totalScore || 0) > (bestSub.totalScore || 0)){
+            bestSub = completedSubs[i];
+          }
+        }
+        completed.push({assignment: a, submission: bestSub, allSubs: subList});
+      }
     }
   });
 
@@ -806,13 +820,13 @@ function renderTaskGrid(gridId, items, mode){
 
       actionsHtml = statusLabel;
       if(s.status === 'released' && s.totalScore !== undefined){
-        actionsHtml += ' <button class="btn btn-sm btn-outline" onclick="viewFeedback(\''+s.id+'\',\''+a.id+'\')">View Feedback</button>';
+        actionsHtml += ' <button class="btn btn-sm btn-outline" onclick="viewFeedback(\''+a.id+'\')">View Feedback</button>';
       }
       
       // Retake Logic
       var allowRetake = a.allowRetest === undefined ? true : a.allowRetest;
       if(allowRetake && a.status === 'active') {
-        var previousAttempts = allSubmissions.filter(function(sub) { return sub.assignmentId === a.id; }).length;
+        var previousAttempts = item.allSubs ? item.allSubs.length : 1;
         var max = a.maxAttempts || 999;
         if(previousAttempts < max) {
           actionsHtml += ' <button class="btn btn-sm btn-primary" onclick="startTask(\''+a.id+'\', '+ (previousAttempts + 1) +')">Retake</button>';
@@ -823,10 +837,17 @@ function renderTaskGrid(gridId, items, mode){
     var gradeHtml = '';
     if(mode === 'done' && s.totalScore !== undefined && (s.status === 'graded' || s.status === 'released')){
       var pct = a.totalMarks > 0 ? Math.round(s.totalScore / a.totalMarks * 100) : 0;
-      gradeHtml = '<div class="grade-display">' +
-        '<span class="grade-score">'+s.totalScore+'/'+a.totalMarks+'</span>' +
-        '<div class="grade-bar"><div class="grade-fill" style="width:'+pct+'%"></div></div>' +
-        '<span class="grade-pct">'+pct+'%</span>' +
+      var completedCount = item.allSubs ? item.allSubs.filter(function(sub) { return sub.status !== 'draft'; }).length : 1;
+      var attemptsHtml = completedCount > 1 ? '<div style="font-size:0.75rem; color:var(--text3); margin-top: 4px; text-align: right;">' + completedCount + ' attempts (Showing Best)</div>' : '';
+      
+      gradeHtml = '<div class="grade-display" style="display:flex; flex-direction:column; align-items:flex-end;">' +
+        '<div style="display:flex; align-items:center; gap:12px; width:100%;">' +
+          (completedCount > 1 ? '<span style="font-size:0.8rem; font-weight:600; color:var(--accent); background:var(--accent-pale); padding:2px 6px; border-radius:4px;">BEST</span>' : '') +
+          '<span class="grade-score" style="margin-left:auto;">'+s.totalScore+'/'+a.totalMarks+'</span>' +
+          '<div class="grade-bar"><div class="grade-fill" style="width:'+pct+'%"></div></div>' +
+          '<span class="grade-pct">'+pct+'%</span>' +
+        '</div>' +
+        attemptsHtml +
       '</div>';
     }
 
@@ -1509,10 +1530,30 @@ function downloadPDF() {
   w.document.close();
 }
 
-async function viewFeedback(submissionId, assignmentId){
-  var sub = allSubmissions.find(function(s){ return s.id === submissionId; });
+async function viewFeedback(assignmentId, submissionId = null){
   var asgn = allAssignments.find(function(a){ return a.id === assignmentId; });
-  if(!sub || !asgn) return;
+  if(!asgn) return;
+  
+  // Find all completed submissions for this assignment
+  var subs = allSubmissions.filter(function(s) { return s.assignmentId === assignmentId && s.status !== 'draft'; });
+  if(subs.length === 0) return;
+  
+  // Sort by attempt number
+  subs.sort(function(a, b) { return (a.attemptNumber || 1) - (b.attemptNumber || 1); });
+  
+  // Find best score for labeling
+  var bestScore = -1;
+  var bestSubId = null;
+  subs.forEach(function(s) {
+    if((s.totalScore || 0) > bestScore) {
+      bestScore = (s.totalScore || 0);
+      bestSubId = s.id;
+    }
+  });
+
+  // Pick the submission to display
+  var sub = submissionId ? subs.find(function(s){ return s.id === submissionId; }) : subs[subs.length - 1];
+  if(!sub) sub = subs[subs.length - 1];
 
   var fbTitle = document.getElementById('fbTitle');
   var fbContent = document.getElementById('fbContent');
@@ -1524,7 +1565,11 @@ async function viewFeedback(submissionId, assignmentId){
   try {
     var qSnap = await db.collection('dpQuestions').get();
     var qs = [];
-    qSnap.forEach(function(doc){ qs.push(doc.data()); });
+    qSnap.forEach(function(doc){ 
+      var d = doc.data();
+      d.id = doc.id;
+      qs.push(d); 
+    });
     qs.sort(function(a,b){return (a.topic+a.qNum).localeCompare(b.topic+b.qNum);});
     var grouped = groupQuestions(qs);
 
@@ -1537,7 +1582,26 @@ async function viewFeedback(submissionId, assignmentId){
 
     var topicBreakdown = {};
     
-    var html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">' + 
+    // Build tabs if multiple attempts
+    var tabsHtml = '';
+    if(subs.length > 1) {
+      tabsHtml = '<div style="display:flex; gap:8px; margin-bottom:16px; overflow-x:auto; padding-bottom:4px;">';
+      subs.forEach(function(s, idx) {
+        var isSelected = (s.id === sub.id);
+        var isBest = (s.id === bestSubId);
+        var label = 'Attempt ' + (s.attemptNumber || (idx + 1)) + ': ' + (s.totalScore || 0) + '/' + (asgn.totalMarks || 0);
+        if(isBest) label += ' ✓ Best';
+        
+        var bg = isSelected ? 'var(--accent)' : 'var(--bg)';
+        var color = isSelected ? '#fff' : 'var(--text2)';
+        var border = isSelected ? 'var(--accent)' : 'var(--border)';
+        
+        tabsHtml += '<button onclick="viewFeedback(\'' + assignmentId + '\', \'' + s.id + '\')" style="background:'+bg+'; color:'+color+'; border:1px solid '+border+'; padding:6px 12px; border-radius:50px; font-size:0.85rem; cursor:pointer; white-space:nowrap;">' + label + '</button>';
+      });
+      tabsHtml += '</div>';
+    }
+    
+    var html = tabsHtml + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">' + 
       '<div style="padding:10px;background:var(--bg);border-radius:8px;flex:1">' +
       '<strong>Overall Score:</strong> '+(sub.totalScore||0)+'/'+(asgn.totalMarks||0)+' ('+
       (asgn.totalMarks > 0 ? Math.round(sub.totalScore/asgn.totalMarks*100) : 0)+'%)' +
