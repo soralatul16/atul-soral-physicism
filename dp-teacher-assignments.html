@@ -157,7 +157,27 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
 
 @media(max-width:700px){.form-row{flex-direction:column}.tabs{overflow-x:auto;white-space:nowrap}.qb-body{flex-direction:column}.qb-filters{width:100%;max-height:200px;border-right:none;border-bottom:1px solid var(--border)}}
 
+/* FLOATING PANEL */
+.qb-sidebar-right {width: 260px; padding: 14px; overflow-y: auto; border-left: 1px solid var(--border); background: var(--bg); display: flex; flex-direction: column; gap: 12px;}
+.qb-sidebar-right h4 {font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; color: var(--text3); font-weight: 700; margin-bottom: 8px;}
+.stats-box {background: var(--card); border: 1.5px solid var(--border); border-radius: 8px; padding: 12px;}
+.stats-box-row {display: flex; justify-content: space-between; font-size: .85rem; margin-bottom: 6px;}
+.stats-box-row.total {font-weight: 700; color: var(--accent); border-top: 1px dashed var(--border); padding-top: 6px; margin-top: 4px; margin-bottom: 0;}
+.topic-breakdown-list {font-size: .8rem; display: flex; flex-direction: column; gap: 6px;}
+.topic-breakdown-row {display: flex; justify-content: space-between; align-items: center; background: var(--card); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);}
 
+/* REVIEW MODAL */
+.review-modal {max-width: 800px; width: 95%; max-height: 85vh; display: flex; flex-direction: column;}
+.review-body {flex: 1; overflow-y: auto; padding: 16px; background: var(--bg);}
+.review-group {background: var(--card); border: 1.5px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 12px; cursor: grab;}
+.review-group:active {cursor: grabbing;}
+.review-part {display: flex; gap: 12px; align-items: flex-start; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border);}
+.review-part-stem {flex: 1; font-size: .85rem; line-height: 1.5;}
+.review-part-actions {display: flex; align-items: center; gap: 8px;}
+.review-part-actions input {width: 50px; padding: 4px; border: 1.5px solid var(--border); border-radius: 6px; text-align: center; font-size: .8rem;}
+.review-part-actions .btn-remove {background: var(--danger); color: #fff; border: none; border-radius: 6px; padding: 4px 8px; font-size: .75rem; cursor: pointer; font-weight: bold;}
+.review-part-actions .btn-remove:hover {opacity: .8;}
+.excluded-part {opacity: 0.5; background: #f9f9f9;}
 /* GRADING CARDS */
 .grade-card {
   background: var(--card);
@@ -586,10 +606,25 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
       <div class="qb-list" id="qbList">
         <div class="empty">Loading questions...</div>
       </div>
+      <div class="qb-sidebar-right">
+        <div>
+          <h4>Selection Stats</h4>
+          <div class="stats-box">
+            <div class="stats-box-row"><span>Questions</span><span id="statQCount" style="font-weight:600">0</span></div>
+            <div class="stats-box-row total"><span>Total Marks</span><span id="statMarks">0</span></div>
+          </div>
+        </div>
+        <div>
+          <h4>Topic Breakdown</h4>
+          <div class="topic-breakdown-list" id="statTopics">
+            <div style="color:var(--text3);font-size:.75rem">No questions selected.</div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="qb-footer">
       <span class="qb-sel-count" id="qbSelCount">0 questions selected (0 marks)</span>
-      <button class="btn btn-primary" onclick="confirmQBSelection()">✓ Confirm Selection</button>
+      <button class="btn btn-primary" onclick="openReviewModal()">Review Selection</button>
     </div>
   </div>
 </div>
@@ -609,6 +644,23 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
     <div class="ss-footer">
       <span style="font-size:.85rem;font-weight:600;color:var(--accent)" id="ssSelCount">0 students selected</span>
       <button class="btn btn-primary" onclick="confirmSSSelection()">✓ Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW SELECTION MODAL -->
+<div class="ss-overlay" id="reviewOverlay">
+  <div class="ss-modal review-modal">
+    <div class="ss-header">
+      <h3>🔍 Review Selection</h3>
+      <button class="qb-close" onclick="closeReviewModal()">✕</button>
+    </div>
+    <div class="review-body" id="reviewList">
+      <!-- Sortable list of selected questions goes here -->
+    </div>
+    <div class="ss-footer">
+      <span style="font-size:.85rem;font-weight:600;color:var(--accent)" id="reviewSummary">0 marks total</span>
+      <button class="btn btn-primary" onclick="confirmReviewSelection()">✓ Confirm & Create Assignment</button>
     </div>
   </div>
 </div>
@@ -672,6 +724,9 @@ var qbFilters = {paper:[], topic:[], diff:[], level:[]};
 
 // Assignment form state
 var asgnSelectedQuestions = []; // array of group IDs
+var asgnExcludedParts = []; // array of specific question part IDs to omit
+var asgnCustomMarks = {}; // map of part ID -> custom mark override
+var asgnOrderedGroups = []; // array of group IDs to dictate explicit order
 var asgnSelectedStudents = []; // array of student doc IDs
 var ssFilterTag = '';
 var ssChecked = {}; // studentDocId -> boolean
@@ -1192,6 +1247,9 @@ function createAssignment(){
     title: title,
     type: type,
     questionIds: asgnSelectedQuestions.slice(),
+    orderedQuestionGroups: asgnOrderedGroups.slice(),
+    excludedQuestionIds: asgnExcludedParts.slice(),
+    customQuestionMarks: Object.assign({}, asgnCustomMarks),
     studentIds: studentIds,
     totalMarks: marks,
     timeLimit: type==='hw' ? 0 : time,
@@ -1208,6 +1266,9 @@ function createAssignment(){
     alert('Assignment created successfully!');
     document.getElementById('asgnTitle').value = '';
     asgnSelectedQuestions = [];
+    asgnOrderedGroups = [];
+    asgnExcludedParts = [];
+    asgnCustomMarks = {};
     asgnSelectedStudents = [];
     document.getElementById('asgnQBtn').textContent = '📋 Select Questions (0)';
     document.getElementById('asgnSBtn').textContent = '👥 Select Students (0)';
@@ -1326,11 +1387,34 @@ function qbToggleSelect(gid){
 
 function qbUpdateCount(){
   var marks = 0;
+  var topics = {};
+
   qbSelectedIds.forEach(function(gid){
     var g = qbAllGroups.find(function(x){return x.id===gid;});
-    if(g) marks += g.totalMarks;
+    if(g) {
+      marks += g.totalMarks;
+      var topicName = g.topicName ? (g.topic + ' ' + g.topicName) : (g.topic || 'Unknown Topic');
+      if (!topics[topicName]) topics[topicName] = 0;
+      topics[topicName] += g.totalMarks;
+    }
   });
+
   document.getElementById('qbSelCount').textContent = qbSelectedIds.length + ' questions selected (' + marks + ' marks)';
+  
+  // Update sticky panel
+  document.getElementById('statQCount').textContent = qbSelectedIds.length;
+  document.getElementById('statMarks').textContent = marks;
+
+  var topicHtml = '';
+  var sortedTopics = Object.keys(topics).sort();
+  if (sortedTopics.length === 0) {
+    topicHtml = '<div style="color:var(--text3);font-size:.75rem">No questions selected.</div>';
+  } else {
+    topicHtml = sortedTopics.map(function(t) {
+      return '<div class="topic-breakdown-row"><span>' + escHtml(t) + '</span><span style="font-weight:600;color:var(--accent)">' + topics[t] + '</span></div>';
+    }).join('');
+  }
+  document.getElementById('statTopics').innerHTML = topicHtml;
 }
 
 function openQBModal(){
@@ -1348,17 +1432,119 @@ function closeQBModal(){
   document.getElementById('qbOverlay').classList.remove('open');
 }
 
-function confirmQBSelection(){
-  asgnSelectedQuestions = qbSelectedIds.slice();
+// ==================== REVIEW SELECTION MODAL ====================
+function openReviewModal() {
+  if (qbSelectedIds.length === 0) {
+    alert('Please select at least one question to review.');
+    return;
+  }
+  
+  // Initialize ordered groups if empty or mismatched
+  if (asgnOrderedGroups.length !== qbSelectedIds.length || !qbSelectedIds.every(id => asgnOrderedGroups.includes(id))) {
+    asgnOrderedGroups = qbSelectedIds.slice();
+  }
+  
+  renderReviewModal();
+  closeQBModal();
+  document.getElementById('reviewOverlay').classList.add('open');
+}
+
+function closeReviewModal() {
+  document.getElementById('reviewOverlay').classList.remove('open');
+}
+
+function renderReviewModal() {
+  var reviewList = document.getElementById('reviewList');
+  var totalMarks = 0;
+  
+  var html = asgnOrderedGroups.map(function(gid, index) {
+    var g = qbAllGroups.find(function(x) { return x.id === gid; });
+    if (!g) return '';
+    
+    var partsHtml = g.parts.map(function(p) {
+      var isExcluded = asgnExcludedParts.indexOf(p.id) > -1;
+      var markVal = asgnCustomMarks[p.id] !== undefined ? asgnCustomMarks[p.id] : (p.marks || 1);
+      if (!isExcluded) totalMarks += markVal;
+      
+      var stemText = p.text || g.stem || '';
+      var tmp = document.createElement('div'); tmp.innerHTML = stemText; stemText = tmp.textContent;
+      if (stemText.length > 80) stemText = stemText.substring(0, 80) + '...';
+      
+      return '<div class="review-part ' + (isExcluded ? 'excluded-part' : '') + '">' +
+        '<div class="review-part-stem">' + escHtml(stemText) + ' <br><span style="font-size:0.7rem;color:var(--text3)">' + p.id + '</span></div>' +
+        '<div class="review-part-actions">' +
+          '<input type="number" min="0" value="' + markVal + '" onchange="updateReviewMark(\'' + p.id + '\', this.value)" ' + (isExcluded ? 'disabled' : '') + ' title="Marks">' +
+          '<button class="btn-remove" onclick="toggleReviewPart(\'' + p.id + '\')" title="Toggle Exclusion">' + (isExcluded ? '↩' : '✕') + '</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+    
+    return '<div class="review-group" draggable="true" ondragstart="dragReviewStart(event, ' + index + ')" ondragover="dragReviewOver(event)" ondrop="dropReview(event, ' + index + ')">' +
+      '<div style="font-weight:600;font-size:.85rem;color:var(--accent);display:flex;justify-content:space-between;">' + 
+        '<span>' + escHtml(g.id) + '</span>' + 
+        '<span style="font-size:1rem;cursor:grab;color:var(--text3)">☰</span>' +
+      '</div>' +
+      '<div style="font-size:.75rem;color:var(--text2);margin-bottom:6px;">' + (g.topic || '') + ' · ' + (g.type || 'Structured') + '</div>' +
+      partsHtml +
+    '</div>';
+  }).join('');
+  
+  reviewList.innerHTML = html;
+  document.getElementById('reviewSummary').textContent = asgnOrderedGroups.length + ' questions (' + totalMarks + ' marks total)';
+}
+
+function updateReviewMark(partId, val) {
+  var mark = parseInt(val) || 0;
+  asgnCustomMarks[partId] = mark;
+  renderReviewModal();
+}
+
+function toggleReviewPart(partId) {
+  var idx = asgnExcludedParts.indexOf(partId);
+  if (idx > -1) {
+    asgnExcludedParts.splice(idx, 1);
+  } else {
+    asgnExcludedParts.push(partId);
+  }
+  renderReviewModal();
+}
+
+var draggedReviewIndex = null;
+function dragReviewStart(e, index) {
+  draggedReviewIndex = index;
+  e.dataTransfer.effectAllowed = 'move';
+}
+function dragReviewOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+function dropReview(e, index) {
+  e.preventDefault();
+  if (draggedReviewIndex === null || draggedReviewIndex === index) return;
+  var item = asgnOrderedGroups.splice(draggedReviewIndex, 1)[0];
+  asgnOrderedGroups.splice(index, 0, item);
+  renderReviewModal();
+}
+
+function confirmReviewSelection() {
+  asgnSelectedQuestions = asgnOrderedGroups.slice();
+  
   var marks = 0;
-  asgnSelectedQuestions.forEach(function(gid){
-    var g = qbAllGroups.find(function(x){return x.id===gid;});
-    if(g) marks += g.totalMarks;
+  asgnSelectedQuestions.forEach(function(gid) {
+    var g = qbAllGroups.find(function(x) { return x.id === gid; });
+    if (g) {
+      g.parts.forEach(function(p) {
+        if (asgnExcludedParts.indexOf(p.id) === -1) {
+          marks += asgnCustomMarks[p.id] !== undefined ? asgnCustomMarks[p.id] : (p.marks || 1);
+        }
+      });
+    }
   });
-  document.getElementById('asgnQBtn').textContent = '📋 Select Questions ('+asgnSelectedQuestions.length+')';
+  
+  document.getElementById('asgnQBtn').textContent = '📋 Select Questions (' + asgnSelectedQuestions.length + ')';
   document.getElementById('asgnMarks').value = marks;
   recalcTime();
-  closeQBModal();
+  closeReviewModal();
 }
 
 // ==================== STUDENT SELECT MODAL ====================
@@ -1599,10 +1785,24 @@ function openGradingWorkspace(submissionId){
     var grouped = qbGroupQuestions(qs);
 
     activeGradingQuestions = [];
-    var qIds = activeGradingAssignment ? activeGradingAssignment.questionIds || [] : [];
+    var qIds = activeGradingAssignment ? (activeGradingAssignment.orderedQuestionGroups || activeGradingAssignment.questionIds || []) : [];
+    var excludedIds = activeGradingAssignment ? (activeGradingAssignment.excludedQuestionIds || []) : [];
+    var customMarksObj = activeGradingAssignment ? (activeGradingAssignment.customQuestionMarks || {}) : {};
+
     qIds.forEach(function(gid){
       var g = grouped.find(function(x){ return x.id === gid; });
-      if(g) activeGradingQuestions.push(g);
+      if(g) {
+        var gClone = JSON.parse(JSON.stringify(g));
+        gClone.parts = gClone.parts.filter(function(p) { return excludedIds.indexOf(p.id) === -1; });
+        if (gClone.parts.length === 0) return;
+        
+        gClone.totalMarks = 0;
+        gClone.parts.forEach(function(p) {
+          if (customMarksObj[p.id] !== undefined) p.marks = customMarksObj[p.id];
+          gClone.totalMarks += (p.marks || 1);
+        });
+        activeGradingQuestions.push(gClone);
+      }
     });
 
     renderGradingWorkspace();

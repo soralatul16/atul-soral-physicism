@@ -1002,7 +1002,9 @@ function loadAttemptData(assignmentId, submissionId, callback){
 
     // Keep only the groups that are in asgnDoc.questionIds
     var asgnGroups = [];
-    var qIds = asgnDoc.questionIds || [];
+    var qIds = asgnDoc.orderedQuestionGroups || asgnDoc.questionIds || [];
+    var customMarksObj = asgnDoc.customQuestionMarks || {};
+    var excludedIds = asgnDoc.excludedQuestionIds || [];
     
     // Retest Logic: Shuffle Questions and Options
     var needsShuffleSave = false;
@@ -1018,6 +1020,19 @@ function loadAttemptData(assignmentId, submissionId, callback){
       var g = grouped.find(function(item){ return item.id === gid; });
       if(g) {
         var gClone = JSON.parse(JSON.stringify(g));
+        
+        // Apply exclusions and custom marks
+        gClone.parts = gClone.parts.filter(function(p) {
+          return excludedIds.indexOf(p.id) === -1;
+        });
+        if (gClone.parts.length === 0) return; // Skip if all parts excluded
+        
+        gClone.totalMarks = 0;
+        gClone.parts.forEach(function(p) {
+          if (customMarksObj[p.id] !== undefined) p.marks = customMarksObj[p.id];
+          gClone.totalMarks += (p.marks || 1);
+        });
+
         if (subDoc.attemptNumber && subDoc.attemptNumber > 1) {
           if (!subDoc.shuffledOptions) subDoc.shuffledOptions = {};
           
@@ -1580,10 +1595,26 @@ async function viewFeedback(assignmentId, submissionId = null){
     grouped.forEach(function(g) { groupedDict[g.id] = g; });
 
     var asgnGroups = [];
-    var qIds = asgn.questionIds || [];
+    var qIds = asgn.orderedQuestionGroups || asgn.questionIds || [];
     var displayQIds = sub.shuffledQuestionIds || qIds;
+    var customMarksObj = asgn.customQuestionMarks || {};
+    var excludedIds = asgn.excludedQuestionIds || [];
+
     displayQIds.forEach(function(gid){
-      if(groupedDict[gid]) asgnGroups.push(groupedDict[gid]);
+      if(groupedDict[gid]) {
+        var gClone = JSON.parse(JSON.stringify(groupedDict[gid]));
+        gClone.parts = gClone.parts.filter(function(p) {
+          return excludedIds.indexOf(p.id) === -1;
+        });
+        if (gClone.parts.length === 0) return;
+        
+        gClone.totalMarks = 0;
+        gClone.parts.forEach(function(p) {
+          if (customMarksObj[p.id] !== undefined) p.marks = customMarksObj[p.id];
+          gClone.totalMarks += (p.marks || 1);
+        });
+        asgnGroups.push(gClone);
+      }
     });
 
     var topicBreakdown = {};
