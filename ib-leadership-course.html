@@ -6,87 +6,156 @@
 <title>IB Leadership Course</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#f7f3ed;--card:#fff;--text:#1a1a2e;--text2:#555;--accent:#0B7285;--accent2:#4ecdc4;--border:#e5e1dc;--warn:#dc2626;--success:#16a34a;--highlight:#fef3c7}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
-body.dark{--bg:#0f1119;--card:#1e1e30;--text:#e8e4dc;--text2:#aaa;--border:#333;--highlight:#332b00}
+:root{
+  --bg:#FAF8F4;--card:#fff;--text:#1a1a2e;--text2:#6b7280;
+  --accent:#0B7285;--accent-light:#E6F4F1;--accent-dark:#085D6B;
+  --border:#E8E4DE;--gold:#D4A853;--gold-bg:#FEF9EE;
+  --red:#C75050;--red-bg:#FEF2F2;--red-border:#FECACA;
+  --green:#2E8B57;--green-bg:#F0FDF4;--green-border:#BBF7D0;
+  --highlight:#FEF3C7;--phase-track:#E8E4DE
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+body.dark{
+  --bg:#0F1119;--card:#1A1D2E;--text:#E8E4DC;--text2:#8B8FA0;
+  --accent:#4ECDC4;--accent-light:#1A2D2B;--accent-dark:#3BB5AD;
+  --border:#2A2D3E;--gold:#D4A853;--gold-bg:#2A2510;
+  --red:#E87070;--red-bg:#2A1A1A;--red-border:#4A2020;
+  --green:#5CB88A;--green-bg:#1A2A1F;--green-border:#2A4A30;
+  --highlight:#332B00;--phase-track:#2A2D3E
+}
 
-/* Lock */
 .lock{display:flex;align-items:center;justify-content:center;min-height:100vh}
-.lock-box{background:var(--card);padding:40px;border-radius:16px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.1);border:1px solid var(--border)}
+.lock-box{background:var(--card);padding:40px;border-radius:16px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.08);border:1px solid var(--border)}
 .lock-box h1{color:var(--accent);font-size:1.3rem;margin-bottom:6px}
 .lock-box p{color:var(--text2);font-size:.82rem;margin-bottom:20px}
 .lock-box input{padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.95rem;background:var(--bg);color:var(--text)}
 .lock-box button{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-left:6px}
 
-/* App */
-.app{display:none;max-width:800px;margin:0 auto;padding:20px 20px 80px}
-.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)}
-.top-bar .title{font-size:1.1rem;font-weight:700;color:var(--accent)}
+.app{display:none;max-width:780px;margin:0 auto;padding:20px 20px 100px}
+
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.top-bar .title{font-size:1.05rem;font-weight:700;color:var(--accent)}
 .top-bar .controls{display:flex;gap:8px;align-items:center}
 .top-bar button{background:var(--bg);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:.72rem;cursor:pointer;color:var(--text)}
 .streak-badge{background:var(--highlight);padding:4px 12px;border-radius:12px;font-size:.75rem;font-weight:600}
 
-/* Mentor */
-.mentor{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--warn);padding:16px 20px;border-radius:0 10px 10px 0;margin-bottom:24px}
-.mentor .label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--warn);font-weight:700;margin-bottom:6px}
-.mentor p{font-size:.88rem;color:var(--text)}
+.mastery{margin:14px 0 24px;padding:16px 20px;background:var(--card);border:1px solid var(--border);border-radius:10px}
+.mastery-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text2);font-weight:600;margin-bottom:6px}
+.mastery-bar{height:10px;background:var(--phase-track);border-radius:5px;overflow:hidden}
+.mastery-fill{height:100%;background:linear-gradient(90deg,#4ECDC4,var(--accent));border-radius:5px;transition:width .5s ease}
+.mastery-score{font-size:.78rem;color:var(--accent);font-weight:700;margin-top:6px}
 
-/* Section */
-.section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
-.section h3{color:var(--accent);font-size:1rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.section p{font-size:.88rem;color:var(--text);margin-bottom:10px}
-.section ul{padding-left:20px;margin-bottom:10px}
-.section li{font-size:.85rem;margin-bottom:6px;color:var(--text)}
+.mentor{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--gold);padding:16px 20px;border-radius:0 10px 10px 0;margin-bottom:24px}
+.mentor .label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);font-weight:700;margin-bottom:6px}
+.mentor p{font-size:.88rem}
+.mentor strong{color:var(--accent)}
 
-/* Concept Box */
-.concept-box{background:var(--highlight);padding:16px;border-radius:8px;margin:14px 0;border:1px solid #f59e0b30}
-.concept-box .big{font-size:1.05rem;font-weight:700;color:var(--text);line-height:1.6}
+.phase{margin-bottom:32px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--card)}
+.phase-header{padding:16px 20px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+.phase-header:hover{background:var(--accent-light)}
+.phase-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:#fff;flex-shrink:0}
+.phase-info{flex:1}
+.phase-title{font-size:.95rem;font-weight:700;color:var(--text)}
+.phase-sub{font-size:.72rem;color:var(--text2);margin-top:1px}
+.phase-score{font-size:.72rem;font-weight:700;color:var(--green);background:var(--green-bg);padding:3px 10px;border-radius:10px;white-space:nowrap}
+.phase-chevron{font-size:1rem;color:var(--text2);transition:transform .2s}
+.phase.open .phase-chevron{transform:rotate(180deg)}
+.phase-body{padding:0 20px 20px;display:none}
+.phase.open .phase-body{display:block}
 
-/* Model Sentences */
-.model{background:var(--bg);padding:12px 16px;border-radius:8px;margin:8px 0;border-left:3px solid var(--accent)}
-.model .label{font-size:.65rem;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:4px}
-.model p{font-size:.85rem;font-style:italic}
+.term-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px}
+.term-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.term-badge{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 10px;border-radius:4px;background:var(--accent);color:#fff}
+.term-word{font-size:1.1rem;font-weight:800;color:var(--accent);font-family:Georgia,'Times New Roman',serif}
 
-/* Exercises */
-.exercise{background:var(--bg);padding:16px;border-radius:8px;margin:12px 0;border:1px solid var(--border)}
-.exercise .tag{display:inline-block;font-size:.6rem;background:var(--accent);color:#fff;padding:2px 8px;border-radius:4px;font-weight:600;margin-bottom:8px}
-.exercise p{font-size:.85rem;margin-bottom:8px}
-.exercise input[type=text],.exercise textarea{width:100%;padding:10px;border:1.5px solid var(--border);border-radius:6px;font-size:.85rem;background:var(--card);color:var(--text);margin-bottom:6px}
-.exercise textarea{min-height:80px;resize:vertical}
-.exercise .hint{font-size:.75rem;color:var(--text2);margin-top:4px}
-.exercise .reveal-btn{background:var(--accent);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:.75rem;cursor:pointer;margin-top:8px}
-.exercise .answer{display:none;margin-top:10px;padding:10px;background:var(--highlight);border-radius:6px;font-size:.82rem}
+.term-compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.term-generic{padding:10px 14px;border-radius:8px;background:var(--red-bg);border:1px solid var(--red-border);font-size:.82rem}
+.term-generic .mini-label{font-size:.6rem;font-weight:700;text-transform:uppercase;color:var(--red);margin-bottom:3px}
+.term-ib{padding:10px 14px;border-radius:8px;background:var(--green-bg);border:1px solid var(--green-border);font-size:.82rem}
+.term-ib .mini-label{font-size:.6rem;font-weight:700;text-transform:uppercase;color:var(--green);margin-bottom:3px}
 
-/* Compare */
+.term-meaning{font-size:.84rem;margin:10px 0;color:var(--text)}
+.term-physics{font-size:.82rem;color:var(--text2);padding:10px 14px;background:var(--gold-bg);border-radius:8px;margin:10px 0;border-left:3px solid var(--gold)}
+.term-physics strong{color:var(--gold)}
+
+.example-box{padding:10px 14px;background:var(--accent-light);border-radius:8px;margin:8px 0;border-left:3px solid var(--accent);font-size:.84rem;font-style:italic}
+.example-box .elabel{font-size:.6rem;font-weight:700;text-transform:uppercase;color:var(--accent);font-style:normal;margin-bottom:3px}
+
+.quiz-box{padding:16px;border:2px dashed var(--border);border-radius:10px;margin-top:12px;transition:border-color .3s}
+.quiz-box.correct{border-color:var(--green);background:var(--green-bg)}
+.quiz-box.wrong{border-color:var(--red);background:var(--red-bg)}
+.quiz-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);margin-bottom:8px}
+.quiz-q{font-size:.85rem;font-weight:600;margin-bottom:10px}
+
+.quiz-options{display:flex;flex-direction:column;gap:6px}
+.quiz-opt{display:flex;align-items:flex-start;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:.84rem;transition:all .2s}
+.quiz-opt:hover{background:var(--accent-light);border-color:var(--accent)}
+.quiz-opt.selected{border-color:var(--accent);background:var(--accent-light)}
+.quiz-opt.right{border-color:var(--green);background:var(--green-bg)}
+.quiz-opt.wrongpick{border-color:var(--red);background:var(--red-bg);text-decoration:line-through;opacity:.7}
+.quiz-opt input{margin-top:2px}
+
+.quiz-fill{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.quiz-fill input{padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:.85rem;background:var(--card);color:var(--text);flex:1;min-width:150px}
+.quiz-fill input.correct-input{border-color:var(--green);background:var(--green-bg)}
+.quiz-fill input.wrong-input{border-color:var(--red);background:var(--red-bg)}
+
+.quiz-btn{background:var(--accent);color:#fff;border:none;padding:7px 16px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;margin-top:8px}
+.quiz-btn:hover{background:var(--accent-dark)}
+.quiz-btn:disabled{opacity:.5;cursor:default}
+
+.quiz-feedback{margin-top:8px;padding:10px 14px;border-radius:6px;font-size:.82rem;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.quiz-feedback.bad{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+
+.template-box{background:var(--gold-bg);border:1px solid rgba(212,168,83,.3);border-radius:10px;padding:16px 18px;margin:12px 0}
+.template-label{font-size:.65rem;font-weight:700;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.template-text{font-size:.95rem;font-weight:700;font-family:Georgia,'Times New Roman',serif;line-height:1.8;color:var(--text)}
+.template-text .slot{color:var(--accent);border-bottom:2px dashed var(--accent)}
+
+.write-area{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;background:var(--card);color:var(--text);min-height:80px;resize:vertical;font-family:inherit;line-height:1.6}
+.write-area:focus{outline:none;border-color:var(--accent)}
+
 .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
 .compare .weak,.compare .strong{padding:14px;border-radius:8px;font-size:.82rem}
-.compare .weak{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
-.compare .strong{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534}
-.compare .label{font-size:.65rem;font-weight:700;text-transform:uppercase;margin-bottom:6px}
-@media(max-width:600px){.compare{grid-template-columns:1fr}}
+.compare .weak{background:var(--red-bg);border:1px solid var(--red-border)}
+.compare .strong{background:var(--green-bg);border:1px solid var(--green-border)}
+.compare .clabel{font-size:.6rem;font-weight:700;text-transform:uppercase;margin-bottom:6px}
+.compare .weak .clabel{color:var(--red)}
+.compare .strong .clabel{color:var(--green)}
 
-/* Checklist */
-.check-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
-.check-item input{margin-top:3px;width:18px;height:18px;accent-color:var(--accent)}
-.check-item label{font-size:.85rem}
-.check-item input:checked+label{color:var(--text2);text-decoration:line-through}
+.reveal-btn{background:none;border:1px solid var(--accent);color:var(--accent);padding:6px 14px;border-radius:6px;font-size:.75rem;cursor:pointer;margin-top:8px;font-weight:600}
+.reveal-btn:hover{background:var(--accent);color:#fff}
+.answer-reveal{display:none;margin-top:10px;padding:12px 14px;background:var(--green-bg);border:1px solid var(--green-border);border-radius:8px;font-size:.82rem}
+.answer-reveal.show{display:block}
 
-/* Progress */
-.progress-bar{height:8px;background:var(--border);border-radius:4px;margin:10px 0}
-.progress-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .3s}
+.section-note{font-size:.82rem;color:var(--text2);padding:12px 16px;background:var(--bg);border-radius:8px;margin-bottom:14px;border-left:3px solid var(--accent)}
 
-/* Nav */
-.mod-nav{display:flex;justify-content:space-between;margin-top:30px;padding-top:20px;border-top:1px solid var(--border)}
-.mod-nav button{padding:10px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-size:.85rem}
-.mod-nav .prev{background:var(--bg);border:1px solid var(--border);color:var(--text)}
-.mod-nav .next{background:var(--accent);border:none;color:#fff}
+.next-box{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--green);padding:16px 20px;border-radius:0 10px 10px 0;margin-top:30px}
+.next-box .label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--green);font-weight:700;margin-bottom:6px}
+
+@media(max-width:600px){
+  .term-compare,.compare{grid-template-columns:1fr}
+  .quiz-fill{flex-direction:column}
+  .quiz-fill input{width:100%}
+  .top-bar{flex-direction:column;gap:8px;text-align:center}
+}
+
+@media print{
+  .lock{display:none!important}
+  .app{display:block!important;max-width:100%}
+  .phase-body{display:block!important}
+  .quiz-box,.quiz-btn,.reveal-btn{break-inside:avoid}
+  .top-bar button,.streak-badge{display:none}
+}
 </style>
 </head>
 <body>
 
 <div class="lock" id="lock">
 <div class="lock-box">
-  <h1>🎯 IB Leadership Academy</h1>
+  <h1>IB Leadership Academy</h1>
   <p>Your private course to coordinator-level fluency</p>
   <input type="password" id="pwd" placeholder="Password" onkeyup="if(event.key==='Enter')unlock()">
   <button onclick="unlock()">Enter</button>
@@ -95,288 +164,1030 @@ body.dark{--bg:#0f1119;--card:#1e1e30;--text:#e8e4dc;--text2:#aaa;--border:#333;
 
 <div class="app" id="app">
 <div class="top-bar">
-  <div class="title">🎯 Module 1.1 — IB Mission & Philosophy</div>
+  <div class="title">Module 1.1 &mdash; IB Mission & Philosophy</div>
   <div class="controls">
-    <span class="streak-badge" id="streak">🔥 0 days</span>
-    <button onclick="document.body.classList.toggle('dark')">🌓</button>
+    <span class="streak-badge" id="streak">0 days</span>
+    <button onclick="document.body.classList.toggle('dark')">Dark</button>
   </div>
+</div>
+
+<div class="mastery">
+  <div class="mastery-label">Module 1.1 Mastery</div>
+  <div class="mastery-bar"><div class="mastery-fill" id="masteryFill" style="width:0%"></div></div>
+  <div class="mastery-score" id="masteryText">0 / 41 exercises completed</div>
 </div>
 
 <div class="mentor">
-  <div class="label">⚡ Your Mentor</div>
-  <p>You scored 4/10 yesterday. You KNOW the ideas but can't BUILD sentences. That's what we fix today. Every exercise below forces you to WRITE and SPEAK — not read. Do all of them. No skipping.</p>
+  <div class="label">Fresh Start</div>
+  <p>Forget the old module. We're learning IB language the way you'd learn any language: <strong>one word at a time, then phrases, then sentences</strong>. You already know the physics &mdash; now we translate it. Eight phases. No skipping ahead to sentence-writing until you've mastered the vocabulary. Like building circuits: first learn each component, then connect them.</p>
 </div>
 
-<div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
-<p style="font-size:.72rem;color:var(--text2);margin-bottom:20px">Module Progress: <span id="progText">0</span>/12 exercises completed</p>
+<!-- ============================================ -->
+<!-- PHASE 1: VOCABULARY                          -->
+<!-- ============================================ -->
+<div class="phase open" id="phase1">
+  <div class="phase-header" onclick="togglePhase('phase1')">
+    <div class="phase-num" style="background:linear-gradient(135deg,#4ECDC4,#0B7285)">1</div>
+    <div class="phase-info">
+      <div class="phase-title">Your IB Dictionary &mdash; One Word at a Time</div>
+      <div class="phase-sub">Learn 8 key terms. Each one: meaning, physics analogy, example, quiz.</div>
+    </div>
+    <span class="phase-score" id="p1score">0/8</span>
+    <span class="phase-chevron">&#9662;</span>
+  </div>
+  <div class="phase-body">
+    <p class="section-note">Think of each term as a new word in a foreign language. You already know the CONCEPT &mdash; now learn the exact IB WORD for it. Like how you know "bal" (force) in Hindi but need to learn that physicists say "net external force" in English.</p>
 
-<!-- ═══════════════════════════════════ -->
-<!-- PART 1: THE MISSION STATEMENT -->
-<!-- ═══════════════════════════════════ -->
+    <!-- TERM 1: INQUIRING -->
+    <div class="term-card" id="t1">
+      <div class="term-header">
+        <span class="term-badge">Term 1 of 8</span>
+        <span class="term-word">Inquiring</span>
+      </div>
+      <div class="term-compare">
+        <div class="term-generic"><div class="mini-label">You probably say</div>"curious students who ask questions"</div>
+        <div class="term-ib"><div class="mini-label">IB says</div>"inquiring learners"</div>
+      </div>
+      <p class="term-meaning"><strong>What it really means:</strong> Self-driven curiosity. Students who research, question, and explore independently. Not just "asking the teacher" &mdash; developing the skills to find answers themselves.</p>
+      <div class="term-physics"><strong>Physics:</strong> Like a charged particle in an electric field &mdash; it MUST move toward understanding. An inquiring learner can't sit still; curiosity is the driving force, inquiry is the displacement.</div>
+      <div class="example-box"><div class="elabel">See it used</div>"The IB develops <strong>inquiring</strong>, knowledgeable and caring young people who create a better world."</div>
+      <div class="example-box"><div class="elabel">See it used</div>"Our students demonstrate an <strong>inquiring</strong> approach to learning through self-directed research."</div>
 
-<div class="section">
-  <h3>🧠 Part 1: The IB Mission — Understanding the Structure</h3>
-  <p>The IB Mission Statement has <strong>3 sentences</strong>. Each answers a different question:</p>
+      <div class="quiz-box" id="q1">
+        <div class="quiz-label">Quick Quiz</div>
+        <div class="quiz-q">Which is the IB-fluent version?</div>
+        <div class="quiz-options">
+          <label class="quiz-opt" onclick="pickMCQ('q1',0)"><input type="radio" name="q1"> "We encourage students to be curious and ask questions"</label>
+          <label class="quiz-opt" onclick="pickMCQ('q1',1)"><input type="radio" name="q1"> "We develop inquiring learners who pursue understanding independently"</label>
+          <label class="quiz-opt" onclick="pickMCQ('q1',2)"><input type="radio" name="q1"> "Our students are very question-oriented and love exploring"</label>
+        </div>
+        <button class="quiz-btn" onclick="checkMCQ('q1',1)">Check</button>
+        <div class="quiz-feedback" id="q1fb"></div>
+      </div>
+    </div>
 
-  <div class="concept-box">
-    <div class="big">
-      Sentence 1 → <strong>WHO</strong> does IB develop and <strong>WHY?</strong><br>
-      Sentence 2 → <strong>HOW</strong> does IB do it?<br>
-      Sentence 3 → <strong>WHAT</strong> do students become?
+    <!-- TERM 2: KNOWLEDGEABLE -->
+    <div class="term-card" id="t2">
+      <div class="term-header">
+        <span class="term-badge">Term 2 of 8</span>
+        <span class="term-word">Knowledgeable</span>
+      </div>
+      <div class="term-compare">
+        <div class="term-generic"><div class="mini-label">You probably say</div>"academically strong" or "well-studied"</div>
+        <div class="term-ib"><div class="mini-label">IB says</div>"knowledgeable &mdash; conceptual understanding, not memorization"</div>
+      </div>
+      <p class="term-meaning"><strong>What it really means:</strong> Deep conceptual understanding across disciplines. Not surface-level memorization. IB knowledge is connected, transferable, and applied to real contexts.</p>
+      <div class="term-physics"><strong>Physics:</strong> Understanding WHY F=ma works (the relationship between variables) vs. just memorizing the formula. IB "knowledgeable" is conceptual, not procedural. It's the difference between knowing the equation and understanding the model.</div>
+      <div class="example-box"><div class="elabel">See it used</div>"IB students are <strong>knowledgeable</strong> &mdash; they explore concepts across disciplines with genuine depth."</div>
+      <div class="example-box"><div class="elabel">See it used</div>"Being <strong>knowledgeable</strong> in the IB context means understanding the 'why' behind the 'what'."</div>
+
+      <div class="quiz-box" id="q2">
+        <div class="quiz-label">Quick Quiz</div>
+        <div class="quiz-q">What does "knowledgeable" mean in IB?</div>
+        <div class="quiz-options">
+          <label class="quiz-opt" onclick="pickMCQ('q2',0)"><input type="radio" name="q2"> Scores high marks in exams</label>
+          <label class="quiz-opt" onclick="pickMCQ('q2',1)"><input type="radio" name="q2"> Has deep conceptual understanding across disciplines</label>
+          <label class="quiz-opt" onclick="pickMCQ('q2',2)"><input type="radio" name="q2"> Knows many facts, formulas, and definitions</label>
+        </div>
+        <button class="quiz-btn" onclick="checkMCQ('q2',1)">Check</button>
+        <div class="quiz-feedback" id="q2fb"></div>
+      </div>
+    </div>
+
+    <!-- TERM 3: CARING -->
+    <div class="term-card" id="t3">
+      <div class="term-header">
+        <span class="term-badge">Term 3 of 8</span>
+        <span class="term-word">Caring</span>
+      </div>
+      <div class="term-compare">
+        <div class="term-generic"><div class="mini-label">You probably say</div>"nice" or "good person" or "helps others"</div>
+        <div class="term-ib"><div class="mini-label">IB says</div>"caring &mdash; empathy, service, personal responsibility"</div>
+      </div>
+      <p class="term-meaning"><strong>What it really means:</strong> Active empathy, commitment to service, personal responsibility toward others and the world. Not passive "being nice" &mdash; actively making a positive difference.</p>
+      <div class="term-physics"><strong>Physics:</strong> Newton's third law. A caring student doesn't just exist in the school &mdash; they CREATE impact. Every action of empathy produces an equal and opposite reaction in the community. Their presence changes the system.</div>
+      <div class="example-box"><div class="elabel">See it used</div>"The IB mission explicitly requires <strong>caring</strong> alongside knowledge &mdash; academic excellence without empathy is incomplete."</div>
+      <div class="example-box"><div class="elabel">See it used</div>"Our service programme develops <strong>caring</strong> learners who take responsibility for making a positive difference."</div>
+
+      <div class="quiz-box" id="q3">
+        <div class="quiz-label">Quick Quiz</div>
+        <div class="quiz-q">In IB, "caring" means:</div>
+        <div class="quiz-options">
+          <label class="quiz-opt" onclick="pickMCQ('q3',0)"><input type="radio" name="q3"> Being polite to teachers and classmates</label>
+          <label class="quiz-opt" onclick="pickMCQ('q3',1)"><input type="radio" name="q3"> Active empathy, service, and personal responsibility</label>
+          <label class="quiz-opt" onclick="pickMCQ('q3',2)"><input type="radio" name="q3"> Helping friends with homework and class notes</label>
+        </div>
+        <button class="quiz-btn" onclick="checkMCQ('q3',1)">Check</button>
+        <div class="quiz-feedback" id="q3fb"></div>
+      </div>
+    </div>
+
+    <!-- TERM 4: INTERCULTURAL UNDERSTANDING -->
+    <div class="term-card" id="t4">
+      <div class="term-header">
+        <span class="term-badge">Term 4 of 8</span>
+        <span class="term-word">Intercultural Understanding</span>
+      </div>
+      <div class="term-compare">
+        <div class="term-generic"><div class="mini-label">You probably say</div>"respecting other cultures" or "global awareness"</div>
+        <div class="term-ib"><div class="mini-label">IB says</div>"intercultural understanding"</div>
+      </div>
+      <p class="term-meaning"><strong>What it really means:</strong> Not just tolerance or awareness. It's the deep understanding that different cultural perspectives are VALID. Understanding cultures from within, not just knowing about them from outside.</p>
+      <div class="term-physics"><strong>Physics:</strong> Reference frames in special relativity. Two observers in different frames measure different values &mdash; and BOTH are correct. No frame is "the right one." IB teaches students to see culture the same way: your perspective is valid, AND so is theirs.</div>
+      <div class="example-box"><div class="elabel">See it used</div>"IB creates a more peaceful world through <strong>intercultural understanding</strong> and respect."</div>
+      <div class="example-box"><div class="elabel">See it used</div>"When we embed <strong>intercultural understanding</strong> into the science curriculum, students see that knowledge itself can be culturally situated."</div>
+
+      <div class="quiz-box" id="q4">
+        <div class="quiz-label">Quick Quiz</div>
+        <div class="quiz-q">"Intercultural understanding" goes beyond "respecting other cultures" because:</div>
+        <div class="quiz-options">
+          <label class="quiz-opt" onclick="pickMCQ('q4',0)"><input type="radio" name="q4"> It requires learning multiple languages</label>
+          <label class="quiz-opt" onclick="pickMCQ('q4',1)"><input type="radio" name="q4"> It means understanding that different cultural perspectives can be equally valid</label>
+          <label class="quiz-opt" onclick="pickMCQ('q4',2)"><input type="radio" name="q4"> It means travelling to different countries</label>
+        </div>
+        <button class="quiz-btn" onclick="checkMCQ('q4',1)">Check</button>
+        <div class="quiz-feedback" id="q4fb"></div>
+      </div>
+    </div>
+
+    <!-- TERM 5: CHALLENGING PROGRAMMES -->
+    <div class="term-card" id="t5">
+      <div class="term-header">
+        <span class="term-badge">Term 5 of 8</span>
+        <span class="term-word">Challenging Programmes</span>
+      </div>
+      <div class="term-compare">
+        <div class="term-generic"><div class="mini-label">You probably say</div>"tough courses" or "difficult syllabus"</div>
+        <div class="term-ib"><div class="mini-label">IB says</div>"challenging programmes of international education"</div>
+      </div>
+      <p class="term-meaning"><strong>What it really means:</strong> The difficulty is INTENTIONAL and DESIGNED. IB programmes challenge students intellectually, not just with workload. "International" means the perspective is global, not just the student body.</p>
+      <div class="term-physics"><strong>Physics:</strong> Like progressive overload in lab experiments. You don't randomly make things harder &mdash; you design challenges that systematically build capability. Each experiment builds on the previous one's conceptual framework.</div>
+      <div class="example-box"><div class="elabel">See it used</div>"The IB develops <strong>challenging programmes of international education</strong> and rigorous assessment."</div>
+      <div class="example-box"><div class="elabel">See it used</div>"IB programmes are deliberately <strong>challenging</strong> &mdash; academic rigour is built into the design, not an accident of difficulty."</div>
+
+      <div class="quiz-box" id="q5">
+        <div class="quiz-label">Quick Quiz</div>
+        <div class="quiz-q">Complete the official IB phrase: "challenging programmes of _____ education"</div>
+        <div class="quiz-fill">
+          <input type="text" id="q5input" placeholder="Type one word...">
+          <button class="quiz-btn" onclick="checkFill('q5','international')">Check</button>
+        </div>
+        <div class="quiz-feedback" id="q5fb"></div>
+      </div>
+    </div>
+
+    <!-- TERM 6: RIGOROUS ASSESSMENT -->
+    <div class="term-card" id="t6">
+      <div class="term-header">
+        <span class="term-badge">Term 6 of 8</span>
+        <span class="term-word">Rigorous Assessment</span>
+      </div>
+      <div class="term-compare">
+        <div class="term-generic"><div class="mini-label">You probably say</div>"tough exams" or "good testing system"</div>
+        <div class="term-ib"><div class="mini-label">IB says</div>"rigorous assessment"</div>
+      </div>
+      <p class="term-meaning"><strong>What it really means:</strong> Assessment that is <strong>criterion-referenced</strong> (measured against defined standards, not against other students), <strong>externally moderated</strong> (checked by IB, not just internal), and designed to be reliable and valid globally.</p>
+      <div class="term-physics"><strong>Physics:</strong> Like calibrating instruments in a lab. A rigorous experiment has controlled variables, repeated trials, and external validation (peer review). IB assessment works the same way &mdash; calibrated, standardized, and externally verified so a grade in Mumbai means the same as in Munich.</div>
+      <div class="example-box"><div class="elabel">See it used</div>"IB pairs challenging programmes with <strong>rigorous assessment</strong> &mdash; criterion-referenced and externally moderated."</div>
+      <div class="example-box"><div class="elabel">See it used</div>"<strong>Rigorous assessment</strong> ensures that IB standards are consistent and internationally benchmarked."</div>
+
+      <div class="quiz-box" id="q6">
+        <div class="quiz-label">Quick Quiz</div>
+        <div class="quiz-q">"Rigorous assessment" in IB means:</div>
+        <div class="quiz-options">
+          <label class="quiz-opt" onclick="pickMCQ('q6',0)"><input type="radio" name="q6"> Exams are very difficult and students often fail</label>
+          <label class="quiz-opt" onclick="pickMCQ('q6',1)"><input type="radio" name="q6"> Assessment is criterion-referenced, externally moderated, and standardized</label>
+          <label class="quiz-opt" onclick="pickMCQ('q6',2)"><input type="radio" name="q6"> Students take many tests throughout the year</label>
+        </div>
+        <button class="quiz-btn" onclick="checkMCQ('q6',1)">Check</button>
+        <div class="quiz-feedback" id="q6fb"></div>
+      </div>
+    </div>
+
+    <!-- TERM 7: INTERNATIONAL MINDEDNESS -->
+    <div class="term-card" id="t7">
+      <div class="term-header">
+        <span class="term-badge">Term 7 of 8</span>
+        <span class="term-word">International Mindedness</span>
+      </div>
+      <div class="term-compare">
+        <div class="term-generic"><div class="mini-label">You probably say</div>"open-minded" or "thinks globally"</div>
+        <div class="term-ib"><div class="mini-label">IB says</div>"international mindedness" or "internationally minded"</div>
+      </div>
+      <p class="term-meaning"><strong>What it really means:</strong> The deepest IB concept. Captured in one phrase: <strong>"others, with their differences, can also be right."</strong> It's not tolerance (putting up with differences). It's genuine intellectual humility about the validity of multiple perspectives.</p>
+      <div class="term-physics"><strong>Physics:</strong> This IS relativity applied to human thought. There's no absolute frame of reference &mdash; in physics OR in culture. IB teaches students that their way of seeing the world is ONE valid frame, not THE valid frame.</div>
+      <div class="example-box"><div class="elabel">See it used</div>"<strong>International mindedness</strong> is the understanding that others, with their differences, can also be right."</div>
+      <div class="example-box"><div class="elabel">See it used</div>"What distinguishes IB is its philosophical commitment to <strong>international mindedness</strong> &mdash; the belief that diverse perspectives can coexist as equally valid."</div>
+
+      <div class="quiz-box" id="q7">
+        <div class="quiz-label">Quick Quiz</div>
+        <div class="quiz-q">The IB's "killer phrase" that captures international mindedness is:</div>
+        <div class="quiz-options">
+          <label class="quiz-opt" onclick="pickMCQ('q7',0)"><input type="radio" name="q7"> "We should respect all cultures equally"</label>
+          <label class="quiz-opt" onclick="pickMCQ('q7',1)"><input type="radio" name="q7"> "Others, with their differences, can also be right"</label>
+          <label class="quiz-opt" onclick="pickMCQ('q7',2)"><input type="radio" name="q7"> "Students should think globally and act locally"</label>
+        </div>
+        <button class="quiz-btn" onclick="checkMCQ('q7',1)">Check</button>
+        <div class="quiz-feedback" id="q7fb"></div>
+      </div>
+    </div>
+
+    <!-- TERM 8: LIFELONG LEARNERS -->
+    <div class="term-card" id="t8">
+      <div class="term-header">
+        <span class="term-badge">Term 8 of 8</span>
+        <span class="term-word">Active, Compassionate & Lifelong Learners</span>
+      </div>
+      <div class="term-compare">
+        <div class="term-generic"><div class="mini-label">You probably say</div>"students who keep learning after school"</div>
+        <div class="term-ib"><div class="mini-label">IB says</div>"active, compassionate and lifelong learners"</div>
+      </div>
+      <p class="term-meaning"><strong>What it really means:</strong> Three qualities together. <strong>Active</strong> = they DO things, they're agents of change. <strong>Compassionate</strong> = deeper than caring &mdash; they feel WITH others. <strong>Lifelong</strong> = learning doesn't stop at graduation. The mission's endpoint isn't a diploma; it's a way of living.</p>
+      <div class="term-physics"><strong>Physics:</strong> Conservation of energy &mdash; learning energy doesn't disappear at graduation; it transforms and continues in different forms throughout life. The system is never isolated.</div>
+      <div class="example-box"><div class="elabel">See it used</div>"IB programmes encourage students to become <strong>active, compassionate and lifelong learners</strong>."</div>
+      <div class="example-box"><div class="elabel">See it used</div>"The goal isn't just academic achievement &mdash; it's developing <strong>lifelong learners</strong> who remain <strong>active</strong> and <strong>compassionate</strong> beyond school."</div>
+
+      <div class="quiz-box" id="q8">
+        <div class="quiz-label">Quick Quiz</div>
+        <div class="quiz-q">The 3 outcome qualities in the IB mission are:</div>
+        <div class="quiz-options">
+          <label class="quiz-opt" onclick="pickMCQ('q8',0)"><input type="radio" name="q8"> Smart, kind, and hardworking</label>
+          <label class="quiz-opt" onclick="pickMCQ('q8',1)"><input type="radio" name="q8"> Active, compassionate, and lifelong learners</label>
+          <label class="quiz-opt" onclick="pickMCQ('q8',2)"><input type="radio" name="q8"> Creative, analytical, and motivated</label>
+        </div>
+        <button class="quiz-btn" onclick="checkMCQ('q8',1)">Check</button>
+        <div class="quiz-feedback" id="q8fb"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- PHASE 2: SPOT THE TERM                       -->
+<!-- ============================================ -->
+<div class="phase" id="phase2">
+  <div class="phase-header" onclick="togglePhase('phase2')">
+    <div class="phase-num" style="background:linear-gradient(135deg,#3BB5AD,#0B7285)">2</div>
+    <div class="phase-info">
+      <div class="phase-title">Spot the Term &mdash; Recognition Practice</div>
+      <div class="phase-sub">Read a scenario, identify which IB term is being described.</div>
+    </div>
+    <span class="phase-score" id="p2score">0/5</span>
+    <span class="phase-chevron">&#9662;</span>
+  </div>
+  <div class="phase-body">
+    <p class="section-note">Now test if you can RECOGNIZE these terms in the wild. Read each scenario and pick the IB term it describes. Like recognizing a word you just learned when someone speaks it.</p>
+
+    <div class="quiz-box" id="q9" style="margin-bottom:14px">
+      <div class="quiz-label">Scenario 1</div>
+      <div class="quiz-q">"A student investigates why different countries handle climate change differently, comparing indigenous knowledge systems with Western scientific approaches."</div>
+      <p style="font-size:.82rem;color:var(--text2);margin-bottom:8px">Which IB term BEST describes what's happening here?</p>
+      <div class="quiz-options">
+        <label class="quiz-opt" onclick="pickMCQ('q9',0)"><input type="radio" name="q9"> Caring</label>
+        <label class="quiz-opt" onclick="pickMCQ('q9',1)"><input type="radio" name="q9"> Intercultural understanding</label>
+        <label class="quiz-opt" onclick="pickMCQ('q9',2)"><input type="radio" name="q9"> Challenging programmes</label>
+      </div>
+      <button class="quiz-btn" onclick="checkMCQ('q9',1)">Check</button>
+      <div class="quiz-feedback" id="q9fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q10" style="margin-bottom:14px">
+      <div class="quiz-label">Scenario 2</div>
+      <div class="quiz-q">"Your physics IA is marked using specific criteria like Design, Data Collection, Analysis &mdash; and then an IB examiner checks a sample of your school's marks."</div>
+      <p style="font-size:.82rem;color:var(--text2);margin-bottom:8px">This is an example of:</p>
+      <div class="quiz-options">
+        <label class="quiz-opt" onclick="pickMCQ('q10',0)"><input type="radio" name="q10"> Rigorous assessment</label>
+        <label class="quiz-opt" onclick="pickMCQ('q10',1)"><input type="radio" name="q10"> International mindedness</label>
+        <label class="quiz-opt" onclick="pickMCQ('q10',2)"><input type="radio" name="q10"> Knowledgeable</label>
+      </div>
+      <button class="quiz-btn" onclick="checkMCQ('q10',0)">Check</button>
+      <div class="quiz-feedback" id="q10fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q11" style="margin-bottom:14px">
+      <div class="quiz-label">Scenario 3</div>
+      <div class="quiz-q">"A student doesn't just accept that Newton's laws explain everything. They ask: 'What about Einstein? When does this model break? Are there situations where classical mechanics fails?'"</div>
+      <p style="font-size:.82rem;color:var(--text2);margin-bottom:8px">This student is being:</p>
+      <div class="quiz-options">
+        <label class="quiz-opt" onclick="pickMCQ('q11',0)"><input type="radio" name="q11"> Knowledgeable</label>
+        <label class="quiz-opt" onclick="pickMCQ('q11',1)"><input type="radio" name="q11"> Inquiring</label>
+        <label class="quiz-opt" onclick="pickMCQ('q11',2)"><input type="radio" name="q11"> Caring</label>
+      </div>
+      <button class="quiz-btn" onclick="checkMCQ('q11',1)">Check</button>
+      <div class="quiz-feedback" id="q11fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q12" style="margin-bottom:14px">
+      <div class="quiz-label">Scenario 4</div>
+      <div class="quiz-q">"An IB graduate starts a community solar energy project in their village 10 years after leaving school."</div>
+      <p style="font-size:.82rem;color:var(--text2);margin-bottom:8px">This demonstrates (pick the BEST answer):</p>
+      <div class="quiz-options">
+        <label class="quiz-opt" onclick="pickMCQ('q12',0)"><input type="radio" name="q12"> Active, compassionate and lifelong learner</label>
+        <label class="quiz-opt" onclick="pickMCQ('q12',1)"><input type="radio" name="q12"> Challenging programmes</label>
+        <label class="quiz-opt" onclick="pickMCQ('q12',2)"><input type="radio" name="q12"> Rigorous assessment</label>
+      </div>
+      <button class="quiz-btn" onclick="checkMCQ('q12',0)">Check</button>
+      <div class="quiz-feedback" id="q12fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q13">
+      <div class="quiz-label">Scenario 5</div>
+      <div class="quiz-q">"During a physics unit on nuclear energy, students explore how France relies on nuclear power, while Germany phases it out, and India expands it &mdash; each based on different national priorities and values."</div>
+      <p style="font-size:.82rem;color:var(--text2);margin-bottom:8px">This classroom activity embeds:</p>
+      <div class="quiz-options">
+        <label class="quiz-opt" onclick="pickMCQ('q13',0)"><input type="radio" name="q13"> Rigorous assessment</label>
+        <label class="quiz-opt" onclick="pickMCQ('q13',1)"><input type="radio" name="q13"> Intercultural understanding</label>
+        <label class="quiz-opt" onclick="pickMCQ('q13',2)"><input type="radio" name="q13"> Caring</label>
+      </div>
+      <button class="quiz-btn" onclick="checkMCQ('q13',1)">Check</button>
+      <div class="quiz-feedback" id="q13fb"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- PHASE 3: FILL ONE GAP                        -->
+<!-- ============================================ -->
+<div class="phase" id="phase3">
+  <div class="phase-header" onclick="togglePhase('phase3')">
+    <div class="phase-num" style="background:linear-gradient(135deg,#2E9E8F,#0B7285)">3</div>
+    <div class="phase-info">
+      <div class="phase-title">Fill One Gap &mdash; Recall Practice</div>
+      <div class="phase-sub">Can you remember the right IB word for each blank?</div>
+    </div>
+    <span class="phase-score" id="p3score">0/6</span>
+    <span class="phase-chevron">&#9662;</span>
+  </div>
+  <div class="phase-body">
+    <p class="section-note">Now you try to RECALL the exact term from memory. One blank, one word. Like a vocabulary test &mdash; can you produce the word, not just recognize it?</p>
+
+    <div class="quiz-box" id="q14" style="margin-bottom:14px">
+      <div class="quiz-label">Fill 1</div>
+      <div class="quiz-q">"The IB develops _______, knowledgeable and caring young people."</div>
+      <div class="quiz-fill">
+        <input type="text" id="q14input" placeholder="One word...">
+        <button class="quiz-btn" onclick="checkFill('q14','inquiring')">Check</button>
+      </div>
+      <div class="quiz-feedback" id="q14fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q15" style="margin-bottom:14px">
+      <div class="quiz-label">Fill 2</div>
+      <div class="quiz-q">"IB creates a more peaceful world through _______ understanding and respect."</div>
+      <div class="quiz-fill">
+        <input type="text" id="q15input" placeholder="One word...">
+        <button class="quiz-btn" onclick="checkFill('q15','intercultural')">Check</button>
+      </div>
+      <div class="quiz-feedback" id="q15fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q16" style="margin-bottom:14px">
+      <div class="quiz-label">Fill 3</div>
+      <div class="quiz-q">"IB delivers _______ programmes of international education."</div>
+      <div class="quiz-fill">
+        <input type="text" id="q16input" placeholder="One word...">
+        <button class="quiz-btn" onclick="checkFill('q16','challenging')">Check</button>
+      </div>
+      <div class="quiz-feedback" id="q16fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q17" style="margin-bottom:14px">
+      <div class="quiz-label">Fill 4</div>
+      <div class="quiz-q">"IB assessment is _______ &mdash; criterion-referenced and externally moderated."</div>
+      <div class="quiz-fill">
+        <input type="text" id="q17input" placeholder="One word...">
+        <button class="quiz-btn" onclick="checkFill('q17','rigorous')">Check</button>
+      </div>
+      <div class="quiz-feedback" id="q17fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q18" style="margin-bottom:14px">
+      <div class="quiz-label">Fill 5</div>
+      <div class="quiz-q">"Students become active, compassionate and _______ learners."</div>
+      <div class="quiz-fill">
+        <input type="text" id="q18input" placeholder="One word...">
+        <button class="quiz-btn" onclick="checkFill('q18','lifelong')">Check</button>
+      </div>
+      <div class="quiz-feedback" id="q18fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q19">
+      <div class="quiz-label">Fill 6</div>
+      <div class="quiz-q">"IB cultivates _______ _______ &mdash; the belief that others, with their differences, can also be right."</div>
+      <div class="quiz-fill">
+        <input type="text" id="q19input" placeholder="Two words...">
+        <button class="quiz-btn" onclick="checkFill('q19','international mindedness')">Check</button>
+      </div>
+      <div class="quiz-feedback" id="q19fb"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- PHASE 4: SWAP THE GENERIC                    -->
+<!-- ============================================ -->
+<div class="phase" id="phase4">
+  <div class="phase-header" onclick="togglePhase('phase4')">
+    <div class="phase-num" style="background:linear-gradient(135deg,#1E8E7F,#0B7285)">4</div>
+    <div class="phase-info">
+      <div class="phase-title">Swap the Generic &mdash; Upgrade Your Language</div>
+      <div class="phase-sub">Replace generic words with the proper IB term.</div>
+    </div>
+    <span class="phase-score" id="p4score">0/5</span>
+    <span class="phase-chevron">&#9662;</span>
+  </div>
+  <div class="phase-body">
+    <p class="section-note">This is the bridge between knowing terms and using them. You'll see a generic sentence &mdash; your job is to identify and replace the underlined generic words with the correct IB term. Like translating from casual English to formal IB English.</p>
+
+    <div class="quiz-box" id="q20" style="margin-bottom:14px">
+      <div class="quiz-label">Swap 1</div>
+      <div class="quiz-q">Generic: "IB has <u>tough courses</u> and <u>good exams</u>."</div>
+      <p style="font-size:.82rem;margin-bottom:8px">Replace "tough courses" with the IB phrase:</p>
+      <div class="quiz-fill">
+        <input type="text" id="q20input" placeholder="IB phrase for 'tough courses'...">
+        <button class="quiz-btn" onclick="checkFill('q20','challenging programmes')">Check</button>
+      </div>
+      <div class="quiz-feedback" id="q20fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q21" style="margin-bottom:14px">
+      <div class="quiz-label">Swap 2</div>
+      <div class="quiz-q">Generic: "IB has tough courses and <u>good exams</u>."</div>
+      <p style="font-size:.82rem;margin-bottom:8px">Replace "good exams" with the IB phrase:</p>
+      <div class="quiz-fill">
+        <input type="text" id="q21input" placeholder="IB phrase for 'good exams'...">
+        <button class="quiz-btn" onclick="checkFill('q21','rigorous assessment')">Check</button>
+      </div>
+      <div class="quiz-feedback" id="q21fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q22" style="margin-bottom:14px">
+      <div class="quiz-label">Swap 3</div>
+      <div class="quiz-q">Generic: "We teach students to <u>respect other cultures</u>."</div>
+      <p style="font-size:.82rem;margin-bottom:8px">Replace with the IB term:</p>
+      <div class="quiz-fill">
+        <input type="text" id="q22input" placeholder="IB term...">
+        <button class="quiz-btn" onclick="checkFill('q22','intercultural understanding')">Check</button>
+      </div>
+      <div class="quiz-feedback" id="q22fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q23" style="margin-bottom:14px">
+      <div class="quiz-label">Swap 4</div>
+      <div class="quiz-q">Generic: "IB makes <u>open-minded</u> students."</div>
+      <p style="font-size:.82rem;margin-bottom:8px">The IB concept for "open-minded" at the deepest level is:</p>
+      <div class="quiz-fill">
+        <input type="text" id="q23input" placeholder="IB term...">
+        <button class="quiz-btn" onclick="checkFill('q23','internationally minded')">Check</button>
+      </div>
+      <div class="quiz-feedback" id="q23fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q24">
+      <div class="quiz-label">Swap 5</div>
+      <div class="quiz-q">Generic: "Our students are <u>curious</u> and <u>study hard</u> and are <u>nice people</u>."</div>
+      <p style="font-size:.82rem;margin-bottom:8px">Replace all three with the IB terms (comma-separated):</p>
+      <div class="quiz-fill">
+        <input type="text" id="q24input" placeholder="three IB words, comma-separated...">
+        <button class="quiz-btn" onclick="checkFill('q24','inquiring, knowledgeable, caring')">Check</button>
+      </div>
+      <div class="quiz-feedback" id="q24fb"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- PHASE 5: SENTENCE TEMPLATES                  -->
+<!-- ============================================ -->
+<div class="phase" id="phase5">
+  <div class="phase-header" onclick="togglePhase('phase5')">
+    <div class="phase-num" style="background:linear-gradient(135deg,#147D72,#0B7285)">5</div>
+    <div class="phase-info">
+      <div class="phase-title">Sentence Templates &mdash; Learn the Grammar</div>
+      <div class="phase-sub">5 reusable sentence frames. Memorize these like physics formulas.</div>
+    </div>
+    <span class="phase-score" id="p5score">0/5</span>
+    <span class="phase-chevron">&#9662;</span>
+  </div>
+  <div class="phase-body">
+    <p class="section-note">In physics, you learn formulas (F=ma, E=mc&sup2;) and then plug in values. IB language works the same way. Here are 5 sentence FORMULAS. Learn the structure, then plug in the right IB terms. These templates will carry you through every interview.</p>
+
+    <!-- TEMPLATE 1 -->
+    <div class="template-box">
+      <div class="template-label">Template 1 &mdash; The IB Identity (What IB IS)</div>
+      <div class="template-text">"The IB develops <span class="slot">[QUALITY 1]</span>, <span class="slot">[QUALITY 2]</span> and <span class="slot">[QUALITY 3]</span> learners who <span class="slot">[PURPOSE]</span> through <span class="slot">[METHOD]</span>."</div>
+    </div>
+    <div class="example-box"><div class="elabel">Example A</div>"The IB develops <strong>inquiring, knowledgeable and caring</strong> learners who <strong>create a more peaceful world</strong> through <strong>intercultural understanding</strong>."</div>
+    <div class="example-box"><div class="elabel">Example B</div>"The IB develops <strong>active, compassionate and lifelong</strong> learners who <strong>embrace diverse perspectives</strong> through <strong>challenging international programmes</strong>."</div>
+    <div class="quiz-box" id="q25" style="margin-top:12px;margin-bottom:20px">
+      <div class="quiz-label">Your Turn</div>
+      <div class="quiz-q">Fill this template for a parent meeting. Write the FULL sentence:</div>
+      <textarea class="write-area" id="q25input" placeholder="The IB develops _____, _____ and _____ learners who _____ through _____."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q25ans')">See Model Answer</button>
+      <div class="answer-reveal" id="q25ans">"The IB develops inquiring, knowledgeable and caring learners who create a more peaceful world through intercultural understanding and respect."</div>
+      <button class="quiz-btn" onclick="markDone('q25')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q25fb"></div>
+    </div>
+
+    <!-- TEMPLATE 2 -->
+    <div class="template-box">
+      <div class="template-label">Template 2 &mdash; The Method (How IB Works)</div>
+      <div class="template-text">"IB achieves this through <span class="slot">[PROCESS]</span>, ensuring <span class="slot">[STANDARD / OUTCOME]</span>."</div>
+    </div>
+    <div class="example-box"><div class="elabel">Example A</div>"IB achieves this through <strong>challenging programmes of international education</strong>, ensuring <strong>students engage with global perspectives</strong>."</div>
+    <div class="example-box"><div class="elabel">Example B</div>"IB achieves this through <strong>rigorous assessment</strong>, ensuring <strong>criterion-referenced standards that are consistent across all schools</strong>."</div>
+    <div class="quiz-box" id="q26" style="margin-top:12px;margin-bottom:20px">
+      <div class="quiz-label">Your Turn</div>
+      <div class="quiz-q">Complete the template. Write the FULL sentence:</div>
+      <textarea class="write-area" id="q26input" placeholder="IB achieves this through _____, ensuring _____."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q26ans')">See Model Answer</button>
+      <div class="answer-reveal" id="q26ans">"IB achieves this through rigorous assessment that is criterion-referenced and externally moderated, ensuring that academic standards are globally consistent and reliable."</div>
+      <button class="quiz-btn" onclick="markDone('q26')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q26fb"></div>
+    </div>
+
+    <!-- TEMPLATE 3 -->
+    <div class="template-box">
+      <div class="template-label">Template 3 &mdash; The Distinction (What Makes IB Different)</div>
+      <div class="template-text">"What distinguishes IB is its commitment to <span class="slot">[IB PRINCIPLE]</span> &mdash; the belief that <span class="slot">[KEY IB PHRASE]</span>."</div>
+    </div>
+    <div class="example-box"><div class="elabel">Example A</div>"What distinguishes IB is its commitment to <strong>international mindedness</strong> &mdash; the belief that <strong>others, with their differences, can also be right</strong>."</div>
+    <div class="example-box"><div class="elabel">Example B</div>"What distinguishes IB is its commitment to <strong>rigorous assessment</strong> &mdash; the belief that <strong>academic standards must be criterion-referenced and globally consistent</strong>."</div>
+    <div class="quiz-box" id="q27" style="margin-top:12px;margin-bottom:20px">
+      <div class="quiz-label">Your Turn</div>
+      <div class="quiz-q">Write a sentence using Template 3. Pick ANY IB principle:</div>
+      <textarea class="write-area" id="q27input" placeholder="What distinguishes IB is its commitment to _____ &mdash; the belief that _____."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q27ans')">See Model Answer</button>
+      <div class="answer-reveal" id="q27ans">"What distinguishes IB is its commitment to international mindedness &mdash; the belief that others, with their differences, can also be right. This isn't tolerance; it's genuine intellectual humility."</div>
+      <button class="quiz-btn" onclick="markDone('q27')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q27fb"></div>
+    </div>
+
+    <!-- TEMPLATE 4 -->
+    <div class="template-box">
+      <div class="template-label">Template 4 &mdash; Your Experience (Connecting to YOUR Role)</div>
+      <div class="template-text">"As <span class="slot">[ROLE]</span>, I <span class="slot">[ACTION]</span> by <span class="slot">[SPECIFIC METHOD]</span>, which embedded <span class="slot">[IB CONCEPT]</span> into <span class="slot">[CONTEXT]</span>."</div>
+    </div>
+    <div class="example-box"><div class="elabel">Example A</div>"As <strong>HOD Physics</strong>, I <strong>redesigned the energy unit</strong> by <strong>including perspectives from developing nations' energy challenges</strong>, which embedded <strong>intercultural understanding</strong> into <strong>the science curriculum</strong>."</div>
+    <div class="example-box"><div class="elabel">Example B</div>"As <strong>Exam Coordinator</strong>, I <strong>standardized IA marking</strong> by <strong>conducting cross-moderation sessions</strong>, which ensured <strong>rigorous assessment</strong> across <strong>all subject groups</strong>."</div>
+    <div class="quiz-box" id="q28" style="margin-top:12px;margin-bottom:20px">
+      <div class="quiz-label">Your Turn</div>
+      <div class="quiz-q">Write a sentence about YOUR actual experience using Template 4:</div>
+      <textarea class="write-area" id="q28input" placeholder="As _____, I _____ by _____, which embedded/ensured _____ into/across _____."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q28ans')">See Another Example</button>
+      <div class="answer-reveal" id="q28ans">"As HOD Physics, I restructured lab work to include open-ended investigations where students designed their own experiments, which embedded an inquiring approach into the core physics curriculum."</div>
+      <button class="quiz-btn" onclick="markDone('q28')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q28fb"></div>
+    </div>
+
+    <!-- TEMPLATE 5 -->
+    <div class="template-box">
+      <div class="template-label">Template 5 &mdash; The Comparison (Generic vs IB)</div>
+      <div class="template-text">"<span class="slot">[GENERIC CLAIM]</span> &mdash; but in IB terms, this means <span class="slot">[IB VERSION]</span>, because <span class="slot">[REASON]</span>."</div>
+    </div>
+    <div class="example-box"><div class="elabel">Example A</div>"<strong>We teach students to respect others</strong> &mdash; but in IB terms, this means <strong>developing intercultural understanding</strong>, because <strong>the IB goes beyond tolerance to the position that different perspectives can be equally valid</strong>."</div>
+    <div class="example-box"><div class="elabel">Example B</div>"<strong>IB has tough exams</strong> &mdash; but in IB terms, this means <strong>rigorous assessment</strong>, because <strong>the standards are criterion-referenced, externally moderated, and internationally benchmarked</strong>."</div>
+    <div class="quiz-box" id="q29" style="margin-top:12px">
+      <div class="quiz-label">Your Turn</div>
+      <div class="quiz-q">Convert this generic statement using Template 5: "IB is about holistic education"</div>
+      <textarea class="write-area" id="q29input" placeholder="IB is about holistic education &mdash; but in IB terms, this means _____, because _____."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q29ans')">See Model Answer</button>
+      <div class="answer-reveal" id="q29ans">"IB is about holistic education &mdash; but in IB terms, this means developing inquiring, knowledgeable and caring learners through challenging programmes, because the IB explicitly requires intellectual curiosity, conceptual depth, AND genuine empathy in equal measure."</div>
+      <button class="quiz-btn" onclick="markDone('q29')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q29fb"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- PHASE 6: COMBINE TWO TERMS                   -->
+<!-- ============================================ -->
+<div class="phase" id="phase6">
+  <div class="phase-header" onclick="togglePhase('phase6')">
+    <div class="phase-num" style="background:linear-gradient(135deg,#0E6D68,#0B7285)">6</div>
+    <div class="phase-info">
+      <div class="phase-title">Combine Two Terms &mdash; Build Complexity</div>
+      <div class="phase-sub">Write one sentence using TWO IB terms together.</div>
+    </div>
+    <span class="phase-score" id="p6score">0/4</span>
+    <span class="phase-chevron">&#9662;</span>
+  </div>
+  <div class="phase-body">
+    <p class="section-note">Now we combine terms &mdash; like combining components in a circuit. One term alone gives a simple signal; two terms together create something more powerful. Write ONE sentence that naturally uses both terms given.</p>
+
+    <div class="quiz-box" id="q30" style="margin-bottom:14px">
+      <div class="quiz-label">Combine 1</div>
+      <div class="quiz-q">Write ONE sentence using both <strong>"intercultural understanding"</strong> and <strong>"inquiring"</strong>:</div>
+      <textarea class="write-area" id="q30input" placeholder="Your sentence using both terms..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q30ans')">See Model</button>
+      <div class="answer-reveal" id="q30ans">"IB develops inquiring learners who approach different cultures with genuine curiosity, building intercultural understanding through investigation rather than assumption."</div>
+      <button class="quiz-btn" onclick="markDone('q30')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q30fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q31" style="margin-bottom:14px">
+      <div class="quiz-label">Combine 2</div>
+      <div class="quiz-q">Write ONE sentence using both <strong>"rigorous assessment"</strong> and <strong>"challenging programmes"</strong>:</div>
+      <textarea class="write-area" id="q31input" placeholder="Your sentence using both terms..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q31ans')">See Model</button>
+      <div class="answer-reveal" id="q31ans">"IB's challenging programmes are paired with rigorous assessment &mdash; ensuring that the intellectual demands students face are matched by fair, criterion-referenced evaluation."</div>
+      <button class="quiz-btn" onclick="markDone('q31')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q31fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q32" style="margin-bottom:14px">
+      <div class="quiz-label">Combine 3</div>
+      <div class="quiz-q">Write ONE sentence using both <strong>"international mindedness"</strong> and <strong>"lifelong learners"</strong>:</div>
+      <textarea class="write-area" id="q32input" placeholder="Your sentence using both terms..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q32ans')">See Model</button>
+      <div class="answer-reveal" id="q32ans">"IB develops lifelong learners whose international mindedness means they continue to value and seek diverse perspectives long after leaving school."</div>
+      <button class="quiz-btn" onclick="markDone('q32')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q32fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q33">
+      <div class="quiz-label">Combine 4</div>
+      <div class="quiz-q">Write ONE sentence using both <strong>"caring"</strong> and <strong>"knowledgeable"</strong>:</div>
+      <textarea class="write-area" id="q33input" placeholder="Your sentence using both terms..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q33ans')">See Model</button>
+      <div class="answer-reveal" id="q33ans">"The IB insists that students be both knowledgeable and caring &mdash; because academic excellence without empathy produces graduates who can solve equations but not real-world problems."</div>
+      <button class="quiz-btn" onclick="markDone('q33')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q33fb"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- PHASE 7: WEAK TO STRONG                      -->
+<!-- ============================================ -->
+<div class="phase" id="phase7">
+  <div class="phase-header" onclick="togglePhase('phase7')">
+    <div class="phase-num" style="background:linear-gradient(135deg,#0A5F5E,#0B7285)">7</div>
+    <div class="phase-info">
+      <div class="phase-title">Weak to Strong &mdash; Full Transformation</div>
+      <div class="phase-sub">Transform generic sentences into coordinator-level IB language.</div>
+    </div>
+    <span class="phase-score" id="p7score">0/5</span>
+    <span class="phase-chevron">&#9662;</span>
+  </div>
+  <div class="phase-body">
+    <p class="section-note">This is the real test. You'll see a weak, generic answer and transform it into a strong, IB-fluent one. First read the weak/strong comparison, then do it yourself. Like seeing a solved problem before attempting a new one.</p>
+
+    <!-- EXAMPLE PAIR 1 -->
+    <div class="compare" style="margin-bottom:20px">
+      <div class="weak"><div class="clabel">Weak (generic)</div>"IB is about holistic education that makes well-rounded students for the modern world."</div>
+      <div class="strong"><div class="clabel">Strong (IB-fluent)</div>"IB develops inquiring, knowledgeable and caring learners through challenging international programmes, with the philosophical belief that diverse perspectives can coexist as equally valid."</div>
+    </div>
+
+    <div class="quiz-box" id="q34" style="margin-bottom:20px">
+      <div class="quiz-label">Your Turn 1</div>
+      <div class="quiz-q">Transform this weak answer:<br><span style="color:var(--red)">"IB teaches students to be open-minded and think globally."</span></div>
+      <textarea class="write-area" id="q34input" placeholder="Rewrite using IB terminology..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q34ans')">See Model</button>
+      <div class="answer-reveal" id="q34ans">"IB cultivates international mindedness by developing learners who approach unfamiliar perspectives with genuine curiosity rather than judgment &mdash; the programme explicitly teaches that people with different cultural frameworks can hold equally valid viewpoints."</div>
+      <button class="quiz-btn" onclick="markDone('q34')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q34fb"></div>
+    </div>
+
+    <!-- EXAMPLE PAIR 2 -->
+    <div class="compare" style="margin-bottom:20px">
+      <div class="weak"><div class="clabel">Weak (generic)</div>"IB focuses on making students good citizens of the world who respect others."</div>
+      <div class="strong"><div class="clabel">Strong (IB-fluent)</div>"IB's mission explicitly ties academic development to intercultural understanding &mdash; students learn that knowledge without empathy is incomplete, and that others, with their differences, can also be right."</div>
+    </div>
+
+    <div class="quiz-box" id="q35" style="margin-bottom:20px">
+      <div class="quiz-label">Your Turn 2</div>
+      <div class="quiz-q">Transform this weak answer:<br><span style="color:var(--red)">"IB has good programmes and tests."</span></div>
+      <textarea class="write-area" id="q35input" placeholder="Rewrite using IB terminology..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q35ans')">See Model</button>
+      <div class="answer-reveal" id="q35ans">"The IB delivers challenging programmes of international education complemented by rigorous assessment that is criterion-referenced and externally moderated."</div>
+      <button class="quiz-btn" onclick="markDone('q35')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q35fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q36" style="margin-bottom:20px">
+      <div class="quiz-label">Your Turn 3</div>
+      <div class="quiz-q">Transform this weak answer:<br><span style="color:var(--red)">"Our school prepares students for the future by teaching them different skills."</span></div>
+      <textarea class="write-area" id="q36input" placeholder="Rewrite using IB terminology..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q36ans')">See Model</button>
+      <div class="answer-reveal" id="q36ans">"Our school develops inquiring, knowledgeable and caring learners through challenging programmes of international education &mdash; preparing them not just with skills, but with the intercultural understanding and intellectual humility to apply those skills across diverse global contexts."</div>
+      <button class="quiz-btn" onclick="markDone('q36')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q36fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q37" style="margin-bottom:20px">
+      <div class="quiz-label">Your Turn 4</div>
+      <div class="quiz-q">Transform this weak answer:<br><span style="color:var(--red)">"As coordinator, I made sure exams were fair and properly conducted."</span></div>
+      <textarea class="write-area" id="q37input" placeholder="Rewrite using IB terminology..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q37ans')">See Model</button>
+      <div class="answer-reveal" id="q37ans">"As Exam Coordinator, I ensured rigorous assessment by standardizing criterion-referenced marking across subject groups, conducting cross-moderation sessions to align teacher judgments with IB markband descriptors before external moderation."</div>
+      <button class="quiz-btn" onclick="markDone('q37')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q37fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q38">
+      <div class="quiz-label">Your Turn 5</div>
+      <div class="quiz-q">Transform this weak answer:<br><span style="color:var(--red)">"I included different countries' perspectives in my energy unit."</span></div>
+      <textarea class="write-area" id="q38input" placeholder="Rewrite using IB terminology..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q38ans')">See Model</button>
+      <div class="answer-reveal" id="q38ans">"As HOD Physics, I redesigned the energy production unit to contrast energy access challenges in developing nations with consumption patterns in industrialized economies, embedding intercultural understanding directly into the science curriculum &mdash; reinforcing the IB's belief that different contexts produce equally valid approaches to the same global problem."</div>
+      <button class="quiz-btn" onclick="markDone('q38')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q38fb"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- PHASE 8: INTERVIEW SIMULATION                -->
+<!-- ============================================ -->
+<div class="phase" id="phase8">
+  <div class="phase-header" onclick="togglePhase('phase8')">
+    <div class="phase-num" style="background:linear-gradient(135deg,#085D6B,#0B7285)">8</div>
+    <div class="phase-info">
+      <div class="phase-title">Interview Simulation &mdash; Put It All Together</div>
+      <div class="phase-sub">Answer real interview questions using everything you've learned.</div>
+    </div>
+    <span class="phase-score" id="p8score">0/8</span>
+    <span class="phase-chevron">&#9662;</span>
+  </div>
+  <div class="phase-body">
+    <p class="section-note">The final phase. These are actual interview questions. Answer each one using your vocabulary (Phase 1-4), templates (Phase 5), and combination skills (Phase 6-7). Write as if you're speaking to a panel. Use at least 2 IB terms per answer.</p>
+
+    <div class="quiz-box" id="q39" style="margin-bottom:14px">
+      <div class="quiz-label">Interview Question 1</div>
+      <div class="quiz-q">"In 30 seconds, what is the IB's mission?"</div>
+      <p style="font-size:.78rem;color:var(--text2);margin-bottom:8px">Write exactly 3 sentences: WHO/WHY &rarr; HOW &rarr; WHAT THEY BECOME. Use Template 1 + Template 2.</p>
+      <textarea class="write-area" id="q39input" placeholder="Sentence 1 (WHO/WHY):&#10;Sentence 2 (HOW):&#10;Sentence 3 (WHAT THEY BECOME):"></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q39ans')">See Model</button>
+      <div class="answer-reveal" id="q39ans">"The IB develops inquiring, knowledgeable and caring young people who create a more peaceful world through intercultural understanding. It achieves this through challenging programmes of international education with rigorous assessment. The result is active, compassionate, lifelong learners who genuinely accept that others &mdash; with their differences &mdash; can also be right."</div>
+      <button class="quiz-btn" onclick="markDone('q39')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q39fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q40" style="margin-bottom:14px">
+      <div class="quiz-label">Interview Question 2</div>
+      <div class="quiz-q">"A parent asks: Why should my child study IB instead of CBSE/ICSE?"</div>
+      <p style="font-size:.78rem;color:var(--text2);margin-bottom:8px">Use at least 3 IB terms. Use Template 3 or Template 5.</p>
+      <textarea class="write-area" id="q40input" placeholder="Your response to the parent..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q40ans')">See Model</button>
+      <div class="answer-reveal" id="q40ans">"CBSE gives your child strong content knowledge. IB goes further &mdash; it develops an inquiring, knowledgeable AND caring learner who thinks critically, understands multiple perspectives, and accepts that people with different viewpoints can also be right. It does this through challenging, internationally benchmarked programmes with rigorous assessment. Your child won't just know facts &mdash; they'll know how to think across cultures and disciplines."</div>
+      <button class="quiz-btn" onclick="markDone('q40')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q40fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q41" style="margin-bottom:14px">
+      <div class="quiz-label">Interview Question 3</div>
+      <div class="quiz-q">"What is the most important line in the IB mission statement and why?"</div>
+      <p style="font-size:.78rem;color:var(--text2);margin-bottom:8px">Use Template 3. Reference the "killer phrase."</p>
+      <textarea class="write-area" id="q41input" placeholder="The most important line is..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q41ans')">See Model</button>
+      <div class="answer-reveal" id="q41ans">"The most powerful line is: 'others, with their differences, can also be right.' It doesn't say tolerate differences &mdash; it says they can be RIGHT. This is international mindedness in one sentence. It challenges the assumption that there's one correct answer to everything, and it's what makes IB philosophically distinct from every other curriculum."</div>
+      <button class="quiz-btn" onclick="markDone('q41')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q41fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q42" style="margin-bottom:14px">
+      <div class="quiz-label">Interview Question 4</div>
+      <div class="quiz-q">"Describe one thing you did as HOD Physics that connects to the IB mission."</div>
+      <p style="font-size:.78rem;color:var(--text2);margin-bottom:8px">Use Template 4. Be SPECIFIC about what you actually did. Use at least 2 IB terms.</p>
+      <textarea class="write-area" id="q42input" placeholder="As HOD Physics, I..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q42ans')">See Two Models</button>
+      <div class="answer-reveal" id="q42ans"><strong>Model A:</strong> "As HOD Physics, I redesigned the energy production unit to contrast energy access challenges in Sub-Saharan Africa with consumption patterns in industrialized nations, embedding intercultural understanding directly into the science curriculum &mdash; reinforcing the IB's belief that different contexts produce equally valid approaches to the same global problem."<br><br><strong>Model B:</strong> "As HOD Physics, I restructured our lab programme around open-ended investigations where students designed their own experiments, which embedded an inquiring approach into the core curriculum &mdash; moving beyond prescribed procedures to genuine scientific inquiry."</div>
+      <button class="quiz-btn" onclick="markDone('q42')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q42fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q43" style="margin-bottom:14px">
+      <div class="quiz-label">Interview Question 5</div>
+      <div class="quiz-q">"In your exam coordinator role, how did you ensure rigorous assessment?"</div>
+      <p style="font-size:.78rem;color:var(--text2);margin-bottom:8px">Use Template 4. Must contain "rigorous assessment." Include IB-specific processes (moderation, criterion-referenced, markband, standardization).</p>
+      <textarea class="write-area" id="q43input" placeholder="As Exam Coordinator, I ensured rigorous assessment by..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q43ans')">See Model</button>
+      <div class="answer-reveal" id="q43ans">"As Exam Coordinator, I ensured rigorous assessment by standardizing internal assessment criteria across all subject groups, conducting cross-moderation sessions so that teacher judgments aligned with IB markband descriptors before external moderation. This maintained the criterion-referenced integrity of our assessment and ensured our standards were internationally consistent."</div>
+      <button class="quiz-btn" onclick="markDone('q43')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q43fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q44" style="margin-bottom:14px">
+      <div class="quiz-label">Interview Question 6</div>
+      <div class="quiz-q">"Someone says 'IB is just for rich kids and it's easier than national boards.' How do you respond?"</div>
+      <p style="font-size:.78rem;color:var(--text2);margin-bottom:8px">Use Template 5. Defend IB using mission language.</p>
+      <textarea class="write-area" id="q44input" placeholder="Your defense of IB..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q44ans')">See Model</button>
+      <div class="answer-reveal" id="q44ans">"The IB mission statement itself answers this. IB delivers deliberately challenging programmes of international education &mdash; the difficulty isn't accidental, it's designed. And the assessment is rigorous &mdash; criterion-referenced, externally moderated, and internationally benchmarked. An IB grade in any school, in any country, meets the same standard. That's not easier; that's harder to achieve than any national board."</div>
+      <button class="quiz-btn" onclick="markDone('q44')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q44fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q45" style="margin-bottom:14px">
+      <div class="quiz-label">Interview Question 7</div>
+      <div class="quiz-q">"How does IB differ from other international curricula like Cambridge?"</div>
+      <p style="font-size:.78rem;color:var(--text2);margin-bottom:8px">Focus on the PHILOSOPHY, not just the structure. Use "international mindedness" and the killer phrase.</p>
+      <textarea class="write-area" id="q45input" placeholder="What distinguishes IB from Cambridge is..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q45ans')">See Model</button>
+      <div class="answer-reveal" id="q45ans">"Cambridge provides excellent academic rigour, but IB goes further by embedding a philosophical commitment into its mission. What distinguishes IB is its commitment to international mindedness &mdash; the explicit belief that 'others, with their differences, can also be right.' IB doesn't just teach content with a global perspective; it develops inquiring, knowledgeable and caring learners who carry that philosophical commitment throughout their lives."</div>
+      <button class="quiz-btn" onclick="markDone('q45')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q45fb"></div>
+    </div>
+
+    <div class="quiz-box" id="q46">
+      <div class="quiz-label">Interview Question 8</div>
+      <div class="quiz-q">"Explain the IB mission to a non-educator parent in simple language &mdash; but still use proper IB terminology."</div>
+      <p style="font-size:.78rem;color:var(--text2);margin-bottom:8px">Balance accessibility with IB fluency. This is the hardest exercise.</p>
+      <textarea class="write-area" id="q46input" placeholder="The IB's mission, in simple terms, is..."></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('q46ans')">See Model</button>
+      <div class="answer-reveal" id="q46ans">"The IB wants your child to be three things: inquiring &mdash; someone who's genuinely curious and knows how to find answers; knowledgeable &mdash; not just memorizing facts but truly understanding ideas; and caring &mdash; someone who takes responsibility for others. It does this through programmes that are intentionally challenging and assessed by international standards. The ultimate goal? Your child becomes someone who understands that other people &mdash; even those who think completely differently &mdash; can also be right. That's a rare quality, and it's what IB is built around."</div>
+      <button class="quiz-btn" onclick="markDone('q46')" style="margin-left:8px">Mark Complete</button>
+      <div class="quiz-feedback" id="q46fb"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- QUICK RECALL MNEMONICS                       -->
+<!-- ============================================ -->
+<div class="phase" id="phase9">
+  <div class="phase-header" onclick="togglePhase('phase9')">
+    <div class="phase-num" style="background:var(--gold)">R</div>
+    <div class="phase-info">
+      <div class="phase-title">Quick Recall &mdash; Mnemonics</div>
+      <div class="phase-sub">Memory shortcuts. Refer back to these anytime.</div>
+    </div>
+    <span class="phase-chevron">&#9662;</span>
+  </div>
+  <div class="phase-body">
+    <div class="template-box">
+      <div class="template-label">The 3 sentences of the mission = WHO &rarr; HOW &rarr; WHAT</div>
+      <div class="template-text">Remember: <strong>W-H-W</strong> (Who, How, What) &mdash; like a wave: where it starts, how it propagates, what it produces.</div>
+    </div>
+    <div class="template-box">
+      <div class="template-label">The 3 qualities = I-K-C (Inquiring, Knowledgeable, Caring)</div>
+      <div class="template-text">Remember: <strong>"I Know and I Care"</strong> &mdash; that's the IB student. Head + Head + Heart.</div>
+    </div>
+    <div class="template-box">
+      <div class="template-label">The 3 outcomes = A-C-L (Active, Compassionate, Lifelong)</div>
+      <div class="template-text">Remember: <strong>"ACL"</strong> &mdash; like the knee ligament. The strong foundation that holds everything together.</div>
+    </div>
+    <div class="template-box">
+      <div class="template-label">The Killer Phrase</div>
+      <div class="template-text" style="font-size:1.1rem;text-align:center">"Others, with their differences, can also be right."</div>
+      <p style="font-size:.78rem;color:var(--text2);margin-top:8px;text-align:center">This = International Mindedness in one sentence. Use it in EVERY interview.</p>
+    </div>
+    <div class="template-box">
+      <div class="template-label">The 5 Sentence Templates</div>
+      <div class="template-text" style="font-size:.85rem;line-height:2">
+        T1: "The IB develops [Q1], [Q2] and [Q3] who [PURPOSE] through [METHOD]."<br>
+        T2: "IB achieves this through [PROCESS], ensuring [OUTCOME]."<br>
+        T3: "What distinguishes IB is its commitment to [PRINCIPLE] &mdash; the belief that [PHRASE]."<br>
+        T4: "As [ROLE], I [ACTION] by [METHOD], which embedded [CONCEPT] into [CONTEXT]."<br>
+        T5: "[GENERIC] &mdash; but in IB terms, this means [IB VERSION], because [REASON]."
+      </div>
     </div>
   </div>
-
-  <p><strong>Think of it like Newton's Laws:</strong></p>
-  <ul>
-    <li>1st Law = The GOAL (peaceful world) — where we're heading</li>
-    <li>2nd Law = The METHOD (programmes + assessment) — the force applied</li>
-    <li>3rd Law = The OUTCOME (lifelong learners who accept differences) — equal and opposite to ignorance</li>
-  </ul>
 </div>
 
-<div class="section">
-  <h3>🧠 Sentence 1: WHO and WHY</h3>
-  <div class="concept-box">
-    <div class="big">"The IB develops inquiring, knowledgeable and caring young people who create a better and more peaceful world through intercultural understanding and respect."</div>
-  </div>
-
-  <p><strong>Break it down:</strong></p>
-  <ul>
-    <li><strong>Inquiring</strong> = curious, asks questions, researches (HEAD - thinking)</li>
-    <li><strong>Knowledgeable</strong> = deep conceptual understanding, not memorization (HEAD - knowing)</li>
-    <li><strong>Caring</strong> = empathy, service, responsibility (HEART)</li>
-    <li><strong>Intercultural understanding</strong> = HOW we achieve peace — not by ignoring differences but by understanding them</li>
-  </ul>
-
-  <p><strong>Physics analogy:</strong> These three qualities are like the THREE dimensions of space. You need ALL THREE to locate a point. A student with only knowledge (but no inquiry or caring) is one-dimensional — incomplete.</p>
-
-  <div class="model">
-    <div class="label">✅ Model sentence you can use in interviews:</div>
-    <p>"The IB's mission centres on developing three qualities — inquiry, knowledge, and care — believing that when young people combine intellectual curiosity with genuine compassion, they naturally work towards intercultural understanding."</p>
-  </div>
-  <div class="model">
-    <div class="label">✅ Another way to say it:</div>
-    <p>"What makes IB unique is that academic excellence alone isn't the goal — the mission explicitly requires caring and inquiry alongside knowledge, with the ultimate purpose being intercultural peace."</p>
-  </div>
-</div>
-
-<!-- EXERCISE 1 -->
-<div class="section">
-  <h3>✍️ Exercise 1: Complete the Sentence</h3>
-  <div class="exercise">
-    <span class="tag">FILL IN</span>
-    <p>The IB develops three types of learners: _______, _______, and _______.</p>
-    <input type="text" id="ex1" placeholder="Type your answer...">
-    <div class="hint">Hint: Head (curious), Head (understanding), Heart</div>
-    <button class="reveal-btn" onclick="reveal('ans1')">Check Answer</button>
-    <div class="answer" id="ans1">✅ <strong>inquiring, knowledgeable, and caring</strong></div>
-  </div>
-  <div class="exercise">
-    <span class="tag">FILL IN</span>
-    <p>The IB achieves a peaceful world through _______ understanding and _______.</p>
-    <input type="text" id="ex2" placeholder="Type your answer...">
-    <button class="reveal-btn" onclick="reveal('ans2')">Check Answer</button>
-    <div class="answer" id="ans2">✅ <strong>intercultural</strong> understanding and <strong>respect</strong></div>
-  </div>
-</div>
-
-<!-- SENTENCE 2 -->
-<div class="section">
-  <h3>🧠 Sentence 2: HOW</h3>
-  <div class="concept-box">
-    <div class="big">"To this end, the organization works with schools, governments and international organizations to develop challenging programmes of international education and rigorous assessment."</div>
-  </div>
-
-  <p><strong>Key phrases:</strong></p>
-  <ul>
-    <li><strong>"Challenging programmes"</strong> = IB is HARD. It's not soft or easy. This is deliberate.</li>
-    <li><strong>"International education"</strong> = not just teaching ABOUT the world, but teaching WITH a global perspective</li>
-    <li><strong>"Rigorous assessment"</strong> = IB assessment is externally moderated, criterion-referenced, reliable</li>
-    <li><strong>"Works with schools, governments"</strong> = IB is collaborative, not top-down</li>
-  </ul>
-
-  <p><strong>Why this matters in interviews:</strong> When someone says "IB is just for rich kids" or "IB is easy compared to national boards" — THIS sentence is your defense. IB is intentionally challenging with rigorous assessment. Use these exact words.</p>
-
-  <div class="model">
-    <div class="label">✅ Model sentence:</div>
-    <p>"The IB achieves its mission through deliberately challenging programmes paired with rigorous assessment — it's not about making learning easy, but making it meaningful and internationally benchmarked."</p>
-  </div>
-</div>
-
-<!-- EXERCISE 2 -->
-<div class="section">
-  <h3>✍️ Exercise 2: Rewrite Weak → Strong</h3>
-  <div class="exercise">
-    <span class="tag">REWRITE</span>
-    <p><strong>Weak answer:</strong> "IB has good programmes and tests."</p>
-    <p>Rewrite this using proper IB terminology:</p>
-    <textarea id="ex3" placeholder="Rewrite here using: challenging programmes, international education, rigorous assessment..."></textarea>
-    <button class="reveal-btn" onclick="reveal('ans3')">See Model Answer</button>
-    <div class="answer" id="ans3">✅ "The IB delivers <strong>challenging programmes of international education</strong> complemented by <strong>rigorous assessment</strong> that is criterion-referenced and externally moderated."</div>
-  </div>
-</div>
-
-<!-- SENTENCE 3 -->
-<div class="section">
-  <h3>🧠 Sentence 3: WHAT THEY BECOME</h3>
-  <div class="concept-box">
-    <div class="big">"These programmes encourage students to become active, compassionate and lifelong learners who understand that other people, with their differences, can also be right."</div>
-  </div>
-
-  <p><strong>THIS is the most powerful line in the entire mission.</strong> Memorize the ending:</p>
-  <p style="font-size:1.1rem;text-align:center;padding:15px;background:var(--highlight);border-radius:8px;margin:10px 0;font-weight:700">"...other people, with their differences, can also be right."</p>
-
-  <p><strong>Why it's powerful:</strong></p>
-  <ul>
-    <li>It doesn't say "tolerate differences" — it says differences can be <strong>RIGHT</strong></li>
-    <li>It challenges the idea that there's one correct answer to everything</li>
-    <li>This IS international mindedness in one sentence</li>
-    <li>This IS what makes IB different from every other curriculum</li>
-  </ul>
-
-  <p><strong>Physics analogy:</strong> Like reference frames in relativity — an observer in one frame sees something different from another frame, and BOTH are correct. There's no absolute "right" frame. IB teaches students to think this way about culture, values, and perspectives.</p>
-
-  <div class="model">
-    <div class="label">✅ Model sentence for interviews:</div>
-    <p>"What truly distinguishes IB is its philosophical commitment that different perspectives can coexist as equally valid — the mission literally states that 'others, with their differences, can also be right.' This isn't tolerance; it's genuine intellectual humility."</p>
-  </div>
-</div>
-
-<!-- EXERCISE 3 -->
-<div class="section">
-  <h3>✍️ Exercise 3: Scenario Practice</h3>
-  <div class="exercise">
-    <span class="tag">SCENARIO</span>
-    <p><strong>A parent asks:</strong> "Why should my child study IB instead of CBSE/ICSE?"</p>
-    <p>Write your response using at least 2 phrases from the mission statement:</p>
-    <textarea id="ex4" placeholder="Write your response here..."></textarea>
-    <div class="hint">Use: "inquiring, knowledgeable and caring" + "intercultural understanding" + "others can also be right" + "challenging programmes"</div>
-    <button class="reveal-btn" onclick="reveal('ans4')">See Model Answer</button>
-    <div class="answer" id="ans4">✅ "CBSE gives your child strong content knowledge. IB goes further — it develops an inquiring, knowledgeable AND caring learner who thinks critically, understands multiple perspectives, and accepts that people with different viewpoints can also be right. It does this through challenging, internationally benchmarked programmes. Your child won't just know facts — they'll know how to THINK across cultures and disciplines."</div>
-  </div>
-</div>
-
-<!-- EXERCISE 4 -->
-<div class="section">
-  <h3>✍️ Exercise 4: The 30-Second Elevator Pitch</h3>
-  <div class="exercise">
-    <span class="tag">SPEAK</span>
-    <p><strong>Interview question:</strong> "In 30 seconds, what is the IB's mission?"</p>
-    <p>Write your answer in EXACTLY 3 sentences (WHO/WHY → HOW → WHAT THEY BECOME):</p>
-    <textarea id="ex5" placeholder="Sentence 1 (WHO/WHY):&#10;Sentence 2 (HOW):&#10;Sentence 3 (WHAT THEY BECOME):"></textarea>
-    <div class="hint">Structure: 1) IB develops ___ who create ___ through ___. 2) It does this via ___. 3) Students become ___ who understand ___.</div>
-    <button class="reveal-btn" onclick="reveal('ans5')">See Model Answer</button>
-    <div class="answer" id="ans5">✅ "The IB develops inquiring, knowledgeable and caring young people who create a more peaceful world through intercultural understanding. It achieves this through challenging programmes of international education with rigorous assessment. The result is active, compassionate, lifelong learners who genuinely accept that others — with their differences — can also be right."</div>
-  </div>
-</div>
-
-<!-- COMPARE SECTION -->
-<div class="section">
-  <h3>🔄 Exercise 5: Weak vs Strong — Train Your Ear</h3>
-  <p>Read both. Notice the difference. The STRONG version uses IB language naturally.</p>
-
-  <div class="compare">
-    <div class="weak"><div class="label">❌ Weak (generic)</div>"IB is about holistic education that makes well-rounded students for the modern world."</div>
-    <div class="strong"><div class="label">✅ Strong (IB-fluent)</div>"IB develops inquiring, knowledgeable and caring learners through challenging international programmes, with the philosophical belief that diverse perspectives can coexist as equally valid."</div>
-  </div>
-
-  <div class="compare" style="margin-top:12px">
-    <div class="weak"><div class="label">❌ Weak (your old style)</div>"IB focuses on making students good citizens of the world who respect others."</div>
-    <div class="strong"><div class="label">✅ Strong (coordinator-level)</div>"IB's mission explicitly ties academic development to intercultural understanding — students learn that knowledge without empathy is incomplete, and that others, with their differences, can also be right."</div>
-  </div>
-
-  <div class="exercise" style="margin-top:16px">
-    <span class="tag">YOUR TURN</span>
-    <p><strong>Rewrite this weak answer into a strong one:</strong></p>
-    <p style="color:var(--warn)">"IB teaches students to be open-minded and think globally."</p>
-    <textarea id="ex6" placeholder="Rewrite using proper IB terminology..."></textarea>
-    <button class="reveal-btn" onclick="reveal('ans6')">See Model</button>
-    <div class="answer" id="ans6">✅ "IB cultivates international mindedness by developing learners who approach unfamiliar perspectives with genuine curiosity rather than judgment — the programme explicitly teaches that people with different cultural frameworks can hold equally valid viewpoints."</div>
-  </div>
-</div>
-
-<!-- EXERCISE 6: CONNECT TO YOUR EXPERIENCE -->
-<div class="section">
-  <h3>🎯 Exercise 6: Connect to YOUR Experience</h3>
-  <div class="exercise">
-    <span class="tag">PERSONAL</span>
-    <p><strong>Question:</strong> Think of ONE thing you did as HOD Physics that connects to the IB mission. Describe it using IB terminology.</p>
-    <p style="font-size:.78rem;color:var(--text2)">Example: "When I designed the energy unit to include perspectives from developing nations' energy access challenges, I was embedding intercultural understanding into the science curriculum — connecting conceptual knowledge to global contexts."</p>
-    <textarea id="ex7" placeholder="My example from my teaching experience..."></textarea>
-  </div>
-  <div class="exercise">
-    <span class="tag">PERSONAL</span>
-    <p><strong>Question:</strong> In your exam coordinator role, how did you ensure "rigorous assessment"? Write one sentence using that exact phrase.</p>
-    <textarea id="ex8" placeholder="As exam coordinator, I ensured rigorous assessment by..."></textarea>
-  </div>
-</div>
-
-<!-- QUICK RECALL -->
-<div class="section">
-  <h3>⚡ Quick Recall — Mnemonics</h3>
-  <p><strong>The 3 sentences of the mission = WHO → HOW → WHAT</strong></p>
-  <p>Remember: <strong>W-H-W</strong> (like "WHW" — Who, How, What)</p>
-
-  <p style="margin-top:14px"><strong>The 3 qualities = I-K-C</strong> (Inquiring, Knowledgeable, Caring)</p>
-  <p>Remember: <strong>"I Know and I Care"</strong> — that's the IB student</p>
-
-  <p style="margin-top:14px"><strong>The 3 outcomes = A-C-L</strong> (Active, Compassionate, Lifelong)</p>
-  <p>Remember: <strong>"ACL"</strong> — like the knee ligament. Strong foundation that holds everything together.</p>
-
-  <p style="margin-top:14px"><strong>The killer phrase:</strong> "Others, with their differences, can also be right."</p>
-  <p>Remember: <strong>This = International Mindedness in one sentence. Use it in EVERY interview.</strong></p>
-</div>
-
-<!-- FINAL CHECK -->
-<div class="section">
-  <h3>✓ Module 1.1 Completion Checklist</h3>
-  <div class="check-item"><input type="checkbox" id="ch1" onchange="updateProgress()"><label for="ch1">I can explain the 3-sentence structure (WHO/HOW/WHAT) without notes</label></div>
-  <div class="check-item"><input type="checkbox" id="ch2" onchange="updateProgress()"><label for="ch2">I completed Exercise 1 (fill in the blanks)</label></div>
-  <div class="check-item"><input type="checkbox" id="ch3" onchange="updateProgress()"><label for="ch3">I rewrote the weak answer into a strong one (Exercise 2)</label></div>
-  <div class="check-item"><input type="checkbox" id="ch4" onchange="updateProgress()"><label for="ch4">I wrote a response to the parent scenario (Exercise 3)</label></div>
-  <div class="check-item"><input type="checkbox" id="ch5" onchange="updateProgress()"><label for="ch5">I wrote my 30-second elevator pitch (Exercise 4)</label></div>
-  <div class="check-item"><input type="checkbox" id="ch6" onchange="updateProgress()"><label for="ch6">I rewrote the weak→strong exercise (Exercise 5)</label></div>
-  <div class="check-item"><input type="checkbox" id="ch7" onchange="updateProgress()"><label for="ch7">I connected my OWN experience to IB mission (Exercise 6)</label></div>
-  <div class="check-item"><input type="checkbox" id="ch8" onchange="updateProgress()"><label for="ch8">I can say the "killer phrase" naturally in a sentence</label></div>
-  <div class="check-item"><input type="checkbox" id="ch9" onchange="updateProgress()"><label for="ch9">I recorded myself giving the 30-second pitch (phone voice memo)</label></div>
-  <div class="check-item"><input type="checkbox" id="ch10" onchange="updateProgress()"><label for="ch10">I can explain IB mission to a non-educator in simple language</label></div>
-  <div class="check-item"><input type="checkbox" id="ch11" onchange="updateProgress()"><label for="ch11">I can explain WHY "others can also be right" is the most important phrase</label></div>
-  <div class="check-item"><input type="checkbox" id="ch12" onchange="updateProgress()"><label for="ch12">I feel CONFIDENT answering "What is IB's philosophy?" in an interview</label></div>
-</div>
-
-<div class="mentor" style="border-left-color:var(--success)">
-  <div class="label" style="color:var(--success)">📌 What's Next</div>
-  <p><strong>Module 1.2: The IB Learner Profile</strong> — 10 attributes, how to explain each one with examples from YOUR classroom, and how coordinators use them in school culture.</p>
-  <p style="margin-top:8px;font-size:.8rem;color:var(--text2)">Coming soon. Complete ALL exercises above first. No shortcuts.</p>
+<!-- NEXT MODULE -->
+<div class="next-box">
+  <div class="label">What's Next</div>
+  <p><strong>Module 1.2: The IB Learner Profile</strong> &mdash; 10 attributes, how to explain each one with examples from YOUR classroom, and how coordinators use them in school culture.</p>
+  <p style="margin-top:8px;font-size:.8rem;color:var(--text2)">Complete all 8 phases above first. Score at least 35/41 before moving on. No shortcuts.</p>
 </div>
 
 </div>
 
 <script>
+var completed = {};
+var totalExercises = 41;
+
 function unlock(){
   if(document.getElementById('pwd').value==='atul123'){
     document.getElementById('lock').style.display='none';
     document.getElementById('app').style.display='block';
     updateStreak();
-    loadSaved();
+    loadState();
   } else { alert('Wrong password.'); }
 }
 
-function reveal(id){
-  var el=document.getElementById(id);
-  el.style.display=el.style.display==='block'?'none':'block';
+function togglePhase(id){
+  document.getElementById(id).classList.toggle('open');
 }
 
-function updateProgress(){
-  var checks=document.querySelectorAll('.check-item input');
-  var done=0;
-  checks.forEach(function(c){if(c.checked)done++;});
-  document.getElementById('progress').style.width=(done/checks.length*100)+'%';
-  document.getElementById('progText').textContent=done;
-  // Save
-  var state=[];
-  checks.forEach(function(c){state.push(c.checked);});
-  localStorage.setItem('lc_1.1_checks',JSON.stringify(state));
+function toggleReveal(id){
+  var el=document.getElementById(id);
+  el.classList.toggle('show');
+}
+
+function pickMCQ(qid, idx){
+  var opts=document.querySelectorAll('#'+qid+' .quiz-opt');
+  opts.forEach(function(o,i){
+    o.classList.remove('selected');
+    if(i===idx) o.classList.add('selected');
+  });
+}
+
+function checkMCQ(qid, correctIdx){
+  if(completed[qid]) return;
+  var opts=document.querySelectorAll('#'+qid+' .quiz-opt');
+  var fb=document.getElementById(qid+'fb');
+  var selected=-1;
+  opts.forEach(function(o,i){ if(o.classList.contains('selected')) selected=i; });
+  if(selected===-1){ fb.textContent='Pick an answer first!'; fb.className='quiz-feedback show bad'; return; }
+
+  opts.forEach(function(o,i){
+    o.style.pointerEvents='none';
+    if(i===correctIdx) o.classList.add('right');
+    if(i===selected && i!==correctIdx) o.classList.add('wrongpick');
+  });
+
+  var box=document.getElementById(qid);
+  if(selected===correctIdx){
+    box.classList.add('correct');
+    fb.textContent='Correct! You\'re learning the IB vocabulary.';
+    fb.className='quiz-feedback show good';
+    completed[qid]=true;
+  } else {
+    box.classList.add('wrong');
+    fb.textContent='Not quite. The highlighted answer is the IB-fluent version. Study it, then try the next one.';
+    fb.className='quiz-feedback show bad';
+    completed[qid]=true;
+  }
+  saveState();
+  updateMastery();
+}
+
+function checkFill(qid, answer){
+  if(completed[qid]) return;
+  var input=document.getElementById(qid+'input');
+  var fb=document.getElementById(qid+'fb');
+  var val=input.value.trim().toLowerCase().replace(/\s+/g,' ');
+  var ans=answer.toLowerCase();
+
+  var box=document.getElementById(qid);
+  if(val===ans){
+    input.classList.add('correct-input');
+    box.classList.add('correct');
+    fb.textContent='Correct! "'+answer+'" is the exact IB term.';
+    fb.className='quiz-feedback show good';
+    completed[qid]=true;
+  } else {
+    input.classList.add('wrong-input');
+    box.classList.add('wrong');
+    fb.textContent='The answer is: "'+answer+'". Type it again to lock it in memory.';
+    fb.className='quiz-feedback show bad';
+    setTimeout(function(){
+      input.classList.remove('wrong-input');
+      box.classList.remove('wrong');
+      input.value='';
+      input.focus();
+    },2500);
+  }
+  saveState();
+  updateMastery();
+}
+
+function markDone(qid){
+  if(completed[qid]) return;
+  var input=document.getElementById(qid+'input');
+  if(!input.value.trim()){
+    var fb=document.getElementById(qid+'fb');
+    fb.textContent='Write your answer first before marking complete!';
+    fb.className='quiz-feedback show bad';
+    return;
+  }
+  completed[qid]=true;
+  var box=document.getElementById(qid);
+  box.classList.add('correct');
+  var fb=document.getElementById(qid+'fb');
+  fb.textContent='Marked complete. Compare with the model answer and note any differences.';
+  fb.className='quiz-feedback show good';
+  saveState();
+  updateMastery();
+}
+
+function updateMastery(){
+  var done=Object.keys(completed).length;
+  document.getElementById('masteryFill').style.width=(done/totalExercises*100)+'%';
+  document.getElementById('masteryText').textContent=done+' / '+totalExercises+' exercises completed';
+
+  var phaseCounts={p1:[1,8,'q'],p2:[9,13,'q'],p3:[14,19,'q'],p4:[20,24,'q'],p5:[25,29,'q'],p6:[30,33,'q'],p7:[34,38,'q'],p8:[39,46,'q']};
+  for(var p in phaseCounts){
+    var range=phaseCounts[p];
+    var count=0;
+    for(var i=range[0];i<=range[1];i++){
+      if(completed[range[2]+i]) count++;
+    }
+    var total=range[1]-range[0]+1;
+    var el=document.getElementById(p+'score');
+    if(el) el.textContent=count+'/'+total;
+  }
 }
 
 function updateStreak(){
@@ -391,28 +1202,37 @@ function updateStreak(){
     localStorage.setItem('lc_last',today);
     localStorage.setItem('lc_streak',s);
   }
-  document.getElementById('streak').textContent='🔥 '+s+' days';
+  document.getElementById('streak').textContent=s+' day'+(s===1?'':'s');
 }
 
-function loadSaved(){
-  var c=localStorage.getItem('lc_1.1_checks');
-  if(c){
-    var data=JSON.parse(c);
-    var checks=document.querySelectorAll('.check-item input');
-    checks.forEach(function(ch,i){if(data[i])ch.checked=true;});
-    updateProgress();
-  }
-  // Load textareas
-  document.querySelectorAll('textarea').forEach(function(ta){
-    var saved=localStorage.getItem('lc_'+ta.id);
-    if(saved)ta.value=saved;
+function saveState(){
+  localStorage.setItem('lc_1.1_completed',JSON.stringify(completed));
+  document.querySelectorAll('textarea, .quiz-fill input').forEach(function(el){
+    if(el.id) localStorage.setItem('lc_v2_'+el.id, el.value);
   });
 }
 
-// Auto-save textareas
+function loadState(){
+  var saved=localStorage.getItem('lc_1.1_completed');
+  if(saved){
+    completed=JSON.parse(saved);
+    for(var qid in completed){
+      var box=document.getElementById(qid);
+      if(box) box.classList.add('correct');
+    }
+    updateMastery();
+  }
+  document.querySelectorAll('textarea, .quiz-fill input').forEach(function(el){
+    if(el.id){
+      var v=localStorage.getItem('lc_v2_'+el.id);
+      if(v) el.value=v;
+    }
+  });
+}
+
 document.addEventListener('input',function(e){
-  if(e.target.tagName==='TEXTAREA'){
-    localStorage.setItem('lc_'+e.target.id,e.target.value);
+  if(e.target.tagName==='TEXTAREA' || (e.target.tagName==='INPUT' && e.target.type==='text')){
+    if(e.target.id) localStorage.setItem('lc_v2_'+e.target.id, e.target.value);
   }
 });
 </script>
