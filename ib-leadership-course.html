@@ -3,510 +3,418 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>IB Leadership Course | Private</title>
+<title>IB Leadership Course</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Georgia,serif;background:#0f1119;color:#e8e4dc;min-height:100vh}
-.lock-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0f1119,#1a1a2e)}
-.lock-box{background:#1e1e30;padding:40px;border-radius:16px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4)}
-.lock-box h1{font-size:1.4rem;margin-bottom:8px;color:#4ecdc4}
-.lock-box p{font-size:.85rem;color:#888;margin-bottom:20px}
-.lock-box input{padding:12px 16px;border:2px solid #333;background:#111;color:#fff;border-radius:8px;font-size:1rem;width:200px}
-.lock-box button{padding:12px 24px;background:#4ecdc4;color:#0f1119;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-left:8px}
-.app{display:none;max-width:900px;margin:0 auto;padding:20px}
-nav.top{display:flex;justify-content:space-between;align-items:center;padding:15px 0;border-bottom:1px solid #333;margin-bottom:30px}
-nav.top .brand{font-size:1.1rem;color:#4ecdc4;font-weight:700}
-nav.top .streak{background:#222;padding:6px 14px;border-radius:20px;font-size:.8rem;color:#fbbf24}
-.mentor-msg{background:linear-gradient(135deg,#1a2332,#1e1e30);border-left:4px solid #ef4444;padding:20px;border-radius:0 12px 12px 0;margin-bottom:30px;font-size:.9rem;line-height:1.7}
-.mentor-msg .name{color:#ef4444;font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:30px}
-.stat-card{background:#1e1e30;padding:16px;border-radius:12px;text-align:center}
-.stat-card .num{font-size:1.6rem;font-weight:700;color:#4ecdc4}
-.stat-card .lbl{font-size:.7rem;color:#888;margin-top:4px;text-transform:uppercase}
-.section{margin-bottom:40px}
-.section h2{font-size:1.2rem;color:#4ecdc4;margin-bottom:15px;padding-bottom:8px;border-bottom:1px solid #333}
-.module-grid{display:grid;gap:10px}
-.module-item{background:#1e1e30;padding:16px 20px;border-radius:10px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;border:1px solid #2a2a3e}
-.module-item:hover{border-color:#4ecdc4;transform:translateX(4px)}
-.module-item.locked{opacity:.5;cursor:not-allowed}
-.module-item.completed{border-color:#22c55e}
-.module-item .num{width:32px;height:32px;background:#333;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#4ecdc4;flex-shrink:0}
-.module-item.completed .num{background:#22c55e;color:#fff}
-.module-item .info{flex:1}
-.module-item .info h4{font-size:.9rem;margin-bottom:3px}
-.module-item .info p{font-size:.72rem;color:#888}
-.module-item .tags{display:flex;gap:4px}
-.module-item .tags span{font-size:.6rem;padding:2px 6px;border-radius:4px;font-weight:600}
-.tag-dp{background:#7c3aed20;color:#a78bfa}
-.tag-cas{background:#06b6d420;color:#67e8f9}
-.tag-myp{background:#10b98120;color:#6ee7b7}
-.tag-all{background:#f59e0b20;color:#fbbf24}
+:root{--bg:#f7f3ed;--card:#fff;--text:#1a1a2e;--text2:#555;--accent:#0B7285;--accent2:#4ecdc4;--border:#e5e1dc;--warn:#dc2626;--success:#16a34a;--highlight:#fef3c7}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+body.dark{--bg:#0f1119;--card:#1e1e30;--text:#e8e4dc;--text2:#aaa;--border:#333;--highlight:#332b00}
 
-/* Module Content View */
-.module-view{display:none}
-.module-view.active{display:block}
-.back-btn{background:none;border:1px solid #4ecdc4;color:#4ecdc4;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:.8rem;margin-bottom:20px}
-.content-section{background:#1e1e30;padding:24px;border-radius:12px;margin-bottom:20px}
-.content-section h3{color:#4ecdc4;font-size:1rem;margin-bottom:12px}
-.content-section p,.content-section li{font-size:.88rem;line-height:1.8;color:#ccc}
-.content-section ul{padding-left:20px}
-.content-section li{margin-bottom:8px}
-.vocab-card{background:#111;padding:14px;border-radius:8px;margin-bottom:10px;border-left:3px solid #4ecdc4}
-.vocab-card .term{font-weight:700;color:#4ecdc4;font-size:.9rem}
-.vocab-card .def{font-size:.82rem;color:#aaa;margin-top:4px}
-.vocab-card .use{font-size:.78rem;color:#888;margin-top:6px;font-style:italic}
-.quiz-q{background:#111;padding:16px;border-radius:8px;margin-bottom:12px}
-.quiz-q p{font-size:.88rem;margin-bottom:10px}
-.quiz-q label{display:block;padding:8px 12px;border:1px solid #333;border-radius:6px;margin-bottom:6px;cursor:pointer;font-size:.82rem;transition:all .2s}
-.quiz-q label:hover{border-color:#4ecdc4}
-.quiz-q label.correct{background:#22c55e20;border-color:#22c55e;color:#22c55e}
-.quiz-q label.wrong{background:#ef444420;border-color:#ef4444;color:#ef4444}
-.reflection-box{width:100%;min-height:100px;background:#111;border:1px solid #333;border-radius:8px;padding:12px;color:#ccc;font-size:.85rem;resize:vertical}
-.save-btn{background:#4ecdc4;color:#0f1119;padding:10px 20px;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-top:10px}
-.checklist-item{display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid #222}
-.checklist-item input[type=checkbox]{width:18px;height:18px;accent-color:#4ecdc4}
-.checklist-item label{font-size:.85rem;color:#ccc}
-.checklist-item input:checked+label{text-decoration:line-through;color:#666}
-.interview-q{background:#0f1119;padding:16px;border-radius:8px;margin-bottom:12px;border:1px solid #333}
-.interview-q .q{font-size:.9rem;font-weight:700;color:#fbbf24;margin-bottom:8px}
-.interview-q .bad{font-size:.8rem;color:#ef4444;margin-bottom:6px}
-.interview-q .good{font-size:.8rem;color:#22c55e}
-.penalty-banner{background:#ef444420;border:1px solid #ef4444;padding:12px 20px;border-radius:8px;margin-bottom:20px;font-size:.85rem;color:#fca5a5;display:none}
-@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
-body.light{background:#f5f2ed;color:#1a1a2e}
-body.light .lock-screen{background:linear-gradient(135deg,#f5f2ed,#e8e4dc)}
-body.light .lock-box{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.1)}
-body.light .lock-box input{background:#f5f2ed;border-color:#ddd;color:#333}
-body.light .app{color:#1a1a2e}
-body.light .content-section,body.light .module-item,body.light .stat-card{background:#fff;border-color:#e5e1dc}
-body.light .content-section h3{color:#0B7285}
-body.light .content-section p,body.light .content-section li{color:#333}
-body.light .vocab-card{background:#f9f7f4;border-left-color:#0B7285}
-body.light .vocab-card .term{color:#0B7285}
-body.light .vocab-card .def,.light .vocab-card .use{color:#555}
-body.light .quiz-q,.light .interview-q{background:#f9f7f4;border-color:#e5e1dc}
-body.light .quiz-q label{border-color:#ddd;color:#333}
-body.light .reflection-box{background:#f9f7f4;border-color:#ddd;color:#333}
-body.light .mentor-msg{background:#fff8f0;border-left-color:#e33}
-body.light nav.top{border-bottom-color:#e5e1dc}
-body.light .section h2{color:#0B7285;border-bottom-color:#e5e1dc}
-body.light .module-item .info p{color:#666}
-body.light .module-item .num{background:#e8e4dc;color:#0B7285}
-body.light [style*="background:#111"]{background:#f9f7f4 !important;border-color:#0B7285 !important;color:#1a1a2e !important}
-body.light [style*="background:#0f1119"]{background:#f9f7f4 !important;color:#1a1a2e !important;border-color:#e5e1dc !important}
+/* Lock */
+.lock{display:flex;align-items:center;justify-content:center;min-height:100vh}
+.lock-box{background:var(--card);padding:40px;border-radius:16px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.1);border:1px solid var(--border)}
+.lock-box h1{color:var(--accent);font-size:1.3rem;margin-bottom:6px}
+.lock-box p{color:var(--text2);font-size:.82rem;margin-bottom:20px}
+.lock-box input{padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.95rem;background:var(--bg);color:var(--text)}
+.lock-box button{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-left:6px}
+
+/* App */
+.app{display:none;max-width:800px;margin:0 auto;padding:20px 20px 80px}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.top-bar .title{font-size:1.1rem;font-weight:700;color:var(--accent)}
+.top-bar .controls{display:flex;gap:8px;align-items:center}
+.top-bar button{background:var(--bg);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:.72rem;cursor:pointer;color:var(--text)}
+.streak-badge{background:var(--highlight);padding:4px 12px;border-radius:12px;font-size:.75rem;font-weight:600}
+
+/* Mentor */
+.mentor{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--warn);padding:16px 20px;border-radius:0 10px 10px 0;margin-bottom:24px}
+.mentor .label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--warn);font-weight:700;margin-bottom:6px}
+.mentor p{font-size:.88rem;color:var(--text)}
+
+/* Section */
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
+.section h3{color:var(--accent);font-size:1rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.section p{font-size:.88rem;color:var(--text);margin-bottom:10px}
+.section ul{padding-left:20px;margin-bottom:10px}
+.section li{font-size:.85rem;margin-bottom:6px;color:var(--text)}
+
+/* Concept Box */
+.concept-box{background:var(--highlight);padding:16px;border-radius:8px;margin:14px 0;border:1px solid #f59e0b30}
+.concept-box .big{font-size:1.05rem;font-weight:700;color:var(--text);line-height:1.6}
+
+/* Model Sentences */
+.model{background:var(--bg);padding:12px 16px;border-radius:8px;margin:8px 0;border-left:3px solid var(--accent)}
+.model .label{font-size:.65rem;color:var(--accent);font-weight:700;text-transform:uppercase;margin-bottom:4px}
+.model p{font-size:.85rem;font-style:italic}
+
+/* Exercises */
+.exercise{background:var(--bg);padding:16px;border-radius:8px;margin:12px 0;border:1px solid var(--border)}
+.exercise .tag{display:inline-block;font-size:.6rem;background:var(--accent);color:#fff;padding:2px 8px;border-radius:4px;font-weight:600;margin-bottom:8px}
+.exercise p{font-size:.85rem;margin-bottom:8px}
+.exercise input[type=text],.exercise textarea{width:100%;padding:10px;border:1.5px solid var(--border);border-radius:6px;font-size:.85rem;background:var(--card);color:var(--text);margin-bottom:6px}
+.exercise textarea{min-height:80px;resize:vertical}
+.exercise .hint{font-size:.75rem;color:var(--text2);margin-top:4px}
+.exercise .reveal-btn{background:var(--accent);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:.75rem;cursor:pointer;margin-top:8px}
+.exercise .answer{display:none;margin-top:10px;padding:10px;background:var(--highlight);border-radius:6px;font-size:.82rem}
+
+/* Compare */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.compare .weak,.compare .strong{padding:14px;border-radius:8px;font-size:.82rem}
+.compare .weak{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
+.compare .strong{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534}
+.compare .label{font-size:.65rem;font-weight:700;text-transform:uppercase;margin-bottom:6px}
+@media(max-width:600px){.compare{grid-template-columns:1fr}}
+
+/* Checklist */
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.check-item input{margin-top:3px;width:18px;height:18px;accent-color:var(--accent)}
+.check-item label{font-size:.85rem}
+.check-item input:checked+label{color:var(--text2);text-decoration:line-through}
+
+/* Progress */
+.progress-bar{height:8px;background:var(--border);border-radius:4px;margin:10px 0}
+.progress-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .3s}
+
+/* Nav */
+.mod-nav{display:flex;justify-content:space-between;margin-top:30px;padding-top:20px;border-top:1px solid var(--border)}
+.mod-nav button{padding:10px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-size:.85rem}
+.mod-nav .prev{background:var(--bg);border:1px solid var(--border);color:var(--text)}
+.mod-nav .next{background:var(--accent);border:none;color:#fff}
 </style>
 </head>
 <body>
 
-<!-- LOCK SCREEN -->
-<div class="lock-screen" id="lockScreen">
-  <div class="lock-box">
-    <h1>🔒 IB Leadership Course</h1>
-    <p>Private access only. Enter password.</p>
-    <input type="password" id="pwdInput" placeholder="Password" onkeyup="if(event.key==='Enter')unlock()">
-    <button onclick="unlock()">Enter</button>
+<div class="lock" id="lock">
+<div class="lock-box">
+  <h1>🎯 IB Leadership Academy</h1>
+  <p>Your private course to coordinator-level fluency</p>
+  <input type="password" id="pwd" placeholder="Password" onkeyup="if(event.key==='Enter')unlock()">
+  <button onclick="unlock()">Enter</button>
+</div>
+</div>
+
+<div class="app" id="app">
+<div class="top-bar">
+  <div class="title">🎯 Module 1.1 — IB Mission & Philosophy</div>
+  <div class="controls">
+    <span class="streak-badge" id="streak">🔥 0 days</span>
+    <button onclick="document.body.classList.toggle('dark')">🌓</button>
   </div>
 </div>
 
-<!-- MAIN APP -->
-<div class="app" id="app">
-  <nav class="top">
-    <div class="brand">🎯 IB Leadership Academy</div><button onclick="toggleTheme()" style="background:none;border:1px solid #4ecdc4;color:#4ecdc4;padding:4px 10px;border-radius:6px;font-size:.7rem;cursor:pointer">☀️ Light</button>
-    <div class="streak" id="streakBadge">🔥 0 day streak</div>
-  </nav>
+<div class="mentor">
+  <div class="label">⚡ Your Mentor</div>
+  <p>You scored 4/10 yesterday. You KNOW the ideas but can't BUILD sentences. That's what we fix today. Every exercise below forces you to WRITE and SPEAK — not read. Do all of them. No skipping.</p>
+</div>
 
-  <div class="penalty-banner" id="penaltyBanner">
-    ⚠️ You missed study days! A coordinator doesn't skip commitments. Get back on track TODAY.
-  </div>
+<div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+<p style="font-size:.72rem;color:var(--text2);margin-bottom:20px">Module Progress: <span id="progText">0</span>/12 exercises completed</p>
 
-  <div class="mentor-msg">
-    <div class="name">Your Mentor Says:</div>
-    <div id="mentorText">You failed 20 out of 21 interviews. That's not bad luck — that's a skill gap. The good news? It's 100% fixable. You know your subject. Now learn to SPEAK like a leader. One module at a time. No shortcuts. Start now.</div>
-  </div>
+<!-- ═══════════════════════════════════ -->
+<!-- PART 1: THE MISSION STATEMENT -->
+<!-- ═══════════════════════════════════ -->
 
-  <!-- DASHBOARD -->
-  <div id="dashboard">
-    <div class="stats">
-      <div class="stat-card"><div class="num" id="completedCount">0</div><div class="lbl">Completed</div></div>
-      <div class="stat-card"><div class="num">26</div><div class="lbl">Total Modules</div></div>
-      <div class="stat-card"><div class="num" id="streakNum">0</div><div class="lbl">Day Streak</div></div>
-      <div class="stat-card"><div class="num" id="vocabCount">0</div><div class="lbl">Terms Learned</div></div>
-    </div>
+<div class="section">
+  <h3>🧠 Part 1: The IB Mission — Understanding the Structure</h3>
+  <p>The IB Mission Statement has <strong>3 sentences</strong>. Each answers a different question:</p>
 
-    <!-- Q1: FOUNDATION -->
-    <div class="section">
-      <h2>Quarter 1 — Speak IB (Months 1-3)</h2>
-      <div class="module-grid">
-        <div class="module-item" onclick="openModule('1.1')">
-          <div class="num">1.1</div>
-          <div class="info"><h4>IB Philosophy & Mission</h4><p>Learner Profile, Mission, International Mindedness</p></div>
-          <div class="tags"><span class="tag-all">ALL</span></div>
-        </div>
-        <div class="module-item locked">
-          <div class="num">1.2</div>
-          <div class="info"><h4>Standards & Practices</h4><p>All S&P categories, how schools are evaluated</p></div>
-          <div class="tags"><span class="tag-all">ALL</span></div>
-        </div>
-        <div class="module-item locked">
-          <div class="num">1.3</div>
-          <div class="info"><h4>MYP Framework Deep-Dive</h4><p>Concepts, Global Contexts, ATL, Unit Planning</p></div>
-          <div class="tags"><span class="tag-myp">MYP</span></div>
-        </div>
-        <div class="module-item locked">
-          <div class="num">1.4</div>
-          <div class="info"><h4>DP Framework Deep-Dive</h4><p>Core components, Assessment Model, Subject Groups</p></div>
-          <div class="tags"><span class="tag-dp">DP</span></div>
-        </div>
-        <div class="module-item locked">
-          <div class="num">1.5</div>
-          <div class="info"><h4>CAS Deep-Dive</h4><p>7 Learning Outcomes, Stages, Projects, Reflection</p></div>
-          <div class="tags"><span class="tag-cas">CAS</span></div>
-        </div>
-        <div class="module-item locked">
-          <div class="num">1.6</div>
-          <div class="info"><h4>IB Vocabulary Mastery</h4><p>100+ terms with interview context</p></div>
-          <div class="tags"><span class="tag-all">ALL</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Q2: CURRICULUM -->
-    <div class="section">
-      <h2>Quarter 2 — Curriculum & Assessment (Months 4-6)</h2>
-      <div class="module-grid">
-        <div class="module-item locked"><div class="num">2.1</div><div class="info"><h4>Collaborative Planning</h4><p>Leading meetings, vertical & horizontal articulation</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-        <div class="module-item locked"><div class="num">2.2</div><div class="info"><h4>Concept-Driven Curriculum</h4><p>Key/Related Concepts, SOI, Inquiry Questions</p></div><div class="tags"><span class="tag-myp">MYP</span><span class="tag-dp">DP</span></div></div>
-        <div class="module-item locked"><div class="num">2.3</div><div class="info"><h4>Assessment Design</h4><p>Criterion-referenced, rubrics, formative/summative</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-        <div class="module-item locked"><div class="num">2.4</div><div class="info"><h4>Moderation & Standardization</h4><p>Internal assessment, external moderation</p></div><div class="tags"><span class="tag-dp">DP</span></div></div>
-        <div class="module-item locked"><div class="num">2.5</div><div class="info"><h4>Data-Driven Improvement</h4><p>Grade analysis, action plans, targets</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-        <div class="module-item locked"><div class="num">2.6</div><div class="info"><h4>Academic Honesty</h4><p>Policy, Turnitin, building integrity culture</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-      </div>
-    </div>
-
-    <!-- Q3: LEADERSHIP -->
-    <div class="section">
-      <h2>Quarter 3 — Leadership & People (Months 7-9)</h2>
-      <div class="module-grid">
-        <div class="module-item locked"><div class="num">3.1</div><div class="info"><h4>Professional Development</h4><p>Planning PD, IBEN pathway, workshops</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-        <div class="module-item locked"><div class="num">3.2</div><div class="info"><h4>Mentoring Teachers</h4><p>Observation, feedback, growth conversations</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-        <div class="module-item locked"><div class="num">3.3</div><div class="info"><h4>Difficult Conversations</h4><p>Underperformance, parent complaints, conflict</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-        <div class="module-item locked"><div class="num">3.4</div><div class="info"><h4>Stakeholder Communication</h4><p>Parents, leadership, IB Organization</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-        <div class="module-item locked"><div class="num">3.5</div><div class="info"><h4>Authorization & Evaluation</h4><p>Self-study, action planning, IB visits</p></div><div class="tags"><span class="tag-dp">DP</span><span class="tag-myp">MYP</span></div></div>
-        <div class="module-item locked"><div class="num">3.6</div><div class="info"><h4>Change Management</h4><p>New initiatives, overcoming resistance</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-      </div>
-    </div>
-
-    <!-- Q4: VISIBILITY -->
-    <div class="section">
-      <h2>Quarter 4 — Visibility & Growth (Months 10-12)</h2>
-      <div class="module-grid">
-        <div class="module-item locked"><div class="num">4.1</div><div class="info"><h4>EdTech & AI in IB</h4><p>Tools, digital citizenship, technology policy</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-        <div class="module-item locked"><div class="num">4.2</div><div class="info"><h4>Action Research</h4><p>Design your own research project</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-        <div class="module-item locked"><div class="num">4.3</div><div class="info"><h4>Conference Presentations</h4><p>Submit, prepare, present at IB events</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-        <div class="module-item locked"><div class="num">4.4</div><div class="info"><h4>Writing & Publications</h4><p>Blog, journal articles, IB community</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-        <div class="module-item locked"><div class="num">4.5</div><div class="info"><h4>Personal Branding</h4><p>LinkedIn, IBEN, networking, portfolio</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-        <div class="module-item locked"><div class="num">4.6</div><div class="info"><h4>Interview Mastery</h4><p>Mock interviews, case studies, negotiation</p></div><div class="tags"><span class="tag-all">ALL</span></div></div>
-      </div>
+  <div class="concept-box">
+    <div class="big">
+      Sentence 1 → <strong>WHO</strong> does IB develop and <strong>WHY?</strong><br>
+      Sentence 2 → <strong>HOW</strong> does IB do it?<br>
+      Sentence 3 → <strong>WHAT</strong> do students become?
     </div>
   </div>
 
-  <!-- MODULE 1.1 CONTENT -->
-  <div class="module-view" id="module-1.1">
-    <button class="back-btn" onclick="closeModule()">← Back to Dashboard</button>
-    <h2 style="font-size:1.4rem;margin-bottom:5px;color:#4ecdc4">Module 1.1: IB Philosophy & Mission</h2>
-    <p style="color:#888;font-size:.8rem;margin-bottom:25px">Estimated time: 2 hours | Role relevance: ALL leadership positions</p>
+  <p><strong>Think of it like Newton's Laws:</strong></p>
+  <ul>
+    <li>1st Law = The GOAL (peaceful world) — where we're heading</li>
+    <li>2nd Law = The METHOD (programmes + assessment) — the force applied</li>
+    <li>3rd Law = The OUTCOME (lifelong learners who accept differences) — equal and opposite to ignorance</li>
+  </ul>
+</div>
 
-    <div class="content-section">
-      <h3>📖 Why This Module Matters</h3>
-      <p>Every single IB interview starts here. If you can't articulate the IB's philosophy fluently, you're done in the first 5 minutes. This isn't about memorizing — it's about <strong>believing and living</strong> these principles so they come out naturally.</p>
-      <p style="color:#ef4444;margin-top:10px;font-weight:700">⚠️ In your 21 interviews, you probably answered "What is the IB's mission?" with something generic. Never again.</p>
-    </div>
-
-    <div class="content-section">
-      <h3>📖 The IB Mission Statement</h3>
-      <p>Memorize this WORD FOR WORD. Then understand every phrase:</p>
-      <div style="background:#111;padding:20px;border-radius:8px;margin:15px 0;border:2px solid #4ecdc4;font-style:italic;font-size:.95rem;line-height:2">
-        "The International Baccalaureate aims to develop <strong>inquiring, knowledgeable and caring young people</strong> who help to create a better and more peaceful world through <strong>intercultural understanding and respect</strong>.<br><br>
-        To this end the organization works with schools, governments and international organizations to develop <strong>challenging programmes of international education</strong> and <strong>rigorous assessment</strong>.<br><br>
-        These programmes encourage students across the world to become <strong>active, compassionate and lifelong learners</strong> who understand that other people, with their differences, can also be right."
-      </div>
-      <p><strong>Key phrases to use in interviews:</strong></p>
-      <ul>
-        <li><strong>"Inquiring, knowledgeable and caring"</strong> — the three pillars. Not just academic (knowledgeable) but curious (inquiring) and human (caring)</li>
-        <li><strong>"Intercultural understanding and respect"</strong> — this is International Mindedness in action</li>
-        <li><strong>"Other people, with their differences, can also be right"</strong> — this is the heart of open-mindedness. Use this phrase — it impresses interviewers</li>
-        <li><strong>"Active, compassionate and lifelong learners"</strong> — active = agency, compassionate = caring, lifelong = beyond school</li>
-      </ul>
-    </div>
-
-    <div class="content-section">
-      <h3>📖 The IB Learner Profile (10 Attributes)</h3>
-      <p>This is the IB's definition of what an "internationally minded" person looks like. As a coordinator, you must know all 10 AND be able to give examples of how YOUR school develops each one.</p>
-      <ul>
-        <li><strong>Inquirers</strong> — Nurture curiosity, develop research skills, sustain love of learning. <em>(Not just asking questions — it's structured, purposeful inquiry)</em></li>
-        <li><strong>Knowledgeable</strong> — Develop conceptual understanding across disciplines, engage with local AND global issues. <em>(Not memorization — CONCEPTUAL understanding)</em></li>
-        <li><strong>Thinkers</strong> — Use critical AND creative thinking to analyze complex problems, make ethical decisions. <em>(Both analytical and innovative)</em></li>
-        <li><strong>Communicators</strong> — Express confidently in multiple languages/modes, collaborate effectively, listen to diverse perspectives. <em>(Not just speaking — LISTENING is key)</em></li>
-        <li><strong>Principled</strong> — Act with integrity, honesty, fairness. Take responsibility for actions and consequences. <em>(Link to Academic Honesty policy)</em></li>
-        <li><strong>Open-minded</strong> — Appreciate own AND others' cultures. Seek diverse viewpoints. Grow from experience. <em>(This is International Mindedness at the personal level)</em></li>
-        <li><strong>Caring</strong> — Show empathy, compassion. Commit to service. Make positive difference. <em>(Link to CAS and Service as Action)</em></li>
-        <li><strong>Balanced</strong> — Intellectual, physical AND emotional well-being. Recognize interdependence. <em>(Link to CAS, well-being programs)</em></li>
-        <li><strong>Reflective</strong> — Consider own ideas and experience. Understand strengths and weaknesses for learning and personal development. <em>(Link to ATL self-management)</em></li>
-        <li><strong>Risk-takers</strong> — Approach uncertainty with forethought. Explore new ideas. Resourceful and resilient. <em>(Not reckless — CALCULATED courage)</em></li>
-      </ul>
-    </div>
-
-    <div class="content-section">
-      <h3>📖 International Mindedness</h3>
-      <p>This is THE core value of the IB. If you only understand one thing from this course, understand this:</p>
-      <p style="margin:10px 0"><strong>International Mindedness is NOT:</strong></p>
-      <ul>
-        <li>❌ Having students from different countries</li>
-        <li>❌ Celebrating International Day with food and flags</li>
-        <li>❌ Teaching about other cultures as "topics"</li>
-      </ul>
-      <p style="margin:10px 0"><strong>International Mindedness IS:</strong></p>
-      <ul>
-        <li>✅ Recognizing that multiple perspectives exist on every issue</li>
-        <li>✅ Understanding our shared humanity AND respecting differences</li>
-        <li>✅ Developing multilingual competence</li>
-        <li>✅ Engaging with global issues through local action</li>
-        <li>✅ Building intercultural understanding as a DAILY practice, not an event</li>
-      </ul>
-      <p style="margin-top:15px;color:#fbbf24"><strong>Interview tip:</strong> When asked "How do you promote international mindedness?", don't say "We celebrate cultural days." Say: "We embed multiple perspectives into every unit inquiry. For example, when studying energy in physics, students explore how different communities prioritize energy access, sustainability, and economic development differently — there's no single 'right' answer."</p>
-    </div>
-
-    <div class="content-section">
-      <h3>📖 The Four IB Programmes</h3>
-      <ul>
-        <li><strong>PYP (Primary Years Programme)</strong> — Ages 3-12. Transdisciplinary. 6 themes. Student agency.</li>
-        <li><strong>MYP (Middle Years Programme)</strong> — Ages 11-16. 8 subject groups. Concepts + Global Contexts + ATL. Service as Action.</li>
-        <li><strong>DP (Diploma Programme)</strong> — Ages 16-19. 6 subjects + Core (TOK, EE, CAS). External assessment. University preparation.</li>
-        <li><strong>CP (Career-related Programme)</strong> — Ages 16-19. DP courses + career-related studies + CP core. Vocational pathway.</li>
-      </ul>
-      <p style="margin-top:10px"><strong>Continuum thinking:</strong> A coordinator MUST understand how programmes connect. PYP's "transdisciplinary themes" → MYP's "global contexts" → DP's "TOK themes". Service starts in PYP → structured in MYP → CAS in DP.</p>
-    </div>
-
-    <!-- VOCABULARY -->
-    <div class="content-section">
-      <h3>🔑 Key Vocabulary (Use these in interviews)</h3>
-      <div class="vocab-card">
-        <div class="term">International Mindedness</div>
-        <div class="def">A worldview that recognizes and values diversity of perspective, promotes intercultural understanding, and fosters global engagement.</div>
-        <div class="use">💬 "Our physics curriculum embeds international mindedness by exploring how different cultures have contributed to scientific understanding."</div>
-      </div>
-      <div class="vocab-card">
-        <div class="term">Learner Profile</div>
-        <div class="def">Ten attributes that define what it means to be an IB learner. Developed across all four programmes. Central to the IB's definition of an educated person.</div>
-        <div class="use">💬 "As coordinator, I would ensure the learner profile is visible in unit planning, classroom practice, and school culture — not just on posters."</div>
-      </div>
-      <div class="vocab-card">
-        <div class="term">Conceptual Understanding</div>
-        <div class="def">Deep understanding of transferable ideas (concepts) that transcend subject boundaries, as opposed to memorization of facts.</div>
-        <div class="use">💬 "Our assessment design should measure conceptual understanding, not factual recall — students should transfer learning to unfamiliar contexts."</div>
-      </div>
-      <div class="vocab-card">
-        <div class="term">Student Agency</div>
-        <div class="def">Students' ability to take ownership of their learning through voice, choice, and action. Central to IB pedagogy.</div>
-        <div class="use">💬 "I promote student agency by offering choice in assessment tasks and involving students in defining inquiry questions."</div>
-      </div>
-      <div class="vocab-card">
-        <div class="term">Approaches to Learning (ATL)</div>
-        <div class="def">Five categories of skills explicitly taught across subjects: Thinking, Communication, Social, Self-management, Research.</div>
-        <div class="use">💬 "ATL skills are explicitly planned in every unit — they're not incidental but deliberately developed across the programme."</div>
-      </div>
-    </div>
-
-    <!-- QUIZ -->
-    <div class="content-section">
-      <h3>✅ Self-Check Quiz</h3>
-      <div class="quiz-q" id="q1">
-        <p><strong>1.</strong> The IB mission statement ends with: "...who understand that other people, with their differences, can also be ___."</p>
-        <label onclick="checkAnswer(this,'q1',false)">A) wrong</label>
-        <label onclick="checkAnswer(this,'q1',false)">B) similar</label>
-        <label onclick="checkAnswer(this,'q1',true)">C) right</label>
-        <label onclick="checkAnswer(this,'q1',false)">D) equal</label>
-      </div>
-      <div class="quiz-q" id="q2">
-        <p><strong>2.</strong> How many attributes are in the IB Learner Profile?</p>
-        <label onclick="checkAnswer(this,'q2',false)">A) 8</label>
-        <label onclick="checkAnswer(this,'q2',true)">B) 10</label>
-        <label onclick="checkAnswer(this,'q2',false)">C) 12</label>
-        <label onclick="checkAnswer(this,'q2',false)">D) 6</label>
-      </div>
-      <div class="quiz-q" id="q3">
-        <p><strong>3.</strong> Which Learner Profile attribute is most directly linked to CAS?</p>
-        <label onclick="checkAnswer(this,'q3',false)">A) Knowledgeable</label>
-        <label onclick="checkAnswer(this,'q3',true)">B) Caring</label>
-        <label onclick="checkAnswer(this,'q3',false)">C) Thinkers</label>
-        <label onclick="checkAnswer(this,'q3',false)">D) Inquirers</label>
-      </div>
-      <div class="quiz-q" id="q4">
-        <p><strong>4.</strong> International Mindedness is BEST described as:</p>
-        <label onclick="checkAnswer(this,'q4',false)">A) Having students from many countries</label>
-        <label onclick="checkAnswer(this,'q4',false)">B) Celebrating cultural diversity days</label>
-        <label onclick="checkAnswer(this,'q4',true)">C) Recognizing multiple perspectives and our shared humanity</label>
-        <label onclick="checkAnswer(this,'q4',false)">D) Teaching world history and geography</label>
-      </div>
-      <div class="quiz-q" id="q5">
-        <p><strong>5.</strong> The MYP is designed for students aged:</p>
-        <label onclick="checkAnswer(this,'q5',false)">A) 3-12</label>
-        <label onclick="checkAnswer(this,'q5',true)">B) 11-16</label>
-        <label onclick="checkAnswer(this,'q5',false)">C) 16-19</label>
-        <label onclick="checkAnswer(this,'q5',false)">D) 14-18</label>
-      </div>
-    </div>
-
-    <!-- INTERVIEW PRACTICE -->
-    <div class="content-section">
-      <h3>💬 Interview Practice</h3>
-      <div class="interview-q">
-        <div class="q">Q: "What is the IB's educational philosophy?"</div>
-        <div class="bad">❌ WEAK: "IB focuses on holistic education and producing well-rounded students."</div>
-        <div class="good">✅ STRONG: "The IB develops internationally minded learners through inquiry-based, concept-driven education. Its mission centers on creating active, compassionate people who recognize that multiple perspectives can coexist. The Learner Profile defines ten attributes — from inquirers to reflective thinkers — that every programme develops. It's not just academic excellence; it's building people who engage ethically with the world."</div>
-      </div>
-      <div class="interview-q">
-        <div class="q">Q: "How would you promote the Learner Profile in your school?"</div>
-        <div class="bad">❌ WEAK: "We put posters in classrooms and mention it in assemblies."</div>
-        <div class="good">✅ STRONG: "The Learner Profile should be embedded in three layers: first, in unit planning — every statement of inquiry should naturally develop specific attributes. Second, in assessment feedback — teachers reference LP attributes when commenting on student growth. Third, in school culture — student-led conferences, service programmes, and reflection practices make the LP lived, not displayed."</div>
-      </div>
-      <div class="interview-q">
-        <div class="q">Q: "How do you develop international mindedness in a school with mostly local students?"</div>
-        <div class="bad">❌ WEAK: "We organize cultural exchange programs and celebrate international days."</div>
-        <div class="good">✅ STRONG: "International mindedness isn't about passport diversity — it's about perspective diversity. Even in a homogeneous school, we develop it through: multiple perspective inquiry in units, multilingual development, engagement with global issues through local contexts, and teaching students that 'others, with their differences, can also be right.' A physics class exploring energy policy from different nations' economic contexts IS international mindedness."</div>
-      </div>
-    </div>
-
-    <!-- REFLECTION -->
-    <div class="content-section">
-      <h3>🪞 Reflection (Write honestly — this is for YOU)</h3>
-      <p style="margin-bottom:10px;font-size:.85rem;color:#fbbf24">In your DP Coordinator interview, how did you answer the philosophy question? What would you say differently now?</p>
-      <textarea class="reflection-box" id="reflection-1.1" placeholder="Write your reflection here... Be honest about what you said vs what you should have said."></textarea>
-      <button class="save-btn" onclick="saveReflection('1.1')">Save Reflection</button>
-    </div>
-
-    <!-- CHECKLIST -->
-    <div class="content-section">
-      <h3>✓ Module 1.1 Checklist</h3>
-      <div class="checklist-item"><input type="checkbox" id="c1" onchange="saveChecklist()"><label for="c1">I can recite the IB Mission Statement from memory</label></div>
-      <div class="checklist-item"><input type="checkbox" id="c2" onchange="saveChecklist()"><label for="c2">I can name all 10 Learner Profile attributes without looking</label></div>
-      <div class="checklist-item"><input type="checkbox" id="c3" onchange="saveChecklist()"><label for="c3">I can explain International Mindedness WITHOUT mentioning "cultural day"</label></div>
-      <div class="checklist-item"><input type="checkbox" id="c4" onchange="saveChecklist()"><label for="c4">I can name all 4 IB programmes and their age ranges</label></div>
-      <div class="checklist-item"><input type="checkbox" id="c5" onchange="saveChecklist()"><label for="c5">I can answer "What is IB philosophy?" in under 60 seconds using proper terminology</label></div>
-      <div class="checklist-item"><input type="checkbox" id="c6" onchange="saveChecklist()"><label for="c6">I recorded myself answering the interview questions above</label></div>
-    </div>
+<div class="section">
+  <h3>🧠 Sentence 1: WHO and WHY</h3>
+  <div class="concept-box">
+    <div class="big">"The IB develops inquiring, knowledgeable and caring young people who create a better and more peaceful world through intercultural understanding and respect."</div>
   </div>
+
+  <p><strong>Break it down:</strong></p>
+  <ul>
+    <li><strong>Inquiring</strong> = curious, asks questions, researches (HEAD - thinking)</li>
+    <li><strong>Knowledgeable</strong> = deep conceptual understanding, not memorization (HEAD - knowing)</li>
+    <li><strong>Caring</strong> = empathy, service, responsibility (HEART)</li>
+    <li><strong>Intercultural understanding</strong> = HOW we achieve peace — not by ignoring differences but by understanding them</li>
+  </ul>
+
+  <p><strong>Physics analogy:</strong> These three qualities are like the THREE dimensions of space. You need ALL THREE to locate a point. A student with only knowledge (but no inquiry or caring) is one-dimensional — incomplete.</p>
+
+  <div class="model">
+    <div class="label">✅ Model sentence you can use in interviews:</div>
+    <p>"The IB's mission centres on developing three qualities — inquiry, knowledge, and care — believing that when young people combine intellectual curiosity with genuine compassion, they naturally work towards intercultural understanding."</p>
+  </div>
+  <div class="model">
+    <div class="label">✅ Another way to say it:</div>
+    <p>"What makes IB unique is that academic excellence alone isn't the goal — the mission explicitly requires caring and inquiry alongside knowledge, with the ultimate purpose being intercultural peace."</p>
+  </div>
+</div>
+
+<!-- EXERCISE 1 -->
+<div class="section">
+  <h3>✍️ Exercise 1: Complete the Sentence</h3>
+  <div class="exercise">
+    <span class="tag">FILL IN</span>
+    <p>The IB develops three types of learners: _______, _______, and _______.</p>
+    <input type="text" id="ex1" placeholder="Type your answer...">
+    <div class="hint">Hint: Head (curious), Head (understanding), Heart</div>
+    <button class="reveal-btn" onclick="reveal('ans1')">Check Answer</button>
+    <div class="answer" id="ans1">✅ <strong>inquiring, knowledgeable, and caring</strong></div>
+  </div>
+  <div class="exercise">
+    <span class="tag">FILL IN</span>
+    <p>The IB achieves a peaceful world through _______ understanding and _______.</p>
+    <input type="text" id="ex2" placeholder="Type your answer...">
+    <button class="reveal-btn" onclick="reveal('ans2')">Check Answer</button>
+    <div class="answer" id="ans2">✅ <strong>intercultural</strong> understanding and <strong>respect</strong></div>
+  </div>
+</div>
+
+<!-- SENTENCE 2 -->
+<div class="section">
+  <h3>🧠 Sentence 2: HOW</h3>
+  <div class="concept-box">
+    <div class="big">"To this end, the organization works with schools, governments and international organizations to develop challenging programmes of international education and rigorous assessment."</div>
+  </div>
+
+  <p><strong>Key phrases:</strong></p>
+  <ul>
+    <li><strong>"Challenging programmes"</strong> = IB is HARD. It's not soft or easy. This is deliberate.</li>
+    <li><strong>"International education"</strong> = not just teaching ABOUT the world, but teaching WITH a global perspective</li>
+    <li><strong>"Rigorous assessment"</strong> = IB assessment is externally moderated, criterion-referenced, reliable</li>
+    <li><strong>"Works with schools, governments"</strong> = IB is collaborative, not top-down</li>
+  </ul>
+
+  <p><strong>Why this matters in interviews:</strong> When someone says "IB is just for rich kids" or "IB is easy compared to national boards" — THIS sentence is your defense. IB is intentionally challenging with rigorous assessment. Use these exact words.</p>
+
+  <div class="model">
+    <div class="label">✅ Model sentence:</div>
+    <p>"The IB achieves its mission through deliberately challenging programmes paired with rigorous assessment — it's not about making learning easy, but making it meaningful and internationally benchmarked."</p>
+  </div>
+</div>
+
+<!-- EXERCISE 2 -->
+<div class="section">
+  <h3>✍️ Exercise 2: Rewrite Weak → Strong</h3>
+  <div class="exercise">
+    <span class="tag">REWRITE</span>
+    <p><strong>Weak answer:</strong> "IB has good programmes and tests."</p>
+    <p>Rewrite this using proper IB terminology:</p>
+    <textarea id="ex3" placeholder="Rewrite here using: challenging programmes, international education, rigorous assessment..."></textarea>
+    <button class="reveal-btn" onclick="reveal('ans3')">See Model Answer</button>
+    <div class="answer" id="ans3">✅ "The IB delivers <strong>challenging programmes of international education</strong> complemented by <strong>rigorous assessment</strong> that is criterion-referenced and externally moderated."</div>
+  </div>
+</div>
+
+<!-- SENTENCE 3 -->
+<div class="section">
+  <h3>🧠 Sentence 3: WHAT THEY BECOME</h3>
+  <div class="concept-box">
+    <div class="big">"These programmes encourage students to become active, compassionate and lifelong learners who understand that other people, with their differences, can also be right."</div>
+  </div>
+
+  <p><strong>THIS is the most powerful line in the entire mission.</strong> Memorize the ending:</p>
+  <p style="font-size:1.1rem;text-align:center;padding:15px;background:var(--highlight);border-radius:8px;margin:10px 0;font-weight:700">"...other people, with their differences, can also be right."</p>
+
+  <p><strong>Why it's powerful:</strong></p>
+  <ul>
+    <li>It doesn't say "tolerate differences" — it says differences can be <strong>RIGHT</strong></li>
+    <li>It challenges the idea that there's one correct answer to everything</li>
+    <li>This IS international mindedness in one sentence</li>
+    <li>This IS what makes IB different from every other curriculum</li>
+  </ul>
+
+  <p><strong>Physics analogy:</strong> Like reference frames in relativity — an observer in one frame sees something different from another frame, and BOTH are correct. There's no absolute "right" frame. IB teaches students to think this way about culture, values, and perspectives.</p>
+
+  <div class="model">
+    <div class="label">✅ Model sentence for interviews:</div>
+    <p>"What truly distinguishes IB is its philosophical commitment that different perspectives can coexist as equally valid — the mission literally states that 'others, with their differences, can also be right.' This isn't tolerance; it's genuine intellectual humility."</p>
+  </div>
+</div>
+
+<!-- EXERCISE 3 -->
+<div class="section">
+  <h3>✍️ Exercise 3: Scenario Practice</h3>
+  <div class="exercise">
+    <span class="tag">SCENARIO</span>
+    <p><strong>A parent asks:</strong> "Why should my child study IB instead of CBSE/ICSE?"</p>
+    <p>Write your response using at least 2 phrases from the mission statement:</p>
+    <textarea id="ex4" placeholder="Write your response here..."></textarea>
+    <div class="hint">Use: "inquiring, knowledgeable and caring" + "intercultural understanding" + "others can also be right" + "challenging programmes"</div>
+    <button class="reveal-btn" onclick="reveal('ans4')">See Model Answer</button>
+    <div class="answer" id="ans4">✅ "CBSE gives your child strong content knowledge. IB goes further — it develops an inquiring, knowledgeable AND caring learner who thinks critically, understands multiple perspectives, and accepts that people with different viewpoints can also be right. It does this through challenging, internationally benchmarked programmes. Your child won't just know facts — they'll know how to THINK across cultures and disciplines."</div>
+  </div>
+</div>
+
+<!-- EXERCISE 4 -->
+<div class="section">
+  <h3>✍️ Exercise 4: The 30-Second Elevator Pitch</h3>
+  <div class="exercise">
+    <span class="tag">SPEAK</span>
+    <p><strong>Interview question:</strong> "In 30 seconds, what is the IB's mission?"</p>
+    <p>Write your answer in EXACTLY 3 sentences (WHO/WHY → HOW → WHAT THEY BECOME):</p>
+    <textarea id="ex5" placeholder="Sentence 1 (WHO/WHY):&#10;Sentence 2 (HOW):&#10;Sentence 3 (WHAT THEY BECOME):"></textarea>
+    <div class="hint">Structure: 1) IB develops ___ who create ___ through ___. 2) It does this via ___. 3) Students become ___ who understand ___.</div>
+    <button class="reveal-btn" onclick="reveal('ans5')">See Model Answer</button>
+    <div class="answer" id="ans5">✅ "The IB develops inquiring, knowledgeable and caring young people who create a more peaceful world through intercultural understanding. It achieves this through challenging programmes of international education with rigorous assessment. The result is active, compassionate, lifelong learners who genuinely accept that others — with their differences — can also be right."</div>
+  </div>
+</div>
+
+<!-- COMPARE SECTION -->
+<div class="section">
+  <h3>🔄 Exercise 5: Weak vs Strong — Train Your Ear</h3>
+  <p>Read both. Notice the difference. The STRONG version uses IB language naturally.</p>
+
+  <div class="compare">
+    <div class="weak"><div class="label">❌ Weak (generic)</div>"IB is about holistic education that makes well-rounded students for the modern world."</div>
+    <div class="strong"><div class="label">✅ Strong (IB-fluent)</div>"IB develops inquiring, knowledgeable and caring learners through challenging international programmes, with the philosophical belief that diverse perspectives can coexist as equally valid."</div>
+  </div>
+
+  <div class="compare" style="margin-top:12px">
+    <div class="weak"><div class="label">❌ Weak (your old style)</div>"IB focuses on making students good citizens of the world who respect others."</div>
+    <div class="strong"><div class="label">✅ Strong (coordinator-level)</div>"IB's mission explicitly ties academic development to intercultural understanding — students learn that knowledge without empathy is incomplete, and that others, with their differences, can also be right."</div>
+  </div>
+
+  <div class="exercise" style="margin-top:16px">
+    <span class="tag">YOUR TURN</span>
+    <p><strong>Rewrite this weak answer into a strong one:</strong></p>
+    <p style="color:var(--warn)">"IB teaches students to be open-minded and think globally."</p>
+    <textarea id="ex6" placeholder="Rewrite using proper IB terminology..."></textarea>
+    <button class="reveal-btn" onclick="reveal('ans6')">See Model</button>
+    <div class="answer" id="ans6">✅ "IB cultivates international mindedness by developing learners who approach unfamiliar perspectives with genuine curiosity rather than judgment — the programme explicitly teaches that people with different cultural frameworks can hold equally valid viewpoints."</div>
+  </div>
+</div>
+
+<!-- EXERCISE 6: CONNECT TO YOUR EXPERIENCE -->
+<div class="section">
+  <h3>🎯 Exercise 6: Connect to YOUR Experience</h3>
+  <div class="exercise">
+    <span class="tag">PERSONAL</span>
+    <p><strong>Question:</strong> Think of ONE thing you did as HOD Physics that connects to the IB mission. Describe it using IB terminology.</p>
+    <p style="font-size:.78rem;color:var(--text2)">Example: "When I designed the energy unit to include perspectives from developing nations' energy access challenges, I was embedding intercultural understanding into the science curriculum — connecting conceptual knowledge to global contexts."</p>
+    <textarea id="ex7" placeholder="My example from my teaching experience..."></textarea>
+  </div>
+  <div class="exercise">
+    <span class="tag">PERSONAL</span>
+    <p><strong>Question:</strong> In your exam coordinator role, how did you ensure "rigorous assessment"? Write one sentence using that exact phrase.</p>
+    <textarea id="ex8" placeholder="As exam coordinator, I ensured rigorous assessment by..."></textarea>
+  </div>
+</div>
+
+<!-- QUICK RECALL -->
+<div class="section">
+  <h3>⚡ Quick Recall — Mnemonics</h3>
+  <p><strong>The 3 sentences of the mission = WHO → HOW → WHAT</strong></p>
+  <p>Remember: <strong>W-H-W</strong> (like "WHW" — Who, How, What)</p>
+
+  <p style="margin-top:14px"><strong>The 3 qualities = I-K-C</strong> (Inquiring, Knowledgeable, Caring)</p>
+  <p>Remember: <strong>"I Know and I Care"</strong> — that's the IB student</p>
+
+  <p style="margin-top:14px"><strong>The 3 outcomes = A-C-L</strong> (Active, Compassionate, Lifelong)</p>
+  <p>Remember: <strong>"ACL"</strong> — like the knee ligament. Strong foundation that holds everything together.</p>
+
+  <p style="margin-top:14px"><strong>The killer phrase:</strong> "Others, with their differences, can also be right."</p>
+  <p>Remember: <strong>This = International Mindedness in one sentence. Use it in EVERY interview.</strong></p>
+</div>
+
+<!-- FINAL CHECK -->
+<div class="section">
+  <h3>✓ Module 1.1 Completion Checklist</h3>
+  <div class="check-item"><input type="checkbox" id="ch1" onchange="updateProgress()"><label for="ch1">I can explain the 3-sentence structure (WHO/HOW/WHAT) without notes</label></div>
+  <div class="check-item"><input type="checkbox" id="ch2" onchange="updateProgress()"><label for="ch2">I completed Exercise 1 (fill in the blanks)</label></div>
+  <div class="check-item"><input type="checkbox" id="ch3" onchange="updateProgress()"><label for="ch3">I rewrote the weak answer into a strong one (Exercise 2)</label></div>
+  <div class="check-item"><input type="checkbox" id="ch4" onchange="updateProgress()"><label for="ch4">I wrote a response to the parent scenario (Exercise 3)</label></div>
+  <div class="check-item"><input type="checkbox" id="ch5" onchange="updateProgress()"><label for="ch5">I wrote my 30-second elevator pitch (Exercise 4)</label></div>
+  <div class="check-item"><input type="checkbox" id="ch6" onchange="updateProgress()"><label for="ch6">I rewrote the weak→strong exercise (Exercise 5)</label></div>
+  <div class="check-item"><input type="checkbox" id="ch7" onchange="updateProgress()"><label for="ch7">I connected my OWN experience to IB mission (Exercise 6)</label></div>
+  <div class="check-item"><input type="checkbox" id="ch8" onchange="updateProgress()"><label for="ch8">I can say the "killer phrase" naturally in a sentence</label></div>
+  <div class="check-item"><input type="checkbox" id="ch9" onchange="updateProgress()"><label for="ch9">I recorded myself giving the 30-second pitch (phone voice memo)</label></div>
+  <div class="check-item"><input type="checkbox" id="ch10" onchange="updateProgress()"><label for="ch10">I can explain IB mission to a non-educator in simple language</label></div>
+  <div class="check-item"><input type="checkbox" id="ch11" onchange="updateProgress()"><label for="ch11">I can explain WHY "others can also be right" is the most important phrase</label></div>
+  <div class="check-item"><input type="checkbox" id="ch12" onchange="updateProgress()"><label for="ch12">I feel CONFIDENT answering "What is IB's philosophy?" in an interview</label></div>
+</div>
+
+<div class="mentor" style="border-left-color:var(--success)">
+  <div class="label" style="color:var(--success)">📌 What's Next</div>
+  <p><strong>Module 1.2: The IB Learner Profile</strong> — 10 attributes, how to explain each one with examples from YOUR classroom, and how coordinators use them in school culture.</p>
+  <p style="margin-top:8px;font-size:.8rem;color:var(--text2)">Coming soon. Complete ALL exercises above first. No shortcuts.</p>
+</div>
+
 </div>
 
 <script>
-// ═══ PASSWORD ═══
-function unlock() {
-  if (document.getElementById('pwdInput').value === 'atul123') {
-    document.getElementById('lockScreen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
+function unlock(){
+  if(document.getElementById('pwd').value==='atul123'){
+    document.getElementById('lock').style.display='none';
+    document.getElementById('app').style.display='block';
     updateStreak();
-    loadProgress();
-  } else {
-    alert('Wrong password. Try again.');
+    loadSaved();
+  } else { alert('Wrong password.'); }
+}
+
+function reveal(id){
+  var el=document.getElementById(id);
+  el.style.display=el.style.display==='block'?'none':'block';
+}
+
+function updateProgress(){
+  var checks=document.querySelectorAll('.check-item input');
+  var done=0;
+  checks.forEach(function(c){if(c.checked)done++;});
+  document.getElementById('progress').style.width=(done/checks.length*100)+'%';
+  document.getElementById('progText').textContent=done;
+  // Save
+  var state=[];
+  checks.forEach(function(c){state.push(c.checked);});
+  localStorage.setItem('lc_1.1_checks',JSON.stringify(state));
+}
+
+function updateStreak(){
+  var today=new Date().toDateString();
+  var last=localStorage.getItem('lc_last');
+  var s=parseInt(localStorage.getItem('lc_streak')||'0');
+  if(last!==today){
+    var y=new Date();y.setDate(y.getDate()-1);
+    if(last===y.toDateString()){s++;}
+    else if(last){s=1;}
+    else{s=1;}
+    localStorage.setItem('lc_last',today);
+    localStorage.setItem('lc_streak',s);
   }
+  document.getElementById('streak').textContent='🔥 '+s+' days';
 }
 
-// ═══ STREAK SYSTEM ═══
-function updateStreak() {
-  var today = new Date().toDateString();
-  var lastVisit = localStorage.getItem('lc_lastVisit');
-  var streak = parseInt(localStorage.getItem('lc_streak') || '0');
-
-  if (lastVisit === today) return; // Already visited today
-
-  var yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  if (lastVisit === yesterday.toDateString()) {
-    streak++;
-  } else if (lastVisit && lastVisit !== today) {
-    // Missed days - PENALTY
-    var missed = Math.floor((new Date() - new Date(lastVisit)) / 86400000) - 1;
-    if (missed > 0) {
-      document.getElementById('penaltyBanner').style.display = 'block';
-      document.getElementById('penaltyBanner').textContent = '⚠️ You missed ' + missed + ' day(s)! A coordinator doesn\'t skip commitments. Streak reset. Start again NOW.';
-      streak = 1;
-    }
-  } else {
-    streak = 1;
+function loadSaved(){
+  var c=localStorage.getItem('lc_1.1_checks');
+  if(c){
+    var data=JSON.parse(c);
+    var checks=document.querySelectorAll('.check-item input');
+    checks.forEach(function(ch,i){if(data[i])ch.checked=true;});
+    updateProgress();
   }
-
-  localStorage.setItem('lc_lastVisit', today);
-  localStorage.setItem('lc_streak', streak);
-  document.getElementById('streakBadge').textContent = '🔥 ' + streak + ' day streak';
-  document.getElementById('streakNum').textContent = streak;
+  // Load textareas
+  document.querySelectorAll('textarea').forEach(function(ta){
+    var saved=localStorage.getItem('lc_'+ta.id);
+    if(saved)ta.value=saved;
+  });
 }
 
-// ═══ MODULE NAVIGATION ═══
-function openModule(id) {
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('module-' + id).classList.add('active');
-}
-
-function closeModule() {
-  document.getElementById('dashboard').style.display = 'block';
-  document.querySelectorAll('.module-view').forEach(function(el) { el.classList.remove('active'); });
-}
-
-// ═══ QUIZ ═══
-function checkAnswer(el, qId, correct) {
-  var labels = document.getElementById(qId).querySelectorAll('label');
-  labels.forEach(function(l) { l.style.pointerEvents = 'none'; });
-  if (correct) {
-    el.classList.add('correct');
-  } else {
-    el.classList.add('wrong');
-    labels.forEach(function(l) { if (!l.classList.contains('wrong')) { /* find correct */ } });
+// Auto-save textareas
+document.addEventListener('input',function(e){
+  if(e.target.tagName==='TEXTAREA'){
+    localStorage.setItem('lc_'+e.target.id,e.target.value);
   }
-}
-
-// ═══ SAVE PROGRESS ═══
-function saveReflection(moduleId) {
-  var text = document.getElementById('reflection-' + moduleId).value;
-  localStorage.setItem('lc_reflect_' + moduleId, text);
-  alert('Reflection saved. Good. Keep being honest with yourself.');
-}
-
-function saveChecklist() {
-  var checks = document.querySelectorAll('.checklist-item input');
-  var data = [];
-  checks.forEach(function(c) { data.push(c.checked); });
-  localStorage.setItem('lc_checklist_1.1', JSON.stringify(data));
-}
-
-function loadProgress() {
-  // Load reflection
-  var r = localStorage.getItem('lc_reflect_1.1');
-  if (r) document.getElementById('reflection-1.1').value = r;
-
-  // Load checklist
-  var c = localStorage.getItem('lc_checklist_1.1');
-  if (c) {
-    var data = JSON.parse(c);
-    var checks = document.querySelectorAll('.checklist-item input');
-    checks.forEach(function(ch, i) { if (data[i]) ch.checked = true; });
-  }
-}
-
-function toggleTheme(){document.body.classList.toggle("light");localStorage.setItem("lc_theme",document.body.classList.contains("light")?"light":"dark")}
-if(localStorage.getItem("lc_theme")==="light")document.body.classList.add("light");
-// ═══ MENTOR MESSAGES (rotate daily) ═══
-var messages = [
-  "You failed 20 out of 21 interviews. That's not bad luck — that's a skill gap. Fix it. Start now.",
-  "A coordinator who can't articulate IB philosophy is like a physics teacher who can't state Newton's laws. Unacceptable.",
-  "You're at a high salary slab. The expectations match. Generic answers won't cut it anymore.",
-  "Every day you don't study is a day closer to your next rejection. Choose.",
-  "The difference between you and the person who got that DP Coordinator role? Vocabulary. That's it. Learn it.",
-  "Stop thinking 'I know this stuff.' If you knew it, you'd have the job. Study like a beginner.",
-  "4 hours a week. That's what you promised. Don't break promises to yourself."
-];
-var dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
-document.getElementById('mentorText').textContent = messages[dayOfYear % messages.length];
+});
 </script>
 </body>
 </html>
