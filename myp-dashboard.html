@@ -490,6 +490,59 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
   font-size: 12px;
   color: var(--text2, #888);
 }
+
+/* ═══ MY ASSIGNMENTS SECTION ═══ */
+.asgn-section{display:none;}
+.asgn-section.visible{display:block;}
+.asgn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+.asgn-card{
+  background:var(--white,#fff);border:1.5px solid var(--glass-border,rgba(0,0,0,0.06));
+  border-radius:var(--r,16px);padding:20px;transition:all .3s;
+  box-shadow:var(--shadow-sm,0 2px 12px rgba(0,0,0,.06));
+}
+.asgn-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md,0 8px 28px rgba(0,0,0,.08));}
+.asgn-card.urgent{border-left:4px solid #EF4444;}
+.asgn-title{font-family:var(--font-display);font-size:16px;font-weight:600;color:var(--ink,#1a1a2e);margin-bottom:8px;}
+.asgn-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.asgn-badge{
+  font-size:10px;font-weight:700;padding:3px 10px;border-radius:50px;
+  text-transform:uppercase;letter-spacing:.05em;
+}
+.asgn-badge-hw{background:#DBEAFE;color:#1E40AF;}
+.asgn-badge-test{background:#FEE2E2;color:#991B1B;}
+.asgn-badge-quiz{background:#FEF3C7;color:#92400E;}
+.asgn-badge-marks{background:rgba(0,0,0,.04);color:var(--ink-3,#888);}
+.asgn-badge-timer{background:#F3E8FF;color:#6B21A8;}
+.asgn-due{font-size:12px;color:var(--ink-4,#888);margin-bottom:10px;}
+.asgn-due.overdue{color:#DC2626;font-weight:600;}
+.asgn-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.asgn-btn{
+  padding:7px 16px;border-radius:50px;font-size:12px;font-weight:600;
+  border:none;cursor:pointer;transition:all .2s;
+}
+.asgn-btn-primary{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;}
+.asgn-btn-primary:hover{opacity:.9;transform:translateY(-1px);}
+.asgn-btn-outline{background:var(--white,#fff);border:1.5px solid var(--glass-border,rgba(0,0,0,.1));color:var(--ink-2,#555);}
+.asgn-btn-outline:hover{border-color:var(--red,#ef4444);color:var(--red,#ef4444);}
+.asgn-grade{
+  display:flex;align-items:center;gap:10px;margin:10px 0;
+  padding:10px 14px;background:rgba(239,68,68,0.04);border-radius:10px;
+}
+.asgn-grade-score{font-family:var(--font-mono);font-weight:700;font-size:15px;color:var(--red,#ef4444);}
+.asgn-grade-bar{flex:1;height:6px;background:rgba(0,0,0,.06);border-radius:3px;overflow:hidden;}
+.asgn-grade-fill{height:100%;background:linear-gradient(90deg,#ef4444,#b91c1c);border-radius:3px;transition:width .5s;}
+.asgn-grade-pct{font-size:13px;font-weight:700;color:var(--ink,#1a1a2e);}
+.asgn-empty{text-align:center;padding:32px 20px;color:var(--ink-4,#888);font-size:14px;}
+.asgn-empty .icon{font-size:2rem;margin-bottom:8px;}
+
+/* Criterion feedback card */
+.crit-feedback{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+.crit-fb-box{
+  flex:1;min-width:60px;text-align:center;padding:8px 6px;border-radius:10px;
+  border:1.5px solid var(--glass-border);background:var(--white,#fff);
+}
+.crit-fb-label{font-size:10px;font-weight:700;letter-spacing:.05em;margin-bottom:4px;}
+.crit-fb-level{font-size:20px;font-weight:800;font-family:var(--font-mono);}
 </style>
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -608,6 +661,30 @@ body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-h
     <div class="pictionary-label">
       <span class="pictionary-label-title">Physics Pictionary</span>
       <span class="pictionary-label-desc">A-Z visual dictionary — explore terms with infographics</span>
+    </div>
+  </div>
+
+  <!-- MY ASSIGNMENTS (visible only when logged in) -->
+  <div class="asgn-section" id="asgnSection">
+    <div class="section-hdr reveal">
+      <div class="section-hdr-dot" style="background:var(--red);color:var(--red)"></div>
+      <h2>📋 My Assignments</h2>
+      <div class="section-hdr-line"></div>
+      <span class="section-hdr-eq" id="asgnCount">0 tasks</span>
+    </div>
+    
+    <div style="margin-bottom:18px;">
+      <h4 style="font-size:14px;font-weight:600;color:var(--ink-2,#555);margin-bottom:8px;">📝 Pending</h4>
+      <div class="asgn-grid" id="asgnPending">
+        <div class="asgn-empty"><div class="icon">✨</div><p>No pending tasks. You're all caught up!</p></div>
+      </div>
+    </div>
+    
+    <div style="margin-bottom:18px;">
+      <h4 style="font-size:14px;font-weight:600;color:var(--ink-2,#555);margin-bottom:8px;">✅ Completed & Graded</h4>
+      <div class="asgn-grid" id="asgnCompleted">
+        <div class="asgn-empty"><div class="icon">📭</div><p>No completed assignments yet.</p></div>
+      </div>
     </div>
   </div>
 
@@ -1113,6 +1190,220 @@ function showProgressFromLocalStorage() {
 
 // Check if student is logged in
 var currentUser = null;
+var mypAssignments = [];
+var mypSubmissions = [];
+
+function loadMYPAssignments(user) {
+  var db = firebase.firestore();
+  var studentId = user.uid;
+  
+  // Load MYP assignments
+  var p1 = db.collection('mypAssignments').get();
+  var p2 = db.collection('mypSubmissions').where('studentId', '==', studentId).get();
+  
+  Promise.all([p1, p2]).then(function(results) {
+    mypAssignments = [];
+    results[0].forEach(function(doc) {
+      var d = doc.data();
+      d.id = doc.id;
+      // Only include if this student is in the list
+      if (d.studentIds && d.studentIds.indexOf(studentId) > -1) {
+        mypAssignments.push(d);
+      }
+    });
+    
+    mypSubmissions = [];
+    results[1].forEach(function(doc) {
+      var d = doc.data();
+      d.id = doc.id;
+      mypSubmissions.push(d);
+    });
+    
+    renderMYPAssignments();
+    document.getElementById('asgnSection').classList.add('visible');
+  }).catch(function(err) {
+    console.error('Error loading MYP assignments:', err);
+  });
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  var div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function renderMYPAssignments() {
+  var subsByAsgn = {};
+  mypSubmissions.forEach(function(s) {
+    if (!subsByAsgn[s.assignmentId]) subsByAsgn[s.assignmentId] = [];
+    subsByAsgn[s.assignmentId].push(s);
+  });
+  
+  var pending = [];
+  var completed = [];
+  
+  mypAssignments.forEach(function(a) {
+    var subList = subsByAsgn[a.id] || [];
+    
+    if (subList.length === 0) {
+      pending.push({assignment: a, submission: null});
+    } else {
+      var draftSub = subList.find(function(s) { return s.status === 'draft'; });
+      var completedSubs = subList.filter(function(s) { return s.status !== 'draft'; });
+      
+      if (draftSub) {
+        pending.push({assignment: a, submission: draftSub});
+      } else if (completedSubs.length > 0) {
+        // Find best attempt based on total score
+        var bestSub = completedSubs[0];
+        for (var i = 1; i < completedSubs.length; i++) {
+          if ((completedSubs[i].totalScore || 0) > (bestSub.totalScore || 0)) {
+            bestSub = completedSubs[i];
+          }
+        }
+        completed.push({assignment: a, submission: bestSub});
+      }
+    }
+  });
+  
+  // Sort pending by due date
+  pending.sort(function(a, b) {
+    if (!a.assignment.dueDate) return 1;
+    if (!b.assignment.dueDate) return -1;
+    return new Date(a.assignment.dueDate) - new Date(b.assignment.dueDate);
+  });
+  
+  // Sort completed by submission date
+  completed.sort(function(a, b) {
+    var ta = a.submission.submittedAt ? (a.submission.submittedAt.toDate ? a.submission.submittedAt.toDate() : new Date(a.submission.submittedAt)) : new Date(0);
+    var tb = b.submission.submittedAt ? (b.submission.submittedAt.toDate ? b.submission.submittedAt.toDate() : new Date(b.submission.submittedAt)) : new Date(0);
+    return tb - ta;
+  });
+  
+  document.getElementById('asgnCount').textContent = (pending.length + completed.length) + ' tasks';
+  
+  // Render Pending
+  var pendingGrid = document.getElementById('asgnPending');
+  if (pending.length === 0) {
+    pendingGrid.innerHTML = '<div class="asgn-empty"><div class="icon">✨</div><p>No pending tasks. You\'re all caught up!</p></div>';
+  } else {
+    pendingGrid.innerHTML = pending.map(function(item) {
+      var a = item.assignment;
+      var s = item.submission;
+      
+      var isUrgent = false;
+      var dueHtml = '';
+      if (a.dueDate) {
+        var d = new Date(a.dueDate);
+        var diff = d - new Date();
+        var dueStr = d.toLocaleDateString('en-IN', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'});
+        if (diff < 0) {
+          isUrgent = true;
+          dueHtml = '<div class="asgn-due overdue">⚠️ Overdue — was due ' + dueStr + '</div>';
+        } else if (diff < 86400000) {
+          isUrgent = true;
+          dueHtml = '<div class="asgn-due overdue">🔥 Due soon — ' + dueStr + '</div>';
+        } else {
+          dueHtml = '<div class="asgn-due">📅 Due: ' + dueStr + '</div>';
+        }
+      }
+      
+      var typeBadge = '<span class="asgn-badge asgn-badge-' + (a.type || 'hw') + '">' + (a.type || 'hw').toUpperCase() + '</span>';
+      var timerBadge = a.timeLimit ? '<span class="asgn-badge asgn-badge-timer">⏱ ' + a.timeLimit + ' min</span>' : '';
+      
+      var actionBtn = '';
+      if (a.status === 'closed') {
+        actionBtn = '<button class="asgn-btn asgn-btn-outline" disabled style="opacity:0.5;cursor:not-allowed">🔒 Closed</button>';
+      } else if (s && s.status === 'draft') {
+        actionBtn = '<button class="asgn-btn asgn-btn-primary" onclick="startMYPAssign(\'' + a.id + '\', \'' + s.id + '\')">Continue</button>';
+      } else {
+        actionBtn = '<button class="asgn-btn asgn-btn-primary" onclick="startMYPAssign(\'' + a.id + '\')">📝 Start</button>';
+      }
+      
+      return '<div class="asgn-card ' + (isUrgent ? 'urgent' : '') + '">' +
+        '<div class="asgn-title">' + escapeHtml(a.title || 'Untitled') + '</div>' +
+        '<div class="asgn-meta">' + typeBadge + timerBadge + '</div>' +
+        dueHtml +
+        '<div class="asgn-actions">' + actionBtn + '</div>' +
+      '</div>';
+    }).join('');
+  }
+  
+  // Render Completed
+  var completedGrid = document.getElementById('asgnCompleted');
+  if (completed.length === 0) {
+    completedGrid.innerHTML = '<div class="asgn-empty"><div class="icon">📭</div><p>No completed assignments yet.</p></div>';
+  } else {
+    completedGrid.innerHTML = completed.map(function(item) {
+      var a = item.assignment;
+      var s = item.submission;
+      
+      var statusBadge = '';
+      if (s.status === 'submitted') {
+        statusBadge = '<span class="asgn-badge asgn-badge-quiz">AWAITING GRADE</span>';
+      } else if (s.status === 'graded') {
+        statusBadge = '<span class="asgn-badge asgn-badge-hw">GRADED</span>';
+      } else if (s.status === 'released') {
+        statusBadge = '<span class="asgn-badge" style="background:#DCFCE7;color:#166534">RELEASED</span>';
+      }
+      
+      var typeBadge = '<span class="asgn-badge asgn-badge-' + (a.type || 'hw') + '">' + (a.type || 'hw').toUpperCase() + '</span>';
+      
+      var gradeHtml = '';
+      if ((s.status === 'graded' || s.status === 'released') && s.criterionLevels) {
+        var crits = '';
+        var totalLevels = 0;
+        var numCrits = 0;
+        
+        ['A', 'B', 'C', 'D'].forEach(function(crit) {
+          if (s.criterionLevels[crit] !== undefined) {
+            crits += '<div class="crit-fb-box"><div class="crit-fb-label">CRIT ' + crit + '</div><div class="crit-fb-level" style="color:#' + (crit=='A'?'1E40AF':(crit=='B'?'92400E':(crit=='C'?'166534':'6B21A8'))) + '">' + s.criterionLevels[crit] + '</div></div>';
+            totalLevels += parseInt(s.criterionLevels[crit] || 0);
+            numCrits++;
+          }
+        });
+        
+        var maxPossible = numCrits * 8;
+        var pct = maxPossible > 0 ? Math.round((totalLevels / maxPossible) * 100) : 0;
+        
+        gradeHtml = '<div class="crit-feedback">' + crits + '</div>' +
+          '<div class="asgn-grade">' +
+            '<div class="asgn-grade-score">' + totalLevels + '/' + maxPossible + '</div>' +
+            '<div class="asgn-grade-bar"><div class="asgn-grade-fill" style="width:' + pct + '%"></div></div>' +
+            '<div class="asgn-grade-pct">' + pct + '%</div>' +
+          '</div>';
+      }
+      
+      return '<div class="asgn-card">' +
+        '<div class="asgn-title">' + escapeHtml(a.title || 'Untitled') + '</div>' +
+        '<div class="asgn-meta">' + statusBadge + typeBadge + '</div>' +
+        gradeHtml +
+        '<div class="asgn-actions">' +
+          '<button class="asgn-btn asgn-btn-outline" onclick="viewMYPFeedback(\'' + a.id + '\')">Review Submission</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+}
+
+function startMYPAssign(assignmentId, existingSubmissionId) {
+  // Store state for the assignment portal
+  sessionStorage.setItem('mypCurrentAssignment', assignmentId);
+  if (existingSubmissionId) {
+    sessionStorage.setItem('mypCurrentSubmission', existingSubmissionId);
+  } else {
+    sessionStorage.removeItem('mypCurrentSubmission');
+  }
+  
+  // Navigate to MYP student portal (we'll adapt the DP one or create a new one)
+  window.location.href = 'dp-student-dashboard.html?prog=myp';
+}
+
+function viewMYPFeedback(assignmentId) {
+  sessionStorage.setItem('mypCurrentAssignment', assignmentId);
+  window.location.href = 'dp-student-dashboard.html?prog=myp&review=true';
+}
 
 if (typeof firebase !== 'undefined' && firebase.auth) {
   firebase.auth().onAuthStateChanged(function(user) {
@@ -1122,16 +1413,21 @@ if (typeof firebase !== 'undefined' && firebase.auth) {
       showProgressFeatures(user);
       var progressBtn = document.getElementById('myProgressBtn');
       if (progressBtn) progressBtn.style.display = 'inline-flex';
+      
+      // Load assignments
+      loadMYPAssignments(user);
     } else {
       // Guest — hide progress features
       var progressBtn = document.getElementById('myProgressBtn');
       if (progressBtn) progressBtn.style.display = 'none';
       hideProgressFeatures();
+      document.getElementById('asgnSection').classList.remove('visible');
     }
   });
 } else {
   // Firebase not loaded on this page — use localStorage only
   showProgressFromLocalStorage();
+  document.getElementById('asgnSection').classList.remove('visible');
 }
 </script>
 

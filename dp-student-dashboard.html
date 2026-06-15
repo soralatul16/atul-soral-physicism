@@ -611,6 +611,29 @@ nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px
 PhysicismAuth.requireAuth('dp-student-portal.html');
 var db = PhysicismAuth.db;
 
+// ==================== URL PARAMETERS & PROGRAMME ====================
+var urlParams = new URLSearchParams(window.location.search);
+var currentProgramme = urlParams.get('prog') === 'myp' ? 'myp' : 'dp';
+var autoReview = urlParams.get('review') === 'true';
+
+// Helper to get correct collection name based on programme
+function col(base) {
+  if (currentProgramme === 'myp') {
+    if (base === 'dpAssignments') return 'mypAssignments';
+    if (base === 'dpSubmissions') return 'mypSubmissions';
+    if (base === 'dpQuestions') return 'mypQuestions';
+  }
+  return base;
+}
+
+// Update UI branding based on programme
+if (currentProgramme === 'myp') {
+  document.querySelector('.nav-sub').textContent = 'MYP Student Dashboard';
+  document.title = 'MYP Student Dashboard - Atul Soral Physicism';
+  var backBtn = document.querySelector('.nav-btn');
+  if(backBtn) backBtn.href = 'myp-dashboard.html';
+}
+
 // ==================== AUTH CHECK ====================
 var studentId = null;
 var studentName = '';
@@ -637,7 +660,7 @@ PhysicismAuth.onAuthReady(function(user) {
       document.getElementById('navAvatar').textContent = studentName.charAt(0).toUpperCase();
       document.getElementById('navName').textContent = studentName;
       document.getElementById('welcomeName').textContent = studentName.split(' ')[0];
-      document.getElementById('welcomeMeta').textContent = studentLevel;
+      document.getElementById('welcomeMeta').textContent = currentProgramme === 'myp' ? 'MYP' : (studentLevel || 'DP SL');
       
       initDashboard();
     });
@@ -647,10 +670,8 @@ PhysicismAuth.onAuthReady(function(user) {
 // ==================== DATA LOADING ====================
 function loadAssignmentsAndSubmissions(){
   // Load all assignments where this student is included
-  // Firestore doesn't support array-contains with ordering well, so load all active assignments
-  // and filter client-side
-  var p1 = db.collection('dpAssignments').get();
-  var p2 = db.collection('dpSubmissions').where('studentId','==',studentId).get();
+  var p1 = db.collection(col('dpAssignments')).get();
+  var p2 = db.collection(col('dpSubmissions')).where('studentId','==',studentId).get();
 
   Promise.all([p1, p2]).then(function(results){
     allAssignments = [];
@@ -938,7 +959,7 @@ function proceedToStartTask(a, attemptNumber) {
     startedAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
-  db.collection('dpSubmissions').add(subDoc).then(function(docRef){
+  db.collection(col('dpSubmissions')).add(subDoc).then(function(docRef){
     sessionStorage.setItem('dpCurrentSubmission', docRef.id);
     sessionStorage.setItem('dpCurrentAssignment', a.id);
     resumeActiveAttempt(a.id, docRef.id);
@@ -978,9 +999,9 @@ function shuffleArray(array) {
 }
 
 function loadAttemptData(assignmentId, submissionId, callback){
-  var p1 = db.collection('dpAssignments').doc(assignmentId).get();
-  var p2 = db.collection('dpSubmissions').doc(submissionId).get();
-  var p3 = db.collection('dpQuestions').get();
+  var p1 = db.collection(col('dpAssignments')).doc(assignmentId).get();
+  var p2 = db.collection(col('dpSubmissions')).doc(submissionId).get();
+  var p3 = db.collection(col('dpQuestions')).get();
 
   Promise.all([p1, p2, p3]).then(function(results){
     var asgnDoc = results[0].data();
@@ -1055,7 +1076,7 @@ function loadAttemptData(assignmentId, submissionId, callback){
     });
     
     if (needsShuffleSave) {
-      db.collection('dpSubmissions').doc(submissionId).update({
+      db.collection(col('dpSubmissions')).doc(submissionId).update({
         shuffledQuestionIds: subDoc.shuffledQuestionIds,
         shuffledOptions: subDoc.shuffledOptions
       });
@@ -1342,7 +1363,7 @@ function updateNavStates() {
 
 function saveDraftAnswers(showFeedback) {
   if (!attemptingSubmission) return;
-  db.collection('dpSubmissions').doc(attemptingSubmission.id).update({
+  db.collection(col('dpSubmissions')).doc(attemptingSubmission.id).update({
     answers: currentAnswers
   }).then(function(){
     if (showFeedback) {
@@ -1361,7 +1382,7 @@ function saveAndCloseHW() {
   submitting = true;
   if (autosaveTimer) { clearInterval(autosaveTimer); autosaveTimer = null; }
   
-  db.collection('dpSubmissions').doc(attemptingSubmission.id).update({
+  db.collection(col('dpSubmissions')).doc(attemptingSubmission.id).update({
     answers: currentAnswers
   }).then(function(){
     safeAlert('Progress saved! Returning to dashboard.');
@@ -1580,7 +1601,7 @@ async function viewFeedback(assignmentId, submissionId = null){
   document.getElementById('feedbackOverlay').classList.add('open');
 
   try {
-    var qSnap = await db.collection('dpQuestions').get();
+    var qSnap = await db.collection(col('dpQuestions')).get();
     var qs = [];
     qSnap.forEach(function(doc){ 
       var d = doc.data();
@@ -1638,13 +1659,42 @@ async function viewFeedback(assignmentId, submissionId = null){
       tabsHtml += '</div>';
     }
     
-    var html = tabsHtml + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">' + 
-      '<div style="padding:10px;background:var(--bg);border-radius:8px;flex:1">' +
-      '<strong>Overall Score:</strong> '+(sub.totalScore||0)+'/'+(asgn.totalMarks||0)+' ('+
-      (asgn.totalMarks > 0 ? Math.round(sub.totalScore/asgn.totalMarks*100) : 0)+'%)' +
-      '</div>' +
-      '<button class="btn btn-sm btn-outline" style="border-color:var(--danger);color:var(--danger);" onclick="toggleMistakesOnly(this)">🔍 Review Mistakes</button>' +
-      '</div>';
+    var html = tabsHtml;
+    
+    if (currentProgramme === 'myp') {
+      var crits = '';
+      var totalLevels = 0;
+      var numCrits = 0;
+      if (sub.criterionLevels) {
+        ['A', 'B', 'C', 'D'].forEach(function(crit) {
+          if (sub.criterionLevels[crit] !== undefined) {
+            crits += '<div style="flex:1;text-align:center;padding:8px 6px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);">' +
+                     '<div style="font-size:10px;font-weight:700;letter-spacing:.05em;margin-bottom:4px;">CRIT ' + crit + '</div>' +
+                     '<div style="font-size:20px;font-weight:800;font-family:var(--font-mono);color:#' + (crit=='A'?'1E40AF':(crit=='B'?'92400E':(crit=='C'?'166534':'6B21A8'))) + '">' + sub.criterionLevels[crit] + '</div></div>';
+            totalLevels += parseInt(sub.criterionLevels[crit] || 0);
+            numCrits++;
+          }
+        });
+      }
+      var maxPossible = numCrits * 8;
+      var pct = maxPossible > 0 ? Math.round((totalLevels / maxPossible) * 100) : 0;
+      
+      html += '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">' + crits + '</div>';
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">' + 
+        '<div style="padding:10px;background:var(--bg);border-radius:8px;flex:1">' +
+        '<strong>Overall Score:</strong> ' + totalLevels + '/' + maxPossible + ' (' + pct + '%)' +
+        '</div>' +
+        '<button class="btn btn-sm btn-outline" style="border-color:var(--danger);color:var(--danger);" onclick="toggleMistakesOnly(this)">🔍 Review Mistakes</button>' +
+        '</div>';
+    } else {
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">' + 
+        '<div style="padding:10px;background:var(--bg);border-radius:8px;flex:1">' +
+        '<strong>Overall Score:</strong> '+(sub.totalScore||0)+'/'+(asgn.totalMarks||0)+' ('+
+        (asgn.totalMarks > 0 ? Math.round(sub.totalScore/asgn.totalMarks*100) : 0)+'%)' +
+        '</div>' +
+        '<button class="btn btn-sm btn-outline" style="border-color:var(--danger);color:var(--danger);" onclick="toggleMistakesOnly(this)">🔍 Review Mistakes</button>' +
+        '</div>';
+    }
 
     if(sub.comments){
       html += '<div style="margin-bottom:16px;padding:12px;background:#F0FDF4;border-left:4px solid var(--success);border-radius:4px;font-size:.9rem">' +

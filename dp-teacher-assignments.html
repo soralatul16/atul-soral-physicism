@@ -245,6 +245,24 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
     grid-template-columns: 1fr;
   }
 }
+
+/* Programme Toggle */
+.prog-tog{padding:4px 14px;border:none;border-radius:50px;font-size:.72rem;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,.6);transition:.2s}
+.prog-tog.active{background:#fff;color:var(--accent)}
+.prog-tog:hover:not(.active){color:#fff}
+
+/* MYP criterion badges */
+.crit-badge-A{background:#DBEAFE;color:#1E40AF}
+.crit-badge-B{background:#FEF3C7;color:#92400E}
+.crit-badge-C{background:#DCFCE7;color:#166534}
+.crit-badge-D{background:#F3E8FF;color:#6B21A8}
+
+/* MYP grading */
+.myp-level-select{padding:4px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:.8rem;outline:none;min-width:60px}
+.myp-crit-summary{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;padding:12px;background:var(--bg);border-radius:8px}
+.myp-crit-box{flex:1;min-width:120px;padding:10px;border-radius:8px;text-align:center;font-weight:700}
+.myp-crit-box .level{font-size:1.4rem}
+.myp-crit-box .label{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;opacity:.7}
 </style>
 </head>
 <body>
@@ -263,12 +281,16 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
 <nav id="mainNav" style="display:none">
   <div style="display:flex;align-items:center;gap:14px">
     <span class="nav-title">Atul Soral Physicism</span>
-    <span class="nav-sub">DP Teacher Assignments</span>
+    <span class="nav-sub" id="navSubtitle">DP Teacher Assignments</span>
+    <div id="progToggle" style="display:flex;align-items:center;gap:0;background:rgba(255,255,255,.15);border-radius:50px;padding:2px;margin-left:8px">
+      <button id="togDP" class="prog-tog active" onclick="setProgramme('dp')">DP</button>
+      <button id="togMYP" class="prog-tog" onclick="setProgramme('myp')">MYP</button>
+    </div>
   </div>
   <div style="display:flex;gap:6px">
     <a href="index.html">Home</a>
-    <a href="dp-dashboard.html">DP</a>
-    <a href="dp-question-bank.html">Question Bank</a>
+    <a href="dp-dashboard.html" id="navDashLink">DP</a>
+    <a href="dp-question-bank.html" id="navQBLink">Question Bank</a>
   </div>
 </nav>
 
@@ -711,10 +733,28 @@ function switchTab(tabName){
 }
 
 // ==================== GLOBAL STATE ====================
+var currentProgramme = 'dp'; // 'dp' or 'myp'
 var allStudents = [];
 var allTags = [];
 var selectedAddTags = [];
 var allAssignments = [];
+
+var MYP_CRITERIA = {
+  'A': {name:'Knowing and Understanding', color:'#3B82F6'},
+  'B': {name:'Inquiring and Designing', color:'#F59E0B'},
+  'C': {name:'Processing and Evaluating', color:'#10B981'},
+  'D': {name:'Reflecting on the Impacts of Science', color:'#8B5CF6'}
+};
+
+// Collection name helpers
+function col(base){
+  if(currentProgramme==='myp'){
+    if(base==='dpQuestions') return 'mypQuestions';
+    if(base==='dpAssignments') return 'mypAssignments';
+    if(base==='dpSubmissions') return 'mypSubmissions';
+  }
+  return base;
+}
 
 // QB modal state
 var qbAllGroups = [];
@@ -763,6 +803,33 @@ function initApp(){
   loadAssignments();
   loadQBQuestions();
   updateTypeSettings();
+}
+
+// ==================== PROGRAMME TOGGLE ====================
+function setProgramme(prog){
+  currentProgramme = prog;
+  document.getElementById('togDP').classList.toggle('active', prog==='dp');
+  document.getElementById('togMYP').classList.toggle('active', prog==='myp');
+  document.getElementById('navSubtitle').textContent = prog==='dp' ? 'DP Teacher Assignments' : 'MYP Teacher Assignments';
+  document.getElementById('navDashLink').href = prog==='dp' ? 'dp-dashboard.html' : 'myp-dashboard.html';
+  document.getElementById('navDashLink').textContent = prog==='dp' ? 'DP' : 'MYP';
+  document.getElementById('navQBLink').href = prog==='dp' ? 'dp-question-bank.html' : 'myp-question-bank.html';
+  // Reset selection state
+  asgnSelectedQuestions = [];
+  asgnOrderedGroups = [];
+  asgnExcludedParts = [];
+  asgnCustomMarks = {};
+  asgnSelectedStudents = [];
+  qbSelectedIds = [];
+  document.getElementById('asgnQBtn').textContent = '📋 Select Questions (0)';
+  document.getElementById('asgnSBtn').textContent = '👥 Select Students (0)';
+  document.getElementById('asgnMarks').value = '';
+  document.getElementById('asgnTime').value = '';
+  // Reload data for new programme
+  loadAssignments();
+  loadQBQuestions();
+  renderStudentTable();
+  if(document.getElementById('panel-grading').classList.contains('active')) loadSubmissions();
 }
 
 // ==================== TAGS ====================
@@ -885,6 +952,14 @@ function renderStudentTable(){
   var tbody = document.getElementById('stuTableBody');
 
   var filtered = allStudents.filter(function(s){
+    // Auto-filter by programme
+    if(currentProgramme === 'myp'){
+      if(!s.tags || s.tags.indexOf('MYP')===-1) return false;
+    } else {
+      // DP mode: show DP-SL or DP-HL tagged, or untagged students
+      var hasMYPOnly = s.tags && s.tags.indexOf('MYP')>-1 && s.tags.indexOf('DP-SL')===-1 && s.tags.indexOf('DP-HL')===-1;
+      if(hasMYPOnly) return false;
+    }
     if(search){
       var match = (s.name||'').toLowerCase().indexOf(search)>-1 ||
                   (s.studentId||'').toLowerCase().indexOf(search)>-1 ||
@@ -1073,14 +1148,14 @@ function recalcTime(){
 }
 
 function loadAssignments(){
-  db.collection('dpAssignments').orderBy('createdAt','desc').get().then(function(snap){
+  db.collection(col('dpAssignments')).orderBy('createdAt','desc').get().then(function(snap){
     allAssignments = [];
     snap.forEach(function(doc){
       allAssignments.push(Object.assign({id: doc.id}, doc.data()));
     });
     renderAssignmentGrid();
   }).catch(function(){
-    db.collection('dpAssignments').get().then(function(snap){
+    db.collection(col('dpAssignments')).get().then(function(snap){
       allAssignments = [];
       snap.forEach(function(doc){
         allAssignments.push(Object.assign({id: doc.id}, doc.data()));
@@ -1142,9 +1217,9 @@ function handleAssignmentAction(selectEl, id) {
 
   if (action === 'close') {
     if(!confirm('Close this assignment? No new submissions will be accepted.')) return;
-    db.collection('dpAssignments').doc(id).update({status:'closed'}).then(loadAssignments);
+    db.collection(col('dpAssignments')).doc(id).update({status:'closed'}).then(loadAssignments);
   } else if (action === 'reopen') {
-    db.collection('dpAssignments').doc(id).update({status:'active'}).then(loadAssignments);
+    db.collection(col('dpAssignments')).doc(id).update({status:'active'}).then(loadAssignments);
   } else if (action === 'duplicate') {
     duplicateAssignment(id);
   } else if (action === 'edit') {
@@ -1156,9 +1231,9 @@ function handleAssignmentAction(selectEl, id) {
 
 function deleteAssignment(id) {
   if(!confirm('Delete this assignment? All associated submissions will also be deleted permanently.')) return;
-  db.collection('dpAssignments').doc(id).delete().then(function() {
+  db.collection(col('dpAssignments')).doc(id).delete().then(function() {
     // Batch delete submissions
-    db.collection('dpSubmissions').where('assignmentId', '==', id).get().then(function(snap) {
+    db.collection(col('dpSubmissions')).where('assignmentId', '==', id).get().then(function(snap) {
       if (snap.size === 0) return;
       var batch = db.batch();
       snap.forEach(function(doc) {
@@ -1181,7 +1256,7 @@ function duplicateAssignment(id) {
   doc.submittedCount = 0;
   doc.createdAt = firebase.firestore.FieldValue.serverTimestamp();
   
-  db.collection('dpAssignments').add(doc).then(function() {
+  db.collection(col('dpAssignments')).add(doc).then(function() {
     alert('Assignment duplicated successfully!');
     loadAssignments();
   });
@@ -1213,7 +1288,7 @@ function saveAssignmentEdits() {
   var allowRetest = document.getElementById('editAsgnAllowRetest').checked;
   var maxAttempts = parseInt(document.getElementById('editAsgnMaxAttempts').value) || null;
 
-  db.collection('dpAssignments').doc(activeEditingAssignment.id).update({
+  db.collection(col('dpAssignments')).doc(activeEditingAssignment.id).update({
     title: title,
     type: type,
     timeLimit: type === 'hw' ? 0 : time,
@@ -1259,10 +1334,11 @@ function createAssignment(){
     allowRetest: allowRetest,
     maxAttempts: maxAttempts,
     submittedCount: 0,
+    programme: currentProgramme,
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
-  db.collection('dpAssignments').add(doc).then(function(){
+  db.collection(col('dpAssignments')).add(doc).then(function(){
     alert('Assignment created successfully!');
     document.getElementById('asgnTitle').value = '';
     asgnSelectedQuestions = [];
@@ -1283,7 +1359,7 @@ function createAssignment(){
 
 // ==================== QB MODAL ====================
 function loadQBQuestions(){
-  db.collection('dpQuestions').get().then(function(snap){
+  db.collection(col('dpQuestions')).get().then(function(snap){
     var allQ = [];
     snap.forEach(function(doc){ allQ.push(doc.data()); });
     allQ.sort(function(a,b){return (a.topic+a.qNum).localeCompare(b.topic+b.qNum);});
@@ -1298,7 +1374,7 @@ function qbGroupQuestions(questions){
   questions.forEach(function(q){
     var gid = q.questionGroup || q.id;
     if(!groups[gid]){
-      groups[gid] = { id:gid, stem:q.stem||'', topic:q.topic, topicName:q.topicName, paper:q.paper, level:q.level, difficulty:q.difficulty, type:q.type, totalMarks:0, parts:[] };
+      groups[gid] = { id:gid, stem:q.stem||'', topic:q.topic, topicName:q.topicName, paper:q.paper, level:q.level, difficulty:q.difficulty, type:q.type, criterion:q.criterion, strand:q.strand, grade:q.grade, maxLevel:q.maxLevel, totalMarks:0, parts:[] };
     }
     groups[gid].parts.push(q);
     groups[gid].totalMarks += (q.marks||1);
@@ -1307,20 +1383,49 @@ function qbGroupQuestions(questions){
 }
 
 function qbBuildFilters(){
-  var papers=new Set(), topics=new Set(), diffs=new Set();
-  qbAllGroups.forEach(function(g){
-    if(g.paper) papers.add(g.paper);
-    if(g.topic) topics.add(g.topic.split('.')[0]+'.'+g.topic.split('.')[1]);
-    if(g.difficulty) diffs.add(g.difficulty);
-  });
-  qbRenderFGroup('qbFPaper',Array.from(papers).sort(),'paper');
-  qbRenderFGroup('qbFLevel',['SL','HL'],'level');
-  qbRenderFGroup('qbFDiff',['Easy','Medium','Hard'],'diff');
-  // Topics by theme
-  var topicArr = Array.from(topics).sort();
-  document.getElementById('qbFTopic').innerHTML = topicArr.map(function(t){
-    return '<div class="qb-f-btn" onclick="qbToggleFilter(this,\'topic\',\''+t+'\')">' + t + '</div>';
-  }).join('');
+  // Update filter labels based on programme
+  if(currentProgramme === 'myp'){
+    document.getElementById('qbFPaper').previousElementSibling.textContent = 'Criterion';
+    document.getElementById('qbFTopic').previousElementSibling.textContent = 'Strand';
+    document.getElementById('qbFLevel').previousElementSibling.textContent = 'Grade';
+    
+    // Build MYP filters
+    var critHtml = ['A','B','C','D'].map(function(c){
+      return '<div class="qb-f-btn" onclick="qbToggleFilter(this,\'paper\',\''+c+'\')" style="border-left:3px solid '+MYP_CRITERIA[c].color+'">Crit '+c+'</div>';
+    }).join('');
+    document.getElementById('qbFPaper').innerHTML = critHtml;
+    
+    var strands = new Set(), diffs = new Set(), grades = new Set();
+    qbAllGroups.forEach(function(g){
+      if(g.strand) strands.add(g.strand);
+      g.parts.forEach(function(p){ if(p.strand) strands.add(p.strand); });
+      if(g.difficulty) diffs.add(g.difficulty);
+      if(g.grade) grades.add(g.grade);
+      g.parts.forEach(function(p){ if(p.grade) grades.add(p.grade); });
+    });
+    qbRenderFGroup('qbFTopic',Array.from(strands).sort(),'topic');
+    qbRenderFGroup('qbFLevel',Array.from(grades).sort(),'level');
+    qbRenderFGroup('qbFDiff',['Easy','Medium','Hard'],'diff');
+  } else {
+    document.getElementById('qbFPaper').previousElementSibling.textContent = 'Paper';
+    document.getElementById('qbFTopic').previousElementSibling.textContent = 'Topic';
+    document.getElementById('qbFLevel').previousElementSibling.textContent = 'Level';
+    
+    var papers=new Set(), topics=new Set(), diffs=new Set();
+    qbAllGroups.forEach(function(g){
+      if(g.paper) papers.add(g.paper);
+      if(g.topic) topics.add(g.topic.split('.')[0]+'.'+g.topic.split('.')[1]);
+      if(g.difficulty) diffs.add(g.difficulty);
+    });
+    qbRenderFGroup('qbFPaper',Array.from(papers).sort(),'paper');
+    qbRenderFGroup('qbFLevel',['SL','HL'],'level');
+    qbRenderFGroup('qbFDiff',['Easy','Medium','Hard'],'diff');
+    // Topics by theme
+    var topicArr = Array.from(topics).sort();
+    document.getElementById('qbFTopic').innerHTML = topicArr.map(function(t){
+      return '<div class="qb-f-btn" onclick="qbToggleFilter(this,\'topic\',\''+t+'\')">' + t + '</div>';
+    }).join('');
+  }
 }
 
 function qbRenderFGroup(elId, items, key){
@@ -1339,9 +1444,15 @@ function qbToggleFilter(el, key, val){
 function qbApplyFilters(){
   var search = (document.getElementById('qbSearch').value||'').toLowerCase();
   qbFilteredGroups = qbAllGroups.filter(function(g){
-    if(qbFilters.paper.length && !qbFilters.paper.some(function(p){return g.paper===p;})) return false;
-    if(qbFilters.topic.length && !qbFilters.topic.some(function(t){return g.parts.some(function(q){return q.topic&&q.topic.startsWith(t);});})) return false;
-    if(qbFilters.level.length && !qbFilters.level.some(function(l){return g.parts.some(function(q){return q.level&&q.level.indexOf(l)>-1;})||(g.level&&g.level.indexOf(l)>-1);})) return false;
+    if(currentProgramme === 'myp'){
+      if(qbFilters.paper.length && !qbFilters.paper.some(function(c){ return g.parts.some(function(q){ return q.criterion===c; }) || g.criterion===c; })) return false;
+      if(qbFilters.topic.length && !qbFilters.topic.some(function(s){ return g.parts.some(function(q){ return q.strand===s; }) || g.strand===s; })) return false;
+      if(qbFilters.level.length && !qbFilters.level.some(function(gr){ return g.parts.some(function(q){ return q.grade==gr; }) || g.grade==gr; })) return false;
+    } else {
+      if(qbFilters.paper.length && !qbFilters.paper.some(function(p){return g.paper===p;})) return false;
+      if(qbFilters.topic.length && !qbFilters.topic.some(function(t){return g.parts.some(function(q){return q.topic&&q.topic.startsWith(t);});})) return false;
+      if(qbFilters.level.length && !qbFilters.level.some(function(l){return g.parts.some(function(q){return q.level&&q.level.indexOf(l)>-1;})||(g.level&&g.level.indexOf(l)>-1);})) return false;
+    }
     if(qbFilters.diff.length && !qbFilters.diff.some(function(d){return g.parts.some(function(q){return q.difficulty===d;})||g.difficulty===d;})) return false;
     if(search){
       var sm = g.stem&&g.stem.toLowerCase().indexOf(search)>-1;
@@ -1361,19 +1472,27 @@ function qbRenderList(){
     var sel = qbSelectedIds.indexOf(g.id)>-1;
     var stemText = g.stem || (g.parts[0]?g.parts[0].text:'');
     if(stemText.length>120) stemText = stemText.substring(0,120)+'...';
-    // Strip HTML for preview
     var tmp = document.createElement('div'); tmp.innerHTML = stemText; stemText = tmp.textContent;
-    return '<div class="qb-card'+(sel?' qb-selected':'')+'" onclick="qbToggleSelect(\''+g.id+'\')">' +
-      '<div class="qb-card-top">' +
-        '<span class="qb-card-id">'+g.id+'</span>' +
-        '<div class="qb-card-tags">' +
-          '<span class="tag tag-type" style="font-size:.6rem">'+(g.type||'Structured')+'</span>' +
-          '<span class="tag tag-topic" style="font-size:.6rem">'+(g.topic||'')+'</span>' +
-          '<span class="tag tag-marks" style="font-size:.6rem">'+g.totalMarks+' marks</span>' +
-        '</div>' +
-      '</div>' +
-      '<div class="qb-card-stem">'+escHtml(stemText)+'</div>' +
-      '<div class="qb-card-meta">'+(g.paper||'')+' · '+(g.level||'')+' · '+(g.difficulty||'')+'</div>' +
+    var tagLine, metaLine;
+    if(currentProgramme==='myp'){
+      tagLine='<span class="tag tag-type" style="font-size:.6rem">'+(g.type||'Short Answer')+'</span>'+
+        '<span class="tag crit-badge-'+(g.criterion||'A')+'" style="font-size:.6rem;font-weight:700">Crit '+(g.criterion||'?')+'</span>'+
+        (g.strand?'<span class="tag" style="font-size:.6rem;background:#FFF7ED;color:#9A3412">'+g.strand+'</span>':'')+
+        '<span class="tag tag-marks" style="font-size:.6rem">'+g.totalMarks+' marks</span>';
+      metaLine='Criterion '+(g.criterion||'?')+' \u00b7 '+(g.strand||'')+' \u00b7 '+(g.difficulty||'');
+    } else {
+      tagLine='<span class="tag tag-type" style="font-size:.6rem">'+(g.type||'Structured')+'</span>'+
+        '<span class="tag tag-topic" style="font-size:.6rem">'+(g.topic||'')+'</span>'+
+        '<span class="tag tag-marks" style="font-size:.6rem">'+g.totalMarks+' marks</span>';
+      metaLine=(g.paper||'')+' \u00b7 '+(g.level||'')+' \u00b7 '+(g.difficulty||'');
+    }
+    return '<div class="qb-card'+(sel?' qb-selected':'')+'" onclick="qbToggleSelect(\''+g.id+'\')">'+
+      '<div class="qb-card-top">'+
+        '<span class="qb-card-id">'+g.id+'</span>'+
+        '<div class="qb-card-tags">'+tagLine+'</div>'+
+      '</div>'+
+      '<div class="qb-card-stem">'+escHtml(stemText)+'</div>'+
+      '<div class="qb-card-meta">'+metaLine+'</div>'+
     '</div>';
   }).join('');
 }
@@ -1568,8 +1687,14 @@ function renderSSModal(){
   });
   document.getElementById('ssTagFilter').innerHTML = tagHtml;
 
-  // Student list
+  // Student list (auto-filter by programme)
   var filtered = allStudents.filter(function(s){
+    if(currentProgramme === 'myp'){
+      if(!s.tags || s.tags.indexOf('MYP')===-1) return false;
+    } else {
+      var hasMYPOnly = s.tags && s.tags.indexOf('MYP')>-1 && s.tags.indexOf('DP-SL')===-1 && s.tags.indexOf('DP-HL')===-1;
+      if(hasMYPOnly) return false;
+    }
     if(ssFilterTag && (!s.tags || s.tags.indexOf(ssFilterTag)===-1)) return false;
     return true;
   });
@@ -1636,7 +1761,7 @@ var activeGradingQuestions = [];
 var activeGradingMarks = {};
 
 function loadSubmissions(){
-  var p1 = db.collection('dpSubmissions').get();
+  var p1 = db.collection(col('dpSubmissions')).get();
   var p2 = db.collection('students').get();
   
   Promise.all([p1, p2]).then(function(results){
@@ -1760,7 +1885,7 @@ function renderSubmissionsGrid(){
 
 function releaseSubmissionGrade(subId){
   if(!confirm('Release this grade to the student? They will be able to see their score and feedback immediately.')) return;
-  db.collection('dpSubmissions').doc(subId).update({
+  db.collection(col('dpSubmissions')).doc(subId).update({
     status: 'released',
     releasedAt: firebase.firestore.FieldValue.serverTimestamp()
   }).then(function(){
@@ -1778,7 +1903,7 @@ function openGradingWorkspace(submissionId){
   activeGradingAssignment = allAssignments.find(function(a){ return a.id === sub.assignmentId; });
   activeGradingMarks = sub.grades || {};
   
-  db.collection('dpQuestions').get().then(function(snap){
+  db.collection(col('dpQuestions')).get().then(function(snap){
     var qs = [];
     snap.forEach(function(doc){ qs.push(doc.data()); });
     qs.sort(function(a,b){return (a.topic+a.qNum).localeCompare(b.topic+b.qNum);});
@@ -1961,15 +2086,55 @@ function renderGradingWorkspace(){
   document.getElementById('gradingCardsContainer').innerHTML = cardsHtml;
   document.getElementById('gradeMaxMarks').textContent = a ? a.totalMarks || 0 : 0;
   
+  // MYP: Inject criterion-level grading panel
+  if(currentProgramme === 'myp'){
+    var critFound = {};
+    activeGradingQuestions.forEach(function(g){
+      var c = g.criterion || (g.parts[0] ? g.parts[0].criterion : null);
+      if(c && MYP_CRITERIA[c]) critFound[c] = true;
+    });
+    var critKeys = Object.keys(critFound).sort();
+    if(critKeys.length === 0) critKeys = ['A','B','C','D']; // fallback
+    
+    var existingLevels = sub.criterionLevels || {};
+    
+    var critPanelHtml = '<div class="grade-card" style="border-left:4px solid #F59E0B">' +
+      '<div class="grade-card-q" style="color:#92400E">MYP Criterion Levels (1-8)</div>' +
+      '<div class="myp-crit-summary">';
+    
+    critKeys.forEach(function(c){
+      var savedLevel = existingLevels[c] || 0;
+      var opts = '<option value="0">—</option>';
+      for(var i=1;i<=8;i++){
+        opts += '<option value="'+i+'"'+(savedLevel===i?' selected':'')+'>'+i+'</option>';
+      }
+      critPanelHtml += '<div class="myp-crit-box" style="background:'+MYP_CRITERIA[c].color+'15;border:2px solid '+MYP_CRITERIA[c].color+'">' +
+        '<div class="label" style="color:'+MYP_CRITERIA[c].color+'">Criterion '+c+'</div>' +
+        '<div class="label" style="font-size:.6rem;color:'+MYP_CRITERIA[c].color+';opacity:.7;margin-bottom:6px">'+MYP_CRITERIA[c].name+'</div>' +
+        '<select class="myp-level-select myp-crit-select" data-criterion="'+c+'" onchange="recalcGradingScore()" style="font-size:1.1rem;font-weight:700;text-align:center">' + opts + '</select>' +
+      '</div>';
+    });
+    
+    critPanelHtml += '</div></div>';
+    document.getElementById('gradingCardsContainer').innerHTML += critPanelHtml;
+    document.getElementById('gradeMaxMarks').textContent = critKeys.length * 8;
+  }
+  
   recalcGradingScore();
   document.getElementById('gradingOverlay').classList.add('open');
 }
 
 function recalcGradingScore(){
   var score = 0;
-  document.querySelectorAll('.grade-marks-select').forEach(function(select){
-    score += parseInt(select.value) || 0;
-  });
+  if(currentProgramme === 'myp'){
+    document.querySelectorAll('.myp-crit-select').forEach(function(select){
+      score += parseInt(select.value) || 0;
+    });
+  } else {
+    document.querySelectorAll('.grade-marks-select').forEach(function(select){
+      score += parseInt(select.value) || 0;
+    });
+  }
   document.getElementById('gradeTotalScore').textContent = score;
 }
 
@@ -1990,7 +2155,7 @@ function saveGrade(status){
   document.querySelectorAll('.grade-marks-select').forEach(function(select){
     var partId = select.getAttribute('data-partid');
     var marks = parseInt(select.value) || 0;
-    totalScore += marks;
+    if(currentProgramme !== 'myp') totalScore += marks;
     
     if (!grades[partId]) grades[partId] = {};
     grades[partId].marks = marks;
@@ -2004,15 +2169,33 @@ function saveGrade(status){
     grades[partId].comment = comment;
   });
 
+  // MYP: collect criterion levels
+  var criterionLevels = {};
+  if(currentProgramme === 'myp'){
+    totalScore = 0;
+    document.querySelectorAll('.myp-crit-select').forEach(function(select){
+      var crit = select.getAttribute('data-criterion');
+      var level = parseInt(select.value) || 0;
+      criterionLevels[crit] = level;
+      totalScore += level;
+    });
+  }
+
   var comments = document.getElementById('overallComments').value.trim();
 
-  db.collection('dpSubmissions').doc(subId).update({
+  var updateData = {
     grades: grades,
     totalScore: totalScore,
     comments: comments,
     status: status,
     gradedAt: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(function(){
+  };
+  if(currentProgramme === 'myp'){
+    updateData.criterionLevels = criterionLevels;
+    updateData.programme = 'myp';
+  }
+
+  db.collection(col('dpSubmissions')).doc(subId).update(updateData).then(function(){
     alert('Grade saved successfully' + (status === 'released' ? ' and released to student!' : ' as draft.'));
     closeGradingOverlay();
     loadSubmissions();
