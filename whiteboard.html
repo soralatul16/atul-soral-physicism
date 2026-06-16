@@ -7,10 +7,10 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif}
-canvas{display:block;cursor:crosshair}
+canvas#canvas{position:fixed;top:56px;left:0;z-index:10;display:block;cursor:crosshair}
 
 /* Toolbar */
-.toolbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(26,26,46,.95);backdrop-filter:blur(10px);z-index:100;border-bottom:1px solid #333;flex-wrap:wrap}
+.toolbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(26,26,46,.95);backdrop-filter:blur(10px);z-index:200;border-bottom:1px solid #333;flex-wrap:wrap}
 .tool-group{display:flex;gap:4px;align-items:center;padding:0 8px;border-right:1px solid #333}
 .tool-group:last-child{border:none}
 .tool-btn{width:34px;height:34px;border:1.5px solid #444;border-radius:8px;background:#2a2a3e;color:#ccc;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:.2s}
@@ -23,14 +23,14 @@ input[type=range]{width:80px;accent-color:#4ecdc4}
 select{background:#2a2a3e;color:#ccc;border:1px solid #444;border-radius:6px;padding:4px 8px;font-size:.75rem}
 
 /* Pages indicator */
-.pages{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;background:rgba(26,26,46,.9);padding:8px 16px;border-radius:20px;z-index:100}
+.pages{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;background:rgba(26,26,46,.9);padding:8px 16px;border-radius:20px;z-index:200}
 .pages button{width:28px;height:28px;border-radius:50%;border:1.5px solid #444;background:#2a2a3e;color:#ccc;cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center}
 .pages button:hover{border-color:#4ecdc4}
 .pages button.active-page{background:#4ecdc4;color:#1a1a2e;border-color:#4ecdc4}
 .pages span{color:#888;font-size:.75rem}
 
 /* Grid overlay */
-.grid-overlay{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:1;opacity:0;transition:opacity .3s}
+.grid-overlay{position:fixed;top:56px;left:0;right:0;bottom:0;pointer-events:none;z-index:11;opacity:0;transition:opacity .3s}
 .grid-overlay.show{opacity:1}
 
 /* Laser pointer */
@@ -43,15 +43,15 @@ select{background:#2a2a3e;color:#ccc;border:1px solid #444;border-radius:6px;pad
 <div class="toolbar" id="toolbar">
   <div class="tool-group">
     <span class="tool-label">Tool</span>
-    <button class="tool-btn active" id="btnPen" onclick="setTool('pen')" title="Pen">✏️</button>
-    <button class="tool-btn" id="btnHighlight" onclick="setTool('highlight')" title="Highlighter">🖍️</button>
-    <button class="tool-btn" id="btnEraser" onclick="setTool('eraser')" title="Eraser">🧽</button>
+    <button class="tool-btn active" id="btnPen" onclick="setTool('pen')" title="Pen">&#9999;&#65039;</button>
+    <button class="tool-btn" id="btnHighlight" onclick="setTool('highlight')" title="Highlighter">&#128397;&#65039;</button>
+    <button class="tool-btn" id="btnEraser" onclick="setTool('eraser')" title="Eraser">&#129531;</button>
     <button class="tool-btn" id="btnText" onclick="setTool('text')" title="Text">T</button>
-    <button class="tool-btn" id="btnLine" onclick="setTool('line')" title="Line">╱</button>
-    <button class="tool-btn" id="btnArrow" onclick="setTool('arrow')" title="Arrow">→</button>
-    <button class="tool-btn" id="btnRect" onclick="setTool('rect')" title="Rectangle">▭</button>
-    <button class="tool-btn" id="btnCircle" onclick="setTool('circle')" title="Circle">○</button>
-    <button class="tool-btn" id="btnLaser" onclick="setTool('laser')" title="Laser">🔴</button>
+    <button class="tool-btn" id="btnLine" onclick="setTool('line')" title="Line">&#9585;</button>
+    <button class="tool-btn" id="btnArrow" onclick="setTool('arrow')" title="Arrow">&rarr;</button>
+    <button class="tool-btn" id="btnRect" onclick="setTool('rect')" title="Rectangle">&#9645;</button>
+    <button class="tool-btn" id="btnCircle" onclick="setTool('circle')" title="Circle">&#9675;</button>
+    <button class="tool-btn" id="btnLaser" onclick="setTool('laser')" title="Laser">&#128308;</button>
   </div>
 
   <div class="tool-group">
@@ -74,19 +74,21 @@ select{background:#2a2a3e;color:#ccc;border:1px solid #444;border-radius:6px;pad
     <span class="tool-label">BG</span>
     <select id="bgSelect" onchange="setBG(this.value)">
       <option value="dark">Dark</option>
+      <option value="dark-grid">Dark+Grid</option>
+      <option value="dark-graph">Dark+Graph</option>
       <option value="white">White</option>
-      <option value="grid">Grid</option>
-      <option value="graph">Graph Paper</option>
-      <option value="lined">Lined</option>
+      <option value="white-grid">White+Grid</option>
+      <option value="white-graph">White+Graph</option>
+      <option value="white-lined">White+Lined</option>
     </select>
   </div>
 
   <div class="tool-group">
     <span class="tool-label">Actions</span>
-    <button class="tool-btn" onclick="undo()" title="Undo">↩️</button>
-    <button class="tool-btn" onclick="clearPage()" title="Clear Page">🗑️</button>
-    <button class="tool-btn" onclick="saveImage()" title="Save as Image">💾</button>
-    <button class="tool-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+    <button class="tool-btn" onclick="undo()" title="Undo">&#8617;&#65039;</button>
+    <button class="tool-btn" onclick="clearPage()" title="Clear Page">&#128465;&#65039;</button>
+    <button class="tool-btn" onclick="saveImage()" title="Save as Image">&#128190;</button>
+    <button class="tool-btn" onclick="toggleFullscreen()" title="Fullscreen">&#9974;</button>
   </div>
 </div>
 
@@ -101,9 +103,9 @@ select{background:#2a2a3e;color:#ccc;border:1px solid #444;border-radius:6px;pad
 
 <!-- PAGES -->
 <div class="pages">
-  <button onclick="prevPage()">◀</button>
+  <button onclick="prevPage()">&#9664;</button>
   <span id="pageInfo">1 / 1</span>
-  <button onclick="nextPage()">▶</button>
+  <button onclick="nextPage()">&#9654;</button>
   <button onclick="addPage()">+</button>
 </div>
 
@@ -113,6 +115,7 @@ var ctx = canvas.getContext('2d');
 var gridCanvas = document.getElementById('gridCanvas');
 var gridCtx = gridCanvas.getContext('2d');
 
+var TOOLBAR_H = 56;
 var tool = 'pen';
 var penColor = '#ffffff';
 var penSize = 3;
@@ -122,18 +125,22 @@ var startX = 0, startY = 0;
 var bgType = 'dark';
 
 // Pages system
-var pages = [null]; // store imageData per page
+var pages = [null];
 var currentPage = 0;
 
 // Undo system
 var history = [];
 var maxHistory = 30;
 
+function canvasXY(e) {
+  var rect = canvas.getBoundingClientRect();
+  return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+}
+
 function resize() {
   var w = window.innerWidth;
-  var h = window.innerHeight;
+  var h = window.innerHeight - TOOLBAR_H;
 
-  // Save current content
   var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
   canvas.width = w;
@@ -141,7 +148,6 @@ function resize() {
   gridCanvas.width = w;
   gridCanvas.height = h;
 
-  // Restore content
   if (imgData.width === w && imgData.height === h) {
     ctx.putImageData(imgData, 0, 0);
   }
@@ -160,7 +166,6 @@ function setTool(t) {
   document.querySelectorAll('.tool-btn:not(.color-btn)').forEach(function(b) { b.classList.remove('active'); });
   var btn = document.getElementById('btn' + t.charAt(0).toUpperCase() + t.slice(1));
   if (btn) btn.classList.add('active');
-
   canvas.style.cursor = t === 'eraser' ? 'cell' : t === 'text' ? 'text' : t === 'laser' ? 'none' : 'crosshair';
   document.getElementById('laser').style.display = t === 'laser' ? 'block' : 'none';
 }
@@ -176,10 +181,9 @@ canvas.addEventListener('mousedown', function(e) {
   if (tool === 'laser') return;
   if (tool === 'text') { addText(e); return; }
   isDrawing = true;
-  lastX = e.clientX;
-  lastY = e.clientY;
-  startX = e.clientX;
-  startY = e.clientY;
+  var p = canvasXY(e);
+  lastX = p.x; lastY = p.y;
+  startX = p.x; startY = p.y;
 
   if (tool === 'pen' || tool === 'highlight' || tool === 'eraser') {
     ctx.beginPath();
@@ -196,40 +200,41 @@ canvas.addEventListener('mousemove', function(e) {
   }
   if (!isDrawing) return;
 
+  var p = canvasXY(e);
+
   if (tool === 'pen') {
     ctx.strokeStyle = penColor;
     ctx.lineWidth = penSize;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.globalAlpha = 1;
-    ctx.lineTo(e.clientX, e.clientY);
+    ctx.lineTo(p.x, p.y);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(e.clientX, e.clientY);
+    ctx.moveTo(p.x, p.y);
   } else if (tool === 'highlight') {
     ctx.strokeStyle = penColor;
     ctx.lineWidth = penSize * 4;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.globalAlpha = 0.3;
-    ctx.lineTo(e.clientX, e.clientY);
+    ctx.lineTo(p.x, p.y);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(e.clientX, e.clientY);
+    ctx.moveTo(p.x, p.y);
     ctx.globalAlpha = 1;
   } else if (tool === 'eraser') {
     ctx.globalCompositeOperation = 'destination-out';
     ctx.lineWidth = penSize * 5;
     ctx.lineCap = 'round';
-    ctx.lineTo(e.clientX, e.clientY);
+    ctx.lineTo(p.x, p.y);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(e.clientX, e.clientY);
+    ctx.moveTo(p.x, p.y);
     ctx.globalCompositeOperation = 'source-over';
   }
 
-  lastX = e.clientX;
-  lastY = e.clientY;
+  lastX = p.x; lastY = p.y;
 });
 
 canvas.addEventListener('mouseup', function(e) {
@@ -237,26 +242,28 @@ canvas.addEventListener('mouseup', function(e) {
   isDrawing = false;
   ctx.globalAlpha = 1;
 
+  var p = canvasXY(e);
+
   if (tool === 'line') {
     ctx.beginPath();
     ctx.strokeStyle = penColor;
     ctx.lineWidth = penSize;
     ctx.lineCap = 'round';
     ctx.moveTo(startX, startY);
-    ctx.lineTo(e.clientX, e.clientY);
+    ctx.lineTo(p.x, p.y);
     ctx.stroke();
   } else if (tool === 'arrow') {
-    drawArrow(startX, startY, e.clientX, e.clientY);
+    drawArrow(startX, startY, p.x, p.y);
   } else if (tool === 'rect') {
     ctx.beginPath();
     ctx.strokeStyle = penColor;
     ctx.lineWidth = penSize;
-    ctx.strokeRect(startX, startY, e.clientX - startX, e.clientY - startY);
+    ctx.strokeRect(startX, startY, p.x - startX, p.y - startY);
   } else if (tool === 'circle') {
-    var rx = Math.abs(e.clientX - startX) / 2;
-    var ry = Math.abs(e.clientY - startY) / 2;
-    var cx = startX + (e.clientX - startX) / 2;
-    var cy = startY + (e.clientY - startY) / 2;
+    var rx = Math.abs(p.x - startX) / 2;
+    var ry = Math.abs(p.y - startY) / 2;
+    var cx = startX + (p.x - startX) / 2;
+    var cy = startY + (p.y - startY) / 2;
     ctx.beginPath();
     ctx.strokeStyle = penColor;
     ctx.lineWidth = penSize;
@@ -272,7 +279,11 @@ canvas.addEventListener('mouseleave', function() { isDrawing = false; });
 // Touch support
 canvas.addEventListener('touchstart', function(e) { e.preventDefault(); var t = e.touches[0]; canvas.dispatchEvent(new MouseEvent('mousedown', {clientX:t.clientX,clientY:t.clientY})); });
 canvas.addEventListener('touchmove', function(e) { e.preventDefault(); var t = e.touches[0]; canvas.dispatchEvent(new MouseEvent('mousemove', {clientX:t.clientX,clientY:t.clientY})); });
-canvas.addEventListener('touchend', function(e) { e.preventDefault(); canvas.dispatchEvent(new MouseEvent('mouseup', {clientX:lastX,clientY:lastY})); });
+canvas.addEventListener('touchend', function(e) {
+  e.preventDefault();
+  var rect = canvas.getBoundingClientRect();
+  canvas.dispatchEvent(new MouseEvent('mouseup', {clientX: lastX + rect.left, clientY: lastY + rect.top}));
+});
 
 // ═══ ARROW ═══
 function drawArrow(fromX, fromY, toX, toY) {
@@ -300,9 +311,10 @@ function drawArrow(fromX, fromY, toX, toY) {
 function addText(e) {
   var text = prompt('Enter text:');
   if (!text) return;
+  var p = canvasXY(e);
   ctx.font = (penSize * 6) + 'px system-ui, sans-serif';
   ctx.fillStyle = penColor;
-  ctx.fillText(text, e.clientX, e.clientY);
+  ctx.fillText(text, p.x, p.y);
   saveState();
 }
 
@@ -314,41 +326,38 @@ function setBG(type) {
 }
 
 function fillBG() {
-  if (bgType === 'white') {
-    document.body.style.background = '#fff';
-    canvas.style.background = '#fff';
-  } else {
-    document.body.style.background = '#1a1a2e';
-    canvas.style.background = '#1a1a2e';
-  }
+  var isWhite = bgType.indexOf('white') !== -1;
+  document.body.style.background = isWhite ? '#fff' : '#1a1a2e';
+  canvas.style.background = isWhite ? '#fff' : '#1a1a2e';
 }
 
 function drawGrid() {
   gridCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
-  var show = (bgType === 'grid' || bgType === 'graph' || bgType === 'lined');
-  gridCanvas.classList.toggle('show', show);
+  var hasGrid = bgType.indexOf('grid') !== -1 || bgType.indexOf('graph') !== -1 || bgType.indexOf('lined') !== -1;
+  gridCanvas.classList.toggle('show', hasGrid);
+  if (!hasGrid) return;
 
-  if (!show) return;
-
+  var isWhite = bgType.indexOf('white') !== -1;
   var w = gridCanvas.width, h = gridCanvas.height;
-  var color = bgType === 'white' || bgType === 'lined' ? 'rgba(0,0,0,.1)' : 'rgba(255,255,255,.08)';
-  var colorMajor = bgType === 'white' || bgType === 'lined' ? 'rgba(0,0,0,.2)' : 'rgba(255,255,255,.15)';
+  var color = isWhite ? 'rgba(0,0,0,.12)' : 'rgba(255,255,255,.08)';
+  var colorMajor = isWhite ? 'rgba(0,0,0,.25)' : 'rgba(255,255,255,.15)';
 
-  gridCtx.strokeStyle = color;
   gridCtx.lineWidth = 0.5;
 
-  var spacing = bgType === 'graph' ? 20 : 40;
+  var isGraph = bgType.indexOf('graph') !== -1;
+  var isLined = bgType.indexOf('lined') !== -1;
+  var spacing = isGraph ? 20 : 40;
 
-  if (bgType !== 'lined') {
+  if (!isLined) {
     for (var x = spacing; x < w; x += spacing) {
       gridCtx.beginPath();
-      gridCtx.strokeStyle = (bgType === 'graph' && x % 100 === 0) ? colorMajor : color;
+      gridCtx.strokeStyle = (isGraph && x % 100 === 0) ? colorMajor : color;
       gridCtx.moveTo(x, 0); gridCtx.lineTo(x, h); gridCtx.stroke();
     }
   }
   for (var y = spacing; y < h; y += spacing) {
     gridCtx.beginPath();
-    gridCtx.strokeStyle = (bgType === 'graph' && y % 100 === 0) ? colorMajor : color;
+    gridCtx.strokeStyle = (isGraph && y % 100 === 0) ? colorMajor : color;
     gridCtx.moveTo(0, y); gridCtx.lineTo(w, y); gridCtx.stroke();
   }
 }
@@ -382,20 +391,14 @@ function saveImage() {
   var link = document.createElement('a');
   link.download = 'whiteboard-' + new Date().toISOString().slice(0,10) + '.png';
 
-  // Merge grid + drawing
   var tempCanvas = document.createElement('canvas');
   tempCanvas.width = canvas.width;
   tempCanvas.height = canvas.height;
   var tempCtx = tempCanvas.getContext('2d');
 
-  // Background
-  tempCtx.fillStyle = bgType === 'white' ? '#fff' : '#1a1a2e';
+  tempCtx.fillStyle = bgType.indexOf('white') !== -1 ? '#fff' : '#1a1a2e';
   tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-
-  // Grid
   tempCtx.drawImage(gridCanvas, 0, 0);
-
-  // Drawing
   tempCtx.drawImage(canvas, 0, 0);
 
   link.href = tempCanvas.toDataURL();
