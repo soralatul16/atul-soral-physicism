@@ -172,6 +172,34 @@
     <button onclick="checkPassword()">Enter</button>
   </div>
 
+  <!-- Edit Student Modal -->
+  <div id="editStudentModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+    <div class="card" style="width:100%; max-width:400px; display:flex; flex-direction:column; gap:16px;">
+      <h3>Edit Student</h3>
+      <input type="hidden" id="editStuId">
+      <div>
+        <label style="font-size:12px; color:var(--text-muted);">Name</label>
+        <input type="text" id="editStuName" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text);">
+      </div>
+      <div>
+        <label style="font-size:12px; color:var(--text-muted);">Level</label>
+        <select id="editStuLevel" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text);">
+          <option value="DP HL">DP HL</option>
+          <option value="DP SL">DP SL</option>
+          <option value="MYP">MYP</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:12px; color:var(--text-muted);">Tags (comma separated)</label>
+        <input type="text" id="editStuTags" placeholder="DP-HL, self-registered" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text);">
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button class="btn-outline" onclick="document.getElementById('editStudentModal').style.display='none'">Cancel</button>
+        <button class="btn-primary" onclick="saveStudentEdit()">Save</button>
+      </div>
+    </div>
+  </div>
+
   <header>
     <div class="brand">🎓 Atul Soral <span>Teacher Hub</span></div>
     
@@ -251,6 +279,9 @@
           <option value="HL">HL Only</option>
           <option value="SL">SL Only</option>
         </select>
+        <select id="studentTagFilter" onchange="renderStudents()">
+          <option value="ALL">All Tags</option>
+        </select>
       </div>
 
       <div class="card table-container">
@@ -280,8 +311,9 @@
         <div class="filters-bar" id="assignDPFields" style="display:none; width: 100%;">
           <input type="text" id="assTitleDP" placeholder="Assignment Title" style="flex:1;">
           <select id="assTypeDP">
-            <option value="Formative">Formative</option>
-            <option value="Summative">Summative</option>
+            <option value="Formative Test">Formative Test</option>
+            <option value="Summative Test">Summative Test</option>
+            <option value="Homework">Homework</option>
           </select>
           <input type="date" id="assDueDP">
           <button class="btn-primary" onclick="createAssignment()">Create Draft</button>
@@ -330,18 +362,33 @@
             <label style="font-size:12px; color:var(--text-muted);">Topic</label>
             <select id="dpTopic" onchange="renderQuestions()">
               <option value="">All Topics</option>
-              <option value="A">Topic A</option>
-              <option value="B">Topic B</option>
-              <option value="C">Topic C</option>
-              <option value="D">Topic D</option>
-              <option value="E">Topic E</option>
+              <option value="A.1 Kinematics">A.1 Kinematics</option>
+              <option value="A.2 Forces and Momentum">A.2 Forces and Momentum</option>
+              <option value="A.3 Work Energy and Power">A.3 Work Energy and Power</option>
+              <option value="B.1 Thermal Energy">B.1 Thermal Energy</option>
+              <option value="B.2 Greenhouse Effect">B.2 Greenhouse Effect</option>
+              <option value="B.3 Gas Laws">B.3 Gas Laws</option>
+              <option value="B.4 Thermodynamics">B.4 Thermodynamics</option>
+              <option value="B.5 Current and Circuits">B.5 Current and Circuits</option>
+              <option value="C.1 Simple Harmonic Motion">C.1 Simple Harmonic Motion</option>
+              <option value="C.2 Wave Properties">C.2 Wave Properties</option>
+              <option value="C.3 Wave Phenomena">C.3 Wave Phenomena</option>
+              <option value="C.4 Standing Waves">C.4 Standing Waves</option>
+              <option value="D.1 Gravitational Fields">D.1 Gravitational Fields</option>
+              <option value="D.2 Electric and Magnetic Fields">D.2 Electric and Magnetic Fields</option>
+              <option value="D.3 Motion in EM Fields">D.3 Motion in EM Fields</option>
+              <option value="D.4 Induction">D.4 Induction</option>
+              <option value="E.1 Structure of Matter">E.1 Structure of Matter</option>
+              <option value="E.2 Quantum Physics">E.2 Quantum Physics</option>
+              <option value="E.3 Radioactive Decay">E.3 Radioactive Decay</option>
+              <option value="E.4 Fission and Fusion">E.4 Fission and Fusion</option>
             </select>
             <label style="font-size:12px; color:var(--text-muted);">Paper</label>
             <select id="dpPaper" onchange="renderQuestions()">
               <option value="">All Papers</option>
-              <option value="1A">Paper 1A</option>
-              <option value="1B">Paper 1B</option>
-              <option value="2">Paper 2</option>
+              <option value="Paper 1A">Paper 1A</option>
+              <option value="Paper 1B">Paper 1B</option>
+              <option value="Paper 2">Paper 2</option>
             </select>
             <label style="font-size:12px; color:var(--text-muted);">Difficulty</label>
             <select id="dpDiff" onchange="renderQuestions()">
@@ -561,13 +608,24 @@
       try {
         const snapshot = await db.collection('students').get();
         allStudents = [];
+        let allTags = new Set();
         snapshot.forEach(doc => {
           let data = doc.data();
           data.id = doc.id;
+          
+          if(data.tags && Array.isArray(data.tags)) {
+            data.tags.forEach(t => allTags.add(t));
+          }
+          
           if(currentProgramme === 'DP' && data.level && data.level.startsWith('DP')) allStudents.push(data);
           else if(currentProgramme === 'MYP' && data.level && data.level === 'MYP') allStudents.push(data);
         });
         
+        const tagFilter = document.getElementById('studentTagFilter');
+        if(tagFilter) {
+          tagFilter.innerHTML = '<option value="ALL">All Tags</option>' + Array.from(allTags).map(t => `<option value="${t}">${t}</option>`).join('');
+        }
+
         document.getElementById('statStudents').innerText = allStudents.length;
         renderStudents();
       } catch(e) {
@@ -580,11 +638,13 @@
       const tbody = document.getElementById('studentsTbody');
       const search = document.getElementById('studentSearch').value.toLowerCase();
       const filter = document.getElementById('studentFilter').value;
+      const tagFilter = document.getElementById('studentTagFilter') ? document.getElementById('studentTagFilter').value : 'ALL';
 
       let filtered = allStudents.filter(s => {
         let matchesSearch = (s.name && s.name.toLowerCase().includes(search)) || (s.email && s.email.toLowerCase().includes(search));
         let matchesLevel = filter === 'ALL' || (s.level && s.level.includes(filter));
-        return matchesSearch && matchesLevel;
+        let matchesTag = tagFilter === 'ALL' || (s.tags && s.tags.includes(tagFilter));
+        return matchesSearch && matchesLevel && matchesTag;
       });
 
       if (filtered.length === 0) {
@@ -594,7 +654,7 @@
 
       tbody.innerHTML = filtered.map(s => {
         let badgeCls = (s.level && s.level.includes('HL')) ? 'hl' : 'sl';
-        let joined = s.joinedAt ? new Date(s.joinedAt.seconds * 1000).toLocaleDateString() : '-';
+        let joined = s.registeredAt ? new Date(s.registeredAt.seconds * 1000).toLocaleDateString() : '-';
         return `
           <tr>
             <td style="font-weight:600;">${s.name || 'Unknown'}</td>
@@ -602,12 +662,43 @@
             <td><span class="badge ${badgeCls}">${s.level || 'N/A'}</span></td>
             <td style="font-size:13px;">${joined}</td>
             <td>
-              <button class="btn-icon" style="font-size:14px;">✏️</button>
+              <button class="btn-icon" style="font-size:14px;" onclick="editStudent('${s.id}')">✏️</button>
               <button class="btn-icon" style="font-size:14px; margin-left:8px; color:#f28b82;">🗑️</button>
             </td>
           </tr>
         `;
       }).join('');
+    }
+
+    function editStudent(id) {
+      const s = allStudents.find(x => x.id === id);
+      if(!s) return;
+      document.getElementById('editStuId').value = s.id;
+      document.getElementById('editStuName').value = s.name || '';
+      document.getElementById('editStuLevel').value = s.level || '';
+      document.getElementById('editStuTags').value = s.tags ? s.tags.join(', ') : '';
+      document.getElementById('editStudentModal').style.display = 'flex';
+    }
+
+    async function saveStudentEdit() {
+      const id = document.getElementById('editStuId').value;
+      const name = document.getElementById('editStuName').value;
+      const level = document.getElementById('editStuLevel').value;
+      const tagsStr = document.getElementById('editStuTags').value;
+      const tags = tagsStr.split(',').map(t => t.trim()).filter(t => t.length > 0);
+
+      try {
+        await db.collection('students').doc(id).update({
+          name: name,
+          level: level,
+          tags: tags
+        });
+        document.getElementById('editStudentModal').style.display = 'none';
+        loadStudents();
+      } catch(e) {
+        console.error(e);
+        alert('Failed to update student');
+      }
     }
 
     async function loadQuestions() {
@@ -647,7 +738,7 @@
         
         filtered = allQuestions.filter(q => {
           let match = true;
-          if (dpT && q.topic !== dpT && !String(q.topic).startsWith(dpT)) match = false;
+          if (dpT && q.subtopic !== dpT) match = false;
           if (dpP && String(q.paper) !== dpP) match = false;
           if (dpD && q.difficulty !== dpD) match = false;
           return match;
@@ -675,7 +766,7 @@
 
       document.getElementById('selQCount').innerText = selectedQuestions.length;
 
-      listEl.innerHTML = `<div style="margin-bottom:8px; font-size:12px; color:var(--text-muted);">Showing ${filtered.length} questions</div>` + 
+      listEl.innerHTML = `<div style="margin-bottom:8px; font-size:12px; color:var(--text-muted); text-align:center;">Showing ${filtered.length} of ${allQuestions.length} questions</div>` + 
       filtered.map(q => {
         let qText = q.text || q.questionText || 'No text';
         if(qText.length > 200) qText = qText.substring(0, 200) + '...';
@@ -736,6 +827,31 @@
           <button class="btn-icon" style="color:#f28b82; font-size:14px;" onclick="removeQ('${q.id}')">×</button>
         </li>
       `).join('');
+    }
+
+    async function createAssignment() {
+      const isDP = currentProgramme === 'DP';
+      const title = document.getElementById(isDP ? 'assTitleDP' : 'assTitleMYP').value;
+      const type = document.getElementById(isDP ? 'assTypeDP' : 'assTypeMYP').value;
+      const due = document.getElementById(isDP ? 'assDueDP' : 'assDueMYP').value;
+      
+      if (!title) {
+        alert('Please enter an assignment title');
+        return;
+      }
+
+      let lockMode = true;
+      let timer = true;
+      let allowRetest = false;
+
+      if (type === 'Homework' || type === 'HW') {
+        lockMode = false;
+        timer = false;
+        allowRetest = true;
+      }
+
+      console.log('Creating Assignment', { programme: currentProgramme, title, type, due, lockMode, timer, allowRetest });
+      alert(`Created ${currentProgramme} Assignment: ${title} (${type})\nLock Mode: ${lockMode}\nTimer: ${timer}\nAllow Retest: ${allowRetest}`);
     }
 
   </script>
