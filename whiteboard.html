@@ -8,8 +8,8 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-select:none}
 
-#canvas{position:fixed;top:48px;left:0;right:0;bottom:40px;z-index:10;cursor:crosshair;touch-action:none}
-#spotCanvas{position:fixed;top:48px;left:0;right:0;bottom:40px;z-index:12;pointer-events:none;display:none}
+#canvas{position:fixed;top:48px;left:0;z-index:10;cursor:crosshair;touch-action:none}
+#spotCanvas{position:fixed;top:48px;left:0;z-index:12;pointer-events:none;display:none}
 
 .toolbar{position:fixed;top:0;left:0;right:0;height:48px;display:flex;align-items:center;gap:4px;padding:0 10px;background:rgba(26,26,46,.96);backdrop-filter:blur(12px);z-index:200;border-bottom:1px solid #333;overflow-x:auto;overflow-y:hidden}
 .toolbar::-webkit-scrollbar{height:0}
@@ -59,6 +59,20 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
 
 .drop-zone{position:fixed;top:48px;left:0;right:0;bottom:40px;z-index:300;background:rgba(78,205,196,.15);border:3px dashed #4ecdc4;display:none;align-items:center;justify-content:center;color:#4ecdc4;font-size:1.2rem;font-weight:600;pointer-events:none}
 .drop-zone.show{display:flex}
+
+/* Inline text editor */
+.te{position:fixed;z-index:250;display:none;flex-direction:column;gap:4px}
+.te.show{display:flex}
+.te-bar{display:flex;gap:4px;align-items:center;padding:5px 8px;background:#fff;border-radius:8px;box-shadow:0 2px 16px rgba(0,0,0,.25);flex-wrap:wrap}
+.te-bar select,.te-bar input[type=number]{background:#f5f5f5;border:1px solid #ddd;border-radius:4px;padding:2px 4px;font-size:12px;height:26px;color:#333}
+.te-bar input[type=color]{width:26px;height:26px;border:1px solid #ddd;border-radius:4px;padding:0;cursor:pointer}
+.te-b{width:28px;height:28px;border:1px solid #ddd;border-radius:4px;background:#f5f5f5;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;color:#333}
+.te-b:hover{background:#e0e0e0}
+.te-b.on{background:#4ecdc4;color:#fff;border-color:#4ecdc4}
+#teInput{resize:both;border:2px solid #4ecdc4;border-radius:6px;padding:8px 10px;outline:none;min-width:220px;min-height:48px;max-width:600px;max-height:400px;font-family:system-ui,sans-serif;line-height:1.4;background:rgba(255,255,255,.95);color:#333;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+
+/* Eraser cursor circle */
+.eraser-cursor{position:fixed;border:2px solid rgba(255,255,255,.5);border-radius:50%;pointer-events:none;z-index:14;display:none;transform:translate(-50%,-50%)}
 </style>
 </head>
 <body>
@@ -132,11 +146,11 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
   </div>
   <div class="sep"></div>
   <div class="tg">
-    <button class="tb" id="btnRec" onclick="toggleRecord()" title="Record Session (R)">&#9679; Rec</button>
+    <button class="tb" id="btnRec" onclick="toggleRecord()" title="Record (R)">&#9679; Rec</button>
     <button class="tb" onclick="doUndo()" title="Undo (Ctrl+Z)">&#8617;&#65039;</button>
     <button class="tb" onclick="doRedo()" title="Redo (Ctrl+Y)">&#8618;&#65039;</button>
-    <button class="tb" onclick="clearPage()" title="Clear Page">&#128465;&#65039;</button>
-    <button class="tb" onclick="saveImage()" title="Export PNG (Ctrl+S)">&#128190;</button>
+    <button class="tb" onclick="clearPage()" title="Clear">&#128465;&#65039;</button>
+    <button class="tb" onclick="saveImage()" title="Export (Ctrl+S)">&#128190;</button>
     <button class="tb" onclick="toggleFullscreen()" title="Fullscreen (F)">&#9974;</button>
   </div>
   <div class="sep"></div>
@@ -148,12 +162,29 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
 
 <!-- CANVAS -->
 <canvas id="canvas"></canvas>
-<!-- SPOTLIGHT OVERLAY -->
 <canvas id="spotCanvas"></canvas>
-<!-- LASER -->
 <div class="laser" id="laser"></div>
-<!-- DROP ZONE -->
+<div class="eraser-cursor" id="eraserCursor"></div>
 <div class="drop-zone" id="dropZone">Drop image here</div>
+
+<!-- INLINE TEXT EDITOR -->
+<div class="te" id="textEditor">
+  <div class="te-bar">
+    <select id="teFont">
+      <option value="system-ui,sans-serif">Sans-serif</option>
+      <option value="Georgia,serif">Serif</option>
+      <option value="monospace">Monospace</option>
+      <option value="'Comic Sans MS',cursive">Handwriting</option>
+    </select>
+    <input type="number" id="teFontSize" value="24" min="8" max="120" style="width:50px">
+    <button class="te-b" id="teBold" onclick="teBoldToggle()"><b>B</b></button>
+    <button class="te-b" id="teItalic" onclick="teItalicToggle()"><i>I</i></button>
+    <input type="color" id="teColor" value="#ffffff" title="Text color">
+    <button class="te-b" onclick="teConfirm()" title="Done" style="color:#2ecc71;font-weight:bold">&#10003;</button>
+    <button class="te-b" onclick="teCancel()" title="Cancel" style="color:#e74c3c">&#10005;</button>
+  </div>
+  <textarea id="teInput" placeholder="Type something..."></textarea>
+</div>
 
 <!-- BOTTOM BAR -->
 <div class="bottom-bar">
@@ -171,7 +202,7 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
   </div>
 </div>
 
-<!-- PLAYBACK BAR -->
+<!-- PLAYBACK -->
 <div class="playback hide" id="playback">
   <button class="tb" onclick="togglePlay()" id="playBtn">&#9654;</button>
   <button class="tb" onclick="stopPlay()">&#9632;</button>
@@ -214,45 +245,22 @@ var mmC = document.getElementById('mmCanvas');
 var mmX = mmC.getContext('2d');
 var scrC = document.getElementById('scratchCanvas');
 var scrX = scrC.getContext('2d');
-
-// Offscreen canvas for eraser compositing
 var offC = document.createElement('canvas');
 var offX = offC.getContext('2d');
+var eraserCur = document.getElementById('eraserCursor');
 
 // ═══ STATE ═══
-var tool = 'pen';
-var penColor = '#ffffff';
-var penSize = 3;
-var fontSize = 24;
-var bgType = 'dark';
-
-// Infinite canvas view
-var panX = 0, panY = 0, zoom = 1;
-var MIN_ZOOM = 0.1, MAX_ZOOM = 10;
-
-// Drawing
-var isDrawing = false;
-var currentEl = null;
-var preDrawImg = null;
-var shiftHeld = false;
-var spaceHeld = false;
-var isPanning = false;
-var panAnchorX = 0, panAnchorY = 0, panStartX = 0, panStartY = 0;
-
-// Pages: each page = { els:[], undone:[], px:0, py:0, zm:1 }
-var pages = [{ els:[], undone:[], px:0, py:0, zm:1 }];
-var curPage = 0;
-
-// Recording
-var isRec = false, recStart = 0;
-var isPlay = false, playTime = 0, playSpeed = 1, playRAF = null, playLast = 0;
-var bookmarks = [];
-
-// UI toggles
+var tool = 'pen', penColor = '#ffffff', penSize = 3, fontSize = 24, bgType = 'dark';
+var panX = 0, panY = 0, zoom = 1, MIN_ZOOM = 0.1, MAX_ZOOM = 10;
+var isDrawing = false, currentEl = null, preDrawImg = null;
+var shiftHeld = false, spaceHeld = false;
+var isPanning = false, panAnchorX = 0, panAnchorY = 0, panStartX = 0, panStartY = 0;
+var pages = [{ els:[], undone:[], px:0, py:0, zm:1 }], curPage = 0;
+var isRec = false, recStart = 0, isPlay = false, playTime = 0, playSpeed = 1, playRAF = null, playLast = 0, bookmarks = [];
 var showMinimap = false, showScratch = false;
-
-// Scratch pad state
 var scrDrawing = false, scrLastX = 0, scrLastY = 0;
+var teActive = false, teWorldX = 0, teWorldY = 0, teMode = 'text';
+var cW = 0, cH = 0;
 
 // ═══ HELPERS ═══
 function els() { return pages[curPage].els; }
@@ -260,208 +268,146 @@ function undone() { return pages[curPage].undone; }
 function isWhiteBG() { return bgType.indexOf('white') !== -1 || bgType === 'coord' || bgType === 'numline'; }
 function bgColor() { return isWhiteBG() ? '#ffffff' : '#1a1a2e'; }
 
-// Screen to world
 function s2w(sx, sy) {
-  return { x: (sx - C.width / 2) / zoom + panX, y: (sy - C.height / 2) / zoom + panY };
+  return { x: (sx - cW / 2) / zoom + panX, y: (sy - cH / 2) / zoom + panY };
 }
-
-// Apply view transform to a context
 function applyVT(c) {
-  c.setTransform(zoom, 0, 0, zoom, -panX * zoom + C.width / 2, -panY * zoom + C.height / 2);
+  c.setTransform(zoom, 0, 0, zoom, -panX * zoom + cW / 2, -panY * zoom + cH / 2);
 }
-
-// Get world coords from pointer event
 function getW(e) {
   var r = C.getBoundingClientRect();
   return s2w(e.clientX - r.left, e.clientY - r.top);
 }
-
-// Snap line angle to 15-degree increments
 function snapLine(x1, y1, x2, y2) {
   var a = Math.atan2(y2 - y1, x2 - x1);
   var s = Math.round(a / (Math.PI / 12)) * (Math.PI / 12);
   var d = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
   return { x: x1 + Math.cos(s) * d, y: y1 + Math.sin(s) * d };
 }
-
-// Snap to square
 function snapSq(x1, y1, x2, y2) {
   var dx = x2 - x1, dy = y2 - y1;
-  var s = Math.max(Math.abs(dx), Math.abs(dy));
-  return { x: x1 + s * (dx < 0 ? -1 : 1), y: y1 + s * (dy < 0 ? -1 : 1) };
+  var sz = Math.max(Math.abs(dx), Math.abs(dy));
+  return { x: x1 + sz * (dx < 0 ? -1 : 1), y: y1 + sz * (dy < 0 ? -1 : 1) };
 }
+function recTime() { return isRec ? (Date.now() - recStart) / 1000 : undefined; }
 
-// ═══ RESIZE ═══
+// ═══ RESIZE — explicit pixel sizing ═══
 function resize() {
-  var r = C.getBoundingClientRect();
-  C.width = r.width; C.height = r.height;
-  spotC.width = r.width; spotC.height = r.height;
-  offC.width = r.width; offC.height = r.height;
-  // Minimap
+  cW = window.innerWidth;
+  cH = window.innerHeight - 88;
+  C.width = cW; C.height = cH;
+  C.style.width = cW + 'px'; C.style.height = cH + 'px';
+  offC.width = cW; offC.height = cH;
+  spotC.width = cW; spotC.height = cH;
+  spotC.style.width = cW + 'px'; spotC.style.height = cH + 'px';
   mmC.width = 160; mmC.height = 100;
-  // Scratch
-  var sr = scrC.getBoundingClientRect();
-  if (sr.width > 0) { scrC.width = sr.width; scrC.height = sr.height; }
   fullRender();
 }
 window.addEventListener('resize', resize);
 
 // ═══ RENDERING ═══
-function fullRender() {
-  var W = C.width, H = C.height;
-  // 1. Background
+function fullRender(pending) {
+  // 1. CSS background
+  C.style.background = bgColor();
+  document.body.style.background = bgColor();
+
+  // 2. Clear canvas (transparent so CSS bg shows through)
   X.setTransform(1, 0, 0, 1, 0, 0);
-  X.fillStyle = bgColor();
-  X.fillRect(0, 0, W, H);
+  X.clearRect(0, 0, cW, cH);
 
-  // 2. Grid/template (in world coords)
-  X.save();
-  applyVT(X);
-  drawBG(X);
-  X.restore();
+  // 3. Draw grid/template in world coords
+  X.save(); applyVT(X); drawBG(X); X.restore();
 
-  // 3. Drawing layer (offscreen for eraser compositing)
+  // 4. Drawing layer on offscreen canvas (for eraser compositing)
   offX.setTransform(1, 0, 0, 1, 0, 0);
-  offX.clearRect(0, 0, W, H);
-  offX.save();
-  applyVT(offX);
+  offX.clearRect(0, 0, cW, cH);
+  offX.save(); applyVT(offX);
 
   var list = els();
   if (isPlay) {
     list = list.filter(function(e) { return e.rt === undefined || e.rt <= playTime; });
   }
-  for (var i = 0; i < list.length; i++) {
-    drawEl(offX, list[i]);
-  }
+  for (var i = 0; i < list.length; i++) drawEl(offX, list[i]);
+  if (pending) drawEl(offX, pending);
   offX.restore();
 
-  // 4. Composite drawing onto main
+  // 5. Composite drawing layer onto main canvas
   X.setTransform(1, 0, 0, 1, 0, 0);
   X.drawImage(offC, 0, 0);
 
-  // 5. Minimap
   if (showMinimap) renderMinimap();
 }
 
 function drawEl(c, el) {
   switch (el.type) {
     case 'pen':
-      c.strokeStyle = el.color;
-      c.lineCap = 'round';
-      c.lineJoin = 'round';
-      c.globalAlpha = 1;
+      c.strokeStyle = el.color; c.lineCap = 'round'; c.lineJoin = 'round'; c.globalAlpha = 1;
       if (el.pts.length < 2) break;
       for (var i = 1; i < el.pts.length; i++) {
-        var p = el.pts[i - 1], q = el.pts[i];
-        c.lineWidth = el.size * (0.4 + q.p * 1.2);
-        c.beginPath();
-        c.moveTo(p.x, p.y);
-        c.lineTo(q.x, q.y);
-        c.stroke();
+        c.lineWidth = el.size * (0.4 + el.pts[i].p * 1.2);
+        c.beginPath(); c.moveTo(el.pts[i-1].x, el.pts[i-1].y); c.lineTo(el.pts[i].x, el.pts[i].y); c.stroke();
       }
       break;
-
     case 'highlight':
-      c.strokeStyle = el.color;
-      c.lineWidth = el.size * 4;
-      c.lineCap = 'round';
-      c.lineJoin = 'round';
-      c.globalAlpha = 0.3;
+      c.strokeStyle = el.color; c.lineWidth = el.size * 4; c.lineCap = 'round'; c.lineJoin = 'round'; c.globalAlpha = 0.3;
       c.beginPath();
-      for (var i = 0; i < el.pts.length; i++) {
-        if (i === 0) c.moveTo(el.pts[i].x, el.pts[i].y);
-        else c.lineTo(el.pts[i].x, el.pts[i].y);
-      }
-      c.stroke();
-      c.globalAlpha = 1;
+      for (var i = 0; i < el.pts.length; i++) { if (i === 0) c.moveTo(el.pts[i].x, el.pts[i].y); else c.lineTo(el.pts[i].x, el.pts[i].y); }
+      c.stroke(); c.globalAlpha = 1;
       break;
-
     case 'erase':
-      c.globalCompositeOperation = 'destination-out';
-      c.strokeStyle = '#000';
-      c.lineWidth = el.size * 5;
-      c.lineCap = 'round';
-      c.lineJoin = 'round';
-      c.beginPath();
-      for (var i = 0; i < el.pts.length; i++) {
-        if (i === 0) c.moveTo(el.pts[i].x, el.pts[i].y);
-        else c.lineTo(el.pts[i].x, el.pts[i].y);
-      }
-      c.stroke();
-      c.globalCompositeOperation = 'source-over';
+      c.globalCompositeOperation = 'destination-out'; c.strokeStyle = '#000'; c.lineWidth = el.size * 5;
+      c.lineCap = 'round'; c.lineJoin = 'round'; c.beginPath();
+      for (var i = 0; i < el.pts.length; i++) { if (i === 0) c.moveTo(el.pts[i].x, el.pts[i].y); else c.lineTo(el.pts[i].x, el.pts[i].y); }
+      c.stroke(); c.globalCompositeOperation = 'source-over';
       break;
-
     case 'line':
-      c.strokeStyle = el.color;
-      c.lineWidth = el.size;
-      c.lineCap = 'round';
-      c.beginPath();
-      c.moveTo(el.x1, el.y1);
-      c.lineTo(el.x2, el.y2);
-      c.stroke();
+      c.strokeStyle = el.color; c.lineWidth = el.size; c.lineCap = 'round';
+      c.beginPath(); c.moveTo(el.x1, el.y1); c.lineTo(el.x2, el.y2); c.stroke();
       break;
-
     case 'arrow':
-      c.strokeStyle = el.color;
-      c.lineWidth = el.size;
-      c.lineCap = 'round';
-      c.beginPath();
-      c.moveTo(el.x1, el.y1);
-      c.lineTo(el.x2, el.y2);
-      c.stroke();
-      var a = Math.atan2(el.y2 - el.y1, el.x2 - el.x1);
-      var hl = 15 / zoom;
-      c.fillStyle = el.color;
-      c.beginPath();
-      c.moveTo(el.x2, el.y2);
+      c.strokeStyle = el.color; c.lineWidth = el.size; c.lineCap = 'round';
+      c.beginPath(); c.moveTo(el.x1, el.y1); c.lineTo(el.x2, el.y2); c.stroke();
+      var a = Math.atan2(el.y2 - el.y1, el.x2 - el.x1), hl = 15 / zoom;
+      c.fillStyle = el.color; c.beginPath(); c.moveTo(el.x2, el.y2);
       c.lineTo(el.x2 - hl * Math.cos(a - 0.5), el.y2 - hl * Math.sin(a - 0.5));
       c.lineTo(el.x2 - hl * Math.cos(a + 0.5), el.y2 - hl * Math.sin(a + 0.5));
-      c.closePath();
-      c.fill();
+      c.closePath(); c.fill();
       break;
-
     case 'rect':
-      c.strokeStyle = el.color;
-      c.lineWidth = el.size;
+      c.strokeStyle = el.color; c.lineWidth = el.size;
       c.strokeRect(el.x1, el.y1, el.x2 - el.x1, el.y2 - el.y1);
       break;
-
     case 'circle':
       var cx = (el.x1 + el.x2) / 2, cy = (el.y1 + el.y2) / 2;
       var rx = Math.abs(el.x2 - el.x1) / 2, ry = Math.abs(el.y2 - el.y1) / 2;
-      c.strokeStyle = el.color;
-      c.lineWidth = el.size;
-      c.beginPath();
-      c.ellipse(cx, cy, Math.max(rx, 0.1), Math.max(ry, 0.1), 0, 0, Math.PI * 2);
-      c.stroke();
+      c.strokeStyle = el.color; c.lineWidth = el.size;
+      c.beginPath(); c.ellipse(cx, cy, Math.max(rx, 0.1), Math.max(ry, 0.1), 0, 0, Math.PI * 2); c.stroke();
       break;
-
     case 'text':
-      c.font = el.fs + 'px system-ui, sans-serif';
+      var style = ''; if (el.italic) style += 'italic '; if (el.bold) style += 'bold ';
+      c.font = style + el.fs + 'px ' + (el.ff || 'system-ui,sans-serif');
       c.fillStyle = el.color;
-      c.fillText(el.text, el.x, el.y);
+      var lines = el.text.split('\n');
+      for (var j = 0; j < lines.length; j++) c.fillText(lines[j], el.x, el.y + j * el.fs * 1.3);
       break;
-
     case 'sticky':
-      var sw = el.w || 160, sh = el.h || 100;
-      c.fillStyle = el.bg;
-      c.globalAlpha = 0.9;
-      c.fillRect(el.x, el.y, sw, sh);
-      c.globalAlpha = 1;
-      c.fillStyle = '#1a1a2e';
-      c.font = '14px system-ui, sans-serif';
-      var lines = wrapText(el.text, sw - 16);
-      for (var j = 0; j < lines.length && j < 5; j++) {
-        c.fillText(lines[j], el.x + 8, el.y + 20 + j * 18);
-      }
+      c.fillStyle = el.bg; c.globalAlpha = 0.92;
+      c.beginPath(); roundRect(c, el.x, el.y, el.w || 160, el.h || 100, 6); c.fill();
+      c.globalAlpha = 1; c.fillStyle = '#1a1a2e'; c.font = '14px system-ui,sans-serif';
+      var sw = (el.w || 160), lines = wrapText(el.text, sw - 16);
+      for (var j = 0; j < lines.length && j < 5; j++) c.fillText(lines[j], el.x + 8, el.y + 22 + j * 18);
       break;
-
     case 'image':
-      if (el.img && el.img.complete) {
-        c.drawImage(el.img, el.x, el.y, el.w, el.h);
-      }
+      if (el.img && el.img.complete) c.drawImage(el.img, el.x, el.y, el.w, el.h);
       break;
   }
+}
+
+function roundRect(c, x, y, w, h, r) {
+  c.moveTo(x + r, y); c.lineTo(x + w - r, y); c.quadraticCurveTo(x + w, y, x + w, y + r);
+  c.lineTo(x + w, y + h - r); c.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  c.lineTo(x + r, y + h); c.quadraticCurveTo(x, y + h, x, y + h - r);
+  c.lineTo(x, y + r); c.quadraticCurveTo(x, y, x + r, y);
 }
 
 function wrapText(text, maxW) {
@@ -469,18 +415,17 @@ function wrapText(text, maxW) {
   for (var i = 0; i < words.length; i++) {
     var test = line + (line ? ' ' : '') + words[i];
     if (test.length * 7.5 > maxW && line) { lines.push(line); line = words[i]; }
-    else { line = test; }
+    else line = test;
   }
   if (line) lines.push(line);
   return lines;
 }
 
 // ═══ BACKGROUNDS ═══
-function setBG(type) { bgType = type; document.body.style.background = bgColor(); fullRender(); }
+function setBG(type) { bgType = type; fullRender(); }
 
 function drawBG(c) {
-  // Calculate visible world rect
-  var vl = s2w(0, 0), vr = s2w(C.width, C.height);
+  var vl = s2w(0, 0), vr = s2w(cW, cH);
   var left = vl.x, top = vl.y, right = vr.x, bottom = vr.y;
   var isW = isWhiteBG();
   var minor = isW ? 'rgba(0,0,0,.10)' : 'rgba(255,255,255,.06)';
@@ -489,97 +434,79 @@ function drawBG(c) {
 
   if (bgType === 'dark' || bgType === 'white') return;
 
-  if (bgType.indexOf('grid') !== -1) { drawGridLines(c, left, top, right, bottom, 40, minor, null, false); }
-  else if (bgType.indexOf('graph') !== -1) { drawGridLines(c, left, top, right, bottom, 20, minor, major, false); }
-  else if (bgType.indexOf('lined') !== -1) { drawGridLines(c, left, top, right, bottom, 32, minor, null, true); }
-  else if (bgType.indexOf('dot') !== -1) { drawDots(c, left, top, right, bottom, 30, minor); }
+  if (bgType.indexOf('grid') !== -1) drawGridLines(c, left, top, right, bottom, 40, minor, null, false);
+  else if (bgType.indexOf('graph') !== -1) drawGridLines(c, left, top, right, bottom, 20, minor, major, false);
+  else if (bgType.indexOf('lined') !== -1) drawGridLines(c, left, top, right, bottom, 32, minor, null, true);
+  else if (bgType.indexOf('dot') !== -1) drawDots(c, left, top, right, bottom, 30, minor);
   else if (bgType === 'coord') {
     drawGridLines(c, left, top, right, bottom, 20, minor, major, false);
     c.strokeStyle = axis; c.lineWidth = 2 / zoom;
     c.beginPath(); c.moveTo(left, 0); c.lineTo(right, 0); c.stroke();
     c.beginPath(); c.moveTo(0, top); c.lineTo(0, bottom); c.stroke();
-    // Tick labels
     c.fillStyle = isW ? 'rgba(0,0,0,.5)' : 'rgba(255,255,255,.4)';
     c.font = (12 / zoom) + 'px system-ui';
-    var step = 100;
-    for (var x = Math.ceil(left / step) * step; x <= right; x += step) {
-      if (x === 0) continue;
-      c.fillText(x, x + 2 / zoom, -4 / zoom);
-    }
-    for (var y = Math.ceil(top / step) * step; y <= bottom; y += step) {
-      if (y === 0) continue;
-      c.fillText(-y, 4 / zoom, y - 2 / zoom);
-    }
+    for (var x = Math.ceil(left / 100) * 100; x <= right; x += 100) { if (x !== 0) c.fillText(x, x + 2 / zoom, -4 / zoom); }
+    for (var y = Math.ceil(top / 100) * 100; y <= bottom; y += 100) { if (y !== 0) c.fillText(-y, 4 / zoom, y - 2 / zoom); }
   }
   else if (bgType === 'numline') {
     c.strokeStyle = axis; c.lineWidth = 2 / zoom;
     c.beginPath(); c.moveTo(left, 0); c.lineTo(right, 0); c.stroke();
     c.fillStyle = isW ? 'rgba(0,0,0,.5)' : 'rgba(255,255,255,.4)';
     c.font = (14 / zoom) + 'px system-ui';
-    var step = 50;
-    for (var x = Math.ceil(left / step) * step; x <= right; x += step) {
+    for (var x = Math.ceil(left / 50) * 50; x <= right; x += 50) {
       c.beginPath(); c.moveTo(x, -8 / zoom); c.lineTo(x, 8 / zoom); c.stroke();
-      c.fillText(x / step, x - 4 / zoom, 22 / zoom);
+      c.fillText(x / 50, x - 4 / zoom, 22 / zoom);
     }
-    // Minor ticks
     c.lineWidth = 1 / zoom;
-    var mstep = 10;
-    for (var x = Math.ceil(left / mstep) * mstep; x <= right; x += mstep) {
+    for (var x = Math.ceil(left / 10) * 10; x <= right; x += 10) {
       c.beginPath(); c.moveTo(x, -4 / zoom); c.lineTo(x, 4 / zoom); c.stroke();
     }
   }
-  else if (bgType === 'iso') { drawIso(c, left, top, right, bottom, 40, minor); }
+  else if (bgType === 'iso') drawIso(c, left, top, right, bottom, 40, minor);
 }
 
 function drawGridLines(c, l, t, r, b, sp, color, majorColor, hOnly) {
   c.lineWidth = 0.5 / zoom;
   if (!hOnly) {
     for (var x = Math.floor(l / sp) * sp; x <= r; x += sp) {
-      c.strokeStyle = (majorColor && Math.abs(x % (sp * 5)) < 0.5) ? majorColor : color;
+      c.strokeStyle = (majorColor && Math.round(x) % (sp * 5) === 0) ? majorColor : color;
       c.beginPath(); c.moveTo(x, t); c.lineTo(x, b); c.stroke();
     }
   }
   for (var y = Math.floor(t / sp) * sp; y <= b; y += sp) {
-    c.strokeStyle = (majorColor && Math.abs(y % (sp * 5)) < 0.5) ? majorColor : color;
+    c.strokeStyle = (majorColor && Math.round(y) % (sp * 5) === 0) ? majorColor : color;
     c.beginPath(); c.moveTo(l, y); c.lineTo(r, y); c.stroke();
   }
 }
 
 function drawDots(c, l, t, r, b, sp, color) {
-  c.fillStyle = color;
-  var dotR = 1.5 / zoom;
-  for (var x = Math.floor(l / sp) * sp; x <= r; x += sp) {
-    for (var y = Math.floor(t / sp) * sp; y <= b; y += sp) {
-      c.beginPath(); c.arc(x, y, dotR, 0, Math.PI * 2); c.fill();
-    }
-  }
+  c.fillStyle = color; var dr = 1.5 / zoom;
+  for (var x = Math.floor(l / sp) * sp; x <= r; x += sp)
+    for (var y = Math.floor(t / sp) * sp; y <= b; y += sp) { c.beginPath(); c.arc(x, y, dr, 0, Math.PI * 2); c.fill(); }
 }
 
 function drawIso(c, l, t, r, b, sp, color) {
-  c.strokeStyle = color;
-  c.lineWidth = 0.5 / zoom;
-  var h = sp * Math.sqrt(3) / 2;
-  for (var y = Math.floor(t / h) * h; y <= b; y += h) {
-    c.beginPath(); c.moveTo(l, y); c.lineTo(r, y); c.stroke();
-  }
+  c.strokeStyle = color; c.lineWidth = 0.5 / zoom;
+  var h = sp * 0.866;
+  for (var y = Math.floor(t / h) * h; y <= b; y += h) { c.beginPath(); c.moveTo(l, y); c.lineTo(r, y); c.stroke(); }
   for (var x = Math.floor(l / sp) * sp; x <= r; x += sp) {
-    c.beginPath(); c.moveTo(x, t); c.lineTo(x + (b - t) / Math.tan(Math.PI / 3), b); c.stroke();
-    c.beginPath(); c.moveTo(x, t); c.lineTo(x - (b - t) / Math.tan(Math.PI / 3), b); c.stroke();
+    c.beginPath(); c.moveTo(x, t); c.lineTo(x + (b - t) * 0.577, b); c.stroke();
+    c.beginPath(); c.moveTo(x, t); c.lineTo(x - (b - t) * 0.577, b); c.stroke();
   }
 }
 
 // ═══ TOOLS ═══
 function setTool(t) {
+  if (teActive) teCancel();
   tool = t;
-  document.querySelectorAll('.tb').forEach(function(b) {
-    if (b.id && b.id.startsWith('btn')) b.classList.remove('on');
-  });
+  document.querySelectorAll('.tb').forEach(function(b) { if (b.id && b.id.startsWith('btn')) b.classList.remove('on'); });
   var btn = document.getElementById('btn' + t.charAt(0).toUpperCase() + t.slice(1));
   if (btn) btn.classList.add('on');
-  C.style.cursor = t === 'eraser' ? 'cell' : t === 'text' || t === 'sticky' ? 'text' : t === 'laser' || t === 'spotlight' ? 'none' : 'crosshair';
+  C.style.cursor = t === 'eraser' ? 'none' : t === 'text' || t === 'sticky' ? 'text' : t === 'laser' || t === 'spotlight' ? 'none' : 'crosshair';
   document.getElementById('laser').style.display = t === 'laser' ? 'block' : 'none';
   spotC.style.display = t === 'spotlight' ? 'block' : 'none';
-  if (t !== 'spotlight') { spotX.clearRect(0, 0, spotC.width, spotC.height); }
+  eraserCur.style.display = t === 'eraser' ? 'block' : 'none';
+  if (t !== 'spotlight') spotX.clearRect(0, 0, spotC.width, spotC.height);
 }
 
 function pickColor(c, btn) {
@@ -588,57 +515,87 @@ function pickColor(c, btn) {
   if (btn) btn.classList.add('on');
 }
 
+// ═══ INLINE TEXT EDITOR ═══
+function openTextEditor(screenX, screenY, worldX, worldY, mode) {
+  teActive = true; teWorldX = worldX; teWorldY = worldY; teMode = mode;
+  var ed = document.getElementById('textEditor');
+  var x = Math.min(screenX, window.innerWidth - 320);
+  var y = Math.max(screenY - 40, 52);
+  ed.style.left = x + 'px'; ed.style.top = y + 'px';
+  ed.classList.add('show');
+  var input = document.getElementById('teInput');
+  input.value = '';
+  input.style.fontSize = fontSize + 'px';
+  input.style.color = isWhiteBG() ? '#333' : penColor;
+  document.getElementById('teFontSize').value = fontSize;
+  document.getElementById('teColor').value = penColor;
+  document.getElementById('teBold').classList.remove('on');
+  document.getElementById('teItalic').classList.remove('on');
+  if (mode === 'sticky') {
+    input.style.background = 'rgba(254,202,87,.95)';
+    input.style.color = '#1a1a2e';
+  } else {
+    input.style.background = 'rgba(255,255,255,.95)';
+  }
+  setTimeout(function() { input.focus(); }, 50);
+}
+
+function teConfirm() {
+  var text = document.getElementById('teInput').value.trim();
+  if (!text) { teCancel(); return; }
+  var fs = parseInt(document.getElementById('teFontSize').value) || 24;
+  var col = document.getElementById('teColor').value;
+  var bold = document.getElementById('teBold').classList.contains('on');
+  var italic = document.getElementById('teItalic').classList.contains('on');
+  var ff = document.getElementById('teFont').value;
+
+  if (teMode === 'sticky') {
+    var colors = ['#feca57','#ff9ff3','#48dbfb','#2ecc71','#ff6b6b'];
+    var bg = colors[els().filter(function(e) { return e.type === 'sticky'; }).length % colors.length];
+    addEl({ type:'sticky', text:text, x:teWorldX, y:teWorldY, w:180, h:110, bg:bg, rt:recTime() });
+  } else {
+    addEl({ type:'text', text:text, x:teWorldX, y:teWorldY, color:col, fs:fs, bold:bold, italic:italic, ff:ff, rt:recTime() });
+  }
+  teCancel();
+  fullRender();
+}
+
+function teCancel() {
+  teActive = false;
+  document.getElementById('textEditor').classList.remove('show');
+}
+
+function teBoldToggle() { document.getElementById('teBold').classList.toggle('on'); }
+function teItalicToggle() { document.getElementById('teItalic').classList.toggle('on'); }
+
 // ═══ POINTER EVENTS ═══
 C.addEventListener('pointerdown', function(e) {
   e.preventDefault();
   C.setPointerCapture(e.pointerId);
   var w = getW(e);
 
-  // Pan mode: space held or middle button
   if (spaceHeld || e.button === 1) {
-    isPanning = true;
-    panAnchorX = e.clientX; panAnchorY = e.clientY;
-    panStartX = panX; panStartY = panY;
-    C.style.cursor = 'grabbing';
-    return;
+    isPanning = true; panAnchorX = e.clientX; panAnchorY = e.clientY; panStartX = panX; panStartY = panY;
+    C.style.cursor = 'grabbing'; return;
   }
-
   if (tool === 'laser' || tool === 'spotlight') return;
+  if (teActive) return;
 
   if (tool === 'text') {
-    var txt = prompt('Enter text:');
-    if (!txt) return;
-    var el = { type: 'text', text: txt, x: w.x, y: w.y, color: penColor, fs: fontSize, rt: recTime() };
-    addEl(el);
-    fullRender();
+    openTextEditor(e.clientX, e.clientY, w.x, w.y, 'text');
     return;
   }
-
   if (tool === 'sticky') {
-    var txt = prompt('Sticky note text:');
-    if (!txt) return;
-    var colors = ['#feca57', '#ff9ff3', '#48dbfb', '#2ecc71', '#ff6b6b'];
-    var bg = colors[els().filter(function(e) { return e.type === 'sticky'; }).length % colors.length];
-    var el = { type: 'sticky', text: txt, x: w.x, y: w.y, w: 160, h: 100, bg: bg, rt: recTime() };
-    addEl(el);
-    fullRender();
+    openTextEditor(e.clientX, e.clientY, w.x, w.y, 'sticky');
     return;
   }
 
   isDrawing = true;
-
   if (tool === 'pen' || tool === 'highlight' || tool === 'eraser') {
     var p = e.pressure || 0.5;
-    currentEl = {
-      type: tool === 'eraser' ? 'erase' : tool,
-      pts: [{ x: w.x, y: w.y, p: p }],
-      color: penColor,
-      size: penSize,
-      rt: recTime()
-    };
+    currentEl = { type: tool === 'eraser' ? 'erase' : tool, pts: [{ x: w.x, y: w.y, p: p }], color: penColor, size: penSize, rt: recTime() };
   } else {
-    // Shape tools: save canvas for preview
-    preDrawImg = X.getImageData(0, 0, C.width, C.height);
+    preDrawImg = X.getImageData(0, 0, cW, cH);
     currentEl = { type: tool, x1: w.x, y1: w.y, x2: w.x, y2: w.y, color: penColor, size: penSize, rt: recTime() };
   }
 });
@@ -646,393 +603,202 @@ C.addEventListener('pointerdown', function(e) {
 C.addEventListener('pointermove', function(e) {
   var w = getW(e);
 
-  // Laser
+  // Eraser cursor
+  if (tool === 'eraser') {
+    eraserCur.style.left = e.clientX + 'px'; eraserCur.style.top = e.clientY + 'px';
+    var sz = penSize * 5 * zoom;
+    eraserCur.style.width = sz + 'px'; eraserCur.style.height = sz + 'px';
+    eraserCur.style.borderColor = isWhiteBG() ? 'rgba(0,0,0,.4)' : 'rgba(255,255,255,.5)';
+  }
   if (tool === 'laser') {
-    var el = document.getElementById('laser');
-    el.style.left = e.clientX + 'px';
-    el.style.top = e.clientY + 'px';
-    return;
+    var el = document.getElementById('laser'); el.style.left = e.clientX + 'px'; el.style.top = e.clientY + 'px'; return;
   }
-
-  // Spotlight
   if (tool === 'spotlight') {
-    var r = C.getBoundingClientRect();
-    var sx = e.clientX - r.left, sy = e.clientY - r.top;
+    var r = C.getBoundingClientRect(); var sx = e.clientX - r.left, sy = e.clientY - r.top;
     spotX.clearRect(0, 0, spotC.width, spotC.height);
-    spotX.fillStyle = 'rgba(0,0,0,0.7)';
-    spotX.fillRect(0, 0, spotC.width, spotC.height);
+    spotX.fillStyle = 'rgba(0,0,0,0.7)'; spotX.fillRect(0, 0, spotC.width, spotC.height);
     spotX.globalCompositeOperation = 'destination-out';
-    spotX.beginPath();
-    spotX.arc(sx, sy, 100, 0, Math.PI * 2);
-    spotX.fill();
+    spotX.beginPath(); spotX.arc(sx, sy, 100, 0, Math.PI * 2); spotX.fill();
     spotX.globalCompositeOperation = 'source-over';
-    // Soft edge
-    var g = spotX.createRadialGradient(sx, sy, 80, sx, sy, 110);
-    g.addColorStop(0, 'rgba(0,0,0,0)');
-    g.addColorStop(1, 'rgba(0,0,0,0.7)');
-    spotX.fillStyle = g;
-    spotX.beginPath();
-    spotX.arc(sx, sy, 110, 0, Math.PI * 2);
-    spotX.fill();
+    var g = spotX.createRadialGradient(sx, sy, 80, sx, sy, 120);
+    g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,0.7)');
+    spotX.fillStyle = g; spotX.beginPath(); spotX.arc(sx, sy, 120, 0, Math.PI * 2); spotX.fill();
     return;
   }
-
-  // Panning
   if (isPanning) {
     panX = panStartX - (e.clientX - panAnchorX) / zoom;
     panY = panStartY - (e.clientY - panAnchorY) / zoom;
-    fullRender();
-    return;
+    fullRender(); return;
   }
-
   if (!isDrawing || !currentEl) return;
 
   if (currentEl.type === 'pen' || currentEl.type === 'highlight' || currentEl.type === 'erase') {
-    var p = e.pressure || 0.5;
-    currentEl.pts.push({ x: w.x, y: w.y, p: p });
-    // Draw incrementally on main canvas
-    var pts = currentEl.pts;
-    var len = pts.length;
-    if (len < 2) return;
-    var prev = pts[len - 2], cur = pts[len - 1];
+    currentEl.pts.push({ x: w.x, y: w.y, p: e.pressure || 0.5 });
 
-    X.save();
-    applyVT(X);
     if (currentEl.type === 'erase') {
-      // For live erasing, draw on offscreen then recomposite
-      // Simpler: just do full render (acceptable for eraser which is infrequent)
-      X.restore();
-      fullRender();
-      // Also render current in-progress eraser
-      X.save();
-      applyVT(X);
-      return;
-    }
-    if (currentEl.type === 'highlight') {
-      X.strokeStyle = currentEl.color;
-      X.lineWidth = currentEl.size * 4;
-      X.lineCap = 'round';
-      X.globalAlpha = 0.3;
+      fullRender(currentEl);
     } else {
-      X.strokeStyle = currentEl.color;
-      X.lineWidth = currentEl.size * (0.4 + cur.p * 1.2);
-      X.lineCap = 'round';
+      var pts = currentEl.pts, len = pts.length;
+      if (len < 2) return;
+      X.save(); applyVT(X);
+      if (currentEl.type === 'highlight') {
+        X.strokeStyle = currentEl.color; X.lineWidth = currentEl.size * 4;
+        X.lineCap = 'round'; X.globalAlpha = 0.3;
+      } else {
+        X.strokeStyle = currentEl.color;
+        X.lineWidth = currentEl.size * (0.4 + pts[len-1].p * 1.2);
+        X.lineCap = 'round';
+      }
+      X.beginPath(); X.moveTo(pts[len-2].x, pts[len-2].y); X.lineTo(pts[len-1].x, pts[len-1].y); X.stroke();
+      X.globalAlpha = 1; X.restore();
     }
-    X.beginPath();
-    X.moveTo(prev.x, prev.y);
-    X.lineTo(cur.x, cur.y);
-    X.stroke();
-    X.globalAlpha = 1;
-    X.restore();
   } else {
-    // Shape preview
     X.putImageData(preDrawImg, 0, 0);
     var x2 = w.x, y2 = w.y;
     if (shiftHeld) {
-      if (currentEl.type === 'line' || currentEl.type === 'arrow') {
-        var s = snapLine(currentEl.x1, currentEl.y1, x2, y2);
-        x2 = s.x; y2 = s.y;
-      } else {
-        var s = snapSq(currentEl.x1, currentEl.y1, x2, y2);
-        x2 = s.x; y2 = s.y;
-      }
+      if (currentEl.type === 'line' || currentEl.type === 'arrow') { var s = snapLine(currentEl.x1, currentEl.y1, x2, y2); x2 = s.x; y2 = s.y; }
+      else { var s = snapSq(currentEl.x1, currentEl.y1, x2, y2); x2 = s.x; y2 = s.y; }
     }
     currentEl.x2 = x2; currentEl.y2 = y2;
-    // Draw preview
-    X.save();
-    applyVT(X);
-    drawEl(X, currentEl);
-    X.restore();
+    X.save(); applyVT(X); drawEl(X, currentEl); X.restore();
   }
 });
 
 C.addEventListener('pointerup', function(e) {
-  if (isPanning) {
-    isPanning = false;
-    C.style.cursor = spaceHeld ? 'grab' : 'crosshair';
-    return;
-  }
+  if (isPanning) { isPanning = false; C.style.cursor = spaceHeld ? 'grab' : (tool === 'eraser' ? 'none' : 'crosshair'); return; }
   if (!isDrawing || !currentEl) { isDrawing = false; return; }
   isDrawing = false;
 
   if (currentEl.type === 'pen' || currentEl.type === 'highlight' || currentEl.type === 'erase') {
-    if (currentEl.pts.length >= 2) { addEl(currentEl); }
+    if (currentEl.pts.length >= 2) addEl(currentEl);
   } else {
     var w = getW(e);
     if (shiftHeld) {
-      if (currentEl.type === 'line' || currentEl.type === 'arrow') {
-        var s = snapLine(currentEl.x1, currentEl.y1, w.x, w.y);
-        currentEl.x2 = s.x; currentEl.y2 = s.y;
-      } else {
-        var s = snapSq(currentEl.x1, currentEl.y1, w.x, w.y);
-        currentEl.x2 = s.x; currentEl.y2 = s.y;
-      }
-    } else {
-      currentEl.x2 = w.x; currentEl.y2 = w.y;
-    }
+      if (currentEl.type === 'line' || currentEl.type === 'arrow') { var s = snapLine(currentEl.x1, currentEl.y1, w.x, w.y); currentEl.x2 = s.x; currentEl.y2 = s.y; }
+      else { var s = snapSq(currentEl.x1, currentEl.y1, w.x, w.y); currentEl.x2 = s.x; currentEl.y2 = s.y; }
+    } else { currentEl.x2 = w.x; currentEl.y2 = w.y; }
     addEl(currentEl);
   }
-
-  currentEl = null;
-  preDrawImg = null;
+  currentEl = null; preDrawImg = null;
   fullRender();
 });
 
 C.addEventListener('pointerleave', function() {
   if (isDrawing && currentEl) {
     if (currentEl.pts && currentEl.pts.length >= 2) addEl(currentEl);
-    else if (currentEl.x1 !== undefined) addEl(currentEl);
-    isDrawing = false; currentEl = null; preDrawImg = null;
-    fullRender();
+    isDrawing = false; currentEl = null; preDrawImg = null; fullRender();
   }
 });
 
-// ═══ ZOOM (wheel) ═══
+// ═══ ZOOM ═══
 C.addEventListener('wheel', function(e) {
   e.preventDefault();
-  var d = -e.deltaY * 0.001;
+  var d = e.deltaY < 0 ? 0.1 : -0.1;
   var nz = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom * (1 + d)));
   var r = C.getBoundingClientRect();
   var mx = e.clientX - r.left, my = e.clientY - r.top;
-  var wx = (mx - C.width / 2) / zoom + panX;
-  var wy = (my - C.height / 2) / zoom + panY;
+  var wx = (mx - cW / 2) / zoom + panX, wy = (my - cH / 2) / zoom + panY;
   zoom = nz;
-  panX = wx - (mx - C.width / 2) / zoom;
-  panY = wy - (my - C.height / 2) / zoom;
-  fullRender();
-  updateZoom();
+  panX = wx - (mx - cW / 2) / zoom; panY = wy - (my - cH / 2) / zoom;
+  fullRender(); updateZoom();
 }, { passive: false });
 
-function zoomBy(d) {
-  zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom + d));
-  fullRender();
-  updateZoom();
-}
+function zoomBy(d) { zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom + d)); fullRender(); updateZoom(); }
 function resetView() { panX = 0; panY = 0; zoom = 1; fullRender(); updateZoom(); }
 function updateZoom() { document.getElementById('zoomInfo').textContent = Math.round(zoom * 100) + '%'; }
 
 // ═══ UNDO / REDO ═══
-function addEl(el) {
-  els().push(el);
-  pages[curPage].undone = [];
-}
-
-function doUndo() {
-  var e = els();
-  if (!e.length) return;
-  pages[curPage].undone.push(e.pop());
-  fullRender();
-}
-
-function doRedo() {
-  var u = undone();
-  if (!u.length) return;
-  els().push(u.pop());
-  fullRender();
-}
+function addEl(el) { els().push(el); pages[curPage].undone = []; }
+function doUndo() { var e = els(); if (!e.length) return; pages[curPage].undone.push(e.pop()); fullRender(); }
+function doRedo() { var u = undone(); if (!u.length) return; els().push(u.pop()); fullRender(); }
 
 // ═══ CLEAR ═══
-function clearPage() {
-  if (!confirm('Clear this page?')) return;
-  pages[curPage].els = [];
-  pages[curPage].undone = [];
-  fullRender();
-}
+function clearPage() { if (!confirm('Clear this page?')) return; pages[curPage].els = []; pages[curPage].undone = []; fullRender(); }
 
 // ═══ PAGES ═══
-function savePg() {
-  pages[curPage].px = panX;
-  pages[curPage].py = panY;
-  pages[curPage].zm = zoom;
-}
-function loadPg() {
-  panX = pages[curPage].px;
-  panY = pages[curPage].py;
-  zoom = pages[curPage].zm;
-  fullRender();
-  updatePgInfo();
-  updateZoom();
-}
-function addPage() {
-  savePg();
-  pages.push({ els: [], undone: [], px: 0, py: 0, zm: 1 });
-  curPage = pages.length - 1;
-  loadPg();
-}
-function nextPage() {
-  if (curPage < pages.length - 1) { savePg(); curPage++; loadPg(); }
-}
-function prevPage() {
-  if (curPage > 0) { savePg(); curPage--; loadPg(); }
-}
-function updatePgInfo() {
-  document.getElementById('pageInfo').textContent = (curPage + 1) + ' / ' + pages.length;
-}
+function savePg() { pages[curPage].px = panX; pages[curPage].py = panY; pages[curPage].zm = zoom; }
+function loadPg() { panX = pages[curPage].px; panY = pages[curPage].py; zoom = pages[curPage].zm; fullRender(); updatePgInfo(); updateZoom(); }
+function addPage() { savePg(); pages.push({ els:[], undone:[], px:0, py:0, zm:1 }); curPage = pages.length - 1; loadPg(); }
+function nextPage() { if (curPage < pages.length - 1) { savePg(); curPage++; loadPg(); } }
+function prevPage() { if (curPage > 0) { savePg(); curPage--; loadPg(); } }
+function updatePgInfo() { document.getElementById('pageInfo').textContent = (curPage + 1) + ' / ' + pages.length; }
 
 // ═══ RECORDING ═══
-function recTime() {
-  return isRec ? (Date.now() - recStart) / 1000 : undefined;
-}
-
 function toggleRecord() {
   if (isRec) {
-    isRec = false;
-    document.getElementById('btnRec').classList.remove('rec');
-    document.getElementById('btnRec').innerHTML = '&#9679; Rec';
+    isRec = false; document.getElementById('btnRec').classList.remove('rec'); document.getElementById('btnRec').innerHTML = '&#9679; Rec';
     document.getElementById('playback').classList.remove('hide');
-    updatePlayDuration();
   } else {
-    isRec = true;
-    recStart = Date.now();
-    bookmarks = [];
-    document.getElementById('btnRec').classList.add('rec');
-    document.getElementById('btnRec').innerHTML = '&#9632; Stop';
+    isRec = true; recStart = Date.now(); bookmarks = [];
+    document.getElementById('btnRec').classList.add('rec'); document.getElementById('btnRec').innerHTML = '&#9632; Stop';
   }
 }
 
-function updatePlayDuration() {
-  var maxT = 0;
-  for (var p = 0; p < pages.length; p++) {
-    for (var i = 0; i < pages[p].els.length; i++) {
-      var rt = pages[p].els[i].rt;
-      if (rt !== undefined && rt > maxT) maxT = rt;
-    }
-  }
-  if (maxT === 0) maxT = 1;
-  return maxT;
+function getMaxRT() {
+  var m = 0;
+  for (var p = 0; p < pages.length; p++) for (var i = 0; i < pages[p].els.length; i++) { var rt = pages[p].els[i].rt; if (rt !== undefined && rt > m) m = rt; }
+  return m || 1;
 }
-
-function fmtTime(s) {
-  var m = Math.floor(s / 60);
-  var sec = Math.floor(s % 60);
-  return m + ':' + (sec < 10 ? '0' : '') + sec;
-}
+function fmtTime(s) { return Math.floor(s / 60) + ':' + ('0' + Math.floor(s % 60)).slice(-2); }
 
 function togglePlay() {
-  if (isPlay) {
-    isPlay = false;
-    document.getElementById('playBtn').innerHTML = '&#9654;';
-    if (playRAF) cancelAnimationFrame(playRAF);
-  } else {
-    isPlay = true;
-    playLast = 0;
-    document.getElementById('playBtn').innerHTML = '&#9646;&#9646;';
-    playRAF = requestAnimationFrame(playLoop);
-  }
+  if (isPlay) { isPlay = false; document.getElementById('playBtn').innerHTML = '&#9654;'; if (playRAF) cancelAnimationFrame(playRAF); }
+  else { isPlay = true; playLast = 0; document.getElementById('playBtn').innerHTML = '&#9646;&#9646;'; playRAF = requestAnimationFrame(playLoop); }
 }
-
 function playLoop(ts) {
   if (!isPlay) return;
   if (!playLast) playLast = ts;
-  var dt = (ts - playLast) / 1000 * playSpeed;
-  playLast = ts;
-  var dur = updatePlayDuration();
-  playTime += dt;
+  playTime += (ts - playLast) / 1000 * playSpeed; playLast = ts;
+  var dur = getMaxRT();
   if (playTime >= dur) { playTime = dur; isPlay = false; document.getElementById('playBtn').innerHTML = '&#9654;'; }
-  fullRender();
-  updateScrubber(dur);
+  fullRender(); updateScrubber(dur);
   if (isPlay) playRAF = requestAnimationFrame(playLoop);
 }
-
-function stopPlay() {
-  isPlay = false;
-  playTime = 0;
-  document.getElementById('playBtn').innerHTML = '&#9654;';
-  if (playRAF) cancelAnimationFrame(playRAF);
-  fullRender();
-  var dur = updatePlayDuration();
-  updateScrubber(dur);
-}
-
+function stopPlay() { isPlay = false; playTime = 0; document.getElementById('playBtn').innerHTML = '&#9654;'; if (playRAF) cancelAnimationFrame(playRAF); fullRender(); updateScrubber(getMaxRT()); }
 function updateScrubber(dur) {
-  var pct = dur > 0 ? (playTime / dur * 100) : 0;
-  document.getElementById('scrubFill').style.width = pct + '%';
+  document.getElementById('scrubFill').style.width = (dur > 0 ? playTime / dur * 100 : 0) + '%';
   document.getElementById('timeDisp').textContent = fmtTime(playTime) + ' / ' + fmtTime(dur);
 }
-
 function scrubStart(e) {
   var rect = document.getElementById('scrubber').getBoundingClientRect();
-  var pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-  var dur = updatePlayDuration();
-  playTime = pct * dur;
-  fullRender();
-  updateScrubber(dur);
-
-  function move(ev) {
-    var p = Math.max(0, Math.min(1, (ev.clientX - rect.left) / rect.width));
-    playTime = p * dur;
-    fullRender();
-    updateScrubber(dur);
-  }
-  function up() { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); }
-  document.addEventListener('mousemove', move);
-  document.addEventListener('mouseup', up);
+  var dur = getMaxRT();
+  function set(ev) { playTime = Math.max(0, Math.min(1, (ev.clientX - rect.left) / rect.width)) * dur; fullRender(); updateScrubber(dur); }
+  set(e);
+  function mv(ev) { set(ev); }
+  function up() { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); }
+  document.addEventListener('mousemove', mv); document.addEventListener('mouseup', up);
 }
-
 function addBookmark() {
-  if (!isRec && !document.getElementById('playback').classList.contains('hide')) {
-    var dur = updatePlayDuration();
-    var t = isPlay ? playTime : (isRec ? (Date.now() - recStart) / 1000 : 0);
-    bookmarks.push(t);
-    var scrub = document.getElementById('scrubber');
-    var mk = document.createElement('div');
-    mk.className = 'bm';
-    mk.style.left = (t / dur * 100) + '%';
-    mk.title = fmtTime(t);
-    mk.onclick = function(e) { e.stopPropagation(); playTime = t; fullRender(); updateScrubber(dur); };
-    scrub.appendChild(mk);
-  } else if (isRec) {
-    bookmarks.push((Date.now() - recStart) / 1000);
-  }
+  var t = isRec ? (Date.now() - recStart) / 1000 : playTime;
+  bookmarks.push(t);
+  var dur = getMaxRT(); var scrub = document.getElementById('scrubber');
+  var mk = document.createElement('div'); mk.className = 'bm'; mk.style.left = (t / dur * 100) + '%'; mk.title = fmtTime(t);
+  mk.onclick = function(ev) { ev.stopPropagation(); playTime = t; fullRender(); updateScrubber(dur); };
+  scrub.appendChild(mk);
 }
 
-// ═══ IMAGE DRAG & DROP ═══
+// ═══ IMAGE DRAG & DROP + PASTE ═══
 document.addEventListener('dragover', function(e) { e.preventDefault(); });
-document.addEventListener('dragenter', function(e) {
-  if (e.dataTransfer && e.dataTransfer.types.indexOf('Files') !== -1) {
-    document.getElementById('dropZone').classList.add('show');
-  }
-});
-document.addEventListener('dragleave', function(e) {
-  if (e.clientX === 0 && e.clientY === 0) document.getElementById('dropZone').classList.remove('show');
-});
+document.addEventListener('dragenter', function(e) { if (e.dataTransfer && e.dataTransfer.types.indexOf('Files') !== -1) document.getElementById('dropZone').classList.add('show'); });
+document.addEventListener('dragleave', function(e) { if (e.clientX === 0 && e.clientY === 0) document.getElementById('dropZone').classList.remove('show'); });
 document.addEventListener('drop', function(e) {
-  e.preventDefault();
-  document.getElementById('dropZone').classList.remove('show');
-  var files = e.dataTransfer.files;
-  for (var i = 0; i < files.length; i++) {
-    if (files[i].type.startsWith('image/')) {
-      loadImage(files[i], e.clientX, e.clientY);
-    }
-  }
+  e.preventDefault(); document.getElementById('dropZone').classList.remove('show');
+  for (var i = 0; i < e.dataTransfer.files.length; i++) if (e.dataTransfer.files[i].type.startsWith('image/')) loadImg(e.dataTransfer.files[i], e.clientX, e.clientY);
 });
-
-// Paste from clipboard
 document.addEventListener('paste', function(e) {
-  var items = e.clipboardData && e.clipboardData.items;
-  if (!items) return;
-  for (var i = 0; i < items.length; i++) {
-    if (items[i].type.startsWith('image/')) {
-      var file = items[i].getAsFile();
-      loadImage(file, C.width / 2 + C.getBoundingClientRect().left, C.height / 2 + C.getBoundingClientRect().top);
-    }
-  }
+  var items = e.clipboardData && e.clipboardData.items; if (!items) return;
+  for (var i = 0; i < items.length; i++) if (items[i].type.startsWith('image/')) loadImg(items[i].getAsFile(), cW / 2, cH / 2 + 48);
 });
-
-function loadImage(file, cx, cy) {
+function loadImg(file, cx, cy) {
   var reader = new FileReader();
   reader.onload = function(ev) {
     var img = new Image();
     img.onload = function() {
-      var w = getW({ clientX: cx, clientY: cy, target: C });
-      var iw = img.width, ih = img.height;
-      var maxS = 400;
-      if (iw > maxS || ih > maxS) {
-        var s = maxS / Math.max(iw, ih);
-        iw *= s; ih *= s;
-      }
-      var el = { type: 'image', img: img, x: w.x - iw / 2, y: w.y - ih / 2, w: iw, h: ih, rt: recTime() };
-      addEl(el);
+      var r = C.getBoundingClientRect();
+      var w = s2w(cx - r.left, cy - r.top);
+      var iw = img.width, ih = img.height, mx = 400;
+      if (iw > mx || ih > mx) { var sc = mx / Math.max(iw, ih); iw *= sc; ih *= sc; }
+      addEl({ type:'image', img:img, x:w.x - iw/2, y:w.y - ih/2, w:iw, h:ih, rt:recTime() });
       fullRender();
     };
     img.src = ev.target.result;
@@ -1041,58 +807,26 @@ function loadImage(file, cx, cy) {
 }
 
 // ═══ MINIMAP ═══
-function toggleMinimap() {
-  showMinimap = !showMinimap;
-  document.getElementById('minimapWrap').classList.toggle('hide', !showMinimap);
-  document.getElementById('btnMinimap').classList.toggle('on', showMinimap);
-  if (showMinimap) renderMinimap();
-}
-
+function toggleMinimap() { showMinimap = !showMinimap; document.getElementById('minimapWrap').classList.toggle('hide', !showMinimap); document.getElementById('btnMinimap').classList.toggle('on', showMinimap); if (showMinimap) renderMinimap(); }
 function renderMinimap() {
-  var mw = 160, mh = 100;
-  mmX.setTransform(1, 0, 0, 1, 0, 0);
-  mmX.fillStyle = bgColor();
-  mmX.fillRect(0, 0, mw, mh);
-
-  // Find bounds of all elements
-  var minX = -200, maxX = 200, minY = -150, maxY = 150;
-  var list = els();
+  mmX.setTransform(1,0,0,1,0,0); mmX.fillStyle = bgColor(); mmX.fillRect(0,0,160,100);
+  var minX = -200, maxX = 200, minY = -150, maxY = 150, list = els();
   for (var i = 0; i < list.length; i++) {
     var el = list[i];
-    if (el.pts) {
-      for (var j = 0; j < el.pts.length; j++) {
-        minX = Math.min(minX, el.pts[j].x); maxX = Math.max(maxX, el.pts[j].x);
-        minY = Math.min(minY, el.pts[j].y); maxY = Math.max(maxY, el.pts[j].y);
-      }
-    } else if (el.x1 !== undefined) {
-      minX = Math.min(minX, el.x1, el.x2); maxX = Math.max(maxX, el.x1, el.x2);
-      minY = Math.min(minY, el.y1, el.y2); maxY = Math.max(maxY, el.y1, el.y2);
-    } else if (el.x !== undefined) {
-      minX = Math.min(minX, el.x); maxX = Math.max(maxX, el.x + (el.w || 100));
-      minY = Math.min(minY, el.y); maxY = Math.max(maxY, el.y + (el.h || 20));
-    }
+    if (el.pts) { for (var j = 0; j < el.pts.length; j++) { minX = Math.min(minX, el.pts[j].x); maxX = Math.max(maxX, el.pts[j].x); minY = Math.min(minY, el.pts[j].y); maxY = Math.max(maxY, el.pts[j].y); } }
+    else if (el.x1 !== undefined) { minX = Math.min(minX, el.x1, el.x2); maxX = Math.max(maxX, el.x1, el.x2); minY = Math.min(minY, el.y1, el.y2); maxY = Math.max(maxY, el.y1, el.y2); }
+    else if (el.x !== undefined) { minX = Math.min(minX, el.x); maxX = Math.max(maxX, el.x + (el.w||100)); minY = Math.min(minY, el.y); maxY = Math.max(maxY, el.y + (el.h||20)); }
   }
-
-  var pad = 50;
-  minX -= pad; minY -= pad; maxX += pad; maxY += pad;
-  var ww = maxX - minX, wh = maxY - minY;
-  var sc = Math.min(mw / ww, mh / wh);
-
-  mmX.save();
-  mmX.translate(mw / 2 - (minX + ww / 2) * sc, mh / 2 - (minY + wh / 2) * sc);
-  mmX.scale(sc, sc);
+  minX -= 50; minY -= 50; maxX += 50; maxY += 50;
+  var ww = maxX - minX, wh = maxY - minY, sc = Math.min(160 / ww, 100 / wh);
+  mmX.save(); mmX.translate(80 - (minX + ww/2) * sc, 50 - (minY + wh/2) * sc); mmX.scale(sc, sc);
   for (var i = 0; i < list.length; i++) drawEl(mmX, list[i]);
   mmX.restore();
-
-  // Viewport indicator
-  var vl = s2w(0, 0), vr = s2w(C.width, C.height);
-  var vx = (vl.x - minX) * sc + (mw / 2 - ww / 2 * sc);
-  var vy = (vl.y - minY) * sc + (mh / 2 - wh / 2 * sc);
-  var vw = (vr.x - vl.x) * sc;
-  var vh = (vr.y - vl.y) * sc;
+  var vl = s2w(0,0), vr = s2w(cW, cH);
+  var vx = (vl.x - minX) * sc + (80 - ww/2 * sc), vy = (vl.y - minY) * sc + (50 - wh/2 * sc);
+  var vw = (vr.x - vl.x) * sc, vh = (vr.y - vl.y) * sc;
   var view = document.getElementById('mmView');
-  view.style.left = vx + 'px'; view.style.top = vy + 'px';
-  view.style.width = vw + 'px'; view.style.height = vh + 'px';
+  view.style.left = vx + 'px'; view.style.top = vy + 'px'; view.style.width = Math.max(vw, 4) + 'px'; view.style.height = Math.max(vh, 4) + 'px';
 }
 
 // ═══ SCRATCH SPACE ═══
@@ -1100,37 +834,14 @@ function toggleScratch() {
   showScratch = !showScratch;
   document.getElementById('scratchPanel').classList.toggle('hide', !showScratch);
   document.getElementById('btnScratch').classList.toggle('on', showScratch);
-  if (showScratch) {
-    setTimeout(function() {
-      var r = scrC.getBoundingClientRect();
-      scrC.width = r.width; scrC.height = r.height;
-      scrX.fillStyle = '#1e1e30';
-      scrX.fillRect(0, 0, scrC.width, scrC.height);
-    }, 50);
-  }
+  if (showScratch) setTimeout(function() { var r = scrC.getBoundingClientRect(); scrC.width = r.width; scrC.height = r.height; scrX.fillStyle = '#1e1e30'; scrX.fillRect(0,0,scrC.width,scrC.height); }, 50);
 }
-function clearScratch() {
-  scrX.fillStyle = '#1e1e30';
-  scrX.fillRect(0, 0, scrC.width, scrC.height);
-}
-
-scrC.addEventListener('pointerdown', function(e) {
-  scrDrawing = true;
-  var r = scrC.getBoundingClientRect();
-  scrLastX = e.clientX - r.left; scrLastY = e.clientY - r.top;
-  scrX.beginPath(); scrX.moveTo(scrLastX, scrLastY);
-});
+function clearScratch() { scrX.fillStyle = '#1e1e30'; scrX.fillRect(0,0,scrC.width,scrC.height); }
+scrC.addEventListener('pointerdown', function(e) { scrDrawing = true; var r = scrC.getBoundingClientRect(); scrLastX = e.clientX - r.left; scrLastY = e.clientY - r.top; });
 scrC.addEventListener('pointermove', function(e) {
-  if (!scrDrawing) return;
-  var r = scrC.getBoundingClientRect();
-  var x = e.clientX - r.left, y = e.clientY - r.top;
-  scrX.strokeStyle = penColor;
-  scrX.lineWidth = penSize;
-  scrX.lineCap = 'round';
-  scrX.beginPath();
-  scrX.moveTo(scrLastX, scrLastY);
-  scrX.lineTo(x, y);
-  scrX.stroke();
+  if (!scrDrawing) return; var r = scrC.getBoundingClientRect(); var x = e.clientX - r.left, y = e.clientY - r.top;
+  scrX.strokeStyle = penColor; scrX.lineWidth = penSize; scrX.lineCap = 'round';
+  scrX.beginPath(); scrX.moveTo(scrLastX, scrLastY); scrX.lineTo(x, y); scrX.stroke();
   scrLastX = x; scrLastY = y;
 });
 scrC.addEventListener('pointerup', function() { scrDrawing = false; });
@@ -1138,45 +849,27 @@ scrC.addEventListener('pointerleave', function() { scrDrawing = false; });
 
 // ═══ EXPORT ═══
 function saveImage() {
-  var link = document.createElement('a');
-  link.download = 'whiteboard-' + new Date().toISOString().slice(0, 10) + '.png';
-  var tc = document.createElement('canvas');
-  tc.width = C.width; tc.height = C.height;
+  var tc = document.createElement('canvas'); tc.width = cW; tc.height = cH;
   var tctx = tc.getContext('2d');
-  // Background
-  tctx.fillStyle = bgColor();
-  tctx.fillRect(0, 0, tc.width, tc.height);
-  // Grid
-  tctx.save(); applyVTTo(tctx); drawBG(tctx); tctx.restore();
-  // Elements
-  var ofc = document.createElement('canvas');
-  ofc.width = tc.width; ofc.height = tc.height;
-  var ofctx = ofc.getContext('2d');
-  ofctx.save(); applyVTTo(ofctx);
-  var list = els();
-  for (var i = 0; i < list.length; i++) drawEl(ofctx, list[i]);
-  ofctx.restore();
-  tctx.drawImage(ofc, 0, 0);
-  link.href = tc.toDataURL();
-  link.click();
+  tctx.fillStyle = bgColor(); tctx.fillRect(0, 0, cW, cH);
+  tctx.save(); tctx.setTransform(zoom,0,0,zoom,-panX*zoom+cW/2,-panY*zoom+cH/2); drawBG(tctx); tctx.restore();
+  var ofc = document.createElement('canvas'); ofc.width = cW; ofc.height = cH; var ofctx = ofc.getContext('2d');
+  ofctx.save(); ofctx.setTransform(zoom,0,0,zoom,-panX*zoom+cW/2,-panY*zoom+cH/2);
+  var list = els(); for (var i = 0; i < list.length; i++) drawEl(ofctx, list[i]);
+  ofctx.restore(); tctx.drawImage(ofc, 0, 0);
+  var link = document.createElement('a'); link.download = 'whiteboard-' + new Date().toISOString().slice(0,10) + '.png';
+  link.href = tc.toDataURL(); link.click();
 }
 
-function applyVTTo(c) {
-  c.setTransform(zoom, 0, 0, zoom, -panX * zoom + C.width / 2, -panY * zoom + C.height / 2);
-}
-
-// ═══ FULLSCREEN ═══
-function toggleFullscreen() {
-  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
-  else document.exitFullscreen();
-}
+function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
 
 // ═══ KEYBOARD ═══
 document.addEventListener('keydown', function(e) {
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT' || e.target.isContentEditable) return;
   if (e.code === 'Space' && !e.repeat) { e.preventDefault(); spaceHeld = true; C.style.cursor = 'grab'; }
   if (e.key === 'Shift') shiftHeld = true;
-
+  if (e.key === 'Escape' && teActive) { teCancel(); return; }
+  if (e.key === 'Enter' && teActive) { teConfirm(); return; }
   if (e.ctrlKey || e.metaKey) {
     if (e.key === 'z') { e.preventDefault(); doUndo(); }
     if (e.key === 'y') { e.preventDefault(); doRedo(); }
@@ -1186,81 +879,47 @@ document.addEventListener('keydown', function(e) {
     if (e.key === '-') { e.preventDefault(); zoomBy(-0.2); }
     return;
   }
-
-  if (e.key === '1') setTool('pen');
-  if (e.key === '2') setTool('highlight');
-  if (e.key === '3') setTool('eraser');
-  if (e.key === '4') setTool('text');
-  if (e.key === '5') setTool('line');
-  if (e.key === '6') setTool('arrow');
-  if (e.key === '7') setTool('rect');
-  if (e.key === '8') setTool('circle');
-  if (e.key === 'l') setTool('laser');
-  if (e.key === 's') setTool('spotlight');
-  if (e.key === 'n') setTool('sticky');
-  if (e.key === 'f') toggleFullscreen();
-  if (e.key === 'm') toggleMinimap();
-  if (e.key === 'p') toggleScratch();
-  if (e.key === 'r') toggleRecord();
-  if (e.key === 'b') addBookmark();
-  if (e.key === 'ArrowRight') nextPage();
-  if (e.key === 'ArrowLeft') prevPage();
+  if (e.key === '1') setTool('pen'); if (e.key === '2') setTool('highlight'); if (e.key === '3') setTool('eraser');
+  if (e.key === '4') setTool('text'); if (e.key === '5') setTool('line'); if (e.key === '6') setTool('arrow');
+  if (e.key === '7') setTool('rect'); if (e.key === '8') setTool('circle');
+  if (e.key === 'l') setTool('laser'); if (e.key === 's') setTool('spotlight'); if (e.key === 'n') setTool('sticky');
+  if (e.key === 'f') toggleFullscreen(); if (e.key === 'm') toggleMinimap(); if (e.key === 'p') toggleScratch();
+  if (e.key === 'r') toggleRecord(); if (e.key === 'b') addBookmark();
+  if (e.key === 'ArrowRight') nextPage(); if (e.key === 'ArrowLeft') prevPage();
 });
-
 document.addEventListener('keyup', function(e) {
-  if (e.code === 'Space') { spaceHeld = false; if (!isPanning) C.style.cursor = 'crosshair'; }
+  if (e.code === 'Space') { spaceHeld = false; if (!isPanning) C.style.cursor = tool === 'eraser' ? 'none' : 'crosshair'; }
   if (e.key === 'Shift') shiftHeld = false;
 });
 
-// ═══ TOUCH: two-finger pan/zoom ═══
+// ═══ TOUCH PAN/ZOOM ═══
 var touches = {};
 C.addEventListener('touchstart', function(e) {
-  for (var i = 0; i < e.changedTouches.length; i++) {
-    touches[e.changedTouches[i].identifier] = { x: e.changedTouches[i].clientX, y: e.changedTouches[i].clientY };
-  }
-  if (Object.keys(touches).length >= 2) {
-    isPanning = true;
-    isDrawing = false;
-    currentEl = null;
-  }
+  for (var i = 0; i < e.changedTouches.length; i++) touches[e.changedTouches[i].identifier] = { x: e.changedTouches[i].clientX, y: e.changedTouches[i].clientY };
+  if (Object.keys(touches).length >= 2) { isPanning = true; isDrawing = false; currentEl = null; }
 }, { passive: true });
-
 C.addEventListener('touchmove', function(e) {
   var ids = Object.keys(touches);
-  if (ids.length >= 2) {
+  if (ids.length >= 2 && e.touches.length >= 2) {
     e.preventDefault();
-    var t = [];
-    for (var i = 0; i < e.touches.length; i++) t.push(e.touches[i]);
-    if (t.length >= 2) {
-      var oldDist = Math.sqrt(Math.pow(touches[ids[0]].x - touches[ids[1]].x, 2) + Math.pow(touches[ids[0]].y - touches[ids[1]].y, 2));
-      var newDist = Math.sqrt(Math.pow(t[0].clientX - t[1].clientX, 2) + Math.pow(t[0].clientY - t[1].clientY, 2));
-      var scale = newDist / oldDist;
-      zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom * scale));
-
-      var oldMid = { x: (touches[ids[0]].x + touches[ids[1]].x) / 2, y: (touches[ids[0]].y + touches[ids[1]].y) / 2 };
-      var newMid = { x: (t[0].clientX + t[1].clientX) / 2, y: (t[0].clientY + t[1].clientY) / 2 };
-      panX -= (newMid.x - oldMid.x) / zoom;
-      panY -= (newMid.y - oldMid.y) / zoom;
-
-      for (var i = 0; i < t.length; i++) {
-        touches[t[i].identifier] = { x: t[i].clientX, y: t[i].clientY };
-      }
-      fullRender();
-      updateZoom();
-    }
+    var t0 = e.touches[0], t1 = e.touches[1];
+    var oldD = Math.sqrt(Math.pow(touches[ids[0]].x - touches[ids[1]].x, 2) + Math.pow(touches[ids[0]].y - touches[ids[1]].y, 2));
+    var newD = Math.sqrt(Math.pow(t0.clientX - t1.clientX, 2) + Math.pow(t0.clientY - t1.clientY, 2));
+    zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom * newD / oldD));
+    var om = { x: (touches[ids[0]].x + touches[ids[1]].x) / 2, y: (touches[ids[0]].y + touches[ids[1]].y) / 2 };
+    var nm = { x: (t0.clientX + t1.clientX) / 2, y: (t0.clientY + t1.clientY) / 2 };
+    panX -= (nm.x - om.x) / zoom; panY -= (nm.y - om.y) / zoom;
+    touches[t0.identifier] = { x: t0.clientX, y: t0.clientY }; touches[t1.identifier] = { x: t1.clientX, y: t1.clientY };
+    fullRender(); updateZoom();
   }
 }, { passive: false });
-
 C.addEventListener('touchend', function(e) {
-  for (var i = 0; i < e.changedTouches.length; i++) {
-    delete touches[e.changedTouches[i].identifier];
-  }
+  for (var i = 0; i < e.changedTouches.length; i++) delete touches[e.changedTouches[i].identifier];
   if (Object.keys(touches).length < 2) isPanning = false;
 }, { passive: true });
 
 // ═══ INIT ═══
-document.body.style.background = bgColor();
-setTimeout(resize, 0);
+resize();
 </script>
 </body>
 </html>
