@@ -382,7 +382,6 @@
     }
 
     // --- STATE & INITIALIZATION ---
-    let db;
     let currentProgramme = localStorage.getItem('teacherHubProg') || 'DP';
     let allStudents = [];
     let allQuestions = [];
@@ -391,7 +390,9 @@
     function initHub() {
       // Setup Firebase
       if (typeof firebase !== 'undefined') {
-        db = firebase.firestore();
+        if (typeof db === 'undefined') {
+          window.db = firebase.firestore();
+        }
         
         firebase.auth().onAuthStateChanged(user => {
           const authBtn = document.getElementById('authBtn');
