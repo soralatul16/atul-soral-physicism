@@ -506,12 +506,14 @@
           let data = doc.data();
           data.id = doc.id;
           
-          if(data.tags && Array.isArray(data.tags)) {
-            data.tags.forEach(t => allTags.add(t));
+          if(currentProgramme === 'DP' && data.level && data.level.startsWith('DP')) {
+            allStudents.push(data);
+            if(data.tags && Array.isArray(data.tags)) data.tags.forEach(t => allTags.add(t));
           }
-          
-          if(currentProgramme === 'DP' && data.level && data.level.startsWith('DP')) allStudents.push(data);
-          else if(currentProgramme === 'MYP' && data.level && data.level === 'MYP') allStudents.push(data);
+          else if(currentProgramme === 'MYP' && data.level === 'MYP') {
+            allStudents.push(data);
+            if(data.tags && Array.isArray(data.tags)) data.tags.forEach(t => allTags.add(t));
+          }
         });
         
         const tagFilter = document.getElementById('studentTagFilter');
@@ -625,6 +627,8 @@
         return;
       }
 
+      const mypTopics = ['Forces & Motion', 'Energy & Environment', 'The Nature of Waves', 'Electromagnetism', 'Thermal Physics', 'Atomic Physics', 'Astrophysics', 'Exploring Matter', 'Work Power & Gravity'];
+
       let counts = {};
       allQuestions.forEach(q => {
         let t = 'Uncategorized';
@@ -635,6 +639,9 @@
           }
         } else {
           t = q.topic || 'Uncategorized';
+          if (t !== 'Uncategorized' && !mypTopics.includes(t)) {
+            t = q.criterion ? `Criterion ${q.criterion}` : 'Other';
+          }
         }
         counts[t] = (counts[t] || 0) + 1;
       });
