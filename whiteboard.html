@@ -173,9 +173,43 @@ body.hc .lbl{color:#aaa}
 /* Server-feature toast */
 .toast{position:fixed;top:74px;left:50%;transform:translateX(-50%);background:#e74c3c;color:#fff;padding:8px 20px;border-radius:8px;font-size:.8rem;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
 .toast.show{opacity:1}
+
+/* Welcome overlay */
+.welcome{position:fixed;inset:0;z-index:9999;background:#0d0d1a;display:flex;align-items:center;justify-content:center;transition:opacity .5s}
+.welcome.gone{opacity:0;pointer-events:none}
+.welcome-card{text-align:center;max-width:480px;padding:40px}
+.welcome-card h1{color:#4ecdc4;font-size:1.8rem;font-weight:800;margin-bottom:6px;letter-spacing:.02em}
+.welcome-card .sub{color:#feca57;font-size:.95rem;font-weight:600;margin-bottom:24px}
+.welcome-card p{color:#888;font-size:.85rem;line-height:1.6;margin-bottom:20px}
+.welcome-card .features{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:28px}
+.welcome-card .feat{background:rgba(78,205,196,.08);border:1px solid rgba(78,205,196,.2);border-radius:8px;padding:8px 14px;color:#ccc;font-size:.75rem}
+.welcome-card .start-btn{background:#4ecdc4;color:#0d0d1a;border:none;padding:14px 40px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:.03em;transition:transform .15s}
+.welcome-card .start-btn:hover{transform:scale(1.05)}
+.welcome-card .note{color:#555;font-size:.68rem;margin-top:16px;line-height:1.5}
 </style>
 </head>
 <body>
+
+<!-- WELCOME OVERLAY -->
+<div class="welcome" id="welcome">
+  <div class="welcome-card">
+    <h1>Atul Soral Physicism</h1>
+    <div class="sub">Free Online Teaching Whiteboard</div>
+    <p>Draw, write equations, embed videos, create polls, record lessons, and teach — all from your browser.</p>
+    <div class="features">
+      <div class="feat">Infinite Canvas</div>
+      <div class="feat">Pressure Pen</div>
+      <div class="feat">LaTeX Equations</div>
+      <div class="feat">YouTube Embed</div>
+      <div class="feat">Templates</div>
+      <div class="feat">Time-Travel Replay</div>
+      <div class="feat">Polls &amp; Quizzes</div>
+      <div class="feat">Export PNG</div>
+    </div>
+    <button class="start-btn" onclick="dismissWelcome()">Start Drawing &rarr;</button>
+    <div class="note">Your boards save locally in this browser only — nothing is uploaded to any server.<br>Works best on desktop. Use Ctrl+Z to undo, scroll to pan, Ctrl+scroll to zoom.</div>
+  </div>
+</div>
 
 <!-- BRANDING HEADER -->
 <div class="brand-bar">
@@ -1556,7 +1590,7 @@ function saveBoard() {
     data.pages.push({els:ec,px:pg.px,py:pg.py,zm:pg.zm});
   }
   var key = 'wb-' + sessionName.replace(/\s+/g,'-').toLowerCase();
-  try{localStorage.setItem(key,JSON.stringify(data));alert('Saved as "'+sessionName+'"!');}catch(e){alert('Save failed: '+e.message);}
+  try{localStorage.setItem(key,btoa(unescape(encodeURIComponent(JSON.stringify(data)))));alert('Saved as "'+sessionName+'"!');}catch(e){alert('Save failed: '+e.message);}
 }
 
 function loadBoard() {
@@ -1572,7 +1606,9 @@ function loadBoard() {
   if (!raw) { raw = localStorage.getItem('wb-save'); }
   if (!raw) { alert('Board "'+choice+'" not found.'); return; }
   try{
-    var data=JSON.parse(raw);
+    var decoded;
+    try { decoded = decodeURIComponent(escape(atob(raw))); } catch(e2) { decoded = raw; }
+    var data=JSON.parse(decoded);
     pages=[];
     for(var p=0;p<data.pages.length;p++){
       var pg=data.pages[p],re=[];
@@ -1887,6 +1923,31 @@ function serverFeature(name) {
   toast.classList.add('show');
   setTimeout(function() { toast.classList.remove('show'); }, 3500);
 }
+
+// ═══ WELCOME ═══
+function dismissWelcome() {
+  var w = document.getElementById('welcome');
+  w.classList.add('gone');
+  setTimeout(function() { w.remove(); }, 600);
+  localStorage.setItem('wb-welcomed', '1');
+}
+if (localStorage.getItem('wb-welcomed')) {
+  document.getElementById('welcome').remove();
+}
+
+// ═══ SECURITY HARDENING ═══
+C.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+
+(function() {
+  var warn = '%c⚠ This is a browser feature for developers.';
+  var style = 'font-size:18px;color:#e74c3c;font-weight:bold;';
+  var msg = '%cIf someone told you to paste something here, it\'s likely a scam. Don\'t do it.';
+  var style2 = 'font-size:14px;color:#ccc;';
+  try {
+    console.log(warn, style);
+    console.log(msg, style2);
+  } catch(e) {}
+})();
 
 // ═══ INIT ═══
 resize();
