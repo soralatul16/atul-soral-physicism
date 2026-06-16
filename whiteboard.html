@@ -10,10 +10,17 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-select:none}
 
-#canvas{position:fixed;top:48px;left:0;z-index:10;cursor:crosshair;touch-action:none}
-#spotCanvas{position:fixed;top:48px;left:0;z-index:12;pointer-events:none;display:none}
+/* Branding header */
+.brand-bar{position:fixed;top:0;left:0;right:0;height:28px;display:flex;align-items:center;justify-content:center;background:#0d0d1a;z-index:201;border-bottom:1px solid #222;gap:20px}
+.brand-bar .brand-title{color:#4ecdc4;font-size:.75rem;font-weight:700;letter-spacing:.08em}
+.brand-bar .class-name{background:transparent;border:1px solid transparent;border-radius:4px;color:#feca57;font-size:.75rem;font-weight:600;padding:2px 8px;text-align:center;outline:none;min-width:140px;max-width:300px;letter-spacing:.03em}
+.brand-bar .class-name:hover,.brand-bar .class-name:focus{border-color:#444;background:rgba(255,255,255,.05)}
+.brand-bar .class-name::placeholder{color:#666;font-weight:400}
 
-.toolbar{position:fixed;top:0;left:0;right:0;height:48px;display:flex;align-items:center;gap:4px;padding:0 10px;background:rgba(26,26,46,.96);backdrop-filter:blur(12px);z-index:200;border-bottom:1px solid #333;overflow-x:auto;overflow-y:hidden}
+#canvas{position:fixed;top:76px;left:0;z-index:10;cursor:crosshair;touch-action:none}
+#spotCanvas{position:fixed;top:76px;left:0;z-index:12;pointer-events:none;display:none}
+
+.toolbar{position:fixed;top:28px;left:0;right:0;height:48px;display:flex;align-items:center;gap:4px;padding:0 10px;background:rgba(26,26,46,.96);backdrop-filter:blur(12px);z-index:200;border-bottom:1px solid #333;overflow-x:auto;overflow-y:hidden}
 .toolbar::-webkit-scrollbar{height:0}
 .tg{display:flex;gap:3px;align-items:center;padding:0 6px;flex-shrink:0}
 .sep{width:1px;height:28px;background:#444;margin:0 2px;flex-shrink:0}
@@ -51,7 +58,7 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
 .minimap canvas{width:100%;height:100%}
 .mm-view{position:absolute;border:1.5px solid #4ecdc4;pointer-events:none;border-radius:1px}
 
-.scratch{position:fixed;top:48px;right:0;bottom:40px;width:280px;background:rgba(26,26,46,.98);border-left:1px solid #333;z-index:150;display:flex;flex-direction:column}
+.scratch{position:fixed;top:76px;right:0;bottom:40px;width:280px;background:rgba(26,26,46,.98);border-left:1px solid #333;z-index:150;display:flex;flex-direction:column}
 .scratch.hide{display:none}
 .scratch-head{height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #333;color:#888;font-size:.7rem}
 .scratch-head button{background:none;border:none;color:#888;cursor:pointer;font-size:14px}
@@ -59,7 +66,7 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
 
 .laser{position:fixed;width:12px;height:12px;border-radius:50%;background:rgba(255,0,0,.8);box-shadow:0 0 20px rgba(255,0,0,.6),0 0 40px rgba(255,0,0,.3);pointer-events:none;z-index:15;display:none;transform:translate(-50%,-50%)}
 
-.drop-zone{position:fixed;top:48px;left:0;right:0;bottom:40px;z-index:300;background:rgba(78,205,196,.15);border:3px dashed #4ecdc4;display:none;align-items:center;justify-content:center;color:#4ecdc4;font-size:1.2rem;font-weight:600;pointer-events:none}
+.drop-zone{position:fixed;top:76px;left:0;right:0;bottom:40px;z-index:300;background:rgba(78,205,196,.15);border:3px dashed #4ecdc4;display:none;align-items:center;justify-content:center;color:#4ecdc4;font-size:1.2rem;font-weight:600;pointer-events:none}
 .drop-zone.show{display:flex}
 
 /* Inline text editor */
@@ -77,13 +84,13 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
 .eraser-cursor{position:fixed;border:2px solid rgba(255,255,255,.5);border-radius:50%;pointer-events:none;z-index:14;display:none;transform:translate(-50%,-50%)}
 
 /* Overlay container for equations/video */
-#overlays{position:fixed;top:48px;left:0;pointer-events:none;z-index:11;overflow:hidden}
+#overlays{position:fixed;top:76px;left:0;pointer-events:none;z-index:11;overflow:hidden}
 #overlays>*{pointer-events:auto}
 #overlays .eq{position:absolute;transform-origin:top left;padding:2px 6px;border-radius:4px;cursor:default}
 #overlays iframe{position:absolute;border:none;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.3)}
 
 /* Chat panel */
-.chat{position:fixed;top:48px;left:0;bottom:40px;width:260px;background:rgba(26,26,46,.98);border-right:1px solid #333;z-index:150;display:flex;flex-direction:column}
+.chat{position:fixed;top:76px;left:0;bottom:40px;width:260px;background:rgba(26,26,46,.98);border-right:1px solid #333;z-index:150;display:flex;flex-direction:column}
 .chat.hide{display:none}
 .chat-head{height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #333;color:#888;font-size:.7rem}
 .chat-head button{background:none;border:none;color:#888;cursor:pointer;font-size:14px}
@@ -113,6 +120,7 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
 .poll-modal .poll-cancel{background:#444;color:#ccc}
 
 /* High-contrast mode */
+body.hc .brand-bar{background:#000;border-bottom:2px solid #fff}
 body.hc .toolbar{background:rgba(0,0,0,.98);border-bottom:2px solid #fff}
 body.hc .tb{background:#000;color:#fff;border-color:#fff}
 body.hc .tb.on{background:#fff;color:#000}
@@ -120,11 +128,17 @@ body.hc .bottom-bar{background:rgba(0,0,0,.98);border-top:2px solid #fff}
 body.hc .lbl{color:#aaa}
 
 /* Server-feature toast */
-.toast{position:fixed;top:56px;left:50%;transform:translateX(-50%);background:#e74c3c;color:#fff;padding:8px 20px;border-radius:8px;font-size:.8rem;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast{position:fixed;top:84px;left:50%;transform:translateX(-50%);background:#e74c3c;color:#fff;padding:8px 20px;border-radius:8px;font-size:.8rem;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
 .toast.show{opacity:1}
 </style>
 </head>
 <body>
+
+<!-- BRANDING HEADER -->
+<div class="brand-bar">
+  <span class="brand-title">Atul Soral Physicism &mdash; Whiteboard</span>
+  <input type="text" class="class-name" id="className" placeholder="Class / Topic name..." title="Name your session (used for file names)">
+</div>
 
 <!-- TOOLBAR -->
 <div class="toolbar" id="toolbar">
@@ -427,7 +441,7 @@ function recTime() { return isRec ? (Date.now() - recStart) / 1000 : undefined; 
 // ═══ RESIZE — explicit pixel sizing ═══
 function resize() {
   cW = window.innerWidth;
-  cH = window.innerHeight - 88;
+  cH = window.innerHeight - 116;
   C.width = cW; C.height = cH;
   C.style.width = cW + 'px'; C.style.height = cH + 'px';
   offC.width = cW; offC.height = cH;
@@ -904,16 +918,23 @@ C.addEventListener('pointerleave', function() {
   }
 });
 
-// ═══ ZOOM ═══
+// ═══ SCROLL & ZOOM ═══
 C.addEventListener('wheel', function(e) {
   e.preventDefault();
-  var d = e.deltaY < 0 ? 0.1 : -0.1;
-  var nz = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom * (1 + d)));
-  var r = C.getBoundingClientRect();
-  var mx = e.clientX - r.left, my = e.clientY - r.top;
-  var wx = (mx - cW / 2) / zoom + panX, wy = (my - cH / 2) / zoom + panY;
-  zoom = nz;
-  panX = wx - (mx - cW / 2) / zoom; panY = wy - (my - cH / 2) / zoom;
+  if (e.ctrlKey || e.metaKey) {
+    // Ctrl+scroll = zoom
+    var d = e.deltaY < 0 ? 0.1 : -0.1;
+    var nz = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom * (1 + d)));
+    var r = C.getBoundingClientRect();
+    var mx = e.clientX - r.left, my = e.clientY - r.top;
+    var wx = (mx - cW / 2) / zoom + panX, wy = (my - cH / 2) / zoom + panY;
+    zoom = nz;
+    panX = wx - (mx - cW / 2) / zoom; panY = wy - (my - cH / 2) / zoom;
+  } else {
+    // Normal scroll = pan (vertical scroll to go down the board, horizontal for sideways)
+    panY += e.deltaY / zoom;
+    panX += e.deltaX / zoom;
+  }
   fullRender(); updateZoom();
 }, { passive: false });
 
@@ -1071,6 +1092,11 @@ scrC.addEventListener('pointermove', function(e) {
 scrC.addEventListener('pointerup', function() { scrDrawing = false; });
 scrC.addEventListener('pointerleave', function() { scrDrawing = false; });
 
+function getSessionName() {
+  var name = document.getElementById('className').value.trim();
+  return name || 'whiteboard';
+}
+
 // ═══ EXPORT ═══
 function saveImage() {
   var tc = document.createElement('canvas'); tc.width = cW; tc.height = cH;
@@ -1081,7 +1107,8 @@ function saveImage() {
   ofctx.save(); ofctx.setTransform(zoom,0,0,zoom,-panX*zoom+cW/2,-panY*zoom+cH/2);
   var list = els(); for (var i = 0; i < list.length; i++) drawEl(ofctx, list[i]);
   ofctx.restore(); tctx.drawImage(ofc, 0, 0);
-  var link = document.createElement('a'); link.download = 'whiteboard-' + new Date().toISOString().slice(0,10) + '.png';
+  var link = document.createElement('a');
+  link.download = getSessionName().replace(/\s+/g, '-') + '_' + new Date().toISOString().slice(0,10) + '.png';
   link.href = tc.toDataURL(); link.click();
 }
 
@@ -1251,7 +1278,8 @@ function recognizeShape(el) {
 // ═══ SAVE / LOAD BOARD ═══
 function saveBoard() {
   savePg();
-  var data = { pages:[], curPage:curPage, bgType:bgType };
+  var sessionName = getSessionName();
+  var data = { pages:[], curPage:curPage, bgType:bgType, sessionName:sessionName };
   for(var p=0;p<pages.length;p++){
     var pg=pages[p], ec=[];
     for(var i=0;i<pg.els.length;i++){
@@ -1261,12 +1289,22 @@ function saveBoard() {
     }
     data.pages.push({els:ec,px:pg.px,py:pg.py,zm:pg.zm});
   }
-  try{localStorage.setItem('wb-save',JSON.stringify(data));alert('Board saved!');}catch(e){alert('Save failed: '+e.message);}
+  var key = 'wb-' + sessionName.replace(/\s+/g,'-').toLowerCase();
+  try{localStorage.setItem(key,JSON.stringify(data));alert('Saved as "'+sessionName+'"!');}catch(e){alert('Save failed: '+e.message);}
 }
 
 function loadBoard() {
-  var raw=localStorage.getItem('wb-save');
-  if(!raw){alert('No saved board found.');return;}
+  var keys = [];
+  for (var i = 0; i < localStorage.length; i++) {
+    var k = localStorage.key(i);
+    if (k.startsWith('wb-')) keys.push(k.replace('wb-',''));
+  }
+  if (!keys.length) { alert('No saved boards found.'); return; }
+  var choice = prompt('Saved boards:\\n\\n' + keys.join('\\n') + '\\n\\nType the name to load:');
+  if (!choice) return;
+  var raw = localStorage.getItem('wb-' + choice.replace(/\s+/g,'-').toLowerCase());
+  if (!raw) { raw = localStorage.getItem('wb-save'); }
+  if (!raw) { alert('Board "'+choice+'" not found.'); return; }
   try{
     var data=JSON.parse(raw);
     pages=[];
@@ -1282,6 +1320,7 @@ function loadBoard() {
     curPage=Math.min(data.curPage||0,pages.length-1);
     bgType=data.bgType||'dark';
     document.getElementById('bgSelect').value=bgType;
+    if (data.sessionName) document.getElementById('className').value = data.sessionName;
     loadPg();
   }catch(e){alert('Load failed: '+e.message);}
 }
