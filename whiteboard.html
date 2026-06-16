@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Teaching Whiteboard | Atul Soral Physicism</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-select:none}
@@ -73,6 +75,53 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
 
 /* Eraser cursor circle */
 .eraser-cursor{position:fixed;border:2px solid rgba(255,255,255,.5);border-radius:50%;pointer-events:none;z-index:14;display:none;transform:translate(-50%,-50%)}
+
+/* Overlay container for equations/video */
+#overlays{position:fixed;top:48px;left:0;pointer-events:none;z-index:11;overflow:hidden}
+#overlays>*{pointer-events:auto}
+#overlays .eq{position:absolute;transform-origin:top left;padding:2px 6px;border-radius:4px;cursor:default}
+#overlays iframe{position:absolute;border:none;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+
+/* Chat panel */
+.chat{position:fixed;top:48px;left:0;bottom:40px;width:260px;background:rgba(26,26,46,.98);border-right:1px solid #333;z-index:150;display:flex;flex-direction:column}
+.chat.hide{display:none}
+.chat-head{height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #333;color:#888;font-size:.7rem}
+.chat-head button{background:none;border:none;color:#888;cursor:pointer;font-size:14px}
+.chat-msgs{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:6px}
+.chat-msg{background:#2a2a3e;border-radius:8px;padding:6px 10px;font-size:.8rem;color:#ccc;word-wrap:break-word}
+.chat-msg .chat-time{font-size:.6rem;color:#666;margin-bottom:2px}
+.chat-input{display:flex;gap:4px;padding:6px;border-top:1px solid #333}
+.chat-input input{flex:1;background:#2a2a3e;color:#ccc;border:1px solid #444;border-radius:6px;padding:4px 8px;font-size:.8rem;outline:none}
+.chat-input button{background:#4ecdc4;color:#1a1a2e;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:.8rem;font-weight:600}
+
+/* Reactions */
+.reaction-bar{position:fixed;bottom:48px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(26,26,46,.9);padding:6px 12px;border-radius:20px;z-index:200}
+.reaction-bar.hide{display:none}
+.reaction-bar button{font-size:20px;background:none;border:none;cursor:pointer;transition:transform .15s}
+.reaction-bar button:hover{transform:scale(1.3)}
+.float-emoji{position:fixed;font-size:40px;pointer-events:none;z-index:999;animation:floatUp 2s ease-out forwards}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-120px) scale(1.5)}}
+
+/* Poll widget */
+.poll-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#2a2a3e;border:1px solid #444;border-radius:12px;padding:20px;z-index:300;width:360px;color:#ccc;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.poll-modal.hide{display:none}
+.poll-modal h3{margin-bottom:12px;color:#4ecdc4;font-size:.9rem}
+.poll-modal input,.poll-modal textarea{width:100%;background:#1a1a2e;border:1px solid #444;border-radius:6px;padding:6px 10px;color:#ccc;font-size:.8rem;margin-bottom:8px;outline:none}
+.poll-modal .poll-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+.poll-modal button{padding:6px 14px;border:none;border-radius:6px;cursor:pointer;font-size:.8rem}
+.poll-modal .poll-ok{background:#4ecdc4;color:#1a1a2e;font-weight:600}
+.poll-modal .poll-cancel{background:#444;color:#ccc}
+
+/* High-contrast mode */
+body.hc .toolbar{background:rgba(0,0,0,.98);border-bottom:2px solid #fff}
+body.hc .tb{background:#000;color:#fff;border-color:#fff}
+body.hc .tb.on{background:#fff;color:#000}
+body.hc .bottom-bar{background:rgba(0,0,0,.98);border-top:2px solid #fff}
+body.hc .lbl{color:#aaa}
+
+/* Server-feature toast */
+.toast{position:fixed;top:56px;left:50%;transform:translateX(-50%);background:#e74c3c;color:#fff;padding:8px 20px;border-radius:8px;font-size:.8rem;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
 </style>
 </head>
 <body>
@@ -102,6 +151,13 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
     <span class="lbl">Point</span>
     <button class="tb" id="btnLaser" onclick="setTool('laser')" title="Laser (L)">&#128308;</button>
     <button class="tb" id="btnSpotlight" onclick="setTool('spotlight')" title="Spotlight (S)">&#128161;</button>
+  </div>
+  <div class="sep"></div>
+  <div class="tg">
+    <span class="lbl">Media</span>
+    <button class="tb" id="btnEquation" onclick="setTool('equation')" title="Equation (E)">&#8721;</button>
+    <button class="tb" onclick="embedVideo()" title="Embed YouTube">&#9654;&#65039;</button>
+    <button class="tb" onclick="openPollModal()" title="Create Poll">&#128202;</button>
   </div>
   <div class="sep"></div>
   <div class="tg">
@@ -176,11 +232,21 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
   <div class="tg">
     <button class="tb" id="btnMinimap" onclick="toggleMinimap()" title="Minimap (M)">&#128506;</button>
     <button class="tb" id="btnScratch" onclick="toggleScratch()" title="Scratch Space (P)">&#128203;</button>
+    <button class="tb" id="btnChat" onclick="toggleChat()" title="Chat/Notes (C)">&#128172;</button>
+    <button class="tb" id="btnReactions" onclick="toggleReactions()" title="Reactions">&#128079;</button>
+    <button class="tb" onclick="toggleHC()" title="High Contrast">&#9680;</button>
+  </div>
+  <div class="sep"></div>
+  <div class="tg">
+    <span class="lbl" style="color:#e74c3c">Server</span>
+    <button class="tb" onclick="serverFeature('Real-time Multiplayer')" title="Needs server" style="opacity:.5">&#128101;</button>
+    <button class="tb" onclick="serverFeature('Voice/Video Call')" title="Needs server" style="opacity:.5">&#127908;</button>
+    <button class="tb" onclick="serverFeature('Breakout Boards')" title="Needs server" style="opacity:.5">&#128218;</button>
   </div>
 </div>
 
 <!-- CANVAS -->
-<canvas id="canvas"></canvas>
+<canvas id="canvas" role="application" aria-label="Whiteboard drawing canvas. Use Space to pan, scroll to zoom."></canvas>
 <canvas id="spotCanvas"></canvas>
 <div class="laser" id="laser"></div>
 <div class="eraser-cursor" id="eraserCursor"></div>
@@ -260,6 +326,47 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
   </div>
   <canvas id="scratchCanvas"></canvas>
 </div>
+
+<!-- OVERLAY CONTAINER for equations/video -->
+<div id="overlays"></div>
+
+<!-- CHAT PANEL -->
+<div class="chat hide" id="chatPanel">
+  <div class="chat-head"><span>Notes &amp; Chat</span><button onclick="toggleChat()">&#10005;</button></div>
+  <div class="chat-msgs" id="chatMsgs"></div>
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Type a note..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button onclick="sendChat()">Send</button>
+  </div>
+</div>
+
+<!-- REACTIONS BAR -->
+<div class="reaction-bar hide" id="reactionBar">
+  <button onclick="react('&#128077;')">&#128077;</button>
+  <button onclick="react('&#128078;')">&#128078;</button>
+  <button onclick="react('&#128079;')">&#128079;</button>
+  <button onclick="react('&#129300;')">&#129300;</button>
+  <button onclick="react('&#9995;')">&#9995;</button>
+  <button onclick="react('&#128580;')">&#128580;</button>
+  <button onclick="react('&#128640;')">&#128640;</button>
+</div>
+
+<!-- POLL MODAL -->
+<div class="poll-modal hide" id="pollModal">
+  <h3>Create Poll / Quiz</h3>
+  <input id="pollQ" placeholder="Question...">
+  <input id="pollA" placeholder="Option A">
+  <input id="pollB" placeholder="Option B">
+  <input id="pollC" placeholder="Option C (optional)">
+  <input id="pollD" placeholder="Option D (optional)">
+  <div class="poll-actions">
+    <button class="poll-cancel" onclick="closePollModal()">Cancel</button>
+    <button class="poll-ok" onclick="createPoll()">Create</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <script>
 // ═══ DOM ═══
@@ -362,6 +469,7 @@ function fullRender(pending) {
   X.drawImage(offC, 0, 0);
 
   if (showMinimap) renderMinimap();
+  updateOverlays();
 }
 
 function drawEl(c, el) {
@@ -453,6 +561,29 @@ function drawEl(c, el) {
       break;
     case 'image':
       if (el.img && el.img.complete) c.drawImage(el.img, el.x, el.y, el.w, el.h);
+      break;
+    case 'poll':
+      var pw = 340, ph = 40 + el.options.length * 36;
+      c.fillStyle = isWhiteBG() ? 'rgba(0,0,0,.06)' : 'rgba(255,255,255,.06)';
+      c.beginPath(); roundRect(c, el.x, el.y, pw, ph, 10); c.fill();
+      c.strokeStyle = isWhiteBG() ? 'rgba(0,0,0,.2)' : 'rgba(255,255,255,.15)'; c.lineWidth = 1;
+      c.beginPath(); roundRect(c, el.x, el.y, pw, ph, 10); c.stroke();
+      c.fillStyle = isWhiteBG() ? '#333' : '#fff';
+      c.font = 'bold 16px system-ui,sans-serif';
+      c.fillText(el.question, el.x + 12, el.y + 26);
+      var totalV = el.votes.reduce(function(a,b){return a+b;}, 0) || 1;
+      for (var oi = 0; oi < el.options.length; oi++) {
+        var oy = el.y + 38 + oi * 36;
+        var pct = el.votes[oi] / totalV;
+        c.fillStyle = '#4ecdc4'; c.globalAlpha = 0.3;
+        c.fillRect(el.x + 10, oy, (pw - 20) * pct, 28);
+        c.globalAlpha = 1;
+        c.fillStyle = isWhiteBG() ? '#333' : '#ccc';
+        c.font = '14px system-ui,sans-serif';
+        c.fillText(el.options[oi] + ' (' + el.votes[oi] + ')', el.x + 16, oy + 19);
+      }
+      break;
+    case 'equation':
       break;
   }
 }
@@ -639,6 +770,27 @@ C.addEventListener('pointerdown', function(e) {
   }
   if (tool === 'laser' || tool === 'spotlight') return;
   if (teActive) return;
+
+  if (tool === 'equation') {
+    handleEquation(e);
+    return;
+  }
+
+  // Poll voting: check if click lands on a poll option
+  var list = els();
+  for (var pi = list.length - 1; pi >= 0; pi--) {
+    if (list[pi].type === 'poll') {
+      var pe = list[pi];
+      if (w.x >= pe.x && w.x <= pe.x + 340 && w.y >= pe.y + 38) {
+        var optIdx = Math.floor((w.y - pe.y - 38) / 36);
+        if (optIdx >= 0 && optIdx < pe.options.length) {
+          pe.votes[optIdx]++;
+          fullRender();
+          return;
+        }
+      }
+    }
+  }
 
   if (tool === 'text') {
     openTextEditor(e.clientX, e.clientY, w.x, w.y, 'text');
@@ -957,6 +1109,7 @@ document.addEventListener('keydown', function(e) {
   if (e.key === '7') setTool('rect'); if (e.key === '8') setTool('circle');
   if (e.key === '9') setTool('triangle'); if (e.key === '0') setTool('star');
   if (e.key === 'l') setTool('laser'); if (e.key === 's') setTool('spotlight'); if (e.key === 'n') setTool('sticky');
+  if (e.key === 'e') setTool('equation'); if (e.key === 'c') toggleChat();
   if (e.key === 'f') toggleFullscreen(); if (e.key === 'm') toggleMinimap(); if (e.key === 'p') toggleScratch();
   if (e.key === 'r') toggleRecord(); if (e.key === 'b') addBookmark();
   if (e.key === 'ArrowRight') nextPage(); if (e.key === 'ArrowLeft') prevPage();
@@ -1151,6 +1304,161 @@ function searchText() {
   panX=r.el.x;panY=r.el.y;zoom=1;
   loadPg();
   alert('Found '+results.length+' result(s). Showing first on page '+(r.page+1)+'.');
+}
+
+// ═══ EQUATION TOOL (KaTeX) ═══
+function handleEquation(e) {
+  var latex = prompt('Enter LaTeX equation:\n\nExamples:\nE = mc^2\n\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}\n\\int_0^\\infty e^{-x} dx');
+  if (!latex) return;
+  var w = getW(e);
+  addEl({ type:'equation', latex:latex, x:w.x, y:w.y, color:penColor, fs:fontSize, rt:recTime() });
+  fullRender();
+}
+
+// ═══ OVERLAY SYSTEM (equations + videos) ═══
+var overlayDiv = document.getElementById('overlays');
+
+function updateOverlays() {
+  overlayDiv.innerHTML = '';
+  overlayDiv.style.width = cW + 'px';
+  overlayDiv.style.height = cH + 'px';
+  var list = els();
+  if (isPlay) list = list.filter(function(e) { return e.rt === undefined || e.rt <= playTime; });
+  for (var i = 0; i < list.length; i++) {
+    var el = list[i];
+    if (el.type === 'equation') renderEqOverlay(el);
+    else if (el.type === 'video') renderVidOverlay(el);
+  }
+}
+
+function w2screen(wx, wy) {
+  return { x: (wx - panX) * zoom + cW / 2, y: (wy - panY) * zoom + cH / 2 };
+}
+
+function renderEqOverlay(el) {
+  var s = w2screen(el.x, el.y);
+  if (s.x < -300 || s.x > cW + 300 || s.y < -200 || s.y > cH + 200) return;
+  var div = document.createElement('div');
+  div.className = 'eq';
+  div.style.left = s.x + 'px';
+  div.style.top = s.y + 'px';
+  div.style.transform = 'scale(' + zoom + ')';
+  div.style.color = el.color || (isWhiteBG() ? '#333' : '#fff');
+  div.style.fontSize = (el.fs || 20) + 'px';
+  if (window.katex) {
+    try { katex.render(el.latex, div, { throwOnError: false, displayMode: true }); }
+    catch(e) { div.textContent = el.latex; }
+  } else {
+    div.textContent = el.latex;
+    div.style.fontFamily = 'monospace';
+    div.style.background = 'rgba(128,128,128,.15)';
+    div.style.padding = '4px 8px';
+  }
+  overlayDiv.appendChild(div);
+}
+
+function renderVidOverlay(el) {
+  var s = w2screen(el.x, el.y);
+  var w = (el.w || 320) * zoom, h = (el.h || 180) * zoom;
+  if (s.x + w < 0 || s.x > cW || s.y + h < 0 || s.y > cH) return;
+  var iframe = document.createElement('iframe');
+  iframe.src = el.url;
+  iframe.style.position = 'absolute';
+  iframe.style.left = s.x + 'px';
+  iframe.style.top = s.y + 'px';
+  iframe.style.width = w + 'px';
+  iframe.style.height = h + 'px';
+  iframe.allow = 'accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture';
+  iframe.allowFullscreen = true;
+  overlayDiv.appendChild(iframe);
+}
+
+// ═══ VIDEO EMBED ═══
+function embedVideo() {
+  var url = prompt('Enter YouTube URL:');
+  if (!url) return;
+  var vid = url.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
+  if (!vid) { alert('Invalid YouTube URL'); return; }
+  var embedUrl = 'https://www.youtube.com/embed/' + vid[1];
+  var w = getW({ clientX: cW / 2, clientY: cH / 2 + 48, target: C });
+  addEl({ type:'video', url:embedUrl, x:w.x - 160, y:w.y - 90, w:320, h:180, rt:recTime() });
+  fullRender();
+}
+
+// ═══ POLL / QUIZ ═══
+function openPollModal() { document.getElementById('pollModal').classList.remove('hide'); document.getElementById('pollQ').focus(); }
+function closePollModal() { document.getElementById('pollModal').classList.add('hide'); }
+
+function createPoll() {
+  var q = document.getElementById('pollQ').value.trim();
+  var opts = [document.getElementById('pollA').value.trim(), document.getElementById('pollB').value.trim(),
+              document.getElementById('pollC').value.trim(), document.getElementById('pollD').value.trim()].filter(function(o){return o;});
+  if (!q || opts.length < 2) { alert('Need a question and at least 2 options.'); return; }
+  addEl({ type:'poll', question:q, options:opts, votes:opts.map(function(){return 0;}), x:-180, y:-100, rt:recTime() });
+  closePollModal();
+  ['pollQ','pollA','pollB','pollC','pollD'].forEach(function(id){document.getElementById(id).value='';});
+  fullRender();
+}
+
+// ═══ CHAT / NOTES ═══
+var showChat = false, chatMessages = [];
+
+function toggleChat() {
+  showChat = !showChat;
+  document.getElementById('chatPanel').classList.toggle('hide', !showChat);
+  document.getElementById('btnChat').classList.toggle('on', showChat);
+  if (showChat) document.getElementById('chatInput').focus();
+}
+
+function sendChat() {
+  var input = document.getElementById('chatInput');
+  var msg = input.value.trim();
+  if (!msg) return;
+  var now = new Date();
+  chatMessages.push({ text: msg, time: now.getHours() + ':' + ('0' + now.getMinutes()).slice(-2) });
+  input.value = '';
+  renderChatMsgs();
+}
+
+function renderChatMsgs() {
+  var container = document.getElementById('chatMsgs');
+  container.innerHTML = '';
+  for (var i = 0; i < chatMessages.length; i++) {
+    var div = document.createElement('div');
+    div.className = 'chat-msg';
+    div.innerHTML = '<div class="chat-time">' + chatMessages[i].time + '</div>' + chatMessages[i].text.replace(/</g,'&lt;');
+    container.appendChild(div);
+  }
+  container.scrollTop = container.scrollHeight;
+}
+
+// ═══ REACTIONS ═══
+var showReactions = false;
+function toggleReactions() {
+  showReactions = !showReactions;
+  document.getElementById('reactionBar').classList.toggle('hide', !showReactions);
+  document.getElementById('btnReactions').classList.toggle('on', showReactions);
+}
+
+function react(emoji) {
+  var div = document.createElement('div');
+  div.className = 'float-emoji';
+  div.textContent = emoji;
+  div.style.left = (Math.random() * (cW - 80) + 40) + 'px';
+  div.style.bottom = '100px';
+  document.body.appendChild(div);
+  setTimeout(function() { div.remove(); }, 2100);
+}
+
+// ═══ HIGH CONTRAST ═══
+function toggleHC() { document.body.classList.toggle('hc'); }
+
+// ═══ SERVER FEATURE STUBS ═══
+function serverFeature(name) {
+  var toast = document.getElementById('toast');
+  toast.textContent = name + ' requires a WebSocket server. Deploy with Node.js + Socket.IO to enable.';
+  toast.classList.add('show');
+  setTimeout(function() { toast.classList.remove('show'); }, 3500);
 }
 
 // ═══ INIT ═══
