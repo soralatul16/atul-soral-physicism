@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Atul Soral Physicism">
+<title>Distance vs Displacement | Atul Soral Physicism</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<style>
+:root{--bg:#F5F2EE;--bg2:#EDEAE4;--card:#fff;--text:#1A1A2E;--text2:#6B7280;--text3:#9CA3AF;--accent:#0D9488;--red:#DC2626;--border:#E5E1DC;--ok:#065F46;--err:#991B1B;--mono:'SF Mono','Menlo','Consolas',monospace;--body:system-ui,-apple-system,'Segoe UI',sans-serif;--brand:'Georgia','Times New Roman',serif;--shadow:0 2px 12px rgba(0,0,0,.07);--radius:12px;--rs:7px}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--body);background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1300px;margin:0 auto;padding:4px 14px 60px}
+.mode-bar{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:8px}.mode-btn{padding:8px 18px;font-size:.78rem;font-weight:700;color:var(--text3);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-2px;transition:.2s;background:none;border-top:none;border-left:none;border-right:none}.mode-btn:hover{color:var(--text)}.mode-btn.on{color:var(--accent);border-bottom-color:var(--accent)}
+.main-grid{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:10px;align-items:start}
+.cv-wrap{position:relative;width:100%;aspect-ratio:4/3;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--border)}.cv-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%}
+.ctrls{display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.btn{padding:5px 10px;border:none;border-radius:var(--rs);font-size:.68rem;font-weight:700;cursor:pointer;transition:.12s}.btn:hover{transform:translateY(-1px)}.btn-p{background:var(--accent);color:#fff}.btn-s{background:var(--bg2);color:var(--text2);border:1px solid var(--border)}.btn-ok{background:var(--ok);color:#fff}
+.sl-g{display:flex;align-items:center;gap:4px}.sl-g label{font-size:.62rem;font-weight:700;color:var(--text2)}.sl-g input[type=range]{width:80px;accent-color:var(--accent);height:4px}.sl-g .sv{font-family:var(--mono);font-size:.72rem;font-weight:800;color:var(--accent)}
+.tb{padding:4px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);font-size:.62rem;font-weight:600;color:var(--text2);cursor:pointer}.tb:hover{border-color:var(--accent);color:var(--accent)}.tb.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.side{display:flex;flex-direction:column;gap:6px}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:var(--rs);padding:8px 10px;box-shadow:var(--shadow)}.sc h4{font-size:.62rem;text-transform:uppercase;letter-spacing:.7px;color:var(--text3);font-weight:700;margin-bottom:4px}
+.hero-val{text-align:center;padding:3px 0}.hero-num{font-size:1.5rem;font-weight:800;font-variant-numeric:tabular-nums;font-family:var(--mono)}.hero-lbl{font-size:.6rem;text-transform:uppercase;color:var(--text3);font-weight:600}
+.bar-cmp{display:flex;gap:6px;align-items:end;height:55px;padding:4px 0}.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}.bar-fill{width:100%;border-radius:4px 4px 0 0;transition:height .3s}.bar-lbl{font-size:.58rem;font-weight:700;color:var(--text3)}
+.rule{background:rgba(13,148,136,.06);border:1px solid rgba(13,148,136,.15);border-radius:5px;padding:4px 7px;font-size:.68rem;font-weight:600;color:var(--accent);text-align:center;margin-top:3px}
+.pre-btn{padding:4px 8px;border:1px solid var(--border);border-radius:var(--rs);background:var(--card);font-size:.62rem;font-weight:600;color:var(--text2);cursor:pointer;transition:.2s;white-space:nowrap;width:100%;text-align:left}.pre-btn:hover{border-color:var(--accent);color:var(--accent)}
+.chall{border:1.5px solid var(--border);border-radius:var(--rs);padding:7px}.chall-q{font-size:.7rem;font-weight:600;margin-bottom:5px;line-height:1.4}.chall-fb{font-size:.68rem;font-weight:700;padding:3px 7px;border-radius:4px;margin-top:3px;display:none}
+.concepts{font-size:.66rem;color:var(--text2);line-height:1.6}.concepts b{color:var(--accent)}.concepts li{margin-bottom:2px}
+.gp{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:9px 11px;margin-top:8px;box-shadow:var(--shadow)}
+.btabs{display:flex;gap:2px;margin-bottom:5px;border-bottom:1px solid var(--border);padding-bottom:3px}.bt{padding:5px 10px;border-radius:5px 5px 0 0;font-size:.7rem;font-weight:700;cursor:pointer;color:var(--text3);background:none;border:none}.bt:hover{color:var(--text)}.bt.on{color:var(--accent);background:var(--bg2);border:1px solid var(--border);border-bottom:none}.btc{display:none}.btc.on{display:block}
+.exp-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;margin-bottom:6px}.exp-title{font-family:var(--brand);font-size:.8rem;color:var(--accent);margin-bottom:8px;font-weight:700}
+.exp-var{margin-bottom:6px}.exp-label{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:3px}.exp-label.iv{color:#2563eb}.exp-label.dv{color:#dc2626}.exp-label.cv{color:#059669}.exp-label.hyp{color:#7c3aed}
+.exp-select{width:100%;padding:4px 8px;border:1px solid var(--border);border-radius:5px;background:var(--bg2);color:var(--text);font-size:.7rem}
+.exp-cv-list{display:flex;flex-wrap:wrap;gap:4px}.exp-cv-item{display:flex;align-items:center;gap:3px;font-size:.62rem;padding:2px 5px;border-radius:4px;background:rgba(5,150,105,.06);color:#059669}.exp-cv-item input{accent-color:#059669;width:11px;height:11px}
+.exp-hypothesis{font-size:.7rem;color:var(--text2);line-height:1.4;padding:6px 8px;background:rgba(124,58,237,.04);border:1px solid rgba(124,58,237,.1);border-radius:5px;border-left:3px solid #7c3aed}.iv-hl{color:#2563eb}.dv-hl{color:#dc2626}.cv-hl{color:#059669}
+.num-input{width:50px;padding:3px;border:1.5px solid var(--border);border-radius:4px;background:var(--bg2);font-family:var(--mono);font-size:.74rem;font-weight:700;text-align:center;outline:none;color:var(--text)}
+.dt{width:100%;border-collapse:collapse;font-size:.68rem}.dt th{text-align:center;padding:3px;font-size:.58rem;text-transform:uppercase;color:var(--text3);border-bottom:2px solid var(--accent);font-weight:700;background:var(--bg2)}.dt td{padding:2px;text-align:center;border-bottom:1px solid var(--border);font-family:var(--mono)}
+.exp-btn{padding:3px 8px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:.62rem;font-weight:600;cursor:pointer}.exp-btn:hover{border-color:var(--accent);color:var(--accent)}
+.q-item{border:1px solid var(--border);border-radius:var(--rs);margin-bottom:4px;overflow:hidden}.q-header{display:flex;align-items:center;gap:6px;padding:7px 10px;cursor:pointer}.q-header:hover{background:var(--bg2)}.q-cmd{padding:2px 6px;border-radius:3px;font-size:.6rem;font-weight:700;text-transform:uppercase;flex-shrink:0}.q-cmd-c{background:rgba(230,81,0,.06);color:#E65100}.q-cmd-e{background:rgba(13,148,136,.06);color:var(--accent)}.q-cmd-s{background:rgba(0,105,92,.06);color:#00695C}.q-text{flex:1;font-size:.74rem;font-weight:500}.q-marks{font-size:.62rem;color:var(--text3)}.q-toggle{font-size:.62rem;font-weight:600;color:var(--accent);padding:2px 6px;border-radius:3px;background:rgba(13,148,136,.06)}.q-answer{display:none;padding:7px 10px;border-top:1px solid var(--border);font-size:.72rem;line-height:1.6;color:var(--text2);background:var(--bg2)}.q-answer.open{display:block}.q-answer strong{color:var(--text)}
+.nb-c{background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:4px 7px;margin-bottom:2px;font-size:.66rem;line-height:1.5}.nb-c b{color:var(--accent)}.nb-c .nr{color:var(--ok);font-weight:700}
+@media(max-width:860px){.main-grid{grid-template-columns:1fr}.side{max-height:none}}
+@media print{nav{display:none!important}}
+</style>
+</head>
+<body>
+<script>var SIM_META={id:'distance-displacement',title:'Distance vs Displacement',topic:'A.1',topicName:'Kinematics',grade:['DP','MYP'],level:'both',theme:'A',concepts:['distance','displacement','scalar','vector','path length'],difficulty:'foundational'};</script>
+<nav style="display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(13,148,136,.95),rgba(15,118,110,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(15,118,110,.3);flex-wrap:wrap;gap:5px">
+<div style="display:flex;align-items:center;gap:14px"><a href="../index.html" style="font-family:Georgia,serif;font-size:1rem;font-weight:700;color:#fff;text-decoration:none">Atul Soral Physicism</a><a href="../dp-simulations.html" style="color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem">&larr; All Simulations</a></div>
+<div style="display:flex;gap:6px;align-items:center"><a href="../dp-simulations.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">&larr; Back</a><a href="../index.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">Home</a><a href="../myp-dashboard.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">MYP</a><a href="../dp-dashboard.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:4px 10px;font-size:.73rem;text-decoration:none">DP</a></div>
+</nav>
+<div class="wrap">
+<div class="mode-bar"><button class="mode-btn on" onclick="setMode('linear')">Linear</button><button class="mode-btn" onclick="setMode('circular')">Circular</button><button class="mode-btn" onclick="setMode('freeform')">Freeform</button></div>
+<div id="modeGuide" style="background:rgba(13,148,136,.04);border:1px solid rgba(13,148,136,.12);border-radius:7px;padding:5px 12px;font-size:.7rem;color:var(--text2);line-height:1.5;margin-bottom:6px"></div>
+<div class="main-grid">
+<div>
+  <div class="cv-wrap" id="cvWrap"><canvas id="cv"></canvas></div>
+  <div class="ctrls">
+    <button class="btn btn-p" id="playBtn" onclick="togPlay()">▶ Play</button>
+    <button class="btn btn-s" onclick="resetPath()">↺ Reset</button>
+    <button class="btn btn-s" onclick="undoLast()">Undo</button>
+    <div class="sl-g"><label>Speed</label><input type="range" min="0.5" max="3" step="0.25" value="1" oninput="animSpd=+this.value;document.getElementById('spdV').textContent=animSpd+'x'"><span class="sv" id="spdV">1x</span></div>
+    <div class="sl-g"><label>Scale</label><input type="range" min="1" max="20" step="1" value="5" oninput="gridScale=+this.value;document.getElementById('scV').textContent=gridScale+'m';updateVals()"><span class="sv" id="scV">5m</span></div>
+    <button class="tb on" onclick="showDisp=!showDisp;this.classList.toggle('on')">Displacement</button>
+    <button class="tb on" onclick="showGrid=!showGrid;this.classList.toggle('on')">Grid</button>
+  </div>
+</div>
+<div class="side">
+  <div class="sc"><div class="hero-val"><div class="hero-num" style="color:var(--accent)" id="distVal">0.0</div><div class="hero-lbl">Distance (m) — total path</div></div><div class="hero-val"><div class="hero-num" style="color:var(--red)" id="dispVal">0.0</div><div class="hero-lbl">Displacement (m) — start to end</div></div><div class="hero-val" style="margin-top:2px"><span style="font-size:.68rem;color:var(--text2)">Direction: </span><span style="font-family:var(--mono);font-weight:700;font-size:.78rem" id="dirVal">—</span></div></div>
+  <div class="sc"><h4>Comparison</h4><div class="bar-cmp"><div class="bar-col"><div class="bar-fill" id="distBar" style="background:var(--accent);height:0"></div><div class="bar-lbl">Distance</div></div><div class="bar-col"><div class="bar-fill" id="dispBar" style="background:var(--red);height:0"></div><div class="bar-lbl">Displacement</div></div></div><div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--text3);margin-top:2px"><span>Ratio: <strong id="ratioVal" style="color:var(--text)">—</strong></span><span id="eqNote" style="color:var(--accent);font-weight:700"></span></div><div class="rule">Distance ≥ Displacement — ALWAYS!</div></div>
+  <div class="sc"><h4>Real-Life Examples</h4><div style="display:flex;flex-direction:column;gap:3px"><button class="pre-btn" onclick="loadReal(0)"><span style="font-size:.85rem">🏃</span> <b>400m track lap</b> — dist=400, disp=0</button><button class="pre-btn" onclick="loadReal(1)"><span style="font-size:.85rem">🚶</span> <b>3 east, 4 north</b> — dist=7, disp=5</button><button class="pre-btn" onclick="loadReal(2)"><span style="font-size:.85rem">🚗</span> <b>Drive around block</b> — rectangle, disp=0</button><button class="pre-btn" onclick="loadReal(3)"><span style="font-size:.85rem">⚽</span> <b>Football player</b> — random zigzag</button><button class="pre-btn" onclick="loadReal(4)"><span style="font-size:.85rem">🌍</span> <b>Earth half orbit</b> — semicircle</button><button class="pre-btn" onclick="loadReal(5)"><span style="font-size:.85rem">🏠→🏫</span> <b>Walk to school</b> — curved path</button></div></div>
+  <div class="sc chall" id="challCard"><h4>Challenge</h4><div class="chall-q" id="challQ"></div><button class="btn btn-p" onclick="checkChall()" style="font-size:.6rem">Check</button><button class="btn btn-s" onclick="nextChall()" style="font-size:.6rem">Next</button><div class="chall-fb" id="challFb"></div></div>
+  <div class="sc"><h4>Key Concepts</h4><div class="concepts"><ul style="padding-left:14px"><li><b>Distance</b> = scalar, total path, always +</li><li><b>Displacement</b> = vector, start→end, has direction</li><li>Distance ≥ Displacement always</li><li>Equal only for straight lines</li><li>Displacement = 0 when back to start</li></ul></div></div>
+</div></div>
+<div class="gp"><div class="btabs"><div class="bt on" onclick="bts(this,0)">Experiment</div><div class="bt" onclick="bts(this,1)">IB Questions</div><div class="bt" onclick="bts(this,2)">Notebook</div></div>
+<div class="btc on" id="b0"><div id="expC"></div></div>
+<div class="btc" id="b1"><div id="ibL"></div></div>
+<div class="btc" id="b2"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><span style="font-family:Georgia,serif;font-size:.74rem;font-weight:700;color:var(--accent)">Notebook</span><button class="btn btn-s" onclick="window.print()" style="font-size:.63rem;padding:2px 5px">Print</button></div><div id="nbO"></div></div></div>
+</div>
+
+<script>
+var $=function(id){return document.getElementById(id)};
+var cv=$('cv'),cx=cv.getContext('2d'),W,H,dpr;
+var mode='linear',pts=[],arcPts=[],dragIdx=-1,drawing=false,arcCenter=null,arcRadius=0,arcA1=0,arcA3=0,arcCW=false;
+var animPos=0,animating=false,animSpd=1,showGrid=true,showDisp=true,gridScale=5,challIdx=0;
+var GUIDES={linear:'<b>Linear mode:</b> Click to add waypoints. Drag any point to adjust. Segment lengths shown on each line.',circular:'<b>Circular mode:</b> Draw roughly on the canvas — your path will snap to a smooth arc. Draw multiple arcs to build semicircles, full circles, etc.',freeform:'<b>Freeform mode:</b> Click and drag to draw any path freely. Every tiny movement is captured. Release to finish.'};
+
+function resize(){var wp=$('cvWrap'),r=wp.getBoundingClientRect();dpr=devicePixelRatio||1;W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';cx.setTransform(dpr,0,0,dpr,0,0);}
+new ResizeObserver(resize).observe($('cvWrap'));resize();
+
+function setMode(m){mode=m;document.querySelectorAll('.mode-btn').forEach(function(b){b.classList.toggle('on',b.textContent.toLowerCase()===m);});$('modeGuide').innerHTML=GUIDES[m];resetPath();arcCenter=null;arcRadius=0;cv.style.cursor=m==='linear'?'crosshair':'default';buildExp();}
+window.setMode=setMode;$('modeGuide').innerHTML=GUIDES.linear;
+
+function getMouse(e){var r=cv.getBoundingClientRect();return{x:(e.clientX||e.touches[0].clientX)-r.left,y:(e.clientY||e.touches[0].clientY)-r.top};}
+function dist2(a,b){return Math.sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));}
+function pathLen(){var d=0;for(var i=1;i<pts.length;i++)d+=dist2(pts[i],pts[i-1]);return d;}
+function dispLen(){if(pts.length<2)return 0;return dist2(pts[0],pts[pts.length-1]);}
+function dispAngle(){if(pts.length<2)return 0;return Math.atan2(-(pts[pts.length-1].y-pts[0].y),pts[pts.length-1].x-pts[0].x)*180/Math.PI;}
+function toM(px){return px/((W||500)/10)*gridScale;}
+
+// Linear mode: click to add, drag to move
+cv.addEventListener('mousedown',function(e){var m=getMouse(e);
+  if(mode==='linear'){for(var i=0;i<pts.length;i++){if(dist2(m,pts[i])<14){dragIdx=i;return;}}pts.push(m);updateVals();return;}
+  if(mode==='circular'){
+    if(pts.length>0){for(var i2=0;i2<pts.length;i2++){if(dist2(m,pts[i2])<14){dragIdx=i2;return;}}
+      var midI=Math.floor(pts.length/2);if(dist2(m,pts[midI])<14){dragIdx=midI;return;}}
+    drawing=true;arcPts=[m];}
+  if(mode==='freeform'){drawing=true;arcPts=[m];pts.push(m);}
+});
+cv.addEventListener('mousemove',function(e){var m=getMouse(e);
+  if(mode==='linear'&&dragIdx>=0){pts[dragIdx]=m;updateVals();return;}
+  if(mode==='circular'&&dragIdx>=0){pts[dragIdx]=m;if(arcCenter)rebuildArcFromPts();updateVals();return;}
+  if(drawing&&(mode==='circular'||mode==='freeform')){
+    if(mode==='freeform'){if(arcPts.length===0||dist2(m,arcPts[arcPts.length-1])>2){arcPts.push(m);pts.push(m);}}
+    else{arcPts.push(m);}updateVals();}
+});
+cv.addEventListener('mouseup',function(){
+  if(mode==='linear'||mode==='circular'&&dragIdx>=0){dragIdx=-1;return;}
+  if(mode==='circular'&&drawing&&arcPts.length>5){fitArc();drawing=false;updateVals();addN('Arc','Points: '+arcPts.length,'dist='+toM(pathLen()).toFixed(1));dragIdx=-1;return;}
+  drawing=false;dragIdx=-1;if(mode==='freeform'&&pts.length>2){updateVals();addN('Freeform','Points: '+pts.length,'dist='+toM(pathLen()).toFixed(1));}
+});
+cv.addEventListener('mouseleave',function(){dragIdx=-1;drawing=false;});
+// Touch support
+cv.addEventListener('touchstart',function(e){e.preventDefault();var m=getMouse(e);
+  if(mode==='linear'){for(var i=0;i<pts.length;i++){if(dist2(m,pts[i])<20){dragIdx=i;return;}}pts.push(m);updateVals();}
+  if(mode==='circular'){if(pts.length>0){for(var i2=0;i2<pts.length;i2++){if(dist2(m,pts[i2])<20){dragIdx=i2;return;}}}drawing=true;arcPts=[m];}
+  if(mode==='freeform'){drawing=true;arcPts=[m];pts.push(m);}},{passive:false});
+cv.addEventListener('touchmove',function(e){e.preventDefault();var m=getMouse(e);
+  if(mode==='linear'&&dragIdx>=0){pts[dragIdx]=m;updateVals();}
+  if(mode==='circular'&&dragIdx>=0){pts[dragIdx]=m;if(arcCenter)rebuildArcFromPts();updateVals();return;}
+  if(drawing){if(mode==='freeform'){if(!arcPts.length||dist2(m,arcPts[arcPts.length-1])>2){arcPts.push(m);pts.push(m);}}else{arcPts.push(m);}updateVals();}},{passive:false});
+cv.addEventListener('touchend',function(e){e.preventDefault();if(mode==='circular'&&drawing&&arcPts.length>5){fitArc();drawing=false;updateVals();}drawing=false;dragIdx=-1;},{passive:false});
+
+function fitArc(){
+  if(arcPts.length<3)return;
+  var p1=arcPts[0],p2=arcPts[Math.floor(arcPts.length/2)],p3=arcPts[arcPts.length-1];
+  var ax=p1.x,ay=p1.y,bx=p2.x,by=p2.y,ccx=p3.x,ccy=p3.y;
+  var D=2*(ax*(by-ccy)+bx*(ccy-ay)+ccx*(ay-by));
+  if(Math.abs(D)<0.001){pts=arcPts.slice();return;}
+  var ux=((ax*ax+ay*ay)*(by-ccy)+(bx*bx+by*by)*(ccy-ay)+(ccx*ccx+ccy*ccy)*(ay-by))/D;
+  var uy=((ax*ax+ay*ay)*(ccx-bx)+(bx*bx+by*by)*(ax-ccx)+(ccx*ccx+ccy*ccy)*(bx-ax))/D;
+  var R=Math.sqrt((ax-ux)*(ax-ux)+(ay-uy)*(ay-uy));
+  var a1=Math.atan2(ay-uy,ax-ux),a3=Math.atan2(ccy-uy,ccx-ux),a2=Math.atan2(by-uy,bx-ux);
+  // Determine arc direction
+  var cross=(bx-ax)*(ccy-ay)-(by-ay)*(ccx-ax);
+  var cw=cross<0;
+  var newPts=[];var steps=Math.max(30,Math.round(R*0.5));
+  if(cw){if(a3>a1)a3-=Math.PI*2;}else{if(a3<a1)a3+=Math.PI*2;}
+  for(var i=0;i<=steps;i++){var t=i/steps;var a=a1+(a3-a1)*t;newPts.push({x:ux+Math.cos(a)*R,y:uy+Math.sin(a)*R});}
+  pts=newPts;arcCenter={x:ux,y:uy};arcRadius=R;
+}
+function rebuildArcFromPts(){
+  if(pts.length<3)return;
+  var p1=pts[0],p2=pts[Math.floor(pts.length/2)],p3=pts[pts.length-1];
+  var ax2=p1.x,ay2=p1.y,bx2=p2.x,by2=p2.y,cx2=p3.x,cy2=p3.y;
+  var D2=2*(ax2*(by2-cy2)+bx2*(cy2-ay2)+cx2*(ay2-by2));
+  if(Math.abs(D2)<0.001)return;
+  var ux2=((ax2*ax2+ay2*ay2)*(by2-cy2)+(bx2*bx2+by2*by2)*(cy2-ay2)+(cx2*cx2+cy2*cy2)*(ay2-by2))/D2;
+  var uy2=((ax2*ax2+ay2*ay2)*(cx2-bx2)+(bx2*bx2+by2*by2)*(ax2-cx2)+(cx2*cx2+cy2*cy2)*(bx2-ax2))/D2;
+  var R2=Math.sqrt((ax2-ux2)*(ax2-ux2)+(ay2-uy2)*(ay2-uy2));
+  var na1=Math.atan2(ay2-uy2,ax2-ux2),na3=Math.atan2(cy2-uy2,cx2-ux2);
+  var cr=(bx2-ax2)*(cy2-ay2)-(by2-ay2)*(cx2-ax2);
+  if(cr<0){if(na3>na1)na3-=Math.PI*2;}else{if(na3<na1)na3+=Math.PI*2;}
+  var nP=[];var st=Math.max(30,Math.round(R2*0.5));
+  for(var i=0;i<=st;i++){var t=i/st;var aa=na1+(na3-na1)*t;nP.push({x:ux2+Math.cos(aa)*R2,y:uy2+Math.sin(aa)*R2});}
+  pts=nP;arcCenter={x:ux2,y:uy2};arcRadius=R2;
+}
+
+function undoLast(){if(mode==='linear'&&pts.length>0)pts.pop();else if(pts.length>10){pts=pts.slice(0,Math.floor(pts.length*0.7));}updateVals();}
+function resetPath(){pts=[];arcPts=[];animPos=0;animating=false;dragIdx=-1;drawing=false;$('playBtn').textContent='▶ Play';updateVals();}
+
+function updateVals(){
+  var dPx=pathLen(),sPx=dispLen(),dM=toM(dPx),sM=toM(sPx),ang=dispAngle();
+  $('distVal').textContent=dM.toFixed(1);$('dispVal').textContent=sM.toFixed(1);
+  $('dirVal').textContent=pts.length<2?'—':ang.toFixed(0)+'°';
+  var mx=Math.max(dM,0.1);$('distBar').style.height=Math.min(50,dM/mx*50)+'px';$('dispBar').style.height=Math.min(50,sM/mx*50)+'px';
+  $('ratioVal').textContent=sM>0.01?(dM/sM).toFixed(2):'—';
+  $('eqNote').textContent=Math.abs(dM-sM)<0.3&&dM>0.5?'Equal! (straight)':sM<0.3&&dM>1?'Disp = 0 (closed)':'';
+}
+
+function draw(){
+  cx.clearRect(0,0,W,H);cx.fillStyle='#FAFAF8';cx.fillRect(0,0,W,H);
+  if(showGrid){var gs=W/10;cx.strokeStyle='rgba(0,0,0,.06)';cx.lineWidth=0.5;for(var gx=0;gx<=W;gx+=gs){cx.beginPath();cx.moveTo(gx,0);cx.lineTo(gx,H);cx.stroke();}for(var gy=0;gy<=H;gy+=gs){cx.beginPath();cx.moveTo(0,gy);cx.lineTo(W,gy);cx.stroke();}cx.fillStyle='rgba(0,0,0,.12)';cx.font='8px sans-serif';cx.textAlign='center';for(var gi=1;gi<10;gi++)cx.fillText((gi*gridScale)+'',gi*gs,H-4);}
+  if(pts.length<1){cx.fillStyle='rgba(0,0,0,.15)';cx.font='14px sans-serif';cx.textAlign='center';cx.fillText(mode==='linear'?'Click to add points':mode==='circular'?'Draw an arc shape':'Click & drag to draw',W/2,H/2);return;}
+  // Path
+  if(pts.length>1){cx.strokeStyle='rgba(13,148,136,.7)';cx.lineWidth=3;cx.lineJoin='round';cx.lineCap='round';cx.beginPath();cx.moveTo(pts[0].x,pts[0].y);for(var i=1;i<pts.length;i++)cx.lineTo(pts[i].x,pts[i].y);cx.stroke();}
+  // Segment distances (linear mode only)
+  if(mode==='linear'&&pts.length>1){cx.font='bold 10px var(--mono)';cx.textAlign='center';for(var i2=1;i2<pts.length;i2++){var mx2=(pts[i2].x+pts[i2-1].x)/2,my2=(pts[i2].y+pts[i2-1].y)/2;var segM=toM(dist2(pts[i2],pts[i2-1]));
+    cx.fillStyle='rgba(0,0,0,.55)';cx.beginPath();cx.roundRect(mx2-22,my2+6,44,16,3);cx.fill();cx.fillStyle='#4FC3F7';cx.fillText(segM.toFixed(1)+'m',mx2,my2+18);}}
+  // Displacement arrow
+  if(showDisp&&pts.length>1){var sx=pts[0].x,sy=pts[0].y,ex=pts[pts.length-1].x,ey=pts[pts.length-1].y;
+    cx.strokeStyle='rgba(220,38,38,.55)';cx.lineWidth=2.5;cx.setLineDash([8,5]);cx.beginPath();cx.moveTo(sx,sy);cx.lineTo(ex,ey);cx.stroke();cx.setLineDash([]);
+    var a=Math.atan2(ey-sy,ex-sx);if(dist2(pts[0],pts[pts.length-1])>15){cx.fillStyle='rgba(220,38,38,.65)';cx.beginPath();cx.moveTo(ex,ey);cx.lineTo(ex-10*Math.cos(a-.3),ey-10*Math.sin(a-.3));cx.lineTo(ex-10*Math.cos(a+.3),ey-10*Math.sin(a+.3));cx.closePath();cx.fill();}}
+  // Points
+  for(var i3=0;i3<pts.length;i3++){var p=pts[i3],isS=i3===0,isE=i3===pts.length-1&&pts.length>1;
+    if(mode==='linear'||isS||isE){cx.beginPath();cx.arc(p.x,p.y,isS||isE?7:5,0,Math.PI*2);cx.fillStyle=isS?'#059669':isE?'#DC2626':'rgba(13,148,136,.35)';cx.fill();
+      if(isS){cx.fillStyle='#fff';cx.font='bold 8px sans-serif';cx.textAlign='center';cx.fillText('S',p.x,p.y+3);}
+      if(isE&&pts.length>1){cx.fillStyle='#fff';cx.font='bold 8px sans-serif';cx.textAlign='center';cx.fillText('E',p.x,p.y+3);}
+      if(mode==='linear'&&!isS&&!isE){cx.strokeStyle='rgba(0,0,0,.15)';cx.lineWidth=1;cx.stroke();}}}
+  // Animated dot
+  if(animating&&pts.length>1){var totalL=pathLen(),traveled=animPos*totalL,acc=0,dx=pts[0].x,dy2=pts[0].y;
+    for(var i4=1;i4<pts.length;i4++){var sl=dist2(pts[i4],pts[i4-1]);if(acc+sl>=traveled){var t=(traveled-acc)/sl;dx=pts[i4-1].x+(pts[i4].x-pts[i4-1].x)*t;dy2=pts[i4-1].y+(pts[i4].y-pts[i4-1].y)*t;break;}acc+=sl;if(i4===pts.length-1){dx=pts[i4].x;dy2=pts[i4].y;}}
+    cx.beginPath();cx.arc(dx,dy2,8,0,Math.PI*2);cx.fillStyle='#F59E0B';cx.fill();cx.strokeStyle='#fff';cx.lineWidth=2;cx.stroke();
+    cx.fillStyle='rgba(0,0,0,.55)';cx.beginPath();cx.roundRect(dx+12,dy2-18,66,16,3);cx.fill();cx.fillStyle='#FFD54F';cx.font='bold 9px monospace';cx.textAlign='left';cx.fillText(toM(traveled).toFixed(1)+' m',dx+16,dy2-6);}
+}
+function togPlay(){if(pts.length<2)return;animating=!animating;$('playBtn').textContent=animating?'⏸ Pause':'▶ Play';if(animating&&animPos>=.99)animPos=0;}
+var lastT=0;function loop(ts){requestAnimationFrame(loop);var dt=(ts-lastT)/1000;lastT=ts;if(dt>.1)dt=.016;if(animating){animPos+=dt*animSpd*.12;if(animPos>=1){animPos=1;animating=false;$('playBtn').textContent='▶ Play';}}draw();}
+requestAnimationFrame(loop);
+
+// Real-life examples
+function loadReal(i){
+  resetPath();
+  if(i===0){mode='circular';setMode('circular');var p=[];for(var a=0;a<=Math.PI*2;a+=.1)p.push({x:W*.5+W*.28*Math.cos(a),y:H*.5+H*.28*Math.sin(a)});pts=p;}
+  else if(i===1){mode='linear';setMode('linear');pts=[{x:W*.2,y:H*.7},{x:W*.7,y:H*.7},{x:W*.7,y:H*.2}];}
+  else if(i===2){mode='linear';setMode('linear');pts=[{x:W*.2,y:H*.25},{x:W*.8,y:H*.25},{x:W*.8,y:H*.75},{x:W*.2,y:H*.75},{x:W*.2,y:H*.25}];}
+  else if(i===3){mode='freeform';setMode('freeform');var fp=[];var fx=W*.15,fy=H*.5;for(var fi=0;fi<60;fi++){fx+=W*.012*(Math.random()-.3);fy+=H*.015*(Math.random()-.5);fp.push({x:fx,y:fy});}pts=fp;}
+  else if(i===4){mode='circular';setMode('circular');var sp=[];for(var sa=Math.PI;sa>=0;sa-=.08)sp.push({x:W*.5+W*.3*Math.cos(sa),y:H*.5+H*.3*Math.sin(sa)});pts=sp;}
+  else if(i===5){mode='freeform';setMode('freeform');pts=[{x:W*.1,y:H*.8}];var cx2=W*.1,cy2=H*.8;for(var si=0;si<40;si++){cx2+=W*.02;cy2+=H*.008*(Math.sin(si*.5)*3-1);pts.push({x:cx2,y:cy2});}pts.push({x:W*.85,y:H*.25});}
+  updateVals();addN('Example',['Track lap','L-shape','Rectangle','Football','Half orbit','Walk to school'][i],'dist='+toM(pathLen()).toFixed(1)+' disp='+toM(dispLen()).toFixed(1));
+}
+window.loadReal=loadReal;
+
+// Challenges
+var CHALLS=[{q:'Draw a path where distance > 10m but displacement = 0',ck:function(){return toM(pathLen())>10&&toM(dispLen())<1;}},{q:'Draw a straight line (distance = displacement)',ck:function(){var d=toM(pathLen()),s=toM(dispLen());return d>2&&Math.abs(d-s)<.5;}},{q:'Draw a path with displacement exactly 5m (±0.5)',ck:function(){return Math.abs(toM(dispLen())-5)<.5;}},{q:'Make distance at least 3x the displacement',ck:function(){var d=toM(pathLen()),s=toM(dispLen());return s>.5&&d/s>=2.9;}}];
+function showChall(){$('challQ').textContent=CHALLS[challIdx].q;$('challFb').style.display='none';}
+function checkChall(){var ok=CHALLS[challIdx].ck();var fb=$('challFb');fb.style.display='block';fb.textContent=ok?'✅ Correct!':'❌ Not yet — adjust your path';fb.style.background=ok?'rgba(5,150,105,.1)':'rgba(220,38,38,.1)';fb.style.color=ok?'var(--ok)':'var(--err)';if(ok)addN('Challenge',CHALLS[challIdx].q,'Passed!');}
+function nextChall(){challIdx=(challIdx+1)%CHALLS.length;showChall();}
+window.checkChall=checkChall;window.nextChall=nextChall;showChall();
+
+window.bts=function(el,i){document.querySelectorAll('.bt').forEach(function(t){t.classList.remove('on');});document.querySelectorAll('.btc').forEach(function(t){t.classList.remove('on');});el.classList.add('on');$('b'+i).classList.add('on');};
+
+// Experiment — mode-specific variables
+var MODE_VARS={
+  linear:{iv:[{id:'nseg',n:'Number of segments'},{id:'seglen',n:'Segment length (m)'},{id:'angle',n:'Turn angle (deg)'},{id:'scale',n:'Grid scale (m)'}],
+    dv:[{id:'dist',n:'Total distance (m)'},{id:'disp',n:'Displacement (m)'},{id:'ratio',n:'Distance/Displacement ratio'},{id:'dir',n:'Direction (deg)'},{id:'nseg2',n:'Number of segments'}],
+    allVars:['Number of segments','Segment length','Turn angle','Grid scale','Starting position','Path shape','Total distance','Displacement']},
+  circular:{iv:[{id:'arcang',n:'Arc angle (deg)'},{id:'radius',n:'Radius (m)'},{id:'scale',n:'Grid scale (m)'}],
+    dv:[{id:'dist',n:'Arc length (m)'},{id:'disp',n:'Chord length (m)'},{id:'ratio',n:'Arc/Chord ratio'},{id:'dir',n:'Direction (deg)'}],
+    allVars:['Arc angle','Radius','Grid scale','Centre position','Starting point','Direction of arc','Arc length','Chord length']},
+  freeform:{iv:[{id:'npts',n:'Path complexity (points)'},{id:'scale',n:'Grid scale (m)'}],
+    dv:[{id:'dist',n:'Total distance (m)'},{id:'disp',n:'Displacement (m)'},{id:'ratio',n:'Distance/Displacement ratio'},{id:'dir',n:'Direction (deg)'}],
+    allVars:['Path complexity','Grid scale','Drawing speed','Starting position','Canvas size','Total distance','Displacement','Direction']}
+};
+function getVars(){return MODE_VARS[mode]||MODE_VARS.linear;}
+function getIVN(){var vs=getVars().iv,v=$('expIV')?$('expIV').value:'';for(var i=0;i<vs.length;i++){if(vs[i].id===v)return vs[i].n;}return vs[0].n;}
+function getDVN(){var vs=getVars().dv,v=$('expDV')?$('expDV').value:'';for(var i=0;i<vs.length;i++){if(vs[i].id===v)return vs[i].n;}return vs[0].n;}
+function fmtV(v){return typeof v==='number'?parseFloat(v.toFixed(4)).toString():v;}
+function getSimIV(){var iv=$('expIV')?$('expIV').value:'';
+  if(iv==='nseg')return Math.max(0,pts.length-1);
+  if(iv==='seglen'&&pts.length>1)return toM(dist2(pts[pts.length-1],pts[pts.length-2]));
+  if(iv==='angle'&&pts.length>2){var a1=Math.atan2(pts[pts.length-2].y-pts[pts.length-3].y,pts[pts.length-2].x-pts[pts.length-3].x);var a2=Math.atan2(pts[pts.length-1].y-pts[pts.length-2].y,pts[pts.length-1].x-pts[pts.length-2].x);return Math.abs((a2-a1)*180/Math.PI);}
+  if(iv==='arcang'&&arcCenter){var aa1=Math.atan2(pts[0].y-arcCenter.y,pts[0].x-arcCenter.x);var aa2=Math.atan2(pts[pts.length-1].y-arcCenter.y,pts[pts.length-1].x-arcCenter.x);return Math.abs((aa2-aa1)*180/Math.PI);}
+  if(iv==='radius')return arcRadius?toM(arcRadius):0;
+  if(iv==='npts')return pts.length;
+  if(iv==='scale')return gridScale;
+  return pts.length-1;
+}
+function getSimDV(){var dv=$('expDV')?$('expDV').value:'dist';
+  if(dv==='dist')return toM(pathLen());
+  if(dv==='disp')return toM(dispLen());
+  if(dv==='ratio'){var d=toM(pathLen()),s=toM(dispLen());return s>.01?d/s:0;}
+  if(dv==='dir')return dispAngle();
+  if(dv==='nseg2')return Math.max(0,pts.length-1);
+  return toM(pathLen());
+}
+var manD=[];
+function buildExp(){var vs=getVars();var ivSel=$('expIV')?$('expIV').value:vs.iv[0].id,dvSel=$('expDV')?$('expDV').value:vs.dv[0].id;
+  var ivN='',dvN='';for(var i=0;i<vs.iv.length;i++){if(vs.iv[i].id===ivSel)ivN=vs.iv[i].n;}if(!ivN)ivN=vs.iv[0].n;
+  for(var j=0;j<vs.dv.length;j++){if(vs.dv[j].id===dvSel)dvN=vs.dv[j].n;}if(!dvN)dvN=vs.dv[0].n;
+  // CVs: show all, but uncheck if matching IV or DV
+  var h='<div class="exp-panel"><div class="exp-title">Experiment — '+mode.charAt(0).toUpperCase()+mode.slice(1)+' Mode</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px"><div class="exp-var"><label class="exp-label iv">IV (change this)</label><select class="exp-select" id="expIV" onchange="buildExp()">'+vs.iv.map(function(v){return '<option value="'+v.id+'"'+(v.id===ivSel?' selected':'')+'>'+v.n+'</option>';}).join('')+'</select></div><div class="exp-var"><label class="exp-label dv">DV (measure this)</label><select class="exp-select" id="expDV" onchange="buildExp()">'+vs.dv.map(function(v){return '<option value="'+v.id+'"'+(v.id===dvSel?' selected':'')+'>'+v.n+'</option>';}).join('')+'</select></div></div>';
+  h+='<div class="exp-var"><label class="exp-label cv">CVs (keep constant)</label><div class="exp-cv-list">';
+  vs.allVars.forEach(function(v){var isIV=v===ivN,isDV=v===dvN;var checked=!isIV&&!isDV;h+='<label class="exp-cv-item" style="'+(isIV||isDV?'opacity:.45':'')+'"><input type="checkbox"'+(checked?' checked':'')+(isIV||isDV?' disabled':'')+'>'+v+(isIV?' (IV)':'')+(isDV?' (DV)':'')+'</label>';});
+  h+='</div></div>';
+  var checkedCVs=vs.allVars.filter(function(v){return v!==ivN&&v!==dvN;});
+  h+='<div class="exp-var"><label class="exp-label hyp">Hypothesis</label><div class="exp-hypothesis">"If <strong class="iv-hl">'+ivN+'</strong> increases, <strong class="dv-hl">'+dvN+'</strong> will <select style="font-size:.68rem;border:1px solid var(--border);border-radius:3px;padding:1px 3px"><option>increase</option><option>decrease</option><option>stay constant</option></select>, keeping <strong class="cv-hl">'+checkedCVs.join(', ')+'</strong> constant."</div></div></div>';
+  h+='<div style="display:flex;gap:3px;align-items:end;margin-bottom:4px"><div style="flex:1"><label style="font-size:.58rem;font-weight:700;color:#2563eb">IV</label><div style="display:flex;gap:2px"><input class="num-input" id="mIV" step="any" style="width:100%"><button class="btn btn-s" onclick="rIV()" style="font-size:.56rem;padding:2px 4px">Read</button></div></div><div style="flex:1"><label style="font-size:.58rem;font-weight:700;color:#dc2626">DV</label><div style="display:flex;gap:2px"><input class="num-input" id="mDV" step="any" style="width:100%"><button class="btn btn-s" onclick="rDV()" style="font-size:.56rem;padding:2px 4px">Read</button></div></div><button class="btn btn-p" onclick="addR()" style="font-size:.56rem;padding:3px 5px">+Add</button><button class="btn btn-ok" onclick="aAdd()" style="font-size:.56rem;padding:3px 5px">Auto</button></div>';
+  h+='<div id="mT"></div><div style="display:flex;gap:3px;margin-top:3px"><button class="exp-btn" onclick="clrM()">Clear</button><button class="exp-btn" onclick="expCSV()">CSV</button></div>';
+  $('expC').innerHTML=h;}
+window.rIV=function(){if($('mIV'))$('mIV').value=fmtV(getSimIV());};window.rDV=function(){if($('mDV'))$('mDV').value=fmtV(getSimDV());};window.aAdd=function(){rIV();rDV();addR();};
+window.addR=function(){var iv=parseFloat($('mIV')?$('mIV').value:0),dv=parseFloat($('mDV')?$('mDV').value:0);if(isNaN(iv)||isNaN(dv))return;manD.push({iv:iv,dv:dv});if($('mIV'))$('mIV').value='';if($('mDV'))$('mDV').value='';buildMT();addN('Data','IV='+fmtV(iv)+', DV='+fmtV(dv),'#'+manD.length);};
+function buildMT(){if(!manD.length){if($('mT'))$('mT').innerHTML='';return;}var rows='';manD.forEach(function(d,i){rows+='<tr><td>'+fmtV(d.iv)+'</td><td>'+fmtV(d.dv)+'</td><td><span style="cursor:pointer;color:var(--err);opacity:.5" onclick="rmPt2('+i+')">x</span></td></tr>';});if($('mT'))$('mT').innerHTML='<table class="dt"><thead><tr><th>'+getIVN()+'</th><th>'+getDVN()+'</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';}
+window.rmPt2=function(i){manD.splice(i,1);buildMT();};window.clrM=function(){manD=[];buildMT();};
+window.expCSV=function(){if(!manD.length)return;var csv=getIVN()+','+getDVN()+'\n';manD.forEach(function(d){csv+=fmtV(d.iv)+','+fmtV(d.dv)+'\n';});var b=new Blob([csv],{type:'text/csv'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='distance_displacement.csv';a.click();};
+
+var IB=[
+{c:'State',q:'Define distance and displacement.',f:'<strong>Distance</strong> is the total length of the path travelled (scalar, always positive). <strong>Displacement</strong> is the straight-line distance from start to end in a specified direction (vector).'},
+{c:'Calculate',q:'A student walks 3 km east then 4 km north. Find distance and displacement.',f:'Distance = 3 + 4 = <strong>7 km</strong>. Displacement = sqrt(3² + 4²) = <strong>5 km at 53° N of E</strong>.'},
+{c:'Explain',q:'A runner completes one 400 m lap. State distance and displacement.',f:'Distance = <strong>400 m</strong>. Displacement = <strong>0 m</strong> (back to start). Distance ≥ displacement always.'},
+{c:'Calculate',q:'An ant walks a 6m × 8m rectangle back to start. Find distance and displacement.',f:'Distance = 2(6+8) = <strong>28 m</strong>. Displacement = <strong>0 m</strong> (closed loop).'},
+{c:'Explain',q:'When does distance equal displacement?',f:'Only when the object moves in a <strong>straight line without changing direction</strong>. Any curve or turn makes distance > displacement.'},
+{c:'Calculate',q:'A ball thrown 12 m up falls back to the thrower.',f:'Distance = 12 + 12 = <strong>24 m</strong>. Displacement = <strong>0 m</strong>. Classic exam trap.'}
+];
+function buildIB(){$('ibL').innerHTML=IB.map(function(q,i){var cls=q.c==='Calculate'?'c':q.c==='Explain'?'e':'s';return '<div class="q-item"><div class="q-header" onclick="sF('+i+')"><span class="q-cmd q-cmd-'+cls+'">'+q.c+'</span><span class="q-text">'+q.q+'</span><span class="q-marks">['+(q.c==='State'?'2':'3')+']</span><span class="q-toggle">Show</span></div><div class="q-answer" id="iF'+i+'">'+q.f+'</div></div>';}).join('');}
+window.sF=function(i){$('iF'+i).classList.toggle('open');var t=$('iF'+i).previousElementSibling.querySelector('.q-toggle');t.textContent=$('iF'+i).classList.contains('open')?'Hide':'Show';};
+var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN();}
+function showN(){$('nbO').innerHTML=nb.length?nb.map(function(n,i){return '<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">'+n.r+'</span></div>';}).join(''):'<p style="text-align:center;color:var(--text3);font-size:.56rem;padding:6px">Draw paths to log here.</p>';}
+
+buildExp();buildIB();showN();
+</script>
+<div style="text-align:center;padding:16px 0 8px;font-family:Georgia,serif;font-size:11px;color:rgba(0,0,0,0.15);letter-spacing:2px;text-transform:uppercase;user-select:none">ATUL SORAL PHYSICISM</div>
+</body>
+</html>
