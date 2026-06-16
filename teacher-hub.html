@@ -190,8 +190,20 @@
         </select>
       </div>
       <div>
-        <label style="font-size:12px; color:var(--text-muted);">Tags (comma separated)</label>
-        <input type="text" id="editStuTags" placeholder="DP-HL, self-registered" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text);">
+        <label style="font-size:12px; color:var(--text-muted);">Tags / Groups</label>
+        <div id="editStuTagsCheckboxes" style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px; font-size:13px; color:var(--text);">
+          <label><input type="checkbox" value="single-tuition"> single-tuition</label>
+          <label><input type="checkbox" value="group-tuition"> group-tuition</label>
+          <label><input type="checkbox" value="school"> school</label>
+          <label><input type="checkbox" value="international"> international</label>
+          <label><input type="checkbox" value="SNIS"> SNIS</label>
+          <label><input type="checkbox" value="self-registered"> self-registered</label>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="editStuCustomTag" placeholder="Add custom tag" style="flex:1; padding:6px; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text);">
+          <button class="btn-outline" onclick="addCustomTag()" style="padding:6px 12px;">Add</button>
+        </div>
+        <div id="editStuCustomTagsList" style="margin-top:8px; display:flex; flex-wrap:wrap; gap:4px;"></div>
       </div>
       <div style="display:flex; justify-content:flex-end; gap:8px;">
         <button class="btn-outline" onclick="document.getElementById('editStudentModal').style.display='none'">Cancel</button>
@@ -565,29 +577,74 @@
       }).join('');
     }
 
+    let customTagsList = [];
+
     function editStudent(id) {
       const s = allStudents.find(x => x.id === id);
       if(!s) return;
       document.getElementById('editStuId').value = s.id;
       document.getElementById('editStuName').value = s.name || '';
       document.getElementById('editStuLevel').value = s.level || '';
-      document.getElementById('editStuTags').value = s.tags ? s.tags.join(', ') : '';
+      
+      const knownTags = ['single-tuition', 'group-tuition', 'school', 'international', 'SNIS', 'self-registered'];
+      const checkboxes = document.querySelectorAll('#editStuTagsCheckboxes input[type="checkbox"]');
+      checkboxes.forEach(cb => cb.checked = false);
+      
+      customTagsList = [];
+      if (s.tags) {
+        s.tags.forEach(t => {
+          if (knownTags.includes(t)) {
+            const cb = document.querySelector(`#editStuTagsCheckboxes input[value="${t}"]`);
+            if(cb) cb.checked = true;
+          } else {
+            customTagsList.push(t);
+          }
+        });
+      }
+      renderCustomTags();
+      
       document.getElementById('editStudentModal').style.display = 'flex';
+    }
+
+    function addCustomTag() {
+      const input = document.getElementById('editStuCustomTag');
+      const val = input.value.trim();
+      if (val && !customTagsList.includes(val)) {
+        customTagsList.push(val);
+        input.value = '';
+        renderCustomTags();
+      }
+    }
+
+    function removeCustomTag(tag) {
+      customTagsList = customTagsList.filter(t => t !== tag);
+      renderCustomTags();
+    }
+
+    function renderCustomTags() {
+      const listEl = document.getElementById('editStuCustomTagsList');
+      listEl.innerHTML = customTagsList.map(t => `
+        <span class="badge" style="display:flex; align-items:center; gap:4px;">
+          ${t}
+          <span style="cursor:pointer; color:#f28b82;" onclick="removeCustomTag('${t}')">×</span>
+        </span>
+      `).join('');
     }
 
     async function saveStudentEdit() {
       const id = document.getElementById('editStuId').value;
       const name = document.getElementById('editStuName').value;
       const level = document.getElementById('editStuLevel').value;
-      const tagsStr = document.getElementById('editStuTags').value;
-      const tags = tagsStr.split(',').map(t => t.trim()).filter(t => t.length > 0);
+      
+      const checkboxes = document.querySelectorAll('#editStuTagsCheckboxes input[type="checkbox"]:checked');
+      const tags = Array.from(checkboxes).map(cb => cb.value).concat(customTagsList);
 
       try {
-        await db.collection('students').doc(id).update({
+        await db.collection('students').doc(id).set({
           name: name,
           level: level,
           tags: tags
-        });
+        }, { merge: true });
         document.getElementById('editStudentModal').style.display = 'none';
         loadStudents();
       } catch(e) {
