@@ -27,6 +27,15 @@ const DP_SIMS = [
     file: "sims/particle-model.html"
   },
   {
+    id: "distance-displacement",
+    title: "Distance vs Displacement",
+    icon: "📏",
+    topic: "A.1",
+    topicName: "Kinematics",
+    description: "Compare scalar distance and vector displacement with linear, circular, and freeform path modes. Includes real-life examples and challenges.",
+    file: "sims/distance-displacement.html"
+  },
+  {
     id: "motion-lab",
     title: "Motion Lab",
     icon: "🏃",
