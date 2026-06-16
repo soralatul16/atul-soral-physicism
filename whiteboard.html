@@ -130,7 +130,9 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
 @keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-120px) scale(1.5)}}
 
 /* Poll widget */
-.poll-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#2a2a3e;border:1px solid #444;border-radius:12px;padding:20px;z-index:300;width:360px;color:#ccc;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.poll-modal,.eq-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#2a2a3e;border:1px solid #444;border-radius:12px;padding:20px;z-index:300;color:#ccc;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.poll-modal{width:360px}
+.eq-modal{width:460px;max-height:80vh;overflow-y:auto}
 .poll-modal.hide{display:none}
 .poll-modal h3{margin-bottom:12px;color:#4ecdc4;font-size:.9rem}
 .poll-modal input,.poll-modal textarea{width:100%;background:#1a1a2e;border:1px solid #444;border-radius:6px;padding:6px 10px;color:#ccc;font-size:.8rem;margin-bottom:8px;outline:none}
@@ -138,6 +140,27 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
 .poll-modal button{padding:6px 14px;border:none;border-radius:6px;cursor:pointer;font-size:.8rem}
 .poll-modal .poll-ok{background:#4ecdc4;color:#1a1a2e;font-weight:600}
 .poll-modal .poll-cancel{background:#444;color:#ccc}
+
+/* Equation builder */
+.eq-modal.hide{display:none}
+.eq-modal h3{margin-bottom:8px;color:#4ecdc4;font-size:.9rem}
+.eq-preview{min-height:40px;background:#1a1a2e;border-radius:6px;padding:8px 12px;margin-bottom:8px;color:#fff;font-size:18px;overflow-x:auto}
+.eq-input{width:100%;background:#1a1a2e;border:1px solid #444;border-radius:6px;padding:8px 10px;color:#ccc;font-size:.85rem;font-family:monospace;margin-bottom:8px;outline:none}
+.eq-symbols{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.eq-cat{width:100%;font-size:.6rem;color:#4ecdc4;text-transform:uppercase;margin-top:6px;letter-spacing:.05em}
+.eq-symbols button{min-width:36px;height:30px;background:#1a1a2e;border:1px solid #444;border-radius:4px;color:#ccc;cursor:pointer;font-size:13px;padding:0 6px}
+.eq-symbols button:hover{border-color:#4ecdc4;color:#4ecdc4}
+
+/* Video wrapper with controls */
+.vid-wrap{position:absolute;border-radius:8px;overflow:visible;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.vid-bar{height:28px;background:#1a1a2e;display:flex;align-items:center;justify-content:space-between;padding:0 6px;cursor:move;border-radius:8px 8px 0 0;border:1px solid #333;border-bottom:none;gap:4px}
+.vid-bar span{color:#888;font-size:.65rem;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vid-bar button{width:22px;height:22px;border:none;border-radius:4px;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;background:#333;color:#ccc}
+.vid-bar button:hover{background:#555}
+.vid-bar .vid-close{background:#e74c3c;color:#fff}
+.vid-bar .vid-close:hover{background:#c0392b}
+.vid-resize{position:absolute;bottom:-4px;right:-4px;width:16px;height:16px;cursor:nwse-resize;background:#4ecdc4;border-radius:0 0 4px 0;opacity:.6}
+.vid-resize:hover{opacity:1}
 
 /* High-contrast mode */
 body.hc .brand-bar{background:#000;border-bottom:2px solid #fff}
@@ -387,6 +410,71 @@ body.hc .lbl{color:#aaa}
   <div class="poll-actions">
     <button class="poll-cancel" onclick="closePollModal()">Cancel</button>
     <button class="poll-ok" onclick="createPoll()">Create</button>
+  </div>
+</div>
+
+<!-- EQUATION BUILDER -->
+<div class="eq-modal hide" id="eqModal">
+  <h3>Insert Equation &mdash; click symbols or type LaTeX</h3>
+  <div class="eq-preview" id="eqPreview">Preview appears here...</div>
+  <input class="eq-input" id="eqInput" placeholder="Type or click symbols below..." oninput="eqUpdatePreview()">
+  <div class="eq-symbols">
+    <div class="eq-cat">Common</div>
+    <button onclick="eqIns('\\frac{a}{b}')"><i>a/b</i></button>
+    <button onclick="eqIns('\\sqrt{x}')">&#8730;x</button>
+    <button onclick="eqIns('^{2}')">x&#178;</button>
+    <button onclick="eqIns('_{n}')">x&#8345;</button>
+    <button onclick="eqIns('\\pm ')">&#177;</button>
+    <button onclick="eqIns('\\times ')">&#215;</button>
+    <button onclick="eqIns('\\div ')">&#247;</button>
+    <button onclick="eqIns('\\cdot ')">&#183;</button>
+    <button onclick="eqIns('\\neq ')">&#8800;</button>
+    <button onclick="eqIns('\\leq ')">&#8804;</button>
+    <button onclick="eqIns('\\geq ')">&#8805;</button>
+    <button onclick="eqIns('\\approx ')">&#8776;</button>
+    <button onclick="eqIns('\\infty ')">&#8734;</button>
+    <button onclick="eqIns('\\rightarrow ')">&#8594;</button>
+    <div class="eq-cat">Physics Formulas</div>
+    <button onclick="eqIns('E = mc^2')">E=mc&#178;</button>
+    <button onclick="eqIns('F = ma')">F=ma</button>
+    <button onclick="eqIns('v = u + at')">v=u+at</button>
+    <button onclick="eqIns('s = ut + \\frac{1}{2}at^2')">s=ut+&#189;at&#178;</button>
+    <button onclick="eqIns('v^2 = u^2 + 2as')">v&#178;=u&#178;+2as</button>
+    <button onclick="eqIns('F = \\frac{Gm_1 m_2}{r^2}')">Gravity</button>
+    <button onclick="eqIns('F = k\\frac{q_1 q_2}{r^2}')">Coulomb</button>
+    <button onclick="eqIns('V = IR')">V=IR</button>
+    <button onclick="eqIns('P = IV')">P=IV</button>
+    <button onclick="eqIns('\\lambda = \\frac{h}{p}')">de Broglie</button>
+    <button onclick="eqIns('E = h\\nu')">E=h&#957;</button>
+    <button onclick="eqIns('\\vec{F}')">F&#8407;</button>
+    <div class="eq-cat">Greek Letters</div>
+    <button onclick="eqIns('\\alpha ')">&#945;</button>
+    <button onclick="eqIns('\\beta ')">&#946;</button>
+    <button onclick="eqIns('\\gamma ')">&#947;</button>
+    <button onclick="eqIns('\\delta ')">&#948;</button>
+    <button onclick="eqIns('\\Delta ')">&#916;</button>
+    <button onclick="eqIns('\\theta ')">&#952;</button>
+    <button onclick="eqIns('\\lambda ')">&#955;</button>
+    <button onclick="eqIns('\\mu ')">&#956;</button>
+    <button onclick="eqIns('\\pi ')">&#960;</button>
+    <button onclick="eqIns('\\sigma ')">&#963;</button>
+    <button onclick="eqIns('\\omega ')">&#969;</button>
+    <button onclick="eqIns('\\Omega ')">&#937;</button>
+    <button onclick="eqIns('\\phi ')">&#966;</button>
+    <button onclick="eqIns('\\rho ')">&#961;</button>
+    <button onclick="eqIns('\\epsilon ')">&#949;</button>
+    <button onclick="eqIns('\\nu ')">&#957;</button>
+    <div class="eq-cat">Calculus</div>
+    <button onclick="eqIns('\\int_{a}^{b} ')">&#8747;</button>
+    <button onclick="eqIns('\\sum_{i=1}^{n} ')">&#8721;</button>
+    <button onclick="eqIns('\\frac{d}{dx}')">d/dx</button>
+    <button onclick="eqIns('\\partial ')">&#8706;</button>
+    <button onclick="eqIns('\\nabla ')">&#8711;</button>
+    <button onclick="eqIns('\\lim_{x \\to 0} ')">lim</button>
+  </div>
+  <div class="poll-actions">
+    <button class="poll-cancel" onclick="closeEqModal()">Cancel</button>
+    <button class="poll-ok" onclick="confirmEq()">Insert Equation</button>
   </div>
 </div>
 
@@ -1461,14 +1549,47 @@ function searchText() {
   alert('Found '+results.length+' result(s). Showing first on page '+(r.page+1)+'.');
 }
 
-// ═══ EQUATION TOOL (KaTeX) ═══
+// ═══ EQUATION TOOL (visual builder + KaTeX) ═══
+var eqWorldX = 0, eqWorldY = 0;
+
 function handleEquation(e) {
-  var latex = prompt('Enter LaTeX equation:\n\nExamples:\nE = mc^2\n\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}\n\\int_0^\\infty e^{-x} dx');
-  if (!latex) return;
   var w = getW(e);
-  addEl({ type:'equation', latex:latex, x:w.x, y:w.y, color:penColor, fs:fontSize, rt:recTime() });
+  eqWorldX = w.x; eqWorldY = w.y;
+  document.getElementById('eqInput').value = '';
+  document.getElementById('eqPreview').textContent = 'Preview appears here...';
+  document.getElementById('eqModal').classList.remove('hide');
+  document.getElementById('eqInput').focus();
+}
+
+function eqIns(s) {
+  var inp = document.getElementById('eqInput');
+  var pos = inp.selectionStart;
+  var val = inp.value;
+  inp.value = val.slice(0, pos) + s + val.slice(pos);
+  inp.focus();
+  inp.selectionStart = inp.selectionEnd = pos + s.length;
+  eqUpdatePreview();
+}
+
+function eqUpdatePreview() {
+  var latex = document.getElementById('eqInput').value;
+  var prev = document.getElementById('eqPreview');
+  if (!latex) { prev.textContent = 'Preview appears here...'; return; }
+  if (window.katex) {
+    try { katex.render(latex, prev, { throwOnError: false, displayMode: true }); }
+    catch(e) { prev.textContent = latex; }
+  } else { prev.textContent = latex; }
+}
+
+function confirmEq() {
+  var latex = document.getElementById('eqInput').value.trim();
+  if (!latex) { closeEqModal(); return; }
+  addEl({ type:'equation', latex:latex, x:eqWorldX, y:eqWorldY, color:penColor, fs:fontSize, rt:recTime() });
+  closeEqModal();
   fullRender();
 }
+
+function closeEqModal() { document.getElementById('eqModal').classList.add('hide'); }
 
 // ═══ OVERLAY SYSTEM (equations + videos) — stable, no iframe reload ═══
 var overlayDiv = document.getElementById('overlays');
@@ -1524,22 +1645,88 @@ function updateEqOverlay(el) {
 
 function updateVidOverlay(el) {
   var s = w2screen(el.x, el.y);
-  var w = (el.w || 320) * zoom, h = (el.h || 180) * zoom;
-  var iframe = overlayCache[el._oid];
-  if (!iframe) {
-    iframe = document.createElement('iframe');
+  var vw = (el.w || 320) * zoom, vh = (el.h || 180) * zoom;
+  var wrap = overlayCache[el._oid];
+  if (!wrap) {
+    wrap = document.createElement('div');
+    wrap.className = 'vid-wrap';
+    // Title bar
+    var bar = document.createElement('div');
+    bar.className = 'vid-bar';
+    var title = document.createElement('span');
+    title.textContent = 'Video';
+    var minBtn = document.createElement('button');
+    minBtn.textContent = '–';
+    minBtn.title = 'Minimize';
+    minBtn.onclick = function() { el._min = !el._min; updateVidOverlay(el); };
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 'vid-close';
+    closeBtn.textContent = '✕';
+    closeBtn.title = 'Close';
+    closeBtn.onclick = function() {
+      var idx = els().indexOf(el);
+      if (idx !== -1) { pages[curPage].undone.push(els().splice(idx, 1)[0]); }
+      if (overlayCache[el._oid]) { overlayCache[el._oid].remove(); delete overlayCache[el._oid]; }
+      fullRender();
+    };
+    bar.appendChild(title); bar.appendChild(minBtn); bar.appendChild(closeBtn);
+    wrap.appendChild(bar);
+    // Iframe
+    var iframe = document.createElement('iframe');
     iframe.src = el.url;
-    iframe.style.position = 'absolute';
-    iframe.style.border = 'none';
-    iframe.style.borderRadius = '8px';
+    iframe.style.width = '100%'; iframe.style.border = 'none'; iframe.style.display = 'block';
     iframe.allow = 'accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture';
     iframe.allowFullscreen = true;
-    overlayDiv.appendChild(iframe);
-    overlayCache[el._oid] = iframe;
+    wrap.appendChild(iframe);
+    wrap._iframe = iframe;
+    // Resize handle
+    var rh = document.createElement('div');
+    rh.className = 'vid-resize';
+    rh.onmousedown = function(ev) {
+      ev.preventDefault(); ev.stopPropagation();
+      var startX = ev.clientX, startY = ev.clientY;
+      var ow = el.w || 320, oh = el.h || 180;
+      function mv(me) {
+        el.w = Math.max(200, ow + (me.clientX - startX) / zoom);
+        el.h = Math.max(120, oh + (me.clientY - startY) / zoom);
+        updateVidOverlay(el);
+      }
+      function up() { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); }
+      document.addEventListener('mousemove', mv); document.addEventListener('mouseup', up);
+    };
+    wrap.appendChild(rh);
+    // Drag via title bar
+    bar.onmousedown = function(ev) {
+      if (ev.target !== bar && ev.target !== title) return;
+      ev.preventDefault();
+      var startX = ev.clientX, startY = ev.clientY;
+      var ox = el.x, oy = el.y;
+      function mv(me) {
+        el.x = ox + (me.clientX - startX) / zoom;
+        el.y = oy + (me.clientY - startY) / zoom;
+        updateVidOverlay(el);
+      }
+      function up() { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); }
+      document.addEventListener('mousemove', mv); document.addEventListener('mouseup', up);
+    };
+    overlayDiv.appendChild(wrap);
+    overlayCache[el._oid] = wrap;
   }
-  iframe.style.left = s.x + 'px'; iframe.style.top = s.y + 'px';
-  iframe.style.width = w + 'px'; iframe.style.height = h + 'px';
-  iframe.style.display = (s.x + w < 0 || s.x > cW || s.y + h < 0 || s.y > cH) ? 'none' : '';
+  // Update position and size
+  wrap.style.left = s.x + 'px'; wrap.style.top = (s.y - 28) + 'px';
+  wrap.style.width = vw + 'px';
+  var iframe = wrap._iframe;
+  if (el._min) {
+    iframe.style.display = 'none';
+    wrap.style.height = '28px';
+    wrap.querySelector('.vid-resize').style.display = 'none';
+  } else {
+    iframe.style.display = 'block';
+    iframe.style.height = vh + 'px';
+    wrap.style.height = (vh + 28) + 'px';
+    wrap.querySelector('.vid-resize').style.display = '';
+  }
+  wrap.style.display = (s.x + vw < -50 || s.x > cW + 50 || s.y + vh < -50 || s.y > cH + 50) ? 'none' : '';
 }
 
 // ═══ VIDEO EMBED ═══
