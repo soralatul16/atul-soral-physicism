@@ -94,6 +94,8 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
     <button class="tb" id="btnArrow" onclick="setTool('arrow')" title="Arrow (6)">&rarr;</button>
     <button class="tb" id="btnRect" onclick="setTool('rect')" title="Rectangle (7)">&#9645;</button>
     <button class="tb" id="btnCircle" onclick="setTool('circle')" title="Circle (8)">&#9675;</button>
+    <button class="tb" id="btnTriangle" onclick="setTool('triangle')" title="Triangle (9)">&#9651;</button>
+    <button class="tb" id="btnStar" onclick="setTool('star')" title="Star (0)">&#9733;</button>
   </div>
   <div class="sep"></div>
   <div class="tg">
@@ -146,11 +148,28 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
   </div>
   <div class="sep"></div>
   <div class="tg">
+    <span class="lbl">TPL</span>
+    <select id="tplSelect" onchange="placeTemplate(this.value);this.value=''">
+      <option value="">Templates...</option>
+      <option value="venn">Venn Diagram</option>
+      <option value="kwl">KWL Chart</option>
+      <option value="tchart">T-Chart</option>
+      <option value="timeline">Timeline</option>
+      <option value="cornell">Cornell Notes</option>
+      <option value="mindmap">Mind Map</option>
+      <option value="punnett">Punnett Square</option>
+      <option value="fractionbar">Fraction Bar</option>
+    </select>
+  </div>
+  <div class="sep"></div>
+  <div class="tg">
     <button class="tb" id="btnRec" onclick="toggleRecord()" title="Record (R)">&#9679; Rec</button>
     <button class="tb" onclick="doUndo()" title="Undo (Ctrl+Z)">&#8617;&#65039;</button>
     <button class="tb" onclick="doRedo()" title="Redo (Ctrl+Y)">&#8618;&#65039;</button>
     <button class="tb" onclick="clearPage()" title="Clear">&#128465;&#65039;</button>
     <button class="tb" onclick="saveImage()" title="Export (Ctrl+S)">&#128190;</button>
+    <button class="tb" onclick="saveBoard()" title="Save Board">&#128229;</button>
+    <button class="tb" onclick="loadBoard()" title="Load Board">&#128228;</button>
     <button class="tb" onclick="toggleFullscreen()" title="Fullscreen (F)">&#9974;</button>
   </div>
   <div class="sep"></div>
@@ -179,6 +198,12 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
     <input type="number" id="teFontSize" value="24" min="8" max="120" style="width:50px">
     <button class="te-b" id="teBold" onclick="teBoldToggle()"><b>B</b></button>
     <button class="te-b" id="teItalic" onclick="teItalicToggle()"><i>I</i></button>
+    <button class="te-b" id="teUnderline" onclick="teUnderlineToggle()"><u>U</u></button>
+    <select id="teAlign" style="width:40px;background:#f5f5f5;border:1px solid #ddd;border-radius:4px;height:26px;font-size:11px">
+      <option value="left">&#8676;</option>
+      <option value="center">&#8697;</option>
+      <option value="right">&#8677;</option>
+    </select>
     <input type="color" id="teColor" value="#ffffff" title="Text color">
     <button class="te-b" onclick="teConfirm()" title="Done" style="color:#2ecc71;font-weight:bold">&#10003;</button>
     <button class="te-b" onclick="teCancel()" title="Cancel" style="color:#e74c3c">&#10005;</button>
@@ -193,6 +218,7 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
     <span id="pageInfo">1 / 1</span>
     <button onclick="nextPage()">&#9654;</button>
     <button onclick="addPage()">+</button>
+    <button onclick="dupPage()" title="Duplicate page" style="font-size:10px">&#128203;</button>
   </div>
   <div class="zm">
     <button onclick="zoomBy(-0.2)">&#8722;</button>
@@ -383,12 +409,40 @@ function drawEl(c, el) {
       c.strokeStyle = el.color; c.lineWidth = el.size;
       c.beginPath(); c.ellipse(cx, cy, Math.max(rx, 0.1), Math.max(ry, 0.1), 0, 0, Math.PI * 2); c.stroke();
       break;
+    case 'triangle':
+      c.strokeStyle = el.color; c.lineWidth = el.size;
+      var tmx = (el.x1 + el.x2) / 2;
+      c.beginPath(); c.moveTo(tmx, el.y1); c.lineTo(el.x2, el.y2); c.lineTo(el.x1, el.y2); c.closePath(); c.stroke();
+      break;
+    case 'star':
+      c.strokeStyle = el.color; c.lineWidth = el.size;
+      var scx = (el.x1 + el.x2) / 2, scy = (el.y1 + el.y2) / 2;
+      var sor = Math.min(Math.abs(el.x2 - el.x1), Math.abs(el.y2 - el.y1)) / 2;
+      var sir = sor * 0.4; c.beginPath();
+      for (var si = 0; si < 10; si++) {
+        var sr = si % 2 === 0 ? sor : sir;
+        var sa = -Math.PI / 2 + si * Math.PI / 5;
+        if (si === 0) c.moveTo(scx + sr * Math.cos(sa), scy + sr * Math.sin(sa));
+        else c.lineTo(scx + sr * Math.cos(sa), scy + sr * Math.sin(sa));
+      }
+      c.closePath(); c.stroke();
+      break;
     case 'text':
       var style = ''; if (el.italic) style += 'italic '; if (el.bold) style += 'bold ';
       c.font = style + el.fs + 'px ' + (el.ff || 'system-ui,sans-serif');
-      c.fillStyle = el.color;
+      c.fillStyle = el.color; c.textAlign = el.align || 'left';
       var lines = el.text.split('\n');
-      for (var j = 0; j < lines.length; j++) c.fillText(lines[j], el.x, el.y + j * el.fs * 1.3);
+      for (var j = 0; j < lines.length; j++) {
+        var ty = el.y + j * el.fs * 1.3;
+        c.fillText(lines[j], el.x, ty);
+        if (el.underline) {
+          var tw = c.measureText(lines[j]).width;
+          var ux = el.x; if (el.align === 'center') ux -= tw / 2; else if (el.align === 'right') ux -= tw;
+          c.strokeStyle = el.color; c.lineWidth = Math.max(1, el.fs / 15);
+          c.beginPath(); c.moveTo(ux, ty + 3); c.lineTo(ux + tw, ty + 3); c.stroke();
+        }
+      }
+      c.textAlign = 'left';
       break;
     case 'sticky':
       c.fillStyle = el.bg; c.globalAlpha = 0.92;
@@ -531,6 +585,8 @@ function openTextEditor(screenX, screenY, worldX, worldY, mode) {
   document.getElementById('teColor').value = penColor;
   document.getElementById('teBold').classList.remove('on');
   document.getElementById('teItalic').classList.remove('on');
+  document.getElementById('teUnderline').classList.remove('on');
+  document.getElementById('teAlign').value = 'left';
   if (mode === 'sticky') {
     input.style.background = 'rgba(254,202,87,.95)';
     input.style.color = '#1a1a2e';
@@ -547,6 +603,8 @@ function teConfirm() {
   var col = document.getElementById('teColor').value;
   var bold = document.getElementById('teBold').classList.contains('on');
   var italic = document.getElementById('teItalic').classList.contains('on');
+  var underline = document.getElementById('teUnderline').classList.contains('on');
+  var align = document.getElementById('teAlign').value;
   var ff = document.getElementById('teFont').value;
 
   if (teMode === 'sticky') {
@@ -554,7 +612,7 @@ function teConfirm() {
     var bg = colors[els().filter(function(e) { return e.type === 'sticky'; }).length % colors.length];
     addEl({ type:'sticky', text:text, x:teWorldX, y:teWorldY, w:180, h:110, bg:bg, rt:recTime() });
   } else {
-    addEl({ type:'text', text:text, x:teWorldX, y:teWorldY, color:col, fs:fs, bold:bold, italic:italic, ff:ff, rt:recTime() });
+    addEl({ type:'text', text:text, x:teWorldX, y:teWorldY, color:col, fs:fs, bold:bold, italic:italic, underline:underline, align:align, ff:ff, rt:recTime() });
   }
   teCancel();
   fullRender();
@@ -567,6 +625,7 @@ function teCancel() {
 
 function teBoldToggle() { document.getElementById('teBold').classList.toggle('on'); }
 function teItalicToggle() { document.getElementById('teItalic').classList.toggle('on'); }
+function teUnderlineToggle() { document.getElementById('teUnderline').classList.toggle('on'); }
 
 // ═══ POINTER EVENTS ═══
 C.addEventListener('pointerdown', function(e) {
@@ -657,7 +716,7 @@ C.addEventListener('pointermove', function(e) {
     var x2 = w.x, y2 = w.y;
     if (shiftHeld) {
       if (currentEl.type === 'line' || currentEl.type === 'arrow') { var s = snapLine(currentEl.x1, currentEl.y1, x2, y2); x2 = s.x; y2 = s.y; }
-      else { var s = snapSq(currentEl.x1, currentEl.y1, x2, y2); x2 = s.x; y2 = s.y; }
+      else { var s = snapSq(currentEl.x1, currentEl.y1, x2, y2); x2 = s.x; y2 = s.y; } // rect, circle, triangle, star all snap to square
     }
     currentEl.x2 = x2; currentEl.y2 = y2;
     X.save(); applyVT(X); drawEl(X, currentEl); X.restore();
@@ -670,7 +729,10 @@ C.addEventListener('pointerup', function(e) {
   isDrawing = false;
 
   if (currentEl.type === 'pen' || currentEl.type === 'highlight' || currentEl.type === 'erase') {
-    if (currentEl.pts.length >= 2) addEl(currentEl);
+    if (currentEl.pts.length >= 2) {
+      var recognized = (currentEl.type === 'pen') ? recognizeShape(currentEl) : null;
+      if (recognized) addEl(recognized); else addEl(currentEl);
+    }
   } else {
     var w = getW(e);
     if (shiftHeld) {
@@ -719,6 +781,16 @@ function clearPage() { if (!confirm('Clear this page?')) return; pages[curPage].
 function savePg() { pages[curPage].px = panX; pages[curPage].py = panY; pages[curPage].zm = zoom; }
 function loadPg() { panX = pages[curPage].px; panY = pages[curPage].py; zoom = pages[curPage].zm; fullRender(); updatePgInfo(); updateZoom(); }
 function addPage() { savePg(); pages.push({ els:[], undone:[], px:0, py:0, zm:1 }); curPage = pages.length - 1; loadPg(); }
+function dupPage() {
+  savePg(); var src = pages[curPage];
+  var copy = { els:[], undone:[], px:src.px, py:src.py, zm:src.zm };
+  for (var i = 0; i < src.els.length; i++) {
+    var el = src.els[i], dup = {};
+    for (var k in el) { if (k === 'img') { var ni = new Image(); ni.src = el.img.src; dup.img = ni; } else if (k === 'pts') { dup.pts = el.pts.map(function(p){return{x:p.x,y:p.y,p:p.p};}); } else dup[k] = el[k]; }
+    copy.els.push(dup);
+  }
+  pages.splice(curPage + 1, 0, copy); curPage++; loadPg();
+}
 function nextPage() { if (curPage < pages.length - 1) { savePg(); curPage++; loadPg(); } }
 function prevPage() { if (curPage > 0) { savePg(); curPage--; loadPg(); } }
 function updatePgInfo() { document.getElementById('pageInfo').textContent = (curPage + 1) + ' / ' + pages.length; }
@@ -874,6 +946,7 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'z') { e.preventDefault(); doUndo(); }
     if (e.key === 'y') { e.preventDefault(); doRedo(); }
     if (e.key === 's') { e.preventDefault(); saveImage(); }
+    if (e.key === 'f') { e.preventDefault(); searchText(); }
     if (e.key === '0') { e.preventDefault(); resetView(); }
     if (e.key === '=') { e.preventDefault(); zoomBy(0.2); }
     if (e.key === '-') { e.preventDefault(); zoomBy(-0.2); }
@@ -882,6 +955,7 @@ document.addEventListener('keydown', function(e) {
   if (e.key === '1') setTool('pen'); if (e.key === '2') setTool('highlight'); if (e.key === '3') setTool('eraser');
   if (e.key === '4') setTool('text'); if (e.key === '5') setTool('line'); if (e.key === '6') setTool('arrow');
   if (e.key === '7') setTool('rect'); if (e.key === '8') setTool('circle');
+  if (e.key === '9') setTool('triangle'); if (e.key === '0') setTool('star');
   if (e.key === 'l') setTool('laser'); if (e.key === 's') setTool('spotlight'); if (e.key === 'n') setTool('sticky');
   if (e.key === 'f') toggleFullscreen(); if (e.key === 'm') toggleMinimap(); if (e.key === 'p') toggleScratch();
   if (e.key === 'r') toggleRecord(); if (e.key === 'b') addBookmark();
@@ -917,6 +991,167 @@ C.addEventListener('touchend', function(e) {
   for (var i = 0; i < e.changedTouches.length; i++) delete touches[e.changedTouches[i].identifier];
   if (Object.keys(touches).length < 2) isPanning = false;
 }, { passive: true });
+
+// ═══ TEMPLATES ═══
+function placeTemplate(type) {
+  if (!type) return;
+  var col = isWhiteBG() ? '#333333' : '#ffffff';
+  switch(type) {
+    case 'venn':
+      addEl({type:'circle',x1:-180,y1:-120,x2:20,y2:120,color:col,size:2,rt:recTime()});
+      addEl({type:'circle',x1:-20,y1:-120,x2:180,y2:120,color:col,size:2,rt:recTime()});
+      addEl({type:'text',text:'A',x:-120,y:-5,color:col,fs:24,ff:'system-ui,sans-serif',rt:recTime()});
+      addEl({type:'text',text:'B',x:100,y:-5,color:col,fs:24,ff:'system-ui,sans-serif',rt:recTime()});
+      addEl({type:'text',text:'A∩B',x:-12,y:-5,color:col,fs:16,ff:'system-ui,sans-serif',rt:recTime()});
+      break;
+    case 'kwl':
+      addEl({type:'rect',x1:-300,y1:-200,x2:300,y2:200,color:col,size:2,rt:recTime()});
+      addEl({type:'line',x1:-100,y1:-200,x2:-100,y2:200,color:col,size:2,rt:recTime()});
+      addEl({type:'line',x1:100,y1:-200,x2:100,y2:200,color:col,size:2,rt:recTime()});
+      addEl({type:'line',x1:-300,y1:-150,x2:300,y2:-150,color:col,size:2,rt:recTime()});
+      addEl({type:'text',text:'Know',x:-230,y:-170,color:col,fs:20,bold:true,ff:'system-ui,sans-serif',rt:recTime()});
+      addEl({type:'text',text:'Want to Know',x:-95,y:-170,color:col,fs:20,bold:true,ff:'system-ui,sans-serif',rt:recTime()});
+      addEl({type:'text',text:'Learned',x:115,y:-170,color:col,fs:20,bold:true,ff:'system-ui,sans-serif',rt:recTime()});
+      break;
+    case 'tchart':
+      addEl({type:'rect',x1:-250,y1:-180,x2:250,y2:180,color:col,size:2,rt:recTime()});
+      addEl({type:'line',x1:0,y1:-180,x2:0,y2:180,color:col,size:2,rt:recTime()});
+      addEl({type:'line',x1:-250,y1:-130,x2:250,y2:-130,color:col,size:2,rt:recTime()});
+      addEl({type:'text',text:'Topic A',x:-200,y:-150,color:col,fs:20,bold:true,ff:'system-ui,sans-serif',rt:recTime()});
+      addEl({type:'text',text:'Topic B',x:40,y:-150,color:col,fs:20,bold:true,ff:'system-ui,sans-serif',rt:recTime()});
+      break;
+    case 'timeline':
+      addEl({type:'arrow',x1:-400,y1:0,x2:400,y2:0,color:col,size:2,rt:recTime()});
+      for(var ti=-3;ti<=3;ti++){
+        addEl({type:'line',x1:ti*100,y1:-15,x2:ti*100,y2:15,color:col,size:2,rt:recTime()});
+        addEl({type:'text',text:String(ti+4),x:ti*100-5,y:35,color:col,fs:16,ff:'system-ui,sans-serif',rt:recTime()});
+      }
+      break;
+    case 'cornell':
+      addEl({type:'rect',x1:-300,y1:-250,x2:300,y2:250,color:col,size:2,rt:recTime()});
+      addEl({type:'line',x1:-150,y1:-200,x2:-150,y2:150,color:col,size:2,rt:recTime()});
+      addEl({type:'line',x1:-300,y1:-200,x2:300,y2:-200,color:col,size:2,rt:recTime()});
+      addEl({type:'line',x1:-300,y1:150,x2:300,y2:150,color:col,size:2,rt:recTime()});
+      addEl({type:'text',text:'TOPIC',x:-60,y:-228,color:col,fs:22,bold:true,ff:'system-ui,sans-serif',rt:recTime()});
+      addEl({type:'text',text:'Cues',x:-260,y:-175,color:col,fs:16,bold:true,ff:'system-ui,sans-serif',rt:recTime()});
+      addEl({type:'text',text:'Notes',x:-40,y:-175,color:col,fs:16,bold:true,ff:'system-ui,sans-serif',rt:recTime()});
+      addEl({type:'text',text:'Summary',x:-260,y:170,color:col,fs:16,bold:true,ff:'system-ui,sans-serif',rt:recTime()});
+      break;
+    case 'mindmap':
+      addEl({type:'circle',x1:-50,y1:-30,x2:50,y2:30,color:col,size:2,rt:recTime()});
+      addEl({type:'text',text:'Main Idea',x:-40,y:8,color:col,fs:14,ff:'system-ui,sans-serif',rt:recTime()});
+      var br=[[-200,-120],[200,-120],[-200,120],[200,120]];
+      for(var bi=0;bi<4;bi++){
+        addEl({type:'line',x1:0,y1:0,x2:br[bi][0],y2:br[bi][1],color:col,size:1.5,rt:recTime()});
+        addEl({type:'circle',x1:br[bi][0]-60,y1:br[bi][1]-20,x2:br[bi][0]+60,y2:br[bi][1]+20,color:col,size:1.5,rt:recTime()});
+        addEl({type:'text',text:'Branch '+(bi+1),x:br[bi][0]-30,y:br[bi][1]+6,color:col,fs:12,ff:'system-ui,sans-serif',rt:recTime()});
+      }
+      break;
+    case 'punnett':
+      addEl({type:'rect',x1:-120,y1:-120,x2:120,y2:120,color:col,size:2,rt:recTime()});
+      addEl({type:'line',x1:0,y1:-120,x2:0,y2:120,color:col,size:2,rt:recTime()});
+      addEl({type:'line',x1:-120,y1:0,x2:120,y2:0,color:col,size:2,rt:recTime()});
+      addEl({type:'line',x1:-120,y1:-60,x2:120,y2:-60,color:col,size:1,rt:recTime()});
+      addEl({type:'line',x1:-60,y1:-120,x2:-60,y2:120,color:col,size:1,rt:recTime()});
+      addEl({type:'text',text:'Parent 1 →',x:-115,y:-140,color:col,fs:14,ff:'system-ui,sans-serif',rt:recTime()});
+      addEl({type:'text',text:'Parent 2 ↓',x:-55,y:-140,color:col,fs:14,ff:'system-ui,sans-serif',rt:recTime()});
+      break;
+    case 'fractionbar':
+      for(var fi=1;fi<=5;fi++){
+        var fy=-150+fi*50;
+        addEl({type:'rect',x1:-200,y1:fy,x2:200,y2:fy+30,color:col,size:1.5,rt:recTime()});
+        for(var fj=1;fj<fi+1;fj++){
+          var fx=-200+fj*(400/(fi+1));
+          addEl({type:'line',x1:fx,y1:fy,x2:fx,y2:fy+30,color:col,size:1,rt:recTime()});
+        }
+        addEl({type:'text',text:'1/'+(fi+1),x:210,y:fy+22,color:col,fs:14,ff:'system-ui,sans-serif',rt:recTime()});
+      }
+      break;
+  }
+  fullRender();
+}
+
+// ═══ SMART SHAPE RECOGNITION ═══
+function recognizeShape(el) {
+  if (el.pts.length < 15) return null;
+  var pts = el.pts;
+  var dx = pts[pts.length-1].x - pts[0].x, dy = pts[pts.length-1].y - pts[0].y;
+  var totalLen = 0;
+  for (var i = 1; i < pts.length; i++) totalLen += Math.sqrt(Math.pow(pts[i].x-pts[i-1].x,2)+Math.pow(pts[i].y-pts[i-1].y,2));
+  if (Math.sqrt(dx*dx+dy*dy) > totalLen * 0.15) return null;
+  var minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+  for(var i=0;i<pts.length;i++){minX=Math.min(minX,pts[i].x);maxX=Math.max(maxX,pts[i].x);minY=Math.min(minY,pts[i].y);maxY=Math.max(maxY,pts[i].y);}
+  var w=maxX-minX,h=maxY-minY;
+  if(w<10||h<10) return null;
+  var cx=(minX+maxX)/2,cy=(minY+maxY)/2,avgR=(w+h)/4;
+  var radVar=0;
+  for(var i=0;i<pts.length;i++){var d=Math.sqrt(Math.pow(pts[i].x-cx,2)+Math.pow(pts[i].y-cy,2));radVar+=Math.abs(d-avgR);}
+  radVar/=pts.length;
+  if(radVar<avgR*0.2) return{type:'circle',x1:minX,y1:minY,x2:maxX,y2:maxY,color:el.color,size:el.size,rt:el.rt};
+  var edgeDist=0;
+  for(var i=0;i<pts.length;i++){edgeDist+=Math.min(Math.abs(pts[i].x-minX),Math.abs(pts[i].x-maxX),Math.abs(pts[i].y-minY),Math.abs(pts[i].y-maxY));}
+  edgeDist/=pts.length;
+  if(edgeDist<Math.min(w,h)*0.15) return{type:'rect',x1:minX,y1:minY,x2:maxX,y2:maxY,color:el.color,size:el.size,rt:el.rt};
+  return null;
+}
+
+// ═══ SAVE / LOAD BOARD ═══
+function saveBoard() {
+  savePg();
+  var data = { pages:[], curPage:curPage, bgType:bgType };
+  for(var p=0;p<pages.length;p++){
+    var pg=pages[p], ec=[];
+    for(var i=0;i<pg.els.length;i++){
+      var el=pg.els[i],dup={};
+      for(var k in el){if(k==='img')dup.imgSrc=el.img.src;else if(k==='pts')dup.pts=el.pts;else dup[k]=el[k];}
+      ec.push(dup);
+    }
+    data.pages.push({els:ec,px:pg.px,py:pg.py,zm:pg.zm});
+  }
+  try{localStorage.setItem('wb-save',JSON.stringify(data));alert('Board saved!');}catch(e){alert('Save failed: '+e.message);}
+}
+
+function loadBoard() {
+  var raw=localStorage.getItem('wb-save');
+  if(!raw){alert('No saved board found.');return;}
+  try{
+    var data=JSON.parse(raw);
+    pages=[];
+    for(var p=0;p<data.pages.length;p++){
+      var pg=data.pages[p],re=[];
+      for(var i=0;i<pg.els.length;i++){
+        var el=pg.els[i];
+        if(el.imgSrc){var img=new Image();img.src=el.imgSrc;el.img=img;delete el.imgSrc;}
+        re.push(el);
+      }
+      pages.push({els:re,undone:[],px:pg.px,py:pg.py,zm:pg.zm});
+    }
+    curPage=Math.min(data.curPage||0,pages.length-1);
+    bgType=data.bgType||'dark';
+    document.getElementById('bgSelect').value=bgType;
+    loadPg();
+  }catch(e){alert('Load failed: '+e.message);}
+}
+
+// ═══ TEXT SEARCH ═══
+function searchText() {
+  var q=prompt('Search text across all pages:');
+  if(!q)return;
+  q=q.toLowerCase();
+  var results=[];
+  for(var p=0;p<pages.length;p++)
+    for(var i=0;i<pages[p].els.length;i++){
+      var el=pages[p].els[i];
+      if((el.type==='text'||el.type==='sticky')&&el.text.toLowerCase().indexOf(q)!==-1)
+        results.push({page:p,el:el});
+    }
+  if(!results.length){alert('No results found.');return;}
+  var r=results[0];
+  if(r.page!==curPage){savePg();curPage=r.page;}
+  panX=r.el.x;panY=r.el.y;zoom=1;
+  loadPg();
+  alert('Found '+results.length+' result(s). Showing first on page '+(r.page+1)+'.');
+}
 
 // ═══ INIT ═══
 resize();
