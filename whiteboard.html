@@ -507,6 +507,7 @@ var showMinimap = false, showScratch = false;
 var scrDrawing = false, scrLastX = 0, scrLastY = 0;
 var teActive = false, teWorldX = 0, teWorldY = 0, teMode = 'text';
 var selectedEl = null, selDragStart = null, selElStart = null;
+var clipboard = null;
 var cW = 0, cH = 0;
 
 // ═══ HELPERS ═══
@@ -722,7 +723,7 @@ function wrapText(text, maxW) {
 }
 
 // ═══ BACKGROUNDS ═══
-function setBG(type) { bgType = type; fullRender(); }
+function setBG(type) { bgType = type; document.getElementById('bgSelect').blur(); fullRender(); }
 
 function drawBG(c) {
   var vl = s2w(0, 0), vr = s2w(cW, cH);
@@ -1071,8 +1072,9 @@ function updateZoom() { document.getElementById('zoomInfo').textContent = Math.r
 
 // ═══ UNDO / REDO ═══
 function addEl(el) { els().push(el); pages[curPage].undone = []; }
-function doUndo() { var e = els(); if (!e.length) return; pages[curPage].undone.push(e.pop()); fullRender(); }
-function doRedo() { var u = undone(); if (!u.length) return; els().push(u.pop()); fullRender(); }
+function addElsBatch(arr) { for(var i=0;i<arr.length;i++) els().push(arr[i]); pages[curPage].undone = []; }
+function doUndo() { var e = els(); if (!e.length) return; var last = e[e.length-1]; if (last._batch) { var bid = last._batch; while(e.length && e[e.length-1]._batch === bid) pages[curPage].undone.push(e.pop()); } else { pages[curPage].undone.push(e.pop()); } fullRender(); }
+function doRedo() { var u = undone(); if (!u.length) return; var last = u[u.length-1]; if (last._batch) { var bid = last._batch; while(u.length && u[u.length-1]._batch === bid) els().push(u.pop()); } else { els().push(u.pop()); } fullRender(); }
 
 // ═══ CLEAR ═══
 function clearPage() { if (!confirm('Clear this page?')) return; pages[curPage].els = []; pages[curPage].undone = []; fullRender(); }
@@ -1258,6 +1260,9 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'z' && e.shiftKey) { e.preventDefault(); doRedo(); }
     else if (e.key === 'z') { e.preventDefault(); doUndo(); }
     if (e.key === 'y') { e.preventDefault(); doRedo(); }
+    if (e.key === 'c' && selectedEl) { e.preventDefault(); copySelected(); }
+    if (e.key === 'x' && selectedEl) { e.preventDefault(); cutSelected(); }
+    if (e.key === 'v') { e.preventDefault(); pasteClipboard(); }
     if (e.key === 's') { e.preventDefault(); saveImage(); }
     if (e.key === 'f') { e.preventDefault(); searchText(); }
     if (e.key === '0') { e.preventDefault(); resetView(); }
@@ -1380,10 +1385,60 @@ function deleteSelected() {
   fullRender();
 }
 
+function cloneEl(el) {
+  var c = {};
+  for (var k in el) {
+    if (k === 'img') { var ni = new Image(); ni.src = el.img.src; c.img = ni; }
+    else if (k === 'pts') { c.pts = el.pts.map(function(p){return{x:p.x,y:p.y,p:p.p};}); }
+    else if (k === '_oid' || k === '_batch') { continue; }
+    else { c[k] = el[k]; }
+  }
+  return c;
+}
+
+function copySelected() {
+  if (!selectedEl) return;
+  clipboard = cloneEl(selectedEl);
+}
+
+function cutSelected() {
+  if (!selectedEl) return;
+  clipboard = cloneEl(selectedEl);
+  deleteSelected();
+}
+
+function pasteClipboard() {
+  if (!clipboard) return;
+  var vc = s2w(cW/2, cH/2);
+  var copy = cloneEl(clipboard);
+  copy.rt = recTime();
+  // Offset to viewport center
+  if (copy.pts) {
+    var b = getElBounds(copy);
+    var dx = vc.x - (b.x1+b.x2)/2, dy = vc.y - (b.y1+b.y2)/2;
+    for(var i=0;i<copy.pts.length;i++){copy.pts[i].x+=dx;copy.pts[i].y+=dy;}
+  } else if (copy.x1 !== undefined) {
+    var cx = (copy.x1+copy.x2)/2, cy = (copy.y1+copy.y2)/2;
+    var dx = vc.x-cx, dy = vc.y-cy;
+    copy.x1+=dx;copy.y1+=dy;copy.x2+=dx;copy.y2+=dy;
+  } else if (copy.x !== undefined) {
+    copy.x = vc.x; copy.y = vc.y;
+  }
+  addEl(copy);
+  selectedEl = copy;
+  showSelBox(copy);
+  fullRender();
+}
+}
+
 // ═══ TEMPLATES ═══
 function placeTemplate(type) {
   if (!type) return;
+  document.getElementById('tplSelect').blur();
   var col = isWhiteBG() ? '#333333' : '#ffffff';
+  var bid = 'tpl_' + Date.now();
+  var _addEl = addEl;
+  addEl = function(el) { el._batch = bid; _addEl(el); };
   var vc = s2w(cW/2, cH/2);
   var ox = vc.x, oy = vc.y;
   switch(type) {
@@ -1458,6 +1513,7 @@ function placeTemplate(type) {
       }
       break;
   }
+  addEl = _addEl;
   fullRender();
 }
 
