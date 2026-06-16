@@ -220,7 +220,7 @@ body.hc .lbl{color:#aaa}
 <!-- LEFT TOOL PANEL -->
 <div class="left-tools" id="leftTools">
   <span class="lt-lbl">Tool</span>
-  <button class="tb" id="btnSelect" onclick="setTool('select')" title="Select/Move (V)">&#9995;</button>
+  <button class="tb" id="btnSelect" onclick="setTool('select')" title="Select/Move (V) — click or drag rectangle">&#11034;</button>
   <button class="tb on" id="btnPen" onclick="setTool('pen')" title="Pen (1)">&#9999;&#65039;</button>
   <button class="tb" id="btnHighlight" onclick="setTool('highlight')" title="Highlighter (2)">&#128397;&#65039;</button>
   <button class="tb" id="btnEraser" onclick="setTool('eraser')" title="Eraser (3)">&#129531;</button>
@@ -540,8 +540,8 @@ var isRec = false, recStart = 0, isPlay = false, playTime = 0, playSpeed = 1, pl
 var showMinimap = false, showScratch = false;
 var scrDrawing = false, scrLastX = 0, scrLastY = 0;
 var teActive = false, teWorldX = 0, teWorldY = 0, teMode = 'text';
-var selectedEl = null, selDragStart = null, selElStart = null;
-var clipboard = null;
+var selectedEls = [], selDragStart = null, selElStarts = [], selRectStart = null, isDraggingSel = false;
+var clipboard = [];
 var cW = 0, cH = 0;
 
 // ═══ HELPERS ═══
@@ -618,7 +618,7 @@ function fullRender(pending) {
   X.drawImage(offC, 0, 0);
 
   if (showMinimap) renderMinimap();
-  if (selectedEl) showSelBox(selectedEl);
+  if (selectedEls.length) showMultiSelBox();
   updateOverlays();
 }
 
@@ -841,7 +841,7 @@ function setTool(t) {
   document.getElementById('laser').style.display = t === 'laser' ? 'block' : 'none';
   spotC.style.display = t === 'spotlight' ? 'block' : 'none';
   eraserCur.style.display = t === 'eraser' ? 'block' : 'none';
-  if (t !== 'select') { selectedEl = null; document.getElementById('selBox').style.display = 'none'; }
+  if (t !== 'select') { selectedEls = []; document.getElementById('selBox').style.display = 'none'; }
   if (t !== 'spotlight') spotX.clearRect(0, 0, spotC.width, spotC.height);
 }
 
@@ -924,17 +924,22 @@ C.addEventListener('pointerdown', function(e) {
   if (tool === 'laser' || tool === 'spotlight') return;
   if (teActive) return;
 
-  // SELECT TOOL — hit test and drag
+  // SELECT TOOL — click to pick one, drag rectangle to pick many
   if (tool === 'select') {
-    selectedEl = null;
-    document.getElementById('selBox').style.display = 'none';
     var hit = hitTest(w.x, w.y);
     if (hit) {
-      selectedEl = hit;
+      if (selectedEls.indexOf(hit) === -1) selectedEls = [hit];
       selDragStart = { x: w.x, y: w.y };
-      selElStart = getElPos(hit);
-      showSelBox(hit);
+      selElStarts = selectedEls.map(function(el) { return getElPos(el); });
+      isDraggingSel = true;
+      selRectStart = null;
+      showMultiSelBox();
       C.style.cursor = 'move';
+    } else {
+      selectedEls = [];
+      isDraggingSel = false;
+      selRectStart = { x: w.x, y: w.y };
+      document.getElementById('selBox').style.display = 'none';
     }
     return;
   }
@@ -1009,12 +1014,21 @@ C.addEventListener('pointermove', function(e) {
     panY = panStartY - (e.clientY - panAnchorY) / zoom;
     fullRender(); return;
   }
-  // Select tool drag
-  if (tool === 'select' && selectedEl && selDragStart) {
-    var dx = w.x - selDragStart.x, dy = w.y - selDragStart.y;
-    moveEl(selectedEl, selElStart, dx, dy);
-    showSelBox(selectedEl);
-    fullRender(); return;
+  // Select tool: drag selected elements or draw selection rectangle
+  if (tool === 'select') {
+    if (isDraggingSel && selectedEls.length && selDragStart) {
+      var dx = w.x - selDragStart.x, dy = w.y - selDragStart.y;
+      for (var si = 0; si < selectedEls.length; si++) moveEl(selectedEls[si], selElStarts[si], dx, dy);
+      showMultiSelBox();
+      fullRender();
+    } else if (selRectStart) {
+      fullRender();
+      X.save(); applyVT(X);
+      X.strokeStyle = '#4ecdc4'; X.lineWidth = 1.5 / zoom; X.setLineDash([6/zoom, 4/zoom]);
+      X.strokeRect(selRectStart.x, selRectStart.y, w.x - selRectStart.x, w.y - selRectStart.y);
+      X.setLineDash([]); X.restore();
+    }
+    return;
   }
   if (!isDrawing || !currentEl) return;
 
@@ -1052,7 +1066,24 @@ C.addEventListener('pointermove', function(e) {
 
 C.addEventListener('pointerup', function(e) {
   if (isPanning) { isPanning = false; C.style.cursor = spaceHeld ? 'grab' : (tool === 'eraser' ? 'none' : tool === 'select' ? 'default' : 'crosshair'); return; }
-  if (tool === 'select') { selDragStart = null; C.style.cursor = 'default'; return; }
+  if (tool === 'select') {
+    if (selRectStart) {
+      var w2 = getW(e);
+      var rx1 = Math.min(selRectStart.x, w2.x), ry1 = Math.min(selRectStart.y, w2.y);
+      var rx2 = Math.max(selRectStart.x, w2.x), ry2 = Math.max(selRectStart.y, w2.y);
+      if (rx2 - rx1 > 3 / zoom && ry2 - ry1 > 3 / zoom) {
+        selectedEls = els().filter(function(el) {
+          var b = getElBounds(el);
+          return b.x1 >= rx1 && b.y1 >= ry1 && b.x2 <= rx2 && b.y2 <= ry2;
+        });
+      }
+      selRectStart = null;
+      if (selectedEls.length) showMultiSelBox();
+      fullRender();
+    }
+    isDraggingSel = false; selDragStart = null; C.style.cursor = 'default';
+    return;
+  }
   if (!isDrawing || !currentEl) { isDrawing = false; return; }
   isDrawing = false;
 
@@ -1286,7 +1317,7 @@ document.addEventListener('keydown', function(e) {
     if (!document.getElementById('eqModal').classList.contains('hide')) { closeEqModal(); return; }
     if (!document.getElementById('pollModal').classList.contains('hide')) { closePollModal(); return; }
     if (teActive) { teCancel(); return; }
-    if (selectedEl !== null) { selectedEl = null; document.getElementById('selBox').style.display = 'none'; fullRender(); return; }
+    if (selectedEls.length) { selectedEls = []; document.getElementById('selBox').style.display = 'none'; fullRender(); return; }
     return;
   }
   if (e.key === 'Enter' && teActive) { teConfirm(); return; }
@@ -1294,8 +1325,8 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'z' && e.shiftKey) { e.preventDefault(); doRedo(); }
     else if (e.key === 'z') { e.preventDefault(); doUndo(); }
     if (e.key === 'y') { e.preventDefault(); doRedo(); }
-    if (e.key === 'c' && selectedEl) { e.preventDefault(); copySelected(); }
-    if (e.key === 'x' && selectedEl) { e.preventDefault(); cutSelected(); }
+    if (e.key === 'c' && selectedEls.length) { e.preventDefault(); copySelected(); }
+    if (e.key === 'x' && selectedEls.length) { e.preventDefault(); cutSelected(); }
     if (e.key === 'v') { e.preventDefault(); pasteClipboard(); }
     if (e.key === 's') { e.preventDefault(); saveImage(); }
     if (e.key === 'f') { e.preventDefault(); searchText(); }
@@ -1304,7 +1335,7 @@ document.addEventListener('keydown', function(e) {
     if (e.key === '-') { e.preventDefault(); zoomBy(-0.2); }
     return;
   }
-  if (e.key === 'Delete' || e.key === 'Backspace') { if (selectedEl !== null) { deleteSelected(); } return; }
+  if (e.key === 'Delete' || e.key === 'Backspace') { if (selectedEls.length) { deleteSelected(); } return; }
   if (e.key === '1') setTool('pen'); if (e.key === '2') setTool('highlight'); if (e.key === '3') setTool('eraser');
   if (e.key === '4') setTool('text'); if (e.key === '5') setTool('line'); if (e.key === '6') setTool('arrow');
   if (e.key === '7') setTool('rect'); if (e.key === '8') setTool('circle');
@@ -1356,7 +1387,7 @@ function delPage() {
   loadPg();
 }
 
-// ═══ SELECT / MOVE TOOL ═══
+// ═══ SELECT / MOVE TOOL (multi-select) ═══
 function getElBounds(el) {
   if (el.pts) {
     var minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
@@ -1368,6 +1399,12 @@ function getElBounds(el) {
   if(el.type==='text'){w=el.text.length*el.fs*0.6;h=el.fs*1.3*(el.text.split('\n').length);}
   if(el.type==='poll'){w=340;h=40+((el.options||[]).length)*36;}
   return {x1:el.x,y1:el.y-(el.type==='text'?el.fs:0),x2:el.x+w,y2:el.y+h};
+}
+
+function getMultiBounds(arr) {
+  var minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+  for(var i=0;i<arr.length;i++){var b=getElBounds(arr[i]);minX=Math.min(minX,b.x1);minY=Math.min(minY,b.y1);maxX=Math.max(maxX,b.x2);maxY=Math.max(maxY,b.y2);}
+  return {x1:minX,y1:minY,x2:maxX,y2:maxY};
 }
 
 function hitTest(wx, wy) {
@@ -1397,8 +1434,9 @@ function moveEl(el, start, dx, dy) {
   }
 }
 
-function showSelBox(el) {
-  var b = getElBounds(el);
+function showMultiSelBox() {
+  if (!selectedEls.length) { document.getElementById('selBox').style.display = 'none'; return; }
+  var b = getMultiBounds(selectedEls);
   var s1 = w2screen(b.x1, b.y1), s2 = w2screen(b.x2, b.y2);
   var box = document.getElementById('selBox');
   var r = C.getBoundingClientRect();
@@ -1410,11 +1448,13 @@ function showSelBox(el) {
 }
 
 function deleteSelected() {
-  if (!selectedEl) return;
-  var list = els();
-  var idx = list.indexOf(selectedEl);
-  if (idx !== -1) { pages[curPage].undone.push(list.splice(idx, 1)[0]); }
-  selectedEl = null;
+  if (!selectedEls.length) return;
+  var list = els(), bid = 'del_' + Date.now();
+  for (var i = 0; i < selectedEls.length; i++) {
+    var idx = list.indexOf(selectedEls[i]);
+    if (idx !== -1) { selectedEls[i]._batch = bid; pages[curPage].undone.push(list.splice(idx, 1)[0]); }
+  }
+  selectedEls = [];
   document.getElementById('selBox').style.display = 'none';
   fullRender();
 }
@@ -1431,36 +1471,35 @@ function cloneEl(el) {
 }
 
 function copySelected() {
-  if (!selectedEl) return;
-  clipboard = cloneEl(selectedEl);
+  if (!selectedEls.length) return;
+  clipboard = selectedEls.map(cloneEl);
 }
 
 function cutSelected() {
-  if (!selectedEl) return;
-  clipboard = cloneEl(selectedEl);
+  if (!selectedEls.length) return;
+  clipboard = selectedEls.map(cloneEl);
   deleteSelected();
 }
 
 function pasteClipboard() {
-  if (!clipboard) return;
+  if (!clipboard.length) return;
   var vc = s2w(cW/2, cH/2);
-  var copy = cloneEl(clipboard);
-  copy.rt = recTime();
-  // Offset to viewport center
-  if (copy.pts) {
-    var b = getElBounds(copy);
-    var dx = vc.x - (b.x1+b.x2)/2, dy = vc.y - (b.y1+b.y2)/2;
-    for(var i=0;i<copy.pts.length;i++){copy.pts[i].x+=dx;copy.pts[i].y+=dy;}
-  } else if (copy.x1 !== undefined) {
-    var cx = (copy.x1+copy.x2)/2, cy = (copy.y1+copy.y2)/2;
-    var dx = vc.x-cx, dy = vc.y-cy;
-    copy.x1+=dx;copy.y1+=dy;copy.x2+=dx;copy.y2+=dy;
-  } else if (copy.x !== undefined) {
-    copy.x = vc.x; copy.y = vc.y;
+  var srcBounds = getMultiBounds(clipboard);
+  var cx = (srcBounds.x1+srcBounds.x2)/2, cy = (srcBounds.y1+srcBounds.y2)/2;
+  var dx = vc.x - cx, dy = vc.y - cy;
+  var bid = 'paste_' + Date.now();
+  selectedEls = [];
+  for (var i = 0; i < clipboard.length; i++) {
+    var copy = cloneEl(clipboard[i]);
+    copy.rt = recTime();
+    copy._batch = bid;
+    if (copy.pts) { for(var j=0;j<copy.pts.length;j++){copy.pts[j].x+=dx;copy.pts[j].y+=dy;} }
+    else if (copy.x1 !== undefined) { copy.x1+=dx;copy.y1+=dy;copy.x2+=dx;copy.y2+=dy; }
+    else if (copy.x !== undefined) { copy.x+=dx;copy.y+=dy; }
+    addEl(copy);
+    selectedEls.push(copy);
   }
-  addEl(copy);
-  selectedEl = copy;
-  showSelBox(copy);
+  showMultiSelBox();
   fullRender();
 }
 
