@@ -422,9 +422,15 @@
   </main>
 
   <script>
+    // --- STATE & INITIALIZATION ---
+    var currentProgramme = localStorage.getItem('teacherHubProg') || 'DP';
+    var allStudents = [];
+    var allQuestions = [];
+    var selectedQuestions = [];
+
     // --- PASSWORD PROTECTION ---
-    const pwOverlay = document.getElementById('passwordOverlay');
-    const pwdInput = document.getElementById('teacherPwd');
+    var pwOverlay = document.getElementById('passwordOverlay');
+    var pwdInput = document.getElementById('teacherPwd');
 
     function checkPassword() {
       if (pwdInput.value === 'atul123') {
@@ -437,20 +443,16 @@
       }
     }
     
-    pwdInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') checkPassword();
-    });
-
-    if (sessionStorage.getItem('teacherHubAuth') === 'true') {
-      pwOverlay.style.display = 'none';
-      initHub();
+    if (pwdInput) {
+      pwdInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') checkPassword();
+      });
     }
 
-    // --- STATE & INITIALIZATION ---
-    let currentProgramme = localStorage.getItem('teacherHubProg') || 'DP';
-    let allStudents = [];
-    let allQuestions = [];
-    let selectedQuestions = [];
+    if (sessionStorage.getItem('teacherHubAuth') === 'true') {
+      if(pwOverlay) pwOverlay.style.display = 'none';
+      initHub();
+    }
 
     function initHub() {
       // Setup Firebase
