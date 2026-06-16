@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Teaching Whiteboard | Atul Soral Physicism</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif}
+canvas{display:block;cursor:crosshair}
+
+/* Toolbar */
+.toolbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(26,26,46,.95);backdrop-filter:blur(10px);z-index:100;border-bottom:1px solid #333;flex-wrap:wrap}
+.tool-group{display:flex;gap:4px;align-items:center;padding:0 8px;border-right:1px solid #333}
+.tool-group:last-child{border:none}
+.tool-btn{width:34px;height:34px;border:1.5px solid #444;border-radius:8px;background:#2a2a3e;color:#ccc;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:.2s}
+.tool-btn:hover{border-color:#4ecdc4;color:#4ecdc4}
+.tool-btn.active{background:#4ecdc4;color:#1a1a2e;border-color:#4ecdc4}
+.tool-btn.color-btn{border-radius:50%;width:28px;height:28px;border:2px solid #555}
+.tool-btn.color-btn.active{border-color:#fff;box-shadow:0 0 8px rgba(255,255,255,.4)}
+.tool-label{font-size:.65rem;color:#888;text-transform:uppercase;letter-spacing:.05em}
+input[type=range]{width:80px;accent-color:#4ecdc4}
+select{background:#2a2a3e;color:#ccc;border:1px solid #444;border-radius:6px;padding:4px 8px;font-size:.75rem}
+
+/* Pages indicator */
+.pages{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;background:rgba(26,26,46,.9);padding:8px 16px;border-radius:20px;z-index:100}
+.pages button{width:28px;height:28px;border-radius:50%;border:1.5px solid #444;background:#2a2a3e;color:#ccc;cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center}
+.pages button:hover{border-color:#4ecdc4}
+.pages button.active-page{background:#4ecdc4;color:#1a1a2e;border-color:#4ecdc4}
+.pages span{color:#888;font-size:.75rem}
+
+/* Grid overlay */
+.grid-overlay{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:1;opacity:0;transition:opacity .3s}
+.grid-overlay.show{opacity:1}
+
+/* Laser pointer */
+.laser{position:fixed;width:12px;height:12px;border-radius:50%;background:rgba(255,0,0,.8);box-shadow:0 0 20px rgba(255,0,0,.6);pointer-events:none;z-index:99;display:none;transform:translate(-50%,-50%)}
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar" id="toolbar">
+  <div class="tool-group">
+    <span class="tool-label">Tool</span>
+    <button class="tool-btn active" id="btnPen" onclick="setTool('pen')" title="Pen">✏️</button>
+    <button class="tool-btn" id="btnHighlight" onclick="setTool('highlight')" title="Highlighter">🖍️</button>
+    <button class="tool-btn" id="btnEraser" onclick="setTool('eraser')" title="Eraser">🧽</button>
+    <button class="tool-btn" id="btnText" onclick="setTool('text')" title="Text">T</button>
+    <button class="tool-btn" id="btnLine" onclick="setTool('line')" title="Line">╱</button>
+    <button class="tool-btn" id="btnArrow" onclick="setTool('arrow')" title="Arrow">→</button>
+    <button class="tool-btn" id="btnRect" onclick="setTool('rect')" title="Rectangle">▭</button>
+    <button class="tool-btn" id="btnCircle" onclick="setTool('circle')" title="Circle">○</button>
+    <button class="tool-btn" id="btnLaser" onclick="setTool('laser')" title="Laser">🔴</button>
+  </div>
+
+  <div class="tool-group">
+    <span class="tool-label">Color</span>
+    <button class="tool-btn color-btn active" style="background:#ffffff" onclick="setColor('#ffffff')"></button>
+    <button class="tool-btn color-btn" style="background:#4ecdc4" onclick="setColor('#4ecdc4')"></button>
+    <button class="tool-btn color-btn" style="background:#ff6b6b" onclick="setColor('#ff6b6b')"></button>
+    <button class="tool-btn color-btn" style="background:#feca57" onclick="setColor('#feca57')"></button>
+    <button class="tool-btn color-btn" style="background:#48dbfb" onclick="setColor('#48dbfb')"></button>
+    <button class="tool-btn color-btn" style="background:#ff9ff3" onclick="setColor('#ff9ff3')"></button>
+    <button class="tool-btn color-btn" style="background:#00d2d3" onclick="setColor('#00d2d3')"></button>
+  </div>
+
+  <div class="tool-group">
+    <span class="tool-label">Size</span>
+    <input type="range" id="sizeSlider" min="1" max="20" value="3" oninput="penSize=this.value">
+  </div>
+
+  <div class="tool-group">
+    <span class="tool-label">BG</span>
+    <select id="bgSelect" onchange="setBG(this.value)">
+      <option value="dark">Dark</option>
+      <option value="white">White</option>
+      <option value="grid">Grid</option>
+      <option value="graph">Graph Paper</option>
+      <option value="lined">Lined</option>
+    </select>
+  </div>
+
+  <div class="tool-group">
+    <span class="tool-label">Actions</span>
+    <button class="tool-btn" onclick="undo()" title="Undo">↩️</button>
+    <button class="tool-btn" onclick="clearPage()" title="Clear Page">🗑️</button>
+    <button class="tool-btn" onclick="saveImage()" title="Save as Image">💾</button>
+    <button class="tool-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+  </div>
+</div>
+
+<!-- CANVAS -->
+<canvas id="canvas"></canvas>
+
+<!-- GRID OVERLAY -->
+<canvas id="gridCanvas" class="grid-overlay"></canvas>
+
+<!-- LASER POINTER -->
+<div class="laser" id="laser"></div>
+
+<!-- PAGES -->
+<div class="pages">
+  <button onclick="prevPage()">◀</button>
+  <span id="pageInfo">1 / 1</span>
+  <button onclick="nextPage()">▶</button>
+  <button onclick="addPage()">+</button>
+</div>
+
+<script>
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+var gridCanvas = document.getElementById('gridCanvas');
+var gridCtx = gridCanvas.getContext('2d');
+
+var tool = 'pen';
+var penColor = '#ffffff';
+var penSize = 3;
+var isDrawing = false;
+var lastX = 0, lastY = 0;
+var startX = 0, startY = 0;
+var bgType = 'dark';
+
+// Pages system
+var pages = [null]; // store imageData per page
+var currentPage = 0;
+
+// Undo system
+var history = [];
+var maxHistory = 30;
+
+function resize() {
+  var w = window.innerWidth;
+  var h = window.innerHeight;
+
+  // Save current content
+  var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+  canvas.width = w;
+  canvas.height = h;
+  gridCanvas.width = w;
+  gridCanvas.height = h;
+
+  // Restore content
+  if (imgData.width === w && imgData.height === h) {
+    ctx.putImageData(imgData, 0, 0);
+  }
+
+  drawGrid();
+}
+
+window.addEventListener('resize', resize);
+resize();
+fillBG();
+saveState();
+
+// ═══ TOOLS ═══
+function setTool(t) {
+  tool = t;
+  document.querySelectorAll('.tool-btn:not(.color-btn)').forEach(function(b) { b.classList.remove('active'); });
+  var btn = document.getElementById('btn' + t.charAt(0).toUpperCase() + t.slice(1));
+  if (btn) btn.classList.add('active');
+
+  canvas.style.cursor = t === 'eraser' ? 'cell' : t === 'text' ? 'text' : t === 'laser' ? 'none' : 'crosshair';
+  document.getElementById('laser').style.display = t === 'laser' ? 'block' : 'none';
+}
+
+function setColor(c) {
+  penColor = c;
+  document.querySelectorAll('.color-btn').forEach(function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+}
+
+// ═══ DRAWING ═══
+canvas.addEventListener('mousedown', function(e) {
+  if (tool === 'laser') return;
+  if (tool === 'text') { addText(e); return; }
+  isDrawing = true;
+  lastX = e.clientX;
+  lastY = e.clientY;
+  startX = e.clientX;
+  startY = e.clientY;
+
+  if (tool === 'pen' || tool === 'highlight' || tool === 'eraser') {
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+  }
+});
+
+canvas.addEventListener('mousemove', function(e) {
+  if (tool === 'laser') {
+    var laser = document.getElementById('laser');
+    laser.style.left = e.clientX + 'px';
+    laser.style.top = e.clientY + 'px';
+    return;
+  }
+  if (!isDrawing) return;
+
+  if (tool === 'pen') {
+    ctx.strokeStyle = penColor;
+    ctx.lineWidth = penSize;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.globalAlpha = 1;
+    ctx.lineTo(e.clientX, e.clientY);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(e.clientX, e.clientY);
+  } else if (tool === 'highlight') {
+    ctx.strokeStyle = penColor;
+    ctx.lineWidth = penSize * 4;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.globalAlpha = 0.3;
+    ctx.lineTo(e.clientX, e.clientY);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(e.clientX, e.clientY);
+    ctx.globalAlpha = 1;
+  } else if (tool === 'eraser') {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.lineWidth = penSize * 5;
+    ctx.lineCap = 'round';
+    ctx.lineTo(e.clientX, e.clientY);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(e.clientX, e.clientY);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  lastX = e.clientX;
+  lastY = e.clientY;
+});
+
+canvas.addEventListener('mouseup', function(e) {
+  if (!isDrawing) return;
+  isDrawing = false;
+  ctx.globalAlpha = 1;
+
+  if (tool === 'line') {
+    ctx.beginPath();
+    ctx.strokeStyle = penColor;
+    ctx.lineWidth = penSize;
+    ctx.lineCap = 'round';
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(e.clientX, e.clientY);
+    ctx.stroke();
+  } else if (tool === 'arrow') {
+    drawArrow(startX, startY, e.clientX, e.clientY);
+  } else if (tool === 'rect') {
+    ctx.beginPath();
+    ctx.strokeStyle = penColor;
+    ctx.lineWidth = penSize;
+    ctx.strokeRect(startX, startY, e.clientX - startX, e.clientY - startY);
+  } else if (tool === 'circle') {
+    var rx = Math.abs(e.clientX - startX) / 2;
+    var ry = Math.abs(e.clientY - startY) / 2;
+    var cx = startX + (e.clientX - startX) / 2;
+    var cy = startY + (e.clientY - startY) / 2;
+    ctx.beginPath();
+    ctx.strokeStyle = penColor;
+    ctx.lineWidth = penSize;
+    ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  saveState();
+});
+
+canvas.addEventListener('mouseleave', function() { isDrawing = false; });
+
+// Touch support
+canvas.addEventListener('touchstart', function(e) { e.preventDefault(); var t = e.touches[0]; canvas.dispatchEvent(new MouseEvent('mousedown', {clientX:t.clientX,clientY:t.clientY})); });
+canvas.addEventListener('touchmove', function(e) { e.preventDefault(); var t = e.touches[0]; canvas.dispatchEvent(new MouseEvent('mousemove', {clientX:t.clientX,clientY:t.clientY})); });
+canvas.addEventListener('touchend', function(e) { e.preventDefault(); canvas.dispatchEvent(new MouseEvent('mouseup', {clientX:lastX,clientY:lastY})); });
+
+// ═══ ARROW ═══
+function drawArrow(fromX, fromY, toX, toY) {
+  var headLen = 15;
+  var angle = Math.atan2(toY - fromY, toX - fromX);
+
+  ctx.beginPath();
+  ctx.strokeStyle = penColor;
+  ctx.lineWidth = penSize;
+  ctx.lineCap = 'round';
+  ctx.moveTo(fromX, fromY);
+  ctx.lineTo(toX, toY);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.fillStyle = penColor;
+  ctx.moveTo(toX, toY);
+  ctx.lineTo(toX - headLen * Math.cos(angle - Math.PI / 6), toY - headLen * Math.sin(angle - Math.PI / 6));
+  ctx.lineTo(toX - headLen * Math.cos(angle + Math.PI / 6), toY - headLen * Math.sin(angle + Math.PI / 6));
+  ctx.closePath();
+  ctx.fill();
+}
+
+// ═══ TEXT ═══
+function addText(e) {
+  var text = prompt('Enter text:');
+  if (!text) return;
+  ctx.font = (penSize * 6) + 'px system-ui, sans-serif';
+  ctx.fillStyle = penColor;
+  ctx.fillText(text, e.clientX, e.clientY);
+  saveState();
+}
+
+// ═══ BACKGROUND ═══
+function setBG(type) {
+  bgType = type;
+  fillBG();
+  drawGrid();
+}
+
+function fillBG() {
+  if (bgType === 'white') {
+    document.body.style.background = '#fff';
+    canvas.style.background = '#fff';
+  } else {
+    document.body.style.background = '#1a1a2e';
+    canvas.style.background = '#1a1a2e';
+  }
+}
+
+function drawGrid() {
+  gridCtx.clearRect(0, 0, gridCanvas.width, gridCanvas.height);
+  var show = (bgType === 'grid' || bgType === 'graph' || bgType === 'lined');
+  gridCanvas.classList.toggle('show', show);
+
+  if (!show) return;
+
+  var w = gridCanvas.width, h = gridCanvas.height;
+  var color = bgType === 'white' || bgType === 'lined' ? 'rgba(0,0,0,.1)' : 'rgba(255,255,255,.08)';
+  var colorMajor = bgType === 'white' || bgType === 'lined' ? 'rgba(0,0,0,.2)' : 'rgba(255,255,255,.15)';
+
+  gridCtx.strokeStyle = color;
+  gridCtx.lineWidth = 0.5;
+
+  var spacing = bgType === 'graph' ? 20 : 40;
+
+  if (bgType !== 'lined') {
+    for (var x = spacing; x < w; x += spacing) {
+      gridCtx.beginPath();
+      gridCtx.strokeStyle = (bgType === 'graph' && x % 100 === 0) ? colorMajor : color;
+      gridCtx.moveTo(x, 0); gridCtx.lineTo(x, h); gridCtx.stroke();
+    }
+  }
+  for (var y = spacing; y < h; y += spacing) {
+    gridCtx.beginPath();
+    gridCtx.strokeStyle = (bgType === 'graph' && y % 100 === 0) ? colorMajor : color;
+    gridCtx.moveTo(0, y); gridCtx.lineTo(w, y); gridCtx.stroke();
+  }
+}
+
+// ═══ UNDO ═══
+function saveState() {
+  if (history.length >= maxHistory) history.shift();
+  history.push(canvas.toDataURL());
+}
+
+function undo() {
+  if (history.length <= 1) return;
+  history.pop();
+  var img = new Image();
+  img.onload = function() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
+  };
+  img.src = history[history.length - 1];
+}
+
+// ═══ CLEAR ═══
+function clearPage() {
+  if (!confirm('Clear this page?')) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  saveState();
+}
+
+// ═══ SAVE ═══
+function saveImage() {
+  var link = document.createElement('a');
+  link.download = 'whiteboard-' + new Date().toISOString().slice(0,10) + '.png';
+
+  // Merge grid + drawing
+  var tempCanvas = document.createElement('canvas');
+  tempCanvas.width = canvas.width;
+  tempCanvas.height = canvas.height;
+  var tempCtx = tempCanvas.getContext('2d');
+
+  // Background
+  tempCtx.fillStyle = bgType === 'white' ? '#fff' : '#1a1a2e';
+  tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+  // Grid
+  tempCtx.drawImage(gridCanvas, 0, 0);
+
+  // Drawing
+  tempCtx.drawImage(canvas, 0, 0);
+
+  link.href = tempCanvas.toDataURL();
+  link.click();
+}
+
+// ═══ FULLSCREEN ═══
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+// ═══ PAGES ═══
+function savePage() {
+  pages[currentPage] = canvas.toDataURL();
+}
+
+function loadPage() {
+  if (pages[currentPage]) {
+    var img = new Image();
+    img.onload = function() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+    };
+    img.src = pages[currentPage];
+  } else {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  updatePageInfo();
+}
+
+function addPage() {
+  savePage();
+  pages.push(null);
+  currentPage = pages.length - 1;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  history = [];
+  saveState();
+  updatePageInfo();
+}
+
+function nextPage() {
+  if (currentPage < pages.length - 1) {
+    savePage();
+    currentPage++;
+    loadPage();
+    history = [];
+    saveState();
+  }
+}
+
+function prevPage() {
+  if (currentPage > 0) {
+    savePage();
+    currentPage--;
+    loadPage();
+    history = [];
+    saveState();
+  }
+}
+
+function updatePageInfo() {
+  document.getElementById('pageInfo').textContent = (currentPage + 1) + ' / ' + pages.length;
+}
+
+// ═══ KEYBOARD SHORTCUTS ═══
+document.addEventListener('keydown', function(e) {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.ctrlKey || e.metaKey) {
+    if (e.key === 'z') { e.preventDefault(); undo(); }
+    if (e.key === 's') { e.preventDefault(); saveImage(); }
+  }
+  if (e.key === '1') setTool('pen');
+  if (e.key === '2') setTool('highlight');
+  if (e.key === '3') setTool('eraser');
+  if (e.key === '4') setTool('text');
+  if (e.key === '5') setTool('line');
+  if (e.key === '6') setTool('arrow');
+  if (e.key === '7') setTool('rect');
+  if (e.key === '8') setTool('circle');
+  if (e.key === 'l') setTool('laser');
+});
+</script>
+</body>
+</html>
