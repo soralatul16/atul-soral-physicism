@@ -277,13 +277,31 @@
       
       <div class="card" style="margin-bottom: 24px;">
         <h3>Create New Assignment</h3>
-        <div class="filters-bar">
-          <input type="text" id="assTitle" placeholder="Assignment Title" style="flex:1;">
-          <select id="assType">
+        <div class="filters-bar" id="assignDPFields" style="display:none; width: 100%;">
+          <input type="text" id="assTitleDP" placeholder="Assignment Title" style="flex:1;">
+          <select id="assTypeDP">
             <option value="Formative">Formative</option>
             <option value="Summative">Summative</option>
           </select>
-          <input type="date" id="assDue">
+          <input type="date" id="assDueDP">
+          <button class="btn-primary" onclick="createAssignment()">Create Draft</button>
+        </div>
+        <div class="filters-bar" id="assignMYPFields" style="display:none; width: 100%; flex-wrap:wrap; gap:12px;">
+          <input type="text" id="assTitleMYP" placeholder="Assignment Title" style="flex:1; min-width:200px;">
+          <select id="assTypeMYP">
+            <option value="Formative">Formative</option>
+            <option value="Summative">Summative</option>
+            <option value="HW">Homework</option>
+          </select>
+          <select id="assCritMYP">
+            <option value="">Select Criteria</option>
+            <option value="A">Criterion A</option>
+            <option value="B">Criterion B</option>
+            <option value="C">Criterion C</option>
+            <option value="D">Criterion D</option>
+          </select>
+          <input type="date" id="assDueMYP">
+          <input type="number" id="assTimeMYP" placeholder="Time Limit (mins)" style="width:140px;">
           <button class="btn-primary" onclick="createAssignment()">Create Draft</button>
         </div>
       </div>
@@ -308,21 +326,68 @@
         <!-- Filters Sidebar -->
         <div class="qbank-sidebar">
           <h3>Filters</h3>
-          <div style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
+          <div id="qbFiltersDP" style="display:none; flex-direction:column; gap:12px; margin-top:16px;">
             <label style="font-size:12px; color:var(--text-muted);">Topic</label>
-            <select id="qbTopic" onchange="loadQuestions()">
+            <select id="dpTopic" onchange="renderQuestions()">
               <option value="">All Topics</option>
-              <!-- Will be populated dynamically -->
+              <option value="A">Topic A</option>
+              <option value="B">Topic B</option>
+              <option value="C">Topic C</option>
+              <option value="D">Topic D</option>
+              <option value="E">Topic E</option>
             </select>
-
-            <label style="font-size:12px; color:var(--text-muted);">Paper / Criterion</label>
-            <select id="qbPaper" onchange="loadQuestions()">
+            <label style="font-size:12px; color:var(--text-muted);">Paper</label>
+            <select id="dpPaper" onchange="renderQuestions()">
+              <option value="">All Papers</option>
+              <option value="1A">Paper 1A</option>
+              <option value="1B">Paper 1B</option>
+              <option value="2">Paper 2</option>
+            </select>
+            <label style="font-size:12px; color:var(--text-muted);">Difficulty</label>
+            <select id="dpDiff" onchange="renderQuestions()">
               <option value="">All</option>
-              <option value="P1">Paper 1</option>
-              <option value="P2">Paper 2</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
             </select>
+          </div>
 
-            <button class="btn-outline" onclick="loadQuestions()" style="margin-top:8px;">Apply Filters</button>
+          <div id="qbFiltersMYP" style="display:none; flex-direction:column; gap:12px; margin-top:16px;">
+            <label style="font-size:12px; color:var(--text-muted);">Criterion</label>
+            <select id="mypCrit" onchange="renderQuestions()">
+              <option value="">All</option>
+              <option value="A">A: Knowing and understanding</option>
+              <option value="B">B: Inquiring and designing</option>
+              <option value="C">C: Processing and evaluating</option>
+              <option value="D">D: Reflecting on the impacts</option>
+            </select>
+            <label style="font-size:12px; color:var(--text-muted);">Topic</label>
+            <select id="mypTopic" onchange="renderQuestions()">
+              <option value="">All Topics</option>
+              <option value="Forces & Motion">Forces & Motion</option>
+              <option value="Energy & Environment">Energy & Environment</option>
+              <option value="The Nature of Waves">The Nature of Waves</option>
+              <option value="Electromagnetism">Electromagnetism</option>
+              <option value="Thermal Physics">Thermal Physics</option>
+              <option value="Atomic Physics">Atomic Physics</option>
+              <option value="Astrophysics">Astrophysics</option>
+              <option value="Exploring Matter">Exploring Matter</option>
+              <option value="Work Power & Gravity">Work Power & Gravity</option>
+            </select>
+            <label style="font-size:12px; color:var(--text-muted);">Difficulty</label>
+            <select id="mypDiff" onchange="renderQuestions()">
+              <option value="">All</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+            <label style="font-size:12px; color:var(--text-muted);">Year</label>
+            <select id="mypYear" onchange="renderQuestions()">
+              <option value="">All</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+            </select>
           </div>
         </div>
 
@@ -434,6 +499,14 @@
     }
 
     function setProgramme(prog) {
+      if (currentProgramme !== prog) {
+         allQuestions = [];
+         selectedQuestions = [];
+         document.getElementById('qbList').innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted);">Loading questions...</div>`;
+         document.getElementById('selectedQs').innerHTML = `<li style="font-size:13px; color:var(--text-muted);">No questions selected.</li>`;
+         document.getElementById('selQCount').innerText = '0';
+         document.getElementById('selQMarks').innerText = '0';
+      }
       currentProgramme = prog;
       localStorage.setItem('teacherHubProg', prog);
       
@@ -443,19 +516,27 @@
       document.querySelectorAll('.prog-lbl').forEach(el => el.innerText = prog);
       
       const portalLink = document.getElementById('portalLink');
-      portalLink.href = prog === 'DP' ? 'dp-student-portal.html' : 'myp-dashboard.html'; // Assuming myp has a portal
+      portalLink.href = prog === 'DP' ? 'dp-student-portal.html' : 'myp-dashboard.html';
 
-      // Update QBank Filters based on programme
-      const qbPaper = document.getElementById('qbPaper');
       if (prog === 'DP') {
-        qbPaper.innerHTML = `<option value="">All</option><option value="P1">Paper 1</option><option value="P2">Paper 2</option>`;
+        document.getElementById('assignDPFields').style.display = 'flex';
+        document.getElementById('assignMYPFields').style.display = 'none';
+        document.getElementById('qbFiltersDP').style.display = 'flex';
+        document.getElementById('qbFiltersMYP').style.display = 'none';
+        document.getElementById('studentFilter').innerHTML = `<option value="ALL">All Levels</option><option value="HL">HL Only</option><option value="SL">SL Only</option>`;
       } else {
-        qbPaper.innerHTML = `<option value="">All Criteria</option><option value="A">Crit A</option><option value="B">Crit B</option><option value="C">Crit C</option><option value="D">Crit D</option>`;
+        document.getElementById('assignDPFields').style.display = 'none';
+        document.getElementById('assignMYPFields').style.display = 'flex';
+        document.getElementById('qbFiltersDP').style.display = 'none';
+        document.getElementById('qbFiltersMYP').style.display = 'flex';
+        document.getElementById('studentFilter').innerHTML = `<option value="ALL">All MYP</option>`;
       }
 
       loadDashboardData();
       loadStudents();
-      if(document.getElementById('qbank').classList.contains('active')) loadQuestions();
+      if(document.getElementById('qbank').classList.contains('active')) {
+         loadQuestions();
+      }
     }
 
     // --- DATA FETCHING ---
@@ -482,7 +563,7 @@
           let data = doc.data();
           data.id = doc.id;
           if(currentProgramme === 'DP' && data.level && data.level.startsWith('DP')) allStudents.push(data);
-          else if(currentProgramme === 'MYP' && data.level && data.level.includes('MYP')) allStudents.push(data);
+          else if(currentProgramme === 'MYP' && data.level && data.level === 'MYP') allStudents.push(data);
         });
         
         document.getElementById('statStudents').innerText = allStudents.length;
@@ -534,7 +615,7 @@
       
       const col = currentProgramme === 'DP' ? 'dpQuestions' : 'mypQuestions';
       try {
-        const snap = await db.collection(col).limit(50).get();
+        const snap = await db.collection(col).get();
         allQuestions = [];
         snap.forEach(doc => {
           let data = doc.data();
@@ -555,7 +636,45 @@
         return;
       }
 
-      listEl.innerHTML = allQuestions.map(q => {
+      let filtered = allQuestions;
+
+      if (currentProgramme === 'DP') {
+        const dpT = document.getElementById('dpTopic').value;
+        const dpP = document.getElementById('dpPaper').value;
+        const dpD = document.getElementById('dpDiff').value;
+        
+        filtered = allQuestions.filter(q => {
+          let match = true;
+          if (dpT && q.topic !== dpT && !String(q.topic).startsWith(dpT)) match = false;
+          if (dpP && String(q.paper) !== dpP) match = false;
+          if (dpD && q.difficulty !== dpD) match = false;
+          return match;
+        });
+      } else {
+        const mypC = document.getElementById('mypCrit').value;
+        const mypT = document.getElementById('mypTopic').value;
+        const mypD = document.getElementById('mypDiff').value;
+        const mypY = document.getElementById('mypYear').value;
+
+        filtered = allQuestions.filter(q => {
+          let match = true;
+          if (mypC && String(q.criterion) !== mypC) match = false;
+          if (mypT && q.topic !== mypT) match = false;
+          if (mypD && q.difficulty !== mypD) match = false;
+          if (mypY && String(q.year) !== mypY) match = false;
+          return match;
+        });
+      }
+
+      if (filtered.length === 0) {
+        listEl.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted);">No matching questions found.</div>`;
+        return;
+      }
+
+      document.getElementById('selQCount').innerText = selectedQuestions.length;
+
+      listEl.innerHTML = `<div style="margin-bottom:8px; font-size:12px; color:var(--text-muted);">Showing ${filtered.length} questions</div>` + 
+      filtered.map(q => {
         let qText = q.text || q.questionText || 'No text';
         if(qText.length > 200) qText = qText.substring(0, 200) + '...';
         
@@ -564,6 +683,8 @@
         if(q.topic) tags += `<span class="badge">${q.topic}</span>`;
         if(q.paper) tags += `<span class="badge">${q.paper}</span>`;
         if(q.criterion) tags += `<span class="badge">Crit ${q.criterion}</span>`;
+        if(q.difficulty) tags += `<span class="badge">${q.difficulty}</span>`;
+        if(q.year) tags += `<span class="badge">${q.year}</span>`;
 
         return `
           <div class="q-card">
@@ -573,7 +694,7 @@
             </div>
             <div class="q-body" style="font-size:14px; line-height:1.5;">${qText}</div>
             <div style="display:flex; justify-content:flex-end;">
-              <button class="btn-outline" onclick="addToPaper('${q.id}', \`${marks}\`, \`Q: ${qText.substring(0,20)}...\`)" style="padding:4px 12px; font-size:12px;">+ Add to Paper</button>
+              <button class="btn-outline" onclick="addToPaper('${q.id}', \`${marks}\`, \`Q: ${qText.substring(0,20).replace(/['"\`]/g, '')}...\`)" style="padding:4px 12px; font-size:12px;">+ Add to Paper</button>
             </div>
           </div>
         `;

@@ -129,7 +129,7 @@ var pages = [null];
 var currentPage = 0;
 
 // Undo system
-var history = [];
+var drawHistory = [];
 var maxHistory = 30;
 
 function canvasXY(e) {
@@ -364,19 +364,19 @@ function drawGrid() {
 
 // ═══ UNDO ═══
 function saveState() {
-  if (history.length >= maxHistory) history.shift();
-  history.push(canvas.toDataURL());
+  if (drawHistory.length >= maxHistory) drawHistory.shift();
+  drawHistory.push(canvas.toDataURL());
 }
 
 function undo() {
-  if (history.length <= 1) return;
-  history.pop();
+  if (drawHistory.length <= 1) return;
+  drawHistory.pop();
   var img = new Image();
   img.onload = function() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0);
   };
-  img.src = history[history.length - 1];
+  img.src = drawHistory[drawHistory.length - 1];
 }
 
 // ═══ CLEAR ═══
@@ -438,7 +438,7 @@ function addPage() {
   pages.push(null);
   currentPage = pages.length - 1;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  history = [];
+  drawHistory = [];
   saveState();
   updatePageInfo();
 }
@@ -448,7 +448,7 @@ function nextPage() {
     savePage();
     currentPage++;
     loadPage();
-    history = [];
+    drawHistory = [];
     saveState();
   }
 }
@@ -458,7 +458,7 @@ function prevPage() {
     savePage();
     currentPage--;
     loadPage();
-    history = [];
+    drawHistory = [];
     saveState();
   }
 }
