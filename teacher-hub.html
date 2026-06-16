@@ -627,14 +627,22 @@
 
       let counts = {};
       allQuestions.forEach(q => {
-        let t = (currentProgramme === 'DP') ? q.subtopic || q.topic || 'Uncategorized' : q.topic || 'Uncategorized';
+        let t = 'Uncategorized';
+        if (currentProgramme === 'DP') {
+          t = q.subtopic || q.topic || 'Uncategorized';
+          if (!/^[A-E](\.\d)?/.test(t) && t !== 'Uncategorized') {
+            t = 'Other';
+          }
+        } else {
+          t = q.topic || 'Uncategorized';
+        }
         counts[t] = (counts[t] || 0) + 1;
       });
 
-      let breakdownHTML = Object.entries(counts).sort((a,b) => b[1] - a[1]).map(([topic, count]) => {
-        return `<div style="display:flex; justify-content:space-between; padding:12px; border:1px solid var(--border); border-radius:var(--radius); margin-bottom:8px; background:var(--surface);">
-          <span style="font-weight:600;">${topic}</span>
-          <span style="font-weight:bold; color:var(--teal); font-family:monospace; font-size:16px;">${count}</span>
+      let breakdownHTML = Object.entries(counts).sort((a,b) => a[0].localeCompare(b[0])).map(([topic, count]) => {
+        return `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:16px; border:1px solid var(--border); border-radius:var(--radius); background:var(--surface);">
+          <span style="font-weight:bold; color:var(--teal); font-family:monospace; font-size:24px; margin-bottom:4px;">${count}</span>
+          <span style="font-size:12px; font-weight:600; color:var(--text); line-height:1.2;">${topic}</span>
         </div>`;
       }).join('');
 
@@ -645,7 +653,9 @@
         </div>
         <div style="margin-top: 24px;">
           <h4 style="margin-bottom:12px; color:var(--text-muted); text-transform:uppercase; font-size:12px; letter-spacing:1px;">Breakdown by Topic</h4>
-          ${breakdownHTML}
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px;">
+            ${breakdownHTML}
+          </div>
         </div>
       `;
     }
