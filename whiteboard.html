@@ -583,6 +583,7 @@ function fullRender(pending) {
   X.drawImage(offC, 0, 0);
 
   if (showMinimap) renderMinimap();
+  if (selectedEl) showSelBox(selectedEl);
   updateOverlays();
 }
 
@@ -1245,7 +1246,13 @@ document.addEventListener('keydown', function(e) {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT' || e.target.isContentEditable) return;
   if (e.code === 'Space' && !e.repeat) { e.preventDefault(); spaceHeld = true; C.style.cursor = 'grab'; }
   if (e.key === 'Shift') shiftHeld = true;
-  if (e.key === 'Escape' && teActive) { teCancel(); return; }
+  if (e.key === 'Escape') {
+    if (!document.getElementById('eqModal').classList.contains('hide')) { closeEqModal(); return; }
+    if (!document.getElementById('pollModal').classList.contains('hide')) { closePollModal(); return; }
+    if (teActive) { teCancel(); return; }
+    if (selectedEl !== null) { selectedEl = null; document.getElementById('selBox').style.display = 'none'; fullRender(); return; }
+    return;
+  }
   if (e.key === 'Enter' && teActive) { teConfirm(); return; }
   if (e.ctrlKey || e.metaKey) {
     if (e.key === 'z' && e.shiftKey) { e.preventDefault(); doRedo(); }
@@ -1258,7 +1265,6 @@ document.addEventListener('keydown', function(e) {
     if (e.key === '-') { e.preventDefault(); zoomBy(-0.2); }
     return;
   }
-  if (e.key === 'Escape') { if (selectedEl !== null) { selectedEl = null; fullRender(); } return; }
   if (e.key === 'Delete' || e.key === 'Backspace') { if (selectedEl !== null) { deleteSelected(); } return; }
   if (e.key === '1') setTool('pen'); if (e.key === '2') setTool('highlight'); if (e.key === '3') setTool('eraser');
   if (e.key === '4') setTool('text'); if (e.key === '5') setTool('line'); if (e.key === '6') setTool('arrow');
@@ -1504,7 +1510,7 @@ function loadBoard() {
     if (k.startsWith('wb-')) keys.push(k.replace('wb-',''));
   }
   if (!keys.length) { alert('No saved boards found.'); return; }
-  var choice = prompt('Saved boards:\\n\\n' + keys.join('\\n') + '\\n\\nType the name to load:');
+  var choice = prompt('Saved boards:\n\n' + keys.join('\n') + '\n\nType the name to load:');
   if (!choice) return;
   var raw = localStorage.getItem('wb-' + choice.replace(/\s+/g,'-').toLowerCase());
   if (!raw) { raw = localStorage.getItem('wb-save'); }
@@ -1539,6 +1545,8 @@ function searchText() {
     for(var i=0;i<pages[p].els.length;i++){
       var el=pages[p].els[i];
       if((el.type==='text'||el.type==='sticky')&&el.text.toLowerCase().indexOf(q)!==-1)
+        results.push({page:p,el:el});
+      if(el.type==='equation'&&el.latex.toLowerCase().indexOf(q)!==-1)
         results.push({page:p,el:el});
     }
   if(!results.length){alert('No results found.');return;}
