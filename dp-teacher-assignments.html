@@ -1112,14 +1112,12 @@ function renderStudentTable(){
 
     var phone = s.phone || s.whatsapp || '';
     var waHref = phone ? 'https://wa.me/' + phone.replace(/[^0-9]/g, '') + '?text=Hi ' + encodeURIComponent((s.name||'').split(' ')[0]) + ', this is regarding your physics class.' : '#';
-    var waAction = phone ? 'window.open(\''+waHref+'\', \'_blank\')' : 'promptAddPhone(\''+s.id+'\')';
 
     var emailHref = s.email ? 'mailto:' + s.email + '?subject=Physics Class Update&body=Hi ' + encodeURIComponent((s.name||'').split(' ')[0]) + ',' : '#';
-    var emailAction = s.email ? 'window.open(\''+emailHref+'\', \'_blank\')' : 'showToast(\'No email saved for this student.\')';
 
-    var waBtn = '<button class="btn btn-outline btn-sm" onclick="'+waAction+'" title="WhatsApp" style="margin-right:4px;">📱</button>';
-    var emailBtn = '<button class="btn btn-outline btn-sm" onclick="'+emailAction+'" title="Email" style="margin-right:4px;">📧</button>';
-    var analyticsBtn = '<button class="btn btn-outline btn-sm" onclick="showStudentDetail(\''+s.id+'\')" title="Analytics" style="margin-right:4px;">📊</button>';
+    var waBtn = '<a href="'+waHref+'" target="_blank" onclick="event.stopPropagation()" class="btn btn-outline btn-sm" title="WhatsApp" style="margin-right:4px;text-decoration:none;display:inline-flex;align-items:center;">📱</a>';
+    var emailBtn = '<a href="'+emailHref+'" target="_blank" onclick="event.stopPropagation()" class="btn btn-outline btn-sm" title="Email" style="margin-right:4px;text-decoration:none;display:inline-flex;align-items:center;">📧</a>';
+    var analyticsBtn = '<button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showStudentDetail(\''+s.id+'\')" title="Analytics" style="margin-right:4px;">📊</button>';
 
     var actionBtnHtml = '';
     if (isSelfRegistered) {
@@ -2743,13 +2741,13 @@ function renderAnalyticsTable(assignments, submissions, students) {
     var progressColor = pct >= 80 ? '#059669' : pct >= 40 ? '#D97706' : '#DC2626';
 
     var actions = '';
-    actions += '<button class="btn btn-outline" style="font-size:.7rem;padding:4px 8px" onclick="showStudentDetail(\''+st.id+'\')">📊</button> ';
-    if (phone) {
-      actions += '<a href="https://wa.me/' + phone.replace(/[^0-9]/g,'') + '?text=Hi%20' + encodeURIComponent(name.split(' ')[0]) + ',%20this%20is%20regarding%20your%20physics%20assignment." target="_blank" class="btn btn-outline" style="font-size:.7rem;padding:4px 8px;text-decoration:none">📱</a> ';
-    }
-    if (email) {
-      actions += '<a href="mailto:' + email + '?subject=Physics%20Assignment%20Update&body=Hi%20' + encodeURIComponent(name.split(' ')[0]) + '," target="_blank" class="btn btn-outline" style="font-size:.7rem;padding:4px 8px;text-decoration:none">📧</a>';
-    }
+    actions += '<button class="btn btn-outline" style="font-size:.7rem;padding:4px 8px" onclick="event.stopPropagation(); showStudentDetail(\''+st.id+'\')">📊</button> ';
+    
+    var waHref = phone ? 'https://wa.me/' + phone.replace(/[^0-9]/g,'') + '?text=Hi%20' + encodeURIComponent(name.split(' ')[0]) + ',%20this%20is%20regarding%20your%20physics%20assignment.' : '#';
+    actions += '<a href="' + waHref + '" target="_blank" onclick="event.stopPropagation()" class="btn btn-outline" style="font-size:.7rem;padding:4px 8px;text-decoration:none">📱</a> ';
+    
+    var emailHref = email ? 'mailto:' + email + '?subject=Physics%20Assignment%20Update&body=Hi%20' + encodeURIComponent(name.split(' ')[0]) + ',' : '#';
+    actions += '<a href="' + emailHref + '" target="_blank" onclick="event.stopPropagation()" class="btn btn-outline" style="font-size:.7rem;padding:4px 8px;text-decoration:none">📧</a>';
 
     rows += '<tr style="border-bottom:1px solid var(--border)">' +
       '<td style="padding:10px 12px;font-weight:600">' + name + '</td>' +
