@@ -323,10 +323,19 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
           <option value="">All Tags</option>
         </select>
       </div>
+      <div style="background:var(--bg); padding:10px 14px; border-radius:8px; margin-bottom:16px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+        <strong style="color:var(--text2); font-size:.85rem;">📢 Bulk Message:</strong>
+        <select id="bulkTagFilter" class="btn btn-outline" style="padding:6px; font-size:.8rem; min-width:120px;" onchange="updateBulkSelection()">
+          <option value="">All Visible Students</option>
+        </select>
+        <button class="btn btn-outline btn-sm" onclick="bulkWhatsApp()">📱 WhatsApp</button>
+        <button class="btn btn-outline btn-sm" onclick="bulkEmail()">📧 Email</button>
+      </div>
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
+              <th style="width:30px;"><input type="checkbox" id="bulkSelectAll" onclick="toggleBulkSelectAll(this)"></th>
               <th>Name</th>
               <th>Student ID</th>
               <th>Level</th>
@@ -991,6 +1000,8 @@ function renderTagUI(){
   allTags.forEach(function(tag){
     filter.innerHTML += '<option value="'+tag.name+'"'+(currentVal===tag.name?' selected':'')+'>'+tag.name+'</option>';
   });
+  
+  updateBulkTagsUI();
 }
 
 function toggleAddTag(tagName){
@@ -1100,12 +1111,15 @@ function renderStudentTable(){
     }).join('');
 
     var phone = s.phone || s.whatsapp || '';
-    var waHref = phone ? 'https://wa.me/' + phone.replace(/[^0-9]/g, '') + '?text=Hi ' + encodeURIComponent(s.name||'') + ', this is regarding your physics assignment.' : '#';
-    var emailHref = s.email ? 'mailto:' + s.email + '?subject=Physics Assignment Update&body=Hi ' + encodeURIComponent(s.name||'') + ',' : '#';
+    var waHref = phone ? 'https://wa.me/' + phone.replace(/[^0-9]/g, '') + '?text=Hi ' + encodeURIComponent((s.name||'').split(' ')[0]) + ', this is regarding your physics class.' : '#';
+    var waAction = phone ? 'window.open(\''+waHref+'\', \'_blank\')' : 'promptAddPhone(\''+s.id+'\')';
 
-    var waBtn = phone ? '<button class="btn btn-outline btn-sm" onclick="window.open(\''+waHref+'\', \'_blank\')" title="WhatsApp" style="margin-right:4px;">📱</button>' : '';
-    var emailBtn = s.email ? '<button class="btn btn-outline btn-sm" onclick="window.open(\''+emailHref+'\', \'_blank\')" title="Email" style="margin-right:4px;">📧</button>' : '';
-    var analyticsBtn = '<button class="btn btn-outline btn-sm" onclick="openStudentAnalytics(\''+s.id+'\')" title="Analytics" style="margin-right:4px;">📊</button>';
+    var emailHref = s.email ? 'mailto:' + s.email + '?subject=Physics Class Update&body=Hi ' + encodeURIComponent((s.name||'').split(' ')[0]) + ',' : '#';
+    var emailAction = s.email ? 'window.open(\''+emailHref+'\', \'_blank\')' : 'showToast(\'No email saved for this student.\')';
+
+    var waBtn = '<button class="btn btn-outline btn-sm" onclick="'+waAction+'" title="WhatsApp" style="margin-right:4px;">📱</button>';
+    var emailBtn = '<button class="btn btn-outline btn-sm" onclick="'+emailAction+'" title="Email" style="margin-right:4px;">📧</button>';
+    var analyticsBtn = '<button class="btn btn-outline btn-sm" onclick="showStudentDetail(\''+s.id+'\')" title="Analytics" style="margin-right:4px;">📊</button>';
 
     var actionBtnHtml = '';
     if (isSelfRegistered) {
@@ -1116,6 +1130,7 @@ function renderStudentTable(){
     actionBtnHtml += analyticsBtn + waBtn + emailBtn + '<button class="btn btn-danger btn-sm" onclick="deleteStudent(\''+s.id+'\')">🗑️</button>';
 
     return '<tr>'+
+      '<td><input type="checkbox" class="bulk-stu-cb" value="'+s.id+'" data-tags="'+escHtml((s.tags||[]).join(','))+'"></td>'+
       '<td style="font-weight:600">'+escHtml(s.name||'')+'</td>'+
       '<td><code style="font-size:.78rem;background:var(--bg);padding:2px 6px;border-radius:4px">'+escHtml(s.studentId||s.uid||'')+'</code></td>'+
       '<td>'+escHtml(s.level||'')+'</td>'+
@@ -1225,6 +1240,95 @@ function escHtml(str){
   var div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
+}
+
+// ==================== BULK MESSAGE ====================
+function showToast(msg) {
+  var toast = document.createElement('div');
+  toast.textContent = msg;
+  toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:8px;z-index:9999;font-size:.9rem;box-shadow:0 4px 12px rgba(0,0,0,.15);';
+  document.body.appendChild(toast);
+  setTimeout(function(){ toast.remove(); }, 3000);
+}
+
+function promptAddPhone(studentId) {
+  openEditStudentModal(studentId);
+  setTimeout(function() {
+    var phoneInput = document.getElementById('editStuPhone');
+    if (phoneInput) {
+      phoneInput.focus();
+      showToast("Add phone number first.");
+    }
+  }, 300);
+}
+
+function updateBulkTagsUI() {
+  var html = '<option value="">All Visible Students</option>';
+  allTags.forEach(function(t) { html += '<option value="'+t.name+'">'+t.name+'</option>'; });
+  var el = document.getElementById('bulkTagFilter');
+  if (el) el.innerHTML = html;
+}
+
+function updateBulkSelection() {
+  var tag = document.getElementById('bulkTagFilter').value;
+  var cbs = document.querySelectorAll('.bulk-stu-cb');
+  cbs.forEach(function(cb) {
+    if (!tag) cb.checked = true;
+    else {
+      var stuTagStr = cb.getAttribute('data-tags') || '';
+      var stuTags = stuTagStr.split(',');
+      cb.checked = stuTags.indexOf(tag) > -1;
+    }
+  });
+}
+
+function toggleBulkSelectAll(el) {
+  var cbs = document.querySelectorAll('.bulk-stu-cb');
+  cbs.forEach(function(cb) { cb.checked = el.checked; });
+}
+
+function getSelectedBulkStudents() {
+  var cbs = document.querySelectorAll('.bulk-stu-cb:checked');
+  var ids = [];
+  cbs.forEach(function(cb) { ids.push(cb.value); });
+  return allStudents.filter(function(s) { return ids.indexOf(s.id) > -1; });
+}
+
+function bulkEmail() {
+  var students = getSelectedBulkStudents();
+  var emails = students.map(function(s) { return s.email; }).filter(function(e) { return e; });
+  if (emails.length === 0) {
+    showToast('No emails found for selected students.');
+    return;
+  }
+  var mailto = 'mailto:?bcc=' + emails.join(',') + '&subject=Physics Class Update&body=Hi students,';
+  window.open(mailto, '_blank');
+}
+
+function bulkWhatsApp() {
+  var students = getSelectedBulkStudents();
+  var phones = students.filter(function(s) { return s.phone || s.whatsapp; });
+  if (phones.length === 0) {
+    showToast('No phone numbers found for selected students.');
+    return;
+  }
+  
+  var html = '<div style="margin-bottom:12px;"><strong>Bulk WhatsApp ('+phones.length+' students)</strong></div>';
+  html += '<div style="max-height:400px;overflow-y:auto;text-align:left;font-size:.85rem;">';
+  phones.forEach(function(s) {
+    var p = s.phone || s.whatsapp;
+    var waHref = 'https://wa.me/' + p.replace(/[^0-9]/g, '') + '?text=Hi ' + encodeURIComponent((s.name||'').split(' ')[0]) + ', this is regarding your physics class.';
+    html += '<div style="padding:8px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">' +
+      '<span>'+escHtml(s.name)+'</span>' +
+      '<a href="'+waHref+'" target="_blank" class="btn btn-outline btn-sm" style="padding:4px 8px;text-decoration:none;">📱 Message</a>' +
+      '</div>';
+  });
+  html += '</div>';
+  
+  document.getElementById('detail-student-name').textContent = 'Bulk WhatsApp';
+  document.getElementById('detail-student-stats').innerHTML = '';
+  document.getElementById('detail-student-assignments').innerHTML = html;
+  document.getElementById('student-detail-modal').style.display = 'flex';
 }
 
 // ==================== ASSIGNMENTS ====================
