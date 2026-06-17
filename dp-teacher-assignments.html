@@ -522,7 +522,7 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
               <th style="padding:10px 12px;font-size:.72rem;text-transform:uppercase;color:var(--text3)">Actions</th>
             </tr>
           </thead>
-          <tbody id="student-analytics-body">
+          <tbody id="analytics-tbody">
             <tr><td colspan="6" style="padding:20px;text-align:center;color:var(--text3)">Loading analytics...</td></tr>
           </tbody>
         </table>
@@ -2377,7 +2377,7 @@ function loadAnalytics() {
     });
 
     renderOverviewStats(assignments, submissions, filteredStudents);
-    renderStudentTable(assignments, submissions, filteredStudents);
+    renderAnalyticsTable(assignments, submissions, filteredStudents);
   }).catch(function(err) {
     console.error('Analytics load error:', err);
   });
@@ -2424,8 +2424,8 @@ function renderOverviewStats(assignments, submissions, students) {
   document.getElementById('stat-avg').textContent = avgScore > 0 ? avgScore + '%' : '-';
 }
 
-function renderStudentTable(assignments, submissions, students) {
-  var tbody = document.getElementById('student-analytics-body');
+function renderAnalyticsTable(assignments, submissions, students) {
+  var tbody = document.getElementById('analytics-tbody');
   if (students.length === 0) {
     tbody.innerHTML = '<tr><td colspan="6" style="padding:20px;text-align:center;color:var(--text3)">No students found for this programme.</td></tr>';
     return;
