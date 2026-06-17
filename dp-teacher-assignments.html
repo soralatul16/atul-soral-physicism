@@ -792,8 +792,10 @@ function switchTab(tabName){
     if(t.textContent.toLowerCase().indexOf(tabName)>-1) t.classList.add('active');
   });
   
-  if (tabName === 'grading') {
+  if (tabName === 'grading') { loadSubmissions(); } if (tabName === 'dashboard') { loadAnalytics(); } if (false) {
+    if (tabName === 'dashboard') { loadAnalytics(); }
     loadSubmissions();
+    if (tabName === 'dashboard') { loadAnalytics(); }
   }
 }
 
@@ -895,6 +897,7 @@ function setProgramme(prog){
   loadQBQuestions();
   renderStudentTable();
   if(document.getElementById('panel-grading').classList.contains('active')) loadSubmissions();
+    if (tabName === 'dashboard') { loadAnalytics(); }
 }
 
 // ==================== TAGS ====================
@@ -1955,6 +1958,7 @@ function releaseSubmissionGrade(subId){
     releasedAt: firebase.firestore.FieldValue.serverTimestamp()
   }).then(function(){
     loadSubmissions();
+    if (tabName === 'dashboard') { loadAnalytics(); }
   }).catch(function(err){
     alert('Error releasing grade: ' + err.message);
   });
@@ -2264,6 +2268,7 @@ function saveGrade(status){
     alert('Grade saved successfully' + (status === 'released' ? ' and released to student!' : ' as draft.'));
     closeGradingOverlay();
     loadSubmissions();
+    if (tabName === 'dashboard') { loadAnalytics(); }
   }).catch(function(err){
     alert('Error saving grade: ' + err.message);
   });
