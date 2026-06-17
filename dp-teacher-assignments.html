@@ -648,6 +648,11 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
     </div>
 
     <div class="form-group" style="margin-bottom:12px">
+      <label>Phone Number (WhatsApp)</label>
+      <input type="text" id="editStuPhone" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:8px;outline:none;" placeholder="+91 9876543210">
+    </div>
+
+    <div class="form-group" style="margin-bottom:12px">
       <label>Level</label>
       <select id="editStuLevel" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:8px;outline:none;">
         <option value="DP-SL">DP SL</option>
@@ -752,6 +757,39 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
 </div>
 
 <div style="text-align:center;padding:40px 0 20px;font-family:Georgia,serif;font-size:11px;color:rgba(0,0,0,.15);letter-spacing:2px;text-transform:uppercase" id="footer">ATUL SORAL PHYSICISM</div>
+
+<!-- ASSIGNMENT DETAIL MODAL -->
+<div class="modal-overlay" id="assignment-detail-modal">
+  <div class="modal" style="max-width:800px; width:95%; max-height:85vh; display:flex; flex-direction:column; padding:24px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+      <div>
+        <h3 id="ad-title" style="margin-bottom:4px;color:var(--accent);">Assignment Title</h3>
+        <div id="ad-meta" style="font-size:.8rem;color:var(--text2);">Type • Marks • Due Date</div>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('assignment-detail-modal')">✕ Close</button>
+    </div>
+    
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:16px;" id="ad-stats-container"></div>
+    
+    <div style="display:flex; gap:8px; margin-bottom:16px;" id="ad-actions-container"></div>
+
+    <div style="flex:1; overflow-y:auto;">
+      <table style="width:100%; border-collapse:collapse; font-size:.85rem;">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border); text-align:left;">
+            <th style="padding:10px; color:var(--text3);">Student</th>
+            <th style="padding:10px; color:var(--text3);">Status</th>
+            <th style="padding:10px; color:var(--text3);">Score</th>
+            <th style="padding:10px; color:var(--text3);">Time Taken</th>
+            <th style="padding:10px; color:var(--text3);">Submitted At</th>
+          </tr>
+        </thead>
+        <tbody id="ad-student-list"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -1061,13 +1099,21 @@ function renderStudentTable(){
       return '<span style="display:inline-block;padding:2px 8px;border-radius:50px;font-size:.65rem;font-weight:600;background:'+hexToLight(color)+';color:'+color+';margin:1px 2px">'+t+'</span>';
     }).join('');
 
+    var phone = s.phone || s.whatsapp || '';
+    var waHref = phone ? 'https://wa.me/' + phone.replace(/[^0-9]/g, '') + '?text=Hi ' + encodeURIComponent(s.name||'') + ', this is regarding your physics assignment.' : '#';
+    var emailHref = s.email ? 'mailto:' + s.email + '?subject=Physics Assignment Update&body=Hi ' + encodeURIComponent(s.name||'') + ',' : '#';
+
+    var waBtn = phone ? '<button class="btn btn-outline btn-sm" onclick="window.open(\''+waHref+'\', \'_blank\')" title="WhatsApp" style="margin-right:4px;">📱</button>' : '';
+    var emailBtn = s.email ? '<button class="btn btn-outline btn-sm" onclick="window.open(\''+emailHref+'\', \'_blank\')" title="Email" style="margin-right:4px;">📧</button>' : '';
+    var analyticsBtn = '<button class="btn btn-outline btn-sm" onclick="openStudentAnalytics(\''+s.id+'\')" title="Analytics" style="margin-right:4px;">📊</button>';
+
     var actionBtnHtml = '';
     if (isSelfRegistered) {
-      actionBtnHtml = '<button class="btn btn-primary btn-sm" style="background:#EA580C;border-color:#EA580C;" onclick="openEditStudentModal(\''+s.id+'\')">Approve</button> ';
+      actionBtnHtml = '<button class="btn btn-primary btn-sm" style="background:#EA580C;border-color:#EA580C;margin-right:4px;" onclick="openEditStudentModal(\''+s.id+'\')">Approve</button>';
     } else {
-      actionBtnHtml = '<button class="btn btn-outline btn-sm" onclick="openEditStudentModal(\''+s.id+'\')">✏️</button> ';
+      actionBtnHtml = '<button class="btn btn-outline btn-sm" onclick="openEditStudentModal(\''+s.id+'\')" style="margin-right:4px;">✏️</button>';
     }
-    actionBtnHtml += '<button class="btn btn-danger btn-sm" onclick="deleteStudent(\''+s.id+'\')">🗑️</button>';
+    actionBtnHtml += analyticsBtn + waBtn + emailBtn + '<button class="btn btn-danger btn-sm" onclick="deleteStudent(\''+s.id+'\')">🗑️</button>';
 
     return '<tr>'+
       '<td style="font-weight:600">'+escHtml(s.name||'')+'</td>'+
@@ -1090,6 +1136,7 @@ function openEditStudentModal(docId){
   var isSelfRegistered = (s.tags || []).indexOf('self-registered') > -1;
   document.getElementById('editModalTitle').textContent = isSelfRegistered ? '✨ Approve Student: ' + (s.name || '') : '✏️ Edit Student: ' + (s.name || '');
   document.getElementById('editStuId').value = s.studentId || '';
+  document.getElementById('editStuPhone').value = s.phone || s.whatsapp || '';
   document.getElementById('editStuLevel').value = s.level || 'DP-SL';
   
   // Uncheck/remove self-registered tag by default so that saving automatically approves them
@@ -1120,9 +1167,11 @@ function saveStudentEdits(){
   if(!activeEditingStudent) return;
   var level = document.getElementById('editStuLevel').value;
   var stuId = document.getElementById('editStuId').value.trim();
+  var phone = document.getElementById('editStuPhone').value.trim();
   
   var updateData = {
     level: level,
+    phone: phone,
     tags: selectedEditTags
   };
   
@@ -1262,7 +1311,7 @@ function renderAssignmentGrid(){
     }
     actionsHtml += '<option value="delete">Delete</option></select>';
 
-    return '<div class="asgn-card">'+
+    return '<div class="asgn-card" style="cursor:pointer" onclick="openAssignmentDetail(\''+a.id+'\')">'+
       '<div class="asgn-title">'+escHtml(a.title||'Untitled')+'</div>'+
       '<div class="asgn-meta">'+typeBadge+statusBadge+'<span class="asgn-badge" style="background:var(--bg);color:var(--text2)">'+marksText+'</span></div>'+
       '<div style="font-size:.78rem;color:var(--text2)">📅 '+dueStr+'</div>'+
@@ -1367,6 +1416,103 @@ function saveAssignmentEdits() {
     closeModal('editAssignmentModal');
     loadAssignments();
   });
+}
+
+async function openAssignmentDetail(id) {
+  var a = allAssignments.find(function(x) { return x.id === id; });
+  if (!a) return;
+  
+  document.getElementById('ad-title').textContent = a.title || 'Untitled';
+  var dueStr = a.dueDate ? new Date(a.dueDate).toLocaleString('en-IN') : 'No Due Date';
+  document.getElementById('ad-meta').textContent = (a.type || 'HW').toUpperCase() + ' • ' + (a.totalMarks || 0) + ' marks • Due: ' + dueStr + ' • ' + (a.questionIds || []).length + ' questions';
+  
+  var snap = await db.collection(col('dpSubmissions')).where('assignmentId', '==', id).get();
+  var relevantSubs = [];
+  snap.forEach(function(doc) { relevantSubs.push(doc.data()); });
+  
+  var totalStudents = (a.studentIds || []).length;
+  var completedCount = 0;
+  var totalScore = 0;
+  var gradedCount = 0;
+  var noStartCount = 0;
+  var listHtml = '';
+  
+  (a.studentIds || []).forEach(function(sid) {
+    var stu = allStudents.find(function(x) { return x.id === sid; });
+    var stuName = stu ? stu.name : 'Unknown Student';
+    
+    var sub = relevantSubs.find(function(s) { return s.studentId === sid; });
+    var status = 'Not Started';
+    var scoreStr = '-';
+    var timeStr = '-';
+    var submittedStr = '-';
+    
+    if (sub) {
+      if (sub.status === 'draft') status = 'In Progress';
+      else if (sub.status === 'submitted') { status = 'Submitted'; completedCount++; }
+      else if (sub.status === 'graded') { status = 'Graded'; completedCount++; }
+      else if (sub.status === 'released') { status = 'Released'; completedCount++; }
+      
+      if (sub.totalScore !== undefined) {
+        scoreStr = sub.totalScore + '/' + (a.totalMarks || 0);
+        totalScore += sub.totalScore;
+        gradedCount++;
+      }
+      
+      if (sub.timeTaken) timeStr = sub.timeTaken + ' min';
+      if (sub.submittedAt) {
+        submittedStr = (sub.submittedAt.toDate ? sub.submittedAt.toDate() : new Date(sub.submittedAt)).toLocaleDateString('en-IN');
+      }
+    } else {
+      noStartCount++;
+    }
+    
+    listHtml += '<tr style="border-bottom:1px solid var(--border)">'+
+      '<td style="padding:10px; font-weight:600;">'+escHtml(stuName)+'</td>'+
+      '<td style="padding:10px;">'+status+'</td>'+
+      '<td style="padding:10px; font-weight:600; color:var(--accent);">'+scoreStr+'</td>'+
+      '<td style="padding:10px; font-size:.75rem; color:var(--text2);">'+timeStr+'</td>'+
+      '<td style="padding:10px; font-size:.75rem; color:var(--text2);">'+submittedStr+'</td>'+
+    '</tr>';
+  });
+  
+  if (totalStudents === 0) listHtml = '<tr><td colspan="5" class="empty">No students assigned.</td></tr>';
+  document.getElementById('ad-student-list').innerHTML = listHtml;
+  
+  var avgScore = gradedCount > 0 ? Math.round((totalScore / gradedCount) / (a.totalMarks || 1) * 100) : 0;
+  
+  document.getElementById('ad-stats-container').innerHTML = 
+    '<div style="background:#F3E8FF; padding:12px; border-radius:8px; text-align:center;">' +
+      '<div style="font-size:1.5rem; font-weight:800; color:#6B21A8;">' + completedCount + '/' + totalStudents + '</div>' +
+      '<div style="font-size:.7rem; font-weight:600; color:var(--text2);">COMPLETED</div>' +
+    '</div>' +
+    '<div style="background:#DCFCE7; padding:12px; border-radius:8px; text-align:center;">' +
+      '<div style="font-size:1.5rem; font-weight:800; color:#166534;">' + avgScore + '%</div>' +
+      '<div style="font-size:.7rem; font-weight:600; color:var(--text2);">AVG SCORE</div>' +
+    '</div>' +
+    '<div style="background:#FEE2E2; padding:12px; border-radius:8px; text-align:center;">' +
+      '<div style="font-size:1.5rem; font-weight:800; color:#991B1B;">' + noStartCount + '</div>' +
+      '<div style="font-size:.7rem; font-weight:600; color:var(--text2);">NOT STARTED</div>' +
+    '</div>';
+    
+  var remindEmails = [];
+  (a.studentIds || []).forEach(function(sid) {
+    var sub = relevantSubs.find(function(s) { return s.studentId === sid; });
+    if (!sub || sub.status === 'draft') {
+      var stu = allStudents.find(function(x) { return x.id === sid; });
+      if (stu && stu.email) remindEmails.push(stu.email);
+    }
+  });
+  var remindHref = remindEmails.length > 0 ? 'mailto:' + remindEmails.join(',') + '?subject=Reminder: ' + encodeURIComponent(a.title) + '&body=Hi, please submit your assignment.' : '#';
+  
+  var actionHtml = '<a href="'+remindHref+'" class="btn btn-primary btn-sm" target="_blank">🔔 Remind Pending</a>';
+  if (a.status === 'active') {
+    actionHtml += '<button class="btn btn-outline btn-sm" onclick="handleAssignmentAction({value:\'close\'}, \''+a.id+'\'); closeModal(\'assignment-detail-modal\')">🔒 Close Assignment</button>';
+  } else {
+    actionHtml += '<button class="btn btn-outline btn-sm" onclick="handleAssignmentAction({value:\'reopen\'}, \''+a.id+'\'); closeModal(\'assignment-detail-modal\')">🔓 Reopen Assignment</button>';
+  }
+  document.getElementById('ad-actions-container').innerHTML = actionHtml;
+  openModal('assignment-detail-modal');
 }
 
 function createAssignment(){
@@ -2371,14 +2517,33 @@ function loadAnalytics() {
     db.collection('students').get()
   ]).then(function(results) {
     results[0].forEach(function(d) { assignments.push(Object.assign({id: d.id}, d.data())); });
-    results[1].forEach(function(d) { submissions.push(Object.assign({id: d.id}, d.data())); });
     results[2].forEach(function(d) { students.push(Object.assign({id: d.id}, d.data())); });
+    
+    results[1].forEach(function(d) { 
+      var sub = Object.assign({id: d.id}, d.data());
+      var asgn = assignments.find(function(a){ return a.id === sub.assignmentId; });
+      sub.assignmentTitle = asgn ? asgn.title : 'Deleted Assignment';
+      sub.assignmentType = asgn ? asgn.type : 'hw';
+      sub.totalMarks = asgn ? asgn.totalMarks : 0;
+      var stu = students.find(function(s){ return s.id === sub.studentId; });
+      sub.studentName = stu ? stu.name : 'Unknown';
+      submissions.push(sub); 
+    });
+    
+    allSubmissions = submissions;
+    allStudents = students;
+    allAssignments = assignments;
 
     // Filter students by current programme
     var prog = currentProgramme || 'DP';
     var levelFilter = prog === 'DP' ? 'DP' : 'MYP';
     var filteredStudents = students.filter(function(s) {
-      return s.level && s.level.toUpperCase().indexOf(levelFilter) !== -1;
+      if (prog === 'myp' && (!s.tags || s.tags.indexOf('MYP')===-1)) return false;
+      if (prog === 'dp') {
+        var hasMYPOnly = s.tags && s.tags.indexOf('MYP')>-1 && s.tags.indexOf('DP-SL')===-1 && s.tags.indexOf('DP-HL')===-1;
+        if(hasMYPOnly) return false;
+      }
+      return true;
     });
 
     renderOverviewStats(assignments, submissions, filteredStudents);
@@ -2392,50 +2557,49 @@ function renderOverviewStats(assignments, submissions, students) {
   var total = assignments.length;
   var now = new Date();
 
-  // Count per-student assignments (each student should do each assignment)
-  var totalExpected = total * students.length;
+  var totalExpected = 0;
+  var overdueCount = 0;
+  
+  assignments.forEach(function(a) {
+    var assigned = (a.studentIds || []).length;
+    totalExpected += assigned;
+    
+    var isOverdue = a.dueDate && new Date(a.dueDate) < now;
+    
+    (a.studentIds || []).forEach(function(sid) {
+       var sub = submissions.find(function(s) { return s.assignmentId === a.id && s.studentId === sid; });
+       if (isOverdue && (!sub || sub.status === 'draft')) {
+         overdueCount++;
+       }
+    });
+  });
+
   var completedSubs = submissions.filter(function(s) { return s.status === 'submitted' || s.status === 'graded' || s.status === 'released'; });
   var completed = completedSubs.length;
   var pending = totalExpected - completed;
-
-  var overdue = 0;
-  assignments.forEach(function(a) {
-    if (a.dueDate) {
-      var due = new Date(a.dueDate);
-      if (due < now) {
-        students.forEach(function(st) {
-          var hasSub = submissions.find(function(s) { return s.assignmentId === a.id && s.studentId === st.id && s.status !== 'draft'; });
-          if (!hasSub) overdue++;
-        });
-      }
-    }
-  });
-
+  
+  var gradedSubs = submissions.filter(function(s) { return s.totalScore !== undefined && s.totalMarks !== undefined && s.totalMarks > 0; });
   var avgScore = 0;
-  var gradedSubs = submissions.filter(function(s) { return s.totalScore !== undefined && s.totalScore !== null; });
   if (gradedSubs.length > 0) {
-    var totalPct = 0;
-    gradedSubs.forEach(function(s) {
-      var a = assignments.find(function(a2) { return a2.id === s.assignmentId; });
-      if (a && a.totalMarks > 0) totalPct += (s.totalScore / a.totalMarks) * 100;
-    });
-    avgScore = Math.round(totalPct / gradedSubs.length);
+    var sum = gradedSubs.reduce(function(acc, s) { return acc + (s.totalScore / s.totalMarks); }, 0);
+    avgScore = Math.round((sum / gradedSubs.length) * 100);
   }
 
   document.getElementById('stat-total').textContent = total;
   document.getElementById('stat-completed').textContent = completed;
-  document.getElementById('stat-pending').textContent = Math.max(0, pending);
-  document.getElementById('stat-overdue').textContent = overdue;
-  document.getElementById('stat-avg').textContent = avgScore > 0 ? avgScore + '%' : '-';
+  document.getElementById('stat-pending').textContent = pending;
+  document.getElementById('stat-overdue').textContent = overdueCount;
+  document.getElementById('stat-avg').textContent = avgScore + '%';
 }
 
 function renderAnalyticsTable(assignments, submissions, students) {
   var tbody = document.getElementById('analytics-tbody');
+  
   if (students.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="padding:20px;text-align:center;color:var(--text3)">No students found for this programme.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" class="empty">No students found.</td></tr>';
     return;
   }
-
+  
   var rows = '';
   students.forEach(function(st) {
     var studentSubs = submissions.filter(function(s) { return s.studentId === st.id || s.studentDocId === st.id; });
