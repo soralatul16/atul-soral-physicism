@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.1 Kinematics | Atul Soral Physicism</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f172a;--card:#1e293b;--text:#f1f5f9;--text2:#94a3b8;--accent:#0ea5e9;--accent2:#06b6d4;--gold:#f59e0b;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;--radius:16px;--font:'Segoe UI',system-ui,-apple-system,sans-serif;--serif:Georgia,'Times New Roman',serif}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font)}
+
+/* SLIDE ENGINE */
+.deck{width:100vw;height:100vh;position:relative}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 80px;opacity:0;pointer-events:none;transition:opacity .4s ease,transform .4s ease;transform:translateX(40px)}
+.slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+.slide.prev{opacity:0;transform:translateX(-40px)}
+
+/* FRAGMENTS — step-by-step reveal */
+.frag{opacity:0;transform:translateY(18px);transition:opacity .4s ease,transform .4s ease}
+.frag.visible{opacity:1;transform:translateY(0)}
+.frag.fade-in{transform:translateY(0);opacity:0}
+.frag.fade-in.visible{opacity:1}
+.frag.scale-in{transform:scale(0.8);opacity:0}
+.frag.scale-in.visible{transform:scale(1);opacity:1}
+.frag.slide-left{transform:translateX(-30px);opacity:0}
+.frag.slide-left.visible{transform:translateX(0);opacity:1}
+.frag.slide-right{transform:translateX(30px);opacity:0}
+.frag.slide-right.visible{transform:translateX(0);opacity:1}
+
+/* TYPOGRAPHY */
+h1{font-family:var(--serif);font-size:3.2rem;font-weight:700;letter-spacing:-0.03em;line-height:1.2;margin-bottom:16px}
+h2{font-family:var(--serif);font-size:2.2rem;font-weight:700;letter-spacing:-0.02em;line-height:1.3;margin-bottom:12px}
+h3{font-size:1.4rem;font-weight:600;margin-bottom:8px}
+.subtitle{font-size:1.1rem;color:var(--text2);margin-bottom:24px}
+.topic-badge{display:inline-block;background:var(--accent);color:#fff;font-size:.75rem;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:1px;margin-bottom:12px}
+
+/* LAYOUT HELPERS */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:40px;width:100%;align-items:center}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;width:100%}
+.center{text-align:center;display:flex;flex-direction:column;align-items:center}
+.left-align{align-items:flex-start;text-align:left}
+.full-w{width:100%}
+
+/* CARDS */
+.info-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:24px 28px;position:relative;overflow:hidden}
+.info-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.info-card.sky::before{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.info-card.gold::before{background:linear-gradient(90deg,#f59e0b,#d97706)}
+.info-card.green::before{background:linear-gradient(90deg,#10b981,#059669)}
+.info-card.red::before{background:linear-gradient(90deg,#ef4444,#dc2626)}
+.info-card.purple::before{background:linear-gradient(90deg,#8b5cf6,#7c3aed)}
+
+/* FORMULA BOX */
+.formula-box{background:linear-gradient(135deg,rgba(14,165,233,.08),rgba(6,182,212,.04));border:1.5px solid rgba(14,165,233,.2);border-radius:12px;padding:20px 28px;text-align:center;margin:12px 0}
+.formula-box .katex{font-size:1.8rem}
+.formula-box.large .katex{font-size:2.4rem}
+
+/* DERIVATION */
+.derivation{background:var(--card);border-radius:12px;padding:24px 32px;width:100%;max-width:700px}
+.deriv-step{padding:8px 0;font-size:1.1rem;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:12px}
+.deriv-step:last-child{border-bottom:none}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0}
+.step-note{font-size:.85rem;color:var(--text2);margin-left:40px;margin-top:2px}
+
+/* EXAMPLE BOX */
+.example-box{background:linear-gradient(135deg,rgba(245,158,11,.04),rgba(217,119,6,.02));border:1.5px solid rgba(245,158,11,.15);border-radius:12px;padding:24px 28px;width:100%;max-width:800px}
+.example-box h4{color:var(--gold);font-size:.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+
+/* PRACTICE */
+.q-card{background:var(--card);border:1.5px solid rgba(255,255,255,.06);border-radius:12px;padding:20px 24px;width:100%;max-width:700px;cursor:pointer;transition:border-color .2s}
+.q-card:hover{border-color:rgba(14,165,233,.3)}
+.q-card .answer{color:var(--green);margin-top:10px;font-weight:600}
+
+/* COMPARISON TABLE */
+.cmp-table{width:100%;max-width:700px;border-collapse:separate;border-spacing:0;background:var(--card);border-radius:12px;overflow:hidden}
+.cmp-table th{background:rgba(14,165,233,.1);color:var(--accent);font-size:.8rem;text-transform:uppercase;letter-spacing:1px;padding:12px 20px;text-align:left}
+.cmp-table td{padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.04);font-size:.95rem}
+.cmp-table tr:last-child td{border-bottom:none}
+.scalar-tag{background:rgba(245,158,11,.1);color:var(--gold);padding:2px 8px;border-radius:4px;font-size:.75rem;font-weight:600}
+.vector-tag{background:rgba(139,92,246,.1);color:var(--purple);padding:2px 8px;border-radius:4px;font-size:.75rem;font-weight:600}
+
+/* SVG */
+svg{max-width:100%;height:auto}
+.svg-wrap{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px;display:flex;justify-content:center}
+
+/* PROGRESS BAR */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:1000;transition:width .3s ease}
+
+/* SLIDE COUNTER */
+.slide-counter{position:fixed;bottom:20px;right:28px;font-size:.8rem;color:var(--text2);font-family:'Menlo',monospace;z-index:100}
+
+/* NAV HINTS */
+.nav-hint{position:fixed;bottom:20px;left:28px;font-size:.75rem;color:rgba(255,255,255,.25);z-index:100}
+
+/* BRANDING */
+.brand{position:fixed;top:16px;left:24px;font-family:var(--serif);font-size:.85rem;color:rgba(255,255,255,.3);z-index:100}
+
+/* KEY POINT */
+.key-point{display:flex;align-items:flex-start;gap:12px;padding:10px 0}
+.key-point .icon{font-size:1.3rem;flex-shrink:0;margin-top:2px}
+.key-point .content{font-size:1rem;line-height:1.6}
+.key-point .content strong{color:var(--accent)}
+
+/* BULLET LIST */
+.bullet-list{list-style:none;padding:0}
+.bullet-list li{padding:8px 0;padding-left:24px;position:relative;font-size:1rem;line-height:1.6;color:var(--text2)}
+.bullet-list li::before{content:'';position:absolute;left:0;top:16px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.bullet-list li strong{color:var(--text)}
+
+/* IB COMMAND */
+.ib-cmd{display:inline-block;background:rgba(239,68,68,.1);color:var(--red);font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+
+/* RESPONSIVE */
+@media(max-width:900px){.slide{padding:30px 24px}h1{font-size:2.2rem}h2{font-size:1.6rem}.two-col{grid-template-columns:1fr;gap:20px}}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="brand">Atul Soral Physicism</div>
+<div class="slide-counter" id="counter"></div>
+<div class="nav-hint">← → or click to advance • Space for next step</div>
+
+<div class="deck" id="deck">
+
+<!-- ═══════════ SLIDE 1: TITLE ═══════════ -->
+<div class="slide center">
+  <div class="frag scale-in"><span class="topic-badge">TOPIC A.1</span></div>
+  <h1 class="frag">Kinematics</h1>
+  <p class="subtitle frag">Motion, Position, Distance, Displacement, Speed, Velocity & Acceleration</p>
+  <div class="frag fade-in" style="margin-top:24px;display:flex;gap:12px">
+    <span style="background:var(--card);padding:6px 14px;border-radius:8px;font-size:.8rem">IB DP Physics</span>
+    <span style="background:var(--card);padding:6px 14px;border-radius:8px;font-size:.8rem">SL + HL</span>
+    <span style="background:var(--card);padding:6px 14px;border-radius:8px;font-size:.8rem">9 Hours</span>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 2: WHAT IS MOTION? ═══════════ -->
+<div class="slide left-align">
+  <h2 class="frag">What is Motion?</h2>
+  <div class="frag full-w" style="margin-top:16px">
+    <div class="key-point"><span class="icon">🔑</span><div class="content">Motion is a <strong>change in position</strong> of an object with respect to time and a reference point.</div></div>
+  </div>
+  <div class="frag full-w">
+    <div class="key-point"><span class="icon">📍</span><div class="content"><strong>Position</strong> — where an object is located relative to a chosen origin (reference point).</div></div>
+  </div>
+  <div class="frag full-w">
+    <div class="key-point"><span class="icon">📐</span><div class="content"><strong>Reference frame</strong> — the coordinate system from which motion is observed and measured.</div></div>
+  </div>
+  <div class="frag" style="margin-top:20px">
+    <div class="info-card sky">
+      <strong>IB Key Point:</strong> All motion is relative. The same object can be "moving" or "at rest" depending on the observer's frame of reference.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 3: SCALARS vs VECTORS ═══════════ -->
+<div class="slide center">
+  <h2 class="frag">Scalars vs Vectors</h2>
+  <p class="subtitle frag">The fundamental classification of physical quantities</p>
+  <div class="frag full-w" style="display:flex;justify-content:center">
+    <table class="cmp-table">
+      <tr><th>Scalar</th><th>Vector</th></tr>
+      <tr class="frag"><td>Has <strong>magnitude only</strong></td><td>Has <strong>magnitude + direction</strong></td></tr>
+      <tr class="frag"><td>Distance, Speed, Time, Energy</td><td>Displacement, Velocity, Force, Acceleration</td></tr>
+      <tr class="frag"><td>Added arithmetically</td><td>Added using vector rules (tip-to-tail)</td></tr>
+      <tr class="frag"><td>Always positive</td><td>Can be negative (direction)</td></tr>
+    </table>
+  </div>
+  <div class="frag" style="margin-top:16px">
+    <div class="info-card gold" style="max-width:500px">
+      <strong>Memory trick:</strong> Vectors have an arrow → direction matters!
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 4: DISTANCE vs DISPLACEMENT ═══════════ -->
+<div class="slide center">
+  <h2 class="frag">Distance vs Displacement</h2>
+  <div class="two-col frag full-w" style="margin-top:20px">
+    <div class="info-card gold">
+      <h3 style="color:var(--gold)">Distance (d)</h3>
+      <span class="scalar-tag">SCALAR</span>
+      <ul class="bullet-list" style="margin-top:12px">
+        <li><strong>Total path length</strong> travelled</li>
+        <li>Always positive</li>
+        <li>SI unit: metre (m)</li>
+        <li>Does NOT depend on direction</li>
+      </ul>
+    </div>
+    <div class="info-card purple">
+      <h3 style="color:var(--purple)">Displacement (s)</h3>
+      <span class="vector-tag">VECTOR</span>
+      <ul class="bullet-list" style="margin-top:12px">
+        <li><strong>Shortest path</strong> from start → end</li>
+        <li>Has direction</li>
+        <li>SI unit: metre (m)</li>
+        <li>Can be zero even if distance ≠ 0</li>
+      </ul>
+    </div>
+  </div>
+  <div class="frag" style="margin-top:16px">
+    <div class="formula-box">$$\text{Distance} \geq |\text{Displacement}| \quad \text{ALWAYS}$$</div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 5: DISTANCE vs DISPLACEMENT DIAGRAM ═══════════ -->
+<div class="slide center">
+  <h2 class="frag">Visualizing the Difference</h2>
+  <div class="frag svg-wrap" style="margin-top:16px;max-width:600px">
+    <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="10" width="480" height="260" fill="rgba(255,255,255,0.02)" rx="12"/>
+      <g stroke="rgba(255,255,255,0.06)" stroke-width="0.5"><line x1="50" y1="30" x2="50" y2="250"/><line x1="110" y1="30" x2="110" y2="250"/><line x1="170" y1="30" x2="170" y2="250"/><line x1="230" y1="30" x2="230" y2="250"/><line x1="290" y1="30" x2="290" y2="250"/><line x1="350" y1="30" x2="350" y2="250"/><line x1="410" y1="30" x2="410" y2="250"/><line x1="30" y1="50" x2="470" y2="50"/><line x1="30" y1="110" x2="470" y2="110"/><line x1="30" y1="170" x2="470" y2="170"/><line x1="30" y1="230" x2="470" y2="230"/></g>
+      <polyline points="70,200 170,200 170,80 350,80 350,200 430,200" fill="none" stroke="#0ea5e9" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="70" cy="200" r="10" fill="#10b981"/><text x="70" y="225" font-size="11" fill="#10b981" text-anchor="middle" font-weight="bold" font-family="sans-serif">START</text>
+      <circle cx="430" cy="200" r="10" fill="#ef4444"/><text x="430" y="225" font-size="11" fill="#ef4444" text-anchor="middle" font-weight="bold" font-family="sans-serif">END</text>
+      <text x="120" y="195" font-size="10" fill="#94a3b8" text-anchor="middle" font-family="monospace">2m</text>
+      <text x="180" y="145" font-size="10" fill="#94a3b8" text-anchor="middle" font-family="monospace">2m</text>
+      <text x="260" y="72" font-size="10" fill="#94a3b8" text-anchor="middle" font-family="monospace">3m</text>
+      <text x="360" y="145" font-size="10" fill="#94a3b8" text-anchor="middle" font-family="monospace">2m</text>
+      <text x="395" y="195" font-size="10" fill="#94a3b8" text-anchor="middle" font-family="monospace">1.3m</text>
+      <line x1="70" y1="250" x2="430" y2="250" stroke="#8b5cf6" stroke-width="2.5" stroke-dasharray="8,5"/>
+      <polygon points="425,246 435,250 425,254" fill="#8b5cf6"/>
+      <text x="250" y="267" font-size="12" fill="#8b5cf6" text-anchor="middle" font-weight="bold" font-family="sans-serif">Displacement = 6 m East</text>
+      <text x="250" y="35" font-size="12" fill="#0ea5e9" text-anchor="middle" font-weight="bold" font-family="sans-serif">Distance = 2+2+3+2+1.3 = 10.3 m</text>
+    </svg>
+  </div>
+  <div class="frag three-col" style="margin-top:16px;max-width:700px">
+    <div class="info-card sky" style="text-align:center;padding:14px"><strong style="color:var(--accent)">Distance</strong><br><span style="font-size:1.4rem;font-weight:700">10.3 m</span></div>
+    <div class="info-card purple" style="text-align:center;padding:14px"><strong style="color:var(--purple)">Displacement</strong><br><span style="font-size:1.4rem;font-weight:700">6 m East</span></div>
+    <div class="info-card green" style="text-align:center;padding:14px"><strong style="color:var(--green)">Key Insight</strong><br><span style="font-size:.85rem">Dist > Disp!</span></div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 6: WHEN IS DISPLACEMENT = 0? ═══════════ -->
+<div class="slide center">
+  <h2 class="frag">When is Displacement = 0?</h2>
+  <div class="frag svg-wrap" style="max-width:320px;margin-top:16px">
+    <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="150" cy="150" r="100" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="20"/>
+      <circle cx="150" cy="150" r="100" fill="none" stroke="#0ea5e9" stroke-width="3" stroke-dasharray="8,4"/>
+      <circle cx="150" cy="50" r="10" fill="#10b981"/>
+      <text x="150" y="32" font-size="11" fill="#10b981" text-anchor="middle" font-weight="bold" font-family="sans-serif">START = END</text>
+      <path d="M 160,52 A 100,100 0 1,1 140,52" fill="none" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#arrowG)"/>
+      <defs><marker id="arrowG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#f59e0b"/></marker></defs>
+      <text x="150" y="160" font-size="14" fill="#94a3b8" text-anchor="middle" font-family="sans-serif">400 m track</text>
+    </svg>
+  </div>
+  <div class="frag" style="margin-top:16px;max-width:600px">
+    <div class="info-card red">
+      <strong>Complete loop:</strong> Distance = 400 m, but Displacement = 0<br>
+      <span style="color:var(--text2);font-size:.9rem">Object returns to starting point → net change in position is zero.</span>
+    </div>
+  </div>
+  <div class="frag" style="margin-top:12px;font-size:.95rem;color:var(--text2)">This applies to: laps on a track, orbiting satellites, round trips, pendulum swings (full cycle)</div>
+</div>
+
+<!-- ═══════════ SLIDE 7: SPEED vs VELOCITY ═══════════ -->
+<div class="slide center">
+  <h2 class="frag">Speed vs Velocity</h2>
+  <div class="two-col frag full-w" style="margin-top:16px">
+    <div class="info-card gold">
+      <h3 style="color:var(--gold)">Speed (v)</h3>
+      <span class="scalar-tag">SCALAR</span>
+      <div class="formula-box" style="margin-top:12px">$$v = \frac{\text{distance}}{\text{time}} = \frac{d}{t}$$</div>
+      <ul class="bullet-list">
+        <li>Rate of change of <strong>distance</strong></li>
+        <li>Always positive</li>
+        <li>Unit: m/s or km/h</li>
+      </ul>
+    </div>
+    <div class="info-card purple">
+      <h3 style="color:var(--purple)">Velocity (v&#x20D7;)</h3>
+      <span class="vector-tag">VECTOR</span>
+      <div class="formula-box" style="margin-top:12px">$$\vec{v} = \frac{\text{displacement}}{\text{time}} = \frac{\Delta \vec{s}}{\Delta t}$$</div>
+      <ul class="bullet-list">
+        <li>Rate of change of <strong>displacement</strong></li>
+        <li>Can be negative (direction)</li>
+        <li>Unit: m/s + direction</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 8: AVERAGE vs INSTANTANEOUS ═══════════ -->
+<div class="slide left-align">
+  <h2 class="frag">Average vs Instantaneous</h2>
+  <div class="frag full-w" style="margin-top:16px">
+    <div class="info-card sky" style="max-width:800px">
+      <h3 style="margin-bottom:12px">Average Speed / Velocity</h3>
+      <div class="formula-box">$$v_{avg} = \frac{\text{total distance}}{\text{total time}} \qquad \vec{v}_{avg} = \frac{\text{total displacement}}{\text{total time}}$$</div>
+      <p style="color:var(--text2);font-size:.9rem;margin-top:8px">Covers the <strong>entire journey</strong> — includes stops, speed changes, everything.</p>
+    </div>
+  </div>
+  <div class="frag full-w" style="margin-top:12px">
+    <div class="info-card gold" style="max-width:800px">
+      <h3 style="margin-bottom:12px">Instantaneous Speed / Velocity</h3>
+      <div class="formula-box">$$v_{inst} = \lim_{\Delta t \to 0} \frac{\Delta s}{\Delta t} = \frac{ds}{dt}$$</div>
+      <p style="color:var(--text2);font-size:.9rem;margin-top:8px">Speed/velocity at a <strong>specific moment</strong> — what the speedometer shows.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 9: ACCELERATION ═══════════ -->
+<div class="slide center">
+  <h2 class="frag">Acceleration</h2>
+  <p class="subtitle frag">The rate of change of velocity</p>
+  <div class="frag formula-box large">$$\vec{a} = \frac{\Delta \vec{v}}{\Delta t} = \frac{v - u}{t}$$</div>
+  <div class="frag three-col" style="margin-top:20px;max-width:750px">
+    <div class="info-card sky" style="text-align:center;padding:16px">
+      <span class="vector-tag">VECTOR</span>
+      <p style="margin-top:8px;font-size:.9rem">Has magnitude AND direction</p>
+    </div>
+    <div class="info-card green" style="text-align:center;padding:16px">
+      <strong style="color:var(--green)">Unit</strong>
+      <p style="margin-top:8px;font-size:1.2rem;font-weight:700">m/s²</p>
+    </div>
+    <div class="info-card red" style="text-align:center;padding:16px">
+      <strong style="color:var(--red)">Deceleration</strong>
+      <p style="margin-top:8px;font-size:.85rem">a opposite to v direction</p>
+    </div>
+  </div>
+  <div class="frag" style="margin-top:16px;max-width:600px">
+    <div class="info-card gold">
+      <strong>Common mistake:</strong> "At the highest point of a throw, acceleration = 0" ❌<br>
+      <span style="color:var(--text2)">Gravity ALWAYS acts → a = 9.8 m/s² downward, even at the top!</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 10: DERIVATION — Average Speed ═══════════ -->
+<div class="slide center">
+  <h2 class="frag">Derivation: Average Speed</h2>
+  <p class="subtitle frag"><span class="ib-cmd">Calculate</span> Average speed for a multi-stage journey</p>
+  <div class="derivation frag" style="margin-top:12px">
+    <div class="deriv-step frag"><span class="step-num">1</span><span>Define: $$v_{avg} = \frac{d_{total}}{t_{total}}$$</span></div>
+    <div class="deriv-step frag"><span class="step-num">2</span><span>Total distance: $$d_{total} = d_1 + d_2 + d_3 + \ldots$$</span></div>
+    <div class="deriv-step frag"><span class="step-num">3</span><span>Total time: $$t_{total} = t_1 + t_2 + t_3 + \ldots$$</span></div>
+    <div class="step-note frag">⚠️ Include ALL time — even when stopped!</div>
+    <div class="deriv-step frag"><span class="step-num">4</span><span>$$v_{avg} = \frac{d_1 + d_2 + d_3}{t_1 + t_2 + t_3}$$</span></div>
+    <div class="step-note frag">⚠️ NOT the average of individual speeds!</div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 11: WORKED EXAMPLE 1 ═══════════ -->
+<div class="slide left-align">
+  <h2 class="frag">Worked Example 1</h2>
+  <div class="example-box frag" style="margin-top:12px">
+    <h4>Problem</h4>
+    <p style="font-size:1rem;line-height:1.6">A car travels 150 km in 2 hours, stops for 30 minutes, then travels 90 km in 1 hour. Find the average speed.</p>
+  </div>
+  <div class="derivation frag" style="margin-top:16px;max-width:700px">
+    <div class="deriv-step frag"><span class="step-num">1</span><span>Total distance: $$d = 150 + 90 = 240 \text{ km}$$</span></div>
+    <div class="deriv-step frag"><span class="step-num">2</span><span>Total time: $$t = 2 + 0.5 + 1 = 3.5 \text{ hours}$$</span></div>
+    <div class="step-note frag">Include the 30 min stop!</div>
+    <div class="deriv-step frag"><span class="step-num">3</span><span>$$v_{avg} = \frac{240}{3.5} = 68.6 \text{ km/h}$$</span></div>
+  </div>
+  <div class="frag" style="margin-top:12px">
+    <div class="info-card green" style="max-width:400px;padding:12px 20px">
+      <strong style="color:var(--green)">Answer: 68.6 km/h</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 12: WORKED EXAMPLE 2 ═══════════ -->
+<div class="slide left-align">
+  <h2 class="frag">Worked Example 2</h2>
+  <div class="example-box frag" style="margin-top:12px">
+    <h4>Problem</h4>
+    <p style="font-size:1rem;line-height:1.6">A person walks 3 km East, then 4 km North. Find: (a) total distance (b) displacement magnitude (c) direction of displacement.</p>
+  </div>
+  <div class="derivation frag" style="margin-top:16px;max-width:700px">
+    <div class="deriv-step frag"><span class="step-num">a</span><span>Distance: $$d = 3 + 4 = 7 \text{ km}$$</span></div>
+    <div class="deriv-step frag"><span class="step-num">b</span><span>Displacement (Pythagoras): $$s = \sqrt{3^2 + 4^2} = \sqrt{25} = 5 \text{ km}$$</span></div>
+    <div class="deriv-step frag"><span class="step-num">c</span><span>Direction: $$\theta = \tan^{-1}\left(\frac{4}{3}\right) = 53.1° \text{ N of E}$$</span></div>
+  </div>
+  <div class="frag" style="margin-top:12px">
+    <div class="info-card green" style="max-width:500px;padding:12px 20px">
+      <strong style="color:var(--green)">Answer: 5 km at 53.1° North of East</strong><br>
+      <span style="font-size:.85rem;color:var(--text2)">Notice: distance (7) > displacement (5) ✓</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 13: PRACTICE QUESTIONS ═══════════ -->
+<div class="slide center">
+  <h2 class="frag">Practice Questions</h2>
+  <p class="subtitle frag">Try these before checking the answer (click to reveal)</p>
+  <div class="frag q-card" style="margin-top:12px" onclick="this.querySelector('.answer').style.display=this.querySelector('.answer').style.display==='block'?'none':'block'">
+    <p><strong>Q1:</strong> A runner completes 2 laps of a 400 m track in 3 minutes. Calculate the average speed and average velocity.</p>
+    <div class="answer" style="display:none">Speed = 800/180 = <strong>4.44 m/s</strong> | Velocity = 0/180 = <strong>0 m/s</strong> (back to start!)</div>
+  </div>
+  <div class="frag q-card" style="margin-top:8px" onclick="this.querySelector('.answer').style.display=this.querySelector('.answer').style.display==='block'?'none':'block'">
+    <p><strong>Q2:</strong> A ball is thrown up at 20 m/s. What is its velocity at the top? What is its acceleration at the top?</p>
+    <div class="answer" style="display:none">Velocity = <strong>0 m/s</strong> (momentarily at rest) | Acceleration = <strong>9.8 m/s² downward</strong> (gravity never stops!)</div>
+  </div>
+  <div class="frag q-card" style="margin-top:8px" onclick="this.querySelector('.answer').style.display=this.querySelector('.answer').style.display==='block'?'none':'block'">
+    <p><strong>Q3:</strong> A car accelerates from rest to 25 m/s in 5 seconds. Calculate the acceleration.</p>
+    <div class="answer" style="display:none">a = (v-u)/t = (25-0)/5 = <strong>5 m/s²</strong></div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 14: KEY TAKEAWAYS ═══════════ -->
+<div class="slide center">
+  <h2 class="frag">Key Takeaways</h2>
+  <div class="frag full-w three-col" style="margin-top:20px;max-width:850px">
+    <div class="info-card sky" style="text-align:center">
+      <h3 style="font-size:1rem;color:var(--accent)">Distance ≥ Displacement</h3>
+      <p style="font-size:.85rem;color:var(--text2);margin-top:8px">Always. Equal only for straight-line motion.</p>
+    </div>
+    <div class="info-card gold" style="text-align:center">
+      <h3 style="font-size:1rem;color:var(--gold)">Speed vs Velocity</h3>
+      <p style="font-size:.85rem;color:var(--text2);margin-top:8px">Speed = scalar. Velocity = speed + direction.</p>
+    </div>
+    <div class="info-card purple" style="text-align:center">
+      <h3 style="font-size:1rem;color:var(--purple)">Acceleration ≠ 0 at top</h3>
+      <p style="font-size:.85rem;color:var(--text2);margin-top:8px">g = 9.8 m/s² always acts downward.</p>
+    </div>
+  </div>
+  <div class="frag" style="margin-top:24px">
+    <div class="info-card green" style="max-width:600px;text-align:center">
+      <h3 style="color:var(--green);margin-bottom:8px">Next Class</h3>
+      <p style="font-size:.95rem;color:var(--text2)">Equations of motion (SUVAT) • Graphs of motion • Free fall</p>
+    </div>
+  </div>
+  <div class="frag" style="margin-top:20px;color:var(--text2);font-size:.9rem">
+    Complete HW1 on the student portal before next class!
+  </div>
+</div>
+
+</div><!-- end deck -->
+
+<script>
+// ═══════════ SLIDE ENGINE ═══════════
+var slides = document.querySelectorAll('.slide');
+var current = 0;
+var fragIndex = 0;
+
+function getFragments(slideEl) {
+  return slideEl.querySelectorAll('.frag');
+}
+
+function showSlide(idx, direction) {
+  slides.forEach(function(s, i) {
+    s.classList.remove('active', 'prev');
+    if (i === idx) s.classList.add('active');
+    else if (i < idx) s.classList.add('prev');
+  });
+  fragIndex = 0;
+  // Reset fragments
+  var frags = getFragments(slides[idx]);
+  frags.forEach(function(f) { f.classList.remove('visible'); });
+  updateProgress();
+  updateCounter();
+}
+
+function nextStep() {
+  var frags = getFragments(slides[current]);
+  if (fragIndex < frags.length) {
+    frags[fragIndex].classList.add('visible');
+    fragIndex++;
+    updateProgress();
+  } else if (current < slides.length - 1) {
+    current++;
+    showSlide(current, 'next');
+  }
+}
+
+function prevStep() {
+  var frags = getFragments(slides[current]);
+  if (fragIndex > 0) {
+    fragIndex--;
+    frags[fragIndex].classList.remove('visible');
+    updateProgress();
+  } else if (current > 0) {
+    current--;
+    showSlide(current, 'prev');
+    // Show all fragments of previous slide
+    var prevFrags = getFragments(slides[current]);
+    prevFrags.forEach(function(f) { f.classList.add('visible'); });
+    fragIndex = prevFrags.length;
+    updateProgress();
+  }
+}
+
+function updateProgress() {
+  var totalFrags = 0, visibleFrags = 0;
+  slides.forEach(function(s, i) {
+    var f = getFragments(s);
+    totalFrags += f.length;
+    if (i < current) visibleFrags += f.length;
+    else if (i === current) visibleFrags += fragIndex;
+  });
+  var pct = totalFrags > 0 ? (visibleFrags / totalFrags * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+function updateCounter() {
+  document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
+}
+
+// Keyboard
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); nextStep(); }
+  else if (e.key === 'ArrowLeft' || e.key === 'Backspace') { e.preventDefault(); prevStep(); }
+  else if (e.key === 'ArrowDown') { e.preventDefault(); nextStep(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); prevStep(); }
+  else if (e.key === 'f' || e.key === 'F') {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+  else if (e.key === 'Home') { current = 0; showSlide(0); }
+  else if (e.key === 'End') { current = slides.length - 1; showSlide(current); var f = getFragments(slides[current]); f.forEach(function(x){x.classList.add('visible');}); fragIndex = f.length; }
+});
+
+// Click to advance
+document.querySelector('.deck').addEventListener('click', function(e) {
+  if (e.target.closest('.q-card')) return; // Don't advance on practice question click
+  nextStep();
+});
+
+// Touch swipe
+var touchStartX = 0;
+document.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', function(e) {
+  var diff = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(diff) > 50) { if (diff < 0) nextStep(); else prevStep(); }
+});
+
+// Init
+showSlide(0);
+
+// Render KaTeX
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof renderMathInElement !== 'undefined') {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });
+  }
+});
+// Fallback for deferred script
+window.addEventListener('load', function() {
+  if (typeof renderMathInElement !== 'undefined') {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });
+  }
+});
+</script>
+</body>
+</html>
