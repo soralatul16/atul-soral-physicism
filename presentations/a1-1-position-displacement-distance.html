@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.1.1 Position, Displacement & Distance | Atul Soral Physicism</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0b1120;--surface:#151d2e;--card:#1a2235;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--accent:#3b82f6;--sky:#0ea5e9;--teal:#14b8a6;--gold:#f59e0b;--green:#10b981;--red:#ef4444;--purple:#a78bfa;--border:rgba(255,255,255,.08)}
+[data-theme="light"]{--bg:#f8fafc;--surface:#ffffff;--card:#f1f5f9;--text:#0f172a;--text2:#475569;--text3:#64748b;--accent:#2563eb;--sky:#0284c7;--teal:#0d9488;--gold:#d97706;--green:#059669;--red:#dc2626;--purple:#7c3aed;--border:rgba(0,0,0,.08)}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Georgia,'Palatino',serif;font-size:17px;line-height:1.75;transition:background .3s,color .3s}
+.deck{width:100vw;height:100vh;position:relative}
+.slide{position:absolute;inset:0;display:none;flex-direction:column}
+.slide.active{display:flex}
+.slide-head{background:var(--accent);padding:8px 40px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.slide-head .t{font-family:-apple-system,system-ui,sans-serif;font-size:.78rem;font-weight:600;color:#fff}
+.slide-head .r{font-family:monospace;font-size:.7rem;color:rgba(255,255,255,.6)}
+.slide-body{flex:1;padding:36px 50px;overflow-y:auto;position:relative}
+.f{opacity:0;transform:translateY(14px);transition:all .45s cubic-bezier(.23,1,.32,1)}.f.v{opacity:1;transform:translateY(0)}
+h1{font-size:2.4rem;font-weight:700;margin-bottom:8px;letter-spacing:-.02em}
+h2{font-size:1.7rem;font-weight:700;margin-bottom:6px;letter-spacing:-.01em}
+h3{font-size:1.15rem;font-weight:700;margin-bottom:4px;font-family:-apple-system,system-ui,sans-serif}
+p,.desc{font-size:.95rem;color:var(--text2);line-height:1.8;margin-bottom:10px}
+ul{padding-left:22px;margin-bottom:10px}li{margin-bottom:6px;font-size:.92rem;line-height:1.65;color:var(--text2)}li strong{color:var(--text)}
+.formula{text-align:center;padding:14px 0;font-size:1.3rem}
+.formula.big{font-size:1.8rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:12px 0}
+.note{background:rgba(59,130,246,.05);border-left:3px solid var(--accent);padding:10px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem;font-family:-apple-system,system-ui,sans-serif}
+.warn{background:rgba(239,68,68,.05);border-left:3px solid var(--red);padding:10px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem;font-family:-apple-system,system-ui,sans-serif}
+.fyi{background:rgba(20,184,166,.05);border-left:3px solid var(--teal);padding:10px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem;font-family:-apple-system,system-ui,sans-serif}
+.svg-fig{display:flex;justify-content:center;margin:12px 0}
+.pq{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color .2s;margin-top:8px}
+.pq:hover{border-color:rgba(59,130,246,.3)}
+.pq-tag{font-size:.65rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-family:-apple-system,system-ui,sans-serif}
+.pq-ans{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);color:var(--green);font-weight:600;display:none}
+.step{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:6px}
+.step-n{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0}
+.step-note{font-size:.82rem;color:var(--gold);padding-left:44px;margin-top:-2px;margin-bottom:6px}
+.toolbar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:4px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:6px 14px;z-index:200;box-shadow:0 4px 24px rgba(0,0,0,.2);font-family:-apple-system,system-ui,sans-serif;transition:background .3s}
+.tb-btn{width:34px;height:34px;border-radius:50%;border:2px solid transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;background:none;color:var(--text);transition:all .15s}
+.tb-btn:hover{background:rgba(59,130,246,.1)}.tb-btn.active{border-color:var(--accent);background:rgba(59,130,246,.1)}
+.tb-sep{width:1px;height:24px;background:var(--border);margin:0 4px}
+.color-dot{width:18px;height:18px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .1s}
+.color-dot:hover{transform:scale(1.2)}.color-dot.active{border-color:var(--text);transform:scale(1.2)}
+.draw-layer{position:absolute;inset:0;pointer-events:none;z-index:50}
+.draw-layer.active{pointer-events:auto;cursor:crosshair}
+.draw-layer.erasing{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='8' fill='none' stroke='%23666' stroke-width='2'/%3E%3C/svg%3E") 10 10,auto}
+.prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--sky));z-index:300;transition:width .4s}
+.counter{position:fixed;bottom:16px;right:24px;font-size:.75rem;color:var(--text3);font-family:monospace;z-index:200}
+.top-ctrl{position:fixed;top:50px;right:16px;display:flex;gap:6px;z-index:200}
+.ctrl-btn{padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.72rem;font-weight:600;cursor:pointer;font-family:-apple-system,system-ui,sans-serif}
+.ctrl-btn:hover{border-color:var(--accent)}
+@media(max-width:900px){.slide-body{padding:20px 16px}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-theme="dark">
+<div class="prog" id="prog"></div>
+<div class="counter" id="cnt"></div>
+<div class="top-ctrl">
+  <button class="ctrl-btn" onclick="toggleTheme()">Theme</button>
+  <button class="ctrl-btn" onclick="toggleFS()">Fullscreen</button>
+</div>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1 Kinematics</span><span class="r">Subtopic 1 of 9</span></div>
+  <div class="slide-body" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+    <p class="f" style="font-size:.75rem;color:var(--accent);font-weight:700;font-family:sans-serif;letter-spacing:2px">A.1.1</p>
+    <h1 class="f">Position, Displacement & Distance</h1>
+    <p class="f desc" style="max-width:550px">Three quantities that sound similar but mean very different things in physics. Confusing them breaks every calculation that follows.</p>
+    <p class="f" style="font-size:.8rem;color:var(--text3);margin-top:16px;font-family:sans-serif">Atul Soral Physicism</p>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 2: POSITION -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1.1 – Position, Displacement & Distance</span><span class="r">Definition</span></div>
+  <div class="slide-body">
+    <h2 class="f">What is Position?</h2>
+    <p class="f"><strong>Position</strong> tells you where an object is. But "where" only makes sense relative to something else.</p>
+    <div class="grid2">
+      <div>
+        <p class="f">To describe position, you need three things:</p>
+        <ul>
+          <li class="f">A <strong>reference point</strong> (origin) — the "zero" mark</li>
+          <li class="f">A <strong>direction convention</strong> — which way is positive?</li>
+          <li class="f">A <strong>unit</strong> — metres (SI)</li>
+        </ul>
+        <p class="f">Example: "The car is at position $x = +12$ m" means it's 12 metres to the right of the origin.</p>
+        <div class="f note"><strong>Position is a vector.</strong> It has both magnitude (how far from origin) and direction (which side of origin).</div>
+      </div>
+      <div class="f svg-fig">
+        <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px">
+          <defs><marker id="ax" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="var(--accent)"/></marker></defs>
+          <line x1="20" y1="100" x2="300" y2="100" stroke="var(--accent)" stroke-width="2" marker-end="url(#ax)"/>
+          <text x="305" y="104" font-size="11" fill="var(--accent)" font-family="sans-serif">x (m)</text>
+          <!-- Ticks -->
+          <line x1="60" y1="95" x2="60" y2="105" stroke="var(--text2)" stroke-width="1.5"/>
+          <text x="60" y="120" font-size="9" fill="var(--text2)" text-anchor="middle" font-family="monospace">-10</text>
+          <line x1="120" y1="95" x2="120" y2="105" stroke="var(--text2)" stroke-width="1.5"/>
+          <text x="120" y="120" font-size="9" fill="var(--text2)" text-anchor="middle" font-family="monospace">-5</text>
+          <line x1="160" y1="92" x2="160" y2="108" stroke="var(--text)" stroke-width="2"/>
+          <text x="160" y="120" font-size="9" fill="var(--text)" text-anchor="middle" font-family="monospace" font-weight="bold">0</text>
+          <text x="160" y="135" font-size="8" fill="var(--text3)" text-anchor="middle" font-family="sans-serif">Origin</text>
+          <line x1="200" y1="95" x2="200" y2="105" stroke="var(--text2)" stroke-width="1.5"/>
+          <text x="200" y="120" font-size="9" fill="var(--text2)" text-anchor="middle" font-family="monospace">+5</text>
+          <line x1="240" y1="95" x2="240" y2="105" stroke="var(--text2)" stroke-width="1.5"/>
+          <text x="240" y="120" font-size="9" fill="var(--text2)" text-anchor="middle" font-family="monospace">+10</text>
+          <!-- Object A -->
+          <circle cx="80" cy="100" r="8" fill="var(--red)"/>
+          <text x="80" y="80" font-size="10" fill="var(--red)" text-anchor="middle" font-weight="bold" font-family="sans-serif">A</text>
+          <text x="80" y="145" font-size="8" fill="var(--red)" text-anchor="middle" font-family="sans-serif">x = -8 m</text>
+          <!-- Object B -->
+          <circle cx="240" cy="100" r="8" fill="var(--green)"/>
+          <text x="240" y="80" font-size="10" fill="var(--green)" text-anchor="middle" font-weight="bold" font-family="sans-serif">B</text>
+          <text x="240" y="145" font-size="8" fill="var(--green)" text-anchor="middle" font-family="sans-serif">x = +10 m</text>
+          <!-- Direction labels -->
+          <text x="40" y="65" font-size="8" fill="var(--text3)" font-family="sans-serif">negative direction</text>
+          <text x="220" y="65" font-size="8" fill="var(--text3)" font-family="sans-serif">positive direction</text>
+        </svg>
+      </div>
+    </div>
+    <div class="f fyi"><strong>FYI:</strong> "Position = 0" does NOT mean the object doesn't exist — it means it's exactly at the reference point. The choice of origin is arbitrary.</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 3: DISPLACEMENT -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1.1 – Position, Displacement & Distance</span><span class="r">Definition</span></div>
+  <div class="slide-body">
+    <h2 class="f">What is Displacement?</h2>
+    <p class="f"><strong>Displacement</strong> is the change in position. It answers: "How far are you from where you started, and in which direction?"</p>
+    <div class="f formula big">$$\Delta \vec{x} = x_{final} - x_{initial}$$</div>
+    <ul>
+      <li class="f"><strong>Vector quantity</strong> — has magnitude AND direction</li>
+      <li class="f">SI unit: <strong>metre (m)</strong> + direction</li>
+      <li class="f">Can be <strong>positive, negative, or zero</strong></li>
+      <li class="f">Depends ONLY on start and end positions — <strong>not the path taken</strong></li>
+    </ul>
+    <div class="f svg-fig">
+      <svg viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px">
+        <defs><marker id="dv" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="var(--purple)"/></marker></defs>
+        <line x1="40" y1="60" x2="460" y2="60" stroke="var(--border)" stroke-width="1.5"/>
+        <circle cx="120" cy="60" r="8" fill="var(--green)"/>
+        <text x="120" y="85" font-size="9" fill="var(--green)" text-anchor="middle" font-weight="bold" font-family="sans-serif">Start (x=2m)</text>
+        <circle cx="360" cy="60" r="8" fill="var(--red)"/>
+        <text x="360" y="85" font-size="9" fill="var(--red)" text-anchor="middle" font-weight="bold" font-family="sans-serif">End (x=8m)</text>
+        <line x1="120" y1="35" x2="360" y2="35" stroke="var(--purple)" stroke-width="2.5" marker-end="url(#dv)"/>
+        <text x="240" y="27" font-size="11" fill="var(--purple)" text-anchor="middle" font-weight="bold" font-family="sans-serif">Displacement = +6 m (East)</text>
+        <text x="240" y="105" font-size="9" fill="var(--text3)" text-anchor="middle" font-family="sans-serif">Displacement = final - initial = 8 - 2 = +6 m</text>
+      </svg>
+    </div>
+    <div class="f warn"><strong>Key insight:</strong> If you walk 10 km to the shop and 10 km back home, your displacement is <strong>zero</strong> — you ended where you started.</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 4: DISTANCE -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1.1 – Position, Displacement & Distance</span><span class="r">Definition</span></div>
+  <div class="slide-body">
+    <h2 class="f">What is Distance?</h2>
+    <p class="f"><strong>Distance</strong> is the total length of path travelled. It answers: "How much ground did you actually cover?"</p>
+    <div class="f formula big">$$d = \text{total path length}$$</div>
+    <ul>
+      <li class="f"><strong>Scalar quantity</strong> — magnitude only, no direction</li>
+      <li class="f">SI unit: <strong>metre (m)</strong></li>
+      <li class="f"><strong>Always positive or zero</strong> — can never be negative</li>
+      <li class="f"><strong>Can never decrease</strong> during a journey — only accumulates</li>
+      <li class="f">Depends on the actual path taken — every twist and turn counts</li>
+    </ul>
+    <p class="f" style="margin-top:10px">In the same example (walk 10 km to shop, 10 km back):</p>
+    <ul>
+      <li class="f">Distance = 10 + 10 = <strong>20 km</strong> (you walked 20 km total)</li>
+      <li class="f">Displacement = <strong>0 km</strong> (back where you started)</li>
+    </ul>
+    <div class="f note"><strong>The golden rule:</strong> Distance $\geq$ |Displacement| — ALWAYS. They are equal only when motion is in a straight line without reversing.</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 5: COMPARISON -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1.1 – Position, Displacement & Distance</span><span class="r">Comparison</span></div>
+  <div class="slide-body">
+    <h2 class="f">Distance vs Displacement — Side by Side</h2>
+    <div class="grid2">
+      <div>
+        <h3 class="f" style="color:var(--gold)">Distance (d)</h3>
+        <ul>
+          <li class="f">Scalar (magnitude only)</li>
+          <li class="f">Total path length</li>
+          <li class="f">Always $\geq 0$</li>
+          <li class="f">Can never decrease</li>
+          <li class="f">Path-dependent</li>
+          <li class="f">"How much ground covered?"</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="f" style="color:var(--purple)">Displacement ($\Delta x$)</h3>
+        <ul>
+          <li class="f">Vector (magnitude + direction)</li>
+          <li class="f">Straight line: start → end</li>
+          <li class="f">Can be +, −, or 0</li>
+          <li class="f">Can decrease (if you reverse)</li>
+          <li class="f">Path-independent</li>
+          <li class="f">"How far from start?"</li>
+        </ul>
+      </div>
+    </div>
+    <div class="f formula" style="margin-top:12px">$$|\text{Distance}| \geq |\text{Displacement}| \quad \textbf{always}$$</div>
+    <div class="f warn"><strong>IB exam tip:</strong> When a question says "how far," check if they mean distance or displacement. Context matters. "How far has the ball travelled" = distance. "How far is the ball from its starting point" = displacement.</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 6: ANIMATED EXAMPLE -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1.1 – Position, Displacement & Distance</span><span class="r">Visualization</span></div>
+  <div class="slide-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+    <h2 class="f">Watch the Difference</h2>
+    <p class="f desc">The yellow dot travels along the path. Distance accumulates with every step. Displacement is always the straight line from start to current position.</p>
+    <div class="f svg-fig">
+      <svg viewBox="0 0 520 250" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px">
+        <style>
+          @keyframes travelPath{0%{cx:50;cy:180}20%{cx:170;cy:180}40%{cx:170;cy:60}60%{cx:350;cy:60}80%{cx:350;cy:180}100%{cx:450;cy:180}}
+          .traveler{animation:travelPath 6s ease-in-out infinite}
+          @keyframes drawPath{from{stroke-dashoffset:700}to{stroke-dashoffset:0}}
+          .anim-path{stroke-dasharray:700;animation:drawPath 5s ease forwards}
+        </style>
+        <defs><marker id="dp" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="var(--purple)"/></marker></defs>
+        <!-- Grid -->
+        <g stroke="var(--border)" stroke-width=".4"><line x1="50" y1="40" x2="50" y2="220"/><line x1="130" y1="40" x2="130" y2="220"/><line x1="210" y1="40" x2="210" y2="220"/><line x1="290" y1="40" x2="290" y2="220"/><line x1="370" y1="40" x2="370" y2="220"/><line x1="450" y1="40" x2="450" y2="220"/><line x1="30" y1="60" x2="470" y2="60"/><line x1="30" y1="120" x2="470" y2="120"/><line x1="30" y1="180" x2="470" y2="180"/></g>
+        <!-- Path (cyan) -->
+        <polyline points="50,180 170,180 170,60 350,60 350,180 450,180" fill="none" stroke="var(--sky)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" class="anim-path"/>
+        <!-- Displacement arrow (purple dashed) -->
+        <line x1="50" y1="220" x2="450" y2="220" stroke="var(--purple)" stroke-width="2.5" stroke-dasharray="8,5" marker-end="url(#dp)"/>
+        <!-- Labels -->
+        <text x="250" y="238" font-size="11" fill="var(--purple)" text-anchor="middle" font-weight="bold" font-family="sans-serif">Displacement = 6.7 m East</text>
+        <text x="250" y="25" font-size="11" fill="var(--sky)" text-anchor="middle" font-weight="bold" font-family="sans-serif">Distance = 2+2+3+2+1.7 = 10.7 m</text>
+        <!-- Segment labels -->
+        <text x="110" y="175" font-size="9" fill="var(--sky)" font-family="monospace">2m</text>
+        <text x="178" y="125" font-size="9" fill="var(--sky)" font-family="monospace">2m</text>
+        <text x="260" y="52" font-size="9" fill="var(--sky)" font-family="monospace">3m</text>
+        <text x="358" y="125" font-size="9" fill="var(--sky)" font-family="monospace">2m</text>
+        <text x="400" y="175" font-size="9" fill="var(--sky)" font-family="monospace">1.7m</text>
+        <!-- Start/End -->
+        <circle cx="50" cy="180" r="7" fill="var(--green)"/><text x="50" y="200" font-size="8" fill="var(--green)" text-anchor="middle" font-family="sans-serif" font-weight="bold">S</text>
+        <circle cx="450" cy="180" r="7" fill="var(--red)"/><text x="450" y="200" font-size="8" fill="var(--red)" text-anchor="middle" font-family="sans-serif" font-weight="bold">E</text>
+        <!-- Animated traveler -->
+        <circle cx="50" cy="180" r="9" fill="var(--gold)" class="traveler"/>
+        <circle cx="50" cy="180" r="14" fill="var(--gold)" opacity=".2" class="traveler"/>
+      </svg>
+    </div>
+    <div class="f note" style="max-width:500px;margin-top:10px;text-align:center"><strong>Distance (10.7 m) > Displacement (6.7 m)</strong> — because the path includes detours that the straight-line displacement ignores.</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 7: CLOSED PATH -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1.1 – Position, Displacement & Distance</span><span class="r">Special Case</span></div>
+  <div class="slide-body">
+    <h2 class="f">Special Case: Closed Path</h2>
+    <p class="f">When an object returns to its starting point, displacement = 0 regardless of how far it travelled.</p>
+    <div class="grid2">
+      <div class="f svg-fig">
+        <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" style="background:var(--surface);border:1px solid var(--border);border-radius:8px">
+          <style>@keyframes runLoop{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}.runner{animation:runLoop 3.5s linear infinite;transform-origin:110px 110px}</style>
+          <circle cx="110" cy="110" r="70" fill="none" stroke="var(--border)" stroke-width="12"/>
+          <circle cx="110" cy="110" r="70" fill="none" stroke="var(--sky)" stroke-width="2" stroke-dasharray="5,3"/>
+          <circle cx="110" cy="40" r="6" fill="var(--green)"/>
+          <text x="110" y="28" font-size="8" fill="var(--green)" text-anchor="middle" font-weight="bold" font-family="sans-serif">START=END</text>
+          <g class="runner"><circle cx="110" cy="40" r="7" fill="var(--gold)"/></g>
+          <text x="110" y="115" font-size="10" fill="var(--text2)" text-anchor="middle" font-family="sans-serif">400 m track</text>
+        </svg>
+      </div>
+      <div>
+        <h3 class="f">1 complete lap:</h3>
+        <ul>
+          <li class="f">Distance = <strong>400 m</strong></li>
+          <li class="f">Displacement = <strong>0 m</strong></li>
+        </ul>
+        <h3 class="f" style="margin-top:12px">2 complete laps:</h3>
+        <ul>
+          <li class="f">Distance = <strong>800 m</strong></li>
+          <li class="f">Displacement = <strong>still 0 m</strong></li>
+        </ul>
+        <div class="f fyi"><strong>This applies to:</strong> runners on a track, planets in orbit, pendulums completing full swings, cars doing a round trip.</div>
+        <div class="f warn"><strong>IB trap:</strong> "After 3 complete revolutions, what is the displacement?" Answer: <strong>0.</strong> Always.</div>
+      </div>
+    </div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 8: WORKED EXAMPLE -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1.1 – Position, Displacement & Distance</span><span class="r">Worked Example</span></div>
+  <div class="slide-body">
+    <h2 class="f">Worked Example</h2>
+    <div class="f note" style="border-color:var(--gold)"><strong>Problem:</strong> A student walks 3 km East, then 4 km North. Calculate (a) the total distance (b) the magnitude of displacement (c) the direction of displacement.</div>
+    <div style="margin-top:12px">
+      <div class="step f"><span class="step-n">a</span><span>Distance = 3 + 4 = <strong>7 km</strong> (scalar — just add path lengths)</span></div>
+      <div class="step f"><span class="step-n">b</span><span>Displacement: use Pythagoras since the path forms a right angle</span></div>
+      <div class="f formula">$$s = \sqrt{3^2 + 4^2} = \sqrt{9 + 16} = \sqrt{25} = \mathbf{5 \text{ km}}$$</div>
+      <div class="step f"><span class="step-n">c</span><span>Direction: use trigonometry</span></div>
+      <div class="f formula">$$\theta = \tan^{-1}\!\left(\frac{4}{3}\right) = \mathbf{53.1\degree \text{ North of East}}$$</div>
+      <p class="f step-note">Check: Distance (7 km) > Displacement (5 km) &#10003;</p>
+    </div>
+    <div class="f fyi"><strong>Final answer:</strong> Distance = 7 km. Displacement = 5 km at 53.1° North of East.</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 9: PRACTICE -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1.1 – Position, Displacement & Distance</span><span class="r">Practice</span></div>
+  <div class="slide-body">
+    <h2 class="f">Practice Questions</h2>
+    <p class="f desc">Click to reveal answers.</p>
+    <div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+      <div class="pq-tag">Calculate</div>
+      <p>A runner completes exactly 1.5 laps of a 400 m circular track. What is (a) the distance and (b) the displacement?</p>
+      <div class="pq-ans">(a) Distance = 1.5 × 400 = <strong>600 m</strong><br>(b) Displacement = diameter of track = 2r = 2 × 63.7 = <strong>127.3 m</strong> (diametrically opposite start)</div>
+    </div>
+    <div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+      <div class="pq-tag">Determine</div>
+      <p>An ant walks 4 m East, 3 m North, then 4 m West. Find the distance and displacement.</p>
+      <div class="pq-ans">Distance = 4+3+4 = <strong>11 m</strong><br>Displacement: end position is 3 m North of start = <strong>3 m North</strong></div>
+    </div>
+    <div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+      <div class="pq-tag">Explain</div>
+      <p>A car drives from A to B along a winding mountain road. Is the distance greater than, equal to, or less than the displacement? Explain.</p>
+      <div class="pq-ans">Distance is <strong>greater than</strong> displacement. Distance measures the actual winding path (every curve adds length). Displacement is the straight-line A→B. They would only be equal if the road were perfectly straight.</div>
+    </div>
+    <div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+      <div class="pq-tag">State</div>
+      <p>Under what condition is distance exactly equal to displacement?</p>
+      <div class="pq-ans"><strong>When motion is in a straight line without changing direction.</strong> Any curve, detour, or reversal makes distance > displacement.</div>
+    </div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 10: SUMMARY -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1.1 – Position, Displacement & Distance</span><span class="r">Summary</span></div>
+  <div class="slide-body" style="display:flex;flex-direction:column;justify-content:center">
+    <h2 class="f">Key Takeaways</h2>
+    <ul>
+      <li class="f"><strong>Position</strong> = where you are (relative to origin). Vector.</li>
+      <li class="f"><strong>Displacement</strong> = change in position = final − initial. Vector. Can be zero.</li>
+      <li class="f"><strong>Distance</strong> = total path length. Scalar. Always positive. Never decreases.</li>
+      <li class="f"><strong>Distance ≥ |Displacement|</strong> — always. Equal only for straight-line, one-way motion.</li>
+      <li class="f">Closed path → displacement = 0, distance > 0.</li>
+    </ul>
+    <div class="f note" style="margin-top:16px"><strong>Next subtopic:</strong> Velocity & Speed — Instantaneous vs Average</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+</div><!-- end deck -->
+
+<!-- TOOLBAR -->
+<div class="toolbar" id="toolbar">
+  <button class="tb-btn active" id="btnCursor" onclick="setTool('cursor')" title="Navigate">&#128433;</button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn" id="btnPen" onclick="setTool('pen')" title="Pen">&#9998;</button>
+  <button class="tb-btn" id="btnHighlight" onclick="setTool('highlight')" title="Highlighter">&#128397;</button>
+  <button class="tb-btn" id="btnEraser" onclick="setTool('eraser')" title="Eraser">&#129529;</button>
+  <div class="tb-sep"></div>
+  <span class="color-dot active" style="background:#ef4444" onclick="setColor('#ef4444',this)"></span>
+  <span class="color-dot" style="background:#3b82f6" onclick="setColor('#3b82f6',this)"></span>
+  <span class="color-dot" style="background:#10b981" onclick="setColor('#10b981',this)"></span>
+  <span class="color-dot" style="background:#f59e0b" onclick="setColor('#f59e0b',this)"></span>
+  <span class="color-dot" style="background:#ffffff" onclick="setColor('#ffffff',this)"></span>
+  <div class="tb-sep"></div>
+  <input type="range" style="width:50px;height:4px;accent-color:var(--accent)" min="2" max="12" value="3" oninput="penSize=+this.value">
+  <div class="tb-sep"></div>
+  <button class="tb-btn" onclick="clearSlide()" title="Clear annotations">&#128465;</button>
+</div>
+
+<script>
+var AC=window.AudioContext||window.webkitAudioContext,actx=null;
+function ia(){if(!actx)actx=new AC();}
+function sndTick(){ia();if(!actx)return;var o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);o.frequency.setValueAtTime(1600,actx.currentTime);o.frequency.exponentialRampToValueAtTime(800,actx.currentTime+.04);g.gain.setValueAtTime(.06,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.06);o.start();o.stop(actx.currentTime+.06);}
+function sndSlide(){ia();if(!actx)return;var o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.connect(g);g.connect(actx.destination);o.frequency.setValueAtTime(500,actx.currentTime);o.frequency.exponentialRampToValueAtTime(1000,actx.currentTime+.1);g.gain.setValueAtTime(.04,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.12);o.start();o.stop(actx.currentTime+.12);}
+
+var canvases=document.querySelectorAll('.draw-layer');
+var slides=document.querySelectorAll('.slide'),cur=0,fi=0;
+function frags(s){return s.querySelectorAll('.f');}
+function show(i){slides.forEach(function(s,idx){s.classList.toggle('active',idx===i);});fi=0;frags(slides[i]).forEach(function(f){f.classList.remove('v');});updP();updC();setTimeout(resizeCanvas,50);restartAnims(i);}
+function restartAnims(i){var svgs=slides[i].querySelectorAll('svg');svgs.forEach(function(svg){var els=svg.querySelectorAll('[class]');els.forEach(function(el){var c=el.getAttribute('class');el.setAttribute('class','');void el.offsetWidth;el.setAttribute('class',c);});});}
+function next(){var fs=frags(slides[cur]);if(fi<fs.length){fs[fi].classList.add('v');fi++;sndTick();updP();}else if(cur<slides.length-1){cur++;show(cur);sndSlide();}}
+function prev(){var fs=frags(slides[cur]);if(fi>0){fi--;fs[fi].classList.remove('v');updP();}else if(cur>0){cur--;show(cur);var pf=frags(slides[cur]);pf.forEach(function(f){f.classList.add('v');});fi=pf.length;sndSlide();updP();}}
+function updP(){var t=0,v=0;slides.forEach(function(s,i){var f=frags(s);t+=f.length;if(i<cur)v+=f.length;else if(i===cur)v+=fi;});document.getElementById('prog').style.width=(t?v/t*100:0)+'%';}
+function updC(){document.getElementById('cnt').textContent=(cur+1)+'/'+slides.length;}
+
+document.addEventListener('keydown',function(e){if(currentTool!=='cursor')return;if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'){e.preventDefault();next();}else if(e.key==='ArrowLeft'||e.key==='Backspace'){e.preventDefault();prev();}else if(e.key==='f'||e.key==='F'){e.preventDefault();toggleFS();}});
+document.querySelector('.deck').addEventListener('click',function(e){if(currentTool!=='cursor')return;if(e.target.closest('.pq'))return;if(e.target.closest('.toolbar'))return;if(e.target.closest('.top-ctrl'))return;next();});
+var tx=0;document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;});document.addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?next():prev();}});
+
+function toggleTheme(){var b=document.body;b.dataset.theme=b.dataset.theme==='dark'?'light':'dark';}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+
+// ANNOTATION
+var currentTool='cursor',penColor='#ef4444',penSize=3,drawing=false;
+function setTool(t){currentTool=t;document.querySelectorAll('.tb-btn').forEach(function(b){b.classList.remove('active');});if(t==='pen')document.getElementById('btnPen').classList.add('active');else if(t==='highlight')document.getElementById('btnHighlight').classList.add('active');else if(t==='eraser')document.getElementById('btnEraser').classList.add('active');else document.getElementById('btnCursor').classList.add('active');canvases.forEach(function(c){c.classList.toggle('active',t!=='cursor');c.classList.toggle('erasing',t==='eraser');});}
+function setColor(c,el){penColor=c;document.querySelectorAll('.color-dot').forEach(function(d){d.classList.remove('active');});el.classList.add('active');}
+function getCanvas(){return slides[cur].querySelector('.draw-layer');}
+function getCtx(){var c=getCanvas();return c?c.getContext('2d'):null;}
+function resizeCanvas(){var c=getCanvas();if(!c)return;var s=slides[cur];var r=s.getBoundingClientRect();if(r.width===0)return;c.width=Math.round(r.width*devicePixelRatio);c.height=Math.round(r.height*devicePixelRatio);c.style.width=r.width+'px';c.style.height=r.height+'px';var ctx=c.getContext('2d');ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}
+function startDraw(e){if(currentTool==='cursor')return;drawing=true;var ctx=getCtx();if(!ctx)return;var r=getCanvas().getBoundingClientRect();var x=e.clientX-r.left,y=e.clientY-r.top;if(currentTool==='eraser'){ctx.globalCompositeOperation='destination-out';ctx.lineWidth=20;}else{ctx.globalCompositeOperation='source-over';ctx.strokeStyle=penColor;ctx.lineWidth=currentTool==='highlight'?penSize*4:penSize;ctx.globalAlpha=currentTool==='highlight'?0.3:1;}ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(x,y);}
+function moveDraw(e){if(!drawing||currentTool==='cursor')return;var ctx=getCtx();if(!ctx)return;var r=getCanvas().getBoundingClientRect();ctx.lineTo(e.clientX-r.left,e.clientY-r.top);ctx.stroke();}
+function endDraw(){drawing=false;var ctx=getCtx();if(ctx){ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';}}
+function clearSlide(){var c=getCanvas();if(c){var ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);}}
+document.addEventListener('mousedown',function(e){if(e.target.closest('.draw-layer'))startDraw(e);});
+document.addEventListener('mousemove',moveDraw);
+document.addEventListener('mouseup',endDraw);
+document.addEventListener('touchstart',function(e){if(e.target.closest('.draw-layer')){e.preventDefault();startDraw(e.touches[0]);}},{passive:false});
+document.addEventListener('touchmove',function(e){if(drawing){e.preventDefault();moveDraw(e.touches[0]);}},{passive:false});
+document.addEventListener('touchend',endDraw);
+
+show(0);
+setTimeout(resizeCanvas,200);
+window.addEventListener('resize',resizeCanvas);
+window.addEventListener('load',function(){setTimeout(resizeCanvas,300);});
+function renderMath(){if(typeof renderMathInElement!=='undefined')renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});}
+document.addEventListener('DOMContentLoaded',renderMath);window.addEventListener('load',renderMath);
+</script>
+</body>
+</html>
