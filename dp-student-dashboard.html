@@ -529,6 +529,24 @@ nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px
   </div>
 </div>
 
+
+<!-- HW ONLINE/OFFLINE CHOICE MODAL -->
+<div class="confirm-overlay" id="hwChoiceOverlay">
+  <div class="confirm-modal" style="max-width:420px">
+    <h3 style="margin-bottom:4px">How would you like to attempt this?</h3>
+    <p id="hwChoiceTitle" style="font-size:.82rem;color:var(--text2);margin-bottom:18px"></p>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-primary" id="hwOnlineBtn" style="padding:14px 20px;font-size:.88rem;border-radius:10px">
+        <span style="font-size:1.1rem">&#x1F4BB;</span> Attempt Online<br><span style="font-size:.72rem;font-weight:400;opacity:.85">AI-graded within 24 hours. You will be notified with detailed feedback.</span>
+      </button>
+      <button class="btn btn-outline" id="hwOfflineBtn" style="padding:14px 20px;font-size:.88rem;border-radius:10px;border:2px solid var(--border)">
+        <span style="font-size:1.1rem">&#x1F4C4;</span> Attempt Offline<br><span style="font-size:.72rem;font-weight:400;opacity:.7">Complete on paper. Will NOT be graded online.</span>
+      </button>
+    </div>
+    <button class="btn btn-outline" onclick="closeHwChoice()" style="margin-top:14px;font-size:.78rem">Cancel</button>
+  </div>
+</div>
+
 <!-- OFFLINE OVERLAY -->
 <div class="offline-overlay" id="offlineOverlay">
   <div class="offline-box">
@@ -920,7 +938,8 @@ function startTask(assignmentId, attemptNumber){
   if(!a) return;
   
   if (a.type === 'hw') {
-    proceedToStartTask(a, attemptNumber);
+    showHwChoiceModal(a, attemptNumber);
+    return;
   } else {
     document.getElementById('confirmTitle').textContent = attemptNumber > 1 ? 'Start Retake' : 'Start Timed Test';
     var timeStr = a.timeLimit ? a.timeLimit + ' minutes' : 'unlimited time';
@@ -1949,6 +1968,44 @@ function initDashboard(){
     resumeActiveAttempt(activeAsgnId, activeSubId);
   }
 }
+
+
+function showHwChoiceModal(a, attemptNumber) {
+  var qCount = (a.questionIds || []).length;
+  var marks = a.totalMarks || 0;
+  document.getElementById('hwChoiceTitle').textContent = a.title + ' | ' + qCount + ' questions | ' + marks + ' marks';
+  var overlay = document.getElementById('hwChoiceOverlay');
+  overlay.classList.add('open');
+
+  document.getElementById('hwOnlineBtn').onclick = function() {
+    overlay.classList.remove('open');
+    proceedToStartTask(a, attemptNumber);
+  };
+
+  document.getElementById('hwOfflineBtn').onclick = function() {
+    overlay.classList.remove('open');
+    markOfflineAttempt(a);
+  };
+}
+
+function closeHwChoice() {
+  document.getElementById('hwChoiceOverlay').classList.remove('open');
+}
+
+function markOfflineAttempt(a) {
+  db.collection(col('dpSubmissions')).add({
+    assignmentId: a.id,
+    studentId: studentId,
+    studentDocId: studentDocId,
+    status: 'offline',
+    attemptNumber: 1,
+    startedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function() {
+    safeAlert('Marked as offline attempt. Complete this on paper and discuss with your teacher. This will NOT be graded online.');
+    loadAssignments();
+  });
+}
+
 </script>
 </body>
 </html>
