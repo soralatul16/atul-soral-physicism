@@ -193,7 +193,26 @@ body.dark{
 
 @media(max-width:600px){.term-compare,.compare{grid-template-columns:1fr}.quiz-fill{flex-direction:column}.quiz-fill input{width:100%}}
 @media print{.lock{display:none!important}.layout{display:block!important}.sidebar,.analytics,.mobile-nav,.mobile-stats{display:none!important}.main{max-width:100%}.phase-body{display:block!important}.module-content{display:block!important}}
+
+.ai-grade-btn{background:linear-gradient(135deg,#D4A853,#C4942F);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:.76rem;font-weight:600;cursor:pointer;margin-top:6px;margin-left:6px}
+.ai-grade-btn:hover{opacity:.9}
+.ai-grade-btn:disabled{opacity:.5;cursor:wait}
+.ai-result{margin-top:8px;padding:12px 14px;border-radius:8px;font-size:.82rem;border:1px solid var(--border);background:var(--card);display:none}
+.ai-result.show{display:block}
+.ai-score{font-size:1.1rem;font-weight:800;margin-bottom:6px}
+.ai-score.s1,.ai-score.s2{color:var(--red)}
+.ai-score.s3{color:var(--gold)}
+.ai-score.s4,.ai-score.s5{color:var(--green)}
+.ai-correct{color:var(--green);margin-bottom:4px}
+.ai-fix{color:var(--red);margin-bottom:4px}
+.ai-rewrite{padding:8px 12px;background:var(--accent-light);border-radius:6px;margin-top:6px;font-style:italic}
+.auth-box{display:flex;align-items:center;gap:8px}
+.auth-btn{background:var(--accent);color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer}
+.auth-name{font-size:.72rem;color:var(--text2)}
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
 </head>
 <body>
 
@@ -295,6 +314,7 @@ body.dark{
 <div class="top-bar">
 <div class="title" id="moduleTitle">Module 1.1 &mdash; IB Mission & Philosophy</div>
 <div class="controls">
+<div class="auth-box" id="authBox"></div>
 <button onclick="document.body.classList.toggle('dark')">Dark</button>
 </div>
 </div>
@@ -999,7 +1019,7 @@ function unlock(){
   if(document.getElementById('pwd').value==='atul123'){
     document.getElementById('lock').style.display='none';
     document.getElementById('layout').classList.add('unlocked');
-    updateStreak(); loadState(); buildM12(); buildM13(); buildM14(); buildM15(); buildM21(); buildM22(); buildM23(); buildM24(); buildM31(); buildM32(); updateAll();
+    updateStreak(); loadState(); buildM12(); buildM13(); buildM14(); buildM15(); buildM21(); buildM22(); buildM23(); buildM24(); buildM31(); buildM32(); updateAll(); setTimeout(injectGradeButtons,100);
   } else alert('Wrong password.');
 }
 
@@ -1143,9 +1163,9 @@ function buildCalendar(){
   grid.innerHTML='';
   var activeDays=JSON.parse(localStorage.getItem('lc_active_days')||'[]');
   var now=new Date();var todayStr=now.toDateString();
-  // Show last 28 days
-  for(var i=27;i>=0;i--){
-    var d=new Date();d.setDate(d.getDate()-i);
+  var day=now.getDay();var mondayOffset=day===0?6:day-1;
+  for(var i=0;i<7;i++){
+    var d=new Date();d.setDate(d.getDate()-mondayOffset+i);
     var div=document.createElement('div');div.className='cal-day';
     if(activeDays.indexOf(d.toDateString())!==-1)div.classList.add('active');
     if(d.toDateString()===todayStr)div.classList.add('today');
@@ -2413,6 +2433,90 @@ function buildM32(){
 
   document.querySelectorAll('#m32 textarea, #m32 .quiz-fill input').forEach(function(el){if(el.id){var v=localStorage.getItem('lc_v3_'+el.id);if(v)el.value=v}});
   for(var qid in completed){var box=document.getElementById(qid);if(box&&!box.classList.contains('correct'))box.classList.add('correct')}
+}
+
+// ===== FIREBASE + AI GRADING =====
+var fbApp,fbAuth,fbFunctions,aiChatFn,currentUser=null;
+try{
+  fbApp=firebase.initializeApp({apiKey:"AIzaSyCLw65yB0sPSf5lgSkom27PTN4DrS1CBFc",authDomain:"soral-atul-physicism.firebaseapp.com",projectId:"soral-atul-physicism",storageBucket:"soral-atul-physicism.appspot.com"});
+  fbAuth=firebase.auth();
+  fbFunctions=firebase.functions();
+  aiChatFn=fbFunctions.httpsCallable('aiChat');
+  fbAuth.onAuthStateChanged(function(user){
+    currentUser=user;
+    var box=document.getElementById('authBox');
+    if(!box)return;
+    if(user){
+      var name=user.displayName||user.email||'User';
+      box.innerHTML='<span class="auth-name">'+name.split(' ')[0]+'</span><button class="auth-btn" onclick="fbAuth.signOut()" style="background:var(--red)">Out</button>';
+    } else {
+      box.innerHTML='<button class="auth-btn" onclick="fbAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider())">Sign in for AI</button>';
+    }
+  });
+}catch(e){console.log('Firebase not available in preview');}
+
+function gradeWithAI(btn){
+  if(!currentUser){alert('Sign in with Google first (top right) to use AI grading.');return}
+  var box=btn.closest('.quiz-box');if(!box)return;
+  var textarea=box.querySelector('textarea');if(!textarea||!textarea.value.trim()){alert('Write your answer first!');return}
+  var question=box.querySelector('.quiz-q,.quiz-label');
+  var modelEl=box.querySelector('.answer-reveal');
+  var qText=question?question.textContent:'';
+  var studentAnswer=textarea.value.trim();
+  var modelAnswer=modelEl?modelEl.textContent:'';
+
+  var resultDiv=box.querySelector('.ai-result');
+  if(!resultDiv){resultDiv=document.createElement('div');resultDiv.className='ai-result';box.appendChild(resultDiv)}
+
+  btn.disabled=true;btn.textContent='Grading...';
+
+  var prompt='You are a strict IB coordinator interview tutor grading a student answer.\n\n'+
+    'EXERCISE: '+qText+'\n\n'+
+    'STUDENT ANSWER: '+studentAnswer+'\n\n'+
+    'MODEL ANSWER: '+modelAnswer+'\n\n'+
+    'Grade the student answer on a scale of 1-5:\n'+
+    '1 = No IB terms used, completely generic\n'+
+    '2 = One IB term but misused or sentence is broken\n'+
+    '3 = Some IB terms used correctly but sentence needs work\n'+
+    '4 = Good use of IB terms, minor fixes needed\n'+
+    '5 = Coordinator-level fluency, would impress in interview\n\n'+
+    'Return JSON: {"score":N,"correct":"what the student got right","fix":"what needs fixing with specific corrections","rewrite":"the corrected version of their answer"}';
+
+  aiChatFn({
+    messages:[{role:'system',content:'You are an IB coordinator interview tutor. Return ONLY valid JSON.'},{role:'user',content:prompt}],
+    temperature:0.3,maxTokens:500,responseFormat:'json'
+  }).then(function(result){
+    var reply=result.data.reply;
+    var parsed;
+    try{parsed=JSON.parse(reply)}catch(e){parsed={score:3,correct:'Could not parse AI response',fix:reply,rewrite:''}}
+    var s=parsed.score||3;
+    resultDiv.innerHTML=
+      '<div class="ai-score s'+s+'">AI Grade: '+s+'/5</div>'+
+      '<div class="ai-correct"><strong>Correct:</strong> '+parsed.correct+'</div>'+
+      '<div class="ai-fix"><strong>Fix:</strong> '+parsed.fix+'</div>'+
+      (parsed.rewrite?'<div class="ai-rewrite"><strong>Corrected:</strong> '+parsed.rewrite+'</div>':'');
+    resultDiv.classList.add('show');
+    btn.disabled=false;btn.textContent='Grade Me';
+  }).catch(function(err){
+    resultDiv.innerHTML='<div style="color:var(--red)">AI error: '+err.message+'. Make sure you are signed in.</div>';
+    resultDiv.classList.add('show');
+    btn.disabled=false;btn.textContent='Grade Me';
+  });
+}
+
+function injectGradeButtons(){
+  document.querySelectorAll('.quiz-box').forEach(function(box){
+    if(!box.querySelector('textarea'))return;
+    if(box.querySelector('.ai-grade-btn'))return;
+    var doneBtn=box.querySelector('.quiz-btn[onclick*="markDone"]');
+    if(doneBtn){
+      var gradeBtn=document.createElement('button');
+      gradeBtn.className='ai-grade-btn';
+      gradeBtn.textContent='Grade Me';
+      gradeBtn.onclick=function(){gradeWithAI(gradeBtn)};
+      doneBtn.parentNode.insertBefore(gradeBtn,doneBtn.nextSibling);
+    }
+  });
 }
 
 // Responsive handled by CSS .layout.unlocked
