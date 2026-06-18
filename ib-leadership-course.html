@@ -35,12 +35,10 @@ body.dark{
 .lock-box button{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-left:6px}
 
 /* LAYOUT */
-.layout{display:none}
+.layout{display:none!important}
+.layout.unlocked{display:flex!important;flex-direction:column}
 @media(min-width:1100px){
-.layout{display:grid;grid-template-columns:var(--sidebar-w) minmax(0,1fr) var(--analytics-w);min-height:100vh}
-}
-@media(max-width:1099px){
-.layout{display:flex;flex-direction:column}
+.layout.unlocked{display:grid!important;grid-template-columns:var(--sidebar-w) minmax(0,1fr) var(--analytics-w);min-height:100vh}
 }
 
 /* SIDEBAR */
@@ -820,8 +818,7 @@ var totalAll = 83;
 function unlock(){
   if(document.getElementById('pwd').value==='atul123'){
     document.getElementById('lock').style.display='none';
-    document.getElementById('layout').style.display='';
-    if(window.innerWidth>=1100) document.getElementById('layout').style.display='grid';
+    document.getElementById('layout').classList.add('unlocked');
     updateStreak(); loadState(); buildM12(); updateAll();
   } else alert('Wrong password.');
 }
@@ -1140,12 +1137,7 @@ function buildM12(){
   for(var qid in completed){var box=document.getElementById(qid);if(box&&!box.classList.contains('correct'))box.classList.add('correct')}
 }
 
-// Responsive layout fix
-window.addEventListener('resize',function(){
-  if(document.getElementById('layout').style.display!=='none'){
-    document.getElementById('layout').style.display=window.innerWidth>=1100?'grid':'flex';
-  }
-});
+// Responsive handled by CSS .layout.unlocked
 </script>
 </body>
 </html>
