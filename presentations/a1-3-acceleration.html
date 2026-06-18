@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.1.3 Acceleration | Atul Soral Physicism</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0b1120;--surface:#151d2e;--card:#1a2235;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--accent:#3b82f6;--sky:#0ea5e9;--teal:#14b8a6;--gold:#f59e0b;--green:#10b981;--red:#ef4444;--purple:#a78bfa;--border:rgba(255,255,255,.08)}
+[data-theme="light"]{--bg:#f8fafc;--surface:#ffffff;--card:#f1f5f9;--text:#0f172a;--text2:#475569;--text3:#64748b;--accent:#2563eb;--sky:#0284c7;--teal:#0d9488;--gold:#d97706;--green:#059669;--red:#dc2626;--purple:#7c3aed;--border:rgba(0,0,0,.08)}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Georgia,'Palatino',serif;font-size:17px;line-height:1.75;transition:background .3s,color .3s}
+.deck{width:100vw;height:100vh;position:relative}
+.slide{position:absolute;inset:0;display:none;flex-direction:column}.slide.active{display:flex}
+.slide-head{background:var(--accent);padding:8px 40px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.slide-head .t{font-family:-apple-system,system-ui,sans-serif;font-size:.78rem;font-weight:600;color:#fff}
+.slide-head .r{font-family:monospace;font-size:.7rem;color:rgba(255,255,255,.6)}
+.slide-body{flex:1;padding:36px 50px;overflow-y:auto;position:relative}
+.f{opacity:0;transform:translateY(14px);transition:all .45s cubic-bezier(.23,1,.32,1)}.f.v{opacity:1;transform:translateY(0)}
+h1{font-size:2.4rem;font-weight:700;margin-bottom:8px;letter-spacing:-.02em}
+h2{font-size:1.7rem;font-weight:700;margin-bottom:6px;letter-spacing:-.01em}
+h3{font-size:1.15rem;font-weight:700;margin-bottom:4px;font-family:-apple-system,system-ui,sans-serif}
+p,.desc{font-size:.95rem;color:var(--text2);line-height:1.8;margin-bottom:10px}
+ul{padding-left:22px;margin-bottom:10px}li{margin-bottom:6px;font-size:.92rem;line-height:1.65;color:var(--text2)}li strong{color:var(--text)}
+.formula{text-align:center;padding:14px 0;font-size:1.3rem}.formula.big{font-size:1.8rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:12px 0}
+.note{background:rgba(59,130,246,.05);border-left:3px solid var(--accent);padding:10px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem;font-family:-apple-system,system-ui,sans-serif}
+.warn{background:rgba(239,68,68,.05);border-left:3px solid var(--red);padding:10px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem;font-family:-apple-system,system-ui,sans-serif}
+.fyi{background:rgba(20,184,166,.05);border-left:3px solid var(--teal);padding:10px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem;font-family:-apple-system,system-ui,sans-serif}
+.svg-fig{display:flex;justify-content:center;margin:12px 0}
+.pq{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color .2s;margin-top:8px}.pq:hover{border-color:rgba(59,130,246,.3)}
+.pq-tag{font-size:.65rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-family:-apple-system,system-ui,sans-serif}
+.pq-ans{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);color:var(--green);font-weight:600;display:none}
+.step{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:6px}
+.step-n{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0}
+.step-note{font-size:.82rem;color:var(--gold);padding-left:44px;margin-top:-2px;margin-bottom:6px}
+.toolbar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:4px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:6px 14px;z-index:200;box-shadow:0 4px 24px rgba(0,0,0,.2);font-family:-apple-system,system-ui,sans-serif;transition:background .3s}
+.tb-btn{width:34px;height:34px;border-radius:50%;border:2px solid transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;background:none;color:var(--text);transition:all .15s}.tb-btn:hover{background:rgba(59,130,246,.1)}.tb-btn.active{border-color:var(--accent);background:rgba(59,130,246,.1)}
+.tb-sep{width:1px;height:24px;background:var(--border);margin:0 4px}
+.color-dot{width:18px;height:18px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .1s}.color-dot:hover{transform:scale(1.2)}.color-dot.active{border-color:var(--text);transform:scale(1.2)}
+.draw-layer{position:absolute;inset:0;pointer-events:none;z-index:50}.draw-layer.active{pointer-events:auto;cursor:crosshair}.draw-layer.erasing{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='8' fill='none' stroke='%23666' stroke-width='2'/%3E%3C/svg%3E") 10 10,auto}
+.prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--sky));z-index:300;transition:width .4s}
+.counter{position:fixed;bottom:16px;right:24px;font-size:.75rem;color:var(--text3);font-family:monospace;z-index:200}
+.top-ctrl{position:fixed;top:50px;right:16px;display:flex;gap:6px;z-index:200}
+.ctrl-btn{padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.72rem;font-weight:600;cursor:pointer;font-family:-apple-system,system-ui,sans-serif}.ctrl-btn:hover{border-color:var(--accent)}
+@media(max-width:900px){.slide-body{padding:20px 16px}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-theme="dark">
+<div class="prog" id="prog"></div>
+<div class="counter" id="cnt"></div>
+<div class="top-ctrl">
+  <button class="ctrl-btn" onclick="toggleTheme()">Theme</button>
+  <button class="ctrl-btn" onclick="toggleFS()">Fullscreen</button>
+</div>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1 Kinematics &nbsp;|&nbsp; A.1.3 Acceleration — Uniform & Non-Uniform</span><span class="r">Subtopic 3 of 9</span></div>
+  <div class="slide-body" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+    <p class="f" style="font-size:.75rem;color:var(--accent);font-weight:700;font-family:sans-serif;letter-spacing:2px">A.1.3</p>
+    <h1 class="f">Acceleration</h1>
+    <p class="f" style="font-size:1.1rem;color:var(--text2)">Uniform & Non-Uniform</p>
+    <p class="f desc" style="max-width:600px;margin-top:8px">Acceleration isn't just "speeding up." It's any change in velocity — getting faster, getting slower, or changing direction.</p>
+    <p class="f" style="font-size:.8rem;color:var(--text3);margin-top:16px;font-family:sans-serif">Atul Soral Physicism</p>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 2: DEFINITION -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1 Kinematics &nbsp;|&nbsp; A.1.3 Acceleration</span><span class="r">Definition</span></div>
+  <div class="slide-body">
+    <h2 class="f">What is Acceleration?</h2>
+    <p class="f"><strong>Acceleration</strong> is the rate of change of velocity with respect to time.</p>
+    <div class="f formula big">$$\vec{a} = \frac{\Delta \vec{v}}{\Delta t} = \frac{v - u}{t}$$</div>
+    <p class="f">Where $u$ = initial velocity, $v$ = final velocity, $t$ = time taken.</p>
+    <ul>
+      <li class="f"><strong>Vector quantity</strong> — has magnitude AND direction</li>
+      <li class="f">SI unit: <strong>m s$^{-2}$</strong> (metres per second per second)</li>
+      <li class="f">An object accelerates when its velocity <strong>changes</strong> — in magnitude, direction, or both</li>
+    </ul>
+    <div class="f fyi"><strong>FYI:</strong> "Metres per second per second" means: each second, the velocity changes by this many m/s. If $a = 3$ m s$^{-2}$, the object gains 3 m/s of speed every second.</div>
+    <div class="f svg-fig">
+      <svg viewBox="0 0 500 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px">
+        <defs><marker id="av" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="var(--accent)"/></marker></defs>
+        <!-- Velocity arrows growing -->
+        <text x="50" y="15" font-size="8" fill="var(--text3)" text-anchor="middle" font-family="monospace">t=0s</text>
+        <line x1="50" y1="50" x2="50" y2="50" stroke="var(--accent)" stroke-width="2"/>
+        <text x="50" y="68" font-size="8" fill="var(--text3)" text-anchor="middle" font-family="monospace">0 m/s</text>
+        <text x="140" y="15" font-size="8" fill="var(--text3)" text-anchor="middle" font-family="monospace">t=1s</text>
+        <line x1="120" y1="50" x2="160" y2="50" stroke="var(--accent)" stroke-width="2" marker-end="url(#av)"/>
+        <text x="140" y="68" font-size="8" fill="var(--text3)" text-anchor="middle" font-family="monospace">3 m/s</text>
+        <text x="240" y="15" font-size="8" fill="var(--text3)" text-anchor="middle" font-family="monospace">t=2s</text>
+        <line x1="210" y1="50" x2="270" y2="50" stroke="var(--accent)" stroke-width="2" marker-end="url(#av)"/>
+        <text x="240" y="68" font-size="8" fill="var(--text3)" text-anchor="middle" font-family="monospace">6 m/s</text>
+        <text x="350" y="15" font-size="8" fill="var(--text3)" text-anchor="middle" font-family="monospace">t=3s</text>
+        <line x1="305" y1="50" x2="395" y2="50" stroke="var(--accent)" stroke-width="2" marker-end="url(#av)"/>
+        <text x="350" y="68" font-size="8" fill="var(--text3)" text-anchor="middle" font-family="monospace">9 m/s</text>
+        <text x="460" y="15" font-size="8" fill="var(--text3)" text-anchor="middle" font-family="monospace">t=4s</text>
+        <line x1="400" y1="50" x2="480" y2="50" stroke="var(--accent)" stroke-width="2" marker-end="url(#av)"/>
+        <text x="460" y="68" font-size="8" fill="var(--text3)" text-anchor="middle" font-family="monospace">12 m/s</text>
+      </svg>
+    </div>
+    <p class="f" style="text-align:center;font-size:.85rem;color:var(--accent)">$a = 3$ m s$^{-2}$ — velocity grows by 3 m/s every second</p>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 3: THREE WAYS TO ACCELERATE -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1 Kinematics &nbsp;|&nbsp; A.1.3 Acceleration</span><span class="r">Key Concept</span></div>
+  <div class="slide-body">
+    <h2 class="f">Three Ways an Object Can Accelerate</h2>
+    <p class="f">Acceleration = change in velocity. Velocity can change in three ways:</p>
+    <div class="grid2" style="grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:14px">
+      <div class="f" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:6px">&#x1F3CE;</div>
+        <h3 style="color:var(--green);font-size:.9rem">Speeding Up</h3>
+        <p style="font-size:.82rem;color:var(--text2);margin:0">Velocity magnitude increases</p>
+        <p style="font-size:.78rem;color:var(--text3);margin-top:4px">a is in the SAME direction as v</p>
+      </div>
+      <div class="f" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:6px">&#x1F6D1;</div>
+        <h3 style="color:var(--red);font-size:.9rem">Slowing Down</h3>
+        <p style="font-size:.82rem;color:var(--text2);margin:0">Velocity magnitude decreases</p>
+        <p style="font-size:.78rem;color:var(--text3);margin-top:4px">a is OPPOSITE to v</p>
+      </div>
+      <div class="f" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:6px">&#x1F504;</div>
+        <h3 style="color:var(--purple);font-size:.9rem">Changing Direction</h3>
+        <p style="font-size:.82rem;color:var(--text2);margin:0">Speed same, direction changes</p>
+        <p style="font-size:.78rem;color:var(--text3);margin-top:4px">a is perpendicular to v</p>
+      </div>
+    </div>
+    <div class="f warn" style="margin-top:14px"><strong>Critical point:</strong> "Deceleration" is NOT a separate quantity. It's just acceleration in the opposite direction to motion. In IB, always use "acceleration" and specify the direction.</div>
+    <div class="f fyi"><strong>FYI:</strong> A car going around a roundabout at constant 40 km/h IS accelerating — because the direction of velocity keeps changing. This is centripetal acceleration.</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 4: POSITIVE vs NEGATIVE -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1 Kinematics &nbsp;|&nbsp; A.1.3 Acceleration</span><span class="r">Sign Convention</span></div>
+  <div class="slide-body">
+    <h2 class="f">Positive vs Negative Acceleration</h2>
+    <p class="f">The sign of acceleration tells you its <strong>direction</strong>, not whether the object is speeding up or slowing down.</p>
+    <div class="f svg-fig">
+      <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px">
+        <defs><marker id="ar" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="var(--green)"/></marker><marker id="ab" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="var(--red)"/></marker></defs>
+        <!-- Case 1: +v, +a = speeding up -->
+        <text x="20" y="25" font-size="9" fill="var(--text)" font-family="sans-serif" font-weight="bold">Case 1: v = +, a = +</text>
+        <text x="350" y="25" font-size="9" fill="var(--green)" font-family="sans-serif" font-weight="bold">SPEEDING UP &#8594;</text>
+        <line x1="20" y1="40" x2="120" y2="40" stroke="var(--sky)" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="70" y="55" font-size="8" fill="var(--sky)" text-anchor="middle" font-family="sans-serif">v &#8594;</text>
+        <line x1="140" y1="40" x2="200" y2="40" stroke="var(--green)" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="170" y="55" font-size="8" fill="var(--green)" text-anchor="middle" font-family="sans-serif">a &#8594;</text>
+        <!-- Case 2: +v, -a = slowing down -->
+        <text x="20" y="80" font-size="9" fill="var(--text)" font-family="sans-serif" font-weight="bold">Case 2: v = +, a = &#8722;</text>
+        <text x="350" y="80" font-size="9" fill="var(--red)" font-family="sans-serif" font-weight="bold">SLOWING DOWN</text>
+        <line x1="20" y1="95" x2="120" y2="95" stroke="var(--sky)" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="70" y="110" font-size="8" fill="var(--sky)" text-anchor="middle" font-family="sans-serif">v &#8594;</text>
+        <line x1="200" y1="95" x2="140" y2="95" stroke="var(--red)" stroke-width="2" marker-end="url(#ab)"/>
+        <text x="170" y="110" font-size="8" fill="var(--red)" text-anchor="middle" font-family="sans-serif">&#8592; a</text>
+        <!-- Case 3: -v, -a = speeding up backward -->
+        <text x="20" y="140" font-size="9" fill="var(--text)" font-family="sans-serif" font-weight="bold">Case 3: v = &#8722;, a = &#8722;</text>
+        <text x="350" y="140" font-size="9" fill="var(--green)" font-family="sans-serif" font-weight="bold">SPEEDING UP &#8592;</text>
+        <line x1="120" y1="155" x2="20" y2="155" stroke="var(--sky)" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="70" y="170" font-size="8" fill="var(--sky)" text-anchor="middle" font-family="sans-serif">&#8592; v</text>
+        <line x1="200" y1="155" x2="140" y2="155" stroke="var(--green)" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="170" y="170" font-size="8" fill="var(--green)" text-anchor="middle" font-family="sans-serif">&#8592; a</text>
+        <!-- Rule -->
+        <text x="250" y="195" font-size="9" fill="var(--gold)" text-anchor="middle" font-weight="bold" font-family="sans-serif">Same signs = speeding up &nbsp;|&nbsp; Opposite signs = slowing down</text>
+      </svg>
+    </div>
+    <div class="f note"><strong>Rule:</strong> If $v$ and $a$ have the <strong>same sign</strong> → object speeds up. If <strong>opposite signs</strong> → object slows down. The sign alone doesn't tell you "speeding up" or "slowing down."</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 5: UNIFORM ACCELERATION -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1 Kinematics &nbsp;|&nbsp; A.1.3 Acceleration</span><span class="r">Uniform</span></div>
+  <div class="slide-body">
+    <h2 class="f">Uniform (Constant) Acceleration</h2>
+    <p class="f"><strong>Uniform acceleration</strong> means the velocity changes by <strong>equal amounts in equal time intervals</strong>.</p>
+    <div class="grid2">
+      <div>
+        <ul>
+          <li class="f">Acceleration value stays constant: $a = \text{constant}$</li>
+          <li class="f">v-t graph: <strong>straight line</strong> (constant gradient)</li>
+          <li class="f">s-t graph: <strong>parabola</strong> (curved, getting steeper)</li>
+          <li class="f">a-t graph: <strong>horizontal line</strong></li>
+        </ul>
+        <p class="f"><strong>The most important example:</strong></p>
+        <div class="f note"><strong>Free fall near Earth's surface:</strong> $g = 9.8$ m s$^{-2}$ downward. This is constant (ignoring air resistance) regardless of mass. Galileo proved this.</div>
+      </div>
+      <div class="f svg-fig">
+        <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px">
+          <style>@keyframes drawVT{from{stroke-dashoffset:250}to{stroke-dashoffset:0}}.vt-line{stroke-dasharray:250;animation:drawVT 2.5s ease forwards}</style>
+          <defs><marker id="ga" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto"><polygon points="0 0,6 2,0 4" fill="var(--text2)"/></marker></defs>
+          <text x="140" y="16" font-size="10" fill="var(--accent)" text-anchor="middle" font-weight="bold" font-family="sans-serif">v-t graph (uniform a)</text>
+          <line x1="35" y1="175" x2="245" y2="175" stroke="var(--text2)" stroke-width="1.5" marker-end="url(#ga)"/>
+          <line x1="35" y1="175" x2="35" y2="25" stroke="var(--text2)" stroke-width="1.5" marker-end="url(#ga)"/>
+          <text x="248" y="186" font-size="9" fill="var(--text2)" font-family="sans-serif">t (s)</text>
+          <text x="18" y="22" font-size="9" fill="var(--text2)" font-family="sans-serif">v (m/s)</text>
+          <g stroke="var(--border)" stroke-width=".4"><line x1="35" y1="135" x2="240" y2="135"/><line x1="35" y1="95" x2="240" y2="95"/><line x1="35" y1="55" x2="240" y2="55"/><line x1="90" y1="25" x2="90" y2="175"/><line x1="145" y1="25" x2="145" y2="175"/><line x1="200" y1="25" x2="200" y2="175"/></g>
+          <!-- Straight line = uniform acceleration -->
+          <line x1="35" y1="175" x2="220" y2="45" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" class="vt-line"/>
+          <text x="140" y="195" font-size="9" fill="var(--text3)" text-anchor="middle" font-family="sans-serif">Straight line = constant acceleration</text>
+        </svg>
+      </div>
+    </div>
+    <div class="f warn"><strong>IB key point:</strong> The SUVAT equations (next subtopic) ONLY work for uniform acceleration. If acceleration varies, you need calculus or graphical methods.</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 6: NON-UNIFORM ACCELERATION -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1 Kinematics &nbsp;|&nbsp; A.1.3 Acceleration</span><span class="r">Non-Uniform</span></div>
+  <div class="slide-body">
+    <h2 class="f">Non-Uniform Acceleration</h2>
+    <p class="f"><strong>Non-uniform acceleration</strong> means the acceleration itself changes over time. The velocity doesn't change at a constant rate.</p>
+    <div class="grid2">
+      <div>
+        <h3 class="f" style="color:var(--sky)">Real-world examples:</h3>
+        <ul>
+          <li class="f">A car accelerating from traffic lights (driver presses pedal gradually)</li>
+          <li class="f">A skydiver before terminal velocity (air resistance increases with speed)</li>
+          <li class="f">A ball bouncing — acceleration changes at each bounce</li>
+          <li class="f">A rocket — as fuel burns, mass decreases, so acceleration increases</li>
+        </ul>
+        <h3 class="f" style="color:var(--purple);margin-top:10px">On graphs:</h3>
+        <ul>
+          <li class="f">v-t graph: <strong>curved line</strong> (changing gradient)</li>
+          <li class="f">a-t graph: <strong>not horizontal</strong> (changes with time)</li>
+        </ul>
+      </div>
+      <div class="f svg-fig">
+        <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px">
+          <style>@keyframes drawCurveNu{from{stroke-dashoffset:300}to{stroke-dashoffset:0}}.nu-curve{stroke-dasharray:300;animation:drawCurveNu 3s ease forwards}</style>
+          <text x="140" y="16" font-size="10" fill="var(--purple)" text-anchor="middle" font-weight="bold" font-family="sans-serif">v-t graph (non-uniform a)</text>
+          <line x1="35" y1="175" x2="245" y2="175" stroke="var(--text2)" stroke-width="1.5" marker-end="url(#ga)"/>
+          <line x1="35" y1="175" x2="35" y2="25" stroke="var(--text2)" stroke-width="1.5" marker-end="url(#ga)"/>
+          <text x="248" y="186" font-size="9" fill="var(--text2)" font-family="sans-serif">t</text>
+          <text x="18" y="22" font-size="9" fill="var(--text2)" font-family="sans-serif">v</text>
+          <!-- Curved line = non-uniform -->
+          <path d="M 35,175 Q 80,165 120,120 Q 160,75 190,55 Q 210,45 230,42" fill="none" stroke="var(--purple)" stroke-width="3" stroke-linecap="round" class="nu-curve"/>
+          <!-- Terminal velocity line -->
+          <line x1="190" y1="42" x2="245" y2="42" stroke="var(--text3)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="230" y="35" font-size="8" fill="var(--text3)" font-family="sans-serif">terminal v</text>
+          <text x="90" y="155" font-size="8" fill="var(--green)" font-family="sans-serif">steep = high a</text>
+          <text x="180" y="70" font-size="8" fill="var(--red)" font-family="sans-serif">flat = low a</text>
+          <text x="140" y="195" font-size="9" fill="var(--text3)" text-anchor="middle" font-family="sans-serif">Curved line = changing acceleration</text>
+        </svg>
+      </div>
+    </div>
+    <div class="f note"><strong>At SL:</strong> Most problems involve uniform acceleration. Non-uniform cases are handled graphically (read the gradient of the v-t graph at specific points).</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 7: BALL THROWN UP -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1 Kinematics &nbsp;|&nbsp; A.1.3 Acceleration</span><span class="r">The Big Misconception</span></div>
+  <div class="slide-body">
+    <h2 class="f">The Ball Thrown Upward</h2>
+    <p class="f">This is the single most tested misconception in IB Physics.</p>
+    <div class="f svg-fig">
+      <svg viewBox="0 0 500 190" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px">
+        <style>@keyframes ballUp{0%{cy:165}50%{cy:25}100%{cy:165}}.ball-an{animation:ballUp 3s ease-in-out infinite}</style>
+        <defs><marker id="vu" markerWidth="6" markerHeight="5" refX="3" refY="5" orient="auto"><polygon points="0 5,3 0,6 5" fill="var(--accent)"/></marker><marker id="vd" markerWidth="6" markerHeight="5" refX="3" refY="0" orient="auto"><polygon points="0 0,3 5,6 0" fill="var(--red)"/></marker><marker id="gd" markerWidth="6" markerHeight="5" refX="3" refY="0" orient="auto"><polygon points="0 0,3 5,6 0" fill="var(--gold)"/></marker></defs>
+        <!-- Ground -->
+        <line x1="20" y1="175" x2="480" y2="175" stroke="var(--border)" stroke-width="2"/>
+        <!-- Positions with velocity + acceleration arrows -->
+        <circle cx="70" cy="145" r="9" fill="var(--sky)" opacity=".6"/><line x1="70" y1="135" x2="70" y2="95" stroke="var(--accent)" stroke-width="2" marker-end="url(#vu)"/><text x="70" y="85" font-size="7" fill="var(--accent)" text-anchor="middle" font-family="monospace">v=20</text>
+        <line x1="78" y1="150" x2="78" y2="165" stroke="var(--gold)" stroke-width="1.5" marker-end="url(#gd)"/><text x="90" y="162" font-size="6" fill="var(--gold)" font-family="monospace">g</text>
+        <circle cx="170" cy="90" r="9" fill="var(--sky)" opacity=".6"/><line x1="170" y1="80" x2="170" y2="58" stroke="var(--accent)" stroke-width="2" marker-end="url(#vu)"/><text x="170" y="50" font-size="7" fill="var(--accent)" text-anchor="middle" font-family="monospace">v=10</text>
+        <line x1="178" y1="95" x2="178" y2="110" stroke="var(--gold)" stroke-width="1.5" marker-end="url(#gd)"/><text x="190" y="108" font-size="6" fill="var(--gold)" font-family="monospace">g</text>
+        <!-- TOP -->
+        <circle cx="260" cy="30" r="11" fill="var(--red)"/><text x="260" y="34" font-size="7" fill="#fff" text-anchor="middle" font-weight="bold">TOP</text>
+        <text x="260" y="55" font-size="9" fill="var(--red)" text-anchor="middle" font-weight="bold" font-family="sans-serif">v = 0</text>
+        <text x="260" y="70" font-size="9" fill="var(--gold)" text-anchor="middle" font-weight="bold" font-family="sans-serif">a = 9.8 m/s$^2$ &#8595;</text>
+        <line x1="268" y1="32" x2="268" y2="47" stroke="var(--gold)" stroke-width="1.5" marker-end="url(#gd)"/><text x="280" y="45" font-size="6" fill="var(--gold)" font-family="monospace">g</text>
+        <circle cx="350" cy="90" r="9" fill="var(--sky)" opacity=".6"/><line x1="350" y1="100" x2="350" y2="122" stroke="var(--red)" stroke-width="2" marker-end="url(#vd)"/><text x="350" y="135" font-size="7" fill="var(--red)" text-anchor="middle" font-family="monospace">v=10</text>
+        <line x1="358" y1="95" x2="358" y2="110" stroke="var(--gold)" stroke-width="1.5" marker-end="url(#gd)"/>
+        <circle cx="440" cy="145" r="9" fill="var(--sky)" opacity=".6"/><line x1="440" y1="155" x2="440" y2="185" stroke="var(--red)" stroke-width="2" marker-end="url(#vd)"/><text x="440" y="195" font-size="7" fill="var(--red)" text-anchor="middle" font-family="monospace">v=20</text>
+        <line x1="448" y1="150" x2="448" y2="165" stroke="var(--gold)" stroke-width="1.5" marker-end="url(#gd)"/>
+        <!-- Animated ball -->
+        <circle cx="260" cy="165" r="7" fill="var(--gold)" opacity=".4" class="ball-an"/>
+      </svg>
+    </div>
+    <div class="f warn"><strong>THE MISCONCEPTION:</strong> "At the top, the ball stops, so acceleration must be zero."<br><br><strong>THE TRUTH:</strong> At the top, velocity = 0 for an instant, but acceleration = 9.8 m s$^{-2}$ downward the ENTIRE time. Gravity doesn't pause. The ball stops only because it's been decelerating — and it immediately starts accelerating downward.</div>
+    <div class="f note"><strong>Gold arrows ($g$)</strong> in the diagram are the SAME length at every position — acceleration due to gravity is constant throughout the flight.</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 8: ACCELERATION ON V-T GRAPH -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1 Kinematics &nbsp;|&nbsp; A.1.3 Acceleration</span><span class="r">Graphs</span></div>
+  <div class="slide-body">
+    <h2 class="f">Reading Acceleration from Graphs</h2>
+    <div class="grid2">
+      <div>
+        <h3 class="f" style="color:var(--purple)">On a v-t graph:</h3>
+        <div class="f formula">$$a = \text{gradient of v-t graph}$$</div>
+        <ul>
+          <li class="f">Positive gradient → positive acceleration</li>
+          <li class="f">Negative gradient → negative acceleration</li>
+          <li class="f">Zero gradient (horizontal) → zero acceleration (constant v)</li>
+          <li class="f">Steeper line → greater acceleration</li>
+        </ul>
+        <h3 class="f" style="color:var(--sky);margin-top:10px">On a s-t graph:</h3>
+        <ul>
+          <li class="f">Straight line → constant velocity → $a = 0$</li>
+          <li class="f">Curve getting steeper → positive acceleration</li>
+          <li class="f">Curve getting flatter → negative acceleration</li>
+        </ul>
+      </div>
+      <div class="f svg-fig">
+        <svg viewBox="0 0 260 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px">
+          <style>@keyframes drawMulti{from{stroke-dashoffset:200}to{stroke-dashoffset:0}}.ml{stroke-dasharray:200;animation:drawMulti 2s ease forwards}</style>
+          <text x="140" y="16" font-size="10" fill="var(--purple)" text-anchor="middle" font-weight="bold" font-family="sans-serif">v-t graphs compared</text>
+          <line x1="35" y1="175" x2="245" y2="175" stroke="var(--text2)" stroke-width="1.5" marker-end="url(#ga)"/>
+          <line x1="35" y1="175" x2="35" y2="25" stroke="var(--text2)" stroke-width="1.5" marker-end="url(#ga)"/>
+          <text x="248" y="186" font-size="9" fill="var(--text2)" font-family="sans-serif">t</text>
+          <text x="18" y="22" font-size="9" fill="var(--text2)" font-family="sans-serif">v</text>
+          <!-- Three lines: high a, low a, zero a -->
+          <line x1="35" y1="175" x2="140" y2="45" stroke="var(--green)" stroke-width="2" class="ml"/>
+          <text x="100" y="90" font-size="8" fill="var(--green)" font-family="sans-serif">high a</text>
+          <line x1="35" y1="175" x2="220" y2="95" stroke="var(--accent)" stroke-width="2" class="ml"/>
+          <text x="160" y="125" font-size="8" fill="var(--accent)" font-family="sans-serif">low a</text>
+          <line x1="35" y1="100" x2="220" y2="100" stroke="var(--gold)" stroke-width="2" class="ml"/>
+          <text x="160" y="93" font-size="8" fill="var(--gold)" font-family="sans-serif">a = 0</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 9: WORKED EXAMPLE -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1 Kinematics &nbsp;|&nbsp; A.1.3 Acceleration</span><span class="r">Worked Example</span></div>
+  <div class="slide-body">
+    <h2 class="f">Worked Example</h2>
+    <div class="f note" style="border-color:var(--gold)"><strong>Problem:</strong> A car is travelling at 20 m s$^{-1}$. The driver brakes and the car comes to rest in 8.0 seconds. Calculate the acceleration. Is the car uniformly accelerating?</div>
+    <div style="margin-top:12px">
+      <div class="step f"><span class="step-n">1</span><span>Identify: $u = 20$ m s$^{-1}$, $v = 0$ m s$^{-1}$, $t = 8.0$ s</span></div>
+      <div class="step f"><span class="step-n">2</span><span>Apply formula: $a = \frac{v - u}{t}$</span></div>
+      <div class="f formula">$$a = \frac{0 - 20}{8.0} = \frac{-20}{8.0} = \mathbf{-2.5 \text{ m s}^{-2}}$$</div>
+      <div class="step f"><span class="step-n">3</span><span>Interpret: The negative sign means acceleration is <strong>opposite to motion</strong> → the car is slowing down.</span></div>
+      <p class="f step-note">If we assume constant braking force, yes — the acceleration is uniform at &#8722;2.5 m s$^{-2}$.</p>
+    </div>
+    <div class="f fyi"><strong>Follow-up:</strong> In reality, braking force isn't perfectly constant — the acceleration would be slightly non-uniform. But for IB calculations, we usually assume uniform braking.</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 10: PRACTICE -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1 Kinematics &nbsp;|&nbsp; A.1.3 Acceleration</span><span class="r">Practice</span></div>
+  <div class="slide-body">
+    <h2 class="f">Practice Questions</h2>
+    <p class="f desc">Click to reveal answers.</p>
+    <div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+      <div class="pq-tag">Calculate</div>
+      <p>A rocket accelerates from rest to 150 m s$^{-1}$ in 6.0 seconds. Calculate the acceleration.</p>
+      <div class="pq-ans">$a = \frac{v-u}{t} = \frac{150-0}{6.0} = \mathbf{25 \text{ m s}^{-2}}$</div>
+    </div>
+    <div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+      <div class="pq-tag">Determine</div>
+      <p>A ball is thrown vertically upward at 15 m s$^{-1}$. What is its velocity after 2.0 seconds? (Take $g = 9.8$ m s$^{-2}$)</p>
+      <div class="pq-ans">$v = u + at = 15 + (-9.8)(2.0) = 15 - 19.6 = \mathbf{-4.6 \text{ m s}^{-1}}$<br>Negative = the ball has passed the top and is now falling back down.</div>
+    </div>
+    <div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+      <div class="pq-tag">Explain</div>
+      <p>A car moves at constant speed around a circular track. Is it accelerating? Explain using the definition of acceleration.</p>
+      <div class="pq-ans"><strong>Yes.</strong> Acceleration = rate of change of velocity. Speed is constant but direction changes continuously. Since velocity = speed + direction, and direction changes, velocity changes, so the car IS accelerating (centripetal acceleration toward the center).</div>
+    </div>
+    <div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+      <div class="pq-tag">State and Explain</div>
+      <p>At what point during a ball's upward flight is the acceleration greatest?</p>
+      <div class="pq-ans"><strong>The acceleration is the same at ALL points</strong> — it's $g = 9.8$ m s$^{-2}$ downward throughout. Many students think it's greatest at the bottom or zero at the top. It's constant because gravity is constant near Earth's surface.</div>
+    </div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+<!-- SLIDE 11: SUMMARY -->
+<div class="slide">
+  <div class="slide-head"><span class="t">A.1 Kinematics &nbsp;|&nbsp; A.1.3 Acceleration</span><span class="r">Summary</span></div>
+  <div class="slide-body" style="display:flex;flex-direction:column;justify-content:center">
+    <h2 class="f">Key Takeaways</h2>
+    <ul>
+      <li class="f"><strong>Acceleration = rate of change of velocity</strong>. Vector. Unit: m s$^{-2}$.</li>
+      <li class="f">Three ways to accelerate: <strong>speed up, slow down, change direction</strong>.</li>
+      <li class="f">Same signs ($v$ and $a$) → speeding up. Opposite signs → slowing down.</li>
+      <li class="f"><strong>Uniform:</strong> constant $a$, straight v-t line. <strong>Non-uniform:</strong> changing $a$, curved v-t line.</li>
+      <li class="f">At the top of a throw: $v = 0$ but $a = g = 9.8$ m s$^{-2}$ downward. <strong>Always.</strong></li>
+      <li class="f">Gradient of v-t graph = acceleration.</li>
+    </ul>
+    <div class="f note" style="margin-top:16px"><strong>Next subtopic:</strong> A.1.4 The SUVAT Equations — Uniform Acceleration</div>
+  </div>
+  <canvas class="draw-layer"></canvas>
+</div>
+
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <button class="tb-btn active" id="btnCursor" onclick="setTool('cursor')">&#128433;</button><div class="tb-sep"></div>
+  <button class="tb-btn" id="btnPen" onclick="setTool('pen')">&#9998;</button>
+  <button class="tb-btn" id="btnHighlight" onclick="setTool('highlight')">&#128397;</button>
+  <button class="tb-btn" id="btnEraser" onclick="setTool('eraser')">&#129529;</button><div class="tb-sep"></div>
+  <span class="color-dot active" style="background:#ef4444" onclick="setColor('#ef4444',this)"></span>
+  <span class="color-dot" style="background:#3b82f6" onclick="setColor('#3b82f6',this)"></span>
+  <span class="color-dot" style="background:#10b981" onclick="setColor('#10b981',this)"></span>
+  <span class="color-dot" style="background:#f59e0b" onclick="setColor('#f59e0b',this)"></span>
+  <span class="color-dot" style="background:#ffffff" onclick="setColor('#ffffff',this)"></span><div class="tb-sep"></div>
+  <input type="range" style="width:50px;height:4px;accent-color:var(--accent)" min="2" max="12" value="3" oninput="penSize=+this.value"><div class="tb-sep"></div>
+  <button class="tb-btn" onclick="clearSlide()">&#128465;</button>
+</div>
+
+<script>
+var AC=window.AudioContext||window.webkitAudioContext,actx=null;
+function ia(){if(!actx)actx=new AC();}
+function sndTick(){ia();if(!actx)return;var o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);o.frequency.setValueAtTime(1600,actx.currentTime);o.frequency.exponentialRampToValueAtTime(800,actx.currentTime+.04);g.gain.setValueAtTime(.06,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.06);o.start();o.stop(actx.currentTime+.06);}
+function sndSlide(){ia();if(!actx)return;var o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.connect(g);g.connect(actx.destination);o.frequency.setValueAtTime(500,actx.currentTime);o.frequency.exponentialRampToValueAtTime(1000,actx.currentTime+.1);g.gain.setValueAtTime(.04,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.12);o.start();o.stop(actx.currentTime+.12);}
+var canvases=document.querySelectorAll('.draw-layer');
+var slides=document.querySelectorAll('.slide'),cur=0,fi=0;
+function frags(s){return s.querySelectorAll('.f');}
+function show(i){slides.forEach(function(s,idx){s.classList.toggle('active',idx===i);});fi=0;frags(slides[i]).forEach(function(f){f.classList.remove('v');});updP();updC();setTimeout(resizeCanvas,50);restartAnims(i);}
+function restartAnims(i){var svgs=slides[i].querySelectorAll('svg');svgs.forEach(function(svg){var els=svg.querySelectorAll('[class]');els.forEach(function(el){var c=el.getAttribute('class');el.setAttribute('class','');void el.offsetWidth;el.setAttribute('class',c);});});}
+function next(){var fs=frags(slides[cur]);if(fi<fs.length){fs[fi].classList.add('v');fi++;sndTick();updP();}else if(cur<slides.length-1){cur++;show(cur);sndSlide();}}
+function prev(){var fs=frags(slides[cur]);if(fi>0){fi--;fs[fi].classList.remove('v');updP();}else if(cur>0){cur--;show(cur);var pf=frags(slides[cur]);pf.forEach(function(f){f.classList.add('v');});fi=pf.length;sndSlide();updP();}}
+function updP(){var t=0,v=0;slides.forEach(function(s,i){var f=frags(s);t+=f.length;if(i<cur)v+=f.length;else if(i===cur)v+=fi;});document.getElementById('prog').style.width=(t?v/t*100:0)+'%';}
+function updC(){document.getElementById('cnt').textContent=(cur+1)+'/'+slides.length;}
+document.addEventListener('keydown',function(e){if(currentTool!=='cursor')return;if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'){e.preventDefault();next();}else if(e.key==='ArrowLeft'||e.key==='Backspace'){e.preventDefault();prev();}else if(e.key==='f'||e.key==='F'){e.preventDefault();toggleFS();}});
+document.querySelector('.deck').addEventListener('click',function(e){if(currentTool!=='cursor')return;if(e.target.closest('.pq'))return;if(e.target.closest('.toolbar'))return;if(e.target.closest('.top-ctrl'))return;next();});
+var tx=0;document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;});document.addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?next():prev();}});
+function toggleTheme(){var b=document.body;b.dataset.theme=b.dataset.theme==='dark'?'light':'dark';}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+var currentTool='cursor',penColor='#ef4444',penSize=3,drawing=false;
+function setTool(t){currentTool=t;document.querySelectorAll('.tb-btn').forEach(function(b){b.classList.remove('active');});if(t==='pen')document.getElementById('btnPen').classList.add('active');else if(t==='highlight')document.getElementById('btnHighlight').classList.add('active');else if(t==='eraser')document.getElementById('btnEraser').classList.add('active');else document.getElementById('btnCursor').classList.add('active');canvases.forEach(function(c){c.classList.toggle('active',t!=='cursor');c.classList.toggle('erasing',t==='eraser');});}
+function setColor(c,el){penColor=c;document.querySelectorAll('.color-dot').forEach(function(d){d.classList.remove('active');});el.classList.add('active');}
+function getCanvas(){return slides[cur].querySelector('.draw-layer');}
+function getCtx(){var c=getCanvas();return c?c.getContext('2d'):null;}
+function resizeCanvas(){var c=getCanvas();if(!c)return;var s=slides[cur];var r=s.getBoundingClientRect();if(r.width===0)return;c.width=Math.round(r.width*devicePixelRatio);c.height=Math.round(r.height*devicePixelRatio);c.style.width=r.width+'px';c.style.height=r.height+'px';var ctx=c.getContext('2d');ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}
+function startDraw(e){if(currentTool==='cursor')return;drawing=true;var ctx=getCtx();if(!ctx)return;var r=getCanvas().getBoundingClientRect();var x=e.clientX-r.left,y=e.clientY-r.top;if(currentTool==='eraser'){ctx.globalCompositeOperation='destination-out';ctx.lineWidth=20;}else{ctx.globalCompositeOperation='source-over';ctx.strokeStyle=penColor;ctx.lineWidth=currentTool==='highlight'?penSize*4:penSize;ctx.globalAlpha=currentTool==='highlight'?0.3:1;}ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(x,y);}
+function moveDraw(e){if(!drawing||currentTool==='cursor')return;var ctx=getCtx();if(!ctx)return;var r=getCanvas().getBoundingClientRect();ctx.lineTo(e.clientX-r.left,e.clientY-r.top);ctx.stroke();}
+function endDraw(){drawing=false;var ctx=getCtx();if(ctx){ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';}}
+function clearSlide(){var c=getCanvas();if(c){var ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);}}
+document.addEventListener('mousedown',function(e){if(e.target.closest('.draw-layer'))startDraw(e);});
+document.addEventListener('mousemove',moveDraw);document.addEventListener('mouseup',endDraw);
+document.addEventListener('touchstart',function(e){if(e.target.closest('.draw-layer')){e.preventDefault();startDraw(e.touches[0]);}},{passive:false});
+document.addEventListener('touchmove',function(e){if(drawing){e.preventDefault();moveDraw(e.touches[0]);}},{passive:false});
+document.addEventListener('touchend',endDraw);
+show(0);setTimeout(resizeCanvas,200);window.addEventListener('resize',resizeCanvas);
+window.addEventListener('load',function(){setTimeout(resizeCanvas,300);});
+function renderMath(){if(typeof renderMathInElement!=='undefined')renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});}
+document.addEventListener('DOMContentLoaded',renderMath);window.addEventListener('load',renderMath);
+</script>
+</body>
+</html>
