@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.2.9 Collisions | Atul Soral Physicism</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>*{margin:0;padding:0;box-sizing:border-box}:root{--bg:#0b1120;--surface:#151d2e;--card:#1a2235;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--accent:#3b82f6;--sky:#0ea5e9;--teal:#14b8a6;--gold:#f59e0b;--green:#10b981;--red:#ef4444;--purple:#a78bfa;--border:rgba(255,255,255,.08)}[data-theme="light"]{--bg:#f8fafc;--surface:#fff;--card:#f1f5f9;--text:#0f172a;--text2:#475569;--text3:#64748b;--accent:#2563eb;--sky:#0284c7;--teal:#0d9488;--gold:#d97706;--green:#059669;--red:#dc2626;--purple:#7c3aed;--border:rgba(0,0,0,.08)}html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Georgia,'Palatino',serif;font-size:16.5px;line-height:1.7;transition:background .3s,color .3s}.deck{width:100vw;height:100vh;position:relative}.slide{position:absolute;inset:0;display:none;flex-direction:column}.slide.active{display:flex}.slide-head{background:var(--accent);padding:7px 40px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}.slide-head .t{font-family:-apple-system,system-ui,sans-serif;font-size:.76rem;font-weight:600;color:#fff}.slide-head .r{font-family:monospace;font-size:.68rem;color:rgba(255,255,255,.6)}.slide-body{flex:1;padding:28px 44px;overflow-y:auto;position:relative}.f{opacity:0;transform:translateY(14px);transition:all .45s cubic-bezier(.23,1,.32,1)}.f.v{opacity:1;transform:translateY(0)}h1{font-size:2.2rem;font-weight:700;margin-bottom:6px}h2{font-size:1.5rem;font-weight:700;margin-bottom:5px}h3{font-size:1.05rem;font-weight:700;margin-bottom:3px;font-family:-apple-system,system-ui,sans-serif}p,.desc{font-size:.9rem;color:var(--text2);line-height:1.75;margin-bottom:7px}ul{padding-left:20px;margin-bottom:7px}li{margin-bottom:4px;font-size:.88rem;line-height:1.6;color:var(--text2)}li strong{color:var(--text)}.formula{text-align:center;padding:10px 0;font-size:1.15rem}.formula.big{font-size:1.6rem}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:8px 0}.note{background:rgba(59,130,246,.05);border-left:3px solid var(--accent);padding:8px 12px;border-radius:0 8px 8px 0;margin:7px 0;font-size:.82rem;font-family:-apple-system,system-ui,sans-serif}.warn{background:rgba(239,68,68,.05);border-left:3px solid var(--red);padding:8px 12px;border-radius:0 8px 8px 0;margin:7px 0;font-size:.82rem;font-family:-apple-system,system-ui,sans-serif}.fyi{background:rgba(20,184,166,.05);border-left:3px solid var(--teal);padding:8px 12px;border-radius:0 8px 8px 0;margin:7px 0;font-size:.82rem;font-family:-apple-system,system-ui,sans-serif}.svg-fig{display:flex;justify-content:center;margin:8px 0}.pq{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:14px 18px;cursor:pointer;transition:border-color .2s;margin-top:6px}.pq:hover{border-color:rgba(59,130,246,.3)}.pq-tag{font-size:.6rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-family:-apple-system,system-ui,sans-serif}.pq-ans{margin-top:7px;padding-top:7px;border-top:1px solid var(--border);color:var(--green);font-weight:600;display:none;font-size:.85rem}.step{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:9px 14px;margin-bottom:4px}.step-n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0}.diff{display:inline-block;font-size:.58rem;font-weight:700;padding:2px 5px;border-radius:4px;margin-left:5px;font-family:-apple-system,system-ui,sans-serif}.diff-e{background:rgba(16,185,129,.1);color:var(--green)}.diff-m{background:rgba(245,158,11,.1);color:var(--gold)}.diff-h{background:rgba(239,68,68,.1);color:var(--red)}.toolbar{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:3px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:4px 10px;z-index:200;box-shadow:0 4px 24px rgba(0,0,0,.2);font-family:-apple-system,system-ui,sans-serif}.tb-btn{width:30px;height:30px;border-radius:50%;border:2px solid transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;background:none;color:var(--text);transition:all .15s}.tb-btn:hover{background:rgba(59,130,246,.1)}.tb-btn.active{border-color:var(--accent);background:rgba(59,130,246,.1)}.tb-sep{width:1px;height:20px;background:var(--border);margin:0 2px}.color-dot{width:15px;height:15px;border-radius:50%;border:2px solid transparent;cursor:pointer}.color-dot:hover{transform:scale(1.15)}.color-dot.active{border-color:var(--text)}.draw-layer{position:absolute;inset:0;pointer-events:none;z-index:50}.draw-layer.active{pointer-events:auto;cursor:crosshair}.draw-layer.erasing{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='8' fill='none' stroke='%23666' stroke-width='2'/%3E%3C/svg%3E") 10 10,auto}.prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--sky));z-index:300;transition:width .4s}.counter{position:fixed;bottom:12px;right:18px;font-size:.7rem;color:var(--text3);font-family:monospace;z-index:200}.top-ctrl{position:fixed;top:46px;right:12px;display:flex;gap:4px;z-index:200}.ctrl-btn{padding:3px 9px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.68rem;font-weight:600;cursor:pointer;font-family:-apple-system,system-ui,sans-serif}@media(max-width:900px){.slide-body{padding:16px 12px}.grid2{grid-template-columns:1fr}}</style>
+</head>
+<body data-theme="dark">
+<div class="prog" id="prog"></div><div class="counter" id="cnt"></div>
+<div class="top-ctrl"><button class="ctrl-btn" onclick="toggleTheme()">Theme</button><button class="ctrl-btn" onclick="toggleFS()">Fullscreen</button></div>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1 -->
+<div class="slide"><div class="slide-head"><span class="t">A.2 Forces & Momentum &nbsp;|&nbsp; A.2.9 Collisions — Elastic, Inelastic & Perfectly Inelastic</span><span class="r">Subtopic 9 of 9</span></div><div class="slide-body" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center"><p class="f" style="font-size:.72rem;color:var(--accent);font-weight:700;font-family:sans-serif;letter-spacing:2px">A.2.9</p><h1 class="f">Collisions</h1><p class="f" style="font-size:1rem;color:var(--text2)">Elastic, Inelastic & Perfectly Inelastic</p><p class="f desc" style="max-width:600px;margin-top:6px">All collisions conserve momentum. But what about kinetic energy? The answer defines three types of collisions — and determines whether objects bounce, stick, or something in between.</p><p class="f" style="font-size:.78rem;color:var(--text3);margin-top:12px;font-family:sans-serif">Atul Soral Physicism</p></div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 2: THE THREE TYPES -->
+<div class="slide"><div class="slide-head"><span class="t">A.2 Forces & Momentum &nbsp;|&nbsp; A.2.9 Collisions</span><span class="r">Classification</span></div><div class="slide-body">
+<h2 class="f">Three Types of Collision</h2>
+<p class="f">All collisions conserve momentum. They differ in what happens to kinetic energy:</p>
+<div class="f" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:10px">
+<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px">
+<h3 class="f" style="color:var(--green);font-size:.9rem">Elastic</h3>
+<ul style="margin-top:6px">
+<li class="f"><strong>KE conserved</strong> — no energy lost</li>
+<li class="f">Objects bounce apart</li>
+<li class="f">Rare in real life (billiard balls, atomic collisions approximate)</li>
+<li class="f">Two equations: momentum + KE</li>
+</ul>
+</div>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px">
+<h3 class="f" style="color:var(--gold);font-size:.9rem">Inelastic</h3>
+<ul style="margin-top:6px">
+<li class="f"><strong>KE NOT conserved</strong> — some energy lost</li>
+<li class="f">Objects bounce but deformed</li>
+<li class="f">Most real collisions</li>
+<li class="f">Energy → heat, sound, deformation</li>
+</ul>
+</div>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px">
+<h3 class="f" style="color:var(--red);font-size:.9rem">Perfectly Inelastic</h3>
+<ul style="margin-top:6px">
+<li class="f"><strong>Maximum KE lost</strong></li>
+<li class="f">Objects <strong>stick together</strong></li>
+<li class="f">Move as one mass after</li>
+<li class="f">$v = \frac{m_1 u_1 + m_2 u_2}{m_1 + m_2}$</li>
+</ul>
+</div>
+</div>
+<div class="f warn" style="margin-top:10px"><strong>In ALL three types: momentum is conserved.</strong> The ONLY difference is what happens to KE. Don't confuse "inelastic" with "momentum not conserved" — that's the biggest IB error.</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 3: COMPARISON TABLE -->
+<div class="slide"><div class="slide-head"><span class="t">A.2 Forces & Momentum &nbsp;|&nbsp; A.2.9 Collisions</span><span class="r">Comparison</span></div><div class="slide-body">
+<h2 class="f">Comparison Table</h2>
+<div class="f" style="overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;font-size:.85rem;max-width:700px;margin:10px auto">
+<tr style="border-bottom:2px solid var(--border)"><th style="padding:10px;text-align:left;font-size:.72rem;color:var(--text3);text-transform:uppercase;font-family:sans-serif">Property</th><th style="padding:10px;text-align:center;color:var(--green);font-size:.72rem;font-family:sans-serif">Elastic</th><th style="padding:10px;text-align:center;color:var(--gold);font-size:.72rem;font-family:sans-serif">Inelastic</th><th style="padding:10px;text-align:center;color:var(--red);font-size:.72rem;font-family:sans-serif">Perfectly Inelastic</th></tr>
+<tr class="f" style="border-bottom:1px solid var(--border)"><td style="padding:8px">Momentum conserved?</td><td style="padding:8px;text-align:center;color:var(--green);font-weight:700">YES</td><td style="padding:8px;text-align:center;color:var(--green);font-weight:700">YES</td><td style="padding:8px;text-align:center;color:var(--green);font-weight:700">YES</td></tr>
+<tr class="f" style="border-bottom:1px solid var(--border)"><td style="padding:8px">KE conserved?</td><td style="padding:8px;text-align:center;color:var(--green);font-weight:700">YES</td><td style="padding:8px;text-align:center;color:var(--red);font-weight:700">NO</td><td style="padding:8px;text-align:center;color:var(--red);font-weight:700">NO (maximum loss)</td></tr>
+<tr class="f" style="border-bottom:1px solid var(--border)"><td style="padding:8px">Objects after?</td><td style="padding:8px;text-align:center">Bounce apart</td><td style="padding:8px;text-align:center">Bounce (deformed)</td><td style="padding:8px;text-align:center">Stick together</td></tr>
+<tr class="f" style="border-bottom:1px solid var(--border)"><td style="padding:8px">Total energy conserved?</td><td style="padding:8px;text-align:center;color:var(--green)">YES</td><td style="padding:8px;text-align:center;color:var(--green)">YES (but KE → heat etc.)</td><td style="padding:8px;text-align:center;color:var(--green)">YES (but KE → heat etc.)</td></tr>
+<tr class="f"><td style="padding:8px">Real example</td><td style="padding:8px;text-align:center">Gas molecules, Newton's cradle</td><td style="padding:8px;text-align:center">Car crash (bounce off), ball bounce</td><td style="padding:8px;text-align:center">Cars lock together, bullet in block</td></tr>
+</table>
+</div>
+<div class="f note"><strong>Total energy is ALWAYS conserved</strong> — it's a law of physics. In inelastic collisions, KE converts to other forms (heat, sound, deformation), but total energy never changes. Conservation of KE is the specific test for elasticity.</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 4: HOW TO TEST COLLISION TYPE -->
+<div class="slide"><div class="slide-head"><span class="t">A.2 Forces & Momentum &nbsp;|&nbsp; A.2.9 Collisions</span><span class="r">Testing</span></div><div class="slide-body">
+<h2 class="f">How to Determine Collision Type</h2>
+<div class="step f"><span class="step-n">1</span><span>Calculate $KE_{before} = \frac{1}{2}m_1 u_1^2 + \frac{1}{2}m_2 u_2^2$</span></div>
+<div class="step f"><span class="step-n">2</span><span>Calculate $KE_{after} = \frac{1}{2}m_1 v_1^2 + \frac{1}{2}m_2 v_2^2$</span></div>
+<div class="step f"><span class="step-n">3</span><span>Compare:</span></div>
+<div class="f grid2" style="max-width:600px;margin:8px auto">
+<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+<p style="color:var(--green);font-weight:700;margin:0">$KE_{before} = KE_{after}$</p>
+<p style="font-size:.82rem;color:var(--text2);margin:4px 0 0">→ <strong>Elastic</strong></p>
+</div>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+<p style="color:var(--red);font-weight:700;margin:0">$KE_{before} > KE_{after}$</p>
+<p style="font-size:.82rem;color:var(--text2);margin:4px 0 0">→ <strong>Inelastic</strong> (objects separate) or <strong>Perfectly Inelastic</strong> (stick)</p>
+</div>
+</div>
+<div class="f note"><strong>Useful shortcut for elastic collisions with equal masses:</strong> If a moving object hits an identical stationary object elastically, the moving object stops completely and the stationary one moves off at the original speed. (Newton's cradle!)</div>
+<div class="f fyi"><strong>Coefficient of restitution:</strong> $e = \frac{\text{relative speed after}}{\text{relative speed before}}$. Elastic: $e = 1$. Perfectly inelastic: $e = 0$. In between: $0 < e < 1$. IB doesn't test this formula but understanding it helps.</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 5: ELASTIC COLLISION WORKED EXAMPLE -->
+<div class="slide"><div class="slide-head"><span class="t">A.2 Forces & Momentum &nbsp;|&nbsp; A.2.9 Collisions</span><span class="r">Elastic</span></div><div class="slide-body">
+<h2 class="f">Worked Example — Elastic Collision <span class="diff diff-h">7/10</span></h2>
+<div class="f note" style="border-color:var(--gold)"><strong>A 2.0 kg ball at 6.0 m/s hits a stationary 2.0 kg ball. The collision is elastic. Find the velocities after.</strong></div>
+<h3 class="f" style="color:var(--sky)">Equal masses, elastic, one at rest → special case!</h3>
+<div class="step f"><span class="step-n">→</span><span>The moving ball <strong>stops completely</strong>: $v_1 = 0$</span></div>
+<div class="step f"><span class="step-n">→</span><span>The stationary ball moves at the original speed: $v_2 = 6.0$ m/s</span></div>
+<h3 class="f" style="color:var(--green)">Verify momentum:</h3>
+<div class="f formula">$$2(6) + 2(0) = 2(0) + 2(6) \implies 12 = 12 \quad ✓$$</div>
+<h3 class="f" style="color:var(--purple)">Verify KE:</h3>
+<div class="f formula">$$\frac{1}{2}(2)(36) + 0 = 0 + \frac{1}{2}(2)(36) \implies 36 = 36 \quad ✓$$</div>
+<div class="f warn"><strong>This only works for equal masses.</strong> For unequal masses, you need to solve two simultaneous equations (momentum + KE). The algebra is harder — IB usually gives you one velocity and asks for the other.</div>
+<div class="f fyi"><strong>Newton's Cradle:</strong> This is why only one ball swings out when one ball swings in — momentum AND KE must both be conserved, and the only solution for equal masses is complete transfer.</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 6: PERFECTLY INELASTIC WORKED EXAMPLE -->
+<div class="slide"><div class="slide-head"><span class="t">A.2 Forces & Momentum &nbsp;|&nbsp; A.2.9 Collisions</span><span class="r">Perfectly Inelastic</span></div><div class="slide-body">
+<h2 class="f">Worked Example — Perfectly Inelastic <span class="diff diff-m">6/10</span></h2>
+<div class="f note" style="border-color:var(--gold)"><strong>A 3.0 kg ball at 8.0 m/s collides with a 5.0 kg ball at rest. They stick together. Find (a) the velocity after (b) the KE lost (c) the fraction of KE lost.</strong></div>
+<h3 class="f" style="color:var(--sky)">(a) Velocity after (stuck together):</h3>
+<div class="f formula">$$m_1 u_1 + m_2 u_2 = (m_1 + m_2)v$$</div>
+<div class="f formula">$$3(8) + 5(0) = 8v \implies v = \frac{24}{8} = \mathbf{3.0 \text{ m s}^{-1}}$$</div>
+<h3 class="f" style="color:var(--green)">(b) KE lost:</h3>
+<div class="step f"><span class="step-n">→</span><span>$KE_{before} = \frac{1}{2}(3)(64) = 96$ J</span></div>
+<div class="step f"><span class="step-n">→</span><span>$KE_{after} = \frac{1}{2}(8)(9) = 36$ J</span></div>
+<div class="f formula">$$\Delta KE = 96 - 36 = \mathbf{60 \text{ J lost}}$$</div>
+<h3 class="f" style="color:var(--purple)">(c) Fraction lost:</h3>
+<div class="f formula">$$\frac{\Delta KE}{KE_{before}} = \frac{60}{96} = \mathbf{62.5\%} \text{ of KE lost}$$</div>
+<div class="f fyi"><strong>Where did 60 J go?</strong> Heat (deformation of balls), sound (the "thud"), internal energy of the objects. Total energy is conserved — KE just converted to other forms.</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 7: BALLISTIC PENDULUM -->
+<div class="slide"><div class="slide-head"><span class="t">A.2 Forces & Momentum &nbsp;|&nbsp; A.2.9 Collisions</span><span class="r">Classic Problem</span></div><div class="slide-body">
+<h2 class="f">The Ballistic Pendulum <span class="diff diff-h">9/10</span></h2>
+<div class="f note" style="border-color:var(--gold)"><strong>A 0.010 kg bullet at speed $v$ embeds in a 2.0 kg wooden block hanging from strings. The block+bullet swings up 0.15 m. Find the bullet's speed.</strong></div>
+<p class="f"><strong>Two-stage problem:</strong> Stage 1 = collision (momentum). Stage 2 = swing up (energy).</p>
+<h3 class="f" style="color:var(--red)">Stage 1: Collision (perfectly inelastic)</h3>
+<div class="step f"><span class="step-n">1</span><span>$m_b v = (m_b + m_w)V$: $0.010v = 2.010V$</span></div>
+<h3 class="f" style="color:var(--green)">Stage 2: Swing up (energy conservation)</h3>
+<div class="step f"><span class="step-n">2</span><span>$\frac{1}{2}(m_b + m_w)V^2 = (m_b + m_w)gh$</span></div>
+<div class="step f"><span class="step-n">3</span><span>$V = \sqrt{2gh} = \sqrt{2(9.8)(0.15)} = 1.71$ m/s</span></div>
+<h3 class="f" style="color:var(--sky)">Combine:</h3>
+<div class="step f"><span class="step-n">4</span><span>$0.010v = 2.010 \times 1.71$</span></div>
+<div class="f formula big">$$v = \frac{2.010 \times 1.71}{0.010} = \mathbf{344 \text{ m s}^{-1}}$$</div>
+<div class="f warn"><strong>Why two stages?</strong> During collision: momentum conserved (fast, internal forces only), KE NOT conserved. During swing: KE conserved into PE (no collision, gravity is conservative). You can't use energy for the collision or momentum for the swing.</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 8: IB QUESTION SET -->
+<div class="slide"><div class="slide-head"><span class="t">A.2 Forces & Momentum &nbsp;|&nbsp; A.2.9 Collisions</span><span class="r">IB Question Set</span></div><div class="slide-body">
+<h2 class="f">IB-Style Question Set <span class="diff diff-h">9/10</span></h2>
+<div class="f note" style="border-color:var(--gold)"><strong>Context:</strong> A 4.0 kg trolley A moves at 3.0 m/s towards a stationary 2.0 kg trolley B on a frictionless track. After collision, A moves at 1.0 m/s in the same direction.</div>
+<div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+<div class="pq-tag">Calculate [2]</div>
+<p>(a) Calculate the velocity of trolley B after the collision.</p>
+<div class="pq-ans">$4(3) + 2(0) = 4(1) + 2v_B$ → $12 = 4 + 2v_B$ → $v_B = \mathbf{4.0 \text{ m s}^{-1}}$ [2]</div>
+</div>
+<div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+<div class="pq-tag">Determine [3]</div>
+<p>(b) Determine whether the collision is elastic, inelastic, or perfectly inelastic. Show your working.</p>
+<div class="pq-ans">$KE_{before} = \frac{1}{2}(4)(9) = 18$ J [1]<br>$KE_{after} = \frac{1}{2}(4)(1) + \frac{1}{2}(2)(16) = 2 + 16 = 18$ J [1]<br>$KE_{before} = KE_{after}$ → <strong>Elastic</strong> collision [1]</div>
+</div>
+<div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+<div class="pq-tag">Calculate [2]</div>
+<p>(c) If instead the trolleys stuck together, calculate their common velocity.</p>
+<div class="pq-ans">$4(3) = (4+2)v$ → $v = 12/6 = \mathbf{2.0 \text{ m s}^{-1}}$ [2]</div>
+</div>
+<div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+<div class="pq-tag">Calculate [2]</div>
+<p>(d) For the perfectly inelastic case in (c), calculate the percentage of KE lost.</p>
+<div class="pq-ans">$KE_{after} = \frac{1}{2}(6)(4) = 12$ J<br>$\%\text{ lost} = \frac{18-12}{18} \times 100 = \mathbf{33.3\%}$ [2]</div>
+</div>
+<div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+<div class="pq-tag">Explain [2]</div>
+<p>(e) Explain why the perfectly inelastic collision loses exactly $\frac{m_2}{m_1+m_2}$ of the KE when one object is initially at rest.</p>
+<div class="pq-ans">In perfectly inelastic with $u_2 = 0$: $v = \frac{m_1}{m_1+m_2}u_1$ [1].<br>$\frac{KE_{after}}{KE_{before}} = \frac{\frac{1}{2}(m_1+m_2)v^2}{\frac{1}{2}m_1 u_1^2} = \frac{m_1}{m_1+m_2}$. So fraction lost $= \frac{m_2}{m_1+m_2}$ [1]. Here: $2/(4+2) = 1/3 = 33.3\%$ &#10003;</div>
+</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 9: PRACTICE -->
+<div class="slide"><div class="slide-head"><span class="t">A.2 Forces & Momentum &nbsp;|&nbsp; A.2.9 Collisions</span><span class="r">Practice</span></div><div class="slide-body">
+<h2 class="f">Practice Questions</h2>
+<div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+<div class="pq-tag">Calculate [3] <span class="diff diff-m">Medium</span></div>
+<p>A 1.0 kg ball at 5.0 m/s hits a 1.0 kg ball at rest. After collision, the first ball moves at 1.0 m/s. Is this elastic?</p>
+<div class="pq-ans">Momentum: $1(5)+0 = 1(1)+1(v_2)$ → $v_2 = 4.0$ m/s [1]<br>$KE_{before} = \frac{1}{2}(1)(25) = 12.5$ J. $KE_{after} = \frac{1}{2}(1)(1) + \frac{1}{2}(1)(16) = 8.5$ J [1]<br>$12.5 \neq 8.5$ → <strong>NOT elastic (inelastic)</strong>. 32% KE lost [1].</div>
+</div>
+<div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+<div class="pq-tag">Calculate [3] <span class="diff diff-h">Hard</span></div>
+<p>Two objects of equal mass undergo a head-on elastic collision. Object A has speed $u$, object B has speed $u/2$ (opposite direction). Find both velocities after.</p>
+<div class="pq-ans">For equal mass elastic: objects exchange velocities.<br>$v_A = u_B = -u/2$ (reverses to A's original direction of B) [1]<br>$v_B = u_A = +u$ (takes A's original velocity) [1]<br>Verify momentum: $mu + m(-u/2) = m(-u/2) + mu$ → $mu/2 = mu/2$ &#10003; [1]</div>
+</div>
+<div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+<div class="pq-tag">Explain [2] <span class="diff diff-h">Hard</span></div>
+<p>Is it possible for KE to increase in a collision? If so, give an example.</p>
+<div class="pq-ans"><strong>Yes — in an explosion</strong> (sometimes called a "superelastic" collision) [1]. A compressed spring between two trolleys releases: KE increases because stored PE converts to KE. Momentum is still conserved (zero before and after if at rest initially). Internal energy → KE [1].</div>
+</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 10: SUMMARY -->
+<div class="slide"><div class="slide-head"><span class="t">A.2 Forces & Momentum &nbsp;|&nbsp; A.2.9 Collisions</span><span class="r">Summary</span></div><div class="slide-body" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+<h2 class="f">A.2 Forces & Momentum — Complete!</h2>
+<ul style="text-align:left;max-width:600px">
+<li class="f"><strong>Elastic:</strong> $p$ conserved, $KE$ conserved. Objects bounce. Rare in practice.</li>
+<li class="f"><strong>Inelastic:</strong> $p$ conserved, $KE$ NOT conserved. Most real collisions.</li>
+<li class="f"><strong>Perfectly inelastic:</strong> $p$ conserved, max $KE$ lost. Objects stick. $v = \frac{m_1 u_1 + m_2 u_2}{m_1+m_2}$.</li>
+<li class="f"><strong>Test type:</strong> Compare $KE_{before}$ and $KE_{after}$.</li>
+<li class="f"><strong>Equal mass elastic:</strong> velocities exchange completely.</li>
+<li class="f"><strong>Ballistic pendulum:</strong> Stage 1 = collision (momentum). Stage 2 = swing (energy).</li>
+<li class="f"><strong>Fraction KE lost</strong> (perfectly inelastic, $u_2 = 0$): $= \frac{m_2}{m_1+m_2}$.</li>
+</ul>
+<div class="f note" style="margin-top:14px;max-width:600px"><strong>Topic A.2 Complete.</strong> You've now covered all of Forces & Momentum: FBDs, Newton's three laws, friction, drag, buoyancy, momentum, impulse, conservation, and collisions.</div>
+<p class="f" style="font-size:.82rem;color:var(--text3);margin-top:10px;font-family:sans-serif">Atul Soral Physicism — Topic A.2 Complete</p>
+</div><canvas class="draw-layer"></canvas></div>
+
+</div>
+
+<div class="toolbar"><button class="tb-btn active" id="btnCursor" onclick="setTool('cursor')">&#128433;</button><div class="tb-sep"></div><button class="tb-btn" id="btnPen" onclick="setTool('pen')">&#9998;</button><button class="tb-btn" id="btnHighlight" onclick="setTool('highlight')">&#128397;</button><button class="tb-btn" id="btnEraser" onclick="setTool('eraser')">&#129529;</button><div class="tb-sep"></div><span class="color-dot active" style="background:#ef4444" onclick="setColor('#ef4444',this)"></span><span class="color-dot" style="background:#3b82f6" onclick="setColor('#3b82f6',this)"></span><span class="color-dot" style="background:#10b981" onclick="setColor('#10b981',this)"></span><span class="color-dot" style="background:#f59e0b" onclick="setColor('#f59e0b',this)"></span><span class="color-dot" style="background:#ffffff" onclick="setColor('#ffffff',this)"></span><div class="tb-sep"></div><input type="range" style="width:45px;height:4px;accent-color:var(--accent)" min="2" max="12" value="3" oninput="penSize=+this.value"><div class="tb-sep"></div><button class="tb-btn" onclick="clearSlide()">&#128465;</button></div>
+
+<script>var AC=window.AudioContext||window.webkitAudioContext,actx=null;function ia(){if(!actx)actx=new AC();}function sndTick(){ia();if(!actx)return;var o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);o.frequency.setValueAtTime(1600,actx.currentTime);o.frequency.exponentialRampToValueAtTime(800,actx.currentTime+.04);g.gain.setValueAtTime(.06,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.06);o.start();o.stop(actx.currentTime+.06);}function sndSlide(){ia();if(!actx)return;var o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.connect(g);g.connect(actx.destination);o.frequency.setValueAtTime(500,actx.currentTime);o.frequency.exponentialRampToValueAtTime(1000,actx.currentTime+.1);g.gain.setValueAtTime(.04,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.12);o.start();o.stop(actx.currentTime+.12);}var canvases=document.querySelectorAll('.draw-layer');var slides=document.querySelectorAll('.slide'),cur=0,fi=0;function frags(s){return s.querySelectorAll('.f');}function show(i){slides.forEach(function(s,idx){s.classList.toggle('active',idx===i);});fi=0;frags(slides[i]).forEach(function(f){f.classList.remove('v');});updP();updC();setTimeout(resizeCanvas,50);restartAnims(i);}function restartAnims(i){var svgs=slides[i].querySelectorAll('svg');svgs.forEach(function(svg){var els=svg.querySelectorAll('[class]');els.forEach(function(el){var c=el.getAttribute('class');el.setAttribute('class','');void el.offsetWidth;el.setAttribute('class',c);});});}function next(){var fs=frags(slides[cur]);if(fi<fs.length){fs[fi].classList.add('v');fi++;sndTick();updP();}else if(cur<slides.length-1){cur++;show(cur);sndSlide();}}function prev(){var fs=frags(slides[cur]);if(fi>0){fi--;fs[fi].classList.remove('v');updP();}else if(cur>0){cur--;show(cur);var pf=frags(slides[cur]);pf.forEach(function(f){f.classList.add('v');});fi=pf.length;sndSlide();updP();}}function updP(){var t=0,v=0;slides.forEach(function(s,i){var f=frags(s);t+=f.length;if(i<cur)v+=f.length;else if(i===cur)v+=fi;});document.getElementById('prog').style.width=(t?v/t*100:0)+'%';}function updC(){document.getElementById('cnt').textContent=(cur+1)+'/'+slides.length;}document.addEventListener('keydown',function(e){if(currentTool!=='cursor')return;if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'){e.preventDefault();next();}else if(e.key==='ArrowLeft'||e.key==='Backspace'){e.preventDefault();prev();}else if(e.key==='f'||e.key==='F'){e.preventDefault();toggleFS();}});document.querySelector('.deck').addEventListener('click',function(e){if(currentTool!=='cursor')return;if(e.target.closest('.pq'))return;if(e.target.closest('.toolbar'))return;if(e.target.closest('.top-ctrl'))return;next();});var tx=0;document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;});document.addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?next():prev();}});function toggleTheme(){var b=document.body;b.dataset.theme=b.dataset.theme==='dark'?'light':'dark';}function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}var currentTool='cursor',penColor='#ef4444',penSize=3,drawing=false;function setTool(t){currentTool=t;document.querySelectorAll('.tb-btn').forEach(function(b){b.classList.remove('active');});if(t==='pen')document.getElementById('btnPen').classList.add('active');else if(t==='highlight')document.getElementById('btnHighlight').classList.add('active');else if(t==='eraser')document.getElementById('btnEraser').classList.add('active');else document.getElementById('btnCursor').classList.add('active');canvases.forEach(function(c){c.classList.toggle('active',t!=='cursor');c.classList.toggle('erasing',t==='eraser');});}function setColor(c,el){penColor=c;document.querySelectorAll('.color-dot').forEach(function(d){d.classList.remove('active');});el.classList.add('active');}function getCanvas(){return slides[cur].querySelector('.draw-layer');}function getCtx(){var c=getCanvas();return c?c.getContext('2d'):null;}function resizeCanvas(){var c=getCanvas();if(!c)return;var s=slides[cur];var r=s.getBoundingClientRect();if(r.width===0)return;c.width=Math.round(r.width*devicePixelRatio);c.height=Math.round(r.height*devicePixelRatio);c.style.width=r.width+'px';c.style.height=r.height+'px';var ctx=c.getContext('2d');ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}function startDraw(e){if(currentTool==='cursor')return;drawing=true;var ctx=getCtx();if(!ctx)return;var r=getCanvas().getBoundingClientRect();var x=e.clientX-r.left,y=e.clientY-r.top;if(currentTool==='eraser'){ctx.globalCompositeOperation='destination-out';ctx.lineWidth=20;}else{ctx.globalCompositeOperation='source-over';ctx.strokeStyle=penColor;ctx.lineWidth=currentTool==='highlight'?penSize*4:penSize;ctx.globalAlpha=currentTool==='highlight'?0.3:1;}ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(x,y);}function moveDraw(e){if(!drawing||currentTool==='cursor')return;var ctx=getCtx();if(!ctx)return;var r=getCanvas().getBoundingClientRect();ctx.lineTo(e.clientX-r.left,e.clientY-r.top);ctx.stroke();}function endDraw(){drawing=false;var ctx=getCtx();if(ctx){ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';}}function clearSlide(){var c=getCanvas();if(c){var ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);}}document.addEventListener('mousedown',function(e){if(e.target.closest('.draw-layer'))startDraw(e);});document.addEventListener('mousemove',moveDraw);document.addEventListener('mouseup',endDraw);document.addEventListener('touchstart',function(e){if(e.target.closest('.draw-layer')){e.preventDefault();startDraw(e.touches[0]);}},{passive:false});document.addEventListener('touchmove',function(e){if(drawing){e.preventDefault();moveDraw(e.touches[0]);}},{passive:false});document.addEventListener('touchend',endDraw);show(0);setTimeout(resizeCanvas,200);window.addEventListener('resize',resizeCanvas);window.addEventListener('load',function(){setTimeout(resizeCanvas,300);});function renderMath(){if(typeof renderMathInElement!=='undefined')renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});}document.addEventListener('DOMContentLoaded',renderMath);window.addEventListener('load',renderMath);</script>
+</body>
+</html>
