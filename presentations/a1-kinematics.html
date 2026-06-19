@@ -45,7 +45,7 @@ li strong{color:var(--text)}
 
 /* CANVAS OVERLAY */
 .draw-layer{position:absolute;inset:0;pointer-events:none;z-index:50}
-.draw-layer.active{pointer-events:auto;cursor:crosshair}
+.draw-layer.active{pointer-events:auto;cursor:crosshair}.draw-layer.texting{cursor:text}
 .draw-layer.erasing{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='8' fill='none' stroke='%23666' stroke-width='2'/%3E%3C/svg%3E") 10 10, auto}
 
 /* TOOLBAR */
@@ -642,7 +642,7 @@ li strong{color:var(--text)}
   <div class="tb-sep"></div>
   <button class="tb-btn" id="btnPen" onclick="setTool('pen')" title="Pen">✏️</button>
   <button class="tb-btn" id="btnHighlight" onclick="setTool('highlight')" title="Highlighter">🖍</button>
-  <button class="tb-btn" id="btnEraser" onclick="setTool('eraser')" title="Eraser">🧽</button>
+  <button class="tb-btn" id="btnText" onclick="setTool('text')" title="Text">T</button><button class="tb-btn" id="btnEraser" onclick="setTool('eraser')" title="Eraser">🧽</button>
   <div class="tb-sep"></div>
   <span class="color-dot active" style="background:#ef4444" onclick="setColor('#ef4444',this)"></span>
   <span class="color-dot" style="background:#3b82f6" onclick="setColor('#3b82f6',this)"></span>
@@ -652,7 +652,7 @@ li strong{color:var(--text)}
   <div class="tb-sep"></div>
   <input type="range" class="size-slider" min="2" max="12" value="3" oninput="penSize=+this.value" title="Size">
   <div class="tb-sep"></div>
-  <button class="tb-btn" onclick="clearSlide()" title="Clear this slide">🗑</button>
+  <button class="tb-btn" id="btnUndo" onclick="undo()" title="Undo (Ctrl+Z)" style="font-size:10px">&#8617;</button><button class="tb-btn" id="btnRedo" onclick="redo()" title="Redo (Ctrl+Y)" style="font-size:10px">&#8618;</button><div class="tb-sep"></div><button class="tb-btn" onclick="clearSlide()" title="Clear this slide">🗑</button>
 </div>
 
 <script>
@@ -685,12 +685,71 @@ function prev(){var fs=frags(slides[cur]);if(fi>0){fi--;fs[fi].classList.remove(
 function updP(){var t=0,v=0;slides.forEach(function(s,i){var f=frags(s);t+=f.length;if(i<cur)v+=f.length;else if(i===cur)v+=fi;});document.getElementById('prog').style.width=(t?v/t*100:0)+'%';}
 function updC(){document.getElementById('cnt').textContent=(cur+1)+'/'+slides.length;}
 
-document.addEventListener('keydown',function(e){
+document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='z'){e.preventDefault();undo();return;}if((e.ctrlKey||e.metaKey)&&(e.key==='y'||e.key==='Z')){e.preventDefault();redo();return;}
   if(currentTool!=='cursor')return;
   if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'){e.preventDefault();next();}
   else if(e.key==='ArrowLeft'||e.key==='Backspace'){e.preventDefault();prev();}
   else if(e.key==='f'||e.key==='F'){e.preventDefault();toggleFS();}
 });
+
+// ════ UNDO/REDO SYSTEM ════
+var undoStack=[], redoStack=[], maxUndo=30;
+function saveState(){
+  var c=getCanvas();if(!c)return;
+  undoStack.push(c.toDataURL());
+  if(undoStack.length>maxUndo)undoStack.shift();
+  redoStack=[];
+}
+function undo(){
+  var c=getCanvas();if(!c||undoStack.length===0)return;
+  redoStack.push(c.toDataURL());
+  var state=undoStack.pop();
+  var ctx=c.getContext('2d');
+  var img=new Image();
+  img.onload=function(){ctx.clearRect(0,0,c.width,c.height);ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(img,0,0);ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);};
+  img.src=state;
+}
+function redo(){
+  var c=getCanvas();if(!c||redoStack.length===0)return;
+  undoStack.push(c.toDataURL());
+  var state=redoStack.pop();
+  var ctx=c.getContext('2d');
+  var img=new Image();
+  img.onload=function(){ctx.clearRect(0,0,c.width,c.height);ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(img,0,0);ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);};
+  img.src=state;
+}
+
+// ════ TEXT BOX TOOL ════
+var textInput=null;
+function placeText(e){
+  if(currentTool!=='text')return;
+  var c=getCanvas();if(!c)return;
+  var r=c.getBoundingClientRect();
+  var x=e.clientX-r.left, y=e.clientY-r.top;
+  if(textInput){textInput.remove();textInput=null;}
+  var inp=document.createElement('input');
+  inp.type='text';
+  inp.style.cssText='position:fixed;left:'+(e.clientX-2)+'px;top:'+(e.clientY-14)+'px;background:rgba(0,0,0,.7);color:#fff;border:1px solid var(--accent);border-radius:4px;padding:4px 8px;font-size:16px;font-family:sans-serif;outline:none;z-index:300;min-width:120px;';
+  inp.placeholder='Type here...';
+  document.body.appendChild(inp);
+  inp.focus();
+  textInput=inp;
+  inp.addEventListener('keydown',function(ev){
+    if(ev.key==='Enter'){
+      saveState();
+      var ctx=getCtx();if(!ctx)return;
+      ctx.globalCompositeOperation='source-over';
+      ctx.globalAlpha=1;
+      ctx.font='bold 16px -apple-system,system-ui,sans-serif';
+      ctx.fillStyle=penColor;
+      ctx.fillText(inp.value,x,y);
+      inp.remove();textInput=null;
+    }else if(ev.key==='Escape'){
+      inp.remove();textInput=null;
+    }
+    ev.stopPropagation();
+  });
+}
 show(0);
 
 // ════════ THEME ════════
@@ -708,10 +767,10 @@ function setTool(t){
   if(t==='pen')document.getElementById('btnPen').classList.add('active');
   else if(t==='highlight')document.getElementById('btnHighlight').classList.add('active');
   else if(t==='eraser')document.getElementById('btnEraser').classList.add('active');
-  else document.getElementById('btnCursor').classList.add('active');
+  else if(t==='text')document.getElementById('btnText').classList.add('active');else document.getElementById('btnCursor').classList.add('active');
   canvases.forEach(function(c){
     c.classList.toggle('active',t!=='cursor');
-    c.classList.toggle('erasing',t==='eraser');
+    c.classList.toggle('erasing',t==='eraser');c.classList.toggle('texting',t==='text');
   });
 }
 function setColor(c,el){penColor=c;document.querySelectorAll('.color-dot').forEach(function(d){d.classList.remove('active');});el.classList.add('active');}
@@ -765,9 +824,9 @@ function moveDraw(e){
   var r=getCanvas().getBoundingClientRect();
   ctx.lineTo(e.clientX-r.left,e.clientY-r.top);ctx.stroke();
 }
-function endDraw(){drawing=false;var ctx=getCtx();if(ctx){ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';}}
+function endDraw(){if(drawing)saveState();drawing=false;var ctx=getCtx();if(ctx){ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';}}
 
-document.addEventListener('mousedown',function(e){if(e.target.closest('.draw-layer'))startDraw(e);});
+document.addEventListener('mousedown',function(e){if(e.target.closest('.draw-layer')){if(currentTool==='text'){placeText(e);}else{startDraw(e);}}});
 document.addEventListener('mousemove',moveDraw);
 document.addEventListener('mouseup',endDraw);
 // Touch
