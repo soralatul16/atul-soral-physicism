@@ -833,7 +833,7 @@ function moveDraw(e){
   var r=getCanvas().getBoundingClientRect();
   ctx.lineTo(e.clientX-r.left,e.clientY-r.top);ctx.stroke();
 }
-function endDraw(){if(drawing)saveState();drawing=false;var ctx=getCtx();if(ctx){ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';}}
+function endDraw(){var wasDraw=drawing;drawing=false;if(wasDraw&&currentTool!=='cursor'&&currentTool!=='text')saveState();var ctx=getCtx();if(ctx){ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';}}
 
 document.addEventListener('mousedown',function(e){if(e.target.closest('.draw-layer')){if(currentTool==='text'){placeText(e);}else{startDraw(e);}}});
 document.addEventListener('mousemove',moveDraw);
