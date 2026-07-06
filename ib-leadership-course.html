@@ -2898,28 +2898,48 @@ function buildGenericModule(modId, startQ, title, terms, scenarios, fills, swaps
     p4+='<div class="quiz-box" id="'+qid+'" style="margin-bottom:12px"><div class="quiz-label">Swap '+(i+1)+'</div><div class="quiz-q">'+parts[0]+'</div><div class="quiz-fill"><input type="text" id="'+qid+'input" placeholder="IB term..."><button class="quiz-btn" onclick="checkFill(\''+qid+'\',\''+parts[1]+'\',\''+modId+'\')">Check</button></div><div class="quiz-feedback" id="'+qid+'fb"></div></div>'});
   document.getElementById(modId+'p4body').innerHTML=p4;
 
-  // Phases 5-8: Templates, Combines, Transforms, Interviews (simplified)
-  var p5='<p class="section-note">Write sentences about '+title.toLowerCase()+' using IB terminology. Use the "Grade Me" button for AI feedback.</p>';
-  var tQuestions=['Describe how you would apply one concept from this module as coordinator.','Explain why this topic matters for IB programme integrity.','Connect a concept from this module to the Learner Profile.','How would you discuss this topic with a parent who doesn\'t understand IB?'];
-  tQuestions.forEach(function(tq,i){var qid='q'+(startQ+23+i);
-    p5+='<div class="quiz-box" id="'+qid+'" style="margin-bottom:12px"><div class="quiz-label">Template '+(i+1)+'</div><div class="quiz-q">'+tq+'</div><textarea class="write-area" id="'+qid+'input" placeholder="Write using IB terminology..."></textarea><button class="quiz-btn" onclick="markDone(\''+qid+'\',\''+modId+'\')" style="margin-left:6px">Done</button><div class="quiz-feedback" id="'+qid+'fb"></div></div>'});
+  // Phases 5-8: Templates, Combines, Transforms, Interviews (with model answers)
+  function cleanIB(t){ var s=t.ib; var idx=s.indexOf('&mdash;'); return idx>-1?s.substring(idx+7).trim():s; }
+  function firstSentence(t){ var m=t.m; var idx=m.indexOf('. '); return idx>-1?m.substring(0,idx+1):m; }
+
+  var p5='<p class="section-note">Write sentences about '+title.toLowerCase()+' using IB terminology. Write your answer, then click "Grade Me" for AI feedback or "Model" to compare.</p>';
+  var tData=[
+    {q:'Describe how you would apply "'+terms[0].w+'" as coordinator.',model:'As coordinator, I would prioritize '+terms[0].w.toLowerCase()+' &mdash; '+cleanIB(terms[0])+'. '+firstSentence(terms[0])+' This ensures our programme meets IB Standards and Practices.'},
+    {q:'Explain why "'+terms[1].w+'" matters for IB programme integrity.',model:'"'+terms[1].w+'" is central to programme integrity because '+cleanIB(terms[1])+'. '+firstSentence(terms[1])+' Without it, the programme drifts from IB\'s intended standards.'},
+    {q:'Connect "'+terms[2].w+'" to the Learner Profile.',model:'"'+terms[2].w+'" develops principled and reflective learners &mdash; '+cleanIB(terms[2])+'. When we embed this into our practice, students experience the Learner Profile in action rather than as a poster on the wall.'},
+    {q:'How would you explain "'+terms[3].w+'" to a parent unfamiliar with IB?',model:'In simple terms, "'+terms[3].w+'" means '+cleanIB(terms[3])+'. '+firstSentence(terms[3])+' It\'s part of how IB ensures your child receives a rigorous, internationally recognized education.'}
+  ];
+  tData.forEach(function(t,i){var qid='q'+(startQ+23+i);
+    p5+='<div class="quiz-box" id="'+qid+'" style="margin-bottom:12px"><div class="quiz-label">Template '+(i+1)+'</div><div class="quiz-q">'+t.q+'</div><textarea class="write-area" id="'+qid+'input" placeholder="Write using IB terminology..."></textarea><button class="reveal-btn" onclick="toggleReveal(\''+qid+'ans\')">Model</button><div class="answer-reveal" id="'+qid+'ans">'+t.model+'</div><button class="quiz-btn" onclick="markDone(\''+qid+'\',\''+modId+'\')" style="margin-left:6px">Done</button><div class="quiz-feedback" id="'+qid+'fb"></div></div>'});
   document.getElementById(modId+'p5body').innerHTML=p5;
 
-  var p6='<p class="section-note">Combine two concepts from this module in one sentence.</p>';
-  for(var ci=0;ci<4;ci++){var qid='q'+(startQ+27+ci);
-    p6+='<div class="quiz-box" id="'+qid+'" style="margin-bottom:12px"><div class="quiz-label">Combine '+(ci+1)+'</div><div class="quiz-q">Write one sentence combining "'+terms[ci*2].w+'" and "'+terms[ci*2+1].w+'".</div><textarea class="write-area" id="'+qid+'input" placeholder="One sentence with both terms..."></textarea><button class="quiz-btn" onclick="markDone(\''+qid+'\',\''+modId+'\')" style="margin-left:6px">Done</button><div class="quiz-feedback" id="'+qid+'fb"></div></div>'}
+  var p6='<p class="section-note">Combine two concepts from this module in one sentence. Write your answer, then compare with the model.</p>';
+  for(var ci=0;ci<4;ci++){var qid='q'+(startQ+27+ci);var t1=terms[ci*2],t2=terms[ci*2+1];
+    var model='"'+t1.w+'" and "'+t2.w+'" reinforce each other &mdash; '+cleanIB(t1)+', while '+cleanIB(t2)+'. Together they ensure the programme functions as IB intends.';
+    p6+='<div class="quiz-box" id="'+qid+'" style="margin-bottom:12px"><div class="quiz-label">Combine '+(ci+1)+'</div><div class="quiz-q">Write one sentence combining "'+t1.w+'" and "'+t2.w+'".</div><textarea class="write-area" id="'+qid+'input" placeholder="One sentence with both terms..."></textarea><button class="reveal-btn" onclick="toggleReveal(\''+qid+'ans\')">Model</button><div class="answer-reveal" id="'+qid+'ans">'+model+'</div><button class="quiz-btn" onclick="markDone(\''+qid+'\',\''+modId+'\')" style="margin-left:6px">Done</button><div class="quiz-feedback" id="'+qid+'fb"></div></div>'}
   document.getElementById(modId+'p6body').innerHTML=p6;
 
-  var p7='<p class="section-note">Transform generic statements into IB-fluent language.</p>';
-  var weakSentences=['I would handle '+title.toLowerCase()+' by checking everything carefully.','We do a good job with '+title.toLowerCase()+' at our school.','I would make sure '+title.toLowerCase()+' is done properly.','We follow the IB rules for '+title.toLowerCase()+'.'];
-  weakSentences.forEach(function(ws,i){var qid='q'+(startQ+31+i);
-    p7+='<div class="quiz-box" id="'+qid+'" style="margin-bottom:12px"><div class="quiz-label">Transform '+(i+1)+'</div><div class="quiz-q" style="color:var(--red)">"'+ws+'"</div><textarea class="write-area" id="'+qid+'input" placeholder="Rewrite with IB terminology..."></textarea><button class="quiz-btn" onclick="markDone(\''+qid+'\',\''+modId+'\')" style="margin-left:6px">Done</button><div class="quiz-feedback" id="'+qid+'fb"></div></div>'});
+  var p7='<p class="section-note">Transform generic statements into IB-fluent language. Compare with the model after writing.</p>';
+  var wData=[
+    {weak:'I would handle '+title.toLowerCase()+' by checking everything carefully.',model:'I would ensure '+title.toLowerCase()+' aligns with IB Standards and Practices &mdash; applying '+terms[0].w.toLowerCase()+' and '+terms[1].w.toLowerCase()+' systematically, and documenting evidence of implementation rather than relying on informal checking.'},
+    {weak:'We do a good job with '+title.toLowerCase()+' at our school.',model:'Our approach to '+title.toLowerCase()+' is grounded in '+terms[2].w.toLowerCase()+' &mdash; '+cleanIB(terms[2])+' &mdash; ensuring consistency with IB expectations rather than just doing "a good job" by our own measure.'},
+    {weak:'I would make sure '+title.toLowerCase()+' is done properly.',model:'I would embed '+terms[3].w.toLowerCase()+' into our practice, because '+cleanIB(terms[3])+'. This moves us from "doing it properly" to demonstrable programme integrity.'},
+    {weak:'We follow the IB rules for '+title.toLowerCase()+'.',model:'We don\'t just follow rules &mdash; we implement '+terms[4].w.toLowerCase()+' and '+terms[5].w.toLowerCase()+' as living practices, reviewing them regularly against IB Standards and Practices and adjusting based on evidence.'}
+  ];
+  wData.forEach(function(w,i){var qid='q'+(startQ+31+i);
+    p7+='<div class="quiz-box" id="'+qid+'" style="margin-bottom:12px"><div class="quiz-label">Transform '+(i+1)+'</div><div class="quiz-q" style="color:var(--red)">"'+w.weak+'"</div><textarea class="write-area" id="'+qid+'input" placeholder="Rewrite with IB terminology..."></textarea><button class="reveal-btn" onclick="toggleReveal(\''+qid+'ans\')">Model</button><div class="answer-reveal" id="'+qid+'ans">'+w.model+'</div><button class="quiz-btn" onclick="markDone(\''+qid+'\',\''+modId+'\')" style="margin-left:6px">Done</button><div class="quiz-feedback" id="'+qid+'fb"></div></div>'});
   document.getElementById(modId+'p7body').innerHTML=p7;
 
-  var p8='<p class="section-note">Interview questions on '+title.toLowerCase()+'. Use the "Grade Me" button for AI feedback on your answers.</p>';
-  var ivQuestions=['How would you approach '+title.toLowerCase()+' as coordinator?','What challenges do schools face with '+title.toLowerCase()+'?','How does '+title.toLowerCase()+' connect to the IB mission?','Describe your experience with '+title.toLowerCase()+'.','What would you prioritize regarding '+title.toLowerCase()+' in your first year?'];
-  ivQuestions.forEach(function(iq,i){var qid='q'+(startQ+35+i);
-    p8+='<div class="quiz-box" id="'+qid+'" style="margin-bottom:12px"><div class="quiz-label">Interview '+(i+1)+'</div><div class="quiz-q">"'+iq+'"</div><textarea class="write-area" id="'+qid+'input" placeholder="Your answer..."></textarea><button class="quiz-btn" onclick="markDone(\''+qid+'\',\''+modId+'\')" style="margin-left:6px">Done</button><div class="quiz-feedback" id="'+qid+'fb"></div></div>'});
+  var p8='<p class="section-note">Interview questions on '+title.toLowerCase()+'. Write your answer, use "Grade Me" for AI feedback, then compare with the model.</p>';
+  var iData=[
+    {q:'How would you approach '+title.toLowerCase()+' as coordinator?',model:'I would approach '+title.toLowerCase()+' by applying '+terms[0].w.toLowerCase()+' and '+terms[2].w.toLowerCase()+' systematically. '+firstSentence(terms[0])+' The key is ensuring alignment with IB Standards and Practices while building teacher and stakeholder understanding.'},
+    {q:'What challenges do schools face with '+title.toLowerCase()+', and how would you address them?',model:'The main challenge is treating '+title.toLowerCase()+' as compliance rather than genuine practice. I would address this by embedding '+terms[3].w.toLowerCase()+' into daily routines, providing targeted professional development, and reviewing implementation against evidence rather than assumption.'},
+    {q:'How does '+title.toLowerCase()+' connect to the IB mission and Learner Profile?',model:'"'+terms[1].w+'" directly serves the IB mission &mdash; '+cleanIB(terms[1])+'. It develops principled, reflective learners who understand that quality and integrity are not optional extras but the foundation of international education.'},
+    {q:'Describe your experience relevant to '+title.toLowerCase()+'.',model:'In my current role I have worked with '+terms[4].w.toLowerCase()+' and '+terms[5].w.toLowerCase()+' directly. '+firstSentence(terms[4])+' This gave me practical understanding of how these processes function and where schools commonly struggle.'},
+    {q:'What would you prioritize regarding '+title.toLowerCase()+' in your first year as coordinator?',model:'In my first year, I would audit our current practice against IB Standards and Practices, prioritize '+terms[0].w.toLowerCase()+', and build a targeted action plan. '+firstSentence(terms[6]||terms[0])+' Sustainable improvement comes from understanding the baseline before changing it.'}
+  ];
+  iData.forEach(function(iv,i){var qid='q'+(startQ+35+i);
+    p8+='<div class="quiz-box" id="'+qid+'" style="margin-bottom:12px"><div class="quiz-label">Interview '+(i+1)+'</div><div class="quiz-q">"'+iv.q+'"</div><textarea class="write-area" id="'+qid+'input" placeholder="Your answer..."></textarea><button class="reveal-btn" onclick="toggleReveal(\''+qid+'ans\')">Model</button><div class="answer-reveal" id="'+qid+'ans">'+iv.model+'</div><button class="quiz-btn" onclick="markDone(\''+qid+'\',\''+modId+'\')" style="margin-left:6px">Done</button><div class="quiz-feedback" id="'+qid+'fb"></div></div>'});
   document.getElementById(modId+'p8body').innerHTML=p8;
 
   document.querySelectorAll('#'+modId+' textarea, #'+modId+' .quiz-fill input').forEach(function(el){if(el.id){var v=localStorage.getItem('lc_v3_'+el.id);if(v)el.value=v}});
