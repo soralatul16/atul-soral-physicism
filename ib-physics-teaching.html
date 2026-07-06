@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IB Physics Teaching Mastery</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#FAF8F4;--card:#fff;--text:#1a1a2e;--text2:#6b7280;
+--accent:#7A3E9D;--accent-light:#F0E8F5;--accent-dark:#5E2E7A;
+--border:#E8E4DE;--gold:#D4A853;--gold-bg:#FEF9EE;
+--red:#C75050;--red-bg:#FEF2F2;--red-border:#FECACA;
+--green:#2E8B57;--green-bg:#F0FDF4;--green-border:#BBF7D0;
+--highlight:#FEF3C7;--phase-track:#E8E4DE;
+--sidebar-bg:#F3F0EA;--sidebar-w:250px;--analytics-w:250px
+}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+body.dark{--bg:#0F1119;--card:#1A1D2E;--text:#E8E4DC;--text2:#8B8FA0;--accent:#B57ED6;--accent-light:#2A1D33;--accent-dark:#9B5FC4;--border:#2A2D3E;--gold:#D4A853;--gold-bg:#2A2510;--red:#E87070;--red-bg:#2A1A1A;--red-border:#4A2020;--green:#5CB88A;--green-bg:#1A2A1F;--green-border:#2A4A30;--highlight:#332B00;--phase-track:#2A2D3E;--sidebar-bg:#151728}
+
+.lock{display:flex;align-items:center;justify-content:center;min-height:100vh}
+.lock-box{background:var(--card);padding:40px;border-radius:16px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.08);border:1px solid var(--border)}
+.lock-box h1{color:var(--accent);font-size:1.3rem;margin-bottom:6px}
+.lock-box p{color:var(--text2);font-size:.82rem;margin-bottom:20px}
+.lock-box input{padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.95rem;background:var(--bg);color:var(--text)}
+.lock-box button{padding:10px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-left:6px}
+
+.layout{display:none!important}
+.layout.unlocked{display:flex!important;flex-direction:column}
+@media(min-width:1100px){.layout.unlocked{display:grid!important;grid-template-columns:var(--sidebar-w) minmax(0,1fr) var(--analytics-w);min-height:100vh}}
+
+.sidebar{background:var(--sidebar-bg);border-right:1px solid var(--border);padding:16px 0;overflow-y:auto;position:sticky;top:0;height:100vh}
+.sidebar-brand{padding:10px 18px 16px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.sidebar-brand h2{font-size:.92rem;color:var(--accent)}
+.sidebar-brand p{font-size:.65rem;color:var(--text2)}
+.sb-item{display:flex;align-items:center;gap:8px;padding:9px 16px;font-size:.8rem;cursor:pointer;color:var(--text);transition:background .15s}
+.sb-item:hover{background:var(--accent-light)}
+.sb-item.active{background:var(--accent);color:#fff;font-weight:600}
+.sb-num{width:24px;height:24px;border-radius:50%;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}
+.sb-item.active .sb-num{background:rgba(255,255,255,.25);color:#fff}
+.sb-pct{margin-left:auto;font-size:.65rem;font-weight:700;color:var(--text2)}
+.sb-item.active .sb-pct{color:rgba(255,255,255,.9)}
+
+.mobile-nav{display:none;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.mobile-nav select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:.85rem;background:var(--bg);color:var(--text)}
+.mobile-stats{display:none}
+@media(max-width:1099px){.sidebar{display:none}.analytics{display:none}.mobile-nav{display:block}.mobile-stats{display:flex;gap:10px;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--border);font-size:.75rem;color:var(--text2);overflow-x:auto}.mobile-stats span{white-space:nowrap;background:var(--bg);padding:4px 10px;border-radius:12px}}
+
+.main{padding:20px 24px 100px;max-width:820px;margin:0 auto;width:100%}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.top-bar .title{font-size:1rem;font-weight:700;color:var(--accent)}
+.top-bar .controls{display:flex;gap:8px;align-items:center}
+.top-bar button{background:var(--bg);border:1px solid var(--border);padding:4px 10px;border-radius:6px;font-size:.72rem;cursor:pointer;color:var(--text)}
+
+.analytics{background:var(--sidebar-bg);border-left:1px solid var(--border);padding:16px;overflow-y:auto;position:sticky;top:0;height:100vh}
+.an-title{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);font-weight:700;margin-bottom:10px}
+.an-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px}
+.an-big{font-size:1.6rem;font-weight:800;color:var(--accent)}
+.an-label{font-size:.7rem;color:var(--text2);margin-top:2px}
+.an-bar{height:8px;background:var(--phase-track);border-radius:4px;margin:8px 0 4px;overflow:hidden}
+.an-bar-fill{height:100%;border-radius:4px;transition:width .5s ease;background:linear-gradient(90deg,#B57ED6,#7A3E9D)}
+.streak-num{font-size:1.4rem;font-weight:800;color:var(--gold)}
+
+.module-content{display:none}
+.module-content.active{display:block}
+.mentor{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);padding:14px 18px;border-radius:0 10px 10px 0;margin-bottom:20px}
+.mentor .label{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);font-weight:700;margin-bottom:4px}
+.mentor p{font-size:.88rem}
+
+.sec{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:18px}
+.sec h3{font-size:1rem;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.sec-tag{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 10px;border-radius:4px;color:#fff;flex-shrink:0}
+.tag-concept{background:var(--accent)}
+.tag-reality{background:var(--gold)}
+.tag-example{background:var(--green)}
+.tag-turn{background:var(--accent)}
+.tag-check{background:#0B7285}
+.sec p{font-size:.86rem;margin-bottom:10px}
+.sec ul{padding-left:20px;margin-bottom:10px}
+.sec li{font-size:.85rem;margin-bottom:6px}
+.sec strong{color:var(--text)}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.compare .cbse,.compare .ibw{padding:14px;border-radius:8px;font-size:.82rem}
+.compare .cbse{background:var(--red-bg);border:1px solid var(--red-border)}
+.compare .ibw{background:var(--green-bg);border:1px solid var(--green-border)}
+.compare .clabel{font-size:.6rem;font-weight:700;text-transform:uppercase;margin-bottom:6px}
+.compare .cbse .clabel{color:var(--red)}
+.compare .ibw .clabel{color:var(--green)}
+@media(max-width:600px){.compare{grid-template-columns:1fr}}
+
+.reality-box{background:var(--gold-bg);border:1px solid rgba(212,168,83,.3);border-radius:8px;padding:14px 16px;margin:12px 0}
+.reality-box .rlabel{font-size:.62rem;font-weight:700;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.reality-check{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:.84rem}
+.reality-check input{margin-top:4px;width:16px;height:16px;accent-color:var(--accent)}
+
+.flow-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.8rem}
+.flow-table th{background:var(--accent-light);color:var(--accent);padding:8px;text-align:left;font-size:.72rem}
+.flow-table td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top}
+
+.write-area{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;background:var(--card);color:var(--text);min-height:90px;resize:vertical;font-family:inherit;line-height:1.6}
+.write-area:focus{outline:none;border-color:var(--accent)}
+.reveal-btn{background:none;border:1px solid var(--accent);color:var(--accent);padding:6px 14px;border-radius:6px;font-size:.75rem;cursor:pointer;margin-top:8px;font-weight:600}
+.reveal-btn:hover{background:var(--accent);color:#fff}
+.answer-reveal{display:none;margin-top:10px;padding:12px 14px;background:var(--green-bg);border:1px solid var(--green-border);border-radius:8px;font-size:.84rem}
+.answer-reveal.show{display:block}
+.done-btn{background:var(--accent);color:#fff;border:none;padding:6px 16px;border-radius:6px;font-size:.76rem;font-weight:600;cursor:pointer;margin-top:8px;margin-left:6px}
+.ai-grade-btn{background:linear-gradient(135deg,#D4A853,#C4942F);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:.76rem;font-weight:600;cursor:pointer;margin-top:8px;margin-left:6px}
+.quiz-feedback{margin-top:8px;padding:8px 12px;border-radius:6px;font-size:.8rem;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.quiz-feedback.bad{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.ai-result{margin-top:8px;padding:12px 14px;border-radius:8px;font-size:.82rem;border:1px solid var(--border);background:var(--card);display:none}
+.ai-result.show{display:block}
+.ai-score{font-size:1.1rem;font-weight:800;margin-bottom:6px}
+.worksheet{background:var(--bg);border:1px dashed var(--accent);border-radius:8px;padding:16px;margin:12px 0;font-size:.82rem;font-family:'Courier New',monospace;white-space:pre-wrap;line-height:1.8}
+.auth-box{display:flex;align-items:center;gap:8px}
+.auth-btn{background:var(--accent);color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:.72rem;font-weight:600;cursor:pointer}
+.auth-name{font-size:.72rem;color:var(--text2)}
+.key-point{background:var(--accent-light);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:.85rem;border-left:3px solid var(--accent)}
+.key-point strong{color:var(--accent)}
+
+@media print{.lock{display:none!important}.layout{display:block!important}.sidebar,.analytics,.mobile-nav,.mobile-stats{display:none!important}.main{max-width:100%}.module-content{display:block!important}}
+</style>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
+</head>
+<body>
+
+<div class="lock" id="lock">
+<div class="lock-box">
+<h1>IB Physics Teaching Mastery</h1>
+<p>From CBSE habits to IB practice &mdash; for Atul Soral</p>
+<input type="password" id="pwd" placeholder="Password" onkeyup="if(event.key==='Enter')unlock()">
+<button onclick="unlock()">Enter</button>
+</div>
+</div>
+
+<div class="layout" id="layout">
+<nav class="sidebar" id="sidebar">
+<div class="sidebar-brand"><h2>IB Physics Teaching Mastery</h2><p>How to teach, not what to teach</p></div>
+<div class="sb-item active" onclick="switchMod('t1')" id="nav-t1"><span class="sb-num">1</span> What IB Expects <span class="sb-pct" id="nav-t1-pct">0%</span></div>
+<div class="sb-item" onclick="switchMod('t2')" id="nav-t2"><span class="sb-num">2</span> Understanding ManageBac <span class="sb-pct" id="nav-t2-pct">0%</span></div>
+<div class="sb-item" onclick="switchMod('t3')" id="nav-t3"><span class="sb-num">3</span> Planning ONE Lesson (5E) <span class="sb-pct" id="nav-t3-pct">0%</span></div>
+<div class="sb-item" onclick="switchMod('t4')" id="nav-t4"><span class="sb-num">4</span> The Inquiry Lab <span class="sb-pct" id="nav-t4-pct">0%</span></div>
+<div class="sb-item" onclick="switchMod('t5')" id="nav-t5"><span class="sb-num">5</span> Notebooks That Think <span class="sb-pct" id="nav-t5-pct">0%</span></div>
+<div class="sb-item" onclick="switchMod('t6')" id="nav-t6"><span class="sb-num">6</span> TOK in Physics <span class="sb-pct" id="nav-t6-pct">0%</span></div>
+<div class="sb-item" onclick="switchMod('t7')" id="nav-t7"><span class="sb-num">7</span> International Mindedness & CAS <span class="sb-pct" id="nav-t7-pct">0%</span></div>
+<div class="sb-item" onclick="switchMod('t8')" id="nav-t8"><span class="sb-num">8</span> Am I Teaching IB or CBSE? <span class="sb-pct" id="nav-t8-pct">0%</span></div>
+</nav>
+
+<div class="mobile-nav">
+<select onchange="switchMod(this.value)">
+<option value="t1">1. What IB Expects</option>
+<option value="t2">2. Understanding ManageBac</option>
+<option value="t3">3. Planning ONE Lesson (5E)</option>
+<option value="t4">4. The Inquiry Lab</option>
+<option value="t5">5. Notebooks That Think</option>
+<option value="t6">6. TOK in Physics</option>
+<option value="t7">7. International Mindedness & CAS</option>
+<option value="t8">8. Am I Teaching IB or CBSE?</option>
+</select>
+</div>
+<div class="mobile-stats"><span id="mob-streak">0 days</span><span id="mob-overall">0% complete</span></div>
+
+<main class="main">
+<div class="top-bar">
+<div class="title" id="modTitle">Module 1 &mdash; What IB Expects From a Physics Teacher</div>
+<div class="controls"><div class="auth-box" id="authBox"></div><button onclick="document.body.classList.toggle('dark')">Dark</button></div>
+</div>
+
+<!-- MODULE 1 -->
+<div class="module-content active" id="t1">
+<div class="mentor"><div class="label">Start Here</div><p>Atul, you have 7 years of IB experience and deep physics knowledge. This course isn't about content &mdash; it's about the HABIT shift from "I explain, they copy" to "they investigate, I guide." We start from zero, no assumptions. Every idea explained fully.</p></div>
+
+<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> The One Sentence That Changes Everything</h3>
+<p>Here is the entire difference between CBSE and IB teaching, in one sentence:</p>
+<div class="key-point"><strong>In CBSE, the teacher does the thinking and students record it. In IB, students do the thinking and the teacher guides it.</strong></div>
+<p>That's it. Everything else &mdash; inquiry, ATL, the 5E model, notebooks, TOK &mdash; flows from this one shift. When you lecture and students copy, YOUR brain is active and theirs is passive. When students investigate and you facilitate, THEIR brains are active. IB believes learning happens in the active brain, not the passive one.</p>
+<p><strong>Why this matters for you specifically:</strong> Your HOS said you have capability but aren't using it. What they mean is: you're doing the thinking that your students should be doing. You're SO good at physics that you explain everything beautifully &mdash; and rob students of the struggle that creates real understanding.</p>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> The 8 Things IB Expects From You</h3>
+<ul>
+<li><strong>1. Facilitator, not lecturer.</strong> Your job is to design experiences where students discover, not to deliver information. You talk less; they think more.</li>
+<li><strong>2. Student agency.</strong> Students own their learning. They ask questions, design investigations, and reach conclusions. You don't hand them conclusions.</li>
+<li><strong>3. Concept-driven teaching.</strong> Teach through big ideas (energy, systems, interactions, fields) not through chapters. "Chapter 4: Work and Energy" is CBSE. "How is energy conserved across systems?" is IB.</li>
+<li><strong>4. The inquiry cycle.</strong> Every unit follows: question &rarr; predict &rarr; investigate &rarr; analyse &rarr; conclude &rarr; reflect. Not: explain &rarr; practise &rarr; test.</li>
+<li><strong>5. The 3-minute rule.</strong> Never talk continuously for more than 3 minutes. After 3 minutes of teacher talk, students disengage. Break it with a question, a prediction, an activity.</li>
+<li><strong>6. Formative assessment in real time.</strong> Check understanding DURING the lesson (exit tickets, thumbs up/down, quick questions), not just in the exam AFTER.</li>
+<li><strong>7. ATL skills planned, not accidental.</strong> Decide before the lesson: which thinking/research/communication skill will this develop? Then design for it.</li>
+<li><strong>8. The IB mindset.</strong> CBSE: "I taught it, so they should know it." IB: "They investigated it, so they understand it."</li>
+</ul>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-reality">Reality Check</span> Be Honest With Yourself</h3>
+<div class="reality-box"><div class="rlabel">Tick the ones that are TRUE about your current teaching</div>
+<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,'t1r1')"> I usually explain the concept, then give students problems to practise</label>
+<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,'t1r2')"> I derive formulas on the board while students copy them</label>
+<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,'t1r3')"> I take students to the lab to CONFIRM what I already taught</label>
+<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,'t1r4')"> I often talk for more than 3 minutes without a student activity</label>
+<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,'t1r5')"> I think in chapters/topics rather than concepts</label>
+</div>
+<p style="font-size:.82rem;color:var(--text2)">Every box you ticked is a "CBSE habit" we'll transform. Ticking them is not failure &mdash; it's awareness. Awareness is where change begins.</p>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-example">Example</span> Facilitator vs Lecturer (Momentum)</h3>
+<div class="compare">
+<div class="cbse"><div class="clabel">Lecturer (CBSE)</div>"Today we'll learn momentum. Momentum p = mv. It's the quantity of motion. Let me derive the relation between KE and momentum. Copy this. Now solve these 5 problems."</div>
+<div class="ibw"><div class="clabel">Facilitator (IB)</div>"Here are two trolleys of different mass and a barrier. Predict: which will be harder to stop, and why? Now test it. What did you find? What pattern connects mass, speed, and 'hardness to stop'? Let's name what you discovered."</div>
+</div>
+<p>Same physics. Same 40 minutes. But in the second version, students DISCOVER momentum. You didn't tell them p=mv &mdash; they found that mass and velocity both matter, and THEN you gave the discovery its name.</p>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-turn">Your Turn</span> Rewrite a Lecturer Moment</h3>
+<p>Think of a topic you teach. Write how you currently OPEN that lesson (the lecturer way). Then rewrite it as a facilitator &mdash; turning your opening into a question or investigation instead of an explanation.</p>
+<textarea class="write-area" id="t1w1" placeholder="CURRENT (lecturer): I usually start by...&#10;&#10;REWRITTEN (facilitator): Instead, I could start by asking/showing..."></textarea>
+<button class="reveal-btn" onclick="toggleReveal('t1a1')">See Example</button>
+<div class="answer-reveal" id="t1a1"><strong>Topic: Refraction.</strong><br>CURRENT (lecturer): "Today we'll study refraction. Light bends when it moves between media because speed changes. Snell's law is n1 sinθ1 = n2 sinθ2. Copy this."<br><br>REWRITTEN (facilitator): "Look at this pencil in a glass of water &mdash; why does it look broken? Predict what happens if I use oil instead of water. Let's investigate how much light bends in different liquids and see if YOU can find the pattern that connects them."</div>
+<button class="ai-grade-btn" onclick="gradeAI(this)">Grade Me</button>
+<button class="done-btn" onclick="markDone('t1w1','t1')">Done</button>
+<div class="quiz-feedback" id="t1w1fb"></div>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-check">Self-Check</span> Before Your Next Lesson</h3>
+<p>Carry this question into your next class: <strong>"In this lesson, whose brain is doing the thinking &mdash; mine or theirs?"</strong> If the answer is "mine," you're lecturing. If it's "theirs," you're facilitating. That single question, asked honestly, will transform your teaching faster than any workshop.</p>
+</div>
+</div>
+
+<!-- MODULE 2 -->
+<div class="module-content" id="t2">
+<div class="mentor"><div class="label">Module 2</div><p>You told me you create ManageBac plans with AI but don't understand the fields. Let's fix that. By the end of this module, you'll understand every field so deeply that when AI generates a plan, you can read it and say "this is weak because..." You become the editor, not the accepter.</p></div>
+
+<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> What a Unit Planner Actually Is</h3>
+<p>A ManageBac unit planner is NOT a lesson plan. It's the <strong>conceptual blueprint for an entire unit</strong> (usually 4-6 weeks). Think of it like the design document for a whole experiment series, not a single experiment. Let's go through every field, one by one, explaining exactly what each word means and what goes in it.</p>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> Field 1: Key Concept</h3>
+<p><strong>What the word means:</strong> A key concept is a BIG, transferable idea that applies across many subjects &mdash; not just physics. MYP has 16 of them (Change, Systems, Relationships, Interactions, Models, etc.).</p>
+<p><strong>What goes in this field:</strong> ONE key concept that your unit is fundamentally about. For a unit on forces and motion, you might choose <strong>"Relationships"</strong> (how force, mass, and acceleration relate) or <strong>"Systems"</strong> (how objects interact within a system).</p>
+<div class="key-point"><strong>How to choose:</strong> Ask "What is the deepest, most transferable idea my unit is really about?" Not the topic (forces) &mdash; the CONCEPT (relationships, systems, change).</div>
+<div class="compare">
+<div class="cbse"><div class="clabel">Weak choice</div>Key Concept: "Forces" (this is a TOPIC, not a concept &mdash; it doesn't transfer to history or art)</div>
+<div class="ibw"><div class="clabel">Strong choice</div>Key Concept: "Relationships" (transfers everywhere &mdash; the relationship between variables in physics, characters in literature, events in history)</div>
+</div>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> Field 2: Related Concepts</h3>
+<p><strong>What the word means:</strong> Related concepts are subject-specific ideas that add depth. Unlike key concepts (shared across subjects), these belong to physics. MYP Sciences related concepts include: Energy, Models, Movement, Patterns, Transformation, Environment, Form, Function, Interaction, Balance, Consequences, Evidence, Development.</p>
+<p><strong>What goes in this field:</strong> 2-3 related concepts that deepen your key concept. For a forces unit under "Relationships," you might add <strong>Movement</strong> and <strong>Interaction</strong>.</p>
+<div class="key-point"><strong>The formula:</strong> Key concept (broad) + Related concepts (physics-specific) = the conceptual spine of your unit.</div>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> Field 3: Global Context</h3>
+<p><strong>What the word means:</strong> A global context makes learning MEANINGFUL by connecting it to the real world. MYP has 6: (1) Identities and relationships, (2) Orientation in space and time, (3) Personal and cultural expression, (4) Scientific and technical innovation, (5) Globalization and sustainability, (6) Fairness and development.</p>
+<p><strong>What goes in this field:</strong> ONE global context that frames your unit's real-world relevance. A forces/motion unit fits naturally under <strong>"Scientific and technical innovation"</strong> (how understanding forces enables engineering) or <strong>"Orientation in space and time"</strong> (motion, navigation, GPS).</p>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> Field 4: Statement of Inquiry (SOI) &mdash; the hardest one</h3>
+<p><strong>What the word means:</strong> The SOI is a single sentence that combines your key concept + related concepts + global context into a meaningful, DEBATABLE statement. It's the thesis of your whole unit. Students investigate whether it's true.</p>
+<p><strong>What goes in this field:</strong> A statement that is conceptual (not a topic) and contestable (not an obvious fact).</p>
+<div class="compare">
+<div class="cbse"><div class="clabel">Weak SOI</div>"Students will learn about forces and motion." (This is a topic description, not a statement of inquiry. It's not debatable.)</div>
+<div class="ibw"><div class="clabel">Strong SOI</div>"The relationships between interacting forces determine how objects move, enabling the technical innovations that shape modern life." (Conceptual + contestable + connects to global context)</div>
+</div>
+<div class="key-point"><strong>The recipe:</strong> [Key concept] + [related concepts] + [global context] = SOI. Example: Relationships + Movement/Interaction + Scientific innovation = the strong SOI above.</div>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> Fields 5-6: Inquiry Questions & ATL Skills</h3>
+<p><strong>Inquiry Questions (3 types):</strong></p>
+<ul>
+<li><strong>Factual</strong> (recall): "What is Newton's second law?"</li>
+<li><strong>Conceptual</strong> (relationships): "How do force and mass together determine acceleration?"</li>
+<li><strong>Debatable</strong> (multiple views): "Should self-driving cars prioritise passenger or pedestrian safety when braking forces are limited?"</li>
+</ul>
+<p>Every unit needs all three levels. This scaffolds students from knowing &rarr; understanding &rarr; evaluating.</p>
+<p><strong>ATL Skills:</strong> Choose which specific skill your unit develops. For a forces unit with lab work, you might choose "Thinking: transfer" (applying force concepts to new situations) and "Research: information literacy" (evaluating data reliability). Then you must actually PLAN activities that develop these &mdash; not just write them in the box.</p>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-turn">Your Turn</span> Build a Statement of Inquiry</h3>
+<p>Pick a physics unit you teach. Write its Key Concept, Related Concepts, Global Context, then combine them into a Statement of Inquiry. Use the recipe.</p>
+<textarea class="write-area" id="t2w1" placeholder="Unit topic: ___&#10;Key Concept: ___&#10;Related Concepts: ___&#10;Global Context: ___&#10;Statement of Inquiry: ___"></textarea>
+<button class="reveal-btn" onclick="toggleReveal('t2a1')">See Example</button>
+<div class="answer-reveal" id="t2a1"><strong>Unit: Energy</strong><br>Key Concept: Systems<br>Related Concepts: Energy, Transformation<br>Global Context: Globalization and sustainability<br>Statement of Inquiry: "Energy transformation within systems determines how societies innovate to address sustainability challenges."<br><br>Notice: this SOI is conceptual (systems, transformation), debatable (do all societies innovate the same way?), and connected to a real-world global context (sustainability).</div>
+<button class="ai-grade-btn" onclick="gradeAI(this)">Grade Me</button>
+<button class="done-btn" onclick="markDone('t2w1','t2')">Done</button>
+<div class="quiz-feedback" id="t2w1fb"></div>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-turn">Your Turn</span> Critique an AI Plan</h3>
+<p>Next time AI generates a ManageBac plan for you, paste its Statement of Inquiry here and critique it: Is it conceptual or just a topic? Is it debatable? Does it connect the global context? Write your critique.</p>
+<textarea class="write-area" id="t2w2" placeholder="AI's SOI: ___&#10;&#10;My critique: This SOI is strong/weak because..."></textarea>
+<button class="ai-grade-btn" onclick="gradeAI(this)">Grade Me</button>
+<button class="done-btn" onclick="markDone('t2w2','t2')">Done</button>
+<div class="quiz-feedback" id="t2w2fb"></div>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-check">Self-Check</span> The AI Test</h3>
+<p>You'll know you've mastered ManageBac when you can look at any AI-generated plan and immediately spot the weak field. When you can say "this SOI is just a topic, not a statement of inquiry" &mdash; you've become the editor, not the accepter. That's the goal.</p>
+</div>
+</div>
+
+<!-- MODULE 3 -->
+<div class="module-content" id="t3">
+<div class="mentor"><div class="label">Module 3</div><p>You said you've used the 5E model but aren't sure you're really doing it. Let's learn it properly &mdash; as if for the first time. By the end, you'll be able to plan any 40-minute physics lesson using 5E, and know exactly when to talk and when to shut up.</p></div>
+
+<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> The 5E Model, Explained Simply</h3>
+<p>5E is a lesson structure with five phases. The magic is the ORDER &mdash; especially that EXPLAIN comes AFTER students explore, not before.</p>
+<table class="flow-table"><tr><th>Phase</th><th>What it means</th><th>Who's active</th></tr>
+<tr><td><strong>Engage</strong></td><td>Hook curiosity with a phenomenon, question, or demo. NOT "today we'll learn X."</td><td>Students (curious)</td></tr>
+<tr><td><strong>Explore</strong></td><td>Students investigate &mdash; predict, experiment, observe. Teacher watches, doesn't explain.</td><td>Students (investigating)</td></tr>
+<tr><td><strong>Explain</strong></td><td>NOW the teacher connects student discoveries to formal physics. Formulas go here, not earlier.</td><td>Teacher (guiding)</td></tr>
+<tr><td><strong>Elaborate</strong></td><td>Apply to new contexts. Harder problems, "what if" scenarios, real-world connections.</td><td>Students (applying)</td></tr>
+<tr><td><strong>Evaluate</strong></td><td>Check understanding. Exit ticket, reflection, quick question.</td><td>Both</td></tr>
+</table>
+<div class="key-point"><strong>The #1 mistake:</strong> Explaining BEFORE students explore. If you explain first, there's nothing left to discover &mdash; you've turned Explore into "verify what teacher said." Explain must come AFTER Explore.</div>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-example">Example</span> A Complete 5E Lesson: Momentum (40 min)</h3>
+<table class="flow-table"><tr><th>Time</th><th>Phase</th><th>What happens</th></tr>
+<tr><td>0-5</td><td>Engage</td><td>Show Newton's cradle. "What do you notice? Write 2 observations and 1 question."</td></tr>
+<tr><td>5-12</td><td>Explore</td><td>"Predict: heavy trolley vs light trolley hitting a barrier &mdash; which is harder to stop? Now test it with the trolleys. Record what you find."</td></tr>
+<tr><td>12-25</td><td>Explore + Explain</td><td>Students collect collision data on PASCO. "Calculate mv before and after. What do you notice?" THEN you name it: "You discovered momentum, p=mv, and its conservation."</td></tr>
+<tr><td>25-35</td><td>Elaborate</td><td>"A 2000kg truck at 2m/s vs a 70kg cyclist at 10m/s &mdash; which has more momentum? What about a bullet?"</td></tr>
+<tr><td>35-40</td><td>Evaluate</td><td>Exit ticket: "Explain in your own words why a small bullet can be so dangerous, using today's concept."</td></tr>
+</table>
+<p>Notice: you don't say "p=mv" until minute 20. Students DISCOVER that mass and velocity both matter, THEN you give it a name and a formula. That's the 5E order working.</p>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-reality">Reality Check</span> Your Improvisation</h3>
+<p>You told me things "pop into your head" during class and you add them. That's a GIFT &mdash; the best IB teachers improvise based on student responses. The 5E structure doesn't kill improvisation; it gives it a home. You improvise WITHIN Explore (following student curiosity) and WITHIN Elaborate (adding examples). The structure keeps your improvisation purposeful instead of random.</p>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-turn">Your Turn</span> Plan a 5E Lesson</h3>
+<p>Pick a physics topic. Plan a 40-minute lesson using all five phases. Write what happens in each phase and, crucially, mark WHO is active (you or students).</p>
+<textarea class="write-area" id="t3w1" placeholder="Topic: ___&#10;ENGAGE (0-5): ___&#10;EXPLORE (5-15): ___&#10;EXPLAIN (15-25): ___&#10;ELABORATE (25-35): ___&#10;EVALUATE (35-40): ___"></textarea>
+<button class="reveal-btn" onclick="toggleReveal('t3a1')">See Example</button>
+<div class="answer-reveal" id="t3a1"><strong>Topic: Refraction</strong><br>ENGAGE (0-5): Pencil-in-water illusion. "Why does it look broken? Write a prediction." [Students]<br>EXPLORE (5-15): Students shine a laser into water/oil/glass blocks, measure the bending angle. [Students]<br>EXPLAIN (15-25): "You found denser media bend light more. This is refraction &mdash; here's Snell's law connecting your data." [Teacher]<br>ELABORATE (25-35): "Why do stars twinkle? Why do mirages form? Apply refraction." [Students]<br>EVALUATE (35-40): Exit ticket: "Explain why a straw looks bent, using refraction." [Both]</div>
+<button class="ai-grade-btn" onclick="gradeAI(this)">Grade Me</button>
+<button class="done-btn" onclick="markDone('t3w1','t3')">Done</button>
+<div class="quiz-feedback" id="t3w1fb"></div>
+</div>
+
+<div class="sec"><h3><span class="sec-tag tag-check">Self-Check</span> The Order Test</h3>
+<p>After planning any lesson, ask: <strong>"Does EXPLAIN come after EXPLORE?"</strong> If you're explaining the concept before students investigate it, flip the order. Let them discover first. That single fix converts most CBSE lessons to IB lessons.</p>
+</div>
+</div>
+
+<!-- MODULES 4-8 built by JS -->
+<div class="module-content" id="t4"><div id="t4body"></div></div>
+<div class="module-content" id="t5"><div id="t5body"></div></div>
+<div class="module-content" id="t6"><div id="t6body"></div></div>
+<div class="module-content" id="t7"><div id="t7body"></div></div>
+<div class="module-content" id="t8"><div id="t8body"></div></div>
+</main>
+
+<aside class="analytics" id="analytics">
+<div class="an-title">Your Progress</div>
+<div class="an-card"><div class="an-big" id="anOverall">0%</div><div class="an-label">Course Progress</div><div class="an-bar"><div class="an-bar-fill" id="anOverallBar" style="width:0%"></div></div></div>
+<div class="an-card"><div class="streak-num" id="anStreak">0</div><div class="an-label">Day Streak</div></div>
+<div class="an-card"><div style="font-size:.75rem;font-weight:700;margin-bottom:8px">The Core Shift</div><div style="font-size:.8rem;color:var(--text2)">"They investigate, I guide" &mdash; not "I explain, they copy."</div></div>
+<div class="an-card"><div style="font-size:.75rem;font-weight:700;margin-bottom:6px">Remember</div><div style="font-size:.78rem;color:var(--text2)">Whose brain is doing the thinking &mdash; mine or theirs?</div></div>
+</aside>
+</div>
+
+<script>
+var completed={};
+var fbApp,fbAuth,aiChatFn,currentUser=null;
+var totalTasks=0;
+
+function unlock(){
+  if(document.getElementById('pwd').value==='atul123'){
+    document.getElementById('lock').style.display='none';
+    document.getElementById('layout').classList.add('unlocked');
+    initFirebase(); buildModules(); loadState(); updateStreak(); updateProgress();
+  } else alert('Wrong password.');
+}
+function switchMod(id){
+  document.querySelectorAll('.module-content').forEach(function(m){m.classList.remove('active')});
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(function(s){s.classList.remove('active')});
+  var nav=document.getElementById('nav-'+id);if(nav)nav.classList.add('active');
+  var titles={t1:'Module 1 &mdash; What IB Expects From a Physics Teacher',t2:'Module 2 &mdash; Understanding ManageBac',t3:'Module 3 &mdash; Planning ONE Lesson (5E)',t4:'Module 4 &mdash; The Inquiry Lab',t5:'Module 5 &mdash; Notebooks That Think',t6:'Module 6 &mdash; TOK in Physics',t7:'Module 7 &mdash; International Mindedness & CAS',t8:'Module 8 &mdash; Am I Teaching IB or CBSE?'};
+  document.getElementById('modTitle').innerHTML=titles[id];
+}
+function toggleReveal(id){document.getElementById(id).classList.toggle('show')}
+function saveCheck(el,id){localStorage.setItem('pt_'+id,el.checked?'1':'0')}
+function markDone(taskId,mod){
+  var input=document.getElementById(taskId);
+  if(input&&input.tagName==='TEXTAREA'&&!input.value.trim()){var fb=document.getElementById(taskId+'fb');if(fb){fb.textContent='Write your answer first!';fb.className='quiz-feedback show bad'}return}
+  completed[taskId]=true;
+  var fb=document.getElementById(taskId+'fb');if(fb){fb.textContent='Marked complete. Compare with the example and note what you can improve.';fb.className='quiz-feedback show good'}
+  saveState();updateProgress();recordToday();
+}
+function recordToday(){var days=JSON.parse(localStorage.getItem('pt_days')||'[]');var t=new Date().toDateString();if(days.indexOf(t)===-1){days.push(t);localStorage.setItem('pt_days',JSON.stringify(days))}}
+
+function updateProgress(){
+  var done=Object.keys(completed).length;
+  var pct=totalTasks?Math.round(done/totalTasks*100):0;
+  document.getElementById('anOverall').textContent=pct+'%';
+  document.getElementById('anOverallBar').style.width=pct+'%';
+  var mo=document.getElementById('mob-overall');if(mo)mo.textContent=pct+'% complete';
+  // per-module pct
+  var mods=['t1','t2','t3','t4','t5','t6','t7','t8'];
+  mods.forEach(function(m){
+    var total=0,dn=0;
+    document.querySelectorAll('#'+m+' textarea').forEach(function(ta){total++;if(completed[ta.id])dn++});
+    var el=document.getElementById('nav-'+m+'-pct');if(el)el.textContent=total?Math.round(dn/total*100)+'%':'0%';
+  });
+}
+function updateStreak(){
+  var today=new Date().toDateString();var last=localStorage.getItem('pt_last');var s=parseInt(localStorage.getItem('pt_streak')||'0');
+  if(last!==today){var y=new Date();y.setDate(y.getDate()-1);if(last===y.toDateString())s++;else s=1;localStorage.setItem('pt_last',today);localStorage.setItem('pt_streak',s)}
+  document.getElementById('anStreak').textContent=s;
+  var ms=document.getElementById('mob-streak');if(ms)ms.textContent=s+' day'+(s===1?'':'s');
+}
+function saveState(){localStorage.setItem('pt_completed',JSON.stringify(completed));document.querySelectorAll('textarea').forEach(function(t){if(t.id)localStorage.setItem('pt_v_'+t.id,t.value)})}
+function loadState(){
+  var s=localStorage.getItem('pt_completed');if(s)completed=JSON.parse(s);
+  document.querySelectorAll('textarea').forEach(function(t){if(t.id){var v=localStorage.getItem('pt_v_'+t.id);if(v)t.value=v}});
+  document.querySelectorAll('.reality-check input').forEach(function(c){/* handled per id */});
+  ['t1r1','t1r2','t1r3','t1r4','t1r5'].forEach(function(id){var v=localStorage.getItem('pt_'+id);if(v==='1'){var els=document.querySelectorAll('input[onchange*="'+id+'"]');els.forEach(function(e){e.checked=true})}});
+}
+document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA'&&e.target.id)localStorage.setItem('pt_v_'+e.target.id,e.target.value)});
+
+// Firebase AI grading
+function initFirebase(){
+  try{
+    fbApp=firebase.initializeApp({apiKey:"AIzaSyCLw65yB0sPSf5lgSkom27PTN4DrS1CBFc",authDomain:"soral-atul-physicism.firebaseapp.com",projectId:"soral-atul-physicism",storageBucket:"soral-atul-physicism.appspot.com"});
+    fbAuth=firebase.auth();aiChatFn=firebase.functions().httpsCallable('aiChat');
+    fbAuth.onAuthStateChanged(function(u){currentUser=u;var box=document.getElementById('authBox');if(!box)return;
+      if(u){box.innerHTML='<span class="auth-name">'+(u.displayName||u.email||'User').split(' ')[0]+'</span><button class="auth-btn" onclick="fbAuth.signOut()" style="background:var(--red)">Out</button>'}
+      else{box.innerHTML='<button class="auth-btn" onclick="fbAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider())">Sign in for AI</button>'}
+    });
+  }catch(e){console.log('Firebase unavailable in preview')}
+}
+function gradeAI(btn){
+  if(!currentUser){alert('Sign in with Google first (top right) to use AI grading.');return}
+  var sec=btn.closest('.sec');var ta=sec.querySelector('textarea');if(!ta||!ta.value.trim()){alert('Write your answer first!');return}
+  var q=sec.querySelector('h3').textContent;var model=sec.querySelector('.answer-reveal');
+  var res=sec.querySelector('.ai-result');if(!res){res=document.createElement('div');res.className='ai-result';sec.appendChild(res)}
+  btn.disabled=true;btn.textContent='Grading...';
+  var prompt='You are an IB physics teaching mentor evaluating a teacher who is shifting from CBSE lecture-style to IB inquiry-style teaching.\n\nTASK: '+q+'\n\nTEACHER ANSWER: '+ta.value+'\n\n'+(model?'REFERENCE EXAMPLE: '+model.textContent+'\n\n':'')+'Grade 1-5 on how well this reflects IB inquiry-based teaching (student-led thinking, concept-driven, inquiry before explanation). Return JSON: {"score":N,"strength":"what is good","improve":"specific improvement toward IB inquiry teaching","rewrite":"improved version"}';
+  aiChatFn({messages:[{role:'system',content:'You are an IB physics teaching mentor. Return ONLY valid JSON.'},{role:'user',content:prompt}],temperature:0.3,maxTokens:500,responseFormat:'json'}).then(function(r){
+    var p;try{p=JSON.parse(r.data.reply)}catch(e){p={score:3,strength:'',improve:r.data.reply,rewrite:''}}
+    var s=p.score||3;var col=s<=2?'var(--red)':s===3?'var(--gold)':'var(--green)';
+    res.innerHTML='<div class="ai-score" style="color:'+col+'">Teaching Score: '+s+'/5</div><div style="color:var(--green);margin-bottom:4px"><strong>Strength:</strong> '+p.strength+'</div><div style="color:var(--red);margin-bottom:4px"><strong>Improve:</strong> '+p.improve+'</div>'+(p.rewrite?'<div style="padding:8px 12px;background:var(--accent-light);border-radius:6px;margin-top:6px"><strong>Stronger version:</strong> '+p.rewrite+'</div>':'');
+    res.classList.add('show');btn.disabled=false;btn.textContent='Grade Me';
+  }).catch(function(err){res.innerHTML='<div style="color:var(--red)">AI error: '+err.message+'. Make sure you are signed in.</div>';res.classList.add('show');btn.disabled=false;btn.textContent='Grade Me'});
+}
+
+// Build modules 4-8
+function taskBlock(id,q,placeholder,example){
+  return '<div class="sec"><h3><span class="sec-tag tag-turn">Your Turn</span> '+q+'</h3><textarea class="write-area" id="'+id+'" placeholder="'+placeholder+'"></textarea><button class="reveal-btn" onclick="toggleReveal(\''+id+'a\')">See Example</button><div class="answer-reveal" id="'+id+'a">'+example+'</div><button class="ai-grade-btn" onclick="gradeAI(this)">Grade Me</button><button class="done-btn" onclick="markDone(\''+id+'\',\''+id.substring(0,2)+'\')">Done</button><div class="quiz-feedback" id="'+id+'fb"></div></div>';
+}
+
+function buildModules(){
+  // MODULE 4: INQUIRY LAB
+  document.getElementById('t4body').innerHTML=
+  '<div class="mentor"><div class="label">Module 4</div><p>You said you take students to the lab only for demos and practicals &mdash; to CONFIRM what you already taught. That is the CBSE lab. Let\'s convert it into the IB lab, where students DISCOVER the concept through investigation.</p></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> The Three Levels of Inquiry</h3><p>Not all inquiry is equal. IB recognises three levels, and you should scaffold students from one to the next:</p><table class="flow-table"><tr><th>Level</th><th>Question from</th><th>Method from</th><th>Use for</th></tr><tr><td><strong>Structured</strong></td><td>Teacher</td><td>Teacher</td><td>Beginners (MYP early) &mdash; but this is where CBSE stops</td></tr><tr><td><strong>Guided</strong></td><td>Teacher</td><td>Student</td><td>The IB sweet spot &mdash; "Here\'s the question, YOU design the experiment"</td></tr><tr><td><strong>Open</strong></td><td>Student</td><td>Student</td><td>Advanced (DP IA) &mdash; students generate question AND method</td></tr></table><div class="key-point"><strong>Your shift:</strong> Move from Structured ("follow my procedure to confirm the answer") to Guided ("here\'s the question, design your own way to answer it").</div></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-example">Example</span> Converting a Verification Lab to Inquiry</h3><div class="compare"><div class="cbse"><div class="clabel">CBSE Verification Lab</div>"Set up the pendulum. Measure the period for lengths 20, 40, 60cm. Record. Plot T&sup2; vs L. Confirm it\'s a straight line, proving T=2&pi;&radic;(L/g)." (Students confirm what the textbook said.)</div><div class="ibw"><div class="clabel">IB Guided Inquiry Lab</div>"What factors do YOU think affect a pendulum\'s period? Mass? Length? Angle? Design an experiment to test which ones actually matter. Collect your data and defend your conclusion." (Students discover which variables matter &mdash; and find mass DOESN\'T, which surprises them.)</div></div><p>Same equipment. Same pendulum. But in the IB version, students design the investigation, make predictions, and discover something counterintuitive (mass doesn\'t affect period). That discovery sticks far longer than a confirmed formula.</p></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> The Demo Trap</h3><p>Demos like Newton\'s cradle are powerful &mdash; but only if students THINK about them. A demo where students just WATCH is entertainment. A demo where students PREDICT first, then observe, then explain &mdash; that\'s learning. <strong>Never demo without first asking students to predict what will happen and why.</strong></p></div>'+
+  taskBlock('t4w1','Convert one of your verification labs into a guided inquiry lab','Verification lab I currently do: ___&#10;&#10;Converted to guided inquiry: Instead of giving the procedure, I would ask students to...','<strong>Verification lab:</strong> "Verify Ohm\'s law by measuring V and I for a fixed resistor." <br><br><strong>Guided inquiry version:</strong> "Here\'s a resistor, a bulb, and a diode. Investigate: which of these follows a simple V-I relationship and which doesn\'t? Design your measurements and explain the different behaviours you find." Students discover that not everything is ohmic &mdash; the bulb and diode surprise them.')+
+  '<div class="sec"><h3><span class="sec-tag tag-check">Self-Check</span> The Discovery Test</h3><p>After any lab, ask: <strong>"Did students CONFIRM what I told them, or DISCOVER something themselves?"</strong> If they only confirmed, it was a CBSE lab. If they discovered &mdash; even something small, even something that surprised them &mdash; it was an IB lab.</p></div>';
+
+  // MODULE 5: NOTEBOOKS
+  document.getElementById('t5body').innerHTML=
+  '<div class="mentor"><div class="label">Module 5</div><p>Your students\' notebooks are empty because copying your board work is meaningless &mdash; they can photograph it. Let\'s make notebooks fill up with THINKING, not copying. This also solves your HOS\'s "notebooks must be filled" requirement AND the "workshop pattern" requirement at the same time.</p></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> Why Students Don\'t Write</h3><p>Students don\'t write because they have nothing ORIGINAL to write. Copying the teacher\'s derivation is boring and pointless. The fix: make the notebook part of the INVESTIGATION, so students write their OWN predictions, observations, data, and conclusions. When the writing is theirs, they write.</p><div class="key-point"><strong>The rule:</strong> Students write BEFORE you teach (predictions), DURING the activity (observations, data), and AFTER discussion (conclusions in their own words). The notebook fills naturally.</div></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-example">Example</span> A Guided Inquiry Worksheet (MYP &mdash; heavily scaffolded)</h3><div class="worksheet">MOMENTUM INVESTIGATION       Name: ______\n\n1. PREDICT (before we start)\n   A bicycle (15 kg) at 5 m/s vs a truck\n   (2000 kg) at 1 m/s. Which is harder\n   to stop?  Bicycle / Truck\n   Why? ____________________________\n\n2. OBSERVE (during the demo)\n   Mass A: ___  Speed A before: ___\n   Speed A after: ___\n   Mass B: ___  Speed B before: ___\n   Speed B after: ___\n\n3. CALCULATE\n   Momentum before (mv) = ___\n   Momentum after (mv) = ___\n\n4. DISCOVER\n   What do you notice about total\n   momentum before vs after? _______\n   Complete: "In a collision, the total\n   momentum ______________"\n\n5. MY QUESTION\n   One thing I still wonder: __________</div><p>Students fill this DURING the lesson. By the end, the notebook page is FULL &mdash; with their thinking, not your board work.</p></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-example">Example</span> DP Version (less scaffolded)</h3><div class="worksheet">CONSERVATION OF MOMENTUM   Name: ___\n\nRESEARCH QUESTION: Is momentum\nconserved in all collisions?\n\nPREDICTION + REASONING: __________\n\nDATA TABLE: (design your own columns)\n\nANALYSIS: total p before vs after,\n% difference: _______\n\nCONCLUSION: ____________________\n\nEVALUATION: sources of error? ____\n\nEXTENSION: is KE also conserved?</div><p>Notice: MYP gets blanks to fill; DP designs its own data table and evaluates the method. Same concept, different scaffolding &mdash; that\'s differentiation.</p></div>'+
+  taskBlock('t5w1','Design a guided inquiry worksheet for a topic you teach','Topic: ___&#10;&#10;My worksheet sections:&#10;1. PREDICT: ___&#10;2. OBSERVE/DATA: ___&#10;3. CALCULATE/ANALYSE: ___&#10;4. DISCOVER/CONCLUDE: ___&#10;5. MY QUESTION: ___','<strong>Topic: Ohmic vs non-ohmic components</strong><br>1. PREDICT: Will a bulb\'s resistance stay constant as current increases? Yes/No, why?<br>2. DATA: V and I readings for resistor, bulb, diode (design table)<br>3. ANALYSE: Plot V vs I for each. Which is a straight line?<br>4. DISCOVER: "A component is ohmic when ______. The bulb is/isn\'t ohmic because ______"<br>5. MY QUESTION: Why does the bulb\'s resistance change?')+
+  '<div class="sec"><h3><span class="sec-tag tag-check">Self-Check</span> The Notebook Test</h3><p>Pick up a random student notebook after your next lesson. Ask: <strong>"Is this page a COPY of my board, or a RECORD of their thinking?"</strong> If it\'s their predictions, data, and conclusions in their own words &mdash; you\'ve solved the notebook problem and satisfied your HOS in one move.</p></div>';
+
+  // MODULE 6: TOK
+  document.getElementById('t6body').innerHTML=
+  '<div class="mentor"><div class="label">Module 6</div><p>TOK feels like an add-on to you. It shouldn\'t. TOK lives naturally in physics &mdash; you just need to spend 3 minutes making it visible. No whole lesson required. Just one good knowledge question at the right moment.</p></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> What TOK Actually Is (in physics)</h3><p>TOK is not philosophy class. It\'s simply asking <strong>"How do we KNOW this?"</strong> instead of just "What is this?" A knowledge question is open, contestable, and about knowledge itself &mdash; not about content.</p><div class="key-point"><strong>The 3-minute TOK moment:</strong> Ask one knowledge question, take 2-3 student responses, then move on. That\'s it. You don\'t need to resolve it &mdash; the thinking IS the point.</div></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-example">Example</span> TOK Questions for Every Physics Theme</h3><ul><li><strong>Theme A (Space, Time, Motion):</strong> "Is Newton\'s model WRONG, or just limited? Can a theory be useful and untrue at the same time?"</li><li><strong>Theme B (Particulate Matter):</strong> "We\'ve never SEEN an atom. So how do we know they exist? Is seeing the only way to know?"</li><li><strong>Theme C (Waves):</strong> "Light behaves as a wave AND a particle. Can two contradictory descriptions both be true?"</li><li><strong>Theme D (Fields):</strong> "A field is invisible. How do we know it\'s real and not just a useful fiction?"</li><li><strong>Theme E (Nuclear/Quantum):</strong> "Should scientists pursue knowledge (like nuclear fission) even when it can cause harm?"</li></ul></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-example">Example</span> Weaving TOK In Naturally</h3><div class="compare"><div class="cbse"><div class="clabel">Forced / Separate</div>"Okay, now stop physics. Time for a TOK question. [awkward pause] Moving on."</div><div class="ibw"><div class="clabel">Natural / Embedded</div>Mid-lesson on atomic models: "We just used the Bohr model. But is the Bohr model TRUE, or just useful? Nobody has seen an atom look like this. Think about that for a second &mdash; what makes a scientific model \'good\' if it isn\'t literally true?"</div></div></div>'+
+  taskBlock('t6w1','Write a TOK moment for a topic you teach','Topic: ___&#10;&#10;My knowledge question (starts with "How do we know..." or "Can... be both..."): ___&#10;&#10;When I would ask it in the lesson: ___','<strong>Topic: Measurement and uncertainty</strong><br>Knowledge question: "If every measurement has uncertainty, can we ever know a \'true\' value in physics &mdash; or only our best estimate of it?"<br>When: During the first practical when students get slightly different readings. "You all measured the same thing and got different numbers. So what IS the real value? Does it even exist, or only our measurements of it?"')+
+  '<div class="sec"><h3><span class="sec-tag tag-check">Self-Check</span> The 3-Minute Test</h3><p>In your next unit, plan ONE knowledge question. Ask it. Spend 3 minutes. Don\'t resolve it. If students left thinking "huh, I never considered that" &mdash; you did TOK. No whole lesson needed.</p></div>';
+
+  // MODULE 7: IM & CAS
+  document.getElementById('t7body').innerHTML=
+  '<div class="mentor"><div class="label">Module 7</div><p>International mindedness (IM) is already IN your physics content &mdash; you just haven\'t been NAMING it. And CAS connects to physics more naturally than you think. Let\'s make both visible with almost no extra effort.</p></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> IM Is Already There</h3><p>You don\'t need a separate "international mindedness lesson." IM means helping students see that physics connects to global issues and different cultural contexts. It\'s one SENTENCE woven into content you already teach.</p></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-example">Example</span> One IM Sentence Per Topic</h3><ul><li><strong>Energy:</strong> "In Europe, energy debates are about efficiency; in Sub-Saharan Africa, 600 million people have NO electricity access. Same physics, radically different human contexts."</li><li><strong>Nuclear physics:</strong> "France gets 70% of power from nuclear; Germany is phasing it out; India is expanding it. The physics is identical &mdash; the choices reflect different national values."</li><li><strong>Space/gravitation:</strong> "The ISS is built by the USA, Russia, Europe, Japan, and Canada together &mdash; physics as international cooperation. ISRO reached Mars cheaper than a Hollywood film about Mars."</li><li><strong>Waves/communication:</strong> "The same electromagnetic waves connect a banker in London and a farmer in rural India &mdash; but the digital divide means access isn\'t equal."</li></ul></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-concept">Concept</span> CAS Connections to Physics</h3><p>CAS (Creativity, Activity, Service) can grow from physics:</p><ul><li><strong>Service:</strong> Students build low-cost solar chargers for a village; tutor younger students in physics.</li><li><strong>Creativity:</strong> Design a physics demonstration for a science fair; make explanatory videos.</li><li><strong>Activity:</strong> Analyse the physics of a sport they play &mdash; connecting physical activity to concepts.</li></ul></div>'+
+  taskBlock('t7w1','Write ONE international-mindedness sentence for a topic you teach','Topic: ___&#10;&#10;My IM sentence (connect the physics to a global or cross-cultural context): ___','<strong>Topic: Thermal physics / heat transfer</strong><br>IM sentence: "The same laws of heat transfer govern a mud house in Rajasthan that stays cool naturally and a glass skyscraper in Dubai that needs constant air-conditioning &mdash; traditional architecture often applied physics more wisely than modern design. What can we learn from different cultures\' engineering?"')+
+  '<div class="sec"><h3><span class="sec-tag tag-check">Self-Check</span> The One-Sentence Test</h3><p>For your next unit, prepare ONE international-mindedness sentence. Say it naturally during the lesson. That\'s IM done &mdash; visible, authentic, no extra lesson required.</p></div>';
+
+  // MODULE 8: SELF-CHECK
+  document.getElementById('t8body').innerHTML=
+  '<div class="mentor"><div class="label">Module 8</div><p>This is the mirror. After every lesson, use this to answer your own question: "Am I doing justice to IB, or am I still teaching CBSE?" Honest self-assessment is how you close the gap your HOS sees.</p></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-check">The IB Lesson Checklist</h3><p>After your next lesson, tick honestly:</p><div class="reality-box"><div class="rlabel">Green flags (IB teaching)</div>'+
+  '<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,\'t8g1\')"> Students investigated or predicted BEFORE I explained</label>'+
+  '<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,\'t8g2\')"> I never talked continuously for more than 3 minutes</label>'+
+  '<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,\'t8g3\')"> Students wrote their OWN conclusions, not copied mine</label>'+
+  '<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,\'t8g4\')"> I connected to a concept, not just a topic</label>'+
+  '<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,\'t8g5\')"> There was a TOK or IM moment</label>'+
+  '<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,\'t8g6\')"> A student asked a question I didn\'t expect</label>'+
+  '</div></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-check">Red Flags</h3><div class="reality-box" style="background:var(--red-bg);border-color:var(--red-border)"><div class="rlabel" style="color:var(--red)">Red flags (CBSE residue)</div>'+
+  '<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,\'t8b1\')"> Students copied from the board</label>'+
+  '<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,\'t8b2\')"> I explained for 15+ minutes straight</label>'+
+  '<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,\'t8b3\')"> The lab confirmed what I already told them</label>'+
+  '<label class="reality-check"><input type="checkbox" onchange="saveCheck(this,\'t8b4\')"> No student generated a question</label>'+
+  '</div></div>'+
+  '<div class="sec"><h3><span class="sec-tag tag-concept">The Recording Test</h3><p>Record 10 minutes of your next lesson on your phone. Then count: how many minutes did YOU talk vs how many minutes did STUDENTS talk/work? In a strong IB lesson, students should be active more than you. This one measurement is brutally honest &mdash; and it\'s the fastest way to see your real teaching pattern.</p></div>'+
+  taskBlock('t8w1','Reflect on your most recent lesson using the checklist','My most recent lesson topic: ___&#10;&#10;Green flags I hit: ___&#10;Red flags I hit: ___&#10;&#10;ONE thing I will change next lesson: ___','<strong>Topic: Electric circuits</strong><br>Green flags: students predicted which bulb would be brighter before testing; they wrote their own conclusions.<br>Red flags: I derived the series/parallel formulas on the board (15 min) while they copied; the lab confirmed my formulas rather than discovering them.<br>ONE change: Next time, give them the components and ask "how does adding bulbs change brightness?" &mdash; let them discover series vs parallel behaviour BEFORE I formalize the formulas.')+
+  '<div class="sec"><h3><span class="sec-tag tag-check">The Real Test</h3><p>When you genuinely teach IB &mdash; when students investigate, notebooks fill with thinking, and TOK moments happen naturally &mdash; something powerful happens: <strong>your interview answers become TRUE, not rehearsed.</strong> You won\'t have to pretend you teach through inquiry. You\'ll just describe what you actually do. That authenticity is what interviewers can sense, and it\'s what will get you interview 22.</p></div>';
+
+  // count tasks
+  totalTasks=document.querySelectorAll('.module-content textarea').length;
+  // reload saved textareas for JS-built modules
+  document.querySelectorAll('textarea').forEach(function(t){if(t.id){var v=localStorage.getItem('pt_v_'+t.id);if(v)t.value=v}});
+  ['t8g1','t8g2','t8g3','t8g4','t8g5','t8g6','t8b1','t8b2','t8b3','t8b4','t4r1'].forEach(function(id){var v=localStorage.getItem('pt_'+id);if(v==='1'){var els=document.querySelectorAll('input[onchange*="'+id+'"]');els.forEach(function(e){e.checked=true})}});
+}
+</script>
+</body>
+</html>
