@@ -120,7 +120,44 @@ body.dark{--bg:#0F1119;--card:#1A1D2E;--text:#E8E4DC;--text2:#8B8FA0;--accent:#B
 .key-point{background:var(--accent-light);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:.85rem;border-left:3px solid var(--accent)}
 .key-point strong{color:var(--accent)}
 
-@media print{.lock{display:none!important}.layout{display:block!important}.sidebar,.analytics,.mobile-nav,.mobile-stats{display:none!important}.main{max-width:100%}.module-content{display:block!important}}
+/* Printable lesson template styling */
+.lt-wrap{max-width:820px}
+.lt-controls{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 20px}
+.lt-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:.9rem;font-weight:700;cursor:pointer}
+.lt-btn.alt{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+.lt-sheet{background:#fff;border:1px solid var(--border);border-radius:10px;padding:26px 28px;margin-bottom:20px}
+.lt-sheet h2{margin:0 0 2px;font-size:1.25rem;color:#111}
+.lt-sheet .lt-sub{color:var(--muted);font-size:.82rem;margin:0 0 16px}
+.lt-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.lt-field{flex:1;min-width:150px}
+.lt-field label{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:3px}
+.lt-line{border-bottom:1.5px solid #999;height:22px}
+.lt-phase{border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:6px;padding:12px 14px;margin-bottom:12px;page-break-inside:avoid}
+.lt-phase .lt-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.lt-phase .lt-name{font-weight:800;color:var(--accent);font-size:.95rem}
+.lt-phase .lt-who{font-size:.7rem;color:var(--muted);font-style:italic}
+.lt-phase .lt-hint{font-size:.72rem;color:var(--muted);margin:0 0 8px}
+.lt-blank{border-bottom:1px dashed #aaa;height:20px;margin-bottom:6px}
+.lt-box{border:1px solid #bbb;border-radius:6px;min-height:60px;padding:8px}
+.lt-note{font-size:.75rem;color:var(--muted);background:var(--accent-light);border-radius:6px;padding:10px 12px;margin-bottom:14px}
+.lt-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.lt-two{grid-template-columns:1fr}}
+
+@media print{
+  .lock{display:none!important}
+  .layout{display:block!important}
+  .sidebar,.analytics,.mobile-nav,.mobile-stats,.top-bar{display:none!important}
+  .main{max-width:100%;padding:0}
+  .module-content{display:none!important}
+  .module-content.active{display:block!important}
+  /* template print mode: isolate t18 and strip UI chrome */
+  body.print-template .module-content{display:none!important}
+  body.print-template #t18{display:block!important}
+  body.print-template .lt-intro,body.print-template .lt-controls,body.print-template .mentor{display:none!important}
+  body.print-template .lt-sheet{border:none;padding:0;box-shadow:none}
+  .lt-phase{border-color:#999}
+  .lt-btn{display:none!important}
+}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
@@ -159,6 +196,8 @@ body.dark{--bg:#0F1119;--card:#1A1D2E;--text:#E8E4DC;--text2:#8B8FA0;--accent:#B
 <div class="sb-item" onclick="switchMod('t15')" id="nav-t15"><span class="sb-num">C</span> Wave Behaviour <span class="sb-pct" id="nav-t15-pct">0%</span></div>
 <div class="sb-item" onclick="switchMod('t16')" id="nav-t16"><span class="sb-num">D</span> Fields <span class="sb-pct" id="nav-t16-pct">0%</span></div>
 <div class="sb-item" onclick="switchMod('t17')" id="nav-t17"><span class="sb-num">E</span> Nuclear & Quantum <span class="sb-pct" id="nav-t17-pct">0%</span></div>
+<div class="sidebar-brand" style="border-top:1px solid var(--border);border-bottom:none;margin-top:8px"><p style="font-weight:700;color:var(--accent)">Classroom Tools</p></div>
+<div class="sb-item" onclick="switchMod('t18')" id="nav-t18"><span class="sb-num">&#128196;</span> Printable Lesson Template</div>
 </nav>
 
 <div class="mobile-nav">
@@ -180,6 +219,7 @@ body.dark{--bg:#0F1119;--card:#1A1D2E;--text:#E8E4DC;--text2:#8B8FA0;--accent:#B
 <option value="t15">C. Wave Behaviour</option>
 <option value="t16">D. Fields</option>
 <option value="t17">E. Nuclear & Quantum</option>
+<option value="t18">&#128196; Printable Lesson Template</option>
 </select>
 </div>
 <div class="mobile-stats"><span id="mob-streak">0 days</span><span id="mob-overall">0% complete</span></div>
@@ -382,6 +422,7 @@ body.dark{--bg:#0F1119;--card:#1A1D2E;--text:#E8E4DC;--text2:#8B8FA0;--accent:#B
 <div class="module-content" id="t15"><div id="t15body"></div></div>
 <div class="module-content" id="t16"><div id="t16body"></div></div>
 <div class="module-content" id="t17"><div id="t17body"></div></div>
+<div class="module-content" id="t18"><div id="t18body"></div></div>
 </main>
 
 <aside class="analytics" id="analytics">
@@ -411,7 +452,7 @@ function switchMod(id){
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('.sb-item').forEach(function(s){s.classList.remove('active')});
   var nav=document.getElementById('nav-'+id);if(nav)nav.classList.add('active');
-  var titles={t1:'Module 1 &mdash; What IB Expects From a Physics Teacher',t2:'Module 2 &mdash; Understanding ManageBac',t3:'Module 3 &mdash; Planning ONE Lesson (5E)',t4:'Module 4 &mdash; The Inquiry Lab',t5:'Module 5 &mdash; Notebooks That Think',t6:'Module 6 &mdash; TOK in Physics',t7:'Module 7 &mdash; International Mindedness & CAS',t8:'Module 8 &mdash; Am I Teaching IB or CBSE?',t9:'Module 9 &mdash; Measurement & Uncertainties',t10:'Module 10 &mdash; Supervising the Physics IA',t11:'Module 11 &mdash; Supervising the Extended Essay',t12:'Module 12 &mdash; Exam Preparation',t13:'Theme A &mdash; Space, Time & Motion',t14:'Theme B &mdash; Particulate Nature of Matter',t15:'Theme C &mdash; Wave Behaviour',t16:'Theme D &mdash; Fields',t17:'Theme E &mdash; Nuclear & Quantum'};
+  var titles={t1:'Module 1 &mdash; What IB Expects From a Physics Teacher',t2:'Module 2 &mdash; Understanding ManageBac',t3:'Module 3 &mdash; Planning ONE Lesson (5E)',t4:'Module 4 &mdash; The Inquiry Lab',t5:'Module 5 &mdash; Notebooks That Think',t6:'Module 6 &mdash; TOK in Physics',t7:'Module 7 &mdash; International Mindedness & CAS',t8:'Module 8 &mdash; Am I Teaching IB or CBSE?',t9:'Module 9 &mdash; Measurement & Uncertainties',t10:'Module 10 &mdash; Supervising the Physics IA',t11:'Module 11 &mdash; Supervising the Extended Essay',t12:'Module 12 &mdash; Exam Preparation',t13:'Theme A &mdash; Space, Time & Motion',t14:'Theme B &mdash; Particulate Nature of Matter',t15:'Theme C &mdash; Wave Behaviour',t16:'Theme D &mdash; Fields',t17:'Theme E &mdash; Nuclear & Quantum',t18:'Printable Lesson Template'};
   document.getElementById('modTitle').innerHTML=titles[id];
 }
 function toggleReveal(id){document.getElementById(id).classList.toggle('show')}
@@ -656,6 +697,7 @@ function buildModules(){
   buildThemeCDeep();
   buildThemeDDeep();
   buildThemeEDeep();
+  buildLessonTemplate();
 
   themes.forEach(function(th){
     if(th.id==='t13'||th.id==='t14'||th.id==='t15'||th.id==='t16'||th.id==='t17')return; // deep-built themes have their own function
@@ -943,6 +985,60 @@ function buildThemeEDeep(){
   h+='<div class="sec"><h3><span class="sec-tag tag-check">Course Complete</h3><p>That completes all five themes at full depth &mdash; 24 sub-topics across A to E, each with the CBSE habit to break, an inquiry hook, a workshop lesson you can run tomorrow, an exam link, and a task where YOU design the teaching. Combined with Part A (the method) and Part B (foundations), you now have a complete map from "how to teach IB physics" to "how to teach every theme the IB way." Work through one sub-topic per week, actually run the workshops, grade your own reflections &mdash; and your interview answers stop being rehearsed, because they describe what you genuinely do.</p></div>';
 
   document.getElementById('t17body').innerHTML=h;
+}
+
+function printTemplate(sheetId){
+  document.body.classList.add('print-template');
+  var sheets=document.querySelectorAll('#t18 .lt-sheet');
+  sheets.forEach(function(s){s.dataset._d=s.style.display;if(sheetId&&s.id!==sheetId)s.style.display='none'});
+  window.print();
+  setTimeout(function(){
+    document.body.classList.remove('print-template');
+    sheets.forEach(function(s){s.style.display=s.dataset._d||''});
+  },300);
+}
+
+function buildLessonTemplate(){
+  var blank='<div class="lt-blank"></div>';
+  var h='';
+  h+='<div class="mentor"><div class="label">Classroom Tool</div><p>This is the bridge between everything in this course and your actual classroom. It turns the 5E method into a fill-in skeleton you can plan on in five minutes &mdash; and a version you can PRINT for students so their notebooks fill with THEIR thinking, not your board work. That answers your HOS\'s two demands at once: workshop-pattern lessons AND full notebooks.</p></div>';
+
+  h+='<div class="lt-wrap">';
+  h+='<div class="sec lt-intro"><h3><span class="sec-tag tag-concept">How to Use These Two Templates</h3><p>There are two sheets below. <strong>Sheet 1 is YOURS</strong> &mdash; a lesson-planning skeleton you fill in before class (or paste into ManageBac). <strong>Sheet 2 is the STUDENTS\'</strong> &mdash; print one per student; they write predictions, data, and conclusions into it during the lesson. Use the print buttons so only the sheet prints, without the app around it.</p><div class="lt-note"><strong>The golden rule baked into both:</strong> the Explain / formalise step comes AFTER students explore. If you fill in "Explain" before "Explore," you\'ve slipped back into CBSE. Plan the discovery first.</div></div>';
+
+  // ---- SHEET 1: TEACHER PLANNER ----
+  h+='<div class="lt-controls"><button class="lt-btn" onclick="printTemplate(\'ltSheet1\')">&#128424;&#65039; Print Teacher Planner</button><button class="lt-btn alt" onclick="printTemplate(\'ltSheet2\')">&#128424;&#65039; Print Student Worksheet</button><button class="lt-btn alt" onclick="printTemplate()">Print Both</button></div>';
+
+  h+='<div class="lt-sheet" id="ltSheet1">';
+  h+='<h2>IB Physics &mdash; Lesson Planner (5E)</h2><p class="lt-sub">One inquiry lesson &middot; fill before class or paste into ManageBac</p>';
+  h+='<div class="lt-row"><div class="lt-field"><label>Topic / Concept</label>'+blank+'</div><div class="lt-field"><label>Grade / Level</label>'+blank+'</div><div class="lt-field"><label>Duration</label>'+blank+'</div></div>';
+  h+='<div class="lt-row"><div class="lt-field"><label>Conceptual understanding (the big idea, not the topic)</label>'+blank+'</div></div>';
+  h+='<div class="lt-row"><div class="lt-field"><label>Misconception I will attack</label>'+blank+'</div><div class="lt-field"><label>ATL skill(s) developed</label>'+blank+'</div></div>';
+
+  h+='<div class="lt-phase"><div class="lt-head"><span class="lt-name">1. ENGAGE (hook)</span><span class="lt-who">Students &mdash; curious</span></div><p class="lt-hint">A phenomenon, demo, or question. NOT "today we\'ll learn X."</p>'+blank+blank+'</div>';
+  h+='<div class="lt-phase"><div class="lt-head"><span class="lt-name">2. EXPLORE (investigate)</span><span class="lt-who">Students &mdash; investigating</span></div><p class="lt-hint">What will students predict, test, observe? You watch, you don\'t explain yet.</p>'+blank+blank+blank+'</div>';
+  h+='<div class="lt-phase"><div class="lt-head"><span class="lt-name">3. EXPLAIN (formalise)</span><span class="lt-who">Teacher &mdash; guiding</span></div><p class="lt-hint">Connect their discovery to the formal physics. Equations go HERE, after exploring.</p>'+blank+blank+'</div>';
+  h+='<div class="lt-phase"><div class="lt-head"><span class="lt-name">4. ELABORATE (apply)</span><span class="lt-who">Students &mdash; applying</span></div><p class="lt-hint">New contexts, "what if" questions, harder problems, real-world links.</p>'+blank+blank+'</div>';
+  h+='<div class="lt-phase"><div class="lt-head"><span class="lt-name">5. EVALUATE (check)</span><span class="lt-who">Both</span></div><p class="lt-hint">Exit ticket / reflection question that reveals whether they understood.</p>'+blank+blank+'</div>';
+
+  h+='<div class="lt-two"><div class="lt-field"><label>TOK moment (one knowledge question)</label><div class="lt-box"></div></div><div class="lt-field"><label>International-mindedness sentence</label><div class="lt-box"></div></div></div>';
+  h+='<div class="lt-row" style="margin-top:12px"><div class="lt-field"><label>Materials / apparatus</label>'+blank+'</div><div class="lt-field"><label>Differentiation (support / stretch)</label>'+blank+'</div></div>';
+  h+='</div>'; // end sheet1
+
+  // ---- SHEET 2: STUDENT WORKSHEET ----
+  h+='<div class="lt-sheet" id="ltSheet2">';
+  h+='<h2>Investigation Worksheet</h2><p class="lt-sub">Name: __________________________  Date: ____________  Topic: ____________________</p>';
+  h+='<div class="lt-phase"><div class="lt-head"><span class="lt-name">1. PREDICT</span><span class="lt-who">before we start</span></div><p class="lt-hint">What do you think will happen, and WHY?</p>'+blank+blank+'</div>';
+  h+='<div class="lt-phase"><div class="lt-head"><span class="lt-name">2. OBSERVE / DATA</span><span class="lt-who">during the activity</span></div><p class="lt-hint">Record what you see or measure. Design your own table if needed.</p><div class="lt-box" style="min-height:110px"></div></div>';
+  h+='<div class="lt-phase"><div class="lt-head"><span class="lt-name">3. ANALYSE / CALCULATE</span><span class="lt-who">make sense of it</span></div><p class="lt-hint">Graph, calculate, or spot the pattern.</p><div class="lt-box" style="min-height:80px"></div></div>';
+  h+='<div class="lt-phase"><div class="lt-head"><span class="lt-name">4. DISCOVER / CONCLUDE</span><span class="lt-who">in your own words</span></div><p class="lt-hint">Complete: "What I found is that ______"</p>'+blank+blank+'</div>';
+  h+='<div class="lt-phase"><div class="lt-head"><span class="lt-name">5. MY QUESTION</span><span class="lt-who">stay curious</span></div><p class="lt-hint">One thing I still wonder about:</p>'+blank+'</div>';
+  h+='</div>'; // end sheet2
+
+  h+='<div class="sec lt-intro"><h3><span class="sec-tag tag-check">Why This Fills Notebooks</h3><p>Because every box asks for the STUDENT\'S thinking &mdash; their prediction, their data, their conclusion, their question &mdash; there is nothing to passively copy. By the end of the lesson each page is full, and it\'s full of evidence that they thought, which is exactly what your HOS wants to see when they flip through a notebook. Keep a stack of Sheet 2 printed; grab one for any inquiry lesson.</p></div>';
+  h+='</div>'; // end lt-wrap
+
+  document.getElementById('t18body').innerHTML=h;
 }
 
 function subTopicHeader(code,name,scope){
