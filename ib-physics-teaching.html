@@ -120,6 +120,11 @@ body.dark{--bg:#0F1119;--card:#1A1D2E;--text:#E8E4DC;--text2:#8B8FA0;--accent:#B
 .mcq-opt.locked{cursor:default;pointer-events:none;opacity:.85}
 .mcq-exp{margin-top:8px;padding:9px 12px;border-radius:7px;font-size:.8rem;background:var(--accent-light);display:none}
 .mcq-exp.show{display:block}
+.msq-opt.sel{border-color:var(--accent);background:var(--accent-light);font-weight:600}
+.match-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.match-l{font-size:.85rem;font-weight:600;min-width:150px;flex:0 0 auto}
+.match-sel,.order-sel{font-size:.82rem;padding:7px 9px;border-radius:7px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);flex:1;min-width:120px}
+.order-sel{flex:0 0 60px;min-width:56px;font-weight:700;text-align:center}
 .ai-result{margin-top:8px;padding:12px 14px;border-radius:8px;font-size:.82rem;border:1px solid var(--border);background:var(--card);display:none}
 .ai-result.show{display:block}
 .ai-score{font-size:1.1rem;font-weight:800;margin-bottom:6px}
@@ -513,6 +518,96 @@ function checkMCQ(btn,isCorrect,id){
     opts.forEach(function(o){if(o.getAttribute('onclick').indexOf('true,')!==-1)o.classList.add('correct')});
   }
   if(exp){exp.classList.add('show')}
+}
+
+// ---- True/False (uses the MCQ engine with two options) ----
+function tfBlock(id,tag,statement,isTrue,exp){
+  return mcqBlock(id,tag,statement,[{t:'True',c:isTrue===true},{t:'False',c:isTrue===false}],exp);
+}
+
+// ---- Multiple-SELECT (pick ALL correct) ----
+// opts: array of {t, c}. Any number correct. Must select all correct and no wrong ones.
+function msqBlock(id,tag,q,opts,exp){
+  var arr=opts.slice();
+  var seed=0;for(var i=0;i<id.length;i++){seed=(seed*31+id.charCodeAt(i))>>>0}
+  for(var j=arr.length-1;j>0;j--){seed=(seed*1103515245+12345)>>>0;var k=seed%(j+1);var tmp=arr[j];arr[j]=arr[k];arr[k]=tmp}
+  var h='<div class="mcq-block msq-block" id="'+id+'"><div class="mcq-q"><span class="mcq-tag">'+tag+'</span>'+q+' <span style="font-weight:400;color:var(--muted);font-size:.78rem">(select ALL that apply)</span></div>';
+  arr.forEach(function(o,idx){
+    h+='<button class="mcq-opt msq-opt" data-c="'+(o.c?'1':'0')+'" onclick="toggleMSQ(this)">'+o.t+'</button>';
+  });
+  h+='<button class="lt-btn" style="margin-top:4px" onclick="checkMSQ(\''+id+'\')">Check my selection</button>';
+  h+='<div class="mcq-exp" id="'+id+'exp">'+exp+'</div></div>';
+  return h;
+}
+function toggleMSQ(btn){if(btn.classList.contains('locked'))return;btn.classList.toggle('sel')}
+function checkMSQ(id){
+  var block=document.getElementById(id);var ok=true;
+  block.querySelectorAll('.msq-opt').forEach(function(o){
+    var shouldBe=o.getAttribute('data-c')==='1';var picked=o.classList.contains('sel');
+    if(shouldBe!==picked)ok=false;
+    o.classList.add('locked');
+    if(shouldBe)o.classList.add('correct');
+    if(picked&&!shouldBe)o.classList.add('wrong');
+  });
+  var btn=block.querySelector('.lt-btn');if(btn)btn.style.display='none';
+  var exp=document.getElementById(id+'exp');if(exp)exp.classList.add('show');
+  if(ok){completed[id]=true;saveState();updateProgress();recordToday()}
+}
+
+// ---- MATCH (pick the correct right-side for each left item via dropdowns) ----
+// pairs: array of {l:'left', r:'correct right'}; distractors auto = all r values.
+function matchBlock(id,tag,q,pairs,exp){
+  var rights=pairs.map(function(p){return p.r});
+  var h='<div class="mcq-block match-block" id="'+id+'"><div class="mcq-q"><span class="mcq-tag">'+tag+'</span>'+q+'</div>';
+  pairs.forEach(function(p,idx){
+    h+='<div class="match-row"><span class="match-l">'+p.l+'</span><select class="match-sel" data-correct="'+p.r.replace(/"/g,'&quot;')+'"><option value="">&mdash; choose &mdash;</option>';
+    rights.forEach(function(r){h+='<option value="'+r.replace(/"/g,'&quot;')+'">'+r+'</option>'});
+    h+='</select></div>';
+  });
+  h+='<button class="lt-btn" style="margin-top:6px" onclick="checkMatch(\''+id+'\')">Check matches</button>';
+  h+='<div class="mcq-exp" id="'+id+'exp">'+exp+'</div></div>';
+  return h;
+}
+function checkMatch(id){
+  var block=document.getElementById(id);var ok=true;
+  block.querySelectorAll('.match-sel').forEach(function(s){
+    var correct=s.getAttribute('data-correct');
+    if(s.value===correct){s.style.borderColor='var(--green)';s.style.background='var(--green-bg)'}
+    else{s.style.borderColor='var(--red)';s.style.background='var(--red-bg)';ok=false}
+    s.disabled=true;
+  });
+  var btn=block.querySelector('.lt-btn');if(btn)btn.style.display='none';
+  var exp=document.getElementById(id+'exp');if(exp)exp.classList.add('show');
+  if(ok){completed[id]=true;saveState();updateProgress();recordToday()}
+}
+
+// ---- ORDER / rank (drag-free: number the items in the right order via dropdowns) ----
+// items already in correct order; user assigns rank 1..n.
+function orderBlock(id,tag,q,items,exp){
+  var h='<div class="mcq-block order-block" id="'+id+'"><div class="mcq-q"><span class="mcq-tag">'+tag+'</span>'+q+'</div>';
+  // present items shuffled by id
+  var arr=items.map(function(t,i){return {t:t,rank:i+1}});
+  var seed=0;for(var i=0;i<id.length;i++){seed=(seed*31+id.charCodeAt(i))>>>0}
+  for(var j=arr.length-1;j>0;j--){seed=(seed*1103515245+12345)>>>0;var k=seed%(j+1);var tmp=arr[j];arr[j]=arr[k];arr[k]=tmp}
+  arr.forEach(function(o){
+    h+='<div class="match-row"><select class="order-sel" data-rank="'+o.rank+'">';
+    for(var n=1;n<=items.length;n++){h+='<option value="'+n+'">'+n+'</option>'}
+    h+='</select><span class="match-l" style="flex:1">'+o.t+'</span></div>';
+  });
+  h+='<button class="lt-btn" style="margin-top:6px" onclick="checkOrder(\''+id+'\')">Check order</button>';
+  h+='<div class="mcq-exp" id="'+id+'exp">'+exp+'</div></div>';
+  return h;
+}
+function checkOrder(id){
+  var block=document.getElementById(id);var ok=true;
+  block.querySelectorAll('.order-sel').forEach(function(s){
+    if(s.value===s.getAttribute('data-rank')){s.style.borderColor='var(--green)';s.style.background='var(--green-bg)'}
+    else{s.style.borderColor='var(--red)';s.style.background='var(--red-bg)';ok=false}
+    s.disabled=true;
+  });
+  var btn=block.querySelector('.lt-btn');if(btn)btn.style.display='none';
+  var exp=document.getElementById(id+'exp');if(exp)exp.classList.add('show');
+  if(ok){completed[id]=true;saveState();updateProgress();recordToday()}
 }
 
 function updateProgress(){
@@ -1211,11 +1306,39 @@ function buildCommandTerms(){
   h+='<div class="sec"><h3><span class="sec-tag tag-concept">DP Physics &mdash; How Command Terms Map to Marks</h3><p>DP command terms are tied to three <strong>assessment objectives</strong>: <strong>AO1</strong> (recall/knowledge), <strong>AO2</strong> (application/understanding), <strong>AO3</strong> (analysis/evaluation/synthesis). The higher the AO, the more developed the answer &mdash; and the more marks. The single biggest DP rule: <strong>one distinct, correct point = one mark.</strong> A 3-mark question needs 3 separate creditable points, not one point said three ways.</p></div>';
   h+='<div class="sec" style="background:var(--accent-light)"><strong>DP tier map (low &rarr; high demand):</strong><br><span style="font-size:.85rem">AO1: State, List, Define, Label, Draw, Measure &nbsp;&bull;&nbsp; AO2: Describe, Outline, Explain, Determine, Calculate, Estimate, Apply, Annotate, Deduce, Distinguish, Derive &nbsp;&bull;&nbsp; AO3: Analyse, Evaluate, Discuss, Compare, Compare and contrast, Suggest, Predict, Justify, Comment, Sketch, Show that</span></div>';
   h+=ctCard({term:'State / List',ao:'AO1',official:'Give a specific name, value or other brief answer without explanation or calculation.',plain:'Just the fact. No reasoning, no working, no sentences needed. If they wanted "why," they\'d have said "explain."',length:'1 mark = 1 word or phrase. Writing a paragraph wastes exam time and earns nothing extra.',signal:'Nothing but the answer itself. No "because".',weak:'"The acceleration due to gravity is important because it pulls objects down and is about 9.8..." (over-writing a 1-mark state)',strong:'"9.81 m s&#8315;&sup2;" &mdash; done. One mark, five seconds.',hook:'STATE = say it and stop. If you\'re writing "because", you\'ve misread the term.'});
+  h+=tfBlock('t20dp_state_tf','Check','True or False: a "State [2]" question expects you to give reasons to justify your answer.',false,'False. "State" never wants reasons or justification &mdash; just the required facts/values. The [2] means TWO facts, not "explain your one fact". Adding "because..." wastes time and earns nothing.');
   h+=ctCard({term:'Define',ao:'AO1',official:'Give the precise meaning of a word, phrase, concept or physical quantity.',plain:'The exact textbook meaning &mdash; often including the defining equation in words. Precision is everything; a vague definition scores zero.',length:'1&ndash;2 marks. One precise sentence. For quantities, name what it is per unit of something (e.g. "force per unit charge").',signal:'A precise "is defined as / is the..." statement.',weak:'"Density is how heavy something is." (wrong &mdash; confuses mass with density)',strong:'"Density is defined as mass per unit volume." (precise, complete, full marks)',hook:'DEFINE = dictionary-perfect. Learn the exact wording; near-enough scores nothing.'});
+  h+=mcqBlock('t20dp_define','Check','What is the key difference between "Define" and "State"?',[
+    {t:'"Define" requires the precise meaning of a term/quantity; "State" gives a brief fact or value. They are not interchangeable.',c:true},
+    {t:'They are identical &mdash; both just want a short answer.',c:false},
+    {t:'"Define" needs a calculation; "State" needs a sentence.',c:false},
+    {t:'"State" is harder than "Define" and needs more detail.',c:false}
+  ],'"Define" is specifically the precise meaning (often a per-unit relationship, e.g. "force per unit charge"). "State" is any brief fact or value. A vague "define" answer scores zero even if it sounds right.');
   h+=ctCard({term:'Describe',ao:'AO2',official:'Give a detailed account.',plain:'Say WHAT happens, step by step &mdash; but you do NOT need to say WHY. Describe = the story; Explain = the reasons.',length:'Usually 2&ndash;4 marks = that many distinct observable points. Each stage of what happens = one mark.',signal:'Sequential "what happens" points. No causes required.',weak:'"The graph goes up." (one vague point for a 3-mark describe)',strong:'"The current rises steeply at first (1), then the rate of rise decreases (1), and it levels off at a maximum value (1)." (3 distinct points = 3 marks)',hook:'DESCRIBE = narrate the what. Save the "because" for Explain.'});
+  h+=mcqBlock('t20dp_describe','Check','"Describe" and "Explain" differ in one essential way. Which statement is correct?',[
+    {t:'"Describe" says WHAT happens; "Explain" says what happens AND WHY (the cause/mechanism).',c:true},
+    {t:'"Describe" is longer than "Explain".',c:false},
+    {t:'"Describe" needs a "because"; "Explain" does not.',c:false},
+    {t:'They mean the same and get the same marks.',c:false},
+    {t:'"Explain" only wants a diagram.',c:false}
+  ],'Describe = the account of what happens (no causes required). Explain = what happens PLUS the reason/mechanism (needs a causal link). Giving only a description on an "explain" question is the most common way students lose marks.');
   h+=ctCard({term:'Explain',ao:'AO2',official:'Give a detailed account including reasons or causes.',plain:'Say what happens AND why &mdash; the mechanism. Every "explain" answer must contain a "because" or a linked cause&rarr;effect chain.',length:'Marks = number of linked reasoning steps. A 3-mark explain = a 3-link chain (cause &rarr; because &rarr; therefore).',signal:'Must contain "because" / "due to" / "therefore" &mdash; a causal link.',weak:'"The pressure increases when you heat the gas." (that\'s DESCRIBE &mdash; no reason given, loses the explain marks)',strong:'"Heating gives the particles more kinetic energy (1), so they hit the walls harder and more often (1), which increases the pressure (1)." (causal chain = full marks)',hook:'EXPLAIN = every point needs a "because". No because, no explain mark.'});
+  h+=tfBlock('t20dp_explain_tf','Check','True or False: For "Explain [3]" you should aim to give three linked reasoning steps, each adding a new cause or consequence.',true,'True. "Explain" is marked by the number of linked reasoning steps. A 3-mark explain = a 3-link causal chain. One idea repeated three ways scores one mark, not three.');
   h+=ctCard({term:'Calculate / Determine',ao:'AO2',official:'Obtain a numerical answer showing the relevant stages in the working (Determine: from given data / graph).',plain:'Get the number &mdash; but the WORKING earns most of the marks. A right answer with no working can lose method marks; a wrong answer with correct working still scores.',length:'Marks split across: formula (1), substitution (1), answer with unit (1). Always show every stage.',signal:'Working shown + final answer WITH correct unit.',weak:'"= 24" (no formula, no substitution, no unit &mdash; risks losing 2 of 3 marks)',strong:'"F = ma (1); F = 3.0 &times; 8.0 (1); F = 24 N (1)" &mdash; formula, substitution, answer+unit.',hook:'CALCULATE = show your working AND the unit. The unit is a free mark students throw away.'});
+  h+=mcqBlock('t20dp_calc','Check','On a "Calculate [3]" question, which is the biggest self-inflicted way to lose marks?',[
+    {t:'Writing only the final number with no formula, no substitution, and no unit.',c:true},
+    {t:'Using the correct formula.',c:false},
+    {t:'Showing the substitution step.',c:false},
+    {t:'Including the unit with the answer.',c:false}
+  ],'The marks are shared across formula, substitution, and answer-with-unit. A bare correct number can score as low as 1 of 3. The unit alone is often a free mark students throw away.');
   h+=ctCard({term:'Compare and contrast',ao:'AO3',official:'Give an account of similarities AND differences between two (or more) items, referring to both throughout.',plain:'You must cover BOTH similarities and differences, and every point must mention BOTH items in the same breath. Talking about one then the other separately loses marks.',length:'Marks = number of linked comparison points. Each point should be "A does X, whereas B does Y".',signal:'Linked "whereas / both / in contrast" statements referring to both items.',weak:'"Alpha is positive. [new paragraph] Beta is an electron." (treats them separately &mdash; not comparing)',strong:'"Both alpha and beta are ionising (similarity, 1); however alpha is far more ionising but less penetrating than beta (difference, 1); and alpha is positive whereas beta is negative (difference, 1)." (both items, both similarities and differences)',hook:'COMPARE & CONTRAST = never discuss one alone. Every sentence names both.'});
+  h+=mcqBlock('t20dp_cc','Check','What does "Compare and contrast" require that "Compare" alone (or "Distinguish") may not?',[
+    {t:'BOTH similarities AND differences, with both items referred to throughout.',c:true},
+    {t:'Only the differences between the items.',c:false},
+    {t:'A separate paragraph on each item, one after the other.',c:false},
+    {t:'A numerical calculation comparing the two.',c:false},
+    {t:'Only the similarities, since "contrast" is optional.',c:false}
+  ],'"Compare and contrast" demands similarities AND differences, and every point must mention both items together. "Distinguish" wants differences only. Writing about each item separately is the classic error.');
   h+=ctCard({term:'Evaluate / Discuss',ao:'AO3',official:'Make an appraisal weighing up strengths & limitations (Evaluate) / give a balanced, considered review including a range of arguments (Discuss).',plain:'Give BOTH sides, then reach a supported judgement. A one-sided answer, however detailed, caps low. The conclusion must follow from your points.',length:'High-mark (4&ndash;8). Structure: points for, points against, then a justified conclusion.',signal:'Balanced arguments + a reasoned "therefore/overall" judgement.',weak:'"Nuclear power is good because it produces lots of energy." (one-sided, no judgement)',strong:'"Nuclear power has high energy density and low carbon emissions (for); but produces long-lived radioactive waste and has high initial cost (against); on balance, for a country needing reliable low-carbon baseload, the benefits outweigh the risks (justified judgement)."',hook:'EVALUATE/DISCUSS = two sides + a verdict. Missing a side or the verdict caps your marks.'});
   h+='<div class="sec" style="background:var(--gold-bg);border-radius:8px"><strong>More DP terms (quick reference):</strong></div>';
   h+=ctCard({term:'Outline',ao:'AO2',official:'Give a brief account or summary.',plain:'The main points, briefly &mdash; more than "state", less than "describe". A summary, not the full detail.',length:'2&ndash;3 marks = the key points only. Don\'t pad.',signal:'Brief main points.',weak:'A full mechanism when only the key stages were asked.',strong:'"Nuclear fusion joins light nuclei to form a heavier one, releasing energy because the products have slightly less mass." (concise, key points)',hook:'OUTLINE = the headline version. Main points, no deep detail.'});
@@ -1239,6 +1362,20 @@ function buildCommandTerms(){
   h+=ctCard({term:'Present / Interpret (Criterion C)',ao:'MYP L2',official:'Offer data for consideration in a suitable form / use knowledge to recognise trends and draw conclusions from data.',plain:'Present = organise data correctly (table with units, a suitable graph). Interpret = say what the data MEANS &mdash; the trend and what it tells you. Both sit in Criterion C.',length:'Present: correct table/graph with labels & units. Interpret: state the trend + its meaning.',signal:'Correct data form + "the data shows that...".',weak:'A graph with no axis labels; "the line goes up".',strong:'A labelled graph with units, plus "as force increases, extension increases proportionally, showing a linear relationship up to the elastic limit."',hook:'PRESENT = format it right (units!). INTERPRET = say what it means.'});
   h+=ctCard({term:'Summarize (Criterion D)',ao:'MYP L2',official:'Abstract a general theme or major point(s).',plain:'Pull out the main idea(s) briefly &mdash; often used in Criterion D when summarising the science behind an issue before discussing its impact.',length:'A few sentences capturing the core points only.',signal:'The main theme, condensed.',weak:'Copying a whole paragraph from the source.',strong:'"In short, burning fossil fuels releases CO&#8322;, which traps heat and drives global warming." (core theme, condensed)',hook:'SUMMARIZE = the big idea in a few lines. No copying, no detail dumps.'});
   h+=ctCard({term:'Discuss (Criterion D)',ao:'MYP L3',official:'Offer a considered, balanced review that includes a range of arguments, factors or hypotheses.',plain:'Give a balanced review of an issue &mdash; typically the impact of science on society/environment in Criterion D. Multiple viewpoints, weighed fairly.',length:'Top band: several factors/viewpoints, balanced, showing the implications.',signal:'"On one hand... on the other... considering...".',weak:'"Plastic is bad." (one-sided, no range)',strong:'"Plastics are cheap and versatile, benefiting medicine and food safety (benefit); but they persist in the environment and harm marine life (cost); so their use involves a trade-off society must manage through recycling and alternatives (balanced implication)."',hook:'DISCUSS = a balanced review with a range of factors, not a single opinion.'});
+  h+='<div class="sec" style="background:var(--phase-track);border-radius:8px"><strong>&#10003; Check your MYP understanding:</strong></div>';
+  h+=matchBlock('t20myp_match','Match','Match each MYP term to its criterion focus:',[
+    {l:'Design',r:'Criterion B &mdash; a full method with variables & steps'},
+    {l:'Present / Interpret',r:'Criterion C &mdash; organise data & say what it means'},
+    {l:'Explain',r:'Criterion A &mdash; knowing & understanding, with reasons'},
+    {l:'Discuss',r:'Criterion D &mdash; balanced review of science\'s impact'}
+  ],'Design belongs to inquiring/designing (B); Present/Interpret to processing/evaluating (C); Explain to knowing/understanding (A); Discuss to reflecting on impacts (D).');
+  h+=mcqBlock('t20myp_q1','MCQ','In MYP, why can "adding more facts" fail to raise your band on an "Analyse" or "Evaluate" task?',[
+    {t:'Because MYP marks against descriptor bands that require a HIGHER cognitive skill (relating, interpreting, judging) &mdash; not just more content.',c:true},
+    {t:'Because MYP penalises long answers.',c:false},
+    {t:'Because facts are never credited in MYP.',c:false},
+    {t:'Because you must always include a diagram.',c:false}
+  ],'MYP bands are about the LEVEL of thinking shown. To reach 7&ndash;8 on Analyse/Evaluate you must show the higher skill (find relationships / weigh and judge), not simply pile on more facts.');
+  h+=tfBlock('t20myp_tf','True/False','True or False: In MYP, "Design" (Criterion B) requires stating the independent, dependent and controlled variables plus a method someone else could follow.',true,'True. A top-band "Design" needs a testable hypothesis, all three variable types, and a clear, reproducible, safe method. Missing the variables or vague steps caps the band.');
   h+='</div>';
 
   // ================= IGCSE =================
@@ -1256,74 +1393,101 @@ function buildCommandTerms(){
   h+=ctCard({term:'Determine',ao:'IGCSE Mid',official:'Establish an answer using the information available (often from a graph or data).',plain:'Like calculate, but you often first have to EXTRACT the values you need (e.g. read a gradient off a graph), then work out the answer with working shown.',length:'Marks for: reading the correct values + the calculation + answer with unit.',signal:'Values extracted + working + unit.',weak:'"= 4" with no indication of where the numbers came from.',strong:'"Gradient = &Delta;y/&Delta;x = (8&minus;2)/(4&minus;1) = 2 m/s&sup2; (values read from graph, working shown, unit given)."',hook:'DETERMINE = find the values first, THEN calculate. Show both.'});
   h+=ctCard({term:'Compare',ao:'IGCSE Mid',official:'Identify/comment on similarities and/or differences.',plain:'Give similarities and/or differences between two things, referring to both. In IGCSE this is often lighter than DP\'s "compare and contrast" but still must mention both items per point.',length:'Marks = number of valid comparison points, each naming both items.',signal:'"both... / X is..., whereas Y is...".',weak:'"Series circuits are simple." (only one, no comparison)',strong:'"In a series circuit the current is the same everywhere, whereas in a parallel circuit the current splits between branches." (both items compared)',hook:'COMPARE = name both items in every point.'});
   h+=ctCard({term:'Deduce (extended)',ao:'IGCSE High',official:'Draw a conclusion from the information given.',plain:'Use the given data to reach a logical conclusion, showing the reasoning. Extended-paper term.',length:'Marks for the reasoning step(s) + correct conclusion.',signal:'"Since... it follows that...".',weak:'Stating a conclusion with no link to the data.',strong:'"Since the total resistance fell when the second lamp was added, it follows the lamps must be connected in parallel." (data &rarr; reasoned conclusion)',hook:'DEDUCE = connect the given data to a conclusion, logically.'});
+  h+='<div class="sec" style="background:var(--phase-track);border-radius:8px"><strong>&#10003; Check your IGCSE understanding:</strong></div>';
+  h+=mcqBlock('t20igcse_q1','MCQ','In IGCSE, the number in brackets after a command word (e.g. "Describe... [3]") tells you what?',[
+    {t:'How many distinct creditable points to give &mdash; one mark per correct point.',c:true},
+    {t:'How many minutes to spend.',c:false},
+    {t:'How many diagrams are required.',c:false},
+    {t:'The difficulty level of the question.',c:false}
+  ],'IGCSE mark schemes are checklists: [3] means three separate creditable points. Matching your number of points to the bracket is the fastest way to secure full marks.');
+  h+=matchBlock('t20igcse_match','Match','Match each IGCSE command word to what it asks for:',[
+    {l:'State / Give / Name',r:'A brief fact, value or name &mdash; no explanation'},
+    {l:'Suggest',r:'A sensible, valid idea for a novel situation'},
+    {l:'Calculate',r:'A number WITH working shown and a unit'},
+    {l:'Determine',r:'Extract values (e.g. from a graph), then work it out'}
+  ],'State/Give/Name = brief fact; Suggest = valid idea for unfamiliar contexts; Calculate = number + working + unit; Determine = find the values first, then calculate.');
+  h+=tfBlock('t20igcse_tf','True/False','True or False: on IGCSE "Calculate" questions, a correct final number with no working shown always earns full marks.',false,'False. IGCSE awards method marks for the formula and substitution. A bare number can lose those marks; correct working with a small slip can still earn most. Always show working AND the unit.');
   h+='</div>';
 
   // Practice
-  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Test Yourself &mdash; Command Term MCQs</h3><p>These are deliberately hard. The options are designed to trip you up &mdash; they sound plausible, and the right answer moves around. Read every option fully before choosing. Getting these right means you truly understand the terms, not just recognise them. Each correct answer counts toward your progress.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">FINAL TEST &mdash; Do You Really Know the Command Terms?</h3><p>This is the big one. Every question here tests your understanding of what a command term REQUIRES &mdash; not physics. Different question types, deliberately confusing options, and the answers move around. Take it seriously; each correct answer counts toward your progress. A future exam coordinator should ace this.</p></div>';
 
-  h+=mcqBlock('t20m1','DP','A DP question reads: <em>"Explain why the current through a filament lamp is not proportional to the voltage. [3]"</em> A student writes: <em>"The current is not proportional because the lamp is not ohmic."</em> Why does this lose most of the marks?',[
-    {t:'It is factually wrong &mdash; a filament lamp is actually ohmic.',c:false},
-    {t:'It states a fact but gives no mechanism; "explain [3]" needs three linked reasons (heating &rarr; higher resistance &rarr; smaller current rise).',c:true},
-    {t:'It should have included a calculation with the correct unit.',c:false},
-    {t:'It used the word "because", which is not allowed in an explain answer.',c:false}
-  ],'"Explain" demands the causal chain. Naming the conclusion ("not ohmic") is only one idea. Full marks need: as current rises the filament heats up (1), which increases its resistance (1), so the current rises less than proportionally (1). Three linked mechanisms for [3].');
+  h+=matchBlock('t20f_match1','Match','Match each command term to what it DEMANDS:',[
+    {l:'Define',r:'The precise meaning of a term or quantity'},
+    {l:'Describe',r:'A detailed account of WHAT happens (no reasons needed)'},
+    {l:'Explain',r:'What happens AND the reasons/mechanism'},
+    {l:'State',r:'A brief fact or value, nothing more'}
+  ],'Define = precise meaning; State = brief fact; Describe = what happens; Explain = what + why. The Describe/Explain pair is the one students confuse most.');
 
-  h+=mcqBlock('t20m2','DP','Which task is asking for the LEAST amount of writing to earn full marks?',[
-    {t:'"Outline how a standing wave forms on a string. [2]"',c:false},
-    {t:'"Describe the motion of the trolley between t=2s and t=5s. [3]"',c:false},
-    {t:'"State the SI unit of magnetic flux density. [1]"',c:true},
-    {t:'"Determine the acceleration from the graph. [2]"',c:false}
-  ],'"State [1]" wants a single fact &mdash; "tesla (T)" &mdash; and nothing more. The others are AO2 terms (outline/describe/determine) needing multiple points or working. Writing sentences for a "state" wastes exam time.');
+  h+=matchBlock('t20f_match2','Match','Match the higher-order command term to its requirement:',[
+    {l:'Compare and contrast',r:'Similarities AND differences, referring to both items'},
+    {l:'Distinguish',r:'The differences only, between two items'},
+    {l:'Evaluate',r:'Weigh strengths and limitations, then a judgement'},
+    {l:'Deduce',r:'Reach a conclusion logically from given information'}
+  ],'Compare and contrast needs both similarities and differences; Distinguish needs differences only; Evaluate weighs both sides to a verdict; Deduce reasons from data to a conclusion.');
 
-  h+=mcqBlock('t20m3','MYP','In MYP Sciences, a Criterion C task says <em>"Analyse the data in your table."</em> A student correctly copies the highest and lowest readings and writes "the values changed." In which band does this most likely sit, and why?',[
-    {t:'Top band (7&ndash;8) &mdash; they have correctly used the data.',c:false},
-    {t:'Low band &mdash; they described/stated values but did not identify a trend, link variables, or draw a conclusion, which "analyse" requires.',c:true},
-    {t:'Mid band (5&ndash;6) &mdash; because they only need to present the data for "analyse".',c:false},
-    {t:'It cannot be marked because no graph was drawn.',c:false}
-  ],'"Analyse" = break down &rarr; find the relationship &rarr; interpret to a conclusion. Merely quoting values is "state/present". To climb bands the student must say how the variables relate and what it means &mdash; e.g. "as load increased, extension increased proportionally, showing Hooke\'s law".');
+  h+=orderBlock('t20f_order1','Order','Put these DP command terms in order of increasing cognitive demand (1 = lowest, 4 = highest):',
+    ['State (recall a fact)','Describe (detailed account of what)','Explain (account with reasons)','Evaluate (weigh up and judge)'],
+    'Rising demand: State (AO1 recall) &rarr; Describe (AO2, what) &rarr; Explain (AO2, what + why) &rarr; Evaluate (AO3, judgement). Higher demand = more developed answer = more marks.');
 
-  h+=mcqBlock('t20m4','DP','A question says <em>"Compare and contrast the fields around a point mass and a point positive charge. [3]"</em> Which answer structure would score full marks?',[
-    {t:'Describe the gravitational field fully in one paragraph, then the electric field fully in the next.',c:false},
-    {t:'List three facts about gravitational fields only, since they are simpler.',c:false},
-    {t:'Give linked points that each mention BOTH: e.g. "both follow an inverse-square law; both have radial field lines; but gravitational is always attractive whereas electric can attract or repel."',c:true},
-    {t:'State only the differences, because "contrast" overrides "compare".',c:false}
-  ],'"Compare and contrast" requires similarities AND differences, with BOTH items referred to in each point. Treating each field separately (option 1) is the classic error that loses marks. Every sentence should name both.');
-
-  h+=mcqBlock('t20m5','IGCSE','On an IGCSE paper: <em>"Suggest why the student\'s measured value of g was higher than 9.81 m/s&sup2;. [1]"</em> The student leaves it blank, saying "we never did this in class." What is the best teaching point?',[
-    {t:'Blank is correct &mdash; "suggest" only applies if the exact answer was taught.',c:false},
-    {t:'"Suggest" invites any physically valid reason to a novel situation; a sensible idea (e.g. "reaction-time error in timing made the time too short") earns the mark.',c:true},
-    {t:'The student should have done a full calculation to earn the mark.',c:false},
-    {t:'"Suggest" means the same as "state", so one word would do.',c:false}
-  ],'"Suggest" is designed for unfamiliar contexts where several answers are valid. Never leave it blank &mdash; apply your physics. Any reasonable, physics-based cause of the error scores. This is exactly where trained students pick up marks that others throw away.');
-
-  h+=mcqBlock('t20m6','DP','Which of these is the single most important reason a correct numerical answer can still lose marks on a "Calculate [3]" question?',[
-    {t:'The answer was written in pen instead of pencil.',c:false},
-    {t:'No working (formula and substitution) was shown, and/or the unit was missing &mdash; those carry the method marks.',c:false},
-    {t:'The student used a calculator.',c:false},
-    {t:'Both A and C are correct.',c:false},
-    {t:'Only the second option is correct: missing working/unit forfeits method marks even with a right number.',c:true}
-  ],'On "calculate/determine", the marks are spread across formula, substitution, and answer-with-unit. A bare correct number can score as little as 1 of 3. Always show the formula, the substitution, and the unit &mdash; and note this question had FIVE options with the answer last, to keep you reading.');
-
-  h+=mcqBlock('t20m7','Mixed','Match the demand to the term. <em>"Give a considered, balanced review with a range of arguments, then a supported judgement"</em> best describes which command term?',[
-    {t:'Describe',c:false},
-    {t:'Discuss',c:true},
-    {t:'Outline',c:false},
+  h+=msqBlock('t20f_ms1','Select all','Which command terms REQUIRE giving reasons or a causal mechanism (not just facts)?',[
+    {t:'Explain',c:true},
     {t:'State',c:false},
-    {t:'Deduce',c:false}
-  ],'"Discuss" (and "Evaluate") require balance across arguments plus a reasoned conclusion. "Describe/outline/state" are lower-demand (what/brief/fact); "deduce" is reaching a conclusion from given data, not a balanced review.');
+    {t:'Justify',c:true},
+    {t:'List',c:false},
+    {t:'Deduce',c:true},
+    {t:'Define',c:false}
+  ],'Explain (reasons), Justify (evidence/reasons for a claim), and Deduce (reasoning to a conclusion) all require reasoning. State, List, and Define want facts/meanings only &mdash; no "because" needed.');
 
-  h+=mcqBlock('t20m8','DP','A "Show that the orbital speed is about 7.7 km/s [2]" question gives you the answer already. A student simply writes "v = 7.7 km/s, as required." Why is this poor, and what should they do?',[
-    {t:'It is fine &mdash; the answer matches, so full marks.',c:false},
-    {t:'"Show that" requires the full derivation/working to that value; with no steps shown, it scores zero. They should work from the formula, keeping an extra significant figure to prove they reached it.',c:true},
-    {t:'They should have rounded to 8 km/s to be safe.',c:false},
-    {t:'They should have drawn a graph instead.',c:false}
-  ],'"Show that" gives the target so you can\'t fudge it &mdash; the marks are entirely for the visible steps. No working = no marks, even though the number is "right". Carry an extra sig fig (e.g. 7.73) so it\'s clear your working genuinely lands on the given value.');
+  h+=msqBlock('t20f_ms2','Select all','A question says "Compare and contrast X and Y. [4]". Which of these are TRUE about a full-mark answer?',[
+    {t:'It must include at least one similarity.',c:true},
+    {t:'It must include differences.',c:true},
+    {t:'Every point should refer to BOTH X and Y.',c:true},
+    {t:'You may describe X fully, then Y fully, in separate paragraphs.',c:false},
+    {t:'Only differences are needed; similarities are optional.',c:false}
+  ],'Compare and contrast = similarities AND differences, with both items in each point. Treating them in separate blocks (or giving differences only) loses marks.');
 
-  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Practice &mdash; Write to the Command Term (Grade Me)</h3><p>Now the harder test: write full answers and get them graded. The MCQs check if you can RECOGNISE the requirement; these check if you can DELIVER it. Write, then hit Grade Me.</p></div>';
-  h+=taskBlock('t20p1','DP [Explain, 3 marks]: "Explain why a ball thrown straight up momentarily has zero velocity but non-zero acceleration at the top." Write a 3-link causal answer.','My answer (remember: 3 linked reasons, each with a "because/so"): ___','<strong>Full-mark model:</strong> "At the top the ball has momentarily stopped rising, so its velocity is zero (1); however gravity still acts on it throughout the motion (1); so it still has a downward acceleration of 9.81 m s&#8315;&sup2; because the force of gravity is unchanged (1)." Three linked points, each creditable &mdash; matches a 3-mark explain.');
-  h+=taskBlock('t20p2','IGCSE [Describe, 3 marks]: "Describe the motion shown by a horizontal straight line on a distance-time graph, then a rising straight line." Give 3 distinct points.','My answer (count the marks: give 3 separate features): ___','<strong>Full-mark model:</strong> "The horizontal line shows the object is stationary &mdash; distance is not changing (1); the rising straight line shows the object is moving at a constant speed (1); the constant (unchanging) gradient shows the speed is steady, not accelerating (1)." Three features for [3].');
-  h+=taskBlock('t20p3','MYP [Analyse]: A student measures how the extension of a spring changes with load and gets a straight line that then curves. Analyse this data (trend + relationship + conclusion).','My answer (identify the trend, link the variables, reach a conclusion): ___','<strong>Top-band model:</strong> "The extension is directly proportional to the load while the line is straight, showing the spring obeys Hooke\'s law in this region (trend + relationship). Beyond the point where the line curves, extension increases more rapidly per unit load, showing the spring has passed its elastic limit and is no longer behaving elastically (interpretation). This means Hooke\'s law only holds up to the elastic limit (conclusion)." Trend, relationship, and a supported conclusion &mdash; the top MYP analyse band.');
-  h+=taskBlock('t20p4','DP [Compare and contrast, 3 marks]: "Compare and contrast conduction and convection as methods of thermal energy transfer." Refer to BOTH in every point.','My answer (every sentence must mention both; give similarities AND differences): ___','<strong>Full-mark model:</strong> "Both conduction and convection transfer thermal energy from hot to cold regions (similarity, 1); however conduction transfers energy through particle collisions without the particles moving overall, whereas convection transfers energy by the bulk movement of the heated fluid itself (difference, 1); and conduction occurs mainly in solids while convection occurs only in fluids (liquids and gases) (difference, 1)." Both items in every point, with a similarity and differences.');
+  h+=tfBlock('t20f_tf1','True/False','True or False: "Suggest" means there is exactly one correct textbook answer, so if you weren\'t taught it, you should leave it blank.',false,'False. "Suggest" is used for novel/unfamiliar situations where several answers are valid. Never leave it blank &mdash; apply your understanding and give a sensible, reasoned response. That earns the mark.');
+
+  h+=tfBlock('t20f_tf2','True/False','True or False: On a "Show that... [2]" question, since the final value is already given, you can just write it down and note "as required".',false,'False. "Show that" gives the answer precisely so you can\'t fake it &mdash; ALL the marks are for the visible working. No steps shown = zero, even with the "right" number. Carry an extra significant figure to prove you reached it.');
+
+  h+=mcqBlock('t20f_q1','MCQ','A student gives a beautifully detailed account of WHAT happens in a process, with no reasons, for an "Explain [3]" question. What is the most likely outcome?',[
+    {t:'They lose most marks &mdash; they answered "Describe", not "Explain"; no reasons/mechanism were given.',c:true},
+    {t:'Full marks &mdash; detail is what matters most.',c:false},
+    {t:'They lose marks only for spelling.',c:false},
+    {t:'It depends on the topic, not the command term.',c:false},
+    {t:'They gain a bonus for extra detail.',c:false}
+  ],'"Explain" is marked on linked REASONS, not description. A detailed "what happens" with no "why" is a Describe answer &mdash; it forfeits the explain marks however well-written.');
+
+  h+=mcqBlock('t20f_q2','MCQ','Which command term is asking for the LEAST developed answer?',[
+    {t:'State',c:true},
+    {t:'Analyse',c:false},
+    {t:'Discuss',c:false},
+    {t:'Explain',c:false},
+    {t:'Evaluate',c:false}
+  ],'State (AO1 recall) wants only a brief fact/value. Analyse, Discuss, Explain and Evaluate are all higher-order and need developed, reasoned answers.');
+
+  h+=mcqBlock('t20f_q3','MCQ','"Outline" sits between which two terms in terms of how much you write?',[
+    {t:'More than "State", but less than "Describe" &mdash; the main points only, briefly.',c:true},
+    {t:'More than "Evaluate", less than "Discuss".',c:false},
+    {t:'It means exactly the same as "Explain".',c:false},
+    {t:'Less than "State" &mdash; just one word.',c:false}
+  ],'Outline = a brief summary of the main points. More than a bare "state", but not the full detail of a "describe". Padding an outline with detail wastes time.');
+
+  h+=mcqBlock('t20f_q4','MCQ','In MYP Sciences, why can a student who correctly quotes data values still sit in a LOW band for an "Analyse" task?',[
+    {t:'Because "Analyse" needs a trend + a relationship between variables + a conclusion &mdash; quoting values alone is only "stating/presenting".',c:true},
+    {t:'Because they didn\'t write enough words.',c:false},
+    {t:'Because MYP does not use the term "Analyse".',c:false},
+    {t:'Because they should have drawn a diagram.',c:false},
+    {t:'Because analysis requires a calculation every time.',c:false}
+  ],'"Analyse" = break down &rarr; identify the relationship &rarr; interpret to a conclusion. Simply reporting values is lower-order. To climb MYP bands the student must say how variables relate and what it means.');
+
+  h+=mcqBlock('t20f_q5','MCQ','Which single habit, done BEFORE writing, recovers the most marks across DP, MYP and IGCSE?',[
+    {t:'Identify the command term AND read the marks in brackets, then match the answer\'s type and length to both.',c:true},
+    {t:'Write as much as possible to be safe.',c:false},
+    {t:'Start with a definition every time.',c:false},
+    {t:'Always draw a diagram first.',c:false}
+  ],'The command term tells you WHAT kind of answer; the marks tell you HOW MANY points. Matching both is the highest-value 5-second habit you can build &mdash; and teach.');
 
   h+='<div class="sec"><h3><span class="sec-tag tag-check">The One Habit to Teach Your Students</h3><p>Before writing a single word, a student should do two things: <strong>(1) circle the command term, (2) look at the marks in brackets.</strong> The command term tells them WHAT kind of answer; the marks tell them HOW MANY points. "Explain [3]" = three linked reasons. "State [1]" = one fact. That 5-second habit &mdash; which you can now model with total confidence &mdash; recovers more marks than almost anything else you can teach.</p></div>';
 
