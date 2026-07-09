@@ -110,6 +110,16 @@ body.dark{--bg:#0F1119;--card:#1A1D2E;--text:#E8E4DC;--text2:#8B8FA0;--accent:#B
 .quiz-feedback.show{display:block}
 .quiz-feedback.good{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
 .quiz-feedback.bad{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.mcq-block{border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:12px;background:var(--card)}
+.mcq-q{font-weight:700;font-size:.9rem;margin-bottom:10px}
+.mcq-q .mcq-tag{display:inline-block;font-size:.66rem;font-weight:700;background:var(--accent-light);color:var(--accent);padding:2px 7px;border-radius:5px;margin-right:6px;vertical-align:middle}
+.mcq-opt{display:block;width:100%;text-align:left;border:1.5px solid var(--border);background:var(--bg);border-radius:8px;padding:9px 12px;margin-bottom:7px;font-size:.85rem;cursor:pointer;color:var(--text);transition:all .12s}
+.mcq-opt:hover{border-color:var(--accent)}
+.mcq-opt.correct{background:var(--green-bg);border-color:var(--green-border);color:var(--green);font-weight:600}
+.mcq-opt.wrong{background:var(--red-bg);border-color:var(--red-border);color:var(--red)}
+.mcq-opt.locked{cursor:default;pointer-events:none;opacity:.85}
+.mcq-exp{margin-top:8px;padding:9px 12px;border-radius:7px;font-size:.8rem;background:var(--accent-light);display:none}
+.mcq-exp.show{display:block}
 .ai-result{margin-top:8px;padding:12px 14px;border-radius:8px;font-size:.82rem;border:1px solid var(--border);background:var(--card);display:none}
 .ai-result.show{display:block}
 .ai-score{font-size:1.1rem;font-weight:800;margin-bottom:6px}
@@ -474,6 +484,37 @@ function markDone(taskId,mod){
 }
 function recordToday(){var days=JSON.parse(localStorage.getItem('pt_days')||'[]');var t=new Date().toDateString();if(days.indexOf(t)===-1){days.push(t);localStorage.setItem('pt_days',JSON.stringify(days))}cloudSave()}
 
+// ---- MCQ self-test ----
+// opts: array of {t:'text', c:true} ; exactly one c:true. Positions are shuffled by id.
+function mcqBlock(id,tag,q,opts,exp){
+  var arr=opts.slice();
+  // deterministic shuffle from id so the correct answer isn't always in the same slot
+  var seed=0;for(var i=0;i<id.length;i++){seed=(seed*31+id.charCodeAt(i))>>>0}
+  for(var j=arr.length-1;j>0;j--){seed=(seed*1103515245+12345)>>>0;var k=seed%(j+1);var tmp=arr[j];arr[j]=arr[k];arr[k]=tmp}
+  var h='<div class="mcq-block" id="'+id+'"><div class="mcq-q"><span class="mcq-tag">'+tag+'</span>'+q+'</div>';
+  arr.forEach(function(o){
+    h+='<button class="mcq-opt" onclick="checkMCQ(this,'+(o.c?'true':'false')+',\''+id+'\')">'+o.t+'</button>';
+  });
+  h+='<div class="mcq-exp" id="'+id+'exp">'+exp+'</div></div>';
+  return h;
+}
+function checkMCQ(btn,isCorrect,id){
+  var block=document.getElementById(id);
+  var opts=block.querySelectorAll('.mcq-opt');
+  opts.forEach(function(o){o.classList.add('locked')});
+  var exp=document.getElementById(id+'exp');
+  if(isCorrect){
+    btn.classList.add('correct');
+    completed[id]=true;
+    saveState();updateProgress();recordToday();
+  } else {
+    btn.classList.add('wrong');
+    // reveal the correct one
+    opts.forEach(function(o){if(o.getAttribute('onclick').indexOf('true,')!==-1)o.classList.add('correct')});
+  }
+  if(exp){exp.classList.add('show')}
+}
+
 function updateProgress(){
   var done=Object.keys(completed).length;
   var pct=totalTasks?Math.round(done/totalTasks*100):0;
@@ -488,6 +529,7 @@ function updateProgress(){
   mods.forEach(function(m){
     var total=0,dn=0;
     document.querySelectorAll('#'+m+' textarea').forEach(function(ta){total++;if(completed[ta.id])dn++});
+    document.querySelectorAll('#'+m+' .mcq-block').forEach(function(mq){total++;if(completed[mq.id])dn++});
     var mp=total?Math.round(dn/total*100):0;
     var el=document.getElementById('nav-'+m+'-pct');if(el)el.textContent=mp+'%';
     listHtml+='<div style="display:flex;align-items:center;gap:6px;padding:3px 0;font-size:.72rem"><span style="flex:1">'+modNames[m]+'</span><span style="font-weight:700;color:var(--accent);font-size:.68rem">'+mp+'%</span><div style="width:44px;height:5px;background:var(--phase-track);border-radius:3px;overflow:hidden"><div style="height:100%;background:var(--accent);width:'+mp+'%"></div></div></div>';
@@ -519,6 +561,13 @@ function loadState(){
   document.querySelectorAll('textarea').forEach(function(t){if(t.id){var v=localStorage.getItem('pt_v_'+t.id);if(v)t.value=v}});
   document.querySelectorAll('.reality-check input').forEach(function(c){/* handled per id */});
   ['t1r1','t1r2','t1r3','t1r4','t1r5'].forEach(function(id){var v=localStorage.getItem('pt_'+id);if(v==='1'){var els=document.querySelectorAll('input[onchange*="'+id+'"]');els.forEach(function(e){e.checked=true})}});
+  // restore answered MCQs
+  document.querySelectorAll('.mcq-block').forEach(function(block){
+    if(completed[block.id]){
+      block.querySelectorAll('.mcq-opt').forEach(function(o){o.classList.add('locked');if(o.getAttribute('onclick').indexOf('true,')!==-1)o.classList.add('correct')});
+      var exp=document.getElementById(block.id+'exp');if(exp)exp.classList.add('show');
+    }
+  });
 }
 document.addEventListener('input',function(e){if(e.target.tagName==='TEXTAREA'&&e.target.id){localStorage.setItem('pt_v_'+e.target.id,e.target.value);cloudSave()}});
 
@@ -764,7 +813,7 @@ function buildModules(){
   });
 
   // count tasks
-  totalTasks=document.querySelectorAll('.module-content textarea').length;
+  totalTasks=document.querySelectorAll('.module-content textarea').length+document.querySelectorAll('.module-content .mcq-block').length;
   document.querySelectorAll('textarea').forEach(function(t){if(t.id){var v=localStorage.getItem('pt_v_'+t.id);if(v)t.value=v}});
   ['t8g1','t8g2','t8g3','t8g4','t8g5','t8g6','t8b1','t8b2','t8b3','t8b4','t4r1'].forEach(function(id){var v=localStorage.getItem('pt_'+id);if(v==='1'){var els=document.querySelectorAll('input[onchange*="'+id+'"]');els.forEach(function(e){e.checked=true})}});
 }
@@ -1210,7 +1259,67 @@ function buildCommandTerms(){
   h+='</div>';
 
   // Practice
-  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Practice &mdash; Match Your Answer to the Command Term</h3><p>Reading about command terms isn\'t enough; you master them by answering to them. Below, write an answer to each command-term question, then hit Grade Me &mdash; the AI checks whether you hit the term\'s requirement AND the right length for the marks.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Test Yourself &mdash; Command Term MCQs</h3><p>These are deliberately hard. The options are designed to trip you up &mdash; they sound plausible, and the right answer moves around. Read every option fully before choosing. Getting these right means you truly understand the terms, not just recognise them. Each correct answer counts toward your progress.</p></div>';
+
+  h+=mcqBlock('t20m1','DP','A DP question reads: <em>"Explain why the current through a filament lamp is not proportional to the voltage. [3]"</em> A student writes: <em>"The current is not proportional because the lamp is not ohmic."</em> Why does this lose most of the marks?',[
+    {t:'It is factually wrong &mdash; a filament lamp is actually ohmic.',c:false},
+    {t:'It states a fact but gives no mechanism; "explain [3]" needs three linked reasons (heating &rarr; higher resistance &rarr; smaller current rise).',c:true},
+    {t:'It should have included a calculation with the correct unit.',c:false},
+    {t:'It used the word "because", which is not allowed in an explain answer.',c:false}
+  ],'"Explain" demands the causal chain. Naming the conclusion ("not ohmic") is only one idea. Full marks need: as current rises the filament heats up (1), which increases its resistance (1), so the current rises less than proportionally (1). Three linked mechanisms for [3].');
+
+  h+=mcqBlock('t20m2','DP','Which task is asking for the LEAST amount of writing to earn full marks?',[
+    {t:'"Outline how a standing wave forms on a string. [2]"',c:false},
+    {t:'"Describe the motion of the trolley between t=2s and t=5s. [3]"',c:false},
+    {t:'"State the SI unit of magnetic flux density. [1]"',c:true},
+    {t:'"Determine the acceleration from the graph. [2]"',c:false}
+  ],'"State [1]" wants a single fact &mdash; "tesla (T)" &mdash; and nothing more. The others are AO2 terms (outline/describe/determine) needing multiple points or working. Writing sentences for a "state" wastes exam time.');
+
+  h+=mcqBlock('t20m3','MYP','In MYP Sciences, a Criterion C task says <em>"Analyse the data in your table."</em> A student correctly copies the highest and lowest readings and writes "the values changed." In which band does this most likely sit, and why?',[
+    {t:'Top band (7&ndash;8) &mdash; they have correctly used the data.',c:false},
+    {t:'Low band &mdash; they described/stated values but did not identify a trend, link variables, or draw a conclusion, which "analyse" requires.',c:true},
+    {t:'Mid band (5&ndash;6) &mdash; because they only need to present the data for "analyse".',c:false},
+    {t:'It cannot be marked because no graph was drawn.',c:false}
+  ],'"Analyse" = break down &rarr; find the relationship &rarr; interpret to a conclusion. Merely quoting values is "state/present". To climb bands the student must say how the variables relate and what it means &mdash; e.g. "as load increased, extension increased proportionally, showing Hooke\'s law".');
+
+  h+=mcqBlock('t20m4','DP','A question says <em>"Compare and contrast the fields around a point mass and a point positive charge. [3]"</em> Which answer structure would score full marks?',[
+    {t:'Describe the gravitational field fully in one paragraph, then the electric field fully in the next.',c:false},
+    {t:'List three facts about gravitational fields only, since they are simpler.',c:false},
+    {t:'Give linked points that each mention BOTH: e.g. "both follow an inverse-square law; both have radial field lines; but gravitational is always attractive whereas electric can attract or repel."',c:true},
+    {t:'State only the differences, because "contrast" overrides "compare".',c:false}
+  ],'"Compare and contrast" requires similarities AND differences, with BOTH items referred to in each point. Treating each field separately (option 1) is the classic error that loses marks. Every sentence should name both.');
+
+  h+=mcqBlock('t20m5','IGCSE','On an IGCSE paper: <em>"Suggest why the student\'s measured value of g was higher than 9.81 m/s&sup2;. [1]"</em> The student leaves it blank, saying "we never did this in class." What is the best teaching point?',[
+    {t:'Blank is correct &mdash; "suggest" only applies if the exact answer was taught.',c:false},
+    {t:'"Suggest" invites any physically valid reason to a novel situation; a sensible idea (e.g. "reaction-time error in timing made the time too short") earns the mark.',c:true},
+    {t:'The student should have done a full calculation to earn the mark.',c:false},
+    {t:'"Suggest" means the same as "state", so one word would do.',c:false}
+  ],'"Suggest" is designed for unfamiliar contexts where several answers are valid. Never leave it blank &mdash; apply your physics. Any reasonable, physics-based cause of the error scores. This is exactly where trained students pick up marks that others throw away.');
+
+  h+=mcqBlock('t20m6','DP','Which of these is the single most important reason a correct numerical answer can still lose marks on a "Calculate [3]" question?',[
+    {t:'The answer was written in pen instead of pencil.',c:false},
+    {t:'No working (formula and substitution) was shown, and/or the unit was missing &mdash; those carry the method marks.',c:false},
+    {t:'The student used a calculator.',c:false},
+    {t:'Both A and C are correct.',c:false},
+    {t:'Only the second option is correct: missing working/unit forfeits method marks even with a right number.',c:true}
+  ],'On "calculate/determine", the marks are spread across formula, substitution, and answer-with-unit. A bare correct number can score as little as 1 of 3. Always show the formula, the substitution, and the unit &mdash; and note this question had FIVE options with the answer last, to keep you reading.');
+
+  h+=mcqBlock('t20m7','Mixed','Match the demand to the term. <em>"Give a considered, balanced review with a range of arguments, then a supported judgement"</em> best describes which command term?',[
+    {t:'Describe',c:false},
+    {t:'Discuss',c:true},
+    {t:'Outline',c:false},
+    {t:'State',c:false},
+    {t:'Deduce',c:false}
+  ],'"Discuss" (and "Evaluate") require balance across arguments plus a reasoned conclusion. "Describe/outline/state" are lower-demand (what/brief/fact); "deduce" is reaching a conclusion from given data, not a balanced review.');
+
+  h+=mcqBlock('t20m8','DP','A "Show that the orbital speed is about 7.7 km/s [2]" question gives you the answer already. A student simply writes "v = 7.7 km/s, as required." Why is this poor, and what should they do?',[
+    {t:'It is fine &mdash; the answer matches, so full marks.',c:false},
+    {t:'"Show that" requires the full derivation/working to that value; with no steps shown, it scores zero. They should work from the formula, keeping an extra significant figure to prove they reached it.',c:true},
+    {t:'They should have rounded to 8 km/s to be safe.',c:false},
+    {t:'They should have drawn a graph instead.',c:false}
+  ],'"Show that" gives the target so you can\'t fudge it &mdash; the marks are entirely for the visible steps. No working = no marks, even though the number is "right". Carry an extra sig fig (e.g. 7.73) so it\'s clear your working genuinely lands on the given value.');
+
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Practice &mdash; Write to the Command Term (Grade Me)</h3><p>Now the harder test: write full answers and get them graded. The MCQs check if you can RECOGNISE the requirement; these check if you can DELIVER it. Write, then hit Grade Me.</p></div>';
   h+=taskBlock('t20p1','DP [Explain, 3 marks]: "Explain why a ball thrown straight up momentarily has zero velocity but non-zero acceleration at the top." Write a 3-link causal answer.','My answer (remember: 3 linked reasons, each with a "because/so"): ___','<strong>Full-mark model:</strong> "At the top the ball has momentarily stopped rising, so its velocity is zero (1); however gravity still acts on it throughout the motion (1); so it still has a downward acceleration of 9.81 m s&#8315;&sup2; because the force of gravity is unchanged (1)." Three linked points, each creditable &mdash; matches a 3-mark explain.');
   h+=taskBlock('t20p2','IGCSE [Describe, 3 marks]: "Describe the motion shown by a horizontal straight line on a distance-time graph, then a rising straight line." Give 3 distinct points.','My answer (count the marks: give 3 separate features): ___','<strong>Full-mark model:</strong> "The horizontal line shows the object is stationary &mdash; distance is not changing (1); the rising straight line shows the object is moving at a constant speed (1); the constant (unchanging) gradient shows the speed is steady, not accelerating (1)." Three features for [3].');
   h+=taskBlock('t20p3','MYP [Analyse]: A student measures how the extension of a spring changes with load and gets a straight line that then curves. Analyse this data (trend + relationship + conclusion).','My answer (identify the trend, link the variables, reach a conclusion): ___','<strong>Top-band model:</strong> "The extension is directly proportional to the load while the line is straight, showing the spring obeys Hooke\'s law in this region (trend + relationship). Beyond the point where the line curves, extension increases more rapidly per unit load, showing the spring has passed its elastic limit and is no longer behaving elastically (interpretation). This means Hooke\'s law only holds up to the elastic limit (conclusion)." Trend, relationship, and a supported conclusion &mdash; the top MYP analyse band.');
