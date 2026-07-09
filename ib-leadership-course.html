@@ -213,6 +213,7 @@ body.dark{
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -1323,6 +1324,7 @@ function recordToday(){
   // Mark day active
   var days=JSON.parse(localStorage.getItem('lc_active_days')||'[]');
   if(days.indexOf(todayKey)===-1){days.push(todayKey);localStorage.setItem('lc_active_days',JSON.stringify(days))}
+  if(typeof cloudSave==='function')cloudSave();
 }
 
 // ===== UPDATE ALL =====
@@ -1412,6 +1414,7 @@ function saveState(){
   document.querySelectorAll('textarea,.quiz-fill input').forEach(function(el){
     if(el.id)localStorage.setItem('lc_v3_'+el.id,el.value);
   });
+  if(typeof cloudSave==='function')cloudSave();
 }
 function loadState(){
   var saved=localStorage.getItem('lc_completed_v2');
@@ -1426,6 +1429,7 @@ function loadState(){
 document.addEventListener('input',function(e){
   if(e.target.tagName==='TEXTAREA'||(e.target.tagName==='INPUT'&&e.target.type==='text')){
     if(e.target.id)localStorage.setItem('lc_v3_'+e.target.id,e.target.value);
+    if(typeof cloudSave==='function')cloudSave();
   }
 });
 
@@ -3195,23 +3199,61 @@ function buildM33(){
 
 // ===== FIREBASE + AI GRADING =====
 var fbApp,fbAuth,fbFunctions,aiChatFn,currentUser=null;
+var fbDb=null,cloudLoaded=false,cloudSaveTimer=null;
 try{
   fbApp=firebase.initializeApp({apiKey:"AIzaSyCLw65yB0sPSf5lgSkom27PTN4DrS1CBFc",authDomain:"soral-atul-physicism.firebaseapp.com",projectId:"soral-atul-physicism",storageBucket:"soral-atul-physicism.appspot.com"});
   fbAuth=firebase.auth();
   fbFunctions=firebase.functions();
   aiChatFn=fbFunctions.httpsCallable('aiChat');
+  try{fbDb=firebase.firestore()}catch(e){fbDb=null}
   fbAuth.onAuthStateChanged(function(user){
     currentUser=user;
     var box=document.getElementById('authBox');
-    if(!box)return;
-    if(user){
-      var name=user.displayName||user.email||'User';
-      box.innerHTML='<span class="auth-name">'+name.split(' ')[0]+'</span><button class="auth-btn" onclick="fbAuth.signOut()" style="background:var(--red)">Out</button>';
-    } else {
-      box.innerHTML='<button class="auth-btn" onclick="fbAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider())">Sign in for AI</button>';
+    if(box){
+      if(user){
+        var name=user.displayName||user.email||'User';
+        box.innerHTML='<span class="auth-name">'+name.split(' ')[0]+'</span><span id="syncBadge" class="auth-name" style="opacity:.7;font-size:.7rem"></span><button class="auth-btn" onclick="fbAuth.signOut()" style="background:var(--red)">Out</button>';
+      } else {
+        box.innerHTML='<button class="auth-btn" onclick="fbAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider())">Sign in to save</button>';
+      }
     }
+    if(user){cloudLoad()}else{cloudLoaded=false}
   });
 }catch(e){console.log('Firebase not available in preview');}
+
+// ---- Cross-device cloud sync (Firestore) ----
+function lcKeys(){var out=[];for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.indexOf('lc_')===0)out.push(k)}return out}
+function collectLocal(){var d={};lcKeys().forEach(function(k){d[k]=localStorage.getItem(k)});return d}
+function setSyncBadge(txt){var b=document.getElementById('syncBadge');if(b)b.textContent=txt}
+function cloudLoad(){
+  if(!fbDb||!currentUser){return}
+  setSyncBadge('syncing...');
+  fbDb.collection('progress_leadership').doc(currentUser.uid).get().then(function(snap){
+    if(snap.exists){
+      var data=snap.data().store||{};
+      Object.keys(data).forEach(function(k){localStorage.setItem(k,data[k])});
+      var sc=localStorage.getItem('lc_completed_v2');if(sc){try{completed=JSON.parse(sc)}catch(e){}}
+      loadState();if(typeof updateStreak==='function')updateStreak();if(typeof updateAll==='function')updateAll();
+    } else {
+      cloudSaveNow();
+    }
+    cloudLoaded=true;setSyncBadge('☁ synced');
+  }).catch(function(err){setSyncBadge('sync off');console.log('cloudLoad error',err)});
+}
+function cloudSave(){
+  if(!fbDb||!currentUser)return;
+  clearTimeout(cloudSaveTimer);
+  cloudSaveTimer=setTimeout(cloudSaveNow,1200);
+}
+function cloudSaveNow(){
+  if(!fbDb||!currentUser)return;
+  setSyncBadge('saving...');
+  fbDb.collection('progress_leadership').doc(currentUser.uid).set({
+    store:collectLocal(),
+    updated:Date.now(),
+    email:currentUser.email||''
+  }).then(function(){setSyncBadge('☁ saved')}).catch(function(err){setSyncBadge('save failed');console.log('cloudSave error',err)});
+}
 
 function gradeWithAI(btn){
   if(!currentUser){alert('Sign in with Google first (top right) to use AI grading.');return}
