@@ -943,6 +943,7 @@ function buildModules(){
   buildMYP4();
   buildMYP5();
   buildMYP6();
+  buildPartAPractice();
 
   themes.forEach(function(th){
     if(th.id==='t13'||th.id==='t14'||th.id==='t15'||th.id==='t16'||th.id==='t17')return; // deep-built themes have their own function
@@ -2491,6 +2492,108 @@ function buildMYP6(){
 
   document.getElementById('t26body').innerHTML=h;
 }
+
+function buildPartAPractice(){
+  // Appends a "Test Yourself" practice block to each Part A method module (t1-t8).
+  // Practice is about the TEACHING METHOD, not physics content.
+  function appendTo(modId,html){
+    var mod=document.getElementById(modId);if(!mod)return;
+    var wrap=document.createElement('div');wrap.innerHTML=html;
+    while(wrap.firstChild){mod.appendChild(wrap.firstChild)}
+  }
+  var p={};
+
+  // ---- Module 1: Understanding IB & its components ----
+  p.t1='<div class="sec"><h3><span class="sec-tag tag-check">Test Yourself &mdash; Module 1</h3><p>Check the core habit shift. These test your understanding of what IB expects, not physics.</p></div>'
+    +mcqBlock('pa1q1','IB vs CBSE','What is the single sentence that captures the IB vs CBSE difference?',[
+      {t:'In CBSE the teacher does the thinking and students record it; in IB students do the thinking and the teacher guides it.',c:true},
+      {t:'IB has harder content than CBSE.',c:false},
+      {t:'IB uses more textbooks than CBSE.',c:false},
+      {t:'CBSE is inquiry-based and IB is exam-based.',c:false}
+    ],'The whole shift is about WHO does the thinking. Inquiry, 5E, notebooks and TOK all flow from moving the thinking from the teacher to the students.')
+    +tfBlock('pa1q2','True/False','True or False: The "3-minute rule" means you should never talk continuously for more than about 3 minutes without a student activity or question.',true,'True. After ~3 minutes of continuous teacher talk, students disengage. Breaking it with a question, prediction or task keeps their brains active &mdash; the heart of facilitation.')
+    +taskBlock('pa1grade','Grade Me &mdash; "In one or two sentences, describe the biggest habit YOU personally need to change to teach more like IB expects, and why."','My honest reflection: ___','<strong>Example of a strong reflection:</strong> "My biggest habit to change is explaining the concept fully before students investigate &mdash; because I am confident in physics, I tend to do the thinking for them. I need to withhold the explanation and let them predict and test first, so the thinking (and the understanding) becomes theirs." Honest, specific, and tied to the teacher-does-the-thinking problem.');
+
+  // ---- Module 2: ManageBac & unit-plan components ----
+  p.t2='<div class="sec"><h3><span class="sec-tag tag-check">Test Yourself &mdash; Module 2</h3><p>Check that you can read and judge a unit plan, not just accept an AI-generated one.</p></div>'
+    +mcqBlock('pa2q1','Key concept','Which is a genuine KEY CONCEPT (transfers across subjects), not just a topic?',[
+      {t:'Systems',c:true},
+      {t:'Forces',c:false},
+      {t:'Newton\'s laws',c:false},
+      {t:'Chapter 4',c:false}
+    ],'A key concept (Systems, Change, Relationships) transfers across disciplines. "Forces" and "Newton\'s laws" are physics topics, not concepts. This is exactly the weakness to spot in an AI-generated plan.')
+    +tfBlock('pa2q2','True/False','True or False: A statement of inquiry (SOI) should be a debatable statement that ties the concepts to a global context &mdash; not just "students will learn about forces".',true,'True. An SOI is the debatable "thesis" of the unit, combining key concept + related concepts + global context. "Students will learn about forces" is a topic description, not an SOI.')
+    +taskBlock('pa2grade','Grade Me &mdash; "Write a statement of inquiry for a forces/motion unit that combines a key concept, related concepts, and a global context."','My SOI: ___','<strong>Strong model:</strong> "The relationships between forces and motion (key concept: Relationships) allow us to predict and control movement, driving the transport and safety innovations societies depend on (global context: Scientific and technical innovation)." Debatable, concept-driven, and globally framed &mdash; not just a topic.');
+
+  // ---- Module 3: Daily lesson plans & 5E ----
+  p.t3='<div class="sec"><h3><span class="sec-tag tag-check">Test Yourself &mdash; Module 3</h3><p>Check the 5E order &mdash; the single most important thing.</p></div>'
+    +mcqBlock('pa3q1','5E order','In the 5E model, the EXPLAIN phase should come:',[
+      {t:'AFTER students have explored/investigated &mdash; you formalise what they discovered.',c:true},
+      {t:'FIRST, before students do anything.',c:false},
+      {t:'At the very end, after the exam.',c:false},
+      {t:'It does not matter when.',c:false}
+    ],'Explain must come AFTER Explore. If you explain first, there is nothing left to discover &mdash; you turn investigation into "verify what teacher said". Flipping this order is what converts a CBSE lesson to an IB one.')
+    +tfBlock('pa3q2','True/False','True or False: A good inquiry lesson opens with a definition so students know what they are learning.',false,'False. Opening with a definition is the CBSE habit. An IB lesson opens with a PHENOMENON or question that makes students NEED the definition &mdash; which you provide later, in Explain.')
+    +taskBlock('pa3grade','Grade Me &mdash; "Plan the ENGAGE and EXPLORE phases for a topic you teach: what phenomenon/question opens it, and what will students investigate before you explain anything?"','My Engage + Explore: ___','<strong>Strong model (electric current):</strong> ENGAGE &mdash; "Here is a copper rod full of moving electrons. By the definition of current it should shock you &mdash; touch it. Nothing. Why?" EXPLORE &mdash; students argue and test simple circuits, discovering that random motion isn\'t current and a battery gives it direction. Only THEN do I define current. Phenomenon first, discovery before explanation.');
+
+  // ---- Module 4: Inquiry in unit vs lesson ----
+  p.t4='<div class="sec"><h3><span class="sec-tag tag-check">Test Yourself &mdash; Module 4</h3><p>Check the levels of inquiry and how much to scaffold.</p></div>'
+    +mcqBlock('pa4q1','Inquiry levels','For students used to being lectured, the best FIRST step toward inquiry is usually:',[
+      {t:'Guided inquiry &mdash; you give the question, they design/carry out the method.',c:true},
+      {t:'Fully open inquiry &mdash; students choose everything with no guidance.',c:false},
+      {t:'No inquiry &mdash; keep lecturing.',c:false},
+      {t:'Only demonstrations that students watch.',c:false}
+    ],'Guided inquiry is the sweet spot: you scaffold the PROCESS (question + structure) while students do the thinking. Jumping straight to fully open inquiry overwhelms students new to it.')
+    +tfBlock('pa4q2','True/False','True or False: Guiding students well means scaffolding the METHOD (structure, steps, what to record) without giving away the ANSWER (the physics conclusion).',true,'True. Good guidance directs the process &mdash; a target number of attempts, a recording table, a focusing question &mdash; but leaves the conclusion for students to reach. Scaffold the method, protect the discovery.')
+    +taskBlock('pa4grade','Grade Me &mdash; "Take a topic you teach and write a GUIDED-inquiry task: give the question and the structure, but do NOT give away the physics answer."','My guided task: ___','<strong>Strong model:</strong> "Challenge: make the bulb light, then work out the RULE for why it lights. 1) Try at least 5 different connections of battery, wire and bulb. 2) Draw each and mark ✓ (lit) or ✗. 3) Look at your ✓ drawings &mdash; what do they all have that the ✗ ones don\'t? 4) Write: \'The bulb lights when ______\'." Structure and direction given; the closed-circuit conclusion is left for students.');
+
+  // ---- Module 5: Notebooks that think ----
+  p.t5='<div class="sec"><h3><span class="sec-tag tag-check">Test Yourself &mdash; Module 5</h3><p>Check the notebook principle that satisfies "workshop + filled notebooks".</p></div>'
+    +mcqBlock('pa5q1','Notebooks','Why are students\' notebooks often empty in a lecture-style class?',[
+      {t:'Because copying the teacher\'s board work is meaningless to them &mdash; there is nothing of their OWN thinking to write.',c:true},
+      {t:'Because students are lazy.',c:false},
+      {t:'Because notebooks are old-fashioned.',c:false},
+      {t:'Because the teacher writes too little.',c:false}
+    ],'Notebooks fill when students write their OWN predictions, data and conclusions &mdash; not when they copy the board (which they can just photograph). Make the notebook part of the investigation and it fills naturally.')
+    +tfBlock('pa5q2','True/False','True or False: A notebook full of the student\'s own predictions, data and conclusions is BOTH better learning AND the evidence your HOS wants to see.',true,'True. It solves both demands at once: students think (workshop pattern) and the page fills with a record of that thinking (filled notebooks). One move satisfies both requirements.')
+    +taskBlock('pa5grade','Grade Me &mdash; "Design a short worksheet structure that would fill a student\'s notebook with THEIR thinking during one of your lessons."','My worksheet structure: ___','<strong>Strong model:</strong> "1) PREDICT (before we start): what do you think will happen and why? 2) OBSERVE/DATA: record what you see/measure (design your own table). 3) ANALYSE: graph or spot the pattern. 4) DISCOVER: complete \'What I found is that ______\'. 5) MY QUESTION: one thing I still wonder." Every box demands the student\'s own thinking, so the page fills with evidence of learning.');
+
+  // ---- Module 6: TOK in unit plans ----
+  p.t6='<div class="sec"><h3><span class="sec-tag tag-check">Test Yourself &mdash; Module 6</h3><p>Check that you can weave TOK in naturally.</p></div>'
+    +mcqBlock('pa6q1','TOK','A good physics TOK moment is:',[
+      {t:'A short knowledge question like "How do we KNOW atoms exist if we\'ve never seen one?" woven into the lesson.',c:true},
+      {t:'A separate philosophy lesson with no physics.',c:false},
+      {t:'Telling students the right answer to a deep question.',c:false},
+      {t:'Skipping content to talk about opinions.',c:false}
+    ],'TOK in physics is a 3-minute knowledge question &mdash; "how do we KNOW this?" &mdash; woven into content. You don\'t need a separate lesson or a resolved answer; the thinking IS the point.')
+    +tfBlock('pa6q2','True/False','True or False: A TOK moment needs to be resolved with a correct answer by the end of the lesson.',false,'False. TOK questions are open and contestable. You raise one, take a few responses, and move on &mdash; the value is in the thinking, not in reaching a final answer.')
+    +taskBlock('pa6grade','Grade Me &mdash; "Write one TOK knowledge question for a topic you teach, and say when in the lesson you would ask it."','My TOK question + timing: ___','<strong>Strong model (measurement):</strong> Question &mdash; "If every measurement has uncertainty, can we ever know a \'true\' value, or only our best estimate?" Timing &mdash; during the first practical, when students get slightly different readings for the same thing: "You all measured the same object and got different numbers &mdash; so does a single true value even exist?" Natural, embedded, unresolved.');
+
+  // ---- Module 7: International mindedness ----
+  p.t7='<div class="sec"><h3><span class="sec-tag tag-check">Test Yourself &mdash; Module 7</h3><p>Check that international mindedness is one embedded sentence, not a separate lesson.</p></div>'
+    +mcqBlock('pa7q1','IM','International mindedness in physics is best delivered as:',[
+      {t:'One authentic sentence connecting the physics to a global or cross-cultural context, woven into content you already teach.',c:true},
+      {t:'A separate lesson with no physics.',c:false},
+      {t:'A list of countries on a slide.',c:false},
+      {t:'Something only for the TOK teacher.',c:false}
+    ],'IM is one genuine sentence linking the physics to a global/cross-cultural context &mdash; e.g. the same nuclear physics that France embraces and Germany rejects. It is embedded, not a separate lesson.')
+    +tfBlock('pa7q2','True/False','True or False: International mindedness requires you to add a whole extra lesson to each unit.',false,'False. IM is woven into existing content as a single authentic sentence &mdash; no extra lesson needed. The physics is neutral; the human/cultural choices around it provide the international dimension.')
+    +taskBlock('pa7grade','Grade Me &mdash; "Write ONE international-mindedness sentence for a topic you teach, connecting the physics to a global or cross-cultural context."','My IM sentence: ___','<strong>Strong model (thermal physics):</strong> "The same laws of heat transfer govern a thick-walled mud house in Rajasthan that stays cool naturally and a glass skyscraper in Dubai that needs constant air-conditioning &mdash; traditional architecture often applied physics more wisely than modern design." One sentence, authentic, globally framed.');
+
+  // ---- Module 8: IB or CBSE self-check ----
+  p.t8='<div class="sec"><h3><span class="sec-tag tag-check">Test Yourself &mdash; Module 8</h3><p>The honest mirror: can you tell IB teaching from CBSE residue?</p></div>'
+    +mcqBlock('pa8q1','Self-check','Which is the clearest sign you taught an IB lesson rather than a CBSE one?',[
+      {t:'Students DISCOVERED the concept through investigation before you formalised it.',c:true},
+      {t:'You explained the concept very clearly and thoroughly.',c:false},
+      {t:'Students copied a neat set of notes from the board.',c:false},
+      {t:'The lab confirmed exactly what you had already told them.',c:false}
+    ],'The IB signature is students discovering before you explain. Clear explanation, copied notes and a confirmation lab are all CBSE residue &mdash; the thinking stayed with the teacher.')
+    +tfBlock('pa8q2','True/False','True or False: Recording 10 minutes of your lesson and counting teacher-talk vs student-talk time is a fair, honest way to check whether you are facilitating or lecturing.',true,'True. It is brutally honest and hard to argue with. In a strong IB lesson, students are active more than you. This one measurement reveals your real teaching pattern faster than any checklist.')
+    +taskBlock('pa8grade','Grade Me &mdash; "Reflect on your most recent lesson: name one thing that was genuinely IB (students did the thinking) and one thing that was still CBSE residue &mdash; and what you\'ll change."','My honest self-check: ___','<strong>Example of a strong self-check:</strong> "IB: students predicted which bulb would be brighter and tested it before I explained. CBSE residue: I then derived the series/parallel formulas on the board for 15 minutes while they copied. Change: next time I\'ll let them discover the brightness pattern with the components first, and only formalise the formula briefly at the end." Honest, specific, with a concrete change.');
+
+  Object.keys(p).forEach(function(k){appendTo(k,p[k])});
+}
+
 
 
 
