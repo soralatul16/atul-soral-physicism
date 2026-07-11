@@ -931,6 +931,7 @@ function buildModules(){
   buildInterviewModule();
   buildCommandTerms();
   buildLevelPlaceholders();
+  buildIGCSE1();
 
   themes.forEach(function(th){
     if(th.id==='t13'||th.id==='t14'||th.id==='t15'||th.id==='t16'||th.id==='t17')return; // deep-built themes have their own function
@@ -1613,6 +1614,151 @@ function buildLevelPlaceholders(){
   Object.keys(myp).forEach(function(k){ph(k+'body','MYP',myp[k][0],myp[k][1],'sub-topic-by-sub-topic teaching + MYP criteria (A&ndash;D) guidance + practice.')});
   Object.keys(igcse).forEach(function(k){ph(k+'body','IGCSE',igcse[k][0],igcse[k][1],'Core vs Supplement breakdown + command-term-aligned practice + worked marks.')});
 }
+
+function coreSuppBox(core,supp){
+  return '<div class="sec" style="border:1px solid var(--accent);border-radius:10px;padding:0;overflow:hidden;margin-bottom:12px">'
+    +'<div style="background:var(--accent);color:#fff;padding:7px 12px;font-weight:700;font-size:.82rem">IGCSE 0625 &mdash; Core vs Supplement (Extended)</div>'
+    +'<div style="padding:10px 12px"><table class="flow-table" style="margin:0"><tr><th style="width:110px">Tier</th><th>What students must know</th></tr>'
+    +'<tr><td><strong>Core</strong><br><span style="font-size:.7rem;color:var(--muted)">grades C&ndash;G</span></td><td>'+core+'</td></tr>'
+    +'<tr><td><strong>Supplement</strong><br><span style="font-size:.7rem;color:var(--muted)">Extended, A*&ndash;C</span></td><td>'+supp+'</td></tr></table></div></div>';
+}
+
+function buildIGCSE1(){
+  var h='';
+  h+='<div class="mentor"><div class="label">IGCSE I1: Motion, Forces &amp; Energy &mdash; Full Teaching &amp; Mastery</div><p>The largest IGCSE topic and the foundation of the whole course. This is Cambridge IGCSE Physics 0625, Topic 1. IGCSE is the most literal of your three syllabuses: <strong>one mark = one correct point</strong>, and every question tells you how much to write by the marks in brackets. Below: the Core vs Supplement split, the physics taught properly, worked examples with mark-scheme logic, and heavy practice.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">What This Topic Covers (0625 Topic 1)</h3><p>1.1 Physical quantities &amp; measurement &bull; 1.2 Motion &bull; 1.3 Mass &amp; weight &bull; 1.4 Density &bull; 1.5 Forces (effects, turning effect/moments, centre of gravity) &bull; 1.6 Momentum &bull; 1.7 Energy, work &amp; power (incl. energy resources &amp; efficiency) &bull; 1.8 Pressure.</p></div>';
+
+  // 1.1-1.2 MEASUREMENT & MOTION
+  h+=subTopicHeader('1.1&ndash;1.2','Measurement &amp; Motion','Scalars/vectors, measuring technique, speed, velocity, acceleration, motion graphs.');
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Teach It Properly</h3>'
+    +'<p><strong>Scalars</strong> have size only (distance, speed, time, mass, energy, temperature). <strong>Vectors</strong> have size AND direction (force, weight, velocity, acceleration, momentum). Students must be able to LIST which is which &mdash; a common 1-mark question.</p>'
+    +'<p><strong>Speed</strong> = distance/time (v = s/t); <strong>velocity</strong> = speed in a stated direction; <strong>acceleration</strong> = change in velocity per unit time (a = &Delta;v/&Delta;t, Supplement). On a <strong>distance&ndash;time graph</strong> the gradient = speed; on a <strong>speed&ndash;time graph</strong> the gradient = acceleration and the AREA underneath = distance. The acceleration of free fall g &asymp; 9.8 m/s&sup2; near Earth.</p>'
+    +'<div class="key-point"><strong>Measurement technique (1.1):</strong> use a ruler/measuring cylinder for length/volume; measure MULTIPLES to improve accuracy (e.g. time 20 pendulum swings and divide by 20; measure the thickness of 100 sheets and divide). This "multiple measurement" idea is examined and is also key to Paper 5/6 practical.</p></div>';
+  h+=coreSuppBox(
+    'Scalars vs vectors and which quantities are which; speed, velocity, average speed; sketch/plot/interpret distance&ndash;time and speed&ndash;time graphs; identify at rest / constant speed / accelerating; speed from a distance&ndash;time gradient; area under a speed&ndash;time graph; g &asymp; 9.8 m/s&sup2;.',
+    'Define acceleration and use a = &Delta;v/&Delta;t; interpret changing acceleration from graph shape; acceleration from a speed&ndash;time gradient; deceleration as negative acceleration; motion in a uniform gravitational field with air resistance, including terminal velocity; resolve two perpendicular vectors.'
+  );
+  h+='<div class="sec"><h3><span class="sec-tag tag-example">Worked Example (mark-scheme logic)</h3><p><strong>Q:</strong> "A car travels 90 m in 6.0 s at constant speed. Calculate its speed. [2]"</p><p><strong>Reasoning:</strong> show the equation and substitution for the method mark, then the answer WITH unit. v = s/t = 90/6.0 (1) = 15 m/s (1).</p><p><strong>Answer:</strong> 15 m/s. A bare "15" risks losing the unit mark &mdash; IGCSE always wants the unit.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">Practice 1.1&ndash;1.2</h3></div>';
+  h+=mcqBlock('i1q1','Scalar/vector','Which of these is a VECTOR quantity?',[
+    {t:'Velocity',c:true},
+    {t:'Speed',c:false},
+    {t:'Mass',c:false},
+    {t:'Energy',c:false}
+  ],'Velocity has magnitude AND direction, so it is a vector. Speed, mass and energy are scalars (size only). Force, weight, acceleration and momentum are also vectors &mdash; a favourite IGCSE recall question.');
+  h+=mcqBlock('i1q2','Graphs','On a speed&ndash;time graph, the AREA under the line represents:',[
+    {t:'The distance travelled.',c:true},
+    {t:'The acceleration.',c:false},
+    {t:'The speed.',c:false},
+    {t:'The force.',c:false}
+  ],'Area under a speed&ndash;time graph = distance travelled. The GRADIENT of a speed&ndash;time graph = acceleration. (On a distance&ndash;time graph, gradient = speed.) Mixing these up is the classic graph error.');
+  h+=tfBlock('i1q3','True/False','True or False: To find the period of a pendulum accurately, you should time one swing and use that value.',false,'False. Timing a single swing has large uncertainty. Time MANY swings (e.g. 20) and divide by the number &mdash; this reduces the effect of reaction-time error. Measuring multiples is a core IGCSE technique.');
+  h+=matchBlock('i1match','Match','Match each graph feature to its meaning:',[
+    {l:'Gradient of distance&ndash;time graph',r:'Speed'},
+    {l:'Gradient of speed&ndash;time graph',r:'Acceleration'},
+    {l:'Area under speed&ndash;time graph',r:'Distance travelled'},
+    {l:'Horizontal line on distance&ndash;time graph',r:'Object at rest'}
+  ],'Distance&ndash;time gradient = speed; speed&ndash;time gradient = acceleration; area under speed&ndash;time = distance; flat distance&ndash;time = stationary.');
+  h+=taskBlock('i1grade1','Grade Me &mdash; IGCSE [Describe, 3 marks]: "Describe how you would measure the average speed of a runner over 100 m as accurately as possible." Give 3 clear points.','My answer: ___','<strong>Model [3]:</strong> "Measure the distance (100 m) with a tape measure (1); use a stopwatch to time how long the runner takes to cover it, starting and stopping at the exact start and finish lines (1); calculate average speed = total distance / total time = 100 / time, and repeat and average to reduce timing error (1)." Three creditable points for [3].');
+
+  // 1.3-1.4 MASS, WEIGHT, DENSITY
+  h+=subTopicHeader('1.3&ndash;1.4','Mass, Weight &amp; Density','The difference that trips everyone, and how to find density of any object.');
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Teach It Properly</h3>'
+    +'<p><strong>Mass</strong> = the quantity of matter in an object (kg) &mdash; unchanging. <strong>Weight</strong> = the gravitational force on that mass (N): W = mg. <strong>Gravitational field strength</strong> g = W/m (N/kg), equal to the acceleration of free fall. So on the Moon your mass is the same but your weight is less, because g is smaller.</p>'
+    +'<div class="key-point"><strong>Density</strong> &rho; = mass/volume (&rho; = m/V), units kg/m&sup3; or g/cm&sup3;. To find density: measure mass on a balance; find volume by regular-shape measurement, or by DISPLACEMENT for an irregular object (submerge it, measure the water pushed aside). An object FLOATS if its density is less than the fluid\'s.</p></div>';
+  h+=coreSuppBox(
+    'Mass = quantity of matter; weight = gravitational force on a mass; g = W/m = acceleration of free fall; compare masses/weights with a balance. Density &rho; = m/V; find density of a liquid, a regular solid, and an irregular solid (by displacement); predict floating from density.',
+    'Describe and use weight as the effect of a gravitational field on a mass. Determine whether one liquid floats on another from density data (given they do not mix).'
+  );
+  h+='<div class="sec"><h3><span class="sec-tag tag-example">Worked Example</h3><p><strong>Q:</strong> "A metal block has mass 240 g and volume 30 cm&sup3;. Calculate its density and state whether it will float on water (density 1.0 g/cm&sup3;). [3]"</p><p><strong>Reasoning:</strong> &rho; = m/V = 240/30 (1) = 8.0 g/cm&sup3; (1). Since 8.0 > 1.0, it is denser than water, so it sinks (1).</p><p><strong>Answer:</strong> 8.0 g/cm&sup3;; it sinks (does not float).</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">Practice 1.3&ndash;1.4</h3></div>';
+  h+=mcqBlock('i1q4','Mass vs weight','An astronaut travels from Earth to the Moon (where g is smaller). Which is correct?',[
+    {t:'Her mass stays the same; her weight decreases.',c:true},
+    {t:'Both her mass and weight decrease.',c:false},
+    {t:'Her mass decreases; her weight stays the same.',c:false},
+    {t:'Both stay the same.',c:false}
+  ],'Mass = quantity of matter, unchanged anywhere. Weight = mg, and g is smaller on the Moon, so weight decreases. This mass/weight distinction is one of the most examined IGCSE ideas.');
+  h+=mcqBlock('i1q5','Density method','The best way to find the volume of an irregularly shaped stone is to:',[
+    {t:'Submerge it in water and measure the volume of water it displaces.',c:true},
+    {t:'Measure its length, width and height and multiply.',c:false},
+    {t:'Weigh it on a balance.',c:false},
+    {t:'Estimate it by eye.',c:false}
+  ],'An irregular solid has no simple formula for volume, so use displacement: the volume of water pushed aside equals the stone\'s volume. Then density = mass/volume.');
+  h+=tfBlock('i1q6','True/False','True or False: An object floats if its density is greater than the density of the liquid it is placed in.',false,'False. An object floats if its density is LESS than the liquid\'s. If it is denser than the liquid, it sinks. (E.g. wood floats on water; a stone sinks.)');
+  h+=taskBlock('i1grade2','Grade Me &mdash; IGCSE [Explain, 3 marks]: "Explain why a ship made of steel can float, even though steel is denser than water." Give reasons.','My answer: ___','<strong>Model [3]:</strong> "Although steel itself is denser than water, the ship is not solid steel &mdash; it is hull-shaped and contains a large volume of air (1). This makes the AVERAGE density of the whole ship (steel + enclosed air) less than the density of water (1). Because the ship\'s average density is less than water\'s, it floats (1)." The reasoning about average density is the key mark.');
+
+  // 1.5-1.6 FORCES & MOMENTUM
+  h+=subTopicHeader('1.5&ndash;1.6','Forces &amp; Momentum','Newton\'s laws, moments (turning effect), centre of gravity, momentum &amp; impulse.');
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Teach It Properly</h3>'
+    +'<p>A <strong>resultant force</strong> changes an object\'s velocity (speed or direction). No resultant force &rarr; the object stays at rest or moves at constant speed in a straight line (Newton\'s first law). <strong>F = ma</strong> (Supplement) links resultant force, mass and acceleration. <strong>Friction</strong> and drag oppose motion and produce heating.</p>'
+    +'<div class="key-point"><strong>Moment (turning effect)</strong> = force &times; perpendicular distance from the pivot. The <strong>principle of moments:</strong> for a balanced (equilibrium) object, total clockwise moments = total anticlockwise moments. <strong>Centre of gravity</strong> is the point where an object\'s weight appears to act; a lower/wider centre of gravity means greater stability.</p>'
+    +'<p><strong>Momentum</strong> p = mv (Supplement); <strong>impulse</strong> = F&Delta;t = change in momentum; momentum is conserved in collisions (F = &Delta;p/&Delta;t). This is where safety features (crumple zones, airbags) are explained &mdash; extend the time, reduce the force.</p></div>';
+  h+=coreSuppBox(
+    'Forces change size/shape or motion; load&ndash;extension graphs; resultant of forces on a line; an object stays at rest or constant velocity unless acted on by a resultant force; friction/drag and heating. Moments = force &times; perpendicular distance; principle of moments (one force each side); equilibrium; centre of gravity and stability.',
+    'Spring constant k = F/x; limit of proportionality; F = ma (force and acceleration same direction); circular motion qualitatively (speed/radius vs force); principle of moments with several forces; momentum p = mv; impulse F&Delta;t = &Delta;(mv); conservation of momentum in 1-D; F = &Delta;p/&Delta;t.'
+  );
+  h+='<div class="sec"><h3><span class="sec-tag tag-example">Worked Example (moments)</h3><p><strong>Q:</strong> "A uniform beam is balanced on a pivot. A 4.0 N weight is placed 3.0 m to the left of the pivot. At what distance to the right must a 6.0 N weight be placed to balance it? [3]"</p><p><strong>Reasoning:</strong> principle of moments: clockwise = anticlockwise. 4.0 &times; 3.0 = 6.0 &times; d (1). 12 = 6.0d (1), so d = 2.0 m (1).</p><p><strong>Answer:</strong> 2.0 m to the right of the pivot.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">Practice 1.5&ndash;1.6</h3></div>';
+  h+=mcqBlock('i1q7','First law','A car travels at a steady 60 km/h in a straight line. The resultant force on it is:',[
+    {t:'Zero &mdash; constant velocity means balanced forces.',c:true},
+    {t:'A large forward force.',c:false},
+    {t:'A backward force equal to friction only.',c:false},
+    {t:'Increasing with time.',c:false}
+  ],'Constant velocity (steady speed, straight line) means no acceleration, so the resultant force is zero &mdash; the driving force balances friction and drag. A resultant force is only needed to CHANGE motion.');
+  h+=mcqBlock('i1q8','Moments','The moment of a force about a pivot is calculated as:',[
+    {t:'Force &times; perpendicular distance from the pivot.',c:true},
+    {t:'Force &divide; distance.',c:false},
+    {t:'Force + distance.',c:false},
+    {t:'Mass &times; distance.',c:false}
+  ],'Moment = force &times; perpendicular distance from the pivot (unit N m). It measures the turning effect. A larger force or a greater distance gives a bigger moment &mdash; which is why we push a door at the edge.');
+  h+=tfBlock('i1q9','True/False','True or False: A crumple zone reduces the force on passengers by extending the time over which their momentum changes.',true,'True (impulse). The change in momentum is fixed, but F = &Delta;p/&Delta;t; extending the collision time &Delta;t reduces the force F. Airbags and crash mats work the same way.');
+  h+=matchBlock('i1match2','Match','Match each quantity to its equation:',[
+    {l:'Weight',r:'W = mg'},
+    {l:'Density',r:'&rho; = m/V'},
+    {l:'Moment',r:'force &times; perpendicular distance'},
+    {l:'Momentum',r:'p = mv'}
+  ],'Weight = mg; density = m/V; moment = force &times; perpendicular distance; momentum = mv. Knowing the exact equation (and unit) is worth easy IGCSE marks.');
+  h+=taskBlock('i1grade3','Grade Me &mdash; IGCSE [Explain, 3 marks]: "Explain why a racing car is built low and wide." Use the idea of centre of gravity and stability.','My answer: ___','<strong>Model [3]:</strong> "Building the car low keeps its centre of gravity close to the ground (1), and building it wide gives it a large base area (1). A low centre of gravity over a wide base makes the car more stable and less likely to topple/overturn when cornering at speed (1)."');
+
+  // 1.7-1.8 ENERGY, WORK, POWER & PRESSURE
+  h+=subTopicHeader('1.7&ndash;1.8','Energy, Work, Power &amp; Pressure','Energy stores &amp; transfers, conservation, efficiency, energy resources, pressure.');
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Teach It Properly</h3>'
+    +'<p><strong>Energy stores:</strong> kinetic, gravitational potential, chemical, elastic, nuclear, electrostatic, internal (thermal). Energy is transferred between stores by forces (mechanical work), electric currents, heating, and waves &mdash; and is always CONSERVED (never created or destroyed). <strong>Work done</strong> W = Fd = energy transferred. <strong>Power</strong> P = W/t = energy transferred per unit time (watts).</p>'
+    +'<div class="key-point"><strong>Supplement equations:</strong> kinetic energy E<sub>k</sub> = &frac12;mv&sup2;; change in GPE &Delta;E<sub>p</sub> = mg&Delta;h; efficiency = (useful energy out / total energy in) &times; 100%. Interpret Sankey diagrams (width = energy).</p>'
+    +'<p><strong>Energy resources:</strong> know how electricity is generated from fossil fuels, biofuels, water (waves/tides/hydro), geothermal, nuclear, and the Sun (solar cells/panels, wind), and the advantages/disadvantages of each (renewability, reliability, scale, environmental impact). <strong>Pressure</strong> p = F/A (Pa); pressure in a liquid increases with depth and density (&Delta;p = &rho;g&Delta;h, Supplement).</p></div>';
+  h+=coreSuppBox(
+    'Energy stores and transfers; conservation of energy and simple flow diagrams; work W = Fd = energy transferred; power P = W/t = &Delta;E/t; energy resources (how each generates electricity) and their advantages/disadvantages; efficiency qualitatively; pressure p = F/A; pressure vs depth/density qualitatively.',
+    'E<sub>k</sub> = &frac12;mv&sup2;; &Delta;E<sub>p</sub> = mg&Delta;h; conservation in multi-stage examples and Sankey diagrams; the Sun as the source of most energy resources; energy released by fusion in the Sun; efficiency equations (energy and power); &Delta;p = &rho;g&Delta;h.'
+  );
+  h+='<div class="sec"><h3><span class="sec-tag tag-example">Worked Example</h3><p><strong>Q:</strong> "A motor lifts a 20 kg load 5.0 m in 4.0 s. Calculate the useful power output. (g = 10 N/kg) [3]"</p><p><strong>Reasoning:</strong> work done = force &times; distance = weight &times; height = (20&times;10)&times;5.0 = 1000 J (1). Power = work/time = 1000/4.0 (1) = 250 W (1).</p><p><strong>Answer:</strong> 250 W.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">Practice 1.7&ndash;1.8</h3></div>';
+  h+=mcqBlock('i1q10','Power','Power is defined as:',[
+    {t:'The rate of energy transfer (energy transferred per unit time).',c:true},
+    {t:'The total energy transferred.',c:false},
+    {t:'Force multiplied by distance.',c:false},
+    {t:'Energy multiplied by time.',c:false}
+  ],'Power = energy transferred (or work done) per unit time, P = W/t = &Delta;E/t, in watts. Energy is the total (joules); power is the RATE. A more powerful device transfers a given energy faster.');
+  h+=mcqBlock('i1q11','Pressure','Pressure is calculated as:',[
+    {t:'Force divided by area (p = F/A).',c:true},
+    {t:'Force multiplied by area.',c:false},
+    {t:'Force divided by distance.',c:false},
+    {t:'Mass divided by volume.',c:false}
+  ],'Pressure = force per unit area, p = F/A, in pascals (Pa = N/m&sup2;). A small area concentrates the force into high pressure (sharp knife); a large area spreads it (snowshoes). Mass/volume is density.');
+  h+=tfBlock('i1q12','True/False','True or False: When energy is "used up" by a device, some of it is destroyed.',false,'False. Energy is always conserved &mdash; never created or destroyed. What we call "wasted" energy has been transferred to less useful stores (usually thermal energy dissipated to the surroundings), not destroyed.');
+  h+=msqBlock('i1ms','Select all','Which of these are RENEWABLE energy resources? (Select ALL.)',[
+    {t:'Wind',c:true},
+    {t:'Solar (Sun)',c:true},
+    {t:'Hydroelectric (water)',c:true},
+    {t:'Coal (a fossil fuel)',c:false},
+    {t:'Nuclear (uranium)',c:false}
+  ],'Wind, solar and hydroelectric are renewable (naturally replenished). Coal is a finite fossil fuel; nuclear uses finite uranium &mdash; both are non-renewable. Know the advantages/disadvantages of each for the exam.');
+  h+=taskBlock('i1grade4','Grade Me &mdash; IGCSE [Describe, 4 marks]: "Describe the energy transfers that occur when a ball is dropped and bounces, but does not return to its original height." Track the stores.','My answer: ___','<strong>Model [4]:</strong> "As the ball falls, gravitational potential energy is transferred to kinetic energy (1). On hitting the ground, kinetic energy is transferred to elastic (strain) energy as the ball deforms, and some to thermal energy and sound (1). As it bounces back up, elastic energy transfers back to kinetic and then to gravitational potential energy (1). Because some energy was transferred to thermal and sound stores (not returned), the ball has less GPE and so does not reach its original height &mdash; energy is conserved, just not all in useful stores (1)."');
+
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">I1 &mdash; Midnight Mastery Check</h3><p>You own IGCSE Topic 1 when, instantly: you classify scalars vs vectors; read speed/acceleration/distance off motion graphs; distinguish mass from weight and calculate density (incl. by displacement); apply Newton\'s first law, F=ma, and the principle of moments; use momentum and impulse for safety questions; track energy transfers with conservation and efficiency; name renewable vs non-renewable resources; and use p=F/A. Match every answer to the command word AND the marks in brackets.</p></div>';
+
+  document.getElementById('t27body').innerHTML=h;
+}
+
 
 
 function buildThemeDDeep(){
