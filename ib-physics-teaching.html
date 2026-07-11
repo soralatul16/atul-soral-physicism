@@ -935,6 +935,10 @@ function buildModules(){
   buildIGCSE2();
   buildIGCSE3();
   buildIGCSE4();
+  buildIGCSE5();
+  buildIGCSE6();
+  buildMYP1();
+  buildMYP2();
 
   themes.forEach(function(th){
     if(th.id==='t13'||th.id==='t14'||th.id==='t15'||th.id==='t16'||th.id==='t17')return; // deep-built themes have their own function
@@ -2092,6 +2096,240 @@ function buildIGCSE4(){
 
   document.getElementById('t30body').innerHTML=h;
 }
+
+function buildIGCSE5(){
+  var h='';
+  h+='<div class="mentor"><div class="label">IGCSE I5: Nuclear Physics &mdash; Full Teaching &amp; Mastery</div><p>Cambridge IGCSE 0625, Topic 5. Two big ideas: the atom is mostly empty space with a tiny dense nucleus, and radioactive decay is RANDOM yet statistically predictable (half-life). Core vs Supplement below, with mark-scheme practice.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">What This Topic Covers (0625 Topic 5)</h3><p>5.1 The nuclear model of the atom (structure, isotopes, nuclide notation) &bull; 5.2 Radioactivity (detection, types of emission, decay &amp; half-life, safety and uses).</p></div>';
+
+  // 5.1 NUCLEAR MODEL
+  h+=subTopicHeader('5.1','The Nuclear Model of the Atom','Structure, isotopes, nuclide notation, and the scattering evidence.');
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Teach It Properly</h3>'
+    +'<p>An atom has a tiny, dense, positively charged <strong>nucleus</strong> (protons + neutrons) surrounded by <strong>electrons</strong> in shells. The atom is mostly EMPTY space. <strong>Proton (atomic) number Z</strong> = number of protons (defines the element); <strong>nucleon (mass) number A</strong> = protons + neutrons.</p>'
+    +'<div class="key-point"><strong>Nuclide notation:</strong> <sub>Z</sub><sup>A</sup>X &mdash; e.g. carbon-14 is <sub>6</sub><sup>14</sup>C (6 protons, 14&minus;6 = 8 neutrons). <strong>Isotopes</strong> are atoms of the SAME element (same Z) with DIFFERENT numbers of neutrons (different A) &mdash; same chemistry, different mass, and some are radioactive.</p></div>'
+    +'<p><strong>The evidence (Rutherford\'s scattering):</strong> firing alpha particles at thin gold foil, most passed straight through (atom mostly empty), but a few deflected sharply or bounced back (a tiny, dense, positive nucleus). This experiment overturned the "plum pudding" model &mdash; a great example of a model changing with evidence.</p></div>';
+  h+=coreSuppBox(
+    'The nuclear atom: nucleus (protons + neutrons) and orbiting electrons; relative charges and masses of proton, neutron, electron; proton number Z and nucleon number A; nuclide notation <sub>Z</sub><sup>A</sup>X; isotopes (same Z, different A); most of the atom is empty space.',
+    'Describe how the alpha-particle scattering experiment provides evidence for a small, dense, positively charged nucleus; that isotopes of an element have the same chemical properties; calculate numbers of protons/neutrons/electrons from nuclide notation.'
+  );
+  h+='<div class="sec"><h3><span class="sec-tag tag-example">Worked Example</h3><p><strong>Q:</strong> "An atom is represented as <sub>17</sub><sup>37</sup>Cl. State the number of protons, neutrons and electrons in a neutral atom. [3]"</p><p><strong>Reasoning:</strong> protons = Z = 17 (1); neutrons = A &minus; Z = 37 &minus; 17 = 20 (1); electrons = protons (neutral) = 17 (1).</p><p><strong>Answer:</strong> 17 protons, 20 neutrons, 17 electrons.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">Practice 5.1</h3></div>';
+  h+=mcqBlock('i5q1','Isotopes','Isotopes of an element have:',[
+    {t:'The same number of protons but different numbers of neutrons.',c:true},
+    {t:'The same number of neutrons but different protons.',c:false},
+    {t:'Different numbers of both protons and electrons.',c:false},
+    {t:'The same mass but different charge.',c:false}
+  ],'Isotopes = same element (same proton number Z, so same chemistry) but different neutron number (different nucleon number A, so different mass). Some isotopes are radioactive.');
+  h+=mcqBlock('i5q2','Scattering','In the alpha-scattering experiment, most alpha particles passed straight through the gold foil. This shows that the atom is:',[
+    {t:'Mostly empty space.',c:true},
+    {t:'Solid throughout.',c:false},
+    {t:'Made only of electrons.',c:false},
+    {t:'Negatively charged overall.',c:false}
+  ],'Most alphas passing straight through shows the atom is mostly empty space. The few that bounced back revealed a tiny, dense, positive nucleus &mdash; overturning the plum-pudding model.');
+  h+=tfBlock('i5q3','True/False','True or False: The nucleon number (A) equals the number of protons plus the number of neutrons.',true,'True. Nucleon (mass) number A = protons + neutrons. Proton number Z = protons. So neutrons = A &minus; Z. In a neutral atom, electrons = protons = Z.');
+  h+=taskBlock('i5grade1','Grade Me &mdash; IGCSE [Describe, 3 marks]: "Describe the results of the alpha-particle scattering experiment and what each result tells us about the atom."','My answer: ___','<strong>Model [3]:</strong> "Most alpha particles passed straight through the foil undeflected, showing the atom is mostly empty space (1). Some were deflected through small angles, showing the nucleus is positively charged (repelling the positive alphas) (1). A very few bounced almost straight back, showing the nucleus is tiny but very dense and contains most of the atom\'s mass (1)."');
+
+  // 5.2 RADIOACTIVITY
+  h+=subTopicHeader('5.2','Radioactivity','Types of emission, decay equations, half-life, safety and uses.');
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Teach It Properly</h3>'
+    +'<p>Unstable nuclei emit radiation to become more stable &mdash; radioactivity. It is <strong>random and spontaneous</strong>: you cannot predict WHICH nucleus decays or WHEN, and it is unaffected by temperature or chemical state. Background radiation (from rocks, cosmic rays, etc.) is always present and must be subtracted from readings.</p>'
+    +'<table class="flow-table"><tr><th>Type</th><th>What it is</th><th>Charge</th><th>Penetration</th></tr><tr><td><strong>Alpha (&alpha;)</strong></td><td>Helium nucleus (2p+2n)</td><td>+2</td><td>Stopped by paper/skin; most ionising</td></tr><tr><td><strong>Beta (&beta;)</strong></td><td>Fast electron</td><td>&minus;1</td><td>Stopped by a few mm of aluminium</td></tr><tr><td><strong>Gamma (&gamma;)</strong></td><td>EM wave</td><td>0</td><td>Reduced by thick lead/concrete; least ionising</td></tr></table>'
+    +'<div class="key-point"><strong>Half-life</strong> = the time for half the radioactive nuclei in a sample (or the activity/count rate) to decay. It is CONSTANT for a given isotope. After each half-life, half of what REMAINS decays (never reaching zero) &mdash; the classic exponential decay curve. This is the beating heart of the topic and the basis of carbon dating.</p></div>'
+    +'<p><strong>Uses &amp; safety:</strong> medical tracers/treatment, sterilising equipment, smoke alarms (alpha), thickness monitoring, carbon dating. Ionising radiation damages living cells &mdash; handle sources with tongs, keep your distance, minimise exposure time, and store in lead-lined containers.</p></div>';
+  h+=coreSuppBox(
+    'Detection of radioactivity (e.g. GM tube); background radiation and its sources; the nature, charge and penetrating/ionising power of &alpha;, &beta;, &gamma;; deflection in fields; the random nature of decay; definition of half-life and simple half-life calculations/graphs; safety precautions; uses of radioactivity.',
+    'Balance nuclear (decay) equations for alpha and beta decay (conserving A and Z); explain the effect of decay on the nucleus; more demanding half-life calculations; explain why decay is random and unaffected by external conditions; explain uses in terms of the type of radiation and its half-life.'
+  );
+  h+='<div class="sec"><h3><span class="sec-tag tag-example">Worked Example (half-life)</h3><p><strong>Q:</strong> "A sample has an activity of 800 counts/s. Its half-life is 6 hours. What is the activity after 18 hours? [3]"</p><p><strong>Reasoning:</strong> 18 hours = 3 half-lives (1). Each halves the activity: 800 &rarr; 400 &rarr; 200 &rarr; 100 (1). After 3 half-lives, activity = 100 counts/s (1).</p><p><strong>Answer:</strong> 100 counts/s. (Halve once per half-life; count how many half-lives fit the time.)</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">Practice 5.2</h3></div>';
+  h+=mcqBlock('i5q4','Penetration','Which type of radiation is the MOST ionising but the LEAST penetrating (stopped by paper)?',[
+    {t:'Alpha (&alpha;)',c:true},
+    {t:'Beta (&beta;)',c:false},
+    {t:'Gamma (&gamma;)',c:false},
+    {t:'They are all equal',c:false}
+  ],'Alpha is the most ionising but least penetrating &mdash; stopped by paper or skin. Beta is stopped by a few mm of aluminium; gamma is the most penetrating (needs thick lead/concrete) but least ionising.');
+  h+=mcqBlock('i5q5','Half-life','A radioactive isotope has a half-life of 2 days. What fraction of the original sample remains after 6 days?',[
+    {t:'One eighth (1/8)',c:true},
+    {t:'One third (1/3)',c:false},
+    {t:'One half (1/2)',c:false},
+    {t:'Zero',c:false}
+  ],'6 days = 3 half-lives. Each half-life halves what remains: 1 &rarr; 1/2 &rarr; 1/4 &rarr; 1/8. It never reaches zero &mdash; each half-life removes half of the REMAINING nuclei.');
+  h+=tfBlock('i5q6','True/False','True or False: The rate of radioactive decay can be increased by heating the sample.',false,'False. Radioactive decay is a nuclear process &mdash; it is random, spontaneous, and unaffected by temperature, pressure or chemical state. Nothing you do to the sample chemically or physically changes its half-life.');
+  h+=matchBlock('i5match','Match','Match each radiation type to its property:',[
+    {l:'Alpha (&alpha;)',r:'Helium nucleus; stopped by paper; most ionising'},
+    {l:'Beta (&beta;)',r:'Fast electron; stopped by a few mm of aluminium'},
+    {l:'Gamma (&gamma;)',r:'EM wave; needs thick lead; least ionising'},
+    {l:'Half-life',r:'Time for half the nuclei (or activity) to decay'}
+  ],'Alpha = helium nucleus, most ionising/least penetrating; beta = electron, medium; gamma = EM wave, least ionising/most penetrating; half-life = time to halve.');
+  h+=taskBlock('i5grade2','Grade Me &mdash; IGCSE [Explain, 3 marks]: "Explain why alpha sources are safe to use in a smoke alarm inside the home, but would be dangerous if the source were swallowed."','My answer: ___','<strong>Model [3]:</strong> "Alpha radiation is very weakly penetrating &mdash; it is stopped by a few centimetres of air and by skin &mdash; so outside the body it cannot reach living tissue and is safe in a sealed smoke alarm (1). However, alpha is the MOST ionising radiation (1). If swallowed, the source is inside the body with no skin/air barrier, so the highly ionising alpha particles directly damage internal cells, which is very dangerous (1)."');
+
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">I5 &mdash; Midnight Mastery Check</h3><p>You own IGCSE Topic 5 when, instantly: you describe the nuclear atom and use nuclide notation to find protons/neutrons/electrons; explain isotopes and the scattering evidence; state the nature, charge, ionising and penetrating power of &alpha;/&beta;/&gamma;; do half-life calculations and explain that decay is random and unaffected by conditions; and match a radiation type to a use/safety scenario.</p></div>';
+
+  document.getElementById('t31body').innerHTML=h;
+}
+
+function buildIGCSE6(){
+  var h='';
+  h+='<div class="mentor"><div class="label">IGCSE I6: Space Physics &mdash; Full Teaching &amp; Mastery</div><p>Cambridge IGCSE 0625, Topic 6 &mdash; the newest and most engaging topic for many students. It scales up from the Solar System to the whole Universe. Core vs Supplement below, with mark-scheme practice.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">What This Topic Covers (0625 Topic 6)</h3><p>6.1 Earth and the Solar System (orbits, days/years, the Sun) &bull; 6.2 Stars and the Universe (the Sun as a star, star life cycles, galaxies, redshift and the Big Bang).</p></div>';
+
+  // 6.1 EARTH & SOLAR SYSTEM
+  h+=subTopicHeader('6.1','Earth &amp; the Solar System','Orbits, gravity, days and years, and the structure of the Solar System.');
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Teach It Properly</h3>'
+    +'<p>The <strong>Solar System</strong>: the Sun (a star) at the centre, with eight planets orbiting it, plus dwarf planets, moons, asteroids and comets. The four inner planets (Mercury, Venus, Earth, Mars) are small and rocky; the four outer (Jupiter, Saturn, Uranus, Neptune) are large gas/ice giants. Objects farther from the Sun orbit more slowly and take longer (longer "years").</p>'
+    +'<div class="key-point"><strong>What keeps them in orbit:</strong> the Sun\'s GRAVITY provides the force that keeps planets in their (nearly circular) orbits &mdash; and planets\' gravity keeps moons in orbit. <strong>Day</strong> = one rotation of a planet on its axis; <strong>year</strong> = one orbit around the Sun. Gravitational field strength decreases with distance from the Sun.</p></div>'
+    +'<p><strong>The Sun\'s energy</strong> comes from nuclear FUSION of hydrogen into helium in its core. Comets have very elongated (elliptical) orbits, so they speed up near the Sun (stronger gravity, faster) and slow down far away.</p></div>';
+  h+=coreSuppBox(
+    'The Solar System: the Sun, planets (order), dwarf planets, moons, asteroids, comets; gravity keeps objects in orbit; the Sun\'s energy comes from fusion of hydrogen; day (rotation) vs year (orbit); how orbital duration relates to distance from the Sun; comets\' elliptical orbits and changing speed.',
+    'Use the relationship that orbital speed depends on distance (farther = slower); explain, using gravity as the centripetal force, why comets speed up near the Sun and slow down farther away; understand average orbital speed = 2&pi;r / T for a near-circular orbit.'
+  );
+  h+='<div class="sec"><h3><span class="sec-tag tag-example">Worked Example</h3><p><strong>Q:</strong> "Explain why a comet moves fastest when it is closest to the Sun. [2]"</p><p><strong>Model:</strong> "The Sun\'s gravitational field is stronger closer to the Sun (1). This stronger gravitational force accelerates the comet, so it moves fastest at its closest approach and slowest when farthest away (1)."</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">Practice 6.1</h3></div>';
+  h+=mcqBlock('i6q1','Orbits','What keeps the planets in orbit around the Sun?',[
+    {t:'The gravitational attraction of the Sun.',c:true},
+    {t:'The planets\' own engines.',c:false},
+    {t:'An outward force from the Sun.',c:false},
+    {t:'The magnetic field of the Sun.',c:false}
+  ],'The Sun\'s gravity provides the centripetal force that keeps each planet in its orbit &mdash; continuously pulling it inward so it curves around rather than flying off in a straight line.');
+  h+=mcqBlock('i6q2','Day vs year','A planet\'s "year" is defined as the time for:',[
+    {t:'One complete orbit around the Sun.',c:true},
+    {t:'One rotation of the planet on its axis.',c:false},
+    {t:'The Sun to rotate once.',c:false},
+    {t:'Light to reach the planet.',c:false}
+  ],'A year = one orbit around the Sun. A day = one rotation on the planet\'s own axis. Planets farther from the Sun have longer years (they orbit more slowly over a bigger path).');
+  h+=tfBlock('i6q3','True/False','True or False: The Sun\'s energy is produced by the fusion of hydrogen nuclei into helium.',true,'True. In the Sun\'s core, hydrogen nuclei fuse to form helium, releasing enormous energy (via E=mc&sup2;). This is nuclear fusion &mdash; the power source of all stars.');
+  h+=taskBlock('i6grade1','Grade Me &mdash; IGCSE [Describe, 3 marks]: "Describe how the planets in the Solar System differ from the inner to the outer regions, and state what keeps them all in orbit."','My answer: ___','<strong>Model [3]:</strong> "The four inner planets (Mercury, Venus, Earth, Mars) are relatively small and rocky (1), while the four outer planets (Jupiter, Saturn, Uranus, Neptune) are much larger gas/ice giants (1). All the planets are kept in their orbits by the gravitational attraction of the Sun, and those farther out orbit more slowly with longer years (1)."');
+
+  // 6.2 STARS & THE UNIVERSE
+  h+=subTopicHeader('6.2','Stars &amp; the Universe','Star life cycles, galaxies, redshift and the Big Bang.');
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Teach It Properly</h3>'
+    +'<p>The <strong>Sun is a star</strong> &mdash; one of billions in our galaxy, the Milky Way, which is one of billions of galaxies in the Universe. A star forms from a cloud of gas and dust (nebula) pulled together by gravity; when hot/dense enough, fusion begins and it becomes a stable <strong>main-sequence star</strong>.</p>'
+    +'<div class="key-point"><strong>Star life cycle:</strong> a Sun-like star &rarr; red giant &rarr; (sheds outer layers as a planetary nebula) &rarr; white dwarf. A much more massive star &rarr; red supergiant &rarr; supernova (explosion) &rarr; neutron star or black hole. The elements heavier than hydrogen/helium were forged in stars and scattered by supernovae &mdash; "we are made of star stuff".</p></div>'
+    +'<div class="key-point"><strong>Redshift &amp; the Big Bang:</strong> light from distant galaxies is shifted toward longer (redder) wavelengths &mdash; redshift &mdash; showing they are moving AWAY from us. More distant galaxies recede faster. This is evidence that the Universe is EXPANDING, which points back to the <strong>Big Bang</strong>: the Universe began about 13.8 billion years ago from an extremely hot, dense state and has been expanding ever since. The Cosmic Microwave Background (CMB) is the leftover radiation from that early Universe.</p></div></div>';
+  h+=coreSuppBox(
+    'The Sun as a star in the Milky Way galaxy; the Universe as many galaxies; the life cycle of a star (formation from a nebula, main sequence, and end states for low- and high-mass stars); redshift of light from distant galaxies as evidence the Universe is expanding; the Big Bang theory as the origin of the Universe.',
+    'Explain redshift in terms of increasing wavelength and that more distant galaxies show greater redshift (recede faster) &mdash; supporting an expanding Universe from a Big Bang; describe the CMB as evidence; the role of gravity and fusion balance in a star\'s stability; nucleosynthesis of heavier elements in stars/supernovae.'
+  );
+  h+='<div class="sec"><h3><span class="sec-tag tag-example">Worked Example</h3><p><strong>Q:</strong> "Explain how redshift provides evidence that the Universe is expanding. [3]"</p><p><strong>Model:</strong> "Light from distant galaxies is observed to be shifted toward longer (redder) wavelengths &mdash; redshift &mdash; which indicates the galaxies are moving away from us (1). More distant galaxies show a greater redshift, meaning they are receding faster (1). Galaxies moving apart in all directions shows the whole Universe is expanding, which supports the Big Bang theory (1)."</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">Practice 6.2</h3></div>';
+  h+=mcqBlock('i6q4','Redshift','Light from distant galaxies is redshifted. This tells us the galaxies are:',[
+    {t:'Moving away from us (the Universe is expanding).',c:true},
+    {t:'Moving toward us.',c:false},
+    {t:'Getting hotter.',c:false},
+    {t:'Made of red light only.',c:false}
+  ],'Redshift = light stretched to longer (redder) wavelengths, indicating the source is moving away. Distant galaxies are redshifted, and more distant ones more so &mdash; evidence the Universe is expanding, supporting the Big Bang.');
+  h+=mcqBlock('i6q5','Star end','A star much more massive than the Sun ends its life as a:',[
+    {t:'Supernova, leaving a neutron star or black hole.',c:true},
+    {t:'White dwarf only.',c:false},
+    {t:'A new nebula that never changes.',c:false},
+    {t:'A planet.',c:false}
+  ],'Massive stars: red supergiant &rarr; supernova (explosion) &rarr; neutron star or black hole. A Sun-like star ends more gently: red giant &rarr; planetary nebula &rarr; white dwarf.');
+  h+=tfBlock('i6q6','True/False','True or False: The Big Bang theory states the Universe began from an extremely hot, dense state and has been expanding ever since.',true,'True. The Big Bang theory: the Universe began about 13.8 billion years ago from a hot, dense state and has expanded ever since. Redshift and the Cosmic Microwave Background are the key evidence.');
+  h+=matchBlock('i6match','Match','Match each object/idea to its description:',[
+    {l:'The Sun',r:'A main-sequence star in the Milky Way'},
+    {l:'Galaxy',r:'A huge collection of billions of stars'},
+    {l:'Redshift',r:'Light stretched to longer wavelengths (moving away)'},
+    {l:'Big Bang',r:'The origin of an expanding Universe'}
+  ],'The Sun = a star; a galaxy = billions of stars; redshift = evidence of recession/expansion; the Big Bang = the beginning of the expanding Universe.');
+  h+=taskBlock('i6grade2','Grade Me &mdash; IGCSE [Describe, 3 marks]: "Describe the life cycle of a star similar in mass to our Sun, from its formation to its final state."','My answer: ___','<strong>Model [3]:</strong> "The star forms when gravity pulls together a cloud of gas and dust (a nebula), and when it becomes hot and dense enough, fusion begins and it becomes a stable main-sequence star (1). When it runs low on hydrogen fuel, it expands and cools into a red giant (1). It then sheds its outer layers (as a planetary nebula) leaving a hot, dense core &mdash; a white dwarf &mdash; which slowly cools (1)."');
+
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">I6 &mdash; Midnight Mastery Check</h3><p>You own IGCSE Topic 6 when, instantly: you describe the Solar System and explain that gravity keeps objects in orbit (and why comets speed up near the Sun); distinguish day from year; state the Sun\'s energy comes from fusion; describe the life cycles of low- and high-mass stars; and explain how redshift and the CMB support an expanding Universe and the Big Bang.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">IGCSE Complete</h3><p>That completes all six IGCSE Physics topics (I1&ndash;I6), each taught with the Core vs Supplement split, worked examples using mark-scheme logic, and heavy practice. Your students now have a full IGCSE map alongside the DP themes &mdash; and you can teach both boards from the same understanding.</p></div>';
+
+  document.getElementById('t32body').innerHTML=h;
+}
+
+function mypCriteriaBox(a,b,c,d){
+  return '<div class="sec" style="border:1px solid var(--accent);border-radius:10px;padding:0;overflow:hidden;margin-bottom:12px">'
+    +'<div style="background:var(--accent);color:#fff;padding:7px 12px;font-weight:700;font-size:.82rem">How MYP assesses this &mdash; the four criteria (each 0&ndash;8)</div>'
+    +'<div style="padding:10px 12px"><table class="flow-table" style="margin:0"><tr><th style="width:130px">Criterion</th><th>What it looks like for this topic</th></tr>'
+    +'<tr><td><strong>A</strong> Knowing &amp; understanding</td><td>'+a+'</td></tr>'
+    +'<tr><td><strong>B</strong> Inquiring &amp; designing</td><td>'+b+'</td></tr>'
+    +'<tr><td><strong>C</strong> Processing &amp; evaluating</td><td>'+c+'</td></tr>'
+    +'<tr><td><strong>D</strong> Reflecting on impacts</td><td>'+d+'</td></tr></table></div></div>';
+}
+
+function buildMYP1(){
+  var h='';
+  h+='<div class="mentor"><div class="label">MYP M1: Forces &amp; Energy &mdash; Full Teaching &amp; Mastery</div><p>MYP is different from IGCSE and DP: there is <strong>no fixed content list</strong> and <strong>no final exam board paper</strong>. Instead you teach content through <strong>key &amp; related concepts</strong> and <strong>global contexts</strong>, and you assess against <strong>four criteria (A&ndash;D), each marked 0&ndash;8</strong> using level descriptors. So for every MYP topic you plan TWO things: the science, and how students will demonstrate each criterion. This module shows both.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Framing the Unit (the MYP way)</h3><p><strong>Key concept:</strong> Systems (or Change/Relationships). <strong>Related concepts:</strong> movement, energy, force, transformation. <strong>Global context:</strong> e.g. "Scientific and technical innovation" (how we harness energy) or "Globalization and sustainability" (energy resources). <strong>A statement of inquiry</strong> ties them together, e.g. <em>"Forces and energy transformations drive the systems that power modern life."</em> Every MYP unit needs this framing &mdash; it is what makes it MYP rather than just topic teaching.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">The Content to Teach</h3><p>Measurement in science; states &amp; properties of matter, kinetic theory, density; forces and their effects; forces &amp; motion, speed, motion graphs, Newton\'s laws; pressure; work, power and efficiency; gravity and gravitational fields; energy sources and resources; energy transfer &amp; transformation and the conservation of energy. (Teach these to a level appropriate to the MYP year &mdash; MYP 1&ndash;3 more descriptive, MYP 4&ndash;5 approaching IGCSE depth.)</p></div>';
+  h+=mypCriteriaBox(
+    'Students explain forces, motion and energy transfers using correct scientific terminology; apply ideas like F causes change in motion, work = force &times; distance, and conservation of energy to familiar and unfamiliar situations. Top band = complete, accurate explanations, not just facts.',
+    'Students formulate a testable research question and hypothesis (e.g. "how does the height of a ramp affect the speed of a trolley?"), identify independent/dependent/controlled variables, and design a safe, reproducible method. This is the "design an experiment" criterion &mdash; ideal for a motion or energy investigation.',
+    'Students collect and organise data (tables with units), present it as a suitable graph, identify the trend, and evaluate the reliability/validity of the method with improvements. E.g. process ramp-and-trolley data to show energy transfer, then evaluate friction as a source of error.',
+    'Students discuss the impact of the science on society/environment &mdash; e.g. evaluate energy resources (renewable vs non-renewable), the sustainability of our energy use, or the safety implications of forces (car safety design). Balanced, evidence-based judgement.'
+  );
+  h+='<div class="sec"><h3><span class="sec-tag tag-example">Worked Example (MYP assessment logic)</h3><p><strong>Task (Criterion C):</strong> "A student rolls a trolley down ramps of different heights and records the speed at the bottom. Analyse the data." A LOW-band answer just quotes the highest and lowest speeds. A HIGH-band (7&ndash;8) answer: states the trend ("as ramp height increases, speed at the bottom increases"), links the variables ("greater height &rarr; more gravitational PE converted to kinetic energy"), and draws a supported conclusion, then evaluates (friction meant not all PE became KE). The jump between bands is the LEVEL of thinking, not more facts.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">Practice M1 &mdash; Content &amp; Criteria</h3></div>';
+  h+=mcqBlock('m1q1','MYP structure','MYP science is assessed using:',[
+    {t:'Four criteria (A&ndash;D), each marked 0&ndash;8 against level descriptors.',c:true},
+    {t:'A single final exam paper marked out of 100.',c:false},
+    {t:'The same AO1&ndash;AO3 objectives as DP.',c:false},
+    {t:'Only a practical exam.',c:false}
+  ],'MYP uses four criteria &mdash; A (knowing & understanding), B (inquiring & designing), C (processing & evaluating), D (reflecting on impacts) &mdash; each 0&ndash;8. There is no external content exam; it is criterion-referenced coursework and assessment.');
+  h+=mcqBlock('m1q2','Criterion','A task asking students to "design an experiment to investigate what affects the stopping distance of a trolley" mainly assesses which criterion?',[
+    {t:'Criterion B (Inquiring & designing).',c:true},
+    {t:'Criterion A (Knowing & understanding).',c:false},
+    {t:'Criterion C (Processing & evaluating).',c:false},
+    {t:'Criterion D (Reflecting on impacts).',c:false}
+  ],'Designing a method with a hypothesis and variables is Criterion B. Processing the resulting data would be C; explaining the underlying physics is A; discussing road-safety impact is D.');
+  h+=tfBlock('m1q3','True/False','True or False: In MYP, adding more correct facts to an "analyse" answer will always move it to the top band.',false,'False. MYP bands reward the LEVEL of thinking. To reach 7&ndash;8 on an analysis task, students must identify trends, link variables and reach a supported conclusion &mdash; not just list more facts.');
+  h+=matchBlock('m1match','Match','Match each MYP criterion to the task that assesses it:',[
+    {l:'Criterion A',r:'Explain why a heavier object needs more force to accelerate'},
+    {l:'Criterion B',r:'Design a fair test of what affects a pendulum\'s period'},
+    {l:'Criterion C',r:'Graph and interpret the collected motion data'},
+    {l:'Criterion D',r:'Discuss the sustainability of different energy resources'}
+  ],'A = knowing/understanding (explain); B = inquiring/designing (design a test); C = processing/evaluating (graph & interpret); D = reflecting on impacts (discuss society/environment).');
+  h+=taskBlock('m1grade1','Grade Me &mdash; MYP [Criterion A, "Explain"]: "Explain, using energy ideas, what happens to the energy of a cyclist who stops pedalling and coasts to a halt on a flat road."','My answer: ___','<strong>Top-band model:</strong> "As the cyclist coasts, friction between the tyres and road and air resistance do work against the motion. This transfers the cyclist\'s kinetic energy into thermal energy (heat) in the tyres, brakes and surrounding air, and a little into sound. The kinetic energy decreases until it reaches zero and the cyclist stops. The energy is not destroyed &mdash; it is conserved, but transferred to less useful thermal and sound stores." Complete, correct, uses proper terminology &mdash; the top MYP A band.');
+  h+=taskBlock('m1grade2','Grade Me &mdash; MYP [Criterion B, "Design"]: "Design an investigation into how the mass on a spring affects how far it stretches. Include a hypothesis, the variables, and a brief method."','My answer: ___','<strong>Top-band model:</strong> "Hypothesis: increasing the mass increases the extension of the spring (proportionally, up to a limit). Independent variable: mass added (e.g. 100 g to 600 g). Dependent variable: extension of the spring (measured with a ruler). Controlled variables: the same spring, same starting length, same temperature. Method: 1) hang the spring and record its natural length; 2) add a known mass and measure the new length; extension = new length &minus; natural length; 3) repeat for increasing masses, and repeat each reading to improve reliability; 4) plot extension against mass." A testable hypothesis, all three variable types, and a reproducible method = top Criterion B.');
+
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">M1 &mdash; Mastery Check</h3><p>You own MYP Forces &amp; Energy when you can: frame the unit with a key concept, related concepts, a global context and a statement of inquiry; teach the content at the right MYP level; and design tasks that clearly target each of the four criteria &mdash; knowing you assess against band descriptors, where the top band is about the level of thinking, not the number of facts.</p></div>';
+
+  document.getElementById('t21body').innerHTML=h;
+}
+
+function buildMYP2(){
+  var h='';
+  h+='<div class="mentor"><div class="label">MYP M2: Electromagnetism &mdash; Full Teaching &amp; Mastery</div><p>Electricity and magnetism is one of the richest MYP topics for hands-on inquiry (Criterion B/C) &mdash; students build circuits, test variables, and design electromagnets. As always in MYP, plan the content AND the four-criteria assessment together.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">Framing the Unit</h3><p><strong>Key concept:</strong> Systems / Relationships. <strong>Related concepts:</strong> energy, transfer, interaction, field. <strong>Global context:</strong> "Scientific and technical innovation" (how electricity powers technology) or "Globalization and sustainability" (electricity generation and access). <strong>Statement of inquiry:</strong> e.g. <em>"Electric and magnetic interactions can be controlled to transfer energy and power the systems societies depend on."</em></p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-concept">The Content to Teach</h3><p>Magnetism; electric &amp; magnetic fields; static electricity; electromagnetic forces &amp; induction; AC and DC power; current, voltage, resistance; electric circuits (series &amp; parallel); power generation and the transmission of electricity. (Depth scales with MYP year; MYP 4&ndash;5 approaches IGCSE Topic 4.)</p></div>';
+  h+=mypCriteriaBox(
+    'Students explain current, voltage and resistance and their relationship (V = IR at the appropriate level); describe magnetic fields and electromagnetic induction; apply circuit rules (series/parallel) to explain component behaviour, using correct terminology.',
+    'Students design a fair test &mdash; e.g. "what affects the strength of an electromagnet?" &mdash; with a hypothesis, variables (number of coils, current) and a safe method. Circuit-building investigations are ideal Criterion B tasks.',
+    'Students record V and I readings in a table, plot an I&ndash;V graph, identify the relationship, and evaluate the method (e.g. heating changing the resistance) with improvements. Strong data-processing territory.',
+    'Students discuss the impact of electricity: access and equity in power supply, the sustainability of generation methods, or electrical safety in the home &mdash; a balanced, evidence-based judgement.'
+  );
+  h+='<div class="sec"><h3><span class="sec-tag tag-example">Worked Example (MYP assessment logic)</h3><p><strong>Task (Criterion B):</strong> "Design an investigation into what affects the strength of an electromagnet." A top-band design: hypothesis ("increasing the number of coils increases the strength"); IV = number of coils; DV = strength (measured by the number of paperclips picked up); controlled = current, core, type of wire; a clear repeatable method with repeats. Naming all three variable types and a reproducible, safe method is what lifts it to 7&ndash;8.</p></div>';
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">Practice M2 &mdash; Content &amp; Criteria</h3></div>';
+  h+=mcqBlock('m2q1','Content','In a simple series circuit, the current is:',[
+    {t:'The same at every point in the circuit.',c:true},
+    {t:'Largest near the battery and used up along the way.',c:false},
+    {t:'Split between the components.',c:false},
+    {t:'Zero unless there is a switch.',c:false}
+  ],'In series there is one path, so the current is the same everywhere &mdash; charge is conserved and is not "used up". What is shared among components is the voltage. (In parallel, the current splits between branches.)');
+  h+=mcqBlock('m2q2','Criterion','"Plot an I&ndash;V graph from your readings and describe the relationship between current and voltage." This task assesses mainly:',[
+    {t:'Criterion C (Processing & evaluating).',c:true},
+    {t:'Criterion A (Knowing & understanding).',c:false},
+    {t:'Criterion B (Inquiring & designing).',c:false},
+    {t:'Criterion D (Reflecting on impacts).',c:false}
+  ],'Presenting data as a graph and interpreting the relationship is Criterion C (processing & evaluating). Designing the experiment first would be B; explaining WHY the relationship holds would be A.');
+  h+=tfBlock('m2q3','True/False','True or False: An electromagnet\'s strength can be increased by adding more turns of wire or increasing the current.',true,'True. More turns of wire and a larger current both increase an electromagnet\'s strength (as does a soft-iron core). These are exactly the variables a Criterion B investigation would test.');
+  h+=matchBlock('m2match','Match','Match each electromagnetism task to the MYP criterion it best targets:',[
+    {l:'Explain how a transformer changes voltage',r:'Criterion A'},
+    {l:'Design a test of what affects electromagnet strength',r:'Criterion B'},
+    {l:'Graph and interpret I&ndash;V readings',r:'Criterion C'},
+    {l:'Discuss equity of electricity access worldwide',r:'Criterion D'}
+  ],'Explaining = A; designing a test = B; graphing/interpreting data = C; discussing societal impact = D. Good MYP planning includes tasks across all four.');
+  h+=taskBlock('m2grade1','Grade Me &mdash; MYP [Criterion A, "Explain"]: "Explain why household appliances are wired in parallel rather than in series."','My answer: ___','<strong>Top-band model:</strong> "In a parallel arrangement, each appliance is connected directly across the full mains voltage, so each receives the voltage it needs to work correctly. Each appliance is on its own branch, so it can be switched on and off independently without affecting the others, and if one fails the rest keep working. In series, the appliances would share the voltage (so each would get less) and a single break would stop the whole circuit &mdash; which is why parallel wiring is used." Complete, correct reasoning with terminology = top Criterion A."');
+  h+=taskBlock('m2grade2','Grade Me &mdash; MYP [Criterion D, "Discuss"]: "Discuss the advantages and disadvantages of generating electricity from a renewable source such as solar, compared with burning fossil fuels."','My answer: ___','<strong>Top-band model:</strong> "Solar power produces no carbon dioxide or air pollution during use and the Sun\'s energy is effectively unlimited, so it is sustainable and helps reduce climate change (advantages). However, it only generates when the Sun shines, so output is variable and needs storage or backup, and building panels has an initial cost and environmental footprint (disadvantages). Fossil fuels are reliable and currently cheap but release greenhouse gases and are finite. On balance, for long-term sustainability a shift toward solar and other renewables is beneficial, ideally combined with storage to manage reliability." Balanced points on both sides + a supported judgement = top Criterion D."');
+
+  h+='<div class="sec"><h3><span class="sec-tag tag-check">M2 &mdash; Mastery Check</h3><p>You own MYP Electromagnetism when you can: frame the unit (concepts, global context, statement of inquiry); teach circuits, fields and induction at the right MYP level; and set tasks that clearly target A (explain), B (design a fair test), C (process &amp; evaluate data) and D (discuss real-world impact) &mdash; assessing each against band descriptors.</p></div>';
+
+  document.getElementById('t22body').innerHTML=h;
+}
+
+
 
 
 
