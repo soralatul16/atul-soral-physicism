@@ -944,6 +944,7 @@ function buildModules(){
   buildMYP5();
   buildMYP6();
   buildPartAPractice();
+  buildPartBPractice();
 
   themes.forEach(function(th){
     if(th.id==='t13'||th.id==='t14'||th.id==='t15'||th.id==='t16'||th.id==='t17')return; // deep-built themes have their own function
@@ -2593,6 +2594,74 @@ function buildPartAPractice(){
 
   Object.keys(p).forEach(function(k){appendTo(k,p[k])});
 }
+
+function buildPartBPractice(){
+  function appendTo(modId,html){
+    var mod=document.getElementById(modId);if(!mod)return;
+    var wrap=document.createElement('div');wrap.innerHTML=html;
+    while(wrap.firstChild){mod.appendChild(wrap.firstChild)}
+  }
+  var p={};
+
+  // ---- Module 9: Measurement & Uncertainties ----
+  p.t9='<div class="sec"><h3><span class="sec-tag tag-check">Test Yourself &mdash; Measurement &amp; Uncertainties</h3><p>This underpins every experiment, the IA, and exam data questions. Get it automatic.</p></div>'
+    +mcqBlock('pb9q1','Errors','Which best describes the difference between random and systematic error?',[
+      {t:'Random error causes scatter (reduced by repeating); systematic error is a consistent bias (fixed by a better method/calibration).',c:true},
+      {t:'They are the same thing.',c:false},
+      {t:'Random error is always larger than systematic error.',c:false},
+      {t:'Systematic error is removed by repeating readings.',c:false}
+    ],'Random error = scatter, reduced by repeating and averaging. Systematic error = a consistent offset (e.g. a zero error), which repeating does NOT fix &mdash; you need a better method or calibration.')
+    +mcqBlock('pb9q2','Precision vs accuracy','A set of readings is close together but far from the true value. The readings are:',[
+      {t:'Precise but not accurate.',c:true},
+      {t:'Accurate but not precise.',c:false},
+      {t:'Both accurate and precise.',c:false},
+      {t:'Neither precise nor accurate.',c:false}
+    ],'Precise = readings close together (low scatter). Accurate = close to the true value. Close together but off-target = precise but not accurate (the dartboard analogy: tight cluster, wrong spot).')
+    +mcqBlock('pb9q3','Propagation','When multiplying or dividing quantities, you combine their uncertainties by:',[
+      {t:'Adding their PERCENTAGE (fractional) uncertainties.',c:true},
+      {t:'Adding their absolute uncertainties.',c:false},
+      {t:'Multiplying their absolute uncertainties.',c:false},
+      {t:'Ignoring uncertainty.',c:false}
+    ],'For &times; and &divide;, add PERCENTAGE uncertainties. For + and &minus;, add ABSOLUTE uncertainties. This is the skill students use in every IA calculation.')
+    +tfBlock('pb9q4','True/False','True or False: A DP student who writes a result as "9.81 m/s&sup2;" with no uncertainty has fully answered the question.',false,'False. In DP, every experimental result should carry an uncertainty &mdash; acknowledging the doubt IS the science. A bare value misses the whole point of measurement in physics.')
+    +taskBlock('pb9grade','Grade Me &mdash; "Design an inquiry opener that makes students DISCOVER the need for uncertainty, rather than being handed the rules."','My opener: ___','<strong>Strong model:</strong> "Each of you time 10 swings of this pendulum with your phone. [Values range 12.3&ndash;13.1 s.] Same pendulum, same task &mdash; why 8 different answers? Which is \'correct\'? So how do we honestly report a value when we can\'t get one exact number?" They FEEL the need for uncertainty before you give the mean, range and rules.');
+
+  // ---- Module 10: Supervising the IA ----
+  p.t10='<div class="sec"><h3><span class="sec-tag tag-check">Test Yourself &mdash; Supervising the IA</h3><p>Check how to guide the IA without doing it for the student.</p></div>'
+    +mcqBlock('pb10q1','IA role','Your main job when supervising a student\'s IA is to:',[
+      {t:'Develop the research question WITH them and guide the process, while keeping the work authentically theirs.',c:true},
+      {t:'Give them a ready-made research question and method.',c:false},
+      {t:'Write the analysis so it scores well.',c:false},
+      {t:'Leave them entirely alone until submission.',c:false}
+    ],'You guide the process &mdash; helping shape a workable research question and giving feedback against the criteria &mdash; but the investigation must be the student\'s own work. Neither hand it to them nor abandon them.')
+    +tfBlock('pb10q2','True/False','True or False: Good IA supervision means giving feedback against the assessment criteria/descriptors rather than just putting a mark on a draft.',true,'True. Feedback against the descriptors teaches students what mastery looks like and lets them self-improve. A bare mark tells them where they are but not how to get better.')
+    +taskBlock('pb10grade','Grade Me &mdash; "A student proposes a vague IA research question. Write how you would respond to help them sharpen it &mdash; WITHOUT giving them your own question."','My response: ___','<strong>Strong model:</strong> "Good starting interest. Right now \'how does temperature affect a reaction\' isn\'t measurable yet &mdash; what exactly will you measure, and over what range? Which ONE variable will you change, which will you measure, and which must you control? Rephrase it as \'How does [independent variable, with range] affect [measurable dependent variable]?\' and bring me two versions." You sharpen the process; the question stays theirs.');
+
+  // ---- Module 11: Supervising the EE ----
+  p.t11='<div class="sec"><h3><span class="sec-tag tag-check">Test Yourself &mdash; Supervising the EE</h3><p>Check the extended-essay supervision essentials.</p></div>'
+    +mcqBlock('pb11q1','EE scope','A common problem with a first-draft EE research question is that it is:',[
+      {t:'Too broad &mdash; it needs narrowing to something focused and answerable in the word limit.',c:true},
+      {t:'Always too narrow.',c:false},
+      {t:'Not allowed to involve an experiment.',c:false},
+      {t:'Required to have no research question.',c:false}
+    ],'EE research questions are usually too broad at first. Your job is to help narrow them to a focused, answerable question that fits the scope and word limit &mdash; the single most common EE supervision task.')
+    +tfBlock('pb11q2','True/False','True or False: As EE supervisor you should write sections of the essay for the student to improve their grade.',false,'False. The EE must be the student\'s own work. You guide with feedback and a limited number of formal check-ins, but you do not write it. Doing so is an academic-integrity breach.')
+    +taskBlock('pb11grade','Grade Me &mdash; "Explain how you would help a student turn a broad EE topic (e.g. \'renewable energy\') into a focused, answerable research question."','My approach: ___','<strong>Strong model:</strong> "I\'d ask: what specific aspect interests you, and what could you actually investigate or analyse? \'Renewable energy\' &rarr; narrow to a variable and a context, e.g. \'To what extent does the angle of a solar panel affect its power output under fixed lighting conditions?\' &mdash; focused, measurable, and answerable within the word limit." Narrowing the scope while keeping ownership with the student.');
+
+  // ---- Module 12: Exam Preparation ----
+  p.t12='<div class="sec"><h3><span class="sec-tag tag-check">Test Yourself &mdash; Exam Preparation</h3><p>Check how inquiry teaching still leads to exam success.</p></div>'
+    +mcqBlock('pb12q1','Exams','Why does inquiry-based teaching help students score well on modern exams?',[
+      {t:'Because exams reward applying and evaluating (explain, analyse, evaluate), which understanding &mdash; not memorising &mdash; builds.',c:true},
+      {t:'Because exams only test recall of facts.',c:false},
+      {t:'Because inquiry means students never need to practise exam questions.',c:false},
+      {t:'Because inquiry avoids command terms.',c:false}
+    ],'High-mark questions use command terms like explain, analyse, evaluate &mdash; you cannot memorise your way to them. Inquiry builds the understanding needed to apply and reason, which is what caps a student at 6&ndash;7 rather than 4&ndash;5.')
+    +tfBlock('pb12q2','True/False','True or False: Inquiry teaching replaces the need for targeted exam practice with command terms and mark schemes.',false,'False. Inquiry builds understanding, but students still need deliberate practice with real command-term questions and mark schemes. The winning formula is inquiry (understanding) + formalisation + exam practice &mdash; not one instead of the others.')
+    +taskBlock('pb12grade','Grade Me &mdash; "Describe how you would turn a topic your students discovered through inquiry into exam-ready performance."','My plan: ___','<strong>Strong model:</strong> "After students discover the concept (e.g. conservation of momentum from a collision lab), I formalise the definitions and equations precisely, then give them past-paper questions that use the exact command terms &mdash; \'explain\', \'calculate\', \'compare\' &mdash; and mark them against the mark scheme, showing where points are won or lost. So they get the ownership of discovery AND the precision of exam technique." Inquiry + formalisation + command-term practice.');
+
+  Object.keys(p).forEach(function(k){appendTo(k,p[k])});
+}
+
 
 
 
