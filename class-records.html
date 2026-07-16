@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Feedback Records | Atul Soral Physicism</title>
+<style>
+:root{--bg:#F5F2EE;--card:#fff;--text:#1A1A2E;--text2:#6B7280;--text3:#9CA3AF;--accent:#0B7285;--accent-light:#E0F7FA;--border:#E5E1DC;--shadow:0 2px 12px rgba(0,0,0,.06);--radius:12px;--danger:#DC2626;--success:#059669}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+nav{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:linear-gradient(135deg,rgba(11,114,133,.95),rgba(6,86,102,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(6,86,102,.3)}
+.nav-title{font-family:Georgia,serif;font-size:1rem;font-weight:700}
+.nav-sub{font-size:.78rem;opacity:.8}
+.nav-btn{color:#fff;text-decoration:none;font-size:.75rem;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);cursor:pointer}
+.wrap{max-width:1200px;margin:0 auto;padding:20px 20px 80px}
+.card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin-bottom:16px}
+h3{font-family:Georgia,serif;font-size:1.05rem;color:var(--accent);margin-bottom:12px}
+/* LOCK */
+.lock{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000}
+.lock-box{background:var(--card);padding:36px;border-radius:16px;box-shadow:var(--shadow);text-align:center;max-width:340px}
+.lock-box h2{font-family:Georgia,serif;color:var(--accent);margin-bottom:14px}
+.lock-box input{width:100%;padding:11px;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;margin-bottom:12px;text-align:center;outline:none}
+.lock-box button{width:100%;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer}
+/* FILTERS */
+.filters{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text3)}
+.fg input,.fg select{padding:8px 11px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;outline:none;background:var(--bg)}
+.fg input:focus,.fg select:focus{border-color:var(--accent);background:#fff}
+.btn{padding:8px 16px;border:none;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer;background:var(--accent);color:#fff}
+.btn:hover{opacity:.9}
+.btn-outline{background:#fff;color:var(--text2);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.btn-sm{padding:5px 11px;font-size:.72rem}
+.btn-danger{background:#FEE2E2;color:var(--danger);border:1px solid #FECACA}
+.count-pill{font-size:.78rem;color:var(--text2)}
+/* TABLE */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+thead th{text-align:left;padding:9px 10px;background:var(--bg);font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);font-weight:700;border-bottom:2px solid var(--border);white-space:nowrap}
+tbody td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+tbody tr:hover{background:rgba(11,114,133,.03)}
+.ans-cell{max-width:340px}
+.ans-q{font-weight:600;color:var(--text)}
+.ans-a{color:var(--text2);margin-bottom:6px;display:block}
+.reply-existing{background:#F0FDF4;border-left:3px solid var(--success);border-radius:5px;padding:6px 8px;font-size:.78rem;margin-top:4px}
+.reply-input{width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:.78rem;font-family:inherit;resize:vertical;min-height:34px;margin-top:4px}
+.empty{text-align:center;padding:36px;color:var(--text3)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.chk{width:15px;height:15px;accent-color:var(--accent);cursor:pointer}
+@media print{
+  nav,.filters,.toolbar,.no-print,.reply-input,.chk,thead th:first-child,tbody td:first-child{display:none!important}
+  .card{box-shadow:none;border:1px solid #ccc}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<!-- LOCK -->
+<div class="lock" id="lockScreen">
+  <div class="lock-box">
+    <h2>🔐 Feedback Records</h2>
+    <p style="color:var(--text2);font-size:.85rem;margin-bottom:14px">Teacher access only</p>
+    <input type="password" id="pwInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')unlock()">
+    <button onclick="unlock()">Enter</button>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+<nav>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span class="nav-title">Atul Soral Physicism</span>
+    <span class="nav-sub">Class Feedback Records</span>
+  </div>
+  <div style="display:flex;gap:6px">
+    <a href="index.html" class="nav-btn">Home</a>
+    <a href="dp-teacher-assignments.html" class="nav-btn">Assignments</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- PUBLISH TODAY'S PROMPT -->
+  <div class="card no-print">
+    <h3>📢 Publish Today's Questions</h3>
+    <p style="font-size:.82rem;color:var(--text2);margin-bottom:12px">Set the questions students see today. Leave blank to use the default set. One line per question. Prefix decides type — otherwise it's a short-answer box.</p>
+    <div class="filters" style="margin-bottom:10px">
+      <div class="fg" style="flex:1;min-width:180px">
+        <label>Title (optional)</label>
+        <input type="text" id="pTitle" placeholder="Today's Feedback">
+      </div>
+    </div>
+    <label style="font-size:.68rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:4px">Questions (one per line)</label>
+    <textarea id="pQuestions" class="reply-input" style="min-height:110px" placeholder="short: Write the ONE thing you most want physics to explain over these two years.&#10;long: What is still confusing?&#10;rating: How confident do you feel today?&#10;check: Videos | Problems | Diagrams | Group work"></textarea>
+    <label style="font-size:.68rem;font-weight:700;text-transform:uppercase;color:var(--text3);display:block;margin:10px 0 4px">Closing message students see after submitting</label>
+    <textarea id="pClose" class="reply-input" style="min-height:60px" placeholder="Warm close..."></textarea>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button class="btn" onclick="publishPrompt()">Publish for Today</button>
+      <span id="publishMsg" style="font-size:.8rem;color:var(--success);align-self:center"></span>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="card no-print">
+    <h3>🔎 Filter Records</h3>
+    <div class="filters">
+      <div class="fg"><label>From date</label><input type="date" id="fFrom" onchange="applyFilters()"></div>
+      <div class="fg"><label>To date</label><input type="date" id="fTo" onchange="applyFilters()"></div>
+      <div class="fg"><label>Grade</label>
+        <select id="fGrade" onchange="applyFilters()"><option value="">All</option><option value="11">Grade 11</option><option value="12">Grade 12</option></select>
+      </div>
+      <div class="fg"><label>Lesson</label>
+        <select id="fLesson" onchange="applyFilters()"><option value="">All</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option></select>
+      </div>
+      <div class="fg" style="flex:1;min-width:180px"><label>Student name / email</label><input type="text" id="fName" placeholder="type to filter..." oninput="applyFilters()"></div>
+      <button class="btn-outline btn" onclick="clearFilters()">Clear</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card">
+    <div class="toolbar no-print">
+      <h3 style="margin:0">📋 Records <span class="count-pill" id="countPill"></span></h3>
+      <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-outline btn btn-sm" onclick="downloadCSV('all')">⬇ CSV (all filtered)</button>
+        <button class="btn-outline btn btn-sm" onclick="downloadCSV('selected')">⬇ CSV (selected)</button>
+        <button class="btn-outline btn btn-sm" onclick="window.print()">🖨 Print / PDF</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="recTable">
+        <thead>
+          <tr>
+            <th><input type="checkbox" class="chk" id="selAll" onclick="toggleAll(this)"></th>
+            <th>Date</th><th>Student</th><th>Grade</th><th>Lesson</th><th>Responses</th><th>Reply to student</th><th class="no-print">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="recBody"><tr><td colspan="8" class="empty">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="js/auth.js"></script>
+<script>
+var db = PhysicismAuth.db;
+var allRecords = [];
+var filtered = [];
+var selected = {};   // record id -> true
+
+function unlock(){
+  if(document.getElementById('pwInput').value==='atul123'){
+    document.getElementById('lockScreen').style.display='none';
+    document.getElementById('app').style.display='block';
+    sessionStorage.setItem('feedbackAdminAuth','true');
+    loadRecords();
+  } else { alert('Incorrect password'); }
+}
+if(sessionStorage.getItem('feedbackAdminAuth')==='true'){
+  document.getElementById('lockScreen').style.display='none';
+  document.getElementById('app').style.display='block';
+  window.addEventListener('DOMContentLoaded', loadRecords);
+}
+
+/* ==================== PUBLISH PROMPT ==================== */
+function todayKey(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function parseQuestionLine(line, i){
+  line=line.trim(); if(!line) return null;
+  var m=line.match(/^(short|long|rating|check|mcq)\s*:\s*(.*)$/i);
+  var type='short', text=line, options=null;
+  if(m){ type=m[1].toLowerCase(); text=m[2];
+    if(type==='check') type='checkbox';
+    if(type==='check'||type==='checkbox'||type==='mcq'){
+      var parts=text.split('|'); text=parts.shift().trim();
+      options=parts.map(function(o){return o.trim();}).filter(Boolean);
+    }
+  }
+  return {id:'q'+(i+1), type:type, text:text, options:options||undefined};
+}
+function publishPrompt(){
+  var lines=(document.getElementById('pQuestions').value||'').split('\n');
+  var qs=lines.map(parseQuestionLine).filter(Boolean);
+  var doc={
+    title: document.getElementById('pTitle').value.trim() || 'Today’s Feedback',
+    closeMsg: document.getElementById('pClose').value.trim() || 'Thank you for your feedback!',
+    questions: qs,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  db.collection('classPrompts').doc(todayKey()).set(doc).then(function(){
+    var msg=document.getElementById('publishMsg');
+    msg.textContent='✓ Published for '+todayKey()+' ('+qs.length+' questions)';
+    setTimeout(function(){msg.textContent='';},4000);
+  }).catch(function(e){ alert('Error publishing: '+e.message); });
+}
+
+/* ==================== LOAD ==================== */
+function loadRecords(){
+  db.collection('classFeedback').get().then(function(snap){
+    allRecords=[];
+    snap.forEach(function(d){ allRecords.push(Object.assign({id:d.id},d.data())); });
+    allRecords.sort(function(a,b){
+      var ta=a.createdAt&&a.createdAt.toDate?a.createdAt.toDate():new Date(a.dateKey||0);
+      var tb=b.createdAt&&b.createdAt.toDate?b.createdAt.toDate():new Date(b.dateKey||0);
+      return tb-ta;
+    });
+    applyFilters();
+  }).catch(function(e){
+    document.getElementById('recBody').innerHTML='<tr><td colspan="8" class="empty">Could not load: '+escapeHtml(e.message)+'</td></tr>';
+  });
+}
+
+/* ==================== FILTER (instant) ==================== */
+function applyFilters(){
+  var from=document.getElementById('fFrom').value;
+  var to=document.getElementById('fTo').value;
+  var grade=document.getElementById('fGrade').value;
+  var lesson=document.getElementById('fLesson').value;
+  var name=(document.getElementById('fName').value||'').toLowerCase().trim();
+
+  filtered=allRecords.filter(function(r){
+    if(from && (r.dateKey||'')<from) return false;
+    if(to && (r.dateKey||'')>to) return false;
+    if(grade && String(r.grade)!==grade) return false;
+    if(lesson && String(r.lesson)!==lesson) return false;
+    if(name){
+      var hay=((r.studentName||'')+' '+(r.studentEmail||'')).toLowerCase();
+      if(hay.indexOf(name)===-1) return false;
+    }
+    return true;
+  });
+  renderTable();
+}
+function clearFilters(){
+  ['fFrom','fTo','fName'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('fGrade').value='';
+  document.getElementById('fLesson').value='';
+  applyFilters();
+}
+
+/* ==================== RENDER ==================== */
+function renderTable(){
+  document.getElementById('countPill').textContent='('+filtered.length+' of '+allRecords.length+')';
+  var body=document.getElementById('recBody');
+  if(!filtered.length){ body.innerHTML='<tr><td colspan="8" class="empty">No records match these filters.</td></tr>'; return; }
+  body.innerHTML=filtered.map(function(r){
+    var ans=Object.keys(r.answers||{}).map(function(qid){
+      var q=(r.questions&&r.questions[qid])||qid;
+      var a=r.answers[qid];
+      if(Array.isArray(a)) a=a.join(', ');
+      if(typeof a==='number') a=['','☹️','😐','🙂','😀'][a]||a;
+      return '<span class="ans-a"><span class="ans-q">'+escapeHtml(q)+':</span> '+escapeHtml(String(a))+'</span>';
+    }).join('');
+    var replyCell = (r.reply
+        ? '<div class="reply-existing">✓ '+escapeHtml(r.reply)+'</div>'
+        : '')
+      + '<textarea class="reply-input no-print" id="reply-'+r.id+'" placeholder="Type reply...">'+escapeHtml(r.reply||'')+'</textarea>'
+      + '<button class="btn btn-sm no-print" style="margin-top:4px" onclick="saveReply(\''+r.id+'\')">Save reply</button>';
+    return '<tr>'+
+      '<td class="no-print"><input type="checkbox" class="chk rowchk" data-id="'+r.id+'" '+(selected[r.id]?'checked':'')+' onclick="toggleRow(\''+r.id+'\',this)"></td>'+
+      '<td>'+escapeHtml(r.dateKey||'')+'</td>'+
+      '<td><b>'+escapeHtml(r.studentName||'')+'</b><br><span style="font-size:.72rem;color:var(--text3)">'+escapeHtml(r.studentEmail||'')+'</span></td>'+
+      '<td>'+escapeHtml(String(r.grade||''))+'</td>'+
+      '<td>'+escapeHtml(String(r.lesson||''))+'</td>'+
+      '<td class="ans-cell">'+ans+'</td>'+
+      '<td>'+replyCell+'</td>'+
+      '<td class="no-print"><button class="btn-danger btn btn-sm" onclick="deleteRec(\''+r.id+'\')">🗑</button></td>'+
+    '</tr>';
+  }).join('');
+}
+
+function toggleAll(el){
+  filtered.forEach(function(r){ selected[r.id]=el.checked; });
+  document.querySelectorAll('.rowchk').forEach(function(c){c.checked=el.checked;});
+}
+function toggleRow(id,el){ selected[id]=el.checked; }
+
+/* ==================== REPLY ==================== */
+function saveReply(id){
+  var txt=document.getElementById('reply-'+id).value.trim();
+  db.collection('classFeedback').doc(id).update({
+    reply:txt, replyAt:firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    var r=allRecords.find(function(x){return x.id===id;}); if(r) r.reply=txt;
+    applyFilters();
+  }).catch(function(e){ alert('Error saving reply: '+e.message); });
+}
+
+/* ==================== DELETE ==================== */
+function deleteRec(id){
+  if(!confirm('Delete this feedback record permanently?')) return;
+  db.collection('classFeedback').doc(id).delete().then(function(){
+    allRecords=allRecords.filter(function(x){return x.id!==id;});
+    delete selected[id];
+    applyFilters();
+  }).catch(function(e){ alert('Error deleting: '+e.message); });
+}
+
+/* ==================== CSV DOWNLOAD ==================== */
+function downloadCSV(scope){
+  var rows = scope==='selected'
+    ? filtered.filter(function(r){return selected[r.id];})
+    : filtered;
+  if(!rows.length){ alert(scope==='selected'?'No rows selected.':'No rows to export.'); return; }
+
+  // Collect all question labels across rows for consistent columns
+  var qset=[];
+  rows.forEach(function(r){ Object.keys(r.answers||{}).forEach(function(qid){
+    var label=(r.questions&&r.questions[qid])||qid;
+    if(qset.indexOf(label)===-1) qset.push(label);
+  });});
+
+  var header=['Date','Student','Email','Grade','Lesson'].concat(qset).concat(['Reply']);
+  var lines=[header.map(csvCell).join(',')];
+  rows.forEach(function(r){
+    var byLabel={};
+    Object.keys(r.answers||{}).forEach(function(qid){
+      var label=(r.questions&&r.questions[qid])||qid;
+      var a=r.answers[qid];
+      if(Array.isArray(a)) a=a.join('; ');
+      if(typeof a==='number') a=['','Very low','Low','Good','High'][a]||a;
+      byLabel[label]=a;
+    });
+    var row=[r.dateKey||'',r.studentName||'',r.studentEmail||'',r.grade||'',r.lesson||'']
+      .concat(qset.map(function(l){return byLabel[l]!==undefined?byLabel[l]:'';}))
+      .concat([r.reply||'']);
+    lines.push(row.map(csvCell).join(','));
+  });
+
+  var blob=new Blob(['﻿'+lines.join('\r\n')],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url; a.download='class-feedback-'+todayKey()+'.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function csvCell(v){ v=(v==null?'':String(v)); return '"'+v.replace(/"/g,'""')+'"'; }
+
+function escapeHtml(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
+</script>
+</body>
+</html>
