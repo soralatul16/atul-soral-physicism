@@ -40,17 +40,40 @@ table{width:100%;border-collapse:collapse;font-size:.82rem}
 thead th{text-align:left;padding:9px 10px;background:var(--bg);font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);font-weight:700;border-bottom:2px solid var(--border);white-space:nowrap}
 tbody td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top}
 tbody tr:hover{background:rgba(11,114,133,.03)}
-.ans-cell{max-width:340px}
-.ans-q{font-weight:600;color:var(--text)}
-.ans-a{color:var(--text2);margin-bottom:6px;display:block}
-.reply-existing{background:#F0FDF4;border-left:3px solid var(--success);border-radius:5px;padding:6px 8px;font-size:.78rem;margin-top:4px}
-.reply-input{width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:.78rem;font-family:inherit;resize:vertical;min-height:34px;margin-top:4px}
+.reply-input{width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;font-family:inherit;resize:vertical;min-height:40px}
 .empty{text-align:center;padding:36px;color:var(--text3)}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
-.chk{width:15px;height:15px;accent-color:var(--accent);cursor:pointer}
+.chk{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
+
+/* RESPONSE CARDS */
+.rec-list{display:flex;flex-direction:column;gap:16px}
+.rec-card{border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.rec-head{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,#F0FBFD,#F5F2EE);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.rec-head .who{font-weight:700;font-size:.95rem;color:var(--text)}
+.rec-head .email{font-size:.75rem;color:var(--text3)}
+.rec-badges{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;align-items:center}
+.pill{padding:3px 10px;border-radius:50px;font-size:.7rem;font-weight:700;white-space:nowrap}
+.pill-date{background:#E0F7FA;color:var(--accent)}
+.pill-grade{background:#EDE9FE;color:#6D28D9}
+.pill-lesson{background:#FEF3C7;color:#92400E}
+.rec-body{padding:8px 16px 16px}
+.qa{padding:12px 0;border-bottom:1px dashed var(--border)}
+.qa:last-child{border-bottom:none}
+.qa-q{font-size:.78rem;font-weight:700;color:var(--text2);margin-bottom:5px;line-height:1.4}
+.qa-a{font-size:.95rem;color:var(--text);line-height:1.55;background:var(--bg);border-radius:8px;padding:9px 12px;border-left:3px solid var(--accent)}
+.qa-a.rating{font-size:1.4rem;background:none;border-left:none;padding:2px 0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--accent-light);color:var(--accent);border-radius:50px;padding:4px 12px;font-size:.82rem;font-weight:600}
+.qa-a.empty-a{color:var(--text3);font-style:italic;background:none;border-left:none;padding:2px 0;font-size:.85rem}
+.rec-foot{padding:12px 16px;background:var(--bg);border-top:1px solid var(--border);display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.rec-foot .reply-wrap{flex:1;min-width:220px}
+.reply-existing{background:#F0FDF4;border-left:3px solid var(--success);border-radius:6px;padding:8px 10px;font-size:.82rem;margin-bottom:6px;line-height:1.5}
+.reply-existing b{color:var(--success)}
+.rec-select{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text3);font-weight:600}
 @media print{
-  nav,.filters,.toolbar,.no-print,.reply-input,.chk,thead th:first-child,tbody td:first-child{display:none!important}
-  .card{box-shadow:none;border:1px solid #ccc}
+  nav,.filters,.toolbar,.no-print,.reply-input,.rec-select,.rec-foot button{display:none!important}
+  .card{box-shadow:none;border:none;padding:0}
+  .rec-card{box-shadow:none;border:1px solid #ccc;break-inside:avoid;margin-bottom:12px}
   body{background:#fff}
 }
 </style>
@@ -122,23 +145,14 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
   <div class="card">
     <div class="toolbar no-print">
       <h3 style="margin:0">📋 Records <span class="count-pill" id="countPill"></span></h3>
+      <label class="rec-select" style="margin-left:8px"><input type="checkbox" class="chk" id="selAll" onclick="toggleAll(this)"> Select all</label>
       <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn-outline btn btn-sm" onclick="downloadCSV('all')">⬇ CSV (all filtered)</button>
         <button class="btn-outline btn btn-sm" onclick="downloadCSV('selected')">⬇ CSV (selected)</button>
         <button class="btn-outline btn btn-sm" onclick="window.print()">🖨 Print / PDF</button>
       </div>
     </div>
-    <div class="table-wrap">
-      <table id="recTable">
-        <thead>
-          <tr>
-            <th><input type="checkbox" class="chk" id="selAll" onclick="toggleAll(this)"></th>
-            <th>Date</th><th>Student</th><th>Grade</th><th>Lesson</th><th>Responses</th><th>Reply to student</th><th class="no-print">Actions</th>
-          </tr>
-        </thead>
-        <tbody id="recBody"><tr><td colspan="8" class="empty">Loading...</td></tr></tbody>
-      </table>
-    </div>
+    <div class="rec-list" id="recBody"><div class="empty">Loading...</div></div>
   </div>
 
 </div>
@@ -212,7 +226,7 @@ function loadRecords(){
     });
     applyFilters();
   }).catch(function(e){
-    document.getElementById('recBody').innerHTML='<tr><td colspan="8" class="empty">Could not load: '+escapeHtml(e.message)+'</td></tr>';
+    document.getElementById('recBody').innerHTML='<div class="empty">Could not load: '+escapeHtml(e.message)+'</div>';
   });
 }
 
@@ -248,30 +262,51 @@ function clearFilters(){
 function renderTable(){
   document.getElementById('countPill').textContent='('+filtered.length+' of '+allRecords.length+')';
   var body=document.getElementById('recBody');
-  if(!filtered.length){ body.innerHTML='<tr><td colspan="8" class="empty">No records match these filters.</td></tr>'; return; }
+  if(!filtered.length){ body.innerHTML='<div class="empty">No records match these filters.</div>'; return; }
   body.innerHTML=filtered.map(function(r){
-    var ans=Object.keys(r.answers||{}).map(function(qid){
+    var qaHtml=Object.keys(r.answers||{}).map(function(qid){
       var q=(r.questions&&r.questions[qid])||qid;
       var a=r.answers[qid];
-      if(Array.isArray(a)) a=a.join(', ');
-      if(typeof a==='number') a=['','☹️','😐','🙂','😀'][a]||a;
-      return '<span class="ans-a"><span class="ans-q">'+escapeHtml(q)+':</span> '+escapeHtml(String(a))+'</span>';
+      var aHtml;
+      if(Array.isArray(a)){
+        aHtml = a.length
+          ? '<div class="qa-a"><div class="chips">'+a.map(function(x){return '<span class="chip">'+escapeHtml(String(x))+'</span>';}).join('')+'</div></div>'
+          : '<div class="qa-a empty-a">No answer</div>';
+      } else if(typeof a==='number'){
+        var faces=['','☹️ Very low','😐 Low','🙂 Good','😀 High'];
+        aHtml='<div class="qa-a rating">'+(faces[a]||a)+'</div>';
+      } else if(a==null || String(a).trim()===''){
+        aHtml='<div class="qa-a empty-a">No answer</div>';
+      } else {
+        aHtml='<div class="qa-a">'+escapeHtml(String(a))+'</div>';
+      }
+      return '<div class="qa"><div class="qa-q">'+escapeHtml(q)+'</div>'+aHtml+'</div>';
     }).join('');
-    var replyCell = (r.reply
-        ? '<div class="reply-existing">✓ '+escapeHtml(r.reply)+'</div>'
-        : '')
-      + '<textarea class="reply-input no-print" id="reply-'+r.id+'" placeholder="Type reply...">'+escapeHtml(r.reply||'')+'</textarea>'
-      + '<button class="btn btn-sm no-print" style="margin-top:4px" onclick="saveReply(\''+r.id+'\')">Save reply</button>';
-    return '<tr>'+
-      '<td class="no-print"><input type="checkbox" class="chk rowchk" data-id="'+r.id+'" '+(selected[r.id]?'checked':'')+' onclick="toggleRow(\''+r.id+'\',this)"></td>'+
-      '<td>'+escapeHtml(r.dateKey||'')+'</td>'+
-      '<td><b>'+escapeHtml(r.studentName||'')+'</b><br><span style="font-size:.72rem;color:var(--text3)">'+escapeHtml(r.studentEmail||'')+'</span></td>'+
-      '<td>'+escapeHtml(String(r.grade||''))+'</td>'+
-      '<td>'+escapeHtml(String(r.lesson||''))+'</td>'+
-      '<td class="ans-cell">'+ans+'</td>'+
-      '<td>'+replyCell+'</td>'+
-      '<td class="no-print"><button class="btn-danger btn btn-sm" onclick="deleteRec(\''+r.id+'\')">🗑</button></td>'+
-    '</tr>';
+
+    var replyFoot =
+      '<div class="rec-select no-print"><input type="checkbox" class="chk rowchk" data-id="'+r.id+'" '+(selected[r.id]?'checked':'')+' onclick="toggleRow(\''+r.id+'\',this)"> Select</div>'+
+      '<div class="reply-wrap">'+
+        (r.reply ? '<div class="reply-existing"><b>✓ Your reply:</b> '+escapeHtml(r.reply)+'</div>' : '')+
+        '<textarea class="reply-input no-print" id="reply-'+r.id+'" placeholder="Type a reply to this student...">'+escapeHtml(r.reply||'')+'</textarea>'+
+        '<div class="no-print" style="margin-top:6px;display:flex;gap:8px">'+
+          '<button class="btn btn-sm" onclick="saveReply(\''+r.id+'\')">Save reply</button>'+
+          '<button class="btn-danger btn btn-sm" onclick="deleteRec(\''+r.id+'\')">🗑 Delete</button>'+
+        '</div>'+
+      '</div>';
+
+    return '<div class="rec-card">'+
+      '<div class="rec-head">'+
+        '<div><div class="who">'+escapeHtml(r.studentName||'Unknown')+'</div>'+
+        '<div class="email">'+escapeHtml(r.studentEmail||'')+'</div></div>'+
+        '<div class="rec-badges">'+
+          '<span class="pill pill-date">📅 '+escapeHtml(r.dateKey||'')+'</span>'+
+          '<span class="pill pill-grade">Grade '+escapeHtml(String(r.grade||'?'))+'</span>'+
+          '<span class="pill pill-lesson">Lesson '+escapeHtml(String(r.lesson||'?'))+'</span>'+
+        '</div>'+
+      '</div>'+
+      '<div class="rec-body">'+qaHtml+'</div>'+
+      '<div class="rec-foot">'+replyFoot+'</div>'+
+    '</div>';
   }).join('');
 }
 
