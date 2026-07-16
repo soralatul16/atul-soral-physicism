@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Feedback | Atul Soral Physicism</title>
+<style>
+:root{--bg:#F5F2EE;--card:#fff;--text:#1A1A2E;--text2:#6B7280;--text3:#9CA3AF;--accent:#0B7285;--accent-light:#E0F7FA;--border:#E5E1DC;--shadow:0 2px 12px rgba(0,0,0,.06);--radius:14px;--danger:#DC2626;--success:#059669}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+nav{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;background:linear-gradient(135deg,rgba(11,114,133,.95),rgba(6,86,102,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(6,86,102,.3)}
+.nav-title{font-family:Georgia,serif;font-size:1rem;font-weight:700}
+.nav-sub{font-size:.78rem;opacity:.8}
+.nav-btn{color:#fff;text-decoration:none;font-size:.75rem;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);cursor:pointer}
+.wrap{max-width:680px;margin:0 auto;padding:24px 20px 80px}
+.card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:18px}
+h2{font-family:Georgia,serif;font-size:1.25rem;margin-bottom:6px}
+h2 span{color:var(--accent)}
+.muted{color:var(--text2);font-size:.85rem}
+label{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin:14px 0 5px}
+select,input[type=text],textarea{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:9px;font-size:.92rem;font-family:inherit;outline:none;background:var(--bg)}
+select:focus,input:focus,textarea:focus{border-color:var(--accent);background:#fff}
+textarea{min-height:90px;resize:vertical}
+.row{display:flex;gap:12px}
+.row>div{flex:1}
+.q-block{margin-bottom:6px}
+.q-text{font-size:.95rem;font-weight:600;line-height:1.5;margin:16px 0 4px}
+.opt{display:flex;align-items:center;gap:10px;padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;margin-top:8px;cursor:pointer;background:#fff;font-size:.9rem}
+.opt:hover{border-color:var(--accent)}
+.opt.sel{border-color:var(--accent);background:var(--accent-light);color:var(--accent);font-weight:600}
+.rating{display:flex;gap:10px;margin-top:8px}
+.rate-btn{flex:1;padding:14px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:1.6rem;cursor:pointer;text-align:center}
+.rate-btn.sel{border-color:var(--accent);background:var(--accent-light);transform:scale(1.03)}
+.btn{width:100%;padding:14px;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;background:var(--accent);color:#fff;margin-top:20px}
+.btn:hover{opacity:.92}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-google{display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--text);border:1.5px solid var(--border);padding:12px 22px;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer}
+.center{text-align:center;padding:36px 20px}
+.close-msg{background:linear-gradient(135deg,#E0F7FA,#F0FDF4);border-left:4px solid var(--success);border-radius:10px;padding:18px;font-size:.95rem;line-height:1.6;margin-top:8px}
+.hidden{display:none}
+.past-item{border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px;background:#fff}
+.past-meta{font-size:.72rem;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.past-a{font-size:.88rem;line-height:1.5;margin:4px 0}
+.reply-box{background:#F0FDF4;border-left:3px solid var(--success);border-radius:6px;padding:10px 12px;margin-top:10px;font-size:.85rem;line-height:1.5}
+.reply-box b{color:var(--success)}
+.no-reply{font-size:.75rem;color:var(--text3);margin-top:8px;font-style:italic}
+.tab-row{display:flex;gap:8px;margin-bottom:16px}
+.tab-btn{flex:1;padding:10px;border:1.5px solid var(--border);border-radius:9px;background:#fff;font-weight:700;font-size:.85rem;cursor:pointer;color:var(--text2)}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span class="nav-title">Atul Soral Physicism</span>
+    <span class="nav-sub">Class Feedback</span>
+  </div>
+  <div id="navUser"></div>
+</nav>
+
+<div class="wrap">
+
+  <!-- SIGN IN -->
+  <div class="card center hidden" id="signinCard">
+    <div style="font-size:2.5rem;margin-bottom:8px">📝</div>
+    <h2>Class <span>Feedback</span></h2>
+    <p class="muted" style="margin:8px 0 20px">Sign in with your Google account to submit today's feedback.</p>
+    <button class="btn-google" onclick="doSignIn()">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M45 24c0-1.6-.1-3.1-.4-4.6H24v9.1h11.8c-.5 2.7-2 5-4.4 6.6v5.5h7.1C42.7 37 45 31 45 24z"/><path fill="#34A853" d="M24 46c6 0 11-2 14.7-5.4l-7.1-5.5c-2 1.3-4.5 2.1-7.6 2.1-5.8 0-10.7-3.9-12.5-9.2H4.1v5.7C7.8 41.1 15.3 46 24 46z"/><path fill="#FBBC05" d="M11.5 27.9c-.5-1.4-.7-2.9-.7-4.4s.3-3 .7-4.4v-5.7H4.1C2.7 16.3 2 20 2 23.5s.7 7.2 2.1 10.1l7.4-5.7z"/><path fill="#EA4335" d="M24 10.7c3.3 0 6.2 1.1 8.5 3.3l6.3-6.3C35 4.1 30 2 24 2 15.3 2 7.8 6.9 4.1 13.4l7.4 5.7C13.3 14.6 18.2 10.7 24 10.7z"/></svg>
+      Sign in with Google
+    </button>
+  </div>
+
+  <!-- MAIN (after sign in) -->
+  <div class="hidden" id="mainArea">
+    <div class="tab-row">
+      <button class="tab-btn active" id="tabToday" onclick="showTab('today')">Today's Feedback</button>
+      <button class="tab-btn" id="tabPast" onclick="showTab('past')">My Past Responses</button>
+    </div>
+
+    <!-- TODAY -->
+    <div id="todayPanel">
+      <div class="card">
+        <h2 id="promptTitle">Today's Feedback</h2>
+        <p class="muted" id="promptDate"></p>
+
+        <label>Your Grade</label>
+        <select id="gradeSel" onchange="loadPromptForGrade()">
+          <option value="">Select grade...</option>
+          <option value="11">Grade 11</option>
+          <option value="12">Grade 12</option>
+        </select>
+
+        <label>Lesson Number</label>
+        <select id="lessonSel">
+          <option value="">Select lesson...</option>
+          <option>1</option><option>2</option><option>3</option><option>4</option>
+          <option>5</option><option>6</option><option>7</option>
+        </select>
+
+        <div id="questionsArea"></div>
+
+        <button class="btn" id="submitBtn" onclick="submitFeedback()">Submit Feedback</button>
+      </div>
+    </div>
+
+    <!-- CONFIRMATION -->
+    <div class="card center hidden" id="confirmCard">
+      <div style="font-size:2.5rem;margin-bottom:6px">✅</div>
+      <h2>Thank you!</h2>
+      <p class="muted" style="margin-top:6px">Your feedback has been recorded.</p>
+      <div class="close-msg" id="closeMsgBox"></div>
+      <button class="btn" style="max-width:260px;margin:22px auto 0" onclick="resetForm()">Submit Another</button>
+    </div>
+
+    <!-- PAST -->
+    <div id="pastPanel" class="hidden">
+      <div class="card">
+        <h2>My Past <span>Responses</span></h2>
+        <p class="muted" style="margin-bottom:14px">Your submissions and Sir's replies.</p>
+        <div id="pastList"><p class="muted">Loading...</p></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="js/auth.js"></script>
+<script>
+var db = PhysicismAuth.db;
+var currentUser = null;
+
+/* ==================== DEFAULT QUESTION SETS ====================
+   Fallback questions shown when the teacher has NOT published a
+   custom prompt for today. The admin page (class-records.html)
+   will later write a doc to `classPrompts` keyed by date to override this. */
+var DEFAULT_QUESTIONS = [
+  { id:'q1', type:'short', text:'Write the ONE thing you most want physics to explain for you over these two years.' },
+  { id:'q2', type:'long',  text:'What did you understand well in today’s class?' },
+  { id:'q3', type:'long',  text:'What is still confusing, or what would you like explained again?' },
+  { id:'q4', type:'checkbox', text:'How would you like to learn this topic better?',
+    options:['Worked examples','Diagrams / visuals','Real-world applications','Group discussion','More practice problems','Video / simulation'] },
+  { id:'q5', type:'rating', text:'How confident do you feel about today’s lesson?' }
+];
+var DEFAULT_CLOSE_MSG = 'You measured the invisible today, two different ways. HL is hard, but it’s a puzzle, not a memory test — and you clearly like puzzles. Welcome to physics.';
+
+var activePrompt = null;   // resolved prompt for today (custom or default)
+var answers = {};          // qid -> value
+
+function todayKey(){
+  var d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function prettyDate(){
+  return new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+
+/* ==================== AUTH ==================== */
+PhysicismAuth.onAuthReady(function(user){
+  if(user){
+    currentUser = user;
+    var name = user.displayName || user.email.split('@')[0];
+    document.getElementById('navUser').innerHTML =
+      '<span style="font-size:.8rem;margin-right:8px">'+name+'</span>'+
+      '<button class="nav-btn" onclick="PhysicismAuth.signOut()">Sign Out</button>';
+    document.getElementById('signinCard').classList.add('hidden');
+    document.getElementById('mainArea').classList.remove('hidden');
+    document.getElementById('promptDate').textContent = prettyDate();
+    resolveTodayPrompt();
+  } else {
+    document.getElementById('signinCard').classList.remove('hidden');
+    document.getElementById('mainArea').classList.add('hidden');
+    document.getElementById('navUser').innerHTML = '';
+  }
+});
+
+function doSignIn(){
+  PhysicismAuth.signIn().catch(function(e){ alert('Sign-in failed: '+e.message); });
+}
+
+/* ==================== RESOLVE TODAY'S PROMPT ==================== */
+function resolveTodayPrompt(){
+  // Look for a teacher-published prompt for today; else use default.
+  db.collection('classPrompts').doc(todayKey()).get().then(function(doc){
+    if(doc.exists){
+      var d = doc.data();
+      activePrompt = {
+        questions: d.questions && d.questions.length ? d.questions : DEFAULT_QUESTIONS,
+        closeMsg: d.closeMsg || DEFAULT_CLOSE_MSG,
+        title: d.title || 'Today’s Feedback'
+      };
+    } else {
+      activePrompt = { questions: DEFAULT_QUESTIONS, closeMsg: DEFAULT_CLOSE_MSG, title:'Today’s Feedback' };
+    }
+    document.getElementById('promptTitle').textContent = activePrompt.title;
+    renderQuestions();
+  }).catch(function(){
+    activePrompt = { questions: DEFAULT_QUESTIONS, closeMsg: DEFAULT_CLOSE_MSG, title:'Today’s Feedback' };
+    renderQuestions();
+  });
+}
+
+function loadPromptForGrade(){ /* reserved: grade-specific prompts later */ }
+
+/* ==================== RENDER QUESTIONS ==================== */
+function renderQuestions(){
+  var area = document.getElementById('questionsArea');
+  answers = {};
+  area.innerHTML = activePrompt.questions.map(function(q){
+    var inner='';
+    if(q.type==='short'){
+      inner='<input type="text" oninput="answers[\''+q.id+'\']=this.value" placeholder="Your answer...">';
+    } else if(q.type==='long'){
+      inner='<textarea oninput="answers[\''+q.id+'\']=this.value" placeholder="Your answer..."></textarea>';
+    } else if(q.type==='mcq'){
+      inner='<div>'+(q.options||[]).map(function(o,i){
+        return '<div class="opt" onclick="pickMcq(\''+q.id+'\','+i+',this)">'+escapeHtml(o)+'</div>';
+      }).join('')+'</div>';
+    } else if(q.type==='checkbox'){
+      inner='<div>'+(q.options||[]).map(function(o,i){
+        return '<div class="opt" onclick="toggleCheck(\''+q.id+'\','+i+',this)">'+escapeHtml(o)+'</div>';
+      }).join('')+'</div>';
+    } else if(q.type==='rating'){
+      inner='<div class="rating">'+
+        ['☹️','😐','🙂','😀'].map(function(e,i){
+          return '<div class="rate-btn" onclick="pickRating(\''+q.id+'\','+(i+1)+',this)">'+e+'</div>';
+        }).join('')+'</div>';
+    }
+    return '<div class="q-block"><div class="q-text">'+escapeHtml(q.text)+'</div>'+inner+'</div>';
+  }).join('');
+}
+
+function pickMcq(qid,idx,el){
+  var opts=el.parentElement.querySelectorAll('.opt');
+  opts.forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  var q=activePrompt.questions.find(function(x){return x.id===qid;});
+  answers[qid]=q.options[idx];
+}
+function toggleCheck(qid,idx,el){
+  el.classList.toggle('sel');
+  if(!Array.isArray(answers[qid])) answers[qid]=[];
+  var q=activePrompt.questions.find(function(x){return x.id===qid;});
+  var val=q.options[idx];
+  var pos=answers[qid].indexOf(val);
+  if(pos>-1) answers[qid].splice(pos,1); else answers[qid].push(val);
+}
+function pickRating(qid,val,el){
+  el.parentElement.querySelectorAll('.rate-btn').forEach(function(b){b.classList.remove('sel');});
+  el.classList.add('sel');
+  answers[qid]=val;
+}
+
+/* ==================== SUBMIT ==================== */
+function submitFeedback(){
+  var grade=document.getElementById('gradeSel').value;
+  var lesson=document.getElementById('lessonSel').value;
+  if(!grade){alert('Please select your grade.');return;}
+  if(!lesson){alert('Please select the lesson number.');return;}
+
+  var answered=Object.keys(answers).some(function(k){
+    var v=answers[k]; return v && (Array.isArray(v)?v.length:String(v).trim());
+  });
+  if(!answered){alert('Please answer at least one question.');return;}
+
+  var btn=document.getElementById('submitBtn');
+  btn.disabled=true; btn.textContent='Submitting...';
+
+  var qLabels={};
+  activePrompt.questions.forEach(function(q){ qLabels[q.id]=q.text; });
+
+  db.collection('classFeedback').add({
+    studentUid: currentUser.uid,
+    studentName: currentUser.displayName || currentUser.email.split('@')[0],
+    studentEmail: currentUser.email || '',
+    dateKey: todayKey(),
+    grade: grade,
+    lesson: lesson,
+    questions: qLabels,
+    answers: answers,
+    reply: '',
+    replyAt: null,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    document.getElementById('closeMsgBox').textContent = activePrompt.closeMsg;
+    document.getElementById('todayPanel').classList.add('hidden');
+    document.getElementById('confirmCard').classList.remove('hidden');
+  }).catch(function(e){
+    alert('Error submitting: '+e.message);
+    btn.disabled=false; btn.textContent='Submit Feedback';
+  });
+}
+
+function resetForm(){
+  document.getElementById('confirmCard').classList.add('hidden');
+  document.getElementById('todayPanel').classList.remove('hidden');
+  document.getElementById('gradeSel').value='';
+  document.getElementById('lessonSel').value='';
+  var btn=document.getElementById('submitBtn');
+  btn.disabled=false; btn.textContent='Submit Feedback';
+  renderQuestions();
+}
+
+/* ==================== TABS + PAST RESPONSES ==================== */
+function showTab(which){
+  var isToday=which==='today';
+  document.getElementById('tabToday').classList.toggle('active',isToday);
+  document.getElementById('tabPast').classList.toggle('active',!isToday);
+  document.getElementById('todayPanel').classList.toggle('hidden',!isToday || !document.getElementById('confirmCard').classList.contains('hidden'));
+  document.getElementById('confirmCard').classList.toggle('hidden', which!=='today' ? true : document.getElementById('confirmCard').classList.contains('hidden'));
+  document.getElementById('pastPanel').classList.toggle('hidden',isToday);
+  if(!isToday) loadPast();
+}
+
+function loadPast(){
+  var list=document.getElementById('pastList');
+  list.innerHTML='<p class="muted">Loading...</p>';
+  db.collection('classFeedback').where('studentUid','==',currentUser.uid).get().then(function(snap){
+    var items=[];
+    snap.forEach(function(d){ items.push(Object.assign({id:d.id},d.data())); });
+    items.sort(function(a,b){
+      var ta=a.createdAt&&a.createdAt.toDate?a.createdAt.toDate():new Date(0);
+      var tb=b.createdAt&&b.createdAt.toDate?b.createdAt.toDate():new Date(0);
+      return tb-ta;
+    });
+    if(!items.length){ list.innerHTML='<p class="muted">No submissions yet.</p>'; return; }
+    list.innerHTML=items.map(function(it){
+      var ansHtml=Object.keys(it.answers||{}).map(function(qid){
+        var q=(it.questions&&it.questions[qid])||qid;
+        var a=it.answers[qid];
+        if(Array.isArray(a)) a=a.join(', ');
+        if(typeof a==='number') a=['','☹️','😐','🙂','😀'][a]||a;
+        return '<div class="past-a"><b>'+escapeHtml(q)+'</b><br>'+escapeHtml(String(a))+'</div>';
+      }).join('');
+      var replyHtml = it.reply
+        ? '<div class="reply-box"><b>✓ Sir replied:</b><br>'+escapeHtml(it.reply)+'</div>'
+        : '<div class="no-reply">Awaiting Sir’s review</div>';
+      return '<div class="past-item"><div class="past-meta">'+escapeHtml(it.dateKey||'')+' · Grade '+escapeHtml(it.grade||'')+' · Lesson '+escapeHtml(it.lesson||'')+'</div>'+ansHtml+replyHtml+'</div>';
+    }).join('');
+  }).catch(function(e){ list.innerHTML='<p class="muted">Could not load: '+escapeHtml(e.message)+'</p>'; });
+}
+
+function escapeHtml(s){var d=document.createElement('div');d.textContent=(s==null?'':s);return d.innerHTML;}
+</script>
+</body>
+</html>
