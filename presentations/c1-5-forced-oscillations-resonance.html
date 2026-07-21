@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C.1.5 Forced Oscillations & Resonance | Atul Soral Physicism</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>*{margin:0;padding:0;box-sizing:border-box}:root{--bg:#0b1120;--surface:#151d2e;--card:#1a2235;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--accent:#3b82f6;--sky:#0ea5e9;--teal:#14b8a6;--gold:#f59e0b;--green:#10b981;--red:#ef4444;--purple:#a78bfa;--border:rgba(255,255,255,.08)}[data-theme="light"]{--bg:#f8fafc;--surface:#fff;--card:#f1f5f9;--text:#0f172a;--text2:#475569;--text3:#64748b;--accent:#2563eb;--sky:#0284c7;--teal:#0d9488;--gold:#d97706;--green:#059669;--red:#dc2626;--purple:#7c3aed;--border:rgba(0,0,0,.08)}html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Georgia,'Palatino',serif;font-size:16.5px;line-height:1.7;transition:background .3s,color .3s}.deck{width:100vw;height:100vh;position:relative}.slide{position:absolute;inset:0;display:none;flex-direction:column}.slide.active{display:flex}.slide-head{background:var(--accent);padding:7px 40px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}.slide-head .t{font-family:-apple-system,system-ui,sans-serif;font-size:.76rem;font-weight:600;color:#fff}.slide-head .r{font-family:monospace;font-size:.68rem;color:rgba(255,255,255,.6)}.slide-body{flex:1;padding:28px 44px;overflow-y:auto;position:relative}.f{opacity:0;transform:translateY(14px);transition:all .45s cubic-bezier(.23,1,.32,1)}.f.v{opacity:1;transform:translateY(0)}h1{font-size:2.2rem;font-weight:700;margin-bottom:6px}h2{font-size:1.5rem;font-weight:700;margin-bottom:5px}h3{font-size:1.05rem;font-weight:700;margin-bottom:3px;font-family:-apple-system,system-ui,sans-serif}p,.desc{font-size:.9rem;color:var(--text2);line-height:1.75;margin-bottom:7px}ul{padding-left:20px;margin-bottom:7px}li{margin-bottom:4px;font-size:.88rem;line-height:1.6;color:var(--text2)}li strong{color:var(--text)}.formula{text-align:center;padding:10px 0;font-size:1.15rem}.formula.big{font-size:1.6rem}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:8px 0}.note{background:rgba(59,130,246,.05);border-left:3px solid var(--accent);padding:8px 12px;border-radius:0 8px 8px 0;margin:7px 0;font-size:.82rem;font-family:-apple-system,system-ui,sans-serif}.warn{background:rgba(239,68,68,.05);border-left:3px solid var(--red);padding:8px 12px;border-radius:0 8px 8px 0;margin:7px 0;font-size:.82rem;font-family:-apple-system,system-ui,sans-serif}.fyi{background:rgba(20,184,166,.05);border-left:3px solid var(--teal);padding:8px 12px;border-radius:0 8px 8px 0;margin:7px 0;font-size:.82rem;font-family:-apple-system,system-ui,sans-serif}.pq{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:14px 18px;cursor:pointer;transition:border-color .2s;margin-top:6px}.pq:hover{border-color:rgba(59,130,246,.3)}.pq-tag{font-size:.6rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-family:-apple-system,system-ui,sans-serif}.pq-ans{margin-top:7px;padding-top:7px;border-top:1px solid var(--border);color:var(--green);font-weight:600;display:none;font-size:.85rem}.diff{display:inline-block;font-size:.58rem;font-weight:700;padding:2px 5px;border-radius:4px;margin-left:5px;font-family:-apple-system,system-ui,sans-serif}.diff-e{background:rgba(16,185,129,.1);color:var(--green)}.diff-m{background:rgba(245,158,11,.1);color:var(--gold)}.diff-h{background:rgba(239,68,68,.1);color:var(--red)}.toolbar{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:3px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:4px 10px;z-index:200;box-shadow:0 4px 24px rgba(0,0,0,.2);font-family:-apple-system,system-ui,sans-serif}.tb-btn{width:30px;height:30px;border-radius:50%;border:2px solid transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;background:none;color:var(--text);transition:all .15s}.tb-btn:hover{background:rgba(59,130,246,.1)}.tb-btn.active{border-color:var(--accent);background:rgba(59,130,246,.1)}.tb-sep{width:1px;height:20px;background:var(--border);margin:0 2px}.color-dot{width:15px;height:15px;border-radius:50%;border:2px solid transparent;cursor:pointer}.color-dot:hover{transform:scale(1.15)}.color-dot.active{border-color:var(--text)}.draw-layer{position:absolute;inset:0;pointer-events:none;z-index:50}.draw-layer.active{pointer-events:auto;cursor:crosshair}.draw-layer.texting{cursor:text}.draw-layer.erasing{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='8' fill='none' stroke='%23666' stroke-width='2'/%3E%3C/svg%3E") 10 10,auto}.prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--sky));z-index:300;transition:width .4s}.counter{position:fixed;bottom:12px;right:18px;font-size:.7rem;color:var(--text3);font-family:monospace;z-index:200}.top-ctrl{position:fixed;top:46px;right:12px;display:flex;gap:4px;z-index:200}.ctrl-btn{padding:3px 9px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.68rem;font-weight:600;cursor:pointer;font-family:-apple-system,system-ui,sans-serif}@media(max-width:900px){.slide-body{padding:16px 12px}.grid2{grid-template-columns:1fr}}</style>
+</head>
+<body data-theme="dark">
+<div class="prog" id="prog"></div><div class="counter" id="cnt"></div>
+<div class="top-ctrl"><button class="ctrl-btn" onclick="toggleTheme()">Theme</button><button class="ctrl-btn" onclick="toggleFS()">Fullscreen</button></div>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide"><div class="slide-head"><span class="t">C.1 Simple Harmonic Motion &nbsp;|&nbsp; C.1.5 Forced Oscillations & Resonance</span><span class="r">Subtopic 5 of 7</span></div><div class="slide-body" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center"><p class="f" style="font-size:.72rem;color:var(--accent);font-weight:700;font-family:sans-serif;letter-spacing:2px">C.1.5</p><h1 class="f">Forced Oscillations & Resonance</h1><p class="f" style="font-size:1rem;color:var(--text2)">Driving a system at its favourite frequency</p><p class="f desc" style="max-width:680px;margin-top:6px">Push a system with a periodic force and it will oscillate at the driving frequency. But push it at exactly its natural frequency and the amplitude explodes — this is resonance. It collapses bridges, tunes radios, and lets an MRI scanner see inside your body.</p><p class="f" style="font-size:.78rem;color:var(--text3);margin-top:12px;font-family:sans-serif">Atul Soral Physicism</p></div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 2: NATURAL & FORCED -->
+<div class="slide"><div class="slide-head"><span class="t">C.1 Simple Harmonic Motion &nbsp;|&nbsp; C.1.5 Forced Oscillations & Resonance</span><span class="r">Natural vs forced</span></div><div class="slide-body">
+<h2 class="f">Natural & Forced Oscillations</h2>
+<ul>
+<li class="f"><strong>Natural frequency ($f_0$):</strong> the frequency at which a system oscillates <em>freely</em> when displaced and released, with no external driving force. It's fixed by the system (e.g. mass and spring constant, or pendulum length).</li>
+<li class="f"><strong>Free oscillation:</strong> the system swings at $f_0$; without damping it would continue forever.</li>
+<li class="f"><strong>Forced oscillation:</strong> a periodic external <em>driving force</em> of frequency $f_d$ is continuously applied.</li>
+</ul>
+<div class="f" style="background:var(--card);border:2px solid var(--accent);border-radius:12px;padding:14px;margin:6px 0">
+<h3 style="color:var(--accent);margin-bottom:4px">The key result</h3>
+<p style="font-size:.86rem;color:var(--text2);margin:0">Once steady, a forced system oscillates at the <strong>driving frequency $f_d$</strong> — <em>not</em> its own natural frequency. But the <strong>amplitude</strong> of that response depends strongly on how close $f_d$ is to $f_0$.</p>
+</div>
+<div class="f note"><strong>Two frequencies, one motion:</strong> don't confuse them. $f_0$ is a fixed property of the oscillator; $f_d$ is imposed by whatever drives it. Resonance is what happens when we tune $f_d$ toward $f_0$.</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 3: RESONANCE -->
+<div class="slide"><div class="slide-head"><span class="t">C.1 Simple Harmonic Motion &nbsp;|&nbsp; C.1.5 Forced Oscillations & Resonance</span><span class="r">Resonance</span></div><div class="slide-body">
+<h2 class="f">Resonance</h2>
+<div class="f" style="background:var(--card);border:2px solid var(--green);border-radius:12px;padding:14px;margin:6px 0">
+<p style="font-size:.9rem;color:var(--text);margin:0"><strong>Resonance</strong> occurs when the driving frequency equals the natural frequency ($f_d = f_0$). The system absorbs energy from the driver most efficiently, and the amplitude reaches a <strong>maximum</strong>.</p>
+</div>
+<p class="f">Why the amplitude peaks: at $f_d = f_0$, the driving force is always in step with the motion — it pushes in the direction the system is already moving, doing positive work on every cycle. Energy is transferred into the oscillator faster than damping removes it, so the amplitude builds until the (larger) energy loss from damping finally balances the energy input.</p>
+<div class="f grid2">
+<div style="background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px">
+<h3 style="color:var(--gold)">Useful resonance</h3>
+<p style="font-size:.8rem;margin:2px 0">Radio/TV tuning (LC circuit), microwave ovens (water molecules), MRI scanners (nuclear spins), musical instruments, pushing a swing.</p>
+</div>
+<div style="background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px">
+<h3 style="color:var(--red)">Destructive resonance</h3>
+<p style="font-size:.8rem;margin:2px 0">Tacoma Narrows Bridge (1940), Millennium Bridge wobble, machinery vibrating apart, wine glass shattered by sound.</p>
+</div>
+</div>
+<div class="f warn"><strong>Soldiers break step</strong> when crossing a bridge so their marching frequency can't accidentally match the bridge's natural frequency and drive it into large-amplitude resonance.</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 4: RESONANCE CURVE & DAMPING -->
+<div class="slide"><div class="slide-head"><span class="t">C.1 Simple Harmonic Motion &nbsp;|&nbsp; C.1.5 Forced Oscillations & Resonance</span><span class="r">Resonance curve</span></div><div class="slide-body">
+<h2 class="f">The Resonance Curve & Effect of Damping</h2>
+<p class="f">Plot amplitude against driving frequency and you get a peak at $f_0$. The amount of damping changes the peak's height and sharpness:</p>
+<div class="f" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px;margin:6px 0">
+<svg viewBox="0 0 620 240" style="width:100%;max-width:560px;display:block;margin:0 auto" font-family="sans-serif">
+<line x1="60" y1="210" x2="600" y2="210" stroke="var(--text3)" stroke-width="1.5"/>
+<line x1="60" y1="20" x2="60" y2="215" stroke="var(--text3)" stroke-width="1.5"/>
+<line x1="330" y1="20" x2="330" y2="215" stroke="var(--text3)" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="330" y="228" fill="var(--text3)" font-size="10" text-anchor="middle">f₀</text>
+<!-- light damping: tall sharp peak -->
+<path d="M60,205 Q250,200 330,35 Q410,200 600,205" fill="none" stroke="var(--teal)" stroke-width="2.5"/>
+<!-- medium damping -->
+<path d="M60,207 Q230,195 330,95 Q430,195 600,207" fill="none" stroke="var(--gold)" stroke-width="2.5"/>
+<!-- heavy damping: low broad -->
+<path d="M60,208 Q210,190 330,150 Q450,190 600,208" fill="none" stroke="var(--red)" stroke-width="2.5"/>
+<text x="345" y="45" fill="var(--teal)" font-size="10">light damping</text>
+<text x="345" y="105" fill="var(--gold)" font-size="10">medium</text>
+<text x="345" y="150" fill="var(--red)" font-size="10">heavy</text>
+<text x="20" y="115" fill="var(--text3)" font-size="10" transform="rotate(-90,20,115)">amplitude</text>
+<text x="560" y="228" fill="var(--text3)" font-size="10">f_d</text>
+</svg>
+</div>
+<ul>
+<li class="f"><strong>Less damping →</strong> taller and sharper peak; maximum amplitude much larger.</li>
+<li class="f"><strong>More damping →</strong> lower, broader, flatter peak; the resonance is "duller".</li>
+<li class="f"><strong>Heavier damping</strong> also shifts the peak to a driving frequency slightly <em>below</em> $f_0$.</li>
+</ul>
+<div class="f note"><strong>Design lesson:</strong> to <em>prevent</em> dangerous resonance, engineers add damping — it caps the maximum amplitude the structure can reach even if it is driven at $f_0$.</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 5: PHASE & ENERGY -->
+<div class="slide"><div class="slide-head"><span class="t">C.1 Simple Harmonic Motion &nbsp;|&nbsp; C.1.5 Forced Oscillations & Resonance</span><span class="r">Phase & transfer</span></div><div class="slide-body">
+<h2 class="f">Phase of the Response</h2>
+<p class="f">The phase difference between the driver and the oscillator's displacement depends on the driving frequency:</p>
+<div class="f grid2">
+<div style="background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px">
+<h3 style="color:var(--teal)">Well below f₀</h3>
+<p style="font-size:.8rem;margin:2px 0">Displacement is nearly <strong>in phase</strong> (0°) with the driving force — the system follows the driver.</p>
+</div>
+<div style="background:var(--card);border:1.5px solid var(--green);border-radius:10px;padding:10px 14px">
+<h3 style="color:var(--green)">At resonance (f₀)</h3>
+<p style="font-size:.8rem;margin:2px 0">Displacement lags the driver by <strong>90°</strong> ($\pi/2$). The driving force is exactly in phase with the <em>velocity</em> — so power transfer is maximum.</p>
+</div>
+<div style="background:var(--card);border:1.5px solid var(--red);border-radius:10px;padding:10px 14px">
+<h3 style="color:var(--red)">Well above f₀</h3>
+<p style="font-size:.8rem;margin:2px 0">Displacement is nearly <strong>anti-phase</strong> (180°) with the driver — the system can't keep up.</p>
+</div>
+<div style="background:var(--card);border:1.5px solid var(--gold);border-radius:10px;padding:10px 14px">
+<h3 style="color:var(--gold)">Why 90° = max power</h3>
+<p style="font-size:.8rem;margin:2px 0">Power = force × velocity. With force in phase with velocity, the driver does positive work throughout the cycle — peak energy input.</p>
+</div>
+</div>
+<div class="f fyi"><strong>Steady state:</strong> the resonance description assumes the driving has been applied long enough that transients (the system's own natural response) have died away and the amplitude has settled to a constant value.</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 6: WORKED EXAMPLES -->
+<div class="slide"><div class="slide-head"><span class="t">C.1 Simple Harmonic Motion &nbsp;|&nbsp; C.1.5 Forced Oscillations & Resonance</span><span class="r">Worked examples</span></div><div class="slide-body">
+<h2 class="f">Worked Examples</h2>
+<div class="f" style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;font-size:.84rem;margin:6px 0">
+<h3 style="color:var(--gold)">Example 1 — natural frequency of a spring</h3>
+<p style="margin:4px 0">A 0.50 kg mass hangs on a spring of constant $k = 200$ N m⁻¹. At what driving frequency will resonance occur?</p>
+<p style="margin:4px 0;color:var(--text2)">Resonance at $f_0$: $f_0 = \tfrac{1}{2\pi}\sqrt{k/m} = \tfrac{1}{2\pi}\sqrt{200/0.50}$</p>
+<p style="margin:4px 0;color:var(--text2)">$= \tfrac{1}{2\pi}\sqrt{400} = \tfrac{20}{2\pi}$</p>
+<p style="margin:4px 0;color:var(--green);font-weight:700">$= \mathbf{3.2\ \text{Hz}}$</p>
+</div>
+<div class="f" style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;font-size:.84rem;margin:6px 0">
+<h3 style="color:var(--gold)">Example 2 — tuning a pendulum driver</h3>
+<p style="margin:4px 0">A pendulum of length 0.80 m is driven. Find the driving period that produces the largest amplitude ($g=9.8$).</p>
+<p style="margin:4px 0;color:var(--text2)">Largest amplitude at resonance, $T_d = T_0 = 2\pi\sqrt{L/g} = 2\pi\sqrt{0.80/9.8}$</p>
+<p style="margin:4px 0;color:var(--green);font-weight:700">$= 2\pi\sqrt{0.0816} = 2\pi(0.286) = \mathbf{1.8\ \text{s}}$</p>
+</div>
+<div class="f" style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;font-size:.84rem;margin:6px 0">
+<h3 style="color:var(--gold)">Example 3 — reading a resonance curve</h3>
+<p style="margin:4px 0">Two identical oscillators are driven, one in air and one in oil, producing resonance curves. Which shows the taller, sharper peak?</p>
+<p style="margin:4px 0;color:var(--green);font-weight:700">The one in air — it has less damping, so it absorbs more energy at resonance and reaches a larger, sharper peak amplitude. The one in oil is more heavily damped: a lower, broader peak.</p>
+</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 7: IB QUESTION SET -->
+<div class="slide"><div class="slide-head"><span class="t">C.1 Simple Harmonic Motion &nbsp;|&nbsp; C.1.5 Forced Oscillations & Resonance</span><span class="r">IB Question Set</span></div><div class="slide-body">
+<h2 class="f">IB-Style Question Set <span class="diff diff-m">7/10</span></h2>
+<div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+<div class="pq-tag">Define [2]</div>
+<p>(a) Define natural frequency and state the condition for resonance.</p>
+<div class="pq-ans">The natural frequency is the frequency at which a system oscillates freely when displaced and released, with no external driving force [1]. Resonance occurs when the driving frequency is equal to the natural frequency of the system ($f_d = f_0$) [1].</div>
+</div>
+<div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+<div class="pq-tag">Explain [3]</div>
+<p>(b) Explain why the amplitude of a forced oscillator reaches a maximum at resonance.</p>
+<div class="pq-ans">At resonance the driving force is in phase with the velocity of the oscillator [1], so it does positive work on the system throughout every cycle and transfers energy most efficiently [1]. Energy is fed in faster than it would be at other frequencies, so the amplitude grows until the energy lost to damping per cycle equals the energy supplied [1].</div>
+</div>
+<div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+<div class="pq-tag">Describe [3]</div>
+<p>(c) Describe how increasing the damping of a system changes its resonance curve.</p>
+<div class="pq-ans">Increasing damping lowers the maximum amplitude at resonance (the peak height falls) [1]. The peak also becomes broader / less sharp [1]. In addition, the peak shifts to a driving frequency slightly below the natural frequency [1].</div>
+</div>
+<div class="f pq" onclick="this.querySelector('.pq-ans').style.display=this.querySelector('.pq-ans').style.display==='block'?'none':'block'">
+<div class="pq-tag">Apply [2]</div>
+<p>(d) A 0.40 kg mass on a spring (k = 160 N m⁻¹) is driven. Calculate the driving frequency for resonance.</p>
+<div class="pq-ans">$f_0 = \tfrac{1}{2\pi}\sqrt{k/m} = \tfrac{1}{2\pi}\sqrt{160/0.40}$ [1]<br>$= \tfrac{1}{2\pi}\sqrt{400} = \tfrac{20}{2\pi} = \mathbf{3.2\ \text{Hz}}$ [1]</div>
+</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+<!-- SLIDE 8: SUMMARY -->
+<div class="slide"><div class="slide-head"><span class="t">C.1 Simple Harmonic Motion &nbsp;|&nbsp; C.1.5 Forced Oscillations & Resonance</span><span class="r">Summary</span></div><div class="slide-body" style="display:flex;flex-direction:column;justify-content:center">
+<h2 class="f">Key Takeaways</h2>
+<ul>
+<li class="f"><strong>Natural frequency $f_0$:</strong> the free-oscillation frequency, fixed by the system.</li>
+<li class="f"><strong>Forced oscillation:</strong> a periodic driver makes the system oscillate at the driving frequency $f_d$.</li>
+<li class="f"><strong>Resonance:</strong> when $f_d = f_0$, amplitude is maximum — energy transfer is most efficient.</li>
+<li class="f"><strong>Damping shapes the peak:</strong> less damping → taller, sharper; more damping → lower, broader, shifted below $f_0$.</li>
+<li class="f"><strong>Phase:</strong> displacement lags the driver by 90° at resonance (force in phase with velocity).</li>
+<li class="f"><strong>Uses & dangers:</strong> tuning, MRI, microwaves vs collapsing bridges and shattered glass.</li>
+</ul>
+<div class="f note" style="margin-top:10px"><strong>Next subtopic:</strong> C.1.6 SHM and Waves — The Connection</div>
+</div><canvas class="draw-layer"></canvas></div>
+
+</div>
+
+<div class="toolbar"><button class="tb-btn active" id="btnCursor" onclick="setTool('cursor')">&#128433;</button><div class="tb-sep"></div><button class="tb-btn" id="btnPen" onclick="setTool('pen')">&#9998;</button><button class="tb-btn" id="btnText" onclick="setTool('text')">T</button><button class="tb-btn" id="btnHighlight" onclick="setTool('highlight')">&#128397;</button><button class="tb-btn" id="btnEraser" onclick="setTool('eraser')">&#129529;</button><div class="tb-sep"></div><span class="color-dot active" style="background:#ef4444" onclick="setColor('#ef4444',this)"></span><span class="color-dot" style="background:#3b82f6" onclick="setColor('#3b82f6',this)"></span><span class="color-dot" style="background:#10b981" onclick="setColor('#10b981',this)"></span><span class="color-dot" style="background:#f59e0b" onclick="setColor('#f59e0b',this)"></span><span class="color-dot" style="background:#ffffff" onclick="setColor('#ffffff',this)"></span><div class="tb-sep"></div><input type="range" style="width:45px;height:4px;accent-color:var(--accent)" min="2" max="12" value="3" oninput="penSize=+this.value"><div class="tb-sep"></div><button class="tb-btn" id="btnUndo" onclick="undo()" title="Undo" style="font-size:10px">&#8617;</button><button class="tb-btn" id="btnRedo" onclick="redo()" title="Redo" style="font-size:10px">&#8618;</button><div class="tb-sep"></div><button class="tb-btn" onclick="clearSlide()">&#128465;</button></div>
+
+<script>var AC=window.AudioContext||window.webkitAudioContext,actx=null;function ia(){if(!actx)actx=new AC();}function sndTick(){ia();if(!actx)return;var o=actx.createOscillator(),g=actx.createGain();o.connect(g);g.connect(actx.destination);o.frequency.setValueAtTime(1600,actx.currentTime);o.frequency.exponentialRampToValueAtTime(800,actx.currentTime+.04);g.gain.setValueAtTime(.06,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.06);o.start();o.stop(actx.currentTime+.06);}function sndSlide(){ia();if(!actx)return;var o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.connect(g);g.connect(actx.destination);o.frequency.setValueAtTime(500,actx.currentTime);o.frequency.exponentialRampToValueAtTime(1000,actx.currentTime+.1);g.gain.setValueAtTime(.04,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.12);o.start();o.stop(actx.currentTime+.12);}var canvases=document.querySelectorAll('.draw-layer');var slides=document.querySelectorAll('.slide'),cur=0,fi=0;var undoStack=[],redoStack=[],maxUndo=30;function saveState(){var c=getCanvas();if(!c)return;undoStack.push(c.toDataURL());if(undoStack.length>maxUndo)undoStack.shift();redoStack=[];}function undo(){var c=getCanvas();if(!c||undoStack.length===0)return;redoStack.push(c.toDataURL());var state=undoStack.pop();var ctx=c.getContext('2d');var img=new Image();img.onload=function(){ctx.clearRect(0,0,c.width,c.height);ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(img,0,0);ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);};img.src=state;}function redo(){var c=getCanvas();if(!c||redoStack.length===0)return;undoStack.push(c.toDataURL());var state=redoStack.pop();var ctx=c.getContext('2d');var img=new Image();img.onload=function(){ctx.clearRect(0,0,c.width,c.height);ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(img,0,0);ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);};img.src=state;}var textInput=null;function placeText(e){if(currentTool!=='text')return;e.stopPropagation();e.preventDefault();var c=getCanvas();if(!c)return;var r=c.getBoundingClientRect();var x=e.clientX-r.left,y=e.clientY-r.top;if(textInput){commitText();}var inp=document.createElement('input');inp.type='text';inp.style.cssText='position:fixed;left:'+(e.clientX-2)+'px;top:'+(e.clientY-14)+'px;background:rgba(0,0,0,.85);color:#fff;border:2px solid #3b82f6;border-radius:6px;padding:6px 10px;font-size:18px;font-family:-apple-system,system-ui,sans-serif;outline:none;z-index:500;min-width:150px;box-shadow:0 4px 12px rgba(0,0,0,.3);';inp.placeholder='Type here...';inp._cx=x;inp._cy=y;document.body.appendChild(inp);textInput=inp;setTimeout(function(){inp.focus();},50);function commitText(){if(!textInput)return;var val=textInput.value;if(val.trim()){saveState();var ctx=getCtx();if(!ctx)return;ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;ctx.font='bold 18px -apple-system,system-ui,sans-serif';ctx.fillStyle=penColor;ctx.fillText(val,textInput._cx,textInput._cy);}textInput.remove();textInput=null;}inp.addEventListener('keydown',function(ev){if(ev.key==='Enter'){commitText();}else if(ev.key==='Escape'){textInput.remove();textInput=null;}ev.stopPropagation();});inp.addEventListener('blur',function(){setTimeout(commitText,100);});}function frags(s){return s.querySelectorAll('.f');}function show(i){slides.forEach(function(s,idx){s.classList.toggle('active',idx===i);});fi=0;frags(slides[i]).forEach(function(f){f.classList.remove('v');});updP();updC();setTimeout(resizeCanvas,50);restartAnims(i);}function restartAnims(i){var svgs=slides[i].querySelectorAll('svg');svgs.forEach(function(svg){var els=svg.querySelectorAll('[class]');els.forEach(function(el){var c=el.getAttribute('class');el.setAttribute('class','');void el.offsetWidth;el.setAttribute('class',c);});});}function next(){var fs=frags(slides[cur]);if(fi<fs.length){fs[fi].classList.add('v');fi++;sndTick();updP();}else if(cur<slides.length-1){cur++;show(cur);sndSlide();}}function prev(){var fs=frags(slides[cur]);if(fi>0){fi--;fs[fi].classList.remove('v');updP();}else if(cur>0){cur--;show(cur);var pf=frags(slides[cur]);pf.forEach(function(f){f.classList.add('v');});fi=pf.length;sndSlide();updP();}}function updP(){var t=0,v=0;slides.forEach(function(s,i){var f=frags(s);t+=f.length;if(i<cur)v+=f.length;else if(i===cur)v+=fi;});document.getElementById('prog').style.width=(t?v/t*100:0)+'%';}function updC(){document.getElementById('cnt').textContent=(cur+1)+'/'+slides.length;}document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='z'){e.preventDefault();undo();return;}if((e.ctrlKey||e.metaKey)&&(e.key==='y'||e.key==='Z')){e.preventDefault();redo();return;}if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'){e.preventDefault();next();}else if(e.key==='ArrowLeft'||e.key==='Backspace'){e.preventDefault();prev();}else if(e.key==='f'||e.key==='F'){e.preventDefault();toggleFS();}});document.querySelector('.deck').addEventListener('click',function(e){if(currentTool!=='cursor')return;if(e.target.closest('.pq'))return;if(e.target.closest('.toolbar'))return;if(e.target.closest('.top-ctrl'))return;if(textInput)return;next();});var tx=0;document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;});document.addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?next():prev();}});function toggleTheme(){var b=document.body;b.dataset.theme=b.dataset.theme==='dark'?'light':'dark';}function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}var currentTool='cursor',penColor='#ef4444',penSize=3,drawing=false,strokeMade=false;function setTool(t){currentTool=t;document.querySelectorAll('.tb-btn').forEach(function(b){b.classList.remove('active');});if(t==='pen')document.getElementById('btnPen').classList.add('active');else if(t==='highlight')document.getElementById('btnHighlight').classList.add('active');else if(t==='eraser')document.getElementById('btnEraser').classList.add('active');else if(t==='text')document.getElementById('btnText').classList.add('active');else document.getElementById('btnCursor').classList.add('active');canvases.forEach(function(c){c.classList.toggle('active',t!=='cursor');c.classList.toggle('erasing',t==='eraser');c.classList.toggle('texting',t==='text');});}function setColor(c,el){penColor=c;document.querySelectorAll('.color-dot').forEach(function(d){d.classList.remove('active');});el.classList.add('active');}function getCanvas(){return slides[cur].querySelector('.draw-layer');}function getCtx(){var c=getCanvas();return c?c.getContext('2d'):null;}function resizeCanvas(){var c=getCanvas();if(!c)return;var s=slides[cur];var r=s.getBoundingClientRect();if(r.width===0)return;c.width=Math.round(r.width*devicePixelRatio);c.height=Math.round(r.height*devicePixelRatio);c.style.width=r.width+'px';c.style.height=r.height+'px';var ctx=c.getContext('2d');ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}function startDraw(e){if(currentTool==='cursor')return;drawing=true;strokeMade=false;var ctx=getCtx();if(!ctx)return;var r=getCanvas().getBoundingClientRect();var x=e.clientX-r.left,y=e.clientY-r.top;if(currentTool==='eraser'){ctx.globalCompositeOperation='destination-out';ctx.lineWidth=20;}else{ctx.globalCompositeOperation='source-over';ctx.strokeStyle=penColor;ctx.lineWidth=currentTool==='highlight'?penSize*4:penSize;ctx.globalAlpha=currentTool==='highlight'?0.3:1;}ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(x,y);}function moveDraw(e){if(!drawing||currentTool==='cursor')return;var ctx=getCtx();if(!ctx)return;var r=getCanvas().getBoundingClientRect();ctx.lineTo(e.clientX-r.left,e.clientY-r.top);ctx.stroke();strokeMade=true;}function endDraw(){drawing=false;if(strokeMade){saveState();strokeMade=false;}var ctx=getCtx();if(ctx){ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';}}function clearSlide(){var c=getCanvas();if(c){var ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);}}document.addEventListener('mousedown',function(e){if(e.target.closest('.draw-layer')){if(currentTool==='text'){placeText(e);}else{startDraw(e);}}});document.addEventListener('mousemove',moveDraw);document.addEventListener('mouseup',endDraw);document.addEventListener('touchstart',function(e){if(e.target.closest('.draw-layer')){e.preventDefault();startDraw(e.touches[0]);}},{passive:false});document.addEventListener('touchmove',function(e){if(drawing){e.preventDefault();moveDraw(e.touches[0]);}},{passive:false});document.addEventListener('touchend',endDraw);show(0);setTimeout(resizeCanvas,200);window.addEventListener('resize',resizeCanvas);window.addEventListener('load',function(){setTimeout(resizeCanvas,300);});function renderMath(){if(typeof renderMathInElement!=='undefined')renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});}document.addEventListener('DOMContentLoaded',renderMath);window.addEventListener('load',renderMath);</script>
+</body>
+</html>
