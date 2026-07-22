@@ -1532,25 +1532,36 @@ function saveAssignmentEdits() {
 
 async function escAD(t){var d=document.createElement('div');d.textContent=(t==null?'':String(t));return d.innerHTML;}
 function stripHtmlAD(t){var d=document.createElement('div');d.innerHTML=(t==null?'':String(t));return d.textContent||'';}
-function renderADQuestionsFromGroups(a){
+function adStr(v){
+  if(v==null) return '';
+  if(typeof v==='string') return v;
+  if(typeof v==='object' && typeof v.then==='function') return '';
+  return String(v);
+}
+function stripHtmlAD(t){var d=document.createElement('div');d.innerHTML=adStr(t);return d.textContent||'';}
+function escAD(t){var d=document.createElement('div');d.textContent=adStr(t);return d.innerHTML;}
+function renderADQuestionsFromDocs(a, byId){
   var box=document.getElementById('ad-questions'); if(!box) return;
   var ids=a.questionIds||a.questionGroups||[];
   if(!ids.length){box.innerHTML='<div style="color:var(--text3);font-size:.8rem">No questions stored for this assignment.</div>';return;}
   var html='<div style="font-weight:700;font-size:.9rem;margin-bottom:8px;color:var(--accent)">Questions in this assignment</div>';
   ids.forEach(function(gid,gi){
-    var g=(typeof qbAllGroups!=='undefined'?qbAllGroups:[]).find(function(x){return x.id===gid;});
-    if(!g){html+='<div style="border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:.8rem;color:var(--text3)">Q'+(gi+1)+': (question not found — id '+escAD(gid)+')</div>';return;}
-    var parts=g.parts&&g.parts.length?g.parts:[{text:g.stem,marks:g.totalMarks}];
-    var stemLine=g.stem?'<div style="font-weight:600;margin-bottom:6px">'+escAD(stripHtmlAD(g.stem))+'</div>':'';
+    var g=byId[gid];
+    if(!g){html+='<div style="border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:.8rem;color:var(--text3)">Q'+(gi+1)+': (question not found)</div>';return;}
+    var parts=(g.parts&&g.parts.length)?g.parts:[{text:g.stem||g.text,marks:(g.marks!=null?g.marks:g.totalMarks),options:g.options,correct:g.correct,markScheme:g.markScheme}];
+    var stem=stripHtmlAD(g.stem);
+    var stemLine=stem?'<div style="font-weight:600;margin-bottom:6px">'+escAD(stem)+'</div>':'';
     var partsHtml=parts.map(function(p,pi){
-      var t=escAD(stripHtmlAD(p.text||''));
-      var mk=(p.marks!=null?p.marks:'')+(p.marks!=null?' mark'+(p.marks==1?'':'s'):'');
+      var t=escAD(stripHtmlAD(p.text));
+      var mk=(p.marks!=null?p.marks+' mark'+(p.marks==1?'':'s'):'');
       var opts='';
-      if(p.options&&p.options.length){opts='<div style="margin:4px 0 0 10px">'+p.options.map(function(o,oi){return '<div style="font-size:.78rem;color:var(--text2)">'+String.fromCharCode(65+oi)+') '+escAD(stripHtmlAD(o))+'</div>';}).join('')+'</div>';}
-      var corr=(p.correct!=null&&p.correct!=='')?'<div style="font-size:.78rem;color:var(--green);margin-top:3px"><strong>Answer:</strong> '+escAD(stripHtmlAD(p.correct))+'</div>':'';
-      var msch=(p.markScheme!=null&&p.markScheme!=='')?'<div style="font-size:.78rem;color:var(--text2);margin-top:3px"><strong>Mark scheme:</strong> '+escAD(stripHtmlAD(p.markScheme))+'</div>':'';
+      if(p.options&&p.options.length){opts='<div style="margin:4px 0 0 10px">'+p.options.map(function(o,oi){var ot=stripHtmlAD(o);return '<div style="font-size:.78rem;color:var(--text2)">'+String.fromCharCode(65+oi)+') '+escAD(ot)+'</div>';}).join('')+'</div>';}
+      var cAns=stripHtmlAD(p.correct);
+      var corr=cAns?'<div style="font-size:.78rem;color:var(--green);margin-top:3px"><strong>Answer:</strong> '+escAD(cAns)+'</div>':'';
+      var ms=stripHtmlAD(p.markScheme);
+      var msch=ms?'<div style="font-size:.78rem;color:var(--text2);margin-top:3px"><strong>Mark scheme:</strong> '+escAD(ms)+'</div>':'';
       var lbl=parts.length>1?'<strong>('+String.fromCharCode(97+pi)+')</strong> ':'';
-      return '<div style="margin-bottom:6px">'+lbl+t+' <span style="color:var(--text3);font-size:.72rem">['+mk+']</span>'+opts+corr+msch+'</div>';
+      return '<div style="margin-bottom:6px">'+lbl+t+(mk?' <span style="color:var(--text3);font-size:.72rem">['+mk+']</span>':'')+opts+corr+msch+'</div>';
     }).join('');
     html+='<div style="border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px">'+
       '<div style="font-size:.72rem;color:var(--accent);font-weight:700;margin-bottom:4px">Q'+(gi+1)+'</div>'+stemLine+partsHtml+'</div>';
@@ -1559,15 +1570,14 @@ function renderADQuestionsFromGroups(a){
 }
 function renderADQuestions(a){
   var box=document.getElementById('ad-questions'); if(!box) return;
-  if(typeof qbAllGroups!=='undefined'&&qbAllGroups&&qbAllGroups.length){renderADQuestionsFromGroups(a);return;}
   box.innerHTML='<div style="color:var(--text3);font-size:.8rem">Loading questions…</div>';
   db.collection(col('dpQuestions')).get().then(function(snap){
-    var allQ=[];snap.forEach(function(doc){allQ.push(Object.assign({id:doc.id},doc.data()));});
-    try{qbAllGroups=qbGroupQuestions(allQ);}catch(e){qbAllGroups=allQ;}
-    renderADQuestionsFromGroups(a);
+    var byId={};
+    snap.forEach(function(doc){ var d=doc.data(); d.id=doc.id; byId[doc.id]=d; });
+    renderADQuestionsFromDocs(a, byId);
   }).catch(function(){box.innerHTML='<div style="color:var(--red);font-size:.8rem">Could not load questions.</div>';});
 }
-async function openAssignmentDetail(id) {
+function openAssignmentDetail(id) {
   var a = allAssignments.find(function(x) { return x.id === id; });
   if (!a) return;
   
