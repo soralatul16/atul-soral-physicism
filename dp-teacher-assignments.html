@@ -1684,6 +1684,37 @@ async function openAssignmentDetail(id) {
   openModal('assignment-detail-modal');
 }
 
+function notifyStudentsByEmail(doc, studentIds){
+  var emails=[];
+  (studentIds||[]).forEach(function(sid){
+    var stu=allStudents.find(function(x){return x.id===sid;});
+    if(stu && stu.email) emails.push(stu.email);
+  });
+  if(!emails.length){ alert('No student emails found — cannot draft notification.'); return; }
+  var link='https://soralatul16.github.io/atul-soral-physicism/dp-student-dashboard.html';
+  var dueStr = doc.dueDate ? new Date(doc.dueDate).toLocaleString('en-IN') : 'No due date';
+  var typeStr = (doc.type||'HW').toUpperCase();
+  var subject = 'New '+typeStr+': '+(doc.title||'Assignment');
+  var body = 'Dear Student,'
+    + '\n\nA new assignment has been posted on Atul Soral Physicism.'
+    + '\n\nTitle: '+(doc.title||'')
+    + '\nType: '+typeStr
+    + '\nTotal marks: '+(doc.totalMarks||0)
+    + (doc.timeLimit ? '\nTime limit: '+doc.timeLimit+' minutes' : '')
+    + '\nDeadline: '+dueStr
+    + '\n\nOpen your portal to attempt it: '+link
+    + '\n\n(Log in with your school Google account to view and attempt the assignment.)'
+    + '\n\nRegards,\nAtul Soral';
+  var url='mailto:?bcc='+encodeURIComponent(emails.join(','))+'&subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  if(url.length>1900){
+    var ta=document.createElement('textarea'); ta.value=emails.join(', '); document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);
+    alert('Too many recipients for a single email draft. Student emails have been copied to your clipboard — paste them into BCC manually.');
+    return;
+  }
+  window.open(url,'_blank');
+}
 function createAssignment(){
   var title = document.getElementById('asgnTitle').value.trim();
   var type = document.getElementById('asgnType').value;
@@ -1722,6 +1753,7 @@ function createAssignment(){
   };
 
   db.collection(col('dpAssignments')).add(doc).then(function(){
+    try{ notifyStudentsByEmail(doc, studentIds); }catch(e){ console.warn('email draft failed', e); }
     alert('Assignment created successfully!');
     document.getElementById('asgnTitle').value = '';
     asgnSelectedQuestions = [];
