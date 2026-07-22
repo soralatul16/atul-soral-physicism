@@ -757,7 +757,7 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
   <div class="ss-modal review-modal">
     <div class="ss-header">
       <h3>🔍 Review Selection</h3>
-      <button class="qb-close" onclick="closeReviewModal()">✕</button>
+      <button class="qb-close" onclick="cancelReviewSelection()">✕</button>
     </div>
     <div class="review-body" id="reviewList">
       <!-- Sortable list of selected questions goes here -->
@@ -1983,6 +1983,14 @@ function openReviewModal() {
   document.getElementById('reviewOverlay').classList.add('open');
 }
 
+function cancelReviewSelection(){
+  if(confirm('Discard this assignment? Your selected questions and marks will be cleared.')){
+    asgnSelectedQuestions=[]; asgnOrderedGroups=[]; asgnExcludedParts=[]; asgnCustomMarks={};
+    var qb=document.getElementById('asgnQBtn'); if(qb) qb.textContent='\ud83d\udccb Select Questions (0)';
+    var eqb=document.getElementById('editAsgnQBtn'); if(eqb) eqb.textContent='\ud83d\udccb Select Questions (0)';
+    closeReviewModal();
+  }
+}
 function closeReviewModal() {
   document.getElementById('reviewOverlay').classList.remove('open');
 }
