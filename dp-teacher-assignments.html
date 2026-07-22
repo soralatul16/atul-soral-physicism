@@ -636,6 +636,10 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
         <label style="margin-bottom:2px">Max Attempts</label>
         <input type="number" id="editAsgnMaxAttempts" min="1" placeholder="Unlimited" style="padding:6px;border-radius:6px">
       </div>
+      <div style="margin-top:14px">
+        <label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Questions</label><br>
+        <button class="btn btn-outline" onclick="openQBModal()" id="editAsgnQBtn" style="margin-top:4px">📋 Select Questions (0)</button>
+      </div>
     </div>
 
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
@@ -1503,6 +1507,9 @@ function openEditAssignmentModal(id) {
   document.getElementById('editAsgnDue').value = a.dueDate || '';
   document.getElementById('editAsgnAllowRetest').checked = !!a.allowRetest;
   document.getElementById('editAsgnMaxAttempts').disabled = !a.allowRetest;
+  asgnSelectedQuestions = (a.questionIds||[]).slice();
+  asgnOrderedGroups = (a.orderedQuestionGroups||a.questionIds||[]).slice();
+  var _eqb=document.getElementById('editAsgnQBtn'); if(_eqb){_eqb.textContent='📋 Select Questions ('+asgnSelectedQuestions.length+')';}
   document.getElementById('editAsgnMaxAttempts').value = a.maxAttempts || '';
   
   openModal('editAssignmentModal');
@@ -1523,7 +1530,9 @@ function saveAssignmentEdits() {
     timeLimit: type === 'hw' ? 0 : time,
     dueDate: due || null,
     allowRetest: allowRetest,
-    maxAttempts: maxAttempts
+    maxAttempts: maxAttempts,
+    questionIds: asgnSelectedQuestions.slice(),
+    orderedQuestionGroups: asgnOrderedGroups.slice()
   }).then(function() {
     closeModal('editAssignmentModal');
     loadAssignments();
@@ -2021,6 +2030,7 @@ function dropReview(e, index) {
 
 function confirmReviewSelection() {
   asgnSelectedQuestions = asgnOrderedGroups.slice();
+  var _eqb2=document.getElementById('editAsgnQBtn'); if(_eqb2){_eqb2.textContent='📋 Select Questions ('+asgnSelectedQuestions.length+')';}
   
   var marks = 0;
   asgnSelectedQuestions.forEach(function(gid) {
