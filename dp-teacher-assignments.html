@@ -1955,44 +1955,69 @@ function closeReviewModal() {
   document.getElementById('reviewOverlay').classList.remove('open');
 }
 
+function reviewFlag(g){
+  var probs=[];
+  var parts=(g.parts&&g.parts.length)?g.parts:[{text:g.stem,options:g.options,correct:g.correct,markScheme:g.markScheme}];
+  parts.forEach(function(p){
+    var stem=(p.text||g.stem||'');
+    var tmp=document.createElement('div');tmp.innerHTML=stem;stem=tmp.textContent||'';
+    if(!stem.trim()) probs.push('missing question text');
+    var opts=p.options||[];
+    if(opts.length){
+      opts.forEach(function(o,oi){
+        var ot=(o==null?'':String(o)).trim();
+        if(ot==='' || ot.indexOf('__')>-1 || ot.toLowerCase().indexOf('(check)')>-1 || ot===String.fromCharCode(65+oi))
+          probs.push('option '+String.fromCharCode(65+oi)+' looks incomplete');
+      });
+      if(p.correct==null || opts[p.correct]==null) probs.push('no correct answer set');
+    }
+  });
+  return probs;
+}
 function renderReviewModal() {
   var reviewList = document.getElementById('reviewList');
   var totalMarks = 0;
-  
   var html = asgnOrderedGroups.map(function(gid, index) {
     var g = qbAllGroups.find(function(x) { return x.id === gid; });
     if (!g) return '';
-    
+    var flags = reviewFlag(g);
+    var flagBanner = flags.length ? '<div style="background:rgba(239,68,68,.1);border:1px solid var(--red);color:var(--red);border-radius:6px;padding:6px 10px;font-size:.75rem;margin:6px 0"><strong>\u26a0 Needs fixing:</strong> '+escHtml(flags.join('; '))+'</div>' : '';
     var partsHtml = g.parts.map(function(p) {
       var isExcluded = asgnExcludedParts.indexOf(p.id) > -1;
       var markVal = asgnCustomMarks[p.id] !== undefined ? asgnCustomMarks[p.id] : (p.marks || 1);
       if (!isExcluded) totalMarks += markVal;
-      
       var stemText = p.text || g.stem || '';
-      var tmp = document.createElement('div'); tmp.innerHTML = stemText; stemText = tmp.textContent;
-      if (stemText.length > 80) stemText = stemText.substring(0, 80) + '...';
-      
-      return '<div class="review-part ' + (isExcluded ? 'excluded-part' : '') + '">' +
-        '<div class="review-part-stem">' + escHtml(stemText) + ' <br><span style="font-size:0.7rem;color:var(--text3)">' + p.id + '</span></div>' +
-        '<div class="review-part-actions">' +
-          '<input type="number" min="0" value="' + markVal + '" onchange="updateReviewMark(\'' + p.id + '\', this.value)" ' + (isExcluded ? 'disabled' : '') + ' title="Marks">' +
-          '<button class="btn-remove" onclick="toggleReviewPart(\'' + p.id + '\')" title="Toggle Exclusion">' + (isExcluded ? '↩' : '✕') + '</button>' +
-        '</div>' +
+      var tmpd = document.createElement('div'); tmpd.innerHTML = stemText; stemText = tmpd.textContent||'';
+      var optsHtml='';
+      if(p.options && p.options.length){
+        optsHtml='<div style="margin:6px 0 0 4px">'+p.options.map(function(o,oi){
+          var ot2=document.createElement('div'); ot2.innerHTML=(o==null?'':String(o)); var otxt=ot2.textContent||'';
+          var isCorrect = (p.correct===oi);
+          var style = isCorrect ? 'background:rgba(16,185,129,.12);border:1px solid var(--green);color:var(--green);font-weight:600' : 'color:var(--text2)';
+          return '<div style="font-size:.8rem;border-radius:5px;padding:2px 6px;margin-bottom:2px;'+style+'">'+String.fromCharCode(65+oi)+') '+escHtml(otxt)+(isCorrect?' \u2713':'')+'</div>';
+        }).join('')+'</div>';
+      }
+      var msd=document.createElement('div'); msd.innerHTML=(p.markScheme||''); var msTxt=msd.textContent||'';
+      var msHtml = msTxt ? '<div style="font-size:.75rem;color:var(--text3);margin-top:4px"><strong>Mark scheme:</strong> '+escHtml(msTxt)+'</div>' : '';
+      return '<div class="review-part ' + (isExcluded ? 'excluded-part' : '') + '" style="flex-direction:column;align-items:stretch">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">' +
+          '<div class="review-part-stem" style="flex:1">' + escHtml(stemText) + ' <br><span style="font-size:0.7rem;color:var(--text3)">' + p.id + '</span></div>' +
+          '<div class="review-part-actions">' +
+            '<input type="number" min="0" value="' + markVal + '" onchange="updateReviewMark(\'' + p.id + '\', this.value)" ' + (isExcluded ? 'disabled' : '') + ' title="Marks">' +
+            '<button class="btn-remove" onclick="toggleReviewPart(\'' + p.id + '\')" title="Toggle Exclusion">' + (isExcluded ? '\u21a9' : '\u2715') + '</button>' +
+          '</div>' +
+        '</div>' + optsHtml + msHtml +
       '</div>';
     }).join('');
-    
     return '<div class="review-group" draggable="true" ondragstart="dragReviewStart(event, ' + index + ')" ondragover="dragReviewOver(event)" ondrop="dropReview(event, ' + index + ')">' +
-      '<div style="font-weight:600;font-size:.85rem;color:var(--accent);display:flex;justify-content:space-between;">' + 
-        '<span>' + escHtml(g.id) + '</span>' + 
-        '<span style="font-size:1rem;cursor:grab;color:var(--text3)">☰</span>' +
-      '</div>' +
-      '<div style="font-size:.75rem;color:var(--text2);margin-bottom:6px;">' + (g.topic || '') + ' · ' + (g.type || 'Structured') + '</div>' +
-      partsHtml +
-    '</div>';
+      '<div style="font-weight:600;font-size:.85rem;color:var(--accent);display:flex;justify-content:space-between;">' +
+        '<span>' + escHtml(g.id) + '</span>' +
+        '<span style="font-size:1rem;cursor:grab;color:var(--text3)">\u2630</span>' +
+      '</div>' + flagBanner + partsHtml + '</div>';
   }).join('');
-  
+  html += '<div style="text-align:center;margin-top:10px"><button class="btn btn-outline" onclick="openQBModal()">+ Add questions</button></div>';
   reviewList.innerHTML = html;
-  document.getElementById('reviewSummary').textContent = asgnOrderedGroups.length + ' questions (' + totalMarks + ' marks total)';
+  var sum=document.getElementById('reviewSummary'); if(sum) sum.textContent = totalMarks + ' marks total';
 }
 
 function updateReviewMark(partId, val) {
