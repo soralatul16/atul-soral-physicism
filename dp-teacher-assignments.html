@@ -1974,6 +1974,25 @@ function reviewFlag(g){
   });
   return probs;
 }
+function reviewFlag(g){
+  var probs=[];
+  var parts=(g.parts&&g.parts.length)?g.parts:[{text:g.stem,options:g.options,correct:g.correct,markScheme:g.markScheme}];
+  parts.forEach(function(p){
+    var stem=(p.text||g.stem||'');
+    var tmp=document.createElement('div');tmp.innerHTML=stem;stem=tmp.textContent||'';
+    if(!stem.trim()) probs.push('missing question text');
+    var opts=p.options||[];
+    if(opts.length){
+      opts.forEach(function(o,oi){
+        var ot=(o==null?'':String(o)).trim();
+        if(ot==='' || ot.indexOf('__')>-1 || ot.toLowerCase().indexOf('(check)')>-1 || ot===String.fromCharCode(65+oi))
+          probs.push('option '+String.fromCharCode(65+oi)+' looks incomplete');
+      });
+      if(p.correct==null || opts[p.correct]==null) probs.push('no correct answer set');
+    }
+  });
+  return probs;
+}
 function renderReviewModal() {
   var reviewList = document.getElementById('reviewList');
   var totalMarks = 0;
