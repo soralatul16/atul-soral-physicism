@@ -742,6 +742,7 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
     </div>
     <div class="ss-body">
       <div class="ss-tag-filter" id="ssTagFilter"></div>
+      <input type="text" id="ssSearchInput" placeholder="\ud83d\udd0d Search by name or ID..." oninput="ssSearch=this.value; renderSSModal();" style="width:100%;padding:8px 12px;margin:8px 0;border:1px solid var(--border);border-radius:8px;font-size:.85rem">
       <div style="margin-bottom:10px"><button class="btn btn-sm btn-outline" onclick="ssSelectAll()">Select All</button> <button class="btn btn-sm btn-outline" onclick="ssDeselectAll()">Deselect All</button></div>
       <div id="ssStudentList"></div>
     </div>
@@ -888,6 +889,7 @@ var asgnCustomMarks = {}; // map of part ID -> custom mark override
 var asgnOrderedGroups = []; // array of group IDs to dictate explicit order
 var asgnSelectedStudents = []; // array of student doc IDs
 var ssFilterTag = '';
+var ssSearch = '';
 var ssChecked = {}; // studentDocId -> boolean
 
 var THEMES = {
@@ -2154,6 +2156,7 @@ function renderSSModal(){
     tagHtml += '<span class="qb-f-btn'+(ssFilterTag===tag.name?' on':'')+'" onclick="ssSetFilter(\''+tag.name+'\')" style="margin-bottom:0">'+tag.name+'</span>';
   });
   document.getElementById('ssTagFilter').innerHTML = tagHtml;
+  var _si=document.getElementById('ssSearchInput'); if(_si && _si.value!==ssSearch) _si.value=ssSearch;
 
   // Student list (auto-filter by programme)
   var filtered = allStudents.filter(function(s){
@@ -2164,6 +2167,7 @@ function renderSSModal(){
       if(hasMYPOnly) return false;
     }
     if(ssFilterTag && (!s.tags || s.tags.indexOf(ssFilterTag)===-1)) return false;
+    if(ssSearch){ var _q=ssSearch.toLowerCase(); var _n=(s.name||'').toLowerCase(); var _sid=(s.studentId||'').toLowerCase(); if(_n.indexOf(_q)===-1 && _sid.indexOf(_q)===-1) return false; }
     return true;
   });
 
