@@ -2065,7 +2065,7 @@ function renderReviewModal() {
           '<div class="review-part-stem" style="flex:1">' + escHtml(stemText) + ' <br><span style="font-size:0.7rem;color:var(--text3)">' + p.id + '</span></div>' +
           '<div class="review-part-actions">' +
             '<input type="number" min="0" value="' + markVal + '" onchange="updateReviewMark(\'' + p.id + '\', this.value)" ' + (isExcluded ? 'disabled' : '') + ' title="Marks">' +
-            '<button class="btn-remove" onclick="toggleReviewPart(\'' + p.id + '\')" title="Toggle Exclusion">' + (isExcluded ? '\u21a9' : '\u2715') + '</button>' +
+            '<button class="btn-remove" onclick="removeReviewQuestion(\'' + gid + '\')" title="Remove question">' + '\u2715' + '</button>' +
           '</div>' +
         '</div>' + optsHtml + msHtml +
       '</div>';
@@ -2087,6 +2087,14 @@ function updateReviewMark(partId, val) {
   renderReviewModal();
 }
 
+function removeReviewQuestion(gid){
+  var i1=asgnOrderedGroups.indexOf(gid); if(i1>-1) asgnOrderedGroups.splice(i1,1);
+  var i2=asgnSelectedQuestions.indexOf(gid); if(i2>-1) asgnSelectedQuestions.splice(i2,1);
+  var qb=document.getElementById('asgnQBtn'); if(qb) qb.textContent='\ud83d\udccb Select Questions ('+asgnSelectedQuestions.length+')';
+  var eqb=document.getElementById('editAsgnQBtn'); if(eqb) eqb.textContent='\ud83d\udccb Select Questions ('+asgnSelectedQuestions.length+')';
+  if(!asgnOrderedGroups.length){ closeReviewModal(); return; }
+  renderReviewModal();
+}
 function toggleReviewPart(partId) {
   var idx = asgnExcludedParts.indexOf(partId);
   if (idx > -1) {
