@@ -2035,6 +2035,65 @@ function reviewFlag(g){
   });
   return probs;
 }
+function editReviewQuestion(pid){
+  var grp=null, part=null;
+  qbAllGroups.forEach(function(g){ (g.parts||[]).forEach(function(p){ if(p.id===pid){grp=g;part=p;} }); });
+  if(!part){ alert('Question not found.'); return; }
+  var ex=document.getElementById('qEditOverlay'); if(ex) ex.remove();
+  function val(x){return (x==null?'':String(x)).replace(/"/g,'&quot;');}
+  var opts=part.options||[];
+  var optRows='';
+  for(var i=0;i<4;i++){
+    var ov=opts[i]!=null?val(opts[i]):'';
+    var chk=(part.correct===i)?'checked':'';
+    optRows+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'+
+      '<input type="radio" name="qEditCorrect" value="'+i+'" '+chk+'>'+
+      '<span style="width:16px;font-weight:700">'+String.fromCharCode(65+i)+'</span>'+
+      '<input type="text" id="qEditOpt'+i+'" value="'+ov+'" placeholder="Option '+String.fromCharCode(65+i)+'" style="flex:1;padding:6px;border:1px solid var(--border);border-radius:6px">'+
+    '</div>';
+  }
+  var isMCQ=opts.length>0;
+  var html=''+
+  '<div class="ss-overlay open" id="qEditOverlay" style="display:flex;align-items:center;justify-content:center;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999">'+
+    '<div class="ss-modal" style="background:var(--surface,#fff);max-width:640px;width:94%;max-height:88vh;overflow:auto;border-radius:12px;padding:0">'+
+      '<div class="ss-header"><h3>Edit Question ('+val(part.id)+')</h3><button class="qb-close" style="background:rgba(0,0,0,.06);color:var(--text2)" onclick="closeQEdit()">\u2715</button></div>'+
+      '<div style="padding:16px 20px">'+
+        '<label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Question text</label>'+
+        '<textarea id="qEditStem" style="width:100%;min-height:70px;padding:8px;border:1px solid var(--border);border-radius:6px;margin:4px 0 12px">'+val(part.text||grp.stem)+'</textarea>'+
+        (isMCQ?('<label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Options (select the correct one)</label><div style="margin:6px 0 12px">'+optRows+'</div>'):'')+
+        '<label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Marks</label><br>'+
+        '<input type="number" id="qEditMarks" min="0" value="'+val(part.marks!=null?part.marks:1)+'" style="width:90px;padding:6px;border:1px solid var(--border);border-radius:6px;margin:4px 0 12px"><br>'+
+        '<label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Mark scheme / solution</label>'+
+        '<textarea id="qEditMS" style="width:100%;min-height:60px;padding:8px;border:1px solid var(--border);border-radius:6px;margin:4px 0 4px">'+val(part.markScheme)+'</textarea>'+
+      '</div>'+
+      '<div class="ss-footer"><span style="font-size:.75rem;color:var(--text3)">Saves to the question bank (affects all uses)</span>'+
+        '<button class="btn btn-primary" onclick="saveQEdit(\''+val(part.id)+'\','+isMCQ+')">Save Question</button></div>'+
+    '</div>'+
+  '</div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+function closeQEdit(){ var o=document.getElementById('qEditOverlay'); if(o) o.remove(); }
+function saveQEdit(pid, isMCQ){
+  var upd={};
+  upd.text=document.getElementById('qEditStem').value;
+  upd.marks=parseFloat(document.getElementById('qEditMarks').value)||0;
+  upd.markScheme=document.getElementById('qEditMS').value;
+  if(isMCQ){
+    var opts=[];
+    for(var i=0;i<4;i++){ var el=document.getElementById('qEditOpt'+i); if(el && el.value.trim()!=='') opts.push(el.value); }
+    upd.options=opts;
+    var chk=document.querySelector('input[name="qEditCorrect"]:checked');
+    upd.correct=chk?parseInt(chk.value):0;
+    if(upd.correct>opts.length-1) upd.correct=0;
+  }
+  db.collection(col('dpQuestions')).doc(pid).update(upd).then(function(){
+    qbAllGroups.forEach(function(g){ (g.parts||[]).forEach(function(p){ if(p.id===pid){ for(var k in upd){ p[k]=upd[k]; } } }); });
+    closeQEdit();
+    if(typeof renderReviewModal==='function') renderReviewModal();
+    alert('Question saved.');
+  }).catch(function(err){ alert('Save failed: '+err.message); });
+}
+
 function renderReviewModal() {
   var reviewList = document.getElementById('reviewList');
   var totalMarks = 0;
@@ -2065,7 +2124,8 @@ function renderReviewModal() {
           '<div class="review-part-stem" style="flex:1">' + escHtml(stemText) + ' <br><span style="font-size:0.7rem;color:var(--text3)">' + p.id + '</span></div>' +
           '<div class="review-part-actions">' +
             '<input type="number" min="0" value="' + markVal + '" onchange="updateReviewMark(\'' + p.id + '\', this.value)" ' + (isExcluded ? 'disabled' : '') + ' title="Marks">' +
-            '<button class="btn-remove" onclick="removeReviewQuestion(\'' + gid + '\')" title="Remove question">' + '\u2715' + '</button>' +
+            '<button class="btn-remove" style="background:var(--accent);color:#fff" onclick="editReviewQuestion(\'' + p.id + '\')" title="Edit question">\u270e</button>' +
+          '<button class="btn-remove" onclick="removeReviewQuestion(\'' + gid + '\')" title="Remove question">' + '\u2715' + '</button>' +
           '</div>' +
         '</div>' + optsHtml + msHtml +
       '</div>';
