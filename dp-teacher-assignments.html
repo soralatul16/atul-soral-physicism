@@ -781,7 +781,7 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
         <div id="ad-meta" style="font-size:.8rem;color:var(--text2);">Type • Marks • Due Date</div>
         <div id="ad-questions" style="margin-top:14px; max-height:60vh; overflow-y:auto; padding-right:6px"></div>
       </div>
-      <button class="btn btn-outline btn-sm" onclick="closeModal('assignment-detail-modal')">✕ Close</button>
+      <button class="btn btn-primary btn-sm" id="ad-edit-btn" style="margin-right:6px">✎ Edit questions</button><button class="btn btn-outline btn-sm" onclick="closeModal('assignment-detail-modal')">✕ Close</button>
     </div>
     
     <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:16px;" id="ad-stats-container"></div>
@@ -1588,11 +1588,16 @@ function renderADQuestions(a){
     renderADQuestionsFromDocs(a, byId);
   }).catch(function(){box.innerHTML='<div style="color:var(--red);font-size:.8rem">Could not load questions.</div>';});
 }
+function editQuestionsFromDetail(id){
+  closeModal('assignment-detail-modal');
+  openEditAssignmentModal(id);
+}
 async function openAssignmentDetail(id) {
   var a = allAssignments.find(function(x) { return x.id === id; });
   if (!a) return;
   
   document.getElementById('ad-title').textContent = a.title || 'Untitled';
+  var _adEdit=document.getElementById('ad-edit-btn'); if(_adEdit){ _adEdit.onclick=function(){ editQuestionsFromDetail(a.id); }; }
   var dueStr = a.dueDate ? new Date(a.dueDate).toLocaleString('en-IN') : 'No Due Date';
   document.getElementById('ad-meta').textContent = (a.type || 'HW').toUpperCase() + ' • ' + (a.totalMarks || 0) + ' marks • Due: ' + dueStr + ' • ' + (a.questionIds || []).length + ' questions';
   renderADQuestions(a);
