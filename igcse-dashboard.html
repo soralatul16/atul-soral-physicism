@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IGCSE Physics Dashboard | Atul Soral Physicism</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0e1020;--surface:#171a2e;--card:#1e2238;--card2:#252a44;
+  --text:#eef0f8;--text2:#a4a9c4;--text3:#6f7596;--border:rgba(255,255,255,.08);
+  --ig:#7c5cff;--ig-soft:rgba(124,92,255,.16);--ig-glow:rgba(124,92,255,.45);
+  --core:#22c55e;--core-soft:rgba(34,197,94,.14);
+  --ext:#f59e0b;--ext-soft:rgba(245,158,11,.14);
+}
+html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;line-height:1.55;min-height:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+/* top bar */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(14,16,32,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.02rem}
+.brand .dot{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--ig),#b39dff);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:#fff}
+.nav{display:flex;align-items:center;gap:6px}
+.nav a{padding:7px 13px;border-radius:9px;font-size:.82rem;color:var(--text2);font-weight:600;transition:.15s}
+.nav a:hover{background:var(--card);color:var(--text)}
+.nav a.active{background:var(--ig-soft);color:#c9bcff}
+#authBtnContainer{margin-left:6px}
+@media(max-width:760px){.nav a.hide-sm{display:none}}
+/* hero */
+.hero{padding:44px 0 26px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-120px;right:-80px;width:340px;height:340px;background:radial-gradient(circle,var(--ig-glow),transparent 68%);pointer-events:none}
+.eyebrow{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c9bcff;background:var(--ig-soft);padding:5px 12px;border-radius:20px;margin-bottom:14px}
+.hero h1{font-size:2.5rem;font-weight:800;letter-spacing:-.5px;line-height:1.08}
+.hero h1 .accent{background:linear-gradient(120deg,var(--ig),#c9bcff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--text2);font-size:1rem;max-width:600px;margin-top:10px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-size:.74rem;font-weight:600;color:var(--text2);background:var(--card);border:1px solid var(--border);padding:6px 12px;border-radius:20px}
+.chip b{color:var(--text)}
+/* progress strip */
+.pstrip{display:flex;gap:14px;flex-wrap:wrap;margin:22px 0 6px}
+.pstat{flex:1;min-width:150px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+.pstat .n{font-size:1.5rem;font-weight:800;color:var(--ig)}
+.pstat .l{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);font-weight:700;margin-top:2px}
+/* section */
+.section-title{display:flex;align-items:center;gap:10px;margin:34px 0 6px;font-size:.78rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text3)}
+.section-title::after{content:"";flex:1;height:1px;background:var(--border)}
+/* topic accordion */
+.topic{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color .2s}
+.topic:hover{border-color:rgba(124,92,255,.35)}
+.topic-head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;user-select:none}
+.topic-num{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--ig-soft);color:#c9bcff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;border:1px solid rgba(124,92,255,.3)}
+.topic-info{flex:1;min-width:0}
+.topic-info h3{font-size:1.06rem;font-weight:700}
+.topic-info .sub{font-size:.78rem;color:var(--text3);margin-top:1px}
+.topic-count{font-size:.72rem;font-weight:700;color:var(--text2);background:var(--card2);padding:4px 10px;border-radius:20px;flex-shrink:0}
+.caret{flex-shrink:0;color:var(--text3);transition:transform .25s;font-size:1.1rem}
+.topic.open .caret{transform:rotate(90deg)}
+.topic-body{display:none;padding:2px 18px 16px;border-top:1px solid var(--border)}
+.topic.open .topic-body{display:block}
+.sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:10px;margin-top:14px}
+.sub-card{display:flex;align-items:flex-start;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;transition:.15s;cursor:pointer}
+.sub-card:hover{transform:translateY(-2px);border-color:var(--ig);box-shadow:0 8px 22px rgba(0,0,0,.28)}
+.sub-code{flex-shrink:0;font-size:.72rem;font-weight:800;color:var(--ig);background:var(--ig-soft);border-radius:7px;padding:3px 7px;margin-top:1px}
+.sub-name{font-size:.86rem;font-weight:600;line-height:1.35}
+.badge{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:20px;margin-top:6px}
+.b-core{background:var(--core-soft);color:var(--core)}
+.b-ext{background:var(--ext-soft);color:var(--ext)}
+.b-both{background:var(--ig-soft);color:#c9bcff}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:.74rem;color:var(--text2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+footer{margin:50px 0 30px;text-align:center;color:var(--text3);font-size:.78rem}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="index.html"><span class="dot">AS</span> Atul Soral Physicism</a>
+    <nav class="nav">
+      <a href="index.html" class="hide-sm">Home</a>
+      <a href="igcse-dashboard.html" class="active">IGCSE</a>
+      <a href="myp-dashboard.html" class="hide-sm">MYP</a>
+      <a href="dp-dashboard.html" class="hide-sm">DP</a>
+      <span id="authBtnContainer"></span>
+    </nav>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Cambridge IGCSE · 0625</span>
+    <h1>IGCSE <span class="accent">Physics</span> Dashboard</h1>
+    <p>Your hub for Cambridge IGCSE Physics (0625) — 6 topics, 25 subtopics, with Core and Extended content clearly marked. Built for exams 2026–2028.</p>
+    <div class="hero-meta">
+      <span class="chip"><b>6</b> Topics</span>
+      <span class="chip"><b>25</b> Subtopics</span>
+      <span class="chip"><b>Core</b> + <b>Extended</b></span>
+      <span class="chip">Papers <b>1–6</b></span>
+    </div>
+    <div class="pstrip">
+      <div class="pstat"><div class="n">6</div><div class="l">Topics</div></div>
+      <div class="pstat"><div class="n">25</div><div class="l">Subtopics</div></div>
+      <div class="pstat"><div class="n">0625</div><div class="l">Syllabus code</div></div>
+      <div class="pstat"><div class="n">A*–G</div><div class="l">Grade range</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="section-title">Syllabus Topics</div>
+  <div class="legend">
+    <span><i style="background:var(--core)"></i> Core (all candidates)</span>
+    <span><i style="background:var(--ext)"></i> Extended / Supplement</span>
+    <span><i style="background:var(--ig)"></i> Core + Extended</span>
+  </div>
+  <div id="topics"></div>
+</div>
+
+<footer>Atul Soral Physicism · Cambridge IGCSE Physics 0625 (2026–2028)</footer>
+
+<script>
+var IGCSE_TOPICS = [
+  { code:"IG1", name:"Motion, Forces and Energy", subs:[
+    {c:"IG1.1", n:"Physical quantities & measurement techniques", t:"both"},
+    {c:"IG1.2", n:"Motion", t:"both"},
+    {c:"IG1.3", n:"Mass and weight", t:"core"},
+    {c:"IG1.4", n:"Density", t:"core"},
+    {c:"IG1.5", n:"Forces", t:"both"},
+    {c:"IG1.6", n:"Momentum", t:"ext"},
+    {c:"IG1.7", n:"Energy, work and power", t:"both"},
+    {c:"IG1.8", n:"Pressure", t:"both"}
+  ]},
+  { code:"IG2", name:"Thermal Physics", subs:[
+    {c:"IG2.1", n:"Kinetic particle model of matter", t:"both"},
+    {c:"IG2.2", n:"Thermal properties & temperature", t:"both"},
+    {c:"IG2.3", n:"Transfer of thermal energy", t:"both"}
+  ]},
+  { code:"IG3", name:"Waves", subs:[
+    {c:"IG3.1", n:"General properties of waves", t:"both"},
+    {c:"IG3.2", n:"Light", t:"both"},
+    {c:"IG3.3", n:"Electromagnetic spectrum", t:"both"},
+    {c:"IG3.4", n:"Sound", t:"both"}
+  ]},
+  { code:"IG4", name:"Electricity and Magnetism", subs:[
+    {c:"IG4.1", n:"Simple phenomena of magnetism", t:"both"},
+    {c:"IG4.2", n:"Electrical quantities", t:"both"},
+    {c:"IG4.3", n:"Electric circuits", t:"both"},
+    {c:"IG4.4", n:"Electrical safety", t:"core"},
+    {c:"IG4.5", n:"Electromagnetic effects", t:"both"}
+  ]},
+  { code:"IG5", name:"Nuclear Physics", subs:[
+    {c:"IG5.1", n:"The nuclear model of the atom", t:"both"},
+    {c:"IG5.2", n:"Radioactivity", t:"both"}
+  ]},
+  { code:"IG6", name:"Space Physics", subs:[
+    {c:"IG6.1", n:"Earth & the Solar System", t:"both"},
+    {c:"IG6.2", n:"Stars & the Universe", t:"both"}
+  ]}
+];
+
+function badge(t){
+  if(t==="core") return '<span class="badge b-core">Core</span>';
+  if(t==="ext")  return '<span class="badge b-ext">Extended</span>';
+  return '<span class="badge b-both">Core + Ext</span>';
+}
+
+function renderTopics(){
+  var box=document.getElementById('topics');
+  box.innerHTML = IGCSE_TOPICS.map(function(tp,idx){
+    var subs = tp.subs.map(function(s){
+      return '<div class="sub-card" onclick="openSub(\''+s.c+'\')">'+
+        '<span class="sub-code">'+s.c.replace('IG','')+'</span>'+
+        '<div><div class="sub-name">'+s.n+'</div>'+badge(s.t)+'</div>'+
+      '</div>';
+    }).join('');
+    return '<div class="topic'+(idx===0?' open':'')+'" id="t-'+tp.code+'">'+
+      '<div class="topic-head" onclick="toggleTopic(\''+tp.code+'\')">'+
+        '<div class="topic-num">'+tp.code.replace('IG','')+'</div>'+
+        '<div class="topic-info"><h3>'+tp.name+'</h3><div class="sub">'+tp.subs.length+' subtopics</div></div>'+
+        '<span class="topic-count">'+tp.subs.length+'</span>'+
+        '<span class="caret">›</span>'+
+      '</div>'+
+      '<div class="topic-body"><div class="sub-grid">'+subs+'</div></div>'+
+    '</div>';
+  }).join('');
+}
+
+function toggleTopic(code){
+  document.getElementById('t-'+code).classList.toggle('open');
+}
+
+function openSub(code){
+  // Placeholder until IGCSE chapter pages are built.
+  // When ready, this will navigate to the chapter/presentation page, e.g.:
+  // window.location.href = 'igcse-chapter.html?topic=' + code;
+  alert('Subtopic ' + code + ' — content coming soon. Presentations and question bank for this subtopic will open here once added.');
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  renderTopics();
+});
+</script>
+
+<script src="exam-system/firebase-config.js?v=2"></script>
+<script src="js/auth.js"></script>
+<script>
+try{ if(window.PhysicismAuth && PhysicismAuth.renderAuthButton){ PhysicismAuth.renderAuthButton('authBtnContainer'); } }catch(e){ console.warn('auth button', e); }
+</script>
+</body>
+</html>
