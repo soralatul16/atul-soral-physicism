@@ -285,6 +285,7 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
     <div id="progToggle" style="display:flex;align-items:center;gap:0;background:rgba(255,255,255,.15);border-radius:50px;padding:2px;margin-left:8px">
       <button id="togDP" class="prog-tog active" onclick="setProgramme('dp')">DP</button>
       <button id="togMYP" class="prog-tog" onclick="setProgramme('myp')">MYP</button>
+      <button id="togIGCSE" class="prog-tog" onclick="setProgramme('igcse')">IGCSE</button>
     </div>
   </div>
   <div style="display:flex;gap:6px">
@@ -873,6 +874,11 @@ function col(base){
     if(base==='dpAssignments') return 'mypAssignments';
     if(base==='dpSubmissions') return 'mypSubmissions';
   }
+  if(currentProgramme==='igcse'){
+    if(base==='dpQuestions') return 'igQuestions';
+    if(base==='dpAssignments') return 'igAssignments';
+    if(base==='dpSubmissions') return 'igSubmissions';
+  }
   return base;
 }
 
@@ -931,10 +937,15 @@ function setProgramme(prog){
   currentProgramme = prog;
   document.getElementById('togDP').classList.toggle('active', prog==='dp');
   document.getElementById('togMYP').classList.toggle('active', prog==='myp');
-  document.getElementById('navSubtitle').textContent = prog==='dp' ? 'DP Teacher Assignments' : 'MYP Teacher Assignments';
-  document.getElementById('navDashLink').href = prog==='dp' ? 'dp-dashboard.html' : 'myp-dashboard.html';
-  document.getElementById('navDashLink').textContent = prog==='dp' ? 'DP' : 'MYP';
-  document.getElementById('navQBLink').href = prog==='dp' ? 'dp-question-bank.html' : 'myp-question-bank.html';
+  var _tIG=document.getElementById('togIGCSE'); if(_tIG) _tIG.classList.toggle('active', prog==='igcse');
+  var _label = prog==='dp' ? 'DP' : (prog==='myp' ? 'MYP' : 'IGCSE');
+  var _dash = prog==='dp' ? 'dp-dashboard.html' : (prog==='myp' ? 'myp-dashboard.html' : 'igcse-dashboard.html');
+  var _qb = prog==='dp' ? 'dp-question-bank.html' : (prog==='myp' ? 'myp-question-bank.html' : 'igcse-question-bank.html');
+  document.getElementById('navSubtitle').textContent = _label + ' Teacher Assignments';
+  document.getElementById('navDashLink').href = _dash;
+  document.getElementById('navDashLink').textContent = _label;
+  document.getElementById('navQBLink').href = _qb;
+  var _eb=document.getElementById('igExtraBtn'); if(_eb) _eb.style.display = (prog==='igcse') ? 'inline-flex' : 'none';
   // Reset selection state
   asgnSelectedQuestions = [];
   asgnOrderedGroups = [];
@@ -2875,6 +2886,7 @@ function loadAnalytics() {
     var levelFilter = prog === 'DP' ? 'DP' : 'MYP';
     var filteredStudents = students.filter(function(s) {
       if (prog === 'myp' && (!s.tags || s.tags.indexOf('MYP')===-1)) return false;
+      if (prog === 'igcse' && (!s.tags || s.tags.indexOf('IGCSE')===-1)) return false;
       if (prog === 'dp') {
         var hasMYPOnly = s.tags && s.tags.indexOf('MYP')>-1 && s.tags.indexOf('DP-SL')===-1 && s.tags.indexOf('DP-HL')===-1;
         if(hasMYPOnly) return false;
