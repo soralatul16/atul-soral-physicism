@@ -2900,6 +2900,7 @@ function loadAnalytics() {
 
     renderOverviewStats(assignments, submissions, filteredStudents);
     renderAnalyticsTable(assignments, submissions, filteredStudents);
+    renderMissedList(assignments, submissions, filteredStudents);
   }).catch(function(err) {
     console.error('Analytics load error:', err);
   });
@@ -2944,6 +2945,56 @@ function renderOverviewStats(assignments, submissions, students) {
   document.getElementById('stat-avg').textContent = avgScore + '%';
 }
 
+function renderMissedList(assignments, submissions, students){
+  var now = new Date();
+  var missed = [];
+  assignments.forEach(function(a){
+    if(!a.dueDate) return;
+    if(!(new Date(a.dueDate) < now)) return; // not overdue yet
+    (a.studentIds||[]).forEach(function(sid){
+      var st = students.find(function(x){ return x.id === sid || (x.studentId && x.studentId === sid); });
+      if(!st) return; // not in current programme filter
+      var sub = submissions.find(function(s){
+        return s.assignmentId === a.id && (s.studentId === sid || s.studentDocId === sid || (st.studentId && s.studentId === st.studentId));
+      });
+      if(!sub || sub.status === 'draft'){
+        var daysLate = Math.floor((now - new Date(a.dueDate)) / 86400000);
+        missed.push({ name: st.name || 'Unknown', title: a.title || 'Untitled', due: a.dueDate, daysLate: daysLate });
+      }
+    });
+  });
+  // build / find container
+  var host = document.getElementById('missedPanel');
+  if(!host){
+    var anchorEl = document.getElementById('analytics-tbody');
+    if(!anchorEl) return;
+    var card = anchorEl.closest('div');
+    host = document.createElement('div');
+    host.id = 'missedPanel';
+    host.style.cssText = 'background:#fff;border-radius:14px;padding:18px 20px;margin-top:18px;box-shadow:0 1px 3px rgba(0,0,0,.06)';
+    // place after the whole student-progress card block
+    var block = anchorEl.closest('table') ? anchorEl.closest('table').parentNode.parentNode : card;
+    (block.parentNode||document.body).insertBefore(host, block.nextSibling);
+  }
+  if(!missed.length){
+    host.innerHTML = '<h3 style="margin:0 0 8px;color:var(--accent,#0d9488)">\u26a0 Missed / Overdue</h3><div style="color:#94a3b8;font-size:.85rem">No missed assignments \u2014 everyone is on track.</div>';
+    return;
+  }
+  missed.sort(function(x,y){ return y.daysLate - x.daysLate; });
+  var rows = missed.map(function(m){
+    return '<tr>'+
+      '<td style="padding:8px 10px;border-bottom:1px solid #eef2f7">'+m.name+'</td>'+
+      '<td style="padding:8px 10px;border-bottom:1px solid #eef2f7">'+m.title+'</td>'+
+      '<td style="padding:8px 10px;border-bottom:1px solid #eef2f7;color:#64748b">'+new Date(m.due).toLocaleDateString('en-IN')+'</td>'+
+      '<td style="padding:8px 10px;border-bottom:1px solid #eef2f7;color:#dc2626;font-weight:600">'+m.daysLate+' day'+(m.daysLate===1?'':'s')+' late</td>'+
+    '</tr>';
+  }).join('');
+  host.innerHTML = '<h3 style="margin:0 0 10px;color:#dc2626">\u26a0 Missed / Overdue ('+missed.length+')</h3>'+
+    '<div style="overflow:auto"><table style="width:100%;border-collapse:collapse;font-size:.85rem">'+
+    '<thead><tr style="text-align:left;color:#64748b;font-size:.72rem;text-transform:uppercase">'+
+      '<th style="padding:6px 10px">Student</th><th style="padding:6px 10px">Assignment</th><th style="padding:6px 10px">Due</th><th style="padding:6px 10px">Overdue</th></tr></thead>'+
+    '<tbody>'+rows+'</tbody></table></div>';
+}
 function renderAnalyticsTable(assignments, submissions, students) {
   var tbody = document.getElementById('analytics-tbody');
   
