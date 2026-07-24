@@ -962,7 +962,7 @@ function setProgramme(prog){
   loadQBQuestions();
   renderStudentTable();
   if(document.getElementById('panel-grading').classList.contains('active')) loadSubmissions();
-    if (tabName === 'dashboard') { loadAnalytics(); }
+    var _dp=document.getElementById('panel-dashboard'); if (_dp && _dp.classList.contains('active')) { loadAnalytics(); }
 }
 
 // ==================== TAGS ====================
@@ -1625,7 +1625,7 @@ async function openAssignmentDetail(id) {
   var listHtml = '';
   
   (a.studentIds || []).forEach(function(sid) {
-    var stu = allStudents.find(function(x) { return x.id === sid; });
+    var stu = allStudents.find(function(x) { return x.id === sid || x.studentId === sid; });
     var stuName = stu ? stu.name : 'Unknown Student';
     
     var sub = relevantSubs.find(function(s) { return s.studentId === sid; });
@@ -1686,7 +1686,7 @@ async function openAssignmentDetail(id) {
   (a.studentIds || []).forEach(function(sid) {
     var sub = relevantSubs.find(function(s) { return s.studentId === sid; });
     if (!sub || sub.status === 'draft') {
-      var stu = allStudents.find(function(x) { return x.id === sid; });
+      var stu = allStudents.find(function(x) { return x.id === sid || x.studentId === sid; });
       if (stu && stu.email) remindEmails.push(stu.email);
     }
   });
@@ -2329,7 +2329,7 @@ function loadSubmissions(){
     var studentsMap = {};
     results[1].forEach(function(doc){
       var s = doc.data();
-      studentsMap[doc.id] = s.name || 'Unknown';
+      studentsMap[doc.id] = s.name || 'Unknown'; if(s.studentId){ studentsMap[s.studentId] = s.name || 'Unknown'; }
     });
 
     allSubmissions = [];
@@ -2451,7 +2451,7 @@ function releaseSubmissionGrade(subId){
     releasedAt: firebase.firestore.FieldValue.serverTimestamp()
   }).then(function(){
     loadSubmissions();
-    if (tabName === 'dashboard') { loadAnalytics(); }
+    var _dp=document.getElementById('panel-dashboard'); if (_dp && _dp.classList.contains('active')) { loadAnalytics(); }
   }).catch(function(err){
     alert('Error releasing grade: ' + err.message);
   });
@@ -2761,7 +2761,7 @@ function saveGrade(status){
     alert('Grade saved successfully' + (status === 'released' ? ' and released to student!' : ' as draft.'));
     closeGradingOverlay();
     loadSubmissions();
-    if (tabName === 'dashboard') { loadAnalytics(); }
+    var _dp=document.getElementById('panel-dashboard'); if (_dp && _dp.classList.contains('active')) { loadAnalytics(); }
   }).catch(function(err){
     alert('Error saving grade: ' + err.message);
   });
