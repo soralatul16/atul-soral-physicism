@@ -948,6 +948,17 @@ function startTask(assignmentId, attemptNumber){
   attemptNumber = attemptNumber || 1;
   var a = allAssignments.find(function(item){ return item.id === assignmentId; });
   if(!a) return;
+  // Deadline lock: block starting once the due date (or this student's extension) has passed
+  if (a.type !== 'hw') {
+    var _eff = a.dueDate;
+    if (a.extensions && (a.extensions[studentId] || (typeof studentDocId!=='undefined' && a.extensions[studentDocId]))) {
+      _eff = a.extensions[studentId] || a.extensions[studentDocId];
+    }
+    if (_eff && new Date(_eff) < new Date()) {
+      alert('The deadline for this assignment has passed. Please contact your teacher if you need an extension.');
+      return;
+    }
+  }
   // Hard-enforce max attempts (count this student's completed, non-draft submissions)
   if (a.type !== 'hw') {
     var _max = a.maxAttempts || (a.allowRetest ? 999 : 1);
