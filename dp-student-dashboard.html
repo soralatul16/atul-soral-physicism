@@ -948,6 +948,14 @@ function startTask(assignmentId, attemptNumber){
   attemptNumber = attemptNumber || 1;
   var a = allAssignments.find(function(item){ return item.id === assignmentId; });
   if(!a) return;
+  // Hard-enforce max attempts (count this student's completed, non-draft submissions)
+  if (a.type !== 'hw') {
+    var _max = a.maxAttempts || (a.allowRetest ? 999 : 1);
+    var _done = (allSubmissions || []).filter(function(sb){
+      return sb.assignmentId === assignmentId && (sb.studentId === studentId || sb.studentDocId === studentDocId) && sb.status !== 'draft';
+    }).length;
+    if (_done >= _max) { alert('You have used all ' + _max + ' attempt' + (_max>1?'s':'') + ' for this assignment. No further attempts are allowed.'); return; }
+  }
   
   if (a.type === 'hw') {
     showHwChoiceModal(a, attemptNumber);
