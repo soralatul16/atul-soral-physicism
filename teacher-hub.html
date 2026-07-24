@@ -219,6 +219,7 @@
       <div class="toggle-group">
         <button id="btnDP" class="active" onclick="setProgramme('DP')">DP</button>
         <button id="btnMYP" onclick="setProgramme('MYP')">MYP</button>
+        <button id="btnIGCSE" onclick="setProgramme('IGCSE')">IGCSE</button>
       </div>
       
       <button id="authBtn" class="btn-ai" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())">
@@ -455,11 +456,12 @@
       
       document.getElementById('btnDP').classList.toggle('active', prog === 'DP');
       document.getElementById('btnMYP').classList.toggle('active', prog === 'MYP');
+      var _bIG=document.getElementById('btnIGCSE'); if(_bIG) _bIG.classList.toggle('active', prog === 'IGCSE');
       
       document.querySelectorAll('.prog-lbl').forEach(el => el.innerText = prog);
       
       const portalLink = document.getElementById('portalLink');
-      portalLink.href = prog === 'DP' ? 'dp-student-portal.html' : 'myp-dashboard.html';
+      portalLink.href = prog === 'DP' ? 'dp-student-portal.html' : (prog === 'MYP' ? 'myp-dashboard.html' : 'igcse-dashboard.html');
 
       const qbankBtn = document.getElementById('openQbankBtn');
       const assBtn = document.getElementById('openAssignmentsBtn');
@@ -474,7 +476,7 @@
           assBtn.innerText = 'Open DP Assignments Manager';
           assBtn.onclick = () => window.open('dp-teacher-assignments.html', '_blank');
         }
-      } else {
+      } else if (prog === 'MYP') {
         document.getElementById('studentFilter').innerHTML = `<option value="ALL">All MYP</option>`;
         if(qbankBtn) {
           qbankBtn.innerText = 'Open MYP Question Bank';
@@ -483,6 +485,16 @@
         if(assBtn) {
           assBtn.innerText = 'Open MYP Assignments Manager';
           assBtn.onclick = () => window.open('myp-teacher-assignments.html', '_blank');
+        }
+      } else {
+        document.getElementById('studentFilter').innerHTML = `<option value="ALL">All IGCSE</option><option value="CORE">Core</option><option value="EXT">Extended</option>`;
+        if(qbankBtn) {
+          qbankBtn.innerText = 'Open IGCSE Question Bank';
+          qbankBtn.onclick = () => window.open('igcse-question-bank.html', '_blank');
+        }
+        if(assBtn) {
+          assBtn.innerText = 'Open IGCSE Assignments Manager';
+          assBtn.onclick = () => window.open('dp-teacher-assignments.html', '_blank');
         }
       }
 
@@ -659,7 +671,7 @@
       if(!listEl) return;
       listEl.innerHTML = `Loading summary...`;
       
-      const col = currentProgramme === 'DP' ? 'dpQuestions' : 'mypQuestions';
+      const col = currentProgramme === 'DP' ? 'dpQuestions' : (currentProgramme === 'MYP' ? 'mypQuestions' : 'igQuestions');
       try {
         const snap = await db.collection(col).get();
         allQuestions = [];
