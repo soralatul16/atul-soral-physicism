@@ -1215,7 +1215,11 @@ function saveStudentEdits(){
     tags: selectedEditTags
   };
   
-  if (stuId) updateData.studentId = stuId;
+  if (stuId) {
+    var _dupe = allStudents.find(function(x){ return x.id !== activeEditingStudent.id && x.studentId && x.studentId === stuId; });
+    if (_dupe) { alert('Student ID "' + stuId + '" is already used by ' + (_dupe.name || 'another student') + '. Please use a unique ID.'); return; }
+    updateData.studentId = stuId;
+  }
 
   db.collection('students').doc(activeEditingStudent.id).update(updateData).then(function(){
     closeModal('editStudentModal');
