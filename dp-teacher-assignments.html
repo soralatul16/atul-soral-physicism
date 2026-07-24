@@ -1607,6 +1607,22 @@ function editQuestionsFromDetail(id){
   closeModal('assignment-detail-modal');
   openEditAssignmentModal(id);
 }
+function extendDeadline(assignmentId, sid){
+  var a = allAssignments.find(function(x){ return x.id === assignmentId; });
+  if(!a){ alert('Assignment not found.'); return; }
+  var cur = (a.extensions && a.extensions[sid]) ? a.extensions[sid] : (a.dueDate || '');
+  var curStr = cur ? new Date(cur).toLocaleString('en-IN') : 'none';
+  var input = prompt('Extend deadline for this student.\nCurrent: ' + curStr + '\n\nEnter new deadline as YYYY-MM-DD HH:MM (24-hour):', '');
+  if(input === null || !input.trim()) return;
+  var d = new Date(input.replace(' ', 'T'));
+  if(isNaN(d.getTime())){ alert('Could not read that date. Use format: 2026-07-30 23:59'); return; }
+  var ext = Object.assign({}, a.extensions || {});
+  ext[sid] = d.toISOString();
+  db.collection(col('dpAssignments')).doc(assignmentId).update({ extensions: ext }).then(function(){
+    a.extensions = ext;
+    alert('Deadline extended for this student to ' + d.toLocaleString('en-IN') + '.');
+  }).catch(function(e){ alert('Could not save extension: ' + e.message); });
+}
 async function openAssignmentDetail(id) {
   var a = allAssignments.find(function(x) { return x.id === id; });
   if (!a) return;
@@ -1664,6 +1680,7 @@ async function openAssignmentDetail(id) {
       '<td style="padding:10px; font-weight:600; color:var(--accent);">'+scoreStr+'</td>'+
       '<td style="padding:10px; font-size:.75rem; color:var(--text2);">'+timeStr+'</td>'+
       '<td style="padding:10px; font-size:.75rem; color:var(--text2);">'+submittedStr+'</td>'+
+      '<td style="padding:10px;"><button onclick="extendDeadline(\''+id+'\',\''+sid+'\')" style="background:#6c4cff;color:#fff;border:none;border-radius:6px;padding:4px 9px;font-size:.72rem;cursor:pointer">\u23f1 Extend</button></td>'+
     '</tr>';
   });
   
