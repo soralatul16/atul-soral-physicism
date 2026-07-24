@@ -640,6 +640,7 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
       <div style="margin-top:14px">
         <label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Questions</label><br>
         <button class="btn btn-outline" onclick="openReviewFromEdit()" id="editAsgnQBtn" style="margin-top:4px">📋 Select Questions (0)</button>
+        <div style="margin-top:12px"><label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Students</label><br><button class="btn btn-outline" onclick="openSSModal()" id="editAsgnSBtn" style="margin-top:4px">👥 Select Students (0)</button></div><div style="margin-top:12px"><label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Due date for NEWLY added students (optional)</label><br><input type="datetime-local" id="editAsgnNewDue" style="margin-top:4px;padding:6px;border-radius:6px;border:1px solid var(--border)"><div style="font-size:.7rem;color:var(--text3);margin-top:2px">Leave blank to give new students the same base deadline. Existing students are unaffected.</div></div>
       </div>
     </div>
 
@@ -1525,6 +1526,10 @@ function openEditAssignmentModal(id) {
   document.getElementById('editAsgnAllowRetest').checked = !!a.allowRetest;
   document.getElementById('editAsgnMaxAttempts').disabled = !a.allowRetest;
   asgnSelectedQuestions = (a.questionIds||[]).slice();
+  asgnSelectedStudents = (a.studentIds||[]).slice();
+  window._editOrigStudents = (a.studentIds||[]).slice();
+  var _esb=document.getElementById('editAsgnSBtn'); if(_esb) _esb.textContent='👥 Select Students ('+asgnSelectedStudents.length+')';
+  var _end=document.getElementById('editAsgnNewDue'); if(_end) _end.value='';
   asgnOrderedGroups = (a.orderedQuestionGroups||a.questionIds||[]).slice();
   var _eqb=document.getElementById('editAsgnQBtn'); if(_eqb){_eqb.textContent='📋 Select Questions ('+asgnSelectedQuestions.length+')';}
   document.getElementById('editAsgnMaxAttempts').value = a.maxAttempts || '';
@@ -1550,7 +1555,25 @@ function saveAssignmentEdits() {
     maxAttempts: maxAttempts,
     questionIds: asgnSelectedQuestions.slice(),
     orderedQuestionGroups: asgnOrderedGroups.slice()
-  }).then(function() {
+  };
+  var _orig = window._editOrigStudents || (activeEditingAssignment.studentIds||[]);
+  var _now = asgnSelectedStudents.slice();
+  var _added = _now.filter(function(id){ return _orig.indexOf(id)===-1; });
+  updateData.studentIds = _now;
+  var _newDueEl = document.getElementById('editAsgnNewDue');
+  var _newDue = _newDueEl && _newDueEl.value ? new Date(_newDueEl.value).toISOString() : null;
+  if (_added.length && _newDue) {
+    var _ext = Object.assign({}, activeEditingAssignment.extensions || {});
+    _added.forEach(function(id){ _ext[id] = _newDue; });
+    updateData.extensions = _ext;
+  }
+  db.collection(col('dpAssignments')).doc(activeEditingAssignment.id).update(updateData).then(function() {
+    if (_added.length) {
+      try {
+        var _doc = { title: title, type: type, totalMarks: activeEditingAssignment.totalMarks, timeLimit: (type==='hw'?0:time), dueDate: (_newDue || due || activeEditingAssignment.dueDate) };
+        notifyStudentsByEmail(_doc, _added);
+      } catch(e){ console.warn('email new students failed', e); }
+    }
     closeModal('editAssignmentModal');
     loadAssignments();
   });
@@ -2332,6 +2355,7 @@ function ssDeselectAll(){
 function confirmSSSelection(){
   asgnSelectedStudents = Object.keys(ssChecked).filter(function(k){return ssChecked[k];});
   document.getElementById('asgnSBtn').textContent = '👥 Select Students ('+asgnSelectedStudents.length+')';
+  var _esb2=document.getElementById('editAsgnSBtn'); if(_esb2) _esb2.textContent='👥 Select Students ('+asgnSelectedStudents.length+')';
   closeSSModal();
 }
 
