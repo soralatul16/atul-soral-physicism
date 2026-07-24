@@ -2954,10 +2954,11 @@ function renderAnalyticsTable(assignments, submissions, students) {
   
   var rows = '';
   students.forEach(function(st) {
-    var studentSubs = submissions.filter(function(s) { return s.studentId === st.id || s.studentDocId === st.id; });
+    var studentSubs = submissions.filter(function(s) { return s.studentId === st.id || s.studentDocId === st.id || (st.studentId && s.studentId === st.studentId); });
     var doneSubs = studentSubs.filter(function(s) { return s.status !== 'draft' && s.status !== 'offline'; });
     var done = doneSubs.length;
-    var total = assignments.length;
+    var assignedToStudent = assignments.filter(function(a){ return (a.studentIds||[]).indexOf(st.id) > -1 || (st.studentId && (a.studentIds||[]).indexOf(st.studentId) > -1); });
+    var total = assignedToStudent.length;
     var pct = total > 0 ? Math.round(done / total * 100) : 0;
 
     var avgScore = '-';
