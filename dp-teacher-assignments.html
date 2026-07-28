@@ -1222,9 +1222,29 @@ function saveStudentEdits(){
     updateData.studentId = stuId;
   }
 
+  var _oldSid = activeEditingStudent.studentId;
+  var _newSid = stuId;
   db.collection('students').doc(activeEditingStudent.id).update(updateData).then(function(){
-    closeModal('editStudentModal');
-    loadStudents();
+    if (_newSid && _oldSid && _newSid !== _oldSid) {
+      var _cols = ['dpSubmissions','mypSubmissions','igSubmissions'];
+      var _promises = _cols.map(function(c){
+        return db.collection(c).where('studentId','==',_oldSid).get().then(function(snap){
+          var _b = db.batch(); var _cnt = 0;
+          snap.forEach(function(d){ _b.update(d.ref, { studentId: _newSid }); _cnt++; });
+          if(_cnt>0) return _b.commit().then(function(){ return _cnt; });
+          return 0;
+        }).catch(function(){ return 0; });
+      });
+      Promise.all(_promises).then(function(counts){
+        var total = counts.reduce(function(a,b){ return a+(b||0); }, 0);
+        closeModal('editStudentModal');
+        loadStudents();
+        if(total>0) alert('Student updated. Also updated ' + total + ' past submission(s) to the new ID.');
+      });
+    } else {
+      closeModal('editStudentModal');
+      loadStudents();
+    }
   }).catch(function(err){
     alert('Error updating student: ' + err.message);
   });
