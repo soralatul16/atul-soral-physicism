@@ -2122,6 +2122,18 @@ function reviewFlag(g){
   return probs;
 }
 function editReviewQuestion(pid){
+  window._qEditImgData='';
+  setTimeout(function(){
+    var pObj=null;
+    try{ (asgnSelectedQuestions||[]).forEach(function(gg){ (gg.parts||[]).forEach(function(pp){ if(pp.id===pid) pObj=pp; }); }); }catch(e){}
+    var urlEl=document.getElementById('qEditImgUrl'); var prevEl=document.getElementById('qEditImgPrev');
+    if(pObj&&pObj.image&&urlEl&&prevEl){
+      var raw=pObj.image; var src=raw; var mt=/src="([^"]+)"/.exec(raw); if(mt) src=mt[1];
+      urlEl.value=src; window._qEditImgData=src;
+      prevEl.innerHTML='<img src="'+src+'" style="max-width:100%;max-height:220px;border:1px solid #ddd;border-radius:6px;">';
+    }
+  },30);
+
   var grp=null, part=null;
   qbAllGroups.forEach(function(g){ (g.parts||[]).forEach(function(p){ if(p.id===pid){grp=g;part=p;} }); });
   if(!part){ alert('Question not found.'); return; }
@@ -2150,7 +2162,14 @@ function editReviewQuestion(pid){
         '<label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Marks</label><br>'+
         '<input type="number" id="qEditMarks" min="0" value="'+val(part.marks!=null?part.marks:1)+'" style="width:90px;padding:6px;border:1px solid var(--border);border-radius:6px;margin:4px 0 12px"><br>'+
         '<label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Mark scheme / solution</label>'+
-        '<textarea id="qEditMS" style="width:100%;min-height:60px;padding:8px;border:1px solid var(--border);border-radius:6px;margin:4px 0 4px">'+val(part.markScheme)+'</textarea>'+
+        '<textarea id="qEditMS" style="width:100%;min-height:60px;padding:8px;border:1px solid var(--border);border-radius:6px;margin:4px 0 4px">'+val(part.markScheme)+'</textarea>
+        <div style="margin-top:14px;">
+          <label style="display:block;font-size:12px;font-weight:600;color:#555;margin-bottom:4px;">GRAPH / IMAGE (optional)</label>
+          <input type="file" accept="image/*" onchange="qEditPickImage(this)" style="font-size:12px;margin-bottom:6px;">
+          <input type="text" id="qEditImgUrl" placeholder="...or paste an image URL" oninput="qEditImgPreview(this.value)" style="width:100%;padding:6px 8px;border:1px solid #ccc;border-radius:6px;font-size:12px;box-sizing:border-box;">
+          <div id="qEditImgPrev" style="margin-top:8px;"></div>
+          <button type="button" onclick="qEditRemoveImage()" style="margin-top:6px;font-size:11px;color:#c0392b;background:none;border:none;cursor:pointer;padding:0;">Remove image</button>
+        </div>'+
       '</div>'+
       '<div class="ss-footer"><span style="font-size:.75rem;color:var(--text3)">Saves to the question bank (affects all uses)</span>'+
         '<button class="btn btn-primary" onclick="saveQEdit(\''+val(part.id)+'\','+isMCQ+')">Save Question</button></div>'+
@@ -2159,11 +2178,27 @@ function editReviewQuestion(pid){
   document.body.insertAdjacentHTML('beforeend', html);
 }
 function closeQEdit(){ var o=document.getElementById('qEditOverlay'); if(o) o.remove(); }
+function qEditImgPreview(url){
+  var p=document.getElementById('qEditImgPrev');
+  if(!url){ p.innerHTML=''; window._qEditImgData=''; return; }
+  window._qEditImgData=url;
+  p.innerHTML='<img src="'+url+'" style="max-width:100%;max-height:220px;border:1px solid #ddd;border-radius:6px;">';
+}
+function qEditPickImage(input){
+  var file=input.files&&input.files[0]; if(!file) return;
+  var r=new FileReader();
+  r.onload=function(e){ document.getElementById('qEditImgUrl').value=''; window._qEditImgData=e.target.result; document.getElementById('qEditImgPrev').innerHTML='<img src="'+e.target.result+'" style="max-width:100%;max-height:220px;border:1px solid #ddd;border-radius:6px;">'; };
+  r.readAsDataURL(file);
+}
+function qEditRemoveImage(){
+  document.getElementById('qEditImgUrl').value=''; document.getElementById('qEditImgPrev').innerHTML=''; window._qEditImgData='';
+}
 function saveQEdit(pid, isMCQ){
   var upd={};
   upd.text=document.getElementById('qEditStem').value;
   upd.marks=parseFloat(document.getElementById('qEditMarks').value)||0;
   upd.markScheme=document.getElementById('qEditMS').value;
+  upd.image = (document.getElementById('qEditImgUrl').value.trim()) || window._qEditImgData || '';
   if(isMCQ){
     var opts=[];
     for(var i=0;i<4;i++){ var el=document.getElementById('qEditOpt'+i); if(el && el.value.trim()!=='') opts.push(el.value); }
