@@ -441,6 +441,20 @@ nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px
 .tool-close:hover {
   color: var(--danger);
 }
+
+/* --- attempt drawing canvas --- */
+.adraw-wrap{margin-top:10px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.adraw-bar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 8px;background:var(--card);border-bottom:1px solid var(--border);font-size:.72rem}
+.adraw-lbl{color:var(--text2);margin-right:4px}
+.adraw-btn{border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:6px;padding:3px 8px;font-size:.72rem;cursor:pointer}
+.adraw-btn.on{border-color:var(--accent);color:var(--accent)}
+.adraw-dot{width:16px;height:16px;border-radius:50%;cursor:pointer;border:2px solid transparent}
+.adraw-dot.on{border-color:#111827}
+.adraw-stage{position:relative;width:100%;max-width:640px}
+.adraw-stage.adraw-blank{background:#fff;background-image:linear-gradient(#eee 1px,transparent 1px),linear-gradient(90deg,#eee 1px,transparent 1px);background-size:20px 20px}
+.adraw-saved,.adraw-canvas{display:block;width:100%;height:auto}
+.adraw-saved{position:absolute;inset:0}
+.adraw-canvas{position:relative;touch-action:none;cursor:crosshair}
 </style>
 </head>
 <body>
@@ -1284,6 +1298,7 @@ function enterAttemptMode(assignment, submission, questions){
         '</div>' +
         innerImgHtml +
         inputHtml +
+        (g.type === 'MCQ' ? '' : attemptDrawHtml(p)) +
       '</div>';
     }).join('');
 
@@ -1378,6 +1393,46 @@ function selectMCQ(partId, optIndex, el) {
   
   updateNavStates();
 }
+
+function attemptDrawHtml(p){
+  var saved = currentAnswers[p.id + '__draw'] || '';
+  var bg = (p.image && p.image.length > 10) ? '' : ' adraw-blank';
+  return '<div class="adraw-wrap" data-pid="'+p.id+'">'+
+    '<div class="adraw-bar">'+
+      '<span class="adraw-lbl">\u270e Working / diagram (optional):</span>'+
+      '<button type="button" class="adraw-btn" data-tool="pen" onclick="adrawTool(this,\''+p.id+'\',\'pen\')">Pen</button>'+
+      '<span class="adraw-dot" style="background:#ef4444" onclick="adrawColor(this,\''+p.id+'\',\'#ef4444\')"></span>'+
+      '<span class="adraw-dot" style="background:#2563eb" onclick="adrawColor(this,\''+p.id+'\',\'#2563eb\')"></span>'+
+      '<span class="adraw-dot" style="background:#111827" onclick="adrawColor(this,\''+p.id+'\',\'#111827\')"></span>'+
+      '<button type="button" class="adraw-btn" onclick="adrawTool(this,\''+p.id+'\',\'eraser\')">Eraser</button>'+
+      '<button type="button" class="adraw-btn" onclick="adrawUndo(\''+p.id+'\')">Undo</button>'+
+      '<button type="button" class="adraw-btn" onclick="adrawClear(\''+p.id+'\')">Clear</button>'+
+    '</div>'+
+    '<div class="adraw-stage'+bg+'">'+
+      (saved ? '<img class="adraw-saved" src="'+saved+'">' : '')+
+      '<canvas class="adraw-canvas" id="adraw-'+p.id+'" width="640" height="360"></canvas>'+
+    '</div>'+
+  '</div>';
+}
+var _adrawState = {};
+function _adrawInit(pid){
+  var c = document.getElementById('adraw-'+pid); if(!c || c._init) return;
+  c._init = true;
+  var ctx = c.getContext('2d');
+  var saved = currentAnswers[pid + '__draw'];
+  if(saved){ var img=new Image(); img.onload=function(){ ctx.drawImage(img,0,0,c.width,c.height); }; img.src=saved; }
+  var st = _adrawState[pid] = _adrawState[pid] || { tool:'pen', color:'#ef4444', drawing:false, undo:[] };
+  function pos(e){ var r=c.getBoundingClientRect(); var t=e.touches?e.touches[0]:e; return { x:(t.clientX-r.left)*(c.width/r.width), y:(t.clientY-r.top)*(c.height/r.height) }; }
+  function start(e){ st.drawing=true; st.undo.push(c.toDataURL()); if(st.undo.length>15) st.undo.shift(); var pt=pos(e); ctx.beginPath(); ctx.moveTo(pt.x,pt.y); e.preventDefault(); }
+  function move(e){ if(!st.drawing) return; var pt=pos(e); if(st.tool==='eraser'){ ctx.globalCompositeOperation='destination-out'; ctx.lineWidth=18; } else { ctx.globalCompositeOperation='source-over'; ctx.strokeStyle=st.color; ctx.lineWidth=2.5; } ctx.lineCap='round'; ctx.lineTo(pt.x,pt.y); ctx.stroke(); e.preventDefault(); }
+  function end(){ if(!st.drawing) return; st.drawing=false; ctx.globalCompositeOperation='source-over'; if(!submitting){ currentAnswers[pid+'__draw']=c.toDataURL('image/png'); if(typeof updateNavStates==='function') updateNavStates(); } }
+  c.addEventListener('mousedown',start); c.addEventListener('mousemove',move); window.addEventListener('mouseup',end);
+  c.addEventListener('touchstart',start,{passive:false}); c.addEventListener('touchmove',move,{passive:false}); c.addEventListener('touchend',end);
+}
+function adrawTool(btn,pid,tool){ _adrawInit(pid); var st=_adrawState[pid]; st.tool=tool; var bar=btn.closest('.adraw-bar'); bar.querySelectorAll('.adraw-btn').forEach(function(b){ b.classList.remove('on'); }); if(tool!=='eraser') btn.classList.add('on'); }
+function adrawColor(dot,pid,col){ _adrawInit(pid); var st=_adrawState[pid]; st.tool='pen'; st.color=col; var bar=dot.closest('.adraw-bar'); bar.querySelectorAll('.adraw-dot').forEach(function(d){ d.classList.remove('on'); }); dot.classList.add('on'); }
+function adrawUndo(pid){ _adrawInit(pid); var st=_adrawState[pid]; var c=document.getElementById('adraw-'+pid); if(!c||!st.undo.length) return; var data=st.undo.pop(); var ctx=c.getContext('2d'); var img=new Image(); img.onload=function(){ ctx.clearRect(0,0,c.width,c.height); ctx.drawImage(img,0,0); if(!submitting) currentAnswers[pid+'__draw']=c.toDataURL('image/png'); }; img.src=data; }
+function adrawClear(pid){ _adrawInit(pid); var c=document.getElementById('adraw-'+pid); if(!c) return; var st=_adrawState[pid]; st.undo.push(c.toDataURL()); var ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height); if(!submitting){ delete currentAnswers[pid+'__draw']; } }
 
 function saveTextAnswer(partId, el) {
   if (submitting) return;
