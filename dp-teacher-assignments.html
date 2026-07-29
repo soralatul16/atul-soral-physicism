@@ -2166,6 +2166,7 @@ function editReviewQuestion(pid){
         <div style="margin-top:14px;">
           <label style="display:block;font-size:12px;font-weight:600;color:#555;margin-bottom:4px;">GRAPH / IMAGE (optional)</label>
           <input type="file" accept="image/*" onchange="qEditPickImage(this)" style="font-size:12px;margin-bottom:6px;">
+          <div id="qEditPasteZone" contenteditable="true" onpaste="qEditPasteImage(event)" onkeydown="return false;" style="border:1px dashed #aaa;border-radius:6px;padding:10px;font-size:12px;color:#888;text-align:center;margin-bottom:6px;cursor:text;outline:none;">Click here, then paste a screenshot (Cmd+V)</div>
           <input type="text" id="qEditImgUrl" placeholder="...or paste an image URL" oninput="qEditImgPreview(this.value)" style="width:100%;padding:6px 8px;border:1px solid #ccc;border-radius:6px;font-size:12px;box-sizing:border-box;">
           <div id="qEditImgPrev" style="margin-top:8px;"></div>
           <button type="button" onclick="qEditRemoveImage()" style="margin-top:6px;font-size:11px;color:#c0392b;background:none;border:none;cursor:pointer;padding:0;">Remove image</button>
@@ -2189,6 +2190,23 @@ function qEditPickImage(input){
   var r=new FileReader();
   r.onload=function(e){ document.getElementById('qEditImgUrl').value=''; window._qEditImgData=e.target.result; document.getElementById('qEditImgPrev').innerHTML='<img src="'+e.target.result+'" style="max-width:100%;max-height:220px;border:1px solid #ddd;border-radius:6px;">'; };
   r.readAsDataURL(file);
+}
+function qEditPasteImage(ev){
+  var items=(ev.clipboardData||window.clipboardData).items; if(!items) return;
+  for(var i=0;i<items.length;i++){
+    if(items[i].type.indexOf('image')===0){
+      ev.preventDefault();
+      var blob=items[i].getAsFile();
+      var r=new FileReader();
+      r.onload=function(e){
+        document.getElementById('qEditImgUrl').value='';
+        window._qEditImgData=e.target.result;
+        document.getElementById('qEditImgPrev').innerHTML='<img src="'+e.target.result+'" style="max-width:100%;max-height:220px;border:1px solid #ddd;border-radius:6px;">';
+      };
+      r.readAsDataURL(blob);
+      return;
+    }
+  }
 }
 function qEditRemoveImage(){
   document.getElementById('qEditImgUrl').value=''; document.getElementById('qEditImgPrev').innerHTML=''; window._qEditImgData='';
