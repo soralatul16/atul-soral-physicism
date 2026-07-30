@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Studio · Atul Soral Physicism</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="exam-system/firebase-config.js?v=2"></script>
+<style>
+:root{--teal:#0d9488;--teal-d:#0f766e;--bg:#f1f5f9;--card:#fff;--border:#e2e8f0;--text:#0f172a;--text2:#475569;--text3:#94a3b8}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
+.topbar{background:var(--teal);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:16px}
+.topbar h1{font-size:1.1rem;margin:0;font-weight:700}
+.topbar .sub{font-size:.85rem;opacity:.85}
+.topbar a{margin-left:auto;color:#fff;text-decoration:none;background:rgba(255,255,255,.15);padding:6px 12px;border-radius:8px;font-size:.85rem}
+.wrap{max-width:1100px;margin:0 auto;padding:20px}
+.card{background:var(--card);border-radius:14px;padding:22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:18px}
+h2{font-size:1.05rem;margin:0 0 14px;color:var(--teal-d)}
+label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);font-weight:700;margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--border);background:#fff;border-radius:20px;padding:8px 16px;font-size:.85rem;cursor:pointer;transition:.15s;font-weight:500}
+.chip:hover{border-color:var(--teal)}
+.chip.sel{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn{border:none;border-radius:9px;padding:10px 18px;font-size:.9rem;font-weight:600;cursor:pointer;transition:.15s}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-primary:hover{background:var(--teal-d)}
+.btn-outline{background:#fff;border:1.5px solid var(--border);color:var(--text2)}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.hidden{display:none!important}
+/* Editor */
+.mode-tabs{display:flex;gap:6px;margin-bottom:12px}
+.mode-tab{padding:8px 16px;border-radius:8px 8px 0 0;background:#e2e8f0;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--text2)}
+.mode-tab.active{background:var(--teal);color:#fff}
+.toolbar{display:flex;flex-wrap:wrap;gap:4px;padding:8px;background:#f8fafc;border:1px solid var(--border);border-radius:8px 8px 0 0}
+.toolbar button,.toolbar select{border:1px solid var(--border);background:#fff;border-radius:6px;padding:5px 9px;font-size:.8rem;cursor:pointer;min-width:30px}
+.toolbar button:hover{background:#eef2f7}
+.toolbar .sep{width:1px;background:var(--border);margin:2px 4px}
+#editor{min-height:500px;border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;padding:40px 48px;background:#fff;outline:none;line-height:1.6;font-size:15px}
+#editor:focus{box-shadow:inset 0 0 0 2px rgba(13,148,136,.15)}
+#htmlPaste{width:100%;min-height:300px;font-family:'SF Mono',Menlo,monospace;font-size:.82rem;padding:12px;border:1px solid var(--border);border-radius:8px;resize:vertical}
+.doc-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:.15s}
+.doc-item:hover{border-color:var(--teal);background:#f0fdfa}
+.doc-badge{font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:6px;background:#e0f2fe;color:#0369a1}
+.doc-meta{font-size:.75rem;color:var(--text3)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filters select,.filters input{padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:.82rem}
+@media print{ body *{visibility:hidden} #printArea,#printArea *{visibility:visible} #printArea{position:absolute;left:0;top:0;width:100%} .no-print{display:none!important} }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>📄 Document Studio</h1>
+  <span class="sub">Atul Soral Physicism</span>
+  <a href="dp-teacher-assignments.html">← Back to Assignments</a>
+</div>
+
+<div class="wrap">
+
+  <!-- STEP 1: chooser -->
+  <div id="chooser">
+    <div class="card">
+      <h2>1 · Choose type</h2>
+      <div class="chips" id="catChips">
+        <div class="chip" data-cat="Worksheet">📝 Worksheet</div>
+        <div class="chip" data-cat="Test Paper">📄 Test Paper</div>
+        <div class="chip" data-cat="Notes">📓 Notes</div>
+        <div class="chip" data-cat="Reading Material">📚 Reading Material</div>
+        <div class="chip" data-cat="Experiment / Lab">🔬 Experiment / Lab</div>
+        <div class="chip" data-cat="Other">📎 Other</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>2 · Choose grade / level</h2>
+      <div class="chips" id="gradeChips">
+        <div class="chip" data-grade="IGCSE 9">IGCSE 9</div>
+        <div class="chip" data-grade="IGCSE 10">IGCSE 10</div>
+        <div class="chip" data-grade="MYP 4">MYP 4</div>
+        <div class="chip" data-grade="MYP 5">MYP 5</div>
+        <div class="chip" data-grade="DP1-HL">DP1-HL</div>
+        <div class="chip" data-grade="DP1-SL">DP1-SL</div>
+        <div class="chip" data-grade="DP1 HL/SL Common">DP1 HL/SL Common</div>
+        <div class="chip" data-grade="DP2-HL">DP2-HL</div>
+        <div class="chip" data-grade="DP2-SL">DP2-SL</div>
+        <div class="chip" data-grade="DP2 HL/SL Common">DP2 HL/SL Common</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row">
+        <input id="docTitle" placeholder="Document title (e.g. Kinematics Worksheet 1)" style="flex:1;min-width:240px;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:.9rem">
+        <button class="btn btn-primary" onclick="startEditor()">Create →</button>
+      </div>
+      <div id="chooseHint" style="font-size:.78rem;color:var(--text3);margin-top:8px">Pick a type and a grade, add a title, then Create.</div>
+    </div>
+
+    <div class="card">
+      <h2>📁 Your saved documents</h2>
+      <div class="filters">
+        <input id="fLibSearch" placeholder="🔍 Search title..." oninput="renderLibrary()">
+        <select id="fLibCat" onchange="renderLibrary()"><option value="">All types</option></select>
+        <select id="fLibGrade" onchange="renderLibrary()"><option value="">All grades</option></select>
+      </div>
+      <div id="libraryList"><div class="doc-meta">Loading…</div></div>
+    </div>
+  </div>
+
+  <!-- STEP 2: editor -->
+  <div id="editorPane" class="hidden">
+    <div class="card">
+      <div class="row" style="margin-bottom:10px">
+        <button class="btn btn-outline" onclick="backToChooser()">← Back</button>
+        <span id="editorMeta" style="font-weight:600;color:var(--teal-d)"></span>
+        <div style="margin-left:auto" class="row">
+          <button class="btn btn-outline" onclick="saveDoc()">💾 Save</button>
+          <button class="btn btn-outline" onclick="exportPDF()">⬇ PDF</button>
+          <button class="btn btn-outline" onclick="exportWord()">⬇ Word</button>
+        </div>
+      </div>
+
+      <div class="mode-tabs">
+        <div class="mode-tab active" id="tabRich" onclick="setMode('rich')">✍️ Rich Editor</div>
+        <div class="mode-tab" id="tabHtml" onclick="setMode('html')">&lt;/&gt; Paste HTML</div>
+      </div>
+
+      <!-- HTML paste mode -->
+      <div id="htmlMode" class="hidden">
+        <label>Paste HTML source (from "View Page Source"). It renders with its own CSS.</label>
+        <textarea id="htmlPaste" placeholder="Paste your HTML code here..."></textarea>
+        <div class="row" style="margin-top:10px">
+          <button class="btn btn-primary" onclick="renderHtml()">Render into editor →</button>
+          <span class="doc-meta">Rendered content becomes fully editable in the Rich Editor.</span>
+        </div>
+      </div>
+
+      <!-- Rich editor mode -->
+      <div id="richMode">
+        <div class="toolbar no-print">
+          <select onchange="fmtBlock(this.value)"><option value="">Paragraph</option><option value="H1">Heading 1</option><option value="H2">Heading 2</option><option value="H3">Heading 3</option></select>
+          <select onchange="fmt('fontName',this.value)"><option value="">Font</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Times New Roman">Times</option><option value="Courier New">Courier</option><option value="system-ui">System</option></select>
+          <select onchange="fmt('fontSize',this.value)"><option value="">Size</option><option value="1">Small</option><option value="3">Normal</option><option value="5">Large</option><option value="6">X-Large</option><option value="7">Huge</option></select>
+          <span class="sep"></span>
+          <button onclick="fmt('bold')" title="Bold"><b>B</b></button>
+          <button onclick="fmt('italic')" title="Italic"><i>I</i></button>
+          <button onclick="fmt('underline')" title="Underline"><u>U</u></button>
+          <button onclick="fmt('strikeThrough')" title="Strike"><s>S</s></button>
+          <input type="color" onchange="fmt('foreColor',this.value)" title="Text color" style="width:32px;height:32px;padding:2px;border:1px solid var(--border);border-radius:6px">
+          <input type="color" onchange="fmt('hiliteColor',this.value)" title="Highlight" value="#ffff00" style="width:32px;height:32px;padding:2px;border:1px solid var(--border);border-radius:6px">
+          <span class="sep"></span>
+          <button onclick="fmt('justifyLeft')" title="Left">⬅</button>
+          <button onclick="fmt('justifyCenter')" title="Center">⬍</button>
+          <button onclick="fmt('justifyRight')" title="Right">➡</button>
+          <button onclick="fmt('insertUnorderedList')" title="Bullets">• List</button>
+          <button onclick="fmt('insertOrderedList')" title="Numbered">1. List</button>
+          <span class="sep"></span>
+          <button onclick="insertTable()" title="Table">▦ Table</button>
+          <button onclick="document.getElementById('imgPick').click()" title="Image">🖼 Image</button>
+          <button onclick="insertLink()" title="Link">🔗 Link</button>
+          <button onclick="fmt('insertHorizontalRule')" title="Divider">— HR</button>
+          <span class="sep"></span>
+          <button onclick="fmt('undo')" title="Undo">↶</button>
+          <button onclick="fmt('redo')" title="Redo">↷</button>
+          <button onclick="fmt('removeFormat')" title="Clear format">✕ Fmt</button>
+        </div>
+        <input type="file" id="imgPick" accept="image/*" class="hidden" onchange="pickImage(this)">
+        <div id="editor" contenteditable="true"><p>Start typing, paste text/screenshots, or switch to "Paste HTML" to import source code…</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- hidden print target -->
+  <div id="printArea" class="hidden"></div>
+</div>
+
+<script>
+var currentUser=null;
+var sel={cat:'',grade:''};
+var currentDocId=null, currentMode='rich';
+var CATS=['Worksheet','Test Paper','Notes','Reading Material','Experiment / Lab','Other'];
+var GRADES=['IGCSE 9','IGCSE 10','MYP 4','MYP 5','DP1-HL','DP1-SL','DP1 HL/SL Common','DP2-HL','DP2-SL','DP2 HL/SL Common'];
+
+// db + firebase are already initialized in firebase-config.js (window.db)
+var db = window.db;
+firebase.auth().onAuthStateChanged(function(u){ currentUser=u; loadLibrary(); });
+
+// chooser chips
+document.querySelectorAll('#catChips .chip').forEach(function(c){
+  c.onclick=function(){ document.querySelectorAll('#catChips .chip').forEach(function(x){x.classList.remove('sel');}); c.classList.add('sel'); sel.cat=c.getAttribute('data-cat'); };
+});
+document.querySelectorAll('#gradeChips .chip').forEach(function(c){
+  c.onclick=function(){ document.querySelectorAll('#gradeChips .chip').forEach(function(x){x.classList.remove('sel');}); c.classList.add('sel'); sel.grade=c.getAttribute('data-grade'); };
+});
+
+// populate filter dropdowns
+(function(){
+  var fc=document.getElementById('fLibCat'), fg=document.getElementById('fLibGrade');
+  CATS.forEach(function(c){ var o=document.createElement('option');o.value=c;o.textContent=c;fc.appendChild(o); });
+  GRADES.forEach(function(g){ var o=document.createElement('option');o.value=g;o.textContent=g;fg.appendChild(o); });
+})();
+
+function startEditor(){
+  if(!sel.cat){ alert('Pick a document type.'); return; }
+  if(!sel.grade){ alert('Pick a grade / level.'); return; }
+  var title=document.getElementById('docTitle').value.trim();
+  if(!title){ alert('Enter a title.'); return; }
+  currentDocId=null;
+  document.getElementById('editor').innerHTML='<p></p>';
+  document.getElementById('htmlPaste').value='';
+  openEditor(title);
+}
+function openEditor(title){
+  document.getElementById('chooser').classList.add('hidden');
+  document.getElementById('editorPane').classList.remove('hidden');
+  document.getElementById('editorMeta').textContent=sel.cat+' · '+sel.grade+' · '+title;
+  window._docTitle=title;
+  setMode('rich');
+}
+function backToChooser(){
+  document.getElementById('editorPane').classList.add('hidden');
+  document.getElementById('chooser').classList.remove('hidden');
+  loadLibrary();
+}
+function setMode(m){
+  currentMode=m;
+  document.getElementById('richMode').classList.toggle('hidden', m!=='rich');
+  document.getElementById('htmlMode').classList.toggle('hidden', m!=='html');
+  document.getElementById('tabRich').classList.toggle('active', m==='rich');
+  document.getElementById('tabHtml').classList.toggle('active', m==='html');
+}
+function renderHtml(){
+  var code=document.getElementById('htmlPaste').value;
+  if(!code.trim()){ alert('Paste some HTML first.'); return; }
+  document.getElementById('editor').innerHTML=code;
+  setMode('rich');
+}
+
+// formatting
+function fmt(cmd,val){ document.getElementById('editor').focus(); document.execCommand(cmd,false,val||null); }
+function fmtBlock(tag){ if(tag) fmt('formatBlock', tag); }
+function insertTable(){
+  var r=parseInt(prompt('Rows?','3'))||3, c=parseInt(prompt('Columns?','3'))||3;
+  var h='<table style="border-collapse:collapse;width:100%;margin:10px 0">';
+  for(var i=0;i<r;i++){ h+='<tr>'; for(var j=0;j<c;j++){ h+='<td style="border:1px solid #cbd5e1;padding:8px;min-width:40px">&nbsp;</td>'; } h+='</tr>'; }
+  h+='</table><p></p>';
+  fmt('insertHTML', h);
+}
+function insertLink(){ var u=prompt('URL:','https://'); if(u) fmt('createLink', u); }
+function pickImage(input){
+  var f=input.files&&input.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(e){ fmt('insertHTML','<img src="'+e.target.result+'" style="max-width:100%;height:auto;margin:8px 0">'); };
+  r.readAsDataURL(f);
+  input.value='';
+}
+// paste image from clipboard directly into editor
+document.getElementById('editor').addEventListener('paste', function(ev){
+  var items=(ev.clipboardData||window.clipboardData).items; if(!items) return;
+  for(var i=0;i<items.length;i++){
+    if(items[i].type.indexOf('image')===0){
+      ev.preventDefault();
+      var blob=items[i].getAsFile(); var r=new FileReader();
+      r.onload=function(e){ fmt('insertHTML','<img src="'+e.target.result+'" style="max-width:100%;height:auto;margin:8px 0">'); };
+      r.readAsDataURL(blob); return;
+    }
+  }
+});
+
+// save / library
+function saveDoc(){
+  if(!db){ alert('Database not ready.'); return; }
+  var html=document.getElementById('editor').innerHTML;
+  var data={ title:window._docTitle||'Untitled', category:sel.cat, grade:sel.grade, html:html, updatedAt:firebase.firestore.FieldValue.serverTimestamp() };
+  var p;
+  if(currentDocId){ p=db.collection('documents').doc(currentDocId).update(data); }
+  else { data.createdAt=firebase.firestore.FieldValue.serverTimestamp(); p=db.collection('documents').add(data).then(function(ref){ currentDocId=ref.id; }); }
+  p.then(function(){ alert('Document saved to your library.'); }).catch(function(e){ alert('Save error: '+e.message); });
+}
+function loadLibrary(){
+  if(!db) return;
+  db.collection('documents').orderBy('updatedAt','desc').get().then(function(snap){
+    window._library=[]; snap.forEach(function(d){ window._library.push(Object.assign({id:d.id},d.data())); });
+    renderLibrary();
+  }).catch(function(e){
+    db.collection('documents').get().then(function(snap){ window._library=[]; snap.forEach(function(d){ window._library.push(Object.assign({id:d.id},d.data())); }); renderLibrary(); });
+  });
+}
+function renderLibrary(){
+  var host=document.getElementById('libraryList'); var lib=window._library||[];
+  var q=(document.getElementById('fLibSearch').value||'').toLowerCase();
+  var fc=document.getElementById('fLibCat').value, fg=document.getElementById('fLibGrade').value;
+  var list=lib.filter(function(d){
+    if(q && (d.title||'').toLowerCase().indexOf(q)===-1) return false;
+    if(fc && d.category!==fc) return false;
+    if(fg && d.grade!==fg) return false;
+    return true;
+  });
+  if(!list.length){ host.innerHTML='<div class="doc-meta">No documents yet. Create one above.</div>'; return; }
+  host.innerHTML=list.map(function(d){
+    var when=d.updatedAt&&d.updatedAt.toDate?d.updatedAt.toDate().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):'';
+    return '<div class="doc-item" onclick="openDoc(\''+d.id+'\')">'+
+      '<span class="doc-badge">'+(d.category||'Doc')+'</span>'+
+      '<div style="flex:1"><div style="font-weight:600">'+escH(d.title||'Untitled')+'</div>'+
+      '<div class="doc-meta">'+escH(d.grade||'')+' · updated '+when+'</div></div>'+
+      '<button class="btn btn-outline" onclick="event.stopPropagation();deleteDoc(\''+d.id+'\')" style="padding:6px 10px;color:#dc2626;border-color:#fca5a5">🗑</button>'+
+    '</div>';
+  }).join('');
+}
+function openDoc(id){
+  var d=(window._library||[]).find(function(x){return x.id===id;}); if(!d) return;
+  sel.cat=d.category||''; sel.grade=d.grade||''; currentDocId=id;
+  document.getElementById('editor').innerHTML=d.html||'<p></p>';
+  openEditor(d.title||'Untitled');
+}
+function deleteDoc(id){
+  if(!confirm('Delete this document permanently?')) return;
+  db.collection('documents').doc(id).delete().then(loadLibrary);
+}
+function escH(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// export
+function exportPDF(){
+  var area=document.getElementById('printArea');
+  area.innerHTML=document.getElementById('editor').innerHTML;
+  area.classList.remove('hidden');
+  window.print();
+  setTimeout(function(){ area.classList.add('hidden'); },500);
+}
+function exportWord(){
+  var title=window._docTitle||'Document';
+  var content=document.getElementById('editor').innerHTML;
+  var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>'+title+'</title></head><body>'+content+'</body></html>';
+  var blob=new Blob(['﻿', html], {type:'application/msword'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a'); a.href=url; a.download=title.replace(/[^a-z0-9]+/gi,'_')+'.doc';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
