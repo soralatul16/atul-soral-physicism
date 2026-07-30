@@ -2201,14 +2201,22 @@ function reviewFlag(g){
 function editReviewQuestion(pid){
   window._qEditImgData='';
   setTimeout(function(){
-    var pObj=null;
-    try{ (asgnSelectedQuestions||[]).forEach(function(gg){ (gg.parts||[]).forEach(function(pp){ if(pp.id===pid) pObj=pp; }); }); }catch(e){}
     var urlEl=document.getElementById('qEditImgUrl'); var prevEl=document.getElementById('qEditImgPrev');
-    if(pObj&&pObj.image&&urlEl&&prevEl){
-      var raw=pObj.image; var src=raw; var mt=/src="([^"]+)"/.exec(raw); if(mt) src=mt[1];
+    if(!urlEl||!prevEl) return;
+    function _showImg(raw){
+      if(!raw) return;
+      var src=raw; var mt=/src="([^"]+)"/.exec(raw); if(mt) src=mt[1];
       urlEl.value=src; window._qEditImgData=src;
       prevEl.innerHTML='<img src="'+src+'" style="max-width:100%;max-height:220px;border:1px solid #ddd;border-radius:6px;">';
     }
+    var pObj=null;
+    try{ (qbAllGroups||[]).forEach(function(gg){ (gg.parts||[]).forEach(function(pp){ if(pp.id===pid) pObj=pp; }); }); }catch(e){}
+    if(pObj&&pObj.image){ _showImg(pObj.image); }
+    try{
+      db.collection(col('dpQuestions')).doc(pid).get().then(function(d){
+        if(d.exists && d.data().image){ _showImg(d.data().image); }
+      }).catch(function(){});
+    }catch(e){}
   },30);
 
   var grp=null, part=null;
