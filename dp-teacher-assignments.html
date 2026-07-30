@@ -605,7 +605,7 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
       <div style="flex:1;min-width:300px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
           <label style="font-size:.78rem;font-weight:600;color:var(--text2)">Overall Comments</label>
-          <button id="btnAiFeedback" class="btn btn-sm btn-outline" onclick="generateAIFeedback()" style="font-size:.7rem;padding:2px 8px;border-color:var(--accent);color:var(--accent)">✨ Generate AI Feedback</button>
+          <button id="btnAiGradeAll" class="btn btn-sm btn-primary" onclick="aiGradeAllParts()" style="font-size:.7rem;padding:2px 8px;margin-right:6px">🤖 AI Grade All Parts</button><button id="btnAiFeedback" class="btn btn-sm btn-outline" onclick="generateAIFeedback()" style="font-size:.7rem;padding:2px 8px;border-color:var(--accent);color:var(--accent)">✨ Generate AI Feedback</button>
         </div>
         <textarea id="overallComments" style="width:100%;height:60px;padding:8px;border:1.5px solid var(--border);border-radius:8px;font-size:.8rem;resize:none;outline:none" placeholder="Feedback on the overall performance..."></textarea>
       </div>
@@ -2972,6 +2972,78 @@ function saveGrade(status){
   }).catch(function(err){
     alert('Error saving grade: ' + err.message);
   });
+}
+
+async function aiGradeOnePart(qText, markScheme, maxMarks, studentAns){
+  var messages=[
+    { role:'system', content:'You are an IB Physics examiner. Grade the student answer against the mark scheme. Award whole marks from 0 to '+maxMarks+'. Be fair: accept valid alternative methods and correct physics even if worded differently; penalise wrong physics, missing units, or wrong significant figures per IB norms. Respond with ONLY compact JSON: {"marks": <integer 0-'+maxMarks+'>, "feedback": "<one or two sentences, specific>"} and nothing else.' },
+    { role:'user', content:'QUESTION:\n'+qText+'\n\nMARK SCHEME:\n'+markScheme+'\n\nMAX MARKS: '+maxMarks+'\n\nSTUDENT ANSWER:\n'+studentAns+'\n\nGrade now.' }
+  ];
+  var aiChat=firebase.functions().httpsCallable('aiChat');
+  var res=await aiChat({ messages:messages, temperature:0.2, maxTokens:200 });
+  var reply=(res&&res.data&&res.data.reply)?res.data.reply:'';
+  var m=/\{[\s\S]*\}/.exec(reply); var obj=null;
+  try{ obj=JSON.parse(m?m[0]:reply); }catch(e){ obj=null; }
+  if(!obj || typeof obj.marks==='undefined'){ return { marks:null, feedback:(reply||'AI could not grade this part.').slice(0,300) }; }
+  var mk=parseInt(obj.marks); if(isNaN(mk)) mk=0; if(mk<0) mk=0; if(mk>maxMarks) mk=maxMarks;
+  return { marks:mk, feedback:(obj.feedback||'').toString().slice(0,300) };
+}
+
+async function aiGradeAllParts(){
+  if(!activeGradingSubmission || !activeGradingAssignment){ return; }
+  var btn=document.getElementById('btnAiGradeAll'); var prev=btn.innerHTML;
+  btn.disabled=true;
+  var sub=activeGradingSubmission;
+  try{
+    if(!firebase.auth().currentUser){ await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+    var parts=[];
+    activeGradingQuestions.forEach(function(g){ (g.parts||[]).forEach(function(p){ parts.push({g:g,p:p}); }); });
+    var done=0;
+    for(var i=0;i<parts.length;i++){
+      var g=parts[i].g, p=parts[i].p;
+      done++; btn.innerHTML='🤖 Grading '+done+'/'+parts.length+'...';
+      var maxMarks=p.marks||1;
+      var sel=document.querySelector('.grade-marks-select[data-partid="'+p.id+'"]');
+      var com=document.querySelector('.grade-comment-input[data-partid="'+p.id+'"]');
+      var hasDraw=sub.answers && sub.answers[p.id+'__draw'];
+      // MCQ: grade locally
+      if(g.type==='MCQ'){
+        var selIdx=sub.answers?sub.answers[p.id]:null;
+        var correct=(selIdx!==null&&selIdx!==undefined&&selIdx===p.correct);
+        if(sel) sel.value=correct?String(maxMarks):'0';
+        if(com) com.value=correct?'Correct.':('Incorrect — correct answer was '+String.fromCharCode(65+(p.correct||0))+'.');
+        continue;
+      }
+      var ans=(sub.answers && sub.answers[p.id]!==undefined && sub.answers[p.id]!=='')?String(sub.answers[p.id]):'';
+      // Drawing-only part: flag for manual check
+      if(hasDraw && !ans){
+        if(com) com.value='⚠ Manual check needed — student submitted a diagram/drawing. See above.';
+        if(sel) sel.value='0';
+        continue;
+      }
+      if(!ans){
+        if(com) com.value='No answer submitted.';
+        if(sel) sel.value='0';
+        continue;
+      }
+      try{
+        var r=await aiGradeOnePart(p.text||g.stem||'', p.markScheme||'(no mark scheme)', maxMarks, ans);
+        if(sel && r.marks!==null) sel.value=String(r.marks);
+        var fb=r.feedback||'';
+        if(hasDraw) fb='⚠ Also check diagram. '+fb;
+        if(com) com.value=fb;
+      }catch(e){
+        if(com) com.value='AI grading failed for this part — grade manually.';
+      }
+    }
+    recalcGradingScore();
+    btn.innerHTML='✅ Done — review & adjust';
+    setTimeout(function(){ btn.innerHTML=prev; btn.disabled=false; },2500);
+    alert('AI grading complete. Review each part, adjust marks if needed, then Release. MCQ graded automatically; drawings flagged for manual check.');
+  }catch(err){
+    alert('AI grading error: '+err.message);
+    btn.innerHTML=prev; btn.disabled=false;
+  }
 }
 
 async function generateAIFeedback() {
