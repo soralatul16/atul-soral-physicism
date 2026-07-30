@@ -450,7 +450,9 @@ nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px
 .adraw-btn.on{border-color:var(--accent);color:var(--accent)}
 .adraw-dot{width:16px;height:16px;border-radius:50%;cursor:pointer;border:2px solid transparent}
 .adraw-dot.on{border-color:#111827}
-.adraw-stage{position:relative;width:100%;max-width:640px}
+.adraw-stage{position:relative;width:100%;max-width:720px;margin:0 auto}
+.adraw-graphbg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+.adraw-stage .adraw-graphbg~*{position:relative}
 .adraw-stage.adraw-blank{background:#fff;background-image:linear-gradient(#eee 1px,transparent 1px),linear-gradient(90deg,#eee 1px,transparent 1px);background-size:20px 20px}
 .adraw-saved,.adraw-canvas{display:block;width:100%;height:auto}
 .adraw-saved{position:absolute;inset:0}
@@ -1257,7 +1259,7 @@ function enterAttemptMode(assignment, submission, questions){
     var imgHtml = '';
     
     var firstImgPart = g.parts.find(function(p) { return p.image && p.image.length > 10; });
-    if(firstImgPart){
+    if(firstImgPart && g.type==='MCQ'){
       imgHtml = '<div class="attempt-q-img">' + firstImgPart.image + '</div>';
     }
 
@@ -1272,7 +1274,7 @@ function enterAttemptMode(assignment, submission, questions){
       }
       
       var innerImgHtml = '';
-      if (p.image && p.image.length > 10 && p.image !== (firstImgPart ? firstImgPart.image : '')) {
+      if (false && p.image && p.image.length > 10 && p.image !== (firstImgPart ? firstImgPart.image : '')) {
         innerImgHtml = '<div class="attempt-q-img">' + p.image + '</div>';
       }
 
@@ -1298,7 +1300,7 @@ function enterAttemptMode(assignment, submission, questions){
         '</div>' +
         innerImgHtml +
         inputHtml +
-        (g.type === 'MCQ' ? '' : attemptDrawHtml(p)) +
+        ((g.type !== 'MCQ' && p.image && p.image.length > 10) ? attemptDrawHtml(p) : '') +
       '</div>';
     }).join('');
 
@@ -1394,13 +1396,19 @@ function selectMCQ(partId, optIndex, el) {
   updateNavStates();
 }
 
+function _extractImgSrc(raw){
+  if(!raw) return '';
+  var m=/src="([^"]+)"/.exec(raw); if(m) return m[1];
+  m=/src='([^']+)'/.exec(raw); if(m) return m[1];
+  return raw;
+}
 function attemptDrawHtml(p){
   var saved = currentAnswers[p.id + '__draw'] || '';
   var bg = (p.image && p.image.length > 10) ? '' : ' adraw-blank';
   return '<div class="adraw-wrap" data-pid="'+p.id+'">'+
     '<div class="adraw-bar">'+
       '<span class="adraw-lbl">\u270e Working / diagram (optional):</span>'+
-      '<button type="button" class="adraw-btn" data-tool="pen" onclick="adrawTool(this,\''+p.id+'\',\'pen\')">Pen</button>'+
+      '<button type="button" class="adraw-btn on" data-tool="pen" onclick="adrawTool(this,\''+p.id+'\',\'pen\')">Pen</button>'+'<button type="button" class="adraw-btn" data-tool="line" onclick="adrawTool(this,\''+p.id+'\',\'line\')">Line</button>'+'<button type="button" class="adraw-btn" data-tool="arrow" onclick="adrawTool(this,\''+p.id+'\',\'arrow\')">Arrow</button>'+'<button type="button" class="adraw-btn" data-tool="rect" onclick="adrawTool(this,\''+p.id+'\',\'rect\')">Rect</button>'+'<button type="button" class="adraw-btn" data-tool="circle" onclick="adrawTool(this,\''+p.id+'\',\'circle\')">Circle</button>'+'<button type="button" class="adraw-btn" data-tool="ellipse" onclick="adrawTool(this,\''+p.id+'\',\'ellipse\')">Ellipse</button>'+'<button type="button" class="adraw-btn" data-tool="curve" onclick="adrawTool(this,\''+p.id+'\',\'curve\')">Curve</button>'+
       '<span class="adraw-dot" style="background:#ef4444" onclick="adrawColor(this,\''+p.id+'\',\'#ef4444\')"></span>'+
       '<span class="adraw-dot" style="background:#2563eb" onclick="adrawColor(this,\''+p.id+'\',\'#2563eb\')"></span>'+
       '<span class="adraw-dot" style="background:#111827" onclick="adrawColor(this,\''+p.id+'\',\'#111827\')"></span>'+
@@ -1410,7 +1418,7 @@ function attemptDrawHtml(p){
     '</div>'+
     '<div class="adraw-stage'+bg+'">'+
       (saved ? '<img class="adraw-saved" src="'+saved+'">' : '')+
-      '<canvas class="adraw-canvas" id="adraw-'+p.id+'" width="640" height="360"></canvas>'+
+      ((p.image && p.image.length>10) ? '<img class="adraw-graphbg" src="'+_extractImgSrc(p.image)+'">' : '')+'<canvas class="adraw-canvas" id="adraw-'+p.id+'" width="720" height="500"></canvas>'+
     '</div>'+
   '</div>';
 }
@@ -1419,16 +1427,66 @@ function _adrawInit(pid){
   var c = document.getElementById('adraw-'+pid); if(!c || c._init) return;
   c._init = true;
   var ctx = c.getContext('2d');
-  var saved = currentAnswers[pid + '__draw'];
+  if(!_adrawState[pid]) _adrawState[pid] = { tool:'pen', color:'#ef4444', undo:[], drawing:false };
+  var st = _adrawState[pid];
+  var saved = currentAnswers[pid+'__draw'];
   if(saved){ var img=new Image(); img.onload=function(){ ctx.drawImage(img,0,0,c.width,c.height); }; img.src=saved; }
-  var st = _adrawState[pid] = _adrawState[pid] || { tool:'pen', color:'#ef4444', drawing:false, undo:[] };
+
   function pos(e){ var r=c.getBoundingClientRect(); var t=e.touches?e.touches[0]:e; return { x:(t.clientX-r.left)*(c.width/r.width), y:(t.clientY-r.top)*(c.height/r.height) }; }
-  function start(e){ st.drawing=true; st.undo.push(c.toDataURL()); if(st.undo.length>15) st.undo.shift(); var pt=pos(e); ctx.beginPath(); ctx.moveTo(pt.x,pt.y); e.preventDefault(); }
-  function move(e){ if(!st.drawing) return; var pt=pos(e); if(st.tool==='eraser'){ ctx.globalCompositeOperation='destination-out'; ctx.lineWidth=18; } else { ctx.globalCompositeOperation='source-over'; ctx.strokeStyle=st.color; ctx.lineWidth=2.5; } ctx.lineCap='round'; ctx.lineTo(pt.x,pt.y); ctx.stroke(); e.preventDefault(); }
-  function end(){ if(!st.drawing) return; st.drawing=false; ctx.globalCompositeOperation='source-over'; if(!submitting){ currentAnswers[pid+'__draw']=c.toDataURL('image/png'); if(typeof updateNavStates==='function') updateNavStates(); } }
-  c.addEventListener('mousedown',start); c.addEventListener('mousemove',move); window.addEventListener('mouseup',end);
-  c.addEventListener('touchstart',start,{passive:false}); c.addEventListener('touchmove',move,{passive:false}); c.addEventListener('touchend',end);
+  function snapshot(){ try{ return c.toDataURL(); }catch(e){ return ''; } }
+  function pushUndo(){ st.undo.push(snapshot()); if(st.undo.length>25) st.undo.shift(); }
+  function restore(data, cb){ var im=new Image(); im.onload=function(){ ctx.clearRect(0,0,c.width,c.height); ctx.drawImage(im,0,0); if(cb) cb(); }; im.src=data; }
+
+  function drawArrowHead(x1,y1,x2,y2){
+    var a=Math.atan2(y2-y1,x2-x1), h=12;
+    ctx.beginPath(); ctx.moveTo(x2,y2);
+    ctx.lineTo(x2-h*Math.cos(a-Math.PI/6), y2-h*Math.sin(a-Math.PI/6));
+    ctx.moveTo(x2,y2);
+    ctx.lineTo(x2-h*Math.cos(a+Math.PI/6), y2-h*Math.sin(a+Math.PI/6));
+    ctx.stroke();
+  }
+  function drawShape(tool,x1,y1,x2,y2){
+    ctx.strokeStyle=st.color; ctx.lineWidth=2; ctx.lineCap='round'; ctx.lineJoin='round';
+    if(tool==='line'){ ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); }
+    else if(tool==='arrow'){ ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); drawArrowHead(x1,y1,x2,y2); }
+    else if(tool==='rect'){ ctx.beginPath(); ctx.rect(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x2-x1),Math.abs(y2-y1)); ctx.stroke(); }
+    else if(tool==='circle'){ var r=Math.hypot(x2-x1,y2-y1); ctx.beginPath(); ctx.arc(x1,y1,r,0,2*Math.PI); ctx.stroke(); }
+    else if(tool==='ellipse'){ ctx.beginPath(); ctx.ellipse((x1+x2)/2,(y1+y2)/2,Math.abs(x2-x1)/2,Math.abs(y2-y1)/2,0,0,2*Math.PI); ctx.stroke(); }
+    else if(tool==='curve'){ var mx=(x1+x2)/2, my=Math.min(y1,y2)-Math.abs(x2-x1)/3; ctx.beginPath(); ctx.moveTo(x1,y1); ctx.quadraticCurveTo(mx,my,x2,y2); ctx.stroke(); }
+  }
+
+  var start=null, baseImg=null;
+  function down(e){
+    e.preventDefault();
+    var p0=pos(e); pushUndo();
+    if(st.tool==='pen' || st.tool==='eraser'){
+      st.drawing=true; ctx.beginPath(); ctx.moveTo(p0.x,p0.y);
+      ctx.strokeStyle = st.tool==='eraser' ? '#fff' : st.color;
+      ctx.globalCompositeOperation = st.tool==='eraser' ? 'destination-out' : 'source-over';
+      ctx.lineWidth = st.tool==='eraser' ? 18 : 2.5; ctx.lineCap='round'; ctx.lineJoin='round';
+    } else {
+      st.drawing=true; start=p0; baseImg=snapshot();
+    }
+  }
+  function move(e){
+    if(!st.drawing) return; e.preventDefault(); var p1=pos(e);
+    if(st.tool==='pen' || st.tool==='eraser'){ ctx.lineTo(p1.x,p1.y); ctx.stroke(); }
+    else if(baseImg){ restore(baseImg, function(){ drawShape(st.tool,start.x,start.y,p1.x,p1.y); }); }
+  }
+  function up(e){
+    if(!st.drawing) return; st.drawing=false;
+    if(st.tool==='pen' || st.tool==='eraser'){ ctx.globalCompositeOperation='source-over'; }
+    else if(baseImg && e){ var p1=pos(e.changedTouches?{touches:[e.changedTouches[0]]}:e); restore(baseImg, function(){ drawShape(st.tool,start.x,start.y,p1.x,p1.y); persist(); }); baseImg=null; return; }
+    persist();
+  }
+  function persist(){ if(!submitting){ currentAnswers[pid+'__draw']=c.toDataURL('image/png'); if(typeof updateNavStates==='function') updateNavStates(); } }
+
+  c.addEventListener('mousedown',down); c.addEventListener('mousemove',move); window.addEventListener('mouseup',up);
+  c.addEventListener('touchstart',down,{passive:false}); c.addEventListener('touchmove',move,{passive:false}); c.addEventListener('touchend',up,{passive:false});
+  c._pushUndo = pushUndo;
 }
+function adrawShape(){}
+
 function adrawTool(btn,pid,tool){ _adrawInit(pid); var st=_adrawState[pid]; st.tool=tool; var bar=btn.closest('.adraw-bar'); bar.querySelectorAll('.adraw-btn').forEach(function(b){ b.classList.remove('on'); }); if(tool!=='eraser') btn.classList.add('on'); }
 function adrawColor(dot,pid,col){ _adrawInit(pid); var st=_adrawState[pid]; st.tool='pen'; st.color=col; var bar=dot.closest('.adraw-bar'); bar.querySelectorAll('.adraw-dot').forEach(function(d){ d.classList.remove('on'); }); dot.classList.add('on'); }
 function adrawUndo(pid){ _adrawInit(pid); var st=_adrawState[pid]; var c=document.getElementById('adraw-'+pid); if(!c||!st.undo.length) return; var data=st.undo.pop(); var ctx=c.getContext('2d'); var img=new Image(); img.onload=function(){ ctx.clearRect(0,0,c.width,c.height); ctx.drawImage(img,0,0); if(!submitting) currentAnswers[pid+'__draw']=c.toDataURL('image/png'); }; img.src=data; }
