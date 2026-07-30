@@ -49,6 +49,8 @@ label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04
 .doc-meta{font-size:.75rem;color:var(--text3)}
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .filters select,.filters input{padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:.82rem}
+.ans-block{margin:8px 0 16px}
+.ans-line{border-bottom:1px solid #94a3b8;height:30px;margin:0}
 @page{ margin:18mm 16mm 20mm 16mm; }
 @media print{
   .page-break{ visibility:hidden; height:0; margin:0; border:none; }
@@ -121,7 +123,7 @@ label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04
         <span id="editorMeta" style="font-weight:600;color:var(--teal-d)"></span>
         <div style="margin-left:auto" class="row">
           <button class="btn btn-outline" onclick="saveDoc()">💾 Save</button>
-          <button class="btn btn-outline" onclick="exportPDF()">⬇ PDF</button>
+          <button class="btn btn-outline" onclick="exportPDF()">🖨 Print / PDF</button>
           <button class="btn btn-outline" onclick="exportWord()">⬇ Word</button>
         </div>
       </div>
@@ -166,6 +168,7 @@ label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04
           <button onclick="insertLink()" title="Link">🔗 Link</button>
           <button onclick="fmt('insertHorizontalRule')" title="Divider">— HR</button>
           <button onclick="insertPageBreak()" title="Page break">⤓ Page Break</button>
+          <button onclick="insertAnswerLines()" title="IB answer lines">✏️ Answer Lines</button>
           <span class="sep"></span>
           <button onclick="fmt('undo')" title="Undo">↶</button>
           <button onclick="fmt('redo')" title="Redo">↷</button>
@@ -253,6 +256,13 @@ function insertTable(){
   fmt('insertHTML', h);
 }
 function insertLink(){ var u=prompt('URL:','https://'); if(u) fmt('createLink', u); }
+function insertAnswerLines(){
+  var n=parseInt(prompt('How many answer lines?','6'))||6;
+  if(n<1) n=1; if(n>40) n=40;
+  var lines='';
+  for(var i=0;i<n;i++){ lines+='<div class="ans-line"></div>'; }
+  fmt('insertHTML','<div class="ans-block" contenteditable="false">'+lines+'</div><p></p>');
+}
 function insertPageBreak(){ fmt('insertHTML','<div class="page-break" style="break-after:page;page-break-after:always;border-top:1px dashed #cbd5e1;margin:14px 0;text-align:center;color:#94a3b8;font-size:.7rem">— page break —</div><p></p>'); }
 function pickImage(input){
   var f=input.files&&input.files[0]; if(!f) return;
