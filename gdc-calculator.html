@@ -1,0 +1,59 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scientific Calculator</title>
+<style>
+body{margin:0;background:#fff;font-family:system-ui,-apple-system,sans-serif}
+.calc-wrap{display:flex;flex-direction:column;gap:8px;padding:14px;max-width:360px;margin:0 auto}
+#calcDisplay{width:100%;box-sizing:border-box;text-align:right;font-size:1.5rem;padding:12px 10px;border:1px solid #cbd5e1;border-radius:8px;background:#f8fafc;font-family:'SF Mono',Menlo,monospace}
+.calc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.ck{border:1px solid #e2e8f0;background:#fff;border-radius:8px;padding:14px 0;font-size:.9rem;cursor:pointer;transition:.1s;font-weight:500}
+.ck:hover{background:#f1f5f9}.ck:active{transform:scale(.95)}
+.ckn{background:#f8fafc;font-weight:600}.cko{background:#e0f2fe;color:#0369a1;font-weight:700}
+.ckf{color:#7c3aed;font-weight:700}.ckc{background:#fef2f2;color:#dc2626;font-weight:600}
+.ckeq{background:#0d9488;color:#fff;font-weight:700}.ckeq:hover{background:#0f766e}
+.calc-bar{display:flex;justify-content:space-between;align-items:center;font-size:.72rem;color:#64748b}
+#calcMode{border:1px solid #cbd5e1;border-radius:5px;padding:2px 8px;background:#fff;cursor:pointer;font-weight:600}
+</style></head><body>
+<div class="calc-wrap">
+  <input id="calcDisplay" type="text" readonly value="0">
+  <div class="calc-bar"><span>Angle: <button id="calcMode" onclick="calcToggleMode()">DEG</button></span><span style="color:#0d9488">Physicism Calc</span></div>
+  <div class="calc-grid">
+    <button class="ck" onclick="calcIn('sin(')">sin</button><button class="ck" onclick="calcIn('cos(')">cos</button><button class="ck" onclick="calcIn('tan(')">tan</button><button class="ck ckf" onclick="calcIn('PI')">&pi;</button><button class="ck ckf" onclick="calcIn('E')">e</button>
+    <button class="ck" onclick="calcIn('asin(')">sin&#8315;&#185;</button><button class="ck" onclick="calcIn('acos(')">cos&#8315;&#185;</button><button class="ck" onclick="calcIn('atan(')">tan&#8315;&#185;</button><button class="ck" onclick="calcIn('ln(')">ln</button><button class="ck" onclick="calcIn('log(')">log</button>
+    <button class="ck" onclick="calcIn('(')">(</button><button class="ck" onclick="calcIn(')')">)</button><button class="ck" onclick="calcIn('^')">x&#8319;</button><button class="ck" onclick="calcIn('sqrt(')">&radic;</button><button class="ck" onclick="calcIn('^2')">x&sup2;</button>
+    <button class="ck ckn" onclick="calcIn('7')">7</button><button class="ck ckn" onclick="calcIn('8')">8</button><button class="ck ckn" onclick="calcIn('9')">9</button><button class="ck cko" onclick="calcIn('/')">&divide;</button><button class="ck ckc" onclick="calcClear()">C</button>
+    <button class="ck ckn" onclick="calcIn('4')">4</button><button class="ck ckn" onclick="calcIn('5')">5</button><button class="ck ckn" onclick="calcIn('6')">6</button><button class="ck cko" onclick="calcIn('*')">&times;</button><button class="ck ckc" onclick="calcBack()">&#9003;</button>
+    <button class="ck ckn" onclick="calcIn('1')">1</button><button class="ck ckn" onclick="calcIn('2')">2</button><button class="ck ckn" onclick="calcIn('3')">3</button><button class="ck cko" onclick="calcIn('-')">&minus;</button><button class="ck" onclick="calcIn('e')">EE</button>
+    <button class="ck ckn" onclick="calcIn('0')">0</button><button class="ck ckn" onclick="calcIn('.')">.</button><button class="ck" onclick="calcIn('e-')">&times;10&#8319;</button><button class="ck cko" onclick="calcIn('+')">+</button><button class="ck ckeq" onclick="calcEval()">=</button>
+  </div>
+</div>
+<script>
+var expr='',deg=true;
+function calcToggleMode(){deg=!deg;document.getElementById('calcMode').textContent=deg?'DEG':'RAD';}
+function disp(v){document.getElementById('calcDisplay').value=v;}
+function pretty(e){return e.replace(/\*/g,'\u00d7').replace(/\//g,'\u00f7').replace(/PI/g,'\u03c0').replace(/sqrt\(/g,'\u221a(');}
+function calcIn(t){if(expr==='0'&&/[0-9.]/.test(t))expr='';expr+=t;disp(pretty(expr));}
+function calcClear(){expr='';disp('0');}
+function calcBack(){expr=expr.slice(0,-1);disp(pretty(expr)||'0');}
+function toRad(x){return deg?x*Math.PI/180:x;}
+function calcEval(){
+  try{
+    var e=expr.replace(/\^/g,'**');
+    e=e.replace(/\bsin\(/g,'_sin(').replace(/\bcos\(/g,'_cos(').replace(/\btan\(/g,'_tan(');
+    e=e.replace(/\basin\(/g,'_asin(').replace(/\bacos\(/g,'_acos(').replace(/\batan\(/g,'_atan(');
+    e=e.replace(/\bln\(/g,'Math.log(').replace(/\blog\(/g,'Math.log10(').replace(/\bsqrt\(/g,'Math.sqrt(').replace(/\bPI\b/g,'Math.PI').replace(/\bE\b/g,'Math.E');
+    var _sin=function(x){return Math.sin(toRad(x));},_cos=function(x){return Math.cos(toRad(x));},_tan=function(x){return Math.tan(toRad(x));};
+    var _asin=function(x){var r=Math.asin(x);return deg?r*180/Math.PI:r;},_acos=function(x){var r=Math.acos(x);return deg?r*180/Math.PI:r;},_atan=function(x){var r=Math.atan(x);return deg?r*180/Math.PI:r;};
+    var val=Function('_sin','_cos','_tan','_asin','_acos','_atan','Math','return ('+e+')')(_sin,_cos,_tan,_asin,_acos,_atan,Math);
+    if(!isFinite(val)){disp('Error');return;}
+    var out=(Math.abs(val)>=1e6||(Math.abs(val)<1e-4&&val!==0))?val.toExponential(6):(Math.round(val*1e10)/1e10).toString();
+    disp(out);expr=String(val);
+  }catch(err){disp('Error');expr='';}
+}
+document.addEventListener('keydown',function(ev){
+  var k=ev.key;
+  if(/[0-9.+\-*/()^]/.test(k)){calcIn(k);}
+  else if(k==='Enter'||k==='='){ev.preventDefault();calcEval();}
+  else if(k==='Backspace'){calcBack();}
+  else if(k==='Escape'){calcClear();}
+});
+</script></body></html>
