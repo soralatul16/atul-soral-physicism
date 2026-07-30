@@ -375,6 +375,24 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
         <div class="form-group" style="flex:2">
           <label>Title</label>
           <input type="text" id="asgnTitle" placeholder="e.g. Topic A.1 Homework">
+          <div id="asgnNameBuilder" style="margin-top:8px;padding:10px;background:#F9FAFB;border:1px dashed #cbd5e1;border-radius:8px">
+            <div style="font-size:.68rem;color:var(--text3);text-transform:uppercase;margin-bottom:6px;font-weight:600">Auto-name builder</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
+              <div style="display:flex;flex-direction:column"><label style="font-size:.62rem;color:var(--text3)">Level</label>
+                <select id="nbLevel" onchange="buildAsgnName()" style="padding:5px;border:1px solid var(--border);border-radius:6px;font-size:.78rem">
+                  <option value="DP1-HL">DP1-HL</option><option value="DP1-SL">DP1-SL</option>
+                  <option value="DP2-HL">DP2-HL</option><option value="DP2-SL">DP2-SL</option>
+                  <option value="MYP">MYP</option><option value="IGCSE">IGCSE</option>
+                </select></div>
+              <div style="display:flex;flex-direction:column"><label style="font-size:.62rem;color:var(--text3)">Topic</label>
+                <input list="nbTopicList" id="nbTopic" oninput="buildAsgnName()" placeholder="e.g. Kinematics" style="padding:5px;border:1px solid var(--border);border-radius:6px;font-size:.78rem;width:150px">
+                <datalist id="nbTopicList"><option value="Measurements & Uncertainties"><option value="Kinematics"><option value="Forces & Momentum"><option value="Work Energy Power"><option value="Fluids"><option value="SHM"><option value="Wave Model"><option value="Thermal"><option value="Electricity & Magnetism"><option value="Nuclear & Quantum"></datalist></div>
+              <div style="display:flex;flex-direction:column"><label style="font-size:.62rem;color:var(--text3)">Descriptor</label>
+                <input id="nbDesc" oninput="buildAsgnName()" placeholder="e.g. Foundations / MCQ" style="padding:5px;border:1px solid var(--border);border-radius:6px;font-size:.78rem;width:150px"></div>
+              <button type="button" class="btn btn-sm btn-outline" onclick="applyAsgnName()" style="font-size:.72rem">Use name</button>
+            </div>
+            <div id="nbPreview" style="font-size:.75rem;color:var(--accent);margin-top:8px;font-weight:600"></div>
+          </div>
         </div>
         <div class="form-group" style="min-width:140px">
           <label>Type</label>
@@ -432,6 +450,13 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
     <!-- ASSIGNMENT LIST -->
     <div class="card">
       <h3>📋 All Assignments <span id="asgnCount" style="font-size:.75rem;color:var(--text3);font-weight:400;margin-left:auto"></span></h3>
+      <div id="asgnFilterBar" style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px">
+        <input type="text" id="afSearch" oninput="renderAssignmentGrid()" placeholder="🔍 Search title..." style="flex:1;min-width:160px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:.82rem">
+        <select id="afType" onchange="renderAssignmentGrid()" style="padding:7px;border:1px solid var(--border);border-radius:8px;font-size:.82rem"><option value="">All types</option><option value="hw">Homework</option><option value="formative">Formative</option><option value="summative">Summative</option></select>
+        <select id="afStatus" onchange="renderAssignmentGrid()" style="padding:7px;border:1px solid var(--border);border-radius:8px;font-size:.82rem"><option value="">Active + Past</option><option value="active">Active only</option><option value="closed">Past only</option></select>
+        <select id="afSort" onchange="renderAssignmentGrid()" style="padding:7px;border:1px solid var(--border);border-radius:8px;font-size:.82rem"><option value="due-desc">Due: newest</option><option value="due-asc">Due: oldest</option><option value="marks-desc">Marks: high→low</option><option value="az">A → Z</option></select>
+      </div>
+      <!--ASGNGRID-->
       <div class="asgn-grid" id="asgnGrid">
         <div class="empty" style="grid-column:1/-1">No assignments yet. Create one above.</div>
       </div>
@@ -1443,7 +1468,29 @@ function renderAssignmentGrid(){
     grid.innerHTML = '<div class="empty" style="grid-column:1/-1">No assignments yet. Create one above.</div>';
     return;
   }
-  grid.innerHTML = allAssignments.map(function(a){
+  var _q = (document.getElementById('afSearch')||{}).value || '';
+  _q = _q.trim().toLowerCase();
+  var _ft = (document.getElementById('afType')||{}).value || '';
+  var _fs = (document.getElementById('afStatus')||{}).value || '';
+  var _sort = (document.getElementById('afSort')||{}).value || 'due-desc';
+  var _list = allAssignments.filter(function(a){
+    if(_q && (a.title||'').toLowerCase().indexOf(_q) === -1) return false;
+    if(_ft && a.type !== _ft) return false;
+    var st = a.status || 'active';
+    if(_fs === 'active' && st !== 'active') return false;
+    if(_fs === 'closed' && st === 'active') return false;
+    return true;
+  });
+  _list.sort(function(a,b){
+    if(_sort === 'az') return (a.title||'').localeCompare(b.title||'');
+    if(_sort === 'marks-desc') return (b.totalMarks||0) - (a.totalMarks||0);
+    var da = a.dueDate ? new Date(a.dueDate).getTime() : 0;
+    var dbb = b.dueDate ? new Date(b.dueDate).getTime() : 0;
+    return _sort === 'due-asc' ? (da - dbb) : (dbb - da);
+  });
+  document.getElementById('asgnCount').textContent = _list.length + ' of ' + allAssignments.length + ' assignments';
+  if(!_list.length){ grid.innerHTML = '<div class="empty" style="grid-column:1/-1">No assignments match your filters.</div>'; return; }
+  grid.innerHTML = _list.map(function(a){
     var typeBadge = '<span class="asgn-badge badge-'+a.type+'">'+a.type.toUpperCase()+'</span>';
     var statusBadge = '<span class="asgn-badge badge-'+(a.status||'active')+'">'+(a.status||'active').toUpperCase()+'</span>';
     var dueStr = a.dueDate ? new Date(a.dueDate).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : 'No due date';
@@ -1797,6 +1844,36 @@ function notifyStudentsByEmail(doc, studentIds){
     return;
   }
   window.open(url,'_blank');
+}
+function _nbTypeCode(){
+  var t = document.getElementById('asgnType').value;
+  return t==='formative' ? 'FA' : t==='summative' ? 'SA' : 'HW';
+}
+function _nbDateStr(){
+  var due = document.getElementById('asgnDue').value;
+  if(!due) return '';
+  var d = new Date(due);
+  var mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+  return mon + "'" + String(d.getFullYear()).slice(2);
+}
+function buildAsgnName(){
+  var lvl = document.getElementById('nbLevel').value;
+  var topic = document.getElementById('nbTopic').value.trim();
+  var desc = document.getElementById('nbDesc').value.trim();
+  var marks = parseInt(document.getElementById('asgnMarks').value) || 0;
+  var parts = [ _nbTypeCode(), lvl ];
+  if(topic) parts.push(topic);
+  if(desc) parts.push(desc);
+  if(marks) parts.push(marks + 'm');
+  var dt = _nbDateStr(); if(dt) parts.push(dt);
+  var name = parts.join(' \u00b7 ');
+  document.getElementById('nbPreview').textContent = name;
+  return name;
+}
+function applyAsgnName(){
+  var name = buildAsgnName();
+  if(!document.getElementById('nbTopic').value.trim()){ alert('Enter at least a Topic to build a name.'); return; }
+  document.getElementById('asgnTitle').value = name;
 }
 function createAssignment(){
   var title = document.getElementById('asgnTitle').value.trim();
