@@ -249,6 +249,12 @@ nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px
   height: auto;
   border-radius: 8px;
 }
+.sym-wrap{margin:6px 0}
+.sym-toggle{font-size:.72rem;border:1px solid var(--border,#e2e8f0);background:#f8fafc;border-radius:6px;padding:4px 10px;cursor:pointer;color:#0d9488;font-weight:600}
+.sym-bar{flex-wrap:wrap;gap:4px;margin-top:6px;padding:8px;background:#f8fafc;border:1px solid var(--border,#e2e8f0);border-radius:8px}
+.sym-group{display:inline-flex;flex-wrap:wrap;gap:3px;padding-right:8px;margin-right:6px;border-right:1px solid #e2e8f0}
+.sym-btn{min-width:30px;height:30px;border:1px solid #e2e8f0;background:#fff;border-radius:6px;font-size:.95rem;cursor:pointer;line-height:1}
+.sym-btn:hover{background:#e0f2fe;border-color:#0d9488}
 .attempt-part {
   margin-top: 16px;
   padding-top: 12px;
@@ -1290,7 +1296,7 @@ function enterAttemptMode(assignment, submission, questions){
         }).join('') + '</div>';
       } else {
         var val = currentAnswers[p.id] || '';
-        inputHtml = '<textarea class="attempt-textarea" placeholder="Type your answer here..." oninput="saveTextAnswer(\'' + p.id + '\', this)">' + escHtml(val) + '</textarea>';
+        inputHtml = symBar(p.id) + '<textarea class="attempt-textarea" id="ta-'+p.id+'" placeholder="Type your answer here..." onfocus="_activeTA=this" oninput="saveTextAnswer(\'' + p.id + '\', this)">' + escHtml(val) + '</textarea>';
       }
 
       return '<div class="attempt-part" id="att-part-' + p.id + '">' +
@@ -1492,6 +1498,42 @@ function adrawColor(dot,pid,col){ _adrawInit(pid); var st=_adrawState[pid]; st.t
 function adrawUndo(pid){ _adrawInit(pid); var st=_adrawState[pid]; var c=document.getElementById('adraw-'+pid); if(!c||!st.undo.length) return; var data=st.undo.pop(); var ctx=c.getContext('2d'); var img=new Image(); img.onload=function(){ ctx.clearRect(0,0,c.width,c.height); ctx.drawImage(img,0,0); if(!submitting) currentAnswers[pid+'__draw']=c.toDataURL('image/png'); }; img.src=data; }
 function adrawClear(pid){ _adrawInit(pid); var c=document.getElementById('adraw-'+pid); if(!c) return; var st=_adrawState[pid]; st.undo.push(c.toDataURL()); var ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height); if(!submitting){ delete currentAnswers[pid+'__draw']; } }
 
+var _activeTA=null;
+var _SYMS={
+  greek:['α','β','γ','δ','ε','η','θ','λ','μ','π','ρ','σ','τ','φ','ω','Δ','Ω','Σ'],
+  ops:['×','÷','±','√','∝','≈','≠','≤','≥','→','°','∞','·','∫'],
+  sup:['²','³','⁻¹','⁻²','⁻³','×10','₀','₁','₂','₃']
+};
+function symBar(pid){
+  var html='<div class="sym-wrap"><button type="button" class="sym-toggle" onclick="toggleSymBar(this)">Ω Symbols ▾</button><div class="sym-bar" style="display:none">';
+  ['greek','ops','sup'].forEach(function(k){
+    html+='<span class="sym-group">';
+    _SYMS[k].forEach(function(ch){
+      html+='<button type="button" class="sym-btn" onmousedown="return symInsert(event,\''+encodeURIComponent(ch)+'\')">'+ch+'</button>';
+    });
+    html+='</span>';
+  });
+  html+='</div></div>';
+  return html;
+}
+function toggleSymBar(btn){
+  var bar=btn.nextElementSibling;
+  bar.style.display = bar.style.display==='none' ? 'flex' : 'none';
+}
+function symInsert(ev, encCh){
+  ev.preventDefault();
+  var ch=decodeURIComponent(encCh);
+  var ta=_activeTA;
+  if(!ta){ var wrap=ev.target.closest('.attempt-part'); if(wrap) ta=wrap.querySelector('textarea'); }
+  if(!ta) return false;
+  var start=ta.selectionStart||0, end=ta.selectionEnd||0;
+  ta.value = ta.value.slice(0,start) + ch + ta.value.slice(end);
+  ta.selectionStart = ta.selectionEnd = start + ch.length;
+  ta.focus();
+  var pid=ta.id.replace(/^ta-/,'');
+  if(typeof saveTextAnswer==='function') saveTextAnswer(pid, ta);
+  return false;
+}
 function saveTextAnswer(partId, el) {
   if (submitting) return;
   currentAnswers[partId] = el.value;
