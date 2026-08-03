@@ -9,6 +9,39 @@ window.IGCSE_CONTENT = {
 "IG1.1": {
   title: "Physical quantities & measurement techniques",
   tier: "both",
+  slides: [
+    { title:"What is a physical quantity?",
+      html:"<p>A <b>physical quantity</b> is anything we can measure. It always has two parts:</p>"+
+           "<p style='text-align:center;font-size:1.25em;margin:16px 0;color:var(--ig-d)'><b>quantity = number × unit</b></p>"+
+           "<p>A length of <b>2.5 m</b> — the number is 2.5, the unit is the metre.</p>"+
+           "<div class='f'><p>A number with no unit is meaningless in physics.</p></div>" },
+    { title:"SI base units",
+      html:"<table class='ig-tbl'><tr><th>Quantity</th><th>Unit</th><th>Symbol</th></tr>"+
+           "<tr><td>length</td><td>metre</td><td>m</td></tr><tr><td>mass</td><td>kilogram</td><td>kg</td></tr>"+
+           "<tr><td>time</td><td>second</td><td>s</td></tr><tr><td>current</td><td>ampere</td><td>A</td></tr>"+
+           "<tr><td>temperature</td><td>kelvin</td><td>K</td></tr></table>"+
+           "<div class='f'><p>All other units are <b>derived</b> — speed (m/s), force (N = kg·m/s²).</p></div>" },
+    { title:"Measuring length",
+      html:"<ul><li><b>Ruler</b> — ±1 mm</li><li><b>Micrometer</b> — 0.01 mm, for thin wires</li></ul>"+
+           "<div class='f'><p>Read at eye level (avoid <b>parallax</b>); check for a <b>zero error</b> first.</p></div>" },
+    { title:"Measuring volume",
+      html:"<p><b>Regular solid:</b> V = l × w × h. <b>Liquid:</b> measuring cylinder, read the meniscus.</p>"+
+           "<div class='f'><p><b>Irregular solid — displacement:</b> the water it pushes up = its volume.</p></div>" },
+    { title:"Measuring time",
+      html:"<p>Use a stopwatch. For a pendulum, time <b>many swings</b> and divide.</p>"+
+           "<div class='f'><p>This shrinks the effect of reaction-time error.</p></div>" },
+    { title:"Precision & significant figures",
+      html:"<p>A balance reading 1.427 g is precise to ±0.001 g.</p>"+
+           "<div class='f'><p>Give answers to a sensible number of significant figures (2–3 s.f. typical).</p></div>" },
+    { title:"Scalars & vectors (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div>"+
+           "<p><b>Scalar</b> — size only: mass, time, speed, energy.</p>"+
+           "<p><b>Vector</b> — size + direction: displacement, velocity, force, momentum.</p>"+
+           "<div class='f'><p>Perpendicular vectors combine by scale diagram or Pythagoras.</p></div>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> 50 sheets of paper are 5.0 mm thick. Find one sheet's thickness — and why measure 50?</p>"+
+           "<p class='f'><b>A:</b> 5.0 ÷ 50 = <b>0.10 mm</b>. Measuring 50 reduces the ±1 mm ruler error on each thin sheet.</p></div>" }
+  ],
   learn: [
     { tier:"foundation", heading:"Starting with a question: what does it mean to measure?",
       html:"<p>Imagine you tell a friend “the table is 3 long.” Three what? Three metres? Three hand-spans? Without a <b>unit</b>, the number 3 is useless.</p>"+

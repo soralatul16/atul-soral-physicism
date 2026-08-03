@@ -103,7 +103,15 @@ body{font-family:Georgia,Palatino,serif;background:var(--bg);color:var(--text);m
 .chk-done-banner{background:var(--core-bg);border:1.5px solid var(--core-b);color:var(--core);border-radius:12px;padding:16px;text-align:center;font-family:'Outfit',sans-serif;font-weight:600;margin-top:16px;display:none}
 .chk-done-banner.show{display:block}
 .empty{text-align:center;color:var(--text3);padding:50px;font-family:'Outfit',sans-serif}.empty .big{font-size:40px;margin-bottom:10px}
-/* deck (presentation lives inside Learn as a sub-mode? no — Learn is prose. keep) */
+/* deck */
+.slide{display:none}.slide.active{display:block;min-height:300px;animation:fade .35s}
+.slide h2{font-family:'Outfit',sans-serif;color:var(--ig-d);font-size:22px;margin-bottom:16px}
+.slide p{color:var(--text2);margin-bottom:12px}.slide ul{padding-left:22px;margin-bottom:12px}.slide li{margin-bottom:8px;color:var(--text2)}
+.slide strong{color:var(--text)}
+.deck-dot{width:9px;height:9px;border-radius:50%;background:var(--line);transition:.2s}.deck-dot.on{background:var(--ig);transform:scale(1.25)}
+.f{opacity:0;transform:translateY(8px);transition:all .5s}.f.show{opacity:1;transform:none}
+.pq{background:var(--ig-pale);border-left:4px solid var(--ig);padding:16px 18px;border-radius:12px}
+.ig-ext{display:inline-block;background:var(--ext-bg);color:var(--ext);font-family:'Outfit',sans-serif;font-size:9px;font-weight:700;padding:3px 10px;border-radius:50px;margin-bottom:10px;border:1px solid var(--ext-b)}
 </style>
 </head>
 <body>
@@ -121,7 +129,8 @@ body{font-family:Georgia,Palatino,serif;background:var(--bg);color:var(--text);m
   <div class="hero-prog"><div class="lbl"><span>Your progress</span><span id="progTxt">0/0</span></div><div class="bar"><div class="fill" id="progFill"></div></div></div>
 </div></div>
 <div class="tabs">
-  <button class="tab active" onclick="showTab('learn',this)">📖 Learn</button>
+  <button class="tab active" onclick="showTab('pres',this)">📊 Presentation</button>
+  <button class="tab" onclick="showTab('learn',this)">📖 Learn</button>
   <button class="tab" onclick="showTab('sim',this)">🔬 Simulate</button>
   <button class="tab" onclick="showTab('form',this)">📐 Formulas</button>
   <button class="tab" onclick="showTab('prac',this)">✍️ Practice</button>
@@ -130,7 +139,18 @@ body{font-family:Georgia,Palatino,serif;background:var(--bg);color:var(--text);m
   <button class="tab" onclick="showTab('chk',this)">✅ Checklist</button>
 </div>
 <div class="wrap">
-  <div id="learn" class="panel active"></div>
+  <div id="pres" class="panel active">
+    <div class="card">
+      <div style="height:4px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:18px"><div id="deckProg" style="height:100%;width:0;background:linear-gradient(90deg,var(--ig),var(--ig-d));border-radius:4px;transition:width .3s"></div></div>
+      <div id="deck"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)">
+        <button id="deckPrev" class="gl-btn" style="padding:10px 20px;font-size:13px" onclick="deckStep(-1)">‹ Back</button>
+        <div id="deckDots" style="display:flex;gap:7px"></div>
+        <button id="deckNext" class="gl-btn" style="padding:10px 20px;font-size:13px" onclick="deckStep(1)">Next ›</button>
+      </div>
+    </div>
+  </div>
+  <div id="learn" class="panel"></div>
   <div id="sim" class="panel"></div>
   <div id="form" class="panel"></div>
   <div id="prac" class="panel"></div>
@@ -160,11 +180,33 @@ if(!C){
   document.getElementById('subTitle').textContent=code.replace('IG','')+' — coming soon';
   document.getElementById('heroBadges').innerHTML='<span>'+code+'</span>';
   ['learn','sim','form','prac','mist','exam','chk'].forEach(function(id){ document.getElementById(id).innerHTML='<div class="card"><div class="empty"><div class="big">🚧</div>Content for '+code+' is being prepared.</div></div>'; });
+  document.getElementById('deck').innerHTML='<div class="empty"><div class="big">🚧</div>Presentation coming soon.</div>';
+  document.querySelector('#pres .card > div:last-child').style.display='none';
   document.querySelector('.hero-prog').style.display='none';
 }else{
   document.getElementById('subTitle').textContent=code.replace('IG','')+' '+C.title;
   document.getElementById('heroBadges').innerHTML='<span>'+code+'</span>'+tierBadge(C.tier);
-  renderLearn(); renderSim(); renderForm(); renderPrac(); renderMist(); renderExam(); renderChk();
+  renderDeck(); renderLearn(); renderSim(); renderForm(); renderPrac(); renderMist(); renderExam(); renderChk();
+}
+
+var di=0, slides=[];
+function renderDeck(){
+  slides=C.slides||[];
+  if(!slides.length){ document.getElementById('deck').innerHTML='<div class="empty"><div class="big">📊</div>Presentation coming soon.</div>'; document.querySelector('#pres .card > div:last-child').style.display='none'; return; }
+  document.getElementById('deck').innerHTML=slides.map(function(s,i){ return '<div class="slide'+(i===0?' active':'')+'"><h2>'+s.title+'</h2>'+s.html+'</div>'; }).join('');
+  document.getElementById('deckDots').innerHTML=slides.map(function(_,i){return '<span class="deck-dot'+(i===0?' on':'')+'"></span>';}).join('');
+  updateDeck();
+}
+function deckStep(d){ di=Math.max(0,Math.min(slides.length-1,di+d)); updateDeck(); }
+function updateDeck(){
+  document.querySelectorAll('.slide').forEach(function(s,i){ s.classList.toggle('active',i===di); });
+  document.querySelectorAll('.deck-dot').forEach(function(dt,i){ dt.classList.toggle('on',i===di); });
+  document.getElementById('deckPrev').style.visibility=di===0?'hidden':'visible';
+  document.getElementById('deckNext').style.visibility=di===slides.length-1?'hidden':'visible';
+  document.getElementById('deckProg').style.width=((di+1)/slides.length*100)+'%';
+  var act=document.querySelectorAll('.slide')[di];
+  if(act) act.querySelectorAll('.f').forEach(function(f,k){ setTimeout(function(){ f.classList.add('show'); },120+k*120); });
+  doMath();
 }
 
 function renderLearn(){
