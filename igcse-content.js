@@ -120,6 +120,159 @@ window.IGCSE_CONTENT = {
     "I can reduce errors (parallax, zero error, repeat & average).",
     "I can tell a scalar from a vector and give examples (Extended)."
   ]
+},
+
+"IG1.2": {
+  title: "Motion",
+  tier: "both",
+  slides: [
+    { title:"Speed and velocity",
+      html:"<p><b>Speed</b> = how fast you move. <b>Velocity</b> = speed in a stated direction.</p>"+
+           "<p style='text-align:center;font-size:1.2em;margin:14px 0;color:var(--ig-d)'><b>speed = distance ÷ time</b></p>"+
+           "<div class='f'><p>Unit: metre per second (m/s). Velocity is a <b>vector</b>; speed is a <b>scalar</b>.</p></div>" },
+    { title:"Acceleration",
+      html:"<p><b>Acceleration</b> = how quickly velocity changes.</p>"+
+           "<p style='text-align:center;font-size:1.2em;margin:14px 0;color:var(--ig-d)'><b>a = (v − u) ÷ t</b></p>"+
+           "<div class='f'><p>Unit: m/s². Negative acceleration = slowing down (deceleration).</p></div>" },
+    { title:"Distance–time graphs",
+      html:"<ul><li>Flat line = stationary</li><li>Straight slope = constant speed</li><li>Curved = changing speed</li></ul>"+
+           "<div class='f'><p>The <b>gradient</b> of a distance–time graph = speed.</p></div>" },
+    { title:"Speed–time graphs",
+      html:"<ul><li>Flat line = constant speed</li><li>Straight slope = constant acceleration</li></ul>"+
+           "<div class='f'><p>The <b>gradient</b> = acceleration; the <b>area under</b> the graph = distance travelled.</p></div>" },
+    { title:"Acceleration of free fall (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div><p>Near Earth, all objects accelerate downward at <b>g ≈ 9.8 m/s²</b> (use 9.8 or 10).</p>"+
+           "<div class='f'><p>Ignoring air resistance, a heavy and a light object fall together.</p></div>" },
+    { title:"Terminal velocity (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div><p>A falling object speeds up until air resistance equals weight — then it falls at constant <b>terminal velocity</b>.</p>"+
+           "<div class='f'><p>At terminal velocity the resultant force is zero, so acceleration is zero.</p></div>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> A car goes from 0 to 20 m/s in 8 s. Find its acceleration.</p>"+
+           "<p class='f'><b>A:</b> a = (20 − 0) ÷ 8 = <b>2.5 m/s²</b>.</p></div>" }
+  ],
+  learn:[
+    { tier:"foundation", heading:"Distance, speed and the idea of motion",
+      html:"<p>Motion means changing position. To describe it we use <b>speed</b> — how much distance is covered each second.</p><p style='text-align:center;font-size:1.15em;color:var(--ig-d)'><b>speed = distance ÷ time</b></p><p>Average speed uses total distance over total time; instantaneous speed is the speed at one moment (what a speedometer shows).</p>" },
+    { tier:"core", heading:"Velocity and acceleration",
+      html:"<p><b>Velocity</b> is speed with a direction. <b>Acceleration</b> is the rate of change of velocity:</p><p style='text-align:center;font-size:1.15em;color:var(--ig-d)'><b>a = (v − u) ÷ t</b></p><p>where u = starting velocity, v = final velocity, t = time. Unit m/s².</p>" },
+    { tier:"core", heading:"Graphs of motion",
+      html:"<h4>Distance–time</h4><ul><li>gradient = speed</li><li>flat = at rest; curve = changing speed</li></ul><h4>Speed–time</h4><ul><li>gradient = acceleration</li><li>area under graph = distance travelled</li></ul>" },
+    { tier:"ext", heading:"Free fall and terminal velocity",
+      html:"<p>Free fall acceleration <b>g ≈ 9.8 m/s²</b>. A falling body accelerates until air resistance balances its weight, reaching a constant <b>terminal velocity</b> (zero resultant force, zero acceleration).</p>" }
+  ],
+  simulation:{ title:"Motion Lab", file:"sims/motion-lab.html", source:"Atul Soral Physicism — Interactive Sim",
+    instructions:["Set a starting speed and acceleration; watch the distance–time and speed–time graphs build.","Make the gradient of the speed–time graph zero and see constant speed.","Read distance off as the area under the speed–time graph."] },
+  formulas:[ {f:"speed = distance ÷ time", d:"Unit m/s."}, {f:"a = (v − u) ÷ t", d:"Acceleration, unit m/s²."}, {f:"gradient of d–t graph = speed", d:""}, {f:"area under v–t graph = distance", d:""} ],
+  practice:[
+    { q:"The gradient of a distance–time graph represents:", type:"mcq", options:["distance","speed","acceleration","time"], answer:1, marks:1, solution:"Gradient of a distance–time graph = speed." },
+    { q:"On a speed–time graph, the area under the line represents:", type:"mcq", options:["acceleration","speed","distance travelled","force"], answer:2, marks:1, solution:"Area under a speed–time graph = distance travelled." },
+    { q:"A cyclist accelerates from 4 m/s to 10 m/s in 3 s. Calculate the acceleration.", type:"struct", answer:"2 m/s²", marks:2, solution:"a = (10 − 4) ÷ 3 = 6 ÷ 3 = 2 m/s². [2]" },
+    { q:"Explain what terminal velocity is. (Extended)", type:"struct", answer:"Constant velocity when air resistance = weight", marks:2, solution:"The constant velocity reached when air resistance equals weight, so resultant force and acceleration are zero. [2]" }
+  ],
+  mistakes:[
+    "Confusing <b>speed</b> (scalar) with <b>velocity</b> (vector) — velocity needs a direction.",
+    "Reading the <b>area</b> of a distance–time graph — it has no meaning. Area matters only on speed–time graphs.",
+    "Forgetting units: acceleration is m/s², not m/s.",
+    "Thinking a curved distance–time graph means acceleration is constant — a curve just means speed is changing."
+  ],
+  exam:[
+    { q:"A car travels 150 m in 10 s at constant speed. Calculate the speed. [2]", marks:2, solution:"speed = distance ÷ time = 150 ÷ 10 = 15 m/s. [2]" },
+    { q:"Sketch a speed–time graph for an object that accelerates uniformly then travels at constant speed. [3]", marks:3, solution:"A straight upward slope (acceleration) followed by a horizontal line (constant speed). [3]" }
+  ],
+  checklist:[ "I can calculate speed from distance and time.","I can calculate acceleration using a = (v−u)/t.","I can interpret distance–time graphs (gradient = speed).","I can interpret speed–time graphs (gradient = acceleration, area = distance).","I can explain free fall and terminal velocity (Extended)." ]
+},
+
+"IG1.3": {
+  title: "Mass and weight",
+  tier: "core",
+  slides:[
+    { title:"Mass vs weight",
+      html:"<p><b>Mass</b> = amount of matter in an object (kg). It never changes.</p><p><b>Weight</b> = the force of gravity on that mass (N). It changes with location.</p>"+
+         "<div class='f'><p>You have the same mass on the Moon, but less weight.</p></div>" },
+    { title:"Calculating weight",
+      html:"<p style='text-align:center;font-size:1.25em;margin:14px 0;color:var(--ig-d)'><b>W = m × g</b></p><p>W = weight (N), m = mass (kg), g = gravitational field strength (N/kg).</p>"+
+         "<div class='f'><p>On Earth g ≈ 9.8 N/kg (use 10 for easy sums).</p></div>" },
+    { title:"Gravitational field strength",
+      html:"<p><b>g</b> is the force of gravity per kilogram. On Earth ≈ 9.8 N/kg; on the Moon ≈ 1.6 N/kg.</p>"+
+         "<div class='f'><p>That's why astronauts weigh less on the Moon but keep the same mass.</p></div>" },
+    { title:"Measuring mass and weight",
+      html:"<ul><li><b>Mass</b> — balance (compares to known masses).</li><li><b>Weight</b> — newton-meter (spring balance).</li></ul>"+
+         "<div class='f'><p>A balance gives the same reading anywhere; a spring balance does not.</p></div>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> A 6 kg bag on Earth (g = 10 N/kg) — find its weight.</p><p class='f'><b>A:</b> W = m × g = 6 × 10 = <b>60 N</b>.</p></div>" }
+  ],
+  learn:[
+    { tier:"core", heading:"The difference between mass and weight",
+      html:"<p><b>Mass</b> is how much matter an object contains, measured in kilograms — it is the same everywhere. <b>Weight</b> is the pull of gravity on that mass, a force measured in newtons — it depends where you are.</p>" },
+    { tier:"core", heading:"Weight = mass × g",
+      html:"<p style='text-align:center;font-size:1.15em;color:var(--ig-d)'><b>W = m × g</b></p><p>g is the gravitational field strength: about 9.8 N/kg on Earth, 1.6 N/kg on the Moon. A larger g means a larger weight for the same mass.</p>" },
+    { tier:"core", heading:"Measuring",
+      html:"<ul><li>Mass — a balance, comparing against standard masses.</li><li>Weight — a spring balance (newton-meter).</li></ul>" }
+  ],
+  simulation:{ title:"Gravity Lab", file:"sims/gravity-lab.html", source:"Atul Soral Physicism — Interactive Sim",
+    instructions:["Change the planet and see how weight changes while mass stays fixed.","Verify W = m × g by reading the values.","Compare Earth and Moon for the same object."] },
+  formulas:[ {f:"W = m × g", d:"Weight = mass × gravitational field strength."}, {f:"g (Earth) ≈ 9.8 N/kg", d:"Use 10 for quick calculations."} ],
+  practice:[
+    { q:"Which statement is correct?", type:"mcq", options:["Mass is a force","Weight is measured in kg","Mass is the same everywhere","Weight never changes"], answer:2, marks:1, solution:"Mass (matter) is the same everywhere; weight changes with g." },
+    { q:"Calculate the weight of a 12 kg object on Earth (g = 9.8 N/kg).", type:"struct", answer:"117.6 N", marks:2, solution:"W = m × g = 12 × 9.8 = 117.6 N ≈ 118 N. [2]" },
+    { q:"Explain why an astronaut's weight is less on the Moon but their mass is unchanged.", type:"struct", answer:"g is smaller on Moon", marks:2, solution:"Mass (matter) is unchanged. The Moon's g (1.6 N/kg) is smaller than Earth's, so W = mg is smaller. [2]" }
+  ],
+  mistakes:[
+    "Saying weight is measured in kilograms — weight is a <b>force</b>, measured in <b>newtons</b>.",
+    "Thinking mass changes on the Moon — only <b>weight</b> changes; mass is constant.",
+    "Forgetting to multiply by g when asked for weight."
+  ],
+  exam:[
+    { q:"State the difference between mass and weight. [2]", marks:2, solution:"Mass is the amount of matter (kg), the same everywhere. Weight is the gravitational force on the mass (N), depending on g. [2]" },
+    { q:"A rock has a weight of 45 N on Earth (g = 9.8 N/kg). Calculate its mass. [2]", marks:2, solution:"m = W ÷ g = 45 ÷ 9.8 = 4.6 kg. [2]" }
+  ],
+  checklist:[ "I can state the difference between mass and weight.","I can use W = m × g.","I can rearrange to find mass from weight.","I can explain why weight changes with location but mass does not." ]
+},
+
+"IG1.4": {
+  title: "Density",
+  tier: "core",
+  slides:[
+    { title:"What is density?",
+      html:"<p><b>Density</b> tells you how much mass is packed into a given volume.</p><p style='text-align:center;font-size:1.25em;margin:14px 0;color:var(--ig-d)'><b>ρ = m ÷ V</b></p>"+
+         "<div class='f'><p>Unit: kg/m³ or g/cm³. Water = 1000 kg/m³ = 1 g/cm³.</p></div>" },
+    { title:"Measuring density of a regular solid",
+      html:"<ul><li>Measure mass on a balance.</li><li>Measure sides and calculate volume.</li><li>Divide: ρ = m ÷ V.</li></ul>" },
+    { title:"Measuring density of an irregular solid",
+      html:"<ul><li>Mass on a balance.</li><li>Volume by displacement (measuring cylinder).</li><li>ρ = m ÷ V.</li></ul>"+
+         "<div class='f'><p>The water pushed up equals the object's volume.</p></div>" },
+    { title:"Floating and sinking",
+      html:"<p>An object <b>floats</b> if it is less dense than the liquid, and <b>sinks</b> if it is denser.</p>"+
+         "<div class='f'><p>Ice floats on water because ice is less dense than liquid water.</p></div>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> A block has mass 240 g and volume 30 cm³. Find its density.</p><p class='f'><b>A:</b> ρ = 240 ÷ 30 = <b>8 g/cm³</b>.</p></div>" }
+  ],
+  learn:[
+    { tier:"core", heading:"Density: mass per unit volume",
+      html:"<p style='text-align:center;font-size:1.15em;color:var(--ig-d)'><b>ρ = m ÷ V</b></p><p>Density measures how tightly matter is packed. A small dense object (like lead) can be heavier than a large light one (like foam). Units: kg/m³ or g/cm³.</p>" },
+    { tier:"core", heading:"Finding density in the lab",
+      html:"<p><b>Regular solid:</b> mass on a balance, volume by calculation. <b>Irregular solid:</b> mass on a balance, volume by displacement. <b>Liquid:</b> mass of a known volume in a measuring cylinder.</p>" },
+    { tier:"core", heading:"Floating and sinking",
+      html:"<p>Compare densities: an object floats if less dense than the surrounding liquid, sinks if more dense. This is why oil floats on water.</p>" }
+  ],
+  simulation:{ title:"Density Lab", file:"sims/density-lab.html", source:"Atul Soral Physicism — Interactive Sim",
+    instructions:["Change an object's mass and volume; watch its density and whether it floats.","Find the density of an irregular shape by displacement.","Test which materials float in water (ρ = 1 g/cm³)."] },
+  formulas:[ {f:"ρ = m ÷ V", d:"Density = mass ÷ volume. Unit kg/m³ or g/cm³."}, {f:"ρ(water) = 1000 kg/m³ = 1 g/cm³", d:"Objects less dense than this float."} ],
+  practice:[
+    { q:"The unit of density is:", type:"mcq", options:["kg","kg/m³","m³","N/kg"], answer:1, marks:1, solution:"Density = mass ÷ volume, so kg/m³." },
+    { q:"A metal cube has mass 54 g and side 3.0 cm. Calculate its density.", type:"struct", answer:"2 g/cm³", marks:3, solution:"V = 3³ = 27 cm³. ρ = 54 ÷ 27 = 2.0 g/cm³. [3]" },
+    { q:"Explain how to find the density of an irregular stone.", type:"struct", answer:"Mass on balance, volume by displacement", marks:3, solution:"Find mass on a balance. Find volume by displacement in a measuring cylinder. Density = mass ÷ volume. [3]" }
+  ],
+  mistakes:[
+    "Mixing units — don't divide grams by m³. Keep mass and volume in matching units.",
+    "Forgetting to cube the side for a cube's volume (V = s³, not s²).",
+    "Thinking heavier always means denser — a large light object can outweigh a small dense one."
+  ],
+  exam:[
+    { q:"Define density. [1]", marks:1, solution:"Mass per unit volume (ρ = m/V). [1]" },
+    { q:"A liquid of volume 50 cm³ has mass 40 g. Calculate its density and state whether it floats on water. [3]", marks:3, solution:"ρ = 40 ÷ 50 = 0.8 g/cm³. Less than 1 g/cm³, so it floats on water. [3]" }
+  ],
+  checklist:[ "I can define density and state its units.","I can use ρ = m ÷ V.","I can find the volume of a regular and irregular solid.","I can predict floating or sinking by comparing densities." ]
 }
 
 };
