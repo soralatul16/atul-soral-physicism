@@ -16,6 +16,13 @@
   --core:#16a34a;--core-soft:rgba(22,163,74,.12);
   --ext:#d97706;--ext-soft:rgba(217,119,6,.12);
 }
+[data-theme="dark"]{
+  --bg:#141227;--surface:#211d3d;--card:#211d3d;--card2:#2a2450;
+  --text:#e8e5f7;--text2:#a8a2c8;--text3:#7a739e;--border:rgba(139,109,255,.15);
+  --ig:#8b6dff;--ig-soft:rgba(139,109,255,.16);--ig-glow:rgba(139,109,255,.28);
+  --core:#22c55e;--core-soft:rgba(34,197,94,.16);
+  --ext:#fb923c;--ext-soft:rgba(234,88,12,.18);
+}
 html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;line-height:1.55;min-height:100%}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
@@ -87,6 +94,7 @@ footer{margin:50px 0 30px;text-align:center;color:var(--text3);font-size:.78rem}
       <a href="myp-dashboard.html" class="hide-sm">MYP</a>
       <a href="dp-dashboard.html" class="hide-sm">DP</a>
       <a href="document-studio.html">📄 Documents</a>
+      <button onclick="igToggleTheme()" id="igThemeBtn" style="padding:7px 13px;border-radius:9px;font-size:.82rem;font-weight:600;border:1px solid var(--border);background:var(--card);color:var(--text2);cursor:pointer">🌙</button>
       <span id="authBtnContainer"></span>
     </nav>
   </div>
@@ -208,6 +216,16 @@ document.addEventListener('DOMContentLoaded', function(){
 <script src="js/auth.js"></script>
 <script>
 try{ if(window.PhysicismAuth && PhysicismAuth.renderAuthButton){ PhysicismAuth.renderAuthButton('authBtnContainer'); } }catch(e){ console.warn('auth button', e); }
+</script>
+<script>
+(function(){ if(localStorage.getItem('ig_theme')==='dark') document.documentElement.setAttribute('data-theme','dark'); })();
+function igToggleTheme(){
+  var d=document.documentElement.getAttribute('data-theme')==='dark';
+  if(d){document.documentElement.removeAttribute('data-theme');localStorage.setItem('ig_theme','light');}
+  else{document.documentElement.setAttribute('data-theme','dark');localStorage.setItem('ig_theme','dark');}
+  var b=document.getElementById('igThemeBtn'); if(b) b.textContent=d?'🌙':'☀️';
+}
+document.addEventListener('DOMContentLoaded',function(){ var b=document.getElementById('igThemeBtn'); if(b&&document.documentElement.getAttribute('data-theme')==='dark') b.textContent='☀️'; });
 </script>
 </body>
 </html>
