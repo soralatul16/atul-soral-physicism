@@ -653,11 +653,16 @@ var db = PhysicismAuth.db;
 
 // ==================== URL PARAMETERS & PROGRAMME ====================
 var urlParams = new URLSearchParams(window.location.search);
-var currentProgramme = urlParams.get('prog') === 'myp' ? 'myp' : 'dp';
+var _pp = urlParams.get('prog'); var currentProgramme = (_pp === 'myp') ? 'myp' : (_pp === 'igcse' ? 'igcse' : 'dp');
 var autoReview = urlParams.get('review') === 'true';
 
 // Helper to get correct collection name based on programme
 function col(base) {
+  if (currentProgramme === 'igcse') {
+    if (base === 'dpAssignments') return 'igAssignments';
+    if (base === 'dpSubmissions') return 'igSubmissions';
+    if (base === 'dpQuestions') return 'igQuestions';
+  }
   if (currentProgramme === 'myp') {
     if (base === 'dpAssignments') return 'mypAssignments';
     if (base === 'dpSubmissions') return 'mypSubmissions';
@@ -1208,7 +1213,7 @@ function handleFocusLoss(eventDesc) {
   focusLog.push({ event: eventDesc, timestamp: now.toISOString() });
   
   // Autosave focus loss status immediately
-  db.collection('dpSubmissions').doc(attemptingSubmission.id).update({
+  db.collection(col('dpSubmissions')).doc(attemptingSubmission.id).update({
     focusLossCount: focusLossCount,
     focusLog: focusLog
   }).catch(console.error);
@@ -1645,8 +1650,8 @@ function submitAttempt() {
   var timeTaken = Math.max(1, Math.round((Date.now() - startTime.getTime()) / 60000));
   
   var batch = db.batch();
-  var subRef = db.collection('dpSubmissions').doc(submissionId);
-  var asgnRef = db.collection('dpAssignments').doc(assignmentId);
+  var subRef = db.collection(col('dpSubmissions')).doc(submissionId);
+  var asgnRef = db.collection(col('dpAssignments')).doc(assignmentId);
   
   batch.update(subRef, {
     answers: currentAnswers,
