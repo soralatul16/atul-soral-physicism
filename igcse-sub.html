@@ -109,7 +109,7 @@ body{font-family:Georgia,Palatino,serif;background:var(--bg);color:var(--text);m
 .slide p{color:var(--text2);margin-bottom:12px}.slide ul{padding-left:22px;margin-bottom:12px}.slide li{margin-bottom:8px;color:var(--text2)}
 .slide strong{color:var(--text)}
 .deck-dot{width:9px;height:9px;border-radius:50%;background:var(--line);transition:.2s}.deck-dot.on{background:var(--ig);transform:scale(1.25)}
-.f{opacity:0;transform:translateY(8px);transition:all .5s}.f.show{opacity:1;transform:none}
+.f{opacity:0;transform:translateY(8px);transition:all .45s}.f.show{opacity:1;transform:none}.slide.active .f{animation:showf .01s .8s forwards}@keyframes showf{to{opacity:1;transform:none}}
 .pq{background:var(--ig-pale);border-left:4px solid var(--ig);padding:16px 18px;border-radius:12px}
 .ig-ext{display:inline-block;background:var(--ext-bg);color:var(--ext);font-family:'Outfit',sans-serif;font-size:9px;font-weight:700;padding:3px 10px;border-radius:50px;margin-bottom:10px;border:1px solid var(--ext-b)}
 </style>
@@ -205,7 +205,10 @@ function updateDeck(){
   document.getElementById('deckNext').style.visibility=di===slides.length-1?'hidden':'visible';
   document.getElementById('deckProg').style.width=((di+1)/slides.length*100)+'%';
   var act=document.querySelectorAll('.slide')[di];
-  if(act) act.querySelectorAll('.f').forEach(function(f,k){ setTimeout(function(){ f.classList.add('show'); },120+k*120); });
+  if(act){
+    // reveal this slide's fade blocks; keep a gentle stagger only on the first view
+    act.querySelectorAll('.f').forEach(function(f,k){ f.classList.remove('show'); setTimeout(function(){ f.classList.add('show'); }, 60+k*90); });
+  }
   doMath();
 }
 
