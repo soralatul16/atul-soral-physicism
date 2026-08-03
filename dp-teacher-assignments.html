@@ -2242,12 +2242,12 @@ function editReviewQuestion(pid){
       '<div class="ss-header"><h3>Edit Question ('+val(part.id)+')</h3><button class="qb-close" style="background:rgba(0,0,0,.06);color:var(--text2)" onclick="closeQEdit()">\u2715</button></div>'+
       '<div style="padding:16px 20px">'+
         '<label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Question text</label>'+
-        '<textarea id="qEditStem" style="width:100%;min-height:70px;padding:8px;border:1px solid var(--border);border-radius:6px;margin:4px 0 12px">'+val(part.text||grp.stem)+'</textarea>'+
+        '<div style="display:flex;gap:4px;flex-wrap:wrap;margin:4px 0">'+'<button type="button" onclick="qEditWrap(\'sub\')" style="border:1px solid var(--border);background:#fff;border-radius:5px;padding:3px 9px;cursor:pointer;font-size:.8rem">X₂ sub</button>'+'<button type="button" onclick="qEditWrap(\'sup\')" style="border:1px solid var(--border);background:#fff;border-radius:5px;padding:3px 9px;cursor:pointer;font-size:.8rem">X² sup</button>'+'<button type="button" onclick="qEditIns(\'×\')" style="border:1px solid var(--border);background:#fff;border-radius:5px;padding:3px 9px;cursor:pointer">×</button>'+'<button type="button" onclick="qEditIns(\'±\')" style="border:1px solid var(--border);background:#fff;border-radius:5px;padding:3px 9px;cursor:pointer">±</button>'+'<button type="button" onclick="qEditIns(\'η\')" style="border:1px solid var(--border);background:#fff;border-radius:5px;padding:3px 9px;cursor:pointer">η</button>'+'<button type="button" onclick="qEditIns(\'ρ\')" style="border:1px solid var(--border);background:#fff;border-radius:5px;padding:3px 9px;cursor:pointer">ρ</button>'+'<button type="button" onclick="qEditIns(\'Δ\')" style="border:1px solid var(--border);background:#fff;border-radius:5px;padding:3px 9px;cursor:pointer">Δ</button>'+'<span style="font-size:.68rem;color:var(--text3);align-self:center">select text, then X₂/X²</span>'+'</div>'+'<textarea id="qEditStem" onfocus="_qEditTA=this" style="width:100%;min-height:70px;padding:8px;border:1px solid var(--border);border-radius:6px;margin:4px 0 12px">'+val(part.text||grp.stem)+'</textarea>'+
         (isMCQ?('<label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Options (select the correct one)</label><div style="margin:6px 0 12px">'+optRows+'</div>'):'')+
         '<label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Marks</label><br>'+
         '<input type="number" id="qEditMarks" min="0" value="'+val(part.marks!=null?part.marks:1)+'" style="width:90px;padding:6px;border:1px solid var(--border);border-radius:6px;margin:4px 0 12px"><br>'+
         '<label style="font-size:.7rem;color:var(--text3);text-transform:uppercase">Mark scheme / solution</label>'+
-        '<textarea id="qEditMS" style="width:100%;min-height:60px;padding:8px;border:1px solid var(--border);border-radius:6px;margin:4px 0 4px">'+val(part.markScheme)+'</textarea>'+
+        '<textarea id="qEditMS" onfocus="_qEditTA=this" style="width:100%;min-height:60px;padding:8px;border:1px solid var(--border);border-radius:6px;margin:4px 0 4px">'+val(part.markScheme)+'</textarea>'+
         '<div style="margin-top:14px;">'+
           '<label style="display:block;font-size:.7rem;color:var(--text3);text-transform:uppercase;margin-bottom:4px">Graph / image (optional)</label>'+
           '<input type="file" accept="image/*" onchange="qEditPickImage(this)" style="font-size:12px;margin-bottom:6px">'+
@@ -2295,6 +2295,23 @@ function qEditPasteImage(ev){
 }
 function qEditRemoveImage(){
   document.getElementById('qEditImgUrl').value=''; document.getElementById('qEditImgPrev').innerHTML=''; window._qEditImgData='';
+}
+var _qEditTA=null;
+function qEditWrap(kind){
+  var ta=_qEditTA||document.getElementById('qEditStem'); if(!ta) return;
+  var s0=ta.selectionStart, e0=ta.selectionEnd;
+  if(s0===e0){ alert('Select the character(s) to make '+(kind==='sub'?'subscript':'superscript')+' first.'); return; }
+  var selected=ta.value.slice(s0,e0);
+  var tag=kind==='sub'?'sub':'sup';
+  var wrapped='<'+tag+'>'+selected+'</'+tag+'>';
+  ta.value=ta.value.slice(0,s0)+wrapped+ta.value.slice(e0);
+  ta.selectionStart=ta.selectionEnd=s0+wrapped.length; ta.focus();
+}
+function qEditIns(ch){
+  var ta=_qEditTA||document.getElementById('qEditStem'); if(!ta) return;
+  var s0=ta.selectionStart||0, e0=ta.selectionEnd||0;
+  ta.value=ta.value.slice(0,s0)+ch+ta.value.slice(e0);
+  ta.selectionStart=ta.selectionEnd=s0+ch.length; ta.focus();
 }
 function saveQEdit(pid, isMCQ){
   var upd={};
