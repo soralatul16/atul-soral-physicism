@@ -175,6 +175,7 @@ label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04
           <button onclick="fmt('undo')" title="Undo">↶</button>
           <button onclick="fmt('redo')" title="Redo">↷</button>
           <button onclick="fmt('removeFormat')" title="Clear format">✕ Fmt</button>
+          <button onclick="cleanSelection()" title="Fix alignment / clean pasted junk">🧹 Clean</button>
         </div>
         <input type="file" id="imgPick" accept="image/*" class="hidden" onchange="pickImage(this)">
         <div id="editor" contenteditable="true"><p>Start typing, paste text/screenshots, or switch to "Paste HTML" to import source code…</p></div>
@@ -248,6 +249,17 @@ function renderHtml(){
 }
 
 // formatting
+function cleanSelection(){
+  var ed=document.getElementById('editor');
+  ed.querySelectorAll('*').forEach(function(el){
+    if(el===ed) return;
+    // remove alignment/margin styles but keep bold/italic/color intent via tags
+    var st=el.getAttribute('style')||'';
+    st=st.replace(/(margin[^;]*;?)/gi,'').replace(/(text-align[^;]*;?)/gi,'').replace(/(padding-left[^;]*;?)/gi,'').replace(/(text-indent[^;]*;?)/gi,'').replace(/(line-height[^;]*;?)/gi,'');
+    if(st.trim()) el.setAttribute('style',st); else el.removeAttribute('style');
+  });
+  alert('Cleaned alignment and spacing from pasted content.');
+}
 function fmt(cmd,val){ document.getElementById('editor').focus(); document.execCommand(cmd,false,val||null); }
 function fmtBlock(tag){ if(tag) fmt('formatBlock', tag); }
 function insertTable(){
@@ -274,7 +286,34 @@ function pickImage(input){
   input.value='';
 }
 // paste image from clipboard directly into editor
+function cleanPastedHtml(html){
+  var tmp=document.createElement('div'); tmp.innerHTML=html;
+  // strip inline styles that break alignment/spacing, and Docs junk attributes
+  tmp.querySelectorAll('*').forEach(function(el){
+    el.removeAttribute('style');
+    el.removeAttribute('class');
+    el.removeAttribute('id');
+    el.removeAttribute('dir');
+    // unwrap empty spans
+    if(el.tagName==='SPAN' && !el.attributes.length){ /* keep text, remove wrapper later */ }
+  });
+  // remove <meta>, <style>, <o:p> and Word/Docs artifacts
+  tmp.querySelectorAll('meta,style,o\\:p,script').forEach(function(el){ el.remove(); });
+  // collapse spans to their text
+  tmp.querySelectorAll('span').forEach(function(sp){ var t=document.createTextNode(sp.textContent); sp.parentNode.replaceChild(t, sp); });
+  return tmp.innerHTML;
+}
 document.getElementById('editor').addEventListener('paste', function(ev){
+  // if pasting rich HTML (from Docs/Word), clean it first
+  var cd=ev.clipboardData||window.clipboardData;
+  if(cd){
+    var html=cd.getData('text/html');
+    if(html && html.indexOf('docs-internal')>-1 || (html && /style=/.test(html))){
+      ev.preventDefault();
+      fmt('insertHTML', cleanPastedHtml(html));
+      return;
+    }
+  }
   var items=(ev.clipboardData||window.clipboardData).items; if(!items) return;
   for(var i=0;i<items.length;i++){
     if(items[i].type.indexOf('image')===0){
