@@ -43,33 +43,94 @@ window.IGCSE_CONTENT = {
            "<p class='f'><b>A:</b> 5.0 ÷ 50 = <b>0.10 mm</b>. Measuring 50 reduces the ±1 mm ruler error on each thin sheet.</p></div>" }
   ],
   learn: [
-    { tier:"foundation", heading:"Starting with a question: what does it mean to measure?",
-      html:"<p>Imagine you tell a friend “the table is 3 long.” Three what? Three metres? Three hand-spans? Without a <b>unit</b>, the number 3 is useless.</p>"+
-           "<p>This is the heart of physics: every measurement is a <b>number paired with a unit</b>.</p>"+
-           "<p style='text-align:center;font-size:1.25em;margin:18px 0;color:var(--ig-d)'><b>physical quantity = number × unit</b></p>"+
-           "<p>A <b>physical quantity</b> is simply anything we can measure — length, mass, time, temperature, and so on.</p>" },
-    { tier:"core", heading:"The SI base units",
-      html:"<p>Scientists worldwide agree on one system so results can be compared: the <b>SI system</b>. Five base units matter at IGCSE:</p>"+
-           "<table class='ig-tbl'><tr><th>Quantity</th><th>Unit</th><th>Symbol</th></tr>"+
+    { tier:"foundation", heading:"What it means to measure",
+      html:"<p>Suppose you tell a friend “the desk is 3 long.” Three <i>what</i>? Three metres, three feet, three hand-spans? The number 3 on its own means nothing. Every measurement in physics must carry two pieces of information together:</p>"+
+           "<p style='text-align:center;font-size:1.3em;margin:18px 0;color:var(--ig-d)'><b>physical quantity = number × unit</b></p>"+
+           "<p>The <b>number</b> tells you how many, and the <b>unit</b> tells you of what. A length of 3 metres is written <b>3 m</b>; the 3 is the number and the m is the unit. Leaving off the unit is one of the most common — and most costly — mistakes in physics, because a bare number cannot be checked, compared, or used in a calculation.</p>"+
+           "<p>A <b>physical quantity</b> is anything we can measure: length, mass, time, temperature, current, force, energy, and dozens more. Throughout this course, every quantity you meet will always be a number together with a unit.</p>" },
+
+    { tier:"core", heading:"The SI system and base units",
+      html:"<p>If every country used its own units, comparing scientific results would be chaos. To avoid this, scientists worldwide use one agreed system: the <b>SI system</b> (Système International). It is built on a small set of <b>base units</b>, from which every other unit is constructed. Five base quantities matter at IGCSE:</p>"+
+           "<table class='ig-tbl'><tr><th>Base quantity</th><th>Unit</th><th>Symbol</th></tr>"+
            "<tr><td>length</td><td>metre</td><td>m</td></tr>"+
            "<tr><td>mass</td><td>kilogram</td><td>kg</td></tr>"+
            "<tr><td>time</td><td>second</td><td>s</td></tr>"+
-           "<tr><td>current</td><td>ampere</td><td>A</td></tr>"+
+           "<tr><td>electric current</td><td>ampere</td><td>A</td></tr>"+
            "<tr><td>temperature</td><td>kelvin</td><td>K</td></tr></table>"+
-           "<p>Every other unit is <b>derived</b> from these. Speed = distance ÷ time, so its unit is m/s. Force is measured in newtons (N), which is really kg·m/s².</p>" },
-    { tier:"core", heading:"Measuring length, volume and time",
-      html:"<h4>Length</h4><ul><li><b>Ruler</b> — precision ±1 mm.</li><li><b>Micrometer screw gauge</b> — for tiny thicknesses, precision 0.01 mm.</li></ul>"+
-           "<h4>Volume</h4><ul><li><b>Regular solid:</b> measure and calculate (cuboid: V = l × w × h).</li><li><b>Liquid:</b> measuring cylinder — read the bottom of the <b>meniscus</b> at eye level.</li><li><b>Irregular solid:</b> the <b>displacement method</b> — the water it pushes up equals its volume.</li></ul>"+
-           "<h4>Time</h4><p>Use a stopwatch. For repeating events like a pendulum, time <b>many swings</b> and divide — this shrinks the effect of your reaction-time error.</p>" },
-    { tier:"core", heading:"Getting accurate readings",
-      html:"<ul><li><b>Parallax error:</b> always read a scale at eye level, straight on.</li>"+
-           "<li><b>Zero error:</b> check the instrument reads zero before you start.</li>"+
-           "<li><b>Repeat and average:</b> take several readings and find the mean to reduce random error.</li></ul>" },
-    { tier:"ext", heading:"Extended: scalars and vectors",
-      html:"<p>Some quantities need only a size; others need a direction too.</p>"+
-           "<p><b>Scalar</b> — magnitude only: mass, time, distance, speed, energy, temperature.</p>"+
-           "<p><b>Vector</b> — magnitude <i>and</i> direction: displacement, velocity, acceleration, force, weight, momentum.</p>"+
-           "<p>Vectors in the same line add or subtract. Two perpendicular vectors combine by a scale diagram or Pythagoras.</p>" }
+           "<p>Notice the base unit of mass is the <b>kilogram</b>, not the gram — this often surprises students.</p>"+
+           "<h4>Derived units</h4>"+
+           "<p>Every other unit is <b>derived</b> by combining base units through a defining equation. For example:</p>"+
+           "<ul><li><b>Speed</b> = distance ÷ time, so its unit is metre per second, <b>m/s</b>.</li>"+
+           "<li><b>Area</b> = length × length, so its unit is <b>m²</b>.</li>"+
+           "<li><b>Force</b> is measured in <b>newtons (N)</b>. One newton is really 1 kg·m/s² — you can see the base units hidden inside.</li></ul>"+
+           "<p>Understanding that derived units come from base units lets you check any equation: if the units on both sides don't match, the equation is wrong.</p>" },
+
+    { tier:"core", heading:"Prefixes for large and small quantities",
+      html:"<p>Physics deals with sizes from atoms to galaxies, so we use <b>prefixes</b> to avoid writing long strings of zeros. Each prefix multiplies the unit by a power of ten:</p>"+
+           "<table class='ig-tbl'><tr><th>Prefix</th><th>Symbol</th><th>Multiplier</th></tr>"+
+           "<tr><td>kilo</td><td>k</td><td>× 1000 (10³)</td></tr>"+
+           "<tr><td>centi</td><td>c</td><td>÷ 100 (10⁻²)</td></tr>"+
+           "<tr><td>milli</td><td>m</td><td>÷ 1000 (10⁻³)</td></tr>"+
+           "<tr><td>micro</td><td>μ</td><td>÷ 1 000 000 (10⁻⁶)</td></tr>"+
+           "<tr><td>nano</td><td>n</td><td>÷ 1 000 000 000 (10⁻⁹)</td></tr></table>"+
+           "<p>So 3 km = 3000 m, and 5 mm = 0.005 m. Being fluent with prefixes saves you from errors when converting units in calculations.</p>" },
+
+    { tier:"core", heading:"Measuring length accurately",
+      html:"<p>The right instrument depends on the size and precision you need:</p>"+
+           "<ul><li><b>Metre rule</b> — everyday lengths; reads to the nearest <b>1 mm</b>.</li>"+
+           "<li><b>Micrometer screw gauge</b> — very small thicknesses such as a wire's diameter; reads to <b>0.01 mm</b>.</li>"+
+           "<li><b>Measuring tape</b> — long or curved distances.</li></ul>"+
+           "<p>A micrometer has a main scale on the sleeve and a rotating thimble scale. You read the sleeve to the nearest 0.5 mm, then add the thimble reading (each division = 0.01 mm):</p>"+
+           "<div style='text-align:center;margin:14px 0'>"+
+           "<svg width='300' height='120' viewBox='0 0 300 120' style='max-width:100%'>"+
+           "<rect x='20' y='50' width='160' height='24' fill='#e6e3f5' stroke='#6c4cff'/>"+
+           "<line x1='40' y1='50' x2='40' y2='74' stroke='#5238cc'/><line x1='70' y1='50' x2='70' y2='74' stroke='#5238cc'/><line x1='100' y1='50' x2='100' y2='74' stroke='#5238cc'/><line x1='130' y1='50' x2='130' y2='74' stroke='#5238cc'/>"+
+           "<text x='20' y='90' font-size='10' fill='#413b63'>0</text><text x='95' y='90' font-size='10' fill='#413b63'>5 mm</text>"+
+           "<rect x='180' y='40' width='90' height='44' rx='6' fill='#6c4cff'/>"+
+           "<text x='198' y='67' font-size='11' fill='#fff'>thimble</text>"+
+           "<text x='60' y='40' font-size='10' fill='#413b63'>sleeve scale</text>"+
+           "</svg></div>"+
+           "<p><b>Worked example:</b> A micrometer sleeve reads 4.5 mm and the thimble reads 32 divisions. Diameter = 4.5 + (32 × 0.01) = 4.5 + 0.32 = <b>4.82 mm</b>.</p>" },
+
+    { tier:"core", heading:"Measuring volume",
+      html:"<h4>Regular solids</h4>"+
+           "<p>Measure the dimensions and calculate. For a cuboid, <b>V = length × width × height</b>. A block 4 cm × 3 cm × 2 cm has V = 24 cm³.</p>"+
+           "<h4>Liquids</h4>"+
+           "<p>Pour into a <b>measuring cylinder</b> and read the scale at the bottom of the curved surface (the <b>meniscus</b>), with your eye level with the liquid to avoid parallax error.</p>"+
+           "<h4>Irregular solids — the displacement method</h4>"+
+           "<p>You cannot use a formula for an odd shape like a stone, so you use the water it pushes aside:</p>"+
+           "<div style='text-align:center;margin:14px 0'>"+
+           "<svg width='260' height='140' viewBox='0 0 260 140' style='max-width:100%'>"+
+           "<rect x='30' y='20' width='60' height='110' rx='4' fill='none' stroke='#6c4cff' stroke-width='2'/>"+
+           "<rect x='32' y='70' width='56' height='58' fill='#cfe8ff'/><text x='36' y='60' font-size='10' fill='#413b63'>50 mL</text>"+
+           "<rect x='170' y='20' width='60' height='110' rx='4' fill='none' stroke='#6c4cff' stroke-width='2'/>"+
+           "<rect x='172' y='50' width='56' height='78' fill='#cfe8ff'/><circle cx='200' cy='100' r='14' fill='#9b7dff'/><text x='176' y='40' font-size='10' fill='#413b63'>68 mL</text>"+
+           "<text x='95' y='140' font-size='10' fill='#413b63'>before</text><text x='185' y='140' font-size='10' fill='#413b63'>after</text>"+
+           "</svg></div>"+
+           "<p>Volume of the stone = final reading − initial reading = 68 − 50 = <b>18 cm³</b> (1 mL = 1 cm³).</p>" },
+
+    { tier:"core", heading:"Measuring time and reducing error",
+      html:"<p>Time is measured with a <b>stopwatch</b> (digital, ±0.01 s) or, for very fast events, electronic <b>light gates</b>.</p>"+
+           "<p>Your reaction time (~0.2 s) adds error every time you start and stop a stopwatch. For a repeating motion like a swinging pendulum, you reduce this by timing <b>many oscillations</b> and dividing:</p>"+
+           "<p><b>Worked example:</b> A pendulum takes 30.0 s for 20 complete swings. Time for one swing = 30.0 ÷ 20 = <b>1.5 s</b>. The ±0.2 s reaction error is now spread over 20 swings, so the error per swing is 20 times smaller.</p>"+
+           "<h4>Three habits for accurate readings</h4>"+
+           "<ul><li><b>Avoid parallax:</b> read any scale straight on, at eye level.</li>"+
+           "<li><b>Check the zero:</b> make sure the instrument reads zero before measuring (a micrometer or balance can have a zero error).</li>"+
+           "<li><b>Repeat and average:</b> take several readings and use the mean to reduce random error.</li></ul>" },
+
+    { tier:"ext", heading:"Scalars and vectors",
+      html:"<p>Some quantities are fully described by a size alone; others also need a direction.</p>"+
+           "<p>A <b>scalar</b> has <b>magnitude only</b>: mass, time, distance, speed, energy, temperature.</p>"+
+           "<p>A <b>vector</b> has <b>magnitude and direction</b>: displacement, velocity, acceleration, force, weight, momentum.</p>"+
+           "<h4>Combining vectors</h4>"+
+           "<p>Vectors along the same line simply add or subtract: two forces of 3 N and 4 N pulling the same way give 7 N; pulling opposite ways they give 1 N.</p>"+
+           "<p>Two <b>perpendicular</b> vectors combine using a scale drawing or Pythagoras. A 3 N force east and a 4 N force north give a resultant of √(3² + 4²) = √25 = <b>5 N</b>, at an angle found from the triangle:</p>"+
+           "<div style='text-align:center;margin:14px 0'>"+
+           "<svg width='200' height='150' viewBox='0 0 200 150' style='max-width:100%'>"+
+           "<line x1='40' y1='120' x2='160' y2='120' stroke='#6c4cff' stroke-width='3'/><text x='95' y='138' font-size='11' fill='#413b63'>3 N</text>"+
+           "<line x1='160' y1='120' x2='160' y2='40' stroke='#16a34a' stroke-width='3'/><text x='165' y='85' font-size='11' fill='#413b63'>4 N</text>"+
+           "<line x1='40' y1='120' x2='160' y2='40' stroke='#ea580c' stroke-width='3'/><text x='80' y='70' font-size='11' fill='#ea580c'>5 N</text>"+
+           "</svg></div>" }
   ],
   simulation: {
     title: "Derived Quantities Lab",
@@ -273,6 +334,181 @@ window.IGCSE_CONTENT = {
     { q:"A liquid of volume 50 cm³ has mass 40 g. Calculate its density and state whether it floats on water. [3]", marks:3, solution:"ρ = 40 ÷ 50 = 0.8 g/cm³. Less than 1 g/cm³, so it floats on water. [3]" }
   ],
   checklist:[ "I can define density and state its units.","I can use ρ = m ÷ V.","I can find the volume of a regular and irregular solid.","I can predict floating or sinking by comparing densities." ]
+},
+
+"IG1.5": {
+  title: "Forces",
+  tier: "both",
+  slides:[
+    { title:"What a force does",
+      html:"<p>A <b>force</b> is a push or pull (unit: newton, N). Forces can change an object's <b>speed, direction or shape</b>.</p><div class='f'><p>Forces are vectors — they have size and direction.</p></div>" },
+    { title:"Resultant force",
+      html:"<p>The <b>resultant</b> is the single force equal to all forces combined.</p><ul><li>Same direction → add</li><li>Opposite → subtract</li></ul><div class='f'><p>Zero resultant → object stays still or moves at constant velocity.</p></div>" },
+    { title:"Newton's second law",
+      html:"<p style='text-align:center;font-size:1.25em;margin:14px 0;color:var(--ig-d)'><b>F = m × a</b></p><p>A resultant force makes a mass accelerate.</p><div class='f'><p>Bigger force → bigger acceleration; bigger mass → smaller acceleration.</p></div>" },
+    { title:"Friction and air resistance",
+      html:"<p><b>Friction</b> opposes motion between surfaces; <b>air resistance</b> (drag) opposes motion through air.</p><div class='f'><p>Both act opposite to the direction of movement.</p></div>" },
+    { title:"Hooke's law (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div><p style='text-align:center;font-size:1.2em;color:var(--ig-d)'><b>F = k × x</b></p><p>Extension of a spring is proportional to the force — up to the limit of proportionality.</p>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> A resultant force of 12 N acts on a 4 kg mass. Find the acceleration.</p><p class='f'><b>A:</b> a = F ÷ m = 12 ÷ 4 = <b>3 m/s²</b>.</p></div>" }
+  ],
+  learn:[
+    { tier:"foundation", heading:"Forces are pushes and pulls",
+      html:"<p>A force can start or stop motion, speed something up or slow it down, change its direction, or change its shape. Forces are measured in newtons (N) with a newton-meter.</p>" },
+    { tier:"core", heading:"Resultant force and F = ma",
+      html:"<p>Add forces in the same direction, subtract opposing ones, to get the <b>resultant</b>. A non-zero resultant causes acceleration:</p><p style='text-align:center;font-size:1.15em;color:var(--ig-d)'><b>F = m × a</b></p><p>If the resultant is zero, the object is in equilibrium (still, or constant velocity).</p>" },
+    { tier:"core", heading:"Friction",
+      html:"<p>Friction and air resistance oppose motion. They can be useful (grip, brakes) or a nuisance (wasted energy as heat).</p>" },
+    { tier:"ext", heading:"Hooke's law",
+      html:"<p><b>F = k x</b>: the extension x of a spring is proportional to the load F, where k is the spring constant, until the limit of proportionality is passed.</p>" }
+  ],
+  simulation:{ title:"Motion Lab", file:"sims/motion-lab.html", source:"Atul Soral Physicism — Interactive Sim",
+    instructions:["Apply a force to a mass and watch it accelerate (F = ma).","Balance two opposing forces to get zero resultant.","Add friction and see how it opposes motion."] },
+  formulas:[ {f:"F = m × a", d:"Resultant force = mass × acceleration. Unit N."}, {f:"resultant = sum of forces (with direction)", d:""}, {f:"F = k × x", d:"Hooke's law (Extended); k = spring constant."} ],
+  practice:[
+    { q:"The unit of force is the:", type:"mcq", options:["joule","newton","watt","pascal"], answer:1, marks:1, solution:"Force is measured in newtons (N)." },
+    { q:"A 2 kg trolley experiences a resultant force of 10 N. Calculate its acceleration.", type:"struct", answer:"5 m/s²", marks:2, solution:"a = F ÷ m = 10 ÷ 2 = 5 m/s². [2]" },
+    { q:"State Hooke's law. (Extended)", type:"struct", answer:"Extension proportional to force", marks:2, solution:"The extension of a spring is proportional to the force applied, up to the limit of proportionality. [2]" }
+  ],
+  mistakes:[
+    "Forgetting forces are <b>vectors</b> — opposing forces subtract, they don't just add.",
+    "Using F = ma with the wrong mass or forgetting to find the <b>resultant</b> first.",
+    "Thinking a moving object needs a constant force — at constant velocity the resultant is zero."
+  ],
+  exam:[
+    { q:"A car of mass 900 kg accelerates at 2 m/s². Calculate the resultant force. [2]", marks:2, solution:"F = ma = 900 × 2 = 1800 N. [2]" },
+    { q:"Explain why a skydiver reaches a constant velocity. [3]", marks:3, solution:"As speed rises, air resistance increases until it equals weight. Resultant force becomes zero, so acceleration is zero and velocity stays constant (terminal velocity). [3]" }
+  ],
+  checklist:[ "I can describe the effects of a force.","I can find a resultant force.","I can use F = m × a.","I can describe friction and air resistance.","I can state and use Hooke's law (Extended)." ]
+},
+
+"IG1.6": {
+  title: "Momentum",
+  tier: "ext",
+  slides:[
+    { title:"What is momentum? (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div><p style='text-align:center;font-size:1.25em;margin:14px 0;color:var(--ig-d)'><b>p = m × v</b></p><p>Momentum = mass × velocity. Unit: kg·m/s. It's a vector.</p>" },
+    { title:"Conservation of momentum",
+      html:"<div class='ig-ext'>EXTENDED</div><p>In a collision with no external force, <b>total momentum before = total momentum after</b>.</p><div class='f'><p>momentum before = momentum after</p></div>" },
+    { title:"Force and momentum",
+      html:"<div class='ig-ext'>EXTENDED</div><p style='text-align:center;font-size:1.2em;color:var(--ig-d)'><b>F = Δp ÷ Δt</b></p><p>Force = rate of change of momentum.</p><div class='f'><p>A longer collision time means a smaller force (crumple zones, airbags).</p></div>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> A 2 kg ball moves at 3 m/s. Find its momentum.</p><p class='f'><b>A:</b> p = m × v = 2 × 3 = <b>6 kg·m/s</b>.</p></div>" }
+  ],
+  learn:[
+    { tier:"ext", heading:"Momentum = mass × velocity",
+      html:"<p style='text-align:center;font-size:1.15em;color:var(--ig-d)'><b>p = m × v</b></p><p>Momentum measures how hard it is to stop a moving object. A heavy, fast object has large momentum. Unit kg·m/s; it is a vector.</p>" },
+    { tier:"ext", heading:"Conservation of momentum",
+      html:"<p>When objects collide and no external force acts, the total momentum is unchanged: total before = total after. This lets you predict velocities after a collision.</p>" },
+    { tier:"ext", heading:"Force as rate of change of momentum",
+      html:"<p><b>F = Δp / Δt</b>. Spreading a change of momentum over a longer time reduces the force — the principle behind airbags, crumple zones and crash mats.</p>" }
+  ],
+  simulation:{ title:"Motion Lab", file:"sims/motion-lab.html", source:"Atul Soral Physicism — Interactive Sim",
+    instructions:["Set masses and velocities and collide two trolleys.","Check total momentum before = total after.","See how collision time affects the force."] },
+  formulas:[ {f:"p = m × v", d:"Momentum, unit kg·m/s."}, {f:"total momentum before = total after", d:"Conservation (no external force)."}, {f:"F = Δp ÷ Δt", d:"Force = rate of change of momentum."} ],
+  practice:[
+    { q:"The unit of momentum is:", type:"mcq", options:["N","kg·m/s","J","m/s"], answer:1, marks:1, solution:"p = mv → kg·m/s." },
+    { q:"A 3 kg object moves at 4 m/s. Calculate its momentum.", type:"struct", answer:"12 kg·m/s", marks:2, solution:"p = mv = 3 × 4 = 12 kg·m/s. [2]" },
+    { q:"Explain how an airbag reduces injury using momentum ideas.", type:"struct", answer:"Longer time, smaller force", marks:3, solution:"The airbag increases the time over which momentum changes. Since F = Δp/Δt, a longer time gives a smaller force on the passenger. [3]" }
+  ],
+  mistakes:[
+    "Forgetting momentum is a <b>vector</b> — opposite directions have opposite signs.",
+    "Using speed instead of velocity, or dropping the unit kg·m/s.",
+    "In collisions, forgetting to include direction (sign) when adding momenta."
+  ],
+  exam:[
+    { q:"A 1200 kg car travels at 15 m/s. Calculate its momentum. [2]", marks:2, solution:"p = mv = 1200 × 15 = 18000 kg·m/s. [2]" },
+    { q:"Two trolleys (2 kg at 3 m/s and 1 kg at rest) collide and move together. Calculate their common velocity. [3]", marks:3, solution:"Before: p = 2×3 + 1×0 = 6 kg·m/s. After: (2+1)v = 6 → v = 2 m/s. [3]" }
+  ],
+  checklist:[ "I can calculate momentum with p = m × v.","I can apply conservation of momentum to a collision.","I can explain safety features using F = Δp/Δt." ]
+},
+
+"IG1.7": {
+  title: "Energy, work and power",
+  tier: "both",
+  slides:[
+    { title:"Energy stores and transfers",
+      html:"<p>Energy is stored (kinetic, gravitational, elastic, thermal, chemical, nuclear) and <b>transferred</b> between stores.</p><div class='f'><p>Energy is measured in joules (J) and is always conserved.</p></div>" },
+    { title:"Kinetic and gravitational energy",
+      html:"<p style='text-align:center;color:var(--ig-d)'><b>KE = ½mv²</b> &nbsp;&nbsp; <b>ΔGPE = mgh</b></p><div class='f'><p>A falling object transfers GPE to KE.</p></div>" },
+    { title:"Work done",
+      html:"<p style='text-align:center;font-size:1.2em;color:var(--ig-d)'><b>W = F × d</b></p><p>Work (J) = force × distance moved in the force's direction.</p><div class='f'><p>Doing work transfers energy.</p></div>" },
+    { title:"Power",
+      html:"<p style='text-align:center;font-size:1.2em;color:var(--ig-d)'><b>P = W ÷ t</b></p><p>Power (watt, W) = energy transferred per second.</p><div class='f'><p>A more powerful device does the same work in less time.</p></div>" },
+    { title:"Efficiency (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div><p style='text-align:center;color:var(--ig-d)'><b>efficiency = useful energy out ÷ total energy in</b></p><div class='f'><p>Always less than 100% — some energy is wasted, usually as heat.</p></div>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> A 50 N force moves a box 4 m. Find the work done.</p><p class='f'><b>A:</b> W = F × d = 50 × 4 = <b>200 J</b>.</p></div>" }
+  ],
+  learn:[
+    { tier:"foundation", heading:"Energy is measured in joules and is conserved",
+      html:"<p>Energy is stored in different ways and transferred between stores by forces, heating, electricity or waves. It is never created or destroyed — the <b>principle of conservation of energy</b>.</p>" },
+    { tier:"core", heading:"Work and power",
+      html:"<p><b>Work</b> is energy transferred by a force: W = F × d. <b>Power</b> is how fast that happens: P = W ÷ t, in watts. Also KE = ½mv² and change in GPE = mgh.</p>" },
+    { tier:"ext", heading:"Efficiency",
+      html:"<p><b>efficiency = useful output ÷ total input</b> (× 100%). No device is 100% efficient; wasted energy usually ends up as heat to the surroundings.</p>" }
+  ],
+  simulation:{ title:"Energy Efficiency Lab", file:"sims/energy-efficiency.html", source:"Atul Soral Physicism — Interactive Sim",
+    instructions:["Transfer energy through a device and see useful vs wasted energy.","Change the input and read the efficiency.","Track energy in a Sankey-style flow."] },
+  formulas:[ {f:"W = F × d", d:"Work done, unit J."}, {f:"P = W ÷ t", d:"Power, unit watt (W)."}, {f:"KE = ½ m v²", d:"Kinetic energy."}, {f:"ΔGPE = m g h", d:"Gravitational potential energy change."}, {f:"efficiency = useful ÷ total", d:"Extended; always < 1."} ],
+  practice:[
+    { q:"The unit of power is the:", type:"mcq", options:["joule","newton","watt","pascal"], answer:2, marks:1, solution:"Power is measured in watts (1 W = 1 J/s)." },
+    { q:"A crane lifts a 200 N load 5 m. Calculate the work done.", type:"struct", answer:"1000 J", marks:2, solution:"W = F × d = 200 × 5 = 1000 J. [2]" },
+    { q:"A motor transfers 600 J usefully from 800 J input. Calculate the efficiency. (Extended)", type:"struct", answer:"75%", marks:2, solution:"efficiency = 600 ÷ 800 = 0.75 = 75%. [2]" }
+  ],
+  mistakes:[
+    "Saying energy is 'used up' — it is <b>transferred</b>, never destroyed.",
+    "Using distance not in the force's direction for W = F × d.",
+    "Confusing energy (J) with power (W = J/s).",
+    "Writing efficiency above 100% — impossible."
+  ],
+  exam:[
+    { q:"A 0.5 kg ball moves at 4 m/s. Calculate its kinetic energy. [2]", marks:2, solution:"KE = ½mv² = ½ × 0.5 × 4² = ½ × 0.5 × 16 = 4 J. [2]" },
+    { q:"A lamp transfers 20 J of light from 100 J of electrical energy each second. State its power input and efficiency. [3]", marks:3, solution:"Power input = 100 W. Efficiency = 20 ÷ 100 = 20%. [3]" }
+  ],
+  checklist:[ "I can list energy stores and describe transfers.","I can use W = F × d and P = W ÷ t.","I can use KE = ½mv² and GPE = mgh.","I can calculate efficiency (Extended).","I can state that energy is conserved." ]
+},
+
+"IG1.8": {
+  title: "Pressure",
+  tier: "both",
+  slides:[
+    { title:"What is pressure?",
+      html:"<p style='text-align:center;font-size:1.25em;margin:14px 0;color:var(--ig-d)'><b>p = F ÷ A</b></p><p>Pressure = force per unit area. Unit: pascal (Pa = N/m²).</p><div class='f'><p>A sharp knife has a small area → large pressure → cuts easily.</p></div>" },
+    { title:"Pressure in liquids",
+      html:"<p>Pressure in a liquid increases with <b>depth</b> and acts in all directions.</p><div class='f'><p>Deeper water pushes harder — dam walls are thicker at the bottom.</p></div>" },
+    { title:"Liquid pressure formula (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div><p style='text-align:center;font-size:1.2em;color:var(--ig-d)'><b>p = ρ × g × h</b></p><p>Pressure due to a liquid column of height h.</p>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> A 200 N force acts on 0.5 m². Find the pressure.</p><p class='f'><b>A:</b> p = F ÷ A = 200 ÷ 0.5 = <b>400 Pa</b>.</p></div>" }
+  ],
+  learn:[
+    { tier:"foundation", heading:"Pressure = force spread over area",
+      html:"<p><b>p = F ÷ A</b>. The same force over a smaller area gives a larger pressure — that is why nails, knives and drawing pins are sharp, and why snowshoes (large area) stop you sinking.</p>" },
+    { tier:"core", heading:"Pressure in liquids",
+      html:"<p>A liquid's pressure increases with depth and acts equally in all directions at a given depth. This is why submarines must withstand huge pressure deep down.</p>" },
+    { tier:"ext", heading:"Calculating liquid pressure",
+      html:"<p style='text-align:center;color:var(--ig-d)'><b>p = ρ g h</b></p><p>where ρ = density, g = gravitational field strength, h = depth. Pressure does not depend on the container's shape, only the depth.</p>" }
+  ],
+  simulation:{ title:"Explore all simulations", file:"dp-simulations.html", source:"Atul Soral Physicism — Simulations Gallery",
+    instructions:["Browse the full simulation library.","Use a fluids or forces sim to explore pressure ideas.","Relate what you see back to p = F ÷ A."] },
+  formulas:[ {f:"p = F ÷ A", d:"Pressure = force ÷ area. Unit Pa (N/m²)."}, {f:"p = ρ g h", d:"Pressure in a liquid at depth h (Extended)."} ],
+  practice:[
+    { q:"The unit of pressure is the:", type:"mcq", options:["newton","pascal","joule","watt"], answer:1, marks:1, solution:"Pressure is measured in pascals (1 Pa = 1 N/m²)." },
+    { q:"A force of 60 N acts on an area of 0.2 m². Calculate the pressure.", type:"struct", answer:"300 Pa", marks:2, solution:"p = F ÷ A = 60 ÷ 0.2 = 300 Pa. [2]" },
+    { q:"Calculate the pressure at 2 m depth in water (ρ = 1000 kg/m³, g = 10 N/kg). (Extended)", type:"struct", answer:"20000 Pa", marks:2, solution:"p = ρgh = 1000 × 10 × 2 = 20000 Pa. [2]" }
+  ],
+  mistakes:[
+    "Swapping force and area in p = F ÷ A.",
+    "Thinking liquid pressure depends on container shape — it depends only on depth (and density).",
+    "Forgetting pressure in a liquid acts in <b>all</b> directions, not just downward."
+  ],
+  exam:[
+    { q:"Explain why a wide strap on a heavy bag is more comfortable than a thin one. [2]", marks:2, solution:"A wider strap has a larger area, so for the same force the pressure on the shoulder is smaller (p = F/A). [2]" },
+    { q:"A diver is 15 m deep in water (ρ = 1000 kg/m³, g = 10 N/kg). Calculate the water pressure on them. [2]", marks:2, solution:"p = ρgh = 1000 × 10 × 15 = 150000 Pa. [2]" }
+  ],
+  checklist:[ "I can use p = F ÷ A.","I can explain everyday pressure examples (sharp/blunt, area).","I can describe how liquid pressure changes with depth.","I can use p = ρgh (Extended)." ]
 }
 
 };
