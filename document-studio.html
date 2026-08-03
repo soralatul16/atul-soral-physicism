@@ -150,7 +150,7 @@ label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04
         <div class="toolbar no-print">
           <select onchange="fmtBlock(this.value)"><option value="">Paragraph</option><option value="H1">Heading 1</option><option value="H2">Heading 2</option><option value="H3">Heading 3</option></select>
           <select onchange="fmt('fontName',this.value)"><option value="">Font</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Times New Roman">Times</option><option value="Courier New">Courier</option><option value="system-ui">System</option></select>
-          <select onchange="fmt('fontSize',this.value)"><option value="">Size</option><option value="1">Small</option><option value="3">Normal</option><option value="5">Large</option><option value="6">X-Large</option><option value="7">Huge</option></select>
+          <select onchange="setFontPt(this.value)"><option value="">Size</option><option value="8">8pt</option><option value="9">9pt</option><option value="10">10pt</option><option value="11">11pt</option><option value="12">12pt</option><option value="14">14pt</option><option value="16">16pt</option><option value="18">18pt</option><option value="20">20pt</option><option value="24">24pt</option><option value="28">28pt</option><option value="36">36pt</option><option value="48">48pt</option></select>
           <span class="sep"></span>
           <button onclick="fmt('bold')" title="Bold"><b>B</b></button>
           <button onclick="fmt('italic')" title="Italic"><i>I</i></button>
@@ -259,6 +259,72 @@ function cleanSelection(){
     if(st.trim()) el.setAttribute('style',st); else el.removeAttribute('style');
   });
   alert('Cleaned alignment and spacing from pasted content.');
+}
+function setFontPt(pt){
+  if(!pt) return;
+  var ed=document.getElementById('editor'); ed.focus();
+  // apply via execCommand fontSize=7 then rewrite to px, OR wrap selection
+  document.execCommand('fontSize',false,'7');
+  ed.querySelectorAll('font[size="7"]').forEach(function(fn){
+    fn.removeAttribute('size'); fn.style.fontSize=pt+'pt';
+  });
+}
+// ---- image editing ----
+var _selImg=null;
+document.getElementById('editor').addEventListener('click', function(ev){
+  if(ev.target && ev.target.tagName==='IMG'){ selectImage(ev.target); }
+  else { deselectImage(); }
+});
+function selectImage(img){
+  deselectImage(); _selImg=img;
+  img.style.outline='3px solid #0d9488';
+  showImgBar(img);
+}
+function deselectImage(){
+  if(_selImg){ _selImg.style.outline=''; }
+  _selImg=null;
+  var bar=document.getElementById('imgToolbar'); if(bar) bar.remove();
+}
+function showImgBar(img){
+  var old=document.getElementById('imgToolbar'); if(old) old.remove();
+  var bar=document.createElement('div'); bar.id='imgToolbar';
+  bar.style.cssText='position:fixed;z-index:9999;background:#0f172a;color:#fff;border-radius:8px;padding:6px 8px;display:flex;gap:6px;align-items:center;font-size:.75rem;box-shadow:0 4px 16px rgba(0,0,0,.3)';
+  var r=img.getBoundingClientRect();
+  bar.style.top=(r.top-46+window.scrollY)+'px'; bar.style.left=(r.left+window.scrollX)+'px';
+  bar.innerHTML='<button onclick="imgResize(0.9)" style="'+ibs()+'">− Smaller</button>'+
+    '<button onclick="imgResize(1.1)" style="'+ibs()+'">＋ Bigger</button>'+
+    '<label style="display:flex;align-items:center;gap:3px">W:<input id="imgWpx" type="number" style="width:64px;padding:2px 4px;border-radius:4px;border:none" onchange="imgSetWidth(this.value)"> px</label>'+
+    '<button onclick="imgAlign(\'left\')" style="'+ibs()+'">⬅</button>'+
+    '<button onclick="imgAlign(\'center\')" style="'+ibs()+'">⬍</button>'+
+    '<button onclick="imgAlign(\'right\')" style="'+ibs()+'">➡</button>'+
+    '<button onclick="imgCrop()" style="'+ibs()+'">✂ Crop</button>'+
+    '<button onclick="imgDelete()" style="'+ibs()+';background:#dc2626">🗑</button>';
+  document.body.appendChild(bar);
+  var w=document.getElementById('imgWpx'); if(w) w.value=Math.round(img.getBoundingClientRect().width);
+}
+function ibs(){ return 'background:#334155;color:#fff;border:none;border-radius:5px;padding:4px 8px;cursor:pointer;font-size:.72rem'; }
+function imgResize(factor){ if(!_selImg) return; var w=_selImg.getBoundingClientRect().width*factor; _selImg.style.width=Math.round(w)+'px'; _selImg.style.height='auto'; showImgBar(_selImg); }
+function imgSetWidth(px){ if(!_selImg||!px) return; _selImg.style.width=parseInt(px)+'px'; _selImg.style.height='auto'; showImgBar(_selImg); }
+function imgAlign(dir){ if(!_selImg) return; _selImg.style.display='block'; if(dir==='center'){_selImg.style.margin='8px auto';} else if(dir==='right'){_selImg.style.margin='8px 0 8px auto';} else {_selImg.style.margin='8px auto 8px 0';} showImgBar(_selImg); }
+function imgDelete(){ if(!_selImg) return; _selImg.remove(); deselectImage(); }
+function imgCrop(){
+  if(!_selImg) return;
+  var img=_selImg;
+  var pct=prompt('Crop: enter how much to keep, as L,T,R,B percent to trim (e.g. 10,0,10,0 trims 10% left & right):','0,0,0,0');
+  if(!pct) return;
+  var p=pct.split(',').map(function(n){return parseFloat(n)||0;});
+  var canvas=document.createElement('canvas');
+  var im=new Image();
+  im.onload=function(){
+    var L=im.width*p[0]/100, T=im.height*p[1]/100, R=im.width*p[2]/100, B=im.height*p[3]/100;
+    var cw=im.width-L-R, ch=im.height-T-B;
+    canvas.width=cw; canvas.height=ch;
+    canvas.getContext('2d').drawImage(im, L, T, cw, ch, 0, 0, cw, ch);
+    img.src=canvas.toDataURL('image/png');
+    img.style.width=Math.round(cw/ (im.width/ (img.getBoundingClientRect().width||im.width)))+'px';
+    showImgBar(img);
+  };
+  im.src=img.src;
 }
 function fmt(cmd,val){ document.getElementById('editor').focus(); document.execCommand(cmd,false,val||null); }
 function fmtBlock(tag){ if(tag) fmt('formatBlock', tag); }
