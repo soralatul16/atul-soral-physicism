@@ -650,6 +650,191 @@ window.IGCSE_CONTENT = {
     { q:"A diver is 15 m deep in water (ρ = 1000 kg/m³, g = 10 N/kg). Calculate the water pressure on them. [2]", marks:2, solution:"p = ρgh = 1000 × 10 × 15 = 150000 Pa. [2]" }
   ],
   checklist:[ "I can use p = F ÷ A.","I can explain everyday pressure examples (sharp/blunt, area).","I can describe how liquid pressure changes with depth.","I can use p = ρgh (Extended)." ]
+},
+
+"IG2.1": {
+  title: "Kinetic particle model of matter",
+  tier: "both",
+  slides:[
+    { title:"The three states of matter",
+      html:"<p>All matter is made of tiny <b>particles</b>. How they are arranged and how they move gives us the three states:</p>"+
+           "<ul><li><b>Solid</b> — particles packed in a fixed pattern, vibrating in place.</li><li><b>Liquid</b> — particles close but free to move past each other.</li><li><b>Gas</b> — particles far apart, moving fast in all directions.</li></ul>"+
+           "<div class='f'><p>Same particles — only the arrangement and energy differ.</p></div>" },
+    { title:"Properties explained",
+      html:"<ul><li><b>Solids</b> keep their shape and volume (particles locked together).</li><li><b>Liquids</b> take the shape of the container but keep their volume.</li><li><b>Gases</b> fill any container and can be compressed.</li></ul>"+
+           "<div class='f'><p>The differences all come from how tightly the particles are held.</p></div>" },
+    { title:"Changes of state",
+      html:"<p>Adding or removing energy changes the state: melting, boiling, condensing, freezing.</p>"+
+           "<div class='f'><p>During a change of state the temperature stays constant — energy goes into breaking bonds, not raising temperature.</p></div>" },
+    { title:"Brownian motion (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div><p>Smoke grains jiggle randomly because they are hit by fast, invisible air <b>molecules</b> — direct evidence that particles exist and move.</p>" },
+    { title:"Gas pressure",
+      html:"<p>Gas particles collide with the container walls. Each collision pushes out — together they create <b>pressure</b>.</p>"+
+           "<div class='f'><p>Heat the gas → faster particles → more forceful, more frequent collisions → higher pressure.</p></div>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> Why can gases be compressed but liquids can't (much)?</p><p class='f'><b>A:</b> Gas particles are far apart with space between them; liquid particles are already close together.</p></div>" }
+  ],
+  learn:[
+    { tier:"foundation", heading:"Everything is made of particles",
+      html:"<p>The <b>kinetic particle model</b> says all matter is made of tiny particles (atoms or molecules) that are always moving. 'Kinetic' means moving. The state of a material depends on two things: how the particles are <b>arranged</b> and how much <b>energy</b> they have.</p>"+
+           "<div style='text-align:center;margin:14px 0'>"+
+           "<svg width='300' height='110' viewBox='0 0 300 110' style='max-width:100%'>"+
+           "<text x='30' y='16' font-size='10' fill='#413b63'>SOLID</text>"+
+           "<circle cx='20' cy='35' r='6' fill='#6c4cff'/><circle cx='38' cy='35' r='6' fill='#6c4cff'/><circle cx='56' cy='35' r='6' fill='#6c4cff'/><circle cx='20' cy='53' r='6' fill='#6c4cff'/><circle cx='38' cy='53' r='6' fill='#6c4cff'/><circle cx='56' cy='53' r='6' fill='#6c4cff'/>"+
+           "<text x='130' y='16' font-size='10' fill='#413b63'>LIQUID</text>"+
+           "<circle cx='120' cy='38' r='6' fill='#9b7dff'/><circle cx='138' cy='44' r='6' fill='#9b7dff'/><circle cx='156' cy='36' r='6' fill='#9b7dff'/><circle cx='128' cy='55' r='6' fill='#9b7dff'/><circle cx='150' cy='54' r='6' fill='#9b7dff'/>"+
+           "<text x='235' y='16' font-size='10' fill='#413b63'>GAS</text>"+
+           "<circle cx='225' cy='30' r='6' fill='#c4b5fd'/><circle cx='265' cy='45' r='6' fill='#c4b5fd'/><circle cx='240' cy='65' r='6' fill='#c4b5fd'/><circle cx='280' cy='75' r='6' fill='#c4b5fd'/>"+
+           "</svg></div>" },
+    { tier:"core", heading:"Solids, liquids and gases compared",
+      html:"<table class='ig-tbl'><tr><th>State</th><th>Arrangement</th><th>Movement</th><th>Shape / volume</th></tr>"+
+           "<tr><td>Solid</td><td>regular, close-packed</td><td>vibrate in place</td><td>fixed shape & volume</td></tr>"+
+           "<tr><td>Liquid</td><td>close, irregular</td><td>slide past each other</td><td>takes container shape, fixed volume</td></tr>"+
+           "<tr><td>Gas</td><td>far apart, random</td><td>fast, in all directions</td><td>fills container, compressible</td></tr></table>"+
+           "<p>Because gas particles have large spaces between them, a gas can be squashed into a smaller volume; solids and liquids cannot, as their particles already touch.</p>" },
+    { tier:"core", heading:"Changes of state and temperature",
+      html:"<p>Heating gives particles more energy. Enough energy lets them break free of their neighbours: a solid <b>melts</b> to a liquid, a liquid <b>boils/evaporates</b> to a gas. Cooling reverses this (condensing, freezing).</p>"+
+           "<p>Importantly, <b>during a change of state the temperature does not change</b> — the energy supplied goes into breaking the forces between particles, not into making them move faster. This is why boiling water stays at 100 °C however hard you heat it.</p>" },
+    { tier:"core", heading:"Gas pressure and temperature",
+      html:"<p>Gas particles constantly collide with the walls of their container. Each tiny collision exerts a force; billions of them together produce <b>gas pressure</b>.</p>"+
+           "<p>Heating a gas makes the particles move <b>faster</b>, so they hit the walls harder and more often — the pressure rises (if the volume is fixed). Squeezing a gas into a smaller volume also raises the pressure, because collisions become more frequent.</p>" },
+    { tier:"ext", heading:"Brownian motion — evidence for particles",
+      html:"<p>Under a microscope, tiny smoke grains in air are seen to jiggle in random, jerky paths. They are being knocked about by even smaller, invisible, fast-moving <b>air molecules</b>. This <b>Brownian motion</b> is direct evidence that matter is made of moving particles.</p>" }
+  ],
+  simulation:{ title:"Particle Model", file:"sims/particle-model.html", source:"Atul Soral Physicism — Interactive Sim",
+    instructions:["Switch between solid, liquid and gas and watch the particle behaviour.","Heat the substance and see the particles speed up.","Observe how gas particles hit the walls to create pressure."] },
+  formulas:[ {f:"(no equation — a descriptive model)", d:"Understand arrangement, movement and energy of particles."}, {f:"heat → faster particles → higher gas pressure", d:"Qualitative relationship." } ],
+  practice:[
+    { q:"In which state are particles arranged in a fixed, regular pattern?", type:"mcq", options:["solid","liquid","gas","none"], answer:0, marks:1, solution:"Solids have particles in a fixed, regular, close-packed pattern." },
+    { q:"Why can a gas be compressed easily?", type:"mcq", options:["particles are heavy","particles are far apart","particles don't move","particles are charged"], answer:1, marks:1, solution:"Gas particles have large spaces between them, so they can be pushed closer together." },
+    { q:"Explain, using particles, why gas pressure rises when a fixed volume of gas is heated.", type:"struct", answer:"Faster particles, harder/more frequent collisions", marks:3, solution:"Heating gives particles more energy so they move faster. They hit the walls harder and more often, so the force per unit area (pressure) increases. [3]" }
+  ],
+  mistakes:[
+    "Saying particles in a solid don't move — they <b>vibrate</b> in fixed positions.",
+    "Thinking temperature rises during melting or boiling — it stays <b>constant</b> during a change of state.",
+    "Confusing the states: liquids keep a fixed <b>volume</b>, only their shape changes.",
+    "Thinking Brownian motion shows the smoke grains are alive — they are pushed by invisible air molecules."
+  ],
+  exam:[
+    { q:"Describe the arrangement and motion of particles in a liquid. [2]", marks:2, solution:"Particles are close together but irregularly arranged; they can move/slide past one another. [2]" },
+    { q:"State what happens to the temperature of a pure solid while it is melting. [1]", marks:1, solution:"It stays constant. [1]" }
+  ],
+  checklist:[ "I can describe particle arrangement and motion in solids, liquids and gases.","I can explain properties (shape, volume, compressibility) using particles.","I can explain changes of state and constant temperature during them.","I can explain gas pressure and its change with temperature.","I can describe Brownian motion as evidence for particles (Extended)." ]
+},
+
+"IG2.2": {
+  title: "Thermal properties & temperature",
+  tier: "both",
+  slides:[
+    { title:"Temperature vs heat",
+      html:"<p><b>Temperature</b> (°C or K) measures how hot something is — the average energy of its particles. <b>Thermal energy (heat)</b> is the total energy transferred because of a temperature difference.</p>"+
+           "<div class='f'><p>Heat always flows from hot to cold.</p></div>" },
+    { title:"Thermal expansion",
+      html:"<p>Most materials <b>expand</b> when heated — particles vibrate more and take up more space.</p>"+
+           "<div class='f'><p>Gaps in railway lines and bridges allow for this expansion.</p></div>" },
+    { title:"Specific heat capacity (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div><p style='text-align:center;font-size:1.2em;color:var(--ig-d)'><b>E = m c Δθ</b></p><p>Energy to change a material's temperature depends on its mass, the material, and the temperature change.</p>" },
+    { title:"Melting and boiling",
+      html:"<p>A pure substance melts and boils at fixed temperatures. Energy added during these changes is <b>latent heat</b> — it breaks bonds without raising temperature.</p>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> Why are gaps left between sections of a concrete bridge?</p><p class='f'><b>A:</b> To allow the concrete to expand in hot weather without cracking or buckling.</p></div>" }
+  ],
+  learn:[
+    { tier:"foundation", heading:"Temperature and thermal energy",
+      html:"<p><b>Temperature</b> tells us how hot or cold something is, measured in degrees Celsius (°C) or kelvin (K). At the particle level, a higher temperature means the particles have more <b>average kinetic energy</b> — they move or vibrate faster.</p>"+
+           "<p><b>Thermal energy</b> (often called heat) is energy that flows from a hotter object to a cooler one because of the temperature difference between them. It always flows <b>hot → cold</b> until both reach the same temperature.</p>" },
+    { tier:"core", heading:"Thermal expansion",
+      html:"<p>When a material is heated, its particles vibrate more vigorously and push each other slightly further apart, so the material <b>expands</b>. On cooling it contracts. Gases expand most, then liquids, then solids.</p>"+
+           "<p>Engineers must allow for this: <b>expansion gaps</b> in bridges and railway tracks, and loops in pipelines, stop them buckling in hot weather. A bimetallic strip (two metals that expand by different amounts) bends when heated and is used in thermostats.</p>" },
+    { tier:"core", heading:"Melting, boiling and latent heat",
+      html:"<p>A pure substance changes state at fixed temperatures — its <b>melting point</b> and <b>boiling point</b>. While it changes state, the energy you supply (called <b>latent heat</b>) is used to break the forces between particles, so the temperature stays constant during the change.</p>" },
+    { tier:"ext", heading:"Specific heat capacity",
+      html:"<p>Different materials need different amounts of energy to warm up. The <b>specific heat capacity (c)</b> is the energy needed to raise 1 kg of a material by 1 °C.</p>"+
+           "<p style='text-align:center;font-size:1.2em;margin:14px 0;color:var(--ig-d)'><b>E = m c Δθ</b></p>"+
+           "<p><b>E</b> = energy (J), <b>m</b> = mass (kg), <b>c</b> = specific heat capacity (J/kg°C), <b>Δθ</b> = temperature change (°C).</p>"+
+           "<p><b>Worked example:</b> heating 2 kg of water (c = 4200 J/kg°C) by 30 °C needs E = 2 × 4200 × 30 = <b>252 000 J</b>. Water's high c is why it is used in cooling systems and takes a long time to boil.</p>" }
+  ],
+  simulation:{ title:"Thermal Physics Lab", file:"sims/thermal-physics.html", source:"Atul Soral Physicism — Interactive Sim",
+    instructions:["Heat different masses and materials and watch the temperature rise.","Compare how much energy water needs versus a metal.","See temperature stay constant during a change of state."] },
+  formulas:[ {f:"E = m c Δθ", d:"Energy to change temperature (Extended). J, kg, J/kg°C, °C."}, {f:"heat flows hot → cold", d:"Direction of thermal energy transfer."} ],
+  practice:[
+    { q:"Thermal energy always flows from:", type:"mcq", options:["cold to hot","hot to cold","big to small","light to heavy"], answer:1, marks:1, solution:"Heat flows from a hotter object to a cooler one." },
+    { q:"Why are expansion gaps left in railway tracks?", type:"struct", answer:"To allow expansion in heat", marks:2, solution:"Metal expands when heated; gaps let the rails expand without buckling. [2]" },
+    { q:"Calculate the energy to heat 0.5 kg of water (c = 4200 J/kg°C) by 20 °C. (Extended)", type:"struct", answer:"42000 J", marks:2, solution:"E = mcΔθ = 0.5 × 4200 × 20 = 42 000 J. [2]" }
+  ],
+  mistakes:[
+    "Confusing <b>temperature</b> (how hot, average energy) with <b>thermal energy</b> (total energy transferred).",
+    "Forgetting temperature stays constant during melting/boiling.",
+    "In E = mcΔθ, using the final temperature instead of the temperature <b>change</b> Δθ."
+  ],
+  exam:[
+    { q:"State the difference between heat and temperature. [2]", marks:2, solution:"Temperature measures how hot something is (average particle energy); heat is the thermal energy transferred due to a temperature difference. [2]" },
+    { q:"2 kg of oil (c = 2000 J/kg°C) is heated by 25 °C. Calculate the energy needed. [2]", marks:2, solution:"E = mcΔθ = 2 × 2000 × 25 = 100 000 J. [2]" }
+  ],
+  checklist:[ "I can distinguish temperature from thermal energy.","I can explain thermal expansion and its uses.","I can explain melting/boiling and latent heat.","I can use E = m c Δθ (Extended)." ]
+},
+
+"IG2.3": {
+  title: "Transfer of thermal energy",
+  tier: "both",
+  slides:[
+    { title:"Three ways heat travels",
+      html:"<p>Thermal energy moves by <b>conduction</b>, <b>convection</b> and <b>radiation</b>.</p>"+
+           "<div class='f'><p>Solids: mainly conduction. Fluids: convection. Across empty space: radiation.</p></div>" },
+    { title:"Conduction",
+      html:"<p>In a solid, heated particles vibrate more and pass energy to their neighbours. Metals conduct best because free electrons carry energy quickly.</p>"+
+           "<div class='f'><p>Metals feel cold because they conduct heat away from your hand fast.</p></div>" },
+    { title:"Convection",
+      html:"<p>In liquids and gases, heated fluid expands, becomes less dense and <b>rises</b>; cooler fluid sinks — setting up a <b>convection current</b>.</p>"+
+           "<div class='f'><p>This is how radiators warm a room and how sea breezes form.</p></div>" },
+    { title:"Radiation",
+      html:"<p><b>Infrared radiation</b> needs no particles — it travels through a vacuum (that's how the Sun's heat reaches us).</p>"+
+           "<div class='f'><p>Dark, dull surfaces emit and absorb radiation best; shiny, light surfaces reflect it.</p></div>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> Why is the inside of a vacuum flask shiny?</p><p class='f'><b>A:</b> Shiny surfaces reflect infrared radiation, reducing heat loss (and the vacuum stops conduction and convection).</p></div>" }
+  ],
+  learn:[
+    { tier:"foundation", heading:"Three methods of heat transfer",
+      html:"<p>Thermal energy always moves from hot to cold, and it does so in three ways: <b>conduction</b> (through solids), <b>convection</b> (in liquids and gases) and <b>radiation</b> (through empty space). Most real situations involve more than one.</p>" },
+    { tier:"core", heading:"Conduction",
+      html:"<p>When one end of a solid is heated, its particles vibrate faster and pass energy on to neighbouring particles through collisions. <b>Metals</b> are especially good conductors because they also have <b>free electrons</b> that move quickly and carry energy through the material.</p>"+
+           "<p>Non-metals like wood, plastic and air are poor conductors (good <b>insulators</b>). This is why metal handles feel cold (they conduct heat from your hand) while wooden ones don't.</p>" },
+    { tier:"core", heading:"Convection",
+      html:"<p>Convection happens in fluids (liquids and gases). When part of a fluid is heated it expands, becomes <b>less dense</b> and rises; cooler, denser fluid sinks to take its place. This circulation is a <b>convection current</b>.</p>"+
+           "<div style='text-align:center;margin:14px 0'>"+
+           "<svg width='200' height='120' viewBox='0 0 200 120' style='max-width:100%'>"+
+           "<rect x='40' y='20' width='120' height='80' fill='none' stroke='#6c4cff' stroke-width='2'/>"+
+           "<path d='M70 90 Q60 55 80 30' fill='none' stroke='#ef4444' stroke-width='2' marker-end='url(#c1)'/>"+
+           "<path d='M130 30 Q140 65 120 90' fill='none' stroke='#3b82f6' stroke-width='2' marker-end='url(#c1)'/>"+
+           "<defs><marker id='c1' markerWidth='8' markerHeight='8' refX='4' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6' fill='#333'/></marker></defs>"+
+           "<line x1='70' y1='105' x2='130' y2='105' stroke='#ea580c' stroke-width='4'/><text x='72' y='118' font-size='9' fill='#ea580c'>heat source</text>"+
+           "</svg></div>"+
+           "<p>Convection explains radiators warming a whole room, sea breezes, and how hot-air balloons rise.</p>" },
+    { tier:"core", heading:"Radiation",
+      html:"<p><b>Thermal (infrared) radiation</b> is energy carried by electromagnetic waves. Unlike conduction and convection, it needs <b>no particles</b> — it travels through a vacuum, which is how energy from the Sun reaches the Earth.</p>"+
+           "<p>All objects emit infrared; hotter objects emit more. <b>Dark, dull (matt) surfaces</b> are the best emitters and absorbers; <b>light, shiny</b> surfaces are the best reflectors and poorest emitters. This is why solar panels are black and cooling fins are often dull.</p>" },
+    { tier:"ext", heading:"Reducing heat transfer — the vacuum flask",
+      html:"<p>A vacuum flask keeps drinks hot (or cold) by defeating all three transfers at once: the <b>vacuum</b> between its walls stops conduction and convection (no particles), and the <b>shiny silvered walls</b> reflect infrared radiation back. A stopper reduces convection and evaporation at the top.</p>" }
+  ],
+  simulation:{ title:"Heat Transfer Modes", file:"sims/heat-transfer-modes.html", source:"Atul Soral Physicism — Interactive Sim",
+    instructions:["Compare conduction, convection and radiation side by side.","See convection currents form when a fluid is heated from below.","Test how surface colour affects radiation."] },
+  formulas:[ {f:"conduction — through solids (metals best)", d:""}, {f:"convection — currents in fluids (hot rises)", d:""}, {f:"radiation — infrared, no particles needed", d:""} ],
+  practice:[
+    { q:"Which method of heat transfer can occur through a vacuum?", type:"mcq", options:["conduction","convection","radiation","all of them"], answer:2, marks:1, solution:"Radiation needs no particles, so it can cross a vacuum." },
+    { q:"Explain why metals are good conductors of heat.", type:"struct", answer:"Free electrons carry energy", marks:2, solution:"Metals have free electrons that move quickly and transfer energy through the metal, in addition to vibrating particles. [2]" },
+    { q:"Explain how a convection current forms when water is heated from below.", type:"struct", answer:"Hot water rises, cool sinks", marks:3, solution:"Heated water expands and becomes less dense, so it rises. Cooler denser water sinks to replace it. This circulation is a convection current. [3]" }
+  ],
+  mistakes:[
+    "Saying radiation needs a medium — it does <b>not</b>; it crosses a vacuum.",
+    "Thinking convection happens in solids — it only occurs in <b>fluids</b> (liquids and gases).",
+    "Confusing good conductors with good insulators.",
+    "Forgetting that dark, dull surfaces are the best emitters/absorbers of radiation."
+  ],
+  exam:[
+    { q:"Name the three ways thermal energy can be transferred. [3]", marks:3, solution:"Conduction, convection and radiation. [3]" },
+    { q:"Explain why the shiny surface of a vacuum flask reduces heat loss. [2]", marks:2, solution:"Shiny surfaces are poor emitters and good reflectors of infrared radiation, so less heat is radiated away. [2]" }
+  ],
+  checklist:[ "I can name the three methods of heat transfer.","I can explain conduction (including why metals are best).","I can explain convection currents in fluids.","I can explain radiation and the effect of surface colour.","I can explain how a vacuum flask reduces all three (Extended)." ]
 }
 
 };
