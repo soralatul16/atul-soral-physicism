@@ -213,13 +213,50 @@ window.IGCSE_CONTENT = {
   ],
   learn:[
     { tier:"foundation", heading:"Distance, speed and the idea of motion",
-      html:"<p>Motion means changing position. To describe it we use <b>speed</b> — how much distance is covered each second.</p><p style='text-align:center;font-size:1.15em;color:var(--ig-d)'><b>speed = distance ÷ time</b></p><p>Average speed uses total distance over total time; instantaneous speed is the speed at one moment (what a speedometer shows).</p>" },
+      html:"<p>Motion means an object is changing its position. To describe how fast that happens we use <b>speed</b> — the distance travelled each second:</p>"+
+           "<p style='text-align:center;font-size:1.2em;margin:14px 0;color:var(--ig-d)'><b>speed = distance ÷ time</b></p>"+
+           "<p>The unit is the <b>metre per second (m/s)</b>. There are two kinds of speed to distinguish:</p>"+
+           "<ul><li><b>Average speed</b> = total distance ÷ total time for a whole journey.</li>"+
+           "<li><b>Instantaneous speed</b> = the speed at one particular moment — what a car's speedometer shows.</li></ul>"+
+           "<p><b>Worked example:</b> A runner covers 100 m in 12.5 s. Average speed = 100 ÷ 12.5 = <b>8 m/s</b>.</p>" },
     { tier:"core", heading:"Velocity and acceleration",
-      html:"<p><b>Velocity</b> is speed with a direction. <b>Acceleration</b> is the rate of change of velocity:</p><p style='text-align:center;font-size:1.15em;color:var(--ig-d)'><b>a = (v − u) ÷ t</b></p><p>where u = starting velocity, v = final velocity, t = time. Unit m/s².</p>" },
-    { tier:"core", heading:"Graphs of motion",
-      html:"<h4>Distance–time</h4><ul><li>gradient = speed</li><li>flat = at rest; curve = changing speed</li></ul><h4>Speed–time</h4><ul><li>gradient = acceleration</li><li>area under graph = distance travelled</li></ul>" },
-    { tier:"ext", heading:"Free fall and terminal velocity",
-      html:"<p>Free fall acceleration <b>g ≈ 9.8 m/s²</b>. A falling body accelerates until air resistance balances its weight, reaching a constant <b>terminal velocity</b> (zero resultant force, zero acceleration).</p>" }
+      html:"<p><b>Velocity</b> is speed in a stated direction — so it is a vector. Two cars moving at 30 m/s in opposite directions have the same speed but different velocities.</p>"+
+           "<p><b>Acceleration</b> is how quickly velocity changes each second:</p>"+
+           "<p style='text-align:center;font-size:1.2em;margin:14px 0;color:var(--ig-d)'><b>a = (v − u) ÷ t</b></p>"+
+           "<p>where <b>u</b> = initial velocity, <b>v</b> = final velocity, <b>t</b> = time taken. The unit is <b>m/s²</b>. A positive value means speeding up; a negative value (deceleration) means slowing down.</p>"+
+           "<p><b>Worked example:</b> A car speeds up from 5 m/s to 25 m/s in 8 s. a = (25 − 5) ÷ 8 = 20 ÷ 8 = <b>2.5 m/s²</b>.</p>" },
+    { tier:"core", heading:"Distance–time graphs",
+      html:"<p>A distance–time graph shows how far an object has travelled over time. The <b>gradient (steepness) equals the speed</b>.</p>"+
+           "<div style='text-align:center;margin:14px 0'>"+
+           "<svg width='260' height='170' viewBox='0 0 260 170' style='max-width:100%'>"+
+           "<line x1='40' y1='140' x2='240' y2='140' stroke='#413b63'/><line x1='40' y1='140' x2='40' y2='20' stroke='#413b63'/>"+
+           "<text x='120' y='162' font-size='10' fill='#413b63'>time</text><text x='6' y='80' font-size='10' fill='#413b63'>distance</text>"+
+           "<line x1='40' y1='140' x2='120' y2='140' stroke='#16a34a' stroke-width='3'/>"+
+           "<line x1='120' y1='140' x2='200' y2='60' stroke='#6c4cff' stroke-width='3'/>"+
+           "<text x='60' y='134' font-size='9' fill='#16a34a'>at rest</text><text x='150' y='95' font-size='9' fill='#6c4cff'>constant speed</text>"+
+           "</svg></div>"+
+           "<ul><li><b>Flat (horizontal)</b> line → object is stationary.</li><li><b>Straight slope</b> → constant speed (steeper = faster).</li><li><b>Curve</b> → speed is changing (accelerating).</li></ul>" },
+    { tier:"core", heading:"Speed–time graphs",
+      html:"<p>A speed–time graph shows how speed changes with time. Here <b>two</b> things are read off:</p>"+
+           "<div style='text-align:center;margin:14px 0'>"+
+           "<svg width='260' height='170' viewBox='0 0 260 170' style='max-width:100%'>"+
+           "<line x1='40' y1='140' x2='240' y2='140' stroke='#413b63'/><line x1='40' y1='140' x2='40' y2='20' stroke='#413b63'/>"+
+           "<text x='120' y='162' font-size='10' fill='#413b63'>time</text><text x='10' y='80' font-size='10' fill='#413b63'>speed</text>"+
+           "<line x1='40' y1='140' x2='130' y2='50' stroke='#6c4cff' stroke-width='3'/>"+
+           "<line x1='130' y1='50' x2='220' y2='50' stroke='#16a34a' stroke-width='3'/>"+
+           "<polygon points='40,140 130,50 130,140' fill='rgba(108,76,255,0.12)'/>"+
+           "<text x='60' y='95' font-size='9' fill='#6c4cff'>accelerating</text><text x='150' y='44' font-size='9' fill='#16a34a'>constant speed</text>"+
+           "<text x='70' y='132' font-size='9' fill='#5238cc'>area = distance</text>"+
+           "</svg></div>"+
+           "<ul><li>The <b>gradient</b> = acceleration.</li><li>The <b>area under</b> the line = distance travelled.</li><li>A flat line = constant speed (zero acceleration).</li></ul>"+
+           "<p><b>Worked example:</b> If an object accelerates uniformly from 0 to 20 m/s in 4 s, the area under the line is a triangle: ½ × 4 × 20 = <b>40 m</b> travelled.</p>" },
+    { tier:"ext", heading:"Free fall and the acceleration due to gravity",
+      html:"<p>Near the Earth's surface, gravity pulls every object down with the same acceleration, the <b>acceleration of free fall g ≈ 9.8 m/s²</b> (often rounded to 10 m/s²).</p>"+
+           "<p>Ignoring air resistance, a heavy hammer and a light feather fall together — famously demonstrated on the Moon, where there is no air. On Earth the feather is slowed by air resistance, not by weaker gravity.</p>" },
+    { tier:"ext", heading:"Terminal velocity",
+      html:"<p>When an object falls through air, two forces act: its <b>weight</b> (down) and <b>air resistance</b> (up). Air resistance grows as the object speeds up.</p>"+
+           "<p>At first weight is much bigger, so the object accelerates. As it goes faster, air resistance rises until it <b>equals the weight</b>. Now the resultant force is zero, so acceleration is zero and the object falls at a steady <b>terminal velocity</b>.</p>"+
+           "<p>This is why a skydiver reaches a constant speed, and why opening a parachute (more air resistance) gives a new, lower terminal velocity for a safe landing.</p>" }
   ],
   simulation:{ title:"Motion Lab", file:"sims/motion-lab.html", source:"Atul Soral Physicism — Interactive Sim",
     instructions:["Set a starting speed and acceleration; watch the distance–time and speed–time graphs build.","Make the gradient of the speed–time graph zero and see constant speed.","Read distance off as the area under the speed–time graph."] },
