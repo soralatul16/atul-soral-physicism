@@ -428,14 +428,35 @@ window.IGCSE_CONTENT = {
       html:"<div class='pq'><p><b>Q:</b> A resultant force of 12 N acts on a 4 kg mass. Find the acceleration.</p><p class='f'><b>A:</b> a = F ÷ m = 12 ÷ 4 = <b>3 m/s²</b>.</p></div>" }
   ],
   learn:[
-    { tier:"foundation", heading:"Forces are pushes and pulls",
-      html:"<p>A force can start or stop motion, speed something up or slow it down, change its direction, or change its shape. Forces are measured in newtons (N) with a newton-meter.</p>" },
-    { tier:"core", heading:"Resultant force and F = ma",
-      html:"<p>Add forces in the same direction, subtract opposing ones, to get the <b>resultant</b>. A non-zero resultant causes acceleration:</p><p style='text-align:center;font-size:1.15em;color:var(--ig-d)'><b>F = m × a</b></p><p>If the resultant is zero, the object is in equilibrium (still, or constant velocity).</p>" },
-    { tier:"core", heading:"Friction",
-      html:"<p>Friction and air resistance oppose motion. They can be useful (grip, brakes) or a nuisance (wasted energy as heat).</p>" },
+    { tier:"foundation", heading:"What a force can do",
+      html:"<p>A <b>force</b> is simply a push or a pull. Forces are measured in <b>newtons (N)</b> using a newton-meter (spring balance). A force can:</p>"+
+           "<ul><li>start an object moving, or stop it;</li><li>speed it up or slow it down;</li><li>change its direction;</li><li>change its shape (stretch, squash or bend it).</li></ul>"+
+           "<p>Because a force has both a size and a direction, it is a <b>vector</b> and is often drawn as an arrow — longer arrow means bigger force, and the arrow points the way the force acts.</p>" },
+    { tier:"core", heading:"Resultant force",
+      html:"<p>Usually several forces act on an object at once. The <b>resultant force</b> is the single force that has the same effect as all of them combined.</p>"+
+           "<ul><li>Forces in the <b>same direction</b> add together.</li><li>Forces in <b>opposite directions</b> subtract.</li></ul>"+
+           "<div style='text-align:center;margin:14px 0'>"+
+           "<svg width='260' height='90' viewBox='0 0 260 90' style='max-width:100%'>"+
+           "<rect x='110' y='35' width='40' height='30' fill='#9b7dff'/>"+
+           "<line x1='60' y1='50' x2='108' y2='50' stroke='#16a34a' stroke-width='3' marker-end='url(#ar)'/><text x='60' y='30' font-size='10' fill='#16a34a'>10 N</text>"+
+           "<line x1='200' y1='50' x2='152' y2='50' stroke='#dc2626' stroke-width='3' marker-end='url(#ar)'/><text x='170' y='30' font-size='10' fill='#dc2626'>4 N</text>"+
+           "<defs><marker id='ar' markerWidth='8' markerHeight='8' refX='6' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6' fill='#333'/></marker></defs>"+
+           "<text x='95' y='85' font-size='10' fill='#5238cc'>resultant = 6 N to the right</text>"+
+           "</svg></div>"+
+           "<p>If the resultant is <b>zero</b>, the forces are balanced: the object stays still, or keeps moving at constant velocity (this is <b>equilibrium</b>).</p>" },
+    { tier:"core", heading:"Newton's second law: F = ma",
+      html:"<p>A non-zero resultant force makes an object <b>accelerate</b>. The bigger the force, the bigger the acceleration; the bigger the mass, the smaller the acceleration:</p>"+
+           "<p style='text-align:center;font-size:1.25em;margin:16px 0;color:var(--ig-d)'><b>F = m × a</b></p>"+
+           "<p><b>F</b> = resultant force (N), <b>m</b> = mass (kg), <b>a</b> = acceleration (m/s²).</p>"+
+           "<p><b>Worked example:</b> A resultant force of 12 N acts on a 4 kg trolley. a = F ÷ m = 12 ÷ 4 = <b>3 m/s²</b>.</p>" },
+    { tier:"core", heading:"Friction and air resistance",
+      html:"<p><b>Friction</b> is a force that opposes motion between two surfaces in contact. <b>Air resistance (drag)</b> opposes motion through air. Both always act <b>opposite</b> to the direction of movement.</p>"+
+           "<p>Friction can be useful (tyre grip, brakes, being able to walk) or a nuisance (wear and wasted energy as heat). Reducing it — with oil, wheels or streamlining — makes machines more efficient.</p>" },
     { tier:"ext", heading:"Hooke's law",
-      html:"<p><b>F = k x</b>: the extension x of a spring is proportional to the load F, where k is the spring constant, until the limit of proportionality is passed.</p>" }
+      html:"<p>When you stretch a spring, the <b>extension</b> (how much it lengthens) is proportional to the force pulling it — up to a point called the <b>limit of proportionality</b>:</p>"+
+           "<p style='text-align:center;font-size:1.2em;margin:14px 0;color:var(--ig-d)'><b>F = k × x</b></p>"+
+           "<p><b>F</b> = force (N), <b>x</b> = extension (m), <b>k</b> = spring constant (N/m) — a stiff spring has a large k. A force–extension graph is a straight line through the origin until the limit of proportionality, after which it curves.</p>"+
+           "<p><b>Worked example:</b> A spring extends 0.04 m under a 2 N load. k = F ÷ x = 2 ÷ 0.04 = <b>50 N/m</b>.</p>" }
   ],
   simulation:{ title:"Motion Lab", file:"sims/motion-lab.html", source:"Atul Soral Physicism — Interactive Sim",
     instructions:["Apply a force to a mass and watch it accelerate (F = ma).","Balance two opposing forces to get zero resultant.","Add friction and see how it opposes motion."] },
@@ -471,12 +492,20 @@ window.IGCSE_CONTENT = {
       html:"<div class='pq'><p><b>Q:</b> A 2 kg ball moves at 3 m/s. Find its momentum.</p><p class='f'><b>A:</b> p = m × v = 2 × 3 = <b>6 kg·m/s</b>.</p></div>" }
   ],
   learn:[
-    { tier:"ext", heading:"Momentum = mass × velocity",
-      html:"<p style='text-align:center;font-size:1.15em;color:var(--ig-d)'><b>p = m × v</b></p><p>Momentum measures how hard it is to stop a moving object. A heavy, fast object has large momentum. Unit kg·m/s; it is a vector.</p>" },
+    { tier:"ext", heading:"What momentum is",
+      html:"<p><b>Momentum</b> measures how hard it is to stop a moving object. A slow lorry and a fast bullet can both be dangerous because both have large momentum — the lorry from its huge mass, the bullet from its huge speed.</p>"+
+           "<p style='text-align:center;font-size:1.25em;margin:16px 0;color:var(--ig-d)'><b>p = m × v</b></p>"+
+           "<p><b>p</b> = momentum (kg·m/s), <b>m</b> = mass (kg), <b>v</b> = velocity (m/s). Momentum is a <b>vector</b>: its direction is the direction of motion, so momentum to the right is positive and to the left is negative.</p>"+
+           "<p><b>Worked example:</b> A 1200 kg car travels at 15 m/s. p = 1200 × 15 = <b>18 000 kg·m/s</b>.</p>" },
     { tier:"ext", heading:"Conservation of momentum",
-      html:"<p>When objects collide and no external force acts, the total momentum is unchanged: total before = total after. This lets you predict velocities after a collision.</p>" },
-    { tier:"ext", heading:"Force as rate of change of momentum",
-      html:"<p><b>F = Δp / Δt</b>. Spreading a change of momentum over a longer time reduces the force — the principle behind airbags, crumple zones and crash mats.</p>" }
+      html:"<p>In any collision or explosion where <b>no external force</b> acts, the <b>total momentum stays the same</b>:</p>"+
+           "<p style='text-align:center;font-size:1.15em;margin:14px 0;color:var(--ig-d)'><b>total momentum before = total momentum after</b></p>"+
+           "<p>This powerful rule lets you predict what happens after objects interact. Remember to include <b>direction</b> (sign) for each object.</p>"+
+           "<p><b>Worked example:</b> A 2 kg trolley at 3 m/s hits a stationary 1 kg trolley and they move off together. Before: p = 2×3 + 1×0 = 6 kg·m/s. After: (2+1)×v = 6, so v = <b>2 m/s</b>.</p>" },
+    { tier:"ext", heading:"Force and the change of momentum",
+      html:"<p>A force changes an object's momentum. In fact force equals the <b>rate of change of momentum</b>:</p>"+
+           "<p style='text-align:center;font-size:1.2em;margin:14px 0;color:var(--ig-d)'><b>F = Δp ÷ Δt</b></p>"+
+           "<p>The key insight for safety: spreading the same momentum change over a <b>longer time</b> gives a <b>smaller force</b>. This is exactly how <b>airbags, crumple zones, crash mats and seatbelts</b> protect you — they extend the stopping time, so the force on your body is far smaller.</p>" }
   ],
   simulation:{ title:"Motion Lab", file:"sims/motion-lab.html", source:"Atul Soral Physicism — Interactive Sim",
     instructions:["Set masses and velocities and collide two trolleys.","Check total momentum before = total after.","See how collision time affects the force."] },
@@ -516,12 +545,31 @@ window.IGCSE_CONTENT = {
       html:"<div class='pq'><p><b>Q:</b> A 50 N force moves a box 4 m. Find the work done.</p><p class='f'><b>A:</b> W = F × d = 50 × 4 = <b>200 J</b>.</p></div>" }
   ],
   learn:[
-    { tier:"foundation", heading:"Energy is measured in joules and is conserved",
-      html:"<p>Energy is stored in different ways and transferred between stores by forces, heating, electricity or waves. It is never created or destroyed — the <b>principle of conservation of energy</b>.</p>" },
-    { tier:"core", heading:"Work and power",
-      html:"<p><b>Work</b> is energy transferred by a force: W = F × d. <b>Power</b> is how fast that happens: P = W ÷ t, in watts. Also KE = ½mv² and change in GPE = mgh.</p>" },
+    { tier:"foundation", heading:"Energy stores and transfers",
+      html:"<p>Energy is what makes things happen. It is measured in <b>joules (J)</b> and is held in different <b>stores</b>:</p>"+
+           "<ul><li><b>Kinetic</b> — movement</li><li><b>Gravitational potential</b> — height</li><li><b>Elastic</b> — stretched or squashed objects</li><li><b>Thermal</b> — hot objects</li><li><b>Chemical</b> — food, fuel, batteries</li><li><b>Nuclear</b> — inside atoms</li></ul>"+
+           "<p>Energy is <b>transferred</b> between stores by forces (mechanical work), heating, electricity, or waves (light and sound). Crucially, energy is never made or destroyed — this is the <b>principle of conservation of energy</b>. The total amount stays the same; it just moves and changes form.</p>" },
+    { tier:"core", heading:"Kinetic and gravitational potential energy",
+      html:"<p>A moving object stores <b>kinetic energy</b>:</p>"+
+           "<p style='text-align:center;font-size:1.2em;margin:12px 0;color:var(--ig-d)'><b>KE = ½ m v²</b></p>"+
+           "<p>Notice the speed is <b>squared</b> — double the speed gives four times the kinetic energy, which is why fast crashes are so dangerous.</p>"+
+           "<p>A raised object stores <b>gravitational potential energy</b>:</p>"+
+           "<p style='text-align:center;font-size:1.2em;margin:12px 0;color:var(--ig-d)'><b>ΔGPE = m g h</b></p>"+
+           "<p>When an object falls, GPE transfers to KE. <b>Worked example:</b> a 0.5 kg ball at 4 m/s has KE = ½ × 0.5 × 4² = <b>4 J</b>.</p>" },
+    { tier:"core", heading:"Work done by a force",
+      html:"<p><b>Work</b> is the energy transferred when a force moves an object:</p>"+
+           "<p style='text-align:center;font-size:1.25em;margin:14px 0;color:var(--ig-d)'><b>W = F × d</b></p>"+
+           "<p><b>W</b> = work done / energy transferred (J), <b>F</b> = force (N), <b>d</b> = distance moved <b>in the direction of the force</b> (m). Doing work always means transferring energy from one store to another.</p>"+
+           "<p><b>Worked example:</b> lifting a 50 N box up 4 m: W = 50 × 4 = <b>200 J</b> transferred to gravitational potential energy.</p>" },
+    { tier:"core", heading:"Power",
+      html:"<p><b>Power</b> is how <b>fast</b> energy is transferred — the energy transferred each second:</p>"+
+           "<p style='text-align:center;font-size:1.2em;margin:14px 0;color:var(--ig-d)'><b>P = W ÷ t</b></p>"+
+           "<p>Power is measured in <b>watts (W)</b>, where 1 W = 1 J/s. Two motors can do the same job (same work), but the more powerful one does it in less time.</p>"+
+           "<p><b>Worked example:</b> a crane does 6000 J of work in 3 s. P = 6000 ÷ 3 = <b>2000 W</b> (2 kW).</p>" },
     { tier:"ext", heading:"Efficiency",
-      html:"<p><b>efficiency = useful output ÷ total input</b> (× 100%). No device is 100% efficient; wasted energy usually ends up as heat to the surroundings.</p>" }
+      html:"<p>No device transfers all its input energy usefully — some is always wasted, usually as heat to the surroundings. <b>Efficiency</b> measures how good a device is:</p>"+
+           "<p style='text-align:center;font-size:1.15em;margin:14px 0;color:var(--ig-d)'><b>efficiency = useful energy out ÷ total energy in</b></p>"+
+           "<p>It is often given as a percentage (× 100%) and is always less than 100%. <b>Worked example:</b> a motor gives 600 J of useful output from 800 J of electrical input. Efficiency = 600 ÷ 800 = 0.75 = <b>75%</b>. The wasted 200 J becomes heat.</p>" }
   ],
   simulation:{ title:"Energy Efficiency Lab", file:"sims/energy-efficiency.html", source:"Atul Soral Physicism — Interactive Sim",
     instructions:["Transfer energy through a device and see useful vs wasted energy.","Change the input and read the efficiency.","Track energy in a Sankey-style flow."] },
@@ -558,12 +606,31 @@ window.IGCSE_CONTENT = {
       html:"<div class='pq'><p><b>Q:</b> A 200 N force acts on 0.5 m². Find the pressure.</p><p class='f'><b>A:</b> p = F ÷ A = 200 ÷ 0.5 = <b>400 Pa</b>.</p></div>" }
   ],
   learn:[
-    { tier:"foundation", heading:"Pressure = force spread over area",
-      html:"<p><b>p = F ÷ A</b>. The same force over a smaller area gives a larger pressure — that is why nails, knives and drawing pins are sharp, and why snowshoes (large area) stop you sinking.</p>" },
+    { tier:"foundation", heading:"Pressure: force spread over area",
+      html:"<p><b>Pressure</b> tells you how concentrated a force is. The same force acting on a small area produces a large pressure; spread over a large area it produces a small pressure:</p>"+
+           "<p style='text-align:center;font-size:1.25em;margin:16px 0;color:var(--ig-d)'><b>p = F ÷ A</b></p>"+
+           "<p><b>p</b> = pressure in <b>pascals (Pa)</b>, where 1 Pa = 1 N/m². <b>F</b> = force (N), <b>A</b> = area (m²).</p>"+
+           "<p>This single idea explains a lot of everyday life: a sharp knife, a drawing pin and a nail all have a tiny area, so even a modest force gives a huge pressure that cuts or pierces. The opposite is true for <b>snowshoes, tractor tyres and camel feet</b> — a large area keeps the pressure low so they don't sink.</p>"+
+           "<p><b>Worked example:</b> a 200 N force on 0.5 m² gives p = 200 ÷ 0.5 = <b>400 Pa</b>.</p>" },
     { tier:"core", heading:"Pressure in liquids",
-      html:"<p>A liquid's pressure increases with depth and acts equally in all directions at a given depth. This is why submarines must withstand huge pressure deep down.</p>" },
+      html:"<p>A liquid presses on anything inside it. Two rules matter:</p>"+
+           "<ul><li>Pressure <b>increases with depth</b> — the deeper you go, the more liquid is pressing down from above.</li>"+
+           "<li>At any point, pressure acts <b>equally in all directions</b> — up, down and sideways.</li></ul>"+
+           "<div style='text-align:center;margin:14px 0'>"+
+           "<svg width='200' height='140' viewBox='0 0 200 140' style='max-width:100%'>"+
+           "<path d='M40 20 L160 20 L150 130 L50 130 Z' fill='#cfe8ff' stroke='#6c4cff' stroke-width='2'/>"+
+           "<line x1='60' y1='45' x2='90' y2='45' stroke='#5238cc' stroke-width='2' marker-end='url(#a2)'/>"+
+           "<line x1='60' y1='80' x2='105' y2='80' stroke='#5238cc' stroke-width='3' marker-end='url(#a2)'/>"+
+           "<line x1='60' y1='115' x2='120' y2='115' stroke='#5238cc' stroke-width='4' marker-end='url(#a2)'/>"+
+           "<defs><marker id='a2' markerWidth='8' markerHeight='8' refX='6' refY='3' orient='auto'><path d='M0,0 L6,3 L0,6' fill='#5238cc'/></marker></defs>"+
+           "<text x='120' y='135' font-size='9' fill='#413b63'>deeper = more pressure</text>"+
+           "</svg></div>"+
+           "<p>This is why a dam wall is built <b>thicker at the bottom</b>, and why deep-sea submarines need extremely strong hulls.</p>" },
     { tier:"ext", heading:"Calculating liquid pressure",
-      html:"<p style='text-align:center;color:var(--ig-d)'><b>p = ρ g h</b></p><p>where ρ = density, g = gravitational field strength, h = depth. Pressure does not depend on the container's shape, only the depth.</p>" }
+      html:"<p>The pressure caused by a column of liquid of depth h is:</p>"+
+           "<p style='text-align:center;font-size:1.2em;margin:14px 0;color:var(--ig-d)'><b>p = ρ g h</b></p>"+
+           "<p><b>ρ</b> = density of the liquid (kg/m³), <b>g</b> = gravitational field strength (N/kg), <b>h</b> = depth (m). Notice the pressure depends only on <b>depth and density</b> — not on the shape or width of the container.</p>"+
+           "<p><b>Worked example:</b> pressure at 2 m depth in water (ρ = 1000 kg/m³, g = 10 N/kg): p = 1000 × 10 × 2 = <b>20 000 Pa</b>. (This is the pressure from the water alone, on top of atmospheric pressure.)</p>" }
   ],
   simulation:{ title:"Explore all simulations", file:"dp-simulations.html", source:"Atul Soral Physicism — Simulations Gallery",
     instructions:["Browse the full simulation library.","Use a fluids or forces sim to explore pressure ideas.","Relate what you see back to p = F ÷ A."] },
