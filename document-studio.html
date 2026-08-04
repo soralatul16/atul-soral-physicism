@@ -475,17 +475,40 @@ function printClean(){
   var w=window.open('','_blank');
   w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>Exam</title>'+
     '<style>'+
-    '@page{ margin:16mm 15mm 22mm 15mm; '+
-    '  @bottom-center{ content:"Page " counter(page) " of " counter(pages); font-family:Arial,sans-serif; font-size:10pt; color:#000; } }'+
-    'body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000;margin:0}'+
-    '.ans-line{border-bottom:1px solid #333;height:30px;margin:0}'+
-    '.ans-block{margin:8px 0 16px}'+
-    '.page-break{break-after:page;page-break-after:always}'+
-    'img{max-width:100%;height:auto}'+
-    'table{border-collapse:collapse;width:100%}td,th{border:1px solid #333;padding:6px}'+
-    '</style></head><body>'+content+'</body></html>');
+    '@page{ margin:0 }'+
+    'html,body{margin:0;padding:0}'+
+    '*{box-sizing:border-box}'+
+    '.sheet{width:210mm;min-height:297mm;padding:16mm 15mm 20mm 15mm;position:relative;page-break-after:always;font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000}'+
+    '.sheet:last-child{page-break-after:auto}'+
+    '.pgnum{position:absolute;bottom:8mm;left:0;right:0;text-align:center;font-family:Arial,sans-serif;font-size:10pt;color:#000}'+
+    '.ans-line{border-bottom:1px solid #333;height:30px;margin:0}.ans-block{margin:8px 0 16px}'+
+    'img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%}td,th{border:1px solid #333;padding:6px}'+
+    '.flow{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5}'+
+    '</style></head><body>'+
+    '<div id="measure" class="flow" style="width:180mm">'+content+'</div>'+
+    '<div id="pages"></div>'+
+    '<scr'+'ipt>'+
+    'window.onload=function(){'+
+    '  var mm=document.getElementById("measure");'+
+    '  var pageContentHeight= (297-16-20)*3.78;'+  
+    '  var nodes=Array.prototype.slice.call(mm.childNodes);'+
+    '  var pagesEl=document.getElementById("pages");'+
+    '  var sheet=null, inner=null;'+
+    '  function newSheet(){ sheet=document.createElement("div"); sheet.className="sheet"; inner=document.createElement("div"); inner.className="flow"; sheet.appendChild(inner); pagesEl.appendChild(sheet); }'+
+    '  newSheet();'+
+    '  nodes.forEach(function(n){'+
+    '    inner.appendChild(n);'+
+    '    if(inner.getBoundingClientRect().height > pageContentHeight && inner.childNodes.length>1){'+
+    '      inner.removeChild(n); newSheet(); inner.appendChild(n);'+
+    '    }'+
+    '  });'+
+    '  mm.remove();'+
+    '  var sheets=document.querySelectorAll(".sheet"); var total=sheets.length;'+
+    '  sheets.forEach(function(sh,i){ var f=document.createElement("div"); f.className="pgnum"; f.textContent="Page "+(i+1)+" of "+total; sh.appendChild(f); });'+
+    '  window.print();'+
+    '};'+
+    '<\/scr'+'ipt></body></html>');
   w.document.close(); w.focus();
-  setTimeout(function(){ w.print(); },400);
 }
 function exportPDF(){
   var area=document.getElementById('printArea');
