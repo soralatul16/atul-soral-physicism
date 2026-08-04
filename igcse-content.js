@@ -300,12 +300,33 @@ window.IGCSE_CONTENT = {
       html:"<div class='pq'><p><b>Q:</b> A 6 kg bag on Earth (g = 10 N/kg) — find its weight.</p><p class='f'><b>A:</b> W = m × g = 6 × 10 = <b>60 N</b>.</p></div>" }
   ],
   learn:[
-    { tier:"core", heading:"The difference between mass and weight",
-      html:"<p><b>Mass</b> is how much matter an object contains, measured in kilograms — it is the same everywhere. <b>Weight</b> is the pull of gravity on that mass, a force measured in newtons — it depends where you are.</p>" },
-    { tier:"core", heading:"Weight = mass × g",
-      html:"<p style='text-align:center;font-size:1.15em;color:var(--ig-d)'><b>W = m × g</b></p><p>g is the gravitational field strength: about 9.8 N/kg on Earth, 1.6 N/kg on the Moon. A larger g means a larger weight for the same mass.</p>" },
-    { tier:"core", heading:"Measuring",
-      html:"<ul><li>Mass — a balance, comparing against standard masses.</li><li>Weight — a spring balance (newton-meter).</li></ul>" }
+    { tier:"core", heading:"Mass: the amount of matter",
+      html:"<p><b>Mass</b> is a measure of how much matter an object contains. It is measured in <b>kilograms (kg)</b> and it does not change when you move the object — a 2 kg bag of sugar has a mass of 2 kg on Earth, on the Moon, or floating in deep space.</p>"+
+           "<p>Mass also measures an object's <b>inertia</b>: its resistance to a change in motion. A more massive object is harder to speed up, slow down or turn.</p>" },
+    { tier:"core", heading:"Weight: the pull of gravity",
+      html:"<p><b>Weight</b> is the <b>force</b> that gravity exerts on an object's mass. Because it is a force, it is measured in <b>newtons (N)</b>, and because gravity varies from place to place, weight varies too.</p>"+
+           "<p style='text-align:center;font-size:1.25em;margin:16px 0;color:var(--ig-d)'><b>W = m × g</b></p>"+
+           "<p>Here <b>W</b> is weight (N), <b>m</b> is mass (kg), and <b>g</b> is the <b>gravitational field strength</b> — the force of gravity on each kilogram, measured in N/kg.</p>"+
+           "<p><b>Worked example:</b> A student of mass 60 kg on Earth (g = 9.8 N/kg) has weight W = 60 × 9.8 = <b>588 N</b>.</p>" },
+    { tier:"core", heading:"Gravitational field strength",
+      html:"<p><b>g</b> tells you how strong gravity is at a location:</p>"+
+           "<table class='ig-tbl'><tr><th>Place</th><th>g (N/kg)</th></tr>"+
+           "<tr><td>Earth's surface</td><td>≈ 9.8</td></tr><tr><td>Moon's surface</td><td>≈ 1.6</td></tr><tr><td>Jupiter's surface</td><td>≈ 24</td></tr></table>"+
+           "<p>The same 60 kg student would weigh only about 60 × 1.6 = 96 N on the Moon — their <b>mass is unchanged</b>, but their <b>weight is far less</b> because the Moon's gravity is weaker. This is why astronauts can bounce around on the Moon while carrying the same amount of matter.</p>" },
+    { tier:"core", heading:"Measuring mass and weight",
+      html:"<ul><li><b>Mass</b> — a <b>balance</b> compares the object against known masses. Because it compares, it gives the same reading anywhere.</li>"+
+           "<li><b>Weight</b> — a <b>spring balance (newton-meter)</b> measures the pull of gravity directly, so its reading changes with location.</li></ul>"+
+           "<div style='text-align:center;margin:14px 0'>"+
+           "<svg width='240' height='130' viewBox='0 0 240 130' style='max-width:100%'>"+
+           "<line x1='60' y1='15' x2='60' y2='55' stroke='#413b63' stroke-width='2'/>"+
+           "<path d='M45 55 q15 20 30 0' fill='none' stroke='#6c4cff' stroke-width='2'/>"+
+           "<rect x='48' y='75' width='24' height='20' fill='#9b7dff'/>"+
+           "<text x='30' y='115' font-size='10' fill='#413b63'>spring balance</text>"+
+           "<line x1='150' y1='30' x2='210' y2='30' stroke='#413b63' stroke-width='2'/>"+
+           "<line x1='180' y1='30' x2='180' y2='15' stroke='#413b63' stroke-width='2'/>"+
+           "<rect x='150' y='30' width='24' height='14' fill='#16a34a'/><rect x='186' y='30' width='24' height='14' fill='#16a34a'/>"+
+           "<text x='150' y='70' font-size='10' fill='#413b63'>balance</text>"+
+           "</svg></div>" }
   ],
   simulation:{ title:"Gravity Lab", file:"sims/gravity-lab.html", source:"Atul Soral Physicism — Interactive Sim",
     instructions:["Change the planet and see how weight changes while mass stays fixed.","Verify W = m × g by reading the values.","Compare Earth and Moon for the same object."] },
@@ -346,12 +367,28 @@ window.IGCSE_CONTENT = {
       html:"<div class='pq'><p><b>Q:</b> A block has mass 240 g and volume 30 cm³. Find its density.</p><p class='f'><b>A:</b> ρ = 240 ÷ 30 = <b>8 g/cm³</b>.</p></div>" }
   ],
   learn:[
-    { tier:"core", heading:"Density: mass per unit volume",
-      html:"<p style='text-align:center;font-size:1.15em;color:var(--ig-d)'><b>ρ = m ÷ V</b></p><p>Density measures how tightly matter is packed. A small dense object (like lead) can be heavier than a large light one (like foam). Units: kg/m³ or g/cm³.</p>" },
-    { tier:"core", heading:"Finding density in the lab",
-      html:"<p><b>Regular solid:</b> mass on a balance, volume by calculation. <b>Irregular solid:</b> mass on a balance, volume by displacement. <b>Liquid:</b> mass of a known volume in a measuring cylinder.</p>" },
-    { tier:"core", heading:"Floating and sinking",
-      html:"<p>Compare densities: an object floats if less dense than the surrounding liquid, sinks if more dense. This is why oil floats on water.</p>" }
+    { tier:"core", heading:"What density means",
+      html:"<p><b>Density</b> tells you how much mass is packed into a given volume. It explains why a small lead fishing weight feels heavy while a large foam cushion feels light — the lead has far more mass in each cubic centimetre.</p>"+
+           "<p style='text-align:center;font-size:1.25em;margin:16px 0;color:var(--ig-d)'><b>ρ = m ÷ V</b></p>"+
+           "<p>Here <b>ρ</b> (the Greek letter 'rho') is density, <b>m</b> is mass and <b>V</b> is volume. The unit is <b>kg/m³</b> or, for smaller objects, <b>g/cm³</b>. Water has a density of 1000 kg/m³, which is the same as 1 g/cm³ — a useful number to remember.</p>"+
+           "<p><b>Worked example:</b> A metal block has mass 240 g and volume 30 cm³. ρ = 240 ÷ 30 = <b>8 g/cm³</b> — roughly the density of iron.</p>" },
+    { tier:"core", heading:"Finding the density of a regular solid",
+      html:"<ol><li>Find the <b>mass</b> on a balance.</li><li>Measure the sides and <b>calculate the volume</b> (cuboid: V = l × w × h).</li><li>Divide: ρ = m ÷ V.</li></ol>"+
+           "<p>This works whenever the shape has a volume formula — cubes, cuboids, cylinders, spheres.</p>" },
+    { tier:"core", heading:"Finding the density of an irregular solid",
+      html:"<p>An odd shape like a stone has no volume formula, so you use the <b>displacement method</b>:</p>"+
+           "<ol><li>Find the <b>mass</b> on a balance.</li><li>Part-fill a measuring cylinder with water and note the volume.</li><li>Lower the object in fully; note the new volume.</li><li><b>Volume of object = new reading − first reading.</b></li><li>ρ = m ÷ V.</li></ol>"+
+           "<div style='text-align:center;margin:14px 0'>"+
+           "<svg width='240' height='130' viewBox='0 0 240 130' style='max-width:100%'>"+
+           "<rect x='30' y='15' width='50' height='105' rx='4' fill='none' stroke='#6c4cff' stroke-width='2'/><rect x='32' y='65' width='46' height='53' fill='#cfe8ff'/><text x='30' y='58' font-size='9' fill='#413b63'>40 cm³</text>"+
+           "<rect x='160' y='15' width='50' height='105' rx='4' fill='none' stroke='#6c4cff' stroke-width='2'/><rect x='162' y='45' width='46' height='73' fill='#cfe8ff'/><circle cx='185' cy='95' r='12' fill='#9b7dff'/><text x='160' y='38' font-size='9' fill='#413b63'>55 cm³</text>"+
+           "<text x='120' y='70' font-size='16' fill='#5238cc'>→</text>"+
+           "</svg></div>"+
+           "<p>Here volume = 55 − 40 = <b>15 cm³</b>.</p>" },
+    { tier:"core", heading:"Floating, sinking and everyday density",
+      html:"<p>Whether something floats depends on how its density compares with the liquid's:</p>"+
+           "<ul><li>Less dense than the liquid → it <b>floats</b> (wood, ice, oil on water).</li><li>More dense → it <b>sinks</b> (a stone, a coin).</li></ul>"+
+           "<p>Ice floats because freezing water expands, making ice slightly less dense than liquid water — which is why icebergs sit partly above the surface. Oil floats on water because oil is less dense.</p>" }
   ],
   simulation:{ title:"Density Lab", file:"sims/density-lab.html", source:"Atul Soral Physicism — Interactive Sim",
     instructions:["Change an object's mass and volume; watch its density and whether it floats.","Find the density of an irregular shape by displacement.","Test which materials float in water (ρ = 1 g/cm³)."] },
