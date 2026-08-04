@@ -513,55 +513,23 @@ function clearTrailingBlanks(){
 function printClean(){
   var content=document.getElementById('editor').innerHTML;
   var w=window.open('','_blank');
-  var doc='<!DOCTYPE html><html><head><meta charset="utf-8"><title>Exam</title><style>'+
-    '@page{size:A4;margin:0}html,body{margin:0;padding:0;background:#e5e7eb}*{box-sizing:border-box}'+
-    '.sheet{width:210mm;height:297mm;overflow:hidden;padding:16mm 15mm 20mm 15mm;position:relative;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.15);page-break-after:always;font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000}'+
-    '.sheet:last-child{page-break-after:auto}'+
-    '.pgnum{position:absolute;bottom:8mm;left:0;right:0;text-align:center;font-family:Arial,sans-serif;font-size:10pt;color:#000}'+
+  var doc='<!DOCTYPE html><html><head><meta charset="utf-8"><title>'+(window._docTitle||'Exam')+'</title><style>'+
+    '@page{size:A4;margin:16mm 15mm 18mm 15mm}'+
+    'html,body{margin:0;padding:0}'+
+    'body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000}'+
+    '.page-break{break-after:page;page-break-after:always;height:0;overflow:hidden;border:none;margin:0}'+
     '.ans-line{border-bottom:1px solid #333;margin:0}.ans-block{margin:8px 0 16px}'+
     'img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%}td,th{border:1px solid #333;padding:6px}'+
-    '.bar{position:sticky;top:0;background:#0d9488;color:#fff;font-family:Arial;padding:8px;text-align:center;z-index:99}'+
-    '.bar input{width:110px;padding:5px;border:none;border-radius:5px;margin:0 6px}'+
-    '.bar button{background:#fff;color:#0d9488;border:none;padding:6px 16px;border-radius:6px;font-weight:700;cursor:pointer;margin-left:6px}'+
-    '@media print{.bar{display:none}.sheet{box-shadow:none;height:auto;min-height:0}#pages{gap:0;padding:0}html,body{background:#fff}}'+
+    'h1,h2,h3,p,li,tr,figure{page-break-inside:avoid}'+
+    '.bar{position:fixed;top:0;left:0;right:0;background:#0d9488;color:#fff;font-family:Arial;font-size:13px;padding:10px;text-align:center;z-index:99}'+
+    '.bar button{background:#fff;color:#0d9488;border:none;padding:6px 16px;border-radius:6px;font-weight:700;cursor:pointer;margin-left:8px}'+
+    '@media print{.bar{display:none}}'+
     '</style></head><body>'+
-    '<div class="bar">Pages: <input id="range" value="all" placeholder="1-4 or all"> <span id="ptot"></span> <button id="pbtn">Print now</button></div>'+
-    '<div id="measure" style="width:180mm;font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;position:absolute;left:-9999px;top:0">'+content+'</div>'+
-    '<div id="pages" style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:14px 0"></div></body></html>';
-  w.document.open(); w.document.write(doc); w.document.close();
-  var d=w.document;
-  function run(){
-    var mm=d.getElementById('measure');
-    var maxH=(297-16-20)*3.7797; // usable page height in px
-    var nodes=Array.prototype.slice.call(mm.childNodes);
-    var pagesEl=d.getElementById('pages'); var inner=null;
-    function newSheet(){ var sh=d.createElement('div'); sh.className='sheet'; inner=d.createElement('div'); sh.appendChild(inner); pagesEl.appendChild(sh); }
-    newSheet();
-    nodes.forEach(function(nd){
-      if(nd.nodeType===1 && nd.classList && nd.classList.contains('page-break')){ newSheet(); return; }
-      inner.appendChild(nd);
-      if(inner.getBoundingClientRect().height > maxH && inner.childNodes.length>1){
-        inner.removeChild(nd); newSheet(); inner.appendChild(nd);
-      }
-    });
-    if(mm.parentNode) mm.parentNode.removeChild(mm);
-    // drop any accidentally-empty sheets
-    Array.prototype.slice.call(d.querySelectorAll('.sheet')).forEach(function(sh){ if(!sh.firstChild || !sh.textContent.trim() && sh.querySelectorAll('img,.ans-line,table').length===0){ sh.parentNode.removeChild(sh); } });
-    var sheets=Array.prototype.slice.call(d.querySelectorAll('.sheet'));
-    d.getElementById('ptot').textContent='of '+sheets.length;
-    function parseRange(str,max){ str=(str||'all').trim().toLowerCase(); if(str==='all')return sheets.map(function(_,i){return i;}); var out=[]; str.split(',').forEach(function(p){p=p.trim();if(p.indexOf('-')>-1){var a=p.split('-');var lo=parseInt(a[0])||1,hi=parseInt(a[1])||max;for(var i=lo;i<=hi;i++)if(i>=1&&i<=max)out.push(i-1);}else{var n=parseInt(p);if(n>=1&&n<=max)out.push(n-1);}}); return out.length?out:sheets.map(function(_,i){return i;}); }
-    d.getElementById('pbtn').onclick=function(){
-      var selv=d.getElementById('range').value;
-      var selArr=parseRange(selv,sheets.length);
-      sheets.forEach(function(sh,i){ sh.style.display= selArr.indexOf(i)>-1 ? 'block':'none'; });
-      var shown=sheets.filter(function(sh){return sh.style.display!=='none';});
-      shown.forEach(function(sh,i){ var o=sh.querySelector('.pgnum'); if(o)o.remove(); var fn=d.createElement('div'); fn.className='pgnum'; fn.textContent='Page '+(i+1)+' of '+shown.length; sh.appendChild(fn); });
-      w.focus(); w.print();
-    };
-    // show initial numbering for all
-    sheets.forEach(function(sh,i){ var fn=d.createElement('div'); fn.className='pgnum'; fn.textContent='Page '+(i+1)+' of '+sheets.length; sh.appendChild(fn); });
-  }
-  if(d.readyState==='complete') run(); else w.onload=run;
+    '<div class="bar">Ready to print. In the print dialog: set the <b>page range</b> (e.g. 1-4) and turn <b>OFF Headers &amp; Footers</b>, then choose Save as PDF or your printer. <button onclick="window.print()">Print now</button></div>'+
+    '<div style="height:42px"></div>'+
+    content+
+    '</body></html>';
+  w.document.open(); w.document.write(doc); w.document.close(); w.focus();
 }
 function exportPDF(){
   var area=document.getElementById('printArea');
