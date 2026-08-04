@@ -275,17 +275,28 @@ function setLineSpacing(v){
   if(!v) return;
   document.getElementById('editor').focus();
   _blocksInSelection().forEach(function(el){ el.style.lineHeight=v; });
+  // scale answer-line gaps to match: base 20px per unit spacing
+  var factor=parseFloat(v)||1;
+  document.querySelectorAll('#editor .ans-block').forEach(function(blk){
+    var base=parseInt(blk.getAttribute('data-basegap'))||parseInt(blk.getAttribute('data-gap'))||30;
+    if(!blk.getAttribute('data-basegap')) blk.setAttribute('data-basegap',base);
+    var ng=Math.round(base*factor);
+    blk.querySelectorAll('.ans-line').forEach(function(ln){ ln.style.height=ng+'px'; });
+    blk.setAttribute('data-gap',ng);
+  });
 }
 function examPreset(){
   var ed=document.getElementById('editor');
-  ed.style.fontFamily='Arial, sans-serif';
-  ed.style.fontSize='12pt';
-  ed.style.lineHeight='1.5';
-  // also apply to any child elements that carry their own inline size/spacing
-  ed.querySelectorAll('*').forEach(function(el){
-    if(el.style){ el.style.lineHeight='1.5'; if(el.style.fontFamily) el.style.fontFamily='Arial, sans-serif'; }
+  ed.style.fontFamily='Arial, sans-serif'; ed.style.fontSize='12pt'; ed.style.lineHeight='1.5';
+  ed.querySelectorAll('*').forEach(function(el){ if(el.style){ el.style.lineHeight='1.5'; if(el.style.fontFamily) el.style.fontFamily='Arial, sans-serif'; } });
+  ed.querySelectorAll('.ans-block').forEach(function(blk){
+    var base=parseInt(blk.getAttribute('data-basegap'))||parseInt(blk.getAttribute('data-gap'))||30;
+    if(!blk.getAttribute('data-basegap')) blk.setAttribute('data-basegap',base);
+    var ng=Math.round(base*1.5);
+    blk.querySelectorAll('.ans-line').forEach(function(ln){ ln.style.height=ng+'px'; });
+    blk.setAttribute('data-gap',ng);
   });
-  alert('Applied Exam preset: Arial, 12pt, line spacing 1.5.');
+  alert('Applied Exam preset: Arial, 12pt, line spacing 1.5 (answer lines widened to match).');
 }
 function setFontPt(pt){
   if(!pt) return;
