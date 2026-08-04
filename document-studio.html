@@ -508,48 +508,50 @@ function clearTrailingBlanks(){
 function printClean(){
   var content=document.getElementById('editor').innerHTML;
   var w=window.open('','_blank');
-  w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>Exam</title>'+
-    '<style>@page{margin:0}html,body{margin:0;padding:0}*{box-sizing:border-box}'+
-    '.sheet{width:210mm;min-height:297mm;padding:16mm 15mm 20mm 15mm;position:relative;page-break-after:always;font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000}'+
+  var doc='<!DOCTYPE html><html><head><meta charset="utf-8"><title>Exam</title><style>'+
+    '@page{margin:0}html,body{margin:0;padding:0}*{box-sizing:border-box}'+
+    '.sheet{width:210mm;min-height:297mm;padding:16mm 15mm 20mm 15mm;position:relative;page-break-after:always;font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000;background:#fff;margin:8px auto;box-shadow:0 1px 6px rgba(0,0,0,.15)}'+
     '.sheet:last-child{page-break-after:auto}'+
     '.pgnum{position:absolute;bottom:8mm;left:0;right:0;text-align:center;font-family:Arial,sans-serif;font-size:10pt;color:#000}'+
     '.ans-line{border-bottom:1px solid #333;margin:0}.ans-block{margin:8px 0 16px}'+
     'img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%}td,th{border:1px solid #333;padding:6px}'+
-    '.flow{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5}@media screen{.pick{position:fixed;top:0;left:0;right:0;background:#0d9488;color:#fff;padding:10px;text-align:center;font-family:Arial;z-index:99}}@media print{.pick{display:none}}'+
+    '.flow{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5}'+
+    '.bar{position:sticky;top:0;background:#0d9488;color:#fff;padding:10px;text-align:center;font-family:Arial;z-index:99}'+
+    '.bar input{width:110px;padding:5px;border:none;border-radius:5px;margin:0 6px}'+
+    '.bar button{background:#fff;color:#0d9488;border:none;padding:6px 16px;border-radius:6px;font-weight:700;cursor:pointer;margin-left:6px}'+
+    '@media print{.bar{display:none}.sheet{margin:0;box-shadow:none}body{background:#fff}}'+
+    'body{background:#e5e7eb}'+
     '</style></head><body>'+
-    '<div class="pick">Choose pages to print, then use your browser Print. <button onclick="doPrint()" style="background:#fff;color:#0d9488;border:none;padding:6px 14px;border-radius:6px;font-weight:700;cursor:pointer;margin-left:10px">Print now</button></div>'+
-    '<div id="measure" class="flow" style="width:180mm;margin-top:50px">'+content+'</div>'+
-    '<div id="pages"></div>'+
-    '<scr'+'ipt>'+
-    'var allSheets=[];'+
-    'function build(){'+
-    '  var mm=document.getElementById("measure");'+
-    '  var pageContentHeight=(297-16-20)*3.78;'+
-    '  var nodes=Array.prototype.slice.call(mm.childNodes);'+
-    '  var pagesEl=document.getElementById("pages");var inner=null;'+
-    '  function newSheet(){var sh=document.createElement("div");sh.className="sheet";inner=document.createElement("div");inner.className="flow";sh.appendChild(inner);pagesEl.appendChild(sh);}'+
-    '  newSheet();'+
-    '  nodes.forEach(function(nd){'+
-    '    if(nd.classList&&nd.classList.contains("page-break")){ newSheet(); return; }'+
-    '    inner.appendChild(nd);'+
-    '    if(inner.getBoundingClientRect().height>pageContentHeight && inner.childNodes.length>1){ inner.removeChild(nd); newSheet(); inner.appendChild(nd); }'+
-    '  });'+
-    '  mm.remove();'+
-    '  allSheets=Array.prototype.slice.call(document.querySelectorAll(".sheet"));'+
-    '  var pick=document.querySelector(".pick");'+
-    '  pick.innerHTML="Pages: <input id=range style=\"width:120px;padding:4px;border-radius:5px;border:none\" placeholder=\"e.g. 1-4 or all\" value=\"all\"> of "+allSheets.length+" <button onclick=doPrint() style=\"background:#fff;color:#0d9488;border:none;padding:6px 14px;border-radius:6px;font-weight:700;cursor:pointer;margin-left:8px\">Print now</button>";'+
-    '}'+
-    'function parseRange(str,max){ str=(str||"all").trim().toLowerCase(); if(str==="all")return Array.from({length:max},function(_,i){return i;}); var out=[]; str.split(",").forEach(function(part){ part=part.trim(); if(part.indexOf("-")>-1){ var a=part.split("-"); var lo=parseInt(a[0])||1, hi=parseInt(a[1])||max; for(var i=lo;i<=hi;i++) if(i>=1&&i<=max) out.push(i-1);} else { var n=parseInt(part); if(n>=1&&n<=max) out.push(n-1);} }); return out.length?out:Array.from({length:max},function(_,i){return i;}); }'+
-    'function doPrint(){'+
-    '  var sel=parseRange((document.getElementById("range")||{}).value,allSheets.length);'+
-    '  allSheets.forEach(function(sh,i){ sh.style.display = sel.indexOf(i)>-1 ? "block":"none"; });'+
-    '  var shown=allSheets.filter(function(sh){return sh.style.display!=="none";});'+
-    '  shown.forEach(function(sh,i){ var old=sh.querySelector(".pgnum"); if(old)old.remove(); var f=document.createElement("div"); f.className="pgnum"; f.textContent="Page "+(i+1)+" of "+shown.length; sh.appendChild(f); });'+
-    '  window.print();'+
-    '}'+
-    'window.onload=build;'+
-    '<\/scr'+'ipt></body></html>');
-  w.document.close(); w.focus();
+    '<div class="bar">Pages: <input id="range" value="all" placeholder="1-4 or all"> <span id="ptot"></span> <button id="pbtn">Print now</button></div>'+
+    '<div id="measure" class="flow" style="width:180mm">'+content+'</div>'+
+    '<div id="pages"></div></body></html>';
+  w.document.open(); w.document.write(doc); w.document.close();
+  var d=w.document;
+  function run(){
+    var mm=d.getElementById('measure');
+    var pageContentHeight=(297-16-20)*3.78;
+    var nodes=Array.prototype.slice.call(mm.childNodes);
+    var pagesEl=d.getElementById('pages'); var inner=null;
+    function newSheet(){ var sh=d.createElement('div'); sh.className='sheet'; inner=d.createElement('div'); inner.className='flow'; sh.appendChild(inner); pagesEl.appendChild(sh); }
+    newSheet();
+    nodes.forEach(function(nd){
+      if(nd.nodeType===1 && nd.classList && nd.classList.contains('page-break')){ newSheet(); return; }
+      inner.appendChild(nd);
+      if(inner.getBoundingClientRect().height>pageContentHeight && inner.childNodes.length>1){ inner.removeChild(nd); newSheet(); inner.appendChild(nd); }
+    });
+    mm.parentNode.removeChild(mm);
+    var sheets=Array.prototype.slice.call(d.querySelectorAll('.sheet'));
+    d.getElementById('ptot').textContent='of '+sheets.length;
+    function parseRange(str,max){ str=(str||'all').trim().toLowerCase(); if(str==='all')return sheets.map(function(_,i){return i;}); var out=[]; str.split(',').forEach(function(p){ p=p.trim(); if(p.indexOf('-')>-1){var a=p.split('-');var lo=parseInt(a[0])||1,hi=parseInt(a[1])||max;for(var i=lo;i<=hi;i++)if(i>=1&&i<=max)out.push(i-1);}else{var n=parseInt(p);if(n>=1&&n<=max)out.push(n-1);} }); return out.length?out:sheets.map(function(_,i){return i;}); }
+    d.getElementById('pbtn').onclick=function(){
+      var sel=parseRange(d.getElementById('range').value, sheets.length);
+      sheets.forEach(function(sh,i){ sh.style.display = sel.indexOf(i)>-1 ? 'block':'none'; });
+      var shown=sheets.filter(function(sh){return sh.style.display!=='none';});
+      shown.forEach(function(sh,i){ var o=sh.querySelector('.pgnum'); if(o)o.remove(); var fn=d.createElement('div'); fn.className='pgnum'; fn.textContent='Page '+(i+1)+' of '+shown.length; sh.appendChild(fn); });
+      w.focus(); w.print();
+    };
+  }
+  if(d.readyState==='complete') run(); else w.onload=run;
 }
 function exportPDF(){
   var area=document.getElementById('printArea');
