@@ -8,6 +8,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
+<script src="exam-system/firebase-config.js?v=2"></script>
 <style>
 :root{
   --bg:#f4f2ff;--white:#fff;--text:#1a1730;--text2:#413b63;--text3:#6b6590;
@@ -281,6 +286,81 @@ function pick(btn,qi,oi){ var q=C.practice[qi],p=btn.parentNode; p.querySelector
 function toggleSol(t,i){ document.getElementById('sol'+t+i).classList.toggle('show'); }
 function showTab(id,btn){ document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');}); document.getElementById(id).classList.add('active'); document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');}); btn.classList.add('active'); doMath(); }
 function doMath(){ if(window.renderMathInElement) try{ renderMathInElement(document.body,{delimiters:[{left:'$',right:'$',display:false}]}); }catch(e){} }
+</script>
+
+<!-- Floating AI Tutor + Feedback -->
+<div style="position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:14px;z-index:9999">
+  <button onclick="toggleFeedback()" title="Leave feedback" style="width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#ef4444,#dc2626);border:2px solid rgba(255,255,255,0.4);color:#fff;font-size:22px;cursor:pointer;box-shadow:0 8px 24px rgba(239,68,68,0.4)">💬</button>
+  <button onclick="toggleAI()" title="AI tutor" style="width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#6c4cff,#5238cc);border:2px solid rgba(255,255,255,0.4);color:#fff;font-size:26px;cursor:pointer;box-shadow:0 8px 24px rgba(108,76,255,0.4)">🧠</button>
+</div>
+
+<div id="fb-panel" style="position:fixed;bottom:96px;right:24px;width:330px;background:var(--white);border:1.5px solid var(--line);border-radius:18px;box-shadow:0 24px 48px rgba(0,0,0,0.18);z-index:9998;opacity:0;pointer-events:none;transform:translateY(20px) scale(.96);transition:all .35s;overflow:hidden">
+  <div style="padding:14px 18px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;display:flex;justify-content:space-between;align-items:center;font-family:'Outfit',sans-serif">
+    <span style="font-weight:600">💬 Leave Feedback</span>
+    <button onclick="toggleFeedback()" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:26px;height:26px;border-radius:50%;cursor:pointer">✕</button>
+  </div>
+  <div style="padding:18px;display:flex;flex-direction:column;gap:10px">
+    <p style="font-size:13px;color:var(--text2);margin:0">Found a mistake or have a suggestion? Tell me!</p>
+    <textarea id="fbMsg" placeholder="Your feedback…" rows="4" style="border:1.5px solid var(--line);border-radius:10px;padding:11px;font-size:14px;font-family:'Outfit',sans-serif;background:var(--white);color:var(--text);resize:none"></textarea>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span id="fbStatus" style="font-size:12px;color:#dc2626"></span>
+      <button onclick="sendFeedback()" style="background:linear-gradient(135deg,#ef4444,#dc2626);border:none;color:#fff;padding:9px 22px;border-radius:10px;cursor:pointer;font-weight:600;font-family:'Outfit',sans-serif">Send</button>
+    </div>
+  </div>
+</div>
+
+<div id="ai-panel" style="position:fixed;bottom:96px;right:24px;width:370px;background:var(--white);border:1.5px solid var(--line);border-radius:18px;box-shadow:0 24px 48px rgba(0,0,0,0.18);z-index:9998;opacity:0;pointer-events:none;transform:translateY(20px) scale(.96);transition:all .35s;display:flex;flex-direction:column;overflow:hidden">
+  <div style="padding:14px 18px;background:linear-gradient(135deg,#6c4cff,#5238cc);color:#fff;font-weight:600;display:flex;justify-content:space-between;align-items:center;font-family:'Outfit',sans-serif">
+    <span>🧠 Physicism AI Tutor</span>
+    <button onclick="toggleAI()" style="background:rgba(255,255,255,.15);border:none;color:#fff;width:26px;height:26px;border-radius:50%;cursor:pointer">✕</button>
+  </div>
+  <div id="aiMessages" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;max-height:320px;font-family:'Outfit',sans-serif">
+    <div style="background:var(--ig-pale);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text);max-width:85%;align-self:flex-start">Hi! I'm your IGCSE Physics tutor. Ask me anything about this subtopic — concepts, formulas, or exam tips. 🔬</div>
+  </div>
+  <div style="padding:10px 14px;border-top:1px solid var(--line);display:flex;gap:8px">
+    <input type="text" id="aiInput" placeholder="Ask a physics question…" onkeydown="if(event.key==='Enter')sendAIMsg()" style="flex:1;background:var(--white);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--text);font-family:'Outfit',sans-serif">
+    <button onclick="sendAIMsg()" style="background:linear-gradient(135deg,#6c4cff,#5238cc);border:none;color:#fff;padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:600;font-family:'Outfit',sans-serif">Send</button>
+  </div>
+</div>
+
+<script>
+function toggleFeedback(){ var p=document.getElementById('fb-panel'); var o=p.style.opacity==='1'; p.style.opacity=o?'0':'1'; p.style.pointerEvents=o?'none':'all'; p.style.transform=o?'translateY(20px) scale(.96)':'translateY(0) scale(1)'; }
+function sendFeedback(){
+  var msg=document.getElementById('fbMsg').value.trim();
+  if(!msg){ document.getElementById('fbStatus').textContent='Please enter feedback.'; return; }
+  document.getElementById('fbStatus').textContent='Sending…';
+  try{ if(window.db){ db.collection('feedback').add({ subtopic:code, message:msg, at:new Date().toISOString(), page:'igcse-sub' }); } }catch(e){}
+  document.getElementById('fbStatus').style.color='#16a34a';
+  document.getElementById('fbStatus').textContent='✅ Thank you!';
+  document.getElementById('fbMsg').value='';
+  setTimeout(function(){ toggleFeedback(); document.getElementById('fbStatus').textContent=''; document.getElementById('fbStatus').style.color='#dc2626'; },1800);
+}
+function toggleAI(){ var p=document.getElementById('ai-panel'); var o=p.style.opacity==='1'; p.style.opacity=o?'0':'1'; p.style.pointerEvents=o?'none':'all'; p.style.transform=o?'translateY(20px) scale(.96)':'translateY(0) scale(1)'; }
+async function sendAIMsg(){
+  var input=document.getElementById('aiInput'); var msg=input.value.trim(); if(!msg) return;
+  var box=document.getElementById('aiMessages');
+  box.innerHTML+='<div style="background:rgba(239,68,68,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text);max-width:85%;align-self:flex-end">'+msg+'</div>';
+  input.value=''; box.scrollTop=box.scrollHeight;
+  if(!firebase.auth().currentUser){
+    box.innerHTML+='<div style="background:var(--ig-pale);border-radius:12px;padding:10px 14px;font-size:13px;max-width:85%;align-self:flex-start">🔒 Please sign in to use the AI tutor. <button onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" style="background:#6c4cff;color:#fff;border:none;padding:6px 14px;border-radius:8px;font-weight:600;cursor:pointer;margin-top:6px">Sign in</button></div>';
+    box.scrollTop=box.scrollHeight; return;
+  }
+  box.innerHTML+='<div id="ai-typing" style="background:var(--ig-pale);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text3);max-width:85%;align-self:flex-start">Thinking…</div>';
+  box.scrollTop=box.scrollHeight;
+  var ctx = C ? (code+' '+C.title) : 'IGCSE Physics';
+  try{
+    var aiChat=firebase.functions().httpsCallable('aiChat');
+    var result=await aiChat({messages:[
+      {role:'system',content:'You are a friendly Cambridge IGCSE Physics (0625) tutor. The student is studying subtopic: '+ctx+'. Answer ONLY physics questions at IGCSE level. Keep answers concise (2-4 sentences) and clear for a 14-16 year old.'},
+      {role:'user',content:msg}
+    ],temperature:0.7,maxTokens:300});
+    var reply=result.data.reply||'Sorry, I could not process that.';
+    var t=document.getElementById('ai-typing'); if(t)t.outerHTML='<div style="background:var(--ig-pale);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text);max-width:85%;align-self:flex-start;line-height:1.6">'+reply+'</div>';
+  }catch(e){
+    var t=document.getElementById('ai-typing'); if(t)t.outerHTML='<div style="background:rgba(239,68,68,0.08);border-radius:12px;padding:10px 14px;font-size:13px;color:#c0392b;max-width:85%;align-self:flex-start">Error: '+(e.message||'AI unavailable')+'</div>';
+  }
+  box.scrollTop=box.scrollHeight;
+}
 </script>
 </body>
 </html>
