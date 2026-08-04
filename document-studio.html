@@ -150,7 +150,7 @@ label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04
         <div class="toolbar no-print">
           <select onchange="fmtBlock(this.value)"><option value="">Paragraph</option><option value="H1">Heading 1</option><option value="H2">Heading 2</option><option value="H3">Heading 3</option></select>
           <select onchange="fmt('fontName',this.value)"><option value="">Font</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Times New Roman">Times</option><option value="Courier New">Courier</option><option value="system-ui">System</option></select>
-          <select onchange="setFontPt(this.value)"><option value="">Size</option><option value="8">8pt</option><option value="9">9pt</option><option value="10">10pt</option><option value="11">11pt</option><option value="12">12pt</option><option value="14">14pt</option><option value="16">16pt</option><option value="18">18pt</option><option value="20">20pt</option><option value="24">24pt</option><option value="28">28pt</option><option value="36">36pt</option><option value="48">48pt</option></select>
+          <select onchange="setFontPt(this.value)"><option value="">Size</option><option value="8">8pt</option><option value="9">9pt</option><option value="10">10pt</option><option value="11">11pt</option><option value="12">12pt</option><option value="14">14pt</option><option value="16">16pt</option><option value="18">18pt</option><option value="20">20pt</option><option value="24">24pt</option><option value="28">28pt</option><option value="36">36pt</option><option value="48">48pt</option></select><select onchange="setLineSpacing(this.value)" title="Line spacing"><option value="">Line spacing</option><option value="1">1.0</option><option value="1.15">1.15</option><option value="1.5">1.5</option><option value="2">2.0</option></select><button onclick="examPreset()" title="Arial 12, line spacing 1.5" style="font-weight:600;color:#0d9488">Exam preset</button>
           <span class="sep"></span>
           <button onclick="fmt('bold')" title="Bold"><b>B</b></button>
           <button onclick="fmt('italic')" title="Italic"><i>I</i></button>
@@ -259,6 +259,32 @@ function cleanSelection(){
     if(st.trim()) el.setAttribute('style',st); else el.removeAttribute('style');
   });
   alert('Cleaned alignment and spacing from pasted content.');
+}
+function _blocksInSelection(){
+  var ed=document.getElementById('editor');
+  var sel=window.getSelection();
+  if(!sel.rangeCount || sel.isCollapsed){ return [ed]; }
+  var blocks=[]; var range=sel.getRangeAt(0);
+  ed.querySelectorAll('p,div,li,h1,h2,h3,td').forEach(function(el){
+    if(range.intersectsNode(el)) blocks.push(el);
+  });
+  return blocks.length?blocks:[ed];
+}
+function setLineSpacing(v){
+  if(!v) return;
+  document.getElementById('editor').focus();
+  _blocksInSelection().forEach(function(el){ el.style.lineHeight=v; });
+}
+function examPreset(){
+  var ed=document.getElementById('editor');
+  ed.style.fontFamily='Arial, sans-serif';
+  ed.style.fontSize='12pt';
+  ed.style.lineHeight='1.5';
+  // also apply to any child elements that carry their own inline size/spacing
+  ed.querySelectorAll('*').forEach(function(el){
+    if(el.style){ el.style.lineHeight='1.5'; if(el.style.fontFamily) el.style.fontFamily='Arial, sans-serif'; }
+  });
+  alert('Applied Exam preset: Arial, 12pt, line spacing 1.5.');
 }
 function setFontPt(pt){
   if(!pt) return;
