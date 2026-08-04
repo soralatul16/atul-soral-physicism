@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Studio · Atul Soral Physicism</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="exam-system/firebase-config.js?v=2"></script>
+<!-- CKEditor 5 (free superbuild via CDN) -->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/superbuild/ckeditor.js"></script>
+<!-- MathLive (free equation editor) -->
+<script src="https://cdn.jsdelivr.net/npm/mathlive@0.98.6/dist/mathlive.min.js"></script>
+<style>
+:root{--teal:#0d9488;--teal-d:#0f766e;--bg:#f1f5f9;--card:#fff;--border:#e2e8f0;--text:#0f172a;--text2:#475569;--text3:#94a3b8}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
+.topbar{background:var(--teal);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:200}
+.topbar h1{font-size:1.1rem;margin:0;font-weight:700}
+.topbar .sub{font-size:.85rem;opacity:.85}
+.topbar .actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.topbar button,.topbar a{color:#fff;text-decoration:none;background:rgba(255,255,255,.15);padding:7px 13px;border:none;border-radius:8px;font-size:.85rem;cursor:pointer}
+.topbar button:hover{background:rgba(255,255,255,.28)}
+.wrap{max-width:1100px;margin:0 auto;padding:20px}
+.card{background:var(--card);border-radius:14px;padding:22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:18px}
+h2{font-size:1.05rem;margin:0 0 14px;color:var(--teal-d)}
+label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);font-weight:700;margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--border);background:#fff;border-radius:20px;padding:8px 16px;font-size:.85rem;cursor:pointer;transition:.15s;font-weight:500}
+.chip:hover{border-color:var(--teal)}
+.chip.sel{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn{border:none;border-radius:9px;padding:10px 18px;font-size:.9rem;font-weight:600;cursor:pointer}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-outline{background:#fff;border:1.5px solid var(--border);color:var(--text2)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.hidden{display:none!important}
+.doc-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;cursor:pointer}
+.doc-item:hover{border-color:var(--teal);background:#f0fdfa}
+.doc-badge{font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:6px;background:#e0f2fe;color:#0369a1}
+.doc-meta{font-size:.75rem;color:var(--text3)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filters select,.filters input{padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:.82rem}
+/* editor page canvas — A4 look */
+#editorWrap{background:#e5e7eb;padding:24px 0;border-radius:12px}
+.ck-editor__editable{min-height:60vh}
+.a4 .ck-editor__editable{width:210mm;margin:0 auto;padding:16mm 15mm !important;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.12);font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000}
+.ck.ck-toolbar{position:sticky;top:52px;z-index:150}
+.ans-line{border-bottom:1px solid #333;height:30px;margin:0}
+.ans-block{margin:8px 0 16px}
+math-field{display:block;border:1px solid var(--border);border-radius:8px;padding:8px;font-size:1.1rem;margin:8px 0}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>📄 Document Studio</h1>
+  <span class="sub">Atul Soral Physicism</span>
+  <div class="actions" id="editorActions" style="display:none">
+    <button onclick="saveDoc()">💾 Save</button>
+    <button onclick="insertAnswerLines()">✏️ Answer lines</button>
+    <button onclick="openEqn()">∑ Equation</button>
+    <button onclick="printExam()">🎓 Print / PDF</button>
+    <button onclick="exportWord()">⬇ Word</button>
+    <button onclick="backToChooser()">← Library</button>
+  </div>
+  <div class="actions" id="chooserActions">
+    <a href="dp-teacher-assignments.html">← Assignments</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- CHOOSER -->
+  <div id="chooser">
+    <div class="card">
+      <h2>1 · Choose type</h2>
+      <div class="chips" id="catChips"></div>
+    </div>
+    <div class="card">
+      <h2>2 · Choose grade / level</h2>
+      <div class="chips" id="gradeChips"></div>
+    </div>
+    <div class="card">
+      <div class="row">
+        <input id="docTitle" placeholder="Document title (e.g. Kinematics Worksheet 1)" style="flex:1;min-width:240px;padding:10px;border:1px solid var(--border);border-radius:8px;font-size:.9rem">
+        <button class="btn btn-primary" onclick="startEditor()">Create →</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>📁 Your saved documents</h2>
+      <div class="filters">
+        <input id="fLibSearch" placeholder="🔍 Search title..." oninput="renderLibrary()">
+        <select id="fLibCat" onchange="renderLibrary()"><option value="">All types</option></select>
+        <select id="fLibGrade" onchange="renderLibrary()"><option value="">All grades</option></select>
+      </div>
+      <div id="libraryList"><div class="doc-meta">Loading…</div></div>
+    </div>
+  </div>
+
+  <!-- EDITOR -->
+  <div id="editorPane" class="hidden">
+    <div style="font-weight:600;color:var(--teal-d);margin-bottom:8px" id="editorMeta"></div>
+    <div id="editorWrap" class="a4"><textarea id="editor"></textarea></div>
+  </div>
+</div>
+
+<!-- Equation dialog -->
+<div id="eqnModal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:300;display:flex;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:14px;padding:22px;width:520px;max-width:94%">
+    <h2>Insert equation</h2>
+    <p style="font-size:.82rem;color:var(--text3);margin:0 0 8px">Type math below (use the on-field controls). It inserts as an image-quality formula.</p>
+    <math-field id="mf" style="width:100%"></math-field>
+    <div class="row" style="justify-content:flex-end;margin-top:12px">
+      <button class="btn btn-outline" onclick="closeEqn()">Cancel</button>
+      <button class="btn btn-primary" onclick="insertEqn()">Insert</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var db=window.db, editor=null, currentDocId=null;
+var sel={cat:'',grade:''};
+var CATS=['Worksheet','Test Paper','Notes','Reading Material','Experiment / Lab','Daily Lesson Plan','Other'];
+var GRADES=['IGCSE 9','IGCSE 10','MYP 4','MYP 5','DP1-HL','DP1-SL','DP1 HL/SL Common','DP2-HL','DP2-SL','DP2 HL/SL Common'];
+
+// chips
+CATS.forEach(function(c){ var d=document.createElement('div'); d.className='chip'; d.textContent=c; d.onclick=function(){document.querySelectorAll('#catChips .chip').forEach(function(x){x.classList.remove('sel');});d.classList.add('sel');sel.cat=c;}; document.getElementById('catChips').appendChild(d); });
+GRADES.forEach(function(g){ var d=document.createElement('div'); d.className='chip'; d.textContent=g; d.onclick=function(){document.querySelectorAll('#gradeChips .chip').forEach(function(x){x.classList.remove('sel');});d.classList.add('sel');sel.grade=g;}; document.getElementById('gradeChips').appendChild(d); });
+(function(){var fc=document.getElementById('fLibCat'),fg=document.getElementById('fLibGrade');CATS.forEach(function(c){var o=document.createElement('option');o.value=c;o.textContent=c;fc.appendChild(o);});GRADES.forEach(function(g){var o=document.createElement('option');o.value=g;o.textContent=g;fg.appendChild(o);});})();
+
+firebase.auth().onAuthStateChanged(function(){ loadLibrary(); });
+
+function startEditor(){
+  if(!sel.cat){alert('Pick a document type.');return;}
+  if(!sel.grade){alert('Pick a grade.');return;}
+  var title=document.getElementById('docTitle').value.trim();
+  if(!title){alert('Enter a title.');return;}
+  currentDocId=null; window._docTitle=title;
+  openEditor(title,'');
+}
+function openEditor(title,html){
+  document.getElementById('chooser').classList.add('hidden');
+  document.getElementById('editorPane').classList.remove('hidden');
+  document.getElementById('editorActions').style.display='flex';
+  document.getElementById('chooserActions').style.display='none';
+  document.getElementById('editorMeta').textContent=sel.cat+' · '+sel.grade+' · '+title;
+  window._docTitle=title;
+  if(editor){ editor.setData(html||''); return; }
+  var cfg={
+    toolbar:{items:['undo','redo','|','heading','|','fontFamily','fontSize','|','bold','italic','underline','strikethrough','subscript','superscript','|','fontColor','fontBackgroundColor','|','alignment','|','bulletedList','numberedList','outdent','indent','|','insertTable','imageUpload','link','horizontalLine','specialCharacters','|','removeFormat','findAndReplace'],shouldNotGroupWhenFull:true},
+    fontFamily:{options:['Arial, sans-serif','Georgia, serif','Times New Roman, serif','Courier New, monospace','Calibri, sans-serif']},
+    fontSize:{options:[8,9,10,11,12,14,16,18,20,24,28,36,48]},
+    table:{contentToolbar:['tableColumn','tableRow','mergeTableCells','tableCellProperties','tableProperties']},
+    licenseKey:''
+  };
+  ClassicEditor.create(document.getElementById('editor'),cfg).then(function(ed){
+    editor=ed; if(html) ed.setData(html);
+    // autosave every 20s
+    setInterval(function(){ if(currentDocId) saveDoc(true); },20000);
+  }).catch(function(e){ alert('Editor failed to load: '+e.message); });
+}
+function backToChooser(){
+  document.getElementById('editorPane').classList.add('hidden');
+  document.getElementById('chooser').classList.remove('hidden');
+  document.getElementById('editorActions').style.display='none';
+  document.getElementById('chooserActions').style.display='flex';
+  loadLibrary();
+}
+
+function insertAnswerLines(){
+  if(!editor) return;
+  var n=parseInt(prompt('How many answer lines?','6'))||6; if(n<1)n=1; if(n>40)n=40;
+  var gap=parseInt(prompt('Line height in px (30 normal, 45 wide)?','30'))||30;
+  var lines=''; for(var i=0;i<n;i++){ lines+='<p style="border-bottom:1px solid #333;height:'+gap+'px;margin:0">&nbsp;</p>'; }
+  editor.model.change(function(){ var vf=editor.data.processor.toView(lines); var mf=editor.data.toModel(vf); editor.model.insertContent(mf); });
+}
+
+// equation
+function openEqn(){ document.getElementById('eqnModal').classList.remove('hidden'); setTimeout(function(){document.getElementById('mf').focus();},100); }
+function closeEqn(){ document.getElementById('eqnModal').classList.add('hidden'); }
+function insertEqn(){
+  var mf=document.getElementById('mf'); var latex=mf.value||'';
+  if(!latex){ closeEqn(); return; }
+  // render to an image-like span using MathLive's static render
+  var span='<span class="eqn" data-latex="'+latex.replace(/"/g,'&quot;')+'">'+ (window.MathfieldElement? '' : '') + '\\('+latex+'\\)</span>';
+  // insert the LaTeX as text wrapped; also inject a rendered image via convertLatexToMarkup if available
+  var markup=latex;
+  try{ if(window.MathLive&&window.MathLive.convertLatexToMarkup){ markup=window.MathLive.convertLatexToMarkup(latex); } }catch(e){}
+  var html='<span style="display:inline-block">'+markup+'</span>&nbsp;';
+  editor.model.change(function(){ var vf=editor.data.processor.toView(html); var mf2=editor.data.toModel(vf); editor.model.insertContent(mf2); });
+  mf.value=''; closeEqn();
+}
+
+// save / library
+function saveDoc(silent){
+  if(!db||!editor) return;
+  var data={title:window._docTitle||'Untitled',category:sel.cat,grade:sel.grade,html:editor.getData(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+  var p;
+  if(currentDocId){ p=db.collection('documents').doc(currentDocId).update(data); }
+  else{ data.createdAt=firebase.firestore.FieldValue.serverTimestamp(); p=db.collection('documents').add(data).then(function(r){currentDocId=r.id;}); }
+  p.then(function(){ if(!silent) alert('Saved to your library.'); }).catch(function(e){ if(!silent) alert('Save error: '+e.message); });
+}
+function loadLibrary(){
+  if(!db) return;
+  db.collection('documents').get().then(function(snap){
+    window._library=[]; snap.forEach(function(d){ window._library.push(Object.assign({id:d.id},d.data())); });
+    window._library.sort(function(a,b){ var ta=a.updatedAt&&a.updatedAt.toMillis?a.updatedAt.toMillis():0; var tb=b.updatedAt&&b.updatedAt.toMillis?b.updatedAt.toMillis():0; return tb-ta; });
+    renderLibrary();
+  }).catch(function(e){ var h=document.getElementById('libraryList'); if(h)h.innerHTML='<div class="doc-meta">Load error: '+e.message+'</div>'; });
+}
+function renderLibrary(){
+  var host=document.getElementById('libraryList'); var lib=window._library||[];
+  var q=(document.getElementById('fLibSearch').value||'').toLowerCase();
+  var fc=document.getElementById('fLibCat').value, fg=document.getElementById('fLibGrade').value;
+  var list=lib.filter(function(d){ if(q&&(d.title||'').toLowerCase().indexOf(q)===-1)return false; if(fc&&d.category!==fc)return false; if(fg&&d.grade!==fg)return false; return true; });
+  if(!list.length){ host.innerHTML='<div class="doc-meta">No documents yet. Create one above.</div>'; return; }
+  host.innerHTML=list.map(function(d){
+    var when=d.updatedAt&&d.updatedAt.toDate?d.updatedAt.toDate().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):'';
+    return '<div class="doc-item" onclick="openDoc(\''+d.id+'\')"><span class="doc-badge">'+(d.category||'Doc')+'</span><div style="flex:1"><div style="font-weight:600">'+esc(d.title||'Untitled')+'</div><div class="doc-meta">'+esc(d.grade||'')+' · updated '+when+'</div></div><button class="btn btn-outline" onclick="event.stopPropagation();deleteDoc(\''+d.id+'\')" style="padding:6px 10px;color:#dc2626;border-color:#fca5a5">🗑</button></div>';
+  }).join('');
+}
+function openDoc(id){ var d=(window._library||[]).find(function(x){return x.id===id;}); if(!d)return; sel.cat=d.category||''; sel.grade=d.grade||''; currentDocId=id; openEditor(d.title||'Untitled', d.html||''); }
+function deleteDoc(id){ if(!confirm('Delete this document permanently?'))return; db.collection('documents').doc(id).delete().then(loadLibrary); }
+function esc(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// print — let the browser paginate; page range via print dialog
+function printExam(){
+  if(!editor) return;
+  var content=editor.getData();
+  var w=window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>'+(window._docTitle||'Exam')+'</title>'+
+    '<style>@page{size:A4;margin:16mm 15mm 18mm 15mm}html,body{margin:0;padding:0}'+
+    'body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000}'+
+    'h1,h2,h3,p,li,tr,figure{page-break-inside:avoid}'+
+    'img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%}td,th{border:1px solid #333;padding:6px}'+
+    '.tip{position:sticky;top:0;background:#0d9488;color:#fff;font-family:Arial;padding:8px;text-align:center}@media print{.tip{display:none}}'+
+    '</style></head><body><div class="tip">Print dialog opens. Set page range there (e.g. 1-4). Turn OFF browser Headers &amp; Footers.</div>'+content+'</body></html>');
+  w.document.close(); w.focus(); setTimeout(function(){w.print();},600);
+}
+function exportWord(){
+  if(!editor) return;
+  var title=window._docTitle||'Document';
+  var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>'+title+'</title></head><body>'+editor.getData()+'</body></html>';
+  var blob=new Blob(['﻿',html],{type:'application/msword'});
+  var url=URL.createObjectURL(blob); var a=document.createElement('a'); a.href=url; a.download=title.replace(/[^a-z0-9]+/gi,'_')+'.doc'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
