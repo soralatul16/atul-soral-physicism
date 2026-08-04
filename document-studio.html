@@ -514,23 +514,54 @@ function printClean(){
   var content=document.getElementById('editor').innerHTML;
   var w=window.open('','_blank');
   var doc='<!DOCTYPE html><html><head><meta charset="utf-8"><title>Exam</title><style>'+
-    '@page{ size:A4; margin:16mm 15mm 18mm 15mm; }'+
-    'html,body{margin:0;padding:0}'+
-    'body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000}'+
-    '.page-break{break-after:page;page-break-after:always;height:0;border:none;visibility:hidden;margin:0}'+
+    '@page{size:A4;margin:0}html,body{margin:0;padding:0;background:#e5e7eb}*{box-sizing:border-box}'+
+    '.sheet{width:210mm;min-height:297mm;padding:16mm 15mm 20mm 15mm;position:relative;background:#fff;margin:8px auto;box-shadow:0 1px 6px rgba(0,0,0,.15);page-break-after:always;font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000}'+
+    '.sheet:last-child{page-break-after:auto}'+
+    '.pgnum{position:absolute;bottom:8mm;left:0;right:0;text-align:center;font-family:Arial,sans-serif;font-size:10pt;color:#000}'+
     '.ans-line{border-bottom:1px solid #333;margin:0}.ans-block{margin:8px 0 16px}'+
     'img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%}td,th{border:1px solid #333;padding:6px}'+
-    'h1,h2,h3,p,li,tr{page-break-inside:avoid}'+
-    '.tip{position:fixed;top:0;left:0;right:0;background:#0d9488;color:#fff;font-family:Arial;font-size:13px;padding:8px;text-align:center;z-index:99}'+
-    '@media print{.tip{display:none}}'+
+    '.bar{position:sticky;top:0;background:#0d9488;color:#fff;font-family:Arial;padding:8px;text-align:center;z-index:99}'+
+    '.bar input{width:110px;padding:5px;border:none;border-radius:5px;margin:0 6px}'+
+    '.bar button{background:#fff;color:#0d9488;border:none;padding:6px 16px;border-radius:6px;font-weight:700;cursor:pointer;margin-left:6px}'+
+    '@media print{.bar{display:none}.sheet{margin:0;box-shadow:none}html,body{background:#fff}}'+
     '</style></head><body>'+
-    '<div class="tip">Print dialog will open. To print only some pages, set the page range there (e.g. 1-4). Turn OFF the browser Headers &amp; Footers.</div>'+
-    '<div style="height:34px"></div>'+
-    content+
-    '</body></html>';
+    '<div class="bar">Pages: <input id="range" value="all" placeholder="1-4 or all"> <span id="ptot"></span> <button id="pbtn">Print now</button></div>'+
+    '<div id="measure" style="width:180mm;font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;position:absolute;left:-9999px;top:0">'+content+'</div>'+
+    '<div id="pages"></div></body></html>';
   w.document.open(); w.document.write(doc); w.document.close();
-  w.focus();
-  setTimeout(function(){ w.print(); }, 500);
+  var d=w.document;
+  function run(){
+    var mm=d.getElementById('measure');
+    var maxH=(297-16-20)*3.7797; // usable page height in px
+    var nodes=Array.prototype.slice.call(mm.childNodes);
+    var pagesEl=d.getElementById('pages'); var inner=null;
+    function newSheet(){ var sh=d.createElement('div'); sh.className='sheet'; inner=d.createElement('div'); sh.appendChild(inner); pagesEl.appendChild(sh); }
+    newSheet();
+    nodes.forEach(function(nd){
+      if(nd.nodeType===1 && nd.classList && nd.classList.contains('page-break')){ newSheet(); return; }
+      inner.appendChild(nd);
+      if(inner.getBoundingClientRect().height > maxH && inner.childNodes.length>1){
+        inner.removeChild(nd); newSheet(); inner.appendChild(nd);
+      }
+    });
+    if(mm.parentNode) mm.parentNode.removeChild(mm);
+    // drop any accidentally-empty sheets
+    Array.prototype.slice.call(d.querySelectorAll('.sheet')).forEach(function(sh){ if(!sh.firstChild || !sh.textContent.trim() && sh.querySelectorAll('img,.ans-line,table').length===0){ sh.parentNode.removeChild(sh); } });
+    var sheets=Array.prototype.slice.call(d.querySelectorAll('.sheet'));
+    d.getElementById('ptot').textContent='of '+sheets.length;
+    function parseRange(str,max){ str=(str||'all').trim().toLowerCase(); if(str==='all')return sheets.map(function(_,i){return i;}); var out=[]; str.split(',').forEach(function(p){p=p.trim();if(p.indexOf('-')>-1){var a=p.split('-');var lo=parseInt(a[0])||1,hi=parseInt(a[1])||max;for(var i=lo;i<=hi;i++)if(i>=1&&i<=max)out.push(i-1);}else{var n=parseInt(p);if(n>=1&&n<=max)out.push(n-1);}}); return out.length?out:sheets.map(function(_,i){return i;}); }
+    d.getElementById('pbtn').onclick=function(){
+      var selv=d.getElementById('range').value;
+      var selArr=parseRange(selv,sheets.length);
+      sheets.forEach(function(sh,i){ sh.style.display= selArr.indexOf(i)>-1 ? 'block':'none'; });
+      var shown=sheets.filter(function(sh){return sh.style.display!=='none';});
+      shown.forEach(function(sh,i){ var o=sh.querySelector('.pgnum'); if(o)o.remove(); var fn=d.createElement('div'); fn.className='pgnum'; fn.textContent='Page '+(i+1)+' of '+shown.length; sh.appendChild(fn); });
+      w.focus(); w.print();
+    };
+    // show initial numbering for all
+    sheets.forEach(function(sh,i){ var fn=d.createElement('div'); fn.className='pgnum'; fn.textContent='Page '+(i+1)+' of '+sheets.length; sh.appendChild(fn); });
+  }
+  if(d.readyState==='complete') run(); else w.onload=run;
 }
 function exportPDF(){
   var area=document.getElementById('printArea');
