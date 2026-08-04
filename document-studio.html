@@ -36,7 +36,7 @@ label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04
 .mode-tabs{display:flex;gap:6px;margin-bottom:12px}
 .mode-tab{padding:8px 16px;border-radius:8px 8px 0 0;background:#e2e8f0;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--text2)}
 .mode-tab.active{background:var(--teal);color:#fff}
-.toolbar{display:flex;flex-wrap:wrap;gap:4px;padding:8px;background:#f8fafc;border:1px solid var(--border);border-radius:8px 8px 0 0}
+.toolbar{display:flex;flex-wrap:wrap;gap:4px;padding:8px;background:#f8fafc;border:1px solid var(--border);border-radius:8px 8px 0 0;position:sticky;top:0;z-index:50}
 .toolbar button,.toolbar select{border:1px solid var(--border);background:#fff;border-radius:6px;padding:5px 9px;font-size:.8rem;cursor:pointer;min-width:30px}
 .toolbar button:hover{background:#eef2f7}
 .toolbar .sep{width:1px;background:var(--border);margin:2px 4px}
@@ -171,6 +171,7 @@ label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04
           <button onclick="fmt('insertHorizontalRule')" title="Divider">— HR</button>
           <button onclick="insertPageBreak()" title="Page break">⤓ Page Break</button>
           <button onclick="insertAnswerLines()" title="IB answer lines">✏️ Answer Lines</button>
+          <button onclick="clearTrailingBlanks()" title="Remove blank trailing pages">🗑 Clean pages</button>
           <span class="sep"></span>
           <button onclick="fmt('undo')" title="Undo">↶</button>
           <button onclick="fmt('redo')" title="Redo">↷</button>
@@ -364,12 +365,13 @@ function insertTable(){
 function insertLink(){ var u=prompt('URL:','https://'); if(u) fmt('createLink', u); }
 function insertAnswerLines(){
   var n=parseInt(prompt('How many answer lines?','6'))||6;
-  if(n<1) n=1; if(n>40) n=40;
+  if(n<1)n=1; if(n>40)n=40;
+  var gap=prompt('Line spacing in px (e.g. 30 normal, 45 wide)?','30'); gap=parseInt(gap)||30;
   var lines='';
-  for(var i=0;i<n;i++){ lines+='<div class="ans-line"></div>'; }
-  fmt('insertHTML','<div class="ans-block" contenteditable="false">'+lines+'</div><p></p>');
+  for(var i=0;i<n;i++){ lines+='<div class="ans-line" style="height:'+gap+'px"></div>'; }
+  fmt('insertHTML','<div class="ans-block" contenteditable="false">'+lines+'</div><p><br></p>');
 }
-function insertPageBreak(){ fmt('insertHTML','<div class="page-break" style="break-after:page;page-break-after:always;border-top:1px dashed #cbd5e1;margin:14px 0;text-align:center;color:#94a3b8;font-size:.7rem">— page break —</div><p></p>'); }
+function insertPageBreak(){ fmt('insertHTML','<div class="page-break" contenteditable="false" style="break-after:page;page-break-after:always;border-top:2px dashed #6c4cff;margin:22px 0;padding-top:6px;text-align:center;color:#6c4cff;font-size:.72rem;font-weight:600">\u2015\u2015 PAGE BREAK \u2015\u2015</div><p><br></p>'); }
 function pickImage(input){
   var f=input.files&&input.files[0]; if(!f) return;
   var r=new FileReader();
@@ -470,43 +472,61 @@ function deleteDoc(id){
 function escH(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // export
+function clearTrailingBlanks(){
+  var ed=document.getElementById('editor');
+  var kids=Array.prototype.slice.call(ed.childNodes);
+  for(var i=kids.length-1;i>=0;i--){
+    var n=kids[i];
+    var txt=(n.textContent||'').replace(/\u00a0/g,'').trim();
+    var isImg=n.querySelectorAll&&n.querySelectorAll('img,td,.ans-line').length>0;
+    if(txt==='' && !isImg){ ed.removeChild(n); } else break;
+  }
+  if(!ed.lastChild || ed.lastChild.nodeName!=='P'){ var p=document.createElement('p'); p.innerHTML='<br>'; ed.appendChild(p); }
+  alert('Removed blank trailing lines.');
+}
 function printClean(){
   var content=document.getElementById('editor').innerHTML;
   var w=window.open('','_blank');
   w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>Exam</title>'+
-    '<style>'+
-    '@page{ margin:0 }'+
-    'html,body{margin:0;padding:0}'+
-    '*{box-sizing:border-box}'+
+    '<style>@page{margin:0}html,body{margin:0;padding:0}*{box-sizing:border-box}'+
     '.sheet{width:210mm;min-height:297mm;padding:16mm 15mm 20mm 15mm;position:relative;page-break-after:always;font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000}'+
     '.sheet:last-child{page-break-after:auto}'+
     '.pgnum{position:absolute;bottom:8mm;left:0;right:0;text-align:center;font-family:Arial,sans-serif;font-size:10pt;color:#000}'+
-    '.ans-line{border-bottom:1px solid #333;height:30px;margin:0}.ans-block{margin:8px 0 16px}'+
+    '.ans-line{border-bottom:1px solid #333;margin:0}.ans-block{margin:8px 0 16px}'+
     'img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%}td,th{border:1px solid #333;padding:6px}'+
-    '.flow{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5}'+
+    '.flow{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5}@media screen{.pick{position:fixed;top:0;left:0;right:0;background:#0d9488;color:#fff;padding:10px;text-align:center;font-family:Arial;z-index:99}}@media print{.pick{display:none}}'+
     '</style></head><body>'+
-    '<div id="measure" class="flow" style="width:180mm">'+content+'</div>'+
+    '<div class="pick">Choose pages to print, then use your browser Print. <button onclick="doPrint()" style="background:#fff;color:#0d9488;border:none;padding:6px 14px;border-radius:6px;font-weight:700;cursor:pointer;margin-left:10px">Print now</button></div>'+
+    '<div id="measure" class="flow" style="width:180mm;margin-top:50px">'+content+'</div>'+
     '<div id="pages"></div>'+
     '<scr'+'ipt>'+
-    'window.onload=function(){'+
+    'var allSheets=[];'+
+    'function build(){'+
     '  var mm=document.getElementById("measure");'+
-    '  var pageContentHeight= (297-16-20)*3.78;'+  
+    '  var pageContentHeight=(297-16-20)*3.78;'+
     '  var nodes=Array.prototype.slice.call(mm.childNodes);'+
-    '  var pagesEl=document.getElementById("pages");'+
-    '  var sheet=null, inner=null;'+
-    '  function newSheet(){ sheet=document.createElement("div"); sheet.className="sheet"; inner=document.createElement("div"); inner.className="flow"; sheet.appendChild(inner); pagesEl.appendChild(sheet); }'+
+    '  var pagesEl=document.getElementById("pages");var inner=null;'+
+    '  function newSheet(){var sh=document.createElement("div");sh.className="sheet";inner=document.createElement("div");inner.className="flow";sh.appendChild(inner);pagesEl.appendChild(sh);}'+
     '  newSheet();'+
-    '  nodes.forEach(function(n){'+
-    '    inner.appendChild(n);'+
-    '    if(inner.getBoundingClientRect().height > pageContentHeight && inner.childNodes.length>1){'+
-    '      inner.removeChild(n); newSheet(); inner.appendChild(n);'+
-    '    }'+
+    '  nodes.forEach(function(nd){'+
+    '    if(nd.classList&&nd.classList.contains("page-break")){ newSheet(); return; }'+
+    '    inner.appendChild(nd);'+
+    '    if(inner.getBoundingClientRect().height>pageContentHeight && inner.childNodes.length>1){ inner.removeChild(nd); newSheet(); inner.appendChild(nd); }'+
     '  });'+
     '  mm.remove();'+
-    '  var sheets=document.querySelectorAll(".sheet"); var total=sheets.length;'+
-    '  sheets.forEach(function(sh,i){ var f=document.createElement("div"); f.className="pgnum"; f.textContent="Page "+(i+1)+" of "+total; sh.appendChild(f); });'+
+    '  allSheets=Array.prototype.slice.call(document.querySelectorAll(".sheet"));'+
+    '  var pick=document.querySelector(".pick");'+
+    '  pick.innerHTML="Pages: <input id=range style=\"width:120px;padding:4px;border-radius:5px;border:none\" placeholder=\"e.g. 1-4 or all\" value=\"all\"> of "+allSheets.length+" <button onclick=doPrint() style=\"background:#fff;color:#0d9488;border:none;padding:6px 14px;border-radius:6px;font-weight:700;cursor:pointer;margin-left:8px\">Print now</button>";'+
+    '}'+
+    'function parseRange(str,max){ str=(str||"all").trim().toLowerCase(); if(str==="all")return Array.from({length:max},function(_,i){return i;}); var out=[]; str.split(",").forEach(function(part){ part=part.trim(); if(part.indexOf("-")>-1){ var a=part.split("-"); var lo=parseInt(a[0])||1, hi=parseInt(a[1])||max; for(var i=lo;i<=hi;i++) if(i>=1&&i<=max) out.push(i-1);} else { var n=parseInt(part); if(n>=1&&n<=max) out.push(n-1);} }); return out.length?out:Array.from({length:max},function(_,i){return i;}); }'+
+    'function doPrint(){'+
+    '  var sel=parseRange((document.getElementById("range")||{}).value,allSheets.length);'+
+    '  allSheets.forEach(function(sh,i){ sh.style.display = sel.indexOf(i)>-1 ? "block":"none"; });'+
+    '  var shown=allSheets.filter(function(sh){return sh.style.display!=="none";});'+
+    '  shown.forEach(function(sh,i){ var old=sh.querySelector(".pgnum"); if(old)old.remove(); var f=document.createElement("div"); f.className="pgnum"; f.textContent="Page "+(i+1)+" of "+shown.length; sh.appendChild(f); });'+
     '  window.print();'+
-    '};'+
+    '}'+
+    'window.onload=build;'+
     '<\/scr'+'ipt></body></html>');
   w.document.close(); w.focus();
 }
