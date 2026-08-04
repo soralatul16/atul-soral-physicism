@@ -16,7 +16,7 @@ body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;backgrou
 .topbar h1{font-size:1.1rem;margin:0;font-weight:700}
 .topbar .sub{font-size:.85rem;opacity:.85}
 .topbar a{margin-left:auto;color:#fff;text-decoration:none;background:rgba(255,255,255,.15);padding:6px 12px;border-radius:8px;font-size:.85rem}
-.wrap{max-width:1100px;margin:0 auto;padding:20px}
+.wrap{max-width:1100px;margin:0 auto;padding:20px;overflow:visible}
 .card{background:var(--card);border-radius:14px;padding:22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:18px}
 h2{font-size:1.05rem;margin:0 0 14px;color:var(--teal-d)}
 label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);font-weight:700;margin-bottom:6px}
@@ -36,7 +36,7 @@ label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04
 .mode-tabs{display:flex;gap:6px;margin-bottom:12px}
 .mode-tab{padding:8px 16px;border-radius:8px 8px 0 0;background:#e2e8f0;cursor:pointer;font-size:.85rem;font-weight:600;color:var(--text2)}
 .mode-tab.active{background:var(--teal);color:#fff}
-.toolbar{display:flex;flex-wrap:wrap;gap:4px;padding:8px;background:#f8fafc;border:1px solid var(--border);border-radius:8px 8px 0 0;position:sticky;top:0;z-index:50}
+.toolbar{display:flex;flex-wrap:wrap;gap:4px;padding:8px;background:#f8fafc;border:1px solid var(--border);border-radius:8px 8px 0 0;position:sticky;top:56px;z-index:60;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .toolbar button,.toolbar select{border:1px solid var(--border);background:#fff;border-radius:6px;padding:5px 9px;font-size:.8rem;cursor:pointer;min-width:30px}
 .toolbar button:hover{background:#eef2f7}
 .toolbar .sep{width:1px;background:var(--border);margin:2px 4px}
@@ -364,12 +364,22 @@ function insertTable(){
 }
 function insertLink(){ var u=prompt('URL:','https://'); if(u) fmt('createLink', u); }
 function insertAnswerLines(){
-  var n=parseInt(prompt('How many answer lines?','6'))||6;
+  var n=parseInt(prompt('How many answer lines?','6'))||6; if(n<1)n=1; if(n>40)n=40;
+  var gap=parseInt(prompt('Line spacing in px (30 normal, 45 wide)?','30'))||30;
+  var lines=''; for(var i=0;i<n;i++){ lines+='<div class="ans-line" style="height:'+gap+'px"></div>'; }
+  fmt('insertHTML','<div class="ans-block" contenteditable="false" data-n="'+n+'" data-gap="'+gap+'" onclick="editAnsBlock(this)" title="Click to adjust or remove" style="cursor:pointer">'+lines+'</div><p><br></p>');
+}
+function editAnsBlock(el){
+  var action=prompt('Answer lines — type: a number to change COUNT, "g" then space then px to change SPACING (e.g. g 45), or "del" to delete.', el.getAttribute('data-n')||'6');
+  if(action===null) return;
+  action=action.trim().toLowerCase();
+  if(action==='del'){ el.parentNode.removeChild(el); return; }
+  var n=parseInt(el.getAttribute('data-n'))||6, gap=parseInt(el.getAttribute('data-gap'))||30;
+  if(action.indexOf('g')===0){ gap=parseInt(action.replace('g','').trim())||gap; }
+  else { n=parseInt(action)||n; }
   if(n<1)n=1; if(n>40)n=40;
-  var gap=prompt('Line spacing in px (e.g. 30 normal, 45 wide)?','30'); gap=parseInt(gap)||30;
-  var lines='';
-  for(var i=0;i<n;i++){ lines+='<div class="ans-line" style="height:'+gap+'px"></div>'; }
-  fmt('insertHTML','<div class="ans-block" contenteditable="false">'+lines+'</div><p><br></p>');
+  var lines=''; for(var i=0;i<n;i++){ lines+='<div class="ans-line" style="height:'+gap+'px"></div>'; }
+  el.innerHTML=lines; el.setAttribute('data-n',n); el.setAttribute('data-gap',gap);
 }
 function insertPageBreak(){ fmt('insertHTML','<div class="page-break" contenteditable="false" style="break-after:page;page-break-after:always;border-top:2px dashed #6c4cff;margin:22px 0;padding-top:6px;text-align:center;color:#6c4cff;font-size:.72rem;font-weight:600">\u2015\u2015 PAGE BREAK \u2015\u2015</div><p><br></p>'); }
 function pickImage(input){
