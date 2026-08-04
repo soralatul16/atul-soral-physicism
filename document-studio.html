@@ -452,12 +452,17 @@ function saveDoc(){
 }
 function loadLibrary(){
   if(!db) return;
-  db.collection('documents').orderBy('updatedAt','desc').get().then(function(snap){
-    window._library=[]; snap.forEach(function(d){ window._library.push(Object.assign({id:d.id},d.data())); });
+  db.collection('documents').get().then(function(snap){
+    window._library=[];
+    snap.forEach(function(d){ window._library.push(Object.assign({id:d.id},d.data())); });
+    // sort newest-first in JS (handles docs with or without updatedAt)
+    window._library.sort(function(a,b){
+      var ta=a.updatedAt&&a.updatedAt.toMillis?a.updatedAt.toMillis():(a.createdAt&&a.createdAt.toMillis?a.createdAt.toMillis():0);
+      var tb=b.updatedAt&&b.updatedAt.toMillis?b.updatedAt.toMillis():(b.createdAt&&b.createdAt.toMillis?b.createdAt.toMillis():0);
+      return tb-ta;
+    });
     renderLibrary();
-  }).catch(function(e){
-    db.collection('documents').get().then(function(snap){ window._library=[]; snap.forEach(function(d){ window._library.push(Object.assign({id:d.id},d.data())); }); renderLibrary(); });
-  });
+  }).catch(function(e){ console.error('library load error',e); var h=document.getElementById('libraryList'); if(h) h.innerHTML='<div class="doc-meta">Could not load: '+e.message+'</div>'; });
 }
 function renderLibrary(){
   var host=document.getElementById('libraryList'); var lib=window._library||[];
