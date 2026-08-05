@@ -512,6 +512,17 @@ function clearTrailingBlanks(){
 }
 function printClean(){
   var content=document.getElementById('editor').innerHTML;
+  // collapse redundant page breaks that create blank pages
+  var _tmp=document.createElement('div'); _tmp.innerHTML=content;
+  var brs=_tmp.querySelectorAll('.page-break');
+  brs.forEach(function(b){
+    var prev=b.previousElementSibling;
+    // remove break if it's the first thing, or right after another break (double break = blank page)
+    if(!prev || (prev.classList&&prev.classList.contains('page-break'))){ b.parentNode.removeChild(b); }
+  });
+  // remove a trailing break at the very end
+  var last=_tmp.lastElementChild; if(last&&last.classList&&last.classList.contains('page-break')) last.parentNode.removeChild(last);
+  content=_tmp.innerHTML;
   var w=window.open('','_blank');
   var doc='<!DOCTYPE html><html><head><meta charset="utf-8"><title>'+(window._docTitle||'Exam')+'</title><style>'+
     '@page{size:A4;margin:16mm 15mm 18mm 15mm}'+
