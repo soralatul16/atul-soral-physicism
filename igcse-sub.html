@@ -170,6 +170,7 @@ body{font-family:Georgia,Palatino,serif;background:var(--bg);color:var(--text);m
 </div>
 
 <script src="igcse-content.js"></script>
+<script src="igcse-content-3.js"></script>
 <script>
 (function(){ if(localStorage.getItem('ig_theme')==='dark') document.documentElement.setAttribute('data-theme','dark'); })();
 function toggleTheme(){
@@ -216,6 +217,8 @@ function updateDeck(){
   document.getElementById('deckProg').style.width=((di+1)/slides.length*100)+'%';
   var act=document.querySelectorAll('.slide')[di];
   if(act) act.querySelectorAll('.f').forEach(function(f){ f.classList.remove('reveal'); void f.offsetWidth; f.classList.add('reveal'); });
+  // run per-slide interactive init if the content defines one
+  try{ if(C.slides[di] && typeof C.slides[di].init==='function'){ C.slides[di].init(act); } }catch(e){ console.error('slide init',e); }
   doMath();
 }
 
