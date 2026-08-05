@@ -216,7 +216,15 @@ function updateDeck(){
   document.getElementById('deckNext').style.visibility=di===slides.length-1?'hidden':'visible';
   document.getElementById('deckProg').style.width=((di+1)/slides.length*100)+'%';
   var act=document.querySelectorAll('.slide')[di];
-  if(act) act.querySelectorAll('.f').forEach(function(f){ f.classList.remove('reveal'); void f.offsetWidth; f.classList.add('reveal'); });
+  if(act){
+    // staggered build-in: animate each top-level element in sequence
+    var kids=Array.prototype.slice.call(act.children);
+    kids.forEach(function(k,idx){
+      if(k.tagName==='H2') return; // keep the title steady
+      k.style.opacity='0'; k.style.transform='translateY(12px)'; k.style.transition='opacity .4s ease, transform .4s ease';
+      setTimeout(function(){ k.style.opacity='1'; k.style.transform='none'; }, 90+idx*160);
+    });
+  }
   // run per-slide interactive init if the content defines one
   try{ if(C.slides[di] && typeof C.slides[di].init==='function'){ C.slides[di].init(act); } }catch(e){ console.error('slide init',e); }
   doMath();
