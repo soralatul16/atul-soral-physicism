@@ -73,4 +73,113 @@
       html:"<div class='pq'><p><b>Q:</b> A car goes 0 → 20 m/s in 8 s. Find the acceleration.</p><p class='f'><b>A:</b> a = (20−0) ÷ 8 = <b>2.5 m/s²</b>.</p></div>" }
   ]);
 
+  // ---------- 1.3 Mass and weight ----------
+  setSlides("IG1.3", [
+    { title:"Mass vs weight",
+      html:"<p><b>Mass</b> (kg) = amount of matter — the same everywhere. <b>Weight</b> (N) = the pull of gravity — changes with location.</p>"+
+           "<div class='f'><p>Same mass on the Moon, but less weight.</p></div>" },
+    { title:"Interactive: change the planet",
+      html:"<p>Drag gravity and watch the weight change while mass stays fixed.</p>"+
+           "<div style='text-align:center;font-family:Outfit,sans-serif'><label>Mass = 6 kg · g = <input id='w-g' type='range' min='16' max='240' value='98'> <span id='w-gv'>9.8</span> N/kg</label>"+
+           "<div style='margin-top:10px'><svg width='120' height='120' viewBox='0 0 120 120' style='max-width:100%'><line x1='60' y1='15' x2='60' y2='45' stroke='#413b63' stroke-width='2'/><rect x='42' y='45' width='36' height='24' fill='#9b7dff'/><line id='w-arrow' x1='60' y1='69' x2='60' y2='95' stroke='#dc2626' stroke-width='3'/></svg></div>"+
+           "<div style='font-size:1.2em;color:var(--ig-d);margin-top:6px'>W = <b id='w-out'>58.8 N</b></div></div>",
+      init:function(el){ var g=el.querySelector('#w-g'); var gv=el.querySelector('#w-gv'); var out=el.querySelector('#w-out'); var ar=el.querySelector('#w-arrow'); function upd(){ var gval=(+g.value)/10; gv.textContent=gval.toFixed(1); out.textContent=(6*gval).toFixed(1)+' N'; ar.setAttribute('y2',(69+Math.min(gval*2.5,40)).toFixed(0)); } g.oninput=upd; upd(); } },
+    { title:"W = m × g",
+      html:"<p style='text-align:center;font-size:1.35em;margin:14px 0;color:var(--ig-d)'><b>W = m × g</b></p>"+
+           "<p>W = weight (N), m = mass (kg), g = gravitational field strength (N/kg). On Earth g ≈ 9.8; on the Moon ≈ 1.6.</p>"+
+           "<div class='f'><p>A 60 kg student weighs 588 N on Earth but only ~96 N on the Moon.</p></div>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> A 6 kg bag on Earth (g = 10). Find its weight.</p><p class='f'><b>A:</b> W = 6 × 10 = <b>60 N</b>.</p></div>" }
+  ]);
+
+  // ---------- 1.4 Density ----------
+  setSlides("IG1.4", [
+    { title:"Density = mass ÷ volume",
+      html:"<p><b>Density</b> tells you how much mass is packed into a volume.</p>"+
+           "<p style='text-align:center;font-size:1.35em;color:var(--ig-d)'><b>ρ = m ÷ V</b></p>"+
+           "<div class='f'><p>Water = 1000 kg/m³ = 1 g/cm³.</p></div>" },
+    { title:"Interactive: float or sink?",
+      html:"<p>Drag the object's density and see if it floats in water.</p>"+
+           "<div style='text-align:center'><svg id='fs' width='220' height='140' viewBox='0 0 220 140' style='max-width:100%'>"+
+           "<rect x='30' y='40' width='160' height='95' fill='#cfe8ff' stroke='#6c4cff'/><line x1='30' y1='40' x2='190' y2='40' stroke='#0369a1'/>"+
+           "<rect id='fs-o' x='95' y='30' width='30' height='30' fill='#9b7dff'/></svg></div>"+
+           "<div style='font-family:Outfit,sans-serif'><label>Object density = <input id='fs-r' type='range' min='3' max='20' value='8'> <span id='fs-v'>0.8</span> g/cm³</label><div id='fs-msg' style='margin-top:6px;font-weight:600;color:var(--ig-d)'></div></div>",
+      init:function(el){ var r=el.querySelector('#fs-r'); var v=el.querySelector('#fs-v'); var o=el.querySelector('#fs-o'); var msg=el.querySelector('#fs-msg'); function upd(){ var d=(+r.value)/10; v.textContent=d.toFixed(1); if(d<1){ o.setAttribute('y',32); msg.textContent='Floats — less dense than water'; msg.style.color='#16a34a'; } else { o.setAttribute('y',100); msg.textContent='Sinks — denser than water'; msg.style.color='#dc2626'; } } r.oninput=upd; upd(); } },
+    { title:"Finding density",
+      html:"<ul><li><b>Regular solid:</b> mass on balance, volume by formula.</li><li><b>Irregular solid:</b> mass on balance, volume by displacement.</li></ul>"+
+           "<div class='f'><p>A 240 g block of volume 30 cm³ has ρ = 8 g/cm³.</p></div>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> mass 240 g, volume 30 cm³. Find density.</p><p class='f'><b>A:</b> 240 ÷ 30 = <b>8 g/cm³</b>.</p></div>" }
+  ]);
+
+  // ---------- 1.5 Forces ----------
+  setSlides("IG1.5", [
+    { title:"Forces change motion",
+      html:"<p>A <b>force</b> (N) is a push or pull. It can change speed, direction or shape. Forces are vectors — they have direction.</p>" },
+    { title:"Interactive: F = m a",
+      html:"<p>Drag the force on a 2 kg trolley and watch it accelerate.</p>"+
+           "<div style='text-align:center'><svg id='fma' width='300' height='80' viewBox='0 0 300 80' style='max-width:100%'>"+
+           "<line x1='10' y1='60' x2='290' y2='60' stroke='#cbd5e1'/><rect id='fma-b' x='20' y='36' width='34' height='24' fill='#6c4cff'/></svg></div>"+
+           "<div style='font-family:Outfit,sans-serif'><label>Force = <input id='fma-r' type='range' min='0' max='40' value='12'> <span id='fma-f'>12</span> N → a = <b id='fma-a'>6.0</b> m/s²</label></div>",
+      init:function(el){ if(el._raf)cancelAnimationFrame(el._raf); var r=el.querySelector('#fma-r'); var f=el.querySelector('#fma-f'); var av=el.querySelector('#fma-a'); var b=el.querySelector('#fma-b'); var x=20; function upd(){ f.textContent=r.value; av.textContent=((+r.value)/2).toFixed(1);} r.oninput=upd; upd(); function a(){ var acc=(+r.value)/2; x+=acc*0.15; if(x>256)x=20; b.setAttribute('x',x.toFixed(0)); el._raf=requestAnimationFrame(a);} a(); } },
+    { title:"Resultant force",
+      html:"<p>Combine forces: same direction add, opposite subtract. Zero resultant → still or constant velocity (equilibrium).</p>"+
+           "<div class='f'><p>10 N right and 4 N left give a 6 N resultant to the right.</p></div>" },
+    { title:"Friction & Hooke's law (Extended)",
+      html:"<p><b>Friction</b> and air resistance oppose motion. <b>Hooke's law (Ext):</b> F = k x — spring extension ∝ force.</p>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> 12 N resultant on a 4 kg mass. Find a.</p><p class='f'><b>A:</b> a = 12 ÷ 4 = <b>3 m/s²</b>.</p></div>" }
+  ]);
+
+  // ---------- 1.6 Momentum ----------
+  setSlides("IG1.6", [
+    { title:"Momentum (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div><p style='text-align:center;font-size:1.3em;color:var(--ig-d)'><b>p = m × v</b></p><p>Momentum = mass × velocity (kg·m/s). It's a vector.</p>" },
+    { title:"Conservation in a collision",
+      html:"<div class='ig-ext'>EXTENDED</div><p>With no external force, <b>total momentum before = total after</b>.</p>"+
+           "<div style='text-align:center'><svg id='col' width='300' height='70' viewBox='0 0 300 70' style='max-width:100%'>"+
+           "<line x1='10' y1='50' x2='290' y2='50' stroke='#cbd5e1'/><rect id='col-a' x='30' y='28' width='30' height='22' fill='#6c4cff'/><rect id='col-b' x='200' y='28' width='30' height='22' fill='#16a34a'/></svg></div>"+
+           "<div class='f'><p>2 kg at 3 m/s hits 1 kg at rest → couple → 2 m/s.</p></div>",
+      init:function(el){ if(el._raf)cancelAnimationFrame(el._raf); var a=el.querySelector('#col-a'); var b=el.querySelector('#col-b'); var xa=30,xb=200,phase=0; function f(){ if(phase===0){ xa+=2; if(xa+30>=xb){phase=1;} } else { xa+=1.3; xb+=1.3; if(xb>260){xa=30;xb=200;phase=0;} } a.setAttribute('x',xa.toFixed(0)); b.setAttribute('x',xb.toFixed(0)); el._raf=requestAnimationFrame(f);} f(); } },
+    { title:"Force & safety",
+      html:"<div class='ig-ext'>EXTENDED</div><p style='text-align:center;color:var(--ig-d)'><b>F = Δp ÷ Δt</b></p><p>Longer collision time → smaller force. This is how airbags and crumple zones protect you.</p>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> 2 kg ball at 3 m/s. Find momentum.</p><p class='f'><b>A:</b> p = 2 × 3 = <b>6 kg·m/s</b>.</p></div>" }
+  ]);
+
+  // ---------- 1.7 Energy, work, power ----------
+  setSlides("IG1.7", [
+    { title:"Energy is conserved",
+      html:"<p>Energy (J) is stored (kinetic, gravitational, elastic, thermal, chemical, nuclear) and transferred — never created or destroyed.</p>" },
+    { title:"GPE → KE animation",
+      html:"<p>A falling ball transfers gravitational energy to kinetic energy.</p>"+
+           "<div style='text-align:center'><svg id='gpe' width='120' height='130' viewBox='0 0 120 130' style='max-width:100%'>"+
+           "<line x1='20' y1='120' x2='100' y2='120' stroke='#cbd5e1'/><circle id='gpe-b' cx='60' cy='20' r='10' fill='#6c4cff'/>"+
+           "<text id='gpe-l' x='60' y='12' font-size='9' text-anchor='middle' fill='#16a34a'>GPE</text></svg></div>",
+      init:function(el){ if(el._raf)cancelAnimationFrame(el._raf); var b=el.querySelector('#gpe-b'); var l=el.querySelector('#gpe-l'); var y=20,v=0; function a(){ v+=0.2; y+=v; if(y>110){y=20;v=0;} b.setAttribute('cy',y.toFixed(0)); l.textContent = y<65?'GPE':'KE'; l.setAttribute('y',(y-14).toFixed(0)); el._raf=requestAnimationFrame(a);} a(); } },
+    { title:"Work and power",
+      html:"<p style='text-align:center;color:var(--ig-d)'><b>W = F × d</b> &nbsp; <b>P = W ÷ t</b></p><p>Work (J) = force × distance. Power (W) = energy per second.</p>"+
+           "<div class='f'><p>50 N moving a box 4 m does 200 J of work.</p></div>" },
+    { title:"Efficiency (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div><p style='text-align:center;color:var(--ig-d)'><b>efficiency = useful ÷ total</b></p><p>Always under 100% — waste usually becomes heat.</p>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> 50 N force moves a box 4 m. Work done?</p><p class='f'><b>A:</b> W = 50 × 4 = <b>200 J</b>.</p></div>" }
+  ]);
+
+  // ---------- 1.8 Pressure ----------
+  setSlides("IG1.8", [
+    { title:"Pressure = force ÷ area",
+      html:"<p style='text-align:center;font-size:1.3em;color:var(--ig-d)'><b>p = F ÷ A</b></p><p>Same force, smaller area → bigger pressure (that's why knives are sharp). Unit: pascal (Pa).</p>" },
+    { title:"Pressure grows with depth",
+      html:"<p>In a liquid, pressure increases with depth and acts in all directions.</p>"+
+           "<div style='text-align:center'><svg width='200' height='130' viewBox='0 0 200 130' style='max-width:100%'>"+
+           "<path d='M40 15 L160 15 L150 125 L50 125 Z' fill='#cfe8ff' stroke='#6c4cff' stroke-width='2'/>"+
+           "<line x1='60' y1='40' x2='85' y2='40' stroke='#5238cc' stroke-width='2'/><line x1='60' y1='75' x2='100' y2='75' stroke='#5238cc' stroke-width='3'/><line x1='60' y1='110' x2='115' y2='110' stroke='#5238cc' stroke-width='4'/></svg></div>"+
+           "<div class='f'><p>Dam walls are thicker at the bottom for this reason.</p></div>" },
+    { title:"Liquid pressure (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div><p style='text-align:center;color:var(--ig-d)'><b>p = ρ g h</b></p><p>Depends only on depth and density, not container shape.</p>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> 200 N on 0.5 m². Find pressure.</p><p class='f'><b>A:</b> p = 200 ÷ 0.5 = <b>400 Pa</b>.</p></div>" }
+  ]);
+
 })();
