@@ -182,4 +182,64 @@
       html:"<div class='pq'><p><b>Q:</b> 200 N on 0.5 m². Find pressure.</p><p class='f'><b>A:</b> p = 200 ÷ 0.5 = <b>400 Pa</b>.</p></div>" }
   ]);
 
+  // ---------- 2.1 Kinetic particle model ----------
+  setSlides("IG2.1", [
+    { title:"Three states of matter",
+      html:"<p>All matter is made of tiny <b>particles</b>. Their arrangement and energy give the three states.</p>"+
+           "<div style='text-align:center;margin:8px 0'><svg id='states' width='300' height='90' viewBox='0 0 300 90' style='max-width:100%'>"+
+           "<text x='30' y='14' font-size='9' fill='#413b63'>SOLID</text><text x='130' y='14' font-size='9' fill='#413b63'>LIQUID</text><text x='235' y='14' font-size='9' fill='#413b63'>GAS</text></svg></div>",
+      init:function(el){ if(el._raf)cancelAnimationFrame(el._raf); var s=el.querySelector('#states'); var t=0; function a(){ var g='';
+        for(var i=0;i<9;i++){ var col=i%3, row=Math.floor(i/3); g+='<circle cx="'+(18+col*16+1.5*Math.sin(t+i)).toFixed(1)+'" cy="'+(30+row*16+1.5*Math.cos(t+i)).toFixed(1)+'" r="6" fill="#6c4cff"/>'; }
+        for(var j=0;j<7;j++){ g+='<circle cx="'+(120+(j*13)%55+4*Math.sin(t*1.4+j)).toFixed(1)+'" cy="'+(35+Math.floor(j/4)*18+4*Math.cos(t+j)).toFixed(1)+'" r="6" fill="#9b7dff"/>'; }
+        for(var k=0;k<5;k++){ g+='<circle cx="'+(225+((k*40+t*30)%60)).toFixed(1)+'" cy="'+(30+((k*33+t*22)%45)).toFixed(1)+'" r="6" fill="#c4b5fd"/>'; }
+        s.innerHTML='<text x="30" y="14" font-size="9" fill="#413b63">SOLID</text><text x="130" y="14" font-size="9" fill="#413b63">LIQUID</text><text x="235" y="14" font-size="9" fill="#413b63">GAS</text>'+g; t+=0.05; el._raf=requestAnimationFrame(a);} a(); } },
+    { title:"Properties explained",
+      html:"<ul><li><b>Solids</b> — fixed shape & volume (locked particles).</li><li><b>Liquids</b> — take container shape, fixed volume.</li><li><b>Gases</b> — fill any space, compressible.</li></ul>" },
+    { title:"Interactive: heat it up",
+      html:"<p>Drag the temperature and watch the particles speed up.</p>"+
+           "<div style='text-align:center'><svg id='heat' width='160' height='120' viewBox='0 0 160 120' style='max-width:100%'><rect x='20' y='15' width='120' height='95' fill='none' stroke='#6c4cff'/></svg></div>"+
+           "<div style='font-family:Outfit,sans-serif;text-align:center'><label>Temp <input id='heat-r' type='range' min='1' max='10' value='4'></label></div>",
+      init:function(el){ if(el._raf)cancelAnimationFrame(el._raf); var svg=el.querySelector('#heat'); var r=el.querySelector('#heat-r'); var ps=[]; for(var i=0;i<12;i++){ ps.push({x:30+Math.random()*100,y:25+Math.random()*75,vx:(Math.random()-.5),vy:(Math.random()-.5)}); } function a(){ var sp=(+r.value)/2; var g=''; ps.forEach(function(p){ p.x+=p.vx*sp; p.y+=p.vy*sp; if(p.x<26||p.x>134)p.vx*=-1; if(p.y<21||p.y>104)p.vy*=-1; g+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="5" fill="#6c4cff"/>'; }); svg.innerHTML='<rect x="20" y="15" width="120" height="95" fill="none" stroke="#6c4cff"/>'+g; el._raf=requestAnimationFrame(a);} a(); } },
+    { title:"Gas pressure",
+      html:"<p>Gas particles collide with the walls — those collisions create <b>pressure</b>. Heat the gas → faster particles → more collisions → higher pressure.</p>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> Why can gases be compressed but liquids can't?</p><p class='f'><b>A:</b> Gas particles are far apart with space between; liquid particles already touch.</p></div>" }
+  ]);
+
+  // ---------- 2.2 Thermal properties & temperature ----------
+  setSlides("IG2.2", [
+    { title:"Temperature vs heat",
+      html:"<p><b>Temperature</b> (°C/K) = average particle energy. <b>Thermal energy</b> = total energy transferred due to a temperature difference. Heat flows <b>hot → cold</b>.</p>" },
+    { title:"Thermal expansion",
+      html:"<p>Heated materials <b>expand</b> — particles vibrate more and take up more room.</p>"+
+           "<div style='text-align:center'><svg id='exp' width='200' height='60' viewBox='0 0 200 60' style='max-width:100%'><rect id='exp-b' x='40' y='20' width='60' height='22' fill='#ea580c'/></svg></div>"+
+           "<div class='f'><p>Gaps in bridges and rails allow for this.</p></div>",
+      init:function(el){ if(el._raf)cancelAnimationFrame(el._raf); var b=el.querySelector('#exp-b'); var t=0; function a(){ var w=60+25*(0.5+0.5*Math.sin(t)); b.setAttribute('width',w.toFixed(0)); t+=0.03; el._raf=requestAnimationFrame(a);} a(); } },
+    { title:"Specific heat capacity (Extended)",
+      html:"<div class='ig-ext'>EXTENDED</div><p style='text-align:center;font-size:1.25em;color:var(--ig-d)'><b>E = m c Δθ</b></p><p>Energy to warm a material depends on mass, the material (c), and the temperature change.</p>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> Why are gaps left in railway tracks?</p><p class='f'><b>A:</b> To allow the metal to expand in heat without buckling.</p></div>" }
+  ]);
+
+  // ---------- 2.3 Transfer of thermal energy ----------
+  setSlides("IG2.3", [
+    { title:"Three ways heat travels",
+      html:"<p><b>Conduction</b> (solids), <b>convection</b> (fluids), <b>radiation</b> (through empty space).</p>" },
+    { title:"Conduction",
+      html:"<p>Heated particles vibrate more and pass energy to neighbours. Metals are best — free electrons carry energy fast.</p>"+
+           "<div style='text-align:center'><svg id='cond' width='240' height='40' viewBox='0 0 240 40' style='max-width:100%'><rect x='20' y='14' width='200' height='14' fill='#cbd5e1'/><rect id='cond-h' x='20' y='14' width='20' height='14' fill='#ea580c'/></svg></div>",
+      init:function(el){ if(el._raf)cancelAnimationFrame(el._raf); var h=el.querySelector('#cond-h'); var w=20; function a(){ w+=0.6; if(w>200)w=20; h.setAttribute('width',w.toFixed(0)); el._raf=requestAnimationFrame(a);} a(); } },
+    { title:"Convection currents",
+      html:"<p>Heated fluid expands, becomes less dense and <b>rises</b>; cooler fluid sinks — a convection current.</p>"+
+           "<div style='text-align:center'><svg id='conv' width='200' height='120' viewBox='0 0 200 120' style='max-width:100%'>"+
+           "<rect x='40' y='20' width='120' height='80' fill='none' stroke='#6c4cff' stroke-width='2'/>"+
+           "<circle id='cv1' cx='70' cy='90' r='6' fill='#ef4444'/><circle id='cv2' cx='130' cy='30' r='6' fill='#3b82f6'/>"+
+           "<line x1='70' y1='100' x2='130' y2='100' stroke='#ea580c' stroke-width='4'/></svg></div>",
+      init:function(el){ if(el._raf)cancelAnimationFrame(el._raf); var c1=el.querySelector('#cv1'); var c2=el.querySelector('#cv2'); var t=0; function a(){ c1.setAttribute('cy',(60-30*Math.sin(t)).toFixed(0)); c1.setAttribute('cx',(70+10*Math.sin(t)).toFixed(0)); c2.setAttribute('cy',(60+30*Math.sin(t)).toFixed(0)); c2.setAttribute('cx',(130-10*Math.sin(t)).toFixed(0)); t+=0.04; el._raf=requestAnimationFrame(a);} a(); } },
+    { title:"Radiation",
+      html:"<p><b>Infrared radiation</b> needs no particles — it crosses a vacuum (Sun → Earth). Dark dull surfaces emit/absorb best; shiny surfaces reflect.</p>" },
+    { title:"Quick check",
+      html:"<div class='pq'><p><b>Q:</b> Which heat transfer works through a vacuum?</p><p class='f'><b>A:</b> <b>Radiation</b> — it needs no particles.</p></div>" }
+  ]);
+
 })();
