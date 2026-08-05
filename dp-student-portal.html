@@ -302,14 +302,19 @@ function checkVerificationAndRedirect(user, profile) {
   if (profile && profile.level) {
     showMsg('Welcome back, ' + user.displayName + '! Redirecting...', true);
     setTimeout(function() {
-      window.location.href = profile.level === 'MYP' ? 'myp-dashboard.html' : 'dp-student-dashboard.html';
+      window.location.href = _routeStudent(profile.level);
     }, 600);
   } else {
     document.getElementById('mainAuthContainer').style.display = 'none';
     PhysicismAuth.showProfileModal(function(level) {
-      window.location.href = level === 'MYP' ? 'myp-dashboard.html' : 'dp-student-dashboard.html';
+      window.location.href = _routeStudent(level);
     });
   }
+}
+function _routeStudent(level){
+  if(level && String(level).indexOf('IGCSE')>-1) return 'dp-student-dashboard.html?prog=igcse';
+  if(level === 'MYP') return 'myp-dashboard.html';
+  return 'dp-student-dashboard.html';
 }
 function handleGoogleSignIn() {
   var btn = document.getElementById('googleSignInBtn');
