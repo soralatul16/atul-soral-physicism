@@ -698,6 +698,8 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
         <option value="DP-SL">DP SL</option>
         <option value="DP-HL">DP HL</option>
         <option value="MYP">MYP</option>
+        <option value="IGCSE 9">IGCSE 9</option>
+        <option value="IGCSE 10">IGCSE 10</option>
       </select>
     </div>
     
@@ -1114,12 +1116,15 @@ function renderStudentTable(){
 
   var filtered = allStudents.filter(function(s){
     // Auto-filter by programme
+    var _lv = ((s.level||'') + ' ' + ((s.tags||[]).join(' '))).toUpperCase();
     if(currentProgramme === 'myp'){
-      if(!s.tags || s.tags.indexOf('MYP')===-1) return false;
+      if(_lv.indexOf('MYP')===-1) return false;
+    } else if(currentProgramme === 'igcse'){
+      if(_lv.indexOf('IGCSE')===-1 && _lv.indexOf('IG9')===-1 && _lv.indexOf('IG10')===-1) return false;
     } else {
-      // DP mode: show DP-SL or DP-HL tagged, or untagged students
-      var hasMYPOnly = s.tags && s.tags.indexOf('MYP')>-1 && s.tags.indexOf('DP-SL')===-1 && s.tags.indexOf('DP-HL')===-1;
-      if(hasMYPOnly) return false;
+      // DP mode: exclude MYP-only and IGCSE students
+      if(_lv.indexOf('MYP')>-1 && _lv.indexOf('DP')===-1) return false;
+      if(_lv.indexOf('IGCSE')>-1 && _lv.indexOf('DP')===-1) return false;
     }
     if(search){
       var match = (s.name||'').toLowerCase().indexOf(search)>-1 ||
