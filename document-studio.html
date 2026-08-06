@@ -546,11 +546,11 @@ function printClean(){
     <h2 style="margin:0 0 6px;color:#0d9488">Add question to the Question Bank</h2>
     <p style="font-size:.82rem;color:#64748b;margin:0 0 14px">Saves a proper question record so it works in assignments and autograding.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
-      <label style="font-size:.72rem;font-weight:700;color:#475569">Program<br><select id="qb-prog" style="padding:7px;border:1px solid #e2e8f0;border-radius:7px"><option value="dpQuestions">DP</option><option value="mypQuestions">MYP</option><option value="igQuestions">IGCSE</option></select></label>
+      <label style="font-size:.72rem;font-weight:700;color:#475569">Program<br><select id="qb-prog" onchange="qbToggleProg()" style="padding:7px;border:1px solid #e2e8f0;border-radius:7px"><option value="dpQuestions">DP</option><option value="mypQuestions">MYP</option><option value="igQuestions">IGCSE</option></select></label>
       <label style="font-size:.72rem;font-weight:700;color:#475569">Group ID<br><input id="qb-group" placeholder="e.g. IG-3-1-Q01" style="padding:7px;border:1px solid #e2e8f0;border-radius:7px"></label>
       <label style="font-size:.72rem;font-weight:700;color:#475569">Topic<br><input id="qb-topic" placeholder="3.1" style="padding:7px;border:1px solid #e2e8f0;border-radius:7px;width:80px"></label>
       <label style="font-size:.72rem;font-weight:700;color:#475569">Marks<br><input id="qb-marks" type="number" value="1" min="0" style="padding:7px;border:1px solid #e2e8f0;border-radius:7px;width:70px"></label>
-      <label style="font-size:.72rem;font-weight:700;color:#475569">Type<br><select id="qb-type" onchange="qbToggleType()" style="padding:7px;border:1px solid #e2e8f0;border-radius:7px"><option value="MCQ">MCQ</option><option value="Structured">Structured</option></select></label>
+      <label style="font-size:.72rem;font-weight:700;color:#475569">Type<br><select id="qb-type" onchange="qbToggleType()" style="padding:7px;border:1px solid #e2e8f0;border-radius:7px"><option value="MCQ">MCQ</option><option value="Structured">Structured</option></select></label><label id="qb-mypwrap" style="display:none;font-size:.72rem;font-weight:700;color:#475569">Criterion (MYP)<br><select id="qb-criterion" style="padding:7px;border:1px solid #e2e8f0;border-radius:7px"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select></label>
     </div>
     <label style="font-size:.72rem;font-weight:700;color:#475569">Question text</label>
     <textarea id="qb-text" style="width:100%;min-height:70px;border:1px solid #e2e8f0;border-radius:8px;padding:10px;margin-bottom:10px"></textarea>
@@ -565,9 +565,10 @@ function printClean(){
   </div>
 </div>
 <script>
-function openQBank(){ var m=document.getElementById('qbankModal'); m.style.display='flex'; try{ var sel=window.getSelection?window.getSelection().toString():''; if(sel) document.getElementById('qb-text').value=sel; }catch(e){} qbRenderOpts(); qbToggleType(); }
+function openQBank(){ var m=document.getElementById('qbankModal'); m.style.display='flex'; try{ var sel=window.getSelection?window.getSelection().toString():''; if(sel) document.getElementById('qb-text').value=sel; }catch(e){} qbRenderOpts(); qbToggleType(); qbToggleProg(); }
 function closeQBank(){ document.getElementById('qbankModal').style.display='none'; var st=document.getElementById('qb-status'); st.textContent=''; st.style.color='#0d9488'; }
 function qbRenderOpts(){ var box=document.getElementById('qb-opts'); box.innerHTML=''; ['A','B','C','D'].forEach(function(L,i){ box.innerHTML+='<div style="display:flex;gap:8px;align-items:center;margin:5px 0"><input type="radio" name="qb-correct" value="'+i+'"'+(i===0?' checked':'')+'><b style="width:14px">'+L+'</b><input id="qb-opt'+i+'" placeholder="Option '+L+'" style="flex:1;padding:6px;border:1px solid #e2e8f0;border-radius:6px"></div>'; }); }
+function qbToggleProg(){ document.getElementById('qb-mypwrap').style.display = document.getElementById('qb-prog').value==='mypQuestions' ? 'block':'none'; }
 function qbToggleType(){ document.getElementById('qb-mcq').style.display=document.getElementById('qb-type').value==='MCQ'?'block':'none'; }
 function saveQBank(){
   var db=window.db; if(!db){ alert('Database not ready'); return; }
@@ -575,7 +576,7 @@ function saveQBank(){
   var group=document.getElementById('qb-group').value.trim(); if(!group){ alert('Enter a Group ID'); return; }
   var text=document.getElementById('qb-text').value.trim(); if(!text){ alert('Enter the question text'); return; }
   var type=document.getElementById('qb-type').value;
-  var doc={ id:group, questionGroup:group, text:text, type:type, marks:parseInt(document.getElementById('qb-marks').value)||1, topic:document.getElementById('qb-topic').value.trim(), markScheme:document.getElementById('qb-ms').value.trim(), image:'', createdAt:Date.now() };
+  var doc={ id:group, questionGroup:group, text:text, type:type, criterion:(coll==='mypQuestions'?document.getElementById('qb-criterion').value:''), marks:parseInt(document.getElementById('qb-marks').value)||1, topic:document.getElementById('qb-topic').value.trim(), markScheme:document.getElementById('qb-ms').value.trim(), image:'', createdAt:Date.now() };
   if(type==='MCQ'){ var opts=[]; for(var i=0;i<4;i++){ var v=document.getElementById('qb-opt'+i).value.trim(); if(v) opts.push(v); } if(opts.length<2){ alert('Enter at least 2 options'); return; } doc.options=opts; var chk=document.querySelector('input[name=qb-correct]:checked'); doc.correct=chk?parseInt(chk.value):0; }
   document.getElementById('qb-status').textContent='Saving…';
   db.collection(coll).doc(group).set(doc).then(function(){ document.getElementById('qb-status').textContent='Saved to '+coll.replace('Questions','').toUpperCase()+' bank.'; setTimeout(closeQBank,1200); }).catch(function(e){ var st=document.getElementById('qb-status'); st.textContent='Error: '+e.message; st.style.color='#dc2626'; });
