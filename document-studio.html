@@ -541,6 +541,28 @@ function printClean(){
     '<div style="height:42px"></div>'+
     content+
     '
+
+</body></html>';
+  w.document.open(); w.document.write(doc); w.document.close(); w.focus();
+}
+function exportPDF(){
+  var area=document.getElementById('printArea');
+  area.innerHTML=document.getElementById('editor').innerHTML;
+  area.classList.remove('hidden');
+  document.body.classList.add('printing');
+  window.print();
+  setTimeout(function(){ area.classList.add('hidden'); document.body.classList.remove('printing'); },500);
+}
+function exportWord(){
+  var title=window._docTitle||'Document';
+  var content=document.getElementById('editor').innerHTML;
+  var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>'+title+'</title></head><body>'+content+'</body></html>';
+  var blob=new Blob(['﻿', html], {type:'application/msword'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a'); a.href=url; a.download=title.replace(/[^a-z0-9]+/gi,'_')+'.doc';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+</script>
 <div id="qbankModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:400;align-items:flex-start;justify-content:center;overflow:auto;padding:30px">
   <div style="background:#fff;border-radius:14px;padding:22px;width:640px;max-width:95%;font-family:system-ui,sans-serif">
     <h2 style="margin:0 0 6px;color:#0d9488">Add question to the Question Bank</h2>
@@ -580,27 +602,6 @@ function saveQBank(){
   if(type==='MCQ'){ var opts=[]; for(var i=0;i<4;i++){ var v=document.getElementById('qb-opt'+i).value.trim(); if(v) opts.push(v); } if(opts.length<2){ alert('Enter at least 2 options'); return; } doc.options=opts; var chk=document.querySelector('input[name=qb-correct]:checked'); doc.correct=chk?parseInt(chk.value):0; }
   document.getElementById('qb-status').textContent='Saving…';
   db.collection(coll).doc(group).set(doc).then(function(){ document.getElementById('qb-status').textContent='Saved to '+coll.replace('Questions','').toUpperCase()+' bank.'; setTimeout(closeQBank,1200); }).catch(function(e){ var st=document.getElementById('qb-status'); st.textContent='Error: '+e.message; st.style.color='#dc2626'; });
-}
-</script>
-</body></html>';
-  w.document.open(); w.document.write(doc); w.document.close(); w.focus();
-}
-function exportPDF(){
-  var area=document.getElementById('printArea');
-  area.innerHTML=document.getElementById('editor').innerHTML;
-  area.classList.remove('hidden');
-  document.body.classList.add('printing');
-  window.print();
-  setTimeout(function(){ area.classList.add('hidden'); document.body.classList.remove('printing'); },500);
-}
-function exportWord(){
-  var title=window._docTitle||'Document';
-  var content=document.getElementById('editor').innerHTML;
-  var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>'+title+'</title></head><body>'+content+'</body></html>';
-  var blob=new Blob(['﻿', html], {type:'application/msword'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a'); a.href=url; a.download=title.replace(/[^a-z0-9]+/gi,'_')+'.doc';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 </script>
 </body>
