@@ -564,7 +564,7 @@ function exportWord(){
 
 <div id="qbankModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:400;align-items:flex-start;justify-content:center;overflow:auto;padding:30px">
   <div style="background:#fff;border-radius:14px;padding:22px;width:640px;max-width:95%;font-family:system-ui,sans-serif">
-    <h2 style="margin:0 0 6px;color:#0d9488">Add question to the Question Bank</h2>
+    <h2 style="margin:0 0 6px;color:#0d9488">Add question to the Question Bank</h2><div id="qbAutoImport"><button type="button" onclick="qbToggleImport()" style="background:#eef2ff;color:#4338ca;border:1px solid #c7d2fe;border-radius:8px;padding:7px 14px;cursor:pointer;font-weight:600;font-size:.82rem;margin-bottom:10px">📥 Auto-import from pasted HTML</button><div id="qbImportPane" style="display:none;border:1px dashed #c7d2fe;border-radius:10px;padding:12px;margin-bottom:12px;background:#f8f9ff"><label style="font-size:.72rem;font-weight:700;color:#475569">Paste the full exam HTML</label><textarea id="qbImportHtml" style="width:100%;min-height:110px;border:1px solid #e2e8f0;border-radius:8px;padding:10px;font-family:monospace;font-size:.72rem"></textarea><div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap"><label style="font-size:.72rem;font-weight:700;color:#475569">Save to: <select id="qbImportProg" style="padding:6px;border:1px solid #e2e8f0;border-radius:6px"><option value="dpQuestions">DP</option><option value="mypQuestions">MYP</option><option value="igQuestions">IGCSE</option></select></label><label style="font-size:.72rem;font-weight:700;color:#475569">Group prefix: <input id="qbImportPrefix" value="IMP" style="padding:6px;border:1px solid #e2e8f0;border-radius:6px;width:90px"></label><button type="button" onclick="qbParseHtml()" style="background:#4338ca;color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;font-weight:600">Parse &rarr;</button></div><div id="qbReview" style="margin-top:12px"></div></div></div>
     <p style="font-size:.82rem;color:#64748b;margin:0 0 14px">Saves a proper question record so it works in assignments and autograding.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
       <label style="font-size:.72rem;font-weight:700;color:#475569">Program<br><select id="qb-prog" onchange="qbToggleProg()" style="padding:7px;border:1px solid #e2e8f0;border-radius:7px"><option value="dpQuestions">DP</option><option value="mypQuestions">MYP</option><option value="igQuestions">IGCSE</option></select></label>
@@ -591,6 +591,61 @@ function closeQBank(){ document.getElementById('qbankModal').style.display='none
 function qbRenderOpts(){ var box=document.getElementById('qb-opts'); box.innerHTML=''; ['A','B','C','D'].forEach(function(L,i){ box.innerHTML+='<div style="display:flex;gap:8px;align-items:center;margin:5px 0"><input type="radio" name="qb-correct" value="'+i+'"'+(i===0?' checked':'')+'><b style="width:14px">'+L+'</b><input id="qb-opt'+i+'" placeholder="Option '+L+'" style="flex:1;padding:6px;border:1px solid #e2e8f0;border-radius:6px"></div>'; }); }
 function qbToggleProg(){ document.getElementById('qb-mypwrap').style.display = document.getElementById('qb-prog').value==='mypQuestions' ? 'block':'none'; }
 function qbToggleType(){ document.getElementById('qb-mcq').style.display=document.getElementById('qb-type').value==='MCQ'?'block':'none'; }
+function qbToggleImport(){ var p=document.getElementById('qbImportPane'); p.style.display=p.style.display==='none'?'block':'none'; }
+function _qtxt(el){ return (el?el.textContent:'').replace(/\s+/g,' ').trim(); }
+function qbParseHtml(){
+  var raw=document.getElementById('qbImportHtml').value;
+  if(!raw.trim()){ alert('Paste the exam HTML first.'); return; }
+  var doc=new DOMParser().parseFromString(raw,'text/html');
+  var msByQ={};
+  doc.querySelectorAll('.ms').forEach(function(ms){
+    var head=_qtxt(ms.querySelector('h3')); var m=head.match(/Question\s*(\d+)/i); if(!m) return;
+    var parts={}; ms.querySelectorAll('.pm').forEach(function(pm){
+      var pl=_qtxt(pm.querySelector('.plabel')).replace(/[()]/g,'').trim();
+      var c=pm.cloneNode(true); var lab=c.querySelector('.plabel'); if(lab)lab.remove(); parts[pl]=_qtxt(c);
+    }); msByQ[m[1]]=parts;
+  });
+  var out=[];
+  doc.querySelectorAll('.q').forEach(function(q){
+    var qn=_qtxt(q.querySelector('.qnum'));
+    var topicTag=''; q.querySelectorAll('.tag').forEach(function(t){ var tx=_qtxt(t); if(tx!=='SL'&&tx!=='HL') topicTag=tx; });
+    var stem=_qtxt(q.querySelector('.stem'));
+    var fig=q.querySelector('figure'); var svg=fig?fig.querySelector('svg'):null;
+    var img=svg?('<div style="text-align:center;margin:8px 0">'+svg.outerHTML+'</div>'):'';
+    q.querySelectorAll('.part').forEach(function(p){
+      var pl=_qtxt(p.querySelector('.pl')).replace(/[()]/g,'').trim();
+      var marks=(_qtxt(p.querySelector('.marks')).match(/\d+/)||[1])[0];
+      var c=p.cloneNode(true); ['.pl','.marks'].forEach(function(sel){ var e=c.querySelector(sel); if(e)e.remove(); });
+      var ms=(msByQ[qn]&&msByQ[qn][pl])?msByQ[qn][pl]:'';
+      out.push({ qn:qn, part:pl, topic:topicTag, stem:stem, text:_qtxt(c), marks:parseInt(marks)||1, markScheme:ms, image:(pl==='a'?img:'') });
+    });
+  });
+  window._qbParsed=out; renderQbReview(out);
+}
+function renderQbReview(out){
+  var box=document.getElementById('qbReview');
+  if(!out.length){ box.innerHTML='<div style="color:#dc2626;font-size:.82rem">No questions found — check the HTML.</div>'; return; }
+  var nq=(new Set(out.map(function(o){return o.qn;}))).size;
+  var html='<div style="font-size:.82rem;color:#166534;font-weight:600;margin-bottom:8px">Found '+out.length+' parts across '+nq+' questions. Review, then import:</div><div style="max-height:240px;overflow:auto;border:1px solid #e2e8f0;border-radius:8px">';
+  out.forEach(function(o){ html+='<div style="padding:8px 10px;border-bottom:1px solid #f1f5f9;font-size:.78rem"><b>Q'+o.qn+'('+o.part+')</b> ['+o.marks+'] '+o.text.slice(0,90)+(o.text.length>90?'…':'')+'<div style="color:#64748b;margin-top:2px">MS: '+(o.markScheme?o.markScheme.slice(0,90):'<i>none</i>')+'</div></div>'; });
+  html+='</div><button type="button" onclick="qbImportAll()" style="margin-top:10px;background:#0d9488;color:#fff;border:none;border-radius:8px;padding:9px 18px;cursor:pointer;font-weight:600">Import all '+out.length+' parts</button> <span id="qbImportStatus" style="font-size:.8rem;color:#0d9488;margin-left:8px"></span>';
+  box.innerHTML=html;
+}
+function qbImportAll(){
+  var db=window.db; if(!db){ alert('Database not ready'); return; }
+  var out=window._qbParsed||[]; if(!out.length) return;
+  var coll=document.getElementById('qbImportProg').value;
+  var prefix=(document.getElementById('qbImportPrefix').value||'IMP').trim();
+  document.getElementById('qbImportStatus').textContent='Importing…';
+  var batch=db.batch(), n=0;
+  out.forEach(function(o){
+    var group=prefix+'-Q'+o.qn; var id=group+'-'+o.part;
+    var txt=(o.stem&&o.part==='a')?(o.stem+'<br>('+o.part+') '+o.text):('('+o.part+') '+o.text);
+    batch.set(db.collection(coll).doc(id), { id:id, questionGroup:group, text:txt, type:'Structured', marks:o.marks, topic:o.topic, markScheme:o.markScheme, image:o.image||'', createdAt:Date.now(), imported:true }); n++;
+  });
+  batch.commit().then(function(){ document.getElementById('qbImportStatus').textContent='✅ Imported '+n+' parts to '+coll.replace('Questions','').toUpperCase()+' bank.'; })
+    .catch(function(e){ document.getElementById('qbImportStatus').textContent='Error: '+e.message; });
+}
 function saveQBank(){
   var db=window.db; if(!db){ alert('Database not ready'); return; }
   var coll=document.getElementById('qb-prog').value;
