@@ -463,7 +463,7 @@ nav a,.nav-btn{color:#fff;text-decoration:none;font-size:.78rem;padding:4px 10px
 .adraw-saved,.adraw-canvas{display:block;width:100%;height:auto}
 .adraw-saved{position:absolute;inset:0}
 .adraw-canvas{position:relative;touch-action:none;cursor:crosshair}
-</style>
+.adraw-graphbg-raw{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none}.adraw-graphbg-raw svg,.adraw-graphbg-raw img{max-width:100%;max-height:100%}</style>
 </head>
 <body>
 
@@ -1413,6 +1413,14 @@ function _extractImgSrc(raw){
   m=/src='([^']+)'/.exec(raw); if(m) return m[1];
   return raw;
 }
+function _drawBgHtml(raw){
+  if(!raw || raw.length<=10) return '';
+  var m=/<img\b[^>]*\bsrc=["']([^"']+)["']/i.exec(raw);
+  if(m) return '<img class="adraw-graphbg" src="'+m[1]+'">';
+  var d=/^\s*(data:|https?:)/i.exec(raw);
+  if(d) return '<img class="adraw-graphbg" src="'+raw.trim()+'">';
+  return '<div class="adraw-graphbg adraw-graphbg-raw">'+raw+'</div>';
+}
 function attemptDrawHtml(p){
   var saved = currentAnswers[p.id + '__draw'] || '';
   var bg = (p.image && p.image.length > 10) ? '' : ' adraw-blank';
@@ -1429,7 +1437,7 @@ function attemptDrawHtml(p){
     '</div>'+
     '<div class="adraw-stage'+bg+'">'+
       (saved ? '<img class="adraw-saved" src="'+saved+'">' : '')+
-      ((p.image && p.image.length>10) ? '<img class="adraw-graphbg" src="'+_extractImgSrc(p.image)+'">' : '')+'<canvas class="adraw-canvas" id="adraw-'+p.id+'" width="720" height="500"></canvas>'+
+      _drawBgHtml(p.image)+'<canvas class="adraw-canvas" id="adraw-'+p.id+'" width="720" height="500"></canvas>'+
     '</div>'+
   '</div>';
 }
