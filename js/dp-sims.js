@@ -9,6 +9,15 @@ const DP_SIMS = [
     file: "sims/gravity-lab.html"
   },
   {
+    id: "current-drift-velocity",
+    title: "Drift Velocity of Charges",
+    icon: "⚡",
+    topic: "B.5",
+    topicName: "Current and Circuits",
+    description: "Watch charges drift through a conductor and explore I = nAvq.",
+    file: "sims/current-drift-velocity.html"
+  },
+  {
     id: "derived-quantities-lab",
     title: "Derived Quantities Lab",
     icon: "📐",
