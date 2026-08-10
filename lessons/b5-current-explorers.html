@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.5 Lesson 1, Interactive Explorers</title>
+<style>
+  :root{ --ink:#1a2330; --muted:#5f6b74; --line:#d3dbe2; --box:#f5f8fb; --blue:#1d4e73; --sky:#2a7ab0; --amber:#b5772a; --green:#1f7a4d; --red:#a5321f; --purple:#5b3a7e; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",Helvetica,Arial,sans-serif;color:var(--ink);background:#eef2f6;line-height:1.5;font-size:15px;margin:0;padding:0 0 60px;}
+  header{background:linear-gradient(135deg,#123049,#1d4e73);color:#fff;padding:26px 22px;text-align:center;}
+  header h1{font-size:24px;margin-bottom:4px;}
+  header p{font-size:14px;opacity:.9;}
+  .wrap{max-width:860px;margin:0 auto;padding:0 16px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:20px 0;box-shadow:0 2px 10px rgba(20,40,60,.05);}
+  .tagrow{margin-bottom:8px;}
+  .tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-radius:20px;padding:3px 12px;color:#fff;}
+  .tag.sim{background:var(--green);} .tag.tok{background:var(--purple);} .tag.hard{background:var(--red);}
+  h2{font-size:20px;color:var(--blue);margin-bottom:4px;}
+  .lede{font-size:14px;color:var(--muted);margin-bottom:14px;}
+  canvas{width:100%;display:block;background:var(--box);border-radius:10px;border:1px solid var(--line);}
+  .controls{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:14px 0 6px;}
+  .ctrl{flex:1;min-width:180px;}
+  .ctrl label{display:block;font-size:13px;font-weight:600;color:var(--blue);margin-bottom:4px;}
+  .ctrl input[type=range]{width:100%;accent-color:var(--sky);}
+  .ctrl .val{font-family:"Courier New",monospace;font-size:13px;color:var(--ink);}
+  button{font-family:inherit;font-size:15px;font-weight:600;border:none;border-radius:24px;padding:10px 22px;cursor:pointer;background:var(--sky);color:#fff;transition:filter .15s;}
+  button:hover{filter:brightness(1.08);} button.ghost{background:#fff;color:var(--sky);border:2px solid var(--sky);}
+  .readout{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;padding:12px 16px;background:var(--box);border-radius:10px;font-size:14px;}
+  .readout b{display:block;font-size:22px;color:var(--blue);font-family:"Courier New",monospace;}
+  .readout span{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em;}
+  .q{background:#fbfdff;border-left:4px solid var(--amber);border-radius:0 10px 10px 0;padding:11px 15px;margin-top:14px;font-size:14px;}
+  .q b{color:var(--amber);}
+  .think{background:#f2faf5;border:1px solid #bfe0cc;border-radius:10px;padding:11px 15px;margin-top:12px;font-size:13.5px;}
+  .think .lbl{font-weight:700;color:var(--green);text-transform:uppercase;font-size:11px;letter-spacing:.05em;display:block;margin-bottom:3px;}
+  .toggle-row{display:flex;gap:10px;margin:12px 0 4px;}
+  .toggle-row button{flex:1;}
+  .toggle-row button.off{background:#e7edf2;color:var(--muted);}
+  .eq{font-family:"Courier New",monospace;background:#eef3f8;padding:1px 6px;border-radius:4px;}
+  .answerbox{margin-top:12px;}
+  .answerbox label{display:block;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:5px;}
+  .answerbox textarea{width:100%;min-height:70px;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:14px;resize:vertical;background:#fff;}
+  .answerbox textarea:focus{outline:none;border-color:var(--sky);}
+  .qnum{display:inline-block;background:var(--amber);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:2px 9px;margin-right:6px;}
+  .sharebar{background:#123049;color:#fff;border-radius:12px;padding:14px 18px;margin:18px 0;font-size:14px;}
+  .sharebar b{color:#ffd23f;}
+  .phetbtn{display:inline-block;background:#f7a600;color:#123049;font-weight:700;text-decoration:none;border-radius:24px;padding:9px 20px;margin-top:6px;}
+  .savehint{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:6px;}
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:20px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Current &amp; Resistance — Interactive Explorers</h1>
+  <p>IB DP Physics · B.5 Lesson 1 · play with each simulation, then answer the question beneath it</p>
+</header>
+<div class="wrap">
+
+  <div class="sharebar">
+    <b>How to use this.</b> Play with each simulation, then answer the question in the box under it. Your typed answers stay only while this tab is open, so <b>copy your final answers onto your paper inquiry sheet</b> (or a doc) before you close it.<br>
+    <b style="color:#fff">Use the full class simulator.</b> Open Mr Soral's own drift-velocity simulator (with data table, best-fit graph, IB questions and CSV export) in a new tab:
+    <br><a class="phetbtn" href="https://soralatul16.github.io/atul-soral-physicism/sims/current-drift-velocity.html" target="_blank" rel="noopener">Open the Drift-Velocity Simulator ↗</a>
+  </div>
+
+  <!-- ============ SIM 1: INSTANT LIGHT ============ -->
+  <div class="card">
+    <div class="tagrow"><span class="tag sim">Explorer 1</span></div>
+    <h2>The instant-light paradox</h2>
+    <p class="lede">The wire is already full of electrons. Press the switch and watch two different things: the <b>signal</b> (the field, in gold) sweeping down the wire, and any <b>one electron</b> (highlighted red) barely creeping. Which reaches the bulb first?</p>
+    <canvas id="c1" height="200"></canvas>
+    <div class="controls">
+      <button id="s1switch">⚡ Flip the switch</button>
+      <button id="s1reset" class="ghost">Reset</button>
+    </div>
+    <div class="readout">
+      <div><b id="s1sig">—</b><span>signal reached bulb</span></div>
+      <div><b id="s1el">—</b><span>tracked electron moved</span></div>
+    </div>
+    <div class="q"><b>Question:</b> the bulb lit the instant the gold wave arrived, yet the red electron has barely moved. So what actually carries the "message" to the bulb — the electrons, or the field?</div>
+    <div class="answerbox"><label><span class="qnum">Q3</span>Your answer:</label><textarea placeholder="What travels fast, what travels slow, and why the bulb still lights instantly..."></textarea></div>
+  </div>
+
+  <!-- ============ SIM 2: DRIFT EXPLORER ============ -->
+  <div class="card">
+    <div class="tagrow"><span class="tag sim">Explorer 2</span> <span class="tag hard">derive it</span></div>
+    <h2>What controls the drift speed?</h2>
+    <p class="lede">Change the current, the wire's thickness (area A), and the carrier density (n). Watch how fast the electrons must drift to carry that current — and read the drift speed live. Find the pattern <b>before</b> you write the formula. <b><a href="https://soralatul16.github.io/atul-soral-physicism/sims/current-drift-velocity.html" target="_blank" rel="noopener" style="color:#1d4e73">↗ Open the full class simulator</a></b> to record data points and fit a graph.</p>
+    <canvas id="c2" height="150"></canvas>
+    <div class="controls">
+      <div class="ctrl"><label>Current I = <span class="val" id="v2I">1.0</span> A</label><input type="range" id="s2I" min="0.5" max="4" step="0.1" value="1"></div>
+      <div class="ctrl"><label>Area A = <span class="val" id="v2A">1.0</span> mm²</label><input type="range" id="s2A" min="0.5" max="4" step="0.1" value="1"></div>
+      <div class="ctrl"><label>Carrier density n = <span class="val" id="v2n">8.5</span> ×10²⁸ /m³</label><input type="range" id="s2n" min="1" max="12" step="0.5" value="8.5"></div>
+    </div>
+    <div class="readout">
+      <div><b id="v2vd">7.4</b><span>drift speed / 10⁻⁵ m·s⁻¹</span></div>
+      <div><b id="v2comp">—</b><span>vs baseline</span></div>
+    </div>
+    <div class="q"><b>Explore, then answer:</b> drag each slider on its own and watch the drift-speed readout. The drift never leaves the 10⁻⁵ range — it's always a crawl.</div>
+    <div class="answerbox"><label><span class="qnum">Q4</span>Raise the <b>current I</b> (leave A and n). Does drift speed go UP or DOWN? So <span class="eq">v_d ∝ ___</span> (with I)?</label><textarea placeholder="e.g. drift speed goes ... so v_d is proportional to ..."></textarea></div>
+    <div class="answerbox"><label><span class="qnum">Q5</span>Raise the <b>area A</b>. Does drift speed go UP or DOWN? So how does v_d depend on A?</label><textarea placeholder="..."></textarea></div>
+    <div class="answerbox"><label><span class="qnum">Q6</span>Raise the <b>carrier density n</b>. Does drift speed go UP or DOWN? So how does v_d depend on n?</label><textarea placeholder="..."></textarea></div>
+    <div class="answerbox"><label><span class="qnum">Q7</span>Put it together: <span class="eq">v_d ∝ ________</span></label><textarea placeholder="Combine your three answers into one proportionality."></textarea></div>
+    <div class="think"><span class="lbl">Why more carriers means SLOWER drift (read if stuck on Q6)</span> Current is <b>how many charge-carriers cross a line each second</b>. If you want the same current but now have <b>far more electrons available</b> (bigger n), each one only needs to shuffle along <b>slowly</b> and you'll still get enough across per second. With <b>few</b> electrons, each has to <b>hurry</b> to keep the count up. Like a corridor delivering 100 people/second: if it's packed, everyone shuffles slowly; if it's nearly empty, the few must sprint. Same flow, opposite speeds. That's why n sits in the bottom of <span class="eq">v_d = I/(nAq)</span>.</div>
+    <div class="think"><span class="lbl">What the sim shows</span> Bigger I speeds the electrons up; bigger A or bigger n lets them go slower for the same current. That's exactly <span class="eq">v_d = I/(nAq)</span> — which you'll build next in Q8.</div>
+  </div>
+
+  <!-- ============ SIM 3: RESISTANCE = COLLISIONS ============ -->
+  <div class="card">
+    <div class="tagrow"><span class="tag sim">Explorer 3</span></div>
+    <h2>Where resistance comes from</h2>
+    <p class="lede">The grey circles are the metal's lattice ions; the blue dots are drifting electrons. Turn up the <b>temperature</b> and watch the ions vibrate harder. What happens to the electrons trying to get through?</p>
+    <canvas id="c3" height="220"></canvas>
+    <div class="controls">
+      <div class="ctrl"><label>Temperature = <span class="val" id="v3T">300</span> K</label><input type="range" id="s3T" min="100" max="800" step="10" value="300"></div>
+    </div>
+    <div class="readout">
+      <div><b id="v3coll">—</b><span>collisions / second</span></div>
+      <div><b id="v3R">—</b><span>relative resistance</span></div>
+    </div>
+    <div class="q"><b>Question:</b> as the metal gets hotter, do the electrons get through more easily or with more difficulty? So what happens to resistance?</div>
+    <div class="answerbox"><label><span class="qnum">Q</span>Your answer (use the collisions you can see):</label><textarea placeholder="When the ions vibrate more, the electrons ... so resistance ..."></textarea></div>
+  </div>
+
+  <!-- ============ SIM 4: BREAK THE MODEL ============ -->
+  <div class="card">
+    <div class="tagrow"><span class="tag sim">Explorer 4</span> <span class="tag hard">break the model</span></div>
+    <h2>Metal vs semiconductor: heat them both</h2>
+    <p class="lede">Your model says "hotter = more collisions = more resistance." Test it. Switch between a <b>metal</b> and a <b>semiconductor</b>, then heat each one and watch the resistance graph. One obeys your model. One does the opposite.</p>
+    <div class="toggle-row">
+      <button id="s4metal">Metal (copper)</button>
+      <button id="s4semi" class="off">Semiconductor (silicon)</button>
+    </div>
+    <canvas id="c4" height="240"></canvas>
+    <div class="controls">
+      <div class="ctrl"><label>Temperature = <span class="val" id="v4T">300</span> K</label><input type="range" id="s4T" min="100" max="800" step="10" value="300"></div>
+    </div>
+    <div class="q"><b>Question:</b> the metal's resistance rises with heat (your model works). The semiconductor's <b>falls</b> — your model predicts the opposite! What is heat doing to the semiconductor that your "collisions" idea ignored? (Hint: the number of carriers, n.)</div>
+    <div class="answerbox"><label><span class="qnum">Breaker 1</span>Your answer:</label><textarea placeholder="Heating the semiconductor does something to n that ... which beats the extra collisions, so R ..."></textarea></div>
+    <div class="think"><span class="lbl">The fix</span> Resistance depends on collisions <b>and</b> on how many carriers there are. Heating a metal barely changes n, so more collisions win → R rises. Heating silicon frees a flood of new carriers (n shoots up), which beats the extra collisions → R falls. Your model wasn't wrong — it was missing n.</div>
+    <div class="savehint">Remember: copy your typed answers to your paper sheet or a doc — they won't be saved when this tab closes.</div>
+  </div>
+
+  <footer>Play, predict, then write your reasoning on the paper inquiry sheet. The sims show you the physics; the thinking is still yours.</footer>
+</div>
+
+<script>
+const DPR = Math.min(window.devicePixelRatio||1, 2);
+function fit(cv){ const r=cv.getBoundingClientRect(); cv.width=r.width*DPR; cv.height=cv.height*DPR; const x=cv.getContext('2d'); x.setTransform(DPR,0,0,DPR,0,0); return x; }
+
+/* ---------- SIM 1: instant light ---------- */
+(function(){
+  const cv=document.getElementById('c1'); let ctx=fit(cv);
+  let W=()=>cv.width/DPR, H=()=>cv.height/DPR;
+  const N=46; let electrons=[], field=-1, tracked=6, tEl=0, running=false, sigDone=false;
+  function init(){ electrons=[]; const y=H()/2; for(let i=0;i<N;i++) electrons.push({x:60+i*((W()-120)/N), base:60+i*((W()-120)/N), ph:Math.random()*6.28}); field=-1; tEl=0; running=false; sigDone=false;
+    document.getElementById('s1sig').textContent='—'; document.getElementById('s1el').textContent='—'; }
+  function draw(){
+    ctx.clearRect(0,0,W(),H()); const y=H()/2;
+    // wire
+    ctx.strokeStyle='#c3ccd4'; ctx.lineWidth=26; ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(50,y); ctx.lineTo(W()-50,y); ctx.stroke();
+    // switch box + bulb
+    ctx.fillStyle='#123049'; ctx.fillRect(20,y-16,18,32);
+    const bx=W()-34; ctx.beginPath(); ctx.arc(bx,y,17,0,6.28);
+    ctx.fillStyle = (sigDone? '#ffd23f':'#43535f'); ctx.fill();
+    if(sigDone){ ctx.save(); ctx.globalAlpha=.35; ctx.beginPath(); ctx.arc(bx,y,30,0,6.28); ctx.fillStyle='#ffd23f'; ctx.fill(); ctx.restore(); }
+    // field wave (gold sweep)
+    if(field>=0){ const fx=50+field*(W()-100);
+      ctx.save(); ctx.globalAlpha=.5; const g=ctx.createLinearGradient(fx-60,0,fx,0);
+      g.addColorStop(0,'rgba(255,190,60,0)'); g.addColorStop(1,'rgba(255,170,30,.9)');
+      ctx.strokeStyle=g; ctx.lineWidth=26; ctx.beginPath(); ctx.moveTo(Math.max(50,fx-60),y); ctx.lineTo(fx,y); ctx.stroke(); ctx.restore(); }
+    // electrons
+    for(let i=0;i<electrons.length;i++){ const e=electrons[i];
+      const jitter=Math.sin(tEl*4+e.ph)*2.2;
+      ctx.beginPath(); ctx.arc(e.x, y+jitter, i===tracked?7:4.5, 0,6.28);
+      ctx.fillStyle = i===tracked? '#e23b2e' : '#2a7ab0'; ctx.fill();
+    }
+    ctx.fillStyle='#5f6b74'; ctx.font='12px Segoe UI';
+    ctx.fillText('switch', 12, y-24); ctx.fillText('bulb', bx-14, y-26);
+  }
+  function step(){
+    if(running){
+      tEl+=0.016;
+      if(field>=0 && field<1){ field+=0.05; if(field>=1){ field=1; sigDone=true; document.getElementById('s1sig').textContent='NOW'; } }
+      // all electrons drift very slowly once field passes them
+      for(let i=0;i<electrons.length;i++){ const e=electrons[i]; const fx=50+field*(W()-100);
+        if(field>=0 && e.x<=fx+4){ e.x+=0.09; } }
+      const moved=electrons[tracked].x-electrons[tracked].base;
+      document.getElementById('s1el').textContent=moved.toFixed(1)+' px';
+    }
+    draw(); requestAnimationFrame(step);
+  }
+  document.getElementById('s1switch').onclick=()=>{ if(field<0){ field=0; running=true; } };
+  document.getElementById('s1reset').onclick=init;
+  window.addEventListener('resize',()=>{ctx=fit(cv);});
+  init(); step();
+})();
+
+/* ---------- SIM 2: drift explorer ---------- */
+(function(){
+  const cv=document.getElementById('c2'); let ctx=fit(cv);
+  let W=()=>cv.width/DPR, H=()=>cv.height/DPR;
+  const q=1.6e-19;
+  const I=document.getElementById('s2I'), A=document.getElementById('s2A'), n=document.getElementById('s2n');
+  let t=0, base=null;
+  function vd(){ // returns m/s using A in mm^2 -> m^2 (1e-6), n in 1e28
+    const Iv=+I.value, Av=+A.value*1e-6, nv=+n.value*1e28;
+    return Iv/(nv*Av*q);
+  }
+  function upd(){
+    document.getElementById('v2I').textContent=(+I.value).toFixed(1);
+    document.getElementById('v2A').textContent=(+A.value).toFixed(1);
+    document.getElementById('v2n').textContent=(+n.value).toFixed(1);
+    const v=vd(); document.getElementById('v2vd').textContent=(v*1e5).toFixed(1);
+    if(base===null) base=v;
+    const r=v/base; document.getElementById('v2comp').textContent=(r>=1?'×'+r.toFixed(2):'×'+r.toFixed(2));
+  }
+  [I,A,n].forEach(s=>s.addEventListener('input',upd));
+  function draw(){
+    ctx.clearRect(0,0,W(),H()); const y=H()/2;
+    ctx.strokeStyle='#c3ccd4'; ctx.lineWidth=Math.min(70,26*(+A.value)); ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(30,y); ctx.lineTo(W()-30,y); ctx.stroke();
+    const speed = vd()*1e5; // ~ single digit
+    const dots = Math.round(8*(+n.value)/8.5)+4;
+    t += speed*0.06;
+    for(let i=0;i<dots;i++){ const x=30+((i*90 + t*8)%(W()-60)); const jit=Math.sin(i*1.7)*Math.min(26,10*(+A.value));
+      ctx.beginPath(); ctx.arc(x, y+jit,4,0,6.28); ctx.fillStyle='#2a7ab0'; ctx.fill(); }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',()=>{ctx=fit(cv);});
+  upd(); draw();
+})();
+
+/* ---------- SIM 3: resistance = collisions ---------- */
+(function(){
+  const cv=document.getElementById('c3'); let ctx=fit(cv);
+  let W=()=>cv.width/DPR, H=()=>cv.height/DPR;
+  const T=document.getElementById('s3T');
+  let ions=[], els=[], t=0, collCount=0, lastReport=0;
+  function init(){ ions=[]; const cols=8, rows=4;
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++) ions.push({bx:60+c*((W()-120)/(cols-1)), by:40+r*((H()-80)/(rows-1)), ph:Math.random()*6.28});
+    els=[]; for(let i=0;i<7;i++) els.push({x:20,y:40+Math.random()*(H()-80), vy:(Math.random()-.5)*1.5}); }
+  function draw(){
+    ctx.clearRect(0,0,W(),H());
+    const amp = ( +T.value-100)/700 * 10 + 1; // vibration amplitude
+    t+=0.05;
+    // ions
+    for(const io of ions){ const dx=Math.sin(t*3+io.ph)*amp, dy=Math.cos(t*2.3+io.ph)*amp;
+      ctx.beginPath(); ctx.arc(io.bx+dx, io.by+dy, 12,0,6.28); ctx.fillStyle='#b7c1c9'; ctx.fill();
+      ctx.strokeStyle='#9aa6ae'; ctx.stroke(); io.cx=io.bx+dx; io.cy=io.by+dy; }
+    // electrons drift left->right, bounce off ions
+    for(const e of els){ e.x+=1.4; e.y+=e.vy;
+      if(e.y<30||e.y>H()-30) e.vy*=-1;
+      for(const io of ions){ const d=Math.hypot(e.x-io.cx,e.y-io.cy);
+        if(d<16){ e.vy=(Math.random()-.5)*4; e.x-=3; collCount++; } }
+      if(e.x>W()-15){ e.x=15; e.y=40+Math.random()*(H()-80); }
+      ctx.beginPath(); ctx.arc(e.x,e.y,4.5,0,6.28); ctx.fillStyle='#2a7ab0'; ctx.fill(); }
+    if(t-lastReport>1){ const perSec=Math.round(collCount/ (t-lastReport));
+      document.getElementById('v3coll').textContent=perSec;
+      const rel=(1+ (+T.value-300)/300).toFixed(2);
+      document.getElementById('v3R').textContent='×'+(rel<0.1?0.1:rel);
+      collCount=0; lastReport=t; }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',()=>{ctx=fit(cv); init();});
+  init(); draw();
+})();
+
+/* ---------- SIM 4: break the model (R vs T graph) ---------- */
+(function(){
+  const cv=document.getElementById('c4'); let ctx=fit(cv);
+  let W=()=>cv.width/DPR, H=()=>cv.height/DPR;
+  const T=document.getElementById('s4T'); let mode='metal';
+  const mB=document.getElementById('s4metal'), sB=document.getElementById('s4semi');
+  function Rof(t, m){ // relative resistance
+    if(m==='metal') return 0.2 + (t-100)/700*1.4;         // rises with T
+    return 2.6*Math.exp(-(t-100)/260)+0.15;                // falls sharply with T
+  }
+  function draw(){
+    ctx.clearRect(0,0,W(),H());
+    const L=52,B=H()-34,R=W()-20,Tp=18;
+    // axes
+    ctx.strokeStyle='#1a2330'; ctx.lineWidth=1.4; ctx.beginPath(); ctx.moveTo(L,Tp); ctx.lineTo(L,B); ctx.lineTo(R,B); ctx.stroke();
+    ctx.fillStyle='#5f6b74'; ctx.font='12px Segoe UI';
+    ctx.fillText('temperature →', (L+R)/2-40, H()-8);
+    ctx.save(); ctx.translate(16,(Tp+B)/2+34); ctx.rotate(-Math.PI/2); ctx.fillText('resistance →',0,0); ctx.restore();
+    // curve
+    const maxR=3;
+    ctx.strokeStyle = mode==='metal'? '#1d4e73':'#a5321f'; ctx.lineWidth=3; ctx.beginPath();
+    for(let t=100;t<=800;t+=6){ const x=L+(t-100)/700*(R-L); const rr=Rof(t,mode); const y=B-(rr/maxR)*(B-Tp);
+      if(t===100)ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+    ctx.stroke();
+    // current point
+    const tv=+T.value, x=L+(tv-100)/700*(R-L), rr=Rof(tv,mode), y=B-(rr/maxR)*(B-Tp);
+    ctx.beginPath(); ctx.arc(x,y,7,0,6.28); ctx.fillStyle=mode==='metal'?'#1d4e73':'#a5321f'; ctx.fill();
+    ctx.fillStyle='#fff'; ctx.strokeStyle='#fff';
+    ctx.fillStyle='#1a2330'; ctx.font='13px Courier New';
+    ctx.fillText('R ≈ '+rr.toFixed(2), x+12, y-6);
+    requestAnimationFrame(draw);
+  }
+  function setMode(m){ mode=m; if(m==='metal'){ mB.classList.remove('off'); sB.classList.add('off'); } else { sB.classList.remove('off'); mB.classList.add('off'); } }
+  mB.onclick=()=>setMode('metal'); sB.onclick=()=>setMode('semi');
+  T.addEventListener('input',()=>{ document.getElementById('v4T').textContent=T.value; });
+  window.addEventListener('resize',()=>{ctx=fit(cv);});
+  draw();
+})();
+</script>
+</body>
+</html>
