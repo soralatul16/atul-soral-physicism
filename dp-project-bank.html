@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DP Physics Project Generator</title>
+<style>
+  :root{ --ink:#1a2330; --muted:#5f6b74; --line:#d7dee4; --box:#f5f8fb; --blue:#1d4e73; --sky:#2a7ab0; --amber:#b5772a; --green:#1f7a4d; --red:#a5321f; --purple:#5b3a7e; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI",Helvetica,Arial,sans-serif;color:var(--ink);background:#eef2f6;line-height:1.5;font-size:15px;margin:0;padding-bottom:60px;}
+  header{background:linear-gradient(135deg,#123049,#1d4e73);color:#fff;padding:22px;text-align:center;}
+  header h1{font-size:23px;margin-bottom:5px;}
+  header p{font-size:13px;opacity:.92;max-width:780px;margin:0 auto;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 16px;}
+  .controls{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:16px 0;box-shadow:0 2px 10px rgba(20,40,60,.05);}
+  .controls .row{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:9px;}
+  .controls .row:last-child{margin-bottom:0;}
+  .controls .lbl{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-right:6px;width:100%;}
+  .chip{font-size:12.5px;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:18px;padding:4px 11px;cursor:pointer;}
+  .chip.active{background:var(--sky);color:#fff;border-color:var(--sky);}
+  .chip.field.active{background:var(--green);border-color:var(--green);}
+  #search{flex:1;min-width:200px;font-size:14px;border:1.5px solid var(--line);border-radius:18px;padding:8px 14px;font-family:inherit;}
+  .toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:10px 0;}
+  .toolbar button{font-family:inherit;font-size:13px;font-weight:600;border:1.5px solid var(--sky);background:#fff;color:var(--sky);border-radius:18px;padding:7px 14px;cursor:pointer;}
+  .toolbar button.solid{background:var(--sky);color:#fff;}
+  .count{font-size:13px;color:var(--muted);}
+  .card{background:#fff;border:1px solid var(--line);border-radius:13px;margin:11px 0;box-shadow:0 2px 8px rgba(20,40,60,.04);overflow:hidden;}
+  .card .head{padding:13px 17px;cursor:pointer;display:flex;justify-content:space-between;gap:12px;align-items:flex-start;}
+  .card .head:hover{background:#fafcfe;}
+  .card h3{font-size:16.5px;color:var(--blue);line-height:1.25;margin-bottom:6px;}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;}
+  .t{font-size:10px;font-weight:700;text-transform:uppercase;border-radius:5px;padding:2px 7px;color:#fff;}
+  .t.topic{background:var(--blue);} .t.field{background:var(--green);} .t.diff{background:var(--amber);} .t.ex{background:var(--purple);}
+  .chev{font-size:19px;color:var(--sky);transition:transform .2s;flex:0 0 auto;}
+  .card.open .chev{transform:rotate(90deg);}
+  .body{display:none;padding:0 17px 16px;border-top:1px solid var(--line);}
+  .card.open .body{display:block;}
+  .sec{margin-top:12px;} .sec h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--sky);font-weight:700;margin-bottom:3px;border-bottom:1px solid var(--box);padding-bottom:2px;}
+  .sec .content{font-size:13.5px;}
+  .sec.tok h4{color:var(--purple);} .sec.nos h4{color:var(--green);} .sec.cas h4{color:var(--red);}
+  .eq{font-family:"Courier New",monospace;background:#eef3f8;padding:1px 5px;border-radius:4px;font-size:12.5px;}
+  .cardtools{display:flex;gap:8px;margin-top:14px;padding-top:11px;border-top:1px dashed var(--line);}
+  .cardtools button{font-family:inherit;font-size:12.5px;font-weight:600;border:none;border-radius:16px;padding:6px 13px;cursor:pointer;}
+  .cardtools .pdf{background:var(--blue);color:#fff;} .cardtools .edit{background:#e7edf2;color:var(--ink);}
+  [contenteditable="true"]{background:#fffdf3;outline:1px dashed var(--amber);border-radius:4px;}
+  .rubric{width:100%;border-collapse:collapse;margin-top:4px;font-size:12px;}
+  .rubric th,.rubric td{border:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:top;} .rubric th{background:var(--box);color:var(--blue);}
+  .note{font-size:11px;color:var(--amber);font-style:italic;margin-top:6px;}
+  @media print{
+    body{background:#fff;} header,.controls,.toolbar,.count,.chev,.cardtools,.note{display:none !important;}
+    .card{box-shadow:none;border:1px solid #bbb;break-inside:avoid;} .card .body{display:block !important;} .card .head{cursor:default;}
+    body.printone .card:not(.printtarget){display:none;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>DP Physics — Project Generator</h1>
+  <p>Every DP physics topic × every real-world field = a tailored inquiry project. Pick a topic and a field (or browse all combinations) to get a research question with full IB scaffolding: ATL, Learner Profile, TOK, NOS, CAS, execution and rubric. Click to expand, edit inline, download as PDF.</p>
+</header>
+<div class="wrap">
+  <div class="controls">
+    <div class="row"><span class="lbl">Physics topic</span><span id="topicChips"></span></div>
+    <div class="row"><span class="lbl">Interdisciplinary field</span><span id="fieldChips"></span></div>
+    <div class="row"><input id="search" placeholder="Search topics, fields, keywords..."></div>
+  </div>
+  <div class="toolbar">
+    <button id="expandAll">Expand all shown</button>
+    <button id="collapseAll">Collapse all</button>
+    <button class="solid" id="printAll">Download shown as PDF</button>
+    <span class="count" id="count"></span>
+  </div>
+  <div id="list"></div>
+</div>
+
+<script>
+/* ---- TOPICS: DP sub-topics, each with physics + an inquiry verb + a difficulty ---- */
+const TOPICS = [
+  {k:"A.1 Kinematics",phys:"SUVAT, projectile motion, graphs of motion",verb:"model the motion of",diff:"Core"},
+  {k:"A.2 Forces & momentum",phys:"Newton's laws, momentum, impulse, collisions",verb:"analyse the forces in",diff:"Core"},
+  {k:"A.3 Work, energy & power",phys:"work-energy theorem, power, efficiency, conservation",verb:"do an energy audit of",diff:"Core"},
+  {k:"A.4 Rigid body (HL)",phys:"torque, moment of inertia, angular momentum",verb:"analyse the rotation of",diff:"HL"},
+  {k:"A.5 Relativity (HL)",phys:"time dilation, length contraction, mass-energy",verb:"find the relativistic effect in",diff:"HL"},
+  {k:"B.1 Thermal energy",phys:"specific & latent heat, conduction/convection/radiation, cooling",verb:"model the heat transfer in",diff:"Core"},
+  {k:"B.2 Gas laws",phys:"ideal gas law, pressure-volume-temperature, kinetic theory",verb:"apply the gas laws to",diff:"Core"},
+  {k:"B.3 Magnetic fields",phys:"F=BIL, fields, forces on currents",verb:"design a magnetic system for",diff:"Core"},
+  {k:"B.4 Induction (HL)",phys:"Faraday's law, flux, generators, transformers",verb:"harness induction in",diff:"HL"},
+  {k:"B.5 Circuits",phys:"R=V/I, resistivity ρ=RA/L, power, emf & internal resistance, series/parallel",verb:"design the circuitry of",diff:"Core"},
+  {k:"C.1 Simple harmonic motion",phys:"SHM, period, energy in oscillation, damping",verb:"model the oscillation of",diff:"Core"},
+  {k:"C.2 Wave model",phys:"wave speed, frequency, wavelength, superposition",verb:"characterise the waves in",diff:"Core"},
+  {k:"C.3 Wave phenomena",phys:"reflection, refraction, diffraction, interference",verb:"exploit wave behaviour in",diff:"Core"},
+  {k:"C.4 Standing waves & resonance",phys:"standing waves, harmonics, resonance, natural frequency",verb:"tune the resonance of",diff:"Core"},
+  {k:"C.5 Doppler effect",phys:"Doppler shift for sound & light, moving source/observer",verb:"measure motion via Doppler in",diff:"HL"},
+  {k:"D.1 Gravitational fields",phys:"g fields, orbits, gravitational potential, Kepler",verb:"analyse the gravity of",diff:"Core"},
+  {k:"D.2 Electric & magnetic fields",phys:"field strength, potential, charged-particle motion",verb:"map the fields in",diff:"Core"},
+  {k:"D.3 Motion in fields (HL)",phys:"charged particles in E & B fields, mass spectrometry, cyclotron",verb:"steer charged particles in",diff:"HL"},
+  {k:"E.1 Nuclear structure",phys:"binding energy, mass defect, E=mc²",verb:"account for the nuclear energy in",diff:"Core"},
+  {k:"E.2 Radioactive decay",phys:"half-life, decay law, activity, dose",verb:"use radioactive decay in",diff:"Core"},
+  {k:"E.3 Fission & fusion",phys:"chain reactions, energy density, reactors",verb:"evaluate fission/fusion for",diff:"HL"},
+  {k:"E.4 Standard model (HL)",phys:"quarks, leptons, fundamental forces, particle detection",verb:"probe the particles in",diff:"HL"},
+  {k:"E.5 Quantum & photoelectric",phys:"photon energy E=hf, photoelectric effect, energy levels, spectra",verb:"apply the quantum model to",diff:"HL"}
+];
+
+/* ---- FIELDS: real-world contexts, each with a scenario + interdisciplinary partner + a CAS possibility ---- */
+const FIELDS = [
+  {k:"Sport & fitness",ctx:"an athletic performance or training system",partner:"Sports science, biology",cas:"advise the school team (Activity/Service)"},
+  {k:"Medicine & the body",ctx:"a medical device or physiological process",partner:"Biology, health science",cas:"awareness campaign on a health tech (Service)"},
+  {k:"Renewable energy",ctx:"a clean-energy generation or storage system",partner:"Environmental systems, economics",cas:"audit the school's energy use (Service)"},
+  {k:"Architecture & building",ctx:"a building's design or comfort system",partner:"Design, environmental systems",cas:"propose an improvement to a local building (Service)"},
+  {k:"Transport & vehicles",ctx:"a vehicle or transport system",partner:"Engineering, economics",cas:"road-safety or transport campaign (Service)"},
+  {k:"Music & audio",ctx:"an instrument, speaker or acoustic space",partner:"Music, design",cas:"build/perform a demonstration (Creativity)"},
+  {k:"Space & astronomy",ctx:"a spacecraft, satellite or celestial body",partner:"Astronomy, mathematics",cas:"run a stargazing/outreach event (Creativity/Service)"},
+  {k:"Consumer technology",ctx:"an everyday gadget or appliance",partner:"Design, economics",cas:"repair-cafe or e-waste drive (Service)"},
+  {k:"Environment & climate",ctx:"an environmental process or hazard",partner:"Environmental systems, geography",cas:"local environmental monitoring (Service)"},
+  {k:"Agriculture & food",ctx:"a farming or food-processing system",partner:"Biology, economics",cas:"support a local farm or garden (Service)"},
+  {k:"Safety & disaster",ctx:"a safety device or disaster scenario",partner:"Engineering, geography",cas:"disaster-preparedness drive (Service)"},
+  {k:"Art & design",ctx:"an artwork, structure or creative object",partner:"Visual arts, design",cas:"create a physics-inspired artwork (Creativity)"},
+  {k:"Entrepreneurship",ctx:"a small business or product venture",partner:"Business, economics",cas:"pitch to a real local entrepreneur (Service)"},
+  {k:"Everyday phenomena",ctx:"a common but surprising everyday event",partner:"Mathematics, general science",cas:"a public science-explainer piece (Creativity)"}
+];
+
+/* ---- hand-written exemplars: featured full specs that override the generator for key cells ---- */
+const EXEMPLARS = {
+ "B.5 Circuits|Entrepreneurship":{title:"Power Your Own Industry (DP+)",
+   rq:"Design a small industry's complete electrical system so that, once cable voltage-drop (ρL/A), supply internal resistance (ε=I(R+r)) and non-ohmic loads are all included, every machine receives the voltage it needs, safely and economically.",
+   tok:"We rely on manufacturer power ratings we never measured, how far should we trust unverified data and what does its uncertainty mean?",
+   nos:"Modelling & its limits: a naive costing model ignores voltage drop; when does omitting physics make a model dangerously wrong?"},
+ "A.1 Kinematics|Sport & fitness":{title:"The Perfect Long Jump",
+   rq:"For a real athlete, what take-off angle and speed maximise range, and why is the optimum never the textbook 45°?",
+   tok:"When a model (45° optimum) disagrees with reality, do we reject or refine it?",
+   nos:"Idealisation: point masses & no-air-resistance are useful fictions science knows when to make."},
+ "E.2 Radioactive decay|Everyday phenomena":{title:"Carbon-Date a Find",
+   rq:"From a measured C-14 activity, how old is an artefact, and how large is the uncertainty in that age?",
+   tok:"How do we claim knowledge of a past we can't witness? What assumptions underpin the method?",
+   nos:"Indirect measurement resting on calibrated assumptions."}
+};
+
+/* ---- reusable IB scaffolding ---- */
+const ATL="Thinking (modelling, analysing, evaluating trade-offs) · Research (sourcing real data, judging reliability) · Self-management (planning a multi-lesson investigation) · Communication (presenting a defended, evidence-based conclusion) · Social (collaborating in the team).";
+const LP="Inquirers & Thinkers (drive their own investigation) · Knowledgeable (apply DP physics in a real context) · Principled (honest data & uncertainty) · Open-minded (revise the model when reality disagrees) · Reflective (evaluate limitations).";
+const EXEC="1) Receive the research question & constraints. 2) Research real data and design your own method. 3) Build, model or measure, recording uncertainty. 4) Analyse: graph, propagate error, compare to theory, evaluate limitations. 5) Present and reflect on the TOK/NOS questions. The teacher guides only with questions.";
+const RUBRIC="Six criteria, ~30 marks, weighted heavily to AO2/AO3. Highest marks for: correct physical modelling, uncertainty handled and propagated, limitations evaluated honestly, and the TOK/NOS reflection genuinely engaged. Research and presentation support but cannot rescue weak physics (a polished poster with thin analysis caps low).";
+
+let aTopic="All",aField="All",q="";
+const topicChips=document.getElementById('topicChips'),fieldChips=document.getElementById('fieldChips');
+
+function chip(t,a,cls){return `<button class="chip ${cls}${a?' active':''}" data-v="${t}">${t}</button>`;}
+function renderChips(){
+  topicChips.innerHTML=chip("All",aTopic==="All","topic")+TOPICS.map(t=>chip(t.k,aTopic===t.k,"topic")).join('');
+  fieldChips.innerHTML=chip("All",aField==="All","field")+FIELDS.map(f=>chip(f.k,aField===f.k,"field")).join('');
+  topicChips.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{aTopic=c.dataset.v;renderChips();render();});
+  fieldChips.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{aField=c.dataset.v;renderChips();render();});
+}
+
+/* generate a tailored project for a topic×field cell */
+function project(T,Fl){
+  const key=T.k+"|"+Fl.k, ex=EXEMPLARS[key];
+  const title = ex? ex.title : `${T.k.replace(/^[A-E]\.\d+\s/,'')} in ${Fl.k}`;
+  const rq = ex? ex.rq : `Investigate a real example of ${Fl.ctx}: ${T.verb} it using ${T.k.replace(/^[A-E]\.\d+\s/,'').toLowerCase()}, then evaluate how well the physics predicts what actually happens.`;
+  const tok = ex? ex.tok : `How reliable is the data you gathered about ${Fl.ctx}, and where does your physical model stop matching reality?`;
+  const nos = ex? ex.nos : `Building and testing a model of a real system: identifying the dominant physics, making justified simplifications, and refining when measurement disagrees.`;
+  return {
+    title, topic:T.k, field:Fl.k, diff:T.diff, exemplar:!!ex,
+    rq, phys:T.phys, inter:Fl.partner, tok, nos,
+    cas:`Possible CAS link: ${Fl.cas}.`,
+    atl:ATL, lp:LP, exec:EXEC, rubric:RUBRIC,
+    inquiry:`Students choose a concrete real example of ${Fl.ctx}, gather their own data, design a method, and reach the physics through investigation. The teacher poses provocations rather than giving the method.`
+  };
+}
+function allCells(){ const out=[]; TOPICS.forEach(T=>FIELDS.forEach(Fl=>out.push(project(T,Fl)))); return out; }
+
+function sec(cls,label,html){return `<div class="sec ${cls}"><h4>${label}</h4><div class="content">${html}</div></div>`;}
+function cardHTML(p,idx){
+  return `<div class="card" data-idx="${idx}">
+    <div class="head" onclick="toggle(${idx})">
+      <div><h3>${p.title}${p.exemplar?' <span class="t ex">featured</span>':''}</h3>
+      <div class="tags"><span class="t topic">${p.topic}</span><span class="t field">${p.field}</span><span class="t diff">${p.diff}</span></div></div>
+      <div class="chev">›</div>
+    </div>
+    <div class="body">
+      ${sec('','Inquiry research question',p.rq)}
+      ${sec('','How it stays inquiry-led',p.inquiry)}
+      ${sec('','DP physics',p.phys)}
+      ${sec('','ATL skills',p.atl)}
+      ${sec('','Learner Profile',p.lp)}
+      ${sec('','Interdisciplinary links',p.inter)}
+      ${sec('tok','TOK',p.tok)}
+      ${sec('nos','NOS',p.nos)}
+      ${sec('cas','CAS link',p.cas)}
+      ${sec('','Execution (student-led phases)',p.exec)}
+      ${sec('','Assessment / rubric focus',p.rubric)}
+      <div class="cardtools">
+        <button class="edit" onclick="toggleEdit(${idx},this)">✎ Edit</button>
+        <button class="pdf" onclick="printOne(${idx})">⬇ Download PDF</button>
+      </div>
+      <div class="note">Generated combination — edit any field to tailor it, then download. Ask for a "deepen [title]" full hand-built version.</div>
+    </div>
+  </div>`;
+}
+function render(){
+  let cells=allCells();
+  cells=cells.filter(p=>(aTopic==="All"||p.topic===aTopic)&&(aField==="All"||p.field===aField)&&
+    (q===""||(p.title+p.rq+p.phys+p.field+p.topic+p.inter).toLowerCase().includes(q)));
+  cells.sort((a,b)=>(b.exemplar?1:0)-(a.exemplar?1:0));
+  document.getElementById('count').textContent=`${cells.length} projects (of ${TOPICS.length*FIELDS.length} total combinations)`;
+  window._cells=cells;
+  document.getElementById('list').innerHTML=cells.map((p,idx)=>cardHTML(p,idx)).join('')||'<p style="color:#5f6b74">No matches.</p>';
+}
+window.toggle=(idx)=>{const c=document.querySelector(`.card[data-idx="${idx}"]`);if(c)c.classList.toggle('open');};
+window.toggleEdit=(idx,btn)=>{const c=document.querySelector(`.card[data-idx="${idx}"]`);const on=btn.textContent.includes('Edit');
+  c.querySelectorAll('.sec .content').forEach(el=>el.setAttribute('contenteditable',on?'true':'false'));btn.textContent=on?'✓ Done':'✎ Edit';};
+window.printOne=(idx)=>{document.querySelectorAll('.card').forEach(c=>c.classList.remove('printtarget'));
+  const c=document.querySelector(`.card[data-idx="${idx}"]`);c.classList.add('printtarget','open');
+  document.body.classList.add('printone');window.print();setTimeout(()=>document.body.classList.remove('printone'),500);};
+document.getElementById('expandAll').onclick=()=>document.querySelectorAll('.card').forEach(c=>c.classList.add('open'));
+document.getElementById('collapseAll').onclick=()=>document.querySelectorAll('.card').forEach(c=>c.classList.remove('open'));
+document.getElementById('printAll').onclick=()=>{document.body.classList.remove('printone');window.print();};
+document.getElementById('search').addEventListener('input',e=>{q=e.target.value.toLowerCase().trim();render();});
+renderChips();render();
+</script>
+</body>
+</html>
