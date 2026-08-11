@@ -855,40 +855,13 @@ function unlock(){
     initApp();
   } else { alert('Incorrect password'); }
 }
-// ---- Google identity gate (runs BEFORE PIN or any auto-unlock) ----
-var TEACHER_UID = 's6jNK6MqDSTTU4LjKrBqSnSQMr42';
-function _showGateMsg(html){
-  var ls=document.getElementById('lockScreen');
-  ls.style.display='flex';
-  var box=ls.querySelector('.lock-box'); if(box) box.innerHTML=html;
-  document.getElementById('mainNav').style.display='none';
-  var mt=document.getElementById('mainTabs'); if(mt) mt.style.display='none';
-  var mc=document.getElementById('mainContent'); if(mc) mc.style.display='none';
+if(sessionStorage.getItem('dpTeacherAuth')==='true'){
+  document.getElementById('lockScreen').style.display='none';
+  document.getElementById('mainNav').style.display='flex';
+  document.getElementById('mainTabs').style.display='flex';
+  document.getElementById('mainContent').style.display='block';
+  window.addEventListener('DOMContentLoaded', initApp);
 }
-function _teacherSignIn(){ firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(e){ alert('Sign-in failed: '+e.message); }); }
-function _teacherSignOut(){ sessionStorage.removeItem('dpTeacherAuth'); firebase.auth().signOut(); }
-function _showPinScreen(){
-  var ls=document.getElementById('lockScreen'); ls.style.display='flex';
-  var box=ls.querySelector('.lock-box');
-  if(box) box.innerHTML='<h2>\ud83d\udd10 Teacher Assignments</h2><p style="color:var(--text2);margin-bottom:16px;font-size:.85rem">Signed in \u2713 \u2014 enter password</p><input type="password" id="pwInput" placeholder="Enter password" onkeydown="if(event.key===\'Enter\')unlock()"><button onclick="unlock()">Enter</button>';
-  // if this browser session already passed the PIN, go straight in
-  if(sessionStorage.getItem('dpTeacherAuth')==='true'){
-    document.getElementById('lockScreen').style.display='none';
-    document.getElementById('mainNav').style.display='flex';
-    document.getElementById('mainTabs').style.display='flex';
-    document.getElementById('mainContent').style.display='block';
-    initApp();
-  }
-}
-firebase.auth().onAuthStateChanged(function(user){
-  if(!user){
-    _showGateMsg('<h2>\ud83d\udd10 Teacher Access</h2><p style="color:var(--text2);margin-bottom:16px;font-size:.85rem">Sign in with your teacher Google account.</p><button onclick="_teacherSignIn()">Sign in with Google</button>');
-  } else if(user.uid!==TEACHER_UID){
-    _showGateMsg('<h2>\u26d4 Not authorized</h2><p style="color:var(--text2);margin-bottom:16px;font-size:.85rem">This account ('+(user.email||'')+') cannot access teacher tools.</p><button onclick="_teacherSignOut()">Sign out & try another account</button>');
-  } else {
-    _showPinScreen();
-  }
-});
 
 // ==================== TABS ====================
 function switchTab(tabName){
