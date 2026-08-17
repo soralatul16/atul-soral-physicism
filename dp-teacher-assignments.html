@@ -810,7 +810,7 @@ tbody tr:hover{background:rgba(11,114,133,.03)}
         <div id="ad-meta" style="font-size:.8rem;color:var(--text2);">Type • Marks • Due Date</div>
         <div id="ad-questions" style="margin-top:14px; max-height:60vh; overflow-y:auto; padding-right:6px"></div>
       </div>
-      <button class="btn btn-primary btn-sm" id="ad-edit-btn" style="margin-right:6px">✎ Edit questions</button><button class="btn btn-outline btn-sm" onclick="closeModal('assignment-detail-modal')">✕ Close</button>
+      <button class="btn btn-outline btn-sm" id="ad-print-btn" style="margin-right:6px">📄 Print paper</button><button class="btn btn-primary btn-sm" id="ad-edit-btn" style="margin-right:6px">✎ Edit questions</button><button class="btn btn-outline btn-sm" onclick="closeModal('assignment-detail-modal')">✕ Close</button>
     </div>
     
     <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:16px;" id="ad-stats-container"></div>
@@ -1679,6 +1679,58 @@ function saveAssignmentEdits() {
 }
 
 async function escAD(t){var d=document.createElement('div');d.textContent=(t==null?'':String(t));return d.innerHTML;}
+function _ansLines(marks){
+  var n = marks<=1?2 : (marks<=2?3 : (marks<=3?4 : marks+1));
+  var out=''; for(var i=0;i<n;i++){ out+='<div style="border-bottom:1px solid #333;height:26px"></div>'; } return out;
+}
+function printAssignmentPaper(id){
+  var a = allAssignments.find(function(x){ return x.id===id; });
+  if(!a){ alert('Assignment not found.'); return; }
+  var ids = a.questionIds||a.questionGroups||[];
+  if(!ids.length){ alert('This assignment has no stored questions.'); return; }
+  db.collection(col('dpQuestions')).get().then(function(snap){
+    var byId={}; snap.forEach(function(doc){ var d=doc.data(); d.id=doc.id; byId[doc.id]=d; });
+    var title=a.title||'Assignment';
+    var timeTxt=(a.timeLimit||a.timeMinutes||a.minutes)?(' \u00b7 Time: '+(a.timeLimit||a.timeMinutes||a.minutes)+' min'):'';
+    var head='<h1 style="text-align:center;margin:0 0 4px;font-size:16pt">'+title+'</h1>'+
+      '<p style="text-align:center;margin:0 0 4px;font-size:11pt">Total marks: '+(a.totalMarks||0)+timeTxt+'</p>'+
+      '<p style="margin:12px 0 4px;font-size:11pt">Name: ______________________________&nbsp;&nbsp;&nbsp;Date: ________________</p>'+
+      '<hr style="border:none;border-top:1px solid #000;margin:6px 0 14px">';
+    var qHtml='', msHtml='<div class="page-break" style="break-after:page;page-break-after:always"></div><h2 style="font-size:14pt">Mark Scheme</h2>';
+    ids.forEach(function(gid,gi){
+      var g=byId[gid];
+      if(!g){ qHtml+='<p><b>'+(gi+1)+'.</b> (question not found)</p>'; return; }
+      var parts=(g.parts&&g.parts.length)?g.parts:[{text:g.stem||g.text,marks:(g.marks!=null?g.marks:g.totalMarks),options:g.options,correct:g.correct,markScheme:g.markScheme}];
+      var stem=stripHtmlAD(g.stem);
+      var img=g.image? String(g.image) : '';
+      qHtml+='<div style="margin:0 0 14px;page-break-inside:avoid">';
+      qHtml+='<p style="margin:0 0 4px"><b>'+(gi+1)+'.</b> '+(stem?escAD(stem):'')+'</p>';
+      if(img) qHtml+='<div style="text-align:center;margin:6px 0">'+img+'</div>';
+      msHtml+='<div style="margin:0 0 10px"><b>Q'+(gi+1)+'</b>';
+      parts.forEach(function(p,pi){
+        var lbl=parts.length>1?('('+String.fromCharCode(97+pi)+') '):'';
+        var t=escAD(stripHtmlAD(p.text));
+        var mk=(p.marks!=null?p.marks:1);
+        var opts='';
+        if(p.options&&p.options.length){ opts='<div style="margin:2px 0 4px 16px">'+p.options.map(function(o,oi){ return '<div>'+String.fromCharCode(65+oi)+') '+escAD(stripHtmlAD(o))+'</div>'; }).join('')+'</div>'; }
+        qHtml+='<div style="margin:6px 0"><span>'+lbl+t+'</span> <span style="float:right">['+mk+']</span><div style="clear:both"></div>'+opts+
+          '<div style="margin-top:4px">'+_ansLines(mk)+'</div></div>';
+        // mark scheme line
+        var ms=stripHtmlAD(p.markScheme); var corr=stripHtmlAD(p.correct);
+        var msLine=ms||corr||'';
+        msHtml+='<div style="margin:2px 0 2px 12px">'+lbl+(msLine?escAD(msLine):'<i>&mdash;</i>')+' <span style="color:#555">['+mk+']</span></div>';
+      });
+      qHtml+='</div>';
+      msHtml+='</div>';
+    });
+    var full=head+qHtml+msHtml;
+    try{
+      localStorage.setItem('ds_paper_html', full);
+      localStorage.setItem('ds_paper_title', title);
+      window.open('document-studio.html?load=paper','_blank');
+    }catch(e){ alert('Could not prepare paper: '+e.message); }
+  }).catch(function(e){ alert('Could not load questions: '+e.message); });
+}
 function stripHtmlAD(t){var d=document.createElement('div');d.innerHTML=(t==null?'':String(t));return d.textContent||'';}
 function adStr(v){
   if(v==null) return '';
@@ -1750,7 +1802,7 @@ async function openAssignmentDetail(id) {
   if (!a) return;
   
   document.getElementById('ad-title').textContent = a.title || 'Untitled';
-  var _adEdit=document.getElementById('ad-edit-btn'); if(_adEdit){ _adEdit.onclick=function(){ editQuestionsFromDetail(a.id); }; }
+  var _adEdit=document.getElementById('ad-edit-btn'); if(_adEdit){ _adEdit.onclick=function(){ editQuestionsFromDetail(a.id); }; } var _adPrint=document.getElementById('ad-print-btn'); if(_adPrint){ _adPrint.onclick=function(){ printAssignmentPaper(a.id); }; }
   var dueStr = a.dueDate ? new Date(a.dueDate).toLocaleString('en-IN') : 'No Due Date';
   document.getElementById('ad-meta').textContent = (a.type || 'HW').toUpperCase() + ' • ' + (a.totalMarks || 0) + ' marks • Due: ' + dueStr + ' • ' + (a.questionIds || []).length + ' questions';
   renderADQuestions(a);
