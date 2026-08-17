@@ -206,14 +206,15 @@ function _loadIncomingPaper(){
     var html=localStorage.getItem('ds_paper_html');
     if(!html) return;
     var title=localStorage.getItem('ds_paper_title')||'Exam paper';
-    // default a type/grade so openEditor's meta line works
-    if(!sel.cat) sel.cat='Test Paper';
-    if(!sel.grade) sel.grade='DP2 HL/SL Common';
+    // use the assignment's own title only; no forced type/grade labels
+    if(!sel.cat) sel.cat='';
+    if(!sel.grade) sel.grade='';
     currentDocId=null;
     var tEl=document.getElementById('docTitle'); if(tEl) tEl.value=title;
     var ed=document.getElementById('editor'); if(ed){ ed.innerHTML=html; }
     openEditor(title);           // reveals #editorPane WITHOUT blanking the editor
     if(ed){ ed.innerHTML=html; } // re-assert after openEditor/setMode
+    var mEl=document.getElementById('editorMeta'); if(mEl) mEl.textContent=title;
     localStorage.removeItem('ds_paper_html'); localStorage.removeItem('ds_paper_title');
   }catch(e){ console.log('paper load error:', e.message); }
 }
