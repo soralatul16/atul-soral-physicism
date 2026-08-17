@@ -206,11 +206,16 @@ function _loadIncomingPaper(){
     var html=localStorage.getItem('ds_paper_html');
     if(!html) return;
     var title=localStorage.getItem('ds_paper_title')||'Exam paper';
+    // default a type/grade so openEditor's meta line works
+    if(!sel.cat) sel.cat='Test Paper';
+    if(!sel.grade) sel.grade='DP2 HL/SL Common';
+    currentDocId=null;
+    var tEl=document.getElementById('docTitle'); if(tEl) tEl.value=title;
     var ed=document.getElementById('editor'); if(ed){ ed.innerHTML=html; }
-    window._docTitle=title;
-    var tEl=document.getElementById('docTitle'); if(tEl){ if(tEl.value!==undefined) tEl.value=title; else tEl.textContent=title; }
+    openEditor(title);           // reveals #editorPane WITHOUT blanking the editor
+    if(ed){ ed.innerHTML=html; } // re-assert after openEditor/setMode
     localStorage.removeItem('ds_paper_html'); localStorage.removeItem('ds_paper_title');
-  }catch(e){}
+  }catch(e){ console.log('paper load error:', e.message); }
 }
 
 // chooser chips
