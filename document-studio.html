@@ -675,14 +675,25 @@ function qbParseHtml(){
           var marks=(_qtxt(sib.querySelector('.mk')).match(/\d+/)||[1])[0];
           var body=_qtxt(sib.querySelector('.body'));
           if(pendingStem){ body=pendingStem+'<br>'+body; pendingStem=''; }
-          parts.push({pl:pl, marks:parseInt(marks)||1, body:body});
+          // MCQ detection: an <ol|ul class="opts"> of choices + data-correct letter
+          var optList=sib.querySelector('.opts'); var isMCQ=false, options=null, correct=0;
+          if(optList){
+            options=[]; optList.querySelectorAll('li').forEach(function(li){ options.push(_qtxt(li)); });
+            if(options.length>=2){
+              isMCQ=true;
+              var cAttr=(sib.getAttribute('data-correct')||optList.getAttribute('data-correct')||'A').trim().toUpperCase();
+              correct=/^[0-9]+$/.test(cAttr)?parseInt(cAttr):(cAttr.charCodeAt(0)-65);
+              if(correct<0||correct>=options.length) correct=0;
+            }
+          }
+          parts.push({pl:pl, marks:parseInt(marks)||1, body:body, isMCQ:isMCQ, options:options, correct:correct});
         }
       }
       i=j-1;
       // stem that leads the question (before first part) attaches to part a
       var leadStem=parts.length&&parts[0].body.indexOf('<br>')>-1?'':''; // stems already merged above
       parts.forEach(function(p,idx){
-        out.push({ set:S.label, qn:qn, part:p.pl, topic:topic, stem:(idx===0?pendingStem:''), text:p.body, marks:p.marks, markScheme:(msByQ[qn]&&msByQ[qn][p.pl])?msByQ[qn][p.pl]:'', image:(idx===0?img:'') });
+        out.push({ set:S.label, qn:qn, part:p.pl, topic:topic, stem:(idx===0?pendingStem:''), text:p.body, marks:p.marks, markScheme:(msByQ[qn]&&msByQ[qn][p.pl])?msByQ[qn][p.pl]:'', image:(idx===0?img:''), isMCQ:p.isMCQ, options:p.options, correct:p.correct });
       });
     }
   });
@@ -707,7 +718,9 @@ function qbImportAll(){
   out.forEach(function(o){
     var group=prefix+(o.set?'-'+o.set:'')+'-Q'+o.qn; var id=group+'-'+o.part;
     var txt=(o.stem&&o.part==='a')?(o.stem+'<br>('+o.part+') '+o.text):('('+o.part+') '+o.text);
-    batch.set(db.collection(coll).doc(id), { id:id, questionGroup:group, text:txt, type:'Structured', marks:o.marks, topic:o.topic, markScheme:o.markScheme, image:o.image||'', createdAt:Date.now(), imported:true }); n++;
+    var rec={ id:id, questionGroup:group, text:txt, type:(o.isMCQ?'MCQ':'Structured'), marks:o.marks, topic:o.topic, markScheme:o.markScheme, image:o.image||'', createdAt:Date.now(), imported:true };
+    if(o.isMCQ&&o.options){ rec.options=o.options; rec.correct=(o.correct!=null?o.correct:0); }
+    batch.set(db.collection(coll).doc(id), rec); n++;
   });
   batch.commit().then(function(){ document.getElementById('qbImportStatus').textContent='✅ Imported '+n+' parts to '+coll.replace('Questions','').toUpperCase()+' bank.'; })
     .catch(function(e){ document.getElementById('qbImportStatus').textContent='Error: '+e.message; });
