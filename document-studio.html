@@ -676,24 +676,23 @@ function qbParseHtml(){
           var body=_qtxt(sib.querySelector('.body'));
           if(pendingStem){ body=pendingStem+'<br>'+body; pendingStem=''; }
           // MCQ detection: an <ol|ul class="opts"> of choices + data-correct letter
-          var optList=sib.querySelector('.opts'); var isMCQ=false, options=null, correct=0;
+          // _mcqCorrectFromMs // MCQ = a part containing a list of choices (survives paste even if class/attr stripped)
+          var optList=sib.querySelector('ol,ul'); var isMCQ=false, options=null;
           if(optList){
             options=[]; optList.querySelectorAll('li').forEach(function(li){ options.push(_qtxt(li)); });
-            if(options.length>=2){
-              isMCQ=true;
-              var cAttr=(sib.getAttribute('data-correct')||optList.getAttribute('data-correct')||'A').trim().toUpperCase();
-              correct=/^[0-9]+$/.test(cAttr)?parseInt(cAttr):(cAttr.charCodeAt(0)-65);
-              if(correct<0||correct>=options.length) correct=0;
-            }
+            if(options.length>=2){ isMCQ=true; body=_qtxt(sib.querySelector('.body'))||body; if(pendingStem){} }
+            else { options=null; }
           }
-          parts.push({pl:pl, marks:parseInt(marks)||1, body:body, isMCQ:isMCQ, options:options, correct:correct});
+          parts.push({pl:pl, marks:parseInt(marks)||1, body:body, isMCQ:isMCQ, options:options, correct:0});
         }
       }
       i=j-1;
       // stem that leads the question (before first part) attaches to part a
       var leadStem=parts.length&&parts[0].body.indexOf('<br>')>-1?'':''; // stems already merged above
       parts.forEach(function(p,idx){
-        out.push({ set:S.label, qn:qn, part:p.pl, topic:topic, stem:(idx===0?pendingStem:''), text:p.body, marks:p.marks, markScheme:(msByQ[qn]&&msByQ[qn][p.pl])?msByQ[qn][p.pl]:'', image:(idx===0?img:''), isMCQ:p.isMCQ, options:p.options, correct:p.correct });
+        var _ms=(msByQ[qn]&&msByQ[qn][p.pl])?msByQ[qn][p.pl]:''; var _corr=p.correct;
+        if(p.isMCQ&&p.options){ var mm=_ms.match(/^\s*\(?([A-D])\)?/); if(mm){ _corr=mm[1].toUpperCase().charCodeAt(0)-65; if(_corr<0||_corr>=p.options.length)_corr=0; } }
+        out.push({ set:S.label, qn:qn, part:p.pl, topic:topic, stem:(idx===0?pendingStem:''), text:p.body, marks:p.marks, markScheme:_ms, image:(idx===0?img:''), isMCQ:p.isMCQ, options:p.options, correct:_corr });
       });
     }
   });
