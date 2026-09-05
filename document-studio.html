@@ -127,7 +127,7 @@ label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.04
           <button class="btn btn-outline" onclick="saveDoc()">💾 Save</button>
           <button class="btn btn-outline" onclick="openQBank()">➕ To Question Bank</button>
           <button class="btn btn-outline" onclick="exportPDF()">🖨 Print / PDF</button>
-          <button class="btn btn-outline" onclick="printClean()" title="Exam sheet: questions + answer space only">🎓 Print Exam</button>
+          <select id="printOrient" title="Paper orientation" style="border:1.5px solid var(--border);background:#fff;border-radius:9px;padding:9px 10px;font-size:.85rem;margin-right:6px"><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select><button class="btn btn-outline" onclick="printClean()" title="Exam sheet: questions + answer space only">🎓 Print Exam</button>
           <button class="btn btn-outline" onclick="exportWord()">⬇ Word</button>
         </div>
       </div>
@@ -531,7 +531,7 @@ function clearTrailingBlanks(){
   if(!ed.lastChild || ed.lastChild.nodeName!=='P'){ var p=document.createElement('p'); p.innerHTML='<br>'; ed.appendChild(p); }
   alert('Removed blank trailing lines.');
 }
-function printClean(){
+function printClean(){ var _or=(document.getElementById('printOrient')||{}).value||'portrait';
   var content=document.getElementById('editor').innerHTML;
   // collapse redundant page breaks that create blank pages
   var _tmp=document.createElement('div'); _tmp.innerHTML=content;
@@ -544,11 +544,11 @@ function printClean(){
   // remove a trailing break at the very end
   var last=_tmp.lastElementChild; if(last&&last.classList&&last.classList.contains('page-break')) last.parentNode.removeChild(last);
   // strip emoji + variation selectors so the printout looks hand-typed, not web/AI
-  function _stripEmoji(str){ return str.replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}\u{1F1E6}-\u{1F1FF}\u{2190}-\u{21FF}\u{2000}-\u{200D}]/gu,''); }
+  function _stripEmoji(str){ var K=["\u2713","\u2714","\u2715","\u2716","\u2717","\u2718","\u2611","\u2612"]; K.forEach(function(c,j){ str=str.split(c).join(String.fromCharCode(0xE000+j)); }); str=str.replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}\u{1F1E6}-\u{1F1FF}\u{2190}-\u{21FF}\u{2000}-\u{200D}]/gu,''); K.forEach(function(c,j){ str=str.split(String.fromCharCode(0xE000+j)).join(c); }); return str; }
   content=_stripEmoji(_tmp.innerHTML);
   var w=window.open('','_blank');
   var doc='<!DOCTYPE html><html><head><meta charset="utf-8"><title>'+(window._docTitle||'Exam')+'</title><style>'+
-    '@page{size:A4;margin:16mm 15mm 18mm 15mm}'+
+    '@page{size:A4 '+_or+';margin:16mm 15mm 18mm 15mm}'+
     'html,body{margin:0;padding:0}'+
     'body{font-family:Arial,sans-serif;font-size:12pt;line-height:1.5;color:#000}'+
     '.page-break{break-after:page;page-break-after:always;height:0;overflow:hidden;border:none;margin:0}'+
