@@ -1,4 +1,5 @@
 const DP_SIMS = [
+  {id:"terminal-velocity", title:"Free Fall & Terminal Velocity", icon:"🪂", topic:"A.2", topicName:"Forces and momentum", description:"Drop a skydiver, sink a steel ball through water, release a feather, or watch true free fall on the Moon — weight, drag and upthrust battle to set the terminal velocity, with a live velocity–time graph and CSV export.", file:"sims/terminal-velocity.html"},
   {id:"circular-motion", title:"Uniform Circular Motion & Centripetal Force", icon:"🎡", topic:"A.2", topicName:"Forces and momentum", description:"Ball, car, planets or an electron — change v, r and m, watch the force and velocity vectors, and fit a graph like an IB IA.", file:"sims/circular-motion.html"},
   {
     id: "gravity-lab",

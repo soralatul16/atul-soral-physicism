@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Fall & Terminal Velocity</title>
+<style>
+  :root{
+    --bg:#f6f3ec; --panel:#fffdf8; --ink:#1c1a17; --muted:#6c655b; --line:#e6ddcd;
+    --accent:#d98a1f; --accent-soft:#f6e6c9;
+    --weight:#c8362f; --drag:#0f8a6a; --up:#2f6fd0;
+    --shadow:0 1px 2px rgba(28,26,23,.06),0 8px 24px rgba(28,26,23,.06);
+    --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","Menlo","Consolas",monospace;
+  }
+  [data-theme="dark"]{
+    --bg:#17140f; --panel:#211c15; --ink:#f3ece0; --muted:#a89f8f; --line:#352d22;
+    --accent:#e6a53f; --accent-soft:#3a2f1c;
+    --weight:#e5675f; --drag:#3fbf98; --up:#5a97e5;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55}
+  body{padding-bottom:40px}
+  header.top{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px 22px;
+    border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:20}
+  .brand{font-family:var(--serif);font-weight:700;letter-spacing:.02em;font-size:15px}
+  .brand span{color:var(--accent)}
+  .top nav{display:flex;gap:14px;margin-left:auto;font-size:13px;flex-wrap:wrap;align-items:center}
+  .top nav a{color:var(--muted);text-decoration:none;padding:4px 2px}
+  .top nav a:hover{color:var(--ink)}
+  .toggle{border:1px solid var(--line);background:transparent;color:var(--ink);width:34px;height:34px;
+    border-radius:9px;cursor:pointer;font-size:15px}
+  .toggle:hover{background:var(--accent-soft)}
+  .hdr-name{font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:5px 11px;border-radius:9px;white-space:nowrap}
+  .hdr-clock{font-family:var(--mono);font-size:12.5px;color:var(--muted);white-space:nowrap}
+
+  .hero{max-width:1200px;margin:0 auto;padding:30px 22px 6px}
+  .kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:10px}
+  .hero h1{font-family:var(--serif);font-size:clamp(27px,4.2vw,42px);line-height:1.08;font-weight:700}
+  .hero h1 em{font-style:italic;color:var(--accent)}
+  .hero p{color:var(--muted);max-width:70ch;margin-top:12px;font-size:16px}
+
+  .tabs{max-width:1200px;margin:24px auto 0;padding:0 22px;display:flex;gap:4px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tab{appearance:none;border:none;background:transparent;color:var(--muted);font-family:var(--sans);
+    font-size:14.5px;font-weight:600;cursor:pointer;padding:12px 16px;border-bottom:2.5px solid transparent;margin-bottom:-1px}
+  .tab:hover{color:var(--ink)}
+  .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+  .wrap{max-width:1200px;margin:0 auto;padding:24px 22px}
+  .panel-view[hidden]{display:none}
+
+  .presets{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+  .pbtn{display:flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--panel);
+    color:var(--ink);border-radius:12px;padding:10px 15px;cursor:pointer;font-family:var(--sans);
+    font-size:14px;font-weight:600;box-shadow:var(--shadow)}
+  .pbtn .i{font-size:18px}
+  .pbtn:hover{background:var(--accent-soft)}
+  .pbtn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 2px var(--accent) inset}
+
+  .lab{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:22px;align-items:start}
+  @media(max-width:880px){.lab{grid-template-columns:minmax(0,1fr)}}
+  .stage{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:14px;min-width:0}
+  .canvas-wrap{position:relative;width:100%;aspect-ratio:3/4;max-height:640px}
+  canvas{width:100%;height:100%;display:block;border-radius:11px}
+  .scene-cap{display:flex;justify-content:space-between;align-items:center;margin-top:9px;gap:12px;flex-wrap:wrap}
+  .scene-cap .name{font-family:var(--serif);font-weight:700;font-size:15px}
+  .scene-cap .note{font-size:12px;color:var(--muted);font-style:italic}
+  .stage-actions{display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+  .btn{font-family:var(--sans);font-size:13.5px;font-weight:600;cursor:pointer;border:1px solid var(--line);
+    background:var(--panel);color:var(--ink);padding:9px 15px;border-radius:10px}
+  .btn:hover{background:var(--accent-soft)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.primary:hover{filter:brightness(1.05)}
+  .btn.alt{border-color:var(--up);color:var(--up)}
+  .btn.alt:hover{background:var(--up);color:#fff}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+
+  .side{display:flex;flex-direction:column;gap:16px;min-width:0}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px 16px 18px}
+  .card h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;font-weight:700}
+  .ctrl{margin-bottom:16px}.ctrl:last-child{margin-bottom:0}
+  .ctrl label{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;font-weight:600;margin-bottom:6px}
+  .ctrl label b{font-family:var(--mono);font-weight:600;color:var(--accent);font-size:14px}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:5px;background:var(--line);outline:none;cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);border:2px solid var(--panel);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--accent);border:2px solid var(--panel)}
+
+  .vtoggle{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:14px;cursor:pointer}
+  .vtoggle input{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
+  .swatch{width:22px;height:0;border-top:3px solid var(--ink);border-radius:2px}
+  .swatch.weight{border-color:var(--weight)}.swatch.drag{border-color:var(--drag)}.swatch.up{border-color:var(--up)}
+
+  .readouts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .ro{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:11px 13px;display:flex;flex-direction:column;gap:6px}
+  .ro .k{font-size:11.5px;color:var(--muted);letter-spacing:.01em;font-weight:600;line-height:1.2}
+  .ro .v{font-family:var(--mono);font-size:21px;font-weight:700;color:var(--ink);line-height:1;display:flex;align-items:baseline;gap:5px;word-break:break-word}
+  .ro .u{font-size:11.5px;color:var(--muted);font-family:var(--sans);font-weight:600}
+  .ro.hi{background:var(--accent-soft);border-color:var(--accent)}
+  .ro.hi .v{color:var(--accent)}
+  .ro.wide{grid-column:1/3}
+  .ro.wide .v{font-size:25px}
+
+  .section-h{font-family:var(--serif);font-size:22px;font-weight:700;margin:26px 0 14px}
+  .mathcard h3{margin-bottom:12px}
+  .mrow{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:clamp(14px,1.9vw,17px);flex-wrap:wrap;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .mrow:last-of-type{border-bottom:none}
+  .msym{font-weight:700;color:var(--ink)}
+  .meq{color:var(--muted)}.msub{color:var(--muted)}
+  .mres{color:var(--accent);font-weight:700}
+  .mnote{font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:10px;line-height:1.5}
+  .mnote em{color:var(--ink);font-style:normal;font-weight:600}
+  .frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 4px}
+  .frac>.num{border-bottom:1.6px solid currentColor;padding:0 8px 2px}
+  .frac>.den{padding:2px 8px 0}
+  .rootline{border-top:1.6px solid currentColor;padding:2px 5px 0;margin-left:1px;display:inline-block}
+  .eq .frac{margin:0 5px}
+  .eq .formula{display:flex;align-items:center;flex-wrap:wrap;gap:2px}
+  /* MathML equations */
+  math{font-family:var(--serif)}
+  .meqn{padding:12px 2px;border-bottom:1px dashed var(--line);overflow-x:auto;overflow-y:hidden}
+  .meqn:last-of-type{border-bottom:none}
+  .mathcard math{font-size:clamp(17px,2.4vw,22px);color:var(--ink)}
+  math .res{color:var(--accent);font-weight:700}
+  .eq math{font-size:21px;color:var(--accent)}
+
+  .graph-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start}
+  @media(max-width:880px){.graph-grid{grid-template-columns:minmax(0,1fr)}}
+  #graphCanvas{width:100%;aspect-ratio:4/3;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+  .fit{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:14px}
+  .fit span b{color:var(--accent)}
+  .ia{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.5}.ia b{color:var(--ink)}
+  .axis-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .qchk{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:14px;border:1px solid var(--line);border-radius:9px;padding:6px 10px;cursor:pointer}
+  .qchk:hover{background:var(--accent-soft)}
+  .qchk input{accent-color:var(--accent);cursor:pointer;margin:0}
+  .qchk.on{border-color:var(--accent);background:var(--accent-soft);color:var(--ink);font-weight:700}
+
+  .prose{max-width:820px}
+  .prose h2{font-family:var(--serif);font-size:25px;margin:30px 0 12px;font-weight:700}
+  .prose h2:first-child{margin-top:0}
+  .prose p{margin:0 0 14px;font-size:16px}.prose p.lead{font-size:18px}
+  .stages{display:grid;gap:12px;margin:8px 0 18px}
+  .stage-row{display:flex;gap:14px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px;box-shadow:var(--shadow)}
+  .stage-row .n{font-family:var(--serif);font-weight:700;font-size:22px;color:var(--accent);min-width:28px}
+  .stage-row h4{font-size:15px;margin-bottom:3px}
+  .stage-row p{font-size:14px;color:var(--muted);margin:0}
+  .eqrow{display:flex;flex-wrap:wrap;gap:14px;margin:8px 0 20px}
+  .eq{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 18px;box-shadow:var(--shadow);flex:1 1 220px}
+  .eq .formula{font-family:var(--mono);font-size:20px;color:var(--accent);font-weight:600}
+  .eq .desc{font-size:13px;color:var(--muted);margin-top:6px}
+  .callout{border-left:3px solid var(--up);background:var(--panel);border-radius:0 12px 12px 0;padding:14px 18px;margin:18px 0;box-shadow:var(--shadow)}
+  .callout b{color:var(--up)}
+  .sources{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:8px 0 6px}
+  .src{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px;box-shadow:var(--shadow)}
+  .src .ico{font-size:22px}.src h4{font-size:15px;margin:6px 0 4px;font-family:var(--serif)}.src p{font-size:13px;color:var(--muted);margin:0}
+
+  .q{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .q .tag{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+  .q p.qt{font-size:16px;margin:8px 0 12px;font-weight:600}
+  .q .reveal{appearance:none;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:13px;font-weight:600;padding:7px 13px;border-radius:9px;cursor:pointer;font-family:var(--sans)}
+  .q .reveal:hover{background:var(--accent-soft)}
+  .q .ans{margin-top:12px;font-size:15px;border-top:1px dashed var(--line);padding-top:12px}
+  .q .ans[hidden]{display:none}
+  .q .ans code{font-family:var(--mono);background:var(--accent-soft);padding:1px 5px;border-radius:5px;font-size:13.5px}
+
+  footer{text-align:center;padding:26px 20px;color:var(--muted);font-size:11px;letter-spacing:.22em;text-transform:uppercase;border-top:1px solid var(--line);margin-top:24px}
+
+  .gate{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+    background:rgba(20,17,12,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:20px}
+  .gate-box{background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.35);
+    padding:32px 30px;max-width:440px;width:100%;text-align:center}
+  .gate-icon{font-size:32px}
+  .gate-box h2{font-family:var(--serif);font-size:24px;margin:8px 0 8px}
+  .gate-box p{color:var(--muted);font-size:14.5px;margin-bottom:18px}
+  .gate-box input{width:100%;font-size:16px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;
+    background:var(--bg);color:var(--ink);margin-bottom:14px;font-family:var(--sans)}
+  .gate-box input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .gate-box .btn.primary{width:100%;padding:12px;font-size:15px}
+  .gate-err{color:var(--weight);font-size:13px;margin-top:10px;font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <div class="gate-icon">🪂</div>
+    <h2>Before you begin</h2>
+    <p>Enter your full name. It is stamped onto the simulation and onto any data or image you download, along with the time — so your teacher can confirm the work is your own.</p>
+    <input id="gateName" type="text" placeholder="Your full name" autocomplete="name">
+    <button class="btn primary" id="gateBtn">Start the simulation</button>
+    <div class="gate-err" id="gateErr" hidden>Please enter your name (at least 2 characters) to continue.</div>
+  </div>
+</div>
+
+<header class="top">
+  <div class="brand">ATUL SORAL <span>PHYSICISM</span></div>
+  <nav>
+    <a href="../dp-simulations.html">← All Simulations</a>
+    <a href="../index.html">Home</a>
+    <a href="../myp-dashboard.html">MYP</a>
+    <a href="../dp-dashboard.html">DP</a>
+    <span class="hdr-name" id="hdrName"></span>
+    <span class="hdr-clock" id="hdrClock"></span>
+    <button class="toggle" id="themeBtn" title="Toggle light / dark">☀️</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="kicker">Physics · Forces & Motion</div>
+  <h1>Free Fall & <em>Terminal Velocity</em></h1>
+  <p>Drop a skydiver, a steel ball in water, a feather, or a hammer on the Moon. Watch how air resistance grows with speed until it balances the weight — and the object stops accelerating. Change the mass, size, shape and fluid, then read the velocity–time graph as it flattens onto the terminal velocity.</p>
+</section>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-tab="sim">Simulator</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="concept">The Physics</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="questions">Questions</button>
+</div>
+
+<!-- ===================== SIMULATOR ===================== -->
+<div class="wrap panel-view" data-view="sim">
+  <div class="presets" id="presetBar"></div>
+  <div class="lab">
+    <div class="stage">
+      <div class="canvas-wrap"><canvas id="cv"></canvas></div>
+      <div class="scene-cap">
+        <div class="name" id="sceneName"></div>
+        <div class="note" id="sceneNote"></div>
+      </div>
+      <div class="stage-actions">
+        <button class="btn primary" id="dropBtn">⬇ Drop</button>
+        <button class="btn alt" id="chuteBtn" hidden>🪂 Deploy parachute</button>
+        <button class="btn" id="pauseBtn" disabled>⏸ Pause</button>
+        <button class="btn" id="resetBtn">↻ Reset</button>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card">
+        <h3>Controls</h3>
+        <div class="ctrl"><label>Mass <b><span id="mVal">80</span> <span id="mU">kg</span></b></label><input type="range" id="mSlider"></div>
+        <div class="ctrl"><label>Radius (size) <b><span id="rVal">0.45</span> m</b></label><input type="range" id="rSlider"></div>
+        <div class="ctrl"><label>Drag coefficient C<sub>d</sub> <b><span id="cdVal">0.9</span></b></label><input type="range" id="cdSlider"></div>
+        <div class="ctrl"><label>Fluid density ρ <b><span id="rhoVal">1.2</span> kg·m⁻³</b></label><input type="range" id="rhoSlider"></div>
+      </div>
+
+      <div class="card">
+        <h3>Show forces</h3>
+        <label class="vtoggle"><input type="checkbox" id="tW" checked><span class="swatch weight"></span> Weight <b style="margin-left:auto;font-family:var(--mono);color:var(--weight)">W</b></label>
+        <label class="vtoggle"><input type="checkbox" id="tD" checked><span class="swatch drag"></span> Air resistance / drag <b style="margin-left:auto;font-family:var(--mono);color:var(--drag)">F<sub>d</sub></b></label>
+        <label class="vtoggle"><input type="checkbox" id="tU"><span class="swatch up"></span> Upthrust <b style="margin-left:auto;font-family:var(--mono);color:var(--up)">U</b></label>
+      </div>
+
+      <div class="card">
+        <h3>Live readouts</h3>
+        <div class="readouts" id="readouts"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mathcard" style="margin-top:22px">
+    <h3>Watch the physics — live working</h3>
+    <div id="mathPanel"></div>
+  </div>
+
+  <h2 class="section-h">Velocity–time graph (live)</h2>
+  <div class="graph-grid">
+    <div>
+      <canvas id="graphCanvas"></canvas>
+      <div class="fit" id="fitInfo"></div>
+      <div class="ia" id="iaNote"></div>
+    </div>
+    <div class="side">
+      <div class="card">
+        <h3>Plot against time</h3>
+        <div class="axis-label">Vertical axis</div>
+        <div class="chips" id="yAxis"></div>
+        <label class="vtoggle" style="margin-top:12px"><input type="checkbox" id="gGrid" checked> Show grid</label>
+        <label class="vtoggle"><input type="checkbox" id="gVt" checked> Show terminal-velocity line</label>
+      </div>
+      <div class="card">
+        <h3>Export (name & time stamped)</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">The graph traces automatically as the object falls. Export the trace or a snapshot for your write-up.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn" id="csvBtn">⬇ Export CSV</button>
+          <button class="btn" id="pngBtn">🖼 Save PNG</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CONCEPTS ===================== -->
+<div class="wrap panel-view" data-view="concept" hidden>
+  <div class="prose">
+    <p class="lead">Drop something and two forces decide its fate: its weight pulling it down, and the air (or fluid) pushing back as it moves. How those two compare, moment to moment, is the whole story of terminal velocity.</p>
+
+    <h2>Free fall</h2>
+    <p>An object is in <strong>free fall</strong> when gravity is the only force acting on it — no air resistance at all. Its acceleration is constant, equal to the gravitational field strength <em>g</em> (about 9.8 m·s⁻² on Earth, 1.6 m·s⁻² on the Moon). In a true vacuum, a feather and a hammer fall side by side and speed up forever until they land — there is no terminal velocity, because nothing ever pushes back. Try the Moon scenario to see this.</p>
+
+    <h2>Air resistance (drag)</h2>
+    <p>As soon as an object moves through a fluid, the fluid pushes back with a <strong>drag force</strong> that opposes the motion. Crucially, drag <em>grows with speed</em> — for everyday falling objects it rises roughly with the square of the speed:</p>
+    <div class="eqrow">
+      <div class="eq"><div class="formula"><math display="block"><msub><mi>F</mi><mi>d</mi></msub><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msub><mi>C</mi><mi>d</mi></msub><mi>ρ</mi><mi>A</mi><msup><mi>v</mi><mn>2</mn></msup></math></div><div class="desc">Bigger area A, denser fluid ρ, blunter shape C<sub>d</sub>, or faster speed v → more drag.</div></div>
+    </div>
+
+    <h2>The journey to terminal velocity</h2>
+    <div class="stages">
+      <div class="stage-row"><div class="n">1</div><div><h4>The moment of release</h4><p>Speed is zero, so drag is zero. The only force is weight, so the net force is largest and the acceleration is greatest — equal to <em>g</em>.</p></div></div>
+      <div class="stage-row"><div class="n">2</div><div><h4>Speeding up</h4><p>As the object gains speed, drag grows. The net downward force shrinks, so the acceleration gets smaller — the object still speeds up, but more and more gently.</p></div></div>
+      <div class="stage-row"><div class="n">3</div><div><h4>Terminal velocity</h4><p>Eventually drag grows until it exactly balances the weight. The net force is zero, so the acceleration is zero. The object keeps falling at a <em>constant</em> maximum speed — the terminal velocity.</p></div></div>
+    </div>
+
+    <h2>The terminal velocity itself</h2>
+    <p>At terminal velocity the forces balance: weight = drag. Setting <code style="font-family:var(--mono);background:var(--accent-soft);padding:1px 5px;border-radius:5px">mg = ½ C<sub>d</sub> ρ A v<sub>t</sub><sup>2</sup></code> and rearranging gives:</p>
+    <div class="eqrow">
+      <div class="eq"><div class="formula"><math display="block"><msub><mi>v</mi><mi>t</mi></msub><mo>=</mo><msqrt><mfrac><mrow><mn>2</mn><mi>m</mi><mi>g</mi></mrow><mrow><msub><mi>C</mi><mi>d</mi></msub><mi>ρ</mi><mi>A</mi></mrow></mfrac></msqrt></math></div><div class="desc">Heavier objects fall faster; larger area, denser fluid or blunter shapes fall slower.</div></div>
+    </div>
+    <div class="callout"><b>Upthrust.</b> In a dense fluid like water there is also an upward <em>upthrust</em> (buoyancy) equal to the weight of fluid displaced. It reduces the effective downward force, so the balance becomes weight = drag + upthrust. In air it is tiny and usually ignored; in water it matters — switch on the upthrust arrow in the steel-ball scenario.</div>
+
+    <h2>Why a parachute works</h2>
+    <p>A parachute suddenly multiplies the area A and the drag coefficient C_d. Drag leaps far above the weight, so the net force points <em>upward</em> and the skydiver decelerates — quickly settling to a new, much lower terminal velocity that is safe to land at. Deploy the parachute mid-fall and watch the velocity–time graph drop to a new plateau.</p>
+
+    <h2>Everyday terminal velocities</h2>
+    <div class="sources">
+      <div class="src"><div class="ico">🪂</div><h4>Skydiver</h4><p>Belly-to-earth ≈ 55 m·s⁻¹; under a parachute ≈ 5–6 m·s⁻¹.</p></div>
+      <div class="src"><div class="ico">🌧️</div><h4>Raindrop</h4><p>A few m·s⁻¹ — small mass, so drag balances weight quickly.</p></div>
+      <div class="src"><div class="ico">🪶</div><h4>Feather</h4><p>Very low — large area for a tiny weight.</p></div>
+      <div class="src"><div class="ico">🌕</div><h4>On the Moon</h4><p>No atmosphere → no drag → no terminal velocity: free fall all the way.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== QUESTIONS ===================== -->
+<div class="wrap panel-view" data-view="questions" hidden>
+  <div class="prose">
+    <div class="q"><div class="tag">Q1 · Describe</div><p class="qt">Describe how the acceleration of a falling skydiver changes from the moment of release until terminal velocity.</p><button class="reveal">Show answer</button><div class="ans" hidden>At release, speed is zero so there is no air resistance; the only force is weight, giving the maximum acceleration (equal to <em>g</em>). As speed increases, air resistance increases, so the resultant downward force decreases and the acceleration decreases. When air resistance grows to equal the weight, the resultant force is zero, the acceleration is zero, and the skydiver falls at a constant terminal velocity.</div></div>
+    <div class="q"><div class="tag">Q2 · Explain</div><p class="qt">Two identical balls are dropped, one on Earth and one on the Moon. Explain why only the one on Earth reaches a terminal velocity.</p><button class="reveal">Show answer</button><div class="ans" hidden>Terminal velocity requires a resistive force that grows with speed until it balances the weight. The Moon has no atmosphere, so there is no air resistance — the net force stays equal to the weight and the ball keeps accelerating at <code>g</code> (about 1.6 m·s⁻²) until it lands. On Earth, air resistance builds up until it balances the weight, giving a constant terminal velocity.</div></div>
+    <div class="q"><div class="tag">Q3 · Predict</div><p class="qt">A skydiver opens a parachute. Using the idea of forces, explain what happens to the velocity, and sketch the shape of the velocity–time graph.</p><button class="reveal">Show answer</button><div class="ans" hidden>Opening the parachute greatly increases the area and drag, so the air resistance becomes much larger than the weight. The resultant force now acts upward, so the skydiver decelerates. As they slow down, drag decreases until it again equals the weight, reaching a new, lower terminal velocity. On the velocity–time graph the line rises to the first terminal velocity, drops steeply when the parachute opens, then levels off at the lower terminal velocity.</div></div>
+    <div class="q"><div class="tag">Q4 · Apply</div><p class="qt">Why does a heavier object generally have a higher terminal velocity than a lighter object of the same size and shape?</p><button class="reveal">Show answer</button><div class="ans" hidden>Both experience the same drag at a given speed (same size and shape), but the heavier object has a larger weight. A larger drag force — and therefore a higher speed — is needed before drag balances the weight. From <code>v<sub>t</sub> = √(2mg / C<sub>d</sub>ρA)</code>, v<sub>t</sub> increases with mass. Test it: increase the mass slider and watch the terminal-velocity line rise.</div></div>
+    <div class="q"><div class="tag">Q5 · Analyse</div><p class="qt">Using the simulator, describe the shape of the velocity–time graph before terminal velocity and explain what the gradient represents.</p><button class="reveal">Show answer</button><div class="ans" hidden>The graph is a curve that rises steeply at first and then bends over, becoming a horizontal line at terminal velocity. The gradient of the velocity–time graph is the acceleration: it starts at its largest value (<code>g</code>) and decreases to zero as the curve flattens, because the resultant force falls to zero when drag balances weight.</div></div>
+    <div class="q"><div class="tag">Q6 · Water</div><p class="qt">A steel ball is dropped into water. State the three forces acting on it as it sinks, and write the condition for terminal velocity.</p><button class="reveal">Show answer</button><div class="ans" hidden>The forces are: weight (down), upthrust/buoyancy (up), and drag/water resistance (up). Terminal velocity is reached when the upward forces balance the downward weight: <code>weight = upthrust + drag</code>, so the resultant force and acceleration are zero.</div></div>
+  </div>
+</div>
+
+<footer>ATUL SORAL PHYSICISM · Interactive Physics Lab</footer>
+
+<script>
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt=(x,d=2)=>{if(!isFinite(x))return '∞';const a=Math.abs(x);
+  if(a!==0&&(a<0.01||a>=1e5))return x.toExponential(2);return x.toFixed(d);};
+// readable value: adaptive decimals so small AND large numbers stay legible
+function sig(x){if(!isFinite(x))return '∞';if(x===0)return '0';
+  const a=Math.abs(x);
+  if(a>=10000)return Math.round(x).toLocaleString('en-US');
+  if(a>=1000)return Math.round(x).toString();
+  if(a>=100)return x.toFixed(0);
+  if(a>=10)return x.toFixed(1);
+  if(a>=1)return x.toFixed(2);
+  if(a>=0.001)return x.toFixed(3);
+  return x.toExponential(1);}
+function roundRect(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);
+  c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
+
+/* ===== identity: name gate + clock + watermark ===== */
+let studentName='';
+function nowStr(){const d=new Date(),p=n=>String(n).padStart(2,'0');
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'  '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
+function drawWatermark(c,W,H,dark){
+  if(!studentName)return;const s=studentName+'  ·  '+nowStr();
+  c.save();c.font='600 12px '+css('--sans');const tw=c.measureText(s).width+16;
+  c.fillStyle=dark?'rgba(8,10,20,.6)':'rgba(255,255,255,.72)';roundRect(c,W-tw-10,H-31,tw,23,7);c.fill();
+  c.fillStyle=dark?'#e3e9f4':'#2c2a26';c.textAlign='left';c.textBaseline='middle';c.fillText(s,W-tw-2,H-19.5);c.restore();}
+const gate=document.getElementById('gate'),gateName=document.getElementById('gateName');
+function submitGate(){const n=gateName.value.trim();
+  if(n.length<2){document.getElementById('gateErr').hidden=false;return;}
+  studentName=n;gate.style.display='none';document.getElementById('hdrName').textContent='👤 '+studentName;}
+document.getElementById('gateBtn').addEventListener('click',submitGate);
+gateName.addEventListener('keydown',e=>{if(e.key==='Enter')submitGate();});
+gateName.focus();
+setInterval(()=>{document.getElementById('hdrClock').textContent=nowStr();},1000);
+document.getElementById('hdrClock').textContent=nowStr();
+
+/* ===== theme + tabs ===== */
+const themeBtn=document.getElementById('themeBtn');
+themeBtn.addEventListener('click',()=>{const dark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',dark?'light':'dark');themeBtn.textContent=dark?'☀️':'🌙';});
+const tabs=[...document.querySelectorAll('.tab')],views=[...document.querySelectorAll('.panel-view')];
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>x.setAttribute('aria-selected',x===t));
+  views.forEach(v=>v.hidden=v.dataset.view!==t.dataset.tab);
+  if(t.dataset.tab==='sim'){sizeGraph();drawGraph();}}));
+document.querySelectorAll('.q .reveal').forEach(b=>b.addEventListener('click',()=>{
+  const a=b.nextElementSibling,show=a.hidden;a.hidden=!show;b.textContent=show?'Hide answer':'Show answer';}));
+
+/* ===== constants ===== */
+const PXM=3; // pixels per metre for the scrolling background
+
+/* ===== presets ===== */
+const PRESETS={
+  sky:{label:'Skydiver',icon:'🪂',g:9.81,fluid:'air',chute:true,dark:false,
+    note:'Belly-to-earth. Deploy the parachute mid-fall!',
+    def:{m:80,r:0.45,cd:0.9,rho:1.2},range:{m:[45,120,1],r:[0.2,0.8,0.01],cd:[0.4,1.4,0.05],rho:[0,1.4,0.05]},
+    bg:skyBg,body:drawSkydiver},
+  water:{label:'Steel ball in water',icon:'🪨',g:9.81,fluid:'water',dark:false,
+    note:'Dense fluid — upthrust matters here.',
+    def:{m:1,r:0.03,cd:0.47,rho:1000},range:{m:[0.2,5,0.1],r:[0.01,0.08,0.005],cd:[0.1,1.2,0.05],rho:[800,1200,10]},
+    bg:waterBg,body:drawBall},
+  feather:{label:'Feather in air',icon:'🪶',g:9.81,fluid:'air',dark:false,
+    note:'Large area, tiny weight → very low terminal velocity.',
+    def:{m:0.005,r:0.06,cd:1.3,rho:1.2},range:{m:[0.001,0.05,0.001],r:[0.02,0.12,0.005],cd:[0.6,1.4,0.05],rho:[0,1.4,0.05]},
+    bg:skyBg,body:drawFeather},
+  moon:{label:'Hammer on the Moon',icon:'🌕',g:1.62,fluid:'vacuum',dark:true,
+    note:'No air (ρ = 0): free fall, no terminal velocity.',
+    def:{m:1.3,r:0.06,cd:0.8,rho:0},range:{m:[0.5,5,0.1],r:[0.02,0.12,0.005],cd:[0.4,1.4,0.05],rho:[0,0.5,0.05]},
+    bg:moonBg,body:drawHammer},
+};
+let curKey='sky';
+const state={m:80,r:0.45,cd:0.9,rho:1.2,v:0,t:0,x:0,dropped:false,paused:false,chute:false,trace:[]};
+
+/* ===== physics ===== */
+function derived(){
+  const P=PRESETS[curKey],g=P.g,m=state.m;
+  let r=state.r,cd=state.cd,rho=state.rho;
+  let A=Math.PI*r*r,V=(4/3)*Math.PI*r*r*r;
+  if(curKey==='sky'&&state.chute){A=28;cd=1.4;}          // open parachute
+  const W=m*g,U=rho*V*g,k=0.5*cd*rho*A;
+  const Fd=k*state.v*Math.abs(state.v);
+  const Fnet=W-U-Fd;                                      // down positive
+  const a=Fnet/m;
+  let vt=(k<1e-9)?Infinity:Math.sqrt(Math.abs(W-U)/k)*(W>=U?1:-1);
+  return {g,m,r,A,V,cd,rho,W,U,k,Fd,Fnet,a,vt};
+}
+function stepPhysics(dt){
+  const sub=8,h=dt/sub;
+  for(let i=0;i<sub;i++){const d=derived();state.v+=d.a*h;state.x+=state.v*h;state.t+=h;}
+  if(!isFinite(state.v))state.v=0;
+  if(!isFinite(state.x))state.x=0;
+  state.v=Math.max(-1e4,Math.min(state.v,1e4));
+}
+
+/* ===== canvas ===== */
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let W=0,H=0,DPR=1;
+function resize(){const r=cv.getBoundingClientRect();DPR=window.devicePixelRatio||1;
+  W=r.width;H=r.height;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0);}
+new ResizeObserver(resize).observe(cv);resize();
+
+/* --- backgrounds (scroll with distance fallen) --- */
+function tile(spacing,scroll,fn){const off=((scroll%spacing)+spacing)%spacing;
+  for(let y=-spacing+off;y<H+spacing;y+=spacing)fn(y);}
+function skyBg(scroll,light){
+  const g=ctx.createLinearGradient(0,0,0,H);
+  if(light){g.addColorStop(0,'#cfeaf7');g.addColorStop(1,'#eaf6ee');}
+  else{g.addColorStop(0,'#9fd0ee');g.addColorStop(1,'#d7ecf5');}
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.85)';
+  const puffs=[[0.2,0],[0.62,0.18],[0.4,0.5],[0.78,0.66],[0.14,0.82]];
+  tile(H*0.55,-scroll,y=>{puffs.forEach(p=>cloud(W*p[0],y+H*0.55*p[1]));});
+}
+function cloud(x,y){ctx.save();ctx.globalAlpha=.9;
+  [[0,0,26],[24,6,20],[-22,7,18],[8,-12,18]].forEach(c=>{ctx.beginPath();ctx.arc(x+c[0],y+c[1],c[2],0,7);ctx.fill();});
+  ctx.restore();}
+function waterBg(scroll){
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#2f7fb0');g.addColorStop(1,'#0f4c73');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.30)';
+  const cols=[0.15,0.32,0.5,0.68,0.85];
+  tile(64,-scroll*1.3,y=>{cols.forEach((c,i)=>{
+    const rr=2+((i*7+Math.abs(y|0))%4);                 // always positive radius
+    ctx.beginPath();ctx.arc(W*c+((i%2)?6:-6),y+i*11,Math.max(1,rr),0,7);ctx.fill();
+  });});
+}
+function moonBg(scroll){
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#05060d');g.addColorStop(1,'#12131f');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.9)';
+  for(let i=0;i<70;i++){const x=(i*89.7)%W,y=((i*57.3 - scroll*0.25)%H+H)%H,s=(i%6===0)?1.7:0.9;
+    ctx.globalAlpha=0.35+((i*13)%10)/16;ctx.beginPath();ctx.arc(x,y,s,0,7);ctx.fill();}
+  ctx.globalAlpha=1;
+}
+
+/* --- falling bodies (drawn at object screen position) --- */
+function drawBall(x,y,rad){const g=ctx.createRadialGradient(x-rad*.35,y-rad*.35,1,x,y,rad);
+  g.addColorStop(0,'#eef2f6');g.addColorStop(.4,'#9aa6b2');g.addColorStop(1,'#3b4652');
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,rad,0,7);ctx.fill();}
+function drawFeather(x,y,rad){ctx.save();ctx.translate(x,y);ctx.rotate(0.3);
+  ctx.fillStyle='#f2efe6';ctx.strokeStyle='#c9c2ad';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.ellipse(0,0,rad*0.5,rad*1.4,0,0,7);ctx.fill();ctx.stroke();
+  ctx.strokeStyle='#b3ab94';ctx.beginPath();ctx.moveTo(0,-rad*1.3);ctx.lineTo(0,rad*1.3);ctx.stroke();ctx.restore();}
+function drawHammer(x,y,rad){ctx.save();ctx.translate(x,y);
+  ctx.fillStyle='#7a5230';roundRect(ctx,-3,-rad*0.4,6,rad*2,2);ctx.fill();
+  ctx.fillStyle='#9aa1a8';roundRect(ctx,-rad*0.9,-rad*0.7,rad*1.8,rad*0.7,3);ctx.fill();ctx.restore();}
+function drawSkydiver(x,y,rad){ctx.save();ctx.translate(x,y);
+  if(state.chute){
+    ctx.fillStyle='#d98a1f';ctx.beginPath();ctx.arc(0,-rad*2.4,rad*2.6,Math.PI,0);ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,.25)';ctx.lineWidth=1.4;
+    for(let i=-2;i<=2;i++){ctx.beginPath();ctx.moveTo(i*rad*1.0,-rad*2.4);ctx.lineTo(0,-rad*0.2);ctx.stroke();}
+  }
+  ctx.fillStyle='#c8362f';roundRect(ctx,-rad*0.5,-rad*0.4,rad*1.0,rad*1.3,rad*0.35);ctx.fill(); // body
+  ctx.fillStyle='#f0c9a0';ctx.beginPath();ctx.arc(0,-rad*0.6,rad*0.4,0,7);ctx.fill();           // head
+  ctx.strokeStyle='#c8362f';ctx.lineWidth=rad*0.28;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(-rad*0.4,-rad*0.1);ctx.lineTo(-rad*1.1,-rad*0.5);
+  ctx.moveTo(rad*0.4,-rad*0.1);ctx.lineTo(rad*1.1,-rad*0.5);
+  ctx.moveTo(-rad*0.3,rad*0.9);ctx.lineTo(-rad*0.8,rad*1.6);
+  ctx.moveTo(rad*0.3,rad*0.9);ctx.lineTo(rad*0.8,rad*1.6);ctx.stroke();ctx.restore();}
+
+/* ===== arrows ===== */
+function arrow(x1,y1,x2,y2,color,w){const head=9+w*1.2,ang=Math.atan2(y2-y1,x2-x1);
+  ctx.save();ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=w;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-head*Math.cos(ang-0.4),y2-head*Math.sin(ang-0.4));
+  ctx.lineTo(x2-head*Math.cos(ang+0.4),y2-head*Math.sin(ang+0.4));ctx.closePath();ctx.fill();ctx.restore();}
+function label(x,y,s,color){ctx.save();ctx.font='700 14px '+css('--mono');ctx.fillStyle=color;
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(s,x,y);ctx.restore();}
+
+const show={W:true,D:true,U:false};
+document.getElementById('tW').addEventListener('change',e=>show.W=e.target.checked);
+document.getElementById('tD').addEventListener('change',e=>show.D=e.target.checked);
+document.getElementById('tU').addEventListener('change',e=>show.U=e.target.checked);
+
+/* ===== render loop ===== */
+let last=performance.now(),ro=0;
+function frame(now){
+ try{
+  const dt=Math.min((now-last)/1000,0.05);last=now;
+  const P=PRESETS[curKey];
+  if(state.dropped&&!state.paused){
+    stepPhysics(dt);
+    const d=derived();
+    state.trace.push({t:state.t,v:state.v,a:d.a,x:state.x});
+    if(state.trace.length>3600)state.trace.shift();
+  }
+  const d=derived();
+  ctx.clearRect(0,0,W,H);
+  P.bg(state.x*PXM, P.dark?false:true);
+
+  const objX=W*0.5,objY=H*0.4,rad=Math.max(14,Math.min(W,H)*0.05);
+  // speed streaks
+  if(state.v>1){ctx.save();ctx.strokeStyle=P.dark?'rgba(255,255,255,.25)':'rgba(255,255,255,.6)';
+    ctx.lineWidth=1.5;const n=6,len=Math.min(state.v*1.5,90);
+    for(let i=0;i<n;i++){const sx=objX-rad*1.4+(i/(n-1))*rad*2.8;
+      ctx.beginPath();ctx.moveTo(sx,objY-rad*1.6);ctx.lineTo(sx,objY-rad*1.6-len);ctx.stroke();}ctx.restore();}
+
+  P.body(objX,objY,rad);
+
+  // force vectors (weight length fixed, others relative → balanced at terminal)
+  const maxLen=120,base=objY+rad*1.9;
+  const wLen=maxLen, dLen=d.W?maxLen*Math.min(d.Fd/d.W,2):0, uLen=d.W?maxLen*Math.min(d.U/d.W,2):0;
+  if(show.W)      {arrow(objX,base,objX,base+wLen,css('--weight'),5);label(objX,base+wLen+14,'W',css('--weight'));}
+  if(show.D&&dLen>2){arrow(objX-26,objY-rad*1.9,objX-26,objY-rad*1.9-dLen,css('--drag'),5);label(objX-26,objY-rad*1.9-dLen-14,'Fd',css('--drag'));}
+  if(show.U&&uLen>2){arrow(objX+26,objY-rad*1.9,objX+26,objY-rad*1.9-uLen,css('--up'),5);label(objX+26,objY-rad*1.9-uLen-14,'U',css('--up'));}
+
+  // HUD
+  const hud=P.dark?'#e6ecf5':'#20304a';
+  ctx.save();ctx.font='600 13px '+css('--mono');ctx.fillStyle=hud;ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillText('t = '+state.t.toFixed(1)+' s',14,12);
+  ctx.fillText('v = '+state.v.toFixed(1)+' m/s',14,30);
+  ctx.fillText('fallen = '+state.x.toFixed(0)+' m',14,48);
+  ctx.restore();
+  if(isFinite(d.vt)&&d.vt>0){ctx.save();ctx.font='600 12px '+css('--sans');ctx.fillStyle=hud;ctx.textAlign='right';ctx.textBaseline='top';
+    ctx.fillText((Math.min(state.v/d.vt*100,100)).toFixed(0)+'% of terminal velocity',W-14,12);ctx.restore();}
+
+  drawWatermark(ctx,W,H,P.dark);
+
+  if(++ro%3===0){renderReadouts();if(document.querySelector('.tab[data-tab="sim"]').getAttribute('aria-selected')==='true')drawGraph();}
+ }catch(e){/* keep the animation loop alive no matter what */}
+  requestAnimationFrame(frame);
+}
+
+/* ===== readouts + live math ===== */
+function renderReadouts(){
+  const d=derived(),host=document.getElementById('readouts');
+  const rows=[
+    {k:'Velocity, v',v:sig(state.v),u:'m·s⁻¹'},
+    {k:'Acceleration, a',v:sig(d.a),u:'m·s⁻²'},
+    {k:'Weight, W = mg',v:sig(d.W),u:'N'},
+    {k:'Air resistance, F<sub>d</sub>',v:sig(d.Fd),u:'N'},
+  ];
+  if(d.rho>0)rows.push({k:'Upthrust, U',v:sig(d.U),u:'N'});
+  rows.push({k:'Resultant force',v:sig(d.Fnet),u:'N'});
+  rows.push({k:'Terminal velocity, v<sub>t</sub>',v:isFinite(d.vt)?sig(Math.abs(d.vt)):'∞',u:isFinite(d.vt)?'m·s⁻¹':'free fall',hi:1,wide:1});
+  host.innerHTML=rows.map(r=>`<div class="ro ${r.hi?'hi':''} ${r.wide?'wide':''}"><div class="k">${r.k}</div><div class="v">${r.v}<span class="u">${r.u}</span></div></div>`).join('');
+  renderMath(d);
+}
+const FR=(n,d)=>`<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`;
+const RT=x=>`√<span class="rootline">${x}</span>`;
+function renderMath(d){
+  const el=document.getElementById('mathPanel');
+  const U='<mtext> m·s⁻²</mtext>', U1='<mtext> m·s⁻¹</mtext>', N='<mtext> N</mtext>';
+  const val=(x,u)=>`<mrow class="res"><mn>${x}</mn>${u||''}</mrow>`;
+  let html='';
+  if(d.rho<1e-9||d.k<1e-9){
+    html=`<div class="meqn"><math display="block">
+      <mi>a</mi><mo>=</mo><mfrac><mi>W</mi><mi>m</mi></mfrac><mo>=</mo>
+      <mfrac><mn>${fmt(d.W,1)}</mn><mn>${fmt(d.m,2)}</mn></mfrac><mo>=</mo>${val(fmt(d.a,2),U)}</math></div>`
+     + `<div class="mnote">There is no air (ρ = 0), so the drag force is always zero. The net force stays equal to the weight and the acceleration stays at g — <em>this is free fall, with no terminal velocity.</em></div>`;
+  }else{
+    html+=`<div class="meqn"><math display="block">
+      <msub><mi>F</mi><mi>d</mi></msub><mo>=</mo>
+      <mfrac><mn>1</mn><mn>2</mn></mfrac><msub><mi>C</mi><mi>d</mi></msub><mi>ρ</mi><mi>A</mi><msup><mi>v</mi><mn>2</mn></msup>
+      <mo>=</mo>${val(fmt(d.Fd,1),N)}</math></div>`;
+    html+=`<div class="meqn"><math display="block">
+      <msub><mi>v</mi><mi>t</mi></msub><mo>=</mo>
+      <msqrt><mfrac><mrow><mn>2</mn><mo>(</mo><mi>mg</mi><mo>−</mo><mi>U</mi><mo>)</mo></mrow><mrow><msub><mi>C</mi><mi>d</mi></msub><mi>ρ</mi><mi>A</mi></mrow></mfrac></msqrt>
+      <mo>=</mo>
+      <msqrt><mfrac><mn>${fmt(2*(d.W-d.U),1)}</mn><mn>${fmt(2*d.k,3)}</mn></mfrac></msqrt>
+      <mo>=</mo>${val(isFinite(d.vt)?fmt(Math.abs(d.vt),1):'∞',U1)}</math></div>`;
+    html+=`<div class="meqn"><math display="block">
+      <mi>a</mi><mo>=</mo>
+      <mfrac><mrow><mi>W</mi><mo>−</mo><mi>U</mi><mo>−</mo><msub><mi>F</mi><mi>d</mi></msub></mrow><mi>m</mi></mfrac>
+      <mo>=</mo>
+      <mfrac><mn>${fmt(d.W-d.U-d.Fd,1)}</mn><mn>${fmt(d.m,2)}</mn></mfrac>
+      <mo>=</mo>${val(fmt(d.a,2),U)}</math></div>`;
+    html+=`<div class="mnote">At release F<sub>d</sub> = 0, so a = g (largest). As v grows, F<sub>d</sub> grows until <em>W − U − F<sub>d</sub> = 0</em> → a = 0 → the object falls at the constant terminal velocity. Watch a shrink to zero as the graph flattens.</div>`;
+  }
+  el.innerHTML=html;
+}
+
+/* ===== controls ===== */
+function setupSlider(key,valId,rng,val,dec){const s=document.getElementById(key+'Slider');
+  s.min=rng[0];s.max=rng[1];s.step=rng[2];s.value=val;document.getElementById(valId).textContent=(+val).toFixed(dec);}
+['m','r','cd','rho'].forEach(key=>{const s=document.getElementById(key+'Slider');
+  s.addEventListener('input',()=>{state[key]=parseFloat(s.value);
+    const dec=parseFloat(s.step)<0.01?3:(parseFloat(s.step)<1?2:0);
+    document.getElementById(key+'Val').textContent=state[key].toFixed(dec);
+    renderReadouts();drawGraph();});});
+
+const dropBtn=document.getElementById('dropBtn'),pauseBtn=document.getElementById('pauseBtn'),
+      chuteBtn=document.getElementById('chuteBtn'),resetBtn=document.getElementById('resetBtn');
+dropBtn.addEventListener('click',()=>{if(state.dropped)return;state.dropped=true;dropBtn.disabled=true;pauseBtn.disabled=false;
+  if(PRESETS[curKey].chute)chuteBtn.disabled=false;});
+pauseBtn.addEventListener('click',()=>{if(!state.dropped)return;state.paused=!state.paused;pauseBtn.textContent=state.paused?'▶ Play':'⏸ Pause';});
+chuteBtn.addEventListener('click',()=>{state.chute=true;chuteBtn.disabled=true;chuteBtn.textContent='🪂 Parachute open';});
+resetBtn.addEventListener('click',resetFall);
+function resetFall(){state.v=0;state.t=0;state.x=0;state.dropped=false;state.paused=false;state.chute=false;state.trace=[];
+  dropBtn.disabled=false;pauseBtn.disabled=true;pauseBtn.textContent='⏸ Pause';
+  chuteBtn.textContent='🪂 Deploy parachute';chuteBtn.disabled=true;
+  renderReadouts();drawGraph();}
+
+/* ===== presets ===== */
+function buildPresetBar(){const bar=document.getElementById('presetBar');
+  bar.innerHTML=Object.entries(PRESETS).map(([k,P])=>`<button class="pbtn" data-k="${k}" aria-pressed="${k===curKey}"><span class="i">${P.icon}</span>${P.label}</button>`).join('');
+  bar.querySelectorAll('.pbtn').forEach(b=>b.addEventListener('click',()=>selectPreset(b.dataset.k)));}
+function selectPreset(k){curKey=k;const P=PRESETS[k];
+  document.querySelectorAll('.pbtn').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
+  document.getElementById('sceneName').textContent=P.label+'  ·  g = '+P.g+' m·s⁻²';
+  document.getElementById('sceneNote').textContent=P.note;
+  setupSlider('m','mVal',P.range.m,P.def.m,P.range.m[2]<1?2:0);
+  setupSlider('r','rVal',P.range.r,P.def.r,3);
+  setupSlider('cd','cdVal',P.range.cd,P.def.cd,2);
+  setupSlider('rho','rhoVal',P.range.rho,P.def.rho,P.range.rho[1]<=2?2:0);
+  document.getElementById('mU').textContent='kg';
+  state.m=P.def.m;state.r=P.def.r;state.cd=P.def.cd;state.rho=P.def.rho;
+  document.getElementById('tU').checked=P.fluid==='water';show.U=P.fluid==='water';
+  chuteBtn.hidden=!P.chute;
+  resetFall();}
+
+/* ===== graph (live velocity–time) ===== */
+const YOPTS={
+  v:{label:'v',axis:'velocity v  (m·s⁻¹)',get:p=>p.v},
+  a:{label:'a',axis:'acceleration a  (m·s⁻²)',get:p=>p.a},
+  x:{label:'distance',axis:'distance fallen  (m)',get:p=>p.x},
+};
+let yKey='v';
+function buildYPicker(){const h=document.getElementById('yAxis');
+  h.innerHTML=Object.entries(YOPTS).map(([k,o])=>`<label class="qchk ${k===yKey?'on':''}"><input type="checkbox" data-k="${k}" ${k===yKey?'checked':''}>${o.label}</label>`).join('');
+  h.querySelectorAll('input').forEach(inp=>inp.addEventListener('change',()=>{
+    h.querySelectorAll('input').forEach(x=>x.checked=(x===inp));
+    h.querySelectorAll('.qchk').forEach(l=>l.classList.toggle('on',l.querySelector('input').checked));
+    yKey=inp.dataset.k;drawGraph();}));}
+document.getElementById('gGrid').addEventListener('change',drawGraph);
+document.getElementById('gVt').addEventListener('change',drawGraph);
+
+const gc=document.getElementById('graphCanvas'),gx=gc.getContext('2d');
+function sizeGraph(){const r=gc.getBoundingClientRect(),d=window.devicePixelRatio||1;
+  gc.width=Math.round(r.width*d);gc.height=Math.round(r.height*d);gx.setTransform(d,0,0,d,0,0);gc._w=r.width;gc._h=r.height;}
+window.addEventListener('resize',()=>{sizeGraph();drawGraph();});
+function drawGraph(){
+  if(!gc._w)sizeGraph();
+  const W=gc._w,H=gc._h,pad={l:64,r:18,t:16,b:50};
+  const yo=YOPTS[yKey],tr=state.trace,d=derived();
+  const showGrid=document.getElementById('gGrid').checked,showVt=document.getElementById('gVt').checked;
+  gx.clearRect(0,0,W,H);gx.fillStyle=css('--panel');gx.fillRect(0,0,W,H);
+  const inkC=css('--ink'),mutedC=css('--muted'),lineC=css('--line'),accent=css('--accent');
+  // ranges (computed with loops — never spread a large array into Math.max)
+  const tmax=Math.max(4,state.t*1.08);
+  let ymax=1,ymin=0;
+  for(const p of tr){const yv=yo.get(p);if(isFinite(yv)){if(yv>ymax)ymax=yv;if(yv<ymin)ymin=yv;}}
+  if(yKey==='v'&&isFinite(d.vt))ymax=Math.max(ymax,Math.abs(d.vt)*1.12);
+  if(yKey==='a')ymax=Math.max(ymax,d.g*1.05);
+  ymax*=1.05;if(ymax<=ymin)ymax=ymin+1;
+  const PX=t=>pad.l+t/tmax*(W-pad.l-pad.r);
+  const PY=y=>H-pad.b-(y-ymin)/(ymax-ymin)*(H-pad.t-pad.b);
+  // grid: 10 minor light, 5 major dark
+  const nMinor=10,nMajor=5;
+  if(showGrid){
+    gx.strokeStyle=lineC;gx.lineWidth=1;gx.globalAlpha=0.5;
+    for(let i=0;i<=nMinor;i++){const xx=pad.l+(W-pad.l-pad.r)*i/nMinor,yy=(H-pad.b)-(H-pad.t-pad.b)*i/nMinor;
+      gx.beginPath();gx.moveTo(xx,pad.t);gx.lineTo(xx,H-pad.b);gx.stroke();
+      gx.beginPath();gx.moveTo(pad.l,yy);gx.lineTo(W-pad.r,yy);gx.stroke();}
+    gx.strokeStyle=mutedC;gx.lineWidth=1.1;gx.globalAlpha=0.4;
+    for(let i=0;i<=nMajor;i++){const xx=pad.l+(W-pad.l-pad.r)*i/nMajor,yy=(H-pad.b)-(H-pad.t-pad.b)*i/nMajor;
+      gx.beginPath();gx.moveTo(xx,pad.t);gx.lineTo(xx,H-pad.b);gx.stroke();
+      gx.beginPath();gx.moveTo(pad.l,yy);gx.lineTo(W-pad.r,yy);gx.stroke();}
+    gx.globalAlpha=1;
+  }
+  gx.font='11px '+css('--mono');gx.fillStyle=mutedC;
+  for(let i=0;i<=nMajor;i++){const tv=tmax*i/nMajor,yv=ymin+(ymax-ymin)*i/nMajor;
+    gx.textAlign='center';gx.fillText(tv.toFixed(1),PX(tv),H-pad.b+16);
+    gx.textAlign='right';gx.fillText(fmt(yv,1),pad.l-8,PY(yv)+4);}
+  // axes
+  gx.strokeStyle=inkC;gx.lineWidth=1.5;
+  gx.beginPath();gx.moveTo(pad.l,pad.t);gx.lineTo(pad.l,H-pad.b);gx.lineTo(W-pad.r,H-pad.b);gx.stroke();
+  gx.fillStyle=inkC;gx.font='600 13px '+css('--sans');gx.textAlign='center';
+  gx.fillText('time t  (s)',(pad.l+W-pad.r)/2,H-12);
+  gx.save();gx.translate(16,(pad.t+H-pad.b)/2);gx.rotate(-Math.PI/2);gx.fillText(yo.axis,0,0);gx.restore();
+  // terminal-velocity reference line
+  if(yKey==='v'&&showVt&&isFinite(d.vt)&&Math.abs(d.vt)<=ymax){
+    gx.strokeStyle=accent;gx.lineWidth=1.6;gx.setLineDash([7,6]);
+    gx.beginPath();gx.moveTo(pad.l,PY(Math.abs(d.vt)));gx.lineTo(W-pad.r,PY(Math.abs(d.vt)));gx.stroke();gx.setLineDash([]);
+    gx.fillStyle=accent;gx.font='600 11px '+css('--mono');gx.textAlign='left';
+    gx.fillText('vₜ = '+fmt(Math.abs(d.vt),1),pad.l+6,PY(Math.abs(d.vt))-6);
+  }
+  // trace line
+  if(tr.length>1){gx.strokeStyle=css('--drag');gx.lineWidth=2.4;gx.lineJoin='round';gx.beginPath();
+    tr.forEach((p,i)=>{const X=PX(p.t),Y=PY(yo.get(p));i?gx.lineTo(X,Y):gx.moveTo(X,Y);});gx.stroke();
+    const lp=tr[tr.length-1];gx.fillStyle=css('--drag');gx.beginPath();gx.arc(PX(lp.t),PY(yo.get(lp)),4,0,7);gx.fill();}
+  drawWatermark(gx,W,H,false);
+  // captions
+  const fi=document.getElementById('fitInfo');
+  fi.innerHTML=`<span>t <b>${state.t.toFixed(1)} s</b></span><span>v <b>${state.v.toFixed(1)} m/s</b></span><span>a <b>${fmt(d.a,2)} m/s²</b></span><span>v<sub>t</sub> <b>${isFinite(d.vt)?fmt(Math.abs(d.vt),1)+' m/s':'∞'}</b></span>`;
+  const notes={
+    v:'Velocity rises steeply, then bends over and flattens onto the dashed terminal-velocity line. The gradient (acceleration) falls to zero.',
+    a:'Acceleration starts at g and falls towards zero as drag builds up to balance the weight.',
+    x:'Distance grows ever more steeply at first, then in a straight line once the speed is constant at terminal velocity.'};
+  document.getElementById('iaNote').innerHTML='<b>Reading it:</b> '+notes[yKey];
+}
+
+/* ===== export ===== */
+function download(name,data,type){const b=new Blob([data],{type}),u=URL.createObjectURL(b);
+  const a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u);}
+document.getElementById('csvBtn').addEventListener('click',()=>{
+  const d=derived();
+  let lines=[`Student:,${studentName}`,`Downloaded:,${nowStr()}`,`Scenario:,${PRESETS[curKey].label}`,
+    `mass_kg:,${state.m}`,`radius_m:,${state.r}`,`Cd:,${state.cd}`,`fluid_density:,${state.rho}`,`g:,${PRESETS[curKey].g}`,
+    `terminal_velocity_m/s:,${isFinite(d.vt)?Math.abs(d.vt).toFixed(3):'infinite (free fall)'}`,'',
+    'time_s,velocity_m/s,acceleration_m/s^2,distance_m'];
+  state.trace.forEach(p=>lines.push(`${p.t.toFixed(3)},${p.v.toFixed(4)},${p.a.toFixed(4)},${p.x.toFixed(3)}`));
+  download(`terminal-velocity-${curKey}-${(studentName||'student').replace(/\s+/g,'_')}.csv`,lines.join('\n'),'text/csv');});
+document.getElementById('pngBtn').addEventListener('click',()=>{sizeGraph();drawGraph();
+  gc.toBlob(b=>{const u=URL.createObjectURL(b);const a=document.createElement('a');
+    a.href=u;a.download=`terminal-velocity-${curKey}-${(studentName||'student').replace(/\s+/g,'_')}.png`;a.click();URL.revokeObjectURL(u);});});
+
+/* ===== init ===== */
+buildPresetBar();
+buildYPicker();
+selectPreset('sky');
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
