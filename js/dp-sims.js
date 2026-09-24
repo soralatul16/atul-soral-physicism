@@ -1,4 +1,5 @@
 const DP_SIMS = [
+  {id:"circular-motion", title:"Uniform Circular Motion & Centripetal Force", icon:"🎡", topic:"A.2", topicName:"Forces and momentum", description:"Ball, car, planets or an electron — change v, r and m, watch the force and velocity vectors, and fit a graph like an IB IA.", file:"sims/circular-motion.html"},
   {
     id: "gravity-lab",
     title: "Gravity Lab",

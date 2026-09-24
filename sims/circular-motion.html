@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uniform Circular Motion &amp; Centripetal Force</title>
+<style>
+  :root{
+    --bg:#f6f3ec; --panel:#fffdf8; --ink:#1c1a17; --muted:#6c655b; --line:#e6ddcd;
+    --accent:#d98a1f; --accent-soft:#f6e6c9;
+    --vel:#0f8a6a; --force:#c8362f; --ghost:#9a8f7e;
+    --shadow:0 1px 2px rgba(28,26,23,.06),0 8px 24px rgba(28,26,23,.06);
+    --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","Menlo","Consolas",monospace;
+  }
+  [data-theme="dark"]{
+    --bg:#17140f; --panel:#211c15; --ink:#f3ece0; --muted:#a89f8f; --line:#352d22;
+    --accent:#e6a53f; --accent-soft:#3a2f1c;
+    --vel:#3fbf98; --force:#e5675f; --ghost:#8a8070;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55}
+  body{padding-bottom:40px}
+  header.top{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px 22px;
+    border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:20}
+  .brand{font-family:var(--serif);font-weight:700;letter-spacing:.02em;font-size:15px}
+  .brand span{color:var(--accent)}
+  .top nav{display:flex;gap:14px;margin-left:auto;font-size:13px;flex-wrap:wrap;align-items:center}
+  .top nav a{color:var(--muted);text-decoration:none;padding:4px 2px}
+  .top nav a:hover{color:var(--ink)}
+  .toggle{border:1px solid var(--line);background:transparent;color:var(--ink);width:34px;height:34px;
+    border-radius:9px;cursor:pointer;font-size:15px}
+  .toggle:hover{background:var(--accent-soft)}
+
+  .hero{max-width:1200px;margin:0 auto;padding:30px 22px 6px}
+  .kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:10px}
+  .hero h1{font-family:var(--serif);font-size:clamp(27px,4.2vw,42px);line-height:1.08;font-weight:700}
+  .hero h1 em{font-style:italic;color:var(--accent)}
+  .hero p{color:var(--muted);max-width:70ch;margin-top:12px;font-size:16px}
+
+  .tabs{max-width:1200px;margin:24px auto 0;padding:0 22px;display:flex;gap:4px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .tab{appearance:none;border:none;background:transparent;color:var(--muted);font-family:var(--sans);
+    font-size:14.5px;font-weight:600;cursor:pointer;padding:12px 16px;border-bottom:2.5px solid transparent;margin-bottom:-1px}
+  .tab:hover{color:var(--ink)}
+  .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+  .wrap{max-width:1200px;margin:0 auto;padding:24px 22px}
+  .panel-view[hidden]{display:none}
+
+  /* preset chooser */
+  .presets{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+  .pbtn{display:flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--panel);
+    color:var(--ink);border-radius:12px;padding:10px 15px;cursor:pointer;font-family:var(--sans);
+    font-size:14px;font-weight:600;box-shadow:var(--shadow)}
+  .pbtn .i{font-size:18px}
+  .pbtn:hover{background:var(--accent-soft)}
+  .pbtn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 2px var(--accent) inset}
+
+  .lab{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:22px;align-items:start}
+  @media(max-width:880px){.lab{grid-template-columns:minmax(0,1fr)}}
+
+  .stage{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:14px;min-width:0}
+  .canvas-wrap{position:relative;width:100%;aspect-ratio:1/1;max-height:620px}
+  canvas{width:100%;height:100%;display:block;border-radius:11px}
+  .scene-cap{display:flex;justify-content:space-between;align-items:center;margin-top:9px;gap:12px;flex-wrap:wrap}
+  .scene-cap .name{font-family:var(--serif);font-weight:700;font-size:15px}
+  .scene-cap .note{font-size:12px;color:var(--muted);font-style:italic}
+  .stage-actions{display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+  .btn{font-family:var(--sans);font-size:13.5px;font-weight:600;cursor:pointer;border:1px solid var(--line);
+    background:var(--panel);color:var(--ink);padding:9px 15px;border-radius:10px}
+  .btn:hover{background:var(--accent-soft)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.primary:hover{filter:brightness(1.05)}
+  .btn.danger{border-color:var(--force);color:var(--force)}
+  .btn.danger:hover{background:var(--force);color:#fff}
+
+  .side{display:flex;flex-direction:column;gap:16px;min-width:0}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px 16px 18px}
+  .card h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;font-weight:700}
+  .ctrl{margin-bottom:16px}.ctrl:last-child{margin-bottom:0}
+  .ctrl label{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;font-weight:600;margin-bottom:6px}
+  .ctrl label b{font-family:var(--mono);font-weight:600;color:var(--accent);font-size:14px}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:5px;background:var(--line);outline:none;cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);border:2px solid var(--panel);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--accent);border:2px solid var(--panel)}
+
+  .vtoggle{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:14px;cursor:pointer}
+  .vtoggle input{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
+  .swatch{width:22px;height:0;border-top:3px solid var(--ink);border-radius:2px}
+  .swatch.vel{border-color:var(--vel)}.swatch.force{border-color:var(--force)}
+  .swatch.ghost{border-top-style:dashed;border-color:var(--ghost)}
+
+  .readouts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .ro{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:10px 12px}
+  .ro .k{font-size:11px;color:var(--muted);letter-spacing:.02em}
+  .ro .v{font-family:var(--mono);font-size:18px;font-weight:600;margin-top:3px;color:var(--ink);word-break:break-word}
+  .ro .u{font-size:11px;color:var(--muted);margin-left:3px;font-family:var(--sans)}
+  .ro.hi{background:var(--accent-soft);border-color:var(--accent)}
+  .ro.wide{grid-column:1/3}
+
+  /* catalogue selector */
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:7px 11px;
+    font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans)}
+  .chip:hover{background:var(--accent-soft)}
+  .chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:#fff}
+  .chip.is-primary{outline:2px solid var(--ink);outline-offset:2px}
+
+  /* tables */
+  .tbl{width:100%;border-collapse:collapse;font-size:13px}
+  .tbl th,.tbl td{text-align:right;padding:7px 8px;border-bottom:1px solid var(--line);font-family:var(--mono)}
+  .tbl th{font-family:var(--sans);font-weight:700;color:var(--muted);font-size:11px;letter-spacing:.03em;text-transform:uppercase}
+  .tbl td:first-child,.tbl th:first-child{text-align:left;font-family:var(--sans);font-weight:600}
+  .tbl tr.sel td{background:var(--accent-soft)}
+  .tbl-scroll{overflow:auto;max-height:none}
+
+  .insight{border-left:3px solid var(--accent);background:var(--panel);border-radius:0 12px 12px 0;padding:13px 16px;margin-top:14px;box-shadow:var(--shadow);font-size:14px}
+  .insight b{color:var(--accent)}
+
+  /* graph tab */
+  .graph-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start}
+  @media(max-width:880px){.graph-grid{grid-template-columns:minmax(0,1fr)}}
+  #graphCanvas{width:100%;aspect-ratio:4/3;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+  .fit{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:14px}
+  .fit span b{color:var(--accent)}
+  select{font-family:var(--sans);font-size:14px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);width:100%;cursor:pointer}
+  .ia{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.5}
+  .ia b{color:var(--ink)}
+
+  /* live-math panel */
+  .section-h{font-family:var(--serif);font-size:22px;font-weight:700;margin:26px 0 14px}
+  .mathcard h3{margin-bottom:12px}
+  .mrow{display:flex;gap:10px;align-items:baseline;font-family:var(--mono);font-size:clamp(15px,2vw,18px);flex-wrap:wrap;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .mrow:last-of-type{border-bottom:none}
+  .msym{font-weight:700;color:var(--ink);min-width:130px}
+  .meq{color:var(--muted)}
+  .msub{color:var(--muted)}
+  .mres{color:var(--accent);font-weight:700;margin-left:auto}
+  .mnote{font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:10px;line-height:1.5}
+  .mnote em{color:var(--ink);font-style:normal;font-weight:600}
+
+  /* prose */
+  .prose{max-width:820px}
+  .prose h2{font-family:var(--serif);font-size:25px;margin:30px 0 12px;font-weight:700}
+  .prose h2:first-child{margin-top:0}
+  .prose p{margin:0 0 14px;font-size:16px}
+  .prose p.lead{font-size:18px}
+  .eqrow{display:flex;flex-wrap:wrap;gap:14px;margin:8px 0 20px}
+  .eq{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 18px;box-shadow:var(--shadow);flex:1 1 220px}
+  .eq .formula{font-family:var(--mono);font-size:20px;color:var(--accent);font-weight:600}
+  .eq .desc{font-size:13px;color:var(--muted);margin-top:6px}
+  .callout{border-left:3px solid var(--force);background:var(--panel);border-radius:0 12px 12px 0;padding:14px 18px;margin:18px 0;box-shadow:var(--shadow)}
+  .callout b{color:var(--force)}
+  .sources{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:8px 0 6px}
+  .src{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px;box-shadow:var(--shadow)}
+  .src .ico{font-size:22px}.src h4{font-size:15px;margin:6px 0 4px;font-family:var(--serif)}.src p{font-size:13px;color:var(--muted);margin:0}
+
+  .q{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .q .tag{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+  .q p.qt{font-size:16px;margin:8px 0 12px;font-weight:600}
+  .q .reveal{appearance:none;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:13px;font-weight:600;padding:7px 13px;border-radius:9px;cursor:pointer;font-family:var(--sans)}
+  .q .reveal:hover{background:var(--accent-soft)}
+  .q .ans{margin-top:12px;font-size:15px;border-top:1px dashed var(--line);padding-top:12px}
+  .q .ans[hidden]{display:none}
+  .q .ans code{font-family:var(--mono);background:var(--accent-soft);padding:1px 5px;border-radius:5px;font-size:13.5px}
+
+  footer{text-align:center;padding:26px 20px;color:var(--muted);font-size:11px;letter-spacing:.22em;text-transform:uppercase;border-top:1px solid var(--line);margin-top:24px}
+
+  /* identity in header */
+  .hdr-name{font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:5px 11px;border-radius:9px;white-space:nowrap}
+  .hdr-clock{font-family:var(--mono);font-size:12.5px;color:var(--muted);white-space:nowrap}
+
+  /* name gate */
+  .gate{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+    background:rgba(20,17,12,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:20px}
+  .gate-box{background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.35);
+    padding:32px 30px;max-width:440px;width:100%;text-align:center}
+  .gate-icon{font-size:32px}
+  .gate-box h2{font-family:var(--serif);font-size:24px;margin:8px 0 8px}
+  .gate-box p{color:var(--muted);font-size:14.5px;margin-bottom:18px}
+  .gate-box input{width:100%;font-size:16px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;
+    background:var(--bg);color:var(--ink);margin-bottom:14px;font-family:var(--sans)}
+  .gate-box input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .gate-box .btn.primary{width:100%;padding:12px;font-size:15px}
+  .gate-err{color:var(--force);font-size:13px;margin-top:10px;font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <div class="gate-icon">⚡</div>
+    <h2>Before you begin</h2>
+    <p>Enter your full name. It is stamped onto the simulation and onto any data or image you download, along with the time — so your teacher can confirm the work is your own.</p>
+    <input id="gateName" type="text" placeholder="Your full name" autocomplete="name">
+    <button class="btn primary" id="gateBtn">Start the simulation</button>
+    <div class="gate-err" id="gateErr" hidden>Please enter your name (at least 2 characters) to continue.</div>
+  </div>
+</div>
+
+<header class="top">
+  <div class="brand">ATUL SORAL <span>PHYSICISM</span></div>
+  <nav>
+    <a href="../dp-simulations.html">← All Simulations</a>
+    <a href="../index.html">Home</a>
+    <a href="../myp-dashboard.html">MYP</a>
+    <a href="../dp-dashboard.html">DP</a>
+    <span class="hdr-name" id="hdrName"></span>
+    <span class="hdr-clock" id="hdrClock"></span>
+    <button class="toggle" id="themeBtn" title="Toggle light / dark">☀️</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="kicker">DP Physics · Theme A · Motion</div>
+  <h1>Uniform Circular Motion &amp; the <em>Centripetal Force</em></h1>
+  <p>Pick a real scenario — a ball on a string, a car on a track, the planets around the Sun, or an electron around a nucleus. Change the speed, radius and mass, watch the force and velocity vectors, record data, and fit a graph just like an IB Internal Assessment.</p>
+</section>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-tab="sim">Simulator</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="concept">The Physics</button>
+  <button class="tab" role="tab" aria-selected="false" data-tab="questions">IB Questions</button>
+</div>
+
+<!-- ===================== SIMULATOR ===================== -->
+<div class="wrap panel-view" data-view="sim">
+  <div class="presets" id="presetBar"></div>
+  <div class="lab">
+    <div class="stage">
+      <div class="canvas-wrap"><canvas id="cv"></canvas></div>
+      <div class="scene-cap">
+        <div class="name" id="sceneName"></div>
+        <div class="note">Animation in slow motion for clarity — readouts show true values.</div>
+      </div>
+      <div class="stage-actions">
+        <button class="btn danger" id="cutBtn">✂ Cut the string</button>
+        <button class="btn" id="pauseBtn">⏸ Pause</button>
+        <button class="btn primary" id="resetBtn">↻ Reset</button>
+      </div>
+    </div>
+
+    <div class="side">
+      <!-- free controls -->
+      <div class="card" id="freeCtrls">
+        <h3>Controls</h3>
+        <div class="ctrl">
+          <label>Speed <b><span id="vVal">8.0</span> <span id="vU">m·s⁻¹</span></b></label>
+          <input type="range" id="vSlider" min="1" max="15" step="0.5" value="8">
+        </div>
+        <div class="ctrl">
+          <label>Radius <b><span id="rVal">3.0</span> <span id="rU">m</span></b></label>
+          <input type="range" id="rSlider" min="1" max="6" step="0.25" value="3">
+        </div>
+        <div class="ctrl">
+          <label>Mass <b><span id="mVal">1.0</span> <span id="mU">kg</span></b></label>
+          <input type="range" id="mSlider" min="0.2" max="5" step="0.1" value="1">
+        </div>
+      </div>
+
+      <!-- catalogue selector -->
+      <div class="card" id="catCtrls" hidden>
+        <h3 id="catTitle">Select</h3>
+        <div class="chips" id="catChips"></div>
+      </div>
+
+      <!-- car track shape -->
+      <div class="card" id="carShapeCard" hidden>
+        <h3>Track shape</h3>
+        <div class="chips" id="shapeChips">
+          <button class="chip" data-s="circle" aria-pressed="true">● Circle</button>
+          <button class="chip" data-s="oval" aria-pressed="false">⬭ Oval</button>
+          <button class="chip" data-s="irregular" aria-pressed="false">✺ Irregular</button>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-top:11px">Speed stays constant, but on a bend that tightens (smaller radius of curvature) the centripetal force rises. Watch F change as the car rounds the sharp corners.</p>
+      </div>
+
+      <div class="card">
+        <h3>Show vectors</h3>
+        <label class="vtoggle"><input type="checkbox" id="tVel" checked><span class="swatch vel"></span> Velocity <b style="margin-left:auto;font-family:var(--mono);color:var(--vel)">v</b></label>
+        <label class="vtoggle"><input type="checkbox" id="tForce" checked><span class="swatch force"></span> <span id="forceTogLabel">Centripetal force</span> <b style="margin-left:auto;font-family:var(--mono);color:var(--force)">F</b></label>
+        <label class="vtoggle"><input type="checkbox" id="tGhost"><span class="swatch ghost"></span> "Centrifugal" (apparent)</label>
+      </div>
+
+      <div class="card">
+        <h3>Live readouts</h3>
+        <div class="readouts" id="readouts"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- live working: maths updates as you move sliders / pick objects -->
+  <div class="card mathcard" style="margin-top:22px">
+    <h3>Watch the formula — live working</h3>
+    <div id="mathPanel"></div>
+  </div>
+
+  <!-- comparison table (catalogue only) -->
+  <div class="card" id="cmpCard" hidden style="margin-top:22px">
+    <h3 id="cmpTitle">Comparison</h3>
+    <div class="tbl-scroll"><table class="tbl" id="cmpTable"></table></div>
+    <div class="insight" id="cmpInsight"></div>
+  </div>
+
+  <!-- data entry + graph, on the same page -->
+  <h2 class="section-h">Record data &amp; plot the relationship</h2>
+  <div class="graph-grid">
+    <div>
+      <canvas id="graphCanvas"></canvas>
+      <div class="fit" id="fitInfo"></div>
+      <div class="ia" id="iaNote"></div>
+    </div>
+    <div class="side">
+      <div class="card">
+        <h3>What to plot</h3>
+        <select id="plotSelect"></select>
+        <button class="btn primary" id="autoplotBtn" style="width:100%;margin-top:12px">📈 Autoplot graph</button>
+        <label class="vtoggle" style="margin-top:12px"><input type="checkbox" id="gGrid" checked> Show grid</label>
+        <label class="vtoggle"><input type="checkbox" id="gFit" checked> Show best-fit line</label>
+      </div>
+      <div class="card" id="recordCard">
+        <h3>Record data</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Set your variables above, then capture a point. Keep the control variables fixed for a clean straight line.</p>
+        <button class="btn primary" id="recordBtn" style="width:100%">＋ Record current point</button>
+        <div class="tbl-scroll" style="margin-top:12px;max-height:240px"><table class="tbl" id="dataTable"></table></div>
+      </div>
+      <div class="card">
+        <h3>Export (name &amp; time stamped)</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn" id="csvBtn">⬇ Export CSV</button>
+          <button class="btn" id="pngBtn">🖼 Save PNG</button>
+          <button class="btn danger" id="clearBtn">Clear data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CONCEPTS ===================== -->
+<div class="wrap panel-view" data-view="concept" hidden>
+  <div class="prose">
+    <p class="lead">Speed is constant, but velocity is not. Velocity is a vector, and its direction changes every instant as the object rounds the circle. A changing velocity means acceleration — even with no change in speed.</p>
+    <h2>The key relationships</h2>
+    <div class="eqrow">
+      <div class="eq"><div class="formula">v = ωr</div><div class="desc">Linear speed links to angular speed ω and radius r.</div></div>
+      <div class="eq"><div class="formula">a꜀ = v²/r = ω²r</div><div class="desc">Centripetal acceleration — always directed toward the centre.</div></div>
+    </div>
+    <div class="eqrow">
+      <div class="eq"><div class="formula">F꜀ = mv²/r = mω²r</div><div class="desc">The net inward force required to keep the object on its circular path.</div></div>
+      <div class="eq"><div class="formula">T = 2π/ω,  f = 1/T</div><div class="desc">Period T and frequency f of one full revolution.</div></div>
+    </div>
+    <h2>Why "centripetal", not "centrifugal"</h2>
+    <p>The velocity vector points along the tangent — the direction the object would fly if suddenly freed. The acceleration and net force point <em>inward</em>, toward the centre. That inward force is called <strong>centripetal</strong> ("centre-seeking"). It is not a new kind of force; it is the <em>name for the role</em> played by whatever real force happens to point inward.</p>
+    <div class="callout"><b>The centrifugal "force" is a misconception.</b> In an inertial frame there is no outward force on the object. The feeling of being flung outward is your body's inertia — it wants to travel in a straight line while the seat, string, or track pushes you inward.</div>
+    <h2>Where the centripetal force comes from</h2>
+    <p>There is no "centripetal force" generator. In every real situation, an ordinary force takes on the inward-pointing role — exactly the four scenarios in this simulator:</p>
+    <div class="sources">
+      <div class="src"><div class="ico">🪢</div><h4>Tension</h4><p>A ball whirled on a string — the string tension pulls inward.</p></div>
+      <div class="src"><div class="ico">🛞</div><h4>Friction</h4><p>A car rounding a bend — friction between tyres and road.</p></div>
+      <div class="src"><div class="ico">🪐</div><h4>Gravity</h4><p>Planets orbiting the Sun, held by gravitational attraction.</p></div>
+      <div class="src"><div class="ico">⚛️</div><h4>Electrostatic</h4><p>An electron bound to the nucleus by the Coulomb force.</p></div>
+    </div>
+    <h2>Orbital speed depends on distance, not mass</h2>
+    <p>For gravity, the centripetal force is <code style="font-family:var(--mono);background:var(--accent-soft);padding:1px 5px;border-radius:5px">GMm/r² = mv²/r</code>. The orbiting mass <em>m</em> cancels, giving <code style="font-family:var(--mono);background:var(--accent-soft);padding:1px 5px;border-radius:5px">v = √(GM/r)</code>. That is why Jupiter — 318 times Earth's mass — still orbits far slower than Earth: it is farther out. The same maths, with the Coulomb force, sets an electron's speed at each Bohr radius.</p>
+  </div>
+</div>
+
+<!-- ===================== QUESTIONS ===================== -->
+<div class="wrap panel-view" data-view="questions" hidden>
+  <div class="prose">
+    <div class="q"><div class="tag">Q1 · Reasoning</div><p class="qt">An object moves around a circle at a perfectly constant speed. Explain how it can still be accelerating.</p><button class="reveal">Show answer</button><div class="ans" hidden>Velocity is a vector — it has direction as well as magnitude. Although the <em>speed</em> is constant, the <em>direction</em> of motion changes continuously. A changing velocity is, by definition, an acceleration, directed toward the centre.</div></div>
+    <div class="q"><div class="tag">Q2 · Calculate</div><p class="qt">A 0.50 kg ball is whirled on a string of radius 0.80 m at 4.0 m·s⁻¹. Find the centripetal force. Check with the ball preset.</p><button class="reveal">Show answer</button><div class="ans" hidden><code>F꜀ = mv²/r</code> = (0.50 × 4.0²)/0.80 = 8.0/0.80 = <code>10 N</code>, along the string toward the hand.</div></div>
+    <div class="q"><div class="tag">Q3 · Predict</div><p class="qt">Double the speed at fixed radius. What happens to the centripetal force? Test it in the simulator.</p><button class="reveal">Show answer</button><div class="ans" hidden>Since <code>F꜀ ∝ v²</code>, doubling the speed <em>quadruples</em> the force.</div></div>
+    <div class="q"><div class="tag">Q4 · Orbits</div><p class="qt">Jupiter is over 300 times more massive than Earth, yet it orbits the Sun more slowly. Use the planet preset and explain why.</p><button class="reveal">Show answer</button><div class="ans" hidden>Setting gravity equal to the centripetal force, <code>GMm/r² = mv²/r</code>, the planet's mass cancels: <code>v = √(GM/r)</code>. Orbital speed depends only on the Sun's mass and the distance <em>r</em>. Jupiter is much farther out, so it moves slower — its own mass is irrelevant.</div></div>
+    <div class="q"><div class="tag">Q5 · Misconception</div><p class="qt">A student says an outward centrifugal force pulls a whirling ball away from the hand. What is wrong, and what happens if the string breaks?</p><button class="reveal">Show answer</button><div class="ans" hidden>In an inertial frame the only horizontal force is the inward tension. If the string breaks the ball flies off along the <em>tangent</em> in a straight line (Newton's first law), not radially outward. The "outward" feeling is inertia, not a real force.</div></div>
+    <div class="q"><div class="tag">Q6 · Data analysis</div><p class="qt">In the Data tab you plot F against v² at fixed r and m. What does the gradient represent?</p><button class="reveal">Show answer</button><div class="ans" hidden>From <code>F = (m/r)·v²</code>, a graph of F against v² is a straight line through the origin with gradient <code>m/r</code>. Multiplying the gradient by r recovers the mass.</div></div>
+  </div>
+</div>
+
+<footer>ATUL SORAL PHYSICISM · Interactive Physics Lab</footer>
+
+<script>
+/* ================= constants ================= */
+const G=6.674e-11, M_SUN=1.989e30, AU=1.496e11, M_EARTH=5.972e24;
+const A0=5.29e-11, V1=2.188e6, M_E=9.109e-31, K_E=8.988e9, E_CH=1.602e-19;
+
+/* ================= theme & tabs ================= */
+const themeBtn=document.getElementById('themeBtn');
+themeBtn.addEventListener('click',()=>{
+  const dark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',dark?'light':'dark');
+  themeBtn.textContent=dark?'☀️':'🌙';
+});
+const tabs=[...document.querySelectorAll('.tab')], views=[...document.querySelectorAll('.panel-view')];
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>x.setAttribute('aria-selected',x===t));
+  views.forEach(v=>v.hidden=v.dataset.view!==t.dataset.tab);
+  if(t.dataset.tab==='sim'){sizeGraph();drawGraph();}
+}));
+document.querySelectorAll('.q .reveal').forEach(btn=>btn.addEventListener('click',()=>{
+  const a=btn.nextElementSibling,show=a.hidden;a.hidden=!show;btn.textContent=show?'Hide answer':'Show answer';
+}));
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt=(x,d=2)=>{if(!isFinite(x))return '—';const a=Math.abs(x);
+  if(a!==0&&(a<0.01||a>=1e5))return x.toExponential(2);return x.toFixed(d);};
+
+/* ================= student identity (name + timestamp) ================= */
+let studentName='';
+function nowStr(){const d=new Date(),p=n=>String(n).padStart(2,'0');
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'  '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
+function drawWatermark(c,W,H,dark){
+  if(!studentName)return;
+  const s=studentName+'  ·  '+nowStr();
+  c.save();c.font='600 12px '+css('--sans');
+  const tw=c.measureText(s).width+16;
+  c.fillStyle=dark?'rgba(8,10,20,.6)':'rgba(255,255,255,.72)';
+  roundRect(c,W-tw-10,H-31,tw,23,7);c.fill();
+  c.fillStyle=dark?'#e3e9f4':'#2c2a26';c.textAlign='left';c.textBaseline='middle';
+  c.fillText(s,W-tw-2,H-19.5);c.restore();
+}
+const gate=document.getElementById('gate'),gateName=document.getElementById('gateName');
+function submitGate(){const n=gateName.value.trim();
+  if(n.length<2){document.getElementById('gateErr').hidden=false;return;}
+  studentName=n;gate.style.display='none';document.getElementById('hdrName').textContent='👤 '+studentName;}
+document.getElementById('gateBtn').addEventListener('click',submitGate);
+gateName.addEventListener('keydown',e=>{if(e.key==='Enter')submitGate();});
+gateName.focus();
+setInterval(()=>{document.getElementById('hdrClock').textContent=nowStr();},1000);
+document.getElementById('hdrClock').textContent=nowStr();
+
+/* ================= catalogue data ================= */
+const PLANETS=[ // dist(a) AU, mean orbital speed km/s, mass (Earth=1), eccentricity, colour
+  {name:'Mercury',r:0.387,v:47.4,m:0.055,e:0.206,c:'#b8b0a0'},
+  {name:'Venus',  r:0.723,v:35.0,m:0.815,e:0.007,c:'#e6c98a'},
+  {name:'Earth',  r:1.000,v:29.8,m:1.000,e:0.017,c:'#3d9be0'},
+  {name:'Mars',   r:1.524,v:24.1,m:0.107,e:0.093,c:'#d1603f'},
+  {name:'Jupiter',r:5.203,v:13.1,m:317.8,e:0.049,c:'#d8a878'},
+  {name:'Saturn', r:9.537,v:9.7, m:95.2, e:0.057,c:'#e0cfa0'},
+  {name:'Uranus', r:19.19,v:6.8, m:14.5, e:0.046,c:'#8fd3d8'},
+  {name:'Neptune',r:30.07,v:5.4, m:17.1, e:0.011,c:'#4a6fd0'},
+];
+const SHELLS=[1,2,3,4].map(n=>({name:'n='+n,n,r:n*n*A0,v:V1/n}));
+
+/* ================= arrow / helpers ================= */
+function arrow(ctx,x1,y1,x2,y2,color,width,dashed){
+  const head=9+width*1.2, ang=Math.atan2(y2-y1,x2-x1);
+  ctx.save();ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=width;ctx.lineCap='round';
+  if(dashed)ctx.setLineDash([7,6]);
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.setLineDash([]);
+  ctx.beginPath();ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-head*Math.cos(ang-0.4),y2-head*Math.sin(ang-0.4));
+  ctx.lineTo(x2-head*Math.cos(ang+0.4),y2-head*Math.sin(ang+0.4));
+  ctx.closePath();ctx.fill();ctx.restore();
+}
+function txt(ctx,x,y,s,color,font){ctx.save();ctx.font=font||('600 15px '+css('--mono'));
+  ctx.fillStyle=color;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(s,x,y);ctx.restore();}
+
+/* ================= scene drawers ================= */
+function starField(ctx,W,H){
+  ctx.save();const g=ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'#0a0e1f');g.addColorStop(1,'#141024');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(255,255,255,.9)';
+  for(let i=0;i<90;i++){const x=(i*97.3)%W,y=(i*61.7)%H,s=(i%7===0)?1.7:0.9;
+    ctx.globalAlpha=0.4+((i*13)%10)/16;ctx.beginPath();ctx.arc(x,y,s,0,7);ctx.fill();}
+  ctx.globalAlpha=1;ctx.restore();
+}
+function sun(ctx,cx,cy){
+  const g=ctx.createRadialGradient(cx,cy,2,cx,cy,34);
+  g.addColorStop(0,'#fff6cf');g.addColorStop(.4,'#ffd24d');g.addColorStop(1,'rgba(255,150,20,0)');
+  ctx.save();ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,34,0,7);ctx.fill();
+  ctx.fillStyle='#ffd24d';ctx.beginPath();ctx.arc(cx,cy,15,0,7);ctx.fill();ctx.restore();
+}
+function nucleus(ctx,cx,cy){
+  const g=ctx.createRadialGradient(cx,cy,1,cx,cy,26);
+  g.addColorStop(0,'rgba(255,120,90,.5)');g.addColorStop(1,'rgba(255,120,90,0)');
+  ctx.save();ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,26,0,7);ctx.fill();
+  const cols=['#d94b3a','#3d7fd9','#d94b3a','#3d7fd9','#d94b3a','#e0733a','#3d7fd9'];
+  for(let i=0;i<7;i++){const a=i*0.9,rr=5+((i%3))*2.2;
+    ctx.fillStyle=cols[i];ctx.beginPath();ctx.arc(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr,5.4,0,7);ctx.fill();}
+  ctx.restore();
+}
+function planetBody(ctx,x,y,rad,col){
+  const g=ctx.createRadialGradient(x-rad*.35,y-rad*.35,1,x,y,rad);
+  g.addColorStop(0,'#ffffff');g.addColorStop(.25,col);g.addColorStop(1,'#00000055');
+  ctx.save();ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,rad,0,7);ctx.fill();ctx.restore();
+}
+function carBody(ctx,x,y,ang,scale){
+  scale=scale||1;
+  ctx.save();
+  ctx.fillStyle='rgba(0,0,0,.30)';ctx.beginPath();ctx.ellipse(x,y+7*scale,18*scale,7*scale,0,0,7);ctx.fill();
+  ctx.translate(x,y);ctx.rotate(ang);ctx.scale(scale,scale);
+  ctx.fillStyle='#2a2a2a';roundRect(ctx,-16,-11,6,6,2);ctx.fill();roundRect(ctx,-16,5,6,6,2);ctx.fill();
+  roundRect(ctx,10,-11,6,6,2);ctx.fill();roundRect(ctx,10,5,6,6,2);ctx.fill();
+  ctx.fillStyle='#c8362f';roundRect(ctx,-15,-9,30,18,5);ctx.fill();
+  ctx.fillStyle='#e0574f';roundRect(ctx,-15,-9,30,7,5);ctx.fill();     // sunlit top edge
+  ctx.fillStyle='#9e2822';roundRect(ctx,-15,4,30,5,4);ctx.fill();      // shaded bottom edge
+  ctx.fillStyle='#bfe0ff';roundRect(ctx,-2,-6,9,12,2);ctx.fill();      // windshield
+  ctx.restore();
+}
+function strokeLoop(pts,color,w){ctx.strokeStyle=color;ctx.lineWidth=w;ctx.lineJoin='round';
+  ctx.beginPath();pts.forEach((s,i)=>i?ctx.lineTo(s[0],s[1]):ctx.moveTo(s[0],s[1]));ctx.closePath();ctx.stroke();}
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+
+/* ================= car track shapes (unit space, characteristic radius ~1) ================= */
+const CAR_SHAPES={
+  circle:t=>{const a=2*Math.PI*t;return [Math.cos(a),Math.sin(a)];},
+  oval:t=>{const a=2*Math.PI*t;return [1.32*Math.cos(a),0.74*Math.sin(a)];},
+  irregular:t=>{const a=2*Math.PI*t;const r=1+0.22*Math.sin(3*a)+0.12*Math.cos(2*a+0.8)+0.06*Math.sin(5*a);return [r*Math.cos(a),r*Math.sin(a)];},
+};
+let carShape='circle', carPath=null;
+function menger(a,b,c){const A=Math.hypot(b[0]-a[0],b[1]-a[1]),B=Math.hypot(c[0]-b[0],c[1]-b[1]),C=Math.hypot(c[0]-a[0],c[1]-a[1]);
+  const area=Math.abs((b[0]-a[0])*(c[1]-a[1])-(c[0]-a[0])*(b[1]-a[1]))/2;
+  if(A*B*C===0)return 1e-6;return 4*area/(A*B*C);}
+function buildCarPath(shape){
+  const fn=CAR_SHAPES[shape],N=360,pts=[];
+  for(let i=0;i<N;i++)pts.push(fn(i/N));
+  const cum=[0];let tot=0;
+  for(let i=1;i<=N;i++){const a=pts[(i-1)%N],b=pts[i%N];tot+=Math.hypot(b[0]-a[0],b[1]-a[1]);cum.push(tot);}
+  const curv=[];
+  for(let i=0;i<N;i++){const p0=pts[(i-1+N)%N],p1=pts[i],p2=pts[(i+1)%N];curv.push(menger(p0,p1,p2));}
+  carPath={pts,cum,tot,curv,N};
+}
+function carSample(su){ // su = unit arc length; returns world-unit point, tangent, rhoUnit
+  const P=carPath;let d=((su%P.tot)+P.tot)%P.tot;
+  let i=0;while(i<P.N&&P.cum[i+1]<d)i++;
+  const seg=(d-P.cum[i])/((P.cum[i+1]-P.cum[i])||1);
+  const a=P.pts[i],b=P.pts[(i+1)%P.N];
+  const x=a[0]+(b[0]-a[0])*seg, y=a[1]+(b[1]-a[1])*seg;
+  const pm=P.pts[(i-1+P.N)%P.N],pp=P.pts[(i+1)%P.N];
+  let tx=pp[0]-pm[0],ty=pp[1]-pm[1];const tl=Math.hypot(tx,ty)||1;tx/=tl;ty/=tl;
+  return {x,y,tx,ty,rhoUnit:1/Math.max(P.curv[i],1e-4)};
+}
+
+/* ================= Kepler solver ================= */
+function keplerE(M,e){M=((M%(2*Math.PI))+2*Math.PI)%(2*Math.PI);let E=M;
+  for(let i=0;i<8;i++)E=E-(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));return E;}
+
+
+/* ================= presets (bg = background only; orbit/track drawn in frame) ================= */
+const PRESETS={
+  ball:{label:'Ball on a string',icon:'🪢',mode:'free',dark:false,force:'Tension',cut:'✂ Cut the string',
+    def:{v:8,r:3,m:1},range:{v:[1,15,.5],r:[1,6,.25],m:[.2,5,.1]},unit:{v:'m·s⁻¹',r:'m',m:'kg'},
+    bg(ctx,W,H,cx,cy){const g=ctx.createRadialGradient(cx,cy,10,cx,cy,Math.max(W,H)*.7);
+      g.addColorStop(0,css('--panel'));g.addColorStop(1,css('--bg'));ctx.fillStyle=g;ctx.fillRect(0,0,W,H);},
+    body(ctx,x,y){ctx.save();ctx.fillStyle=css('--accent');ctx.strokeStyle=css('--panel');ctx.lineWidth=3;
+      ctx.beginPath();ctx.arc(x,y,10,0,7);ctx.fill();ctx.stroke();ctx.restore();},
+  },
+  car:{label:'Car on a track',icon:'🏎️',mode:'free',dark:false,force:'Friction',cut:'⚠ Remove friction',
+    def:{v:12,r:4,m:1000},range:{v:[4,30,1],r:[2,6,.25],m:[600,2500,50]},unit:{v:'m·s⁻¹',r:'m',m:'kg'},
+    bg(ctx,W,H){const sky=ctx.createLinearGradient(0,0,0,H*0.42);sky.addColorStop(0,'#bfe3f5');sky.addColorStop(1,'#dbeee6');
+      ctx.fillStyle=sky;ctx.fillRect(0,0,W,H*0.42);
+      const gr=ctx.createLinearGradient(0,H*0.42,0,H);gr.addColorStop(0,'#4f8a44');gr.addColorStop(1,'#356b30');
+      ctx.fillStyle=gr;ctx.fillRect(0,H*0.42,W,H*0.58);},
+    body(ctx,x,y,ang){carBody(ctx,x,y,ang);},
+  },
+  planet:{label:'Planets & the Sun',icon:'🪐',mode:'catalogue',dark:true,force:'Gravity',cut:'🌑 Switch off gravity',data:PLANETS,ref:2,
+    bg(ctx,W,H){starField(ctx,W,H);},
+    body(ctx,x,y,ang,sel){planetBody(ctx,x,y,11,sel?sel.c:'#3d9be0');},
+  },
+  atom:{label:'Electron & nucleus',icon:'⚛️',mode:'catalogue',dark:true,force:'Coulomb attraction',cut:'⚡ Remove attraction',data:SHELLS,ref:0,
+    bg(ctx,W,H,cx,cy){const g=ctx.createRadialGradient(cx,cy,10,cx,cy,Math.max(W,H)*.6);
+      g.addColorStop(0,'#151a2e');g.addColorStop(1,'#0a0c16');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);},
+    body(ctx,x,y){ctx.save();const g=ctx.createRadialGradient(x,y,0,x,y,12);
+      g.addColorStop(0,'#bfe0ff');g.addColorStop(1,'rgba(80,150,255,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,12,0,7);ctx.fill();
+      ctx.fillStyle='#5aa0ff';ctx.beginPath();ctx.arc(x,y,5,0,7);ctx.fill();ctx.restore();},
+  },
+};
+const TILT=0.64, CAR_SCALE=0.82;
+function drawShells(cx,cy,Rpx){
+  const selN=PRESETS.atom.data[state.selIdx].n;
+  ctx.save();
+  for(let n=1;n<=selN;n++){
+    const rr=Rpx*(n*n)/(selN*selN), isSel=(n===selN);
+    ctx.strokeStyle=isSel?'rgba(150,195,255,.8)':'rgba(120,160,220,.38)';
+    ctx.lineWidth=isSel?1.9:1.2;ctx.setLineDash(isSel?[]:[2,6]);
+    ctx.beginPath();ctx.arc(cx,cy,rr,0,7);ctx.stroke();
+    ctx.setLineDash([]);ctx.fillStyle=isSel?'#c3dcff':'rgba(160,190,230,.65)';
+    ctx.font='11px '+css('--mono');ctx.textAlign='center';ctx.fillText('n='+n,cx,cy-rr-6);
+  }
+  ctx.restore();
+}
+function drawCarTrack(cx,cy,R,proj){
+  const P=carPath;if(!P)return;const N=P.N,HW=0.15; // half road width (unit)
+  const outer=[],inner=[],mid=[];
+  for(let i=0;i<N;i++){
+    const p=P.pts[i],pm=P.pts[(i-1+N)%N],pp=P.pts[(i+1)%N];
+    let tx=pp[0]-pm[0],ty=pp[1]-pm[1];const tl=Math.hypot(tx,ty)||1;tx/=tl;ty/=tl;
+    const nx=-ty,ny=tx;
+    outer.push(proj(cx+(p[0]+nx*HW)*R,cy+(p[1]+ny*HW)*R));
+    inner.push(proj(cx+(p[0]-nx*HW)*R,cy+(p[1]-ny*HW)*R));
+    mid.push(proj(cx+p[0]*R,cy+p[1]*R));
+  }
+  ctx.save();ctx.lineJoin='round';ctx.lineCap='round';
+  // drop shadow of the road on the grass
+  ctx.save();ctx.translate(0,8);ctx.fillStyle='rgba(0,0,0,.18)';
+  ctx.beginPath();outer.forEach((s,i)=>i?ctx.lineTo(s[0],s[1]):ctx.moveTo(s[0],s[1]));
+  for(let i=inner.length-1;i>=0;i--)ctx.lineTo(inner[i][0],inner[i][1]);ctx.closePath();ctx.fill();ctx.restore();
+  // asphalt surface
+  ctx.beginPath();outer.forEach((s,i)=>i?ctx.lineTo(s[0],s[1]):ctx.moveTo(s[0],s[1]));
+  for(let i=inner.length-1;i>=0;i--)ctx.lineTo(inner[i][0],inner[i][1]);ctx.closePath();
+  ctx.fillStyle='#4c4c50';ctx.fill();
+  // rumble kerbs (edges)
+  strokeLoop(outer,'#e8e8e8',3);strokeLoop(inner,'#e8e8e8',3);
+  // dashed centre line
+  ctx.setLineDash([16,17]);strokeLoop(mid,'#f3e4a8',2.2);ctx.setLineDash([]);
+  // start / finish line across the road at the path origin
+  const oS=outer[0],iS=inner[0];
+  ctx.strokeStyle='#fff';ctx.lineWidth=6;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(oS[0],oS[1]);ctx.lineTo(iS[0],iS[1]);ctx.stroke();ctx.setLineDash([]);
+  ctx.restore();
+}
+
+/* ================= state ================= */
+let curKey='ball';
+const state={v:8,r:3,m:1,theta:0,M:0,su:0,rhoM:3,cur:null,paused:false,released:false,relX:0,relY:0,relVx:0,relVy:0,
+  selIdx:2,selPlanets:[2],primary:2,Mmap:{}};
+const show={vel:true,force:true,ghost:false};
+
+/* physics for current preset (returns display rows + values for vectors) */
+function physics(){
+  const P=PRESETS[curKey];
+  if(P.mode==='free'){
+    const v=state.v,m=state.m,rSlider=state.r,visOmega=(v/rSlider)*0.30;
+    if(curKey==='car'){
+      const circ=(carShape==='circle');
+      const r=(!circ&&state.rhoM)?state.rhoM:rSlider;
+      const rl=circ?'r':'ρ';
+      const omega=v/r,a=v*v/r,F=m*a;
+      return {omega,a,F,v,r,m,visOmega,
+        rows:[{k:'Speed v (constant)',v:fmt(v,1),u:'m·s⁻¹'},
+          {k:circ?'Radius r':'Radius of curvature ρ (rho)',v:fmt(r,2),u:'m'},
+          {k:'Angular vel. ω = v/'+rl,v:fmt(omega),u:'rad·s⁻¹'},
+          {k:'Accel. a꜀ = v²/'+rl,v:fmt(a,1),u:'m·s⁻²'},
+          {k:'Friction  F = mv²/'+rl,v:fmt(F,0),u:'N',hi:1,wide:1}]};
+    }
+    const r=rSlider,omega=v/r,a=v*v/r,F=m*a,T=2*Math.PI/omega,f=1/T;
+    return {omega,a,F,T,f,v,r,m,visOmega,
+      rows:[{k:'Angular vel. ω',v:fmt(omega),u:'rad·s⁻¹'},{k:'Period T',v:fmt(T),u:'s'},
+        {k:'Frequency f',v:fmt(f),u:'Hz'},{k:'Accel. a꜀',v:fmt(a,1),u:'m·s⁻²'},
+        {k:P.force+'  F = mv²/r',v:fmt(F,1),u:'N',hi:1,wide:1}]};
+  }
+  const d=P.data[state.selIdx];
+  if(curKey==='planet'){
+    const a_m=d.r*AU, v_ms=d.v*1000, m_kg=d.m*M_EARTH;
+    const a=v_ms*v_ms/a_m, F=G*M_SUN*m_kg/(a_m*a_m), T_yr=Math.pow(d.r,1.5);
+    const peri=d.r*(1-d.e), aph=d.r*(1+d.e);
+    return {a,F,v:d.v,r:d.r,m:d.m,sel:d,visOmega:0,
+      rows:[{k:'Showing details for',v:d.name,u:''},
+        {k:'Semi-major axis a',v:fmt(d.r,3),u:'AU'},{k:'Eccentricity e',v:fmt(d.e,3),u:''},
+        {k:'Perihelion',v:fmt(peri,3),u:'AU'},{k:'Aphelion',v:fmt(aph,3),u:'AU'},
+        {k:'Period (T²∝a³)',v:fmt(T_yr,2),u:'yr'},{k:'Mean speed',v:fmt(d.v,1),u:'km·s⁻¹'},
+        {k:P.force+'  F = GMm/r²',v:fmt(F),u:'N',hi:1,wide:1}]};
+  }
+  // atom
+  const a=d.v*d.v/d.r, F=K_E*E_CH*E_CH/(d.r*d.r), T=2*Math.PI*d.r/d.v;
+  return {a,F,v:d.v,r:d.r,m:1,sel:d,visOmega:visCat(d.v/d.r,'atom'),
+    rows:[{k:'Bohr level',v:d.name,u:''},{k:'Radius rₙ = n²a₀',v:fmt(d.r*1e9,3),u:'nm'},
+      {k:'Speed vₙ = v₁/n',v:fmt(d.v/1e6,3),u:'×10⁶ m·s⁻¹'},{k:'Period T',v:fmt(T),u:'s'},
+      {k:'Accel. a꜀',v:fmt(a),u:'m·s⁻²'},{k:P.force+'  F = ke²/r²',v:fmt(F),u:'N',hi:1,wide:1}]};
+}
+function visCat(realOmega,kind){
+  const P=PRESETS[kind],ref=P.data[P.ref],refO=ref.v/ref.r;
+  return Math.max(0.12,Math.min(0.6*realOmega/refO,3.2));
+}
+
+/* ================= canvas / render ================= */
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+let W=0,H=0,DPR=1;
+function resize(){const rect=cv.getBoundingClientRect();DPR=window.devicePixelRatio||1;
+  W=rect.width;H=rect.height;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0);}
+new ResizeObserver(resize).observe(cv);resize();
+
+function geom(){const cx=W/2,cy=H/2,margin=Math.min(W,H)*0.10;
+  let frac;const P=PRESETS[curKey];
+  if(P.mode==='free'){const rng=P.range.r;frac=(state.r-rng[0])/(rng[1]-rng[0]);frac=0.62+frac*0.38;}
+  else frac=0.82; // catalogue: fill more of the canvas
+  const Rpx=(Math.min(W,H)/2-margin)*frac;return {cx,cy,Rpx};}
+
+function resetMotion(){state.released=false;state.theta=0;state.M=0;state.su=0;state.Mmap={};state.paused=false;
+  document.getElementById('pauseBtn').textContent='⏸ Pause';}
+function cutString(){if(!state.cur)return;
+  state.relX=state.cur.wx;state.relY=state.cur.wy;
+  state.relVx=state.cur.vx;state.relVy=state.cur.vy;state.released=true;}
+
+let last=performance.now(),roCounter=0;
+function frame(now){
+  const dt=Math.min((now-last)/1000,0.05);last=now;
+  const P=PRESETS[curKey], {cx,cy,Rpx}=geom(), ph=physics();
+  const mutedC=P.dark?'#b9c0d0':css('--muted');
+  const velC=css('--vel'),forceC=css('--force'),ghostC=P.dark?'#c9c2b0':css('--ghost');
+  const proj=(curKey==='car')?(x,y)=>[x,cy+(y-cy)*TILT]:(x,y)=>[x,y];
+  const moving=!state.paused&&!state.released;
+
+  ctx.clearRect(0,0,W,H);
+  P.bg(ctx,W,H,cx,cy);
+
+  let wx,wy,tx,ty,ix,iy,vpx,drawAng=0,sel=ph.sel,depth=1;
+
+  if(curKey==='ball'||curKey==='atom'){
+    if(moving)state.theta+=ph.visOmega*dt;
+    const th=state.theta;
+    wx=cx+Rpx*Math.cos(th);wy=cy+Rpx*Math.sin(th);
+    tx=-Math.sin(th);ty=Math.cos(th);ix=-Math.cos(th);iy=-Math.sin(th);
+    vpx=ph.visOmega*Rpx;drawAng=th;
+    if(curKey==='atom'){drawShells(cx,cy,Rpx);nucleus(ctx,cx,cy);}
+    else{
+      ctx.save();ctx.strokeStyle=css('--line');ctx.lineWidth=2;ctx.setLineDash([2,7]);
+      ctx.beginPath();ctx.arc(cx,cy,Rpx,0,7);ctx.stroke();ctx.setLineDash([]);
+      ctx.strokeStyle=css('--muted');ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(wx,wy);ctx.stroke();
+      ctx.fillStyle=css('--muted');ctx.beginPath();ctx.arc(cx,cy,5,0,7);ctx.fill();ctx.restore();
+    }
+  } else if(curKey==='planet'){
+    const list=[...state.selPlanets].sort((x,y)=>PLANETS[x].r-PLANETS[y].r),k=list.length;
+    list.forEach((idx,rank)=>{
+      const d=PLANETS[idx],e=Math.min(0.6,d.e*3);
+      const orbR=(k===1)?Rpx*0.82:Rpx*(0.34+0.60*(rank/(k-1)));
+      const a_px=orbR,b_px=a_px*Math.sqrt(1-e*e),c_px=a_px*e,ox=cx-c_px,oy=cy;
+      const Tvis=Math.max(3,Math.min(16,Math.pow(d.r,1.5)*8)),mm=2*Math.PI/Tvis;
+      if(state.Mmap[idx]===undefined)state.Mmap[idx]=0;
+      const adv=!state.paused&&!(state.released&&idx===state.primary);
+      if(adv)state.Mmap[idx]+=mm*dt;
+      const E=keplerE(state.Mmap[idx],e);
+      const px=ox+a_px*Math.cos(E),py=oy+b_px*Math.sin(E);
+      ctx.save();ctx.strokeStyle=idx===state.primary?'rgba(255,255,255,.5)':'rgba(255,255,255,.22)';
+      ctx.lineWidth=idx===state.primary?1.8:1.1;ctx.setLineDash([2,7]);
+      ctx.beginPath();ctx.ellipse(ox,oy,a_px,b_px,0,0,7);ctx.stroke();ctx.restore();
+      if(idx===state.primary){
+        wx=px;wy=py;sel=d;
+        let dxE=-a_px*Math.sin(E),dyE=b_px*Math.cos(E);const dl=Math.hypot(dxE,dyE)||1;tx=dxE/dl;ty=dyE/dl;
+        ix=cx-wx;iy=cy-wy;const il=Math.hypot(ix,iy)||1;ix/=il;iy/=il;
+        const dEdt=mm/(1-e*Math.cos(E));vpx=Math.hypot(a_px*Math.sin(E),b_px*Math.cos(E))*dEdt;
+        if(!state.released)txt(ctx,px,py-16,d.name,'#eef2fb','600 11px '+css('--sans'));
+      } else {
+        planetBody(ctx,px,py,9,d.c);
+        txt(ctx,px,py-14,d.name,'#cdd6e6','11px '+css('--sans'));
+      }
+    });
+    sun(ctx,cx,cy);
+  } else { // car
+    const R=Rpx*CAR_SCALE;
+    drawCarTrack(cx,cy,R,proj);
+    if(moving)state.su+=(state.v/state.r)*0.30*dt;
+    const s=carSample(state.su);
+    wx=cx+s.x*R;wy=cy+s.y*R;tx=s.tx;ty=s.ty;
+    ix=cx-wx;iy=cy-wy;const il=Math.hypot(ix,iy)||1;ix/=il;iy/=il;
+    vpx=(state.v/state.r)*0.30*R;
+    state.rhoM=s.rhoUnit*state.r;
+    depth=Math.max(0.72,Math.min(0.80+0.55*((wy-(cy-R))/(2*R)),1.4));
+  }
+
+  // screen-space directions (tilt for car)
+  const [sx,sy]=proj(wx,wy);
+  let stx=tx,sty=(curKey==='car')?ty*TILT:ty;{const l=Math.hypot(stx,sty)||1;stx/=l;sty/=l;}
+  let six=ix,siy=(curKey==='car')?iy*TILT:iy;{const l=Math.hypot(six,siy)||1;six/=l;siy/=l;}
+
+  if(!state.released){
+    let velLen,forceLen;
+    if(P.mode==='free'){velLen=Math.min(state.v*7,110);
+      const Fd=(curKey==='car')?state.m*state.v*state.v/(state.rhoM||state.r):ph.F;
+      forceLen=Math.min(18+Fd*(curKey==='car'?0.004:1.4),120);}
+    else{velLen=90;forceLen=64;}
+    if(show.force){arrow(ctx,sx,sy,sx+six*forceLen,sy+siy*forceLen,forceC,4,false);txt(ctx,sx+six*(forceLen+15),sy+siy*(forceLen+15),'F',forceC);}
+    if(show.ghost){arrow(ctx,sx,sy,sx-six*forceLen,sy-siy*forceLen,ghostC,3,true);txt(ctx,sx-six*(forceLen+24),sy-siy*(forceLen+24),'apparent',ghostC,'italic 12px '+css('--sans'));}
+    if(show.vel){arrow(ctx,sx,sy,sx+stx*velLen,sy+sty*velLen,velC,4,false);txt(ctx,sx+stx*(velLen+14),sy+sty*(velLen+14),'v',velC);}
+    if(curKey==='car')P.body(ctx,sx,sy,Math.atan2(sty,stx),depth);
+    else P.body(ctx,sx,sy,drawAng,sel);
+  } else {
+    if(!state.paused){state.relX+=state.relVx*dt;state.relY+=state.relVy*dt;}
+    const rp=proj(state.relX,state.relY);
+    let ux=state.relVx,uy=state.relVy;const sp=Math.hypot(ux,uy)||1;ux/=sp;uy/=sp;
+    let dux=ux,duy=(curKey==='car')?uy*TILT:uy;const dl=Math.hypot(dux,duy)||1;dux/=dl;duy/=dl;
+    if(show.vel){arrow(ctx,rp[0],rp[1],rp[0]+dux*90,rp[1]+duy*90,velC,4,false);txt(ctx,rp[0]+dux*104,rp[1]+duy*104,'v',velC);}
+    if(curKey==='car')P.body(ctx,rp[0],rp[1],Math.atan2(duy,dux),depth);
+    else P.body(ctx,rp[0],rp[1],0,sel);
+    txt(ctx,cx,H-16,'Force removed — straight-line motion along the tangent (Newton’s 1st law).',mutedC,'italic 13px '+css('--sans'));
+  }
+
+  state.cur={wx,wy,vx:tx*vpx,vy:ty*vpx};
+  if(curKey==='car'&&carShape!=='circle'&&(++roCounter%8===0))renderReadouts();
+  drawWatermark(ctx,W,H,P.dark);
+  requestAnimationFrame(frame);
+}
+
+/* ================= readouts ================= */
+function renderReadouts(){
+  const ph=physics(),host=document.getElementById('readouts');
+  host.innerHTML=ph.rows.map(r=>`<div class="ro ${r.hi?'hi':''} ${r.wide?'wide':''}"><div class="k">${r.k}</div><div class="v">${r.v}<span class="u">${r.u}</span></div></div>`).join('');
+  renderMath();
+}
+function renderMath(){
+  const el=document.getElementById('mathPanel');if(!el)return;
+  const P=PRESETS[curKey];
+  const row=(sym,sub,res)=>`<div class="mrow"><span class="msym">${sym}</span><span class="meq">=</span><span class="msub">${sub}</span><span class="meq">=</span><span class="mres">${res}</span></div>`;
+  let html='';
+  if(P.mode==='free'){
+    const v=state.v,m=state.m;
+    const nonCirc=(curKey==='car'&&carShape!=='circle');
+    const r=(nonCirc&&state.rhoM)?state.rhoM:state.r;
+    const rl=nonCirc?'ρ':'r';
+    const a=v*v/r,F=m*a;
+    html=row('a꜀ = v²/'+rl, `(${fmt(v,1)})² / ${fmt(r,2)}`, fmt(a,2)+' m·s⁻²')
+       + row('F = m·v²/'+rl, `${fmt(m,1)} × (${fmt(v,1)})² / ${fmt(r,2)}`, fmt(F,1)+' N');
+    if(nonCirc)html+=`<div class="mnote">The speed is fixed, but ρ (the radius of curvature) changes around the loop — so <em>F rises on the tight bends</em> and falls on the gentle ones. Watch the numbers move as the car drives.</div>`;
+    else html+=`<div class="mnote">Change any slider and every term updates. Double v and F goes up ×4 (the v² term); halve r and F doubles.</div>`;
+  } else if(curKey==='planet'){
+    const d=P.data[state.selIdx],r_m=d.r*AU,v_ms=d.v*1000,m_kg=d.m*M_EARTH;
+    const a=v_ms*v_ms/r_m,F=m_kg*a;
+    html=row('v = √(GM☉/r)', `√( GM☉ / ${fmt(d.r,3)} AU )`, fmt(d.v,1)+' km·s⁻¹')
+       + row('F = m·v²/r', `${fmt(m_kg,2)} × (${fmt(v_ms,2)})² / ${fmt(r_m,2)}`, fmt(F,2)+' N')
+       + `<div class="mnote">This centripetal force is exactly the gravitational pull GM☉m/r². <em>Gravity is the centripetal force.</em> Notice the planet's mass cancels in v = √(GM☉/r), so speed depends on distance, not mass.</div>`;
+  } else {
+    const d=P.data[state.selIdx],a=d.v*d.v/d.r,F=M_E*a;
+    html=row('a꜀ = v²/rₙ', `(${fmt(d.v,2)})² / ${fmt(d.r,2)}`, fmt(a,2)+' m·s⁻²')
+       + row('F = mₑ·v²/rₙ', `${fmt(M_E,2)} × (${fmt(d.v,2)})² / ${fmt(d.r,2)}`, fmt(F,2)+' N')
+       + `<div class="mnote">This equals the Coulomb attraction ke²/rₙ². <em>The electrostatic force is the centripetal force</em> holding the electron in its orbit.</div>`;
+  }
+  el.innerHTML=html;
+}
+
+/* ================= preset switching ================= */
+function buildPresetBar(){
+  const bar=document.getElementById('presetBar');
+  bar.innerHTML=Object.entries(PRESETS).map(([k,P])=>
+    `<button class="pbtn" data-k="${k}" aria-pressed="${k===curKey}"><span class="i">${P.icon}</span>${P.label}</button>`).join('');
+  bar.querySelectorAll('.pbtn').forEach(b=>b.addEventListener('click',()=>selectPreset(b.dataset.k)));
+}
+function selectPreset(k){
+  curKey=k;const P=PRESETS[k];
+  document.querySelectorAll('.pbtn').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
+  document.getElementById('sceneName').textContent=P.label+' · '+P.force;
+  document.getElementById('cutBtn').textContent=P.cut;
+  document.getElementById('forceTogLabel').textContent=(k==='planet'?'Gravity':k==='atom'?'Coulomb force':k==='car'?'Friction (centripetal)':'Centripetal force');
+  const free=P.mode==='free';
+  document.getElementById('freeCtrls').hidden=!free;
+  document.getElementById('catCtrls').hidden=free;
+  document.getElementById('cmpCard').hidden=free;
+  document.getElementById('carShapeCard').hidden=(k!=='car');
+  if(free){
+    const R=P.range;setupSlider('v','vVal','vU',R.v,P.def.v,P.unit.v);
+    setupSlider('r','rVal','rU',R.r,P.def.r,P.unit.r);
+    setupSlider('m','mVal','mU',R.m,P.def.m,P.unit.m);
+    state.v=P.def.v;state.r=P.def.r;state.m=P.def.m;
+    if(k==='car'){carShape='circle';buildCarPath('circle');
+      document.querySelectorAll('#shapeChips .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.s==='circle'));}
+  }else{
+    state.selIdx=P.ref;
+    if(k==='planet'){state.selPlanets=[P.ref];state.primary=P.ref;state.Mmap={};}
+    buildCatChips();buildCmpTable();
+  }
+  plotted=false;
+  resetMotion();renderReadouts();buildPlotOptions();drawGraph();
+}
+function setupSlider(key,valId,uId,rng,val,unit){
+  const s=document.getElementById(key+'Slider');
+  s.min=rng[0];s.max=rng[1];s.step=rng[2];s.value=val;
+  document.getElementById(valId).textContent=(+val).toFixed(rng[2]<1?1:0);
+  document.getElementById(uId).textContent=unit;
+}
+['v','r','m'].forEach(key=>{
+  const s=document.getElementById(key+'Slider');
+  s.addEventListener('input',()=>{state[key]=parseFloat(s.value);
+    const step=parseFloat(s.step);
+    document.getElementById(key+'Val').textContent=state[key].toFixed(step<1?1:0);
+    if(state.released)resetMotion();renderReadouts();});
+});
+document.getElementById('tVel').addEventListener('change',e=>show.vel=e.target.checked);
+document.getElementById('tForce').addEventListener('change',e=>show.force=e.target.checked);
+document.getElementById('tGhost').addEventListener('change',e=>show.ghost=e.target.checked);
+const pauseBtn=document.getElementById('pauseBtn');
+pauseBtn.addEventListener('click',()=>{state.paused=!state.paused;pauseBtn.textContent=state.paused?'▶ Play':'⏸ Pause';});
+document.getElementById('cutBtn').addEventListener('click',()=>{if(!state.released)cutString();});
+document.getElementById('resetBtn').addEventListener('click',resetMotion);
+document.querySelectorAll('#shapeChips .chip').forEach(b=>b.addEventListener('click',()=>{
+  carShape=b.dataset.s;buildCarPath(carShape);state.su=0;
+  document.querySelectorAll('#shapeChips .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  resetMotion();renderReadouts();}));
+
+/* catalogue chips + comparison table */
+function buildCatChips(){
+  const P=PRESETS[curKey];
+  document.getElementById('catTitle').textContent=curKey==='planet'?'Select planets to compare (pick several)':'Select a Bohr level';
+  const host=document.getElementById('catChips');
+  if(curKey==='planet'){
+    host.innerHTML=P.data.map((d,i)=>`<button class="chip ${i===state.primary?'is-primary':''}" data-i="${i}" aria-pressed="${state.selPlanets.includes(i)}">${d.name}</button>`).join('');
+    host.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>togglePlanet(+b.dataset.i)));
+  } else {
+    host.innerHTML=P.data.map((d,i)=>`<button class="chip" data-i="${i}" aria-pressed="${i===state.selIdx}">${d.name}</button>`).join('');
+    host.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
+      state.selIdx=+b.dataset.i;host.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b));
+      resetMotion();renderReadouts();markCmpRow();}));
+  }
+}
+function togglePlanet(i){
+  const arr=state.selPlanets,pos=arr.indexOf(i);
+  if(pos>=0){ if(arr.length>1){arr.splice(pos,1);if(state.primary===i)state.primary=arr[0];} else state.primary=i; }
+  else { arr.push(i);state.primary=i;if(state.Mmap[i]===undefined)state.Mmap[i]=0; }
+  state.selIdx=state.primary;
+  buildCatChips();renderReadouts();markCmpRow();
+}
+function buildCmpTable(){
+  const P=PRESETS[curKey],t=document.getElementById('cmpTable');
+  if(curKey==='planet'){
+    document.getElementById('cmpTitle').textContent='Compare the planets';
+    t.innerHTML='<tr><th>Planet</th><th>Distance /AU</th><th>Speed /km s⁻¹</th><th>Mass /M⊕</th><th>Period /yr</th></tr>'+
+      P.data.map((d,i)=>`<tr data-i="${i}"><td>${d.name}</td><td>${d.r.toFixed(3)}</td><td>${d.v.toFixed(1)}</td><td>${d.m.toFixed(3)}</td><td>${Math.pow(d.r,1.5).toFixed(2)}</td></tr>`).join('');
+    document.getElementById('cmpInsight').innerHTML='<b>Key insight:</b> Jupiter is 318× Earth’s mass yet orbits at 13 km·s⁻¹ versus Earth’s 30 km·s⁻¹. Orbital speed is set by distance, not the planet’s mass: v = √(GM/r).';
+  }else{
+    document.getElementById('cmpTitle').textContent='Compare the Bohr levels';
+    t.innerHTML='<tr><th>Level</th><th>Radius /nm</th><th>Speed /×10⁶ m s⁻¹</th></tr>'+
+      P.data.map((d,i)=>`<tr data-i="${i}"><td>${d.name}</td><td>${(d.r*1e9).toFixed(3)}</td><td>${(d.v/1e6).toFixed(3)}</td></tr>`).join('');
+    document.getElementById('cmpInsight').innerHTML='<b>Key insight:</b> radius grows as n² while speed falls as 1/n — the electron moves slower in higher, larger orbits, just like an outer planet.';
+  }
+  markCmpRow();
+}
+function markCmpRow(){document.querySelectorAll('#cmpTable tr[data-i]').forEach(tr=>{
+  const i=+tr.dataset.i;
+  tr.classList.toggle('sel',curKey==='planet'?state.selPlanets.includes(i):i===state.selIdx);
+});}
+
+/* ================= DATA & GRAPH ================= */
+let recorded=[],plotted=false; // free-mode recorded points {v,r,m}; plotted gates the graph
+const PLOTS={
+  ball:[
+    {id:'Fv2',x:'v² / m²s⁻²',y:'F / N',fx:p=>p.v*p.v,fy:p=>p.m*p.v*p.v/p.r,note:'Gradient = m/r (keep r and m fixed).'},
+    {id:'a1r',x:'1/r / m⁻¹',y:'a꜀ / m s⁻²',fx:p=>1/p.r,fy:p=>p.v*p.v/p.r,note:'Gradient = v² (keep v fixed).'},
+    {id:'F1r',x:'1/r / m⁻¹',y:'F / N',fx:p=>1/p.r,fy:p=>p.m*p.v*p.v/p.r,note:'Gradient = mv² (keep v and m fixed).'},
+  ],
+  car:[
+    {id:'Fv2',x:'v² / m²s⁻²',y:'F / N',fx:p=>p.v*p.v,fy:p=>p.m*p.v*p.v/p.r,note:'Gradient = m/r. A heavier car needs more grip.'},
+    {id:'F1r',x:'1/r / m⁻¹',y:'F / N',fx:p=>1/p.r,fy:p=>p.m*p.v*p.v/p.r,note:'Tighter bends (small r) need more friction.'},
+  ],
+  planet:[
+    {id:'vinvsqrt',x:'1/√r / AU^-½',y:'v / km s⁻¹',fx:d=>1/Math.sqrt(d.r),fy:d=>d.v,note:'Straight line: v ∝ 1/√r, confirming v = √(GM/r).'},
+    {id:'vr',x:'distance r / AU',y:'v / km s⁻¹',fx:d=>d.r,fy:d=>d.v,note:'A curve — speed falls off with distance.'},
+    {id:'vm',x:'mass / M⊕',y:'v / km s⁻¹',fx:d=>d.m,fy:d=>d.v,note:'No trend: orbital speed is independent of planet mass.'},
+  ],
+  atom:[
+    {id:'rn2',x:'n²',y:'radius / nm',fx:d=>d.n*d.n,fy:d=>d.r*1e9,note:'Straight line through origin: rₙ = n²a₀.'},
+    {id:'v1n',x:'1/n',y:'speed / ×10⁶ m s⁻¹',fx:d=>1/d.n,fy:d=>d.v/1e6,note:'Straight line: vₙ = v₁/n.'},
+  ],
+};
+let curPlot=0;
+function buildPlotOptions(){
+  const sel=document.getElementById('plotSelect'),list=PLOTS[curKey];
+  sel.innerHTML=list.map((p,i)=>`<option value="${i}">${p.y}  vs  ${p.x}</option>`).join('');
+  curPlot=0;sel.value=0;
+  document.getElementById('recordCard').style.display=(PRESETS[curKey].mode==='free')?'':'none';
+}
+document.getElementById('plotSelect').addEventListener('change',e=>{curPlot=+e.target.value;if(plotted)drawGraph();});
+document.getElementById('gGrid').addEventListener('change',()=>{if(plotted)drawGraph();});
+document.getElementById('gFit').addEventListener('change',()=>{if(plotted)drawGraph();});
+document.getElementById('autoplotBtn').addEventListener('click',()=>{plotted=true;sizeGraph();drawGraph();});
+document.getElementById('recordBtn').addEventListener('click',()=>{
+  recorded.push({v:state.v,r:state.r,m:state.m});renderDataTable();});
+document.getElementById('clearBtn').addEventListener('click',()=>{
+  if(PRESETS[curKey].mode==='free'){recorded=[];renderDataTable();}plotted=false;drawGraph();});
+function renderDataTable(){
+  const t=document.getElementById('dataTable');
+  if(PRESETS[curKey].mode!=='free'){
+    t.innerHTML='<tr><td style="color:var(--muted);font-family:var(--sans)">This scenario plots its catalogue data automatically — see the graph.</td></tr>';return;}
+  if(!recorded.length){t.innerHTML='<tr><td style="color:var(--muted);font-family:var(--sans)">No points yet. Set values in the simulator and record.</td></tr>';return;}
+  t.innerHTML='<tr><th>#</th><th>v</th><th>r</th><th>m</th><th>v²</th><th>a=v²/r</th><th>F=mv²/r</th></tr>'+
+    recorded.map((p,i)=>{const a=p.v*p.v/p.r,F=p.m*a;
+      return `<tr><td>${i+1}</td><td>${p.v}</td><td>${p.r}</td><td>${p.m}</td><td>${fmt(p.v*p.v,1)}</td><td>${fmt(a,1)}</td><td>${fmt(F,1)}</td></tr>`;}).join('');
+}
+function currentPoints(){
+  const plot=PLOTS[curKey][curPlot];
+  const src=PRESETS[curKey].mode==='free'?recorded:PRESETS[curKey].data;
+  return src.map(p=>({x:plot.fx(p),y:plot.fy(p)})).filter(pt=>isFinite(pt.x)&&isFinite(pt.y));
+}
+function leastSquares(pts){const n=pts.length;if(n<2)return null;
+  let sx=0,sy=0,sxy=0,sxx=0;pts.forEach(p=>{sx+=p.x;sy+=p.y;sxy+=p.x*p.y;sxx+=p.x*p.x;});
+  const m=(n*sxy-sx*sy)/(n*sxx-sx*sx),c=(sy-m*sx)/n;
+  const my=sy/n;let ssr=0,sst=0;pts.forEach(p=>{const f=m*p.x+c;ssr+=(p.y-f)**2;sst+=(p.y-my)**2;});
+  return {m,c,r2:sst?1-ssr/sst:1};}
+
+const gc=document.getElementById('graphCanvas'),gx=gc.getContext('2d');
+function sizeGraph(){const r=gc.getBoundingClientRect(),d=window.devicePixelRatio||1;
+  gc.width=Math.round(r.width*d);gc.height=Math.round(r.height*d);gx.setTransform(d,0,0,d,0,0);gc._w=r.width;gc._h=r.height;}
+window.addEventListener('resize',()=>{sizeGraph();drawGraph();});
+function graphPlaceholder(W,H){
+  const free=PRESETS[curKey].mode==='free';
+  gx.clearRect(0,0,W,H);gx.fillStyle=css('--panel');gx.fillRect(0,0,W,H);
+  gx.strokeStyle=css('--line');gx.lineWidth=1.5;gx.strokeRect(0.5,0.5,W-1,H-1);
+  gx.textAlign='center';gx.textBaseline='middle';
+  gx.fillStyle=css('--muted');gx.font='600 15px '+css('--sans');
+  gx.fillText(free?'① Record some data points below, then':'Ready to plot the built-in data.',W/2,H/2-13);
+  gx.fillStyle=css('--accent');gx.font='700 16px '+css('--sans');
+  gx.fillText('② Press  “📈 Autoplot graph”',W/2,H/2+13);
+  drawWatermark(gx,W,H,false);
+  document.getElementById('fitInfo').innerHTML='<span style="color:var(--muted)">'+(free?'No graph yet — record data, then Autoplot.':'Press Autoplot to draw the graph.')+'</span>';
+  document.getElementById('iaNote').innerHTML='';
+}
+function drawGraph(){
+  if(!gc._w)sizeGraph();
+  const W=gc._w,H=gc._h;
+  if(!plotted){graphPlaceholder(W,H);return;}
+  const pad={l:64,r:18,t:18,b:52};
+  const plot=PLOTS[curKey][curPlot],pts=currentPoints();
+  gx.clearRect(0,0,W,H);gx.fillStyle=css('--panel');gx.fillRect(0,0,W,H);
+  const inkC=css('--ink'),mutedC=css('--muted'),lineC=css('--line'),accent=css('--accent');
+  const showGrid=document.getElementById('gGrid').checked,showFit=document.getElementById('gFit').checked;
+  // axis ranges
+  let xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);
+  let xmin=Math.min(0,...xs),xmax=Math.max(1,...xs),ymin=Math.min(0,...ys),ymax=Math.max(1,...ys);
+  if(pts.length){xmax=Math.max(...xs);ymax=Math.max(...ys);xmin=Math.min(0,...xs);ymin=Math.min(0,...ys);}
+  xmax+= (xmax-xmin)*0.08||1; ymax+=(ymax-ymin)*0.1||1;
+  const PX=x=>pad.l+(x-xmin)/(xmax-xmin)*(W-pad.l-pad.r);
+  const PY=y=>H-pad.b-(y-ymin)/(ymax-ymin)*(H-pad.t-pad.b);
+  // grid
+  const nT=5;
+  gx.font='11px '+css('--mono');gx.fillStyle=mutedC;
+  for(let i=0;i<=nT;i++){
+    const gxv=xmin+(xmax-xmin)*i/nT, gyv=ymin+(ymax-ymin)*i/nT;
+    if(showGrid){gx.strokeStyle=lineC;gx.lineWidth=1;
+      gx.beginPath();gx.moveTo(PX(gxv),pad.t);gx.lineTo(PX(gxv),H-pad.b);gx.stroke();
+      gx.beginPath();gx.moveTo(pad.l,PY(gyv));gx.lineTo(W-pad.r,PY(gyv));gx.stroke();}
+    gx.fillStyle=mutedC;gx.textAlign='center';gx.fillText(fmt(gxv,1),PX(gxv),H-pad.b+16);
+    gx.textAlign='right';gx.fillText(fmt(gyv,1),pad.l-8,PY(gyv)+4);
+  }
+  // axes
+  gx.strokeStyle=inkC;gx.lineWidth=1.5;
+  gx.beginPath();gx.moveTo(pad.l,pad.t);gx.lineTo(pad.l,H-pad.b);gx.lineTo(W-pad.r,H-pad.b);gx.stroke();
+  gx.fillStyle=inkC;gx.font='600 13px '+css('--sans');
+  gx.textAlign='center';gx.fillText(plot.x,(pad.l+W-pad.r)/2,H-14);
+  gx.save();gx.translate(16,(pad.t+H-pad.b)/2);gx.rotate(-Math.PI/2);gx.fillText(plot.y,0,0);gx.restore();
+  // best fit
+  const fit=showFit?leastSquares(pts):null;
+  if(fit){gx.strokeStyle=accent;gx.lineWidth=2;gx.setLineDash([6,5]);
+    gx.beginPath();gx.moveTo(PX(xmin),PY(fit.m*xmin+fit.c));gx.lineTo(PX(xmax),PY(fit.m*xmax+fit.c));gx.stroke();gx.setLineDash([]);}
+  // points
+  gx.fillStyle=css('--force');
+  pts.forEach(p=>{gx.beginPath();gx.arc(PX(p.x),PY(p.y),4.5,0,7);gx.fill();});
+  // labels for catalogue points
+  if(PRESETS[curKey].mode==='catalogue'){gx.fillStyle=mutedC;gx.font='10px '+css('--sans');gx.textAlign='left';
+    PRESETS[curKey].data.forEach(d=>{const x=plot.fx(d),y=plot.fy(d);if(isFinite(x)&&isFinite(y))gx.fillText(d.name,PX(x)+7,PY(y)-6);});}
+  // fit readout
+  drawWatermark(gx,W,H,false);
+  const fi=document.getElementById('fitInfo');
+  if(fit)fi.innerHTML=`<span>gradient <b>${fmt(fit.m,3)}</b></span><span>intercept <b>${fmt(fit.c,3)}</b></span><span>R² <b>${fmt(fit.r2,4)}</b></span>`;
+  else fi.innerHTML=`<span style="color:var(--muted)">${PRESETS[curKey].mode==='free'?'Record at least two points to fit a line.':''}</span>`;
+  document.getElementById('iaNote').innerHTML=`<b>Reading it:</b> ${plot.note}`;
+}
+
+/* CSV / PNG */
+function download(name,data,type){const blob=new Blob([data],{type});const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);}
+document.getElementById('csvBtn').addEventListener('click',()=>{
+  const ts=nowStr();
+  let lines=[`Student:,${studentName}`,`Downloaded:,${ts}`,`Scenario:,${PRESETS[curKey].label}`,''];
+  if(PRESETS[curKey].mode==='free'){
+    lines.push('#,v (m/s),r (m),m (kg),v^2,a=v^2/r,F=mv^2/r');
+    recorded.forEach((p,i)=>{const a=p.v*p.v/p.r,F=p.m*a;lines.push(`${i+1},${p.v},${p.r},${p.m},${p.v*p.v},${a},${F}`);});
+  } else if(curKey==='planet'){
+    lines.push('Planet,a (AU),eccentricity,mean speed (km/s),mass (Earth=1),period (yr)');
+    PLANETS.forEach(d=>lines.push(`${d.name},${d.r},${d.e},${d.v},${d.m},${Math.pow(d.r,1.5).toFixed(3)}`));
+  } else {
+    lines.push('Level,n,radius (nm),speed (x10^6 m/s)');
+    SHELLS.forEach(d=>lines.push(`${d.name},${d.n},${(d.r*1e9).toFixed(4)},${(d.v/1e6).toFixed(4)}`));
+  }
+  download(`circular-motion-${curKey}-${(studentName||'student').replace(/\s+/g,'_')}.csv`,lines.join('\n'),'text/csv');});
+document.getElementById('pngBtn').addEventListener('click',()=>{
+  if(PRESETS[curKey].mode!=='free'||recorded.length)plotted=true;
+  sizeGraph();drawGraph();   // refresh so the stamped time is the moment of download
+  gc.toBlob(b=>{const url=URL.createObjectURL(b);const a=document.createElement('a');
+    a.href=url;a.download=`circular-motion-${curKey}-${(studentName||'student').replace(/\s+/g,'_')}.png`;a.click();URL.revokeObjectURL(url);});});
+
+/* ================= init ================= */
+buildCarPath('circle');
+buildPresetBar();
+selectPreset('ball');
+renderDataTable();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
