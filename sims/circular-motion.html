@@ -125,6 +125,12 @@
   .fit{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:14px}
   .fit span b{color:var(--accent)}
   select{font-family:var(--sans);font-size:14px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);width:100%;cursor:pointer}
+  .axis-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+  .axis-row{gap:6px}
+  .qchk{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:14px;border:1px solid var(--line);border-radius:9px;padding:6px 10px;cursor:pointer}
+  .qchk:hover{background:var(--accent-soft)}
+  .qchk input{accent-color:var(--accent);cursor:pointer;margin:0}
+  .qchk.on{border-color:var(--accent);background:var(--accent-soft);color:var(--ink);font-weight:700}
   .ia{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.5}
   .ia b{color:var(--ink)}
 
@@ -313,9 +319,12 @@
     </div>
     <div class="side">
       <div class="card">
-        <h3>What to plot</h3>
-        <select id="plotSelect"></select>
-        <button class="btn primary" id="autoplotBtn" style="width:100%;margin-top:12px">📈 Autoplot graph</button>
+        <h3>Build your graph</h3>
+        <div class="axis-label">Vertical axis · Y</div>
+        <div class="chips axis-row" id="yAxis"></div>
+        <div class="axis-label" style="margin-top:12px">Horizontal axis · X</div>
+        <div class="chips axis-row" id="xAxis"></div>
+        <button class="btn primary" id="autoplotBtn" style="width:100%;margin-top:14px">📈 Autoplot graph</button>
         <label class="vtoggle" style="margin-top:12px"><input type="checkbox" id="gGrid" checked> Show grid</label>
         <label class="vtoggle"><input type="checkbox" id="gFit" checked> Show best-fit line</label>
       </div>
@@ -323,7 +332,7 @@
         <h3>Record data</h3>
         <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Set your variables above, then capture a point. Keep the control variables fixed for a clean straight line.</p>
         <button class="btn primary" id="recordBtn" style="width:100%">＋ Record current point</button>
-        <div class="tbl-scroll" style="margin-top:12px;max-height:240px"><table class="tbl" id="dataTable"></table></div>
+        <div class="tbl-scroll" style="margin-top:12px;max-height:520px"><table class="tbl" id="dataTable"></table></div>
       </div>
       <div class="card">
         <h3>Export (name &amp; time stamped)</h3>
@@ -922,34 +931,43 @@ function markCmpRow(){document.querySelectorAll('#cmpTable tr[data-i]').forEach(
 
 /* ================= DATA & GRAPH ================= */
 let recorded=[],plotted=false; // free-mode recorded points {v,r,m}; plotted gates the graph
-const PLOTS={
-  ball:[
-    {id:'Fv2',x:'v² / m²s⁻²',y:'F / N',fx:p=>p.v*p.v,fy:p=>p.m*p.v*p.v/p.r,note:'Gradient = m/r (keep r and m fixed).'},
-    {id:'a1r',x:'1/r / m⁻¹',y:'a꜀ / m s⁻²',fx:p=>1/p.r,fy:p=>p.v*p.v/p.r,note:'Gradient = v² (keep v fixed).'},
-    {id:'F1r',x:'1/r / m⁻¹',y:'F / N',fx:p=>1/p.r,fy:p=>p.m*p.v*p.v/p.r,note:'Gradient = mv² (keep v and m fixed).'},
-  ],
-  car:[
-    {id:'Fv2',x:'v² / m²s⁻²',y:'F / N',fx:p=>p.v*p.v,fy:p=>p.m*p.v*p.v/p.r,note:'Gradient = m/r. A heavier car needs more grip.'},
-    {id:'F1r',x:'1/r / m⁻¹',y:'F / N',fx:p=>1/p.r,fy:p=>p.m*p.v*p.v/p.r,note:'Tighter bends (small r) need more friction.'},
-  ],
-  planet:[
-    {id:'vinvsqrt',x:'1/√r / AU^-½',y:'v / km s⁻¹',fx:d=>1/Math.sqrt(d.r),fy:d=>d.v,note:'Straight line: v ∝ 1/√r, confirming v = √(GM/r).'},
-    {id:'vr',x:'distance r / AU',y:'v / km s⁻¹',fx:d=>d.r,fy:d=>d.v,note:'A curve — speed falls off with distance.'},
-    {id:'vm',x:'mass / M⊕',y:'v / km s⁻¹',fx:d=>d.m,fy:d=>d.v,note:'No trend: orbital speed is independent of planet mass.'},
-  ],
-  atom:[
-    {id:'rn2',x:'n²',y:'radius / nm',fx:d=>d.n*d.n,fy:d=>d.r*1e9,note:'Straight line through origin: rₙ = n²a₀.'},
-    {id:'v1n',x:'1/n',y:'speed / ×10⁶ m s⁻¹',fx:d=>1/d.n,fy:d=>d.v/1e6,note:'Straight line: vₙ = v₁/n.'},
-  ],
+const QTY={
+  F:{label:'F',axis:'F  (force)',get:p=>p.m*p.v*p.v/p.r},
+  m:{label:'m',axis:'m  (mass)',get:p=>p.m},
+  v:{label:'v',axis:'v  (speed)',get:p=>p.v},
+  r:{label:'r',axis:'r  (radius)',get:p=>p.r},
+  v2:{label:'v²',axis:'v²  (speed²)',get:p=>p.v*p.v},
+  invr:{label:'1/r',axis:'1/r',get:p=>1/p.r},
 };
-let curPlot=0;
+const QLIST=['F','m','v','r','v2','invr'];
+let axisY='F',axisX='v2';
+function buildAxisPickers(){
+  const mk=sel=>QLIST.map(q=>`<label class="qchk ${sel===q?'on':''}"><input type="checkbox" data-q="${q}" ${sel===q?'checked':''}>${QTY[q].label}</label>`).join('');
+  const yh=document.getElementById('yAxis'),xh=document.getElementById('xAxis');
+  yh.innerHTML=mk(axisY);xh.innerHTML=mk(axisX);
+  yh.querySelectorAll('input').forEach(inp=>inp.addEventListener('change',()=>pickAxis('y',yh,inp)));
+  xh.querySelectorAll('input').forEach(inp=>inp.addEventListener('change',()=>pickAxis('x',xh,inp)));
+}
+function pickAxis(group,host,inp){
+  host.querySelectorAll('input').forEach(x=>x.checked=(x===inp)); // single-select per axis
+  host.querySelectorAll('.qchk').forEach(l=>l.classList.toggle('on',l.querySelector('input').checked));
+  if(group==='y')axisY=inp.dataset.q;else axisX=inp.dataset.q;
+  if(plotted)drawGraph();
+}
+function plotNote(){
+  const notes={
+    'F|v2':'A straight line through the origin means F ∝ v². Its gradient equals m/r.',
+    'F|invr':'A straight line means F ∝ 1/r. Its gradient equals m·v².',
+    'F|m':'A straight line through the origin means F ∝ m. Its gradient equals v²/r.',
+    'F|v':'A curve, not a line — F depends on v², not v. Now try F against v².',
+    'F|r':'A curve — F falls as r grows (F ∝ 1/r). Try F against 1/r for a straight line.',
+    'v2|invr':'At a fixed force, v² rises with 1/r.',
+  };
+  return notes[axisY+'|'+axisX] || ('Plotting '+QTY[axisY].label+' against '+QTY[axisX].label+'. A straight line reveals a proportional relationship.');
+}
 function buildPlotOptions(){
-  const sel=document.getElementById('plotSelect'),list=PLOTS[curKey];
-  sel.innerHTML=list.map((p,i)=>`<option value="${i}">${p.y}  vs  ${p.x}</option>`).join('');
-  curPlot=0;sel.value=0;
   document.getElementById('recordCard').style.display=(PRESETS[curKey].mode==='free')?'':'none';
 }
-document.getElementById('plotSelect').addEventListener('change',e=>{curPlot=+e.target.value;if(plotted)drawGraph();});
 document.getElementById('gGrid').addEventListener('change',()=>{if(plotted)drawGraph();});
 document.getElementById('gFit').addEventListener('change',()=>{if(plotted)drawGraph();});
 document.getElementById('autoplotBtn').addEventListener('click',()=>{plotted=true;sizeGraph();drawGraph();});
@@ -966,17 +984,38 @@ function renderDataTable(){
     recorded.map((p,i)=>{const a=p.v*p.v/p.r,F=p.m*a;
       return `<tr><td>${i+1}</td><td>${p.v}</td><td>${p.r}</td><td>${p.m}</td><td>${fmt(p.v*p.v,1)}</td><td>${fmt(a,1)}</td><td>${fmt(F,1)}</td></tr>`;}).join('');
 }
-function currentPoints(){
-  const plot=PLOTS[curKey][curPlot];
-  const src=PRESETS[curKey].mode==='free'?recorded:PRESETS[curKey].data;
-  return src.map(p=>({x:plot.fx(p),y:plot.fy(p)})).filter(pt=>isFinite(pt.x)&&isFinite(pt.y));
+function dataPoints(){
+  if(PRESETS[curKey].mode==='free')return recorded.map(p=>({v:p.v,r:p.r,m:p.m}));
+  if(curKey==='planet')return state.selPlanets.map(i=>({v:PLANETS[i].v,r:PLANETS[i].r,m:PLANETS[i].m,name:PLANETS[i].name}));
+  return SHELLS.map(d=>({v:d.v,r:d.r,m:1,name:d.name}));
 }
-function leastSquares(pts){const n=pts.length;if(n<2)return null;
+function currentPoints(){
+  const xq=QTY[axisX],yq=QTY[axisY];
+  return dataPoints().map(p=>({x:xq.get(p),y:yq.get(p),name:p.name})).filter(pt=>isFinite(pt.x)&&isFinite(pt.y));
+}
+function fitData(pts){
+  const n=pts.length;if(n<2)return null;
+  // straight line y = m x + c
   let sx=0,sy=0,sxy=0,sxx=0;pts.forEach(p=>{sx+=p.x;sy+=p.y;sxy+=p.x*p.y;sxx+=p.x*p.x;});
-  const m=(n*sxy-sx*sy)/(n*sxx-sx*sx),c=(sy-m*sx)/n;
-  const my=sy/n;let ssr=0,sst=0;pts.forEach(p=>{const f=m*p.x+c;ssr+=(p.y-f)**2;sst+=(p.y-my)**2;});
-  return {m,c,r2:sst?1-ssr/sst:1};}
+  const denom=(n*sxx-sx*sx)||1e-9;
+  const mL=(n*sxy-sx*sy)/denom,cL=(sy-mL*sx)/n;
+  const my=sy/n;let ssrL=0,sst=0;pts.forEach(p=>{const f=mL*p.x+cL;ssrL+=(p.y-f)**2;sst+=(p.y-my)**2;});
+  const r2L=sst?1-ssrL/sst:1;
+  // power law y = A x^B (only when all points positive)
+  let power=null;
+  if(pts.every(p=>p.x>0&&p.y>0)){
+    let lx=0,ly=0,lxy=0,lxx=0;pts.forEach(p=>{const X=Math.log(p.x),Y=Math.log(p.y);lx+=X;ly+=Y;lxy+=X*Y;lxx+=X*X;});
+    const dP=(n*lxx-lx*lx)||1e-9,B=(n*lxy-lx*ly)/dP,A=Math.exp((ly-B*lx)/n);
+    let ssrP=0;pts.forEach(p=>{const f=A*Math.pow(p.x,B);ssrP+=(p.y-f)**2;});
+    power={A,B,r2:sst?1-ssrP/sst:1};
+  }
+  // use the curve when the data is genuinely non-linear (exponent far from 1) and it fits at least as well
+  if(power&&Math.abs(power.B-1)>0.12&&power.r2>=r2L-0.001)
+    return {type:'power',A:power.A,B:power.B,r2:power.r2};
+  return {type:'linear',m:mL,c:cL,r2:r2L};
+}
 
+/* ================= graph canvas ================= */
 const gc=document.getElementById('graphCanvas'),gx=gc.getContext('2d');
 function sizeGraph(){const r=gc.getBoundingClientRect(),d=window.devicePixelRatio||1;
   gc.width=Math.round(r.width*d);gc.height=Math.round(r.height*d);gx.setTransform(d,0,0,d,0,0);gc._w=r.width;gc._h=r.height;}
@@ -999,7 +1038,7 @@ function drawGraph(){
   const W=gc._w,H=gc._h;
   if(!plotted){graphPlaceholder(W,H);return;}
   const pad={l:64,r:18,t:18,b:52};
-  const plot=PLOTS[curKey][curPlot],pts=currentPoints();
+  const pts=currentPoints();
   gx.clearRect(0,0,W,H);gx.fillStyle=css('--panel');gx.fillRect(0,0,W,H);
   const inkC=css('--ink'),mutedC=css('--muted'),lineC=css('--line'),accent=css('--accent');
   const showGrid=document.getElementById('gGrid').checked,showFit=document.getElementById('gFit').checked;
@@ -1010,39 +1049,61 @@ function drawGraph(){
   xmax+= (xmax-xmin)*0.08||1; ymax+=(ymax-ymin)*0.1||1;
   const PX=x=>pad.l+(x-xmin)/(xmax-xmin)*(W-pad.l-pad.r);
   const PY=y=>H-pad.b-(y-ymin)/(ymax-ymin)*(H-pad.t-pad.b);
-  // grid
-  const nT=5;
+  // grid — 10 light minor divisions, 5 darker major divisions, labels on majors
+  const nMinor=10,nMajor=5;
+  if(showGrid){
+    gx.strokeStyle=lineC;gx.lineWidth=1;gx.globalAlpha=0.5;
+    for(let i=0;i<=nMinor;i++){
+      const xx=pad.l+(W-pad.l-pad.r)*i/nMinor, yy=(H-pad.b)-(H-pad.t-pad.b)*i/nMinor;
+      gx.beginPath();gx.moveTo(xx,pad.t);gx.lineTo(xx,H-pad.b);gx.stroke();
+      gx.beginPath();gx.moveTo(pad.l,yy);gx.lineTo(W-pad.r,yy);gx.stroke();
+    }
+    gx.strokeStyle=mutedC;gx.lineWidth=1.1;gx.globalAlpha=0.4;
+    for(let i=0;i<=nMajor;i++){
+      const xx=pad.l+(W-pad.l-pad.r)*i/nMajor, yy=(H-pad.b)-(H-pad.t-pad.b)*i/nMajor;
+      gx.beginPath();gx.moveTo(xx,pad.t);gx.lineTo(xx,H-pad.b);gx.stroke();
+      gx.beginPath();gx.moveTo(pad.l,yy);gx.lineTo(W-pad.r,yy);gx.stroke();
+    }
+    gx.globalAlpha=1;
+  }
   gx.font='11px '+css('--mono');gx.fillStyle=mutedC;
-  for(let i=0;i<=nT;i++){
-    const gxv=xmin+(xmax-xmin)*i/nT, gyv=ymin+(ymax-ymin)*i/nT;
-    if(showGrid){gx.strokeStyle=lineC;gx.lineWidth=1;
-      gx.beginPath();gx.moveTo(PX(gxv),pad.t);gx.lineTo(PX(gxv),H-pad.b);gx.stroke();
-      gx.beginPath();gx.moveTo(pad.l,PY(gyv));gx.lineTo(W-pad.r,PY(gyv));gx.stroke();}
-    gx.fillStyle=mutedC;gx.textAlign='center';gx.fillText(fmt(gxv,1),PX(gxv),H-pad.b+16);
+  for(let i=0;i<=nMajor;i++){
+    const gxv=xmin+(xmax-xmin)*i/nMajor, gyv=ymin+(ymax-ymin)*i/nMajor;
+    gx.textAlign='center';gx.fillText(fmt(gxv,1),PX(gxv),H-pad.b+16);
     gx.textAlign='right';gx.fillText(fmt(gyv,1),pad.l-8,PY(gyv)+4);
   }
   // axes
   gx.strokeStyle=inkC;gx.lineWidth=1.5;
   gx.beginPath();gx.moveTo(pad.l,pad.t);gx.lineTo(pad.l,H-pad.b);gx.lineTo(W-pad.r,H-pad.b);gx.stroke();
   gx.fillStyle=inkC;gx.font='600 13px '+css('--sans');
-  gx.textAlign='center';gx.fillText(plot.x,(pad.l+W-pad.r)/2,H-14);
-  gx.save();gx.translate(16,(pad.t+H-pad.b)/2);gx.rotate(-Math.PI/2);gx.fillText(plot.y,0,0);gx.restore();
-  // best fit
-  const fit=showFit?leastSquares(pts):null;
-  if(fit){gx.strokeStyle=accent;gx.lineWidth=2;gx.setLineDash([6,5]);
-    gx.beginPath();gx.moveTo(PX(xmin),PY(fit.m*xmin+fit.c));gx.lineTo(PX(xmax),PY(fit.m*xmax+fit.c));gx.stroke();gx.setLineDash([]);}
+  gx.textAlign='center';gx.fillText(QTY[axisX].axis,(pad.l+W-pad.r)/2,H-14);
+  gx.save();gx.translate(16,(pad.t+H-pad.b)/2);gx.rotate(-Math.PI/2);gx.fillText(QTY[axisY].axis,0,0);gx.restore();
+  // best fit — straight line, or a curve when the data is non-linear
+  const fit=showFit?fitData(pts):null;
+  if(fit){
+    gx.strokeStyle=accent;gx.lineWidth=2;gx.setLineDash([6,5]);gx.beginPath();
+    if(fit.type==='linear'){
+      gx.moveTo(PX(xmin),PY(fit.m*xmin+fit.c));gx.lineTo(PX(xmax),PY(fit.m*xmax+fit.c));
+    } else {
+      const x0=Math.max(1e-9,Math.min(...xs)),x1=Math.max(...xs),N=64;
+      for(let i=0;i<=N;i++){const xv=x0+(x1-x0)*i/N,yv=fit.A*Math.pow(xv,fit.B);
+        if(i===0)gx.moveTo(PX(xv),PY(yv));else gx.lineTo(PX(xv),PY(yv));}
+    }
+    gx.stroke();gx.setLineDash([]);
+  }
   // points
   gx.fillStyle=css('--force');
   pts.forEach(p=>{gx.beginPath();gx.arc(PX(p.x),PY(p.y),4.5,0,7);gx.fill();});
   // labels for catalogue points
   if(PRESETS[curKey].mode==='catalogue'){gx.fillStyle=mutedC;gx.font='10px '+css('--sans');gx.textAlign='left';
-    PRESETS[curKey].data.forEach(d=>{const x=plot.fx(d),y=plot.fy(d);if(isFinite(x)&&isFinite(y))gx.fillText(d.name,PX(x)+7,PY(y)-6);});}
+    pts.forEach(p=>{if(p.name)gx.fillText(p.name,PX(p.x)+7,PY(p.y)-6);});}
   // fit readout
   drawWatermark(gx,W,H,false);
   const fi=document.getElementById('fitInfo');
-  if(fit)fi.innerHTML=`<span>gradient <b>${fmt(fit.m,3)}</b></span><span>intercept <b>${fmt(fit.c,3)}</b></span><span>R² <b>${fmt(fit.r2,4)}</b></span>`;
-  else fi.innerHTML=`<span style="color:var(--muted)">${PRESETS[curKey].mode==='free'?'Record at least two points to fit a line.':''}</span>`;
-  document.getElementById('iaNote').innerHTML=`<b>Reading it:</b> ${plot.note}`;
+  if(fit&&fit.type==='linear')fi.innerHTML=`<span>gradient <b>${fmt(fit.m,3)}</b></span><span>intercept <b>${fmt(fit.c,3)}</b></span><span>R² <b>${fmt(fit.r2,4)}</b></span>`;
+  else if(fit&&fit.type==='power')fi.innerHTML=`<span>curve: y = <b>${fmt(fit.A,3)}</b> · x<sup><b>${fmt(fit.B,2)}</b></sup></span><span>R² <b>${fmt(fit.r2,4)}</b></span>`;
+  else fi.innerHTML=`<span style="color:var(--muted)">${PRESETS[curKey].mode==='free'?'Record at least two points to fit a line.':'Select at least two items to fit.'}</span>`;
+  document.getElementById('iaNote').innerHTML=`<b>Reading it:</b> ${plotNote()}`;
 }
 
 /* CSV / PNG */
@@ -1070,6 +1131,7 @@ document.getElementById('pngBtn').addEventListener('click',()=>{
 
 /* ================= init ================= */
 buildCarPath('circle');
+buildAxisPickers();
 buildPresetBar();
 selectPreset('ball');
 renderDataTable();
@@ -1077,3 +1139,4 @@ requestAnimationFrame(frame);
 </script>
 </body>
 </html>
+
