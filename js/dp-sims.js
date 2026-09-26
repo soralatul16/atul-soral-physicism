@@ -227,6 +227,15 @@ const DP_SIMS = [
     description: "Hang loads on a pivoted beam and watch it turn. Balance clockwise and anticlockwise moments, record readings, and plot a graph to reveal the principle of moments — with a printable practical worksheet.",
     file: "sims/moments-equilibrium.html"
   },
+  {
+    id: "centre-of-gravity-stability",
+    title: "Centre of Gravity & Stability",
+    icon: "🧱",
+    topic: "A.4",
+    topicName: "Forces – Centre of Gravity & Stability",
+    description: "Tilt an object until it topples. See the centre of gravity and the weight's line of action, find the critical angle, and discover why a wide base and low centre of gravity give stability — with a printable practical worksheet.",
+    file: "sims/centre-of-gravity-stability.html"
+  },
 
 
 ];
