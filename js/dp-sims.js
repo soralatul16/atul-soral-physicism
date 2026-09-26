@@ -236,6 +236,15 @@ const DP_SIMS = [
     description: "Tilt an object until it topples. See the centre of gravity and the weight's line of action, find the critical angle, and discover why a wide base and low centre of gravity give stability — with a printable practical worksheet.",
     file: "sims/centre-of-gravity-stability.html"
   },
+  {
+    id: "momentum-impulse",
+    title: "Momentum & Impulse",
+    icon: "↔️",
+    topic: "A.2",
+    topicName: "Forces – Momentum & Impulse",
+    description: "Launch carts, guns, boats and billiard balls; watch momentum stay conserved in every collision and explosion, then investigate how a longer contact time softens the force (F = Δp/Δt) — with a printable practical worksheet.",
+    file: "sims/momentum-impulse.html"
+  },
 
 
 ];
