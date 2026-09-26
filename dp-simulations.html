@@ -53,7 +53,7 @@ body {
 .grid-bg {
   position: fixed;
   inset: 0;
-  background-image: 
+  background-image:
     linear-gradient(rgba(2,132,199,0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(2,132,199,0.04) 1px, transparent 1px);
   background-size: 24px 24px;
@@ -274,6 +274,65 @@ body {
   margin: 0 auto;
 }
 
+/* ═══ SEARCH ═══ */
+.sim-search-wrap {
+  max-width: 900px;
+  margin: 0 auto 14px;
+  padding: 0 32px;
+}
+.sim-search { position: relative; }
+.sim-search input {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: #0f172a;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(186,230,253,0.6);
+  border-radius: 50px;
+  padding: 13px 44px;
+  outline: none;
+  transition: all 0.2s;
+}
+.sim-search input::placeholder { color: #94a3b8; }
+.sim-search input:focus {
+  border-color: rgba(6,182,212,0.4);
+  box-shadow: 0 0 0 3px rgba(6,182,212,0.08);
+}
+.sim-search .s-ico {
+  position: absolute;
+  left: 16px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: #0284c7;
+  pointer-events: none;
+}
+.sim-search .s-clear {
+  position: absolute;
+  right: 10px; top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: rgba(6,182,212,0.1);
+  color: #0284c7;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 13px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.sim-search .s-clear:hover { background: rgba(6,182,212,0.2); }
+.sim-count {
+  max-width: 900px;
+  margin: 0 auto 16px;
+  padding: 0 34px;
+  font-size: 11px;
+  color: #475569;
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+}
+
 /* ═══ SIM GRID ═══ */
 .sim-grid-wrap {
   max-width: 900px;
@@ -385,6 +444,7 @@ body {
   text-align: center;
   padding: 60px 20px;
   color: #475569;
+  grid-column: 1 / -1;
 }
 .empty-state p { font-size: 14px; margin-top: 8px; }
 
@@ -421,6 +481,8 @@ body {
   .sidebar { display: none; }
   .hero { padding: 32px 20px 24px; }
   .hero h1 { font-size: 28px; }
+  .sim-search-wrap { padding: 0 16px; }
+  .sim-count { padding: 0 18px; }
   .sim-grid-wrap { padding: 0 16px; }
   .sim-grid { grid-template-columns: 1fr; }
   .topbar { padding: 0 16px; }
@@ -465,8 +527,8 @@ body {
       <a href="index.html" class="nav-btn">Home</a>
       <a href="myp-dashboard.html" class="nav-btn">MYP</a>
       <a href="dp-dashboard.html" class="nav-btn">DP</a>
-    
-    <button id="authBtn" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" 
+
+    <button id="authBtn" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())"
       style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:5px 14px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px">
       👤 Sign In
     </button>
@@ -480,6 +542,16 @@ body {
       <h1>Physics <em>Simulators</em></h1>
       <p class="hero-sub">Explore, adjust, and discover. Every simulator lets you interact with real physics — change variables, observe effects, build intuition.</p>
     </div>
+
+    <!-- SEARCH -->
+    <div class="sim-search-wrap">
+      <div class="sim-search">
+        <span class="s-ico">🔍</span>
+        <input type="text" id="simSearch" placeholder="Search simulators — try “waves”, “energy”, “A.4”, “circuit”…" autocomplete="off" aria-label="Search simulators">
+        <button class="s-clear" id="simSearchClear" title="Clear search" aria-label="Clear search">✕</button>
+      </div>
+    </div>
+    <div class="sim-count" id="simCount"></div>
 
     <!-- GRID -->
     <div class="sim-grid-wrap">
@@ -496,29 +568,19 @@ body {
 
 <script src="js/dp-sims.js"></script>
 <script>
-// Populate sidebar + grid from DP_SIMS
-function renderSimulators() {
-  const sidebar = document.getElementById('sidebarList');
-  const grid = document.getElementById('simGrid');
-
-  if (!DP_SIMS || DP_SIMS.length === 0) {
-    grid.innerHTML = '<div class="empty-state"><p>No simulators available yet. Check back soon!</p></div>';
-    return;
-  }
-
-  // Sidebar
-  sidebar.innerHTML = DP_SIMS.map(sim => `
+// ═══ Render + search for DP_SIMS ═══
+function simSideHTML(sim){
+  return `
     <a class="sb-item" href="${sim.file}">
       <span class="sb-item-icon">${sim.icon}</span>
       <span class="sb-item-info">
         <span class="sb-item-title">${sim.title}</span>
       </span>
       <span class="sb-item-tag">${sim.topic}</span>
-    </a>
-  `).join('');
-
-  // Grid
-  grid.innerHTML = DP_SIMS.map(sim => `
+    </a>`;
+}
+function simCardHTML(sim){
+  return `
     <a class="sim-card" href="${sim.file}">
       <div class="sc-top">
         <div class="sc-icon">${sim.icon}</div>
@@ -530,11 +592,71 @@ function renderSimulators() {
         <span class="sc-badge">${sim.topic}</span>
         <span class="sc-topic-name">${sim.topicName}</span>
       </div>
-    </a>
-  `).join('');
+    </a>`;
 }
 
-renderSimulators();
+// approximate matching: substring on any token, plus a light fuzzy (subsequence) fallback
+function simFuzzyWord(word, token){
+  if(token.length < 3) return false;
+  let i = 0;
+  for(const ch of word){ if(ch === token[i]) i++; if(i === token.length) return true; }
+  return false;
+}
+function simMatches(sim, query){
+  const q = (query || '').toLowerCase().trim();
+  if(!q) return true;
+  const hay = [sim.title, sim.topic, sim.topicName, sim.description, sim.id].join(' ').toLowerCase();
+  const words = hay.split(/[^a-z0-9]+/).filter(Boolean);
+  return q.split(/\s+/).every(function(tok){
+    if(hay.indexOf(tok) !== -1) return true;
+    return words.some(function(w){ return simFuzzyWord(w, tok); });
+  });
+}
+
+function renderSimulators(list){
+  const sidebar = document.getElementById('sidebarList');
+  const grid = document.getElementById('simGrid');
+  const countEl = document.getElementById('simCount');
+
+  if (!DP_SIMS || DP_SIMS.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><p>No simulators available yet. Check back soon!</p></div>';
+    if(sidebar) sidebar.innerHTML = '';
+    if(countEl) countEl.textContent = '';
+    return;
+  }
+
+  list = list || DP_SIMS;
+
+  if(sidebar) sidebar.innerHTML = (list.length ? list : DP_SIMS).map(simSideHTML).join('');
+
+  if(!list.length){
+    grid.innerHTML = '<div class="empty-state"><p>No simulators match your search. Try a different or shorter word.</p></div>';
+  } else {
+    grid.innerHTML = list.map(simCardHTML).join('');
+  }
+
+  if(countEl){
+    countEl.textContent = (list.length === DP_SIMS.length)
+      ? DP_SIMS.length + ' simulators'
+      : list.length + ' of ' + DP_SIMS.length + ' match';
+  }
+}
+
+// wire up the search box
+(function(){
+  const input = document.getElementById('simSearch');
+  const clearBtn = document.getElementById('simSearchClear');
+  function apply(){
+    const q = input.value;
+    clearBtn.style.display = q ? 'flex' : 'none';
+    renderSimulators((DP_SIMS || []).filter(function(s){ return simMatches(s, q); }));
+  }
+  if(input){
+    input.addEventListener('input', apply);
+    clearBtn.addEventListener('click', function(){ input.value=''; apply(); input.focus(); });
+  }
+  renderSimulators();
+})();
 </script>
 
 <script>
