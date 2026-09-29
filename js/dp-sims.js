@@ -265,4 +265,13 @@ const DP_SIMS = [
     description: "Launch a projectile and watch its velocity split into a constant horizontal push and a gravity-driven vertical part. Change the speed, angle and gravity, trace the parabola, and plot range against sin 2θ to find the angle for maximum range — with a printable practical worksheet.",
     file: "projectile-motion.html"
   },
+  {
+    id: "bohr-model-spectra",
+    title: "Bohr Model, Spectra & the Nucleus",
+    icon: "⚛️",
+    topic: "E.1",
+    topicName: "Atomic Structure & Spectra",
+    description: "Build the Bohr model one step at a time, jump electrons between energy levels to emit photons and read off the hydrogen line spectrum, then explore nuclear size, density and the strong nuclear force.",
+    file: "sims/bohr-model-spectra-nucleus.html"
+  },
 ];

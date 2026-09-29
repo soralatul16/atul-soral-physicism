@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Bohr Model, Spectra & the Nucleus</title>
+<style>
+  :root{
+    --ink:#1d2440; --ink-soft:#4a5578; --muted:#7c86a8;
+    --card:rgba(255,255,255,0.82); --card-solid:#ffffff;
+    --line:rgba(29,36,64,0.12);
+    --c1:#4f46e5; --c2:#0d9488; --c3:#d97706; --c4:#e11d48; --c5:#7c3aed; --c6:#0891b2; --c7:#059669;
+    --accent:var(--c1);
+    --accent-soft:rgba(79,70,229,0.12);
+    --serif:"Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+    --math:"Cambria Math","Cambria",Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--sans); color:var(--ink);
+    min-height:100vh; padding:0 0 70px;
+    transition:background .7s ease;
+    background:
+      radial-gradient(1200px 600px at 8% -5%, #e0e7ff 0%, transparent 55%),
+      radial-gradient(1000px 700px at 100% 0%, #ccfbf1 0%, transparent 50%),
+      linear-gradient(160deg,#f5f7ff 0%,#eef4ff 40%,#fef6ee 100%);
+  }
+  body[data-page="1"]{background:radial-gradient(1100px 640px at 6% -8%,#e0e7ff 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#dbeafe 0,transparent 55%),linear-gradient(155deg,#eef2ff,#eaf1ff 45%,#f6f3ff)}
+  body[data-page="2"]{background:radial-gradient(1100px 640px at 4% -8%,#ccfbf1 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#cffafe 0,transparent 55%),linear-gradient(155deg,#effcf7,#e9fbf4 45%,#eefaf6)}
+  body[data-page="3"]{background:radial-gradient(1100px 640px at 4% -8%,#fef3c7 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#ffedd5 0,transparent 55%),linear-gradient(155deg,#fffaf0,#fff6e8 45%,#fdf2e3)}
+  body[data-page="4"]{background:radial-gradient(1100px 640px at 4% -8%,#ffe4e6 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#fce7f3 0,transparent 55%),linear-gradient(155deg,#fff5f6,#fff0f2 45%,#fdeef4)}
+  body[data-page="5"]{background:radial-gradient(1100px 640px at 4% -8%,#ede9fe 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#fae8ff 0,transparent 55%),linear-gradient(155deg,#f5f3ff,#fdf2f8 45%,#f0fdfa)}
+  body[data-page="6"]{background:radial-gradient(1100px 640px at 4% -8%,#cffafe 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#e0f2fe 0,transparent 55%),linear-gradient(155deg,#f0fdff,#eff6ff 45%,#f5fbff)}
+  body[data-page="7"]{background:radial-gradient(1100px 640px at 4% -8%,#d1fae5 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#dcfce7 0,transparent 55%),linear-gradient(155deg,#f0fdf4,#ecfdf5 45%,#f3fdf6)}
+
+  /* brand bar */
+  .brandbar{max-width:1180px;margin:0 auto;padding:16px 22px 0;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .brand{font-family:var(--serif);font-weight:700;font-size:1.05rem;letter-spacing:.02em;color:var(--ink)}
+  .brand span{background:linear-gradient(90deg,var(--c1),var(--c4));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .brandmeta{display:flex;align-items:center;gap:10px}
+  .namechip{font-size:.78rem;font-weight:700;color:#fff;background:var(--accent);padding:5px 12px;border-radius:100px;transition:background .5s}
+  .clock{font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+
+  header{max-width:1180px; margin:0 auto; padding:20px 22px 6px;}
+  .kicker{font-family:var(--sans);font-weight:700;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);transition:color .5s}
+  h1{font-family:var(--serif);font-weight:700;font-size:clamp(1.7rem,3.4vw,2.6rem);line-height:1.05;margin-top:6px;letter-spacing:-.01em}
+  .sub{color:var(--ink-soft);margin-top:8px;font-size:1rem;max-width:660px}
+
+  nav{max-width:1180px;margin:20px auto 0;padding:0 22px;display:flex;gap:10px;flex-wrap:wrap}
+  .tab{border:1px solid var(--line); background:var(--card); color:var(--ink-soft);
+    backdrop-filter:blur(6px); padding:10px 16px; border-radius:100px; cursor:pointer;
+    font-weight:600; font-size:.9rem; display:flex; align-items:center; gap:9px;
+    transition:transform .18s ease, box-shadow .18s ease, background .2s, color .2s, border-color .2s;}
+  .tab .dot{width:9px;height:9px;border-radius:50%;background:var(--tabc);flex:none}
+  .tab:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(29,36,64,.08)}
+  .tab.active{color:#fff;background:var(--tabc);border-color:transparent;box-shadow:0 10px 24px -6px var(--tabc)}
+  .tab.active .dot{background:rgba(255,255,255,.9)}
+  .tab .num{font-variant-numeric:tabular-nums;opacity:.65;font-size:.8rem}
+
+  main{max-width:1180px;margin:22px auto 0;padding:0 22px}
+  .page{display:none;animation:pageIn .5s ease}
+  .page.active{display:block}
+  @keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .grid{display:grid;grid-template-columns:minmax(0,0.92fr) minmax(0,1.08fr);gap:22px;align-items:start}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:20px;
+    backdrop-filter:blur(8px); padding:22px; box-shadow:0 20px 50px -30px rgba(29,36,64,.4);}
+  .panel h2{font-family:var(--serif);font-size:1.15rem;margin-bottom:4px}
+  .panel .lead{color:var(--muted);font-size:.86rem;margin-bottom:16px}
+
+  .stage{position:relative;width:100%;aspect-ratio:1/1;max-height:440px;display:flex;align-items:center;justify-content:center}
+  svg{width:100%;height:100%;overflow:visible}
+
+  .stepper{display:flex;flex-direction:column;gap:14px;min-height:120px}
+  .step{border:1px solid var(--line); border-left:4px solid var(--accent);
+    background:var(--card-solid); border-radius:14px; padding:15px 17px;
+    display:none; animation:stepIn .45s cubic-bezier(.2,.7,.2,1);
+    box-shadow:0 10px 26px -20px rgba(29,36,64,.6);}
+  .step.revealed{display:block}
+  @keyframes stepIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+  .step .tag{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:3px 9px;border-radius:100px;margin-bottom:9px}
+  .step .note{color:var(--ink-soft);font-size:.9rem;line-height:1.5;margin-top:9px}
+  .step.result{border-left-color:var(--c3);background:linear-gradient(90deg,#fffdf5,#fff)}
+  .step.result .tag{color:#b45309;background:rgba(217,119,6,.14)}
+
+  .eq{font-family:var(--math);font-size:clamp(1.15rem,2.1vw,1.5rem);color:var(--ink);line-height:2;white-space:normal}
+  .eq .op{color:var(--muted);margin:0 .28em;vertical-align:middle}
+  .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 .18em}
+  .frac .num{border-bottom:2px solid currentColor;padding:0 8px 3px}
+  .frac .den{padding:3px 8px 0}
+  .sqrt{display:inline-flex;align-items:stretch;vertical-align:middle;margin:0 .16em}
+  .sqrt::before{content:"√";font-size:2.1em;line-height:.9;display:flex;align-items:flex-start;margin-right:-2px}
+  .radicand{display:inline-flex;align-items:center;border-top:2.5px solid currentColor;padding:6px 12px 4px}
+  var,.eq i{font-style:italic}
+  sub,sup{font-size:.72em;line-height:0;position:relative;vertical-align:baseline}
+  sup{top:-.55em}
+  sub{bottom:-.28em}
+  .pow{display:inline-flex;flex-direction:column;text-align:center;vertical-align:super;font-size:.5em;line-height:1.05;margin-left:2px;font-style:normal}
+  .pow .t{border-bottom:1.4px solid currentColor;padding:0 2px 1px}
+  .pow .b{padding:1px 2px 0}
+  .constants{margin-top:16px;display:grid;gap:8px}
+  .ctitle{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+  .const{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:11px;padding:9px 13px}
+  .const .sym{font-family:var(--math);font-weight:700;font-size:1.05rem;color:var(--accent);min-width:42px;flex:none;padding-top:1px}
+  .const .val{font-size:.82rem;color:var(--ink);font-weight:700;font-family:var(--math)}
+  .const .desc{font-size:.78rem;color:var(--muted);line-height:1.45;margin-top:2px}
+  .hl{background:rgba(79,70,229,.16);border-radius:5px;padding:0 4px}
+  .hl-a{background:rgba(217,119,6,.2)}
+  .hl-b{background:rgba(13,148,136,.18)}
+
+  .controls{display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .btn{border:none;border-radius:100px;padding:11px 20px;font-weight:700;font-size:.9rem;cursor:pointer;
+    font-family:var(--sans); transition:transform .16s, box-shadow .16s, opacity .16s;}
+  .btn.primary{background:var(--accent);color:#fff;box-shadow:0 10px 24px -8px var(--accent)}
+  .btn.primary:hover{transform:translateY(-2px)}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink-soft)}
+  .btn.ghost:hover{background:#fff}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+  .progress{margin-left:auto;font-size:.82rem;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
+  .hint{font-size:.8rem;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:6px}
+  .hint b{color:var(--accent)}
+
+  /* spectrum tab */
+  .canvaswrap{position:relative;width:100%;aspect-ratio:5/4;max-height:400px}
+  #levelCanvas{width:100%;height:100%;display:block;border-radius:14px;background:rgba(255,255,255,.45)}
+  .seg{display:flex;border:1px solid var(--line);border-radius:100px;overflow:hidden;margin:4px 0 16px}
+  .seg button{flex:1;border:none;background:transparent;color:var(--muted);font-weight:700;font-size:.82rem;padding:10px;cursor:pointer;font-family:var(--sans)}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+  .nrow{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .nrow label{font-size:.85rem;font-weight:700;color:var(--ink-soft);min-width:96px}
+  .nrow input[type=number]{width:56px;font-family:var(--math);font-size:1rem;font-weight:700;text-align:center;border:1px solid var(--line);border-radius:9px;padding:6px;background:#fff;color:var(--ink)}
+  .nrow input[type=range]{flex:1;accent-color:var(--accent);cursor:pointer}
+  .readouts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+  .ro{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 13px}
+  .ro .k{font-size:.7rem;color:var(--muted);font-weight:700;letter-spacing:.02em}
+  .ro .v{font-family:var(--math);font-size:1.15rem;font-weight:700;color:var(--ink);margin-top:4px}
+  .ro .u{font-size:.7rem;color:var(--muted);font-weight:600;margin-left:3px}
+  .ro.hi{border-color:var(--accent)} .ro.hi .v{color:var(--accent)}
+  .ro.wide{grid-column:1/3}
+  .seriesbadge{grid-column:1/3;border-radius:12px;padding:12px 14px;color:#fff;font-weight:700;font-size:.9rem;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:2px}
+  .rydberg{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:12px;background:#fff;overflow-x:auto}
+  .specstrip{margin-top:16px}
+  #specCanvas{width:100%;aspect-ratio:7/1;min-height:78px;display:block;border-radius:12px;border:1px solid var(--line)}
+  .strip-cap{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:6px;font-family:var(--mono)}
+
+  /* mini simulations (pages 1-3) */
+  .trycard{margin-top:18px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,var(--accent-soft),#fff 70%);padding:16px}
+  .tctitle{font-size:.82rem;font-weight:800;letter-spacing:.03em;color:var(--accent);margin-bottom:12px;transition:color .5s}
+  .canvaswrap.sim{aspect-ratio:16/9;max-height:220px;margin-bottom:12px}
+  .canvaswrap.sim canvas{width:100%;height:100%;display:block;border-radius:12px;background:rgba(255,255,255,.55)}
+  .simout{margin-top:4px;font-family:var(--sans);font-size:.86rem;color:var(--ink-soft);background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 13px;line-height:1.55}
+  .simout b{color:var(--accent);font-family:var(--math);font-weight:700}
+
+  /* misconceptions */
+  .miscgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+  .misc{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 16px 38px -28px rgba(29,36,64,.55)}
+  .misc .wrong{display:flex;gap:12px;align-items:flex-start;background:#fef2f2;color:#b91c1c;font-weight:700;font-size:1.02rem;line-height:1.55;padding:16px 18px;border-bottom:1px solid #fecdd3}
+  .misc .right{display:flex;gap:12px;align-items:flex-start;background:#fff;color:#1f2937;font-size:1rem;line-height:1.65;padding:16px 18px}
+  .misc .mtext{flex:1 1 auto;min-width:0;margin:0;word-break:normal;overflow-wrap:anywhere}
+  .misc .right b{color:#0f766e}
+  .misc .ic{flex:0 0 auto;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.72rem;font-weight:900;color:#fff;margin-top:3px}
+  .misc .ic.x{background:#e11d48}
+  .misc .ic.c{background:#0d9488}
+
+  /* quiz */
+  .q{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:14px;box-shadow:0 16px 38px -28px rgba(29,36,64,.5)}
+  .qtag{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:3px 9px;border-radius:100px}
+  .q .qt{font-weight:700;font-size:1.02rem;margin:10px 0 12px;line-height:1.4}
+  .q .reveal{border:1px solid var(--line);background:var(--accent-soft);color:var(--accent);font-weight:700;padding:8px 15px;border-radius:100px;cursor:pointer;font-size:.85rem;font-family:var(--sans)}
+  .q .reveal:hover{filter:brightness(.97)}
+  .q .ans{margin-top:12px;border-top:1px dashed var(--line);padding-top:12px;font-size:.95rem;color:var(--ink-soft);line-height:1.6}
+  .q .ans[hidden]{display:none}
+  .q .ans code{font-family:var(--math);background:var(--accent-soft);padding:1px 6px;border-radius:6px}
+
+  footer{max-width:1180px;margin:26px auto 0;padding:0 22px;color:var(--muted);font-size:.78rem}
+  .glabel{font-family:var(--sans);font-size:11px;fill:var(--ink-soft);font-weight:600}
+  .gaxis{stroke:var(--ink-soft);stroke-width:1.5}
+  .gtick{stroke:var(--line);stroke-width:1}
+
+  /* name gate */
+  .gate{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(29,36,64,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:20px}
+  .gate-box{background:#fff;border-radius:22px;box-shadow:0 30px 70px -20px rgba(29,36,64,.5);padding:34px 30px;max-width:440px;width:100%;text-align:center}
+  .gate-ic{font-size:32px}
+  .gate-box h2{font-family:var(--serif);font-size:1.5rem;margin:8px 0}
+  .gate-box p{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+  .gate-box input{width:100%;font-size:1rem;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fbfaff;color:var(--ink);margin-bottom:14px;font-family:var(--sans)}
+  .gate-box input:focus{outline:none;border-color:var(--c1);box-shadow:0 0 0 3px rgba(79,70,229,.14)}
+  .gate-box .btn.primary{width:100%;padding:12px}
+  .gate-err{color:#e11d48;font-size:.82rem;margin-top:10px;font-weight:600}
+
+  @media print{
+    body{padding:0;background:#fff}
+    nav,.controls,.hint,.gate{display:none}
+    .page{display:block!important;page-break-after:always}
+    .step{display:block!important}
+  }
+</style>
+</head>
+<body data-page="1">
+
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <div class="gate-ic">⚛️</div>
+    <h2>Before you begin</h2>
+    <p>Enter your full name. It is stamped onto the simulation with the time, so your teacher can confirm the work is your own.</p>
+    <input id="gateName" type="text" placeholder="Your full name" autocomplete="name">
+    <button class="btn primary" id="gateBtn">Start</button>
+    <div class="gate-err" id="gateErr" hidden>Please enter your name (at least 2 characters) to continue.</div>
+  </div>
+</div>
+
+<div class="brandbar">
+  <div class="brand">ATUL SORAL <span>PHYSICISM</span></div>
+  <div class="brandmeta"><span class="namechip" id="nameChip">Student</span><span class="clock" id="clock"></span></div>
+</div>
+
+<header>
+  <div class="kicker" id="kicker">Theme E · Nuclear &amp; Quantum</div>
+  <h1>Bohr Model, Spectra &amp; the Nucleus</h1>
+  <p class="sub">Work through the big equations the way they are actually built up, one click at a time, then jump electrons between levels and watch the photon and its spectral line appear. Press <b>Next step</b> (or click the diagram) to advance.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+<!-- PAGE 1: BOHR RADIUS -->
+<section class="page active" data-accent="var(--c1)">
+  <div class="grid">
+    <div class="panel">
+      <h2>The hydrogen atom, Bohr's picture</h2>
+      <p class="lead">An electron (charge &minus;e, mass m) circles a proton (charge +e) at radius r and speed v.</p>
+      <div class="stage">
+        <svg viewBox="0 0 400 400" id="bohrSvg">
+          <defs>
+            <radialGradient id="protonG" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#fca5a5"/><stop offset="100%" stop-color="#dc2626"/></radialGradient>
+            <radialGradient id="elecG" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#93c5fd"/><stop offset="100%" stop-color="#2563eb"/></radialGradient>
+            <marker id="arrForce" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#d97706"/></marker>
+            <marker id="arrVel" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#0d9488"/></marker>
+          </defs>
+          <circle cx="200" cy="200" r="120" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="4 6" id="orbit"/>
+          <line id="rline" x1="200" y1="200" x2="320" y2="200" stroke="#7c3aed" stroke-width="2" opacity="0"/>
+          <text id="rlabel" x="258" y="192" class="glabel" fill="#7c3aed" opacity="0" font-family="var(--math)" font-style="italic" font-size="16">r</text>
+          <g id="spin" style="transform-origin:200px 200px">
+            <circle id="elec" cx="320" cy="200" r="13" fill="url(#elecG)"/>
+            <text x="320" y="205" text-anchor="middle" class="glabel" fill="#fff" font-size="13" font-weight="800">&minus;e</text>
+            <line id="vvec" x1="320" y1="200" x2="320" y2="130" stroke="#0d9488" stroke-width="3" marker-end="url(#arrVel)" opacity="0"/>
+            <text id="vlabel" x="330" y="150" class="glabel" fill="#0d9488" font-style="italic" font-size="15" opacity="0">v</text>
+            <line id="fvec" x1="320" y1="200" x2="250" y2="200" stroke="#d97706" stroke-width="3" marker-end="url(#arrForce)" opacity="0"/>
+            <text id="flabel" x="270" y="222" class="glabel" fill="#d97706" font-size="13" opacity="0">F</text>
+          </g>
+          <circle cx="200" cy="200" r="17" fill="url(#protonG)"/>
+          <text x="200" y="205" text-anchor="middle" class="glabel" fill="#fff" font-size="14" font-weight="800">+e</text>
+        </svg>
+      </div>
+      <div class="trycard">
+        <div class="tctitle">▶ Try it live · change the quantum number n</div>
+        <div class="canvaswrap sim"><canvas id="bohrSimCanvas"></canvas></div>
+        <div class="nrow"><label>Quantum number n</label><input type="number" id="bohrN" min="1" max="6" value="1"><input type="range" id="bohrNr" min="1" max="6" value="1"></div>
+        <div class="simout" id="bohrOut"></div>
+      </div>
+      <div class="constants">
+        <div class="ctitle">The constants in play</div>
+        <div class="const"><span class="sym">k</span><div><div class="val">8.99 &times; 10<sup>9</sup> N m<sup>2</sup> C<sup>&minus;2</sup></div><div class="desc">Coulomb constant, k = 1/4&pi;&epsilon;<sub>0</sub>. Sets how strong the electric force is between charges.</div></div></div>
+        <div class="const"><span class="sym"><i>e</i></span><div><div class="val">1.60 &times; 10<sup>&minus;19</sup> C</div><div class="desc">Elementary charge, the size of the charge on the proton (+) and electron (&minus;).</div></div></div>
+        <div class="const"><span class="sym">m</span><div><div class="val">9.11 &times; 10<sup>&minus;31</sup> kg</div><div class="desc">Mass of the electron, the particle doing the orbiting.</div></div></div>
+        <div class="const"><span class="sym">h</span><div><div class="val">6.63 &times; 10<sup>&minus;34</sup> J s</div><div class="desc">Planck constant. It sets the scale of all quantum effects and appears in the quantisation rule.</div></div></div>
+        <div class="const"><span class="sym">n</span><div><div class="val">1, 2, 3, …</div><div class="desc">Principal quantum number, a whole number that labels which allowed orbit the electron is in.</div></div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Derivation · radius of the allowed orbits</h2>
+      <p class="lead">Goal: show that only certain radii are allowed, and find r.</p>
+      <div class="stepper" data-page="1">
+        <div class="step" data-hl="force">
+          <span class="tag">Step 1 · The force</span>
+          <div class="eq">The electric pull <b>is</b> the centripetal force:</div>
+          <div class="eq" style="margin-top:10px"><frac class="frac"><span class="num">m<i>v</i><sup>2</sup></span><span class="den"><i>r</i></span></frac><span class="op">=</span><frac class="frac"><span class="num">k<i>e</i><sup>2</sup></span><span class="den"><i>r</i><sup>2</sup></span></frac></div>
+          <div class="note">The inward Coulomb attraction between +e and &minus;e supplies exactly the force needed to keep the electron on its circle.</div>
+        </div>
+        <div class="step" data-hl="vel">
+          <span class="tag">Step 2 · Solve for speed</span>
+          <div class="eq">Cancel one <i>r</i>, then rearrange:</div>
+          <div class="eq" style="margin-top:10px">m<i>v</i><sup>2</sup><span class="op">=</span><frac class="frac"><span class="num">k<i>e</i><sup>2</sup></span><span class="den"><i>r</i></span></frac><span class="op" style="margin:0 .5em">→</span><i>v</i><span class="op">=</span><span class="sqrt"><span class="radicand">k<i>e</i><sup>2</sup>&#8202;/&#8202;m<i>r</i></span></span></div>
+          <div class="note">Keep this expression for <i>v</i> handy, we substitute it in Step 4.</div>
+        </div>
+        <div class="step" data-hl="orbit">
+          <span class="tag">Step 3 · Bohr's quantum rule</span>
+          <div class="eq">Angular momentum is <span class="hl">quantised</span>:</div>
+          <div class="eq" style="margin-top:10px">m<i>v</i><i>r</i><span class="op">=</span><frac class="frac"><span class="num"><i>n</i>h</span><span class="den">2&pi;</span></frac></div>
+          <div class="note">This is the new physics Bohr added by hand: only whole-number multiples of h/2&pi; are allowed. Everything quantised follows from this one line.</div>
+        </div>
+        <div class="step">
+          <span class="tag">Step 4 · Substitute v</span>
+          <div class="eq">Put <i>v</i> = &radic;(k<i>e</i><sup>2</sup>/m<i>r</i>) into m<i>vr</i>:</div>
+          <div class="eq" style="margin-top:10px"><span class="sqrt"><span class="radicand">k<i>e</i><sup>2</sup>m<i>r</i></span></span><span class="op">=</span><frac class="frac"><span class="num"><i>n</i>h</span><span class="den">2&pi;</span></frac></div>
+          <div class="note">Because m<i>r</i>&middot;&radic;(k<i>e</i><sup>2</sup>/m<i>r</i>) = &radic;(k<i>e</i><sup>2</sup>m<i>r</i>).</div>
+        </div>
+        <div class="step result">
+          <span class="tag">Step 5 · Square &amp; rearrange</span>
+          <div class="eq">Square both sides, solve for <i>r</i>:</div>
+          <div class="eq" style="margin-top:12px;font-size:1.7rem"><i>r</i><span class="op">=</span><frac class="frac"><span class="num"><i>n</i><sup>2</sup>h<sup>2</sup></span><span class="den">4&pi;<sup>2</sup>k<i>e</i><sup>2</sup>m</span></frac></div>
+          <div class="note">The radius can only take values proportional to <span class="hl-a">n<sup>2</sup></span>. Orbits are quantised, the electron cannot spiral inward.</div>
+        </div>
+        <div class="step">
+          <span class="tag">Step 6 · The ground state</span>
+          <div class="eq">Put <i>n</i> = 1 and the constants in:</div>
+          <div class="eq" style="margin-top:10px"><i>r</i><sub>1</sub><span class="op">=</span>5.3 &times; 10<sup>&minus;11</sup> m</div>
+          <div class="note">This is the <b>Bohr radius</b>, the size of a hydrogen atom in its lowest state. Larger n gives bigger, less tightly bound orbits.</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn ghost" data-back>◂ Back</button>
+        <button class="btn primary" data-next>Next step ▸</button>
+        <button class="btn ghost" data-reset>Reset</button>
+        <span class="progress"></span>
+      </div>
+      <div class="hint">💡 <b>Tip:</b>&nbsp;click anywhere on the diagram to reveal the next step too.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2: ENERGY LEVELS -->
+<section class="page" data-accent="var(--c2)">
+  <div class="grid">
+    <div class="panel">
+      <h2>Energy of a bound electron</h2>
+      <p class="lead">Total energy = kinetic energy + electric potential energy. Watch the energy ladder build.</p>
+      <div class="stage">
+        <svg viewBox="0 0 400 400" id="levelSvg">
+          <line x1="70" y1="30" x2="70" y2="360" stroke="var(--ink-soft)" stroke-width="2"/>
+          <text x="18" y="30" class="glabel">E / eV</text>
+          <line x1="70" y1="30" x2="360" y2="30" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="300" y="24" class="glabel" fill="#0d9488">0 (free electron, n→∞)</text>
+          <g id="levels"></g>
+        </svg>
+      </div>
+      <div class="trycard">
+        <div class="tctitle">▶ Try it live · pick a level, then drop it</div>
+        <div class="canvaswrap sim"><canvas id="energySimCanvas"></canvas></div>
+        <div class="nrow"><label>Start level n</label><input type="number" id="enN" min="1" max="6" value="3"><input type="range" id="enNr" min="1" max="6" value="3"></div>
+        <div class="controls" style="margin-top:0"><button class="btn primary" id="enDrop">▼ Drop one level</button><button class="btn ghost" id="enReset">↺ Reset</button></div>
+        <div class="simout" id="enOut"></div>
+      </div>
+      <div class="constants">
+        <div class="ctitle">The constants in play</div>
+        <div class="const"><span class="sym">eV</span><div><div class="val">1 eV = 1.60 &times; 10<sup>&minus;19</sup> J</div><div class="desc">Electronvolt, a convenient tiny energy unit for atoms. Divide joules by this to read energies in eV.</div></div></div>
+        <div class="const"><span class="sym">13.6</span><div><div class="val">13.6 eV</div><div class="desc">The ionisation energy of hydrogen, the energy needed to free the ground-state electron (E<sub>1</sub> = &minus;13.6 eV).</div></div></div>
+        <div class="const"><span class="sym">k, <i>e</i></span><div><div class="val">as on the orbit page</div><div class="desc">Same Coulomb constant and elementary charge reused here inside the energy expression.</div></div></div>
+        <div class="const"><span class="sym">n</span><div><div class="val">1, 2, 3, …</div><div class="desc">Principal quantum number. Because E ∝ &minus;1/n<sup>2</sup>, it fixes which rung of the energy ladder the electron sits on.</div></div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Derivation · the energy levels of hydrogen</h2>
+      <p class="lead">Goal: get E<sub>total</sub> = &minus;13.6/n<sup>2</sup> eV.</p>
+      <div class="stepper" data-page="2">
+        <div class="step" data-lvl="1">
+          <span class="tag">Step 1 · Add the energies</span>
+          <div class="eq"><i>E</i><sub>total</sub><span class="op">=</span><span class="hl-b">½m<i>v</i><sup>2</sup></span><span class="op">+</span><span class="hl-a">(&minus;<frac class="frac"><span class="num">k<i>e</i><sup>2</sup></span><span class="den"><i>r</i></span></frac>)</span></div>
+          <div class="note">Kinetic energy of the electron plus the electric potential energy of the +e/&minus;e pair (negative because they attract).</div>
+        </div>
+        <div class="step" data-lvl="2">
+          <span class="tag">Step 2 · Reuse the force result</span>
+          <div class="eq">From the orbit page, m<i>v</i><sup>2</sup> = k<i>e</i><sup>2</sup>/<i>r</i>, so:</div>
+          <div class="eq" style="margin-top:10px">½m<i>v</i><sup>2</sup><span class="op">=</span>½<frac class="frac"><span class="num">k<i>e</i><sup>2</sup></span><span class="den"><i>r</i></span></frac></div>
+          <div class="note">The kinetic energy is exactly half the size of the potential energy, a signature of any inverse-square orbit.</div>
+        </div>
+        <div class="step result" data-lvl="3">
+          <span class="tag">Step 3 · Combine</span>
+          <div class="eq" style="font-size:1.6rem"><i>E</i><sub>total</sub><span class="op">=</span>½<frac class="frac"><span class="num">k<i>e</i><sup>2</sup></span><span class="den"><i>r</i></span></frac><span class="op">&minus;</span><frac class="frac"><span class="num">k<i>e</i><sup>2</sup></span><span class="den"><i>r</i></span></frac><span class="op">=</span><span class="hl-a">&minus;½<frac class="frac"><span class="num">k<i>e</i><sup>2</sup></span><span class="den"><i>r</i></span></frac></span></div>
+          <div class="note">A clean, compact result: the total energy is negative and equals minus one-half the potential energy magnitude.</div>
+        </div>
+        <div class="step" data-lvl="4">
+          <span class="tag">Step 4 · Ground state in joules</span>
+          <div class="eq">Put <i>r</i> = 5.3&times;10<sup>&minus;11</sup> m:</div>
+          <div class="eq" style="margin-top:10px"><i>E</i><sub>total</sub><span class="op">=</span>&minus;2.2 &times; 10<sup>&minus;18</sup> J</div>
+          <div class="note">Divide by 1.6&times;10<sup>&minus;19</sup> J/eV and you get &minus;13.6 eV. The numbers match experiment.</div>
+        </div>
+        <div class="step result" data-lvl="all">
+          <span class="tag">Step 5 · Substitute the quantised r</span>
+          <div class="eq">Insert <i>r</i> = n<sup>2</sup>h<sup>2</sup>/(4&pi;<sup>2</sup>k<i>e</i><sup>2</sup>m):</div>
+          <div class="eq" style="margin-top:12px"><i>E</i><span class="op">=</span>&minus;<frac class="frac"><span class="num">2&pi;<sup>2</sup>k<sup>2</sup><i>e</i><sup>4</sup>m</span><span class="den"><i>n</i><sup>2</sup>h<sup>2</sup></span></frac><span class="op">=</span><span class="hl-a">&minus;<frac class="frac"><span class="num">13.6</span><span class="den"><i>n</i><sup>2</sup></span></frac> eV</span></div>
+          <div class="note">All the constants collapse into 13.6 eV. Energy is quantised because <b>r</b> was quantised, the whole ladder comes from Bohr's one rule.</div>
+        </div>
+        <div class="step" data-lvl="all">
+          <span class="tag">Step 6 · Read the ladder</span>
+          <div class="eq">n=1: &minus;13.6 · n=2: &minus;3.40 · n=3: &minus;1.51 eV</div>
+          <div class="note">Levels crowd together as n grows and reach 0 at n→∞ (ionisation). Jumps between levels give hydrogen's spectral lines.</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn ghost" data-back>◂ Back</button>
+        <button class="btn primary" data-next>Next step ▸</button>
+        <button class="btn ghost" data-reset>Reset</button>
+        <span class="progress"></span>
+      </div>
+      <div class="hint">💡 <b>Tip:</b>&nbsp;each step draws another rung on the energy ladder.</div>
+    </div>
+  </div>
+</section>
+<!-- PAGE 3: NUCLEAR SIZE & DENSITY -->
+<section class="page" data-accent="var(--c3)">
+  <div class="grid">
+    <div class="panel">
+      <h2>How big, and how dense, is a nucleus?</h2>
+      <p class="lead">Nucleons pack like tiny spheres. Add more, and the ball just grows, its density stays fixed.</p>
+      <div class="stage">
+        <svg viewBox="0 0 400 400" id="nucSvg">
+          <circle id="nucOutline" cx="200" cy="200" r="40" fill="rgba(217,119,6,.1)" stroke="#d97706" stroke-width="2" stroke-dasharray="3 4"/>
+          <g id="nucleons"></g>
+          <line id="Rline" x1="200" y1="200" x2="240" y2="200" stroke="#b45309" stroke-width="2.5" opacity="0"/>
+          <text id="Rlabel" x="212" y="192" class="glabel" fill="#b45309" font-style="italic" font-size="16" opacity="0">R</text>
+        </svg>
+      </div>
+      <div class="trycard">
+        <div class="tctitle">▶ Try it live · change the nucleon number A</div>
+        <div class="canvaswrap sim"><canvas id="nucSimCanvas"></canvas></div>
+        <div class="nrow"><label>Nucleon number A</label><input type="number" id="nucA" min="1" max="240" value="12"><input type="range" id="nucAr" min="1" max="240" value="12"></div>
+        <div class="simout" id="nucOut"></div>
+      </div>
+      <div class="constants">
+        <div class="ctitle">The constants in play</div>
+        <div class="const"><span class="sym"><i>R</i><sub>0</sub></span><div><div class="val">1.20 &times; 10<sup>&minus;15</sup> m</div><div class="desc">Fermi radius, an empirical constant roughly the size of a single nucleon. It sets the scale of every nucleus.</div></div></div>
+        <div class="const"><span class="sym">A</span><div><div class="val">whole number (dimensionless)</div><div class="desc">Nucleon number, the total count of protons + neutrons. Larger A means a bigger, heavier nucleus.</div></div></div>
+        <div class="const"><span class="sym"><i>u</i></span><div><div class="val">1.661 &times; 10<sup>&minus;27</sup> kg</div><div class="desc">Atomic mass unit, close to the mass of one nucleon, so the nuclear mass is about A&times;u.</div></div></div>
+        <div class="const"><span class="sym">fm</span><div><div class="val">1 fm = 10<sup>&minus;15</sup> m</div><div class="desc">Femtometre (or "fermi"), the natural length scale for nuclear sizes.</div></div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Derivation · radius and density of nuclei</h2>
+      <p class="lead">Goal: R = R<sub>0</sub>A<sup>1/3</sup> and show density is the same for all nuclei.</p>
+      <div class="stepper" data-page="3">
+        <div class="step" data-grow="1">
+          <span class="tag">Step 1 · Radius law</span>
+          <div class="eq">Scattering experiments show R grows with the cube root of A:</div>
+          <div class="eq" style="margin-top:10px;font-size:1.6rem"><i>R</i><span class="op">=</span><i>R</i><sub>0</sub><i>A</i><sup>1/3</sup></div>
+          <div class="note">Cube root, because volume ∝ A and volume ∝ R<sup>3</sup>. Doubling the nucleons does <b>not</b> double the radius.</div>
+        </div>
+        <div class="step" data-grow="197">
+          <span class="tag">Step 2 · Worked example, gold</span>
+          <div class="eq"><i>R</i> = (1.20&times;10<sup>&minus;15</sup>) &times; 197<sup>1/3</sup></div>
+          <div class="eq" style="margin-top:8px"><span class="op">=</span> 6.98 &times; 10<sup>&minus;15</sup> m &nbsp;≈ 7.0 fm</div>
+          <div class="note">A gold nucleus (A = 197) is only about 7 femtometres across, tiny even by atomic standards.</div>
+        </div>
+        <div class="step">
+          <span class="tag">Step 3 · Set up density</span>
+          <div class="eq">Use &rho; = m/V with m ≈ A<i>u</i> and a spherical volume:</div>
+          <div class="eq" style="margin-top:10px">&rho;<span class="op">=</span><frac class="frac"><span class="num">A<i>u</i></span><span class="den"><frac class="frac"><span class="num">4</span><span class="den">3</span></frac>&pi;(<i>R</i><sub>0</sub><i>A</i><sup>1/3</sup>)<sup>3</sup></span></frac></div>
+          <div class="note">Mass is roughly A nucleons, each about one atomic mass unit u.</div>
+        </div>
+        <div class="step result">
+          <span class="tag">Step 4 · The A cancels</span>
+          <div class="eq">(<i>A</i><sup>1/3</sup>)<sup>3</sup> = A, so A cancels top and bottom:</div>
+          <div class="eq" style="margin-top:12px;font-size:1.6rem">&rho;<span class="op">=</span><frac class="frac"><span class="num">3<i>u</i></span><span class="den">4&pi;<i>R</i><sub>0</sub><sup>3</sup></span></frac></div>
+          <div class="note"><span class="hl-a">No A left.</span> Nuclear density does not depend on how many nucleons there are, or on the radius.</div>
+        </div>
+        <div class="step">
+          <span class="tag">Step 5 · Put the numbers in</span>
+          <div class="eq">&rho;<span class="op">=</span><frac class="frac"><span class="num">3(1.661&times;10<sup>&minus;27</sup>)</span><span class="den">4&pi;(1.20&times;10<sup>&minus;15</sup>)<sup>3</sup></span></frac><span class="op">=</span>2.3&times;10<sup>17</sup> kg m<sup>&minus;3</sup></div>
+          <div class="note">Every nucleus, hydrogen to uranium, has about this same staggering density.</div>
+        </div>
+        <div class="step">
+          <span class="tag">Step 6 · Why it matters</span>
+          <div class="eq">Atoms are ~10<sup>5</sup>× bigger than nuclei, so:</div>
+          <div class="eq" style="margin-top:10px"><frac class="frac"><span class="num">10<sup>17</sup></span><span class="den">(10<sup>5</sup>)<sup>3</sup></span></frac><span class="op">≈</span>10<sup>2</sup> kg m<sup>&minus;3</sup></div>
+          <div class="note">That matches everyday matter. Only neutron stars and black holes reach true nuclear density.</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn ghost" data-back>◂ Back</button>
+        <button class="btn primary" data-next>Next step ▸</button>
+        <button class="btn ghost" data-reset>Reset</button>
+        <span class="progress"></span>
+      </div>
+      <div class="hint">💡 <b>Tip:</b>&nbsp;steps 1–2 grow the nucleus so you can see the cube-root law.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4: STRONG FORCE -->
+<section class="page" data-accent="var(--c4)">
+  <div class="grid">
+    <div class="panel">
+      <h2>Two forces between nucleons</h2>
+      <p class="lead">Coulomb repulsion reaches far; the strong force is short-range but wins up close, until it turns repulsive.</p>
+      <div class="stage">
+        <svg viewBox="0 0 400 360" id="forceSvg">
+          <line x1="55" y1="180" x2="380" y2="180" class="gaxis"/>
+          <line x1="55" y1="20" x2="55" y2="340" class="gaxis"/>
+          <text x="8" y="45" class="glabel">Repulsive</text>
+          <text x="8" y="320" class="glabel">Attractive</text>
+          <text x="300" y="200" class="glabel">Separation</text>
+          <line id="m15" x1="110" y1="20" x2="110" y2="340" stroke="#e11d48" stroke-width="1" stroke-dasharray="3 4" opacity="0"/>
+          <text id="m15t" x="80" y="352" class="glabel" fill="#e11d48" opacity="0">1.5 fm</text>
+          <line id="m3" x1="175" y1="20" x2="175" y2="340" stroke="#7c3aed" stroke-width="1" stroke-dasharray="3 4" opacity="0"/>
+          <text id="m3t" x="150" y="352" class="glabel" fill="#7c3aed" opacity="0">3 fm</text>
+          <path id="coulomb" fill="none" stroke="#dc2626" stroke-width="3.5" stroke-linecap="round" d="M70,55 C110,120 150,150 210,165 C270,175 330,178 375,179" opacity="0"/>
+          <text id="coulombL" x="250" y="150" class="glabel" fill="#dc2626" font-weight="700" opacity="0">Coulomb repulsion</text>
+          <path id="strong" fill="none" stroke="#2563eb" stroke-width="3.5" stroke-linecap="round" d="M72,40 C82,120 92,150 105,180 C118,230 140,300 165,300 C200,300 210,220 240,195 C280,182 330,180 375,180" opacity="0"/>
+          <text id="strongL" x="150" y="330" class="glabel" fill="#2563eb" font-weight="700" opacity="0">Strong nuclear force</text>
+        </svg>
+      </div>
+      <div class="constants">
+        <div class="ctitle">The scales in play</div>
+        <div class="const"><span class="sym">&lt; 1.5</span><div><div class="val">below ~1.5 fm</div><div class="desc">At these separations the strong force is large and attractive, it dominates over the electric repulsion and binds nucleons together.</div></div></div>
+        <div class="const"><span class="sym">&gt; 3</span><div><div class="val">beyond ~3 fm</div><div class="desc">The strong force has faded to zero, so only the long-range Coulomb repulsion is left and Rutherford's law holds.</div></div></div>
+        <div class="const"><span class="sym">k, <i>e</i></span><div><div class="val">Coulomb constant &amp; charge</div><div class="desc">k = 8.99&times;10<sup>9</sup> N m<sup>2</sup> C<sup>&minus;2</sup>, e = 1.60&times;10<sup>&minus;19</sup> C, they set the electric repulsion F = ke<sup>2</sup>/r<sup>2</sup>.</div></div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Reading Figure E1.19</h2>
+      <p class="lead">Why Rutherford scattering breaks down at high energy.</p>
+      <div class="stepper" data-page="4">
+        <div class="step" data-draw="coulomb">
+          <span class="tag">Step 1 · The Coulomb curve</span>
+          <div class="eq">Two protons always repel electrically:</div>
+          <div class="eq" style="margin-top:8px"><i>F</i><sub>Coulomb</sub><span class="op">=</span><frac class="frac"><span class="num">k<i>e</i><sup>2</sup></span><span class="den"><i>r</i><sup>2</sup></span></frac></div>
+          <div class="note">Positive (repulsive) everywhere and it decays smoothly. This is all Rutherford assumed, and it explains normal scattering.</div>
+        </div>
+        <div class="step" data-draw="strong">
+          <span class="tag">Step 2 · Add the strong force</span>
+          <div class="eq">A second curve appears: the strong nuclear force.</div>
+          <div class="note">It acts only between nucleons that are very close. Beyond a few femtometres it is essentially zero, which is why we never notice it at atomic scales.</div>
+        </div>
+        <div class="step" data-draw="m3">
+          <span class="tag">Step 3 · Beyond 3 fm</span>
+          <div class="eq">For separations &gt; ~3&times;10<sup>&minus;15</sup> m:</div>
+          <div class="note">Electric repulsion dominates. Scattering here follows Coulomb's law exactly, so ordinary Rutherford analysis works fine.</div>
+        </div>
+        <div class="step result" data-draw="m15">
+          <span class="tag">Step 4 · Closer than 1.5 fm</span>
+          <div class="eq">The strong force becomes <span class="hl-b">attractive</span> and large.</div>
+          <div class="note">A very energetic alpha particle can push this close. Now it feels attraction as well as repulsion, so deviations from Rutherford's prediction appear, this is the experimental evidence for the strong force.</div>
+        </div>
+        <div class="step">
+          <span class="tag">Step 5 · Even closer</span>
+          <div class="eq">At the smallest separations the strong force turns <span class="hl">repulsive</span> again.</div>
+          <div class="note">That repulsive core stops nucleons collapsing into each other and sets the near-constant density we found on the previous page.</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn ghost" data-back>◂ Back</button>
+        <button class="btn primary" data-next>Next step ▸</button>
+        <button class="btn ghost" data-reset>Reset</button>
+        <span class="progress"></span>
+      </div>
+      <div class="hint">💡 <b>Tip:</b>&nbsp;each step draws another element of the graph.</div>
+    </div>
+  </div>
+</section>
+<!-- PAGE 5: HYDROGEN SPECTRUM -->
+<section class="page" data-accent="var(--c5)">
+  <div class="grid">
+    <div class="panel">
+      <h2>Hydrogen line spectrum</h2>
+      <p class="lead">Set the two levels, drag the sliders, type a value, or click a level on the diagram. Then press Play to drop the electron and emit the photon.</p>
+      <div class="canvaswrap"><canvas id="levelCanvas"></canvas></div>
+      <div class="specstrip">
+        <canvas id="specCanvas"></canvas>
+        <div class="strip-cap"><span>← shorter λ (UV)</span><span>visible 380–740 nm</span><span>longer λ (IR) →</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Transition controls</h2>
+      <p class="lead">Emission gives out a photon; absorption takes one in, at the same wavelength.</p>
+      <div class="seg" id="modeSeg">
+        <button data-m="emission" aria-pressed="true">Emission (photon out)</button>
+        <button data-m="absorption" aria-pressed="false">Absorption (photon in)</button>
+      </div>
+      <div class="nrow"><label>Upper level n<sub>hi</sub></label><input type="number" id="nHiNum" min="2" max="8" value="3"><input type="range" id="nHiRange" min="2" max="8" value="3"></div>
+      <div class="nrow"><label>Lower level n<sub>lo</sub></label><input type="number" id="nLoNum" min="1" max="7" value="2"><input type="range" id="nLoRange" min="1" max="7" value="2"></div>
+      <div class="controls" style="margin-top:6px">
+        <button class="btn primary" id="playBtn">▶ Play the jump</button>
+        <button class="btn ghost" id="resetSpec">↺ Reset</button>
+        <button class="btn ghost" id="clearSpec">Clear lines</button>
+      </div>
+      <div class="readouts" id="specReadouts"></div>
+      <div class="rydberg" id="rydberg"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 6: MISCONCEPTIONS -->
+<section class="page" data-accent="var(--c6)">
+  <div class="panel" style="margin-bottom:18px">
+    <h2>Common misconceptions, cleared up</h2>
+    <p class="lead">The traps that cost marks. Each card pairs the wrong idea with the fix.</p>
+  </div>
+  <div class="miscgrid">
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"The electron should spiral into the nucleus."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">Classically an accelerating charge radiates and would spiral in. Bohr's quantisation of angular momentum (mvr = nh/2&pi;) allows only fixed orbits, so the ground state is stable, that is the whole point of the model.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"Negative energy means something is wrong."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">Zero energy is defined as a free electron infinitely far away. Negative simply means <b>bound</b>, you must add energy to remove the electron. The deeper (more negative) the level, the more tightly bound.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"n is the radius, or the energy."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">n is just a quantum number (1, 2, 3…). Radius scales as <b>r &prop; n<sup>2</sup></b> and energy as <b>E &prop; &minus;1/n<sup>2</sup></b>. They are related to n, but are not n.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"The photon energy equals the upper level's energy."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">The photon carries the <b>difference</b> between two levels: E<sub>photon</sub> = |E<sub>hi</sub> &minus; E<sub>lo</sub>| = hf. The same two levels give the same photon whether emitted or absorbed.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"Emission and absorption spectra are different wavelengths."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">They occur at the <b>same</b> wavelengths. Emission shows bright lines (photons given out); absorption shows dark lines at those same positions on a continuous spectrum.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"A bigger nucleus is denser."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">The A cancels in the density derivation: &rho; = 3u/(4&pi;R<sub>0</sub><sup>3</sup>). Every nucleus has roughly the same density (~2.3&times;10<sup>17</sup> kg m<sup>&minus;3</sup>), regardless of size.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"Angular momentum can be any value."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">In the Bohr model it is quantised in units of h/2&pi; (= &#8463;). Only whole-number multiples are allowed, that restriction is what forces discrete orbits and energies.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"The strong force is always attractive."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">It is attractive around 1–1.5 fm but becomes <b>repulsive</b> at very short range and ~zero beyond ~3 fm. That short range plus a repulsive core is why nuclear matter does not collapse.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"R = R<sub>0</sub>A<sup>1/3</sup> means radius doubles when A doubles."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">It is a cube-root law. To double the radius you need <b>8&times;</b> the nucleons. Volume, not radius, is proportional to A.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"k is Boltzmann's constant."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">Here k is the <b>Coulomb constant</b>, k = 1/(4&pi;&epsilon;<sub>0</sub>) &asymp; 8.99&times;10<sup>9</sup> N m<sup>2</sup> C<sup>&minus;2</sup>. Watch which k a formula means.</p></div></div>
+  </div>
+</section>
+
+<!-- PAGE 7: QUIZ -->
+<section class="page" data-accent="var(--c7)">
+  <div class="panel" style="margin-bottom:18px">
+    <h2>Check your understanding</h2>
+    <p class="lead">Try each one before revealing the answer. Use the spectrum tab to check the numbers.</p>
+  </div>
+  <div class="q"><span class="qtag">Q1 · Bohr</span><p class="qt">State the two physical ideas Bohr combined to derive the radii of the electron orbits in hydrogen.</p><button class="reveal">Show answer</button><div class="ans" hidden>(1) Classical physics: the Coulomb attraction provides the centripetal force, <code>mv²/r = ke²/r²</code>. (2) Quantum idea: angular momentum is quantised, <code>mvr = nh/2π</code>. Combining them gives <code>r = n²h²/(4π²ke²m)</code>.</div></div>
+  <div class="q"><span class="qtag">Q2 · Energy</span><p class="qt">Show that the total energy of the hydrogen atom is E = &minus;½ke²/r.</p><button class="reveal">Show answer</button><div class="ans" hidden>E = KE + PE = ½mv² &minus; ke²/r. From the force equation mv² = ke²/r, so ½mv² = ½ke²/r. Then E = ½ke²/r &minus; ke²/r = <code>&minus;½ke²/r</code>.</div></div>
+  <div class="q"><span class="qtag">Q3 · Spectrum</span><p class="qt">An electron falls from n = 3 to n = 2 in hydrogen. Which series is this line in, and roughly what colour?</p><button class="reveal">Show answer</button><div class="ans" hidden>n<sub>lo</sub> = 2 → the <b>Balmer</b> series (visible). n = 3 → 2 is the Hα line at <code>656 nm</code>, which is red. Check it on the spectrum tab.</div></div>
+  <div class="q"><span class="qtag">Q4 · Photon</span><p class="qt">Calculate the energy (in eV) of the photon emitted when an electron falls from n = 4 to n = 1.</p><button class="reveal">Show answer</button><div class="ans" hidden>ΔE = 13.6(1/1² &minus; 1/4²) = 13.6(1 &minus; 0.0625) = 13.6 × 0.9375 = <code>12.75 eV</code>. This is a Lyman-series line (UV).</div></div>
+  <div class="q"><span class="qtag">Q5 · Nucleus</span><p class="qt">Use R = R₀A^(1/3) to estimate the radius of a carbon-12 nucleus (R₀ = 1.20 × 10⁻¹⁵ m).</p><button class="reveal">Show answer</button><div class="ans" hidden>R = 1.20 × 10⁻¹⁵ × 12^(1/3) = 1.20 × 10⁻¹⁵ × 2.289 = <code>2.75 × 10⁻¹⁵ m</code>.</div></div>
+  <div class="q"><span class="qtag">Q6 · Density</span><p class="qt">Explain why all nuclei have approximately the same density.</p><button class="reveal">Show answer</button><div class="ans" hidden>Mass ∝ A, and volume = (4/3)πR³ ∝ (A^(1/3))³ = A, so ρ = mass/volume ∝ A/A, independent of A. Hence <code>ρ = 3u/(4πR₀³) ≈ 2.3 × 10¹⁷ kg m⁻³</code> for every nucleus.</div></div>
+</section>
+</main>
+
+<footer>ATUL SORAL PHYSICISM · Bohr model &amp; nuclear physics · Constants: k = 1/4&pi;&epsilon;<sub>0</sub>, h = Planck constant, u = atomic mass unit.</footer>
+
+<script>
+'use strict';
+/* ---- name gate + clock ---- */
+const gate=document.getElementById('gate'),gateName=document.getElementById('gateName'),
+  gateBtn=document.getElementById('gateBtn'),gateErr=document.getElementById('gateErr'),
+  nameChip=document.getElementById('nameChip');
+function startApp(){const v=gateName.value.trim();if(v.length<2){gateErr.hidden=false;return;}
+  nameChip.textContent=v;gate.style.display='none';}
+gateBtn.addEventListener('click',startApp);
+gateName.addEventListener('keydown',e=>{if(e.key==='Enter')startApp();});
+setTimeout(()=>gateName.focus(),100);
+const clockEl=document.getElementById('clock');
+function tick(){const n=new Date();clockEl.textContent=n.toLocaleDateString([],{day:'2-digit',month:'short'})+' · '+n.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+tick();setInterval(tick,10000);
+
+/* ---- pages + steps ---- */
+const PAGES=[
+  {name:"Bohr Radius",color:"var(--c1)",soft:"rgba(79,70,229,.12)"},
+  {name:"Energy Levels",color:"var(--c2)",soft:"rgba(13,148,136,.12)"},
+  {name:"Nuclear Size",color:"var(--c3)",soft:"rgba(217,119,6,.14)"},
+  {name:"Strong Force",color:"var(--c4)",soft:"rgba(225,29,72,.12)"},
+  {name:"Hydrogen Spectrum",color:"var(--c5)",soft:"rgba(124,58,237,.12)"},
+  {name:"Misconceptions",color:"var(--c6)",soft:"rgba(8,145,178,.12)"},
+  {name:"Quiz",color:"var(--c7)",soft:"rgba(5,150,105,.12)"}
+];
+const kickers=["The Bohr radius","The energy levels","Nuclear size & density","The strong nuclear force","The hydrogen spectrum","Watch out for these","Check your understanding"];
+const nav=document.getElementById('nav');
+const pageEls=[...document.querySelectorAll('.page')];
+let active=0;
+const stepIdx=pageEls.map(()=>0);
+let specActive=false;
+
+PAGES.forEach((p,i)=>{const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');b.style.setProperty('--tabc',p.color);
+  b.innerHTML=`<span class="dot"></span><span class="num">${i+1}</span> ${p.name}`;
+  b.onclick=()=>goPage(i);nav.appendChild(b);});
+
+function setAccent(i){const p=PAGES[i];
+  document.documentElement.style.setProperty('--accent',p.color);
+  document.documentElement.style.setProperty('--accent-soft',p.soft);
+  document.body.dataset.page=(i+1);
+  document.getElementById('kicker').textContent="Theme E · "+kickers[i];}
+function goPage(i){active=i;
+  pageEls.forEach((el,k)=>el.classList.toggle('active',k===i));
+  [...nav.children].forEach((el,k)=>el.classList.toggle('active',k===i));
+  setAccent(i);renderSteps();
+  specActive=(i===4);
+  if(specActive){syncInputs();updateReadouts();}
+  window.scrollTo({top:0,behavior:'smooth'});}
+function stepsOf(i){return pageEls[i].querySelectorAll('.step');}
+function renderSteps(){const steps=stepsOf(active);const n=stepIdx[active];
+  steps.forEach((s,k)=>s.classList.toggle('revealed',k<n));
+  const prog=pageEls[active].querySelector('.progress');
+  const nextB=pageEls[active].querySelector('[data-next]');
+  const backB=pageEls[active].querySelector('[data-back]');
+  if(prog){prog.textContent=`Step ${n} of ${steps.length}`;
+    nextB.disabled=(n>=steps.length);backB.disabled=(n<=0);
+    nextB.textContent=n>=steps.length?"Complete ✓":"Next step ▸";}
+  applyVisual(active,n);}
+function next(){const s=stepsOf(active);if(stepIdx[active]<s.length){stepIdx[active]++;renderSteps();}}
+function back(){if(stepIdx[active]>0){stepIdx[active]--;renderSteps();}}
+function resetSteps(){stepIdx[active]=0;renderSteps();}
+pageEls.forEach(el=>{const nx=el.querySelector('[data-next]');if(nx)nx.onclick=next;
+  const bk=el.querySelector('[data-back]');if(bk)bk.onclick=back;
+  const rs=el.querySelector('[data-reset]');if(rs)rs.onclick=resetSteps;
+  const stage=el.querySelector('.stage');if(stage){stage.style.cursor='pointer';stage.onclick=next;}});
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowRight'){e.preventDefault();next();}
+  if(e.key==='ArrowLeft'){e.preventDefault();back();}});
+
+/* ---- quiz reveal ---- */
+document.querySelectorAll('.q .reveal').forEach(b=>b.addEventListener('click',()=>{
+  const a=b.nextElementSibling;a.hidden=!a.hidden;b.textContent=a.hidden?'Show answer':'Hide answer';}));
+
+/* ---- diagram visual sync ---- */
+function show(id,on){const el=document.getElementById(id);if(el)el.style.opacity=on?1:0;}
+function applyVisual(page,n){
+  if(page===0){
+    show('fvec',n>=1);show('flabel',n>=1);show('rline',n>=1);show('rlabel',n>=1);
+    show('vvec',n>=2);show('vlabel',n>=2);
+    const spin=document.getElementById('spin');spin.style.animation=n>=1?'none':'spin 14s linear infinite';}
+  if(page===1){buildLevels(n);}
+  if(page===2){growNucleus(n);}
+  if(page===3){const steps=[...stepsOf(3)];const drawn=new Set();
+    for(let k=0;k<n;k++){if(steps[k].dataset.draw)drawn.add(steps[k].dataset.draw);}
+    show('coulomb',drawn.has('coulomb'));show('coulombL',drawn.has('coulomb'));
+    show('strong',drawn.has('strong'));show('strongL',drawn.has('strong'));
+    show('m3',drawn.has('m3'));show('m3t',drawn.has('m3'));
+    show('m15',drawn.has('m15'));show('m15t',drawn.has('m15'));
+    ['coulomb','strong'].forEach(id=>{const el=document.getElementById(id);if(el&&el.style.opacity==1)animPath(el);});}
+}
+const kf=document.createElement('style');
+kf.textContent='@keyframes spin{to{transform:rotate(360deg)}}';
+document.head.appendChild(kf);
+document.getElementById('spin').style.animation='spin 14s linear infinite';
+
+function buildLevels(n){const g=document.getElementById('levels');g.innerHTML='';
+  if(n<1)return;const top=30,bottom=350,E1=-13.6;
+  const rungs=n>=5?[1,2,3,4]:(n>=1?[1]:[]);
+  const cols={1:'#0d9488',2:'#4f46e5',3:'#d97706',4:'#7c3aed'};
+  rungs.forEach(nn=>{const E=E1/(nn*nn);const y=top+(E/E1)*(bottom-top);
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',72);line.setAttribute('x2',300);line.setAttribute('y1',y);line.setAttribute('y2',y);
+    line.setAttribute('stroke',cols[nn]);line.setAttribute('stroke-width',3.5);line.setAttribute('stroke-linecap','round');
+    line.style.opacity=0;g.appendChild(line);
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',308);t.setAttribute('y',y+4);t.setAttribute('class','glabel');t.setAttribute('fill',cols[nn]);
+    t.textContent=`n=${nn}  ${E.toFixed(2)} eV`;t.style.opacity=0;g.appendChild(t);
+    requestAnimationFrame(()=>{line.style.transition='opacity .5s';t.style.transition='opacity .6s';line.style.opacity=1;t.style.opacity=1;});});}
+function growNucleus(n){const steps=[...stepsOf(2)];let A=8;
+  for(let k=0;k<n;k++){if(steps[k].dataset.grow)A=+steps[k].dataset.grow;}
+  const R0=40,R=R0*Math.cbrt(Math.max(A,1)/8);
+  document.getElementById('nucOutline').setAttribute('r',Math.min(R,150));
+  document.getElementById('Rline').setAttribute('x2',200+Math.min(R,150));
+  show('Rline',n>=1);show('Rlabel',n>=1);
+  document.getElementById('Rlabel').setAttribute('x',200+Math.min(R,150)/2-6);
+  const g=document.getElementById('nucleons');g.innerHTML='';const count=Math.min(A,60);
+  for(let i=0;i<count;i++){const ang=i*2.399963,rad=Math.min(R,150)*Math.sqrt(i/count);
+    const x=200+rad*Math.cos(ang),y=200+rad*Math.sin(ang);
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r',5.5);
+    c.setAttribute('fill',i%2?'#f59e0b':'#3b82f6');c.setAttribute('opacity',.9);g.appendChild(c);}}
+function animPath(el){try{const len=el.getTotalLength();el.style.transition='none';
+  el.style.strokeDasharray=len;el.style.strokeDashoffset=len;el.getBoundingClientRect();
+  el.style.transition='stroke-dashoffset 1s ease, opacity .3s';el.style.strokeDashoffset=0;}catch(e){}}
+
+setAccent(0);renderSteps();
+/* ============ HYDROGEN SPECTRUM ============ */
+const C_LIGHT=3e8,HC_EVNM=1240,RH=13.6,NMAX=8;
+const CLR={ink:'#1d2440',muted:'#7c86a8',line:'rgba(29,36,64,0.16)',accent:'#7c3aed',accent2:'#e11d48'};
+const FONT_SANS='-apple-system,system-ui,sans-serif',FONT_MONO='ui-monospace,Menlo,monospace';
+const spec={nHi:3,nLo:2,mode:'emission',playing:false,t:0,lines:[]};
+const SERIES={1:['Lyman','#7c3aed'],2:['Balmer','#2563eb'],3:['Paschen','#dc2626'],4:['Brackett','#d97706'],5:['Pfund','#6b7280'],6:['Humphreys','#6b7280']};
+const seriesName=n=>SERIES[n]?SERIES[n][0]:('n='+n+' series');
+const seriesCol=n=>SERIES[n]?SERIES[n][1]:'#6b7280';
+const levelCanvas=document.getElementById('levelCanvas'),lctx=levelCanvas.getContext('2d');
+const specCanvas=document.getElementById('specCanvas'),sctx=specCanvas.getContext('2d');
+const nHiNum=document.getElementById('nHiNum'),nHiRange=document.getElementById('nHiRange'),
+  nLoNum=document.getElementById('nLoNum'),nLoRange=document.getElementById('nLoRange'),
+  playBtn=document.getElementById('playBtn'),resetSpecBtn=document.getElementById('resetSpec'),
+  clearSpecBtn=document.getElementById('clearSpec'),roHost=document.getElementById('specReadouts'),
+  rydHost=document.getElementById('rydberg');
+
+function transition(){const dE=RH*(1/(spec.nLo*spec.nLo)-1/(spec.nHi*spec.nHi));
+  const lam=HC_EVNM/dE,f=C_LIGHT/(lam*1e-9),EJ=dE*1.602e-19;
+  const region=lam<380?'Ultraviolet':(lam<=740?'Visible':'Infrared');
+  return{dE,lam,f,EJ,region};}
+function wlToRGB(wl){let r=0,g=0,b=0;
+  if(wl>=380&&wl<440){r=-(wl-440)/60;b=1;}
+  else if(wl<490){g=(wl-440)/50;b=1;}
+  else if(wl<510){g=1;b=-(wl-510)/20;}
+  else if(wl<580){r=(wl-510)/70;g=1;}
+  else if(wl<645){r=1;g=-(wl-645)/65;}
+  else if(wl<=780){r=1;}
+  let f=1;if(wl<420)f=0.3+0.7*(wl-380)/40;else if(wl>700)f=0.3+0.7*(780-wl)/80;
+  const q=x=>Math.round(255*Math.pow(Math.max(0,Math.min(1,x))*f,0.8));
+  return[q(r),q(g),q(b)];}
+function ease(p){return p<0?0:p>1?1:p*p*(3-2*p);}
+function sci(x){const s=x.toExponential(2),[m,e]=s.split('e');return m+'×10<sup>'+(+e)+'</sup>';}
+
+function clampLevels(){spec.nHi=Math.max(2,Math.min(NMAX,Math.round(spec.nHi)));
+  spec.nLo=Math.max(1,Math.min(NMAX-1,Math.round(spec.nLo)));
+  if(spec.nLo>=spec.nHi)spec.nLo=spec.nHi-1;}
+function syncInputs(){nHiNum.value=spec.nHi;nHiRange.value=spec.nHi;nLoNum.value=spec.nLo;nLoRange.value=spec.nLo;}
+function setHi(v){spec.nHi=+v;clampLevels();syncInputs();updateReadouts();}
+function setLo(v){spec.nLo=+v;clampLevels();syncInputs();updateReadouts();}
+[nHiNum,nHiRange].forEach(el=>el.addEventListener('input',e=>setHi(e.target.value)));
+[nLoNum,nLoRange].forEach(el=>el.addEventListener('input',e=>setLo(e.target.value)));
+document.querySelectorAll('#modeSeg button').forEach(b=>b.addEventListener('click',()=>{
+  spec.mode=b.dataset.m;document.querySelectorAll('#modeSeg button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+  updateReadouts();}));
+playBtn.addEventListener('click',()=>{if(spec.playing)return;spec.playing=true;spec.t=0;playBtn.disabled=true;});
+clearSpecBtn.addEventListener('click',()=>{spec.lines=[];});
+resetSpecBtn.addEventListener('click',()=>{spec.nHi=3;spec.nLo=2;spec.mode='emission';spec.lines=[];
+  spec.playing=false;spec.t=0;playBtn.disabled=false;
+  document.querySelectorAll('#modeSeg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.m==='emission'?'true':'false'));
+  syncInputs();updateReadouts();});
+function finishPlay(){spec.playing=false;playBtn.disabled=false;const tr=transition();
+  if(!spec.lines.find(l=>Math.abs(l.lam-tr.lam)<0.5&&l.mode===spec.mode))
+    spec.lines.push({lam:tr.lam,mode:spec.mode,region:tr.region});}
+
+function updateReadouts(){const tr=transition(),rgb=wlToRGB(tr.lam);
+  const sw=tr.region==='Visible'?`rgb(${rgb[0]},${rgb[1]},${rgb[2]})`:(tr.region==='Ultraviolet'?'#7c3aed':'#7a1f14');
+  roHost.innerHTML=
+   `<div class="ro hi"><div class="k">Photon energy ΔE</div><div class="v">${tr.dE.toFixed(2)}<span class="u">eV</span></div></div>`+
+   `<div class="ro"><div class="k">ΔE in joules</div><div class="v">${sci(tr.EJ)}<span class="u">J</span></div></div>`+
+   `<div class="ro hi"><div class="k">Wavelength λ</div><div class="v">${tr.lam.toFixed(1)}<span class="u">nm</span></div></div>`+
+   `<div class="ro"><div class="k">Frequency f</div><div class="v">${(tr.f/1e14).toFixed(2)}<span class="u">×10<sup>14</sup> Hz</span></div></div>`+
+   `<div class="ro wide"><div class="k">Region</div><div class="v" style="font-family:var(--sans);font-size:.95rem">${tr.region}${tr.region==='Visible'?' — visible to the eye':' — not visible'}</div></div>`+
+   `<div class="seriesbadge" style="background:${seriesCol(spec.nLo)}"><span>${seriesName(spec.nLo)} series · n=${spec.nHi} → n=${spec.nLo}</span><span style="width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,.7);background:${sw}"></span></div>`;
+  rydHost.innerHTML=`<div class="eq" style="font-size:1.15rem"><frac class="frac"><span class="num">1</span><span class="den">λ</span></frac><span class="op">=</span>R<sub>H</sub>(<frac class="frac"><span class="num">1</span><span class="den">n<sub>lo</sub><sup>2</sup></span></frac><span class="op">&minus;</span><frac class="frac"><span class="num">1</span><span class="den">n<sub>hi</sub><sup>2</sup></span></frac>)<span class="op">→</span>λ = ${tr.lam.toFixed(0)} nm</div>`;}
+
+function levelY(n,top,bot){const E=-RH/(n*n);return top+((0-E)/RH)*(bot-top);}
+function drawLevels(){const sz=sizes.get(levelCanvas);if(!sz)return;const{w,h}=sz;
+  lctx.clearRect(0,0,w,h);const top=30,bot=h-26,left=64,right=w-16,atomX=left+(right-left)*0.60;
+  lctx.strokeStyle=CLR.line;lctx.setLineDash([2,4]);lctx.lineWidth=1;
+  lctx.beginPath();lctx.moveTo(left,top);lctx.lineTo(right,top);lctx.stroke();lctx.setLineDash([]);
+  lctx.fillStyle=CLR.muted;lctx.font='11px '+FONT_SANS;lctx.textAlign='left';
+  lctx.fillText('n = ∞   E = 0  (ionised)',left,top-8);
+  for(let n=1;n<=7;n++){const y=levelY(n,top,bot),E=-RH/(n*n),sel=(n===spec.nHi||n===spec.nLo);
+    lctx.strokeStyle=sel?CLR.accent:CLR.line;lctx.lineWidth=sel?3:1.6;
+    lctx.beginPath();lctx.moveTo(left,y);lctx.lineTo(right,y);lctx.stroke();
+    lctx.fillStyle=sel?CLR.accent:CLR.muted;lctx.font=(sel?'700 ':'')+'11.5px '+FONT_MONO;
+    lctx.textAlign='right';lctx.fillText('n='+n,left-8,y+4);
+    lctx.textAlign='left';lctx.fillText(E.toFixed(2)+' eV',right-66,y-5);}
+  const yHi=levelY(spec.nHi,top,bot),yLo=levelY(spec.nLo,top,bot),tr=transition(),rgb=wlToRGB(tr.lam);
+  const acol=tr.region==='Visible'?`rgb(${rgb[0]},${rgb[1]},${rgb[2]})`:seriesCol(spec.nLo);
+  const arrX=atomX-90;lctx.strokeStyle=CLR.accent2;lctx.lineWidth=2.5;
+  lctx.beginPath();lctx.moveTo(arrX,yHi);lctx.lineTo(arrX,yLo);lctx.stroke();
+  const down=spec.mode==='emission',tipY=down?yLo:yHi,dir=down?1:-1;
+  lctx.fillStyle=CLR.accent2;lctx.beginPath();lctx.moveTo(arrX,tipY);lctx.lineTo(arrX-5,tipY-8*dir);lctx.lineTo(arrX+5,tipY-8*dir);lctx.fill();
+  let eN;if(spec.playing){const t=spec.t;
+    if(down){eN=spec.nHi+(spec.nLo-spec.nHi)*ease(Math.min(1,t/0.45));}
+    else{eN=spec.nLo+(spec.nHi-spec.nLo)*ease(Math.max(0,(t-0.45)/0.55));}}
+  else eN=down?spec.nHi:spec.nLo;
+  const eY=levelY(eN,top,bot);
+  lctx.fillStyle='#2563eb';lctx.beginPath();lctx.arc(atomX,eY,9,0,7);lctx.fill();
+  lctx.fillStyle='#fff';lctx.font='700 11px '+FONT_MONO;lctx.textAlign='center';lctx.textBaseline='middle';
+  lctx.fillText('e⁻',atomX,eY);lctx.textBaseline='alphabetic';
+  if(spec.playing){const emit=down?spec.t>0.45:spec.t<0.55;
+    if(emit){const prog=down?(spec.t-0.45)/0.55:(0.55-spec.t)/0.55;
+      const sX=atomX+14,eX=right-6,px=down?sX+(eX-sX)*prog:eX-(eX-sX)*(1-prog),py=(yHi+yLo)/2;
+      lctx.strokeStyle=acol;lctx.lineWidth=2.5;lctx.beginPath();
+      for(let i=0;i<40;i++){const x=px-i*4*(down?1:-1),y=py+Math.sin(i*0.9)*7*(1-i/40);
+        if(x<sX-4||x>eX+4)break;i===0?lctx.moveTo(x,y):lctx.lineTo(x,y);}
+      lctx.stroke();lctx.fillStyle=acol;lctx.beginPath();lctx.arc(px,py,4,0,7);lctx.fill();}}
+  lctx.fillStyle=CLR.muted;lctx.font='11px '+FONT_SANS;lctx.textAlign='left';
+  lctx.fillText(down?'Emission: electron drops, photon out':'Absorption: photon in, electron jumps up',left,bot+18);}
+
+function stripX(lam,w){const bL=0.14*w,bR=0.86*w;
+  if(lam>=380&&lam<=740)return bL+(lam-380)/360*(bR-bL);
+  if(lam<380)return Math.max(6,bL*lam/380);
+  return Math.min(w-6,bR+(1-Math.min(1,(4000-lam)/3260))*(w-bR));}
+function drawSpectrum(){const sz=sizes.get(specCanvas);if(!sz)return;const{w,h}=sz;
+  sctx.clearRect(0,0,w,h);sctx.fillStyle='#0e1020';sctx.fillRect(0,0,w,h);
+  const bL=0.14*w,bR=0.86*w;
+  for(let x=bL;x<=bR;x++){const lam=380+(x-bL)/(bR-bL)*360,c=wlToRGB(lam);
+    sctx.fillStyle=`rgba(${c[0]},${c[1]},${c[2]},0.34)`;sctx.fillRect(x,0,1.5,h);}
+  sctx.fillStyle='rgba(124,58,237,.16)';sctx.fillRect(0,0,bL,h);
+  sctx.fillStyle='rgba(200,60,40,.18)';sctx.fillRect(bR,0,w-bR,h);
+  sctx.fillStyle='rgba(255,255,255,.55)';sctx.font='10px '+FONT_MONO;sctx.textAlign='center';
+  sctx.fillText('UV',bL/2,h-6);sctx.fillText('IR',(bR+w)/2,h-6);
+  spec.lines.forEach(l=>drawLine(l.lam,l.mode,l.region,false,w,h));
+  const tr=transition();drawLine(tr.lam,spec.mode,tr.region,true,w,h,seriesName(spec.nLo));}
+function drawLine(lam,mode,region,cur,w,h,label){const x=stripX(lam,w),c=wlToRGB(lam);
+  const br=region==='Visible'?`rgb(${c[0]},${c[1]},${c[2]})`:(region==='Ultraviolet'?'#a970f0':'#e0563f');
+  if(mode==='absorption'){sctx.fillStyle='#000';sctx.fillRect(x-(cur?1.5:1),0,cur?3:2,h-16);}
+  else{if(cur){sctx.shadowColor=br;sctx.shadowBlur=10;}sctx.fillStyle=br;sctx.fillRect(x-(cur?1.5:1),0,cur?3:2,h-16);sctx.shadowBlur=0;}
+  if(cur){sctx.fillStyle='#fff';sctx.font='700 10px '+FONT_MONO;sctx.textAlign='center';sctx.fillText(lam.toFixed(0)+'nm',x,12);
+    sctx.fillStyle=br;sctx.font='9px '+FONT_SANS;sctx.fillText(label,x,h-3);}}
+
+const sizes=new Map();
+function observe(c){const ro=new ResizeObserver(()=>{const r=c.getBoundingClientRect();if(!r.width)return;
+  const dpr=Math.min(2,window.devicePixelRatio||1);c.width=r.width*dpr;c.height=r.height*dpr;
+  c.getContext('2d').setTransform(dpr,0,0,dpr,0,0);sizes.set(c,{w:r.width,h:r.height});});ro.observe(c);}
+observe(levelCanvas);observe(specCanvas);
+levelCanvas.addEventListener('click',e=>{const sz=sizes.get(levelCanvas);if(!sz)return;
+  const r=levelCanvas.getBoundingClientRect(),y=e.clientY-r.top,top=30,bot=sz.h-26;let best=1,bd=1e9;
+  for(let n=1;n<=7;n++){const d=Math.abs(y-levelY(n,top,bot));if(d<bd){bd=d;best=n;}}
+  if(Math.abs(best-spec.nHi)<=Math.abs(best-spec.nLo))spec.nHi=best;else spec.nLo=best;
+  clampLevels();syncInputs();updateReadouts();});
+/* ============ MINI SIMULATIONS (pages 1-3) ============ */
+const bsim={n:1,ang:0}, esim={n:3,drop:false,t:0,from:3,to:2,flash:0,col:'#a970f0'}, nsim={A:12,spin:0};
+const bcv=document.getElementById('bohrSimCanvas'),ecv=document.getElementById('energySimCanvas'),ncv=document.getElementById('nucSimCanvas');
+observe(bcv);observe(ecv);observe(ncv);
+function bindPair(numId,rngId,cb){const a=document.getElementById(numId),b=document.getElementById(rngId);
+  const f=v=>{cb(+v);a.value=v;b.value=v;};
+  a.addEventListener('input',e=>f(e.target.value));b.addEventListener('input',e=>f(e.target.value));}
+bindPair('bohrN','bohrNr',v=>{bsim.n=v;bohrOut();});
+bindPair('nucA','nucAr',v=>{nsim.A=v;nucOut();});
+bindPair('enN','enNr',v=>{esim.n=v;esim.drop=false;esim.flash=0;enOut();});
+document.getElementById('enDrop').addEventListener('click',()=>{if(esim.drop)return;
+  const from=Math.round(esim.n);if(from<=1)return;esim.from=from;esim.to=from-1;esim.drop=true;esim.t=0;});
+document.getElementById('enReset').addEventListener('click',()=>{esim.n=3;esim.drop=false;esim.flash=0;esim.t=0;
+  document.getElementById('enN').value=3;document.getElementById('enNr').value=3;enOut();});
+function bohrOut(){const n=Math.round(bsim.n),r=n*n*5.3e-11;
+  document.getElementById('bohrOut').innerHTML=`n = <b>${n}</b> &rarr; r = n²&times;5.3&times;10⁻¹¹ = <b>${(r*1e9).toFixed(3)} nm</b> (${sci(r)} m). The orbit grows as n², so n=2 is 4&times; wider than n=1.`;}
+function nucOut(){const A=Math.round(nsim.A),R=1.2*Math.cbrt(A);
+  document.getElementById('nucOut').innerHTML=`A = <b>${A}</b> &rarr; R = 1.20&times;A<sup>1/3</sup> = <b>${R.toFixed(2)} fm</b>. Notice R rises slowly &mdash; density stays &rho; &asymp; 2.3&times;10¹⁷ kg m⁻³ for every A.`;}
+function enOut(){const n=Math.round(esim.n),E=-13.6/(n*n);
+  document.getElementById('enOut').innerHTML=`n = <b>${n}</b> &rarr; E = &minus;13.6/n² = <b>${E.toFixed(2)} eV</b>. Press Drop to fall a level and emit a photon.`;}
+
+function drawBohrSim(){const sz=sizes.get(bcv);if(!sz)return;const{w,h}=sz,x=bcv.getContext('2d');
+  x.clearRect(0,0,w,h);const cx=w/2,cy=h/2,n=Math.round(bsim.n),maxR=Math.min(w,h)*0.42;
+  const rpx=14+(n*n/36)*(maxR-14);
+  x.strokeStyle=CLR.line;x.setLineDash([4,6]);x.lineWidth=1.5;x.beginPath();x.arc(cx,cy,rpx,0,7);x.stroke();x.setLineDash([]);
+  x.fillStyle='#dc2626';x.beginPath();x.arc(cx,cy,11,0,7);x.fill();
+  x.fillStyle='#fff';x.font='700 12px '+FONT_MONO;x.textAlign='center';x.textBaseline='middle';x.fillText('+',cx,cy);
+  bsim.ang+=0.03;const ex=cx+rpx*Math.cos(bsim.ang),ey=cy+rpx*Math.sin(bsim.ang);
+  x.strokeStyle=CLR.accent;x.lineWidth=1.5;x.beginPath();x.moveTo(cx,cy);x.lineTo(ex,ey);x.stroke();
+  x.fillStyle='#2563eb';x.beginPath();x.arc(ex,ey,8,0,7);x.fill();
+  x.fillStyle='#fff';x.font='700 9px '+FONT_MONO;x.fillText('e⁻',ex,ey);x.textBaseline='alphabetic';
+  x.fillStyle=CLR.muted;x.font='11px '+FONT_SANS;x.textAlign='left';x.fillText('n = '+n+'    r ∝ n²',10,h-10);}
+
+function drawEnergySim(){const sz=sizes.get(ecv);if(!sz)return;const{w,h}=sz,x=ecv.getContext('2d');
+  x.clearRect(0,0,w,h);const top=16,bot=h-22,left=42,right=w-64;
+  const Y=n=>{const E=-13.6/(n*n);return top+((0-E)/13.6)*(bot-top);};
+  x.strokeStyle=CLR.line;x.setLineDash([2,4]);x.lineWidth=1;x.beginPath();x.moveTo(left,top);x.lineTo(right,top);x.stroke();x.setLineDash([]);
+  x.fillStyle=CLR.muted;x.font='9px '+FONT_MONO;x.textAlign='left';x.fillText('n=∞',right+4,top+3);
+  for(let n=1;n<=6;n++){const y=Y(n),sel=n===Math.round(esim.n);
+    x.strokeStyle=sel?CLR.accent:CLR.line;x.lineWidth=sel?3:1.4;x.beginPath();x.moveTo(left,y);x.lineTo(right,y);x.stroke();
+    x.fillStyle=sel?CLR.accent:CLR.muted;x.font=(sel?'700 ':'')+'9px '+FONT_MONO;x.textAlign='left';x.fillText('n='+n,right+4,y+3);}
+  let en;if(esim.drop){esim.t+=0.02;const p=ease(Math.min(1,esim.t));en=esim.from+(esim.to-esim.from)*p;
+    if(esim.t>=1){esim.drop=false;esim.n=esim.to;esim.flash=1;
+      const dE=13.6*(1/(esim.to*esim.to)-1/(esim.from*esim.from)),lam=1240/dE,c=wlToRGB(lam);
+      esim.col=(lam>=380&&lam<=740)?`rgb(${c[0]},${c[1]},${c[2]})`:'#a970f0';
+      document.getElementById('enOut').innerHTML=`Emitted n=${esim.from}&rarr;${esim.to}: &Delta;E = <b>${dE.toFixed(2)} eV</b>, &lambda; = <b>${lam.toFixed(0)} nm</b>.`;
+      document.getElementById('enN').value=esim.to;document.getElementById('enNr').value=esim.to;}}
+  else en=Math.round(esim.n);
+  const ex=(left+right)/2,ey=Y(en);
+  if(esim.flash>0){esim.flash-=0.02;x.strokeStyle=esim.col;x.globalAlpha=Math.max(0,esim.flash);x.lineWidth=2.5;
+    x.beginPath();for(let i=0;i<26;i++){const px=ex+i*5,py=ey+Math.sin(i*0.9)*6;i===0?x.moveTo(px,py):x.lineTo(px,py);}x.stroke();x.globalAlpha=1;}
+  x.fillStyle='#2563eb';x.beginPath();x.arc(ex,ey,7,0,7);x.fill();
+  x.fillStyle='#fff';x.font='700 9px '+FONT_MONO;x.textAlign='center';x.textBaseline='middle';x.fillText('e⁻',ex,ey);x.textBaseline='alphabetic';}
+
+function drawNucSim(){const sz=sizes.get(ncv);if(!sz)return;const{w,h}=sz,x=ncv.getContext('2d');
+  x.clearRect(0,0,w,h);const cx=w/2,cy=h/2,A=Math.round(nsim.A),Rfm=1.2*Math.cbrt(A);
+  const maxR=Math.min(w,h)*0.42,rpx=maxR*Math.cbrt(A)/Math.cbrt(240);
+  x.strokeStyle='#d97706';x.setLineDash([3,4]);x.lineWidth=1.5;x.beginPath();x.arc(cx,cy,rpx,0,7);x.stroke();x.setLineDash([]);
+  nsim.spin+=0.004;const count=Math.min(A,80),dot=Math.max(2.4,rpx*0.11);
+  for(let i=0;i<count;i++){const ang=i*2.399963+nsim.spin,rad=rpx*Math.sqrt(i/Math.max(1,count));
+    const px=cx+rad*Math.cos(ang),py=cy+rad*Math.sin(ang);
+    x.fillStyle=i%2?'#f59e0b':'#3b82f6';x.beginPath();x.arc(px,py,dot,0,7);x.fill();}
+  x.fillStyle=CLR.muted;x.font='11px '+FONT_SANS;x.textAlign='left';x.fillText('A = '+A+'    R = '+Rfm.toFixed(2)+' fm',10,h-10);}
+
+/* ============ unified animation loop ============ */
+function masterLoop(){
+  if(active===0)drawBohrSim();
+  else if(active===1)drawEnergySim();
+  else if(active===2)drawNucSim();
+  else if(active===4){if(spec.playing){spec.t+=0.012;if(spec.t>=1){spec.t=1;finishPlay();}}drawLevels();drawSpectrum();}
+  requestAnimationFrame(masterLoop);}
+syncInputs();updateReadouts();bohrOut();enOut();nucOut();requestAnimationFrame(masterLoop);
+</script>
+</body>
+</html>
