@@ -66,6 +66,15 @@ const DP_SIMS = [
     file: "sims/torque-lab.html"
   },
   {
+    id: "torque-turning-effect",
+    title: "Torque & the Turning Effect",
+    icon: "🔧",
+    topic: "A.4",
+    topicName: "Forces – Torque & Moments",
+    description: "Explore the moment of a force, τ = Fr sinθ. Change the force, its distance from the pivot, and the angle, then plot torque against sin θ to investigate the turning effect and the conditions for rotational equilibrium.",
+    file: "sims/torque-turning-effect.html"
+  },
+  {
     id: "moment-of-inertia-3d",
     title: "Moment of Inertia",
     icon: "🔄",
