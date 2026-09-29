@@ -247,4 +247,13 @@ const DP_SIMS = [
   },
 
 
+  {
+    id: "projectile-motion",
+    title: "Projectile Motion",
+    icon: "🎯",
+    topic: "A.1",
+    topicName: "Kinematics",
+    description: "Launch a projectile and watch its velocity split into a constant horizontal push and a gravity-driven vertical part. Change the speed, angle and gravity, trace the parabola, and plot range against sin 2θ to find the angle for maximum range — with a printable practical worksheet.",
+    file: "projectile-motion.html"
+  },
 ];

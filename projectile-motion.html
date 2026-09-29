@@ -211,11 +211,11 @@
 <header class="top">
   <div class="brand">ATUL SORAL <span>PHYSICISM</span></div>
   <nav>
-    <a href="../dp-simulations.html">&larr; All Simulations</a>
-    <a href="../index.html">Home</a>
-    <a href="../igcse-dashboard.html">IGCSE</a>
-    <a href="../myp-dashboard.html">MYP</a>
-    <a href="../dp-dashboard.html">DP</a>
+    <a href="dp-simulations.html">&larr; All Simulations</a>
+    <a href="index.html">Home</a>
+    <a href="igcse-dashboard.html">IGCSE</a>
+    <a href="myp-dashboard.html">MYP</a>
+    <a href="dp-dashboard.html">DP</a>
     <span class="hdr-name" id="hdrName"></span>
     <span class="hdr-clock" id="hdrClock"></span>
     <button class="toggle" id="themeBtn" title="Toggle light / dark">☀️</button>
@@ -465,6 +465,13 @@ function model(){const u=state.F,th=state.theta*Math.PI/180,g=state.g;
   const T=2*uy/g,H=uy*uy/(2*g),R=u*u*Math.sin(2*th)/g;
   return{u,th,thDeg:state.theta,g,ux,uy,T,H,R};}
 
+/* comparison trails — faint ghosts of previous settings */
+let ghosts=[],prevParams={F:state.F,theta:state.theta,g:state.g};
+function trajOf(F,thetaDeg,g){const th=thetaDeg*Math.PI/180,ux=F*Math.cos(th),uy=F*Math.sin(th);
+  return{ux,uy,g,T:2*uy/g,R:F*F*Math.sin(2*th)/g,H:uy*uy/(2*g)};}
+function commitGhost(){ghosts.push({F:prevParams.F,theta:prevParams.theta,g:prevParams.g});
+  if(ghosts.length>6)ghosts.shift();prevParams={F:state.F,theta:state.theta,g:state.g};}
+
 /* canvas */
 const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
 let W=0,H=0,DPR=1;
@@ -494,11 +501,22 @@ function frame(){
   const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,css('--panel'));g.addColorStop(1,css('--bg'));
   ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
   const mL=56,mR=30,mT=30,mB=48,groundY=H-mB,originX=mL;
-  const Rr=Math.max(m.R,0.1),Hh=Math.max(m.H,0.1);
+  let Rr=Math.max(m.R,0.1),Hh=Math.max(m.H,0.1);
+  if(showv.arm)ghosts.forEach(gp=>{const t=trajOf(gp.F,gp.theta,gp.g);if(t.R>Rr)Rr=t.R;if(t.H>Hh)Hh=t.H;});
   const pxPerM=Math.max(2,Math.min((W-mL-mR)/Rr,(H-mT-mB)/Hh));
   const S=(mx,my)=>[originX+mx*pxPerM,groundY-my*pxPerM];
+  // has the projectile landed? current horizontal distance travelled
+  const landed=state.t>=m.T-1e-9;
+  const curX=landed?m.R:Math.min(m.ux*state.t,m.R);
   // ground
   ctx.strokeStyle=css('--muted');ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,groundY);ctx.lineTo(W,groundY);ctx.stroke();
+  // comparison trails — previous settings, drawn faint (older = fainter)
+  if(showv.arm&&ghosts.length){ctx.save();ctx.setLineDash([4,5]);ctx.lineWidth=1.5;ctx.strokeStyle=css('--fpar');ctx.fillStyle=css('--fpar');
+    ghosts.forEach((gp,gi)=>{const t=trajOf(gp.F,gp.theta,gp.g);if(t.T<=0)return;
+      ctx.globalAlpha=0.16+0.16*(gi/Math.max(1,ghosts.length-1));
+      ctx.beginPath();for(let i=0;i<=48;i++){const tt=t.T*i/48,xx=t.ux*tt,yy=t.uy*tt-0.5*t.g*tt*tt,p=S(xx,Math.max(0,yy));i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]);}ctx.stroke();
+      const ap=S(t.R/2,t.H);ctx.font='600 10px '+css('--mono');ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(gp.theta.toFixed(0)+'° · '+sig(t.R)+'m',ap[0],ap[1]-1);});
+    ctx.restore();}
   // trajectory + apex
   if(showv.arm&&m.T>0){
     ctx.strokeStyle=css('--accent');ctx.lineWidth=2;ctx.setLineDash([6,5]);ctx.globalAlpha=.75;
@@ -510,11 +528,13 @@ function frame(){
     ctx.beginPath();ctx.moveTo(apex[0],apex[1]);ctx.lineTo(apex[0],groundY);ctx.stroke();ctx.setLineDash([]);
     if(showv.spin){ctx.fillStyle=css('--fperp');ctx.font='700 11px '+css('--mono');ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText('H = '+sig(m.H)+' m',apex[0],apex[1]-4);}
   }
-  // range marker
-  if(showv.spin&&m.R>0.02){const rp=S(m.R,0);
-    ctx.strokeStyle=css('--muted');ctx.setLineDash([3,3]);ctx.lineWidth=1;
+  // range marker — grows with the projectile, locks to final R on landing
+  if(showv.spin&&m.R>0.02){const rp=S(curX,0);
+    ctx.strokeStyle=landed?css('--force'):css('--muted');ctx.setLineDash([3,3]);ctx.lineWidth=landed?1.4:1;
     ctx.beginPath();ctx.moveTo(originX,groundY+14);ctx.lineTo(rp[0],groundY+14);ctx.stroke();ctx.setLineDash([]);
-    ctx.fillStyle=css('--ink');ctx.font='700 11px '+css('--mono');ctx.textAlign='center';ctx.textBaseline='top';ctx.fillText('R = '+sig(m.R)+' m',(originX+rp[0])/2,groundY+16);}
+    ctx.beginPath();ctx.moveTo(rp[0],groundY+9);ctx.lineTo(rp[0],groundY+19);ctx.stroke();
+    ctx.fillStyle=landed?css('--force'):css('--muted');ctx.font=(landed?'700 12px ':'700 11px ')+css('--mono');ctx.textAlign='center';ctx.textBaseline='top';
+    ctx.fillText(landed?('R = '+sig(m.R)+' m'):('x = '+sig(curX)+' m'),(originX+rp[0])/2,groundY+16);}
   // launcher + angle arc
   drawLauncher(P.kind,originX,groundY,m.thDeg);
   const th=m.th;
@@ -536,6 +556,9 @@ function frame(){
   if(Math.hypot(vx,vy)>0.05)arrow(ctx,bp[0],bp[1],bp[0]+vx*vsc,bp[1]-vy*vsc,10);
   ctx.fillStyle=css('--force');ctx.beginPath();ctx.arc(bp[0],bp[1],7,0,7);ctx.fill();
   ctx.strokeStyle=css('--panel');ctx.lineWidth=2;ctx.stroke();
+  const _rEl=document.getElementById('roRange'),_rK=document.getElementById('roRangeK');
+  if(_rEl)_rEl.textContent=landed?sig(m.R):sig(curX);
+  if(_rK)_rK.textContent=landed?'Range, R = u² sin 2θ / g':'Horizontal distance so far';
   drawWatermark(ctx,W,H,false);
  }catch(e){}
   requestAnimationFrame(frame);
@@ -547,10 +570,11 @@ function setupSlider(key,valId,rng,val,dec){const s=document.getElementById(key+
 document.getElementById('FSlider').addEventListener('input',e=>{state.F=parseFloat(e.target.value);document.getElementById('FVal').textContent=state.F.toFixed(0);state.t=0;state.playing=false;setTurnLbl();renderReadouts();if(plotted)drawGraph();});
 document.getElementById('thSlider').addEventListener('input',e=>{state.theta=parseFloat(e.target.value);document.getElementById('thVal').textContent=state.theta.toFixed(0);state.t=0;state.playing=false;setTurnLbl();renderReadouts();if(plotted)drawGraph();});
 document.getElementById('gSlider').addEventListener('input',e=>{state.g=parseFloat(e.target.value);document.getElementById('gVal').textContent=state.g.toFixed(2);state.t=0;state.playing=false;setTurnLbl();renderReadouts();if(plotted)drawGraph();});
+['FSlider','thSlider','gSlider'].forEach(id=>document.getElementById(id).addEventListener('change',commitGhost));
 const turnBtn=document.getElementById('turnBtn'),resetBtn=document.getElementById('resetBtn');
 function setTurnLbl(){turnBtn.textContent=state.playing?'⏸ Pause':'▶ Launch & fly';}
 turnBtn.addEventListener('click',()=>{if(!state.playing&&state.t>=model().T)state.t=0;state.playing=!state.playing;setTurnLbl();});
-resetBtn.addEventListener('click',()=>{state.t=0;state.playing=false;setTurnLbl();});
+resetBtn.addEventListener('click',()=>{state.t=0;state.playing=false;ghosts=[];prevParams={F:state.F,theta:state.theta,g:state.g};setTurnLbl();});
 
 /* readouts + math */
 function renderReadouts(){
@@ -560,7 +584,7 @@ function renderReadouts(){
     <div class="ro"><div class="k">u_y = u sinθ (initial)</div><div class="v">${sig(m.uy)}<span class="u">m/s</span></div></div>
     <div class="ro"><div class="k">Time of flight, T</div><div class="v">${sig(m.T)}<span class="u">s</span></div></div>
     <div class="ro"><div class="k">Greatest height, H</div><div class="v">${sig(m.H)}<span class="u">m</span></div></div>
-    <div class="ro hi wide"><div class="k">Range, R = u² sin&#8201;2θ / g</div><div class="v">${sig(m.R)}<span class="u">m</span></div></div>`
+    <div class="ro hi wide"><div class="k" id="roRangeK">Range, R = u² sin&#8201;2θ / g</div><div class="v"><span id="roRange">${sig(m.R)}</span><span class="u">m</span></div></div>`
     + (zero?`<div class="status bad">✕ No range — at θ = 0° or 90° the projectile lands where it started (sin&#8201;2θ = 0).</div>`
        :near?`<div class="status ok">✓ Maximum range — at θ = 45° (sin&#8201;2θ = 1) the projectile travels furthest for this speed.</div>`
        :`<div class="status warn">Range depends on sin&#8201;2θ; 45° gives the greatest range, and angles adding to 90° match.</div>`);
@@ -589,7 +613,7 @@ function selectPreset(k){curKey=k;const P=PRESETS[k];
   document.querySelectorAll('.pbtn').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
   document.getElementById('sceneName').textContent=P.label;
   document.getElementById('sceneNote').textContent='Change u, θ and g — watch R = u² sin 2θ / g';
-  state.F=P.def.F;state.theta=P.def.th;state.g=P.def.g;state.t=0;state.playing=false;
+  state.F=P.def.F;state.theta=P.def.th;state.g=P.def.g;state.t=0;state.playing=false;ghosts=[];prevParams={F:P.def.F,theta:P.def.th,g:P.def.g};
   const tb=document.getElementById('turnBtn');if(tb)tb.textContent='▶ Launch & fly';
   setupSlider('F','FVal',P.range.F,state.F,0);
   setupSlider('th','thVal',[0,90,1],state.theta,0);
