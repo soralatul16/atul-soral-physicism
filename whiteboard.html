@@ -6,6 +6,7 @@
 <title>Teaching Whiteboard | Atul Soral Physicism</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-select:none}
@@ -140,6 +141,58 @@ body{background:#1a1a2e;overflow:hidden;font-family:system-ui,sans-serif;user-se
 .poll-modal button{padding:6px 14px;border:none;border-radius:6px;cursor:pointer;font-size:.8rem}
 .poll-modal .poll-ok{background:#4ecdc4;color:#1a1a2e;font-weight:600}
 .poll-modal .poll-cancel{background:#444;color:#ccc}
+
+/* Board Manager Modal */
+.bm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.bm-overlay.hide{display:none}
+.bm-modal{background:#1e1e35;border:1px solid #3a3a5c;border-radius:16px;padding:0;width:420px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.7);overflow:hidden}
+.bm-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid #2a2a4a}
+.bm-header h3{color:#4ecdc4;font-size:1rem;font-weight:700;margin:0}
+.bm-close{background:none;border:none;color:#666;cursor:pointer;font-size:18px;line-height:1;padding:2px 6px;border-radius:4px}
+.bm-close:hover{color:#ccc;background:#333}
+.bm-search{padding:12px 20px;border-bottom:1px solid #2a2a4a}
+.bm-search input{width:100%;background:#0d0d1a;border:1px solid #3a3a5c;border-radius:8px;padding:8px 12px;color:#ccc;font-size:.85rem;outline:none;transition:.2s}
+.bm-search input:focus{border-color:#4ecdc4;box-shadow:0 0 0 2px rgba(78,205,196,.15)}
+.bm-list{max-height:280px;overflow-y:auto;padding:8px 12px}
+.bm-list::-webkit-scrollbar{width:4px}
+.bm-list::-webkit-scrollbar-track{background:#1e1e35}
+.bm-list::-webkit-scrollbar-thumb{background:#3a3a5c;border-radius:2px}
+.bm-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:.15s;border:1px solid transparent;margin-bottom:4px}
+.bm-item:hover,.bm-item.focused{background:#2a2a45;border-color:#3a3a6a}
+.bm-item.focused{border-color:#4ecdc4}
+.bm-item-icon{font-size:16px;flex-shrink:0}
+.bm-item-name{flex:1;color:#e0e0f0;font-size:.88rem;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bm-item-key{color:#555;font-size:.65rem;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100px}
+.bm-del{background:none;border:none;color:#e74c3c;cursor:pointer;font-size:14px;padding:2px 6px;border-radius:4px;opacity:0;transition:.15s;flex-shrink:0}
+.bm-item:hover .bm-del,.bm-item.focused .bm-del{opacity:1}
+.bm-del:hover{background:rgba(231,76,60,.15)}
+.bm-empty{text-align:center;padding:30px 20px;color:#555;font-size:.8rem}
+.bm-footer{padding:12px 20px;border-top:1px solid #2a2a4a;display:flex;justify-content:flex-end;gap:8px}
+.bm-footer button{padding:7px 18px;border:none;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:600}
+.bm-cancel-btn{background:#2a2a45;color:#aaa}
+.bm-cancel-btn:hover{background:#333}
+.bm-hint{padding:6px 20px 10px;color:#555;font-size:.68rem;text-align:center}
+
+/* YouTube Embed Modal */
+.yt-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:400;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.yt-overlay.hide{display:none}
+.yt-modal{background:#1e1e35;border:1px solid #3a3a5c;border-radius:16px;width:440px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.7);overflow:hidden}
+.yt-modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;border-bottom:1px solid #2a2a4a}
+.yt-modal-head h3{color:#ff6b6b;font-size:1rem;font-weight:700;margin:0}
+.yt-modal-body{padding:18px 20px}
+.yt-modal-body label{display:block;color:#888;font-size:.75rem;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+.yt-url-input{width:100%;background:#0d0d1a;border:1.5px solid #3a3a5c;border-radius:8px;padding:10px 14px;color:#e0e0f0;font-size:.9rem;outline:none;transition:.2s;font-family:monospace}
+.yt-url-input:focus{border-color:#ff6b6b;box-shadow:0 0 0 2px rgba(255,107,107,.12)}
+.yt-preview{margin-top:12px;height:36px;display:flex;align-items:center;gap:8px;font-size:.8rem}
+.yt-preview-ok{color:#2ecc71}
+.yt-preview-err{color:#e74c3c}
+.yt-modal-foot{display:flex;justify-content:flex-end;gap:8px;padding:12px 20px;border-top:1px solid #2a2a4a}
+.yt-modal-foot button{padding:8px 20px;border:none;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;transition:.15s}
+.yt-embed-btn{background:#ff6b6b;color:#fff}
+.yt-embed-btn:hover{background:#e05555}
+.yt-embed-btn:disabled{background:#444;color:#666;cursor:default}
+.yt-cancel-btn{background:#2a2a45;color:#aaa}
+.yt-cancel-btn:hover{background:#333}
 
 /* Equation builder */
 .eq-modal.hide{display:none}
@@ -368,6 +421,9 @@ body.hc .lbl{color:#aaa}
     <button onclick="dupPage()" title="Duplicate page" style="font-size:10px">&#128203;</button>
     <button onclick="delPage()" title="Delete page" style="font-size:10px;color:#e74c3c">&#128465;</button>
   </div>
+  <div style="display:flex;gap:5px;align-items:center">
+    <button onclick="savePDF()" title="Export PDF (cropped to content)" style="height:26px;padding:0 8px;border:1.5px solid #4ecdc4;border-radius:6px;background:#1a1a2e;color:#4ecdc4;font-size:10px;font-weight:700;cursor:pointer;letter-spacing:.05em">&#128196; PDF</button>
+  </div>
   <div class="zm">
     <button onclick="zoomBy(-0.2)">&#8722;</button>
     <span id="zoomInfo">100%</span>
@@ -509,6 +565,45 @@ body.hc .lbl{color:#aaa}
   <div class="poll-actions">
     <button class="poll-cancel" onclick="closeEqModal()">Cancel</button>
     <button class="poll-ok" onclick="confirmEq()">Insert Equation</button>
+  </div>
+</div>
+
+<!-- YOUTUBE EMBED MODAL -->
+<div class="yt-overlay hide" id="ytOverlay" onclick="if(event.target===this)closeYTModal()">
+  <div class="yt-modal">
+    <div class="yt-modal-head">
+      <h3>&#9654;&#65039; Embed YouTube Video</h3>
+      <button class="bm-close" onclick="closeYTModal()">&#10005;</button>
+    </div>
+    <div class="yt-modal-body">
+      <label>Paste any YouTube link or video ID</label>
+      <input type="text" id="ytUrlInput" class="yt-url-input"
+        placeholder="https://youtu.be/... or youtube.com/watch?v=..."
+        oninput="ytPreview()" onkeydown="if(event.key==='Enter')doEmbedVideo()" autocomplete="off" spellcheck="false">
+      <div class="yt-preview" id="ytPreview"></div>
+    </div>
+    <div class="yt-modal-foot">
+      <button class="yt-cancel-btn" onclick="closeYTModal()">Cancel</button>
+      <button class="yt-embed-btn" id="ytEmbedBtn" onclick="doEmbedVideo()" disabled>&#9654; Embed</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOARD MANAGER MODAL -->
+<div class="bm-overlay hide" id="bmOverlay" onclick="if(event.target===this)closeBoardManager()">
+  <div class="bm-modal">
+    <div class="bm-header">
+      <h3>&#128229; Saved Boards</h3>
+      <button class="bm-close" onclick="closeBoardManager()" title="Close">&#10005;</button>
+    </div>
+    <div class="bm-search">
+      <input type="text" id="bmSearch" placeholder="&#128269; Search boards..." oninput="bmFilter()" onkeydown="bmKeyNav(event)" autocomplete="off">
+    </div>
+    <div class="bm-list" id="bmList"></div>
+    <div class="bm-hint">Click a board to open &nbsp;&bull;&nbsp; &#9660;&#9650; to navigate &nbsp;&bull;&nbsp; Enter to open &nbsp;&bull;&nbsp; &#128465; to delete</div>
+    <div class="bm-footer">
+      <button class="bm-cancel-btn" onclick="closeBoardManager()">Cancel</button>
+    </div>
   </div>
 </div>
 
@@ -1306,6 +1401,70 @@ function saveImage() {
   link.href = tc.toDataURL(); link.click();
 }
 
+// ═══ PDF EXPORT (cropped to drawn content, named from session) ═══
+function savePDF() {
+  var list = els();
+  if (!list.length) { showToast('Nothing drawn yet!'); return; }
+
+  // 1. Compute tight bounding box of all elements in world coords
+  var PAD = 40; // padding around content in world units
+  var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  for (var i = 0; i < list.length; i++) {
+    var b = getElBounds(list[i]);
+    if (b.x1 < minX) minX = b.x1; if (b.y1 < minY) minY = b.y1;
+    if (b.x2 > maxX) maxX = b.x2; if (b.y2 > maxY) maxY = b.y2;
+  }
+  minX -= PAD; minY -= PAD; maxX += PAD; maxY += PAD;
+  var contentW = maxX - minX;
+  var contentH = maxY - minY;
+
+  // 2. Choose a render scale so the PDF is high quality (~150 px per world unit, but capped)
+  var MAX_PX = 3000;
+  var scale = Math.min(MAX_PX / Math.max(contentW, contentH), 2);
+  var canW = Math.round(contentW * scale);
+  var canH = Math.round(contentH * scale);
+
+  // 3. Render the content region onto an offscreen canvas
+  var tc = document.createElement('canvas'); tc.width = canW; tc.height = canH;
+  var tctx = tc.getContext('2d');
+
+  // Background fill
+  tctx.fillStyle = bgColor(); tctx.fillRect(0, 0, canW, canH);
+
+  // Grid/BG pattern — transform so that world origin maps correctly
+  tctx.save();
+  tctx.setTransform(scale, 0, 0, scale, -minX * scale, -minY * scale);
+  drawBG(tctx);
+  tctx.restore();
+
+  // Drawing elements
+  var ofc2 = document.createElement('canvas'); ofc2.width = canW; ofc2.height = canH;
+  var ofctx2 = ofc2.getContext('2d');
+  ofctx2.save();
+  ofctx2.setTransform(scale, 0, 0, scale, -minX * scale, -minY * scale);
+  for (var j = 0; j < list.length; j++) drawEl(ofctx2, list[j]);
+  ofctx2.restore();
+  tctx.drawImage(ofc2, 0, 0);
+
+  // 4. Build PDF with jsPDF — page size matches pixel dimensions (in pt: 1pt ≈ 1.333px at 96dpi)
+  if (typeof window.jspdf === 'undefined' && typeof jsPDF === 'undefined') {
+    showToast('PDF library not loaded yet. Please wait and try again.'); return;
+  }
+  var jsPDFLib = (typeof window.jspdf !== 'undefined') ? window.jspdf.jsPDF : jsPDF;
+  var ptW = canW * 0.75; // px → pt (1pt = 1.333px at 96dpi)
+  var ptH = canH * 0.75;
+  var orientation = ptW >= ptH ? 'l' : 'p';
+  var doc = new jsPDFLib({ orientation: orientation, unit: 'pt', format: [ptW, ptH] });
+
+  var imgData = tc.toDataURL('image/jpeg', 0.92);
+  doc.addImage(imgData, 'JPEG', 0, 0, ptW, ptH);
+
+  // 5. Save with the session name exactly as typed
+  var sessionName = document.getElementById('className').value.trim();
+  if (!sessionName) sessionName = 'whiteboard';
+  doc.save(sessionName + '.pdf');
+}
+
 function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
 
 // ═══ KEYBOARD ═══
@@ -1631,39 +1790,139 @@ function saveBoard() {
   try{localStorage.setItem(key,btoa(unescape(encodeURIComponent(JSON.stringify(data)))));alert('Saved as "'+sessionName+'"!');}catch(e){alert('Save failed: '+e.message);}
 }
 
-function loadBoard() {
+// ═══ BOARD MANAGER ═══
+var _bmFocusIdx = -1;
+
+function getBoardKeys() {
   var keys = [];
   for (var i = 0; i < localStorage.length; i++) {
     var k = localStorage.key(i);
-    if (k.startsWith('wb-')) keys.push(k.replace('wb-',''));
+    if (k && k.startsWith('wb-')) keys.push(k);
   }
-  if (!keys.length) { alert('No saved boards found.'); return; }
-  var choice = prompt('Saved boards:\n\n' + keys.join('\n') + '\n\nType the name to load:');
-  if (!choice) return;
-  var raw = localStorage.getItem('wb-' + choice.replace(/\s+/g,'-').toLowerCase());
-  if (!raw) { raw = localStorage.getItem('wb-save'); }
-  if (!raw) { alert('Board "'+choice+'" not found.'); return; }
-  try{
+  return keys.sort();
+}
+
+function openBoardManager() {
+  var keys = getBoardKeys();
+  if (!keys.length) { showToast('No saved boards yet.'); return; }
+  _bmFocusIdx = -1;
+  document.getElementById('bmSearch').value = '';
+  bmRender(keys);
+  document.getElementById('bmOverlay').classList.remove('hide');
+  setTimeout(function(){ document.getElementById('bmSearch').focus(); }, 80);
+}
+
+function closeBoardManager() {
+  document.getElementById('bmOverlay').classList.add('hide');
+}
+
+function bmGetDisplayName(key) {
+  // Try to read stored sessionName for a nicer label
+  try {
+    var raw = localStorage.getItem(key);
+    if (!raw) return key.replace(/^wb-/, '');
+    var decoded;
+    try { decoded = decodeURIComponent(escape(atob(raw))); } catch(e) { decoded = raw; }
+    var data = JSON.parse(decoded);
+    return data.sessionName || key.replace(/^wb-/, '');
+  } catch(e) { return key.replace(/^wb-/, ''); }
+}
+
+function bmRender(keys) {
+  var list = document.getElementById('bmList');
+  var q = (document.getElementById('bmSearch').value || '').toLowerCase().trim();
+  var filtered = keys.filter(function(k) {
+    if (!q) return true;
+    var name = bmGetDisplayName(k).toLowerCase();
+    var short = k.replace(/^wb-/, '').toLowerCase();
+    return name.indexOf(q) !== -1 || short.indexOf(q) !== -1;
+  });
+  if (!filtered.length) {
+    list.innerHTML = '<div class="bm-empty">No boards match "' + q + '"</div>';
+    _bmFocusIdx = -1;
+    return;
+  }
+  list.innerHTML = '';
+  filtered.forEach(function(k, idx) {
+    var name = bmGetDisplayName(k);
+    var div = document.createElement('div');
+    div.className = 'bm-item' + (idx === _bmFocusIdx ? ' focused' : '');
+    div.setAttribute('data-key', k);
+    div.innerHTML =
+      '<span class="bm-item-icon">&#128221;</span>' +
+      '<span class="bm-item-name" title="' + name + '">' + name + '</span>' +
+      '<button class="bm-del" title="Delete this board" onclick="bmDelete(event,\'' + k + '\')" tabindex="-1">&#128465;</button>';
+    div.addEventListener('click', function() { bmLoad(k); });
+    list.appendChild(div);
+  });
+}
+
+function bmFilter() {
+  _bmFocusIdx = -1;
+  bmRender(getBoardKeys());
+}
+
+function bmKeyNav(e) {
+  var items = document.querySelectorAll('#bmList .bm-item');
+  if (!items.length) return;
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    _bmFocusIdx = Math.min(_bmFocusIdx + 1, items.length - 1);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    _bmFocusIdx = Math.max(_bmFocusIdx - 1, 0);
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    var focused = _bmFocusIdx >= 0 ? items[_bmFocusIdx] : items[0];
+    if (focused) bmLoad(focused.getAttribute('data-key'));
+    return;
+  } else if (e.key === 'Escape') {
+    closeBoardManager(); return;
+  }
+  items.forEach(function(it, i) { it.classList.toggle('focused', i === _bmFocusIdx); });
+  if (_bmFocusIdx >= 0) items[_bmFocusIdx].scrollIntoView({ block: 'nearest' });
+}
+
+function bmLoad(key) {
+  var raw = localStorage.getItem(key);
+  if (!raw) { showToast('Board not found!'); return; }
+  try {
     var decoded;
     try { decoded = decodeURIComponent(escape(atob(raw))); } catch(e2) { decoded = raw; }
-    var data=JSON.parse(decoded);
-    pages=[];
-    for(var p=0;p<data.pages.length;p++){
-      var pg=data.pages[p],re=[];
-      for(var i=0;i<pg.els.length;i++){
-        var el=pg.els[i];
-        if(el.imgSrc){var img=new Image();img.src=el.imgSrc;el.img=img;delete el.imgSrc;}
+    var data = JSON.parse(decoded);
+    pages = [];
+    for (var p = 0; p < data.pages.length; p++) {
+      var pg = data.pages[p], re = [];
+      for (var i = 0; i < pg.els.length; i++) {
+        var el = pg.els[i];
+        if (el.imgSrc) { var img = new Image(); img.src = el.imgSrc; el.img = img; delete el.imgSrc; }
         re.push(el);
       }
-      pages.push({els:re,undone:[],px:pg.px,py:pg.py,zm:pg.zm});
+      pages.push({ els: re, undone: [], px: pg.px, py: pg.py, zm: pg.zm });
     }
-    curPage=Math.min(data.curPage||0,pages.length-1);
-    bgType=data.bgType||'dark';
-    document.getElementById('bgSelect').value=bgType;
+    curPage = Math.min(data.curPage || 0, pages.length - 1);
+    bgType = data.bgType || 'dark';
+    document.getElementById('bgSelect').value = bgType;
     if (data.sessionName) document.getElementById('className').value = data.sessionName;
     loadPg();
-  }catch(e){alert('Load failed: '+e.message);}
+    closeBoardManager();
+    showToast('\u2713 Loaded: ' + (data.sessionName || key.replace(/^wb-/, '')), 2000);
+  } catch(e) { showToast('Load failed: ' + e.message); }
 }
+
+function bmDelete(e, key) {
+  e.stopPropagation();
+  var name = bmGetDisplayName(key);
+  if (!confirm('Delete board "' + name + '"?\nThis cannot be undone.')) return;
+  localStorage.removeItem(key);
+  var remaining = getBoardKeys();
+  if (!remaining.length) { closeBoardManager(); showToast('All boards deleted.'); return; }
+  _bmFocusIdx = -1;
+  bmRender(remaining);
+  showToast('Deleted: ' + name, 2000);
+}
+
+function loadBoard() { openBoardManager(); }
 
 // ═══ TEXT SEARCH ═══
 function searchText() {
@@ -1813,8 +2072,9 @@ function updateVidOverlay(el) {
     var iframe = document.createElement('iframe');
     iframe.src = el.url;
     iframe.style.width = '100%'; iframe.style.border = 'none'; iframe.style.display = 'block';
-    iframe.allow = 'accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture';
-    iframe.allowFullscreen = true;
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
     wrap.appendChild(iframe);
     wrap._iframe = iframe;
     // Resize handle
@@ -1868,15 +2128,91 @@ function updateVidOverlay(el) {
 }
 
 // ═══ VIDEO EMBED ═══
-function embedVideo() {
-  var url = prompt('Enter YouTube URL:');
-  if (!url) return;
-  var vid = url.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
-  if (!vid) { alert('Invalid YouTube URL'); return; }
-  var embedUrl = 'https://www.youtube.com/embed/' + vid[1];
+
+// Extracts a YouTube video ID from ANY valid YouTube URL format
+function extractYouTubeID(input) {
+  if (!input) return null;
+  input = input.trim();
+
+  // Already an 11-char bare ID (letters, digits, - _)
+  if (/^[a-zA-Z0-9_-]{11}$/.test(input)) return input;
+
+  // Try parsing as a URL
+  var url;
+  try {
+    // Add protocol if missing so URL() can parse it
+    var str = input.indexOf('://') === -1 ? 'https://' + input : input;
+    url = new URL(str);
+  } catch(e) {
+    // Not a URL, do a raw regex sweep
+    var m = input.match(/[?&]v=([a-zA-Z0-9_-]{11})/) ||
+             input.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/) ||
+             input.match(/\/(?:embed|shorts|live|v)\/([a-zA-Z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  // youtube.com, www.youtube.com, music.youtube.com, m.youtube.com
+  var host = url.hostname.replace(/^(www\.|m\.|music\.)/,'');
+
+  if (host === 'youtube.com' || host === 'youtube-nocookie.com') {
+    // /watch?v=ID
+    var v = url.searchParams.get('v');
+    if (v && /^[a-zA-Z0-9_-]{11}$/.test(v)) return v;
+
+    // /shorts/ID  /live/ID  /embed/ID  /v/ID
+    var pathM = url.pathname.match(/\/(?:shorts|live|embed|v)\/([a-zA-Z0-9_-]{11})/);
+    if (pathM) return pathM[1];
+  }
+
+  // youtu.be/ID
+  if (host === 'youtu.be') {
+    var pathM2 = url.pathname.match(/\/([a-zA-Z0-9_-]{11})/);
+    if (pathM2) return pathM2[1];
+  }
+
+  return null;
+}
+
+function embedVideo() { openYTModal(); }
+
+function openYTModal() {
+  document.getElementById('ytUrlInput').value = '';
+  document.getElementById('ytPreview').innerHTML = '';
+  document.getElementById('ytEmbedBtn').disabled = true;
+  document.getElementById('ytOverlay').classList.remove('hide');
+  setTimeout(function(){ document.getElementById('ytUrlInput').focus(); }, 80);
+}
+
+function closeYTModal() {
+  document.getElementById('ytOverlay').classList.add('hide');
+}
+
+function ytPreview() {
+  var input = document.getElementById('ytUrlInput').value;
+  var preview = document.getElementById('ytPreview');
+  var btn = document.getElementById('ytEmbedBtn');
+  var id = extractYouTubeID(input);
+  if (id) {
+    preview.innerHTML = '<span class="yt-preview-ok">&#10003; Video ID: <code style="background:#0d0d1a;padding:2px 6px;border-radius:4px;font-size:.85em">' + id + '</code></span>';
+    btn.disabled = false;
+  } else if (input.trim()) {
+    preview.innerHTML = '<span class="yt-preview-err">&#10005; Could not find a valid YouTube video ID</span>';
+    btn.disabled = true;
+  } else {
+    preview.innerHTML = '';
+    btn.disabled = true;
+  }
+}
+
+function doEmbedVideo() {
+  var input = document.getElementById('ytUrlInput').value;
+  var id = extractYouTubeID(input);
+  if (!id) return;
+  var embedUrl = 'https://www.youtube-nocookie.com/embed/' + id + '?rel=0&modestbranding=1';
   var w = getW({ clientX: cW / 2, clientY: cH / 2 + 48, target: C });
-  addEl({ type:'video', url:embedUrl, x:w.x - 160, y:w.y - 90, w:320, h:180, rt:recTime() });
+  addEl({ type:'video', url:embedUrl, x:w.x - 240, y:w.y - 135, w:480, h:270, rt:recTime() });
   fullRender();
+  closeYTModal();
 }
 
 // ═══ POLL / QUIZ ═══
@@ -1956,10 +2292,14 @@ function toggleHC() { document.body.classList.toggle('hc'); }
 
 // ═══ SERVER FEATURE STUBS ═══
 function serverFeature(name) {
+  showToast(name + ' requires a WebSocket server. Deploy with Node.js + Socket.IO to enable.');
+}
+
+function showToast(msg, duration) {
   var toast = document.getElementById('toast');
-  toast.textContent = name + ' requires a WebSocket server. Deploy with Node.js + Socket.IO to enable.';
+  toast.textContent = msg;
   toast.classList.add('show');
-  setTimeout(function() { toast.classList.remove('show'); }, 3500);
+  setTimeout(function() { toast.classList.remove('show'); }, duration || 3500);
 }
 
 // ═══ WELCOME ═══
