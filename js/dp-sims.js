@@ -274,4 +274,13 @@ const DP_SIMS = [
     description: "Build the Bohr model one step at a time, jump electrons between energy levels to emit photons and read off the hydrogen line spectrum, then explore nuclear size, density and the strong nuclear force.",
     file: "sims/bohr-model-spectra-nucleus.html"
   },
+  {
+    id: "photoelectric-effect",
+    title: "The Photoelectric Effect (HL)",
+    icon: "💡",
+    topic: "E.2",
+    topicName: "Quantum Physics",
+    description: "Shine light on a metal and knock electrons out: explore threshold frequency, stopping voltage and Einstein's equation E_max = hf − Φ, then build I–V and stopping-voltage graphs to measure Planck's constant.",
+    file: "sims/photoelectric-effect.html"
+  },
 ];
