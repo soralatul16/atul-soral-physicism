@@ -1,601 +1,641 @@
-
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="author" content="Atul Soral Physicism">
-<title>Radioactive Decay Lab | Atul Soral Physicism</title>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9JDXQ282H8');</script>
+<title>ATUL SORAL PHYSICISM · Radioactive Decay (HL)</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#F5F2EE;--surface:#fff;--text:#1A1A2E;--text2:#6B7280;--primary:#7C3AED;--primary-light:#F3E8FF;--primary-dark:#5B21B6;--danger:#EF4444;--accent:#F59E0B;--border:#E5E1DC;--shadow:0 2px 12px rgba(0,0,0,.07);--radius:14px;--radius-sm:8px}
-[data-theme="dark"]{--bg:#0F172A;--surface:#1E293B;--text:#F1F5F9;--text2:#94A3B8;--primary-light:#2E1065;--primary-dark:#C4B5FD;--border:#334155;--shadow:0 2px 12px rgba(0,0,0,.3)}
-body{font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.app{max-width:1300px;margin:0 auto;padding:16px 24px 10px}
-.nav-btn{padding:5px 12px;border-radius:6px;background:rgba(255,255,255,.18);color:#fff;font-size:.75rem;font-weight:600;border:none;cursor:pointer;transition:background .2s;line-height:1.4}.nav-btn:hover{background:rgba(255,255,255,.3)}
-/* Header */
-.sim-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
-.sim-header h1{font-size:1.45rem;font-weight:700;letter-spacing:-.03em}.sim-header h1 em{color:var(--primary);font-weight:800;font-style:normal}
-/* Tabs */
-.tab-bar{display:flex;gap:4px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px;border-bottom:2px solid var(--border)}
-.tab-btn{padding:8px 16px;border:none;background:none;font-size:.8rem;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;white-space:nowrap}
-.tab-btn:hover{color:var(--primary)}
-.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary)}
-.tab-pane{display:none}.tab-pane.active{display:block}
-/* Buttons */
-.pbtn{width:34px;height:34px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.pbtn:hover{border-color:var(--primary)}.pbtn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
-.sel{padding:5px 8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:.75rem;font-weight:600;background:var(--surface);color:var(--text);cursor:pointer}
-.btn{padding:6px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--text)}
-.btn:hover{border-color:var(--primary);color:var(--primary)}
-.btn-p{background:var(--primary);color:#fff;border-color:var(--primary)}
-/* Layout */
-.main-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:14px;align-items:start}
-.card{background:var(--surface);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);margin-bottom:12px}
-.card-title{font-size:.72rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
-/* Canvas */
-.canvas-wrap{position:relative;width:100%;aspect-ratio:4/3;background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:10px}
-.canvas-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%}
-/* Controls */
-.ctrl-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
-.ctrl-group{flex:1;min-width:120px}
-.ctrl-lbl{font-size:.68rem;font-weight:600;color:var(--text2);margin-bottom:2px;display:flex;justify-content:space-between}
-.ctrl-v{font-weight:700;color:var(--primary)}
-input[type=range]{width:100%;height:5px;-webkit-appearance:none;appearance:none;border-radius:3px;background:var(--border);outline:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--primary);cursor:pointer;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.15)}
-/* Readouts */
-.readouts{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.ro{text-align:center;padding:7px;border-radius:var(--radius-sm);background:var(--bg)}
-.ro-l{font-size:.62rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);font-weight:600;margin-bottom:1px}
-.ro-v{font-size:1.05rem;font-weight:700;font-variant-numeric:tabular-nums}
-/* Graph */
-.graph-wrap{position:relative;height:190px}
-/* Equation */
-.eq-card{text-align:center;padding:14px}
-.eq-display{font-size:1.1rem;line-height:2}
-.nuclide{display:inline-flex;align-items:center;margin:0 4px}
-.nuc-nums{display:flex;flex-direction:column;font-size:.6em;line-height:1.05;text-align:right;margin-right:1px;font-weight:700}
-.nuc-sym{font-size:1.25em;font-weight:800}
-.eq-arrow{margin:0 5px;font-size:1.2em;color:var(--text2)}
-.eq-check{font-size:.68rem;color:var(--primary);margin-top:4px}
-.iso-info{font-size:.75rem;color:var(--text2);margin-top:5px;line-height:1.5}
-/* Dice */
-.dice-grid{display:flex;flex-wrap:wrap;gap:3px;margin:8px 0;max-height:140px;overflow-y:auto}
-.die{width:20px;height:20px;border-radius:3px;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;transition:all .3s}
-.die.out{background:var(--border);color:var(--text2);opacity:.35}
-/* Compare */
-.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.comp-side{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:12px}
-.comp-side h4{font-size:.82rem;font-weight:700;text-align:center;margin-bottom:6px}
-.comp-ro{display:flex;justify-content:space-around;gap:6px;font-size:.78rem;margin-top:8px;flex-wrap:wrap}
-.comp-ro span{font-weight:700}
-/* Dating */
-.dating-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.dating-result{font-size:1.5rem;font-weight:800;color:var(--primary);margin:8px 0}
-.dating-formula{font-size:.78rem;color:var(--text2);line-height:1.6;padding:12px;background:var(--bg);border-radius:var(--radius-sm)}
-/* Questions */
-.q-item{border:1.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden}
-.q-header{display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:pointer;transition:background .2s}.q-header:hover{background:var(--bg)}
-.q-cmd{padding:2px 8px;border-radius:4px;font-size:.63rem;font-weight:700;text-transform:uppercase;flex-shrink:0}
-.q-cmd-state{background:#DBEAFE;color:#1E40AF}.q-cmd-calc{background:#DCFCE7;color:#166534}.q-cmd-explain{background:#FEF3C7;color:#92400E}.q-cmd-discuss{background:#F3E8FF;color:#6B21A8}
-.q-text{flex:1;font-size:.8rem;font-weight:500}.q-marks{font-size:.68rem;color:var(--text2);flex-shrink:0}
-.q-toggle{font-size:.68rem;font-weight:600;color:var(--primary);flex-shrink:0;padding:2px 8px;border-radius:4px;background:var(--primary-light)}
-.q-answer{display:none;padding:10px 14px;border-top:1px solid var(--border);font-size:.78rem;line-height:1.6;color:var(--text2);background:var(--bg)}.q-answer.open{display:block}.q-answer strong{color:var(--text)}
-/* Experiment */
-.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.exp-panel{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px}
-.exp-var{margin-bottom:8px}.exp-label{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:3px}
-.exp-label.iv{color:#2563eb}.exp-label.dv{color:#dc2626}.exp-label.cv{color:#059669}.exp-label.hyp{color:#7c3aed}
-.exp-select{width:100%;padding:5px 8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:.78rem}
-.exp-cv-list{display:flex;flex-wrap:wrap;gap:5px}
-.exp-cv-item{display:flex;align-items:center;gap:3px;font-size:.7rem;padding:2px 7px;border-radius:5px;background:rgba(5,150,105,.06);color:#059669;cursor:pointer}
-.exp-cv-item input{accent-color:#059669;width:12px;height:12px}
-.exp-hypothesis{font-size:.8rem;color:var(--text2);line-height:1.5;padding:8px;background:rgba(124,58,237,.04);border:1px solid rgba(124,58,237,.1);border-radius:var(--radius-sm);border-left:3px solid #7c3aed}
-.iv-hl{color:#2563eb}.dv-hl{color:#dc2626}.cv-hl{color:#059669}
-.hyp-dir{border:1px solid var(--border);border-radius:4px;padding:1px 4px;font-size:.75rem;background:var(--bg);color:var(--text)}
-.exp-data{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px}
-.exp-tw{max-height:160px;overflow-y:auto;margin-bottom:8px}
-.exp-table{width:100%;border-collapse:collapse;font-size:.72rem}
-.exp-table th{position:sticky;top:0;background:var(--surface);padding:4px 6px;text-align:left;font-weight:700;font-size:.63rem;text-transform:uppercase;color:var(--text2);border-bottom:2px solid var(--border)}
-.exp-table td{padding:3px 6px;border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
-.exp-pw{position:relative;height:170px;margin:6px 0}
-.btab-pane{display:none}.btab-pane.active{display:block}
-.nb-c{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 8px;margin-bottom:3px;font-size:.72rem;line-height:1.5}.nb-c b{color:var(--primary)}.nb-c .nr{color:var(--primary-dark);font-weight:700}
-@media(max-width:800px){.main-grid,.comp-grid,.exp-grid,.dating-grid{grid-template-columns:1fr}}
-@media print{body{background:#fff}.pbtn,.nav-btn,.btn,input[type=range]{display:none}.card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}.q-answer{display:block!important}.tab-pane{display:block!important}}
+  :root{
+    --ink:#1d2440; --ink-soft:#4a5578; --muted:#7c86a8;
+    --card:rgba(255,255,255,0.82); --card-solid:#ffffff;
+    --line:rgba(29,36,64,0.12);
+    --c1:#4f46e5; --c2:#0d9488; --c3:#d97706; --c4:#e11d48; --c5:#7c3aed; --c6:#0891b2; --c7:#059669;
+    --accent:var(--c1);
+    --accent-soft:rgba(79,70,229,0.12);
+    --serif:"Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+    --math:"Cambria Math","Cambria",Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--sans); color:var(--ink); min-height:100vh; padding:0 0 70px; transition:background .7s ease;
+    background:radial-gradient(1200px 600px at 8% -5%,#e0e7ff 0,transparent 55%),radial-gradient(1000px 700px at 100% 0%,#ccfbf1 0,transparent 50%),linear-gradient(160deg,#f5f7ff,#eef4ff 40%,#fef6ee);}
+  body[data-page="1"]{background:radial-gradient(1100px 640px at 6% -8%,#e0e7ff 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#dbeafe 0,transparent 55%),linear-gradient(155deg,#eef2ff,#eaf1ff 45%,#f6f3ff)}
+  body[data-page="2"]{background:radial-gradient(1100px 640px at 4% -8%,#ccfbf1 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#cffafe 0,transparent 55%),linear-gradient(155deg,#effcf7,#e9fbf4 45%,#eefaf6)}
+  body[data-page="3"]{background:radial-gradient(1100px 640px at 4% -8%,#fef3c7 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#ffedd5 0,transparent 55%),linear-gradient(155deg,#fffaf0,#fff6e8 45%,#fdf2e3)}
+  body[data-page="4"]{background:radial-gradient(1100px 640px at 4% -8%,#ffe4e6 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#fce7f3 0,transparent 55%),linear-gradient(155deg,#fff5f6,#fff0f2 45%,#fdeef4)}
+  body[data-page="5"]{background:radial-gradient(1100px 640px at 4% -8%,#ede9fe 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#fae8ff 0,transparent 55%),linear-gradient(155deg,#f5f3ff,#fdf2f8 45%,#f0fdfa)}
+  body[data-page="6"]{background:radial-gradient(1100px 640px at 4% -8%,#cffafe 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#e0f2fe 0,transparent 55%),linear-gradient(155deg,#f0fdff,#eff6ff 45%,#f5fbff)}
+  body[data-page="7"]{background:radial-gradient(1100px 640px at 4% -8%,#d1fae5 0,transparent 55%),radial-gradient(900px 700px at 102% -2%,#dcfce7 0,transparent 55%),linear-gradient(155deg,#f0fdf4,#ecfdf5 45%,#f3fdf6)}
+
+  .brandbar{max-width:1180px;margin:0 auto;padding:16px 22px 0;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .brand{font-family:var(--serif);font-weight:700;font-size:1.05rem;letter-spacing:.02em;color:var(--ink)}
+  .brand span{background:linear-gradient(90deg,var(--c1),var(--c4));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .brandmeta{display:flex;align-items:center;gap:10px}
+  .partlink{font-size:.8rem;font-weight:700;color:var(--accent);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:100px;background:var(--card);transition:background .2s}
+  .partlink:hover{background:var(--accent-soft)}
+  .namechip{font-size:.78rem;font-weight:700;color:#fff;background:var(--accent);padding:5px 12px;border-radius:100px;transition:background .5s}
+  .clock{font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+  header{max-width:1180px;margin:0 auto;padding:20px 22px 6px}
+  .kicker{font-weight:700;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);transition:color .5s}
+  h1{font-family:var(--serif);font-weight:700;font-size:clamp(1.7rem,3.4vw,2.6rem);line-height:1.05;margin-top:6px}
+  .sub{color:var(--ink-soft);margin-top:8px;font-size:1rem;max-width:700px}
+  nav{max-width:1180px;margin:20px auto 0;padding:0 22px;display:flex;gap:10px;flex-wrap:wrap}
+  .tab{border:1px solid var(--line);background:var(--card);color:var(--ink-soft);backdrop-filter:blur(6px);padding:10px 16px;border-radius:100px;cursor:pointer;font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:9px;transition:transform .18s,box-shadow .18s,background .2s,color .2s,border-color .2s}
+  .tab .dot{width:9px;height:9px;border-radius:50%;background:var(--tabc);flex:none}
+  .tab:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(29,36,64,.08)}
+  .tab.active{color:#fff;background:var(--tabc);border-color:transparent;box-shadow:0 10px 24px -6px var(--tabc)}
+  .tab.active .dot{background:rgba(255,255,255,.9)}
+  .tab .num{font-variant-numeric:tabular-nums;opacity:.65;font-size:.8rem}
+  main{max-width:1180px;margin:22px auto 0;padding:0 22px}
+  .page{display:none;animation:pageIn .5s ease}
+  .page.active{display:block}
+  @keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .grid{display:grid;grid-template-columns:minmax(0,0.92fr) minmax(0,1.08fr);gap:22px;align-items:start}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:20px;backdrop-filter:blur(8px);padding:22px;box-shadow:0 20px 50px -30px rgba(29,36,64,.4)}
+  .panel h2{font-family:var(--serif);font-size:1.15rem;margin-bottom:4px}
+  .panel .lead{color:var(--muted);font-size:.86rem;margin-bottom:16px}
+  .canvaswrap{position:relative;width:100%;aspect-ratio:5/4;max-height:420px}
+  .canvaswrap canvas{width:100%;height:100%;display:block;border-radius:14px;background:rgba(255,255,255,.5)}
+  .canvaswrap.wide{aspect-ratio:16/10;max-height:380px}
+
+  .stepper{display:flex;flex-direction:column;gap:14px;min-height:120px}
+  .step{border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--card-solid);border-radius:14px;padding:15px 17px;display:none;animation:stepIn .45s cubic-bezier(.2,.7,.2,1);box-shadow:0 10px 26px -20px rgba(29,36,64,.6)}
+  .step.revealed{display:block}
+  @keyframes stepIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+  .step .tag{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:3px 9px;border-radius:100px;margin-bottom:9px}
+  .step .note{color:var(--ink-soft);font-size:.9rem;line-height:1.55;margin-top:9px}
+  .step.result{border-left-color:var(--c3);background:linear-gradient(90deg,#fffdf5,#fff)}
+  .step.result .tag{color:#b45309;background:rgba(217,119,6,.14)}
+  .eq{font-family:var(--math);font-size:clamp(1.05rem,2vw,1.35rem);color:var(--ink);line-height:2;white-space:normal}
+  .eq .op{color:var(--muted);margin:0 .28em;vertical-align:middle}
+  .nuc{display:inline-flex;flex-direction:column;align-items:flex-end;vertical-align:middle;line-height:1;margin:0 .12em;font-family:var(--math)}
+  .nuc .a{font-size:.66em}
+  .nuc .z{font-size:.66em}
+  .nuc.sym{flex-direction:row;align-items:center}
+  var,.eq i{font-style:italic}
+  sub,sup{font-size:.72em;line-height:0;position:relative;vertical-align:baseline}
+  sup{top:-.55em}
+  sub{bottom:-.28em}
+
+  .controls{display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .btn{border:none;border-radius:100px;padding:11px 20px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:var(--sans);transition:transform .16s,box-shadow .16s,opacity .16s}
+  .btn.primary{background:var(--accent);color:#fff;box-shadow:0 10px 24px -8px var(--accent)}
+  .btn.primary:hover{transform:translateY(-2px)}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink-soft)}
+  .btn.ghost:hover{background:#fff}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+  .progress{margin-left:auto;font-size:.82rem;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
+  .hint{font-size:.8rem;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:6px}
+  .hint b{color:var(--accent)}
+
+  .seg{display:flex;border:1px solid var(--line);border-radius:100px;overflow:hidden;margin:4px 0 14px;flex-wrap:wrap}
+  .seg button{flex:1;min-width:56px;border:none;background:transparent;color:var(--muted);font-weight:700;font-size:.8rem;padding:9px 6px;cursor:pointer;font-family:var(--sans)}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+  .nrow{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+  .nrow label{font-size:.84rem;font-weight:700;color:var(--ink-soft);min-width:128px}
+  .nrow input[type=range]{flex:1;accent-color:var(--accent);cursor:pointer}
+  .nrow .uval{font-family:var(--mono);font-size:.82rem;color:var(--accent);font-weight:700;min-width:74px;text-align:right}
+  .readouts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+  .ro{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 13px}
+  .ro .k{font-size:.7rem;color:var(--muted);font-weight:700}
+  .ro .v{font-family:var(--math);font-size:1.1rem;font-weight:700;color:var(--ink);margin-top:4px}
+  .ro .u{font-size:.7rem;color:var(--muted);font-weight:600;margin-left:3px}
+  .ro.hi{border-color:var(--accent)} .ro.hi .v{color:var(--accent)}
+  .ro.wide{grid-column:1/3}
+  .statusbadge{grid-column:1/3;border-radius:12px;padding:11px 14px;color:#fff;font-weight:700;font-size:.9rem;text-align:center}
+  .simout{margin-top:8px;font-family:var(--sans);font-size:.86rem;color:var(--ink-soft);background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 13px;line-height:1.55}
+  .simout b{color:var(--accent);font-family:var(--math);font-weight:700}
+  .obs{display:flex;flex-direction:column;gap:11px}
+  .obs .o{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .obs .o .n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800;font-size:.8rem}
+  .obs .o p{font-size:.9rem;line-height:1.5;color:var(--ink-soft);margin:0}
+  .obs .o p b{color:var(--ink)}
+  .prose h3{font-family:var(--serif);font-size:1.05rem;margin:16px 0 6px}
+  .prose p{font-size:.95rem;line-height:1.65;color:var(--ink-soft);margin-bottom:10px}
+  .quote{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 12px 12px 0;padding:12px 16px;margin:12px 0;font-style:italic;color:var(--ink);font-size:.92rem;line-height:1.55}
+  .quote .who{display:block;font-style:normal;font-weight:700;color:var(--accent);font-size:.8rem;margin-top:6px}
+  .tbl{width:100%;border-collapse:collapse;font-size:.84rem;margin-top:6px}
+  .tbl th,.tbl td{border:1px solid var(--line);padding:8px 10px;text-align:center}
+  .tbl th{background:var(--accent-soft);color:var(--ink);font-weight:800}
+  .tbl td:first-child{text-align:left;font-weight:700;color:var(--ink)}
+  .tbl .cell-a{color:#b91c1c;font-weight:700}.tbl .cell-b{color:#0d9488;font-weight:700}.tbl .cell-g{color:#7c3aed;font-weight:700}
+
+  .miscgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+  .misc{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 16px 38px -28px rgba(29,36,64,.55)}
+  .misc .wrong{display:flex;gap:12px;align-items:flex-start;background:#fef2f2;color:#b91c1c;font-weight:700;font-size:1.02rem;line-height:1.55;padding:16px 18px;border-bottom:1px solid #fecdd3}
+  .misc .right{display:flex;gap:12px;align-items:flex-start;background:#fff;color:#1f2937;font-size:1rem;line-height:1.65;padding:16px 18px}
+  .misc .mtext{flex:1 1 auto;min-width:0;margin:0;overflow-wrap:anywhere}
+  .misc .right b{color:#0f766e}
+  .misc .ic{flex:0 0 auto;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.72rem;font-weight:900;color:#fff;margin-top:3px}
+  .misc .ic.x{background:#e11d48} .misc .ic.c{background:#0d9488}
+  .q{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:14px;box-shadow:0 16px 38px -28px rgba(29,36,64,.5)}
+  .qtag{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);padding:3px 9px;border-radius:100px}
+  .q .qt{font-weight:700;font-size:1.02rem;margin:10px 0 12px;line-height:1.4}
+  .q .reveal{border:1px solid var(--line);background:var(--accent-soft);color:var(--accent);font-weight:700;padding:8px 15px;border-radius:100px;cursor:pointer;font-size:.85rem;font-family:var(--sans)}
+  .q .ans{margin-top:12px;border-top:1px dashed var(--line);padding-top:12px;font-size:.95rem;color:var(--ink-soft);line-height:1.65}
+  .q .ans[hidden]{display:none}
+  .q .ans code{font-family:var(--math);background:var(--accent-soft);padding:1px 6px;border-radius:6px}
+  .we{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:16px;box-shadow:0 16px 38px -28px rgba(29,36,64,.5)}
+  .we .wetag{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--accent);padding:4px 11px;border-radius:100px}
+  .we .wq{font-size:.98rem;margin:11px 0;line-height:1.5;color:var(--ink)}
+  .we .reveal{border:1px solid var(--line);background:var(--accent-soft);color:var(--accent);font-weight:700;padding:8px 15px;border-radius:100px;cursor:pointer;font-size:.85rem;font-family:var(--sans)}
+  .we .work{margin-top:12px;border-top:1px dashed var(--line);padding-top:12px}
+  .we .work[hidden]{display:none}
+  .we .work .eq{font-size:1.02rem;line-height:1.9;margin:4px 0}
+  .we .work p{font-size:.88rem;color:var(--muted);line-height:1.5;margin:6px 0}
+  footer{max-width:1180px;margin:26px auto 0;padding:0 22px 20px;color:var(--muted);font-size:.78rem}
+  .gate{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:rgba(29,36,64,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:20px}
+  .gate-box{background:#fff;border-radius:22px;box-shadow:0 30px 70px -20px rgba(29,36,64,.5);padding:34px 30px;max-width:440px;width:100%;text-align:center}
+  .gate-ic{font-size:32px}
+  .gate-box h2{font-family:var(--serif);font-size:1.5rem;margin:8px 0}
+  .gate-box p{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+  .gate-box input{width:100%;font-size:1rem;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fbfaff;color:var(--ink);margin-bottom:14px;font-family:var(--sans)}
+  .gate-box input:focus{outline:none;border-color:var(--c1);box-shadow:0 0 0 3px rgba(79,70,229,.14)}
+  .gate-box .btn.primary{width:100%;padding:12px}
+  .gate-err{color:#e11d48;font-size:.82rem;margin-top:10px;font-weight:600}
+  @media print{body{padding:0;background:#fff}nav,.controls,.hint,.gate{display:none}.page{display:block!important;page-break-after:always}.step{display:block!important}}
 </style>
 </head>
-<body>
-<script>var SIM_META={id:'radioactive-decay-lab',title:'Radioactive Decay Lab',topic:'E.3',topicName:'Radioactive Decay',grade:['DP'],level:'both',theme:'E',concepts:['half-life','decay-constant','activity','exponential-decay','nuclear-equations'],difficulty:'intermediate'};</script>
-<nav style="display:flex;align-items:center;justify-content:space-between;padding:7px 18px;background:linear-gradient(135deg,rgba(2,132,199,.95),rgba(3,105,161,.95));color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(3,105,161,.3);flex-wrap:wrap;gap:5px"><div style="display:flex;align-items:center;gap:14px"><a href="../index.html" style="font-family:Georgia,serif;font-size:1rem;font-weight:700;color:#fff;text-decoration:none">Atul Soral Physicism</a><a href="../dp-simulations.html" style="color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem">&larr; All Simulations</a></div><div style="display:flex;gap:6px;align-items:center"><button class="nav-btn" id="themeBtn">☀️</button><a href="../dp-simulations.html" class="nav-btn" style="text-decoration:none">&larr; Back</a><a href="../index.html" class="nav-btn" style="text-decoration:none">Home</a><a href="../myp-dashboard.html" class="nav-btn" style="text-decoration:none">MYP</a><a href="../dp-dashboard.html" class="nav-btn" style="text-decoration:none">DP</a></div></nav>
+<body data-page="1">
 
-<div class="app">
-<div class="sim-header"><h1><em>Radioactive</em> Decay Lab</h1></div>
-
-<div class="tab-bar">
-  <button class="tab-btn active" data-tab="sim">Decay Sim</button>
-  <button class="tab-btn" data-tab="dice">Dice Lab</button>
-  <button class="tab-btn" data-tab="dating">Dating Tool</button>
-  <button class="tab-btn" data-tab="compare">Comparison</button>
-</div>
-
-<!-- ====== TAB: DECAY SIM ====== -->
-<div class="tab-pane active" id="tab-sim">
-  <div class="main-grid">
-    <div>
-      <div class="canvas-wrap" id="canvasWrap"><canvas id="atomCanvas"></canvas></div>
-      <div class="ctrl-row">
-        <div style="display:flex;gap:5px;align-items:center">
-          <button class="pbtn" id="playBtn" title="Play/Pause">▶</button>
-          <button class="pbtn" id="stepBtn" title="Step">⏭</button>
-          <button class="pbtn" id="resetBtn" title="Reset">↺</button>
-          <select class="sel" id="speedSel"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="5">5×</option><option value="10">10×</option></select>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px">
-          <span style="font-size:.72rem;font-weight:600;color:var(--text2)">Isotope</span>
-          <select class="sel" id="isoSelect" style="min-width:130px"></select>
-        </div>
-      </div>
-      <div class="ctrl-row">
-        <div class="ctrl-group"><div class="ctrl-lbl">N₀ <span class="ctrl-v" id="n0Val">500</span></div><input type="range" id="n0Slider" min="20" max="5000" step="10" value="500"></div>
-        <div class="ctrl-group"><div class="ctrl-lbl">Sim t½ <span class="ctrl-v" id="thVal">10 s</span></div><input type="range" id="thSlider" min="1" max="30" step="0.5" value="10"></div>
-      </div>
-      <div class="card eq-card"><div class="eq-display" id="eqDisplay"></div><div class="eq-check" id="eqCheck"></div><div class="iso-info" id="isoInfo"></div></div>
-    </div>
-    <div>
-      <div class="card"><div class="readouts">
-        <div class="ro"><div class="ro-l">Remaining (N)</div><div class="ro-v" id="roN">500</div></div>
-        <div class="ro"><div class="ro-l">Decayed</div><div class="ro-v" id="roD">0</div></div>
-        <div class="ro"><div class="ro-l">λ (s⁻¹)</div><div class="ro-v" id="roL">0.0693</div></div>
-        <div class="ro"><div class="ro-l">Activity (s⁻¹)</div><div class="ro-v" id="roA">34.7</div></div>
-        <div class="ro"><div class="ro-l">Time (s)</div><div class="ro-v" id="roT">0.0</div></div>
-        <div class="ro"><div class="ro-l">Half-lives</div><div class="ro-v" id="roHL">0.00</div></div>
-      </div></div>
-      <div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div class="card-title" style="margin:0">N vs t</div><button class="btn" id="lnToggle" style="font-size:.65rem;padding:3px 10px" onclick="toggleLnN()">Show ln(N)</button></div><div class="graph-wrap"><canvas id="decayGraph"></canvas></div></div>
-      <div class="card"><div class="card-title">Activity vs t</div><div class="graph-wrap" style="height:130px"><canvas id="actGraph"></canvas></div></div>
-    </div>
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <div class="gate-ic">☢️</div>
+    <h2>Before you begin</h2>
+    <p>Enter your full name. It is stamped onto the simulation with the time, so your teacher can confirm the work is your own.</p>
+    <input id="gateName" type="text" placeholder="Your full name" autocomplete="name">
+    <button class="btn primary" id="gateBtn">Start</button>
+    <div class="gate-err" id="gateErr" hidden>Please enter your name (at least 2 characters) to continue.</div>
   </div>
 </div>
 
-<!-- ====== TAB: DICE LAB ====== -->
-<div class="tab-pane" id="tab-dice">
-  <div class="main-grid">
-    <div>
-      <div class="card">
-        <div class="card-title">Dice Analogy — Randomness → Exponential</div>
-        <div class="ctrl-row">
-          <button class="btn btn-p" id="diceRollBtn">Roll All Dice</button>
-          <button class="btn" id="diceAutoBtn">Auto-Roll</button>
-          <button class="btn" id="diceResetBtn">Reset</button>
-          <span style="font-size:.72rem;color:var(--text2)">Remove if ≤</span>
-          <select class="sel" id="diceThresh"><option value="1">1 (p=1/6)</option><option value="2">2 (p=2/6)</option><option value="3">3 (p=3/6)</option></select>
-          <span style="font-size:.72rem;color:var(--text2)">Dice:</span>
-          <select class="sel" id="diceCount"><option value="20">20</option><option value="50">50</option><option value="100" selected>100</option><option value="200">200</option></select>
-        </div>
-        <div class="dice-grid" id="diceGrid"></div>
-        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:.78rem;color:var(--text2)">
-          <span id="diceStatus">100 remaining · Round 0</span>
-          <span id="diceTH">Theoretical t½ ≈ 4.16 rolls</span>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="card"><div class="card-title">Remaining Dice vs Round</div><div class="graph-wrap"><canvas id="diceGraph"></canvas></div></div>
-      <div class="card"><p style="font-size:.8rem;color:var(--text2);line-height:1.6">Each die has a fixed probability of being removed — just like each nucleus has a fixed probability of decaying. No die "knows" when its turn comes. Yet from this randomness, the same exponential shape emerges. The <strong>dashed line</strong> shows the theoretical prediction: N = N₀ × (1−p)<sup>round</sup>. Your experimental data scatters around it.</p></div>
-    </div>
+<div class="brandbar">
+  <div class="brand">ATUL SORAL <span>PHYSICISM</span></div>
+  <div class="brandmeta">
+    <a class="partlink" href="activity-and-half-life.html">Part 2: Activity &amp; Half-Life →</a>
+    <a class="partlink" href="nuclear-energy.html">Part 3: Nuclear Energy →</a>
+    <a class="partlink" href="the-decay-law.html">Part 4: The Decay Law →</a>
+    <span class="namechip" id="nameChip">Student</span>
+    <span class="clock" id="clock"></span>
   </div>
 </div>
 
-<!-- ====== TAB: DATING TOOL ====== -->
-<div class="tab-pane" id="tab-dating">
-  <div class="dating-grid">
-    <div class="card">
-      <div class="card-title">Carbon-14 Dating Calculator</div>
-      <div class="ctrl-lbl" style="margin-bottom:4px">C-14 Remaining (%) <span class="ctrl-v" id="datingPct">50</span></div>
-      <input type="range" id="datingSlider" min="1" max="99" step="1" value="50">
-      <div class="dating-result" id="datingAge">5,730 years</div>
-      <div style="font-size:.78rem;color:var(--text2)">Estimated age of sample</div>
-      <div style="margin-top:14px;font-size:.75rem;color:var(--text2);line-height:1.6"><strong>Range:</strong> Effective up to ~50,000 years (≈ 9 half-lives, <0.2% remaining). Beyond this, the signal is indistinguishable from background.<br><br><strong>Limitation:</strong> Only works on organic material. Cannot date rocks, metals, or anything that never contained carbon from the atmosphere.</div>
+<header>
+  <div class="kicker" id="kicker">Theme E.3 · Nuclear Physics · Higher Level</div>
+  <h1>Radioactive Decay</h1>
+  <p class="sub">Part 1 of 3. Some nuclei are unstable. Discover why, watch them throw out alpha, beta and gamma radiation to become more stable, see how each type is stopped and bent by fields, and learn to balance the decay equations.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+<!-- PAGE 1: STABILITY & ISOTOPES -->
+<section class="page active" data-accent="var(--c1)">
+  <div class="grid">
+    <div class="panel">
+      <h2>Which nuclei are stable?</h2>
+      <p class="lead">Build a nucleus from protons and neutrons. The green band is where stable nuclei live. Land outside it and the nucleus is radioactive — it decays to move back toward the band.</p>
+      <div class="canvaswrap wide"><canvas id="stabilityCanvas"></canvas></div>
+      <div class="nrow" style="margin-top:14px"><label>Protons Z</label><input type="range" id="stZ" min="1" max="92" step="1" value="6"><span class="uval" id="stZv">6</span></div>
+      <div class="nrow"><label>Neutrons N</label><input type="range" id="stN" min="0" max="146" step="1" value="6"><span class="uval" id="stNv">6</span></div>
+      <div class="seg" id="presetSeg"></div>
+      <div class="simout" id="stOut"></div>
     </div>
-    <div class="card">
-      <div class="card-title">Working</div>
-      <div class="dating-formula">
-        <strong>N = N₀ × e<sup>−λt</sup></strong><br><br>
-        <strong>t = −ln(N/N₀) / λ</strong><br><br>
-        λ = ln2 / t½ = ln2 / 5730 = 1.21 × 10⁻⁴ yr⁻¹<br><br>
-        <span id="datingWork"></span>
+    <div class="panel">
+      <h2>Reading the numbers</h2>
+      <p class="lead">Stability is a balancing act between two forces inside the nucleus.</p>
+      <div class="readouts" id="stReadouts"></div>
+      <div class="prose">
+        <h3>Isotopes and the nuclide symbol</h3>
+        <p>An atom is written <span class="eq" style="font-size:1rem"><span class="nuc"><span class="a">A</span><span class="z">Z</span></span>X</span>, where <b>Z</b> is the proton number (which element it is) and <b>A</b> is the nucleon number (protons + neutrons). Two nuclides of the same element with different neutron counts are <b>isotopes</b> — same Z, different A. Carbon-12 and carbon-14 are both carbon, but carbon-14 is unstable.</p>
+        <h3>Two forces, pulling opposite ways</h3>
+        <p>Protons repel each other electrostatically. Holding the nucleus together is the <b>strong nuclear force</b> — a powerful attraction between any two nucleons, but only over a very short range (about the width of one or two nucleons). A nucleus is stable only when these two effects balance.</p>
+        <h3>Why the band bends (HL)</h3>
+        <p>Light nuclei are stable near <b>N ≈ Z</b>. As Z grows, the long-range repulsion between protons builds up faster than the short-range strong force can compensate, so heavier stable nuclei need <b>extra neutrons</b> — the band drifts toward N ≈ 1.5 Z. Beyond Z = 83 no nucleus is fully stable: they all decay, most often by <b>alpha</b> emission.</p>
+        <p><b>Line vs band — read this.</b> The dashed diagonal is only the reference <b>N = Z</b>. Stability is the <b>green band</b>: it sits on the line for light nuclei and lifts above it as Z rises. Uranium-238 (Z = 92, N = 146) has a sensible-looking N/Z ≈ 1.59, but it lies <b>beyond where the band ends</b> (Z > 83), so it is radioactive — that is why the marker turns red even though it looks "reasonable".</p>
       </div>
     </div>
   </div>
-</div>
-
-<!-- ====== TAB: COMPARISON ====== -->
-<div class="tab-pane" id="tab-compare">
-  <div class="card">
-    <div class="ctrl-row">
-      <select class="sel" id="compSelA" style="min-width:130px"></select>
-      <span style="font-size:.82rem;font-weight:700;color:var(--text2)">vs</span>
-      <select class="sel" id="compSelB" style="min-width:130px"></select>
-      <div style="flex:1"></div>
-      <span style="font-size:.72rem;color:var(--text2)">N₀</span>
-      <select class="sel" id="compN0"><option value="100">100</option><option value="200" selected>200</option><option value="500">500</option></select>
-      <button class="pbtn" id="compPlayBtn">▶</button>
-      <button class="pbtn" id="compResetBtn">↺</button>
-      <select class="sel" id="compSpeed"><option value="1">1×</option><option value="2">2×</option><option value="5" selected>5×</option><option value="10">10×</option></select>
-    </div>
-    <div class="ctrl-row" style="margin-bottom:0">
-      <div class="ctrl-group"><div class="ctrl-lbl">t½ A <span class="ctrl-v" id="compThAVal">10 s</span></div><input type="range" id="compThA" min="1" max="30" step="0.5" value="10"></div>
-      <div class="ctrl-group"><div class="ctrl-lbl">t½ B <span class="ctrl-v" id="compThBVal">3 s</span></div><input type="range" id="compThB" min="1" max="30" step="0.5" value="3"></div>
-    </div>
-  </div>
-  <div class="comp-grid">
-    <div class="comp-side"><h4 id="compNameA">Carbon-14</h4><div class="canvas-wrap" style="aspect-ratio:3/2"><canvas id="compCanvasA"></canvas></div><div class="comp-ro" id="compRoA"></div></div>
-    <div class="comp-side"><h4 id="compNameB">Iodine-131</h4><div class="canvas-wrap" style="aspect-ratio:3/2"><canvas id="compCanvasB"></canvas></div><div class="comp-ro" id="compRoB"></div></div>
-  </div>
-  <div class="card" style="margin-top:12px"><div class="card-title">Overlaid Decay Curves</div><div class="graph-wrap"><canvas id="compGraph"></canvas></div></div>
-</div>
-
-<!-- ====== BOTTOM TABS ====== -->
-<div class="card" style="margin-top:14px;padding:14px 16px">
-  <div class="tab-bar" style="margin-bottom:10px">
-    <button class="tab-btn active" data-btab="exp">Experiment</button>
-    <button class="tab-btn" data-btab="ib">IB Questions</button>
-    <button class="tab-btn" data-btab="notes">Notebook</button>
-  </div>
-  <div class="btab-pane active" id="btab-exp">
-    <div class="exp-grid">
-      <div class="exp-panel">
-        <div class="exp-var"><label class="exp-label iv">Independent Variable (IV)</label><select class="exp-select" id="expIV"></select></div>
-        <div class="exp-var"><label class="exp-label dv">Dependent Variable (DV)</label><select class="exp-select" id="expDV"></select></div>
-        <div class="exp-var"><label class="exp-label cv">Controlled Variables (CV)</label><div id="expCVs" class="exp-cv-list"></div></div>
-        <div class="exp-var"><label class="exp-label hyp">Hypothesis</label><div class="exp-hypothesis" id="expHypothesis"></div></div>
+</section>
+<!-- PAGE 2: RADIATION TYPES & PENETRATION -->
+<section class="page" data-accent="var(--c2)">
+  <div class="grid">
+    <div class="panel">
+      <h2>Penetration lab</h2>
+      <p class="lead">Pick a radiation, then slot barriers in front of the detector. Watch what gets through — this is exactly how you identify an unknown source in the lab.</p>
+      <div class="canvaswrap wide"><canvas id="penCanvas"></canvas></div>
+      <div class="seg" id="radSeg" style="margin-top:14px"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn ghost" id="bPaper" data-on="false">Paper</button>
+        <button class="btn ghost" id="bAlu" data-on="false">3 mm aluminium</button>
+        <button class="btn ghost" id="bLead" data-on="false">2 cm lead</button>
       </div>
-      <div class="exp-data">
-        <div class="ctrl-row" style="margin-bottom:6px">
-          <button class="btn btn-p" id="recordExpBtn">Record Point</button>
-          <button class="btn" onclick="clearExpData()">Clear</button>
-          <button class="btn" onclick="exportCSV()">CSV</button>
-        </div>
-        <div class="exp-tw"><table class="exp-table"><thead><tr><th>#</th><th id="thIV">IV</th><th id="thDV">DV</th></tr></thead><tbody id="expTbody"></tbody></table></div>
-        <div class="exp-pw"><canvas id="expPlot"></canvas></div>
+      <div class="simout" id="penOut"></div>
+    </div>
+    <div class="panel">
+      <h2>The three radiations, compared</h2>
+      <p class="lead">Everything about each type follows from its charge, mass and speed.</p>
+      <table class="tbl">
+        <tr><th>Property</th><th class="cell-a">α</th><th class="cell-b">β⁻</th><th class="cell-g">γ</th></tr>
+        <tr><td>What it is</td><td>He nucleus</td><td>electron</td><td>photon</td></tr>
+        <tr><td>Charge</td><td>+2</td><td>−1</td><td>0</td></tr>
+        <tr><td>Relative mass</td><td>4</td><td>~1/1840</td><td>0</td></tr>
+        <tr><td>Typical speed</td><td>~0.1c</td><td>~0.9c</td><td>c</td></tr>
+        <tr><td>Ionising ability</td><td>very high</td><td>low</td><td>very low</td></tr>
+        <tr><td>Range in air</td><td>few cm</td><td>~30 cm</td><td>large</td></tr>
+        <tr><td>Stopped by</td><td>paper / skin</td><td>~3 mm Al</td><td>thick lead</td></tr>
+      </table>
+      <div class="prose">
+        <h3>Ionising power vs penetration are opposites</h3>
+        <p>An alpha particle is big and highly charged, so it rips electrons off almost every atom it passes — huge ionising power, but it loses its energy within a few centimetres. Gamma rays barely interact at all: weak ionisers, but they sail through metres of air and need lead to stop.</p>
+        <h3>What this means for safety</h3>
+        <p>Outside the body an alpha source is nearly harmless — skin stops it. Swallowed or inhaled, it is the most dangerous of the three, dumping all its energy into living tissue. Gamma is the reverse: dangerous from across the room because it penetrates so easily.</p>
+        <p>A positron (β⁺) travels through matter much like an electron — same tiny mass, same size of charge, so <b>similar penetration</b>. The difference comes at the <b>end</b> of its path: it meets an ordinary electron and the two <b>annihilate</b>, converting their mass into a pair of gamma photons.</p>
       </div>
     </div>
   </div>
-  <div class="btab-pane" id="btab-ib" style="display:none">
-    <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-state">State</span><span class="q-text">Define half-life.</span><span class="q-marks">[1]</span><span class="q-toggle">Show</span></div><div class="q-answer"><strong>Half-life</strong> is the time taken for half the undecayed nuclei in a sample to decay, or equivalently, the time for the activity of a source to fall to half its initial value.</div></div>
-    <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-calc">Calculate</span><span class="q-text">A sample has activity 800 Bq. After 24 days it is 100 Bq. Find the half-life.</span><span class="q-marks">[3]</span><span class="q-toggle">Show</span></div><div class="q-answer">800/100 = <strong>8 = 2³</strong> → 3 half-lives in 24 days → t½ = 24/3 = <strong>8 days</strong>.</div></div>
-    <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-calc">Calculate</span><span class="q-text">A bone contains 12% of its original C-14 (t½ = 5730 yr). Estimate its age.</span><span class="q-marks">[3]</span><span class="q-toggle">Show</span></div><div class="q-answer">λ = ln2/5730 = 1.21×10⁻⁴ yr⁻¹<br>t = −ln(0.12)/λ = 2.12/1.21×10⁻⁴ ≈ <strong>17,500 years</strong></div></div>
-    <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-explain">Explain</span><span class="q-text">Why does activity never reach exactly zero?</span><span class="q-marks">[2]</span><span class="q-toggle">Show</span></div><div class="q-answer">Decay is <strong>exponential</strong>: N = N₀e<sup>−λt</sup> approaches zero asymptotically but never equals it. As long as any undecayed nucleus exists, there is a non-zero probability of further decay.</div></div>
-    <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-explain">Explain</span><span class="q-text">Why can we not predict when a specific nucleus will decay?</span><span class="q-marks">[2]</span><span class="q-toggle">Show</span></div><div class="q-answer">Decay is <strong>spontaneous and random</strong>, governed by quantum mechanics. Each nucleus has a fixed probability λ of decaying per unit time, but the exact moment is fundamentally unpredictable. Only the statistical behaviour of large numbers is predictable.</div></div>
-    <div class="q-item"><div class="q-header" onclick="toggleQ(this)"><span class="q-cmd q-cmd-discuss">Discuss</span><span class="q-text">Compare I-131 (t½ = 8 d) and Co-60 (t½ = 5.27 yr) for medical imaging.</span><span class="q-marks">[4]</span><span class="q-toggle">Show</span></div><div class="q-answer"><strong>I-131</strong>: short t½ limits dose but also the imaging window; emits β⁻ and γ.<br><strong>Co-60</strong>: long t½ = prolonged exposure; used for external beam therapy.<br>For imaging, <strong>Tc-99m (t½ = 6 hr, γ only)</strong> is preferred — minimal dose, optimal γ energy.</div></div>
+</section>
+<!-- PAGE 3: DEFLECTION IN FIELDS -->
+<section class="page" data-accent="var(--c3)">
+  <div class="grid">
+    <div class="panel">
+      <h2>Bending the beam</h2>
+      <p class="lead">A mixed beam of α, β⁻ and γ enters a field. Charged radiations curve; the neutral one carries straight on. Switch the field on and see them split.</p>
+      <div class="canvaswrap wide"><canvas id="fieldCanvas"></canvas></div>
+      <div class="seg" id="fieldSeg" style="margin-top:14px"></div>
+      <div class="seg" id="dirSeg"></div>
+      <div class="simout" id="fieldOut"></div>
+    </div>
+    <div class="panel">
+      <h2>Why they separate</h2>
+      <p class="lead">Charge decides the direction of the bend; charge, mass and speed decide how much.</p>
+      <div class="prose">
+        <h3>In a magnetic field</h3>
+        <p>A moving charge feels a force perpendicular to its motion, so it travels a circular arc of radius <span class="eq" style="font-size:1rem">r = mv / (qB)</span>. Alpha and beta carry opposite charges, so they curve to <b>opposite sides</b>. Gamma has no charge and no force — it goes straight.</p>
+        <h3>Why alpha barely bends</h3>
+        <p>An alpha is about 8000 times heavier than a beta. Even though it has twice the charge and moves slower, the mass dominates: its radius is roughly 400× larger, so its arc is almost straight. The light, fast beta whips around a tight curve the other way.</p>
+        <h3>In an electric field</h3>
+        <p>Between charged plates each particle feels a steady sideways force, giving a <b>parabolic</b> path — like a projectile under gravity. Alpha drifts toward the negative plate, beta toward the positive plate, and again gamma passes straight through undeflected.</p>
+        <div class="quote">If a beam splits three ways in a magnetic field — one arc bending hard, a gentle arc the other way, and a straight line between them — you are looking at beta, alpha and gamma in one shot.</div>
+      </div>
+    </div>
   </div>
-  <div class="btab-pane" id="btab-notes" style="display:none">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-family:Georgia,serif;font-size:.78rem;font-weight:700;color:var(--primary)">Notebook</span><button class="btn" onclick="window.print()" style="font-size:.65rem">Print</button></div>
-    <div id="nbO"><p style="text-align:center;color:var(--text2);font-size:.72rem;padding:8px">Record data points to log observations here.</p></div>
+</section>
+<!-- PAGE 4: DECAY EQUATIONS & SPECTRA -->
+<section class="page" data-accent="var(--c4)">
+  <div class="grid">
+    <div class="panel">
+      <h2>Balance the decay</h2>
+      <p class="lead">Choose a parent nucleus and a decay mode. The daughter is worked out for you by conserving nucleon number A and proton number Z — the two totals must match on both sides.</p>
+      <div class="canvaswrap"><canvas id="decayCanvas"></canvas></div>
+      <div class="seg" id="parentSeg" style="margin-top:14px"></div>
+      <div class="seg" id="modeSeg"></div>
+      <div class="simout" id="decayEq" style="font-family:var(--math);font-size:1.15rem;text-align:center"></div>
+      <div class="simout" id="decayOut"></div>
+    </div>
+    <div class="panel">
+      <h2>How the daughter is found</h2>
+      <p class="lead">Balancing is bookkeeping: the totals of A (top) and Z (bottom) must match on both sides. The rule for the mode you picked is highlighted.</p>
+      <div class="obs" id="ruleList"></div>
+      <h3 style="font-family:var(--serif);font-size:1.08rem;margin:20px 0 4px">Where does the decay energy go? (HL)</h3>
+      <p class="lead" style="margin-bottom:12px">Every decay releases a fixed amount of energy, Q. In <b>alpha</b> decay only one particle leaves, so it always carries the same energy — a single sharp line. In <b>beta</b> decay the energy is <b>shared</b> between the beta particle and a neutrino, so the beta can get anything from 0 up to Q. Drag the share and watch where this beta particle lands on the spectrum below.</p>
+      <div class="nrow"><label>Share to β particle</label><input type="range" id="betaShare" min="0" max="100" step="1" value="45"><span class="uval" id="betaSharev">45%</span></div>
+      <div class="readouts" id="specReadouts"></div>
+      <div class="canvaswrap" style="aspect-ratio:5/2;max-height:180px;margin-top:6px"><canvas id="spectrumCanvas"></canvas></div>
+      <div class="simout" id="specOut"></div>
+    </div>
   </div>
-</div>
-</div>
+</section>
+<!-- PAGE 5: WORKED EXAMPLES -->
+<section class="page" data-accent="var(--c5)">
+  <div class="panel" style="margin-bottom:18px">
+    <h2>Worked examples</h2>
+    <p class="lead">Fresh problems — try each before revealing. Use mₑ = 9.11&times;10⁻³¹ kg, e = 1.60&times;10⁻¹⁹ C, h = 6.63&times;10⁻³⁴ J s, c = 3.00&times;10⁸ m s⁻¹.</p>
+  </div>
+  <div class="we">
+    <span class="wetag">Worked example 1</span>
+    <p class="wq">Radon-220 (Z = 86) decays by alpha emission. Write the balanced decay equation and name the type of change to the nucleus.</p>
+    <button class="reveal">Show solution</button>
+    <div class="work" hidden>
+      <div class="eq">Alpha removes 2 protons and 2 neutrons: A → A − 4, Z → Z − 2.</div>
+      <div class="eq"><span class="nuc"><span class="a">220</span><span class="z">86</span></span>Rn <span class="op">→</span> <span class="nuc"><span class="a">216</span><span class="z">84</span></span>Po <span class="op">+</span> <span class="nuc"><span class="a">4</span><span class="z">2</span></span>α</div>
+      <p>Check: 220 = 216 + 4 ✓ and 86 = 84 + 2 ✓. The proton number changes, so this is a <b>transmutation</b> — a new element (polonium) is formed.</p>
+    </div>
+  </div>
+  <div class="we">
+    <span class="wetag">Worked example 2</span>
+    <p class="wq">A nuclide has 6 protons and 8 neutrons. Its neutron-to-proton ratio is high, so it decays by beta-minus emission. Write the equation and explain what happens to a nucleon.</p>
+    <button class="reveal">Show solution</button>
+    <div class="work" hidden>
+      <p>A = 6 + 8 = 14, Z = 6, so the parent is carbon-14. In β⁻ decay a <b>neutron turns into a proton</b>, emitting an electron and an antineutrino: Z → Z + 1, A unchanged.</p>
+      <div class="eq"><span class="nuc"><span class="a">14</span><span class="z">6</span></span>C <span class="op">→</span> <span class="nuc"><span class="a">14</span><span class="z">7</span></span>N <span class="op">+</span> <span class="nuc"><span class="a">0</span><span class="z">−1</span></span>β⁻ <span class="op">+</span> ν̄</div>
+      <p>Check: 14 = 14 + 0 ✓ and 6 = 7 + (−1) ✓. Losing a neutron and gaining a proton lowers the N/Z ratio, moving the nucleus toward the stability band.</p>
+    </div>
+  </div>
+  <div class="we">
+    <span class="wetag">Worked example 3</span>
+    <p class="wq">A beta-minus particle travels at 1.5&times;10⁸ m s⁻¹ perpendicular to a magnetic field of 8.0 mT. Calculate the radius of its circular path.</p>
+    <button class="reveal">Show solution</button>
+    <div class="work" hidden>
+      <div class="eq">r = mv / (qB)</div>
+      <div class="eq">r = (9.11&times;10⁻³¹ &times; 1.5&times;10⁸) / (1.60&times;10⁻¹⁹ &times; 8.0&times;10⁻³)</div>
+      <div class="eq">r = 1.37&times;10⁻²² / 1.28&times;10⁻²¹ = <b>0.11 m</b></div>
+      <p>An alpha particle in the same field would trace a radius roughly 400× larger — which is why its path looks almost straight beside the beta's tight curve.</p>
+    </div>
+  </div>
+  <div class="we">
+    <span class="wetag">Worked example 4</span>
+    <p class="wq">Nitrogen-13 has 7 protons and 6 neutrons — it is proton-rich. Predict its decay mode, write the equation, and calculate the energy of a gamma photon of wavelength 9.9&times;10⁻¹³ m that a daughter might emit.</p>
+    <button class="reveal">Show solution</button>
+    <div class="work" hidden>
+      <p>Too few neutrons (N &lt; Z) means the nucleus is below the stability band, so it decays by <b>beta-plus</b>: a proton becomes a neutron, Z → Z − 1.</p>
+      <div class="eq"><span class="nuc"><span class="a">13</span><span class="z">7</span></span>N <span class="op">→</span> <span class="nuc"><span class="a">13</span><span class="z">6</span></span>C <span class="op">+</span> <span class="nuc"><span class="a">0</span><span class="z">+1</span></span>β⁺ <span class="op">+</span> ν</div>
+      <div class="eq">E = hc / λ = (6.63&times;10⁻³⁴ &times; 3.00&times;10⁸) / 9.9&times;10⁻¹³ = <b>2.0&times;10⁻¹³ J</b> (≈ 1.3 MeV)</div>
+    </div>
+  </div>
+</section>
+<!-- PAGE 6: MISCONCEPTIONS -->
+<section class="page" data-accent="var(--c6)">
+  <div class="panel" style="margin-bottom:18px">
+    <h2>Common misconceptions, cleared up</h2>
+    <p class="lead">The traps that cost marks in nuclear physics. Each card pairs the wrong idea with the fix.</p>
+  </div>
+  <div class="miscgrid">
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"Alpha is the most dangerous because it penetrates the most."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">Alpha is the <b>least</b> penetrating — paper or skin stops it. It is dangerous only <b>inside</b> the body, where its intense ionising power damages tissue. Gamma penetrates most and is the external hazard.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"Gamma emission changes the element."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">Gamma carries away only energy — A and Z are unchanged, so it is the <b>same</b> element, just in a lower energy state. Only alpha and beta emission cause transmutation.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"Heating a source, or a chemical reaction, speeds up its decay."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">Radioactive decay is <b>spontaneous and random</b>. It is a property of the nucleus and is unaffected by temperature, pressure, or chemistry — unlike ordinary reactions.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"The beta electron was sitting inside the nucleus."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">There are no electrons in the nucleus. The electron is <b>created</b> at the instant of decay, when a neutron converts into a proton (plus an antineutrino).</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"When a nucleus decays, the atom disappears."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">Nothing disappears — the nucleus <b>transmutes</b> into a different nuclide (the daughter), which is very much still there. Nucleons and charge are conserved.</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"Adding neutrons always makes a nucleus more stable."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">Only the <b>right</b> N/Z ratio is stable. Too many neutrons pushes a nucleus above the band → β⁻ decay; too few pushes it below → β⁺ decay. Stability is a balance, not "more neutrons".</p></div></div>
+    <div class="misc"><div class="wrong"><span class="ic x">✕</span><p class="mtext">"Gamma can be deflected by a strong enough magnet."</p></div><div class="right"><span class="ic c">✓</span><p class="mtext">Gamma has <b>no charge</b>, so no magnetic or electric force acts on it. It passes straight through any field. Only the charged α and β are deflected.</p></div></div>
+  </div>
+</section>
+<!-- PAGE 7: QUIZ -->
+<section class="page" data-accent="var(--c7)">
+  <div class="panel" style="margin-bottom:18px">
+    <h2>Check your understanding</h2>
+    <p class="lead">Original questions — attempt each before revealing.</p>
+  </div>
+  <div class="q"><span class="qtag">Q1 · Equations</span><p class="qt">Thorium-230 (Z = 90) emits an alpha particle. Write the balanced equation and give the daughter's A and Z.</p><button class="reveal">Show answer</button><div class="ans" hidden><code>²³⁰₉₀Th → ²²⁶₈₈Ra + ⁴₂α</code>. The daughter radium has <b>A = 226, Z = 88</b> (A − 4, Z − 2). Check: 230 = 226 + 4 and 90 = 88 + 2.</div></div>
+  <div class="q"><span class="qtag">Q2 · Identifying</span><p class="qt">In a magnetic field, three radiations enter together. One curves gently downward, one curves sharply upward, one is undeflected. Identify each and justify.</p><button class="reveal">Show answer</button><div class="ans" hidden>Undeflected = <b>gamma</b> (no charge). The two that curve go opposite ways because their charges are opposite: the <b>sharp</b> curve is beta (light, so small radius), the <b>gentle</b> curve is alpha (heavy, so large radius). Their directions are set by the signs −1 and +2.</div></div>
+  <div class="q"><span class="qtag">Q3 · Penetration</span><p class="qt">A source's radiation passes through paper but is completely stopped by 3 mm of aluminium. What type is it, and what everyday material would also stop it?</p><button class="reveal">Show answer</button><div class="ans" hidden>It passes paper (so not alpha) but stops at a few mm of aluminium (so not gamma): it is <b>beta</b>. A few millimetres of aluminium, or a thin sheet of metal, absorbs it. Gamma would have required thick lead.</div></div>
+  <div class="q"><span class="qtag">Q4 · Stability</span><p class="qt">Fluorine-18 has 9 protons and 9 neutrons, giving N/Z = 1, but it is proton-rich for its size and decays. Which mode do you expect, and what happens to Z?</p><button class="reveal">Show answer</button><div class="ans" hidden>For an element this light the stable ratio is close to N/Z ≈ 1.1, so F-18 sits just <b>below</b> the band → <b>beta-plus</b> decay. A proton becomes a neutron, so <b>Z decreases by 1</b> (to oxygen-18), while A stays 18.</div></div>
+  <div class="q"><span class="qtag">Q5 · Fields</span><p class="qt">Explain why an alpha particle is deflected far less than a beta particle in the same magnetic field.</p><button class="reveal">Show answer</button><div class="ans" hidden>The radius is <code>r = mv/(qB)</code>. The alpha's mass is ~8000× the beta's; even with twice the charge and a lower speed, the large mass gives a much bigger radius (~400×). A bigger radius means a straighter, less-deflected path.</div></div>
+  <div class="q"><span class="qtag">Q6 · Neutrino (HL)</span><p class="qt">Alpha particles from a given decay all have the same energy, but beta particles come out with a continuous range of energies. What did this difference reveal?</p><button class="reveal">Show answer</button><div class="ans" hidden>A two-body decay must give a fixed energy (as with alpha). The <b>continuous</b> beta spectrum meant energy was being shared with an <b>unseen third particle</b> — the <b>(anti)neutrino</b> — which carries the balance. This is how the neutrino was first inferred.</div></div>
+</section>
+</main>
 
-<div style="text-align:center;padding:16px 0 8px;font-family:Georgia,serif;font-size:11px;color:rgba(0,0,0,0.15);letter-spacing:2px;text-transform:uppercase;user-select:none">ATUL SORAL PHYSICISM</div>
-<script src="https://artifactcdn.diabrowser.engineering/ajax/libs/Chart.js/chart.umd.js"></script>
+<footer>ATUL SORAL PHYSICISM · Theme E.3 Nuclear Physics (HL) · Part 1: Radioactive Decay · Nucleon number A and proton number Z are conserved in every decay equation.</footer>
+
 <script>
-// ===== THEME + TABS =====
-document.getElementById('themeBtn').addEventListener('click',function(){const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);this.textContent=n==='dark'?'🌙':'☀️';});
-function toggleQ(el){const a=el.nextElementSibling;a.classList.toggle('open');el.querySelector('.q-toggle').textContent=a.classList.contains('open')?'Hide':'Show';}
+'use strict';
+/* ---- constants ---- */
+const H=6.63e-34, C=3e8, QE=1.60e-19, ME=9.11e-31;
+const CLR={ink:'#1d2440',muted:'#7c86a8',line:'rgba(29,36,64,0.18)',band:'rgba(13,148,136,0.16)'};
+const FS='-apple-system,system-ui,sans-serif', FM='ui-monospace,Menlo,monospace';
+const EL=['n','H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Rb','Sr','Y','Zr','Nb','Mo','Tc','Ru','Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Xe','Cs','Ba','La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu','Hf','Ta','W','Re','Os','Ir','Pt','Au','Hg','Tl','Pb','Bi','Po','At','Rn','Fr','Ra','Ac','Th','Pa','U'];
+function sym(z){return EL[z]||'?';}
+function nIdeal(z){return z*(1+0.0060*z);}
+function classify(z,n){const A=z+n;if(z>83||A>209)return 'α';const ideal=nIdeal(z),tol=Math.max(1.5,0.09*z+1),dev=n-ideal;
+  if(dev>tol)return 'β⁻';if(dev<-tol)return 'β⁺';return 'stable';}
 
-// Bottom tabs (Experiment / IB / Notebook)
-document.querySelectorAll('[data-btab]').forEach(btn=>btn.addEventListener('click',()=>{
-  document.querySelectorAll('[data-btab]').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.btab-pane').forEach(p=>{p.classList.remove('active');p.style.display='none';});
-  btn.classList.add('active');
-  const pane=document.getElementById('btab-'+btn.dataset.btab);
-  pane.classList.add('active');pane.style.display='block';
-  if(btn.dataset.btab==='exp'&&expChart)setTimeout(()=>expChart.resize(),80);
-}));
+/* ---- gate + clock ---- */
+const gate=document.getElementById('gate'),gateName=document.getElementById('gateName'),
+  gateBtn=document.getElementById('gateBtn'),gateErr=document.getElementById('gateErr'),nameChip=document.getElementById('nameChip');
+function startApp(){const v=gateName.value.trim();if(v.length<2){gateErr.hidden=false;return;}nameChip.textContent=v;gate.style.display='none';}
+gateBtn.addEventListener('click',startApp);gateName.addEventListener('keydown',e=>{if(e.key==='Enter')startApp();});
+setTimeout(()=>gateName.focus(),100);
+const clockEl=document.getElementById('clock');
+function tick(){const n=new Date();clockEl.textContent=n.toLocaleDateString([],{day:'2-digit',month:'short'})+' · '+n.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+tick();setInterval(tick,10000);
 
-var nb=[];function addN(t,d,r){nb.push({t:t,d:d,r:r});showN();}
-function showN(){var el=document.getElementById('nbO');if(!el)return;el.innerHTML=nb.length?nb.map(function(n,i){return '<div class="nb-c"><b>#'+(i+1)+' '+n.t+'</b><br>'+n.d+'<br><span class="nr">'+n.r+'</span></div>';}).join(''):'<p style="text-align:center;color:var(--text2);font-size:.72rem;padding:8px">Record data points to log observations here.</p>';}
-
-let currentTab='sim';
-document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
-  currentTab=btn.dataset.tab;
-  if(currentTab==='compare')resizeComp();
-  if(currentTab==='dice'&&diceChart)diceChart.resize();
-  refreshExpForTab();
-}));
-
-// ===== ISOTOPE DATA =====
-const ISO=[
-  {id:'c14',name:'Carbon-14',sym:'C',Z:6,A:14,halfLife:'5,730 years',decay:'β⁻',dSym:'N',dZ:7,dA:14,particle:'e',pZ:-1,pA:0,extra:' + ν̄<sub>e</sub>',use:'Carbon dating of organic material',color:'#3B82F6',dColor:'#94A3B8',pType:'beta'},
-  {id:'u238',name:'Uranium-238',sym:'U',Z:92,A:238,halfLife:'4.5 Gyr',decay:'α',dSym:'Th',dZ:90,dA:234,particle:'He',pZ:2,pA:4,extra:'',use:'Geological dating; nuclear fuel',color:'#059669',dColor:'#94A3B8',pType:'alpha'},
-  {id:'i131',name:'Iodine-131',sym:'I',Z:53,A:131,halfLife:'8.02 days',decay:'β⁻',dSym:'Xe',dZ:54,dA:131,particle:'e',pZ:-1,pA:0,extra:' + ν̄<sub>e</sub>',use:'Thyroid cancer treatment',color:'#8B5CF6',dColor:'#94A3B8',pType:'beta'},
-  {id:'co60',name:'Cobalt-60',sym:'Co',Z:27,A:60,halfLife:'5.27 years',decay:'β⁻, γ',dSym:'Ni',dZ:28,dA:60,particle:'e',pZ:-1,pA:0,extra:' + ν̄<sub>e</sub> + γ',use:'Radiotherapy; food sterilisation',color:'#EC4899',dColor:'#94A3B8',pType:'beta'},
-  {id:'ra226',name:'Radium-226',sym:'Ra',Z:88,A:226,halfLife:'1,600 years',decay:'α',dSym:'Rn',dZ:86,dA:222,particle:'He',pZ:2,pA:4,extra:'',use:'Historical — Curie\'s research',color:'#F59E0B',dColor:'#94A3B8',pType:'alpha'},
-  {id:'tc99m',name:'Technetium-99m',sym:'Tc',Z:43,A:99,halfLife:'6.01 hours',decay:'γ',dSym:'Tc',dZ:43,dA:99,particle:'γ',pZ:0,pA:0,extra:' + γ',use:'Medical imaging (most common)',color:'#06B6D4',dColor:'#64748B',pType:'gamma',metastable:true},
-  {id:'po210',name:'Polonium-210',sym:'Po',Z:84,A:210,halfLife:'138 days',decay:'α',dSym:'Pb',dZ:82,dA:206,particle:'He',pZ:2,pA:4,extra:'',use:'Historical poisoning cases',color:'#EF4444',dColor:'#94A3B8',pType:'alpha'},
+/* ---- pages ---- */
+const PAGES=[
+  {name:"Stability & Isotopes",color:"var(--c1)",soft:"rgba(79,70,229,.12)"},
+  {name:"Radiation & Penetration",color:"var(--c2)",soft:"rgba(13,148,136,.12)"},
+  {name:"Deflection in Fields",color:"var(--c3)",soft:"rgba(217,119,6,.14)"},
+  {name:"Decay Equations",color:"var(--c4)",soft:"rgba(225,29,72,.12)"},
+  {name:"Worked Examples",color:"var(--c5)",soft:"rgba(124,58,237,.12)"},
+  {name:"Misconceptions",color:"var(--c6)",soft:"rgba(8,145,178,.12)"},
+  {name:"Quiz",color:"var(--c7)",soft:"rgba(5,150,105,.12)"}
 ];
+const kickers=["The stability band","Meet the three rays","Bending in fields","Balancing equations","Worked examples","Watch out for these","Check your understanding"];
+const nav=document.getElementById('nav'),pageEls=[...document.querySelectorAll('.page')];
+let active=0;
+PAGES.forEach((p,i)=>{const b=document.createElement('button');b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.color);b.innerHTML=`<span class="dot"></span><span class="num">${i+1}</span> ${p.name}`;
+  b.onclick=()=>goPage(i);nav.appendChild(b);});
+function setAccent(i){const p=PAGES[i];document.documentElement.style.setProperty('--accent',p.color);
+  document.documentElement.style.setProperty('--accent-soft',p.soft);document.body.dataset.page=(i+1);
+  document.getElementById('kicker').textContent="Theme E.3 · "+kickers[i];}
+function goPage(i){active=i;pageEls.forEach((el,k)=>el.classList.toggle('active',k===i));
+  [...nav.children].forEach((el,k)=>el.classList.toggle('active',k===i));setAccent(i);window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('.q .reveal, .we .reveal').forEach(b=>b.addEventListener('click',()=>{
+  const we=b.parentElement.classList.contains('we');const a=b.nextElementSibling;a.hidden=!a.hidden;
+  b.textContent=a.hidden?(we?'Show solution':'Show answer'):(we?'Hide solution':'Hide answer');}));
 
-// ===== DECAY SIM STATE =====
-let iso=ISO[0],N0=500,simTH=10,speed=1,playing=false;
-let lambda=Math.LN2/simTH;
-let atoms=[],emitted=[],simTime=0,remaining=N0;
-let graphData=[],actData=[];
+const sizes=new Map();
+function observe(c){const ro=new ResizeObserver(()=>{const r=c.getBoundingClientRect();if(!r.width)return;
+  const dpr=Math.min(2,window.devicePixelRatio||1);c.width=r.width*dpr;c.height=r.height*dpr;
+  c.getContext('2d').setTransform(dpr,0,0,dpr,0,0);sizes.set(c,{w:r.width,h:r.height});});ro.observe(c);}
 
-// ===== CANVAS =====
-const cvs=document.getElementById('atomCanvas'),ctx=cvs.getContext('2d');
-let W,H,dpr;
-function resize(){const wr=document.getElementById('canvasWrap').getBoundingClientRect();dpr=window.devicePixelRatio||1;W=wr.width;H=wr.height;cvs.width=W*dpr;cvs.height=H*dpr;cvs.style.width=W+'px';cvs.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0);}
-window.addEventListener('resize',resize);
+/* ============ PAGE 1: STABILITY ============ */
+const stabilityCanvas=document.getElementById('stabilityCanvas');observe(stabilityCanvas);
+const st={z:6,n:6};
+const stZ=document.getElementById('stZ'),stZv=document.getElementById('stZv'),stN=document.getElementById('stN'),stNv=document.getElementById('stNv');
+const PRESETS=[['C-12',6,6],['C-14',6,8],['Na-22',11,11],['Co-60',27,33],['Ra-226',88,138],['U-238',92,146]];
+const presetSeg=document.getElementById('presetSeg');
+PRESETS.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p[0];b.onclick=()=>{st.z=p[1];st.n=p[2];stZ.value=p[1];stN.value=p[2];stZv.textContent=p[1];stNv.textContent=p[2];stOut();};presetSeg.appendChild(b);});
+stZ.addEventListener('input',()=>{st.z=+stZ.value;stZv.textContent=stZ.value;stOut();});
+stN.addEventListener('input',()=>{st.n=+stN.value;stNv.textContent=stN.value;stOut();});
+function stOut(){const z=st.z,n=st.n,A=z+n,cl=classify(z,n),ratio=(n/z);
+  const label={'stable':'Stable — sits inside the band.','α':'Too heavy — decays by alpha emission.','β⁻':'Neutron-rich (above the band) — decays by beta-minus.','β⁺':'Proton-rich (below the band) — decays by beta-plus.'}[cl];
+  const col={'stable':'#0d9488','α':'#b91c1c','β⁻':'#4f46e5','β⁺':'#d97706'}[cl];
+  document.getElementById('stReadouts').innerHTML=
+    `<div class="ro"><div class="k">Nuclide</div><div class="v">${sym(z)}-${A}</div></div>`+
+    `<div class="ro"><div class="k">Protons Z / Neutrons N</div><div class="v">${z} / ${n}</div></div>`+
+    `<div class="ro"><div class="k">Nucleon number A</div><div class="v">${A}</div></div>`+
+    `<div class="ro hi"><div class="k">N / Z ratio</div><div class="v">${ratio.toFixed(2)}</div></div>`+
+    `<div class="statusbadge" style="background:${col}">${cl==='stable'?'STABLE':'RADIOACTIVE · '+cl}</div>`;
+  document.getElementById('stOut').innerHTML=`<b>${sym(z)}-${A}</b> (Z=${z}, N=${n}, N/Z=${ratio.toFixed(2)}): ${label}`;}
+function drawStability(){const s=sizes.get(stabilityCanvas);if(!s)return;const{w,h}=s,x=stabilityCanvas.getContext('2d');
+  x.clearRect(0,0,w,h);const L=44,B=h-30,R=w-14,T=14,Zmax=95,Nmax=150;
+  const X=z=>L+(z/Zmax)*(R-L),Y=n=>B-(n/Nmax)*(B-T);
+  x.fillStyle='rgba(225,29,72,0.09)';x.fillRect(X(83),T,X(Zmax)-X(83),B-T);
+  x.fillStyle=CLR.band;x.beginPath();let first=true;
+  for(let z=1;z<=83;z++){const tol=Math.max(1.5,0.09*z+1);const nu=nIdeal(z)+tol;const px=X(z),py=Y(nu);first?(x.moveTo(px,py),first=false):x.lineTo(px,py);}
+  for(let z=83;z>=1;z--){const tol=Math.max(1.5,0.09*z+1);const nl=Math.max(0,nIdeal(z)-tol);x.lineTo(X(z),Y(nl));}
+  x.closePath();x.fill();
+  x.strokeStyle=CLR.line;x.setLineDash([4,4]);x.lineWidth=1;x.beginPath();x.moveTo(X(0),Y(0));x.lineTo(X(95),Y(95));x.stroke();x.setLineDash([]);
+  x.fillStyle=CLR.muted;x.font='10px '+FS;x.textAlign='left';x.save();x.translate(X(66)+4,Y(66));x.rotate(-0.62);x.fillText('N = Z line (reference only)',0,0);x.restore();
+  x.strokeStyle=CLR.line;x.lineWidth=1.5;x.beginPath();x.moveTo(L,T);x.lineTo(L,B);x.lineTo(R,B);x.stroke();
+  x.fillStyle=CLR.muted;x.font='11px '+FS;x.textAlign='left';x.fillText('Neutrons N',L+4,T+2);x.textAlign='right';x.fillText('Protons Z',R,B+16);
+  x.textAlign='center';x.fillStyle='#0d9488';x.font='700 11px '+FS;x.fillText('band of stability',X(46),Y(nIdeal(46))-6);
+  x.fillStyle='rgba(79,70,229,.75)';x.fillText('β⁻ (N too high)',X(24),Y(nIdeal(24)+26));
+  x.fillStyle='rgba(217,119,6,.9)';x.fillText('β⁺ (N too low)',X(56),Y(nIdeal(56)-28));
+  x.fillStyle='rgba(185,28,28,.85)';x.save();x.translate(X(89),Y(56));x.rotate(-Math.PI/2);x.fillText('Z > 83: all α',0,0);x.restore();
+  const cl=classify(st.z,st.n),col={'stable':'#0d9488','α':'#b91c1c','β⁻':'#4f46e5','β⁺':'#d97706'}[cl];
+  x.fillStyle=col;x.strokeStyle='#fff';x.lineWidth=2;x.beginPath();x.arc(X(st.z),Y(st.n),7,0,7);x.fill();x.stroke();
+  x.fillStyle=CLR.ink;x.font='700 12px '+FS;x.textAlign='center';x.fillText(sym(st.z)+'-'+(st.z+st.n),X(st.z),Y(st.n)-12);}
 
-function initAtoms(){atoms=[];emitted=[];simTime=0;remaining=N0;graphData=[{x:0,y:N0}];actData=[{x:0,y:lambda*N0}];const p=12;for(let i=0;i<N0;i++)atoms.push({x:p+Math.random()*(W-2*p),y:p+Math.random()*(H-2*p),decayed:false,flash:0});}
-function atomR(){return Math.max(2,Math.min(10,Math.sqrt(W*H/N0)*0.28));}
+/* ============ PAGE 2: PENETRATION ============ */
+const penCanvas=document.getElementById('penCanvas');observe(penCanvas);
+const pen={rad:'α',paper:false,alu:false,lead:false,parts:[],hits:0};
+const radSeg=document.getElementById('radSeg');
+[['α','α'],['β⁻','β⁻'],['β⁺','β⁺'],['γ','γ']].forEach((r,i)=>{const b=document.createElement('button');b.textContent=r[0];
+  b.setAttribute('aria-pressed',i===0?'true':'false');b.onclick=()=>{pen.rad=r[1];[...radSeg.children].forEach((c,j)=>c.setAttribute('aria-pressed',j===i?'true':'false'));pen.parts=[];penOut();};radSeg.appendChild(b);});
+function tog(id,key){const b=document.getElementById(id);b.onclick=()=>{pen[key]=!pen[key];b.dataset.on=pen[key];b.classList.toggle('primary',pen[key]);b.classList.toggle('ghost',!pen[key]);pen.parts=[];penOut();};}
+tog('bPaper','paper');tog('bAlu','alu');tog('bLead','lead');
+function penResult(){const r=pen.rad;
+  const firstBar=pen.paper?'paper':(pen.alu?'alu':(pen.lead?'lead':null));
+  if(r==='α'){
+    if(firstBar)return{stops:firstBar,note:'<b>Any</b> barrier stops alpha — even a sheet of paper. It is the least penetrating radiation.'};
+    return{stops:'detector',note:'With no barrier the alpha crosses the small gap and is detected. Slot in any barrier — even paper — and it stops.'};}
+  if(r==='β⁻'||r==='β⁺'){
+    const extra=r==='β⁺'?' (A positron penetrates just like an electron; at the very end of its path it meets an electron and both annihilate into two gamma photons.)':'';
+    if(pen.alu)return{stops:'alu',note:'Beta passes through paper but a few mm of aluminium absorbs it.'+extra};
+    if(pen.lead)return{stops:'lead',note:'Beta passes through paper; the dense lead also stops it.'+extra};
+    return{stops:'detector',note:'Beta passes straight through paper and reaches the detector. Add aluminium (paper is not enough) to stop it.'+extra};}
+  if(pen.lead)return{stops:'detector',reduced:true,note:'Gamma is only <b>partly</b> absorbed — even 2 cm of lead just reduces the count, so some still gets through.'};
+  return{stops:'detector',note:'Gamma sails through paper and aluminium almost unaffected. Only thick lead reduces it.'};}
+function penOut(){const res=penResult();const reach=res.stops==='detector';
+  document.getElementById('penOut').innerHTML=`<b>${pen.rad}</b>: ${res.note} <br>Detector: <b>${reach?(res.reduced?'reduced count':'counts detected'):'nothing detected'}</b>.`;}
+function barrierXs(w){const xs=[];const base=w*0.42;let i=0;if(pen.paper){xs.push({x:base,t:'paper',c:'#d9c9a3',lab:'paper'});i++;}if(pen.alu){xs.push({x:base+w*0.13,t:'alu',c:'#9aa3b8',lab:'3mm Al'});i++;}if(pen.lead){xs.push({x:base+w*0.26,t:'lead',c:'#5b6472',lab:'2cm Pb'});}return xs;}
+function drawPen(){const s=sizes.get(penCanvas);if(!s)return;const{w,h}=s,x=penCanvas.getContext('2d');
+  x.clearRect(0,0,w,h);const midY=h*0.5,srcX=w*0.06,detX=w*0.9;
+  x.fillStyle='#334155';x.beginPath();x.arc(srcX,midY,11,0,7);x.fill();x.fillStyle=CLR.muted;x.font='10px '+FS;x.textAlign='center';x.fillText('source',srcX,midY+26);
+  const bars=barrierXs(w);bars.forEach(b=>{x.fillStyle=b.c;x.fillRect(b.x-5,midY-h*0.32,b.t==='lead'?14:(b.t==='alu'?9:5),h*0.64);x.fillStyle=CLR.muted;x.font='9px '+FS;x.textAlign='center';x.fillText(b.lab,b.x+2,midY-h*0.32-4);});
+  x.fillStyle='#1e293b';x.fillRect(detX-6,midY-24,26,48);x.fillStyle='#fff';x.font='700 9px '+FM;x.fillText('GM',detX+7,midY-2);x.fillStyle=CLR.muted;x.font='10px '+FS;x.fillText('detector',detX+7,midY+38);
+  const res=penResult();
+  let stopX=detX-8;
+  if(res.stops==='air'){stopX=srcX+ (detX-srcX)*0.28;}
+  else if(res.stops!=='detector'){const b=bars.find(bb=>bb.t===res.stops);if(b)stopX=b.x;}
+  const rc={'α':'#e11d48','β⁻':'#4f46e5','β⁺':'#d97706','γ':'#7c3aed'}[pen.rad];
+  if(Math.random()<0.3)pen.parts.push({x:srcX+11,y:midY+(Math.random()-0.5)*h*0.14,dead:false});
+  pen.parts.forEach(p=>{if(!p.dead){p.x+=3.4;if(p.x>=stopX){p.dead=true;p.deadAt=stopX;}}});
+  pen.parts=pen.parts.filter(p=>p.x<detX+30&&!(p.dead&&p.x>p.deadAt+2));
+  pen.parts.forEach(p=>{
+    if(pen.rad==='γ'){x.strokeStyle=rc;x.lineWidth=2;x.beginPath();for(let k=0;k<18;k++){const px=p.x-k*4;if(px<srcX)break;x.lineTo(px,p.y+Math.sin(px/5)*3);}x.stroke();}
+    else{x.fillStyle=rc;x.beginPath();x.arc(p.x,p.y,pen.rad==='α'?5:3.4,0,7);x.fill();}
+  });
+  const reach=res.stops==='detector';x.fillStyle=reach?'#0d9488':'#b91c1c';x.font='700 12px '+FS;x.textAlign='center';
+  x.fillText(reach?(res.reduced?'reduced count ✓':'counts ✓'):'nothing detected',detX+7,midY-32);}
+/* ============ PAGE 3: FIELDS ============ */
+const fieldCanvas=document.getElementById('fieldCanvas');observe(fieldCanvas);
+const fld={mode:'mag',dir:0,parts:[],t:0};
+const fieldSeg=document.getElementById('fieldSeg'),dirSeg=document.getElementById('dirSeg');
+[['Field off','off'],['Magnetic','mag'],['Electric','elec']].forEach((m,i)=>{const b=document.createElement('button');b.textContent=m[0];
+  b.setAttribute('aria-pressed',m[1]===fld.mode?'true':'false');b.onclick=()=>{fld.mode=m[1];[...fieldSeg.children].forEach(c=>c.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');buildDir();fieldOut();};fieldSeg.appendChild(b);});
+function buildDir(){dirSeg.innerHTML='';const opts=fld.mode==='elec'?['top plate +','bottom plate +']:fld.mode==='mag'?['field out of page ⊙','field into page ⊗']:['—'];
+  if(fld.mode==='off'){dirSeg.style.display='none';return;}dirSeg.style.display='';
+  opts.forEach((o,i)=>{const b=document.createElement('button');b.textContent=o;b.setAttribute('aria-pressed',i===fld.dir?'true':'false');
+    b.onclick=()=>{fld.dir=i;[...dirSeg.children].forEach(c=>c.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');fieldOut();};dirSeg.appendChild(b);});}
+buildDir();
+function fieldOut(){let t;if(fld.mode==='off')t='No field: all three travel straight to the screen, still mixed together.';
+  else if(fld.mode==='mag')t='Magnetic field: β⁻ curves sharply one way, α gently the other (opposite charges), γ passes straight. Flipping the field swaps the two curved sides.';
+  else t='Electric field: each charged beam follows a parabola toward the oppositely-charged plate — β⁻ to the +, α to the −. γ is undeflected.';
+  document.getElementById('fieldOut').innerHTML=t;}
+function offset(type,tx){
+  if(fld.mode==='off')return 0;
+  const base=fld.dir===0?1:-1;
+  let sign;if(type==='a')sign=base;else if(type==='b')sign=-base;else return 0;
+  const amp=type==='a'?0.16:1.0;
+  const shape=fld.mode==='mag'?(1-Math.cos(tx*1.4))/(1-Math.cos(1.4)):tx*tx;
+  return sign*amp*shape;}
+function drawField(){const s=sizes.get(fieldCanvas);if(!s)return;const{w,h}=s,x=fieldCanvas.getContext('2d');
+  x.clearRect(0,0,w,h);const x0=w*0.28,x1=w*0.9,midY=h*0.5,span=h*0.34;
+  if(fld.mode==='mag'){x.fillStyle='rgba(217,119,6,.13)';x.fillRect(x0,h*0.1,x1-x0,h*0.8);x.fillStyle='rgba(217,119,6,.6)';x.font='11px '+FM;x.textAlign='center';
+    for(let gx=x0+20;gx<x1;gx+=32)for(let gy=h*0.16;gy<h*0.86;gy+=30){x.fillText(fld.dir===0?'⊙':'⊗',gx,gy);}}
+  else if(fld.mode==='elec'){x.fillStyle='#94a3b8';x.fillRect(x0,h*0.12,x1-x0,5);x.fillRect(x0,h*0.88-5,x1-x0,5);
+    x.fillStyle=CLR.ink;x.font='700 14px '+FS;x.textAlign='center';x.fillText(fld.dir===0?'+':'−',(x0+x1)/2,h*0.10);x.fillText(fld.dir===0?'−':'+',(x0+x1)/2,h*0.99);}
+  x.fillStyle='#334155';x.beginPath();x.arc(w*0.06,midY,10,0,7);x.fill();x.fillStyle=CLR.muted;x.font='10px '+FS;x.textAlign='center';x.fillText('mixed source',w*0.09,midY-16);
+  x.strokeStyle=CLR.muted;x.lineWidth=1.5;x.beginPath();x.moveTo(w*0.06+10,midY);x.lineTo(x0,midY);x.stroke();
+  const types=[['a','#e11d48','α'],['b','#4f46e5','β⁻'],['g','#7c3aed','γ']];
+  types.forEach(tp=>{x.strokeStyle=tp[1];x.lineWidth=2;x.globalAlpha=.85;x.beginPath();
+    for(let i=0;i<=60;i++){const tx=i/60;const px=x0+(x1-x0)*tx;const py=midY+offset(tp[0],tx)*span;i===0?x.moveTo(px,py):x.lineTo(px,py);}x.stroke();x.globalAlpha=1;
+    const ey=midY+offset(tp[0],1)*span;x.fillStyle=tp[1];x.font='700 11px '+FS;x.textAlign='left';x.fillText(tp[2],x1+4,ey+4);});
+  fld.t+=0.012;if(fld.t>1)fld.t-=1;
+  const phases=[0,0.33,0.66];
+  types.forEach((tp,ti)=>{[0,1,2].forEach(k=>{let tx=(fld.t+phases[ti]+k*0.34)%1;const px=x0+(x1-x0)*tx;const py=midY+offset(tp[0],tx)*span;
+    x.fillStyle=tp[1];x.beginPath();x.arc(px,py,tp[0]==='a'?4.5:3.2,0,7);x.fill();});});
+  x.fillStyle='rgba(29,36,64,.12)';x.fillRect(x1,h*0.1,5,h*0.8);}
 
-// ===== PHYSICS =====
-function simStep(dt){
-  const isSingle=(dt===Infinity);
-  if(!isSingle){simTime+=dt*speed;const p=1-Math.exp(-lambda*dt*speed);for(const a of atoms){if(!a.decayed&&Math.random()<p)decayAtom(a);}}
-  else{const un=atoms.filter(a=>!a.decayed);if(un.length){decayAtom(un[Math.floor(Math.random()*un.length)]);simTime+=0.01;}}
-  for(let i=emitted.length-1;i>=0;i--){const e=emitted[i];e.x+=e.vx;e.y+=e.vy;e.life-=0.025;if(e.life<=0)emitted.splice(i,1);}
-  for(const a of atoms)if(a.flash>0)a.flash-=0.05;
-  if(graphData.length===0||simTime-graphData[graphData.length-1].x>simTH*0.015){graphData.push({x:simTime,y:remaining});actData.push({x:simTime,y:lambda*remaining});}
-}
-function decayAtom(a){a.decayed=true;a.flash=1;remaining--;const ang=Math.random()*Math.PI*2;const spd=iso.pType==='alpha'?1.2:iso.pType==='gamma'?5:3;emitted.push({x:a.x,y:a.y,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,type:iso.pType,life:1,color:iso.pType==='alpha'?'#EF4444':iso.pType==='gamma'?'#A855F7':'#10B981'});}
+/* ============ PAGE 4: DECAY + SPECTRA ============ */
+const decayCanvas=document.getElementById('decayCanvas'),spectrumCanvas=document.getElementById('spectrumCanvas');
+observe(decayCanvas);observe(spectrumCanvas);
+const PARENTS=[['U-238',92,146],['Ra-226',88,138],['Th-232',90,142],['C-14',6,8],['Na-22',11,11],['Co-60',27,33]];
+const dec={pi:0,mode:'α',t:0};
+const parentSeg=document.getElementById('parentSeg'),modeSeg=document.getElementById('modeSeg');
+PARENTS.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p[0];b.setAttribute('aria-pressed',i===0?'true':'false');
+  b.onclick=()=>{dec.pi=i;[...parentSeg.children].forEach((c,j)=>c.setAttribute('aria-pressed',j===i?'true':'false'));decayUpdate();};parentSeg.appendChild(b);});
+['α','β⁻','β⁺','γ'].forEach((m,i)=>{const b=document.createElement('button');b.textContent=m;b.setAttribute('aria-pressed',m===dec.mode?'true':'false');
+  b.onclick=()=>{dec.mode=m;[...modeSeg.children].forEach(c=>c.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');dec.t=0;decayUpdate();};modeSeg.appendChild(b);});
+function nucHTML(A,Z,s){return `<span class="nuc"><span class="a">${A}</span><span class="z">${Z}</span></span>${s}`;}
+function daughter(){const p=PARENTS[dec.pi],A=p[2]+p[1],Z=p[1];
+  if(dec.mode==='α')return{A:A-4,Z:Z-2};if(dec.mode==='β⁻')return{A,Z:Z+1};if(dec.mode==='β⁺')return{A,Z:Z-1};return{A,Z};}
+function decayUpdate(){const p=PARENTS[dec.pi],A=p[2]+p[1],Z=p[1],d=daughter();
+  let particle,note;
+  if(dec.mode==='α'){particle=nucHTML(4,2,'α');note=`Alpha: A drops by 4, Z drops by 2. ${sym(Z)}-${A} → ${sym(d.Z)}-${d.A}, a new element.`;}
+  else if(dec.mode==='β⁻'){particle=nucHTML(0,-1,'β⁻')+' + ν̄';note=`Beta-minus: a neutron becomes a proton, so Z rises by 1 (A unchanged). ${sym(Z)} → ${sym(d.Z)}.`;}
+  else if(dec.mode==='β⁺'){particle=nucHTML(0,1,'β⁺')+' + ν';note=`Beta-plus: a proton becomes a neutron, so Z falls by 1 (A unchanged). ${sym(Z)} → ${sym(d.Z)}.`;}
+  else{particle=nucHTML(0,0,'γ');note=`Gamma: the excited nucleus sheds energy only. A and Z are unchanged — still ${sym(Z)}-${A}.`;}
+  const star=dec.mode==='γ'?'*':'';
+  document.getElementById('decayEq').innerHTML=nucHTML(A,Z,sym(Z)+star)+' <span class="op">→</span> '+nucHTML(d.A,d.Z,sym(d.Z))+' <span class="op">+</span> '+particle;
+  document.getElementById('decayOut').innerHTML=`Check: nucleon numbers ${A} = ${d.A}${dec.mode==='α'?' + 4':''} and proton numbers ${Z} = ${d.Z}${dec.mode==='α'?' + 2':(dec.mode==='β⁻'?' + (−1)':(dec.mode==='β⁺'?' + 1':''))}. ${note}`;
+  renderRules();}
+function drawDecay(){const s=sizes.get(decayCanvas);if(!s)return;const{w,h}=s,x=decayCanvas.getContext('2d');
+  x.clearRect(0,0,w,h);const p=PARENTS[dec.pi],A=p[2]+p[1],Z=p[1],d=daughter(),midY=h*0.5;
+  dec.t+=0.01;if(dec.t>1)dec.t=0;
+  const px=w*0.28,dx=w*0.72;
+  function nucleus(cx,cy,r,label,sub,col){x.fillStyle=col;x.globalAlpha=.9;x.beginPath();x.arc(cx,cy,r,0,7);x.fill();x.globalAlpha=1;
+    x.fillStyle='#fff';x.font='700 15px '+FS;x.textAlign='center';x.fillText(label,cx,cy+2);x.fillStyle=CLR.muted;x.font='11px '+FS;x.fillText(sub,cx,cy+r+16);}
+  nucleus(px,midY,34,sym(Z),sym(Z)+'-'+A+'  (Z='+Z+')','#6366f1');
+  x.fillStyle=CLR.muted;x.font='24px '+FS;x.textAlign='center';x.fillText('→',w*0.5,midY+8);
+  nucleus(dx,midY,32,sym(d.Z),sym(d.Z)+'-'+d.A+'  (Z='+d.Z+')','#0d9488');
+  const col={'α':'#e11d48','β⁻':'#4f46e5','β⁺':'#d97706','γ':'#7c3aed'}[dec.mode];
+  const ex=px+dec.t*(w*0.5),ey=midY-dec.t*h*0.34;
+  if(dec.mode==='γ'){x.strokeStyle=col;x.lineWidth=2;x.beginPath();for(let k=0;k<16;k++){const qx=ex-k*4;x.lineTo(qx,ey+Math.sin(qx/5)*3);}x.stroke();}
+  else{x.fillStyle=col;x.globalAlpha=1-dec.t*0.3;x.beginPath();x.arc(ex,ey,dec.mode==='α'?7:5,0,7);x.fill();x.globalAlpha=1;}
+  x.fillStyle=col;x.font='700 12px '+FS;x.textAlign='center';x.fillText(dec.mode,ex,ey-12);}
+const RULES=[['α','A − 4, Z − 2','a helium nucleus (2 protons + 2 neutrons) leaves'],['β⁻','Z + 1, A same','a neutron becomes a proton; an electron + antineutrino leave'],['β⁺','Z − 1, A same','a proton becomes a neutron; a positron + neutrino leave'],['γ','A, Z unchanged','only energy (a photon) leaves — same element']];
+function renderRules(){document.getElementById('ruleList').innerHTML=RULES.map(r=>{const on=r[0]===dec.mode;
+  return `<div class="o" style="${on?'border-color:var(--accent);background:var(--accent-soft)':''}"><span class="n"${on?'':' style="background:#c4cbe0"'}>${r[0]}</span><p><b>${r[1]}</b> — ${r[2]}</p></div>`;}).join('');}
+const Q=1.20; let betaShare=45;
+const bsEl=document.getElementById('betaShare');
+bsEl.addEventListener('input',()=>{betaShare=+bsEl.value;document.getElementById('betaSharev').textContent=betaShare+'%';specUpdate();});
+function specUpdate(){const be=betaShare/100*Q,nu=Q-be;
+  document.getElementById('specReadouts').innerHTML=
+    `<div class="ro"><div class="k">Total energy Q</div><div class="v">${Q.toFixed(2)}<span class="u">MeV</span></div></div>`+
+    `<div class="ro hi"><div class="k">β particle energy</div><div class="v">${be.toFixed(2)}<span class="u">MeV</span></div></div>`+
+    `<div class="ro"><div class="k">Neutrino energy</div><div class="v">${nu.toFixed(2)}<span class="u">MeV</span></div></div>`+
+    `<div class="ro"><div class="k">β + ν (always Q)</div><div class="v">${(be+nu).toFixed(2)}<span class="u">MeV</span></div></div>`;
+  document.getElementById('specOut').innerHTML=`This β particle takes <b>${be.toFixed(2)} MeV</b>; the neutrino carries the rest, <b>${nu.toFixed(2)} MeV</b>. Because the split changes from one decay to the next, the β spectrum is <b>continuous</b> from 0 to Q. An alpha shares with nothing, so it gives a single <b>sharp line</b> — the contrast is what revealed the neutrino.`;}
+function drawSpectrum(){const s=sizes.get(spectrumCanvas);if(!s)return;const{w,h}=s,x=spectrumCanvas.getContext('2d');
+  x.clearRect(0,0,w,h);const L=32,B=h-22,R=w-12,T=10,Emax=Q;const EX=e=>L+(e/Emax)*(R-L);
+  x.strokeStyle=CLR.line;x.lineWidth=1.5;x.beginPath();x.moveTo(L,T);x.lineTo(L,B);x.lineTo(R,B);x.stroke();
+  x.fillStyle=CLR.muted;x.font='10px '+FS;x.textAlign='center';x.fillText('energy →',(L+R)/2,B+15);x.save();x.translate(11,(T+B)/2);x.rotate(-Math.PI/2);x.fillText('number',0,0);x.restore();
+  x.strokeStyle='#0d9488';x.lineWidth=2.5;x.beginPath();
+  for(let i=0;i<=100;i++){const f=i/100;const y=B-(B-T-8)*Math.max(0,Math.sin(Math.PI*Math.min(1,f/0.9))*(1-f*0.25));i===0?x.moveTo(EX(f*Emax),y):x.lineTo(EX(f*Emax),y);}
+  x.stroke();x.fillStyle='#0d9488';x.font='9px '+FS;x.textAlign='left';x.fillText('β: continuous',EX(0.04*Emax),T+10);
+  const aE=0.72*Emax;x.strokeStyle='#e11d48';x.lineWidth=3;x.beginPath();x.moveTo(EX(aE),B);x.lineTo(EX(aE),T+10);x.stroke();
+  x.fillStyle='#e11d48';x.font='9px '+FS;x.textAlign='center';x.fillText('α: one energy',EX(aE),T+7);
+  x.strokeStyle=CLR.muted;x.setLineDash([3,3]);x.lineWidth=1;x.beginPath();x.moveTo(EX(Emax),T);x.lineTo(EX(Emax),B);x.stroke();x.setLineDash([]);
+  x.fillStyle=CLR.muted;x.font='9px '+FS;x.textAlign='right';x.fillText('Q',EX(Emax)-3,B-4);
+  const be=betaShare/100*Q;x.strokeStyle='#4f46e5';x.setLineDash([2,2]);x.lineWidth=1.5;x.beginPath();x.moveTo(EX(be),B);x.lineTo(EX(be),T+22);x.stroke();x.setLineDash([]);
+  x.fillStyle='#4f46e5';x.beginPath();x.arc(EX(be),B-4,5,0,7);x.fill();x.font='700 9px '+FS;x.textAlign='center';x.fillText('this β',EX(be),T+30);}
 
-// ===== RENDER =====
-function render(){const dark=document.documentElement.getAttribute('data-theme')==='dark';ctx.clearRect(0,0,W,H);const r=atomR();
-  for(const a of atoms){if(a.flash>0){ctx.save();ctx.globalAlpha=a.flash*0.5;ctx.beginPath();ctx.arc(a.x,a.y,r*3,0,Math.PI*2);ctx.fillStyle='#FBBF24';ctx.fill();ctx.restore();}ctx.beginPath();ctx.arc(a.x,a.y,r,0,Math.PI*2);ctx.fillStyle=a.decayed?iso.dColor:iso.color;ctx.fill();if(r>3&&!a.decayed){ctx.beginPath();ctx.arc(a.x-r*.2,a.y-r*.25,r*.3,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.2)';ctx.fill();}}
-  for(const e of emitted){ctx.save();ctx.globalAlpha=e.life;if(e.type==='alpha'){for(let i=0;i<4;i++){ctx.beginPath();ctx.arc(e.x+(i%2-.5)*4,e.y+(Math.floor(i/2)-.5)*4,2.5,0,Math.PI*2);ctx.fillStyle=i<2?'#EF4444':'#3B82F6';ctx.fill();}}else if(e.type==='beta'){ctx.beginPath();ctx.arc(e.x,e.y,1.8,0,Math.PI*2);ctx.fillStyle='#10B981';ctx.fill();ctx.beginPath();ctx.moveTo(e.x-e.vx*3,e.y-e.vy*3);ctx.lineTo(e.x,e.y);ctx.strokeStyle='rgba(16,185,129,.4)';ctx.lineWidth=1;ctx.stroke();}else{ctx.strokeStyle='#A855F7';ctx.lineWidth=1.5;ctx.beginPath();for(let j=0;j<8;j++){const px=e.x-e.vx*6*(j/8),py=e.y-e.vy*6*(j/8)+Math.sin(j*Math.PI)*3;j===0?ctx.moveTo(px,py):ctx.lineTo(px,py);}ctx.stroke();}ctx.restore();}
-  ctx.save();ctx.font='600 10px system-ui';ctx.textBaseline='top';ctx.fillStyle=iso.color;ctx.fillRect(8,8,10,10);ctx.fillStyle=dark?'#E2E8F0':'#1A1A2E';ctx.fillText(iso.sym+'-'+iso.A+' (parent)',22,8);ctx.fillStyle=iso.dColor;ctx.fillRect(8,22,10,10);ctx.fillStyle=dark?'#94A3B8':'#6B7280';ctx.fillText(iso.dSym+'-'+iso.dA+' (daughter)',22,22);ctx.font='700 12px system-ui';ctx.textAlign='right';ctx.fillStyle=dark?'#E2E8F0':'#1A1A2E';ctx.fillText('N='+remaining+'/'+N0,W-8,12);ctx.restore();
-}
-
-// ===== CHARTS =====
-let decayChart,actChart,expChart,diceChart,compChart;
-let frameCount=0;
-function initCharts(){
-  const o=yL=>({responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false}},scales:{x:{type:'linear',title:{display:true,text:'Time (s)',font:{size:10,weight:'600'}},min:0,grid:{color:'rgba(0,0,0,.05)'}},y:{title:{display:true,text:yL,font:{size:10,weight:'600'}},min:0,grid:{color:'rgba(0,0,0,.05)'}}}});
-  decayChart=new Chart(document.getElementById('decayGraph'),{type:'scatter',data:{datasets:[{data:[],showLine:true,borderColor:iso.color,backgroundColor:iso.color+'20',borderWidth:2,pointRadius:0,fill:true}]},options:o('N (remaining)')});
-  actChart=new Chart(document.getElementById('actGraph'),{type:'scatter',data:{datasets:[{data:[],showLine:true,borderColor:'#EF4444',borderWidth:2,pointRadius:0}]},options:o('Activity (s⁻¹)')});
-  diceChart=new Chart(document.getElementById('diceGraph'),{type:'scatter',data:{datasets:[{label:'Experimental',data:[],showLine:true,borderColor:'#7C3AED',borderWidth:2,pointRadius:4,pointBackgroundColor:'#7C3AED'},{label:'Theoretical',data:[],showLine:true,borderColor:'rgba(124,58,237,.25)',borderWidth:1.5,borderDash:[5,4],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,font:{size:10}}}},scales:{x:{type:'linear',title:{display:true,text:'Round',font:{size:10,weight:'600'}},min:0,grid:{color:'rgba(0,0,0,.05)'}},y:{title:{display:true,text:'Remaining',font:{size:10,weight:'600'}},min:0,grid:{color:'rgba(0,0,0,.05)'}}}}});
-  compChart=new Chart(document.getElementById('compGraph'),{type:'scatter',data:{datasets:[{data:[],showLine:true,borderWidth:2,pointRadius:0},{data:[],showLine:true,borderWidth:2,pointRadius:0}]},options:o('N (remaining)')});
-  expChart=new Chart(document.getElementById('expPlot'),{type:'scatter',data:{datasets:[]},options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{display:false}},scales:{x:{title:{display:true,text:'IV',font:{size:10,weight:'600'}},grid:{color:'rgba(0,0,0,.05)'}},y:{title:{display:true,text:'DV',font:{size:10,weight:'600'}},grid:{color:'rgba(0,0,0,.05)'}}}}});
-}
-function updateCharts(){
-  const plotData=showLnN?graphData.map(p=>({x:p.x,y:p.y>0?Math.log(p.y):0})):graphData.slice();
-  decayChart.data.datasets=[{data:plotData,showLine:true,borderColor:iso.color,backgroundColor:iso.color+'20',borderWidth:2,pointRadius:0,fill:!showLnN}];
-  decayChart.options.scales.y.title.text=showLnN?'ln(N)':'N (remaining)';
-  for(let i=1;i<=5;i++){const t=simTH*i;if(t>simTime*2&&i>1)break;const yTop=showLnN?Math.log(N0):N0;decayChart.data.datasets.push({data:[{x:t,y:0},{x:t,y:yTop}],showLine:true,borderColor:'rgba(124,58,237,.2)',borderWidth:1,borderDash:[5,4],pointRadius:0});}
-  decayChart.update('none');actChart.data.datasets[0].data=actData.slice();actChart.update('none');
-}
-
-// ===== UI =====
-function buildIsoSelect(){const s=document.getElementById('isoSelect');s.innerHTML=ISO.map(i=>`<option value="${i.id}"${i.id===iso.id?' selected':''}>${i.name} (${i.decay})</option>`).join('');s.onchange=()=>{iso=ISO.find(i=>i.id===s.value);resetSim();updateEquation();};}
-function updateReadouts(){document.getElementById('roN').textContent=remaining;document.getElementById('roD').textContent=N0-remaining;document.getElementById('roL').textContent=lambda.toFixed(4);document.getElementById('roA').textContent=(lambda*remaining).toFixed(1);document.getElementById('roT').textContent=simTime.toFixed(1);document.getElementById('roHL').textContent=(simTime/simTH).toFixed(2);}
-function updateEquation(){const i=iso;const nuc=(s,z,a,m)=>`<span class="nuclide"><span class="nuc-nums"><span>${a}</span><span>${z}</span></span><span class="nuc-sym">${s}${m?'<sup style="font-size:.55em">m</sup>':''}</span></span>`;
-  let eq=nuc(i.sym,i.Z,i.A,i.metastable)+`<span class="eq-arrow">→</span>`+nuc(i.dSym,i.dZ,i.dA);
-  if(i.pA>0)eq+=' + '+nuc(i.particle,i.pZ,i.pA);
-  if(i.extra)eq+=i.extra;
-  document.getElementById('eqDisplay').innerHTML=eq;
-  document.getElementById('eqCheck').innerHTML=`Mass: ${i.A} = ${i.dA}+${i.pA} ${i.A===i.dA+i.pA?'✓':'✗'} · Charge: ${i.Z} = ${i.dZ}+${i.pZ} ${i.Z===i.dZ+i.pZ?'✓':'✗'}`;
-  document.getElementById('isoInfo').innerHTML=`<strong>${i.name}</strong> — Real t½: ${i.halfLife} · Decay: ${i.decay} · ${i.use}`;}
-function resetSim(){playing=false;document.getElementById('playBtn').textContent='▶';document.getElementById('playBtn').classList.remove('active');N0=parseInt(document.getElementById('n0Slider').value);simTH=parseFloat(document.getElementById('thSlider').value);lambda=Math.LN2/simTH;initAtoms();updateReadouts();updateCharts();}
-function bindControls(){document.getElementById('playBtn').onclick=()=>{playing=!playing;document.getElementById('playBtn').textContent=playing?'⏸':'▶';document.getElementById('playBtn').classList.toggle('active',playing);};
-  document.getElementById('stepBtn').onclick=()=>{simStep(Infinity);updateReadouts();updateCharts();};
-  document.getElementById('resetBtn').onclick=resetSim;
-  document.getElementById('speedSel').onchange=e=>speed=parseFloat(e.target.value);
-  document.getElementById('n0Slider').oninput=e=>document.getElementById('n0Val').textContent=e.target.value;
-  document.getElementById('n0Slider').onchange=resetSim;
-  document.getElementById('thSlider').oninput=e=>document.getElementById('thVal').textContent=parseFloat(e.target.value).toFixed(1)+' s';
-  document.getElementById('thSlider').onchange=resetSim;}
-
-// ===== DICE LAB =====
-let dice=[],diceRound=0,diceAutoId=null;
-function initDice(){const n=parseInt(document.getElementById('diceCount').value);dice=[];for(let i=0;i<n;i++)dice.push({val:0,out:false});diceRound=0;diceGraphData=[];renderDice();updateDiceGraph();}
-let diceGraphData=[];
-function rollDice(){const thr=parseInt(document.getElementById('diceThresh').value);diceRound++;dice.forEach(d=>{if(!d.out){d.val=Math.floor(Math.random()*6)+1;if(d.val<=thr)d.out=true;}});const rem=dice.filter(d=>!d.out).length;diceGraphData.push({x:diceRound,y:rem});renderDice();updateDiceGraph();if(rem===0&&diceAutoId){clearInterval(diceAutoId);diceAutoId=null;document.getElementById('diceAutoBtn').textContent='Auto-Roll';}}
-function renderDice(){const rem=dice.filter(d=>!d.out).length;document.getElementById('diceGrid').innerHTML=dice.map(d=>`<div class="die${d.out?' out':''}">${d.val||'·'}</div>`).join('');document.getElementById('diceStatus').textContent=rem+' remaining · Round '+diceRound;}
-function updateDiceGraph(){if(!diceChart)return;const n0=dice.length;const thr=parseInt(document.getElementById('diceThresh').value);const p=thr/6;const maxR=Math.max(diceRound,10);const theo=[];for(let r=0;r<=maxR;r++)theo.push({x:r,y:n0*Math.pow(1-p,r)});
-  diceChart.data.datasets[0].data=diceGraphData.slice();diceChart.data.datasets[1].data=theo;diceChart.update('none');
-  const th=(Math.LN2/(-Math.log(1-p))).toFixed(2);document.getElementById('diceTH').textContent='Theoretical t½ ≈ '+th+' rolls';}
-function initDiceUI(){document.getElementById('diceRollBtn').onclick=rollDice;
-  document.getElementById('diceAutoBtn').onclick=()=>{if(diceAutoId){clearInterval(diceAutoId);diceAutoId=null;document.getElementById('diceAutoBtn').textContent='Auto-Roll';}else{diceAutoId=setInterval(()=>{const rem=dice.filter(d=>!d.out).length;if(rem>0)rollDice();else{clearInterval(diceAutoId);diceAutoId=null;document.getElementById('diceAutoBtn').textContent='Auto-Roll';}},300);document.getElementById('diceAutoBtn').textContent='Stop';}};
-  document.getElementById('diceResetBtn').onclick=()=>{if(diceAutoId){clearInterval(diceAutoId);diceAutoId=null;document.getElementById('diceAutoBtn').textContent='Auto-Roll';}initDice();};
-  document.getElementById('diceCount').onchange=initDice;document.getElementById('diceThresh').onchange=initDice;initDice();}
-
-// ===== DATING =====
-function initDating(){document.getElementById('datingSlider').oninput=updateDating;updateDating();}
-function updateDating(){const pct=parseInt(document.getElementById('datingSlider').value);document.getElementById('datingPct').textContent=pct;const f=pct/100,lam=Math.LN2/5730,age=-Math.log(f)/lam;document.getElementById('datingAge').textContent=Math.round(age).toLocaleString()+' years';document.getElementById('datingWork').innerHTML=`t = −ln(${f.toFixed(2)}) / (1.21×10⁻⁴)<br>= ${(-Math.log(f)).toFixed(3)} / 1.21×10⁻⁴<br><strong>≈ ${Math.round(age).toLocaleString()} years</strong>`;}
-
-// ===== COMPARISON =====
-let compState={a:{atoms:[],remaining:0,graphData:[]},b:{atoms:[],remaining:0,graphData:[]},n0:200,time:0,playing:false,speed:5};
-function initComp(){const sA=document.getElementById('compSelA'),sB=document.getElementById('compSelB');
-  sA.innerHTML=ISO.map((i,idx)=>`<option value="${idx}"${idx===0?' selected':''}>${i.name}</option>`).join('');
-  sB.innerHTML=ISO.map((i,idx)=>`<option value="${idx}"${idx===2?' selected':''}>${i.name}</option>`).join('');
-  sA.onchange=sB.onchange=resetComp;document.getElementById('compN0').onchange=resetComp;
-  document.getElementById('compThA').oninput=e=>{document.getElementById('compThAVal').textContent=parseFloat(e.target.value).toFixed(1)+' s';};
-  document.getElementById('compThB').oninput=e=>{document.getElementById('compThBVal').textContent=parseFloat(e.target.value).toFixed(1)+' s';};
-  document.getElementById('compThA').onchange=resetComp;
-  document.getElementById('compThB').onchange=resetComp;
-  document.getElementById('compPlayBtn').onclick=()=>{compState.playing=!compState.playing;document.getElementById('compPlayBtn').textContent=compState.playing?'⏸':'▶';document.getElementById('compPlayBtn').classList.toggle('active',compState.playing);};
-  document.getElementById('compResetBtn').onclick=resetComp;document.getElementById('compSpeed').onchange=e=>compState.speed=parseFloat(e.target.value);resetComp();}
-
-function resetComp(){compState.playing=false;document.getElementById('compPlayBtn').textContent='▶';document.getElementById('compPlayBtn').classList.remove('active');
-  compState.n0=parseInt(document.getElementById('compN0').value);compState.time=0;compState.speed=parseFloat(document.getElementById('compSpeed').value);
-  const iA=ISO[document.getElementById('compSelA').value],iB=ISO[document.getElementById('compSelB').value];
-  document.getElementById('compNameA').textContent=iA.name;document.getElementById('compNameB').textContent=iB.name;
-  ['a','b'].forEach(k=>{const s=compState[k];s.atoms=[];s.remaining=compState.n0;s.graphData=[{x:0,y:compState.n0}];});
-  resizeComp();compUpdateGraph();}
-
-let compWA,compHA,compWB,compHB;
-const compCvsA=document.getElementById('compCanvasA'),compCtxA=compCvsA.getContext('2d');
-const compCvsB=document.getElementById('compCanvasB'),compCtxB=compCvsB.getContext('2d');
-function resizeComp(){[['compCanvasA','a'],['compCanvasB','b']].forEach(([id,k])=>{const c=document.getElementById(id);const wr=c.parentElement.getBoundingClientRect();const d=window.devicePixelRatio||1;c.width=wr.width*d;c.height=wr.height*d;c.style.width=wr.width+'px';c.style.height=wr.height+'px';c.getContext('2d').setTransform(d,0,0,d,0,0);if(k==='a'){compWA=wr.width;compHA=wr.height;}else{compWB=wr.width;compHB=wr.height;}});
-  // Init atoms if empty
-  ['a','b'].forEach(k=>{const s=compState[k];if(s.atoms.length===0){const w=k==='a'?compWA:compWB,h=k==='a'?compHA:compHB,p=10;for(let i=0;i<compState.n0;i++)s.atoms.push({x:p+Math.random()*((w||200)-2*p),y:p+Math.random()*((h||200)-2*p),decayed:false,flash:0});}});}
-
-function compStep(dt){if(!compState.playing)return;compState.time+=dt*compState.speed;
-  const thA=parseFloat(document.getElementById('compThA').value);
-  const thB=parseFloat(document.getElementById('compThB').value);
-  [{key:'a',th:thA},{key:'b',th:thB}].forEach(({key:k,th})=>{
-    const lam=Math.LN2/th;const p=1-Math.exp(-lam*dt*compState.speed);const s=compState[k];
-    for(const a of s.atoms){if(!a.decayed&&Math.random()<p){a.decayed=true;a.flash=1;s.remaining--;}}
-    for(const a of s.atoms)if(a.flash>0)a.flash-=0.05;
-    s.graphData.push({x:compState.time,y:s.remaining});});}
-
-function compRender(){
-  [{cvs:compCvsA,ctx:compCtxA,w:compWA,h:compHA,key:'a',isoIdx:document.getElementById('compSelA').value},
-   {cvs:compCvsB,ctx:compCtxB,w:compWB,h:compHB,key:'b',isoIdx:document.getElementById('compSelB').value}].forEach(({ctx:c,w,h,key:k,isoIdx})=>{
-    if(!w)return;const is=ISO[isoIdx];const s=compState[k];c.clearRect(0,0,w,h);
-    const r=Math.max(2,Math.min(8,Math.sqrt(w*h/compState.n0)*0.28));
-    for(const a of s.atoms){if(a.flash>0){c.save();c.globalAlpha=a.flash*.5;c.beginPath();c.arc(a.x,a.y,r*3,0,Math.PI*2);c.fillStyle='#FBBF24';c.fill();c.restore();}
-      c.beginPath();c.arc(a.x,a.y,r,0,Math.PI*2);c.fillStyle=a.decayed?is.dColor:is.color;c.fill();}
-    c.save();c.font='700 11px system-ui';c.textAlign='right';c.fillStyle=document.documentElement.getAttribute('data-theme')==='dark'?'#E2E8F0':'#1A1A2E';c.fillText('N='+s.remaining,w-6,14);c.restore();
-    document.getElementById('compRo'+k.toUpperCase()).innerHTML=`N=<span>${s.remaining}</span> / ${compState.n0} · <span>${((1-s.remaining/compState.n0)*100).toFixed(1)}%</span> decayed`;});}
-
-function compUpdateGraph(){if(!compChart)return;const iA=ISO[document.getElementById('compSelA').value],iB=ISO[document.getElementById('compSelB').value];
-  compChart.data.datasets=[{data:compState.a.graphData.slice(),showLine:true,borderColor:iA.color,borderWidth:2,pointRadius:0,label:iA.name},{data:compState.b.graphData.slice(),showLine:true,borderColor:iB.color,borderWidth:2,pointRadius:0,label:iB.name}];
-  compChart.options.plugins.legend={display:true,position:'bottom',labels:{boxWidth:10,font:{size:10}}};compChart.update('none');}
-
-// ===== LN(N) TOGGLE =====
-let showLnN=false;
-function toggleLnN(){showLnN=!showLnN;document.getElementById('lnToggle').textContent=showLnN?'Show N':'Show ln(N)';updateCharts();}
-
-// ===== EXPERIMENT (context-dependent per tab) =====
-const EXP_BY_TAB={
-  sim:{
-    iv:['Initial atoms (N₀)','Sim half-life (t½)','Decay type','Isotope'],
-    dv:['Time to reach N₀/2','Remaining at t = t½','Activity at t = 0','Activity at t = t½','Measured t½ from graph','Decay constant λ'],
-    all:['Initial atoms','Sim half-life','Decay type','Isotope','Sim speed','Ambient temperature','Pressure','Background radiation']
-  },
-  dice:{
-    iv:['Number of dice','Removal threshold (p)','Number of sides'],
-    dv:['Remaining after 10 rolls','Rolls to remove half','Measured t½ (rolls)','Final remaining count'],
-    all:['Number of dice','Removal threshold','Number of sides','Rolling method','Starting arrangement','Dice material']
-  },
-  dating:{
-    iv:['C-14 remaining (%)','Initial C-14 amount'],
-    dv:['Calculated age (years)','Number of half-lives elapsed','Decay constant used'],
-    all:['Half-life of C-14','Background contamination','Calibration curve','Sample preparation','Measurement technique','Lab temperature']
-  },
-  compare:{
-    iv:['t½ of isotope A','t½ of isotope B','Initial atoms (N₀)'],
-    dv:['Remaining A at end','Remaining B at end','Ratio remaining (A/B)','Time for A to reach N₀/2','Time for B to reach N₀/2'],
-    all:['Isotope A type','Isotope B type','Sim speed','Initial atoms','Decay type A','Decay type B','Ambient conditions']
-  }
-};
-let expRows=0;
-
-function initExp(){
-  document.getElementById('expIV').onchange=()=>{updateExpCVs();updateExpHyp();updateExpHdr();};
-  document.getElementById('expDV').onchange=()=>{updateExpHyp();updateExpHdr();};
-  document.getElementById('recordExpBtn').onclick=recordExp;
-  refreshExpForTab();
-}
-
-function refreshExpForTab(){
-  const vars=EXP_BY_TAB[currentTab]||EXP_BY_TAB.sim;
-  const iv=document.getElementById('expIV'),dv=document.getElementById('expDV');
-  iv.innerHTML=vars.iv.map(v=>'<option>'+v+'</option>').join('');
-  dv.innerHTML=vars.dv.map(v=>'<option>'+v+'</option>').join('');
-  updateExpCVs();updateExpHyp();updateExpHdr();
-}
-
-function updateExpCVs(){
-  const vars=EXP_BY_TAB[currentTab]||EXP_BY_TAB.sim;
-  const iv=document.getElementById('expIV').value,dv=document.getElementById('expDV').value;
-  const cvs=vars.all.filter(v=>!iv.toLowerCase().includes(v.toLowerCase())&&!dv.toLowerCase().includes(v.toLowerCase()));
-  document.getElementById('expCVs').innerHTML=cvs.map(v=>'<label class="exp-cv-item"><input type="checkbox" checked onchange="updateExpHyp()"> '+v+'</label>').join('');
-}
-
-function updateExpHyp(){const iv=document.getElementById('expIV').value,dv=document.getElementById('expDV').value;const cvs=[];document.querySelectorAll('#expCVs input:checked').forEach(c=>cvs.push(c.parentElement.textContent.trim()));document.getElementById('expHypothesis').innerHTML='"If <strong class="iv-hl">'+iv+'</strong> increases, <strong class="dv-hl">'+dv+'</strong> will <select class="hyp-dir"><option>increase</option><option>decrease</option><option>remain constant</option></select>, keeping <strong class="cv-hl">'+(cvs.length?cvs.join(', '):'(none)')+'</strong> constant."';}
-function updateExpHdr(){document.getElementById('thIV').textContent=document.getElementById('expIV').value;document.getElementById('thDV').textContent=document.getElementById('expDV').value;}
-
-function getExpIV(){
-  const ivS=document.getElementById('expIV').value;
-  if(currentTab==='sim'){
-    if(ivS.includes('N₀'))return N0;
-    if(ivS.includes('t½'))return simTH;
-    if(ivS.includes('Decay type'))return iso.decay;
-    if(ivS.includes('Isotope'))return iso.name;
-  }else if(currentTab==='dice'){
-    if(ivS.includes('dice'))return parseInt(document.getElementById('diceCount').value);
-    if(ivS.includes('threshold'))return parseInt(document.getElementById('diceThresh').value)/6;
-    return 6;
-  }else if(currentTab==='dating'){
-    if(ivS.includes('remaining'))return parseInt(document.getElementById('datingSlider').value);
-    return 100;
-  }else if(currentTab==='compare'){
-    if(ivS.includes('A'))return parseFloat(document.getElementById('compThA').value);
-    if(ivS.includes('B'))return parseFloat(document.getElementById('compThB').value);
-    return parseInt(document.getElementById('compN0').value);
-  }
-  return N0;
-}
-
-function getExpDV(){
-  const dvS=document.getElementById('expDV').value;
-  if(currentTab==='sim'){
-    if(dvS.includes('N₀/2')){const t=graphData.find(p=>p.y<=N0/2);return t?parseFloat(t.x.toFixed(2)):'—';}
-    if(dvS.includes('Remaining'))return remaining;
-    if(dvS.includes('Activity at t = 0'))return parseFloat((lambda*N0).toFixed(1));
-    if(dvS.includes('Activity at t = t½'))return parseFloat((lambda*N0/2).toFixed(1));
-    if(dvS.includes('Measured')){const t=graphData.find(p=>p.y<=N0/2);return t?parseFloat(t.x.toFixed(2)):'—';}
-    if(dvS.includes('λ'))return parseFloat(lambda.toFixed(4));
-    return parseFloat((lambda*remaining).toFixed(1));
-  }else if(currentTab==='dice'){
-    const rem=dice.filter(d=>!d.out).length;
-    if(dvS.includes('after 10'))return rem;
-    if(dvS.includes('half')){const halfN=dice.length/2;const pt=diceGraphData.find(p=>p.y<=halfN);return pt?pt.x:'—';}
-    if(dvS.includes('Measured')){const halfN=dice.length/2;const pt=diceGraphData.find(p=>p.y<=halfN);return pt?pt.x:'—';}
-    return rem;
-  }else if(currentTab==='dating'){
-    const pct=parseInt(document.getElementById('datingSlider').value);
-    const f=pct/100,lam=Math.LN2/5730,age=-Math.log(f)/lam;
-    if(dvS.includes('age'))return Math.round(age);
-    if(dvS.includes('half-lives'))return parseFloat((age/5730).toFixed(2));
-    return parseFloat(lam.toExponential(2));
-  }else if(currentTab==='compare'){
-    if(dvS.includes('Remaining A'))return compState.a.remaining;
-    if(dvS.includes('Remaining B'))return compState.b.remaining;
-    if(dvS.includes('Ratio'))return compState.b.remaining>0?parseFloat((compState.a.remaining/compState.b.remaining).toFixed(2)):'—';
-    if(dvS.includes('A to reach')){const t=compState.a.graphData.find(p=>p.y<=compState.n0/2);return t?parseFloat(t.x.toFixed(2)):'—';}
-    if(dvS.includes('B to reach')){const t=compState.b.graphData.find(p=>p.y<=compState.n0/2);return t?parseFloat(t.x.toFixed(2)):'—';}
-    return compState.a.remaining;
-  }
-  return '—';
-}
-
-function recordExp(){
-  const iv=getExpIV(),dv=getExpDV();
-  expRows++;
-  document.getElementById('expTbody').innerHTML+='<tr><td>'+expRows+'</td><td>'+iv+'</td><td>'+dv+'</td></tr>';
-  addN(currentTab+' #'+expRows,document.getElementById('expIV').value+'='+iv,document.getElementById('expDV').value+'='+dv);
-  if(typeof iv==='number'&&typeof dv==='number'){
-    const existing=expChart.data.datasets[0]?.data||[];
-    expChart.data.datasets=[{data:[...existing,{x:iv,y:dv}],backgroundColor:iso.color,borderColor:iso.color,pointRadius:6,showLine:false}];
-    expChart.options.scales.x.title.text=document.getElementById('expIV').value;
-    expChart.options.scales.y.title.text=document.getElementById('expDV').value;
-    expChart.update('none');
-  }
-}
-function clearExpData(){expRows=0;document.getElementById('expTbody').innerHTML='';expChart.data.datasets=[];expChart.update('none');}
-function exportCSV(){let csv='#,'+document.getElementById('expIV').value+','+document.getElementById('expDV').value+'\n';document.querySelectorAll('#expTbody tr').forEach(r=>{csv+=Array.from(r.querySelectorAll('td')).map(c=>c.textContent).join(',')+'\n';});const b=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='decay_experiment.csv';a.click();}
-
-// ===== MAIN LOOP =====
-let lastTime=0;
-function loop(ts){const dt=Math.min((ts-lastTime)/1000,0.05);lastTime=ts;
-  if(playing){simStep(dt);updateReadouts();frameCount++;if(frameCount%6===0)updateCharts();}
-  render();
-  if(compState.playing){compStep(dt);compRender();frameCount++;if(frameCount%6===0)compUpdateGraph();}
-  requestAnimationFrame(loop);}
-
-// ===== INIT =====
-resize();initAtoms();buildIsoSelect();updateEquation();bindControls();initCharts();updateCharts();initDiceUI();initDating();initComp();initExp();requestAnimationFrame(loop);
+/* ============ master loop ============ */
+function masterLoop(){
+  if(active===0)drawStability();
+  else if(active===1)drawPen();
+  else if(active===2)drawField();
+  else if(active===3){drawDecay();drawSpectrum();}
+  requestAnimationFrame(masterLoop);}
+setAccent(0);stOut();penOut();fieldOut();decayUpdate();specUpdate();
+requestAnimationFrame(masterLoop);
 </script>
 </body>
 </html>
