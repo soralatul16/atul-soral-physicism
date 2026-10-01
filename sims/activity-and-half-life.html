@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Activity and Half Life</title>
+<style>
+:root{
+  --c1:#4f46e5; --c2:#0d9488; --c3:#d97706; --c4:#e11d48; --c5:#7c3aed; --c6:#0891b2; --c7:#059669;
+  --accent:var(--c1); --accent-soft:rgba(79,70,229,.12);
+  --ink:#1d2440; --muted:#7c86a8; --line:rgba(29,36,64,.12); --card:#ffffff;
+  --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;
+  transition:background .6s ease;background:linear-gradient(135deg,#eef2ff 0%,#f5f3ff 50%,#ecfeff 100%);padding-bottom:64px}
+body[data-page="1"]{background:linear-gradient(135deg,#eef2ff 0%,#f0f1ff 55%,#faf5ff 100%)}
+body[data-page="2"]{background:linear-gradient(135deg,#ecfeff 0%,#f0fdfa 55%,#eef7f6 100%)}
+body[data-page="3"]{background:linear-gradient(135deg,#fff7ed 0%,#fffbeb 55%,#fef6ec 100%)}
+body[data-page="4"]{background:linear-gradient(135deg,#fff1f2 0%,#fef2f4 55%,#fdf4f7 100%)}
+body[data-page="5"]{background:linear-gradient(135deg,#f5f3ff 0%,#faf5ff 55%,#f3f0fe 100%)}
+body[data-page="6"]{background:linear-gradient(135deg,#ecfeff 0%,#eff9fb 55%,#eef7fa 100%)}
+body[data-page="7"]{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdf6 55%,#eefaf2 100%)}
+
+/* brand bar */
+.brandbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px 22px;
+  background:rgba(255,255,255,.72);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
+.brand{font-weight:800;letter-spacing:.5px;font-size:15px;color:var(--ink);white-space:nowrap}
+.brand .sp{color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap;margin-left:4px}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fff;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:#fff;border-color:var(--accent)}
+.rightmeta{margin-left:auto;display:flex;align-items:center;gap:12px}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+#nameChip{font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:4px 11px;border-radius:999px}
+
+header.hero{padding:30px 22px 10px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:30px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:720px;font-size:15px}
+
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto;position:sticky;top:53px;z-index:30}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,255,255,.8);border:1px solid var(--line);border-radius:11px;padding:8px 13px;cursor:pointer;transition:.2s}
+.tab .dot{width:8px;height:8px;border-radius:50%;background:var(--tabc);opacity:.5;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:#fff;background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .dot{background:#fff;opacity:1}
+.tab.active .num{color:#fff}
+
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.lead{font-size:16px;color:#374151;max-width:760px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:18px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(29,36,64,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(280px,42vh,420px);overflow:hidden;border-radius:12px;background:#fcfdff;border:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%}
+.canvas-wrap.short{height:clamp(180px,26vh,240px)}
+
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.seg button{font-family:var(--fs);font-size:12px;font-weight:600;color:var(--muted);background:#fff;border:1px solid var(--line);
+  border-radius:9px;padding:7px 12px;cursor:pointer;transition:.18s}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.seg button:hover{border-color:var(--accent)}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 15px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro .v .u{font-size:11px;font-weight:600;color:var(--muted);margin-left:3px}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.statusbadge{display:inline-block;margin-top:10px;padding:5px 12px;border-radius:999px;color:#fff;font-size:12px;font-weight:700}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#374151}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+
+.prose p{margin-bottom:11px;font-size:14.5px;color:#374151}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.prose ul{margin:0 0 11px 18px}
+.prose li{font-size:14px;color:#374151;margin-bottom:5px}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fbfaff;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+.chip{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent);margin:2px 3px 2px 0}
+
+.we{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);
+  border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#374151;border-top:1px dashed var(--line);padding-top:10px}
+.answer .eqbox{font-size:13.5px}
+
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c4)}
+.mcard .wrong{font-size:13px;color:#b91c1c;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"✗ ";}
+.mcard .right{font-size:13.5px;color:#065f46;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"✓ ";}
+.mcard p{font-size:13px;color:#374151;margin-top:5px}
+
+.q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fcfdff;border:1px solid var(--line);
+  border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#374151;background:#f0fdf4;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+
+.nuc{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1;margin:0 1px;font-family:var(--fm)}
+.nuc .a{font-size:10px}
+.nuc .z{font-size:10px}
+
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+
+/* gate */
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#eef2ff,#f5f3ff,#ecfeff);
+  display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fff;border-radius:20px;padding:34px 30px;max-width:420px;width:100%;box-shadow:0 30px 70px -30px rgba(29,36,64,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:var(--c1)}
+.gatebox .mark .sp{color:var(--c4)}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c1)}
+.gatebox .btn{width:100%;background:var(--c1);color:#fff;border-color:var(--c1);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+</style>
+</head>
+<body data-page="1">
+
+<!-- NAME GATE -->
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>Activity &amp; Half-Life</h2>
+    <p>Theme E.3 Nuclear Physics · Part 2 of 4 · for HL students only</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive HL physics lesson</div>
+  </div>
+</div>
+
+<!-- BRAND BAR -->
+<div class="brandbar">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="parts">
+    <a class="partlink" href="radioactive-decay.html">Part 1 · Radioactive Decay</a>
+    <a class="partlink here" href="activity-and-half-life.html">Part 2 · Activity &amp; Half-Life</a>
+    <a class="partlink" href="nuclear-energy.html">Part 3 · Nuclear Energy</a>
+    <a class="partlink" href="the-decay-law.html">Part 4 · The Decay Law</a>
+  </div>
+  <div class="rightmeta">
+    <span id="clock"></span>
+    <span id="nameChip">student</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">Theme E.3 · Decay is random</div>
+  <h1>Activity &amp; Half-Life</h1>
+  <p>Single nuclei decay at random, yet a whole population thins out on a perfectly predictable curve. This part turns that paradox into numbers: count rate, activity in becquerel, and the half-life that ties them together.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+
+<!-- PAGE 1 : RANDOM & SPONTANEOUS -->
+<section class="page active" data-p="0">
+  <p class="lead">You can never say <em>when</em> a particular nucleus will decay — only the chance it decays in the next second. Watch a population of unstable nuclei and see order rise out of pure randomness.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Population of 196 nuclei</h3>
+      <div class="canvas-wrap"><canvas id="rdCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Decay chance per tick <b id="rdPv">2.0%</b></label>
+        <input type="range" id="rdP" min="0.5" max="8" step="0.5" value="2">
+      </div>
+      <div class="btnrow">
+        <button class="btn primary" id="rdRun">Pause</button>
+        <button class="btn ghost" id="rdReset">Reset population</button>
+      </div>
+      <p class="note">Each glowing square is one unstable nucleus. Every tick, every surviving nucleus rolls the same dice — the chance of decay never changes and never "remembers" how long it has waited.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>What the dice produce</h3>
+      <div id="rdReadouts"></div>
+      <div class="canvas-wrap short" style="margin-top:12px"><canvas id="rdGraph"></canvas></div>
+      <div class="out" id="rdOut"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <div class="prose">
+      <h4>Two words that mean two different things</h4>
+      <p><b>Random</b> means we cannot predict which nucleus decays next, or exactly when any single one will. <b>Spontaneous</b> means the decay is not triggered by anything outside the nucleus — heating the sample, cooling it, squeezing it, or bonding the atom into a different chemical compound changes nothing.</p>
+      <p>The jagged early counts on the graph are randomness showing through. Push the population higher and the curve smooths into the clean exponential you will measure in the lab — large numbers wash out the luck of individual rolls.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : DETECTING RADIATION -->
+<section class="page" data-p="1">
+  <p class="lead">A Geiger–Müller tube clicks each time ionising radiation passes through it. But some clicks come from the source and some come from the world around us — the real measurement is what is left after you subtract the background.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>GM tube &amp; count rate</h3>
+      <div class="canvas-wrap"><canvas id="gmCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Source activity <b id="gmAv">600 Bq</b></label>
+        <input type="range" id="gmA" min="0" max="2000" step="50" value="600">
+      </div>
+      <div class="ctl">
+        <label>Background level <b id="gmBv">0.5 cps</b></label>
+        <input type="range" id="gmB" min="0" max="2" step="0.1" value="0.5">
+      </div>
+      <p class="note">Grey ticks are background counts (cosmic rays, rocks, air). Coloured ticks come from your source. The tube cannot tell them apart.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Reading the counter</h3>
+      <div id="gmReadouts"></div>
+      <div class="out" id="gmOut"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <div class="prose">
+      <h4>Count rate is not activity</h4>
+      <p><b>Count rate</b> is how many clicks the tube registers each second (counts per second, cps). <b>Activity</b> is how many nuclei actually decay each second in the whole source. The tube only sees the tiny cone of radiation that happens to pass through its window, so the count rate is always far smaller than the activity.</p>
+      <p>Before any serious measurement you record the <b>background count rate</b> with the source removed, then subtract it from every later reading. That subtracted value is the <b>corrected count rate</b> — the honest signal from your source.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 : ACTIVITY & BECQUEREL -->
+<section class="page" data-p="2">
+  <p class="lead">Activity is simply the number of decays per second. Its unit, the becquerel, is one of the smallest named units in physics — one single decay each second.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Only a fraction reaches the detector</h3>
+      <div class="canvas-wrap"><canvas id="geoCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Source activity A <b id="geoAv">800 Bq</b></label>
+        <input type="range" id="geoA" min="100" max="3000" step="50" value="800">
+      </div>
+      <div class="ctl">
+        <label>Distance r (source to detector) <b id="geoRv">10 cm</b></label>
+        <input type="range" id="geoR" min="4" max="30" step="1" value="10">
+      </div>
+      <div class="ctl">
+        <label>Detector window area X <b id="geoXv">4 cm²</b></label>
+        <input type="range" id="geoX" min="1" max="12" step="1" value="4">
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>The geometry calculation</h3>
+      <div id="geoReadouts"></div>
+      <div class="eqbox">fraction = X / (4&pi;r²)</div>
+      <div class="out" id="geoOut"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <div class="prose">
+      <h4>Why distance matters so much</h4>
+      <p>The source throws its radiation out equally in every direction, spreading it over the surface of an imaginary sphere of area 4&pi;r². A detector of window area X catches only the fraction X / (4&pi;r²) of that sphere.</p>
+      <p>Because the sphere's area grows with r², doubling the distance cuts the fraction to a quarter. This is the inverse-square fall-off, and it is pure geometry — it assumes nothing is absorbed on the way and that the source emits evenly in all directions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4 : HALF-LIFE & DECAY CURVES -->
+<section class="page" data-p="3">
+  <p class="lead">The half-life is the time for the activity (or the number of undecayed nuclei) to fall to half of its value. After each half-life, whatever is left halves again — so the curve never quite reaches zero.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Interactive decay curve</h3>
+      <div class="canvas-wrap"><canvas id="hlCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Half-life T½ <b id="hlTv">4 days</b></label>
+        <input type="range" id="hlT" min="1" max="10" step="1" value="4">
+      </div>
+      <div class="ctl">
+        <label>Initial activity A₀ <b id="hlAv">800 Bq</b></label>
+        <input type="range" id="hlA" min="100" max="1600" step="100" value="800">
+      </div>
+      <div class="ctl">
+        <label>Read the curve at time t <b id="hlReadv">0 days</b></label>
+        <input type="range" id="hlRead" min="0" max="60" step="1" value="0">
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Halving, step by step</h3>
+      <div id="hlReadouts"></div>
+      <div class="out" id="hlOut"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <div class="prose">
+      <h4>The whole-number shortcut</h4>
+      <p>After n whole half-lives the fraction remaining is simply (½)ⁿ. One half-life leaves 1/2, two leave 1/4, three leave 1/8, and so on. This is all you need whenever the elapsed time is a neat multiple of the half-life.</p>
+      <div class="eqbox">remaining fraction after n half-lives = (1/2)ⁿ &nbsp;→&nbsp; A = A₀ &times; (1/2)^(t / T½)</div>
+      <p>For times that are <em>not</em> a whole number of half-lives you need the exponential law — that is the job of Part 4. For now, master reading the curve and the halving table beside it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5 : WORKED EXAMPLES -->
+<section class="page" data-p="4">
+  <p class="lead">Four original problems, each solved the way you should set out your working in an exam. Try each one before revealing the solution.</p>
+
+  <div class="we">
+    <div class="meta">Worked Example · Half-life counting</div>
+    <div class="q">A fresh sample of a radioisotope has an activity of 9600 Bq. Its half-life is 7.5 hours. What is the activity after 30 hours, and what fraction of the original nuclei is still undecayed?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Number of half-lives: 30 ÷ 7.5 = <b>4 half-lives</b>.</p>
+      <div class="eqbox">A = 9600 × (1/2)⁴ = 9600 × 1/16 = <b>600 Bq</b></div>
+      <p>The fraction of nuclei still undecayed equals the fraction of activity remaining, since activity is proportional to the number present: (1/2)⁴ = <b>1/16 ≈ 6.25%</b>.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Finding the half-life from data</div>
+    <div class="q">A detector near a source reads a corrected count rate of 1280 cps. Exactly 18 minutes later it reads 160 cps. Determine the half-life of the source.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Find how many times the rate has halved: 1280 → 640 → 320 → 160, that is <b>3 halvings</b>.</p>
+      <div class="eqbox">3 × T½ = 18 min &nbsp;→&nbsp; T½ = 18 / 3 = <b>6 minutes</b></div>
+      <p>Check: 1280 × (1/2)³ = 1280 / 8 = 160 cps. ✓ The word "corrected" matters — the background has already been subtracted, otherwise the ratios would not land on clean halvings.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Background correction</div>
+    <div class="q">With the source removed, a GM tube records 48 counts in 2 minutes. With the source in place it records 1848 counts in the same 2 minutes. Find the corrected count rate due to the source alone, in counts per second.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Background rate: 48 counts / 120 s = <b>0.40 cps</b>.</p>
+      <p>Total rate with source: 1848 / 120 = <b>15.4 cps</b>.</p>
+      <div class="eqbox">corrected rate = 15.4 − 0.40 = <b>15.0 cps</b></div>
+      <p>Always subtract the background <em>as a rate</em>, not as raw counts, unless both were measured over exactly the same time (as here, where you could also do (1848 − 48)/120 = 15.0 cps).</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Detector geometry</div>
+    <div class="q">A small source of activity 2.0 × 10⁵ Bq emits equally in all directions. A detector of window area 3.0 cm² is placed 20 cm away. Assuming no absorption, estimate how many of the source's decays are detected each second.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Surface area of the sphere at r = 20 cm: 4&pi;r² = 4&pi;(20)² = 5027 cm².</p>
+      <div class="eqbox">fraction = X / (4&pi;r²) = 3.0 / 5027 = 5.97 × 10⁻⁴</div>
+      <p>Detected per second = fraction × activity = 5.97 × 10⁻⁴ × 2.0 × 10⁵ ≈ <b>119 counts s⁻¹</b>.</p>
+      <p>So out of 200 000 decays every second, only about 120 reach this detector — a vivid reminder that count rate is a small, geometry-dependent slice of the true activity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 6 : MISCONCEPTIONS -->
+<section class="page" data-p="5">
+  <p class="lead">The traps that cost marks in exams. Each card pairs the tempting wrong idea with the correct physics.</p>
+  <div class="mis">
+    <div class="mcard">
+      <div class="wrong">"After one half-life everything has decayed."</div>
+      <p>After one half-life exactly <em>half</em> remains. After two, a quarter; after three, an eighth. The sample thins out but never fully disappears in a finite number of half-lives.</p>
+      <div class="right">One half-life halves the sample — it does not empty it.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Count rate and activity are the same thing."</div>
+      <p>Activity counts every decay in the source each second. Count rate is only the handful of those that strike the detector window. Count rate is always far below activity.</p>
+      <div class="right">Count rate is a geometric fraction of the activity.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Heating or compressing a source speeds up its decay."</div>
+      <p>Radioactive decay is spontaneous — it depends only on the nucleus. Temperature, pressure, and chemical bonding leave the half-life completely unchanged.</p>
+      <div class="right">Nothing outside the nucleus alters the decay rate.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"An old nucleus is more likely to decay soon."</div>
+      <p>Decay has no memory. A nucleus that has survived a million years has exactly the same chance of decaying in the next second as a brand-new one.</p>
+      <div class="right">The decay probability per second is constant.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"You can ignore background radiation."</div>
+      <p>Background from cosmic rays, rocks, and the air is always present. For weak sources it is a large part of the reading and must be measured and subtracted.</p>
+      <div class="right">Always subtract background to get the corrected rate.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"1 becquerel is a strong, dangerous amount."</div>
+      <p>1 Bq is just one decay per second — tiny. Real sources are measured in kBq, MBq, or GBq. The becquerel is a very small unit.</p>
+      <div class="right">1 Bq = 1 decay per second; real sources are far larger.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 7 : QUIZ -->
+<section class="page" data-p="6">
+  <p class="lead">Six original questions. Pick an answer to see whether it is right and why.</p>
+  <div id="quiz"></div>
+  <div class="card" style="margin-top:4px;text-align:center">
+    <div id="quizScore" style="font-weight:800;font-size:16px;color:var(--accent)">Score: 0 / 6</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <b>ATUL SORAL PHYSICISM</b> · Theme E.3 Nuclear Physics · Part 2 of 4 · for HL students only<br>
+  Continue to <a href="nuclear-energy.html" style="color:var(--c3);font-weight:700">Part 3 · Nuclear Energy</a> &nbsp;·&nbsp; revisit <a href="radioactive-decay.html" style="color:var(--c1);font-weight:700">Part 1 · Radioactive Decay</a>
+</footer>
+
+<script>
+'use strict';
+/* ---------- gate + clock ---------- */
+const gate=document.getElementById('gate'),gateName=document.getElementById('gateName'),
+  gateBtn=document.getElementById('gateBtn'),gateErr=document.getElementById('gateErr'),nameChip=document.getElementById('nameChip');
+function startApp(){const v=gateName.value.trim();if(v.length<2){gateErr.hidden=false;return;}nameChip.textContent=v;gate.style.display='none';}
+gateBtn.addEventListener('click',startApp);gateName.addEventListener('keydown',e=>{if(e.key==='Enter')startApp();});
+setTimeout(()=>gateName.focus(),100);
+const clockEl=document.getElementById('clock');
+function tick(){const n=new Date();clockEl.textContent=n.toLocaleDateString([],{day:'2-digit',month:'short'})+' · '+n.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+tick();setInterval(tick,10000);
+
+const CLR={ink:'#1d2440',muted:'#7c86a8',line:'rgba(29,36,64,0.16)'};
+const FS='-apple-system,system-ui,sans-serif', FM='ui-monospace,Menlo,monospace';
+/* scientific notation as m × 10ⁿ (never e-notation) */
+function sup(n){const map={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+  return String(n).split('').map(c=>map[c]||c).join('');}
+function sci(v,dp){if(v===0)return '0';const e=Math.floor(Math.log10(Math.abs(v)));const m=v/Math.pow(10,e);
+  return m.toFixed(dp)+' × 10'+sup(e);}
+
+/* ---------- pages ---------- */
+const PAGES=[
+  {name:"Random & Spontaneous",color:"var(--c1)",soft:"rgba(79,70,229,.12)"},
+  {name:"Detecting Radiation",color:"var(--c2)",soft:"rgba(13,148,136,.12)"},
+  {name:"Activity & Becquerel",color:"var(--c3)",soft:"rgba(217,119,6,.14)"},
+  {name:"Half-Life & Curves",color:"var(--c4)",soft:"rgba(225,29,72,.12)"},
+  {name:"Worked Examples",color:"var(--c5)",soft:"rgba(124,58,237,.12)"},
+  {name:"Misconceptions",color:"var(--c6)",soft:"rgba(8,145,178,.12)"},
+  {name:"Quiz",color:"var(--c7)",soft:"rgba(5,150,105,.12)"}
+];
+const kickers=["Decay is random","The clicking tube","Decays per second","The halving curve","Worked examples","Watch out for these","Check your understanding"];
+const nav=document.getElementById('nav'),pageEls=[...document.querySelectorAll('.page')];
+let active=0;
+PAGES.forEach((p,i)=>{const b=document.createElement('button');b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.color);b.innerHTML=`<span class="dot"></span><span class="num">${i+1}</span> ${p.name}`;
+  b.onclick=()=>goPage(i);nav.appendChild(b);});
+function setAccent(i){const p=PAGES[i];document.documentElement.style.setProperty('--accent',p.color);
+  document.documentElement.style.setProperty('--accent-soft',p.soft);document.body.dataset.page=(i+1);
+  document.getElementById('kicker').textContent="Theme E.3 · "+kickers[i];}
+function goPage(i){active=i;pageEls.forEach((el,k)=>el.classList.toggle('active',k===i));
+  [...nav.children].forEach((el,k)=>el.classList.toggle('active',k===i));setAccent(i);window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('.we .reveal').forEach(b=>b.addEventListener('click',()=>{
+  const a=b.nextElementSibling;a.hidden=!a.hidden;b.textContent=a.hidden?'Show solution':'Hide solution';}));
+
+const sizes=new Map();
+function observe(c){const ro=new ResizeObserver(()=>{const r=c.getBoundingClientRect();if(!r.width)return;
+  const dpr=Math.min(2,window.devicePixelRatio||1);c.width=r.width*dpr;c.height=r.height*dpr;
+  c.getContext('2d').setTransform(dpr,0,0,dpr,0,0);sizes.set(c,{w:r.width,h:r.height});});ro.observe(c);}
+
+/* ============ PAGE 1: RANDOM DECAY ============ */
+const rdCanvas=document.getElementById('rdCanvas'),rdGraph=document.getElementById('rdGraph');
+observe(rdCanvas);observe(rdGraph);
+const GRID=14, N0=GRID*GRID;
+const rd={p:0.02,alive:[],t:0,running:true,hist:[],frame:0};
+function rdResetPop(){rd.alive=new Array(N0).fill(true);rd.t=0;rd.hist=[N0];rd.frame=0;rdOutUpdate();}
+rdResetPop();
+const rdP=document.getElementById('rdP'),rdPv=document.getElementById('rdPv');
+rdP.addEventListener('input',()=>{rd.p=+rdP.value/100;rdPv.textContent=(+rdP.value).toFixed(1)+'%';});
+document.getElementById('rdRun').addEventListener('click',e=>{rd.running=!rd.running;e.target.textContent=rd.running?'Pause':'Resume';});
+document.getElementById('rdReset').addEventListener('click',()=>{rdResetPop();document.getElementById('rdRun').textContent='Pause';rd.running=true;});
+function rdStep(){let remaining=rd.alive.filter(Boolean).length;if(remaining===0)return;
+  for(let i=0;i<N0;i++){if(rd.alive[i]&&Math.random()<rd.p)rd.alive[i]=false;}
+  rd.t++;rd.hist.push(rd.alive.filter(Boolean).length);rdOutUpdate();}
+function rdOutUpdate(){const rem=rd.alive.filter(Boolean).length,dec=N0-rem;
+  document.getElementById('rdReadouts').innerHTML=
+    `<div class="ro"><div class="k">Ticks elapsed</div><div class="v">${rd.t}</div></div>`+
+    `<div class="ro hi"><div class="k">Undecayed nuclei</div><div class="v">${rem}</div></div>`+
+    `<div class="ro"><div class="k">Decayed so far</div><div class="v">${dec}</div></div>`+
+    `<div class="ro"><div class="k">Fraction remaining</div><div class="v">${(rem/N0*100).toFixed(1)}<span class="u">%</span></div></div>`;
+  const expectHL=rd.p>0?(Math.log(2)/Math.log(1/(1-rd.p))):0;
+  document.getElementById('rdOut').innerHTML=`With a per-tick chance of <b>${(rd.p*100).toFixed(1)}%</b>, the population should halve roughly every <b>${expectHL.toFixed(1)} ticks</b>. The dashed line is the ideal half-life curve (the same exponential shape as Tab 4); your live blue curve wobbles around it, and with more nuclei it would hug that shape even more tightly.`;}
+function drawRd(){const s=sizes.get(rdCanvas);if(!s)return;const{w,h}=s,x=rdCanvas.getContext('2d');
+  x.clearRect(0,0,w,h);const pad=10,cell=Math.min((w-2*pad)/GRID,(h-2*pad)/GRID),ox=(w-cell*GRID)/2,oy=(h-cell*GRID)/2;
+  for(let i=0;i<N0;i++){const r=Math.floor(i/GRID),c=i%GRID,px=ox+c*cell,py=oy+r*cell,m=cell*0.16;
+    if(rd.alive[i]){x.fillStyle='#6366f1';x.globalAlpha=.92;x.beginPath();
+      x.roundRect(px+m,py+m,cell-2*m,cell-2*m,3);x.fill();x.globalAlpha=1;}
+    else{x.fillStyle='rgba(29,36,64,0.07)';x.beginPath();x.roundRect(px+m,py+m,cell-2*m,cell-2*m,3);x.fill();}}}
+function drawRdGraph(){const s=sizes.get(rdGraph);if(!s)return;const{w,h}=s,x=rdGraph.getContext('2d');
+  x.clearRect(0,0,w,h);const L=30,B=h-16,R=w-8,T=8;
+  x.strokeStyle=CLR.line;x.lineWidth=1.5;x.beginPath();x.moveTo(L,T);x.lineTo(L,B);x.lineTo(R,B);x.stroke();
+  x.fillStyle=CLR.muted;x.font='9px '+FS;x.textAlign='right';x.fillText(N0,L-3,T+8);x.fillText('0',L-3,B);
+  x.textAlign='center';x.fillText('time (ticks) →',(L+R)/2,h-3);
+  const n=rd.hist.length,span=Math.max(n-1,1);
+  /* ideal exponential reference — same half-life shape as Tab 4 */
+  x.strokeStyle='rgba(79,70,229,.4)';x.setLineDash([4,3]);x.lineWidth=1.5;x.beginPath();
+  for(let i=0;i<=span;i++){const px=L+(i/span)*(R-L),vy=B-Math.pow(1-rd.p,i)*(B-T);i===0?x.moveTo(px,vy):x.lineTo(px,vy);}
+  x.stroke();x.setLineDash([]);
+  /* live stochastic curve — always begins at N0 on the left */
+  if(n>=2){x.strokeStyle='#6366f1';x.lineWidth=2;x.beginPath();
+    rd.hist.forEach((v,i)=>{const px=L+(i/span)*(R-L),py=B-(v/N0)*(B-T);i===0?x.moveTo(px,py):x.lineTo(px,py);});
+    x.stroke();
+    const lastX=L+((n-1)/span)*(R-L),lastY=B-(rd.hist[n-1]/N0)*(B-T);
+    x.fillStyle='#4f46e5';x.beginPath();x.arc(lastX,lastY,3.5,0,7);x.fill();}
+  /* legend */
+  x.font='700 9px '+FS;x.textAlign='left';
+  x.fillStyle='#6366f1';x.fillText('live population',L+6,T+9);
+  x.fillStyle='rgba(79,70,229,.65)';x.fillText('ideal (½) curve',L+86,T+9);}
+
+/* ============ PAGE 2: GM TUBE ============ */
+const gmCanvas=document.getElementById('gmCanvas');observe(gmCanvas);
+const gm={A:600,bg:0.5,ticks:[],t:0,srcCount:0,bgCount:0,secTimer:0,lastCps:0,lastSrc:0,lastBg:0};
+const gmA=document.getElementById('gmA'),gmAv=document.getElementById('gmAv'),gmB=document.getElementById('gmB'),gmBv=document.getElementById('gmBv');
+gmA.addEventListener('input',()=>{gm.A=+gmA.value;gmAv.textContent=gm.A+' Bq';});
+gmB.addEventListener('input',()=>{gm.bg=+gmB.value;gmBv.textContent=gm.bg.toFixed(1)+' cps';});
+/* detector sees a small fixed fraction of activity for realism */
+const GM_FRAC=0.012;
+function gmUpdate(){const srcCps=gm.A*GM_FRAC;
+  document.getElementById('gmReadouts').innerHTML=
+    `<div class="ro"><div class="k">Background (source out)</div><div class="v">${gm.lastBg.toFixed(1)}<span class="u">cps</span></div></div>`+
+    `<div class="ro"><div class="k">Measured (source in)</div><div class="v">${gm.lastCps.toFixed(1)}<span class="u">cps</span></div></div>`+
+    `<div class="ro hi"><div class="k">Corrected count rate</div><div class="v">${Math.max(0,gm.lastSrc).toFixed(1)}<span class="u">cps</span></div></div>`+
+    `<div class="ro"><div class="k">Source activity</div><div class="v">${gm.A}<span class="u">Bq</span></div></div>`;
+  const pct=srcCps>0?(gm.bg/(srcCps+gm.bg)*100):100;
+  document.getElementById('gmOut').innerHTML=`This source of <b>${gm.A} Bq</b> delivers about <b>${srcCps.toFixed(1)} cps</b> into the tube, yet it decays ${gm.A} times every second — the tube only samples a cone of it. Background makes up about <b>${pct.toFixed(0)}%</b> of the raw reading here, so subtracting it matters ${pct>20?'a lot':'a little'} for this source.`;}
+gmUpdate();
+function drawGm(){const s=sizes.get(gmCanvas);if(!s)return;const{w,h}=s,x=gmCanvas.getContext('2d');
+  x.clearRect(0,0,w,h);const srcX=w*0.14,midY=h*0.5,tubeX=w*0.74;
+  gm.t+=1;gm.secTimer+=1/60;
+  /* emit source particles */
+  const srcCps=gm.A*GM_FRAC;
+  if(Math.random()< srcCps/60) gm.ticks.push({x:srcX+12,y:midY+(Math.random()-0.5)*h*0.28,src:true,life:0});
+  if(Math.random()< gm.bg/60) gm.ticks.push({x:tubeX-40+Math.random()*30,y:-10,vy:4,src:false,life:0,bg:true});
+  /* count per second */
+  if(gm.secTimer>=1){gm.lastCps=gm.srcCount+gm.bgCount;gm.lastSrc=gm.srcCount;gm.lastBg=gm.bgCount;
+    gm.srcCount=0;gm.bgCount=0;gm.secTimer=0;gmUpdate();}
+  /* source */
+  x.fillStyle='#334155';x.beginPath();x.arc(srcX,midY,12,0,7);x.fill();
+  x.fillStyle=CLR.muted;x.font='10px '+FS;x.textAlign='center';x.fillText('source',srcX,midY+28);
+  /* GM tube */
+  x.fillStyle='#1e293b';x.beginPath();x.roundRect(tubeX,midY-26,70,52,8);x.fill();
+  x.fillStyle='#f59e0b';x.fillRect(tubeX-5,midY-18,6,36);
+  x.fillStyle='#fff';x.font='700 11px '+FM;x.fillText('GM',tubeX+35,midY+4);
+  x.fillStyle=CLR.muted;x.font='10px '+FS;x.fillText('detector',tubeX+35,midY+40);
+  /* particles */
+  gm.ticks.forEach(p=>{p.life++;if(p.bg){p.y+=p.vy;}else{p.x+=3.6;}
+    if(!p.bg){x.fillStyle='#0d9488';x.beginPath();x.arc(p.x,p.y,3,0,7);x.fill();
+      if(p.x>=tubeX-6&&!p.counted){p.counted=true;gm.srcCount++;p.flash=8;}}
+    else{x.fillStyle='#94a3b8';x.beginPath();x.arc(p.x,p.y,3,0,7);x.fill();
+      if(p.y>=midY-6&&!p.counted){p.counted=true;gm.bgCount++;p.flash=8;}}
+    if(p.flash>0){x.strokeStyle=p.bg?'#94a3b8':'#0d9488';x.globalAlpha=p.flash/8;x.lineWidth=2;
+      x.beginPath();x.arc(tubeX-2,p.y,10-p.flash,0,7);x.stroke();x.globalAlpha=1;p.flash--;}});
+  gm.ticks=gm.ticks.filter(p=>p.x<w+20&&p.y<h+20&&!(p.counted&&p.flash<=0));}
+
+/* ============ PAGE 3: GEOMETRY ============ */
+const geoCanvas=document.getElementById('geoCanvas');observe(geoCanvas);
+const geo={A:800,r:10,X:4,t:0};
+const geoA=document.getElementById('geoA'),geoAv=document.getElementById('geoAv'),
+  geoR=document.getElementById('geoR'),geoRv=document.getElementById('geoRv'),
+  geoX=document.getElementById('geoX'),geoXv=document.getElementById('geoXv');
+geoA.addEventListener('input',()=>{geo.A=+geoA.value;geoAv.textContent=geo.A+' Bq';geoUpdate();});
+geoR.addEventListener('input',()=>{geo.r=+geoR.value;geoRv.textContent=geo.r+' cm';geoUpdate();});
+geoX.addEventListener('input',()=>{geo.X=+geoX.value;geoXv.textContent=geo.X+' cm²';geoUpdate();});
+function geoFraction(){return geo.X/(4*Math.PI*geo.r*geo.r);}
+function geoUpdate(){const f=geoFraction(),sphere=4*Math.PI*geo.r*geo.r,detected=f*geo.A;
+  document.getElementById('geoReadouts').innerHTML=
+    `<div class="ro"><div class="k">Sphere area 4πr²</div><div class="v">${sphere.toFixed(0)}<span class="u">cm²</span></div></div>`+
+    `<div class="ro"><div class="k">Window area X</div><div class="v">${geo.X}<span class="u">cm²</span></div></div>`+
+    `<div class="ro hi"><div class="k">Fraction reaching detector</div><div class="v">${sci(f,2)}</div></div>`+
+    `<div class="ro"><div class="k">Decays detected per second</div><div class="v">${detected.toFixed(1)}<span class="u">cps</span></div></div>`;
+  document.getElementById('geoOut').innerHTML=`Of the <b>${geo.A} decays</b> happening every second, only about <b>${detected.toFixed(1)}</b> strike the ${geo.X} cm² window at ${geo.r} cm. Move the detector twice as far and that number drops to roughly a quarter — the sphere it spreads over has quadrupled.`;}
+geoUpdate();
+function drawGeo(){const s=sizes.get(geoCanvas);if(!s)return;const{w,h}=s,x=geoCanvas.getContext('2d');
+  x.clearRect(0,0,w,h);const cx=w*0.26,cy=h*0.5,maxR=Math.min(w*0.5,h*0.42);
+  const R=maxR*(geo.r/30)+20;geo.t+=0.025;
+  /* sphere outline */
+  x.strokeStyle='rgba(217,119,6,.35)';x.setLineDash([4,4]);x.lineWidth=1.5;x.beginPath();x.arc(cx,cy,R,0,7);x.stroke();x.setLineDash([]);
+  /* emitted rays */
+  x.strokeStyle='rgba(217,119,6,.5)';x.lineWidth=1;
+  for(let a=0;a<16;a++){const ang=a/16*2*Math.PI;x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+Math.cos(ang)*R,cy+Math.sin(ang)*R);x.stroke();}
+  /* source */
+  x.fillStyle='#d97706';x.beginPath();x.arc(cx,cy,8,0,7);x.fill();
+  x.fillStyle=CLR.muted;x.font='10px '+FS;x.textAlign='center';x.fillText('source',cx,cy+R+16);
+  /* detector arc on right of sphere */
+  const detAng=0,detSize=0.08+geo.X*0.012;
+  x.strokeStyle='#1e293b';x.lineWidth=5;x.beginPath();x.arc(cx,cy,R,detAng-detSize,detAng+detSize);x.stroke();
+  const dx=cx+Math.cos(detAng)*R,dy=cy+Math.sin(detAng)*R;
+  x.fillStyle=CLR.ink;x.font='700 10px '+FS;x.textAlign='left';x.fillText('detector (X)',dx+8,dy+4);
+  /* radius label */
+  x.strokeStyle=CLR.muted;x.lineWidth=1;x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+R*0.7,cy-R*0.7);x.stroke();
+  x.fillStyle=CLR.ink;x.font='700 11px '+FS;x.textAlign='center';x.fillText('r = '+geo.r+' cm',cx+R*0.38,cy-R*0.38-4);
+  /* travelling dots */
+  const f=geoFraction();
+  for(let k=0;k<10;k++){const t=(geo.t+k*0.1)%1;const ang=(k/10)*2*Math.PI;
+    const px=cx+Math.cos(ang)*R*t,py=cy+Math.sin(ang)*R*t;
+    const hit=Math.abs(ang-0)<detSize||Math.abs(ang-2*Math.PI)<detSize;
+    x.fillStyle=hit?'#059669':'#f59e0b';x.globalAlpha=.8;x.beginPath();x.arc(px,py,2.6,0,7);x.fill();x.globalAlpha=1;}}
+
+/* ============ PAGE 4: HALF-LIFE CURVE ============ */
+const hlCanvas=document.getElementById('hlCanvas');observe(hlCanvas);
+const hl={T:4,A0:800,readT:0};
+const hlT=document.getElementById('hlT'),hlTv=document.getElementById('hlTv'),
+  hlA=document.getElementById('hlA'),hlAv=document.getElementById('hlAv'),
+  hlRead=document.getElementById('hlRead'),hlReadv=document.getElementById('hlReadv');
+hlT.addEventListener('input',()=>{hl.T=+hlT.value;hlTv.textContent=hl.T+(hl.T===1?' day':' days');hlUpdate();});
+hlA.addEventListener('input',()=>{hl. A0=+hlA.value;hlAv.textContent=hl.A0+' Bq';hlUpdate();});
+hlRead.addEventListener('input',()=>{hl.readT=+hlRead.value;hlReadv.textContent=hl.readT+(hl.readT===1?' day':' days');hlUpdate();});
+const HL_TMAX=60;
+function hlAct(t){return hl.A0*Math.pow(0.5,t/hl.T);}
+function hlUpdate(){const n=hl.readT/hl.T,A=hlAct(hl.readT);
+  let rows='';for(let k=0;k<=5;k++){const t=k*hl.T;if(t>HL_TMAX)break;
+    rows+=`<div class="ro"><div class="k">${k} half-lives (t=${t}d)</div><div class="v">${hlAct(t).toFixed(0)}<span class="u">Bq</span></div></div>`;}
+  document.getElementById('hlReadouts').innerHTML=
+    `<div class="ro hi"><div class="k">At t = ${hl.readT} days</div><div class="v">${A.toFixed(0)}<span class="u">Bq</span></div></div>`+
+    `<div class="ro"><div class="k">= number of half-lives</div><div class="v">${n.toFixed(2)}</div></div>`+rows;
+  const whole=Number.isInteger(n);
+  document.getElementById('hlOut').innerHTML= whole
+    ? `t = ${hl.readT} days is exactly <b>${n} half-lives</b>, so A = A₀ × (1/2)^${n} = ${hl.A0} × ${(Math.pow(0.5,n)).toFixed(4)} = <b>${A.toFixed(0)} Bq</b> — no exponential needed.`
+    : `t = ${hl.readT} days is <b>${n.toFixed(2)} half-lives</b> — not a whole number, so the halving shortcut cannot land it exactly. The curve still gives A = <b>${A.toFixed(0)} Bq</b>; getting there by calculation is Part 4's decay law.`;}
+function drawHl(){const s=sizes.get(hlCanvas);if(!s)return;const{w,h}=s,x=hlCanvas.getContext('2d');
+  x.clearRect(0,0,w,h);const L=42,B=h-26,R=w-12,T=12;
+  const TX=t=>L+(t/HL_TMAX)*(R-L),AY=a=>B-(a/hl.A0)*(B-T);
+  /* axes */
+  x.strokeStyle=CLR.line;x.lineWidth=1.5;x.beginPath();x.moveTo(L,T);x.lineTo(L,B);x.lineTo(R,B);x.stroke();
+  x.fillStyle=CLR.muted;x.font='10px '+FS;x.textAlign='right';x.fillText(hl.A0,L-4,T+8);x.fillText('0',L-4,B);
+  x.textAlign='center';x.fillText('time (days) →',(L+R)/2,h-6);
+  x.save();x.translate(12,(T+B)/2);x.rotate(-Math.PI/2);x.fillText('activity (Bq)',0,0);x.restore();
+  /* half-life gridlines */
+  x.font='9px '+FS;
+  for(let k=1;k*hl.T<=HL_TMAX;k++){const t=k*hl.T;x.strokeStyle='rgba(225,29,72,.15)';x.setLineDash([3,3]);x.lineWidth=1;
+    x.beginPath();x.moveTo(TX(t),T);x.lineTo(TX(t),B);x.stroke();
+    const ay=AY(hlAct(t));x.beginPath();x.moveTo(L,ay);x.lineTo(TX(t),ay);x.stroke();x.setLineDash([]);
+    x.fillStyle='rgba(225,29,72,.6)';x.textAlign='center';x.fillText(k+'T',TX(t),B+13);}
+  /* curve */
+  x.strokeStyle='#e11d48';x.lineWidth=2.5;x.beginPath();
+  for(let i=0;i<=120;i++){const t=i/120*HL_TMAX;const px=TX(t),py=AY(hlAct(t));i===0?x.moveTo(px,py):x.lineTo(px,py);}
+  x.stroke();
+  /* half-life markers */
+  for(let k=0;k*hl.T<=HL_TMAX;k++){const t=k*hl.T;x.fillStyle='#e11d48';x.beginPath();x.arc(TX(t),AY(hlAct(t)),3,0,7);x.fill();}
+  /* read cursor */
+  const rt=hl.readT,ry=AY(hlAct(rt)),rx=TX(rt);
+  x.strokeStyle='#4f46e5';x.setLineDash([2,2]);x.lineWidth=1.5;
+  x.beginPath();x.moveTo(rx,B);x.lineTo(rx,ry);x.lineTo(L,ry);x.stroke();x.setLineDash([]);
+  x.fillStyle='#4f46e5';x.beginPath();x.arc(rx,ry,5,0,7);x.fill();
+  x.fillStyle='#4f46e5';x.font='700 11px '+FS;x.textAlign='left';
+  x.fillText(hlAct(rt).toFixed(0)+' Bq',Math.min(rx+8,R-54),ry-8);}
+hlUpdate();
+
+/* ============ PAGE 7: QUIZ ============ */
+const QUIZ=[
+  {q:"A source has a half-life of 5 days and an initial activity of 3200 Bq. What is its activity after 15 days?",
+   opts:["1600 Bq","800 Bq","400 Bq","0 Bq"],correct:2,
+   exp:"15 days is 3 half-lives, so A = 3200 × (1/2)³ = 3200/8 = 400 Bq."},
+  {q:"Why is the measured count rate from a GM tube always much smaller than the activity of the source?",
+   opts:["Because the tube is too slow to count every decay","Because the tube only intercepts a small fraction of the radiation emitted in all directions","Because activity decreases while you measure","Because background radiation cancels most of it"],correct:1,
+   exp:"The source emits over a full sphere; the detector window catches only the fraction X/(4πr²) of it."},
+  {q:"Which change would increase the half-life of a radioactive sample?",
+   opts:["Cooling it to a very low temperature","Compressing it under high pressure","Bonding it into a different chemical compound","None of these — half-life is fixed by the nucleus"],correct:3,
+   exp:"Decay is spontaneous. External conditions like temperature, pressure and chemistry have no effect on half-life."},
+  {q:"A detector reads 2000 cps with the source present and 40 cps with it removed. What is the corrected count rate?",
+   opts:["2040 cps","2000 cps","1960 cps","40 cps"],correct:2,
+   exp:"Corrected rate = measured − background = 2000 − 40 = 1960 cps."},
+  {q:"The activity of a source falls from 6400 Bq to 400 Bq in 24 hours. What is its half-life?",
+   opts:["4 hours","6 hours","8 hours","12 hours"],correct:1,
+   exp:"6400 → 3200 → 1600 → 800 → 400 is 4 halvings in 24 h, so T½ = 24/4 = 6 hours."},
+  {q:"1 becquerel is defined as:",
+   opts:["One decay per minute","One decay per second","One million decays per second","The activity of 1 gram of radium"],correct:1,
+   exp:"1 Bq = 1 decay per second — a very small unit, which is why real sources are quoted in kBq, MBq or GBq."}
+];
+let qScore=0;const answered=new Array(QUIZ.length).fill(false);
+const quizEl=document.getElementById('quiz');
+QUIZ.forEach((item,qi)=>{const card=document.createElement('div');card.className='q';
+  card.innerHTML=`<div class="qq">${qi+1}. ${item.q}</div>`;
+  const opts=document.createElement('div');opts.className='opts';
+  item.opts.forEach((o,oi)=>{const b=document.createElement('button');b.className='opt';b.textContent=o;
+    b.onclick=()=>{if(answered[qi])return;answered[qi]=true;
+      if(oi===item.correct){b.classList.add('correct');qScore++;}
+      else{b.classList.add('wrong');opts.children[item.correct].classList.add('correct');}
+      card.querySelector('.qexp').classList.add('show');
+      document.getElementById('quizScore').textContent=`Score: ${qScore} / ${QUIZ.length}`;};
+    opts.appendChild(b);});
+  card.appendChild(opts);
+  const exp=document.createElement('div');exp.className='qexp';exp.innerHTML='<b>Why:</b> '+item.exp;card.appendChild(exp);
+  quizEl.appendChild(card);});
+
+/* ============ master loop ============ */
+let acc=0;
+function masterLoop(ts){
+  if(active===0){drawRd();drawRdGraph();
+    if(rd.running){rd.frame++;if(rd.frame%14===0)rdStep();}}
+  else if(active===1)drawGm();
+  else if(active===2)drawGeo();
+  else if(active===3)drawHl();
+  requestAnimationFrame(masterLoop);}
+setAccent(0);
+requestAnimationFrame(masterLoop);
+</script>
+</body>
+</html>
