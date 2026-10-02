@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · The Decay Law</title>
+<style>
+:root{
+  --c1:#4f46e5; --c2:#0d9488; --c3:#d97706; --c4:#e11d48; --c5:#7c3aed; --c6:#0891b2; --c7:#059669;
+  --accent:var(--c1); --accent-soft:rgba(79,70,229,.12);
+  --ink:#1d2440; --muted:#7c86a8; --line:rgba(29,36,64,.12); --card:#ffffff;
+  --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;
+  transition:background .6s ease;background:linear-gradient(135deg,#eef2ff 0%,#f5f3ff 50%,#ecfeff 100%);padding-bottom:64px}
+body[data-page="1"]{background:linear-gradient(135deg,#eef2ff 0%,#f0f1ff 55%,#faf5ff 100%)}
+body[data-page="2"]{background:linear-gradient(135deg,#ecfeff 0%,#f0fdfa 55%,#eef7f6 100%)}
+body[data-page="3"]{background:linear-gradient(135deg,#fff7ed 0%,#fffbeb 55%,#fef6ec 100%)}
+body[data-page="4"]{background:linear-gradient(135deg,#fff1f2 0%,#fef2f4 55%,#fdf4f7 100%)}
+body[data-page="5"]{background:linear-gradient(135deg,#f5f3ff 0%,#faf5ff 55%,#f3f0fe 100%)}
+body[data-page="6"]{background:linear-gradient(135deg,#ecfeff 0%,#eff9fb 55%,#eef7fa 100%)}
+body[data-page="7"]{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdf6 55%,#eefaf2 100%)}
+
+.brandbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px 22px;
+  background:rgba(255,255,255,.72);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
+.brand{font-weight:800;letter-spacing:.5px;font-size:15px;color:var(--ink);white-space:nowrap}
+.brand .sp{color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap;margin-left:4px}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fff;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:#fff;border-color:var(--accent)}
+.rightmeta{margin-left:auto;display:flex;align-items:center;gap:12px}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+#nameChip{font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:4px 11px;border-radius:999px}
+
+header.hero{padding:30px 22px 10px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:30px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:720px;font-size:15px}
+
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto;position:sticky;top:53px;z-index:30}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,255,255,.8);border:1px solid var(--line);border-radius:11px;padding:8px 13px;cursor:pointer;transition:.2s}
+.tab .dot{width:8px;height:8px;border-radius:50%;background:var(--tabc);opacity:.5;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:#fff;background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .dot{background:#fff;opacity:1}
+.tab.active .num{color:#fff}
+
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.lead{font-size:16px;color:#374151;max-width:760px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:18px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(29,36,64,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(280px,42vh,420px);overflow:hidden;border-radius:12px;background:#fcfdff;border:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%}
+
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 15px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro .v .u{font-size:11px;font-weight:600;color:var(--muted);margin-left:3px}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#374151}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+
+.prose p{margin-bottom:11px;font-size:14.5px;color:#374151}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fbfaff;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+
+.deriv .dhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dctrls{display:flex;gap:8px}
+.dintro{font-size:12.5px;color:var(--muted);margin:8px 0 2px}
+.dsteps{margin-top:4px}
+.dstep{opacity:0;max-height:0;overflow:hidden;transform:translateY(6px);
+  transition:opacity .35s ease,max-height .4s ease,transform .35s ease}
+.dstep.show{opacity:1;max-height:320px;transform:none;margin:12px 0}
+.dstep .eqbox{margin:0}
+.dstep .cap{font-size:12.5px;color:#374151;margin-top:6px;padding-left:2px}
+.dstep .cap b{color:var(--accent)}
+.dstep .sidx{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;color:#fff;background:var(--accent);
+  border-radius:5px;padding:2px 7px;margin-bottom:6px;text-transform:uppercase}
+.btn.ghost:disabled{opacity:.5;cursor:default;filter:none}
+
+.we{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);
+  border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#374151;border-top:1px dashed var(--line);padding-top:10px}
+.answer .eqbox{font-size:13.5px}
+
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c4)}
+.mcard .wrong{font-size:13px;color:#b91c1c;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"✗ ";}
+.mcard .right{font-size:13.5px;color:#065f46;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"✓ ";}
+.mcard p{font-size:13px;color:#374151;margin-top:5px}
+
+.q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fcfdff;border:1px solid var(--line);
+  border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#374151;background:#f0fdf4;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#eef2ff,#f5f3ff,#ecfeff);
+  display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fff;border-radius:20px;padding:34px 30px;max-width:420px;width:100%;box-shadow:0 30px 70px -30px rgba(29,36,64,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:var(--c1)}
+.gatebox .mark .sp{color:var(--c4)}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c1)}
+.gatebox .btn{width:100%;background:var(--c1);color:#fff;border-color:var(--c1);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+</style>
+</head>
+<body data-page="1">
+
+<!-- NAME GATE -->
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>The Decay Law</h2>
+    <p>Theme E.3 Nuclear Physics · Part 4 of 4 · for HL students only</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive HL physics lesson</div>
+  </div>
+</div>
+
+<!-- BRAND BAR -->
+<div class="brandbar">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="parts">
+    <a class="partlink" href="radioactive-decay.html">Part 1 · Radioactive Decay</a>
+    <a class="partlink" href="activity-and-half-life.html">Part 2 · Activity &amp; Half-Life</a>
+    <a class="partlink" href="nuclear-energy.html">Part 3 · Nuclear Energy</a>
+    <a class="partlink here" href="the-decay-law.html">Part 4 · The Decay Law</a>
+  </div>
+  <div class="rightmeta">
+    <span id="clock"></span>
+    <span id="nameChip">student</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">Theme E.3 · Probability per second</div>
+  <h1>The Decay Law</h1>
+  <p>Half-lives only let you find the activity at whole multiples of the half-life. This part introduces the decay constant λ and the exponential law N = N₀e<sup>−λt</sup>, which give the number of nuclei — and the activity — at <em>any</em> time.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+
+<!-- PAGE 1 : DECAY CONSTANT -->
+<section class="page active" data-p="0">
+  <p class="lead">The decay constant λ is the probability that any one nucleus decays in the next unit of time. It never changes — but because the whole sample decays at a rate proportional to how many nuclei are left, the number falls away exponentially.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>What λ means</h3>
+      <div class="canvas-wrap"><canvas id="dcCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Decay constant λ <b id="dcLamv">0.05 per unit time</b></label>
+        <input type="range" id="dcLam" min="0.01" max="0.3" step="0.01" value="0.05">
+      </div>
+      <p class="note">Each square is a nucleus. The red fraction is the share expected to decay in the next unit of time — that fraction <em>is</em> λ, the same for every nucleus no matter how long it has already survived.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Rate of decay</h3>
+      <div class="ctl">
+        <label>Number of nuclei present N <b id="dcNv">1000</b></label>
+        <input type="range" id="dcN" min="100" max="5000" step="100" value="1000">
+      </div>
+      <div id="dcReadouts"></div>
+      <div class="eqbox">ΔN/Δt = −λN</div>
+      <div class="out" id="dcOut"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <div class="prose">
+      <h4>Definition and the small-λt caveat</h4>
+      <p>Formally the decay constant is λ = −(ΔN / N) / Δt, with SI unit s⁻¹. It equals the probability of a nucleus decaying per unit time only in the limit of a <em>small</em> λt — over a long interval the number present drops so much that the simple fraction λΔt would overcount the decays.</p>
+      <p>Because the rate of decay is proportional to the number present (ΔN/Δt = −λN), the quantity falls fastest at the start and ever more slowly after — the signature of exponential decay.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : DECAY LAW -->
+<section class="page" data-p="1">
+  <p class="lead">The solution of ΔN/Δt = −λN is the radioactive decay law, N = N₀e<sup>−λt</sup>. It gives the number of undecayed nuclei at any time, not just at whole half-lives.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>N = N₀e<sup>−λt</sup></h3>
+      <div class="canvas-wrap"><canvas id="lawCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Half-life T½ <b id="lawTv">5 h</b></label>
+        <input type="range" id="lawT" min="1" max="12" step="1" value="5">
+      </div>
+      <div class="ctl">
+        <label>Initial number N₀ <b id="lawN0v">1000</b></label>
+        <input type="range" id="lawN0" min="200" max="5000" step="100" value="1000">
+      </div>
+      <div class="ctl">
+        <label>Read at time t <b id="lawTimev">0 h</b></label>
+        <input type="range" id="lawTime" min="0" max="60" step="1" value="0">
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Reading the law</h3>
+      <div id="lawReadouts"></div>
+      <div class="eqbox">N = N₀e<sup>−λt</sup>,&nbsp; λ = ln2 / T½</div>
+      <div class="out" id="lawOut"></div>
+    </div>
+  </div>
+  <div class="card deriv" data-sim="law" style="margin-top:18px">
+    <div class="dhead">
+      <h3 style="margin:0"><span class="pin"></span>Derivation · N = N₀e<sup>−λt</sup></h3>
+      <div class="dctrls">
+        <button class="btn ghost dnext">Reveal first step</button>
+        <button class="btn ghost dreset" hidden>Reset</button>
+      </div>
+    </div>
+    <p class="dintro">Reveal one line at a time. While the first step is showing, the graph draws the tangent so you can see that the slope — the rate of decay — is set by how many nuclei remain.</p>
+    <div class="dsteps">
+      <div class="dstep">
+        <span class="sidx">Step 1 · start</span>
+        <div class="eqbox">dN/dt = −λN</div>
+        <div class="cap">The rate of decay is proportional to the number present. The minus sign says N is <b>falling</b>; the tangent on the graph is steepest when N is large.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 2 · separate</span>
+        <div class="eqbox">(1/N) dN = −λ dt</div>
+        <div class="cap">Gather all the N terms on one side and all the t terms on the other, ready to integrate each side independently.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 3 · integrate</span>
+        <div class="eqbox">∫ (1/N) dN = −λ ∫ dt&nbsp; ⟹&nbsp; ln N = −λt + C</div>
+        <div class="cap">The integral of 1/N is ln N; the right side gives −λt plus a constant of integration C.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 4 · fix C</span>
+        <div class="eqbox">at t = 0, N = N₀&nbsp; ⟹&nbsp; C = ln N₀</div>
+        <div class="cap">Use the initial condition: at the start there are N₀ nuclei, which pins down the constant.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 5 · combine</span>
+        <div class="eqbox">ln N − ln N₀ = −λt&nbsp; ⟹&nbsp; ln(N/N₀) = −λt</div>
+        <div class="cap">Subtracting ln N₀ from both sides turns the two logs into a single log of the ratio.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 6 · result</span>
+        <div class="eqbox">N/N₀ = e<sup>−λt</sup>&nbsp; ⟹&nbsp; <b>N = N₀e<sup>−λt</sup></b></div>
+        <div class="cap">Exponentiating both sides removes the logarithm and leaves the radioactive decay law.</div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <div class="prose">
+      <h4>Taking logarithms</h4>
+      <p>Dividing by N₀ gives N/N₀ = e<sup>−λt</sup>. Taking natural logs of both sides turns the exponential into a straight line: ln(N/N₀) = −λt, or ln N = ln N₀ − λt. That is the trick behind every half-life measurement in Tab 4.</p>
+      <p>Unlike the whole-number half-life method of Part 2, this works for any time at all — including a single year of a source whose half-life is 5.3 years.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 : ACTIVITY -->
+<section class="page" data-p="2">
+  <p class="lead">Activity is the rate of decay, A = λN. Since N decays exponentially, so does the activity — and because A is proportional to N, a measured count rate traces the same curve as the number of nuclei.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>A = λN = λN₀e<sup>−λt</sup></h3>
+      <div class="canvas-wrap"><canvas id="actCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Half-life T½ <b id="actTv">120 s</b></label>
+        <input type="range" id="actT" min="20" max="600" step="10" value="120">
+      </div>
+      <div class="ctl">
+        <label>Initial number N₀ <b id="actN0v">1.0 × 10⁹</b></label>
+        <input type="range" id="actN0" min="1" max="50" step="1" value="10">
+      </div>
+      <div class="ctl">
+        <label>Read at time t <b id="actTimev">0 s</b></label>
+        <input type="range" id="actTime" min="0" max="3000" step="10" value="0">
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>The activity</h3>
+      <div id="actReadouts"></div>
+      <div class="eqbox">A = λN,&nbsp; unit becquerel (Bq)</div>
+      <div class="out" id="actOut"></div>
+    </div>
+  </div>
+  <div class="card deriv" data-sim="act" style="margin-top:18px">
+    <div class="dhead">
+      <h3 style="margin:0"><span class="pin"></span>Derivation · A = λN₀e<sup>−λt</sup></h3>
+      <div class="dctrls">
+        <button class="btn ghost dnext">Reveal first step</button>
+        <button class="btn ghost dreset" hidden>Reset</button>
+      </div>
+    </div>
+    <p class="dintro">Four short lines take you from the definition of activity to its exponential form — and show why the activity curve is just the number curve scaled by λ.</p>
+    <div class="dsteps">
+      <div class="dstep">
+        <span class="sidx">Step 1 · define</span>
+        <div class="eqbox">A = −dN/dt</div>
+        <div class="cap">Activity is the number of decays per second — the rate at which N falls. The minus sign makes A a positive quantity.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 2 · substitute rate</span>
+        <div class="eqbox">dN/dt = −λN&nbsp; ⟹&nbsp; A = −(−λN) = λN</div>
+        <div class="cap">Replace the rate with −λN from the decay law. The two minus signs cancel, giving <b>A = λN</b>.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 3 · insert N(t)</span>
+        <div class="eqbox">N = N₀e<sup>−λt</sup>&nbsp; ⟹&nbsp; A = λN₀e<sup>−λt</sup></div>
+        <div class="cap">Substitute the number of nuclei at time t. Activity decays with the same exponential as N.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 4 · initial activity</span>
+        <div class="eqbox">at t = 0, A₀ = λN₀&nbsp; ⟹&nbsp; <b>A = A₀e<sup>−λt</sup></b></div>
+        <div class="cap">So A and N share the same half-life; the activity is simply the number of nuclei scaled by the constant λ.</div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <div class="prose">
+      <h4>Why activity and number share the same curve</h4>
+      <p>At every instant A = λN, and λ is constant, so activity is just the number of nuclei scaled by λ. Both halve over exactly the same half-life, and both obey A = A₀e<sup>−λt</sup> with A₀ = λN₀.</p>
+      <p>This is why you can measure a half-life from a count-rate graph without ever counting the nuclei directly — the shape is identical.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4 : HALF-LIFE & LOG GRAPH -->
+<section class="page" data-p="3">
+  <p class="lead">A curve is hard to measure a half-life from. Plot ln N against t instead and the exponential becomes a straight line whose gradient is −λ — the standard way to find a half-life in the lab.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>ln N against time</h3>
+      <div class="canvas-wrap"><canvas id="logCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Decay constant λ <b id="logLamv">0.05 s⁻¹</b></label>
+        <input type="range" id="logLam" min="0.01" max="0.2" step="0.005" value="0.05">
+      </div>
+      <div class="ctl">
+        <label>Initial number N₀ <b id="logN0v">1000</b></label>
+        <input type="range" id="logN0" min="200" max="5000" step="100" value="1000">
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>From gradient to half-life</h3>
+      <div id="logReadouts"></div>
+      <div class="eqbox">T½ = ln2 / λ</div>
+      <div class="out" id="logOut"></div>
+    </div>
+  </div>
+  <div class="card deriv" data-sim="half" style="margin-top:18px">
+    <div class="dhead">
+      <h3 style="margin:0"><span class="pin"></span>Derivation · T½ = ln2 / λ</h3>
+      <div class="dctrls">
+        <button class="btn ghost dnext">Reveal first step</button>
+        <button class="btn ghost dreset" hidden>Reset</button>
+      </div>
+    </div>
+    <p class="dintro">The same reveal first straightens the curve into the line you plot, then finds the half-life from it. From Step 3 the graph shades the drop to half so you can see where T½ sits.</p>
+    <div class="dsteps">
+      <div class="dstep">
+        <span class="sidx">Step 1 · start</span>
+        <div class="eqbox">N = N₀e<sup>−λt</sup></div>
+        <div class="cap">Begin from the decay law derived in Tab 2.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 2 · linearise</span>
+        <div class="eqbox">ln N = ln N₀ − λt</div>
+        <div class="cap">Taking logs gives a straight line of gradient <b>−λ</b> — exactly the line on the graph. This is what you plot in the lab.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 3 · half remain</span>
+        <div class="eqbox">at t = T½, N = N₀/2</div>
+        <div class="cap">By definition the half-life is the time for N to fall to half of N₀ — the shaded drop on the graph.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 4 · substitute</span>
+        <div class="eqbox">N₀/2 = N₀e<sup>−λT½</sup>&nbsp; ⟹&nbsp; 1/2 = e<sup>−λT½</sup></div>
+        <div class="cap">Put N = N₀/2 into the decay law and divide through by N₀.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 5 · take logs</span>
+        <div class="eqbox">ln(1/2) = −λT½&nbsp; ⟹&nbsp; −ln2 = −λT½</div>
+        <div class="cap">Since ln(1/2) = −ln2, both minus signs match up.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 6 · result</span>
+        <div class="eqbox"><b>T½ = ln2 / λ</b></div>
+        <div class="cap">The half-life and decay constant are inversely linked through ln2 ≈ 0.693 — never dependent on N₀.</div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <div class="prose">
+      <h4>Measuring a half-life</h4>
+      <p>Record the count rate (proportional to N) at many times, plot ln(count rate) against time, and draw the best straight line. Its gradient is −λ, so λ = −gradient and the half-life follows from T½ = ln2 / λ.</p>
+      <p>A large λ gives a steep line and a short half-life; a small λ gives a shallow line and a long half-life. The two are inversely linked through ln2 ≈ 0.693.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5 : WORKED EXAMPLES -->
+<section class="page" data-p="4">
+  <p class="lead">Four original problems on the decay constant, the decay law and the half-life relationship. Try each before revealing the solution.</p>
+
+  <div class="we">
+    <div class="meta">Worked Example · Decay constant from activity</div>
+    <div class="q">A sample contains 5.0 × 10¹² undecayed nuclei and has an activity of 2.0 × 10⁹ Bq. Calculate the decay constant.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Activity and number are linked by A = λN, so λ = A / N.</p>
+      <div class="eqbox">λ = (2.0 × 10⁹) / (5.0 × 10¹²) = <b>4.0 × 10⁻⁴ s⁻¹</b></div>
+      <p>The unit is s⁻¹ because activity is in decays per second and N is a pure number.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Fraction remaining</div>
+    <div class="q">A radioisotope has a decay constant of 0.030 day⁻¹. What fraction of the original nuclei remains after 50 days?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Use N/N₀ = e<sup>−λt</sup> with λt = 0.030 × 50 = 1.5.</p>
+      <div class="eqbox">N/N₀ = e<sup>−1.5</sup> = <b>0.223 ≈ 22%</b></div>
+      <p>Note 50 days is not a whole number of half-lives (T½ = ln2/0.030 ≈ 23 days), so only the exponential law gives the answer.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Half-life from λ</div>
+    <div class="q">A nuclide has a decay constant of 4.0 × 10⁻⁴ s⁻¹. Find its half-life, in seconds and in minutes.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox">T½ = ln2 / λ = 0.693 / (4.0 × 10⁻⁴) ≈ <b>1733 s</b></div>
+      <p>Dividing by 60: 1733 / 60 ≈ <b>29 minutes</b>. A larger λ would give a shorter half-life, and vice versa.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Activity at an arbitrary time</div>
+    <div class="q">A source has an initial activity of 800 Bq and a half-life of 6.0 hours. What is its activity after 10 hours?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>First the decay constant: λ = ln2 / T½ = 0.693 / 6.0 = 0.1155 h⁻¹.</p>
+      <div class="eqbox">A = A₀e<sup>−λt</sup> = 800 × e<sup>−0.1155 × 10</sup></div>
+      <div class="eqbox">A = 800 × e<sup>−1.155</sup> = 800 × 0.315 ≈ <b>252 Bq</b></div>
+      <p>10 hours is 1.67 half-lives — not a whole number — so the halving shortcut cannot be used; the exponential law is essential here.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 6 : MISCONCEPTIONS -->
+<section class="page" data-p="5">
+  <p class="lead">The traps that catch students on the decay law. Each card pairs the wrong idea with the correct physics.</p>
+  <div class="mis">
+    <div class="mcard">
+      <div class="wrong">"A bigger decay constant means a longer half-life."</div>
+      <div class="right">Larger λ → shorter half-life.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"After a time t = 1/λ, all the nuclei have decayed."</div>
+      <p>1/λ is the mean lifetime. After it, N has fallen to N₀/e ≈ 37% — about a third still remain, not zero.</p>
+      <div class="right">At t = 1/λ, about 37% is still left.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"A graph of N against t is a straight line."</div>
+      <p>N against t is a curve (exponential). It is ln N against t that is a straight line, with gradient −λ.</p>
+      <div class="right">Only ln N vs t is straight; its slope is −λ.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"λ is just the fraction that decays each second, exactly."</div>
+      <p>λΔt only approximates the fraction decaying when λt is small. Over longer times the number present changes too much for the simple fraction to hold.</p>
+      <div class="right">λ ≈ fraction per unit time only for small λt.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"The half-life depends on how many nuclei you start with."</div>
+      <p>Half-life is fixed by λ alone. Whether you start with a million nuclei or a trillion, each still halves in the same time.</p>
+      <div class="right">T½ is independent of N₀.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Activity and number of nuclei follow different curves."</div>
+      <p>Because A = λN with λ constant, activity is just N scaled by λ. Both follow the same exponential and share the same half-life.</p>
+      <div class="right">A and N share one decay curve.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 7 : QUIZ -->
+<section class="page" data-p="6">
+  <p class="lead">Six original questions. Pick an answer to see whether it is right and why.</p>
+  <div id="quiz"></div>
+  <div class="card" style="margin-top:4px;text-align:center">
+    <div id="quizScore" style="font-weight:800;font-size:16px;color:var(--accent)">Score: 0 / 6</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <b>ATUL SORAL PHYSICISM</b> · Theme E.3 Nuclear Physics · Part 4 of 4 · for HL students only<br>
+  Back to <a href="radioactive-decay.html" style="color:var(--c1);font-weight:700">Part 1 · Radioactive Decay</a> &nbsp;·&nbsp; revisit <a href="nuclear-energy.html" style="color:var(--c3);font-weight:700">Part 3 · Nuclear Energy</a>
+</footer>
+
+<script>
+'use strict';
+
+/* ---------- scientific notation helpers (powers of 10, never e-notation) ---------- */
+const SUP={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻'};
+function sup(n){return String(n).split('').map(c=>SUP[c]||c).join('');}
+function sci(v,dp){
+  if(v===0) return '0';
+  dp=(dp==null)?2:dp;
+  const neg=v<0; v=Math.abs(v);
+  let e=Math.floor(Math.log10(v));
+  let m=v/Math.pow(10,e);
+  if(m>=9.9995){m/=10;e++;}
+  let ms=m.toFixed(dp);
+  if(e===0) return (neg?'-':'')+ms;
+  if(e===1) return (neg?'-':'')+(m*10).toFixed(Math.max(0,dp-1));
+  return (neg?'-':'')+ms+' × 10'+sup(e);
+}
+const LN2=Math.LN2;
+
+/* ---------- page / tab engine ---------- */
+const PAGES=[
+  {name:'Decay Constant',c:'var(--c1)',soft:'rgba(79,70,229,.12)'},
+  {name:'The Decay Law',c:'var(--c2)',soft:'rgba(13,148,136,.12)'},
+  {name:'Activity',c:'var(--c3)',soft:'rgba(217,119,6,.12)'},
+  {name:'Half-Life & Log Graph',c:'var(--c4)',soft:'rgba(225,29,72,.12)'},
+  {name:'Worked Examples',c:'var(--c5)',soft:'rgba(124,58,237,.12)'},
+  {name:'Misconceptions',c:'var(--c6)',soft:'rgba(8,145,178,.12)'},
+  {name:'Quiz',c:'var(--c7)',soft:'rgba(5,150,105,.12)'}
+];
+const KICK=[
+  'Theme E.3 · Probability per second',
+  'Theme E.3 · The exponential law',
+  'Theme E.3 · Rate of decay',
+  'Theme E.3 · Reading the straight line',
+  'Theme E.3 · Original worked examples',
+  'Theme E.3 · Watch out for these',
+  'Theme E.3 · Check your understanding'
+];
+let active=0;
+const nav=document.getElementById('nav');
+PAGES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.c);
+  b.innerHTML='<span class="dot"></span><span class="num">'+(i+1)+'</span>&nbsp;'+p.name;
+  b.addEventListener('click',()=>goPage(i));
+  nav.appendChild(b);
+});
+const tabs=[...nav.children];
+const pages=[...document.querySelectorAll('.page')];
+function setAccent(i){
+  const p=PAGES[i];
+  document.documentElement.style.setProperty('--accent',p.c);
+  document.documentElement.style.setProperty('--accent-soft',p.soft);
+  document.body.dataset.page=(i+1);
+}
+function goPage(i){
+  active=i;
+  tabs.forEach((t,k)=>t.classList.toggle('active',k===i));
+  pages.forEach((p,k)=>p.classList.toggle('active',k===i));
+  document.getElementById('kicker').textContent=KICK[i];
+  setAccent(i);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+setAccent(0);
+
+/* ---------- name gate ---------- */
+const gate=document.getElementById('gate'),gn=document.getElementById('gateName'),
+      gb=document.getElementById('gateBtn'),ge=document.getElementById('gateErr'),
+      chip=document.getElementById('nameChip');
+function enter(){
+  const v=gn.value.trim();
+  if(v.length<2){ge.hidden=false;return;}
+  chip.textContent=v.split(/\s+/)[0];
+  gate.style.opacity='0';gate.style.transition='opacity .4s';
+  setTimeout(()=>gate.style.display='none',400);
+}
+gb.addEventListener('click',enter);
+gn.addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
+setTimeout(()=>gn.focus(),300);
+
+/* ---------- clock ---------- */
+function tick(){
+  const d=new Date();
+  document.getElementById('clock').textContent=d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+}
+tick();setInterval(tick,10000);
+
+/* ---------- canvas sizing (DPR aware) ---------- */
+const FS='"Trebuchet MS",Verdana,Geneva,system-ui,sans-serif';
+const sizes=new Map();
+const ro=new ResizeObserver(entries=>{
+  for(const e of entries){
+    const cv=e.target, r=cv.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
+    cv.width=Math.max(1,Math.round(r.width*dpr));
+    cv.height=Math.max(1,Math.round(r.height*dpr));
+    sizes.set(cv,{w:r.width,h:r.height,dpr});
+  }
+});
+function ctxOf(cv){
+  const s=sizes.get(cv); if(!s) return null;
+  const g=cv.getContext('2d');
+  g.setTransform(s.dpr,0,0,s.dpr,0,0);
+  return {g,w:s.w,h:s.h};
+}
+function reg(id){const cv=document.getElementById(id);ro.observe(cv);return cv;}
+/* draw "base" then a raised, smaller superscript "expo" (so canvas shows real powers, not e^x) */
+function drawEqExp(g,x,y,base,expo,baseFont,color){
+  g.fillStyle=color; g.textAlign='left';
+  g.font=baseFont; g.fillText(base,x,y);
+  const bw=g.measureText(base).width;
+  const m=baseFont.match(/(\d+)px/); const sz=m?Math.round(+m[1]*0.72):9;
+  g.font=baseFont.replace(/\d+px/, sz+'px'); g.fillText(expo,x+bw+1,y-6);
+}
+
+/* ================= TAB 1 : DECAY CONSTANT ================= */
+const dcCanvas=reg('dcCanvas');
+const dc={lam:0.05,N:1000};
+const dcLam=document.getElementById('dcLam'),dcN=document.getElementById('dcN');
+function dcUpdate(){
+  dc.lam=+dcLam.value; dc.N=+dcN.value;
+  document.getElementById('dcLamv').textContent=dc.lam.toFixed(2)+' per unit time';
+  document.getElementById('dcNv').textContent=dc.N;
+  const rate=dc.lam*dc.N;
+  document.getElementById('dcReadouts').innerHTML=
+    ro3('Fraction decaying per unit time','λ',dc.lam.toFixed(2))+
+    ro3('Nuclei present','N',String(dc.N))+
+    ro3hi('Expected decays per unit time','λN',sci(rate,1));
+  document.getElementById('dcOut').innerHTML=
+    'With <b>'+dc.N+'</b> nuclei present, about <b>'+sci(rate,1)+'</b> decay in the next unit of time. '+
+    'Halve N and the number of decays halves too — but λ, the chance for each nucleus, stays <b>'+dc.lam.toFixed(2)+'</b>.';
+}
+function ro3(k,sym,v){return '<div class="ro"><span class="k">'+k+'</span><span class="v">'+sym+' = '+v+'</span></div>';}
+function ro3hi(k,sym,v){return '<div class="ro hi"><span class="k">'+k+'</span><span class="v">'+sym+' = '+v+'</span></div>';}
+dcLam.addEventListener('input',dcUpdate); dcN.addEventListener('input',dcUpdate);
+function drawDC(){
+  const c=ctxOf(dcCanvas); if(!c) return; const {g,w,h}=c;
+  g.clearRect(0,0,w,h);
+  const cols=20, rows=20, tot=cols*rows;
+  const pad=16, gw=w-pad*2, gh=h-pad*2-24;
+  const cell=Math.min(gw/cols,gh/rows), ox=(w-cell*cols)/2, oy=20;
+  const k=Math.round(dc.lam*tot);
+  for(let i=0;i<tot;i++){
+    const r=Math.floor(i/cols), col=i%cols;
+    const x=ox+col*cell, y=oy+r*cell;
+    const willDecay=i<k;
+    g.fillStyle=willDecay?'#e11d48':'#0d9488';
+    g.globalAlpha=willDecay?0.92:0.30;
+    const rad=cell*0.30;
+    g.beginPath(); g.arc(x+cell/2,y+cell/2,rad,0,Math.PI*2); g.fill();
+  }
+  g.globalAlpha=1;
+  g.font='600 12px '+FS; g.textAlign='left';
+  g.fillStyle='#e11d48'; g.fillText('● expected to decay next unit ('+(dc.lam*100).toFixed(0)+'%)',ox,h-16);
+  g.fillStyle='#0d9488'; g.fillText('● still present',ox,h-2);
+}
+
+/* ================= TAB 2 : DECAY LAW ================= */
+const lawCanvas=reg('lawCanvas');
+const law={T:5,N0:1000,t:0,dstep:0};
+const lawT=document.getElementById('lawT'),lawN0=document.getElementById('lawN0'),lawTime=document.getElementById('lawTime');
+function lawUpdate(){
+  law.T=+lawT.value; law.N0=+lawN0.value; law.t=+lawTime.value;
+  const lam=LN2/law.T;
+  const N=law.N0*Math.exp(-lam*law.t);
+  document.getElementById('lawTv').textContent=law.T+' h';
+  document.getElementById('lawN0v').textContent=law.N0;
+  document.getElementById('lawTimev').textContent=law.t+' h';
+  document.getElementById('lawReadouts').innerHTML=
+    ro3('Decay constant','λ',sci(lam,3)+' h⁻¹')+
+    ro3('Time','t',law.t+' h')+
+    ro3hi('Nuclei remaining','N',sci(N,2))+
+    ro3('Fraction left','N/N₀',(N/law.N0).toFixed(3));
+  const halves=law.t/law.T;
+  document.getElementById('lawOut').innerHTML=
+    'After <b>'+law.t+' h</b> that is <b>'+halves.toFixed(2)+'</b> half-lives. '+
+    'The law gives <b>'+sci(N,2)+'</b> nuclei left — a value you could not read off a simple halving table unless '+halves.toFixed(2)+' were a whole number.';
+}
+lawT.addEventListener('input',lawUpdate); lawN0.addEventListener('input',lawUpdate); lawTime.addEventListener('input',lawUpdate);
+function drawLaw(){
+  const c=ctxOf(lawCanvas); if(!c) return; const {g,w,h}=c;
+  g.clearRect(0,0,w,h);
+  const L=46,R=14,T=16,B=34, pw=w-L-R, ph=h-T-B;
+  const lam=LN2/law.T, tMax=lawTime.max?+lawTime.max:60;
+  const X=t=>L+(t/tMax)*pw, Y=n=>T+ph-(n/law.N0)*ph;
+  // half-life gridlines
+  g.strokeStyle='rgba(29,36,64,.08)'; g.lineWidth=1; g.font='11px '+FS; g.textAlign='center';
+  for(let k=1;k*law.T<=tMax;k++){
+    const x=X(k*law.T);
+    g.beginPath(); g.moveTo(x,T); g.lineTo(x,T+ph); g.stroke();
+  }
+  g.fillStyle='#9aa3bf';
+  for(let k=1;k*law.T<=tMax;k++){ g.fillText(k+'T½',X(k*law.T),T+ph+16); }
+  // axes
+  g.strokeStyle='rgba(29,36,64,.35)'; g.lineWidth=1.4;
+  g.beginPath(); g.moveTo(L,T); g.lineTo(L,T+ph); g.lineTo(L+pw,T+ph); g.stroke();
+  // curve
+  g.strokeStyle='#0d9488'; g.lineWidth=2.6; g.beginPath();
+  for(let i=0;i<=200;i++){
+    const t=(i/200)*tMax, n=law.N0*Math.exp(-lam*t);
+    const x=X(t),y=Y(n); i?g.lineTo(x,y):g.moveTo(x,y);
+  }
+  g.stroke();
+  // cursor
+  const n=law.N0*Math.exp(-lam*law.t), cx=X(law.t), cy=Y(n);
+  // derivation reaction: while the dN/dt = -λN step is showing, draw the tangent (the rate of decay)
+  if(law.dstep===1){
+    const dNdt=-lam*n, dt=tMax*0.14;
+    const t1=Math.max(0,law.t-dt), t2=Math.min(tMax,law.t+dt);
+    const y1=n+dNdt*(t1-law.t), y2=n+dNdt*(t2-law.t);
+    g.strokeStyle='#4f46e5'; g.lineWidth=2.2; g.setLineDash([6,4]);
+    g.beginPath(); g.moveTo(X(t1),Y(y1)); g.lineTo(X(t2),Y(y2)); g.stroke(); g.setLineDash([]);
+    g.fillStyle='#4f46e5'; g.font='700 11px '+FS; g.textAlign='left';
+    g.fillText('slope = dN/dt = −λN',Math.min(X(t2)+6,L+pw-150),Y(y2)-6);
+  }
+  g.strokeStyle='rgba(225,29,72,.55)'; g.setLineDash([4,4]); g.lineWidth=1.3;
+  g.beginPath(); g.moveTo(cx,T+ph); g.lineTo(cx,cy); g.lineTo(L,cy); g.stroke(); g.setLineDash([]);
+  g.fillStyle='#e11d48'; g.beginPath(); g.arc(cx,cy,5,0,Math.PI*2); g.fill();
+  // labels
+  g.fillStyle='#6b7280'; g.font='600 11px '+FS; g.textAlign='right';
+  g.fillText('N',L-6,T+10); g.textAlign='center'; g.fillText('t (h)',L+pw/2,h-4);
+  g.textAlign='left'; g.fillStyle='#0d9488'; g.font='700 12px '+FS;
+  drawEqExp(g,L+10,T+16,'N = N₀e','−λt','700 12px '+FS,'#0d9488');
+}
+
+/* ================= TAB 3 : ACTIVITY ================= */
+const actCanvas=reg('actCanvas');
+const act={T:120,N0k:10,t:0};   // N0 = N0k × 1e8
+const actT=document.getElementById('actT'),actN0=document.getElementById('actN0'),actTime=document.getElementById('actTime');
+function actUpdate(){
+  act.T=+actT.value; act.N0k=+actN0.value; act.t=+actTime.value;
+  const N0=act.N0k*1e8, lam=LN2/act.T;
+  const A0=lam*N0, A=A0*Math.exp(-lam*act.t), N=N0*Math.exp(-lam*act.t);
+  // keep time slider span tied to half-life (6 half-lives)
+  const span=Math.round(act.T*6/10)*10; actTime.max=span;
+  if(act.t>span){act.t=span; actTime.value=span;}
+  document.getElementById('actTv').textContent=act.T+' s';
+  document.getElementById('actN0v').textContent=sci(N0,1);
+  document.getElementById('actTimev').textContent=act.t+' s';
+  document.getElementById('actReadouts').innerHTML=
+    ro3('Decay constant','λ',sci(lam,2)+' s⁻¹')+
+    ro3('Initial activity','A₀=λN₀',sci(A0,2)+' Bq')+
+    ro3hi('Activity now','A',sci(A,2)+' Bq')+
+    ro3('Nuclei now','N',sci(N,2));
+  document.getElementById('actOut').innerHTML=
+    'The source began at <b>'+sci(A0,2)+' Bq</b>. After <b>'+act.t+' s</b> ('+(act.t/act.T).toFixed(2)+
+    ' half-lives) the activity has fallen to <b>'+sci(A,2)+' Bq</b> — the same exponential shape as N, just scaled by λ.';
+}
+actT.addEventListener('input',actUpdate); actN0.addEventListener('input',actUpdate); actTime.addEventListener('input',actUpdate);
+function drawAct(){
+  const c=ctxOf(actCanvas); if(!c) return; const {g,w,h}=c;
+  g.clearRect(0,0,w,h);
+  const L=52,R=14,T=16,B=34, pw=w-L-R, ph=h-T-B;
+  const N0=act.N0k*1e8, lam=LN2/act.T, A0=lam*N0;
+  const tMax=+actTime.max;
+  const X=t=>L+(t/tMax)*pw, Y=a=>T+ph-(a/A0)*ph;
+  g.strokeStyle='rgba(29,36,64,.08)'; g.lineWidth=1; g.font='11px '+FS; g.textAlign='center';
+  for(let k=1;k*act.T<=tMax;k++){ const x=X(k*act.T); g.beginPath(); g.moveTo(x,T); g.lineTo(x,T+ph); g.stroke(); }
+  g.fillStyle='#9aa3bf';
+  for(let k=1;k*act.T<=tMax;k++){ g.fillText(k+'T½',X(k*act.T),T+ph+16); }
+  g.strokeStyle='rgba(29,36,64,.35)'; g.lineWidth=1.4;
+  g.beginPath(); g.moveTo(L,T); g.lineTo(L,T+ph); g.lineTo(L+pw,T+ph); g.stroke();
+  g.strokeStyle='#d97706'; g.lineWidth=2.6; g.beginPath();
+  for(let i=0;i<=200;i++){ const t=(i/200)*tMax, a=A0*Math.exp(-lam*t); const x=X(t),y=Y(a); i?g.lineTo(x,y):g.moveTo(x,y); }
+  g.stroke();
+  const a=A0*Math.exp(-lam*act.t), cx=X(act.t), cy=Y(a);
+  g.strokeStyle='rgba(225,29,72,.55)'; g.setLineDash([4,4]); g.lineWidth=1.3;
+  g.beginPath(); g.moveTo(cx,T+ph); g.lineTo(cx,cy); g.lineTo(L,cy); g.stroke(); g.setLineDash([]);
+  g.fillStyle='#e11d48'; g.beginPath(); g.arc(cx,cy,5,0,Math.PI*2); g.fill();
+  g.fillStyle='#6b7280'; g.font='600 11px '+FS; g.textAlign='right'; g.fillText('A (Bq)',L-6,T+10);
+  g.textAlign='center'; g.fillText('t (s)',L+pw/2,h-4);
+  g.textAlign='left'; drawEqExp(g,L+10,T+16,'A = λN₀e','−λt','700 12px '+FS,'#d97706');
+}
+
+/* ================= TAB 4 : HALF-LIFE & LOG GRAPH ================= */
+const logCanvas=reg('logCanvas');
+const lg={lam:0.05,N0:1000,dstep:0};
+const logLam=document.getElementById('logLam'),logN0=document.getElementById('logN0');
+function logUpdate(){
+  lg.lam=+logLam.value; lg.N0=+logN0.value;
+  const T=LN2/lg.lam, lnN0=Math.log(lg.N0);
+  document.getElementById('logLamv').textContent=lg.lam.toFixed(3)+' s⁻¹';
+  document.getElementById('logN0v').textContent=lg.N0;
+  document.getElementById('logReadouts').innerHTML=
+    ro3('Decay constant','λ',lg.lam.toFixed(3)+' s⁻¹')+
+    ro3('Gradient of line','slope',(-lg.lam).toFixed(3)+' s⁻¹')+
+    ro3('Intercept','ln N₀',lnN0.toFixed(2))+
+    ro3hi('Half-life','T½',sci(T,2)+' s');
+  document.getElementById('logOut').innerHTML=
+    'The line ln N = '+lnN0.toFixed(2)+' − '+lg.lam.toFixed(3)+'t has gradient <b>−'+lg.lam.toFixed(3)+' s⁻¹</b>. '+
+    'Reading λ off the gradient gives a half-life of <b>'+sci(T,2)+' s</b> through T½ = ln2 / λ.';
+}
+logLam.addEventListener('input',logUpdate); logN0.addEventListener('input',logUpdate);
+function drawLog(){
+  const c=ctxOf(logCanvas); if(!c) return; const {g,w,h}=c;
+  g.clearRect(0,0,w,h);
+  const L=50,R=16,T=20,B=34, pw=w-L-R, ph=h-T-B;
+  const lnN0=Math.log(lg.N0);
+  const TMAX=100, YMAX=9;                 // FIXED axes: slope follows λ, intercept follows N₀
+  const X=t=>L+(t/TMAX)*pw, Y=y=>T+ph-(Math.max(0,Math.min(YMAX,y))/YMAX)*ph;
+  // gridlines + ticks
+  g.strokeStyle='rgba(29,36,64,.07)'; g.lineWidth=1; g.font='10px '+FS; g.fillStyle='#9aa3bf';
+  g.textAlign='right';
+  for(let y=1;y<=8;y++){ g.beginPath(); g.moveTo(L,Y(y)); g.lineTo(L+pw,Y(y)); g.stroke(); if(y%2===0) g.fillText(y,L-6,Y(y)+3); }
+  g.textAlign='center';
+  for(let t=20;t<=TMAX;t+=20){ g.beginPath(); g.moveTo(X(t),T); g.lineTo(X(t),T+ph); g.stroke(); g.fillText(t,X(t),T+ph+15); }
+  // axes
+  g.strokeStyle='rgba(29,36,64,.4)'; g.lineWidth=1.4;
+  g.beginPath(); g.moveTo(L,T); g.lineTo(L,T+ph); g.lineTo(L+pw,T+ph); g.stroke();
+  // key points
+  const tZero=lnN0/lg.lam, tEnd=Math.min(TMAX,tZero);
+  const tHalf=LN2/lg.lam, yHalf=lnN0-LN2;
+  // derivation reaction: shade the drop from ln N₀ down to ln(N₀/2)
+  if(lg.dstep>=3){
+    const xRight=(tHalf<=TMAX)?X(tHalf):L+pw;
+    g.fillStyle='rgba(13,148,136,.13)';
+    g.fillRect(L,Y(lnN0),xRight-L,Y(yHalf)-Y(lnN0));
+    g.fillStyle='#0d9488'; g.font='700 11px '+FS; g.textAlign='left';
+    g.fillText('drop to half',L+8,(Y(lnN0)+Y(yHalf))/2+4);
+  }
+  // the straight line (clipped where ln N reaches 0)
+  g.strokeStyle='#e11d48'; g.lineWidth=2.8; g.beginPath();
+  g.moveTo(X(0),Y(lnN0)); g.lineTo(X(tEnd),Y(lnN0-lg.lam*tEnd)); g.stroke();
+  // intercept dot + label
+  g.fillStyle='#e11d48'; g.beginPath(); g.arc(X(0),Y(lnN0),4.5,0,Math.PI*2); g.fill();
+  g.font='700 10px '+FS; g.textAlign='left'; g.fillText('ln N₀ = '+lnN0.toFixed(2),X(0)+8,Y(lnN0)-7);
+  // half-life marker (only if on screen)
+  if(tHalf<=TMAX && yHalf>=0){
+    g.strokeStyle='rgba(13,148,136,.7)'; g.setLineDash([4,4]); g.lineWidth=1.3;
+    g.beginPath(); g.moveTo(X(tHalf),T+ph); g.lineTo(X(tHalf),Y(yHalf)); g.lineTo(L,Y(yHalf)); g.stroke(); g.setLineDash([]);
+    g.fillStyle='#0d9488'; g.beginPath(); g.arc(X(tHalf),Y(yHalf),5,0,Math.PI*2); g.fill();
+    g.font='700 11px '+FS; g.textAlign='center'; g.fillText('T½ ≈ '+tHalf.toFixed(0)+' s',X(tHalf),T+ph-9);
+  }
+  // gradient triangle on the line
+  const ta=tEnd*0.28, tb=tEnd*0.60;
+  const ya=lnN0-lg.lam*ta, yb=lnN0-lg.lam*tb;
+  g.strokeStyle='rgba(79,70,229,.75)'; g.lineWidth=1.4;
+  g.beginPath(); g.moveTo(X(ta),Y(ya)); g.lineTo(X(tb),Y(ya)); g.lineTo(X(tb),Y(yb)); g.stroke();
+  g.fillStyle='#4f46e5'; g.font='600 10px '+FS; g.textAlign='center';
+  g.fillText('gradient = −λ',(X(ta)+X(tb))/2,Y(ya)-5);
+  // axis titles + equation
+  g.fillStyle='#6b7280'; g.font='600 11px '+FS; g.textAlign='right'; g.fillText('ln N',L-6,T+10);
+  g.textAlign='center'; g.fillText('t (s)',L+pw/2,h-3);
+  g.textAlign='right'; g.fillStyle='#e11d48'; g.font='700 12px '+FS; g.fillText('ln N = ln N₀ − λt',L+pw-6,T+13);
+}
+
+/* ================= WORKED EXAMPLES reveal ================= */
+document.querySelectorAll('.we .reveal').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const a=btn.nextElementSibling;
+    const open=!a.hidden; a.hidden=open;
+    btn.textContent=open?'Show solution':'Hide solution';
+  });
+});
+
+/* ================= QUIZ ================= */
+const QUIZ=[
+  {q:'What is the SI unit of the decay constant λ?',
+   o:['becquerel (Bq)','second (s)','s⁻¹ (per second)','joule (J)'],a:2,
+   e:'λ is a probability of decay per unit time, so its SI unit is s⁻¹. The becquerel is the unit of activity, not of λ.'},
+  {q:'A nuclide decays with constant λ. After exactly one half-life, the number of undecayed nuclei is:',
+   o:['N₀ / e','N₀ / 2','N₀ × ln2','zero'],a:1,
+   e:'One half-life is defined as the time for N to fall to N₀/2. The value N₀/e is reached after the mean lifetime 1/λ, which is longer.'},
+  {q:'Which equation correctly relates half-life and decay constant?',
+   o:['T½ = ln2 / λ','T½ = λ / ln2','T½ = λ ln2','T½ = 2λ'],a:0,
+   e:'Setting N = N₀/2 in N = N₀e<sup>−λt</sup> and solving gives λT½ = ln2, so T½ = ln2 / λ.'},
+  {q:'The activity of a source is best described as:',
+   o:['the number of nuclei present','the energy released per decay','the fraction decaying per second','the rate of decay, equal to λN'],a:3,
+   e:'Activity A = λN is the number of decays per second — the rate of decay. Its unit is the becquerel.'},
+  {q:'To find a half-life experimentally, a student plots ln N against time t. The gradient of the straight line equals:',
+   o:['λ','+2λ','−λ','ln2 / λ'],a:2,
+   e:'Taking logs of N = N₀e<sup>−λt</sup> gives ln N = ln N₀ − λt, a straight line of gradient −λ.'},
+  {q:'Isotope X has a larger decay constant than isotope Y. Compared with Y, isotope X has a:',
+   o:['shorter half-life','longer half-life','equal half-life','half-life that depends on N₀'],a:0,
+   e:'Since T½ = ln2/λ, a larger λ gives a shorter half-life. Half-life never depends on how many nuclei you start with.'}
+];
+let score=0; const answered=new Array(QUIZ.length).fill(false);
+const quizEl=document.getElementById('quiz');
+QUIZ.forEach((item,qi)=>{
+  const d=document.createElement('div'); d.className='q';
+  const opts=item.o.map((t,oi)=>'<button class="opt" data-q="'+qi+'" data-o="'+oi+'">'+String.fromCharCode(65+oi)+'. '+t+'</button>').join('');
+  d.innerHTML='<div class="qq">'+(qi+1)+'. '+item.q+'</div><div class="opts">'+opts+'</div><div class="qexp" id="exp'+qi+'"></div>';
+  quizEl.appendChild(d);
+});
+quizEl.addEventListener('click',e=>{
+  const b=e.target.closest('.opt'); if(!b) return;
+  const qi=+b.dataset.q, oi=+b.dataset.o; if(answered[qi]) return;
+  answered[qi]=true;
+  const item=QUIZ[qi];
+  b.parentElement.querySelectorAll('.opt').forEach((btn,k)=>{
+    btn.disabled=true;
+    if(k===item.a) btn.classList.add('correct');
+    else if(k===oi) btn.classList.add('wrong');
+  });
+  if(oi===item.a) score++;
+  const exp=document.getElementById('exp'+qi);
+  exp.innerHTML=(oi===item.a?'<b>Correct.</b> ':'<b>Not quite.</b> ')+item.e;
+  exp.classList.add('show');
+  document.getElementById('quizScore').textContent='Score: '+score+' / '+QUIZ.length;
+});
+
+/* ================= DERIVATION STEPPERS ================= */
+function onDeriv(sim,idx){
+  if(sim==='law') law.dstep=idx;
+  else if(sim==='half') lg.dstep=idx;
+}
+document.querySelectorAll('.deriv').forEach(d=>{
+  const sim=d.dataset.sim;
+  const steps=[...d.querySelectorAll('.dstep')];
+  const next=d.querySelector('.dnext'), reset=d.querySelector('.dreset');
+  let idx=0;
+  function sync(){
+    next.textContent = idx===0 ? 'Reveal first step'
+                      : (idx>=steps.length ? 'All steps shown' : 'Next step ▸');
+    next.disabled = idx>=steps.length;
+    reset.hidden = idx===0;
+    onDeriv(sim,idx);
+  }
+  next.addEventListener('click',()=>{ if(idx<steps.length){ steps[idx].classList.add('show'); idx++; sync(); }});
+  reset.addEventListener('click',()=>{ steps.forEach(s=>s.classList.remove('show')); idx=0; sync(); });
+  sync();
+});
+
+/* ================= MASTER LOOP ================= */
+function masterLoop(){
+  if(active===0) drawDC();
+  else if(active===1) drawLaw();
+  else if(active===2) drawAct();
+  else if(active===3) drawLog();
+  requestAnimationFrame(masterLoop);
+}
+dcUpdate(); lawUpdate(); actUpdate(); logUpdate();
+requestAnimationFrame(masterLoop);
+</script>
+</body>
+</html>
