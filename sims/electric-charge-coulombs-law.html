@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Electric Charge and Coulomb's Law</title>
+<style>
+:root{
+  --c1:#2563eb; --c2:#0891b2; --c3:#7c3aed; --c4:#db2777; --c5:#0d9488; --c6:#d97706; --c7:#059669;
+  --accent:var(--c1); --accent-soft:rgba(37,99,235,.12);
+  --ink:#1b2440; --muted:#71809e; --line:rgba(27,36,64,.12); --card:#ffffff;
+  --tan:#f0e7d6; --tanink:#9a6b2f;
+  --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;padding-bottom:64px;
+  transition:background .6s ease,filter .3s ease;background:linear-gradient(135deg,#eef4ff 0%,#f3f1ff 50%,#ecfbff 100%)}
+body[data-page="1"]{background:linear-gradient(135deg,#eef4ff 0%,#eaf1ff 55%,#f4f8ff 100%)}
+body[data-page="2"]{background:linear-gradient(135deg,#ecfeff 0%,#eef9fb 55%,#f0fbff 100%)}
+body[data-page="3"]{background:linear-gradient(135deg,#f5f1ff 0%,#f6f3ff 55%,#faf6ff 100%)}
+body[data-page="4"]{background:linear-gradient(135deg,#fdf2f8 0%,#fdf3f6 55%,#fef5f9 100%)}
+body[data-page="5"]{background:linear-gradient(135deg,#ecfdf9 0%,#f0fdfa 55%,#eefaf6 100%)}
+body[data-page="6"]{background:linear-gradient(135deg,#fff7ed 0%,#fffbeb 55%,#fef7ec 100%)}
+body[data-page="7"]{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdf6 55%,#eefaf2 100%)}
+body.dark{--ink:#e7ebf7;--muted:#9aa6c8;--line:rgba(231,235,247,.15);--card:#1a2033;--tan:#2b3450;--tanink:#f0d9a8;
+  background:linear-gradient(135deg,#0e1322 0%,#121829 55%,#101a26 100%)!important}
+body.dark .topnav,body.dark .chapterbar{background:rgba(18,24,42,.86)}
+body.dark .brand{color:#f2f4fb}
+body.dark .tab{background:rgba(255,255,255,.06)}
+body.dark .partlink{background:rgba(255,255,255,.05)}
+body.dark .btn.ghost,body.dark .seg button{background:rgba(255,255,255,.06)}
+body.dark .we,body.dark .q,body.dark .mcard,body.dark .gatebox{background:#1a2033}
+body.dark .opt,body.dark .pans,body.dark .eqbox{background:#141a2b}
+body.dark .qexp{background:rgba(5,150,105,.16)}
+body.dark .chapterbar,body.dark .topnav{border-color:var(--line)}
+body.dark .partlink,body.dark .seg button{color:#c7cfe6}
+body.dark .lead,body.dark .prose p,body.dark .mcard p,body.dark .answer,body.dark .pans,body.dark .ms,body.dark .qexp,body.dark .dstep .cap,body.dark .pq .stem{color:#c7cfe6}
+body.dark .gatebox .mark{color:#f2f4fb}
+body.dark .opt.correct{background:rgba(5,150,105,.2)}
+body.dark .opt.wrong{background:rgba(220,38,38,.2)}
+body.dark .canvas-wrap{background:#f4f6fb}
+.topnav{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 22px;
+  background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.brand{font-weight:800;letter-spacing:.4px;font-size:15px;color:#1b1b1b;white-space:nowrap}
+.brand .sp{color:#d98a1f}
+.navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.navlink{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;transition:.2s;white-space:nowrap}
+.navlink:hover{color:var(--accent)}
+.navlink.active{color:var(--accent);font-weight:800}
+.allsims{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:600}
+.navright{margin-left:auto;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.profile{display:inline-flex;align-items:center;gap:6px;background:var(--tan);color:var(--tanink);font-weight:800;
+  font-size:12px;padding:4px 11px 4px 7px;border-radius:999px}
+.profile .av{width:17px;height:17px;border-radius:50%;background:#2563eb;display:inline-block;position:relative}
+.profile .av::after{content:"";position:absolute;left:50%;top:3px;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#fff}
+.profile .av::before{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:11px;height:6px;border-radius:6px 6px 0 0;background:#fff}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sunbtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--tan);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;font-size:15px;transition:.2s}
+.sunbtn:hover{filter:brightness(1.04)}
+.chapterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 22px;
+  background:rgba(255,255,255,.55);border-bottom:1px solid var(--line)}
+.chaptag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fff;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:#fff;border-color:var(--accent)}
+.partlink .pl{font-size:9px;font-weight:800;opacity:.85;margin-left:4px;border:1px solid currentColor;border-radius:4px;padding:0 3px}
+.legend{margin-left:auto;display:flex;gap:10px;font-size:11px;color:var(--muted);font-weight:600}
+.legend .sl,.legend .hl{display:inline-flex;align-items:center;gap:4px}
+.dotSL{width:9px;height:9px;border-radius:3px;background:#2563eb}
+.dotHL{width:9px;height:9px;border-radius:3px;background:#db2777}
+header.hero{padding:26px 22px 8px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:29px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:730px;font-size:15px}
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab .lvl{font-size:9px;font-weight:800;border-radius:4px;padding:1px 4px;background:var(--accent-soft);color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:#fff;background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .num,.tab.active .lvl{color:#fff}
+.tab.active .lvl{background:rgba(255,255,255,.25)}
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.levelchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.5px;
+  border-radius:999px;padding:3px 10px;margin-bottom:10px;text-transform:uppercase}
+.levelchip.sl{background:rgba(37,99,235,.12);color:#2563eb}
+.levelchip.hl{background:rgba(219,39,119,.12);color:#db2777}
+.lead{font-size:16px;color:#374151;max-width:770px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:18px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(27,36,64,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(280px,42vh,420px);overflow:hidden;border-radius:12px;background:#fcfdff;border:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%}
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btn:disabled{opacity:.5;cursor:default;filter:none}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.seg button{font-family:var(--fs);font-size:12px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--muted);
+  border-radius:9px;padding:7px 11px;cursor:pointer;transition:.18s}
+.seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.subtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.subtab{font-family:var(--fs);font-size:13px;font-weight:700;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer;transition:.18s}
+.subtab:hover{border-color:var(--accent);color:var(--ink)}
+.subtab.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.subpanel[hidden]{display:none}
+.ibq{margin-top:18px;border-top:3px solid var(--c6)}
+.ibq .tagib{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c6)}
+.ibq .marks{float:right;font-size:11px;font-weight:700;color:var(--muted);background:#f3f4f6;border-radius:6px;padding:2px 8px}
+.ibq .qtext{font-weight:700;font-size:14.5px;margin:7px 0}
+.ms{margin-top:10px;font-size:13.5px;color:#374151;border-top:1px dashed var(--line);padding-top:10px}
+.ms ul{margin:4px 0 0 18px}.ms li{margin-bottom:5px}
+.ms .mk{font-weight:700;color:var(--c6)}
+.fml{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;font-size:19px;line-height:1.1;
+  display:flex;flex-wrap:wrap;align-items:center;gap:7px;color:var(--ink)}
+.fml .op{color:var(--muted)}
+.fml sub{font-size:.68em;vertical-align:-.25em}
+.fml sup{font-size:.68em;vertical-align:.5em}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle}
+.frac .num{border-bottom:1.7px solid currentColor;padding:0 8px 2px}
+.frac .den{padding:2px 8px 0}
+.fml .cst{font-size:12.5px;font-family:var(--fm);color:var(--muted);margin-left:4px}
+.pq{margin-top:18px;border-top:3px solid var(--c6)}
+.pq .tagq{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c6);margin-bottom:6px}
+.pq .stem{font-size:14.5px;color:#374151;margin-bottom:12px}
+.qpart{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+.qpart:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.qpart[hidden]{display:none}
+.qpart .ptext{font-weight:700;font-size:14px;margin-bottom:8px}
+.qpart .ptext .mks{color:var(--muted);font-weight:700;margin-left:4px}
+.preveal{font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.pans{margin-top:9px;font-size:13.5px;color:#374151;background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.pans[hidden]{display:none}
+.pans .fml{font-size:16px;margin:6px 0}
+.pdone{font-size:12px;color:#059669;font-weight:700;margin-top:12px}
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#374151}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+.prose p{margin-bottom:11px;font-size:14.5px;color:#374151}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fbfbff;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+.deriv .dhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dctrls{display:flex;gap:8px}
+.dintro{font-size:12.5px;color:var(--muted);margin:8px 0 2px}
+.dstep{opacity:0;max-height:0;overflow:hidden;transform:translateY(6px);transition:opacity .35s ease,max-height .4s ease,transform .35s ease}
+.dstep.show{opacity:1;max-height:340px;transform:none;margin:12px 0}
+.dstep .eqbox{margin:0}
+.dstep .cap{font-size:12.5px;color:#374151;margin-top:6px}
+.dstep .cap b{color:var(--accent)}
+.dstep .sidx{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;color:#fff;background:var(--accent);border-radius:5px;padding:2px 7px;margin-bottom:6px;text-transform:uppercase}
+.we{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#374151;border-top:1px dashed var(--line);padding-top:10px}
+.answer .eqbox{font-size:13.5px}
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c4)}
+.mcard .wrong{font-size:13px;color:#b91c1c;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"✗ ";}
+.mcard .right{font-size:13.5px;color:#065f46;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"✓ ";}
+.mcard p{font-size:13px;color:#374151;margin-top:5px}
+.q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fcfdff;border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#374151;background:#f0fdf4;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#eef4ff,#f3f1ff,#ecfbff);display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fff;border-radius:20px;padding:34px 30px;max-width:430px;width:100%;box-shadow:0 30px 70px -30px rgba(27,36,64,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:#1b1b1b}
+.gatebox .mark .sp{color:#d98a1f}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c1)}
+.gatebox .btn{width:100%;background:var(--c1);color:#fff;border-color:var(--c1);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+</style>
+</head>
+<body data-page="1">
+
+<!-- NAME GATE -->
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>Electric Charge &amp; Coulomb's Law</h2>
+    <p>Theme D.2 Electric and Magnetic Fields · Part 1 of 4 · Standard Level core</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive IB physics lesson</div>
+  </div>
+</div>
+
+<!-- TOP NAV (site header) -->
+<div class="topnav">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="navlinks">
+    <a class="navlink allsims" href="../index.html">&larr; All Simulations</a>
+    <a class="navlink" href="../index.html">Home</a>
+    <a class="navlink" href="../index.html#igcse">IGCSE</a>
+    <a class="navlink" href="../index.html#myp">MYP</a>
+    <a class="navlink active" href="../index.html#dp">DP</a>
+  </div>
+  <div class="navright">
+    <span class="profile"><span class="av"></span><span id="profileName">atul</span></span>
+    <span id="clock"></span>
+    <button class="sunbtn" id="sunbtn" title="Switch to dark mode">&#9728;</button>
+  </div>
+</div>
+
+<!-- CHAPTER BAR -->
+<div class="chapterbar">
+  <span class="chaptag">D.2 Fields</span>
+  <div class="parts">
+    <a class="partlink here" href="electric-charge-coulombs-law.html">Part 1 · Charge &amp; Coulomb's Law<span class="pl">SL</span></a>
+    <a class="partlink" href="electric-fields.html">Part 2 · Electric Fields<span class="pl">SL</span></a>
+    <a class="partlink" href="magnetic-fields.html">Part 3 · Magnetic Fields<span class="pl">SL</span></a>
+    <a class="partlink" href="electric-potential.html">Part 4 · Electric Potential<span class="pl">HL</span></a>
+  </div>
+  <div class="legend">
+    <span class="sl"><span class="dotSL"></span>SL core</span>
+    <span class="hl"><span class="dotHL"></span>HL only</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">D.2 · Charge is quantized</div>
+  <h1>Electric Charge &amp; Coulomb's Law</h1>
+  <p>Every charged object carries a whole-number multiple of one elementary charge, and any two charges push or pull on each other with a force set by Coulomb's inverse-square law. This part is Standard Level core — needed by SL and HL students alike.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+
+<!-- PAGE 1 : ELECTRIC CHARGE -->
+<section class="page active" data-p="0">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <p class="lead">Charge comes in indivisible packets. An object becomes charged only by gaining or losing electrons, so its net charge is always an exact multiple of the elementary charge e = 1.60 × 10⁻¹⁹ C.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Charge an object, electron by electron</h3>
+      <div class="canvas-wrap"><canvas id="chCanvas"></canvas></div>
+      <div class="btnrow">
+        <button class="btn ghost" id="chAddE">Add an electron (−)</button>
+        <button class="btn ghost" id="chRemE">Remove an electron (+)</button>
+        <button class="btn primary" id="chReset">Neutral</button>
+      </div>
+      <p class="note">Protons are locked in the nuclei and never move. Only electrons transfer, so charge changes in steps of one e at a time — it can never be a fraction.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Net charge</h3>
+      <div id="chReadouts"></div>
+      <div class="eqbox fml">Q = n<span class="op">·</span>e<span class="cst">e = 1.60 × 10<sup>−19</sup> C</span></div>
+      <div class="out" id="chOut"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <div class="prose">
+      <h4>Quantization and conservation</h4>
+      <p>Because n must be a whole number, Q is <em>quantized</em>: 1.6 × 10⁻¹⁹ C, 3.2 × 10⁻¹⁹ C, 4.8 × 10⁻¹⁹ C, and so on — never 2.4 × 10⁻¹⁹ C. Robert Millikan's oil-drop experiment first measured this smallest step directly.</p>
+      <p>Charge is also <em>conserved</em>: it is never created or destroyed, only moved. When a rod gains electrons the cloth loses exactly the same number, so the total stays constant.</p>
+    </div>
+  </div>
+  <div class="card pq" data-pq="charge" style="margin-top:18px">
+    <div class="tagq">Question</div>
+    <div class="stem">A metal sphere is charged by adding electrons to it. Its final charge is −3.2 × 10⁻¹⁸ C. (e = 1.60 × 10⁻¹⁹ C)</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) State what is meant by saying charge is <em>quantized</em>. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Charge can only exist in whole-number multiples of the elementary charge e = 1.60 × 10⁻¹⁹ C — never a fraction of it.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Calculate the number of excess electrons on the sphere. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">n = <span class="frac"><span class="num">|Q|</span><span class="den">e</span></span><span class="op">=</span><span class="frac"><span class="num">3.2 × 10⁻¹⁸</span><span class="den">1.60 × 10⁻¹⁹</span></span><span class="op">=</span><b>20 electrons</b></div></div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) The sphere is then connected to earth. State and explain its final charge. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Zero (neutral). The 20 excess electrons flow to earth until the sphere again has equal numbers of protons and electrons.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : CHARGING METHODS -->
+<section class="page" data-p="1">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <p class="lead">An object can be charged in three ways — by friction, by conduction (contact) and by induction. In every case no charge is created: electrons simply move. Pick a method to watch it happen.</p>
+
+  <div class="subtabs" id="chargeSubtabs">
+    <button class="subtab on" data-s="0">① By friction</button>
+    <button class="subtab" data-s="1">② By induction</button>
+    <button class="subtab" data-s="2">③ By conduction</button>
+  </div>
+
+  <!-- FRICTION -->
+  <div class="subpanel" data-s="0">
+    <div class="grid">
+      <div class="card">
+        <h3><span class="pin"></span>Charging by friction</h3>
+        <div class="canvas-wrap"><canvas id="fricCanvas"></canvas></div>
+        <div class="btnrow"><button class="btn primary" id="fricRub">Rub the rod &#9995;</button><button class="btn ghost" id="fricReset">Reset</button></div>
+        <p class="note"><b>Drag</b> the cloth back and forth across the rod — or click <b>Rub</b> — to transfer electrons. The more you rub, the more charge builds up.</p>
+      </div>
+      <div class="card">
+        <h3><span class="pin"></span>What is happening</h3>
+        <div class="prose">
+          <p>Rubbing two <em>different insulators</em> together transfers electrons from one surface to the other.</p>
+          <p>Electrons leave the material that holds them loosely and collect on the one that attracts them more strongly. Here the polythene rod gains electrons and becomes <b>negative</b>; the cloth loses them and becomes <b>positive</b>.</p>
+          <p>The charges are <b>equal and opposite</b> — total charge is conserved. It works only on insulators, because the charge stays where it is deposited.</p>
+        </div>
+      </div>
+    </div>
+    <div class="card pq" data-pq="fric">
+      <div class="tagq">Question</div>
+      <div class="stem">A polythene rod is rubbed with a dry woollen cloth. Afterwards the rod carries a charge of −6.4 nC.</div>
+      <div class="qpart" data-i="0">
+        <div class="ptext">(a) Explain, in terms of electrons, how the rod became negatively charged. <span class="mks">[2]</span></div>
+        <button class="preveal">Reveal answer</button>
+        <div class="pans" hidden>Electrons are transferred from the cloth to the rod. The rod now has more electrons than protons, so it carries a net negative charge.</div>
+      </div>
+      <div class="qpart" data-i="1" hidden>
+        <div class="ptext">(b) State the charge on the cloth, giving a reason. <span class="mks">[2]</span></div>
+        <button class="preveal">Reveal answer</button>
+        <div class="pans" hidden>+6.4 nC. Charge is conserved, so the cloth loses exactly as many electrons as the rod gains — the two charges are equal and opposite.</div>
+      </div>
+      <div class="qpart" data-i="2" hidden>
+        <div class="ptext">(c) Calculate the number of electrons transferred to the rod. <span class="mks">[2]</span></div>
+        <button class="preveal">Reveal answer</button>
+        <div class="pans" hidden>
+          <div class="fml">n = <span class="frac"><span class="num">Q</span><span class="den">e</span></span><span class="op">=</span><span class="frac"><span class="num">6.4 × 10⁻⁹</span><span class="den">1.60 × 10⁻¹⁹</span></span><span class="op">=</span><b>4.0 × 10¹⁰</b></div>
+          About 4.0 × 10¹⁰ electrons were transferred.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INDUCTION -->
+  <div class="subpanel" data-s="1" hidden>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="pin"></span>Charging a sphere by induction</h3>
+        <div class="canvas-wrap"><canvas id="inCanvas"></canvas></div>
+        <div class="dhead" style="margin-top:12px">
+          <span class="note" style="margin:0">Step through the four stages:</span>
+          <div class="dctrls">
+            <button class="btn ghost" id="inNext">Next stage &#9654;</button>
+            <button class="btn ghost" id="inReset" hidden>Restart</button>
+          </div>
+        </div>
+        <div id="inCaption" class="out" style="margin-top:10px"></div>
+      </div>
+      <div class="card">
+        <h3><span class="pin"></span>What is happening</h3>
+        <div class="prose">
+          <p>A charged object brought near a conductor pushes the conductor's <em>free electrons</em> to one side — it adds no charge of its own.</p>
+          <p>Earthing the conductor while the rod is in place lets those repelled electrons escape to the ground. Removing the earth, then the rod, leaves a net charge.</p>
+          <p>The induced charge is <b>opposite in sign</b> to the inducing charge, and the conductor is <b>never touched</b> by the rod.</p>
+        </div>
+      </div>
+    </div>
+    <div class="card pq" data-pq="ind">
+      <div class="tagq">Question</div>
+      <div class="stem">A negatively charged rod is held close to an isolated metal sphere that rests on an insulating stand.</div>
+      <div class="qpart" data-i="0">
+        <div class="ptext">(a) Describe how the charge is distributed on the sphere while the rod is held near it. <span class="mks">[2]</span></div>
+        <button class="preveal">Reveal answer</button>
+        <div class="pans" hidden>Free electrons in the sphere are repelled to the far side, which becomes negative; the near side is left positive. The sphere's total charge is still zero.</div>
+      </div>
+      <div class="qpart" data-i="1" hidden>
+        <div class="ptext">(b) The sphere is now earthed briefly while the rod stays in place. Explain what happens to the electrons. <span class="mks">[2]</span></div>
+        <button class="preveal">Reveal answer</button>
+        <div class="pans" hidden>The electrons repelled to the far side flow through the earth connection to the ground, so the sphere is left with fewer electrons than protons.</div>
+      </div>
+      <div class="qpart" data-i="2" hidden>
+        <div class="ptext">(c) The earth connection is removed, then the rod is taken away. State and explain the final charge on the sphere. <span class="mks">[2]</span></div>
+        <button class="preveal">Reveal answer</button>
+        <div class="pans" hidden>Positive. The sphere is short of electrons, so it holds a net positive charge — opposite in sign to the rod and gained without any contact.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONDUCTION -->
+  <div class="subpanel" data-s="2" hidden>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="pin"></span>Charging by conduction (contact)</h3>
+        <div class="canvas-wrap"><canvas id="condCanvas"></canvas></div>
+        <div class="dhead" style="margin-top:12px">
+          <span class="note" style="margin:0">Step through contact and separation:</span>
+          <div class="dctrls">
+            <button class="btn ghost" id="condNext">Next step &#9654;</button>
+            <button class="btn ghost" id="condReset" hidden>Restart</button>
+          </div>
+        </div>
+        <div id="condCaption" class="out" style="margin-top:10px"></div>
+      </div>
+      <div class="card">
+        <h3><span class="pin"></span>What is happening</h3>
+        <div class="prose">
+          <p>A charged conductor is touched to a neutral conductor. Because the excess electrons repel one another, some flow across until both are at the <em>same potential</em>.</p>
+          <p>The two objects end up with charge of the <b>same sign</b> as the original. Two <em>identical</em> conductors share the total charge <b>equally</b>.</p>
+          <p>Here a −12 nC sphere shares with an identical neutral sphere, leaving −6 nC on each after they separate.</p>
+        </div>
+      </div>
+    </div>
+    <div class="card pq" data-pq="cond">
+      <div class="tagq">Question</div>
+      <div class="stem">An isolated metal sphere X carries a charge of −12 nC. An identical uncharged sphere Y is brought up, touched to X, and then separated.</div>
+      <div class="qpart" data-i="0">
+        <div class="ptext">(a) Explain why electrons move when the two spheres touch. <span class="mks">[2]</span></div>
+        <button class="preveal">Reveal answer</button>
+        <div class="pans" hidden>The excess electrons on X repel one another, and X is at a different potential from Y, so electrons flow from X to Y until both spheres are at the same potential.</div>
+      </div>
+      <div class="qpart" data-i="1" hidden>
+        <div class="ptext">(b) Calculate the charge on each sphere after they are separated. <span class="mks">[2]</span></div>
+        <button class="preveal">Reveal answer</button>
+        <div class="pans" hidden>
+          <div class="fml">each = <span class="frac"><span class="num">−12</span><span class="den">2</span></span><span class="op">=</span><b>−6 nC</b></div>
+          Identical spheres share the conserved charge equally, giving −6 nC on each.
+        </div>
+      </div>
+      <div class="qpart" data-i="2" hidden>
+        <div class="ptext">(c) Sphere Y is now connected to earth. State its final charge and explain. <span class="mks">[2]</span></div>
+        <button class="preveal">Reveal answer</button>
+        <div class="pans" hidden>0 nC (neutral). Its excess electrons flow to earth until Y again has equal numbers of protons and electrons.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 : COULOMB'S LAW -->
+<section class="page" data-p="2">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <p class="lead">Two point charges exert equal and opposite forces on each other. The size of that force grows with each charge and falls off with the square of their separation — Coulomb's law.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Two charges, one force law</h3>
+      <div class="canvas-wrap"><canvas id="coCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Charge q₁ <b id="coQ1v">+3.0 µC</b></label>
+        <input type="range" id="coQ1" min="-10" max="10" step="0.5" value="3">
+      </div>
+      <div class="ctl">
+        <label>Charge q₂ <b id="coQ2v">+5.0 µC</b></label>
+        <input type="range" id="coQ2" min="-10" max="10" step="0.5" value="5">
+      </div>
+      <div class="ctl">
+        <label>Separation r <b id="coRv">20 cm</b></label>
+        <input type="range" id="coR" min="5" max="50" step="1" value="20">
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>The force</h3>
+      <div id="coReadouts"></div>
+      <div class="eqbox fml">F = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">r<sup>2</sup></span></span><span class="cst">k = 8.99 × 10⁹ N m² C⁻²</span></div>
+      <div class="out" id="coOut"></div>
+    </div>
+  </div>
+  <div class="card deriv" data-sim="coulomb" style="margin-top:18px">
+    <div class="dhead">
+      <h3 style="margin:0"><span class="pin"></span>Reasoning · why the force is inverse-square</h3>
+      <div class="dctrls">
+        <button class="btn ghost dnext">Reveal first step</button>
+        <button class="btn ghost dreset" hidden>Reset</button>
+      </div>
+    </div>
+    <p class="dintro">Reveal one idea at a time. While Step 2 is showing, the graph highlights how the force shrinks as r grows.</p>
+    <div class="dsteps">
+      <div class="dstep">
+        <span class="sidx">Step 1 · the field spreads out</span>
+        <div class="eqbox">one charge sends its influence out in all directions</div>
+        <div class="cap">The influence of q₁ spreads over the surface of an imaginary sphere centred on it.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 2 · area grows as r²</span>
+        <div class="eqbox">sphere area = 4πr²</div>
+        <div class="cap">Doubling r spreads the same influence over <b>four times</b> the area, so the force at any point is four times weaker.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 3 · scale with both charges</span>
+        <div class="eqbox">F ∝ q₁q₂</div>
+        <div class="cap">A bigger charge on either body scales the force in direct proportion.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 4 · Coulomb's law</span>
+        <div class="eqbox fml" style="font-weight:700">F = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">r<sup>2</sup></span></span></div>
+        <div class="cap">Combining the two gives the inverse-square force law, with k the Coulomb constant.</div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="coulomb-q" style="margin-top:18px">
+    <div class="tagq">Question</div>
+    <div class="stem">Two small spheres carry charges of +2.0 µC and +8.0 µC and are held 30 cm apart in air. (k = 8.99 × 10⁹ N m² C⁻²)</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the electric force between the spheres. <span class="mks">[3]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">F = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">r<sup>2</sup></span></span><span class="op">=</span><span class="frac"><span class="num">(8.99 × 10⁹)(2.0 × 10⁻⁶)(8.0 × 10⁻⁶)</span><span class="den">(0.30)<sup>2</sup></span></span><span class="op">≈</span><b>1.6 N</b></div>The force is repulsive, since both charges are positive.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) State how the force on the +2.0 µC sphere compares with the force on the +8.0 µC sphere. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>They are equal in size and opposite in direction — Newton's third law. The force does not depend on which charge is larger.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) The separation is now doubled to 60 cm. Determine the new force. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">F → <span class="frac"><span class="num">F</span><span class="den">2<sup>2</sup></span></span><span class="op">=</span><span class="frac"><span class="num">1.6</span><span class="den">4</span></span><span class="op">=</span><b>0.40 N</b></div>Doubling r quarters the force (inverse-square).</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4 : PERMITTIVITY -->
+<section class="page" data-p="3">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <p class="lead">The medium between the charges matters. Coulomb's constant hides the permittivity of free space, and filling the gap with a material weakens the force by the material's relative permittivity.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Same charges, different medium</h3>
+      <div class="canvas-wrap"><canvas id="peCanvas"></canvas></div>
+      <div class="seg" id="peSeg"></div>
+      <p class="note">Fixed example: +3.0 µC and +5.0 µC held 20 cm apart. Only the medium between them changes.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Force in the medium</h3>
+      <div id="peReadouts"></div>
+      <div class="eqbox fml">k = <span class="frac"><span class="num">1</span><span class="den">4πε<sub>0</sub></span></span><span class="op">,</span>&nbsp; F<sub>medium</sub> = <span class="frac"><span class="num">F<sub>vacuum</sub></span><span class="den">ε<sub>r</sub></span></span></div>
+      <div class="out" id="peOut"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <div class="prose">
+      <h4>Permittivity of free space</h4>
+      <p>The Coulomb constant is k = 1 / (4πε₀), where ε₀ = 8.85 × 10⁻¹² C² N⁻¹ m⁻² is the permittivity of free space. A larger permittivity means the medium opposes the field more, so the force is smaller.</p>
+      <p>Relative permittivity εᵣ compares a medium to a vacuum. Water (εᵣ ≈ 80) weakens the Coulomb force dramatically, which is why many salts separate into ions when dissolved.</p>
+    </div>
+  </div>
+  <div class="card pq" data-pq="perm-q" style="margin-top:18px">
+    <div class="tagq">Question</div>
+    <div class="stem">Two charges experience a force of 0.80 N when held a fixed distance apart in a vacuum.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) State the force between them when they are placed in air (εᵣ ≈ 1.0). <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Essentially unchanged at about 0.80 N, because air has a relative permittivity very close to 1.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) The gap is now filled with a liquid of relative permittivity 2.5. Calculate the new force. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">F = <span class="frac"><span class="num">F<sub>vacuum</sub></span><span class="den">ε<sub>r</sub></span></span><span class="op">=</span><span class="frac"><span class="num">0.80</span><span class="den">2.5</span></span><span class="op">=</span><b>0.32 N</b></div></div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) Explain, in terms of permittivity, why the force changed. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>The liquid has a higher permittivity than a vacuum. Since k = 1/(4πε) and F = kq₁q₂/r², a larger permittivity ε gives a smaller force.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5 : WORKED EXAMPLES -->
+<section class="page" data-p="4">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <p class="lead">Five original problems on quantization, conservation and Coulomb's law. Try each before revealing the worked solution.</p>
+
+  <div class="we">
+    <div class="meta">Worked Example · Counting electrons</div>
+    <div class="q">After rubbing, a plastic rod carries a charge of −4.8 nC. How many excess electrons has it gained?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>The magnitude of the charge is a whole number of elementary charges, n = |Q| / e.</p>
+      <div class="eqbox fml">n = <span class="frac"><span class="num">4.8 × 10⁻⁹</span><span class="den">1.60 × 10⁻¹⁹</span></span><span class="op">=</span><b>3.0 × 10¹⁰ electrons</b></div>
+      <p>The rod is negative, so it has <em>gained</em> this many electrons; the cloth lost exactly the same number.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Sharing by contact</div>
+    <div class="q">Two identical metal spheres carry +8.0 nC and −2.0 nC. They are touched together and separated. What is the charge on each?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Charge is conserved, and identical spheres share the total equally.</p>
+      <div class="eqbox fml">Q<sub>total</sub> = +8.0 + (−2.0) = +6.0 nC&nbsp;⟹&nbsp;each = <span class="frac"><span class="num">+6.0</span><span class="den">2</span></span><span class="op">=</span><b>+3.0 nC</b></div>
+      <p>Both spheres end up positive because the net charge of the system is positive.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Coulomb's law</div>
+    <div class="q">Point charges of +3.0 µC and +5.0 µC sit 20 cm apart in air. Find the force between them.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">F = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">r<sup>2</sup></span></span><span class="op">=</span><span class="frac"><span class="num">(8.99 × 10⁹)(3.0 × 10⁻⁶)(5.0 × 10⁻⁶)</span><span class="den">(0.20)<sup>2</sup></span></span></div>
+      <div class="eqbox fml">F = <span class="frac"><span class="num">(8.99 × 10⁹)(1.5 × 10⁻¹¹)</span><span class="den">0.040</span></span><span class="op">≈</span><b>3.4 N, repulsive</b></div>
+      <p>Both charges are positive, so the force pushes them apart.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Effect of a medium</div>
+    <div class="q">The two charges above are now immersed in water, for which εᵣ ≈ 80. What is the new force?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">F<sub>water</sub> = <span class="frac"><span class="num">F<sub>air</sub></span><span class="den">ε<sub>r</sub></span></span><span class="op">=</span><span class="frac"><span class="num">3.4</span><span class="den">80</span></span><span class="op">≈</span><b>4.2 × 10⁻² N</b></div>
+      <p>Water's high relative permittivity cuts the force to less than a hundredth of its value in air.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Inverse-square reasoning</div>
+    <div class="q">Without any numbers: if the separation between two fixed charges is tripled, what happens to the Coulomb force?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Force depends on 1/r². Tripling r multiplies r² by 9.</p>
+      <div class="eqbox fml">F → <span class="frac"><span class="num">F</span><span class="den">3<sup>2</sup></span></span><span class="op">=</span><span class="frac"><span class="num">F</span><span class="den">9</span></span></div>
+      <p>The force drops to one-ninth, not one-third — the inverse-square law is steep.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 6 : MISCONCEPTIONS -->
+<section class="page" data-p="5">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <p class="lead">The classic traps on charge and Coulomb's law. Each card pairs the wrong idea with the correct physics.</p>
+  <div class="mis">
+    <div class="mcard">
+      <div class="wrong">"An object can carry any amount of charge."</div>
+      <p>Charge is quantized. Every net charge is a whole-number multiple of e = 1.60 × 10⁻¹⁹ C.</p>
+      <div class="right">Q = n e, with n a whole number.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Rubbing creates charge from nothing."</div>
+      <p>Friction only moves electrons from one surface to the other. The two objects gain equal and opposite charge; the total is unchanged.</p>
+      <div class="right">Charge is conserved, never created.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Positive charging means protons were added."</div>
+      <p>Protons stay bound in nuclei. An object turns positive by <em>losing electrons</em>, not by gaining protons.</p>
+      <div class="right">Only electrons move.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Two charges must touch to push on each other."</div>
+      <p>The Coulomb force acts at a distance through the electric field. No contact is needed.</p>
+      <div class="right">Force acts across the gap via the field.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Doubling the distance halves the force."</div>
+      <p>Force follows 1/r². Doubling r makes the force four times weaker, not two.</p>
+      <div class="right">Double r → force ÷ 4.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"A denser medium increases the Coulomb force."</div>
+      <p>A higher relative permittivity <em>reduces</em> the force, because F ∝ 1/ε.</p>
+      <div class="right">Higher εᵣ → smaller force.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 7 : QUIZ -->
+<section class="page" data-p="6">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <p class="lead">Six original questions. Pick an answer to see whether it is right and why.</p>
+  <div id="quiz"></div>
+  <div class="card" style="margin-top:4px;text-align:center">
+    <div id="quizScore" style="font-weight:800;font-size:16px;color:var(--accent)">Score: 0 / 6</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <b>ATUL SORAL PHYSICISM</b> · Theme D.2 Electric and Magnetic Fields · Part 1 of 4 · Standard Level<br>
+  Next: <a href="electric-fields.html" style="color:var(--c1);font-weight:700">Part 2 · Electric Fields</a>
+</footer>
+
+<script>
+'use strict';
+
+/* ---------- scientific notation (powers of 10, never e-notation) ---------- */
+const SUP={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻'};
+function sup(n){return String(n).split('').map(c=>SUP[c]||c).join('');}
+function sci(v,dp){
+  if(v===0) return '0';
+  dp=(dp==null)?2:dp;
+  const neg=v<0; v=Math.abs(v);
+  let e=Math.floor(Math.log10(v)); let m=v/Math.pow(10,e);
+  if(m>=9.9995){m/=10;e++;}
+  const ms=m.toFixed(dp);
+  if(e===0) return (neg?'-':'')+ms;
+  if(e===1) return (neg?'-':'')+(m*10).toFixed(Math.max(0,dp-1));
+  return (neg?'-':'')+ms+' × 10'+sup(e);
+}
+const KQ=8.99e9, E_CH=1.60e-19;
+
+/* ---------- page / tab engine ---------- */
+const PAGES=[
+  {name:'Electric Charge',lvl:'SL',c:'var(--c1)',soft:'rgba(37,99,235,.12)'},
+  {name:'Charging Methods',lvl:'SL',c:'var(--c2)',soft:'rgba(8,145,178,.12)'},
+  {name:"Coulomb's Law",lvl:'SL',c:'var(--c3)',soft:'rgba(124,58,237,.12)'},
+  {name:'Permittivity',lvl:'SL',c:'var(--c4)',soft:'rgba(219,39,119,.12)'},
+  {name:'Worked Examples',lvl:'SL',c:'var(--c5)',soft:'rgba(13,148,136,.12)'},
+  {name:'Misconceptions',lvl:'SL',c:'var(--c6)',soft:'rgba(217,119,6,.12)'},
+  {name:'Quiz',lvl:'SL',c:'var(--c7)',soft:'rgba(5,150,105,.12)'}
+];
+const KICK=[
+  'D.2 · Charge is quantized',
+  'D.2 · Moving electrons around',
+  "D.2 · The inverse-square force",
+  'D.2 · The medium matters',
+  'D.2 · Original worked examples',
+  'D.2 · Watch out for these',
+  'D.2 · Check your understanding'
+];
+let active=0;
+const nav=document.getElementById('nav');
+PAGES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.c);
+  b.innerHTML='<span class="num">'+(i+1)+'</span>&nbsp;'+p.name+'<span class="lvl">'+p.lvl+'</span>';
+  b.addEventListener('click',()=>goPage(i));
+  nav.appendChild(b);
+});
+const tabs=[...nav.children];
+const pages=[...document.querySelectorAll('.page')];
+function setAccent(i){
+  const p=PAGES[i];
+  document.documentElement.style.setProperty('--accent',p.c);
+  document.documentElement.style.setProperty('--accent-soft',p.soft);
+  document.body.dataset.page=(i+1);
+}
+function goPage(i){
+  active=i;
+  tabs.forEach((t,k)=>t.classList.toggle('active',k===i));
+  pages.forEach((p,k)=>p.classList.toggle('active',k===i));
+  document.getElementById('kicker').textContent=KICK[i];
+  setAccent(i);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+setAccent(0);
+
+/* ---------- top bar: dark / light toggle ---------- */
+const sunbtn=document.getElementById('sunbtn');
+sunbtn.addEventListener('click',()=>{
+  const d=document.body.classList.toggle('dark');
+  sunbtn.innerHTML = d ? '&#9790;' : '&#9728;';
+  sunbtn.title = d ? 'Switch to light mode' : 'Switch to dark mode';
+});
+
+/* ---------- name gate ---------- */
+const gate=document.getElementById('gate'),gn=document.getElementById('gateName'),
+      gb=document.getElementById('gateBtn'),ge=document.getElementById('gateErr'),
+      chip=document.getElementById('profileName');
+function enter(){
+  const v=gn.value.trim();
+  if(v.length<2){ge.hidden=false;return;}
+  chip.textContent=v.split(/\s+/)[0];
+  gate.style.opacity='0';gate.style.transition='opacity .4s';
+  setTimeout(()=>gate.style.display='none',400);
+}
+gb.addEventListener('click',enter);
+gn.addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
+setTimeout(()=>gn.focus(),300);
+
+/* ---------- clock ---------- */
+function tick(){
+  const d=new Date();
+  const p=x=>String(x).padStart(2,'0');
+  document.getElementById('clock').textContent=
+    d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+}
+tick();setInterval(tick,1000);
+
+/* ---------- canvas sizing (DPR aware) ---------- */
+const FS='"Trebuchet MS",Verdana,Geneva,system-ui,sans-serif';
+const sizes=new Map();
+const ro=new ResizeObserver(entries=>{
+  for(const e of entries){
+    const cv=e.target, r=cv.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
+    cv.width=Math.max(1,Math.round(r.width*dpr));
+    cv.height=Math.max(1,Math.round(r.height*dpr));
+    sizes.set(cv,{w:r.width,h:r.height,dpr});
+  }
+});
+function ctxOf(cv){
+  const s=sizes.get(cv); if(!s) return null;
+  const g=cv.getContext('2d'); g.setTransform(s.dpr,0,0,s.dpr,0,0);
+  return {g,w:s.w,h:s.h};
+}
+function reg(id){const cv=document.getElementById(id);ro.observe(cv);return cv;}
+function ro3(k,v){return '<div class="ro"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+function ro3hi(k,v){return '<div class="ro hi"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+
+/* ================= TAB 1 : ELECTRIC CHARGE ================= */
+const chCanvas=reg('chCanvas');
+let chN=0;   // net count of EXCESS electrons (negative) ; positive chN means electrons removed
+function chUpdate(){
+  const Q=-chN*E_CH;           // chN excess electrons → negative charge
+  document.getElementById('chReadouts').innerHTML=
+    ro3('Electrons added/removed','n = '+(chN>0?'+':'')+chN)+
+    ro3('Elementary charge','e = 1.60 × 10⁻¹⁹ C')+
+    ro3hi('Net charge','Q = '+sci(Q,2)+' C');
+  let state;
+  if(chN===0) state='The object is <b>neutral</b> — equal protons and electrons.';
+  else if(chN<0) state='The object has <b>gained</b> '+(-chN)+' electron'+(chN===-1?'':'s')+', so it is <b>negative</b>.';
+  else state='The object has <b>lost</b> '+chN+' electron'+(chN===1?'':'s')+', so it is <b>positive</b>.';
+  document.getElementById('chOut').innerHTML=state+' Q is always an exact multiple of e — a fraction of an electron is impossible.';
+}
+document.getElementById('chAddE').addEventListener('click',()=>{chN=Math.max(-24,chN-1);chUpdate();});
+document.getElementById('chRemE').addEventListener('click',()=>{chN=Math.min(24,chN+1);chUpdate();});
+document.getElementById('chReset').addEventListener('click',()=>{chN=0;chUpdate();});
+function drawCh(){
+  const c=ctxOf(chCanvas); if(!c) return; const {g,w,h}=c;
+  g.clearRect(0,0,w,h);
+  const cx=w/2, cy=h/2, R=Math.min(w,h)*0.33;
+  g.fillStyle='#eef2f8'; g.strokeStyle='rgba(27,36,64,.25)'; g.lineWidth=1.6;
+  g.beginPath(); g.arc(cx,cy,R,0,Math.PI*2); g.fill(); g.stroke();
+  const base=10;
+  for(let i=0;i<base;i++){
+    const a=(i/base)*Math.PI*2, rr=R*0.55;
+    const x=cx+Math.cos(a)*rr, y=cy+Math.sin(a)*rr;
+    g.fillStyle='#dc2626'; g.beginPath(); g.arc(x,y,7,0,Math.PI*2); g.fill();
+    g.fillStyle='#fff'; g.font='700 10px '+FS; g.textAlign='center'; g.textBaseline='middle'; g.fillText('+',x,y);
+  }
+  const show=Math.abs(chN);
+  for(let i=0;i<show;i++){
+    const a=(i/Math.max(1,show))*Math.PI*2+0.3, rr=R*0.82;
+    const x=cx+Math.cos(a)*rr, y=cy+Math.sin(a)*rr;
+    if(chN<0){ g.fillStyle='#2563eb'; g.beginPath(); g.arc(x,y,6,0,Math.PI*2); g.fill();
+      g.fillStyle='#fff'; g.font='700 10px '+FS; g.textAlign='center'; g.textBaseline='middle'; g.fillText('−',x,y); }
+    else { g.strokeStyle='rgba(220,38,38,.6)'; g.lineWidth=1.6; g.beginPath(); g.arc(x,y,7,0,Math.PI*2); g.stroke(); }
+  }
+  g.fillStyle=chN<0?'#2563eb':(chN>0?'#dc2626':'#71809e');
+  g.font='800 15px '+FS; g.textAlign='center'; g.textBaseline='middle';
+  g.fillText(chN<0?'NEGATIVE':(chN>0?'POSITIVE':'NEUTRAL'),cx,cy);
+}
+
+/* ================= TAB 2 : CHARGING BY INDUCTION ================= */
+const inCanvas=reg('inCanvas');
+const IN_STAGES=[
+  {t:'Stage 1 · Neutral conductor', d:'The isolated sphere has its positive and negative charges evenly spread. Net charge is zero.'},
+  {t:'Stage 2 · Bring a charged rod near', d:'A negative rod repels the sphere’s electrons to the far side. The near side becomes positive, the far side negative — but the total is still zero.'},
+  {t:'Stage 3 · Ground the far side', d:'Connecting the far side to earth lets the repelled electrons escape to the ground, leaving the sphere short of electrons.'},
+  {t:'Stage 4 · Remove ground, then rod', d:'With the ground removed first, the sphere is left with a net positive charge — opposite in sign to the rod, and achieved without any contact.'}
+];
+let inStage=0;
+function inUpdate(){
+  const s=IN_STAGES[inStage];
+  document.getElementById('inCaption').innerHTML='<b>'+s.t+'.</b> '+s.d;
+  document.getElementById('inReset').hidden=(inStage===0);
+  const nx=document.getElementById('inNext');
+  nx.disabled=(inStage>=IN_STAGES.length-1);
+  nx.innerHTML=(inStage>=IN_STAGES.length-1)?'Complete':'Next stage &#9654;';
+}
+document.getElementById('inNext').addEventListener('click',()=>{if(inStage<IN_STAGES.length-1){inStage++;inUpdate();}});
+document.getElementById('inReset').addEventListener('click',()=>{inStage=0;inUpdate();});
+function drawIn(){
+  const c=ctxOf(inCanvas); if(!c) return; const {g,w,h}=c;
+  g.clearRect(0,0,w,h);
+  const cy=h*0.5, R=Math.min(w,h)*0.26, cx=w*0.60;
+  function label(x,y,color,txt){g.fillStyle=color;g.font='800 13px '+FS;g.textAlign='center';g.textBaseline='alphabetic';g.fillText(txt,x,y);}
+  if(inStage>=1 && inStage<=2){
+    const rx=w*0.14;
+    g.fillStyle='#7c3aed'; g.strokeStyle='#5b21b6'; g.lineWidth=1.4;
+    roundRect(g,rx-11,cy-48,22,96,8); g.fill(); g.stroke();
+    g.fillStyle='#fff'; g.font='700 12px '+FS; g.textAlign='center'; g.textBaseline='middle';
+    for(let k=-1;k<=1;k++) g.fillText('−',rx,cy+k*24);
+    g.fillStyle='#5b21b6'; g.textBaseline='alphabetic'; g.fillText('charged rod',rx,cy-60);
+  }
+  if(inStage===2){
+    g.strokeStyle='#64748b'; g.lineWidth=2;
+    g.beginPath(); g.moveTo(cx+R,cy+6); g.lineTo(cx+R+36,cy+6); g.lineTo(cx+R+36,cy+58); g.stroke();
+    for(let k=0;k<3;k++){ g.beginPath(); g.moveTo(cx+R+36-13+k*4,cy+58+k*6); g.lineTo(cx+R+36+13-k*4,cy+58+k*6); g.stroke(); }
+    g.fillStyle='#64748b'; g.font='600 11px '+FS; g.textAlign='center'; g.textBaseline='alphabetic'; g.fillText('earth',cx+R+36,cy+88);
+  }
+  g.fillStyle='#eef2f8'; g.strokeStyle='rgba(27,36,64,.25)'; g.lineWidth=1.6;
+  g.beginPath(); g.arc(cx,cy,R,0,Math.PI*2); g.fill(); g.stroke();
+  const ions=[[-0.5,-0.45],[0.5,-0.45],[-0.5,0.45],[0.5,0.45]];
+  ions.forEach(p=>plusDot(g,cx+p[0]*R,cy+p[1]*R));
+  if(inStage===0){
+    ions.forEach(p=>minusDot(g,cx+p[0]*R*0.42,cy+p[1]*R*0.42));
+    label(cx,cy-R-12,'#71809e','net 0  (neutral)');
+  } else if(inStage===1){
+    for(let i=0;i<4;i++) minusDot(g,cx+R*0.52,cy+(i-1.5)*17);
+    label(cx,cy-R-12,'#71809e','net 0  (polarised)');
+  } else if(inStage===2){
+    minusDot(g,cx+R*0.5,cy-11); minusDot(g,cx+R*0.5,cy+11);
+    minusDot(g,cx+R+18,cy+6); minusDot(g,cx+R+36,cy+42);
+    label(cx,cy-R-12,'#dc2626','electrons escaping');
+  } else {
+    minusDot(g,cx-R*0.4,cy); minusDot(g,cx+R*0.4,cy);
+    label(cx,cy-R-12,'#dc2626','net +  (positive)');
+  }
+}
+
+/* ================= TAB 3 : COULOMB'S LAW ================= */
+const coCanvas=reg('coCanvas');
+const co={q1:3,q2:5,r:20,dstep:0};  // q in µC, r in cm
+const coQ1=document.getElementById('coQ1'),coQ2=document.getElementById('coQ2'),coR=document.getElementById('coR');
+function coForce(){
+  const q1=co.q1*1e-6, q2=co.q2*1e-6, r=co.r/100;
+  return KQ*q1*q2/(r*r);
+}
+function coUpdate(){
+  co.q1=+coQ1.value; co.q2=+coQ2.value; co.r=+coR.value;
+  document.getElementById('coQ1v').textContent=(co.q1>0?'+':'')+co.q1.toFixed(1)+' µC';
+  document.getElementById('coQ2v').textContent=(co.q2>0?'+':'')+co.q2.toFixed(1)+' µC';
+  document.getElementById('coRv').textContent=co.r+' cm';
+  const F=coForce(), mag=Math.abs(F);
+  const kind = F>0?'repulsive (push apart)':(F<0?'attractive (pull together)':'no force');
+  document.getElementById('coReadouts').innerHTML=
+    ro3('Product','q₁q₂ = '+sci(co.q1*co.q2*1e-12,2)+' C²')+
+    ro3('Separation','r = '+(co.r/100).toFixed(2)+' m')+
+    ro3hi('Force','F = '+sci(mag,2)+' N');
+  document.getElementById('coOut').innerHTML=
+    'The force on each charge is <b>'+sci(mag,2)+' N</b>, '+kind+'. '+
+    (co.q1*co.q2>0?'Like signs repel.':(co.q1*co.q2<0?'Opposite signs attract.':'A zero charge feels no force.'))+
+    ' Both charges feel the same size of force — Newton’s third law.';
+}
+coQ1.addEventListener('input',coUpdate); coQ2.addEventListener('input',coUpdate); coR.addEventListener('input',coUpdate);
+function drawCo(){
+  const c=ctxOf(coCanvas); if(!c) return; const {g,w,h}=c;
+  g.clearRect(0,0,w,h);
+  const topH=h*0.47, cy=topH/2;
+  const cxm=w*0.5, frac=(co.r-5)/45;
+  const half=w*0.12+frac*w*0.26;
+  const x1=cxm-half, x2=cxm+half;
+  function charge(x,q){
+    const rad=10+Math.abs(q)*2.2;
+    g.fillStyle=q>0?'#dc2626':(q<0?'#2563eb':'#9aa3bf');
+    g.beginPath(); g.arc(x,cy,rad,0,Math.PI*2); g.fill();
+    g.fillStyle='#fff'; g.font='800 '+Math.round(rad*0.9)+'px '+FS; g.textAlign='center'; g.textBaseline='middle';
+    g.fillText(q>0?'+':(q<0?'−':'0'),x,cy);
+  }
+  g.strokeStyle='rgba(27,36,64,.2)'; g.setLineDash([4,4]); g.lineWidth=1;
+  g.beginPath(); g.moveTo(x1,cy); g.lineTo(x2,cy); g.stroke(); g.setLineDash([]);
+  g.fillStyle='#71809e'; g.font='600 11px '+FS; g.textAlign='center'; g.textBaseline='alphabetic';
+  g.fillText('r = '+co.r+' cm',cxm,cy-16);
+  const F=coForce(), mag=Math.abs(F);
+  const alen=Math.max(10,Math.min(70, 18*Math.log10(1+mag*40)));
+  const repel=F>0, dir1=repel?-1:1, dir2=repel?1:-1;
+  if(mag>0){
+    g.strokeStyle='#7c3aed'; g.fillStyle='#7c3aed'; g.lineWidth=3;
+    arrow(g,x1,cy+30,x1+dir1*alen,cy+30);
+    arrow(g,x2,cy+30,x2+dir2*alen,cy+30);
+    g.fillStyle='#7c3aed'; g.font='700 11px '+FS; g.textAlign='center';
+    g.fillText('F',(x1+x1+dir1*alen)/2,cy+48); g.fillText('F',(x2+x2+dir2*alen)/2,cy+48);
+  }
+  charge(x1,co.q1); charge(x2,co.q2);
+  const L=44, R=16, pw=w-L-R;
+  const gy0=topH+8, gh=h-gy0-26;
+  const q1=co.q1*1e-6, q2=co.q2*1e-6, Fref=Math.abs(KQ*q1*q2/(0.06*0.06))||1;
+  const Y=f=>gy0+gh-Math.min(1,f)*gh;
+  g.strokeStyle='rgba(27,36,64,.42)'; g.lineWidth=1.2;
+  g.beginPath(); g.moveTo(L,gy0); g.lineTo(L,gy0+gh); g.lineTo(L+pw,gy0+gh); g.stroke();
+  g.strokeStyle='#7c3aed'; g.lineWidth=2.6; g.beginPath();
+  for(let i=0;i<=120;i++){ const rr=0.05+(i/120)*0.45, f=Math.abs(KQ*q1*q2/(rr*rr))/Fref; const x=L+(i/120)*pw, y=Y(f); i?g.lineTo(x,y):g.moveTo(x,y); }
+  g.stroke();
+  const fx=L+((co.r/100-0.05)/0.45)*pw, fy=Y(Math.abs(F)/Fref);
+  g.fillStyle='#db2777'; g.beginPath(); g.arc(fx,fy,5,0,Math.PI*2); g.fill();
+  g.fillStyle='#71809e'; g.font='700 11px '+FS; g.textAlign='center'; g.textBaseline='alphabetic';
+  g.fillText('F against r', L+pw/2, gy0+11);
+  g.font='600 10px '+FS; g.textAlign='right'; g.fillText('F', L-6, gy0+gh*0.5);
+  g.fillText('r', L+pw, gy0+gh+15);
+}
+function arrow(g,x1,y1,x2,y2){
+  g.beginPath(); g.moveTo(x1,y1); g.lineTo(x2,y2); g.stroke();
+  const a=Math.atan2(y2-y1,x2-x1);
+  g.beginPath(); g.moveTo(x2,y2);
+  g.lineTo(x2-9*Math.cos(a-0.4),y2-9*Math.sin(a-0.4));
+  g.lineTo(x2-9*Math.cos(a+0.4),y2-9*Math.sin(a+0.4));
+  g.closePath(); g.fill();
+}
+
+/* ================= TAB 4 : PERMITTIVITY ================= */
+const peCanvas=reg('peCanvas');
+const MEDIA=[['Vacuum',1.0],['Air',1.0006],['Paper',3.5],['Rubber',6.7],['Ethanol',24],['Water',80]];
+let peI=0;
+const peSeg=document.getElementById('peSeg');
+MEDIA.forEach((m,i)=>{
+  const b=document.createElement('button'); b.textContent=m[0]; if(i===0)b.classList.add('on');
+  b.addEventListener('click',()=>{peI=i;[...peSeg.children].forEach((x,k)=>x.classList.toggle('on',k===i));peUpdate();});
+  peSeg.appendChild(b);
+});
+function peUpdate(){
+  const q1=3e-6,q2=5e-6,r=0.20;
+  const Fvac=KQ*q1*q2/(r*r), er=MEDIA[peI][1], Fmed=Fvac/er;
+  document.getElementById('peReadouts').innerHTML=
+    ro3('Medium',MEDIA[peI][0])+
+    ro3('Relative permittivity','εᵣ = '+er)+
+    ro3('Force in vacuum','F₀ = '+sci(Fvac,2)+' N')+
+    ro3hi('Force in medium','F = '+sci(Fmed,2)+' N');
+  const pct=(Fmed/Fvac*100);
+  document.getElementById('peOut').innerHTML=
+    'In '+MEDIA[peI][0].toLowerCase()+' the force is <b>'+sci(Fmed,2)+' N</b> — about <b>'+pct.toFixed(pct<1?2:0)+'%</b> of its vacuum value. '+
+    'A higher relative permittivity screens the charges more, weakening the force.';
+}
+function drawPe(){
+  const c=ctxOf(peCanvas); if(!c) return; const {g,w,h}=c;
+  g.clearRect(0,0,w,h);
+  const q1=3e-6,q2=5e-6,r=0.20, Fvac=KQ*q1*q2/(r*r);
+  const L=70,R=18,T=24,B=30, pw=w-L-R, ph=h-T-B;
+  const bw=pw/MEDIA.length*0.6, gap=pw/MEDIA.length;
+  g.strokeStyle='rgba(27,36,64,.3)'; g.lineWidth=1.2;
+  g.beginPath(); g.moveTo(L,T); g.lineTo(L,T+ph); g.lineTo(L+pw,T+ph); g.stroke();
+  g.fillStyle='#71809e'; g.font='600 11px '+FS; g.textAlign='right'; g.textBaseline='middle';
+  g.fillText('F (N)',L-8,T+6);
+  MEDIA.forEach((m,i)=>{
+    const F=Fvac/m[1], frac=F/Fvac, bx=L+gap*i+(gap-bw)/2, bh=Math.max(2,frac*ph), by=T+ph-bh;
+    g.fillStyle=i===peI?'#db2777':'rgba(219,39,119,.3)';
+    g.fillRect(bx,by,bw,bh);
+    g.fillStyle=i===peI?'#db2777':'#9aa3bf'; g.font='700 10px '+FS; g.textAlign='center'; g.textBaseline='alphabetic';
+    g.fillText(m[0],bx+bw/2,T+ph+16);
+    if(i===peI){ g.textBaseline='alphabetic'; g.fillText(sci(F,1),bx+bw/2,by-6); }
+  });
+}
+
+/* ================= DERIVATION STEPPER ================= */
+function onDeriv(sim,idx){ if(sim==='coulomb') co.dstep=idx; }
+document.querySelectorAll('.deriv').forEach(d=>{
+  const sim=d.dataset.sim;
+  const steps=[...d.querySelectorAll('.dstep')];
+  const next=d.querySelector('.dnext'), reset=d.querySelector('.dreset');
+  let idx=0;
+  function sync(){
+    next.textContent = idx===0?'Reveal first step':(idx>=steps.length?'All steps shown':'Next step ▸');
+    next.disabled = idx>=steps.length; reset.hidden = idx===0; onDeriv(sim,idx);
+  }
+  next.addEventListener('click',()=>{ if(idx<steps.length){ steps[idx].classList.add('show'); idx++; sync(); }});
+  reset.addEventListener('click',()=>{ steps.forEach(s=>s.classList.remove('show')); idx=0; sync(); });
+  sync();
+});
+
+/* ================= WORKED EXAMPLES reveal ================= */
+document.querySelectorAll('.we .reveal').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const a=btn.nextElementSibling, open=!a.hidden; a.hidden=open;
+    btn.textContent=open?'Show solution':'Hide solution';
+  });
+});
+
+/* ================= QUIZ ================= */
+const QUIZ=[
+  {q:'Which of these could be the total charge on an object?',
+   o:['4.8 × 10⁻¹⁹ C','2.4 × 10⁻¹⁹ C','0.5 × 10⁻¹⁹ C','1.2 × 10⁻¹⁹ C'],a:0,
+   e:'Charge is quantized in steps of e = 1.6 × 10⁻¹⁹ C. Only 4.8 × 10⁻¹⁹ C (= 3e) is a whole-number multiple.'},
+  {q:'A glass rod becomes positively charged when rubbed with silk. This is because:',
+   o:['protons moved from silk to glass','neutrons were transferred','electrons moved from glass to silk','the glass created new positive charge'],a:2,
+   e:'Only electrons move. Glass losing electrons leaves it positive; the silk gains them and becomes negative.'},
+  {q:'Two point charges are a distance r apart. If r is tripled, the Coulomb force becomes:',
+   o:['1/3 as large','1/9 as large','9 times larger','unchanged'],a:1,
+   e:'F ∝ 1/r². Tripling r multiplies r² by 9, so the force falls to one-ninth.'},
+  {q:'Two charges carry the same sign. The force between them is:',
+   o:['attractive','zero','impossible to tell','repulsive'],a:3,
+   e:'Like charges repel; the product q₁q₂ is positive, giving a repulsive force.'},
+  {q:'Identical metal spheres of +6 nC and 0 nC are touched together then separated. Each now carries:',
+   o:['+6 nC and 0 nC','+3 nC each','+6 nC each','−3 nC each'],a:1,
+   e:'Charge is conserved and shared equally by identical spheres: (6 + 0)/2 = +3 nC each.'},
+  {q:'The same two charges are moved from air into water (εᵣ ≈ 80). The force between them:',
+   o:['falls to about 1/80','increases 80-fold','is unchanged','falls to zero'],a:0,
+   e:'F ∝ 1/ε, so a medium with εᵣ ≈ 80 reduces the force to roughly one-eightieth of its value in air.'}
+];
+let score=0; const answered=new Array(QUIZ.length).fill(false);
+const quizEl=document.getElementById('quiz');
+QUIZ.forEach((item,qi)=>{
+  const d=document.createElement('div'); d.className='q';
+  const opts=item.o.map((t,oi)=>'<button class="opt" data-q="'+qi+'" data-o="'+oi+'">'+String.fromCharCode(65+oi)+'. '+t+'</button>').join('');
+  d.innerHTML='<div class="qq">'+(qi+1)+'. '+item.q+'</div><div class="opts">'+opts+'</div><div class="qexp" id="exp'+qi+'"></div>';
+  quizEl.appendChild(d);
+});
+quizEl.addEventListener('click',e=>{
+  const b=e.target.closest('.opt'); if(!b) return;
+  const qi=+b.dataset.q, oi=+b.dataset.o; if(answered[qi]) return;
+  answered[qi]=true; const item=QUIZ[qi];
+  b.parentElement.querySelectorAll('.opt').forEach((btn,k)=>{
+    btn.disabled=true;
+    if(k===item.a) btn.classList.add('correct'); else if(k===oi) btn.classList.add('wrong');
+  });
+  if(oi===item.a) score++;
+  const exp=document.getElementById('exp'+qi);
+  exp.innerHTML=(oi===item.a?'<b>Correct.</b> ':'<b>Not quite.</b> ')+item.e; exp.classList.add('show');
+  document.getElementById('quizScore').textContent='Score: '+score+' / '+QUIZ.length;
+});
+
+/* ================= TAB 2b : FRICTION & CONDUCTION ================= */
+function roundRect(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
+function minusDot(g,x,y){g.fillStyle='#2563eb';g.beginPath();g.arc(x,y,7,0,Math.PI*2);g.fill();g.fillStyle='#fff';g.font='700 11px '+FS;g.textAlign='center';g.textBaseline='middle';g.fillText('−',x,y);g.textBaseline='alphabetic';}
+function plusDot(g,x,y){g.fillStyle='#dc2626';g.beginPath();g.arc(x,y,7,0,Math.PI*2);g.fill();g.fillStyle='#fff';g.font='700 11px '+FS;g.textAlign='center';g.textBaseline='middle';g.fillText('+',x,y);g.textBaseline='alphabetic';}
+
+/* --- Friction: the user rubs; each stroke transfers an electron --- */
+const fricCanvas=reg('fricCanvas');
+const FRIC_MAX=8;
+const fric={n:0,stroke:0,striking:false,dir:1};
+function fricRub(){ if(fric.n<FRIC_MAX) fric.n++; fric.striking=true; fric.stroke=0; fric.dir*=-1; }
+document.getElementById('fricRub').addEventListener('click',fricRub);
+document.getElementById('fricReset').addEventListener('click',()=>{fric.n=0;fric.striking=false;fric.stroke=0;});
+const fdrag={down:false,lastX:0,accum:0};
+fricCanvas.addEventListener('pointerdown',e=>{fdrag.down=true;fdrag.lastX=e.offsetX;fdrag.accum=0;try{fricCanvas.setPointerCapture(e.pointerId);}catch(_){}});
+fricCanvas.addEventListener('pointermove',e=>{ if(!fdrag.down) return; const dx=e.offsetX-fdrag.lastX; fdrag.lastX=e.offsetX; fdrag.accum+=Math.abs(dx);
+  fric.striking=true; fric.stroke=0.5; fric.dir=(dx<0?-1:1);
+  if(fdrag.accum>=70){ fdrag.accum=0; if(fric.n<FRIC_MAX) fric.n++; } });
+fricCanvas.addEventListener('pointerup',()=>{fdrag.down=false;fric.striking=false;});
+fricCanvas.addEventListener('pointerleave',()=>{fdrag.down=false;});
+function drawFric(dt){
+  const c=ctxOf(fricCanvas); if(!c) return; const {g,w,h}=c;
+  if(fric.striking){ fric.stroke=Math.min(1,fric.stroke+dt*2.4); if(fric.stroke>=1) fric.striking=false; }
+  g.clearRect(0,0,w,h);
+  const cy=h*0.44, n=fric.n;
+  const rodX=w*0.46, rodW=152;
+  const slide=fric.striking? Math.sin(fric.stroke*Math.PI)*22*fric.dir : 0;
+  const clothCx=w*0.30+slide;
+  g.fillStyle='#c7d2fe'; g.strokeStyle='#6366f1'; g.lineWidth=1.4;
+  roundRect(g,rodX,cy-13,rodW,26,9); g.fill(); g.stroke();
+  g.fillStyle='#4338ca'; g.font='700 11px '+FS; g.textAlign='center'; g.textBaseline='alphabetic'; g.fillText('polythene rod',rodX+rodW/2,cy-22);
+  g.fillStyle='#fcd9b6'; g.strokeStyle='#c98a4b'; g.lineWidth=1.4;
+  roundRect(g,clothCx-42,cy-38,84,32,10); g.fill(); g.stroke();
+  g.fillStyle='#9a5a22'; g.fillText('cloth',clothCx,cy-44);
+  const step=(rodW-30)/7;
+  for(let i=0;i<n;i++) minusDot(g,rodX+18+(i%8)*step,cy);
+  for(let i=0;i<n;i++) plusDot(g,clothCx-34+(i%8)*10,cy-21);
+  if(fric.striking && n>0){
+    const ph=fric.stroke, sx=clothCx, ex=rodX+18+((n-1)%8)*step, mx=sx+(ex-sx)*ph, my=cy-30*Math.sin(ph*Math.PI);
+    minusDot(g,mx,my);
+  }
+  g.textAlign='center';
+  g.fillStyle='#2563eb'; g.font='800 13px '+FS; g.fillText('rod: '+(n>0?('−'+n+' e'):'neutral'),rodX+rodW/2,cy+42);
+  g.fillStyle='#dc2626'; g.fillText('cloth: '+(n>0?('+'+n+' e'):'neutral'),clothCx,cy+42);
+  g.fillStyle='#71809e'; g.font='600 11px '+FS; g.textAlign='left';
+  g.fillText('electrons transferred: '+n+(n>=FRIC_MAX?'  (keep rubbing — surfaces saturated)':''),14,h-12);
+}
+
+/* --- Conduction: stepper, shows + and − --- */
+const condCanvas=reg('condCanvas');
+const COND_STAGES=[
+  {t:'Stage 1 · Before contact', d:'Sphere X is charged (−12 nC) — it has extra electrons. Sphere Y is neutral, with equal + and −.'},
+  {t:'Stage 2 · Touching', d:'In contact, the extra electrons on X repel one another and some move onto Y. Charge flows until both spheres are at the same potential.'},
+  {t:'Stage 3 · After separation', d:'Separated, the identical spheres share the charge equally — −6 nC on each.'}
+];
+let condStage=0, condAnim=0;
+function condUpdate(){
+  const s=COND_STAGES[condStage];
+  document.getElementById('condCaption').innerHTML='<b>'+s.t+'.</b> '+s.d;
+  document.getElementById('condReset').hidden=(condStage===0);
+  const nx=document.getElementById('condNext'); nx.disabled=(condStage>=COND_STAGES.length-1);
+  nx.innerHTML=(condStage>=COND_STAGES.length-1)?'Complete':'Next step &#9654;';
+}
+document.getElementById('condNext').addEventListener('click',()=>{if(condStage<COND_STAGES.length-1){condStage++; if(condStage===1)condAnim=0; condUpdate();}});
+document.getElementById('condReset').addEventListener('click',()=>{condStage=0;condAnim=0;condUpdate();});
+function drawCond(dt){
+  const c=ctxOf(condCanvas); if(!c) return; const {g,w,h}=c;
+  if(condStage===1 && condAnim<1) condAnim=Math.min(1,condAnim+dt*0.3);
+  g.clearRect(0,0,w,h);
+  const cy=h*0.48, R=Math.min(w,h)*0.2, touching=(condStage===1);
+  const leftX = touching? w*0.42-R : w*0.30;
+  const rightX= touching? w*0.42+R : w*0.70;
+  function drawS(x,electrons,lbl,col){
+    g.fillStyle='#eef2f8'; g.strokeStyle='rgba(27,36,64,.25)'; g.lineWidth=1.6;
+    g.beginPath(); g.arc(x,cy,R,0,Math.PI*2); g.fill(); g.stroke();
+    const ions=[[0,-0.5],[-0.45,0.32],[0.45,0.32]];
+    ions.forEach(p=>plusDot(g,x+p[0]*R,cy+p[1]*R));
+    for(let i=0;i<electrons;i++){ const a=i/Math.max(1,electrons)*Math.PI*2+0.5; minusDot(g,x+Math.cos(a)*R*0.5,cy+Math.sin(a)*R*0.5); }
+    g.fillStyle=col; g.font='800 12px '+FS; g.textAlign='center'; g.textBaseline='alphabetic'; g.fillText(lbl,x,cy+R+22);
+  }
+  if(condStage===0){
+    drawS(leftX,5,'X:  −12 nC','#2563eb');
+    drawS(rightX,3,'Y:  0 nC (neutral)','#71809e');
+  } else if(condStage===1){
+    drawS(leftX,4,'X','#2563eb');
+    drawS(rightX,3,'Y','#2563eb');
+    const sx=leftX+R*0.55, ex=rightX-R*0.15, mx=sx+(ex-sx)*condAnim, my=cy-12*Math.sin(condAnim*Math.PI);
+    minusDot(g,mx,my);
+    g.fillStyle='#2563eb'; g.font='700 11px '+FS; g.textAlign='center'; g.textBaseline='alphabetic';
+    g.fillText(condAnim<1?'electron drifting across…':'potentials now equal',(leftX+rightX)/2,cy-R-14);
+  } else {
+    drawS(leftX,4,'X:  −6 nC','#2563eb');
+    drawS(rightX,4,'Y:  −6 nC','#2563eb');
+  }
+}
+
+/* --- sub-tabs for charging methods --- */
+let chargeSub=0;
+const _subtabs=document.querySelectorAll('#chargeSubtabs .subtab');
+const _subpanels=document.querySelectorAll('section[data-p="1"] .subpanel');
+_subtabs.forEach(b=>b.addEventListener('click',()=>{
+  chargeSub=+b.dataset.s;
+  _subtabs.forEach(x=>x.classList.toggle('on',x.dataset.s===b.dataset.s));
+  _subpanels.forEach(p=>p.hidden=(+p.dataset.s!==chargeSub));
+}));
+
+/* --- progressive practice questions: reveal a part, then unlock the next --- */
+document.querySelectorAll('.pq').forEach(pq=>{
+  const parts=[...pq.querySelectorAll('.qpart')];
+  parts.forEach((part,i)=>{
+    const btn=part.querySelector('.preveal'), ans=part.querySelector('.pans');
+    btn.addEventListener('click',()=>{
+      if(ans.hidden){
+        ans.hidden=false; btn.textContent='Hide answer';
+        if(i+1<parts.length && parts[i+1].hidden){ parts[i+1].hidden=false; }
+        else if(i+1===parts.length && !pq.querySelector('.pdone')){
+          const d=document.createElement('div'); d.className='pdone'; d.textContent='✓ All parts complete.'; pq.appendChild(d);
+        }
+      } else { ans.hidden=true; btn.textContent='Reveal answer'; }
+    });
+  });
+});
+
+/* ================= MASTER LOOP ================= */
+let lastT=performance.now();
+function masterLoop(now){
+  const dt=Math.min(0.05,(now-lastT)/1000); lastT=now;
+  if(active===0) drawCh();
+  else if(active===1){
+    if(chargeSub===0) drawFric(dt);
+    else if(chargeSub===1) drawIn();
+    else drawCond(dt);
+  }
+  else if(active===2) drawCo();
+  else if(active===3) drawPe();
+  requestAnimationFrame(masterLoop);
+}
+chUpdate(); inUpdate(); condUpdate(); coUpdate(); peUpdate();
+requestAnimationFrame(masterLoop);
+</script>
+</body>
+</html>
