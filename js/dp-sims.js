@@ -319,4 +319,13 @@ const DP_SIMS = [
     description: "Part 3 of 4. Build the moment of inertia from I = Σmr², compare the standard-shape coefficients, derive and apply Newton's second law for rotation τ = Iα, see the F=ma ↔ τ=Iα analogy, and explore how moving mass or coupling bodies changes I — with derivations, worked examples and a quiz.",
     file: "sims/rigid-body-inertia.html"
   },
+  {
+    id: "rigid-body-angular-momentum",
+    title: "Rigid Body 4 · Angular Momentum & Rotational Energy",
+    icon: "🌀",
+    topic: "A.4",
+    topicName: "Rigid body mechanics",
+    description: "Angular momentum L = Iω and its conservation (the figure-skater effect), angular impulse ΔL = τΔt, rotational kinetic energy ½Iω² = L²/2I, and a coupled-disc rotational collision. Higher Level.",
+    file: "sims/rigid-body-angular-momentum.html"
+  },
 ];

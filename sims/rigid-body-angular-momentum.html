@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Angular Momentum &amp; Rotational Energy</title>
+<style>
+:root{
+  --c1:#e11d48; --c2:#0d9488; --c3:#d97706; --c4:#059669; --c5:#ca8a04; --c6:#4d7c0f; --c7:#0f766e;
+  --accent:var(--c1); --accent-soft:rgba(225,29,72,.12);
+  --ink:#2a2420; --muted:#8a7f73; --line:rgba(42,36,32,.13); --card:#fffdfb;
+  --tan:#f0e7d6; --tanink:#9a6b2f;
+  --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;padding-bottom:64px;
+  transition:background .6s ease,filter .3s ease;background:linear-gradient(135deg,#fdf6f1 0%,#f4f8f2 50%,#eef8f4 100%)}
+body[data-page="1"]{background:linear-gradient(140deg,#fdeef0 0%,#fdf4ee 45%,#fbf1ea 100%)}
+body[data-page="2"]{background:linear-gradient(140deg,#e7f6f1 0%,#eef9f1 45%,#f4faee 100%)}
+body[data-page="3"]{background:linear-gradient(140deg,#fdf2e3 0%,#fdf6e8 45%,#fdf4e4 100%)}
+body[data-page="4"]{background:linear-gradient(140deg,#e6f7ec 0%,#eef9ec 45%,#f4f9e6 100%)}
+body[data-page="5"]{background:linear-gradient(140deg,#fdf6e2 0%,#fcf7e5 45%,#f8f8e3 100%)}
+body[data-page="6"]{background:linear-gradient(140deg,#f0f6de 0%,#eef5df 45%,#edf4e2 100%)}
+body[data-page="7"]{background:linear-gradient(140deg,#e3f4ee 0%,#e9f5ea 45%,#eff5e6 100%)}
+body[data-page="8"]{background:linear-gradient(140deg,#fdeef0 0%,#fdf4ee 45%,#fbf1ea 100%)}
+body.dark{--ink:#ece6df;--muted:#b2a89b;--line:rgba(236,230,223,.16);--card:#241f1b;--tan:#3a322a;--tanink:#f0d9a8;
+  background:linear-gradient(135deg,#17130f 0%,#141511 55%,#121613 100%)!important}
+body.dark .topnav,body.dark .chapterbar{background:rgba(28,24,20,.86)}
+body.dark .brand{color:#f6f1ea}
+body.dark .tab{background:rgba(255,255,255,.06)}
+body.dark .partlink{background:rgba(255,255,255,.05)}
+body.dark .btn.ghost,body.dark .seg button{background:rgba(255,255,255,.06)}
+body.dark .we,body.dark .q,body.dark .mcard,body.dark .gatebox,body.dark .workcard{background:#241f1b}
+body.dark .opt,body.dark .pans,body.dark .eqbox{background:#1b1713}
+body.dark .qexp{background:rgba(13,148,136,.16)}
+body.dark .chapterbar,body.dark .topnav{border-color:var(--line)}
+body.dark .partlink,body.dark .seg button{color:#d8cfc3}
+body.dark .lead,body.dark .prose p,body.dark .mcard p,body.dark .answer,body.dark .pans,body.dark .qexp,body.dark .dstep .cap,body.dark .pq .stem,body.dark .intro{color:#d8cfc3}
+body.dark .gatebox .mark{color:#f6f1ea}
+body.dark .opt.correct{background:rgba(5,150,105,.2)}
+body.dark .opt.wrong{background:rgba(220,38,38,.2)}
+body.dark .canvas-wrap{background:#f6f4ef}
+.topnav{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 22px;
+  background:rgba(255,253,251,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.brand{font-weight:800;letter-spacing:.4px;font-size:15px;color:#2a2420;white-space:nowrap}
+.brand .sp{color:#d98a1f}
+.navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.navlink{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;transition:.2s;white-space:nowrap}
+.navlink:hover{color:var(--accent)}
+.navlink.active{color:var(--accent);font-weight:800}
+.allsims{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:600}
+.navright{margin-left:auto;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.profile{display:inline-flex;align-items:center;gap:6px;background:var(--tan);color:var(--tanink);font-weight:800;
+  font-size:12px;padding:4px 11px 4px 7px;border-radius:999px}
+.profile .av{width:17px;height:17px;border-radius:50%;background:#0d9488;display:inline-block;position:relative}
+.profile .av::after{content:"";position:absolute;left:50%;top:3px;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#fff}
+.profile .av::before{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:11px;height:6px;border-radius:6px 6px 0 0;background:#fff}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sunbtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--tan);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;font-size:15px;transition:.2s}
+.sunbtn:hover{filter:brightness(1.04)}
+.chapterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 22px;
+  background:rgba(255,253,251,.6);border-bottom:1px solid var(--line)}
+.chaptag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fffdfb;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:#fff;border-color:var(--accent)}
+.partlink .pl{font-size:9px;font-weight:800;opacity:.85;margin-left:4px;border:1px solid currentColor;border-radius:4px;padding:0 3px}
+.legend{margin-left:auto;display:flex;gap:10px;font-size:11px;color:var(--muted);font-weight:600}
+.legend .hl{display:inline-flex;align-items:center;gap:4px}
+.dotHL{width:9px;height:9px;border-radius:3px;background:#e11d48}
+header.hero{padding:26px 22px 8px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:29px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:760px;font-size:15px}
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,253,251,.86);border:1px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab .lvl{font-size:9px;font-weight:800;border-radius:4px;padding:1px 4px;background:var(--accent-soft);color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:#fff;background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .num,.tab.active .lvl{color:#fff}
+.tab.active .lvl{background:rgba(255,255,255,.25)}
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.levelchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.5px;
+  border-radius:999px;padding:3px 10px;margin-bottom:10px;text-transform:uppercase}
+.levelchip.hl{background:rgba(225,29,72,.12);color:#e11d48}
+.lead{font-size:16px;color:#4a4038;max-width:800px;margin-bottom:14px}
+.intro{background:var(--accent-soft);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;
+  padding:13px 16px;margin-bottom:18px;font-size:13.5px;color:#4a4038;max-width:900px}
+.intro .t{display:block;font-weight:800;color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.intro b{color:var(--ink)}
+.intro p{margin:0 0 6px}
+.intro p:last-child{margin:0}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(42,36,32,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.workcard{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(42,36,32,.5)}
+.workcard .wgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+@media(max-width:720px){.workcard .wgrid{grid-template-columns:1fr}}
+.workcard h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.workcard h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(280px,40vh,400px);overflow:hidden;border-radius:12px;background:linear-gradient(160deg,#fffefb 0%,#fbfbf6 100%);border:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%}
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.ghost{background:#fffdfb;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btn:disabled{opacity:.5;cursor:default;filter:none}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.seg button{font-family:var(--fs);font-size:12px;font-weight:700;border:1px solid var(--line);background:#fffdfb;color:var(--muted);
+  border-radius:9px;padding:7px 11px;cursor:pointer;transition:.18s}
+.seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.fml{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;font-size:19px;line-height:1.7;color:var(--ink)}
+.fml .op{color:var(--muted);margin:0 4px}
+.fml sub{font-size:.66em;vertical-align:-.28em}
+.fml sup{font-size:.66em;vertical-align:.5em}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 2px}
+.frac .num{border-bottom:1.7px solid currentColor;padding:0 8px 2px}
+.frac .den{padding:2px 8px 0}
+.fml .cst{font-size:12.5px;font-family:var(--fm);color:var(--muted);margin-left:6px}
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#4a4038}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+.prose p{margin-bottom:11px;font-size:14.5px;color:#4a4038}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fffdf7;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+.deriv{border-top:3px solid var(--accent)!important}
+.deriv .dhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dctrls{display:flex;gap:8px}
+.dintro{font-size:12.5px;color:var(--muted);margin:8px 0 2px}
+.dstep{opacity:0;max-height:0;overflow:hidden;transform:translateY(6px);transition:opacity .35s ease,max-height .5s ease,transform .35s ease}
+.dstep.show{opacity:1;max-height:460px;transform:none;margin:12px 0}
+.dstep .eqbox{margin:0}
+.dstep .cap{font-size:13px;color:#4a4038;margin-top:6px}
+.dstep .cap b{color:var(--accent)}
+.dstep .sidx{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;color:#fff;background:var(--accent);border-radius:5px;padding:2px 7px;margin-bottom:6px;text-transform:uppercase}
+.pq{margin-top:18px;border-top:3px solid var(--c6)}
+.pq .tagq{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c6);margin-bottom:6px}
+.pq .stem{font-size:14.5px;color:#4a4038;margin-bottom:12px}
+.qpart{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+.qpart:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.qpart[hidden]{display:none}
+.qpart .ptext{font-weight:700;font-size:14px;margin-bottom:8px}
+.qpart .ptext .mks{color:var(--muted);font-weight:700;margin-left:4px}
+.preveal{font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.pans{margin-top:9px;font-size:13.5px;color:#4a4038;background:#fbf8f3;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.pans[hidden]{display:none}
+.pans .fml{font-size:16px;margin:6px 0}
+.pdone{font-size:12px;color:#059669;font-weight:700;margin-top:12px}
+.we{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#4a4038;border-top:1px dashed var(--line);padding-top:10px}
+.answer .eqbox{font-size:13.5px}
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c3)}
+.mcard .wrong{font-size:13px;color:#b45309;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"✗ ";}
+.mcard .right{font-size:13.5px;color:#15803d;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"✓ ";}
+.mcard p{font-size:13px;color:#4a4038;margin-top:5px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fffdf9;border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#4a4038;background:#f0fbf5;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#fdf6f1,#f4f8f2,#eef8f4);display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fffdfb;border-radius:20px;padding:34px 30px;max-width:430px;width:100%;box-shadow:0 30px 70px -30px rgba(42,36,32,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:#2a2420}
+.gatebox .mark .sp{color:#d98a1f}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c1)}
+.gatebox .btn{width:100%;background:var(--c1);color:#fff;border-color:var(--c1);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+</style>
+</head>
+<body data-page="1">
+
+<!-- NAME GATE -->
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>Angular Momentum &amp; Rotational Energy</h2>
+    <p>Theme A.4 Rigid Body Mechanics · Part 4 of 4 · Higher Level</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive IB physics lesson</div>
+  </div>
+</div>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="navlinks">
+    <a class="navlink allsims" href="../index.html">&larr; All Simulations</a>
+    <a class="navlink" href="../index.html">Home</a>
+    <a class="navlink" href="../index.html#igcse">IGCSE</a>
+    <a class="navlink" href="../index.html#myp">MYP</a>
+    <a class="navlink active" href="../index.html#dp">DP</a>
+  </div>
+  <div class="navright">
+    <span class="profile"><span class="av"></span><span id="profileName">atul</span></span>
+    <span id="clock"></span>
+    <button class="sunbtn" id="sunbtn" title="Switch to dark mode">&#9728;</button>
+  </div>
+</div>
+
+<!-- CHAPTER BAR -->
+<div class="chapterbar">
+  <span class="chaptag">A.4 Rigid Body</span>
+  <div class="parts">
+    <a class="partlink" href="rigid-body-torque.html">Part 1 · Torque &amp; Equilibrium<span class="pl">HL</span></a>
+    <a class="partlink" href="rigid-body-kinematics.html">Part 2 · Rotational Kinematics<span class="pl">HL</span></a>
+    <a class="partlink" href="rigid-body-inertia.html">Part 3 · Moment of Inertia<span class="pl">HL</span></a>
+    <a class="partlink here" href="rigid-body-angular-momentum.html">Part 4 · Angular Momentum<span class="pl">HL</span></a>
+  </div>
+  <div class="legend">
+    <span class="hl"><span class="dotHL"></span>All parts Higher Level</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">A.4 · Higher Level</div>
+  <h1 id="heroTitle">Angular momentum &amp; rotational energy</h1>
+  <p id="heroLede">Spin stores both momentum and energy. Meet angular momentum L = Iω and the law that keeps it constant, see a torque change it through angular impulse, and track the rotational kinetic energy ½Iω² — the rotational close of linear mechanics.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+
+<!-- PAGE 1 : ANGULAR MOMENTUM L = Iω -->
+<section class="page active" data-p="0">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">Momentum, for spin</span>
+    <p>Straight-line momentum is p = mv — how much "motion" a moving mass carries. Its rotational twin is <b>angular momentum L = Iω</b>: the moment of inertia takes the place of mass, and angular velocity takes the place of velocity. A heavy, fast-spinning flywheel has a large L and is hard to stop; a light, slow one barely any.</p>
+    <p>Like its linear cousin, L is the quantity that bookkeeps rotation. Change it and you need a torque; leave it alone and it persists. Everything in this chapter — conservation, impulse, energy — is built on this one definition.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Build L = Iω</h3>
+      <div class="canvas-wrap"><canvas id="lmCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Moment of inertia I <b id="lmIv">2.0 kg m²</b></label>
+        <input type="range" id="lmI" min="0.5" max="8" step="0.5" value="2">
+      </div>
+      <div class="ctl">
+        <label>Angular velocity ω <b id="lmWv">4.0 rad s⁻¹</b></label>
+        <input type="range" id="lmW" min="0" max="10" step="0.5" value="4">
+      </div>
+      <p class="note">The disc spins at ω and carries moment of inertia I. The gauge shows their product <b>L = Iω</b> — the angular momentum. Raise either and L grows in exact proportion.</p>
+    </div>
+    <div class="card deriv" data-sim="lm">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · L = Iω</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Add up the ordinary momentum of every particle going round.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · one particle</span><div class="eqbox fml">p = m v = m (r ω)</div><div class="cap">A particle a distance r from the axis moves at v = rω (Part 2), carrying linear momentum mv.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · its angular momentum</span><div class="eqbox fml">ℓ = p r = (m r ω) r = m r² ω</div><div class="cap">Angular momentum of a particle is its momentum × distance from the axis — giving m r² ω.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · add the whole body</span><div class="eqbox fml">L = Σ m r² ω = (Σ m r²) ω</div><div class="cap">Every particle shares ω, so it factors out of the sum.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · recognise I</span><div class="eqbox fml" style="font-weight:700">L = I ω<span class="cst">unit kg m² s⁻¹</span></div><div class="cap">The sum Σmr² is the moment of inertia I. So L = Iω — the exact twin of p = mv.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="lmReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">L = I ω<span class="cst">p = mv for rotation</span></div>
+        <div class="out" id="lmOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="lm-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A flywheel of moment of inertia 0.80 kg m² spins at 15 rad s⁻¹.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate its angular momentum. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">L = Iω = (0.80)(15) <span class="op">=</span><b>12 kg m² s⁻¹</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) A second identical flywheel spins at half the rate. State its angular momentum. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Half the ω gives half the L: <b>6.0 kg m² s⁻¹</b>, since L = Iω is linear in ω.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) State the linear quantity that L is the rotational analogue of. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Linear momentum <b>p = mv</b>: I replaces m and ω replaces v.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : CONSERVATION OF ANGULAR MOMENTUM -->
+<section class="page" data-p="1">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">When nothing twists it, L is locked</span>
+    <p>If the resultant torque on a body is zero, its angular momentum <b>cannot change</b>: L = Iω stays constant. This is the rotational version of conservation of momentum, and it has a dramatic consequence — if the body changes shape so that I falls, ω must <b>rise</b> to keep the product fixed.</p>
+    <p>This is the figure-skater effect. Pull your arms in and your moment of inertia drops; with no external torque, your spin speeds up. Pull the slider below to draw the masses in and watch I fall, ω climb, and L hold rock-steady.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>The skater effect</h3>
+      <div class="canvas-wrap"><canvas id="cnCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Arm position — distance of masses d <b id="cnDv">0.50 m</b></label>
+        <input type="range" id="cnD" min="0.12" max="0.60" step="0.02" value="0.50">
+      </div>
+      <p class="note">Angular momentum L is held constant (no external torque). As you pull the masses in, I = I<sub>core</sub> + 2md² drops and ω = L / I shoots up — the spin accelerates even though nothing pushed it. Watch the L bar stay fixed while ω changes.</p>
+    </div>
+    <div class="card deriv" data-sim="cn">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · I₁ω₁ = I₂ω₂</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Start from τ = ΔL/Δt and set the torque to zero.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · torque changes L</span><div class="eqbox fml">τ<sub>net</sub> = <span class="frac"><span class="num">ΔL</span><span class="den">Δt</span></span></div><div class="cap">Rewriting τ = Iα: the resultant torque equals the rate of change of angular momentum.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · no resultant torque</span><div class="eqbox fml">τ<sub>net</sub> = 0 <span class="op">⟹</span> ΔL = 0</div><div class="cap">If nothing twists the system, its angular momentum cannot change.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · L is conserved</span><div class="eqbox fml">L = I ω = constant</div><div class="cap">The product Iω stays fixed, even if the body reshapes itself.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · the trade-off</span><div class="eqbox fml" style="font-weight:700">I₁ ω₁ = I₂ ω₂</div><div class="cap">Shrink I and ω must grow in proportion. Halve the moment of inertia and the spin rate doubles.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="cnReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">I₁ω₁ = I₂ω₂<span class="cst">τ = 0</span></div>
+        <div class="out" id="cnOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="cn-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A skater spins at 2.0 rad s⁻¹ with a moment of inertia of 4.5 kg m². She pulls her arms in, reducing it to 1.5 kg m².</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate her new angular velocity. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">I₁ω₁ = I₂ω₂ <span class="op">⟹</span> ω₂ = <span class="frac"><span class="num">(4.5)(2.0)</span><span class="den">1.5</span></span> <span class="op">=</span><b>6.0 rad s⁻¹</b></div>Three times smaller I, three times faster spin.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) State the condition that makes this possible. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>There is <b>no resultant external torque</b> on her, so angular momentum L = Iω is conserved.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) Her angular momentum before was 9.0 kg m² s⁻¹. State its value after. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Unchanged: <b>9.0 kg m² s⁻¹</b> (that is exactly what "conserved" means). Check: (1.5)(6.0) = 9.0. ✓</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 : ANGULAR IMPULSE -->
+<section class="page" data-p="2">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">A torque, applied for a while</span>
+    <p>To change angular momentum you need a torque acting over time. The product is the <b>angular impulse ΔL = τΔt</b> — the exact rotational twin of linear impulse FΔt = Δp. A big torque for a short burst, or a gentle torque held for longer, can deliver the same change in spin.</p>
+    <p>Because ΔL = Δ(Iω), with I fixed this becomes a change in angular velocity: Δω = τΔt / I. Set a torque and a time below, press <b>Apply the kick</b>, and watch the wheel speed up by exactly the predicted amount.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Deliver an angular impulse</h3>
+      <div class="canvas-wrap"><canvas id="aiCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Applied torque τ <b id="aiTv">6.0 N m</b></label>
+        <input type="range" id="aiTau" min="0" max="20" step="1" value="6">
+      </div>
+      <div class="ctl">
+        <label>Duration Δt <b id="aiDtv">2.0 s</b></label>
+        <input type="range" id="aiDt" min="0.5" max="5" step="0.5" value="2">
+      </div>
+      <div class="btnrow">
+        <button class="btn" id="aiGo">Apply the kick</button>
+        <button class="btn ghost" id="aiReset">Reset to rest</button>
+      </div>
+      <p class="note">The wheel (I = 2.0 kg m²) starts at rest. The angular impulse τΔt is deposited as a change in angular momentum ΔL, lifting its spin to ω = ΔL / I. Larger torque or longer push → larger ΔL.</p>
+    </div>
+    <div class="card deriv" data-sim="ai">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · ΔL = τΔt</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Rearrange Newton's second law for rotation over a time interval.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · rotation's second law</span><div class="eqbox fml">τ<sub>net</sub> = <span class="frac"><span class="num">ΔL</span><span class="den">Δt</span></span></div><div class="cap">The resultant torque equals the rate of change of angular momentum.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · multiply by Δt</span><div class="eqbox fml">ΔL = τ<sub>net</sub> Δt</div><div class="cap">Torque × time is the angular impulse — the change it produces in L.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · in terms of Iω</span><div class="eqbox fml">τ Δt = Δ(I ω) = I ω<sub>f</sub> − I ω<sub>i</sub></div><div class="cap">Since L = Iω, the angular impulse is the change in Iω.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · the change in spin</span><div class="eqbox fml" style="font-weight:700">Δω = <span class="frac"><span class="num">τ Δt</span><span class="den">I</span></span></div><div class="cap">With I constant, the impulse translates directly into extra angular velocity. Compare FΔt = Δp.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="aiReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">ΔL = τΔt = Δ(Iω)<span class="cst">FΔt = Δp</span></div>
+        <div class="out" id="aiOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="ai-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A constant torque of 5.0 N m acts on a wheel (I = 2.5 kg m²) for 4.0 s. The wheel starts from rest.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the angular impulse delivered. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">ΔL = τΔt = (5.0)(4.0) <span class="op">=</span><b>20 kg m² s⁻¹</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Hence find the final angular velocity. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">ΔL = Iω<sub>f</sub> <span class="op">⟹</span> ω<sub>f</sub> = <span class="frac"><span class="num">20</span><span class="den">2.5</span></span> <span class="op">=</span><b>8.0 rad s⁻¹</b></div></div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) State the linear quantity angular impulse is analogous to. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Linear impulse <b>FΔt = Δp</b>. Torque replaces force, and change in L replaces change in p.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4 : ROTATIONAL KINETIC ENERGY -->
+<section class="page" data-p="3">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">The energy of spin</span>
+    <p>A spinning body stores kinetic energy even if its centre of mass goes nowhere. Adding up ½mv² for every particle gives the <b>rotational kinetic energy Eₖ = ½Iω²</b> — the exact twin of ½mv². It can also be written in terms of angular momentum as <b>Eₖ = L² / 2I</b>, a form that is handy whenever L is conserved.</p>
+    <p>Notice the square: double the angular velocity and the stored energy quadruples. This is why flywheels are such effective energy stores, and why a fast spin is so much harder to bring to rest than a slow one.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Store energy in a spin</h3>
+      <div class="canvas-wrap"><canvas id="keCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Moment of inertia I <b id="keIv">3.0 kg m²</b></label>
+        <input type="range" id="keI" min="0.5" max="8" step="0.5" value="3">
+      </div>
+      <div class="ctl">
+        <label>Angular velocity ω <b id="keWv">4.0 rad s⁻¹</b></label>
+        <input type="range" id="keW" min="0" max="10" step="0.5" value="4">
+      </div>
+      <p class="note">The gauge tracks Eₖ = ½Iω². Because of the square on ω, sliding the speed up fills the energy bar far faster than sliding I up — a reminder that spin energy grows with the <b>square</b> of angular velocity.</p>
+    </div>
+    <div class="card deriv" data-sim="ke">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · Eₖ = ½Iω²</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Sum the ordinary kinetic energy ½mv² of every particle.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · one particle</span><div class="eqbox fml">E = ½ m v² = ½ m (r ω)²</div><div class="cap">Each particle moves at v = rω, so its kinetic energy is ½m(rω)².</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · add them up</span><div class="eqbox fml">E<sub>k</sub> = Σ ½ m r² ω² = ½ (Σ m r²) ω²</div><div class="cap">The shared ω² factors out of the sum over all particles.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · recognise I</span><div class="eqbox fml" style="font-weight:700">E<sub>k</sub> = ½ I ω²<span class="cst">twin of ½mv²</span></div><div class="cap">The sum Σmr² is the moment of inertia I.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · in terms of L</span><div class="eqbox fml">E<sub>k</sub> = ½ I ω² = <span class="frac"><span class="num">(Iω)²</span><span class="den">2I</span></span> = <span class="frac"><span class="num">L²</span><span class="den">2I</span></span></div><div class="cap">Substituting L = Iω gives the equivalent form Eₖ = L²/2I.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="keReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">E<sub>k</sub> = ½Iω² = <span class="frac"><span class="num">L²</span><span class="den">2I</span></span></div>
+        <div class="out" id="keOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="ke-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A flywheel has moment of inertia 0.50 kg m² and spins at 20 rad s⁻¹.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate its rotational kinetic energy. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">E<sub>k</sub> = ½Iω² = ½(0.50)(20)² <span class="op">=</span><b>100 J</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) The spin rate is doubled. State the new kinetic energy. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Energy ∝ ω², so doubling ω multiplies E by four: <b>400 J</b>.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) Its angular momentum is 10 kg m² s⁻¹. Verify Eₖ using L²/2I. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">E<sub>k</sub> = <span class="frac"><span class="num">L²</span><span class="den">2I</span></span> = <span class="frac"><span class="num">(10)²</span><span class="den">2(0.50)</span></span> <span class="op">=</span><b>100 J</b></div>Matches part (a) — the two forms agree.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5 : COUPLED BODIES -->
+<section class="page" data-p="4">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">Two bodies become one</span>
+    <p>When a spinning disc is suddenly coupled to a stationary one — think of two discs clamped together, or a lump of clay dropped onto a turntable — there is no external torque, so <b>angular momentum is conserved</b>: I₁ω₁ = (I₁ + I₂)ω<sub>f</sub>. The combined object spins slower because its moment of inertia has grown.</p>
+    <p>But kinetic energy is <b>not</b> conserved. The "rotational collision" is inelastic: friction between the surfaces dissipates energy as heat as they lock together. Press <b>Engage</b> and compare the energy before and after — L stays fixed, Eₖ drops.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Rotational collision</h3>
+      <div class="canvas-wrap"><canvas id="cpCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Spinning disc: I₁ <b id="cpI1v">2.0 kg m²</b></label>
+        <input type="range" id="cpI1" min="0.5" max="6" step="0.5" value="2">
+      </div>
+      <div class="ctl">
+        <label>Initial spin ω₁ <b id="cpW1v">6.0 rad s⁻¹</b></label>
+        <input type="range" id="cpW1" min="1" max="10" step="0.5" value="6">
+      </div>
+      <div class="ctl">
+        <label>Stationary disc: I₂ <b id="cpI2v">2.0 kg m²</b></label>
+        <input type="range" id="cpI2" min="0.5" max="6" step="0.5" value="2">
+      </div>
+      <div class="btnrow">
+        <button class="btn" id="cpGo">Engage the discs</button>
+        <button class="btn ghost" id="cpReset">Separate &amp; reset</button>
+      </div>
+      <p class="note">Disc 1 spins; disc 2 is at rest. On engaging, they lock and share a common ω<sub>f</sub> = I₁ω₁ / (I₁+I₂). Angular momentum is conserved; the drop in the energy bar is dissipated as heat.</p>
+    </div>
+    <div class="card deriv" data-sim="cp">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · combined spin &amp; energy loss</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Conserve L through the coupling, then compare the energy.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · conserve L</span><div class="eqbox fml">L<sub>before</sub> = L<sub>after</sub></div><div class="cap">No external torque acts during the brief coupling, so angular momentum is unchanged.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · write both sides</span><div class="eqbox fml">I₁ ω₁ = (I₁ + I₂) ω<sub>f</sub></div><div class="cap">Before: only disc 1 moves. After: both discs rotate together with combined inertia I₁+I₂.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · common angular speed</span><div class="eqbox fml" style="font-weight:700">ω<sub>f</sub> = <span class="frac"><span class="num">I₁ ω₁</span><span class="den">I₁ + I₂</span></span></div><div class="cap">Adding inertia with the same L forces the spin to slow.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · energy is lost</span><div class="eqbox fml">E<sub>after</sub> = <span class="frac"><span class="num">L²</span><span class="den">2(I₁+I₂)</span></span> < E<sub>before</sub> = <span class="frac"><span class="num">L²</span><span class="den">2I₁</span></span></div><div class="cap">Same L but larger I means less energy — the difference becomes heat. The collision is inelastic.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="cpReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">I₁ω₁ = (I₁+I₂)ω<sub>f</sub></div>
+        <div class="out" id="cpOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="cp-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A disc of moment of inertia 3.0 kg m² spins at 8.0 rad s⁻¹. A stationary disc of 1.0 kg m² is dropped onto it and the two rotate together.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the common angular velocity. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">ω<sub>f</sub> = <span class="frac"><span class="num">I₁ω₁</span><span class="den">I₁+I₂</span></span> = <span class="frac"><span class="num">(3.0)(8.0)</span><span class="den">4.0</span></span> <span class="op">=</span><b>6.0 rad s⁻¹</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Calculate the kinetic energy before and after. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">E<sub>i</sub> = ½(3.0)(8.0)² = 96 J</div><div class="fml">E<sub>f</sub> = ½(4.0)(6.0)² = 72 J</div></div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) Account for the missing 24 J. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>It is <b>dissipated as heat</b> (and a little sound) by friction as the surfaces slip and lock. The collision is inelastic — only L is conserved, not Eₖ.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 6 : WORKED EXAMPLES -->
+<section class="page" data-p="5">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <p class="lead">Five exam-style problems spanning the whole chapter — definition, conservation, impulse, energy, and coupling. Try each before revealing the full solution.</p>
+
+  <div class="we">
+    <div class="meta">Worked example 1 · L = Iω</div>
+    <div class="q">A cylinder of moment of inertia 0.040 kg m² rotates at 50 rad s⁻¹. Find its angular momentum, and state the torque needed to keep it spinning at constant speed (ignore friction).</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">L = Iω = (0.040)(50) <span class="op">=</span> 2.0 kg m² s⁻¹</div>
+      <p>At constant angular speed, ΔL = 0, so by τ = ΔL/Δt the <b>resultant torque is zero</b>. With no friction, no driving torque is required — the cylinder keeps its angular momentum indefinitely.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked example 2 · conservation</div>
+    <div class="q">A playground roundabout (I = 120 kg m²) turns at 1.5 rad s⁻¹. A child of effective moment of inertia 30 kg m² steps onto the edge, bringing it to rest relative to the roundabout. Find the new angular velocity.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>No external torque about the axis, so angular momentum is conserved. The child adds inertia but no initial spin:</p>
+      <div class="eqbox fml">I₁ω₁ = (I₁+I₂)ω<sub>f</sub> <span class="op">⟹</span> ω<sub>f</sub> = <span class="frac"><span class="num">(120)(1.5)</span><span class="den">120+30</span></span> = <span class="frac"><span class="num">180</span><span class="den">150</span></span> = 1.2 rad s⁻¹</div>
+      <p>The roundabout slows from 1.5 to <b>1.2 rad s⁻¹</b> as its moment of inertia grows.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked example 3 · angular impulse</div>
+    <div class="q">A wheel (I = 0.60 kg m²) spinning at 12 rad s⁻¹ is braked to rest by a constant frictional torque in 3.0 s. Find the braking torque.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">ΔL = Iω<sub>f</sub> − Iω<sub>i</sub> = (0.60)(0 − 12) = −7.2 kg m² s⁻¹</div>
+      <div class="eqbox fml">τ = <span class="frac"><span class="num">ΔL</span><span class="den">Δt</span></span> = <span class="frac"><span class="num">−7.2</span><span class="den">3.0</span></span> = −2.4 N m</div>
+      <p>The magnitude of the braking torque is <b>2.4 N m</b>; the minus sign shows it opposes the rotation.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked example 4 · energy &amp; conservation together</div>
+    <div class="q">A skater of moment of inertia 5.0 kg m² spins at 3.0 rad s⁻¹. She pulls in to 2.0 kg m². Find her new spin rate, and show that her kinetic energy increases. Where does the extra energy come from?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">ω<sub>f</sub> = <span class="frac"><span class="num">I₁ω₁</span><span class="den">I₂</span></span> = <span class="frac"><span class="num">(5.0)(3.0)</span><span class="den">2.0</span></span> = 7.5 rad s⁻¹</div>
+      <div class="eqbox fml">E<sub>i</sub> = ½(5.0)(3.0)² = 22.5 J &nbsp;&nbsp; E<sub>f</sub> = ½(2.0)(7.5)² = 56.25 J</div>
+      <p>Energy rises by about <b>34 J</b>. Angular momentum is conserved, but energy is not: the skater does <b>work with her muscles</b> pulling her arms inward against the outward (centripetal-demanding) pull, and that work becomes extra rotational KE. Note this is the reverse of the inelastic coupling case, where energy is lost.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked example 5 · rolling &amp; energy share</div>
+    <div class="q">A disc (I = ½MR²) of mass 2.0 kg and radius 0.10 m rolls without slipping at 4.0 m s⁻¹. Find its total kinetic energy and the fraction that is rotational.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Rolling without slipping gives ω = v/R. Total KE is translational plus rotational:</p>
+      <div class="eqbox fml">E<sub>trans</sub> = ½Mv² = ½(2.0)(4.0)² = 16 J</div>
+      <div class="eqbox fml">E<sub>rot</sub> = ½Iω² = ½(½MR²)(v/R)² = ¼Mv² = 8.0 J</div>
+      <div class="eqbox fml">E<sub>total</sub> = 16 + 8.0 = 24 J</div>
+      <p>The rotational share is 8.0 / 24 = <b>1/3</b>. For a uniform disc, one third of the rolling energy is in the spin — independent of radius and speed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 7 : MISCONCEPTIONS -->
+<section class="page" data-p="6">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <p class="lead">The traps that cost marks in rotational dynamics. Each pairs the tempting wrong idea with the correct physics.</p>
+  <div class="mis">
+    <div class="mcard">
+      <div class="wrong">"If angular momentum is conserved, so is kinetic energy."</div>
+      <p>Conservation of L (no external torque) does not imply conservation of Eₖ. When I changes, Eₖ = L²/2I changes too.</p>
+      <div class="right">Only L is fixed when τ = 0. Energy can rise (skater does work pulling in) or fall (inelastic coupling dissipates heat).</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"A torque always speeds a body up."</div>
+      <p>A torque changes angular momentum in the direction it acts. A braking torque opposes the spin and reduces L.</p>
+      <div class="right">τ = ΔL/Δt. The sign of the torque sets whether L grows or shrinks — a torque can slow, stop, or reverse rotation.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Pulling your arms in gives you more angular momentum."</div>
+      <p>No external torque acts, so L is unchanged. What changes is the split between I and ω.</p>
+      <div class="right">L = Iω stays constant. Reducing I forces ω up by the same factor — the product is fixed.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Angular impulse is just torque."</div>
+      <p>Torque alone does not fix the change in L — the time it acts matters just as much.</p>
+      <div class="right">Angular impulse = τΔt. A small torque over a long time can change L as much as a large torque briefly.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Rotational KE is ½Iω, like L = Iω."</div>
+      <p>Energy carries a square and a half, exactly as ½mv² does — it is not linear in ω.</p>
+      <div class="right">Eₖ = ½Iω². Doubling ω quadruples the energy, while L = Iω only doubles.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Two spinning discs that lock together keep all their energy."</div>
+      <p>Coupling is a rotational inelastic collision. The surfaces slip as they lock, dissipating energy.</p>
+      <div class="right">L is conserved so ω<sub>f</sub> = I₁ω₁/(I₁+I₂), but Eₖ drops — the loss appears as heat and sound.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 8 : QUIZ -->
+<section class="page" data-p="7">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <p class="lead">Six questions across the chapter. Pick an answer to see whether it's right and why.</p>
+  <div id="quizWrap"></div>
+  <div class="out" id="quizScore" style="margin-top:4px"></div>
+</section>
+
+<footer>
+  <p>A.4 Rigid Body Mechanics · Part 4 of 4 · <b>Angular Momentum, Angular Impulse &amp; Rotational Kinetic Energy</b></p>
+  <p style="margin-top:6px">You've completed the Rigid Body Mechanics series — torque, kinematics, moment of inertia, and now angular momentum &amp; energy. <b>ATUL SORAL PHYSICISM</b></p>
+</footer>
+</main>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const C1='#e11d48',C2='#0d9488',C3='#d97706',C4='#059669',C5='#ca8a04',C6='#4d7c0f',C7='#0f766e';
+const INK='#2a2420',GRY='#8a7f73',PIVOT='#6f6557',GOLD='#c99a1a',SPOKE='rgba(111,101,87,.42)',FAINT='rgba(111,101,87,.22)',ROD='#9fb0a7';
+const TAU=Math.PI*2;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const fmt=(v,n=1)=>Number(v).toFixed(n);
+let active=0;
+
+/* ---------- PAGES ---------- */
+const PAGES=[
+ {name:'Angular Momentum',lvl:'HL',c:C1,soft:'rgba(225,29,72,.12)',k:'A.4 · Higher Level',htitle:'Angular momentum L = Iω',pre:'Momentum, built for spin. Angular momentum L = Iω is the rotational twin of p = mv — moment of inertia takes the place of mass, angular velocity the place of speed.'},
+ {name:'Conservation',lvl:'HL',c:C2,soft:'rgba(13,148,136,.12)',k:'A.4 · Higher Level',htitle:'Conservation of angular momentum',pre:'With no resultant torque, L is locked. Reshape the body so I falls and ω must rise to keep Iω fixed — the figure-skater effect, live.'},
+ {name:'Angular Impulse',lvl:'HL',c:C3,soft:'rgba(217,119,6,.12)',k:'A.4 · Higher Level',htitle:'Angular impulse ΔL = τΔt',pre:'A torque applied over time changes angular momentum. The product τΔt is the angular impulse — the rotational twin of FΔt = Δp.'},
+ {name:'Rotational KE',lvl:'HL',c:C4,soft:'rgba(5,150,105,.12)',k:'A.4 · Higher Level',htitle:'Rotational kinetic energy ½Iω²',pre:'A spin stores energy. Summing ½mv² over the body gives Eₖ = ½Iω² = L²/2I — and the square on ω makes fast spins carry disproportionate energy.'},
+ {name:'Coupled Bodies',lvl:'HL',c:C5,soft:'rgba(202,138,4,.12)',k:'A.4 · Higher Level',htitle:'Coupled bodies & rotational collisions',pre:'Lock a spinning disc to a stationary one: angular momentum is conserved, the combined spin slows, and energy is lost to heat — an inelastic rotational collision.'},
+ {name:'Worked Examples',lvl:'HL',c:C6,soft:'rgba(77,124,15,.12)',k:'A.4 · Higher Level',htitle:'Worked examples',pre:'Five exam-style problems across the whole chapter — definition, conservation, impulse, energy, and coupling.'},
+ {name:'Misconceptions',lvl:'HL',c:C3,soft:'rgba(217,119,6,.12)',k:'A.4 · Higher Level',htitle:'Common misconceptions',pre:'The traps that cost marks: conserved L vs conserved energy, the sign of a torque, and the squares that live in rotational energy.'},
+ {name:'Quiz',lvl:'HL',c:C7,soft:'rgba(15,118,110,.12)',k:'A.4 · Higher Level',htitle:'Check your understanding',pre:'Six questions across angular momentum, impulse, energy, and coupling. Choose an answer to see the reasoning.'}
+];
+
+/* ---------- NAV ---------- */
+const nav=$('#nav');
+PAGES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.c);
+  b.innerHTML=`<span class="num">${i+1}</span>${p.name}<span class="lvl">${p.lvl}</span>`;
+  b.addEventListener('click',()=>goPage(i));
+  nav.appendChild(b);
+});
+const tabs=$$('.tab'),pages=$$('.page');
+function setAccent(i){
+  const p=PAGES[i];
+  document.documentElement.style.setProperty('--accent',p.c);
+  document.documentElement.style.setProperty('--accent-soft',p.soft);
+  document.body.dataset.page=i+1;
+  $('#kicker').textContent=p.k;
+  $('#heroTitle').textContent=p.htitle;
+  $('#heroLede').textContent=p.pre;
+}
+function goPage(i){
+  active=i;
+  tabs.forEach((t,j)=>t.classList.toggle('active',j===i));
+  pages.forEach((p,j)=>p.classList.toggle('active',j===i));
+  setAccent(i);
+  lmLast=cnLast=aiLast=keLast=cpLast=0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------- CANVAS FRAMEWORK ---------- */
+const sizes=new Map();
+function fit(cv){
+  if(!cv)return;
+  const r=cv.getBoundingClientRect();
+  const dpr=window.devicePixelRatio||1;
+  if(r.width<2||r.height<2)return;
+  cv.width=Math.round(r.width*dpr);
+  cv.height=Math.round(r.height*dpr);
+  const ctx=cv.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  sizes.set(cv.id,{w:r.width,h:r.height});
+}
+function dim(id){return sizes.get(id)||{w:600,h:360};}
+function ctxOf(id){const cv=document.getElementById(id);return cv?cv.getContext('2d'):null;}
+const CANV=['lmCanvas','cnCanvas','aiCanvas','keCanvas','cpCanvas'];
+function fitAll(){CANV.forEach(id=>fit(document.getElementById(id)));}
+window.addEventListener('resize',()=>{fitAll();});
+if(window.ResizeObserver){
+  CANV.forEach(id=>{const cv=document.getElementById(id);if(cv)new ResizeObserver(()=>{fit(cv);}).observe(cv);});
+}
+
+/* ---------- DRAW HELPERS ---------- */
+function arrow(ctx,x1,y1,x2,y2,col,lw=2.4,hs=9){
+  ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=lw;
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  const a=Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath();ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-hs*Math.cos(a-0.42),y2-hs*Math.sin(a-0.42));
+  ctx.lineTo(x2-hs*Math.cos(a+0.42),y2-hs*Math.sin(a+0.42));
+  ctx.closePath();ctx.fill();
+}
+function spin(ctx,cx,cy,r,ccw,col){
+  ctx.strokeStyle=col;ctx.lineWidth=2.4;
+  ctx.beginPath();ctx.arc(cx,cy,r,ccw?-0.5:0.5,ccw?-TAU*0.72:TAU*0.72,ccw);ctx.stroke();
+  const a=ccw?-TAU*0.72:TAU*0.72;
+  const ex=cx+r*Math.cos(a),ey=cy+r*Math.sin(a);
+  const t=ccw?a-Math.PI/2:a+Math.PI/2;
+  ctx.fillStyle=col;ctx.beginPath();
+  ctx.moveTo(ex,ey);
+  ctx.lineTo(ex-9*Math.cos(t-0.4),ey-9*Math.sin(t-0.4));
+  ctx.lineTo(ex-9*Math.cos(t+0.4),ey-9*Math.sin(t+0.4));
+  ctx.closePath();ctx.fill();
+}
+function ro3(k,v){return `<div class="ro"><span class="k">${k}</span><span class="v">${v}</span></div>`;}
+function ro3hi(k,v){return `<div class="ro hi"><span class="k">${k}</span><span class="v">${v}</span></div>`;}
+function gauge(ctx,x,y,w,h,frac,col,label,val){
+  ctx.fillStyle='rgba(111,101,87,.14)';ctx.beginPath();ctx.roundRect(x,y,w,h,h/2);ctx.fill();
+  ctx.fillStyle=col;ctx.beginPath();ctx.roundRect(x,y,Math.max(h,w*clamp(frac,0,1)),h,h/2);ctx.fill();
+  ctx.font='600 11px -apple-system,sans-serif';
+  ctx.fillStyle=GRY;ctx.textAlign='left';ctx.fillText(label,x,y-7,w*0.56);
+  ctx.fillStyle=INK;ctx.font='700 11px -apple-system,sans-serif';ctx.textAlign='right';ctx.fillText(val,x+w,y-7);ctx.textAlign='left';
+}
+
+/* ---------- TAB 1 : L = Iω ---------- */
+let lmLast=0,lmAng=0;
+function drawLm(dt){
+  const ctx=ctxOf('lmCanvas');if(!ctx)return;const{w,h}=dim('lmCanvas');
+  ctx.clearRect(0,0,w,h);
+  const I=+$('#lmI').value, W=+$('#lmW').value, L=I*W;
+  lmAng+=W*dt;
+  const cx=w*0.29,cy=h*0.52,R=Math.min(w*0.20,h*0.32);
+  // disc, radius grows a touch with I
+  const rr=R*(0.6+0.4*I/8);
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(lmAng);
+  ctx.fillStyle='rgba(225,29,72,.13)';ctx.beginPath();ctx.arc(0,0,rr,0,TAU);ctx.fill();
+  ctx.strokeStyle=C1;ctx.lineWidth=3;ctx.stroke();
+  for(let k=0;k<8;k++){ctx.strokeStyle=SPOKE;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(rr*Math.cos(k*TAU/8),rr*Math.sin(k*TAU/8));ctx.stroke();}
+  ctx.fillStyle=C1;ctx.beginPath();ctx.arc(rr-6,0,6,0,TAU);ctx.fill();
+  ctx.restore();
+  ctx.fillStyle=PIVOT;ctx.beginPath();ctx.arc(cx,cy,5,0,TAU);ctx.fill();
+  spin(ctx,cx,cy,rr+16,false,'rgba(225,29,72,.55)');
+  // gauges
+  const gx=w*0.55,gw=w*0.42;
+  gauge(ctx,gx,h*0.30,gw,13,I/8,C3,'Moment of inertia  I',fmt(I)+' kg m²');
+  gauge(ctx,gx,h*0.52,gw,13,W/10,C2,'Angular velocity  ω',fmt(W)+' rad/s');
+  gauge(ctx,gx,h*0.74,gw,17,L/80,C1,'Angular momentum  L',fmt(L)+' kg m²/s');
+}
+function lmUpdate(){
+  const I=+$('#lmI').value, W=+$('#lmW').value, L=I*W;
+  $('#lmIv').textContent=fmt(I)+' kg m²';
+  $('#lmWv').textContent=fmt(W)+' rad s⁻¹';
+  $('#lmReadouts').innerHTML=ro3('Moment of inertia I',fmt(I)+' kg m²')+ro3('Angular velocity ω',fmt(W)+' rad s⁻¹')+ro3hi('Angular momentum L = Iω',fmt(L)+' kg m² s⁻¹');
+  $('#lmOut').innerHTML=`With I = <b>${fmt(I)}</b> kg m² and ω = <b>${fmt(W)}</b> rad s⁻¹, the spin carries <b>L = ${fmt(L)}</b> kg m² s⁻¹ of angular momentum — the rotational counterpart of p = mv.`;
+}
+
+/* ---------- TAB 2 : CONSERVATION ---------- */
+let cnLast=0,cnAng=0;const CN_L0=6.0,CN_CORE=0.4,CN_M=1.0;
+function cnI(){const d=+$('#cnD').value;return CN_CORE+2*CN_M*d*d;}
+function drawCn(dt){
+  const ctx=ctxOf('cnCanvas');if(!ctx)return;const{w,h}=dim('cnCanvas');
+  ctx.clearRect(0,0,w,h);
+  const d=+$('#cnD').value, I=cnI(), W=CN_L0/I;
+  cnAng+=W*dt;
+  const cx=w*0.29,cy=h*0.52;
+  const scale=Math.min(w*0.22,h*0.34)/0.60;
+  const dd=d*scale;
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(cnAng);
+  // body core
+  ctx.fillStyle='rgba(13,148,136,.16)';ctx.beginPath();ctx.arc(0,0,18,0,TAU);ctx.fill();
+  ctx.strokeStyle=C2;ctx.lineWidth=2.5;ctx.stroke();
+  // arms (rod) with masses
+  ctx.strokeStyle=ROD;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-dd,0);ctx.lineTo(dd,0);ctx.stroke();
+  [[-dd,0],[dd,0]].forEach(([mx,my])=>{ctx.fillStyle=C1;ctx.beginPath();ctx.arc(mx,my,11,0,TAU);ctx.fill();});
+  ctx.restore();
+  ctx.fillStyle=PIVOT;ctx.beginPath();ctx.arc(cx,cy,4,0,TAU);ctx.fill();
+  spin(ctx,cx,cy,Math.min(w*0.22,h*0.34)+14,false,'rgba(13,148,136,.5)');
+  // gauges
+  const gx=w*0.55,gw=w*0.42;
+  gauge(ctx,gx,h*0.30,gw,17,CN_L0/8,C7,'Angular momentum  L (fixed)',fmt(CN_L0)+' kg m²/s');
+  gauge(ctx,gx,h*0.52,gw,13,I/2.5,C3,'Moment of inertia  I',fmt(I,2)+' kg m²');
+  gauge(ctx,gx,h*0.74,gw,13,W/16,C1,'Angular velocity  ω = L/I',fmt(W,1)+' rad/s');
+}
+function cnUpdate(){
+  const d=+$('#cnD').value, I=cnI(), W=CN_L0/I, KE=0.5*I*W*W;
+  $('#cnDv').textContent=fmt(d,2)+' m';
+  $('#cnReadouts').innerHTML=ro3hi('Angular momentum L (fixed)',fmt(CN_L0)+' kg m² s⁻¹')+ro3('Moment of inertia I = I₀+2md²',fmt(I,2)+' kg m²')+ro3('Angular velocity ω = L/I',fmt(W,2)+' rad s⁻¹')+ro3('Rotational KE = ½Iω²',fmt(KE,1)+' J');
+  $('#cnOut').innerHTML=`Arms at d = <b>${fmt(d,2)}</b> m give I = <b>${fmt(I,2)}</b> kg m². With L held at <b>${fmt(CN_L0)}</b>, the spin is ω = <b>${fmt(W,2)}</b> rad s⁻¹. Pull them in and ω climbs — energy rises because the skater's muscles do work.`;
+}
+
+/* ---------- TAB 3 : ANGULAR IMPULSE ---------- */
+let aiLast=0,aiAng=0,aiOmega=0,aiTarget=0,aiRamp=0,aiRampT=0,aiRunning=false;const AI_I=2.0;
+function drawAi(dt){
+  const ctx=ctxOf('aiCanvas');if(!ctx)return;const{w,h}=dim('aiCanvas');
+  ctx.clearRect(0,0,w,h);
+  if(aiRunning){
+    aiRampT+=dt;
+    const f=clamp(aiRampT/aiRamp,0,1);
+    aiOmega=aiTarget*f;
+    if(f>=1){aiRunning=false;aiOmega=aiTarget;}
+  }
+  aiAng+=aiOmega*dt;
+  const cx=w*0.29,cy=h*0.52,R=Math.min(w*0.20,h*0.32);
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(aiAng);
+  ctx.fillStyle='rgba(217,119,6,.13)';ctx.beginPath();ctx.arc(0,0,R,0,TAU);ctx.fill();
+  ctx.strokeStyle=C3;ctx.lineWidth=3;ctx.stroke();
+  for(let k=0;k<6;k++){ctx.strokeStyle=SPOKE;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(R*Math.cos(k*TAU/6),R*Math.sin(k*TAU/6));ctx.stroke();}
+  ctx.fillStyle=C3;ctx.beginPath();ctx.arc(R-6,0,6,0,TAU);ctx.fill();
+  ctx.restore();
+  ctx.fillStyle=PIVOT;ctx.beginPath();ctx.arc(cx,cy,5,0,TAU);ctx.fill();
+  // torque arrow if running
+  const tau=+$('#aiTau').value;
+  if(aiRunning&&tau>0){spin(ctx,cx,cy,R+16,false,'rgba(217,119,6,.75)');
+    ctx.fillStyle=C3;ctx.font='700 12px -apple-system,sans-serif';ctx.textAlign='center';ctx.fillText('τ applied',cx,cy-R-26);ctx.textAlign='left';}
+  else if(aiOmega>0){spin(ctx,cx,cy,R+16,false,'rgba(217,119,6,.4)');}
+  const gx=w*0.55,gw=w*0.42;
+  const dL=tau*(+$('#aiDt').value);
+  gauge(ctx,gx,h*0.34,gw,13,dL/100,C5,'Angular impulse  τΔt',fmt(dL)+' kg m²/s');
+  gauge(ctx,gx,h*0.60,gw,15,aiOmega/50,C3,'Current  ω',fmt(aiOmega,1)+' rad/s');
+}
+function aiUpdate(){
+  const tau=+$('#aiTau').value, DT=+$('#aiDt').value, dL=tau*DT, wf=dL/AI_I;
+  $('#aiTv').textContent=fmt(tau)+' N m';
+  $('#aiDtv').textContent=fmt(DT)+' s';
+  $('#aiReadouts').innerHTML=ro3('Torque τ',fmt(tau)+' N m')+ro3('Duration Δt',fmt(DT)+' s')+ro3hi('Angular impulse ΔL = τΔt',fmt(dL)+' kg m² s⁻¹')+ro3('Final ω = ΔL / I',fmt(wf,1)+' rad s⁻¹');
+  $('#aiOut').innerHTML=`A torque of <b>${fmt(tau)}</b> N m for <b>${fmt(DT)}</b> s delivers ΔL = <b>${fmt(dL)}</b> kg m² s⁻¹. Starting from rest with I = ${AI_I} kg m², the wheel reaches ω = <b>${fmt(wf,1)}</b> rad s⁻¹. Press "Apply the kick" to watch it build up.`;
+}
+
+/* ---------- TAB 4 : ROTATIONAL KE ---------- */
+let keLast=0,keAng=0;
+function drawKe(dt){
+  const ctx=ctxOf('keCanvas');if(!ctx)return;const{w,h}=dim('keCanvas');
+  ctx.clearRect(0,0,w,h);
+  const I=+$('#keI').value, W=+$('#keW').value, KE=0.5*I*W*W, L=I*W;
+  keAng+=W*dt;
+  const cx=w*0.29,cy=h*0.52,R=Math.min(w*0.19,h*0.30)*(0.6+0.4*I/8);
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(keAng);
+  ctx.fillStyle='rgba(5,150,105,.14)';ctx.beginPath();ctx.arc(0,0,R,0,TAU);ctx.fill();
+  ctx.strokeStyle=C4;ctx.lineWidth=3;ctx.stroke();
+  for(let k=0;k<8;k++){ctx.strokeStyle=SPOKE;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(R*Math.cos(k*TAU/8),R*Math.sin(k*TAU/8));ctx.stroke();}
+  ctx.fillStyle=C4;ctx.beginPath();ctx.arc(R-6,0,6,0,TAU);ctx.fill();
+  ctx.restore();
+  ctx.fillStyle=PIVOT;ctx.beginPath();ctx.arc(cx,cy,5,0,TAU);ctx.fill();
+  spin(ctx,cx,cy,R+15,false,'rgba(5,150,105,.5)');
+  const gx=w*0.55,gw=w*0.42;
+  gauge(ctx,gx,h*0.30,gw,13,I/8,C3,'Moment of inertia  I',fmt(I)+' kg m²');
+  gauge(ctx,gx,h*0.52,gw,13,W/10,C2,'Angular velocity  ω',fmt(W)+' rad/s');
+  gauge(ctx,gx,h*0.74,gw,17,KE/400,C4,'Rotational KE  ½Iω²',fmt(KE)+' J');
+}
+function keUpdate(){
+  const I=+$('#keI').value, W=+$('#keW').value, KE=0.5*I*W*W, L=I*W, KE2=L*L/(2*I);
+  $('#keIv').textContent=fmt(I)+' kg m²';
+  $('#keWv').textContent=fmt(W)+' rad s⁻¹';
+  $('#keReadouts').innerHTML=ro3('Moment of inertia I',fmt(I)+' kg m²')+ro3('Angular velocity ω',fmt(W)+' rad s⁻¹')+ro3('Angular momentum L = Iω',fmt(L)+' kg m² s⁻¹')+ro3hi('Rotational KE = ½Iω²',fmt(KE)+' J');
+  $('#keOut').innerHTML=`Eₖ = ½Iω² = <b>${fmt(KE)}</b> J. Check with the other form: L²/2I = ${fmt(L)}²/(2·${fmt(I)}) = <b>${fmt(KE2)}</b> J — identical. Double ω and this quadruples.`;
+}
+
+/* ---------- TAB 5 : COUPLED BODIES ---------- */
+let cpLast=0,cpAng1=0,cpAng2=0,cpEngaged=false;
+function cpVals(){
+  const I1=+$('#cpI1').value,W1=+$('#cpW1').value,I2=+$('#cpI2').value;
+  const L=I1*W1, wf=L/(I1+I2), KEb=0.5*I1*W1*W1, KEa=0.5*(I1+I2)*wf*wf;
+  return{I1,W1,I2,L,wf,KEb,KEa,loss:KEb-KEa};
+}
+function drawCp(dt){
+  const ctx=ctxOf('cpCanvas');if(!ctx)return;const{w,h}=dim('cpCanvas');
+  ctx.clearRect(0,0,w,h);
+  const v=cpVals();
+  const w1=cpEngaged?v.wf:v.W1, w2=cpEngaged?v.wf:0;
+  cpAng1+=w1*dt;cpAng2+=w2*dt;
+  const cx=w*0.29,cy=h*0.48,R2=Math.min(w*0.20,h*0.30),R1=R2*0.62;
+  // outer disc (disc 2, stationary until engaged)
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(cpAng2);
+  ctx.fillStyle='rgba(202,138,4,.14)';ctx.beginPath();ctx.arc(0,0,R2,0,TAU);ctx.fill();
+  ctx.strokeStyle=C5;ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,R2,0,TAU);ctx.stroke();
+  for(let k=0;k<8;k++){ctx.strokeStyle='rgba(202,138,4,.4)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(R1*Math.cos(k*TAU/8),R1*Math.sin(k*TAU/8));ctx.lineTo(R2*Math.cos(k*TAU/8),R2*Math.sin(k*TAU/8));ctx.stroke();}
+  ctx.fillStyle=C5;ctx.beginPath();ctx.arc(R2-7,0,6,0,TAU);ctx.fill();
+  ctx.restore();
+  // inner disc (disc 1)
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(cpAng1);
+  ctx.fillStyle='rgba(225,29,72,.16)';ctx.beginPath();ctx.arc(0,0,R1,0,TAU);ctx.fill();
+  ctx.strokeStyle=C1;ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,R1,0,TAU);ctx.stroke();
+  for(let k=0;k<6;k++){ctx.strokeStyle=SPOKE;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(R1*Math.cos(k*TAU/6),R1*Math.sin(k*TAU/6));ctx.stroke();}
+  ctx.fillStyle=C1;ctx.beginPath();ctx.arc(R1-6,0,5,0,TAU);ctx.fill();
+  ctx.restore();
+  ctx.fillStyle=PIVOT;ctx.beginPath();ctx.arc(cx,cy,5,0,TAU);ctx.fill();
+  ctx.fillStyle=INK;ctx.font='700 10.5px -apple-system,sans-serif';ctx.textAlign='center';
+  ctx.fillText(cpEngaged?'LOCKED — together':'disc 1 spins · disc 2 at rest',cx,cy+R2+20);ctx.textAlign='left';
+  const gx=w*0.55,gw=w*0.42;
+  gauge(ctx,gx,h*0.26,gw,15,v.L/60,C7,'Angular momentum  L',fmt(v.L)+' kg m²/s');
+  gauge(ctx,gx,h*0.52,gw,13,(cpEngaged?v.KEa:v.KEb)/200,C4,'Kinetic energy',fmt(cpEngaged?v.KEa:v.KEb)+' J');
+  gauge(ctx,gx,h*0.78,gw,13,(cpEngaged?v.wf:v.W1)/10,C1,'Angular velocity  ω',fmt(cpEngaged?v.wf:v.W1,1)+' rad/s');
+}
+function cpUpdate(){
+  const v=cpVals();
+  $('#cpI1v').textContent=fmt(v.I1)+' kg m²';
+  $('#cpW1v').textContent=fmt(v.W1)+' rad s⁻¹';
+  $('#cpI2v').textContent=fmt(v.I2)+' kg m²';
+  $('#cpReadouts').innerHTML=ro3hi('Angular momentum L (conserved)',fmt(v.L)+' kg m² s⁻¹')+ro3('Combined ω = I₁ω₁/(I₁+I₂)',fmt(v.wf,2)+' rad s⁻¹')+ro3('KE before = ½I₁ω₁²',fmt(v.KEb)+' J')+ro3('KE after = ½(I₁+I₂)ω²',fmt(v.KEa)+' J')+ro3('Energy lost to heat',fmt(v.loss)+' J');
+  $('#cpOut').innerHTML=`L = <b>${fmt(v.L)}</b> kg m² s⁻¹ is the same before and after. The combined spin is ω<sub>f</sub> = <b>${fmt(v.wf,2)}</b> rad s⁻¹, and <b>${fmt(v.loss)}</b> J of kinetic energy is dissipated as heat — the coupling is inelastic.`;
+}
+
+/* ---------- MASTER LOOP ---------- */
+function masterLoop(ts){
+  const map={0:['lmLast',drawLm],1:['cnLast',drawCn],2:['aiLast',drawAi],3:['keLast',drawKe],4:['cpLast',drawCp]};
+  if(map[active]){
+    const nm=map[active][0],fn=map[active][1];
+    const last=window[nm];
+    let dt=last?(ts-last)/1000:0;window[nm]=ts;
+    dt=clamp(dt,0,0.05);
+    fn(dt);
+  }
+  requestAnimationFrame(masterLoop);
+}
+
+/* ---------- DERIVATION STEPPERS ---------- */
+$$('.deriv').forEach(d=>{
+  const steps=$$('.dstep',d),next=$('.dnext',d),reset=$('.dreset',d);
+  let i=0;
+  next.addEventListener('click',()=>{
+    if(i<steps.length){steps[i].classList.add('show');i++;}
+    if(i>=steps.length){next.setAttribute('hidden','');reset.removeAttribute('hidden');}
+  });
+  reset.addEventListener('click',()=>{steps.forEach(s=>s.classList.remove('show'));i=0;reset.setAttribute('hidden','');next.removeAttribute('hidden');});
+});
+
+/* ---------- PROGRESSIVE QUESTIONS ---------- */
+$$('.pq').forEach(pq=>{
+  const parts=$$('.qpart',pq);
+  $$('.preveal',pq).forEach((btn,idx)=>{
+    btn.addEventListener('click',()=>{
+      const part=btn.closest('.qpart');
+      const ans=$('.pans',part);
+      ans.removeAttribute('hidden');
+      btn.setAttribute('hidden','');
+      if(idx+1<parts.length)parts[idx+1].removeAttribute('hidden');
+      else{const done=document.createElement('div');done.className='pdone';done.textContent='✓ All parts complete';pq.appendChild(done);}
+    });
+  });
+});
+
+/* ---------- WORKED EXAMPLE REVEAL ---------- */
+$$('.we .reveal').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const a=btn.nextElementSibling;
+    const open=!a.hasAttribute('hidden');
+    if(open){a.setAttribute('hidden','');btn.textContent='Show solution';}
+    else{a.removeAttribute('hidden');btn.textContent='Hide solution';}
+  });
+});
+
+/* ---------- QUIZ ---------- */
+const QUIZ=[
+ {q:'The angular momentum of a rotating rigid body is given by:',o:['L = Iω','L = Iα','L = ½Iω²','L = I ⁄ ω'],a:0,e:'Angular momentum is the rotational analogue of p = mv — moment of inertia times angular velocity.'},
+ {q:'Angular momentum is conserved when:',o:['the angular velocity is constant','the resultant external torque is zero','the moment of inertia is constant','the kinetic energy is maximum'],a:1,e:'Since τ = ΔL/Δt, a zero resultant torque means ΔL = 0, so L stays constant even if I and ω change.'},
+ {q:'A spinning skater pulls her arms inward. With no external torque, her angular velocity:',o:['increases','decreases','stays the same','drops to zero'],a:0,e:'L = Iω is conserved; reducing I forces ω to rise in proportion.'},
+ {q:'Angular impulse is equal to:',o:['Iα','½Iω²','τΔt','L ⁄ ω'],a:2,e:'Angular impulse = torque × time = τΔt = ΔL, the rotational twin of FΔt = Δp.'},
+ {q:'The rotational kinetic energy of a spinning body is:',o:['Iω','½Iω','I²ω','½Iω²'],a:3,e:'Summing ½mv² over the body gives Eₖ = ½Iω² — note the square on ω.'},
+ {q:'When a spinning disc couples to a stationary one with no external torque, the kinetic energy:',o:['increases','stays exactly the same','is partly dissipated as heat','becomes zero'],a:2,e:'L is conserved but the coupling is inelastic: friction between the surfaces dissipates some energy as heat.'}
+];
+const qw=$('#quizWrap');let answered=0,correct=0;
+QUIZ.forEach((item,qi)=>{
+  const card=document.createElement('div');card.className='q';
+  card.innerHTML=`<div class="qq">${qi+1}. ${item.q}</div>`;
+  const opts=document.createElement('div');opts.className='opts';
+  const letters=['A','B','C','D'];
+  item.o.forEach((o,oi)=>{
+    const b=document.createElement('button');b.className='opt';b.innerHTML=`<b>${letters[oi]}.</b> ${o}`;
+    b.addEventListener('click',()=>{
+      if(card.dataset.done)return;card.dataset.done='1';answered++;
+      if(oi===item.a){b.classList.add('correct');correct++;}
+      else{b.classList.add('wrong');opts.children[item.a].classList.add('correct');}
+      $('.qexp',card).classList.add('show');
+      $('#quizScore').innerHTML=`Score: <b>${correct} / ${answered}</b> answered${answered===QUIZ.length?' · quiz complete':''}.`;
+    });
+    opts.appendChild(b);
+  });
+  card.appendChild(opts);
+  const exp=document.createElement('div');exp.className='qexp';exp.innerHTML=`<b>Answer ${letters[item.a]}.</b> ${item.e}`;
+  card.appendChild(exp);
+  qw.appendChild(card);
+});
+
+/* ---------- NAME GATE ---------- */
+const gate=$('#gate');
+function enter(){
+  const n=$('#gateName').value.trim();
+  if(n.length<2){$('#gateErr').removeAttribute('hidden');return;}
+  $('#profileName').textContent=n.split(' ')[0];
+  gate.style.opacity='0';gate.style.transition='opacity .4s';
+  setTimeout(()=>{gate.style.display='none';fitAll();lmUpdate();},400);
+}
+$('#gateBtn').addEventListener('click',enter);
+$('#gateName').addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
+
+/* ---------- CLOCK ---------- */
+function tick(){const d=new Date();$('#clock').textContent=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+tick();setInterval(tick,1000);
+
+/* ---------- DARK TOGGLE ---------- */
+$('#sunbtn').addEventListener('click',()=>{
+  document.body.classList.toggle('dark');
+  const dark=document.body.classList.contains('dark');
+  $('#sunbtn').innerHTML=dark?'&#9790;':'&#9728;';
+  $('#sunbtn').title=dark?'Switch to light mode':'Switch to dark mode';
+});
+
+/* ---------- WIRE SLIDERS ---------- */
+['lmI','lmW'].forEach(id=>$('#'+id).addEventListener('input',lmUpdate));
+$('#cnD').addEventListener('input',cnUpdate);
+['aiTau','aiDt'].forEach(id=>$('#'+id).addEventListener('input',()=>{aiUpdate();}));
+$('#aiGo').addEventListener('click',()=>{
+  const DT=+$('#aiDt').value,tau=+$('#aiTau').value;
+  aiTarget=(tau*DT)/AI_I;aiRamp=Math.max(DT,0.3);aiRampT=0;aiRunning=true;aiOmega=0;aiUpdate();
+});
+$('#aiReset').addEventListener('click',()=>{aiRunning=false;aiOmega=0;aiTarget=0;aiAng=0;aiUpdate();});
+['keI','keW'].forEach(id=>$('#'+id).addEventListener('input',keUpdate));
+['cpI1','cpW1','cpI2'].forEach(id=>$('#'+id).addEventListener('input',()=>{if(cpEngaged){cpEngaged=false;$('#cpGo').disabled=false;}cpUpdate();}));
+$('#cpGo').addEventListener('click',()=>{cpEngaged=true;$('#cpGo').disabled=true;cpUpdate();});
+$('#cpReset').addEventListener('click',()=>{cpEngaged=false;$('#cpGo').disabled=false;cpAng2=0;cpUpdate();});
+
+/* ---------- INIT ---------- */
+setAccent(0);
+lmUpdate();cnUpdate();aiUpdate();keUpdate();cpUpdate();
+window.addEventListener('load',()=>{fitAll();lmUpdate();});
+requestAnimationFrame(masterLoop);
+</script>
+</body>
+</html>
