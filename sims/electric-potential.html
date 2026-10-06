@@ -680,3 +680,1026 @@ requestAnimationFrame(masterLoop);
 </script>
 </body>
 </html>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+
+<!-- PAGE 1 : POTENTIAL ENERGY -->
+<section class="page active" data-p="0">
+  <span class="levelchip hl">HL · Additional Higher Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p><b>Electric potential energy Eₚ</b> is the energy stored in an arrangement of charges — the work done to bring them from infinite separation to where they are.</p>
+    <p><b>Physical significance:</b> it tells you the energy released if the charges fly apart (like charges) or the energy you must supply to pull them apart (opposite charges). Working with energy — a scalar — lets us use conservation of energy instead of tracking forces and directions.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Energy of a pair of charges</h3>
+      <div class="canvas-wrap"><canvas id="peCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Charge q₁ <b id="peQ1v">+3.0 µC</b></label>
+        <input type="range" id="peQ1" min="-5" max="5" step="0.5" value="3">
+      </div>
+      <div class="ctl">
+        <label>Charge q₂ <b id="peQ2v">+2.0 µC</b></label>
+        <input type="range" id="peQ2" min="-5" max="5" step="0.5" value="2">
+      </div>
+      <div class="ctl">
+        <label>Separation r <b id="peRv">0.40 m</b></label>
+        <input type="range" id="peR" min="0.1" max="1" step="0.05" value="0.4">
+      </div>
+    </div>
+    <div class="card deriv" data-sim="pe">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · Eₚ = k q₁q₂ / r</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Watch the shaded area in the animation as you reveal each step — it is exactly the work this derivation integrates.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · the force to overcome</span><div class="eqbox fml">F = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">x<sup>2</sup></span></span></div><div class="cap">At a separation x the charges exert a Coulomb force on each other. To assemble them we do work against this force.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · work = area under F–x</span><div class="eqbox fml">E<sub>p</sub> = W = <span class="intsym">∫</span><span class="lim"><span>∞</span><span>r</span></span> F dx</div><div class="cap">The potential energy equals the work to bring q₂ in from infinity — the <b>shaded area under the force–distance graph</b> (energy is defined zero at infinity).</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · do the integral</span><div class="eqbox fml">E<sub>p</sub> = kq<sub>1</sub>q<sub>2</sub> <span class="intsym">∫</span><span class="lim"><span>∞</span><span>r</span></span> <span class="frac"><span class="num">1</span><span class="den">x<sup>2</sup></span></span> dx = kq<sub>1</sub>q<sub>2</sub>[<span class="op">−</span><span class="frac"><span class="num">1</span><span class="den">x</span></span>]<span class="lim"><span>∞</span><span>r</span></span></div><div class="cap">The integral of 1/x² is −1/x, evaluated between x = r and x = ∞.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · evaluate the limits</span><div class="eqbox fml">E<sub>p</sub> = kq<sub>1</sub>q<sub>2</sub>(0 <span class="op">−</span>(<span class="op">−</span><span class="frac"><span class="num">1</span><span class="den">r</span></span>))</div><div class="cap">At x = ∞ the term −1/x → 0; at x = r it is −1/r. Subtracting gives +1/r.</div></div>
+        <div class="dstep"><span class="sidx">Step 5 · result</span><div class="eqbox fml" style="font-weight:700">E<sub>p</sub> = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">r</span></span></div><div class="cap">Positive for <b>like</b> charges (energy stored pushing them together); negative for <b>opposite</b> charges (the field did the work; the system is bound).</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="peReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">E<sub>p</sub> = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">r</span></span><span class="cst">unit J · k = 8.99×10⁹</span></div>
+        <div class="out" id="peOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="pe-q">
+    <div class="tagq">Question</div>
+    <div class="stem">Two point charges, +3.0 µC and −2.0 µC, are held 0.40 m apart.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the electric potential energy of the pair. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">E<sub>p</sub> = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">r</span></span><span class="op">=</span><span class="frac"><span class="num">(8.99×10⁹)(3.0×10⁻⁶)(−2.0×10⁻⁶)</span><span class="den">0.40</span></span><span class="op">=</span><b>−0.13 J</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Explain the sign of your answer. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Negative because the charges are opposite and attract. The field does positive work pulling them together, so the stored energy is below the zero defined at infinity — the pair is bound.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) State the energy needed to separate them to infinity. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>+0.13 J — equal and opposite to the potential energy, since Eₚ(∞) = 0.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : ELECTRIC POTENTIAL -->
+<section class="page" data-p="1">
+  <span class="levelchip hl">HL · Additional Higher Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p><b>Electric potential Vₑ</b> at a point is the potential energy per unit positive charge placed there — the work per coulomb to bring a charge in from infinity.</p>
+    <p><b>Physical significance:</b> it is a property of the field alone (no test charge needed), so it maps the whole field with a single scalar "height". Differences in potential are what we call voltage and what drive charges to move — the electrical twin of height in gravity.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Potential around a point charge</h3>
+      <div class="canvas-wrap"><canvas id="veCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Source charge Q <b id="veQv">+5.0 µC</b></label>
+        <input type="range" id="veQ" min="-10" max="10" step="0.5" value="5">
+      </div>
+      <div class="ctl">
+        <label>Distance r <b id="veRv">0.30 m</b></label>
+        <input type="range" id="veR" min="0.05" max="1" step="0.05" value="0.3">
+      </div>
+    </div>
+    <div class="card deriv" data-sim="ve">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · Vₑ = kQ / r</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Potential is energy per unit charge, so we divide the test charge's energy by its own charge.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · place a test charge</span><div class="eqbox fml">E<sub>p</sub> = k<span class="frac"><span class="num">Qq</span><span class="den">r</span></span></div><div class="cap">A small positive test charge q sits a distance r from the source Q. From Tab 1, their potential energy is kQq/r.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · definition of potential</span><div class="eqbox fml">V<sub>e</sub> = <span class="frac"><span class="num">E<sub>p</sub></span><span class="den">q</span></span></div><div class="cap">Electric potential is defined as the potential energy <b>per unit charge</b>.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · substitute and cancel q</span><div class="eqbox fml">V<sub>e</sub> = <span class="frac"><span class="num">1</span><span class="den">q</span></span><span class="op">·</span>k<span class="frac"><span class="num">Qq</span><span class="den">r</span></span></div><div class="cap">The test charge q cancels — proof that potential belongs to the source and position only.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · result</span><div class="eqbox fml" style="font-weight:700">V<sub>e</sub> = <span class="frac"><span class="num">kQ</span><span class="den">r</span></span></div><div class="cap">A <b>scalar</b>, zero at infinity. Positive near +Q, negative near −Q. Potentials from several charges add with sign.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="veReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">V<sub>e</sub> = <span class="frac"><span class="num">kQ</span><span class="den">r</span></span><span class="cst">scalar · unit V = J C⁻¹</span></div>
+        <div class="out" id="veOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="ve-q">
+    <div class="tagq">Question</div>
+    <div class="stem">Point charges of +4.0 µC and +4.0 µC are 0.60 m apart. Point M is midway between them.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the potential at M due to one charge. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">V<sub>e</sub> = <span class="frac"><span class="num">kQ</span><span class="den">r</span></span><span class="op">=</span><span class="frac"><span class="num">(8.99×10⁹)(4.0×10⁻⁶)</span><span class="den">0.30</span></span><span class="op">=</span><b>1.2 × 10⁵ V</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Hence find the total potential at M. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Potential is a scalar, so add: V = 2 × 1.2 × 10⁵ = <b>2.4 × 10⁵ V</b>.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) State the resultant electric field at M, and why it differs from the potential. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>The field is <b>zero</b> at M: the two field vectors are equal and opposite and cancel. Potential (a scalar) adds to a non-zero value, while the field (a vector) cancels.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 : POTENTIAL GRADIENT -->
+<section class="page" data-p="2">
+  <span class="levelchip hl">HL · Additional Higher Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p><b>The potential gradient</b> is how steeply the potential changes with position. The field strength equals its negative: E = −ΔVₑ/Δr.</p>
+    <p><b>Physical significance:</b> potential (an energy picture) and field (a force picture) are two descriptions of one thing. Where the potential "hill" is steep the field is strong; the minus sign means the field points downhill — the way a positive charge is pushed.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Potential and its gradient</h3>
+      <div class="canvas-wrap"><canvas id="pgCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Source charge Q <b id="pgQv">+5.0 µC</b></label>
+        <input type="range" id="pgQ" min="1" max="10" step="0.5" value="5">
+      </div>
+      <div class="ctl">
+        <label>Distance r <b id="pgRv">0.30 m</b></label>
+        <input type="range" id="pgR" min="0.08" max="0.9" step="0.01" value="0.3">
+      </div>
+      <p class="note">Upper graph: Vₑ vs r with its tangent (the gradient). Lower graph: E vs r. The tangent's steepness equals E at that r.</p>
+    </div>
+    <div class="card deriv" data-sim="pg">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · E = −ΔVₑ / Δr</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Move a test charge a tiny step and write the work two ways — through the field and through the potential.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · work via the potential</span><div class="eqbox fml">ΔW = qΔV<sub>e</sub></div><div class="cap">Moving charge q through a small step Δr changes its energy by qΔVₑ.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · work via the field</span><div class="eqbox fml">ΔW = <span class="op">−</span>F Δr = <span class="op">−</span>qE Δr</div><div class="cap">The field force is F = qE. Work done against it over a step Δr along the field is −qE·Δr.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · equate the two</span><div class="eqbox fml">qΔV<sub>e</sub> = <span class="op">−</span>qE Δr</div><div class="cap">Same work, so set the expressions equal.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · cancel q, rearrange</span><div class="eqbox fml" style="font-weight:700">E = <span class="op">−</span><span class="frac"><span class="num">ΔV<sub>e</sub></span><span class="den">Δr</span></span></div><div class="cap">The field is the <b>negative potential gradient</b>: it points from high to low potential, and its size is the steepness of the Vₑ–r graph.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="pgReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">E = <span class="op">−</span><span class="frac"><span class="num">ΔV<sub>e</sub></span><span class="den">Δr</span></span><span class="cst">unit V m⁻¹ = N C⁻¹</span></div>
+        <div class="out" id="pgOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="pg-q">
+    <div class="tagq">Question</div>
+    <div class="stem">The potential 0.30 m from a point charge is 1.5 × 10⁵ V, and 0.20 m from it the potential is 2.25 × 10⁵ V.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Estimate the average field strength between these two points. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">E = <span class="op">−</span><span class="frac"><span class="num">ΔV<sub>e</sub></span><span class="den">Δr</span></span><span class="op">=</span><span class="op">−</span><span class="frac"><span class="num">(1.5−2.25)×10⁵</span><span class="den">(0.30−0.20)</span></span><span class="op">=</span><b>7.5 × 10⁵ V m⁻¹</b></div>Pointing away from the (positive) charge.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) State why the field points in the direction of decreasing potential. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Because E = −ΔVₑ/Δr: a positive charge is pushed from high to low potential, the direction in which its energy falls.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4 : WORK & EQUIPOTENTIALS -->
+<section class="page" data-p="3">
+  <span class="levelchip hl">HL · Additional Higher Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p><b>Work</b> to move a charge between two points is W = qΔVₑ — set only by the potential difference. An <b>equipotential surface</b> joins all points at the same potential.</p>
+    <p><b>Physical significance:</b> because the electric field is conservative, only the start and end potentials matter, not the path taken. Moving along an equipotential needs no work, which is exactly why equipotentials always cross field lines at right angles.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Equipotentials and field lines</h3>
+      <div class="canvas-wrap"><canvas id="eqCanvas"></canvas></div>
+      <div class="seg" id="eqSeg"></div>
+      <p class="note">Drag the test charge. Move it <b>along</b> a ring (equipotential) and the work stays zero; move it <b>across</b> rings and work is done.</p>
+    </div>
+    <div class="card deriv" data-sim="eq">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · W = qΔVₑ</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">This follows straight from the definition of potential difference.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · potential difference</span><div class="eqbox fml">ΔV<sub>e</sub> = V<sub>B</sub> <span class="op">−</span> V<sub>A</sub></div><div class="cap">Take two points A and B; their potential difference is the difference of their potentials.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · definition</span><div class="eqbox fml">ΔV<sub>e</sub> = <span class="frac"><span class="num">W</span><span class="den">q</span></span></div><div class="cap">Potential difference is the work done per unit charge moving from A to B.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · result</span><div class="eqbox fml" style="font-weight:700">W = qΔV<sub>e</sub></div><div class="cap">Depends only on the endpoints (the field is conservative). Along an equipotential ΔVₑ = 0, so <b>no work is done</b> — hence equipotentials are perpendicular to field lines.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="eqReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">W = qΔV<sub>e</sub></div>
+        <div class="out" id="eqOut"></div>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+
+<!-- PAGE 1 : POTENTIAL ENERGY -->
+<section class="page active" data-p="0">
+  <span class="levelchip hl">HL · Additional Higher Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p><b>Electric potential energy Eₚ</b> is the energy stored in an arrangement of charges — the work done to bring them from infinite separation to where they are.</p>
+    <p><b>Physical significance:</b> it tells you the energy released if the charges fly apart (like charges) or the energy you must supply to pull them apart (opposite charges). Working with energy — a scalar — lets us use conservation of energy instead of tracking forces and directions.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Energy of a pair of charges</h3>
+      <div class="canvas-wrap"><canvas id="peCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Charge q₁ <b id="peQ1v">+3.0 µC</b></label>
+        <input type="range" id="peQ1" min="-5" max="5" step="0.5" value="3">
+      </div>
+      <div class="ctl">
+        <label>Charge q₂ <b id="peQ2v">+2.0 µC</b></label>
+        <input type="range" id="peQ2" min="-5" max="5" step="0.5" value="2">
+      </div>
+      <div class="ctl">
+        <label>Separation r <b id="peRv">0.40 m</b></label>
+        <input type="range" id="peR" min="0.1" max="1" step="0.05" value="0.4">
+      </div>
+    </div>
+    <div class="card deriv" data-sim="pe">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · Eₚ = k q₁q₂ / r</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Watch the shaded area in the animation as you reveal each step — it is exactly the work this derivation integrates.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · the force to overcome</span><div class="eqbox fml">F = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">x<sup>2</sup></span></span></div><div class="cap">At a separation x the charges exert a Coulomb force on each other. To assemble them we do work against this force.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · work = area under F–x</span><div class="eqbox fml">E<sub>p</sub> = W = <span class="intsym">∫</span><span class="lim"><span>∞</span><span>r</span></span> F dx</div><div class="cap">The potential energy equals the work to bring q₂ in from infinity — the <b>shaded area under the force–distance graph</b> (energy is defined zero at infinity).</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · do the integral</span><div class="eqbox fml">E<sub>p</sub> = kq<sub>1</sub>q<sub>2</sub> <span class="intsym">∫</span><span class="lim"><span>∞</span><span>r</span></span> <span class="frac"><span class="num">1</span><span class="den">x<sup>2</sup></span></span> dx = kq<sub>1</sub>q<sub>2</sub>[<span class="op">−</span><span class="frac"><span class="num">1</span><span class="den">x</span></span>]<span class="lim"><span>∞</span><span>r</span></span></div><div class="cap">The integral of 1/x² is −1/x, evaluated between x = r and x = ∞.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · evaluate the limits</span><div class="eqbox fml">E<sub>p</sub> = kq<sub>1</sub>q<sub>2</sub>(0 <span class="op">−</span>(<span class="op">−</span><span class="frac"><span class="num">1</span><span class="den">r</span></span>))</div><div class="cap">At x = ∞ the term −1/x → 0; at x = r it is −1/r. Subtracting gives +1/r.</div></div>
+        <div class="dstep"><span class="sidx">Step 5 · result</span><div class="eqbox fml" style="font-weight:700">E<sub>p</sub> = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">r</span></span></div><div class="cap">Positive for <b>like</b> charges (energy stored pushing them together); negative for <b>opposite</b> charges (the field did the work; the system is bound).</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="peReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">E<sub>p</sub> = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">r</span></span><span class="cst">unit J · k = 8.99×10⁹</span></div>
+        <div class="out" id="peOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="pe-q">
+    <div class="tagq">Question</div>
+    <div class="stem">Two point charges, +3.0 µC and −2.0 µC, are held 0.40 m apart.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the electric potential energy of the pair. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">E<sub>p</sub> = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">r</span></span><span class="op">=</span><span class="frac"><span class="num">(8.99×10⁹)(3.0×10⁻⁶)(−2.0×10⁻⁶)</span><span class="den">0.40</span></span><span class="op">=</span><b>−0.13 J</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Explain the sign of your answer. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Negative because the charges are opposite and attract. The field does positive work pulling them together, so the stored energy is below the zero defined at infinity — the pair is bound.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) State the energy needed to separate them to infinity. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>+0.13 J — equal and opposite to the potential energy, since Eₚ(∞) = 0.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : ELECTRIC POTENTIAL -->
+<section class="page" data-p="1">
+  <span class="levelchip hl">HL · Additional Higher Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p><b>Electric potential Vₑ</b> at a point is the potential energy per unit positive charge placed there — the work per coulomb to bring a charge in from infinity.</p>
+    <p><b>Physical significance:</b> it is a property of the field alone (no test charge needed), so it maps the whole field with a single scalar "height". Differences in potential are what we call voltage and what drive charges to move — the electrical twin of height in gravity.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Potential around a point charge</h3>
+      <div class="canvas-wrap"><canvas id="veCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Source charge Q <b id="veQv">+5.0 µC</b></label>
+        <input type="range" id="veQ" min="-10" max="10" step="0.5" value="5">
+      </div>
+      <div class="ctl">
+        <label>Distance r <b id="veRv">0.30 m</b></label>
+        <input type="range" id="veR" min="0.05" max="1" step="0.05" value="0.3">
+      </div>
+    </div>
+    <div class="card deriv" data-sim="ve">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · Vₑ = kQ / r</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Potential is energy per unit charge, so we divide the test charge's energy by its own charge.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · place a test charge</span><div class="eqbox fml">E<sub>p</sub> = k<span class="frac"><span class="num">Qq</span><span class="den">r</span></span></div><div class="cap">A small positive test charge q sits a distance r from the source Q. From Tab 1, their potential energy is kQq/r.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · definition of potential</span><div class="eqbox fml">V<sub>e</sub> = <span class="frac"><span class="num">E<sub>p</sub></span><span class="den">q</span></span></div><div class="cap">Electric potential is defined as the potential energy <b>per unit charge</b>.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · substitute and cancel q</span><div class="eqbox fml">V<sub>e</sub> = <span class="frac"><span class="num">1</span><span class="den">q</span></span><span class="op">·</span>k<span class="frac"><span class="num">Qq</span><span class="den">r</span></span></div><div class="cap">The test charge q cancels — proof that potential belongs to the source and position only.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · result</span><div class="eqbox fml" style="font-weight:700">V<sub>e</sub> = <span class="frac"><span class="num">kQ</span><span class="den">r</span></span></div><div class="cap">A <b>scalar</b>, zero at infinity. Positive near +Q, negative near −Q. Potentials from several charges add with sign.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="veReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">V<sub>e</sub> = <span class="frac"><span class="num">kQ</span><span class="den">r</span></span><span class="cst">scalar · unit V = J C⁻¹</span></div>
+        <div class="out" id="veOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="ve-q">
+    <div class="tagq">Question</div>
+    <div class="stem">Point charges of +4.0 µC and +4.0 µC are 0.60 m apart. Point M is midway between them.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the potential at M due to one charge. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">V<sub>e</sub> = <span class="frac"><span class="num">kQ</span><span class="den">r</span></span><span class="op">=</span><span class="frac"><span class="num">(8.99×10⁹)(4.0×10⁻⁶)</span><span class="den">0.30</span></span><span class="op">=</span><b>1.2 × 10⁵ V</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Hence find the total potential at M. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Potential is a scalar, so add: V = 2 × 1.2 × 10⁵ = <b>2.4 × 10⁵ V</b>.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) State the resultant electric field at M, and why it differs from the potential. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>The field is <b>zero</b> at M: the two field vectors are equal and opposite and cancel. Potential (a scalar) adds to a non-zero value, while the field (a vector) cancels.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 : POTENTIAL GRADIENT -->
+<section class="page" data-p="2">
+  <span class="levelchip hl">HL · Additional Higher Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p><b>The potential gradient</b> is how steeply the potential changes with position. The field strength equals its negative: E = −ΔVₑ/Δr.</p>
+    <p><b>Physical significance:</b> potential (an energy picture) and field (a force picture) are two descriptions of one thing. Where the potential "hill" is steep the field is strong; the minus sign means the field points downhill — the way a positive charge is pushed.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Potential and its gradient</h3>
+      <div class="canvas-wrap"><canvas id="pgCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Source charge Q <b id="pgQv">+5.0 µC</b></label>
+        <input type="range" id="pgQ" min="1" max="10" step="0.5" value="5">
+      </div>
+      <div class="ctl">
+        <label>Distance r <b id="pgRv">0.30 m</b></label>
+        <input type="range" id="pgR" min="0.08" max="0.9" step="0.01" value="0.3">
+      </div>
+      <p class="note">Upper graph: Vₑ vs r with its tangent (the gradient). Lower graph: E vs r. The tangent's steepness equals E at that r.</p>
+    </div>
+    <div class="card deriv" data-sim="pg">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · E = −ΔVₑ / Δr</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Move a test charge a tiny step and write the work two ways — through the field and through the potential.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · work via the potential</span><div class="eqbox fml">ΔW = qΔV<sub>e</sub></div><div class="cap">Moving charge q through a small step Δr changes its energy by qΔVₑ.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · work via the field</span><div class="eqbox fml">ΔW = <span class="op">−</span>F Δr = <span class="op">−</span>qE Δr</div><div class="cap">The field force is F = qE. Work done against it over a step Δr along the field is −qE·Δr.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · equate the two</span><div class="eqbox fml">qΔV<sub>e</sub> = <span class="op">−</span>qE Δr</div><div class="cap">Same work, so set the expressions equal.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · cancel q, rearrange</span><div class="eqbox fml" style="font-weight:700">E = <span class="op">−</span><span class="frac"><span class="num">ΔV<sub>e</sub></span><span class="den">Δr</span></span></div><div class="cap">The field is the <b>negative potential gradient</b>: it points from high to low potential, and its size is the steepness of the Vₑ–r graph.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="pgReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">E = <span class="op">−</span><span class="frac"><span class="num">ΔV<sub>e</sub></span><span class="den">Δr</span></span><span class="cst">unit V m⁻¹ = N C⁻¹</span></div>
+        <div class="out" id="pgOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="pg-q">
+    <div class="tagq">Question</div>
+    <div class="stem">The potential 0.30 m from a point charge is 1.5 × 10⁵ V, and 0.20 m from it the potential is 2.25 × 10⁵ V.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Estimate the average field strength between these two points. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">E = <span class="op">−</span><span class="frac"><span class="num">ΔV<sub>e</sub></span><span class="den">Δr</span></span><span class="op">=</span><span class="op">−</span><span class="frac"><span class="num">(1.5−2.25)×10⁵</span><span class="den">(0.30−0.20)</span></span><span class="op">=</span><b>7.5 × 10⁵ V m⁻¹</b></div>Pointing away from the (positive) charge.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) State why the field points in the direction of decreasing potential. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Because E = −ΔVₑ/Δr: a positive charge is pushed from high to low potential, the direction in which its energy falls.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4 : WORK & EQUIPOTENTIALS -->
+<section class="page" data-p="3">
+  <span class="levelchip hl">HL · Additional Higher Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p><b>Work</b> to move a charge between two points is W = qΔVₑ — set only by the potential difference. An <b>equipotential surface</b> joins all points at the same potential.</p>
+    <p><b>Physical significance:</b> because the electric field is conservative, only the start and end potentials matter, not the path taken. Moving along an equipotential needs no work, which is exactly why equipotentials always cross field lines at right angles.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Equipotentials and field lines</h3>
+      <div class="canvas-wrap"><canvas id="eqCanvas"></canvas></div>
+      <div class="seg" id="eqSeg"></div>
+      <p class="note">Drag the test charge. Move it <b>along</b> a ring (equipotential) and the work stays zero; move it <b>across</b> rings and work is done.</p>
+    </div>
+    <div class="card deriv" data-sim="eq">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · W = qΔVₑ</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">This follows straight from the definition of potential difference.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · potential difference</span><div class="eqbox fml">ΔV<sub>e</sub> = V<sub>B</sub> <span class="op">−</span> V<sub>A</sub></div><div class="cap">Take two points A and B; their potential difference is the difference of their potentials.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · definition</span><div class="eqbox fml">ΔV<sub>e</sub> = <span class="frac"><span class="num">W</span><span class="den">q</span></span></div><div class="cap">Potential difference is the work done per unit charge moving from A to B.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · result</span><div class="eqbox fml" style="font-weight:700">W = qΔV<sub>e</sub></div><div class="cap">Depends only on the endpoints (the field is conservative). Along an equipotential ΔVₑ = 0, so <b>no work is done</b> — hence equipotentials are perpendicular to field lines.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="eqReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">W = qΔV<sub>e</sub></div>
+        <div class="out" id="eqOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="eq-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A charge of +2.0 nC is moved between two points whose potentials are 200 V and 500 V.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the work done moving it from the 200 V point to the 500 V point. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">W = qΔV<sub>e</sub> = (2.0×10⁻⁹)(500−200) <span class="op">=</span><b>6.0 × 10⁻⁷ J</b></div>Positive — work is done on the charge to raise it to higher potential.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) The charge is then moved along an equipotential at 500 V. State the work done. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Zero — along an equipotential ΔVₑ = 0, so W = qΔVₑ = 0.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) State the angle between an equipotential surface and the field lines. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>90° — they are always perpendicular.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5 : WORKED EXAMPLES -->
+<section class="page" data-p="4">
+  <span class="levelchip hl">HL · Additional Higher Level</span>
+  <p class="lead">Five HL problems across potential energy, potential, the gradient relation and work. Full solutions on reveal.</p>
+
+  <div class="we">
+    <div class="meta">Worked Example · Potential energy</div>
+    <div class="q">Find the electric potential energy of two +2.0 µC charges held 0.25 m apart.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">E<sub>p</sub> = k<span class="frac"><span class="num">q<sub>1</sub>q<sub>2</sub></span><span class="den">r</span></span><span class="op">=</span><span class="frac"><span class="num">(8.99×10⁹)(2.0×10⁻⁶)²</span><span class="den">0.25</span></span><span class="op">≈</span><b>+0.14 J</b></div>
+      <p>Positive, since the like charges were pushed together against repulsion.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Potential of a point charge</div>
+    <div class="q">Calculate the electric potential 0.20 m from a −3.0 µC point charge.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">V<sub>e</sub> = <span class="frac"><span class="num">kQ</span><span class="den">r</span></span><span class="op">=</span><span class="frac"><span class="num">(8.99×10⁹)(−3.0×10⁻⁶)</span><span class="den">0.20</span></span><span class="op">≈</span><b>−1.3 × 10⁵ V</b></div>
+      <p>Negative, because the source charge is negative.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Adding potentials</div>
+    <div class="q">Two charges, +5.0 µC and −5.0 µC, are 0.40 m apart. Find the potential at the midpoint.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Each charge is 0.20 m from the midpoint. Potentials are scalars, so add with sign:</p>
+      <div class="eqbox fml">V = <span class="frac"><span class="num">k(+5.0µC)</span><span class="den">0.20</span></span><span class="op">+</span><span class="frac"><span class="num">k(−5.0µC)</span><span class="den">0.20</span></span><span class="op">=</span><b>0 V</b></div>
+      <p>The potential is zero, even though the field there is not.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Field from the gradient</div>
+    <div class="q">Near a point charge the potential falls from 900 V to 600 V over a radial step of 0.050 m. Estimate the field strength.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">E = <span class="op">−</span><span class="frac"><span class="num">ΔV<sub>e</sub></span><span class="den">Δr</span></span><span class="op">=</span><span class="op">−</span><span class="frac"><span class="num">(600−900)</span><span class="den">0.050</span></span><span class="op">=</span><b>6.0 × 10³ V m⁻¹</b></div>
+      <p>Positive and directed outward (towards falling potential).</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example · Work and energy</div>
+    <div class="q">How much work is needed to bring a +1.0 µC charge from infinity to 0.50 m from a +4.0 µC charge?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Work = charge × potential at that point (potential at infinity is zero):</p>
+      <div class="eqbox fml">W = qV<sub>e</sub> = q<span class="frac"><span class="num">kQ</span><span class="den">r</span></span><span class="op">=</span>(1.0×10⁻⁶)<span class="frac"><span class="num">(8.99×10⁹)(4.0×10⁻⁶)</span><span class="den">0.50</span></span><span class="op">≈</span><b>+7.2 × 10⁻² J</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 6 : MISCONCEPTIONS -->
+<section class="page" data-p="5">
+  <span class="levelchip hl">HL · Additional Higher Level</span>
+  <p class="lead">The subtle traps of potential and energy. Each card pairs the wrong idea with the correct physics.</p>
+  <div class="mis">
+    <div class="mcard">
+      <div class="wrong">"Electric potential is a vector."</div>
+      <p>Potential is a scalar — size and sign but no direction. Potentials from several charges add algebraically.</p>
+      <div class="right">Vₑ is a scalar (volts).</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Potential and potential energy are the same thing."</div>
+      <p>Potential is energy per unit charge: Vₑ = Eₚ/q. Potential belongs to the point; energy depends on the charge placed there.</p>
+      <div class="right">Vₑ = Eₚ / q.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"If the potential is zero, the field must be zero."</div>
+      <p>Not so: midway between +q and −q the potential is zero but the field is not. Scalar and vector are independent.</p>
+      <div class="right">V = 0 does not mean E = 0.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Field lines run parallel to equipotential surfaces."</div>
+      <p>They are always perpendicular; otherwise the field would have a component along the surface and moving a charge along it would do work.</p>
+      <div class="right">Field lines ⟂ equipotentials.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Moving a charge along an equipotential needs work."</div>
+      <p>Along an equipotential ΔVₑ = 0, so W = qΔVₑ = 0. No work is done.</p>
+      <div class="right">No work along an equipotential.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"The potential energy of two opposite charges is positive."</div>
+      <p>It is negative: Eₚ = kq₁q₂/r with opposite signs gives Eₚ &lt; 0. Energy must be supplied to separate them.</p>
+      <div class="right">Opposite charges: Eₚ &lt; 0.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 7 : QUIZ -->
+<section class="page" data-p="6">
+  <span class="levelchip hl">HL · Additional Higher Level</span>
+  <p class="lead">Six HL questions on potential, energy and equipotentials. Pick an answer to see whether it is right and why.</p>
+  <div id="quiz"></div>
+  <div class="card" style="margin-top:4px;text-align:center">
+    <div id="quizScore" style="font-weight:800;font-size:16px;color:var(--accent)">Score: 0 / 6</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <b>ATUL SORAL PHYSICISM</b> · Theme D.2 Electric and Magnetic Fields · Part 4 of 4 · Additional Higher Level<br>
+  Back to <a href="magnetic-fields.html" style="color:var(--c2);font-weight:700">Part 3</a> &nbsp;·&nbsp; this completes Theme D.2
+</footer>
+
+<script>
+'use strict';
+
+/* ---------- constants & helpers ---------- */
+const K=8.99e9;
+const POS='#e11d48', NEG='#0f766e', TEST='#ca8a04', AMBER='#d97706', TEAL='#0d9488', EMER='#059669', INK='#2a2420', GRY='#8a7f73';
+const SUPS={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+function sup(n){return String(n).split('').map(c=>SUPS[c]||c).join('');}
+function sci(v,dp){
+  if(v===0) return '0';
+  const neg=v<0; v=Math.abs(v);
+  let e=Math.floor(Math.log10(v)); let m=v/Math.pow(10,e);
+  if(m>=9.9995){m/=10;e++;}
+  const ms=m.toFixed(dp==null?2:dp);
+  const s=(e<=-1||e>=4)? ms+' × 10'+sup(e) : (v>=1? (+v.toPrecision(3)).toString() : (+v.toPrecision(2)).toString());
+  return (neg?'−':'')+s;
+}
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const sizes=new Map(), ctxs=new Map();
+function ctxOf(id){ let c=ctxs.get(id); if(!c){const cv=document.getElementById(id); if(!cv)return null; c=cv.getContext('2d'); ctxs.set(id,c);} return c; }
+const ro=new ResizeObserver(entries=>{
+  for(const e of entries){
+    const cv=e.target, dpr=Math.min(2,window.devicePixelRatio||1);
+    const w=e.contentRect.width, h=e.contentRect.height;
+    cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+    const ctx=cv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+    sizes.set(cv.id,{w,h});
+  }
+});
+['peCanvas','veCanvas','pgCanvas','eqCanvas'].forEach(id=>{const cv=document.getElementById(id); if(cv)ro.observe(cv);});
+function dim(id){return sizes.get(id)||{w:600,h:360};}
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function arrow(ctx,x1,y1,x2,y2,col,lw,head){
+  ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=lw||2;
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  const a=Math.atan2(y2-y1,x2-x1), hs=head||7;
+  ctx.beginPath(); ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-hs*Math.cos(a-0.4),y2-hs*Math.sin(a-0.4));
+  ctx.lineTo(x2-hs*Math.cos(a+0.4),y2-hs*Math.sin(a+0.4));
+  ctx.closePath(); ctx.fill();
+}
+function plusDot(ctx,x,y,r,col){ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x-r*0.5,y);ctx.lineTo(x+r*0.5,y);ctx.moveTo(x,y-r*0.5);ctx.lineTo(x,y+r*0.5);ctx.stroke();}
+function minusDot(ctx,x,y,r,col){ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x-r*0.5,y);ctx.lineTo(x+r*0.5,y);ctx.stroke();}
+function chDot(ctx,x,y,r,q){ if(q>=0) plusDot(ctx,x,y,r,POS); else minusDot(ctx,x,y,r,NEG); }
+function ro3(k,v){return '<div class="ro"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+function ro3hi(k,v){return '<div class="ro hi"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+
+/* ---------- tab engine ---------- */
+const PAGES=[
+  {name:'Potential Energy',lvl:'HL',c:'var(--c1)',soft:'rgba(225,29,72,.12)',k:'Energy to assemble charges'},
+  {name:'Electric Potential',lvl:'HL',c:'var(--c2)',soft:'rgba(13,148,136,.12)',k:'Energy per unit charge'},
+  {name:'Potential Gradient',lvl:'HL',c:'var(--c3)',soft:'rgba(217,119,6,.12)',k:'Field = −gradient of V'},
+  {name:'Work & Equipotentials',lvl:'HL',c:'var(--c4)',soft:'rgba(5,150,105,.12)',k:'W = qΔV and equipotentials'},
+  {name:'Worked Examples',lvl:'HL',c:'var(--c5)',soft:'rgba(202,138,4,.12)',k:'Practice problems'},
+  {name:'Misconceptions',lvl:'HL',c:'var(--c6)',soft:'rgba(77,124,15,.12)',k:'Common traps'},
+  {name:'Quiz',lvl:'HL',c:'var(--c7)',soft:'rgba(15,118,110,.12)',k:'Check yourself'}
+];
+let active=0;
+const nav=$('#nav');
+PAGES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':''); b.style.setProperty('--tabc',p.c);
+  b.innerHTML='<span class="num">'+(i+1)+'</span>'+p.name+' <span class="lvl">'+p.lvl+'</span>';
+  b.onclick=()=>goPage(i); nav.appendChild(b);
+});
+function setAccent(i){const p=PAGES[i];document.documentElement.style.setProperty('--accent',p.c);document.documentElement.style.setProperty('--accent-soft',p.soft);document.body.dataset.page=i+1;$('#kicker').textContent='D.2 · '+p.k;}
+function goPage(i){
+  active=i;
+  $$('.tab').forEach((t,j)=>t.classList.toggle('active',j===i));
+  $$('.page').forEach((pg,j)=>pg.classList.toggle('active',j===i));
+  setAccent(i);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+setAccent(0);
+
+/* ---------- name gate / clock / dark ---------- */
+function enterName(){const v=$('#gateName').value.trim();if(v.length<2){$('#gateErr').hidden=false;return;}$('#profileName').textContent=v.split(' ')[0];$('#gate').style.display='none';}
+$('#gateBtn').onclick=enterName;
+$('#gateName').addEventListener('keydown',e=>{if(e.key==='Enter')enterName();});
+function tick(){const d=new Date();const p=n=>String(n).padStart(2,'0');$('#clock').textContent=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
+tick(); setInterval(tick,1000);
+$('#sunbtn').onclick=function(){const dark=document.body.classList.toggle('dark');this.innerHTML=dark?'&#9790;':'&#9728;';this.title=dark?'Switch to light mode':'Switch to dark mode';};
+
+/* ---------- progressive questions / reveal / derivation ---------- */
+$$('.pq').forEach(pq=>{
+  const parts=Array.from(pq.querySelectorAll('.qpart'));
+  parts.forEach((part,i)=>{
+    const btn=part.querySelector('.preveal'), ans=part.querySelector('.pans');
+    btn.onclick=()=>{ans.hidden=false; btn.disabled=true; btn.textContent='Answer shown';
+      if(i+1<parts.length){parts[i+1].hidden=false;}
+      else if(!pq.querySelector('.pdone')){const d=document.createElement('div');d.className='pdone';d.textContent='✓ All parts complete.';pq.appendChild(d);}};
+  });
+});
+$$('.we .reveal').forEach(btn=>{btn.onclick=()=>{const a=btn.nextElementSibling;a.hidden=false;btn.style.display='none';};});
+$$('.deriv').forEach(d=>{
+  const steps=Array.from(d.querySelectorAll('.dstep'));
+  const next=d.querySelector('.dnext'), reset=d.querySelector('.dreset'); let shown=0;
+  next.onclick=()=>{if(shown<steps.length){steps[shown].classList.add('show');shown++;}
+    next.textContent=shown>=steps.length?'All steps shown':'Reveal next step'; if(shown>=steps.length)next.disabled=true; if(shown>0)reset.hidden=false;};
+  reset.onclick=()=>{steps.forEach(s=>s.classList.remove('show'));shown=0;next.disabled=false;next.textContent='Reveal step';reset.hidden=true;};
+});
+
+/* ========== TAB 1 : POTENTIAL ENERGY ========== */
+let peQ1=3, peQ2=2, peR=0.4;
+function peUpdate(){
+  peQ1=parseFloat($('#peQ1').value); peQ2=parseFloat($('#peQ2').value); peR=parseFloat($('#peR').value);
+  $('#peQ1v').textContent=(peQ1>=0?'+':'−')+Math.abs(peQ1).toFixed(1)+' µC';
+  $('#peQ2v').textContent=(peQ2>=0?'+':'−')+Math.abs(peQ2).toFixed(1)+' µC';
+  $('#peRv').textContent=peR.toFixed(2)+' m';
+  const prod=peQ1*peQ2*1e-12, F=K*Math.abs(prod)/(peR*peR), Ep=K*prod/peR;
+  const like=peQ1*peQ2>0;
+  $('#peReadouts').innerHTML=
+    ro3('Force at r',sci(F,2)+' N')+
+    ro3('Nature',like?'repulsive (like charges)':'attractive (opposite)')+
+    ro3hi('Potential energy Eₚ',sci(Ep,2)+' J');
+  $('#peOut').innerHTML='Eₚ = <b>'+sci(Ep,2)+' J</b>. '+(like?'Positive — energy was stored pushing like charges together.':'Negative — the attractive field did the work; the pair is bound.')+' The shaded area under the F–r graph equals |Eₚ|.';
+}
+['peQ1','peQ2','peR'].forEach(id=>document.getElementById(id).addEventListener('input',peUpdate));
+function drawPe(){
+  const ctx=ctxOf('peCanvas'); if(!ctx)return; const {w,h}=dim('peCanvas'); ctx.clearRect(0,0,w,h);
+  const topH=h*0.4;
+  const cy=topH*0.5, cxL=w*0.30, cxR=cxL + (w*0.42)*(peR);
+  ctx.setLineDash([4,4]); ctx.strokeStyle='rgba(138,127,115,.6)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(cxL,cy); ctx.lineTo(cxR,cy); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=GRY; ctx.font='11px sans-serif'; ctx.textAlign='center'; ctx.fillText('r = '+peR.toFixed(2)+' m',(cxL+cxR)/2,cy-10);
+  chDot(ctx,cxL,cy,15,peQ1); chDot(ctx,cxR,cy,13,peQ2);
+  ctx.fillStyle=INK; ctx.font='600 11px sans-serif'; ctx.fillText('q₁',cxL,cy+26); ctx.fillText('q₂',cxR,cy+26);
+  const gy0=topH+14, gh=h-gy0-26, gx0=48, gw=w-gx0-18;
+  const rmin=0.1, rmax=1.0;
+  const prod=Math.abs(peQ1*peQ2)*1e-12;
+  const Fref=K*prod/(rmin*rmin)||1;
+  ctx.strokeStyle='rgba(138,127,115,.7)'; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.moveTo(gx0,gy0); ctx.lineTo(gx0,gy0+gh); ctx.lineTo(gx0+gw,gy0+gh); ctx.stroke();
+  const rx=r=>gx0+(r-rmin)/(rmax-rmin)*gw;
+  const fy=F=>gy0+gh-Math.min(gh,(F/Fref)*gh);
+  const like=peQ1*peQ2>0;
+  ctx.fillStyle=like?'rgba(225,29,72,.16)':'rgba(15,118,110,.16)';
+  ctx.beginPath(); ctx.moveTo(rx(peR),gy0+gh);
+  for(let r=peR;r<=rmax+1e-9;r+=(rmax-peR)/60){const F=K*prod/(r*r); ctx.lineTo(rx(r),fy(F));}
+  ctx.lineTo(rx(rmax),gy0+gh); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle=like?POS:NEG; ctx.lineWidth=2.2; ctx.beginPath();
+  for(let i=0;i<=100;i++){const r=rmin+i/100*(rmax-rmin);const F=K*prod/(r*r); const x=rx(r),y=fy(F); if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
+  ctx.stroke();
+  ctx.strokeStyle='rgba(42,36,32,.4)'; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(rx(peR),gy0); ctx.lineTo(rx(peR),gy0+gh); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=INK; ctx.font='700 11px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('Area under F–r (r → ∞) = |Eₚ|',gx0+gw/2,gy0-2);
+  ctx.fillStyle=GRY; ctx.font='10px sans-serif';
+  ctx.save(); ctx.translate(gx0-34,gy0+gh/2); ctx.rotate(-Math.PI/2); ctx.fillText('F',0,0); ctx.restore();
+  ctx.fillText('r',gx0+gw,gy0+gh+14);
+}
+
+/* ========== TAB 2 : ELECTRIC POTENTIAL ========== */
+let veQ=5, veR=0.3;
+function veUpdate(){
+  veQ=parseFloat($('#veQ').value); veR=parseFloat($('#veR').value);
+  $('#veQv').textContent=(veQ>=0?'+':'−')+Math.abs(veQ).toFixed(1)+' µC';
+  $('#veRv').textContent=veR.toFixed(2)+' m';
+  const Ve=K*veQ*1e-6/veR;
+  $('#veReadouts').innerHTML=
+    ro3('Source Q',(veQ>=0?'+':'−')+Math.abs(veQ).toFixed(1)+' µC')+
+    ro3('Distance r',veR.toFixed(2)+' m')+
+    ro3hi('Potential Vₑ',sci(Ve,2)+' V');
+  $('#veOut').innerHTML='Vₑ = <b>'+sci(Ve,2)+' V</b> — a scalar, '+(veQ>=0?'positive':'negative')+' because Q is '+(veQ>=0?'positive':'negative')+', and zero at infinity. A +1 µC charge here would have energy '+sci(Ve*1e-6,2)+' J.';
+}
+['veQ','veR'].forEach(id=>document.getElementById(id).addEventListener('input',veUpdate));
+function drawVe(){
+  const ctx=ctxOf('veCanvas'); if(!ctx)return; const {w,h}=dim('veCanvas'); ctx.clearRect(0,0,w,h);
+  const topH=h*0.42, cx=w*0.2, cy=topH*0.5, pos=veQ>=0;
+  ctx.strokeStyle='rgba(138,127,115,.35)'; ctx.lineWidth=1.2;
+  for(let i=0;i<12;i++){const a=i/12*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx+Math.cos(a)*20,cy+Math.sin(a)*20); ctx.lineTo(cx+Math.cos(a)*Math.min(w-cx-16,topH*0.46),cy+Math.sin(a)*Math.min(w-cx-16,topH*0.46)); ctx.stroke();}
+  chDot(ctx,cx,cy,15,veQ);
+  const maxpx=w-cx-40, px=cx+(veR/1.0)*maxpx;
+  ctx.setLineDash([4,4]); ctx.strokeStyle='rgba(138,127,115,.5)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(px,cy); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=GRY; ctx.font='11px sans-serif'; ctx.textAlign='center'; ctx.fillText('r = '+veR.toFixed(2)+' m',(cx+px)/2,cy-8);
+  ctx.fillStyle=TEST; ctx.beginPath(); ctx.arc(px,cy,6,0,7); ctx.fill();
+  const gy0=topH+14, gh=h-gy0-26, gx0=52, gw=w-gx0-18, mid=gy0+gh/2;
+  const rmin=0.05, rmax=1.0;
+  const Vref=Math.abs(K*veQ*1e-6/rmin)||1;
+  ctx.strokeStyle='rgba(138,127,115,.7)'; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.moveTo(gx0,gy0); ctx.lineTo(gx0,gy0+gh); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(gx0,mid); ctx.lineTo(gx0+gw,mid); ctx.stroke();
+  const rx=r=>gx0+(r-rmin)/(rmax-rmin)*gw;
+  const vy=V=>mid-(V/Vref)*(gh/2);
+  ctx.strokeStyle=pos?TEAL:NEG; ctx.lineWidth=2.2; ctx.beginPath();
+  for(let i=0;i<=100;i++){const r=rmin+i/100*(rmax-rmin);const V=K*veQ*1e-6/r;const x=rx(r),y=vy(V);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
+  ctx.stroke();
+  const Vnow=K*veQ*1e-6/veR;
+  ctx.fillStyle=TEST; ctx.beginPath(); ctx.arc(rx(veR),vy(Vnow),4.5,0,7); ctx.fill();
+  ctx.fillStyle=INK; ctx.font='700 11px sans-serif'; ctx.textAlign='center'; ctx.fillText('Vₑ against r  (∝ 1/r)',gx0+gw/2,gy0-2);
+  ctx.fillStyle=GRY; ctx.font='10px sans-serif';
+  ctx.save(); ctx.translate(gx0-36,mid); ctx.rotate(-Math.PI/2); ctx.fillText('Vₑ',0,0); ctx.restore();
+  ctx.fillText('r',gx0+gw,mid+14);
+}
+
+/* ========== TAB 3 : POTENTIAL GRADIENT ========== */
+let pgQ=5, pgR=0.3;
+function pgUpdate(){
+  pgQ=parseFloat($('#pgQ').value); pgR=parseFloat($('#pgR').value);
+  $('#pgQv').textContent='+'+pgQ.toFixed(1)+' µC';
+  $('#pgRv').textContent=pgR.toFixed(2)+' m';
+  const Q=pgQ*1e-6, Ve=K*Q/pgR, E=K*Q/(pgR*pgR), grad=-K*Q/(pgR*pgR);
+  $('#pgReadouts').innerHTML=
+    ro3('Potential Vₑ',sci(Ve,2)+' V')+
+    ro3('Gradient ΔVₑ/Δr',sci(grad,2)+' V m⁻¹')+
+    ro3hi('Field E = −gradient',sci(E,2)+' V m⁻¹');
+  $('#pgOut').innerHTML='The Vₑ–r curve has gradient <b>'+sci(grad,2)+' V m⁻¹</b> here. The field is minus this, <b>'+sci(E,2)+' V m⁻¹</b> — the steeper the potential, the stronger the field.';
+}
+['pgQ','pgR'].forEach(id=>document.getElementById(id).addEventListener('input',pgUpdate));
+function drawPg(){
+  const ctx=ctxOf('pgCanvas'); if(!ctx)return; const {w,h}=dim('pgCanvas'); ctx.clearRect(0,0,w,h);
+  const Q=pgQ*1e-6, rmin=0.08, rmax=0.9, gx0=52, gw=w-gx0-16;
+  const topY=16, topH=h*0.44, botY=h*0.52, botH=h*0.4;
+  const Vref=K*Q/rmin, Eref=K*Q/(rmin*rmin);
+  const rx=r=>gx0+(r-rmin)/(rmax-rmin)*gw;
+  ctx.strokeStyle='rgba(138,127,115,.7)'; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.moveTo(gx0,topY); ctx.lineTo(gx0,topY+topH); ctx.lineTo(gx0+gw,topY+topH); ctx.stroke();
+  const vy=V=>topY+topH-(V/Vref)*topH;
+  ctx.strokeStyle=AMBER; ctx.lineWidth=2.2; ctx.beginPath();
+  for(let i=0;i<=100;i++){const r=rmin+i/100*(rmax-rmin);const x=rx(r),y=vy(K*Q/r);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
+  ctx.stroke();
+  const Vnow=K*Q/pgR, slope=-K*Q/(pgR*pgR);
+  const dxdr=gw/(rmax-rmin), dydV=-topH/Vref, slopePx=dydV*slope/dxdr;
+  const mx=rx(pgR), my=vy(Vnow), L=46;
+  ctx.strokeStyle=POS; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(mx-L,my-slopePx*L); ctx.lineTo(mx+L,my+slopePx*L); ctx.stroke();
+  ctx.fillStyle=AMBER; ctx.beginPath(); ctx.arc(mx,my,4.5,0,7); ctx.fill();
+  ctx.fillStyle=INK; ctx.font='700 11px sans-serif'; ctx.textAlign='center'; ctx.fillText('Vₑ against r — slope = gradient',gx0+gw/2,topY+10);
+  ctx.fillStyle=GRY; ctx.font='10px sans-serif'; ctx.save(); ctx.translate(gx0-36,topY+topH/2); ctx.rotate(-Math.PI/2); ctx.fillText('Vₑ',0,0); ctx.restore();
+  ctx.strokeStyle='rgba(138,127,115,.7)'; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.moveTo(gx0,botY); ctx.lineTo(gx0,botY+botH); ctx.lineTo(gx0+gw,botY+botH); ctx.stroke();
+  const ey=E=>botY+botH-(E/Eref)*botH;
+  ctx.strokeStyle=TEAL; ctx.lineWidth=2.2; ctx.beginPath();
+  for(let i=0;i<=100;i++){const r=rmin+i/100*(rmax-rmin);const x=rx(r),y=ey(K*Q/(r*r));if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
+  ctx.stroke();
+  const Enow=K*Q/(pgR*pgR);
+  ctx.strokeStyle='rgba(42,36,32,.35)'; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(mx,topY); ctx.lineTo(mx,botY+botH); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=TEAL; ctx.beginPath(); ctx.arc(mx,ey(Enow),4.5,0,7); ctx.fill();
+  ctx.fillStyle=INK; ctx.font='700 11px sans-serif'; ctx.textAlign='center'; ctx.fillText('E against r  (E = −gradient of Vₑ)',gx0+gw/2,botY+10);
+  ctx.fillStyle=GRY; ctx.font='10px sans-serif'; ctx.save(); ctx.translate(gx0-36,botY+botH/2); ctx.rotate(-Math.PI/2); ctx.fillText('E',0,0); ctx.restore();
+  ctx.fillText('r',gx0+gw,botY+botH+13);
+}
+
+/* ========== TAB 4 : WORK & EQUIPOTENTIALS ========== */
+let eqMode='point', eqProbe={fx:0.68,fy:0.3};
+const EQ_Q=1e-9;
+const eqSeg=$('#eqSeg');
+[['point','Point charge'],['plates','Parallel plates']].forEach((m,idx)=>{
+  const b=document.createElement('button'); b.textContent=m[1]; b.className=idx===0?'on':'';
+  b.onclick=()=>{eqMode=m[0];$$('#eqSeg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');};
+  eqSeg.appendChild(b);
+});
+function eqPotential(px,py,w,h){
+  if(eqMode==='point'){
+    const cx=w*0.5, cy=h*0.5, mPerPx=1.1/w;
+    const d=Math.max(0.04,Math.hypot(px-cx,py-cy)*mPerPx);
+    return K*(4e-6)/d;
+  } else {
+    const pyT=h*0.2, pyB=h*0.8, Vmax=1000;
+    const f=Math.min(1,Math.max(0,(pyB-py)/(pyB-pyT)));
+    return Vmax*f;
+  }
+}
+const eqStart={fx:0.5,fy:0.78};
+function drawEq(){
+  const ctx=ctxOf('eqCanvas'); if(!ctx)return; const {w,h}=dim('eqCanvas'); ctx.clearRect(0,0,w,h);
+  if(eqMode==='point'){
+    const cx=w*0.5, cy=h*0.5, mPerPx=1.1/w;
+    const levels=[6e5,3e5,2e5,1.4e5,1.1e5];
+    ctx.setLineDash([5,4]);
+    levels.forEach(V=>{const d=K*4e-6/V; const Rpx=d/mPerPx; if(Rpx<Math.max(w,h)){ctx.strokeStyle=TEAL;ctx.globalAlpha=.75;ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(cx,cy,Rpx,0,7);ctx.stroke();ctx.globalAlpha=1;}});
+    ctx.setLineDash([]);
+    ctx.strokeStyle='rgba(217,119,6,.6)'; ctx.lineWidth=1.4;
+    for(let i=0;i<12;i++){const a=i/12*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx+Math.cos(a)*18,cy+Math.sin(a)*18); ctx.lineTo(cx+Math.cos(a)*Math.min(w,h)*0.5,cy+Math.sin(a)*Math.min(w,h)*0.5); ctx.stroke();}
+    plusDot(ctx,cx,cy,13,POS);
+    ctx.fillStyle=INK; ctx.font='600 12px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('Dashed = equipotentials · solid = field lines (perpendicular)',w/2,h-10);
+  } else {
+    const px0=w*0.16,px1=w*0.84,pyT=h*0.2,pyB=h*0.8;
+    ctx.fillStyle=POS; roundRect(ctx,px0,pyT-9,px1-px0,9,3); ctx.fill();
+    ctx.fillStyle=NEG; roundRect(ctx,px0,pyB,px1-px0,9,3); ctx.fill();
+    ctx.fillStyle='#fff'; ctx.font='700 12px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('+  +  +  +  +  +  (high V)',(px0+px1)/2,pyT-1.5);
+    ctx.fillText('−  −  −  −  −  −  (0 V)',(px0+px1)/2,pyB+8);
+    ctx.setLineDash([5,4]); ctx.strokeStyle=TEAL; ctx.lineWidth=1.4;
+    for(let k=1;k<=4;k++){const y=pyT+(pyB-pyT)*k/5; ctx.beginPath(); ctx.moveTo(px0,y); ctx.lineTo(px1,y); ctx.stroke();}
+    ctx.setLineDash([]);
+    ctx.strokeStyle=AMBER; ctx.lineWidth=1.5;
+    const n=7; for(let i=0;i<n;i++){const x=px0+(i+0.5)/n*(px1-px0); ctx.beginPath(); ctx.moveTo(x,pyT); ctx.lineTo(x,pyB); ctx.stroke(); arrow(ctx,x,(pyT+pyB)/2-9,x,(pyT+pyB)/2+9,AMBER,1.5,7);}
+    ctx.fillStyle=INK; ctx.font='600 12px sans-serif';
+    ctx.fillText('Dashed = equipotentials · solid = uniform field (perpendicular)',w/2,h-10);
+  }
+  const sx=eqStart.fx*w, sy=eqStart.fy*h;
+  ctx.fillStyle=GRY; ctx.beginPath(); ctx.arc(sx,sy,5,0,7); ctx.fill();
+  ctx.font='10px sans-serif'; ctx.textAlign='center'; ctx.fillText('start',sx,sy-9);
+  const qx=eqProbe.fx*w, qy=eqProbe.fy*h;
+  plusDot(ctx,qx,qy,8,TEST);
+  ctx.fillStyle=TEST; ctx.font='700 10px sans-serif'; ctx.fillText('+q',qx,qy-13);
+  const Vs=eqPotential(sx,sy,w,h), Vp=eqPotential(qx,qy,w,h), Wd=EQ_Q*(Vp-Vs);
+  $('#eqReadouts').innerHTML=
+    ro3('Potential at start',sci(Vs,2)+' V')+
+    ro3('Potential at charge',sci(Vp,2)+' V')+
+    ro3('ΔVₑ',sci(Vp-Vs,2)+' V')+
+    ro3hi('Work done W = qΔVₑ',sci(Wd,2)+' J');
+  const near=Math.abs(Vp-Vs)<Math.abs(Vs)*0.02;
+  $('#eqOut').innerHTML = near
+    ? 'The charge is on (almost) the same equipotential as the start — ΔVₑ ≈ 0 so <b>W ≈ 0</b>. Moving along an equipotential costs no work.'
+    : 'Moving the +1 nC charge from start to here does <b>'+sci(Wd,2)+' J</b> of work, set only by ΔVₑ = '+sci(Vp-Vs,2)+' V.';
+}
+(function(){
+  const cv=document.getElementById('eqCanvas'); if(!cv)return;
+  function pos(e){const r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];}
+  let drag=false; cv.style.cursor='grab';
+  cv.addEventListener('pointerdown',e=>{const {w,h}=dim('eqCanvas');const [mx,my]=pos(e);if(Math.hypot(mx-eqProbe.fx*w,my-eqProbe.fy*h)<20){drag=true;cv.style.cursor='grabbing';cv.setPointerCapture(e.pointerId);}});
+  cv.addEventListener('pointermove',e=>{if(!drag)return;const {w,h}=dim('eqCanvas');const [mx,my]=pos(e);eqProbe.fx=Math.max(0.05,Math.min(0.95,mx/w));eqProbe.fy=Math.max(0.06,Math.min(0.92,my/h));});
+  const stop=()=>{drag=false;cv.style.cursor='grab';};
+  cv.addEventListener('pointerup',stop); cv.addEventListener('pointercancel',stop);
+})();
+
+/* ========== QUIZ ========== */
+const QUIZ=[
+  {q:'Electric potential is best described as:',o:['energy per unit charge','a vector quantity','force per unit charge','charge per unit energy'],a:0,
+   e:'Vₑ = Eₚ/q — a scalar, energy per unit charge, in volts. (Answer A)'},
+  {q:'The electric potential energy of two opposite charges a distance r apart is:',o:['positive','zero','negative','infinite'],a:2,
+   e:'Eₚ = kq₁q₂/r with opposite signs is negative — the pair is bound. (Answer C)'},
+  {q:'At the midpoint between two equal positive charges, which is true?',o:['V = 0 and E = 0','V ≠ 0 and E = 0','V = 0 and E ≠ 0','both are maximum'],a:1,
+   e:'Potentials add to a non-zero scalar; the field vectors cancel, so E = 0 but V ≠ 0. (Answer B)'},
+  {q:'The electric field is related to potential by:',o:['E = Vₑ r','E = ΔVₑ·Δr','E = q/Vₑ','E = −ΔVₑ/Δr'],a:3,
+   e:'The field is the negative potential gradient, E = −ΔVₑ/Δr. (Answer D)'},
+  {q:'Work done moving a charge along an equipotential surface is:',o:['zero','maximum','equal to qE','negative'],a:0,
+   e:'ΔVₑ = 0 along an equipotential, so W = qΔVₑ = 0. (Answer A)'},
+  {q:'Equipotential surfaces and electric field lines always meet at:',o:['0°','45°','60°','90°'],a:3,
+   e:'They are always perpendicular — 90°. (Answer D)'}
+];
+let qScore=0, qAnswered=new Set();
+const quizEl=$('#quiz');
+QUIZ.forEach((item,qi)=>{
+  const card=document.createElement('div'); card.className='q';
+  let opts='<div class="opts">';
+  item.o.forEach((o,oi)=>{opts+='<button class="opt" data-q="'+qi+'" data-o="'+oi+'">'+String.fromCharCode(65+oi)+'. '+o+'</button>';});
+  opts+='</div>';
+  card.innerHTML='<div class="qq">'+(qi+1)+'. '+item.q+'</div>'+opts+'<div class="qexp">'+item.e+'</div>';
+  quizEl.appendChild(card);
+});
+quizEl.addEventListener('click',e=>{
+  const btn=e.target.closest('.opt'); if(!btn)return;
+  const qi=+btn.dataset.q, oi=+btn.dataset.o;
+  if(qAnswered.has(qi))return; qAnswered.add(qi);
+  const card=btn.closest('.q'); const correct=QUIZ[qi].a;
+  card.querySelectorAll('.opt').forEach(b=>{const bo=+b.dataset.o; b.style.pointerEvents='none'; if(bo===correct)b.classList.add('correct'); else if(bo===oi)b.classList.add('wrong');});
+  card.querySelector('.qexp').classList.add('show');
+  if(oi===correct)qScore++;
+  $('#quizScore').textContent='Score: '+qScore+' / '+QUIZ.length;
+});
+
+/* ---------- master loop ---------- */
+function masterLoop(){
+  if(active===0)drawPe();
+  else if(active===1)drawVe();
+  else if(active===2)drawPg();
+  else if(active===3)drawEq();
+  requestAnimationFrame(masterLoop);
+}
+peUpdate(); veUpdate(); pgUpdate();
+requestAnimationFrame(masterLoop);
+</script>
+</body>
+</html>
