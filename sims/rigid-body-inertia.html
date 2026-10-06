@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Moment of Inertia &amp; τ = Iα</title>
+<style>
+:root{
+  --c1:#e11d48; --c2:#0d9488; --c3:#d97706; --c4:#059669; --c5:#ca8a04; --c6:#4d7c0f; --c7:#0f766e;
+  --accent:var(--c1); --accent-soft:rgba(225,29,72,.12);
+  --ink:#2a2420; --muted:#8a7f73; --line:rgba(42,36,32,.13); --card:#fffdfb;
+  --tan:#f0e7d6; --tanink:#9a6b2f;
+  --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;padding-bottom:64px;
+  transition:background .6s ease,filter .3s ease;background:linear-gradient(135deg,#fdf6f1 0%,#f4f8f2 50%,#eef8f4 100%)}
+body[data-page="1"]{background:linear-gradient(140deg,#fdeef0 0%,#fdf4ee 45%,#fbf1ea 100%)}
+body[data-page="2"]{background:linear-gradient(140deg,#e7f6f1 0%,#eef9f1 45%,#f4faee 100%)}
+body[data-page="3"]{background:linear-gradient(140deg,#fdf2e3 0%,#fdf6e8 45%,#fdf4e4 100%)}
+body[data-page="4"]{background:linear-gradient(140deg,#e6f7ec 0%,#eef9ec 45%,#f4f9e6 100%)}
+body[data-page="5"]{background:linear-gradient(140deg,#fdf6e2 0%,#fcf7e5 45%,#f8f8e3 100%)}
+body[data-page="6"]{background:linear-gradient(140deg,#f0f6de 0%,#eef5df 45%,#edf4e2 100%)}
+body[data-page="7"]{background:linear-gradient(140deg,#e3f4ee 0%,#e9f5ea 45%,#eff5e6 100%)}
+body[data-page="8"]{background:linear-gradient(140deg,#fdeef0 0%,#fdf4ee 45%,#fbf1ea 100%)}
+body.dark{--ink:#ece6df;--muted:#b2a89b;--line:rgba(236,230,223,.16);--card:#241f1b;--tan:#3a322a;--tanink:#f0d9a8;
+  background:linear-gradient(135deg,#17130f 0%,#141511 55%,#121613 100%)!important}
+body.dark .topnav,body.dark .chapterbar{background:rgba(28,24,20,.86)}
+body.dark .brand{color:#f6f1ea}
+body.dark .tab{background:rgba(255,255,255,.06)}
+body.dark .partlink{background:rgba(255,255,255,.05)}
+body.dark .btn.ghost,body.dark .seg button{background:rgba(255,255,255,.06)}
+body.dark .we,body.dark .q,body.dark .mcard,body.dark .gatebox,body.dark .workcard{background:#241f1b}
+body.dark .opt,body.dark .pans,body.dark .eqbox{background:#1b1713}
+body.dark .qexp{background:rgba(13,148,136,.16)}
+body.dark .chapterbar,body.dark .topnav{border-color:var(--line)}
+body.dark .partlink,body.dark .seg button{color:#d8cfc3}
+body.dark .lead,body.dark .prose p,body.dark .mcard p,body.dark .answer,body.dark .pans,body.dark .qexp,body.dark .dstep .cap,body.dark .pq .stem,body.dark .intro{color:#d8cfc3}
+body.dark .gatebox .mark{color:#f6f1ea}
+body.dark .opt.correct{background:rgba(5,150,105,.2)}
+body.dark .opt.wrong{background:rgba(220,38,38,.2)}
+body.dark .canvas-wrap{background:#f6f4ef}
+.topnav{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 22px;
+  background:rgba(255,253,251,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.brand{font-weight:800;letter-spacing:.4px;font-size:15px;color:#2a2420;white-space:nowrap}
+.brand .sp{color:#d98a1f}
+.navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.navlink{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;transition:.2s;white-space:nowrap}
+.navlink:hover{color:var(--accent)}
+.navlink.active{color:var(--accent);font-weight:800}
+.allsims{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:600}
+.navright{margin-left:auto;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.profile{display:inline-flex;align-items:center;gap:6px;background:var(--tan);color:var(--tanink);font-weight:800;
+  font-size:12px;padding:4px 11px 4px 7px;border-radius:999px}
+.profile .av{width:17px;height:17px;border-radius:50%;background:#0d9488;display:inline-block;position:relative}
+.profile .av::after{content:"";position:absolute;left:50%;top:3px;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#fff}
+.profile .av::before{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:11px;height:6px;border-radius:6px 6px 0 0;background:#fff}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sunbtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--tan);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;font-size:15px;transition:.2s}
+.sunbtn:hover{filter:brightness(1.04)}
+.chapterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 22px;
+  background:rgba(255,253,251,.6);border-bottom:1px solid var(--line)}
+.chaptag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fffdfb;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:#fff;border-color:var(--accent)}
+.partlink .pl{font-size:9px;font-weight:800;opacity:.85;margin-left:4px;border:1px solid currentColor;border-radius:4px;padding:0 3px}
+.legend{margin-left:auto;display:flex;gap:10px;font-size:11px;color:var(--muted);font-weight:600}
+.legend .hl{display:inline-flex;align-items:center;gap:4px}
+.dotHL{width:9px;height:9px;border-radius:3px;background:#e11d48}
+header.hero{padding:26px 22px 8px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:29px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:760px;font-size:15px}
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,253,251,.86);border:1px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab .lvl{font-size:9px;font-weight:800;border-radius:4px;padding:1px 4px;background:var(--accent-soft);color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:#fff;background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .num,.tab.active .lvl{color:#fff}
+.tab.active .lvl{background:rgba(255,255,255,.25)}
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.levelchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.5px;
+  border-radius:999px;padding:3px 10px;margin-bottom:10px;text-transform:uppercase}
+.levelchip.hl{background:rgba(225,29,72,.12);color:#e11d48}
+.lead{font-size:16px;color:#4a4038;max-width:800px;margin-bottom:14px}
+.intro{background:var(--accent-soft);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;
+  padding:13px 16px;margin-bottom:18px;font-size:13.5px;color:#4a4038;max-width:900px}
+.intro .t{display:block;font-weight:800;color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.intro b{color:var(--ink)}
+.intro p{margin:0 0 6px}
+.intro p:last-child{margin:0}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(42,36,32,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.workcard{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(42,36,32,.5)}
+.workcard .wgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+@media(max-width:720px){.workcard .wgrid{grid-template-columns:1fr}}
+.workcard h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.workcard h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(280px,40vh,400px);overflow:hidden;border-radius:12px;background:linear-gradient(160deg,#fffefb 0%,#fbfbf6 100%);border:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%}
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.ghost{background:#fffdfb;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btn:disabled{opacity:.5;cursor:default;filter:none}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.seg button{font-family:var(--fs);font-size:12px;font-weight:700;border:1px solid var(--line);background:#fffdfb;color:var(--muted);
+  border-radius:9px;padding:7px 11px;cursor:pointer;transition:.18s}
+.seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.fml{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;font-size:19px;line-height:1.7;color:var(--ink)}
+.fml .op{color:var(--muted);margin:0 4px}
+.fml sub{font-size:.66em;vertical-align:-.28em}
+.fml sup{font-size:.66em;vertical-align:.5em}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 2px}
+.frac .num{border-bottom:1.7px solid currentColor;padding:0 8px 2px}
+.frac .den{padding:2px 8px 0}
+.fml .cst{font-size:12.5px;font-family:var(--fm);color:var(--muted);margin-left:6px}
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#4a4038}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+.prose p{margin-bottom:11px;font-size:14.5px;color:#4a4038}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fffdf7;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+.deriv{border-top:3px solid var(--accent)!important}
+.deriv .dhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dctrls{display:flex;gap:8px}
+.dintro{font-size:12.5px;color:var(--muted);margin:8px 0 2px}
+.dstep{opacity:0;max-height:0;overflow:hidden;transform:translateY(6px);transition:opacity .35s ease,max-height .5s ease,transform .35s ease}
+.dstep.show{opacity:1;max-height:460px;transform:none;margin:12px 0}
+.dstep .eqbox{margin:0}
+.dstep .cap{font-size:13px;color:#4a4038;margin-top:6px}
+.dstep .cap b{color:var(--accent)}
+.dstep .sidx{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;color:#fff;background:var(--accent);border-radius:5px;padding:2px 7px;margin-bottom:6px;text-transform:uppercase}
+.pq{margin-top:18px;border-top:3px solid var(--c6)}
+.pq .tagq{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c6);margin-bottom:6px}
+.pq .stem{font-size:14.5px;color:#4a4038;margin-bottom:12px}
+.qpart{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+.qpart:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.qpart[hidden]{display:none}
+.qpart .ptext{font-weight:700;font-size:14px;margin-bottom:8px}
+.qpart .ptext .mks{color:var(--muted);font-weight:700;margin-left:4px}
+.preveal{font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.pans{margin-top:9px;font-size:13.5px;color:#4a4038;background:#fbf8f3;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.pans[hidden]{display:none}
+.pans .fml{font-size:16px;margin:6px 0}
+.pdone{font-size:12px;color:#059669;font-weight:700;margin-top:12px}
+.we{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#4a4038;border-top:1px dashed var(--line);padding-top:10px}
+.answer .eqbox{font-size:13.5px}
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c3)}
+.mcard .wrong{font-size:13px;color:#b45309;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"✗ ";}
+.mcard .right{font-size:13.5px;color:#15803d;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"✓ ";}
+.mcard p{font-size:13px;color:#4a4038;margin-top:5px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fffdf9;border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#4a4038;background:#f0fbf5;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#fdf6f1,#f4f8f2,#eef8f4);display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fffdfb;border-radius:20px;padding:34px 30px;max-width:430px;width:100%;box-shadow:0 30px 70px -30px rgba(42,36,32,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:#2a2420}
+.gatebox .mark .sp{color:#d98a1f}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c1)}
+.gatebox .btn{width:100%;background:var(--c1);color:#fff;border-color:var(--c1);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+</style>
+</head>
+<body data-page="1">
+
+<!-- NAME GATE -->
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>Moment of Inertia &amp; τ = Iα</h2>
+    <p>Theme A.4 Rigid Body Mechanics · Part 3 of 4 · Higher Level</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive IB physics lesson</div>
+  </div>
+</div>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="navlinks">
+    <a class="navlink allsims" href="../index.html">&larr; All Simulations</a>
+    <a class="navlink" href="../index.html">Home</a>
+    <a class="navlink" href="../index.html#igcse">IGCSE</a>
+    <a class="navlink" href="../index.html#myp">MYP</a>
+    <a class="navlink active" href="../index.html#dp">DP</a>
+  </div>
+  <div class="navright">
+    <span class="profile"><span class="av"></span><span id="profileName">atul</span></span>
+    <span id="clock"></span>
+    <button class="sunbtn" id="sunbtn" title="Switch to dark mode">&#9728;</button>
+  </div>
+</div>
+
+<!-- CHAPTER BAR -->
+<div class="chapterbar">
+  <span class="chaptag">A.4 Rigid Body</span>
+  <div class="parts">
+    <a class="partlink" href="rigid-body-torque.html">Part 1 · Torque &amp; Equilibrium<span class="pl">HL</span></a>
+    <a class="partlink" href="rigid-body-kinematics.html">Part 2 · Rotational Kinematics<span class="pl">HL</span></a>
+    <a class="partlink here" href="rigid-body-inertia.html">Part 3 · Moment of Inertia<span class="pl">HL</span></a>
+    <a class="partlink" href="rigid-body-angular-momentum.html">Part 4 · Angular Momentum<span class="pl">HL</span></a>
+  </div>
+  <div class="legend">
+    <span class="hl"><span class="dotHL"></span>All parts Higher Level</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">A.4 · Higher Level</div>
+  <h1 id="heroTitle">Rotational mass and τ = Iα</h1>
+  <p id="heroLede">Mass resists a push; the moment of inertia I resists a twist. Build I from scratch as Σmr², meet the standard-shape formulas, and watch a resultant torque spin a body up through Newton's second law for rotation, τ = Iα.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+
+<!-- PAGE 1 : I = Σmr² -->
+<section class="page active" data-p="0">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">Rotational inertia from the ground up</span>
+    <p>How hard is it to start something spinning? Not just how much mass it has — but <b>where</b> that mass sits relative to the axis. A single particle of mass m a distance r from the axis contributes <b>m r²</b> to the body's reluctance to spin. Add that up over every particle and you have the <b>moment of inertia</b>, I = Σ m r².</p>
+    <p>The r² is everything. Move a chunk of mass twice as far from the axis and it resists turning <b>four</b> times as much. That is why a figure skater, a flywheel and a diver all control their spin by moving mass toward or away from the axis — and why I, not mass alone, is the quantity that matters once things rotate.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Build I from two masses</h3>
+      <div class="canvas-wrap"><canvas id="inCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Left mass m₁ <b id="inM1v">2.0 kg</b></label>
+        <input type="range" id="inM1" min="0.5" max="4" step="0.1" value="2">
+      </div>
+      <div class="ctl">
+        <label>Left distance r₁ <b id="inR1v">0.40 m</b></label>
+        <input type="range" id="inR1" min="0.10" max="1.00" step="0.05" value="0.40">
+      </div>
+      <div class="ctl">
+        <label>Right mass m₂ <b id="inM2v">1.0 kg</b></label>
+        <input type="range" id="inM2" min="0.5" max="4" step="0.1" value="1">
+      </div>
+      <div class="ctl">
+        <label>Right distance r₂ <b id="inR2v">0.70 m</b></label>
+        <input type="range" id="inR2" min="0.10" max="1.00" step="0.05" value="0.70">
+      </div>
+      <p class="note">A light rod carries two point masses, spinning about the central axis. Each bar in the readout is that mass's <b>m r²</b> share; together they make I = Σ m r². Slide a mass outward and watch its contribution grow with the <b>square</b> of distance.</p>
+    </div>
+    <div class="card deriv" data-sim="in">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · I = Σ m r²</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Follow one particle through Newton's law, then add up the whole body.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · one particle, tangential push</span><div class="eqbox fml">F = m a = m (r α)</div><div class="cap">A particle of mass m sits a distance r from the axis. A tangential force gives it a tangential acceleration a = rα (from Part 2).</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · torque on that particle</span><div class="eqbox fml">τ = F r = (m r α) r = m r² α</div><div class="cap">Multiply the force by its distance r to get the torque. The particle's "resistance to angular acceleration" is the factor <b>m r²</b>.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · add every particle</span><div class="eqbox fml">τ<sub>total</sub> = (Σ m<sub>i</sub> r<sub>i</sub>²) α</div><div class="cap">A rigid body shares one α. Sum the torques and the bracket is a single number for the whole body.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · define the moment of inertia</span><div class="eqbox fml" style="font-weight:700">I = Σ m r²<span class="cst">unit kg m²</span></div><div class="cap">That bracket <b>is</b> the moment of inertia. It plays the role mass plays in straight-line motion — and it is set by the mass distribution.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="inReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">I = Σ m r² = m₁r₁² + m₂r₂²</div>
+        <div class="out" id="inOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="in-q">
+    <div class="tagq">Question</div>
+    <div class="stem">Two point masses are fixed to a light rod that rotates about its centre: 3.0 kg at 0.20 m and 2.0 kg at 0.50 m.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the moment of inertia of the system. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">I = Σmr² = (3.0)(0.20²) + (2.0)(0.50²) = 0.12 + 0.50 <span class="op">=</span><b>0.62 kg m²</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) The 2.0 kg mass is moved out to 1.0 m. State the new moment of inertia. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">I = 0.12 + (2.0)(1.0²) = 0.12 + 2.0 <span class="op">=</span><b>2.12 kg m²</b></div>Doubling that mass's distance <b>quadrupled</b> its contribution (0.50 → 2.0 kg m²).</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) Explain why distance matters more than mass for the moment of inertia. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Because each contribution is m <b>r²</b>: mass enters linearly, but distance is <b>squared</b>, so moving mass outward raises I far faster than adding mass does.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : STANDARD SHAPES -->
+<section class="page" data-p="1">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">The booklet formulas</span>
+    <p>Real bodies are not two point masses — they are continuous. Summing m r² over a continuous shape is a job for calculus, so the IB <b>provides</b> each formula when you need it. Every one has the same form, I = (coefficient) × M R², where the coefficient captures how the mass is spread about the axis.</p>
+    <p>The coefficient tells the whole story. A <b>ring</b> keeps all its mass at the rim, so its coefficient is 1 — the largest possible. A <b>disc</b> drops to ½, a <b>sphere</b> to ⅖, because more and more mass sits close to the axis where r² is small. Compare them below at equal mass and size.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Compare the shapes</h3>
+      <div class="canvas-wrap"><canvas id="shpCanvas"></canvas></div>
+      <div class="seg" id="shpSeg"></div>
+      <div class="ctl">
+        <label>Mass M <b id="shpMv">2.0 kg</b></label>
+        <input type="range" id="shpM" min="0.5" max="5" step="0.5" value="2">
+      </div>
+      <div class="ctl">
+        <label>Size (radius R or length L) <b id="shpSizev">0.50 m</b></label>
+        <input type="range" id="shpSize" min="0.2" max="0.8" step="0.05" value="0.5">
+      </div>
+      <p class="note">Pick a shape to spin it about its axis; the size slider grows or shrinks it. The bars compare I for every shape at the <b>same</b> M and size — so the only thing changing between bars is the coefficient, i.e. the mass distribution.</p>
+    </div>
+    <div class="card deriv" data-sim="shp">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Reading the formulas · I = c M R²</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">You are given these — here is how to read and trust them.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · the ring is exact from Σmr²</span><div class="eqbox fml">I<sub>ring</sub> = Σ m r² = (Σm) R² = M R²</div><div class="cap">Every scrap of a thin ring sits at the same radius R, so r² = R² factors out of the sum — no calculus needed. Coefficient = <b>1</b>.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · solid disc</span><div class="eqbox fml">I<sub>disc</sub> = ½ M R²</div><div class="cap">A disc has mass spread from the centre out to R. Averaging r² over that area gives ½R², so the coefficient drops to <b>½</b>.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · solid sphere &amp; rods</span><div class="eqbox fml">sphere ⅖MR²<span class="op">,</span>rod-centre 1⁄12 ML²<span class="op">,</span>rod-end ⅓ML²</div><div class="cap">The sphere bunches mass near the centre (⅖). A rod about its <b>end</b> has mass farther out than about its <b>centre</b>, so ⅓ &gt; 1⁄12.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · what the coefficient means</span><div class="eqbox fml" style="font-weight:700">I = c M R²<span class="cst">0 &lt; c ≤ 1</span></div><div class="cap">The coefficient c is just the <b>mass-weighted average of (r/R)²</b>. Mass at the rim pushes c toward 1; mass near the axis pulls it down.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="shpReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">I = c M R²<span class="cst">unit kg m²</span></div>
+        <div class="out" id="shpOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="shp-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A solid disc and a thin ring each have mass 1.5 kg and radius 0.20 m.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the moment of inertia of each about its central axis. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">disc: ½MR² = ½(1.5)(0.20²) <span class="op">=</span><b>0.030 kg m²</b></div><div class="fml">ring: MR² = (1.5)(0.20²) <span class="op">=</span><b>0.060 kg m²</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) The ring's I is exactly double the disc's. Explain why. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>The ring holds all its mass at R, so every particle contributes the maximum r² = R². The disc spreads mass inward, where r² is smaller, averaging to half — hence ½MR² against MR².</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) A 0.80 kg rod of length 1.2 m is spun about one end. Find its moment of inertia. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">I = ⅓ML² = ⅓(0.80)(1.2²) = ⅓(0.80)(1.44) <span class="op">=</span><b>0.38 kg m²</b></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 : NEWTON'S SECOND LAW FOR ROTATION -->
+<section class="page" data-p="2">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">The rotational F = ma</span>
+    <p>A resultant force gives a mass a linear acceleration: F = ma. A resultant <b>torque</b> gives a body an angular acceleration — and the quantity that resists is the moment of inertia. Put them together and you get Newton's second law for rotation: <b>τ = Iα</b>, where τ is the resultant (average) torque.</p>
+    <p>Rearranged, α = τ / I. The same torque spins up a low-I body briskly but a high-I body sluggishly — exactly as the same force accelerates a light object faster than a heavy one. Set a torque and a moment of inertia below and watch the body respond.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Torque in, spin-up out</h3>
+      <div class="canvas-wrap"><canvas id="nlCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Applied torque τ <b id="nlTv">6.0 N m</b></label>
+        <input type="range" id="nlT" min="0" max="20" step="0.5" value="6">
+      </div>
+      <div class="ctl">
+        <label>Moment of inertia I <b id="nlIv">2.0 kg m²</b></label>
+        <input type="range" id="nlI" min="0.5" max="8" step="0.5" value="2">
+      </div>
+      <div class="btnrow"><button class="btn ghost" id="nlReset">↻ Restart</button></div>
+      <p class="note">The flywheel is driven by the torque you set and resists with its moment of inertia. The gauge shows the angular acceleration <b>α = τ / I</b>; the wheel then spins up at that rate. Raise I and the same torque produces a gentler α.</p>
+    </div>
+    <div class="card deriv" data-sim="nl">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · τ = Iα</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Pick up exactly where Tab 1 left off and name the result.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · one particle</span><div class="eqbox fml">τ<sub>i</sub> = m<sub>i</sub> r<sub>i</sub>² α</div><div class="cap">From Tab 1: each particle needs a torque m r² α to share the body's angular acceleration α.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · sum over the body</span><div class="eqbox fml">τ<sub>net</sub> = Σ m<sub>i</sub> r<sub>i</sub>² α = (Σ m<sub>i</sub> r<sub>i</sub>²) α</div><div class="cap">Every particle turns with the same α (rigid body), so α comes outside the sum.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · recognise I</span><div class="eqbox fml">Σ m<sub>i</sub> r<sub>i</sub>² = I</div><div class="cap">That sum is just the moment of inertia from Tabs 1–2.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · Newton's second law for rotation</span><div class="eqbox fml" style="font-weight:700">τ<sub>net</sub> = I α<span class="cst">τ = average torque</span></div><div class="cap">Compare F = ma. Torque replaces force, I replaces mass, α replaces a. Rearrange for α = τ / I.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="nlReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">τ = Iα <span class="op">⟹</span> α = <span class="frac"><span class="num">τ</span><span class="den">I</span></span></div>
+        <div class="out" id="nlOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="nl-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A wheel of moment of inertia 0.25 kg m² is acted on by a resultant torque of 0.60 N m.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate its angular acceleration. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">α = <span class="frac"><span class="num">τ</span><span class="den">I</span></span> = <span class="frac"><span class="num">0.60</span><span class="den">0.25</span></span> <span class="op">=</span><b>2.4 rad s⁻²</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Starting from rest, how fast is it spinning after 5.0 s? <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">ω = ω<sub>i</sub> + αt = 0 + (2.4)(5.0) <span class="op">=</span><b>12 rad s⁻¹</b></div>(using the Part 2 equation ω = ω<sub>i</sub> + αt).</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) The torque is produced by a force of 8.0 N on the rim. Find the wheel's radius. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">τ = Fr <span class="op">⟹</span> r = <span class="frac"><span class="num">τ</span><span class="den">F</span></span> = <span class="frac"><span class="num">0.60</span><span class="den">8.0</span></span> <span class="op">=</span><b>0.075 m</b></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4 : LINEAR ↔ ROTATIONAL DYNAMICS -->
+<section class="page" data-p="3">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">Two laws, one shape</span>
+    <p>Newton's second law comes in two matching flavours. In a straight line, <b>F = ma</b>: force drives, mass resists, acceleration results. Around an axis, <b>τ = Iα</b>: torque drives, moment of inertia resists, angular acceleration results. The equations are identical in form — only the symbols change.</p>
+    <p>Push the cart and twist the wheel below with their own "effort" and "reluctance". The cart accelerates at a = F/m; the wheel at α = τ/I. Line them up and the analogy stops being a slogan and becomes something you can see.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Side by side</h3>
+      <div class="canvas-wrap"><canvas id="anCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Force F <b id="anFv">8 N</b></label>
+        <input type="range" id="anF" min="0" max="20" step="1" value="8">
+      </div>
+      <div class="ctl">
+        <label>Mass m <b id="anMv">2.0 kg</b></label>
+        <input type="range" id="anM" min="0.5" max="8" step="0.5" value="2">
+      </div>
+      <div class="ctl">
+        <label>Torque τ <b id="anTauv">8 N m</b></label>
+        <input type="range" id="anTau" min="0" max="20" step="1" value="8">
+      </div>
+      <div class="ctl">
+        <label>Moment of inertia I <b id="anIv">2.0 kg m²</b></label>
+        <input type="range" id="anI" min="0.5" max="8" step="0.5" value="2">
+      </div>
+      <p class="note">Left: a block on a track, accelerating at <b>a = F/m</b>. Right: a wheel, spinning up at <b>α = τ/I</b>. Match F to τ and m to I and the two systems march in perfect step — that is the analogy made literal.</p>
+    </div>
+    <div class="card deriv" data-sim="an">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>The dynamics dictionary</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Each rotational quantity is the straight-line one with mass replaced by I.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Inertia</span><div class="eqbox fml">mass m <span class="op">↔</span> moment of inertia I</div><div class="cap">What resists a change in motion. For rotation it depends on <i>where</i> the mass is, not just how much.</div></div>
+        <div class="dstep"><span class="sidx">Cause of acceleration</span><div class="eqbox fml">force F <span class="op">↔</span> torque τ</div><div class="cap">A force changes linear motion; a torque — a force times its lever arm — changes rotation.</div></div>
+        <div class="dstep"><span class="sidx">The second law</span><div class="eqbox fml">F = m a <span class="op">↔</span> τ = I α</div><div class="cap">Same structure: (cause) = (inertia)(acceleration). Divide to get a = F/m and α = τ/I.</div></div>
+        <div class="dstep"><span class="sidx">What comes next</span><div class="eqbox fml">p = m v <span class="op">↔</span> L = I ω<span class="op">,</span>½mv² <span class="op">↔</span> ½Iω²</div><div class="cap">Momentum and kinetic energy carry over too — the subject of <b>Part 4</b>.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="anReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">a = <span class="frac"><span class="num">F</span><span class="den">m</span></span><span class="op">,</span>α = <span class="frac"><span class="num">τ</span><span class="den">I</span></span></div>
+        <div class="out" id="anOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="an-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A 4.0 kg block feels a 12 N force; a wheel of I = 4.0 kg m² feels a 12 N m torque.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Find the linear acceleration of the block and the angular acceleration of the wheel. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">a = F/m = 12/4.0 = <b>3.0 m s⁻²</b>,&nbsp; α = τ/I = 12/4.0 = <b>3.0 rad s⁻²</b></div>Numerically equal because F:m matches τ:I.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) State which rotational quantity plays the role of mass, and why it is not simply the mass. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>The <b>moment of inertia I</b>. Unlike mass, it also depends on how that mass is distributed about the axis (I = Σmr²), so the same object can have different I about different axes.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) The wheel's mass is pushed outward so I doubles. What happens to α for the same torque? <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>α <b>halves</b> (to 1.5 rad s⁻²), since α = τ/I and I has doubled.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5 : CHANGING THE MOMENT OF INERTIA -->
+<section class="page" data-p="4">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">Reshaping the resistance</span>
+    <p>Because I = Σ m r² depends on <b>where</b> the mass sits, you can change a body's moment of inertia without adding or removing a single gram — just move the mass. Slide two equal masses along a rod and the body's I rises with the <b>square</b> of their distance from the axis.</p>
+    <p>That matters because α = τ / I. Hold the driving torque fixed and the same twist produces a <b>smaller</b> angular acceleration as the masses move out. And when two bodies are joined on one shaft, their moments of inertia simply <b>add</b>: I<sub>total</sub> = I₁ + I₂. Explore both effects below.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Move the mass, change α</h3>
+      <div class="canvas-wrap"><canvas id="chCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Distance of each mass from axis d <b id="chDv">0.40 m</b></label>
+        <input type="range" id="chD" min="0.10" max="0.90" step="0.05" value="0.40">
+      </div>
+      <div class="ctl">
+        <label>Driving torque τ (fixed as you slide) <b id="chTauv">5.0 N m</b></label>
+        <input type="range" id="chTau" min="1" max="15" step="0.5" value="5">
+      </div>
+      <div class="btnrow"><button class="btn ghost" id="chReset">↻ Restart</button></div>
+      <p class="note">Two 1.0 kg masses sit a distance d either side of the axis, so I = 2 m d². Slide them outward and watch I climb while the <b>same</b> torque spins the rod up ever more slowly — a live reading of α = τ / I.</p>
+    </div>
+    <div class="card deriv" data-sim="ch">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · how I changes</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Two equal masses on a light rod, then a note on joining bodies.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · the moment of inertia</span><div class="eqbox fml">I = m d² + m d² = 2 m d²</div><div class="cap">Each mass contributes m d² (Tab 1). With both at distance d, the total is 2 m d².</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · it scales with d²</span><div class="eqbox fml">d → 2d <span class="op">⟹</span> I → 4 I</div><div class="cap">Double the distance and I quadruples — the square again. Mass position dominates.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · the effect on α</span><div class="eqbox fml">α = <span class="frac"><span class="num">τ</span><span class="den">I</span></span> <span class="op">⟹</span> α falls as I rises</div><div class="cap">For a fixed torque, pushing the masses out makes the rod harder to spin up: α drops.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · coupled bodies add</span><div class="eqbox fml" style="font-weight:700">I<sub>total</sub> = I₁ + I₂ + …</div><div class="cap">Rigidly join bodies on one axis and their moments of inertia simply add — because Σmr² runs over all the particles at once.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="chReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">I = 2 m d²<span class="op">,</span>α = <span class="frac"><span class="num">τ</span><span class="den">I</span></span></div>
+        <div class="out" id="chOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="ch-q">
+    <div class="tagq">Question</div>
+    <div class="stem">Two 0.50 kg masses sit 0.30 m either side of an axis on a light rod. A constant torque of 1.2 N m is applied.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Find the moment of inertia and the angular acceleration. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">I = 2md² = 2(0.50)(0.30²) = <b>0.090 kg m²</b></div><div class="fml">α = τ/I = 1.2 / 0.090 <span class="op">=</span><b>13 rad s⁻²</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) The masses are slid out to 0.60 m. Find the new angular acceleration for the same torque. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">I = 2(0.50)(0.60²) = 0.36 kg m² (×4),&nbsp; α = 1.2 / 0.36 <span class="op">=</span><b>3.3 rad s⁻²</b></div>Four times the I, one quarter the α.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) A disc of I = 0.10 kg m² is fixed to the same shaft. State the combined moment of inertia (masses at 0.60 m). <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Moments of inertia add: I<sub>total</sub> = 0.36 + 0.10 = <b>0.46 kg m²</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 6 : WORKED EXAMPLES -->
+<section class="page" data-p="5">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <p class="lead">Five problems that run from building I out of point masses to driving a coupled system with torque. Attempt each before the full solution.</p>
+
+  <div class="we">
+    <div class="meta">Worked Example 1 · point masses</div>
+    <div class="q">Three 0.40 kg masses sit on a light rod at 0.10 m, 0.30 m and 0.50 m from one end, which is the axis. Find the moment of inertia about that end.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">I = Σmr² = 0.40(0.10² + 0.30² + 0.50²)</div>
+      <div class="eqbox fml">= 0.40(0.01 + 0.09 + 0.25) = 0.40(0.35) <span class="op">=</span><b>0.14 kg m²</b></div>
+      <p>Common mass factors out; the farthest particle (0.50 m) dominates thanks to r².</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 2 · a flywheel</div>
+    <div class="q">A solid disc flywheel has mass 12 kg and radius 0.25 m. Find its moment of inertia about its central axis.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">I = ½MR² = ½(12)(0.25²) = ½(12)(0.0625) <span class="op">=</span><b>0.38 kg m²</b></div>
+      <p>Use the provided disc coefficient ½. If it were a ring of the same M and R it would be 0.75 kg m² — double.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 3 · spinning it up</div>
+    <div class="q">A torque of 2.5 N m acts on a wheel of moment of inertia 0.50 kg m², initially at rest. (a) Find α. (b) Find ω after 3.0 s. (c) Find the angle turned.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">α = τ/I = 2.5 / 0.50 = <b>5.0 rad s⁻²</b></div>
+      <div class="eqbox fml">ω = ω<sub>i</sub> + αt = 0 + (5.0)(3.0) = <b>15 rad s⁻¹</b></div>
+      <div class="eqbox fml">Δθ = ½αt² = ½(5.0)(3.0²) = <b>22.5 rad</b></div>
+      <p>τ = Iα gives α; the Part 2 equations then handle the motion.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 4 · which axis?</div>
+    <div class="q">A uniform rod has mass 0.60 kg and length 0.90 m. Find its moment of inertia (a) about its centre, (b) about one end, and comment.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">centre: I = 1⁄12 ML² = (0.60)(0.90²)/12 <span class="op">=</span><b>0.0405 kg m²</b></div>
+      <div class="eqbox fml">end: I = ⅓ ML² = (0.60)(0.90²)/3 <span class="op">=</span><b>0.162 kg m²</b></div>
+      <p>The end value is <b>four times</b> the centre value: shifting the axis to the end puts far more of the rod's mass at large r.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 5 · a coupled system</div>
+    <div class="q">A disc (I = 0.20 kg m²) and a ring (I = 0.30 kg m²) are fixed on the same axle. A 1.0 N m torque drives them. Find the angular acceleration.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">I<sub>total</sub> = I₁ + I₂ = 0.20 + 0.30 = 0.50 kg m²</div>
+      <div class="eqbox fml">α = <span class="frac"><span class="num">τ</span><span class="den">I<sub>total</sub></span></span> = <span class="frac"><span class="num">1.0</span><span class="den">0.50</span></span> <span class="op">=</span><b>2.0 rad s⁻²</b></div>
+      <p>Joined bodies share one α, so add the moments of inertia first, then apply τ = Iα once.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 7 : MISCONCEPTIONS -->
+<section class="page" data-p="6">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <p class="lead">The traps that cost marks on moment of inertia and τ = Iα. Each is a small habit — fix it once and it sticks.</p>
+  <div class="mis">
+    <div class="mcard">
+      <div class="wrong">"Moment of inertia is just the mass of the object."</div>
+      <p>I depends on <b>how the mass is distributed</b> about the axis, not only how much there is. I = Σmr².</p>
+      <div class="right">Two objects of equal mass can have very different I if their mass sits at different radii.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"A body has one fixed moment of inertia."</div>
+      <p>I is defined <b>about a particular axis</b>. Change the axis and r changes for every particle, so I changes.</p>
+      <div class="right">A rod has I = 1⁄12 ML² about its centre but ⅓ ML² about its end — same rod, different axis.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Doubling the radius doubles the moment of inertia."</div>
+      <p>Each contribution is m <b>r²</b>, so doubling r multiplies that term by <b>four</b>, not two.</p>
+      <div class="right">For I = cMR², doubling R (at fixed M) makes I four times larger.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Newton's law for rotation is τ = mα."</div>
+      <p>Rotation resists with the <b>moment of inertia</b>, not plain mass: τ = Iα. Mass alone can't tell you the twisting response.</p>
+      <div class="right">Always use I = Σmr² (or the provided shape formula) in τ = Iα.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"The units of moment of inertia are kilograms."</div>
+      <p>From I = Σmr², the units are mass × distance² = <b>kg m²</b>.</p>
+      <div class="right">If an answer comes out in kg or kg m, a factor of r has been dropped.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"A hollow and a solid cylinder of equal M and R spin up the same."</div>
+      <p>The hollow one keeps mass at the rim (≈ MR²); the solid one carries mass inward (½MR²), so it has <b>less</b> I and spins up faster for the same torque.</p>
+      <div class="right">Distribution decides I — and therefore α = τ/I — even at identical mass and radius.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 8 : QUIZ -->
+<section class="page" data-p="7">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <p class="lead">Six questions across the whole chapter. One attempt each — pick carefully, then read why.</p>
+  <div id="quiz"></div>
+  <div class="out" style="margin-top:14px"><b id="quizScore">Score: 0 / 6</b> · Reload the page to try again with a clear head.</div>
+</section>
+
+<footer>
+  <b>ATUL SORAL PHYSICISM</b> · A.4 Rigid Body Mechanics · Part 3 of 4 · Higher Level<br>
+  Next up — <b>Part 4 · Angular Momentum, Angular Impulse &amp; Rotational Kinetic Energy</b>.
+</footer>
+
+</main>
+
+<script>
+"use strict";
+const $=(s,r)=>(r||document).querySelector(s);
+const $$=(s,r)=>[...(r||document).querySelectorAll(s)];
+
+/* ---------- gate ---------- */
+(function(){
+  const gate=$('#gate'), inp=$('#gateName'), btn=$('#gateBtn'), err=$('#gateErr');
+  function go(){
+    const v=inp.value.trim();
+    if(v.length<2){err.hidden=false;return;}
+    $('#profileName').textContent=v.split(' ')[0].toLowerCase().slice(0,12)||'student';
+    gate.style.opacity='0'; gate.style.transition='opacity .4s'; setTimeout(()=>gate.style.display='none',400);
+  }
+  btn.onclick=go; inp.addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+  setTimeout(()=>inp.focus(),200);
+})();
+
+/* ---------- clock ---------- */
+(function(){
+  const el=$('#clock');
+  function t(){const d=new Date();el.textContent=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+  t(); setInterval(t,1000);
+})();
+
+/* ---------- dark toggle ---------- */
+(function(){
+  const b=$('#sunbtn');
+  b.onclick=()=>{const d=document.body.classList.toggle('dark');b.innerHTML=d?'&#9790;':'&#9728;';b.title=d?'Switch to light mode':'Switch to dark mode';};
+})();
+
+/* ---------- tab engine ---------- */
+const PAGES=[
+ {name:'Moment of Inertia',lvl:'HL',c:'#e11d48',soft:'rgba(225,29,72,.12)',k:'A.4 · I = Σmr²',htitle:'Moment of inertia from Σmr²',pre:'A particle a distance r from the axis resists spinning by m r². Add that over a body and you have I — the rotational mass. Build it from two masses and watch distance dominate.'},
+ {name:'Standard Shapes',lvl:'HL',c:'#0d9488',soft:'rgba(13,148,136,.12)',k:'A.4 · The booklet formulas',htitle:'Standard shapes and their coefficients',pre:'Ring, disc, sphere and rod — each has I = c M R². Compare the coefficients at equal mass and size to see how distribution, not amount, sets the moment of inertia.'},
+ {name:'τ = Iα',lvl:'HL',c:'#d97706',soft:'rgba(217,119,6,.12)',k:'A.4 · Newton II for rotation',htitle:'Newton’s second law for rotation',pre:'Torque drives, moment of inertia resists, angular acceleration results: τ = Iα. Set a torque and an I, and watch the flywheel spin up at α = τ / I.'},
+ {name:'F=ma ↔ τ=Iα',lvl:'HL',c:'#059669',soft:'rgba(5,150,105,.12)',k:'A.4 · The dynamics analogy',htitle:'Linear and rotational, side by side',pre:'Two laws of the same shape: F = ma and τ = Iα. Push a cart and twist a wheel with matched effort and inertia, and watch them accelerate in perfect step.'},
+ {name:'Changing I',lvl:'HL',c:'#ca8a04',soft:'rgba(202,138,4,.12)',k:'A.4 · Redistributing mass',htitle:'Changing the moment of inertia',pre:'Move the mass, change the resistance. Slide two masses along a rod to raise I as d², and watch a fixed torque spin it up ever more slowly — plus how joined bodies add their I.'},
+ {name:'Worked Examples',lvl:'HL',c:'#4d7c0f',soft:'rgba(77,124,15,.12)',k:'A.4 · Worked examples',htitle:'Worked examples',pre:'Five problems from building I out of point masses to driving a coupled system, each with a full step-by-step solution.'},
+ {name:'Misconceptions',lvl:'HL',c:'#d97706',soft:'rgba(217,119,6,.12)',k:'A.4 · Common misconceptions',htitle:'Common misconceptions',pre:'The habitual slips on moment of inertia and τ = Iα — and the quick fixes that make them stick.'},
+ {name:'Quiz',lvl:'HL',c:'#0f766e',soft:'rgba(15,118,110,.12)',k:'A.4 · Check your understanding',htitle:'Check your understanding',pre:'Six questions spanning the whole chapter. One attempt each, then read the reasoning.'}
+];
+let active=0;
+const nav=$('#nav');
+PAGES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.c);
+  b.innerHTML='<span class="num">'+(i+1)+'</span> '+p.name+' <span class="lvl">'+p.lvl+'</span>';
+  b.onclick=()=>goPage(i);
+  nav.appendChild(b);
+});
+function setAccent(i){
+  const p=PAGES[i];
+  document.documentElement.style.setProperty('--accent',p.c);
+  document.documentElement.style.setProperty('--accent-soft',p.soft);
+  document.body.dataset.page=i+1;
+  $('#kicker').textContent=p.k;
+  $('#heroTitle').textContent=p.htitle;
+  $('#heroLede').textContent=p.pre;
+}
+function goPage(i){
+  active=i;
+  $$('.page').forEach((el,j)=>el.classList.toggle('active',j===i));
+  $$('.tab').forEach((el,j)=>el.classList.toggle('active',j===i));
+  setAccent(i);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+setAccent(0);
+
+/* ---------- derivation steppers ---------- */
+$$('.deriv').forEach(d=>{
+  const steps=$$('.dstep',d), next=$('.dnext',d), reset=$('.dreset',d);
+  let n=0;
+  function render(){
+    steps.forEach((s,i)=>s.classList.toggle('show',i<n));
+    next.textContent=n===0?'Reveal step':(n>=steps.length?'All shown':'Next step');
+    next.disabled=n>=steps.length;
+    reset.hidden=n===0;
+  }
+  next.onclick=()=>{if(n<steps.length){n++;render();}};
+  reset.onclick=()=>{n=0;render();};
+  render();
+});
+
+/* ---------- progressive questions ---------- */
+$$('.pq').forEach(pq=>{
+  const parts=$$('.qpart',pq);
+  parts.forEach((part,i)=>{
+    const btn=$('.preveal',part), ans=$('.pans',part);
+    btn.onclick=()=>{
+      ans.hidden=false; btn.disabled=true; btn.style.opacity='.5';
+      if(parts[i+1]) parts[i+1].hidden=false;
+      else { const done=document.createElement('div'); done.className='pdone'; done.textContent='✓ All parts complete'; pq.appendChild(done); }
+    };
+  });
+});
+
+/* ---------- worked example reveals ---------- */
+$$('.we .reveal').forEach(btn=>{
+  const ans=btn.nextElementSibling;
+  btn.onclick=()=>{const open=!ans.hidden; ans.hidden=open; btn.textContent=open?'Show solution':'Hide solution';};
+});
+
+/* ---------- canvas infra ---------- */
+const sizes=new Map();
+function fit(cv,id){
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  const r=cv.getBoundingClientRect();
+  const w=Math.max(10,r.width), h=Math.max(10,r.height);
+  cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+  cv.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+  sizes.set(id,{w,h});
+}
+function dim(id){return sizes.get(id)||{w:300,h:300};}
+function ctxOf(id){const cv=document.getElementById(id);return cv?cv.getContext('2d'):null;}
+['inCanvas','shpCanvas','nlCanvas','anCanvas','chCanvas'].forEach(id=>{
+  const cv=document.getElementById(id); if(!cv)return;
+  new ResizeObserver(()=>fit(cv,id)).observe(cv); fit(cv,id);
+});
+
+/* ---------- palette + helpers ---------- */
+const INK='#2a2420', GRY='#8a7f73', MUT='#b8ab9c';
+const C1='#e11d48',C2='#0d9488',C3='#d97706',C4='#059669',C5='#ca8a04',C6='#4d7c0f',C7='#0f766e';
+const PIVOT='#6f6557', GOLD='#c99a1a', SPOKE='rgba(111,101,87,.42)', FAINT='rgba(111,101,87,.22)', ROD='#9fb0a7';
+function arrow(ctx,x1,y1,x2,y2,col,lw,hs){
+  hs=hs||9; ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=lw||3;
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  const a=Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath(); ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-hs*Math.cos(a-0.42), y2-hs*Math.sin(a-0.42));
+  ctx.lineTo(x2-hs*Math.cos(a+0.42), y2-hs*Math.sin(a+0.42));
+  ctx.closePath(); ctx.fill();
+}
+function ro3(k,v){return '<div class="ro"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+function ro3hi(k,v){return '<div class="ro hi"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+
+/* ========== TAB 1 : I = Σmr² ========== */
+let inM1=2.0, inR1=0.40, inM2=1.0, inR2=0.70, inPhase=0, inLast=0;
+function inUpdate(){
+  inM1=parseFloat($('#inM1').value); inR1=parseFloat($('#inR1').value);
+  inM2=parseFloat($('#inM2').value); inR2=parseFloat($('#inR2').value);
+  $('#inM1v').textContent=inM1.toFixed(1)+' kg';
+  $('#inR1v').textContent=inR1.toFixed(2)+' m';
+  $('#inM2v').textContent=inM2.toFixed(1)+' kg';
+  $('#inR2v').textContent=inR2.toFixed(2)+' m';
+  const I1=inM1*inR1*inR1, I2=inM2*inR2*inR2, I=I1+I2;
+  $('#inReadouts').innerHTML=
+    ro3('m₁ r₁²',I1.toFixed(3)+' kg m²')+
+    ro3('m₂ r₂²',I2.toFixed(3)+' kg m²')+
+    ro3hi('I = Σ m r²',I.toFixed(3)+' kg m²');
+  $('#inOut').innerHTML='I = m₁r₁² + m₂r₂² = '+I1.toFixed(3)+' + '+I2.toFixed(3)+' = <b>'+I.toFixed(3)+' kg m²</b>. The farther-out mass dominates because its distance is squared.';
+}
+['inM1','inR1','inM2','inR2'].forEach(id=>document.getElementById(id).addEventListener('input',inUpdate));
+function drawIn(ts){
+  const ctx=ctxOf('inCanvas'); if(!ctx)return; const {w,h}=dim('inCanvas'); ctx.clearRect(0,0,w,h);
+  if(!inLast)inLast=ts; let dt=(ts-inLast)/1000; inLast=ts; if(dt>0.05)dt=0.05;
+  inPhase+=1.1*dt;
+  const topH=h*0.60, cx=w*0.5, cy=topH*0.52, ppm=Math.min(w*0.42,topH*0.40)/1.0;
+  const ux=Math.cos(inPhase), uy=Math.sin(inPhase);
+  const x1=cx-ux*inR1*ppm, y1=cy-uy*inR1*ppm;
+  const x2=cx+ux*inR2*ppm, y2=cy+uy*inR2*ppm;
+  /* rod */
+  ctx.strokeStyle=ROD; ctx.lineWidth=5; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); ctx.lineCap='butt';
+  /* radius guides */
+  ctx.setLineDash([3,3]); ctx.strokeStyle=FAINT; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.arc(cx,cy,inR1*ppm,0,7); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx,cy,inR2*ppm,0,7); ctx.stroke(); ctx.setLineDash([]);
+  /* masses */
+  const s1=6+inM1*3.2, s2=6+inM2*3.2;
+  ctx.fillStyle=C1; ctx.strokeStyle='#fff'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(x1,y1,s1,0,7); ctx.fill(); ctx.stroke();
+  ctx.fillStyle=C2; ctx.beginPath(); ctx.arc(x2,y2,s2,0,7); ctx.fill(); ctx.stroke();
+  /* axis */
+  ctx.fillStyle=PIVOT; ctx.beginPath(); ctx.arc(cx,cy,5,0,7); ctx.fill();
+  ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(cx,cy,2,0,7); ctx.fill();
+  /* labels */
+  ctx.font='700 11px sans-serif'; ctx.fillStyle=C1; ctx.textAlign='center';
+  ctx.fillText('m₁',x1,y1-s1-4); ctx.fillStyle=C2; ctx.fillText('m₂',x2,y2-s2-4);
+  ctx.fillStyle=GRY; ctx.font='10px sans-serif'; ctx.fillText('axis',cx,cy+18);
+  /* contribution bars */
+  const I1=inM1*inR1*inR1, I2=inM2*inR2*inR2, Imax=Math.max(I1,I2,0.1);
+  const by0=topH+14, bh=(h-by0-14)/2.4, bx0=96, bw=w-bx0-54;
+  ctx.textAlign='center'; ctx.fillStyle=GRY; ctx.font='700 10px sans-serif';
+  ctx.fillText('CONTRIBUTIONS TO I = Σ m r²',w*0.5,by0-2);
+  function bar(y,val,col,lab){
+    ctx.textAlign='right'; ctx.fillStyle=col; ctx.font='800 11px sans-serif'; ctx.fillText(lab,bx0-8,y+bh*0.72);
+    ctx.fillStyle=col; const bl=Math.max(2,val/Imax*bw); ctx.globalAlpha=.85; ctx.fillRect(bx0,y,bl,bh); ctx.globalAlpha=1;
+    ctx.textAlign='left'; ctx.fillStyle=INK; ctx.font='700 11px sans-serif'; ctx.fillText(val.toFixed(3)+' kg m²',bx0+bl+6,y+bh*0.74);
+  }
+  bar(by0+6,I1,C1,'m₁r₁²');
+  bar(by0+6+bh*1.25,I2,C2,'m₂r₂²');
+}
+
+/* ========== TAB 2 : STANDARD SHAPES ========== */
+const SHAPES=[
+  {key:'ring',name:'Ring / hoop',coef:1,sym:'M R²',about:'central axis'},
+  {key:'disc',name:'Solid disc',coef:0.5,sym:'½ M R²',about:'central axis'},
+  {key:'sphere',name:'Solid sphere',coef:0.4,sym:'⅖ M R²',about:'a diameter'},
+  {key:'rodC',name:'Rod — centre',coef:1/12,sym:'1⁄12 M L²',about:'centre, ⟂ rod'},
+  {key:'rodE',name:'Rod — end',coef:1/3,sym:'⅓ M L²',about:'one end, ⟂ rod'},
+  {key:'point',name:'Point mass',coef:1,sym:'m r²',about:'distance r'}
+];
+let shpShape='ring', shpM=2, shpSize=0.5, shpPhase=0, shpLast=0;
+const shpSeg=$('#shpSeg');
+SHAPES.forEach((s,i)=>{const b=document.createElement('button');b.textContent=s.name;b.className=(i===0?'on':'');b.onclick=()=>{shpShape=s.key;$$('#shpSeg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');shpUpdate();};shpSeg.appendChild(b);});
+function shpUpdate(){
+  shpM=parseFloat($('#shpM').value); shpSize=parseFloat($('#shpSize').value);
+  $('#shpMv').textContent=shpM.toFixed(1)+' kg';
+  $('#shpSizev').textContent=shpSize.toFixed(2)+' m';
+  const sh=SHAPES.find(s=>s.key===shpShape), I=sh.coef*shpM*shpSize*shpSize;
+  $('#shpReadouts').innerHTML=
+    ro3('Shape',sh.name)+
+    ro3('Axis',sh.about)+
+    ro3('Coefficient c',sh.coef.toFixed(3))+
+    ro3hi('I = c M R²',I.toFixed(3)+' kg m²');
+  $('#shpOut').innerHTML='I = '+sh.sym+' = <b>'+I.toFixed(3)+' kg m²</b> at M = '+shpM.toFixed(1)+' kg, size = '+shpSize.toFixed(2)+' m. '+(sh.coef>=1?'All the mass sits at the rim, so c = 1 — the largest possible.':'The coefficient '+sh.coef.toFixed(3)+' shows how much mass sits close to the axis.');
+}
+['shpM','shpSize'].forEach(id=>document.getElementById(id).addEventListener('input',shpUpdate));
+function shpShapeDraw(ctx,key,cx,cy,R,ang){
+  if(key==='ring'){
+    ctx.strokeStyle=C2; ctx.lineWidth=7; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+    const mx=cx+Math.cos(ang)*R, my=cy+Math.sin(ang)*R;
+    ctx.fillStyle=C1; ctx.beginPath(); ctx.arc(mx,my,6,0,7); ctx.fill();
+  } else if(key==='disc'){
+    ctx.fillStyle='rgba(13,148,136,.26)'; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.fill();
+    ctx.strokeStyle=C2; ctx.lineWidth=2.5; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+    ctx.strokeStyle=C1; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(ang)*R,cy+Math.sin(ang)*R); ctx.stroke();
+  } else if(key==='sphere'){
+    const g=ctx.createRadialGradient(cx-R*0.3,cy-R*0.3,R*0.1,cx,cy,R);
+    g.addColorStop(0,'rgba(13,148,136,.5)'); g.addColorStop(1,'rgba(13,148,136,.16)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.fill();
+    ctx.strokeStyle=C2; ctx.lineWidth=2.5; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+    ctx.strokeStyle='rgba(225,29,72,.55)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.ellipse(cx,cy,Math.abs(Math.cos(ang))*R,R,0,0,7); ctx.stroke();
+  } else if(key==='rodC'){
+    const hx=Math.cos(ang)*R, hy=Math.sin(ang)*R;
+    ctx.strokeStyle=C2; ctx.lineWidth=7; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(cx-hx,cy-hy); ctx.lineTo(cx+hx,cy+hy); ctx.stroke(); ctx.lineCap='butt';
+  } else if(key==='rodE'){
+    const ex=cx+Math.cos(ang)*1.8*R, ey=cy+Math.sin(ang)*1.8*R;
+    ctx.strokeStyle=C2; ctx.lineWidth=7; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(ex,ey); ctx.stroke(); ctx.lineCap='butt';
+  } else if(key==='point'){
+    ctx.setLineDash([4,4]); ctx.strokeStyle='rgba(138,127,115,.7)'; ctx.lineWidth=1.2;
+    const mx=cx+Math.cos(ang)*R, my=cy+Math.sin(ang)*R;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(mx,my); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle=C1; ctx.beginPath(); ctx.arc(mx,my,9,0,7); ctx.fill();
+  }
+  ctx.fillStyle=PIVOT; ctx.beginPath(); ctx.arc(cx,cy,5,0,7); ctx.fill();
+  ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(cx,cy,2,0,7); ctx.fill();
+}
+function drawShp(ts){
+  const ctx=ctxOf('shpCanvas'); if(!ctx)return; const {w,h}=dim('shpCanvas'); ctx.clearRect(0,0,w,h);
+  if(!shpLast)shpLast=ts; let dt=(ts-shpLast)/1000; shpLast=ts; if(dt>0.05)dt=0.05;
+  shpPhase+=0.9*dt;
+  const topH=h*0.46, cx=w*0.5, cy=topH*0.54, Rmax=Math.min(w*0.24,topH*0.32), R=Rmax*(shpSize/0.8);
+  const sh=SHAPES.find(s=>s.key===shpShape);
+  ctx.fillStyle=INK; ctx.font='700 12px sans-serif'; ctx.textAlign='center';
+  ctx.fillText(sh.name+'  ·  I = '+sh.sym,cx,15);
+  shpShapeDraw(ctx,shpShape,cx,cy,R,shpPhase);
+  const bx0=108, by0=topH+12, bw=w-bx0-52, bh=h-by0-12, n=SHAPES.length, rowH=bh/n;
+  const Imax=Math.max.apply(null,SHAPES.map(s=>s.coef))*shpM*shpSize*shpSize||1;
+  ctx.textAlign='center'; ctx.fillStyle=GRY; ctx.font='700 10px sans-serif';
+  ctx.fillText('MOMENT OF INERTIA BY SHAPE  (same M, same size)',w*0.5,by0-3);
+  SHAPES.forEach((s,i)=>{
+    const Iv=s.coef*shpM*shpSize*shpSize;
+    const y=by0+i*rowH+rowH*0.24, barh=rowH*0.46, sel=s.key===shpShape;
+    ctx.textAlign='right'; ctx.fillStyle=sel?C2:GRY; ctx.font=(sel?'800 ':'600 ')+'10px sans-serif';
+    ctx.fillText(s.name,bx0-6,y+barh*0.82);
+    ctx.fillStyle=sel?C2:'rgba(13,148,136,.3)';
+    const bl=Math.max(2,(Iv/Imax)*bw); ctx.fillRect(bx0,y,bl,barh);
+    ctx.textAlign='left'; ctx.fillStyle=INK; ctx.font='700 10px sans-serif';
+    ctx.fillText(Iv.toFixed(2),bx0+bl+5,y+barh*0.86);
+  });
+}
+
+/* ========== TAB 3 : τ = Iα ========== */
+let nlT=6.0, nlI=2.0, nlOmega=0, nlPhase=0, nlLast=0;
+function nlUpdate(){
+  nlT=parseFloat($('#nlT').value); nlI=parseFloat($('#nlI').value);
+  $('#nlTv').textContent=nlT.toFixed(1)+' N m';
+  $('#nlIv').textContent=nlI.toFixed(1)+' kg m²';
+  const al=nlT/nlI;
+  $('#nlReadouts').innerHTML=
+    ro3('Applied torque τ',nlT.toFixed(1)+' N m')+
+    ro3('Moment of inertia I',nlI.toFixed(1)+' kg m²')+
+    ro3('Current ω',Math.abs(nlOmega).toFixed(2)+' rad s⁻¹')+
+    ro3hi('Angular acceleration α = τ/I',al.toFixed(2)+' rad s⁻²');
+  $('#nlOut').innerHTML='α = τ / I = '+nlT.toFixed(1)+' / '+nlI.toFixed(1)+' = <b>'+al.toFixed(2)+' rad s⁻²</b>. '+(nlT===0?'No torque, no angular acceleration.':'Raise I and the same torque gives a gentler spin-up.');
+}
+['nlT','nlI'].forEach(id=>document.getElementById(id).addEventListener('input',nlUpdate));
+$('#nlReset').onclick=()=>{nlOmega=0;nlPhase=0;nlUpdate();};
+function drawNl(ts){
+  const ctx=ctxOf('nlCanvas'); if(!ctx)return; const {w,h}=dim('nlCanvas'); ctx.clearRect(0,0,w,h);
+  if(!nlLast)nlLast=ts; let dt=(ts-nlLast)/1000; nlLast=ts; if(dt>0.05)dt=0.05;
+  const al=nlT/nlI; nlOmega+=al*dt; nlOmega=Math.min(nlOmega,12); nlPhase+=nlOmega*dt;
+  /* alpha gauge */
+  const gx=16, gw=w-32, gy=18, gbh=11, frac=Math.max(0,Math.min(1,al/10));
+  ctx.textAlign='left'; ctx.fillStyle=GRY; ctx.font='700 11px sans-serif'; ctx.fillText('ANGULAR ACCELERATION  α = τ/I',gx,gy-3);
+  ctx.textAlign='right'; ctx.fillStyle=C3; ctx.font='800 12px sans-serif'; ctx.fillText('α = '+al.toFixed(2)+' rad s⁻²',gx+gw,gy-3);
+  ctx.fillStyle='rgba(138,127,115,.16)'; ctx.fillRect(gx,gy+3,gw,gbh);
+  const grd=ctx.createLinearGradient(gx,0,gx+gw,0); grd.addColorStop(0,'#f1c88a'); grd.addColorStop(1,'#d97706');
+  ctx.fillStyle=grd; ctx.fillRect(gx,gy+3,gw*frac,gbh);
+  /* wheel */
+  const cx=w*0.5, cy=h*0.56, R=Math.min(w,h)*0.28;
+  ctx.fillStyle='rgba(217,119,6,.07)'; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.fill();
+  ctx.strokeStyle=C3; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+  ctx.strokeStyle=SPOKE; ctx.lineWidth=3;
+  for(let i=0;i<6;i++){const a=nlPhase+i*Math.PI/3; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R); ctx.stroke();}
+  ctx.fillStyle=PIVOT; ctx.beginPath(); ctx.arc(cx,cy,7,0,7); ctx.fill();
+  /* drive torque arrow on rim */
+  if(nlT>0){ ctx.strokeStyle='rgba(202,138,4,.9)'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(cx,cy,R*0.62,-0.5,1.9); ctx.stroke();
+    const ex=cx+Math.cos(1.9)*R*0.62, ey=cy+Math.sin(1.9)*R*0.62; ctx.fillStyle='rgba(202,138,4,.9)';
+    ctx.beginPath(); ctx.arc(ex,ey,4,0,7); ctx.fill(); ctx.fillStyle=C5; ctx.font='700 11px sans-serif'; ctx.textAlign='center'; ctx.fillText('τ',cx+R*0.62+10,cy); }
+  ctx.fillStyle=GRY; ctx.font='10px sans-serif'; ctx.textAlign='center'; ctx.fillText('ω = '+nlOmega.toFixed(2)+' rad s⁻¹'+(nlOmega>=12?'  (capped)':''),cx,h-8);
+}
+
+/* ========== TAB 4 : LINEAR ↔ ROTATIONAL ========== */
+let anF=8, anM=2.0, anTau=8, anI=2.0, anX=0, anV=0, anPhase=0, anOmega=0, anLast=0;
+function anUpdate(){
+  anF=parseFloat($('#anF').value); anM=parseFloat($('#anM').value);
+  anTau=parseFloat($('#anTau').value); anI=parseFloat($('#anI').value);
+  $('#anFv').textContent=anF.toFixed(0)+' N';
+  $('#anMv').textContent=anM.toFixed(1)+' kg';
+  $('#anTauv').textContent=anTau.toFixed(0)+' N m';
+  $('#anIv').textContent=anI.toFixed(1)+' kg m²';
+  const a=anF/anM, al=anTau/anI;
+  $('#anReadouts').innerHTML=
+    ro3('Linear a = F/m',a.toFixed(2)+' m s⁻²')+
+    ro3('Angular α = τ/I',al.toFixed(2)+' rad s⁻²')+
+    ro3hi('Same form',Math.abs(a-al)<0.05?'a = α here — matched':'F:m vs τ:I differ');
+  $('#anOut').innerHTML='Cart: a = F/m = <b>'+a.toFixed(2)+' m s⁻²</b>. Wheel: α = τ/I = <b>'+al.toFixed(2)+' rad s⁻²</b>. Same structure — force↔torque, mass↔I, a↔α.';
+}
+['anF','anM','anTau','anI'].forEach(id=>document.getElementById(id).addEventListener('input',anUpdate));
+function drawAn(ts){
+  const ctx=ctxOf('anCanvas'); if(!ctx)return; const {w,h}=dim('anCanvas'); ctx.clearRect(0,0,w,h);
+  if(!anLast)anLast=ts; let dt=(ts-anLast)/1000; anLast=ts; if(dt>0.05)dt=0.05;
+  const a=anF/anM, al=anTau/anI;
+  anV+=a*dt; anX+=anV*dt*26; anOmega+=al*dt; anPhase+=anOmega*dt;
+  const half=w*0.5;
+  /* divider */
+  ctx.strokeStyle=FAINT; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(half,10); ctx.lineTo(half,h-10); ctx.stroke();
+  /* LEFT : linear cart */
+  const trackY=h*0.5, x0=24, trackLen=half-48;
+  if(anX>trackLen){ anX=0; anV=0; anOmega=0; anPhase=0; }
+  ctx.strokeStyle=ROD; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(x0,trackY+22); ctx.lineTo(x0+trackLen,trackY+22); ctx.stroke();
+  const bx=x0+anX, bs=20+anM*2.4;
+  ctx.fillStyle='rgba(5,150,105,.18)'; ctx.strokeStyle=C4; ctx.lineWidth=2;
+  ctx.fillRect(bx,trackY+22-bs,bs,bs); ctx.strokeRect(bx,trackY+22-bs,bs,bs);
+  arrow(ctx,bx+bs,trackY+22-bs/2,bx+bs+8+anF*2,trackY+22-bs/2,C1,3,9);
+  ctx.fillStyle=C1; ctx.font='700 11px sans-serif'; ctx.textAlign='left'; ctx.fillText('F',bx+bs+10+anF*2,trackY+22-bs/2-6);
+  ctx.fillStyle=INK; ctx.font='700 12px sans-serif'; ctx.textAlign='center'; ctx.fillText('F = ma',half*0.5,24);
+  ctx.fillStyle=GRY; ctx.font='11px sans-serif'; ctx.fillText('a = '+a.toFixed(2)+' m s⁻²',half*0.5,h-12);
+  /* RIGHT : wheel */
+  const cx=half+half*0.5, cy=h*0.5, R=Math.min(half,h)*0.30;
+  ctx.fillStyle='rgba(5,150,105,.07)'; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.fill();
+  ctx.strokeStyle=C4; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+  ctx.strokeStyle=SPOKE; ctx.lineWidth=3;
+  for(let i=0;i<6;i++){const a2=anPhase+i*Math.PI/3; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a2)*R,cy+Math.sin(a2)*R); ctx.stroke();}
+  ctx.fillStyle=PIVOT; ctx.beginPath(); ctx.arc(cx,cy,6,0,7); ctx.fill();
+  if(anTau>0){ ctx.strokeStyle='rgba(5,150,105,.9)'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(cx,cy,R*0.6,-0.5,1.9); ctx.stroke(); }
+  ctx.fillStyle=INK; ctx.font='700 12px sans-serif'; ctx.textAlign='center'; ctx.fillText('τ = Iα',cx,24);
+  ctx.fillStyle=GRY; ctx.font='11px sans-serif'; ctx.fillText('α = '+al.toFixed(2)+' rad s⁻²',cx,h-12);
+}
+
+/* ========== TAB 5 : CHANGING I ========== */
+let chD=0.40, chTau=5.0, chOmega=0, chPhase=0, chLast=0;
+const CH_M=1.0;
+function chUpdate(){
+  chD=parseFloat($('#chD').value); chTau=parseFloat($('#chTau').value);
+  $('#chDv').textContent=chD.toFixed(2)+' m';
+  $('#chTauv').textContent=chTau.toFixed(1)+' N m';
+  const I=2*CH_M*chD*chD, al=chTau/I;
+  $('#chReadouts').innerHTML=
+    ro3('Each mass m',CH_M.toFixed(1)+' kg')+
+    ro3('Distance d',chD.toFixed(2)+' m')+
+    ro3('I = 2 m d²',I.toFixed(3)+' kg m²')+
+    ro3hi('α = τ / I',al.toFixed(2)+' rad s⁻²');
+  $('#chOut').innerHTML='I = 2md² = <b>'+I.toFixed(3)+' kg m²</b>, so α = τ/I = <b>'+al.toFixed(2)+' rad s⁻²</b>. Slide the masses out and I grows as d² while α falls for the same torque.';
+}
+['chD','chTau'].forEach(id=>document.getElementById(id).addEventListener('input',chUpdate));
+$('#chReset').onclick=()=>{chOmega=0;chPhase=0;chUpdate();};
+function drawCh(ts){
+  const ctx=ctxOf('chCanvas'); if(!ctx)return; const {w,h}=dim('chCanvas'); ctx.clearRect(0,0,w,h);
+  if(!chLast)chLast=ts; let dt=(ts-chLast)/1000; chLast=ts; if(dt>0.05)dt=0.05;
+  const I=2*CH_M*chD*chD, al=chTau/I; chOmega+=al*dt; chOmega=Math.min(chOmega,14); chPhase+=chOmega*dt;
+  const cx=w*0.5, cy=h*0.52, ppm=Math.min(w*0.42,h*0.34)/0.9;
+  const ux=Math.cos(chPhase), uy=Math.sin(chPhase), d=chD*ppm;
+  /* radius guide */
+  ctx.setLineDash([3,3]); ctx.strokeStyle=FAINT; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(cx,cy,d,0,7); ctx.stroke(); ctx.setLineDash([]);
+  /* rod */
+  ctx.strokeStyle=ROD; ctx.lineWidth=5; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(cx-ux*d,cy-uy*d); ctx.lineTo(cx+ux*d,cy+uy*d); ctx.stroke(); ctx.lineCap='butt';
+  /* masses */
+  ctx.fillStyle=C5; ctx.strokeStyle='#fff'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(cx-ux*d,cy-uy*d,11,0,7); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx+ux*d,cy+uy*d,11,0,7); ctx.fill(); ctx.stroke();
+  ctx.fillStyle=PIVOT; ctx.beginPath(); ctx.arc(cx,cy,5,0,7); ctx.fill();
+  if(chTau>0 && al>0.05) { ctx.strokeStyle='rgba(202,138,4,.85)'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(cx,cy,d*0.45,-0.5,2.0); ctx.stroke(); }
+  ctx.fillStyle=INK; ctx.font='700 11px sans-serif'; ctx.textAlign='center'; ctx.fillText('I = 2md² = '+I.toFixed(3)+' kg m²',cx,16);
+  ctx.fillStyle=GRY; ctx.font='10px sans-serif'; ctx.fillText('d = '+chD.toFixed(2)+' m   ·   α = '+al.toFixed(2)+' rad s⁻²   ·   ω = '+chOmega.toFixed(2),cx,h-8);
+}
+
+/* ========== QUIZ ========== */
+const QUIZ=[
+  {q:'The moment of inertia of a body depends on:',o:['its angular velocity','the mass and how it is distributed about the axis','the torque applied to it','the angle it has turned'],a:1,
+   e:'I = Σmr²: it is set by how much mass there is and where it sits relative to the axis. (Answer B)'},
+  {q:'For a system of point masses, the moment of inertia is:',o:['I = Σ m r²','I = Σ m r','I = ½ Σ m v²','I = Σ m / r'],a:0,
+   e:'Each particle contributes m r²; summing gives I = Σmr². (Answer A)'},
+  {q:'Newton’s second law for rotation is written:',o:['τ = I / α','τ = I α','τ = m α','α = I τ'],a:1,
+   e:'Torque = moment of inertia × angular acceleration: τ = Iα, the twin of F = ma. (Answer B)'},
+  {q:'A thin ring and a solid sphere have equal M and R. Which has the smaller moment of inertia?',o:['the ring','they are equal','the sphere','it depends on ω'],a:2,
+   e:'Sphere ⅖MR² < ring MR²: the sphere bunches mass near the axis. (Answer C)'},
+  {q:'A uniform rod is pivoted at its end rather than its centre. Its moment of inertia:',o:['increases, from 1⁄12 ML² to ⅓ ML²','decreases','stays the same','becomes zero'],a:0,
+   e:'Shifting the axis to the end puts more mass at large r, raising I from 1⁄12ML² to ⅓ML². (Answer A)'},
+  {q:'A constant torque drives a wheel. If mass is moved outward so I increases, the angular acceleration:',o:['increases','stays the same','reverses direction','decreases'],a:3,
+   e:'α = τ/I, so a larger I with the same τ gives a smaller α. (Answer D)'}
+];
+let qScore=0, qAnswered=new Set();
+const quizEl=$('#quiz');
+QUIZ.forEach((item,qi)=>{
+  const card=document.createElement('div'); card.className='q';
+  let opts='<div class="opts">';
+  item.o.forEach((o,oi)=>{opts+='<button class="opt" data-q="'+qi+'" data-o="'+oi+'">'+String.fromCharCode(65+oi)+'. '+o+'</button>';});
+  opts+='</div>';
+  card.innerHTML='<div class="qq">'+(qi+1)+'. '+item.q+'</div>'+opts+'<div class="qexp">'+item.e+'</div>';
+  quizEl.appendChild(card);
+});
+quizEl.addEventListener('click',e=>{
+  const btn=e.target.closest('.opt'); if(!btn)return;
+  const qi=+btn.dataset.q, oi=+btn.dataset.o;
+  if(qAnswered.has(qi))return; qAnswered.add(qi);
+  const card=btn.closest('.q'); const correct=QUIZ[qi].a;
+  card.querySelectorAll('.opt').forEach(b=>{const bo=+b.dataset.o; b.style.pointerEvents='none'; if(bo===correct)b.classList.add('correct'); else if(bo===oi)b.classList.add('wrong');});
+  card.querySelector('.qexp').classList.add('show');
+  if(oi===correct)qScore++;
+  $('#quizScore').textContent='Score: '+qScore+' / '+QUIZ.length;
+});
+
+/* ---------- master loop ---------- */
+function masterLoop(ts){
+  if(active===0)drawIn(ts||0);
+  else if(active===1)drawShp(ts||0);
+  else if(active===2)drawNl(ts||0);
+  else if(active===3)drawAn(ts||0);
+  else if(active===4)drawCh(ts||0);
+  if(active!==0)inLast=0;
+  if(active!==1)shpLast=0;
+  if(active!==2)nlLast=0;
+  if(active!==3)anLast=0;
+  if(active!==4)chLast=0;
+  requestAnimationFrame(masterLoop);
+}
+inUpdate(); shpUpdate(); nlUpdate(); anUpdate(); chUpdate();
+requestAnimationFrame(masterLoop);
+</script>
+</body>
+</html>

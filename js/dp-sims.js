@@ -310,4 +310,13 @@ const DP_SIMS = [
     description: "Part 2 of 4. Angular displacement and the radian, angular velocity and v = rω, angular acceleration and a = rα, the four equations of uniform angular acceleration with a live predictor, and the linear ↔ rotational link via a rolling wheel — with derivations, worked examples and a quiz.",
     file: "sims/rigid-body-kinematics.html"
   },
+  {
+    id: "rigid-body-inertia",
+    title: "Rigid Body 3 · Moment of Inertia & τ = Iα",
+    icon: "🌀",
+    topic: "A.4",
+    topicName: "Rigid Body Mechanics (HL)",
+    description: "Part 3 of 4. Build the moment of inertia from I = Σmr², compare the standard-shape coefficients, derive and apply Newton's second law for rotation τ = Iα, see the F=ma ↔ τ=Iα analogy, and explore how moving mass or coupling bodies changes I — with derivations, worked examples and a quiz.",
+    file: "sims/rigid-body-inertia.html"
+  },
 ];
